@@ -235,6 +235,15 @@
 
     <div class="section">
       <span class="label">Composition</span>
+      <div class="field">
+        <label>Disposition</label>
+        <div class="seg" id="segShell"></div>
+        <p class="hint" id="shellHint"></p>
+      </div>
+      <div class="field">
+        <label>En-têtes</label>
+        <div class="seg" id="segHeadings"></div>
+      </div>
       <div class="field"><label for="navSel">Navigation</label><select id="navSel"></select></div>
       <div class="field"><label for="heroSel">Hero</label><select id="heroSel"></select></div>
       <div class="field"><label for="footerSel">Pied de page</label><select id="footerSel"></select></div>
@@ -498,10 +507,33 @@
     renderSeg('segDivider', meta.dividers, layoutState.divider, (v) => { layoutState.divider = v; commitLayout(); });
     renderAccent();
     renderTypography();
+    renderShellSeg();
+    renderSeg('segHeadings', meta.headings, layoutState.headings, (v) => { layoutState.headings = v; commitLayout(); });
     renderCompositionSelects();
     renderSectionsList();
     renderAddSection();
     renderWording();
+  }
+
+  function renderShellSeg() {
+    const box = $('segShell');
+    box.innerHTML = '';
+    for (const s of meta.shells) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = s.key;
+      b.title = s.hint;
+      b.className = layoutState.shell === s.key ? 'active' : '';
+      b.addEventListener('click', () => {
+        if (layoutState.shell === s.key) return;
+        layoutState.shell = s.key;
+        commitLayout();
+        renderShellSeg();
+      });
+      box.appendChild(b);
+    }
+    const current = meta.shells.find((s) => s.key === layoutState.shell);
+    $('shellHint').textContent = current ? current.hint : '';
   }
 
   function renderDirIndependent() {} // place pour extensions futures
@@ -625,9 +657,11 @@
     fillSelect($('navSel'), meta.variants.nav, layoutState.nav, (v) => { layoutState.nav = v; commitLayout(); });
     fillSelect($('heroSel'), meta.variants.hero, layoutState.hero, (v) => { layoutState.hero = v; commitLayout(); });
     fillSelect($('footerSel'), meta.variants.footer, layoutState.footer, (v) => { layoutState.footer = v; commitLayout(); });
-    // Re-sync segmented tone/divider display (layoutState is the source of truth for them).
+    // Re-sync segmented tone/divider/shell/headings display (layoutState is the source of truth for them).
     renderSeg('segTone', meta.tones, layoutState.tone, (v) => { layoutState.tone = v; commitLayout(); });
     renderSeg('segDivider', meta.dividers, layoutState.divider, (v) => { layoutState.divider = v; commitLayout(); });
+    renderShellSeg();
+    renderSeg('segHeadings', meta.headings, layoutState.headings, (v) => { layoutState.headings = v; commitLayout(); });
   }
 
   function fillSelect(select, options, current, onChange) {

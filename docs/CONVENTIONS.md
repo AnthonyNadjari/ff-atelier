@@ -31,6 +31,15 @@ Astro 5 (statique, zero JS par defaut) + Tailwind 4 (config CSS-first, `src/styl
 ## Regles des directions
 Voir `src/directions/README.md`. Une direction doit definir tous les tokens, importer ses polices via `@fontsource-variable/*` (deja installees : fraunces, inter, space-grotesk, cormorant, playfair-display, manrope, unbounded, syne, lora, nunito, archivo, dm-sans, jetbrains-mono, instrument-sans, outfit, bricolage-grotesque ; statiques : `@fontsource/archivo-black`, `@fontsource/instrument-serif`). Elle peut styliser `.btn`, `.btn-primary`, `.btn-ghost`, `.card`, `.rule`, `.eyebrow`, `h1 em`, `body::before` (texture), `::selection`.
 
+## Coquilles
+
+`src/shells/<nom>.astro` (`layout.shell`, voir `docs/DIRECTIONS.md` § Disposition) recoit les memes
+composants deja resolus (`Nav`, `Hero`, `Footer`, `sections`) et decide seulement ou ils vont sur la
+page. **Une coquille ne restyle jamais une section** : pas de couleur, pas de typographie, pas de
+props forcees sur `<Component />` — elle peut repositionner (grille, panneau fixe, plein ecran) et,
+au plus, poser `--container` ou une marge sur le conteneur autour d'une section. Le contenu visuel
+d'une section reste sous le controle de sa propre variante, quelle que soit la coquille qui l'entoure.
+
 ## Verification
 `SITE=_exemple node node_modules/astro/astro.js build` doit passer. Pour tester une variante, modifier temporairement `sites/_exemple/site.config.ts` (layout) puis remettre.
 

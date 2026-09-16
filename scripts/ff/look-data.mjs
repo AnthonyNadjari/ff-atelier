@@ -111,7 +111,7 @@ export function primaryFamily(familyStr) {
   return (m ? m[1] || m[2] : familyStr).trim();
 }
 
-/** Extrait VARIANTS, DIRECTIONS, SCALES, DIVIDERS, TONES de src/lib/schema.ts (jamais code en dur ici). */
+/** Extrait VARIANTS, DIRECTIONS, SCALES, DIVIDERS, TONES, SHELLS, HEADINGS de src/lib/schema.ts (jamais code en dur ici). */
 export function parseSchemaConstants() {
   const src = fs.readFileSync(SCHEMA_PATH, 'utf8');
   const strings = (block) => [...block.matchAll(/'([^']+)'/g)].map((m) => m[1]);
@@ -127,6 +127,8 @@ export function parseSchemaConstants() {
     SCALES: grab('SCALES'),
     DIVIDERS: grab('DIVIDERS'),
     TONES: grab('TONES'),
+    SHELLS: grab('SHELLS'),
+    HEADINGS: grab('HEADINGS'),
   };
 }
 
@@ -163,7 +165,7 @@ export function readLookJson(slug) {
   }
 }
 
-const LAYOUT_DEFAULTS = { nav: 'bar', hero: 'split', footer: 'columns', divider: 'none', tone: 'flat' };
+const LAYOUT_DEFAULTS = { nav: 'bar', hero: 'split', footer: 'columns', divider: 'none', tone: 'flat', shell: 'flow', headings: 'auto' };
 
 /** Le look effectivement affiche pour `slug` : site.config.ts fusionne avec look.json (comme src/lib/site.ts). */
 export function effectiveLook(slug) {
@@ -179,6 +181,8 @@ export function effectiveLook(slug) {
     footer: cfg.layout.footer || LAYOUT_DEFAULTS.footer,
     divider: cfg.layout.divider || LAYOUT_DEFAULTS.divider,
     tone: cfg.layout.tone || LAYOUT_DEFAULTS.tone,
+    shell: cfg.layout.shell || LAYOUT_DEFAULTS.shell,
+    headings: cfg.layout.headings || LAYOUT_DEFAULTS.headings,
     sections: cfg.layout.sections || [],
   };
   const look = readLookJson(slug);
@@ -194,6 +198,8 @@ export function effectiveLook(slug) {
     if (look.layout.footer) merged.footer = look.layout.footer;
     if (look.layout.divider) merged.divider = look.layout.divider;
     if (look.layout.tone) merged.tone = look.layout.tone;
+    if (look.layout.shell) merged.shell = look.layout.shell;
+    if (look.layout.headings) merged.headings = look.layout.headings;
     if (look.layout.sections) merged.sections = look.layout.sections;
   }
   return merged;
@@ -207,13 +213,16 @@ function bump(map, key) {
 /**
  * Statistiques d'usage sur tous les sites existants (hors `excludeSlug`) : compteur par direction,
  * paires direction+hero deja utilisees, compteur par variante (tous types de section confondus),
- * paires de polices (typography.display+body) deja utilisees.
+ * compteur par coquille (shell) et par alignement d'en-tetes (headings), paires de polices
+ * (typography.display+body) deja utilisees.
  */
 export function usageStats(excludeSlug) {
   const slugs = listSites().filter((s) => s !== excludeSlug);
   const directionCounts = new Map();
   const dirHeroUsed = new Set();
   const variantCounts = {};
+  const shellCounts = new Map();
+  const headingsCounts = new Map();
   const typoPairsUsed = new Set();
 
   for (const s of slugs) {
@@ -231,9 +240,11 @@ export function usageStats(excludeSlug) {
       variantCounts[sec.type] ??= new Map();
       bump(variantCounts[sec.type], sec.variant);
     }
+    bump(shellCounts, look.shell);
+    bump(headingsCounts, look.headings);
     if (look.typography?.display && look.typography?.body) {
       typoPairsUsed.add(`${look.typography.display}|${look.typography.body}`);
     }
   }
-  return { directionCounts, dirHeroUsed, variantCounts, typoPairsUsed };
+  return { directionCounts, dirHeroUsed, variantCounts, shellCounts, headingsCounts, typoPairsUsed };
 }

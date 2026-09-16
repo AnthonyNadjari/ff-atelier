@@ -48,6 +48,8 @@ const SCHEMA_DEFAULTS = {
     footer: 'columns',
     divider: 'none',
     tone: 'flat',
+    shell: 'flow',
+    headings: 'auto',
   },
   wording: {
     devis: 'Demander un devis',
@@ -80,6 +82,18 @@ function extractVariants(text) {
   return out;
 }
 
+/** Coquilles (SHELLS) avec leur commentaire en ligne comme indice ("'flow', // colonne classique..."). */
+function extractShellsWithHints(text) {
+  const block = (text.match(/export const SHELLS = \[([\s\S]*?)\]\s*as const;/) || [])[1] || '';
+  const out = [];
+  const re = /'([^']+)'\s*,\s*(?:\/\/\s*([^\n]*))?/g;
+  let m;
+  while ((m = re.exec(block))) {
+    out.push({ key: m[1], hint: (m[2] || '').trim() });
+  }
+  return out;
+}
+
 function readMeta() {
   const schemaText = fs.readFileSync(SCHEMA_PATH, 'utf8');
   const dirKeys = extractArrayConst(schemaText, 'DIRECTIONS');
@@ -87,6 +101,8 @@ function readMeta() {
   const scales = extractArrayConst(schemaText, 'SCALES');
   const dividers = extractArrayConst(schemaText, 'DIVIDERS');
   const tones = extractArrayConst(schemaText, 'TONES');
+  const shells = extractShellsWithHints(schemaText);
+  const headings = extractArrayConst(schemaText, 'HEADINGS');
   const variants = extractVariants(schemaText);
 
   const directions = dirKeys.map((key) => {
@@ -112,7 +128,7 @@ function readMeta() {
     fonts.push({ key: fm[1], family: fm[2], role: fm[3], mood: fm[4] });
   }
 
-  return { directions, fonts, variants, motion, scales, dividers, tones, composerAvailable: fs.existsSync(COMPOSER_PATH) };
+  return { directions, fonts, variants, motion, scales, dividers, tones, shells, headings, composerAvailable: fs.existsSync(COMPOSER_PATH) };
 }
 
 /** Valeurs de base (site.config.ts fusionne avec les defauts du schema), best-effort. */

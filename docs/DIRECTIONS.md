@@ -243,6 +243,35 @@ ajoute un séparateur décoratif entre les sections du layout.
 | `rule` | `journal`, `pierre` — filet fin, éditorial. |
 | `zigzag` | `pop`, `encre`, `retro` — ludique ou trait dessiné à la main. |
 
+## Disposition (shell)
+
+`layout.shell` (`src/shells/<nom>.astro`) decide de la disposition globale de la page — nav, hero,
+sections et footer restent les memes composants, seule leur mise en page change. Une coquille ne
+restyle jamais une section (voir `docs/CONVENTIONS.md` § Coquilles).
+
+| Shell | Quand l'utiliser |
+|---|---|
+| `flow` (défaut) | Colonne classique : nav en haut, hero, sections empilées, footer. Convient à tout, c'est le choix sûr par défaut. |
+| `split` | Panneau latéral fixe (nom, métier, navigation, téléphone, réseaux) à gauche, contenu qui défile à droite. Va bien avec `nav: 'bar'` ou `'minimal'` (le panneau remplace la nav sur desktop) ; évite `nav: 'floating'`. Agences, cabinets de conseil — tout ce qui bénéficie d'un accès permanent au téléphone/à la navigation. |
+| `sidebar` | Rail vertical étroit fixe à gauche (monogramme, liens en texte vertical, téléphone), contenu pleine largeur décalé. Même contrainte que `split` : évite `nav: 'floating'`. Studios créatifs, ateliers d'artiste — identité forte, esthétique minimale. |
+| `slides` | Chaque section occupe un écran plein, défilement aimanté (scroll-snap proximity, jamais piégeant). Réservé aux sites courts et aux directions peu animées : `motion !== 'rich'` (une direction déjà très animée + un défilement aimanté surchargerait l'expérience). |
+| `magazine` | Grille asymétrique : largeurs et décalages alternés, grands numéros de section en marge sur desktop. Évite `scale: 'compact'` (la mise en marge a besoin d'air). Cabinets, agences de design, journaux — mise en page éditoriale affirmée. |
+| `sticky-hero` | Le hero reste épinglé en fond, les sections glissent par-dessus comme une feuille. Marche mieux avec un hero plein écran : `hero` en `fullbleed`, `typographic` ou `video`. Maisons de luxe, hôtellerie, restauration — une image ou un message qui reste present pendant tout le défilement. |
+
+Ces contraintes (« va bien avec », « évite ») sont les règles d'adéquation appliquées par
+`ff composer` (`scripts/ff/composer.mjs`, fonction `shellFits`) et vérifiées pour chaque modèle par
+`tests/presets.test.mjs`.
+
+### En-têtes
+
+`layout.headings` force l'alignement des en-têtes de section :
+
+| Valeur | Effet |
+|---|---|
+| `auto` (défaut) | Chaque section garde l'alignement défini par sa propre variante. |
+| `center` | En-têtes centrés sur toutes les sections — direction posée, display, beaucoup de respiration (luxe, nuit, nordique). |
+| `left` | En-têtes alignés à gauche — lecture éditoriale, cohérent avec un panneau latéral (`shell: 'split'`) ou une direction dense en texte (journal, encre). |
+
 ## Libellés
 
 `wording` (`site.config.ts`) : `devis`, `ctaTitle`, `ctaText`, `contactTitle`, `contactText`. Le défaut

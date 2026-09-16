@@ -38,6 +38,8 @@ const presetFiles = fs.readdirSync(PRESETS_DIR).filter((f) => f.endsWith('.json'
 // d'enregistrer le premier test, tous les test() ci-dessous sont connus du runner des le depart.
 let VARIANTS;
 let DIRECTIONS;
+let SHELLS;
+let HEADINGS;
 let siteSchema;
 let FONT_KEYS;
 let exampleConfig;
@@ -45,6 +47,8 @@ if (tsImportable) {
   const schemaMod = await loadSchemaModule();
   VARIANTS = schemaMod.VARIANTS;
   DIRECTIONS = schemaMod.DIRECTIONS;
+  SHELLS = schemaMod.SHELLS;
+  HEADINGS = schemaMod.HEADINGS;
   siteSchema = schemaMod.siteSchema;
 
   const fontsUrl = new URL('../src/lib/fonts.ts', import.meta.url);
@@ -171,6 +175,58 @@ if (!tsImportable) {
   function loadAll() {
     return presetFiles.map((file) => JSON.parse(fs.readFileSync(path.join(PRESETS_DIR, file), 'utf8')));
   }
+
+  test('layout.shell (si present) est valide, et au moins 12 presets ont un shell non-flow', () => {
+    const all = loadAll();
+    let nonFlow = 0;
+    for (const d of all) {
+      const shell = d.look.layout.shell;
+      if (shell === undefined) continue;
+      assert.ok(SHELLS.includes(shell), `${d.nom} : shell "${shell}" invalide`);
+      if (shell !== 'flow') nonFlow += 1;
+    }
+    assert.ok(nonFlow >= 12, `au moins 12 presets avec un shell non-flow attendus, trouve ${nonFlow}`);
+  });
+
+  test('layout.headings (si present) est valide', () => {
+    const all = loadAll();
+    for (const d of all) {
+      const headings = d.look.layout.headings;
+      if (headings === undefined) continue;
+      assert.ok(HEADINGS.includes(headings), `${d.nom} : headings "${headings}" invalide`);
+    }
+  });
+
+  test('layout.shell (si present) respecte les regles d\'adequation (docs/DIRECTIONS.md § Disposition)', () => {
+    // Memes regles que scripts/ff/composer.mjs (shellFits) : sticky-hero veut un hero plein ecran,
+    // split/sidebar evitent nav floating (cache sur desktop), magazine evite scale compact.
+    // Exception documentee pour "slides" : la regle du composer (sectionsCount <= 6) suppose des
+    // sites generes avec peu de donnees ; un preset complet couvre toujours >= 7 sections (5
+    // obligatoires + au moins 2 optionnelles, voir le test de couverture plus bas) et ne peut donc
+    // jamais satisfaire ce seuil litteralement — seule la condition de mouvement est verifiee ici.
+    const all = loadAll();
+    for (const d of all) {
+      const shell = d.look.layout.shell;
+      if (!shell || shell === 'flow') continue;
+      const { hero, nav, scale } = d.look.layout;
+      const motion = d.look.motion;
+      if (shell === 'sticky-hero') {
+        assert.ok(
+          ['fullbleed', 'typographic', 'video'].includes(hero),
+          `${d.nom} : sticky-hero veut un hero fullbleed/typographic/video (a: "${hero}")`,
+        );
+      }
+      if (shell === 'split' || shell === 'sidebar') {
+        assert.notEqual(nav, 'floating', `${d.nom} : ${shell} incompatible avec nav "floating"`);
+      }
+      if (shell === 'magazine') {
+        assert.notEqual(scale, 'compact', `${d.nom} : magazine incompatible avec scale "compact"`);
+      }
+      if (shell === 'slides') {
+        assert.notEqual(motion, 'rich', `${d.nom} : slides incompatible avec motion "rich"`);
+      }
+    }
+  });
 
   test('variete : chaque variante de hero utilisee au moins 4 fois', () => {
     const all = loadAll();

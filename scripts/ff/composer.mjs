@@ -35,6 +35,31 @@ const DIVIDER_FITS = [
   ['none', ['luxe', 'neon']],
 ];
 
+// Poids de base (points sur 100) pour le tirage pondere de layout.shell / layout.headings.
+const SHELL_WEIGHTS = { flow: 30, split: 15, sidebar: 12, slides: 12, magazine: 16, 'sticky-hero': 15 };
+const HEADINGS_WEIGHTS = { auto: 60, center: 25, left: 15 };
+
+/** Une coquille convient-elle au contexte (nav/hero/echelle/mouvement/nombre de sections) ? `flow` convient toujours. */
+function shellFits(shell, { sectionsCount, motion, nav, hero, scale }) {
+  if (shell === 'slides') return sectionsCount <= 6 && motion !== 'rich';
+  if (shell === 'sticky-hero') return ['fullbleed', 'typographic', 'video'].includes(hero);
+  if (shell === 'split' || shell === 'sidebar') return nav !== 'floating';
+  if (shell === 'magazine') return scale !== 'compact';
+  return true;
+}
+
+/** Tirage pondere deterministe (rng) parmi `weighted` : [{ key, weight }], weight > 0. */
+function pickWeighted(rng, weighted) {
+  const total = weighted.reduce((sum, w) => sum + w.weight, 0);
+  if (total <= 0) return weighted[0]?.key;
+  let r = rng() * total;
+  for (const w of weighted) {
+    if (r < w.weight) return w.key;
+    r -= w.weight;
+  }
+  return weighted[weighted.length - 1].key;
+}
+
 function normalise(s) {
   return String(s || '')
     .toLowerCase()
@@ -128,7 +153,7 @@ export function pickLook(slug, opts = {}) {
   const seed = typeof graine === 'number' && !Number.isNaN(graine) ? graine >>> 0 : seedFromString(graine ?? slug);
   const rng = mulberry32(seed);
 
-  const { VARIANTS } = parseSchemaConstants();
+  const { VARIANTS, SHELLS, HEADINGS } = parseSchemaConstants();
   const dirMetas = listDirectionMetas();
   if (dirMetas.length === 0) {
     throw new Error('Aucune direction avec meta.ts trouvee dans src/directions/.');
@@ -189,14 +214,32 @@ export function pickLook(slug, opts = {}) {
   const divider = pickDivider(chosen.dir);
   const motion = chosen.motionParDefaut || 'subtle';
 
+  // Coquille (layout.shell) : tirage pondere parmi les coquilles compatibles avec le contexte deja
+  // choisi (nav, hero, echelle, mouvement, nombre de sections), penalise de -1 point par usage
+  // existant (meme logique que les directions, en moins agressif).
+  const shellCounts = usage.shellCounts || new Map();
+  const shellCtx = { sectionsCount: sections.length, motion, nav, hero, scale };
+  const eligibleShells = SHELLS.filter((s) => shellFits(s, shellCtx));
+  const shellWeighted = eligibleShells.map((s) => ({
+    key: s,
+    weight: Math.max(0.5, (SHELL_WEIGHTS[s] ?? 10) - (shellCounts.get(s) || 0)),
+    used: shellCounts.get(s) || 0,
+  }));
+  const shell = pickWeighted(rng, shellWeighted) || 'flow';
+
+  // En-tetes (layout.headings) : tirage pondere simple, aucune regle d'adequation ni penalite d'usage.
+  const headingsWeighted = HEADINGS.map((h) => ({ key: h, weight: HEADINGS_WEIGHTS[h] ?? 10 }));
+  const headings = pickWeighted(rng, headingsWeighted) || 'auto';
+
   const look = {
     direction: chosen.dir,
     motion,
     scale,
     typography: { display: fontPair.display, body: fontPair.body },
-    layout: { nav, hero, sections, footer, divider, tone },
+    layout: { nav, hero, sections, footer, divider, tone, shell, headings },
   };
 
+  const shellEntry = shellWeighted.find((w) => w.key === shell);
   const justification = [
     ['direction', chosen.dir, chosen.reasons.length ? chosen.reasons.join(' ; ') : 'meilleur score par defaut'],
     ['nav', nav, `variante la moins utilisee (${nav} : ${(usage.variantCounts.nav || new Map()).get(nav) || 0} fois)`],
@@ -214,6 +257,12 @@ export function pickLook(slug, opts = {}) {
     ['ton', tone, 'alterné 50 % (fond bg-2 une section sur deux)'],
     ['separateur', divider, `adapté à la direction "${chosen.dir}"`],
     ['mouvement', motion, `motionParDefaut de la direction "${chosen.dir}"`],
+    [
+      'disposition (shell)',
+      shell,
+      `tirage pondéré (${SHELL_WEIGHTS[shell] ?? 10} pts de base${shellEntry?.used ? `, -${shellEntry.used} déjà utilisée` : ''}) parmi ${eligibleShells.join(', ')}`,
+    ],
+    ['en-têtes', headings, `tirage pondéré (${HEADINGS_WEIGHTS[headings] ?? 10} pts de base)`],
   ];
 
   return { slug, direction: chosen.dir, dirMeta: chosen, look, justification, metier: metierFinal };
