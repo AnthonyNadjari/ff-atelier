@@ -1,0 +1,42 @@
+---
+/**
+ * Separateur decoratif entre deux sections (layout.divider). Couleur = fond de la section suivante,
+ * donc il se lit comme le bord de celle-ci. `flip` inverse le sens.
+ */
+import { site } from '@/lib/site';
+interface Props { kind?: string; index?: number }
+const { kind = site.layout.divider, index = 0 } = Astro.props;
+const flip = index % 2 === 1;
+---
+
+{kind === 'wave' && (
+  <div class="relative -mb-px overflow-hidden leading-[0] text-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" class:list={['block w-full h-[40px] md:h-[70px] fill-current', flip && 'rotate-180']}>
+      <path d="M0,40 C240,90 480,-10 720,40 C960,90 1200,-10 1440,40 L1440,80 L0,80 Z" />
+    </svg>
+  </div>
+)}
+{kind === 'diagonal' && (
+  <div class="relative -mb-px overflow-hidden leading-[0] text-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" class:list={['block w-full h-[30px] md:h-[56px] fill-current', flip && 'scale-x-[-1]']}>
+      <path d="M0,60 L1440,0 L1440,60 Z" />
+    </svg>
+  </div>
+)}
+{kind === 'curve' && (
+  <div class="relative -mb-px overflow-hidden leading-[0] text-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" class:list={['block w-full h-[36px] md:h-[64px] fill-current', flip && 'rotate-180']}>
+      <path d="M0,80 Q720,-40 1440,80 Z" />
+    </svg>
+  </div>
+)}
+{kind === 'zigzag' && (
+  <div class="relative -mb-px overflow-hidden leading-[0] text-bg" aria-hidden="true">
+    <svg viewBox="0 0 1440 24" preserveAspectRatio="none" class="block w-full h-[14px] md:h-[22px] fill-current">
+      <path d="M0,24 L0,12 L40,0 L80,12 L120,0 L160,12 L200,0 L240,12 L280,0 L320,12 L360,0 L400,12 L440,0 L480,12 L520,0 L560,12 L600,0 L640,12 L680,0 L720,12 L760,0 L800,12 L840,0 L880,12 L920,0 L960,12 L1000,0 L1040,12 L1080,0 L1120,12 L1160,0 L1200,12 L1240,0 L1280,12 L1320,0 L1360,12 L1400,0 L1440,12 L1440,24 Z" />
+    </svg>
+  </div>
+)}
+{kind === 'rule' && (
+  <div class="container-ff" aria-hidden="true"><div class="rule border-t border-line"></div></div>
+)}

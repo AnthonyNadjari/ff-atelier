@@ -5,6 +5,7 @@
  */
 import '@/styles/global.css';
 import { site, fullAddress, slugCourant } from '@/lib/site';
+import { FONTS, type FontName } from '@/lib/fonts';
 
 interface Props {
   title?: string;
@@ -21,13 +22,22 @@ const dirKey = `/src/directions/${site.direction}/index.css`;
 if (!directions[dirKey]) throw new Error(`Direction inconnue : ${site.direction}`);
 await directions[dirKey]();
 
+// Polices surchargees par le site (independantes de la direction), chargees a la demande.
+let fontStyle = '';
+for (const [slot, name] of Object.entries(site.typography) as [string, FontName | undefined][]) {
+  if (!name) continue;
+  const f = FONTS[name];
+  await f.load();
+  fontStyle += `--font-${slot}:${f.family};`;
+}
+
 const pageTitle = title ?? site.seo.title ?? `${site.business.name} — ${site.business.trade} à ${site.contact.address.city}`;
 const pageDesc = description ?? site.seo.description ?? site.business.description.split(/\n/)[0].slice(0, 160);
 const canonical = new URL(path, Astro.site).toString();
 const og = site.images.og ?? site.images.hero?.src;
 const ogUrl = og ? new URL(og, Astro.site).toString() : undefined;
 
-const accentStyle = site.accent ? `--accent-h:${site.accent.h};--accent-s:${site.accent.s}%;--accent-l:${site.accent.l}%;` : '';
+const accentStyle = (site.accent ? `--accent-h:${site.accent.h};--accent-s:${site.accent.s}%;--accent-l:${site.accent.l}%;` : '') + fontStyle;
 
 const ldJson = {
   '@context': 'https://schema.org',
@@ -56,7 +66,7 @@ const ldJson = {
 ---
 
 <!doctype html>
-<html lang={site.lang} data-direction={site.direction} data-motion={site.motion} data-site={slugCourant} style={accentStyle}>
+<html lang={site.lang} data-direction={site.direction} data-motion={site.motion} data-scale={site.scale} data-tone={site.layout.tone} data-site={slugCourant} style={accentStyle}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />

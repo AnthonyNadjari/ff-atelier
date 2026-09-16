@@ -88,6 +88,15 @@ p { text-wrap: pretty; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 }
 
+/* ---------- Echelle typographique (site.scale) ---------- */
+[data-scale='compact'] { --scale-xl: clamp(2.25rem, 5vw, 4rem); --scale-lg: clamp(1.9rem, 3.8vw, 3rem); --scale-md: clamp(1.5rem, 2.6vw, 2.1rem); --scale-sm: clamp(1.1rem, 1.6vw, 1.35rem); --section-y: clamp(3rem, 7vw, 5.5rem); }
+[data-scale='normal'] { --scale-xl: clamp(2.75rem, 7vw, 6rem); --scale-lg: clamp(2.25rem, 5vw, 4.25rem); --scale-md: clamp(1.75rem, 3.5vw, 2.75rem); --scale-sm: clamp(1.25rem, 2vw, 1.6rem); }
+[data-scale='display'] { --scale-xl: clamp(3.25rem, 9.5vw, 8.5rem); --scale-lg: clamp(2.75rem, 6.5vw, 5.5rem); --scale-md: clamp(2rem, 4.5vw, 3.5rem); --scale-sm: clamp(1.35rem, 2.3vw, 1.9rem); --section-y: clamp(5rem, 13vw, 11rem); }
+
+/* ---------- Tone alterne (layout.tone = alternate) : une section sur deux sur bg-2 ---------- */
+[data-tone='alternate'] main > section:nth-of-type(even):not([class*='bg-ink']):not([class*='bg-accent']):not([class*='bg-bg-2']) { background: var(--bg-2); }
+[data-tone='alternate'] main > section:nth-of-type(odd)[class*='bg-bg-2'] { background: var(--bg); }
+
 /* ---------- Utilitaires partages ---------- */
 @utility container-ff {
   width: 100%;
@@ -103,10 +112,10 @@ p { text-wrap: pretty; }
   text-transform: uppercase;
   color: var(--accent);
 }
-@utility text-display-xl { font-size: clamp(2.75rem, 7vw, 6rem); }
-@utility text-display-lg { font-size: clamp(2.25rem, 5vw, 4.25rem); }
-@utility text-display-md { font-size: clamp(1.75rem, 3.5vw, 2.75rem); }
-@utility text-display-sm { font-size: clamp(1.25rem, 2vw, 1.6rem); }
+@utility text-display-xl { font-size: var(--scale-xl, clamp(2.75rem, 7vw, 6rem)); }
+@utility text-display-lg { font-size: var(--scale-lg, clamp(2.25rem, 5vw, 4.25rem)); }
+@utility text-display-md { font-size: var(--scale-md, clamp(1.75rem, 3.5vw, 2.75rem)); }
+@utility text-display-sm { font-size: var(--scale-sm, clamp(1.25rem, 2vw, 1.6rem)); }
 
 /* ---------- Motion (pilote par src/scripts/motion.ts) ----------
    data-reveal            : apparait au scroll (fade + translate)

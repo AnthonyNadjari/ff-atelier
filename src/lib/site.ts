@@ -1,13 +1,41 @@
 /** Charge le site courant (import.meta.env.SITE, pose par astro.config.mjs). */
 import type { Site } from './schema';
 
+import { siteSchema } from './schema';
+
 const modules = import.meta.glob<{ default: Site }>('/sites/*/site.config.ts', { eager: true });
+const looks = import.meta.glob<{ default: Record<string, unknown> }>('/sites/*/look.json', { eager: true });
 const slug = import.meta.env.SITE as string;
 const key = `/sites/${slug}/site.config.ts`;
 const mod = modules[key];
 if (!mod) throw new Error(`Config introuvable : ${key}`);
 
-export const site: Site = mod.default;
+/**
+ * look.json (optionnel, ecrit par `ff studio`) : surcharge uniquement le LOOK
+ * (direction, motion, scale, accent, typography, layout, wording) sans toucher au contenu.
+ * Permet de changer d'apparence sans editer le TypeScript ; `ff studio --figer` le fusionne dans site.config.ts.
+ */
+const LOOK_KEYS = ['direction', 'motion', 'scale', 'accent', 'typography', 'layout', 'wording'] as const;
+function applyLook(base: Site, look: Record<string, unknown> | undefined): Site {
+  if (!look) return base;
+  const merged: Record<string, unknown> = { ...base };
+  for (const k of LOOK_KEYS) {
+    if (look[k] === undefined) continue;
+    const cur = merged[k];
+    merged[k] = cur && typeof cur === 'object' && !Array.isArray(cur) && typeof look[k] === 'object' && !Array.isArray(look[k])
+      ? { ...(cur as object), ...(look[k] as object) }
+      : look[k];
+  }
+  const parsed = siteSchema.safeParse(merged);
+  if (!parsed.success) {
+    console.warn(`look.json ignore (invalide) : ${parsed.error.issues.map((i) => i.path.join('.') + ' ' + i.message).join(' ; ')}`);
+    return base;
+  }
+  return parsed.data;
+}
+
+export const site: Site = applyLook(mod.default, looks[`/sites/${slug}/look.json`]?.default);
+export const lookActif = Boolean(looks[`/sites/${slug}/look.json`]);
 export const slugCourant = slug;
 
 /** Helpers partages par les sections. */

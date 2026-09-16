@@ -3,18 +3,25 @@
 import Base from '@/layouts/Base.astro';
 import { site } from '@/lib/site';
 import { getSection } from '@/lib/sections';
+import Divider from '@/components/Divider.astro';
 
 const Nav = getSection('nav', site.layout.nav);
 const Hero = getSection('hero', site.layout.hero);
 const Footer = getSection('footer', site.layout.footer);
 const sections = site.layout.sections.map((s) => ({ ...s, Component: getSection(s.type, s.variant) }));
+const divider = site.layout.divider;
 ---
 
 <Base path="/">
   <Nav />
   <main id="main">
     <Hero />
-    {sections.map(({ Component }) => <Component />)}
+    {sections.map(({ Component, type }, i) => (
+      <>
+        {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+        <Component />
+      </>
+    ))}
   </main>
   <Footer />
 </Base>

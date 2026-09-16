@@ -5,6 +5,7 @@
  * pas de faux chiffres, pas de faux avis. Si une donnee manque, la section s'adapte ou disparait.
  */
 import { z } from 'zod';
+import { FONT_NAMES } from './fonts';
 
 export const DIRECTIONS = [
   'atelier', // chaleureux, artisanal, serif Fraunces, papier
@@ -15,10 +16,21 @@ export const DIRECTIONS = [
   'clair', // blanc, Manrope, arrondi, ombres douces, tech propre
   'terre', // vert/ocre, Lora/Nunito, formes organiques
   'signal', // couleur franche, Archivo Black, urgence, gros numero de telephone
+  'nuit', // bleu nuit + blanc chaud, calme, hotels/restaurants/bien-etre
+  'pop', // blocs de couleurs vives, ludique, boulangerie/enfants/evenementiel
+  'pierre', // gris mineral, minimal, Bodoni, architectes/macons/pierre
+  'retro', // creme/orange/brun seventies, arrondi, barbiers/vintage/cafes
+  'nordique', // pale, aere, beaucoup de blanc, scandinave, decoration/menuiserie
+  'encre', // noir encre sur papier, trait dessine, tatoueurs/illustrateurs/artisans d art
+  'industriel', // beton, acier, orange securite, Bebas, garages/metallerie/BTP
+  'mediterranee', // terracotta, bleu mer, blanc chaux, restaurants/ceramistes/immobilier sud
 ] as const;
 export type Direction = (typeof DIRECTIONS)[number];
 
 export const MOTION = ['none', 'subtle', 'rich'] as const;
+export const SCALES = ['compact', 'normal', 'display'] as const;
+export const DIVIDERS = ['none', 'wave', 'diagonal', 'curve', 'rule', 'zigzag'] as const;
+export const TONES = ['flat', 'alternate'] as const;
 
 // Variantes disponibles par section. Ajouter une variante = ajouter un fichier
 // src/sections/<Type>/<variante>.astro ET l'entree ici.
@@ -61,6 +73,13 @@ export const siteSchema = z.object({
   direction: z.enum(DIRECTIONS),
   motion: z.enum(MOTION).default('subtle'),
   accent: hsl.optional().describe("Surcharge la couleur d'accent de la direction (HSL)"),
+  typography: z
+    .object({
+      display: z.enum(FONT_NAMES as [string, ...string[]]).optional().describe('Police des titres, remplace celle de la direction (voir src/lib/fonts.ts)'),
+      body: z.enum(FONT_NAMES as [string, ...string[]]).optional().describe('Police du texte courant'),
+    })
+    .default({}),
+  scale: z.enum(SCALES).default('normal').describe('compact = dense, display = titres enormes et grandes respirations'),
   layout: z
     .object({
       nav: z.enum(VARIANTS.nav).default('bar'),
@@ -82,6 +101,8 @@ export const siteSchema = z.object({
           { type: 'contact', variant: 'form-split' },
         ]),
       footer: z.enum(VARIANTS.footer).default('columns'),
+      divider: z.enum(DIVIDERS).default('none').describe('Separateur decoratif entre les sections'),
+      tone: z.enum(TONES).default('flat').describe('alternate = une section sur deux sur fond bg-2'),
     })
     .default({}),
 
@@ -213,6 +234,7 @@ export const siteSchema = z.object({
       title: z.string().optional(),
       description: z.string().optional(),
       keywords: z.array(z.string()).default([]),
+      cityPages: z.boolean().default(false).describe('Genere une page /zones/<ville> par ville de zones.cities (SEO local)'),
     })
     .default({}),
 
