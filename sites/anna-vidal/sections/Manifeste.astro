@@ -1,0 +1,28 @@
+---
+/**
+ * « Manifeste » — propre à ce site. Un texte plein cadre en text-display-lg, rempli mot à mot
+ * au défilement (data-text-fill), un filet qui se trace (data-draw), puis les quatre services
+ * en une ligne simple, sans prix. Aucune réutilisation ailleurs.
+ */
+import { site } from '@/lib/site';
+
+const manifeste =
+  'Je travaille en retrait, avec peu de mots et peu d’indications. Il n’y a pas de pose à tenir : je cherche ce qui se passe vraiment, pas ce qui se rejoue pour l’appareil. La cérémonie se fait en argentique, pour son grain et sa lenteur, le reste au numérique. Ce que vous recevrez, c’est votre journée telle qu’elle a eu lieu, pas une version arrangée.';
+---
+
+<section id="manifeste" class="section-y">
+  <div class="container-ff">
+    <p class="text-display-lg font-display max-w-5xl" data-text-fill>{manifeste}</p>
+
+    <div class="mt-16 h-px w-full bg-line" data-draw aria-hidden="true"></div>
+
+    <p class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-muted" data-reveal>
+      {site.services.map((s, i) => (
+        <>
+          <span>{s.title}</span>
+          {i < site.services.length - 1 && <span class="text-accent" aria-hidden="true">·</span>}
+        </>
+      ))}
+    </p>
+  </div>
+</section>

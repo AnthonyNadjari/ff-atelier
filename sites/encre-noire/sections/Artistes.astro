@@ -1,0 +1,30 @@
+---
+/**
+ * « Artistes » : les deux tatoueurs en liste de noms géants, image flottante au survol
+ * (portrait + galerie-5), spécialité en dessous, filet entre les deux. Composition propre à ce site.
+ */
+import { site } from '@/lib/site';
+const team = site.about.team;
+---
+
+<section id="artistes" class="section-y">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>L’équipe</p>
+
+    <ul class="mt-8 border-t border-line">
+      {team.map((t) => (
+        <li class="border-b border-line py-10 md:py-14">
+          <a
+            href="#rendezvous"
+            class="group flex flex-col items-baseline justify-between gap-2 md:flex-row md:gap-8"
+            data-hover-img={t.photo?.src}
+            data-reveal
+          >
+            <span class="font-display text-display-lg leading-none transition-colors group-hover:text-accent-2">{t.name}</span>
+            <span class="font-mono text-sm uppercase tracking-[0.18em] text-muted">{t.role}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

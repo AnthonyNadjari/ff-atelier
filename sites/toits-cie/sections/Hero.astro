@@ -1,0 +1,36 @@
+---
+/**
+ * Hero sur mesure pour Toits & Cie : plein écran jaune sécurité, « FUITE ? » en très grand,
+ * une phrase courte, le téléphone en bloc noir, et une bande noire diagonale en pied d'écran
+ * avec les zones d'intervention qui défilent. Aucune photo : l'urgence n'a pas besoin d'image.
+ */
+import { site, tel } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const zones = site.zones.cities;
+---
+
+<section id="hero" class="relative isolate flex min-h-svh w-full flex-col justify-center overflow-hidden bg-accent pb-36 pt-28 text-on-accent md:pb-44">
+  <div class="container-ff relative z-10" data-stagger="140">
+    <h1 class="font-display uppercase leading-[0.78] tracking-tight" style="font-size: clamp(2.75rem, 17vw, 17rem);" data-split set:html="FUITE&nbsp;?" />
+    <p class="mt-6 max-w-xl font-display text-2xl md:text-3xl">On monte sur le toit aujourd’hui.</p>
+    <a
+      href={tel()}
+      class="btn mt-9 inline-flex items-center gap-3 bg-ink px-8 py-5 font-display text-xl uppercase text-on-ink md:text-2xl"
+      data-magnetic="0.2"
+    >
+      <Icon name="Phone" size={26} />{site.contact.phoneDisplay}
+    </a>
+  </div>
+
+  <div class="absolute inset-x-0 bottom-0 z-20 h-24 overflow-hidden bg-ink md:h-32" style="clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 100%);">
+    <div class="flex h-full items-center" data-marquee>
+      <div class="marquee-track font-display text-base uppercase tracking-widest text-on-ink md:text-xl">
+        {zones.map((z) => (
+          <span class="flex items-center gap-6 pr-6">
+            {z}<span class="text-accent" aria-hidden="true">✦</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

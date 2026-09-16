@@ -1,0 +1,76 @@
+---
+/**
+ * « Rendez-vous » : remplace le cta partagé. Trois étapes numérotées disposées en escalier
+ * (décalées en diagonale sur desktop), téléphone géant, puis conseils après-séance en petite
+ * liste typographique. Composition propre à ce site.
+ */
+import { site, tel } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const etapes = [
+  { n: '01', titre: 'Dépôt', texte: 'Un acompte réserve votre créneau et le temps de dessin. Il est déduit du prix final le jour de la séance.' },
+  { n: '02', titre: 'Dessin', texte: 'Le motif se prépare avec l’artiste à partir de vos références, puis vous est montré avant la séance.' },
+  { n: '03', titre: 'Séance', texte: 'Le tatouage se fait en une fois, ou en plusieurs séances si la pièce est grande ou détaillée.' },
+];
+
+const soins = [
+  'Gardez le pansement posé par l’artiste jusqu’au temps indiqué.',
+  'Lavez à l’eau tiède et au savon neutre, sans frotter.',
+  'Hydratez avec une crème adaptée, sans excès.',
+  'Évitez soleil direct, piscine, sauna et bain tant que la peau pèle.',
+  'Ne grattez pas les croûtes : laissez-les tomber seules.',
+];
+
+const phone = site.contact.phoneDisplay;
+const phoneSize = Math.min(9, 100 / Math.max(phone.length, 8)).toFixed(1);
+---
+
+<section id="rendezvous" class="section-y overflow-hidden bg-bg-2">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>{site.wording.devis}</p>
+    <h2 class="mt-4 max-w-2xl text-display-md" data-reveal>Trois étapes, <em>un seul rendez-vous</em></h2>
+
+    <ol class="mt-16 flex flex-col gap-10 lg:mt-24 lg:gap-6">
+      {etapes.map((e, i) => (
+        <li
+          class:list={[
+            'max-w-md border-l-2 border-line pl-6',
+            i === 1 && 'lg:translate-x-28 lg:translate-y-6',
+            i === 2 && 'lg:translate-x-56 lg:translate-y-12',
+          ]}
+          data-reveal={i % 2 === 0 ? 'left' : 'right'}
+        >
+          <p class="font-display text-3xl text-muted/60">{e.n}</p>
+          <h3 class="mt-1 text-display-sm">{e.titre}</h3>
+          <p class="mt-2 text-muted">{e.texte}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="mt-20 border-t border-line pt-14 text-center lg:mt-28">
+      <p class="eyebrow" data-reveal>Réserver un créneau</p>
+      <a
+        href={tel()}
+        class="mt-4 inline-flex items-center gap-4 font-display leading-none tracking-tight text-fg hover:text-accent-2"
+        style={`font-size: clamp(2.25rem, ${phoneSize}vw, 7rem);`}
+        data-reveal
+        data-magnetic="0.15"
+      >
+        <Icon name="Phone" size={36} class="hidden shrink-0 sm:block" />{phone}
+      </a>
+      <p class="mt-4 text-muted" data-reveal>{site.contact.hours.map((h) => `${h.days} : ${h.hours}`).join(' · ')}</p>
+    </div>
+
+    <div class="mx-auto mt-20 max-w-md lg:mt-28" data-reveal>
+      <p class="eyebrow">Après la séance</p>
+      <ul class="mt-5 flex flex-col gap-3 border-t border-line pt-5 font-mono text-sm text-muted">
+        {soins.map((s) => (
+          <li class="flex gap-3">
+            <span class="text-accent-2">—</span>
+            <span>{s}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

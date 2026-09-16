@@ -1,0 +1,42 @@
+---
+/**
+ * "Le lieu" : composition diagonale, deux photos qui se chevauchent à des décalages différents
+ * (data-scrub), un texte court, l'adresse et un lien vers la fiche Maps. Propre à ce site.
+ */
+import { site, fullAddress } from '@/lib/site';
+---
+
+<section id="lelieu" class="section-y overflow-hidden bg-bg-2">
+  <div class="container-ff grid items-center gap-14 lg:grid-cols-2">
+    <div class="relative mx-auto aspect-[5/6] w-full max-w-md lg:mx-0">
+      <img
+        src="/images/portrait.webp"
+        alt="Le Vallon des Auffes, barques de pêche amarrées devant les façades du restaurant"
+        class="absolute left-0 top-0 h-[72%] w-[76%] rounded-card border border-line object-cover shadow-card"
+        data-scrub="y=15"
+      />
+      <img
+        src="/images/galerie-1.webp"
+        alt="La terrasse de Chez Malo, tables dressées face au port"
+        class="absolute bottom-0 right-0 h-[58%] w-[62%] rounded-card border-4 border-bg object-cover shadow-lift"
+        data-scrub="y=-10"
+      />
+    </div>
+
+    <div data-stagger="110">
+      <p class="eyebrow" data-reveal>Le lieu</p>
+      <h2 class="mt-4 font-display text-display-lg leading-none" data-reveal>Le Vallon <em class="text-accent-2 not-italic">des Auffes</em></h2>
+      <p class="mt-6 max-w-md text-lg text-muted" data-reveal>
+        Le restaurant donne directement sur le vallon, entre les barques de pêche et les cabanons. La salle fait trente-deux couverts, la terrasse s’ouvre dès les beaux jours, au ras de l’eau.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-fg" data-reveal>
+        <span>{fullAddress()}</span>
+        {site.contact.mapsUrl && (
+          <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="inline-flex items-center gap-2 border-b border-accent-2 pb-0.5 text-accent-2 hover:opacity-80">
+            Voir sur la carte
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

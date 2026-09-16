@@ -1,0 +1,50 @@
+---
+/**
+ * Hero "custom/hero" — dessiné pour Anna Vidal. Une photo plein écran épinglée (data-pin="200") :
+ * trois légendes se succèdent au défilement ("Le matin", "Le oui", "La nuit"), le nom reste centré,
+ * en mix-blend-mode: difference, tout du long. Aucune réutilisation ailleurs.
+ *
+ * La photo est toujours visible au chargement (rien à « découvrir » au scroll ici) : le
+ * data-reveal="mask" est donc joué directement au montage plutôt que via l'IntersectionObserver
+ * générique, qui ne se déclenche pas de façon fiable sur un élément épinglé par data-pin (position
+ * fixed + transform posés par GSAP dès le chargement). Un filet local (style scopé ci-dessous)
+ * force aussi le clip-path ouvert une fois .is-visible posé : la règle générique de reset
+ * (global.css, .is-visible[data-reveal]) est autrement neutralisée par la règle plus tardive et de
+ * même spécificité propre à [data-reveal='mask'].
+ */
+import { site } from '@/lib/site';
+
+const hero = site.images.hero!;
+const steps = ['Le matin', 'Le oui', 'La nuit'];
+---
+
+<section id="hero" class="relative h-svh w-full overflow-hidden bg-ink text-on-ink" data-pin="200">
+  <div class="absolute inset-0" data-reveal="mask">
+    <img src={hero.src} alt={hero.alt} class="h-full w-full object-cover" loading="eager" fetchpriority="high" />
+  </div>
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-ink/25"></div>
+
+  <h1
+    class="pointer-events-none absolute inset-0 flex items-center justify-center px-6 text-center font-display leading-[0.9]"
+    style="font-size: 12vw; mix-blend-mode: difference; color: var(--on-ink);"
+  >
+    {site.business.name}
+  </h1>
+
+  <div class="absolute inset-x-0 bottom-12 flex justify-center gap-6 px-6 md:bottom-16 md:gap-12">
+    {steps.map((s) => (
+      <p data-pin-step class="font-display text-base tracking-wide text-on-ink transition-[opacity,transform] md:text-xl">{s}</p>
+    ))}
+  </div>
+</section>
+
+<script>
+  const mask = document.querySelector<HTMLElement>('#hero [data-reveal="mask"]');
+  if (mask) requestAnimationFrame(() => requestAnimationFrame(() => mask.classList.add('is-visible')));
+</script>
+
+<style>
+  #hero [data-reveal='mask'].is-visible {
+    clip-path: inset(0 0 0 0);
+  }
+</style>

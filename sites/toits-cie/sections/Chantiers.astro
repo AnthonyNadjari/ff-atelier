@@ -1,0 +1,47 @@
+---
+/**
+ * "Chantiers" : damier plein cadre alternant cases noires (numéro + service) et cases image
+ * (galerie-1..4, légèrement pivotées, redressées au scroll). Pas de texte inventé : les titres
+ * viennent des services renseignés dans site.config.ts.
+ */
+import { site } from '@/lib/site';
+
+const featured = site.services.filter((s) => s.featured).slice(0, 4);
+const images = ['galerie-1', 'galerie-2', 'galerie-3', 'galerie-4'];
+// Vrai damier sur 2 rangées de 4 : noir/image alternés en ligne ET en colonne.
+const pattern = [true, false, true, false, false, true, false, true];
+let si = 0;
+let ii = 0;
+const cells = pattern.map((isBlack) => {
+  if (isBlack) {
+    const s = featured[si];
+    si += 1;
+    return { kind: 'number' as const, num: String(si).padStart(2, '0'), title: s?.title ?? '' };
+  }
+  const img = images[ii];
+  ii += 1;
+  return { kind: 'image' as const, src: `/images/${img}.webp`, alt: `Chantier de couverture — ${site.contact.address.city}` };
+});
+---
+
+<section id="chantiers" class="section-y overflow-hidden">
+  <div class="container-ff">
+    <p class="eyebrow">Nos chantiers</p>
+    <h2 class="mt-4 text-display-lg">Ce qu’on répare, ce qu’on refait.</h2>
+  </div>
+
+  <ul class="mt-12 grid grid-cols-2 md:grid-cols-4" data-stagger="70">
+    {cells.map((cell) =>
+      cell.kind === 'number' ? (
+        <li class="flex aspect-square flex-col justify-between border-[3px] border-line bg-ink p-6 text-on-ink md:p-8">
+          <span class="font-display text-display-lg leading-none text-accent">{cell.num}</span>
+          <span class="font-display text-lg uppercase leading-tight md:text-xl">{cell.title}</span>
+        </li>
+      ) : (
+        <li class="relative aspect-square overflow-hidden border-[3px] border-line">
+          <img src={cell.src} alt={cell.alt} class="absolute inset-0 h-full w-full object-cover" data-scrub="rotate=3,scale=1.1" loading="lazy" />
+        </li>
+      ),
+    )}
+  </ul>
+</section>

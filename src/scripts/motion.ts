@@ -16,6 +16,8 @@ export function initMotion() {
     return;
   }
 
+  // splitText d'abord : il pose data-reveal sur les titres, que reveal() doit ensuite observer.
+  if (motion === 'rich') splitText();
   reveal();
   counters();
   marquee();
@@ -24,7 +26,6 @@ export function initMotion() {
 
   if (motion === 'rich') {
     curtain();
-    splitText();
     hoverImages();
     rich().catch(() => {});
     directionScript(root.dataset.direction);

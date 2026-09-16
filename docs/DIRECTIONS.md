@@ -66,6 +66,8 @@ absente (photo, avis, FAQ) ne doit pas être choisie.
 | `minimal` | Peu de sections dans le layout, direction épurée (clair, journal). |
 | `split` | Look éditorial ou luxe, logo centré avec liens de part et d'autre. |
 | `floating` | Directions animées (neon, brut) qui veulent une nav flottante au scroll. |
+| `burger` | Aucune barre permanente voulue, plein-ecran fort a l'ouverture (numeros, gros titres) ; identique desktop/mobile. |
+| `dock` | Dock flottant bas-centre avec 4 liens + telephone, direction ludique/appli ; évite `hero: split` (le badge « Basé à » peut chevaucher le dock sur desktop). |
 
 ### `hero`
 | Variante | Quand l'utiliser |

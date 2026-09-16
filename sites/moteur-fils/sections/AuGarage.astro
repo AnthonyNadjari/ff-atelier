@@ -1,0 +1,55 @@
+---
+/**
+ * « Au garage » : bento de six tuiles, une par service, chacune dans un pastel différent tiré
+ * des tokens. La première tuile (entretien) est en photo et s'étend sur deux colonnes ; la
+ * dernière (carrosserie) referme la grille sur toute la largeur, en accent. Composition propre
+ * à ce site.
+ */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const services = site.services;
+// index -> { fond de la tuile, couleur de texte, couleur du cadre d'icone }
+const looks = [
+  { bg: 'bg-surface', text: 'text-on-ink', badge: 'border-on-ink/30 bg-ink/20', iconColor: 'text-on-ink', photo: true },
+  { bg: 'bg-surface', text: 'text-fg', badge: 'border-ink/15 bg-bg', iconColor: 'text-accent' },
+  { bg: 'bg-bg-2', text: 'text-fg', badge: 'border-ink/15 bg-bg', iconColor: 'text-accent' },
+  { bg: 'bg-accent/15', text: 'text-fg', badge: 'border-ink/15 bg-bg', iconColor: 'text-accent' },
+  { bg: 'bg-accent-2/20', text: 'text-fg', badge: 'border-ink/15 bg-bg', iconColor: 'text-accent' },
+  { bg: 'bg-accent', text: 'text-on-accent', badge: 'border-on-accent/40 bg-ink/10', iconColor: 'text-on-accent', wide: true },
+];
+---
+
+<section id="augarage" class="section-y bg-bg">
+  <div class="container-ff">
+    <SectionHeading eyebrow="Au garage" title="Six choses qu’on fait bien" text="Toutes marques, du diagnostic à la carrosserie légère. Pas de sous-traitance, pas de mystère." />
+
+    <ul class="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      {services.map((s, i) => {
+        const look = looks[i] ?? looks[1];
+        const hasPhoto = Boolean(look.photo && s.image);
+        return (
+          <li class:list={[look.photo && 'sm:col-span-2', look.wide && 'lg:col-span-3']} data-reveal={i % 2 ? 'right' : 'left'} data-reveal-delay={String((i % 3) * 90)}>
+            <article
+              data-tilt="5"
+              class:list={['group relative flex h-full min-h-[15rem] flex-col justify-end overflow-hidden rounded-card border-[3px] border-ink p-7 shadow-card', look.bg, look.text]}
+            >
+              {hasPhoto && s.image && (
+                <>
+                  <img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10" aria-hidden="true"></div>
+                </>
+              )}
+              <span class:list={['relative inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-ui border-[3px] transition-transform duration-500 ease-out-expo group-hover:rotate-[18deg]', look.badge]}>
+                <Icon name={s.icon} size={26} class={look.iconColor} />
+              </span>
+              <h3 class="relative mt-5 font-display text-2xl">{s.title}</h3>
+              <p class:list={['relative mt-2 max-w-sm', hasPhoto ? 'text-on-ink/80' : look.text === 'text-on-accent' ? 'text-on-accent/85' : 'text-muted']}>{s.short}</p>
+            </article>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>

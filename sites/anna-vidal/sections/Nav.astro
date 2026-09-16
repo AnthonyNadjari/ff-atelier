@@ -1,0 +1,27 @@
+---
+/**
+ * Nav "custom/nav" — propre à ce site. Rien qu'un nom et un lien, tous deux fixes,
+ * en mix-blend-mode: difference pour rester lisibles sur n'importe quelle photo en dessous.
+ * Pas d'arrière-plan, pas de menu : le site est fait pour être vu, pas pour être navigué.
+ */
+import { site } from '@/lib/site';
+---
+
+<header class="pointer-events-none fixed inset-x-0 top-0 z-50">
+  <div class="container-ff flex items-center justify-between py-6 md:py-8">
+    <a
+      href="/"
+      class="pointer-events-auto text-sm"
+      style="font-variant-caps: small-caps; text-transform: lowercase; letter-spacing: 0.08em; mix-blend-mode: difference; color: var(--on-ink);"
+    >
+      {site.business.name}
+    </a>
+    <a
+      href="#contact"
+      class="pointer-events-auto text-sm underline underline-offset-4"
+      style="mix-blend-mode: difference; color: var(--on-ink);"
+    >
+      Me contacter
+    </a>
+  </div>
+</header>

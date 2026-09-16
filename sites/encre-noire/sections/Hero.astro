@@ -1,0 +1,54 @@
+---
+/**
+ * Hero dessiné pour Encre Noire : plein écran, fond noir, le nom du studio en deux lignes
+ * géantes (20vw), un trait vertical qui se trace, une légende discrète en bas à droite,
+ * une invite à défiler. Rien d'autre. Composition propre à ce site.
+ */
+import { site } from '@/lib/site';
+const [mot1, mot2] = site.business.name.toUpperCase().split(' ');
+const artistes = site.about.team.map((t) => t.name.split(' ')[0]).join(' & ');
+---
+
+<section id="hero" class="relative flex min-h-svh flex-col overflow-hidden bg-ink text-on-ink">
+  <div class="flex flex-1 flex-col items-center justify-center px-4 text-center">
+    <h1 class="select-none font-display uppercase leading-[0.82]" data-split data-reveal style="font-size: clamp(4rem, 20vw, 17rem);">
+      <span class="block">{mot1}</span>
+      <span class="block text-on-ink/90">{mot2}</span>
+    </h1>
+  </div>
+
+  <span
+    class="v-draw pointer-events-none absolute bottom-32 right-8 h-20 w-px bg-on-ink/50 sm:right-16 sm:h-28"
+    data-draw
+    aria-hidden="true"
+  ></span>
+
+  <p class="absolute bottom-10 right-8 max-w-[14rem] text-right font-mono text-xs uppercase tracking-[0.18em] text-on-ink/60 sm:right-16">
+    {artistes} — {site.contact.address.city}
+  </p>
+
+  <div class="absolute bottom-10 left-8 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-on-ink/50 sm:left-16">
+    <span class="hidden sm:inline">Défiler</span>
+    <span class="scroll-hint block h-8 w-px bg-on-ink/40" aria-hidden="true"></span>
+  </div>
+</section>
+
+<style>
+  #hero .v-draw {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  #hero .v-draw.is-drawn {
+    transform: scaleY(1);
+  }
+  .scroll-hint {
+    animation: scroll-hint 1.8s ease-in-out infinite;
+  }
+  @keyframes scroll-hint {
+    0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-hint { animation: none; }
+  }
+</style>

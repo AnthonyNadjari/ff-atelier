@@ -1,0 +1,86 @@
+---
+/**
+ * Nav "dock" : pastille fixe en bas de l'écran, identique mobile/desktop.
+ * Quatre entrées : Carte, Le lieu, Horaires, Réserver (appel direct).
+ * Se cache au défilement vers le bas, réapparaît vers le haut (data-nav="hide-on-scroll",
+ * motion.ts pose .is-hidden — la traduction verticale est stylée ici, propre à ce site).
+ */
+import { site, tel } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const items = [
+  { href: '#carte', label: 'Carte', icon: 'UtensilsCrossed' },
+  { href: '#lelieu', label: 'Le lieu', icon: 'MapPin' },
+  { href: '#horaires', label: 'Horaires', icon: 'Clock' },
+  { href: tel(), label: site.contact.phoneDisplay, icon: 'Phone', isCall: true },
+];
+---
+
+<nav data-nav="hide-on-scroll" class="dock" aria-label="Navigation principale">
+  <ul class="flex items-center gap-1">
+    {items.map((it) => (
+      <li>
+        <a
+          href={it.href}
+          class:list={['dock-item', it.isCall && 'dock-item-call']}
+          aria-label={it.isCall ? `Réserver par téléphone, ${it.label}` : it.label}
+        >
+          <Icon name={it.icon} size={19} strokeWidth={1.6} />
+          <span>{it.isCall ? 'Réserver' : it.label}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .dock {
+    position: fixed;
+    left: 50%;
+    bottom: clamp(0.75rem, 3vw, 1.6rem);
+    z-index: 60;
+    max-width: calc(100vw - 1.25rem);
+    transform: translate(-50%, 0);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow-lift);
+    padding: 0.35rem;
+    transition: transform 0.5s var(--ease-out-quart), opacity 0.5s var(--ease-out-quart);
+  }
+  .dock ul { flex-wrap: nowrap; }
+  .dock.is-hidden {
+    transform: translate(-50%, calc(100% + 1.4rem));
+    opacity: 0.001;
+  }
+  .dock-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+    white-space: nowrap;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .dock-item:hover,
+  .dock-item:focus-visible {
+    background: var(--bg-2);
+    color: var(--fg);
+  }
+  .dock-item-call {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .dock-item-call:hover,
+  .dock-item-call:focus-visible {
+    background: var(--accent-2);
+    color: var(--on-accent);
+  }
+  @media (min-width: 26rem) {
+    .dock-item { padding: 0.65rem 1rem; font-size: 0.8rem; gap: 0.5rem; }
+  }
+</style>

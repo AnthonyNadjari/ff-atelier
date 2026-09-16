@@ -1,0 +1,35 @@
+---
+/**
+ * Nav dessinée pour Garage Moteur & Fils : une enseigne de garage. Le nom dans un caisson
+ * arrondi à bordure épaisse, deux liens (Services, Rendez-vous), un téléphone en pilule.
+ * Sur mobile : seulement le nom et le téléphone, pas de liens, pas de burger.
+ */
+import { site, tel } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+---
+
+<header data-nav class="fixed inset-x-0 top-0 z-50 transition-colors duration-500 [&.is-scrolled]:bg-bg/90 [&.is-scrolled]:backdrop-blur-md">
+  <div class="container-ff flex items-center justify-between gap-3 py-3 md:py-4">
+    <a
+      href="/"
+      class="shrink-0 -rotate-1 rounded-ui border-[3px] border-ink bg-surface px-4 py-2 font-display text-base leading-none shadow-card transition-transform duration-300 hover:rotate-0 sm:px-5 sm:py-2.5 sm:text-lg"
+    >
+      Moteur&nbsp;&amp;&nbsp;Fils
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Navigation principale">
+      <a href="#augarage" class="font-display text-lg text-fg transition-colors hover:text-accent">Services</a>
+      <a href="#rendezvous" class="font-display text-lg text-fg transition-colors hover:text-accent">Rendez-vous</a>
+    </nav>
+
+    <a
+      href={tel()}
+      class="flex shrink-0 items-center gap-2 rounded-pill border-[3px] border-ink bg-accent px-3 py-2 font-display text-sm text-on-accent shadow-card transition-transform duration-300 hover:scale-[1.04] sm:px-5 sm:py-2.5 sm:text-base"
+      data-magnetic="0.15"
+    >
+      <Icon name="Phone" size={16} />
+      <span class="hidden sm:inline">{site.contact.phoneDisplay}</span>
+    </a>
+  </div>
+</header>
+<div class="h-[64px] sm:h-[76px]" aria-hidden="true"></div>

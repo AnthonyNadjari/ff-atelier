@@ -1,0 +1,111 @@
+---
+/**
+ * Hero dessiné pour Garage Moteur & Fils. Section coupée en diagonale (clip-path) : crème à
+ * gauche avec l'accroche en très grand, orange à droite avec deux badges façon autocollants,
+ * dont un qui tourne lentement. Une double bande défilante des services en pied, sens opposés.
+ * Composition propre à ce site, aucune réutilisation ailleurs.
+ */
+import { site, tel, yearsSince } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const since = site.business.since;
+const years = yearsSince();
+const firstLine = site.business.description.split(/\n/)[0];
+const services = site.services.map((s) => s.title);
+---
+
+<section id="hero" class="relative overflow-hidden bg-accent">
+  <div class="hero-split relative flex flex-col lg:block">
+    <div class="hero-cream relative z-[1] bg-bg">
+      <div class="hero-text relative mx-auto w-full max-w-2xl px-6 py-16 sm:px-8 lg:mx-0 lg:max-w-none lg:py-0">
+        <div data-stagger="130">
+          <p class="eyebrow flex items-center gap-3">
+            <span class="inline-block h-px w-10 bg-accent" aria-hidden="true"></span>
+            {site.business.trade} · {site.contact.address.city}{years !== undefined && ` · depuis ${since}`}
+          </p>
+          <h1
+            class="mt-6 font-display leading-[0.92] text-fg"
+            style="font-size: clamp(2.75rem, 9vw, 6.5rem);"
+            data-split
+            set:html={site.business.tagline}
+          />
+          <p class="mt-7 max-w-md text-lg text-muted">{firstLine}</p>
+          <div class="mt-9 flex flex-wrap items-center gap-5">
+            <a
+              href={tel()}
+              class="btn btn-primary inline-flex items-center gap-3 rounded-ui bg-accent px-7 py-4 font-display text-xl text-on-accent shadow-card"
+              data-magnetic="0.2"
+            >
+              <Icon name="Phone" size={20} />{site.contact.phoneDisplay}
+            </a>
+            <a href="#contact" class="inline-flex items-center gap-2 border-b-2 border-ink/30 pb-1 font-medium text-fg hover:border-accent hover:text-accent">
+              {site.wording.devis}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-badges relative z-[2] flex items-center justify-center gap-6 py-10 lg:justify-end lg:gap-10 lg:py-0 lg:pr-[7%]">
+      <div class="shrink-0" data-reveal="scale">
+        <div class="badge-spin flex h-32 w-32 flex-col items-center justify-center rounded-full border-[3px] border-ink bg-surface text-center shadow-card sm:h-40 sm:w-40">
+          <span class="font-display text-sm uppercase tracking-wide text-muted">Depuis</span>
+          <span class="font-display text-3xl text-fg sm:text-4xl">{since}</span>
+        </div>
+      </div>
+      <div data-reveal="left" data-reveal-delay="200">
+        <div class="-rotate-6 rounded-pill border-[3px] border-ink bg-bg px-5 py-3 text-center font-display text-base text-fg shadow-card sm:px-6 sm:py-4 sm:text-lg">
+          Toutes marques
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative z-[2] border-y-[3px] border-ink bg-ink py-3" data-marquee="26s">
+    <div class="marquee-track font-display text-xl uppercase tracking-widest text-on-ink sm:text-2xl">
+      {services.map((s) => <span class="flex items-center gap-8">{s}<span class="text-accent">✶</span></span>)}
+    </div>
+  </div>
+  <div class="marquee-b relative z-[2] border-b-[3px] border-ink bg-surface py-3" data-marquee="32s">
+    <div class="marquee-track font-display text-xl uppercase tracking-widest text-fg sm:text-2xl">
+      {services.map((s) => <span class="flex items-center gap-8">{s}<span class="text-accent">✶</span></span>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (min-width: 1024px) {
+    .hero-split {
+      min-height: 74svh;
+    }
+    .hero-cream {
+      position: absolute;
+      inset: 0;
+      clip-path: polygon(0 0, 60% 0, 37% 100%, 0 100%);
+      display: flex;
+      align-items: center;
+    }
+    .hero-text {
+      padding-inline-start: clamp(1.5rem, 4vw, 3rem);
+      max-width: 42%;
+    }
+    .hero-badges {
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  .badge-spin {
+    animation: spin-slow 26s linear infinite;
+  }
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+  .marquee-b .marquee-track {
+    animation-direction: reverse;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .badge-spin {
+      animation: none;
+    }
+  }
+</style>

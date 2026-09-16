@@ -152,9 +152,13 @@ p { text-wrap: pretty; }
 [data-motion]:not([data-motion='none']) [data-reveal='right'] { transform: translateX(32px); }
 [data-motion]:not([data-motion='none']) [data-reveal='scale'] { transform: scale(0.92); }
 [data-motion]:not([data-motion='none']) [data-reveal='blur'] { transform: none; filter: blur(12px); }
-[data-motion]:not([data-motion='none']) [data-reveal='clip'] { transform: none; clip-path: inset(0 0 100% 0); }
+[data-motion]:not([data-motion='none']) [data-reveal='clip'] { transform: none; clip-path: inset(0 0 99.5% 0); }
 [data-motion] .is-visible[data-reveal],
-[data-motion] .is-visible[data-stagger] > * { opacity: 1; transform: none; filter: none; clip-path: inset(0 0 0 0); }
+[data-motion] .is-visible[data-stagger] > * { opacity: 1; transform: none; filter: none; }
+/* Seules les variantes decoupees gardent un clip-path une fois revelees (sinon il rognerait les debordements voulus). */
+[data-motion] .is-visible[data-reveal='clip'],
+[data-motion] .is-visible[data-reveal='wipe'],
+[data-motion] .is-visible[data-reveal='mask'] { clip-path: inset(0 0 0 0); }
 
 /* Marquee : le runtime duplique le contenu, ici juste l'animation */
 [data-marquee] { overflow: hidden; white-space: nowrap; }
@@ -164,8 +168,8 @@ p { text-wrap: pretty; }
 @keyframes marquee { to { transform: translateX(calc(-50% - var(--marquee-gap, 3rem) / 2)); } }
 
 /* Reveals supplementaires */
-[data-motion]:not([data-motion='none']) [data-reveal='wipe'] { transform: none; clip-path: inset(0 100% 0 0); }
-[data-motion]:not([data-motion='none']) [data-reveal='mask'] { transform: none; clip-path: inset(100% 0 0 0); }
+[data-motion]:not([data-motion='none']) [data-reveal='wipe'] { transform: none; clip-path: inset(0 99.5% 0 0); }
+[data-motion]:not([data-motion='none']) [data-reveal='mask'] { transform: none; clip-path: inset(99.5% 0 0 0); }
 [data-motion]:not([data-motion='none']) [data-reveal='mask'] > img { transform: scale(1.25); transition: transform 1.6s var(--ease-out-expo); }
 [data-motion] .is-visible[data-reveal='mask'] > img { transform: scale(1); }
 

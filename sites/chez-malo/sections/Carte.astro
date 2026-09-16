@@ -1,0 +1,93 @@
+---
+/**
+ * "Carte" : la carte comme une liste typographique — entrées / plats / desserts en trois
+ * colonnes (empilées sur mobile), prix aligné à droite via filet pointillé. Chaque plat
+ * flotte une photo de galerie au survol (data-hover-img). Composition propre à ce site.
+ */
+const galerie = ['/images/galerie-1.webp', '/images/galerie-2.webp', '/images/galerie-3.webp', '/images/galerie-4.webp', '/images/galerie-5.webp', '/images/galerie-6.webp'];
+let i = 0;
+const img = () => galerie[i++ % galerie.length];
+
+const colonnes = [
+  {
+    titre: 'Entrées',
+    plats: [
+      { nom: 'Soupe de poissons de roche, rouille et croûtons', prix: '12 €' },
+      { nom: 'Anchois marinés au vinaigre de xérès', prix: '10 €' },
+      { nom: 'Poulpe grillé, pommes de terre écrasées à l’huile d’olive', prix: '14 €' },
+    ],
+  },
+  {
+    titre: 'Plats',
+    plats: [
+      { nom: 'Bouillabaisse du Vallon, pour deux, sur commande la veille', prix: '84 €' },
+      { nom: 'Loup de ligne grillé, fenouil confit', prix: '28 €' },
+      { nom: 'Daurade royale en croûte de sel', prix: '26 €' },
+      { nom: 'Risotto de seiche à l’encre', prix: '22 €' },
+    ],
+  },
+  {
+    titre: 'Desserts',
+    plats: [
+      { nom: 'Tarte au citron de Menton', prix: '9 €' },
+      { nom: 'Fromage blanc, miel de lavande', prix: '8 €' },
+      { nom: 'Panna cotta, coulis de fruits rouges', prix: '9 €' },
+    ],
+  },
+];
+---
+
+<section id="carte" class="section-y">
+  <div class="container-ff">
+    <div class="flex flex-wrap items-end justify-between gap-6" data-reveal>
+      <h2 class="font-display text-display-lg leading-none">La <em class="text-accent-2 not-italic">carte</em></h2>
+      <p class="max-w-sm text-muted">Composée chaque matin selon ce que la criée a donné.</p>
+    </div>
+
+    <div class="mt-16 grid gap-x-12 gap-y-14 md:grid-cols-3">
+      {colonnes.map((col) => (
+        <div>
+          <p class="eyebrow border-b border-line pb-3">{col.titre}</p>
+          <ul class="mt-6 space-y-6" data-stagger="90">
+            {col.plats.map((p) => (
+              <li class="dish" data-reveal data-hover-img={img()}>
+                <span class="dish-name font-display">{p.nom}</span>
+                <span class="dish-fill" aria-hidden="true"></span>
+                <span class="dish-price">{p.prix}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-14 text-sm text-muted" data-reveal>La carte change avec la pêche&nbsp;: certains plats peuvent manquer un soir, d’autres apparaître sans préavis.</p>
+  </div>
+</section>
+
+<style>
+  .dish {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+  .dish-name {
+    flex: 1 1 12rem;
+    min-width: 0;
+    padding-right: 0.5rem;
+    font-size: 1.05rem;
+  }
+  .dish-fill {
+    flex: 1 1 2rem;
+    min-width: 0.75rem;
+    align-self: flex-end;
+    margin: 0 0.4em 0.35em;
+    border-bottom: 1px dotted var(--line);
+  }
+  .dish-price {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+  }
+</style>

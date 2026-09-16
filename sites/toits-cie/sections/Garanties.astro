@@ -1,0 +1,34 @@
+---
+/**
+ * "Garanties" : trois tampons carrés, légèrement pivotés, bordure épaisse + bordure pointillée
+ * intérieure — l'esthétique du cachet administratif. Rien n'est affiché sans donnée réelle :
+ * la décennale et Qualibat ne s'affichent que si renseignées dans site.config.ts.
+ */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const stamps = [
+  site.business.insurance && { icon: 'ShieldCheck', title: site.business.insurance, text: 'Chantier couvert du premier coup de marteau à la réception.', rotate: '-rotate-2' },
+  site.business.certifications.includes('Qualibat') && { icon: 'BadgeCheck', title: 'Certifiés Qualibat', text: 'Contrôlé, à jour, vérifiable.', rotate: 'rotate-1' },
+  { icon: 'FileCheck', title: 'Devis sous 24h', text: 'Après le passage sur le toit, le chiffrage arrive vite — pas dans trois semaines.', rotate: '-rotate-1' },
+].filter(Boolean) as { icon: string; title: string; text: string; rotate: string }[];
+---
+
+<section id="garanties" class="section-y overflow-hidden bg-bg-2">
+  <div class="container-ff">
+    <p class="eyebrow">Garanties</p>
+    <h2 class="mt-4 text-display-lg">Ce qu’on met par écrit.</h2>
+
+    <ul class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8" data-stagger="120">
+      {stamps.map((s) => (
+        <li class:list={['card border-[3px] border-line bg-surface p-3', s.rotate]}>
+          <div class="flex h-full flex-col items-center gap-4 border border-dashed border-line px-6 py-10 text-center">
+            <Icon name={s.icon} size={40} class="text-accent" strokeWidth={1.5} />
+            <p class="font-display text-xl uppercase leading-snug md:text-2xl">{s.title}</p>
+            <p class="text-muted">{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

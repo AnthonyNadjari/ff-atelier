@@ -1,0 +1,43 @@
+---
+/**
+ * Nav "dock" : pas de barre. Nom fixe en haut a gauche, petit. Dock flottant bas-centre (jusqu'a
+ * 4 liens icone+libelle + telephone en avant) qui se masque au defilement vers le bas.
+ */
+import { site, tel, navLinks } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const links = navLinks().slice(0, 4);
+const iconFor: Record<string, string> = {
+  services: 'Wrench',
+  about: 'User',
+  proof: 'Star',
+  zones: 'MapPin',
+  process: 'ListChecks',
+  faq: 'HelpCircle',
+  contact: 'Mail',
+};
+---
+
+<a href="/" class="fixed top-4 left-4 sm:top-6 sm:left-6 z-50 flex items-center gap-2 font-display text-sm font-medium">
+  {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-7 w-auto" /> : <span>{site.business.name}</span>}
+</a>
+
+<nav
+  data-nav="hide-on-scroll"
+  aria-label="Navigation principale"
+  class="fixed inset-x-0 bottom-4 z-50 flex justify-center transition-[transform,opacity] duration-500 ease-out-quart [&.is-hidden]:translate-y-24 [&.is-hidden]:opacity-0"
+>
+  <div class="mx-4 flex max-w-full items-center gap-1 overflow-x-auto rounded-pill border border-line bg-surface/90 px-3 py-2 shadow-lift backdrop-blur-md">
+    {links.map((l) => {
+      const type = l.href.replace('#', '');
+      return (
+        <a href={l.href} class="flex shrink-0 flex-col items-center gap-1 rounded-pill px-3 py-1.5 text-muted transition-colors hover:bg-bg/60 hover:text-fg">
+          <Icon name={iconFor[type] ?? 'Circle'} size={18} />
+          <span class="text-xs">{l.label}</span>
+        </a>
+      );
+    })}
+    <a href={tel()} aria-label={`Appeler ${site.contact.phoneDisplay}`} class="ml-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent">
+      <Icon name="Phone" size={18} />
+    </a>
+  </div>
+</nav>

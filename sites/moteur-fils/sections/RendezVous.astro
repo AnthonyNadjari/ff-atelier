@@ -1,0 +1,86 @@
+---
+/**
+ * « Rendez-vous express » : trois temps (appelez / déposez / repartez) en gros numéros, puis
+ * les horaires présentés comme un ticket détachable (bordure pointillée, coins encochés au
+ * radial-gradient). Composition propre à ce site.
+ */
+import { site, tel } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const temps = [
+  { n: '01', titre: 'Appelez', texte: 'Un coup de fil au garage suffit pour convenir d’un créneau qui vous arrange.', icon: 'Phone' },
+  { n: '02', titre: 'Déposez', texte: 'Le matin ou la veille : on récupère les clés et on regarde ce qu’il y a à faire.', icon: 'Key' },
+  { n: '03', titre: 'Repartez', texte: 'On vous rappelle dès que c’est prêt, avec le prix convenu à l’avance.', icon: 'CircleCheck' },
+];
+---
+
+<section id="rendezvous" class="section-y bg-bg">
+  <div class="container-ff">
+    <SectionHeading eyebrow="Rendez-vous express" title="Trois temps, pas plus" text="Pas de formulaire à rallonge : un appel, un passage au garage, c’est réglé." align="center" />
+
+    <ol class="mt-14 grid gap-8 sm:grid-cols-3 sm:gap-6" data-stagger="130">
+      {temps.map((t) => (
+        <li class="relative rounded-card border-[3px] border-ink bg-surface p-7 text-center shadow-card">
+          <span class="font-display text-6xl leading-none text-accent/40 sm:text-7xl">{t.n}</span>
+          <span class="mx-auto -mt-9 flex h-12 w-12 items-center justify-center rounded-full border-[3px] border-ink bg-bg">
+            <Icon name={t.icon} size={20} class="text-accent" />
+          </span>
+          <h3 class="mt-4 font-display text-2xl">{t.titre}</h3>
+          <p class="mt-2 text-muted">{t.texte}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="mx-auto mt-14 max-w-xl px-5" data-reveal="scale">
+      <div class="ticket p-8 sm:p-10">
+        <p class="eyebrow text-center">Le garage est ouvert</p>
+        <dl class="mt-5 space-y-2 text-center">
+          {site.contact.hours.map((h) => (
+            <div class="flex flex-col justify-between gap-0.5 sm:flex-row sm:gap-3">
+              <dt class="font-display text-lg">{h.days}</dt>
+              <dd class="text-muted">{h.hours}</dd>
+            </div>
+          ))}
+        </dl>
+        <div class="ticket-rule my-6" aria-hidden="true"></div>
+        <p class="text-center text-sm text-muted">Contrôle technique en partenariat avec un centre agréé, à deux pas.</p>
+        <div class="mt-6 flex justify-center">
+          <a href={tel()} class="btn btn-primary inline-flex items-center gap-2 rounded-ui bg-accent px-6 py-3 font-display text-lg text-on-accent" data-magnetic="0.2">
+            <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ticket {
+    position: relative;
+    background: var(--surface);
+    border: 2px dashed color-mix(in oklab, var(--ink) 35%, transparent);
+    border-radius: var(--radius-card);
+  }
+  .ticket::before,
+  .ticket::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--bg) 65%, var(--bg) 100%);
+    transform: translateY(-50%);
+  }
+  .ticket::before {
+    left: -0.9rem;
+  }
+  .ticket::after {
+    right: -0.9rem;
+  }
+  .ticket-rule {
+    height: 0;
+    border-top: 2px dashed color-mix(in oklab, var(--ink) 25%, transparent);
+  }
+</style>

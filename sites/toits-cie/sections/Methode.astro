@@ -1,0 +1,45 @@
+---
+/**
+ * "Méthode urgence" : 4 rangées pleine largeur, bande légèrement penchée en fond (-2deg), texte
+ * redressé pour rester lisible, gros numéro qui déborde du côté gauche du texte, fond jaune/blanc
+ * en alternance. Reveal en cascade via data-stagger sur le <ol> (pas data-reveal="wipe" par <li> :
+ * son clip-path initial ramène la zone visible de l'élément observé à une largeur nulle, ce qui
+ * empêche l'IntersectionObserver de jamais le detecter comme visible — vérifié en isolation).
+ * Le div interne porte le skew, jamais le même noeud que le reveal.
+ */
+const steps = [
+  { title: 'Vous appelez', text: 'Un numéro, une adresse, une photo si vous en avez une. On sait tout de suite si c’est une urgence.' },
+  { title: 'On monte sur le toit', text: 'Un compagnon se déplace avec le matériel pour une réparation immédiate.' },
+  { title: 'On bâche ou on répare', text: 'Selon l’ampleur des dégâts : réparation définitive sur place, ou bâchage en attendant la reprise.' },
+  { title: 'On chiffre la suite', text: 'Devis écrit si une reprise plus lourde est nécessaire — sans obligation de votre côté.' },
+];
+---
+
+<section id="methode" class="section-y overflow-hidden">
+  <div class="container-ff">
+    <p class="eyebrow">Méthode urgence</p>
+    <h2 class="mt-4 text-display-lg">Du coup de fil au toit réparé.</h2>
+  </div>
+
+  <ol class="mt-14" data-stagger="120">
+    {steps.map((step, i) => (
+      <li class="relative border-y-[3px] border-line">
+        <div class:list={['relative -skew-y-2', i % 2 === 0 ? 'bg-accent' : 'bg-bg']}>
+          <div class="container-ff relative flex skew-y-2 items-center gap-4 py-10 md:gap-8 md:py-14">
+            <span
+              class:list={['-ml-2 shrink-0 select-none font-display leading-none sm:-ml-4 md:-ml-8', i % 2 === 0 ? 'text-ink' : 'text-accent']}
+              style="font-size: clamp(3rem, 9vw, 7.5rem);"
+              aria-hidden="true"
+            >
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div class:list={[i % 2 === 0 && 'text-on-accent']}>
+              <h3 class="font-display text-2xl uppercase md:text-3xl">{step.title}</h3>
+              <p class:list={['mt-2 max-w-xl text-base md:text-lg', i % 2 !== 0 && 'text-muted']}>{step.text}</p>
+            </div>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
