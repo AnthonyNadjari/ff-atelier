@@ -1,0 +1,32 @@
+---
+/**
+ * « Pièces » : collage asymétrique sur 12 colonnes, légendes tournées, une grande image et des
+ * petites, chacune à sa hauteur. Rien de commun avec la galerie partagée.
+ */
+const pieces = [
+  { src: '/images/galerie-1.webp', alt: 'Portail à deux battants, volutes forgées', legende: 'Portail, Balma', span: 'md:col-span-7 md:row-span-2', ratio: 'aspect-[4/5]' },
+  { src: '/images/galerie-2.webp', alt: 'Garde-corps en plat d’acier, motif de vagues', legende: 'Garde-corps, Toulouse', span: 'md:col-span-5', ratio: 'aspect-[4/3]' },
+  { src: '/images/galerie-3.webp', alt: 'Escalier hélicoïdal, marches chêne', legende: 'Escalier, Colomiers', span: 'md:col-span-5', ratio: 'aspect-square' },
+  { src: '/images/galerie-4.webp', alt: 'Console en acier ciré', legende: 'Console, atelier', span: 'md:col-span-4 md:col-start-2', ratio: 'aspect-[3/4]' },
+  { src: '/images/galerie-5.webp', alt: 'Enseigne de restaurant en lettres découpées', legende: 'Enseigne, Le Quai', span: 'md:col-span-7', ratio: 'aspect-[16/9]' },
+];
+---
+
+<section id="pieces" class="section-y bg-bg-2 overflow-hidden">
+  <div class="container-ff">
+    <div class="md:flex md:items-baseline md:gap-10" data-reveal>
+      <h2 class="font-display text-display-xl leading-none">Pièces</h2>
+      <p class="mt-4 max-w-md text-muted md:mt-0">Quelques réalisations. Chacune a été dessinée pour un lieu, aucune n’existe en deux exemplaires.</p>
+    </div>
+    <ul class="mt-14 grid grid-cols-1 gap-5 md:grid-cols-12 md:gap-6" data-stagger="130">
+      {pieces.map((p, i) => (
+        <li class:list={['relative', p.span]} data-reveal={i % 2 ? 'right' : 'left'}>
+          <figure class="group relative overflow-hidden rounded-card" data-tilt="4">
+            <img src={p.src} alt={p.alt} class:list={['w-full object-cover transition-transform duration-[1.4s] ease-out-expo group-hover:scale-105', p.ratio]} loading="lazy" />
+            <figcaption class="absolute bottom-3 left-3 rounded-ui bg-ink/80 px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-on-ink backdrop-blur-sm">{p.legende}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

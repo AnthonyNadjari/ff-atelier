@@ -1,0 +1,34 @@
+---
+/**
+ * « Pour quoi consulter » : deux colonnes de motifs, grands numéros en serif estompés,
+ * sur fond alterné avec une tache douce. Composition propre à ce site.
+ */
+const motifs = [
+  { titre: 'Dos et cou', texte: 'Lumbago, torticolis, raideurs après une mauvaise nuit ou de longues heures assis.' },
+  { titre: 'Articulations', texte: 'Épaule, hanche, genou, cheville : gênes qui reviennent ou qui traînent.' },
+  { titre: 'Maux de tête', texte: 'Tensions cervicales, migraines liées à la posture ou à la mâchoire.' },
+  { titre: 'Sport', texte: 'Préparation d’une échéance, récupération, douleur qui se réveille à l’effort.' },
+  { titre: 'Grossesse', texte: 'Confort du dos et du bassin pendant la grossesse, rééquilibrage après l’accouchement.' },
+  { titre: 'Nourrissons', texte: 'Tête aplatie, torticolis, difficultés de succion, après accord du pédiatre.' },
+];
+---
+
+<section id="motifs" class="relative section-y overflow-hidden bg-bg-2">
+  <div class="pointer-events-none absolute -left-32 bottom-0 h-[26rem] w-[26rem] rounded-full bg-accent/10 blur-3xl" aria-hidden="true"></div>
+  <div class="container-ff">
+    <div class="section-heading mx-auto max-w-2xl text-center" data-reveal>
+      <p class="eyebrow">Pour quoi consulter</p>
+      <h2 class="mt-4 text-display-md">Ce qui amène le plus souvent au cabinet</h2>
+    </div>
+    <ol class="mt-14 grid gap-x-16 gap-y-10 md:grid-cols-2" data-stagger="100">
+      {motifs.map((m, i) => (
+        <li class="relative pl-16">
+          <span class="absolute left-0 top-0 font-display text-5xl leading-none text-accent/30">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="text-display-sm">{m.titre}</h3>
+          <p class="mt-2 text-muted">{m.texte}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="mt-14 text-center text-sm text-muted" data-reveal>Un doute sur l’indication&nbsp;? Un appel suffit pour savoir si une séance est utile.</p>
+  </div>
+</section>

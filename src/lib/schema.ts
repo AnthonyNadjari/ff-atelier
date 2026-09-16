@@ -93,7 +93,13 @@ export const siteSchema = z.object({
   layout: z
     .object({
       nav: z.enum(VARIANTS.nav).default('bar'),
-      hero: z.enum(VARIANTS.hero).default('split'),
+      hero: z
+        .string()
+        .default('split')
+        .refine((v) => (VARIANTS.hero as readonly string[]).includes(v) || v.startsWith('custom/'), {
+          message: `hero : variante inconnue. Choix : ${VARIANTS.hero.join(', ')} ou "custom/<nom>" (sites/<slug>/sections/<Nom>.astro)`,
+        })
+        .describe("Variante de hero, ou 'custom/<nom>' pour un hero dessine pour ce site"),
       sections: z
         .array(
           z.object({
