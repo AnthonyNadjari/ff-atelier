@@ -34,8 +34,14 @@ function applyLook(base: Site, look: Record<string, unknown> | undefined): Site 
   return parsed.data;
 }
 
-export const site: Site = applyLook(mod.default, looks[`/sites/${slug}/look.json`]?.default);
-export const lookActif = Boolean(looks[`/sites/${slug}/look.json`]);
+// FF_LOOK (variable d'environnement, posee par `ff propositions` / `ff matrice`) prime sur look.json
+// et ne touche jamais au dossier du site : un build interrompu ne laisse aucune trace.
+const envLookRaw = (import.meta.env.FF_LOOK as string | undefined) || '';
+const envLook = envLookRaw ? (JSON.parse(envLookRaw) as Record<string, unknown>) : undefined;
+const fileLook = looks[`/sites/${slug}/look.json`]?.default;
+
+export const site: Site = applyLook(mod.default, envLook ?? fileLook);
+export const lookActif = Boolean(envLook ?? fileLook);
 export const slugCourant = slug;
 
 /** Helpers partages par les sections. */

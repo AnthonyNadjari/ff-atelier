@@ -112,12 +112,16 @@ export async function cmdMatrice(args) {
       const { label, overrides } = combos[i];
       const slug = `${PREFIX}${i}`;
       info(c.dim(`— build ${i + 1}/${combos.length} (${label})...`));
+      // Le look passe par FF_LOOK (jamais de site temporaire), la sortie par FF_OUT.
+      const look = {
+        ...overrides,
+        layout: overrides.layout ? { ...baseSite.layout, ...overrides.layout } : undefined,
+      };
+      if (!look.layout) delete look.layout;
       let status = 1;
       try {
-        writeComboSite(slug, baseSite, overrides);
-        status = runAstro('build', slug);
+        status = runAstro('build', '_exemple', [], { FF_LOOK: JSON.stringify(look), FF_OUT: `dist/${slug}` });
       } finally {
-        fs.rmSync(path.join(SITES_DIR, slug), { recursive: true, force: true });
         fs.rmSync(path.join(DIST_DIR, slug), { recursive: true, force: true });
       }
       results.push({ slug, label, status });

@@ -169,10 +169,6 @@ export async function cmdPropositions(args) {
 
   mkdirSync(outDir, { recursive: true });
 
-  const lookPath = path.join(SITES_DIR, slug, 'look.json');
-  const hadLook = existsSync(lookPath);
-  const previousLook = hadLook ? readFileSync(lookPath, 'utf8') : null;
-
   const { server, setRoot, port } = startServer();
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
 
@@ -195,19 +191,21 @@ export async function cmdPropositions(args) {
       usedDirections.push(result.direction);
       usedHeroes.push(result.look.layout.hero);
 
-      writeFileSync(lookPath, JSON.stringify(result.look, null, 2) + '\n');
       writeFileSync(path.join(outDir, `look-${i}.json`), JSON.stringify(result.look, null, 2) + '\n');
 
-      const buildStatus = runAstro('build', slug);
+      // Le look passe par FF_LOOK et la sortie par FF_OUT : le dossier du site n'est jamais modifie,
+      // un build interrompu ne laisse aucune trace.
+      const propDistDir = path.join(DIST_DIR, `_prop-${slug}-${i}`);
+      rmSync(propDistDir, { recursive: true, force: true });
+      const buildStatus = runAstro('build', slug, [], {
+        FF_LOOK: JSON.stringify(result.look),
+        FF_OUT: path.relative(ROOT, propDistDir).split(path.sep).join('/'),
+      });
       if (buildStatus !== 0) {
         fail(`Build échoué pour la proposition ${i}.`);
         failed = true;
         break;
       }
-
-      const propDistDir = path.join(DIST_DIR, `_prop-${slug}-${i}`);
-      rmSync(propDistDir, { recursive: true, force: true });
-      cpSync(path.join(DIST_DIR, slug), propDistDir, { recursive: true });
 
       setRoot(propDistDir);
       const shots = await captureBoth(browser, port, path.join(outDir, `prop-${i}`));
@@ -218,8 +216,6 @@ export async function cmdPropositions(args) {
   } finally {
     await browser.close();
     server.close();
-    if (hadLook) writeFileSync(lookPath, previousLook);
-    else if (existsSync(lookPath)) rmSync(lookPath);
   }
 
   if (failed) process.exit(1);

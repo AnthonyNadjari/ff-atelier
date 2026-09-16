@@ -25,15 +25,23 @@ if (!existsSync(siteDir)) {
 const domainFile = resolve(siteDir, 'domain.txt');
 const domain = existsSync(domainFile) ? readFileSync(domainFile, 'utf8').trim() : '';
 
+/**
+ * FF_LOOK : JSON d'un look (memes cles que look.json) injecte par `ff propositions` / `ff matrice`
+ * sans toucher au dossier du site. FF_OUT : dossier de sortie alternatif (ex: dist/_prop-<slug>-1).
+ */
+const ffLook = process.env.FF_LOOK || '';
+if (ffLook) JSON.parse(ffLook); // echoue tot si invalide
+const outDir = process.env.FF_OUT || `dist/${slug}`;
+
 export default defineConfig({
   site: domain ? `https://${domain}` : `https://${slug}.pages.dev`,
   publicDir: `sites/${slug}/public`,
-  outDir: `dist/${slug}`,
+  outDir,
   trailingSlash: 'never',
   build: { format: 'file', inlineStylesheets: 'auto' },
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
-    define: { 'import.meta.env.SITE': JSON.stringify(slug) },
+    define: { 'import.meta.env.SITE': JSON.stringify(slug), 'import.meta.env.FF_LOOK': JSON.stringify(ffLook) },
   },
 });

@@ -75,9 +75,9 @@ export function resolveSlug(argSlug, { mustExist = true } = {}) {
 }
 
 /** Lance `node node_modules/astro/astro.js <cmd>` avec SITE=<slug>, sans quitter le process. */
-export function runAstro(cmd, slug, extraArgs = []) {
+export function runAstro(cmd, slug, extraArgs = [], extraEnv = {}) {
   writeFFCurrent(slug);
-  const env = { ...process.env, SITE: slug };
+  const env = { ...process.env, SITE: slug, ...extraEnv };
   const astroJs = path.join(ROOT, 'node_modules', 'astro', 'astro.js');
   const r = spawnSync(process.execPath, [astroJs, cmd, ...extraArgs], {
     stdio: 'inherit',
