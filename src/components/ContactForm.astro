@@ -25,9 +25,9 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
   >
     <div class:list={['grid gap-4', !compact && 'sm:grid-cols-2']}>
       <label class="grid gap-1.5 text-sm"><span>Nom</span><input class={input} name="name" required autocomplete="name" placeholder="Votre nom" /></label>
-      <label class="grid gap-1.5 text-sm"><span>Téléphone</span><input class={input} name="phone" type="tel" required autocomplete="tel" placeholder="06 00 00 00 00" /></label>
+      <label class="grid gap-1.5 text-sm"><span>Téléphone</span><input class={input} name="phone" type="tel" required autocomplete="tel" placeholder="Votre numéro" /></label>
     </div>
-    <label class="grid gap-1.5 text-sm"><span>E-mail <span class="text-muted">(facultatif)</span></span><input class={input} name="email" type="email" autocomplete="email" placeholder="vous@exemple.fr" /></label>
+    <label class="grid gap-1.5 text-sm"><span>E-mail <span class="text-muted">(facultatif)</span></span><input class={input} name="email" type="email" autocomplete="email" placeholder="votre@email.fr" /></label>
     {services.length > 1 && (
       <label class="grid gap-1.5 text-sm"><span>Besoin</span>
         <select class={input} name="service">
