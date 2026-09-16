@@ -69,8 +69,11 @@ Toutes passent par `scripts/ff.mjs <commande> [slug]` (alias npm : `npm run ff -
 | `exporter <slug>` | Prépare la livraison finale (repo + domaine au nom du client). |
 | `composer <slug>` | Propose automatiquement un look (direction, variantes, typographie...) dans `look.json`, sans toucher au contenu. |
 | `propositions <slug>` | Construit plusieurs looks avec captures d'écran (`propositions/<slug>/index.html`) pour comparer avant de choisir. |
-| `studio <slug>` | Éditeur visuel du look, sur `http://127.0.0.1:4400`. |
+| `studio <slug>` | Éditeur visuel du look, sur `http://127.0.0.1:4400` (onglet « Modèles » pour appliquer un preset en un clic). |
 | `figer <slug>` | Fusionne `look.json` dans `site.config.ts` et le supprime. |
+| `modeles` | Liste les modèles (`presets/*.json`) : titre, direction/hero, métiers, vignette générée ou non. |
+| `modele <slug> <nom>` | Applique un modèle : copie son look dans `sites/<slug>/look.json`. |
+| `vignettes [nom ...] [--forcer]` | Génère/rafraîchit `presets/vignettes/<nom>.webp` (capture du modèle sur `sites/_exemple`). |
 | `og <slug>` | Génère l'image Open Graph du site. |
 | `captures <slug>` | Prend des captures d'écran du site buildé. |
 | `servir <slug>` | Sert le build statique de `dist/<slug>` en local. |

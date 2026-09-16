@@ -25,8 +25,11 @@ contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté don
 | `node scripts/ff.mjs exporter <slug>` | Prépare la livraison finale au client (repo + domaine au nom du client). |
 | `node scripts/ff.mjs composer <slug>` | Propose automatiquement un look (direction, variantes, typographie...) à partir de `site.config.ts`, écrit dans `look.json` sans toucher au contenu. |
 | `node scripts/ff.mjs propositions <slug>` | Construit N looks différents avec captures d'écran, un par `propositions/<slug>/index.html`, pour comparer avant de choisir. |
-| `node scripts/ff.mjs studio <slug>` | Éditeur visuel du look sur `http://127.0.0.1:4400` (direction, polices, échelle, tone, séparateur, libellés), écrit dans `look.json`. |
+| `node scripts/ff.mjs studio <slug>` | Éditeur visuel du look sur `http://127.0.0.1:4400` (direction, polices, échelle, tone, séparateur, libellés), écrit dans `look.json`. Onglet « Modèles » en haut du panneau pour appliquer un preset en un clic. |
 | `node scripts/ff.mjs figer <slug>` | Fusionne `look.json` dans `site.config.ts` (le look choisi devient définitif) et supprime `look.json`. |
+| `node scripts/ff.mjs modeles` | Liste les modèles (`presets/*.json`) : titre, direction/hero, métiers, vignette générée ou non. |
+| `node scripts/ff.mjs modele <slug> <nom>` | Applique un modèle : copie son look dans `sites/<slug>/look.json` (remplacement complet). |
+| `node scripts/ff.mjs vignettes [nom ...] [--forcer]` | Génère/rafraîchit `presets/vignettes/<nom>.webp` (capture du modèle sur `sites/_exemple`). |
 | `node scripts/ff.mjs og <slug>` | Génère l'image Open Graph du site (`images.og`). |
 | `node scripts/ff.mjs captures <slug>` | Prend des captures d'écran du site buildé (desktop/mobile). |
 | `node scripts/ff.mjs servir <slug>` | Sert le build statique de `dist/<slug>` en local. |

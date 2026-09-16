@@ -291,3 +291,15 @@ Interface prévue (commandes en cours d'écriture par d'autres agents, décrites
   dans `look.json`.
 - `node scripts/ff.mjs figer <slug>` — fusionne `look.json` dans `site.config.ts` (le look choisi
   devient définitif) et supprime `look.json`.
+
+### Modèles
+
+`presets/<nom>.json` (voir `presets/README.md`) sont des looks complets, nommés et prêts à l'emploi —
+ni plus ni moins que les 7 clés de `look.json`, jamais de contenu. `node scripts/ff.mjs modeles` les
+liste (titre, direction/hero, métiers, vignette générée ou non) ; `node scripts/ff.mjs modele <slug>
+<nom>` écrase `sites/<slug>/look.json` avec le look du modèle choisi (remplacement complet, pas de
+fusion avec un `look.json` existant). `node scripts/ff.mjs vignettes` génère/rafraîchit les captures
+`presets/vignettes/<nom>.webp` (build de `sites/_exemple` avec ce look, capture 1280×800). Dans
+`ff studio`, l'onglet « Modèles » en haut du panneau applique un modèle en un clic (galerie avec
+recherche par titre/métier/direction) : les contrôles existants se mettent alors à jour pour refléter
+le look appliqué.

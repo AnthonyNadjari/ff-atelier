@@ -9,6 +9,7 @@ import path from 'node:path';
 import { ROOT, SITES_DIR, resolveSlug, writeFFCurrent, ok, fail, warn, info, c } from './ff/util.mjs';
 import { extractTopLevelValue } from './ff/ts-literal.mjs';
 import { figerSite, LOOK_KEYS } from './ff/figer.mjs';
+import { listPresets, readPreset, VIGNETTES_DIR } from './ff/modele.mjs';
 
 const HTTP_PORT = 4400;
 const ASTRO_PORT = 4321;
@@ -283,6 +284,75 @@ const server = createServer(async (req, res) => {
       const base = readBase();
       const look = readLook();
       sendJson(res, 200, { ok: true, base, look, effective: mergeLook(base, look), graine });
+      return;
+    }
+
+    if (req.method === 'GET' && p === '/api/modeles') {
+      sendJson(res, 200, { modeles: listPresets() });
+      return;
+    }
+
+    if (req.method === 'POST' && p === '/api/modele') {
+      const raw = await readBody(req);
+      let body;
+      try {
+        body = JSON.parse(raw || '{}');
+      } catch {
+        sendJson(res, 400, { error: 'JSON invalide.' });
+        return;
+      }
+      const nom = body && body.nom;
+      if (!nom || typeof nom !== 'string') {
+        sendJson(res, 400, { error: 'Champ "nom" manquant.' });
+        return;
+      }
+      let preset;
+      try {
+        preset = readPreset(nom);
+      } catch (e) {
+        sendJson(res, 400, { error: `presets/${nom}.json illisible : ${e.message}` });
+        return;
+      }
+      if (!preset) {
+        sendJson(res, 404, { error: `Modele introuvable : presets/${nom}.json` });
+        return;
+      }
+      if (!preset.look) {
+        sendJson(res, 400, { error: `presets/${nom}.json n'a pas de champ "look".` });
+        return;
+      }
+      // Remplacement complet (pas de fusion) : le look.json existant est ecrase par les 7 cles du modele.
+      const filtered = writeLook(preset.look);
+      const base = readBase();
+      sendJson(res, 200, { ok: true, saved: filtered, nom, titre: preset.titre || nom, effective: base ? mergeLook(base, filtered) : null });
+      return;
+    }
+
+    if (req.method === 'GET' && p.startsWith('/api/vignette/')) {
+      const nom = decodeURIComponent(p.slice('/api/vignette/'.length));
+      if (!/^[a-zA-Z0-9_-]+$/.test(nom)) {
+        sendJson(res, 400, { error: 'Nom de modele invalide.' });
+        return;
+      }
+      const vignettePath = path.join(VIGNETTES_DIR, `${nom}.webp`);
+      if (!fs.existsSync(vignettePath)) {
+        sendJson(res, 404, { error: 'Vignette introuvable.' });
+        return;
+      }
+      const data = fs.readFileSync(vignettePath);
+      res.writeHead(200, { 'Content-Type': 'image/webp', 'Content-Length': data.length, 'Cache-Control': 'no-cache' });
+      res.end(data);
+      return;
+    }
+
+    if (req.method === 'POST' && p === '/api/vignettes') {
+      const ffJs = path.join(ROOT, 'scripts', 'ff.mjs');
+      const r = spawnSync(process.execPath, [ffJs, 'vignettes'], { cwd: ROOT, encoding: 'utf8' });
+      if (r.status !== 0) {
+        sendJson(res, 400, { ok: false, error: `${r.stdout || ''}\n${r.stderr || ''}`.trim() });
+        return;
+      }
+      sendJson(res, 200, { ok: true, output: (r.stdout || '').trim() });
       return;
     }
 

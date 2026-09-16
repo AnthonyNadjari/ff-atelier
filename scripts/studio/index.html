@@ -132,6 +132,40 @@
   #preview { border: 0; height: 100%; width: 1280px; max-width: 100%; background: #fff; }
   .reload-btn { padding: 5px 10px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
   .reload-btn:hover { border-color: var(--text-dim); }
+
+  /* ---- modeles ---- */
+  .modeles-section { margin: 0 0 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .modeles-head { display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+  .modeles-head .chevron { color: var(--text-dim); font-size: 11px; transition: transform 0.15s; }
+  .modeles-section.collapsed .chevron { transform: rotate(-90deg); }
+  .modeles-body { margin-top: 8px; }
+  .modeles-section.collapsed .modeles-body { display: none; }
+  .modeles-search { margin-bottom: 8px; }
+  .modeles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-height: 420px; overflow-y: auto; padding-right: 2px; }
+  .modele-card {
+    text-align: left; background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; cursor: pointer; padding: 0; display: flex; flex-direction: column;
+  }
+  .modele-card:hover { border-color: var(--text-dim); }
+  .modele-card.active { border-color: var(--accent); }
+  .modele-card .thumb {
+    width: 100%; aspect-ratio: 16 / 10; background: var(--bg); display: block; object-fit: cover;
+    border-bottom: 1px solid var(--border);
+  }
+  .modele-card .thumb-placeholder {
+    width: 100%; aspect-ratio: 16 / 10; background: linear-gradient(135deg, var(--bg) 25%, var(--bg-3) 25%, var(--bg-3) 50%, var(--bg) 50%, var(--bg) 75%, var(--bg-3) 75%);
+    background-size: 16px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 10px;
+  }
+  .modele-card .body { padding: 6px 8px 8px; }
+  .modele-card .titre { font-weight: 700; font-size: 12px; display: block; }
+  .modele-card .dh { color: var(--text-dim); font-size: 10.5px; display: block; margin-top: 1px; }
+  .modele-card .chips { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 5px; }
+  .modele-card .chip { background: var(--bg); border: 1px solid var(--border); border-radius: 999px; padding: 1px 6px; font-size: 9.5px; color: var(--text-dim); }
+  .modeles-empty { color: var(--text-dim); font-size: 12px; padding: 10px 0; }
+  .btn-regen { width: 100%; margin-top: 8px; padding: 7px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; color: var(--text); }
+  .btn-regen:hover:not(:disabled) { border-color: var(--text-dim); }
+  .btn-regen:disabled { opacity: 0.5; cursor: default; }
 </style>
 </head>
 <body>
@@ -140,6 +174,18 @@
     <div class="panel-head">
       <h1>Studio</h1>
       <span class="slug" id="slugLabel"></span>
+    </div>
+
+    <div class="modeles-section" id="modelesSection">
+      <div class="modeles-head" id="modelesToggle">
+        <span class="label" style="margin:0;">Modèles</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="modeles-body" id="modelesBody">
+        <input type="text" class="modeles-search" id="modelesSearch" placeholder="Rechercher (titre, métier, direction)…" />
+        <div class="modeles-grid" id="modelesGrid"></div>
+        <button class="btn-regen" id="btnRegenVignettes" type="button">Régénérer les vignettes</button>
+      </div>
     </div>
 
     <div class="section">
@@ -253,6 +299,9 @@
   let layoutState = null; // copie de travail de effective.layout, toujours complete
   let saveTimer = null;
   let reloadTimer = null;
+  let modeles = [];       // /api/modeles
+  let modelesFilter = '';
+  let appliedModele = null;
 
   function setStatus(text, kind) {
     const s = $('status');
@@ -309,6 +358,135 @@
     $('btnRandom').hidden = !meta.composerAvailable;
     renderAll();
   }
+
+  // ---- modeles ----
+
+  async function loadModeles() {
+    try {
+      const data = await api('GET', '/api/modeles');
+      modeles = data.modeles || [];
+      renderModeles();
+    } catch (e) {
+      $('modelesGrid').innerHTML = '<p class="modeles-empty">Erreur de chargement des modèles : ' + escapeHtml(e.message) + '</p>';
+    }
+  }
+
+  function matchesFilter(m, q) {
+    if (!q) return true;
+    const hay = [m.titre, m.nom, m.look && m.look.direction, ...(m.metiers || [])].join(' ').toLowerCase();
+    return hay.includes(q);
+  }
+
+  function renderModeles() {
+    const grid = $('modelesGrid');
+    grid.innerHTML = '';
+    const q = modelesFilter.trim().toLowerCase();
+    const filtered = modeles.filter((m) => matchesFilter(m, q));
+
+    if (modeles.length === 0) {
+      grid.innerHTML = '<p class="modeles-empty">Aucun modèle dans presets/*.json.</p>';
+      return;
+    }
+    if (filtered.length === 0) {
+      grid.innerHTML = '<p class="modeles-empty">Aucun modèle ne correspond à la recherche.</p>';
+      return;
+    }
+
+    for (const m of filtered) {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'modele-card' + (appliedModele === m.nom ? ' active' : '');
+      card.title = m.description || m.titre;
+
+      if (m.vignette) {
+        const img = document.createElement('img');
+        img.className = 'thumb';
+        img.loading = 'lazy';
+        img.alt = m.titre;
+        img.src = '/api/vignette/' + encodeURIComponent(m.nom) + '?v=' + (m._v || 0);
+        img.onerror = () => {
+          img.replaceWith(placeholderThumb());
+        };
+        card.appendChild(img);
+      } else {
+        card.appendChild(placeholderThumb());
+      }
+
+      const body = document.createElement('div');
+      body.className = 'body';
+      const dirHero = (m.look && m.look.direction ? m.look.direction : '?') + ' · ' + (m.look && m.look.layout ? m.look.layout.hero : '?');
+      body.innerHTML =
+        '<span class="titre">' + escapeHtml(m.titre) + '</span>' +
+        '<span class="dh">' + escapeHtml(dirHero) + '</span>';
+      if (m.metiers && m.metiers.length) {
+        const chips = document.createElement('div');
+        chips.className = 'chips';
+        for (const met of m.metiers.slice(0, 4)) {
+          const chip = document.createElement('span');
+          chip.className = 'chip';
+          chip.textContent = met;
+          chips.appendChild(chip);
+        }
+        body.appendChild(chips);
+      }
+      card.appendChild(body);
+
+      card.addEventListener('click', () => applyModele(m.nom));
+      grid.appendChild(card);
+    }
+  }
+
+  async function applyModele(nom) {
+    setStatus('Application du modèle « ' + nom + ' »…');
+    try {
+      const data = await api('POST', '/api/modele', { nom });
+      appliedModele = nom;
+      look = data.saved || {};
+      effective = data.effective || effective;
+      layoutState = { ...effective.layout, sections: (effective.layout.sections || []).map((s) => ({ ...s })) };
+      renderAll();
+      renderModeles();
+      setStatus('Modèle « ' + (data.titre || nom) + ' » appliqué.', 'ok');
+      scheduleReload();
+    } catch (e) {
+      setStatus('Erreur en appliquant le modèle : ' + e.message, 'error');
+    }
+  }
+
+  function placeholderThumb() {
+    const div = document.createElement('div');
+    div.className = 'thumb-placeholder';
+    div.textContent = 'pas d’aperçu';
+    return div;
+  }
+
+  $('modelesToggle').addEventListener('click', () => {
+    $('modelesSection').classList.toggle('collapsed');
+  });
+
+  $('modelesSearch').addEventListener('input', (e) => {
+    modelesFilter = e.target.value;
+    renderModeles();
+  });
+
+  $('btnRegenVignettes').addEventListener('click', async () => {
+    const btn = $('btnRegenVignettes');
+    btn.disabled = true;
+    const prevLabel = btn.textContent;
+    btn.textContent = 'Régénération en cours (quelques minutes)…';
+    setStatus('Régénération des vignettes en cours…');
+    try {
+      await api('POST', '/api/vignettes');
+      setStatus('Vignettes régénérées.', 'ok');
+      for (const m of modeles) m._v = (m._v || 0) + 1;
+      await loadModeles();
+    } catch (e) {
+      setStatus('Erreur lors de la régénération des vignettes : ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = prevLabel;
+    }
+  });
 
   // ---- rendu ----
 
@@ -642,6 +820,7 @@
   });
 
   loadAll().catch((e) => setStatus('Erreur de chargement : ' + e.message, 'error'));
+  loadModeles();
 })();
 </script>
 </body>

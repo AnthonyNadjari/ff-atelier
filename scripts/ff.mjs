@@ -16,6 +16,8 @@ import { cmdComposer } from './ff/composer.mjs';
 import { cmdPropositions } from './ff/propositions.mjs';
 import { cmdOg } from './ff/og.mjs';
 import { cmdMatrice } from './ff/matrice.mjs';
+import { cmdVignettes } from './ff/vignettes.mjs';
+import { cmdModele, cmdModeles } from './ff/modele.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -49,6 +51,9 @@ const commands = {
   propositions: cmdPropositions,
   og: cmdOg,
   matrice: cmdMatrice,
+  vignettes: cmdVignettes,
+  modele: cmdModele,
+  modeles: cmdModeles,
 };
 
 async function main() {
