@@ -11,6 +11,11 @@ import { cmdExporter } from './ff/exporter.mjs';
 import { cmdDeploy } from './ff/deploy.mjs';
 import { cmdListe } from './ff/liste.mjs';
 import { cmdAide } from './ff/aide.mjs';
+import { cmdFiger } from './ff/figer.mjs';
+import { cmdComposer } from './ff/composer.mjs';
+import { cmdPropositions } from './ff/propositions.mjs';
+import { cmdOg } from './ff/og.mjs';
+import { cmdMatrice } from './ff/matrice.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -38,6 +43,12 @@ const commands = {
   servir: runScript('serve-all.mjs'),
   generer: runScript('ff-generer.mjs'),
   placeholders: runScript('placeholders.mjs'),
+  studio: runScript('studio.mjs'),
+  figer: cmdFiger,
+  composer: cmdComposer,
+  propositions: cmdPropositions,
+  og: cmdOg,
+  matrice: cmdMatrice,
 };
 
 async function main() {

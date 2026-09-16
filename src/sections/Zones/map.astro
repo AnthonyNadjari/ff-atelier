@@ -1,10 +1,11 @@
 ---
 /** Zones "map" : texte + liste de villes a gauche, carte (iframe ou placeholder decoratif) a droite. */
-import { site } from '@/lib/site';
+import { site, citySlug } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 const zones = site.zones;
 const cities = zones.cities;
 const embed = site.contact.mapsEmbed;
+const linked = site.seo.cityPages;
 ---
 
 {cities.length > 0 && (
@@ -20,7 +21,7 @@ const embed = site.contact.mapsEmbed;
           {cities.map((city) => (
             <li class="flex items-center gap-2 text-fg">
               <Icon name="MapPin" size={16} class="text-accent shrink-0" />
-              <span>{city}</span>
+              {linked ? <a href={`/zones/${citySlug(city)}`} class="hover:text-accent">{city}</a> : <span>{city}</span>}
             </li>
           ))}
         </ul>

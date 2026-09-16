@@ -23,6 +23,13 @@ contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté don
 | `node scripts/ff.mjs images <slug>` | Optimise/redimensionne les photos déposées dans `sites/<slug>/public/images/`. |
 | `node scripts/ff.mjs deploy <slug>` | Déploie le site buildé sur Cloudflare Pages (voir `docs/DEPLOIEMENT.md`). |
 | `node scripts/ff.mjs exporter <slug>` | Prépare la livraison finale au client (repo + domaine au nom du client). |
+| `node scripts/ff.mjs composer <slug>` | Propose automatiquement un look (direction, variantes, typographie...) à partir de `site.config.ts`, écrit dans `look.json` sans toucher au contenu. |
+| `node scripts/ff.mjs propositions <slug>` | Construit N looks différents avec captures d'écran, un par `propositions/<slug>/index.html`, pour comparer avant de choisir. |
+| `node scripts/ff.mjs studio <slug>` | Éditeur visuel du look sur `http://127.0.0.1:4400` (direction, polices, échelle, tone, séparateur, libellés), écrit dans `look.json`. |
+| `node scripts/ff.mjs figer <slug>` | Fusionne `look.json` dans `site.config.ts` (le look choisi devient définitif) et supprime `look.json`. |
+| `node scripts/ff.mjs og <slug>` | Génère l'image Open Graph du site (`images.og`). |
+| `node scripts/ff.mjs captures <slug>` | Prend des captures d'écran du site buildé (desktop/mobile). |
+| `node scripts/ff.mjs servir <slug>` | Sert le build statique de `dist/<slug>` en local. |
 
 Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etendu par scripts/ff/*.mjs`).
 

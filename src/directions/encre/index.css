@@ -1,0 +1,91 @@
+/* Direction ENCRE — noir d'encre sur papier, trait a la main. Instrument Serif + Instrument Sans. */
+@import '@fontsource/instrument-serif';
+@import '@fontsource-variable/instrument-sans';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='encre'] {
+  --accent-h: 0;
+  --accent-s: 0%;
+  --accent-l: 8%;
+
+  --bg: #fdfcf9;
+  --bg-2: #f4f1ea;
+  --surface: #ffffff;
+  --fg: #101010;
+  --muted: #5c5a55;
+  --line: #101010;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(10 80% 50%);
+  --on-accent: #ffffff;
+  --ink: #101010;
+  --on-ink: #fdfcf9;
+
+  --font-display: 'Instrument Serif', 'Georgia', serif;
+  --font-body: 'Instrument Sans Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: 0 24px 48px -28px rgb(16 16 16 / 0.25);
+}
+
+[data-direction='encre'] .text-display-xl { font-size: clamp(3.25rem, 10vw, 9rem); }
+[data-direction='encre'] .text-display-lg { font-size: clamp(2.5rem, 7vw, 6.5rem); }
+
+/* Grain de papier tres discret */
+[data-direction='encre'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+[data-direction='encre'] ::selection { background: var(--accent-2); color: #ffffff; }
+
+[data-direction='encre'] h1 em,
+[data-direction='encre'] h2 em { font-style: italic; color: var(--accent-2); }
+
+/* Soulignement trace a la main sous les <em> de h2 */
+[data-direction='encre'] h2 em {
+  position: relative;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='14' viewBox='0 0 120 14'%3E%3Cpath d='M2 8 Q 12 2 22 8 T 42 8 T 62 8 T 82 8 T 102 8 T 118 7' stroke='%23e63c1a' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% auto;
+  padding-bottom: 0.12em;
+}
+
+[data-direction='encre'] .btn {
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+[data-direction='encre'] .btn-primary {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+[data-direction='encre'] .btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: #ffffff; }
+[data-direction='encre'] .btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+[data-direction='encre'] .btn-ghost:hover { background: var(--ink); color: var(--on-ink); }
+
+[data-direction='encre'] .card {
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  border-radius: 0;
+  position: relative;
+  z-index: 1;
+}
+[data-direction='encre'] .rule { border-top: 1px solid var(--line); }
+[data-direction='encre'] .eyebrow { color: var(--accent-2); letter-spacing: 0.18em; }

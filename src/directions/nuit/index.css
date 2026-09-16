@@ -1,0 +1,87 @@
+/* Direction NUIT — bleu nuit calme et blanc chaud. Newsreader, ambre discret, ciel etoile. */
+@import '@fontsource-variable/newsreader';
+@import '@fontsource-variable/figtree';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='nuit'] {
+  --accent-h: 36;
+  --accent-s: 70%;
+  --accent-l: 58%;
+
+  --bg: #0b1220;
+  --bg-2: #121c2e;
+  --surface: #182338;
+  --fg: #f3efe6;
+  --muted: #a8a396;
+  --line: rgba(243, 239, 230, 0.12);
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 12%));
+  --on-accent: #14100a;
+  --ink: #050810;
+  --on-ink: #f3efe6;
+
+  --font-display: 'Newsreader Variable', 'Georgia', serif;
+  --font-body: 'Figtree Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.005em;
+  --heading-transform: none;
+  --radius: 10px;
+  --radius-card: 16px;
+  --shadow-card: 0 1px 0 rgb(243 239 230 / 0.05), 0 20px 50px -26px rgb(0 0 0 / 0.6);
+  --shadow-lift: 0 32px 72px -28px rgb(0 0 0 / 0.7);
+  --motion-duration: 1.2s;
+  color-scheme: dark;
+}
+
+/* Ciel etoile : petits points statiques, tres discrets */
+[data-direction='nuit'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 12%, rgb(243 239 230 / 0.55) 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 34%, rgb(243 239 230 / 0.4) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 41% 8%, rgb(243 239 230 / 0.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 58% 52%, rgb(243 239 230 / 0.45) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 73% 22%, rgb(243 239 230 / 0.3) 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 64%, rgb(243 239 230 / 0.5) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 15% 78%, rgb(243 239 230 / 0.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 64% 86%, rgb(243 239 230 / 0.4) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 94% 90%, rgb(243 239 230 / 0.3) 50%, transparent 51%);
+  background-size: 100% 100%;
+}
+
+[data-direction='nuit'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='nuit'] h1 em,
+[data-direction='nuit'] h2 em { font-style: italic; color: var(--accent); }
+
+[data-direction='nuit'] .btn {
+  border-radius: 10px;
+  font-weight: 500;
+  transition: background var(--motion-duration) var(--ease-out-quart), color var(--motion-duration) var(--ease-out-quart), border-color var(--motion-duration) var(--ease-out-quart);
+}
+[data-direction='nuit'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+[data-direction='nuit'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='nuit'] .btn-ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--fg);
+}
+[data-direction='nuit'] .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+[data-direction='nuit'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  position: relative;
+  z-index: 1;
+}
+[data-direction='nuit'] .rule { border-top: 1px solid var(--line); }
+[data-direction='nuit'] .eyebrow { color: var(--accent); }

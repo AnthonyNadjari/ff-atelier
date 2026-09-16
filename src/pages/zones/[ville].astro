@@ -1,0 +1,128 @@
+---
+/** Page ville : une par ville de zones.cities, seulement si site.seo.cityPages. SEO local (metier + ville). */
+import Base from '@/layouts/Base.astro';
+import { site, tel, citySlug } from '@/lib/site';
+import { getSection } from '@/lib/sections';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  if (!site.seo.cityPages) return [];
+  return site.zones.cities.map((city) => ({ params: { ville: citySlug(city) }, props: { city } }));
+}
+const { city } = Astro.props;
+const Nav = getSection('nav', site.layout.nav);
+const Footer = getSection('footer', site.layout.footer);
+const Cta = getSection('cta', site.layout.sections.find((s) => s.type === 'cta')?.variant ?? 'band');
+const otherCities = site.zones.cities.filter((c) => c !== city);
+const radius = site.zones.radiusKm;
+const google = site.proof.google;
+
+const title = `${site.business.trade} à ${city} — ${site.business.name}`;
+const description = `${site.business.trade} à ${city} : ${site.services
+  .slice(0, 3)
+  .map((s) => s.title)
+  .join(', ')}, par ${site.business.name}.`;
+---
+
+<Base title={title} description={description} path={`/zones/${citySlug(city)}`}>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        serviceType: site.business.trade,
+        provider: {
+          '@type': 'LocalBusiness',
+          name: site.business.name,
+          telephone: site.contact.phone,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: site.contact.address.street,
+            postalCode: site.contact.address.postalCode,
+            addressLocality: site.contact.address.city,
+            addressCountry: 'FR',
+          },
+        },
+        areaServed: { '@type': 'City', name: city },
+      })}
+    />
+  </Fragment>
+  <Nav />
+  <main id="main">
+    <article class="section-y">
+      <div class="container-ff grid lg:grid-cols-12 gap-12">
+        <div class="lg:col-span-7" data-stagger="110">
+          <a href="/#zones" class="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"><Icon name="ArrowLeft" size={16} /> Toutes nos zones</a>
+          <p class="eyebrow mt-8">{site.business.trade} · {city}</p>
+          <h1 class="text-display-lg mt-4">{site.business.trade} à {city}</h1>
+          <p class="mt-6 text-xl text-muted max-w-prose">
+            {site.business.name}, {site.business.trade.toLowerCase()}, basé à {site.contact.address.city}, intervient à {city}
+            {radius ? <> dans un rayon d'environ {radius}&nbsp;km</> : null}.
+          </p>
+
+          {site.services.length > 0 && (
+            <ul class="mt-10 space-y-4">
+              {site.services.map((s) => (
+                <li>
+                  <a href={`/services/${s.slug}`} class="card flex items-start gap-4 rounded-card border border-line bg-surface p-5 shadow-card hover:border-fg transition-colors duration-300">
+                    <Icon name={s.icon} size={22} class="text-accent shrink-0 mt-0.5" />
+                    <span>
+                      <span class="block font-display text-lg">{s.title}</span>
+                      <span class="block mt-1 text-muted">{s.short}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {site.contact.hours.length > 0 && (
+            <div class="mt-10">
+              <p class="eyebrow">Horaires</p>
+              <ul class="mt-3 space-y-1.5 text-fg">
+                {site.contact.hours.map((h) => (
+                  <li><span class="font-medium">{h.days}</span> — {h.hours}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {google && (
+            <div class="mt-10 flex items-center gap-3">
+              <div class="flex items-center gap-1" aria-hidden="true">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Icon name="Star" size={18} class={i < Math.round(google.rating) ? 'text-accent fill-accent' : 'text-muted'} />
+                ))}
+              </div>
+              <p class="text-muted">{google.rating.toFixed(1)} · {google.count} avis Google</p>
+            </div>
+          )}
+
+          <div class="mt-10 flex flex-wrap gap-4">
+            <Button href={tel()} size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+            <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>
+          </div>
+        </div>
+
+        <aside class="lg:col-span-5" data-reveal="right">
+          {otherCities.length > 0 && (
+            <div class="card rounded-card bg-surface p-6 shadow-card">
+              <p class="eyebrow mb-4">Autres communes</p>
+              <ul class="flex flex-wrap gap-2.5">
+                {otherCities.map((c) => (
+                  <li>
+                    <a href={`/zones/${citySlug(c)}`} class="inline-block rounded-pill border border-line px-4 py-2 text-sm text-fg transition-colors duration-300 hover:bg-accent hover:text-on-accent hover:border-accent">{c}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </aside>
+      </div>
+    </article>
+    <Cta />
+  </main>
+  <Footer />
+</Base>

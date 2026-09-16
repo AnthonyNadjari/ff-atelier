@@ -1,0 +1,67 @@
+/* Direction PIERRE — mineral, minimal. Bodoni Moda + Epilogue, angles droits, grand vide. */
+@import '@fontsource-variable/bodoni-moda';
+@import '@fontsource-variable/epilogue';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='pierre'] {
+  --accent-h: 30;
+  --accent-s: 8%;
+  --accent-l: 20%;
+
+  --bg: #f2f1ee;
+  --bg-2: #e8e6e1;
+  --surface: #faf9f7;
+  --fg: #1c1b19;
+  --muted: #6e6b66;
+  --line: #d5d2cb;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) 35%);
+  --on-accent: #f2f1ee;
+  --ink: #1c1b19;
+  --on-ink: #f2f1ee;
+
+  --font-display: 'Bodoni Moda Variable', 'Didot', 'Georgia', serif;
+  --font-body: 'Epilogue Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 500;
+  --display-tracking: 0;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: 0 24px 48px -28px rgb(28 27 25 / 0.3);
+  --section-y: clamp(5rem, 12vw, 10rem);
+  --motion-duration: 1s;
+}
+
+[data-direction='pierre'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='pierre'] h1 em,
+[data-direction='pierre'] h2 em { font-style: italic; color: var(--accent); }
+
+[data-direction='pierre'] .btn {
+  border-radius: 0;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+[data-direction='pierre'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+[data-direction='pierre'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='pierre'] .btn-ghost {
+  background: transparent;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+}
+[data-direction='pierre'] .btn-ghost:hover { background: var(--fg); color: var(--bg); }
+
+[data-direction='pierre'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 0;
+}
+[data-direction='pierre'] .rule { border-top: 1px solid var(--line); }
+[data-direction='pierre'] .eyebrow { color: var(--muted); }

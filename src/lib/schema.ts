@@ -78,7 +78,7 @@ export const siteSchema = z.object({
       display: z.enum(FONT_NAMES as [string, ...string[]]).optional().describe('Police des titres, remplace celle de la direction (voir src/lib/fonts.ts)'),
       body: z.enum(FONT_NAMES as [string, ...string[]]).optional().describe('Police du texte courant'),
     })
-    .default({}),
+    .prefault({}),
   scale: z.enum(SCALES).default('normal').describe('compact = dense, display = titres enormes et grandes respirations'),
   layout: z
     .object({
@@ -104,7 +104,7 @@ export const siteSchema = z.object({
       divider: z.enum(DIVIDERS).default('none').describe('Separateur decoratif entre les sections'),
       tone: z.enum(TONES).default('flat').describe('alternate = une section sur deux sur fond bg-2'),
     })
-    .default({}),
+    .prefault({}),
 
   // ---- Entreprise ----
   business: z.object({
@@ -142,7 +142,7 @@ export const siteSchema = z.object({
       cities: z.array(z.string()).default([]),
       label: z.string().optional().describe('ex: Toute la metropole lilloise'),
     })
-    .default({}),
+    .prefault({}),
 
   services: z
     .array(
@@ -187,7 +187,7 @@ export const siteSchema = z.object({
       gallery: z.array(img).default([]),
       beforeAfter: z.array(z.object({ before: img, after: img, caption: z.string().optional() })).default([]),
     })
-    .default({}),
+    .prefault({}),
 
   process: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
   faq: z.array(z.object({ q: z.string(), a: md })).default([]),
@@ -199,7 +199,7 @@ export const siteSchema = z.object({
       linkedin: z.string().url().optional(),
       tiktok: z.string().url().optional(),
     })
-    .default({}),
+    .prefault({}),
 
   form: z
     .object({
@@ -208,7 +208,7 @@ export const siteSchema = z.object({
       subject: z.string().optional(),
       successMessage: z.string().default('Merci, votre demande est bien envoyee. Nous vous rappelons rapidement.'),
     })
-    .default({}),
+    .prefault({}),
 
   wording: z
     .object({
@@ -218,7 +218,7 @@ export const siteSchema = z.object({
       contactTitle: z.string().default('Parlons de votre projet'),
       contactText: z.string().default('Décrivez votre besoin, nous vous rappelons rapidement.'),
     })
-    .default({}),
+    .prefault({}),
 
   images: z
     .object({
@@ -227,7 +227,7 @@ export const siteSchema = z.object({
       logo: img.optional(),
       og: z.string().optional(),
     })
-    .default({}),
+    .prefault({}),
 
   seo: z
     .object({
@@ -236,7 +236,7 @@ export const siteSchema = z.object({
       keywords: z.array(z.string()).default([]),
       cityPages: z.boolean().default(false).describe('Genere une page /zones/<ville> par ville de zones.cities (SEO local)'),
     })
-    .default({}),
+    .prefault({}),
 
   legal: z
     .object({
@@ -244,14 +244,14 @@ export const siteSchema = z.object({
       host: z.string().default('Cloudflare, Inc. — 101 Townsend St, San Francisco, CA 94107, USA'),
       mediator: z.string().optional(),
     })
-    .default({}),
+    .prefault({}),
 
   analytics: z
     .object({
       plausible: z.string().optional().describe('domaine plausible'),
       umami: z.object({ src: z.string().url(), id: z.string() }).optional(),
     })
-    .default({}),
+    .prefault({}),
 });
 
 export type SiteInput = z.input<typeof siteSchema>;

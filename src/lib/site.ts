@@ -52,6 +52,16 @@ export const paragraphs = (text: string) =>
     .map((p) => p.trim())
     .filter(Boolean);
 
+/** Slug d'une ville pour /zones/<slug> : minuscules, accents retires, non-alphanumerique -> '-'. */
+export const citySlug = (city: string) =>
+  city
+    .replace(/œ/g, 'oe').replace(/Œ/g, 'Oe').replace(/æ/g, 'ae').replace(/Æ/g, 'Ae')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
 /** Ancres de navigation : seulement les sections presentes dans le layout. */
 export const navLinks = (s: Site = site) => {
   const labels: Record<string, string> = {

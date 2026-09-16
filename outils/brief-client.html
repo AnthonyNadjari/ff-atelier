@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Formulaire de brief client Finck & Fisch — 10 minutes de réponses pour préparer votre site.">
+<title>Brief client — Finck & Fisch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #111111;
+    --paper: #FAF9F7;
+    --grey: #77716A;
+    --rule: #DCD7D0;
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --max-w: 720px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--black);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+
+  a { color: var(--black); }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--black);
+    color: var(--paper);
+    padding: 0.6em 1em;
+    z-index: 100;
+  }
+  .skip-link:focus { left: 0.5em; top: 0.5em; }
+
+  /* ---- Progress bar (sticky, discreet) ---- */
+  .progress-bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(250, 249, 247, 0.96);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.5em 1em;
+    backdrop-filter: saturate(140%) blur(2px);
+  }
+  .progress-bar__inner { max-width: var(--max-w); margin: 0 auto; }
+  .progress-text {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--grey);
+    display: block;
+    margin-bottom: 0.35em;
+  }
+  .progress-track {
+    height: 3px;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--black);
+    transition: width 0.25s ease;
+  }
+
+  /* ---- Header ---- */
+  .site-header {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 2.2em 1.25em 1.4em;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    color: var(--black);
+    margin: 0 0 1.4em;
+  }
+  .wordmark span {
+    color: var(--grey);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+  }
+  .site-header h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.7rem, 5vw, 2.3rem);
+    line-height: 1.15;
+    margin: 0 0 0.6em;
+  }
+  .reassurance {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4em;
+    font-size: 0.9rem;
+    color: var(--grey);
+  }
+  .reassurance li { padding-left: 1.1em; position: relative; }
+  .reassurance li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--rule);
+  }
+
+  /* ---- Layout ---- */
+  main { max-width: var(--max-w); margin: 0 auto; padding: 0 1.25em 4em; }
+  form { display: block; }
+
+  .ff-section {
+    padding: 1.8em 0;
+    border-top: 1px solid var(--rule);
+  }
+  .ff-section:first-of-type { border-top: 1px solid var(--rule); }
+  .ff-section h2 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.25rem;
+    margin: 0 0 0.15em;
+  }
+  .ff-section .section-hint {
+    font-size: 0.85rem;
+    color: var(--grey);
+    margin: 0 0 1.1em;
+  }
+
+  .field { margin-bottom: 1em; }
+  .field-group {
+    display: grid;
+    gap: 1em;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 560px) {
+    .field-group.cols-2 { grid-template-columns: 1fr 1fr; }
+    .field-group.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.35em;
+  }
+  .field-hint {
+    font-size: 0.78rem;
+    color: var(--grey);
+    margin: 0.3em 0 0;
+  }
+  .req { color: var(--grey); font-weight: 400; }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="url"],
+  input[type="number"],
+  input[type="date"],
+  textarea,
+  select {
+    width: 100%;
+    font: inherit;
+    font-family: var(--font-body);
+    padding: 0.65em 0.75em;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: #fff;
+    color: var(--black);
+  }
+  textarea { resize: vertical; min-height: 4.5em; }
+
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--black);
+    outline-offset: 2px;
+  }
+
+  .checkbox-list { display: grid; gap: 0.55em; list-style: none; margin: 0; padding: 0; }
+  .checkbox-row { display: flex; align-items: flex-start; gap: 0.55em; font-size: 0.92rem; font-weight: 400; }
+  .checkbox-row input { margin-top: 0.25em; width: auto; }
+  .field-checkbox label { display: flex; align-items: center; gap: 0.5em; font-weight: 400; font-size: 0.92rem; }
+  .field-checkbox input { width: auto; }
+
+  /* ---- Repeatable blocks ---- */
+  .ff-repeat {
+    border: 1px dashed var(--rule);
+    border-radius: 4px;
+    padding: 1em 1em 1.1em;
+    margin: 0 0 1em;
+    break-inside: avoid;
+  }
+  .ff-repeat legend {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    padding: 0 0.4em;
+    color: var(--grey);
+  }
+  .horaire-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.6em;
+    align-items: end;
+    margin-bottom: 0.8em;
+  }
+  .horaire-row .field { margin-bottom: 0; }
+
+  /* ---- Buttons ---- */
+  .btn {
+    font: inherit;
+    font-size: 0.88rem;
+    padding: 0.7em 1.3em;
+    border-radius: 3px;
+    border: 1px solid var(--black);
+    background: var(--black);
+    color: var(--paper);
+    cursor: pointer;
+  }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--black);
+    border: 1px solid var(--black);
+  }
+  .btn-add {
+    background: transparent;
+    color: var(--black);
+    border: 1px solid var(--rule);
+    font-size: 0.82rem;
+    padding: 0.55em 1em;
+  }
+  .btn-remove {
+    background: transparent;
+    color: var(--grey);
+    border: 1px solid var(--rule);
+    font-size: 0.78rem;
+    padding: 0.4em 0.8em;
+    margin-top: 0.4em;
+  }
+  .horaire-row .btn-remove { margin-top: 0; height: fit-content; }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75em;
+    align-items: center;
+    padding-top: 1.6em;
+    border-top: 1px solid var(--rule);
+  }
+  .fallbacks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    margin-top: 0.9em;
+  }
+  .fallback-note { font-size: 0.78rem; color: var(--grey); margin: 0.8em 0 0; }
+
+  .form-status {
+    min-height: 1.4em;
+    font-size: 0.9rem;
+    margin-top: 0.9em;
+  }
+  .form-status.is-success { color: #22633b; }
+  .form-status.is-error { color: #7a2a2a; }
+  .form-status.is-pending { color: var(--grey); }
+
+  .legal-note {
+    border: 1px solid var(--rule);
+    background: #fff;
+    padding: 0.9em 1em;
+    font-size: 0.82rem;
+    color: var(--grey);
+    border-radius: 4px;
+    margin-bottom: 1.1em;
+  }
+  .legal-note strong { color: var(--black); }
+
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+  }
+
+  footer.tool-footer {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 2em 1.25em 3em;
+    font-size: 0.78rem;
+    color: var(--grey);
+  }
+
+  @media print {
+    .progress-bar, .btn-add, .btn-remove, .actions, .fallbacks, .fallback-note, .skip-link, .hp-field { display: none !important; }
+    body { background: #fff; }
+    .ff-section { break-inside: avoid; border-top: 1px solid #ccc; }
+    input, textarea, select { border: 1px solid #999; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#brief-form">Passer au formulaire</a>
+
+<div class="progress-bar" role="status" aria-live="polite">
+  <div class="progress-bar__inner">
+    <span class="progress-text" id="progress-text">0 / 12 sections renseignées</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+</div>
+
+<header class="site-header">
+  <p class="wordmark">Finck &amp; Fisch <span>— Digital Studio</span></p>
+  <h1>Votre site en 10 minutes de réponses</h1>
+  <ul class="reassurance">
+    <li>Paiement en une seule fois, aucun abonnement.</li>
+    <li>Le site vous appartient entièrement.</li>
+    <li>Mise en ligne 48 à 72 h après réception de vos réponses.</li>
+  </ul>
+</header>
+
+<main>
+  <noscript>
+    <p class="legal-note"><strong>JavaScript est requis</strong> pour remplir et envoyer ce formulaire (ajout de services/avis, sauvegarde automatique, génération du brief). Merci de l'activer, ou de nous contacter directement par e-mail.</p>
+  </noscript>
+
+  <form id="brief-form" data-key="A-REMPLACER" data-to="contact@finckfisch.fr" novalidate>
+
+    <div class="hp-field" aria-hidden="true">
+      <label for="hp-website">Ne remplissez pas ce champ</label>
+      <input type="text" id="hp-website" name="site_web" tabindex="-1" autocomplete="off">
+    </div>
+
+    <section class="ff-section" id="section-identite">
+      <h2>1. Identité</h2>
+      <p class="section-hint">Les informations qui apparaîtront dans vos mentions légales et sur le site.</p>
+
+      <div class="field">
+        <label for="id-nom">Nom de l'entreprise <span class="req">*</span></label>
+        <input type="text" id="id-nom" name="nom" autocomplete="organization" required>
+      </div>
+      <div class="field">
+        <label for="id-metier">Métier affiché <span class="req">*</span></label>
+        <input type="text" id="id-metier" name="metier" placeholder="ex. Plombier-chauffagiste" autocomplete="off" required>
+      </div>
+      <div class="field-group cols-2">
+        <div class="field">
+          <label for="id-forme">Forme juridique</label>
+          <input type="text" id="id-forme" name="forme" placeholder="EURL, SASU, auto-entrepreneur…" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="id-siret">SIRET</label>
+          <input type="text" id="id-siret" name="siret" inputmode="numeric" autocomplete="off">
+        </div>
+      </div>
+      <div class="field-group cols-2">
+        <div class="field">
+          <label for="id-tva">N° TVA intracommunautaire</label>
+          <input type="text" id="id-tva" name="tva" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="id-depuis">Depuis quand ? (année de création)</label>
+          <input type="number" id="id-depuis" name="depuis" min="1900" max="2100" step="1" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <label for="id-assurance">Assurance décennale (compagnie + n° de police)</label>
+        <input type="text" id="id-assurance" name="assurance" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="id-certifications">Certifications / labels</label>
+        <input type="text" id="id-certifications" name="certifications" placeholder="RGE, Qualibat, Artisan d'art… (séparés par des virgules)" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="id-responsable">Responsable de publication (nom du gérant)</label>
+        <input type="text" id="id-responsable" name="responsable" autocomplete="name">
+      </div>
+    </section>
+
+    <section class="ff-section" id="section-contact">
+      <h2>2. Contact</h2>
+      <p class="section-hint">Comment vos clients vous joignent, et vos horaires.</p>
+
+      <div class="field-group cols-2">
+        <div class="field">
+          <label for="id-telephone">Téléphone <span class="req">*</span></label>
+          <input type="tel" id="id-telephone" name="telephone" placeholder="06 12 34 56 78" autocomplete="tel" required>
+        </div>
+        <div class="field">
+          <label for="id-whatsapp">WhatsApp (si différent)</label>
+          <input type="tel" id="id-whatsapp" name="whatsapp" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <label for="id-email">E-mail</label>
+        <input type="email" id="id-email" name="email" autocomplete="email">
+      </div>
+      <div class="field-group cols-3">
+        <div class="field">
+          <label for="id-rue">Adresse — rue</label>
+          <input type="text" id="id-rue" name="rue" autocomplete="address-line1">
+        </div>
+        <div class="field">
+          <label for="id-cp">Code postal</label>
+          <input type="text" id="id-cp" name="cp" inputmode="numeric" autocomplete="postal-code">
+        </div>
+        <div class="field">
+          <label for="id-ville">Ville <span class="req">*</span></label>
+          <input type="text" id="id-ville" name="ville" autocomplete="address-level2" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Horaires</label>
+        <div id="horaires-list"></div>
+        <button type="button" id="add-horaire" class="btn btn-add">+ Ajouter une plage horaire</button>
+      </div>
+
+      <div class="field field-checkbox">
+        <label><input type="checkbox" id="id-urgence" name="urgence"> Urgence 24/7 disponible</label>
+      </div>
+
+      <div class="field-group cols-2">
+        <div class="field">
+          <label for="id-google-url">Lien fiche Google (Maps / Business)</label>
+          <input type="url" id="id-google-url" name="google-url" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="id-google-note">Note Google actuelle (sur 5)</label>
+          <input type="number" id="id-google-note" name="google-note" min="0" max="5" step="0.1" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <label for="id-google-count">Nombre d'avis Google actuel</label>
+        <input type="number" id="id-google-count" name="google-count" min="0" step="1" autocomplete="off">
+      </div>
+      <p class="field-hint">Recopiez la note et le nombre d'avis tels quels depuis votre fiche Google — jamais arrondis, jamais estimés.</p>
+    </section>
+
+    <section class="ff-section" id="section-zones">
+      <h2>3. Zone d'intervention</h2>
+      <div class="field">
+        <label for="id-villes">Villes couvertes</label>
+        <textarea id="id-villes" name="villes" rows="2" placeholder="Une ville par ligne, ou séparées par des virgules"></textarea>
+      </div>
+      <div class="field-group cols-2">
+        <div class="field">
+          <label for="id-rayon">Rayon d'intervention (en km, si pertinent)</label>
+          <input type="number" id="id-rayon" name="rayon" min="0" step="1" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="id-libelle">Libellé court</label>
+          <input type="text" id="id-libelle" name="libelle" placeholder="ex. Métropole lilloise" autocomplete="off">
+        </div>
+      </div>
+    </section>
+
+    <section class="ff-section" id="section-services">
+      <h2>4. Services</h2>
+      <p class="section-hint">Au moins un service, huit au maximum. <span class="req">*</span> pour le premier.</p>
+      <div id="services-list"></div>
+      <button type="button" id="add-service" class="btn btn-add">+ Ajouter un service</button>
+    </section>
+
+    <section class="ff-section" id="section-histoire">
+      <h2>5. Histoire de l'entreprise</h2>
+      <div class="field">
+        <label for="id-qui">Qui ? (fondateur·rice, parcours en une phrase)</label>
+        <textarea id="id-qui" name="qui" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label for="id-depuis-pourquoi">Depuis quand, pourquoi ? (le déclic)</label>
+        <textarea id="id-depuis-pourquoi" name="depuis-pourquoi" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label for="id-equipe">Équipe (prénoms + rôle, si plusieurs personnes)</label>
+        <textarea id="id-equipe" name="equipe" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label for="id-jalons">Un ou deux jalons marquants (année + fait)</label>
+        <textarea id="id-jalons" name="jalons" rows="2" placeholder="ex. 2015 — ouverture de l'atelier"></textarea>
+      </div>
+    </section>
+
+    <section class="ff-section" id="section-valeurs">
+      <h2>6. Valeurs / ce qui vous différencie</h2>
+      <p class="section-hint">3 choses qui vous distinguent de la concurrence, une phrase chacune.</p>
+      <div class="field">
+        <label for="id-valeur-1">1re différence</label>
+        <input type="text" id="id-valeur-1" name="valeur-1" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="id-valeur-2">2e différence</label>
+        <input type="text" id="id-valeur-2" name="valeur-2" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="id-valeur-3">3e différence</label>
+        <input type="text" id="id-valeur-3" name="valeur-3" autocomplete="off">
+      </div>
+    </section>
+
+    <section class="ff-section" id="section-avis">
+      <h2>7. Avis clients réels</h2>
+      <p class="legal-note">
+        <strong>Avertissement légal.</strong> Inventer un avis, un auteur ou une note est une pratique commerciale
+        trompeuse au sens de l'article L121-2 du Code de la consommation — c'est illégal, sanctionné, et strictement
+        interdit sur ce projet, même « en attendant les vrais avis ». Chaque avis doit avoir une origine vérifiable
+        (capture Google, e-mail, SMS…). Pas d'avis disponible = pas de section avis sur le site, tout simplement.
+      </p>
+      <div id="avis-list"></div>
+      <button type="button" id="add-avis" class="btn btn-add">+ Ajouter un avis réel</button>
+    </section>
+
+    <section class="ff-section" id="section-photos">
+      <h2>8. Photos disponibles</h2>
+      <p class="section-hint">Cochez ce qui existe réellement chez vous — rien de tout ça ne se fabrique.</p>
+      <ul class="checkbox-list">
+        <li class="checkbox-row"><input type="checkbox" id="id-photo-logo" name="photo-logo"><label for="id-photo-logo">Logo (fichier vectoriel ou haute résolution)</label></li>
+        <li class="checkbox-row"><input type="checkbox" id="id-photo-portrait" name="photo-portrait"><label for="id-photo-portrait">Portrait / photo de l'artisan ou de l'équipe</label></li>
+        <li class="checkbox-row"><input type="checkbox" id="id-photo-chantiers" name="photo-chantiers"><label for="id-photo-chantiers">Photos de chantiers / réalisations</label></li>
+        <li class="checkbox-row"><input type="checkbox" id="id-photo-avant-apres" name="photo-avant-apres"><label for="id-photo-avant-apres">Photos avant/après</label></li>
+        <li class="checkbox-row"><input type="checkbox" id="id-photo-aucune" name="photo-aucune"><label for="id-photo-aucune">Aucune photo disponible</label></li>
+      </ul>
+      <div class="field" style="margin-top:1em;">
+        <label for="id-photo-lien">Lien vers les photos, si déjà en ligne (Drive, Dropbox…)</label>
+        <input type="text" id="id-photo-lien" name="photo-lien" autocomplete="off">
+      </div>
+      <p class="field-hint">Aucun envoi de fichier ici : vous nous enverrez vos photos séparément par WeTransfer ou WhatsApp.</p>
+    </section>
+
+    <section class="ff-section" id="section-reseaux">
+      <h2>9. Réseaux sociaux</h2>
+      <div class="field-group cols-2">
+        <div class="field">
+          <label for="id-instagram">Instagram (URL complète)</label>
+          <input type="url" id="id-instagram" name="instagram" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="id-facebook">Facebook (URL complète)</label>
+          <input type="url" id="id-facebook" name="facebook" autocomplete="off">
+        </div>
+      </div>
+      <div class="field-group cols-2">
+        <div class="field">
+          <label for="id-linkedin">LinkedIn (URL complète)</label>
+          <input type="url" id="id-linkedin" name="linkedin" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="id-tiktok">TikTok (URL complète)</label>
+          <input type="url" id="id-tiktok" name="tiktok" autocomplete="off">
+        </div>
+      </div>
+    </section>
+
+    <section class="ff-section" id="section-faq">
+      <h2>10. Questions fréquentes <span style="font-weight:400;color:var(--grey);">(optionnel)</span></h2>
+      <p class="section-hint">Les 2-4 questions les plus posées au téléphone, avec votre réponse habituelle.</p>
+      <div id="faq-list"></div>
+      <button type="button" id="add-faq" class="btn btn-add">+ Ajouter une question</button>
+    </section>
+
+    <section class="ff-section" id="section-domaine">
+      <h2>11. Domaine et mise en ligne</h2>
+      <div class="field">
+        <label for="id-domaine-souhaite">Nom de domaine souhaité</label>
+        <input type="text" id="id-domaine-souhaite" name="domaine-souhaite" placeholder="ex. plomberie-martin.fr, sans https" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="id-domaine-delai">Date limite / contrainte de délai</label>
+        <input type="text" id="id-domaine-delai" name="domaine-delai" autocomplete="off">
+      </div>
+    </section>
+
+    <section class="ff-section" id="section-ressenti">
+      <h2>12. Ressenti — pour choisir le style visuel</h2>
+      <p class="section-hint">3 adjectifs qui décrivent ce que vous voulez, avec vos mots à vous.</p>
+      <div class="field-group cols-3">
+        <div class="field">
+          <label for="id-adj-1">Adjectif 1</label>
+          <input type="text" id="id-adj-1" name="adj-1" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="id-adj-2">Adjectif 2</label>
+          <input type="text" id="id-adj-2" name="adj-2" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="id-adj-3">Adjectif 3</label>
+          <input type="text" id="id-adj-3" name="adj-3" autocomplete="off">
+        </div>
+      </div>
+      <div class="field">
+        <label for="id-sites-aimes">Sites concurrents que vous aimez (URL + ce que vous aimez)</label>
+        <textarea id="id-sites-aimes" name="sites-aimes" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label for="id-sites-pas-aimes">Sites concurrents que vous n'aimez pas (URL + pourquoi)</label>
+        <textarea id="id-sites-pas-aimes" name="sites-pas-aimes" rows="2"></textarea>
+      </div>
+      <div class="field">
+        <label for="id-remarques">Remarques libres</label>
+        <textarea id="id-remarques" name="remarques" rows="3"></textarea>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button type="submit" class="btn" id="submit-btn">Envoyer mon brief</button>
+      <button type="button" class="btn btn-secondary" id="clear-btn">Effacer</button>
+    </div>
+    <div class="fallbacks">
+      <button type="button" class="btn btn-secondary" id="copy-btn">Copier le brief</button>
+      <button type="button" class="btn btn-secondary" id="mailto-btn">Ouvrir dans ma messagerie</button>
+    </div>
+    <p class="fallback-note">Si l'envoi automatique ne fonctionne pas, utilisez l'un de ces deux boutons pour nous transmettre votre brief autrement.</p>
+    <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+  </form>
+</main>
+
+<footer class="tool-footer">
+  Finck &amp; Fisch — Digital Studio. Vos réponses sont sauvegardées automatiquement dans votre navigateur pendant
+  la saisie ; rien n'est envoyé tant que vous n'avez pas cliqué sur « Envoyer mon brief ».
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'ff-brief-client-v1';
+
+  /* ================= Helpers ================= */
+  function v(x) { return (x === null || x === undefined) ? '' : String(x).trim(); }
+  function nz(x, fallback) { var s = v(x); return s ? s : (fallback || '(non renseigné)'); }
+  function yn(b) { return b ? 'oui' : 'non'; }
+  function splitList(s) { return v(s) ? v(s).split(/\r?\n|,/).map(function (x) { return x.trim(); }).filter(Boolean) : []; }
+  function list(arr, joiner) {
+    var items = (arr || []).map(v).filter(Boolean);
+    return items.length ? items.join(joiner || ', ') : '';
+  }
+
+  /* ================= Pure markdown builder (no DOM access) ================= */
+  function buildMarkdown(data) {
+    data = data || {};
+    var identite = data.identite || {};
+    var contact = data.contact || {};
+    var zones = data.zones || {};
+    var services = data.services || [];
+    var histoire = data.histoire || {};
+    var valeurs = data.valeurs || [];
+    var avis = data.avis || [];
+    var photos = data.photos || {};
+    var reseaux = data.reseaux || {};
+    var faq = data.faq || [];
+    var domaine = data.domaine || {};
+    var ressenti = data.ressenti || {};
+
+    var horairesLines = (contact.horaires || [])
+      .filter(function (h) { return v(h.jour) || v(h.creneau); })
+      .map(function (h) { return '  - ' + nz(h.jour) + ' → ' + nz(h.creneau); });
+    var horairesMd = horairesLines.length ? horairesLines.join('\n') : '  - (non renseigné)';
+
+    var servicesMd = services.map(function (s, i) {
+      var forces = [s.force1, s.force2, s.force3].map(v).filter(Boolean);
+      var forcesMd = forces.length ? forces.map(function (f) { return '  - ' + f; }).join('\n') : '  - (non renseigné)';
+      return [
+        '### Service ' + (i + 1),
+        "- **Titre :** " + nz(s.titre),
+        "- **Ce que c'est, en une phrase :** " + nz(s.phrase),
+        '- **Points forts :**',
+        forcesMd,
+        '- **Prix "à partir de" :** ' + (v(s.prix) || '(non renseigné, pas de prix affiché)'),
+        '- **Service phare ?** ' + yn(!!s.phare)
+      ].join('\n');
+    }).join('\n\n');
+
+    var valeursMd = [1, 2, 3].map(function (n) { return '  ' + n + '. ' + nz(valeurs[n - 1]); }).join('\n');
+
+    var avisMd = avis.length
+      ? avis.map(function (a) {
+          return [
+            '- **Auteur :** ' + nz(a.auteur),
+            "  **Texte :** " + nz(a.texte),
+            '  **Source :** ' + nz(a.source),
+            '  **Ville :** ' + nz(a.ville),
+            '  **Date :** ' + nz(a.date)
+          ].join('\n');
+        }).join('\n\n')
+      : "_Aucun avis fourni pour le moment — la section avis ne sera pas publiée tant qu'un vrai avis n'est pas fourni._";
+
+    var faqMd = faq.length
+      ? faq.map(function (f) { return '- **Q :** ' + nz(f.q) + '\n  **R :** ' + nz(f.r); }).join('\n\n')
+      : '_Aucune question fournie._';
+
+    var certifs = list(splitList(identite.certifications));
+    var villes = list(splitList(zones.villes));
+    var adjectifs = list([ressenti.adj1, ressenti.adj2, ressenti.adj3]);
+
+    var lines = [
+      '# Brief client — ' + nz(identite.nom, 'Nouveau client'),
+      '',
+      '_Généré via le formulaire brief-client Finck & Fisch le ' + (data.dateGeneration || '') + '._',
+      '',
+      '## 1. Identité',
+      '',
+      "- **Nom de l'entreprise :** " + nz(identite.nom),
+      '- **Métier affiché :** ' + nz(identite.metier),
+      '- **Forme juridique :** ' + nz(identite.forme),
+      '- **SIRET :** ' + nz(identite.siret),
+      '- **N° TVA intracommunautaire :** ' + nz(identite.tva),
+      '- **Depuis quand ?** ' + nz(identite.depuis),
+      '- **Assurance décennale :** ' + nz(identite.assurance),
+      '- **Certifications / labels :** ' + (certifs || '(non renseigné)'),
+      '- **Responsable de publication :** ' + nz(identite.responsable),
+      '',
+      '## 2. Contact',
+      '',
+      '- **Téléphone :** ' + nz(contact.telephone),
+      '- **WhatsApp :** ' + nz(contact.whatsapp),
+      '- **E-mail :** ' + nz(contact.email),
+      '- **Adresse** — rue : ' + nz(contact.rue),
+      '  code postal : ' + nz(contact.cp),
+      '  ville : ' + nz(contact.ville),
+      '- **Horaires :**',
+      horairesMd,
+      '- **Urgence 24/7 ?** ' + yn(!!contact.urgence),
+      '- **Lien fiche Google :** ' + nz(contact.googleUrl),
+      '- **Note Google actuelle (sur 5) :** ' + nz(contact.googleNote),
+      "- **Nombre d'avis Google actuel :** " + nz(contact.googleCount),
+      '',
+      "## 3. Zone d'intervention",
+      '',
+      '- **Villes couvertes :** ' + (villes || '(non renseigné)'),
+      "- **Rayon d'intervention (en km, si pertinent) :** " + nz(zones.rayon),
+      '- **Libellé court :** ' + nz(zones.libelle),
+      '',
+      '## 4. Services (3 à 6)',
+      '',
+      'Pour chaque service :',
+      '',
+      servicesMd,
+      '',
+      "## 5. Histoire de l'entreprise",
+      '',
+      '- **Qui ?** ' + nz(histoire.qui),
+      '- **Depuis quand, pourquoi ?** ' + nz(histoire.depuisPourquoi),
+      '- **Équipe :** ' + nz(histoire.equipe),
+      '- **Un ou deux jalons marquants :** ' + nz(histoire.jalons),
+      '',
+      '## 6. Valeurs / ce qui les différencie',
+      '',
+      '- **3 choses qui les distinguent de la concurrence :**',
+      valeursMd,
+      '',
+      '## 7. Avis clients réels',
+      '',
+      "> Rappel : un avis publié doit toujours avoir une origine vérifiable. Aucun avis n'est inventé.",
+      '',
+      avisMd,
+      '',
+      '## 8. Photos disponibles',
+      '',
+      '- [' + (photos.logo ? 'x' : ' ') + '] Logo (fichier vectoriel ou haute résolution)',
+      "- [" + (photos.portrait ? 'x' : ' ') + "] Portrait / photo de l'artisan ou de l'équipe",
+      '- [' + (photos.chantiers ? 'x' : ' ') + '] Photos de chantiers / réalisations',
+      '- [' + (photos.avantApres ? 'x' : ' ') + '] Photos avant/après',
+      '- [' + (photos.aucune ? 'x' : ' ') + '] Aucune photo disponible',
+      '',
+      '**Lien vers les photos (si déjà en ligne) :** ' + nz(photos.lien),
+      '',
+      '_Les photos seront envoyées séparément (WeTransfer, WhatsApp...) — rien à joindre ici._',
+      '',
+      '## 9. Réseaux sociaux',
+      '',
+      '- **Instagram :** ' + nz(reseaux.instagram),
+      '- **Facebook :** ' + nz(reseaux.facebook),
+      '- **LinkedIn :** ' + nz(reseaux.linkedin),
+      '- **TikTok :** ' + nz(reseaux.tiktok),
+      '',
+      '## 10. Questions fréquentes (optionnel)',
+      '',
+      faqMd,
+      '',
+      '## 11. Domaine et mise en ligne',
+      '',
+      '- **Nom de domaine souhaité :** ' + nz(domaine.souhaite),
+      '- **Date limite / contrainte de délai :** ' + nz(domaine.delai),
+      '',
+      '## 12. Ressenti du client — pour choisir la direction visuelle',
+      '',
+      '- **3 adjectifs utilisés par le client :** ' + (adjectifs || '(non renseigné)'),
+      "- **Sites concurrents qu'il aime :** " + nz(ressenti.sitesAimes),
+      "- **Sites concurrents qu'il n'aime pas :** " + nz(ressenti.sitesPasAimes),
+      '- **Remarques libres :** ' + nz(ressenti.remarques),
+      '',
+      '---',
+      '',
+      '## Choix atelier — rempli par nous, pas par le client',
+      '',
+      "Cette section n'est pas posée au client. Elle est remplie par la personne qui prépare le site",
+      '(ou par Claude via la compétence `nouveau-site`), après avoir consulté `docs/DIRECTIONS.md`.',
+      '',
+      '- **Direction :**',
+      '- **Motion** (none / subtle / rich) :',
+      '- **Typographie** (`typography.display` / `typography.body`, si surcharge de la paire de la direction) :',
+      '- **Échelle** (`scale` : compact / normal / display) :',
+      '- **Nav :**',
+      '- **Hero :**',
+      "- **Sections et variantes** (dans l'ordre) :",
+      '- **Tone** (`layout.tone` : flat / alternate) :',
+      '- **Séparateur** (`layout.divider` : none / wave / diagonal / curve / rule / zigzag) :',
+      '- **Footer :**',
+      '- **Libellés** (`wording.devis` et les autres si le défaut ne convient pas au métier) :',
+      '- **Pages villes** (`seo.cityPages` : oui seulement si 4+ services et une vraie liste de villes) :',
+      '- **Justification en une phrase** (pourquoi cette direction pour ce métier/client) :',
+      ''
+    ];
+
+    return lines.join('\n');
+  }
+
+  if (typeof window !== 'undefined') { window.buildMarkdown = buildMarkdown; }
+  if (typeof module !== 'undefined' && module.exports) { module.exports = { buildMarkdown: buildMarkdown }; }
+
+  /* ================= DOM wiring (browser only) ================= */
+
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function getVal(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+  function getChecked(id) { var el = document.getElementById(id); return el ? el.checked : false; }
+  function setVal(id, value) { var el = document.getElementById(id); if (el && value !== undefined && value !== null) el.value = value; }
+  function setChecked(id, value) { var el = document.getElementById(id); if (el) el.checked = !!value; }
+  function debounce(fn, wait) {
+    var t;
+    return function () {
+      var args = arguments, ctx = this;
+      clearTimeout(t);
+      t = setTimeout(function () { fn.apply(ctx, args); }, wait);
+    };
+  }
+
+  var form, servicesList, avisList, horairesList, faqList, statusEl, submitBtn;
+  var svcCount = 0, avisCount = 0, horCount = 0, faqCount = 0;
+
+  function renderStatus(type, message) {
+    if (!statusEl) return;
+    statusEl.textContent = message || '';
+    statusEl.className = 'form-status' + (type ? ' is-' + type : '');
+  }
+
+  /* ---- Services ---- */
+  function addServiceBlock(prefill) {
+    prefill = prefill || {};
+    svcCount += 1;
+    var n = svcCount;
+    var wrap = document.createElement('fieldset');
+    wrap.className = 'ff-repeat service-block';
+    wrap.innerHTML =
+      '<legend>Service</legend>' +
+      '<div class="field"><label for="svc-' + n + '-titre">Titre du service</label>' +
+      '<input type="text" id="svc-' + n + '-titre" class="svc-titre" autocomplete="off"></div>' +
+      "<div class=\"field\"><label for=\"svc-" + n + "-phrase\">En une phrase, ce que c'est</label>" +
+      '<input type="text" id="svc-' + n + '-phrase" class="svc-phrase" autocomplete="off"></div>' +
+      '<div class="field-group cols-3">' +
+      '<div class="field"><label for="svc-' + n + '-force1">Point fort 1</label><input type="text" id="svc-' + n + '-force1" class="svc-force1" autocomplete="off"></div>' +
+      '<div class="field"><label for="svc-' + n + '-force2">Point fort 2</label><input type="text" id="svc-' + n + '-force2" class="svc-force2" autocomplete="off"></div>' +
+      '<div class="field"><label for="svc-' + n + '-force3">Point fort 3</label><input type="text" id="svc-' + n + '-force3" class="svc-force3" autocomplete="off"></div>' +
+      '</div>' +
+      '<div class="field-group cols-2">' +
+      '<div class="field"><label for="svc-' + n + '-prix">Prix « à partir de » (optionnel)</label><input type="text" id="svc-' + n + '-prix" class="svc-prix" placeholder="ex. 90 €" autocomplete="off"></div>' +
+      "<div class=\"field field-checkbox\"><label><input type=\"checkbox\" id=\"svc-" + n + "-phare\" class=\"svc-phare\"> Mettre en avant sur la page d'accueil</label></div>" +
+      '</div>' +
+      '<button type="button" class="btn btn-remove remove-service">Supprimer ce service</button>';
+    servicesList.appendChild(wrap);
+    wrap.querySelector('.remove-service').addEventListener('click', function () {
+      if (servicesList.children.length <= 1) return;
+      wrap.remove();
+      renumberServices();
+      updateServiceLimits();
+      saveState(); updateProgress();
+    });
+    if (prefill.titre) wrap.querySelector('.svc-titre').value = prefill.titre;
+    if (prefill.phrase) wrap.querySelector('.svc-phrase').value = prefill.phrase;
+    if (prefill.force1) wrap.querySelector('.svc-force1').value = prefill.force1;
+    if (prefill.force2) wrap.querySelector('.svc-force2').value = prefill.force2;
+    if (prefill.force3) wrap.querySelector('.svc-force3').value = prefill.force3;
+    if (prefill.prix) wrap.querySelector('.svc-prix').value = prefill.prix;
+    if (prefill.phare) wrap.querySelector('.svc-phare').checked = true;
+    renumberServices();
+    updateServiceLimits();
+  }
+  function renumberServices() {
+    $all('.service-block', servicesList).forEach(function (el, i) {
+      el.querySelector('legend').textContent = 'Service ' + (i + 1);
+      var rm = el.querySelector('.remove-service');
+      if (rm) rm.setAttribute('aria-label', 'Supprimer le service ' + (i + 1));
+    });
+  }
+  function updateServiceLimits() {
+    var count = servicesList.children.length;
+    document.getElementById('add-service').disabled = count >= 8;
+    $all('.remove-service', servicesList).forEach(function (btn) { btn.disabled = count <= 1; });
+  }
+
+  /* ---- Avis ---- */
+  function addAvisBlock(prefill) {
+    prefill = prefill || {};
+    avisCount += 1;
+    var n = avisCount;
+    var wrap = document.createElement('fieldset');
+    wrap.className = 'ff-repeat avis-block';
+    wrap.innerHTML =
+      '<legend>Avis</legend>' +
+      '<div class="field-group cols-2">' +
+      '<div class="field"><label for="avis-' + n + '-auteur">Auteur (prénom + initiale)</label><input type="text" id="avis-' + n + '-auteur" class="avis-auteur" autocomplete="off"></div>' +
+      '<div class="field"><label for="avis-' + n + '-source">Source</label><input type="text" id="avis-' + n + '-source" class="avis-source" placeholder="Google, e-mail, SMS…" autocomplete="off"></div>' +
+      '</div>' +
+      "<div class=\"field\"><label for=\"avis-" + n + "-texte\">Texte de l'avis (copier tel quel)</label>" +
+      '<textarea id="avis-' + n + '-texte" class="avis-texte" rows="3"></textarea></div>' +
+      '<div class="field-group cols-2">' +
+      '<div class="field"><label for="avis-' + n + '-ville">Ville du client</label><input type="text" id="avis-' + n + '-ville" class="avis-ville" autocomplete="off"></div>' +
+      '<div class="field"><label for="avis-' + n + '-date">Date</label><input type="text" id="avis-' + n + '-date" class="avis-date" placeholder="ex. mars 2025" autocomplete="off"></div>' +
+      '</div>' +
+      '<button type="button" class="btn btn-remove remove-avis">Supprimer cet avis</button>';
+    avisList.appendChild(wrap);
+    wrap.querySelector('.remove-avis').addEventListener('click', function () { wrap.remove(); saveState(); updateProgress(); });
+    if (prefill.auteur) wrap.querySelector('.avis-auteur').value = prefill.auteur;
+    if (prefill.texte) wrap.querySelector('.avis-texte').value = prefill.texte;
+    if (prefill.source) wrap.querySelector('.avis-source').value = prefill.source;
+    if (prefill.ville) wrap.querySelector('.avis-ville').value = prefill.ville;
+    if (prefill.date) wrap.querySelector('.avis-date').value = prefill.date;
+  }
+
+  /* ---- Horaires ---- */
+  function addHoraireRow(prefill) {
+    prefill = prefill || {};
+    horCount += 1;
+    var n = horCount;
+    var row = document.createElement('div');
+    row.className = 'ff-repeat horaire-row';
+    row.innerHTML =
+      '<div class="field"><label for="hor-' + n + '-jour">Jour(s)</label><input type="text" id="hor-' + n + '-jour" class="hor-jour" placeholder="ex. Lun–Ven" autocomplete="off"></div>' +
+      '<div class="field"><label for="hor-' + n + '-creneau">Créneau</label><input type="text" id="hor-' + n + '-creneau" class="hor-creneau" placeholder="ex. 8h–18h" autocomplete="off"></div>' +
+      '<button type="button" class="btn btn-remove remove-horaire">Supprimer</button>';
+    horairesList.appendChild(row);
+    row.querySelector('.remove-horaire').addEventListener('click', function () {
+      if (horairesList.children.length <= 1) return;
+      row.remove(); saveState(); updateProgress();
+    });
+    if (prefill.jour) row.querySelector('.hor-jour').value = prefill.jour;
+    if (prefill.creneau) row.querySelector('.hor-creneau').value = prefill.creneau;
+  }
+
+  /* ---- FAQ ---- */
+  function addFaqBlock(prefill) {
+    prefill = prefill || {};
+    faqCount += 1;
+    var n = faqCount;
+    var wrap = document.createElement('fieldset');
+    wrap.className = 'ff-repeat faq-block';
+    wrap.innerHTML =
+      '<legend>Question</legend>' +
+      '<div class="field"><label for="faq-' + n + '-q">Question fréquente</label><input type="text" id="faq-' + n + '-q" class="faq-q" autocomplete="off"></div>' +
+      '<div class="field"><label for="faq-' + n + '-r">Réponse habituelle</label><textarea id="faq-' + n + '-r" class="faq-r" rows="2"></textarea></div>' +
+      '<button type="button" class="btn btn-remove remove-faq">Supprimer cette question</button>';
+    faqList.appendChild(wrap);
+    wrap.querySelector('.remove-faq').addEventListener('click', function () { wrap.remove(); saveState(); updateProgress(); });
+    if (prefill.q) wrap.querySelector('.faq-q').value = prefill.q;
+    if (prefill.r) wrap.querySelector('.faq-r').value = prefill.r;
+  }
+
+  /* ---- Collect / save / restore ---- */
+  function collectFormData() {
+    return {
+      identite: {
+        nom: getVal('id-nom'), metier: getVal('id-metier'), forme: getVal('id-forme'),
+        siret: getVal('id-siret'), tva: getVal('id-tva'), depuis: getVal('id-depuis'),
+        assurance: getVal('id-assurance'), certifications: getVal('id-certifications'),
+        responsable: getVal('id-responsable')
+      },
+      contact: {
+        telephone: getVal('id-telephone'), whatsapp: getVal('id-whatsapp'), email: getVal('id-email'),
+        rue: getVal('id-rue'), cp: getVal('id-cp'), ville: getVal('id-ville'),
+        horaires: $all('.horaire-row', horairesList).map(function (row) {
+          return { jour: row.querySelector('.hor-jour').value, creneau: row.querySelector('.hor-creneau').value };
+        }),
+        urgence: getChecked('id-urgence'),
+        googleUrl: getVal('id-google-url'), googleNote: getVal('id-google-note'), googleCount: getVal('id-google-count')
+      },
+      zones: { villes: getVal('id-villes'), rayon: getVal('id-rayon'), libelle: getVal('id-libelle') },
+      services: $all('.service-block', servicesList).map(function (el) {
+        return {
+          titre: el.querySelector('.svc-titre').value,
+          phrase: el.querySelector('.svc-phrase').value,
+          force1: el.querySelector('.svc-force1').value,
+          force2: el.querySelector('.svc-force2').value,
+          force3: el.querySelector('.svc-force3').value,
+          prix: el.querySelector('.svc-prix').value,
+          phare: el.querySelector('.svc-phare').checked
+        };
+      }),
+      histoire: { qui: getVal('id-qui'), depuisPourquoi: getVal('id-depuis-pourquoi'), equipe: getVal('id-equipe'), jalons: getVal('id-jalons') },
+      valeurs: [getVal('id-valeur-1'), getVal('id-valeur-2'), getVal('id-valeur-3')],
+      avis: $all('.avis-block', avisList).map(function (el) {
+        return {
+          auteur: el.querySelector('.avis-auteur').value,
+          texte: el.querySelector('.avis-texte').value,
+          source: el.querySelector('.avis-source').value,
+          ville: el.querySelector('.avis-ville').value,
+          date: el.querySelector('.avis-date').value
+        };
+      }),
+      photos: {
+        logo: getChecked('id-photo-logo'), portrait: getChecked('id-photo-portrait'),
+        chantiers: getChecked('id-photo-chantiers'), avantApres: getChecked('id-photo-avant-apres'),
+        aucune: getChecked('id-photo-aucune'), lien: getVal('id-photo-lien')
+      },
+      reseaux: { instagram: getVal('id-instagram'), facebook: getVal('id-facebook'), linkedin: getVal('id-linkedin'), tiktok: getVal('id-tiktok') },
+      faq: $all('.faq-block', faqList).map(function (el) {
+        return { q: el.querySelector('.faq-q').value, r: el.querySelector('.faq-r').value };
+      }),
+      domaine: { souhaite: getVal('id-domaine-souhaite'), delai: getVal('id-domaine-delai') },
+      ressenti: {
+        adj1: getVal('id-adj-1'), adj2: getVal('id-adj-2'), adj3: getVal('id-adj-3'),
+        sitesAimes: getVal('id-sites-aimes'), sitesPasAimes: getVal('id-sites-pas-aimes'), remarques: getVal('id-remarques')
+      }
+    };
+  }
+
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(collectFormData())); } catch (e) { /* stockage indisponible, on continue sans */ }
+  }
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  function restoreState(saved) {
+    var i = saved.identite || {}, c = saved.contact || {}, z = saved.zones || {}, h = saved.histoire || {};
+    var p = saved.photos || {}, r = saved.reseaux || {}, d = saved.domaine || {}, rs = saved.ressenti || {};
+    var vals = saved.valeurs || [];
+    setVal('id-nom', i.nom); setVal('id-metier', i.metier); setVal('id-forme', i.forme);
+    setVal('id-siret', i.siret); setVal('id-tva', i.tva); setVal('id-depuis', i.depuis);
+    setVal('id-assurance', i.assurance); setVal('id-certifications', i.certifications); setVal('id-responsable', i.responsable);
+    setVal('id-telephone', c.telephone); setVal('id-whatsapp', c.whatsapp); setVal('id-email', c.email);
+    setVal('id-rue', c.rue); setVal('id-cp', c.cp); setVal('id-ville', c.ville);
+    setChecked('id-urgence', c.urgence);
+    setVal('id-google-url', c.googleUrl); setVal('id-google-note', c.googleNote); setVal('id-google-count', c.googleCount);
+    setVal('id-villes', z.villes); setVal('id-rayon', z.rayon); setVal('id-libelle', z.libelle);
+    setVal('id-qui', h.qui); setVal('id-depuis-pourquoi', h.depuisPourquoi); setVal('id-equipe', h.equipe); setVal('id-jalons', h.jalons);
+    setVal('id-valeur-1', vals[0]); setVal('id-valeur-2', vals[1]); setVal('id-valeur-3', vals[2]);
+    setChecked('id-photo-logo', p.logo); setChecked('id-photo-portrait', p.portrait);
+    setChecked('id-photo-chantiers', p.chantiers); setChecked('id-photo-avant-apres', p.avantApres);
+    setChecked('id-photo-aucune', p.aucune); setVal('id-photo-lien', p.lien);
+    setVal('id-instagram', r.instagram); setVal('id-facebook', r.facebook); setVal('id-linkedin', r.linkedin); setVal('id-tiktok', r.tiktok);
+    setVal('id-domaine-souhaite', d.souhaite); setVal('id-domaine-delai', d.delai);
+    setVal('id-adj-1', rs.adj1); setVal('id-adj-2', rs.adj2); setVal('id-adj-3', rs.adj3);
+    setVal('id-sites-aimes', rs.sitesAimes); setVal('id-sites-pas-aimes', rs.sitesPasAimes); setVal('id-remarques', rs.remarques);
+
+    servicesList.innerHTML = '';
+    (saved.services && saved.services.length ? saved.services : [{}]).forEach(function (s) { addServiceBlock(s); });
+    horairesList.innerHTML = '';
+    (c.horaires && c.horaires.length ? c.horaires : [{}]).forEach(function (row) { addHoraireRow(row); });
+    avisList.innerHTML = '';
+    (saved.avis || []).forEach(function (a) { addAvisBlock(a); });
+    faqList.innerHTML = '';
+    (saved.faq || []).forEach(function (f) { addFaqBlock(f); });
+  }
+
+  /* ---- Progress ---- */
+  function updateProgress() {
+    var sections = $all('.ff-section');
+    var done = 0;
+    sections.forEach(function (sec) {
+      var fields = $all('input, textarea, select', sec);
+      var has = fields.some(function (f) {
+        if (f.type === 'checkbox' || f.type === 'radio') return f.checked;
+        return !!v(f.value);
+      });
+      if (has) done += 1;
+    });
+    var total = sections.length;
+    var pct = total ? Math.round((done / total) * 100) : 0;
+    var textEl = document.getElementById('progress-text');
+    var fillEl = document.getElementById('progress-fill');
+    if (textEl) textEl.textContent = done + ' / ' + total + ' sections renseignées';
+    if (fillEl) fillEl.style.width = pct + '%';
+  }
+
+  /* ---- Submit / fallbacks / clear ---- */
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    if (getVal('hp-website')) {
+      renderStatus('success', 'Merci, votre brief a bien été envoyé.');
+      form.reset();
+      return;
+    }
+    if (!form.reportValidity()) return;
+    var data = collectFormData();
+    var hasService = data.services.some(function (s) { return v(s.titre) && v(s.phrase); });
+    if (!hasService) {
+      renderStatus('error', 'Merci de renseigner au moins un service (titre et phrase).');
+      var firstTitre = servicesList.querySelector('.svc-titre');
+      if (firstTitre) firstTitre.focus();
+      return;
+    }
+    data.dateGeneration = new Date().toLocaleDateString('fr-FR');
+    var markdown = buildMarkdown(data);
+    var accessKey = form.dataset.key;
+    var subject = 'Brief site — ' + nz(data.identite.nom, 'Client');
+    submitBtn.disabled = true;
+    renderStatus('pending', 'Envoi en cours…');
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ access_key: accessKey, subject: subject, brief: markdown, from_name: data.identite.nom || 'Brief client' })
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (result) {
+        submitBtn.disabled = false;
+        if (result && result.success) {
+          renderStatus('success', 'Merci ! Votre brief a bien été envoyé. Nous revenons vers vous rapidement.');
+          try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+        } else {
+          renderStatus('error', "L'envoi automatique a échoué. Utilisez « Copier le brief » ou « Ouvrir dans ma messagerie » ci-dessous pour nous l'envoyer autrement.");
+        }
+      })
+      .catch(function () {
+        submitBtn.disabled = false;
+        renderStatus('error', "L'envoi automatique a échoué (connexion). Utilisez « Copier le brief » ou « Ouvrir dans ma messagerie » ci-dessous.");
+      });
+  }
+
+  function currentMarkdown() {
+    var data = collectFormData();
+    data.dateGeneration = new Date().toLocaleDateString('fr-FR');
+    return buildMarkdown(data);
+  }
+
+  function handleCopy() {
+    var markdown = currentMarkdown();
+    function done() { renderStatus('success', 'Brief copié dans le presse-papiers.'); }
+    function fail() { renderStatus('error', 'Impossible de copier automatiquement — sélectionnez et copiez le texte manuellement.'); }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(markdown).then(done).catch(fail);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = markdown;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) { fail(); }
+        document.body.removeChild(ta);
+      }
+    } catch (e) { fail(); }
+  }
+
+  function handleMailto() {
+    var data = collectFormData();
+    data.dateGeneration = new Date().toLocaleDateString('fr-FR');
+    var markdown = buildMarkdown(data);
+    var to = form.dataset.to || 'contact@finckfisch.fr';
+    var subject = 'Brief site — ' + nz(data.identite.nom, 'Client');
+    var url = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(markdown);
+    window.location.href = url;
+  }
+
+  function handleClear() {
+    var ok = window.confirm('Effacer toutes les réponses saisies dans ce formulaire ?');
+    if (!ok) return;
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    form.reset();
+    servicesList.innerHTML = ''; horairesList.innerHTML = ''; avisList.innerHTML = ''; faqList.innerHTML = '';
+    svcCount = 0; avisCount = 0; horCount = 0; faqCount = 0;
+    addServiceBlock();
+    addHoraireRow();
+    renderStatus('', '');
+    updateProgress();
+  }
+
+  /* ---- Init ---- */
+  function init() {
+    form = document.getElementById('brief-form');
+    servicesList = document.getElementById('services-list');
+    avisList = document.getElementById('avis-list');
+    horairesList = document.getElementById('horaires-list');
+    faqList = document.getElementById('faq-list');
+    statusEl = document.getElementById('form-status');
+    submitBtn = document.getElementById('submit-btn');
+
+    var saved = loadState();
+    if (saved) {
+      restoreState(saved);
+    } else {
+      addServiceBlock();
+      addHoraireRow();
+    }
+
+    document.getElementById('add-service').addEventListener('click', function () { addServiceBlock(); saveState(); updateProgress(); });
+    document.getElementById('add-avis').addEventListener('click', function () { addAvisBlock(); saveState(); updateProgress(); });
+    document.getElementById('add-horaire').addEventListener('click', function () { addHoraireRow(); saveState(); updateProgress(); });
+    document.getElementById('add-faq').addEventListener('click', function () { addFaqBlock(); saveState(); updateProgress(); });
+
+    form.addEventListener('submit', handleSubmit);
+    document.getElementById('copy-btn').addEventListener('click', handleCopy);
+    document.getElementById('mailto-btn').addEventListener('click', handleMailto);
+    document.getElementById('clear-btn').addEventListener('click', handleClear);
+
+    form.addEventListener('input', debounce(function () { saveState(); updateProgress(); }, 300));
+    form.addEventListener('change', function () { saveState(); updateProgress(); });
+
+    updateProgress();
+  }
+
+  if (typeof document !== 'undefined' && document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', init);
+  }
+})();
+</script>
+</body>
+</html>

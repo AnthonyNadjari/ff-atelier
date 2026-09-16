@@ -1,9 +1,10 @@
 ---
 /** Zones "list" : titre + liste de villes en grille, avec rayon d'intervention si fourni. */
-import { site } from '@/lib/site';
+import { site, citySlug } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 const zones = site.zones;
 const cities = zones.cities;
+const linked = site.seo.cityPages;
 ---
 
 {cities.length > 0 && (
@@ -19,7 +20,7 @@ const cities = zones.cities;
         {cities.map((city) => (
           <li class="flex items-center gap-2.5 text-fg" data-reveal>
             <Icon name="MapPin" size={17} class="text-accent shrink-0" />
-            <span>{city}</span>
+            {linked ? <a href={`/zones/${citySlug(city)}`} class="hover:text-accent">{city}</a> : <span>{city}</span>}
           </li>
         ))}
       </ul>

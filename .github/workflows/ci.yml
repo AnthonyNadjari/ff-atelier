@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Tests unitaires (schema, sections, directions, fonts, CLI)
+        run: npm test
+
+      - name: Construit tous les sites (hors _test*)
+        run: node scripts/ff.mjs tous
+
+      # Pas de `node scripts/ff.mjs captures` ici : necessite Chrome, indisponible sur ce runner.

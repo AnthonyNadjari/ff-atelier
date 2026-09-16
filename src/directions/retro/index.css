@@ -1,0 +1,79 @@
+/* Direction RETRO — seventies. Gloock + Josefin Sans, orange brule et moutarde, pilules. */
+@import '@fontsource/gloock';
+@import '@fontsource-variable/josefin-sans';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='retro'] {
+  --accent-h: 22;
+  --accent-s: 80%;
+  --accent-l: 50%;
+
+  --bg: #f6ead8;
+  --bg-2: #efdcc0;
+  --surface: #fbf3e6;
+  --fg: #3b2418;
+  --muted: #7a5a45;
+  --line: #d9c3a5;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(42 75% 48%);
+  --on-accent: #fbf3e6;
+  --ink: #3b2418;
+  --on-ink: #fbf3e6;
+
+  --font-display: 'Gloock', 'Georgia', serif;
+  --font-body: 'Josefin Sans Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 400;
+  --display-tracking: 0;
+  --heading-transform: none;
+  --radius: 999px;
+  --radius-card: 18px;
+  --shadow-card: 0 1px 0 rgb(59 36 24 / 0.06), 0 20px 44px -26px rgb(59 36 24 / 0.28);
+  --shadow-lift: 0 32px 64px -24px rgb(59 36 24 / 0.35);
+  --motion-duration: 0.9s;
+}
+
+/* Soleil couchant discret */
+[data-direction='retro'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  background: radial-gradient(60vmax 60vmax at 50% -10%, hsl(var(--accent-h) var(--accent-s) var(--accent-l) / 0.22), transparent 65%);
+}
+
+[data-direction='retro'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='retro'] h1 em,
+[data-direction='retro'] h2 em { font-style: italic; color: var(--accent); }
+
+[data-direction='retro'] h2 { position: relative; z-index: 1; }
+
+[data-direction='retro'] .btn {
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+[data-direction='retro'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+[data-direction='retro'] .btn-primary:hover { background: var(--accent-2); color: var(--ink); }
+[data-direction='retro'] .btn-ghost {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--fg);
+}
+[data-direction='retro'] .btn-ghost:hover { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='retro'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 18px;
+  position: relative;
+  z-index: 1;
+}
+[data-direction='retro'] .rule { border-bottom: 3px double var(--accent); padding-bottom: 0.35em; }
+[data-direction='retro'] .eyebrow { color: var(--accent-2); }

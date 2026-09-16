@@ -1,0 +1,86 @@
+/* Direction MEDITERRANEE — terre cuite et mer. Gelasio + Hanken Grotesk, arches et carreaux. */
+@import '@fontsource-variable/gelasio';
+@import '@fontsource-variable/hanken-grotesk';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='mediterranee'] {
+  --accent-h: 14;
+  --accent-s: 65%;
+  --accent-l: 48%;
+
+  --bg: #fbf6ee;
+  --bg-2: #f3e7d3;
+  --surface: #fffaf2;
+  --fg: #2a221c;
+  --muted: #7b6b5b;
+  --line: #e3d3bb;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(200 60% 42%);
+  --on-accent: #fffaf2;
+  --ink: #2a221c;
+  --on-ink: #fbf6ee;
+
+  --font-display: 'Gelasio Variable', 'Georgia', serif;
+  --font-body: 'Hanken Grotesk Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 600;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 10px;
+  --radius-card: 16px;
+  --shadow-card: 0 1px 2px rgb(42 34 28 / 0.05), 0 16px 32px -20px rgb(42 34 28 / 0.2);
+  --shadow-lift: 0 28px 56px -24px rgb(42 34 28 / 0.28);
+}
+
+/* Motif de carreaux tres discret */
+[data-direction='mediterranee'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cpath d='M24 0 L48 24 L24 48 L0 24 Z' fill='none' stroke='%232a221c' stroke-width='1'/%3E%3Ccircle cx='24' cy='24' r='6' fill='none' stroke='%232a221c' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 48px 48px;
+}
+
+[data-direction='mediterranee'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='mediterranee'] h1 em,
+[data-direction='mediterranee'] h2 em { font-style: italic; color: var(--accent-2); }
+
+[data-direction='mediterranee'] .btn {
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+[data-direction='mediterranee'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+[data-direction='mediterranee'] .btn-primary:hover { background: hsl(var(--accent-h) var(--accent-s) 40%); }
+[data-direction='mediterranee'] .btn-ghost {
+  border: 1px solid var(--accent-2);
+  background: transparent;
+  color: var(--accent-2);
+}
+[data-direction='mediterranee'] .btn-ghost:hover { background: var(--accent-2); color: var(--on-accent); }
+
+[data-direction='mediterranee'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+/* Coins arrondis en forme d'arche sur l'image d'une carte */
+[data-direction='mediterranee'] .card figure {
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  overflow: hidden;
+}
+
+[data-direction='mediterranee'] .rule { border-top: 1px solid var(--line); }
+[data-direction='mediterranee'] .eyebrow { color: var(--accent-2); letter-spacing: 0.16em; }

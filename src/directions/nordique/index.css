@@ -1,0 +1,66 @@
+/* Direction NORDIQUE — pale et aerienne. Blanc casse, teal sourd, Sora + Literata. */
+@import '@fontsource-variable/sora';
+@import '@fontsource-variable/literata';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='nordique'] {
+  --accent-h: 175;
+  --accent-s: 30%;
+  --accent-l: 38%;
+
+  --bg: #fbfbfa;
+  --bg-2: #f1f2f0;
+  --surface: #ffffff;
+  --fg: #1f2422;
+  --muted: #6f7573;
+  --line: #e3e5e2;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) 30%);
+  --on-accent: #ffffff;
+  --ink: #1f2422;
+  --on-ink: #fbfbfa;
+
+  --font-display: 'Sora Variable', ui-sans-serif, sans-serif;
+  --font-body: 'Literata Variable', 'Georgia', serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 600;
+  --display-tracking: -0.02em;
+  --heading-transform: none;
+  --radius: 8px;
+  --radius-card: 12px;
+  --shadow-card: 0 1px 2px rgb(31 36 34 / 0.04), 0 10px 24px -18px rgb(31 36 34 / 0.12);
+  --shadow-lift: 0 20px 48px -24px rgb(31 36 34 / 0.2);
+  --section-y: clamp(5rem, 12vw, 10rem);
+}
+
+[data-direction='nordique'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='nordique'] h1 em,
+[data-direction='nordique'] h2 em { font-style: italic; color: var(--accent); }
+
+[data-direction='nordique'] .btn {
+  border-radius: var(--radius);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+[data-direction='nordique'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+[data-direction='nordique'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='nordique'] .btn-ghost {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+}
+[data-direction='nordique'] .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+[data-direction='nordique'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='nordique'] .rule { border-top: 1px solid var(--line); }
+[data-direction='nordique'] .eyebrow { letter-spacing: 0.16em; }

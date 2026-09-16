@@ -1,0 +1,69 @@
+/* Direction POP — blocs de couleurs vives, ludique. Anybody + Work Sans, cartes a ombre decalee. */
+@import '@fontsource-variable/anybody';
+@import '@fontsource-variable/work-sans';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='pop'] {
+  --accent-h: 350;
+  --accent-s: 85%;
+  --accent-l: 58%;
+
+  --bg: #fffdf7;
+  --bg-2: #fff1d6;
+  --surface: #ffffff;
+  --fg: #17120e;
+  --muted: #6b6055;
+  --line: #17120e;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(175 70% 45%);
+  --on-accent: #ffffff;
+  --ink: #17120e;
+  --on-ink: #ffffff;
+
+  --font-display: 'Anybody Variable', ui-sans-serif, sans-serif;
+  --font-body: 'Work Sans Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 800;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 16px;
+  --radius-card: 24px;
+  --shadow-card: 6px 6px 0 var(--accent-2);
+  --shadow-lift: 8px 8px 0 var(--accent);
+  --motion-duration: 0.7s;
+}
+
+[data-direction='pop'] h1,
+[data-direction='pop'] h2 { font-variation-settings: 'wdth' 120; }
+
+[data-direction='pop'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='pop'] h1 em,
+[data-direction='pop'] h2 em { font-style: normal; color: var(--accent-2); }
+
+[data-direction='pop'] .btn {
+  border-radius: 16px;
+  font-weight: 700;
+  border: 2px solid var(--fg);
+  transition: transform 0.2s var(--ease-out-quart), background 0.2s ease, box-shadow 0.2s var(--ease-out-quart);
+}
+[data-direction='pop'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 4px 4px 0 var(--fg);
+}
+[data-direction='pop'] .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--fg); }
+[data-direction='pop'] .btn-ghost {
+  background: var(--surface);
+  color: var(--fg);
+  box-shadow: 4px 4px 0 var(--fg);
+}
+[data-direction='pop'] .btn-ghost:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--fg); background: var(--bg-2); }
+
+[data-direction='pop'] .card {
+  border: 2px solid var(--fg);
+  background: var(--surface);
+  box-shadow: 6px 6px 0 var(--accent-2);
+}
+[data-direction='pop'] .rule { border-top: 2px solid var(--fg); }
+[data-direction='pop'] .eyebrow { color: var(--accent); font-weight: 700; }

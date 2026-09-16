@@ -144,8 +144,14 @@ direction + le même hero pour un client du même métier ou de la même ville.
 
 - **Direction :**
 - **Motion** (none / subtle / rich) :
+- **Typographie** (`typography.display` / `typography.body`, si surcharge de la paire de la direction) :
+- **Échelle** (`scale` : compact / normal / display) :
 - **Nav :**
 - **Hero :**
 - **Sections et variantes** (dans l'ordre) :
+- **Tone** (`layout.tone` : flat / alternate) :
+- **Séparateur** (`layout.divider` : none / wave / diagonal / curve / rule / zigzag) :
 - **Footer :**
+- **Libellés** (`wording.devis` et les autres si le défaut ne convient pas au métier) :
+- **Pages villes** (`seo.cityPages` : oui seulement si 4+ services et une vraie liste de villes) :
 - **Justification en une phrase** (pourquoi cette direction pour ce métier/client) :

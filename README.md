@@ -67,9 +67,25 @@ Toutes passent par `scripts/ff.mjs <commande> [slug]` (alias npm : `npm run ff -
 | `images <slug>` | Optimise les photos du client. |
 | `deploy <slug>` | Déploie le site en ligne. |
 | `exporter <slug>` | Prépare la livraison finale (repo + domaine au nom du client). |
+| `composer <slug>` | Propose automatiquement un look (direction, variantes, typographie...) dans `look.json`, sans toucher au contenu. |
+| `propositions <slug>` | Construit plusieurs looks avec captures d'écran (`propositions/<slug>/index.html`) pour comparer avant de choisir. |
+| `studio <slug>` | Éditeur visuel du look, sur `http://127.0.0.1:4400`. |
+| `figer <slug>` | Fusionne `look.json` dans `site.config.ts` et le supprime. |
+| `og <slug>` | Génère l'image Open Graph du site. |
+| `captures <slug>` | Prend des captures d'écran du site buildé. |
+| `servir <slug>` | Sert le build statique de `dist/<slug>` en local. |
 
 Génération de contenu : `/nouveau-site <slug>` (Claude Code) ou `node scripts/ff-generer.mjs <slug>`
 (API Anthropic directe, sans Claude Code).
+
+### Studio visuel
+
+`node scripts/ff.mjs studio <slug>` lance un éditeur visuel sur `http://127.0.0.1:4400` pour ajuster le
+*look* d'un site (direction, polices, échelle, tone, séparateur, libellés) sans toucher au code : les
+changements sont écrits dans `sites/<slug>/look.json`, une surcharge qui ne touche jamais au contenu
+(`site.config.ts`). `ff composer <slug>` propose un premier look automatiquement, `ff propositions
+<slug>` en construit plusieurs à comparer avec captures d'écran, et une fois le look validé, `ff figer
+<slug>` le fusionne dans `site.config.ts` et supprime `look.json`.
 
 ## Carte du dépôt
 

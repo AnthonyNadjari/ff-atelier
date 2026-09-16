@@ -48,6 +48,18 @@ En croisant le brief (section 12 : 3 adjectifs, métier, sites aimés/pas aimés
   départage avec `ff variete` pour maximiser la différence avec les sites existants.
 - **Motion** : `motionParDefaut` de la direction choisie (`src/directions/<direction>/meta.ts`), sauf
   raison contraire du brief.
+- **Typographie, échelle, tone, séparateur** : des choix explicites, pas seulement les défauts de la
+  direction — voir `docs/DIRECTIONS.md` §§ Polices, Échelle, Tone et séparateurs. À faire varier d'un
+  client à l'autre, surtout dans la même direction :
+  - `typography` (`typography.display` / `typography.body`) : une surcharge de police, seulement si elle
+    a un sens pour le client, et qui ne reprend **jamais** la paire par défaut de la direction (10
+    suggestions dans `docs/DIRECTIONS.md`).
+  - `scale` (`compact` / `normal` / `display`) : `compact` si beaucoup de contenu, `display` si peu de
+    sections et un message fort porté par la typographie, `normal` sinon.
+  - `layout.divider` (`none` / `wave` / `diagonal` / `curve` / `rule` / `zigzag`) : choisi selon la
+    direction (tableau dans `docs/DIRECTIONS.md`), pas laissé à `none` par défaut sans y penser.
+  - `layout.tone` (`flat` / `alternate`) : `alternate` si plusieurs sections voisines partagent le même
+    fond et se confondent visuellement.
 - **Nav / hero / footer** : choisis dans `VARIANTS` selon `docs/DIRECTIONS.md`, en tenant compte des
   données réellement disponibles (ex. `hero: video` seulement si une vidéo existe, `hero: fullbleed`
   seulement si une photo forte existe).
@@ -63,6 +75,9 @@ En croisant le brief (section 12 : 3 adjectifs, métier, sites aimés/pas aimés
   - `cta` — presque toujours (bandeau avant contact), sauf site très court.
   - `contact` — toujours.
   - Variante de chaque section : voir le tableau correspondant dans `docs/DIRECTIONS.md`.
+- **`seo.cityPages`** : passe-le à `true` seulement si `zones.cities` a au moins 4 vraies villes ET que
+  le site a au moins 4 vrais services (sinon les pages `/zones/<ville>` générées seraient du contenu
+  pauvre — voir `docs/DIRECTIONS.md` § Pages villes). Sinon laisse le défaut (`false`).
 
 ### 4. Rédiger les textes
 
@@ -100,7 +115,24 @@ Crée (ou remplace) `sites/<slug>/site.config.ts` sur le modèle de `sites/_exem
 Respecte exactement les noms de variantes de `VARIANTS` (une faute de frappe fait échouer
 `defineSite`).
 
-### 7. Builder et vérifier
+### 7. Comparer avec la proposition automatique
+
+```
+node scripts/ff.mjs composer <slug>
+```
+
+Génère un look proposé automatiquement (direction, variantes, typographie...) à partir du
+`site.config.ts` qui vient d'être écrit, dans `sites/<slug>/look.json` — sans toucher au fichier. Compare
+ce que `composer` propose à ce qui a été choisi à l'étape 3 : si `composer` suggère mieux (direction plus
+adaptée, séparateur/tone plus cohérent) sans contredire une contrainte du brief, reprends ce choix
+directement dans `site.config.ts` ; sinon garde le choix fait à l'étape 3 et supprime `look.json` (ne
+pas laisser un `look.json` qui traîne sans raison — `ff figer <slug>` le fusionnerait sinon).
+
+Profite de cette relecture pour vérifier `wording.devis` : jamais "Demander un devis" pour un commerce,
+un restaurant ou un salon (boulangerie, coiffeur, institut, café...) — voir la table par métier dans
+`docs/DIRECTIONS.md` § Libellés — et l'ajuster dans `site.config.ts` si le défaut ne convient pas.
+
+### 8. Builder et vérifier
 
 ```
 node scripts/ff.mjs build <slug>
@@ -111,7 +143,7 @@ Si une commande échoue : lis l'erreur, corrige `site.config.ts` (typo de varian
 manquant, zod qui rejette une valeur...), relance. Répète jusqu'à ce que build et vérifier soient
 verts. Ne t'arrête pas sur un échec silencieux — un site qui ne build pas n'est pas livrable.
 
-### 8. Résumer pour la vendeuse/le vendeur
+### 9. Résumer pour la vendeuse/le vendeur
 
 Termine par un résumé court, en français, tutoiement :
 
