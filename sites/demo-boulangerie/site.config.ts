@@ -112,6 +112,13 @@ export default defineSite({
 
   social: { instagram: 'https://www.instagram.com/boulangeriepetitpain' },
 
+  wording: {
+    devis: 'Passer commande',
+    ctaTitle: 'Une commande, un événement&nbsp;? <em>On prépare ça.</em>',
+    ctaText: 'Gâteaux, pièces montées, pains spéciaux : appelez-nous ou passez à la boutique.',
+    contactTitle: 'Commander ou nous écrire',
+    contactText: 'Le plus simple : un appel ou un passage à la boutique.',
+  },
   form: { provider: 'none' },
   images: {
     hero: { src: '/images/hero.webp', alt: 'Pains et viennoiseries de la Boulangerie Petit Pain' },

@@ -35,7 +35,7 @@ const paras = paragraphs(service.description ?? service.short);
           {service.priceFrom && <p class="mt-8 inline-block rounded-ui border border-line px-4 py-2 font-medium">{service.priceFrom}</p>}
           <div class="mt-10 flex flex-wrap gap-4">
             <Button href={tel()} size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
-            <Button href="/#contact" variant="ghost" size="lg">Demander un devis</Button>
+            <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>
           </div>
         </div>
         <aside class="lg:col-span-5" data-reveal="right">

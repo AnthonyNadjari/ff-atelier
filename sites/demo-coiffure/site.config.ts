@@ -125,6 +125,13 @@ export default defineSite({
 
   social: { instagram: 'https://www.instagram.com/maisonaurel' },
 
+  wording: {
+    devis: 'Prendre rendez-vous',
+    ctaTitle: 'Une envie de changement&nbsp;? <em>Prenons rendez-vous.</em>',
+    ctaText: 'Premier échange au salon ou par téléphone, sans engagement.',
+    contactTitle: 'Prendre rendez-vous',
+    contactText: 'Dites-nous ce que vous voulez, nous vous rappelons pour caler un créneau.',
+  },
   form: { provider: 'web3forms', accessKey: 'A-REMPLACER', subject: 'Nouvelle demande — Maison Aurel' },
   images: {
     hero: { src: '/images/hero.webp', alt: 'Intérieur du salon Maison Aurel, quartier des Chartrons' },

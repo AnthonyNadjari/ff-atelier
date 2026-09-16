@@ -137,6 +137,13 @@ export default defineSite({
 
   social: { instagram: 'https://www.instagram.com/atelierrouxarchitecture', linkedin: 'https://www.linkedin.com/company/atelier-roux-architecture' },
 
+  wording: {
+    devis: 'Parler de votre projet',
+    ctaTitle: 'Un appartement, une maison, un local&nbsp;? <em>Commençons par une visite.</em>',
+    ctaText: 'Premier rendez-vous sur place, sans engagement.',
+    contactTitle: 'Nous confier votre projet',
+    contactText: 'Décrivez le lieu et vos envies, nous vous rappelons.',
+  },
   form: { provider: 'mailto' },
   images: {
     hero: { src: '/images/hero.webp', alt: 'Intérieur d’un appartement parisien rénové par l’Atelier Roux Architecture' },

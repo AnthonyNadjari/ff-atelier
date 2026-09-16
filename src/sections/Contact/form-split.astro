@@ -10,7 +10,7 @@ const wa = whatsapp();
 <section id="contact" class="section-y">
   <div class="container-ff grid lg:grid-cols-12 gap-12">
     <div class="lg:col-span-5">
-      <SectionHeading eyebrow="Contact" title="Parlons de votre projet" text="Décrivez votre besoin, nous vous rappelons pour un devis gratuit." />
+      <SectionHeading eyebrow="Contact" title={site.wording.contactTitle} text={site.wording.contactText} />
       <ul class="mt-10 space-y-5" data-stagger="100">
         <li class="flex gap-4"><Icon name="Phone" class="text-accent shrink-0 mt-0.5" /><div><a href={tel()} class="font-medium text-lg">{site.contact.phoneDisplay}</a>{site.contact.emergency24h && <p class="text-sm text-muted">Urgences 24h/24, 7j/7</p>}</div></li>
         {wa && <li class="flex gap-4"><Icon name="MessageCircle" class="text-accent shrink-0 mt-0.5" /><a href={wa} class="font-medium" target="_blank" rel="noopener">Écrire sur WhatsApp</a></li>}
