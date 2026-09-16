@@ -19,6 +19,7 @@ export default defineSite({
     sections: [
       { type: 'services', variant: 'list' },
       { type: 'about', variant: 'values' },
+      { type: 'custom', variant: 'manifeste', label: 'Manifeste' },
       { type: 'process', variant: 'steps' },
       { type: 'proof', variant: 'gallery' },
       { type: 'faq', variant: 'two-columns' },

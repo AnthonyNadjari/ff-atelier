@@ -52,6 +52,13 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
 5. **Le schéma est la seule source de vérité du contenu.** N'ajoute jamais un champ affiché par une
    section sans l'ajouter d'abord à `src/lib/schema.ts` (avec son `.describe()`).
 
+## Sections sur mesure et croissance de la bibliothèque
+
+- Bloc unique à un client → `sites/<slug>/sections/<Nom>.astro` + `{ type: 'custom', variant: '<nom>', label }`
+  dans le layout. Jamais dans `src/`.
+- Composition réutilisable qui manque → `/nouvelle-variante`. Ambiance qui manque → `/nouvelle-direction`.
+  La bibliothèque grandit avec les clients ; chaque ajout passe par `VARIANTS`/`DIRECTIONS`, la doc et `npm test`.
+
 ## Où sont les choses
 
 - `src/lib/schema.ts` — schéma zod complet (`DIRECTIONS`, `MOTION`, `VARIANTS`, `siteSchema`).

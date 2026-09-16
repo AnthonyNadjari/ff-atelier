@@ -81,6 +81,9 @@ export const navLinks = (s: Site = site) => {
   };
   const seen = new Set<string>();
   return s.layout.sections
-    .filter((x) => x.type !== 'cta' && !seen.has(x.type) && seen.add(x.type))
-    .map((x) => ({ href: `#${x.type}`, label: labels[x.type] ?? x.type }));
+    .filter((x) => x.type !== 'cta')
+    .filter((x) => (x.type === 'custom' ? Boolean(x.label) : !seen.has(x.type) && seen.add(x.type)))
+    .map((x) => x.type === 'custom'
+      ? { href: `#${x.variant.toLowerCase()}`, label: x.label as string }
+      : { href: `#${x.type}`, label: labels[x.type] ?? x.type });
 };

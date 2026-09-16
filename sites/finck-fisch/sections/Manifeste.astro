@@ -1,0 +1,30 @@
+---
+/**
+ * Section sur mesure, propre au site Finck & Fisch : le manifeste en trois affirmations numerotees.
+ * Une section custom suit les memes regles que les sections partagees (tokens, `site`, data-reveal),
+ * mais n'appartient qu'a ce client. Appelee dans le layout par { type: 'custom', variant: 'manifeste', label: 'Manifeste' }.
+ */
+import { site } from '@/lib/site';
+const points = [
+  { n: '01', titre: 'Un prix, une fois.', texte: 'Pas d’abonnement, pas de frais cachés. Le site est à vous le jour de la mise en ligne.' },
+  { n: '02', titre: 'Vite, mais pas pareil.', texte: 'Chaque site a sa propre direction, sa typographie, sa composition. Deux clients, deux sites qu’on ne confond pas.' },
+  { n: '03', titre: 'Rien d’inventé.', texte: 'Pas de faux avis, pas de chiffres gonflés. Ce que le site dit de vous est vrai, sinon il ne le dit pas.' },
+];
+---
+
+<section id="manifeste" class="section-y bg-ink text-on-ink">
+  <div class="container-ff">
+    <p class="eyebrow">Ce que nous promettons</p>
+    <h2 class="text-display-lg mt-4 max-w-4xl" data-split>Trois règles, <em>aucune exception.</em></h2>
+    <ol class="mt-14 grid gap-px bg-on-ink/15 md:grid-cols-3" data-stagger="140">
+      {points.map((p) => (
+        <li class="bg-ink p-8 md:p-10">
+          <span class="font-mono text-sm text-on-ink/50">{p.n}</span>
+          <h3 class="mt-6 text-display-sm">{p.titre}</h3>
+          <p class="mt-4 text-on-ink/70 leading-relaxed">{p.texte}</p>
+        </li>
+      ))}
+    </ol>
+    <p class="mt-10 text-sm text-on-ink/50">Signé {site.business.name}.</p>
+  </div>
+</section>

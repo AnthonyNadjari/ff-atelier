@@ -5,12 +5,20 @@
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 
 const files = import.meta.glob<{ default: AstroComponentFactory }>('/src/sections/*/*.astro', { eager: true });
+// Sections propres a un site : sites/<slug>/sections/<Nom>.astro, appelees `custom/<nom>` dans le layout.
+const custom = import.meta.glob<{ default: AstroComponentFactory }>('/sites/*/sections/*.astro', { eager: true });
+const slug = import.meta.env.SITE as string;
 
 const registry = new Map<string, AstroComponentFactory>();
 for (const [path, mod] of Object.entries(files)) {
   const m = path.match(/\/src\/sections\/([^/]+)\/([^/]+)\.astro$/);
   if (!m) continue;
   registry.set(`${m[1].toLowerCase()}/${m[2].toLowerCase()}`, mod.default);
+}
+for (const [path, mod] of Object.entries(custom)) {
+  const m = path.match(/\/sites\/([^/]+)\/sections\/([^/]+)\.astro$/);
+  if (!m || m[1] !== slug) continue;
+  registry.set(`custom/${m[2].toLowerCase()}`, mod.default);
 }
 
 export function getSection(type: string, variant: string): AstroComponentFactory {

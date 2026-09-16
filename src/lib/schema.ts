@@ -87,8 +87,9 @@ export const siteSchema = z.object({
       sections: z
         .array(
           z.object({
-            type: z.enum(['services', 'about', 'proof', 'zones', 'process', 'faq', 'cta', 'contact']),
-            variant: z.string(),
+            type: z.enum(['services', 'about', 'proof', 'zones', 'process', 'faq', 'cta', 'contact', 'custom']),
+            variant: z.string().describe("Variante partagee, ou pour type 'custom' : nom du fichier sites/<slug>/sections/<variant>.astro"),
+            label: z.string().optional().describe("Libelle dans la navigation (custom uniquement) ; absent = pas d'ancre"),
           }),
         )
         .default([
@@ -265,6 +266,7 @@ export function defineSite(input: SiteInput): Site {
     throw new Error(`site.config.ts invalide :\n${lines.join('\n')}`);
   }
   for (const s of parsed.data.layout.sections) {
+    if (s.type === 'custom') continue; // section propre au site, verifiee au build par le registre
     const ok = (VARIANTS[s.type] as readonly string[]).includes(s.variant);
     if (!ok) {
       throw new Error(

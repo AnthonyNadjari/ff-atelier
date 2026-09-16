@@ -33,3 +33,13 @@ Voir `src/directions/README.md`. Une direction doit definir tous les tokens, imp
 
 ## Verification
 `SITE=_exemple node node_modules/astro/astro.js build` doit passer. Pour tester une variante, modifier temporairement `sites/_exemple/site.config.ts` (layout) puis remettre.
+
+## Sections sur mesure (propres à un site)
+
+Quand un client a besoin d'un bloc unique (menu, manifeste, carte dessinée, grille tarifaire), on ne
+crée pas une variante partagée : on écrit `sites/<slug>/sections/<Nom>.astro` et on l'appelle dans le
+layout par `{ type: 'custom', variant: '<nom>', label: 'Libellé nav' }` (`label` absent = pas
+d'ancre). Mêmes règles que les sections partagées (tokens, `site`, `data-reveal`), `id` = nom en
+minuscules. Le fichier voyage avec le site à l'export, jamais dans `src/`. Exemple :
+`sites/finck-fisch/sections/Manifeste.astro`. Pour faire grandir la bibliothèque partagée :
+compétences `/nouvelle-variante` et `/nouvelle-direction`.
