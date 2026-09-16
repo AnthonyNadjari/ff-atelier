@@ -22,7 +22,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 const SCRIPTS = dirname(fileURLToPath(import.meta.url));
-const runScript = (file) => (args) => { const r = spawnSync(process.execPath, [join(SCRIPTS, file), ...args], { stdio: 'inherit' }); process.exit(r.status ?? 1); };
+const runScript = (file) => (args) => { const r = spawnSync(process.execPath, [join(SCRIPTS, file), ...args], { stdio: 'inherit', cwd: dirname(SCRIPTS) }); process.exit(r.status ?? 1); };
 import { fail } from './ff/util.mjs';
 
 const [, , cmd, ...rest] = process.argv;

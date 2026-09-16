@@ -1,19 +1,36 @@
-// Sert chaque dist/<slug> sur un port distinct (8001, 8002, ...) pour comparer les demos.
+// Sert chaque dist/<slug> sur un port distinct (a partir de 8001) pour comparer les sites.
+// Usage : ff servir [slug ...]
 import { createServer } from 'node:http';
 import { readdirSync, existsSync, readFileSync, statSync } from 'node:fs';
-import { join, extname } from 'node:path';
+import { join, extname, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
+const DIST = join(ROOT, 'dist');
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.woff2': 'font/woff2', '.xml': 'application/xml', '.txt': 'text/plain', '.mp4': 'video/mp4' };
-const sites = readdirSync('dist').filter((d) => statSync(join('dist', d)).isDirectory());
-sites.forEach((slug, i) => {
-  const root = join('dist', slug);
-  const port = 8001 + i;
-  createServer((req, res) => {
-    let p = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-    let f = join(root, p);
+
+if (!existsSync(DIST)) { console.error('Aucun site construit. Lance `ff tous` ou `ff build <slug>` d abord.'); process.exit(1); }
+const wanted = process.argv.slice(2).filter((a) => !/[\\/]/.test(a));
+const sites = readdirSync(DIST).filter((d) => statSync(join(DIST, d)).isDirectory() && !d.startsWith('_test') && !d.startsWith('_vignette') && (!wanted.length || wanted.includes(d)));
+if (!sites.length) { console.error('Aucun site correspondant dans dist/.'); process.exit(1); }
+
+function serve(slug, port) {
+  const root = join(DIST, slug);
+  const server = createServer((req, res) => {
+    let f = join(root, decodeURIComponent(new URL(req.url, 'http://x').pathname));
     if (existsSync(f) && statSync(f).isDirectory()) f = join(f, 'index.html');
     if (!existsSync(f) && existsSync(f + '.html')) f = f + '.html';
     if (!existsSync(f)) { res.writeHead(404); return res.end('404'); }
     res.writeHead(200, { 'Content-Type': types[extname(f)] ?? 'application/octet-stream' });
     res.end(readFileSync(f));
-  }).listen(port, () => console.log(`http://localhost:${port}  ${slug}`));
-});
+  });
+  server.on('error', (e) => {
+    if (e.code === 'EADDRINUSE') serve(slug, port + 1);
+    else { console.error(`${slug} : ${e.message}`); }
+  });
+  server.listen(port, () => console.log(`  http://localhost:${port}  ${slug}`));
+}
+
+console.log('Sites servis (Ctrl+C pour arreter) :');
+let port = 8001;
+for (const slug of sites) serve(slug, port++);
