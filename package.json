@@ -6,13 +6,24 @@
   "description": "Finck & Fisch — atelier de production de sites clients (Astro + Tailwind).",
   "scripts": {
     "ff": "node scripts/ff.mjs",
+    "nouveau": "node scripts/ff.mjs nouveau",
     "dev": "node scripts/ff.mjs dev",
     "build": "node scripts/ff.mjs build",
     "preview": "node scripts/ff.mjs preview",
+    "tous": "node scripts/ff.mjs tous",
     "check": "node scripts/ff.mjs check",
-    "astro": "astro"
+    "verifier": "node scripts/ff.mjs verifier",
+    "images": "node scripts/ff.mjs images",
+    "variete": "node scripts/ff.mjs variete",
+    "exporter": "node scripts/ff.mjs exporter",
+    "deploy": "node scripts/ff.mjs deploy",
+    "liste": "node scripts/ff.mjs liste",
+    "astro": "astro",
+    "captures": "node scripts/ff.mjs captures",
+    "servir": "node scripts/ff.mjs servir"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0",
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/archivo": "^5.3.0",
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
@@ -39,5 +50,8 @@
     "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
     "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.63.0"
   }
 }

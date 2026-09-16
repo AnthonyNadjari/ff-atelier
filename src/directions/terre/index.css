@@ -1,0 +1,72 @@
+/* Direction TERRE — organique, nature. Lora + Nunito, formes rondes. */
+@import '@fontsource-variable/lora';
+@import '@fontsource-variable/nunito';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='terre'] {
+  --accent-h: 120;
+  --accent-s: 25%;
+  --accent-l: 32%;
+
+  --bg: #f4f1ea;
+  --bg-2: #e9e4d6;
+  --surface: #fbf9f3;
+  --fg: #24301f;
+  --muted: #6a725f;
+  --line: #d6d0bf;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(38 60% 48%);
+  --on-accent: #f7f4ec;
+  --ink: #24301f;
+  --on-ink: #f4f1ea;
+
+  --font-display: 'Lora Variable', 'Georgia', serif;
+  --font-body: 'Nunito Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 600;
+  --display-tracking: -0.005em;
+  --heading-transform: none;
+  --radius: 20px;
+  --radius-card: 28px;
+  --shadow-card: 0 1px 0 rgb(36 48 31 / 0.05), 0 20px 44px -26px rgb(36 48 31 / 0.28);
+  --shadow-lift: 0 32px 64px -24px rgb(36 48 31 / 0.35);
+}
+
+[data-direction='terre'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background:
+    radial-gradient(40vmax 40vmax at 8% 12%, hsl(var(--accent-h) var(--accent-s) var(--accent-l) / 0.12), transparent 70%),
+    radial-gradient(35vmax 35vmax at 92% 88%, hsl(38 60% 48% / 0.14), transparent 70%);
+  filter: blur(10px);
+}
+
+[data-direction='terre'] ::selection { background: var(--accent-2); color: var(--on-accent); }
+
+[data-direction='terre'] h1 em,
+[data-direction='terre'] h2 em { font-style: italic; color: var(--accent-2); }
+
+[data-direction='terre'] .btn { border-radius: 999px; font-weight: 600; }
+[data-direction='terre'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+[data-direction='terre'] .btn-primary:hover { background: var(--accent-2); color: var(--ink); }
+[data-direction='terre'] .btn-ghost {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--fg);
+}
+[data-direction='terre'] .btn-ghost:hover { border-color: var(--accent); }
+
+[data-direction='terre'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  position: relative;
+  z-index: 1;
+}
+[data-direction='terre'] .rule { border-top: 1px solid var(--line); }

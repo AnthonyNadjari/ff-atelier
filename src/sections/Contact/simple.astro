@@ -1,0 +1,55 @@
+---
+/** Contact "simple" : deux grandes tuiles (Appeler / Ecrire), adresse, formulaire replie en option. */
+import { site, tel, mailto, whatsapp, fullAddress } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Icon from '@/components/Icon.astro';
+const wa = whatsapp();
+---
+
+<section id="contact" class="section-y">
+  <div class="container-ff">
+    <SectionHeading eyebrow="Contact" title="Parlons de votre projet" text="Le plus simple : un appel. Sinon, écrivez-nous." align="center" />
+
+    <div class="mt-12 grid sm:grid-cols-2 gap-6" data-stagger="120">
+      <a href={tel()} class="card group rounded-card border border-line bg-surface p-8 transition-colors hover:border-accent" data-reveal>
+        <Icon name="Phone" size={28} class="text-accent" />
+        <p class="mt-5 font-display text-2xl">Appelez</p>
+        <p class="mt-2 text-lg text-fg">{site.contact.phoneDisplay}</p>
+        {site.contact.emergency24h && <p class="mt-1 text-sm text-muted">Urgences 24h/24, 7j/7</p>}
+        {site.contact.hours.length > 0 && (
+          <dl class="mt-4 space-y-1 text-sm text-muted">
+            {site.contact.hours.map((h) => <div class="flex gap-2"><dt>{h.days}</dt><dd class="text-fg">{h.hours}</dd></div>)}
+          </dl>
+        )}
+      </a>
+
+      <div class="card rounded-card border border-line bg-surface p-8" data-reveal>
+        <Icon name="Mail" size={28} class="text-accent" />
+        <p class="mt-5 font-display text-2xl">Écrivez</p>
+        <a href={mailto()} class="mt-2 block text-lg text-fg hover:text-accent break-all">{site.contact.email}</a>
+        {wa && (
+          <a href={wa} target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 text-sm text-muted hover:text-accent">
+            <Icon name="MessageCircle" size={16} class="text-accent" /> Écrire sur WhatsApp
+          </a>
+        )}
+      </div>
+    </div>
+
+    <p class="mt-8 flex items-center justify-center gap-2 text-center text-muted" data-reveal>
+      <Icon name="MapPin" size={16} class="text-accent shrink-0" /> {fullAddress()}
+    </p>
+
+    {site.form.provider !== 'none' && (
+      <details class="mt-10 mx-auto max-w-2xl card rounded-card border border-line bg-surface p-6" data-reveal>
+        <summary class="flex items-center justify-between gap-4 font-medium text-fg">
+          Ou envoyez-nous un message
+          <Icon name="ChevronDown" size={18} class="text-muted" />
+        </summary>
+        <div class="mt-6">
+          <ContactForm compact />
+        </div>
+      </details>
+    )}
+  </div>
+</section>

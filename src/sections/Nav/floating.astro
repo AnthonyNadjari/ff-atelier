@@ -1,0 +1,63 @@
+---
+/** Nav "floating" : pilule flottante centree (desktop : liens + CTA telephone). Mobile : pilule nom + menu plein ecran. */
+import { site, tel, navLinks } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const links = navLinks();
+---
+
+<header data-nav class="fixed inset-x-0 top-4 z-50">
+  <div class="container-ff flex justify-center">
+    <div class="w-full max-w-4xl mx-4 flex items-center justify-between gap-4 rounded-pill bg-surface px-5 py-3 shadow-card transition-shadow duration-500 [.is-scrolled_&]:shadow-lift">
+      <a href="/" class="flex items-center gap-3 font-display text-base font-medium shrink-0">
+        {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-8 w-auto" /> : <span>{site.business.name}</span>}
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Navigation principale">
+        {links.map((l) => <a href={l.href} class="text-muted hover:text-fg transition-colors">{l.label}</a>)}
+      </nav>
+      <div class="hidden md:block shrink-0">
+        <Button href={tel()} size="sm"><Icon name="Phone" size={15} />{site.contact.phoneDisplay}</Button>
+      </div>
+      <button class="md:hidden p-1 -mr-1 shrink-0" aria-label="Menu" aria-expanded="false" data-floating-menu-toggle>
+        <Icon name="Menu" size={22} />
+      </button>
+    </div>
+  </div>
+</header>
+<div class="h-[88px]" aria-hidden="true"></div>
+
+<div class="md:hidden fixed inset-0 z-[60] hidden flex-col bg-bg" data-floating-menu>
+  <div class="container-ff flex items-center justify-between py-6">
+    <a href="/" class="flex items-center gap-3 font-display text-lg font-medium">
+      {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-9 w-auto" /> : <span>{site.business.name}</span>}
+    </a>
+    <button class="p-2 -mr-2" aria-label="Fermer le menu" data-floating-menu-close>
+      <Icon name="X" size={24} />
+    </button>
+  </div>
+  <nav class="container-ff flex flex-col gap-2 py-6" aria-label="Navigation mobile" data-stagger="70">
+    {links.map((l) => <a href={l.href} class="py-3 border-b border-line last:border-0 text-2xl font-display">{l.label}</a>)}
+  </nav>
+  <div class="container-ff mt-auto pb-10">
+    <Button href={tel()} size="lg" class="w-full"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+  </div>
+</div>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-floating-menu-toggle]');
+  const close = document.querySelector<HTMLButtonElement>('[data-floating-menu-close]');
+  const menu = document.querySelector<HTMLElement>('[data-floating-menu]');
+  const open = () => {
+    menu?.classList.remove('hidden');
+    menu?.classList.add('flex');
+    btn?.setAttribute('aria-expanded', 'true');
+  };
+  const shut = () => {
+    menu?.classList.add('hidden');
+    menu?.classList.remove('flex');
+    btn?.setAttribute('aria-expanded', 'false');
+  };
+  btn?.addEventListener('click', open);
+  close?.addEventListener('click', shut);
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', shut));
+</script>

@@ -1,0 +1,105 @@
+/* Direction NEON — dark tech, tres anime. Degrades lumineux, Unbounded/Syne. */
+@import '@fontsource-variable/unbounded';
+@import '@fontsource-variable/syne';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='neon'] {
+  --accent-h: 265;
+  --accent-s: 90%;
+  --accent-l: 65%;
+
+  --bg: #07070b;
+  --bg-2: #0c0c13;
+  --surface: #101018;
+  --fg: #f2f2ff;
+  --muted: #9a95b5;
+  --line: rgba(242, 242, 255, 0.12);
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(190 95% 55%);
+  --on-accent: #ffffff;
+  --ink: #030308;
+  --on-ink: #f2f2ff;
+
+  --font-display: 'Unbounded Variable', ui-sans-serif, sans-serif;
+  --font-body: 'Syne Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 700;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 12px;
+  --radius-card: 12px;
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.05), 0 20px 50px -22px hsl(var(--accent-h) var(--accent-s) var(--accent-l) / 0.35);
+  --shadow-lift: 0 40px 90px -28px hsl(var(--accent-h) var(--accent-s) var(--accent-l) / 0.5);
+  --motion-duration: 0.7s;
+  color-scheme: dark;
+}
+
+[data-direction='neon'] body::before,
+[data-direction='neon'] body::after {
+  content: '';
+  position: fixed;
+  z-index: 0;
+  pointer-events: none;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+  will-change: transform;
+  animation: neon-drift 18s ease-in-out infinite alternate;
+}
+[data-direction='neon'] body::before {
+  top: -15vmax;
+  left: -10vmax;
+  background: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+}
+[data-direction='neon'] body::after {
+  bottom: -20vmax;
+  right: -15vmax;
+  background: var(--accent-2);
+  animation-delay: -9s;
+  animation-direction: alternate-reverse;
+}
+@keyframes neon-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(6vmax, 4vmax) scale(1.15); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-direction='neon'] body::before,
+  [data-direction='neon'] body::after { animation: none; }
+}
+
+[data-direction='neon'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='neon'] h1 em,
+[data-direction='neon'] h2 em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+[data-direction='neon'] .btn { border-radius: var(--radius); font-weight: 600; }
+[data-direction='neon'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 0 24px hsl(var(--accent-h) var(--accent-s) var(--accent-l) / 0.6);
+}
+[data-direction='neon'] .btn-primary:hover {
+  box-shadow: 0 0 36px hsl(var(--accent-h) var(--accent-s) var(--accent-l) / 0.85);
+}
+[data-direction='neon'] .btn-ghost {
+  border: 1px solid var(--line);
+  color: var(--fg);
+  background: rgb(255 255 255 / 0.03);
+}
+[data-direction='neon'] .btn-ghost:hover { border-color: var(--accent); }
+
+[data-direction='neon'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  position: relative;
+  z-index: 1;
+}
+[data-direction='neon'] .rule { border-top: 1px solid var(--line); }

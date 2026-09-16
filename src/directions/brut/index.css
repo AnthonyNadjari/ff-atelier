@@ -1,0 +1,86 @@
+/* Direction BRUT — brutaliste. Blanc pur, noir, bordures epaisses, ombres portees dures. */
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/archivo';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='brut'] {
+  --accent-h: 48;
+  --accent-s: 98%;
+  --accent-l: 52%;
+
+  --bg: #ffffff;
+  --bg-2: #f0f0f0;
+  --surface: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #4a4a4a;
+  --line: #0a0a0a;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 10%));
+  --on-accent: #0a0a0a;
+  --ink: #0a0a0a;
+  --on-ink: #ffffff;
+
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, sans-serif;
+  --font-body: 'Archivo Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 700;
+  --display-tracking: -0.02em;
+  --heading-transform: uppercase;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: 4px 4px 0 0 var(--fg);
+  --shadow-lift: 8px 8px 0 0 var(--fg);
+  --motion-duration: 0.5s;
+}
+
+[data-direction='brut'] ::selection { background: var(--accent); color: var(--fg); }
+
+[data-direction='brut'] h1 em,
+[data-direction='brut'] h2 em {
+  font-style: normal;
+  background: var(--accent);
+  color: var(--fg);
+  padding: 0 0.15em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+[data-direction='brut'] .btn {
+  border: 3px solid var(--fg);
+  border-radius: 0;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+[data-direction='brut'] .btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 var(--fg);
+}
+[data-direction='brut'] .btn-primary {
+  background: var(--fg);
+  color: #ffffff;
+}
+[data-direction='brut'] .btn-primary:hover {
+  background: #ffffff;
+  color: var(--fg);
+}
+[data-direction='brut'] .btn-ghost {
+  background: #ffffff;
+  color: var(--fg);
+  border-color: var(--fg);
+}
+[data-direction='brut'] .btn-ghost:hover {
+  background: var(--fg);
+  color: #ffffff;
+}
+
+[data-direction='brut'] .card {
+  border: 3px solid var(--fg);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='brut'] .rule { border-top: 3px solid var(--fg); }
+[data-direction='brut'] .eyebrow { color: var(--fg); border: 2px solid var(--fg); display: inline-block; padding: 0.15em 0.5em; }

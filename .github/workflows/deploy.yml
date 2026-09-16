@@ -1,0 +1,62 @@
+name: Deploiement des sites
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Slug du site a deployer (vide = tous les sites)"
+        required: false
+        type: string
+
+jobs:
+  liste-sites:
+    runs-on: ubuntu-latest
+    outputs:
+      sites: ${{ steps.liste.outputs.sites }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Liste les sites a construire (dossiers de sites/ sans le prefixe _)
+        id: liste
+        shell: bash
+        run: |
+          if [ -n "${{ github.event.inputs.slug }}" ]; then
+            echo "sites=[\"${{ github.event.inputs.slug }}\"]" >> "$GITHUB_OUTPUT"
+          else
+            sites=$(find sites -mindepth 1 -maxdepth 1 -type d ! -name '_*' -printf '%f\n' \
+              | sort \
+              | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            echo "sites=$sites" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy:
+    needs: liste-sites
+    if: needs.liste-sites.outputs.sites != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        slug: ${{ fromJson(needs.liste-sites.outputs.sites) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build ${{ matrix.slug }}
+        run: node scripts/ff.mjs build ${{ matrix.slug }}
+
+      - name: Deploiement Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ matrix.slug }}
+          directory: dist/${{ matrix.slug }}
+          branch: main

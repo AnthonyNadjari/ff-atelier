@@ -1,0 +1,34 @@
+---
+/** FAQ "two-columns" : question en gras a gauche, reponse a droite, filets, sans interaction. JSON-LD FAQPage. */
+import { site, paragraphs } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: site.faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: paragraphs(f.a).join(' ') },
+  })),
+};
+---
+
+{site.faq.length > 0 && (
+  <section id="faq" class="section-y bg-bg-2">
+    <div class="container-ff">
+      <SectionHeading eyebrow="Questions fréquentes" title="Vous vous demandez peut-être" />
+      <div class="mt-14 border-t border-line" data-stagger="70">
+        {site.faq.map((f) => (
+          <div class="grid gap-4 border-b border-line py-8 md:grid-cols-[minmax(0,18rem)_1fr] md:gap-16">
+            <p class="font-display text-lg">{f.q}</p>
+            <div class="flex max-w-2xl flex-col gap-3 text-muted">
+              {paragraphs(f.a).map((p) => <p>{p}</p>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </section>
+)}

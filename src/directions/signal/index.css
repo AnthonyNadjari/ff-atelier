@@ -1,0 +1,66 @@
+/* Direction SIGNAL — urgence 24/7. Blanc, rouge-orange franc, Archivo Black, boutons enormes. */
+@import '@fontsource/archivo-black';
+@import '@fontsource-variable/archivo';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='signal'] {
+  --accent-h: 8;
+  --accent-s: 85%;
+  --accent-l: 50%;
+
+  --bg: #ffffff;
+  --bg-2: #f7f7f7;
+  --surface: #ffffff;
+  --fg: #101010;
+  --muted: #5a5a5a;
+  --line: #e5e5e5;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 10%));
+  --on-accent: #ffffff;
+  --ink: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 18%));
+  --on-ink: #ffffff;
+
+  --font-display: 'Archivo Black', Arial, sans-serif;
+  --font-body: 'Archivo Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 400;
+  --display-tracking: 0em;
+  --heading-transform: uppercase;
+  --radius: 4px;
+  --radius-card: 8px;
+  --shadow-card: 0 2px 0 rgb(16 16 16 / 0.08), 0 14px 28px -14px rgb(16 16 16 / 0.28);
+  --shadow-lift: 0 28px 56px -20px rgb(16 16 16 / 0.4);
+  --motion-duration: 0.5s;
+}
+
+[data-direction='signal'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='signal'] h1 em,
+[data-direction='signal'] h2 em { font-style: normal; color: var(--accent); }
+
+[data-direction='signal'] .btn {
+  border-radius: var(--radius);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+[data-direction='signal'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+[data-direction='signal'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='signal'] .btn-ghost {
+  border: 2px solid var(--fg);
+  color: var(--fg);
+  background: transparent;
+}
+[data-direction='signal'] .btn-ghost:hover { background: var(--fg); color: #ffffff; }
+[data-direction='signal'] .btn-ink { background: var(--ink); color: var(--on-ink); }
+
+[data-direction='signal'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='signal'] .rule { border-top: 2px solid var(--fg); }
+[data-direction='signal'] .eyebrow { font-weight: 700; letter-spacing: 0.2em; }

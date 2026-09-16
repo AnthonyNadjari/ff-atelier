@@ -1,0 +1,82 @@
+/* Direction LUXE — sombre et precieuse. Or fin, Cormorant, lenteur. */
+@import '@fontsource-variable/cormorant';
+@import '@fontsource-variable/instrument-sans';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='luxe'] {
+  --accent-h: 42;
+  --accent-s: 55%;
+  --accent-l: 55%;
+
+  --bg: #0e0d0c;
+  --bg-2: #141210;
+  --surface: #171513;
+  --fg: #efe9df;
+  --muted: #9a9086;
+  --line: rgba(239, 233, 223, 0.12);
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 12%));
+  --on-accent: #171513;
+  --ink: #050403;
+  --on-ink: #efe9df;
+
+  --font-display: 'Cormorant Variable', 'Georgia', serif;
+  --font-body: 'Instrument Sans Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 999px;
+  --radius-card: 2px;
+  --shadow-card: 0 1px 0 rgb(239 233 223 / 0.06), 0 24px 60px -30px rgb(0 0 0 / 0.7);
+  --shadow-lift: 0 40px 90px -30px rgb(0 0 0 / 0.8);
+  --motion-duration: 1.4s;
+  color-scheme: dark;
+}
+
+[data-direction='luxe'] .text-display-xl { font-size: clamp(3rem, 8vw, 7.5rem); }
+[data-direction='luxe'] .text-display-lg { font-size: clamp(2.5rem, 6vw, 5.25rem); }
+
+[data-direction='luxe'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='luxe'] h1 em,
+[data-direction='luxe'] h2 em { font-style: italic; color: var(--accent); }
+
+[data-direction='luxe'] .btn {
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  transition: background var(--motion-duration) ease, color var(--motion-duration) ease, border-color var(--motion-duration) ease;
+}
+[data-direction='luxe'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+[data-direction='luxe'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='luxe'] .btn-ghost {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--fg);
+}
+[data-direction='luxe'] .btn-ghost:hover { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='luxe'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+[data-direction='luxe'] .rule { border-top: 1px solid var(--accent); opacity: 0.6; }
+
+/* Lueur curseur (voir script.ts) */
+[data-direction='luxe'] .luxe-cursor-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(320px circle at var(--x, 50%) var(--y, 50%), hsl(var(--accent-h) var(--accent-s) var(--accent-l) / 0.18), transparent 70%);
+}
+[data-direction='luxe'] .luxe-cursor-glow.is-active { opacity: 1; }

@@ -64,6 +64,7 @@
   --motion-duration: 0.9s;
 }
 
+@layer base {
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   background: var(--bg);
@@ -85,6 +86,7 @@ h1, h2, h3, .font-display {
 p { text-wrap: pretty; }
 ::selection { background: var(--accent); color: var(--on-accent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+}
 
 /* ---------- Utilitaires partages ---------- */
 @utility container-ff {
@@ -143,11 +145,12 @@ p { text-wrap: pretty; }
 /* Marquee : le runtime duplique le contenu, ici juste l'animation */
 [data-marquee] { overflow: hidden; white-space: nowrap; }
 [data-marquee] > .marquee-track { display: inline-flex; gap: var(--marquee-gap, 3rem); animation: marquee var(--marquee-speed, 30s) linear infinite; will-change: transform; }
+[data-marquee] > .marquee-track > * { flex: none; white-space: nowrap; }
 [data-marquee]:hover > .marquee-track { animation-play-state: paused; }
 @keyframes marquee { to { transform: translateX(calc(-50% - var(--marquee-gap, 3rem) / 2)); } }
 
 /* Split text (rich) */
-.split-word { display: inline-block; overflow: hidden; vertical-align: top; }
+.split-word { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.08em 0.06em 0.16em; margin: -0.08em -0.06em -0.16em; }
 .split-word > span { display: inline-block; transform: translateY(110%); transition: transform 1s var(--ease-out-expo); transition-delay: var(--i-delay, 0ms); }
 .is-visible .split-word > span { transform: translateY(0); }
 

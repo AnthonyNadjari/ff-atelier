@@ -1,0 +1,28 @@
+---
+/** Zones "list" : titre + liste de villes en grille, avec rayon d'intervention si fourni. */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const zones = site.zones;
+const cities = zones.cities;
+---
+
+{cities.length > 0 && (
+  <section id="zones" class="section-y">
+    <div class="container-ff">
+      <p class="eyebrow" data-reveal>Zones d'intervention</p>
+      <h2 class="mt-4 text-display-md" data-reveal>{zones.label ?? 'Nous intervenons près de chez vous'}</h2>
+      {zones.radiusKm && (
+        <p class="mt-4 text-muted max-w-prose" data-reveal>Déplacement dans un rayon d'environ {zones.radiusKm}&nbsp;km autour de {site.contact.address.city}.</p>
+      )}
+
+      <ul class="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-4" data-stagger="60">
+        {cities.map((city) => (
+          <li class="flex items-center gap-2.5 text-fg" data-reveal>
+            <Icon name="MapPin" size={17} class="text-accent shrink-0" />
+            <span>{city}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

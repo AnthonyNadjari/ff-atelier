@@ -1,0 +1,57 @@
+---
+/** About "portrait" : photo a gauche, histoire a droite. Sans photo, grande citation decorative. */
+import { site, yearsSince, paragraphs } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const a = site.about;
+const years = yearsSince();
+const paras = paragraphs(a.story);
+const hasImage = !!a.portrait;
+const hasFacts = !!years || site.business.certifications.length > 0 || !!site.business.insurance;
+---
+
+<section id="about" class="section-y">
+  <div class="container-ff grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    {hasImage && (
+      <div class="lg:col-span-5" data-reveal="left">
+        <figure class="relative aspect-[4/5] overflow-hidden rounded-card shadow-lift">
+          <img src={a.portrait!.src} alt={a.portrait!.alt} class="absolute inset-0 h-full w-full object-cover" data-parallax="0.15" loading="lazy" />
+        </figure>
+      </div>
+    )}
+    <div class:list={['relative', hasImage ? 'lg:col-span-7' : 'lg:col-span-9']} data-stagger="110">
+      {!hasImage && (
+        <span class="pointer-events-none absolute -top-10 -left-2 font-display text-[8rem] leading-none text-accent/15 select-none" aria-hidden="true">
+          &rdquo;
+        </span>
+      )}
+      <p class="eyebrow mb-4">L’atelier</p>
+      <h2 class="relative text-display-md" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
+      <div class="relative mt-6 flex max-w-prose flex-col gap-4 text-lg text-muted">
+        {paras.map((p) => <p>{p}</p>)}
+      </div>
+      {hasFacts && (
+        <div class="relative mt-8 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-line pt-8">
+          {years && (
+            <div>
+              <p class="font-display text-display-sm text-accent">{years}</p>
+              <p class="text-sm text-muted">ans d’expérience</p>
+            </div>
+          )}
+          {site.business.certifications.length > 0 && (
+            <ul class="flex flex-wrap gap-2">
+              {site.business.certifications.map((c) => (
+                <li class="rounded-pill border border-line px-3 py-1.5 text-sm">{c}</li>
+              ))}
+            </ul>
+          )}
+          {site.business.insurance && (
+            <p class="flex items-center gap-2 text-sm text-muted">
+              <Icon name="ShieldCheck" size={16} class="text-accent" /> {site.business.insurance}
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</section>

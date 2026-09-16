@@ -1,0 +1,50 @@
+---
+/** Zones "map" : texte + liste de villes a gauche, carte (iframe ou placeholder decoratif) a droite. */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const zones = site.zones;
+const cities = zones.cities;
+const embed = site.contact.mapsEmbed;
+---
+
+{cities.length > 0 && (
+  <section id="zones" class="section-y">
+    <div class="container-ff grid lg:grid-cols-2 gap-12 items-center">
+      <div data-stagger="110">
+        <p class="eyebrow">Zones d'intervention</p>
+        <h2 class="mt-4 text-display-md">{zones.label ?? 'Nous intervenons près de chez vous'}</h2>
+        {zones.radiusKm && (
+          <p class="mt-4 text-muted max-w-prose">Déplacement dans un rayon d'environ {zones.radiusKm}&nbsp;km autour de {site.contact.address.city}.</p>
+        )}
+        <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+          {cities.map((city) => (
+            <li class="flex items-center gap-2 text-fg">
+              <Icon name="MapPin" size={16} class="text-accent shrink-0" />
+              <span>{city}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div data-reveal="right">
+        {embed ? (
+          <div class="overflow-hidden rounded-card shadow-card aspect-[4/3]">
+            <iframe src={embed} loading="lazy" title="Carte" class="h-full w-full border-0" referrerpolicy="no-referrer-when-downgrade" />
+          </div>
+        ) : (
+          <div class="relative aspect-[4/3] overflow-hidden rounded-card bg-bg-2 border border-line flex items-center justify-center">
+            <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+              <span class="absolute h-[40%] w-[40%] rounded-full border border-line"></span>
+              <span class="absolute h-[65%] w-[65%] rounded-full border border-line"></span>
+              <span class="absolute h-[90%] w-[90%] rounded-full border border-line"></span>
+            </div>
+            <div class="relative flex flex-col items-center gap-2">
+              <Icon name="MapPin" size={36} class="text-accent" />
+              <p class="font-display text-lg">{site.contact.address.city}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+)}

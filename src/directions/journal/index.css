@@ -1,0 +1,73 @@
+/* Direction JOURNAL — editorial, presse. Off-white, Playfair, filets fins. */
+@import '@fontsource-variable/playfair-display';
+@import '@fontsource-variable/lora';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='journal'] {
+  --accent-h: 355;
+  --accent-s: 65%;
+  --accent-l: 42%;
+
+  --bg: #f7f5f0;
+  --bg-2: #eeebe2;
+  --surface: #fffdfa;
+  --fg: #1a1712;
+  --muted: #63594d;
+  --line: #d8d2c4;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 10%));
+  --on-accent: #fdf9f2;
+  --ink: #1a1712;
+  --on-ink: #f7f5f0;
+
+  --font-display: 'Playfair Display Variable', 'Georgia', serif;
+  --font-body: 'Lora Variable', 'Georgia', serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 600;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: 0 1px 0 rgb(26 23 18 / 0.08);
+  --shadow-lift: 0 24px 48px -28px rgb(26 23 18 / 0.35);
+}
+
+[data-direction='journal'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+[data-direction='journal'] h1 em,
+[data-direction='journal'] h2 em { font-style: italic; color: var(--accent); }
+
+[data-direction='journal'] .btn {
+  border-radius: 0;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+[data-direction='journal'] .btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+[data-direction='journal'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='journal'] .btn-ghost {
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  background: transparent;
+}
+[data-direction='journal'] .btn-ghost:hover { background: var(--fg); color: var(--bg); }
+
+[data-direction='journal'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 0;
+}
+
+/* Filet double sous les h2 */
+[data-direction='journal'] .rule {
+  height: 3px;
+  border-top: 1px solid var(--fg);
+  border-bottom: 1px solid var(--fg);
+}
+
+[data-direction='journal'] .eyebrow {
+  font-family: var(--font-mono);
+  letter-spacing: 0.22em;
+}

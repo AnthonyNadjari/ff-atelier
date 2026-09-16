@@ -1,0 +1,56 @@
+---
+/** Proof "before-after" : curseur de comparaison avant/apres, pilote par un <input type=range>. */
+import { site } from '@/lib/site';
+const pairs = site.proof.beforeAfter;
+---
+
+{pairs.length > 0 && (
+  <section id="proof" class="section-y">
+    <div class="container-ff">
+      <p class="eyebrow" data-reveal>Avant / après</p>
+      <h2 class="mt-4 text-display-md" data-reveal>La transformation</h2>
+
+      <div class="mt-10 grid gap-12 md:grid-cols-2" data-stagger="140">
+        {pairs.map((pair) => (
+          <figure data-reveal>
+            <div class="relative aspect-[4/3] overflow-hidden rounded-card select-none" data-compare>
+              <img src={pair.before.src} alt={pair.before.alt} loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
+              <div class="absolute inset-0" data-compare-after style="clip-path: inset(0 50% 0 0)">
+                <img src={pair.after.src} alt={pair.after.alt} loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
+              </div>
+              <div class="pointer-events-none absolute inset-y-0 w-0.5 bg-surface shadow-lift" data-compare-line style="left: 50%"></div>
+              <p class="pointer-events-none absolute left-3 top-3 rounded-pill bg-ink/70 text-on-ink text-xs px-3 py-1">Avant</p>
+              <p class="pointer-events-none absolute right-3 top-3 rounded-pill bg-ink/70 text-on-ink text-xs px-3 py-1">Après</p>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                class="absolute inset-x-0 bottom-2 mx-auto w-[92%] accent-[var(--color-accent)]"
+                aria-label="Comparer avant et après"
+                data-compare-range
+              />
+            </div>
+            {pair.caption && <figcaption class="mt-4 text-sm text-muted">{pair.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((root) => {
+    const range = root.querySelector<HTMLInputElement>('[data-compare-range]');
+    const after = root.querySelector<HTMLElement>('[data-compare-after]');
+    const line = root.querySelector<HTMLElement>('[data-compare-line]');
+    if (!range || !after || !line) return;
+    const update = () => {
+      const v = Number(range.value);
+      after.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+      line.style.left = `${v}%`;
+    };
+    range.addEventListener('input', update);
+    update();
+  });
+</script>

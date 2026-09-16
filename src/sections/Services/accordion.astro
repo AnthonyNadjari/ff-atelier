@@ -1,0 +1,55 @@
+---
+/** Services "accordion" : liste <details> a cote d'une colonne SectionHeading collante. */
+import { site } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+---
+
+<section id="services" class="section-y bg-bg-2">
+  <div class="container-ff grid lg:grid-cols-12 gap-10 lg:gap-16">
+    <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-28">
+        <SectionHeading eyebrow="Ce que nous faisons" title="Nos services" text={`${site.business.trade} à ${site.contact.address.city} et alentours.`} />
+      </div>
+    </div>
+    <div class="lg:col-span-8 border-t border-line" data-stagger="80">
+      {site.services.map((s, i) => (
+        <details class="border-b border-line" open={i === 0}>
+          <summary class="flex items-center justify-between gap-4 py-6 cursor-pointer">
+            <span class="flex items-baseline gap-4">
+              <span class="eyebrow">{String(i + 1).padStart(2, '0')}</span>
+              <span class="text-display-sm">{s.title}</span>
+            </span>
+            <Icon name="ChevronDown" size={20} class="chevron shrink-0 text-muted" />
+          </summary>
+          <div class="pb-8 pl-0 sm:pl-16 max-w-2xl">
+            <p class="text-muted">{s.short}</p>
+            {s.bullets.length > 0 && (
+              <ul class="mt-4 flex flex-col gap-2">
+                {s.bullets.map((b) => (
+                  <li class="flex items-start gap-3 text-sm">
+                    <Icon name="Check" size={16} class="mt-0.5 shrink-0 text-accent" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {s.priceFrom && <p class="mt-4 text-sm font-medium">{s.priceFrom}</p>}
+            <a href={`/services/${s.slug}`} class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-accent">
+              En savoir plus <Icon name="ArrowRight" size={16} />
+            </a>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .chevron {
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  details[open] .chevron {
+    transform: rotate(180deg);
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+/** CTA "card" : carte flottante centree sur fond bg-2, telephone + devis, pastille 24h/24 si active. */
+import { site, tel } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+---
+
+<section class="section-y bg-bg-2">
+  <div class="container-ff">
+    <div class="card mx-auto max-w-4xl rounded-card bg-surface shadow-lift px-6 py-12 md:px-16 md:py-16 text-center" data-reveal="scale">
+      {site.contact.emergency24h && (
+        <div class="mb-5 inline-flex items-center gap-2 rounded-pill border border-line px-4 py-1.5 text-sm text-muted">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent"></span>
+          </span>
+          Disponible 24h/24
+        </div>
+      )}
+      <h2 class="text-display-md">Prêt à démarrer&nbsp;? <em>Parlons de votre projet.</em></h2>
+      <p class="mt-4 text-muted max-w-xl mx-auto">Un appel suffit pour un devis clair et sans engagement, à {site.contact.address.city} et alentours.</p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+        <Button href="#contact" variant="ghost" size="lg">Demander un devis</Button>
+      </div>
+    </div>
+  </div>
+</section>

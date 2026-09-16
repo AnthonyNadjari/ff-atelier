@@ -1,0 +1,40 @@
+---
+/** Services "cards-hover" : cartes pleine image, titre sur degrade, le texte court glisse au survol. */
+import { site } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+---
+
+<section id="services" class="section-y">
+  <div class="container-ff">
+    <SectionHeading eyebrow="Ce que nous faisons" title="Nos services" text={`${site.business.trade} à ${site.contact.address.city} et alentours.`} />
+    <ul class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5" data-stagger="80">
+      {site.services.map((s) => (
+        <li class="group relative aspect-[4/5] overflow-hidden rounded-card shadow-card" data-tilt="6">
+          <a href={`/services/${s.slug}`} class="absolute inset-0 block">
+            {s.image ? (
+              <img
+                src={s.image.src}
+                alt={s.image.alt}
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
+                loading="lazy"
+              />
+            ) : (
+              <div class="absolute inset-0 bg-bg-2 flex items-center justify-center">
+                <Icon name={s.icon} size={88} class="text-accent/50" strokeWidth={1} />
+              </div>
+            )}
+            <div class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 p-6 text-on-ink">
+              <h3 class="text-display-sm">{s.title}</h3>
+              {s.priceFrom && <p class="mt-1 text-sm opacity-80">{s.priceFrom}</p>}
+              <p class="reveal-short mt-0 max-h-0 overflow-hidden text-sm opacity-0 transition-[max-height,opacity,margin-top] duration-500 ease-out-expo group-hover:mt-3 group-hover:max-h-20 group-hover:opacity-90">
+                {s.short}
+              </p>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

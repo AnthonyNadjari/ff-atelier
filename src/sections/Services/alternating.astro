@@ -1,0 +1,46 @@
+---
+/** Services "alternating" : rangees alternees image/texte, puces avec icones Check. */
+import { site } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+---
+
+<section id="services" class="section-y">
+  <div class="container-ff">
+    <SectionHeading eyebrow="Ce que nous faisons" title="Nos services" text={`${site.business.trade} à ${site.contact.address.city} et alentours.`} />
+    <div class="mt-14 flex flex-col gap-16 md:gap-24">
+      {site.services.map((s, i) => (
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          <div class:list={['order-1', i % 2 === 1 && 'lg:order-2']} data-reveal={i % 2 === 1 ? 'right' : 'left'}>
+            {s.image ? (
+              <figure class="aspect-[4/3] overflow-hidden rounded-card shadow-card">
+                <img src={s.image.src} alt={s.image.alt} class="h-full w-full object-cover" loading="lazy" />
+              </figure>
+            ) : (
+              <div class="aspect-[4/3] rounded-card bg-bg-2 flex items-center justify-center">
+                <Icon name={s.icon} size={72} class="text-accent/60" strokeWidth={1} />
+              </div>
+            )}
+          </div>
+          <div class:list={['order-2', i % 2 === 1 && 'lg:order-1']} data-reveal={i % 2 === 1 ? 'left' : 'right'}>
+            <h3 class="text-display-md">{s.title}</h3>
+            <p class="mt-4 text-lg text-muted">{s.short}</p>
+            {s.bullets.length > 0 && (
+              <ul class="mt-6 flex flex-col gap-3">
+                {s.bullets.map((b) => (
+                  <li class="flex items-start gap-3">
+                    <Icon name="Check" size={18} class="mt-0.5 shrink-0 text-accent" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {s.priceFrom && <p class="mt-5 text-sm font-medium">{s.priceFrom}</p>}
+            <Button href={`/services/${s.slug}`} variant="ghost" class="mt-7">En savoir plus</Button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

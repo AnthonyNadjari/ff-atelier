@@ -1,0 +1,60 @@
+---
+/** Contact "full" : formulaire pleine largeur a gauche (7 col), carte/adresse + horaires + reseaux a droite. */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Icon from '@/components/Icon.astro';
+const embed = site.contact.mapsEmbed;
+const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
+---
+
+<section id="contact" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <SectionHeading eyebrow="Contact" title="Parlons de votre projet" text="Décrivez votre besoin, nous vous rappelons pour un devis gratuit." />
+
+    <div class="mt-12 grid lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-7" data-reveal="left">
+        <div class="card rounded-card bg-surface p-6 md:p-8 shadow-card">
+          <ContactForm />
+          {site.form.provider === 'none' && <p class="text-muted">Appelez-nous ou écrivez-nous, nous répondons vite.</p>}
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 flex flex-col gap-6" data-reveal="right">
+        {embed ? (
+          <div class="overflow-hidden rounded-card shadow-card aspect-[4/3]">
+            <iframe src={embed} loading="lazy" title="Carte" class="h-full w-full border-0" referrerpolicy="no-referrer-when-downgrade" />
+          </div>
+        ) : (
+          <div class="card rounded-card bg-surface border border-line p-6">
+            <p class="eyebrow mb-3">Adresse</p>
+            <p class="flex items-start gap-3 text-fg"><Icon name="MapPin" size={18} class="text-accent shrink-0 mt-0.5" />{fullAddress()}</p>
+            {site.contact.mapsUrl && <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="mt-2 inline-block text-sm text-accent">Voir sur Google Maps</a>}
+          </div>
+        )}
+
+        <div class="card rounded-card bg-surface border border-line p-6 space-y-4">
+          <p class="flex items-center gap-3"><Icon name="Phone" size={18} class="text-accent shrink-0" /><a href={tel()} class="font-medium hover:text-accent">{site.contact.phoneDisplay}</a></p>
+          <p class="flex items-center gap-3"><Icon name="Mail" size={18} class="text-accent shrink-0" /><a href={mailto()} class="font-medium hover:text-accent break-all">{site.contact.email}</a></p>
+          {site.contact.hours.length > 0 && (
+            <div class="flex items-start gap-3">
+              <Icon name="Clock" size={18} class="text-accent shrink-0 mt-0.5" />
+              <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+                {site.contact.hours.map((h) => <><dt class="text-muted">{h.days}</dt><dd>{h.hours}</dd></>)}
+              </dl>
+            </div>
+          )}
+        </div>
+
+        {socials.length > 0 && (
+          <ul class="flex gap-3">
+            {socials.map(([k, url]) => (
+              <li><a href={url} target="_blank" rel="noopener" aria-label={k} class="inline-flex h-10 w-10 items-center justify-center rounded-ui border border-line hover:border-accent hover:text-accent"><Icon name={iconFor[k]} size={17} /></a></li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

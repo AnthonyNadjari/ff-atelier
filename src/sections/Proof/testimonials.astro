@@ -1,0 +1,36 @@
+---
+/** Proof "testimonials" : grille en cascade (masonry via colonnes) de citations clients, badge Google en tete si dispo. */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const google = site.proof.google;
+const testimonials = site.proof.testimonials;
+---
+
+{testimonials.length > 0 && (
+  <section id="proof" class="section-y">
+    <div class="container-ff">
+      {google && (
+        <div class="mb-12 flex items-center justify-center gap-3" data-reveal>
+          <div class="flex items-center gap-1" aria-hidden="true">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Icon name="Star" size={18} class={i < Math.round(google.rating) ? 'text-accent fill-accent' : 'text-muted'} />
+            ))}
+          </div>
+          <p class="text-sm text-muted">{google.rating.toFixed(1)}/5 sur Google · {google.count} avis</p>
+        </div>
+      )}
+
+      <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6" data-stagger="90">
+        {testimonials.map((t) => (
+          <figure class="card break-inside-avoid rounded-card bg-surface border border-line p-6 shadow-card" data-reveal>
+            <p class="font-display text-display-sm text-accent leading-none" aria-hidden="true">”</p>
+            <blockquote class="mt-2 text-fg">{t.text}</blockquote>
+            <figcaption class="mt-4 text-sm text-muted">
+              <span class="font-medium text-fg">{t.author}</span>{t.city && <>, {t.city}</>} · via {t.source}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

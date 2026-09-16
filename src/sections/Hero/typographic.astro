@@ -1,0 +1,51 @@
+---
+/** Hero "typographic" : sans image, h1 geant plein largeur, numero de telephone enorme, filet fin, marquee des villes en option. */
+import { site, tel, yearsSince, paragraphs } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const years = yearsSince();
+const intro = paragraphs(site.business.description)[0];
+const cities = site.zones.cities;
+---
+
+<section id="hero" class="relative section-y pt-40 md:pt-48 overflow-hidden">
+  <div class="container-ff" data-stagger="120">
+    <p class="eyebrow">{site.business.trade} · {site.contact.address.city}</p>
+    <h1
+      class="text-display-xl mt-6 w-full"
+      style="font-size: clamp(3.5rem, 9vw, 8rem);"
+      data-split
+      set:html={site.business.tagline}
+    />
+    <p class="mt-6 text-lg md:text-xl text-muted max-w-xl">{intro}</p>
+
+    <div class="mt-10 flex flex-wrap items-end gap-x-10 gap-y-6">
+      <a href={tel()} class="font-display text-display-lg leading-none text-fg hover:text-accent transition-colors" data-magnetic="0.15">
+        {site.contact.phoneDisplay}
+      </a>
+      <Button href="#contact" variant="ghost" size="lg">Demander un devis</Button>
+    </div>
+
+    <hr class="mt-10 border-t border-line" />
+
+    <ul class="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
+      {years && <li class="flex items-center gap-2"><Icon name="Award" size={16} class="text-accent" /> {years} ans d'expérience</li>}
+      {site.contact.emergency24h && <li class="flex items-center gap-2"><Icon name="Clock" size={16} class="text-accent" /> Urgences 24h/24</li>}
+      {site.business.insurance && <li class="flex items-center gap-2"><Icon name="ShieldCheck" size={16} class="text-accent" /> Assuré décennale</li>}
+      {site.proof.google && <li class="flex items-center gap-2"><Icon name="Star" size={16} class="text-accent" /> {site.proof.google.rating.toFixed(1)}/5 sur Google ({site.proof.google.count} avis)</li>}
+    </ul>
+  </div>
+
+  {cities.length > 0 && (
+    <div class="mt-16 border-t border-line py-5" data-marquee="45s">
+      <div class="marquee-track font-display uppercase text-display-sm text-muted">
+        {cities.map((c) => (
+          <>
+            <span>{c}</span>
+            <span class="text-accent" aria-hidden="true">•</span>
+          </>
+        ))}
+      </div>
+    </div>
+  )}
+</section>

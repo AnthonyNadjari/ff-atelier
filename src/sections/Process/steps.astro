@@ -1,0 +1,30 @@
+---
+/** Process "steps" : etapes horizontales, gros numeros, reliees par un filet pointille (desktop). */
+import { site } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+---
+
+{site.process.length > 0 && (
+  <section id="process" class="section-y">
+    <div class="container-ff">
+      <SectionHeading eyebrow="Comment ça marche" title="Notre méthode" align="center" />
+      <ol class:list={['mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2', site.process.length >= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3']} data-stagger="100">
+        {site.process.map((p, i) => (
+          <li class="relative">
+            {i < site.process.length - 1 && (
+              <span
+                class="pointer-events-none absolute left-[calc(50%+1.75rem)] right-[calc(-50%+1.75rem)] top-6 hidden border-t-2 border-dotted border-line lg:block"
+                aria-hidden="true"
+              ></span>
+            )}
+            <span class="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-accent font-mono text-lg text-on-accent">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="mt-5 text-display-sm">{p.title}</h3>
+            <p class="mt-2 text-muted">{p.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}

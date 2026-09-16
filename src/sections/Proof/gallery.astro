@@ -1,0 +1,34 @@
+---
+/** Proof "gallery" : grille de realisations, premiere image sur 2 colonnes, effet tilt au survol. */
+import { site } from '@/lib/site';
+const gallery = site.proof.gallery;
+---
+
+{gallery.length > 0 && (
+  <section id="proof" class="section-y">
+    <div class="container-ff">
+      <p class="eyebrow" data-reveal>Réalisations</p>
+      <h2 class="mt-4 text-display-md" data-reveal>En images</h2>
+
+      <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5" data-stagger="90">
+        {gallery.map((img, i) => (
+          <figure
+            class:list={['group relative overflow-hidden rounded-card bg-bg-2', i === 0 && 'col-span-2 row-span-2']}
+            data-reveal
+            data-tilt="6"
+          >
+            <img
+              src={img.src}
+              alt={img.alt}
+              loading="lazy"
+              class:list={['h-full w-full object-cover transition-transform duration-500 group-hover:scale-105', i === 0 ? 'aspect-square md:aspect-[4/3]' : 'aspect-square']}
+            />
+            {img.caption && (
+              <figcaption class="absolute inset-x-0 bottom-0 bg-ink/70 text-on-ink text-sm px-4 py-2.5">{img.caption}</figcaption>
+            )}
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

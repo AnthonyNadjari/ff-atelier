@@ -1,0 +1,47 @@
+---
+/** Hero "video" : comme fullbleed, mais avec une video en fond (site.images.heroVideo). Sans video, rendu fullbleed a l'identique. */
+import { site, tel, yearsSince, paragraphs } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const years = yearsSince();
+const intro = paragraphs(site.business.description)[0];
+const hero = site.images.hero;
+const video = site.images.heroVideo;
+---
+
+<section id="hero" class:list={['relative min-h-[92svh] flex items-end overflow-hidden', !hero && !video && 'bg-ink']}>
+  {video && (
+    <div class="absolute inset-0 -z-10">
+      <video class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline poster={hero?.src}>
+        <source src={video} type="video/mp4" />
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10"></div>
+    </div>
+  )}
+  {!video && hero && (
+    <div class="absolute inset-0 -z-10">
+      <img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" data-parallax="0.2" loading="eager" fetchpriority="high" />
+      <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10"></div>
+    </div>
+  )}
+  {!video && !hero && (
+    <div class="absolute inset-0 -z-10 flex items-center justify-end pr-4 md:pr-16 opacity-10" aria-hidden="true">
+      <Icon name={site.services[0]?.icon ?? 'Wrench'} size={480} class="text-on-ink" strokeWidth={0.6} />
+    </div>
+  )}
+  <div class="container-ff relative pb-16 pt-40 md:pb-24 text-on-ink" data-stagger="110">
+    <p class="eyebrow">{site.business.trade} · {site.contact.address.city}</p>
+    <h1 class="text-display-xl mt-5 max-w-3xl" data-split set:html={site.business.tagline} />
+    <p class="mt-6 text-lg md:text-xl text-on-ink/80 max-w-xl">{intro}</p>
+    <div class="mt-9 flex flex-wrap items-center gap-4">
+      <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+      <Button href="#contact" variant="ghost" size="lg" class="border-on-ink/30 text-on-ink hover:border-on-ink">Demander un devis</Button>
+    </div>
+    <ul class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-on-ink/70">
+      {years && <li class="flex items-center gap-2"><Icon name="Award" size={16} class="text-accent" /> {years} ans d'expérience</li>}
+      {site.contact.emergency24h && <li class="flex items-center gap-2"><Icon name="Clock" size={16} class="text-accent" /> Urgences 24h/24</li>}
+      {site.business.insurance && <li class="flex items-center gap-2"><Icon name="ShieldCheck" size={16} class="text-accent" /> Assuré décennale</li>}
+      {site.proof.google && <li class="flex items-center gap-2"><Icon name="Star" size={16} class="text-accent" /> {site.proof.google.rating.toFixed(1)}/5 sur Google ({site.proof.google.count} avis)</li>}
+    </ul>
+  </div>
+</section>

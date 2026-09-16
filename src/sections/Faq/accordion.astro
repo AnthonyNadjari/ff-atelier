@@ -1,0 +1,49 @@
+---
+/** FAQ "accordion" : liste <details> native, icone plus qui devient x a l'ouverture. JSON-LD FAQPage. */
+import { site, paragraphs } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: site.faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: paragraphs(f.a).join(' ') },
+  })),
+};
+---
+
+{site.faq.length > 0 && (
+  <section id="faq" class="section-y">
+    <div class="container-ff max-w-3xl">
+      <SectionHeading eyebrow="Questions fréquentes" title="Vous vous demandez peut-être" align="center" />
+      <div class="mt-14 border-t border-line" data-stagger="70">
+        {site.faq.map((f, i) => (
+          <details class="border-b border-line" open={i === 0}>
+            <summary class="flex items-center justify-between gap-4 py-6 cursor-pointer">
+              <span class="font-display text-lg">{f.q}</span>
+              <span class="plus-icon relative h-5 w-5 shrink-0 text-accent" aria-hidden="true">
+                <span class="absolute inset-0 m-auto h-0.5 w-full bg-current"></span>
+                <span class="absolute inset-0 m-auto h-full w-0.5 bg-current"></span>
+              </span>
+            </summary>
+            <div class="flex max-w-2xl flex-col gap-3 pb-6 text-muted">
+              {paragraphs(f.a).map((p) => <p>{p}</p>)}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </section>
+)}
+
+<style>
+  .plus-icon {
+    transition: transform 0.35s var(--ease-out-expo);
+  }
+  details[open] .plus-icon {
+    transform: rotate(45deg);
+  }
+</style>

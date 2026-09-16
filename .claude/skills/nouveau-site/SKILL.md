@@ -1,0 +1,122 @@
+---
+name: nouveau-site
+description: Génère sites/<slug>/site.config.ts depuis un brief, choisit direction et variantes, rédige les textes
+---
+
+# nouveau-site
+
+Génère le `site.config.ts` d'un client à partir d'un brief rempli (`docs/BRIEF.md` copié en
+`sites/<slug>/brief.md`, ou un brief collé directement dans la conversation). Rédige tous les textes
+en français, choisit la direction visuelle et les variantes, construit le fichier, puis vérifie qu'il
+build.
+
+Utilisation : `/nouveau-site <slug>` ou "génère le site pour <slug>".
+
+## Étapes
+
+### 1. Lire les sources de vérité
+
+Dans l'ordre :
+
+1. `sites/<slug>/brief.md` (ou le brief collé dans le message de l'utilisateur s'il n'y a pas de
+   fichier). Si aucun brief n'est trouvé nulle part, arrête-toi et demande-le.
+2. `src/lib/schema.ts` — le schéma complet (`DIRECTIONS`, `MOTION`, `VARIANTS`, `siteSchema`, chaque
+   `.describe()`). C'est la seule liste de champs valide.
+3. `docs/DIRECTIONS.md` — guide de choix de direction et de variantes.
+4. `docs/CONVENTIONS.md` — règles générales du projet (pas de donnée inventée, tokens uniquement,
+   etc. — surtout pertinent si tu dois aussi toucher une section, ce qui ne devrait pas arriver ici).
+5. `sites/_exemple/site.config.ts` — référence de style et de structure d'un `site.config.ts` complet.
+
+### 2. Voir ce qui existe déjà
+
+```
+node scripts/ff.mjs variete
+```
+
+Liste les combinaisons direction/variantes déjà utilisées par les sites existants dans `sites/`. Sert
+à appliquer la règle de variété de `docs/DIRECTIONS.md` : ne jamais reprendre la même direction ET le
+même hero pour un client du même métier ou de la même ville qu'un site existant.
+
+### 3. Choisir direction, motion et variantes
+
+En croisant le brief (section 12 : 3 adjectifs, métier, sites aimés/pas aimés) et
+`docs/DIRECTIONS.md` :
+
+- **Direction** : celle dont les "métiers typiques" et l'ambiance collent le mieux au métier et aux
+  adjectifs du client, en excluant toute direction dont la liste "à éviter" contredit le brief (ex. un
+  client qui veut de l'urgence 24/7 exclut `luxe`, `terre`, `journal`, `clair`). En cas d'égalité,
+  départage avec `ff variete` pour maximiser la différence avec les sites existants.
+- **Motion** : `motionParDefaut` de la direction choisie (`src/directions/<direction>/meta.ts`), sauf
+  raison contraire du brief.
+- **Nav / hero / footer** : choisis dans `VARIANTS` selon `docs/DIRECTIONS.md`, en tenant compte des
+  données réellement disponibles (ex. `hero: video` seulement si une vidéo existe, `hero: fullbleed`
+  seulement si une photo forte existe).
+- **Sections et leur ordre** : n'inclure une section que si le brief a la donnée correspondante.
+  Checklist :
+  - `services` — toujours (le schéma exige au moins un service).
+  - `about` — toujours si `about.story` est rempli (quasi toujours).
+  - `proof` — seulement si Google (note+avis) OU témoignages OU galerie OU avant/après OU logos sont
+    fournis. Pas de proof si le brief n'a rien de tout ça.
+  - `zones` — seulement si des villes sont listées.
+  - `process` — seulement si le brief décrit des étapes de travail.
+  - `faq` — seulement si le brief a des questions/réponses.
+  - `cta` — presque toujours (bandeau avant contact), sauf site très court.
+  - `contact` — toujours.
+  - Variante de chaque section : voir le tableau correspondant dans `docs/DIRECTIONS.md`.
+
+### 4. Rédiger les textes
+
+Tout en français, dans le registre de l'artisan qui s'adresse à son client :
+
+- **Vouvoiement toujours, tutoiement jamais** dans les textes du site (le tutoiement est réservé aux
+  documents internes comme ce SKILL.md ou `docs/BRIEF.md`, adressés à la vendeuse/au vendeur).
+- Phrases concrètes et locales (ville, matière, geste du métier) plutôt que des formules marketing
+  génériques. Bannis "votre satisfaction est notre priorité", "des professionnels à votre écoute", "la
+  qualité au meilleur prix" et toute variante de ces clichés.
+- `business.tagline` peut contenir **un seul** `<em>` autour du mot à accentuer (voir
+  `sites/_exemple/site.config.ts`), pas plus.
+- `business.description`, `about.story`, `services[].description`, `faq[].a` : paragraphes séparés par
+  une ligne vide (le champ `md` du schéma), jamais un pavé unique.
+- Ne jamais inventer un chiffre, un avis, une note, un nombre d'années, un nombre de clients. Si le
+  brief ne le donne pas, le champ correspondant reste absent du fichier — ne mets pas de valeur
+  plausible à sa place.
+- `proof.google` : absent si le brief n'a pas de note ET de nombre d'avis Google exacts. `proof
+  .testimonials` : uniquement les avis du brief, texte recopié tel quel (ne pas le réécrire), avec
+  leur `source` obligatoire. Zéro avis dans le brief → tableau vide et tu le signales dans le résumé
+  final (voir étape 7).
+
+### 5. Champs image
+
+Avant de renseigner un champ `img` (`hero`, `logo`, `portrait`, `gallery`, `beforeAfter`, photos de
+`team`...), vérifie que le fichier existe réellement dans `sites/<slug>/public/images/`. S'il n'existe
+pas encore, laisse le champ `image`/`portrait`/`logo` absent (`undefined`), ne mets pas de chemin vers
+un fichier qui n'existe pas — la section correspondante s'adapte sans image. Note dans le résumé final
+quelles photos manquent encore.
+
+### 6. Écrire le fichier
+
+Crée (ou remplace) `sites/<slug>/site.config.ts` sur le modèle de `sites/_exemple/site.config.ts` :
+`import { defineSite } from '@/lib/schema';` puis `export default defineSite({ slug: '<slug>', ... })`.
+Respecte exactement les noms de variantes de `VARIANTS` (une faute de frappe fait échouer
+`defineSite`).
+
+### 7. Builder et vérifier
+
+```
+node scripts/ff.mjs build <slug>
+node scripts/ff.mjs verifier <slug>
+```
+
+Si une commande échoue : lis l'erreur, corrige `site.config.ts` (typo de variante, champ requis
+manquant, zod qui rejette une valeur...), relance. Répète jusqu'à ce que build et vérifier soient
+verts. Ne t'arrête pas sur un échec silencieux — un site qui ne build pas n'est pas livrable.
+
+### 8. Résumer pour la vendeuse/le vendeur
+
+Termine par un résumé court, en français, tutoiement :
+
+- Direction, motion, nav/hero/footer choisis, et pourquoi en une phrase.
+- Sections incluses et celles volontairement omises (et pourquoi — donnée manquante).
+- Ce qui a été laissé vide faute de donnée (avis, note Google, photos, prix...).
+- Liste précise de ce que la vendeuse/le vendeur doit encore obtenir du client avant la mise en ligne
+  (photos manquantes, avis à récupérer, SIRET, assurance décennale...).

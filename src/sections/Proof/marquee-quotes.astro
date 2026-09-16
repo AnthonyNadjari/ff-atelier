@@ -1,0 +1,37 @@
+---
+/** Proof "marquee-quotes" : bande defilante de courtes citations clients, note Google au-dessus si dispo. */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const google = site.proof.google;
+const testimonials = site.proof.testimonials;
+---
+
+{testimonials.length > 0 && (
+  <section id="proof" class="section-y">
+    <div class="container-ff">
+      {google && (
+        <div class="mb-10 flex items-center justify-center gap-3 text-center" data-reveal>
+          <div class="flex items-center gap-1" aria-hidden="true">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Icon name="Star" size={18} class={i < Math.round(google.rating) ? 'text-accent fill-accent' : 'text-muted'} />
+            ))}
+          </div>
+          <p class="text-sm text-muted">{google.rating.toFixed(1)}/5 sur Google · {google.count} avis</p>
+        </div>
+      )}
+    </div>
+
+    <div data-marquee="40s" data-reveal>
+      <div class="marquee-track">
+        {testimonials.map((t) => (
+          <figure class="card inline-flex w-[min(20rem,80vw)] shrink-0 flex-col rounded-card border border-line bg-surface p-6 whitespace-normal align-top">
+            <blockquote class="text-fg">« {t.text} »</blockquote>
+            <figcaption class="mt-4 text-sm text-muted">
+              <span class="font-medium text-fg">{t.author}</span>{t.city && <>, {t.city}</>} · via {t.source}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
