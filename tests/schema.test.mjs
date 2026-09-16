@@ -5,7 +5,7 @@ import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadSchemaModule, loadSiteConfigModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
+import { loadSchemaModule, loadSiteConfigModule, loadSchemaTypeModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
 
 const tsImportable = await canImportTs();
 
@@ -90,5 +90,95 @@ if (!tsImportable) {
     assert.equal(site.scale, 'normal');
     assert.equal(site.layout.tone, 'flat');
     assert.equal(site.wording.devis, 'Demander un devis');
+  });
+
+  // B2/B4 (docs/veille/SYNTHESE.md) : business.schemaType (deduit du metier, jamais invente) et
+  // contact.mapsProvider/coordinates (carte sans traceur par defaut).
+  test('business.schemaType est absent par defaut ; contact.mapsProvider vaut "osm" par defaut', async () => {
+    const { defineSite } = await loadSchemaModule();
+    const site = defineSite({
+      slug: 'test-defauts-b2b4',
+      direction: 'atelier',
+      business: { name: 'X', trade: 'Plombier', tagline: 'Z', description: 'D' },
+      contact: { phone: '+33600000000', phoneDisplay: '06 00 00 00 00', email: 'a@b.fr', address: { postalCode: '59000', city: 'Lille' } },
+      services: [{ slug: 's', title: 'T', short: 'S' }],
+      about: { story: 'S' },
+    });
+    assert.equal(site.business.schemaType, undefined);
+    assert.equal(site.contact.mapsProvider, 'osm');
+    assert.equal(site.contact.coordinates, undefined);
+  });
+
+  test('business.schemaType et contact.mapsProvider/coordinates acceptent une valeur explicite', async () => {
+    const { defineSite } = await loadSchemaModule();
+    const site = defineSite({
+      slug: 'test-explicite-b2b4',
+      direction: 'atelier',
+      business: { name: 'X', trade: 'Plombier', tagline: 'Z', description: 'D', schemaType: 'Plumber' },
+      contact: {
+        phone: '+33600000000',
+        phoneDisplay: '06 00 00 00 00',
+        email: 'a@b.fr',
+        address: { postalCode: '59000', city: 'Lille' },
+        mapsProvider: 'google',
+        coordinates: { lat: 48.8566, lng: 2.3522 },
+      },
+      services: [{ slug: 's', title: 'T', short: 'S' }],
+      about: { story: 'S' },
+    });
+    assert.equal(site.business.schemaType, 'Plumber');
+    assert.equal(site.contact.mapsProvider, 'google');
+    assert.deepEqual(site.contact.coordinates, { lat: 48.8566, lng: 2.3522 });
+  });
+
+  test('defineSite rejette une valeur de contact.mapsProvider inconnue', async () => {
+    const { defineSite } = await loadSchemaModule();
+    assert.throws(() => {
+      defineSite({
+        slug: 'test-mapsprovider-invalide',
+        direction: 'atelier',
+        business: { name: 'X', trade: 'Y', tagline: 'Z', description: 'D' },
+        contact: {
+          phone: '+33600000000',
+          phoneDisplay: '06 00 00 00 00',
+          email: 'a@b.fr',
+          address: { postalCode: '59000', city: 'Lille' },
+          mapsProvider: 'bing',
+        },
+        services: [{ slug: 's', title: 'T', short: 'S' }],
+        about: { story: 'S' },
+      });
+    });
+  });
+
+  test('schemaTypeForTrade deduit un sous-type schema.org precis pour les metiers connus, repli LocalBusiness sinon', async () => {
+    const { schemaTypeForTrade } = await loadSchemaTypeModule();
+    assert.equal(schemaTypeForTrade('Plombier-chauffagiste'), 'Plumber');
+    assert.equal(schemaTypeForTrade('Électricien'), 'Electrician');
+    assert.equal(schemaTypeForTrade('Couvreur-zingueur'), 'RoofingContractor');
+    assert.equal(schemaTypeForTrade('Coiffeur-coloriste'), 'HairSalon');
+    assert.equal(schemaTypeForTrade('Restaurant de poissons et bouillabaisse'), 'Restaurant');
+    assert.equal(schemaTypeForTrade('Boulanger-pâtissier'), 'Bakery');
+    assert.equal(schemaTypeForTrade('Garage indépendant, toutes marques'), 'AutoRepair');
+    assert.equal(schemaTypeForTrade('Avocat en droit des affaires'), 'LegalService');
+    assert.equal(schemaTypeForTrade('Dentiste'), 'Dentist');
+    assert.equal(schemaTypeForTrade('Vétérinaire'), 'VeterinaryCare');
+    assert.equal(schemaTypeForTrade('Ostéopathe D.O.'), 'MedicalBusiness');
+    assert.equal(schemaTypeForTrade('Photographe de mariage et de famille'), 'ProfessionalService');
+    assert.equal(schemaTypeForTrade('Paysagiste'), 'HomeAndConstructionBusiness');
+    assert.equal(schemaTypeForTrade('Menuisier-ébéniste'), 'HomeAndConstructionBusiness');
+    assert.equal(schemaTypeForTrade('Ferronnerie d’art'), 'HomeAndConstructionBusiness');
+    assert.equal(schemaTypeForTrade('Architecte d’intérieur'), 'ProfessionalService');
+    assert.equal(schemaTypeForTrade('Fleuriste'), 'Florist');
+    assert.equal(schemaTypeForTrade('Chambres d’hôtes'), 'BedAndBreakfast');
+    assert.equal(schemaTypeForTrade('Auto-école'), 'EducationalOrganization');
+    assert.equal(schemaTypeForTrade('Studio de tatouage'), 'TattooParlor');
+    assert.equal(schemaTypeForTrade('Coach sportif'), 'HealthClub');
+    assert.equal(schemaTypeForTrade('Traiteur'), 'FoodEstablishment');
+    assert.equal(schemaTypeForTrade('Brasserie artisanale'), 'Brewery');
+    assert.equal(schemaTypeForTrade('Agence immobilière de quartier'), 'RealEstateAgent');
+    assert.equal(schemaTypeForTrade('Maçon'), 'GeneralContractor');
+    assert.equal(schemaTypeForTrade('Dépannage informatique et réseau'), 'ProfessionalService');
+    assert.equal(schemaTypeForTrade('Studio digital — sites vitrines pour artisans et indépendants'), 'LocalBusiness');
   });
 }

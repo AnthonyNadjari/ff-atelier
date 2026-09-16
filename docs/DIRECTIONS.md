@@ -111,8 +111,26 @@ absente (photo, avis, FAQ) ne doit pas être choisie.
 | Variante | Quand l'utiliser |
 |---|---|
 | `list` | Défaut, liste simple de villes. |
-| `map` | Le client fournit un `mapsEmbed`, ou zone géographique à visualiser. |
+| `map` | Une carte (`<Carte />`, voir § Carte ci-dessous) est utile en plus de la liste. |
 | `chips` | Beaucoup de villes (>8), direction clair/brut, présentation compacte. |
+
+### Carte (sans traceur)
+
+`src/components/Carte.astro` est utilisé par `zones/map` et `contact/full` (jamais d'`<iframe>` brute
+dans une section). Contrôlé par `contact.mapsProvider` (`'osm' | 'google' | 'none'`, défaut `'osm'`) :
+
+- `'osm'` + `contact.coordinates` (`{ lat, lng }`) fournies → tuiles OpenStreetMap statiques (zoom 15,
+  grille 2×2), marqueur superposé, attribution obligatoire. Aucun cookie, aucun JS. **Sans
+  `coordinates`, ne pas en inventer** : le composant retombe sur le bloc adresse seul.
+- `'google'` + `contact.mapsEmbed` fourni → façade cliquable (CNIL) : l'iframe Google Maps n'est
+  injectée qu'après un clic explicite sur le bouton, jamais au chargement de la page.
+- `'none'`, ou données manquantes pour le provider choisi → bloc adresse seul (+ lien `mapsUrl` si
+  fourni). C'est le repli par défaut : ne jamais fabriquer des coordonnées ou un embed absents du brief.
+
+Par défaut (`mapsProvider` non renseigné) un site n'a donc aucun traceur lié à la carte, et pas de
+bannière cookie à prévoir pour cette raison — argument à mettre en avant en vente (voir
+`docs/veille/seo-conversion.md` § 3.4). Ne choisir `'google'` que si le client tient explicitement à
+Google Maps ; c'est alors la façade, jamais l'iframe directe, qui doit être utilisée.
 
 ### `process`
 | Variante | Quand l'utiliser |
@@ -195,6 +213,36 @@ la surchargent police par police, sans toucher au reste des tokens de la directi
 | `bebas` | Bebas Neue | display | condensé, industriel |
 | `delaGothic` | Dela Gothic One | display | ultra gras, pop |
 | `jetbrains` | JetBrains Mono Variable | mono | technique |
+| `sourceSerif4` | Source Serif 4 Variable | both | éditorial, polyvalent |
+| `crimsonPro` | Crimson Pro Variable | both | livre, littéraire |
+| `ebGaramond` | EB Garamond Variable | both | classique, élégant |
+| `spectral` | Spectral | both | éditorial contemporain |
+| `cormorantGaramond` | Cormorant Garamond Variable | display | luxe raffiné |
+| `libreBodoni` | Libre Bodoni Variable | display | mode, haute couture |
+| `zillaSlab` | Zilla Slab | both | robuste, lisible |
+| `bitter` | Bitter Variable | both | slab doux, lecture écran |
+| `domine` | Domine Variable | both | sobre, éditorial |
+| `abrilFatface` | Abril Fatface | display | éditorial gras, mode |
+| `yesevaOne` | Yeseva One | display | féminin, décoratif |
+| `oswald` | Oswald Variable | display | condensé, affiche |
+| `cabin` | Cabin Variable | body | humaniste, doux |
+| `karla` | Karla Variable | body | net, contemporain |
+| `rubik` | Rubik Variable | both | rond, amical |
+| `urbanist` | Urbanist Variable | both | urbain, élégant |
+| `chivo` | Chivo Variable | display | grotesque robuste |
+| `familjenGrotesk` | Familjen Grotesk Variable | both | scandinave, épuré |
+| `geist` | Geist Variable | both | tech, minimal |
+| `ibmPlexSans` | IBM Plex Sans Variable | body | corporate lisible |
+| `lexend` | Lexend Variable | body | lisibilité, accessible |
+| `publicSans` | Public Sans Variable | body | institutionnel, neutre |
+| `plusJakartaSans` | Plus Jakarta Sans Variable | body | moderne, chaleureux |
+| `alfaSlabOne` | Alfa Slab One | display | slab massif, affiche |
+| `bungee` | Bungee | display | urbain, signalétique |
+| `geistMono` | Geist Mono Variable | mono | tech, précis |
+| `ibmPlexMono` | IBM Plex Mono | mono | code, technique |
+| `spaceMono` | Space Mono | mono | rétro tech |
+| `dmMono` | DM Mono | mono | fin, discret |
+| `fragmentMono` | Fragment Mono | mono | élégant, mono display |
 
 **Règle** : une surcharge de police (`typography.display` ou `typography.body`) ne doit **jamais**
 reprendre la paire par défaut de la direction choisie — sinon la surcharge ne sert à rien et deux

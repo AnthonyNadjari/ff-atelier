@@ -4,7 +4,7 @@
  * le runtime d'animation. Toutes les pages passent par ici.
  */
 import '@/styles/global.css';
-import { site, fullAddress, slugCourant } from '@/lib/site';
+import { site, fullAddress, slugCourant, schemaTypeForTrade } from '@/lib/site';
 import { FONTS, type FontName } from '@/lib/fonts';
 
 interface Props {
@@ -39,9 +39,13 @@ const ogUrl = og ? new URL(og, Astro.site).toString() : undefined;
 
 const accentStyle = (site.accent ? `--accent-h:${site.accent.h};--accent-s:${site.accent.s}%;--accent-l:${site.accent.l}%;` : '') + fontStyle;
 
+// Sous-type schema.org : business.schemaType prime, sinon deduit du metier (schemaTypeForTrade),
+// repli 'LocalBusiness'. Pas d'aggregateRating/Review auto-declare : Google sanctionne les avis
+// self-serving sur une entite qui se note elle-meme (voir docs/veille/seo-conversion.md § 1.4) ;
+// la note Google reste affichee dans les sections (proof/google), jamais dans le JSON-LD.
 const ldJson = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': site.business.schemaType || schemaTypeForTrade(site.business.trade),
   name: site.business.name,
   description: pageDesc,
   url: Astro.site?.toString(),
@@ -57,9 +61,6 @@ const ldJson = {
   },
   areaServed: site.zones.cities.map((c) => ({ '@type': 'City', name: c })),
   openingHours: site.contact.hours.map((h) => `${h.days} ${h.hours}`),
-  aggregateRating: site.proof.google
-    ? { '@type': 'AggregateRating', ratingValue: site.proof.google.rating, reviewCount: site.proof.google.count }
-    : undefined,
   sameAs: Object.values(site.social).filter(Boolean),
   foundingDate: site.business.since ? String(site.business.since) : undefined,
 };

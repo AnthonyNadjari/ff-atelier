@@ -87,6 +87,57 @@ export function runAstro(cmd, slug, extraArgs = [], extraEnv = {}) {
   return r.status ?? 1;
 }
 
+// ---- .env (cle API) ----
+function parseDotEnv(filePath) {
+  if (!fs.existsSync(filePath)) return {};
+  const out = {};
+  for (const rawLine of fs.readFileSync(filePath, 'utf8').split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) continue;
+    const i = line.indexOf('=');
+    if (i === -1) continue;
+    const key = line.slice(0, i).trim();
+    let value = line.slice(i + 1).trim();
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      value = value.slice(1, -1);
+    }
+    out[key] = value;
+  }
+  return out;
+}
+let _dotEnvCache = null;
+/** Lit une cle : environnement d'abord, sinon .env a la racine (parse a la main, sans dependance). */
+export function envKey(name) {
+  if (process.env[name]) return process.env[name];
+  if (_dotEnvCache === null) _dotEnvCache = parseDotEnv(path.join(ROOT, '.env'));
+  return _dotEnvCache[name] || '';
+}
+
+/** Slug simple (minuscules, sans accents, tirets) pour un nom de fichier derive d'un texte libre. */
+export function slugify(text) {
+  return String(text || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'sans-titre';
+}
+
+/** Ajoute une entree au manifeste d'attribution sites/<slug>/CREDITS.md (cree l'entete si absent). */
+export function appendCredits(slug, block) {
+  const dest = path.join(SITES_DIR, slug, 'CREDITS.md');
+  if (!fs.existsSync(dest)) {
+    fs.writeFileSync(
+      dest,
+      '# Crédits\n\n' +
+        "Origine, licence et attribution des visuels tiers utilisés sur ce site — généré par " +
+        '`ff photos` / `ff video` / `ff illustration`. Ne pas supprimer une entrée tant que le fichier ' +
+        "qu'elle décrit reste utilisé sur le site.\n",
+    );
+  }
+  fs.appendFileSync(dest, `\n${block.trim()}\n`);
+}
+
 /** Parseur d'arguments minimal : positionnels + --flag valeur / --flag=valeur / --flag (booleen). */
 export function parseArgs(argv) {
   const flags = {};

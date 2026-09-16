@@ -143,6 +143,12 @@ export const siteSchema = z.object({
     tva: z.string().optional(),
     insurance: z.string().optional().describe('ex: Assurance decennale AXA n 123'),
     certifications: z.array(z.string()).default([]).describe('RGE, Qualibat, ...'),
+    schemaType: z
+      .string()
+      .optional()
+      .describe(
+        "Sous-type schema.org pour le JSON-LD (ex: 'Plumber', 'HairSalon'). Absent = deduit du metier via schemaTypeForTrade(), repli 'LocalBusiness'.",
+      ),
   }),
 
   contact: z.object({
@@ -157,6 +163,11 @@ export const siteSchema = z.object({
     }),
     mapsUrl: z.string().url().optional().describe('Lien fiche Google Maps'),
     mapsEmbed: z.string().optional().describe("URL src de l'iframe Google Maps embed"),
+    mapsProvider: z
+      .enum(['osm', 'google', 'none'])
+      .default('osm')
+      .describe("Fournisseur de carte (src/components/Carte.astro). 'osm' = tuiles OpenStreetMap statiques sans traceur (besoin de coordinates). 'google' = facade cliquable qui charge mapsEmbed au clic. 'none' = bloc adresse seul."),
+    coordinates: z.object({ lat: z.number(), lng: z.number() }).optional().describe('Latitude/longitude, necessaire pour mapsProvider "osm"'),
     hours: z.array(z.object({ days: z.string(), hours: z.string() })).default([]),
     emergency24h: z.boolean().default(false),
   }),

@@ -6,6 +6,27 @@
  *                     scrub (data-scrub), pin (data-pin), defilement horizontal (data-horizontal),
  *                     remplissage de texte (data-text-fill), image au survol (data-hover-img),
  *                     rideau d'entree (.ff-curtain), + script.ts de la direction s'il existe.
+ *
+ * Attributs geres (legacy, avant la veille animations.md) : data-reveal, data-stagger, data-counter,
+ * data-marquee, data-draw, data-parallax, data-magnetic, data-tilt, data-scrub, data-pin,
+ * data-pin-step, data-horizontal, data-text-fill, data-split, data-hover-img, data-nav.
+ *
+ * --- Nouveaux effets (docs/veille/animations.md §3, 13 effets + 2 bonus) ---
+ * data-sticky-stack     subtle (CSS pur, z-index croissant) + rich (assombrit la carte precedente au scroll)
+ * data-stack            rich   cartes qui s'empilent en scrollant (scale/y decroissants)
+ * data-split="chars"    rich   variante caractere par caractere de data-split (mots = defaut)
+ * data-scramble         subtle (vanilla) / rich (GSAP ScrambleTextPlugin) : texte qui se decode
+ * data-spotlight        subtle halo lumineux qui suit le curseur (pointer:fine, @property --x/--y)
+ * data-tilt-glare       rich   reflet lumineux sur data-tilt qui suit le curseur
+ * data-flip-card        subtle carte 3D qui se retourne (survol desktop, clic/tap mobile), aria-pressed
+ * data-compare          subtle slider avant/apres (input range + clip-path, clavier)
+ * data-parallax-depth   rich   parallax multi-couches sur les enfants [data-depth]
+ * data-trail            rich   trainee de N images au survol (pointer:fine)
+ * data-marquee-velocity subtle vitesse du marquee modulee par la velocite de scroll
+ * data-blur-scrub       rich   flou qui se dissipe au scroll (data-scrub avec blur=N, ou seul)
+ * data-counter-flip     subtle variante "digit flip" de data-counter
+ * data-count-bar        subtle barre qui se remplit au scroll, a cote de data-counter
+ * data-scroll-progress  subtle barre de progression de lecture (CSS scroll-timeline + repli JS)
  */
 export function initMotion() {
   const root = document.documentElement;
@@ -20,13 +41,22 @@ export function initMotion() {
   if (motion === 'rich') splitText();
   reveal();
   counters();
+  counterFlip();
+  countBars();
   marquee();
   navScroll();
   drawLines();
+  stickyStack();
+  spotlight();
+  flipCards();
+  compareSliders();
+  scrollProgress();
+  if (motion === 'subtle') scrambleSubtle();
 
   if (motion === 'rich') {
     curtain();
     hoverImages();
+    trailImages();
     rich().catch(() => {});
     directionScript(root.dataset.direction);
   }
@@ -72,6 +102,37 @@ function hoverImages() {
     el.addEventListener('mouseenter', () => { img.src = el.dataset.hoverImg!; img.classList.add('is-on'); cancelAnimationFrame(raf); loop(); });
     el.addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; });
     el.addEventListener('mouseleave', () => { img.classList.remove('is-on'); cancelAnimationFrame(raf); });
+  });
+}
+
+/** data-trail="/images/x.webp" : pool de N images qui suivent le curseur avec decalage temporel (rich, pointer fin). */
+function trailImages() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  const items = document.querySelectorAll<HTMLElement>('[data-trail]');
+  if (!items.length) return;
+  const N = 5;
+  const pool = Array.from({ length: N }, () => {
+    const img = document.createElement('img');
+    img.className = 'ff-trail-img';
+    img.alt = '';
+    document.body.append(img);
+    return img;
+  });
+  const timers = new Map<HTMLImageElement, ReturnType<typeof setTimeout>>();
+  let i = 0;
+  let active = false;
+  items.forEach((el) => {
+    el.addEventListener('mouseenter', () => (active = true));
+    el.addEventListener('mouseleave', () => (active = false));
+    el.addEventListener('mousemove', (e) => {
+      if (!active) return;
+      const img = pool[i++ % N];
+      img.src = el.dataset.trail || '';
+      img.style.transform = `translate(${e.clientX + 20}px, ${e.clientY - 100}px) rotate(${((i % N) - N / 2) * 3}deg)`;
+      img.classList.add('is-on');
+      clearTimeout(timers.get(img));
+      timers.set(img, setTimeout(() => img.classList.remove('is-on'), 450));
+    });
   });
 }
 
@@ -125,6 +186,51 @@ function counters() {
   els.forEach((el) => io.observe(el));
 }
 
+/** data-counter-flip="128" : variante "digit flip" du compteur, chaque chiffre est un <span> anime en translateY. */
+function counterFlip() {
+  const els = document.querySelectorAll<HTMLElement>('[data-counter-flip]');
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      const el = e.target as HTMLElement;
+      io.unobserve(el);
+      const end = String(el.dataset.counterFlip ?? '');
+      const suffix = el.dataset.suffix ?? '';
+      el.innerHTML = '';
+      Array.from(end).forEach((ch, i) => {
+        const wrap = document.createElement('span');
+        wrap.className = 'flip-digit';
+        const inner = document.createElement('span');
+        inner.className = 'flip-digit-inner';
+        inner.textContent = ch;
+        wrap.append(inner);
+        wrap.style.setProperty('--i-delay', `${i * 80}ms`);
+        el.append(wrap);
+      });
+      if (suffix) el.append(document.createTextNode(suffix));
+      requestAnimationFrame(() => el.classList.add('is-flipped'));
+    }
+  });
+  els.forEach((el) => io.observe(el));
+}
+
+/** data-count-bar="82" : barre .bar-fill qui se remplit (largeur en %) quand l'element entre a l'ecran. */
+function countBars() {
+  const els = document.querySelectorAll<HTMLElement>('[data-count-bar]');
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      const el = e.target as HTMLElement;
+      io.unobserve(el);
+      const pct = Math.max(0, Math.min(100, Number(el.dataset.countBar) || 0));
+      requestAnimationFrame(() => el.style.setProperty('--bar', `${pct}%`));
+    }
+  });
+  els.forEach((el) => io.observe(el));
+}
+
 function marquee() {
   document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((el) => {
     const track = el.querySelector<HTMLElement>('.marquee-track');
@@ -133,6 +239,146 @@ function marquee() {
     const speed = el.dataset.marquee;
     if (speed) el.style.setProperty('--marquee-speed', speed);
   });
+
+  // data-marquee-velocity="30" : le meme element porte data-marquee ; la vitesse (duree de base en s)
+  // est modulee par la velocite de scroll (plus on defile vite, plus la bande accelere).
+  const velocityEls = document.querySelectorAll<HTMLElement>('[data-marquee-velocity]');
+  if (!velocityEls.length) return;
+  let lastY = window.scrollY;
+  let raf = 0;
+  const onScroll = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      const y = window.scrollY;
+      const dy = Math.min(Math.abs(y - lastY), 120);
+      lastY = y;
+      velocityEls.forEach((el) => {
+        const base = Number(el.dataset.marqueeVelocity) || 30;
+        const factor = Math.max(0.3, 1 - dy / 60);
+        el.style.setProperty('--marquee-speed', `${(base * factor).toFixed(1)}s`);
+      });
+      raf = 0;
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+/** data-scramble (ms optionnel) : le texte final se "decode" depuis des caracteres aleatoires (subtle, vanilla, ~15 lignes). */
+function scrambleSubtle() {
+  const els = document.querySelectorAll<HTMLElement>('[data-scramble]');
+  if (!els.length) return;
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      const el = e.target as HTMLElement;
+      io.unobserve(el);
+      const final = el.textContent ?? '';
+      const dur = Number(el.dataset.scramble) || 900;
+      const totalFrames = Math.round(dur / 40);
+      let frame = 0;
+      const id = setInterval(() => {
+        frame++;
+        el.textContent = final
+          .split('')
+          .map((c, i) => (c === ' ' ? ' ' : frame / totalFrames > i / final.length ? c : chars[(Math.random() * chars.length) | 0]))
+          .join('');
+        if (frame >= totalFrames) {
+          el.textContent = final;
+          clearInterval(id);
+        }
+      }, 40);
+    }
+  }, { threshold: 0.6 });
+  els.forEach((el) => io.observe(el));
+}
+
+/** data-sticky-stack : enfants en position: sticky, z-index croissant (CSS + JS minime, zero dependance). */
+function stickyStack() {
+  document.querySelectorAll<HTMLElement>('[data-sticky-stack]').forEach((el) => {
+    Array.from(el.children).forEach((c, i) => {
+      (c as HTMLElement).style.zIndex = String(i + 1);
+    });
+  });
+}
+
+/** data-spotlight : halo radial qui suit le curseur (--x/--y, @property dans global.css), pointer fin seulement. */
+function spotlight() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  const els = document.querySelectorAll<HTMLElement>('[data-spotlight]');
+  if (!els.length) return;
+  let raf = 0;
+  let cx = 0, cy = 0;
+  let target: HTMLElement | null = null;
+  const apply = () => {
+    if (target) {
+      target.style.setProperty('--x', `${cx}px`);
+      target.style.setProperty('--y', `${cy}px`);
+    }
+    raf = 0;
+  };
+  els.forEach((el) => {
+    el.addEventListener(
+      'pointermove',
+      (e) => {
+        const r = el.getBoundingClientRect();
+        cx = e.clientX - r.left;
+        cy = e.clientY - r.top;
+        target = el;
+        el.classList.add('is-spot-on');
+        if (!raf) raf = requestAnimationFrame(apply);
+      },
+      { passive: true },
+    );
+    el.addEventListener('pointerleave', () => el.classList.remove('is-spot-on'));
+  });
+}
+
+/** data-flip-card : carte 3D (CSS, .flip-inner/.flip-front/.flip-back) ; hover desktop, clic/tap + clavier pour mobile. */
+function flipCards() {
+  document.querySelectorAll<HTMLElement>('[data-flip-card]').forEach((el) => {
+    if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-pressed', 'false');
+    const toggle = () => el.setAttribute('aria-pressed', String(el.classList.toggle('is-flipped')));
+    el.addEventListener('click', toggle);
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
+}
+
+/** data-compare : slider avant/apres, <input type="range"> natif (accessible clavier) + clip-path sur .compare-after. */
+function compareSliders() {
+  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((el) => {
+    const input = el.querySelector<HTMLInputElement>('input[type="range"]');
+    if (!input) return;
+    const update = () => el.style.setProperty('--compare-pos', `${input.value}%`);
+    input.addEventListener('input', update);
+    update();
+  });
+}
+
+/** data-scroll-progress : barre fixee en haut, remplie par CSS scroll-timeline si supporte, sinon repli JS throttle en rAF. */
+function scrollProgress() {
+  const el = document.querySelector<HTMLElement>('[data-scroll-progress]');
+  if (!el) return;
+  if (typeof CSS !== 'undefined' && CSS.supports?.('animation-timeline', 'scroll(root)')) return; // CSS pur suffit (voir global.css)
+  let raf = 0;
+  const onScroll = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      const p = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;
+      el.style.transform = `scaleX(${p})`;
+      raf = 0;
+    });
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 }
 
 /** Nav : classe .is-scrolled apres 40px, .is-hidden quand on descend (variantes qui le veulent). */
@@ -155,17 +401,20 @@ function splitText() {
   document.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
     if (el.dataset.splitDone) return;
     el.dataset.splitDone = '1';
+    // data-split (defaut, "words") : decoupe mot par mot. data-split="chars" : caractere par caractere.
+    const chars = el.dataset.split === 'chars';
+    const cls = chars ? 'split-char' : 'split-word';
     const walk = (node: Node) => {
       if (node.nodeType === Node.TEXT_NODE) {
-        const words = (node.textContent ?? '').split(/(\s+)/);
+        const units = chars ? (node.textContent ?? '').split('') : (node.textContent ?? '').split(/(\s+)/);
         const frag = document.createDocumentFragment();
-        words.forEach((w) => {
+        units.forEach((w) => {
           if (!w) return;
-          if (/^\s+$/.test(w)) return frag.append(document.createTextNode(' '));
+          if (!chars && /^\s+$/.test(w)) return frag.append(document.createTextNode(' '));
           const outer = document.createElement('span');
-          outer.className = 'split-word';
+          outer.className = cls;
           const inner = document.createElement('span');
-          inner.textContent = w;
+          inner.textContent = w === ' ' ? ' ' : w;
           outer.append(inner);
           frag.append(outer);
         });
@@ -175,13 +424,16 @@ function splitText() {
       }
     };
     walk(el);
-    el.querySelectorAll<HTMLElement>('.split-word > span').forEach((s, i) => s.style.setProperty('--i-delay', `${i * 45}ms`));
+    el.querySelectorAll<HTMLElement>(`.${cls} > span`).forEach((s, i) => s.style.setProperty('--i-delay', `${i * (chars ? 18 : 45)}ms`));
     if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', 'none');
   });
 }
 
 async function rich() {
-  const needs = document.querySelector('[data-parallax],[data-magnetic],[data-tilt],[data-pin],[data-scrub],[data-horizontal],[data-text-fill]');
+  const needs = document.querySelector(
+    '[data-parallax],[data-magnetic],[data-tilt],[data-pin],[data-scrub],[data-horizontal],[data-text-fill],' +
+      '[data-sticky-stack],[data-stack],[data-parallax-depth],[data-scramble],[data-blur-scrub]',
+  );
   if (!needs) return;
   const { gsap } = await import('gsap');
   const { ScrollTrigger } = await import('gsap/ScrollTrigger');
@@ -205,14 +457,70 @@ async function rich() {
     el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1, 0.4)' }));
   });
 
-  // data-scrub="scale=1.15,rotate=4,x=-20,y=10,opacity=0.3" : de cet etat vers l'etat normal, pilote par le scroll
-  document.querySelectorAll<HTMLElement>('[data-scrub]').forEach((el) => {
+  // data-scrub="scale=1.15,rotate=4,x=-20,y=10,opacity=0.3,blur=12" : de cet etat vers l'etat normal, pilote par le scroll.
+  // data-blur-scrub="12" (seul, ou en plus de data-scrub) : raccourci pour un flou qui se dissipe au scroll.
+  document.querySelectorAll<HTMLElement>('[data-scrub],[data-blur-scrub]').forEach((el) => {
     const from: Record<string, number> = {};
     (el.dataset.scrub || '').split(',').forEach((pair) => { const [k, v] = pair.split('='); if (k && v) from[k.trim()] = Number(v); });
+    if (el.hasAttribute('data-blur-scrub') && from.blur === undefined) from.blur = Number(el.dataset.blurScrub) || 12;
     if (from.x !== undefined) { from.xPercent = from.x; delete from.x; }
     if (from.y !== undefined) { from.yPercent = from.y; delete from.y; }
-    gsap.from(el, { ...from, ease: 'none', scrollTrigger: { trigger: el, scrub: 0.6, start: 'top 95%', end: 'bottom 20%' } });
+    const tweenVars: Record<string, unknown> = { ...from, ease: 'none', scrollTrigger: { trigger: el, scrub: 0.6, start: 'top 95%', end: 'bottom 20%' } };
+    if (from.blur !== undefined) {
+      tweenVars.filter = `blur(${from.blur}px)`;
+      delete tweenVars.blur;
+    }
+    gsap.from(el, tweenVars);
   });
+
+  // data-sticky-stack (rich) : assombrit chaque carte quand la suivante arrive par-dessus (le sticky/z-index est en CSS).
+  document.querySelectorAll<HTMLElement>('[data-sticky-stack]').forEach((el) => {
+    const cards = Array.from(el.children) as HTMLElement[];
+    cards.forEach((c, i) => {
+      const next = cards[i + 1];
+      if (!next) return;
+      gsap.to(c, { filter: 'brightness(0.55)', ease: 'none', scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: true } });
+    });
+  });
+
+  // data-stack : cartes qui s'epinglent puis se tassent (scale/y) quand la suivante arrive.
+  document.querySelectorAll<HTMLElement>('[data-stack]').forEach((el) => {
+    const cards = Array.from(el.children) as HTMLElement[];
+    cards.forEach((c, i) => {
+      ScrollTrigger.create({ trigger: c, start: 'top top', end: 'bottom top', pin: true, pinSpacing: false });
+      const next = cards[i + 1];
+      if (!next) return;
+      gsap.to(c, { scale: 0.94, yPercent: -3, filter: 'brightness(0.85)', ease: 'none', scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: true } });
+    });
+  });
+
+  // data-parallax-depth : conteneur dont les enfants [data-depth="0.2"] bougent a des vitesses differentes.
+  document.querySelectorAll<HTMLElement>('[data-parallax-depth]').forEach((el) => {
+    el.querySelectorAll<HTMLElement>('[data-depth]').forEach((child) => {
+      const amount = Number(child.dataset.depth || 0.2);
+      gsap.fromTo(
+        child,
+        { yPercent: -amount * 40 },
+        { yPercent: amount * 40, ease: 'none', scrollTrigger: { trigger: el, scrub: true, start: 'top bottom', end: 'bottom top' } },
+      );
+    });
+  });
+
+  // data-scramble (rich) : ScrambleTextPlugin si l'attribut est present quelque part sur la page.
+  if (document.querySelector('[data-scramble]')) {
+    const { ScrambleTextPlugin } = await import('gsap/ScrambleTextPlugin');
+    gsap.registerPlugin(ScrambleTextPlugin);
+    document.querySelectorAll<HTMLElement>('[data-scramble]').forEach((el) => {
+      const text = el.textContent ?? '';
+      const dur = (Number(el.dataset.scramble) || 900) / 1000;
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => gsap.to(el, { duration: dur, scrambleText: { text, chars: 'upperAndLowerCase', speed: 0.4 } }),
+      });
+    });
+  }
 
   // data-text-fill : le texte se remplit au fil du scroll, mot par mot
   document.querySelectorAll<HTMLElement>('[data-text-fill]').forEach((el) => {
@@ -246,11 +554,19 @@ async function rich() {
   document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
     const max = Number(el.dataset.tilt || 8);
     el.style.transformStyle = 'preserve-3d';
+    // data-tilt-glare (extension) : un reflet dont le background-position suit le curseur, sur le meme handler.
+    let glare: HTMLElement | null = null;
+    if (el.hasAttribute('data-tilt-glare')) {
+      glare = document.createElement('span');
+      glare.className = 'tilt-glare';
+      el.append(glare);
+    }
     el.addEventListener('mousemove', (e) => {
       const r = el.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5;
       const py = (e.clientY - r.top) / r.height - 0.5;
       gsap.to(el, { rotateY: px * max, rotateX: -py * max, transformPerspective: 900, duration: 0.5, ease: 'power2.out' });
+      if (glare) glare.style.backgroundPosition = `${(px + 0.5) * 100}% ${(py + 0.5) * 100}%`;
     });
     el.addEventListener('mouseleave', () => gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.8, ease: 'power3.out' }));
   });

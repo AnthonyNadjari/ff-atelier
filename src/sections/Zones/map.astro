@@ -1,10 +1,10 @@
 ---
-/** Zones "map" : texte + liste de villes a gauche, carte (iframe ou placeholder decoratif) a droite. */
+/** Zones "map" : texte + liste de villes a gauche, <Carte /> (OSM/facade Google/adresse) a droite. */
 import { site, citySlug } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
+import Carte from '@/components/Carte.astro';
 const zones = site.zones;
 const cities = zones.cities;
-const embed = site.contact.mapsEmbed;
 const linked = site.seo.cityPages;
 ---
 
@@ -28,23 +28,7 @@ const linked = site.seo.cityPages;
       </div>
 
       <div data-reveal="right">
-        {embed ? (
-          <div class="overflow-hidden rounded-card shadow-card aspect-[4/3]">
-            <iframe src={embed} loading="lazy" title="Carte" class="h-full w-full border-0" referrerpolicy="no-referrer-when-downgrade" />
-          </div>
-        ) : (
-          <div class="relative aspect-[4/3] overflow-hidden rounded-card bg-bg-2 border border-line flex items-center justify-center">
-            <div class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
-              <span class="absolute h-[40%] w-[40%] rounded-full border border-line"></span>
-              <span class="absolute h-[65%] w-[65%] rounded-full border border-line"></span>
-              <span class="absolute h-[90%] w-[90%] rounded-full border border-line"></span>
-            </div>
-            <div class="relative flex flex-col items-center gap-2">
-              <Icon name="MapPin" size={36} class="text-accent" />
-              <p class="font-display text-lg">{site.contact.address.city}</p>
-            </div>
-          </div>
-        )}
+        <Carte />
       </div>
     </div>
   </section>

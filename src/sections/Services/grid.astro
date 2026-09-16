@@ -14,7 +14,7 @@ import Icon from '@/components/Icon.astro';
           <div class="flex h-12 w-12 items-center justify-center rounded-ui bg-accent/10 text-accent"><Icon name={s.icon} size={24} /></div>
           <h3 class="mt-6 text-display-sm">{s.title}</h3>
           <p class="mt-3 text-muted">{s.short}</p>
-          {s.priceFrom && <p class="mt-3 text-sm font-medium">{s.priceFrom}</p>}
+          {s.priceFrom && <p class="mt-3 text-sm font-medium tabular-nums">{s.priceFrom}</p>}
           <a href={`/services/${s.slug}`} class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent">
             En savoir plus <Icon name="ArrowRight" size={16} class="transition-transform group-hover:translate-x-1" />
           </a>

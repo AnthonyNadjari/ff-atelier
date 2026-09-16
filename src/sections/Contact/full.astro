@@ -1,10 +1,10 @@
 ---
 /** Contact "full" : formulaire pleine largeur a gauche (7 col), carte/adresse + horaires + reseaux a droite. */
-import { site, tel, mailto, fullAddress } from '@/lib/site';
+import { site, tel, mailto } from '@/lib/site';
 import SectionHeading from '@/components/SectionHeading.astro';
 import ContactForm from '@/components/ContactForm.astro';
 import Icon from '@/components/Icon.astro';
-const embed = site.contact.mapsEmbed;
+import Carte from '@/components/Carte.astro';
 const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
 const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
 ---
@@ -22,17 +22,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
       </div>
 
       <div class="lg:col-span-5 flex flex-col gap-6" data-reveal="right">
-        {embed ? (
-          <div class="overflow-hidden rounded-card shadow-card aspect-[4/3]">
-            <iframe src={embed} loading="lazy" title="Carte" class="h-full w-full border-0" referrerpolicy="no-referrer-when-downgrade" />
-          </div>
-        ) : (
-          <div class="card rounded-card bg-surface border border-line p-6">
-            <p class="eyebrow mb-3">Adresse</p>
-            <p class="flex items-start gap-3 text-fg"><Icon name="MapPin" size={18} class="text-accent shrink-0 mt-0.5" />{fullAddress()}</p>
-            {site.contact.mapsUrl && <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="mt-2 inline-block text-sm text-accent">Voir sur Google Maps</a>}
-          </div>
-        )}
+        <Carte />
 
         <div class="card rounded-card bg-surface border border-line p-6 space-y-4">
           <p class="flex items-center gap-3"><Icon name="Phone" size={18} class="text-accent shrink-0" /><a href={tel()} class="font-medium hover:text-accent">{site.contact.phoneDisplay}</a></p>

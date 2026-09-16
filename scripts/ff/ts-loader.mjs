@@ -74,6 +74,20 @@ export async function loadSiteConfigModule(slug) {
   return import(url);
 }
 
+/**
+ * Copie src/lib/schemaType.ts (module pur, aucune dependance) dans TMP_DIR/lib/ et l'importe.
+ * Renvoie { schemaTypeForTrade } — re-exporte par src/lib/site.ts mais teste ici isolement, car
+ * site.ts ne s'importe pas dans Node nu (import.meta.glob n'existe que sous Vite).
+ */
+export async function loadSchemaTypeModule() {
+  const libDir = path.join(TMP_DIR, 'lib');
+  fs.mkdirSync(libDir, { recursive: true });
+  const src = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'schemaType.ts'), 'utf8');
+  fs.writeFileSync(path.join(libDir, 'schemaType.ts'), addTsExtensions(src));
+  const url = pathToFileURL(path.join(libDir, 'schemaType.ts')).href;
+  return import(url);
+}
+
 export function cleanTmp() {
   fs.rmSync(TMP_DIR, { recursive: true, force: true });
 }

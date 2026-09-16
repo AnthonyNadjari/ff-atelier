@@ -1,0 +1,297 @@
+---
+/**
+ * Section sur mesure du site _effets : vitrine de TOUS les effets du moteur d'animation
+ * (src/scripts/motion.ts), anciens et nouveaux (docs/veille/animations.md §3). Chaque bloc porte
+ * un eyebrow avec le nom de l'attribut data-* demontre, pour qu'un humain puisse faire defiler la
+ * page une fois et tout voir. Section custom, donc propre a sites/_effets/ (voir CONVENTIONS.md
+ * § Sections sur mesure), jamais copiee dans src/.
+ */
+import { site } from '@/lib/site';
+
+const revealVariants = [
+  { v: 'none', label: 'data-reveal (fade + translate)' },
+  { v: 'left', label: 'data-reveal="left"' },
+  { v: 'right', label: 'data-reveal="right"' },
+  { v: 'scale', label: 'data-reveal="scale"' },
+  { v: 'blur', label: 'data-reveal="blur"' },
+  { v: 'clip', label: 'data-reveal="clip"' },
+  { v: 'wipe', label: 'data-reveal="wipe"' },
+  { v: 'mask', label: 'data-reveal="mask"' },
+];
+---
+
+<section id="effets" class="section-y">
+  <!-- data-scroll-progress : barre fixee en haut de page, hors flux (position: fixed) -->
+  <div data-scroll-progress aria-hidden="true"></div>
+
+  <div class="container-ff">
+    <p class="eyebrow">Moteur d'animation</p>
+    <h1 class="text-display-xl mt-4 max-w-3xl" data-split set:html={site.business.tagline} />
+    <p class="mt-6 max-w-2xl text-muted">
+      Chaque bloc ci-dessous porte le nom de l'attribut <code class="font-mono text-sm">data-*</code> qu'il démontre.
+      Cette page sert de fumigène visuel (<code class="font-mono text-sm">ff captures _effets</code>) : aucun texte n'est un contenu client.
+    </p>
+  </div>
+
+  <!-- ===================== data-reveal (8 variantes) ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">1 · data-reveal</p>
+    <h2 class="text-display-md mt-3">Apparitions au scroll</h2>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {revealVariants.map((r) => (
+        <div class="rounded-card border border-line bg-surface p-6" data-reveal={r.v === 'none' ? undefined : r.v}>
+          <p class="font-mono text-xs text-muted">{r.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== data-stagger ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">2 · data-stagger</p>
+    <h2 class="text-display-md mt-3">Cascade sur les enfants</h2>
+    <ul class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6" data-stagger="80">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <li class="aspect-square rounded-card bg-bg-2 border border-line flex items-center justify-center font-mono text-sm text-muted">{i + 1}</li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- ===================== data-counter / data-counter-flip / data-count-bar ===================== -->
+  <div class="container-ff mt-24 grid gap-8 md:grid-cols-3">
+    <div>
+      <p class="eyebrow">3 · data-counter</p>
+      <p class="text-display-xl font-display mt-3"><span data-counter="248" data-suffix="+">0</span></p>
+      <p class="mt-2 text-sm text-muted">Compteur classique</p>
+    </div>
+    <div>
+      <p class="eyebrow">4 · data-counter-flip</p>
+      <p class="text-display-xl font-display mt-3" data-counter-flip="1284">0</p>
+      <p class="mt-2 text-sm text-muted">Chiffres bascules un par un</p>
+    </div>
+    <div>
+      <p class="eyebrow">5 · data-count-bar</p>
+      <div class="mt-6 h-3 w-full rounded-pill bg-bg-2 overflow-hidden" data-count-bar="76">
+        <div class="bar-fill h-full rounded-pill bg-accent"></div>
+      </div>
+      <p class="mt-2 text-sm text-muted">76 % — barre qui se remplit au scroll</p>
+    </div>
+  </div>
+
+  <!-- ===================== data-marquee / data-marquee-velocity ===================== -->
+  <div class="mt-24 border-y border-line py-6" data-marquee="28s">
+    <p class="eyebrow container-ff mb-3">6 · data-marquee</p>
+    <div class="marquee-track font-display uppercase text-display-sm text-muted">
+      {['Reveal', 'Parallax', 'Tilt', 'Split', 'Scrub', 'Pin'].map((w) => (
+        <>
+          <span>{w}</span>
+          <span class="text-accent" aria-hidden="true">•</span>
+        </>
+      ))}
+    </div>
+  </div>
+  <div class="mt-4 border-b border-line py-6" data-marquee="18s" data-marquee-velocity="18">
+    <p class="eyebrow container-ff mb-3">7 · data-marquee-velocity (défilez la page)</p>
+    <div class="marquee-track font-display uppercase text-display-sm text-muted">
+      {['Sticky', 'Stack', 'Spotlight', 'Trail', 'Compare', 'Flip'].map((w) => (
+        <>
+          <span>{w}</span>
+          <span class="text-accent" aria-hidden="true">•</span>
+        </>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== data-split (mots / caracteres) ===================== -->
+  <div class="container-ff mt-24 grid gap-10 md:grid-cols-2">
+    <div>
+      <p class="eyebrow">8 · data-split (mots)</p>
+      <h2 class="text-display-md mt-3" data-split>Chaque mot se lève.</h2>
+    </div>
+    <div>
+      <p class="eyebrow">9 · data-split="chars"</p>
+      <h2 class="text-display-md mt-3" data-split="chars">TYPO</h2>
+    </div>
+  </div>
+
+  <!-- ===================== data-scramble ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">10 · data-scramble</p>
+    <p class="text-display-lg font-mono mt-3" data-scramble="1100">2009 — DEPUIS L'ATELIER</p>
+  </div>
+
+  <!-- ===================== data-draw ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">11 · data-draw</p>
+    <hr class="mt-6 border-t-2 border-accent" data-draw />
+  </div>
+
+  <!-- ===================== data-spotlight ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">12 · data-spotlight (souris, pointer fin)</p>
+    <div class="relative mt-6 grid h-64 place-items-center rounded-card bg-ink text-on-ink" data-spotlight>
+      <p class="font-display text-display-sm relative z-[2]">Déplacez le curseur ici</p>
+    </div>
+  </div>
+
+  <!-- ===================== data-magnetic ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">13 · data-magnetic</p>
+    <div class="mt-6 flex flex-wrap gap-6">
+      <a href="#effets" class="btn btn-primary bg-accent text-on-accent rounded-ui px-8 py-4 inline-flex" data-magnetic="0.3">Bouton aimanté</a>
+      <a href="#effets" class="btn btn-ghost border border-line rounded-ui px-8 py-4 inline-flex" data-magnetic="0.2">Second bouton</a>
+    </div>
+  </div>
+
+  <!-- ===================== data-tilt / data-tilt-glare ===================== -->
+  <div class="container-ff mt-24 grid gap-6 sm:grid-cols-2">
+    <div>
+      <p class="eyebrow">14 · data-tilt</p>
+      <div class="mt-4 h-48 rounded-card bg-surface border border-line grid place-items-center" data-tilt="10">
+        <p class="font-display text-display-sm">Inclinaison 3D</p>
+      </div>
+    </div>
+    <div>
+      <p class="eyebrow">15 · data-tilt-glare</p>
+      <div class="mt-4 h-48 rounded-card bg-ink text-on-ink grid place-items-center" data-tilt="10" data-tilt-glare>
+        <p class="font-display text-display-sm relative z-[2]">Inclinaison + reflet</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== data-flip-card ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">16 · data-flip-card</p>
+    <div class="mt-6 h-56 w-full max-w-sm rounded-card" data-flip-card>
+      <div class="flip-inner rounded-card">
+        <div class="flip-front rounded-card bg-surface border border-line grid place-items-center p-6">
+          <p class="font-display text-display-sm">Recto</p>
+        </div>
+        <div class="flip-back rounded-card bg-ink text-on-ink grid place-items-center p-6">
+          <p class="font-display text-display-sm">Verso — clic/tap sur mobile</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== data-compare ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">17 · data-compare</p>
+    <div class="mt-6 aspect-[4/3] max-w-md" data-compare>
+      <img class="compare-before" src="/images/avant.webp" alt="Avant" />
+      <img class="compare-after" src="/images/apres.webp" alt="Après" />
+      <div class="compare-handle" aria-hidden="true"></div>
+      <input type="range" min="0" max="100" value="50" aria-label="Comparer avant et après" />
+    </div>
+  </div>
+
+  <!-- ===================== data-parallax / data-parallax-depth ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">18 · data-parallax</p>
+    <div class="relative mt-6 h-64 overflow-hidden rounded-card bg-bg-2">
+      <img src="/images/hero.webp" alt="" class="h-full w-full object-cover" data-parallax="0.3" />
+    </div>
+  </div>
+  <div class="container-ff mt-16">
+    <p class="eyebrow">19 · data-parallax-depth</p>
+    <div class="relative mt-6 h-72 overflow-hidden rounded-card bg-ink" data-parallax-depth>
+      <img src="/images/galerie-1.webp" alt="" class="absolute inset-0 h-full w-full object-cover opacity-40" data-depth="0.1" />
+      <img src="/images/portrait.webp" alt="" class="absolute left-1/4 top-1/4 h-32 w-32 rounded-card object-cover shadow-lift" data-depth="0.5" />
+      <p class="absolute bottom-6 left-6 text-on-ink font-display text-display-sm" data-depth="0.8">Trois plans</p>
+    </div>
+  </div>
+
+  <!-- ===================== data-scrub / data-blur-scrub ===================== -->
+  <div class="container-ff mt-24 grid gap-10 sm:grid-cols-2">
+    <div>
+      <p class="eyebrow">20 · data-scrub</p>
+      <div class="mt-4 h-40 rounded-card bg-surface border border-line grid place-items-center" data-scrub="scale=1.2,rotate=-4,opacity=0.3">
+        <p class="font-display text-display-sm">Scale + rotate au scroll</p>
+      </div>
+    </div>
+    <div>
+      <p class="eyebrow">21 · data-blur-scrub</p>
+      <div class="mt-4 h-40 rounded-card bg-surface border border-line grid place-items-center" data-blur-scrub="16">
+        <p class="font-display text-display-sm">Flou qui se dissipe</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== data-pin (+ data-pin-step) ===================== -->
+  <div class="mt-24 relative h-[70vh] overflow-hidden bg-ink text-on-ink" data-pin="140">
+    <div class="container-ff h-full flex flex-col justify-center">
+      <p class="eyebrow">22 · data-pin + data-pin-step</p>
+      <div class="mt-6 grid gap-3">
+        <p data-pin-step class="font-display text-display-sm">Étape un — la pièce est dessinée.</p>
+        <p data-pin-step class="font-display text-display-sm">Étape deux — le bois est choisi.</p>
+        <p data-pin-step class="font-display text-display-sm">Étape trois — l'atelier fabrique.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== data-horizontal ===================== -->
+  <div class="mt-24 relative overflow-hidden" data-horizontal>
+    <p class="eyebrow container-ff">23 · data-horizontal (desktop ≥ 64rem)</p>
+    <ul class="h-track mt-6 flex flex-col gap-8 px-6 md:flex-row md:items-stretch md:gap-6 md:px-[8vw]">
+      {['galerie-1', 'galerie-2', 'galerie-3'].map((img) => (
+        <li class="w-full flex-none md:w-[28rem]">
+          <img src={`/images/${img}.webp`} alt="" class="h-56 w-full rounded-card object-cover" />
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- ===================== data-text-fill ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">24 · data-text-fill</p>
+    <p class="text-display-md font-display mt-6 max-w-3xl" data-text-fill>Le texte se remplit mot après mot pendant que la page défile, sans à-coup.</p>
+  </div>
+
+  <!-- ===================== data-hover-img / data-trail ===================== -->
+  <div class="container-ff mt-24 grid gap-6 sm:grid-cols-2">
+    <p class="eyebrow sm:col-span-2">25 · data-hover-img · 26 · data-trail (souris, pointer fin)</p>
+    <a href="#effets" class="block rounded-card border border-line p-8 hover:border-fg transition-colors" data-hover-img="/images/portrait.webp">
+      <p class="font-display text-display-sm">Survolez : une image</p>
+    </a>
+    <a href="#effets" class="block rounded-card border border-line p-8 hover:border-fg transition-colors" data-trail="/images/galerie-2.webp">
+      <p class="font-display text-display-sm">Survolez : une traînée</p>
+    </a>
+  </div>
+
+  <!-- ===================== data-sticky-stack ===================== -->
+  <div class="mt-24">
+    <p class="eyebrow container-ff">27 · data-sticky-stack</p>
+    <div class="mt-6" data-sticky-stack>
+      {[
+        { bg: 'bg-bg-2 text-fg', t: 'Carte 1' },
+        { bg: 'bg-surface text-fg border border-line', t: 'Carte 2' },
+        { bg: 'bg-accent text-on-accent', t: 'Carte 3' },
+        { bg: 'bg-ink text-on-ink', t: 'Carte 4' },
+      ].map((c) => (
+        <div class:list={['h-[45vh] flex items-center justify-center', c.bg]}>
+          <p class="font-display text-display-lg">{c.t}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== data-stack ===================== -->
+  <div class="mt-24">
+    <p class="eyebrow container-ff">28 · data-stack</p>
+    <div class="mt-6" data-stack>
+      {[
+        { bg: 'bg-surface border border-line', t: 'Étape A' },
+        { bg: 'bg-bg-2', t: 'Étape B' },
+        { bg: 'bg-ink text-on-ink', t: 'Étape C' },
+      ].map((c) => (
+        <div class:list={['h-[55vh] rounded-card flex items-center justify-center', c.bg]}>
+          <p class="font-display text-display-lg">{c.t}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="container-ff mt-24">
+    <p class="text-sm text-muted">Fin de la vitrine — {revealVariants.length + 20} effets et plus, un seul moteur (src/scripts/motion.ts).</p>
+  </div>
+</section>

@@ -18,9 +18,9 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 | 5 | Tests + CI verts à chaque commit ; matrice couvrant directions, coquilles, navs | tests 142 ✓ ; CI : à vérifier sur GitHub ; matrice : directions ✓, coquilles ✓, navs ✗ | `npm test`, `ff matrice --rapide`, onglet Actions |
 | 6 | Docs à jour : PROCESS, compétences, CONVENTIONS, chaque motif documenté le jour où il naît | à relire après chaque tour | relecture |
 | 7 | Premier site client réel livré et payé | action humaine | — |
-| 8 | Veille intégrée (`docs/veille/SYNTHESE.md`) : actions B1-B6 (livrable conforme : verifier étendu, schemaType par métier, page confidentialité, carte sans cookie, provider cloudflare, lighthouse) | 0 / 6 | `ff verifier` sur un site |
-| 9 | Matière première : `ff photos`, `ff video`, `ff illustration`, +30 polices (C1-C4) | 0 / 4 | commandes existantes et testées |
-| 10 | Moteur : les 25 effets de `animations.md` § 3 ajoutés à `motion.ts` avec repli reduced-motion et tests (D1-D3) | 0 / 25 | `grep data-<effet>`, `npm test` |
+| 8 | Veille intégrée (`docs/veille/SYNTHESE.md`) : actions B1-B6 (livrable conforme : verifier étendu, schemaType par métier, page confidentialité, carte sans cookie, provider cloudflare, lighthouse) | 4 / 6 — B1 (verifier étendu : aggregateRating, tel: premier écran, ≤5 champs, iframe Google au chargement, confidentialité liée, SIRET, `<html lang>`, sitemap-index, `@type` générique), B2 (`business.schemaType` + `schemaTypeForTrade`, `aggregateRating` retiré du JSON-LD), B3 (`/confidentialite`, liée depuis chaque pied de page et le formulaire) et B4 (`contact.mapsProvider`/`coordinates`, `<Carte />` OSM/façade Google/adresse, plus d'iframe brute) faits le 17 sept 2026 ; B5 (provider `cloudflare`) et B6 (`ff lighthouse`) restants | `ff verifier` sur un site ; `npm test` (tests/schema.test.mjs, tests/legal.test.mjs) |
+| 9 | Matière première : `ff photos`, `ff video`, `ff illustration`, +30 polices (C1-C4) | 4 / 4 | commandes existantes et testées ; clés API absentes de cet environnement → échec propre vérifié (`node --check` + essais sans clé), pas testées en conditions réelles |
+| 10 | Moteur : les 25 effets de `animations.md` § 3 ajoutés à `motion.ts` avec repli reduced-motion et tests (D1-D3) | 15 / 25 (effets 4-11, 13-15, 17, 20, 22-23 du tableau ; tests `tests/motion.test.mjs` + vitrine `sites/_effets`) | `grep data-<effet>`, `npm test` |
 | 11 | Réserve de compositions : chaque site dessiné introduit un motif de `tendances.md` § 4-5 ou `composants.md` § 3 non encore utilisé (E1) ; procédure de portage dans `/nouvelle-variante` (E2) | E2 à faire | relecture |
 | 12 | Offre et discours (A1-A4) : grille de prix, garantie de délai, page finck-fisch avec objections | action humaine pour les prix ; textes par Claude | — |
 
@@ -91,6 +91,14 @@ S'arrêter et le dire quand : les sept critères sont cochés ; ou un critère d
 
 ## Journal
 
+- 17 sept 2026 : B1-B4 de la veille (`docs/veille/SYNTHESE.md`) faits — `business.schemaType` +
+  `schemaTypeForTrade` (`src/lib/schemaType.ts`, testé), `aggregateRating` retiré du JSON-LD partout,
+  page `/confidentialite` générée et liée (pied de page, formulaire), `contact.mapsProvider`/
+  `coordinates` + composant `<Carte />` (tuiles OSM statiques sans traceur par défaut, façade
+  cliquable pour Google Maps, plus aucune iframe brute dans `Zones/map.astro` ni `Contact/full.astro`),
+  `ff verifier` étendu (9 nouveaux contrôles + 4 avertissements). `npm test` vert (156 tests),
+  `ff tous`/`ff verifier` relancés sur `demo-plomberie` et `finck-fisch` sans régression imputable à
+  ce tour.
 - 17 sept 2026 : veille en six dossiers (`docs/veille/`), synthèse et plan d'action A-F ; critères 8 à 12 ajoutés.
 - 16 sept 2026 : fondation, 16 directions, 44 variantes, CLI, studio, 32 modèles, coquilles, moteur
   d'animation enrichi, 7 sites dessinés à la main. Critères 1 à 6 en cours, 7 non commencé.

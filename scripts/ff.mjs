@@ -18,6 +18,9 @@ import { cmdOg } from './ff/og.mjs';
 import { cmdMatrice } from './ff/matrice.mjs';
 import { cmdVignettes } from './ff/vignettes.mjs';
 import { cmdModele, cmdModeles } from './ff/modele.mjs';
+import { cmdPhotos } from './ff/photos.mjs';
+import { cmdVideo } from './ff/video.mjs';
+import { cmdIllustration } from './ff/illustration.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -54,6 +57,9 @@ const commands = {
   vignettes: cmdVignettes,
   modele: cmdModele,
   modeles: cmdModeles,
+  photos: cmdPhotos,
+  video: cmdVideo,
+  illustration: cmdIllustration,
 };
 
 async function main() {

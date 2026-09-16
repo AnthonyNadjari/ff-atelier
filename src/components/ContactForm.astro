@@ -39,7 +39,7 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
     )}
     <label class="grid gap-1.5 text-sm"><span>Votre message</span><textarea class={input} name="message" rows={compact ? 3 : 5} required placeholder="Décrivez votre besoin, votre adresse et le meilleur moment pour vous rappeler."></textarea></label>
     <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
-    <p class="text-xs text-muted">Vos données servent uniquement à vous répondre. Aucune newsletter, aucune revente.</p>
+    <p class="text-xs text-muted">Vos données servent uniquement à vous répondre. Aucune newsletter, aucune revente. <a href="/confidentialite" class="underline hover:text-fg">Politique de confidentialité</a>.</p>
     <button type="submit" class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-ui bg-accent px-6 py-3.5 font-medium text-on-accent transition-colors hover:bg-accent-2 disabled:opacity-60">
       <span data-label>Envoyer ma demande</span>
     </button>

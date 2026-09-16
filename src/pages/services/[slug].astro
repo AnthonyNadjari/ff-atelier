@@ -32,7 +32,7 @@ const paras = paragraphs(service.description ?? service.short);
           {service.bullets.length > 0 && (
             <ul class="mt-8 grid sm:grid-cols-2 gap-3">{service.bullets.map((b) => <li class="flex gap-3"><Icon name="Check" size={20} class="text-accent shrink-0 mt-0.5" /><span>{b}</span></li>)}</ul>
           )}
-          {service.priceFrom && <p class="mt-8 inline-block rounded-ui border border-line px-4 py-2 font-medium">{service.priceFrom}</p>}
+          {service.priceFrom && <p class="mt-8 inline-block rounded-ui border border-line px-4 py-2 font-medium tabular-nums">{service.priceFrom}</p>}
           <div class="mt-10 flex flex-wrap gap-4">
             <Button href={tel()} size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
             <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>

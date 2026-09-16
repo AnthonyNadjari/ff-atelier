@@ -2,6 +2,7 @@
 import type { Site } from './schema';
 
 import { siteSchema } from './schema';
+export { schemaTypeForTrade } from './schemaType';
 
 const modules = import.meta.glob<{ default: Site }>('/sites/*/site.config.ts', { eager: true });
 const looks = import.meta.glob<{ default: Record<string, unknown> }>('/sites/*/look.json', { eager: true });

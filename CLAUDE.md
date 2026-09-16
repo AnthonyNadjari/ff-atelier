@@ -21,6 +21,9 @@ contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté don
 | `node scripts/ff.mjs verifier <slug>` | Contrôle qualité avant livraison (voir `docs/PROCESS.md` § définition de fait). |
 | `node scripts/ff.mjs variete` | Liste les combinaisons direction + variantes déjà utilisées par les sites existants — à consulter avant de choisir une direction pour un nouveau client. |
 | `node scripts/ff.mjs images <slug>` | Optimise/redimensionne les photos déposées dans `sites/<slug>/public/images/`. |
+| `node scripts/ff.mjs photos <slug> "<requête>"` | Cherche des photos libres (Unsplash/Pexels, clés dans `.env`), feuille de contact `.ff-tmp/photos/apercu.html` ; `--choisir 1,3` copie les choisies dans `public/images/photo-<n>.webp` et journalise `CREDITS.md`. |
+| `node scripts/ff.mjs video <slug> "<requête>"` | Cherche une vidéo Pexels, génère `public/videos/hero.webm` + `hero.mp4` + `poster.jpg` via ffmpeg (ou garde le mp4 source si ffmpeg absent) et journalise `CREDITS.md`. |
+| `node scripts/ff.mjs illustration <slug> "<thème>"` | Tente une illustration unDraw recolorée (`--couleur`) ; sans API disponible, affiche la procédure manuelle. |
 | `node scripts/ff.mjs deploy <slug>` | Déploie le site buildé sur Cloudflare Pages (voir `docs/DEPLOIEMENT.md`). |
 | `node scripts/ff.mjs exporter <slug>` | Prépare la livraison finale au client (repo + domaine au nom du client). |
 | `node scripts/ff.mjs composer <slug>` | Propose automatiquement un look (direction, variantes, typographie...) à partir de `site.config.ts`, écrit dans `look.json` sans toucher au contenu. |
@@ -62,9 +65,16 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
 ## Où sont les choses
 
 - `src/lib/schema.ts` — schéma zod complet (`DIRECTIONS`, `MOTION`, `VARIANTS`, `SHELLS`,
-  `HEADINGS`, `siteSchema`).
+  `HEADINGS`, `siteSchema`). `business.schemaType` (sous-type schema.org, ex. `Plumber`) et
+  `contact.mapsProvider`/`contact.coordinates` (carte sans traceur, voir `docs/DIRECTIONS.md` § Carte)
+  sont optionnels — ne jamais les deviner pour un client, laisser absent si le brief ne les fournit pas.
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
-  `yearsSince`, `paragraphs`, `navLinks`).
+  `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
+  `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,
+  module pur re-exporté par `site.ts`, utilisé par `src/layouts/Base.astro` pour le JSON-LD quand
+  `business.schemaType` n'est pas renseigné). Le JSON-LD ne contient jamais d'`aggregateRating` (avis
+  self-serving interdit par Google) : la note Google reste affichée uniquement dans les sections
+  (`proof/google`).
 - `src/shells/<nom>.astro` — coquille de page (`layout.shell`) : rearrange nav/hero/sections/footer
   autour de la mise en page, ne restyle jamais une section (voir `docs/CONVENTIONS.md` § Coquilles).
 - `src/sections/<Type>/<variante>.astro` — une section, une variante, un fichier.
@@ -73,7 +83,9 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
 - `sites/_exemple/` — référence de schéma et fumigène de build. Ne pas y toucher pour un client.
 - `docs/BRIEF.md` — brief à remplir pendant l'appel client. `docs/DIRECTIONS.md` — guide de choix de
   direction et de variantes. `docs/PROCESS.md` — processus client complet, de la prospection à la
-  livraison. `docs/CONVENTIONS.md` — règles de code des sections et directions.
+  livraison. `docs/CONVENTIONS.md` — règles de code des sections et directions. `docs/ANIMATIONS.md`
+  — liste complète des attributs `data-*` du moteur d'animation (`src/scripts/motion.ts`), un par
+  ligne, quand les utiliser ; vitrine de tous les effets : `sites/_effets/`.
 - `.claude/skills/nouveau-site/` — compétence `/nouveau-site` (génération de `site.config.ts` par
   Claude Code). `scripts/ff-generer.mjs` — équivalent en automatisation pure (API Anthropic).
 

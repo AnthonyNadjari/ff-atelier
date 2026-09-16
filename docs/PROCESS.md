@@ -88,6 +88,14 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
 - [ ] Dépôt de code remis/accessible au client.
 - [ ] Aucun chiffre, avis ou note inventé n'a été laissé dans `site.config.ts` — tout ce qui manquait
       au brief est resté absent, pas approximé.
+- [ ] Page `/confidentialite` présente et liée depuis le pied de page et le petit texte du formulaire
+      (RGPD, généré depuis `site.config.ts` — voir `src/pages/confidentialite.astro`).
+- [ ] Carte sans traceur : `contact.mapsProvider` laissé sur `'osm'` (défaut) sauf demande explicite du
+      client pour Google Maps — et dans ce cas, uniquement via la façade cliquable (`<Carte />`), jamais
+      une iframe Google Maps chargée directement.
+- [ ] `business.schemaType` correct ou absent (déduit automatiquement du métier via
+      `schemaTypeForTrade`, voir `src/lib/schemaType.ts`) — pas de sous-type schema.org inventé, pas
+      d'`aggregateRating` dans le JSON-LD.
 
 ## 8. Positionnement prix
 

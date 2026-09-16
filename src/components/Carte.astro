@@ -1,0 +1,119 @@
+---
+/**
+ * Carte sans traceur par defaut (RGPD/CNIL — voir docs/veille/seo-conversion.md § 3.4).
+ * Lit `site.contact.mapsProvider` :
+ *  - 'osm' (defaut) + `contact.coordinates` fournies -> tuiles OpenStreetMap statiques (2x2, zoom 15)
+ *    stitchees en grille + marqueur superpose + attribution obligatoire. Aucun JS, aucun cookie.
+ *  - 'google' + `contact.mapsEmbed` fourni -> facade cliquable (CNIL) : l'iframe Google Maps n'est
+ *    injectee qu'au clic sur le bouton, jamais au chargement de la page.
+ *  - sinon (provider 'none', ou donnees manquantes) -> bloc adresse seul. Aucune coordonnee ou
+ *    embed n'est jamais devine : donnee absente = repli, jamais de placeholder invente.
+ */
+import { site, fullAddress } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const provider = site.contact.mapsProvider;
+const coords = site.contact.coordinates;
+const embed = site.contact.mapsEmbed;
+const mapsUrl = site.contact.mapsUrl;
+
+const ZOOM = 15;
+const TILE = 256;
+
+/** Projection Web Mercator (slippy map) : lat/lng -> coordonnees de tuile fractionnaires. */
+function lonToTileX(lon: number, zoom: number) {
+  return ((lon + 180) / 360) * 2 ** zoom;
+}
+function latToTileY(lat: number, zoom: number) {
+  const rad = (lat * Math.PI) / 180;
+  return ((1 - Math.log(Math.tan(rad) + 1 / Math.cos(rad)) / Math.PI) / 2) * 2 ** zoom;
+}
+
+const showOsm = provider === 'osm' && Boolean(coords);
+const showGoogle = provider === 'google' && Boolean(embed);
+
+let tiles: { src: string; x: number; y: number }[] = [];
+let markerLeft = 50;
+let markerTop = 50;
+let osmLink: string | undefined;
+
+if (showOsm && coords) {
+  const xf = lonToTileX(coords.lng, ZOOM);
+  const yf = latToTileY(coords.lat, ZOOM);
+  const tileX = Math.floor(xf);
+  const tileY = Math.floor(yf);
+  // Grille 2x2 choisie pour que le point reste visible pres du centre, quel que soit sa position
+  // dans sa tuile d'origine.
+  const startX = tileX - (xf - tileX < 0.5 ? 1 : 0);
+  const startY = tileY - (yf - tileY < 0.5 ? 1 : 0);
+  for (let row = 0; row < 2; row++) {
+    for (let col = 0; col < 2; col++) {
+      tiles.push({ src: `https://tile.openstreetmap.org/${ZOOM}/${startX + col}/${startY + row}.png`, x: col, y: row });
+    }
+  }
+  markerLeft = ((xf - startX) / 2) * 100;
+  markerTop = ((yf - startY) / 2) * 100;
+  osmLink = `https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lng}#map=${ZOOM}/${coords.lat}/${coords.lng}`;
+}
+---
+
+{showOsm ? (
+  <div class="rounded-card shadow-card border border-line overflow-hidden">
+    <div class="relative aspect-[4/3] overflow-hidden bg-bg-2">
+      <div class="absolute inset-0 grid grid-cols-2 grid-rows-2" aria-hidden="true">
+        {tiles.map((t) => (
+          <img src={t.src} alt="" width={TILE} height={TILE} loading="lazy" class="h-full w-full object-cover" />
+        ))}
+      </div>
+      <div class="absolute -translate-x-1/2 -translate-y-full" style={`left:${markerLeft}%;top:${markerTop}%;`} aria-hidden="true">
+        <Icon name="MapPin" size={32} class="text-accent drop-shadow" strokeWidth={2} />
+      </div>
+      <p class="absolute bottom-1 right-1 rounded bg-surface/90 px-1.5 py-0.5 text-[10px] leading-tight text-muted">
+        © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener" class="underline hover:text-fg">OpenStreetMap contributors</a>
+      </p>
+    </div>
+    <div class="flex items-center justify-between gap-3 bg-surface p-4 text-sm">
+      <p class="flex items-start gap-2 text-fg"><Icon name="MapPin" size={16} class="text-accent shrink-0 mt-0.5" />{fullAddress()}</p>
+      {osmLink && <a href={osmLink} target="_blank" rel="noopener" class="shrink-0 text-accent hover:underline">Ouvrir dans OpenStreetMap</a>}
+    </div>
+  </div>
+) : showGoogle ? (
+  <div class="rounded-card shadow-card border border-line overflow-hidden bg-surface" data-carte-google data-embed={embed}>
+    <div class="relative aspect-[4/3] bg-bg-2" data-carte-frame>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center" data-carte-placeholder>
+        <Icon name="MapPin" size={32} class="text-accent" />
+        <p class="text-sm text-fg">{fullAddress()}</p>
+        <button type="button" class="btn btn-primary inline-flex items-center justify-center rounded-ui bg-accent px-5 py-2.5 text-sm font-medium text-on-accent transition-colors hover:bg-accent-2" data-carte-charger>
+          Afficher la carte Google (charge des données Google)
+        </button>
+      </div>
+    </div>
+  </div>
+) : (
+  <div class="card rounded-card bg-surface border border-line p-6">
+    <p class="eyebrow mb-3">Adresse</p>
+    <p class="flex items-start gap-3 text-fg"><Icon name="MapPin" size={18} class="text-accent shrink-0 mt-0.5" />{fullAddress()}</p>
+    {mapsUrl && <a href={mapsUrl} target="_blank" rel="noopener" class="mt-2 inline-block text-sm text-accent hover:underline">Ouvrir dans Google Maps</a>}
+  </div>
+)}
+
+{showGoogle && (
+  <script>
+    // Facade CNIL : l'iframe Google Maps (et ses cookies) n'est chargee qu'apres un clic explicite.
+    document.querySelectorAll<HTMLElement>('[data-carte-google]').forEach((wrap) => {
+      const btn = wrap.querySelector<HTMLButtonElement>('[data-carte-charger]');
+      const frame = wrap.querySelector<HTMLElement>('[data-carte-frame]');
+      btn?.addEventListener('click', () => {
+        if (!frame) return;
+        const iframe = document.createElement('iframe');
+        iframe.src = wrap.dataset.embed ?? '';
+        iframe.loading = 'lazy';
+        iframe.title = 'Carte Google Maps';
+        iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        iframe.className = 'absolute inset-0 h-full w-full border-0';
+        frame.innerHTML = '';
+        frame.appendChild(iframe);
+      });
+    });
+  </script>
+)}
