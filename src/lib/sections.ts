@@ -31,3 +31,8 @@ export function getSection(type: string, variant: string): AstroComponentFactory
 }
 
 export const sectionsDisponibles = () => [...registry.keys()].sort();
+
+/** Resout `custom/<nom>` ou une variante partagee pour un type donne. */
+export function resolveSection(type: string, variant: string): AstroComponentFactory {
+  return variant.startsWith('custom/') ? getSection('custom', variant.slice(7)) : getSection(type, variant);
+}

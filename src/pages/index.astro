@@ -5,16 +5,16 @@
  */
 import Base from '@/layouts/Base.astro';
 import { site } from '@/lib/site';
-import { getSection } from '@/lib/sections';
+import { getSection, resolveSection } from '@/lib/sections';
 
 const shells = import.meta.glob<{ default: any }>('/src/shells/*.astro', { eager: true });
 const shellKey = `/src/shells/${site.layout.shell}.astro`;
 if (!shells[shellKey]) throw new Error(`Coquille inconnue : ${site.layout.shell}`);
 const Shell = shells[shellKey].default;
 
-const Nav = getSection('nav', site.layout.nav);
-const Hero = site.layout.hero.startsWith('custom/') ? getSection('custom', site.layout.hero.slice(7)) : getSection('hero', site.layout.hero);
-const Footer = getSection('footer', site.layout.footer);
+const Nav = resolveSection('nav', site.layout.nav);
+const Hero = resolveSection('hero', site.layout.hero);
+const Footer = resolveSection('footer', site.layout.footer);
 const sections = site.layout.sections.map((s) => ({ ...s, Component: getSection(s.type, s.variant) }));
 ---
 

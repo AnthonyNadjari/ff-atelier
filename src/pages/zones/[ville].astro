@@ -2,7 +2,7 @@
 /** Page ville : une par ville de zones.cities, seulement si site.seo.cityPages. SEO local (metier + ville). */
 import Base from '@/layouts/Base.astro';
 import { site, tel, citySlug } from '@/lib/site';
-import { getSection } from '@/lib/sections';
+import { getSection, resolveSection } from '@/lib/sections';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 
@@ -11,8 +11,8 @@ export function getStaticPaths() {
   return site.zones.cities.map((city) => ({ params: { ville: citySlug(city) }, props: { city } }));
 }
 const { city } = Astro.props;
-const Nav = getSection('nav', site.layout.nav);
-const Footer = getSection('footer', site.layout.footer);
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
 const Cta = getSection('cta', site.layout.sections.find((s) => s.type === 'cta')?.variant ?? 'band');
 const otherCities = site.zones.cities.filter((c) => c !== city);
 const radius = site.zones.radiusKm;

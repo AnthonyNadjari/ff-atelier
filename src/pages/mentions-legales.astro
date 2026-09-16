@@ -2,9 +2,9 @@
 /** Mentions legales : obligatoires en France (LCEN art. 6). Generees depuis site.config.ts. */
 import Base from '@/layouts/Base.astro';
 import { site, fullAddress } from '@/lib/site';
-import { getSection } from '@/lib/sections';
-const Nav = getSection('nav', site.layout.nav);
-const Footer = getSection('footer', site.layout.footer);
+import { getSection, resolveSection } from '@/lib/sections';
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
 const b = site.business;
 const owner = site.legal.owner ?? b.name;
 ---

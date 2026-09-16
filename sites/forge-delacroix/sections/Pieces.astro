@@ -20,8 +20,8 @@ const pieces = [
     </div>
     <ul class="mt-14 grid grid-cols-1 gap-5 md:grid-cols-12 md:gap-6" data-stagger="130">
       {pieces.map((p, i) => (
-        <li class:list={['relative', p.span]} data-reveal={i % 2 ? 'right' : 'left'}>
-          <figure class="group relative overflow-hidden rounded-card" data-tilt="4">
+        <li class:list={['relative', p.span]}>
+          <figure class="group relative overflow-hidden rounded-card" data-tilt="4" data-reveal="mask" data-scrub="y=6">
             <img src={p.src} alt={p.alt} class:list={['w-full object-cover transition-transform duration-[1.4s] ease-out-expo group-hover:scale-105', p.ratio]} loading="lazy" />
             <figcaption class="absolute bottom-3 left-3 rounded-ui bg-ink/80 px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-on-ink backdrop-blur-sm">{p.legende}</figcaption>
           </figure>

@@ -2,10 +2,10 @@
 /** Page 404 : Cloudflare Pages sert 404.html automatiquement. */
 import Base from '@/layouts/Base.astro';
 import { site, tel } from '@/lib/site';
-import { getSection } from '@/lib/sections';
+import { getSection, resolveSection } from '@/lib/sections';
 import Button from '@/components/Button.astro';
-const Nav = getSection('nav', site.layout.nav);
-const Footer = getSection('footer', site.layout.footer);
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
 ---
 
 <Base title={`Page introuvable — ${site.business.name}`} path="/404" noindex>

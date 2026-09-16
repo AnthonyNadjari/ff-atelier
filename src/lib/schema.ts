@@ -45,7 +45,7 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 // Variantes disponibles par section. Ajouter une variante = ajouter un fichier
 // src/sections/<Type>/<variante>.astro ET l'entree ici.
 export const VARIANTS = {
-  nav: ['bar', 'minimal', 'split', 'floating'],
+  nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
   hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video'],
   services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento'],
   about: ['portrait', 'story', 'values', 'timeline'],
@@ -92,7 +92,10 @@ export const siteSchema = z.object({
   scale: z.enum(SCALES).default('normal').describe('compact = dense, display = titres enormes et grandes respirations'),
   layout: z
     .object({
-      nav: z.enum(VARIANTS.nav).default('bar'),
+      nav: z
+        .string()
+        .default('bar')
+        .refine((v) => (VARIANTS.nav as readonly string[]).includes(v) || v.startsWith('custom/'), { message: `nav : variante inconnue. Choix : ${VARIANTS.nav.join(', ')} ou "custom/<nom>"` }),
       hero: z
         .string()
         .default('split')
@@ -117,7 +120,10 @@ export const siteSchema = z.object({
           { type: 'cta', variant: 'band' },
           { type: 'contact', variant: 'form-split' },
         ]),
-      footer: z.enum(VARIANTS.footer).default('columns'),
+      footer: z
+        .string()
+        .default('columns')
+        .refine((v) => (VARIANTS.footer as readonly string[]).includes(v) || v.startsWith('custom/'), { message: `footer : variante inconnue. Choix : ${VARIANTS.footer.join(', ')} ou "custom/<nom>"` }),
       divider: z.enum(DIVIDERS).default('none').describe('Separateur decoratif entre les sections'),
       shell: z.enum(SHELLS).default('flow').describe('Disposition globale de la page (voir SHELLS)'),
       headings: z.enum(HEADINGS).default('auto').describe('Alignement force des en-tetes de section'),
