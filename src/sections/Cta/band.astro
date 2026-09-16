@@ -1,0 +1,19 @@
+---
+/** CTA "band" : bande pleine largeur sur fond ink, phrase + telephone + devis. */
+import { site, tel } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+---
+
+<section class="section-y bg-ink text-on-ink">
+  <div class="container-ff flex flex-col md:flex-row md:items-center md:justify-between gap-8" data-stagger="120">
+    <div>
+      <h2 class="text-display-md">Un projet, une urgence&nbsp;? <em>Parlons-en.</em></h2>
+      <p class="mt-3 text-on-ink/70 max-w-xl">Réponse rapide, devis clair, intervention {site.contact.emergency24h ? '24h/24 et 7j/7' : 'sous 48h'} à {site.contact.address.city}.</p>
+    </div>
+    <div class="flex flex-wrap gap-4 shrink-0">
+      <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+      <Button href="#contact" variant="ghost" size="lg" class="border-on-ink/30 text-on-ink hover:border-on-ink">Devis gratuit</Button>
+    </div>
+  </div>
+</section>

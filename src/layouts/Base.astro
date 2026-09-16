@@ -1,0 +1,91 @@
+---
+/**
+ * Layout de base : charge la direction, pose les tokens, le SEO, le JSON-LD LocalBusiness,
+ * le runtime d'animation. Toutes les pages passent par ici.
+ */
+import '@/styles/global.css';
+import { site, fullAddress, slugCourant } from '@/lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Chemin canonique, ex: "/services/depannage" */
+  path?: string;
+  noindex?: boolean;
+}
+const { title, description, path = '/', noindex = false } = Astro.props;
+
+// Direction : import dynamique => seules les polices/CSS de la direction choisie sont embarquees.
+const directions = import.meta.glob('/src/directions/*/index.css');
+const dirKey = `/src/directions/${site.direction}/index.css`;
+if (!directions[dirKey]) throw new Error(`Direction inconnue : ${site.direction}`);
+await directions[dirKey]();
+
+const pageTitle = title ?? site.seo.title ?? `${site.business.name} — ${site.business.trade} à ${site.contact.address.city}`;
+const pageDesc = description ?? site.seo.description ?? site.business.description.split(/\n/)[0].slice(0, 160);
+const canonical = new URL(path, Astro.site).toString();
+const og = site.images.og ?? site.images.hero?.src;
+const ogUrl = og ? new URL(og, Astro.site).toString() : undefined;
+
+const accentStyle = site.accent ? `--accent-h:${site.accent.h};--accent-s:${site.accent.s}%;--accent-l:${site.accent.l}%;` : '';
+
+const ldJson = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: site.business.name,
+  description: pageDesc,
+  url: Astro.site?.toString(),
+  telephone: site.contact.phone,
+  email: site.contact.email,
+  image: ogUrl,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.contact.address.street,
+    postalCode: site.contact.address.postalCode,
+    addressLocality: site.contact.address.city,
+    addressCountry: 'FR',
+  },
+  areaServed: site.zones.cities.map((c) => ({ '@type': 'City', name: c })),
+  openingHours: site.contact.hours.map((h) => `${h.days} ${h.hours}`),
+  aggregateRating: site.proof.google
+    ? { '@type': 'AggregateRating', ratingValue: site.proof.google.rating, reviewCount: site.proof.google.count }
+    : undefined,
+  sameAs: Object.values(site.social).filter(Boolean),
+  foundingDate: site.business.since ? String(site.business.since) : undefined,
+};
+---
+
+<!doctype html>
+<html lang={site.lang} data-direction={site.direction} data-motion={site.motion} data-site={slugCourant} style={accentStyle}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {site.seo.keywords.length > 0 && <meta name="keywords" content={site.seo.keywords.join(', ')} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="fr_FR" />
+    {ogUrl && <meta property="og:image" content={ogUrl} />}
+    <meta name="twitter:card" content={ogUrl ? 'summary_large_image' : 'summary'} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#111111" />
+    <script type="application/ld+json" set:html={JSON.stringify(ldJson)} />
+    {site.analytics.plausible && <script defer data-domain={site.analytics.plausible} src="https://plausible.io/js/script.js"></script>}
+    {site.analytics.umami && <script defer src={site.analytics.umami.src} data-website-id={site.analytics.umami.id}></script>}
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-accent focus:text-on-accent focus:px-4 focus:py-2 focus:rounded-ui">Aller au contenu</a>
+    <slot />
+    <script>
+      import { initMotion } from '@/scripts/motion';
+      initMotion();
+    </script>
+  </body>
+</html>

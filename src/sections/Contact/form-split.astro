@@ -1,0 +1,33 @@
+---
+/** Contact "form-split" : coordonnees + horaires a gauche, formulaire a droite. */
+import { site, tel, mailto, whatsapp, fullAddress } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Icon from '@/components/Icon.astro';
+const wa = whatsapp();
+---
+
+<section id="contact" class="section-y">
+  <div class="container-ff grid lg:grid-cols-12 gap-12">
+    <div class="lg:col-span-5">
+      <SectionHeading eyebrow="Contact" title="Parlons de votre projet" text="Décrivez votre besoin, nous vous rappelons pour un devis gratuit." />
+      <ul class="mt-10 space-y-5" data-stagger="100">
+        <li class="flex gap-4"><Icon name="Phone" class="text-accent shrink-0 mt-0.5" /><div><a href={tel()} class="font-medium text-lg">{site.contact.phoneDisplay}</a>{site.contact.emergency24h && <p class="text-sm text-muted">Urgences 24h/24, 7j/7</p>}</div></li>
+        {wa && <li class="flex gap-4"><Icon name="MessageCircle" class="text-accent shrink-0 mt-0.5" /><a href={wa} class="font-medium" target="_blank" rel="noopener">Écrire sur WhatsApp</a></li>}
+        <li class="flex gap-4"><Icon name="Mail" class="text-accent shrink-0 mt-0.5" /><a href={mailto()} class="font-medium break-all">{site.contact.email}</a></li>
+        <li class="flex gap-4"><Icon name="MapPin" class="text-accent shrink-0 mt-0.5" /><div><p>{fullAddress()}</p>{site.contact.mapsUrl && <a href={site.contact.mapsUrl} class="text-sm text-accent" target="_blank" rel="noopener">Voir sur Google Maps</a>}</div></li>
+        {site.contact.hours.length > 0 && (
+          <li class="flex gap-4"><Icon name="Clock" class="text-accent shrink-0 mt-0.5" />
+            <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">{site.contact.hours.map((h) => <><dt class="text-muted">{h.days}</dt><dd>{h.hours}</dd></>)}</dl>
+          </li>
+        )}
+      </ul>
+    </div>
+    <div class="lg:col-span-7" data-reveal="right">
+      <div class="card rounded-card bg-surface p-6 md:p-8 shadow-card">
+        <ContactForm />
+        {site.form.provider === 'none' && <p class="text-muted">Appelez-nous ou écrivez-nous, nous répondons vite.</p>}
+      </div>
+    </div>
+  </div>
+</section>

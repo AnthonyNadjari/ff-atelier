@@ -1,0 +1,20 @@
+---
+/** Page d'accueil : nav + hero + sections dans l'ordre du layout + footer. Tout vient de site.config.ts. */
+import Base from '@/layouts/Base.astro';
+import { site } from '@/lib/site';
+import { getSection } from '@/lib/sections';
+
+const Nav = getSection('nav', site.layout.nav);
+const Hero = getSection('hero', site.layout.hero);
+const Footer = getSection('footer', site.layout.footer);
+const sections = site.layout.sections.map((s) => ({ ...s, Component: getSection(s.type, s.variant) }));
+---
+
+<Base path="/">
+  <Nav />
+  <main id="main">
+    <Hero />
+    {sections.map(({ Component }) => <Component />)}
+  </main>
+  <Footer />
+</Base>

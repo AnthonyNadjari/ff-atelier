@@ -1,0 +1,33 @@
+---
+/**
+ * Bouton unique du systeme. Les directions restylent `.btn`, `.btn-primary`, `.btn-ghost`, `.btn-ink`.
+ */
+interface Props {
+  href: string;
+  variant?: 'primary' | 'ghost' | 'ink' | 'link';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  magnetic?: boolean;
+  [key: string]: unknown;
+}
+const { href, variant = 'primary', size = 'md', class: cls = '', magnetic = false, ...rest } = Astro.props;
+const sizes = { sm: 'px-4 py-2 text-sm', md: 'px-6 py-3 text-[0.95rem]', lg: 'px-8 py-4 text-base' };
+const variants = {
+  primary: 'btn-primary bg-accent text-on-accent hover:bg-accent-2',
+  ghost: 'btn-ghost border border-line bg-transparent text-fg hover:border-fg',
+  ink: 'btn-ink bg-ink text-on-ink hover:opacity-90',
+  link: 'btn-link px-0 py-0 text-accent underline underline-offset-4 hover:no-underline',
+};
+const external = /^https?:/.test(href);
+---
+
+<a
+  href={href}
+  class:list={['btn inline-flex items-center justify-center gap-2 rounded-ui font-medium transition-[background,color,border,transform,opacity] duration-300 ease-out-quart whitespace-nowrap', variant !== 'link' && sizes[size], variants[variant], cls]}
+  data-magnetic={magnetic ? '0.25' : undefined}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener' : undefined}
+  {...rest}
+>
+  <slot />
+</a>

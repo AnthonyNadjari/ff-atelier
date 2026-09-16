@@ -1,0 +1,44 @@
+---
+/** Hero "split" : texte a gauche, photo a droite. Reference d'implementation d'une section. */
+import { site, tel, yearsSince, paragraphs } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const years = yearsSince();
+const intro = paragraphs(site.business.description)[0];
+const hero = site.images.hero;
+---
+
+<section id="hero" class="relative section-y overflow-hidden">
+  <div class="container-ff grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+    <div class="lg:col-span-6" data-stagger="110">
+      <p class="eyebrow">{site.business.trade} · {site.contact.address.city}</p>
+      <h1 class="text-display-xl mt-5" data-split set:html={site.business.tagline} />
+      <p class="mt-6 text-lg md:text-xl text-muted max-w-xl">{intro}</p>
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+        <Button href="#contact" variant="ghost" size="lg">Demander un devis</Button>
+      </div>
+      <ul class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
+        {years && <li class="flex items-center gap-2"><Icon name="Award" size={16} class="text-accent" /> {years} ans d'expérience</li>}
+        {site.contact.emergency24h && <li class="flex items-center gap-2"><Icon name="Clock" size={16} class="text-accent" /> Urgences 24h/24</li>}
+        {site.business.insurance && <li class="flex items-center gap-2"><Icon name="ShieldCheck" size={16} class="text-accent" /> Assuré décennale</li>}
+        {site.proof.google && <li class="flex items-center gap-2"><Icon name="Star" size={16} class="text-accent" /> {site.proof.google.rating.toFixed(1)}/5 sur Google ({site.proof.google.count} avis)</li>}
+      </ul>
+    </div>
+    <div class="lg:col-span-6 relative" data-reveal="scale" data-reveal-delay="200">
+      {hero ? (
+        <figure class="relative aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5] overflow-hidden rounded-card shadow-lift">
+          <img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" data-parallax="0.15" loading="eager" fetchpriority="high" />
+        </figure>
+      ) : (
+        <div class="aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5] rounded-card bg-bg-2 border border-line flex items-center justify-center">
+          <Icon name={site.services[0]?.icon ?? 'Wrench'} size={96} class="text-accent/60" strokeWidth={1} />
+        </div>
+      )}
+      <div class="absolute -bottom-5 -left-5 hidden md:block card rounded-card bg-surface shadow-card px-5 py-4" data-reveal="left" data-reveal-delay="500">
+        <p class="text-sm text-muted">Basé à</p>
+        <p class="font-display text-lg">{site.contact.address.city}</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,43 @@
+---
+/** Footer "columns" : nom + description, services, zones, coordonnees, mentions legales. */
+import { site, tel, mailto, fullAddress, navLinks } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const year = new Date().getFullYear();
+const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
+---
+
+<footer class="bg-ink text-on-ink">
+  <div class="container-ff py-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+    <div class="lg:col-span-1">
+      <p class="font-display text-2xl">{site.business.name}</p>
+      <p class="mt-3 text-on-ink/70 text-sm max-w-xs">{site.business.trade} à {site.contact.address.city}. {site.business.certifications.length > 0 && site.business.certifications.join(' · ')}</p>
+      {socials.length > 0 && (
+        <ul class="mt-5 flex gap-3">{socials.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener" aria-label={k} class="inline-flex h-9 w-9 items-center justify-center rounded-ui border border-on-ink/20 hover:border-on-ink"><Icon name={iconFor[k]} size={16} /></a></li>)}</ul>
+      )}
+    </div>
+    <div>
+      <p class="eyebrow mb-4">Services</p>
+      <ul class="space-y-2 text-sm text-on-ink/80">{site.services.map((s) => <li><a href={`/services/${s.slug}`} class="hover:text-on-ink">{s.title}</a></li>)}</ul>
+    </div>
+    <div>
+      <p class="eyebrow mb-4">Navigation</p>
+      <ul class="space-y-2 text-sm text-on-ink/80">{navLinks().map((l) => <li><a href={`/${l.href}`} class="hover:text-on-ink">{l.label}</a></li>)}</ul>
+      {site.zones.cities.length > 0 && <p class="mt-6 text-xs text-on-ink/50">Intervention : {site.zones.cities.slice(0, 8).join(', ')}{site.zones.cities.length > 8 && '…'}</p>}
+    </div>
+    <div>
+      <p class="eyebrow mb-4">Contact</p>
+      <ul class="space-y-2 text-sm text-on-ink/80">
+        <li><a href={tel()} class="hover:text-on-ink">{site.contact.phoneDisplay}</a></li>
+        <li><a href={mailto()} class="hover:text-on-ink break-all">{site.contact.email}</a></li>
+        <li class="text-on-ink/60">{fullAddress()}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-on-ink/10">
+    <div class="container-ff py-5 flex flex-col sm:flex-row gap-2 justify-between text-xs text-on-ink/50">
+      <p>© {year} {site.business.name}. Tous droits réservés.</p>
+      <p><a href="/mentions-legales" class="hover:text-on-ink">Mentions légales</a> · Site réalisé par <a href="https://finckfisch.fr" class="hover:text-on-ink" rel="noopener">Finck &amp; Fisch</a></p>
+    </div>
+  </div>
+</footer>

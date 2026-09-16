@@ -1,0 +1,14 @@
+---
+/** Icone lucide par nom (PascalCase, ex: "Wrench"). Rendu en SVG inline au build, zero JS client. */
+import * as icons from '@lucide/astro';
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  strokeWidth?: number;
+}
+const { name, size = 24, class: cls = '', strokeWidth = 1.75 } = Astro.props;
+const Cmp = (icons as Record<string, any>)[name] ?? (icons as Record<string, any>).Wrench;
+---
+
+<Cmp size={size} class={cls} stroke-width={strokeWidth} aria-hidden="true" />

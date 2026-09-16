@@ -1,0 +1,93 @@
+---
+/**
+ * Formulaire de contact partage par toutes les variantes de la section Contact.
+ * provider web3forms : POST JSON vers api.web3forms.com, sans serveur, mails chez le client.
+ * provider mailto    : ouvre le client mail avec le message pre-rempli (aucune cle a configurer).
+ * provider none      : pas de formulaire (coordonnees seules).
+ */
+import { site } from '@/lib/site';
+interface Props { class?: string; compact?: boolean }
+const { class: cls = '', compact = false } = Astro.props;
+const f = site.form;
+const services = site.services.map((s) => s.title);
+const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg placeholder:text-muted/70 focus:border-accent focus:outline-none transition-colors';
+---
+
+{f.provider !== 'none' && (
+  <form
+    class:list={['grid gap-4', cls]}
+    data-form={f.provider}
+    data-key={f.accessKey}
+    data-to={site.contact.email}
+    data-subject={f.subject ?? `Demande via ${site.business.name}`}
+    data-success={f.successMessage}
+    novalidate
+  >
+    <div class:list={['grid gap-4', !compact && 'sm:grid-cols-2']}>
+      <label class="grid gap-1.5 text-sm"><span>Nom</span><input class={input} name="name" required autocomplete="name" placeholder="Votre nom" /></label>
+      <label class="grid gap-1.5 text-sm"><span>Téléphone</span><input class={input} name="phone" type="tel" required autocomplete="tel" placeholder="06 00 00 00 00" /></label>
+    </div>
+    <label class="grid gap-1.5 text-sm"><span>E-mail <span class="text-muted">(facultatif)</span></span><input class={input} name="email" type="email" autocomplete="email" placeholder="vous@exemple.fr" /></label>
+    {services.length > 1 && (
+      <label class="grid gap-1.5 text-sm"><span>Besoin</span>
+        <select class={input} name="service">
+          <option value="">Choisir…</option>
+          {services.map((s) => <option value={s}>{s}</option>)}
+          <option value="Autre">Autre</option>
+        </select>
+      </label>
+    )}
+    <label class="grid gap-1.5 text-sm"><span>Votre message</span><textarea class={input} name="message" rows={compact ? 3 : 5} required placeholder="Décrivez votre besoin, votre adresse et le meilleur moment pour vous rappeler."></textarea></label>
+    <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+    <p class="text-xs text-muted">Vos données servent uniquement à vous répondre. Aucune newsletter, aucune revente.</p>
+    <button type="submit" class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-ui bg-accent px-6 py-3.5 font-medium text-on-accent transition-colors hover:bg-accent-2 disabled:opacity-60">
+      <span data-label>Envoyer ma demande</span>
+    </button>
+    <p class="hidden rounded-ui border border-line bg-bg-2 px-4 py-3 text-sm" data-status role="status" aria-live="polite"></p>
+  </form>
+)}
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const label = btn.querySelector<HTMLElement>('[data-label]')!;
+    const show = (msg: string, ok: boolean) => {
+      status.textContent = msg;
+      status.classList.remove('hidden');
+      status.style.borderColor = ok ? 'var(--accent)' : '#c0392b';
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+      if (data.botcheck) return;
+      const provider = form.dataset.form;
+      if (provider === 'mailto') {
+        const body = [`Nom : ${data.name}`, `Téléphone : ${data.phone}`, data.email && `E-mail : ${data.email}`, data.service && `Besoin : ${data.service}`, '', data.message].filter(Boolean).join('\n');
+        window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(form.dataset.subject!)}&body=${encodeURIComponent(body)}`;
+        show('Votre messagerie va s\'ouvrir avec la demande pré-remplie.', true);
+        return;
+      }
+      btn.disabled = true;
+      label.textContent = 'Envoi…';
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ access_key: form.dataset.key, subject: form.dataset.subject, from_name: data.name, ...data }),
+        });
+        const json = await res.json();
+        if (json.success) {
+          form.reset();
+          show(form.dataset.success!, true);
+        } else throw new Error(json.message);
+      } catch {
+        show(`Envoi impossible pour le moment. Appelez-nous ou écrivez à ${form.dataset.to}.`, false);
+      } finally {
+        btn.disabled = false;
+        label.textContent = 'Envoyer ma demande';
+      }
+    });
+  });
+</script>

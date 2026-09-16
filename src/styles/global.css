@@ -1,0 +1,163 @@
+@import 'tailwindcss';
+
+/* =====================================================================
+   CONTRAT DE TOKENS — chaque direction (src/directions/<nom>/index.css)
+   DOIT definir toutes ces variables sur [data-direction="<nom>"].
+   Les sections n'utilisent QUE ces tokens (via les classes Tailwind
+   ci-dessous : bg-bg, text-fg, font-display, rounded-ui, ...).
+   Jamais de couleur en dur dans une section.
+   ===================================================================== */
+@theme inline {
+  --color-bg: var(--bg);               /* fond de page */
+  --color-bg-2: var(--bg-2);           /* fond alterne (sections) */
+  --color-surface: var(--surface);     /* cartes, champs */
+  --color-fg: var(--fg);               /* texte principal */
+  --color-muted: var(--muted);         /* texte secondaire */
+  --color-line: var(--line);           /* filets, bordures */
+  --color-accent: var(--accent);       /* couleur de marque */
+  --color-accent-2: var(--accent-2);   /* variante (hover, degrade) */
+  --color-on-accent: var(--on-accent); /* texte sur accent */
+  --color-ink: var(--ink);             /* bloc contraste (footer, CTA) */
+  --color-on-ink: var(--on-ink);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --radius-ui: var(--radius);          /* boutons, champs */
+  --radius-card: var(--radius-card);   /* cartes, images */
+  --radius-pill: 999px;
+
+  --shadow-card: var(--shadow-card);
+  --shadow-lift: var(--shadow-lift);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Valeurs de secours : une direction incomplete reste lisible. */
+:root {
+  --bg: #ffffff;
+  --bg-2: #f6f6f4;
+  --surface: #ffffff;
+  --fg: #111111;
+  --muted: #6b6b66;
+  --line: #e4e2dd;
+  --accent: hsl(var(--accent-h, 24) var(--accent-s, 90%) var(--accent-l, 50%));
+  --accent-2: hsl(var(--accent-h, 24) var(--accent-s, 90%) calc(var(--accent-l, 50%) - 8%));
+  --on-accent: #ffffff;
+  --ink: #111111;
+  --on-ink: #ffffff;
+  --font-display: ui-serif, Georgia, serif;
+  --font-body: ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --radius: 8px;
+  --radius-card: 16px;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px -12px rgb(0 0 0 / 0.12);
+  --shadow-lift: 0 20px 40px -16px rgb(0 0 0 / 0.25);
+  --section-y: clamp(4rem, 10vw, 8rem);   /* respiration verticale des sections */
+  --container: 76rem;
+  --display-tracking: -0.02em;
+  --display-weight: 600;
+  --body-weight: 400;
+  --heading-transform: none;
+  --motion-duration: 0.9s;
+}
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-weight: var(--body-weight);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--heading-transform);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+p { text-wrap: pretty; }
+::selection { background: var(--accent); color: var(--on-accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- Utilitaires partages ---------- */
+@utility container-ff {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+@utility section-y { padding-block: var(--section-y); }
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+@utility text-display-xl { font-size: clamp(2.75rem, 7vw, 6rem); }
+@utility text-display-lg { font-size: clamp(2.25rem, 5vw, 4.25rem); }
+@utility text-display-md { font-size: clamp(1.75rem, 3.5vw, 2.75rem); }
+@utility text-display-sm { font-size: clamp(1.25rem, 2vw, 1.6rem); }
+
+/* ---------- Motion (pilote par src/scripts/motion.ts) ----------
+   data-reveal            : apparait au scroll (fade + translate)
+   data-reveal="left|right|scale|blur|clip"
+   data-reveal-delay="120": ms
+   data-stagger           : sur un parent, ses enfants se revelent en cascade
+   data-parallax="0.2"    : deplacement au scroll (rich seulement)
+   data-counter="12"      : compte jusqu'a la valeur (chiffres reels uniquement)
+   data-split             : titre decoupe en mots animes (rich seulement)
+   data-marquee           : bande defilante infinie
+   data-magnetic          : bouton aimante (rich seulement)
+   data-tilt              : carte inclinee au survol (rich seulement)
+------------------------------------------------------------------- */
+[data-motion='none'] [data-reveal],
+[data-motion='none'] [data-stagger] > * { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
+
+[data-motion]:not([data-motion='none']) [data-reveal],
+[data-motion]:not([data-motion='none']) [data-stagger] > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--motion-duration) var(--ease-out-expo),
+    transform var(--motion-duration) var(--ease-out-expo),
+    filter var(--motion-duration) var(--ease-out-expo),
+    clip-path var(--motion-duration) var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-motion]:not([data-motion='none']) [data-reveal='left'] { transform: translateX(-32px); }
+[data-motion]:not([data-motion='none']) [data-reveal='right'] { transform: translateX(32px); }
+[data-motion]:not([data-motion='none']) [data-reveal='scale'] { transform: scale(0.92); }
+[data-motion]:not([data-motion='none']) [data-reveal='blur'] { transform: none; filter: blur(12px); }
+[data-motion]:not([data-motion='none']) [data-reveal='clip'] { transform: none; clip-path: inset(0 0 100% 0); }
+[data-motion] .is-visible[data-reveal],
+[data-motion] .is-visible[data-stagger] > * { opacity: 1; transform: none; filter: none; clip-path: inset(0 0 0 0); }
+
+/* Marquee : le runtime duplique le contenu, ici juste l'animation */
+[data-marquee] { overflow: hidden; white-space: nowrap; }
+[data-marquee] > .marquee-track { display: inline-flex; gap: var(--marquee-gap, 3rem); animation: marquee var(--marquee-speed, 30s) linear infinite; will-change: transform; }
+[data-marquee]:hover > .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(calc(-50% - var(--marquee-gap, 3rem) / 2)); } }
+
+/* Split text (rich) */
+.split-word { display: inline-block; overflow: hidden; vertical-align: top; }
+.split-word > span { display: inline-block; transform: translateY(110%); transition: transform 1s var(--ease-out-expo); transition-delay: var(--i-delay, 0ms); }
+.is-visible .split-word > span { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal], [data-stagger] > * { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; transition: none !important; }
+  [data-marquee] > .marquee-track { animation: none; }
+  .split-word > span { transform: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* Details/summary sans marqueur */
+summary { list-style: none; cursor: pointer; }
+summary::-webkit-details-marker { display: none; }
