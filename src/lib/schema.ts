@@ -31,6 +31,16 @@ export const MOTION = ['none', 'subtle', 'rich'] as const;
 export const SCALES = ['compact', 'normal', 'display'] as const;
 export const DIVIDERS = ['none', 'wave', 'diagonal', 'curve', 'rule', 'zigzag'] as const;
 export const TONES = ['flat', 'alternate'] as const;
+// Coquille de page : la disposition globale, independante des sections.
+export const SHELLS = [
+  'flow', // colonne classique : nav en haut, hero, sections empilees
+  'split', // panneau lateral fixe (nom, nav, telephone) + contenu qui defile a droite
+  'sidebar', // rail vertical etroit a gauche, contenu large
+  'slides', // chaque section occupe l ecran, defilement aimante
+  'magazine', // largeurs et decalages alternes, grille asymetrique
+  'sticky-hero', // hero epingle, les sections glissent par-dessus
+] as const;
+export const HEADINGS = ['auto', 'center', 'left'] as const;
 
 // Variantes disponibles par section. Ajouter une variante = ajouter un fichier
 // src/sections/<Type>/<variante>.astro ET l'entree ici.
@@ -103,6 +113,8 @@ export const siteSchema = z.object({
         ]),
       footer: z.enum(VARIANTS.footer).default('columns'),
       divider: z.enum(DIVIDERS).default('none').describe('Separateur decoratif entre les sections'),
+      shell: z.enum(SHELLS).default('flow').describe('Disposition globale de la page (voir SHELLS)'),
+      headings: z.enum(HEADINGS).default('auto').describe('Alignement force des en-tetes de section'),
       tone: z.enum(TONES).default('flat').describe('alternate = une section sur deux sur fond bg-2'),
     })
     .prefault({}),

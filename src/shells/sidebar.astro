@@ -1,0 +1,35 @@
+---
+/**
+ * Coquille "sidebar" : rail vertical etroit fixe a gauche (monogramme, liens en texte vertical,
+ * telephone), contenu pleine largeur decale. La nav classique ne sert que sur mobile.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, navLinks } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Hero, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const links = navLinks();
+const initials = site.business.name.split(/\s+/).map((w) => w[0]).join('').slice(0, 3).toUpperCase();
+---
+
+<div class="lg:hidden"><Nav /></div>
+<aside class="hidden lg:flex fixed inset-y-0 left-0 z-40 w-20 flex-col items-center justify-between border-r border-line bg-bg py-8">
+  <a href="/" class="font-display text-xl" aria-label={site.business.name}>{initials}</a>
+  <nav class="flex flex-col items-center gap-6" aria-label="Navigation principale" style="writing-mode: vertical-rl;">
+    {links.map((l) => <a href={l.href} class="rotate-180 text-sm tracking-[0.15em] uppercase text-muted transition-colors hover:text-fg">{l.label}</a>)}
+  </nav>
+  <a href={tel()} class="flex h-11 w-11 items-center justify-center rounded-pill bg-accent text-on-accent" aria-label={`Appeler ${site.contact.phoneDisplay}`}><Icon name="Phone" size={18} /></a>
+</aside>
+<div class="lg:pl-20">
+  <main id="main">
+    <Hero />
+    {sections.map(({ Component, type }, i) => (
+      <>
+        {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+        <Component />
+      </>
+    ))}
+  </main>
+  <Footer />
+</div>

@@ -97,6 +97,11 @@ p { text-wrap: pretty; }
 [data-tone='alternate'] main > section:nth-of-type(even):not([class*='bg-ink']):not([class*='bg-accent']):not([class*='bg-bg-2']) { background: var(--bg-2); }
 [data-tone='alternate'] main > section:nth-of-type(odd)[class*='bg-bg-2'] { background: var(--bg); }
 
+/* ---------- En-tetes de section forces (layout.headings) ---------- */
+[data-headings='center'] .section-heading { margin-inline: auto; text-align: center; }
+[data-headings='center'] .section-heading p { margin-inline: auto; }
+[data-headings='left'] .section-heading { margin-inline: 0; text-align: left; }
+
 /* ---------- Utilitaires partages ---------- */
 @utility container-ff {
   width: 100%;

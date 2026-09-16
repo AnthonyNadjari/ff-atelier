@@ -11,10 +11,13 @@ import { resolve } from 'node:path';
  *   2. sinon le fichier .ff-current
  *   3. sinon "_exemple"
  */
-const slug =
-  process.env.SITE ||
-  (existsSync('.ff-current') ? readFileSync('.ff-current', 'utf8').trim() : '') ||
-  '_exemple';
+let slug = process.env.SITE || '';
+if (!slug && existsSync('.ff-current')) {
+  const current = readFileSync('.ff-current', 'utf8').trim();
+  if (current && existsSync(resolve('sites', current))) slug = current;
+  else if (current) console.warn(`.ff-current pointe vers sites/${current} qui n'existe plus : repli sur _exemple.`);
+}
+slug ||= '_exemple';
 
 const siteDir = resolve('sites', slug);
 if (!existsSync(siteDir)) {

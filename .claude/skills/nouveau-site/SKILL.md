@@ -27,15 +27,18 @@ Dans l'ordre :
    etc. — surtout pertinent si tu dois aussi toucher une section, ce qui ne devrait pas arriver ici).
 5. `sites/_exemple/site.config.ts` — référence de style et de structure d'un `site.config.ts` complet.
 
-### 2. Voir ce qui existe déjà
+### 2. Laisser le sélecteur proposer, puis lire ce qui existe
 
 ```
 node scripts/ff.mjs variete
+node scripts/ff.mjs composer <slug> --metier "<métier>"
 ```
 
-Liste les combinaisons direction/variantes déjà utilisées par les sites existants dans `sites/`. Sert
-à appliquer la règle de variété de `docs/DIRECTIONS.md` : ne jamais reprendre la même direction ET le
-même hero pour un client du même métier ou de la même ville qu'un site existant.
+`variete` liste les combinaisons déjà utilisées. `composer` (le sélecteur) lit tous les sites livrés et
+propose la combinaison la plus éloignée de tous, adaptée au métier : direction, coquille (`shell`),
+hero, variantes, typographie, échelle, tone, séparateur, en-têtes. **C'est le point de départ, pas une
+suggestion facultative.** On s'en écarte seulement avec une raison venue du brief (le client déteste le
+noir, veut ressembler à tel site...), et on note cette raison dans le résumé final.
 
 ### 3. Choisir direction, motion et variantes
 
@@ -115,22 +118,26 @@ Crée (ou remplace) `sites/<slug>/site.config.ts` sur le modèle de `sites/_exem
 Respecte exactement les noms de variantes de `VARIANTS` (une faute de frappe fait échouer
 `defineSite`).
 
-### 7. Comparer avec la proposition automatique
+### 7. Écrire le bloc sur mesure (obligatoire)
 
-```
-node scripts/ff.mjs composer <slug>
-```
+Chaque site livré contient **au moins une section écrite de zéro pour ce client**, qui n'existe dans
+aucune bibliothèque et ne sera jamais réutilisée : c'est ce qui rend deux sites impossibles à
+confondre. Procédure :
 
-Génère un look proposé automatiquement (direction, variantes, typographie...) à partir du
-`site.config.ts` qui vient d'être écrit, dans `sites/<slug>/look.json` — sans toucher au fichier. Compare
-ce que `composer` propose à ce qui a été choisi à l'étape 3 : si `composer` suggère mieux (direction plus
-adaptée, séparateur/tone plus cohérent) sans contredire une contrainte du brief, reprends ce choix
-directement dans `site.config.ts` ; sinon garde le choix fait à l'étape 3 et supprime `look.json` (ne
-pas laisser un `look.json` qui traîne sans raison — `ff figer <slug>` le fusionnerait sinon).
-
-Profite de cette relecture pour vérifier `wording.devis` : jamais "Demander un devis" pour un commerce,
-un restaurant ou un salon (boulangerie, coiffeur, institut, café...) — voir la table par métier dans
-`docs/DIRECTIONS.md` § Libellés — et l'ajuster dans `site.config.ts` si le défaut ne convient pas.
+1. Trouve dans le brief l'élément le plus singulier du client : sa carte de menu, sa méthode en trois
+   temps, son histoire de famille en dates, sa grille de tarifs, ses zones dessinées, ses garanties,
+   son matériel, son équipe. Si rien ne ressort, choisis l'angle du métier : un plombier a un « que
+   faire en attendant » pour une fuite, un coiffeur a un rituel, un paysagiste a un calendrier des
+   saisons.
+2. Écris `sites/<slug>/sections/<Nom>.astro` (PascalCase) selon `docs/CONVENTIONS.md` § Sections sur
+   mesure : `import { site } from '@/lib/site'`, tokens uniquement, `id` = nom en minuscules,
+   `data-reveal`/`data-stagger`, mobile d'abord, aucune donnée inventée (les faits viennent du brief ;
+   un conseil générique est permis, un chiffre inventé non). Composition libre : ce bloc doit avoir
+   sa propre disposition, pas « eyebrow + titre + grille » comme les autres.
+3. Référence-le dans `layout.sections` à l'endroit le plus fort (souvent après le hero ou après les
+   services) : `{ type: 'custom', variant: '<nom>', label: '<Libellé nav>' }`.
+4. Vérifie `wording.devis` au passage : jamais « Demander un devis » pour un commerce, un restaurant
+   ou un salon (voir `docs/DIRECTIONS.md` § Libellés).
 
 ### 8. Builder et vérifier
 

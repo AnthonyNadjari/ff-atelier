@@ -1,0 +1,51 @@
+---
+/**
+ * Coquille "split" : panneau lateral fixe (nom, metier, navigation, telephone, reseaux) sur la gauche,
+ * contenu qui defile a droite dans une colonne plus etroite. Sur mobile, le panneau devient un bloc
+ * d'en-tete et la nav mobile classique prend le relais.
+ */
+import Divider from '@/components/Divider.astro';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, navLinks } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Hero, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const links = navLinks();
+const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
+---
+
+<div class="lg:hidden"><Nav /></div>
+<div class="lg:grid lg:grid-cols-[minmax(19rem,24rem)_1fr] xl:grid-cols-[minmax(22rem,28rem)_1fr]">
+  <aside class="hidden lg:flex lg:sticky lg:top-0 lg:h-screen flex-col justify-between border-r border-line bg-bg-2 p-10 xl:p-14">
+    <div>
+      <a href="/" class="block font-display text-display-md leading-tight">
+        {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-12 w-auto" /> : site.business.name}
+      </a>
+      <p class="mt-3 text-sm text-muted">{site.business.trade} · {site.contact.address.city}</p>
+      <nav class="mt-12 flex flex-col gap-3" aria-label="Navigation principale">
+        {links.map((l) => <a href={l.href} class="text-lg text-muted transition-colors hover:text-fg">{l.label}</a>)}
+      </nav>
+    </div>
+    <div class="space-y-5">
+      {site.contact.hours[0] && <p class="text-sm text-muted">{site.contact.hours[0].days} · {site.contact.hours[0].hours}</p>}
+      <Button href={tel()} size="lg" class="w-full" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+      {socials.length > 0 && (
+        <ul class="flex gap-3">{socials.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener" aria-label={k} class="inline-flex h-9 w-9 items-center justify-center rounded-ui border border-line hover:border-fg"><Icon name={iconFor[k]} size={16} /></a></li>)}</ul>
+      )}
+    </div>
+  </aside>
+  <div class="min-w-0" style="--container: 58rem;">
+    <main id="main">
+      <Hero />
+      {sections.map(({ Component, type }, i) => (
+        <>
+          {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+          <Component />
+        </>
+      ))}
+    </main>
+    <Footer />
+  </div>
+</div>

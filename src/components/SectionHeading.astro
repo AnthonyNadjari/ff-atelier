@@ -12,7 +12,7 @@ const { eyebrow, title, text, align = 'left', class: cls = '', level = 'h2' } = 
 const Tag = level;
 ---
 
-<div class:list={['max-w-3xl', align === 'center' && 'mx-auto text-center', cls]} data-stagger="120">
+<div class:list={['section-heading max-w-3xl', align === 'center' && 'mx-auto text-center', cls]} data-stagger="120">
   {eyebrow && <p class="eyebrow mb-4">{eyebrow}</p>}
   <Tag class="text-display-md" set:html={title} />
   {text && <p class="mt-5 text-lg text-muted max-w-prose" class:list={[align === 'center' && 'mx-auto']}>{text}</p>}

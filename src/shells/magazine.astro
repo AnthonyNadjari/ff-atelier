@@ -1,0 +1,43 @@
+---
+/**
+ * Coquille "magazine" : grille asymetrique. Les sections alternent largeur et decalage
+ * (pleine largeur, colonne etroite calee a droite, colonne large calee a gauche), avec de grands
+ * numeros de section en marge sur desktop. Le contenu des sections ne change pas : seule la
+ * variable --container et les marges bougent.
+ */
+import Divider from '@/components/Divider.astro';
+import { site } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Hero, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+---
+
+<Nav />
+<main id="main">
+  <Hero />
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <div class="mag" data-num={String(i + 1).padStart(2, '0')}><Component /></div>
+    </>
+  ))}
+</main>
+<Footer />
+
+<style is:global>
+  [data-shell='magazine'] .mag { position: relative; }
+  @media (min-width: 64rem) {
+    /* 1 : pleine largeur ; 2 : etroite a droite ; 3 : large a gauche ; puis on recommence */
+    [data-shell='magazine'] .mag:nth-of-type(3n + 2) > section { --container: 56rem; }
+    [data-shell='magazine'] .mag:nth-of-type(3n + 2) > section > .container-ff { margin-inline: auto 6vw; }
+    [data-shell='magazine'] .mag:nth-of-type(3n + 3) > section { --container: 64rem; }
+    [data-shell='magazine'] .mag:nth-of-type(3n + 3) > section > .container-ff { margin-inline: 6vw auto; }
+    [data-shell='magazine'] .mag::before {
+      content: attr(data-num);
+      position: absolute; top: var(--section-y); left: 2.5vw;
+      font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5.5rem); line-height: 1;
+      color: var(--fg); opacity: 0.08; pointer-events: none;
+    }
+    [data-shell='magazine'] .mag:nth-of-type(3n + 2)::before { left: auto; right: 2.5vw; }
+  }
+</style>

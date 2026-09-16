@@ -1,27 +1,23 @@
 ---
-/** Page d'accueil : nav + hero + sections dans l'ordre du layout + footer. Tout vient de site.config.ts. */
+/**
+ * Page d'accueil : la coquille (layout.shell) decide de la disposition globale, les sections viennent
+ * du layout. Tout vient de site.config.ts (+ look.json / FF_LOOK).
+ */
 import Base from '@/layouts/Base.astro';
 import { site } from '@/lib/site';
 import { getSection } from '@/lib/sections';
-import Divider from '@/components/Divider.astro';
+
+const shells = import.meta.glob<{ default: any }>('/src/shells/*.astro', { eager: true });
+const shellKey = `/src/shells/${site.layout.shell}.astro`;
+if (!shells[shellKey]) throw new Error(`Coquille inconnue : ${site.layout.shell}`);
+const Shell = shells[shellKey].default;
 
 const Nav = getSection('nav', site.layout.nav);
 const Hero = getSection('hero', site.layout.hero);
 const Footer = getSection('footer', site.layout.footer);
 const sections = site.layout.sections.map((s) => ({ ...s, Component: getSection(s.type, s.variant) }));
-const divider = site.layout.divider;
 ---
 
 <Base path="/">
-  <Nav />
-  <main id="main">
-    <Hero />
-    {sections.map(({ Component, type }, i) => (
-      <>
-        {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
-        <Component />
-      </>
-    ))}
-  </main>
-  <Footer />
+  <Shell Nav={Nav} Hero={Hero} Footer={Footer} sections={sections} />
 </Base>

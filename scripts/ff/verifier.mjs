@@ -104,6 +104,14 @@ function warnImagesSansDimension(files, distDir, warnings) {
 }
 
 /** Non-bloquant : og:image absent alors qu'une image OG est configuree (public/og.webp ou images.og). */
+function warnBlocSurMesure(slug, warnings) {
+  // Regle du processus : chaque site livre contient au moins une section ecrite pour lui seul.
+  if (slug.startsWith('_') || slug.startsWith('demo-')) return;
+  const dir = path.join(SITES_DIR, slug, 'sections');
+  const has = fs.existsSync(dir) && fs.readdirSync(dir).some((f) => f.endsWith('.astro'));
+  if (!has) warnings.push(`Aucun bloc sur mesure (sites/${slug}/sections/*.astro) : chaque site livre doit en avoir un, voir /nouveau-site etape 7`);
+}
+
 function warnOgImageManquant(slug, files, distDir, warnings) {
   const ogWebp = path.join(SITES_DIR, slug, 'public', 'og.webp');
   const configPath = path.join(SITES_DIR, slug, 'site.config.ts');
@@ -183,6 +191,7 @@ export function cmdVerifier(args) {
   const warnings = [];
   warnImagesSansDimension(files, distDir, warnings);
   warnOgImageManquant(slug, files, distDir, warnings);
+  warnBlocSurMesure(slug, warnings);
 
   printReport(checks, warnings);
   process.exit(checks.some((x) => !x.pass) ? 1 : 0);
