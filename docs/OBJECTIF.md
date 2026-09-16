@@ -18,6 +18,11 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 | 5 | Tests + CI verts à chaque commit ; matrice couvrant directions, coquilles, navs | tests 142 ✓ ; CI : à vérifier sur GitHub ; matrice : directions ✓, coquilles ✓, navs ✗ | `npm test`, `ff matrice --rapide`, onglet Actions |
 | 6 | Docs à jour : PROCESS, compétences, CONVENTIONS, chaque motif documenté le jour où il naît | à relire après chaque tour | relecture |
 | 7 | Premier site client réel livré et payé | action humaine | — |
+| 8 | Veille intégrée (`docs/veille/SYNTHESE.md`) : actions B1-B6 (livrable conforme : verifier étendu, schemaType par métier, page confidentialité, carte sans cookie, provider cloudflare, lighthouse) | 0 / 6 | `ff verifier` sur un site |
+| 9 | Matière première : `ff photos`, `ff video`, `ff illustration`, +30 polices (C1-C4) | 0 / 4 | commandes existantes et testées |
+| 10 | Moteur : les 25 effets de `animations.md` § 3 ajoutés à `motion.ts` avec repli reduced-motion et tests (D1-D3) | 0 / 25 | `grep data-<effet>`, `npm test` |
+| 11 | Réserve de compositions : chaque site dessiné introduit un motif de `tendances.md` § 4-5 ou `composants.md` § 3 non encore utilisé (E1) ; procédure de portage dans `/nouvelle-variante` (E2) | E2 à faire | relecture |
+| 12 | Offre et discours (A1-A4) : grille de prix, garantie de délai, page finck-fisch avec objections | action humaine pour les prix ; textes par Claude | — |
 
 ## Métiers couverts (sites dessinés à la main)
 
@@ -55,6 +60,13 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 Règle : les démos existantes `demo-*` (générées, non dessinées) ne comptent pas pour le critère 1.
 Elles restent comme exemples du mode « permutation ».
 
+## Ordre des tours après la veille (17 sept 2026)
+
+Tour 1 : B1 + B2 + B3 (verifier, schemaType, confidentialité). Tour 2 : D1 première moitié (13 effets).
+Tour 3 : site métier 8. Tour 4 : B4 + B5 + C1. Tour 5 : D1 seconde moitié. Tour 6 : site métier 9.
+Ensuite alterner : deux sites, un tour de robustesse ou d'intégration de la veille. Lire
+`docs/veille/SYNTHESE.md` au début de chaque tour de robustesse.
+
 ## Procédure d'un tour
 
 1. Lire ce fichier, `CLAUDE.md`, `docs/PROCESS.md`, `.claude/skills/nouveau-site/SKILL.md`.
@@ -79,5 +91,6 @@ S'arrêter et le dire quand : les sept critères sont cochés ; ou un critère d
 
 ## Journal
 
+- 17 sept 2026 : veille en six dossiers (`docs/veille/`), synthèse et plan d'action A-F ; critères 8 à 12 ajoutés.
 - 16 sept 2026 : fondation, 16 directions, 44 variantes, CLI, studio, 32 modèles, coquilles, moteur
   d'animation enrichi, 7 sites dessinés à la main. Critères 1 à 6 en cours, 7 non commencé.
