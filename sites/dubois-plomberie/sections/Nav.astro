@@ -1,0 +1,119 @@
+---
+/**
+ * Nav sur mesure pour Dubois Plomberie : barre blanche discrète (fond bg, pas d'accent plein),
+ * un seul bouton plein — l'appel — et une bande de progression de lecture (data-scroll-progress)
+ * collée sous la barre plutôt qu'un bandeau clignotant façon panneau de chantier (voir
+ * sites/toits-cie/sections/Nav.astro pour le contre-exemple : ici la barre reste calme, le
+ * badge "24h/24" est statique, rien ne clignote). Sur mobile, une seconde barre — fixe en bas,
+ * seul le geste "Appeler" y figure — reste jusqu'en pied de page ; le padding-bottom du corps de
+ * page est pousse localement pour ne jamais recouvrir le pied de page ou le formulaire.
+ */
+import { site, tel, navLinks } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const links = navLinks();
+---
+
+<div data-scroll-progress aria-hidden="true"></div>
+
+<header data-nav class="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-bg/95 backdrop-blur-sm transition-[border-color,box-shadow] duration-500 [&.is-scrolled]:border-line [&.is-scrolled]:shadow-card">
+  <div class="container-ff flex items-center justify-between gap-4 py-4">
+    <a href="/" class="order-1 flex items-center gap-2 font-display text-lg leading-none tracking-tight">
+      {site.business.name}
+    </a>
+
+    {/*
+      L'appel (tel:) est place tot dans le HTML (juste apres le logo) pour rester dans les 1500
+      premiers caracteres du corps de la page (ff verifier), avant la liste de liens d'ancre plus
+      longue. L'ordre visuel reste logo / liens / actions grace a `order-*` (flex), pas au DOM.
+    */}
+    <div class="order-2 flex items-center gap-3 lg:order-3">
+      <Button href={tel()} size="sm" magnetic>
+        <Icon name="Phone" size={16} /><span class="hidden sm:inline">{site.contact.phoneDisplay}</span><span class="sm:hidden">Appeler</span>
+      </Button>
+      {site.contact.emergency24h && (
+        <span class="hidden items-center gap-2 rounded-pill border border-line px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted xl:flex">
+          <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+          Urgences 24h/24
+        </span>
+      )}
+      <button class="-mr-2 p-2 lg:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
+        <Icon name="Menu" size={22} />
+      </button>
+    </div>
+
+    <nav class="order-3 hidden items-center gap-6 text-sm lg:order-2 lg:flex" aria-label="Navigation principale">
+      {links.map((l) => <a href={l.href} class="text-muted transition-colors hover:text-fg">{l.label}</a>)}
+    </nav>
+  </div>
+
+  <div class="hidden border-t border-line bg-bg lg:hidden" data-menu>
+    <nav class="container-ff flex flex-col py-2" aria-label="Navigation mobile">
+      {links.map((l) => <a href={l.href} class="border-b border-line py-3.5 text-base last:border-0">{l.label}</a>)}
+    </nav>
+  </div>
+</header>
+<div class="h-[68px]" aria-hidden="true"></div>
+
+<div class="call-bar flex gap-2 sm:hidden" role="complementary" aria-label="Appel rapide">
+  <a href={tel()} class="call-bar-link">
+    <Icon name="Phone" size={18} />
+    Appeler — {site.contact.phoneDisplay}
+  </a>
+  <a href={`#contact`} class="call-bar-secondary" aria-label={site.wording.devis}>
+    <Icon name="MessageCircle" size={18} />
+  </a>
+</div>
+
+<style>
+  /* display/gap : classes Tailwind sur l'element (flex gap-2 sm:hidden) pour que sm:hidden
+     l'emporte correctement — une regle scopee display:flex ici aurait une specificite plus
+     elevee que .sm\:hidden et l'empecherait de se cacher en desktop. */
+  .call-bar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 55;
+    padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+    box-shadow: var(--shadow-lift);
+  }
+  .call-bar-link {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-ui, 8px);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 0.95rem;
+  }
+  .call-bar-secondary {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    border-radius: var(--radius-ui, 8px);
+    border: 1px solid var(--line);
+    color: var(--fg);
+    flex-shrink: 0;
+  }
+  @media (max-width: 639.98px) {
+    :global(body) { padding-bottom: 4.25rem; }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  btn?.addEventListener('click', () => {
+    const open = menu!.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
+</script>

@@ -17,11 +17,11 @@ export default defineSite({
     nav: 'minimal',
     hero: 'typographic',
     sections: [
-      { type: 'services', variant: 'list' },
-      { type: 'about', variant: 'values' },
       { type: 'custom', variant: 'manifeste', label: 'Manifeste' },
+      { type: 'custom', variant: 'offre', label: 'Tarifs' },
+      { type: 'custom', variant: 'propositions', label: 'Notre méthode' },
+      { type: 'services', variant: 'list' },
       { type: 'process', variant: 'steps' },
-      { type: 'proof', variant: 'gallery' },
       { type: 'faq', variant: 'two-columns' },
       { type: 'cta', variant: 'band' },
       { type: 'contact', variant: 'form-card' },
@@ -34,9 +34,9 @@ export default defineSite({
   business: {
     name: 'Finck & Fisch',
     trade: 'Studio digital — sites vitrines pour artisans et indépendants',
-    tagline: 'Un site qui vous ressemble, <em>livré en 72 heures.</em>',
+    tagline: 'Un site dessiné pour vous, <em>livré en 72 heures.</em>',
     description:
-      'Finck & Fisch conçoit des sites vitrines qui ont l’air faits sur mesure — parce qu’ils le sont — livrés en 72 heures et payés en une seule fois. Pas d’abonnement, pas de frais cachés : le site vous appartient, du code au nom de domaine.\n\nNous travaillons avec des artisans, des commerces et des indépendants qui veulent une présence en ligne sérieuse, sans passer par une agence ni gérer un chantier numérique au long cours.',
+      'Finck & Fisch dessine des sites vitrines à la main, un par un — jamais un modèle décliné par ville. Chaque projet part de trois propositions de direction visuelle, pas d’une seule maquette imposée. Livré en 72 heures et payé en une seule fois : pas d’abonnement, pas de frais cachés, le site vous appartient — du code au nom de domaine — dès la mise en ligne.\n\nDeux associés, un seul interlocuteur du premier appel à la livraison : nous travaillons avec des artisans, des commerces et des indépendants qui veulent une présence en ligne sérieuse, sans passer par une agence ni gérer un chantier numérique au long cours.',
     certifications: [],
   },
 
@@ -114,11 +114,46 @@ export default defineSite({
   ],
 
   faq: [
-    { q: 'Combien ça coûte ?', a: 'Un prix unique, annoncé avant de commencer, sans abonnement.' },
-    { q: 'Qui possède le site ?', a: 'Vous. Le code, les textes et le nom de domaine vous appartiennent dès la livraison.' },
-    { q: 'Et si je veux changer quelque chose plus tard ?', a: 'Vous pouvez nous recontacter pour une modification ponctuelle, ou faire intervenir qui vous voulez : rien ne vous retient chez nous.' },
-    { q: 'Faut-il fournir des photos ?', a: 'C’est préférable, mais pas obligatoire : nous pouvons composer une première version avec des visuels neutres, à remplacer dès que vos photos sont prêtes.' },
-    { q: 'Que se passe-t-il avec le nom de domaine ?', a: 'Il est enregistré à votre nom dès le départ, ou transféré à votre nom si vous en avez déjà un.' },
+    {
+      q: 'Un abonnement à 30 ou 90 € par mois, ce n’est pas plus simple qu’un prix en une fois ?',
+      a: 'Sur deux ou trois ans, un abonnement revient souvent plus cher qu’un tarif fixe payé une seule fois — et à la fin, vous ne possédez toujours rien. Chez nous, le site est à vous dès la mise en ligne, et il n’y a rien à surveiller ensuite.',
+    },
+    {
+      q: 'Comment je sais que ça va bien référencer sur Google ?',
+      a: 'Nous ne promettons pas une première place : personne ne peut la garantir légalement. Nous livrons un site techniquement propre — vitesse, structure, référencement local — et le reste se pilote dans la durée, avec ou sans nous.',
+    },
+    {
+      q: 'Vous n’êtes que deux associés, c’est risqué si vous arrêtez ?',
+      a: 'Le site est un fichier standard, hébergeable n’importe où, sans dépendance à une plateforme à nous. Contrairement à un site construit sur un abonnement, il continue d’exister même si vous ne nous recontactez jamais.',
+    },
+    {
+      q: 'Pourquoi pas un outil comme Wix ou Hostinger, à quelques euros par mois ?',
+      a: 'Ces outils vendent un logiciel, pas un résultat : il faut apprendre à s’en servir pour obtenir un site qui ressemble à des milliers d’autres. Nous livrons le résultat fini, dessiné pour votre activité, en 72 heures.',
+    },
+    {
+      q: '72 heures, c’est trop rapide pour être vraiment sur mesure — c’est un modèle recyclé ?',
+      a: 'C’est un système de composants que nous assemblons et adaptons à votre contenu, pas un thème universel — d’où trois directions visuelles différentes proposées dès le départ, pas une seule maquette.',
+    },
+    {
+      q: 'Et si je veux changer quelque chose dans deux ans, il faut repasser par vous ?',
+      a: 'Non. Le code vous appartient et n’est lié à aucun logiciel propriétaire : n’importe quel développeur peut le reprendre, y compris sans nous.',
+    },
+    {
+      q: 'Vous garantissez quoi si je ne suis pas satisfait ?',
+      a: 'Une garantie de délai, pas une promesse de résultat : livré sous 72 h après réception de vos éléments, ou remise de 10 % (engagement provisoire, à confirmer avant signature). Vous disposez ensuite de deux semaines pour les corrections.',
+    },
+    {
+      q: 'Pourquoi pas une agence locale, au moins j’ai quelqu’un à voir en vrai ?',
+      a: 'Nous pouvons échanger en visio ou nous déplacer, comme une agence locale — sans la structure de réunions et d’intermédiaires qui fait grimper le prix pour un site vitrine simple.',
+    },
+    {
+      q: 'Faut-il fournir des photos ?',
+      a: 'C’est préférable, mais pas obligatoire : nous pouvons composer une première version avec des visuels neutres, à remplacer dès que vos photos sont prêtes.',
+    },
+    {
+      q: 'Que se passe-t-il avec le nom de domaine ?',
+      a: 'Il est enregistré à votre nom dès le départ, ou transféré à votre nom si vous en avez déjà un — jamais au nom du studio.',
+    },
   ],
 
   proof: {

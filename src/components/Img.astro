@@ -1,0 +1,83 @@
+---
+/**
+ * Image responsive AVIF/WebP + LQIP, a partir du manifeste `sites/<slug>/images.json`
+ * genere par `ff images <slug>` (voir scripts/ff/images.mjs et docs/veille/rendu.md §4).
+ *
+ * Props :
+ *   src      chemin public de l'image (ex: "/images/hero.webp"), comme aujourd'hui dans site.config.ts
+ *   alt      texte alternatif (obligatoire, meme vide "" si decoratif)
+ *   sizes    attribut sizes standard (defaut "100vw")
+ *   class    classes Tailwind, transmises a la balise <img>
+ *   loading  "eager" | "lazy" (defaut : "eager" si priority, sinon "lazy")
+ *   priority image du premier ecran : loading="eager" + fetchpriority="high" par defaut
+ *
+ * Si `src` n'a pas d'entree dans le manifeste (image non passee par `ff images`, logo,
+ * placeholder...), on retombe sur un <img> simple a l'identique de l'existant : aucune
+ * regression pour les images non migrees.
+ */
+import { slugCourant } from '@/lib/site';
+
+interface ManifestEntry {
+  widths: number[];
+  formats: string[];
+  ratio: number;
+  lqip: string;
+}
+
+interface Props {
+  src: string;
+  alt: string;
+  sizes?: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+  priority?: boolean;
+  [key: string]: unknown;
+}
+
+const { src, alt, sizes = '100vw', class: cls = '', loading, priority = false, ...rest } = Astro.props;
+
+const manifests = import.meta.glob<{ default: Record<string, ManifestEntry> }>('/sites/*/images.json', { eager: true });
+const manifest = manifests[`/sites/${slugCourant}/images.json`]?.default ?? {};
+
+// "/images/hero.webp" -> dossier "/images" + nom "hero" (sans extension) pour chercher dans le manifeste.
+const match = /^(.*)\/([^/]+)\.[a-zA-Z0-9]+$/.exec(src);
+const dir = match?.[1] ?? '';
+const name = match?.[2] ?? '';
+const entry = name ? manifest[name] : undefined;
+const maxWidth = entry ? Math.max(...entry.widths) : undefined;
+
+function filename(width: number, ext: string) {
+  return `${dir}/${name}${width === maxWidth ? '' : `-${width}`}.${ext}`;
+}
+function srcsetFor(ext: string) {
+  if (!entry) return '';
+  return entry.widths.map((w) => `${filename(w, ext)} ${w}w`).join(', ');
+}
+
+const finalLoading = loading ?? (priority ? 'eager' : 'lazy');
+const fetchpriority = priority ? 'high' : undefined;
+const width = entry ? maxWidth : undefined;
+const height = entry && maxWidth ? Math.round(maxWidth / entry.ratio) : undefined;
+const lqipStyle = entry ? `background-image:url(${entry.lqip});background-size:cover;background-position:center;` : undefined;
+---
+
+{entry ? (
+  <picture>
+    <source type="image/avif" srcset={srcsetFor('avif')} sizes={sizes} />
+    <source type="image/webp" srcset={srcsetFor('webp')} sizes={sizes} />
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={finalLoading}
+      fetchpriority={fetchpriority}
+      decoding="async"
+      class={cls}
+      style={lqipStyle}
+      {...rest}
+    />
+  </picture>
+) : (
+  <img src={src} alt={alt} loading={finalLoading} fetchpriority={fetchpriority} decoding="async" class={cls} {...rest} />
+)}

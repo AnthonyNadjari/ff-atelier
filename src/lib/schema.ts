@@ -82,6 +82,8 @@ export const siteSchema = z.object({
   // ---- Look ----
   direction: z.enum(DIRECTIONS),
   motion: z.enum(MOTION).default('subtle'),
+  smoothScroll: z.boolean().default(false).describe('Active Lenis (scroll fluide, data-smooth), tier motion "rich" uniquement — jamais par defaut (voir docs/veille/animations.md §3 #1)'),
+  transitions: z.boolean().default(false).describe('Active <ClientRouter /> (astro:transitions) pour des transitions de page douces — opt-in, audit des scripts inline non complet (voir docs/ANIMATIONS.md § Transitions de page)'),
   accent: hsl.optional().describe("Surcharge la couleur d'accent de la direction (HSL)"),
   typography: z
     .object({
@@ -239,12 +241,18 @@ export const siteSchema = z.object({
 
   form: z
     .object({
-      provider: z.enum(['web3forms', 'mailto', 'none']).default('mailto'),
+      provider: z.enum(['web3forms', 'mailto', 'none', 'cloudflare']).default('mailto'),
       accessKey: z.string().optional().describe('Cle Web3Forms (gratuit, 250 mails/mois)'),
       subject: z.string().optional(),
       successMessage: z.string().default('Merci, votre demande est bien envoyee. Nous vous rappelons rapidement.'),
     })
-    .prefault({}),
+    .prefault({})
+    .describe(
+      "provider 'cloudflare' : le formulaire poste en JSON vers /api/contact (meme origine), servi par le " +
+        'Worker dist/<slug>/_worker.js (voir src/worker/contact.js, copie au build par `ff build` — ' +
+        'docs/DEPLOIEMENT.md § Formulaire Cloudflare Workers + Email Routing). Aucune cle a renseigner ici : ' +
+        "les bindings (EMAIL, RESEND_API_KEY) se configurent dans le dashboard Cloudflare Pages du projet.",
+    ),
 
   wording: z
     .object({

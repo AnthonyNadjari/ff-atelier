@@ -10,6 +10,7 @@ export default defineSite({
   slug: '_effets',
   direction: 'clair',
   motion: 'rich',
+  smoothScroll: true,
   layout: {
     nav: 'bar',
     hero: 'typographic',

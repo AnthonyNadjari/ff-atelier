@@ -1,0 +1,27 @@
+---
+/**
+ * "Galerie" : quelques vues du salon, une traînée d'images qui suit le curseur au survol
+ * (data-trail) plutôt qu'une grille figée ou une lightbox. Propre à ce site.
+ */
+import { site } from '@/lib/site';
+const photos = site.proof.gallery;
+---
+
+{photos.length > 0 && (
+  <section id="galerie" class="section-y bg-bg-2">
+    <div class="container-ff">
+      <p class="eyebrow" data-reveal>Le salon</p>
+      <h2 class="mt-4 max-w-xl font-display text-display-lg uppercase leading-[0.92]" data-reveal>Dans la boutique</h2>
+
+      <ul class="mt-10 grid gap-4 sm:grid-cols-2" data-stagger="90">
+        {photos.map((p) => (
+          <li data-reveal="scale">
+            <div class="group block overflow-hidden rounded-card border border-line shadow-card" data-trail={p.src}>
+              <img src={p.src} alt={p.alt} class="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}

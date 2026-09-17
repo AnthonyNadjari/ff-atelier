@@ -5,6 +5,7 @@ import { site, tel, paragraphs } from '@/lib/site';
 import { getSection, resolveSection } from '@/lib/sections';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
 
 export function getStaticPaths() {
   return site.services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
@@ -39,7 +40,7 @@ const paras = paragraphs(service.description ?? service.short);
           </div>
         </div>
         <aside class="lg:col-span-5" data-reveal="right">
-          {service.image && <img src={service.image.src} alt={service.image.alt} class="rounded-card shadow-card w-full object-cover aspect-[4/3]" />}
+          {service.image && <Img src={service.image.src} alt={service.image.alt} class="rounded-card shadow-card w-full object-cover aspect-[4/3]" sizes="(min-width: 1024px) 40vw, 100vw" />}
           {others.length > 0 && (
             <div class="card mt-6 rounded-card bg-surface p-6 shadow-card">
               <p class="eyebrow mb-4">Autres services</p>

@@ -2,6 +2,7 @@
 /** About "portrait" : photo a gauche, histoire a droite. Sans photo, grande citation decorative. */
 import { site, yearsSince, paragraphs } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
 
 const a = site.about;
 const years = yearsSince();
@@ -15,7 +16,7 @@ const hasFacts = !!years || site.business.certifications.length > 0 || !!site.bu
     {hasImage && (
       <div class="lg:col-span-5" data-reveal="left">
         <figure class="relative aspect-[4/5] overflow-hidden rounded-card shadow-lift">
-          <img src={a.portrait!.src} alt={a.portrait!.alt} class="absolute inset-0 h-full w-full object-cover" data-parallax="0.15" loading="lazy" />
+          <Img src={a.portrait!.src} alt={a.portrait!.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 40vw, 100vw" data-parallax="0.15" loading="lazy" />
         </figure>
       </div>
     )}

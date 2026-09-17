@@ -35,6 +35,7 @@ contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté don
 | `node scripts/ff.mjs vignettes [nom ...] [--forcer]` | Génère/rafraîchit `presets/vignettes/<nom>.webp` (capture du modèle sur `sites/_exemple`). |
 | `node scripts/ff.mjs og <slug>` | Génère l'image Open Graph du site (`images.og`). |
 | `node scripts/ff.mjs captures <slug>` | Prend des captures d'écran du site buildé (desktop/mobile). |
+| `node scripts/ff.mjs lighthouse [slug] [--mobile] [--seuil 90]` | Audite performance/accessibilité/bonnes pratiques/SEO (Lighthouse) sur l'accueil + une page service + mentions légales, desktop et mobile par défaut ; écrit `captures/<slug>-lighthouse.json`, sort en erreur si l'accueil est sous le seuil. Aussi disponible via `ff verifier <slug> --lighthouse`. |
 | `node scripts/ff.mjs servir <slug>` | Sert le build statique de `dist/<slug>` en local. |
 
 Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etendu par scripts/ff/*.mjs`).

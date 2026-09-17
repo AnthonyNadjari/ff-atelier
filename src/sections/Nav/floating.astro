@@ -3,6 +3,7 @@
 import { site, tel, navLinks } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
 const links = navLinks();
 ---
 
@@ -10,7 +11,7 @@ const links = navLinks();
   <div class="container-ff flex justify-center">
     <div class="w-full max-w-4xl mx-4 flex items-center justify-between gap-4 rounded-pill bg-surface px-5 py-3 shadow-card transition-shadow duration-500 [.is-scrolled_&]:shadow-lift">
       <a href="/" class="flex items-center gap-3 font-display text-base font-medium shrink-0">
-        {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-8 w-auto" /> : <span>{site.business.name}</span>}
+        {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-8 w-auto" sizes="200px" loading="eager" /> : <span>{site.business.name}</span>}
       </a>
       <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Navigation principale">
         {links.map((l) => <a href={l.href} class="text-muted hover:text-fg transition-colors">{l.label}</a>)}
@@ -29,7 +30,7 @@ const links = navLinks();
 <div class="md:hidden fixed inset-0 z-[60] hidden flex-col bg-bg" data-floating-menu>
   <div class="container-ff flex items-center justify-between py-6">
     <a href="/" class="flex items-center gap-3 font-display text-lg font-medium">
-      {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-9 w-auto" /> : <span>{site.business.name}</span>}
+      {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-9 w-auto" sizes="200px" loading="eager" /> : <span>{site.business.name}</span>}
     </a>
     <button class="p-2 -mr-2" aria-label="Fermer le menu" data-floating-menu-close>
       <Icon name="X" size={24} />

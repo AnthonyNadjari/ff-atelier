@@ -6,6 +6,8 @@
 import '@/styles/global.css';
 import { site, fullAddress, slugCourant, schemaTypeForTrade } from '@/lib/site';
 import { FONTS, type FontName } from '@/lib/fonts';
+// ClientRouter (site.transitions, opt-in) : voir docs/ANIMATIONS.md § Transitions de page.
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title?: string;
@@ -67,7 +69,19 @@ const ldJson = {
 ---
 
 <!doctype html>
-<html lang={site.lang} data-direction={site.direction} data-motion={site.motion} data-scale={site.scale} data-tone={site.layout.tone} data-shell={site.layout.shell} data-headings={site.layout.headings} data-site={slugCourant} style={accentStyle}>
+<html
+  lang={site.lang}
+  data-direction={site.direction}
+  data-motion={site.motion}
+  data-scale={site.scale}
+  data-tone={site.layout.tone}
+  data-shell={site.layout.shell}
+  data-headings={site.layout.headings}
+  data-site={slugCourant}
+  data-smooth={site.motion === 'rich' && site.smoothScroll ? '1' : undefined}
+  data-transitions={site.transitions ? '1' : undefined}
+  style={accentStyle}
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -89,15 +103,32 @@ const ldJson = {
     <script type="application/ld+json" set:html={JSON.stringify(ldJson)} />
     {site.analytics.plausible && <script defer data-domain={site.analytics.plausible} src="https://plausible.io/js/script.js"></script>}
     {site.analytics.umami && <script defer src={site.analytics.umami.src} data-website-id={site.analytics.umami.id}></script>}
+    {site.transitions && <ClientRouter />}
     <slot name="head" />
   </head>
   <body>
+    {/* data-duotone (CSS) : filtre SVG defini une fois, applique via filter: url(#ff-duotone) sur n'importe quel <img> (voir docs/veille/rendu.md §4.1). */}
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <filter id="ff-duotone" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0" />
+      </filter>
+    </svg>
     {site.motion === 'rich' && <div class="ff-curtain" aria-hidden="true"></div>}
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-accent focus:text-on-accent focus:px-4 focus:py-2 focus:rounded-ui">Aller au contenu</a>
     <slot />
     <script>
       import { initMotion } from '@/scripts/motion';
-      initMotion();
+      // site.transitions (ClientRouter) : 'astro:page-load' se declenche au chargement initial ET apres
+      // chaque navigation cote client — pas de double-init. Sans transitions, aucun ClientRouter n'est
+      // present donc l'evenement ne se declenche jamais : on appelle initMotion() directement (comportement
+      // historique). Limite connue (voir docs/ANIMATIONS.md § Transitions de page) : les <script> inline des
+      // sections/composants (nav, formulaire, compare slider...) ne sont pas encore audites pour une
+      // re-init propre a chaque navigation — a reserver pour l'instant a des sites mono-page/landing.
+      if (document.documentElement.hasAttribute('data-transitions')) {
+        document.addEventListener('astro:page-load', initMotion);
+      } else {
+        initMotion();
+      }
     </script>
   </body>
 </html>

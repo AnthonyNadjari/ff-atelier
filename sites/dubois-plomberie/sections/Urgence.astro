@@ -1,0 +1,46 @@
+---
+/**
+ * "En urgence" : les 4 étapes de site.process (config réelle, pas de texte détaché) en panneaux
+ * sticky empilés (data-sticky-stack) — chaque étape reste à l'écran le temps que la suivante la
+ * recouvre, pour qu'on lise une étape à la fois plutôt que la liste entière d'un coup. Alternance
+ * bg-2/surface/accent/ink : la dernière carte (facturation claire) est la plus sombre, comme une
+ * conclusion. Structure différente du sticky-stack "méthode urgence" en bandes skew de
+ * sites/toits-cie/sections/Methode.astro (ici : panneaux plein écran empilés, pas de bandes
+ * penchées ni de damier).
+ */
+import { site } from '@/lib/site';
+
+const panels = site.process.map((p, i) => ({
+  ...p,
+  n: String(i + 1).padStart(2, '0'),
+}));
+const tones = [
+  'bg-bg-2 text-fg',
+  'bg-surface text-fg border-t border-line',
+  'bg-accent text-on-accent',
+  'bg-ink text-on-ink',
+];
+---
+
+{panels.length > 0 && (
+  <section id="urgence" class="relative">
+    <div class="container-ff pt-24">
+      <p class="eyebrow">En urgence</p>
+      <h2 class="mt-4 text-display-lg">Ce qui se passe quand vous appelez.</h2>
+    </div>
+
+    <div class="mt-12" data-sticky-stack>
+      {panels.map((p, i) => (
+        <div class:list={['flex min-h-[52vh] items-center', tones[i % tones.length]]}>
+          <div class="container-ff grid items-center gap-8 py-12 md:grid-cols-[auto_1fr] md:gap-16">
+            <span class="font-display leading-none opacity-40" style="font-size: clamp(3.5rem, 9vw, 8rem);" aria-hidden="true">{p.n}</span>
+            <div class="measure">
+              <h3 class="text-display-md">{p.title}</h3>
+              <p class="mt-4 text-lg opacity-85">{p.text}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+)}

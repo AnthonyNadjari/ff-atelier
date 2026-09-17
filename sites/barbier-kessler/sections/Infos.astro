@@ -1,0 +1,47 @@
+---
+/**
+ * "Infos pratiques" : horaires et adresse sur un panneau sombre avec un halo qui suit le curseur
+ * (data-spotlight), plutôt qu'un bloc de texte plat. Propre à ce site.
+ */
+import { site, tel, fullAddress } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+---
+
+<section id="infos" class="section-y">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>Infos pratiques</p>
+    <h2 class="mt-4 max-w-xl font-display text-display-lg uppercase leading-[0.92]" data-reveal>Trouver le salon</h2>
+
+    <div class="relative mt-10 overflow-hidden rounded-card bg-ink p-8 text-on-ink shadow-lift sm:p-12" data-spotlight data-reveal>
+      <div class="relative z-[2] grid gap-10 sm:grid-cols-2">
+        <div>
+          <p class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-on-ink/60">
+            <Icon name="Clock" size={16} />Horaires
+          </p>
+          <dl class="mt-5 grid gap-2" data-stagger="80">
+            {site.contact.hours.map((h) => (
+              <div class="flex items-baseline justify-between gap-4 border-b border-on-ink/15 pb-2" data-reveal>
+                <dt class="font-display text-lg">{h.days}</dt>
+                <dd class="tabular-nums text-on-ink/80">{h.hours}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <div>
+          <p class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-on-ink/60">
+            <Icon name="MapPin" size={16} />Adresse
+          </p>
+          <p class="mt-5 font-display text-2xl leading-snug">{fullAddress()}</p>
+          <a
+            href={tel()}
+            class="btn btn-primary mt-6 inline-flex items-center gap-2 rounded-ui bg-accent px-5 py-3 font-display text-lg text-on-accent shadow-card"
+            data-magnetic="0.15"
+          >
+            <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

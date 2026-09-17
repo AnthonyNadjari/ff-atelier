@@ -27,6 +27,7 @@ const ROWS = [
   ['propositions <slug> --appliquer <i>', 'Applique la proposition i comme look.json du site.'],
   ['og <slug>', "Genere sites/<slug>/public/og.webp (1200x630) et configure images.og dans site.config.ts."],
   ['captures [slug ...]', 'Captures pleine page desktop + mobile de chaque site construit (captures/), + erreurs console.'],
+  ['lighthouse [slug] [--mobile] [--seuil 90]', 'Audite performance/accessibilite/bonnes pratiques/SEO (Lighthouse) sur accueil + 1 page service + mentions legales, desktop et mobile ; captures/<slug>-lighthouse.json.'],
   ['servir', 'Sert chaque dist/<slug> sur un port (8001, 8002, ...) pour comparer les sites.'],
   ['generer <slug>', "Brief -> site.config.ts via l'API Anthropic (ANTHROPIC_API_KEY dans .env)."],
   ['placeholders <slug> <#hexA> <#hexB>', 'Images abstraites provisoires (avant les vraies photos).'],

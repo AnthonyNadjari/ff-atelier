@@ -1,7 +1,10 @@
-// `ff verifier [slug]` (alias `check`) : build + checklist SEO/contenu sur dist/<slug>/**/*.html.
+// `ff verifier [slug] [--lighthouse]` (alias `check`) : build + checklist SEO/contenu sur
+// dist/<slug>/**/*.html. `--lighthouse` ajoute en fin de parcours un audit Lighthouse complet
+// (scripts/ff/lighthouse.mjs) — non lance par defaut car lent (plusieurs pages x desktop/mobile).
 import fs from 'node:fs';
 import path from 'node:path';
-import { DIST_DIR, SITES_DIR, resolveSlug, runAstro, ok, fail, warn, info, c } from './util.mjs';
+import { DIST_DIR, SITES_DIR, resolveSlug, runAstro, ok, fail, warn, info, c, parseArgs } from './util.mjs';
+import { runLighthouse } from './lighthouse.mjs';
 
 const FORBIDDEN = [
   { label: 'lorem', re: /lorem/i },
@@ -73,7 +76,11 @@ function checkPresence(files, distDir, re, label, checks) {
 function checkOffenders(files, distDir, re, label, checks) {
   const offenders = [];
   for (const file of files) {
-    const html = fs.readFileSync(file, 'utf8');
+    // Texte visible seulement : on retire <style>, <script> et les attributs, sinon "100 %" matche width:100%.
+    const html = fs.readFileSync(file, 'utf8')
+      .replace(/<style[\s\S]*?<\/style>/gi, '')
+      .replace(/<script[\s\S]*?<\/script>/gi, '')
+      .replace(/<[^>]+>/g, ' ');
     if (re.test(html)) offenders.push(path.relative(distDir, file));
   }
   if (offenders.length > 0) checks.push({ pass: false, label: `${label} trouve dans : ${offenders.join(', ')}` });
@@ -269,8 +276,106 @@ function warnOgImageManquant(slug, files, distDir, warnings) {
   }
 }
 
-export function cmdVerifier(args) {
-  const slug = resolveSlug(args[0]);
+/* =====================================================================
+   RENDU — checks issus de docs/veille/rendu.md §7 (checklist 40 points).
+   Bloc ajoute le 16 septembre 2026, separe des checks SEO/contenu ci-dessus.
+   Trois points de la checklist etaient deja couverts avant ce bloc par des
+   checks plus anciens (pas dupliques ici, juste rappeles) :
+     - #1 <img> sans width/height ni loading -> warnImagesSansDimension (deja au-dessus)
+     - #38 lien <a href="#"> vide -> checkNoEmptyAnchor (deja au-dessus)
+     - #10 font-display: swap absent -> warnFontDisplaySwap (deja au-dessus)
+   ===================================================================== */
+
+/** Rendu : une grille <ul>/<ol> d'au moins 3 <img> ne doit pas melanger les ratios (un seul
+ * aspect-ratio par grille, docs/veille/rendu.md §4.1/§7 point 18). Heuristique : ratio intrinseque
+ * width/height (pose par <Img>, voir src/components/Img.astro), pas le ratio rendu par object-fit —
+ * tolerance large (>15%) pour ne pas signaler de faux positifs sur un simple arrondi de sharp. */
+function checkGrilleImagesRatioCoherente(files, distDir, checks) {
+  const listRe = /<(ul|ol)\b[^>]*>([\s\S]*?)<\/\1>/gi;
+  const imgRe = /<img\b[^>]*>/gi;
+  const widthRe = /\bwidth\s*=\s*["']?(\d+)["']?/i;
+  const heightRe = /\bheight\s*=\s*["']?(\d+)["']?/i;
+  const offenders = [];
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    let m;
+    while ((m = listRe.exec(html))) {
+      const imgs = m[2].match(imgRe) || [];
+      if (imgs.length < 3) continue;
+      const ratios = [];
+      for (const tag of imgs) {
+        const w = widthRe.exec(tag)?.[1];
+        const h = heightRe.exec(tag)?.[1];
+        if (w && h && Number(h) > 0) ratios.push(Number(w) / Number(h));
+      }
+      if (ratios.length < 3) continue; // pas assez d'images avec width/height connus pour juger
+      const min = Math.min(...ratios);
+      const max = Math.max(...ratios);
+      if ((max - min) / min > 0.15) {
+        offenders.push(path.relative(distDir, file));
+        break;
+      }
+    }
+  }
+  if (offenders.length > 0) {
+    checks.push({ pass: false, label: `Grille d'images (<ul>/<ol> avec >= 3 <img>) avec des ratios incoherents dans : ${offenders.join(', ')}` });
+  } else {
+    checks.push({ pass: true, label: "Grilles d'images : ratio coherent (ou pas de grille de 3+ <img> a comparer)" });
+  }
+}
+
+/** Rendu : un bloc de texte long (<p> de plus de 400 caracteres) devrait etre contraint en largeur
+ * (classe `measure` ou `max-w-prose`, docs/veille/rendu.md §1.4/§2.1 point 3) pour rester lisible
+ * (45-75 caracteres par ligne). Non bloquant : le gabarit peut deja limiter la largeur via un parent. */
+function warnBlocTexteSansMesure(files, distDir, warnings) {
+  const pRe = /<p\b([^>]*)>([\s\S]*?)<\/p>/gi;
+  const offenders = new Set();
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    let m;
+    while ((m = pRe.exec(html))) {
+      const [, attrs, inner] = m;
+      const text = inner.replace(/<[^>]+>/g, '').trim();
+      if (text.length <= 400) continue;
+      const hasMeasure = /\bclass\s*=\s*["'][^"']*\b(measure|max-w-prose)\b/i.test(attrs);
+      if (!hasMeasure) offenders.add(path.relative(distDir, file));
+    }
+  }
+  if (offenders.size > 0) {
+    warnings.push(`<p> de plus de 400 caracteres sans classe "measure"/"max-w-prose" (largeur de lecture non contrainte) dans : ${[...offenders].join(', ')}`);
+  }
+}
+
+/** Rendu : au moins 2 familles de police distinctes attendues (display + corps) dans le CSS livre,
+ * sinon la direction n'a probablement pas charge de police display (docs/veille/rendu.md §7 point 9). */
+function warnMoinsDeDeuxPolices(distDir, warnings) {
+  const cssFiles = listFilesWithExt(distDir, '.css');
+  const families = new Set();
+  const declRe = /(?:--font-(?:display|body|mono)|(?<!-)font-family)\s*:\s*([^;]+);/gi;
+  for (const file of cssFiles) {
+    const css = fs.readFileSync(file, 'utf8');
+    let m;
+    while ((m = declRe.exec(css))) {
+      const first = m[1].split(',')[0].trim().replace(/^['"]|['"]$/g, '');
+      if (first && !/^var\(/i.test(first)) families.add(first.toLowerCase());
+    }
+  }
+  if (families.size < 2) {
+    warnings.push(`Moins de 2 familles de police distinctes trouvees dans le CSS livre (${families.size}) : direction probablement sans police display chargee`);
+  }
+}
+
+/** Rendu : `text-underline-offset` attendu quelque part dans le CSS livre (docs/veille/rendu.md §5.7 /
+ * §7 point 32) — sinon les liens gardent le soulignement brut du navigateur, colle au texte. */
+function warnUnderlineOffsetAbsent(distDir, warnings) {
+  const cssFiles = listFilesWithExt(distDir, '.css');
+  const found = cssFiles.some((f) => /text-underline-offset/i.test(fs.readFileSync(f, 'utf8')));
+  if (!found) warnings.push('text-underline-offset absent du CSS livre (soulignement de lien brut, colle au texte)');
+}
+
+export async function cmdVerifier(args) {
+  const { positional, flags } = parseArgs(args);
+  const slug = resolveSlug(positional[0]);
   info(`Verification de ${c.bold(slug)}`);
   info('');
 
@@ -332,6 +437,9 @@ export function cmdVerifier(args) {
   checkHtmlLangFr(files, distDir, checks);
   checkSitemapIndex(distDir, checks);
 
+  // --- Rendu (docs/veille/rendu.md §7) ---
+  checkGrilleImagesRatioCoherente(files, distDir, checks);
+
   const warnings = [];
   warnImagesSansDimension(files, distDir, warnings);
   warnOgImageManquant(slug, files, distDir, warnings);
@@ -340,9 +448,22 @@ export function cmdVerifier(args) {
   warnFormulaireTropLong(files, distDir, warnings);
   warnMentionsLegalesSansSiret(distDir, warnings);
   warnFontDisplaySwap(distDir, warnings);
+  // --- Rendu (docs/veille/rendu.md §7), suite : warnings ---
+  warnBlocTexteSansMesure(files, distDir, warnings);
+  warnMoinsDeDeuxPolices(distDir, warnings);
+  warnUnderlineOffsetAbsent(distDir, warnings);
 
   printReport(checks, warnings);
-  process.exit(checks.some((x) => !x.pass) ? 1 : 0);
+  const checklistOk = !checks.some((x) => !x.pass);
+
+  let lighthouseOk = true;
+  if (flags.lighthouse) {
+    info('');
+    info(c.bold('Audit Lighthouse (--lighthouse) :'));
+    lighthouseOk = await runLighthouse(slug, { seuil: Number(flags.seuil) || 90, mobileOnly: Boolean(flags.mobile) });
+  }
+
+  process.exit(checklistOk && lighthouseOk ? 0 : 1);
 }
 
 function printReport(checks, warnings = []) {

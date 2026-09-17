@@ -1,0 +1,44 @@
+---
+/**
+ * "Tarifs" : liste de prix "à partir de" en typographie à pointillés (voir docs/veille/references.md
+ * §4, idée "Prix en tableau typographique à pointillés"), dans un bloc sombre avec halo qui suit
+ * le curseur (data-spotlight) — le prix n'est jamais caché derrière un devis obligatoire. À côté,
+ * un avant/après de salle de bain en curseur glissant (data-compare) : seule illustration du site,
+ * réservée à la seule prestation qui s'y prête (chantier visible, pas une fuite). Chiffres en
+ * tabular-nums pour que les prix s'alignent en colonne quel que soit le nombre de chiffres.
+ */
+import { site } from '@/lib/site';
+const rows = site.services;
+---
+
+<section id="tarifs" class="section-y">
+  <div class="container-ff">
+    <p class="eyebrow">Tarifs</p>
+    <h2 class="mt-4 text-display-lg">Ce que ça coûte, clairement.</h2>
+    <p class="measure mt-4 text-muted">Diagnostic sur place et devis toujours communiqués avant toute intervention facturée.</p>
+  </div>
+
+  <div class="container-ff mt-12 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+    <div class="rounded-card bg-ink p-8 text-on-ink md:p-10" data-spotlight>
+      <ul class="relative z-[2] space-y-5">
+        {rows.map((s) => (
+          <li class="flex items-baseline gap-3">
+            <span class="font-display text-lg">{s.title}</span>
+            <span class="mx-1 flex-1 translate-y-[-0.3em] border-b border-dotted border-on-ink/30" aria-hidden="true"></span>
+            <span class="shrink-0 font-display text-lg tabular-nums">{s.priceFrom ?? 'Sur devis'}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <figure>
+      <div class="aspect-[4/3]" data-compare>
+        <img class="compare-before" src="/images/avant.webp" alt="Salle de bain avant rénovation" loading="lazy" />
+        <img class="compare-after" src="/images/apres.webp" alt="Salle de bain après rénovation" loading="lazy" />
+        <div class="compare-handle" aria-hidden="true"></div>
+        <input type="range" min="0" max="100" value="50" aria-label="Comparer une salle de bain avant et après rénovation" />
+      </div>
+      <figcaption class="mt-3 text-sm text-muted">Salle de bain — avant / après rénovation.</figcaption>
+    </figure>
+  </div>
+</section>

@@ -162,6 +162,19 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
    data-counter-flip       : compteur en chiffres bascules un par un (subtle)
    data-count-bar          : barre qui se remplit au scroll (subtle)
    data-scroll-progress    : barre de progression de lecture (CSS scroll-timeline + repli JS)
+
+   --- Nouveaux effets (docs/veille/animations.md §3, lignes 1,2,3,12,16,18,19,21,24,25) + 2 bonus CSS ---
+   data-smooth (sur <html>) : Lenis actif, pose par Base.astro depuis site.smoothScroll (rich)
+   data-hover-distort      : distorsion WebGL (OGL) au survol, repli data-hover-img (rich, pointer:fine)
+   data-draw-svg[="scrub"] : trace un <svg> inline (GSAP DrawSVGPlugin), au scroll ou en scrub (rich)
+   data-accordion[="single"] : GSAP Flip sur un groupe de <details> (rich)
+   data-drag-grid          : grille .drag-track glissable a enroulement infini (rich, tactile)
+   data-lottie             : lecteur dotLottie (canvas), repli data-lottie-fallback ou texte (rich)
+   data-confetti           : confettis au succes de formulaire (ff:form-success), charge a la demande
+   data-duotone             : filtre SVG #ff-duotone + degrade mix-blend-mode:color (CSS pur)
+   data-grain               : grain de bruit en overlay (CSS pur, feTurbulence)
+   data-border-beam         : bordure conique tournante (CSS pur, @property)
+   data-reveal-native        : variante CSS de data-reveal (animation-timeline:view(), @supports)
 ------------------------------------------------------------------- */
 [data-motion='none'] [data-reveal],
 [data-motion='none'] [data-stagger] > * { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
@@ -297,6 +310,72 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
   @keyframes scroll-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 }
 
+/* data-reveal-native (subtle) : meme etat initial que data-reveal ; @supports anime nativement, sinon repli IO (revealNative(), motion.ts) identique a .is-visible */
+[data-motion]:not([data-motion='none']) [data-reveal-native] { opacity: 0; transform: translateY(24px); }
+[data-motion] .is-visible[data-reveal-native] { opacity: 1; transform: none; }
+@supports (animation-timeline: view()) {
+  [data-motion]:not([data-motion='none']) [data-reveal-native] {
+    animation: reveal-native-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+  }
+  @keyframes reveal-native-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+}
+
+/* data-hover-distort (rich, pointer:fine) : conteneur WebGL cree par hoverDistort() (motion.ts), meme famille visuelle que .ff-hover-img */
+.ff-distort { position: fixed; top: 0; left: 0; z-index: 90; width: 320px; height: 240px; border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-lift); opacity: 0; pointer-events: none; transition: opacity 0.35s var(--ease-out-quart); will-change: transform; }
+.ff-distort canvas { display: block; width: 100%; height: 100%; }
+.ff-distort.is-on { opacity: 1; }
+
+/* data-accordion (rich) : hauteur/positionnement animes par GSAP Flip (accordionFlip(), motion.ts) ; <details> natif reste le repli sans JS */
+[data-accordion] details { overflow: hidden; }
+
+/* data-drag-grid (rich, tactile) : piste .drag-track dupliquee et deplacee par Draggable (dragGrid(), motion.ts) */
+[data-drag-grid] { overflow: hidden; touch-action: pan-y; }
+[data-drag-grid] .drag-track { display: flex; gap: var(--space-m); cursor: grab; touch-action: none; will-change: transform; }
+[data-drag-grid] .drag-track:active { cursor: grabbing; }
+
+/* data-lottie (rich) : <canvas> monte par lottiePlayers() (motion.ts), ou repli image/texte si le fichier est absent */
+[data-lottie] { position: relative; display: grid; place-items: center; }
+[data-lottie] .ff-lottie-canvas { width: 100%; height: 100%; display: block; }
+
+/* data-duotone (CSS pur) : filtre SVG #ff-duotone (defini une fois dans Base.astro) + degrade mix-blend-mode:color, voir docs/veille/rendu.md §4.1 */
+[data-duotone] { position: relative; overflow: hidden; isolation: isolate; }
+[data-duotone] > img { display: block; filter: url(#ff-duotone) contrast(1.08); }
+[data-duotone]::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(160deg, var(--ink), var(--accent)); mix-blend-mode: color; }
+
+/* data-grain (CSS pur) : grain de bruit en overlay, generalisation du motif feTurbulence deja utilise par la direction atelier */
+[data-grain] { position: relative; isolation: isolate; }
+[data-grain]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* data-border-beam (CSS pur) : bordure conique tournante via @property (interpolable, contrairement a un angle non type) */
+@property --border-beam-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+[data-border-beam] { position: relative; isolation: isolate; }
+[data-border-beam]::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--border-beam-angle), transparent 0deg, var(--accent) 25deg, transparent 110deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: border-beam-spin 3.5s linear infinite;
+}
+@keyframes border-beam-spin { to { --border-beam-angle: 360deg; } }
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal], [data-stagger] > * { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; transition: none !important; }
   [data-marquee] > .marquee-track { animation: none; }
@@ -320,6 +399,16 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
   [data-counter-flip] .flip-digit-inner { transform: none !important; opacity: 1 !important; }
   [data-count-bar] .bar-fill { transition: none !important; }
   [data-scroll-progress] { transition: none !important; animation: none !important; }
+  [data-reveal-native] { opacity: 1 !important; transform: none !important; animation: none !important; }
+  html[data-smooth] { scroll-behavior: auto; } /* smoothScroll() (motion.ts) ne demarre jamais Lenis quand reduced ; repli scroll natif */
+  .ff-distort { display: none !important; } /* [data-hover-distort] : hoverDistort() (motion.ts) ne s'execute pas quand reduced (garde en tete de initMotion()), le contenu de l'element reste visible normalement */
+  [data-draw-svg] path, [data-draw-svg] line, [data-draw-svg] polyline, [data-draw-svg] circle, [data-draw-svg] rect, [data-draw-svg] ellipse { stroke-dashoffset: 0 !important; } /* drawSvg() jamais lance : le trace reste visible tel quel */
+  [data-accordion] details > * { transition: none !important; } /* accordionFlip() jamais lance : <details> natif sans animation */
+  [data-drag-grid] .drag-track { transition: none !important; } /* dragGrid() jamais lance : plus de glisser, contenu fige */
+  [data-lottie] .ff-lottie-canvas { animation: none !important; } /* lottiePlayers() jamais lance quand reduced ; le repli data-lottie-fallback n'est pas non plus monte */
+  [data-confetti] { --ff-confetti-reduced: 1; } /* confettiOnSuccess() n'attache jamais l'ecouteur ff:form-success quand reduced */
+  [data-duotone]::after, [data-grain]::after { transition: none !important; }
+  [data-border-beam]::before { animation: none !important; }
   html { scroll-behavior: auto; }
 }
 

@@ -88,6 +88,43 @@ Si `form.provider` vaut `web3forms` dans `site.config.ts` :
 Le provider `mailto` (par defaut) ne necessite aucune cle : le formulaire ouvre le
 client mail du visiteur.
 
+### 2.5 Formulaire `cloudflare` (Worker + Email Routing) — recommande pour les professions reglementees
+
+Si `form.provider` vaut `cloudflare` dans `site.config.ts` : le formulaire poste en JSON vers
+`/api/contact`, meme origine, sans service tiers hors UE (voir `docs/veille/seo-conversion.md`
+§ 4). `ff build <slug>` genere automatiquement `dist/<slug>/_worker.js` a partir du gabarit
+`src/worker/contact.js` (placeholders remplaces par `contact.email`, le domaine du site et
+`business.name`). Ce fichier active le **mode avance** de Cloudflare Pages Functions : le Worker
+recoit toutes les requetes, relaie les fichiers statiques via `env.ASSETS.fetch(request)`, et
+traite lui-meme `POST /api/contact` (validation nom/telephone, honeypot, limite naive par IP via
+la Cache API). Aucune cle a mettre dans `site.config.ts`.
+
+**A configurer une fois par site, dans le dashboard Cloudflare** (apres le premier `ff deploy`) :
+
+1. **Email Routing** (pour recevoir les messages du formulaire) :
+   - Cloudflare dashboard -> le domaine du client -> **Email** -> **Email Routing** -> **Enable**.
+   - **Destination addresses** -> ajoute l'adresse qui doit recevoir les messages (celle de
+     `contact.email` dans `site.config.ts`) -> valide le lien de confirmation recu par e-mail.
+   - Le projet Pages -> **Settings** -> **Functions** -> **Email bindings** -> **Add binding** ->
+     variable `EMAIL`, associee a la route Email Routing du domaine. Sans ce binding,
+     `env.EMAIL` est absent et le Worker bascule automatiquement sur Resend s'il est configure,
+     sinon il repond `{ success: false }`.
+2. **Alternative/repli Resend** (envoi transactionnel, pas besoin qu'Email Routing soit actif sur
+   le domaine) :
+   - Cree un compte sur [resend.com](https://resend.com/) (gratuit jusqu'a 3000 e-mails/mois),
+     verifie un domaine d'envoi.
+   - Projet Pages -> **Settings** -> **Environment variables** -> ajoute `RESEND_API_KEY`
+     (Production, et Preview si besoin) avec la cle API Resend.
+3. **Domaine d'expedition** : le Worker envoie depuis `formulaire@<domaine du site>` (lu dans
+   `sites/<slug>/domain.txt`, ou `<slug>.pages.dev` a defaut). Pour l'envoi via Email Routing, ce
+   domaine doit etre celui sur lequel Email Routing est active (etape 1). Pour Resend, le domaine
+   d'envoi verifie dans Resend doit correspondre, sinon adapte `sites/<slug>/domain.txt` avant de
+   reconstruire.
+
+Documenter le choix retenu (Cloudflare seul, ou + Resend) au client dans la politique de
+confidentialite du site — deja fait automatiquement par `src/pages/confidentialite.astro` selon
+`form.provider`.
+
 ## 3. Remise au client
 
 Une fois le site valide (`node scripts/ff.mjs verifier <slug>` sans `✗`) :

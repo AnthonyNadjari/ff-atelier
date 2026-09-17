@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { FontaineTransform } from 'fontaine';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -44,7 +45,17 @@ export default defineConfig({
   build: { format: 'file', inlineStylesheets: 'auto' },
   integrations: [sitemap()],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      // Fontaine (docs/veille/rendu.md §5.1) : genere automatiquement, pour chaque famille
+      // @fontsource-variable/* chargee dynamiquement (src/lib/fonts.ts), un @font-face de
+      // repli metric-adjusted (size-adjust/ascent-override/descent-override/line-gap-override)
+      // pour reduire le CLS au remplacement police-web -> police systeme. L'API experimentale
+      // Astro Fonts (docs.astro.build/en/reference/experimental-flags/fonts) a ete ecartee :
+      // elle exige de declarer chaque famille statiquement dans astro.config (contraire au
+      // chargement a la demande de FONTS ici, ~90 familles) et ne documente pas font-display.
+      FontaineTransform.vite({ fallbacks: ['Georgia', 'Arial'] }),
+    ],
     define: { 'import.meta.env.SITE': JSON.stringify(slug), 'import.meta.env.FF_LOOK': JSON.stringify(ffLook) },
   },
 });

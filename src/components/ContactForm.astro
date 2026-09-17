@@ -1,9 +1,12 @@
 ---
 /**
  * Formulaire de contact partage par toutes les variantes de la section Contact.
- * provider web3forms : POST JSON vers api.web3forms.com, sans serveur, mails chez le client.
- * provider mailto    : ouvre le client mail avec le message pre-rempli (aucune cle a configurer).
- * provider none      : pas de formulaire (coordonnees seules).
+ * provider web3forms  : POST JSON vers api.web3forms.com, sans serveur, mails chez le client.
+ * provider mailto     : ouvre le client mail avec le message pre-rempli (aucune cle a configurer).
+ * provider cloudflare : POST JSON vers /api/contact (meme origine), servi par dist/<slug>/_worker.js
+ *                       (voir src/worker/contact.js, copie au build par `ff build` quand
+ *                       site.config.ts a form.provider: 'cloudflare' ; docs/DEPLOIEMENT.md).
+ * provider none       : pas de formulaire (coordonnees seules).
  */
 import { site } from '@/lib/site';
 interface Props { class?: string; compact?: boolean }
@@ -67,20 +70,27 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
         const body = [`Nom : ${data.name}`, `Téléphone : ${data.phone}`, data.email && `E-mail : ${data.email}`, data.service && `Besoin : ${data.service}`, '', data.message].filter(Boolean).join('\n');
         window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(form.dataset.subject!)}&body=${encodeURIComponent(body)}`;
         show('Votre messagerie va s\'ouvrir avec la demande pré-remplie.', true);
+        document.dispatchEvent(new CustomEvent('ff:form-success')); // data-confetti (motion.ts) ecoute cet evenement
         return;
       }
       btn.disabled = true;
       label.textContent = 'Envoi…';
+      const endpoint = provider === 'cloudflare' ? '/api/contact' : 'https://api.web3forms.com/submit';
+      const payload =
+        provider === 'cloudflare'
+          ? { subject: form.dataset.subject, ...data }
+          : { access_key: form.dataset.key, subject: form.dataset.subject, from_name: data.name, ...data };
       try {
-        const res = await fetch('https://api.web3forms.com/submit', {
+        const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ access_key: form.dataset.key, subject: form.dataset.subject, from_name: data.name, ...data }),
+          body: JSON.stringify(payload),
         });
         const json = await res.json();
         if (json.success) {
           form.reset();
           show(form.dataset.success!, true);
+          document.dispatchEvent(new CustomEvent('ff:form-success')); // data-confetti (motion.ts) ecoute cet evenement
         } else throw new Error(json.message);
       } catch {
         show(`Envoi impossible pour le moment. Appelez-nous ou écrivez à ${form.dataset.to}.`, false);

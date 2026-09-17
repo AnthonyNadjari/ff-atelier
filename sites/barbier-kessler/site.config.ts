@@ -1,0 +1,152 @@
+// DEMO : client inventé (Barbier Kessler, Krutenau, Strasbourg). Coordonnées fictives (plage 06 39 98),
+// aucun avis inventé (proof.google/testimonials volontairement absents : le brief n'en fournit pas).
+//
+// `ff composer barbier-kessler --metier "Barbier"` propose la direction "retro" (crème/orange/moutarde,
+// delaGothic) : c'est déjà la palette seventies de moteur-fils, et le mandat de ce site demande
+// explicitement d'éviter le "seventies garage". On part donc de la direction "atelier" (chaleureuse,
+// papier chaud — le plus proche du "masculin, warm" demandé) avec :
+//  - un accent vert sombre surchargé (même famille que #123524, la couleur utilisée pour les
+//    placeholders, éclairci à l:34% pour rester lisible aussi bien en texte sur le hero sombre
+//    qu'en texte sur les fonds clairs) au lieu de l'orange-brun par défaut d'atelier ;
+//  - une typographie condensée (Oswald, "condensé, affiche") + un corps humaniste (Cabin, "humaniste,
+//    doux") à la place de Fraunces/Inter, pour une enseigne de barbier plutôt qu'un atelier de bois.
+// Nav, hero et quatre blocs dessinés pour ce client : sites/barbier-kessler/sections/.
+import { defineSite } from '@/lib/schema';
+
+export default defineSite({
+  slug: 'barbier-kessler',
+  direction: 'atelier',
+  motion: 'rich',
+  scale: 'display',
+  accent: { h: 150, s: 45, l: 34 },
+  typography: { display: 'oswald', body: 'cabin' },
+  layout: {
+    shell: 'flow',
+    nav: 'custom/nav',
+    hero: 'custom/hero',
+    sections: [
+      { type: 'custom', variant: 'tarifs', label: 'Tarifs' },
+      { type: 'custom', variant: 'equipe', label: 'Équipe' },
+      { type: 'custom', variant: 'galerie', label: 'Galerie' },
+      { type: 'custom', variant: 'infos', label: 'Infos pratiques' },
+      { type: 'faq', variant: 'accordion' },
+      { type: 'cta', variant: 'band' },
+      { type: 'contact', variant: 'form-card' },
+    ],
+    footer: 'minimal',
+    divider: 'rule',
+    tone: 'alternate',
+  },
+
+  business: {
+    name: 'Barbier Kessler',
+    trade: 'Barbier',
+    tagline: 'Coupe, barbe, rasoir&nbsp;: <em>trois fauteuils, un seul geste.</em>',
+    description:
+      'Barbier Kessler taille et rase dans la Krutenau, à Strasbourg, depuis 2017. Trois fauteuils, trois barbiers, un seul geste&nbsp;: couper juste et raser proprement.\n\nRendez-vous en ligne du mardi au vendredi. Le samedi, on reçoit dans l’ordre d’arrivée — sans rendez-vous.',
+    since: 2017,
+  },
+
+  contact: {
+    phone: '+33639982973',
+    phoneDisplay: '06 39 98 29 73',
+    email: 'contact@exemple.fr',
+    address: { street: '9 rue de Zurich', postalCode: '67000', city: 'Strasbourg' },
+    mapsUrl: 'https://maps.google.com/?q=9+rue+de+Zurich+67000+Strasbourg',
+    mapsProvider: 'osm',
+    coordinates: { lat: 48.578, lng: 7.756 },
+    hours: [
+      { days: 'Mardi – vendredi', hours: '10h – 19h' },
+      { days: 'Samedi', hours: '9h – 18h, sans rendez-vous' },
+    ],
+    emergency24h: false,
+  },
+
+  services: [
+    {
+      slug: 'coupe',
+      title: 'Coupe',
+      short: 'Coupe classique ou dégradé, au ciseau et à la tondeuse.',
+      icon: 'Scissors',
+      priceFrom: '28 €',
+    },
+    {
+      slug: 'barbe',
+      title: 'Barbe',
+      short: 'Taille, dessin et finitions à la lame.',
+      icon: 'Sparkles',
+      priceFrom: '18 €',
+    },
+    {
+      slug: 'coupe-barbe',
+      title: 'Coupe + barbe',
+      short: 'La formule complète, en un seul rendez-vous.',
+      icon: 'ScissorsLineDashed',
+      priceFrom: '42 €',
+      featured: true,
+    },
+    {
+      slug: 'rasage',
+      title: 'Rasage à l’ancienne',
+      short: 'Serviette chaude, blaireau, lame et baume.',
+      icon: 'MirrorRound',
+      priceFrom: '30 €',
+    },
+    {
+      slug: 'enfant',
+      title: 'Coupe enfant',
+      short: 'Pour les moins de 12 ans.',
+      icon: 'Baby',
+      priceFrom: '20 €',
+    },
+  ],
+
+  about: {
+    title: 'Depuis 2017',
+    story:
+      'Jonas Kessler a ouvert son premier fauteuil dans la Krutenau en 2017. Malik puis Théo l’ont rejoint&nbsp;: la maison compte aujourd’hui trois fauteuils, et ne désemplit pas le samedi.\n\nOn y coupe au ciseau, on y rase au blaireau, et on y attend son tour en discutant — sans rendez-vous, le samedi.',
+    portrait: { src: '/images/portrait.webp', alt: 'Jonas Kessler, fondateur du salon, dans la Krutenau à Strasbourg' },
+    team: [
+      { name: 'Jonas Kessler', role: 'Fondateur, barbier' },
+      { name: 'Malik', role: 'Barbier' },
+      { name: 'Théo', role: 'Barbier' },
+    ],
+  },
+
+  proof: {
+    gallery: [
+      { src: '/images/galerie-1.webp', alt: 'Un des trois fauteuils du salon' },
+      { src: '/images/galerie-2.webp', alt: 'Plan de travail et outils du barbier' },
+      { src: '/images/galerie-3.webp', alt: 'Intérieur du salon, Krutenau, Strasbourg' },
+      { src: '/images/galerie-4.webp', alt: 'Façade du salon rue de Zurich' },
+    ],
+  },
+
+  faq: [
+    { q: 'Faut-il réserver ?', a: 'Du mardi au vendredi, oui, en ligne. Le samedi, non&nbsp;: vous êtes reçu dans l’ordre d’arrivée.' },
+    { q: 'Le samedi, comment ça marche sans rendez-vous ?', a: 'Vous vous présentez directement au salon, 9 rue de Zurich&nbsp;: le premier arrivé est le premier servi.' },
+    { q: 'Accueillez-vous les enfants ?', a: 'Oui, la coupe enfant est proposée aux moins de 12 ans.' },
+    { q: 'Comment réserver en semaine ?', a: 'En ligne, ou par téléphone au 06 39 98 29 73.' },
+  ],
+
+  form: { provider: 'mailto' },
+
+  wording: {
+    devis: 'Prendre rendez-vous',
+    ctaTitle: 'Une coupe, une barbe, <em>un fauteuil qui vous attend.</em>',
+    ctaText: 'Trois fauteuils au 9 rue de Zurich, dans la Krutenau à Strasbourg.',
+    contactTitle: 'Prendre rendez-vous',
+    contactText: 'Réservez en ligne du mardi au vendredi. Le samedi, passez directement&nbsp;: sans rendez-vous.',
+  },
+
+  images: {
+    hero: { src: '/images/hero.webp', alt: 'Intérieur du salon Barbier Kessler' },
+    logo: { src: '/logo.svg', alt: 'Barbier Kessler' },
+  },
+
+  seo: {
+    keywords: ['barbier Strasbourg', 'barbershop Krutenau', 'coiffeur homme Strasbourg', 'rasage à l’ancienne Strasbourg'],
+  },
+
+  legal: { owner: 'Jonas Kessler' },
+});

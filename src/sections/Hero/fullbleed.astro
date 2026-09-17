@@ -3,6 +3,7 @@
 import { site, tel, yearsSince, paragraphs } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
 const years = yearsSince();
 const intro = paragraphs(site.business.description)[0];
 const hero = site.images.hero;
@@ -11,7 +12,7 @@ const hero = site.images.hero;
 <section id="hero" class:list={['relative min-h-[92svh] flex items-end overflow-hidden', !hero && 'bg-ink']}>
   {hero && (
     <div class="absolute inset-0 -z-10">
-      <img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" data-parallax="0.2" loading="eager" fetchpriority="high" />
+      <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" data-parallax="0.2" loading="eager" fetchpriority="high" />
       <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10"></div>
     </div>
   )}

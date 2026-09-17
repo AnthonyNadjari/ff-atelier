@@ -96,6 +96,11 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
 - [ ] `business.schemaType` correct ou absent (déduit automatiquement du métier via
       `schemaTypeForTrade`, voir `src/lib/schemaType.ts`) — pas de sous-type schema.org inventé, pas
       d'`aggregateRating` dans le JSON-LD.
+- [ ] **Lighthouse ≥ 90 sur index, desktop et mobile** (performance, accessibilité, bonnes pratiques,
+      SEO) : `node scripts/ff.mjs lighthouse <slug>`, ou `node scripts/ff.mjs verifier <slug>
+      --lighthouse` pour l'inclure dans la vérification. Résultats dans
+      `captures/<slug>-lighthouse.json`. Si la page d'accueil est sous le seuil, corriger avant
+      livraison plutôt que baisser le seuil.
 
 ## 8. Positionnement prix
 

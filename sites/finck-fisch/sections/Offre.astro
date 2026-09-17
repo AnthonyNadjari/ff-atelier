@@ -1,0 +1,114 @@
+---
+/**
+ * Section sur mesure Finck & Fisch : grille tarifaire, deux formules.
+ * Appelee dans le layout par { type: 'custom', variant: 'offre', label: 'Tarifs' }.
+ *
+ * PRIX PROVISOIRES : les deux fondateurs n'ont pas encore arrete de grille de prix definitive.
+ * "à partir de 1 200 €" et "à partir de 1 800 €" sont des placeholders credibles (voir
+ * docs/veille/SYNTHESE.md action A1 : reperes 1 200-1 800 €). A remplacer ici des que le prix
+ * est fixe — chercher "PRIX PROVISOIRES" dans ce fichier.
+ */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import Button from '@/components/Button.astro';
+
+const formules = [
+  {
+    nom: 'Essentiel',
+    prix: 'à partir de 1 200 €', // PRIX PROVISOIRES — à confirmer par les fondateurs
+    pitch: 'Un site clair, qui vous ressemble, prêt à recevoir vos premiers clients.',
+    inclus: [
+      'Site de 1 à 5 pages, dessiné à la main pour votre activité',
+      'Trois propositions de direction visuelle, pas une seule maquette',
+      'Formulaire de contact',
+      'Mentions légales et politique de confidentialité',
+      'Mise en ligne',
+      'Nom de domaine à votre nom',
+    ],
+  },
+  {
+    nom: 'Complet',
+    prix: 'à partir de 1 800 €', // PRIX PROVISOIRES — à confirmer par les fondateurs
+    pitch: 'Tout l’Essentiel, avec la visibilité locale et les visuels en plus.',
+    inclus: [
+      'Tout le contenu de la formule Essentiel',
+      'Pages villes pour le référencement local',
+      'Photos retouchées (shooting sur place en option)',
+      'Fiche Google optimisée',
+      'Deux tours de corrections après la mise en ligne',
+    ],
+  },
+];
+
+const jamaisFacture = [
+  { label: 'Hébergement', valeur: 'Aucun frais mensuel, c’est inclus' },
+  { label: 'Abonnement', valeur: 'Aucun, jamais — même en option' },
+];
+---
+
+<section id="offre" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>Tarifs</p>
+    <h2 class="mt-4 max-w-2xl text-display-md" data-reveal>Un prix affiché, <em>pas un devis caché.</em></h2>
+    <p class="mt-5 max-w-2xl text-muted" data-reveal>
+      Deux formules, un tarif fixe annoncé avant de commencer. Livré en une fois, sans ligne récurrente à surveiller.
+    </p>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-2" data-stagger="140">
+      {formules.map((f) => (
+        <div class="card flex h-full flex-col rounded-card border border-line bg-surface p-8 shadow-card" data-reveal>
+          <h3 class="font-display text-display-sm">{f.nom}</h3>
+          <p class="mt-2 text-muted">{f.pitch}</p>
+          <p class="mt-6 font-display text-3xl tabular-nums">{f.prix}</p>
+
+          <ul class="mt-8 flex flex-1 flex-col gap-3">
+            {f.inclus.map((item) => (
+              <li class="flex items-start gap-3 text-sm text-muted">
+                <Icon name="Check" size={16} class="mt-0.5 shrink-0 text-accent" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          <p class="mt-8 border-t border-line pt-5 text-sm">
+            Livré sous 72 h après réception de vos éléments, ou remise de 10 % — engagement provisoire, à confirmer avant signature.
+          </p>
+
+          <Button href="#contact" variant={f.nom === 'Complet' ? 'primary' : 'ghost'} class="mt-6 self-start">{site.wording.devis}</Button>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-14 grid gap-8 border-t border-line pt-10 md:grid-cols-3" data-stagger="100">
+      <div data-reveal>
+        <p class="eyebrow">Ce qui n’est jamais facturé en plus</p>
+        <ul class="mt-3 flex flex-col gap-2 text-sm text-muted">
+          {jamaisFacture.map((n) => (
+            <li class="flex items-center gap-2">
+              <Icon name="Ban" size={14} class="shrink-0 text-accent" />
+              <span>{n.label} — {n.valeur}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div data-reveal>
+        <p class="eyebrow">Propriété</p>
+        <p class="mt-3 text-sm text-muted">
+          Le site, le domaine et les fichiers sont à vous dès la mise en ligne — aucun abonnement, jamais, même optionnel.
+        </p>
+      </div>
+
+      <div data-reveal>
+        <p class="eyebrow">Chèque France Num</p>
+        <p class="mt-3 text-sm text-muted">
+          Une aide publique peut couvrir une partie de ce montant si le dispositif est actif au moment de votre commande — à vérifier ensemble avant signature.
+        </p>
+      </div>
+    </div>
+
+    <p class="mt-10 text-sm text-muted" data-reveal>
+      Maintenance mensuelle en option : 25&nbsp;€/mois, facultatif, résiliable à tout moment.
+    </p>
+  </div>
+</section>

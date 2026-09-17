@@ -1,0 +1,37 @@
+---
+/**
+ * "Tarifs" : la carte du salon en menu typographique — nom du service, filet pointillé, prix en
+ * chiffres tabulaires (tabular-nums) — plutôt qu'une grille de cartes services. Propre à ce site.
+ */
+import { site } from '@/lib/site';
+const services = site.services;
+---
+
+<section id="tarifs" class="section-y">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>Tarifs</p>
+    <h2 class="mt-4 max-w-xl font-display text-display-lg uppercase leading-[0.92]" data-reveal>La carte de la maison</h2>
+    <hr class="mt-8 max-w-xl border-t-2 border-accent" data-draw />
+
+    <ul class="mt-10 max-w-2xl divide-y divide-line" data-stagger="90">
+      {services.map((s) => (
+        <li class="flex items-baseline gap-4 py-5" data-reveal>
+          <span class="font-display text-xl uppercase tracking-wide sm:text-2xl">{s.title}</span>
+          <span class="menu-leader" aria-hidden="true"></span>
+          <span class="shrink-0 font-display text-xl tabular-nums text-accent sm:text-2xl">{s.priceFrom}</span>
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-10 max-w-xl text-sm text-muted">Prix affichés, sans supplément. Carte ou espèces.</p>
+  </div>
+</section>
+
+<style>
+  .menu-leader {
+    flex: 1 1 auto;
+    min-width: 1.25rem;
+    border-bottom: 2px dotted var(--line);
+    transform: translateY(-0.3em);
+  }
+</style>

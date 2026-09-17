@@ -3,12 +3,13 @@
 import { site, tel } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
 ---
 
 <header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-all duration-500 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/85 [&.is-scrolled]:backdrop-blur-md">
   <div class="container-ff flex items-center justify-between py-5 [.is-scrolled_&]:py-3 transition-[padding] duration-500">
     <a href="/" class="flex items-center gap-3 font-display text-lg font-medium">
-      {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-9 w-auto" /> : <span>{site.business.name}</span>}
+      {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-9 w-auto" sizes="200px" loading="eager" /> : <span>{site.business.name}</span>}
     </a>
     <Button href={tel()} size="sm" variant="ghost"><Icon name="Phone" size={16} /><span class="hidden sm:inline">{site.contact.phoneDisplay}</span><span class="sm:hidden">Appeler</span></Button>
   </div>

@@ -27,19 +27,43 @@
  * data-counter-flip     subtle variante "digit flip" de data-counter
  * data-count-bar        subtle barre qui se remplit au scroll, a cote de data-counter
  * data-scroll-progress  subtle barre de progression de lecture (CSS scroll-timeline + repli JS)
+ *
+ * --- Nouveaux effets (docs/veille/animations.md §3, lignes 1,2,3,12,16,18,19,21,24,25) + 2 bonus CSS ---
+ * data-smooth (sur <html>)   rich   scroll fluide Lenis, pose par Base.astro depuis site.smoothScroll ;
+ *                                   synchronise avec ScrollTrigger, respecte reduced-motion et les ancres
+ * data-hover-distort="/x.webp" rich distorsion WebGL (OGL) de l'image au survol, pointer:fine ; repli =
+ *                                   comportement data-hover-img si WebGL indisponible
+ * data-draw-svg[="scrub"]    rich   trace les <path>/<line>/... d'un <svg> inline (GSAP DrawSVGPlugin),
+ *                                   au scroll (defaut, une fois) ou en scrub continu (valeur "scrub")
+ * data-accordion[="single"]  rich   GSAP Flip sur un groupe de <details> : hauteur et repositionnement
+ *                                   des elements voisins animes en douceur a l'ouverture/fermeture
+ * data-drag-grid             rich   grille .drag-track glissable (GSAP Draggable + InertiaPlugin),
+ *                                   defilement horizontal infini par enroulement, tactile
+ * data-lottie="/anim/x.lottie" rich lecteur dotLottie (canvas), charge a la demande ; repli
+ *                                   data-lottie-fallback="/img/x.webp" ou texte si le fichier est absent
+ * data-confetti               toute confettis (canvas-confetti) au succes d'un formulaire, ecoute
+ *                                   l'evenement `ff:form-success` (ContactForm.astro), charge a la demande
+ * data-duotone                CSS   filtre SVG (#ff-duotone, defini une fois dans Base.astro) + degrade
+ *                                   mix-blend-mode:color pour unifier des photos client heterogenes
+ * data-grain                  CSS   grain de bruit (feTurbulence) en overlay, generalisation du motif
+ *                                   deja utilise par la direction atelier
+ * data-border-beam            CSS   bordure conique tournante (@property --border-beam-angle)
+ * data-reveal-native           CSS  variante de data-reveal via animation-timeline:view() (@supports),
+ *                                   repli automatique sur le meme IntersectionObserver que data-reveal
  */
 export function initMotion() {
   const root = document.documentElement;
   const motion = root.dataset.motion ?? 'subtle';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (motion === 'none' || reduced) {
-    document.querySelectorAll<HTMLElement>('[data-reveal],[data-stagger]').forEach((el) => el.classList.add('is-visible'));
+    document.querySelectorAll<HTMLElement>('[data-reveal],[data-stagger],[data-reveal-native]').forEach((el) => el.classList.add('is-visible'));
     return;
   }
 
   // splitText d'abord : il pose data-reveal sur les titres, que reveal() doit ensuite observer.
   if (motion === 'rich') splitText();
   reveal();
+  revealNative();
   counters();
   counterFlip();
   countBars();
@@ -51,6 +75,7 @@ export function initMotion() {
   flipCards();
   compareSliders();
   scrollProgress();
+  confettiOnSuccess();
   if (motion === 'subtle') scrambleSubtle();
 
   if (motion === 'rich') {
@@ -58,6 +83,12 @@ export function initMotion() {
     hoverImages();
     trailImages();
     rich().catch(() => {});
+    smoothScroll().catch(() => {});
+    hoverDistort().catch(() => {});
+    drawSvg().catch(() => {});
+    accordionFlip().catch(() => {});
+    dragGrid().catch(() => {});
+    lottiePlayers().catch(() => {});
     directionScript(root.dataset.direction);
   }
 }
@@ -159,6 +190,34 @@ function reveal() {
     { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
   );
   els.forEach((el) => io.observe(el));
+}
+
+/** data-reveal-native : repli IO identique a reveal(), seulement si animation-timeline:view() n'est pas supporte (sinon global.css @supports suffit). */
+function revealNative() {
+  const els = document.querySelectorAll<HTMLElement>('[data-reveal-native]');
+  if (!els.length) return;
+  if (typeof CSS !== 'undefined' && CSS.supports?.('animation-timeline', 'view()')) return; // CSS pur suffit (voir global.css)
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      }
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+  );
+  els.forEach((el) => io.observe(el));
+}
+
+/** data-confetti : confettis (canvas-confetti, charge a la demande) au succes d'un formulaire (evenement ff:form-success, voir ContactForm.astro). */
+function confettiOnSuccess() {
+  if (!document.querySelector('[data-confetti]')) return;
+  document.addEventListener('ff:form-success', async () => {
+    const { default: confetti } = await import('canvas-confetti');
+    confetti({ particleCount: 120, spread: 70, startVelocity: 38, origin: { y: 0.7 } });
+  });
 }
 
 function counters() {
@@ -569,6 +628,234 @@ async function rich() {
       if (glare) glare.style.backgroundPosition = `${(px + 0.5) * 100}% ${(py + 0.5) * 100}%`;
     });
     el.addEventListener('mouseleave', () => gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.8, ease: 'power3.out' }));
+  });
+}
+
+/** data-smooth (sur <html>, pose par Base.astro depuis site.smoothScroll) : Lenis, synchronise avec ScrollTrigger. */
+async function smoothScroll() {
+  if (!document.documentElement.hasAttribute('data-smooth')) return;
+  const { default: Lenis } = await import('lenis');
+  const { gsap } = await import('gsap');
+  const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+  gsap.registerPlugin(ScrollTrigger);
+  const lenis = new Lenis({ autoRaf: false });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+  // Ancres internes (#id) : defilement fluide via lenis.scrollTo plutot que le saut natif.
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (!id || id === '#') return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target as HTMLElement, { offset: -16 });
+    });
+  });
+}
+
+/** data-hover-distort="/images/x.webp" : distorsion WebGL (OGL) de l'image au survol, pointer:fine. Repli = comportement data-hover-img. */
+async function hoverDistort() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  const items = document.querySelectorAll<HTMLElement>('[data-hover-distort]');
+  if (!items.length) return;
+  const vertex = `
+    attribute vec2 uv; attribute vec2 position;
+    varying vec2 vUv;
+    void main() { vUv = uv; gl_Position = vec4(position, 0.0, 1.0); }
+  `;
+  const fragment = `
+    precision highp float;
+    uniform sampler2D tMap; uniform float uTime; uniform vec2 uMouse; uniform float uStrength;
+    varying vec2 vUv;
+    void main() {
+      vec2 uv = vUv;
+      float dist = distance(uv, uMouse);
+      float ripple = sin(dist * 42.0 - uTime * 5.0) * uStrength * smoothstep(0.4, 0.0, dist);
+      uv += ripple;
+      gl_FragColor = texture2D(tMap, uv);
+    }
+  `;
+  for (const el of Array.from(items)) {
+    try {
+      const { Renderer, Camera, Transform, Mesh, Program, Triangle, Texture } = await import('ogl');
+      const wrap = document.createElement('div');
+      wrap.className = 'ff-distort';
+      document.body.append(wrap);
+      const renderer = new Renderer({ alpha: true, dpr: Math.min(devicePixelRatio, 2) });
+      const gl = renderer.gl;
+      wrap.append(gl.canvas);
+      const camera = new Camera(gl);
+      camera.position.z = 1;
+      const scene = new Transform();
+      const texture = new Texture(gl);
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = el.dataset.hoverDistort!;
+      img.onload = () => { texture.image = img; };
+      const geometry = new Triangle(gl);
+      const program = new Program(gl, {
+        vertex,
+        fragment,
+        uniforms: { tMap: { value: texture }, uTime: { value: 0 }, uMouse: { value: [0.5, 0.5] }, uStrength: { value: 0 } },
+      });
+      const mesh = new Mesh(gl, { geometry, program });
+      mesh.setParent(scene);
+      let raf = 0;
+      let running = false;
+      const resize = () => {
+        const w = 320, h = 240;
+        renderer.setSize(w, h);
+      };
+      resize();
+      const loop = (t: number) => {
+        program.uniforms.uTime.value = t * 0.001;
+        renderer.render({ scene, camera });
+        if (running) raf = requestAnimationFrame(loop);
+      };
+      el.addEventListener('mouseenter', () => {
+        wrap.classList.add('is-on');
+        program.uniforms.uStrength.value = 0.03;
+        if (!running) { running = true; raf = requestAnimationFrame(loop); }
+      });
+      el.addEventListener('mousemove', (e) => {
+        wrap.style.transform = `translate(${e.clientX + 24}px, ${e.clientY - 140}px)`;
+        program.uniforms.uMouse.value = [(e.clientX % 320) / 320, 1 - (e.clientY % 240) / 240];
+      });
+      el.addEventListener('mouseleave', () => {
+        wrap.classList.remove('is-on');
+        program.uniforms.uStrength.value = 0;
+        running = false;
+        cancelAnimationFrame(raf);
+      });
+    } catch {
+      // Repli : comportement data-hover-img (image flottante simple, sans WebGL).
+      const img = document.createElement('img');
+      img.className = 'ff-hover-img';
+      img.alt = '';
+      document.body.append(img);
+      let x = 0, y = 0, tx = 0, ty = 0, raf = 0;
+      const loop = () => {
+        tx += (x - tx) * 0.15;
+        ty += (y - ty) * 0.15;
+        img.style.transform = `translate(${tx + 24}px, ${ty - 120}px)`;
+        raf = requestAnimationFrame(loop);
+      };
+      el.addEventListener('mouseenter', () => { img.src = el.dataset.hoverDistort!; img.classList.add('is-on'); cancelAnimationFrame(raf); loop(); });
+      el.addEventListener('mousemove', (e) => { x = e.clientX; y = e.clientY; });
+      el.addEventListener('mouseleave', () => { img.classList.remove('is-on'); cancelAnimationFrame(raf); });
+    }
+  }
+}
+
+/** data-draw-svg[="scrub"] : trace les tracés d'un <svg> inline (GSAP DrawSVGPlugin), au scroll (once) ou en scrub. */
+async function drawSvg() {
+  const svgs = document.querySelectorAll<SVGSVGElement>('[data-draw-svg]');
+  if (!svgs.length) return;
+  const { gsap } = await import('gsap');
+  const { DrawSVGPlugin } = await import('gsap/DrawSVGPlugin');
+  const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+  gsap.registerPlugin(DrawSVGPlugin, ScrollTrigger);
+  svgs.forEach((svg) => {
+    const paths = svg.querySelectorAll('path, line, polyline, circle, rect, ellipse');
+    if (!paths.length) return;
+    const scrub = svg.dataset.drawSvg === 'scrub';
+    gsap.set(paths, { drawSVG: 0 });
+    gsap.to(paths, {
+      drawSVG: '100%',
+      stagger: scrub ? 0 : 0.08,
+      ease: scrub ? 'none' : 'power1.inOut',
+      scrollTrigger: scrub
+        ? { trigger: svg, start: 'top 90%', end: 'bottom 40%', scrub: 0.6 }
+        : { trigger: svg, start: 'top 80%', once: true },
+    });
+  });
+}
+
+/** data-accordion[="single"] : GSAP Flip sur un groupe de <details> — hauteur et repositionnement des voisins animes. */
+async function accordionFlip() {
+  const groups = document.querySelectorAll<HTMLElement>('[data-accordion]');
+  if (!groups.length) return;
+  const { gsap } = await import('gsap');
+  const { Flip } = await import('gsap/Flip');
+  gsap.registerPlugin(Flip);
+  groups.forEach((group) => {
+    const items = Array.from(group.querySelectorAll('details'));
+    if (!items.length) return;
+    items.forEach((details) => {
+      const summary = details.querySelector('summary');
+      summary?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const state = Flip.getState(items, { props: 'height' });
+        if (group.dataset.accordion === 'single' && !details.open) {
+          items.forEach((d) => { if (d !== details) d.open = false; });
+        }
+        details.open = !details.open;
+        Flip.from(state, { duration: 0.5, ease: 'power3.inOut', absolute: true, props: 'height' });
+      });
+    });
+  });
+}
+
+/** data-drag-grid (+ .drag-track) : grille glissable a enroulement infini (GSAP Draggable + InertiaPlugin), tactile. */
+async function dragGrid() {
+  const grids = document.querySelectorAll<HTMLElement>('[data-drag-grid]');
+  if (!grids.length) return;
+  const { gsap } = await import('gsap');
+  const { Draggable } = await import('gsap/Draggable');
+  const { InertiaPlugin } = await import('gsap/InertiaPlugin');
+  gsap.registerPlugin(Draggable, InertiaPlugin);
+  grids.forEach((grid) => {
+    const track = grid.querySelector<HTMLElement>('.drag-track');
+    if (!track || track.dataset.dragReady) return;
+    track.dataset.dragReady = '1';
+    // Duplique la piste horizontalement pour l'illusion d'enroulement infini (meme principe que marquee()).
+    track.append(...Array.from(track.children).map((c) => c.cloneNode(true)));
+    let half = track.scrollWidth / 2;
+    const remeasure = () => (half = track.scrollWidth / 2);
+    window.addEventListener('resize', remeasure, { passive: true });
+    const wrapX = () => {
+      const x = gsap.getProperty(track, 'x') as number;
+      gsap.set(track, { x: gsap.utils.wrap(-half, 0, x) });
+    };
+    Draggable.create(track, { type: 'x', inertia: true, onDrag: wrapX, onThrowUpdate: wrapX });
+  });
+}
+
+/** data-lottie="/anim/x.lottie" : lecteur dotLottie (canvas), charge a la demande. Repli data-lottie-fallback (image) ou texte si le fichier est absent. */
+async function lottiePlayers() {
+  const els = document.querySelectorAll<HTMLElement>('[data-lottie]');
+  if (!els.length) return;
+  const { DotLottie } = await import('@lottiefiles/dotlottie-web');
+  els.forEach((el) => {
+    const src = el.dataset.lottie!;
+    const canvas = document.createElement('canvas');
+    canvas.className = 'ff-lottie-canvas';
+    canvas.width = el.clientWidth || 200;
+    canvas.height = el.clientHeight || 200;
+    el.append(canvas);
+    const fallback = () => {
+      canvas.remove();
+      const fb = el.dataset.lottieFallback;
+      if (fb) {
+        const img = document.createElement('img');
+        img.src = fb;
+        img.alt = '';
+        el.append(img);
+      } else {
+        const p = document.createElement('p');
+        p.className = 'ff-lottie-fallback-text text-sm text-muted';
+        p.textContent = 'Animation indisponible.';
+        el.append(p);
+      }
+    };
+    try {
+      const player = new DotLottie({ canvas, src, loop: true, autoplay: true });
+      player.addEventListener('loadError', fallback);
+    } catch {
+      fallback();
+    }
   });
 }
 

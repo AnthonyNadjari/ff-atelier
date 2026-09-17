@@ -3,6 +3,7 @@
 import { site } from '@/lib/site';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
 ---
 
 <section id="services" class="section-y">
@@ -13,10 +14,11 @@ import Icon from '@/components/Icon.astro';
         <li class="group relative aspect-[4/5] overflow-hidden rounded-card shadow-card" data-tilt="6">
           <a href={`/services/${s.slug}`} class="absolute inset-0 block">
             {s.image ? (
-              <img
+              <Img
                 src={s.image.src}
                 alt={s.image.alt}
                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                 loading="lazy"
               />
             ) : (

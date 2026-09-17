@@ -6,6 +6,7 @@
  */
 import { site, tel, mailto, fullAddress, navLinks } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
 const links = navLinks();
 const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
 const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
@@ -13,7 +14,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
 
 <header data-nav class="contents">
   <a href="/" class="fixed top-4 left-4 sm:top-6 sm:left-6 z-50 flex items-center gap-2 font-display text-sm font-medium">
-    {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-7 w-auto" /> : <span>{site.business.name}</span>}
+    {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-7 w-auto" sizes="200px" loading="eager" /> : <span>{site.business.name}</span>}
   </a>
 
   <button

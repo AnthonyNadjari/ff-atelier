@@ -1,6 +1,7 @@
 ---
 /** About "story" : colonne centree unique, grand premier paragraphe, puis equipe si presente. */
 import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
 
 const a = site.about;
 const paras = paragraphs(a.story);
@@ -22,7 +23,7 @@ const [first, ...rest] = paras;
         {a.team.map((m) => (
           <li class="text-center">
             {m.photo ? (
-              <img src={m.photo.src} alt={m.photo.alt} class="mx-auto h-24 w-24 rounded-full object-cover shadow-card" loading="lazy" />
+              <Img src={m.photo.src} alt={m.photo.alt} class="mx-auto h-24 w-24 rounded-full object-cover shadow-card" sizes="96px" loading="lazy" />
             ) : (
               <div class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-bg-2 font-display text-2xl text-accent">
                 {m.name.charAt(0)}

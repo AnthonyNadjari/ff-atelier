@@ -1,0 +1,93 @@
+---
+/**
+ * "Diagnostic en 30 secondes" : grille de cartes retournables (data-flip-card). Recto = le
+ * symptôme que le visiteur reconnaît chez lui, verso = la cause probable + le geste qu'on fait,
+ * relié au service correspondant (site.services, pas un texte détaché). Contenu métier générique
+ * (savoir-faire plombier), pas une donnée client inventée — aucun chiffre, aucun avis.
+ * Section propre à ce site (voir CONVENTIONS.md § Sections sur mesure).
+ */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const items = [
+  {
+    icon: 'Droplet',
+    symptom: 'Un robinet qui goutte',
+    cause: 'Le joint est usé.',
+    action: 'On remplace le joint ou le mécanisme, souvent en moins d’une heure.',
+    service: 'fuite-depannage',
+  },
+  {
+    icon: 'Waves',
+    symptom: 'L’eau qui ne s’évacue plus',
+    cause: 'Une canalisation est bouchée.',
+    action: 'Débouchage mécanique ou haute pression, selon la nature du bouchon.',
+    service: 'debouchage',
+  },
+  {
+    icon: 'Flame',
+    symptom: 'Plus d’eau chaude',
+    cause: 'Le chauffe-eau est en panne ou sa résistance est morte.',
+    action: 'Diagnostic sur place, réparation ou remplacement si nécessaire.',
+    service: 'chauffe-eau',
+  },
+  {
+    icon: 'Thermometer',
+    symptom: 'La chaudière se coupe toute seule',
+    cause: 'Pression trop basse ou panne d’allumage.',
+    action: 'Intervention rapide, entretien RGE si le contrat n’est pas à jour.',
+    service: 'chaudiere-gaz',
+  },
+  {
+    icon: 'CircleAlert',
+    symptom: 'Une odeur d’humidité près d’un mur',
+    cause: 'Une fuite invisible circule derrière la cloison ou sous le sol.',
+    action: 'Recherche de fuite non destructive avant toute réparation.',
+    service: 'fuite-depannage',
+  },
+  {
+    icon: 'ShowerHead',
+    symptom: 'La chasse d’eau coule en continu',
+    cause: 'Le mécanisme ou le joint de cuvette est usé.',
+    action: 'Remplacement du mécanisme, intervention rapide.',
+    service: 'fuite-depannage',
+  },
+].map((it) => ({ ...it, serviceTitle: site.services.find((s) => s.slug === it.service)?.title ?? '' }));
+---
+
+<section id="diagnostic" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <p class="eyebrow">Diagnostic en 30 secondes</p>
+    <h2 class="mt-4 text-display-lg">Ça vous arrive&nbsp;? C’est probablement ça.</h2>
+    <p class="measure mt-4 text-muted">Retournez une carte pour voir la cause la plus fréquente et ce qu’on fait sur place.</p>
+
+    <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-stagger="90">
+      {items.map((it) => (
+        <li class="h-64 rounded-card" data-flip-card aria-label={`${it.symptom} — voir la cause probable`}>
+          <div class="flip-inner rounded-card">
+            <div class="flip-front rounded-card border border-line bg-surface p-6">
+              <Icon name={it.icon} size={30} class="text-accent" strokeWidth={1.5} />
+              <p class="mt-5 font-display text-xl leading-snug">{it.symptom}</p>
+              <p class="mt-auto pt-6 text-xs uppercase tracking-[0.14em] text-muted">Retourner la carte</p>
+            </div>
+            <div class="flip-back rounded-card bg-ink p-6 text-on-ink">
+              <p class="eyebrow text-on-ink/60">Cause probable</p>
+              <p class="mt-2 text-sm text-on-ink/90">{it.cause}</p>
+              <p class="eyebrow mt-5 text-on-ink/60">Notre geste</p>
+              <p class="mt-2 text-sm text-on-ink/90">{it.action}</p>
+              {it.serviceTitle && <p class="mt-5 inline-block rounded-pill border border-on-ink/25 px-3 py-1 text-xs text-on-ink/80">{it.serviceTitle}</p>}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  #diagnostic .flip-front,
+  #diagnostic .flip-back {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

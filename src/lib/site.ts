@@ -16,7 +16,7 @@ if (!mod) throw new Error(`Config introuvable : ${key}`);
  * (direction, motion, scale, accent, typography, layout, wording) sans toucher au contenu.
  * Permet de changer d'apparence sans editer le TypeScript ; `ff studio --figer` le fusionne dans site.config.ts.
  */
-const LOOK_KEYS = ['direction', 'motion', 'scale', 'accent', 'typography', 'layout', 'wording'] as const;
+const LOOK_KEYS = ['direction', 'motion', 'smoothScroll', 'transitions', 'scale', 'accent', 'typography', 'layout', 'wording'] as const;
 function applyLook(base: Site, look: Record<string, unknown> | undefined): Site {
   if (!look) return base;
   const merged: Record<string, unknown> = { ...base };

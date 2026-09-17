@@ -10,7 +10,7 @@ Astro 5 (statique, zero JS par defaut) + Tailwind 4 (config CSS-first, `src/styl
 - Helpers : `src/lib/site.ts` (`site`, `tel()`, `mailto()`, `whatsapp()`, `fullAddress()`, `yearsSince()`, `paragraphs()`, `navLinks()`).
 - Tokens et utilitaires : `src/styles/global.css` (classes `bg-bg`, `bg-bg-2`, `bg-surface`, `text-fg`, `text-muted`, `border-line`, `bg-accent`, `text-on-accent`, `bg-ink`, `text-on-ink`, `font-display`, `font-mono`, `rounded-ui`, `rounded-card`, `shadow-card`, `shadow-lift`, `container-ff`, `section-y`, `eyebrow`, `text-display-xl/lg/md/sm`).
 - Section de reference : `src/sections/Hero/split.astro`, `src/sections/Services/grid.astro`, `src/sections/Contact/form-split.astro`.
-- Composants partages : `src/components/Button.astro`, `SectionHeading.astro`, `Icon.astro` (lucide par nom), `ContactForm.astro`.
+- Composants partages : `src/components/Button.astro`, `SectionHeading.astro`, `Icon.astro` (lucide par nom), `ContactForm.astro`, `Img.astro` (image AVIF/WebP + LQIP, voir § Images ci-dessous).
 - Direction de reference : `src/directions/atelier/index.css` + `meta.ts`, contrat dans `src/directions/README.md`.
 - Animation : attributs `data-reveal`, `data-stagger`, `data-parallax`, `data-counter`, `data-split`, `data-marquee`, `data-magnetic`, `data-tilt` (doc en tete de `src/scripts/motion.ts` et dans `global.css`).
 
@@ -30,6 +30,38 @@ Astro 5 (statique, zero JS par defaut) + Tailwind 4 (config CSS-first, `src/styl
 
 ## Regles des directions
 Voir `src/directions/README.md`. Une direction doit definir tous les tokens, importer ses polices via `@fontsource-variable/*` (deja installees : fraunces, inter, space-grotesk, cormorant, playfair-display, manrope, unbounded, syne, lora, nunito, archivo, dm-sans, jetbrains-mono, instrument-sans, outfit, bricolage-grotesque ; statiques : `@fontsource/archivo-black`, `@fontsource/instrument-serif`). Elle peut styliser `.btn`, `.btn-primary`, `.btn-ghost`, `.card`, `.rule`, `.eyebrow`, `h1 em`, `body::before` (texture), `::selection`.
+
+## Images
+
+`ff images <slug>` (`scripts/ff/images.mjs`) genere, pour chaque photo de `sites/<slug>/raw/` (ou,
+`--depuis-public`, chaque `.webp` deja present dans `sites/<slug>/public/images/`), une variante AVIF
+(qualite 60) et WebP (qualite 80) aux largeurs 480/800/1200/1600 (bornees a la largeur d'origine, sans
+agrandissement), plus un LQIP (miniature 16px floutee, encodee en data URI). Tout est ecrit dans
+`sites/<slug>/public/images/` — la plus grande largeur generee garde le nom habituel sans suffixe
+(`hero.webp`, compatible avec l'existant), les autres sont suffixees par leur largeur (`hero-800.webp`).
+Un manifeste `sites/<slug>/images.json` (`{ "<nom>": { widths, formats, ratio, lqip } }`) est ecrit a
+cote, lu au build par `src/components/Img.astro` via `import.meta.glob`.
+
+**Toujours utiliser `<Img>` pour une photo referencee depuis `site.config.ts`** (`images.hero`,
+`services[].image`, `about.portrait`, `proof.gallery`...), jamais un `<img>` brut, dans une section
+partagee (`src/sections/**`) ou une page (`src/pages/**`) :
+
+```astro
+import Img from '@/components/Img.astro';
+---
+<Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="eager" fetchpriority="high" />
+```
+
+Props : `src` (chemin public, ex. `/images/hero.webp`), `alt` (obligatoire), `sizes` (defaut `100vw` —
+a affiner pour les grilles, ex. `"(min-width: 1024px) 33vw, 100vw"`), `class`, `loading` (`eager`
+seulement pour l'image du premier ecran), `priority` (raccourci qui pose `loading="eager"` +
+`fetchpriority="high"`). Tout autre attribut (`data-parallax`, `fetchpriority`...) passe tel quel a la
+balise `<img>` finale. Si `src` n'a pas d'entree dans `images.json` (image non passee par `ff images`,
+logo non traite, placeholder), `<Img>` retombe automatiquement sur un `<img>` simple — aucune casse.
+
+**Les sections sur mesure (`sites/<slug>/sections/*.astro`) ne sont pas migrees** : elles restent
+libres d'utiliser un `<img>` brut (le designer du site en a la charge), mais peuvent tout aussi bien
+importer `@/components/Img.astro` si l'image vient de `public/images/` et beneficie d'un manifeste.
 
 ## Coquilles
 

@@ -1,0 +1,79 @@
+---
+/**
+ * Hero sur mesure pour Dubois Plomberie. Panneau plein cadre bleu nuit (accent surchargé, voir
+ * site.config.ts), texte à gauche, à droite une carte de faits — pas une photo : ni fuite mise en
+ * scène ni artisan souriant de banque d'images, juste ce qui rassure vite (ancienneté réelle,
+ * zones, disponibilité). Aucune photo pleine largeur, aucun mot géant, aucune bande défilante :
+ * structure volontairement différente de sites/toits-cie/sections/Hero.astro (fond jaune plein
+ * écran, "FUITE ?" géant, marquee en pied) et de sites/forge-delacroix (photo + marquee) — ici la
+ * retenue fait le travail, pas le format écran plein.
+ */
+import { site, tel, yearsSince } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const years = yearsSince();
+const zonesCount = site.zones.cities.length;
+const firstLine = site.business.description.split(/\n/)[0];
+---
+
+<section id="hero" class="relative overflow-hidden bg-accent text-on-accent">
+  <div class="container-ff grid gap-14 py-28 pt-32 md:pt-40 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:py-36">
+    <div data-stagger="130">
+      <p class="eyebrow text-on-accent/70">
+        {site.business.trade} · {site.contact.address.city}
+      </p>
+      <h1
+        class="mt-6 font-display leading-[0.97]"
+        style="font-size: clamp(2.5rem, 6vw, 4.5rem);"
+        data-split="chars"
+        set:html={site.business.tagline}
+      />
+      <p class="measure mt-7 text-lg text-on-accent/80">{firstLine}</p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-5">
+        <a
+          href={tel()}
+          class="btn inline-flex items-center gap-3 rounded-ui bg-ink px-7 py-4 font-display text-xl text-on-ink"
+          data-magnetic="0.2"
+        >
+          <Icon name="Phone" size={20} />{site.contact.phoneDisplay}
+        </a>
+        <a href="#contact" class="inline-flex items-center gap-2 border-b border-on-accent/40 pb-1 text-on-accent/85 hover:border-on-accent">
+          {site.wording.devis}<Icon name="ArrowDownRight" size={18} />
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-card rounded-card border border-on-accent/15 bg-on-accent/[0.06] p-8" data-reveal="scale" data-reveal-delay="200">
+      {years !== undefined && (
+        <div class="flex items-baseline gap-2">
+          <p class="flex font-display text-display-xl tabular-nums" data-counter-flip={years}>0</p>
+          <span class="text-lg text-on-accent/70">ans à {site.contact.address.city}</span>
+        </div>
+      )}
+      <p class="mt-1 text-sm text-on-accent/60">Depuis {site.business.since}</p>
+
+      <dl class="mt-8 space-y-4 border-t border-on-accent/15 pt-6 text-sm">
+        <div class="flex items-center justify-between gap-4">
+          <dt class="text-on-accent/70">Zones desservies</dt>
+          <dd class="font-display text-base tabular-nums">{zonesCount} villes</dd>
+        </div>
+        <div class="flex items-center justify-between gap-4">
+          <dt class="text-on-accent/70">Intervention</dt>
+          <dd class="font-display text-base">24h/24, 7j/7</dd>
+        </div>
+        {site.business.insurance && (
+          <div class="flex items-center justify-between gap-4">
+            <dt class="text-on-accent/70">Garantie</dt>
+            <dd class="font-display text-base">{site.business.insurance}</dd>
+          </div>
+        )}
+        {site.business.certifications.length > 0 && (
+          <div class="flex items-center justify-between gap-4">
+            <dt class="text-on-accent/70">Certification</dt>
+            <dd class="font-display text-base">{site.business.certifications.join(', ')}</dd>
+          </div>
+        )}
+      </dl>
+    </div>
+  </div>
+</section>
