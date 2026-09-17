@@ -53,8 +53,12 @@ function extractAttr(tag, name) {
   return m ? m[1] : null;
 }
 
+/** Un srcset ne coute qu'UN fichier a l'utilisateur : on retient le candidat <= 800w le plus grand (mobile), sinon le plus petit. */
 function srcsetUrls(srcset) {
-  return srcset.split(',').map((part) => part.trim().split(/\s+/)[0]).filter(Boolean);
+  const cands = srcset.split(',').map((part) => { const [u, d] = part.trim().split(/\s+/); return { u, w: d ? parseInt(d, 10) : 0 }; }).filter((c) => c.u);
+  if (!cands.length) return [];
+  const under = cands.filter((c) => c.w && c.w <= 800).sort((a, b) => b.w - a.w);
+  return [(under[0] || cands.sort((a, b) => a.w - b.w)[0]).u];
 }
 
 /** Scripts <script type="module" src="..."> charges directement par le HTML (chemin critique). */
@@ -146,6 +150,15 @@ function mesurer(distDir) {
     result.css.files.push({ url, bytes });
     result.css.bytes += bytes;
     if (fs.existsSync(abs)) cssTexts.push({ text: fs.readFileSync(abs, 'utf8'), dir: path.dirname(abs) });
+  }
+
+  // CSS inline (inlineStylesheets: 'always') : compte dans la categorie css et sert a trouver les polices.
+  for (const m of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)) {
+    const text = m[1];
+    if (text.length < 2000) continue; // petits blocs scoped, ignores
+    result.css.files.push({ url: '(inline dans index.html)', bytes: Buffer.byteLength(text) });
+    result.css.bytes += Buffer.byteLength(text);
+    cssTexts.push({ text, dir: distDir });
   }
 
   // JS initial : <script type="module" src="..."> present dans index.html (chemin critique).

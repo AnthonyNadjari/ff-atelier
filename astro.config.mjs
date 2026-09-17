@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { FontaineTransform } from 'fontaine';
 import { ffLookPlugin } from './scripts/vite-ff-look.mjs';
+import { imagesIntegration } from './scripts/astro-images-integration.mjs';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -65,8 +66,8 @@ export default defineConfig({
   publicDir: `sites/${slug}/public`,
   outDir,
   trailingSlash: 'never',
-  build: { format: 'file', inlineStylesheets: 'auto' },
-  integrations: [sitemap(), headersIntegration],
+  build: { format: 'file', inlineStylesheets: 'always' },
+  integrations: [sitemap(), headersIntegration, imagesIntegration({ root: process.cwd(), slug })],
   vite: {
     plugins: [
       // Direction + polices resolues au build (voir scripts/vite-ff-look.mjs) : une seule direction dans le graphe.

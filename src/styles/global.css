@@ -1,4 +1,7 @@
-@import 'tailwindcss';
+/* Tailwind ne scanne que src/ et le site courant (scripts/vite-ff-look.mjs remplace le marqueur) :
+   sans cela, les classes des 30 sites du depot finissaient dans la feuille de chaque site. */
+@import 'tailwindcss' source(none);
+/*@ff-source-site*/
 
 /* =====================================================================
    CONTRAT DE TOKENS — chaque direction (src/directions/<nom>/index.css)

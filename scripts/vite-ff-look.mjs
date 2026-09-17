@@ -14,6 +14,20 @@ import { resolve } from 'node:path';
 const VIRTUAL = 'virtual:ff-look';
 const RESOLVED = '\0' + VIRTUAL;
 
+/** Variantes de layout lues dans le texte du config (nav/hero/footer + sections[]). */
+function parseLayoutVariants(text) {
+  const out = { nav: null, hero: null, footer: null, sections: [] };
+  const block = text.match(/\blayout:\s*\{([\s\S]*?)\n\s{2}\},/);
+  const src = block ? block[1] : text;
+  const nav = src.match(/\bnav:\s*'([^']+)'/); if (nav) out.nav = nav[1];
+  const hero = src.match(/\bhero:\s*'([^']+)'/); if (hero) out.hero = hero[1];
+  const footer = src.match(/\bfooter:\s*'([^']+)'/); if (footer) out.footer = footer[1];
+  const re = /\{\s*type:\s*'([a-z]+)'\s*,\s*variant:\s*'([^']+)'/g;
+  let m;
+  while ((m = re.exec(src))) out.sections.push({ type: m[1], variant: m[2] });
+  return out;
+}
+
 function parseConfigLook(text) {
   const look = {};
   const dir = text.match(/\bdirection:\s*'([a-z-]+)'/);
@@ -72,12 +86,77 @@ export function resolveLook({ root, slug, ffLook }) {
     if (o.typography) look.typography = { ...(look.typography ?? {}), ...o.typography };
   }
   look.direction ||= 'atelier';
+  // Layout : config puis overlays (look.json / FF_LOOK) ; null si introuvable => on scanne tout src/sections.
+  let layout = existsSync(cfg) ? parseLayoutVariants(readFileSync(cfg, 'utf8')) : null;
+  for (const o of overlays) {
+    if (!o.layout) continue;
+    layout ||= { nav: null, hero: null, footer: null, sections: [] };
+    if (o.layout.nav) layout.nav = o.layout.nav;
+    if (o.layout.hero) layout.hero = o.layout.hero;
+    if (o.layout.footer) layout.footer = o.layout.footer;
+    if (Array.isArray(o.layout.sections)) layout.sections = o.layout.sections.map((x) => ({ type: x.type, variant: x.variant }));
+  }
+  look.layout = layout;
   return look;
+}
+
+/**
+ * Lignes `@source` Tailwind pour ce site : src/ sauf src/sections, puis seulement les variantes de
+ * sections utilisees (defauts du schema si le config n'en declare pas). Repli : tout src/sections.
+ */
+function tailwindSources(root, slug, look) {
+  const lines = [
+    "@source '../components';", "@source '../layouts';", "@source '../pages';", "@source '../shells';",
+    "@source '../scripts';", `@source '../directions/${look.direction}';`, `@source '../../sites/${slug}';`,
+  ];
+  const l = look.layout;
+  if (!l) { lines.push("@source '../sections';"); return lines.join('\n'); }
+  const defaults = { nav: 'bar', hero: 'split', footer: 'columns' };
+  const defaultSections = [['services', 'grid'], ['about', 'portrait'], ['proof', 'google'], ['zones', 'list'], ['faq', 'accordion'], ['cta', 'band'], ['contact', 'form-split']];
+  const wanted = new Set();
+  const add = (type, variant) => {
+    if (!variant) return;
+    if (variant.startsWith('custom/')) return; // sites/<slug>/sections deja scanne
+    const dir = type.charAt(0).toUpperCase() + type.slice(1);
+    const file = resolve(root, 'src/sections', dir, `${variant}.astro`);
+    if (existsSync(file)) wanted.add(`@source '../sections/${dir}/${variant}.astro';`);
+  };
+  add('nav', l.nav || defaults.nav); add('hero', l.hero || defaults.hero); add('footer', l.footer || defaults.footer);
+  const secs = l.sections.length ? l.sections : defaultSections.map(([type, variant]) => ({ type, variant }));
+  for (const sct of secs) add(sct.type, sct.variant);
+  // Pages secondaires : services/[slug] reutilise la variante cta du layout ; 404 et mentions n'ont que nav/footer.
+  if (!secs.some((x) => x.type === 'cta')) add('cta', 'band');
+  return [...lines, ...wanted].join('\n');
 }
 
 export function ffLookPlugin({ root, slug, ffLook }) {
   return {
     name: 'ff-look',
+    enforce: 'pre',
+    /** global.css : injecte `@source` vers sites/<slug> (Tailwind 4 ne scanne que src/ + ce site). */
+    transform(code, id) {
+      const file = id.replace(/\\/g, '/');
+      if (file.endsWith('/src/styles/global.css')) {
+        const look = resolveLook({ root, slug, ffLook });
+        return { code: code.replace('/*@ff-source-site*/', tailwindSources(root, slug, look)), map: null };
+      }
+      // Direction CSS : si le site surcharge la police display et/ou body, on retire l'@import
+      // correspondant de la direction (convention : 1er import = display, 2e = body, 3e = mono),
+      // sinon les deux familles sont telechargees pour rien.
+      const dirMatch = file.match(/\/src\/directions\/([a-z-]+)\/index\.css$/);
+      if (dirMatch) {
+        const look = resolveLook({ root, slug, ffLook });
+        if (dirMatch[1] !== look.direction || !look.typography) return null;
+        let index = 0;
+        const out = code.replace(/^@import\s+'@fontsource[^']+';\s*$/gm, (line) => {
+          const i = index++;
+          if ((i === 0 && look.typography.display) || (i === 1 && look.typography.body)) return '/* police remplacee par typography */';
+          return line;
+        });
+        return { code: out, map: null };
+      }
+      return null;
+    },
     resolveId(id) {
       return id === VIRTUAL ? RESOLVED : null;
     },
