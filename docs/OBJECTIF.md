@@ -12,7 +12,7 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 | # | Critère | État | Vérification |
 |---|---|---|---|
 | 1 | 20 sites de démonstration dessinés à la main, 20 métiers, chacun avec hero + nav + ≥ 2 blocs sur mesure, aucun bloc copié d'un site à l'autre | 9 / 20 | `ls sites/*/sections/` ; comparaison manuelle des compositions |
-| 2 | Chaque site : build ✓, `ff verifier` ✓ (sauf téléphone fictif), captures sans erreur ni débordement, mobile relu, Lighthouse ≥ 90 (perf, a11y, SEO) | build/captures ✓ ; Lighthouse : outil ajouté le 16 sept 2026 (`scripts/ff/lighthouse.mjs`, `ff lighthouse [slug] [--mobile] [--seuil 90]`, intégré à `ff verifier --lighthouse`). Premiers scores mobile sur `_exemple` (machine sous forte charge concurrente, donc performance probablement sous-estimée) : accueil perf 70 / a11y 96 / best-practices 100 / seo 92 — **sous le seuil 90 en perf**. `services/agencement` perf 68 / a11y 95 / bp 100 / seo 92. `mentions-legales` perf 72 / a11y 95 / bp 100 / **seo 58** (page volontairement `noindex`, Lighthouse pénalise l'indexabilité — attendu, pas un bug). Desktop et `demo-plomberie` pas encore mesurés | `ff tous`, `ff captures`, `ff lighthouse` |
+| 2 | Chaque site : build ✓, `ff verifier` ✓ (sauf téléphone fictif), captures sans erreur ni débordement, mobile relu, Lighthouse ≥ 90 (perf, a11y, SEO) | build/captures ✓ ; `ff lighthouse` : dubois-plomberie accueil desktop 100/94/100/92, mobile 94/94/100/92 (17 sept, apres correction du CSS) ; a11y 94 a examiner ; SEO 58 sur mentions-legales = noindex voulu | `ff tous`, `ff captures`, `ff lighthouse` |
 | 3 | Moteur d'animation : ≥ 15 effets documentés, chacun utilisé dans ≥ 2 sites, sans bug connu | 16 effets ; usage ×2 à vérifier ; 3 bugs corrigés le 16 sept | `grep -l data-<effet> sites/*/sections/*.astro` |
 | 4 | Chaîne de bout en bout sur un vrai brief : formulaire → `/nouveau-site` → `ff propositions` → `ff deploy` → `ff exporter` | non prouvée (deploy nécessite `npx wrangler login`, action humaine) | exécuter la chaîne sur un slug de test |
 | 5 | Tests + CI verts à chaque commit ; matrice couvrant directions, coquilles, navs | tests 142 ✓ ; CI : à vérifier sur GitHub ; matrice : directions ✓, coquilles ✓, navs ✗ | `npm test`, `ff matrice --rapide`, onglet Actions |
@@ -91,6 +91,8 @@ S'arrêter et le dire quand : les sept critères sont cochés ; ou un critère d
 (login Cloudflare, achat de domaine, vrai client) et tout le reste est fait.
 
 ## Journal
+
+- 17 sept 2026 : bug de performance trouve par Lighthouse (perf mobile 70) : Astro regroupait le CSS des 16 directions et des 63 polices (feuille 568 Ko). Correction : plugin `scripts/vite-ff-look.mjs` (direction + polices resolues au build, module virtuel), catalogue `fonts.ts` sans import() ; feuille 105 Ko, perf mobile 94, desktop 100.
 
 - 16 sept 2026 : site métier 9, Barbier Kessler (barbier, Strasbourg/Krutenau, sans rendez-vous le
   samedi) — `sites/barbier-kessler/`. `ff composer barbier-kessler --metier "Barbier"` propose la

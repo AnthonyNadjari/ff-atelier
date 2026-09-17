@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { FontaineTransform } from 'fontaine';
+import { ffLookPlugin } from './scripts/vite-ff-look.mjs';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -46,6 +47,8 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: {
     plugins: [
+      // Direction + polices resolues au build (voir scripts/vite-ff-look.mjs) : une seule direction dans le graphe.
+      ffLookPlugin({ root: process.cwd(), slug, ffLook }),
       tailwindcss(),
       // Fontaine (docs/veille/rendu.md §5.1) : genere automatiquement, pour chaque famille
       // @fontsource-variable/* chargee dynamiquement (src/lib/fonts.ts), un @font-face de

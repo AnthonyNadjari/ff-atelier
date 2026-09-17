@@ -5,7 +5,7 @@
  */
 import '@/styles/global.css';
 import { site, fullAddress, slugCourant, schemaTypeForTrade } from '@/lib/site';
-import { FONTS, type FontName } from '@/lib/fonts';
+import { fontFamilies } from 'virtual:ff-look';
 // ClientRouter (site.transitions, opt-in) : voir docs/ANIMATIONS.md § Transitions de page.
 import { ClientRouter } from 'astro:transitions';
 
@@ -18,20 +18,11 @@ interface Props {
 }
 const { title, description, path = '/', noindex = false } = Astro.props;
 
-// Direction : import dynamique => seules les polices/CSS de la direction choisie sont embarquees.
-const directions = import.meta.glob('/src/directions/*/index.css');
-const dirKey = `/src/directions/${site.direction}/index.css`;
-if (!directions[dirKey]) throw new Error(`Direction inconnue : ${site.direction}`);
-await directions[dirKey]();
-
-// Polices surchargees par le site (independantes de la direction), chargees a la demande.
+// Direction et polices : resolues au build par scripts/vite-ff-look.mjs (module virtuel), afin que
+// seule la direction choisie et ses polices soient dans le graphe (Astro regroupe le CSS de tout
+// module atteignable, meme charge paresseusement).
 let fontStyle = '';
-for (const [slot, name] of Object.entries(site.typography) as [string, FontName | undefined][]) {
-  if (!name) continue;
-  const f = FONTS[name];
-  await f.load();
-  fontStyle += `--font-${slot}:${f.family};`;
-}
+for (const [slot, family] of Object.entries(fontFamilies as Record<string, string>)) fontStyle += `--font-${slot}:${family};`;
 
 const pageTitle = title ?? site.seo.title ?? `${site.business.name} — ${site.business.trade} à ${site.contact.address.city}`;
 const pageDesc = description ?? site.seo.description ?? site.business.description.split(/\n/)[0].slice(0, 160);

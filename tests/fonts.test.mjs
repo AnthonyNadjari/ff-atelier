@@ -11,9 +11,9 @@ after(() => cleanTmp());
 
 const fontsSrc = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'fonts.ts'), 'utf8');
 
-test("chaque import('@fontsource...') de fonts.ts existe dans node_modules", () => {
-  const imports = [...fontsSrc.matchAll(/import\(\s*['"](@fontsource[^'"]+)['"]\s*\)/g)].map((m) => m[1]);
-  assert.ok(imports.length > 0, 'aucun import @fontsource trouve — le regex a-t-il change de forme dans fonts.ts ?');
+test("chaque package pkg '@fontsource...' de fonts.ts existe dans node_modules", () => {
+  const imports = [...fontsSrc.matchAll(/pkg:\s*['"](@fontsource[^'"]+)['"]/g)].map((m) => m[1]);
+  assert.ok(imports.length > 0, 'aucun package @fontsource trouve — le regex a-t-il change de forme dans fonts.ts ?');
   const missing = imports.filter((spec) => !fs.existsSync(path.join(ROOT, 'node_modules', spec)));
   assert.deepEqual(missing, [], `Packages importes par fonts.ts mais absents de node_modules : ${missing.join(', ')}`);
 });
