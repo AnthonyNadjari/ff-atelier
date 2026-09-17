@@ -8,7 +8,7 @@
  *
  * Le look vient de : sites/<slug>/site.config.ts (regex), puis sites/<slug>/look.json, puis FF_LOOK.
  */
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const VIRTUAL = 'virtual:ff-look';
@@ -64,6 +64,22 @@ export function ffLookPlugin({ root, slug, ffLook }) {
     resolveId(id) {
       return id === VIRTUAL ? RESOLVED : null;
     },
+    /** En dev (studio) : look.json, site.config.ts ou le dossier sections/ change => module virtuel invalide + rechargement. */
+    configureServer(server) {
+      const dir = resolve(root, 'sites', slug);
+      server.watcher.add([resolve(dir, 'look.json'), resolve(dir, 'site.config.ts'), resolve(dir, 'sections')]);
+      const refresh = (file) => {
+        const f = file.replace(/\\/g, '/');
+        if (!f.includes(`/sites/${slug}/`)) return;
+        if (!/look\.json$|site\.config\.ts$|\/sections\//.test(f)) return;
+        const mod = server.moduleGraph.getModuleById(RESOLVED);
+        if (mod) server.moduleGraph.invalidateModule(mod);
+        server.ws.send({ type: 'full-reload' });
+      };
+      server.watcher.on('change', refresh);
+      server.watcher.on('add', refresh);
+      server.watcher.on('unlink', refresh);
+    },
     load(id) {
       if (id !== RESOLVED) return null;
       const look = resolveLook({ root, slug, ffLook });
@@ -81,6 +97,18 @@ export function ffLookPlugin({ root, slug, ffLook }) {
       }
       lines.push(`export const direction = ${JSON.stringify(look.direction)};`);
       lines.push(`export const fontFamilies = ${JSON.stringify(families)};`);
+
+      // Sections sur mesure du site courant uniquement (sites/<slug>/sections/*.astro) : les autres sites
+      // ne sont jamais compiles ni inclus (un chantier en cours ailleurs ne casse pas ce build).
+      const secDir = resolve(root, 'sites', slug, 'sections');
+      const customs = existsSync(secDir) ? readdirSync(secDir).filter((f) => f.endsWith('.astro')) : [];
+      const entries = [];
+      customs.forEach((f, i) => {
+        const name = f.replace(/\.astro$/, '');
+        lines.push(`import Custom${i} from '/sites/${slug}/sections/${f}';`);
+        entries.push(`${JSON.stringify(name.toLowerCase())}: Custom${i}`);
+      });
+      lines.push(`export const customSections = { ${entries.join(', ')} };`);
       return lines.join('\n');
     },
   };

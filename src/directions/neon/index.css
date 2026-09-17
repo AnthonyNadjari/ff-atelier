@@ -6,7 +6,7 @@
 [data-direction='neon'] {
   --accent-h: 265;
   --accent-s: 90%;
-  --accent-l: 65%;
+  --accent-l: 66%; /* 65 -> 66 : marge de securite pour le contraste sur --surface (etait 4.50:1, pile au seuil) */
 
   --bg: #07070b;
   --bg-2: #0c0c13;
@@ -16,7 +16,7 @@
   --line: rgba(242, 242, 255, 0.12);
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
   --accent-2: hsl(190 95% 55%);
-  --on-accent: #ffffff;
+  --on-accent: var(--ink); /* #ffffff -> ink : direction sombre, l'accent clair contraste mal avec du blanc (4.21:1) mais tres bien avec --ink (voir --ink plus bas) */
   --ink: #030308;
   --on-ink: #f2f2ff;
 

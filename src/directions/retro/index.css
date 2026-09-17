@@ -1,12 +1,12 @@
 /* Direction RETRO — seventies. Gloock + Josefin Sans, orange brule et moutarde, pilules. */
-@import '@fontsource/gloock';
+@import '@fontsource/gloock/latin.css';
 @import '@fontsource-variable/josefin-sans';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='retro'] {
   --accent-h: 22;
   --accent-s: 80%;
-  --accent-l: 50%;
+  --accent-l: 35%; /* 50 -> 35 : texte accent direct et texte sur bouton (bg-accent/on-accent) tres sous 4.5:1 */
 
   --bg: #f6ead8;
   --bg-2: #efdcc0;
@@ -15,7 +15,7 @@
   --muted: #7a5a45;
   --line: #d9c3a5;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --accent-2: hsl(42 75% 48%);
+  --accent-2: hsl(42 75% 28%); /* l48 -> 28 : .eyebrow (color:accent-2) tres sous 4.5:1 sur --bg/--bg-2/--surface (2.0:1) */
   --on-accent: #fbf3e6;
   --ink: #3b2418;
   --on-ink: #fbf3e6;

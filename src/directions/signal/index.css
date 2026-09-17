@@ -1,12 +1,12 @@
 /* Direction SIGNAL — urgence 24/7. Blanc, rouge-orange franc, Archivo Black, boutons enormes. */
-@import '@fontsource/archivo-black';
+@import '@fontsource/archivo-black/latin.css';
 @import '@fontsource-variable/archivo';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='signal'] {
   --accent-h: 8;
   --accent-s: 85%;
-  --accent-l: 50%;
+  --accent-l: 46%; /* 50 -> 46 : eyebrow (defaut color:accent) et texte sur bouton sous 4.5:1 sur la palette par defaut de la direction (un site peut deja surcharger site.accent, ex. dubois-plomberie) */
 
   --bg: #ffffff;
   --bg-2: #f7f7f7;

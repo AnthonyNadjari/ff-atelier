@@ -6,16 +6,16 @@
 [data-direction='mediterranee'] {
   --accent-h: 14;
   --accent-s: 65%;
-  --accent-l: 48%;
+  --accent-l: 42%; /* 48 -> 42 : texte sur bouton (bg-accent/on-accent) et texte accent direct tombaient sous 4.5:1 */
 
   --bg: #fbf6ee;
   --bg-2: #f3e7d3;
   --surface: #fffaf2;
   --fg: #2a221c;
-  --muted: #7b6b5b;
+  --muted: #746556; /* #7b6b5b -> #746556 : texte muted sur --bg-2 tombait a 4.19:1 */
   --line: #e3d3bb;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --accent-2: hsl(200 60% 42%);
+  --accent-2: hsl(200 60% 36%); /* l42 -> 36 : .eyebrow (color:accent-2) sous 4.5:1 sur --bg/--bg-2/--surface */
   --on-accent: #fffaf2;
   --ink: #2a221c;
   --on-ink: #fbf6ee;

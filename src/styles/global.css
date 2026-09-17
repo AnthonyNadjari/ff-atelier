@@ -130,6 +130,18 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
   text-transform: uppercase;
   color: var(--accent);
 }
+/* .eyebrow sur un fond encre (footer, hero/CTA sans photo en bg-ink, ...) : la couleur choisie par
+   une direction pour .eyebrow (--accent par defaut, parfois --accent-2 ou --muted) n'est jamais
+   garantie contrastee sur --ink — ni en general (deux tokens independants), ni quand un site
+   surcharge site.accent avec une teinte tres sombre (voir sites/dubois-plomberie : --ink en derive
+   alors et s'en rapproche). On bascule sur --on-ink attenue, comme le reste du texte de ces blocs
+   (text-on-ink/70 deja utilise a cote, voir src/sections/Footer/columns.astro). Specificite
+   volontairement superieure aux surcharges `[data-direction='x'] .eyebrow` (src/directions/<nom>/index.css)
+   pour gagner systematiquement, quel que soit l'ordre de chargement des feuilles de style. */
+[data-direction] .bg-ink .eyebrow,
+[data-direction] .text-on-ink .eyebrow {
+  color: color-mix(in oklab, var(--on-ink) 70%, transparent);
+}
 @utility text-display-xl { font-size: var(--scale-xl, clamp(2.75rem, 7vw, 6rem)); }
 @utility text-display-lg { font-size: var(--scale-lg, clamp(2.25rem, 5vw, 4.25rem)); }
 @utility text-display-md { font-size: var(--scale-md, clamp(1.75rem, 3.5vw, 2.75rem)); }

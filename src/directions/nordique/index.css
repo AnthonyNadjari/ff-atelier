@@ -6,13 +6,13 @@
 [data-direction='nordique'] {
   --accent-h: 175;
   --accent-s: 30%;
-  --accent-l: 38%;
+  --accent-l: 36%; /* 38 -> 36 : eyebrow/texte accent sur --bg-2 tombait a 4.15:1 */
 
   --bg: #fbfbfa;
   --bg-2: #f1f2f0;
   --surface: #ffffff;
   --fg: #1f2422;
-  --muted: #6f7573;
+  --muted: #696e6d; /* #6f7573 -> #696e6d : texte muted sur --bg-2 tombait a 4.19:1 */
   --line: #e3e5e2;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
   --accent-2: hsl(var(--accent-h) var(--accent-s) 30%);

@@ -1,5 +1,5 @@
 /* Direction ENCRE — noir d'encre sur papier, trait a la main. Instrument Serif + Instrument Sans. */
-@import '@fontsource/instrument-serif';
+@import '@fontsource/instrument-serif/latin.css';
 @import '@fontsource-variable/instrument-sans';
 @import '@fontsource-variable/jetbrains-mono';
 
@@ -15,7 +15,7 @@
   --muted: #5c5a55;
   --line: #101010;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --accent-2: hsl(10 80% 50%);
+  --accent-2: hsl(10 80% 44%); /* l50 -> 44 : .eyebrow (color:accent-2) sous 4.5:1 sur --bg/--bg-2/--surface */
   --on-accent: #ffffff;
   --ink: #101010;
   --on-ink: #fdfcf9;

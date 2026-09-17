@@ -38,13 +38,35 @@ const ffLook = process.env.FF_LOOK || '';
 if (ffLook) JSON.parse(ffLook); // echoue tot si invalide
 const outDir = process.env.FF_OUT || `dist/${slug}`;
 
+/**
+ * Cloudflare Pages lit un fichier `_headers` a la racine du dossier deploye : cache long et immuable
+ * sur les fichiers empreintes (/_astro/*), pas de cache sur le HTML, en-tetes de securite de base.
+ */
+const headersIntegration = {
+  name: 'ff-headers',
+  hooks: {
+    'astro:build:done': async ({ dir }) => {
+      const { writeFileSync } = await import('node:fs');
+      const { fileURLToPath } = await import('node:url');
+      const { join } = await import('node:path');
+      const out = fileURLToPath(dir);
+      writeFileSync(join(out, '_headers'), [
+        '/_astro/*', '  Cache-Control: public, max-age=31536000, immutable', '',
+        '/images/*', '  Cache-Control: public, max-age=2592000', '',
+        '/*.html', '  Cache-Control: public, max-age=0, must-revalidate', '',
+        '/*', '  X-Content-Type-Options: nosniff', '  Referrer-Policy: strict-origin-when-cross-origin', '  X-Frame-Options: SAMEORIGIN', '',
+      ].join('\n'));
+    },
+  },
+};
+
 export default defineConfig({
   site: domain ? `https://${domain}` : `https://${slug}.pages.dev`,
   publicDir: `sites/${slug}/public`,
   outDir,
   trailingSlash: 'never',
   build: { format: 'file', inlineStylesheets: 'auto' },
-  integrations: [sitemap()],
+  integrations: [sitemap(), headersIntegration],
   vite: {
     plugins: [
       // Direction + polices resolues au build (voir scripts/vite-ff-look.mjs) : une seule direction dans le graphe.
