@@ -1,0 +1,45 @@
+---
+/**
+ * Hero "custom/hero" — dessiné pour Studio Ambre. Volontairement pauvre en éléments : une image
+ * plein cadre, le nom du studio en petites capitales mix-blend-mode: difference (jamais géant,
+ * contrairement au hero épinglé d'Anna Vidal — ici le nom se décode au chargement via
+ * data-scramble plutôt que de rester fixe), et un bandeau bas très fin (légende + accroche). Un
+ * grain léger (data-grain, CSS pur) casse l'aplat de la photo pour un rendu papier plutôt qu'écran.
+ * Aucun bouton, aucun bloc de texte long : le reste du discours vient des sections suivantes.
+ * Composition propre à ce site.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const hero = site.images.hero;
+---
+
+<section id="hero" class="relative bg-bg">
+  <div class="relative h-[82svh] min-h-[28rem] w-full overflow-hidden bg-ink" data-grain>
+    {hero && (
+      <Img
+        src={hero.src}
+        alt={hero.alt}
+        class="absolute inset-0 h-full w-full object-cover"
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    )}
+    <h1
+      class="pointer-events-none absolute inset-x-0 top-10 px-6 text-center font-display uppercase leading-none sm:top-14"
+      style="font-size: clamp(0.85rem, 1.4vw, 1.15rem); letter-spacing: 0.55em; mix-blend-mode: difference; color: var(--on-ink);"
+      data-scramble="1100"
+    >
+      {site.business.name}
+    </h1>
+  </div>
+
+  <div class="container-ff grid gap-4 border-b border-line py-8 sm:grid-cols-[1fr_auto] sm:items-end sm:gap-10">
+    <div>
+      <p class="font-mono text-xs uppercase tracking-[0.14em] text-muted">Paris 10e — architecture d’intérieur, depuis {site.business.since}.</p>
+      <p class="mt-3 max-w-xl font-display text-display-sm" set:html={site.business.tagline} />
+    </div>
+    <p class="font-mono text-xs uppercase tracking-[0.1em] text-muted sm:text-right">{site.business.trade}</p>
+  </div>
+</section>

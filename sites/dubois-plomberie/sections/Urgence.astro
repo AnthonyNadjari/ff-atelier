@@ -33,7 +33,10 @@ const tones = [
       {panels.map((p, i) => (
         <div class:list={['flex min-h-[52vh] items-center', tones[i % tones.length]]}>
           <div class="container-ff grid items-center gap-8 py-12 md:grid-cols-[auto_1fr] md:gap-16">
-            <span class="font-display leading-none opacity-40" style="font-size: clamp(3.5rem, 9vw, 8rem);" aria-hidden="true">{p.n}</span>
+            {/* opacity-50 (pas 40) : le chiffre decoratif reste visible a l'oeil (aria-hidden le
+                masque seulement des lecteurs d'ecran) donc son contraste compte pour l'audit
+                Lighthouse — 40 % tombait a 2.6:1 sur les panneaux clairs, 50 % tient 3:1+ (grand texte). */}
+            <span class="font-display leading-none opacity-50" style="font-size: clamp(3.5rem, 9vw, 8rem);" aria-hidden="true">{p.n}</span>
             <div class="measure">
               <h3 class="text-display-md">{p.title}</h3>
               <p class="mt-4 text-lg opacity-85">{p.text}</p>

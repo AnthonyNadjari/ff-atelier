@@ -1,0 +1,87 @@
+---
+/**
+ * Nav sur mesure pour Les Jardins de Maël : masthead éditorial en deux temps plutôt qu'une barre
+ * unique — une fine ligne d'ours ("Paysagiste — Rennes & Cesson-Sévigné · Qualipaysage") au-dessus
+ * d'une ligne principale (nom en italique serif, liens centrés, téléphone), le tout resserré au
+ * défilement (la ligne d'ours se replie à zéro hauteur). Composition propre à ce site : aucun des
+ * neuf sites dessinés à la main n'a de double ligne façon presse qui se compacte — dubois-plomberie
+ * et barbier-kessler ont une barre simple, moteur-fils un caisson, encre-noire un nom fixe en bas
+ * de page, anna-vidal un nom en mix-blend-mode sans fond, chez-malo un dock, toits-cie un numéro
+ * géant. Ici la retenue éditoriale de la direction `journal` porte le ton.
+ */
+import { site, tel, navLinks } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const links = navLinks();
+const years = site.business.since;
+---
+
+<header data-nav class="fixed inset-x-0 top-0 z-50 flex flex-col bg-bg/95 backdrop-blur-sm transition-shadow duration-500 [&.is-scrolled]:shadow-card">
+  {/*
+    Le bandeau d'ours (nav-top) doit apparaitre visuellement AU-DESSUS de la ligne principale, mais
+    href="tel:" doit rester tot dans le CODE SOURCE (les 1500 premiers caracteres du corps, verifies
+    par `ff verifier`) : la ligne principale (logo + tel) est donc ecrite EN PREMIER dans le DOM,
+    puis replacee visuellement en second rang par `order-2` (flex-col sur le header) — la ligne
+    d'ours garde l'ordre par defaut (0) et reste au-dessus a l'ecran.
+  */}
+  <div class="order-2 border-b border-line">
+    <div class="container-ff flex items-center justify-between gap-4 py-4">
+      <a href="/" class="order-1 font-display text-xl leading-none italic tracking-tight md:text-2xl">
+        {site.business.name}
+      </a>
+
+      <div class="order-2 flex items-center gap-3 lg:order-3">
+        <Button href={tel()} size="sm" magnetic class="hidden sm:inline-flex">
+          <Icon name="Phone" size={15} />{site.contact.phoneDisplay}
+        </Button>
+        <a href={tel()} class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-ui bg-accent p-2.5 text-on-accent sm:hidden" aria-label={`Appeler ${site.contact.phoneDisplay}`}>
+          <Icon name="Phone" size={16} />
+        </a>
+        <button class="p-2 lg:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
+          <Icon name="Menu" size={22} />
+        </button>
+      </div>
+
+      <nav class="order-3 hidden items-center gap-7 text-sm lg:order-2 lg:flex" aria-label="Navigation principale">
+        {links.map((l) => (
+          <a href={l.href} class="text-muted transition-colors hover:text-fg">{l.label}</a>
+        ))}
+      </nav>
+    </div>
+  </div>
+
+  <div class="nav-top order-1 border-b border-line transition-[max-height,opacity,padding] duration-500 ease-out-quart overflow-hidden">
+    <div class="container-ff flex items-center justify-between gap-4 py-2 text-[0.7rem] uppercase tracking-[0.16em] text-muted">
+      <p>{site.business.trade} — Rennes &amp; {site.contact.address.city}</p>
+      <p class="hidden sm:block">
+        {years && <>Depuis {years} · </>}
+        {site.business.certifications.join(', ')}
+      </p>
+    </div>
+  </div>
+
+  <div class="order-3 hidden border-b border-line bg-bg lg:hidden" data-menu>
+    <nav class="container-ff flex flex-col py-2" aria-label="Navigation mobile">
+      {links.map((l) => <a href={l.href} class="border-b border-line py-3.5 text-base last:border-0">{l.label}</a>)}
+    </nav>
+  </div>
+</header>
+<div class="h-[84px]" aria-hidden="true"></div>
+
+<style>
+  header.is-scrolled .nav-top { max-height: 0; opacity: 0; padding-block: 0; border-color: transparent; }
+  .nav-top { max-height: 3rem; opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-top { transition: none; }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  btn?.addEventListener('click', () => {
+    const open = menu!.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
+</script>

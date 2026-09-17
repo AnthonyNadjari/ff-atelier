@@ -1,0 +1,68 @@
+---
+/**
+ * "Fournée du jour" : les 4 temps de site.process (config réelle, pas de texte détaché) en
+ * panneaux sticky empilés (data-sticky-stack) — chaque heure reste à l'écran le temps que la
+ * suivante la recouvre. Une barre de progression de lecture (data-scroll-progress) accompagne le
+ * défilement. Structure inspirée du même principe que sites/dubois-plomberie/sections/Urgence.astro
+ * (panneaux sticky, tons alternés) mais habillage et contenu très différents : horloge circulaire
+ * par panneau, tons pop chauds, grain de papier sur le panneau final plutôt que noir uni. Pas de
+ * data-counter-flip sur les heures (elles ne comptent pas, elles se succèdent).
+ */
+import { site } from '@/lib/site';
+
+const panels = site.process;
+const tones = [
+  'bg-bg-2 text-fg',
+  'bg-surface text-fg border-t-2 border-dashed border-fg/20',
+  'bg-accent text-on-accent',
+  'bg-ink text-on-ink',
+];
+---
+
+<div data-scroll-progress aria-hidden="true"></div>
+
+{panels.length > 0 && (
+  <section id="fournee" class="relative">
+    <div class="container-ff pt-20 sm:pt-24">
+      <p class="eyebrow">Fournée du jour</p>
+      <h2 class="mt-4 text-display-lg">Ça sort du four toute la matinée.</h2>
+      <p class="measure mt-4 text-lg text-muted">Quatre rendez-vous, chaque jour, du même fournil.</p>
+    </div>
+
+    <div class="mt-12" data-sticky-stack>
+      {panels.map((p, i) => {
+        const [time, ...rest] = p.title.split(' — ');
+        const label = rest.join(' — ');
+        return (
+          <div class:list={['flex min-h-[54vh] items-center', tones[i % tones.length]]} data-grain={i === 3 ? true : undefined}>
+            <div class="container-ff grid items-center gap-8 py-12 md:grid-cols-[auto_1fr] md:gap-16">
+              <div class="fournee-clock shrink-0" aria-hidden="true">
+                <span class="font-display tabular-nums">{time}</span>
+              </div>
+              <div class="measure">
+                {label && <p class="eyebrow opacity-70">{label}</p>}
+                <p class="mt-3 text-xl leading-snug sm:text-2xl">{p.text}</p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+)}
+
+<style>
+  .fournee-clock {
+    display: grid;
+    place-items: center;
+    width: clamp(6rem, 12vw, 9rem);
+    height: clamp(6rem, 12vw, 9rem);
+    border-radius: 999px;
+    border: 3px solid currentColor;
+    text-align: center;
+  }
+  .fournee-clock span {
+    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+    line-height: 1;
+  }
+</style>

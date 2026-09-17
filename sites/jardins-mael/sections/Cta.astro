@@ -1,0 +1,31 @@
+---
+/**
+ * CTA sur mesure : reprend l'esprit de src/sections/Cta/card.astro (carte flottante centrée) en y
+ * ajoutant data-border-beam (bordure conique tournante, CSS pur) — encore inutilisé par un site
+ * dessiné à la main. Pas de type 'cta' partagé ici : une variante custom pour ne modifier aucun
+ * fichier de src/sections. Aucun label dans le layout → n'apparaît pas dans la navigation (comme
+ * les CTA partagés, voir navLinks() dans src/lib/site.ts).
+ */
+import { site, tel } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+---
+
+<section class="section-y bg-bg-2">
+  <div class="container-ff">
+    <div
+      class="card relative mx-auto max-w-4xl rounded-card border border-line bg-surface px-6 py-12 text-center shadow-lift md:px-16 md:py-16"
+      data-border-beam
+      data-reveal="scale"
+    >
+      <h2 class="text-display-md" set:html={site.wording.ctaTitle} />
+      <p class="mt-4 mx-auto max-w-xl text-muted">
+        {site.wording.ctaText ?? `Un appel suffit pour parler de votre jardin, à ${site.contact.address.city} et alentours.`}
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+        <Button href="#contact" variant="ghost" size="lg">{site.wording.devis}</Button>
+      </div>
+    </div>
+  </div>
+</section>

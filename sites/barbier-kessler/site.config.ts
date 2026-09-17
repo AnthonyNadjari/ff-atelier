@@ -43,7 +43,7 @@ export default defineSite({
     trade: 'Barbier',
     tagline: 'Coupe, barbe, rasoir&nbsp;: <em>trois fauteuils, un seul geste.</em>',
     description:
-      'Barbier Kessler taille et rase dans la Krutenau, à Strasbourg, depuis 2017. Trois fauteuils, trois barbiers, un seul geste&nbsp;: couper juste et raser proprement.\n\nRendez-vous en ligne du mardi au vendredi. Le samedi, on reçoit dans l’ordre d’arrivée — sans rendez-vous.',
+      'Barbier Kessler taille et rase dans la Krutenau, à Strasbourg, depuis 2017. Trois fauteuils, trois barbiers, un seul geste : couper juste et raser proprement.\n\nRendez-vous en ligne du mardi au vendredi. Le samedi, on reçoit dans l’ordre d’arrivée — sans rendez-vous.',
     since: 2017,
   },
 
@@ -104,7 +104,7 @@ export default defineSite({
   about: {
     title: 'Depuis 2017',
     story:
-      'Jonas Kessler a ouvert son premier fauteuil dans la Krutenau en 2017. Malik puis Théo l’ont rejoint&nbsp;: la maison compte aujourd’hui trois fauteuils, et ne désemplit pas le samedi.\n\nOn y coupe au ciseau, on y rase au blaireau, et on y attend son tour en discutant — sans rendez-vous, le samedi.',
+      'Jonas Kessler a ouvert son premier fauteuil dans la Krutenau en 2017. Malik puis Théo l’ont rejoint : la maison compte aujourd’hui trois fauteuils, et ne désemplit pas le samedi.\n\nOn y coupe au ciseau, on y rase au blaireau, et on y attend son tour en discutant — sans rendez-vous, le samedi.',
     portrait: { src: '/images/portrait.webp', alt: 'Jonas Kessler, fondateur du salon, dans la Krutenau à Strasbourg' },
     team: [
       { name: 'Jonas Kessler', role: 'Fondateur, barbier' },
@@ -123,8 +123,8 @@ export default defineSite({
   },
 
   faq: [
-    { q: 'Faut-il réserver ?', a: 'Du mardi au vendredi, oui, en ligne. Le samedi, non&nbsp;: vous êtes reçu dans l’ordre d’arrivée.' },
-    { q: 'Le samedi, comment ça marche sans rendez-vous ?', a: 'Vous vous présentez directement au salon, 9 rue de Zurich&nbsp;: le premier arrivé est le premier servi.' },
+    { q: 'Faut-il réserver ?', a: 'Du mardi au vendredi, oui, en ligne. Le samedi, non : vous êtes reçu dans l’ordre d’arrivée.' },
+    { q: 'Le samedi, comment ça marche sans rendez-vous ?', a: 'Vous vous présentez directement au salon, 9 rue de Zurich : le premier arrivé est le premier servi.' },
     { q: 'Accueillez-vous les enfants ?', a: 'Oui, la coupe enfant est proposée aux moins de 12 ans.' },
     { q: 'Comment réserver en semaine ?', a: 'En ligne, ou par téléphone au 06 39 98 29 73.' },
   ],
@@ -136,7 +136,7 @@ export default defineSite({
     ctaTitle: 'Une coupe, une barbe, <em>un fauteuil qui vous attend.</em>',
     ctaText: 'Trois fauteuils au 9 rue de Zurich, dans la Krutenau à Strasbourg.',
     contactTitle: 'Prendre rendez-vous',
-    contactText: 'Réservez en ligne du mardi au vendredi. Le samedi, passez directement&nbsp;: sans rendez-vous.',
+    contactText: 'Réservez en ligne du mardi au vendredi. Le samedi, passez directement : sans rendez-vous.',
   },
 
   images: {

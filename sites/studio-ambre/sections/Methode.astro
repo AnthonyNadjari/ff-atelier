@@ -1,0 +1,66 @@
+---
+/**
+ * "Méthode" (custom/methode) : les quatre prestations du studio (site.services) présentées comme
+ * les quatre phases d'une mission, en accordéon (data-accordion="single" — GSAP Flip, un seul
+ * ouvert à la fois). Chaque ligne porte aussi une durée indicative en semaines
+ * (data-count-bar, valeurs de démonstration marquées comme telles — aucun engagement contractuel).
+ * Composition propre à ce site.
+ */
+import { site } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+
+const MAX_SEMAINES = 8;
+const phases = site.services.map((s, i) => ({
+  n: String(i + 1).padStart(2, '0'),
+  titre: s.title,
+  resume: s.short,
+  bullets: s.bullets,
+  semaines: [1, 4, 8, 5][i] ?? 2,
+}));
+---
+
+<section id="methode" class="section-y">
+  <div class="container-ff">
+    <SectionHeading eyebrow="Méthode" title="Une mission, quatre phases" text="Les mêmes quatre temps, que le lieu soit un appartement ou une boutique — plus ou moins longs selon l’ampleur du projet." />
+
+    <div class="mt-12 grid gap-3" data-accordion="single">
+      {phases.map((p) => (
+        <details class="phase rounded-card border border-line bg-surface">
+          <summary class="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:p-7">
+            <span class="flex items-baseline gap-4">
+              <span class="font-mono text-sm text-accent">{p.n}</span>
+              <span class="font-display text-xl sm:text-2xl">{p.titre}</span>
+            </span>
+            <span class="flex w-full items-center gap-4 sm:w-64 sm:shrink-0">
+              <span class="h-1.5 w-full overflow-hidden rounded-pill bg-bg-2" data-count-bar={(p.semaines / MAX_SEMAINES) * 100}>
+                <span class="bar-fill block h-full rounded-pill bg-accent"></span>
+              </span>
+              <span class="shrink-0 font-mono text-xs tabular-nums text-muted">{p.semaines}&nbsp;sem.</span>
+            </span>
+            <Icon name="ChevronDown" size={18} class="chevron hidden shrink-0 text-muted sm:block" />
+          </summary>
+          <div class="border-t border-line p-6 sm:p-7">
+            <p class="max-w-prose text-muted">{p.resume}</p>
+            {p.bullets.length > 0 && (
+              <ul class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
+                {p.bullets.map((b) => <li class="flex items-center gap-2"><span class="h-1 w-1 rounded-full bg-accent" aria-hidden="true"></span>{b}</li>)}
+              </ul>
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <p class="mt-6 text-xs text-muted">Durées indicatives — variables selon la nature et l’ampleur du projet.</p>
+  </div>
+</section>
+
+<style>
+  .phase summary { cursor: pointer; }
+  .chevron { transition: transform 0.35s var(--ease-out-expo); }
+  details[open] .chevron { transform: rotate(180deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .chevron { transition: none; }
+  }
+</style>

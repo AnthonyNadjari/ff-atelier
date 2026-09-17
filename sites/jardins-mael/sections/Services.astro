@@ -1,0 +1,59 @@
+---
+/**
+ * Services sur mesure : piste glissable horizontale (data-drag-grid) plutôt qu'une grille figée —
+ * le mandat de ce site demande "services en data-drag-grid ou bande horizontale de cartes" ;
+ * aucun site dessiné à la main n'utilise encore data-drag-grid (grep sur sites, dossiers sections). Repli sans
+ * JS/rich : la piste reste un simple flex qui déborde, rendue défilable au doigt/à la molette par
+ * la règle @media (prefers-reduced-motion) ci-dessous (overflow-x auto local, la règle globale
+ * [data-drag-grid]{overflow:hidden} est sinon nécessaire au JS de glisser-déposer).
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const services = site.services;
+---
+
+<section id="services" class="section-y overflow-hidden">
+  <div class="container-ff">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading eyebrow="Prestations" title="Ce que l’on fait, saison après saison" text="Cinq métiers d’un même atelier : de la création d’un jardin à son entretien, jusqu’aux terrasses et à l’arrosage." />
+      <p class="hidden shrink-0 items-center gap-2 text-sm text-muted lg:flex">
+        <Icon name="MoveHorizontal" size={16} class="text-accent" /> Glissez pour voir la suite
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-12" data-drag-grid id="services-drag">
+    <ul class="drag-track px-[max(1.25rem,calc((100vw-var(--container))/2+1.25rem))]">
+      {services.map((s) => (
+        <li class="service-card w-[19rem] flex-none rounded-card border border-line bg-surface shadow-card sm:w-[21rem]">
+          {s.image ? (
+            <Img src={s.image.src} alt={s.image.alt} class="h-44 w-full rounded-t-card object-cover" sizes="336px" loading="lazy" />
+          ) : (
+            <div class="flex h-44 w-full items-center justify-center rounded-t-card bg-bg-2">
+              <Icon name={s.icon} size={40} class="text-accent/60" strokeWidth={1.25} />
+            </div>
+          )}
+          <div class="p-6">
+            <Icon name={s.icon} size={20} class="text-accent" />
+            <p class="mt-3 font-display text-lg leading-snug">{s.title}</p>
+            <p class="mt-2 text-sm text-muted">{s.short}</p>
+            {s.priceFrom && <p class="mt-3 text-sm tabular-nums text-accent">{s.priceFrom}</p>}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Repli accessible : sans JS de glisser-déposer (motion "none"/"subtle" ou prefers-reduced-motion),
+     la piste doit rester utilisable au doigt/à la molette plutôt que rognée par overflow:hidden. */
+  @media (prefers-reduced-motion: reduce) {
+    #services-drag { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
+    #services-drag .drag-track { touch-action: auto; cursor: auto; }
+    #services-drag .service-card { scroll-snap-align: start; }
+  }
+</style>

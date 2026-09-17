@@ -1,0 +1,85 @@
+---
+/**
+ * Hero sur mesure pour Les Jardins de Maël. Un mot serif géant en h1 ("Jardin.") plutôt que la
+ * formule habituelle "tagline entière en display" (voir sites/dubois-plomberie/sections/Hero.astro
+ * pour ce pattern-là) : ici le mot porte l'identité, la vraie accroche (site.business.tagline)
+ * vient juste en dessous, plus petite. À droite, une scène à trois profondeurs
+ * (data-parallax-depth) : la photo du jardin en duotone au fond, une branche dessinée à la main
+ * (SVG inline, data-draw-svg) qui se trace par-dessus, une carte de faits réels au premier plan.
+ * Aucun élément du hero n'est encore utilisé par un site dessiné à la main : ni data-parallax-depth,
+ * ni data-draw-svg, ni data-duotone (voir grep dans le rapport de tour).
+ */
+import { site, tel, yearsSince, paragraphs } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+
+const years = yearsSince();
+const intro = paragraphs(site.business.description)[0];
+const hero = site.images.hero;
+---
+
+<section id="hero" class="relative overflow-hidden section-y pt-32 md:pt-40">
+  <div class="container-ff grid gap-16 lg:grid-cols-12 lg:items-center">
+    <div class="lg:col-span-6" data-stagger="120">
+      <p class="eyebrow">{site.business.trade} · Rennes &amp; {site.contact.address.city}</p>
+      <h1 class="mt-5 font-display leading-[0.9]" style="font-size: clamp(4.25rem, 11vw, 9.5rem);" data-split="chars">
+        Jardin.
+      </h1>
+      <p class="measure mt-6 text-xl text-fg md:text-2xl" set:html={site.business.tagline} />
+      {intro && <p class="measure mt-4 text-lg text-muted">{intro}</p>}
+
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+        <Button href="#contact" variant="ghost" size="lg">{site.wording.devis}</Button>
+      </div>
+
+      <ul class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
+        {years !== undefined && <li class="flex items-center gap-2 tabular-nums"><Icon name="Calendar" size={16} class="text-accent" /> {years} ans à Cesson-Sévigné</li>}
+        <li class="flex items-center gap-2"><Icon name="Users" size={16} class="text-accent" /> Une équipe de 4 personnes</li>
+        {site.business.certifications.length > 0 && <li class="flex items-center gap-2"><Icon name="BadgeCheck" size={16} class="text-accent" /> {site.business.certifications.join(', ')}</li>}
+      </ul>
+    </div>
+
+    <div class="lg:col-span-6">
+      <div class="relative aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5]" data-parallax-depth>
+        {hero ? (
+          <div class="absolute inset-0 overflow-hidden rounded-card shadow-lift" data-duotone data-depth="0.12">
+            {/* <img> brut et non <Img> : data-duotone cible [data-duotone] > img, un enfant direct
+                — le <picture> généré par <Img> quand le manifeste existe casserait ce sélecteur. */}
+            <img src={hero.src} alt={hero.alt} class="h-full w-full object-cover" loading="eager" fetchpriority="high" />
+          </div>
+        ) : (
+          <div class="absolute inset-0 rounded-card bg-bg-2 border border-line" data-depth="0.12" />
+        )}
+
+        <svg
+          data-draw-svg
+          data-depth="0.32"
+          viewBox="0 0 220 320"
+          class="pointer-events-none absolute inset-0 h-full w-full stroke-accent"
+          fill="none"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M64 300 C 46 236 70 182 56 118 C 50 90 64 58 70 28" />
+          <circle cx="71" cy="24" r="5" fill="none" />
+          <path d="M58 196 C 102 190 124 152 110 118 C 90 142 64 164 58 196 Z" />
+          <path d="M55 132 C 13 120 -2 82 16 48 C 36 74 57 100 55 132 Z" transform="translate(6 0)" />
+          <path d="M68 74 C 96 66 110 42 99 20 C 85 36 70 52 68 74 Z" />
+        </svg>
+
+        <div
+          class="card absolute -bottom-6 -left-6 hidden rounded-card border border-line bg-surface px-6 py-5 shadow-card md:block"
+          data-depth="0.55"
+          data-reveal="left"
+          data-reveal-delay="450"
+        >
+          <p class="font-display text-lg leading-tight">Les Jardins<br />de Maël</p>
+          <p class="mt-2 text-sm text-muted">{site.contact.address.city} · depuis {site.business.since}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

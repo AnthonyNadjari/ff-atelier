@@ -1,0 +1,97 @@
+---
+/**
+ * Cœur du mandat "saisons" : quatre panneaux plein cadre empilés (data-sticky-stack — chacun reste
+ * collé à l'écran jusqu'à ce que le suivant le recouvre, puis s'assombrit légèrement en mode rich).
+ * Chaque panneau porte sa propre teinte d'accent via une variable CSS posée en style inline sur
+ * l'élément ("--accent: …"), héritée par le filtre data-duotone de sa photo ET par les pastilles de
+ * prestations qui l'accompagnent — un seul jeu de règles CSS (celles déjà posées dans global.css
+ * pour data-duotone/eyebrow/rounded-pill), quatre rendus différents. Contenu : ce que fait
+ * réellement l'équipe à chaque saison, relié aux prestations du site (jamais de donnée inventée —
+ * aucun chiffre, aucun avis, seulement le rythme des cinq métiers déjà décrits dans site.config.ts).
+ */
+import { site } from '@/lib/site';
+
+const seasons = [
+  {
+    number: '01',
+    label: 'Printemps',
+    headline: 'Tout se plante, avant la chaleur.',
+    months: 'Mars — Mai',
+    accent: '#4f8f57',
+    image: '/images/galerie-2.webp',
+    alt: 'Jardin au printemps, plantations en cours',
+    text: 'La saison des plantations : on étudie le terrain, on plante les nouvelles essences et on reprend la taille de formation des haies avant les premières fortes chaleurs.',
+    tags: ['Création de jardins', 'Taille et élagage'],
+  },
+  {
+    number: '02',
+    label: 'Été',
+    headline: 'Le jardin vit, il faut suivre.',
+    months: 'Juin — Août',
+    accent: '#c98a2c',
+    image: '/images/galerie-3.webp',
+    alt: 'Jardin en été, pelouse tondue et massifs fleuris',
+    text: 'Le rythme s’accélère : tontes régulières, arrosage automatique en service quotidien, entretien courant pour que le jardin reste beau tout l’été, pas seulement au moment des photos.',
+    tags: ['Entretien à l’année', 'Arrosage automatique'],
+  },
+  {
+    number: '03',
+    label: 'Automne',
+    headline: 'On taille, on prépare, on couvre.',
+    months: 'Septembre — Novembre',
+    accent: '#b6572c',
+    image: '/images/galerie-4.webp',
+    alt: 'Jardin en automne, feuillages colorés',
+    text: 'Le bon moment pour tailler et élaguer sans nuire à la floraison suivante, ramasser les feuilles et préparer les massifs avant les premiers froids.',
+    tags: ['Taille et élagage', 'Entretien à l’année'],
+  },
+  {
+    number: '04',
+    label: 'Hiver',
+    headline: 'Le jardin se lit à sa structure.',
+    months: 'Décembre — Février',
+    accent: '#3f5b70',
+    image: '/images/galerie-5.webp',
+    alt: 'Jardin en hiver, structure et allées dégagées',
+    text: 'Le jardin se lit à sa structure : entretien des allées, protection des plantations sensibles au gel, et c’est le moment de dessiner les projets de terrasses bois pour le printemps suivant.',
+    tags: ['Terrasses bois', 'Entretien à l’année'],
+  },
+];
+---
+
+<section id="saisons" class="relative" data-sticky-stack>
+  {seasons.map((s) => (
+    <article
+      class="relative flex min-h-[92vh] items-end overflow-hidden bg-ink text-on-ink"
+      style={`--accent:${s.accent}; --on-accent:#fdfaf3;`}
+    >
+      {/* <img> brut : data-duotone cible [data-duotone] > img, un enfant direct — voir Hero.astro
+          pour la même remarque sur <Img> et son <picture>. */}
+      <div class="absolute inset-0" data-duotone>
+        <img src={s.image} alt={s.alt} class="h-full w-full object-cover" loading="lazy" />
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-transparent" aria-hidden="true"></div>
+
+      <div class="container-ff relative py-16 md:py-20">
+        <div class="grid gap-8 md:grid-cols-12 md:items-end">
+          <div class="md:col-span-8">
+            <p class="eyebrow flex items-center gap-3">
+              <span class="tabular-nums">{s.number}</span>
+              <span class="h-px w-8 bg-current opacity-50" aria-hidden="true"></span>
+              {s.label} <span class="normal-case text-on-ink/50">· {s.months}</span>
+            </p>
+            <h3 class="mt-5 font-display text-display-lg text-on-ink" data-reveal>{s.headline}</h3>
+            <p class="measure mt-5 text-lg text-on-ink/85" data-reveal data-reveal-delay="120">{s.text}</p>
+          </div>
+          <ul class="flex flex-wrap gap-3 md:col-span-4 md:justify-end" data-stagger="80">
+            {s.tags.map((t) => (
+              <li class="rounded-pill border px-4 py-2 text-xs uppercase tracking-wide" style="border-color: var(--accent); color: var(--accent); background: color-mix(in oklch, var(--accent) 16%, transparent);">
+                {t}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </article>
+  ))}
+</section>

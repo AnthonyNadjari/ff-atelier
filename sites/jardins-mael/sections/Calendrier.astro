@@ -1,0 +1,49 @@
+---
+/**
+ * Calendrier d'entretien : grille typographique des 12 mois (numéro en tabular-nums, tâche du mois
+ * reliée à une prestation réelle du site — jamais un chiffre ou un fait inventé, seulement le
+ * rythme déjà décrit dans les services). Second bloc sur mesure du mandat "saisons", distinct des
+ * quatre panneaux de Saisons.astro : ici une lecture rapide, mois par mois, plutôt qu'un récit.
+ */
+import { site } from '@/lib/site';
+
+const months = [
+  { n: '01', name: 'Janvier', task: 'Taille des arbres fruitiers, protection contre le gel.', slug: 'taille-et-elagage' },
+  { n: '02', name: 'Février', task: 'Dernières tailles avant le repos végétatif, préparation des massifs.', slug: 'taille-et-elagage' },
+  { n: '03', name: 'Mars', task: 'Début des plantations, premières tontes de la saison.', slug: 'creation-de-jardins' },
+  { n: '04', name: 'Avril', task: 'Plantations, remise en route de l’arrosage automatique.', slug: 'arrosage-automatique' },
+  { n: '05', name: 'Mai', task: 'Taille de formation des haies, désherbage.', slug: 'entretien-a-lannee' },
+  { n: '06', name: 'Juin', task: 'Tontes régulières, arrosage automatique en service quotidien.', slug: 'entretien-a-lannee' },
+  { n: '07', name: 'Juillet', task: 'Entretien courant du jardin, chantiers de terrasses bois.', slug: 'terrasses-bois' },
+  { n: '08', name: 'Août', task: 'Arrosage automatique, tailles légères après floraison.', slug: 'arrosage-automatique' },
+  { n: '09', name: 'Septembre', task: 'Taille et élagage, plantations d’arbustes d’automne.', slug: 'taille-et-elagage' },
+  { n: '10', name: 'Octobre', task: 'Ramassage des feuilles, préparation du jardin pour l’hiver.', slug: 'entretien-a-lannee' },
+  { n: '11', name: 'Novembre', task: 'Protection des plantations sensibles au gel, dernières tailles.', slug: 'taille-et-elagage' },
+  { n: '12', name: 'Décembre', task: 'Entretien de structure, plans de printemps avec vous.', slug: 'creation-de-jardins' },
+];
+
+const bySlug = new Map(site.services.map((s) => [s.slug, s.title]));
+---
+
+<section id="calendrier" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <div class="max-w-2xl" data-stagger="120">
+      <p class="eyebrow">Calendrier d’entretien</p>
+      <h2 class="mt-4 text-display-md">Ce que fait un jardin, mois après mois</h2>
+      <p class="measure mt-5 text-lg text-muted">Un jardin ne demande pas la même chose en janvier et en juillet. Voici, mois par mois, ce que l’équipe fait le plus souvent.</p>
+    </div>
+
+    <ol class="calendrier-grid mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-3 lg:grid-cols-4" data-stagger="40">
+      {months.map((m) => (
+        <li class="calendrier-cell group relative bg-surface p-6 transition-colors duration-300 hover:bg-accent" data-reveal>
+          <p class="font-display text-3xl tabular-nums text-accent transition-colors duration-300 group-hover:text-on-accent">{m.n}</p>
+          <p class="eyebrow mt-3 transition-colors duration-300 group-hover:text-on-accent/80">{m.name}</p>
+          <p class="mt-2 text-sm text-muted transition-colors duration-300 group-hover:text-on-accent">{m.task}</p>
+          {bySlug.has(m.slug) && (
+            <p class="mt-3 text-xs uppercase tracking-wide text-fg/50 transition-colors duration-300 group-hover:text-on-accent/70">{bySlug.get(m.slug)}</p>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

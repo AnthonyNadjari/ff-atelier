@@ -64,13 +64,41 @@ function ligneTable(label, formFactor, scores, seuil) {
 }
 
 /**
+ * `--detail` : imprime, pour un run Lighthouse (lhr), chaque audit en echec (score !== null et < 1)
+ * de TOUTES les categories mesurees (pas seulement accessibilite), avec les extraits de noeuds
+ * fautifs (details.items[].node.snippet/selector, ou explanation). Utilise par `ff lighthouse
+ * --detail` et par scripts/_a11y-detail.mjs (jetable, accessibilite seule) — meme forme de sortie.
+ */
+function imprimerDetail(lhr, label, formFactor) {
+  const auditIds = new Set();
+  for (const cat of Object.values(lhr.categories)) {
+    for (const ref of cat.auditRefs) auditIds.add(ref.id);
+  }
+  let any = false;
+  for (const auditId of auditIds) {
+    const audit = lhr.audits[auditId];
+    if (!audit || audit.score === null || audit.score === 1) continue;
+    any = true;
+    info(`\n  ${c.yellow('✗')} ${auditId} : ${audit.title} (${label} / ${formFactor})`);
+    const items = audit.details?.items ?? [];
+    for (const item of items) {
+      const node = item.node ?? item.relatedNodes?.[0] ?? item;
+      if (node?.snippet) info(`      snippet: ${node.snippet}`);
+      if (node?.selector) info(`      selector: ${node.selector}`);
+      if (node?.explanation) info(`      explanation: ${node.explanation}`);
+    }
+  }
+  return any;
+}
+
+/**
  * Coeur reutilisable (par `ff lighthouse` et par `ff verifier --lighthouse`) : construit le site,
  * lance les audits, ecrit captures/<slug>-lighthouse.json. Renvoie true si la page d'accueil est
  * >= seuil sur toutes les categories (desktop et mobile), false sinon. Ne fait jamais
  * process.exit() — c'est aux appelants (cmdLighthouse pour le CLI direct, cmdVerifier pour
  * `--lighthouse`) de decider quoi faire du resultat.
  */
-export async function runLighthouse(slug, { seuil = 90, mobileOnly = false } = {}) {
+export async function runLighthouse(slug, { seuil = 90, mobileOnly = false, detail = false } = {}) {
   const formFactors = mobileOnly ? ['mobile'] : ['desktop', 'mobile'];
 
   let lighthouse, launch, desktopConfig;
@@ -125,6 +153,7 @@ export async function runLighthouse(slug, { seuil = 90, mobileOnly = false } = {
         const scores = scoresDe(runnerResult.lhr);
         entry[formFactor] = scores;
         info(ligneTable(page.label, formFactor, scores, seuil));
+        if (detail) imprimerDetail(runnerResult.lhr, page.label, formFactor);
         if (page.label === 'accueil') {
           const sousLeSeuil = Object.values(scores).some((v) => v !== null && v < seuil);
           if (sousLeSeuil) echecSeuilIndex = true;
@@ -151,11 +180,11 @@ export async function runLighthouse(slug, { seuil = 90, mobileOnly = false } = {
   return true;
 }
 
-/** CLI direct : `ff lighthouse [slug] [--mobile] [--seuil 90]`. */
+/** CLI direct : `ff lighthouse [slug] [--mobile] [--seuil 90] [--detail]`. */
 export async function cmdLighthouse(args) {
   const { positional, flags } = parseArgs(args);
   const slug = resolveSlug(positional[0]);
   const seuil = Number(flags.seuil) || 90;
-  const success = await runLighthouse(slug, { seuil, mobileOnly: Boolean(flags.mobile) });
+  const success = await runLighthouse(slug, { seuil, mobileOnly: Boolean(flags.mobile), detail: Boolean(flags.detail) });
   process.exit(success ? 0 : 1);
 }

@@ -11,8 +11,8 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 
 | # | Critère | État | Vérification |
 |---|---|---|---|
-| 1 | 20 sites de démonstration dessinés à la main, 20 métiers, chacun avec hero + nav + ≥ 2 blocs sur mesure, aucun bloc copié d'un site à l'autre | 9 / 20 | `ls sites/*/sections/` ; comparaison manuelle des compositions |
-| 2 | Chaque site : build ✓, `ff verifier` ✓ (sauf téléphone fictif), captures sans erreur ni débordement, mobile relu, Lighthouse ≥ 90 (perf, a11y, SEO) | build/captures ✓ ; `ff lighthouse` : dubois-plomberie accueil desktop 100/94/100/92, mobile 94/94/100/92 (17 sept, apres correction du CSS) ; a11y 94 a examiner ; SEO 58 sur mentions-legales = noindex voulu | `ff tous`, `ff captures`, `ff lighthouse` |
+| 1 | 20 sites de démonstration dessinés à la main, 20 métiers, chacun avec hero + nav + ≥ 2 blocs sur mesure, aucun bloc copié d'un site à l'autre | 12 / 20 | `ls sites/*/sections/` ; comparaison manuelle des compositions |
+| 2 | Chaque site : build ✓, `ff verifier` ✓ (sauf téléphone fictif), captures sans erreur ni débordement, mobile relu, Lighthouse ≥ 90 (perf, a11y, SEO) | build/captures ✓ ; accessibilité 100/100 (desktop+mobile, accueil + page service + confidentialité) sur `_exemple` et `dubois-plomberie` depuis le 17 sept (voir journal : couche partagée corrigée — contraste `.eyebrow`/`--accent`/`--muted` dans `src/directions/*/index.css` + `global.css` bascule `.eyebrow` sur `--on-ink` attenue en contexte `bg-ink`) ; SEO 58 sur mentions-legales = noindex voulu | `ff tous`, `ff captures`, `node scripts/ff.mjs lighthouse <slug> --detail` |
 | 3 | Moteur d'animation : ≥ 15 effets documentés, chacun utilisé dans ≥ 2 sites, sans bug connu | 16 effets ; usage ×2 à vérifier ; 3 bugs corrigés le 16 sept | `grep -l data-<effet> sites/*/sections/*.astro` |
 | 4 | Chaîne de bout en bout sur un vrai brief : formulaire → `/nouveau-site` → `ff propositions` → `ff deploy` → `ff exporter` | non prouvée (deploy nécessite `npx wrangler login`, action humaine) | exécuter la chaîne sur un slug de test |
 | 5 | Tests + CI verts à chaque commit ; matrice couvrant directions, coquilles, navs | tests 142 ✓ ; CI : à vérifier sur GitHub ; matrice : directions ✓, coquilles ✓, navs ✗ | `npm test`, `ff matrice --rapide`, onglet Actions |
@@ -36,27 +36,27 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 7. Garage — `moteur-fils` (Nancy)
 8. Plombier-chauffagiste (urgence) — `dubois-plomberie` (Nantes)
 9. Salon de coiffure / barbier — `barbier-kessler` (Strasbourg)
+10. Paysagiste — `jardins-mael` (Rennes / Cesson-Sévigné)
+11. Boulangerie-pâtisserie — `maison-roux` (Lyon)
+12. Architecte d'intérieur — `studio-ambre` (Paris)
 
 ## Métiers à couvrir (un par tour, dans cet ordre, ville différente à chaque fois)
 
-10. Paysagiste — Rennes
-11. Architecte d'intérieur — Paris
-12. Boulangerie-pâtisserie — Lyon
-13. Électricien / domotique — Villeurbanne
-14. Cabinet d'avocat — Montpellier
-15. Vétérinaire — Grenoble
-16. Menuisier-ébéniste — Roubaix
-17. Institut de beauté / spa — Nice
-18. Food truck / traiteur — Bayonne
-19. Auto-école — Tours
-20. Chambres d'hôtes — Dordogne
-21. Coach sportif / studio de yoga — Lille
-22. Serrurier (urgence) — Marseille
-23. Fleuriste — Bordeaux
-24. Maçon / rénovation — Metz
-25. Dentiste — Reims
-26. Brasserie artisanale — Clermont-Ferrand
-27. Agence immobilière de quartier — Toulon
+12. Électricien / domotique — Villeurbanne
+13. Cabinet d'avocat — Montpellier
+14. Vétérinaire — Grenoble
+15. Menuisier-ébéniste — Roubaix
+16. Institut de beauté / spa — Nice
+17. Food truck / traiteur — Bayonne
+18. Auto-école — Tours
+19. Chambres d'hôtes — Dordogne
+20. Coach sportif / studio de yoga — Lille
+21. Serrurier (urgence) — Marseille
+22. Fleuriste — Bordeaux
+23. Maçon / rénovation — Metz
+24. Dentiste — Reims
+25. Brasserie artisanale — Clermont-Ferrand
+26. Agence immobilière de quartier — Toulon
 
 Règle : les démos existantes `demo-*` (générées, non dessinées) ne comptent pas pour le critère 1.
 Elles restent comme exemples du mode « permutation ».
@@ -91,6 +91,170 @@ S'arrêter et le dire quand : les sept critères sont cochés ; ou un critère d
 (login Cloudflare, achat de domaine, vrai client) et tout le reste est fait.
 
 ## Journal
+
+- 17 sept 2026 : site métier 11 (Architecte d'intérieur), Studio Ambre — Léa Bonnet, Paris 10e
+  (rue des Vinaigriers, depuis 2015, solo + un collaborateur, appartements haussmanniens, boutiques,
+  cabinets) — `sites/studio-ambre/`. `ff composer studio-ambre --metier "Architecte d'intérieur"`
+  propose la direction `pierre` (gris minéral, Bodoni Moda, angles droits — confirmé libre, aucun
+  site dessiné à la main ne l'utilisait) : suivie, colle exactement au mandat « quiet luxury,
+  éditorial ». Écarts documentés dans l'en-tête de `site.config.ts` : accent surchargé en ambre
+  (hsl(28 55% 46%), proche du placeholder `#b8763b`) au lieu du gris minéral par défaut (mandat :
+  un seul accent chaud nommé « ambre ») ; `motion: 'rich'` (au lieu de `subtle`) pour les effets
+  palier rich du mandat ; shell `magazine` (numéros de section en filigrane, grille asymétrique) —
+  seul avec `split` encore inutilisé parmi les six coquilles, retenu plutôt que `split` car il
+  laisse la nav sur mesure piloter tout le rendu desktop (la coquille `split` réserve la nav
+  desktop à son propre panneau latéral) ; typographie par défaut de `pierre` (Bodoni Moda/Epilogue)
+  gardée plutôt que la paire `delaGothic`/`domine` proposée, plus cohérente avec un hero où le nom
+  du studio est traité en petites capitales. Nav et hero sur mesure, quatre sections sur mesure
+  (`sites/studio-ambre/sections/` : `Hero` — image plein cadre seule, nom du studio en petites
+  capitales `mix-blend-mode: difference` qui se décode au chargement (`data-scramble`, pas le hero
+  épinglé géant d'`anna-vidal`), légende fine sous l'image, grain léger (`data-grain`) ; `CaseStudy`
+  — trois typologies de lieux en pile (`data-stack`), un plan au trait dessiné pour chacune (SVG
+  inline sur mesure, `data-draw-svg`) — présentées comme des typologies représentatives, jamais
+  comme des réalisations chiffrées ou des avis (le brief ne fournit pas de portfolio réel) ;
+  `Materiaux` — carnet d'échantillons en piste glissable (`data-drag-grid`), textures 100 % CSS
+  (`color-mix`/dégradés à partir des tokens, aucune photo de matière fournie) ; `Methode` — les
+  quatre prestations du brief (conseil, conception, suivi de chantier, aménagement de boutique)
+  présentées comme les quatre phases d'une mission en accordéon (`data-accordion="single"`), durée
+  indicative en semaines par phase (`data-count-bar`, valeurs de démonstration marquées comme
+  telles) ; `Contact` — halo qui suit le curseur sur le panneau de coordonnées (`data-spotlight`) et
+  filet doré tournant autour de la carte de formulaire (`data-border-beam`), `<ContactForm />` et
+  `<Carte />` partagés réutilisés tels quels, aucune logique dupliquée, carte en `data-reveal`
+  classique (voir plus bas pourquoi pas `data-reveal-native` ici). Premier grep « effets à 0 usage »
+  fait tôt dans ce tour (avant que `jardins-mael`/`maison-roux` ne soient terminés par un autre agent
+  en parallèle) avait fait retenir `data-scramble`/`data-border-beam`/`data-grain` comme inédits ;
+  les deux tours voisins les ont consommés entre-temps (concurrence entre agents sur le même dépôt,
+  pas une erreur de lecture) — restés utilisés (imposés par le mandat sur le hero et la carte
+  contact) mais ne comptent plus parmi les inédits. Grep refait, cinq effets réellement à 0 usage
+  ailleurs (`sites/{...9 sites...,jardins-mael,maison-roux}/sections`) retenus à la place :
+  `data-accordion`, `data-count-bar`, `data-hover-distort` (image qui flotte au survol du texte de
+  chaque typologie dans "Projets", repli `data-hover-img` si WebGL indisponible), `data-blur-scrub`
+  (sur les plans SVG du même bloc, cumulé avec `data-draw-svg` — flou réglé bas, `="5"`, après un
+  essai à 14 qui rendait les plans illisibles dans leur état "avant scroll") et `data-reveal-native`
+  (petit indice « Faites glisser » du bloc "Matériaux" uniquement — pas la carte du bloc contact,
+  écartée de cette variante : `animation-timeline: view()` n'acquiert pas la révélation, l'élément se
+  recache si on remonte au-dessus, inadapté pour une information fonctionnelle mais sans conséquence
+  pour un indice décoratif). `data-smooth` (Lenis) essayé puis retiré (pas retenu dans les cinq) : il
+  désynchronise le `window.scrollTo()` programmatique de `scripts/captures.mjs` (qui simule un
+  défilement pour déclencher les reveals avant de reprendre en haut de page) — les `data-scrub`
+  restaient figés dans leur état de départ sur la capture avec Lenis actif, y compris sur des
+  éléments proches du haut de page qui s'en tiraient bien sans lui. Aucun avis inventé (pas de
+  `proof.google`/`testimonials`, absents du brief). Wording exact du mandat respecté
+  (`devis: 'Prendre rendez-vous'`, `ctaTitle`/`contactTitle`). Trois bugs réels trouvés et corrigés
+  en cours de route (pas des faux positifs connus) : (1) `Button.astro` pose `inline-flex` en classe
+  de base non conditionnelle — lui ajouter `hidden sm:inline-flex` ne le cache pas (`inline-flex`
+  généré après `hidden` dans la feuille Tailwind, gagne la cascade à toutes les tailles) : corrigé
+  en enveloppant le bouton dans un conteneur `hidden sm:block` plutôt que de poser les classes de
+  visibilité sur le composant partagé ; (2) la nav (sept liens numérotés) en simple
+  `flex justify-between` sans `shrink-0`/`whitespace-nowrap` se comprimait lettre par lettre (nom du
+  studio, numéro de téléphone) dès que la largeur se resserrait — corrigé en grille
+  `grid-cols-[auto_1fr_auto]` avec colonnes latérales figées, nav repoussée à `xl` (pas `lg`, zone
+  1024-1280px trop juste pour sept liens même compacts) et menu plein écran en relais ; (3) `data-smooth`
+  (Lenis) fige les `data-scrub` sur les captures pleine page (détaillé plus haut) — retiré. `ff build`/
+  `ff verifier studio-ambre` verts (seuls échecs attendus : faux positif préexistant « 100 % » sur
+  le CSS de coquille `[data-shell=slides]`, `exemple.fr` imposé par le brief ; avertissements
+  attendus : SIRET absent, paragraphe long de `confidentialite.html` sans `measure`, page partagée
+  hors scope). `ff captures studio-ambre` sans erreur console ni débordement, desktop et mobile
+  relus à l'œil après les deux corrections de nav. Build temporairement bloqué à plusieurs reprises
+  par des fichiers partagés en cours d'édition par un autre agent (`astro.config.mjs`,
+  `src/styles/global.css`, `sites/jardins-mael/sections/Services.astro`) — non modifiés par ce tour,
+  résolus en relançant après coup. Critère 1 : 11 → 12 / 20.
+
+- 17 sept 2026 : site métier 12, Maison Roux (boulangerie-pâtisserie, Lyon/Croix-Rousse, troisième
+  génération, depuis 1987, levain naturel, farines de Rhône-Alpes) — `sites/maison-roux/`. `ff composer
+  maison-roux --metier "Boulangerie"` propose la direction `pop` (attendue : seule direction du schéma
+  associée explicitement à « boulangerie/pâtisserie ») — suivie, cohérente avec le mandat (joyeux,
+  chaleureux, appétit ; direction `pop` jusqu'ici inutilisée par un site dessiné à la main, `clair` à
+  éviter). Écarts documentés dans l'en-tête de `site.config.ts` : typographie par défaut de `pop`
+  (Anybody Variable) gardée plutôt que la proposition `delaGothic` du composer (déjà `toits-cie` ;
+  `bricolage` déjà `moteur-fils` — Anybody est la seule des trois encore inutilisée) ; accent surchargé
+  en ambre chaud (proche de `#f4c95d`, couleur des placeholders) plutôt que le rose par défaut, pour
+  l'appétit plutôt que le ludique pur ; shell `flow` plutôt que `sidebar` proposé (la nav sur mesure est
+  une barre en haut, pas un rail latéral) ; `scale: 'display'` pour un hero très grand format. Nav et
+  hero sur mesure, quatre sections sur mesure (`sites/maison-roux/sections/` : `Nav` — barre « ticket de
+  caisse » en papier, chaque lien traité comme une ligne de ticket à filet pointillé + icône, grain de
+  papier ; `Hero` — nom en typographie ultra-grasse (`data-split`), étiquettes de prix collées en biais,
+  bande `data-marquee-velocity` des pains du jour (`site.services`, pas un texte détaché) ; `Fournee` —
+  les 4 temps de `site.process` (6h30/8h/11h/16h) en panneaux `data-sticky-stack` + `data-scroll-progress`
+  (composition différente de `sites/dubois-plomberie/sections/Urgence.astro` : horloge circulaire par
+  panneau, grain de papier sur le panneau final) ; `Carte` — liste typographique à filets pointillés +
+  `tabular-nums` groupée par catégorie (composition différente de `sites/barbier-kessler/sections/Tarifs.astro`,
+  liste plate unique), prix en `data-scramble`, spécialité maison encadrée d'un `data-border-beam`, trois
+  cartes-photo « coups de cœur » en `data-tilt`/`data-tilt-glare` ; `CommanderGateau` — grille
+  `data-flip-card` (recto photo, verso description + délai 48 h réel du brief) ; `Contact` — custom,
+  formulaire + coordonnées présentées en second ticket (police mono, horaires en `tabular-nums`,
+  « code-barres » décoratif), `data-confetti` posé sur la section (écoute `ff:form-success`, actif dès
+  qu'une vraie clé web3forms/cloudflare sera renseignée). Six effets jusqu'ici à 0 usage dans un site
+  dessiné à la main utilisés pour la première fois : `data-grain`, `data-border-beam`, `data-scramble`,
+  `data-confetti`, `data-tilt`/`data-tilt-glare` (`data-scroll-progress`, `data-sticky-stack` et
+  `data-marquee-velocity` déjà utilisés ailleurs, repris ici pour le mandat). Aucun avis inventé (le
+  brief n'en fournit pas, section proof absente du layout) ; le catalogue de 4 styles de gâteau et le
+  rythme horaire des fournées sont un contenu générique de métier (comme
+  `sites/dubois-plomberie/sections/Diagnostic.astro`), pas une donnée client chiffrée. Bug réel trouvé et
+  corrigé en cours de route : lien `tel:` hors des 1500 premiers caractères du corps à cause des six
+  liens de nav (icônes SVG inline) avant le bouton d'appel — corrigé par réordonnancement `order-*` (même
+  correctif que `barbier-kessler`/`dubois-plomberie`), sans changer la disposition visuelle. Autre defaut
+  latent identifié en le corrigeant pour ce site seulement (pas retouché ailleurs, hors scope) :
+  `&nbsp;` en toutes lettres dans un champ affiché par interpolation simple (pas `set:html`, ex.
+  `faq.q`/`wording.ctaText`) s'affiche littéralement dans le HTML au lieu d'une espace insécable — au
+  moins `sites/barbier-kessler` a le même défaut latent dans son `faq`/`about.story`/`contactText`
+  (confirmé par `grep nbsp dist/barbier-kessler/index.html`, non corrigé ici, hors scope de ce tour) ;
+  pour `maison-roux`, remplacé par l'échappement Unicode ` ` dans les champs non `set:html`, gardé
+  en entité `&nbsp;` seulement dans `business.tagline`/`wording.ctaTitle` (rendus via `set:html`,
+  HTML autorisé par le schéma). `ff build`/`ff verifier` verts (seuls échecs attendus : faux positif
+  préexistant « 100 % » et `exemple.fr` imposé par le brief ; avertissements attendus : SIRET absent,
+  paragraphe long de `confidentialite.html` sans `measure`) ; `ff captures maison-roux` sans erreur
+  console ni débordement, desktop et mobile relus à l'œil. Build temporairement bloqué deux fois pendant
+  ce tour par des fichiers partagés en cours d'édition par d'autres agents (`astro.config.mjs`, puis
+  `src/styles/global.css`) — non modifiés par ce tour, résolus par les agents concernés. Critère 1 :
+  10 → 11 / 20. Numérotation de la liste « métiers à couvrir » décalée en conséquence (l'architecte
+  d'intérieur, en cours ailleurs, passe du repère 11 à 12 dans cette liste — un simple numéro d'ordre,
+  pas un identifiant, à corriger sans casse par le prochain tour qui y touche).
+
+- 17 sept 2026 : site métier 10, Les Jardins de Maël (paysagiste, Rennes/Cesson-Sévigné, création,
+  entretien à l'année, terrasses bois, arrosage automatique, élagage, Qualipaysage) —
+  `sites/jardins-mael/`. Mandat de conception : « les saisons ». `ff composer jardins-mael --metier
+  "Paysagiste"` propose la direction `terre` (attendu : c'est la direction « métier typique » du
+  paysagiste dans `src/lib/schema.ts`) et le hero `marquee` — écart volontaire imposé par le mandat
+  (éviter `terre` et le hero `stacked` pour ne pas ressembler à `sites/demo-paysagiste`, même métier
+  et même ville, direction `terre` + hero `stacked`). Direction retenue à la place : `journal`
+  (off-white, Playfair Display, filets fins) — jamais utilisée par un site dessiné à la main,
+  raison notée dans l'en-tête de `site.config.ts` : le concept « une année en quatre chapitres »
+  porte bien la retenue éditoriale de cette direction, avec un accent qui vire au vert/or/rouille/
+  ardoise dans les quatre panneaux saisonniers plutôt qu'un rouge profond fixe. Nav et hero sur
+  mesure (`sections/Nav.astro` — masthead éditorial en deux lignes, bandeau d'ours qui se replie au
+  défilement ; `sections/Hero.astro` — mot serif géant « Jardin. » en h1, à droite une scène à trois
+  profondeurs `data-parallax-depth` : photo en duotone, branche dessinée à la main en SVG inline qui
+  se trace au scroll `data-draw-svg`, carte de faits au premier plan), plus quatre blocs sur mesure :
+  `sections/Services.astro` (piste glissable `data-drag-grid`, repli `overflow-x:auto` en
+  `prefers-reduced-motion` puisque la règle globale `[data-drag-grid]{overflow:hidden}` suppose le
+  JS de glisser-déposer), `sections/Saisons.astro` (cœur du mandat : quatre panneaux plein cadre en
+  `data-sticky-stack`, chacun avec sa propre teinte d'accent posée en variable CSS inline —
+  héritée à la fois par le filtre `data-duotone` de sa photo et par les pastilles de prestations),
+  `sections/Calendrier.astro` (grille typographique des 12 mois, `tabular-nums`, survol coloré,
+  chaque tâche reliée à une prestation réelle du site) et `sections/Cta.astro` (carte à
+  `data-border-beam`). Six effets encore inutilisés par un site dessiné à la main (grep sur les neuf
+  sites précédents) : `data-draw-svg`, `data-parallax-depth` (+ `data-depth`), `data-duotone`,
+  `data-drag-grid`, `data-border-beam`, en plus de `data-sticky-stack` réemployé (déjà dans
+  `dubois-plomberie`) — dépasse le minimum de cinq demandé. `<Img>` utilisé pour les photos de
+  services et le portrait équipe (générées par `ff images jardins-mael --depuis-public`) ; `<img>`
+  brut conservé sur les trois photos en `data-duotone` (hero, quatre panneaux Saisons) — le
+  sélecteur CSS `[data-duotone] > img` cible un enfant direct, que le `<picture>` de `<Img>` casse.
+  Aucun avis inventé (le brief n'en fournit pas, section `proof` absente du layout). Deux bugs
+  corrigés en cours de route : une duplication « Cesson-Sévigné & Cesson-Sévigné » dans l'eyebrow du
+  nav/hero (la ville de l'adresse est déjà Cesson-Sévigné, le texte visait la paire Rennes/Cesson-
+  Sévigné) ; le lien `tel:` hors des 1500 premiers caractères du corps à cause du bandeau d'ours
+  placé avant la ligne principale — corrigé en écrivant la ligne principale (logo + tel) en premier
+  dans le DOM et en la replaçant visuellement en second rang par `order-*` sur un `header` en
+  `flex-col`, sans changer la disposition visuelle. En cours de route, deux bugs préexistants et
+  partagés par tous les sites ont bloqué tous les builds du dépôt (pas seulement celui-ci) :
+  `astro.config.mjs` contenait un retour à la ligne littéral non échappé dans un `.join('...')`
+  (`Expected ";" but found ")"` dans esbuild) et `scripts/vite-ff-look.mjs` appelait `readdirSync`
+  sans l'importer de `node:fs` — les deux visiblement laissés par une édition en cours d'un autre
+  agent au même moment ; corrigés par un correctif d'une ligne chacun (le second déjà corrigé par
+  l'autre agent au moment de la nouvelle tentative). `ff build`/`ff verifier`/`ff captures` verts
+  (seuls échecs attendus : faux positif « 100 % », `exemple.fr` imposé par le brief, SIRET absent) ;
+  captures desktop et mobile relues, aucune erreur console, aucun débordement. Critère 1 : 9 → 10/20.
 
 - 17 sept 2026 : bug de performance trouve par Lighthouse (perf mobile 70) : Astro regroupait le CSS des 16 directions et des 63 polices (feuille 568 Ko). Correction : plugin `scripts/vite-ff-look.mjs` (direction + polices resolues au build, module virtuel), catalogue `fonts.ts` sans import() ; feuille 105 Ko, perf mobile 94, desktop 100.
 

@@ -1,0 +1,83 @@
+---
+/**
+ * "Matériaux" (custom/materiaux) : carnet d'échantillons en piste glissable (data-drag-grid,
+ * idée #55 de docs/veille/tendances.md § 4 « carnet d'échantillons en défilement horizontal »).
+ * Pas de photo de matière (aucune fournie par la cliente) : chaque échantillon est une texture
+ * générée en CSS pur à partir des tokens (color-mix, dégradés), jamais une couleur en dur. Le petit
+ * indice « Faites glisser » apparaît en data-reveal-native plutôt que data-reveal : sur un détail
+ * purement décoratif (pas une information fonctionnelle, contrairement à la carte du bloc contact,
+ * voir `Contact.astro`), le comportement natif — la révélation n'est pas acquise, l'indice se
+ * recache si on remonte au-dessus — est sans conséquence.
+ * Composition propre à ce site.
+ */
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+
+const matieres = [
+  { nom: 'Chêne clair', note: 'Parquet, portes, mobilier sur mesure', tex: 'bois' },
+  { nom: 'Laiton brossé', note: 'Poignées, luminaires, filets de finition', tex: 'metal' },
+  { nom: 'Marbre veiné', note: 'Plans de travail, salles d’eau', tex: 'marbre' },
+  { nom: 'Lin naturel', note: 'Rideaux, tapisserie d’ameublement', tex: 'lin' },
+  { nom: 'Plâtre taloché', note: 'Murs, niches, enduits de finition', tex: 'platre' },
+  { nom: 'Noir mat', note: 'Menuiseries, quincaillerie, accents', tex: 'noir' },
+];
+---
+
+<section id="materiaux" class="section-y overflow-hidden">
+  <div class="container-ff">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <SectionHeading eyebrow="Carnet d’échantillons" title="Les matières du studio" text="Un vocabulaire resserré, décliné selon le lieu et la lumière plutôt qu’un catalogue figé." />
+      <p class="hidden shrink-0 items-center gap-2 text-sm text-muted lg:flex" data-reveal-native>
+        <Icon name="MoveHorizontal" size={16} class="text-accent" /> Faites glisser
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-12" data-drag-grid>
+    <ul class="drag-track px-6 sm:px-[calc((100vw-var(--container))/2+1.5rem)]">
+      {matieres.map((m) => (
+        <li class="w-60 flex-none select-none sm:w-64">
+          <div class:list={['swatch aspect-[4/5] rounded-card border border-line', `swatch--${m.tex}`]} aria-hidden="true"></div>
+          <p class="mt-4 font-display text-lg">{m.nom}</p>
+          <p class="mt-1 text-sm text-muted">{m.note}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .swatch { background-color: var(--bg-2); }
+  .swatch--bois {
+    background-image: repeating-linear-gradient(
+      100deg,
+      color-mix(in oklch, var(--accent) 55%, var(--bg-2)) 0 3px,
+      color-mix(in oklch, var(--accent) 30%, var(--bg-2)) 3px 7px,
+      color-mix(in oklch, var(--accent) 45%, var(--bg-2)) 7px 11px
+    );
+  }
+  .swatch--metal {
+    background-image: linear-gradient(
+      135deg,
+      color-mix(in oklch, var(--accent) 70%, white 10%) 0%,
+      color-mix(in oklch, var(--accent) 35%, var(--bg-2)) 45%,
+      color-mix(in oklch, var(--accent) 80%, white 15%) 100%
+    );
+  }
+  .swatch--marbre {
+    background-color: var(--surface);
+    background-image:
+      linear-gradient(115deg, transparent 40%, color-mix(in oklch, var(--fg) 18%, transparent) 41%, transparent 43%),
+      linear-gradient(70deg, transparent 60%, color-mix(in oklch, var(--fg) 12%, transparent) 61%, transparent 64%),
+      linear-gradient(20deg, transparent 20%, color-mix(in oklch, var(--accent) 20%, transparent) 21%, transparent 23%);
+  }
+  .swatch--lin {
+    background-image: repeating-linear-gradient(
+      0deg,
+      color-mix(in oklch, var(--fg) 8%, var(--bg-2)) 0 2px,
+      var(--bg-2) 2px 5px
+    );
+  }
+  .swatch--platre { background-color: color-mix(in oklch, var(--fg) 6%, var(--bg-2)); }
+  .swatch--noir { background-color: var(--ink); }
+</style>

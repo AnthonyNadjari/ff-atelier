@@ -1,0 +1,90 @@
+---
+/**
+ * "Commander ou nous écrire" : formulaire à gauche, coordonnées à droite présentées comme un
+ * ticket de caisse (police mono, filets pointillés, horaires en tabular-nums, "code-barres"
+ * décoratif en pied) — écho de la nav "ticket" en tête de page. data-confetti est posé sur la
+ * section : motion.ts n'écoute l'évènement ff:form-success que si l'attribut est présent quelque
+ * part dans le DOM (voir src/scripts/motion.ts) ; il se déclenche dès qu'un fournisseur de
+ * formulaire dispatche cet évènement (mailto compris), et sera actif dès qu'une vraie clé
+ * web3forms/cloudflare sera renseignée. Composition propre à ce site.
+ */
+import { site, tel, mailto } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Icon from '@/components/Icon.astro';
+import Carte from '@/components/Carte.astro';
+---
+
+<section id="contact" class="section-y bg-bg-2" data-confetti>
+  <div class="container-ff">
+    <SectionHeading eyebrow="Contact" title={site.wording.contactTitle} text={site.wording.contactText} />
+
+    <div class="mt-12 grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-7" data-reveal="left">
+        <div class="card rounded-card bg-surface p-6 shadow-card md:p-8">
+          <ContactForm />
+          {site.form.provider === 'none' && <p class="text-muted">Appelez-nous ou écrivez-nous, nous répondons vite.</p>}
+        </div>
+      </div>
+
+      <div class="lg:col-span-5" data-reveal="right">
+        <div class="ticket-receipt rounded-card bg-surface shadow-card">
+          <div class="border-b-2 border-dashed border-fg/20 p-6 text-center font-mono">
+            <p class="text-xs uppercase tracking-[0.24em] text-muted">Maison Roux — ticket</p>
+            <p class="mt-1 font-display text-lg uppercase text-fg">Nous trouver</p>
+          </div>
+
+          <div class="space-y-4 p-6 font-mono text-sm">
+            <p class="flex items-center gap-3"><Icon name="Phone" size={16} class="shrink-0 text-accent" /><a href={tel()} class="tabular-nums hover:text-accent">{site.contact.phoneDisplay}</a></p>
+            <p class="flex items-center gap-3"><Icon name="Mail" size={16} class="shrink-0 text-accent" /><a href={mailto()} class="break-all hover:text-accent">{site.contact.email}</a></p>
+
+            {site.contact.hours.length > 0 && (
+              <div class="ticket-hours">
+                <p class="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted"><Icon name="Clock" size={14} />Horaires</p>
+                <ul class="divide-y divide-dashed divide-fg/15">
+                  {site.contact.hours.map((h) => (
+                    <li class="flex items-baseline gap-2 py-1.5">
+                      <span>{h.days}</span>
+                      <span class="ticket-leader" aria-hidden="true"></span>
+                      <span class="shrink-0 tabular-nums text-accent">{h.hours}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          <div class="ticket-barcode" aria-hidden="true"></div>
+        </div>
+
+        <div class="mt-6">
+          <Carte />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ticket-receipt { overflow: hidden; }
+  .ticket-leader {
+    flex: 1 1 auto;
+    min-width: 1rem;
+    border-bottom: 2px dotted color-mix(in oklch, var(--fg) 45%, transparent);
+    transform: translateY(-0.2em);
+  }
+  .ticket-barcode {
+    height: 2.25rem;
+    margin: 0 1.5rem 1.5rem;
+    background-image: repeating-linear-gradient(
+      90deg,
+      var(--fg) 0 2px,
+      transparent 2px 5px,
+      var(--fg) 5px 6px,
+      transparent 6px 11px,
+      var(--fg) 11px 14px,
+      transparent 14px 17px
+    );
+    opacity: 0.75;
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+/**
+ * "La carte" : liste typographique à filets pointillés + tabular-nums (site.services, filtrés sur
+ * les articles à prix fixe — le gâteau sur commande, sans prix fixe, a sa propre section
+ * "CommanderGateau"). Composition différente de sites/barbier-kessler/sections/Tarifs.astro (liste
+ * plate unique) : ici deux colonnes par catégorie, grain de papier en fond (data-grain), prix qui
+ * se décodent au scroll (data-scramble) plutôt qu'un simple data-reveal, et la spécialité maison
+ * encadrée d'une bordure animée (data-border-beam).
+ */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const priced = site.services.filter((s) => s.priceFrom);
+const categories = [
+  { label: 'Les pains', items: priced.filter((s) => s.slug.startsWith('pain-')) },
+  { label: 'Viennoiseries, pâtisserie & midi', items: priced.filter((s) => !s.slug.startsWith('pain-')) },
+];
+
+// Coups de cœur : les articles a prix fixe marques "featured" (site.services), en petites cartes
+// photo — seul endroit de la carte a montrer une image plutot qu'une ligne typographique.
+const favoris = priced
+  .filter((s) => s.featured)
+  .map((s, i) => ({ ...s, img: `/images/galerie-${i + 1}.webp` }));
+---
+
+<section id="carte" class="section-y bg-bg-2" data-grain>
+  <div class="container-ff">
+    <SectionHeading eyebrow="La carte" title="Ce qui sort du four" text="Prix affichés, sans supplément. Carte bancaire ou espèces." />
+
+    {favoris.length > 0 && (
+      <ul class="mt-10 grid gap-5 sm:grid-cols-3" data-stagger="90">
+        {favoris.map((f) => (
+          <li class="favori-card group relative overflow-hidden rounded-card shadow-card" data-tilt="8" data-tilt-glare data-reveal="scale">
+            <Img src={f.img} alt={f.title} class="h-40 w-full object-cover" sizes="(min-width: 640px) 33vw, 100vw" loading="lazy" />
+            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent p-4">
+              <p class="font-display text-lg text-on-ink">{f.title}</p>
+              <p class="tabular-nums text-sm text-on-ink/80">{f.priceFrom}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <div class="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-16">
+      {categories.map((cat) => cat.items.length > 0 && (
+        <div>
+          <h3 class="font-display text-display-sm uppercase tracking-tight" data-reveal>{cat.label}</h3>
+          <hr class="mt-4 border-t-2 border-fg/20" data-draw />
+          <ul class="mt-2 divide-y divide-dashed divide-fg/20" data-stagger="80">
+            {cat.items.map((item) => (
+              <li
+                class:list={['flex items-baseline gap-3 py-4', item.slug === 'pain-au-levain' && 'carte-special relative rounded-card px-4']}
+                data-reveal
+                data-border-beam={item.slug === 'pain-au-levain' ? true : undefined}
+              >
+                {item.slug === 'pain-au-levain' && <span class="carte-badge">Spécialité</span>}
+                <Icon name={item.icon} size={18} class="shrink-0 text-accent" strokeWidth={1.5} />
+                <span class="font-display text-lg leading-tight">{item.title}</span>
+                <span class="carte-leader" aria-hidden="true"></span>
+                <span class="shrink-0 font-display text-lg tabular-nums text-accent" data-scramble="700">{item.priceFrom}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-10 measure text-sm text-muted">Composition selon les récoltes et la saison — quelques pains ou pâtisseries peuvent manquer en fin de matinée.</p>
+  </div>
+</section>
+
+<style>
+  .carte-leader {
+    flex: 1 1 auto;
+    min-width: 1.25rem;
+    border-bottom: 2px dotted color-mix(in oklch, var(--fg) 45%, transparent);
+    transform: translateY(-0.3em);
+  }
+  .carte-special {
+    isolation: isolate;
+    padding-block: 1rem;
+    background: color-mix(in oklch, var(--accent) 8%, var(--bg));
+  }
+  .carte-badge {
+    position: absolute;
+    top: -0.6rem;
+    left: 1rem;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--on-ink);
+    padding: 0.15rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+</style>

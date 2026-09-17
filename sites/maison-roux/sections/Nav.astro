@@ -1,0 +1,107 @@
+---
+/**
+ * Nav dessinée pour Maison Roux : une barre "ticket de caisse" — papier clair, bordure basse en
+ * tirets (perforation), nom de l'enseigne en police mono façon en-tête de reçu, chaque lien de
+ * navigation traité comme une ligne de ticket (libellé, filet pointillé, icône) plutôt qu'un menu
+ * classique. Grain de papier léger (data-grain, CSS pur). Le bouton d'appel joue le rôle de la
+ * ligne "total" du ticket, en chiffres tabulaires. Sur mobile, le menu déroule la suite du ticket
+ * (mêmes lignes, pleine largeur), le bouton d'appel restant toujours visible en tête de barre.
+ * Composition propre à ce site — aucune reprise d'un autre nav de l'atelier.
+ */
+import { site, tel, navLinks } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const links = navLinks();
+const icons: Record<string, string> = {
+  '#fournee': 'Clock',
+  '#carte': 'Receipt',
+  '#about': 'Heart',
+  '#commandergateau': 'Cake',
+  '#faq': 'CircleHelp',
+  '#contact': 'Mail',
+};
+---
+
+<header data-nav data-grain class="ticket-nav sticky top-0 z-50 bg-surface">
+  <div class="container-ff flex items-center justify-between gap-4 py-3">
+    <a href="#hero" class="flex flex-col leading-none">
+      <span class="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-muted">Boulangerie · depuis {site.business.since}</span>
+      <span class="font-display text-xl uppercase tracking-tight text-fg sm:text-2xl">{site.business.name}</span>
+    </a>
+
+    {/*
+      Le bouton d'appel (tel:) est place avant la nav dans le DOM, remis a sa position visuelle
+      habituelle (a droite) par `order-*` — meme correctif que sites/barbier-kessler/sections/Nav.astro
+      et sites/dubois-plomberie/sections/Nav.astro : sans ca, les six liens de nav (chacun avec une
+      icone SVG inline) repoussent le premier lien tel: au-dela des 1500 premiers caracteres du corps
+      de page verifies par `ff verifier`.
+    */}
+    <div class="order-3 flex items-center gap-2">
+      <a
+        href={tel()}
+        class="btn btn-primary hidden items-center gap-2 rounded-ui bg-accent px-4 py-2.5 font-mono text-sm tabular-nums text-on-accent shadow-card sm:inline-flex"
+        data-magnetic="0.2"
+      >
+        <Icon name="Phone" size={16} />{site.contact.phoneDisplay}
+      </a>
+      <button class="ticket-toggle flex flex-col gap-1.5 p-2 lg:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
+        <span class="block h-[2px] w-6 bg-fg"></span>
+        <span class="block h-[2px] w-6 bg-fg"></span>
+        <span class="block h-[2px] w-6 bg-fg"></span>
+      </button>
+    </div>
+
+    <nav class="order-2 hidden items-center gap-6 lg:flex" aria-label="Navigation">
+      {links.map((l) => (
+        <a href={l.href} class="ticket-line group flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-fg/80 hover:text-accent">
+          <span>{l.label}</span>
+          <span class="ticket-leader" aria-hidden="true"></span>
+          <Icon name={icons[l.href] ?? 'Dot'} size={14} class="shrink-0 opacity-70 group-hover:opacity-100" />
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  <div class="hidden border-t-2 border-dashed border-fg/25 bg-surface lg:hidden" data-menu>
+    <ul class="container-ff flex flex-col divide-y divide-dashed divide-fg/15 py-2">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} class="flex items-center justify-between gap-4 py-3 font-mono text-sm uppercase tracking-[0.08em] text-fg">
+            <span class="flex items-center gap-3"><Icon name={icons[l.href] ?? 'Dot'} size={16} class="text-accent" />{l.label}</span>
+            <span class="text-fg/40" aria-hidden="true">···</span>
+          </a>
+        </li>
+      ))}
+      <li>
+        <a href={tel()} class="flex items-center justify-between gap-4 py-3 font-mono text-sm uppercase tracking-[0.08em] text-accent">
+          <span class="flex items-center gap-3"><Icon name="Phone" size={16} />Appeler</span>
+          <span class="tabular-nums">{site.contact.phoneDisplay}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<style>
+  .ticket-nav {
+    border-bottom: 2px dashed color-mix(in oklch, var(--fg) 35%, transparent);
+    box-shadow: 0 1px 0 var(--bg), var(--shadow-card);
+  }
+  .ticket-leader {
+    display: inline-block;
+    width: 1.1rem;
+    height: 0;
+    border-bottom: 2px dotted color-mix(in oklch, var(--fg) 45%, transparent);
+    transform: translateY(-0.25em);
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  btn?.addEventListener('click', () => {
+    const open = menu!.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
+</script>

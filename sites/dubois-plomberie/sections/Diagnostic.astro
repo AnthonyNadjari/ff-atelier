@@ -63,19 +63,25 @@ const items = [
 
     <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-stagger="90">
       {items.map((it) => (
-        <li class="h-64 rounded-card" data-flip-card aria-label={`${it.symptom} — voir la cause probable`}>
-          <div class="flip-inner rounded-card">
-            <div class="flip-front rounded-card border border-line bg-surface p-6">
-              <Icon name={it.icon} size={30} class="text-accent" strokeWidth={1.5} />
-              <p class="mt-5 font-display text-xl leading-snug">{it.symptom}</p>
-              <p class="mt-auto pt-6 text-xs uppercase tracking-[0.14em] text-muted">Retourner la carte</p>
-            </div>
-            <div class="flip-back rounded-card bg-ink p-6 text-on-ink">
-              <p class="eyebrow text-on-ink/60">Cause probable</p>
-              <p class="mt-2 text-sm text-on-ink/90">{it.cause}</p>
-              <p class="eyebrow mt-5 text-on-ink/60">Notre geste</p>
-              <p class="mt-2 text-sm text-on-ink/90">{it.action}</p>
-              {it.serviceTitle && <p class="mt-5 inline-block rounded-pill border border-on-ink/25 px-3 py-1 text-xs text-on-ink/80">{it.serviceTitle}</p>}
+        <li class="h-64 rounded-card">
+          {/* data-flip-card sur ce div (pas le <li>) : motion.ts (flipCards(), non modifiable ici) pose
+              role="button" sur l'element [data-flip-card] — sur un <li>, ca casse la semantique de
+              liste (li role=button n'est pas un enfant de <ul> valide, audit Lighthouse "list").
+              Le <li> reste un item de liste neutre, le comportement/role bouton passe sur ce wrapper. */}
+          <div class="h-full rounded-card" data-flip-card aria-label={`${it.symptom} — voir la cause probable`}>
+            <div class="flip-inner rounded-card">
+              <div class="flip-front rounded-card border border-line bg-surface p-6">
+                <Icon name={it.icon} size={30} class="text-accent" strokeWidth={1.5} />
+                <p class="mt-5 font-display text-xl leading-snug">{it.symptom}</p>
+                <p class="mt-auto pt-6 text-xs uppercase tracking-[0.14em] text-muted">Retourner la carte</p>
+              </div>
+              <div class="flip-back rounded-card bg-ink p-6 text-on-ink">
+                <p class="eyebrow text-on-ink/60">Cause probable</p>
+                <p class="mt-2 text-sm text-on-ink/90">{it.cause}</p>
+                <p class="eyebrow mt-5 text-on-ink/60">Notre geste</p>
+                <p class="mt-2 text-sm text-on-ink/90">{it.action}</p>
+                {it.serviceTitle && <p class="mt-5 inline-block rounded-pill border border-on-ink/25 px-3 py-1 text-xs text-on-ink/80">{it.serviceTitle}</p>}
+              </div>
             </div>
           </div>
         </li>
