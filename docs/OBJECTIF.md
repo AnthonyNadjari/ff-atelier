@@ -96,6 +96,8 @@ S'arrêter et le dire quand : les sept critères sont cochés ; ou un critère d
 
 ## Journal
 
+- 17 sept 2026 (16h) : effet `data-frames` (séquence d'images pilotée par le scroll, façon page produit Apple, vue dans un reel envoyé par le fondateur), `ff sequence` (vidéo -> images sans ffmpeg, via Chrome ; testé sur une vraie capture .mov), `ff animer` (photo -> vidéo via fal.ai, mode simulation, règle : photo réelle du client uniquement, marquage IA). Démo réelle sur forge-delacroix (bloc « Le geste », 48 images, 0,35 Mo) et sur _effets.
+
 - 17 sept 2026 (15h30) : chasse a la performance : Tailwind limite a src/ + site courant + variantes utilisees (CSS 119 -> 51 Ko), feuille inlinee, polices de direction remplacees non chargees, `<img>` -> `<picture>` AVIF/WebP en post-build pour tous les sites, budget `ff perf` ajuste. toits-cie mobile 84 -> 91. Isolation totale des sites par le module virtuel (config, look.json, sections). Test de syntaxe par fichier de site.
 
 - 17 sept 2026 (après-midi) : auto-ecole-rabelais et borie-des-chenes terminés par le coordinateur (agents coupés par la limite de session) : critère 1 = 20/20. Playbook commercial livré. `ff sante`, guide client après livraison, `ff domaine`, documents juridiques.

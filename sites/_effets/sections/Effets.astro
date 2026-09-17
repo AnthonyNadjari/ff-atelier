@@ -391,9 +391,22 @@ const revealVariants = [
     </script>
   </div>
 
+  <!-- ===================== data-frames (sequence d'images, effet "page produit") ===================== -->
+  <div class="mt-24 relative h-[70vh] overflow-hidden bg-ink text-on-ink" data-frames="/anim/demo/" data-frames-count="48" data-frames-ext="webp" data-frames-pad="4" data-frames-mobile="/anim/demo-mobile/" data-frames-poster="/anim/demo/0001.webp" data-pin="180">
+    <canvas data-frames-canvas></canvas>
+    <div class="container-ff relative z-[1] h-full flex flex-col justify-center">
+      <p class="eyebrow">39 · data-frames (séquence synthétique, sharp)</p>
+      <div class="mt-6 grid gap-3">
+        <p data-pin-step class="font-display text-display-sm">Étape un — la forme tourne.</p>
+        <p data-pin-step class="font-display text-display-sm">Étape deux — elle grandit.</p>
+        <p data-pin-step class="font-display text-display-sm">Étape trois — elle se stabilise.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="container-ff mt-24">
     <p class="text-sm text-muted">
-      Fin de la vitrine — {revealVariants.length + 30} effets et plus, un seul moteur (src/scripts/motion.ts).
+      Fin de la vitrine — {revealVariants.length + 31} effets et plus, un seul moteur (src/scripts/motion.ts).
       Scroll fluide (<code class="font-mono text-xs">data-smooth</code>) actif sur toute cette page via
       <code class="font-mono text-xs">site.smoothScroll</code>.
     </p>

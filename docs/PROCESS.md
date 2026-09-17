@@ -54,6 +54,30 @@ vides — jamais complétés à la place du client.
    `site.config.ts`.
 5. `node scripts/ff.mjs verifier <slug>` avant tout envoi au client (voir checklist § 7).
 
+## 4bis. Animation produit (optionnelle)
+
+Pour un client dont le produit/lieu se prête à l'effet "page produit" (une montre, une pièce
+d'ébénisterie, un plat signature...) : une séquence d'images (`data-frames`, voir `docs/ANIMATIONS.md`)
+jouée image par image pendant que le visiteur scrolle. Optionnel, à réserver aux sites où ça apporte
+vraiment quelque chose (pas un artisan pressé, pas un site déjà chargé en animations) :
+
+1. **Point de départ : une vraie vidéo ou une vraie photo du client.** Deux chemins possibles :
+   - Le client a déjà une vidéo (tournage, smartphone) : `node scripts/ff.mjs sequence <slug>
+     <video.mp4|.mov> --n 60 --nom <nom>` extrait N frames régulièrement espacées (sans ffmpeg, via
+     Chrome) et les réencode en WebP desktop + mobile.
+   - Le client n'a qu'une photo : `node scripts/ff.mjs animer <slug> <photo> "<prompt>"` l'anime
+     (image-to-video, fal.ai), puis enchaîne automatiquement avec `ff sequence` sur le résultat.
+2. **Règle non négociable** (identique à la règle sur les images IA, `docs/veille/redaction-images.md`
+   §2.3, et à la règle 2 de `CLAUDE.md`) : on n'anime **jamais** une image générée ou une photo de
+   banque présentée comme "du" client — uniquement une photo ou une vidéo réelle de son propre
+   produit, lieu ou réalisation. Une vidéo générée par IA à partir d'une photo réelle est acceptable
+   (le produit/lieu représenté est réel), une image entièrement inventée ne l'est jamais.
+3. **Marquage AI Act (art. 50, applicable depuis le 2 août 2026)** dès qu'`ff animer` a été utilisé :
+   `data-ia="1"` sur la section concernée et une mention visible ("animation générée à partir d'une
+   photo") — `ff animer` le rappelle à chaque exécution et le journalise dans `CREDITS.md`.
+4. Coller les attributs `data-frames-*` affichés par `ff sequence` dans la section (voir l'exemple
+   complet de `docs/ANIMATIONS.md` § data-frames et la démo `sites/_effets/`).
+
 ## 5. Appel de restitution
 
 On montre le site au client (lien de preview ou partage d'écran), on note ses retours. La plupart des

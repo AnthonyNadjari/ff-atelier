@@ -14,6 +14,7 @@ export default defineSite({
     nav: 'minimal',
     hero: 'custom/hero',
     sections: [
+      { type: 'custom', variant: 'geste', label: 'Le geste' },
       { type: 'custom', variant: 'feu', label: 'Le feu' },
       { type: 'custom', variant: 'pieces', label: 'Pièces' },
       { type: 'services', variant: 'list' },

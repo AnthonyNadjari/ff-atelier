@@ -73,6 +73,65 @@ page (même garde que `rich()`), jamais en `<script>` statique. Nouvelles dépen
 | `data-border-beam` | subtle | Bordure conique tournante (`@property --border-beam-angle`), 100 % CSS, pour une carte/CTA qui doit attirer l'œil. |
 | `data-reveal-native` | subtle | Variante de `data-reveal` via `animation-timeline: view()` (`@supports`) : zéro JS là où supporté, repli automatique sur le même `IntersectionObserver` que `data-reveal` sinon. Opt-in, ne remplace pas `data-reveal` par défaut. |
 
+## Sequence d'images "page produit" (`data-frames`, effet Apple)
+
+`data-frames="/anim/x/"` (rich, GSAP ScrollTrigger scrub) : une image sequence (WebP) est dessinée
+frame par frame sur un `<canvas>`, pilotée par la progression du scroll — l'effet vu sur les pages
+produit Apple/luxe (une montre qui tourne, un objet qui se déplie). Markup minimal :
+
+```html
+<section
+  data-frames="/anim/montre/"
+  data-frames-count="60"
+  data-frames-ext="webp"
+  data-frames-pad="4"
+  data-frames-mobile="/anim/montre-mobile/"
+  data-frames-poster="/anim/montre/0001.webp"
+  data-pin="180"
+>
+  <canvas data-frames-canvas></canvas>
+  <div class="container-ff relative z-[1] h-full flex flex-col justify-center">
+    <p data-pin-step>Étape un.</p>
+    <p data-pin-step>Étape deux.</p>
+  </div>
+</section>
+```
+
+| Attribut | Obligatoire | Rôle |
+|---|---|---|
+| `data-frames="/anim/x/"` | oui | Dossier des frames (`ff sequence`/`ff animer` les génèrent). |
+| `data-frames-count="60"` | oui | Nombre de frames dans le dossier. |
+| `data-frames-ext="webp"` | non (défaut `webp`) | Extension des fichiers. |
+| `data-frames-pad="4"` | non (défaut `4`) | Chiffres du nom de fichier (`0001.webp`...). |
+| `data-frames-mobile="/anim/x-mobile/"` | non | Dossier de frames plus légères, utilisé sous 767 px. |
+| `data-frames-poster="/anim/x/0001.webp"` | non (défaut : frame 1 du dossier actif) | Affichée instantanément, avant tout chargement. |
+| `data-pin="180"` (même élément) | recommandé | Épingle la section pendant le scrub ; ses `[data-pin-step]` s'activent avec la même progression (voir `data-pin` ci-dessus). |
+
+Comportement : le poster se dessine immédiatement (aucune attente réseau visible). Le préchargement
+des frames suivantes ne démarre **jamais avant l'événement `load` de la fenêtre**, puis seulement quand
+la section entre à moins d'une hauteur d'écran (`IntersectionObserver`), par priorité première/dernière/
+milieu puis le reste dans l'ordre. Le canvas est DPR-aware (plafonné à 2) et dessine en `cover` ; le
+dessin est throttlé en `requestAnimationFrame`. Le tactile fonctionne via le défilement natif
+(`ScrollTrigger` le gère déjà, aucun code dédié). Hors `motion="rich"` ou `prefers-reduced-motion` :
+**aucune frame n'est préchargée**, seul le poster reste visible via un `<img class="ff-frames-fallback">`
+créé en JS (le `<canvas>` est masqué). Démo complète : `sites/_effets/sections/Effets.astro` (bloc
+`data-frames`, séquence synthétique 1280/640 px dans `sites/_effets/public/anim/demo(-mobile)/`).
+
+**Production des frames** (`scripts/ff/sequence.mjs`, `scripts/ff/animer.mjs`) :
+
+- `ff sequence <slug> <video.mp4|.mov> [--n 60] [--largeur 1280] [--nom montre]` — extrait N frames
+  espacées régulièrement d'une vidéo **sans ffmpeg** (Chrome via `playwright-core`), réencode en WebP
+  (desktop + mobile) dans `sites/<slug>/public/anim/<nom>/` et `.../anim/<nom>-mobile/`, affiche la
+  taille totale et les attributs `data-frames-*` prêts à coller. Si Chrome ne sait pas décoder le
+  fichier (HEVC `.mov` d'iPhone typiquement), affiche la commande `ffmpeg` de repli.
+- `ff animer <slug> <image> "<prompt>" [--modele minimax|kling] [--duree 5] [--simuler]` — anime une
+  **photo réelle du client** (image-to-video, fal.ai) et suggère d'enchaîner avec `ff sequence` sur la
+  vidéo produite. **Règle stricte** (`docs/veille/redaction-images.md` §2.3, `docs/REDACTION.md`) :
+  n'anime jamais une image générée ou une photo de banque présentée comme "du client" — uniquement une
+  vraie photo de son produit/lieu/réalisation. Marquage AI Act (art. 50) obligatoire sur la section
+  qui utilise le résultat : attribut `data-ia="1"` + mention visible ("animation générée à partir d'une
+  photo").
+
 ## Transitions de page (opt-in, infrastructure partielle)
 
 `site.transitions: boolean` (schéma, défaut `false`) ajoute `<ClientRouter />` (`astro:transitions`) dans

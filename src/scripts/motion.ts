@@ -50,11 +50,28 @@
  * data-border-beam            CSS   bordure conique tournante (@property --border-beam-angle)
  * data-reveal-native           CSS  variante de data-reveal via animation-timeline:view() (@supports),
  *                                   repli automatique sur le meme IntersectionObserver que data-reveal
+ *
+ * --- Sequence d'images "page produit" (effet Apple, docs/ANIMATIONS.md) ---
+ * data-frames="/anim/x/"      rich   sequence d'images (WebP) dessinee sur un <canvas data-frames-canvas>
+ *                                   au fil du scroll (frameSequences(), voir aussi `ff sequence` et
+ *                                   `ff animer`, scripts/ff/sequence.mjs et animer.mjs). Sous-attributs :
+ *                                   data-frames-count (nombre de frames), data-frames-ext ("webp" par
+ *                                   defaut), data-frames-pad (chiffres du nom de fichier, 4 par defaut,
+ *                                   ex. 0001.webp), data-frames-mobile="/anim/x-mobile/" (dossier plus
+ *                                   leger, <= 767px), data-frames-poster="/anim/x/0001.webp" (affiche
+ *                                   instantanement, avant tout prechargement). A poser avec data-pin sur
+ *                                   le meme element pour l'effet d'epinglage ; [data-pin-step] a
+ *                                   l'interieur s'active avec la meme progression. Hors motion="rich" ou
+ *                                   prefers-reduced-motion : seul le poster (repli <img> cree en JS,
+ *                                   aucune frame prechargee) reste visible.
  */
 export function initMotion() {
   const root = document.documentElement;
   const motion = root.dataset.motion ?? 'subtle';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // data-frames : le poster doit s'afficher quel que soit le palier de motion (voir frameSequences()),
+  // donc appele avant le repli anticipe ci-dessous.
+  frameSequences(motion, reduced);
   if (motion === 'none' || reduced) {
     document.querySelectorAll<HTMLElement>('[data-reveal],[data-stagger],[data-reveal-native]').forEach((el) => el.classList.add('is-visible'));
     return;
@@ -164,6 +181,188 @@ function trailImages() {
       clearTimeout(timers.get(img));
       timers.set(img, setTimeout(() => img.classList.remove('is-on'), 450));
     });
+  });
+}
+
+/**
+ * data-frames="/anim/x/" (+ [data-frames-canvas] a l'interieur) : sequence d'images dessinee au fil du
+ * scroll, effet "page produit" (Apple/luxe). Sous-attributs : data-frames-count (obligatoire),
+ * data-frames-ext ("webp" par defaut), data-frames-pad (4 par defaut, 0001.webp...),
+ * data-frames-mobile="/anim/x-mobile/" (dossier plus leger, <= 767px), data-frames-poster (repli
+ * instantane). Poster dessine sans attendre ; le prechargement des frames suivantes ne demarre jamais
+ * avant l'evenement `load` de la fenetre, et seulement quand la section entre a moins d'une hauteur
+ * d'ecran (IntersectionObserver), par priorite premiere/derniere/milieu puis le reste dans l'ordre. Hors
+ * motion="rich" ou prefers-reduced-motion : aucune frame n'est prechargee, seul le poster (repli <img>
+ * cree en JS, classe .ff-frames-fallback) reste visible, [data-frames-canvas] est masque. Le scrub
+ * (progression -> frame) reutilise la longueur de data-pin si le meme element le porte (cas d'usage
+ * recommande : section epinglee).
+ */
+function frameSequences(motion: string, reduced: boolean) {
+  const sections = document.querySelectorAll<HTMLElement>('[data-frames]');
+  if (!sections.length) return;
+  const richMotion = motion === 'rich';
+  sections.forEach((el) => {
+    const canvas = el.querySelector<HTMLCanvasElement>('[data-frames-canvas]');
+    const pad = Number(el.getAttribute('data-frames-pad')) || 4;
+    const ext = el.getAttribute('data-frames-ext') || 'webp';
+    const base = el.getAttribute('data-frames') || '';
+    const poster = el.getAttribute('data-frames-poster') || `${base}${'1'.padStart(pad, '0')}.${ext}`;
+    if (!richMotion || reduced || !canvas) {
+      if (canvas) canvas.hidden = true;
+      if (!el.dataset.framesFallbackDone) {
+        el.dataset.framesFallbackDone = '1';
+        const img = document.createElement('img');
+        img.className = 'ff-frames-fallback';
+        img.alt = '';
+        img.src = poster;
+        el.prepend(img);
+      }
+      return;
+    }
+    setupFrameSequence(el, canvas, poster, { base, pad, ext }).catch(() => {});
+  });
+}
+
+/** Ordre de prechargement d'une sequence data-frames (index 1..count) : premiere, derniere, milieu, puis le reste dans l'ordre. */
+function framesLoadOrder(count: number): number[] {
+  const order: number[] = [];
+  const seen = new Set<number>();
+  const push = (i: number) => {
+    if (i >= 1 && i <= count && !seen.has(i)) {
+      seen.add(i);
+      order.push(i);
+    }
+  };
+  push(1);
+  push(count);
+  push(Math.round((1 + count) / 2));
+  for (let i = 1; i <= count; i++) push(i);
+  return order;
+}
+
+/** Dessine `img` en cover-fit dans un canvas de cw x ch pixels reels (deja multiplies par le DPR). */
+function drawFramesCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, cw: number, ch: number) {
+  const iw = img.naturalWidth || img.width;
+  const ih = img.naturalHeight || img.height;
+  if (!iw || !ih) return;
+  const ir = iw / ih;
+  const cr = cw / ch;
+  let sx = 0,
+    sy = 0,
+    sw = iw,
+    sh = ih;
+  if (ir > cr) {
+    sw = ih * cr;
+    sx = (iw - sw) / 2;
+  } else {
+    sh = iw / cr;
+    sy = (ih - sh) / 2;
+  }
+  ctx.clearRect(0, 0, cw, ch);
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+}
+
+/** Redimensionne le canvas au format d'affichage reel, DPR plafonne a 2 ; renvoie la taille en pixels. */
+function sizeFramesCanvas(canvas: HTMLCanvasElement) {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const rect = canvas.getBoundingClientRect();
+  const w = Math.max(1, Math.round(rect.width * dpr));
+  const h = Math.max(1, Math.round(rect.height * dpr));
+  if (canvas.width !== w || canvas.height !== h) {
+    canvas.width = w;
+    canvas.height = h;
+  }
+  return { w, h };
+}
+
+/** Met en place le canvas d'une section data-frames : poster immediat, prechargement paresseux (jamais avant `load`), scrub GSAP ScrollTrigger. */
+async function setupFrameSequence(el: HTMLElement, canvas: HTMLCanvasElement, poster: string, opts: { base: string; pad: number; ext: string }) {
+  const count = Math.max(1, Number(el.getAttribute('data-frames-count')) || 1);
+  const mobileBase = el.getAttribute('data-frames-mobile');
+  const isMobile = Boolean(mobileBase) && window.matchMedia('(max-width: 47.9375rem)').matches;
+  const base = isMobile && mobileBase ? mobileBase : opts.base;
+  const framePath = (i: number) => `${base}${String(i).padStart(opts.pad, '0')}.${opts.ext}`;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  let { w: cw, h: ch } = sizeFramesCanvas(canvas);
+
+  const images: HTMLImageElement[] = [];
+  let currentIndex = 0;
+
+  const drawIndex = (i: number) => {
+    const img = images[i];
+    if (img && img.complete && img.naturalWidth) {
+      drawFramesCover(ctx, img, cw, ch);
+      currentIndex = i;
+    }
+  };
+
+  // Poster immediat, sans attendre le prechargement des frames.
+  const posterImg = new Image();
+  posterImg.decoding = 'async';
+  posterImg.onload = () => {
+    if (!currentIndex) drawFramesCover(ctx, posterImg, cw, ch);
+  };
+  posterImg.src = poster;
+
+  // Prechargement paresseux : jamais avant `load`, demarre quand la section entre a < 1 hauteur d'ecran.
+  const beginPreload = () => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          io.disconnect();
+          framesLoadOrder(count).forEach((i) => {
+            const img = new Image();
+            img.decoding = 'async';
+            img.onload = () => {
+              if (i === 1 && !currentIndex) drawIndex(1);
+            };
+            img.src = framePath(i);
+            images[i] = img;
+          });
+        }
+      },
+      { rootMargin: '100% 0px 100% 0px', threshold: 0 },
+    );
+    io.observe(el);
+  };
+  if (document.readyState === 'complete') beginPreload();
+  else window.addEventListener('load', beginPreload, { once: true });
+
+  window.addEventListener(
+    'resize',
+    () => {
+      const s = sizeFramesCanvas(canvas);
+      cw = s.w;
+      ch = s.h;
+      if (currentIndex) drawIndex(currentIndex);
+    },
+    { passive: true },
+  );
+
+  // Scrub au scroll (touche = defilement natif, ScrollTrigger le gere deja) : progress -> frame, rAF-throttle.
+  const { gsap } = await import('gsap');
+  const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+  gsap.registerPlugin(ScrollTrigger);
+  const len = Number(el.dataset.pin || 100);
+  let pendingProgress = 0;
+  let raf = 0;
+  const render = () => {
+    raf = 0;
+    const frame0 = Math.round(pendingProgress * (count - 1));
+    drawIndex(Math.min(count, Math.max(1, frame0 + 1)));
+  };
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top top',
+    end: `+=${len}%`,
+    scrub: true,
+    onUpdate: (st) => {
+      pendingProgress = st.progress;
+      if (!raf) raf = requestAnimationFrame(render);
+    },
   });
 }
 

@@ -320,4 +320,6 @@ les nuances de ton ou les règles des professions réglementées.
 
 Pour la partie images (shot list par métier, retouche, IA, checklist « images livrables »), voir
 `docs/veille/redaction-images.md` §2 et §3.2, et la commande `ff nettoyer-photos` (`CLAUDE.md`, tableau
-des commandes).
+des commandes). Même règle pour une vidéo/animation générée par IA (`ff animer`, `docs/PROCESS.md`
+§4bis) : uniquement à partir d'une photo réelle du client, jamais d'une image inventée — et marquage
+AI Act (`data-ia="1"` + mention visible) obligatoire sur la section qui l'utilise.

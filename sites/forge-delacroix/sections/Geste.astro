@@ -1,0 +1,39 @@
+---
+/**
+ * « Le geste » : séquence d'images pilotée par le scroll (data-frames). La photo de la forge se
+ * rapproche et s'embrase pendant que trois légendes se succèdent. Séquence générée depuis la photo
+ * du hero (sites/forge-delacroix/public/anim/geste, 48 images, 0,35 Mo desktop + mobile).
+ * Avec une vraie vidéo du client : `ff sequence forge-delacroix video.mp4 --nom geste`.
+ */
+const etapes = [
+  { titre: 'On chauffe.', texte: 'L’acier passe au rouge cerise. Là, il accepte la forme.' },
+  { titre: 'On frappe.', texte: 'Volutes, torsades, écrasements : chaque motif est né sous le marteau.' },
+  { titre: 'On pose.', texte: 'Galvanisé ou patiné, puis fixé chez vous. On revient régler si besoin.' },
+];
+---
+
+<section
+  id="geste"
+  class="relative min-h-svh overflow-hidden bg-ink text-on-ink"
+  data-frames="/anim/geste/"
+  data-frames-count="48"
+  data-frames-ext="webp"
+  data-frames-pad="4"
+  data-frames-mobile="/anim/geste-mobile/"
+  data-frames-poster="/anim/geste/0001.webp"
+  data-pin="220"
+>
+  <canvas data-frames-canvas class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+  <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" aria-hidden="true"></div>
+  <div class="container-ff relative z-[1] flex min-h-svh flex-col justify-end pb-24">
+    <p class="eyebrow text-on-ink/70">Le geste, en trois temps</p>
+    <div class="relative mt-4 h-[9rem] md:h-[11rem]">
+      {etapes.map((e) => (
+        <div data-pin-step class="absolute inset-x-0 top-0 transition-opacity duration-500">
+          <h2 class="font-display leading-none" style="font-size: clamp(3rem, 9vw, 8rem);">{e.titre}</h2>
+          <p class="mt-4 max-w-md text-on-ink/75">{e.texte}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

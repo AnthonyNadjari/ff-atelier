@@ -22,6 +22,8 @@ import { cmdVignettes } from './ff/vignettes.mjs';
 import { cmdModele, cmdModeles } from './ff/modele.mjs';
 import { cmdPhotos } from './ff/photos.mjs';
 import { cmdVideo } from './ff/video.mjs';
+import { cmdSequence } from './ff/sequence.mjs';
+import { cmdAnimer } from './ff/animer.mjs';
 import { cmdIllustration } from './ff/illustration.mjs';
 import { cmdLighthouse } from './ff/lighthouse.mjs';
 import { cmdPerf } from './ff/perf.mjs';
@@ -66,6 +68,8 @@ const commands = {
   modeles: cmdModeles,
   photos: cmdPhotos,
   video: cmdVideo,
+  sequence: cmdSequence,
+  animer: cmdAnimer,
   illustration: cmdIllustration,
   lighthouse: cmdLighthouse,
   perf: cmdPerf,
