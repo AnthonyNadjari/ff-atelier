@@ -1,0 +1,55 @@
+---
+/**
+ * "Autour" (custom/Autour) : piste glissable (`data-drag-grid`, même mécanique que
+ * `atelier-lecerf/Matieres.astro`/`studio-ambre/Materiaux.astro`/`veto-du-drac/Equipe.astro` — pas
+ * les mêmes cartes : ici quatre lieux réels de la vallée, en fiche typographique pure, sans
+ * photo). Les temps de trajet viennent tels quels de la donnée fournie pour ce site (aucun
+ * chronométrage inventé au-delà) : Sarlat ≈ 25 min, Les Eyzies ≈ 20 min, Beynac ≈ 15 min,
+ * Lascaux ≈ 45 min, tous « en voiture » depuis Saint-Cyprien.
+ */
+const lieux = [
+  { nom: 'Beynac-et-Cazenac', note: 'Château au-dessus de la Dordogne', trajet: '15 min' },
+  { nom: 'Les Eyzies', note: 'Capitale de la préhistoire', trajet: '20 min' },
+  { nom: 'Sarlat-la-Canéda', note: 'Vieille ville et marché', trajet: '25 min' },
+  { nom: 'Lascaux', note: 'La grotte et ses fac-similés', trajet: '45 min' },
+];
+---
+
+<section id="autour" class="section-y overflow-hidden bg-bg-2">
+  <div class="container-ff">
+    <div class="flex flex-wrap items-end justify-between gap-6" data-reveal>
+      <div>
+        <p class="eyebrow">Autour de La Borie</p>
+        <h2 class="mt-4 max-w-lg text-display-lg">La vallée, à quelques minutes</h2>
+      </div>
+      <p class="hidden shrink-0 items-center gap-2 text-sm text-muted lg:flex" data-reveal-native>
+        Glissez pour voir les quatre lieux
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-12" data-drag-grid id="autour-drag">
+    <ul class="drag-track px-[max(1.25rem,calc((100vw-var(--container))/2+1.25rem))]">
+      {lieux.map((l, i) => (
+        <li class="w-64 flex-none select-none sm:w-72">
+          <div class="card flex h-full flex-col justify-between rounded-card border border-line bg-surface p-6 shadow-card">
+            <div>
+              <p class="font-mono text-xs text-muted">0{i + 1}</p>
+              <h3 class="mt-3 font-display text-xl text-fg">{l.nom}</h3>
+              <p class="mt-2 text-sm text-muted">{l.note}</p>
+            </div>
+            <p class="mt-6 font-display text-lg tabular-nums text-accent">{l.trajet} <span class="text-xs font-sans text-muted">en voiture</span></p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    #autour-drag { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
+    #autour-drag .drag-track { touch-action: auto; cursor: auto; }
+    #autour-drag li { scroll-snap-align: start; }
+  }
+</style>

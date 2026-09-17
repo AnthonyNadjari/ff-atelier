@@ -1,0 +1,37 @@
+---
+/**
+ * "Disponibilités" (custom/Disponibilites) : pas de calendrier — aucune donnée de réservation
+ * réelle n'existe pour ce site de démonstration, un faux calendrier « places libres » serait une
+ * donnée inventée (règle 2 de CLAUDE.md). À la place, une note honnête et le téléphone : la
+ * manière la plus sobre de dire « demandez-nous », sans faire semblant d'un système de réservation
+ * en direct qui n'existe pas.
+ */
+import { site, tel } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+---
+
+<section id="disponibilites" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <div class="mx-auto max-w-xl text-center" data-reveal>
+      <p class="eyebrow">Disponibilités</p>
+      <h2 class="mt-4 text-display-md">Pas de calendrier en ligne&nbsp;: un vrai coup de fil</h2>
+      <p class="measure mx-auto mt-5 text-muted">
+        À quatre chambres et un gîte, les disponibilités changent vite selon la saison. Plutôt que de
+        vous montrer une date libre qui ne le serait déjà plus&nbsp;: nous appeler ou nous écrire, pour
+        recevoir une réponse avec les dates réellement disponibles.
+      </p>
+      {site.business.since && (
+        <p class="mt-3 text-sm text-muted">Ouvert d’avril à octobre.</p>
+      )}
+    </div>
+
+    <div class="mx-auto mt-10 flex max-w-xl flex-col items-center gap-4 sm:flex-row sm:justify-center">
+      <a href={tel()} class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-ui bg-accent px-6 py-3.5 font-medium text-on-accent transition-colors hover:bg-accent-2">
+        <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
+      </a>
+      <a href="#reservation" class="btn btn-ghost inline-flex items-center justify-center gap-2 rounded-ui border border-line px-6 py-3.5 font-medium text-fg transition-colors hover:border-fg">
+        {site.wording.devis}
+      </a>
+    </div>
+  </div>
+</section>

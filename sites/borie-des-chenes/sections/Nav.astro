@@ -1,0 +1,70 @@
+---
+/**
+ * Nav sur mesure pour La Borie des Chênes : pas de bouton burger — à cinq ancres, tout tient sans
+ * repli caché (contrairement à la plupart des navs du dépôt : bandeau plein cage `dubois-plomberie`/
+ * `veto-du-drac`/`ampere-fils`, panneau plein écran `lemaire-avocats`/`encre-noire`/`studio-ambre`,
+ * dropdown « Sommaire » `maison-aurore`, ticket de caisse `maison-roux`, dock `chez-malo`, caisson
+ * `moteur-fils`, masthead deux lignes `jardins-mael`, numéro géant `toits-cie`, nom qui se
+ * découpe en lettres `barbier-kessler`, plaque d'atelier `atelier-lecerf`) : sur mobile les cinq
+ * ancres deviennent une bande à défilement horizontal (`overflow-x-auto`, sans script), jamais
+ * masquées derrière un bouton. Fil de lecture (`data-scroll-progress`) en hairline sous la barre.
+ */
+import { site, tel, navLinks } from '@/lib/site';
+const links = navLinks();
+---
+
+<div data-scroll-progress aria-hidden="true"></div>
+
+<header data-nav class="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-bg/92 backdrop-blur-sm transition-[border-color,box-shadow] duration-500 [&.is-scrolled]:border-line [&.is-scrolled]:shadow-card">
+  {/* href="tel:" doit rester dans les 1500 premiers caracteres du corps (ff verifier) : le groupe
+      telephone+CTA est ecrit AVANT le nom dans le DOM, puis remis a sa place visuelle (a droite)
+      par order-2 (nom en order-1) — meme technique que dubois-plomberie/veto-du-drac/ampere-fils. */}
+  <div class="container-ff flex items-center justify-between gap-4 py-4">
+    <div class="order-2 flex items-center gap-4">
+      <a href={tel()} class="hidden whitespace-nowrap text-sm text-muted transition-colors hover:text-fg sm:inline">
+        {site.contact.phoneDisplay}
+      </a>
+      <a href={tel()} class="whitespace-nowrap text-sm text-muted transition-colors hover:text-fg sm:hidden" aria-label={`Appeler le ${site.contact.phoneDisplay}`}>
+        Appeler
+      </a>
+      <a href="#reservation" class="btn btn-ghost hidden rounded-ui border border-line px-4 py-2 text-sm sm:inline-flex">
+        {site.wording.devis}
+      </a>
+    </div>
+
+    <a href="/" class="order-1 font-display text-lg tracking-tight text-fg lg:text-xl">{site.business.name}</a>
+  </div>
+
+  <nav class="border-t border-line/70 lg:hidden" aria-label="Navigation">
+    <ul class="scroll-strip flex gap-5 overflow-x-auto px-6 py-2.5 text-xs uppercase tracking-[0.1em] text-muted">
+      {links.map((l) => (
+        <li class="shrink-0"><a href={l.href} class="transition-colors hover:text-fg">{l.label}</a></li>
+      ))}
+      <li class="shrink-0 sm:hidden"><a href="#reservation" class="font-medium text-accent">{site.wording.devis}</a></li>
+    </ul>
+  </nav>
+
+  <nav class="hidden border-t border-line/70 lg:block" aria-label="Navigation principale">
+    <ul class="container-ff flex items-center justify-center gap-8 py-2.5 text-xs uppercase tracking-[0.14em] text-muted">
+      {links.map((l, i) => (
+        <>
+          <li><a href={l.href} class="transition-colors hover:text-fg">{l.label}</a></li>
+          {i < links.length - 1 && <li aria-hidden="true" class="text-line">·</li>}
+        </>
+      ))}
+    </ul>
+  </nav>
+</header>
+<div class="h-[92px] lg:h-[104px]" aria-hidden="true"></div>
+
+<style>
+  .scroll-strip { scrollbar-width: none; -ms-overflow-style: none; }
+  .scroll-strip::-webkit-scrollbar { display: none; }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-nav]');
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

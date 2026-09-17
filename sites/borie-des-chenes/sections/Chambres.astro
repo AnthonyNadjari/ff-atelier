@@ -1,0 +1,83 @@
+---
+/**
+ * "Les chambres" (custom/Chambres) : piste de défilement horizontal (`data-horizontal` + `.h-track`,
+ * mécanique déjà utilisée par `anna-vidal/Series.astro` et `maison-aurore/Espace.astro` pour une
+ * galerie de photos — ici pour quatre fiches chambre, chacune nom / taille / vue / prix en
+ * `tabular-nums`, jamais des photos seules). Les quatre chambres viennent de `site.services`
+ * (filtrées par préfixe `chambre-` : le gîte, cinquième entrée du même tableau, n'appartient pas à
+ * la piste et se lit en une ligne à part sous celle-ci). Aucun prix inventé au-delà de la
+ * fourchette du brief (95 à 130 €, petit-déjeuner compris) : chaque chambre reprend un montant de
+ * cette fourchette, marqué « indicatif » une seule fois en légende plutôt que répété quatre fois.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const chambres = site.services.filter((s) => s.slug.startsWith('chambre-'));
+const gite = site.services.find((s) => s.slug.startsWith('gite-'));
+---
+
+<section id="chambres" class="section-y overflow-hidden">
+  <div class="container-ff">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div data-reveal>
+        <p class="eyebrow">Les chambres</p>
+        <h2 class="mt-4 max-w-lg text-display-lg">Quatre chambres, chacune sa vue</h2>
+      </div>
+      <p class="max-w-sm text-muted" data-reveal data-reveal-delay="100">
+        95 à 130&nbsp;€ la nuit, petit-déjeuner compris — tarifs indicatifs.
+      </p>
+    </div>
+  </div>
+
+  <div class="relative mt-14 md:mt-20" data-horizontal>
+    <ul class="h-track flex flex-col gap-10 px-6 md:flex-row md:items-stretch md:gap-8 md:px-[max(1.25rem,calc((100vw-var(--container))/2+1.25rem))]">
+      {chambres.map((c) => (
+        <li class="shrink-0 max-md:max-w-[90%] md:w-[22vw] md:min-w-[17rem]">
+          <figure data-reveal="scale">
+            <div class="overflow-hidden rounded-card shadow-card">
+              {c.image && <Img src={c.image.src} alt={c.image.alt} class="aspect-[4/5] w-full object-cover" sizes="(min-width: 768px) 22vw, 90vw" loading="lazy" />}
+            </div>
+          </figure>
+          <div class="mt-5">
+            <h3 class="font-display text-xl text-fg">{c.title}</h3>
+            <dl class="mt-3 space-y-1.5 text-sm">
+              <div class="flex justify-between gap-3 border-b border-line/70 pb-1.5">
+                <dt class="text-muted">Taille</dt>
+                <dd class="tabular-nums">{c.bullets[0]}</dd>
+              </div>
+              <div class="flex justify-between gap-3 border-b border-line/70 pb-1.5">
+                <dt class="text-muted">Vue</dt>
+                <dd class="text-right">{c.bullets[1]}</dd>
+              </div>
+              <div class="flex justify-between gap-3 pt-0.5">
+                <dt class="text-muted">Nuit</dt>
+                <dd class="font-display text-base tabular-nums text-accent">{c.priceFrom}</dd>
+              </div>
+            </dl>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  {gite && (
+    <div class="container-ff mt-16">
+      <div class="card flex flex-col items-start justify-between gap-4 rounded-card border border-line bg-surface p-6 shadow-card sm:flex-row sm:items-center md:p-8" data-reveal>
+        <div>
+          <p class="eyebrow">Aussi à La Borie</p>
+          <h3 class="mt-2 font-display text-xl text-fg">{gite.title}</h3>
+          <p class="mt-1 text-muted">{gite.short}</p>
+        </div>
+        <p class="font-display text-2xl tabular-nums text-accent whitespace-nowrap">{gite.priceFrom} <span class="text-sm font-sans text-muted">/ semaine</span></p>
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    #chambres [data-horizontal] { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
+    #chambres .h-track { touch-action: auto; }
+    #chambres .h-track > li { scroll-snap-align: start; }
+  }
+</style>

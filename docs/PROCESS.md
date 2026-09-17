@@ -111,6 +111,23 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
 - [ ] Checklist « images livrables » (15 points, `docs/veille/redaction-images.md` §3.2) relue — aucune
       IA sur `portrait`/`team`/`gallery`/`beforeAfter`, droit à l'image, `CREDITS.md` à jour.
 
+## 7bis. Suivi après livraison
+
+Le client reçoit `docs/APRES-LIVRAISON.md` (et sa version autonome `outils/apres-livraison.html`,
+avec cases à cocher) : ce qu'il doit faire lui-même la semaine qui suit la mise en ligne (fiche
+Google Business Profile, Search Console, Bing Places, Apple Business Connect, PagesJaunes, demande
+d'avis, statistiques, renouvellement du domaine, sauvegarde, contact du studio).
+
+Côté studio, `node scripts/ff.mjs sante <slug>` (voir `docs/DEPLOIEMENT.md` et l'aide de la commande)
+vérifie que le site est réellement accessible et en bonne santé une fois en ligne — HTTP 200 sur les
+pages clés, vrai 404 sur `/404`, redirection HTTP→HTTPS, cache des assets, certificat TLS, expiration
+du domaine, DNS. Contrairement à `ff verifier`/`ff lighthouse` (qui testent un build local avant
+livraison), `ff sante` teste le site **déjà en ligne**. À lancer :
+
+- **à J+1** (le lendemain de la mise en ligne), une fois le DNS propagé et le certificat HTTPS émis ;
+- **une fois par mois** ensuite, en routine (domaine qui approche de son expiration, certificat,
+  disponibilité) — pas besoin d'un rendez-vous client pour ça, une simple commande.
+
 ## 8. Positionnement prix
 
 Prestation **au forfait, en une fois** (one-shot) : brief, production, restitution, corrections

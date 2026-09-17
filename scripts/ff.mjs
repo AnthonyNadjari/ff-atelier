@@ -25,6 +25,7 @@ import { cmdVideo } from './ff/video.mjs';
 import { cmdIllustration } from './ff/illustration.mjs';
 import { cmdLighthouse } from './ff/lighthouse.mjs';
 import { cmdPerf } from './ff/perf.mjs';
+import { cmdSante } from './ff/sante.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -68,6 +69,7 @@ const commands = {
   illustration: cmdIllustration,
   lighthouse: cmdLighthouse,
   perf: cmdPerf,
+  sante: cmdSante,
 };
 
 async function main() {

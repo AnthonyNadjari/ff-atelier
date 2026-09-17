@@ -1,0 +1,80 @@
+---
+/**
+ * "Financement" : cartes retournables (data-flip-card) — recto la question posée par un élève,
+ * verso la réponse factuelle, sans promesse d'éligibilité (chaque réponse renvoie à "sous
+ * réserve"/"selon votre situation"). CPF et "permis à 1 € par jour" sont deux dispositifs publics
+ * réels, documentés sur la même fiche officielle service-public.fr (vérifiée le 17 sept 2026 :
+ * https://www.service-public.gouv.fr/particuliers/vosdroits/F13609, "Quelles aides pour financer
+ * le permis de conduire ?", couvre les deux). Paiement en 3 fois : facilité interne à l'auto-école
+ * (pas de lien officiel, ce n'est pas un dispositif d'État). Même structure de carte que
+ * sites/dubois-plomberie/sections/Diagnostic.astro (data-flip-card sur le wrapper, pas le <li>,
+ * pour ne pas casser la sémantique de liste — motion.ts pose role="button" sur [data-flip-card]).
+ */
+import Icon from '@/components/Icon.astro';
+
+const officialUrl = 'https://www.service-public.gouv.fr/particuliers/vosdroits/F13609';
+
+const items = [
+  {
+    icon: 'Landmark',
+    question: 'Le CPF peut-il financer le permis ?',
+    answer: 'Selon la catégorie du permis et les droits acquis, le compte personnel de formation peut couvrir tout ou partie du coût — sous réserve d’éligibilité, à vérifier avant l’inscription.',
+    link: true,
+  },
+  {
+    icon: 'PiggyBank',
+    question: 'Qu’est-ce que le « permis à 1 € par jour » ?',
+    answer: 'Un prêt à taux zéro proposé par des banques partenaires de l’État, remboursable en mensualités à partir d’environ 1 € par jour selon le montant emprunté et la durée choisie.',
+    link: true,
+  },
+  {
+    icon: 'CreditCard',
+    question: 'Peut-on régler en plusieurs fois ?',
+    answer: 'Oui, un paiement en 3 fois sans frais est proposé à l’inscription, à convenir avec le secrétariat.',
+    link: false,
+  },
+];
+---
+
+<section id="financement" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <p class="eyebrow">Financement</p>
+    <h2 class="mt-4 text-display-lg">Des solutions existent, sous conditions.</h2>
+    <p class="measure mt-4 text-muted">
+      Retournez une carte pour la réponse. Ces dispositifs dépendent de votre situation personnelle&nbsp;; l’auto-école ne peut garantir votre éligibilité.
+    </p>
+  </div>
+
+  <ul class="container-ff mt-12 grid gap-5 sm:grid-cols-3" data-stagger="90">
+    {items.map((it) => (
+      <li class="h-64 rounded-card">
+        <div class="h-full rounded-card" data-flip-card aria-label={`${it.question} — voir la réponse`}>
+          <div class="flip-inner rounded-card">
+            <div class="flip-front rounded-card border border-line bg-surface p-6">
+              <Icon name={it.icon} size={28} class="text-accent" strokeWidth={1.5} />
+              <p class="mt-5 font-display text-lg leading-snug">{it.question}</p>
+              <p class="mt-auto pt-6 text-xs uppercase tracking-[0.14em] text-muted">Retourner la carte</p>
+            </div>
+            <div class="flip-back rounded-card bg-ink p-6 text-on-ink">
+              <p class="text-sm text-on-ink/90">{it.answer}</p>
+              {it.link && (
+                <a href={officialUrl} target="_blank" rel="noopener" class="mt-5 inline-flex items-center gap-1.5 text-xs font-medium text-on-ink underline underline-offset-4">
+                  Page officielle service-public.fr
+                  <Icon name="ArrowUpRight" size={14} />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  #financement .flip-front,
+  #financement .flip-back {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

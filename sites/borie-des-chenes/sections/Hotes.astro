@@ -1,0 +1,71 @@
+---
+/**
+ * "Les hôtes" (custom/Hotes) : portrait d'Anne et Marc en fondu masqué (`data-reveal="mask"`) à
+ * côté de leur histoire (`site.about.story`), puis une phrase d'accueil qui se remplit au défilement
+ * (`data-text-fill`). Le masque suit le même correctif que
+ * `sites/veto-du-drac/sections/Equipe.astro`/`sites/encre-noire/sections/Styles.astro` : la règle
+ * `[data-reveal='mask']` de `global.css` referme le masque *après* la règle générique `.is-visible`,
+ * à spécificité égale — sans filet local le fondu ne se révèle jamais. Ici, en plus, l'élément
+ * masqué est clippé à ~0,5 % avant révélation (`clip-path: inset(99.5% 0 0 0)`) : l'IntersectionObserver
+ * générique de `reveal()` calcule son ratio sur la zone visible *après* clip-path, jamais sur la
+ * boîte de mise en page — un élément masqué à 99,5 % ne peut donc jamais atteindre le seuil
+ * (0.12) tout seul. On observe ici un ancêtre jamais clippé (la `<section>` elle-même) et on pose
+ * `.is-visible` à la main sur la figure dès qu'elle entre dans la vue, plutôt que de laisser
+ * `reveal()` observer la figure clippée directement.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const portrait = site.about.portrait;
+---
+
+<section id="hotes" class="section-y">
+  <div class="container-ff grid gap-12 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-5">
+      {portrait && (
+        <figure class="relative aspect-[4/5] overflow-hidden rounded-card bg-surface" data-reveal="mask">
+          <Img src={portrait.src} alt={portrait.alt} class="h-full w-full object-cover" sizes="(min-width: 1024px) 40vw, 90vw" loading="lazy" />
+        </figure>
+      )}
+    </div>
+
+    <div class="lg:col-span-7">
+      <p class="eyebrow" data-reveal>{site.about.title ?? 'Les hôtes'}</p>
+      <p class="mt-6 max-w-2xl font-display text-display-md leading-tight" data-text-fill>
+        Ce n’est pas une réception qui vous accueille&nbsp;: c’est Anne, ou c’est Marc.
+      </p>
+
+      <div class="measure mt-8 space-y-4 text-muted" data-reveal data-reveal-delay="100">
+        {site.about.story.split(/\n\s*\n/).filter(Boolean).map((p) => <p>{p.trim()}</p>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById('hotes');
+  const mask = section?.querySelector<HTMLElement>('[data-reveal="mask"]');
+  if (section && mask) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            mask.classList.add('is-visible');
+            io.unobserve(section);
+          }
+        }
+      },
+      { threshold: 0.1 },
+    );
+    io.observe(section);
+  }
+</script>
+
+<style>
+  /* Voir en-tete : la regle generique de global.css perd toujours face a [data-reveal='mask'] a
+     specificite egale, et <Img> insere un <picture> entre la figure et l'<img> (le zoom-arriere
+     generique cible ` > img`, plus `> picture > img`). Filet local a specificite superieure
+     grace a #hotes. */
+  #hotes [data-reveal='mask'].is-visible { clip-path: inset(0 0 0 0); }
+  #hotes [data-reveal='mask'].is-visible > picture > img { transform: scale(1); }
+</style>

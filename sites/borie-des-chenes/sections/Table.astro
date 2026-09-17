@@ -1,0 +1,49 @@
+---
+/**
+ * "La table" (custom/Table) : le menu du soir comme une liste typographique à filets pointillés
+ * (même principe visuel que `chez-malo/sections/Carte.astro`, composition différente — un seul
+ * menu du jour à prix unique, pas une carte à plusieurs plats prixés séparément : ici le filet
+ * relie chaque temps du repas à un mot qui le nomme, pas à un prix ; le seul prix de la section
+ * (32 €, donnée du brief) apparaît une fois, en pied de liste, marqué indicatif). Aucun plat
+ * précis inventé : les temps du repas restent génériques (entrée, plat, fromage, dessert),
+ * jamais un nom de recette qui laisserait croire à un menu réel figé.
+ */
+const temps = [
+  { nom: 'Apéritif du jardin', mot: 'à l’ombre du tilleul' },
+  { nom: 'Entrée de saison', mot: 'ce que le marché donne' },
+  { nom: 'Plat mijoté', mot: 'une recette d’Anne' },
+  { nom: 'Fromages fermiers', mot: 'du Périgord' },
+  { nom: 'Dessert de la maison', mot: 'fait le matin même' },
+];
+---
+
+<section id="table" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <div class="flex flex-wrap items-end justify-between gap-6" data-reveal>
+      <h2 class="max-w-lg font-display text-display-lg leading-none">La table d’hôtes</h2>
+      <p class="max-w-sm text-muted">Le soir, sur réservation — un seul menu, servi ensemble, autour de la même table.</p>
+    </div>
+
+    <ul class="mx-auto mt-16 max-w-2xl space-y-7" data-stagger="90">
+      {temps.map((t) => (
+        <li class="leader" data-reveal>
+          <span class="leader-name font-display">{t.nom}</span>
+          <span class="leader-fill" aria-hidden="true"></span>
+          <span class="leader-note">{t.mot}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="mx-auto mt-14 max-w-2xl border-t border-line pt-6 text-center" data-reveal>
+      <p class="font-display text-2xl tabular-nums text-accent">32&nbsp;€ <span class="text-base font-sans text-muted">par personne (indicatif)</span></p>
+      <p class="mt-2 text-sm text-muted">Réservation la veille, pour connaître le nombre de convives.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .leader { display: flex; flex-wrap: wrap; align-items: baseline; }
+  .leader-name { flex: 1 1 14rem; min-width: 0; padding-right: 0.5rem; font-size: 1.15rem; }
+  .leader-fill { flex: 1 1 2rem; min-width: 0.75rem; align-self: flex-end; margin: 0 0.4em 0.4em; border-bottom: 1px dotted var(--line); }
+  .leader-note { flex: 0 0 auto; white-space: nowrap; font-style: italic; color: var(--muted); }
+</style>

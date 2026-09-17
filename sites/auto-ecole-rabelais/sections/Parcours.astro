@@ -1,0 +1,95 @@
+---
+/**
+ * "Parcours" : les 4 étapes réglementaires du permis, en cartes qui s'épinglent puis se tassent
+ * au scroll (data-stack) — une étape lue à la fois, dans l'ordre où elle se déroule vraiment
+ * (voir aussi le mini-repère "01 Inscription · 02 Code · 03 Conduite · 04 Examen" du hero, même
+ * fil visuel). Chaque étape porte une barre de progression (data-count-bar) qui indique sa place
+ * dans le parcours (25/50/75/100 %) — pas un chiffre d'heures inventé pour les 3 étapes où le
+ * brief n'en donne pas. Seule "Conduite" affiche un vrai nombre d'heures (20 h, le forfait B du
+ * brief : voir sections/Forfaits.astro) ; sa carte, sur fond sombre, porte le halo au curseur
+ * (data-spotlight demandé sur "la carte des heures"). Contenu générique du déroulé d'un permis
+ * (pas une donnée client inventée) — aucun chiffre propre à cette auto-école n'est avancé ici.
+ */
+import Icon from '@/components/Icon.astro';
+
+const stages = [
+  {
+    n: '01',
+    icon: 'FileCheck',
+    title: 'Inscription',
+    text: 'Dossier, numéro NEPH (ANTS), pièce d’identité, ASSR/ASR ou attestation de recensement, justificatif de domicile.',
+    bar: 25,
+    panel: 'bg-surface border border-line',
+    icon_cls: 'text-accent',
+    track: 'bg-line/70',
+    fill: 'bg-accent',
+  },
+  {
+    icon: 'BookOpen',
+    n: '02',
+    title: 'Code',
+    text: 'Entraînement en ligne illimité et séances en salle avec un enseignant, jusqu’à l’examen théorique.',
+    bar: 50,
+    panel: 'bg-bg-2',
+    icon_cls: 'text-accent',
+    track: 'bg-line/70',
+    fill: 'bg-accent',
+  },
+  {
+    icon: 'Car',
+    n: '03',
+    title: 'Conduite',
+    text: 'Le forfait de conduite, en boîte manuelle ou automatique, ajustable selon la progression de chaque élève.',
+    bar: 75,
+    panel: 'bg-ink text-on-ink',
+    icon_cls: 'text-on-ink',
+    track: 'bg-on-ink/20',
+    fill: 'bg-on-ink',
+    hours: '20 h', // forfait B du brief (voir sections/Forfaits.astro) — durée réglementaire de référence
+    spotlight: true,
+  },
+  {
+    icon: 'GraduationCap',
+    n: '04',
+    title: 'Examen',
+    text: 'Présentation organisée par l’auto-école ; la date est fixée par la préfecture.',
+    bar: 100,
+    panel: 'bg-accent text-on-accent',
+    icon_cls: 'text-on-accent',
+    track: 'bg-on-accent/25',
+    fill: 'bg-on-accent',
+  },
+];
+---
+
+<section id="parcours" class="section-y">
+  <div class="container-ff">
+    <p class="eyebrow">Parcours</p>
+    <h2 class="mt-4 text-display-lg">Du dossier au permis, quatre étapes.</h2>
+    <p class="measure mt-4 text-muted">Chaque élève avance à son rythme — l’ordre des étapes reste le même pour tout le monde.</p>
+  </div>
+
+  <div class="mt-12" data-stack>
+    {stages.map((s) => (
+      <div class:list={['flex min-h-[46vh] items-center', s.panel]} data-spotlight={s.spotlight ? true : undefined}>
+        <div class="container-ff relative z-[2] grid gap-8 py-10 md:grid-cols-[auto_1fr_14rem] md:items-center md:gap-12">
+          <div class="flex items-center gap-4">
+            <span class="font-display text-5xl leading-none opacity-50" aria-hidden="true">{s.n}</span>
+            <Icon name={s.icon} size={28} class={s.icon_cls} />
+          </div>
+          <div class="measure">
+            <h3 class="text-display-md">{s.title}</h3>
+            <p class="mt-3 opacity-85">{s.text}</p>
+          </div>
+          <div class="w-full">
+            {s.hours && <p class="font-display text-3xl tabular-nums">{s.hours}</p>}
+            <div class:list={['mt-3 h-2 w-full overflow-hidden rounded-pill', s.track]} data-count-bar={s.bar}>
+              <div class:list={['bar-fill h-full rounded-pill', s.fill]}></div>
+            </div>
+            <p class="mt-2 text-xs uppercase tracking-[0.14em] opacity-70">Étape {Number(s.n)} sur 4</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

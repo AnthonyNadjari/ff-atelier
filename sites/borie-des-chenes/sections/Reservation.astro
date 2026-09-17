@@ -1,0 +1,62 @@
+---
+/**
+ * "Réserver" (custom/Reservation) : bandeau `wording.ctaTitle` puis carte de réservation
+ * (`data-border-beam`, filet qui tourne — même effet que `sites/maison-aurore/sections/Contact.astro`/
+ * `sites/studio-ambre/sections/Contact.astro`/`sites/veto-du-drac/sections/Contact.astro`),
+ * composition inversée par rapport à `maison-aurore` : coordonnées + carte à gauche, formulaire
+ * dans la carte à droite. `<ContactForm />`/`<Carte />` partagés réutilisés tels quels.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import ContactForm from '@/components/ContactForm.astro';
+import Carte from '@/components/Carte.astro';
+import Icon from '@/components/Icon.astro';
+---
+
+<section id="reservation" class="section-y">
+  <div class="container-ff">
+    <div class="mx-auto max-w-xl text-center" data-reveal>
+      <p class="eyebrow">Réserver</p>
+      <h2 class="mt-4 text-display-md" set:html={site.wording.ctaTitle} />
+      <p class="mt-4 text-muted">{site.wording.ctaText}</p>
+    </div>
+
+    <div class="mt-14 grid gap-8 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-5">
+        <div class="card rounded-card border border-line bg-surface p-6 shadow-card md:p-8" data-reveal="left">
+          <p class="eyebrow mb-5">Coordonnées</p>
+          <ul class="space-y-4">
+            <li class="flex gap-3"><Icon name="Phone" size={18} class="mt-0.5 shrink-0 text-accent" /><a href={tel()} class="font-medium">{site.contact.phoneDisplay}</a></li>
+            <li class="flex gap-3"><Icon name="Mail" size={18} class="mt-0.5 shrink-0 text-accent" /><a href={mailto()} class="break-all font-medium">{site.contact.email}</a></li>
+            <li class="flex gap-3"><Icon name="MapPin" size={18} class="mt-0.5 shrink-0 text-accent" /><p>{fullAddress()}</p></li>
+            {site.contact.hours.length > 0 && (
+              <li class="flex gap-3">
+                <Icon name="Clock" size={18} class="mt-0.5 shrink-0 text-accent" />
+                <dl class="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
+                  {site.contact.hours.map((h) => (
+                    <>
+                      <dt class="text-muted">{h.days}</dt>
+                      <dd class="tabular-nums">{h.hours}</dd>
+                    </>
+                  ))}
+                </dl>
+              </li>
+            )}
+          </ul>
+        </div>
+        {site.contact.coordinates && (
+          <div class="mt-6" data-reveal="left" data-reveal-delay="120">
+            <Carte />
+          </div>
+        )}
+      </div>
+
+      <div class="lg:col-span-7">
+        <div class="card relative rounded-card bg-surface p-6 shadow-card md:p-8" data-border-beam data-reveal="right">
+          <h3 class="font-display text-display-sm">{site.wording.contactTitle}</h3>
+          <p class="mt-2 text-muted">{site.wording.contactText}</p>
+          <div class="mt-6"><ContactForm /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

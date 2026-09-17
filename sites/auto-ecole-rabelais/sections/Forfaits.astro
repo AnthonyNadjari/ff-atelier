@@ -1,0 +1,78 @@
+---
+/**
+ * "Forfaits" : table de prix à 3 colonnes, la colonne du milieu (forfait B, l'offre la plus
+ * choisie) légèrement soulevée — les trois prix viennent tels quels du brief (forfait B 20 h
+ * 1 290 €, heure supplémentaire 55 €, code en ligne 30 €), aucun chiffre calculé ou estimé.
+ * Chiffres en tabular-nums pour un alignement propre (voir docs/veille/rendu.md §1.7, déjà
+ * pratiqué dans sites/dubois-plomberie/sections/Tarifs.astro). Tarifs explicitement indiqués
+ * comme indicatifs, sans promesse de prix final pour les formules non chiffrées par le brief
+ * (AAC, moto A2, stage accéléré).
+ */
+import Icon from '@/components/Icon.astro';
+
+const plans = [
+  {
+    tag: 'Accès en ligne',
+    title: 'Code en ligne',
+    price: '30 €',
+    unit: '',
+    desc: 'Entraînement en ligne illimité, en complément des séances en salle.',
+    items: ['Accès en ligne illimité', 'Suivi de la progression'],
+  },
+  {
+    tag: 'Le plus choisi',
+    title: 'Forfait B — 20 h',
+    price: '1 290 €',
+    unit: '',
+    desc: 'Code inclus et 20 heures de conduite, en boîte manuelle ou automatique.',
+    items: ['20 heures de conduite', 'Code inclus', 'Évaluation de départ', 'Suivi personnalisé'],
+    lifted: true,
+  },
+  {
+    tag: 'À l’unité',
+    title: 'Heure supplémentaire',
+    price: '55 €',
+    unit: '/ heure',
+    desc: 'Au-delà du forfait, sans engagement, selon les disponibilités.',
+    items: ['Réservation selon disponibilité', 'Même enseignant si possible'],
+  },
+];
+---
+
+<section id="forfaits" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <p class="eyebrow">Tarifs</p>
+    <h2 class="mt-4 text-display-lg">Ce que ça coûte, clairement.</h2>
+    <p class="measure mt-4 text-muted">
+      Tarifs indicatifs. Conduite accompagnée, permis moto A2 et stage de code accéléré&nbsp;: devis établi selon le profil de l’élève.
+    </p>
+  </div>
+
+  <div class="container-ff mt-12 grid gap-6 md:grid-cols-3 md:items-center" data-stagger="100">
+    {plans.map((p) => (
+      <div
+        class:list={[
+          'flex h-full flex-col rounded-card p-8',
+          p.lifted ? 'relative z-[2] bg-ink text-on-ink shadow-lift md:-translate-y-4' : 'card',
+        ]}
+        data-tilt={p.lifted ? undefined : '4'}
+      >
+        <p class:list={['eyebrow', p.lifted && 'text-on-ink/60']}>{p.tag}</p>
+        <p class="mt-3 font-display text-xl">{p.title}</p>
+        <p class="mt-5 flex items-baseline gap-1 font-display text-4xl tabular-nums">
+          {p.price}
+          {p.unit && <span class:list={['text-base font-normal', p.lifted ? 'opacity-70' : 'text-muted']}>{p.unit}</span>}
+        </p>
+        <p class:list={['mt-4 text-sm', p.lifted ? 'opacity-85' : 'text-muted']}>{p.desc}</p>
+        <ul class="mt-6 space-y-2 text-sm">
+          {p.items.map((it) => (
+            <li class="flex items-start gap-2">
+              <Icon name="Check" size={16} class:list={['mt-0.5 shrink-0', p.lifted ? 'opacity-80' : 'text-accent']} />
+              {it}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,64 @@
+---
+/**
+ * Hero "custom/Hero" — une seule photo plein cadre, épinglée (`data-pin="200"`), trois légendes
+ * qui se succèdent au défilement (matin / après-midi / soir). Différent de
+ * `sites/anna-vidal/sections/Hero.astro` (seul autre usage de `data-pin` du dépôt) : là-bas le nom
+ * est un faux titre géant en `mix-blend-mode: difference` sans photo dédiée au nom, ici le nom de
+ * la maison reste un vrai titre serif (font-display), posé une fois, immobile, sous un bandeau
+ * clair — la photo raconte la journée, le titre reste la signature calme de la maison.
+ *
+ * Même piège que `anna-vidal` évité de la même façon : un élément épinglé par `data-pin` (position
+ * fixed + transform posés par GSAP dès le chargement) ne déclenche pas fiablement
+ * l'IntersectionObserver générique de `reveal()` — le `data-reveal="mask"` de la photo est donc
+ * joué directement au montage (script ci-dessous) plutôt que d'attendre le scroll, avec le même
+ * filet local de spécificité que `anna-vidal`/`veto-du-drac`/`encre-noire` pour rouvrir le masque.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const hero = site.images.hero!;
+const steps = ['Le matin sur la terrasse', 'L’après-midi à la piscine', 'Le soir à la table d’hôtes'];
+---
+
+<section id="hero" class="relative h-svh w-full overflow-hidden bg-ink" data-pin="200">
+  <div class="absolute inset-0" data-reveal="mask">
+    <Img src={hero.src} alt={hero.alt} class="h-full w-full object-cover" sizes="100vw" loading="eager" fetchpriority="high" />
+  </div>
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/15 to-ink/35"></div>
+
+  <div class="relative flex h-full flex-col items-center justify-between px-6 py-16 text-center text-on-ink sm:py-20">
+    <p class="eyebrow text-on-ink/80" data-reveal>{site.contact.address.city} · Dordogne</p>
+
+    <h1 class="font-display text-display-xl leading-[0.95]" data-reveal="scale">
+      {site.business.name}
+    </h1>
+
+    <div class="flex flex-col items-center gap-6">
+      <div class="relative flex min-h-[4.5rem] w-full items-start justify-center px-4 sm:min-h-[5.5rem]">
+        {steps.map((s) => (
+          <p data-pin-step class="absolute inset-x-0 font-display text-lg italic sm:text-2xl">{s}</p>
+        ))}
+      </div>
+      <a href="#chambres" class="text-xs uppercase tracking-[0.22em] text-on-ink/70 transition-colors hover:text-on-ink">
+        Découvrir ↓
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const mask = document.querySelector<HTMLElement>('#hero [data-reveal="mask"]');
+  if (mask) requestAnimationFrame(() => requestAnimationFrame(() => mask.classList.add('is-visible')));
+</script>
+
+<style>
+  #hero [data-reveal='mask'].is-visible { clip-path: inset(0 0 0 0); }
+  #hero [data-reveal='mask'].is-visible > picture > img { transform: scale(1); }
+
+  /* Une seule legende visible a la fois : la mecanique data-pin (motion.ts) bascule .is-active
+     tour a tour sur chaque [data-pin-step], toutes empilees au meme endroit (position absolute,
+     poses dans un conteneur a hauteur reservee juste au-dessus) — la regle generique de
+     global.css (opacite 0.65 au repos) est ici surchargee a 0 pour ne jamais superposer deux
+     legendes lisibles en meme temps. */
+  #hero [data-pin-step]:not(.is-active) { opacity: 0; }
+</style>
