@@ -1,0 +1,61 @@
+---
+/**
+ * Nav sur mesure : une plaque d'atelier plutôt qu'un bandeau générique — filet bas couleur bois,
+ * badge "Depuis 1998" statique (aucune pastille clignotante, ce n'est pas un métier d'urgence),
+ * menu plein écran au clic sur mobile. Le filet du bas EST la barre de progression de lecture
+ * (data-scroll-progress). Script de bascule du menu identique à celui déjà utilisé par plusieurs
+ * sites du dépôt (ampere-fils, studio-ambre, veto-du-drac) : infrastructure éprouvée, pas une
+ * composition — le contenu et le style de cette plaque sont propres à ce site.
+ */
+import { site, tel, navLinks } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const links = navLinks();
+---
+
+<header data-nav class="fixed inset-x-0 top-0 z-50 border-b-2 border-line bg-bg/95 backdrop-blur-sm">
+  <div class="container-ff flex items-center justify-between gap-4 py-4">
+    <a href="/" class="order-1 flex items-center gap-2.5 font-display text-lg leading-none tracking-tight">
+      <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-accent/40 bg-accent/10 font-display text-sm text-accent" aria-hidden="true">AL</span>
+      <span>Atelier <span class="text-accent">Lecerf</span></span>
+    </a>
+
+    {/* Le tel: reste tot dans le DOM (avant le badge et son icone SVG, plus verbeux), pour rester
+        dans les 1500 premiers caracteres du corps (ff verifier). Ordre visuel inchange via order-*
+        (flex) — meme correctif que sites/dubois-plomberie, barbier-kessler, jardins-mael, etc. */}
+    <div class="order-2 flex items-center gap-3 lg:order-3">
+      <Button href={tel()} size="sm" magnetic class="order-2">
+        <Icon name="Phone" size={16} /><span class="hidden sm:inline">{site.contact.phoneDisplay}</span><span class="sm:hidden">Appeler</span>
+      </Button>
+      <span class="order-1 hidden items-center gap-2 rounded-pill border border-line bg-surface px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted md:flex">
+        <Icon name="Hammer" size={13} class="text-accent" />Atelier depuis 1998
+      </span>
+      <button class="order-3 -mr-2 p-2 lg:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
+        <Icon name="Menu" size={22} />
+      </button>
+    </div>
+
+    <nav class="order-3 hidden items-center gap-6 text-sm lg:order-2 lg:flex" aria-label="Navigation principale">
+      {links.map((l) => <a href={l.href} class="text-muted transition-colors hover:text-fg">{l.label}</a>)}
+    </nav>
+  </div>
+
+  <div class="hidden border-t border-line bg-bg lg:hidden" data-menu>
+    <nav class="container-ff flex flex-col py-2" aria-label="Navigation mobile">
+      {links.map((l) => <a href={l.href} class="border-b border-line py-3.5 text-base last:border-0">{l.label}</a>)}
+    </nav>
+  </div>
+
+  <div data-scroll-progress aria-hidden="true"></div>
+</header>
+<div class="h-[68px]" aria-hidden="true"></div>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  btn?.addEventListener('click', () => {
+    const open = menu!.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
+</script>

@@ -1,0 +1,52 @@
+---
+/**
+ * "Offrir" (custom/Offrir) : bons cadeaux en une seule carte qui se retourne (data-flip-card,
+ * déjà utilisé pour "carte qui révèle un contenu" par sites/dubois-plomberie/sections/Diagnostic.astro,
+ * sites/ampere-fils/sections/TableauElectrique.astro, sites/maison-roux/sections/CommanderGateau.astro
+ * et sites/veto-du-drac/sections/PreparerVisite.astro — ici recto = les soins qu'on peut offrir,
+ * verso = "commander par téléphone", jamais un symptôme/cause ni une photo produit). Les trois
+ * montants suggérés au recto sont les trois prix réels déjà affichés ailleurs sur le site (carte
+ * des soins), pas des tarifs de bon cadeau inventés.
+ */
+import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+const suggestions = site.services.filter((s) => s.priceFrom);
+---
+
+<section id="offrir" class="section-y">
+  <div class="container-ff mx-auto max-w-md">
+    <div class="text-center" data-reveal>
+      <p class="eyebrow">Offrir</p>
+      <h2 class="mt-4 text-display-md">Un bon cadeau Maison Aurore</h2>
+    </div>
+
+    <div class="mt-10 h-[26rem] w-full rounded-card" data-flip-card aria-label="Bon cadeau Maison Aurore — voir comment commander">
+      <div class="flip-inner rounded-card">
+        <div class="flip-front relative overflow-hidden rounded-card shadow-card">
+          <Img src="/images/portrait.webp" alt="Ambiance de l’institut Maison Aurore" class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 768px) 28rem, 90vw" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10"></div>
+          <div class="relative z-[2] flex h-full flex-col justify-end gap-4 p-8 text-on-ink">
+            <p class="font-display text-2xl italic">Un soin, un massage, un rituel — à offrir.</p>
+            <ul class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-on-ink/80">
+              {suggestions.map((s) => (
+                <li class="tabular-nums">{s.priceFrom}</li>
+              ))}
+            </ul>
+            <p class="text-xs uppercase tracking-[0.18em] text-on-ink/55">Toucher la carte</p>
+          </div>
+        </div>
+        <div class="flip-back flex h-full flex-col items-center justify-center gap-5 rounded-card border border-line bg-surface p-8 text-center shadow-card">
+          <Icon name="Gift" size={30} class="text-accent" strokeWidth={1.5} />
+          <p class="font-display text-xl">Commander par téléphone</p>
+          <p class="measure text-sm text-muted">Le bon cadeau se prépare à votre nom, pour le montant de votre choix.</p>
+          <a href={tel()} class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-ui bg-accent px-6 py-3 font-medium text-on-accent">
+            <Icon name="Phone" size={16} />
+            {site.contact.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

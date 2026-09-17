@@ -1,0 +1,94 @@
+---
+/**
+ * Nav sur mesure — quasi-silencieuse : une ligne fine, juste un nom en petites capitales et un
+ * seul bouton texte ("Réserver un soin"), fond transparent tant qu'on n'a pas défilé. Pas de
+ * burger, pas de panneau plein écran (contrairement à sites/lemaire-avocats/sections/Nav.astro),
+ * pas de grille de sept liens (studio-ambre), pas de "ticket de caisse" (maison-roux) : les
+ * ancres n'apparaissent qu'au survol/focus d'un petit mot "Sommaire", en simple liste déroulée —
+ * composition propre à ce site. Fil de lecture (data-scroll-progress) en hairline sous la barre.
+ */
+import { site, tel, navLinks } from '@/lib/site';
+const links = navLinks();
+---
+
+<div data-scroll-progress aria-hidden="true"></div>
+
+<header
+  data-nav
+  class="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-bg/0 backdrop-blur-0 transition-[background-color,border-color,backdrop-filter] duration-700 [&.is-scrolled]:border-line [&.is-scrolled]:bg-bg/85 [&.is-scrolled]:backdrop-blur-sm"
+>
+  {/* href="tel:" doit rester dans les 1500 premiers caracteres du corps (ff verifier) : le menu
+      "Sommaire" (cinq ancres) est verbeux en DOM, donc les liens d'action (devis + tel) sont
+      places AVANT lui en DOM et remis a leur place visuelle par order-*, meme technique que
+      dubois-plomberie/barbier-kessler/jardins-mael/lemaire-avocats (qui reordonnent nom vs
+      actions ; ici c'est actions vs menu, a l'interieur du meme groupe). */}
+  <div class="container-ff flex items-center justify-between gap-3 py-5 sm:gap-6 sm:py-6">
+    <div class="order-2 flex items-center gap-3 sm:gap-5">
+      <a
+        href="#contact"
+        class="btn btn-ghost order-2 hidden rounded-ui border border-line px-4 py-2 text-sm sm:inline-flex"
+      >
+        {site.wording.devis}
+      </a>
+      <a href={tel()} class="order-3 whitespace-nowrap text-xs text-fg/70 transition-colors duration-300 hover:text-fg sm:hidden" aria-label={`Appeler le ${site.contact.phoneDisplay}`}>
+        {site.contact.phoneDisplay}
+      </a>
+      <div class="relative order-1" data-nav-menu>
+        <button
+          type="button"
+          class="eyebrow text-fg/70 transition-colors duration-300 hover:text-fg"
+          aria-expanded="false"
+          aria-controls="nav-sommaire"
+          data-nav-toggle
+        >
+          Sommaire
+        </button>
+        <ul
+          id="nav-sommaire"
+          class="absolute right-0 top-full mt-3 hidden min-w-48 flex-col gap-1 rounded-card border border-line bg-surface p-3 shadow-lift [&.is-open]:flex"
+          data-nav-list
+        >
+          {links.map((l) => (
+            <li>
+              <a href={l.href} class="block rounded-ui px-3 py-2 text-sm text-fg/80 transition-colors duration-200 hover:bg-bg-2 hover:text-fg" data-nav-link>{l.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <a href="/" class="order-1 whitespace-nowrap font-display text-xs uppercase tracking-[0.14em] text-fg sm:text-[0.8rem] sm:tracking-[0.32em]">
+      {site.business.name}
+    </a>
+  </div>
+</header>
+<div class="h-[76px]" aria-hidden="true"></div>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('[data-nav-menu]');
+  const toggle = wrap?.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const list = wrap?.querySelector<HTMLElement>('[data-nav-list]');
+  const header = document.querySelector<HTMLElement>('[data-nav]');
+
+  const shut = () => {
+    toggle?.setAttribute('aria-expanded', 'false');
+    list?.classList.remove('is-open');
+  };
+  const open = () => {
+    toggle?.setAttribute('aria-expanded', 'true');
+    list?.classList.add('is-open');
+  };
+
+  toggle?.addEventListener('click', () => (list?.classList.contains('is-open') ? shut() : open()));
+  list?.querySelectorAll<HTMLAnchorElement>('[data-nav-link]').forEach((a) => a.addEventListener('click', shut));
+  document.addEventListener('click', (e) => {
+    if (wrap && !wrap.contains(e.target as Node)) shut();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') shut();
+  });
+
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

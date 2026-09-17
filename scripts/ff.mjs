@@ -10,6 +10,7 @@ import { cmdNettoyerPhotos } from './ff/nettoyer-photos.mjs';
 import { cmdVariete } from './ff/variete.mjs';
 import { cmdExporter } from './ff/exporter.mjs';
 import { cmdDeploy } from './ff/deploy.mjs';
+import { cmdDomaine } from './ff/domaine.mjs';
 import { cmdListe } from './ff/liste.mjs';
 import { cmdAide } from './ff/aide.mjs';
 import { cmdFiger } from './ff/figer.mjs';
@@ -46,6 +47,7 @@ const commands = {
   variete: cmdVariete,
   exporter: cmdExporter,
   deploy: cmdDeploy,
+  domaine: cmdDomaine,
   liste: cmdListe,
   aide: cmdAide,
   captures: runScript('captures.mjs'),

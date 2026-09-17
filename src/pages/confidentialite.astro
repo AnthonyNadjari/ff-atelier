@@ -20,7 +20,7 @@ const destinataire: Record<string, string> = {
 };
 const destinataireTexte = destinataire[provider];
 
-const hasAudience = Boolean(site.analytics.plausible || site.analytics.umami);
+const hasAudience = Boolean(site.analytics.plausible || site.analytics.umami || site.analytics.cloudflare);
 const mapsProvider = site.contact.mapsProvider;
 // <Carte /> n'est rendu que par zones/map et contact/full, et n'affiche une carte reelle que si
 // les donnees necessaires au provider choisi sont presentes (sinon repli sur l'adresse seule, voir
@@ -75,7 +75,7 @@ const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boole
         <h2 class="text-display-sm mb-3">Cookies et traceurs</h2>
         <p>Ce site n'utilise aucun cookie publicitaire ni traceur de suivi entre sites.</p>
         {hasAudience && (
-          <p class="mt-3">La mesure d'audience de ce site est réalisée sans cookie et sans donnée personnelle identifiante{site.analytics.plausible ? ' (Plausible)' : site.analytics.umami ? ' (Umami)' : ''}, et ne nécessite donc pas de consentement préalable.</p>
+          <p class="mt-3">La mesure d'audience de ce site est réalisée sans cookie et sans donnée personnelle identifiante{site.analytics.plausible ? ' (Plausible)' : site.analytics.umami ? ' (Umami)' : site.analytics.cloudflare ? ' (Cloudflare Web Analytics)' : ''}, et ne nécessite donc pas de consentement préalable (exemption prévue par la CNIL pour la mesure d'audience, voir <a href="https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/exemptions" target="_blank" rel="noopener" class="underline">cnil.fr</a>).</p>
         )}
         {showsOsmMap && (
           <p class="mt-3">La carte affichée sur ce site utilise des images cartographiques statiques d'OpenStreetMap, sans cookie ni script de suivi.</p>

@@ -522,7 +522,7 @@ export async function cmdVerifier(args) {
 
   // <img> sans alt
   const imgTagRe = /<img\b[^>]*>/gi;
-  const altRe = /\balt\s*=/i;
+  const altRe = /\balt(\s*=|\s|\/|>)/i; // alt="..." ou alt vide rendu sans valeur (attribut seul)
   const missingAlt = new Set();
   for (const file of files) {
     const html = fs.readFileSync(file, 'utf8');

@@ -1,0 +1,65 @@
+---
+/**
+ * "Carte des soins" (custom/CarteDesSoins) : liste typographique à filets pointillés, groupée par
+ * famille, prix en tabular-nums quand le brief en donne un (sinon la ligne reste sans filet — pas
+ * de prix inventé). Une photo flotte au survol de chaque ligne (data-hover-img, une image par
+ * famille). Composition différente de sites/chez-malo/sections/Carte.astro (menu en trois
+ * colonnes toujours prixées, polices display) et de sites/maison-roux/sections/Carte.astro
+ * (deux colonnes, data-scramble sur les prix) : ici une seule colonne centrée, noms en italique
+ * Cormorant, familles non uniformes (certaines sans aucun prix), grain absent — silence plutôt
+ * que texture de papier.
+ */
+import { site } from '@/lib/site';
+import '@fontsource-variable/cormorant/wght-italic.css';
+
+const bySlug = Object.fromEntries(site.services.map((s) => [s.slug, s]));
+
+const familles = [
+  { label: 'Visage', img: '/images/service-1.webp', slugs: ['soin-visage'] },
+  { label: 'Corps', img: '/images/service-2.webp', slugs: ['massages', 'hammam'] },
+  { label: 'Beauté des mains & épilation', img: '/images/service-3.webp', slugs: ['epilation', 'onglerie'] },
+  { label: 'Rituel signature', img: '/images/service-4.webp', slugs: ['rituel-aurore'] },
+]
+  .map((f) => ({ ...f, items: f.slugs.map((s) => bySlug[s]).filter(Boolean) }))
+  .filter((f) => f.items.length > 0);
+---
+
+<section id="cartedessoins" class="section-y bg-bg-2">
+  <div class="container-ff mx-auto max-w-2xl">
+    <div class="text-center" data-reveal>
+      <p class="eyebrow">Carte des soins</p>
+      <h2 class="mt-4 text-display-md">Ce qui se prépare pour vous</h2>
+      <p class="mt-4 text-muted">Prix indicatifs — le devis exact se fait à la réservation.</p>
+    </div>
+
+    <div class="mt-16 space-y-14">
+      {familles.map((f) => (
+        <div>
+          <p class="eyebrow border-b border-line pb-3">{f.label}</p>
+          <ul class="mt-5 divide-y divide-line/60" data-stagger="90">
+            {f.items.map((s) => (
+              <li class="soin flex items-baseline gap-3 py-4" data-reveal data-hover-img={f.img}>
+                <span class="soin-name font-display italic">{s.title}</span>
+                {s.priceFrom && <span class="soin-leader" aria-hidden="true"></span>}
+                {s.priceFrom && <span class="soin-price shrink-0 tabular-nums text-accent">{s.priceFrom}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .soin { flex-wrap: wrap; }
+  .soin-name { flex: 1 1 12rem; min-width: 0; font-size: 1.15rem; }
+  .soin-leader {
+    flex: 1 1 2rem;
+    min-width: 0.75rem;
+    align-self: flex-end;
+    margin: 0 0.4em 0.35em;
+    border-bottom: 1px dotted color-mix(in oklch, var(--fg) 40%, transparent);
+  }
+  .soin-price { font-size: 1.05rem; white-space: nowrap; }
+</style>

@@ -1,0 +1,67 @@
+---
+/**
+ * "La carte" (custom/carte) : liste typographique à filets pointillés + tabular-nums — un motif
+ * déjà posé par sites/chez-malo/sections/Carte.astro, sites/maison-roux/sections/Carte.astro et
+ * sites/barbier-kessler/sections/Tarifs.astro — mais avec l'en-tête de chaque catégorie collé en
+ * haut de section pendant qu'on défile dans sa liste (`position: sticky`, aucun des trois autres
+ * ne le fait : chez-malo est en trois colonnes fixes, maison-roux en deux colonnes fixes avec des
+ * cartes photo, barbier-kessler en une seule catégorie plate). `top` calé sur la hauteur de la nav
+ * (voir sections/Nav.astro, `h-[4.5rem]`). Composition propre à ce site.
+ */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const categories = [
+  { label: 'Talos', items: site.services.filter((s) => s.slug.startsWith('talos-')) },
+  { label: 'Plats', items: site.services.filter((s) => s.slug.startsWith('plat-')) },
+  { label: 'Desserts', items: site.services.filter((s) => s.slug.startsWith('dessert-')) },
+].filter((c) => c.items.length > 0);
+---
+
+<section id="carte" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <SectionHeading eyebrow="La carte" title="Ce qui sort de la remorque" text="Prix affichés, sans supplément. Espèces ou carte." />
+
+    <div class="mt-12 max-w-2xl border-t border-line">
+      {categories.map((cat) => (
+        <div class="carte-group">
+          <p class="carte-sticky sticky top-[4.5rem] z-10 border-b border-line bg-bg-2/95 py-3 font-mono text-xs uppercase tracking-[0.16em] text-muted backdrop-blur-sm">{cat.label}</p>
+          <ul class="divide-y divide-line" data-stagger="60">
+            {cat.items.map((item) => (
+              <li class="flex items-baseline gap-3 py-4" data-reveal>
+                <Icon name={item.icon} size={18} class="shrink-0 text-accent" strokeWidth={1.5} />
+                <span class="font-display text-lg leading-tight">{item.title}</span>
+                {item.featured && <span class="carte-badge">Spécialité</span>}
+                <span class="carte-leader" aria-hidden="true"></span>
+                <span class="shrink-0 font-display text-lg text-accent tabular-nums">{item.priceFrom}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-10 measure text-sm text-muted">Carte servie sur le marché du jour (voir « Cette semaine » ci-dessus) — certains plats peuvent manquer en fin de service.</p>
+  </div>
+</section>
+
+<style>
+  .carte-leader {
+    flex: 1 1 auto;
+    min-width: 1.25rem;
+    border-bottom: 2px dotted color-mix(in oklch, var(--fg) 35%, transparent);
+    transform: translateY(-0.3em);
+  }
+  .carte-badge {
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--on-ink);
+    padding: 0.15rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+</style>

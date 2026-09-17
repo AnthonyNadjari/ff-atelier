@@ -1,0 +1,74 @@
+---
+/**
+ * "Traiteur" (custom/traiteur) : trois formats d'événement en panneaux plein écran qui s'épinglent
+ * puis se tassent au scroll (data-stack — motif déjà posé par sites/barbier-kessler/Equipe.astro
+ * pour trois portraits typographiques ; ici trois formules avec prix par personne et une barre
+ * data-count-bar par carte, jamais utilisée ensemble avec data-stack ailleurs dans l'atelier). La
+ * capacité maximale du brief (200 convives) n'est affichée que pour le format mariage, seul chiffre
+ * du brief — les deux autres plafonds (entreprise, anniversaire) sont des tailles indicatives de
+ * format, pas des promesses chiffrées du client, présentées comme telles ("jusqu'à", pas "toujours").
+ */
+const formats = [
+  {
+    n: '01',
+    titre: 'Mariage',
+    texte: 'Buffet ou repas assis, la remorque habillée pour votre réception, du vin d’honneur au dessert.',
+    prix: 'à partir de 45 €/pers.',
+    cap: 'Jusqu’à 200 convives',
+    pct: 100,
+    tone: 'bg-surface text-fg',
+    track: 'bg-bg-2',
+    fill: 'bg-accent',
+  },
+  {
+    n: '02',
+    titre: 'Entreprise',
+    texte: 'Cocktail déjeunatoire ou buffet, pour vos séminaires, lancements et repas d’équipe.',
+    prix: 'à partir de 28 €/pers.',
+    cap: 'Jusqu’à 150 convives',
+    pct: 75,
+    tone: 'bg-ink text-on-ink',
+    track: 'bg-on-ink/15',
+    fill: 'bg-accent',
+  },
+  {
+    n: '03',
+    titre: 'Anniversaire',
+    texte: 'Formule conviviale pour un anniversaire ou une fête de famille, dans votre jardin ou une salle.',
+    prix: 'à partir de 22 €/pers.',
+    cap: 'Jusqu’à 80 convives',
+    pct: 40,
+    tone: 'bg-accent text-on-accent',
+    track: 'bg-on-accent/25',
+    fill: 'bg-on-accent',
+  },
+];
+---
+
+<section id="traiteur" class="pt-[var(--section-y)]">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>Traiteur</p>
+    <h2 class="mt-4 max-w-xl text-display-lg" data-reveal>Trois formats, une seule remorque</h2>
+  </div>
+
+  <div class="mt-10" data-stack>
+    {formats.map((f) => (
+      <div class:list={['flex h-[70vh] flex-col justify-center gap-5 border-t border-line px-6', f.tone]}>
+        <div class="container-ff grid gap-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
+          <span class="font-mono text-sm opacity-60">{f.n}</span>
+          <div>
+            <p class="font-display uppercase leading-none" style="font-size: clamp(2rem, 6vw, 4.5rem);">{f.titre}</p>
+            <p class="measure mt-3 max-w-md text-base opacity-80">{f.texte}</p>
+          </div>
+          <div class="lg:w-56">
+            <p class="font-display text-2xl tabular-nums">{f.prix}</p>
+            <p class="mt-4 text-xs uppercase tracking-[0.14em] opacity-70">{f.cap}</p>
+            <div class:list={['mt-2 h-2 w-full overflow-hidden rounded-pill', f.track]} data-count-bar={f.pct}>
+              <div class:list={['bar-fill h-full rounded-pill', f.fill]}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

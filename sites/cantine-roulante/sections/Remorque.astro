@@ -1,0 +1,40 @@
+---
+/**
+ * "La remorque" (custom/remorque) : curseur avant/après (data-compare), mais avec le moteur
+ * partagé (`.compare-after`/`.compare-handle`, `compareSliders()` de src/scripts/motion.ts) plutôt
+ * que le script maison de sites/moteur-fils/sections/AvantApres.astro (data-compare-after fait à la
+ * main, pas de stickers ici) — deux badges horaires ("9 h" / "12 h 30", pas "Avant"/"Après") pour
+ * montrer l'installation du matin puis le plein service, comme demandé par le mandat de design.
+ * Images passées par `<Img>` (manifeste `ff images --depuis-public`), pas un `<img>` brut.
+ */
+import Img from '@/components/Img.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const avant = { src: '/images/avant.webp', alt: 'La remorque installée le matin sur le marché de Bayonne, avant le service' };
+const apres = { src: '/images/apres.webp', alt: 'La même remorque en plein service du midi, comptoir ouvert' };
+---
+
+<section id="remorque" class="section-y overflow-hidden">
+  <div class="container-ff">
+    <SectionHeading
+      eyebrow="La remorque"
+      title="De l’installation au coup de feu du midi"
+      text="Faites glisser le curseur : la même remorque, entre l’installation du matin et le service de midi."
+      align="center"
+    />
+
+    <div class="mx-auto mt-14 max-w-2xl">
+      <div class="relative aspect-[4/3] select-none overflow-hidden rounded-card border-2 border-ink shadow-lift" data-compare data-reveal="scale">
+        <Img src={avant.src} alt={avant.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 40rem, 100vw" loading="lazy" />
+        <div class="compare-after">
+          <Img src={apres.src} alt={apres.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 40rem, 100vw" loading="lazy" />
+        </div>
+        <div class="compare-handle" aria-hidden="true"></div>
+        <p class="pointer-events-none absolute left-3 top-3 rounded-pill border border-line bg-surface/90 px-3 py-1 font-mono text-xs tabular-nums text-fg">9 h</p>
+        <p class="pointer-events-none absolute right-3 top-3 rounded-pill bg-accent px-3 py-1 font-mono text-xs tabular-nums text-on-accent">12 h 30</p>
+        <input type="range" min="0" max="100" value="50" aria-label="Comparer l’installation du matin et le service de midi" />
+      </div>
+      <p class="mt-6 text-center text-sm text-muted">9 h, installation sur le marché. 12 h 30, plein service.</p>
+    </div>
+  </div>
+</section>

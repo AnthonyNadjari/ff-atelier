@@ -17,6 +17,7 @@ const ROWS = [
   ['matrice [--rapide]', 'Construit des sites jetables couvrant chaque direction/variante au moins une fois (fumigene large).'],
   ['exporter <slug> [--dest ../<slug>-site]', "Cree un depot autonome pret a donner au client."],
   ['deploy <slug> [--projet <nom>]', 'Build puis deploie sur Cloudflare Pages.'],
+  ['domaine <slug> <domaine> [--zone-id X] [--email-vers adresse] [--www] [--simuler]', "Branche un site deploye sur un domaine personnalise (Cloudflare Pages + DNS) et, avec --email-vers, active Email Routing (contact@domaine -> adresse). Ecrit sites/<slug>/domain.txt. --simuler affiche les appels API sans les executer."],
   ['liste', 'Liste les sites, leur direction, et si le build existe.'],
   ['studio <slug>', "Editeur visuel du LOOK en local (direction, motion, accent...) avec previsualisation live."],
   ['figer <slug>', 'Fusionne sites/<slug>/look.json (ecrit par `ff studio`) dans site.config.ts, puis le supprime.'],

@@ -26,6 +26,7 @@ contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté don
 | `node scripts/ff.mjs video <slug> "<requête>"` | Cherche une vidéo Pexels, génère `public/videos/hero.webm` + `hero.mp4` + `poster.jpg` via ffmpeg (ou garde le mp4 source si ffmpeg absent) et journalise `CREDITS.md`. |
 | `node scripts/ff.mjs illustration <slug> "<thème>"` | Tente une illustration unDraw recolorée (`--couleur`) ; sans API disponible, affiche la procédure manuelle. |
 | `node scripts/ff.mjs deploy <slug>` | Déploie le site buildé sur Cloudflare Pages (voir `docs/DEPLOIEMENT.md`). |
+| `node scripts/ff.mjs domaine <slug> <domaine> [--zone-id X] [--email-vers adresse] [--www] [--simuler]` | Branche un site déjà déployé sur un domaine personnalisé en une commande : projet Pages, DNS (CNAME proxifié, idempotent), et avec `--email-vers`, Email Routing (`contact@domaine` → l'adresse donnée). Écrit `sites/<slug>/domain.txt` et affiche une checklist finale. `--simuler` affiche les appels API sans les exécuter. Voir `docs/DEPLOIEMENT.md` § 2.2bis. |
 | `node scripts/ff.mjs exporter <slug>` | Prépare la livraison finale au client (repo + domaine au nom du client). |
 | `node scripts/ff.mjs composer <slug>` | Propose automatiquement un look (direction, variantes, typographie...) à partir de `site.config.ts`, écrit dans `look.json` sans toucher au contenu. |
 | `node scripts/ff.mjs propositions <slug>` | Construit N looks différents avec captures d'écran, un par `propositions/<slug>/index.html`, pour comparer avant de choisir. |

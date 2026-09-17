@@ -294,6 +294,12 @@ export const siteSchema = z.object({
     .object({
       plausible: z.string().optional().describe('domaine plausible'),
       umami: z.object({ src: z.string().url(), id: z.string() }).optional(),
+      cloudflare: z
+        .string()
+        .optional()
+        .describe(
+          'Jeton Cloudflare Web Analytics (Cloudflare dashboard -> Analytics & Logs -> Web Analytics -> Add a site -> "beacon token"). Gratuit, sans cookie, exemption CNIL mesure d\'audience — voir docs/veille/performance.md §5.5.',
+        ),
     })
     .prefault({}),
 });

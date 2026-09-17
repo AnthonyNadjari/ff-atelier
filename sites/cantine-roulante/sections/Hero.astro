@@ -1,0 +1,59 @@
+---
+/**
+ * Hero dessiné pour La Cantine Roulante : un seul mot géant — dérivé de site.business.name (pas
+ * un texte détaché), Archivo Black n'ayant pas de coupe condensée, l'effet condensé vient d'un
+ * `transform: scaleX()` (trick assumé, commenté dans le <style>) — qui se décode au chargement
+ * (data-scramble, comme sites/studio-ambre mais sur un mot énorme plutôt qu'un petit nom en
+ * mix-blend-mode) puis une bande data-marquee-velocity des quatre plats du brief en pied de hero
+ * (motif déjà posé par sites/maison-roux/sections/Hero.astro pour ses pains, repris ici pour le
+ * menu mais sur fond clair, mot scramblé plutôt que data-split, sans le bloc bg-accent plein cadre
+ * de Maison Roux). Composition propre à ce site.
+ */
+import { site, tel } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+
+const word = site.business.name.split(' ')[1] ?? site.business.name;
+const dishes = ['Axoa', 'Talos', 'Piperade', 'Txistorra'];
+---
+
+<section id="hero" class="relative overflow-hidden bg-bg">
+  <div class="container-ff pt-10 pb-6 md:pt-16" data-stagger="140">
+    <p class="eyebrow">{site.business.trade} · {site.contact.address.city} · depuis {site.business.since}</p>
+
+    <h1 class="hero-word mt-4 font-display uppercase text-accent" data-scramble="1400">{word}</h1>
+
+    <p class="measure mt-2 text-lg text-fg md:text-xl">
+      Axoa, talos, piperade, txistorra&nbsp;: la cuisine basque cuisinée et servie sur la remorque,
+      chaque semaine à Bayonne, Anglet, Biarritz et Saint-Jean-de-Luz.
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center gap-5">
+      <Button href="#contact" size="lg" magnetic>{site.wording.devis}</Button>
+      <a href={tel()} class="inline-flex items-center gap-2 font-display text-lg text-fg transition-colors hover:text-accent">
+        <Icon name="Phone" size={20} />{site.contact.phoneDisplay}
+      </a>
+    </div>
+  </div>
+
+  {dishes.length > 0 && (
+    <div class="mt-10 border-y-2 border-ink bg-ink py-4" data-marquee="26s" data-marquee-velocity="26">
+      <div class="marquee-track font-display uppercase tracking-widest text-on-ink text-display-sm">
+        {dishes.map((d) => <span class="flex items-center gap-8">{d}<span class="text-accent" aria-hidden="true">✶</span></span>)}
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  /* Archivo Black n'a pas de coupe "condensed" chargée par la direction signal (voir
+     src/directions/signal/index.css) : le mot geant est compresse horizontalement par
+     transform: scaleX() plutot que d'importer un axe wdth supplementaire pour un seul mot. */
+  .hero-word {
+    font-size: clamp(4.5rem, 21vw, 13.5rem);
+    line-height: 0.82;
+    letter-spacing: -0.01em;
+    transform: scaleX(0.8);
+    transform-origin: left center;
+  }
+</style>

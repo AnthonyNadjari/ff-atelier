@@ -1,0 +1,120 @@
+---
+/**
+ * Nav dessinée pour La Cantine Roulante : barre blanche sobre (direction signal), un nom en
+ * Archivo Black, et — motif propre à ce site, aucun autre nav de l'atelier ne fait ça — une
+ * pastille « Aujourd'hui : <ville> » calculée côté client depuis le jour de la semaine réel
+ * (même logique que sections/Semaine.astro, dupliquée volontairement : les deux fichiers restent
+ * lisibles seuls, la donnée est courte). Pas de barre d'appel fixe en bas de mobile (déjà le motif
+ * de dubois-plomberie/chez-malo) : ici le bouton de devis reste dans la barre du haut, toujours
+ * visible car la nav est `fixed`. `data-confetti` est posé ici (pas sur la section contact,
+ * partagée — src/sections/Contact/form-split.astro n'est pas modifiable pour ce client) : motion.ts
+ * n'écoute l'évènement `ff:form-success` (déclenché par ContactForm.astro) que si l'attribut est
+ * présent quelque part dans le DOM, sans lien avec sa position (voir confettiOnSuccess(), origin
+ * fixe `{ y: 0.7 }`) — la nav, présente sur toute la page, est un point d'ancrage aussi valable
+ * qu'un autre pour ce mandat ("data-confetti wired on the contact section").
+ */
+import { site, tel, navLinks } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+
+const allLinks = navLinks();
+const links = allLinks.filter((l) => ['#semaine', '#carte', '#traiteur', '#contact'].includes(l.href));
+---
+
+<header data-nav data-confetti class="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg/95 backdrop-blur-sm">
+  <div class="container-ff flex h-[4.5rem] items-center justify-between gap-3">
+    {/*
+      L'appel (tel:) est le tout premier lien du DOM (avant le logo) pour rester dans les 1500
+      premiers caracteres du corps de la page (ff verifier) : le logo porte une icone lucide
+      (balisage SVG verbeux) qui, place avant, poussait le tel: au-dela du seuil. L'ordre visuel
+      reste logo / pastille / liens / appel / actions grace a `order-*` (flex), pas au DOM — meme
+      principe que sites/dubois-plomberie/sections/Nav.astro. Toujours visible (icone seule sur
+      mobile, icone + numero a partir de md) plutot que masque en dessous de `sm` : la classe de
+      base de Button.astro pose deja `inline-flex` sans condition, qui l'emporte sur un `hidden`
+      pose au meme niveau de specificite (pas de media query pour les departager) — bug constate a
+      la capture mobile (bouton visible et texte du CTA tronque en bord d'ecran), corrige en ne
+      masquant plus jamais le bouton lui-meme, seulement son libelle interne (voir le CTA devis
+      plus bas, masque via un `<div>` englobant plutot que sur le `<Button>`).
+    */}
+    <Button href={tel()} size="sm" variant="ghost" magnetic class="order-4">
+      <Icon name="Phone" size={16} /><span class="hidden md:inline">{site.contact.phoneDisplay}</span>
+    </Button>
+
+    <a href="/" class="order-1 flex shrink-0 items-center gap-2 font-display uppercase leading-none tracking-tight">
+      <Icon name="Truck" size={20} class="shrink-0 text-accent" />
+      <span class="hidden sm:inline">{site.business.name}</span>
+      <span class="sm:hidden">Cantine roulante</span>
+    </a>
+
+    <p class="today-pill order-2 hidden items-center gap-2 rounded-pill border border-line px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted md:flex" data-today-pill>
+      <span class="today-dot h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+      <span data-today-text>Aujourd’hui</span>
+    </p>
+
+    <nav class="order-3 hidden items-center gap-6 text-sm lg:flex" aria-label="Navigation principale">
+      {links.map((l) => <a href={l.href} class="text-muted transition-colors hover:text-fg">{l.label}</a>)}
+    </nav>
+
+    <div class="order-5 flex shrink-0 items-center gap-2">
+      {/* Enveloppe `hidden sm:block` plutot qu'une classe posee directement sur <Button> : voir le
+          commentaire sur le bouton d'appel plus haut, meme conflit sinon avec l'`inline-flex` de
+          base de Button.astro. Sous `sm`, le devis reste joignable via le menu burger et le hero. */}
+      <div class="hidden sm:block">
+        <Button href="#contact" size="sm">{site.wording.devis}</Button>
+      </div>
+      <button class="-mr-1 p-2 lg:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
+        <Icon name="Menu" size={22} />
+      </button>
+    </div>
+  </div>
+
+  <div class="hidden border-t border-line bg-bg lg:hidden" data-menu>
+    <nav class="container-ff flex flex-col py-2" aria-label="Navigation mobile">
+      {links.map((l) => <a href={l.href} class="border-b border-line py-3.5 text-base last:border-0">{l.label}</a>)}
+      <a href={tel()} class="flex items-center gap-2 border-b border-line py-3.5 text-base text-accent">
+        <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
+      </a>
+      <a href="#contact" class="btn btn-primary mt-3 inline-flex items-center justify-center gap-2 rounded-ui bg-accent px-6 py-3 font-medium text-on-accent sm:hidden">
+        {site.wording.devis}
+      </a>
+    </nav>
+  </div>
+</header>
+<div class="h-[4.5rem]" aria-hidden="true"></div>
+
+<style>
+  .today-pill.is-off .today-dot { background: var(--muted); }
+</style>
+
+<script>
+  // Meme table que sections/Semaine.astro (index = Date().getDay(), 0 = dimanche).
+  const planning: Array<{ ville: string } | null> = [
+    null, // dimanche
+    null, // lundi
+    { ville: 'Bayonne — marché' }, // mardi
+    null, // mercredi
+    { ville: 'Anglet' }, // jeudi
+    { ville: 'Biarritz' }, // vendredi
+    { ville: 'Saint-Jean-de-Luz' }, // samedi
+  ];
+
+  const pill = document.querySelector<HTMLElement>('[data-today-pill]');
+  const text = document.querySelector<HTMLElement>('[data-today-text]');
+  if (pill && text) {
+    const today = planning[new Date().getDay()];
+    if (today) {
+      text.textContent = `Aujourd’hui : ${today.ville}`;
+    } else {
+      text.textContent = 'Aujourd’hui : remorque au repos';
+      pill.classList.add('is-off');
+    }
+  }
+
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  btn?.addEventListener('click', () => {
+    const open = menu!.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
+</script>

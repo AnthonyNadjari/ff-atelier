@@ -1,0 +1,39 @@
+---
+/**
+ * "Restauration" : un avant/après en curseur (data-compare, 7 usages dans un site dessiné à la
+ * main avant ce tour — sous le seuil de 5 demandé par le mandat), volontairement SANS liste de
+ * prix accolée ni halo data-spotlight : sites/dubois-plomberie/sections/Tarifs.astro combine déjà
+ * les trois (spotlight + prix pointillés + compare) dans un seul bloc — ici le compare reste seul,
+ * porté par le récit du geste (décapage/recollage/finition), pas par une grille tarifaire (voir
+ * Estimation.astro, section dédiée). <img> brut comme sites/dubois-plomberie et
+ * sites/moteur-fils : le sélecteur CSS `[data-compare] img` cible tout `<img>` descendant, mais on
+ * reste sur le motif déjà éprouvé plutôt que d'introduire <Img> (déjà utilisé une fois dans
+ * Fabrication.astro pour ce site) dans un contexte de positionnement absolu non testé ici.
+ */
+import SectionHeading from '@/components/SectionHeading.astro';
+---
+
+<section id="restauration" class="section-y">
+  <div class="container-ff grid gap-12 lg:grid-cols-2 lg:items-center">
+    <div>
+      <SectionHeading
+        eyebrow="Restauration"
+        title="Le meuble de famille retrouve son grain"
+        text="Une commode, une armoire, une chaise cabossée par les années : le bois massif se ponce, se recolle et se retient — il n’a presque jamais besoin d’être remplacé."
+      />
+      <p class="measure mt-6 text-muted" data-reveal>
+        Décapage de l’ancienne finition, recollage des assemblages fatigués, remplacement des pièces manquantes dans une essence compatible, puis une finition à l’huile ou à la cire qui laisse le bois respirer. Le geste est le même qu’en fabrication neuve.
+      </p>
+    </div>
+
+    <figure data-reveal="scale">
+      <div class="aspect-[4/3] select-none rounded-card border-2 border-line shadow-lift" data-compare>
+        <img class="compare-before" src="/images/avant.webp" alt="Commode ancienne avant restauration, finition ternie et rayée" loading="lazy" />
+        <img class="compare-after" src="/images/apres.webp" alt="Même commode après restauration, bois massif à nu et huilé" loading="lazy" />
+        <div class="compare-handle" aria-hidden="true"></div>
+        <input type="range" min="0" max="100" value="50" aria-label="Comparer la commode avant et après restauration" />
+      </div>
+      <figcaption class="mt-3 text-sm text-muted">Commode ancienne — avant / après restauration.</figcaption>
+    </figure>
+  </div>
+</section>

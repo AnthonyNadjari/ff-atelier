@@ -1,0 +1,93 @@
+---
+/**
+ * Hero de quasi-silence (mandat) : une petite ligne serif (pas de titre display géant), une bande
+ * défilante lente (data-marquee="8s") des soins en italique, une image plein cadre en duotone doux
+ * (data-duotone, tokens ink→accent de la direction luxe) qui se déflote et glisse légèrement au
+ * scroll (data-reveal="blur" + data-parallax). Sous le rideau, un court paragraphe éditorial
+ * (site.about.story — donnée réelle du brief, pas un texte détaché) referme la respiration avant
+ * "Rituels". <img> brut plutôt que <Img> : le sélecteur CSS `[data-duotone] > img` cible un enfant
+ * direct, que le <picture> de <Img> casse (même remarque que sites/jardins-mael/sections/Saisons.astro).
+ * Composition propre à ce site : aucun autre hero du dépôt n'associe marquee + duotone + pas de
+ * grand titre display.
+ *
+ * Bug réel trouvé et contourné (pas un faux positif) : `[data-duotone] { position: relative; ... }`
+ * (global.css) est une règle CSS "nue", hors `@layer` — dans Tailwind v4 (cascade layers natives),
+ * une règle hors couche gagne toujours sur une règle de la couche `utilities` (`.absolute`), quel
+ * que soit l'ordre. Poser `data-duotone` directement sur l'élément `class="absolute inset-0"` (le
+ * markup calqué sur sites/jardins-mael/sections/Saisons.astro) le repasse donc en `position:
+ * relative`, un élément de flux normal : l'image plein cadre (ratio natif ~4:3) se met alors à
+ * pousser la hauteur du hero bien au-delà de 100svh, faisant sortir le petit titre serif de l'écran
+ * (confirmé par Playwright : hauteur réelle 1138px au lieu de 900px, `<h1>` à y=1173, jamais dans
+ * le viewport initial). Contournement : un conteneur `absolute inset-0` SANS `data-duotone` autour
+ * d'un second niveau `data-duotone` en `h-full w-full` — celui-ci reste `position: relative` (voulu
+ * par la règle globale) mais n'affecte plus la mise en page, puisque son parent absolu le sort déjà
+ * du flux. Probablement le même piège latent dans sites/jardins-mael/sections/Saisons.astro,
+ * non corrigé ici (fichier d'un autre tour, hors périmètre).
+ */
+import { site, paragraphs } from '@/lib/site';
+import '@fontsource-variable/cormorant/wght-italic.css';
+
+const hero = site.images.hero;
+const rituals = site.services.map((s) => s.title);
+---
+
+<section id="hero" class="relative">
+  <div class="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden text-center">
+    {hero && (
+      <div class="absolute inset-0 -z-10">
+        <div class="h-full w-full" data-duotone>
+          <img
+            src={hero.src}
+            alt={hero.alt}
+            class="h-full w-full object-cover"
+            data-parallax="0.15"
+            data-reveal="blur"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    )}
+    <div class="absolute inset-0 -z-10 bg-ink/72" aria-hidden="true"></div>
+
+    <div class="container-ff relative z-[2] text-on-ink">
+      <p class="eyebrow text-on-ink/65" data-reveal>{site.business.trade} · {site.contact.address.city}</p>
+      <h1
+        class="mx-auto mt-7 max-w-md font-display text-2xl italic leading-snug tracking-tight text-on-ink sm:text-3xl"
+        data-reveal="blur"
+        data-reveal-delay="150"
+        set:html={site.business.tagline}
+      />
+    </div>
+
+    <div class="absolute inset-x-0 bottom-0 z-[2] border-t border-on-ink/15 bg-ink/35 py-4 backdrop-blur-sm" data-marquee="8s">
+      <div class="marquee-track font-display text-lg italic text-on-ink/85 sm:text-xl">
+        {rituals.map((r) => (
+          <span class="flex items-center gap-6">
+            {r}
+            <span class="not-italic text-accent" aria-hidden="true">·</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="section-y">
+    <div class="container-ff mx-auto max-w-2xl text-center">
+      {site.about.title && <p class="eyebrow" data-reveal>{site.about.title}</p>}
+      <div class="mt-6" data-stagger="140">
+        {paragraphs(site.about.story).map((p) => (
+          <p class="measure mx-auto text-lg text-muted">{p}</p>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Duotone "doux" : la direction luxe pose deja [data-duotone]::after (ink -> accent, mix-blend
+     color) ; on en attenue seulement l'opacite ici (scope local, ne touche pas global.css). */
+  [data-duotone]::after {
+    opacity: 0.62;
+  }
+</style>

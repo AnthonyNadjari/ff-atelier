@@ -1,0 +1,73 @@
+---
+/**
+ * Hero "grain de bois" : titre serif géant + trois essences (chêne / frêne / noyer) en piste
+ * horizontale plein cadre (data-horizontal + .h-track), chaque planche teintée par sa propre
+ * couleur d'accent posée en style inline — héritée par le filtre data-duotone de sa photo, même
+ * principe que sites/jardins-mael/sections/Saisons.astro (data-sticky-stack, empilement vertical)
+ * mais appliqué ici à un défilement HORIZONTAL utilisé comme hero, jamais fait ailleurs dans le
+ * dépôt (grep `data-horizontal` : sites/anna-vidal/Series, sites/encre-noire/Styles — deux
+ * galeries en milieu de page, pas un hero). Planches à 60vw (pas 100vw) : un premier essai en
+ * pleine largeur de viewport par planche laissait un vide massif dans les captures pleine page
+ * (la distance de scroll réservée par le pin — largeur totale de la piste moins celle du
+ * conteneur — grandit avec chaque planche ; à 100vw × 3 elle dépassait 2 hauteurs d'écran de vide
+ * sous la planche visible). Repéré et corrigé en relisant `captures/atelier-lecerf-desktop.png`.
+ * <img> brut (pas <Img>) sur les trois panneaux :
+ * [data-duotone] > img cible un enfant direct, que le <picture> de <Img> casserait (même remarque
+ * que sites/jardins-mael/sections/Hero.astro). Sous les 64rem (mobile/tablette), motion.ts ne pin
+ * jamais data-horizontal (garde `matchMedia('(min-width: 64rem)')` dans motion.ts) : la piste
+ * reste simplement une colonne empilée, chaque planche visible normalement au scroll.
+ */
+import { site, tel } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+
+const woods = [
+  { name: 'Chêne', trait: 'Veiné, robuste, une teinte qui va du miel au brun.', accent: '#8a5a2b', image: '/images/service-1.webp', alt: 'Grain de chêne massif, veinage prononcé' },
+  { name: 'Frêne', trait: 'Un fil clair et marqué, souple et résistant.', accent: '#c9a468', image: '/images/service-2.webp', alt: 'Grain de frêne massif, teinte blonde' },
+  { name: 'Noyer', trait: 'Brun profond et chaud, un veinage fin.', accent: '#4a2f1c', image: '/images/service-3.webp', alt: 'Grain de noyer massif, teinte brune profonde' },
+];
+---
+
+<section id="hero" class="relative overflow-hidden">
+  <div class="container-ff pt-14 md:pt-20">
+    <div class="max-w-3xl" data-stagger="120">
+      <p class="eyebrow" data-reveal>{site.business.trade} à {site.contact.address.city}</p>
+      <h1 class="mt-5 text-display-xl" data-reveal set:html={site.business.tagline} />
+      <p class="measure mt-6 text-lg text-muted" data-reveal>
+        Cuisines, bibliothèques, escaliers et restauration de meubles anciens, en chêne, frêne et noyer — dessinés et fabriqués à l’atelier.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center gap-4" data-reveal>
+        <Button href={tel()} magnetic>
+          <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
+        </Button>
+        <Button href="#contact" variant="ghost">
+          <Icon name="PencilRuler" size={18} />{site.wording.devis}
+        </Button>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative mt-16 md:mt-20" data-horizontal>
+    <p class="container-ff mb-4 flex items-center gap-2 text-sm text-muted lg:hidden">
+      <Icon name="MoveHorizontal" size={16} class="text-accent" /> Trois essences, une par une
+    </p>
+    <ul class="h-track flex flex-col md:flex-row">
+      {woods.map((w, i) => (
+        <li
+          class="relative flex min-h-[64vh] w-full items-end overflow-hidden bg-ink text-on-ink md:min-h-[72vh] md:w-[60vw] md:flex-none"
+          style={`--accent:${w.accent}; --on-accent:#f7f4ec;`}
+        >
+          <div class="absolute inset-0" data-duotone>
+            <img src={w.image} alt={w.alt} class="h-full w-full object-cover" loading={i === 0 ? 'eager' : 'lazy'} />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/15 to-transparent" aria-hidden="true"></div>
+          <div class="relative z-[1] px-6 py-10 sm:px-8 md:px-10 md:py-14">
+            <p class="eyebrow text-on-ink/70">Essence {i + 1} sur {woods.length}</p>
+            <p class="mt-3 font-display text-display-lg text-on-ink">{w.name}</p>
+            <p class="measure mt-3 text-on-ink/85">{w.trait}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

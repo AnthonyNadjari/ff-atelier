@@ -130,6 +130,7 @@ const ldJson = {
     <script type="application/ld+json" set:html={JSON.stringify(ldJson)} />
     {site.analytics.plausible && <script defer data-domain={site.analytics.plausible} src="https://plausible.io/js/script.js"></script>}
     {site.analytics.umami && <script defer src={site.analytics.umami.src} data-website-id={site.analytics.umami.id}></script>}
+    {site.analytics.cloudflare && <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: site.analytics.cloudflare })}></script>}
     {site.transitions && <ClientRouter />}
     <slot name="head" />
   </head>

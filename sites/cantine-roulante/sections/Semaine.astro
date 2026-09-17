@@ -1,0 +1,65 @@
+---
+/**
+ * "Où sommes-nous cette semaine ?" (custom/semaine) : bande de sept colonnes (mardi → lundi, dans
+ * cet ordre — le mardi ouvre la semaine de marché du brief, le lundi de repos la referme), la
+ * colonne du jour réel surlignée par un petit script (data-jsday, comparé à `Date().getDay()` côté
+ * client — un site statique ne connaît pas "aujourd'hui" au build). Aucune donnée au-delà du
+ * planning fourni : les jours sans ville affichée sont marqués "Repos", jamais une ville inventée.
+ * Composition propre à ce site — aucun autre site de l'atelier n'a de bande hebdomadaire de ce
+ * type (jardins-mael/Calendrier.astro fait 12 mois d'entretien, chez-malo/Horaires.astro fait
+ * quatre temps d'une journée épinglés au scroll, pas sept jours en surlignage dynamique).
+ */
+const planning = [
+  { day: 'Mardi', jsDay: 2, ville: 'Bayonne', note: 'Marché' },
+  { day: 'Mercredi', jsDay: 3, ville: null, note: null },
+  { day: 'Jeudi', jsDay: 4, ville: 'Anglet', note: null },
+  { day: 'Vendredi', jsDay: 5, ville: 'Biarritz', note: null },
+  { day: 'Samedi', jsDay: 6, ville: 'Saint-Jean-de-Luz', note: null },
+  { day: 'Dimanche', jsDay: 0, ville: null, note: null },
+  { day: 'Lundi', jsDay: 1, ville: null, note: null },
+];
+---
+
+<section id="semaine" class="section-y">
+  <div class="container-ff">
+    <div class="max-w-2xl" data-stagger="120">
+      <p class="eyebrow">Cette semaine</p>
+      <h2 class="mt-4 text-display-md">Où sommes-nous cette semaine&nbsp;?</h2>
+      <p class="measure mt-4 text-lg text-muted">La colonne d’aujourd’hui se surligne toute seule. Le soir, la remorque part en privatisation — mariages et entreprises, voir plus bas.</p>
+    </div>
+
+    <ol class="semaine-grid mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-4 lg:grid-cols-7" data-stagger="50">
+      {planning.map((j) => (
+        <li data-jsday={j.jsDay} data-reveal class:list={['semaine-cell relative flex min-h-[9rem] flex-col justify-between bg-surface p-4', !j.ville && 'text-muted']}>
+          <span class="semaine-today-tag absolute right-3 top-3 hidden rounded-pill bg-accent px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-on-accent">Aujourd’hui</span>
+          <p class="font-mono text-xs uppercase tracking-[0.14em] text-muted">{j.day}</p>
+          {j.ville ? (
+            <div>
+              <p class="font-display text-lg leading-tight text-fg">{j.ville}</p>
+              {j.note && <p class="mt-1 text-xs text-muted">{j.note}</p>}
+            </div>
+          ) : (
+            <p class="font-display text-lg leading-tight">Repos</p>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .semaine-cell { transition: background-color 0.35s var(--ease-out-expo), box-shadow 0.35s var(--ease-out-expo); }
+  .semaine-cell.is-today {
+    background: var(--surface);
+    box-shadow: inset 0 0 0 2px var(--accent);
+  }
+  .semaine-cell.is-today .semaine-today-tag { display: inline-block; }
+</style>
+
+<script>
+  const cells = document.querySelectorAll<HTMLElement>('#semaine [data-jsday]');
+  const today = new Date().getDay();
+  cells.forEach((c) => {
+    if (Number(c.dataset.jsday) === today) c.classList.add('is-today');
+  });
+</script>

@@ -1,4 +1,6 @@
 // `ff deploy <slug> [--projet <nom>]` : build puis `npx wrangler pages deploy`.
+import fs from 'node:fs';
+import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { ROOT, resolveSlug, runAstro, ok, fail, info, c, parseArgs } from './util.mjs';
 
@@ -40,8 +42,16 @@ export function cmdDeploy(args) {
   info('');
   ok(`Site deploye : projet Cloudflare Pages "${projet}".`);
   info('');
-  info(c.bold('Domaine personnalise :'));
-  info('  Cloudflare dashboard -> Pages -> ton projet -> Custom domains -> Set up a custom domain.');
-  info(`  Le domaine canonique du site vient de ${c.cyan(`sites/${slug}/domain.txt`)} (une ligne, sans https).`);
-  info(`  Cree/modifie ce fichier puis relance \`ff build ${slug}\` pour que le sitemap et les balises canonical le refletent.`);
+
+  const domainFile = path.join(ROOT, 'sites', slug, 'domain.txt');
+  if (!fs.existsSync(domainFile)) {
+    info(c.bold('Domaine personnalise :'));
+    info(`  Pas encore de domaine pour ce site. Lance : ${c.cyan(`ff domaine ${slug} <domaine>`)}`);
+    info('  (Pages + DNS + Email Routing en une commande, voir docs/DEPLOIEMENT.md § "Domaine en une commande".)');
+  } else {
+    info(c.bold('Domaine personnalise :'));
+    info('  Cloudflare dashboard -> Pages -> ton projet -> Custom domains -> Set up a custom domain.');
+    info(`  Le domaine canonique du site vient de ${c.cyan(`sites/${slug}/domain.txt`)} (une ligne, sans https).`);
+    info(`  Cree/modifie ce fichier puis relance \`ff build ${slug}\` pour que le sitemap et les balises canonical le refletent.`);
+  }
 }

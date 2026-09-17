@@ -53,10 +53,68 @@ immediatement visible sur `https://<slug>.pages.dev`.
 
 ### 2.2 Domaine personnalise
 
+**Recommande : `ff domaine`, voir § 2.2bis ci-dessous — une seule commande fait tout ce qui suit.**
+
+Procedure manuelle (dashboard), si on prefere ne pas utiliser la commande :
+
 1. Cloudflare dashboard -> **Pages** -> le projet du site -> **Custom domains** ->
    **Set up a custom domain**.
 2. Renseigne le domaine du client (ex : `menuiserie-vasseur.fr`).
 3. Cloudflare indique les enregistrements DNS a poser.
+
+### 2.2bis Domaine en une commande — `ff domaine`
+
+```
+node scripts/ff.mjs domaine <slug> <domaine> [--zone-id X] [--email-vers adresse] [--www] [--simuler]
+```
+
+Prend un site deja deploye (`ff deploy <slug>` fait) et le branche sur un domaine personnalise, avec
+e-mail optionnel, en une seule commande — objectif : la mise en ligne chez le client devient une etape
+de 5 minutes plutot qu'une suite d'ecrans du dashboard Cloudflare a ne pas oublier.
+
+**Ce que fait la commande, dans l'ordre :**
+
+1. Lit `CLOUDFLARE_API_TOKEN` et `CLOUDFLARE_ACCOUNT_ID` (`.env` ou environnement, voir
+   `.env.example`). Si absents, elle explique en francais les scopes necessaires pour creer le
+   jeton (Cloudflare dashboard -> My Profile -> API Tokens -> Create Token -> Custom Token) :
+   - `Account -> Cloudflare Pages -> Edit`
+   - `Zone -> Zone -> Read`
+   - `Zone -> DNS -> Edit`
+   - `Zone -> Email Routing Rules -> Edit`
+2. Verifie que le projet Cloudflare Pages `<slug>` existe (`GET .../pages/projects/<slug>`) ; le
+   cree sinon (`POST .../pages/projects`, `production_branch: main`).
+3. Retrouve la zone Cloudflare du domaine (`GET /zones?name=<domaine>`). Si le domaine n'est pas
+   encore sur Cloudflare, la commande s'arrete (code 1) et affiche la procedure : ajouter le
+   domaine dans Cloudflare, puis remplacer les serveurs de noms (nameservers) chez le registrar du
+   client.
+4. Ajoute `<domaine>` (et `www.<domaine>` avec `--www`) comme domaine personnalise du projet Pages,
+   et pose/maintient l'enregistrement DNS `CNAME` correspondant vers `<slug>.pages.dev` (proxifie
+   par Cloudflare — orange cloud). **Idempotent** : si l'enregistrement existe deja, il est mis a
+   jour (`PUT`) plutot que duplique.
+5. Avec `--email-vers <adresse>` : active Email Routing sur la zone (pose les enregistrements MX
+   automatiquement), enregistre `<adresse>` comme adresse de destination, cree la regle
+   `contact@<domaine> -> <adresse>`, et rappelle que **le client doit valider l'e-mail de
+   verification envoye par Cloudflare** avant que la redirection fonctionne. Affiche le nombre
+   d'enregistrements MX trouves sur la zone.
+6. Ecrit `sites/<slug>/domain.txt` avec le domaine (pilote l'URL canonique et le sitemap, voir §
+   2.3) et affiche une checklist finale : propagation DNS, HTTPS automatique, test du formulaire,
+   soumission du sitemap a Search Console, Bing Places, lien vers la fiche Google Business Profile.
+
+**`--zone-id`** : evite l'appel de recherche de zone si tu connais deja l'id (utile en CI ou si
+plusieurs zones portent un nom proche). **`--simuler`** : affiche la sequence d'appels API qui
+serait faite (methode, URL, corps) sans jamais appeler Cloudflare — utile pour verifier la commande
+sans jeton reel, ou relire ce qu'elle va faire avant de la lancer pour de vrai.
+
+`ff deploy` rappelle de lancer `ff domaine` juste apres, tant que `sites/<slug>/domain.txt` n'existe
+pas.
+
+**Non verifie cette session** : l'existence et la forme exactes d'un endpoint API dedie pour "creer
+une zone" (ajouter un domaine a Cloudflare par API plutot que par le dashboard) n'ont pas ete
+confirmees — la commande suppose donc que le domaine est deja ajoute a Cloudflare (zone existante) et
+affiche la procedure dashboard sinon. L'endpoint `POST /zones/{id}/email/routing/enable` est marque
+« deprecated » dans la reference API sans remplacement clairement documente au moment de cette
+verification (WebFetch sur developers.cloudflare.com/api/) — la commande l'utilise quand meme (c'est
+l'endpoint documente pour cet usage) et traite une reponse "deja actif" comme un succes.
 
 ### 2.3 DNS chez le registrar (si le domaine n'est pas gere par Cloudflare)
 
@@ -76,6 +134,23 @@ node scripts/ff.mjs build <slug>
 
 Ce fichier pilote l'URL canonique, le plan du site (sitemap) et les balises Open
 Graph — sans lui, le site utilise `https://<slug>.pages.dev` par defaut.
+
+### 2.3bis Mesure d'audience gratuite sans Plausible (Cloudflare Web Analytics)
+
+Si le client ne veut pas payer Plausible : Cloudflare dashboard -> **Analytics & Logs** -> **Web
+Analytics** -> **Add a site** -> renseigne le domaine -> copie le "beacon token" genere. Mets-le
+dans `site.config.ts` :
+
+```ts
+analytics: { cloudflare: 'le-token-copie' },
+```
+
+`ff build` insere alors le script `beacon.min.js` (defer, sans cookie) dans `<head>` — voir
+`src/layouts/Base.astro` et le champ `analytics.cloudflare` de `src/lib/schema.ts`. Comme pour
+Plausible/Umami, aucun bandeau de consentement n'est necessaire (mesure d'audience sans cookie ni
+donnee identifiante, exemption CNIL) : `src/pages/confidentialite.astro` le mentionne
+automatiquement. Voir `docs/veille/performance.md` § 5.5 pour le detail (et ce qui n'a pas pu etre
+confirme la-bas : poids exact du script, cote edge vs script JS).
 
 ### 2.4 Cle Web3Forms (formulaire de contact)
 
