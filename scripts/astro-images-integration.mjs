@@ -33,7 +33,9 @@ export function rewriteImages(html, manifest, { defaultSizes = '100vw' } = {}) {
       if (!entry || !entry.widths?.length) return tag;
       const widths = entry.widths;
       const sizes = (attrs.match(/\bsizes="([^"]+)"/i) || [])[1] || defaultSizes;
-      const srcset = (fmt) => widths.map((w) => `/images/${name}-${w}.${fmt} ${w}w`).join(', ');
+      // La plus grande largeur est ecrite sans suffixe par `ff images` (alias <name>.<fmt>).
+      const maxW = Math.max(...widths);
+      const srcset = (fmt) => widths.map((w) => `/images/${name}${w === maxW ? '' : `-${w}`}.${fmt} ${w}w`).join(', ');
       let imgAttrs = attrs.replace(/\bsizes="[^"]*"/i, '').trim();
       if (!/\bwidth=/.test(imgAttrs) && entry.ratio) {
         const w = Math.max(...widths);

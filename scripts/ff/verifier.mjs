@@ -249,6 +249,20 @@ function checkSitemapIndex(distDir, checks) {
 }
 
 /** Non-bloquant : og:image absent alors qu'une image OG est configuree (public/og.webp ou images.og). */
+/** Chaque URL /images/... ou /anim/... referencee (src, srcset, preload) doit exister dans dist : sinon 404 silencieux. */
+function checkImagesReferencees(files, distDir, checks) {
+  const missing = new Set();
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    for (const m of html.matchAll(/\/(?:images|anim|videos)\/[^\s"',)]+/g)) {
+      const url = m[0].split('?')[0];
+      if (!fs.existsSync(path.join(distDir, url))) missing.add(url);
+    }
+  }
+  if (missing.size > 0) checks.push({ pass: false, label: `Fichiers references introuvables (404) : ${[...missing].slice(0, 5).join(', ')}${missing.size > 5 ? ` (+${missing.size - 5})` : ''}` });
+  else checks.push({ pass: true, label: 'Toutes les images/videos referencees existent' });
+}
+
 function warnBlocSurMesure(slug, warnings) {
   // Regle du processus : chaque site livre contient au moins une section ecrite pour lui seul.
   if (slug.startsWith('_') || slug.startsWith('demo-')) return;
@@ -557,6 +571,7 @@ export async function cmdVerifier(args) {
   warnImagesSansDimension(files, distDir, warnings);
   warnOgImageManquant(slug, files, distDir, warnings);
   warnBlocSurMesure(slug, warnings);
+  checkImagesReferencees(files, distDir, checks);
   warnSchemaTypeGenerique(slug, files, distDir, warnings);
   warnFormulaireTropLong(files, distDir, warnings);
   warnMentionsLegalesSansSiret(distDir, warnings);
