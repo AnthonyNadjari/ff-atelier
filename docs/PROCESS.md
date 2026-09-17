@@ -101,6 +101,15 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
       --lighthouse` pour l'inclure dans la vérification. Résultats dans
       `captures/<slug>-lighthouse.json`. Si la page d'accueil est sous le seuil, corriger avant
       livraison plutôt que baisser le seuil.
+- [ ] **`ff perf <slug>` vert** (budget de performance sans navigateur — html/css/js-initial/js-lazy/
+      fonts/images-home comparés à `perf-budget.json`, racine du repo) : `node scripts/ff.mjs perf
+      <slug>`. Rapide, à lancer avant Lighthouse (qui reste la mesure de référence) ; empêche une
+      police/dépendance ajoutée depuis de faire dériver silencieusement le poids livré.
+- [ ] Checklist « textes livrables » (20 points, `docs/REDACTION.md` §11) relue — mots interdits,
+      vouvoiement, ton par métier, règles des professions réglementées, aucun chiffre/avis inventé.
+      `node scripts/ff.mjs verifier <slug>` recontrôle une partie de cette liste (bloc « Textes »).
+- [ ] Checklist « images livrables » (15 points, `docs/veille/redaction-images.md` §3.2) relue — aucune
+      IA sur `portrait`/`team`/`gallery`/`beforeAfter`, droit à l'image, `CREDITS.md` à jour.
 
 ## 8. Positionnement prix
 

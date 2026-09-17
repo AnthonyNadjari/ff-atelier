@@ -1,0 +1,45 @@
+---
+/**
+ * Hero sur mesure : aucune photo (option explicitement permise par le mandat — "no image or a dark
+ * abstract image at low contrast" — aucune photo du cabinet n'est fournie par le brief ; le ciel
+ * étoilé très discret de la direction "nuit", déjà posé par `body::before` dans le token système,
+ * donne toute la texture nécessaire, jamais un dégradé ou une image générée pour combler l'absence).
+ * Une seule phrase longue en serif (data-text-fill, business.tagline) énonce ce que fait le cabinet
+ * et pour qui — voir l'en-tête de site.config.ts pour la raison de laisser cette phrase sans <em>
+ * (data-text-fill redécoupe le texte via `textContent` dans motion.ts, toute balise imbriquée y
+ * serait perdue au montage). Une ligne d'identité (deux avocates) et deux actions en dessous,
+ * jamais de promesse de résultat (docs/veille/redaction-images.md §1.4).
+ */
+import { site, tel } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const firstHours = site.contact.hours[0];
+---
+
+<section id="hero" class="section-y relative overflow-hidden pt-8 sm:pt-12">
+  <div class="container-ff relative">
+    <p class="eyebrow flex items-center gap-2" data-reveal>
+      <Icon name="Scale" size={14} class="text-accent" strokeWidth={1.75} />
+      Avocates au Barreau de Montpellier — depuis {site.business.since}
+    </p>
+
+    <h1 class="mt-6 max-w-4xl font-display text-display-xl leading-[1.08]" data-text-fill>
+      {site.business.tagline}
+    </h1>
+
+    <p class="measure mt-8 max-w-xl text-lg text-muted" data-reveal data-reveal-delay="150">
+      Quatre domaines d’intervention, un cabinet de deux avocates à Montpellier — Maître Claire Lemaire et Maître Inès Dahmani.
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="250">
+      <Button href="#contact" variant="primary" size="lg" magnetic>{site.wording.devis}</Button>
+      <Button href="#domaines" variant="ghost" size="lg">Voir les domaines d’intervention</Button>
+    </div>
+
+    <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-[0.14em] text-muted" data-reveal data-reveal-delay="350">
+      {firstHours && <span>{firstHours.days} — {firstHours.hours}</span>}
+      {firstHours && <span aria-hidden="true">·</span>}
+      <a href={tel()} class="text-fg hover:text-accent">{site.contact.phoneDisplay}</a>
+    </p>
+  </div>
+</section>

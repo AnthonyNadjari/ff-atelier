@@ -27,6 +27,7 @@ const links = navLinks();
       href={tel()}
       class="btn btn-primary order-3 inline-flex items-center gap-2 rounded-ui bg-accent px-4 py-2.5 font-display text-sm text-on-accent shadow-card sm:px-5"
       data-magnetic="0.15"
+      aria-label={`Appeler ${site.contact.phoneDisplay}`}
     >
       <Icon name="Phone" size={16} />
       <span class="hidden sm:inline">{site.contact.phoneDisplay}</span>
@@ -34,7 +35,7 @@ const links = navLinks();
 
     <nav class="order-2 hidden items-center gap-7 lg:flex" aria-label="Navigation principale">
       {links.map((l) => (
-        <a href={l.href} class="font-mono text-xs uppercase tracking-[0.16em] opacity-70 transition-opacity hover:opacity-100">{l.label}</a>
+        <a href={l.href} class="font-mono text-xs uppercase tracking-[0.16em] opacity-85 transition-opacity hover:opacity-100">{l.label}</a>
       ))}
     </nav>
   </div>

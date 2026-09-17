@@ -11,7 +11,7 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 
 | # | Critère | État | Vérification |
 |---|---|---|---|
-| 1 | 20 sites de démonstration dessinés à la main, 20 métiers, chacun avec hero + nav + ≥ 2 blocs sur mesure, aucun bloc copié d'un site à l'autre | 12 / 20 | `ls sites/*/sections/` ; comparaison manuelle des compositions |
+| 1 | 20 sites de démonstration dessinés à la main, 20 métiers, chacun avec hero + nav + ≥ 2 blocs sur mesure, aucun bloc copié d'un site à l'autre | 15 / 20 | `ls sites/*/sections/` ; comparaison manuelle des compositions |
 | 2 | Chaque site : build ✓, `ff verifier` ✓ (sauf téléphone fictif), captures sans erreur ni débordement, mobile relu, Lighthouse ≥ 90 (perf, a11y, SEO) | build/captures ✓ ; accessibilité 100/100 (desktop+mobile, accueil + page service + confidentialité) sur `_exemple` et `dubois-plomberie` depuis le 17 sept (voir journal : couche partagée corrigée — contraste `.eyebrow`/`--accent`/`--muted` dans `src/directions/*/index.css` + `global.css` bascule `.eyebrow` sur `--on-ink` attenue en contexte `bg-ink`) ; SEO 58 sur mentions-legales = noindex voulu | `ff tous`, `ff captures`, `node scripts/ff.mjs lighthouse <slug> --detail` |
 | 3 | Moteur d'animation : ≥ 15 effets documentés, chacun utilisé dans ≥ 2 sites, sans bug connu | 16 effets ; usage ×2 à vérifier ; 3 bugs corrigés le 16 sept | `grep -l data-<effet> sites/*/sections/*.astro` |
 | 4 | Chaîne de bout en bout sur un vrai brief : formulaire → `/nouveau-site` → `ff propositions` → `ff deploy` → `ff exporter` | non prouvée (deploy nécessite `npx wrangler login`, action humaine) | exécuter la chaîne sur un slug de test |
@@ -23,7 +23,8 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 | 10 | Moteur : les 25 effets de `animations.md` § 3 ajoutés à `motion.ts` avec repli reduced-motion et tests (D1-D3) | 23 / 25 (effets 1-18, 20-23, 25 du tableau ; lignes 19 `data-curtain-nav` et 24 `data-view-transition` restantes — l'infrastructure `site.transitions`/`<ClientRouter />` est posée mais l'audit des scripts inline des sections/composants ne l'est pas, voir `docs/ANIMATIONS.md` § Transitions de page ; +3 effets CSS bonus hors tableau : `data-duotone`, `data-grain`, `data-border-beam` ; nouvelles dépendances lazy `lenis`/`ogl`/`@lottiefiles/dotlottie-web`/`canvas-confetti` ; tests `tests/motion.test.mjs` + vitrine `sites/_effets`) | `grep data-<effet>`, `npm test` |
 | 11 | Réserve de compositions : chaque site dessiné introduit un motif de `tendances.md` § 4-5 ou `composants.md` § 3 non encore utilisé (E1) ; procédure de portage dans `/nouvelle-variante` (E2) | E2 fait le 16 sept 2026 — section « Porter depuis une source externe » ajoutée à `.claude/skills/nouvelle-variante/SKILL.md` (14 étapes résumées de `composants.md` § 5, règles de licence MIT-copiable vs GPL/Webflow/Framer/Figma-composition-seule) | relecture de `.claude/skills/nouvelle-variante/SKILL.md` |
 | 12 | Offre et discours (A1-A4) : grille de prix, garantie de délai, page finck-fisch avec objections | A3 fait le 16 sept (section `Offre.astro` deux formules, section `Propositions.astro` avec vraies vignettes, 8 objections de `concurrents.md` § 4 dans `faq`, description/tagline repositionnées, layout réordonné) ; A1/A2 (montants définitifs, texte de garantie final) en attente de décision des fondateurs — prix actuels marqués `// PRIX PROVISOIRES` dans `sites/finck-fisch/sections/Offre.astro`, faciles à remplacer ; A4 (formulaire `brief-client.html`) non fait | `ff verifier finck-fisch`, `ff captures finck-fisch`, relecture des captures |
-| 13 | Rendu : filière images AVIF/srcset/LQIP, polices sans saut, checks rendu dans `verifier` | fait le 16 sept 2026 — `ff images <slug>` (`--depuis-public` pour les sites sans `raw/`) émet AVIF (qualité 60) + WebP aux largeurs 480/800/1200/1600 et écrit `sites/<slug>/images.json` (widths/formats/ratio/LQIP) ; `src/components/Img.astro` (nouveau) rend `<picture>` AVIF+WebP avec width/height/LQIP, repli `<img>` simple si pas de manifeste ; sections partagées et pages migrées (`src/sections/{About,Hero,Nav,Proof,Services}/*.astro`, `src/pages/services/[slug].astro}` — pas `sites/*/sections`, propriété des designers) ; documenté dans `docs/CONVENTIONS.md` § Images ; polices : plugin Vite `fontaine` (MIT) branché dans `astro.config.mjs` (fallbacks `['Georgia','Arial']`) pour générer les `@font-face` de repli metric-adjusted des ~90 familles `@fontsource-variable/*` chargées à la demande (`src/lib/fonts.ts`) — API expérimentale Astro Fonts écartée (vérifiée par WebFetch : config statique par famille, non compatible avec le chargement dynamique par site) ; `font-display: swap` déjà garanti par Fontsource ; préchargement `<link rel="preload">` du woff2 hero non fait (nom de fichier haché par Vite, pas trivial) ; `ff verifier` : nouveau bloc « Rendu » séparé (`scripts/ff/verifier.mjs`) — fail si grille `<ul>`/`<ol>` de ≥ 3 `<img>` aux ratios intrinsèques incohérents, warn si `<p>` > 400 caractères sans classe `measure`/`max-w-prose`, warn si < 2 familles de police dans le CSS livré, warn si `text-underline-offset` absent du CSS (3 points de la checklist déjà couverts par des checks plus anciens, rappelés en commentaire plutôt que dupliqués : `<img>` sans dimension, `<a href="#">` vide, `font-display` absent) ; build `_exemple`/`demo-plomberie`/`finck-fisch` verts, `<picture>`+avif+width/height confirmés dans `dist/demo-plomberie/services/*.html` | `npm test` (nouveau `tests/images.test.mjs`), `node scripts/ff.mjs images demo-plomberie --depuis-public`, `node scripts/ff.mjs verifier demo-plomberie`/`finck-fisch`, `grep '<picture' dist/demo-plomberie/services/*.html` |
+| 13 | Rendu : filière images AVIF/srcset/LQIP, polices sans saut, checks rendu dans `verifier` | fait le 16 sept 2026 — `ff images <slug>` (`--depuis-public` pour les sites sans `raw/`) émet AVIF (qualité 60) + WebP aux largeurs 480/800/1200/1600 et écrit `sites/<slug>/images.json` (widths/formats/ratio/LQIP) ; `src/components/Img.astro` (nouveau) rend `<picture>` AVIF+WebP avec width/height/LQIP, repli `<img>` simple si pas de manifeste ; sections partagées et pages migrées (`src/sections/{About,Hero,Nav,Proof,Services}/*.astro`, `src/pages/services/[slug].astro}` — pas `sites/*/sections`, propriété des designers) ; documenté dans `docs/CONVENTIONS.md` § Images ; polices : plugin Vite `fontaine` (MIT) branché dans `astro.config.mjs` (fallbacks `['Georgia','Arial']`) pour générer les `@font-face` de repli metric-adjusted des ~90 familles `@fontsource-variable/*` chargées à la demande (`src/lib/fonts.ts`) — API expérimentale Astro Fonts écartée (vérifiée par WebFetch : config statique par famille, non compatible avec le chargement dynamique par site) ; `font-display: swap` déjà garanti par Fontsource ; **préchargement fait le 17 sept 2026 (tour perf)** : `scripts/vite-ff-look.mjs` (`virtual:ff-look`) résout au build le woff2 latin de la police display réellement utilisée (premier `@import` de la direction + surcharge `typography.display`) et exporte `preloadFonts` (URLs Vite `?url`) ; `Base.astro` pose un `<link rel="preload" as="font" type="font/woff2" crossorigin>` par police, plus un `<link rel="preload" as="image" fetchpriority="high">` pour `site.images.hero` sur la page d'accueil (`imagesrcset`/`imagesizes` AVIF quand `images.json` a l'entrée, repli simple `href` sinon) — logique de manifeste extraite dans `src/lib/images.ts`, partagée avec `Img.astro` ; `fetchpriority="high"` sur l'`<img>` sécurisé pour ne dépendre que de la prop `priority` (les 4 variantes `Hero/{fullbleed,split,stacked,video}.astro` passent maintenant `priority` au lieu de `loading="eager" fetchpriority="high"` en dur) ; confirmé sur `dist/toits-cie/index.html` : 2 `<link rel="preload" as="font">` (direction `brut` + surcharge `delaGothic`) + 1 `<link rel="preload" as="image" fetchpriority="high">` ; `ff perf` (nouveau, voir critère 8) sert de garde-fou anti-régression pour ce budget ; `ff verifier` : nouveau bloc « Rendu » séparé (`scripts/ff/verifier.mjs`) — fail si grille `<ul>`/`<ol>` de ≥ 3 `<img>` aux ratios intrinsèques incohérents, warn si `<p>` > 400 caractères sans classe `measure`/`max-w-prose`, warn si < 2 familles de police dans le CSS livré, warn si `text-underline-offset` absent du CSS (3 points de la checklist déjà couverts par des checks plus anciens, rappelés en commentaire plutôt que dupliqués : `<img>` sans dimension, `<a href="#">` vide, `font-display` absent) ; build `_exemple`/`demo-plomberie`/`finck-fisch` verts, `<picture>`+avif+width/height confirmés dans `dist/demo-plomberie/services/*.html` | `npm test` (nouveau `tests/images.test.mjs`), `node scripts/ff.mjs images demo-plomberie --depuis-public`, `node scripts/ff.mjs verifier demo-plomberie`/`finck-fisch`, `grep '<picture' dist/demo-plomberie/services/*.html` |
+| 14 | Rédaction : règles dans la compétence, contrôle des superlatifs, `ff nettoyer-photos` | fait le 17 sept 2026 — `docs/REDACTION.md` créé (règles opérationnelles distillées de `docs/veille/redaction-images.md` §1 : mots interdits, professions réglementées, ton par métier, test du hero, longueurs, structure problème→geste→preuve→appel, 60 phrases d'accroche, lexique de 25 métiers, micro-copie boutons/formulaires/erreurs, checklist « textes livrables » 20 points), lié depuis `CLAUDE.md` et `.claude/skills/nouveau-site/SKILL.md` §4 (rédaction) et §5 (étape « Photos » : shot list 8 photos + règle IA interdite sur `portrait`/`team`/`gallery`/`beforeAfter`) ; `ff verifier` bloc « Textes » (`scripts/ff/verifier.mjs`) — échec sur "meilleur"/"leader"/"n°1"/"numéro 1"/"garantie de résultat"/"satisfaction garantie"/"100 % satisfait", avertissement sur "unique"/"révolutionnaire"/"le plus"/tutoiement/`<h1>` > 14 mots/`<p>` > 120 mots ; `ff nettoyer-photos <slug> [--angle N] [--duotone] [--valider]` (`scripts/ff/nettoyer-photos.mjs`, sharp seul) — rotation EXIF+angle, `.trim()`, recadrage focal 4:3/3:2 (`sharp.strategy.attention`), balance des blancs gray-world (`.linear()`), duotone optionnel (couleurs de la direction ou deux hex), sortie `.ff-tmp/nettoye/` + `apercu.html`, `--valider` déplace vers `raw/originaux/` et promeut dans `raw/` ; testé sur une image synthétique 1200×900 (dégradé + dominante verte + bordure blanche) dans un site jetable `sites/_test-photos` (copie de `_exemple`, supprimé après test) — trim, recadrage 3:2, balance des blancs et duotone (couleurs de la direction `atelier`) vérifiés visuellement et par `sharp().stats()`, puis `--valider` + `ff images` enchaînés sans erreur ; checklists « textes livrables »/« images livrables » ajoutées à `docs/PROCESS.md` § définition de fait | `npm test`, `node scripts/ff.mjs verifier finck-fisch`, `node scripts/ff.mjs aide` |
 
 ## Métiers couverts (sites dessinés à la main)
 
@@ -39,12 +40,12 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 10. Paysagiste — `jardins-mael` (Rennes / Cesson-Sévigné)
 11. Boulangerie-pâtisserie — `maison-roux` (Lyon)
 12. Architecte d'intérieur — `studio-ambre` (Paris)
+13. Électricien / domotique — `ampere-fils` (Villeurbanne)
+14. Vétérinaire — `veto-du-drac` (Grenoble / Saint-Martin-d'Hères)
+15. Cabinet d'avocat — `lemaire-avocats` (Montpellier)
 
 ## Métiers à couvrir (un par tour, dans cet ordre, ville différente à chaque fois)
 
-12. Électricien / domotique — Villeurbanne
-13. Cabinet d'avocat — Montpellier
-14. Vétérinaire — Grenoble
 15. Menuisier-ébéniste — Roubaix
 16. Institut de beauté / spa — Nice
 17. Food truck / traiteur — Bayonne
@@ -91,6 +92,191 @@ S'arrêter et le dire quand : les sept critères sont cochés ; ou un critère d
 (login Cloudflare, achat de domaine, vrai client) et tout le reste est fait.
 
 ## Journal
+
+- 17 sept 2026 : site métier 15 (Cabinet d'avocat), Cabinet Lemaire Avocats — Montpellier (5 rue
+  Foch), Maître Claire Lemaire et Maître Inès Dahmani, depuis 2014, droit du travail/famille/
+  immobilier/affaires (TPE) — `sites/lemaire-avocats/`. `ff composer lemaire-avocats --metier
+  "Avocat"` propose la direction `industriel` (béton/acier, Bebas) — écartée d'emblée : figurait
+  explicitement dans la liste des directions à éviter fournie par la tâche (problème de contraste
+  d'accent connu). Direction retenue à la place : `nuit` (bleu nuit calme, blanc chaud, Newsreader
+  serif, accent ambre discret) — inutilisée par un site dessiné à la main, colle exactement au
+  mandat (« serious, calm, legible, never salesy ») ; accent ambre par défaut de la direction déjà
+  très proche du placeholder demandé (`#c9b27c`), aucune surcharge nécessaire. Nav (burger minimal :
+  seuls un nom et deux boutons ronds — appel + menu — en barre, tout le reste dans un panneau plein
+  écran à l'ouverture) et hero (aucune photo — option explicitement permise par le mandat ; une
+  seule longue phrase serif en `data-text-fill` énonçant les quatre domaines et le public visé, sur
+  le ciel étoilé déjà fourni par la direction `nuit`) sur mesure, plus cinq blocs custom
+  (`sites/lemaire-avocats/sections/` : `Domaines` — index typographique à deux colonnes, grands
+  numéros, chaque ligne en `<details>` group `data-accordion="single"` révélant trois situations
+  typiques par domaine (`services[].bullets`, aucune donnée inventée) ; `Consultation` — les quatre
+  étapes réelles du brief en colonne verticale numérotée reliée par un trait qui se trace
+  (`data-draw`, réorienté en vertical par un `<style>` scopé au fichier — `global.css` ne code que
+  la variante horizontale d'un `<hr>`, non modifié), durée du rendez-vous (45 min, donnée réelle)
+  visualisée par `data-count-bar` ; `Honoraires` — les trois modes de rémunération expliqués sans
+  aucun chiffre (seule exception, explicitement autorisée par le mandat : la première consultation,
+  « à titre indicatif ») ; `Avocates` — deux portraits (placeholders abstraits `ff placeholders`,
+  aucune photo au brief) en `data-reveal="mask"` + `data-tilt`/`data-tilt-glare`, année d'inscription
+  au barreau affichée telle quelle ; `Contact` — `ContactForm`/`Carte` partagés réutilisés tels
+  quels, halo `data-spotlight` sur le panneau de coordonnées (mandat explicite). Six effets vérifiés
+  par grep comme les moins utilisés du moteur avant ce tour (`data-accordion`, `data-count-bar`,
+  `data-blur-scrub`, `data-tilt-glare` : 1 usage chacun ; `data-scroll-progress`/`data-spotlight`/
+  `data-text-fill` : 3 chacun, très en dessous de `data-reveal` 38/`data-stagger` 31) — dépasse le
+  minimum de cinq demandé. Règles CNB respectées (`docs/veille/redaction-images.md` §1.3-1.4) :
+  mention « Avocats au Barreau de Montpellier », aucune comparaison, aucune promesse de résultat,
+  « spécialiste » jamais employé, convention d'honoraires citée deux fois, médiateur de la
+  consommation de la profession d'avocat cité en `legal.mediator`. Section `proof` absente du
+  layout : aucun avis inventé (le brief n'en fournit pas ; les témoignages sont de toute façon
+  déconseillés pour une profession réglementée). Deux vrais bugs trouvés et corrigés en cours de
+  route : (1) lien `tel:` hors des 1500 premiers caractères du corps (nav minimale + logo SVG
+  inline verbeux avant le bouton d'appel) — corrigé par réordonnancement DOM `order-*`, même
+  correctif que `dubois-plomberie`/`barbier-kessler`/`jardins-mael` ; (2) plus sérieux — les deux
+  portraits d'`Avocates.astro` restaient invisibles (`clip-path` bloqué à 99,5 %) : l'IntersectionObserver
+  générique de `reveal()` (`src/scripts/motion.ts`) observe l'élément `data-reveal="mask"`
+  lui-même, or son propre `clip-path` initial réduit son aire peinte à ~0,5 % — le ratio
+  d'intersection calculé par le navigateur reste sous le seuil (0.12) et `.is-visible` n'est jamais
+  posé (confirmé par un `IntersectionObserver` de test isolé renvoyant `ratio: 0` alors que
+  l'élément était centré dans le viewport). Corrigé en observant un ancêtre non masqué
+  (`.avocate-card`) et en posant `.is-visible` à la main sur le masque, même stratégie que
+  `sites/encre-noire/sections/Styles.astro` — qui documente déjà un contournement voisin — et
+  `sites/anna-vidal/sections/Hero.astro` ; `sites/forge-delacroix/sections/Pieces.astro` combine
+  aussi `data-tilt` + `data-reveal="mask"` sans aucun des deux correctifs et est probablement
+  affecté par le même bug, non corrigé (hors scope, site d'un autre tour). Bug bloquant partagé
+  rencontré et corrigé en cours de route, hors périmètre du site mais cassait le build de tout le
+  dépôt (`import.meta.glob` charge tous les `site.config.ts` avec avidité) : un `*/` isolé dans un
+  commentaire JSDoc de `sites/veto-du-drac/site.config.ts` (motif `sites/*/sections/*.astro`)
+  refermait le bloc de commentaire trop tôt, laissant `sections;` comme instruction JS orpheline
+  (`ReferenceError: sections is not defined` au build) — une variante du même piège signalée par le
+  superviseur sur mon propre fichier ; corrigé par un reformulation d'une ligne (`sites/<slug>/
+  sections/<Nom>.astro`), aucune autre modification de ce fichier d'un autre tour. `ff build`/
+  `ff verifier lemaire-avocats` verts (seuls échecs attendus : faux positif « 100 % », `exemple.fr`
+  imposé par le brief ; avertissements attendus : SIRET absent, paragraphe long de
+  `confidentialite.html` sans `measure`, « le plus » dans `404.html` — pages partagées hors scope).
+  `ff captures lemaire-avocats` sans erreur console ni débordement ; desktop et mobile relus à
+  l'œil après les deux corrections, accordéon et menu plein écran vérifiés par interaction
+  automatisée (Playwright) en plus des captures statiques. Critère 1 : 14 → 15 / 20.
+
+- 17 sept 2026 : site métier 14 (Vétérinaire), Clinique vétérinaire du Drac — Grenoble/Saint-
+  Martin-d'Hères, 3 vétérinaires (Sophie Barral, Karim Ouali, Léa Fontaine), depuis 2009, chiens/
+  chats/NAC — `sites/veto-du-drac/`. `ff composer veto-du-drac --metier "Vétérinaire"` propose la
+  direction `industriel` (béton/acier/orange sécurité, Bebas, garages/métallerie/BTP) — écartée :
+  mandat « rassurant, propre, un peu de chaleur » pour des propriétaires anxieux, l'exact opposé
+  du registre chantier, et `industriel` a un problème de contraste d'accent connu (liste des
+  directions inutilisées fournie par la tâche). Direction retenue à la place : `clair` (blanc,
+  Manrope/DM Sans, arrondis, ombres douces, « tech propre ») — explicitement suggérée par le
+  mandat pour « une clinique moderne », inutilisée par tout site dessiné à la main jusqu'ici (seul
+  `demo-boulangerie`, généré, s'en sert). Deux écarts notés dans l'en-tête de `site.config.ts` :
+  accent surchargé en vert d'eau profond (`hsl(169 45% 32%)`, proche de `#2a6f62`, couleur des
+  placeholders) à la place du bleu SaaS par défaut ; `typography.display: gelasio` (serif
+  « classique, chaud ») à la place de Manrope pour le titre du hero — le mandat demande
+  explicitement un « grand titre serif amical ». Nav et hero sur mesure, quatre autres sections sur
+  mesure (`sites/veto-du-drac/sections/`) : `Urgence` — checklist numérotée (`site.process`) en
+  carte `position: sticky` **CSS pur, pas `data-sticky-stack`/GSAP** (mandat explicite), téléphone
+  de la clinique et numéro de garde en `tabular-nums` grande taille, numéro de garde marqué
+  « (démonstration) » directement dans le texte affiché, pas seulement en commentaire ;
+  `Equipe` — trois portraits (placeholders abstraits, aucun vrai visage) en grille 3 colonnes,
+  `data-reveal="mask"`, bios courtes dérivées de `about.team[].role` ; `PreparerVisite` — six
+  conseils pratiques en `data-flip-card` (chat en caisse, chien à jeun avant chirurgie, NAC, carnet
+  de santé, traitements en cours, questions à noter), intro portant la seule ligne de prix
+  indicatif demandée (« Consultation : 36 €, à titre indicatif ») ; `Contact` — custom, halo
+  `data-spotlight` sur la carte de coordonnées + bande `data-marquee` des espèces reçues (chiens/
+  chats/lapins/rongeurs). `Hero` — titre serif centré au-dessus d'une scène de formes abstraites
+  100 % CSS (`data-parallax-depth` + enfants `data-depth`, `color-mix` sur les tokens accent),
+  aucune photo d'animal (mandat : pas de mignons animaux de stock), un pouls dessiné au chargement
+  (`data-draw-svg`, signal de soin sobre, combiné à `data-blur-scrub="6"` — se défloute en se
+  traçant, flou faible comme `sites/studio-ambre/sections/CaseStudy.astro` pour rester visible
+  dans son état « avant scroll ») et deux chiffres réels flottants (`data-counter` : 3
+  vétérinaires, `yearsSince(2009)`). Neuf effets `data-*` au total ; cinq comptaient ≤ 2 usages
+  avant ce tour (grep `sites/*/sections/*.astro`, hors `_effets`) : `data-parallax-depth` (1),
+  `data-blur-scrub` (1), `data-counter` (1), `data-flip-card` (2), `data-draw-svg` (2) — dépasse
+  le minimum de cinq. `data-count-bar` volontairement écarté (mandat explicite : « no invented
+  stats », pas de temps d'attente inventé). Vétérinaire = profession réglementée (Ordre des vétérinaires,
+  `docs/veille/redaction-images.md` § 1.3) : aucune comparaison avec un confrère, aucune promesse
+  de guérison, aucun tarif promotionnel — une seule ligne de prix indicative. Aucun avis inventé
+  (`proof` absent du brief et du layout). Trois bugs réels trouvés et corrigés en cours de route
+  (vérifiés en instrumentant Playwright directement sur `dist/veto-du-drac`, pas des suppositions) :
+  (1) lien `tel:` hors des 1500 premiers caractères du corps à cause d'un badge d'horaires placé
+  avant le bouton d'appel dans le DOM — réordonné (même correctif que sur cinq sites précédents) ;
+  (2) `data-reveal="mask"` sur les portraits `Equipe` ne se révélait jamais : au-delà des deux
+  pièges déjà documentés ailleurs (cascade CSS `global.css` — même bug que
+  `sites/encre-noire/sections/Styles.astro` ; `<Img>` insère un `<picture>` qui casse le sélecteur
+  `> img`, même piège que `data-duotone` dans `sites/jardins-mael/sections/Hero.astro`), un
+  troisième piège **inédit dans le repo** : l'état fermé du masque (`clip-path: inset(99.5% ...)`)
+  réduit la zone peinte à ~0,5 % avant révélation, et l'`IntersectionObserver` générique de
+  `reveal()` calcule son ratio sur la zone *visible après clip-path*, pas sur la boîte de mise en
+  page — avec `threshold: 0.12`, un élément masqué à 99,5 % ne peut structurellement jamais
+  atteindre 12 % visible : un verrou circulaire, jamais résolu par un simple correctif CSS.
+  Contourné comme `encre-noire` (observateur local dédié sur la `<section>`, jamais clippée,
+  plutôt que sur chaque figure) — à garder en tête pour tout futur usage de `data-reveal="mask"` en
+  dehors d'un hero plein écran ou d'une piste horizontale (les deux seuls contextes déjà couverts
+  par les correctifs existants) ; (3) `data-split="chars"` sur une tagline longue multi-mots
+  coupait des mots en deux (« NAC » → « N »/« AC », « même » → « m »/« ême »), en desktop et en
+  mobile — chaque caractère devient un `<span>` `display: inline-block` indépendant, sans point
+  d'espace entre eux pour empêcher la coupure ; remplacé par `data-split` (mode mots, coupe
+  uniquement aux espaces réelles). Les deux derniers bugs concernent des effets déjà utilisés
+  ailleurs dans le repo (`data-reveal="mask"`, `data-split="chars"`) mais pas forcément
+  déclenchés dans les mêmes conditions (portraits en grille normale plutôt que hero plein écran ;
+  tagline longue à plusieurs mots plutôt qu'un seul mot géant) — signalés ici pour qu'un futur tour
+  qui réutilise ces effets dans un contexte similaire les évite d'emblée. `ff build`/`ff verifier`
+  verts (seuls échecs attendus : faux positif préexistant « 100 % » sur le CSS de coquille
+  `[data-shell=slides]`, `exemple.fr` imposé par le mandat ; avertissements attendus : SIRET
+  absent, paragraphe long de `confidentialite.html` sans `measure`, « le plus » résiduel dans
+  `404.html` — page partagée, hors scope). `ff captures veto-du-drac` sans erreur console ni
+  débordement ; desktop et mobile relus à l'œil après les trois corrections (portraits visibles,
+  titre du hero qui ne coupe plus de mot, compteurs « 3 vétérinaires »/« 17 ans » corrects).
+  Critère 1 : 13 → 14 / 20.
+
+- 17 sept 2026 : site métier 13 (Électricien / domotique), Ampère & Fils — Villeurbanne, entreprise
+  familiale père/fille, depuis 2001, Qualifelec, IRVE, domotique KNX, mises aux normes NF C 15-100,
+  dépannage sous 24 h (jamais 24h/24) — `sites/ampere-fils/`. `ff composer ampere-fils --metier
+  "Électricien"` propose la direction `signal` (couleur franche, Archivo Black, gros numéro
+  d'urgence) — écartée par consigne explicite du mandat de conception (« précision technique,
+  chaleur discrète », `brut`/`signal`/`industriel` tous à éviter). Direction retenue à la place :
+  `clair` (blanc, Manrope/DM Sans, arrondis doux) — jamais utilisée par un site dessiné à la main
+  jusqu'ici, cohérente avec le mandat « tech propre » ; accent surchargé en bleu profond (hsl(226
+  65% 35%), proche de `#1f3a93`, couleur des placeholders) à la place du bleu franc par défaut de
+  `clair`, pour un bleu de schéma électrique plutôt qu'un bleu SaaS. `scale: 'compact'` pour la
+  densité technique. Écart documenté dans l'en-tête de `site.config.ts` : le « papier millimétré »
+  du mandat (`repeating-linear-gradient` à 4 % via `color-mix(in oklch, var(--fg) 4%, transparent)`,
+  tokens uniquement) est posé par section (Hero, TableauElectrique, BorneRecharge, Contact) plutôt
+  que sur `<body>`, faute de pouvoir toucher `src/directions`/`global.css` pour ce tour (consigne
+  explicite de la tâche : ne pas modifier `src/`). Nav et hero sur mesure, quatre blocs sur mesure
+  (`sites/ampere-fils/sections/` : `Nav` — filet fin en pied de barre qui EST la barre de
+  progression de lecture (`data-scroll-progress`), étiquette statique « Intervention sous 24 h »
+  (aucune pastille clignotante — mandat explicite : pas de fausse urgence) ; `Hero` — la tagline se
+  lit normalement en `<h1>`, puis un schéma de raccordement en dessous : cinq bornes (Villeurbanne,
+  père & fille, ancienneté réelle via `yearsSince()`, Qualifelec, IRVE·KNX) reliées par un tracé à
+  angles droits façon circuit imprimé (`data-draw-svg`, tracé au chargement) ; `TableauElectrique` —
+  les six prestations (`site.services`) en tuiles « disjoncteur » (petit interrupteur dessiné en CSS
+  pur, tokens uniquement) qui se retournent (`data-flip-card`) pour révéler ce qui est inclus ;
+  `BorneRecharge` — les trois puissances IRVE réelles (7/11/22 kW, classes de produit, pas une
+  donnée client inventée) en `data-count-bar` ; `Normes` — les trois garanties (`site.about.values` :
+  NF C 15-100, Qualifelec, IRVE — seule source de vérité, lue directement, pas un texte détaché) en
+  trois panneaux empilés (`data-sticky-stack`) ; `Contact` — panneau sombre `data-spotlight` +
+  petit tracé `data-draw-svg` en coin, combinaison inédite (spotlight seul sur barbier-kessler/
+  dubois-plomberie/studio-ambre), `<ContactForm />`/`<Carte />` partagés réutilisés tels quels. Six
+  effets `data-*` mobilisés dont un rare avant ce tour (`data-count-bar`, 3 sites) et cinq peu
+  fréquents (`data-draw-svg` 4, `data-flip-card` 4, `data-sticky-stack` 5, `data-spotlight` 6,
+  `data-scroll-progress` 6, comptés avant ce tour, hors `sites/_effets`) — dépasse le minimum de
+  cinq demandé par le mandat. `ff placeholders`/`ff images --depuis-public` exécutés (logo.svg/
+  favicon.svg utilisés) mais `images: {}` au final, comme `dubois-plomberie` : le mandat est un
+  vocabulaire de schémas, pas de photographie, une image abstraite de substitution aurait fait
+  doublon. Aucun avis inventé (`proof` absent du brief, absent du layout). Wording exact du mandat
+  respecté (`devis: 'Décrire votre projet'`, `ctaTitle`/`contactTitle`). Un vrai bug corrigé en
+  cours de route dans mon propre fichier : commentaire contenant `sites/*/sections` dont le
+  sous-texte `*/` fermait prématurément le bloc de commentaire JS (`Expected ";" but found ")"`) —
+  reformulé pour l'éviter. Un second bug du même type, dans `sites/lemaire-avocats/site.config.ts`
+  (site d'un autre agent en cours dans ce même tour), bloquait tous les builds du dépôt via le glob
+  partagé de `src/lib/site.ts` — signalé par message à l'agent principal plutôt que corrigé
+  directement (fichier d'un autre agent), résolu entre-temps par cet agent. Un avertissement
+  « mot à surveiller "le plus" » (`docs/REDACTION.md` §1) trouvé et corrigé en reformulant une
+  phrase de `BorneRecharge.astro` (« le plus courant » → « fréquent »). `ff build`/`ff verifier`/
+  `ff captures ampere-fils` verts (seuls échecs attendus : faux positif préexistant « 100 % » sur le
+  CSS de coquille, `exemple.fr` imposé par le mandat ; avertissements attendus : SIRET absent,
+  paragraphe long de `confidentialite.html` sans `measure`, « le plus » résiduel dans `404.html`
+  — page partagée, hors scope). Desktop et mobile relus à l'œil (captures recadrées section par
+  section) : schéma de câblage du hero lisible aux deux formats, tuiles disjoncteur et barres de
+  puissance nettes, sticky-stack et contact sans chevauchement, aucun débordement. Critère 1 :
+  12 → 13 / 20.
 
 - 17 sept 2026 : site métier 11 (Architecte d'intérieur), Studio Ambre — Léa Bonnet, Paris 10e
   (rue des Vinaigriers, depuis 2015, solo + un collaborateur, appartements haussmanniens, boutiques,

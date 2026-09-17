@@ -1,0 +1,37 @@
+---
+/**
+ * "Engagements" (custom/normes) : les trois garanties du métier (site.about.values — NF C 15-100,
+ * Qualifelec, IRVE, seule source de vérité, pas un texte détaché) en trois panneaux empilés
+ * (data-sticky-stack, déjà utilisé par sites/dubois-plomberie/sections/Urgence.astro et
+ * sites/jardins-mael/sections/Saisons.astro pour un principe différent — ici trois promesses
+ * courtes, pas des étapes ni des saisons). Composition propre à ce site.
+ */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const icons = ['ShieldCheck', 'BadgeCheck', 'BatteryCharging'] as const;
+const tones = ['bg-surface text-fg border-t border-line', 'bg-accent text-on-accent', 'bg-ink text-on-ink'];
+const panels = site.about.values.map((v, i) => ({ ...v, icon: icons[i % icons.length], tone: tones[i % tones.length], n: String(i + 1).padStart(2, '0') }));
+---
+
+<section id="normes" class="relative">
+  <div class="container-ff pt-24">
+    <p class="eyebrow">Engagements</p>
+    <h2 class="mt-4 max-w-xl text-display-lg">Ce que la qualification garantit.</h2>
+  </div>
+
+  <div class="mt-10" data-sticky-stack>
+    {panels.map((p) => (
+      <div class:list={['flex min-h-[46vh] items-center', p.tone]}>
+        <div class="container-ff grid items-center gap-8 py-12 md:grid-cols-[auto_1fr] md:gap-16">
+          <span class="font-display leading-none opacity-50" style="font-size: clamp(3.5rem, 8vw, 7rem);" aria-hidden="true">{p.n}</span>
+          <div class="measure">
+            <Icon name={p.icon} size={26} class="opacity-80" strokeWidth={1.5} />
+            <h3 class="mt-4 text-display-md">{p.title}</h3>
+            <p class="mt-4 text-lg opacity-85">{p.text}</p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

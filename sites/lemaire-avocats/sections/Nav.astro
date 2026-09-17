@@ -1,0 +1,114 @@
+---
+/**
+ * Nav sur mesure — minimale : la barre ne montre qu'un nom et un bouton d'appel discret, puis un
+ * bouton rond ouvre un panneau plein écran (fond ink) avec les ancres numérotées et les
+ * coordonnées. Composition différente des navs déjà dessinées (pas de barre à bouton d'appel plein
+ * comme dubois-plomberie/barbier-kessler, pas de masthead éditorial deux lignes comme jardins-mael,
+ * pas de grille à sept liens comme studio-ambre, pas de "ticket de caisse" comme maison-roux) :
+ * ici tout est réduit à deux affordances en barre, le reste attend le panneau — pour rester sobre
+ * au premier regard (mandat : "serious, calm, legible, never salesy"). Fil de lecture
+ * (data-scroll-progress) collé sous la barre.
+ */
+import { site, tel, mailto, fullAddress, navLinks } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+const links = navLinks();
+---
+
+<div data-scroll-progress aria-hidden="true"></div>
+
+<header
+  data-nav
+  class="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-bg/90 backdrop-blur-sm transition-[border-color,box-shadow] duration-500 [&.is-scrolled]:border-line [&.is-scrolled]:shadow-card"
+>
+  {/*
+    href="tel:" doit rester dans les 1500 premiers caracteres du corps (ff verifier) : le groupe
+    telephone+burger est place avant le nom en DOM (order-1/order-2 restaure l'ordre visuel logo a
+    gauche, actions a droite), meme technique que dubois-plomberie/barbier-kessler/jardins-mael.
+  */}
+  <div class="container-ff flex items-center justify-between gap-4 py-4">
+    <div class="order-2 flex items-center gap-2.5">
+      <a
+        href={tel()}
+        aria-label={`Appeler le ${site.contact.phoneDisplay}`}
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-fg transition-colors duration-300 hover:border-accent hover:text-accent"
+      >
+        <Icon name="Phone" size={16} strokeWidth={1.75} />
+      </a>
+
+      <button
+        type="button"
+        class="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line transition-colors duration-300 [&.is-open]:border-accent [&.is-open]:text-accent"
+        aria-label="Menu"
+        aria-expanded="false"
+        aria-controls="menu-panel"
+        data-burger-toggle
+      >
+        <span class="relative block h-3 w-4" aria-hidden="true">
+          <span class="absolute inset-x-0 top-0 h-px bg-current transition-transform duration-300 ease-out-quart [.is-open_&]:translate-y-[6px] [.is-open_&]:rotate-45"></span>
+          <span class="absolute inset-x-0 bottom-0 h-px bg-current transition-transform duration-300 ease-out-quart [.is-open_&]:-translate-y-[6px] [.is-open_&]:-rotate-45"></span>
+        </span>
+      </button>
+    </div>
+
+    <a href="/" class="order-1 flex items-center gap-2.5 font-display text-[0.95rem] tracking-tight sm:text-base">
+      <Icon name="Scale" size={18} class="text-accent shrink-0" strokeWidth={1.5} />
+      <span>{site.business.name}</span>
+    </a>
+  </div>
+</header>
+<div class="h-[64px]" aria-hidden="true"></div>
+
+<div
+  id="menu-panel"
+  class="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-ink text-on-ink opacity-0 pointer-events-none transition-opacity duration-500 ease-out-quart [&.is-open]:opacity-100 [&.is-open]:pointer-events-auto"
+  aria-hidden="true"
+  data-menu-panel
+>
+  <nav class="container-ff flex-1 flex flex-col justify-center gap-1 py-24" aria-label="Navigation principale" data-stagger="60">
+    {links.map((l, i) => (
+      <a href={l.href} class="group flex items-baseline gap-4 border-b border-on-ink/10 py-3 text-display-sm font-display" data-menu-link>
+        <span class="font-mono text-xs text-on-ink/45">{String(i + 1).padStart(2, '0')}</span>
+        <span class="transition-opacity group-hover:opacity-70">{l.label}</span>
+      </a>
+    ))}
+  </nav>
+  <div class="container-ff flex flex-wrap items-center justify-between gap-6 border-t border-on-ink/15 pb-10 pt-6 text-sm text-on-ink/70">
+    <div class="flex flex-col gap-1">
+      <a href={tel()} class="hover:text-on-ink">{site.contact.phoneDisplay}</a>
+      <a href={mailto()} class="break-all hover:text-on-ink">{site.contact.email}</a>
+      <p>{fullAddress()}</p>
+    </div>
+    <p class="font-mono text-xs uppercase tracking-[0.16em] text-on-ink/50">Avocates au Barreau de Montpellier</p>
+  </div>
+</div>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-burger-toggle]');
+  const panel = document.querySelector<HTMLElement>('[data-menu-panel]');
+  const header = document.querySelector<HTMLElement>('[data-nav]');
+
+  const shut = () => {
+    toggle?.classList.remove('is-open');
+    panel?.classList.remove('is-open');
+    toggle?.setAttribute('aria-expanded', 'false');
+    panel?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+  const open = () => {
+    toggle?.classList.add('is-open');
+    panel?.classList.add('is-open');
+    toggle?.setAttribute('aria-expanded', 'true');
+    panel?.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  toggle?.addEventListener('click', () => (panel?.classList.contains('is-open') ? shut() : open()));
+  panel?.querySelectorAll<HTMLAnchorElement>('[data-menu-link]').forEach((a) => a.addEventListener('click', shut));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel?.classList.contains('is-open')) shut();
+  });
+
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

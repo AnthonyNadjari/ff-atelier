@@ -39,6 +39,23 @@ function parseFonts(root) {
   return map;
 }
 
+/**
+ * Resout le fichier woff2 "latin" d'un package fontsource (statique ou variable), pour le precharger
+ * (docs/veille/performance.md §1.5/§4). `pkgSpecifier` est tel qu'ecrit dans un `@import`/`fonts.ts`
+ * ('@fontsource-variable/fraunces' ou '@fontsource/gloock/latin.css') ; renvoie null si le fichier
+ * n'existe pas sur disque (repli silencieux, jamais d'import casse).
+ */
+function resolveLatinWoff2(root, pkgSpecifier) {
+  const isVariable = pkgSpecifier.startsWith('@fontsource-variable/');
+  const pkgRoot = pkgSpecifier.replace(/\/latin\.css$/, '');
+  const slug = pkgRoot.split('/')[1];
+  if (!slug) return null;
+  const file = isVariable ? `${slug}-latin-wght-normal.woff2` : `${slug}-latin-400-normal.woff2`;
+  const abs = resolve(root, 'node_modules', ...pkgRoot.split('/'), 'files', file);
+  if (!existsSync(abs)) return null;
+  return { pkgRoot, file };
+}
+
 export function resolveLook({ root, slug, ffLook }) {
   const siteDir = resolve(root, 'sites', slug);
   let look = {};
@@ -85,6 +102,7 @@ export function ffLookPlugin({ root, slug, ffLook }) {
       const look = resolveLook({ root, slug, ffLook });
       const dirCss = resolve(root, 'src/directions', look.direction, 'index.css');
       if (!existsSync(dirCss)) throw new Error(`Direction inconnue : ${look.direction} (sites/${slug})`);
+      const dirCssText = readFileSync(dirCss, 'utf8');
       const fonts = parseFonts(root);
       const lines = [`import '/src/directions/${look.direction}/index.css';`];
       const families = {};
@@ -98,6 +116,29 @@ export function ffLookPlugin({ root, slug, ffLook }) {
       lines.push(`export const direction = ${JSON.stringify(look.direction)};`);
       lines.push(`export const fontFamilies = ${JSON.stringify(families)};`);
 
+      // Preload (docs/veille/performance.md §1.5/§4/§7 action 4) : la police display de la direction
+      // (premier `@import '@fontsource...'` de son index.css — convention : display, puis body, puis
+      // mono) et, si `typography.display` la remplace, la police de la surcharge. Les deux peuvent
+      // etre chargees en meme temps (la direction importe toujours son CSS ; la surcharge ajoute le
+      // sien par-dessus, voir la boucle juste au-dessus) donc les deux sont candidates au preload.
+      const displaySpecs = [];
+      const dirImportMatch = dirCssText.match(/@import\s+'(@fontsource[^']+)'/);
+      if (dirImportMatch) displaySpecs.push(dirImportMatch[1]);
+      const overrideKey = look.typography?.display;
+      if (overrideKey && fonts[overrideKey]) displaySpecs.push(fonts[overrideKey].pkg);
+      const seenPkgRoot = new Set();
+      let preloadCount = 0;
+      for (const spec of displaySpecs) {
+        const pkgRootKey = spec.replace(/\/latin\.css$/, '');
+        if (seenPkgRoot.has(pkgRootKey)) continue;
+        seenPkgRoot.add(pkgRootKey);
+        const resolved = resolveLatinWoff2(root, spec);
+        if (!resolved) continue; // fichier absent du package installe : on saute, pas d'import casse
+        lines.push(`import fontUrl${preloadCount} from '${resolved.pkgRoot}/files/${resolved.file}?url';`);
+        preloadCount++;
+      }
+      lines.push(`export const preloadFonts = [${Array.from({ length: preloadCount }, (_, i) => `fontUrl${i}`).join(', ')}];`);
+
       // Sections sur mesure du site courant uniquement (sites/<slug>/sections/*.astro) : les autres sites
       // ne sont jamais compiles ni inclus (un chantier en cours ailleurs ne casse pas ce build).
       const secDir = resolve(root, 'sites', slug, 'sections');
@@ -109,6 +150,18 @@ export function ffLookPlugin({ root, slug, ffLook }) {
         entries.push(`${JSON.stringify(name.toLowerCase())}: Custom${i}`);
       });
       lines.push(`export const customSections = { ${entries.join(', ')} };`);
+
+      // Config et look.json du site courant uniquement (src/lib/site.ts ne globbe plus tous les sites :
+      // une faute de syntaxe dans le config d'un autre site ne casse plus ce build).
+      lines.push(`import siteConfig from '/sites/${slug}/site.config.ts';`);
+      lines.push(`export const config = siteConfig;`);
+      const lookJson = resolve(root, 'sites', slug, 'look.json');
+      if (existsSync(lookJson)) {
+        lines.push(`import lookJsonRaw from '/sites/${slug}/look.json';`);
+        lines.push(`export const lookFile = lookJsonRaw;`);
+      } else {
+        lines.push(`export const lookFile = undefined;`);
+      }
       return lines.join('\n');
     },
   };

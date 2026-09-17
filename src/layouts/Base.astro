@@ -5,7 +5,8 @@
  */
 import '@/styles/global.css';
 import { site, fullAddress, slugCourant, schemaTypeForTrade } from '@/lib/site';
-import { fontFamilies } from 'virtual:ff-look';
+import { fontFamilies, preloadFonts } from 'virtual:ff-look';
+import { lookupImageEntry, splitImagePath, imageSrcsetFor } from '@/lib/images';
 // ClientRouter (site.transitions, opt-in) : voir docs/ANIMATIONS.md § Transitions de page.
 import { ClientRouter } from 'astro:transitions';
 
@@ -31,6 +32,24 @@ const og = site.images.og ?? site.images.hero?.src;
 const ogUrl = og ? new URL(og, Astro.site).toString() : undefined;
 
 const accentStyle = (site.accent ? `--accent-h:${site.accent.h};--accent-s:${site.accent.s}%;--accent-l:${site.accent.l}%;` : '') + fontStyle;
+
+// Preload de l'image LCP (docs/veille/performance.md §4.1/§7 action 3) : seulement la page d'accueil
+// (`path === '/'`) et seulement si `site.images.hero` existe. imagesrcset/imagesizes generes depuis le
+// meme manifeste que <Img> (src/lib/images.ts) quand l'image est passee par `ff images` ; sinon simple
+// href de repli sur le fichier tel quel (aucune regression pour une image non migree).
+const isHome = path === '/';
+const heroImg = isHome ? site.images.hero : undefined;
+const heroEntry = heroImg ? lookupImageEntry(slugCourant, heroImg.src) : undefined;
+// sizes du hero "split" (texte a gauche, photo a droite) : 50vw en desktop, sinon les heros image sont
+// tous en pleine largeur (fullbleed/stacked/video) — garde ce preload aligne avec le <Img> reel du Hero.
+const heroSizes = site.layout.hero === 'split' ? '(min-width: 1024px) 50vw, 100vw' : '100vw';
+const heroPreload = heroImg
+  ? (() => {
+      if (!heroEntry) return { href: heroImg.src };
+      const { dir, name } = splitImagePath(heroImg.src);
+      return { href: heroImg.src, imagesrcset: imageSrcsetFor(heroEntry, dir, name, 'avif'), imagesizes: heroSizes };
+    })()
+  : undefined;
 
 // Sous-type schema.org : business.schemaType prime, sinon deduit du metier (schemaTypeForTrade),
 // repli 'LocalBusiness'. Pas d'aggregateRating/Review auto-declare : Google sanctionne les avis
@@ -79,6 +98,23 @@ const ldJson = {
     <title>{pageTitle}</title>
     <meta name="description" content={pageDesc} />
     <link rel="canonical" href={canonical} />
+    {/* Preload police display + image LCP (docs/veille/performance.md §1.5/§4.1) : decouverts au
+        parsing du <head>, avant que le CSS externe (bloquant) ne soit lu et que l'<img> ne soit
+        atteint dans le corps. */}
+    {preloadFonts.map((url: string) => (
+      <link rel="preload" as="font" type="font/woff2" href={url} crossorigin />
+    ))}
+    {heroPreload && (
+      <link
+        rel="preload"
+        as="image"
+        href={heroPreload.href}
+        imagesrcset={heroPreload.imagesrcset}
+        imagesizes={heroPreload.imagesizes}
+        fetchpriority="high"
+        type={heroPreload.imagesrcset ? 'image/avif' : undefined}
+      />
+    )}
     {noindex && <meta name="robots" content="noindex" />}
     {site.seo.keywords.length > 0 && <meta name="keywords" content={site.seo.keywords.join(', ')} />}
     <meta property="og:type" content="website" />

@@ -1,0 +1,84 @@
+---
+/**
+ * "Tableau électrique" (custom/tableauelectrique) : les prestations (site.services) présentées
+ * comme une rangée de disjoncteurs dans un tableau — chaque tuile porte un petit interrupteur
+ * dessiné en CSS pur (tokens uniquement, aucune image) et se retourne (data-flip-card, déjà utilisé
+ * pour un principe "carte qui révèle un contenu" par sites/dubois-plomberie/sections/Diagnostic.astro
+ * et sites/maison-roux/sections/CommanderGateau.astro — ici recto = interrupteur + intitulé, verso
+ * = ce qui est inclus, jamais un symptôme/cause ni une photo). Composition propre à ce site.
+ */
+import { site } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+
+const services = site.services;
+---
+
+<section id="tableauelectrique" class="grid-paper section-y">
+  <div class="container-ff">
+    <SectionHeading eyebrow="Services" title="Le tableau" text="Six prestations, comme autant de disjoncteurs. Chaque tuile se retourne pour montrer ce qui est inclus." />
+
+    <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-stagger="90">
+      {services.map((s, i) => (
+        <li class="h-72 rounded-card">
+          <div class="h-full rounded-card" data-flip-card aria-label={`${s.title} — voir ce qui est inclus`}>
+            <div class="flip-inner rounded-card">
+              <div class="flip-front flex h-full flex-col rounded-card border border-line bg-surface p-6">
+                <div class="flex items-start justify-between">
+                  <span class="breaker-switch" aria-hidden="true"><span class="breaker-knob"></span></span>
+                  <span class="font-mono text-xs tabular-nums text-muted">N°{String(i + 1).padStart(2, '0')}</span>
+                </div>
+                <Icon name={s.icon} size={26} class="mt-6 text-accent" strokeWidth={1.5} />
+                <p class="mt-4 font-display text-lg leading-snug">{s.title}</p>
+                <p class="mt-2 text-sm text-muted">{s.short}</p>
+                <p class="mt-auto pt-4 text-xs uppercase tracking-[0.14em] text-muted">Retourner la carte</p>
+              </div>
+              <div class="flip-back flex h-full flex-col rounded-card bg-ink p-6 text-on-ink">
+                <p class="eyebrow text-on-ink/60">Ce qui est inclus</p>
+                <ul class="mt-4 flex flex-1 flex-col gap-2.5 text-sm">
+                  {s.bullets.map((b) => (
+                    <li class="flex items-start gap-2">
+                      <Icon name="Check" size={15} class="mt-0.5 shrink-0 text-accent" />
+                      <span class="text-on-ink/90">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a href={`/services/${s.slug}`} class="mt-4 inline-flex items-center gap-1.5 text-sm text-on-ink/80 hover:text-on-ink">
+                  En savoir plus<Icon name="ArrowRight" size={14} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid-paper {
+    background-image:
+      repeating-linear-gradient(0deg, color-mix(in oklch, var(--fg) 4%, transparent) 0 1px, transparent 1px 32px),
+      repeating-linear-gradient(90deg, color-mix(in oklch, var(--fg) 4%, transparent) 0 1px, transparent 1px 32px);
+  }
+
+  /* Petit interrupteur "disjoncteur" en CSS pur : deux positions possibles, decoratif (aria-hidden). */
+  .breaker-switch {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 34px;
+    border-radius: 999px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .breaker-knob {
+    position: absolute;
+    inset-inline: 3px;
+    top: 3px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+</style>

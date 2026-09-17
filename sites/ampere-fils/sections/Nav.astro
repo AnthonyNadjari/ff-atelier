@@ -1,0 +1,59 @@
+---
+/**
+ * Nav sur mesure pour Ampère & Fils : un simple filet fin en pied de barre (pas de bandeau plein,
+ * pas de couleur d'accent en fond) — le filet EST la barre de progression de lecture
+ * (data-scroll-progress, motif déjà utilisé par sites/barbier-kessler et sites/dubois-plomberie,
+ * repris ici volontairement pour le "thin top rule" du mandat plutôt qu'un nouvel effet). Pas de
+ * pastille clignotante "dispo" (mandat explicite : aucune fausse urgence) : juste une étiquette
+ * statique "Intervention sous 24 h". Composition propre à ce site.
+ */
+import { site, tel, navLinks } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const links = navLinks();
+---
+
+<header data-nav class="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg/95 backdrop-blur-sm">
+  <div class="container-ff flex items-center justify-between gap-4 py-4">
+    <a href="/" class="order-1 flex items-center gap-2 font-display text-lg leading-none tracking-tight">
+      Ampère <span class="text-accent">&amp;</span> Fils
+    </a>
+
+    {/* Le tel: reste tot dans le DOM (juste apres le logo) pour rester dans les 1500 premiers
+        caracteres du corps (ff verifier). Ordre visuel logo / liens / actions via order-* (flex). */}
+    <div class="order-2 flex items-center gap-3 lg:order-3">
+      <span class="hidden items-center gap-2 rounded-pill border border-line px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted md:flex">
+        <Icon name="Clock" size={13} />Intervention sous 24&nbsp;h
+      </span>
+      <Button href={tel()} size="sm" magnetic>
+        <Icon name="Phone" size={16} /><span class="hidden sm:inline">{site.contact.phoneDisplay}</span><span class="sm:hidden">Appeler</span>
+      </Button>
+      <button class="-mr-2 p-2 lg:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
+        <Icon name="Menu" size={22} />
+      </button>
+    </div>
+
+    <nav class="order-3 hidden items-center gap-6 text-sm lg:order-2 lg:flex" aria-label="Navigation principale">
+      {links.map((l) => <a href={l.href} class="text-muted transition-colors hover:text-fg">{l.label}</a>)}
+    </nav>
+  </div>
+
+  <div class="hidden border-t border-line bg-bg lg:hidden" data-menu>
+    <nav class="container-ff flex flex-col py-2" aria-label="Navigation mobile">
+      {links.map((l) => <a href={l.href} class="border-b border-line py-3.5 text-base last:border-0">{l.label}</a>)}
+    </nav>
+  </div>
+
+  <div data-scroll-progress aria-hidden="true"></div>
+</header>
+<div class="h-[68px]" aria-hidden="true"></div>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  btn?.addEventListener('click', () => {
+    const open = menu!.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
+</script>

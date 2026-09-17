@@ -1,0 +1,73 @@
+---
+/**
+ * "Contact" (custom/Contact) : bande défilante des espèces reçues (`data-marquee`, contenu réel
+ * de `business.description`/services — chiens, chats, NAC — pas un texte détaché), puis carte de
+ * coordonnées avec halo qui suit le curseur (`data-spotlight`, comme
+ * `sites/studio-ambre/sections/Contact.astro`) en face du formulaire + carte OSM. Contrairement à
+ * `sites/studio-ambre`, pas de `data-border-beam` sur la carte de formulaire (déjà utilisé deux
+ * fois ailleurs) : ici la carte de formulaire reste sobre, tout l'accent visuel va au halo et à la
+ * bande d'espèces — composition propre à ce site.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import ContactForm from '@/components/ContactForm.astro';
+import Carte from '@/components/Carte.astro';
+import Icon from '@/components/Icon.astro';
+
+const species = [
+  { icon: 'Dog', label: 'Chiens' },
+  { icon: 'Cat', label: 'Chats' },
+  { icon: 'Rabbit', label: 'Lapins' },
+  { icon: 'Squirrel', label: 'Rongeurs' },
+];
+---
+
+<section id="contact" class="section-y">
+  <div class="border-y border-line bg-bg-2 py-4" data-marquee="26s">
+    <div class="marquee-track font-display text-lg uppercase tracking-widest text-fg">
+      {species.map((s) => (
+        <span class="flex items-center gap-3">
+          <Icon name={s.icon} size={20} class="text-accent" />{s.label}<span class="text-accent" aria-hidden="true">·</span>
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <div class="container-ff mt-16 grid gap-8 lg:grid-cols-12 lg:gap-10">
+    <div class="relative overflow-hidden rounded-card bg-ink p-8 text-on-ink md:p-10 lg:col-span-5" data-spotlight>
+      <p class="eyebrow relative z-[2] text-on-ink/60">Contact</p>
+      <h2 class="relative z-[2] mt-4 text-display-md" set:html={site.wording.contactTitle} />
+      <p class="relative z-[2] mt-4 max-w-sm text-on-ink/75">{site.wording.contactText}</p>
+
+      <ul class="relative z-[2] mt-9 space-y-5">
+        <li class="flex gap-4"><Icon name="Phone" class="mt-0.5 shrink-0 text-accent" /><a href={tel()} class="text-lg font-medium">{site.contact.phoneDisplay}</a></li>
+        <li class="flex gap-4"><Icon name="Mail" class="mt-0.5 shrink-0 text-accent" /><a href={mailto()} class="break-all font-medium">{site.contact.email}</a></li>
+        <li class="flex gap-4"><Icon name="MapPin" class="mt-0.5 shrink-0 text-accent" /><p>{fullAddress()}</p></li>
+        {site.contact.hours.length > 0 && (
+          <li class="flex gap-4">
+            <Icon name="Clock" class="mt-0.5 shrink-0 text-accent" />
+            <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+              {site.contact.hours.map((h) => (
+                <>
+                  <dt class="text-on-ink/60">{h.days}</dt>
+                  <dd class="tabular-nums">{h.hours}</dd>
+                </>
+              ))}
+            </dl>
+          </li>
+        )}
+      </ul>
+    </div>
+
+    <div class="lg:col-span-7">
+      {site.contact.coordinates && (
+        <div class="mb-6" data-reveal>
+          <Carte />
+        </div>
+      )}
+      <div class="card rounded-card bg-surface p-6 shadow-card md:p-8" data-reveal="right">
+        <ContactForm />
+        {site.form.provider === 'none' && <p class="text-muted">Appelez-nous ou écrivez-nous, nous répondons vite.</p>}
+      </div>
+    </div>
+  </div>
+</section>

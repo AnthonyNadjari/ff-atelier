@@ -6,6 +6,7 @@ import { cmdDev, cmdBuild, cmdPreview } from './ff/dev-build-preview.mjs';
 import { cmdTous } from './ff/tous.mjs';
 import { cmdVerifier } from './ff/verifier.mjs';
 import { cmdImages } from './ff/images.mjs';
+import { cmdNettoyerPhotos } from './ff/nettoyer-photos.mjs';
 import { cmdVariete } from './ff/variete.mjs';
 import { cmdExporter } from './ff/exporter.mjs';
 import { cmdDeploy } from './ff/deploy.mjs';
@@ -22,6 +23,7 @@ import { cmdPhotos } from './ff/photos.mjs';
 import { cmdVideo } from './ff/video.mjs';
 import { cmdIllustration } from './ff/illustration.mjs';
 import { cmdLighthouse } from './ff/lighthouse.mjs';
+import { cmdPerf } from './ff/perf.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -40,6 +42,7 @@ const commands = {
   verifier: cmdVerifier,
   check: cmdVerifier,
   images: cmdImages,
+  'nettoyer-photos': cmdNettoyerPhotos,
   variete: cmdVariete,
   exporter: cmdExporter,
   deploy: cmdDeploy,
@@ -62,6 +65,7 @@ const commands = {
   video: cmdVideo,
   illustration: cmdIllustration,
   lighthouse: cmdLighthouse,
+  perf: cmdPerf,
 };
 
 async function main() {

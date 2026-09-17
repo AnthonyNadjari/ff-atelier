@@ -29,7 +29,7 @@ const hero = site.images.hero;
     <div class="lg:col-span-6 relative" data-reveal="scale" data-reveal-delay="200">
       {hero ? (
         <figure class="relative aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5] overflow-hidden rounded-card shadow-lift">
-          <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 50vw, 100vw" data-parallax="0.15" loading="eager" fetchpriority="high" />
+          <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 50vw, 100vw" data-parallax="0.15" priority />
         </figure>
       ) : (
         <div class="aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5] rounded-card bg-bg-2 border border-line flex items-center justify-center">

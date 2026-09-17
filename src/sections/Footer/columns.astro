@@ -23,7 +23,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
     <div>
       <p class="eyebrow mb-4">Navigation</p>
       <ul class="space-y-2 text-sm text-on-ink/80">{navLinks().map((l) => <li><a href={`/${l.href}`} class="hover:text-on-ink">{l.label}</a></li>)}</ul>
-      {site.zones.cities.length > 0 && <p class="mt-6 text-xs text-on-ink/50">Intervention : {site.zones.cities.slice(0, 8).join(', ')}{site.zones.cities.length > 8 && '…'}</p>}
+      {site.zones.cities.length > 0 && <p class="mt-6 text-xs text-on-ink/65">Intervention : {site.zones.cities.slice(0, 8).join(', ')}{site.zones.cities.length > 8 && '…'}</p>}
     </div>
     <div>
       <p class="eyebrow mb-4">Contact</p>
@@ -35,7 +35,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
     </div>
   </div>
   <div class="border-t border-on-ink/10">
-    <div class="container-ff py-5 flex flex-col sm:flex-row gap-2 justify-between text-xs text-on-ink/50">
+    <div class="container-ff py-5 flex flex-col sm:flex-row gap-2 justify-between text-xs text-on-ink/65">
       <p>© {year} {site.business.name}. Tous droits réservés.</p>
       <p><a href="/mentions-legales" class="hover:text-on-ink">Mentions légales</a> · <a href="/confidentialite" class="hover:text-on-ink">Confidentialité</a> · Site réalisé par <a href="https://finckfisch.fr" class="hover:text-on-ink" rel="noopener">Finck &amp; Fisch</a></p>
     </div>

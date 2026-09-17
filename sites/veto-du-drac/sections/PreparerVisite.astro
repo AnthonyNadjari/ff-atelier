@@ -1,0 +1,53 @@
+---
+/**
+ * "Préparer la visite" (custom/PreparerVisite) : six cartes retournables (`data-flip-card`,
+ * recto icône + libellé, verso conseil pratique) — composition inédite dans le repo (le seul
+ * autre usage de `data-flip-card`, `sites/dubois-plomberie/sections/Diagnostic.astro`, retourne
+ * symptôme → cause probable, pas une liste de conseils pratiques). La ligne de prix indicatif
+ * demandée par le mandat (profession réglementée : pas de tarif promotionnel, une seule mention
+ * sobre) vit ici, dans le paragraphe d'intro plutôt que dans une section "Tarifs" à part — cohérent
+ * avec le sujet de la section (ce qu'il faut savoir avant de venir).
+ */
+import { site } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const tips = [
+  { icon: 'Cat', label: 'Votre chat', tip: 'En caisse de transport, avec un linge qui sent la maison : cela le rassure pour le trajet et la salle d’attente.' },
+  { icon: 'Dog', label: 'Chirurgie prévue', tip: 'Votre chien (ou chat) doit être à jeun depuis la veille au soir, sauf indication contraire donnée au rendez-vous.' },
+  { icon: 'Rabbit', label: 'Lapin ou rongeur', tip: 'Dans une boîte aérée, à température, à l’écart du bruit — évitez de le sortir avant d’être en salle de consultation.' },
+  { icon: 'NotebookText', label: 'Carnet de santé', tip: 'Apportez-le s’il existe déjà : vaccins, traitements et antécédents y sont déjà notés.' },
+  { icon: 'Pill', label: 'Traitements en cours', tip: 'Le nom des médicaments actuels nous aide à éviter une interaction ou un doublon.' },
+  { icon: 'ClipboardList', label: 'Vos questions', tip: 'Notez-les avant de venir : plus simple que de les chercher une fois sur place.' },
+];
+---
+
+<section id="preparervisite" class="section-y">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>Avant votre visite</p>
+    <h2 class="mt-4 max-w-xl text-display-md" data-reveal>Préparer la visite</h2>
+    <p class="measure mt-5 text-muted" data-reveal>
+      Un devis est toujours remis avant tout acte complémentaire. Consultation&nbsp;: 36&nbsp;€, à titre indicatif.
+    </p>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-stagger="110">
+      {tips.map((t) => (
+        <div class="h-52 w-full rounded-card" data-flip-card>
+          <div class="flip-inner rounded-card">
+            <div class="flip-front flex flex-col items-center justify-center gap-3 rounded-card border border-line bg-surface p-6 text-center">
+              <Icon name={t.icon} size={28} class="text-accent" />
+              <p class="font-display text-lg text-fg">{t.label}</p>
+              <p class="text-xs text-muted">Touchez / survolez</p>
+            </div>
+            <div class="flip-back flex flex-col items-center justify-center gap-2 rounded-card bg-ink p-6 text-center text-on-ink">
+              <p class="text-sm leading-relaxed">{t.tip}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-10 text-sm text-muted">
+      Une question qui ne trouve pas sa réponse ici&nbsp;? Appelez la clinique au {site.contact.phoneDisplay}.
+    </p>
+  </div>
+</section>

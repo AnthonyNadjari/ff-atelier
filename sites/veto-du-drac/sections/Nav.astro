@@ -1,0 +1,75 @@
+---
+/**
+ * Nav sur mesure pour la Clinique vétérinaire du Drac : barre blanche calme (fond bg, direction
+ * `clair`), un badge d'horaires discret plutôt qu'un badge d'urgence qui clignote (ce site n'est
+ * pas un service 24h/24 — voir `sites/dubois-plomberie/sections/Nav.astro` et
+ * `sites/toits-cie/sections/Nav.astro` pour le registre "urgence" que ce site évite
+ * délibérément), et une bande de progression de lecture (`data-scroll-progress`) collée sous la
+ * barre. Pas de barre d'appel fixe en bas de mobile (déjà le motif de deux sites voisins) : le
+ * bouton d'appel reste dans la barre du haut, toujours visible car la nav est `fixed`.
+ */
+import { site, tel, navLinks } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const links = navLinks();
+---
+
+<div data-scroll-progress aria-hidden="true"></div>
+
+<header data-nav class="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-bg/95 backdrop-blur-sm transition-[border-color,box-shadow] duration-500 [&.is-scrolled]:border-line [&.is-scrolled]:shadow-card">
+  <div class="container-ff flex items-center justify-between gap-4 py-4">
+    <a href="/" class="order-1 flex items-center gap-2 font-display text-lg leading-none tracking-tight text-fg">
+      {site.business.name}
+    </a>
+
+    {/*
+      L'appel (tel:) est place tot dans le HTML (juste apres le logo) pour rester dans les 1500
+      premiers caracteres du corps (ff verifier) ; l'ordre visuel reste logo / liens / actions
+      grace a `order-*` (flex), pas au DOM.
+    */}
+    {/*
+      Le badge d'horaires (icone + texte) passe APRES le bouton d'appel dans le DOM : place avant,
+      il ajoutait ~400 caracteres avant le premier lien tel: et faisait sortir index.html de la
+      fenetre des 1500 premiers caracteres verifiee par `ff verifier` (meme correctif que
+      sites/dubois-plomberie, sites/barbier-kessler, sites/jardins-mael, sites/maison-roux — le
+      prelude commun de Base.astro, skip-link + rideau + filtre duotone SVG, consomme deja une
+      bonne partie du budget). Ordre visuel inchange : le badge reste a droite du bouton via l'ordre
+      naturel du flex, aucune classe order-* necessaire ici.
+    */}
+    <div class="order-2 flex items-center gap-3 lg:order-3">
+      <Button href={tel()} size="sm" magnetic>
+        <Icon name="Phone" size={16} /><span class="hidden sm:inline">{site.contact.phoneDisplay}</span><span class="sm:hidden">Appeler</span>
+      </Button>
+      <span class="hidden items-center gap-2 rounded-pill border border-line px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted xl:flex">
+        <Icon name="Clock" size={13} class="text-accent" />
+        Lun–ven 8h30–19h · Sam 9h–13h
+      </span>
+      <button class="-mr-2 p-2 lg:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
+        <Icon name="Menu" size={22} />
+      </button>
+    </div>
+
+    <nav class="order-3 hidden items-center gap-6 text-sm lg:order-2 lg:flex" aria-label="Navigation principale">
+      {links.map((l) => <a href={l.href} class="text-muted transition-colors hover:text-fg">{l.label}</a>)}
+    </nav>
+  </div>
+
+  <div class="hidden border-t border-line bg-bg lg:hidden" data-menu>
+    <nav class="container-ff flex flex-col py-2" aria-label="Navigation mobile">
+      {links.map((l) => <a href={l.href} class="border-b border-line py-3.5 text-base last:border-0">{l.label}</a>)}
+    </nav>
+  </div>
+</header>
+<div class="h-[68px]" aria-hidden="true"></div>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  btn?.addEventListener('click', () => {
+    const open = menu!.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
+  // .is-scrolled est deja gere globalement par motion.ts (nav() observe [data-nav]) : pas de
+  // second ecouteur de scroll ici.
+</script>

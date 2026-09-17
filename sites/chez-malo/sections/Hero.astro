@@ -29,7 +29,7 @@ const hero = site.images.hero!;
 
     <div class="flex flex-wrap items-end justify-between gap-8">
       <p class="max-w-md text-on-ink/75" data-reveal data-reveal-delay="120">{site.business.description.split(/\n/)[0]}</p>
-      <a href={tel()} class="badge-call shrink-0" aria-label={`Réserver par téléphone au ${site.contact.phoneDisplay}`} data-reveal="scale" data-reveal-delay="200">
+      <a href={tel()} class="badge-call shrink-0" data-reveal="scale" data-reveal-delay="200">
         <svg viewBox="0 0 140 140" class="badge-call-ring" aria-hidden="true">
           <path id="badge-path" d="M 70,70 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0" fill="none" />
           <text font-size="12.2" letter-spacing="2.6" fill="currentColor">
@@ -41,6 +41,7 @@ const hero = site.images.hero!;
             <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.291 1.217 14 14 0 0 0 6.392 6.4"></path>
           </svg>
         </span>
+        <span class="sr-only">Réserver une table par téléphone au {site.contact.phoneDisplay}</span>
       </a>
     </div>
   </div>

@@ -84,17 +84,41 @@ En croisant le brief (section 12 : 3 adjectifs, métier, sites aimés/pas aimés
 
 ### 4. Rédiger les textes
 
-Tout en français, dans le registre de l'artisan qui s'adresse à son client :
+Source de référence complète : `docs/REDACTION.md` (règles opérationnelles) — s'appuie sur
+`docs/veille/redaction-images.md` §1 (sources, nuances légales, avertissements de vérification). Lis-le
+avant de rédiger si ce n'est pas déjà fait cette session. Tout en français, dans le registre de l'artisan
+qui s'adresse à son client :
 
 - **Vouvoiement toujours, tutoiement jamais** dans les textes du site (le tutoiement est réservé aux
   documents internes comme ce SKILL.md ou `docs/BRIEF.md`, adressés à la vendeuse/au vendeur).
+- **Vérification mentale des mots interdits** (`docs/REDACTION.md` §1) avant d'écrire chaque champ de
+  texte : aucun superlatif absolu sans preuve chiffrée du brief ("le meilleur", "leader", "n°1"/"numéro
+  1", "incontournable", "la référence", "unique en France", "révolutionnaire", "le plus"), aucune
+  garantie de résultat ("garanti", "garantie de résultat", "satisfaction garantie", "100 % satisfait"),
+  aucun des clichés déjà bannis ("votre satisfaction est notre priorité", "des professionnels à votre
+  écoute", "la qualité au meilleur prix", "depuis toujours"/"artisan passionné" sans fait derrière).
+  `ff verifier` recontrôle une partie de cette liste automatiquement (bloc « Textes ») mais ne remplace
+  pas cette relecture — il n'attrape ni le ton ni les nuances des professions réglementées.
+- **Ton par métier** (`docs/REDACTION.md` §4) : choisis le registre — urgence (direct, rassurant, aucune
+  formule fleurie), rendez-vous (chaleureux, projette la première visite), commerce/achat réfléchi
+  (sensoriel, concret, donne envie), ou profession réglementée (sobre, informatif, jamais promotionnel)
+  — et tiens-le sur tout le site, pas seulement le hero.
+- **Professions réglementées** (avocat, masseur-kinésithérapeute, vétérinaire, ostéopathe —
+  `docs/REDACTION.md` §3) : jamais de comparaison avec un confrère, jamais de promesse de résultat,
+  jamais "spécialiste" sans le titre officiel qui le justifie, jamais un témoignage présenté comme preuve
+  de résultat individuel. Pour un ostéopathe (pas d'ordre professionnel mais titre protégé) : aucun
+  vocabulaire usurpant un titre médical, aucune promesse de guérison.
+- **Test du titre de hero** (`docs/REDACTION.md` §5, Julian Shapiro) : si le visiteur ne lit *que*
+  `business.tagline`, comprend-il exactement ce que vend l'entreprise ? 6-12 mots, compréhensible seul,
+  **un seul** `<em>` autour du mot à accentuer (voir `sites/_exemple/site.config.ts`), pas plus. Préfère
+  un bénéfice concret et spécifique à une formule vague — voir les quatre formules réutilisables et les
+  60 phrases d'accroche par métier en `docs/REDACTION.md` §5/§10 (à adapter aux données réelles du
+  client, jamais à copier telles quelles).
 - Phrases concrètes et locales (ville, matière, geste du métier) plutôt que des formules marketing
-  génériques. Bannis "votre satisfaction est notre priorité", "des professionnels à votre écoute", "la
-  qualité au meilleur prix" et toute variante de ces clichés.
-- `business.tagline` peut contenir **un seul** `<em>` autour du mot à accentuer (voir
-  `sites/_exemple/site.config.ts`), pas plus.
+  génériques — vocabulaire du lexique métier (`docs/REDACTION.md` §9) plutôt que du jargon d'agence.
 - `business.description`, `about.story`, `services[].description`, `faq[].a` : paragraphes séparés par
-  une ligne vide (le champ `md` du schéma), jamais un pavé unique.
+  une ligne vide (le champ `md` du schéma), jamais un pavé unique — longueurs cibles en
+  `docs/REDACTION.md` §6.
 - Ne jamais inventer un chiffre, un avis, une note, un nombre d'années, un nombre de clients. Si le
   brief ne le donne pas, le champ correspondant reste absent du fichier — ne mets pas de valeur
   plausible à sa place.
@@ -102,14 +126,32 @@ Tout en français, dans le registre de l'artisan qui s'adresse à son client :
   .testimonials` : uniquement les avis du brief, texte recopié tel quel (ne pas le réécrire), avec
   leur `source` obligatoire. Zéro avis dans le brief → tableau vide et tu le signales dans le résumé
   final (voir étape 7).
+- Avant de livrer, relis la checklist « textes livrables » de `docs/REDACTION.md` §11 (20 points).
 
-### 5. Champs image
+### 5. Champs image et photos
 
 Avant de renseigner un champ `img` (`hero`, `logo`, `portrait`, `gallery`, `beforeAfter`, photos de
 `team`...), vérifie que le fichier existe réellement dans `sites/<slug>/public/images/`. S'il n'existe
 pas encore, laisse le champ `image`/`portrait`/`logo` absent (`undefined`), ne mets pas de chemin vers
 un fichier qui n'existe pas — la section correspondante s'adapte sans image. Note dans le résumé final
 quelles photos manquent encore.
+
+**Photos** — si le client n'a pas encore de photos utilisables (cas fréquent, cf.
+`docs/veille/redaction-images.md` §2) :
+
+- Colle dans le résumé final (étape 9) la liste des 8 photos à faire au smartphone pour le métier du
+  client, prise telle quelle dans `docs/veille/redaction-images.md` §2a (tableau « Shot list par
+  métier ») — cadrage, lumière, heure pour chacune. C'est ce que la vendeuse/le vendeur envoie au client
+  avant le rendez-vous photo.
+- **Règle IA stricte** : une image générée par IA est **interdite** sur les champs `portrait`, `team`,
+  `gallery` et `beforeAfter` — ces champs restent absents tant que le client n'a pas fourni de vraies
+  photos, jamais comblés par une génération IA (risque de pratique commerciale trompeuse et obligation de
+  marquage deepfake de l'AI Act art. 50, détaillés en `docs/veille/redaction-images.md` §2.3). L'IA reste
+  acceptable uniquement pour des fonds/textures abstraits non figuratifs qui ne prétendent représenter ni
+  le client, ni son équipe, ni ses réalisations.
+- Une fois les photos reçues dans `sites/<slug>/raw/`, `ff nettoyer-photos <slug>` (redressement, recadrage
+  focal, balance des blancs, duotone optionnel) peut préparer le lot avant `ff images <slug>` — voir
+  `CLAUDE.md`.
 
 ### 6. Écrire le fichier
 

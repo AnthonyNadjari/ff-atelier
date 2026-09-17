@@ -373,6 +373,116 @@ function warnUnderlineOffsetAbsent(distDir, warnings) {
   if (!found) warnings.push('text-underline-offset absent du CSS livre (soulignement de lien brut, colle au texte)');
 }
 
+/* =====================================================================
+   TEXTES — redaction (docs/REDACTION.md, docs/veille/redaction-images.md §1.4/§3.1).
+   Bloc ajoute le 17 septembre 2026 : scanne le texte visible de chaque page (memes strips
+   que checkOffenders : <style>/<script>/balises retires) pour les superlatifs et promesses
+   interdites, le tutoiement, et les seuils de longueur hero/paragraphe.
+   ===================================================================== */
+
+function texteVisible(html) {
+  return html
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<[^>]+>/g, ' ');
+}
+
+// Echec : mots/formules interdits par docs/REDACTION.md §1 (superlatifs sans preuve, garanties de
+// resultat) — case-insensitive, accents geres par une classe de caracteres [ée] plutot qu'un
+// stripDiacritics global (le texte visible doit rester lisible dans le message d'erreur).
+const TEXTES_INTERDITS = [
+  { label: '"meilleur"', re: /\bmeilleur(?:e|s|es)?\b/i },
+  { label: '"leader"', re: /\bleaders?\b/i },
+  { label: '"n°1"/"numéro 1"', re: /n°\s?1\b|num[ée]ro\s?1\b/i },
+  { label: '"garantie de résultat"', re: /garantie\s+de\s+r[ée]sultat/i },
+  { label: '"satisfaction garantie"', re: /satisfaction\s+garantie/i },
+  { label: '"100 % satisfait"', re: /100\s?%\s*satisfaite?s?/i },
+];
+
+// Avertissement : mots a surveiller par docs/REDACTION.md §1, pas necessairement fautifs (ex. "unique"
+// peut etre legitime dans "pièce unique"), d'ou un simple warn plutot qu'un fail.
+const TEXTES_A_SURVEILLER = [
+  { label: '"unique"', re: /\buniques?\b/i },
+  { label: '"révolutionnaire"', re: /r[ée]volutionnaires?/i },
+  { label: '"le plus"', re: /\ble plus\b/i },
+];
+
+function checkMotsInterditsTextes(files, distDir, checks) {
+  for (const item of TEXTES_INTERDITS) {
+    const offenders = [];
+    for (const file of files) {
+      const texte = texteVisible(fs.readFileSync(file, 'utf8'));
+      if (item.re.test(texte)) offenders.push(path.relative(distDir, file));
+    }
+    if (offenders.length > 0) {
+      checks.push({ pass: false, label: `Mot/formule interdit ${item.label} (docs/REDACTION.md §1) trouve dans : ${offenders.join(', ')}` });
+    } else {
+      checks.push({ pass: true, label: `Pas de ${item.label}` });
+    }
+  }
+}
+
+function warnMotsASurveillerTextes(files, distDir, warnings) {
+  for (const item of TEXTES_A_SURVEILLER) {
+    const offenders = [];
+    for (const file of files) {
+      const texte = texteVisible(fs.readFileSync(file, 'utf8'));
+      if (item.re.test(texte)) offenders.push(path.relative(distDir, file));
+    }
+    if (offenders.length > 0) {
+      warnings.push(`Mot a surveiller ${item.label} (docs/REDACTION.md §1) trouve dans : ${offenders.join(', ')}`);
+    }
+  }
+}
+
+/** Tutoiement possible ("tu"/"ton"/"tes") alors que le vouvoiement est la regle (docs/REDACTION.md §2). */
+function warnTutoiementTextes(files, distDir, warnings) {
+  const re = /\b(?:tu|ton|tes)\b/i;
+  const offenders = [];
+  for (const file of files) {
+    const texte = texteVisible(fs.readFileSync(file, 'utf8'));
+    if (re.test(texte)) offenders.push(path.relative(distDir, file));
+  }
+  if (offenders.length > 0) {
+    warnings.push(`Tutoiement possible ("tu"/"ton"/"tes", vouvoiement attendu, docs/REDACTION.md §2) dans : ${offenders.join(', ')}`);
+  }
+}
+
+/** <h1> de plus de 14 mots (docs/REDACTION.md §5, test du titre de hero). */
+function warnHeroTropLongTextes(files, distDir, warnings) {
+  const h1Re = /<h1\b[^>]*>([\s\S]*?)<\/h1>/i;
+  const offenders = [];
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    const m = h1Re.exec(html);
+    if (!m) continue;
+    const texte = m[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const mots = texte.split(' ').filter(Boolean);
+    if (mots.length > 14) offenders.push(`${path.relative(distDir, file)} (${mots.length} mots)`);
+  }
+  if (offenders.length > 0) {
+    warnings.push(`<h1> de plus de 14 mots (docs/REDACTION.md §5) : ${offenders.join(', ')}`);
+  }
+}
+
+/** <p> de plus de 120 mots (docs/REDACTION.md §6, longueurs cibles). */
+function warnParagrapheTropLongTextes(files, distDir, warnings) {
+  const pRe = /<p\b[^>]*>([\s\S]*?)<\/p>/gi;
+  const offenders = new Set();
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    let m;
+    while ((m = pRe.exec(html))) {
+      const texte = m[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      const mots = texte.split(' ').filter(Boolean);
+      if (mots.length > 120) offenders.add(path.relative(distDir, file));
+    }
+  }
+  if (offenders.size > 0) {
+    warnings.push(`<p> de plus de 120 mots (docs/REDACTION.md §6) dans : ${[...offenders].join(', ')}`);
+  }
+}
+
 export async function cmdVerifier(args) {
   const { positional, flags } = parseArgs(args);
   const slug = resolveSlug(positional[0]);
@@ -440,6 +550,9 @@ export async function cmdVerifier(args) {
   // --- Rendu (docs/veille/rendu.md §7) ---
   checkGrilleImagesRatioCoherente(files, distDir, checks);
 
+  // --- Textes (docs/REDACTION.md) ---
+  checkMotsInterditsTextes(files, distDir, checks);
+
   const warnings = [];
   warnImagesSansDimension(files, distDir, warnings);
   warnOgImageManquant(slug, files, distDir, warnings);
@@ -452,6 +565,11 @@ export async function cmdVerifier(args) {
   warnBlocTexteSansMesure(files, distDir, warnings);
   warnMoinsDeDeuxPolices(distDir, warnings);
   warnUnderlineOffsetAbsent(distDir, warnings);
+  // --- Textes (docs/REDACTION.md), suite : warnings ---
+  warnMotsASurveillerTextes(files, distDir, warnings);
+  warnTutoiementTextes(files, distDir, warnings);
+  warnHeroTropLongTextes(files, distDir, warnings);
+  warnParagrapheTropLongTextes(files, distDir, warnings);
 
   printReport(checks, warnings);
   const checklistOk = !checks.some((x) => !x.pass);

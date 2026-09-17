@@ -6,7 +6,16 @@
 [data-direction='industriel'] {
   --accent-h: 24;
   --accent-s: 95%;
-  --accent-l: 52%;
+  /* 52 -> 34 : a l:52% l'orange "securite" ne passe le seuil 4.5:1 dans AUCUN des deux roles ou
+     --accent sert (texte h1/h2 em sur --bg/--surface : 2.48:1/2.71:1 ; --on-accent #151515 sur
+     bouton bg-accent : 6.06:1, correct, mais alors le texte sur bg echoue). Le contrat de tokens
+     n'a pas de --accent-text separe (voir docs/directions/README.md) : comme atelier (accent-l
+     39%, on-accent quasi blanc), on baisse --accent-l jusqu'a ce qu'il fonctionne dans les DEUX
+     roles avec un --on-accent clair. Verifie par script (luminance relative WCAG) :
+       l:34% -> #a94604 vs --bg 4.85:1, vs --surface 5.30:1 (texte, seuil 4.5) ; --on-accent blanc
+       vs accent 5.89:1 (bouton, seuil 4.5). Marge correcte des deux cotes, contrairement a l:40%
+       (suggestion de depart) qui ne passe pas le texte sur --bg (3.70:1). */
+  --accent-l: 34%;
 
   --bg: #e9e9e7;
   --bg-2: #dcdcd9;
@@ -15,8 +24,13 @@
   --muted: #5d5d5a;
   --line: #b9b9b5;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --accent-2: hsl(var(--accent-h) var(--accent-s) 44%);
-  --on-accent: #151515;
+  /* -8% comme atelier (variante hover/eyebrow plus sombre) : a l:26% -> #813603, encore mieux
+     contraste (7.02:1 vs --bg, 8.53:1 sous --on-accent blanc) donc jamais le maillon faible. */
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 8%));
+  /* #151515 -> blanc : seul un texte clair reste lisible sur l'orange assombri (voir calcul
+     ci-dessus) ; le noir/gris fonce de la version precedente n'etait lisible qu'a l:52%, la ou le
+     texte-sur-fond-clair echouait. */
+  --on-accent: #ffffff;
   --ink: #1c1c1c;
   --on-ink: #e9e9e7;
 

@@ -7,6 +7,13 @@
 import { site } from '@/lib/site';
 const team = site.about.team;
 const tones = ['bg-surface text-fg', 'bg-ink text-on-ink', 'bg-accent text-on-accent'];
+// Le role (m.role) est attenue par rapport au nom, mais opacity-70 uniforme echoue le contraste
+// (audit lighthouse --detail) sur la troisieme carte : l'accent surcharge de ce site est un vert
+// fonce (voir sites/barbier-kessler/site.config.ts, accent h150/s45/l34 sur la direction atelier),
+// donc on-accent/bg-accent n'a que ~4.76:1 de marge a pleine opacite (verifie par script) — une
+// teinte de moins passe sous 4.5:1. Un opacity par carte, calcule sur les tokens reels de chaque
+// fond (surface/fg, ink/on-ink, accent/on-accent) :
+const roleOpacity = ['text-fg/80', 'text-on-ink/70', 'text-on-accent'];
 ---
 
 <section id="equipe" class="pt-[var(--section-y)]">
@@ -20,7 +27,7 @@ const tones = ['bg-surface text-fg', 'bg-ink text-on-ink', 'bg-accent text-on-ac
       <div class:list={['flex h-[68vh] flex-col items-center justify-center gap-4 border-t border-line', tones[i % tones.length]]}>
         <span class="team-tick" aria-hidden="true"></span>
         <p class="font-display uppercase leading-none" style="font-size: clamp(2.5rem, 9vw, 6rem);">{m.name}</p>
-        <p class="font-mono text-sm uppercase tracking-[0.2em] opacity-70">{m.role}</p>
+        <p class:list={['font-mono text-sm uppercase tracking-[0.2em]', roleOpacity[i % roleOpacity.length]]}>{m.role}</p>
       </div>
     ))}
   </div>

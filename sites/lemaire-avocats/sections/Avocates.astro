@@ -1,0 +1,89 @@
+---
+/**
+ * Avocates sur mesure — deux portraits (placeholders abstraits, aucune photo fournie par le brief),
+ * chacun révélé par un rideau qui se lève (data-reveal="mask") puis une légère inclinaison au
+ * survol (data-tilt-glare) plutôt qu'un simple fondu — sans jamais devenir une grille façon
+ * barbier-kessler/Equipe.astro (data-stack, sans photo individuelle) : ici les deux portraits sont
+ * la donnée centrale du bloc. Année d'inscription au barreau affichée telle quelle (about.team[].role),
+ * jamais le mot « spécialiste » sans certificat de spécialisation (absent de ce brief).
+ *
+ * Bug confirmé et diagnostiqué (capture desktop : portraits invisibles, clip-path resté à 99.5 %
+ * après scroll) : l'IntersectionObserver générique de motion.ts (reveal(), threshold 0.12) observe
+ * l'élément masqué lui-même — or ce même élément porte déjà `clip-path: inset(99.5% 0 0 0)` (la
+ * classe `.is-visible` n'est pas encore posée), et le ratio d'intersection est calculé sur la boîte
+ * effectivement peinte après clip-path, pas sur sa géométrie brute : ratio ≈ 0,5 %, toujours sous le
+ * seuil de 0.12, donc `isIntersecting` ne passe jamais à `true` et `.is-visible` n'est jamais posé —
+ * confirmé par un IntersectionObserver de test isolé (mêmes options) renvoyant `ratio: 0,
+ * isIntersecting: false` alors que l'élément était scrollé au centre du viewport. Solution : observer
+ * un ANCÊTRE non masqué (ici le conteneur `.avocate-card`, sans clip-path) et poser `.is-visible` sur
+ * le masque une fois cet ancêtre visible — même stratégie qu'encre-noire/sections/Styles.astro
+ * (« on observe donc la section elle-même... et on révèle les images d'un coup »), qui contourne le
+ * même problème structurel (pas seulement leur cas de piste `data-horizontal` transformée). Le
+ * `<style>` en bas restaure aussi, à spécificité supérieure (id de section), le clip-path ouvert une
+ * fois `.is-visible` posé — filet de sécurité si `global.css` cascade mal l'un par rapport à l'autre,
+ * comme documenté par anna-vidal/sections/Hero.astro et encre-noire. Pas de modification de src/
+ * (règle du mandat) ; forge-delacroix/sections/Pieces.astro combine bien data-tilt +
+ * data-reveal="mask" (justifiant le <img> direct ci-dessous) mais n'a ni l'un ni l'autre correctif —
+ * son masque est probablement affecté par le même bug, hors scope de ce tour.
+ */
+import { site } from '@/lib/site';
+
+const team = site.about.team;
+---
+
+<section id="avocates" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>Les avocates</p>
+    <h2 class="mt-4 max-w-2xl text-display-md" data-reveal>Deux avocates, un même dossier suivi d’un bout à l’autre.</h2>
+    <p class="measure mt-5 text-muted" data-reveal>{site.about.story.split(/\n\s*\n/)[0]}</p>
+
+    <div class="mt-14 grid gap-10 sm:grid-cols-2 sm:gap-12">
+      {team.map((t) => (
+        <div class="avocate-card">
+          {/*
+            data-reveal="mask" exige un <img> enfant direct (global.css cible `[data-reveal='mask'] >
+            img`) : <Img> rend un <picture>, ce qui casserait le selecteur — <img> brut ici, comme
+            forge-delacroix/sections/Pieces.astro qui combine deja data-tilt + data-reveal="mask" sur
+            le meme <figure> (precedent verifie avant d'ecrire cette section).
+          */}
+          <figure class="relative aspect-[4/5] overflow-hidden rounded-card" data-tilt="6" data-tilt-glare data-reveal="mask">
+            {t.photo && <img src={t.photo.src} alt={t.photo.alt} class="h-full w-full object-cover" loading="lazy" />}
+          </figure>
+          <h3 class="mt-6 font-display text-display-sm">{t.name}</h3>
+          <p class="mt-1.5 text-sm text-muted">{t.role}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Voir la note de bug dans l'en-tete du frontmatter : restaure le clip-path ouvert une fois
+     .is-visible pose, a specificite superieure a la regle de masque de global.css. */
+  #avocates [data-reveal='mask'].is-visible {
+    clip-path: inset(0 0 0 0);
+  }
+</style>
+
+<script>
+  // Voir la note de bug dans l'en-tete du frontmatter : on observe le conteneur .avocate-card
+  // (jamais masque) plutot que le <figure data-reveal="mask"> lui-meme (dont le ratio
+  // d'intersection reste bloque a ~0,5 % par son propre clip-path), puis on pose .is-visible a la
+  // main sur le masque une fois la carte visible.
+  document.querySelectorAll<HTMLElement>('#avocates .avocate-card').forEach((card) => {
+    const mask = card.querySelector<HTMLElement>('[data-reveal="mask"]');
+    if (!mask) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            mask.classList.add('is-visible');
+            io.unobserve(card);
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    );
+    io.observe(card);
+  });
+</script>

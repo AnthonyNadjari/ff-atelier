@@ -1,0 +1,62 @@
+---
+/**
+ * Consultation sur mesure — processus vertical numéroté (site.process, quatre étapes réelles du
+ * brief), relié par un simple trait qui se trace (data-draw), différent de la frise horizontale à
+ * cercles d'osteo-marchand/Seance.astro et des bandes penchées pleine largeur de
+ * toits-cie/Methode.astro. La durée de l'étape « premier rendez-vous » (45 minutes, donnée réelle
+ * du brief) est visualisée par une barre qui se remplit au scroll (data-count-bar) plutôt qu'un
+ * simple chiffre — la seule étape qui a une durée connue en a une, les trois autres n'en inventent
+ * pas.
+ */
+import { site } from '@/lib/site';
+const steps = site.process;
+---
+
+<section id="consultation" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>La consultation</p>
+    <h2 class="mt-4 max-w-2xl text-display-md" data-reveal>Comment se passe un premier rendez-vous.</h2>
+
+    <ol class="relative mt-16 max-w-2xl" data-stagger="140">
+      <span class="absolute left-[0.94rem] top-2 bottom-2 w-px bg-line" aria-hidden="true" data-draw></span>
+      {steps.map((step, i) => (
+        <li class="relative flex gap-6 pb-12 last:pb-0">
+          <span class="relative z-[1] flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-bg-2 font-mono text-xs text-accent">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <div class="pt-0.5">
+            <h3 class="font-display text-display-sm">{step.title}</h3>
+            <p class="measure mt-2 text-muted">{step.text}</p>
+            {i === 1 && (
+              <div class="mt-5 max-w-[14rem]">
+                <div class="flex items-baseline justify-between font-mono text-xs uppercase tracking-[0.14em] text-muted">
+                  <span>Durée</span><span>45 min</span>
+                </div>
+                <div class="mt-2 h-1.5 w-full overflow-hidden rounded-pill bg-line" data-count-bar="100">
+                  <div class="bar-fill h-full rounded-pill bg-accent"></div>
+                </div>
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  /*
+    data-draw (global.css) trace une echelle horizontale (scaleX/transform-origin:left) — attendu
+    pour un <hr>. Ce trait relie des etapes empilees verticalement : on garde l'attribut (et son
+    repli reduced-motion, deja gere par global.css) mais on redirige la direction du trace en local,
+    sans toucher a src/ (regle du mandat). Le selecteur #consultation l'emporte sur la regle
+    partagee par specificite, portee de style Astro deja scopee au fichier.
+  */
+  #consultation [data-draw] {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  #consultation [data-draw].is-drawn {
+    transform: scaleY(1);
+  }
+</style>

@@ -21,6 +21,7 @@ contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté don
 | `node scripts/ff.mjs verifier <slug>` | Contrôle qualité avant livraison (voir `docs/PROCESS.md` § définition de fait). |
 | `node scripts/ff.mjs variete` | Liste les combinaisons direction + variantes déjà utilisées par les sites existants — à consulter avant de choisir une direction pour un nouveau client. |
 | `node scripts/ff.mjs images <slug>` | Optimise/redimensionne les photos déposées dans `sites/<slug>/public/images/`. |
+| `node scripts/ff.mjs nettoyer-photos <slug> [--angle N] [--duotone] [--valider]` | Nettoie `sites/<slug>/raw/*` avant `ff images` (sharp seul) : rotation EXIF + angle fin, recadrage des bordures unies, recadrage focal 4:3/3:2 (`sharp.strategy.attention`), balance des blancs gray-world, duotone optionnel (couleurs de la direction du site ou deux hex en argument). Sortie dans `.ff-tmp/nettoye/` + feuille de contact `apercu.html` ; `--valider` déplace les originaux dans `raw/originaux/` et copie les fichiers nettoyés dans `raw/`. Voir `docs/veille/redaction-images.md` §2.6. |
 | `node scripts/ff.mjs photos <slug> "<requête>"` | Cherche des photos libres (Unsplash/Pexels, clés dans `.env`), feuille de contact `.ff-tmp/photos/apercu.html` ; `--choisir 1,3` copie les choisies dans `public/images/photo-<n>.webp` et journalise `CREDITS.md`. |
 | `node scripts/ff.mjs video <slug> "<requête>"` | Cherche une vidéo Pexels, génère `public/videos/hero.webm` + `hero.mp4` + `poster.jpg` via ffmpeg (ou garde le mp4 source si ffmpeg absent) et journalise `CREDITS.md`. |
 | `node scripts/ff.mjs illustration <slug> "<thème>"` | Tente une illustration unDraw recolorée (`--couleur`) ; sans API disponible, affiche la procédure manuelle. |
@@ -36,6 +37,7 @@ contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté don
 | `node scripts/ff.mjs og <slug>` | Génère l'image Open Graph du site (`images.og`). |
 | `node scripts/ff.mjs captures <slug>` | Prend des captures d'écran du site buildé (desktop/mobile). |
 | `node scripts/ff.mjs lighthouse [slug] [--mobile] [--seuil 90] [--detail]` | Audite performance/accessibilité/bonnes pratiques/SEO (Lighthouse) sur l'accueil + une page service + mentions légales, desktop et mobile par défaut ; écrit `captures/<slug>-lighthouse.json`, sort en erreur si l'accueil est sous le seuil. `--detail` : imprime chaque audit en échec (les quatre catégories, pas seulement l'accessibilité) avec les extraits de noeuds fautifs (snippet/sélecteur), pour corriger sans deviner. Aussi disponible via `ff verifier <slug> --lighthouse`. |
+| `node scripts/ff.mjs perf <slug> [--build] [--lighthouse]` | Budget de performance **sans navigateur** (rapide) : construit `dist/<slug>` seulement s'il est absent (ou avec `--build`), somme les octets bruts par catégorie (html, css, js-initial, js-lazy, fonts, images-home) référencés par `index.html`/le CSS livré, compare à `perf-budget.json` (racine du repo), table `✓`/`✗`, sort en erreur si une catégorie dépasse son budget ; écrit `captures/<slug>-perf.json`. `--lighthouse` enchaîne `ff lighthouse` (score + LCP réel, plus lent). Voir `docs/veille/performance.md` §6.3. |
 | `node scripts/ff.mjs servir <slug>` | Sert le build statique de `dist/<slug>` en local. |
 
 Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etendu par scripts/ff/*.mjs`).
@@ -84,7 +86,10 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
 - `sites/_exemple/` — référence de schéma et fumigène de build. Ne pas y toucher pour un client.
 - `docs/BRIEF.md` — brief à remplir pendant l'appel client. `docs/DIRECTIONS.md` — guide de choix de
   direction et de variantes. `docs/PROCESS.md` — processus client complet, de la prospection à la
-  livraison. `docs/CONVENTIONS.md` — règles de code des sections et directions. `docs/ANIMATIONS.md`
+  livraison. `docs/REDACTION.md` — règles opérationnelles de rédaction (mots interdits, professions
+  réglementées, ton par métier, test du hero, 60 phrases d'accroche, lexique, micro-copie, checklist
+  « textes livrables »), distillées de `docs/veille/redaction-images.md` §1. `docs/CONVENTIONS.md` —
+  règles de code des sections et directions. `docs/ANIMATIONS.md`
   — liste complète des attributs `data-*` du moteur d'animation (`src/scripts/motion.ts`), un par
   ligne, quand les utiliser ; vitrine de tous les effets : `sites/_effets/`.
 - `.claude/skills/nouveau-site/` — compétence `/nouveau-site` (génération de `site.config.ts` par

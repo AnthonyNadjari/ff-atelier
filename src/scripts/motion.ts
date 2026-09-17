@@ -178,18 +178,22 @@ function reveal() {
       Array.from(el.children).forEach((c, i) => (c as HTMLElement).style.setProperty('--reveal-delay', `${i * step}ms`));
     }
   });
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          e.target.classList.add('is-visible');
-          io.unobserve(e.target);
-        }
+  const onEnter = (io: IntersectionObserver) => (entries: IntersectionObserverEntry[]) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
       }
-    },
-    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
-  );
-  els.forEach((el) => io.observe(el));
+    }
+  };
+  const io = new IntersectionObserver((en) => onEnter(io)(en), { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  // Variantes decoupees (clip/wipe/mask) : la zone rognee ne compte pas comme visible, le ratio ne
+  // depasse jamais ~0,5 % : on les observe a seuil 0 (un pixel visible suffit) avec une marge basse.
+  const ioClip = new IntersectionObserver((en) => onEnter(ioClip)(en), { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+  els.forEach((el) => {
+    const v = el.dataset.reveal;
+    (v === 'clip' || v === 'wipe' || v === 'mask' ? ioClip : io).observe(el);
+  });
 }
 
 /** data-reveal-native : repli IO identique a reveal(), seulement si animation-timeline:view() n'est pas supporte (sinon global.css @supports suffit). */

@@ -1,0 +1,73 @@
+---
+/**
+ * Hero sur mesure pour Ampère & Fils : la tagline se lit normalement en h1 (SEO, lecteurs d'écran),
+ * puis un second temps — un schéma de raccordement (5 bornes reliées par un tracé à angles droits,
+ * data-draw-svg, dessiné au chargement) — répète les mêmes faits sous forme de "câblage" : la
+ * ville, la filiation, l'ancienneté réelle, la qualification. Aucun chiffre inventé (yearsSince()
+ * calculé depuis business.since, pas une valeur en dur). Fond "papier millimétré" en filigrane
+ * (repeating-linear-gradient à 4 % via color-mix sur --fg, tokens uniquement — voir en-tête de
+ * site.config.ts sur pourquoi ce motif est posé par section et non sur <body>). Composition
+ * volontairement différente des heros "urgence" déjà dessinés (pas de fond accent plein comme
+ * sites/dubois-plomberie, pas de mot géant comme sites/toits-cie) : ici la précision fait le travail.
+ */
+import { site, tel, yearsSince } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+
+const years = yearsSince();
+const firstLine = site.business.description.split(/\n/)[0];
+
+const nodes = ['Villeurbanne', 'Père & fille', years ? `Depuis ${site.business.since}` : 'Depuis les débuts', 'Qualifelec', 'IRVE · KNX'];
+---
+
+<section id="hero" class="grid-paper relative overflow-hidden bg-bg">
+  <div class="container-ff relative py-32 pt-40 lg:py-40">
+    <div class="max-w-3xl" data-stagger="130">
+      <p class="eyebrow">{site.business.trade} · {site.contact.address.city}</p>
+      <h1 class="mt-6 text-display-xl" set:html={site.business.tagline} />
+      <p class="measure mt-6 text-lg text-muted">{firstLine}</p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-5">
+        <a href={tel()} class="btn btn-primary inline-flex items-center gap-3 rounded-ui bg-accent px-7 py-4 font-display text-xl text-on-accent" data-magnetic="0.2">
+          <Icon name="Phone" size={20} />{site.contact.phoneDisplay}
+        </a>
+        <a href="#contact" class="inline-flex items-center gap-2 border-b border-line pb-1 text-fg hover:border-accent hover:text-accent">
+          {site.wording.devis}<Icon name="ArrowDownRight" size={18} />
+        </a>
+      </div>
+    </div>
+
+    <div class="relative mt-20 lg:mt-24" data-reveal="blur" data-reveal-delay="150">
+      <svg
+        data-draw-svg
+        viewBox="0 0 800 90"
+        class="hidden h-[70px] w-full stroke-accent sm:block"
+        fill="none"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M80,20 H160 V70 H240 H320 V20 H400 H480 V70 H560 H640 V20 H720" />
+        {[80, 240, 400, 560, 720].map((x, i) => <circle cx={x} cy={i % 2 === 0 ? 20 : 70} r="5" class="fill-accent" />)}
+      </svg>
+
+      <ul class="mt-4 flex flex-wrap justify-center gap-x-8 gap-y-3 sm:mt-2 sm:grid sm:grid-cols-5 sm:justify-items-center sm:gap-x-2" data-stagger="80">
+        {nodes.map((n) => (
+          <li class="rounded-pill border border-line bg-surface px-4 py-2 text-center font-mono text-xs uppercase tracking-[0.1em] text-muted">
+            {n}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Papier millimétré : deux grilles répétées (1px, tous les 32px) à 4 % d'opacité, dérivées du
+     token --fg (color-mix, cf. docs/veille/rendu.md §3.2 pour la méthode) — jamais une couleur en dur. */
+  .grid-paper {
+    background-image:
+      repeating-linear-gradient(0deg, color-mix(in oklch, var(--fg) 4%, transparent) 0 1px, transparent 1px 32px),
+      repeating-linear-gradient(90deg, color-mix(in oklch, var(--fg) 4%, transparent) 0 1px, transparent 1px 32px);
+  }
+</style>

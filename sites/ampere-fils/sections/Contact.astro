@@ -1,0 +1,69 @@
+---
+/**
+ * "Contact" (custom/contact) : panneau de coordonnées sombre avec halo qui suit le curseur
+ * (data-spotlight, demandé par le mandat), plus un petit tracé de raccordement en coin (data-draw-svg,
+ * écho discret du hero) — combinaison pas encore utilisée par un site dessiné à la main (spotlight
+ * seul sur sites/barbier-kessler/sections/Infos.astro, sites/dubois-plomberie/sections/Tarifs.astro
+ * et sites/studio-ambre/sections/Contact.astro, jamais avec draw-svg). Carte (<Carte />) et
+ * formulaire (<ContactForm />) restent les composants partagés, aucune logique dupliquée.
+ * Composition propre à ce site.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import ContactForm from '@/components/ContactForm.astro';
+import Carte from '@/components/Carte.astro';
+import Icon from '@/components/Icon.astro';
+---
+
+<section id="contact" class="grid-paper section-y">
+  <div class="container-ff grid gap-8 lg:grid-cols-12 lg:gap-10">
+    <div class="relative overflow-hidden rounded-card bg-ink p-8 text-on-ink md:p-10 lg:col-span-5" data-spotlight>
+      <svg viewBox="0 0 160 160" class="pointer-events-none absolute -right-6 -top-6 h-40 w-40 stroke-on-ink/10" fill="none" stroke-width="2" aria-hidden="true">
+        <path data-draw-svg d="M10,150 V90 H70 V40 H150" />
+        <circle cx="10" cy="150" r="4" class="fill-on-ink/20" />
+        <circle cx="150" cy="40" r="4" class="fill-on-ink/20" />
+      </svg>
+
+      <p class="eyebrow relative z-[2] text-on-ink/60">Contact</p>
+      <h2 class="relative z-[2] mt-4 text-display-md" set:html={site.wording.contactTitle} />
+      <p class="relative z-[2] mt-4 max-w-sm text-on-ink/75">{site.wording.contactText}</p>
+
+      <ul class="relative z-[2] mt-9 space-y-5">
+        <li class="flex gap-4"><Icon name="Phone" class="mt-0.5 shrink-0 text-accent" /><a href={tel()} class="text-lg font-medium">{site.contact.phoneDisplay}</a></li>
+        <li class="flex gap-4"><Icon name="Mail" class="mt-0.5 shrink-0 text-accent" /><a href={mailto()} class="break-all font-medium">{site.contact.email}</a></li>
+        <li class="flex gap-4"><Icon name="MapPin" class="mt-0.5 shrink-0 text-accent" /><p>{fullAddress()}</p></li>
+        {site.contact.hours.length > 0 && (
+          <li class="flex gap-4">
+            <Icon name="Clock" class="mt-0.5 shrink-0 text-accent" />
+            <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+              {site.contact.hours.map((h) => (
+                <>
+                  <dt class="text-on-ink/60">{h.days}</dt>
+                  <dd>{h.hours}</dd>
+                </>
+              ))}
+            </dl>
+          </li>
+        )}
+      </ul>
+    </div>
+
+    <div class="lg:col-span-7">
+      {site.contact.coordinates && (
+        <div class="mb-6" data-reveal>
+          <Carte />
+        </div>
+      )}
+      <div class="card rounded-card bg-surface p-6 shadow-card md:p-8" data-reveal="right">
+        <ContactForm />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid-paper {
+    background-image:
+      repeating-linear-gradient(0deg, color-mix(in oklch, var(--fg) 4%, transparent) 0 1px, transparent 1px 32px),
+      repeating-linear-gradient(90deg, color-mix(in oklch, var(--fg) 4%, transparent) 0 1px, transparent 1px 32px);
+  }
+</style>

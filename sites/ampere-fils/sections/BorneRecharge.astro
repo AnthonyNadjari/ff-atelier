@@ -1,0 +1,59 @@
+---
+/**
+ * "Bornes de recharge" (custom/bornerecharge) : les trois classes de puissance IRVE usuelles
+ * (7 / 11 / 22 kW — des classes de produit réelles, pas une donnée client inventée, cf. mandat de
+ * design) en data-count-bar (effet encore rare : 2 usages avant ce site, cf. grep sur les sections de chaque site).
+ * Contenu générique de métier (comme sites/dubois-plomberie/sections/Diagnostic.astro), pas un
+ * chiffre propre à Ampère & Fils. Composition propre à ce site.
+ */
+import { site } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+
+const borne = site.services.find((s) => s.slug === 'bornes-recharge');
+
+const puissances = [
+  { kw: 7, pct: 32, phase: 'Monophasé', usage: 'Recharge de nuit, pavillon ou copropriété avec faible puissance disponible.' },
+  { kw: 11, pct: 50, phase: 'Triphasé', usage: 'Un compromis fréquent pour un usage quotidien à domicile.' },
+  { kw: 22, pct: 100, phase: 'Triphasé', usage: 'Recharge rapide, sous réserve de la puissance disponible sur le compteur.' },
+];
+---
+
+<section id="bornerecharge" class="grid-paper section-y bg-bg-2">
+  <div class="container-ff">
+    <SectionHeading eyebrow="Bornes de recharge · IRVE" title="Trois puissances, une seule étude" text="La puissance disponible sur votre installation détermine la borne posée — jamais l’inverse." />
+
+    <div class="mt-12 grid gap-6 lg:grid-cols-3">
+      {puissances.map((p) => (
+        <div class="rounded-card border border-line bg-surface p-7" data-reveal>
+          <div class="flex items-baseline gap-2">
+            <span class="font-display text-display-md tabular-nums text-accent">{p.kw}</span>
+            <span class="font-display text-lg text-muted">kW</span>
+          </div>
+          <p class="mt-1 font-mono text-xs uppercase tracking-[0.14em] text-muted">{p.phase}</p>
+
+          <div class="mt-6 h-2 w-full overflow-hidden rounded-pill bg-bg-2" data-count-bar={p.pct}>
+            <div class="bar-fill h-full rounded-pill bg-accent"></div>
+          </div>
+
+          <p class="mt-5 measure text-sm text-muted">{p.usage}</p>
+        </div>
+      ))}
+    </div>
+
+    {borne && (
+      <div class="mt-10 flex flex-wrap items-center gap-3 rounded-ui border border-line bg-surface px-5 py-4" data-reveal>
+        <Icon name="BadgeCheck" size={18} class="shrink-0 text-accent" />
+        <p class="text-sm text-fg">Installation par un électricien qualifié <strong class="font-medium">IRVE</strong> — obligatoire dès 3,7&nbsp;kW.</p>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .grid-paper {
+    background-image:
+      repeating-linear-gradient(0deg, color-mix(in oklch, var(--fg) 4%, transparent) 0 1px, transparent 1px 32px),
+      repeating-linear-gradient(90deg, color-mix(in oklch, var(--fg) 4%, transparent) 0 1px, transparent 1px 32px);
+  }
+</style>

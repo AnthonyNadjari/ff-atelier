@@ -4,12 +4,12 @@ import type { Site } from './schema';
 import { siteSchema } from './schema';
 export { schemaTypeForTrade } from './schemaType';
 
-const modules = import.meta.glob<{ default: Site }>('/sites/*/site.config.ts', { eager: true });
-const looks = import.meta.glob<{ default: Record<string, unknown> }>('/sites/*/look.json', { eager: true });
+import { config as siteConfig, lookFile } from 'virtual:ff-look';
+
+// Le config et le look.json du site courant sont resolus au build par scripts/vite-ff-look.mjs :
+// les autres sites ne sont jamais lus (isolation : un site casse n'en bloque aucun autre).
 const slug = import.meta.env.SITE as string;
-const key = `/sites/${slug}/site.config.ts`;
-const mod = modules[key];
-if (!mod) throw new Error(`Config introuvable : ${key}`);
+const mod = { default: siteConfig as Site };
 
 /**
  * look.json (optionnel, ecrit par `ff studio`) : surcharge uniquement le LOOK
@@ -39,7 +39,7 @@ function applyLook(base: Site, look: Record<string, unknown> | undefined): Site 
 // et ne touche jamais au dossier du site : un build interrompu ne laisse aucune trace.
 const envLookRaw = (import.meta.env.FF_LOOK as string | undefined) || '';
 const envLook = envLookRaw ? (JSON.parse(envLookRaw) as Record<string, unknown>) : undefined;
-const fileLook = looks[`/sites/${slug}/look.json`]?.default;
+const fileLook = lookFile as Record<string, unknown> | undefined;
 
 export const site: Site = applyLook(mod.default, envLook ?? fileLook);
 export const lookActif = Boolean(envLook ?? fileLook);

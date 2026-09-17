@@ -1,0 +1,117 @@
+---
+/**
+ * "Équipe" (custom/Equipe) : grille sobre à trois colonnes, chaque portrait révélé en fondu
+ * masqué (`data-reveal="mask"`) plutôt qu'en pile plein écran typographique comme
+ * `sites/barbier-kessler/sections/Equipe.astro` (qui évite volontairement la photo individuelle) —
+ * ici le mandat demande explicitement trois portraits dignes, donc un cadre photo réel, mais
+ * jamais une "grille à glisser" façon `data-drag-grid` (écartée par le mandat lui-même). Les
+ * images viennent de `ff images --depuis-public` (placeholders abstraits, pas de vrai visage) et
+ * passent par `<Img>` (manifeste `images.json`) plutôt qu'un `<img>` brut. Deux phrases par
+ * vétérinaire décrivent seulement leur périmètre d'activité réel de `about.team[].role` — aucune
+ * ancienneté ni diplôme inventés. Trois correctifs locaux en bas de fichier, chacun déjà
+ * documenté ailleurs dans le repo pour ce même effet, plus un troisième découvert pendant ce
+ * tour (vérifié en instrumentant Playwright directement sur `dist/veto-du-drac`, pas une
+ * supposition) : (1) `global.css` déclare la règle qui referme le masque *après* celle qui
+ * l'ouvre, à spécificité égale — sans correctif le fondu-masque ne se révèle jamais (même bug que
+ * `sites/encre-noire/sections/Styles.astro`) ; (2) `[data-reveal='mask'] > img` cible un enfant
+ * direct, or `<Img>` insère un `<picture>` entre les deux dès qu'un manifeste existe (même piège
+ * que `data-duotone` dans `sites/jardins-mael/sections/Hero.astro`) — corrigé en ciblant
+ * `picture > img` ; (3) plus fondamental : `clip-path: inset(99.5% 0 0 0)` (l'état "fermé" du
+ * masque) réduit la zone peinte de l'élément à ~0,5 % avant même la révélation — et
+ * l'`IntersectionObserver` générique de `reveal()` (motion.ts) calcule son ratio sur la zone
+ * *visible après clip-path*, pas sur la boîte de mise en page : avec `threshold: 0.12`, un
+ * élément masqué à 99,5 % ne peut structurellement jamais atteindre 12 % visible, donc
+ * `.is-visible` n'est jamais posé — un verrou circulaire, pas un problème de cascade CSS (confirmé
+ * en instrumentant l'observateur sur `dist/veto-du-drac` : ratio ≈ 0,005 en continu). Même
+ * stratégie de contournement qu'`encre-noire` (qui a le même symptôme pour une autre raison,
+ * transform GSAP) : un observateur local dédié, sur la `<section>` elle-même (jamais clippée) au
+ * lieu de chaque figure.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const team = site.about.team;
+const bios: Record<string, string> = {
+  'Dr Sophie Barral': 'Elle suit les chirurgies et les consultations générales, chiens et chats.',
+  'Dr Karim Ouali': 'Il s’occupe de la dentisterie et de l’imagerie, radio et échographie.',
+  'Dr Léa Fontaine': 'Elle reçoit les consultations courantes et les nouveaux animaux de compagnie.',
+};
+const initials = (name: string) =>
+  name
+    .replace(/^Dr\s+/, '')
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase();
+---
+
+{team.length > 0 && (
+  <section id="equipe" class="section-y bg-bg-2">
+    <div class="container-ff">
+      <p class="eyebrow" data-reveal>L’équipe</p>
+      <h2 class="mt-4 max-w-xl text-display-md" data-reveal>Trois vétérinaires, une même équipe</h2>
+      <p class="measure mt-5 text-muted" data-reveal>
+        Chacun garde ses propres dossiers en tête&nbsp;: c’est un choix, pour qu’un animal soit suivi par la même personne d’une visite à l’autre.
+      </p>
+
+      <div class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-3" data-stagger="140">
+        {team.map((m) => (
+          <article>
+            <figure class="relative aspect-[3/4] overflow-hidden rounded-card bg-surface" data-reveal="mask">
+              {m.photo && (
+                <Img src={m.photo.src} alt={m.photo.alt} class="h-full w-full object-cover" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" loading="lazy" />
+              )}
+              <span
+                class="pointer-events-none absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-accent font-display text-sm text-on-accent shadow-card"
+                aria-hidden="true"
+              >
+                {initials(m.name)}
+              </span>
+            </figure>
+            <h3 class="mt-5 font-display text-xl text-fg">{m.name}</h3>
+            <p class="mt-1 text-sm text-accent">{m.role}</p>
+            {bios[m.name] && <p class="mt-3 text-muted">{bios[m.name]}</p>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<script>
+  // Voir en-tete : [data-reveal='mask'] clippe a ~0,5% avant reveal, l'IntersectionObserver
+  // generique (motion.ts, threshold 0.12) ne peut donc jamais l'observer comme "visible".
+  // On observe ici la section elle-meme (jamais clippee) et on revele les trois figures d'un
+  // coup des qu'elle entre dans la vue.
+  const section = document.getElementById('equipe');
+  const masks = section?.querySelectorAll<HTMLElement>('[data-reveal="mask"]');
+  if (section && masks && masks.length) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            masks.forEach((m) => m.classList.add('is-visible'));
+            io.unobserve(section);
+          }
+        }
+      },
+      { threshold: 0.1 },
+    );
+    io.observe(section);
+  }
+</script>
+
+<style>
+  /* global.css declare [data-reveal='mask'] (clip-path masque) APRES la regle generique
+     .is-visible[data-reveal], a specificite egale (meme motif documente dans
+     sites/encre-noire/sections/Styles.astro) : le masque gagne toujours la cascade et ne se
+     revele jamais sans ce correctif local, a specificite superieure grace au #equipe. En prime,
+     <Img> insere un <picture> entre la figure et l'<img> : le leger zoom-arriere de la regle
+     generique ([data-reveal='mask'] > img) ne matche plus, on ajoute l'equivalent a picture > img. */
+  #equipe [data-reveal='mask'].is-visible {
+    clip-path: inset(0 0 0 0);
+  }
+  #equipe [data-reveal='mask'].is-visible > picture > img {
+    transform: scale(1);
+  }
+</style>

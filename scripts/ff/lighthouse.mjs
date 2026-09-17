@@ -80,7 +80,9 @@ function imprimerDetail(lhr, label, formFactor) {
     if (!audit || audit.score === null || audit.score === 1) continue;
     any = true;
     info(`\n  ${c.yellow('✗')} ${auditId} : ${audit.title} (${label} / ${formFactor})`);
-    const items = audit.details?.items ?? [];
+    // Certains audits "insight" (Lighthouse 12+, ex. cache-insight) portent un `details.items` qui
+    // n'est pas un tableau iterable (structure specifique a l'insight) : on l'ignore proprement.
+    const items = Array.isArray(audit.details?.items) ? audit.details.items : [];
     for (const item of items) {
       const node = item.node ?? item.relatedNodes?.[0] ?? item;
       if (node?.snippet) info(`      snippet: ${node.snippet}`);

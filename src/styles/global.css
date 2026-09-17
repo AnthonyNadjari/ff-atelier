@@ -209,10 +209,7 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 [data-motion]:not([data-motion='none']) [data-reveal='clip'] { transform: none; clip-path: inset(0 0 99.5% 0); }
 [data-motion] .is-visible[data-reveal],
 [data-motion] .is-visible[data-stagger] > * { opacity: 1; transform: none; filter: none; }
-/* Seules les variantes decoupees gardent un clip-path une fois revelees (sinon il rognerait les debordements voulus). */
-[data-motion] .is-visible[data-reveal='clip'],
-[data-motion] .is-visible[data-reveal='wipe'],
-[data-motion] .is-visible[data-reveal='mask'] { clip-path: inset(0 0 0 0); }
+
 
 /* Marquee : le runtime duplique le contenu, ici juste l'animation */
 [data-marquee] { overflow: hidden; white-space: nowrap; }
@@ -226,16 +223,51 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 [data-motion]:not([data-motion='none']) [data-reveal='mask'] { transform: none; clip-path: inset(99.5% 0 0 0); }
 [data-motion]:not([data-motion='none']) [data-reveal='mask'] > img { transform: scale(1.25); transition: transform 1.6s var(--ease-out-expo); }
 [data-motion] .is-visible[data-reveal='mask'] > img { transform: scale(1); }
+/* Etat revele des variantes decoupees : DOIT rester apres leurs etats initiaux (meme specificite, l'ordre tranche). */
+/* Seules les variantes decoupees gardent un clip-path une fois revelees (sinon il rognerait les debordements voulus). */
+[data-motion] .is-visible[data-reveal='clip'],
+[data-motion] .is-visible[data-reveal='wipe'],
+[data-motion] .is-visible[data-reveal='mask'] { clip-path: inset(0 0 0 0); }
 
 /* data-draw : trait qui se trace */
 [data-motion]:not([data-motion='none']) [data-draw] { transform: scaleX(0); transform-origin: left; transition: transform 1.2s var(--ease-out-expo); }
 [data-motion] [data-draw].is-drawn { transform: scaleX(1); }
 
-/* data-text-fill (rich) : mots a 22 % puis remplis par GSAP */
-[data-motion='rich'] [data-text-fill] .fill-word { opacity: 0.22; }
+/* data-text-fill (rich) : mots a 50 % au repos (etaient 22 %, signale par le rapport a11y), puis
+   remplis par GSAP. `.fill-word` porte quasi toujours du texte de grande taille (text-display-*,
+   >= 24px — Effets.astro, Manifeste.astro, Hero de chez-malo... clamp() toujours >= 2rem) : la barre
+   WCAG applicable est donc le "grand texte" (>= 3:1), pas le texte normal (>= 4.5:1). Verifie sur les
+   deux directions au plus faible ecart --fg/--bg-2 (calcul WCAG relative luminance, alpha melange
+   simple sur bg-2, comme le fait le compositing d'un `opacity` CSS) : clair (--fg #0f172a sur --bg-2
+   #f5f7fa, contraste plein 16.63:1) et nordique (--fg #1f2422 sur --bg-2 #f1f2f0, 14.02:1) — les deux
+   directions ou tous les tokens de texte secondaire ont deja ete resserres au plus juste (voir les
+   commentaires dans src/directions/clair/index.css et nordique/index.css). 22 % echouait largement
+   (contraste ~1.8:1 les deux) ; 45 % proposees par le rapport echouaient encore de peu au seuil grand
+   texte (2.90:1 clair, 2.68:1 nordique, minimum requis ~0.46/0.49 d'opacite) ; 50 % le franchit avec
+   marge (3.36:1 clair, 3.06:1 nordique). Limite connue, non corrigible par une seule opacite : un
+   `.fill-word` colore en `text-muted` (texte normal, pas display) resterait sous 4.5:1 a toute
+   opacite < ~0.99 dans ces deux directions (le plein contraste muted/bg-2 n'y est deja que 4.57-4.61:1,
+   deliberement resserre au minimum AA) — a eviter pour du texte secondaire qui doit rester lisible
+   pendant qu'il est encore attenue (un seul cas connu, sites/forge-delacroix/sections/Feu.astro, hors
+   scope de src/). */
+[data-motion='rich'] [data-text-fill] .fill-word { opacity: 0.5; }
 
-/* data-pin-step : etape active */
-[data-pin-step] { opacity: 0.35; transition: opacity 0.5s var(--ease-out-quart), transform 0.5s var(--ease-out-quart); }
+/* data-pin-step : etape au repos (etait 0.35, signale par le rapport a11y ; 0.6 propose s'est revele
+   insuffisant a la verification ci-dessous, releve a 0.65). Contenu reel mixte (voir
+   sites/chez-malo/sections/Horaires.astro) : un grand chiffre en --accent (>= 24px, clamp 2.5-5.5rem)
+   + un titre/paragraphe en taille normale sur --fg ou --muted. Meme methode et memes deux directions
+   que data-text-fill ci-dessus (clair, nordique — plus faible ecart --fg/--bg-2 du catalogue). A 0.6 :
+   --fg normal tombe a 4.07:1 sur nordique (sous 4.5:1, il aurait fallu >= 0.634 d'opacite) alors que
+   0.6 etait deja > 0.492/0.462, la barre grand texte (3:1) suffisante pour le gros chiffre --accent.
+   0.65 (>= 0.634 sur les deux directions) restaure 4.5:1 pour le texte normal en --fg (4.73:1 nordique,
+   5.41:1 clair) tout en gardant un etat "au repos" visuellement distinct de `.is-active`. Meme limite
+   residuelle que ci-dessus pour du texte en --muted (paragraphe de Horaires.astro) : plein contraste
+   deja juste sous AA-large a 0.65 la ou --muted est le plus resserre (nordique 0.65 -> ~2.5:1, il
+   faudrait ~0.77 pour le seuil grand texte et ~0.99 pour le texte normal) — une opacite de repos ne
+   peut pas rendre `--muted` accessible sans annuler l'effet d'attenuation ; a eviter pour du texte qui
+   doit rester lisible avant le scroll, documente ici plutot que corrige (fichier hors src/, propre a
+   un site). */
+[data-pin-step] { opacity: 0.65; transition: opacity 0.5s var(--ease-out-quart), transform 0.5s var(--ease-out-quart); }
 [data-pin-step].is-active { opacity: 1; }
 
 /* Rideau d'entree (rich) */

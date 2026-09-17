@@ -32,7 +32,7 @@ const shown = (featured.length > 0 ? featured : site.services).slice(0, 3);
     <div class="mt-14 md:mt-20">
       {hero ? (
         <figure class="relative aspect-[16/9] w-full overflow-hidden rounded-card shadow-lift" data-reveal="scale">
-          <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="eager" fetchpriority="high" />
+          <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" priority />
         </figure>
       ) : (
         <ul class="grid sm:grid-cols-3 gap-5 max-w-3xl mx-auto" data-stagger="90">
