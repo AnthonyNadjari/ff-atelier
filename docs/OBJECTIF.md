@@ -12,7 +12,7 @@ Ne jamais cocher un critère sans l'avoir vérifié par une commande ou une capt
 | # | Critère | État | Vérification |
 |---|---|---|---|
 | 1 | 20 sites de démonstration dessinés à la main, 20 métiers, chacun avec hero + nav + ≥ 2 blocs sur mesure, aucun bloc copié d'un site à l'autre | 20 / 20 ✓ (17 sept 2026) | `ls sites/*/sections/` ; comparaison manuelle des compositions |
-| 2 | Chaque site : build ✓, `ff verifier` ✓ (sauf téléphone fictif), captures sans erreur ni débordement, mobile relu, Lighthouse ≥ 90 (perf, a11y, SEO) | build/captures ✓ ; accessibilité 100/100 (desktop+mobile, accueil + page service + confidentialité) sur `_exemple` et `dubois-plomberie` depuis le 17 sept (voir journal : couche partagée corrigée — contraste `.eyebrow`/`--accent`/`--muted` dans `src/directions/*/index.css` + `global.css` bascule `.eyebrow` sur `--on-ink` attenue en contexte `bg-ink`) ; SEO 58 sur mentions-legales = noindex voulu | `ff tous`, `ff captures`, `node scripts/ff.mjs lighthouse <slug> --detail` |
+| 2 | Chaque site : build ✓, `ff verifier` ✓ (sauf téléphone fictif), captures sans erreur ni débordement, mobile relu, Lighthouse ≥ 90 (perf, a11y, SEO) | build/captures ✓ ; `ff lighthouse` 17 sept 15h30 (site le plus lourd, toits-cie, mobile) : accueil perf 91 / a11y 100 / bp 100 / seo 92 ; dubois-plomberie mobile 94, desktop 100 ; `ff perf` vert sur toits-cie (css 51 Ko, polices 128 Ko) | `ff tous`, `ff captures`, `node scripts/ff.mjs lighthouse <slug> --detail` |
 | 3 | Moteur d'animation : ≥ 15 effets documentés, chacun utilisé dans ≥ 2 sites, sans bug connu | 16 effets ; usage ×2 à vérifier ; 3 bugs corrigés le 16 sept | `grep -l data-<effet> sites/*/sections/*.astro` |
 | 4 | Chaîne de bout en bout sur un vrai brief : formulaire → `/nouveau-site` → `ff propositions` → `ff deploy` → `ff exporter` | non prouvée (deploy nécessite `npx wrangler login`, action humaine) | exécuter la chaîne sur un slug de test |
 | 5 | Tests + CI verts à chaque commit ; matrice couvrant directions, coquilles, navs | tests 142 ✓ ; CI : à vérifier sur GitHub ; matrice : directions ✓, coquilles ✓, navs ✗ | `npm test`, `ff matrice --rapide`, onglet Actions |
@@ -95,6 +95,8 @@ S'arrêter et le dire quand : les sept critères sont cochés ; ou un critère d
 (login Cloudflare, achat de domaine, vrai client) et tout le reste est fait.
 
 ## Journal
+
+- 17 sept 2026 (15h30) : chasse a la performance : Tailwind limite a src/ + site courant + variantes utilisees (CSS 119 -> 51 Ko), feuille inlinee, polices de direction remplacees non chargees, `<img>` -> `<picture>` AVIF/WebP en post-build pour tous les sites, budget `ff perf` ajuste. toits-cie mobile 84 -> 91. Isolation totale des sites par le module virtuel (config, look.json, sections). Test de syntaxe par fichier de site.
 
 - 17 sept 2026 (après-midi) : auto-ecole-rabelais et borie-des-chenes terminés par le coordinateur (agents coupés par la limite de session) : critère 1 = 20/20. Playbook commercial livré. `ff sante`, guide client après livraison, `ff domaine`, documents juridiques.
 
