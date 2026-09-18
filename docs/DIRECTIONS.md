@@ -42,13 +42,14 @@ direction sans la dupliquer visuellement.
 | **nordique** | Pâle et aérienne. Blanc cassé, teal sourd, Sora aéré sur Literata chaleureuse. Respire. | Décorateur intérieur, ébéniste scandinave, thérapeute, architecte, atelier de céramique, coach bien-être | Urgence 24/7, brutalisme, criard | subtle |
 | **encre** | Encre noire sur papier, trait à la main. Instrument Serif géant, vermillon en accent, grain de papier. | Tatoueur, illustrateur, céramiste, relieur, graveur, atelier de création | Corporate, high-tech, luxe froid | subtle |
 | **industriel** | Béton et acier. Bebas Neue en majuscules, Red Hat Display net, orange sécurité en signal. | Garagiste, métallier, entreprise du BTP, déménageur, démolisseur, serrurier industriel | Délicat, pastel, luxe | subtle |
+| **eclipse** | Épurée et futuriste. Noir encre, blanc froid, un filet d'argent pour seule couleur ; Space Grotesk très serré, grand vide, mouvement long. Aucune couleur chaude : la couleur, c'est la lumière sur le noir. | Studio de design, horloger, opticien, architecte, galeriste, joaillier contemporain, photographe | Urgence 24/7, artisanat chaleureux, enfance, restauration traditionnelle | rich |
 | **mediterranee** | Terre cuite et mer. Gelasio chaleureux sur Hanken Grotesk, arches douces, carreaux très discrets. | Restaurateur, céramiste, agence immobilière du sud, producteur d'olives, domaine viticole, pisciniste | Urgence 24/7, high-tech, brutalisme | subtle |
 
 Un métier hors de ces listes : choisis par ambiance recherchée (les 3 adjectifs du brief, section 12)
 plutôt que par métier littéral — un consultant qui se décrit comme "chaleureux, humain, simple" ira
 peut-être mieux en `atelier` qu'en `journal`.
 
-Ces 16 directions et leurs métadonnées (`ambiance`, `metiers`, `eviter`, `motionParDefaut`) viennent des
+Ces 17 directions et leurs métadonnées (`ambiance`, `metiers`, `eviter`, `motionParDefaut`) viennent des
 commentaires de `DIRECTIONS` dans `src/lib/schema.ts` et, quand ils existent, des fichiers
 `src/directions/<nom>/meta.ts` — ne pas dépendre de ces derniers pour choisir une direction : ils
 peuvent manquer pour une direction toute neuve, `src/lib/schema.ts` reste la source normative.

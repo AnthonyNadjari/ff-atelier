@@ -13,6 +13,7 @@ export default defineSite({
     hero: 'custom/hero',
     headings: 'center',
     sections: [
+      { type: 'custom', variant: 'cabinet' },
       { type: 'custom', variant: 'motifs', label: 'Consultations' },
       { type: 'custom', variant: 'seance', label: 'La séance' },
       { type: 'about', variant: 'story' },

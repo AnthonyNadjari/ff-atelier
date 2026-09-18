@@ -1,0 +1,71 @@
+---
+/**
+ * « Le cabinet » : la preuve posée juste après le hero, avant même les motifs de consultation —
+ * le lieu réel (site.about.portrait, jamais affiché par la variante partagée about/story qui ne
+ * rend que l'équipe) en fondu masqué, et l'ancienneté réelle du cabinet en chiffres qui basculent
+ * (data-counter-flip, calculée depuis business.since via yearsSince() — jamais un compteur de
+ * patients : santé réglementée, voir docs/ANIMATION-PAR-METIER.md §1e/§2 ligne 2). Le masque suit
+ * le correctif documenté dans sites/borie-des-chenes/sections/Hotes.astro : la règle
+ * `[data-reveal='mask']` de global.css referme le masque après `.is-visible`, à spécificité égale
+ * — sans filet local le fondu ne se révèle jamais ; on observe donc la section (jamais clippée) et
+ * on pose `.is-visible` à la main sur la figure. Composition propre à ce site.
+ */
+import { site, yearsSince } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const portrait = site.about.portrait;
+const years = yearsSince();
+---
+
+<section id="cabinet" class="section-y">
+  <div class="container-ff grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+    {portrait && (
+      <div class="lg:col-span-5">
+        <figure class="relative aspect-[4/5] overflow-hidden rounded-card bg-surface" data-reveal="mask">
+          <Img src={portrait.src} alt={portrait.alt} class="h-full w-full object-cover" sizes="(min-width: 1024px) 40vw, 90vw" loading="lazy" />
+        </figure>
+      </div>
+    )}
+    <div class:list={[portrait ? 'lg:col-span-7' : 'lg:col-span-12 max-w-2xl']}>
+      <p class="eyebrow">Le cabinet</p>
+      <h2 class="mt-4 text-display-md">Un lieu que vous pouvez voir avant d’y aller</h2>
+      <p class="measure mt-4 text-muted">Salle de consultation, table, rien d’autre à découvrir sur place.</p>
+
+      {years !== undefined && (
+        <p class="mt-8 font-display leading-none text-accent" style="font-size: clamp(3rem, 7vw, 5rem);">
+          <span data-counter-flip={String(years)} data-suffix=" ans" /><span class="ml-3 align-middle text-base font-sans font-normal text-muted">de cabinet</span>
+        </p>
+      )}
+
+      {site.business.certifications.length > 0 && (
+        <ul class="mt-6 space-y-1.5 text-muted" data-reveal>
+          {site.business.certifications.map((c) => (
+            <li class="flex items-baseline gap-2">
+              <span class="text-accent" aria-hidden="true">—</span>
+              <span>{c}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById('cabinet');
+  const mask = section?.querySelector<HTMLElement>('[data-reveal="mask"]');
+  if (section && mask) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            mask.classList.add('is-visible');
+            io.unobserve(section);
+          }
+        }
+      },
+      { threshold: 0.1 },
+    );
+    io.observe(section);
+  }
+</script>

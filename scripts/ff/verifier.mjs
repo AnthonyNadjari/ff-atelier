@@ -172,7 +172,15 @@ function checkTelPremierEcran(distDir, checks) {
   const html = fs.readFileSync(indexPath, 'utf8');
   const bodyIdx = html.search(/<body[^>]*>/i);
   const start = bodyIdx === -1 ? 0 : html.indexOf('>', bodyIdx) + 1;
-  const slice = html.slice(start, start + 1500);
+  // On mesure la distance vue par un VISITEUR, pas le nombre d'octets : on retire d'abord les blocs
+  // techniques que le moteur d'animation pose en tete de <body> et qui n'affichent rien (definition
+  // de filtre SVG pour data-duotone, rideau de transition de page). Sans ca, un site parfaitement
+  // correct echouait pour ~80 caracteres de <filter> invisible (finck-fisch, 18 sept 2026).
+  const corps = html
+    .slice(start)
+    .replace(/<svg[^>]*width=["']0["'][\s\S]*?<\/svg>/gi, '')
+    .replace(/<div class="ff-curtain[^"]*"[^>]*>[\s\S]*?<\/div>/i, '');
+  const slice = corps.slice(0, 1500);
   if (/href=["']tel:/i.test(slice)) checks.push({ pass: true, label: 'Lien tel: present dans les 1500 premiers caracteres du corps de index.html' });
   else checks.push({ pass: false, label: 'Aucun lien tel: dans les 1500 premiers caracteres du corps de index.html' });
 }

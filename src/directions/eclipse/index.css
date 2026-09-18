@@ -1,0 +1,101 @@
+/* Direction ECLIPSE — epuree et futuriste. Presque monochrome : noir encre, blanc froid, un seul
+   filet d'argent. Aucun or, aucune couleur chaude : la couleur, ici, c'est la lumiere sur le noir.
+   Space Grotesk tres serre en titres, Instrument Sans en texte, beaucoup de vide, filets d'un pixel,
+   mouvement long et retenu. Pour un studio, un horloger, un opticien, une galerie, un architecte. */
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/instrument-sans';
+@import '@fontsource-variable/jetbrains-mono';
+
+[data-direction='eclipse'] {
+  /* Accent volontairement desature : un gris-bleu de lumiere froide, pas une couleur de marque.
+     Il sert aux filets, aux survols et aux petits reperes — jamais a crier. */
+  --accent-h: 210;
+  --accent-s: 18%;
+  --accent-l: 72%;
+
+  --bg: #0a0b0d;
+  --bg-2: #101215;
+  --surface: #14171b;
+  --fg: #f4f6f8;
+  --muted: #9aa3ad;
+  --line: rgba(244, 246, 248, 0.1);
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) 88%);
+  --on-accent: #0a0b0d;
+  --ink: #000000;
+  --on-ink: #f4f6f8;
+
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, sans-serif;
+  --font-body: 'Instrument Sans Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --display-weight: 500;
+  /* Tracking negatif marque : c'est lui qui donne le caractere « objet technique » aux titres. */
+  --display-tracking: -0.04em;
+  --heading-transform: none;
+  --radius: 999px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.9);
+  --section-y: clamp(5rem, 11vw, 9rem);
+  --motion-duration: 1.1s;
+  color-scheme: dark;
+}
+
+[data-direction='eclipse'] .text-display-xl { font-size: clamp(2.75rem, 7.5vw, 6.5rem); line-height: 0.95; }
+[data-direction='eclipse'] .text-display-lg { font-size: clamp(2.25rem, 5.5vw, 4.5rem); line-height: 1; }
+
+[data-direction='eclipse'] ::selection { background: var(--fg); color: var(--bg); }
+
+/* Emphase : pas d'italique (Space Grotesk n'en a pas de vrai) ni de couleur criarde — on descend
+   l'emphase en gris de lumiere, l'oeil la lit comme un second plan, pas comme un surlignage. */
+[data-direction='eclipse'] h1 em,
+[data-direction='eclipse'] h2 em {
+  font-style: normal;
+  color: var(--muted);
+}
+
+[data-direction='eclipse'] .eyebrow {
+  color: var(--muted);
+  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+}
+
+[data-direction='eclipse'] .btn {
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  font-size: 0.9rem;
+  padding-inline: 1.6rem;
+  transition: background-color 0.4s, color 0.4s, border-color 0.4s;
+}
+[data-direction='eclipse'] .btn-primary {
+  background: var(--fg);
+  color: var(--bg);
+  border: 1px solid var(--fg);
+}
+[data-direction='eclipse'] .btn-primary:hover { background: transparent; color: var(--fg); }
+[data-direction='eclipse'] .btn-ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--fg);
+}
+[data-direction='eclipse'] .btn-ghost:hover { border-color: var(--fg); }
+
+[data-direction='eclipse'] .card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 0;
+}
+[data-direction='eclipse'] .rule { border-top: 1px solid var(--line); }
+
+/* Halo tres large et tres faible en haut de page : la seule « lumiere » de la direction. Purement
+   decoratif, sous le contenu, sans cout de rendu (un seul degrade radial fixe). */
+[data-direction='eclipse'] body::before {
+  content: '';
+  position: fixed;
+  inset: -20vh 0 auto 0;
+  height: 70vh;
+  background: radial-gradient(60% 60% at 50% 0%, rgb(154 163 173 / 0.16), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}

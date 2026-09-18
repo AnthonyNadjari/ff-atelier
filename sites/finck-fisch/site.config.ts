@@ -13,17 +13,20 @@ export default defineSite({
   // rouge vif — c'est notre vitrine, elle doit ressembler a ce qu'on vend, pas a une landing page
   // generique. Pas de `typography` : les polices de la direction (Cormorant / Instrument Sans)
   // sont exactement le registre voulu.
-  direction: 'luxe',
+  direction: 'eclipse',
   motion: 'rich',
   scale: 'display',
   layout: {
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
+      // Page volontairement courte (« there is too much scrolling », 18 sept 2026) : cinq blocs.
+      // « Manifeste » (trois regles) et « Trois propositions » ont ete retires — le premier repetait
+      // en trois paragraphes ce que l'offre dit en tableau, le second refaisait l'etape 03 de
+      // « Comment ca se passe ». Leurs fichiers restent dans sections/ : ils se rebranchent en une
+      // ligne si on veut une page longue.
       { type: 'custom', variant: 'realisations', label: 'Réalisations' },
-      { type: 'custom', variant: 'manifeste' },
       { type: 'custom', variant: 'commentcasepasse' },
-      { type: 'custom', variant: 'propositions' },
       { type: 'custom', variant: 'offre', label: 'Offre' },
       { type: 'faq', variant: 'two-columns' },
       { type: 'contact', variant: 'form-card' },

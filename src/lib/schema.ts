@@ -24,6 +24,7 @@ export const DIRECTIONS = [
   'encre', // noir encre sur papier, trait dessine, tatoueurs/illustrateurs/artisans d art
   'industriel', // beton, acier, orange securite, Bebas, garages/metallerie/BTP
   'mediterranee', // terracotta, bleu mer, blanc chaux, restaurants/ceramistes/immobilier sud
+  'eclipse', // noir encre, blanc froid, argent, Space Grotesk serre, epure futuriste, studios/horlogers/opticiens
 ] as const;
 export type Direction = (typeof DIRECTIONS)[number];
 

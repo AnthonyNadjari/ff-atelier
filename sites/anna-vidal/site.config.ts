@@ -13,9 +13,10 @@ export default defineSite({
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
+      { type: 'custom', variant: 'instants', label: 'Instants' },
+      { type: 'custom', variant: 'formules', label: 'Formules' },
       { type: 'custom', variant: 'series', label: 'Séries' },
       { type: 'custom', variant: 'manifeste', label: 'Manifeste' },
-      { type: 'custom', variant: 'formules', label: 'Formules' },
       { type: 'faq', variant: 'accordion' },
       { type: 'contact', variant: 'form-card' },
     ],

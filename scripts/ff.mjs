@@ -31,6 +31,7 @@ import { cmdSante } from './ff/sante.mjs';
 import { cmdArchiver } from './ff/archiver.mjs';
 import { cmdDetect } from './ff/detect.mjs';
 import { cmdVitrine } from './ff/vitrine.mjs';
+import { cmdLogo } from './ff/logo.mjs';
 import { cmdAuditMotion } from './ff/audit-motion.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -82,6 +83,7 @@ const commands = {
   archiver: cmdArchiver,
   detect: cmdDetect,
   vitrine: cmdVitrine,
+  logo: cmdLogo,
 };
 
 async function main() {
