@@ -5,15 +5,6 @@
  * tabular-nums, une ligne par fonctionnalité. Appelée dans le layout par
  * { type: 'custom', variant: 'offre', label: 'Offre' } — seule section custom avec une ancre de nav,
  * avec Réalisations et Contact (voir sites/finck-fisch/sections/Nav.astro).
- *
- * Emphase du h2 en `<span class="italic text-accent-2">` plutôt qu'en `<em>` : voir
- * sites/finck-fisch/sections/Manifeste.astro (même correctif, bug du soulignement SVG de
- * `h2 em` dans la direction encre sur un texte de plusieurs mots).
- *
- * PRIX PROVISOIRES : les deux fondateurs n'ont pas encore arrete de grille de prix definitive.
- * "à partir de 1 200 €" et "à partir de 1 800 €" sont des placeholders credibles (voir
- * docs/veille/SYNTHESE.md action A1 : reperes 1 200-1 800 €). A remplacer ici des que le prix
- * est fixe — chercher "PRIX PROVISOIRES" dans ce fichier.
  */
 import { site } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
@@ -53,8 +44,7 @@ const jamais = [
 
 <section id="offre" class="section-y bg-bg-2">
   <div class="container-ff">
-    <p class="eyebrow" data-reveal>Offre</p>
-    <h2 class="mt-4 max-w-2xl text-display-md" data-reveal>Un prix affiché, <span class="italic text-accent-2">pas un devis caché.</span></h2>
+    <h2 class="max-w-2xl text-display-md" data-reveal>Un prix affiché.</h2>
     <p class="mt-5 max-w-2xl text-muted" data-reveal>
       Deux formules, un tarif fixe annoncé avant de commencer. Livré en une fois, sans ligne récurrente à surveiller.
     </p>

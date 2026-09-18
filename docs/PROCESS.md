@@ -1,5 +1,7 @@
 # Processus client — de la prospection à la livraison
 
+Toutes les commandes en une page : `docs/COMMANDES.md`.
+
 Ce document décrit le parcours complet d'un client, pour les deux personnes de Finck & Fisch :
 celle qui prospecte/vend/brief, celle qui construit. `docs/BRIEF.md` est le support de l'appel ;
 ce fichier est le fil du reste.

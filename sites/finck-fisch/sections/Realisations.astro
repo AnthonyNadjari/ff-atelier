@@ -7,9 +7,6 @@
  * cliquables — jamais de href="#" vide (interdit par le vérificateur). Vignettes générées depuis
  * captures/<slug>-desktop.png par le script de génération (voir vitrine.json, une entrée par site,
  * champ "signature" utilisé ici comme légende étendue au survol pour rester discret par défaut).
- *
- * Emphase du h2 en `<span class="italic text-accent-2">` plutôt qu'en `<em>` : voir
- * sites/finck-fisch/sections/Manifeste.astro (même correctif).
  */
 import vitrine from '../vitrine.json';
 
@@ -36,8 +33,7 @@ const familles = [
 
 <section id="realisations" class="section-y">
   <div class="container-ff">
-    <p class="eyebrow" data-reveal>Réalisations</p>
-    <h2 class="mt-4 max-w-2xl text-display-md" data-reveal>Vingt métiers, <span class="italic text-accent-2">vingt sites qu’on ne confond pas.</span></h2>
+    <h2 class="max-w-2xl text-display-md" data-reveal>Vingt métiers, vingt sites.</h2>
     <p class="mt-5 max-w-2xl text-muted" data-reveal>
       Chacun dessiné pour son activité, sa ville, ses mots — jamais un modèle décliné. Les captures ci-dessous
       sont les vraies pages, pas des maquettes.

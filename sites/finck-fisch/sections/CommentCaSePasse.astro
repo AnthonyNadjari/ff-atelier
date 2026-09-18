@@ -6,9 +6,6 @@
  * (docs/PROCESS.md § 2), production en 48–72 h (§ 4, cohérent avec le "livré sous 72 h" de la
  * section Offre), fenêtre de corrections de deux semaines (§ 6). Aucune donnée inventée.
  * Appelée par { type: 'custom', variant: 'commentcasepasse' } (pas de label dans le nav).
- *
- * Emphase du h2 en `<span class="italic text-accent-2">` plutôt qu'en `<em>` : voir
- * sites/finck-fisch/sections/Manifeste.astro (même correctif).
  */
 const etapes = [
   { n: '01', titre: 'Appel', texte: 'Quinze minutes pour comprendre votre activité et ce que le site doit accomplir.' },
@@ -21,7 +18,7 @@ const etapes = [
 
 <section id="comment-ca-se-passe" class="section-y bg-bg-2">
   <div class="container-ff">
-    <h2 class="max-w-2xl text-display-md" data-reveal>Cinq étapes, <span class="italic text-accent-2">un seul interlocuteur.</span></h2>
+    <h2 class="max-w-2xl text-display-md" data-reveal>De l’appel à la mise en ligne.</h2>
 
     <ol class="mt-14 grid gap-10 border-t border-line pt-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8" data-stagger="90">
       {etapes.map((e) => (

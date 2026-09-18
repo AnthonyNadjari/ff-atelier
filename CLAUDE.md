@@ -74,6 +74,9 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
 
 ## Où sont les choses
 
+- `docs/COMMANDES.md` — les commandes du quotidien résumées sur une page, pour le fondateur non
+  technique : les 6 commandes de base, un chantier client de bout en bout, que faire quand un truc
+  cloche, le reste par besoin.
 - `src/lib/schema.ts` — schéma zod complet (`DIRECTIONS`, `MOTION`, `VARIANTS`, `SHELLS`,
   `HEADINGS`, `siteSchema`). `business.schemaType` (sous-type schema.org, ex. `Plumber`) et
   `contact.mapsProvider`/`contact.coordinates` (carte sans traceur, voir `docs/DIRECTIONS.md` § Carte)

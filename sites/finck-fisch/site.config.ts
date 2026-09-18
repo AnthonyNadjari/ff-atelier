@@ -9,9 +9,12 @@ export default defineSite({
   slug: 'finck-fisch',
   domain: 'finckfisch.fr',
 
-  direction: 'encre',
+  // Direction luxe : noir profond, or fin, Cormorant. Sobre et precieux plutot qu'off-white +
+  // rouge vif — c'est notre vitrine, elle doit ressembler a ce qu'on vend, pas a une landing page
+  // generique. Pas de `typography` : les polices de la direction (Cormorant / Instrument Sans)
+  // sont exactement le registre voulu.
+  direction: 'luxe',
   motion: 'rich',
-  typography: { display: 'fraunces', body: 'figtree' },
   scale: 'display',
   layout: {
     nav: 'custom/nav',

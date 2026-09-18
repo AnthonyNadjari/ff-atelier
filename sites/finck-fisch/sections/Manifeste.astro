@@ -6,14 +6,6 @@
  * un unique temps fort plutôt qu'un habillage répété. Appelée dans le layout par
  * { type: 'custom', variant: 'manifeste' } (pas de label : ce bloc n'a pas d'ancre de nav, voir
  * sites/finck-fisch/sections/Nav.astro — trois liens seulement).
- *
- * Emphase du h2 en `<span class="italic text-accent-2">` plutôt qu'en `<em>` : la règle
- * `[data-direction='encre'] h2 em` (src/directions/encre/index.css, hors périmètre de ce chantier)
- * pose un soulignement SVG dont la hauteur suit `background-size: 100% auto` — sur un texte de
- * plusieurs mots à cette taille d'affiche, le trait s'étire en grand zigzag qui traverse le texte
- * au lieu de rester un filet fin dessous (repéré sur captures/finck-fisch-mobile.png). Le span
- * reproduit exactement le style voulu (italique + `--accent-2`, même règle que `h1 em`) sans
- * déclencher le fond décoratif, qui ne cible que `em`.
  */
 import { site } from '@/lib/site';
 const points = [
@@ -25,7 +17,7 @@ const points = [
 
 <section id="manifeste" class="section-y bg-ink text-on-ink">
   <div class="container-ff">
-    <h2 class="max-w-4xl text-display-lg" data-split>Trois règles, <span class="italic text-accent-2">aucune exception.</span></h2>
+    <h2 class="max-w-4xl text-display-lg" data-split>Trois règles, aucune exception.</h2>
 
     <ol class="mt-14 border-t border-on-ink/15">
       {points.map((p) => (
