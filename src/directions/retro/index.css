@@ -60,7 +60,10 @@
   background: var(--accent);
   color: var(--on-accent);
 }
-[data-direction='retro'] .btn-primary:hover { background: var(--accent-2); color: var(--ink); }
+/* color: var(--on-accent), pas var(--ink) : --ink (#3b2418, brun tres fonce) sur --accent-2
+   (#7d5d12, moutarde fonce) ne tient qu'a 2.4:1 (rapport impeccable, sites/moteur-fils) -- --on-accent
+   (creme) y tient 5.5:1, et reste coherent avec le texte du bouton au repos (deja --on-accent). */
+[data-direction='retro'] .btn-primary:hover { background: var(--accent-2); color: var(--on-accent); }
 [data-direction='retro'] .btn-ghost {
   background: transparent;
   border: 1px solid var(--accent);

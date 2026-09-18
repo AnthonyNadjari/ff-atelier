@@ -13,7 +13,6 @@ import { site, tel, navLinks } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 const links = navLinks();
-const years = site.business.since;
 ---
 
 <header data-nav class="fixed inset-x-0 top-0 z-50 flex flex-col bg-bg/95 backdrop-blur-sm transition-shadow duration-500 [&.is-scrolled]:shadow-card">
@@ -54,7 +53,6 @@ const years = site.business.since;
     <div class="container-ff flex items-center justify-between gap-4 py-2 text-[0.7rem] uppercase tracking-[0.16em] text-muted">
       <p>{site.business.trade} — Rennes &amp; {site.contact.address.city}</p>
       <p class="hidden sm:block">
-        {years && <>Depuis {years} · </>}
         {site.business.certifications.join(', ')}
       </p>
     </div>

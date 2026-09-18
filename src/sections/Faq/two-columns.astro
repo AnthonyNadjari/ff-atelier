@@ -21,7 +21,10 @@ const faqLd = {
       <div class="mt-14 border-t border-line" data-stagger="70">
         {site.faq.map((f) => (
           <div class="grid gap-4 border-b border-line py-8 md:grid-cols-[minmax(0,18rem)_1fr] md:gap-16">
-            <p class="font-display text-lg">{f.q}</p>
+            {/* normal-case : neutralise heading-transform:uppercase (directions signal/brut/industriel,
+                global.css `h1, h2, h3, .font-display`) sur cette question — une phrase longue en
+                capitales est illisible (all-caps-body), une question de FAQ n'est pas un titre. */}
+            <p class="font-display text-lg normal-case">{f.q}</p>
             <div class="flex max-w-2xl flex-col gap-3 text-muted">
               {paragraphs(f.a).map((p) => <p>{p}</p>)}
             </div>

@@ -131,6 +131,12 @@ Les 2-4 questions que les clients posent le plus souvent au téléphone, avec la
 - **3 adjectifs utilisés par le client pour décrire ce qu'il veut** (ses mots, pas les nôtres) :
 - **Sites concurrents qu'il aime** (URL + ce qu'il aime) :
 - **Sites concurrents qu'il n'aime pas** (URL + pourquoi) :
+- **Qu'est-ce qu'on pourrait filmer chez vous en 5 secondes ?** (le geste, l'objet ou le lieu qu'on
+  peut montrer en mouvement sans rien inventer — sert à choisir le bloc signature animé, voir
+  `docs/ANIMATION-PAR-METIER.md` § 1a) :
+- **Quand un client hésite, qu'est-ce qui le rassure ?** (le lieu, la durée, l'équipe, un avant/après,
+  une garantie — sert à choisir la preuve à rendre tangible sur le site, voir
+  `docs/ANIMATION-PAR-METIER.md` § 1c) :
 - **Remarques libres :**
 
 ---

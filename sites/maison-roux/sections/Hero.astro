@@ -6,19 +6,19 @@
  * Une bande data-marquee-velocity porte les pains du jour (site.services, pas un texte détaché).
  * Composition propre à ce site — aucune reprise d'un autre hero de l'atelier.
  */
-import { site, tel, yearsSince } from '@/lib/site';
+import { site, tel } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 
-const years = yearsSince();
 const breads = site.services.filter((s) => s.slug.startsWith('pain-')).map((s) => s.title);
 ---
 
 <section id="hero" class="relative overflow-hidden bg-accent text-on-accent" data-grain>
   <div class="container-ff relative z-[2] flex min-h-[78svh] flex-col justify-center gap-7 py-28 sm:py-32">
+    {/* "Croix-Rousse" et "depuis {since}" retires (all-caps-body, 57 car.) : les deux figurent deja
+        dans business.description (About/Fournee), trade + ville suffisent comme identite courte. */}
     <p class="eyebrow flex flex-wrap items-center gap-3 text-on-accent/85">
       <span class="inline-block h-px w-10 bg-on-accent/50" aria-hidden="true"></span>
-      {site.business.trade} · Croix-Rousse, {site.contact.address.city}
-      {years !== undefined && ` · depuis ${site.business.since}`}
+      {site.business.trade} · {site.contact.address.city}
     </p>
 
     <h1

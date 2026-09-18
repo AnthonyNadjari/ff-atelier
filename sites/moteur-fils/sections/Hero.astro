@@ -5,10 +5,9 @@
  * dont un qui tourne lentement. Une double bande défilante des services en pied, sens opposés.
  * Composition propre à ce site, aucune réutilisation ailleurs.
  */
-import { site, tel, yearsSince } from '@/lib/site';
+import { site, tel } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 const since = site.business.since;
-const years = yearsSince();
 const firstLine = site.business.description.split(/\n/)[0];
 const services = site.services.map((s) => s.title);
 ---
@@ -18,9 +17,11 @@ const services = site.services.map((s) => s.title);
     <div class="hero-cream relative z-[1] bg-bg">
       <div class="hero-text relative mx-auto w-full max-w-2xl px-6 py-16 sm:px-8 lg:mx-0 lg:max-w-none lg:py-0">
         <div data-stagger="130">
+          {/* Ville + "depuis {since}" retires (all-caps-body, 56 car.) : le badge tournant plus bas
+              (hero-badges) affiche deja "Depuis {since}", la ville complete reste dans Contact. */}
           <p class="eyebrow flex items-center gap-3">
             <span class="inline-block h-px w-10 bg-accent" aria-hidden="true"></span>
-            {site.business.trade} · {site.contact.address.city}{years !== undefined && ` · depuis ${since}`}
+            {site.business.trade}
           </p>
           <h1
             class="mt-6 font-display leading-[0.92] text-fg"

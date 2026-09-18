@@ -16,6 +16,13 @@
   --line: #d6d0bf;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
   --accent-2: hsl(38 60% 48%);
+  /* Variante texte de --accent-2 (fond clair uniquement — h1 em/h2 em ci-dessous) : --accent-2 a
+     48% de luminosite est pense pour un FOND (::selection, .btn-primary:hover, avec --ink comme
+     texte par-dessus) et tombe a 2.6-2.7:1 utilise comme COULEUR DE TEXTE sur --bg/--surface
+     (rapport impeccable, sites/demo-paysagiste, sites/atelier-lecerf). Assombrir --accent-2 lui-meme
+     casserait le contraste inverse (--ink sur --accent-2 au survol du bouton). Memes teinte/saturation,
+     luminosite baissee a 34% (>= 4.5:1 sur --bg *et* --surface, verifie par calcul WCAG). */
+  --accent-2-text: hsl(38 60% 34%);
   --on-accent: #f7f4ec;
   --ink: #24301f;
   --on-ink: #f4f1ea;
@@ -48,7 +55,7 @@
 [data-direction='terre'] ::selection { background: var(--accent-2); color: var(--on-accent); }
 
 [data-direction='terre'] h1 em,
-[data-direction='terre'] h2 em { font-style: italic; color: var(--accent-2); }
+[data-direction='terre'] h2 em { font-style: italic; color: var(--accent-2-text); }
 
 [data-direction='terre'] .btn { border-radius: 999px; font-weight: 600; }
 [data-direction='terre'] .btn-primary {

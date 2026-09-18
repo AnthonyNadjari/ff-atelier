@@ -19,7 +19,10 @@ const dishes = ['Axoa', 'Talos', 'Piperade', 'Txistorra'];
 
 <section id="hero" class="relative overflow-hidden bg-bg">
   <div class="container-ff pt-10 pb-6 md:pt-16" data-stagger="140">
-    <p class="eyebrow">{site.business.trade} · {site.contact.address.city} · depuis {site.business.since}</p>
+    {/* "· depuis {since}" retire (all-caps-body, > 40 car.) : l'anciennete n'est montree qu'ici sur
+        le site, mais 46 caracteres en petites capitales est illisible ; trade + ville suffisent
+        comme identite courte, l'annee reste dans business.since (JSON-LD, etc.). */}
+    <p class="eyebrow">{site.business.trade} · {site.contact.address.city}</p>
 
     <h1 class="hero-word mt-4 font-display uppercase text-accent" data-scramble="1400">{word}</h1>
 

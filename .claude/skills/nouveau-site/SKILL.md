@@ -81,6 +81,16 @@ En croisant le brief (section 12 : 3 adjectifs, métier, sites aimés/pas aimés
 - **`seo.cityPages`** : passe-le à `true` seulement si `zones.cities` a au moins 4 vraies villes ET que
   le site a au moins 4 vrais services (sinon les pages `/zones/<ville>` générées seraient du contenu
   pauvre — voir `docs/DIRECTIONS.md` § Pages villes). Sinon laisse le défaut (`false`).
+- **Choisir quoi animer** : avant de figer `motion` et la liste des sections, applique les 5 questions
+  de `docs/ANIMATION-PAR-METIER.md` § 1 — (a) quel geste/objet de ce métier peut se montrer en
+  mouvement sans mentir, (b) quelle émotion le client vient chercher et quel rythme ça donne à
+  `site.motion`, (c) quelle preuve rendre tangible, (d) quel sera **l'unique** bloc signature qui porte
+  le motion riche (le reste du site reste sobre), (e) ce qu'il ne faut jamais animer pour ce métier
+  (santé/réglementé : pas de compteur ni de confetti ni de marquee ; urgence : rien qui retarde le
+  numéro de téléphone). Cherche d'abord le métier du client dans la table de `docs/ANIMATION-PAR-METIER.md`
+  § 2 (27 métiers, bloc signature + interdits déjà réfléchis) ; si le métier n'y figure pas, applique
+  les 5 questions directement à partir du brief. Utilise les réponses du client aux deux questions de
+  `docs/BRIEF.md` § 12 (« filmable en 5 secondes », « ce qui rassure ») si elles sont remplies.
 
 ### 4. Rédiger les textes
 
@@ -171,6 +181,12 @@ confondre. Procédure :
    son matériel, son équipe. Si rien ne ressort, choisis l'angle du métier : un plombier a un « que
    faire en attendant » pour une fuite, un coiffeur a un rituel, un paysagiste a un calendrier des
    saisons.
+1bis. **Choisir quoi animer pour ce bloc précis** : ce bloc sur mesure est presque toujours le
+   candidat naturel au bloc signature de `docs/ANIMATION-PAR-METIER.md` § 1d (l'unique endroit du site
+   qui porte 2-3 effets `rich` combinés) — reprends la ligne du métier dans la table § 2 de ce document
+   (composition + `data-*` précis + effets interdits) si elle existe, sinon applique les 5 questions du
+   § 1 directement à ce bloc. Ne pas empiler les effets riches ailleurs sur la page une fois ce bloc
+   choisi : le reste reste en `data-reveal`/`data-stagger` sobres (règle du « seul feu d'artifice »).
 2. Écris `sites/<slug>/sections/<Nom>.astro` (PascalCase) selon `docs/CONVENTIONS.md` § Sections sur
    mesure : `import { site } from '@/lib/site'`, tokens uniquement, `id` = nom en minuscules,
    `data-reveal`/`data-stagger`, mobile d'abord, aucune donnée inventée (les faits viennent du brief ;
@@ -191,6 +207,21 @@ node scripts/ff.mjs verifier <slug>
 Si une commande échoue : lis l'erreur, corrige `site.config.ts` (typo de variante, champ requis
 manquant, zod qui rejette une valeur...), relance. Répète jusqu'à ce que build et vérifier soient
 verts. Ne t'arrête pas sur un échec silencieux — un site qui ne build pas n'est pas livrable.
+
+Puis **regarde le résultat, ne le devine pas** (boucle capture → correction, la seule méthode qui
+rattrape un hero trop bas, une police trop grosse en mobile, un bloc sur mesure vide) :
+
+```
+node scripts/ff.mjs detect <slug>          # contraste réel du texte accent, texte < 11px, eyebrows longs
+node scripts/ff.mjs captures <slug>        # captures/<slug>-desktop.png et -mobile.png
+node scripts/ff.mjs audit-motion <slug>    # reveals bloqués, pins cassés, débordements, contraste
+```
+
+Ouvre les deux PNG avec l'outil Read (découpe-les en tranches de ~1800 px avec `sharp` si la page
+est longue) et juge comme un directeur artistique : hiérarchie du hero, respiration entre sections,
+lisibilité des eyebrows sur image, bloc sur mesure visible et différent, rien de coupé en mobile.
+Corrige, rebuild, recapture — deux ou trois tours suffisent. `ff detect` en erreur (contraste,
+taille) se corrige à la source (`accent.l` du site, direction, section), jamais par une couleur en dur.
 
 ### 9. Résumer pour la vendeuse/le vendeur
 

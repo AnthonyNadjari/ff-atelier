@@ -1,0 +1,118 @@
+---
+/**
+ * Réalisations — sur mesure Finck & Fisch. Les 20 sites dessinés à la main, en masonry (colonnes
+ * CSS, voir src/sections/Proof/testimonials.astro pour le même principe), légendés métier · ville,
+ * avec un filtre par famille de métier 100 % CSS (radios cachés + :has(), aucun script). Aucune
+ * réalisation ne pointe vers un lien (pas encore en ligne) : ce sont des figures, pas des cartes
+ * cliquables — jamais de href="#" vide (interdit par le vérificateur). Vignettes générées depuis
+ * captures/<slug>-desktop.png par le script de génération (voir vitrine.json, une entrée par site,
+ * champ "signature" utilisé ici comme légende étendue au survol pour rester discret par défaut).
+ *
+ * Emphase du h2 en `<span class="italic text-accent-2">` plutôt qu'en `<em>` : voir
+ * sites/finck-fisch/sections/Manifeste.astro (même correctif).
+ */
+import vitrine from '../vitrine.json';
+
+type Entry = { slug: string; metier: string; ville: string; direction: string; signature: string };
+const sites = vitrine as Entry[];
+
+const familyOf: Record<string, string> = {
+  'forge-delacroix': 'atelier', 'atelier-lecerf': 'atelier', 'encre-noire': 'atelier', 'moteur-fils': 'atelier',
+  'toits-cie': 'batiment', 'ampere-fils': 'batiment', 'dubois-plomberie': 'batiment', 'jardins-mael': 'batiment',
+  'osteo-marchand': 'soin', 'veto-du-drac': 'soin', 'maison-aurore': 'soin', 'barbier-kessler': 'soin',
+  'chez-malo': 'commerce', 'maison-roux': 'commerce', 'cantine-roulante': 'commerce', 'borie-des-chenes': 'commerce',
+  'lemaire-avocats': 'conseil', 'studio-ambre': 'conseil', 'auto-ecole-rabelais': 'conseil', 'anna-vidal': 'conseil',
+};
+
+const familles = [
+  { id: 'tous', label: 'Tous' },
+  { id: 'atelier', label: 'Atelier & fabrication' },
+  { id: 'batiment', label: 'Bâtiment & maison' },
+  { id: 'soin', label: 'Soin & bien-être' },
+  { id: 'commerce', label: 'Commerce & réception' },
+  { id: 'conseil', label: 'Conseil & services' },
+];
+---
+
+<section id="realisations" class="section-y">
+  <div class="container-ff">
+    <p class="eyebrow" data-reveal>Réalisations</p>
+    <h2 class="mt-4 max-w-2xl text-display-md" data-reveal>Vingt métiers, <span class="italic text-accent-2">vingt sites qu’on ne confond pas.</span></h2>
+    <p class="mt-5 max-w-2xl text-muted" data-reveal>
+      Chacun dessiné pour son activité, sa ville, ses mots — jamais un modèle décliné. Les captures ci-dessous
+      sont les vraies pages, pas des maquettes.
+    </p>
+
+    <fieldset class="filter-scope mt-12 border-0 p-0">
+      <legend class="sr-only">Filtrer par famille de métier</legend>
+      <div class="flex flex-wrap gap-2" data-reveal>
+        {familles.map((f, i) => (
+          <span>
+            <input type="radio" name="famille" id={`f-${f.id}`} value={f.id} checked={i === 0} class="sr-only chip-input" />
+            <label for={`f-${f.id}`} class="chip">{f.label}</label>
+          </span>
+        ))}
+      </div>
+
+      {/*
+        columns-2 dès le mobile (pas columns-1) : vingt figures en une seule colonne poussaient la
+        page mobile à ~18 800px, au-delà d'une limite de rendu de capture plein-page (Chromium/
+        Playwright corrompt le screenshot passé un certain seuil de hauteur — repéré en comparant
+        les tranches de captures/finck-fisch-mobile.png : la fin de la FAQ était coupée net, suivie
+        d'un second rendu de la nav et du hero). Deux colonnes dès 390px reste lisible (vignettes
+        ~165px, ratio 14/9 conservé) et divise la hauteur de la grille par deux.
+      */}
+      <div class="mt-10 columns-2 gap-4 sm:gap-6 lg:columns-3 xl:columns-4" data-stagger="50">
+        {sites.map((s) => (
+          <figure data-family={familyOf[s.slug]} class="realisation mb-6 break-inside-avoid" data-reveal data-tilt="3">
+            <div class="overflow-hidden rounded-card border border-line">
+              <img
+                src={`/images/sites/${s.slug}.webp`}
+                srcset={`/images/sites/${s.slug}-480.webp 480w, /images/sites/${s.slug}.webp 960w`}
+                sizes="(min-width: 1280px) 23vw, (min-width: 1024px) 31vw, (min-width: 640px) 47vw, 90vw"
+                width="960"
+                height="617"
+                alt={`Site conçu pour un ${s.metier.toLowerCase()} à ${s.ville}`}
+                loading="lazy"
+                decoding="async"
+                class="aspect-[14/9] w-full object-cover object-top"
+              />
+            </div>
+            <figcaption class="mt-3">
+              <p class="text-sm text-fg">{s.metier} <span class="text-muted">· {s.ville}</span></p>
+              <p class="mt-1 text-xs text-muted">{s.signature}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </fieldset>
+  </div>
+</section>
+
+<style>
+  .chip {
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    border-radius: var(--radius-pill, 999px);
+    border: 1px solid var(--line);
+    padding: 0.5rem 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+  .chip:hover { border-color: var(--fg); color: var(--fg); }
+  .chip-input:checked + .chip { border-color: var(--ink); background: var(--ink); color: var(--on-ink); }
+  .chip-input:focus-visible + .chip { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Filtre 100% CSS : le conteneur voit quel radio est coché (:has) et masque les figures des
+     autres familles. Aucun JavaScript, fonctionne sans data-* du moteur d'animation. */
+  .filter-scope:has(#f-atelier:checked) .realisation:not([data-family='atelier']) { display: none; }
+  .filter-scope:has(#f-batiment:checked) .realisation:not([data-family='batiment']) { display: none; }
+  .filter-scope:has(#f-soin:checked) .realisation:not([data-family='soin']) { display: none; }
+  .filter-scope:has(#f-commerce:checked) .realisation:not([data-family='commerce']) { display: none; }
+  .filter-scope:has(#f-conseil:checked) .realisation:not([data-family='conseil']) { display: none; }
+</style>

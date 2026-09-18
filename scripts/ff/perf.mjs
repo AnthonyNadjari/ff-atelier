@@ -87,17 +87,34 @@ function stylesheetTagUrls(html) {
 /** Images reellement referencees par le HTML : <img src>/<img srcset> + <link as="image"> (preload). */
 function imageTagUrls(html) {
   const out = new Set();
-  const imgRe = /<img\b[^>]*>/gi;
   let m;
-  while ((m = imgRe.exec(html))) {
+  // Un <picture> ne charge qu'UN format : le navigateur prend la premiere <source> qu'il sait
+  // afficher (AVIF chez nous). On retire donc les <picture> du flux avant de compter les <img>
+  // nus, et on ne retient que leur premiere <source>. Un <img srcset> ne charge pas son src.
+  const pictureRe = /<picture\b[^>]*>([\s\S]*?)<\/picture>/gi;
+  while ((m = pictureRe.exec(html))) {
+    const first = /<source\b[^>]*>/i.exec(m[1]);
+    const srcset = first ? extractAttr(first[0], 'srcset') : null;
+    if (srcset) for (const u of srcsetUrls(srcset)) out.add(u);
+    else {
+      const img = /<img\b[^>]*>/i.exec(m[1]);
+      const src = img ? extractAttr(img[0], 'src') : null;
+      if (src) out.add(src);
+    }
+  }
+  const sansPictures = html.replace(pictureRe, '');
+  const imgRe = /<img\b[^>]*>/gi;
+  while ((m = imgRe.exec(sansPictures))) {
     const tag = m[0];
-    const src = extractAttr(tag, 'src');
-    if (src) out.add(src);
     const srcset = extractAttr(tag, 'srcset');
     if (srcset) for (const u of srcsetUrls(srcset)) out.add(u);
+    else {
+      const src = extractAttr(tag, 'src');
+      if (src) out.add(src);
+    }
   }
   const sourceRe = /<source\b[^>]*>/gi;
-  while ((m = sourceRe.exec(html))) {
+  while ((m = sourceRe.exec(sansPictures))) {
     const srcset = extractAttr(m[0], 'srcset');
     if (srcset) for (const u of srcsetUrls(srcset)) out.add(u);
   }

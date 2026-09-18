@@ -245,6 +245,16 @@ export const siteSchema = z.object({
       accessKey: z.string().optional().describe('Cle Web3Forms (gratuit, 250 mails/mois)'),
       subject: z.string().optional(),
       successMessage: z.string().default('Merci, votre demande est bien envoyee. Nous vous rappelons rapidement.'),
+      turnstileSiteKey: z
+        .string()
+        .optional()
+        .describe(
+          "Cle publique Cloudflare Turnstile (dashboard Cloudflare -> Turnstile -> Add site). Affiche le widget " +
+            "dans ContactForm.astro et l'autorise dans la CSP (script-src/frame-src challenges.cloudflare.com). " +
+            "Verifie server-side (siteverify) uniquement par provider 'cloudflare' (env.TURNSTILE_SECRET dans " +
+            'src/worker/contact.js) — avec web3forms, le jeton est soumis mais jamais verifie (web3forms sait ' +
+            'valider hCaptcha, pas Turnstile) : voir docs/DEPLOIEMENT.md § Anti-spam.',
+        ),
     })
     .prefault({})
     .describe(

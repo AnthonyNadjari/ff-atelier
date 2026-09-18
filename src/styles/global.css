@@ -141,9 +141,34 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
    (text-on-ink/70 deja utilise a cote, voir src/sections/Footer/columns.astro). Specificite
    volontairement superieure aux surcharges `[data-direction='x'] .eyebrow` (src/directions/<nom>/index.css)
    pour gagner systematiquement, quel que soit l'ordre de chargement des feuilles de style. */
+/* Meme logique sur fond accent : un eyebrow couleur accent y serait invisible (contraste 1:1). */
+[data-direction] .bg-accent .eyebrow { color: color-mix(in oklab, var(--on-accent) 80%, transparent); }
 [data-direction] .bg-ink .eyebrow,
 [data-direction] .text-on-ink .eyebrow {
   color: color-mix(in oklab, var(--on-ink) 70%, transparent);
+}
+/* Meme probleme, meme remede, pour `h1 em`/`h2 em` : chaque direction (src/directions/<nom>/index.css)
+   colore le mot mis en emphase (set:html d'un titre, ex. site.wording.ctaTitle dans
+   src/sections/Cta/band.astro) avec --accent ou --accent-2, jamais garanti contraste sur un fond
+   sombre (bg-ink/text-on-ink) — surtout quand un site surcharge site.accent avec une teinte tres
+   sombre pensee pour du texte sur fond clair (accent.l ~31-34, voir sites/auto-ecole-rabelais,
+   sites/veto-du-drac, sites/barbier-kessler, sites/maison-roux : 1.8-3.6:1 constate sur fond ink).
+   Specificite volontairement superieure aux regles `[data-direction='x'] h1 em` pour gagner
+   systematiquement (meme technique que .eyebrow ci-dessus). `background`/`background-clip` remis a
+   plat : la direction "brut" pose un badge surligne (background:accent, color:fg — jaune/noir,
+   pense pour un fond clair) et "neon" un degrade en `background-clip:text` ; sans neutraliser ces
+   deux proprietes, notre `color` ecrase seulement une moitie de la paire et cree un nouveau
+   contraste casse (ex. texte blanc sur badge jaune constate sur sites/demo-electricien apres un
+   premier essai qui ne touchait que `color`). */
+[data-direction] .bg-ink h1 em,
+[data-direction] .bg-ink h2 em,
+[data-direction] .text-on-ink h1 em,
+[data-direction] .text-on-ink h2 em {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: initial;
+  color: color-mix(in oklab, var(--on-ink) 85%, transparent);
 }
 @utility text-display-xl { font-size: var(--scale-xl, clamp(2.75rem, 7vw, 6rem)); }
 @utility text-display-lg { font-size: var(--scale-lg, clamp(2.25rem, 5vw, 4.25rem)); }

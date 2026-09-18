@@ -18,7 +18,7 @@ export default defineSite({
   direction: 'atelier',
   motion: 'rich',
   scale: 'display',
-  accent: { h: 150, s: 45, l: 34 },
+  accent: { h: 150, s: 45, l: 32 },
   typography: { display: 'oswald', body: 'cabin' },
   layout: {
     shell: 'flow',

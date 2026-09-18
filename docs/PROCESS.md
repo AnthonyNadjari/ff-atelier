@@ -134,6 +134,19 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
       `node scripts/ff.mjs verifier <slug>` recontrôle une partie de cette liste (bloc « Textes »).
 - [ ] Checklist « images livrables » (15 points, `docs/veille/redaction-images.md` §3.2) relue — aucune
       IA sur `portrait`/`team`/`gallery`/`beforeAfter`, droit à l'image, `CREDITS.md` à jour.
+- [ ] **`ff audit-motion <slug>` vert** (site déjà construit, desktop + mobile) : aucune apparition au
+      scroll restée invisible, aucune section épinglée cassée, aucune séquence d'images/marquee/
+      compteur bloqué, aucun débordement horizontal ni contraste insuffisant sur `.eyebrow`/
+      `.text-muted`. Résultats dans `captures/<slug>-motion.json`.
+- [ ] **CSP sans erreur console** : `node scripts/ff.mjs captures <slug>` sert désormais `dist/<slug>`
+      avec les en-têtes de `_headers` appliqués (Content-Security-Policy comprise, voir
+      `docs/DEPLOIEMENT.md` § Sécurité) — un « console error » de type CSP dans la sortie de la
+      commande signale une ressource externe non déclarée (à ajouter dans `scripts/ff/csp.mjs`,
+      `buildCsp`) ou un script/iframe à corriger, jamais à contourner en assouplissant la CSP par
+      réflexe.
+- [ ] Anti-spam décidé : `form.turnstileSiteKey` renseigné si le client a un provider `cloudflare` et
+      un vrai problème de spam anticipé (facultatif sinon — le honeypot existant suffit dans la
+      majorité des cas). Voir `docs/DEPLOIEMENT.md` § Anti-spam (Turnstile).
 
 ## 7bis. Suivi après livraison
 
@@ -151,6 +164,27 @@ livraison), `ff sante` teste le site **déjà en ligne**. À lancer :
 - **à J+1** (le lendemain de la mise en ligne), une fois le DNS propagé et le certificat HTTPS émis ;
 - **une fois par mois** ensuite, en routine (domaine qui approche de son expiration, certificat,
   disponibilité) — pas besoin d'un rendez-vous client pour ça, une simple commande.
+
+Automatisé en plus de la routine manuelle : après **chaque** livraison, ajoute le slug à
+`sites-en-ligne.json` (racine du dépôt, un tableau JSON de slugs) — le job planifié `sante-hebdomadaire`
+de `.github/workflows/ci.yml` lance `ff sante` sur chacun tous les lundis et ouvre une issue GitHub si
+un site échoue (voir `docs/DEPLOIEMENT.md` § Suivi automatisé).
+
+**Sauvegarde** : `node scripts/ff.mjs archiver <slug>` zippe `sites/<slug>` (contenu, photos, look) et
+le dernier `dist/<slug>` construit dans `archives/<slug>-<date>.zip` (dossier local, jamais commité —
+voir `.gitignore`). À lancer avant une manipulation risquée (édition en masse, mise à jour de
+dépendance majeure) ou simplement en routine après une livraison — plus léger que `ff exporter`, qui
+prépare en plus un dépôt git autonome pour la remise au client.
+
+## 7ter. Régression visuelle
+
+`node scripts/ff.mjs captures <slug> --figer` fige les captures actuelles comme référence
+(`captures/base/<slug>-*.png`, dossier local, jamais commité) ; `node scripts/ff.mjs captures <slug>
+--comparer` recompare chaque capture fraîche à cette référence pixel par pixel et avertit (sans faire
+échouer la commande) si plus de 0,5 % des pixels diffèrent, avec une image de différence dans
+`captures/diff/`. À utiliser après un changement dans une section/direction partagée (`src/`) pour
+relire d'un coup d'œil ce qui a visuellement bougé sur plusieurs sites, avant de figer la nouvelle
+référence si le changement est voulu.
 
 ## 8. Positionnement prix
 

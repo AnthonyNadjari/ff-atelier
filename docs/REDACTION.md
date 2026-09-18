@@ -119,6 +119,12 @@ Quatre formules réutilisables, à remplir avec les données réelles du brief :
 | Réponse de FAQ | 1 paragraphe, 2-4 phrases |
 | Avis client (`proof.testimonials`) | Texte recopié tel quel, jamais réécrit |
 
+## 6bis. Trois tells « écrit par une machine » (source : `docs/veille/skills-design-ia.md` §2)
+
+- **Tirets cadratins en rafale.** Un tiret long isolé est légitime ; au-delà d'un tiret pour 500 caractères visibles, c'est la signature la plus reconnaissable du texte généré. Remplacer par un point, deux points ou une virgule. Même règle pour les triptyques systématiques (« rapide, fiable, local »).
+- **Un seul libellé par intention.** Sur une même page, l'appel à l'action garde un seul texte (« Demander un devis » partout), jamais « Contactez-nous » ici et « Discutons » plus bas. Un bouton principal tient sur une ligne en desktop : trois mots maximum.
+- **Hero à quatre éléments maximum.** Eyebrow (0 ou 1, ≤ 40 caractères), titre (≤ 2 lignes), sous-titre (≤ 20 mots), un bouton principal + un secondaire au plus. Pas de mini-phrase sous les boutons, pas de bandeau « ils nous font confiance » inventé. Un témoignage affiché fait ≤ 3 lignes : c'est un extrait, pas l'avis complet.
+
 ## 7. Structure « problème → geste → preuve → appel »
 
 Grille de lecture pour une section service ou « pourquoi nous » (pas un nouveau composant) :

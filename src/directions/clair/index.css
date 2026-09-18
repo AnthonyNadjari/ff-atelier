@@ -44,6 +44,12 @@
   box-shadow: 0 8px 20px -8px hsl(var(--accent-h) var(--accent-s) var(--accent-l) / 0.5);
 }
 [data-direction='clair'] .btn-primary:hover { background: var(--accent-2); }
+/* Le glow colore du bouton primaire (ligne precedente) est pense pour un fond clair (direction
+   "clair" = SaaS lumineux, pas neon) : sur un bloc sombre (bg-ink/text-on-ink, ex. Cta/band.astro,
+   src/sections/Cta/band.astro) il devient une ombre coloree sur fond sombre (dark-glow, signale
+   par l'audit a11y) — on retombe sur l'ombre neutre du systeme (--shadow-lift). */
+[data-direction='clair'] .bg-ink .btn-primary,
+[data-direction='clair'] .text-on-ink .btn-primary { box-shadow: var(--shadow-lift); }
 [data-direction='clair'] .btn-ghost {
   border: 1px solid var(--line);
   background: var(--bg);

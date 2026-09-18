@@ -4,6 +4,7 @@ import { createServer } from 'node:http';
 import { readdirSync, existsSync, readFileSync, statSync } from 'node:fs';
 import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadHeadersRules, headersForPath } from './ff/headers-file.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const DIST = join(ROOT, 'dist');
@@ -17,11 +18,16 @@ if (!sites.length) { console.error('Aucun site correspondant dans dist/.'); proc
 function serve(slug, port) {
   const root = join(DIST, slug);
   const server = createServer((req, res) => {
-    let f = join(root, decodeURIComponent(new URL(req.url, 'http://x').pathname));
+    const pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    let f = join(root, pathname);
     if (existsSync(f) && statSync(f).isDirectory()) f = join(f, 'index.html');
     if (!existsSync(f) && existsSync(f + '.html')) f = f + '.html';
-    if (!existsSync(f)) { res.writeHead(404); return res.end('404'); }
-    res.writeHead(200, { 'Content-Type': types[extname(f)] ?? 'application/octet-stream' });
+    // Applique dist/<slug>/_headers (CSP comprise) comme Cloudflare Pages le ferait en prod — utile
+    // pour tester la CSP en local avant deploiement (voir scripts/ff/headers-file.mjs), et pour que
+    // `ff sante http://localhost:PORT` voie le vrai Cache-Control de /_astro/*.
+    const headerLines = headersForPath(loadHeadersRules(root), pathname);
+    if (!existsSync(f)) { res.writeHead(404, Object.fromEntries(headerLines)); return res.end('404'); }
+    res.writeHead(200, { 'Content-Type': types[extname(f)] ?? 'application/octet-stream', ...Object.fromEntries(headerLines) });
     res.end(readFileSync(f));
   });
   server.on('error', (e) => {

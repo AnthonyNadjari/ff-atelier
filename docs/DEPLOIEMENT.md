@@ -222,3 +222,101 @@ Une fois le site valide (`node scripts/ff.mjs verifier <slug>` sans `✗`) :
 | Nom de domaine | Environ 10 €/an, chez le registrar de son choix |
 | Formulaire de contact (Web3Forms) | Gratuit jusqu'a 250 envois/mois |
 | Certificat HTTPS | Gratuit et automatique (Cloudflare) |
+
+## 5. Sécurité
+
+### 5.1 En-têtes de sécurité et Content-Security-Policy
+
+`astro.config.mjs` (intégration `ff-headers`) écrit `_headers` à la racine de `dist/<slug>` à chaque
+build, lu par Cloudflare Pages — voir [la doc officielle des en-têtes personnalisés](https://developers.cloudflare.com/pages/configuration/headers/).
+Au-delà des en-têtes déjà en place (`X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options`,
+`Cache-Control`), le fichier contient maintenant :
+
+- **`Content-Security-Policy`**, construite par site par `scripts/ff/csp.mjs` (`buildCsp` +
+  `readSiteSecurityConfig`, testées dans `tests/headers.test.mjs`) : la config est lue **par regex**
+  dans `sites/<slug>/site.config.ts` (même motif que `readTradeFromConfig` dans
+  `scripts/ff/verifier.mjs` — pas d'import TS possible hors contexte Vite au moment où
+  `astro.config.mjs` s'exécute), puis traduite en directives. Seules les origines réellement utilisées
+  par CE site sont ajoutées :
+  - `script-src`/`connect-src` : `https://plausible.io` si `analytics.plausible` est renseigné,
+    `https://static.cloudflareinsights.com`/`https://cloudflareinsights.com` si `analytics.cloudflare`,
+    l'origine du script si `analytics.umami.src` est renseigné.
+  - `script-src`/`frame-src` : `https://challenges.cloudflare.com` si `form.turnstileSiteKey` est
+    renseigné (widget Turnstile, voir § 5.2).
+  - `connect-src`/`form-action` : `https://api.web3forms.com` si `form.provider` vaut `web3forms`.
+  - `frame-src` : `https://www.google.com` + `https://maps.google.com` si `contact.mapsProvider` vaut
+    `google` (façade cliquable de `src/components/Carte.astro`).
+  - Fixes pour tous les sites : `default-src 'self'`, `img-src 'self' data: blob:
+    https://tile.openstreetmap.org` (tuiles OSM de la carte par défaut), `font-src 'self' data:` (le
+    `data:` est nécessaire : avec `build.inlineStylesheets: 'always'`, Vite inline aussi les petits
+    assets référencés par le CSS — dont le `@font-face` de repli généré par Fontaine — en `data:`,
+    confirmé en testant `ff captures` en conditions réelles sur `maison-aurore` le 17 septembre 2026),
+    `style-src 'self' 'unsafe-inline'`, `object-src 'none'`, `base-uri 'self'`,
+    `upgrade-insecure-requests`.
+  - `script-src` garde `'unsafe-inline'` en permanence : `Base.astro` (init du moteur d'animation),
+    `ContactForm.astro` (soumission) et `Carte.astro` (façade Google au clic) posent chacun un
+    `<script>` sans `src`, et **un nonce n'est pas envisageable en build 100 % statique** (Astro génère
+    le HTML une fois pour tous les visiteurs ; un nonce doit changer à chaque réponse, ce qui exige un
+    serveur qui réécrit le HTML à la volée — hors de portée d'un site Cloudflare Pages purement
+    statique). C'est documenté plutôt que contourné.
+- **`Permissions-Policy: camera=(), microphone=(), geolocation=()`** — aucun site de l'atelier n'a
+  besoin de ces API.
+- **`Strict-Transport-Security: max-age=31536000; includeSubDomains`** — HTTPS forcé un an, sur tous
+  les sous-domaines.
+
+**Vérifier la CSP en conditions réelles** (un serveur statique nu, sans `_headers`, ne révèle jamais
+une violation CSP) : `scripts/ff/headers-file.mjs` parse `dist/<slug>/_headers` et applique les
+en-têtes correspondants dans les serveurs locaux du repo — `scripts/captures.mjs` (donc `ff captures`)
+et `scripts/serve-all.mjs` (donc `ff servir`, ce que `ff sante http://localhost:PORT` peut ensuite
+tester). Un `console error` de type « violates the following Content Security Policy directive » dans
+la sortie de `ff captures <slug>` signale une ressource externe non déclarée — l'ajouter dans
+`buildCsp` (`scripts/ff/csp.mjs`) plutôt que d'assouplir `default-src`/`script-src` par réflexe.
+
+### 5.2 Anti-spam : Cloudflare Turnstile
+
+Le formulaire a déjà un honeypot (`docs/CONVENTIONS.md`, champ caché vérifié côté client et par
+`ff verifier`) — suffisant dans la majorité des cas. Si un client subit du spam malgré ça,
+`form.turnstileSiteKey` (`site.config.ts`) active en plus le widget
+[Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) :
+
+1. Cloudflare dashboard → **Turnstile** → **Add site** → domaine du client → copie la **clé publique**
+   (site key) et la **clé secrète** (secret key).
+2. `site.config.ts` : `form: { provider: 'cloudflare', turnstileSiteKey: 'la-cle-publique' }`.
+   `src/components/ContactForm.astro` affiche alors le widget (`<div class="cf-turnstile">`) et charge
+   `https://challenges.cloudflare.com/turnstile/v0/api.js` — la CSP l'autorise automatiquement dès que
+   `turnstileSiteKey` est renseigné (§ 5.1). Le widget pose lui-même un champ cache
+   `cf-turnstile-response`, inclus sans code supplémentaire dans les données postées.
+3. Projet Pages → **Settings** → **Environment variables** → ajoute `TURNSTILE_SECRET` (la clé secrète
+   de l'étape 1). `src/worker/contact.js` vérifie alors le jeton côté serveur via
+   [l'endpoint `siteverify`](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/)
+   (`POST https://challenges.cloudflare.com/turnstile/v0/siteverify`, `secret`/`response`/`remoteip`,
+   réponse `{ success }`) avant d'envoyer l'e-mail — une soumission sans jeton valide reçoit `{
+   success: false }` (403).
+
+**Important — Turnstile n'est vérifié que par le provider `cloudflare`.** Le widget peut être affiché
+avec `provider: 'web3forms'` (le champ `cf-turnstile-response` est simplement inclus dans le POST vers
+Web3Forms), mais **Web3Forms ne sait vérifier que hCaptcha, pas Turnstile** — le jeton est alors soumis
+mais jamais contrôlé, ce qui n'apporte aucune protection réelle. Pour un vrai anti-spam avec
+`web3forms`, utiliser leur intégration hCaptcha (documentée sur web3forms.com), non implémentée ici.
+Sans `TURNSTILE_SECRET` configuré côté Cloudflare Pages, le Worker laisse passer toute soumission
+(rien à vérifier) — le widget reste néanmoins affiché si `turnstileSiteKey` est renseigné : configurer
+les deux clés ensemble.
+
+### 5.3 Dépendances : Dependabot
+
+`.github/dependabot.yml` : mises à jour npm groupées en une seule PR mensuelle (le repo a près de 90
+dépendances `@fontsource*`/`@fontsource-variable*` à lui seul — une PR par paquet serait ingérable pour
+un atelier d'une ou deux personnes), majeures d'`astro`/`tailwindcss`/`@tailwindcss/vite` ignorées
+(elles pilotent tout le pipeline de build — une montée majeure mérite une lecture du changelog et un
+test manuel, jamais un merge automatique). Les mineures/patchs de ces mêmes paquets, correctifs de
+sécurité compris, restent proposés normalement. Un second bloc couvre les actions GitHub utilisées par
+`.github/workflows/*.yml`.
+
+## 6. Suivi automatisé (sites en ligne)
+
+`sites-en-ligne.json` (racine du dépôt, tableau JSON de slugs) liste les sites déjà livrés — ajoute
+le slug après chaque livraison (voir `docs/PROCESS.md` § 7bis). Le job planifié `sante-hebdomadaire`
+de `.github/workflows/ci.yml` (tous les lundis, `schedule` cron) construit la liste depuis ce fichier,
+lance `node scripts/ff.mjs sante <slug>` sur chacun (lit `sites/<slug>/domain.txt` pour le domaine
+réel) et ouvre une issue GitHub (label `sante-site`) si au moins un site échoue — en plus du contrôle
+manuel à J+1 et mensuel décrit dans `docs/PROCESS.md`.

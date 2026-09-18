@@ -72,7 +72,10 @@ const projets = [
       <div class:list={['flex min-h-[70vh] flex-col justify-center py-16', p.tone]}>
         <div class="container-ff flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-16">
           <div class="max-w-md" data-hover-distort={hoverImage}>
-            <p class="font-mono text-sm text-accent">{p.n}</p>
+            {/* text-accent -> text-on-ink/70 sur le panneau "Cabinet" (tone bg-ink) : --accent n'est
+                pas garanti contraste sur --ink (rapport impeccable, 2.9:1) ; meme convention que
+                .eyebrow sur bg-ink (src/styles/global.css). */}
+            <p class:list={['font-mono text-sm', p.tone.includes('bg-ink') ? 'text-on-ink/70' : 'text-accent']}>{p.n}</p>
             <h3 class="mt-3 font-display text-display-md">{p.type}</h3>
             <p class="mt-2 font-mono text-xs uppercase tracking-[0.14em] opacity-70">{p.zone}</p>
             <p class="mt-5 max-w-prose text-lg opacity-85">{p.texte}</p>

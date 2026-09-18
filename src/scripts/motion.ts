@@ -373,8 +373,11 @@ function reveal() {
     const d = el.dataset.revealDelay;
     if (d) el.style.setProperty('--reveal-delay', `${d}ms`);
     if (el.hasAttribute('data-stagger')) {
-      const step = Number(el.dataset.stagger || 90);
-      Array.from(el.children).forEach((c, i) => (c as HTMLElement).style.setProperty('--reveal-delay', `${i * step}ms`));
+      // Delai total plafonne a 600 ms (docs/CONVENTIONS.md regle 16) : sur une longue liste (20 vignettes),
+      // le pas se resserre au lieu de faire attendre le dernier element pendant deux secondes.
+      const n = el.children.length;
+      const step = Math.min(Number(el.dataset.stagger || 90), n > 1 ? 600 / (n - 1) : 600);
+      Array.from(el.children).forEach((c, i) => (c as HTMLElement).style.setProperty('--reveal-delay', `${Math.round(i * step)}ms`));
     }
   });
   const onEnter = (io: IntersectionObserver) => (entries: IntersectionObserverEntry[]) => {

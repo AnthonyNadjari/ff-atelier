@@ -6,8 +6,13 @@
  * Ecarts assumés par rapport à la proposition de `ff composer` (direction "pierre" gardée : Bodoni
  * Moda + gris minéral colle exactement au mandat « quiet luxury, éditorial », voir
  * src/directions/pierre/) :
- *  - accent surchargé en ambre (hsl(28 55% 46%), proche du placeholder #b8763b) au lieu du gris
- *    minéral par défaut de "pierre" — le mandat demande un unique accent chaud nommé "ambre".
+ *  - accent surchargé en ambre (hsl(28 55% 36%), proche du placeholder #b8763b assombri) au lieu du
+ *    gris minéral par défaut de "pierre" — le mandat demande un unique accent chaud nommé "ambre".
+ *    Luminosité 46 -> 36 (rapport impeccable) : à 46 %, l'ambre tombe dans la zone morte du contraste
+ *    pour ses deux usages — texte clair (--on-accent, fixe par la direction "pierre" à #f2f1ee) sur
+ *    fond accent (3.4:1) ET accent utilisé comme couleur de texte sur --surface (3.7:1). --on-accent
+ *    n'étant pas surchargeable par site (schema.ts), seule la luminosité de l'accent peut résoudre les
+ *    deux a la fois ; 36 les satisfait toutes deux (>= 4.5:1, calcul WCAG) en restant un ambre franc.
  *  - motion "rich" (au lieu de "subtle") : plusieurs effets du mandat sont palier rich
  *    (data-stack, data-draw-svg, data-accordion, data-drag-grid).
  *  - shell "magazine" plutôt que "sidebar" proposé : les 8 autres sites dessinés à la main se
@@ -37,7 +42,7 @@ export default defineSite({
   slug: 'studio-ambre',
   direction: 'pierre',
   motion: 'rich',
-  accent: { h: 28, s: 55, l: 46 },
+  accent: { h: 28, s: 55, l: 36 },
   scale: 'display',
   layout: {
     shell: 'magazine',

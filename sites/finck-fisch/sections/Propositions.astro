@@ -1,12 +1,18 @@
 ---
 /**
- * Section sur mesure Finck & Fisch : le principe des trois propositions, illustre par de vrais
- * apercus. Appelee dans le layout par { type: 'custom', variant: 'propositions', label: 'Notre methode' }.
+ * Section sur mesure Finck & Fisch : le principe des trois propositions. Restylé pour rester
+ * discret — la démonstration (même boulangerie fictive, trois directions) n'est plus présentée en
+ * cartes avec survol/tilt mais en rangée simple, sous une phrase qui se remplit au défilement
+ * (data-text-fill) : l'effet de l'écran est porté par le texte, pas par les vignettes. Appelée dans
+ * le layout par { type: 'custom', variant: 'propositions' } (pas de label dans le nav).
  *
  * Vignettes : `propositions/demo-boulangerie/prop-{1,2,3}-desktop.png`, redimensionnees en
  * /images/prop-{1,2,3}.webp (sharp, largeur 900, qualite 75). C'est une demonstration interne
  * (meme boulangerie fictive dans les trois cas, trois directions differentes) — pas un client reel,
  * d'ou la mention "(démonstration)" dans chaque legende, comme pour la galerie de la section proof.
+ *
+ * Emphase du h2 en `<span class="italic text-accent-2">` plutôt qu'en `<em>` : voir
+ * sites/finck-fisch/sections/Manifeste.astro (même correctif).
  */
 const etapes = [
   { titre: 'Vous nous parlez de votre activité', texte: 'Un appel de quinze minutes, votre métier, vos couleurs, ce que vous aimez ou pas.' },
@@ -23,8 +29,7 @@ const propositions = [
 
 <section id="propositions" class="section-y">
   <div class="container-ff">
-    <p class="eyebrow" data-reveal>Notre méthode</p>
-    <h2 class="mt-4 max-w-2xl text-display-md" data-reveal>Trois propositions, <em>pas une maquette.</em></h2>
+    <h2 class="max-w-2xl text-display-md" data-reveal>Trois propositions, <span class="italic text-accent-2">pas une maquette.</span></h2>
     <p class="mt-5 max-w-2xl text-muted" data-reveal>
       Les offres d’entrée de gamme livrent un modèle unique, décliné par ville. Nous livrons trois directions
       visuelles construites pour votre contenu, dès le premier rendu — vous choisissez, nous n’imposons pas.
@@ -40,19 +45,22 @@ const propositions = [
       ))}
     </ol>
 
-    <div class="mt-14 grid gap-6 md:grid-cols-3" data-stagger="120">
+    <p class="mt-16 max-w-3xl font-display text-display-sm" data-text-fill>
+      Même brief, même contenu — trois compositions qu’on ne confond jamais.
+    </p>
+
+    <div class="mt-10 grid gap-8 sm:grid-cols-3" data-stagger="100">
       {propositions.map((p) => (
-        <figure class="group overflow-hidden rounded-card border border-line bg-bg-2" data-reveal data-tilt="4">
-          <div class="overflow-hidden">
-            <img
-              src={p.src}
-              alt={`Aperçu de la ${p.direction.toLowerCase()}, démonstration sur un site de boulangerie`}
-              loading="lazy"
-              class="aspect-[4/3] w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-            />
-          </div>
-          <figcaption class="p-5">
-            <p class="font-display text-lg">{p.direction}</p>
+        <figure data-reveal>
+          <img
+            src={p.src}
+            alt={`Aperçu de la ${p.direction.toLowerCase()}, démonstration sur un site de boulangerie`}
+            loading="lazy"
+            decoding="async"
+            class="aspect-[4/3] w-full rounded-card object-cover object-top"
+          />
+          <figcaption class="mt-3">
+            <p class="font-display text-base">{p.direction}</p>
             <p class="mt-1 text-sm text-muted">{p.texte} <span class="text-muted/70">(démonstration)</span></p>
           </figcaption>
         </figure>

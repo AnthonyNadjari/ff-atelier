@@ -5,10 +5,9 @@
  * accent/on-ink), chiffres réels (fauteuils, barbiers, année) en data-counter, puis une bande
  * data-marquee-velocity qui porte "sans rendez-vous le samedi". Composition propre à ce site.
  */
-import { site, tel, yearsSince } from '@/lib/site';
+import { site, tel } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 const since = site.business.since;
-const years = yearsSince();
 const firstLine = site.business.description.split(/\n/)[0];
 const teamCount = site.about.team.length;
 ---
@@ -18,9 +17,11 @@ const teamCount = site.about.team.length;
   <div class="pole-stripe absolute inset-y-0 right-0 w-2 sm:w-3" aria-hidden="true"></div>
 
   <div class="container-ff relative z-[2] flex min-h-[82svh] flex-col justify-center gap-8 py-28 sm:py-32">
+    {/* "Krutenau" et "depuis {since}" retires (all-caps-body, 44 car.) : l'annee reste affichee un
+        peu plus bas (data-counter), le quartier n'est pas necessaire a l'identite courte. */}
     <p class="eyebrow flex items-center gap-3 text-on-ink/70">
       <span class="inline-block h-px w-10 bg-on-ink/40" aria-hidden="true"></span>
-      {site.business.trade} · Krutenau, {site.contact.address.city}{years !== undefined && ` · depuis ${since}`}
+      {site.business.trade} · {site.contact.address.city}
     </p>
 
     <h1

@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createServer } from 'node:http';
+import { createHash } from 'node:crypto';
 import sharp from 'sharp';
 import { SITES_DIR, resolveSlug, parseArgs, ok, fail, warn, info, c, slugify } from './util.mjs';
 
@@ -155,8 +156,20 @@ export async function cmdSequence(args) {
       res.writeHead(404);
       return res.end();
     }
-    res.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' });
-    res.end(fs.readFileSync(f));
+    // Requetes Range obligatoires : sans 206, Chrome ne peut pas chercher (seek) dans un MP4 dont
+    // l'atome moov est en fin de fichier (captures iPhone, exports Instagram) et rend N fois la
+    // meme image sans erreur — bug rencontre sur un .MP4 de 35 Mo le 18 sept 2026.
+    const size = fs.statSync(f).size;
+    const type = MIME[path.extname(f)] || 'application/octet-stream';
+    const range = /^bytes=(\d+)-(\d*)$/.exec(req.headers.range || '');
+    if (range) {
+      const start = Number(range[1]);
+      const end = range[2] ? Math.min(Number(range[2]), size - 1) : size - 1;
+      res.writeHead(206, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
+      return fs.createReadStream(f, { start, end }).pipe(res);
+    }
+    res.writeHead(200, { 'Content-Type': type, 'Accept-Ranges': 'bytes', 'Content-Length': size });
+    fs.createReadStream(f).pipe(res);
   }).listen(0);
   const port = server.address().port;
 
@@ -212,6 +225,18 @@ export async function cmdSequence(args) {
     const rawPath = path.join(rawDir, `${String(i + 1).padStart(4, '0')}.webp`);
     fs.writeFileSync(rawPath, buf);
     frames.push(rawPath);
+  }
+  // Filet : si toutes les images sont identiques, le seek n'a pas fonctionne (codec, serveur sans
+  // Range...) — mieux vaut echouer que livrer 48 fois la meme image.
+  if (frames.length > 2) {
+    const empreintes = new Set(frames.map((f) => createHash('md5').update(fs.readFileSync(f)).digest('hex')));
+    if (empreintes.size === 1) {
+      await browser.close();
+      server.close();
+      fail('Toutes les images extraites sont identiques : Chrome n a pas pu se deplacer dans la video.');
+      afficherRepliFfmpeg({ videoAbs, n, largeur, slug, nom });
+      process.exit(1);
+    }
   }
 
   await browser.close();

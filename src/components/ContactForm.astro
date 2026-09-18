@@ -7,6 +7,14 @@
  *                       (voir src/worker/contact.js, copie au build par `ff build` quand
  *                       site.config.ts a form.provider: 'cloudflare' ; docs/DEPLOIEMENT.md).
  * provider none       : pas de formulaire (coordonnees seules).
+ *
+ * Anti-spam Turnstile (optionnel, `form.turnstileSiteKey`) : widget Cloudflare Turnstile rendu dans
+ * le formulaire + script `challenges.cloudflare.com/turnstile/v0/api.js` (charge seulement si la cle
+ * est definie). Le widget genere lui-meme un champ cache `cf-turnstile-response`, inclus sans code
+ * supplementaire dans le FormData poste plus bas. Verifie server-side (siteverify) uniquement par le
+ * provider 'cloudflare' (src/worker/contact.js, `env.TURNSTILE_SECRET`) — web3forms ne sait verifier
+ * que hCaptcha, pas Turnstile : le jeton est alors soumis mais jamais controle (docs/DEPLOIEMENT.md
+ * § Anti-spam).
  */
 import { site } from '@/lib/site';
 interface Props { class?: string; compact?: boolean }
@@ -42,12 +50,17 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
     )}
     <label class="grid gap-1.5 text-sm"><span>Votre message</span><textarea class={input} name="message" rows={compact ? 3 : 5} required placeholder="Décrivez votre besoin, votre adresse et le meilleur moment pour vous rappeler."></textarea></label>
     <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+    {f.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={f.turnstileSiteKey}></div>}
     <p class="text-xs text-muted">Vos données servent uniquement à vous répondre. Aucune newsletter, aucune revente. <a href="/confidentialite" class="underline hover:text-fg">Politique de confidentialité</a>.</p>
     <button type="submit" class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-ui bg-accent px-6 py-3.5 font-medium text-on-accent transition-colors hover:bg-accent-2 disabled:opacity-60">
       <span data-label>Envoyer ma demande</span>
     </button>
     <p class="hidden rounded-ui border border-line bg-bg-2 px-4 py-3 text-sm" data-status role="status" aria-live="polite"></p>
   </form>
+)}
+
+{f.provider !== 'none' && f.turnstileSiteKey && (
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 )}
 
 <script>

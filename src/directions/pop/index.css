@@ -15,7 +15,11 @@
   --muted: #6b6055;
   --line: #17120e;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --accent-2: hsl(175 70% 45%);
+  --accent-2: hsl(175 70% 28%); /* 45 -> 28 : double role sous 4.5:1 (rapport impeccable, sites/demo-plomberie,
+     sites/maison-roux) -- texte sur bouton primaire au survol (Button.astro, bg-accent-2/text-on-accent,
+     blanc sur #22c3b6 = 2.2:1) ET couleur de h1 em/h2 em sur --bg (#22c3b6 sur #fffdf7 = 2.2:1). Meme
+     teinte/saturation, luminosite baissee jusqu'a satisfaire les deux roles (>= 4.5:1 verifie par calcul
+     WCAG sur --bg et sur blanc). */
   --on-accent: #ffffff;
   --ink: #17120e;
   --on-ink: #ffffff;

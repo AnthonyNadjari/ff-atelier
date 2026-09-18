@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { FontaineTransform } from 'fontaine';
 import { ffLookPlugin } from './scripts/vite-ff-look.mjs';
 import { imagesIntegration } from './scripts/astro-images-integration.mjs';
+import { readSiteSecurityConfig, buildSecurityHeaderLines } from './scripts/ff/csp.mjs';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -31,6 +32,12 @@ if (!existsSync(siteDir)) {
 const domainFile = resolve(siteDir, 'domain.txt');
 const domain = existsSync(domainFile) ? readFileSync(domainFile, 'utf8').trim() : '';
 
+// Config securite (CSP, Turnstile, provider de formulaire, carte) : lue par regex dans
+// site.config.ts (scripts/ff/csp.mjs, meme motif que verifier.mjs/dev-build-preview.mjs — pas
+// d'import TS hors contexte Vite). Sert a construire une CSP par site (docs/DEPLOIEMENT.md § Securite).
+const configFile = resolve(siteDir, 'site.config.ts');
+const securityConfig = readSiteSecurityConfig(existsSync(configFile) ? readFileSync(configFile, 'utf8') : '');
+
 /**
  * FF_LOOK : JSON d'un look (memes cles que look.json) injecte par `ff propositions` / `ff matrice`
  * sans toucher au dossier du site. FF_OUT : dossier de sortie alternatif (ex: dist/_prop-<slug>-1).
@@ -55,7 +62,12 @@ const headersIntegration = {
         '/_astro/*', '  Cache-Control: public, max-age=31536000, immutable', '',
         '/images/*', '  Cache-Control: public, max-age=2592000', '',
         '/*.html', '  Cache-Control: public, max-age=0, must-revalidate', '',
-        '/*', '  X-Content-Type-Options: nosniff', '  Referrer-Policy: strict-origin-when-cross-origin', '  X-Frame-Options: SAMEORIGIN', '',
+        '/*',
+        '  X-Content-Type-Options: nosniff',
+        '  Referrer-Policy: strict-origin-when-cross-origin',
+        '  X-Frame-Options: SAMEORIGIN',
+        ...buildSecurityHeaderLines(securityConfig),
+        '',
       ].join('\n'));
     },
   },

@@ -38,11 +38,14 @@ contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté don
 | `node scripts/ff.mjs modele <slug> <nom>` | Applique un modèle : copie son look dans `sites/<slug>/look.json` (remplacement complet). |
 | `node scripts/ff.mjs vignettes [nom ...] [--forcer]` | Génère/rafraîchit `presets/vignettes/<nom>.webp` (capture du modèle sur `sites/_exemple`). |
 | `node scripts/ff.mjs og <slug>` | Génère l'image Open Graph du site (`images.og`). |
-| `node scripts/ff.mjs captures <slug>` | Prend des captures d'écran du site buildé (desktop/mobile). |
+| `node scripts/ff.mjs captures [slug ...] [--comparer] [--figer]` | Prend des captures d'écran du site buildé (desktop/mobile), sert `dist/<slug>` avec les en-têtes de `_headers` appliqués (CSP comprise, `scripts/ff/headers-file.mjs`) et échoue si une erreur console/débordement horizontal apparaît. `--comparer` : régression visuelle — compare pixel à pixel à `captures/base/<slug>-*.png` (`scripts/ff/compare-images.mjs`), avertit (sans échouer) si > 0,5 % des pixels diffèrent, écrit une image de diff dans `captures/diff/`. `--figer` : fige les captures actuelles comme nouvelle référence dans `captures/base/` (dossier local, jamais commité). |
+| `node scripts/ff.mjs audit-motion [slug ...]` | Audite les animations (`src/scripts/motion.ts` + bloc motion de `src/styles/global.css`) d'un ou plusieurs sites **déjà construits** dans `dist/` (`ff build <slug>` avant si besoin) : défile lentement en desktop (1400x900) puis mobile (390x844), repère les `data-reveal`/`data-stagger`/`split-word`/`fill-word` restés invisibles, les sections épinglées (`data-pin`/`data-horizontal`) cassées (spacer démesuré, aucune étape active), les `data-frames-canvas` jamais dessinés, les `data-marquee` non dupliqués, les `data-counter` restés à 0, les débordements horizontaux, la typographie démesurée et le contraste `.eyebrow`/`.text-muted`. Rapport ✓/✗ en français, écrit `captures/<slug>-motion.json`, sort en erreur si un site échoue. |
+| `node scripts/ff.mjs detect <slug> [--pages] [--tout] [--conseils]` | Regard extérieur automatique sur un site **déjà construit** : les 61 règles déterministes d'Impeccable (`npx -y impeccable detect`, open source Apache 2.0, sans clé ni navigateur) — contraste WCAG réel du texte accent (états `:hover` compris), texte fonctionnel sous 11px, majuscules sur texte long, ombres colorées, eyebrow au-dessus du h1. Échoue sur contraste/taille, avertit pour le reste ; `cramped-padding`/`tight-leading` ignorés (faux positifs connus sur nos classes `.card`/`.section-y`, `--tout` pour les voir). À lancer après `ff verifier`, avant les captures. Voir `docs/veille/skills-design-ia.md`. |
 | `node scripts/ff.mjs lighthouse [slug] [--mobile] [--seuil 90] [--detail]` | Audite performance/accessibilité/bonnes pratiques/SEO (Lighthouse) sur l'accueil + une page service + mentions légales, desktop et mobile par défaut ; écrit `captures/<slug>-lighthouse.json`, sort en erreur si l'accueil est sous le seuil. `--detail` : imprime chaque audit en échec (les quatre catégories, pas seulement l'accessibilité) avec les extraits de noeuds fautifs (snippet/sélecteur), pour corriger sans deviner. Aussi disponible via `ff verifier <slug> --lighthouse`. |
 | `node scripts/ff.mjs perf <slug> [--build] [--lighthouse]` | Budget de performance **sans navigateur** (rapide) : construit `dist/<slug>` seulement s'il est absent (ou avec `--build`), somme les octets bruts par catégorie (html, css, js-initial, js-lazy, fonts, images-home) référencés par `index.html`/le CSS livré, compare à `perf-budget.json` (racine du repo), table `✓`/`✗`, sort en erreur si une catégorie dépasse son budget ; écrit `captures/<slug>-perf.json`. `--lighthouse` enchaîne `ff lighthouse` (score + LCP réel, plus lent). Voir `docs/veille/performance.md` §6.3. |
 | `node scripts/ff.mjs sante <slug|url> [--domaine x]` | Bilan de santé d'un site **déjà en ligne** (pas un build local) : HTTP 200 (accueil, sitemap, mentions légales, confidentialité), vrai 404 sur `/404`, redirection HTTP→HTTPS, canonical, `Cache-Control` d'un asset `/_astro`, `robots.txt`, title/description/JSON-LD/`tel:`/formulaire, temps de réponse, validité du certificat TLS, expiration du domaine (RDAP), DNS, MX. Accepte un slug connu (lit `sites/<slug>/domain.txt`) ou une URL directe (utile pour tester un `ff servir` local : TLS/RDAP/DNS alors ignorés). Écrit `captures/<slug>-sante.json`. À lancer à J+1 de la mise en ligne puis une fois par mois — voir `docs/PROCESS.md`. |
-| `node scripts/ff.mjs servir <slug>` | Sert le build statique de `dist/<slug>` en local. |
+| `node scripts/ff.mjs servir <slug>` | Sert le build statique de `dist/<slug>` en local, en-têtes de `_headers` appliqués (CSP comprise). |
+| `node scripts/ff.mjs archiver <slug>` | Sauvegarde ponctuelle : zippe `sites/<slug>` + `dist/<slug>` (s'il existe) dans `archives/<slug>-<date>.zip` (dossier local, jamais commité). PowerShell `Compress-Archive` sur Windows, `zip` ailleurs. |
 
 Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etendu par scripts/ff/*.mjs`).
 
@@ -95,9 +98,20 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   « textes livrables »), distillées de `docs/veille/redaction-images.md` §1. `docs/CONVENTIONS.md` —
   règles de code des sections et directions. `docs/ANIMATIONS.md`
   — liste complète des attributs `data-*` du moteur d'animation (`src/scripts/motion.ts`), un par
-  ligne, quand les utiliser ; vitrine de tous les effets : `sites/_effets/`.
+  ligne, quand les utiliser ; vitrine de tous les effets : `sites/_effets/`. `docs/ANIMATION-PAR-METIER.md`
+  — méthode en 5 questions pour choisir quoi animer pour un métier donné (geste montrable, émotion/
+  rythme, preuve tangible, règle du « seul feu d'artifice », interdits par famille de métier), table
+  des 27 métiers de `docs/OBJECTIF.md` avec bloc signature recommandé, fiche dentiste complète en
+  démonstration.
 - `.claude/skills/nouveau-site/` — compétence `/nouveau-site` (génération de `site.config.ts` par
   Claude Code). `scripts/ff-generer.mjs` — équivalent en automatisation pure (API Anthropic).
+- `scripts/ff/csp.mjs` — construit la Content-Security-Policy par site (lue par regex dans
+  `site.config.ts`), utilisée par `astro.config.mjs` (intégration `ff-headers`, écrit `_headers`) et
+  testée par `tests/headers.test.mjs`. `scripts/ff/headers-file.mjs` — applique `_headers` dans les
+  serveurs statiques locaux (`ff captures`, `ff servir`), pour révéler une violation CSP avant le
+  premier déploiement. `.github/dependabot.yml` — mises à jour npm/actions groupées mensuelles. Voir
+  `docs/DEPLOIEMENT.md` § Sécurité (CSP, Turnstile, Dependabot) et § Suivi automatisé
+  (`sites-en-ligne.json`, job planifié `sante-hebdomadaire`).
 
 ## Quand tu ajoutes une variante
 

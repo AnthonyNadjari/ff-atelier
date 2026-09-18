@@ -28,6 +28,9 @@ import { cmdIllustration } from './ff/illustration.mjs';
 import { cmdLighthouse } from './ff/lighthouse.mjs';
 import { cmdPerf } from './ff/perf.mjs';
 import { cmdSante } from './ff/sante.mjs';
+import { cmdArchiver } from './ff/archiver.mjs';
+import { cmdDetect } from './ff/detect.mjs';
+import { cmdAuditMotion } from './ff/audit-motion.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -74,6 +77,9 @@ const commands = {
   lighthouse: cmdLighthouse,
   perf: cmdPerf,
   sante: cmdSante,
+  'audit-motion': cmdAuditMotion,
+  archiver: cmdArchiver,
+  detect: cmdDetect,
 };
 
 async function main() {

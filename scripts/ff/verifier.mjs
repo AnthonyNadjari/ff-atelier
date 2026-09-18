@@ -497,6 +497,54 @@ function warnParagrapheTropLongTextes(files, distDir, warnings) {
   }
 }
 
+/** Eyebrow (classe "eyebrow", src/styles/global.css @utility eyebrow) de plus de 40 caracteres :
+ * meme seuil que la regle "all-caps-body" de l'audit impeccable (docs/veille, correction du
+ * 18 septembre 2026) — un eyebrow long en petites capitales espacees devient illisible. Non
+ * bloquant : certains eyebrows composent dynamiquement trade/ville/annee, un depassement ponctuel
+ * ne doit pas casser le build, juste etre signale pour raccourcir a la source (site.config.ts ou
+ * la section qui le compose). */
+export function warnEyebrowTropLong(files, distDir, warnings) {
+  const eyebrowRe = /<(p|span|div)\b[^>]*\bclass\s*=\s*["'][^"']*\beyebrow\b[^"']*["'][^>]*>([\s\S]*?)<\/\1>/gi;
+  const offenders = [];
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    let m;
+    while ((m = eyebrowRe.exec(html))) {
+      const texte = m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      if (texte.length > 40) offenders.push(`${path.relative(distDir, file)} (${texte.length} car. : "${texte}")`);
+    }
+  }
+  if (offenders.length > 0) {
+    warnings.push(`Eyebrow de plus de 40 caracteres (illisible en petites capitales) : ${offenders.join(' ; ')}`);
+  }
+}
+
+/** Texte en majuscules (classe Tailwind "uppercase" explicite, hors "eyebrow" deja verifie
+ * ci-dessus) de plus de 40 caracteres : heuristique statique sur le HTML livre, ne voit pas
+ * l'uppercase herite de --heading-transform (direction) ni les bandes data-marquee (courts
+ * libelles concatenes par le moteur, faux positif connu de l'audit impeccable, docs/veille) —
+ * seulement la classe "uppercase" posee explicitement dans le markup. Non bloquant. */
+export function warnMajusculesHorsEyebrow(files, distDir, warnings) {
+  const upperRe = /<(p|span|div|li|dt|dd|h1|h2|h3|h4)\b([^>]*)>([\s\S]*?)<\/\1>/gi;
+  const offenders = [];
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    let m;
+    while ((m = upperRe.exec(html))) {
+      const openTagAttrs = m[2];
+      const classMatch = /\bclass\s*=\s*["']([^"']*)["']/.exec(openTagAttrs);
+      const cls = classMatch ? classMatch[1] : '';
+      if (!/\buppercase\b/.test(cls) || /\beyebrow\b/.test(cls)) continue;
+      if (/\bmarquee-track\b/.test(cls) || /\bdata-marquee\b/.test(openTagAttrs)) continue; // ticker : faux positif connu
+      const texte = m[3].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      if (texte.length > 40) offenders.push(`${path.relative(distDir, file)} (${texte.length} car. : "${texte.slice(0, 60)}")`);
+    }
+  }
+  if (offenders.length > 0) {
+    warnings.push(`Texte en majuscules (classe "uppercase") de plus de 40 caracteres hors eyebrow : ${offenders.join(' ; ')}`);
+  }
+}
+
 export async function cmdVerifier(args) {
   const { positional, flags } = parseArgs(args);
   const slug = resolveSlug(positional[0]);
@@ -524,7 +572,12 @@ export async function cmdVerifier(args) {
   for (const forbid of [...activeForbidden, ...ALWAYS_FORBIDDEN]) {
     const offenders = [];
     for (const file of files) {
-      const html = fs.readFileSync(file, 'utf8');
+      // Texte visible seulement (comme checkOffenders) : le CSS inline de Tailwind contient
+      // `--tw-shadow-alpha:100%` et `text-size-adjust:100%`, qui matchaient "100 %" a tort.
+      const html = fs.readFileSync(file, 'utf8')
+        .replace(/<style[\s\S]*?<\/style>/gi, '')
+        .replace(/<script[\s\S]*?<\/script>/gi, '')
+        .replace(/<[^>]+>/g, ' ');
       if (forbid.re.test(html)) offenders.push(path.relative(distDir, file));
     }
     if (offenders.length > 0) {
@@ -585,6 +638,8 @@ export async function cmdVerifier(args) {
   warnTutoiementTextes(files, distDir, warnings);
   warnHeroTropLongTextes(files, distDir, warnings);
   warnParagrapheTropLongTextes(files, distDir, warnings);
+  warnEyebrowTropLong(files, distDir, warnings);
+  warnMajusculesHorsEyebrow(files, distDir, warnings);
 
   printReport(checks, warnings);
   const checklistOk = !checks.some((x) => !x.pass);

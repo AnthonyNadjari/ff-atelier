@@ -1,0 +1,53 @@
+---
+/**
+ * Hero sur mesure Finck & Fisch : aucune photo — une seule phrase en Fraunces à taille d'affiche
+ * (business.tagline, découpée mot à mot par data-split), puis une bande horizontale de 8 vignettes
+ * parmi les 20 sites dessinés à la main (data-horizontal + .h-track, voir docs/ANIMATIONS.md),
+ * légendées par le métier. La preuve avant l'argumentaire : pas de composition abstraite, la matière
+ * du portfolio sert de premier écran. Sous 1024px (seuil du pin GSAP, voir src/scripts/motion.ts),
+ * la bande reste un simple ruban défilable au doigt — aucune dépendance au JS pour rester utilisable.
+ * Vignettes générées depuis captures/<slug>-desktop.png (voir sites/finck-fisch/vitrine.json).
+ */
+import { site } from '@/lib/site';
+
+const strip = [
+  { slug: 'forge-delacroix', metier: 'Ferronnerie d’art' },
+  { slug: 'chez-malo', metier: 'Restaurant de poissons' },
+  { slug: 'barbier-kessler', metier: 'Barbier' },
+  { slug: 'studio-ambre', metier: 'Architecte d’intérieur' },
+  { slug: 'maison-roux', metier: 'Boulangerie-pâtisserie' },
+  { slug: 'veto-du-drac', metier: 'Vétérinaire' },
+  { slug: 'maison-aurore', metier: 'Institut de beauté' },
+  { slug: 'atelier-lecerf', metier: 'Menuisier-ébéniste' },
+];
+---
+
+<section id="hero" class="relative section-y overflow-hidden pt-40 md:pt-48">
+  <div class="container-ff">
+    <p class="eyebrow">{site.business.trade}</p>
+    <h1 class="mt-6 max-w-5xl text-display-xl" data-split set:html={site.business.tagline} />
+  </div>
+
+  <div class="relative mt-16 md:mt-20" data-horizontal>
+    <ul class="h-track flex snap-x snap-proximity gap-5 overflow-x-auto px-6 pb-3 md:px-[8vw] lg:snap-none lg:overflow-visible lg:pb-0" data-stagger="80">
+      {strip.map((s) => (
+        <li class="w-64 shrink-0 snap-start sm:w-72">
+          <figure>
+            <img
+              src={`/images/sites/${s.slug}.webp`}
+              srcset={`/images/sites/${s.slug}-480.webp 480w, /images/sites/${s.slug}.webp 960w`}
+              sizes="(min-width: 640px) 288px, 256px"
+              width="960"
+              height="617"
+              alt={`Aperçu d’un site dessiné pour un ${s.metier.toLowerCase()}`}
+              loading="lazy"
+              decoding="async"
+              class="aspect-[14/9] w-full rounded-card border border-line object-cover object-top"
+            />
+            <figcaption class="mt-3 font-mono text-xs uppercase tracking-[0.16em] text-muted">{s.metier}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

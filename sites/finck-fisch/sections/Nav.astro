@@ -1,0 +1,38 @@
+---
+/**
+ * Nav sur mesure Finck & Fisch : nom en petites capitales à gauche, trois liens seulement
+ * (Réalisations, Offre, Contact — l'IA du site tient volontairement à trois portes d'entrée,
+ * pas une par section), téléphone à droite. Se masque au scroll vers le bas (data-nav="hide-on-scroll",
+ * voir src/scripts/motion.ts). Liens câblés en dur plutôt que via navLinks() : ce nav ne doit jamais
+ * grossir au rythme des sections ajoutées à la page (Manifeste, Comment ça se passe, Trois propositions,
+ * FAQ n'ont pas vocation à y figurer).
+ */
+import { site, tel } from '@/lib/site';
+
+const links = [
+  { href: '#realisations', label: 'Réalisations' },
+  { href: '#offre', label: 'Offre' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-[transform,background-color,box-shadow] duration-500 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/90 [&.is-scrolled]:shadow-card [&.is-scrolled]:backdrop-blur-md">
+  <div class="container-ff flex items-center justify-between gap-6 py-6 [.is-scrolled_&]:py-4 transition-[padding] duration-500">
+    <a href="/" class="font-display text-sm uppercase tracking-[0.22em] text-fg">
+      {site.business.name}
+    </a>
+
+    <nav class="hidden items-center gap-8 text-sm text-muted sm:flex" aria-label="Navigation principale">
+      {links.map((l) => <a href={l.href} class="transition-colors hover:text-fg">{l.label}</a>)}
+    </nav>
+
+    <a href={tel()} class="font-display text-sm tabular-nums text-fg transition-colors hover:text-muted" data-magnetic="0.2">
+      {site.contact.phoneDisplay}
+    </a>
+  </div>
+
+  <nav class="container-ff flex items-center gap-6 overflow-x-auto pb-4 text-sm text-muted sm:hidden" aria-label="Navigation principale (mobile)">
+    {links.map((l) => <a href={l.href} class="shrink-0 transition-colors hover:text-fg">{l.label}</a>)}
+  </nav>
+</header>
+<div class="h-[68px] sm:h-[76px]" aria-hidden="true"></div>

@@ -26,7 +26,7 @@ export default defineSite({
   scale: 'display',
   // Ambre chaud (pain/miel) au lieu du rose par defaut de "pop" : chaleur et appetit plutot que
   // ludique pur ; accent-2 turquoise (fixe dans src/directions/pop/index.css) reste le contrepoint.
-  accent: { h: 32, s: 86, l: 53 },
+  accent: { h: 32, s: 86, l: 34 },
 
   layout: {
     nav: 'custom/nav',

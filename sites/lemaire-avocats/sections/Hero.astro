@@ -18,9 +18,12 @@ const firstHours = site.contact.hours[0];
 
 <section id="hero" class="section-y relative overflow-hidden pt-8 sm:pt-12">
   <div class="container-ff relative">
+    {/* "au Barreau de" retire (all-caps-body, 48 car.) : le rattachement au barreau reste affiche
+        juste au-dessus (Nav.astro, ligne d'ours "Avocates au Barreau de Montpellier"), business.since
+        n'est montre nulle part ailleurs sur la page donc reste ici. */}
     <p class="eyebrow flex items-center gap-2" data-reveal>
       <Icon name="Scale" size={14} class="text-accent" strokeWidth={1.75} />
-      Avocates au Barreau de Montpellier — depuis {site.business.since}
+      Avocates à {site.contact.address.city} — depuis {site.business.since}
     </p>
 
     <h1 class="mt-6 max-w-4xl font-display text-display-xl leading-[1.08]" data-text-fill>
@@ -36,7 +39,10 @@ const firstHours = site.contact.hours[0];
       <Button href="#domaines" variant="ghost" size="lg">Voir les domaines d’intervention</Button>
     </div>
 
-    <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-[0.14em] text-muted" data-reveal data-reveal-delay="350">
+    {/* normal-case (all-caps-body) : horaires + numero de telephone concatenes forment une phrase
+        de 61 caracteres en petites capitales, illisible — et un numero de telephone en capitales
+        n'apporte rien visuellement. */}
+    <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs normal-case tracking-[0.14em] text-muted" data-reveal data-reveal-delay="350">
       {firstHours && <span>{firstHours.days} — {firstHours.hours}</span>}
       {firstHours && <span aria-hidden="true">·</span>}
       <a href={tel()} class="text-fg hover:text-accent">{site.contact.phoneDisplay}</a>

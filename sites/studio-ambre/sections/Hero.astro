@@ -37,7 +37,9 @@ const hero = site.images.hero;
 
   <div class="container-ff grid gap-4 border-b border-line py-8 sm:grid-cols-[1fr_auto] sm:items-end sm:gap-10">
     <div>
-      <p class="font-mono text-xs uppercase tracking-[0.14em] text-muted">Paris 10e — architecture d’intérieur, depuis {site.business.since}.</p>
+      {/* "depuis {since}" retire (all-caps-body, 50 car.) : non montre ailleurs sur la page, mais
+          moins essentiel que le lieu/le metier pour cette ligne d'identite courte. */}
+      <p class="font-mono text-xs uppercase tracking-[0.14em] text-muted">Paris 10e — architecture d’intérieur.</p>
       <p class="mt-3 max-w-xl font-display text-display-sm" set:html={site.business.tagline} />
     </div>
     <p class="font-mono text-xs uppercase tracking-[0.1em] text-muted sm:text-right">{site.business.trade}</p>

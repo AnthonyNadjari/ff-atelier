@@ -1,8 +1,19 @@
 ---
 /**
- * Section sur mesure, propre au site Finck & Fisch : le manifeste en trois affirmations numerotees.
- * Une section custom suit les memes regles que les sections partagees (tokens, `site`, data-reveal),
- * mais n'appartient qu'a ce client. Appelee dans le layout par { type: 'custom', variant: 'manifeste', label: 'Manifeste' }.
+ * Section sur mesure Finck & Fisch : le manifeste en trois affirmations, restylé en liste
+ * typographique numérotée (plutôt que trois cartes) — un seul filet qui se trace au scroll
+ * (data-draw) referme la liste. Fond encre (bg-ink) : le seul écran du site à inverser noir/blanc,
+ * un unique temps fort plutôt qu'un habillage répété. Appelée dans le layout par
+ * { type: 'custom', variant: 'manifeste' } (pas de label : ce bloc n'a pas d'ancre de nav, voir
+ * sites/finck-fisch/sections/Nav.astro — trois liens seulement).
+ *
+ * Emphase du h2 en `<span class="italic text-accent-2">` plutôt qu'en `<em>` : la règle
+ * `[data-direction='encre'] h2 em` (src/directions/encre/index.css, hors périmètre de ce chantier)
+ * pose un soulignement SVG dont la hauteur suit `background-size: 100% auto` — sur un texte de
+ * plusieurs mots à cette taille d'affiche, le trait s'étire en grand zigzag qui traverse le texte
+ * au lieu de rester un filet fin dessous (repéré sur captures/finck-fisch-mobile.png). Le span
+ * reproduit exactement le style voulu (italique + `--accent-2`, même règle que `h1 em`) sans
+ * déclencher le fond décoratif, qui ne cible que `em`.
  */
 import { site } from '@/lib/site';
 const points = [
@@ -14,17 +25,21 @@ const points = [
 
 <section id="manifeste" class="section-y bg-ink text-on-ink">
   <div class="container-ff">
-    <p class="eyebrow">Ce que nous promettons</p>
-    <h2 class="text-display-lg mt-4 max-w-4xl" data-split>Trois règles, <em>aucune exception.</em></h2>
-    <ol class="mt-14 grid gap-px bg-on-ink/15 md:grid-cols-3" data-stagger="140">
+    <h2 class="max-w-4xl text-display-lg" data-split>Trois règles, <span class="italic text-accent-2">aucune exception.</span></h2>
+
+    <ol class="mt-14 border-t border-on-ink/15">
       {points.map((p) => (
-        <li class="bg-ink p-8 md:p-10">
-          <span class="font-mono text-sm text-on-ink/50">{p.n}</span>
-          <h3 class="mt-6 text-display-sm">{p.titre}</h3>
-          <p class="mt-4 text-on-ink/70 leading-relaxed">{p.texte}</p>
+        <li class="grid grid-cols-1 gap-3 border-b border-on-ink/15 py-9 md:grid-cols-[6rem_1fr] md:gap-10 md:py-10" data-reveal>
+          <span class="font-display text-display-sm text-on-ink/35">{p.n}</span>
+          <div>
+            <h3 class="text-display-sm">{p.titre}</h3>
+            <p class="mt-3 max-w-prose text-on-ink/70 leading-relaxed">{p.texte}</p>
+          </div>
         </li>
       ))}
     </ol>
-    <p class="mt-10 text-sm text-on-ink/50">Signé {site.business.name}.</p>
+
+    <div class="mt-10 h-px w-full bg-on-ink/20" data-draw aria-hidden="true"></div>
+    <p class="mt-6 text-sm text-on-ink/50">Signé {site.business.name} — deux associés, un seul interlocuteur.</p>
   </div>
 </section>

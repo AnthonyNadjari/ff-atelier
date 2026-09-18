@@ -26,7 +26,10 @@ const intro = paragraphs(site.business.description)[0];
 
 <section id="hero" class="relative overflow-hidden bg-bg pt-32 section-y md:pt-40">
   <div class="container-ff text-center" data-stagger="120">
-    <p class="eyebrow mx-auto">{site.business.trade} · {site.contact.address.city}, à la limite de Grenoble</p>
+    {/* Qualificatif "a la limite de Grenoble" retire (all-caps-body, 59 car.) : la ville complete
+        (Saint-Martin-d'Heres) suffit deja comme identite courte, l'adresse complete reste dans
+        Contact/PreparerVisite plus bas sur la page. */}
+    <p class="eyebrow mx-auto">{site.business.trade} · {site.contact.address.city}</p>
     {/*
       data-split (mode "mots", pas "chars") : le mode caractere par caractere decoupe chaque
       lettre dans son propre <span data-inline-block>, ce qui autorise le navigateur a couper la

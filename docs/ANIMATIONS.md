@@ -15,7 +15,7 @@ demande, seulement si un `data-*` correspondant est présent dans le DOM de la p
 |---|---|---|
 | `data-reveal` (`left/right/scale/blur/clip/wipe/mask`) | subtle | Apparition au scroll d'un bloc, titre ou image. |
 | `data-reveal-delay="120"` | subtle | Décale une apparition individuelle (ms). |
-| `data-stagger="90"` | subtle | Cascade sur les enfants directs d'un conteneur (grille, liste). |
+| `data-stagger="90"` | subtle | Cascade sur les enfants directs d’un conteneur (grille, liste). Délai total plafonné à 600 ms : sur 20 enfants le pas se resserre tout seul. |
 | `data-counter="248"` `data-suffix="+"` | subtle | Chiffre clé qui compte au scroll. |
 | `data-marquee="30s"` | subtle | Bande défilante infinie (logos, villes, mots-clés). |
 | `data-draw` | subtle | Trait (hr/span) qui se trace au scroll. |

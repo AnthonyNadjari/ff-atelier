@@ -3,6 +3,11 @@ name: CI
 on:
   push:
   pull_request:
+  # Bilan de sante hebdomadaire des sites deja en ligne (job separe plus bas) : cron en UTC, un
+  # lundi matin (creneau calme, avant la semaine de travail) — voir docs/PROCESS.md § sante.
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
 
 jobs:
   test:
@@ -17,10 +22,115 @@ jobs:
 
       - run: npm ci
 
-      - name: Tests unitaires (schema, sections, directions, fonts, CLI)
+      - name: Tests unitaires (schema, sections, directions, fonts, CLI, headers/CSP, regression visuelle...)
         run: npm test
 
       - name: Construit tous les sites (hors _test*)
         run: node scripts/ff.mjs tous
 
-      # Pas de `node scripts/ff.mjs captures` ici : necessite Chrome, indisponible sur ce runner.
+      # ubuntu-latest embarque Google Chrome (voir https://github.com/actions/runner-images —
+      # images/ubuntu/*-Readme.md, section "Browsers") mais ne documente pas de chemin fixe pour
+      # l'executable : on le cherche nous-memes plutot que de coder en dur un chemin qui peut
+      # changer d'une version d'image a l'autre. CHROME_PATH est lu par `chrome-launcher`
+      # (scripts/ff/lighthouse.mjs) ; `playwright-core` (scripts/captures.mjs, channel: 'chrome')
+      # trouve Chrome tout seul via son propre registre d'emplacements connus, sans avoir besoin de
+      # cette variable — on la pose quand meme pour les deux, et on echoue tot si Chrome manque au
+      # lieu de laisser `ff captures`/`ff lighthouse` echouer plus loin avec une erreur moins claire.
+      - name: Localise le Chrome installe sur le runner
+        run: |
+          CHROME_BIN=$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || true)
+          if [ -z "$CHROME_BIN" ]; then
+            echo "Chrome introuvable sur ce runner (voir https://github.com/actions/runner-images)." >&2
+            exit 1
+          fi
+          echo "CHROME_PATH=$CHROME_BIN" >> "$GITHUB_ENV"
+          echo "Chrome trouve : $CHROME_BIN ($("$CHROME_BIN" --version))"
+
+      - name: Captures (desktop + mobile) — echoue sur erreur console ou debordement horizontal
+        run: node scripts/ff.mjs captures
+
+      - name: Audit du moteur d'animation (si livre)
+        run: |
+          if [ -f scripts/ff/audit-motion.mjs ]; then
+            node scripts/ff.mjs audit-motion
+          else
+            echo "scripts/ff/audit-motion.mjs absent pour l'instant : etape ignoree (voir docs/OBJECTIF.md)."
+          fi
+
+      - name: Lighthouse (_exemple, mobile — seuil par defaut 90)
+        run: node scripts/ff.mjs lighthouse _exemple --mobile
+
+      - name: Archive les captures et rapports (captures/*.png, *-lighthouse.json, *-perf.json...)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: captures
+          path: captures/
+          retention-days: 14
+          if-no-files-found: warn
+
+  sante-hebdomadaire:
+    # Ne tourne que sur le declenchement planifie (pas a chaque push/PR) : verifie les sites DEJA EN
+    # LIGNE listes dans sites-en-ligne.json (voir ce fichier + docs/DEPLOIEMENT.md § Suivi apres
+    # livraison) — distinct du job `test` ci-dessus, qui ne construit/verifie que des builds locaux.
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Bilan de sante de chaque site de sites-en-ligne.json
+        run: |
+          set -e
+          sites=$(node -e "console.log(JSON.parse(require('fs').readFileSync('sites-en-ligne.json','utf8')).join(' '))")
+          if [ -z "$sites" ]; then
+            echo "sites-en-ligne.json est vide : aucun site a verifier (voir docs/DEPLOIEMENT.md § Suivi apres livraison)."
+            exit 0
+          fi
+          echec=0
+          for cible in $sites; do
+            echo "::group::ff sante $cible"
+            node scripts/ff.mjs sante "$cible" || echec=1
+            echo "::endgroup::"
+          done
+          exit $echec
+
+      - name: Archive les rapports de sante (captures/*-sante.json)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sante-hebdomadaire
+          path: captures/*-sante.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Ouvre une issue si au moins un site est en echec
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = new Date().toISOString().slice(0, 10);
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `ff sante hebdomadaire en echec — ${date}`,
+              body: [
+                'Le bilan de sante hebdomadaire (`ff sante`, job `sante-hebdomadaire`) a echoue pour au moins',
+                'un site de `sites-en-ligne.json`.',
+                '',
+                `Voir le run : ${runUrl}`,
+                '',
+                'Les rapports détaillés (`captures/<slug>-sante.json`) sont joints en artefact du run ci-dessus.',
+              ].join('\n'),
+              labels: ['sante-site'],
+            });

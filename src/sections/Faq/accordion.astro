@@ -22,7 +22,10 @@ const faqLd = {
         {site.faq.map((f, i) => (
           <details class="border-b border-line" open={i === 0}>
             <summary class="flex items-center justify-between gap-4 py-6 cursor-pointer">
-              <span class="font-display text-lg">{f.q}</span>
+              {/* normal-case : neutralise heading-transform:uppercase (directions signal/brut/industriel,
+                  global.css `h1, h2, h3, .font-display`) sur cette question — une phrase longue en
+                  capitales est illisible (all-caps-body), une question de FAQ n'est pas un titre. */}
+              <span class="font-display text-lg normal-case">{f.q}</span>
               <span class="plus-icon relative h-5 w-5 shrink-0 text-accent" aria-hidden="true">
                 <span class="absolute inset-0 m-auto h-0.5 w-full bg-current"></span>
                 <span class="absolute inset-0 m-auto h-full w-0.5 bg-current"></span>
