@@ -13,8 +13,9 @@ export default defineSite({
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      { type: 'custom', variant: 'carte', label: 'Carte' },
       { type: 'custom', variant: 'lelieu', label: 'Le lieu' },
+      { type: 'custom', variant: 'essentiels', label: 'L’essentiel' },
+      { type: 'custom', variant: 'carte', label: 'Carte' },
       { type: 'custom', variant: 'horaires', label: 'Horaires' },
       { type: 'cta', variant: 'band' },
       { type: 'contact', variant: 'simple' },

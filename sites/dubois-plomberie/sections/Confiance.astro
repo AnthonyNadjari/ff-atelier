@@ -1,0 +1,39 @@
+---
+/**
+ * « Confiance » — propre à ce site. Trois garanties réelles jamais réunies ailleurs sur le site
+ * (business.since via yearsSince(), business.insurance, business.certifications) : Diagnostic.astro
+ * traite les symptômes, Urgence.astro le déroulé d'intervention, Tarifs.astro les prix — aucun des
+ * trois ne montre l'ancienneté ni les garanties administratives. Bandeau sobre, chiffre d'ancienneté
+ * en digit-flip (data-counter-flip, calculé depuis site.config.ts — jamais un nombre de clients,
+ * voir docs/ANIMATION-PAR-METIER.md §2 ligne 8, effet secondaire suggéré pour ce métier), à côté
+ * de deux mentions administratives en typographie sobre plutôt qu'en tampons décoratifs (registre
+ * différent de sites/toits-cie/sections/Garanties.astro, pour rester dans le ton "signal, mais
+ * feutré" de ce site). Composition propre à ce site.
+ */
+import { site, yearsSince } from '@/lib/site';
+
+const years = yearsSince();
+const mentions = [site.business.insurance, ...site.business.certifications].filter(Boolean) as string[];
+---
+
+<section id="confiance" class="section-y bg-ink text-on-ink">
+  <div class="container-ff flex flex-col items-start gap-10 sm:flex-row sm:items-center sm:justify-between">
+    {years !== undefined && (
+      <p class="font-display leading-none" style="font-size: clamp(3rem, 7vw, 5.5rem);">
+        <span data-counter-flip={String(years)} data-suffix=" ans" />
+        <span class="ml-3 block text-base font-sans font-normal text-on-ink/60 sm:inline sm:align-middle">à intervenir à Nantes</span>
+      </p>
+    )}
+
+    {mentions.length > 0 && (
+      <ul class="flex flex-col gap-2 border-t border-on-ink/15 pt-6 text-on-ink/75 sm:border-t-0 sm:border-l sm:pl-10 sm:pt-0" data-stagger="90">
+        {mentions.map((m) => (
+          <li class="flex items-baseline gap-2">
+            <span class="text-on-ink/40" aria-hidden="true">—</span>
+            <span>{m}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</section>

@@ -14,9 +14,10 @@ export default defineSite({
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      { type: 'custom', variant: 'chantiers', label: 'Chantiers' },
-      { type: 'custom', variant: 'methode', label: 'Méthode' },
       { type: 'custom', variant: 'garanties', label: 'Garanties' },
+      { type: 'custom', variant: 'chantiers', label: 'Chantiers' },
+      { type: 'custom', variant: 'secteur', label: 'Secteur' },
+      { type: 'custom', variant: 'methode', label: 'Méthode' },
       { type: 'cta', variant: 'band' },
       { type: 'contact', variant: 'form-split' },
     ],

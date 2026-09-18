@@ -1,0 +1,54 @@
+---
+/**
+ * « Ça fait quel bruit ? » : carnet d'atelier — une ligne par symptôme, accordéon natif
+ * (<details>/<summary>, docs/CONVENTIONS.md règle 7) plutôt qu'une carte retournable (déjà prise
+ * par sites/dubois-plomberie/sections/Diagnostic.astro : composition volontairement différente
+ * pour un métier différent). Savoir-faire générique de garagiste (pas une donnée client inventée,
+ * même principe que le commentaire de Diagnostic.astro), relié à un vrai service de
+ * site.config.ts — jamais un texte détaché. Numéros de fiche en tabular-nums, filet perforé en
+ * haut façon carnet à spirale. Composition propre à ce site.
+ */
+import { site } from '@/lib/site';
+
+const fiches = [
+  { symptome: 'Le moteur cliquette au démarrage', cause: 'Niveau d’huile bas ou bougies fatiguées.', service: 'entretien-revision' },
+  { symptome: 'Le volant vibre sur route', cause: 'Pneus déséquilibrés ou mal gonflés.', service: 'pneus' },
+  { symptome: 'Un voyant orange reste allumé', cause: 'Le calculateur a détecté une anomalie à identifier.', service: 'diagnostic' },
+  { symptome: 'Ça crisse quand vous freinez', cause: 'Plaquettes usées jusqu’au témoin.', service: 'freinage' },
+  { symptome: 'L’air reste chaud même en position froid', cause: 'Circuit de climatisation à recharger ou à contrôler.', service: 'climatisation' },
+  { symptome: 'Une rayure ne part pas au lavage', cause: 'La peinture est entamée, pas juste sale.', service: 'carrosserie' },
+].map((f, i) => ({ ...f, n: String(i + 1).padStart(2, '0'), serviceTitle: site.services.find((s) => s.slug === f.service)?.title ?? '' }));
+---
+
+<section id="symptomes" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <p class="eyebrow">Ça fait quel bruit&nbsp;?</p>
+    <h2 class="mt-4 text-display-lg">Le carnet d’atelier</h2>
+    <p class="measure mt-4 text-muted">Ce que vous entendez ou sentez, la cause la plus fréquente, et ce qu’on regarde en premier.</p>
+
+    <ul class="carnet mt-12 overflow-hidden rounded-card border-[3px] border-ink bg-surface" data-stagger="80">
+      {fiches.map((f) => (
+        <li class="border-b-[3px] border-ink last:border-b-0">
+          <details class="group">
+            <summary class="flex cursor-pointer list-none items-center gap-4 px-6 py-5 sm:px-8">
+              <span class="font-display text-2xl leading-none text-accent/50 tabular-nums" aria-hidden="true">{f.n}</span>
+              <span class="flex-1 font-display text-lg sm:text-xl">{f.symptome}</span>
+              <span class="chevron shrink-0 text-muted transition-transform duration-300 group-open:rotate-180" aria-hidden="true">⌄</span>
+            </summary>
+            <div class="border-t border-dashed border-ink/25 px-6 pb-6 pt-4 sm:px-8 sm:pl-[4.5rem]">
+              <p class="text-muted">{f.cause}</p>
+              {f.serviceTitle && <p class="mt-3 inline-block rounded-pill border-[3px] border-ink bg-bg px-3 py-1 text-xs uppercase tracking-wide">{f.serviceTitle}</p>}
+            </div>
+          </details>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .carnet {
+    background-image: repeating-linear-gradient(to bottom, transparent 0 3.2rem, color-mix(in oklab, var(--ink) 6%, transparent) 3.2rem 3.25rem);
+  }
+  summary::-webkit-details-marker { display: none; }
+</style>

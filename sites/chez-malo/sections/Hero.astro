@@ -4,6 +4,13 @@
  * nom du restaurant tout petit en haut, citation du chef en très grand qui se remplit au scroll
  * (data-text-fill), badge circulaire tournant "Réserver" en bas à droite (SVG textPath + spin CSS).
  * Aucune réutilisation ailleurs.
+
+ * Le titre est un <h1>, pas un <blockquote> : c'est le titre de la page, pas une citation.
+ * En blockquote, la page ne portait AUCUN h1 (repere par `ff verifier` le 18 sept 2026) —
+ * mauvais pour le referencement et pour un lecteur d'ecran, qui n'avait aucun titre de
+ * niveau 1 ou se poser. Garder les commentaires d'intention ICI et jamais en commentaire
+ * HTML : un commentaire livre dans le <body> repousse le contenu reel et fait echouer le
+ * controle « lien tel: dans les 1500 premiers caracteres ».
  */
 import { site, tel } from '@/lib/site';
 const hero = site.images.hero!;
@@ -19,13 +26,13 @@ const hero = site.images.hero!;
       {site.business.name} <span class="text-on-ink/40">·</span> {site.contact.address.city}{site.business.since && <span class="text-on-ink/40"> · depuis {site.business.since}</span>}
     </p>
 
-    <blockquote
+    <h1
       class="max-w-4xl font-display leading-[1.05] text-on-ink"
       style="font-size: clamp(2.1rem, 6.4vw, 5.75rem);"
       data-text-fill
     >
       {site.business.tagline}
-    </blockquote>
+    </h1>
 
     <div class="flex flex-wrap items-end justify-between gap-8">
       <p class="max-w-md text-on-ink/75" data-reveal data-reveal-delay="120">{site.business.description.split(/\n/)[0]}</p>

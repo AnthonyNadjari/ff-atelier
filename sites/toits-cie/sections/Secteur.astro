@@ -1,0 +1,37 @@
+---
+/**
+ * « Secteur » — propre à ce site. Deux données réelles jamais affichées ailleurs sur le site :
+ * zones.cities (aucune section "zones" dans le layout) et le service "Pose de velux"
+ * (featured: false, donc absent de la grille de Chantiers.astro qui ne prend que les 4 services
+ * featured). Composition panneau routier brutaliste : bandeau jaune sécurité, villes en grandes
+ * capitales séparées par des barres obliques comme une sortie d'autoroute, puis le service resté
+ * invisible ailleurs, retrouvé en fin de bandeau. Aucune réutilisation ailleurs.
+ */
+import { site } from '@/lib/site';
+
+const cities = site.zones.cities ?? [];
+const velux = site.services.find((s) => s.slug === 'velux');
+---
+
+{cities.length > 0 && (
+  <section id="secteur" class="section-y overflow-hidden bg-accent text-ink">
+    <div class="container-ff">
+      <p class="eyebrow">Secteur d’intervention</p>
+
+      <ul class="mt-8 flex flex-wrap items-baseline gap-x-4 gap-y-2" data-stagger="60">
+        {cities.map((city, i) => (
+          <li class="flex items-baseline gap-4">
+            <span class="font-display uppercase leading-none" style="font-size: clamp(1.5rem, 4.2vw, 3.25rem);">{city}</span>
+            {i < cities.length - 1 && <span aria-hidden="true" class="font-display text-2xl text-ink/40">/</span>}
+          </li>
+        ))}
+      </ul>
+
+      {velux && (
+        <p class="mt-10 max-w-2xl border-t-[3px] border-ink pt-6 text-lg" data-reveal>
+          <span class="font-display uppercase">{velux.title}</span> — {velux.short}
+        </p>
+      )}
+    </div>
+  </section>
+)}

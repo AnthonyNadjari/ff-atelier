@@ -13,8 +13,9 @@ export default defineSite({
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      { type: 'custom', variant: 'augarage', label: 'Services' },
       { type: 'custom', variant: 'avantapres', label: 'Avant / après' },
+      { type: 'custom', variant: 'symptomes', label: 'Ça fait quel bruit ?' },
+      { type: 'custom', variant: 'augarage', label: 'Services' },
       { type: 'custom', variant: 'rendezvous', label: 'Rendez-vous' },
       { type: 'faq', variant: 'accordion' },
       { type: 'contact', variant: 'simple' },
