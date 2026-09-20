@@ -404,9 +404,33 @@ const revealVariants = [
     </div>
   </div>
 
+  <!-- ===================== data-shader (fond WebGL, 4 presets) ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">40 à 43 · data-shader (fond WebGL lent, couleurs de la direction)</p>
+    <div class="mt-6 grid gap-6 sm:grid-cols-2">
+      {[
+        { preset: 'mesh', n: 40, label: 'dégradé maillé, 4 taches lentes', pointer: '1' },
+        { preset: 'silk', n: 41, label: 'nappes façon soie / fumée', pointer: undefined },
+        { preset: 'aurora', n: 42, label: 'rideaux de lumière atténués', pointer: undefined },
+        { preset: 'grain-gradient', n: 43, label: 'dégradé qui respire + grain de film', pointer: undefined },
+      ].map((p) => (
+        <div class="h-72 overflow-hidden rounded-card border border-line" data-shader={p.preset} data-shader-speed="1" data-shader-pointer={p.pointer}>
+          <div class="flex h-full flex-col justify-between p-6">
+            <p class="font-mono text-xs text-muted">{p.n} · data-shader="{p.preset}"{p.pointer && ' data-shader-pointer="1"'}</p>
+            <p class="font-display text-display-sm">{p.label}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+    <p class="mt-4 text-sm text-muted">
+      Un seul <code class="font-mono text-xs">data-shader</code> par page en production (règle du seul feu d'artifice) : quatre ici uniquement pour comparer les presets.
+      Sous <code class="font-mono text-xs">prefers-reduced-motion</code> ou sans WebGL, chaque bloc reçoit un dégradé statique équivalent.
+    </p>
+  </div>
+
   <div class="container-ff mt-24">
     <p class="text-sm text-muted">
-      Fin de la vitrine — {revealVariants.length + 31} effets et plus, un seul moteur (src/scripts/motion.ts).
+      Fin de la vitrine — {revealVariants.length + 35} effets et plus, un seul moteur (src/scripts/motion.ts).
       Scroll fluide (<code class="font-mono text-xs">data-smooth</code>) actif sur toute cette page via
       <code class="font-mono text-xs">site.smoothScroll</code>.
     </p>

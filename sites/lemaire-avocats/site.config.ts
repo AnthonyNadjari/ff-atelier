@@ -15,7 +15,9 @@
  * elle qui porte la longue phrase du hero (data-text-fill).
  *
  * motion: 'rich' (necessaire pour data-accordion="single" [GSAP Flip], data-tilt-glare,
- * data-blur-scrub, data-text-fill — tous utilises ci-dessous).
+ * data-blur-scrub, data-text-fill — tous utilises ci-dessous — et, depuis le 20 sept. 2026, pour
+ * le fond data-shader="mesh" du hero : fond WebGL lent aux couleurs de la direction, seul feu
+ * d'artifice de la page, voir sections/Hero.astro et docs/ANIMATIONS.md).
  *
  * Cinq effets ci-dessous verifies par grep comme les moins utilises du moteur avant ce tour
  * (`grep -rl data-<effet> sites/<slug>/sections/<Nom>.astro`, hors sites/_effets) : data-accordion (1 usage

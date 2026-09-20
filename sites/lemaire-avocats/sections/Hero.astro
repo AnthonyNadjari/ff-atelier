@@ -3,7 +3,13 @@
  * Hero sur mesure : aucune photo (option explicitement permise par le mandat — "no image or a dark
  * abstract image at low contrast" — aucune photo du cabinet n'est fournie par le brief ; le ciel
  * étoilé très discret de la direction "nuit", déjà posé par `body::before` dans le token système,
- * donne toute la texture nécessaire, jamais un dégradé ou une image générée pour combler l'absence).
+ * donne toute la texture nécessaire, jamais une image générée pour combler l'absence). Depuis le
+ * 20 sept. 2026, `data-shader="mesh"` (docs/ANIMATIONS.md, docs/veille/shaders.md) pose sous le hero
+ * un fond WebGL très lent aux seules couleurs de la direction (bleu nuit, ambre à 40 %) : de la
+ * matière sans photo (CONVENTIONS.md règle 20), le ciel étoilé reprend sous les sections suivantes.
+ * C'est le seul feu d'artifice de la page (règle 16) — aucun marquee, `data-frames` ou
+ * `data-horizontal` ailleurs sur ce site. `data-shader-pointer="1"` : dérive imperceptible vers le
+ * curseur, inactive au tactile. Repli automatique (reduced-motion, sans WebGL) : dégradé statique.
  * Une seule phrase longue en serif (data-text-fill, business.tagline) énonce ce que fait le cabinet
  * et pour qui — voir l'en-tête de site.config.ts pour la raison de laisser cette phrase sans <em>
  * (data-text-fill redécoupe le texte via `textContent` dans motion.ts, toute balise imbriquée y
@@ -16,7 +22,7 @@ import Icon from '@/components/Icon.astro';
 const firstHours = site.contact.hours[0];
 ---
 
-<section id="hero" class="section-y relative overflow-hidden pt-8 sm:pt-12">
+<section id="hero" class="section-y relative overflow-hidden pt-8 sm:pt-12" data-shader="mesh" data-shader-speed="0.8" data-shader-pointer="1">
   <div class="container-ff relative">
     {/* "au Barreau de" retire (all-caps-body, 48 car.) : le rattachement au barreau reste affiche
         juste au-dessus (Nav.astro, ligne d'ours "Avocates au Barreau de Montpellier"), business.since

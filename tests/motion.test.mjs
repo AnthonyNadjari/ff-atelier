@@ -91,6 +91,44 @@ test('chaque nouveau data-* a une regle explicite dans le bloc reduced-motion de
   assert.deepEqual(missing, [], `nouveaux attributs sans regle @media (prefers-reduced-motion: reduce) : ${missing.join(', ')}`);
 });
 
+// data-shader : le module frere src/scripts/shader.ts (OGL + fragment shaders) ne doit jamais entrer dans
+// le chunk initial (import() seulement), et motion.ts doit poser le repli (degrade statique) sans
+// l'importer quand reduced/subtle/none. Le generique ci-dessus verifie deja que data-shader,
+// data-shader-speed et data-shader-pointer sont cites dans le corps et dans le bloc reduced-motion.
+const SHADER_TS = path.join(ROOT, 'src', 'scripts', 'shader.ts');
+const shaderSrc = fs.readFileSync(SHADER_TS, 'utf8');
+
+test('data-shader : shader.ts charge paresseusement, jamais importe statiquement par motion.ts', () => {
+  assert.match(body, /import\('\.\/shader'\)/, "motion.ts doit charger ./shader via import() dynamique");
+  assert.doesNotMatch(body, /^import .*['"]\.\/shader['"]/m, 'motion.ts ne doit pas importer ./shader statiquement');
+  assert.match(shaderSrc, /await import\('ogl'\)/, 'shader.ts doit importer ogl a la demande');
+  assert.doesNotMatch(body, /^import .*['"]ogl['"]/m, 'motion.ts ne doit pas importer ogl statiquement');
+});
+
+test('data-shader : quatre presets, options speed/pointer, pause et replis presents dans shader.ts', () => {
+  for (const preset of ['mesh', 'silk', 'aurora', 'grain-gradient']) {
+    const key = preset.includes('-') ? `'${preset}'` : preset;
+    const needle = key + ': `${COMMON}';
+    assert.ok(shaderSrc.includes(needle), `preset ${preset} manquant dans PRESETS (attendu ${JSON.stringify(needle)})`);
+    assert.ok(body.includes(`${preset}:`) || body.includes(`'${preset}':`), `repli CSS SHADER_FALLBACK.${preset} manquant dans motion.ts`);
+  }
+  for (const needle of ['shaderSpeed', 'shaderPointer', 'IntersectionObserver', 'visibilitychange', 'webglcontextlost', 'MAX_DPR = 1.5', 'MAX_WIDTH = 1280', "matchMedia('(pointer: fine)')"]) {
+    assert.ok(shaderSrc.includes(needle), `shader.ts : "${needle}" introuvable`);
+  }
+  // Couleurs : uniquement les cinq tokens, lus via getComputedStyle — aucune couleur en dur (hex/rgb) dans le module.
+  assert.ok(shaderSrc.includes("['--bg', '--bg-2', '--accent', '--accent-2', '--fg']"), 'shader.ts : liste TOKENS attendue');
+  assert.ok(shaderSrc.includes('getComputedStyle'), 'shader.ts : lecture des tokens via getComputedStyle');
+  assert.doesNotMatch(shaderSrc, /#[0-9a-fA-F]{3,8}/, 'shader.ts : aucune couleur hex en dur');
+});
+
+test('data-shader : le repli (subtle/none/reduced) est pose AVANT la sortie anticipee de initMotion()', () => {
+  const init = body.slice(body.indexOf('export function initMotion()'));
+  const callIdx = init.indexOf('shaderBackgrounds(motion, reduced)');
+  const guardIdx = init.indexOf("if (motion === 'none' || reduced)");
+  assert.ok(callIdx !== -1 && guardIdx !== -1 && callIdx < guardIdx, 'shaderBackgrounds() doit etre appele avant la garde none/reduced');
+  assert.match(body, /if \(motion !== 'rich' \|\| reduced\) \{\s*els\.forEach\(shaderFallback\)/, 'shaderBackgrounds() doit poser shaderFallback hors rich/reduced sans import()');
+});
+
 test('sites/_effets existe et declare motion: "rich" (vitrine des effets)', () => {
   const cfg = fs.readFileSync(path.join(ROOT, 'sites', '_effets', 'site.config.ts'), 'utf8');
   assert.match(cfg, /motion:\s*'rich'/, "sites/_effets/site.config.ts doit avoir motion: 'rich'");

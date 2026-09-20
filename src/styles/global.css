@@ -223,6 +223,11 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
    data-frames (+ data-frames-canvas, data-frames-count, data-frames-ext, data-frames-pad,
    data-frames-mobile, data-frames-poster) : sequence d'images dessinee sur un <canvas> au fil du
    scroll (rich), voir frameSequences() dans motion.ts, `ff sequence` et `ff animer` (scripts/ff/).
+
+   --- Fond shader (docs/ANIMATIONS.md) ---
+   data-shader="mesh|silk|aurora|grain-gradient" (+ data-shader-speed, data-shader-pointer) : fond
+   WebGL lent aux couleurs de la direction, canvas .ff-shader-canvas cree par shader.ts (rich,
+   charge a la demande), repli degrade CSS statique pose par shaderFallback() (motion.ts).
 ------------------------------------------------------------------- */
 [data-motion='none'] [data-reveal],
 [data-motion='none'] [data-stagger] > * { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
@@ -425,6 +430,19 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 [data-frames] .ff-frames-fallback { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
 [data-frames] > *:not([data-frames-canvas]):not(.ff-frames-fallback) { position: relative; z-index: 1; }
 
+/* data-shader (rich) : fond WebGL en fragment shader (src/scripts/shader.ts, OGL, charge a la demande).
+   Le canvas .ff-shader-canvas est cree par le moteur (jamais dans le HTML), colle au fond de la
+   section (position:absolute, inset:0, z-index:0) ; le contenu passe au-dessus (z-index:1). Meme
+   precaution que [data-duotone] : position:relative seulement si la section n'est pas deja
+   positionnee par une classe utilitaire. Options data-shader-speed / data-shader-pointer lues par
+   shader.ts. Repli (subtle, none, reduced, WebGL absent) : degrade statique en background-image
+   (shaderFallback(), motion.ts), tokens uniquement. */
+[data-shader] { isolation: isolate; }
+[data-shader]:not(.absolute):not(.fixed):not(.sticky) { position: relative; }
+[data-shader] > .ff-shader-canvas { position: absolute; inset: 0; z-index: 0; display: block; width: 100% !important; height: 100% !important; pointer-events: none; }
+[data-shader] > *:not(.ff-shader-canvas) { z-index: 1; }
+[data-shader] > *:not(.ff-shader-canvas):not(.absolute):not(.fixed):not(.sticky) { position: relative; }
+
 /* data-lottie (rich) : <canvas> monte par lottiePlayers() (motion.ts), ou repli image/texte si le fichier est absent */
 [data-lottie] { position: relative; display: grid; place-items: center; }
 [data-lottie] .ff-lottie-canvas { width: 100%; height: 100%; display: block; }
@@ -501,6 +519,10 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
   [data-frames] [data-frames-canvas] { display: none !important; }
   [data-accordion] details > * { transition: none !important; } /* accordionFlip() jamais lance : <details> natif sans animation */
   [data-drag-grid] .drag-track { transition: none !important; } /* dragGrid() jamais lance : plus de glisser, contenu fige */
+  /* data-shader, data-shader-speed, data-shader-pointer : shaderBackgrounds() (motion.ts) n'importe
+     jamais shader.ts quand reduced ; shaderFallback() pose le degrade statique en background-image.
+     Ceinture et bretelles si un canvas existait deja (changement de preference en cours de session). */
+  [data-shader] > .ff-shader-canvas { display: none !important; }
   [data-lottie] .ff-lottie-canvas { animation: none !important; } /* lottiePlayers() jamais lance quand reduced ; le repli data-lottie-fallback n'est pas non plus monte */
   [data-confetti] { --ff-confetti-reduced: 1; } /* confettiOnSuccess() n'attache jamais l'ecouteur ff:form-success quand reduced */
   [data-duotone]::after, [data-grain]::after { transition: none !important; }

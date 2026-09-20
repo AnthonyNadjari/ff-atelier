@@ -20,6 +20,11 @@ const ALWAYS_FORBIDDEN = [
   { label: '"undefined" affiche', re: /\bundefined\b/ },
   { label: '"NaN" affiche', re: /\bNaN\b/ },
   { label: '"[object Object]" affiche', re: /\[object Object\]/ },
+  // `&nbsp;` n'est decode que dans les champs rendus via set:html (tagline, ctaTitle) ; partout
+  // ailleurs (description, faq, services...) Astro l'echappe et le visiteur lit « &nbsp; » en toutes
+  // lettres (vu sur 3 sites le 20 sept 2026). Le texte visible etant deja depouille de ses balises
+  // ici, l'entite echappee apparait telle quelle : `&amp;nbsp;`. Ecrire le caractere U+00A0 a la place.
+  { label: '"&nbsp;" affiche en clair (ecrire le caractere insecable U+00A0)', re: /&amp;nbsp;/ },
 ];
 
 function listHtmlFiles(dir) {
@@ -162,6 +167,28 @@ function warnSchemaTypeGenerique(slug, files, distDir, warnings) {
   }
 }
 
+/** Retire un bloc `<div ...marqueur...>...</div>` en comptant les div imbriquees (contrairement a un
+ * `[\s\S]*?<\/div>` non gourmand, qui s'arrete au tout premier </div> imbrique et laisse le reste). */
+function stripBalancedDiv(html, marker) {
+  const openRe = new RegExp(`<div\\b[^>]*${marker}[^>]*>`, 'i');
+  const m = openRe.exec(html);
+  if (!m) return html;
+  const start = m.index;
+  const tagRe = /<div\b[^>]*>|<\/div>/gi;
+  tagRe.lastIndex = start + m[0].length;
+  let depth = 1;
+  let end = html.length;
+  let match;
+  while ((match = tagRe.exec(html))) {
+    depth += match[0].toLowerCase().startsWith('</div') ? -1 : 1;
+    if (depth === 0) {
+      end = match.index + match[0].length;
+      break;
+    }
+  }
+  return html.slice(0, start) + html.slice(end);
+}
+
 /** tel: cliquable attendu tres tot dans le corps de la page d'accueil (premier ecran). */
 function checkTelPremierEcran(distDir, checks) {
   const indexPath = path.join(distDir, 'index.html');
@@ -178,13 +205,30 @@ function checkTelPremierEcran(distDir, checks) {
   // qui pesent ~400 caracteres chacune sans afficher un mot. Sans ca, un site parfaitement correct
   // echouait pour un <filter> invisible (finck-fisch) ou pour une icone de nav de plus (chez-malo,
   // 18 sept 2026) — on mesurait des octets, pas la distance reellement parcourue par l'oeil.
-  const corps = html
-    .slice(start)
-    .replace(/<svg[\s\S]*?<\/svg>/gi, '')
-    .replace(/<div class="ff-curtain[^"]*"[^>]*>[\s\S]*?<\/div>/i, '');
-  const slice = corps.slice(0, 1500);
-  if (/href=["']tel:/i.test(slice)) checks.push({ pass: true, label: 'Lien tel: present dans les 1500 premiers caracteres du corps de index.html' });
-  else checks.push({ pass: false, label: 'Aucun lien tel: dans les 1500 premiers caracteres du corps de index.html' });
+  // Meme raisonnement pour le panneau plein ecran de Nav/burger.astro (`data-burger-panel`,
+  // `aria-hidden="true"` par defaut) : il precede le hero dans le HTML mais reste invisible tant
+  // qu'on n'a pas clique sur le bouton — sans le retirer, tout site en nav "burger" avec un telephone
+  // present dans le panneau ET dans le hero echouait a cause du panneau seul. Et pour les
+  // `<script>...</script>` inline (ex. le petit script d'ouverture/fermeture du burger juste apres
+  // son `<header>`) : du code, jamais un mot affiche, mais des centaines de caracteres minifies
+  // (essai-dryrun, 20 sept 2026, hero "marquee" avec bouton tel: legitime a l'ecran, repousse au-dela
+  // de 1500 caracteres par le panneau ET son script avant qu'on les retire tous les deux). Une fois
+  // panneau et script retires, un hero complet (eyebrow + h1 + sous-titre + bouton tel:) sous un
+  // header a nom+bouton fixe atteint encore ~1800 caracteres bruts avec les classes Tailwind
+  // (verbeuses par construction) : marge portee de 1500 a 2200 pour ne plus dependre du nombre exact
+  // de mots du sous-titre d'un site donne.
+  const BUDGET = 2200;
+  const corps = stripBalancedDiv(
+    html
+      .slice(start)
+      .replace(/<svg[\s\S]*?<\/svg>/gi, '')
+      .replace(/<script[\s\S]*?<\/script>/gi, '')
+      .replace(/<div class="ff-curtain[^"]*"[^>]*>[\s\S]*?<\/div>/i, ''),
+    'data-burger-panel',
+  );
+  const slice = corps.slice(0, BUDGET);
+  if (/href=["']tel:/i.test(slice)) checks.push({ pass: true, label: `Lien tel: present dans les ${BUDGET} premiers caracteres du corps de index.html` });
+  else checks.push({ pass: false, label: `Aucun lien tel: dans les ${BUDGET} premiers caracteres du corps de index.html` });
 }
 
 /** Formulaire de contact reduit : ≤ 5 champs (honeypot exclu). */

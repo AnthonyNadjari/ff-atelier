@@ -3,10 +3,16 @@
  * Hero "custom/hero" — dessiné pour Studio Ambre. Volontairement pauvre en éléments : une image
  * plein cadre, le nom du studio en petites capitales mix-blend-mode: difference (jamais géant,
  * contrairement au hero épinglé d'Anna Vidal — ici le nom se décode au chargement via
- * data-scramble plutôt que de rester fixe), et un bandeau bas très fin (légende + accroche). Un
- * grain léger (data-grain, CSS pur) casse l'aplat de la photo pour un rendu papier plutôt qu'écran.
+ * data-scramble plutôt que de rester fixe), et l'accroche posée en bas de la photo, sur un voile
+ * encre dégradé (tokens), pour qu'on sache en deux secondes qui c'est et ce qu'elle fait. Un grain
+ * léger (data-grain, CSS pur) casse l'aplat de la photo pour un rendu papier plutôt qu'écran.
  * Aucun bouton, aucun bloc de texte long : le reste du discours vient des sections suivantes.
  * Composition propre à ce site.
+ *
+ * Correction (20 sept 2026, planche-contact des premiers écrans) : l'accroche vivait sous la photo,
+ * dans un bandeau que le premier écran (1400×900, nav fixe comprise) coupait — le visiteur ne voyait
+ * qu'un aplat de couleur et un nom minuscule. Elle remonte sur la photo, en text-display-lg, ligne
+ * d'identité (lieu + métier) juste au-dessus ; le bandeau bas ne garde qu'une légende fine.
  */
 import { site } from '@/lib/site';
 import Img from '@/components/Img.astro';
@@ -26,6 +32,9 @@ const hero = site.images.hero;
         fetchpriority="high"
       />
     )}
+    {/* Voile encre dégradé (tokens) sous le texte : la photo peut être claire ou chargée, l'accroche reste lisible. */}
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" aria-hidden="true"></div>
+
     <h1
       class="pointer-events-none absolute inset-x-0 top-10 px-6 text-center font-display uppercase leading-none sm:top-14"
       style="font-size: clamp(0.85rem, 1.4vw, 1.15rem); letter-spacing: 0.55em; mix-blend-mode: difference; color: var(--on-ink);"
@@ -33,15 +42,17 @@ const hero = site.images.hero;
     >
       {site.business.name}
     </h1>
+
+    <div class="absolute inset-x-0 bottom-0 z-[1]">
+      <div class="container-ff pb-10 sm:pb-14">
+        <p class="font-mono text-xs uppercase tracking-[0.14em] text-on-ink/80" data-reveal>Paris 10e — architecture d’intérieur.</p>
+        <p class="mt-4 max-w-4xl font-display text-display-lg leading-[1.02] text-on-ink" data-reveal data-reveal-delay="120" set:html={site.business.tagline} />
+      </div>
+    </div>
   </div>
 
-  <div class="container-ff grid gap-4 border-b border-line py-8 sm:grid-cols-[1fr_auto] sm:items-end sm:gap-10">
-    <div>
-      {/* "depuis {since}" retire (all-caps-body, 50 car.) : non montre ailleurs sur la page, mais
-          moins essentiel que le lieu/le metier pour cette ligne d'identite courte. */}
-      <p class="font-mono text-xs uppercase tracking-[0.14em] text-muted">Paris 10e — architecture d’intérieur.</p>
-      <p class="mt-3 max-w-xl font-display text-display-sm" set:html={site.business.tagline} />
-    </div>
-    <p class="font-mono text-xs uppercase tracking-[0.1em] text-muted sm:text-right">{site.business.trade}</p>
+  <div class="container-ff flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2 border-b border-line py-5">
+    <p class="font-mono text-xs uppercase tracking-[0.14em] text-muted">{site.business.trade}</p>
+    {site.legal?.owner && <p class="font-mono text-xs uppercase tracking-[0.1em] text-muted">{site.legal.owner}</p>}
   </div>
 </section>

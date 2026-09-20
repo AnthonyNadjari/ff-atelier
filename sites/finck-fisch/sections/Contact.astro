@@ -1,0 +1,37 @@
+---
+/**
+ * Contact sur mesure Finck & Fisch (id="contact", même ancre que la section partagée). Deux
+ * colonnes : à gauche le titre, une ligne et les coordonnées ; à droite le formulaire partagé
+ * (src/components/ContactForm.astro, provider lu dans site.form). Appelée par
+ * { type: 'custom', variant: 'contact', label: 'Contact' }.
+ *
+ * Créée le 20 sept 2026 à la place de contact/form-card : les quatre variantes partagées posent
+ * un eyebrow « CONTACT » au-dessus du titre, juste après l'eyebrow de la FAQ — deux de suite,
+ * interdit par la règle 13 (docs/CONVENTIONS.md). Et la carte centrée avec titre + eyebrow +
+ * sous-titre est la composition de contact de tous les générateurs. Ici : pas d'eyebrow, pas de
+ * carte, pas de filet (le separateur `rule` du layout suffit). L’adresse (placeholder) n'est pas affichée : téléphone et e-mail suffisent
+ * pour un studio qui travaille à distance.
+ */
+import { site, tel, mailto } from '@/lib/site';
+import ContactForm from '@/components/ContactForm.astro';
+---
+
+<section id="contact" class="section-y">
+  <div class="container-ff grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-20">
+    <div data-reveal>
+      <h2 class="text-display-md" set:html={site.wording.contactTitle} />
+      <p class="mt-5 max-w-md text-muted">{site.wording.contactText}</p>
+
+      <ul class="mt-10 flex flex-col gap-3 text-base">
+        <li><a href={tel()} class="font-display tabular-nums text-fg transition-colors hover:text-muted">{site.contact.phoneDisplay}</a></li>
+        <li><a href={mailto()} class="break-all text-fg transition-colors hover:text-muted">{site.contact.email}</a></li>
+        <li class="text-sm text-muted">{site.zones.label}</li>
+      </ul>
+    </div>
+
+    <div data-reveal>
+      <ContactForm />
+      {site.form.provider === 'none' && <p class="text-muted">Appelez-nous ou écrivez-nous, nous répondons vite.</p>}
+    </div>
+  </div>
+</section>

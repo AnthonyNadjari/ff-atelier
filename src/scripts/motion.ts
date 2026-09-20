@@ -64,6 +64,21 @@
  *                                   l'interieur s'active avec la meme progression. Hors motion="rich" ou
  *                                   prefers-reduced-motion : seul le poster (repli <img> cree en JS,
  *                                   aucune frame prechargee) reste visible.
+ *
+ * --- Fond shader (docs/ANIMATIONS.md, docs/veille/shaders.md) ---
+ * data-shader="mesh|silk|aurora|grain-gradient" rich  fond WebGL en fragment shader (OGL, module frere
+ *                                   src/scripts/shader.ts charge par import() seulement si l'attribut
+ *                                   est present) : canvas cree par le moteur (position:absolute,
+ *                                   inset:0, z-index:0, contenu au-dessus), couleurs lues UNIQUEMENT
+ *                                   dans les tokens --bg/--bg-2/--accent/--accent-2/--fg, lent
+ *                                   (20-40 s), demarre a l'entree dans l'ecran, en pause hors ecran
+ *                                   et onglet cache, DPR <= 1.5, largeur <= 1280 px. Compte comme le
+ *                                   seul feu d'artifice de la page (CONVENTIONS.md regle 16).
+ * data-shader-speed="0.5"           vitesse relative (defaut 1).
+ * data-shader-pointer="1"           derive tres douce vers le pointeur (pointer:fine uniquement).
+ *                                   Repli (subtle, none, prefers-reduced-motion, WebGL absent ou
+ *                                   contexte perdu) : degrade CSS statique equivalent pose en
+ *                                   background-image par shaderFallback(), tokens uniquement.
  */
 export function initMotion() {
   const root = document.documentElement;
@@ -72,6 +87,8 @@ export function initMotion() {
   // data-frames : le poster doit s'afficher quel que soit le palier de motion (voir frameSequences()),
   // donc appele avant le repli anticipe ci-dessous.
   frameSequences(motion, reduced);
+  // data-shader : meme logique, le repli (degrade statique) doit se poser quel que soit le palier.
+  shaderBackgrounds(motion, reduced);
   if (motion === 'none' || reduced) {
     document.querySelectorAll<HTMLElement>('[data-reveal],[data-stagger],[data-reveal-native]').forEach((el) => el.classList.add('is-visible'));
     return;
@@ -859,6 +876,41 @@ async function smoothScroll() {
       lenis.scrollTo(target as HTMLElement, { offset: -16 });
     });
   });
+}
+
+/**
+ * data-shader="mesh|silk|aurora|grain-gradient" (+ data-shader-speed, data-shader-pointer) : fond
+ * WebGL lent aux couleurs de la direction, implemente dans src/scripts/shader.ts (module frere,
+ * charge par import() uniquement en motion="rich" sans prefers-reduced-motion, jamais dans le chunk
+ * initial). Tout autre cas — subtle, none, reduced, WebGL indisponible, contexte perdu, import en
+ * echec — passe par shaderFallback() : un degrade CSS statique equivalent au preset, tokens
+ * uniquement, pose en background-image. data-shader-state="fallback|ready|drawn" est lu par
+ * `ff audit-motion` (scripts/ff/audit-motion.mjs) pour ne jamais compter un canvas de shader comme
+ * "jamais dessine" a tort.
+ */
+const SHADER_FALLBACK: Record<string, string> = {
+  mesh: 'radial-gradient(60% 55% at 22% 32%, var(--bg-2), transparent 70%), radial-gradient(52% 48% at 78% 38%, color-mix(in srgb, var(--accent) 36%, var(--bg)), transparent 70%), radial-gradient(45% 40% at 55% 85%, color-mix(in srgb, var(--accent-2) 30%, var(--bg)), transparent 70%), linear-gradient(var(--bg), var(--bg))',
+  silk: 'linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 45%, color-mix(in srgb, var(--accent) 22%, var(--bg)) 100%)',
+  aurora: 'linear-gradient(180deg, var(--bg) 0%, color-mix(in srgb, var(--accent) 28%, var(--bg)) 55%, var(--bg-2) 100%)',
+  'grain-gradient': 'linear-gradient(200deg, var(--bg) 0%, var(--bg-2) 60%, color-mix(in srgb, var(--accent) 26%, var(--bg)) 100%)',
+};
+
+function shaderFallback(el: HTMLElement) {
+  const preset = SHADER_FALLBACK[el.dataset.shader ?? ''] ?? SHADER_FALLBACK.silk;
+  el.style.backgroundImage = preset;
+  el.dataset.shaderState = 'fallback';
+}
+
+function shaderBackgrounds(motion: string, reduced: boolean) {
+  const els = document.querySelectorAll<HTMLElement>('[data-shader]');
+  if (!els.length) return;
+  if (motion !== 'rich' || reduced) {
+    els.forEach(shaderFallback);
+    return;
+  }
+  import('./shader')
+    .then((m) => m.initShaders(els, shaderFallback))
+    .catch(() => els.forEach((el) => { if (el.dataset.shaderState !== 'drawn') shaderFallback(el); }));
 }
 
 /** data-hover-distort="/images/x.webp" : distorsion WebGL (OGL) de l'image au survol, pointer:fine. Repli = comportement data-hover-img. */

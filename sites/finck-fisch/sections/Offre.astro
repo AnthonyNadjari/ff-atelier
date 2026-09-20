@@ -1,44 +1,46 @@
 ---
 /**
- * Section sur mesure Finck & Fisch : grille tarifaire, deux formules — restylée en vrai tableau
- * de comparaison (plutôt que deux cartes qui répètent chacune la liste complète), prix en
- * tabular-nums, une ligne par fonctionnalité. Appelée dans le layout par
+ * Section sur mesure Finck & Fisch : grille tarifaire, deux formules, en tableau de comparaison
+ * (une ligne par fonctionnalité, prix en tabular-nums). Appelée dans le layout par
  * { type: 'custom', variant: 'offre', label: 'Offre' } — seule section custom avec une ancre de nav,
  * avec Réalisations et Contact (voir sites/finck-fisch/sections/Nav.astro).
+ *
+ * Relecture du 20 sept 2026 :
+ * - libellés du tableau ramenés à des noms de choses (« Formulaire de contact »), plus des
+ *   arguments de vente (« dessiné à la main pour votre activité, pas une seule maquette ») ;
+ * - les deux boutons « Parler de votre projet » sous le tableau retirés : le hero et le contact
+ *   suffisent, la répétition du même bouton est un tell de landing page ;
+ * - liste « Ce qui n'est jamais facturé » retirée : elle disait « aucun abonnement, même en
+ *   option » deux lignes au-dessus d'une maintenance mensuelle en option, contradiction ;
+ * - paragraphe « Chèque France Num » retiré : dispositif sans source dans le brief, formulé au
+ *   conditionnel, faisait amateur ;
+ * - petits labels en capitales (.eyebrow) remplacés par des sous-titres display : règle 13
+ *   (un eyebrow pour deux sections au plus, la FAQ partagée en a déjà un).
  */
-import { site } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
-import Button from '@/components/Button.astro';
 
 const formules = [
   { nom: 'Essentiel', prix: 'à partir de 1 200 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
   { nom: 'Complet', prix: 'à partir de 1 800 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
 ];
 
-// true/true = commun aux deux formules ; true/false = Essentiel seul (aucun cas dans ce catalogue,
-// gardé au cas où) ; false/true = ajouté par la formule Complet.
+// true/true = commun aux deux formules ; false/true = ajouté par la formule Complet.
 const lignes = [
-  { label: 'Site de 1 à 5 pages, dessiné à la main pour votre activité', essentiel: true, complet: true },
-  { label: 'Trois propositions de direction visuelle, pas une seule maquette', essentiel: true, complet: true },
+  { label: 'Site de 1 à 5 pages', essentiel: true, complet: true },
+  { label: 'Trois propositions visuelles au départ', essentiel: true, complet: true },
   { label: 'Formulaire de contact', essentiel: true, complet: true },
   { label: 'Mentions légales et politique de confidentialité', essentiel: true, complet: true },
-  { label: 'Mise en ligne', essentiel: true, complet: true },
-  { label: 'Nom de domaine à votre nom', essentiel: true, complet: true },
+  { label: 'Mise en ligne, nom de domaine à votre nom', essentiel: true, complet: true },
   { label: 'Pages villes pour le référencement local', essentiel: false, complet: true },
-  { label: 'Photos retouchées (shooting sur place en option)', essentiel: false, complet: true },
-  { label: 'Fiche Google optimisée', essentiel: false, complet: true },
+  { label: 'Retouche de vos photos', essentiel: false, complet: true },
+  { label: 'Fiche Google mise à jour', essentiel: false, complet: true },
   { label: 'Deux tours de corrections après la mise en ligne', essentiel: false, complet: true },
 ];
 
 const toujoursInclus = [
-  'Le site vous appartient : code, textes, nom de domaine',
-  'Hébergement sans frais mensuel',
-  'Livré sous 72 h après réception de vos éléments, ou remise de 10 % (engagement provisoire, à confirmer avant signature)',
-];
-
-const jamais = [
-  { label: 'Abonnement', valeur: 'Aucun, jamais — même en option' },
-  { label: 'Hébergement payant', valeur: 'Inclus, aucun surcoût mensuel' },
+  'Le code, les textes et le nom de domaine sont à vous.',
+  'Hébergement inclus, sans frais mensuel.',
+  'Livré sous 72 h après réception de vos éléments, sinon remise de 10 % (engagement provisoire, à confirmer avant signature).',
 ];
 ---
 
@@ -46,16 +48,15 @@ const jamais = [
   <div class="container-ff">
     <h2 class="max-w-2xl text-display-md" data-reveal>Un prix affiché.</h2>
     <p class="mt-5 max-w-2xl text-muted" data-reveal>
-      Deux formules, un tarif fixe annoncé avant de commencer. Livré en une fois, sans ligne récurrente à surveiller.
+      Deux formules. Le tarif est fixé avant de commencer et payé en une fois.
     </p>
 
     {/*
-      [contain:layout] : le tableau (largeur intrinsèque ~582px, boutons compris) dépasse ce
-      conteneur sur mobile — voulu, défilement horizontal contenu par overflow-x-auto. Sans
-      `contain: layout`, Chrome laisse malgré tout ~5px de la largeur du tableau remonter dans
-      document.documentElement.scrollWidth (repéré par `ff captures` : "débordement horizontal"
-      sur finck-fisch-mobile alors que rien n'est visuellement coupé) ; `contain: layout` isole le
-      calcul de débordement de ce conteneur du reste de la page.
+      [contain:layout] : le tableau (largeur intrinsèque ~582px) dépasse ce conteneur sur mobile —
+      voulu, défilement horizontal contenu par overflow-x-auto. Sans `contain: layout`, Chrome
+      laisse ~5px de la largeur du tableau remonter dans document.documentElement.scrollWidth
+      (repéré par `ff captures` : "débordement horizontal" sur finck-fisch-mobile alors que rien
+      n'est visuellement coupé) ; `contain: layout` isole le calcul de débordement de ce conteneur.
     */}
     <div class="mt-14 overflow-x-auto [contain:layout]" data-reveal>
       <table class="w-full min-w-[36rem] border-collapse text-left text-sm">
@@ -77,31 +78,23 @@ const jamais = [
               <td class="py-4 pl-6">
                 {l.essentiel
                   ? <><Icon name="Check" size={16} class="text-accent" aria-hidden="true" /><span class="sr-only">Inclus</span></>
-                  : <><span aria-hidden="true" class="text-muted/50">—</span><span class="sr-only">Non inclus</span></>}
+                  : <><span aria-hidden="true" class="text-muted/50">–</span><span class="sr-only">Non inclus</span></>}
               </td>
               <td class="py-4 pl-6">
                 {l.complet
                   ? <><Icon name="Check" size={16} class="text-accent" aria-hidden="true" /><span class="sr-only">Inclus</span></>
-                  : <><span aria-hidden="true" class="text-muted/50">—</span><span class="sr-only">Non inclus</span></>}
+                  : <><span aria-hidden="true" class="text-muted/50">–</span><span class="sr-only">Non inclus</span></>}
               </td>
             </tr>
           ))}
-          <tr>
-            <td></td>
-            {formules.map((f) => (
-              <td class="pl-6 pt-6">
-                <Button href="#contact" variant={f.nom === 'Complet' ? 'primary' : 'ghost'} magnetic={f.nom === 'Complet'}>{site.wording.devis}</Button>
-              </td>
-            ))}
-          </tr>
         </tbody>
       </table>
     </div>
 
     <div class="mt-14 grid gap-8 border-t border-line pt-10 md:grid-cols-2" data-stagger="100">
       <div data-reveal>
-        <p class="eyebrow">Ce qui est toujours inclus</p>
-        <ul class="mt-3 flex flex-col gap-2 text-sm text-muted">
+        <h3 class="font-display text-lg">Dans les deux formules</h3>
+        <ul class="mt-4 flex flex-col gap-2 text-sm text-muted">
           {toujoursInclus.map((item) => (
             <li class="flex items-start gap-3">
               <Icon name="Check" size={14} class="mt-0.5 shrink-0 text-accent" />
@@ -112,27 +105,13 @@ const jamais = [
       </div>
 
       <div data-reveal>
-        <p class="eyebrow">Ce qui n’est jamais facturé</p>
-        <ul class="mt-3 flex flex-col gap-2 text-sm text-muted">
-          {jamais.map((n) => (
-            <li class="flex items-start gap-3">
-              <Icon name="Ban" size={14} class="mt-0.5 shrink-0 text-accent" />
-              <span>{n.label} — {n.valeur}</span>
-            </li>
-          ))}
-        </ul>
+        <h3 class="font-display text-lg">Après la livraison</h3>
+        {/* 25 €/mois : montant provisoire, à confirmer par les fondateurs avant mise en ligne. */}
+        <p class="mt-4 max-w-prose text-sm text-muted">
+          Rien à payer. Si vous préférez que nous gardions un œil sur le site, une maintenance existe en option,
+          25&nbsp;€ par mois, résiliable quand vous voulez. Elle n’est jamais imposée.
+        </p>
       </div>
-    </div>
-
-    <div class="mt-10 grid gap-8 border-t border-line pt-8 sm:grid-cols-2" data-stagger="100">
-      <p class="text-sm text-muted" data-reveal>
-        <span class="text-fg">Chèque France Num.</span> Une aide publique peut couvrir une partie de ce montant si le
-        dispositif est actif au moment de votre commande — à vérifier ensemble avant signature.
-      </p>
-      <p class="text-sm text-muted" data-reveal>
-        <span class="text-fg">Maintenance.</span> En option, 25&nbsp;€/mois, facultatif, résiliable à tout moment — jamais
-        imposée à la livraison.
-      </p>
     </div>
   </div>
 </section>

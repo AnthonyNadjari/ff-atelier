@@ -80,6 +80,7 @@ export function buildCsp(config = {}) {
     analyticsPlausible = false,
     analyticsUmamiSrc = '',
     analyticsCloudflare = false,
+    usesLottie = false,
   } = config;
 
   const hasTurnstile = Boolean(turnstileSiteKey);
@@ -95,6 +96,17 @@ export function buildCsp(config = {}) {
   if (hasTurnstile) { scriptSrc.add('https://challenges.cloudflare.com'); frameSrc.add('https://challenges.cloudflare.com'); }
   if (formProvider === 'web3forms') connectSrc.add('https://api.web3forms.com');
   if (mapsProvider === 'google') { frameSrc.add('https://www.google.com'); frameSrc.add('https://maps.google.com'); }
+  // data-lottie : le lecteur (@lottiefiles/dotlottie-web, bundle par nous) va chercher son moteur
+  // WASM sur un CDN a l'execution — bloque par `connect-src 'self'` (vu sur sites/_effets, 20 sept
+  // 2026). Origines ajoutees seulement si une section du site pose l'attribut.
+  if (usesLottie) {
+    connectSrc.add('https://cdn.jsdelivr.net');
+    connectSrc.add('https://unpkg.com');
+    // Compiler un module WebAssembly est soumis a script-src : sans `'wasm-unsafe-eval'` Chrome
+    // refuse `WebAssembly.instantiateStreaming` (vu sur sites/_effets, 20 sept 2026). Ce mot-cle
+    // n'autorise QUE le WASM, pas eval()/new Function() — bien plus etroit que 'unsafe-eval'.
+    scriptSrc.add("'wasm-unsafe-eval'");
+  }
 
   const directives = [
     `default-src 'self'`,

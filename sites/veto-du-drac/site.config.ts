@@ -31,6 +31,9 @@
  * d'attente inventée (`data-count-bar` explicitement écarté par le mandat : « no invented
  * stats »). `data-smooth` (Lenis) volontairement pas activé : casse les captures pleine page sur
  * les `data-scrub`/`data-reveal`, déjà documenté par `sites/studio-ambre`.
+ * 20 sept. 2026 : fond `data-shader="silk"` essayé sur le hero puis retiré (deux effets riches au
+ * même endroit avec la scène `data-parallax-depth`, règle 16) ; tranché : la scène reste, le shader
+ * vit sur `lemaire-avocats`.
  *
  * Vétérinaire = profession réglementée (Ordre des vétérinaires) : communication informative
  * sobre, aucune comparaison avec un confrère, aucune promesse de guérison, aucun tarif
@@ -70,9 +73,9 @@ export default defineSite({
   business: {
     name: 'Clinique vétérinaire du Drac',
     trade: 'Vétérinaire',
-    tagline: 'Chiens, chats, NAC&nbsp;: <em>la même équipe depuis 2009.</em>',
+    tagline: 'Chiens, chats, NAC : <em>la même équipe depuis 2009.</em>',
     description:
-      'Depuis 2009, la Clinique vétérinaire du Drac soigne les chiens, les chats et les nouveaux animaux de compagnie (lapins, rongeurs) à Saint-Martin-d’Hères, à la limite de Grenoble.\n\nTrois vétérinaires se relaient pour les consultations, la chirurgie, la dentisterie et l’imagerie. Aux heures d’ouverture, les urgences sont prises en charge sur place&nbsp;; en dehors, un service de garde de l’agglomération prend le relais.',
+      'Depuis 2009, la Clinique vétérinaire du Drac soigne les chiens, les chats et les nouveaux animaux de compagnie (lapins, rongeurs) à Saint-Martin-d’Hères, à la limite de Grenoble.\n\nTrois vétérinaires se relaient pour les consultations, la chirurgie, la dentisterie et l’imagerie. Aux heures d’ouverture, les urgences sont prises en charge sur place ; en dehors, un service de garde de l’agglomération prend le relais.',
     since: 2009,
     legalForm: 'SELARL',
     schemaType: 'VeterinaryCare',
@@ -104,7 +107,7 @@ export default defineSite({
       title: 'Consultations',
       short: 'Examen clinique, conseil et suivi, pour chiens, chats et NAC.',
       description:
-        'La consultation commence toujours par une observation et des questions sur l’animal et son quotidien.\n\nUn devis est remis avant tout acte complémentaire. Consultation&nbsp;: 36&nbsp;€, à titre indicatif.',
+        'La consultation commence toujours par une observation et des questions sur l’animal et son quotidien.\n\nUn devis est remis avant tout acte complémentaire. Consultation : 36 €, à titre indicatif.',
       icon: 'Stethoscope',
       featured: true,
       priceFrom: '36 € (indicatif)',
@@ -138,7 +141,7 @@ export default defineSite({
     {
       slug: 'urgences',
       title: 'Urgences',
-      short: 'Prises en charge sur place aux heures d’ouverture&nbsp;; le reste du temps, un service de garde prend le relais.',
+      short: 'Prises en charge sur place aux heures d’ouverture ; le reste du temps, un service de garde prend le relais.',
       icon: 'PhoneForwarded',
       featured: true,
     },
@@ -146,7 +149,7 @@ export default defineSite({
 
   about: {
     story:
-      'La clinique a ouvert ses portes en 2009, avenue Gabriel-Péri, à quelques mètres de la limite entre Saint-Martin-d’Hères et Grenoble.\n\nSophie Barral, Karim Ouali et Léa Fontaine se partagent aujourd’hui les consultations, la chirurgie et le suivi des animaux du quartier. Chacun garde ses propres dossiers en tête&nbsp;: c’est un choix, pour qu’un animal soit suivi par la même équipe d’une visite à l’autre.',
+      'La clinique a ouvert ses portes en 2009, avenue Gabriel-Péri, à quelques mètres de la limite entre Saint-Martin-d’Hères et Grenoble.\n\nSophie Barral, Karim Ouali et Léa Fontaine se partagent aujourd’hui les consultations, la chirurgie et le suivi des animaux du quartier. Chacun garde ses propres dossiers en tête : c’est un choix, pour qu’un animal soit suivi par la même équipe d’une visite à l’autre.',
     team: [
       { name: 'Dr Sophie Barral', role: 'Vétérinaire — chirurgie et médecine générale', photo: { src: '/images/portrait.webp', alt: 'Dr Sophie Barral, vétérinaire' } },
       { name: 'Dr Karim Ouali', role: 'Vétérinaire — dentisterie et imagerie', photo: { src: '/images/service-1.webp', alt: 'Dr Karim Ouali, vétérinaire' } },
@@ -166,7 +169,7 @@ export default defineSite({
     { q: 'Faut-il un rendez-vous pour une vaccination ?', a: 'Oui, les vaccinations se font sur rendez-vous, comme les consultations.' },
     { q: 'Recevez-vous les NAC (lapins, rongeurs) ?', a: 'Oui, en plus des chiens et des chats. Précisez l’espèce lors de la prise de rendez-vous.' },
     { q: 'Que se passe-t-il si j’appelle en dehors des horaires ?', a: 'La ligne de la clinique vous oriente vers le service de garde de l’agglomération, qui prend le relais jusqu’à la réouverture.' },
-    { q: 'Le prix de la consultation est-il fixe ?', a: 'La consultation est à 36&nbsp;€ à titre indicatif. Tout acte complémentaire fait l’objet d’un devis avant réalisation.' },
+    { q: 'Le prix de la consultation est-il fixe ?', a: 'La consultation est à 36 € à titre indicatif. Tout acte complémentaire fait l’objet d’un devis avant réalisation.' },
     { q: 'Comment transporter mon chat pour la visite ?', a: 'En caisse de transport, avec un linge qui sent son environnement habituel : cela le rassure pour le trajet et la salle d’attente.' },
   ],
 
@@ -174,7 +177,7 @@ export default defineSite({
 
   wording: {
     devis: 'Prendre rendez-vous',
-    ctaTitle: 'Un doute sur votre animal&nbsp;? <em>Appelez, on vous dit quoi faire.</em>',
+    ctaTitle: 'Un doute sur votre animal ? <em>Appelez, on vous dit quoi faire.</em>',
     ctaText: 'Aux heures d’ouverture, on décroche. En dehors, le service de garde de l’agglomération prend le relais.',
     contactTitle: 'Prendre rendez-vous',
     contactText: 'Décrivez votre besoin et l’animal concerné, nous vous rappelons rapidement.',

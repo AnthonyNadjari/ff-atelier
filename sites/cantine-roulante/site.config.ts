@@ -42,7 +42,7 @@ export default defineSite({
     trade: 'Food truck et traiteur',
     tagline: 'La cuisine basque, du marché de Bayonne <em>à votre table.</em>',
     description:
-      'La Cantine Roulante prépare une cuisine basque maison depuis 2019&nbsp;: axoa de veau, talos, piperade et txistorra, cuisinés et servis à la remorque par une équipe de deux personnes.\n\nEn semaine, retrouvez-nous sur les marchés de Bayonne, Anglet, Biarritz et Saint-Jean-de-Luz. Le soir, la remorque se déplace pour vos mariages et fêtes d’entreprise, jusqu’à 200 convives, dans tout le Pays basque et jusqu’à Pau en traiteur.',
+      'La Cantine Roulante prépare une cuisine basque maison depuis 2019 : axoa de veau, talos, piperade et txistorra, cuisinés et servis à la remorque par une équipe de deux personnes.\n\nEn semaine, retrouvez-nous sur les marchés de Bayonne, Anglet, Biarritz et Saint-Jean-de-Luz. Le soir, la remorque se déplace pour vos mariages et fêtes d’entreprise, jusqu’à 200 convives, dans tout le Pays basque et jusqu’à Pau en traiteur.',
     since: 2019,
   },
 
@@ -84,8 +84,8 @@ export default defineSite({
   faq: [
     { q: 'Où vous trouve-t-on cette semaine ?', a: 'Le mardi à Bayonne (marché), le jeudi à Anglet, le vendredi à Biarritz et le samedi à Saint-Jean-de-Luz. Le programme complet est plus haut sur cette page.' },
     { q: 'Jusqu’à combien de convives pour un mariage ou une fête d’entreprise ?', a: 'Jusqu’à 200 personnes, en buffet ou en service à table, dans tout le Pays basque.' },
-    { q: 'Intervenez-vous en dehors du Pays basque ?', a: 'En traiteur, oui&nbsp;: nous nous déplaçons jusqu’à Pau. Le food truck reste sur Bayonne, Anglet, Biarritz, Saint-Jean-de-Luz et Hendaye.' },
-    { q: 'Comment réserver la remorque pour un événement privé ?', a: 'Par téléphone ou via le formulaire de contact, avec la date, le lieu et le nombre de convives&nbsp;: nous revenons vers vous avec un devis.' },
+    { q: 'Intervenez-vous en dehors du Pays basque ?', a: 'En traiteur, oui : nous nous déplaçons jusqu’à Pau. Le food truck reste sur Bayonne, Anglet, Biarritz, Saint-Jean-de-Luz et Hendaye.' },
+    { q: 'Comment réserver la remorque pour un événement privé ?', a: 'Par téléphone ou via le formulaire de contact, avec la date, le lieu et le nombre de convives : nous revenons vers vous avec un devis.' },
   ],
 
   form: { provider: 'mailto' },
@@ -93,10 +93,10 @@ export default defineSite({
 
   wording: {
     devis: 'Demander un devis traiteur',
-    ctaTitle: 'Un mariage, une fête d’entreprise&nbsp;? <em>On vient avec la remorque.</em>',
-    ctaText: 'Devis clair sous 48&nbsp;h, menu adapté à votre événement, partout dans le Pays basque.',
+    ctaTitle: 'Un mariage, une fête d’entreprise ? <em>On vient avec la remorque.</em>',
+    ctaText: 'Devis clair sous 48 h, menu adapté à votre événement, partout dans le Pays basque.',
     contactTitle: 'Réserver la cantine',
-    contactText: 'Dites-nous la date, le lieu et le nombre de convives&nbsp;: nous vous rappelons rapidement.',
+    contactText: 'Dites-nous la date, le lieu et le nombre de convives : nous vous rappelons rapidement.',
   },
 
   seo: { keywords: ['food truck Bayonne', 'traiteur basque Bayonne', 'axoa Bayonne', 'traiteur mariage Pays basque'] },

@@ -6,7 +6,7 @@ import { FontaineTransform } from 'fontaine';
 import { ffLookPlugin } from './scripts/vite-ff-look.mjs';
 import { imagesIntegration } from './scripts/astro-images-integration.mjs';
 import { readSiteSecurityConfig, buildSecurityHeaderLines } from './scripts/ff/csp.mjs';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 /**
@@ -37,6 +37,11 @@ const domain = existsSync(domainFile) ? readFileSync(domainFile, 'utf8').trim() 
 // d'import TS hors contexte Vite). Sert a construire une CSP par site (docs/DEPLOIEMENT.md § Securite).
 const configFile = resolve(siteDir, 'site.config.ts');
 const securityConfig = readSiteSecurityConfig(existsSync(configFile) ? readFileSync(configFile, 'utf8') : '');
+// data-lottie n'est pas dans site.config.ts mais dans les sections sur mesure du site : on le
+// cherche la, pour n'ouvrir la CSP au CDN du moteur WASM que sur les sites qui s'en servent.
+const sectionsDir = resolve(siteDir, 'sections');
+securityConfig.usesLottie = existsSync(sectionsDir)
+  && readdirSync(sectionsDir).some((f) => f.endsWith('.astro') && /data-lottie/.test(readFileSync(resolve(sectionsDir, f), 'utf8')));
 
 /**
  * FF_LOOK : JSON d'un look (memes cles que look.json) injecte par `ff propositions` / `ff matrice`

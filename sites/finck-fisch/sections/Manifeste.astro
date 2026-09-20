@@ -1,23 +1,28 @@
 ---
 /**
- * Section sur mesure Finck & Fisch : le manifeste en trois affirmations, restylé en liste
- * typographique numérotée (plutôt que trois cartes) — un seul filet qui se trace au scroll
- * (data-draw) referme la liste. Fond encre (bg-ink) : le seul écran du site à inverser noir/blanc,
- * un unique temps fort plutôt qu'un habillage répété. Appelée dans le layout par
+ * Section sur mesure Finck & Fisch : le manifeste en trois affirmations, en liste typographique
+ * numérotée (plutôt que trois cartes) — un seul filet qui se trace au scroll (data-draw) referme
+ * la liste. Fond encre (bg-ink) : le seul écran du site à inverser noir/blanc, un unique temps
+ * fort plutôt qu'un habillage répété. Appelée dans le layout par
  * { type: 'custom', variant: 'manifeste' } (pas de label : ce bloc n'a pas d'ancre de nav, voir
  * sites/finck-fisch/sections/Nav.astro — trois liens seulement).
+ *
+ * Relecture du 20 sept 2026 : le titre « Trois règles, aucune exception » sonnait slogan de
+ * générateur ; remplacé par une phrase plate. Les trois titres en formule choc (« Un prix, une
+ * fois. », « Vite, mais pas pareil. ») réécrits en phrases qu'on dirait au téléphone. La
+ * signature ne répète plus le sous-titre du hero (« deux associés, un seul interlocuteur »).
  */
 import { site } from '@/lib/site';
 const points = [
-  { n: '01', titre: 'Un prix, une fois.', texte: 'Pas d’abonnement, pas de frais cachés. Le site est à vous le jour de la mise en ligne.' },
-  { n: '02', titre: 'Vite, mais pas pareil.', texte: 'Chaque site a sa propre direction, sa typographie, sa composition. Deux clients, deux sites qu’on ne confond pas.' },
-  { n: '03', titre: 'Rien d’inventé.', texte: 'Pas de faux avis, pas de chiffres gonflés. Ce que le site dit de vous est vrai, sinon il ne le dit pas.' },
+  { n: '01', titre: 'Vous payez une fois.', texte: 'Pas d’abonnement, pas de frais cachés. Le site est à vous le jour de la mise en ligne.' },
+  { n: '02', titre: 'Deux clients, deux sites différents.', texte: 'Chaque site a sa direction et sa typographie. Aucun modèle recopié d’un client à l’autre.' },
+  { n: '03', titre: 'Rien d’inventé.', texte: 'Pas de faux avis, pas de chiffres gonflés. Si une chose n’est pas vraie, le site ne la dit pas.' },
 ];
 ---
 
 <section id="manifeste" data-grain class="section-y bg-ink text-on-ink">
   <div class="container-ff">
-    <h2 class="max-w-4xl text-display-lg" data-split>Trois règles, aucune exception.</h2>
+    <h2 class="max-w-4xl text-display-lg" data-split>Comment nous travaillons.</h2>
 
     <ol class="mt-14 border-t border-on-ink/15">
       {points.map((p) => (
@@ -32,6 +37,6 @@ const points = [
     </ol>
 
     <div class="mt-10 h-px w-full bg-on-ink/20" data-draw aria-hidden="true"></div>
-    <p class="mt-6 font-display text-lg italic text-on-ink/60">Signé {site.business.name} — deux associés, un seul interlocuteur.</p>
+    <p class="mt-6 font-display text-lg italic text-on-ink/60">Signé {site.business.name}.</p>
   </div>
 </section>

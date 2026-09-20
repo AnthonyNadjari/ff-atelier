@@ -9,6 +9,9 @@
 //   - [data-pin]/[data-frames]/[data-horizontal] : spacer ScrollTrigger demesure (> 400vh, fin cassee),
 //     [data-pin-step] dont aucun n'est jamais devenu .is-active ;
 //   - [data-frames-canvas] jamais dessine (pixel central transparent) ;
+//   - [data-shader] (fond WebGL, src/scripts/shader.ts) : canvas .ff-shader-canvas present mais jamais
+//     dessine (data-shader-state != "drawn"), ou repli sans degrade — un canvas WebGL ne se lit pas
+//     par getContext('2d') (contexte deja pris), d'ou l'etat pose par le moteur plutot qu'un pixel ;
 //   - [data-marquee] dont .marquee-track n'a pas ete dupliquee (< 2 enfants) ;
 //   - [data-counter] reste a "0" ou vide ;
 //   - debordement horizontal (scrollWidth > clientWidth) hors pistes volontairement plus larges
@@ -137,6 +140,13 @@ function collectDiagnostics() {
     // n'est pas le scroll qui doit le reveler. getClientRects() reste fiable meme en position:fixed
     // (contrairement a offsetParent, toujours null pour du fixed).
     if (el.getClientRects().length === 0) return;
+    // Ignore aussi ce qui EST rendu (a des client rects) mais reste cache derriere un panneau/dialogue
+    // FERME : la nav "burger" (src/sections/Nav/burger.astro) est `position: fixed` en plein ecran,
+    // donc garde des client rects meme translatee hors-champ (opacity:0, transform:translateY(-100%),
+    // pointer-events:none) — seul son `aria-hidden="true"` (pose au repos, retire au clic) dit qu'il
+    // est ferme. Meme logique pour tout `[hidden]` ou `<dialog>` non ouvert : ce n'est pas le scroll
+    // qui doit les reveler, l'audit ne clique jamais sur le bouton d'ouverture.
+    if (el.closest('[aria-hidden="true"], [hidden], dialog:not([open])')) return;
     const cs = getComputedStyle(el);
     const opacity = parseFloat(cs.opacity);
     const transform = cs.transform;
@@ -197,6 +207,31 @@ function collectDiagnostics() {
       if (px[3] === 0) results.framesCanvasBlank.push({ selector: cssPath(canvas), reason: 'pixel central transparent (jamais dessine)' });
     } catch (e) {
       results.framesCanvasBlank.push({ selector: cssPath(canvas), reason: `lecture impossible : ${e.message}` });
+    }
+  });
+
+  // ---- 3bis. data-shader : fond WebGL dessine (data-shader-state="drawn") ou repli pose ----
+  // Un canvas de shader est "dessine" des que shader.ts a rendu une frame (etat pose par le moteur) :
+  // il ne passe jamais par le test du pixel 2D ci-dessus (getContext('2d') rend null sur un canvas
+  // WebGL, ce qui serait un faux positif "lecture impossible"). Le repli (subtle/reduced/WebGL absent,
+  // data-shader-state="fallback") est OK s'il a bien pose un background-image.
+  document.querySelectorAll('[data-shader]').forEach((el) => {
+    if (el.getClientRects().length === 0) return;
+    const state = el.getAttribute('data-shader-state') || '';
+    const canvas = el.querySelector(':scope > canvas.ff-shader-canvas');
+    if (state === 'drawn') {
+      if (canvas && (!canvas.width || !canvas.height)) results.framesCanvasBlank.push({ selector: cssPath(el), reason: 'canvas de shader a dimensions nulles' });
+      return;
+    }
+    if (state === 'fallback') {
+      const bg = getComputedStyle(el).backgroundImage;
+      if (!bg || bg === 'none') results.framesCanvasBlank.push({ selector: cssPath(el), reason: 'repli data-shader sans background-image' });
+      return;
+    }
+    if (canvas && getComputedStyle(canvas).display !== 'none') {
+      results.framesCanvasBlank.push({ selector: cssPath(el), reason: `canvas de shader jamais dessine (data-shader-state="${state || '(absent)'}")` });
+    } else if (!state) {
+      results.framesCanvasBlank.push({ selector: cssPath(el), reason: 'data-shader sans canvas ni repli (moteur non execute ?)' });
     }
   });
 
@@ -308,7 +343,7 @@ async function auditPage(page) {
 const SECTIONS = [
   ['revealStuck', 'Apparitions au scroll (data-reveal/data-stagger/split/fill-word)'],
   ['pinIssues', 'Sections epinglees (data-pin/data-horizontal)'],
-  ['framesCanvasBlank', "Sequence d'images (data-frames-canvas)"],
+  ['framesCanvasBlank', "Canvas (data-frames-canvas, data-shader)"],
   ['marqueeBroken', 'Bandeau defilant (data-marquee)'],
   ['counterStuck', 'Compteurs (data-counter)'],
   ['overflowX', 'Debordement horizontal'],

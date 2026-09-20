@@ -17,6 +17,7 @@ if (!sites.length) { console.error('Aucun site correspondant dans dist/.'); proc
 
 function serve(slug, port) {
   const root = join(DIST, slug);
+  const notFoundPath = join(root, '404.html');
   const server = createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname);
     let f = join(root, pathname);
@@ -26,8 +27,19 @@ function serve(slug, port) {
     // pour tester la CSP en local avant deploiement (voir scripts/ff/headers-file.mjs), et pour que
     // `ff sante http://localhost:PORT` voie le vrai Cache-Control de /_astro/*.
     const headerLines = headersForPath(loadHeadersRules(root), pathname);
-    if (!existsSync(f)) { res.writeHead(404, Object.fromEntries(headerLines)); return res.end('404'); }
-    res.writeHead(200, { 'Content-Type': types[extname(f)] ?? 'application/octet-stream', ...Object.fromEntries(headerLines) });
+    if (!existsSync(f)) {
+      // Chemin inconnu : Cloudflare Pages sert 404.html avec un vrai statut 404 (pas 200) — voir
+      // tests/sante.test.mjs, dont le petit serveur local reproduit deja ce comportement, et
+      // docs/veille/repetition-generale.md (friction #3 : `ff sante http://localhost:PORT` voyait un
+      // faux `/404 repond 200`).
+      const headers = { 'Content-Type': 'text/html; charset=utf-8', ...Object.fromEntries(headerLines) };
+      if (existsSync(notFoundPath)) { res.writeHead(404, headers); return res.end(readFileSync(notFoundPath)); }
+      res.writeHead(404, headers);
+      return res.end('404');
+    }
+    // Cloudflare Pages repond aussi 404 sur /404 lui-meme (c'est LA page 404, pas une page normale a 200).
+    const statut = pathname === '/404' ? 404 : 200;
+    res.writeHead(statut, { 'Content-Type': types[extname(f)] ?? 'application/octet-stream', ...Object.fromEntries(headerLines) });
     res.end(readFileSync(f));
   });
   server.on('error', (e) => {

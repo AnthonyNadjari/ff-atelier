@@ -135,6 +135,12 @@ blocs à 1 effet `subtle` maximum (`data-reveal`, `data-stagger`, `data-count-ba
 `data-sticky-stack` + `data-count-bar` combinés. Le hero et le bloc équipe restent en `data-reveal`
 simple.
 
+**Fond shader (`data-shader`, `docs/ANIMATIONS.md`) :** un fond WebGL lent sur un hero sans photo
+**est** le feu d'artifice de la page, même s'il ne bouge presque pas — il occupe le GPU en continu
+et concentre le regard sur le premier écran. Un site qui l'utilise garde tous ses autres blocs en
+`subtle` (`data-reveal`, `data-stagger`, `data-count-bar`) : jamais `data-shader` + marquee, ni
+`data-shader` + `data-frames`/`data-horizontal`/`data-stack` sur la même page.
+
 ### (e) Ce qu'il ne faut jamais animer pour ce métier
 
 L'interdiction se lit à trois niveaux, du plus général au plus spécifique :
@@ -145,13 +151,17 @@ L'interdiction se lit à trois niveaux, du plus général au plus spécifique :
    cité dans `docs/BRIEF.md`).
 2. **La règle par famille d'émotion** — c'est la formulation demandée par le fondateur :
    - **Santé / réglementé** (dentiste, ostéopathe, vétérinaire, avocat, coach sportif dès qu'il promet
-     un résultat corporel) : jamais `data-confetti` (frivole face à un sujet de santé/argent lourd),
+     un résultat corporel) : `data-shader` **recommandé** en hero quand le brief n'apporte aucune photo
+     (conseil, santé, studios de création, tech : un fond `mesh`/`silk` lent aux couleurs de la
+     direction donne de la matière sans inventer d'image, `docs/veille/shaders.md`) ; jamais `data-confetti` (frivole face à un sujet de santé/argent lourd),
      jamais de `data-marquee`/`data-marquee-velocity` (le défilement vend un catalogue, pas une
      relation de confiance), jamais de compteur qui ressemble à une statistique commerciale même si le
      chiffre est réel (voir nuance en § 1c), jamais de comparaison avec un confrère nommé
      (`docs/REDACTION.md` § 3).
    - **Urgence** (plombier, serrurier, électricien en dépannage) : jamais de séquence qui retarde le
-     numéro de téléphone — proscrire `data-frames`, `data-pin` long ou `data-smooth` (Lenis) en hero ;
+     numéro de téléphone — proscrire `data-frames`, `data-pin` long, `data-smooth` (Lenis) ou un fond
+     `data-shader` en hero (un chunk WebGL de plus avant le numéro, et une « ambiance » là où il faut
+     une réponse) ;
      le bug déjà documenté sur `dubois-plomberie` (lien `tel:` sorti des 1500 premiers caractères à
      cause d'un badge placé avant le bouton d'appel, corrigé par réordonnancement DOM) est le même
      principe appliqué au HTML plutôt qu'au motion — l'urgence ne tolère aucune friction, animée ou
@@ -159,6 +169,9 @@ L'interdiction se lit à trois niveaux, du plus général au plus spécifique :
    - **Commerce / envie** (boulangerie, food truck, fleuriste, brasserie) : `data-confetti` et
      `data-marquee-velocity` sont au contraire appropriés (succès de commande, carte qui vit) — c'est
      la seule famille où ils sont recommandés plutôt que tolérés.
+     `data-shader` n'y a pas sa place non plus, ni chez l'artisan chaleureux (boulanger, ébéniste,
+     paysagiste) : la matière vient de la photo du produit ou de l'atelier, `data-grain` suffit sur
+     un fond uni — un fond GPU « tech » y sonne faux.
 3. **La règle par contrainte réglementaire du métier**, au-delà du motion : brasserie artisanale
    (Loi Évin — jamais associer alcool et image de performance sportive/séduction/jeunesse, quel que
    soit l'effet utilisé), profession réglementée (CNB pour l'avocat, Ordre pour le vétérinaire —

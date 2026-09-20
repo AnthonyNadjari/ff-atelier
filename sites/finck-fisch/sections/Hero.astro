@@ -4,7 +4,13 @@
  * site.config.ts). Composition : le monogramme de la maison EN FILIGRANE GEANT D'ARRIÈRE-PLAN
  * (il se dessine en calligraphie sequentielle derriere le contenu, puis reste en corps de
  * lumiere tombante + filet d'argent — signature du studio, 19 sept 2026), et devant : le nom
- * en vrai texte Cormorant, la promesse, deux portes.
+ * la promesse, deux portes.
+ *
+ * Relecture du 20 sept 2026 : la ligne « FINCK & FISCH / DIGITAL STUDIO » au-dessus du titre est
+ * retiree — le nom etait deja dans la nav (monogramme + nom) et en filigrane geant : trois fois
+ * au-dessus de la ligne de flottaison, et « Digital Studio » en anglais sous un eyebrow est le
+ * chip de hero que ff detect signale. Sous-titre ramene a deux phrases (il empilait quatre
+ * arguments en une). Les delais de reveal sont raccourcis d autant.
  *
  * L'animation (v3 acceleree) : chaque sous-trait du SVG vectorise (sections/mono-subpaths.ts,
  * extrait de public/images/monogramme.svg) se trace apres le precedent (stroke-dashoffset en
@@ -63,17 +69,14 @@ import { MONO_SUBPATHS } from './mono-subpaths';
   </div>
 
   <div class="container-ff">
-    <p class="font-display text-lg uppercase tracking-[0.42em] text-fg md:text-xl" data-split="chars">Finck &amp; Fisch</p>
-    <p class="mt-3 font-mono text-xs uppercase tracking-[0.5em] text-muted" data-reveal data-reveal-delay="1500">Digital Studio</p>
+    <h1 class="max-w-4xl text-display-xl" data-reveal data-reveal-delay="1100" set:html={site.business.tagline} />
 
-    <h1 class="mt-12 max-w-4xl text-display-xl" data-reveal data-reveal-delay="1700" set:html={site.business.tagline} />
-
-    <p class="mt-8 max-w-xl text-lg text-muted" data-reveal data-reveal-delay="1900">
-      Deux associés, un seul interlocuteur. Trois directions visuelles proposées dès le premier rendu,
-      un prix annoncé avant de commencer, et le site vous appartient le jour de la mise en ligne.
+    <p class="mt-8 max-w-xl text-lg text-muted" data-reveal data-reveal-delay="1300">
+      Un studio à deux personnes. Vous connaissez le prix avant de commencer, et le site est à vous
+      dès la mise en ligne.
     </p>
 
-    <div class="mt-12 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="2100">
+    <div class="mt-12 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="1500">
       <a href="#contact" class="btn btn-primary" data-magnetic="0.25">{site.wording?.devis ?? 'Parler de votre projet'}</a>
       <a href="#realisations" class="btn btn-ghost">Voir les réalisations</a>
     </div>

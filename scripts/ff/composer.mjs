@@ -3,7 +3,7 @@
 // les sites existants. N'ecrit sites/<slug>/look.json que si --ecrire est passe.
 import fs from 'node:fs';
 import path from 'node:path';
-import { SITES_DIR, siteExists, parseArgs, ok, fail, info, c } from './util.mjs';
+import { SITES_DIR, siteExists, parseArgs, ok, fail, warn, info, c } from './util.mjs';
 import {
   mulberry32,
   seedFromString,
@@ -67,14 +67,15 @@ function normalise(s) {
     .replace(/[̀-ͯ]/g, '');
 }
 
-function scoreDirections(dirMetas, metier, directionCounts) {
+export function scoreDirections(dirMetas, metier, directionCounts) {
   const m = normalise(metier);
   return dirMetas.map((d) => {
     let score = 0;
     const reasons = [];
     const metiers = (d.metiers || []).map(normalise);
     const eviter = (d.eviter || []).map(normalise);
-    if (m && metiers.some((x) => x && (m.includes(x) || x.includes(m)))) {
+    const metierMatch = Boolean(m && metiers.some((x) => x && (m.includes(x) || x.includes(m))));
+    if (metierMatch) {
       score += 3;
       reasons.push('métier correspond à cette direction');
     }
@@ -96,8 +97,22 @@ function scoreDirections(dirMetas, metier, directionCounts) {
       score -= 2 * n;
       reasons.push(`déjà utilisée ${n} fois parmi les sites existants (-${2 * n})`);
     }
-    return { ...d, score, reasons };
+    return { ...d, score, reasons, metierMatch, eviterMatch: Boolean(evite) };
   });
+}
+
+/**
+ * Palier d'une direction pour un metier donne : 0 = adaptee (metier reconnu et pas "a eviter"),
+ * 1 = neutre (ni l'un ni l'autre — aucune donnee sur ce metier dans meta.ts), 2 = a eviter
+ * explicitement. Le palier prime TOUJOURS sur le score (donc sur le malus de variete "-2*n
+ * deja utilisee") : une direction adaptee ne peut jamais finir derriere une direction hors sujet,
+ * quel que soit le nombre de fois qu'elle a deja servi. Voir docs/veille/repetition-generale.md,
+ * friction #3 (fleuriste -> industriel/neon sans avertissement).
+ */
+export function directionTier(d) {
+  if (d.eviterMatch) return 2;
+  if (d.metierMatch) return 0;
+  return 1;
 }
 
 function pickDivider(dir) {
@@ -175,8 +190,14 @@ export function pickLook(slug, opts = {}) {
     (d) => !excludeDirections.includes(d.dir),
   );
   const pool = scored.length > 0 ? scored : scoreDirections(dirMetas, metierFinal, usage.directionCounts);
-  const ranked = rankWithTies(pool, (d) => d.score, rng);
+  // Palier d'abord (directionTier), score ensuite : voir directionTier ci-dessus. rankWithTies ne
+  // compare que par score, donc le palier est injecte comme composante dominante (poids 1000, bien
+  // au-dela de tout score possible ici) plutot que par un second critere de tri separe — garde le
+  // depart des ex-aequo par rng existant intact au sein d'un meme palier.
+  const ranked = rankWithTies(pool, (d) => d.score - directionTier(d) * 1000, rng);
   const chosen = ranked[0];
+  const top3 = ranked.slice(0, 3);
+  const metierAdapte = directionTier(chosen) === 0;
 
   // Hero : evite les combinaisons direction+hero deja utilisees, sinon les heros deja forces (propositions).
   let heroCandidates = VARIANTS.hero.filter(
@@ -265,12 +286,40 @@ export function pickLook(slug, opts = {}) {
     ['en-têtes', headings, `tirage pondéré (${HEADINGS_WEIGHTS[headings] ?? 10} pts de base)`],
   ];
 
-  return { slug, direction: chosen.dir, dirMeta: chosen, look, justification, metier: metierFinal };
+  return {
+    slug,
+    direction: chosen.dir,
+    dirMeta: chosen,
+    look,
+    justification,
+    metier: metierFinal,
+    top3,
+    metierAdapte,
+  };
 }
+
+const TIER_LABELS = { 0: 'adaptée au métier', 1: 'neutre (pas de lien connu avec ce métier)', 2: 'à éviter pour ce métier' };
 
 function printProposal(slug, result) {
   info(c.bold(`Proposition de look pour ${slug}`) + (result.metier ? c.dim(`  (métier : ${result.metier})`) : ''));
   info('');
+
+  // Les 3 directions retenues (palier puis score, voir directionTier) : toujours affichees avant le
+  // detail du look, pour qu'une personne non technique voie IMMEDIATEMENT pourquoi telle direction a
+  // gagne sur les deux suivantes, sans avoir a lire scripts/ff/composer.mjs.
+  info(c.bold('Directions envisagées (3 meilleures) :'));
+  for (const [i, d] of result.top3.entries()) {
+    const label = TIER_LABELS[directionTier(d)];
+    const why = d.reasons.length ? d.reasons.join(' ; ') : 'aucun critère particulier';
+    info(`  ${i + 1}. ${c.cyan(d.dir.padEnd(12))} ${c.dim(`(${label})`)}  ${why}`);
+  }
+  if (!result.metierAdapte) {
+    warn(
+      `Aucune direction adaptée au métier "${result.metier || '(non renseigné)'}" trouvée : "${result.direction}" est un choix par défaut, sans lien connu avec ce métier — vérifie docs/DIRECTIONS.md avant de livrer.`,
+    );
+  }
+  info('');
+
   const width1 = Math.max(...result.justification.map((r) => r[0].length)) + 2;
   const width2 = Math.max(...result.justification.map((r) => String(r[1]).length)) + 2;
   for (const [k, v, why] of result.justification) {

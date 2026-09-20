@@ -98,6 +98,33 @@ S'arrêter et le dire quand : les sept critères sont cochés ; ou un critère d
 
 ## Journal
 
+- 20 sept 2026 : deep dive « factory opérationnelle en quelques jours, site le moins IA possible »,
+  cinq agents en parallèle. **Site F&F** : tells IA retirés (nom trois fois au-dessus du pli,
+  11 tirets cadratins, 6 triptyques, FAQ de 10 → 5, slogans → phrases parlées), galerie rendue
+  honnête (« douze sites de démonstration », plus de villes fictives ni de jargon technique),
+  contact sur mesure, page 8 953 → 7 382 px ; `ff detect` sans règle dure. Étalon fetché (Hello
+  Monday, Basic, Instrument) : nous sommes dans leur fourchette de mots au-dessus du pli ; l'écart
+  restant est l'absence de vrais clients. **Shaders** (question du fondateur) : lib `shaders`
+  (shaders.com) évaluée et écartée (WebGPU sans repli, dépend de three, 18 Mo, licence propriétaire
+  payante pour usage commercial — `docs/veille/shaders.md`) ; à la place, effet maison `data-shader`
+  (mesh/silk/aurora/grain-gradient, `src/scripts/shader.ts`, ogl déjà présent, 7 Ko de chunk,
+  couleurs lues dans les tokens, pause hors écran, repli dégradé CSS sans WebGL ou en reduced-motion,
+  contrôle dédié dans `ff audit-motion`). Appliqué sur `lemaire-avocats` ; essayé puis retiré sur
+  `veto-du-drac` (deux effets riches au même endroit, règle 16). **Répétition générale** du process
+  par un agent jouant l'associée non technique (`docs/veille/repetition-generale.md`) : pipeline
+  solide, trois pièges corrigés dans la foulée — `ff composer` pouvait choisir une direction hors
+  sujet pour le métier (fleuriste → industriel) : paliers métier avant le score, raisons affichées,
+  avertissement explicite ; `ff audit-motion` prenait le menu burger fermé pour une animation
+  bloquée ; `ff servir` renvoyait 200 sur /404 (faux échec `ff sante`). Verdict de l'agent avant ces
+  correctifs : « pas opérationnel sans supervision » ; après, le point restant est humain : sans
+  Claude Code, aucun moyen non technique d'écrire `site.config.ts` (`ff-generer` existe mais aucune
+  clé API dans `.env`). **Autres** : `ff sante` lisait mal le nouveau JSON-LD `@graph` (test rouge
+  corrigé) ; `&nbsp;` s'affichait en clair sur trois sites (18 occurrences, contrôle ajouté au
+  vérificateur) ; CSP ouverte au CDN WASM de dotLottie seulement pour les sites qui posent
+  `data-lottie` (captures `_effets` rouges) ; trois heros qui paraissaient vides au premier écran
+  (studio-ambre, maison-aurore, anna-vidal) repris. Références du reel du fondateur : contentcore.xyz
+  (outil payant de contenu pour réseaux, hors sujet), is.graphics (domaine expiré).
+
 - 18 sept 2026 (matin) : second reel envoyé par le fondateur (« Claude builds websites that actually look
   good » : Impeccable + Taste Skill + captures Playwright en boucle). Les deux outils sont open source et
   réels : clonés, lus, comparés à nos docs dans `docs/veille/skills-design-ia.md` (18 règles chiffrées

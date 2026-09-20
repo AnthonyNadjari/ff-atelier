@@ -45,7 +45,7 @@ export default defineSite({
     trade: 'Auto-école',
     tagline: 'Le permis à Tours, quartier Velpeau, <em>à votre rythme.</em>',
     description:
-      'Auto-école à Tours, quartier Velpeau, depuis 2005&nbsp;: permis B (boîte manuelle ou automatique), conduite accompagnée, code et permis moto A2.\n\nCinq enseignants de la conduite suivent chaque élève du premier cours jusqu’à l’examen, avec un planning adapté à son emploi du temps.',
+      'Auto-école à Tours, quartier Velpeau, depuis 2005 : permis B (boîte manuelle ou automatique), conduite accompagnée, code et permis moto A2.\n\nCinq enseignants de la conduite suivent chaque élève du premier cours jusqu’à l’examen, avec un planning adapté à son emploi du temps.',
     since: 2005,
     certifications: ['Qualiopi'],
     schemaType: 'EducationalOrganization',
@@ -70,7 +70,7 @@ export default defineSite({
       title: 'Permis B — boîte manuelle',
       short: 'La conduite classique, embrayage compris, pour un permis polyvalent.',
       description:
-        'Le permis B en boîte manuelle reste le choix le plus polyvalent&nbsp;: il permet de conduire aussi bien un véhicule à boîte manuelle qu’automatique.\n\nLe forfait de base comprend 20 heures de conduite, ajustables selon le rythme de progression de chaque élève.',
+        'Le permis B en boîte manuelle reste le choix le plus polyvalent : il permet de conduire aussi bien un véhicule à boîte manuelle qu’automatique.\n\nLe forfait de base comprend 20 heures de conduite, ajustables selon le rythme de progression de chaque élève.',
       bullets: ['Évaluation de départ', 'Rythme adapté à chaque élève', 'Code inclus dans le forfait'],
       icon: 'Car',
       featured: true,
@@ -133,7 +133,7 @@ export default defineSite({
     },
     {
       q: 'Peut-on commencer le code avant la conduite ?',
-      a: 'Oui&nbsp;: le code en ligne est accessible dès l’inscription, en complément des séances en salle. La plupart des élèves passent le code avant de commencer les heures de conduite.',
+      a: 'Oui : le code en ligne est accessible dès l’inscription, en complément des séances en salle. La plupart des élèves passent le code avant de commencer les heures de conduite.',
     },
     {
       q: 'La conduite accompagnée (AAC) est-elle possible dès 15 ans ?',
@@ -141,7 +141,7 @@ export default defineSite({
     },
     {
       q: 'Le forfait de 20 heures suffit-il toujours ?',
-      a: 'Le forfait B de 20 heures correspond à la durée réglementaire de référence. Le nombre d’heures réellement nécessaire dépend de chaque élève&nbsp;; les heures supplémentaires sont facturées à l’heure.',
+      a: 'Le forfait B de 20 heures correspond à la durée réglementaire de référence. Le nombre d’heures réellement nécessaire dépend de chaque élève ; les heures supplémentaires sont facturées à l’heure.',
     },
   ],
 

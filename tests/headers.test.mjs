@@ -122,3 +122,13 @@ test('_headers est ecrit au build avec une CSP et les autres en-tetes de securit
   const expected = buildCsp(readSiteSecurityConfig(configSrc));
   assert.ok(txt.includes(`Content-Security-Policy: ${expected}`), 'la CSP ecrite ne correspond pas a buildCsp(readSiteSecurityConfig(...))');
 });
+
+test('csp : data-lottie ouvre connect-src au CDN du moteur WASM, et seulement dans ce cas', () => {
+  const sans = buildCsp({});
+  const avec = buildCsp({ usesLottie: true });
+  assert.doesNotMatch(sans, /cdn\.jsdelivr\.net/);
+  assert.match(avec, /connect-src [^;]*https:\/\/cdn\.jsdelivr\.net/);
+  assert.match(avec, /connect-src [^;]*https:\/\/unpkg\.com/);
+  assert.match(avec, /script-src [^;]*'wasm-unsafe-eval'/);
+  assert.doesNotMatch(sans, /wasm-unsafe-eval/);
+});

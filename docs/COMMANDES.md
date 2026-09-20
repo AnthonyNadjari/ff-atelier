@@ -55,6 +55,7 @@ ff sante boulangerie-durand
 | Le site est moche en mobile | `ff studio boulangerie-durand` |
 | Une animation ne part pas | `ff audit-motion boulangerie-durand` |
 | C'est lent | `ff perf boulangerie-durand` |
+| `ff perf` échoue sur la catégorie "fonts" | Changer la paire de polices dans `ff studio boulangerie-durand` (onglet Typographie) ou revenir en arrière dans `site.config.ts` — le choix automatique de `ff composer`/`ff propositions` ne regarde pas le budget de perf. |
 | Le client dit que la page est cassée en ligne | `ff sante boulangerie-durand` |
 
 ## 4. Le reste, par besoin
@@ -88,6 +89,14 @@ ff sante boulangerie-durand
 - `ff sante boulangerie-durand` — vérifie que le site déjà en ligne est en bonne santé (à J+1 puis chaque mois).
 - `ff archiver boulangerie-durand` — sauvegarde ponctuelle zippée du site.
 - `ff liste` — liste tous les sites, leur direction, et si le build existe.
+
+## Piloter l'atelier sans terminal (serveur MCP)
+
+Pour poser les commandes du quotidien en langage naturel dans Claude Code plutôt que de taper
+`node scripts/ff.mjs ...` : `claude mcp add ff-atelier -- node scripts/ff-mcp.mjs` (une fois, depuis la
+racine du repo). Expose `build`/`verifier`/`composer`/`captures`/`perf`/`liste`/`variete`/`modeles`/
+`nouveau`/`aide` comme outils — jamais `deploy`/`domaine`/`ff generer` (une action qui publie ou facture
+reste volontairement hors MCP). Détail : `CLAUDE.md` § Workflows en une commande.
 
 ## Avant de pouvoir les utiliser
 

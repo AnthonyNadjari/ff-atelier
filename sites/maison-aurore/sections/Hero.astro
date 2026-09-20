@@ -1,6 +1,7 @@
 ---
 /**
- * Hero de quasi-silence (mandat) : une petite ligne serif (pas de titre display géant), une bande
+ * Hero de quasi-silence (mandat) : une ligne serif mesurée (text-display-md, pas de titre display
+ * géant), une bande
  * défilante lente (data-marquee="8s") des soins en italique, une image plein cadre en duotone doux
  * (data-duotone, tokens ink→accent de la direction luxe) qui se déflote et glisse légèrement au
  * scroll (data-reveal="blur" + data-parallax). Sous le rideau, un court paragraphe éditorial
@@ -9,6 +10,13 @@
  * direct, que le <picture> de <Img> casse (même remarque que sites/jardins-mael/sections/Saisons.astro).
  * Composition propre à ce site : aucun autre hero du dépôt n'associe marquee + duotone + pas de
  * grand titre display.
+ *
+ * Correction (20 sept 2026, planche-contact des premiers écrans) : le quasi-silence était allé trop
+ * loin — écran quasi noir (voile ink/72 sur une photo déjà sombre), une seule ligne à 30 px, et la
+ * bande des soins rejetée sous la ligne de flottaison (100svh + décalage sous la nav fixe). Le voile
+ * passe à ink/50 + dégradé haut/bas (la photo duotone se devine), la ligne passe en text-display-md,
+ * la hauteur en 88svh pour que la bande des soins — le « ce qu'on y fait » — tienne dans le premier
+ * écran. Toujours pas de bouton ni de paragraphe : le silence reste, il est juste lisible.
  *
  * Bug réel trouvé et contourné (pas un faux positif) : `[data-duotone] { position: relative; ... }`
  * (global.css) est une règle CSS "nue", hors `@layer` — dans Tailwind v4 (cascade layers natives),
@@ -32,7 +40,7 @@ const rituals = site.services.map((s) => s.title);
 ---
 
 <section id="hero" class="relative">
-  <div class="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden text-center">
+  <div class="relative flex min-h-[88svh] flex-col items-center justify-center overflow-hidden text-center">
     {hero && (
       <div class="absolute inset-0 -z-10">
         <div class="h-full w-full" data-duotone>
@@ -48,12 +56,13 @@ const rituals = site.services.map((s) => s.title);
         </div>
       </div>
     )}
-    <div class="absolute inset-0 -z-10 bg-ink/72" aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-10 bg-ink/50" aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink/70 via-transparent to-ink/40" aria-hidden="true"></div>
 
     <div class="container-ff relative z-[2] text-on-ink">
-      <p class="eyebrow text-on-ink/65" data-reveal>{site.business.trade} · {site.contact.address.city}</p>
+      <p class="eyebrow text-on-ink/75" data-reveal>{site.business.trade} · {site.contact.address.city}</p>
       <h1
-        class="mx-auto mt-7 max-w-md font-display text-2xl italic leading-snug tracking-tight text-on-ink sm:text-3xl"
+        class="mx-auto mt-6 max-w-3xl font-display text-display-md italic leading-[1.15] tracking-tight text-on-ink"
         data-reveal="blur"
         data-reveal-delay="150"
         set:html={site.business.tagline}
