@@ -171,7 +171,16 @@ export const siteSchema = z.object({
       .default('osm')
       .describe("Fournisseur de carte (src/components/Carte.astro). 'osm' = tuiles OpenStreetMap statiques sans traceur (besoin de coordinates). 'google' = facade cliquable qui charge mapsEmbed au clic. 'none' = bloc adresse seul."),
     coordinates: z.object({ lat: z.number(), lng: z.number() }).optional().describe('Latitude/longitude, necessaire pour mapsProvider "osm"'),
-    hours: z.array(z.object({ days: z.string(), hours: z.string() })).default([]),
+    hours: z
+      .array(
+        z.object({
+          days: z.string(),
+          hours: z.string(),
+          opens: z.string().regex(/^\d{2}:\d{2}$/).optional().describe("Heure d'ouverture HH:MM (ex: 08:00) — avec closes, le JSON-LD émet openingHoursSpecification structuré au lieu du texte libre (mieux lu par les moteurs IA)"),
+          closes: z.string().regex(/^\d{2}:\d{2}$/).optional().describe('Heure de fermeture HH:MM (ex: 18:00)'),
+        }),
+      )
+      .default([]),
     emergency24h: z.boolean().default(false),
   }),
 

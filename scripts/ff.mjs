@@ -33,6 +33,7 @@ import { cmdDetect } from './ff/detect.mjs';
 import { cmdVitrine } from './ff/vitrine.mjs';
 import { cmdLogo } from './ff/logo.mjs';
 import { cmdAuditMotion } from './ff/audit-motion.mjs';
+import { cmdIndexNow } from './ff/indexnow.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -84,6 +85,7 @@ const commands = {
   detect: cmdDetect,
   vitrine: cmdVitrine,
   logo: cmdLogo,
+  indexnow: cmdIndexNow,
 };
 
 async function main() {

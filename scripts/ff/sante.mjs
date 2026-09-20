@@ -166,11 +166,19 @@ async function checkJsonLd(homeHtml, slug, checks) {
     checks.push({ pass: false, label: 'Aucun bloc JSON-LD trouve dans la page d\'accueil' });
     return;
   }
+  // Depuis le 19 sept 2026, Base.astro emet UN seul bloc avec un `@graph` (LocalBusiness enrichi +
+  // FAQPage + Service). Le type du commerce n'est donc plus a la racine : on cherche d'abord dans
+  // le graphe le noeud qui n'est ni FAQPage ni Service ni WebSite (c'est le LocalBusiness ou son
+  // sous-type), puis on retombe sur l'ancienne forme (objet plat avec @type).
+  const GENERIQUES = new Set(['FAQPage', 'Service', 'WebSite', 'WebPage', 'BreadcrumbList', 'Organization']);
   let typeTrouve = '';
   for (const bloc of blocs) {
     try {
       const data = JSON.parse(bloc[1]);
-      if (data['@type']) { typeTrouve = data['@type']; break; }
+      const noeuds = Array.isArray(data['@graph']) ? data['@graph'] : [data];
+      const commerce = noeuds.find((n) => n && typeof n['@type'] === 'string' && !GENERIQUES.has(n['@type']));
+      const candidat = commerce || noeuds.find((n) => n && n['@type']);
+      if (candidat) { typeTrouve = String(candidat['@type']); break; }
     } catch { /* bloc suivant */ }
   }
   if (!typeTrouve) {

@@ -1,44 +1,174 @@
 ---
 /**
- * Hero sur mesure Finck & Fisch — direction eclipse. Le logo de la maison en grand (version claire
- * detouree par `ff logo`, voir scripts/ff/logo.mjs), une seule phrase, deux portes. Rien d'autre :
- * c'est un studio qui vend du calme et de la place, le premier ecran doit le prouver avant de
- * l'ecrire.
+ * Hero sur mesure Finck & Fisch — direction eclipse + titres Cormorant (typography.display du
+ * site.config.ts). Composition : le monogramme de la maison EN FILIGRANE GEANT D'ARRIÈRE-PLAN
+ * (il se dessine en calligraphie sequentielle derriere le contenu, puis reste en corps de
+ * lumiere tombante + filet d'argent — signature du studio, 19 sept 2026), et devant : le nom
+ * en vrai texte Cormorant, la promesse, deux portes.
  *
- * Plus de bande horizontale de vignettes ici (elle existait avant) : elle faisait doublon avec la
- * galerie « Vingt metiers, vingt sites » qui suit immediatement, et son epinglage GSAP ajoutait a
- * lui seul une hauteur d'ecran de defilement pour montrer huit images qu'on revoit trente lignes
- * plus bas. Retrait demande le 18 sept 2026 (« there is too much scrolling »).
+ * L'animation (v3 acceleree) : chaque sous-trait du SVG vectorise (sections/mono-subpaths.ts,
+ * extrait de public/images/monogramme.svg) se trace apres le precedent (stroke-dashoffset en
+ * cascade, 0,25 s -> 2,7 s, accent eclipse), le corps se pose en degrade perle, une lame de
+ * lumiere douce balaie les lettres (clippee a leur forme). Reference : ~/Downloads/ff-logo-anime-v3.webm.
+ * prefers-reduced-motion : filigrane statique, aucune anim.
  *
- * Le titre n'est pas decoupe mot a mot (data-split) mais revele d'un bloc, en fondu long : sur un
- * fond noir, une cascade de mots attire l'oeil sur l'animation au lieu de la phrase.
+ * data-grain sur la section : matiere du noir. .hero-stars : champ d'etincelles d'ambiance.
+ * L'emphase du titre porte la vraie italique de Cormorant (eclipse la desactive pour Space
+ * Grotesk, qui n'en a pas).
  */
 import { site } from '@/lib/site';
+import { MONO_SUBPATHS } from './mono-subpaths';
 ---
 
-<section id="hero" class="relative flex min-h-[86svh] items-center overflow-hidden pt-32 pb-20 md:pt-36">
+<section id="hero" data-grain class="relative flex min-h-[86svh] items-center overflow-hidden pt-32 pb-20 md:pt-36">
+  {/* Monogramme geant en arriere-plan : il se dessine derriere le contenu, decale a droite,
+      saignant hors du cadre — le trace reste le feu d'artifice, le filigrane sa matiere. */}
+  <div class="hero-mono-bg" aria-hidden="true">
+    <svg class="hero-mono-svg" viewBox="0 0 868 283" focusable="false">
+      <defs>
+        <clipPath id="hero-mono-clip">
+          {MONO_SUBPATHS.map((d) => <path d={d} />)}
+        </clipPath>
+        <linearGradient id="hero-sheen-grad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="rgba(255,255,255,0)" />
+          <stop offset="0.5" stop-color="rgba(255,255,255,0.28)" />
+          <stop offset="1" stop-color="rgba(255,255,255,0)" />
+        </linearGradient>
+        {/* Remplissage « lumiere tombante » : perle en haut, presque rien en bas.
+            Les stops portent l'opacite — .mono-fill reste a opacity 1 une fois pose. */}
+        <linearGradient id="hero-mono-grad" x1="0.15" y1="0" x2="0.55" y2="1">
+          <stop class="g1" offset="0" />
+          <stop class="g2" offset="0.55" />
+          <stop class="g3" offset="1" />
+        </linearGradient>
+      </defs>
+      {MONO_SUBPATHS.map((d) => <path class="mono-fill" d={d} />)}
+      {MONO_SUBPATHS.map((d, i) => <path class="mono-trace" d={d} pathLength="1000" style={`--i:${i}`} />)}
+      <g clip-path="url(#hero-mono-clip)">
+        <rect class="mono-sheen" x="0" y="-40" width="420" height="370" fill="url(#hero-sheen-grad)" />
+      </g>
+    </svg>
+  </div>
+
+  {/* Etincelles d'ambiance : champ tres clairseme, scintillement lent et perpetuel. */}
+  <div class="hero-stars" aria-hidden="true">
+    <span style="left:52%;top:18%;--d:3.2s;--t:5.5s" />
+    <span style="left:63%;top:64%;--d:4.1s;--t:6.5s" />
+    <span style="left:71%;top:30%;--d:3.6s;--t:7.5s" />
+    <span style="left:80%;top:52%;--d:4.6s;--t:6s" />
+    <span style="left:88%;top:22%;--d:5.2s;--t:8s" />
+    <span style="left:57%;top:78%;--d:4.9s;--t:7s" />
+    <span style="left:76%;top:82%;--d:5.7s;--t:6.8s" />
+    <span style="left:93%;top:70%;--d:6.2s;--t:7.8s" />
+  </div>
+
   <div class="container-ff">
-    <img
-      src="/images/monogramme-clair.png"
-      alt=""
-      width="291"
-      height="229"
-      class="h-16 w-auto opacity-90 md:h-20"
-      data-reveal
-      loading="eager"
-      fetchpriority="high"
-    />
+    <p class="font-display text-lg uppercase tracking-[0.42em] text-fg md:text-xl" data-split="chars">Finck &amp; Fisch</p>
+    <p class="mt-3 font-mono text-xs uppercase tracking-[0.5em] text-muted" data-reveal data-reveal-delay="1500">Digital Studio</p>
 
-    <h1 class="mt-10 max-w-4xl text-display-xl" data-reveal data-reveal-delay="120" set:html={site.business.tagline} />
+    <h1 class="mt-12 max-w-4xl text-display-xl" data-reveal data-reveal-delay="1700" set:html={site.business.tagline} />
 
-    <p class="mt-8 max-w-xl text-lg text-muted" data-reveal data-reveal-delay="240">
+    <p class="mt-8 max-w-xl text-lg text-muted" data-reveal data-reveal-delay="1900">
       Deux associés, un seul interlocuteur. Trois directions visuelles proposées dès le premier rendu,
       un prix annoncé avant de commencer, et le site vous appartient le jour de la mise en ligne.
     </p>
 
-    <div class="mt-12 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="360">
-      <a href="#contact" class="btn btn-primary">{site.wording?.devis ?? 'Parler de votre projet'}</a>
+    <div class="mt-12 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="2100">
+      <a href="#contact" class="btn btn-primary" data-magnetic="0.25">{site.wording?.devis ?? 'Parler de votre projet'}</a>
       <a href="#realisations" class="btn btn-ghost">Voir les réalisations</a>
     </div>
   </div>
 </section>
+
+<style>
+  /* --- Filigrane geant : a droite, saigne hors cadre, derriere le contenu (z-index 0) --- */
+  .hero-mono-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: none;
+  }
+  /* Halo derriere la lettre : la « couleur » d'eclipse, c'est la lumiere sur le noir. */
+  .hero-mono-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(46% 55% at 72% 46%, hsl(210 18% 72% / 0.09), transparent 70%);
+  }
+  .hero-mono-svg {
+    width: min(92vh, 64vw);
+    margin-right: -7%;
+    flex: none;
+  }
+  #hero .container-ff { position: relative; z-index: 1; }
+
+  /* --- Orchestration : trace 0,25 -> 2,7 s, le corps se pose en degrade a 2,5 s,
+     lame douce 3,3 s. Puis le filigrane reste : corps en lumiere tombante + filet
+     d'argent persistant (l'arete nette qui empeche l'effet « tache grise »). --- */
+  .mono-trace {
+    fill: none;
+    stroke: var(--accent);
+    stroke-opacity: 0.55;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation:
+      mono-trace-in 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+      mono-trace-settle 1s ease 3.1s forwards;
+    animation-delay: calc(0.25s + var(--i) * 0.32s), 3.1s;
+  }
+  @keyframes mono-trace-in { to { stroke-dashoffset: 0; } }
+  @keyframes mono-trace-settle { to { stroke-opacity: 0.22; } }
+
+  .mono-fill {
+    fill: url(#hero-mono-grad);
+    opacity: 0;
+    animation: mono-fill-in 1s cubic-bezier(0.25, 1, 0.5, 1) 2.5s forwards;
+  }
+  @keyframes mono-fill-in { to { opacity: 1; } }
+  #hero-mono-grad .g1 { stop-color: var(--fg); stop-opacity: 0.17; }
+  #hero-mono-grad .g2 { stop-color: var(--fg); stop-opacity: 0.06; }
+  #hero-mono-grad .g3 { stop-color: var(--accent); stop-opacity: 0.02; }
+
+  .mono-sheen { animation: mono-sheen-sweep 1.1s cubic-bezier(0.45, 0, 0.25, 1) 3.3s both; }
+  @keyframes mono-sheen-sweep {
+    from { transform: translateX(-1500px) skewX(-18deg); }
+    to { transform: translateX(1500px) skewX(-18deg); }
+  }
+
+  /* --- Etincelles d'arriere-plan --- */
+  .hero-stars { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hero-stars span {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffffff, rgba(210, 218, 226, 0.3));
+    box-shadow: 0 0 8px rgba(230, 236, 242, 0.9);
+    opacity: 0;
+    animation: star-twinkle var(--t) ease-in-out var(--d) infinite;
+  }
+  @keyframes star-twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    45% { opacity: 0.9; transform: scale(1); }
+    60% { opacity: 0.55; transform: scale(0.85); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mono-trace { animation: none; stroke-dashoffset: 0; stroke-opacity: 0.22; }
+    .mono-fill { opacity: 1; animation: none; }
+    .mono-sheen, .hero-stars { display: none; }
+  }
+
+  /* Cormorant a une vraie italique : l'emphase du titre la porte (eclipse pose font-style:normal
+     pour Space Grotesk — regle de direction, passee en specificite superieure pour ce hero). */
+  #hero h1 em {
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+</style>

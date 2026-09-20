@@ -110,6 +110,15 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
       applicable).
 - [ ] Formulaire de contact testé de bout en bout (envoi réel reçu).
 - [ ] Site soumis à Google Search Console (sitemap déposé).
+- [ ] **Visibilité IA (moteurs de réponse)** — ChatGPT Search et Copilot puisent dans l'index Bing :
+      - [ ] IndexNow soumis (`ff deploy` le fait automatiquement si le domaine est branché ;
+            sinon `node scripts/ff.mjs indexnow <slug>` après mise en ligne) ;
+      - [ ] fiche **Bing Places for Business** créée/corrigée pour le client (bingplaces.com,
+            import possible depuis Google Business Profile) — la recherche locale de ChatGPT
+            s'appuie dessus autant que sur la fiche Google ;
+      - [ ] Cloudflare : l'option « Block AI bots » ( Bots / AI Crawl Control) **décochée** pour
+            les bots de recherche (OAI-SearchBot, PerplexityBot, Claude-SearchBot) — le robots.txt
+            du site les autorise, encore faut-il que le pare-feu ne les jette pas.
 - [ ] Domaine au nom du client, pas du studio.
 - [ ] Dépôt de code remis/accessible au client.
 - [ ] Aucun chiffre, avis ou note inventé n'a été laissé dans `site.config.ts` — tout ce qui manquait

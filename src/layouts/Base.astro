@@ -5,6 +5,7 @@
  */
 import '@/styles/global.css';
 import { site, fullAddress, slugCourant, schemaTypeForTrade } from '@/lib/site';
+import { openingHoursSpecification } from '@/lib/jsonld';
 import { fontFamilies, preloadFonts } from 'virtual:ff-look';
 import { lookupImageEntry, splitImagePath, imageSrcsetFor } from '@/lib/images';
 // ClientRouter (site.transitions, opt-in) : voir docs/ANIMATIONS.md § Transitions de page.
@@ -16,8 +17,14 @@ interface Props {
   /** Chemin canonique, ex: "/services/depannage" */
   path?: string;
   noindex?: boolean;
+  /**
+   * JSON-LD additionnels propres à la page (FAQPage sur l'accueil, Service sur /services/*).
+   * Fusionnés dans le graphe JSON-LD unique du layout (localBusiness + ceux-ci).
+   * Ne jamais passer un schéma pour du contenu qui n'est pas affiché sur la page.
+   */
+  jsonLd?: Record<string, unknown>[];
 }
-const { title, description, path = '/', noindex = false } = Astro.props;
+const { title, description, path = '/', noindex = false, jsonLd = [] } = Astro.props;
 
 // Direction et polices : resolues au build par scripts/vite-ff-look.mjs (module virtuel), afin que
 // seule la direction choisie et ses polices soient dans le graphe (Astro regroupe le CSS de tout
@@ -51,12 +58,15 @@ const heroPreload = heroImg
     })()
   : undefined;
 
-// Sous-type schema.org : business.schemaType prime, sinon deduit du metier (schemaTypeForTrade),
-// repli 'LocalBusiness'. Pas d'aggregateRating/Review auto-declare : Google sanctionne les avis
-// self-serving sur une entite qui se note elle-meme (voir docs/veille/seo-conversion.md § 1.4) ;
-// la note Google reste affichee dans les sections (proof/google), jamais dans le JSON-LD.
-const ldJson = {
-  '@context': 'https://schema.org',
+// Horaires : openingHoursSpecification (structure, opens/closes du config) prime ; sinon le
+// texte libre `openingHours` historique. geo : seulement si contact.coordinates est renseigne.
+// Tout le JSON-LD de la page est fusionne en UN SEUL script (@graph) : des balises script
+// dynamiques (rendues par un .map()) faisaient occasionnellement echouer le scan de dependances
+// de Vite en dev (« Unexpected "." », CSS non charge, fond blanc) — un seul script statique avec
+// set:html, comme historiquement, est immunise. Ne jamais ecrire le nom de cette balise en
+// chevrons dans un commentaire du frontmatter : le scan de Vite l'y prend pour une vraie balise.
+const ohsSpec = openingHoursSpecification(site.contact.hours);
+const localBusinessLd = {
   '@type': site.business.schemaType || schemaTypeForTrade(site.business.trade),
   name: site.business.name,
   description: pageDesc,
@@ -71,11 +81,16 @@ const ldJson = {
     addressLocality: site.contact.address.city,
     addressCountry: 'FR',
   },
+  geo: site.contact.coordinates
+    ? { '@type': 'GeoCoordinates', latitude: site.contact.coordinates.lat, longitude: site.contact.coordinates.lng }
+    : undefined,
   areaServed: site.zones.cities.map((c) => ({ '@type': 'City', name: c })),
-  openingHours: site.contact.hours.map((h) => `${h.days} ${h.hours}`),
+  openingHours: ohsSpec ? undefined : site.contact.hours.map((h) => `${h.days} ${h.hours}`),
+  openingHoursSpecification: ohsSpec,
   sameAs: Object.values(site.social).filter(Boolean),
   foundingDate: site.business.since ? String(site.business.since) : undefined,
 };
+const ldJson = { '@context': 'https://schema.org', '@graph': [localBusinessLd, ...jsonLd] };
 ---
 
 <!doctype html>

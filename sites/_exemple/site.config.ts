@@ -40,7 +40,7 @@ export default defineSite({
     address: { street: '12 rue de l’Épeule', postalCode: '59100', city: 'Roubaix' },
     mapsUrl: 'https://maps.google.com/?q=Roubaix',
     hours: [
-      { days: 'Lundi – vendredi', hours: '8h – 18h' },
+      { days: 'Lundi – vendredi', hours: '8h – 18h', opens: '08:00', closes: '18:00' },
       { days: 'Samedi', hours: 'Sur rendez-vous' },
     ],
     emergency24h: false,

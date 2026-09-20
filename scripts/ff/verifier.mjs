@@ -555,6 +555,77 @@ export function warnMajusculesHorsEyebrow(files, distDir, warnings) {
   }
 }
 
+/* =====================================================================
+   VISIBILITE IA — moteurs de reponse (ChatGPT via Bing, Perplexity, AI Overviews).
+   Verifie que le site buildé reste lisible et citable par les robots de recherche IA :
+   robots.txt explicite + sitemap absolu, llms.txt, JSON-LD FAQPage/Service quand le contenu
+   correspondant est affiché. Les sources : src/pages/robots.txt.ts, src/pages/llms.txt.ts,
+   src/lib/jsonld.ts — ces checks sont le filet de sécurité si l'un régresse.
+   ===================================================================== */
+
+/** robots.txt présent, bots de recherche IA explicitement autorisés (bloquant). Sitemap absolu
+ * exigé seulement si un domaine est connu (local sans domain.txt : ligne omise par construction). */
+function checkRobotsTxtIA(slug, distDir, checks, warnings) {
+  const p = path.join(distDir, 'robots.txt');
+  if (!fs.existsSync(p)) {
+    checks.push({ pass: false, label: 'robots.txt absent de dist/' });
+    return;
+  }
+  const txt = fs.readFileSync(p, 'utf8');
+  checks.push(/User-agent:\s*OAI-SearchBot/i.test(txt)
+    ? { pass: true, label: 'robots.txt : bots de recherche IA explicitement autorisés (OAI-SearchBot, PerplexityBot...)' }
+    : { pass: false, label: 'robots.txt sans autorisation explicite des bots de recherche IA' });
+  const aUnDomaine = fs.existsSync(path.join(SITES_DIR, slug, 'domain.txt'));
+  if (aUnDomaine && !/^Sitemap:\s*https?:\/\//m.test(txt)) {
+    warnings.push('robots.txt : Sitemap absent ou relatif alors que le site a un domaine (URL absolue exigée par la spec)');
+  }
+}
+
+/** llms.txt présent (synthèse Markdown pour LLM, src/pages/llms.txt.ts). */
+function checkLlmsTxt(distDir, checks) {
+  checks.push(fs.existsSync(path.join(distDir, 'llms.txt'))
+    ? { pass: true, label: 'llms.txt présent (synthèse Markdown du site pour les LLM)' }
+    : { pass: false, label: 'llms.txt absent de dist/ (endpoint src/pages/llms.txt.ts cassé ?)' });
+}
+
+/** FAQPage JSON-LD attendu sur l'accueil si une section FAQ y est affichée (id="faq" visible). */
+function checkFaqJsonLd(distDir, checks) {
+  const indexPath = path.join(distDir, 'index.html');
+  if (!fs.existsSync(indexPath)) return;
+  const html = fs.readFileSync(indexPath, 'utf8');
+  const sectionFaqVisible = /\bid=["']faq["']/i.test(html);
+  const aFaqPageLd = /"@type"\s*:\s*"FAQPage"/.test(html);
+  if (sectionFaqVisible && !aFaqPageLd) {
+    checks.push({ pass: false, label: 'Section FAQ affichée sur index.html mais JSON-LD FAQPage absent (les moteurs IA ne verront pas les Q/R structurées)' });
+  } else {
+    checks.push({ pass: true, label: aFaqPageLd ? 'JSON-LD FAQPage présent sur index.html' : 'Pas de section FAQ affichée : JSON-LD FAQPage non requis' });
+  }
+}
+
+/** JSON-LD Service attendu sur chaque page /services/* (contenu Service affiché). */
+function checkServiceJsonLd(files, distDir, checks) {
+  const servicePages = files.filter((f) => /[\\/]services[\\/][^\\/]+\.html$/i.test(f));
+  if (servicePages.length === 0) {
+    checks.push({ pass: true, label: 'Pas de page service : JSON-LD Service non requis' });
+    return;
+  }
+  const offenders = [];
+  for (const file of servicePages) {
+    const html = fs.readFileSync(file, 'utf8');
+    if (!/"@type"\s*:\s*"Service"/.test(html)) offenders.push(path.relative(distDir, file));
+  }
+  if (offenders.length > 0) checks.push({ pass: false, label: `JSON-LD Service absent des pages service : ${offenders.join(', ')}` });
+  else checks.push({ pass: true, label: `JSON-LD Service présent sur les ${servicePages.length} page(s) service` });
+}
+
+/** Non-bloquant : clé IndexNow absente du build alors que le site a un domaine (créée par ff deploy). */
+function warnIndexNowKeyAbsente(slug, distDir, warnings) {
+  const aUnDomaine = fs.existsSync(path.join(SITES_DIR, slug, 'domain.txt'));
+  if (!aUnDomaine) return;
+  const aUneCle = fs.readdirSync(distDir).some((f) => /^indexnow-[0-9a-f]{32}\.txt$/.test(f));
+  if (!aUneCle) warnings.push(`Clé IndexNow absente de dist/ : lance \`ff deploy ${slug}\` (crée la clé et soumet à Bing) ou \`ff indexnow ${slug}\` après mise en ligne`);
+}
+
 export async function cmdVerifier(args) {
   const { positional, flags } = parseArgs(args);
   const slug = resolveSlug(positional[0]);
@@ -624,13 +695,20 @@ export async function cmdVerifier(args) {
   checkHtmlLangFr(files, distDir, checks);
   checkSitemapIndex(distDir, checks);
 
+  const warnings = [];
+  // --- Visibilité IA (moteurs de réponse) ---
+  checkRobotsTxtIA(slug, distDir, checks, warnings);
+  checkLlmsTxt(distDir, checks);
+  checkFaqJsonLd(distDir, checks);
+  checkServiceJsonLd(files, distDir, checks);
+  warnIndexNowKeyAbsente(slug, distDir, warnings);
+
   // --- Rendu (docs/veille/rendu.md §7) ---
   checkGrilleImagesRatioCoherente(files, distDir, checks);
 
   // --- Textes (docs/REDACTION.md) ---
   checkMotsInterditsTextes(files, distDir, checks);
 
-  const warnings = [];
   warnImagesSansDimension(files, distDir, warnings);
   warnOgImageManquant(slug, files, distDir, warnings);
   warnBlocSurMesure(slug, warnings);

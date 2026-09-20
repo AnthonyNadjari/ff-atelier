@@ -38,8 +38,11 @@
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Valeurs de secours : une direction incomplete reste lisible. */
-:root {
+/* Valeurs de secours : une direction incomplete reste lisible. `:where()` = specificite zero :
+   la direction gagne toujours, quel que soit l'ordre d'injection du CSS (en dev, Vite peut
+   injecter global.css APRES la direction — `:root` nu laissait le fond blanc de secours ecraser
+   le fond de la direction, cas reel eclipse 18 sept 2026). */
+:where(:root) {
   --bg: #ffffff;
   --bg-2: #f6f6f4;
   --surface: #ffffff;

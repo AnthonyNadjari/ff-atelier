@@ -1,13 +1,24 @@
 // `ff deploy <slug> [--projet <nom>]` : build puis `npx wrangler pages deploy`.
+// Si le site a un domaine (sites/<slug>/domain.txt), enchaîne avec une soumission IndexNow
+// (Bing -> visibilité ChatGPT/Copilot) — jamais bloquante.
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { ROOT, resolveSlug, runAstro, ok, fail, info, c, parseArgs } from './util.mjs';
+import { ROOT, resolveSlug, runAstro, ok, fail, warn, info, c, parseArgs } from './util.mjs';
+import { indexNowForSlug, ensureIndexNowKey } from './indexnow.mjs';
 
-export function cmdDeploy(args) {
+export async function cmdDeploy(args) {
   const { positional, flags } = parseArgs(args);
   const slug = resolveSlug(positional[0]);
   const projet = flags.projet || slug;
+
+  // Clé IndexNow créée AVANT le build quand le site a un domaine : le fichier de vérification
+  // doit être dans dist/ pour que Bing accepte la soumission faite après le déploiement.
+  const aUnDomaine = fs.existsSync(path.join(ROOT, 'sites', slug, 'domain.txt'));
+  if (aUnDomaine) {
+    const { key, created } = ensureIndexNowKey(slug);
+    if (created) ok(`Clé IndexNow créée : sites/${slug}/public/indexnow-${key}.txt (vérifiée par Bing à la racine du domaine).`);
+  }
 
   info(`Construction de ${slug}...`);
   const buildStatus = runAstro('build', slug);
@@ -53,5 +64,16 @@ export function cmdDeploy(args) {
     info('  Cloudflare dashboard -> Pages -> ton projet -> Custom domains -> Set up a custom domain.');
     info(`  Le domaine canonique du site vient de ${c.cyan(`sites/${slug}/domain.txt`)} (une ligne, sans https).`);
     info(`  Cree/modifie ce fichier puis relance \`ff build ${slug}\` pour que le sitemap et les balises canonical le refletent.`);
+
+    // IndexNow : le domaine existe, on notifie Bing (visibilité ChatGPT Search / Copilot).
+    info('');
+    const result = await indexNowForSlug(slug);
+    if (result.skipped) {
+      warn(`IndexNow ignoré : ${result.skipped}.`);
+    } else if (result.ok) {
+      ok(`IndexNow : ${result.detail} (${result.host}) — Bing, donc ChatGPT Search et Copilot, apprennent le site tout de suite.`);
+    } else {
+      warn(`IndexNow : ${result.detail} — non bloquant, relance \`ff indexnow ${slug}\` plus tard.`);
+    }
   }
 }

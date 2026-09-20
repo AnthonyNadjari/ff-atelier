@@ -63,6 +63,13 @@ En croisant le brief (section 12 : 3 adjectifs, métier, sites aimés/pas aimés
     direction (tableau dans `docs/DIRECTIONS.md`), pas laissé à `none` par défaut sans y penser.
   - `layout.tone` (`flat` / `alternate`) : `alternate` si plusieurs sections voisines partagent le même
     fond et se confondent visuellement.
+- **Rythme de page et geste humain** (règles 19-20 de `docs/CONVENTIONS.md`) : la liste des sections
+  retenues ne doit pas aligner trois blocs au même squelette (titre à gauche + texte + grille) — varie
+  les variantes pour casser le rythme, et vise un **temps fort** unique (une section custom en bloc
+  encre inversé, un moment typographique, une galerie pleine largeur) entre la moitié et les deux
+  tiers de la page. C'est presque toujours le rôle du **bloc sur mesure** (étape 7) : c'est lui qui
+  porte le geste humain du site (élément signé, matière `data-grain` si grand fond uni, geste du
+  métier montré) — le look « gabarit répété » est ce que le client paie pour éviter.
 - **Nav / hero / footer** : choisis dans `VARIANTS` selon `docs/DIRECTIONS.md`, en tenant compte des
   données réellement disponibles (ex. `hero: video` seulement si une vidéo existe, `hero: fullbleed`
   seulement si une photo forte existe).

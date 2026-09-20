@@ -9,23 +9,23 @@ export default defineSite({
   slug: 'finck-fisch',
   domain: 'finckfisch.fr',
 
-  // Direction luxe : noir profond, or fin, Cormorant. Sobre et precieux plutot qu'off-white +
-  // rouge vif — c'est notre vitrine, elle doit ressembler a ce qu'on vend, pas a une landing page
-  // generique. Pas de `typography` : les polices de la direction (Cormorant / Instrument Sans)
-  // sont exactement le registre voulu.
+  // Direction eclipse (noir encre, filets d'argent, grand vide) + titres en Cormorant : la charte
+  // du studio (repo F-F) veut un serif haut de gamme pour le nom — les titres tout en Space Grotesk
+  // donnaient un rendu « template SaaS sombre », exactement ce qu'on vend de ne pas faire. Le corps
+  // reste en Instrument Sans (lisible, neutre) : le contraste serif/sans fait le cachet.
   direction: 'eclipse',
   motion: 'rich',
   scale: 'display',
+  typography: { display: 'cormorant' },
   layout: {
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      // Page volontairement courte (« there is too much scrolling », 18 sept 2026) : cinq blocs.
-      // « Manifeste » (trois regles) et « Trois propositions » ont ete retires — le premier repetait
-      // en trois paragraphes ce que l'offre dit en tableau, le second refaisait l'etape 03 de
-      // « Comment ca se passe ». Leurs fichiers restent dans sections/ : ils se rebranchent en une
-      // ligne si on veut une page longue.
+      // Page courte (cinq blocs + manifeste). Le manifeste (bloc encre inverse, signe) est la
+      // seule section qui inverse noir/blanc : il casse le rythme uniforme de la page — remis le
+      // 19 sept 2026 apres la refonte « moins IA, plus humain » (voir Hero.astro, grain + serif).
       { type: 'custom', variant: 'realisations', label: 'Réalisations' },
+      { type: 'custom', variant: 'manifeste' },
       { type: 'custom', variant: 'commentcasepasse' },
       { type: 'custom', variant: 'offre', label: 'Offre' },
       { type: 'faq', variant: 'two-columns' },
@@ -50,7 +50,7 @@ export default defineSite({
     phoneDisplay: '06 00 00 00 00',
     email: 'contact@finckfisch.fr',
     address: { postalCode: '75000', city: 'Paris' },
-    hours: [{ days: 'Lundi – vendredi', hours: '9h – 19h' }],
+    hours: [{ days: 'Lundi – vendredi', hours: '9h – 19h', opens: '09:00', closes: '19:00' }],
     emergency24h: false,
   },
 

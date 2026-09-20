@@ -88,6 +88,21 @@ export async function loadSchemaTypeModule() {
   return import(url);
 }
 
+/**
+ * Copie src/lib/jsonld.ts + src/lib/schemaType.ts (sa seule dependance runtime) dans TMP_DIR/lib/
+ * et les importe. Renvoie { daysOfWeek, openingHoursSpecification, faqPageLd, serviceLd }.
+ */
+export async function loadJsonLdModule() {
+  const libDir = path.join(TMP_DIR, 'lib');
+  fs.mkdirSync(libDir, { recursive: true });
+  for (const name of ['jsonld.ts', 'schemaType.ts']) {
+    const src = fs.readFileSync(path.join(ROOT, 'src', 'lib', name), 'utf8');
+    fs.writeFileSync(path.join(libDir, name), addTsExtensions(src));
+  }
+  const url = pathToFileURL(path.join(libDir, 'jsonld.ts')).href;
+  return import(url);
+}
+
 export function cleanTmp() {
   fs.rmSync(TMP_DIR, { recursive: true, force: true });
 }

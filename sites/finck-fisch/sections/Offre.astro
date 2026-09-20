@@ -90,7 +90,7 @@ const jamais = [
             <td></td>
             {formules.map((f) => (
               <td class="pl-6 pt-6">
-                <Button href="#contact" variant={f.nom === 'Complet' ? 'primary' : 'ghost'}>{site.wording.devis}</Button>
+                <Button href="#contact" variant={f.nom === 'Complet' ? 'primary' : 'ghost'} magnetic={f.nom === 'Complet'}>{site.wording.devis}</Button>
               </td>
             ))}
           </tr>

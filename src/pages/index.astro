@@ -6,6 +6,7 @@
 import Base from '@/layouts/Base.astro';
 import { site } from '@/lib/site';
 import { getSection, resolveSection } from '@/lib/sections';
+import { faqPageLd } from '@/lib/jsonld';
 
 const shells = import.meta.glob<{ default: any }>('/src/shells/*.astro', { eager: true });
 const shellKey = `/src/shells/${site.layout.shell}.astro`;
@@ -16,8 +17,12 @@ const Nav = resolveSection('nav', site.layout.nav);
 const Hero = resolveSection('hero', site.layout.hero);
 const Footer = resolveSection('footer', site.layout.footer);
 const sections = site.layout.sections.map((s) => ({ ...s, Component: getSection(s.type, s.variant) }));
+
+// FAQPage JSON-LD : seulement si une section faq est affichee sur la page (jamais de schema
+// pour du contenu invisible). Aide les moteurs de reponse IA a citer les vraies Q/R du site.
+const faqLd = site.layout.sections.some((s) => s.type === 'faq') ? faqPageLd(site.faq) : undefined;
 ---
 
-<Base path="/">
+<Base path="/" jsonLd={faqLd ? [faqLd] : []}>
   <Shell Nav={Nav} Hero={Hero} Footer={Footer} sections={sections} />
 </Base>

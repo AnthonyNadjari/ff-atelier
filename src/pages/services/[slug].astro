@@ -3,6 +3,7 @@
 import Base from '@/layouts/Base.astro';
 import { site, tel, paragraphs } from '@/lib/site';
 import { getSection, resolveSection } from '@/lib/sections';
+import { serviceLd } from '@/lib/jsonld';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
@@ -17,9 +18,10 @@ const Cta = getSection('cta', site.layout.sections.find((s) => s.type === 'cta')
 const others = site.services.filter((s) => s.slug !== service.slug);
 const title = `${service.title} à ${site.contact.address.city} — ${site.business.name}`;
 const paras = paragraphs(service.description ?? service.short);
+const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug}`, Astro.site).toString());
 ---
 
-<Base title={title} description={service.short} path={`/services/${service.slug}`}>
+<Base title={title} description={service.short} path={`/services/${service.slug}`} jsonLd={[serviceJsonLd]}>
   <Nav />
   <main id="main">
     <article class="section-y">
