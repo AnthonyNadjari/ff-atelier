@@ -32,7 +32,9 @@ import { cmdArchiver } from './ff/archiver.mjs';
 import { cmdDetect } from './ff/detect.mjs';
 import { cmdVitrine } from './ff/vitrine.mjs';
 import { cmdLogo } from './ff/logo.mjs';
+import { cmdSequencePhoto } from './ff/sequence-photo.mjs';
 import { cmdAuditMotion } from './ff/audit-motion.mjs';
+import { cmdNettete } from './ff/nettete.mjs';
 import { cmdIndexNow } from './ff/indexnow.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -85,6 +87,8 @@ const commands = {
   detect: cmdDetect,
   vitrine: cmdVitrine,
   logo: cmdLogo,
+  'sequence-photo': cmdSequencePhoto,
+  nettete: cmdNettete,
   indexnow: cmdIndexNow,
 };
 

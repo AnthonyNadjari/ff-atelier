@@ -1,6 +1,7 @@
 // `ff perf <slug> [--lighthouse] [--build]` : budget de performance SANS navigateur (rapide, pensable
 // en pre-commit) — lit dist/<slug> (le construit d'abord seulement s'il est absent, ou si `--build`),
-// somme les octets bruts par categorie (html, css, js-initial, js-lazy, fonts, images-home) et compare
+// somme les octets bruts par categorie (html, css, js-initial, js-lazy, fonts, images-home — pour un
+// srcset, le candidat que le telephone de reference charge vraiment, voir MOBILE_REFERENCE) et compare
 // a perf-budget.json (racine du repo, un seul budget partage par tous les sites). Sort en erreur (1) si
 // une categorie depasse son budget, avec le detail des fichiers en cause. `--lighthouse` enchaine
 // ensuite un audit Lighthouse complet (score + LCP reel, plus lent) via scripts/ff/lighthouse.mjs.
@@ -53,12 +54,65 @@ function extractAttr(tag, name) {
   return m ? m[1] : null;
 }
 
-/** Un srcset ne coute qu'UN fichier a l'utilisateur : on retient le candidat <= 800w le plus grand (mobile), sinon le plus petit. */
-function srcsetUrls(srcset) {
-  const cands = srcset.split(',').map((part) => { const [u, d] = part.trim().split(/\s+/); return { u, w: d ? parseInt(d, 10) : 0 }; }).filter((c) => c.u);
+// Le telephone de reference du budget : le meme que le viewport mobile de `ff nettete` (390 px CSS,
+// DPR 3 — iPhone courant ; un Pixel a 412 px @2,625 tombe sur les memes candidats). Un srcset ne coute
+// qu'UN fichier a l'utilisateur : celui que CE telephone choisit, d'apres `sizes`.
+export const MOBILE_REFERENCE = { width: 390, dpr: 3 };
+
+/** Evalue un attribut `sizes` (ex: "(min-width: 1024px) 33vw, 100vw") a une largeur de viewport donnee -> px CSS. */
+export function evaluerSizes(sizes, viewportWidth = MOBILE_REFERENCE.width) {
+  const toPx = (val) => {
+    const m = String(val).trim().match(/^(-?[\d.]+)\s*(px|vw|rem|em)?$/i);
+    if (!m) return null;
+    const n = parseFloat(m[1]);
+    const unit = (m[2] || 'px').toLowerCase();
+    if (unit === 'vw') return (n * viewportWidth) / 100;
+    if (unit === 'rem' || unit === 'em') return n * 16;
+    return n;
+  };
+  const condVraie = (cond) => {
+    // Supporte (min-width: X) / (max-width: X), eventuellement combinees par "and" ; le reste = vrai.
+    let ok = true;
+    for (const [, type, val] of cond.matchAll(/\((min|max)-width\s*:\s*([^)]+)\)/gi)) {
+      const px = toPx(val);
+      if (px === null) continue;
+      if (type.toLowerCase() === 'min' && viewportWidth < px) ok = false;
+      if (type.toLowerCase() === 'max' && viewportWidth > px) ok = false;
+    }
+    return ok;
+  };
+  if (!sizes) return viewportWidth; // sans `sizes`, le navigateur suppose 100vw
+  for (const entree of sizes.split(',')) {
+    const e = entree.trim();
+    if (!e) continue;
+    const m = e.match(/^(\(.*\))\s*(\S+)$/); // "(cond) valeur"
+    if (m) {
+      if (condVraie(m[1])) {
+        const px = toPx(m[2]);
+        if (px !== null) return px;
+      }
+      continue;
+    }
+    const px = toPx(e); // valeur seule = repli
+    if (px !== null) return px;
+  }
+  return viewportWidth;
+}
+
+/**
+ * Candidat d'un srcset que le telephone de reference charge : le plus petit dont la largeur `w` couvre
+ * sizes x DPR (c'est la selection de Chrome), sinon le plus grand. Avec `sizes="100vw"` sur 390 px @3x,
+ * le besoin est de 1 170 px -> candidat 1200 (pas 800 : un mobile moderne ne se contente pas de 800 px).
+ * Sans descripteurs `w` (srcset en `x` ou nu), on retient le premier candidat.
+ */
+export function srcsetUrls(srcset, sizes, mobile = MOBILE_REFERENCE) {
+  const cands = srcset.split(',').map((part) => { const [u, d] = part.trim().split(/\s+/); return { u, w: d && /w$/i.test(d) ? parseInt(d, 10) : 0 }; }).filter((c) => c.u);
   if (!cands.length) return [];
-  const under = cands.filter((c) => c.w && c.w <= 800).sort((a, b) => b.w - a.w);
-  return [(under[0] || cands.sort((a, b) => a.w - b.w)[0]).u];
+  const avecW = cands.filter((c) => c.w > 0).sort((a, b) => a.w - b.w);
+  if (!avecW.length) return [cands[0].u];
+  const besoin = evaluerSizes(sizes, mobile.width) * mobile.dpr;
+  const choisi = avecW.find((c) => c.w >= besoin) || avecW[avecW.length - 1];
+  return [choisi.u];
 }
 
 /** Scripts <script type="module" src="..."> charges directement par le HTML (chemin critique). */
@@ -95,7 +149,7 @@ function imageTagUrls(html) {
   while ((m = pictureRe.exec(html))) {
     const first = /<source\b[^>]*>/i.exec(m[1]);
     const srcset = first ? extractAttr(first[0], 'srcset') : null;
-    if (srcset) for (const u of srcsetUrls(srcset)) out.add(u);
+    if (srcset) for (const u of srcsetUrls(srcset, extractAttr(first[0], 'sizes'))) out.add(u);
     else {
       const img = /<img\b[^>]*>/i.exec(m[1]);
       const src = img ? extractAttr(img[0], 'src') : null;
@@ -107,7 +161,7 @@ function imageTagUrls(html) {
   while ((m = imgRe.exec(sansPictures))) {
     const tag = m[0];
     const srcset = extractAttr(tag, 'srcset');
-    if (srcset) for (const u of srcsetUrls(srcset)) out.add(u);
+    if (srcset) for (const u of srcsetUrls(srcset, extractAttr(tag, 'sizes'))) out.add(u);
     else {
       const src = extractAttr(tag, 'src');
       if (src) out.add(src);
@@ -116,16 +170,20 @@ function imageTagUrls(html) {
   const sourceRe = /<source\b[^>]*>/gi;
   while ((m = sourceRe.exec(sansPictures))) {
     const srcset = extractAttr(m[0], 'srcset');
-    if (srcset) for (const u of srcsetUrls(srcset)) out.add(u);
+    if (srcset) for (const u of srcsetUrls(srcset, extractAttr(m[0], 'sizes'))) out.add(u);
   }
   const linkRe = /<link\b[^>]*>/gi;
   while ((m = linkRe.exec(html))) {
     const tag = m[0];
     if (!/\bas\s*=\s*["']image["']/i.test(tag)) continue;
-    const href = extractAttr(tag, 'href');
-    if (href) out.add(href);
+    // Un preload avec imagesrcset ne charge que le candidat choisi : le navigateur ignore alors href
+    // (qui est l'alias pleine taille, 2400 px chez nous — le compter doublait le hero a tort).
     const imagesrcset = extractAttr(tag, 'imagesrcset');
-    if (imagesrcset) for (const u of srcsetUrls(imagesrcset)) out.add(u);
+    if (imagesrcset) for (const u of srcsetUrls(imagesrcset, extractAttr(tag, 'imagesizes'))) out.add(u);
+    else {
+      const href = extractAttr(tag, 'href');
+      if (href) out.add(href);
+    }
   }
   return out;
 }

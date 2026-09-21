@@ -19,6 +19,9 @@ export default defineSite({
   // reste en Instrument Sans (lisible, neutre) : le contraste serif/sans fait le cachet.
   direction: 'eclipse',
   motion: 'rich',
+  // Scroll inertiel (Lenis) : vitrine riche, le defilement natif de la molette Windows paraissait
+  // « ultra vite » et saccade sur les sequences (20 sept 2026). Coupe automatiquement sous automate.
+  smoothScroll: true,
   scale: 'display',
   typography: { display: 'cormorant' },
   layout: {

@@ -42,7 +42,7 @@ const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug
           </div>
         </div>
         <aside class="lg:col-span-5" data-reveal="right">
-          {service.image && <Img src={service.image.src} alt={service.image.alt} class="rounded-card shadow-card w-full object-cover aspect-[4/3]" sizes="(min-width: 1024px) 40vw, 100vw" />}
+          {service.image && <Img src={service.image.src} alt={service.image.alt} class="rounded-card shadow-card w-full object-cover aspect-[4/3]" sizes="(min-width: 1280px) 480px, (min-width: 1024px) 42vw, 100vw" />}
           {others.length > 0 && (
             <div class="card mt-6 rounded-card bg-surface p-6 shadow-card">
               <p class="eyebrow mb-4">Autres services</p>

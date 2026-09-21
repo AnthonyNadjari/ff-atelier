@@ -50,7 +50,7 @@ export default defineSite({
       description:
         'Un trait continu, fin, sans ombrage. Convient aux formats discrets comme aux pièces plus grandes quand la composition le permet. Cicatrise bien si l’épaisseur du trait est pensée dès le dessin.',
       icon: 'PenLine',
-      image: { src: '/images/galerie-1.webp', alt: 'Tatouage fin trait sur avant-bras' },
+      image: { src: '/images/galerie-1.webp', alt: 'Tatouage fin trait sur avant-bras, tracé d’électrocardiogramme et lettrage' },
     },
     {
       slug: 'blackwork',
@@ -59,7 +59,7 @@ export default defineSite({
       description:
         'Aplats noirs pleins, contrastes nets, peu ou pas de dégradés. Les motifs partent d’une base graphique forte : géométrie, lettrage, figures découpées.',
       icon: 'Contrast',
-      image: { src: '/images/galerie-2.webp', alt: 'Tatouage blackwork sur épaule' },
+      image: { src: '/images/galerie-2.webp', alt: 'Stencil posé sur un avant-bras, juste avant le tatouage' },
     },
     {
       slug: 'ornemental',
@@ -68,7 +68,7 @@ export default defineSite({
       description:
         'Motifs répétés et symétriques : mandalas, dentelle, ornements inspirés des arts décoratifs. Le placement suit les lignes du corps — bras, dos ou sternum.',
       icon: 'Shapes',
-      image: { src: '/images/galerie-3.webp', alt: 'Tatouage ornemental sur sternum' },
+      image: { src: '/images/galerie-3.webp', alt: 'Dessin préparatoire tracé à la main sur la table de l’artiste' },
     },
     {
       slug: 'floral',
@@ -77,7 +77,7 @@ export default defineSite({
       description:
         'Fleurs, feuillages et branches, en noir ou avec un peu de couleur. D’un petit bouton au poignet à une composition qui court sur tout l’avant-bras.',
       icon: 'Flower2',
-      image: { src: '/images/galerie-4.webp', alt: 'Tatouage floral sur avant-bras' },
+      image: { src: '/images/galerie-4.webp', alt: 'Manche florale en cours, motifs de feuilles et de fleurs' },
     },
   ],
 
@@ -89,12 +89,10 @@ export default defineSite({
       {
         name: 'Camille Vasseur',
         role: 'Fin trait & floral',
-        photo: { src: '/images/portrait.webp', alt: 'Camille Vasseur, tatoueuse' },
       },
       {
         name: 'Théo Renard',
         role: 'Blackwork & ornemental',
-        photo: { src: '/images/galerie-5.webp', alt: 'Théo Renard, tatoueur' },
       },
     ],
   },

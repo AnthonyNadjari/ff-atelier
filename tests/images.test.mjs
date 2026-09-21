@@ -10,6 +10,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import sharp from 'sharp';
 import { ROOT } from '../scripts/ff/ts-loader.mjs';
+import { WIDTHS } from '../scripts/ff/images.mjs';
 
 const SLUG = '_test-images-x';
 const SITE_DIR = path.join(ROOT, 'sites', SLUG);
@@ -64,6 +65,10 @@ before(async () => {
 });
 
 after(cleanup);
+
+test('WIDTHS : paliers 480 -> 2400 (les deux derniers couvrent les ecrans @2x en desktop, audit nettete du 20 sept 2026)', () => {
+  assert.deepEqual(WIDTHS, [480, 800, 1200, 1600, 2000, 2400]);
+});
 
 test('le manifeste contient une entree "hero" avec widths/formats/ratio/lqip', () => {
   assert.ok(manifest.hero, 'entree "hero" absente du manifeste');

@@ -149,6 +149,10 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
       scroll restée invisible, aucune section épinglée cassée, aucune séquence d'images/marquee/
       compteur bloqué, aucun débordement horizontal ni contraste insuffisant sur `.eyebrow`/
       `.text-muted`. Résultats dans `captures/<slug>-motion.json`.
+- [ ] **`ff nettete <slug>` vert** (site déjà construit, desktop @2x + mobile @3x) : aucune image, séquence
+      `data-frames` ou vidéo affichée plus grande que sa source réelle (étirement = flou, cas de la
+      séquence « Le geste » de forge-delacroix, 5 Ko/image sur un canvas plein écran). Résultats dans
+      `captures/<slug>-nettete.json`.
 - [ ] **CSP sans erreur console** : `node scripts/ff.mjs captures <slug>` sert désormais `dist/<slug>`
       avec les en-têtes de `_headers` appliqués (Content-Security-Policy comprise, voir
       `docs/DEPLOIEMENT.md` § Sécurité) — un « console error » de type CSP dans la sortie de la

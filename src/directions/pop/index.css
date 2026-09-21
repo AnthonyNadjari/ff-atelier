@@ -35,6 +35,9 @@
   --shadow-card: 6px 6px 0 var(--accent-2);
   --shadow-lift: 8px 8px 0 var(--accent);
   --motion-duration: 0.7s;
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : back-out (Boc, Aspen, Unseen) : rebond leger. */
+  --ease-brand: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-ui: 0.18s;
 }
 
 [data-direction='pop'] h1,
@@ -49,7 +52,7 @@
   border-radius: 16px;
   font-weight: 700;
   border: 2px solid var(--fg);
-  transition: transform 0.2s var(--ease-out-quart), background 0.2s ease, box-shadow 0.2s var(--ease-out-quart);
+  transition: transform var(--motion-ui) var(--ease-brand), background var(--motion-ui) ease, box-shadow var(--motion-ui) var(--ease-brand);
 }
 [data-direction='pop'] .btn-primary {
   background: var(--accent);

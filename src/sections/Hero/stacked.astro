@@ -4,6 +4,7 @@ import { site, tel, yearsSince, paragraphs, featuredServices } from '@/lib/site'
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
 const years = yearsSince();
 const intro = paragraphs(site.business.description)[0];
 const hero = site.images.hero;
@@ -32,7 +33,7 @@ const shown = (featured.length > 0 ? featured : site.services).slice(0, 3);
     <div class="mt-14 md:mt-20">
       {hero ? (
         <figure class="relative aspect-[16/9] w-full overflow-hidden rounded-card shadow-lift" data-reveal="scale">
-          <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" priority />
+          <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.stacked} priority />
         </figure>
       ) : (
         <ul class="grid sm:grid-cols-3 gap-5 max-w-3xl mx-auto" data-stagger="90">

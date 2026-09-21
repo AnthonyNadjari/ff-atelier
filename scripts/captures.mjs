@@ -71,6 +71,13 @@ for (const slug of sites) {
     await page.waitForTimeout(1200);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
     if (overflow) problems.push(`${slug} ${label}: debordement horizontal`);
+    // Sections epinglees (data-pin / data-frames / data-horizontal, GSAP ScrollTrigger) : leur piste de
+    // defilement (.pin-spacer, 400-500 vh) est une longueur de scroll, pas un visuel — dans une capture
+    // pleine page elle apparaissait comme un trou de ~2 000 px de fond vide (forge-delacroix, veille
+    // animations-2 § 4.2). On replie le spacer et on repose la section a sa hauteur naturelle, apres le
+    // defilement (les reveals sont deja declenches) et seulement pour l'image.
+    await page.addStyleTag({ content: '.pin-spacer { padding: 0 !important; height: auto !important; min-height: 0 !important; } .pin-spacer > * { position: relative !important; inset: auto !important; transform: none !important; max-width: none !important; }' });
+    await page.waitForTimeout(100);
     const capturePath = `captures/${slug}-${label}.png`;
     await page.screenshot({ path: capturePath, fullPage: true });
     await page.close();

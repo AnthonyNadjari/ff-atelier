@@ -9,15 +9,19 @@
 // grandes plages uniformes. La nav collante est ignoree (on demarre sous 80 px) et on s'arrete a
 // 60 % de la page (au-dela : pied de page, mentions legales).
 //
-// Sortie par site : <slug>.webp (960 de large) et <slug>-480.webp, dans
-// sites/finck-fisch/public/images/sites/. `ff images finck-fisch` n'y touche pas (deja optimisees).
+// Sortie par site : <slug>.webp (1400 de large, = la capture desktop, jamais agrandie) et
+// <slug>-700.webp, dans sites/finck-fisch/public/images/sites/. `ff images finck-fisch` n'y touche
+// pas (deja optimisees). 1400/700 et non 960/480 depuis le 20 sept 2026 : une vignette de 384 px sur
+// un ecran @2x demande 768 px, un tiers de 390 px @3x en demande 550 — le srcset/sizes correspondant
+// est dans sites/finck-fisch/sections/Realisations.astro (a garder aligne avec LARGEUR/LARGEUR_PETITE).
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, ok, fail, info, warn, parseArgs } from './util.mjs';
 
 const VITRINE = path.join(ROOT, 'sites', 'finck-fisch');
 const SORTIE = path.join(VITRINE, 'public', 'images', 'sites');
-const LARGEUR = 960;
+const LARGEUR = 1400;
+const LARGEUR_PETITE = 700;
 const RATIO = 14 / 9;
 
 /**
@@ -116,8 +120,8 @@ export async function cmdVitrine(args) {
         })();
 
     const base = sharp(capture).extract(cadre);
-    await base.clone().resize(LARGEUR).webp({ quality: 74 }).toFile(path.join(SORTIE, `${entree.slug}.webp`));
-    await base.clone().resize(480).webp({ quality: 72 }).toFile(path.join(SORTIE, `${entree.slug}-480.webp`));
+    await base.clone().resize({ width: LARGEUR, withoutEnlargement: true }).webp({ quality: 74 }).toFile(path.join(SORTIE, `${entree.slug}.webp`));
+    await base.clone().resize({ width: LARGEUR_PETITE, withoutEnlargement: true }).webp({ quality: 72 }).toFile(path.join(SORTIE, `${entree.slug}-${LARGEUR_PETITE}.webp`));
     info(`${entree.slug} : cadrage a ${cadre.top}px${cadre.score ? ` (matiere ${cadre.score.toFixed(2)})` : ' (premier ecran)'}`);
     faites += 1;
   }

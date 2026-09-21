@@ -30,6 +30,9 @@
   --radius-card: 16px;
   --shadow-card: 0 1px 2px rgb(42 34 28 / 0.05), 0 16px 32px -20px rgb(42 34 28 / 0.2);
   --shadow-lift: 0 28px 56px -24px rgb(42 34 28 / 0.28);
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : courbe unique de Warm & Fuzzy : douce, solaire. */
+  --ease-brand: cubic-bezier(0.26, 1, 0.48, 1);
+  --motion-ui: 0.25s;
 }
 
 /* Motif de carreaux tres discret */
@@ -53,7 +56,7 @@
   border-radius: 999px;
   font-weight: 600;
   letter-spacing: 0.01em;
-  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
 }
 [data-direction='mediterranee'] .btn-primary {
   background: var(--accent);

@@ -31,6 +31,9 @@
   --shadow-card: 0 1px 0 rgb(59 36 24 / 0.06), 0 20px 44px -26px rgb(59 36 24 / 0.28);
   --shadow-lift: 0 32px 64px -24px rgb(59 36 24 / 0.35);
   --motion-duration: 0.9s;
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : cubic-out ronde (Emotion, Stripe) : seventies, moelleuse. */
+  --ease-brand: cubic-bezier(0.33, 1, 0.68, 1);
+  --motion-ui: 0.25s;
 }
 
 /* Soleil couchant discret */

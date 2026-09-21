@@ -31,6 +31,9 @@
   --shadow-card: 4px 4px 0 0 var(--fg);
   --shadow-lift: 8px 8px 0 0 var(--fg);
   --motion-duration: 0.5s;
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : in-out dure (12 Studio, Forge Automotive) : ca claque. */
+  --ease-brand: cubic-bezier(0.8, 0, 0, 1);
+  --motion-ui: 0.15s;
 }
 
 [data-direction='brut'] ::selection { background: var(--accent); color: var(--fg); }
@@ -52,7 +55,7 @@
   letter-spacing: 0.01em;
   text-transform: uppercase;
   box-shadow: var(--shadow-card);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+  transition: transform var(--motion-ui) ease, box-shadow var(--motion-ui) ease, background var(--motion-ui) ease, color var(--motion-ui) ease;
 }
 [data-direction='brut'] .btn:hover {
   transform: translate(2px, 2px);

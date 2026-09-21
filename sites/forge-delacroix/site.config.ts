@@ -8,6 +8,9 @@ export default defineSite({
   accent: { h: 22, s: 88, l: 52 },
   typography: { display: 'bebas', body: 'archivo' },
   motion: 'rich',
+  // Scroll inertiel (Lenis) : vitrine riche, le defilement natif de la molette Windows paraissait
+  // « ultra vite » et saccade sur les sequences (20 sept 2026). Coupe automatiquement sous automate.
+  smoothScroll: true,
   scale: 'display',
   layout: {
     shell: 'sidebar',

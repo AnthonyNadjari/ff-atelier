@@ -7,7 +7,7 @@ import '@/styles/global.css';
 import { site, fullAddress, slugCourant, schemaTypeForTrade } from '@/lib/site';
 import { openingHoursSpecification } from '@/lib/jsonld';
 import { fontFamilies, preloadFonts } from 'virtual:ff-look';
-import { lookupImageEntry, splitImagePath, imageSrcsetFor } from '@/lib/images';
+import { lookupImageEntry, splitImagePath, imageSrcsetFor, heroSizesFor } from '@/lib/images';
 // ClientRouter (site.transitions, opt-in) : voir docs/ANIMATIONS.md § Transitions de page.
 import { ClientRouter } from 'astro:transitions';
 
@@ -47,9 +47,9 @@ const accentStyle = (site.accent ? `--accent-h:${site.accent.h};--accent-s:${sit
 const isHome = path === '/';
 const heroImg = isHome ? site.images.hero : undefined;
 const heroEntry = heroImg ? lookupImageEntry(slugCourant, heroImg.src) : undefined;
-// sizes du hero "split" (texte a gauche, photo a droite) : 50vw en desktop, sinon les heros image sont
-// tous en pleine largeur (fullbleed/stacked/video) — garde ce preload aligne avec le <Img> reel du Hero.
-const heroSizes = site.layout.hero === 'split' ? '(min-width: 1024px) 50vw, 100vw' : '100vw';
+// sizes du hero : HERO_SIZES (src/lib/images.ts), la meme table que le <Img> reel du Hero — sinon le
+// preload et le <img> choisiraient deux candidats differents et le navigateur telechargerait les deux.
+const heroSizes = heroSizesFor(site.layout.hero);
 const heroPreload = heroImg
   ? (() => {
       if (!heroEntry) return { href: heroImg.src };

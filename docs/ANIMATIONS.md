@@ -9,24 +9,45 @@ fichier et le bloc motion de `src/styles/global.css`). Chaque effet a un repli
 `site.motion` : `none` (rien), `subtle` (défaut, zéro dépendance), `rich` (+ GSAP chargé à la
 demande, seulement si un `data-*` correspondant est présent dans le DOM de la page).
 
+## Durées et courbes (tokens, `global.css`) — règles R1/R2 de `docs/veille/animations-2.md`
+
+Deux régimes de durée, trois courbes. Un bouton qui change de fond en 1,4 s, c'est « pas fluide » ;
+un reveal qui monte de 24 px en 0,9 s sur chaque paragraphe, c'est « IA ».
+
+| Token | Défaut | Rôle | Qui le pose |
+|---|---|---|---|
+| `--motion-ui` | `0.22s` | Tout ce qui répond à un **geste** : hover, focus, bouton, champ, image flottante. 0,15 s (brut, signal, industriel) à 0,32 s (luxe). Jamais `--motion-duration` sur un `:hover`/`.btn` (testé par `tests/motion.test.mjs`). | `global.css`, surchargé par la direction |
+| `--motion-duration` | `0.9s` | **Mise en scène** : reveals avec déplacement, split mots/caractères, traits. 0,5 s (brut, signal) à 1 s (plafond : luxe/nuit/eclipse étaient à 1,1–1,4 s). | direction |
+| `--ease-out` | `cubic-bezier(0.16, 1, 0.3, 1)` | Ce qui **apparaît** (reveal, stagger). | `global.css` |
+| `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | Ce qui **se déplace ou se transforme** (fondu croisé `data-pin-step`, flip-card, rideau). | `global.css` |
+| `--ease-brand` | osmo `cubic-bezier(0.625, 0.05, 0, 1)` | **Courbe signature** de la direction, ce qui donne une « main » à chaque site : titres `data-split="lines"`, bouton pop. Chaque `src/directions/<nom>/index.css` la redéfinit (brut `(0.8,0,0,1)`, pop back-out `(0.34,1.56,0.64,1)`, nuit expo-out, pierre `(0.87,0,0.13,1)`…). | direction |
+
+Valeurs par défaut changées le 20 sept. 2026 : `data-reveal` = opacité seule 0,5 s (était fondu +
+24 px sur `--motion-duration`) ; `data-stagger` 60 ms (était 90) ; `data-reveal-delay` plafonné à
+400 ms ; scrub 1 partout (était 0,5–0,8 ou `true`) ; `data-parallax` 0,5 (était `true`) ; tilt 0,3 s /
+retour 0,25 s (était 0,5 / 0,8).
+
 ## Attributs existants
 
 | `data-*` | Palier | Quand l'utiliser |
 |---|---|---|
-| `data-reveal` (`left/right/scale/blur/clip/wipe/mask`) | subtle | Apparition au scroll d'un bloc, titre ou image. |
-| `data-reveal-delay="120"` | subtle | Décale une apparition individuelle (ms). |
-| `data-stagger="90"` | subtle | Cascade sur les enfants directs d’un conteneur (grille, liste). Délai total plafonné à 600 ms : sur 20 enfants le pas se resserre tout seul. |
+| `data-reveal` | subtle | Apparition au scroll : **opacité seule, 0,5 s, `--ease-out`**. Un groupe par section (règle 21), pas sur chaque paragraphe. |
+| `data-reveal="up"` (`left/right/scale/blur/clip/wipe/mask`) | subtle | Variante **avec déplacement** (up = 12 px, sur `--motion-duration`) : à réserver au bloc qu'on veut faire remarquer. |
+| `data-reveal-delay="120"` | subtle | Décale une apparition individuelle (ms, plafonné à 400). |
+| `data-stagger="60"` | subtle | Cascade sur les enfants directs d’un conteneur (grille, liste), 60 ms par défaut (20–50 texte, 60–100 cartes). Délai total plafonné à 600 ms : sur 20 enfants le pas se resserre tout seul. |
 | `data-counter="248"` `data-suffix="+"` | subtle | Chiffre clé qui compte au scroll. |
 | `data-marquee="30s"` | subtle | Bande défilante infinie (logos, villes, mots-clés). |
 | `data-draw` | subtle | Trait (hr/span) qui se trace au scroll. |
-| `data-parallax="0.2"` | rich | Déplacement vertical léger d'une image/bloc au scroll. |
+| `data-parallax="0.2"` | rich | Déplacement vertical léger d'une image/bloc au scroll (scrub 0,5). |
 | `data-magnetic="0.3"` | rich | Bouton qui suit légèrement le curseur. |
-| `data-tilt="8"` | rich | Carte inclinée en 3D au survol. |
-| `data-scrub="scale=1.15,rotate=4,x=-20,y=10,opacity=0.3,blur=12"` | rich | Anime un état de départ vers l'état normal, piloté par le scroll. |
-| `data-pin="120"` (+ `data-pin-step`) | rich | Épingle une section pendant N % de hauteur d'écran, étapes activées tour à tour. |
-| `data-horizontal` (+ `.h-track`) | rich | Piste qui défile horizontalement pendant le scroll vertical (desktop ≥ 64rem). |
-| `data-text-fill` | rich | Texte qui se remplit mot par mot au scroll. |
-| `data-split` / `data-split="chars"` | rich | Titre découpé en mots (défaut) ou en caractères, révélé en cascade. |
+| `data-tilt="8"` | rich | Carte inclinée en 3D au survol (0,3 s, retour 0,25 s). |
+| `data-scrub="scale=1.15,rotate=4,x=-20,y=10,opacity=0.3,blur=12"` | rich | Anime un état de départ vers l'état normal, piloté par le scroll (scrub 1). |
+| `data-scrub-lag="0.3"` (sur tout effet scrollé) | rich | Retard de rattrapage en secondes, à la place du défaut de l'effet (1 ; 0,5 parallax ; 0,3 piles). Jamais sous 0,3. |
+| `data-pin="400"` (+ `data-pin-step`) | rich | Épingle une section pendant N % de hauteur d'écran, étapes activées tour à tour (fondu croisé 0,5 s in-out). **Règle de longueur : 100 % par étape + 100 %** (3 étapes = 400) ; sans valeur, le moteur applique cette formule. Une section épinglée dure au moins trois écrans. |
+| `data-horizontal` (+ `.h-track`) | rich | Piste qui défile horizontalement pendant le scroll vertical (desktop ≥ 64rem), scrub 1. |
+| `data-text-fill` | rich | Texte qui se remplit mot par mot au scroll (scrub 1). |
+| `data-split` / `data-split="chars"` | rich | Titre découpé en mots (défaut) ou en caractères, révélé en cascade (CSS maison). |
+| `data-split="lines"` (+ `data-split-ease="out"` optionnel) | rich | **Le geste de base d'un hero « cher »** : titre révélé par lignes masquées (GSAP SplitText, `mask: "lines"`, gratuit depuis 3.13) — `yPercent 110 → 0`, 0,9 s, stagger 0,09, sur `--ease-brand` (courbe signature de la direction ; `data-split-ease="out"` pour `--ease-out`). Chargé à la demande, attend les polices, re-découpe au resize (`autoSplit`). Repli sans SplitText : découpage mots maison. `prefers-reduced-motion` : texte visible, non découpé. Pour les `h1`/`h2`, à la place de `data-reveal`. |
 | `data-hover-img="/images/x.webp"` | rich | Une image flotte près du curseur pendant le survol (pointer fin). |
 
 ## Nouveaux effets (docs/veille/animations.md § 3)
@@ -108,13 +129,17 @@ produit Apple/luxe (une montre qui tourne, un objet qui se déplie). Markup mini
 | `data-frames-pad="4"` | non (défaut `4`) | Chiffres du nom de fichier (`0001.webp`...). |
 | `data-frames-mobile="/anim/x-mobile/"` | non | Dossier de frames plus légères, utilisé sous 767 px. |
 | `data-frames-poster="/anim/x/0001.webp"` | non (défaut : frame 1 du dossier actif) | Affichée instantanément, avant tout chargement. |
-| `data-pin="180"` (même élément) | recommandé | Épingle la section pendant le scrub ; ses `[data-pin-step]` s'activent avec la même progression (voir `data-pin` ci-dessus). |
+| `data-frames-lerp="0.12"` | non (défaut `0.12`) | Lissage de la frame courante vers la frame cible, par `requestAnimationFrame` (Trionn) : la séquence « rattrape » la molette au lieu de sauter d'une frame à l'autre à chaque cran. `1` = frame exacte (ancien comportement). |
+| `data-pin="400"` (même élément) | recommandé | Épingle la section pendant le scrub ; ses `[data-pin-step]` s'activent avec la même progression. Longueur : 100 % par étape + 100 % (voir `data-pin` ci-dessus) — 48 frames sur 220 % défilaient en trois crans de molette. |
 
 Comportement : le poster se dessine immédiatement (aucune attente réseau visible). Le préchargement
 des frames suivantes ne démarre **jamais avant l'événement `load` de la fenêtre**, puis seulement quand
 la section entre à moins d'une hauteur d'écran (`IntersectionObserver`), par priorité première/dernière/
-milieu puis le reste dans l'ordre. Le canvas est DPR-aware (plafonné à 2) et dessine en `cover` ; le
-dessin est throttlé en `requestAnimationFrame`. Le tactile fonctionne via le défilement natif
+milieu puis le reste dans l'ordre. Le canvas est DPR-aware (plafonné à 2) et dessine en `cover` ; la
+frame dessinée suit la frame cible par lerp (`data-frames-lerp`) dans une boucle `requestAnimationFrame`
+qui s'arrête d'elle-même une fois la cible atteinte. Dans une capture pleine page (`ff captures`), la
+piste d'épinglage (`.pin-spacer`) est repliée avant la photo : c'est une longueur de scroll, pas un
+visuel. Le tactile fonctionne via le défilement natif
 (`ScrollTrigger` le gère déjà, aucun code dédié). Hors `motion="rich"` ou `prefers-reduced-motion` :
 **aucune frame n'est préchargée**, seul le poster reste visible via un `<img class="ff-frames-fallback">`
 créé en JS (le `<canvas>` est masqué). Démo complète : `sites/_effets/sections/Effets.astro` (bloc

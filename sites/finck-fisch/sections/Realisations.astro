@@ -4,7 +4,9 @@
  * dans vitrine.json parmi les vingt générés), en grille simple, légendés par le métier seul.
  * Aucune figure ne pointe vers un lien (pas en ligne) : ce sont des figures, pas des cartes
  * cliquables — jamais de href="#" vide (interdit par le vérificateur). Vignettes générées depuis
- * captures/<slug>-desktop.png par `ff vitrine` (vitrine.json, une entrée par site).
+ * captures/<slug>-desktop.png par `ff vitrine` (vitrine.json, une entrée par site) en 1400 et 700 px :
+ * `sizes` ci-dessous = largeur réelle d'une vignette (3 colonnes gap 2rem dans le conteneur de 1216px
+ * = 384px au-delà de 1280px ; 31vw en lg ; 47vw en 2 colonnes), à garder aligné avec scripts/ff/vitrine.mjs.
  *
  * Relecture du 20 sept 2026, règle dure n°2 (rien d'inventé) :
  * - ces vingt sites sont des démonstrations, pas des clients. L'ancien titre « Vingt métiers,
@@ -46,10 +48,10 @@ const sites = choisis.map((slug) => tous.find((s) => s.slug === slug)).filter((s
           <div class="overflow-hidden rounded-card border border-line">
             <img
               src={`/images/sites/${s.slug}.webp`}
-              srcset={`/images/sites/${s.slug}-480.webp 480w, /images/sites/${s.slug}.webp 960w`}
-              sizes="(min-width: 1024px) 31vw, 47vw"
-              width="960"
-              height="617"
+              srcset={`/images/sites/${s.slug}-700.webp 700w, /images/sites/${s.slug}.webp 1400w`}
+              sizes="(min-width: 1280px) 384px, (min-width: 1024px) 31vw, 47vw"
+              width="1400"
+              height="900"
               alt={`Site de démonstration pour un métier : ${s.metier.toLowerCase()}`}
               loading="lazy"
               decoding="async"

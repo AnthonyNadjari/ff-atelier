@@ -30,6 +30,9 @@
   --radius-card: 0px;
   --shadow-card: none;
   --shadow-lift: 0 24px 48px -28px rgb(16 16 16 / 0.25);
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : cubic-out (Locomotive, Seasats) : le trait de plume. */
+  --ease-brand: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --motion-ui: 0.2s;
 }
 
 [data-direction='encre'] .text-display-xl { font-size: clamp(3.25rem, 10vw, 9rem); }
@@ -67,7 +70,7 @@
   border-radius: 0;
   font-weight: 500;
   letter-spacing: 0.01em;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease;
 }
 [data-direction='encre'] .btn-primary {
   background: var(--ink);

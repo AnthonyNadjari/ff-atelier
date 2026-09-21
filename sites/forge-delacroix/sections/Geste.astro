@@ -21,15 +21,17 @@ const etapes = [
   data-frames-pad="4"
   data-frames-mobile="/anim/geste-mobile/"
   data-frames-poster="/anim/geste/0001.webp"
-  data-pin="220"
+  data-pin="400"
 >
+  <!-- data-pin="400" : 100 % d'ecran par etape + 100 % (regle R4, docs/veille/animations-2.md) — a 220 %,
+       chaque etape vivait sur 0,7 ecran et les 48 frames defilaient en trois crans de molette. -->
   <canvas data-frames-canvas class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
   <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" aria-hidden="true"></div>
   <div class="container-ff relative z-[1] flex min-h-svh flex-col justify-end pb-24">
     <p class="eyebrow text-on-ink/70">Le geste, en trois temps</p>
     <div class="relative mt-4 h-[9rem] md:h-[11rem]">
       {etapes.map((e) => (
-        <div data-pin-step class="absolute inset-x-0 top-0 transition-opacity duration-500">
+        <div data-pin-step class="absolute inset-x-0 top-0">
           <h2 class="font-display leading-none" style="font-size: clamp(3rem, 9vw, 8rem);">{e.titre}</h2>
           <p class="mt-4 max-w-md text-on-ink/75">{e.texte}</p>
         </div>
@@ -37,3 +39,9 @@ const etapes = [
     </div>
   </div>
 </section>
+
+<style>
+  /* Les trois etapes sont superposees (absolute) : une etape inactive doit disparaitre (fondu croise
+     0,5 s in-out de global.css), pas rester en filigrane a 0,65 comme dans une liste d'etapes. */
+  [data-pin-step]:not(.is-active) { opacity: 0; }
+</style>

@@ -19,7 +19,12 @@
 //   - erreurs console et requetes en echec ;
 //   - typographie demesuree / titre coupe au milieu d'un mot (h1) ;
 //   - contraste insuffisant (< 4.5:1) sur .eyebrow/.text-muted vs fond effectif (parents remontes).
-// Rapport en francais (✓/✗) par site, ecrit captures/<slug>-motion.json, sort en erreur (process.exit 1)
+// Avertissements (⚠, informatifs, jamais bloquants — docs/veille/animations-2.md § 4) :
+//   - « trop d'apparitions » : plus de 16 elements [data-reveal] / [data-stagger] > * sur la page (les
+//     sites primes animent un groupe par section ; on en avait 33 a 52 par page) ;
+//   - « trop d'effets riches » : plus de 2 parmi marquee, data-frames, data-shader, data-horizontal,
+//     canvas (lottie, drag-grid, autre canvas) sur la page (CONVENTIONS.md regle 16, un seul feu d'artifice).
+// Rapport en francais (✓/✗/⚠) par site, ecrit captures/<slug>-motion.json, sort en erreur (process.exit 1)
 // si un site echoue sur au moins un des deux viewports. Voir docs/ANIMATIONS.md et
 // src/scripts/motion.ts pour le detail des attributs testes.
 import { chromium } from 'playwright-core';
@@ -91,6 +96,7 @@ function collectDiagnostics() {
     overflowX: [],
     typography: [],
     contrastIssues: [],
+    warnings: [],
   };
 
   function cssPath(el, maxDepth = 5) {
@@ -134,7 +140,7 @@ function collectDiagnostics() {
       return false;
     }
   }
-  document.querySelectorAll('[data-reveal], [data-stagger] > *, .split-word > span, .fill-word').forEach((el) => {
+  document.querySelectorAll('[data-reveal], [data-stagger] > *, .split-word > span, .split-line, .fill-word').forEach((el) => {
     // Ignore ce qui n'est pas rendu du tout (menu plein ecran ferme par defaut, onglet inactif...) :
     // un panneau garde `hidden`/`display:none` tant qu'il n'a pas ete ouvert au clic — normal, ce
     // n'est pas le scroll qui doit le reveler. getClientRects() reste fiable meme en position:fixed
@@ -162,18 +168,46 @@ function collectDiagnostics() {
     }
   });
 
+  // ---- 1bis. Avertissements (informatifs) : trop d'apparitions, trop d'effets riches ----
+  // Constat 1 de docs/veille/animations-2.md : 33 a 52 [data-reveal] par page chez nous, un groupe
+  // anime par section chez les primes (3 a 6 elements mis en avant par site). Seuil : 16.
+  const revealCount = document.querySelectorAll('[data-reveal], [data-stagger] > *').length;
+  if (revealCount > 16) {
+    results.warnings.push({ type: 'trop-apparitions', count: revealCount, reason: `${revealCount} elements [data-reveal] / [data-stagger] > * (seuil 16) : viser un groupe anime par section, opacite seule pour le reste (CONVENTIONS.md regle 21)` });
+  }
+  // Regle 16 (un seul feu d'artifice) : marquee, sequence d'images, shader, horizontal, canvas.
+  const richEffects = [];
+  document.querySelectorAll('[data-marquee]').forEach(() => richEffects.push('marquee'));
+  document.querySelectorAll('[data-frames]').forEach(() => richEffects.push('frames'));
+  document.querySelectorAll('[data-shader]').forEach(() => richEffects.push('shader'));
+  document.querySelectorAll('[data-horizontal]').forEach(() => richEffects.push('horizontal'));
+  document.querySelectorAll('[data-lottie], [data-drag-grid]').forEach((el) => richEffects.push(el.hasAttribute('data-lottie') ? 'lottie' : 'drag-grid'));
+  document.querySelectorAll('canvas').forEach((cv) => {
+    if (cv.closest('[data-frames], [data-shader], [data-lottie]') || cv.classList.contains('ff-shader-canvas')) return;
+    if (cv.closest('.ff-distort')) return; // conteneur cree au survol seulement
+    richEffects.push('canvas');
+  });
+  if (richEffects.length > 2) {
+    results.warnings.push({ type: 'trop-effets-riches', count: richEffects.length, reason: `${richEffects.length} effets riches sur la page (${richEffects.join(', ')}) : regle 16, un seul feu d'artifice par page, deux au grand maximum` });
+  }
+
   // ---- 2. data-pin / data-frames(+data-pin) / data-horizontal : spacer et pin-step ----
-  // Le seuil "> 400vh = fin probablement cassee" ne vaut que pour data-pin/data-frames, dont la
-  // longueur est un pourcentage d'ecran fixe pose par l'auteur (data-pin="120", defaut 100). Pour
-  // data-horizontal, la longueur du pin depend de la largeur reelle de la piste (nombre de
-  // panneaux x largeur), donc proportionnelle au contenu par design : un long spacer y est normal
-  // (une piste de 5 panneaux larges peut legitimement depasser 450vh) — seuil beaucoup plus large.
+  // Longueur attendue du spacer = hauteur de la section + data-pin (en % d'ecran ; sans valeur :
+  // 100 % par [data-pin-step] + 100 %, regle R4 — 3 etapes = 400 %). Une fin cassee (end mal
+  // calcule) donne un spacer sans rapport avec cette valeur : seuil = 1,5 x attendu + 50 vh, et
+  // plancher absolu de 1200 vh. Pour data-horizontal, la longueur du pin depend de la largeur reelle
+  // de la piste (nombre de panneaux x largeur), donc proportionnelle au contenu par design : un long
+  // spacer y est normal (une piste de 5 panneaux larges peut depasser 450vh) — seuil beaucoup plus large.
   document.querySelectorAll('[data-pin]').forEach((el) => {
     const spacer = el.closest('.pin-spacer');
     if (spacer) {
       const heightVh = (spacer.getBoundingClientRect().height / window.innerHeight) * 100;
-      if (heightVh > 400) {
-        results.pinIssues.push({ selector: cssPath(el), type: 'spacer-demesure', heightVh: Math.round(heightVh) });
+      const explicit = Number(el.getAttribute('data-pin'));
+      const len = explicit > 0 ? explicit : el.querySelectorAll('[data-pin-step]').length * 100 + 100;
+      const sectionVh = (el.getBoundingClientRect().height / window.innerHeight) * 100;
+      const expectedVh = sectionVh + len;
+      if (heightVh > Math.min(1200, expectedVh * 1.5 + 50)) {
+        results.pinIssues.push({ selector: cssPath(el), type: 'spacer-demesure', heightVh: Math.round(heightVh), expectedVh: Math.round(expectedVh) });
       }
     }
     const steps = el.querySelectorAll('[data-pin-step]');
@@ -356,7 +390,7 @@ function detailLine(section, item) {
     case 'revealStuck':
       return `${item.selector} — opacity=${item.opacity} transform=${item.transform} clip-path=${item.clip} — "${item.text}"`;
     case 'pinIssues':
-      if (item.type === 'spacer-demesure') return `${item.selector} — spacer de ${item.heightVh}vh (probablement une fin cassee)`;
+      if (item.type === 'spacer-demesure') return `${item.selector} — spacer de ${item.heightVh}vh pour ${item.expectedVh}vh attendus (probablement une fin cassee)`;
       if (item.type === 'spacer-horizontal-demesure') return `${item.selector} — spacer horizontal de ${item.heightVh}vh (verifier la largeur de la piste)`;
       return `${item.selector} — aucune [data-pin-step] jamais active`;
     case 'framesCanvasBlank':
@@ -429,6 +463,10 @@ async function auditSlug(browser, slug) {
     else {
       fail(`  Requetes en echec (${failedRequests.length})`);
       for (const u of failedRequests.slice(0, 5)) info(`      ${u}`);
+    }
+    // Avertissements informatifs (memes comptes sur les deux viewports : affiches une fois, en desktop).
+    if (viewport.name === 'desktop') {
+      for (const w of diagnostics.warnings) warn(`  ${w.reason}`);
     }
 
     report.viewports.push({ name: viewport.name, width: viewport.width, height: viewport.height, ok: vpOk, diagnostics });

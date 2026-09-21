@@ -129,6 +129,78 @@ test('data-shader : le repli (subtle/none/reduced) est pose AVANT la sortie anti
   assert.match(body, /if \(motion !== 'rich' \|\| reduced\) \{\s*els\.forEach\(shaderFallback\)/, 'shaderBackgrounds() doit poser shaderFallback hors rich/reduced sans import()');
 });
 
+// --- docs/veille/animations-2.md (20 sept 2026) : deux regimes de duree, reveal sobre, split par lignes, scrub 1 ---
+
+test('tokens : --motion-ui, --ease-out, --ease-in-out, --ease-brand definis dans global.css et --ease-brand par direction', () => {
+  for (const token of ['--motion-ui:', '--ease-out:', '--ease-in-out:', '--ease-brand:']) {
+    assert.ok(cssSrc.includes(token), `global.css : ${token} manquant`);
+  }
+  const dirs = fs.readdirSync(path.join(ROOT, 'src', 'directions'), { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name);
+  assert.ok(dirs.length >= 8);
+  for (const d of dirs) {
+    const css = fs.readFileSync(path.join(ROOT, 'src', 'directions', d, 'index.css'), 'utf8');
+    assert.match(css, /--ease-brand:\s*cubic-bezier\(/, `direction ${d} : --ease-brand manquant`);
+    const dur = /--motion-duration:\s*([\d.]+)s/.exec(css);
+    if (dur) assert.ok(Number(dur[1]) <= 1, `direction ${d} : --motion-duration ${dur[1]}s > 1 s (plafond R1)`);
+  }
+});
+
+/** Blocs CSS { selecteur, corps } d'une feuille (sans les @media imbriques, suffisant pour .btn/:hover). */
+function cssBlocks(css) {
+  const blocks = [];
+  const re = /([^{}]+)\{([^{}]*)\}/g;
+  let m;
+  while ((m = re.exec(css))) blocks.push({ selector: m[1].trim(), body: m[2] });
+  return blocks;
+}
+
+test('aucun :hover / .btn ne transitionne sur --motion-duration (global.css + directions) : regime --motion-ui', () => {
+  const files = [GLOBAL_CSS, ...fs.readdirSync(path.join(ROOT, 'src', 'directions')).map((d) => path.join(ROOT, 'src', 'directions', d, 'index.css')).filter((f) => fs.existsSync(f))];
+  const offenders = [];
+  for (const f of files) {
+    for (const { selector, body } of cssBlocks(fs.readFileSync(f, 'utf8'))) {
+      if (!/:hover|\.btn\b|:focus/.test(selector)) continue;
+      if (/transition[^;]*--motion-duration/.test(body)) offenders.push(`${path.relative(ROOT, f)} — ${selector}`);
+    }
+  }
+  assert.deepEqual(offenders, [], `survols/boutons encore sur --motion-duration :\n${offenders.join('\n')}`);
+});
+
+test('data-reveal par defaut = opacite seule (aucun translateY dans la regle de base), data-reveal="up" = 12 px', () => {
+  const base = /\[data-motion\]:not\(\[data-motion='none'\]\) \[data-reveal\],\s*\[data-motion\]:not\(\[data-motion='none'\]\) \[data-stagger\] > \* \{([^}]*)\}/.exec(cssSrc);
+  assert.ok(base, 'regle de base [data-reveal] introuvable');
+  assert.doesNotMatch(base[1], /transform:\s*translate/, 'la regle de base ne doit plus deplacer');
+  assert.match(base[1], /opacity 0\.5s var\(--ease-out\)/, 'opacite en 0,5 s sur --ease-out');
+  assert.match(cssSrc, /\[data-reveal='up'\] \{ transform: translateY\(12px\); \}/);
+  assert.match(body, /el\.dataset\.stagger \|\| 60/, 'stagger par defaut 60 ms');
+  assert.match(body, /Math\.min\(400, Number\(d\)/, 'data-reveal-delay plafonne a 400 ms');
+});
+
+test('data-split="lines" : SplitText charge a la demande, --ease-brand lu en CustomEase, reduced-motion = texte visible', () => {
+  assert.match(body, /import\('gsap\/SplitText'\)/, 'SplitText doit etre importe dynamiquement');
+  assert.doesNotMatch(body, /^import .*gsap\/SplitText/m, 'jamais en import statique');
+  assert.ok(fs.existsSync(path.join(ROOT, 'node_modules', 'gsap', 'SplitText.js')), 'SplitText.js absent du paquet gsap installe');
+  assert.match(body, /mask: 'lines'/);
+  assert.match(body, /autoSplit: true/, 're-split au resize');
+  assert.match(body, /cssEase\('--ease-brand'\)/);
+  // reduced : initMotion() sort avant splitLines() et pose data-split-state="static" ; global.css rend le titre visible.
+  const init = body.slice(body.indexOf('export function initMotion()'), body.indexOf('function curtain()'));
+  const guard = init.indexOf("if (motion === 'none' || reduced)");
+  const lines = init.indexOf('splitLines()');
+  assert.ok(guard !== -1 && lines !== -1 && guard < lines, 'splitLines() doit venir apres la garde none/reduced');
+  assert.match(init.slice(guard, init.indexOf('return;', guard)), /data-split="lines"/, 'la garde reduced doit marquer les data-split="lines" comme statiques');
+  assert.match(reduced, /\[data-split='lines'\] \{ visibility: visible !important; \}/);
+  assert.match(reduced, /\.split-line \{ transform: none !important; \}/);
+});
+
+test('scroll lie : scrub 1 par defaut (data-scrub, pin, horizontal, text-fill), lerp de frame pour data-frames', () => {
+  assert.doesNotMatch(body, /scrub: (true|0\.[5-8])\b/, 'plus aucun scrub true/0,5/0,6/0,8 en dur');
+  assert.match(body, /scrubLag\(el, 1\)/);
+  assert.match(body, /el\.dataset\.framesLerp\) \|\| 0\.12/, 'data-frames-lerp defaut 0,12');
+  assert.match(body, /function pinLength/);
+  assert.match(body, /steps \* 100 \+ 100/, 'data-pin implicite = 100 % par etape + 100 %');
+});
+
 test('sites/_effets existe et declare motion: "rich" (vitrine des effets)', () => {
   const cfg = fs.readFileSync(path.join(ROOT, 'sites', '_effets', 'site.config.ts'), 'utf8');
   assert.match(cfg, /motion:\s*'rich'/, "sites/_effets/site.config.ts doit avoir motion: 'rich'");

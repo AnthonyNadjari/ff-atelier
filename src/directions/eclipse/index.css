@@ -37,7 +37,10 @@
   --shadow-card: none;
   --shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.9);
   --section-y: clamp(5rem, 11vw, 9rem);
-  --motion-duration: 1.1s;
+  --motion-duration: 1s; /* etait 1.1s : plafond 1 s (R1), la lenteur vient du scrub et des delais, pas des transitions */
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : in-out ample (White Desert) : lent au depart, lent a l'arrivee. */
+  --ease-brand: cubic-bezier(0.76, 0, 0.24, 1);
+  --motion-ui: 0.28s;
   color-scheme: dark;
 }
 
@@ -66,7 +69,7 @@
   letter-spacing: 0.01em;
   font-size: 0.9rem;
   padding-inline: 1.6rem;
-  transition: background-color 0.4s, color 0.4s, border-color 0.4s;
+  transition: background-color var(--motion-ui), color var(--motion-ui), border-color var(--motion-ui);
 }
 [data-direction='eclipse'] .btn-primary {
   background: var(--fg);

@@ -15,9 +15,9 @@ const pairs = site.proof.beforeAfter;
         {pairs.map((pair) => (
           <figure data-reveal>
             <div class="relative aspect-[4/3] overflow-hidden rounded-card select-none" data-compare>
-              <Img src={pair.before.src} alt={pair.before.alt} loading="lazy" sizes="(min-width: 768px) 50vw, 100vw" class="absolute inset-0 h-full w-full object-cover" />
+              <Img src={pair.before.src} alt={pair.before.alt} loading="lazy" sizes="(min-width: 1280px) 584px, (min-width: 768px) 50vw, 100vw" class="absolute inset-0 h-full w-full object-cover" />
               <div class="absolute inset-0" data-compare-after style="clip-path: inset(0 50% 0 0)">
-                <Img src={pair.after.src} alt={pair.after.alt} loading="lazy" sizes="(min-width: 768px) 50vw, 100vw" class="absolute inset-0 h-full w-full object-cover" />
+                <Img src={pair.after.src} alt={pair.after.alt} loading="lazy" sizes="(min-width: 1280px) 584px, (min-width: 768px) 50vw, 100vw" class="absolute inset-0 h-full w-full object-cover" />
               </div>
               <div class="pointer-events-none absolute inset-y-0 w-0.5 bg-surface shadow-lift" data-compare-line style="left: 50%"></div>
               <p class="pointer-events-none absolute left-3 top-3 rounded-pill bg-ink/70 text-on-ink text-xs px-3 py-1">Avant</p>

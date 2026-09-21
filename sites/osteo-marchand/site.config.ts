@@ -58,7 +58,6 @@ export default defineSite({
     title: 'Léa',
     story:
       'Diplômée en 2016 après cinq ans d’études à Lyon, Léa Marchand a d’abord exercé en cabinet partagé avant d’ouvrir le sien aux Marquisats en 2020.\n\nElle travaille en techniques douces, explique ce qu’elle fait pendant qu’elle le fait, et ne programme une séance suivante que si elle sert à quelque chose.',
-    portrait: { src: '/images/portrait.webp', alt: 'Léa Marchand dans son cabinet' },
     values: [],
   },
 
@@ -76,7 +75,7 @@ export default defineSite({
   },
   form: { provider: 'mailto' },
   images: {
-    hero: { src: '/images/hero.webp', alt: 'Salle de consultation lumineuse, table d’ostéopathie' },
+    hero: { src: '/images/hero.webp', alt: 'Salle de soin lumineuse, table de traitement et rideaux clairs' },
   },
   seo: { keywords: ['ostéopathe Annecy', 'ostéopathe nourrisson Annecy', 'ostéopathe femme enceinte Annecy'] },
   legal: { owner: 'Léa Marchand' },

@@ -32,6 +32,9 @@
   --shadow-lift: 0 24px 48px -28px rgb(28 27 25 / 0.3);
   --section-y: clamp(5rem, 12vw, 10rem);
   --motion-duration: 1s;
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : in-out minerale (Paul Kalkbrenner) : lente, lourde. */
+  --ease-brand: cubic-bezier(0.87, 0, 0.13, 1);
+  --motion-ui: 0.3s;
 }
 
 [data-direction='pierre'] ::selection { background: var(--accent); color: var(--on-accent); }

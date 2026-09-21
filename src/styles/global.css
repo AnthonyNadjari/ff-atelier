@@ -75,7 +75,18 @@
   --display-weight: 600;
   --body-weight: 400;
   --heading-transform: none;
+  /* Deux regimes de duree, trois courbes (docs/veille/animations-2.md, regles R1/R2) :
+     --motion-duration : mise en scene (reveals, entrees), 0,5-1 s, plafond 1 s — jamais sur un survol.
+     --motion-ui       : reponse a un geste (hover, focus, bouton, champ), 0,15-0,32 s.
+     --ease-out        : ce qui apparait.   --ease-in-out : ce qui se deplace ou se transforme.
+     --ease-brand      : courbe signature de la direction (titres data-split="lines", intro) ;
+                         defaut = « osmo » (LxL, Paul Kalkbrenner, Revelatio, Spyker). Chaque
+                         direction la redefinit dans src/directions/<nom>/index.css. */
   --motion-duration: 0.9s;
+  --motion-ui: 0.22s;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-brand: cubic-bezier(0.625, 0.05, 0, 1);
 }
 
 @layer base {
@@ -179,10 +190,11 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 @utility text-display-sm { font-size: var(--scale-sm, clamp(1.25rem, 2vw, 1.6rem)); }
 
 /* ---------- Motion (pilote par src/scripts/motion.ts) ----------
-   data-reveal            : apparait au scroll (fade + translate)
-   data-reveal="left|right|scale|blur|clip"
-   data-reveal-delay="120": ms
-   data-stagger           : sur un parent, ses enfants se revelent en cascade
+   data-reveal            : apparait au scroll (opacite seule, 0,5 s, --ease-out — regle R6)
+   data-reveal="up|left|right|scale|blur|clip|wipe|mask" : variantes avec deplacement (up = 12 px)
+   data-reveal-delay="120": ms (plafonne a 400 ms par motion.ts)
+   data-stagger           : sur un parent, ses enfants se revelent en cascade (60 ms par defaut)
+   data-split="lines"     : titre revele par lignes masquees (GSAP SplitText, rich), --ease-brand
    data-parallax="0.2"    : deplacement au scroll (rich seulement)
    data-counter="12"      : compte jusqu'a la valeur (chiffres reels uniquement)
    data-split             : titre decoupe en mots animes (rich seulement), data-split="chars" : caracteres
@@ -232,17 +244,21 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 [data-motion='none'] [data-reveal],
 [data-motion='none'] [data-stagger] > * { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
 
+/* Reveal par defaut = opacite seule en 0,5 s (HoY `opacity .3s ease-out`, Apple StaggeredFadeIn,
+   Goodside opacity/transform sur deux durees) : le « tout monte de 24 px sur la meme courbe » est le
+   tell IA n° 1 cote motion (925 Studios). Le deplacement est une variante explicite (up/left/...),
+   sur --motion-duration (la direction) ; l'opacite reste a 0,5 s dans tous les cas. */
 [data-motion]:not([data-motion='none']) [data-reveal],
 [data-motion]:not([data-motion='none']) [data-stagger] > * {
   opacity: 0;
-  transform: translateY(24px);
   transition:
-    opacity var(--motion-duration) var(--ease-out-expo),
-    transform var(--motion-duration) var(--ease-out-expo),
-    filter var(--motion-duration) var(--ease-out-expo),
-    clip-path var(--motion-duration) var(--ease-out-expo);
+    opacity 0.5s var(--ease-out),
+    transform var(--motion-duration) var(--ease-out),
+    filter var(--motion-duration) var(--ease-out),
+    clip-path var(--motion-duration) var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
+[data-motion]:not([data-motion='none']) [data-reveal='up'] { transform: translateY(12px); }
 [data-motion]:not([data-motion='none']) [data-reveal='left'] { transform: translateX(-32px); }
 [data-motion]:not([data-motion='none']) [data-reveal='right'] { transform: translateX(32px); }
 [data-motion]:not([data-motion='none']) [data-reveal='scale'] { transform: scale(0.92); }
@@ -308,7 +324,8 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
    peut pas rendre `--muted` accessible sans annuler l'effet d'attenuation ; a eviter pour du texte qui
    doit rester lisible avant le scroll, documente ici plutot que corrige (fichier hors src/, propre a
    un site). */
-[data-pin-step] { opacity: 0.65; transition: opacity 0.5s var(--ease-out-quart), transform 0.5s var(--ease-out-quart); }
+/* Fondu croise 0,5 s in-out entre deux etapes (R4), plutot qu'un switch d'opacite. */
+[data-pin-step] { opacity: 0.65; transition: opacity 0.5s var(--ease-in-out), transform 0.5s var(--ease-in-out); }
 [data-pin-step].is-active { opacity: 1; }
 
 /* Rideau d'entree (rich) */
@@ -318,7 +335,7 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 .ff-curtain.is-open::after { transform: scaleY(0); }
 
 /* Image flottante au survol (rich) */
-.ff-hover-img { position: fixed; top: 0; left: 0; z-index: 90; width: 16rem; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-lift); opacity: 0; scale: 0.85; transition: opacity 0.35s var(--ease-out-quart), scale 0.35s var(--ease-out-quart); pointer-events: none; will-change: transform; }
+.ff-hover-img { position: fixed; top: 0; left: 0; z-index: 90; width: 16rem; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-lift); opacity: 0; scale: 0.85; transition: opacity var(--motion-ui) var(--ease-out-quart), scale var(--motion-ui) var(--ease-out-quart); pointer-events: none; will-change: transform; }
 .ff-hover-img.is-on { opacity: 1; scale: 1; }
 
 /* Split text (rich) : mots (defaut) ou caracteres (data-split="chars") */
@@ -328,6 +345,12 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 .split-char { display: inline-block; overflow: hidden; vertical-align: top; }
 .split-char > span { display: inline-block; transform: translateY(110%); transition: transform 0.7s var(--ease-out-expo); transition-delay: var(--i-delay, 0ms); }
 .is-visible .split-char > span { transform: translateY(0); }
+/* data-split="lines" (rich) : lignes masquees par GSAP SplitText (mask: "lines", classe .split-line),
+   yPercent 110 -> 0 sur --ease-brand, pilote par splitLines() (motion.ts). Le titre reste invisible
+   le temps que le chunk GSAP arrive (data-split-state absent), puis "split" (anime) ou "static"
+   (repli : SplitText indisponible -> decoupage mots maison). Jamais masque hors rich ni en
+   reduced-motion (bloc @media plus bas). */
+[data-motion='rich'] [data-split='lines']:not([data-split-state]) { visibility: hidden; }
 
 /* data-sticky-stack : enfants sticky, z-index croissant pose par stickyStack() (motion.ts) */
 [data-sticky-stack] > * { position: sticky; top: 0; }
@@ -357,7 +380,7 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 
 /* data-flip-card (subtle) : carte 3D, .flip-inner/.flip-front/.flip-back dans le markup de la section */
 [data-flip-card] { perspective: 1200px; cursor: pointer; }
-[data-flip-card] .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.7s var(--ease-out-expo); transform-style: preserve-3d; }
+[data-flip-card] .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s var(--ease-in-out); transform-style: preserve-3d; }
 [data-flip-card] .flip-front, [data-flip-card] .flip-back { position: absolute; inset: 0; backface-visibility: hidden; }
 [data-flip-card] .flip-back { transform: rotateY(180deg); }
 @media (hover: hover) and (pointer: fine) {
@@ -396,7 +419,7 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 }
 
 /* data-reveal-native (subtle) : meme etat initial que data-reveal ; @supports anime nativement, sinon repli IO (revealNative(), motion.ts) identique a .is-visible */
-[data-motion]:not([data-motion='none']) [data-reveal-native] { opacity: 0; transform: translateY(24px); }
+[data-motion]:not([data-motion='none']) [data-reveal-native] { opacity: 0; transform: translateY(12px); }
 [data-motion] .is-visible[data-reveal-native] { opacity: 1; transform: none; }
 @supports (animation-timeline: view()) {
   [data-motion]:not([data-motion='none']) [data-reveal-native] {
@@ -404,11 +427,11 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
     animation-timeline: view();
     animation-range: entry 0% cover 30%;
   }
-  @keyframes reveal-native-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  @keyframes reveal-native-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 }
 
 /* data-hover-distort (rich, pointer:fine) : conteneur WebGL cree par hoverDistort() (motion.ts), meme famille visuelle que .ff-hover-img */
-.ff-distort { position: fixed; top: 0; left: 0; z-index: 90; width: 320px; height: 240px; border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-lift); opacity: 0; pointer-events: none; transition: opacity 0.35s var(--ease-out-quart); will-change: transform; }
+.ff-distort { position: fixed; top: 0; left: 0; z-index: 90; width: 320px; height: 240px; border-radius: var(--radius-card); overflow: hidden; box-shadow: var(--shadow-lift); opacity: 0; pointer-events: none; transition: opacity var(--motion-ui) var(--ease-out-quart); will-change: transform; }
 .ff-distort canvas { display: block; width: 100%; height: 100%; }
 .ff-distort.is-on { opacity: 1; }
 
@@ -495,6 +518,10 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
   [data-pin-step] { opacity: 1 !important; }
   .split-word > span { transform: none !important; }
   .split-char > span { transform: none !important; }
+  /* data-split="lines" : splitLines() (motion.ts) ne s'execute jamais quand reduced (garde en tete de
+     initMotion()) ; le titre reste visible, non decoupe, sans animation. */
+  [data-split='lines'] { visibility: visible !important; }
+  [data-split='lines'] .split-line { transform: none !important; }
   [data-sticky-stack] > * { filter: none !important; }
   [data-stack] > * { position: static !important; transform: none !important; filter: none !important; }
   [data-scramble] { opacity: 1 !important; }

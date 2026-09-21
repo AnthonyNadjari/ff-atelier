@@ -30,7 +30,10 @@
   --radius-card: 2px;
   --shadow-card: 0 1px 0 rgb(239 233 223 / 0.06), 0 24px 60px -30px rgb(0 0 0 / 0.7);
   --shadow-lift: 0 40px 90px -30px rgb(0 0 0 / 0.8);
-  --motion-duration: 1.4s;
+  --motion-duration: 1s; /* etait 1.4s : plafond 1 s (R1), la lenteur vient du scrub et des delais, pas des transitions */
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : « osmo » (LxL x43, Paul Kalkbrenner, Spyker) : long, precieux. */
+  --ease-brand: cubic-bezier(0.625, 0.05, 0, 1);
+  --motion-ui: 0.32s;
   color-scheme: dark;
 }
 
@@ -48,7 +51,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-size: 0.85rem;
-  transition: background var(--motion-duration) ease, color var(--motion-duration) ease, border-color var(--motion-duration) ease;
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
 }
 [data-direction='luxe'] .btn-primary {
   background: var(--accent);

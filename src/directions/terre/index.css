@@ -37,6 +37,9 @@
   --radius-card: 28px;
   --shadow-card: 0 1px 0 rgb(36 48 31 / 0.05), 0 20px 44px -26px rgb(36 48 31 / 0.28);
   --shadow-lift: 0 32px 64px -24px rgb(36 48 31 / 0.35);
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : quart-out (Immersive Garden) : organique, sans a-coup. */
+  --ease-brand: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --motion-ui: 0.25s;
 }
 
 [data-direction='terre'] body::before {

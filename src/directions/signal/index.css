@@ -31,6 +31,9 @@
   --shadow-card: 0 2px 0 rgb(16 16 16 / 0.08), 0 14px 28px -14px rgb(16 16 16 / 0.28);
   --shadow-lift: 0 28px 56px -20px rgb(16 16 16 / 0.4);
   --motion-duration: 0.5s;
+  /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : in-out seche (Forge Automotive) : signal, urgence. */
+  --ease-brand: cubic-bezier(0.5, 0, 0, 1);
+  --motion-ui: 0.15s;
 }
 
 [data-direction='signal'] ::selection { background: var(--accent); color: var(--on-accent); }

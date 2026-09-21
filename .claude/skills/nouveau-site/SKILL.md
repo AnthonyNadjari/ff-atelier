@@ -194,6 +194,12 @@ confondre. Procédure :
    (composition + `data-*` précis + effets interdits) si elle existe, sinon applique les 5 questions du
    § 1 directement à ce bloc. Ne pas empiler les effets riches ailleurs sur la page une fois ce bloc
    choisi : le reste reste en `data-reveal`/`data-stagger` sobres (règle du « seul feu d'artifice »).
+   **Un groupe animé par section** (`docs/CONVENTIONS.md` règle 21) : dans ce bloc comme ailleurs, le
+   titre (`data-split="lines"` en rich, sinon `data-reveal`) plus **un** bloc (`data-stagger` sur la
+   grille ou `data-reveal` sur l'image) — jamais de `data-reveal` sur un paragraphe, une puce, un pied
+   de carte ou un bouton ; `data-reveal="up"` seulement sur ce qu'on veut faire remarquer. Une section
+   épinglée (`data-pin`) dure 100 % d'écran par étape + 100 % (3 étapes = `data-pin="400"`).
+   `ff audit-motion` avertit au-delà de 16 apparitions ou de 2 effets riches sur la page.
 2. Écris `sites/<slug>/sections/<Nom>.astro` (PascalCase) selon `docs/CONVENTIONS.md` § Sections sur
    mesure : `import { site } from '@/lib/site'`, tokens uniquement, `id` = nom en minuscules,
    `data-reveal`/`data-stagger`, mobile d'abord, aucune donnée inventée (les faits viennent du brief ;

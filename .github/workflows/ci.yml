@@ -57,6 +57,14 @@ jobs:
             echo "scripts/ff/audit-motion.mjs absent pour l'instant : etape ignoree (voir docs/OBJECTIF.md)."
           fi
 
+      - name: Audit de nettete des images/sequences/videos (si livre)
+        run: |
+          if [ -f scripts/ff/nettete.mjs ]; then
+            node scripts/ff.mjs nettete
+          else
+            echo "scripts/ff/nettete.mjs absent pour l'instant : etape ignoree."
+          fi
+
       - name: Lighthouse (_exemple, mobile — seuil par defaut 90)
         run: node scripts/ff.mjs lighthouse _exemple --mobile
 

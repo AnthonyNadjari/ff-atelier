@@ -11,6 +11,26 @@
  * data-marquee, data-draw, data-parallax, data-magnetic, data-tilt, data-scrub, data-pin,
  * data-pin-step, data-horizontal, data-text-fill, data-split, data-hover-img, data-nav.
  *
+ * --- Regles de rendu (docs/veille/animations-2.md, 20 sept 2026 : « fluide et cher », pas « IA ») ---
+ * Durees/courbes : deux regimes (global.css) — --motion-ui 0,15-0,32 s pour tout ce qui repond a un
+ *   geste, --motion-duration 0,5-1 s pour les entrees ; --ease-out (apparitions), --ease-in-out
+ *   (deplacements), --ease-brand (courbe signature posee par la direction, lue ici pour les titres).
+ * data-reveal            : opacite seule, 0,5 s (R6). Deplacement = variante explicite : data-reveal="up"
+ *                          (12 px), left/right/scale/blur/clip/wipe/mask. data-reveal-delay plafonne a 400 ms,
+ *                          data-stagger a 60 ms par defaut (R7), total <= 600 ms.
+ * data-split="lines"     : rich — titre revele par lignes masquees (GSAP SplitText, mask:"lines", gratuit
+ *                          depuis 3.13) : yPercent 110 -> 0, 0,9 s, stagger 0,09, --ease-brand (CustomEase),
+ *                          declenche a top 88 %, re-split au resize (autoSplit). Repli si SplitText
+ *                          indisponible : decoupage mots maison. reduced-motion : texte visible, rien.
+ *                          data-split-ease="out" force --ease-out a la place de --ease-brand.
+ * Scroll lie (R3)        : scrub: 1 par defaut (data-scrub, data-blur-scrub, data-pin, data-horizontal,
+ *                          data-text-fill, data-draw-svg="scrub"), 0,5 pour data-parallax/-depth, 0,3 pour les
+ *                          piles (data-stack, data-sticky-stack). data-scrub-lag="0.3" surcharge par element.
+ * data-pin (R4)          : longueur = N % d'ecran ; sans valeur, implicite = 100 % par [data-pin-step] + 100 %
+ *                          (3 etapes = 400). Fondu croise 0,5 s in-out entre etapes (global.css).
+ * data-frames-lerp       : lissage de la frame courante vers la frame cible (defaut 0,12, comme Trionn ;
+ *                          1 = frame exacte) en boucle rAF, au lieu de sauter d'une frame a l'autre.
+ *
  * --- Nouveaux effets (docs/veille/animations.md §3, 13 effets + 2 bonus) ---
  * data-sticky-stack     subtle (CSS pur, z-index croissant) + rich (assombrit la carte precedente au scroll)
  * data-stack            rich   cartes qui s'empilent en scrollant (scale/y decroissants)
@@ -91,11 +111,14 @@ export function initMotion() {
   shaderBackgrounds(motion, reduced);
   if (motion === 'none' || reduced) {
     document.querySelectorAll<HTMLElement>('[data-reveal],[data-stagger],[data-reveal-native]').forEach((el) => el.classList.add('is-visible'));
+    // data-split="lines" : texte visible, non decoupe (global.css masque seulement sans data-split-state).
+    document.querySelectorAll<HTMLElement>('[data-split="lines"]').forEach((el) => (el.dataset.splitState = 'static'));
     return;
   }
 
   // splitText d'abord : il pose data-reveal sur les titres, que reveal() doit ensuite observer.
   if (motion === 'rich') splitText();
+  else document.querySelectorAll<HTMLElement>('[data-split="lines"]').forEach((el) => (el.dataset.splitState = 'static'));
   reveal();
   revealNative();
   counters();
@@ -116,6 +139,7 @@ export function initMotion() {
     curtain();
     hoverImages();
     trailImages();
+    splitLines().catch(() => {});
     rich().catch(() => {});
     smoothScroll().catch(() => {});
     hoverDistort().catch(() => {});
@@ -363,24 +387,47 @@ async function setupFrameSequence(el: HTMLElement, canvas: HTMLCanvasElement, po
   const { gsap } = await import('gsap');
   const { ScrollTrigger } = await import('gsap/ScrollTrigger');
   gsap.registerPlugin(ScrollTrigger);
-  const len = Number(el.dataset.pin || 100);
-  let pendingProgress = 0;
+  const len = pinLength(el);
+  // Lissage de frame (Trionn, docs/veille/animations-2.md E5) : la frame dessinee (`current`, flottante)
+  // rattrape la frame cible a chaque rAF par lerp (data-frames-lerp, defaut 0,12 ; 1 = frame exacte)
+  // au lieu de sauter a la frame calculee a chaque cran de molette (« ca saute »). La boucle ne tourne
+  // que tant que l'ecart est perceptible, puis s'arrete sur la frame cible.
+  const lerp = Math.min(1, Math.max(0.02, Number(el.dataset.framesLerp) || 0.12));
+  let target = 0;
+  let current = 0;
   let raf = 0;
-  const render = () => {
+  const tick = () => {
     raf = 0;
-    const frame0 = Math.round(pendingProgress * (count - 1));
-    drawIndex(Math.min(count, Math.max(1, frame0 + 1)));
+    const diff = target - current;
+    if (Math.abs(diff) < 0.05) current = target;
+    else current += diff * lerp;
+    drawIndex(Math.min(count, Math.max(1, Math.round(current) + 1)));
+    if (current !== target) raf = requestAnimationFrame(tick);
   };
   ScrollTrigger.create({
     trigger: el,
     start: 'top top',
     end: `+=${len}%`,
-    scrub: true,
+    // Pas de `scrub` ici : sans tween lie, il n'a aucun effet sur st.progress ; le lissage est le lerp.
     onUpdate: (st) => {
-      pendingProgress = st.progress;
-      if (!raf) raf = requestAnimationFrame(render);
+      target = st.progress * (count - 1);
+      if (!raf) raf = requestAnimationFrame(tick);
     },
   });
+}
+
+/** Longueur d'epinglage en % de hauteur d'ecran : data-pin="N", ou implicite = 100 % par [data-pin-step] + 100 % (R4). */
+function pinLength(el: HTMLElement) {
+  const explicit = Number(el.dataset.pin);
+  if (explicit > 0) return explicit;
+  const steps = el.querySelectorAll('[data-pin-step]').length;
+  return steps * 100 + 100;
+}
+
+/** Retard de scrub en secondes : data-scrub-lag="0.3" sur l'element, sinon la valeur par defaut de l'effet (R3). */
+function scrubLag(el: HTMLElement, fallback: number) {
+  const v = Number(el.dataset.scrubLag);
+  return v > 0 ? v : fallback;
 }
 
 /* ---------- subtle ---------- */
@@ -388,12 +435,14 @@ function reveal() {
   const els = document.querySelectorAll<HTMLElement>('[data-reveal],[data-stagger]');
   els.forEach((el) => {
     const d = el.dataset.revealDelay;
-    if (d) el.style.setProperty('--reveal-delay', `${d}ms`);
+    // Plafond 400 ms (R7) : au-dela, l'element arrive apres que l'oeil est parti.
+    if (d) el.style.setProperty('--reveal-delay', `${Math.min(400, Number(d) || 0)}ms`);
     if (el.hasAttribute('data-stagger')) {
       // Delai total plafonne a 600 ms (docs/CONVENTIONS.md regle 16) : sur une longue liste (20 vignettes),
       // le pas se resserre au lieu de faire attendre le dernier element pendant deux secondes.
+      // Pas par defaut 60 ms (R7 : 20-50 ms par texte, 60-100 ms par carte chez les primes).
       const n = el.children.length;
-      const step = Math.min(Number(el.dataset.stagger || 90), n > 1 ? 600 / (n - 1) : 600);
+      const step = Math.min(Number(el.dataset.stagger || 60), n > 1 ? 600 / (n - 1) : 600);
       Array.from(el.children).forEach((c, i) => (c as HTMLElement).style.setProperty('--reveal-delay', `${Math.round(i * step)}ms`));
     }
   });
@@ -682,33 +731,104 @@ function navScroll() {
 function splitText() {
   document.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
     if (el.dataset.splitDone) return;
-    el.dataset.splitDone = '1';
-    // data-split (defaut, "words") : decoupe mot par mot. data-split="chars" : caractere par caractere.
-    const chars = el.dataset.split === 'chars';
-    const cls = chars ? 'split-char' : 'split-word';
-    const walk = (node: Node) => {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const units = chars ? (node.textContent ?? '').split('') : (node.textContent ?? '').split(/(\s+)/);
-        const frag = document.createDocumentFragment();
-        units.forEach((w) => {
-          if (!w) return;
-          if (!chars && /^\s+$/.test(w)) return frag.append(document.createTextNode(' '));
-          const outer = document.createElement('span');
-          outer.className = cls;
-          const inner = document.createElement('span');
-          inner.textContent = w === ' ' ? ' ' : w;
-          outer.append(inner);
-          frag.append(outer);
-        });
-        node.parentNode?.replaceChild(frag, node);
-      } else if (node.nodeType === Node.ELEMENT_NODE) {
-        Array.from(node.childNodes).forEach(walk);
-      }
-    };
-    walk(el);
-    el.querySelectorAll<HTMLElement>(`.${cls} > span`).forEach((s, i) => s.style.setProperty('--i-delay', `${i * (chars ? 18 : 45)}ms`));
-    if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', 'none');
+    // data-split="lines" : pris en charge par splitLines() (GSAP SplitText, charge a la demande).
+    if (el.dataset.split === 'lines') return;
+    splitWords(el);
   });
+}
+
+/** Decoupage maison mot par mot (defaut) ou caractere par caractere (data-split="chars"), anime en CSS (.split-word/.split-char). */
+function splitWords(el: HTMLElement) {
+  el.dataset.splitDone = '1';
+  const chars = el.dataset.split === 'chars';
+  const cls = chars ? 'split-char' : 'split-word';
+  const walk = (node: Node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const units = chars ? (node.textContent ?? '').split('') : (node.textContent ?? '').split(/(\s+)/);
+      const frag = document.createDocumentFragment();
+      units.forEach((w) => {
+        if (!w) return;
+        if (!chars && /^\s+$/.test(w)) return frag.append(document.createTextNode(' '));
+        const outer = document.createElement('span');
+        outer.className = cls;
+        const inner = document.createElement('span');
+        inner.textContent = w === ' ' ? ' ' : w;
+        outer.append(inner);
+        frag.append(outer);
+      });
+      node.parentNode?.replaceChild(frag, node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      Array.from(node.childNodes).forEach(walk);
+    }
+  };
+  walk(el);
+  el.querySelectorAll<HTMLElement>(`.${cls} > span`).forEach((s, i) => s.style.setProperty('--i-delay', `${i * (chars ? 18 : 45)}ms`));
+  if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', 'none');
+  // Element deja observe par reveal() ? (repli de splitLines(), apres l'init) : on le revele nous-memes.
+  if (el.dataset.splitLate) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) { el.classList.add('is-visible'); io.disconnect(); }
+    }, { threshold: 0.12 });
+    io.observe(el);
+  }
+}
+
+/** Lit un token `cubic-bezier(a, b, c, d)` sur <html> et le rend au format CustomEase ("a,b,c,d"), ou null. */
+function cssEase(token: string): string | null {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(token).trim();
+  const m = /cubic-bezier\(([^)]+)\)/.exec(v);
+  if (!m) return null;
+  const nums = m[1].split(',').map((n) => Number(n.trim()));
+  return nums.length === 4 && nums.every((n) => Number.isFinite(n)) ? nums.join(',') : null;
+}
+
+/**
+ * data-split="lines" (rich) : revelation par lignes masquees, le geste de base d'un hero « cher »
+ * (Flim, Osmo, Good Fella, Kononenko — docs/veille/animations-2.md E1). GSAP SplitText (gratuit
+ * depuis 3.13, dans le paquet gsap) decoupe en lignes, chaque ligne dans un masque overflow:clip
+ * (mask: "lines"), puis yPercent 110 -> 0 en 0,9 s, stagger 0,09, sur la courbe signature de la
+ * direction (--ease-brand via CustomEase ; data-split-ease="out" pour --ease-out). autoSplit re-decoupe
+ * quand la largeur change (resize) et rejoue onSplit ; le tween rendu par onSplit est alors nettoye par
+ * SplitText. Polices attendues (document.fonts.ready) avant le decoupage, sinon les lignes sont fausses.
+ * Repli (import en echec, SplitText absent) : decoupage mots maison (splitWords) + observer propre.
+ */
+async function splitLines() {
+  const els = Array.from(document.querySelectorAll<HTMLElement>('[data-split="lines"]:not([data-split-state])'));
+  if (!els.length) return;
+  const fallback = () => els.forEach((el) => { if (!el.dataset.splitState) { el.dataset.splitState = 'static'; el.dataset.splitLate = '1'; splitWords(el); } });
+  try {
+    const [{ gsap }, { SplitText }, { ScrollTrigger }, { CustomEase }] = await Promise.all([
+      import('gsap'), import('gsap/SplitText'), import('gsap/ScrollTrigger'), import('gsap/CustomEase'),
+    ]);
+    gsap.registerPlugin(SplitText, ScrollTrigger, CustomEase);
+    await (document.fonts?.ready ?? Promise.resolve());
+    const brand = cssEase('--ease-brand');
+    const out = cssEase('--ease-out');
+    const easeBrand = brand ? CustomEase.create('ff-brand', brand) : 'expo.out';
+    const easeOut = out ? CustomEase.create('ff-out', out) : 'expo.out';
+    els.forEach((el) => {
+      if (el.dataset.splitState) return;
+      const ease = el.dataset.splitEase === 'out' ? easeOut : easeBrand;
+      SplitText.create(el, {
+        type: 'lines',
+        mask: 'lines',
+        linesClass: 'split-line',
+        autoSplit: true,
+        onSplit: (self: { lines: Element[] }) => {
+          el.dataset.splitState = 'split';
+          return gsap.from(self.lines, {
+            yPercent: 110,
+            duration: 0.9,
+            stagger: 0.09,
+            ease,
+            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+          });
+        },
+      });
+    });
+  } catch {
+    fallback();
+  }
 }
 
 async function rich() {
@@ -726,7 +846,8 @@ async function rich() {
     gsap.fromTo(
       el,
       { yPercent: -amount * 40 },
-      { yPercent: amount * 40, ease: 'none', scrollTrigger: { trigger: el.parentElement ?? el, scrub: true, start: 'top bottom', end: 'bottom top' } },
+      // scrub 0,5 (R3) : `true` donne le cote « colle a la molette » lu comme saccade.
+      { yPercent: amount * 40, ease: 'none', scrollTrigger: { trigger: el.parentElement ?? el, scrub: scrubLag(el, 0.5), start: 'top bottom', end: 'bottom top' } },
     );
   });
 
@@ -747,7 +868,8 @@ async function rich() {
     if (el.hasAttribute('data-blur-scrub') && from.blur === undefined) from.blur = Number(el.dataset.blurScrub) || 12;
     if (from.x !== undefined) { from.xPercent = from.x; delete from.x; }
     if (from.y !== undefined) { from.yPercent = from.y; delete from.y; }
-    const tweenVars: Record<string, unknown> = { ...from, ease: 'none', scrollTrigger: { trigger: el, scrub: 0.6, start: 'top 95%', end: 'bottom 20%' } };
+    // scrub 1 (R3) : « takes 1 second to catch up » (docs GSAP), la valeur type des sites primes.
+    const tweenVars: Record<string, unknown> = { ...from, ease: 'none', scrollTrigger: { trigger: el, scrub: scrubLag(el, 1), start: 'top 95%', end: 'bottom 20%' } };
     if (from.blur !== undefined) {
       tweenVars.filter = `blur(${from.blur}px)`;
       delete tweenVars.blur;
@@ -761,7 +883,7 @@ async function rich() {
     cards.forEach((c, i) => {
       const next = cards[i + 1];
       if (!next) return;
-      gsap.to(c, { filter: 'brightness(0.55)', ease: 'none', scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: true } });
+      gsap.to(c, { filter: 'brightness(0.55)', ease: 'none', scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: scrubLag(el, 0.3) } });
     });
   });
 
@@ -772,7 +894,8 @@ async function rich() {
       ScrollTrigger.create({ trigger: c, start: 'top top', end: 'bottom top', pin: true, pinSpacing: false });
       const next = cards[i + 1];
       if (!next) return;
-      gsap.to(c, { scale: 0.94, yPercent: -3, filter: 'brightness(0.85)', ease: 'none', scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: true } });
+      // Piles sticky : 0,3 s (Horeca ; 0,1 juge trop sec), jamais `true`.
+      gsap.to(c, { scale: 0.94, yPercent: -3, filter: 'brightness(0.85)', ease: 'none', scrollTrigger: { trigger: next, start: 'top bottom', end: 'top top', scrub: scrubLag(el, 0.3) } });
     });
   });
 
@@ -783,7 +906,7 @@ async function rich() {
       gsap.fromTo(
         child,
         { yPercent: -amount * 40 },
-        { yPercent: amount * 40, ease: 'none', scrollTrigger: { trigger: el, scrub: true, start: 'top bottom', end: 'bottom top' } },
+        { yPercent: amount * 40, ease: 'none', scrollTrigger: { trigger: el, scrub: scrubLag(el, 0.5), start: 'top bottom', end: 'bottom top' } },
       );
     });
   });
@@ -811,15 +934,16 @@ async function rich() {
       el.innerHTML = words.map((w) => `<span class="fill-word">${w}</span>`).join(' ');
       el.dataset.splitDone = '1';
     }
-    gsap.to(el.querySelectorAll('.fill-word'), { opacity: 1, stagger: 0.08, ease: 'none', scrollTrigger: { trigger: el, scrub: 0.8, start: 'top 80%', end: 'bottom 45%' } });
+    gsap.to(el.querySelectorAll('.fill-word'), { opacity: 1, stagger: 0.08, ease: 'none', scrollTrigger: { trigger: el, scrub: scrubLag(el, 1), start: 'top 80%', end: 'bottom 45%' } });
   });
 
-  // data-pin="120" : epingle pendant N % de hauteur d'ecran ; ses [data-pin-step] s'activent tour a tour
+  // data-pin="400" : epingle pendant N % de hauteur d'ecran ; ses [data-pin-step] s'activent tour a tour.
+  // Sans valeur : 100 % par etape + 100 % (R4 : une section epinglee dure au moins trois ecrans).
   document.querySelectorAll<HTMLElement>('[data-pin]').forEach((el) => {
     const steps = el.querySelectorAll<HTMLElement>('[data-pin-step]');
-    const len = Number(el.dataset.pin || 100);
+    const len = pinLength(el);
     ScrollTrigger.create({
-      trigger: el, start: 'top top', end: `+=${len}%`, pin: true, scrub: true,
+      trigger: el, start: 'top top', end: `+=${len}%`, pin: true, anticipatePin: 1,
       onUpdate: (st) => { const i = Math.min(steps.length - 1, Math.floor(st.progress * steps.length)); steps.forEach((s, k) => s.classList.toggle('is-active', k === i)); },
     });
     steps[0]?.classList.add('is-active');
@@ -830,7 +954,8 @@ async function rich() {
     const track = el.querySelector<HTMLElement>('.h-track');
     if (!track || !window.matchMedia('(min-width: 64rem)').matches) return;
     const dist = () => track.scrollWidth - el.clientWidth;
-    gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: el, start: 'top top', end: () => `+=${dist()}`, pin: true, scrub: 0.5, invalidateOnRefresh: true } });
+    // scrub 1 (Flim horizontal), etait 0,5.
+    gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: el, start: 'top top', end: () => `+=${dist()}`, pin: true, anticipatePin: 1, scrub: scrubLag(el, 1), invalidateOnRefresh: true } });
   });
 
   document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
@@ -847,21 +972,30 @@ async function rich() {
       const r = el.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5;
       const py = (e.clientY - r.top) / r.height - 0.5;
-      gsap.to(el, { rotateY: px * max, rotateX: -py * max, transformPerspective: 900, duration: 0.5, ease: 'power2.out' });
+      // R8 : 0,3 s aller, retour 20 % plus court (etait 0,5 / 0,8, inverse).
+      gsap.to(el, { rotateY: px * max, rotateX: -py * max, transformPerspective: 900, duration: 0.3, ease: 'power2.out' });
       if (glare) glare.style.backgroundPosition = `${(px + 0.5) * 100}% ${(py + 0.5) * 100}%`;
     });
-    el.addEventListener('mouseleave', () => gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.8, ease: 'power3.out' }));
+    el.addEventListener('mouseleave', () => gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.25, ease: 'power3.out' }));
   });
 }
 
 /** data-smooth (sur <html>, pose par Base.astro depuis site.smoothScroll) : Lenis, synchronise avec ScrollTrigger. */
 async function smoothScroll() {
   if (!document.documentElement.hasAttribute('data-smooth')) return;
+  // Pas de scroll inertiel sous automate (Playwright pose navigator.webdriver) : ff captures,
+  // ff audit-motion et ff nettete defilent par sauts et attendent que la page ait fini de bouger ;
+  // Lenis ajoutait une inertie qui decalait les reveals dans les captures pleine page. Le visiteur
+  // reel, lui, a l'inertie.
+  if (navigator.webdriver) return;
   const { default: Lenis } = await import('lenis');
   const { gsap } = await import('gsap');
   const { ScrollTrigger } = await import('gsap/ScrollTrigger');
   gsap.registerPlugin(ScrollTrigger);
-  const lenis = new Lenis({ autoRaf: false });
+  // lerp 0,09 : inertie visible mais courte (Lenis par defaut 0,1 ; les studios primes tournent
+  // entre 0,07 et 0,1 — docs/veille/animations-2.md). wheelMultiplier < 1 : la molette Windows
+  // envoie des crans de 100 px qui faisaient « scroller ultra vite ».
+  const lenis = new Lenis({ autoRaf: false, lerp: 0.09, wheelMultiplier: 0.85 });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -1025,7 +1159,7 @@ async function drawSvg() {
       stagger: scrub ? 0 : 0.08,
       ease: scrub ? 'none' : 'power1.inOut',
       scrollTrigger: scrub
-        ? { trigger: svg, start: 'top 90%', end: 'bottom 40%', scrub: 0.6 }
+        ? { trigger: svg, start: 'top 90%', end: 'bottom 40%', scrub: scrubLag(svg as unknown as HTMLElement, 1) }
         : { trigger: svg, start: 'top 80%', once: true },
     });
   });

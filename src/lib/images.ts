@@ -14,6 +14,25 @@ export interface ImageManifestEntry {
 
 const manifests = import.meta.glob<{ default: Record<string, ImageManifestEntry> }>('/sites/*/images.json', { eager: true });
 
+/**
+ * `sizes` des heros partages (src/sections/Hero/*.astro) — UNE seule source, aussi lue par le preload
+ * LCP de src/layouts/Base.astro (imagesizes) : un `sizes` different entre le preload et le <Img> reel
+ * ferait telecharger deux candidats. Largeurs reelles d'affichage : le conteneur (--container, 76rem =
+ * 1216px) plafonne les heros "split" (6/12 colonnes, gap 2rem = 592px) et "stacked" (1216px) au-dela
+ * de 1280px ; fullbleed/video occupent tout le viewport.
+ */
+export const HERO_SIZES: Record<string, string> = {
+  split: '(min-width: 1280px) 592px, (min-width: 1024px) 50vw, 100vw',
+  stacked: '(min-width: 1280px) 1216px, 100vw',
+  fullbleed: '100vw',
+  video: '100vw',
+};
+
+/** `sizes` d'un hero selon sa variante (`site.layout.hero`) ; toute variante inconnue = pleine largeur. */
+export function heroSizesFor(variant: string): string {
+  return HERO_SIZES[variant] ?? '100vw';
+}
+
 /** Manifeste complet d'un site (vide si `ff images <slug>` n'a jamais tourne). */
 export function getImageManifest(slug: string): Record<string, ImageManifestEntry> {
   return manifests[`/sites/${slug}/images.json`]?.default ?? {};

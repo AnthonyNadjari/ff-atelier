@@ -20,7 +20,7 @@ let usedFirstImage = false;
             <a href={`/services/${s.slug}`} class="flex h-full flex-col">
               {big ? (
                 <figure class="relative min-h-[220px] flex-1">
-                  <Img src={s.image!.src} alt={s.image!.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 66vw, 100vw" loading="lazy" />
+                  <Img src={s.image!.src} alt={s.image!.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1280px) 804px, (min-width: 1024px) 66vw, 100vw" loading="lazy" />
                   <div class="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent"></div>
                   <div class="absolute inset-x-0 bottom-0 p-6 text-on-ink">
                     <h3 class="text-display-sm">{s.title}</h3>
