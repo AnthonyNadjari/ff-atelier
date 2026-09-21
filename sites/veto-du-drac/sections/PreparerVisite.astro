@@ -1,6 +1,6 @@
 ---
 /**
- * "Préparer la visite" (custom/PreparerVisite) : six cartes retournables (`data-flip-card`,
+ * "Préparer la visite" (custom/PreparerVisite) : liste d'ordonnance numérotée (anciennement six cartes retournables `data-flip-card`,
  * recto icône + libellé, verso conseil pratique) — composition inédite dans le repo (le seul
  * autre usage de `data-flip-card`, `sites/dubois-plomberie/sections/Diagnostic.astro`, retourne
  * symptôme → cause probable, pas une liste de conseils pratiques). La ligne de prix indicatif
@@ -29,22 +29,18 @@ const tips = [
       Un devis est toujours remis avant tout acte complémentaire. Consultation&nbsp;: 36&nbsp;€, à titre indicatif.
     </p>
 
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-stagger="110">
-      {tips.map((t) => (
-        <div class="h-52 w-full rounded-card" data-flip-card>
-          <div class="flip-inner rounded-card">
-            <div class="flip-front flex flex-col items-center justify-center gap-3 rounded-card border border-line bg-surface p-6 text-center">
-              <Icon name={t.icon} size={28} class="text-accent" />
-              <p class="font-display text-lg text-fg">{t.label}</p>
-              <p class="text-xs text-muted">Touchez / survolez</p>
-            </div>
-            <div class="flip-back flex flex-col items-center justify-center gap-2 rounded-card bg-ink p-6 text-center text-on-ink">
-              <p class="text-sm leading-relaxed">{t.tip}</p>
-            </div>
-          </div>
-        </div>
+    {/* Liste d'ordonnance : tout est lisible sans geste. Les six cartes retournables « Touchez /
+        survolez » (repete six fois) faisaient template et cachaient l'information utile — retirees
+        le 21 sept 2026 sur retour du fondateur. Le numero coche au passage (data-stagger). */}
+    <ol class="ordonnance mt-12 max-w-3xl" data-stagger="90">
+      {tips.map((t, i) => (
+        <li class="grid grid-cols-[3.25rem_1fr] gap-x-5 border-t border-line py-6 first:border-t-0 md:grid-cols-[4rem_14rem_1fr] md:gap-x-8">
+          <span class="ordonnance-num font-mono text-sm text-muted" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <p class="flex items-center gap-2 font-display text-lg text-fg"><Icon name={t.icon} size={20} class="text-accent" />{t.label}</p>
+          <p class="col-start-2 mt-2 text-sm leading-relaxed text-muted md:col-start-3 md:mt-0">{t.tip}</p>
+        </li>
       ))}
-    </div>
+    </ol>
 
     <p class="mt-10 text-sm text-muted">
       Une question qui ne trouve pas sa réponse ici&nbsp;? Appelez la clinique au {site.contact.phoneDisplay}.
