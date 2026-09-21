@@ -15,6 +15,14 @@
  * tamisee, un rituel du soir plutot qu'une vitrine eclairee. Accent surcharge en corail-or chaud
  * (hsl(24 42% 58%), proche du placeholder #d9c3b0) plutot que l'or plus jaune par defaut de
  * "luxe" — plus mediterraneen, moins "bijouterie".
+ *
+ * Squelette (21 sept 2026) : coquille `sticky-hero` — le hero reste épinglé en fond, les rituels et
+ * soins glissent par-dessus comme une feuille. Contact en tiroir (`contactDrawer: true`) : un
+ * institut de soin vend un créneau, pas une page de défilement de plus — la section contact finale
+ * sur mesure sort du layout (le tiroir devient la seule porte, `wording.devis` « Réserver un soin »
+ * y ouvre directement). La ligne data-marquee du hero (les soins en italique) devient une ligne
+ * fixe : le chapitre `data-horizontal` de « L'espace » reste le seul geste riche de la page
+ * (CONVENTIONS.md règle 16).
  */
 import { defineSite } from '@/lib/schema';
 
@@ -27,17 +35,17 @@ export default defineSite({
   layout: {
     nav: 'custom/Nav',
     hero: 'custom/Hero',
+    contactDrawer: true,
     sections: [
       { type: 'custom', variant: 'Rituels', label: 'Rituels' },
       { type: 'custom', variant: 'CarteDesSoins', label: 'Carte des soins' },
       { type: 'custom', variant: 'Espace', label: 'L’espace' },
       { type: 'custom', variant: 'Offrir', label: 'Offrir' },
-      { type: 'custom', variant: 'Contact', label: 'Réserver' },
     ],
     footer: 'minimal',
     divider: 'none',
     tone: 'flat',
-    shell: 'flow',
+    shell: 'sticky-hero',
   },
 
   business: {

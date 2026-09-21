@@ -21,6 +21,13 @@
  * schémas/diagrammes (câblage, disjoncteurs, courbes), une photo abstraite de substitution
  * y aurait fait doublon plutôt que du sens ; les fichiers générés restent disponibles si de
  * vraies photos client arrivent un jour.
+ *
+ * Squelette (21 sept 2026) : coquille `split` — panneau fixe à gauche (enseigne, sommaire actif
+ * numéroté, horaires, téléphone), contenu qui défile à droite. Un électricien vend un numéro
+ * toujours visible et un sommaire court (tableau électrique, bornes, engagements, zones, contact) :
+ * le panneau le porte en permanence sur desktop, la nav sur mesure ne sert plus qu'en mobile.
+ * Aucun effet riche (marquee/frames/shader/horizontal/drag-grid) sur ce site avant comme après ce
+ * changement — rien à retirer côté motion.
  */
 import { defineSite } from '@/lib/schema';
 
@@ -33,6 +40,7 @@ export default defineSite({
   scale: 'compact',
 
   layout: {
+    shell: 'split',
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [

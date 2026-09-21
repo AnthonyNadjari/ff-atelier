@@ -7,6 +7,11 @@
  * client), au même titre que le catalogue "symptôme → cause" de
  * sites/dubois-plomberie/sections/Diagnostic.astro — composition et contenu différents (ici photo
  * recto/description verso, pas icône/texte).
+ *
+ * Correctif (21 sept 2026, `ff detect`) : le délai « 48 h » du verso (`text-accent`) tombait à
+ * 3,6:1 sur `bg-ink` — l'accent de ce site (l 34, pensé pour du texte sur fond clair, voir
+ * `src/styles/global.css` § .eyebrow/h1 em sur fond encre) n'est pas garanti contrasté sur un fond
+ * sombre. Passé à `text-on-ink` (comme le reste du verso de la carte) plutôt que `text-accent`.
  */
 import { site } from '@/lib/site';
 import Img from '@/components/Img.astro';
@@ -43,7 +48,7 @@ const styles = [
               <p class="eyebrow text-on-ink/60">{s.name}</p>
               <p class="mt-3 text-sm text-on-ink/90" set:html={s.text} />
               {gateau && (
-                <p class="mt-auto flex items-center gap-2 pt-6 text-xs uppercase tracking-[0.14em] text-accent">
+                <p class="mt-auto flex items-center gap-2 pt-6 text-xs uppercase tracking-[0.14em] text-on-ink">
                   <Icon name="Clock" size={14} />Délai minimum : 48 h
                 </p>
               )}

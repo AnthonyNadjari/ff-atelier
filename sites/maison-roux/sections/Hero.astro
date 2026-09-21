@@ -5,6 +5,10 @@
  * (data-grain), petites étiquettes façon prix de boulangerie collées en biais (CSS pur, tokens).
  * Une bande data-marquee-velocity porte les pains du jour (site.services, pas un texte détaché).
  * Composition propre à ce site — aucune reprise d'un autre hero de l'atelier.
+ *
+ * Ligne telephone compacte ajoutee en tete du hero (21 sept 2026, nav passee en `burger`) : sans
+ * barre permanente, rien n'affiche plus le numero au premier ecran avant que ce bouton n'existe
+ * (meme correctif que `barbier-kessler/sections/Hero.astro`, `ff verifier` § tel: du premier ecran).
  */
 import { site, tel } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
@@ -14,6 +18,9 @@ const breads = site.services.filter((s) => s.slug.startsWith('pain-')).map((s) =
 
 <section id="hero" class="relative overflow-hidden bg-accent text-on-accent" data-grain>
   <div class="container-ff relative z-[2] flex min-h-[78svh] flex-col justify-center gap-7 py-28 sm:py-32">
+    <a href={tel()} class="inline-flex w-fit items-center gap-2 font-mono text-xs tracking-[0.18em] text-on-accent/75 hover:text-on-accent">
+      <Icon name="Phone" size={14} />{site.contact.phoneDisplay}
+    </a>
     {/* "Croix-Rousse" et "depuis {since}" retires (all-caps-body, 57 car.) : les deux figurent deja
         dans business.description (About/Fournee), trade + ville suffisent comme identite courte. */}
     <p class="eyebrow flex flex-wrap items-center gap-3 text-on-accent/85">
@@ -54,7 +61,7 @@ const breads = site.services.filter((s) => s.slug.startsWith('pain-')).map((s) =
   {breads.length > 0 && (
     <div class="relative z-[2] border-t-2 border-dashed border-ink/25 bg-ink py-4" data-marquee="28s" data-marquee-velocity="28">
       <div class="marquee-track font-display uppercase tracking-widest text-on-ink text-display-sm">
-        {breads.map((b) => <span class="flex items-center gap-8">{b}<span class="text-accent">✶</span></span>)}
+        {breads.map((b) => <span class="flex items-center gap-8">{b}<span class="text-on-ink/70" aria-hidden="true">✶</span></span>)}
       </div>
     </div>
   )}

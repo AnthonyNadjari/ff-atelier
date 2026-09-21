@@ -4,10 +4,9 @@
  * un texte détaché), Archivo Black n'ayant pas de coupe condensée, l'effet condensé vient d'un
  * `transform: scaleX()` (trick assumé, commenté dans le <style>) — qui se décode au chargement
  * (data-scramble, comme sites/studio-ambre mais sur un mot énorme plutôt qu'un petit nom en
- * mix-blend-mode) puis une bande data-marquee-velocity des quatre plats du brief en pied de hero
- * (motif déjà posé par sites/maison-roux/sections/Hero.astro pour ses pains, repris ici pour le
- * menu mais sur fond clair, mot scramblé plutôt que data-split, sans le bloc bg-accent plein cadre
- * de Maison Roux). Composition propre à ce site.
+ * mix-blend-mode) puis une ligne fixe des quatre plats du brief en pied de hero (la bande
+ * data-marquee-velocity d'origine a été retirée le 21 sept 2026 : un seul geste riche par page,
+ * le chapitre `process/horizon` de la tournée de la semaine). Composition propre à ce site.
  */
 import { site, tel } from '@/lib/site';
 import Button from '@/components/Button.astro';
@@ -40,10 +39,10 @@ const dishes = ['Axoa', 'Talos', 'Piperade', 'Txistorra'];
   </div>
 
   {dishes.length > 0 && (
-    <div class="mt-10 border-y-2 border-ink bg-ink py-4" data-marquee="26s" data-marquee-velocity="26">
-      <div class="marquee-track font-display uppercase tracking-widest text-on-ink text-display-sm">
+    <div class="mt-10 border-y-2 border-ink bg-ink py-4">
+      <p class="container-ff flex flex-wrap items-center gap-x-8 gap-y-2 font-display uppercase tracking-widest text-on-ink text-display-sm">
         {dishes.map((d) => <span class="flex items-center gap-8">{d}<span class="text-accent" aria-hidden="true">✶</span></span>)}
-      </div>
+      </p>
     </div>
   )}
 </section>

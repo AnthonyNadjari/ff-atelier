@@ -1,5 +1,14 @@
 // DEMO : client inventé (Encre Noire, studio de tatouage). Coordonnées fictives (plage 06 39 98).
 // Nav, hero et blocs principaux dessinés à la main pour ce site : sites/encre-noire/sections/.
+//
+// Squelette (21 sept 2026) : coquille `index` — le menu EST la page. Les quatre styles (fin trait,
+// blackwork, ornemental, floral = site.services) deviennent les premières entrées, en liens réels
+// vers /services/<slug> ; « Styles », « Artistes », « Rendez-vous », FAQ et contact se déroulent
+// sous leur entrée. `Styles.astro` perd son data-horizontal (grille à deux colonnes plutôt qu'une
+// piste plein écran) et `Artistes.astro` son data-hover-img (portrait au survol) : deux effets
+// pilotés par le scroll ou le pointeur qui se calculent mal sur un panneau <details> fermé, comme
+// fait sur anna-vidal. layout.hero n'est plus rendu par cette coquille (réduit à la ligne
+// d'identité + la tagline en pied).
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
@@ -9,7 +18,7 @@ export default defineSite({
   scale: 'normal',
   typography: { display: 'bodoni', body: 'archivo' },
   layout: {
-    shell: 'flow',
+    shell: 'index',
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [

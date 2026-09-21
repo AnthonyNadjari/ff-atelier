@@ -1,24 +1,26 @@
 ---
 /**
- * « Styles » : défilement horizontal (desktop) — quatre panneaux larges, un par style, texte +
- * une image révélée en fondu masqué. Devient une pile verticale sur mobile (data-horizontal ne
- * s'active qu'à partir de lg côté script). Composition propre à ce site.
+ * « Styles » : quatre panneaux, un par style, texte + image. Le data-horizontal d'origine (piste
+ * défilant sur la molette, un panneau plein écran par style) a été retiré le 21 sept 2026 : le bloc
+ * vit désormais sous une entrée <details> de la coquille `index`, et un effet piloté par le scroll
+ * se calcule sur un panneau fermé (comme anna-vidal/sections/Series.astro). Grille à deux colonnes
+ * sur desktop, pile verticale sur mobile ; les images suivent le data-reveal générique de motion.ts.
  */
 import { site } from '@/lib/site';
 const styles = site.services;
 ---
 
-<section id="styles" class="relative overflow-hidden bg-bg lg:h-svh" data-horizontal>
-  <div class="h-track flex flex-col gap-16 py-20 lg:h-full lg:flex-row lg:items-stretch lg:gap-0 lg:py-0">
+<section id="styles" class="relative overflow-hidden bg-bg section-y">
+  <div class="container-ff grid gap-16 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-20" data-stagger="120">
     {styles.map((s, i) => (
-      <article class="style-panel flex w-full shrink-0 flex-col justify-center gap-8 px-6 sm:px-10 lg:w-auto lg:min-w-[70vw] lg:flex-row lg:items-center lg:gap-14 lg:border-r lg:border-line lg:px-16">
+      <article class="style-panel flex flex-col gap-8 sm:flex-row sm:items-center sm:gap-10">
         <div class="max-w-xl">
           <p class="eyebrow">{String(i + 1).padStart(2, '0')} / {String(styles.length).padStart(2, '0')}</p>
-          <h2 class="mt-4 font-display uppercase leading-[0.85]" style="font-size: clamp(2.75rem, 8vw, 7rem);">{s.title}</h2>
+          <h2 class="mt-4 font-display uppercase leading-[0.85]" style="font-size: clamp(2.25rem, 5vw, 4rem);">{s.title}</h2>
           <p class="mt-6 max-w-md text-lg text-muted">{s.description}</p>
         </div>
         {s.image && (
-          <figure class="aspect-[4/5] w-full overflow-hidden lg:aspect-[3/4] lg:w-[26rem] lg:shrink-0" data-reveal="mask">
+          <figure class="aspect-[4/5] w-full overflow-hidden sm:w-56 sm:shrink-0" data-reveal="mask">
             <img src={s.image.src} alt={s.image.alt} class="h-full w-full object-cover" loading="lazy" />
           </figure>
         )}
@@ -26,37 +28,4 @@ const styles = site.services;
     ))}
   </div>
 </section>
-
-<script>
-  // Les images sont dans la piste que GSAP déplace horizontalement (data-horizontal) : une fois
-  // le panneau épinglé, leur position change par transform sur un ancestor, pas par un vrai défilement
-  // vertical, et l'observateur générique de motion.ts ne les revoit jamais entrer dans l'écran.
-  // On observe donc la section elle-même (fixe, non transformée) et on révèle les images d'un coup
-  // dès qu'elle entre dans la vue.
-  const section = document.getElementById('styles');
-  const masks = section?.querySelectorAll<HTMLElement>('[data-reveal="mask"]');
-  if (section && masks && masks.length) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            masks.forEach((m) => m.classList.add('is-visible'));
-            io.unobserve(section);
-          }
-        }
-      },
-      { threshold: 0.1 },
-    );
-    io.observe(section);
-  }
-</script>
-
-<style>
-  /* global.css declare [data-reveal='mask'] (clip-path masqué) APRES la règle générique
-     .is-visible[data-reveal], à specificité égale : le masque gagne toujours la cascade et ne se
-     révèle jamais. On restaure ici, à spécificité supérieure, le clip-path ouvert une fois visible. */
-  #styles [data-reveal='mask'].is-visible {
-    clip-path: inset(0 0 0 0);
-  }
-</style>
 

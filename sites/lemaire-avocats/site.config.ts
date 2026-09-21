@@ -39,6 +39,13 @@
  * de bureau serait la pratique commerciale trompeuse documentée en §2.3 de la même veille — le ciel
  * étoilé très discret de la direction "nuit" (body::before, déjà dans le token système) donne toute
  * la texture nécessaire sans rien inventer.
+ *
+ * Squelette (21 sept 2026) : coquille `sidebar` — rail vertical fixe (monogramme, compteur de
+ * position, sommaire actif) à gauche, contenu pleine largeur décalé. Les quatre domaines de
+ * compétence (Domaines, Consultation, Honoraires, Avocates, zones, FAQ, CTA, Contact) deviennent le
+ * sommaire du rail. Nav sur mesure gardée pour le mobile uniquement (le rail remplace la nav sur
+ * desktop, comme documenté dans docs/CONVENTIONS.md § Coquilles) ; aucune section n'est retirée, le
+ * hero garde son data-shader="mesh" et son data-text-fill (le rail ne restyle jamais une section).
  */
 import { defineSite } from '@/lib/schema';
 
@@ -64,7 +71,7 @@ export default defineSite({
     footer: 'minimal',
     divider: 'none',
     tone: 'alternate',
-    shell: 'flow',
+    shell: 'sidebar',
   },
 
   business: {

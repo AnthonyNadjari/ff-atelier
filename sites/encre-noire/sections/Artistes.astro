@@ -1,7 +1,8 @@
 ---
 /**
- * « Artistes » : les deux tatoueurs en liste de noms géants, image flottante au survol
- * (portrait + galerie-5), spécialité en dessous, filet entre les deux. Composition propre à ce site.
+ * « Artistes » : les deux tatoueurs en liste de noms géants, spécialité en dessous, filet entre
+ * les deux. Le data-hover-img d'origine a été retiré le 21 sept 2026 : le bloc vit sous une entrée
+ * <details> de la coquille `index`, incompatible avec l'image flottante au survol (panneau fermé).
  */
 import { site } from '@/lib/site';
 const team = site.about.team;
@@ -17,8 +18,6 @@ const team = site.about.team;
           <a
             href="#rendezvous"
             class="group flex flex-col items-baseline justify-between gap-2 md:flex-row md:gap-8"
-            data-hover-img={t.photo?.src}
-           
           >
             <span class="font-display text-display-lg leading-none transition-colors group-hover:text-accent-2">{t.name}</span>
             <span class="font-mono text-sm uppercase tracking-[0.18em] text-muted">{t.role}</span>

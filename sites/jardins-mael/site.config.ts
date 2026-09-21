@@ -15,8 +15,14 @@
  * par metier litteral) : elle porte tres bien le concept « une annee en quatre chapitres », feuille
  * de style presse plutot que prospectus horticole, tout en gardant un accent qui vire au vert/or/
  * ambre/ardoise dans les quatre panneaux saisonniers (voir sections/Saisons.astro, variables CSS
- * locales --season-accent). Nav et hero entierement sur mesure ; shell `flow` (pas `sidebar`) pour
- * laisser les panneaux plein cadre des saisons respirer sans rail lateral permanent.
+ * locales --season-accent). Nav et hero entierement sur mesure ; shell `flow` d'origine (pas
+ * `sidebar`) pour laisser les panneaux plein cadre des saisons respirer sans rail lateral permanent.
+ *
+ * Squelette (21 sept 2026) : coquille `magazine` — grille asymetrique, largeurs et decalages
+ * alternes, grands numeros de section en marge sur desktop. Coherent avec l'esprit « feuille de
+ * style presse » deja pose par la direction `journal` (voir plus haut) ; `scale: 'normal'` (pas
+ * `compact`) garde la mise en marge aeree, comme demande par docs/DIRECTIONS.md. Aucun effet riche
+ * a retirer : `Services.astro` garde son unique data-drag-grid (seul geste riche de la page).
  */
 import { defineSite } from '@/lib/schema';
 
@@ -28,7 +34,7 @@ export default defineSite({
   layout: {
     nav: 'custom/Nav',
     hero: 'custom/Hero',
-    shell: 'flow',
+    shell: 'magazine',
     tone: 'flat',
     divider: 'none',
     sections: [

@@ -16,6 +16,14 @@
  * `barbier-kessler/sections/Tarifs.astro` — ici groupée par catégorie, chiffres en data-scramble,
  * pas un simple `data-reveal`), pas de "proof" (aucun avis fourni par le brief, aucun avis inventé),
  * pas de "zones" (commerce de quartier, pas une activité itinérante avec rayon d'intervention).
+ *
+ * Squelette (21 sept 2026) : nav `burger` partagée (plein écran à l'ouverture, gros liens numérotés,
+ * identique desktop/mobile) à la place de la barre "ticket de caisse" sur mesure — `sections/Nav.astro`
+ * reste dans le dossier mais sort du layout. Contact en tiroir (`contactDrawer: true`) : « Commander
+ * un gâteau » ouvre le tiroir en un geste depuis n'importe quelle page plutôt que de dérouler jusqu'en
+ * bas ; la section contact sur mesure (`sections/Contact.astro`) sort du layout mais le fichier reste
+ * (il voyage avec le site à l'export). Le tiroir devient la seule porte de contact : navLinks() y
+ * ajoute #contact automatiquement.
  */
 import { defineSite } from '@/lib/schema';
 
@@ -29,8 +37,9 @@ export default defineSite({
   accent: { h: 32, s: 86, l: 34 },
 
   layout: {
-    nav: 'custom/nav',
+    nav: 'burger',
     hero: 'custom/hero',
+    contactDrawer: true,
     sections: [
       { type: 'custom', variant: 'Fournee', label: 'Fournées' },
       { type: 'custom', variant: 'Carte', label: 'La carte' },
@@ -38,7 +47,6 @@ export default defineSite({
       { type: 'custom', variant: 'CommanderGateau', label: 'Gâteaux' },
       { type: 'faq', variant: 'accordion' },
       { type: 'cta', variant: 'band' },
-      { type: 'custom', variant: 'Contact', label: 'Contact' },
     ],
     footer: 'columns',
     divider: 'none',

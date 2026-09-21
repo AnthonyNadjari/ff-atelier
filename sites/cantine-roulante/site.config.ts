@@ -7,6 +7,16 @@
  * Archivo Black massif, executé pour l'appétit et la rue plutôt que l'urgence — accent recalé sur le
  * rouge du client (proche de #d1262b) plutôt que le rouge-orange par défaut de la direction, comme
  * dubois-plomberie l'a fait avec un bleu nuit. Voir sections/ pour le détail de chaque composition.
+ *
+ * Squelette (21 sept 2026) : la tournée de la semaine passe de la section sur mesure `Semaine`
+ * (bande de sept colonnes) à la variante partagée `process/horizon` (chapitre épinglé qui défile
+ * horizontalement, une étape par écran) — jamais les deux à la fois, `Semaine.astro` reste dans
+ * `sections/` mais sort du layout. Contact en tiroir (`contactDrawer: true`) avec le CTA « Demander
+ * un devis traiteur » déjà en place (`wording.devis`) : la remorque vend aussi bien un plat à la
+ * volée qu'un devis traiteur, le tiroir raccourcit le geste sans faire disparaître la section
+ * contact finale. La bande `data-marquee-velocity` des quatre plats du hero devient une ligne fixe
+ * (comme barbier-kessler) : le chapitre horizontal de la tournée est désormais le seul geste riche
+ * de la page (CONVENTIONS.md règle 16).
  */
 import { defineSite } from '@/lib/schema';
 
@@ -22,8 +32,9 @@ export default defineSite({
   layout: {
     nav: 'custom/nav',
     hero: 'custom/hero',
+    contactDrawer: true,
     sections: [
-      { type: 'custom', variant: 'Semaine', label: 'Cette semaine' },
+      { type: 'process', variant: 'horizon' },
       { type: 'custom', variant: 'Carte', label: 'La carte' },
       { type: 'custom', variant: 'Traiteur', label: 'Traiteur' },
       { type: 'custom', variant: 'Remorque' },
@@ -71,6 +82,17 @@ export default defineSite({
     { slug: 'plat-piperade', title: 'Piperade et txistorra grillée', short: 'Poivrons, tomates et oignons mijotés, txistorra grillée à la plancha.', icon: 'Flame', priceFrom: '12 €' },
     { slug: 'plat-txistorra-frites', title: 'Txistorra-frites', short: 'La saucisse basque grillée à la plancha, frites maison.', icon: 'UtensilsCrossed', priceFrom: '9 €' },
     { slug: 'dessert-gateau-basque', title: 'Gâteau basque, crème pâtissière', short: 'Le classique pâtissier basque, à la crème pâtissière.', icon: 'Cookie', priceFrom: '5 €' },
+  ],
+
+  // La tournée de la semaine (process/horizon) : mêmes jours/villes que le planning d'origine
+  // (sections/Semaine.astro, hors layout désormais), aucune ville ni horaire inventé — les jours
+  // sans marché (mercredi, dimanche, lundi) ne sont pas des étapes, comme "Semaine" les marquait
+  // "Repos" plutôt que d'inventer une ville.
+  process: [
+    { title: 'Mardi — Bayonne', text: 'Jour de marché : la remorque s’installe à Bayonne pour la matinée.' },
+    { title: 'Jeudi — Anglet', text: 'La cantine roulante retrouve son emplacement habituel à Anglet.' },
+    { title: 'Vendredi — Biarritz', text: 'Direction Biarritz pour la fin de semaine.' },
+    { title: 'Samedi — Saint-Jean-de-Luz', text: 'Dernier arrêt de la semaine, à Saint-Jean-de-Luz.' },
   ],
 
   // Pas de section "about" dans le layout (le récit tient déjà dans business.description et dans

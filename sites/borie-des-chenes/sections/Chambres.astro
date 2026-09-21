@@ -1,13 +1,14 @@
 ---
 /**
- * "Les chambres" (custom/Chambres) : piste de défilement horizontal (`data-horizontal` + `.h-track`,
- * mécanique déjà utilisée par `anna-vidal/Series.astro` et `maison-aurore/Espace.astro` pour une
- * galerie de photos — ici pour quatre fiches chambre, chacune nom / taille / vue / prix en
- * `tabular-nums`, jamais des photos seules). Les quatre chambres viennent de `site.services`
- * (filtrées par préfixe `chambre-` : le gîte, cinquième entrée du même tableau, n'appartient pas à
- * la piste et se lit en une ligne à part sous celle-ci). Aucun prix inventé au-delà de la
- * fourchette du brief (95 à 130 €, petit-déjeuner compris) : chaque chambre reprend un montant de
- * cette fourchette, marqué « indicatif » une seule fois en légende plutôt que répété quatre fois.
+ * "Les chambres" (custom/Chambres) : quatre fiches chambre en grille, chacune nom / taille / vue /
+ * prix en `tabular-nums`. Le data-horizontal d'origine (piste de défilement, comme
+ * `anna-vidal/Series.astro` avant son propre retrait) a été retiré le 21 sept 2026 : le bloc vit
+ * désormais sous une entrée <details> de la coquille `index`, et un effet piloté par le scroll se
+ * calcule sur un panneau fermé. Les quatre chambres viennent de `site.services` (filtrées par
+ * préfixe `chambre-` : le gîte, cinquième entrée du même tableau, n'appartient pas à la grille et se
+ * lit en une ligne à part sous celle-ci). Aucun prix inventé au-delà de la fourchette du brief (95 à
+ * 130 €, petit-déjeuner compris) : chaque chambre reprend un montant de cette fourchette, marqué
+ * « indicatif » une seule fois en légende plutôt que répété quatre fois.
  */
 import { site } from '@/lib/site';
 import Img from '@/components/Img.astro';
@@ -29,10 +30,10 @@ const gite = site.services.find((s) => s.slug.startsWith('gite-'));
     </div>
   </div>
 
-  <div class="relative mt-14 md:mt-20" data-horizontal>
-    <ul class="h-track flex flex-col gap-10 px-6 md:flex-row md:items-stretch md:gap-8 md:px-[max(1.25rem,calc((100vw-var(--container))/2+1.25rem))]">
+  <div class="container-ff relative mt-14 md:mt-20">
+    <ul class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4" data-stagger="120">
       {chambres.map((c) => (
-        <li class="shrink-0 max-md:max-w-[90%] md:w-[22vw] md:min-w-[17rem]">
+        <li>
           <figure data-reveal="scale">
             <div class="overflow-hidden rounded-card shadow-card">
               {c.image && <Img src={c.image.src} alt={c.image.alt} class="aspect-[4/5] w-full object-cover" sizes="(min-width: 768px) 22vw, 90vw" loading="lazy" />}
@@ -74,10 +75,3 @@ const gite = site.services.find((s) => s.slug.startsWith('gite-'));
   )}
 </section>
 
-<style>
-  @media (prefers-reduced-motion: reduce) {
-    #chambres [data-horizontal] { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
-    #chambres .h-track { touch-action: auto; }
-    #chambres .h-track > li { scroll-snap-align: start; }
-  }
-</style>

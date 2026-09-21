@@ -1,8 +1,10 @@
 ---
 /**
  * "Les hôtes" (custom/Hotes) : portrait d'Anne et Marc en fondu masqué (`data-reveal="mask"`) à
- * côté de leur histoire (`site.about.story`), puis une phrase d'accueil qui se remplit au défilement
- * (`data-text-fill`). Le masque suit le même correctif que
+ * côté de leur histoire (`site.about.story`), puis une phrase d'accueil. Le data-text-fill d'origine
+ * (phrase qui se remplissait au défilement) a été retiré le 21 sept 2026 : le bloc vit désormais
+ * sous une entrée <details> de la coquille `index`, et un effet piloté par le scroll se calcule sur
+ * un panneau fermé. Le masque du portrait suit le même correctif que
  * `sites/veto-du-drac/sections/Equipe.astro`/`sites/encre-noire/sections/Styles.astro` : la règle
  * `[data-reveal='mask']` de `global.css` referme le masque *après* la règle générique `.is-visible`,
  * à spécificité égale — sans filet local le fondu ne se révèle jamais. Ici, en plus, l'élément
@@ -31,7 +33,7 @@ const portrait = site.about.portrait;
 
     <div class="lg:col-span-7">
       <p class="eyebrow">{site.about.title ?? 'Les hôtes'}</p>
-      <p class="mt-6 max-w-2xl font-display text-display-md leading-tight" data-text-fill>
+      <p class="mt-6 max-w-2xl font-display text-display-md leading-tight" data-reveal>
         Ce n’est pas une réception qui vous accueille&nbsp;: c’est Anne, ou c’est Marc.
       </p>
 

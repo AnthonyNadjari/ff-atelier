@@ -44,13 +44,22 @@
  * explicitement marqué comme tel dans le texte affiché) — jamais présenté comme une disponibilité
  * 24h/24 réelle (`contact.emergency24h: false`). Aucun avis inventé (le brief n'en fournit pas,
  * section `proof` absente du layout).
+ *
+ * Squelette (21 sept 2026) : coquille `slides` — chaque section occupe un écran, défilement
+ * aimanté (proximity, jamais piégeant), motion passée de `rich` à `subtle` (la coquille est
+ * réservée aux sites courts et aux directions peu animées, docs/DIRECTIONS.md § Disposition) :
+ * `data-parallax-depth`, `data-draw-svg` et `data-blur-scrub` de la scène du hero restent posés
+ * (mêmes tokens, mêmes formes) mais ne s'animent plus, simplement visibles à l'arrêt. Layout
+ * réduit de 8 à 6 sections pour tenir dans des écrans pleins sans lasser le défilement : `zones`
+ * (chips) et `cta` (band) sont retirés — la liste des villes reste dans zones.cities pour le
+ * JSON-LD/SEO local, le bandeau CTA était redondant avec la section Contact qui suit aussitôt.
  */
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
   slug: 'veto-du-drac',
   direction: 'clair',
-  motion: 'rich',
+  motion: 'subtle',
   accent: { h: 169, s: 45, l: 32 },
   typography: { display: 'gelasio' },
   layout: {
@@ -61,13 +70,11 @@ export default defineSite({
       { type: 'custom', variant: 'Urgence', label: 'Urgence' },
       { type: 'custom', variant: 'Equipe', label: 'L’équipe' },
       { type: 'custom', variant: 'PreparerVisite', label: 'Préparer la visite' },
-      { type: 'zones', variant: 'chips' },
       { type: 'faq', variant: 'accordion' },
-      { type: 'cta', variant: 'band' },
       { type: 'custom', variant: 'Contact', label: 'Contact' },
     ],
     footer: 'minimal',
-    shell: 'flow',
+    shell: 'slides',
   },
 
   business: {

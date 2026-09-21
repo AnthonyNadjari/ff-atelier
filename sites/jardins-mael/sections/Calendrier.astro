@@ -4,6 +4,15 @@
  * reliée à une prestation réelle du site — jamais un chiffre ou un fait inventé, seulement le
  * rythme déjà décrit dans les services). Second bloc sur mesure du mandat "saisons", distinct des
  * quatre panneaux de Saisons.astro : ici une lecture rapide, mois par mois, plutôt qu'un récit.
+ *
+ * Correctif (21 sept 2026, `ff detect`) : le survol passait par `hover:bg-accent` (fond plein
+ * accent) + un texte basculé en `on-accent` — Impeccable évalue chaque déclaration `:hover` contre
+ * le fond au repos de l'élément, jamais contre le fond que ce même survol pose (#fdf9f2 sur
+ * #fffdfa, quasi identiques, contraste ~1:1), qu'il s'agisse d'un utilitaire Tailwind `group-hover`
+ * ou d'un vrai enchaînement CSS `:hover` — un changement de couleur de texte au survol est donc
+ * structurellement invisible pour cet analyseur. Remplacé par un survol qui ne change plus la
+ * couleur du texte : seul le fond teinte légèrement (`color-mix`, ton clair de l'accent), les
+ * couleurs de texte au repos (déjà lisibles sur `bg-surface`) restent telles quelles.
  */
 import { site } from '@/lib/site';
 
@@ -35,15 +44,26 @@ const bySlug = new Map(site.services.map((s) => [s.slug, s.title]));
 
     <ol class="calendrier-grid mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-3 lg:grid-cols-4" data-stagger="40">
       {months.map((m) => (
-        <li class="calendrier-cell group relative bg-surface p-6 transition-colors duration-300 hover:bg-accent">
-          <p class="font-display text-3xl tabular-nums text-accent transition-colors duration-300 group-hover:text-on-accent">{m.n}</p>
-          <p class="eyebrow mt-3 transition-colors duration-300 group-hover:text-on-accent/80">{m.name}</p>
-          <p class="mt-2 text-sm text-muted transition-colors duration-300 group-hover:text-on-accent">{m.task}</p>
+        <li class="calendrier-cell relative bg-surface p-6">
+          <p class="cal-num font-display text-3xl tabular-nums text-accent">{m.n}</p>
+          <p class="cal-name eyebrow mt-3">{m.name}</p>
+          <p class="cal-task mt-2 text-sm text-muted">{m.task}</p>
           {bySlug.has(m.slug) && (
-            <p class="mt-3 text-xs uppercase tracking-wide text-fg/50 transition-colors duration-300 group-hover:text-on-accent/70">{bySlug.get(m.slug)}</p>
+            <p class="cal-service mt-3 text-xs uppercase tracking-wide text-fg/50">{bySlug.get(m.slug)}</p>
           )}
         </li>
       ))}
     </ol>
   </div>
 </section>
+
+<style>
+  /* Survol en teinte de fond seule (voir en-tete) : aucune couleur de texte ne change au survol,
+     seul le fond se teinte legerement (color-mix, ton clair de l'accent) — les couleurs de texte
+     au repos (text-accent/eyebrow/text-muted/text-fg-50%) restent lisibles sans variation. */
+  .calendrier-cell { transition: background-color var(--motion-ui) var(--ease-out); }
+  .calendrier-cell:hover { background-color: color-mix(in oklch, var(--accent) 14%, var(--surface)); }
+  @media (prefers-reduced-motion: reduce) {
+    .calendrier-cell { transition: none; }
+  }
+</style>

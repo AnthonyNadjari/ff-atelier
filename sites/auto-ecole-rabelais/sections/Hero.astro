@@ -5,10 +5,10 @@
  * dessus en boucle CSS pure (pas de GSAP sur ce point : juste offset via % + @keyframes, repli
  * prefers-reduced-motion). La barre de progression de page (data-scroll-progress) est restylee
  * ici en pointille route (dashes) via une regle scopee a ce fichier — le comportement (largeur =
- * avancement de lecture) reste celui du moteur (motion.ts, non modifie). Bandeau data-marquee en
- * bas de hero : les quatre familles de formation, en boucle. Concept "route et progression" —
- * voir docs/OBJECTIF.md (mandat de design du 17 sept) et sections/Parcours.astro pour la suite
- * du meme fil visuel (les 4 etapes retrouvees en detail).
+ * avancement de lecture) reste celui du moteur (motion.ts, non modifie). Ligne fixe en bas de hero
+ * (les quatre familles de formation) : le data-marquee d'origine a ete retire le 21 sept 2026 —
+ * un seul geste riche par page, desormais le chapitre `process/horizon` du parcours de l'eleve
+ * (voir site.config.ts, qui remplace sections/Parcours.astro dans le layout).
  */
 import { site, tel, yearsSince, paragraphs } from '@/lib/site';
 import Button from '@/components/Button.astro';
@@ -68,15 +68,15 @@ const marqueeWords = ['Permis auto', 'Permis moto', 'AAC', 'Code de la route'];
     </div>
   </div>
 
-  <div class="mt-16 border-y border-line py-5" data-marquee="26s">
-    <div class="marquee-track font-display text-display-sm uppercase text-muted">
+  <div class="mt-16 border-y border-line py-5">
+    <p class="container-ff flex flex-wrap items-center gap-x-3 gap-y-2 font-display text-display-sm uppercase text-muted">
       {marqueeWords.map((w) => (
         <>
           <span>{w}</span>
           <span class="text-accent" aria-hidden="true">•</span>
         </>
       ))}
-    </div>
+    </p>
   </div>
 </section>
 

@@ -11,6 +11,14 @@
  * data-flip-card). Aucune donnee inventee : chiffres, prix et labels viennent du brief (voir
  * commentaires dans sections/) ; les prenoms/noms de l'equipe pedagogique sont un exemple de
  * demonstration (site fictif), comme le reste du contenu de ce fichier.
+ *
+ * Squelette (21 sept 2026) : le parcours de l'élève passe de la section sur mesure `Parcours`
+ * (cartes qui s'épinglent, data-stack) à la variante partagée `process/horizon` (chapitre épinglé
+ * qui défile horizontalement, une étape par écran, même quatre étapes : Inscription, Code,
+ * Conduite, Examen) — jamais les deux à la fois, `Parcours.astro` reste dans `sections/` mais sort
+ * du layout. La ligne data-marquee du hero (les familles de formation) devient une ligne fixe
+ * (comme barbier-kessler) : le chapitre horizontal du parcours est désormais le seul geste riche
+ * de la page (CONVENTIONS.md règle 16).
  */
 import { defineSite } from '@/lib/schema';
 
@@ -29,7 +37,7 @@ export default defineSite({
     hero: 'custom/Hero',
     sections: [
       { type: 'services', variant: 'grid' },
-      { type: 'custom', variant: 'Parcours', label: 'Parcours' },
+      { type: 'process', variant: 'horizon' },
       { type: 'custom', variant: 'Forfaits', label: 'Tarifs' },
       { type: 'custom', variant: 'Financement', label: 'Financement' },
       { type: 'about', variant: 'story' },
@@ -125,6 +133,15 @@ export default defineSite({
       { name: 'Julien Perrot', role: 'Formateur code de la route — responsable pédagogique' },
     ],
   },
+
+  // Le parcours de l'élève (process/horizon) : mêmes quatre étapes que sections/Parcours.astro
+  // (hors layout désormais), même texte, aucune donnée nouvelle.
+  process: [
+    { title: 'Inscription', text: 'Dossier, numéro NEPH (ANTS), pièce d’identité, ASSR/ASR ou attestation de recensement, justificatif de domicile.' },
+    { title: 'Code', text: 'Entraînement en ligne illimité et séances en salle avec un enseignant, jusqu’à l’examen théorique.' },
+    { title: 'Conduite', text: 'Le forfait de conduite, en boîte manuelle ou automatique, ajustable selon la progression de chaque élève.' },
+    { title: 'Examen', text: 'Présentation organisée par l’auto-école ; la date est fixée par la préfecture.' },
+  ],
 
   faq: [
     {

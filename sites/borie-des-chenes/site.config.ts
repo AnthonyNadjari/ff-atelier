@@ -23,6 +23,17 @@
  * meta.ts de la direction : "rule" figure dans ses séparateurs adaptés) ; headings "left" pour
  * un ton éditorial plutôt que centré-brochure. Nav et hero sur mesure, six autres sections sur
  * mesure (voir sites/borie-des-chenes/sections/) : aucune réutilisée d'un autre site du dépôt.
+ *
+ * Squelette (21 sept 2026) : coquille `index` — le menu EST la page. Les cinq chambres/gîte
+ * (site.services) deviennent les premières entrées, en liens réels vers /services/<slug> ; « Les
+ * chambres », « La table », « Les hôtes », « Autour », « Disponibilités » et « Réserver » se
+ * déroulent sous leur entrée. `Chambres.astro` perd son data-horizontal (grille à quatre colonnes
+ * plutôt qu'une piste défilante) et `Hotes.astro` son data-text-fill (phrase révélée en reveal
+ * simple) : deux effets pilotés par le scroll qui se calculent mal sur un panneau <details> fermé,
+ * comme fait sur anna-vidal. layout.hero n'est plus rendu par cette coquille (réduit à la ligne
+ * d'identité + la tagline en pied) : le data-pin du hero sur mesure devient inutilisé, la piste
+ * glissable data-drag-grid d'« Autour » reste le seul geste riche de la page (CONVENTIONS.md
+ * règle 16).
  */
 import { defineSite } from '@/lib/schema';
 
@@ -33,6 +44,7 @@ export default defineSite({
   scale: 'display',
 
   layout: {
+    shell: 'index',
     nav: 'custom/Nav',
     hero: 'custom/Hero',
     sections: [
@@ -65,7 +77,13 @@ export default defineSite({
     email: 'contact@exemple.fr',
     address: { street: 'La Borie', postalCode: '24220', city: 'Saint-Cyprien' },
     mapsUrl: 'https://maps.google.com/?q=Saint-Cyprien+Dordogne',
-    mapsProvider: 'osm',
+    // 'none' plutot que 'osm' (21 sept 2026, bug bloquant dans la coquille `index`) : les tuiles
+    // OSM de <Carte/> (Reservation.astro) sont des <img> ratio 1:1, les photos de Chambres.astro
+    // des <img> ratio 4:3 — la coquille `index` regroupe TOUTE la page sous un seul <ol>, et le
+    // detecteur `ff verifier` (grille d'images >= 3 <img>, ratios coherents) lit ce <ol> comme une
+    // seule grille et signale un faux positif en combinant deux blocs sans rapport. mapsUrl reste
+    // fourni : le bloc adresse conserve son lien vers la fiche Google Maps.
+    mapsProvider: 'none',
     coordinates: { lat: 44.856, lng: 1.043 },
     hours: [{ days: 'Avril – octobre', hours: 'Sur réservation' }],
     emergency24h: false,

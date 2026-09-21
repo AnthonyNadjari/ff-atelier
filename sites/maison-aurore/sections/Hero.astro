@@ -1,8 +1,9 @@
 ---
 /**
  * Hero de quasi-silence (mandat) : une ligne serif mesurée (text-display-md, pas de titre display
- * géant), une bande
- * défilante lente (data-marquee="8s") des soins en italique, une image plein cadre en duotone doux
+ * géant), une ligne fixe des soins en italique (la bande data-marquee="8s" d'origine a été retirée
+ * le 21 sept 2026 : un seul geste riche par page, désormais le chapitre `data-horizontal` de
+ * « L'espace »), une image plein cadre en duotone doux
  * (data-duotone, tokens ink→accent de la direction luxe) qui se déflote et glisse légèrement au
  * scroll (data-reveal="blur" + data-parallax). Sous le rideau, un court paragraphe éditorial
  * (site.about.story — donnée réelle du brief, pas un texte détaché) referme la respiration avant
@@ -69,15 +70,15 @@ const rituals = site.services.map((s) => s.title);
       />
     </div>
 
-    <div class="absolute inset-x-0 bottom-0 z-[2] border-t border-on-ink/15 bg-ink/35 py-4 backdrop-blur-sm" data-marquee="8s">
-      <div class="marquee-track font-display text-lg italic text-on-ink/85 sm:text-xl">
+    <div class="absolute inset-x-0 bottom-0 z-[2] border-t border-on-ink/15 bg-ink/35 py-4 backdrop-blur-sm">
+      <p class="container-ff flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-display text-lg italic text-on-ink/85 sm:text-xl">
         {rituals.map((r) => (
           <span class="flex items-center gap-6">
             {r}
             <span class="not-italic text-accent" aria-hidden="true">·</span>
           </span>
         ))}
-      </div>
+      </p>
     </div>
   </div>
 
