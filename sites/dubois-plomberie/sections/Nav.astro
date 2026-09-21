@@ -12,6 +12,9 @@ import { site, tel, navLinks } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 const links = navLinks();
+// Contact en tiroir (layout.contactDrawer) : le bouton "devis" (desktop) et l'icone message de la
+// call-bar mobile (#contact) ouvrent le dialog de src/components/ContactDrawer.astro.
+const drawer = site.layout.contactDrawer;
 ---
 
 <div data-scroll-progress aria-hidden="true"></div>
@@ -31,6 +34,8 @@ const links = navLinks();
       <Button href={tel()} size="sm" magnetic>
         <Icon name="Phone" size={16} /><span class="hidden sm:inline">{site.contact.phoneDisplay}</span><span class="sm:hidden">Appeler</span>
       </Button>
+      {/* Enveloppe : `hidden` sur <Button> perd contre le display de .btn (direction), donc on cache le conteneur. */}
+      {drawer && <span class="hidden lg:inline-flex"><Button href="#contact" size="sm" variant="ghost">{site.wording.devis}</Button></span>}
       {site.contact.emergency24h && (
         <span class="hidden items-center gap-2 rounded-pill border border-line px-3 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-muted xl:flex">
           <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
@@ -109,11 +114,16 @@ const links = navLinks();
 </style>
 
 <script>
-  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
-  const menu = document.querySelector<HTMLElement>('[data-menu]');
-  btn?.addEventListener('click', () => {
-    const open = menu!.classList.toggle('hidden') === false;
-    btn.setAttribute('aria-expanded', String(open));
+  import { onPage } from '@/scripts/page';
+
+  // Rearme a chaque navigation ClientRouter (site.transitions) : voir src/scripts/page.ts.
+  onPage(() => {
+    const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+    const menu = document.querySelector<HTMLElement>('[data-menu]');
+    btn?.addEventListener('click', () => {
+      const open = menu!.classList.toggle('hidden') === false;
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
   });
-  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
 </script>

@@ -2,6 +2,8 @@
 /**
  * Coquille "sidebar" : rail vertical etroit fixe a gauche (monogramme, liens en texte vertical,
  * telephone), contenu pleine largeur decale. La nav classique ne sert que sur mobile.
+ * Sommaire actif (data-scrollspy, src/scripts/scrollspy.ts) : le lien de la section visible passe en
+ * fg avec un trait d'accent, un compteur « 02 / 06 » sous le monogramme marque la position.
  */
 import Divider from '@/components/Divider.astro';
 import Icon from '@/components/Icon.astro';
@@ -14,10 +16,13 @@ const initials = site.business.name.split(/\s+/).map((w) => w[0]).join('').slice
 ---
 
 <div class="lg:hidden"><Nav /></div>
-<aside class="hidden lg:flex fixed inset-y-0 left-0 z-40 w-20 flex-col items-center justify-between border-r border-line bg-bg py-8">
-  <a href="/" class="font-display text-xl" aria-label={site.business.name}>{initials}</a>
+<aside class="hidden lg:flex fixed inset-y-0 left-0 z-40 w-20 flex-col items-center justify-between border-r border-line bg-bg py-8" data-scrollspy>
+  <div class="flex flex-col items-center gap-3">
+    <a href="/" class="font-display text-xl" aria-label={site.business.name}>{initials}</a>
+    <span class="spy-index font-mono text-xs text-muted tabular-nums" data-scrollspy-index aria-hidden="true">00 / {String(links.length).padStart(2, '0')}</span>
+  </div>
   <nav class="flex flex-col items-center gap-6" aria-label="Navigation principale" style="writing-mode: vertical-rl;">
-    {links.map((l) => <a href={l.href} class="rotate-180 text-sm tracking-[0.15em] uppercase text-muted transition-colors hover:text-fg">{l.label}</a>)}
+    {links.map((l) => <a href={l.href} class="spy-link rotate-180 text-sm tracking-[0.15em] uppercase text-muted transition-colors hover:text-fg">{l.label}</a>)}
   </nav>
   <a href={tel()} class="flex h-11 w-11 items-center justify-center rounded-pill bg-accent text-on-accent" aria-label={`Appeler ${site.contact.phoneDisplay}`}><Icon name="Phone" size={18} /></a>
 </aside>
@@ -33,3 +38,35 @@ const initials = site.business.name.split(/\s+/).map((w) => w[0]).join('').slice
   </main>
   <Footer />
 </div>
+
+<style>
+  /* Sommaire actif : lien courant en fg + trait d'accent qui se deploie (--motion-ui, --ease-out).
+     Texte vertical (writing-mode) : le trait est un filet horizontal sous le mot tourne. */
+  /* Le trait vit DANS la boite du lien (padding), pas en dehors : en ecriture verticale, un ::after
+     place a -0.35rem depassait de 6 px et ff audit-motion le comptait en debordement horizontal. */
+  .spy-link { position: relative; padding-block-end: 0.35rem; }
+  .spy-link::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    block-size: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--motion-ui) var(--ease-out);
+  }
+  .spy-link.is-active { color: var(--fg); }
+  .spy-link.is-active::after { transform: scaleX(1); transform-origin: left; }
+  .spy-index { transition: color var(--motion-ui) var(--ease-out); }
+  .spy-index.is-active { color: var(--fg); }
+  @media (prefers-reduced-motion: reduce) {
+    .spy-link::after, .spy-index { transition: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initScrollSpy } from '@/scripts/scrollspy';
+  onPage(initScrollSpy);
+</script>

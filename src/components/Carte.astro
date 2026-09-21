@@ -99,20 +99,25 @@ if (showOsm && coords) {
 
 {showGoogle && (
   <script>
-    // Facade CNIL : l'iframe Google Maps (et ses cookies) n'est chargee qu'apres un clic explicite.
-    document.querySelectorAll<HTMLElement>('[data-carte-google]').forEach((wrap) => {
-      const btn = wrap.querySelector<HTMLButtonElement>('[data-carte-charger]');
-      const frame = wrap.querySelector<HTMLElement>('[data-carte-frame]');
-      btn?.addEventListener('click', () => {
-        if (!frame) return;
-        const iframe = document.createElement('iframe');
-        iframe.src = wrap.dataset.embed ?? '';
-        iframe.loading = 'lazy';
-        iframe.title = 'Carte Google Maps';
-        iframe.referrerPolicy = 'no-referrer-when-downgrade';
-        iframe.className = 'absolute inset-0 h-full w-full border-0';
-        frame.innerHTML = '';
-        frame.appendChild(iframe);
+    import { onPage } from '@/scripts/page';
+
+    // Rearme a chaque navigation ClientRouter (site.transitions) : voir src/scripts/page.ts.
+    onPage(() => {
+      // Facade CNIL : l'iframe Google Maps (et ses cookies) n'est chargee qu'apres un clic explicite.
+      document.querySelectorAll<HTMLElement>('[data-carte-google]').forEach((wrap) => {
+        const btn = wrap.querySelector<HTMLButtonElement>('[data-carte-charger]');
+        const frame = wrap.querySelector<HTMLElement>('[data-carte-frame]');
+        btn?.addEventListener('click', () => {
+          if (!frame) return;
+          const iframe = document.createElement('iframe');
+          iframe.src = wrap.dataset.embed ?? '';
+          iframe.loading = 'lazy';
+          iframe.title = 'Carte Google Maps';
+          iframe.referrerPolicy = 'no-referrer-when-downgrade';
+          iframe.className = 'absolute inset-0 h-full w-full border-0';
+          frame.innerHTML = '';
+          frame.appendChild(iframe);
+        });
       });
     });
   </script>

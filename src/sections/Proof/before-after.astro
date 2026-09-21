@@ -41,17 +41,22 @@ const pairs = site.proof.beforeAfter;
 )}
 
 <script>
-  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((root) => {
-    const range = root.querySelector<HTMLInputElement>('[data-compare-range]');
-    const after = root.querySelector<HTMLElement>('[data-compare-after]');
-    const line = root.querySelector<HTMLElement>('[data-compare-line]');
-    if (!range || !after || !line) return;
-    const update = () => {
-      const v = Number(range.value);
-      after.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
-      line.style.left = `${v}%`;
-    };
-    range.addEventListener('input', update);
-    update();
+  import { onPage } from '@/scripts/page';
+
+  // Rearme a chaque navigation ClientRouter (site.transitions) : voir src/scripts/page.ts.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-compare]').forEach((root) => {
+      const range = root.querySelector<HTMLInputElement>('[data-compare-range]');
+      const after = root.querySelector<HTMLElement>('[data-compare-after]');
+      const line = root.querySelector<HTMLElement>('[data-compare-line]');
+      if (!range || !after || !line) return;
+      const update = () => {
+        const v = Number(range.value);
+        after.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+        line.style.left = `${v}%`;
+      };
+      range.addEventListener('input', update);
+      update();
+    });
   });
 </script>

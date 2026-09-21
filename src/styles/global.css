@@ -557,6 +557,21 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
   html { scroll-behavior: auto; }
 }
 
+/* Transitions de page (site.transitions, ClientRouter — docs/ANIMATIONS.md § Transitions de page).
+   Fondu 0,3 s sur la page ; le hero (#hero) et la nav ([data-nav]) forment chacun leur propre groupe :
+   la nav, identique d'une page a l'autre, reste en place ; le hero persiste (morph) quand la page cible
+   en a un, sinon il s'efface avec l'ancienne page. Un seul element par nom et par page, sinon le
+   navigateur annule la transition (une nav par page, un hero par page : deja la regle). */
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 0.3s; animation-timing-function: var(--ease-out, ease); }
+[data-transitions] #hero { view-transition-name: ff-hero; }
+[data-transitions] header[data-nav], [data-transitions] nav[data-nav] { view-transition-name: ff-nav; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
 /* Details/summary sans marqueur */
 summary { list-style: none; cursor: pointer; }
 summary::-webkit-details-marker { display: none; }

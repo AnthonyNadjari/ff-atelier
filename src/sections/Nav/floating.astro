@@ -5,6 +5,8 @@ import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
 const links = navLinks();
+// Contact en tiroir (layout.contactDrawer) : CTA "devis" persistant qui ouvre le tiroir (ContactDrawer.astro).
+const drawer = site.layout.contactDrawer;
 ---
 
 <header data-nav class="fixed inset-x-0 top-4 z-50">
@@ -16,7 +18,8 @@ const links = navLinks();
       <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Navigation principale">
         {links.map((l) => <a href={l.href} class="text-muted hover:text-fg transition-colors">{l.label}</a>)}
       </nav>
-      <div class="hidden md:block shrink-0">
+      <div class="hidden md:flex items-center gap-2 shrink-0">
+        {drawer && <Button href="#contact" size="sm" variant="ghost">{site.wording.devis}</Button>}
         <Button href={tel()} size="sm"><Icon name="Phone" size={15} />{site.contact.phoneDisplay}</Button>
       </div>
       <button class="md:hidden p-1 -mr-1 shrink-0" aria-label="Menu" aria-expanded="false" data-floating-menu-toggle>
@@ -39,26 +42,32 @@ const links = navLinks();
   <nav class="container-ff flex flex-col gap-2 py-6" aria-label="Navigation mobile" data-stagger="70">
     {links.map((l) => <a href={l.href} class="py-3 border-b border-line last:border-0 text-2xl font-display">{l.label}</a>)}
   </nav>
-  <div class="container-ff mt-auto pb-10">
+  <div class="container-ff mt-auto pb-10 grid gap-3">
     <Button href={tel()} size="lg" class="w-full"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+    {drawer && <Button href="#contact" size="lg" variant="ghost" class="w-full">{site.wording.devis}</Button>}
   </div>
 </div>
 
 <script>
-  const btn = document.querySelector<HTMLButtonElement>('[data-floating-menu-toggle]');
-  const close = document.querySelector<HTMLButtonElement>('[data-floating-menu-close]');
-  const menu = document.querySelector<HTMLElement>('[data-floating-menu]');
-  const open = () => {
-    menu?.classList.remove('hidden');
-    menu?.classList.add('flex');
-    btn?.setAttribute('aria-expanded', 'true');
-  };
-  const shut = () => {
-    menu?.classList.add('hidden');
-    menu?.classList.remove('flex');
-    btn?.setAttribute('aria-expanded', 'false');
-  };
-  btn?.addEventListener('click', open);
-  close?.addEventListener('click', shut);
-  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', shut));
+  import { onPage } from '@/scripts/page';
+
+  // Rearme a chaque navigation ClientRouter (site.transitions) : voir src/scripts/page.ts.
+  onPage(() => {
+    const btn = document.querySelector<HTMLButtonElement>('[data-floating-menu-toggle]');
+    const close = document.querySelector<HTMLButtonElement>('[data-floating-menu-close]');
+    const menu = document.querySelector<HTMLElement>('[data-floating-menu]');
+    const open = () => {
+      menu?.classList.remove('hidden');
+      menu?.classList.add('flex');
+      btn?.setAttribute('aria-expanded', 'true');
+    };
+    const shut = () => {
+      menu?.classList.add('hidden');
+      menu?.classList.remove('flex');
+      btn?.setAttribute('aria-expanded', 'false');
+    };
+    btn?.addEventListener('click', open);
+    close?.addEventListener('click', shut);
+    menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', shut));
+  });
 </script>

@@ -8,6 +8,9 @@ export default defineSite({
   accent: { h: 49, s: 100, l: 48 }, // jaune sécurité, plus saturé que le jaune brut par défaut
   typography: { display: 'delaGothic', body: 'redHat' },
   motion: 'rich',
+  // Transitions de page (ClientRouter) : fondu 0,3 s accueil <-> pages services ; nav, tiroir de contact,
+  // formulaire, marquee et reveals rearmes a chaque navigation (docs/ANIMATIONS.md § Transitions de page).
+  transitions: true,
   scale: 'display',
   layout: {
     shell: 'sticky-hero',
@@ -25,6 +28,9 @@ export default defineSite({
     divider: 'none',
     tone: 'flat',
     headings: 'auto',
+    // Contact en tiroir : urgence = le formulaire s'ouvre depuis la nav ("Écrire") et le bandeau
+    // CTA sans quitter l'ecran ; la section contact finale reste en plus.
+    contactDrawer: true,
   },
 
   business: {

@@ -64,53 +64,58 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
 )}
 
 <script>
-  document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
-    const status = form.querySelector<HTMLElement>('[data-status]')!;
-    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
-    const label = btn.querySelector<HTMLElement>('[data-label]')!;
-    const show = (msg: string, ok: boolean) => {
-      status.textContent = msg;
-      status.classList.remove('hidden');
-      status.style.borderColor = ok ? 'var(--accent)' : '#c0392b';
-    };
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!form.reportValidity()) return;
-      const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
-      if (data.botcheck) return;
-      const provider = form.dataset.form;
-      if (provider === 'mailto') {
-        const body = [`Nom : ${data.name}`, `Téléphone : ${data.phone}`, data.email && `E-mail : ${data.email}`, data.service && `Besoin : ${data.service}`, '', data.message].filter(Boolean).join('\n');
-        window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(form.dataset.subject!)}&body=${encodeURIComponent(body)}`;
-        show('Votre messagerie va s\'ouvrir avec la demande pré-remplie.', true);
-        document.dispatchEvent(new CustomEvent('ff:form-success')); // data-confetti (motion.ts) ecoute cet evenement
-        return;
-      }
-      btn.disabled = true;
-      label.textContent = 'Envoi…';
-      const endpoint = provider === 'cloudflare' ? '/api/contact' : 'https://api.web3forms.com/submit';
-      const payload =
-        provider === 'cloudflare'
-          ? { subject: form.dataset.subject, ...data }
-          : { access_key: form.dataset.key, subject: form.dataset.subject, from_name: data.name, ...data };
-      try {
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        const json = await res.json();
-        if (json.success) {
-          form.reset();
-          show(form.dataset.success!, true);
+  import { onPage } from '@/scripts/page';
+
+  // Rearme a chaque navigation ClientRouter (site.transitions) : voir src/scripts/page.ts.
+  onPage(() => {
+    document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
+      const status = form.querySelector<HTMLElement>('[data-status]')!;
+      const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      const label = btn.querySelector<HTMLElement>('[data-label]')!;
+      const show = (msg: string, ok: boolean) => {
+        status.textContent = msg;
+        status.classList.remove('hidden');
+        status.style.borderColor = ok ? 'var(--accent)' : '#c0392b';
+      };
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+        if (data.botcheck) return;
+        const provider = form.dataset.form;
+        if (provider === 'mailto') {
+          const body = [`Nom : ${data.name}`, `Téléphone : ${data.phone}`, data.email && `E-mail : ${data.email}`, data.service && `Besoin : ${data.service}`, '', data.message].filter(Boolean).join('\n');
+          window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(form.dataset.subject!)}&body=${encodeURIComponent(body)}`;
+          show('Votre messagerie va s\'ouvrir avec la demande pré-remplie.', true);
           document.dispatchEvent(new CustomEvent('ff:form-success')); // data-confetti (motion.ts) ecoute cet evenement
-        } else throw new Error(json.message);
-      } catch {
-        show(`Envoi impossible pour le moment. Appelez-nous ou écrivez à ${form.dataset.to}.`, false);
-      } finally {
-        btn.disabled = false;
-        label.textContent = 'Envoyer ma demande';
-      }
+          return;
+        }
+        btn.disabled = true;
+        label.textContent = 'Envoi…';
+        const endpoint = provider === 'cloudflare' ? '/api/contact' : 'https://api.web3forms.com/submit';
+        const payload =
+          provider === 'cloudflare'
+            ? { subject: form.dataset.subject, ...data }
+            : { access_key: form.dataset.key, subject: form.dataset.subject, from_name: data.name, ...data };
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          const json = await res.json();
+          if (json.success) {
+            form.reset();
+            show(form.dataset.success!, true);
+            document.dispatchEvent(new CustomEvent('ff:form-success')); // data-confetti (motion.ts) ecoute cet evenement
+          } else throw new Error(json.message);
+        } catch {
+          show(`Envoi impossible pour le moment. Appelez-nous ou écrivez à ${form.dataset.to}.`, false);
+        } finally {
+          btn.disabled = false;
+          label.textContent = 'Envoyer ma demande';
+        }
+      });
     });
   });
 </script>

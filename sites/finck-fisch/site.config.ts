@@ -22,6 +22,9 @@ export default defineSite({
   // Scroll inertiel (Lenis) : vitrine riche, le defilement natif de la molette Windows paraissait
   // « ultra vite » et saccade sur les sequences (20 sept 2026). Coupe automatiquement sous automate.
   smoothScroll: true,
+  // Transitions de page (ClientRouter) : fondu 0,3 s entre l'accueil et /services/<slug>, la nav reste
+  // en place, le hero s'efface ; scripts inline et moteur rearmes a chaque navigation (docs/ANIMATIONS.md).
+  transitions: true,
   scale: 'display',
   typography: { display: 'cormorant' },
   layout: {

@@ -145,7 +145,7 @@ function readPalette(el: HTMLElement): Record<(typeof TOKENS)[number], Rgb> | nu
   return out;
 }
 
-export async function initShaders(els: Iterable<HTMLElement>, fallback: Fallback) {
+export async function initShaders(els: Iterable<HTMLElement>, fallback: Fallback, signal?: AbortSignal) {
   const list = Array.from(els).filter((el) => PRESETS[el.dataset.shader ?? '']);
   if (!list.length) return;
   let ogl: typeof import('ogl');
@@ -283,5 +283,5 @@ export async function initShaders(els: Iterable<HTMLElement>, fallback: Fallback
     }
   }, { threshold: 0 });
   instances.forEach((i) => io.observe(i.el));
-  document.addEventListener('visibilitychange', () => instances.forEach((i) => i.onVisibility()));
+  document.addEventListener('visibilitychange', () => instances.forEach((i) => i.onVisibility()), { signal });
 }

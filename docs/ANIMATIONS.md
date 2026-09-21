@@ -160,18 +160,41 @@ créé en JS (le `<canvas>` est masqué). Démo complète : `sites/_effets/secti
   qui utilise le résultat : attribut `data-ia="1"` + mention visible ("animation générée à partir d'une
   photo").
 
-## Transitions de page (opt-in, infrastructure partielle)
+## Transitions de page (opt-in, `site.transitions`)
 
 `site.transitions: boolean` (schéma, défaut `false`) ajoute `<ClientRouter />` (`astro:transitions`) dans
-`Base.astro` et fait écouter l'init du moteur d'animation sur `astro:page-load` plutôt que de l'appeler
-une seule fois au chargement (cet événement se déclenche au chargement initial **et** après chaque
-navigation côté client quand `<ClientRouter />` est présent — pas de double-init).
+`Base.astro` : les navigations internes (accueil ↔ `/services/<slug>`, `/zones/<ville>`, mentions…) se font
+sans rechargement, avec l'API View Transitions native (aucune librairie, contrairement à Barba/Swup chez
+9 des 41 sites primés de `docs/veille/squelettes.md`). Actif sur `finck-fisch`, `dubois-plomberie` et
+`toits-cie` (vérifiés en Chrome : accueil → page service → retour, desktop et mobile, zéro erreur console).
 
-**Limite connue, assumée** : cette itération pose l'infrastructure (schéma, `LOOK_KEYS`, `ClientRouter`,
-ré-écoute de `initMotion`) mais n'audite pas les `<script>` inline des sections/composants (nav, formulaire,
-compare slider...) qui attachent leurs écouteurs une seule fois au chargement — une navigation côté client
-ne les ré-exécute pas. `data-curtain-nav` et `data-view-transition` (docs/veille/animations.md § 3, lignes
-19 et 24) restent donc non implémentés : ils dépendent de cet audit. À réserver pour l'instant aux sites
-mono-page/landing (une seule route réelle, comme la plupart des sites `ff-atelier`), où l'absence de
-navigation interne rend la limite sans effet ; à compléter avant d'activer `transitions` sur un site
-multi-pages (`seo.cityPages`, `/services/<slug>`...).
+**Transition par défaut** (`global.css`, bloc « Transitions de page ») : fondu 0,3 s sur `--ease-out` ;
+la nav (`header[data-nav]`/`nav[data-nav]`, `view-transition-name: ff-nav`) forme son propre groupe et
+reste donc en place d'une page à l'autre ; le hero (`#hero`, `ff-hero`) persiste par morph quand la page
+cible en a un, sinon il s'efface avec l'ancienne page. `prefers-reduced-motion` : aucune animation
+(`::view-transition-*` à `animation: none`). Un seul élément par nom et par page, sinon le navigateur
+annule la transition — une nav par page, un hero par page, c'est déjà la règle. Le rideau d'entrée
+(`.ff-curtain`, rich) ne joue qu'au premier chargement, jamais à une navigation côté client.
+
+**Ré-armement, sans doublon** — `astro:page-load` se déclenche au chargement initial (sur `load`, après
+l'exécution des modules) **et** après chaque navigation ; le document persiste, seul le `<body>` change.
+- `motion.ts` (`initMotion`, appelé par `Base.astro` sur cet événement) : chaque page ouvre un
+  `AbortController` ; tout écouteur `window`/`document` (scroll de nav, marquee-velocity, scroll-progress,
+  `ff:form-success`, resize des séquences et drag-grid, visibilité des shaders) reçoit `{ signal }` et
+  est annulé à l'init suivante ; les `ScrollTrigger` de l'ancienne page sont tués (`getAll().kill()`) ;
+  Lenis n'est créé qu'une fois par session, seules ses ancres sont re-liées ; les
+  `IntersectionObserver` et écouteurs posés sur des éléments partent avec l'ancien body.
+- **Scripts inline** (audit du 21 sept. 2026) : Astro regroupe les `<script>` des sections/composants en
+  modules exécutés **une fois** par chargement complet — après une navigation, leurs écouteurs ne sont pas
+  ré-attachés aux nouveaux éléments. Tous passent donc par `onPage(fn)` (`src/scripts/page.ts` : appel
+  direct sans ClientRouter, `astro:page-load` avec) : `Nav/bar`, `Nav/burger` (Escape sur `body`, pas
+  `document`), `Nav/floating`, `Nav/split`, `ContactForm`, `ContactDrawer`, `Carte` (façade Google Maps),
+  `Proof/before-after`, les coquilles `sidebar`/`split` (sommaire actif), et les navs sur mesure de
+  `dubois-plomberie`/`toits-cie`. **Règle** (`docs/CONVENTIONS.md` § Coquilles) : tout nouveau `<script>`
+  inline de `src/` ou d'une section sur mesure passe par `onPage()` — `tests/squelettes.test.mjs` échoue
+  sinon pour `src/`.
+- Sans `transitions`, rien ne change : `onPage` appelle directement, comme avant.
+
+Reste à faire (hors périmètre) : `data-curtain-nav` et `data-view-transition` par élément
+(docs/veille/animations.md § 3, lignes 19 et 24) ; avant d'activer `transitions` sur un site à nav sur
+mesure qui porte un `<script>`, l'envelopper dans `onPage()`.

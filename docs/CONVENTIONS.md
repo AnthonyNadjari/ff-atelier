@@ -13,6 +13,7 @@ Astro 5 (statique, zero JS par defaut) + Tailwind 4 (config CSS-first, `src/styl
 - Composants partages : `src/components/Button.astro`, `SectionHeading.astro`, `Icon.astro` (lucide par nom), `ContactForm.astro`, `Img.astro` (image AVIF/WebP + LQIP, voir § Images ci-dessous).
 - Direction de reference : `src/directions/atelier/index.css` + `meta.ts`, contrat dans `src/directions/README.md`.
 - Animation : attributs `data-reveal`, `data-stagger`, `data-parallax`, `data-counter`, `data-split`, `data-marquee`, `data-magnetic`, `data-tilt` (doc en tete de `src/scripts/motion.ts` et dans `global.css`).
+- Scripts inline : `onPage(fn)` de `src/scripts/page.ts` (re-execution a chaque navigation quand `site.transitions` est actif, voir regle 9 et `docs/ANIMATIONS.md` § Transitions de page).
 
 ## Regles des sections
 1. Fichier : `src/sections/<Type>/<variante>.astro`, variante en kebab-case, exactement le nom liste dans `VARIANTS` (`src/lib/schema.ts`).
@@ -23,7 +24,7 @@ Astro 5 (statique, zero JS par defaut) + Tailwind 4 (config CSS-first, `src/styl
 6. Donnee absente = section qui s'adapte : pas de placeholder gris, pas de "Lorem ipsum". Image absente = composition sans image (voir hero/split).
 7. Accessibilite : `alt` obligatoire, contrastes via tokens, focus visible herite, `aria-label` sur les boutons icones, `<details>/<summary>` natifs pour les accordeons.
 8. Mobile d'abord. Tester mentalement a 375 px : rien ne deborde, grilles qui s'empilent, texte `text-display-*` (deja fluide).
-9. Animations : declaratives via `data-*`. Un `<script>` Astro seulement si l'interaction l'exige (menu, onglets, avant/apres). Pas de GSAP direct dans une section : `motion.ts` s'en charge via `data-parallax`, `data-tilt`, `data-magnetic`. **Jamais le mot `<script` en chevrons dans un commentaire de frontmatter** (ecrire « balise script » a la place) : le scan de dependances de Vite en dev l'y prend pour une vraie balise, le build a froid echoue et le CSS ne charge plus (fond blanc) — cas reel, Base.astro, 18 sept 2026.
+9. Animations : declaratives via `data-*`. Un `<script>` Astro seulement si l'interaction l'exige (menu, onglets, avant/apres). Pas de GSAP direct dans une section : `motion.ts` s'en charge via `data-parallax`, `data-tilt`, `data-magnetic`. **Tout script inline enveloppe son corps dans `onPage(() => { ... })`** (`import { onPage } from '@/scripts/page'`) : avec `site.transitions` (ClientRouter) le body est remplace sans rechargement et un script execute une seule fois laisserait les nouveaux elements inertes ; sans transitions, `onPage` appelle directement. Un ecouteur global va sur `document.body` (remplace a chaque page), jamais sur `document`/`window` sans `signal`. `tests/squelettes.test.mjs` refuse un `<script>` de `src/` sans `onPage(`. **Jamais le mot `<script` en chevrons dans un commentaire de frontmatter** (ecrire « balise script » a la place) : le scan de dependances de Vite en dev l'y prend pour une vraie balise, le build a froid echoue et le CSS ne charge plus (fond blanc) — cas reel, Base.astro, 18 sept 2026.
 10. Textes d'interface en francais, avec accents et espaces insecables avant `:` `?` `!` (`&nbsp;`).
 11. Liens telephone : `href={tel()}`, affichage `site.contact.phoneDisplay`. Devis : `href="#contact"`. Page service : `/services/${s.slug}`.
 12. Le `<em>` dans `business.tagline` et les titres est un accent typographique (la direction le stylise). Utiliser `set:html` pour les titres venant de la config.
@@ -80,6 +81,25 @@ page. **Une coquille ne restyle jamais une section** : pas de couleur, pas de ty
 props forcees sur `<Component />` — elle peut repositionner (grille, panneau fixe, plein ecran) et,
 au plus, poser `--container` ou une marge sur le conteneur autour d'une section. Le contenu visuel
 d'une section reste sous le controle de sa propre variante, quelle que soit la coquille qui l'entoure.
+
+**Sommaire actif (`sidebar`, `split`).** Le rail/panneau porte `data-scrollspy` ; `src/scripts/scrollspy.ts`
+(un `IntersectionObserver`, bande `-35 % / -55 %` de l'ecran) pose `aria-current="true"` + `.is-active`
+sur le lien de la section visible, et remplit un `[data-scrollspy-index]` optionnel (« 02 / 06 », rail
+`sidebar`). La coquille style `.is-active` par tokens seulement (lien en `--fg`, trait `--accent` qui se
+deploie sur `--motion-ui`/`--ease-out`, `prefers-reduced-motion` = pas de transition), ne vole jamais le
+focus, aucun lien actif sur le hero. Rearme via `onPage(initScrollSpy)`. Exemple : `forge-delacroix`.
+
+**Contact en tiroir (`layout.contactDrawer: true`).** `Base.astro` rend `src/components/ContactDrawer.astro`
+sur toutes les pages : un `<dialog>` natif (formulaire `ContactForm` compact + telephone, WhatsApp, e-mail,
+adresse, horaires) ouvert par **tout** lien `href="#contact"` ou `"/#contact"` (nav, CTA, bandeau, call-bar,
+page service) ; les navs partagees ajoutent un CTA `wording.devis` quand il est actif. Panneau lateral
+droit sur desktop, plein ecran depuis le bas sur mobile, ouverture sur `--motion-ui`/`--ease-out`
+(`@starting-style`), `prefers-reduced-motion` = aucune animation. Accessibilite : `showModal()` (focus
+piege, `Escape`), retour du focus au declencheur, `aria-labelledby`, bouton « Fermer », clic sur le fond,
+page bloquee derriere (`html.ff-drawer-open`), `data-lenis-prevent`. La section contact finale reste
+possible en plus (jamais retiree) ; sans section contact dans le layout, le tiroir est la seule porte et
+`navLinks()` ajoute `#contact` a la nav. `ff verifier` trouve le formulaire (honeypot) dans le dialog comme
+dans une section. Metiers d'urgence : `dubois-plomberie`, `toits-cie`. Tokens uniquement.
 
 ## Verification
 `SITE=_exemple node node_modules/astro/astro.js build` doit passer. Pour tester une variante, modifier temporairement `sites/_exemple/site.config.ts` (layout) puis remettre.

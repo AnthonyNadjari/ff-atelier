@@ -99,8 +99,32 @@
  *                                   Repli (subtle, none, prefers-reduced-motion, WebGL absent ou
  *                                   contexte perdu) : degrade CSS statique equivalent pose en
  *                                   background-image par shaderFallback(), tokens uniquement.
+ *
+ * --- Transitions de page (site.transitions, ClientRouter — docs/ANIMATIONS.md § Transitions) ---
+ * initMotion() est appele par Base.astro a chaque `astro:page-load` (chargement initial + chaque
+ * navigation cote client). Le document persiste, seul le body change : tout ecouteur pose sur window
+ * ou document recoit `{ signal }` (AbortController de page, annule au debut de l'init suivante), les
+ * ScrollTrigger de l'ancienne page sont tues (stRef.getAll().kill()), Lenis est cree UNE fois pour la
+ * session (lenisRef) et seules ses ancres sont re-liees, le rideau d'entree (.ff-curtain) ne joue qu'au
+ * premier chargement (pageLoads). Les observateurs (IntersectionObserver) et ecouteurs poses sur des
+ * elements partent avec l'ancien body — rien a nettoyer.
  */
+// Etat de page (voir ci-dessus).
+let pageAbort: AbortController | null = null;
+let signal: AbortSignal = new AbortController().signal;
+let stRef: { getAll(): { kill(): void }[] } | null = null;
+let lenisRef: any = null;
+let pageLoads = 0;
+
 export function initMotion() {
+  // Rearmement (ClientRouter) : annule les ecouteurs window/document de la page precedente, tue ses
+  // ScrollTrigger (elements detaches), ouvre un nouveau signal pour cette page.
+  pageAbort?.abort();
+  pageAbort = new AbortController();
+  signal = pageAbort.signal;
+  pageLoads++;
+  if (pageLoads > 1) stRef?.getAll().forEach((t) => t.kill());
+
   const root = document.documentElement;
   const motion = root.dataset.motion ?? 'subtle';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -155,6 +179,8 @@ export function initMotion() {
 function curtain() {
   const el = document.querySelector<HTMLElement>('.ff-curtain');
   if (!el) return;
+  // Navigation cote client (ClientRouter) : le fondu de page suffit, pas de rideau a chaque page.
+  if (pageLoads > 1) { el.remove(); return; }
   requestAnimationFrame(() => {
     el.classList.add('is-open');
     setTimeout(() => el.remove(), 1400);
@@ -370,7 +396,7 @@ async function setupFrameSequence(el: HTMLElement, canvas: HTMLCanvasElement, po
     io.observe(el);
   };
   if (document.readyState === 'complete') beginPreload();
-  else window.addEventListener('load', beginPreload, { once: true });
+  else window.addEventListener('load', beginPreload, { once: true, signal });
 
   window.addEventListener(
     'resize',
@@ -380,13 +406,14 @@ async function setupFrameSequence(el: HTMLElement, canvas: HTMLCanvasElement, po
       ch = s.h;
       if (currentIndex) drawIndex(currentIndex);
     },
-    { passive: true },
+    { passive: true, signal },
   );
 
   // Scrub au scroll (touche = defilement natif, ScrollTrigger le gere deja) : progress -> frame, rAF-throttle.
   const { gsap } = await import('gsap');
   const { ScrollTrigger } = await import('gsap/ScrollTrigger');
   gsap.registerPlugin(ScrollTrigger);
+  stRef = ScrollTrigger;
   const len = pinLength(el);
   // Lissage de frame (Trionn, docs/veille/animations-2.md E5) : la frame dessinee (`current`, flottante)
   // rattrape la frame cible a chaque rAF par lerp (data-frames-lerp, defaut 0,12 ; 1 = frame exacte)
@@ -489,7 +516,7 @@ function confettiOnSuccess() {
   document.addEventListener('ff:form-success', async () => {
     const { default: confetti } = await import('canvas-confetti');
     confetti({ particleCount: 120, spread: 70, startVelocity: 38, origin: { y: 0.7 } });
-  });
+  }, { signal });
 }
 
 function counters() {
@@ -591,7 +618,7 @@ function marquee() {
       raf = 0;
     });
   };
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true, signal });
 }
 
 /** data-scramble (ms optionnel) : le texte final se "decode" depuis des caracteres aleatoires (subtle, vanilla, ~15 lignes). */
@@ -709,7 +736,7 @@ function scrollProgress() {
     });
   };
   onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true, signal });
 }
 
 /** Nav : classe .is-scrolled apres 40px, .is-hidden quand on descend (variantes qui le veulent). */
@@ -724,7 +751,7 @@ function navScroll() {
     last = y;
   };
   onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true, signal });
 }
 
 /* ---------- rich ---------- */
@@ -801,6 +828,7 @@ async function splitLines() {
       import('gsap'), import('gsap/SplitText'), import('gsap/ScrollTrigger'), import('gsap/CustomEase'),
     ]);
     gsap.registerPlugin(SplitText, ScrollTrigger, CustomEase);
+    stRef = ScrollTrigger;
     await (document.fonts?.ready ?? Promise.resolve());
     const brand = cssEase('--ease-brand');
     const out = cssEase('--ease-out');
@@ -840,6 +868,7 @@ async function rich() {
   const { gsap } = await import('gsap');
   const { ScrollTrigger } = await import('gsap/ScrollTrigger');
   gsap.registerPlugin(ScrollTrigger);
+  stRef = ScrollTrigger;
 
   document.querySelectorAll<HTMLElement>('[data-parallax]').forEach((el) => {
     const amount = Number(el.dataset.parallax || 0.2);
@@ -988,17 +1017,25 @@ async function smoothScroll() {
   // Lenis ajoutait une inertie qui decalait les reveals dans les captures pleine page. Le visiteur
   // reel, lui, a l'inertie.
   if (navigator.webdriver) return;
-  const { default: Lenis } = await import('lenis');
-  const { gsap } = await import('gsap');
-  const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-  gsap.registerPlugin(ScrollTrigger);
-  // lerp 0,09 : inertie visible mais courte (Lenis par defaut 0,1 ; les studios primes tournent
-  // entre 0,07 et 0,1 — docs/veille/animations-2.md). wheelMultiplier < 1 : la molette Windows
-  // envoie des crans de 100 px qui faisaient « scroller ultra vite ».
-  const lenis = new Lenis({ autoRaf: false, lerp: 0.09, wheelMultiplier: 0.85 });
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
+  // Une seule instance pour la session (ClientRouter remplace le body, pas le document) : a la
+  // navigation suivante on ne re-lie que les ancres de la nouvelle page.
+  if (!lenisRef) {
+    const { default: Lenis } = await import('lenis');
+    const { gsap } = await import('gsap');
+    const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+    gsap.registerPlugin(ScrollTrigger);
+    stRef = ScrollTrigger;
+    // lerp 0,09 : inertie visible mais courte (Lenis par defaut 0,1 ; les studios primes tournent
+    // entre 0,07 et 0,1 — docs/veille/animations-2.md). wheelMultiplier < 1 : la molette Windows
+    // envoie des crans de 100 px qui faisaient « scroller ultra vite ».
+    const lenis = new Lenis({ autoRaf: false, lerp: 0.09, wheelMultiplier: 0.85 });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+    lenisRef = lenis;
+  }
+  const lenis = lenisRef;
+  lenis.resize();
   // Ancres internes (#id) : defilement fluide via lenis.scrollTo plutot que le saut natif.
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
     a.addEventListener('click', (e) => {
@@ -1043,7 +1080,7 @@ function shaderBackgrounds(motion: string, reduced: boolean) {
     return;
   }
   import('./shader')
-    .then((m) => m.initShaders(els, shaderFallback))
+    .then((m) => m.initShaders(els, shaderFallback, signal))
     .catch(() => els.forEach((el) => { if (el.dataset.shaderState !== 'drawn') shaderFallback(el); }));
 }
 
@@ -1206,7 +1243,7 @@ async function dragGrid() {
     track.append(...Array.from(track.children).map((c) => c.cloneNode(true)));
     let half = track.scrollWidth / 2;
     const remeasure = () => (half = track.scrollWidth / 2);
-    window.addEventListener('resize', remeasure, { passive: true });
+    window.addEventListener('resize', remeasure, { passive: true, signal });
     const wrapX = () => {
       const x = gsap.getProperty(track, 'x') as number;
       gsap.set(track, { x: gsap.utils.wrap(-half, 0, x) });

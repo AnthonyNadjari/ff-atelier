@@ -6,6 +6,9 @@
  */
 import { site, tel, navLinks } from '@/lib/site';
 const links = navLinks();
+// Contact en tiroir (layout.contactDrawer) : un bouton "Écrire" jaune a cote du burger ouvre le
+// dialog de src/components/ContactDrawer.astro (formulaire + coordonnees) sans quitter le pli.
+const drawer = site.layout.contactDrawer;
 ---
 
 <header data-nav class="sticky top-0 z-50 border-b-[3px] border-accent bg-ink text-on-ink">
@@ -19,6 +22,11 @@ const links = navLinks();
           <span class="blink-dot h-2.5 w-2.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
           24h/24
         </span>
+      )}
+      {drawer && (
+        <a href="#contact" class="hidden items-center gap-2 rounded-ui bg-accent px-4 py-2 font-display text-sm uppercase tracking-wide text-on-accent transition-colors hover:bg-accent-2 sm:inline-flex">
+          Écrire
+        </a>
       )}
       <button class="flex flex-col gap-1.5 p-2" aria-label="Menu" aria-expanded="false" data-menu-toggle>
         <span class="block h-[3px] w-6 bg-on-ink"></span>
@@ -42,11 +50,16 @@ const links = navLinks();
 </style>
 
 <script>
-  const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
-  const menu = document.querySelector<HTMLElement>('[data-menu]');
-  btn?.addEventListener('click', () => {
-    const open = menu!.classList.toggle('hidden') === false;
-    btn.setAttribute('aria-expanded', String(open));
+  import { onPage } from '@/scripts/page';
+
+  // Rearme a chaque navigation ClientRouter (site.transitions) : voir src/scripts/page.ts.
+  onPage(() => {
+    const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+    const menu = document.querySelector<HTMLElement>('[data-menu]');
+    btn?.addEventListener('click', () => {
+      const open = menu!.classList.toggle('hidden') === false;
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
   });
-  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
 </script>

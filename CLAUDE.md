@@ -82,7 +82,12 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   technique : les 6 commandes de base, un chantier client de bout en bout, que faire quand un truc
   cloche, le reste par besoin.
 - `src/lib/schema.ts` — schéma zod complet (`DIRECTIONS`, `MOTION`, `VARIANTS`, `SHELLS`,
-  `HEADINGS`, `siteSchema`). `business.schemaType` (sous-type schema.org, ex. `Plumber`) et
+  `HEADINGS`, `siteSchema`). `layout.contactDrawer` (défaut `false`) — contact en tiroir : `<dialog>`
+  natif rendu par `Base.astro` (`src/components/ContactDrawer.astro`), ouvert par tout lien `#contact`,
+  pour les métiers d'urgence ; `transitions` (défaut `false`) — transitions de page natives
+  (`<ClientRouter />`), tout script inline doit alors passer par `onPage()` (`src/scripts/page.ts`).
+  Voir `docs/CONVENTIONS.md` § Coquilles et `docs/ANIMATIONS.md` § Transitions de page.
+  `business.schemaType` (sous-type schema.org, ex. `Plumber`) et
   `contact.mapsProvider`/`contact.coordinates` (carte sans traceur, voir `docs/DIRECTIONS.md` § Carte)
   sont optionnels — ne jamais les deviner pour un client, laisser absent si le brief ne les fournit pas.
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
@@ -94,6 +99,7 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   (`proof/google`).
 - `src/shells/<nom>.astro` — coquille de page (`layout.shell`) : rearrange nav/hero/sections/footer
   autour de la mise en page, ne restyle jamais une section (voir `docs/CONVENTIONS.md` § Coquilles).
+  `sidebar` et `split` ont un sommaire actif (`data-scrollspy`, `src/scripts/scrollspy.ts`).
 - `src/sections/<Type>/<variante>.astro` — une section, une variante, un fichier.
 - `src/directions/<nom>/` — `index.css` (tokens + polices) + `meta.ts` (ambiance, métiers, à éviter).
 - `sites/<slug>/site.config.ts` — le contenu d'un client. `sites/<slug>/public/images/` — ses photos.

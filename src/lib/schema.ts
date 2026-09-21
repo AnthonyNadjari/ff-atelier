@@ -131,6 +131,12 @@ export const siteSchema = z.object({
       shell: z.enum(SHELLS).default('flow').describe('Disposition globale de la page (voir SHELLS)'),
       headings: z.enum(HEADINGS).default('auto').describe('Alignement force des en-tetes de section'),
       tone: z.enum(TONES).default('flat').describe('alternate = une section sur deux sur fond bg-2'),
+      contactDrawer: z
+        .boolean()
+        .default(false)
+        .describe(
+          "Contact en tiroir : un dialog natif (formulaire + coordonnées) ouvert par tout lien href=\"#contact\" (nav, CTA, bandeau). La section contact finale reste possible en plus ; sans section contact dans le layout, le tiroir est la seule porte et la nav reçoit un lien Contact. Métiers d'urgence (plombier, couvreur, serrurier) — voir docs/CONVENTIONS.md § Coquilles",
+        ),
     })
     .prefault({}),
 

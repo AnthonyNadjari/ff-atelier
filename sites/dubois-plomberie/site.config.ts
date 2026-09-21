@@ -13,6 +13,9 @@ export default defineSite({
   slug: 'dubois-plomberie',
   direction: 'signal',
   motion: 'subtle',
+  // Transitions de page (ClientRouter) : fondu 0,3 s accueil <-> pages services ; nav, tiroir de contact,
+  // formulaire et reveals rearmes a chaque navigation (docs/ANIMATIONS.md § Transitions de page).
+  transitions: true,
   // Accent bleu nuit (proche de #0b2545) au lieu du rouge-orange par defaut de "signal" :
   // confiance plutot qu'alarme, cf. mandat de design (studio premium, pas panneau de chantier).
   accent: { h: 210, s: 72, l: 17 },
@@ -35,6 +38,9 @@ export default defineSite({
     footer: 'columns',
     divider: 'none',
     tone: 'flat',
+    // Contact en tiroir : urgence = le formulaire s'ouvre depuis n'importe ou (nav, call-bar mobile,
+    // bandeau) sans descendre en bas de page ; la section contact finale reste en plus.
+    contactDrawer: true,
   },
 
   business: {

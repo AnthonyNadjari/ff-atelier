@@ -3,6 +3,8 @@
  * Coquille "split" : panneau lateral fixe (nom, metier, navigation, telephone, reseaux) sur la gauche,
  * contenu qui defile a droite dans une colonne plus etroite. Sur mobile, le panneau devient un bloc
  * d'en-tete et la nav mobile classique prend le relais.
+ * Sommaire actif (data-scrollspy, src/scripts/scrollspy.ts) : liens numerotes, le lien de la section
+ * visible passe en fg et un trait d'accent se deploie devant lui.
  */
 import Divider from '@/components/Divider.astro';
 import Button from '@/components/Button.astro';
@@ -24,8 +26,14 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
         {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-12 w-auto" /> : site.business.name}
       </a>
       <p class="mt-3 text-sm text-muted">{site.business.trade} · {site.contact.address.city}</p>
-      <nav class="mt-12 flex flex-col gap-3" aria-label="Navigation principale">
-        {links.map((l) => <a href={l.href} class="text-lg text-muted transition-colors hover:text-fg">{l.label}</a>)}
+      <nav class="mt-12 flex flex-col gap-3" aria-label="Navigation principale" data-scrollspy>
+        {links.map((l, i) => (
+          <a href={l.href} class="spy-link flex items-baseline gap-3 text-lg text-muted transition-colors hover:text-fg">
+            <span class="spy-trait" aria-hidden="true"></span>
+            <span class="font-mono text-xs text-muted tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+            {l.label}
+          </a>
+        ))}
       </nav>
     </div>
     <div class="space-y-5">
@@ -49,3 +57,28 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
     <Footer />
   </div>
 </div>
+
+<style>
+  /* Sommaire actif : trait d'accent qui se deploie devant le lien courant (--motion-ui, --ease-out). */
+  .spy-trait {
+    display: inline-block;
+    inline-size: 1.5rem;
+    block-size: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--motion-ui) var(--ease-out);
+    align-self: center;
+  }
+  .spy-link.is-active { color: var(--fg); }
+  .spy-link.is-active .spy-trait { transform: scaleX(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .spy-trait { transition: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initScrollSpy } from '@/scripts/scrollspy';
+  onPage(initScrollSpy);
+</script>

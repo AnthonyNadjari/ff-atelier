@@ -303,8 +303,8 @@ restyle jamais une section (voir `docs/CONVENTIONS.md` § Coquilles).
 | Shell | Quand l'utiliser |
 |---|---|
 | `flow` (défaut) | Colonne classique : nav en haut, hero, sections empilées, footer. Convient à tout, c'est le choix sûr par défaut. |
-| `split` | Panneau latéral fixe (nom, métier, navigation, téléphone, réseaux) à gauche, contenu qui défile à droite. Va bien avec `nav: 'bar'` ou `'minimal'` (le panneau remplace la nav sur desktop) ; évite `nav: 'floating'`. Agences, cabinets de conseil — tout ce qui bénéficie d'un accès permanent au téléphone/à la navigation. |
-| `sidebar` | Rail vertical étroit fixe à gauche (monogramme, liens en texte vertical, téléphone), contenu pleine largeur décalé. Même contrainte que `split` : évite `nav: 'floating'`. Studios créatifs, ateliers d'artiste — identité forte, esthétique minimale. |
+| `split` | Panneau latéral fixe (nom, métier, navigation numérotée, téléphone, réseaux) à gauche, contenu qui défile à droite. **Sommaire actif** : le lien de la section visible passe en `fg` avec un trait d'accent (`aria-current`, voir `docs/CONVENTIONS.md` § Coquilles). Va bien avec `nav: 'bar'` ou `'minimal'` (le panneau remplace la nav sur desktop) ; évite `nav: 'floating'`. Agences, cabinets de conseil — tout ce qui bénéficie d'un accès permanent au téléphone/à la navigation. |
+| `sidebar` | Rail vertical étroit fixe à gauche (monogramme, compteur de position « 02 / 06 », liens en texte vertical, téléphone), contenu pleine largeur décalé. **Sommaire actif** comme `split`. Même contrainte que `split` : évite `nav: 'floating'`. Studios créatifs, ateliers d'artiste — identité forte, esthétique minimale. Exemple : `forge-delacroix`. |
 | `slides` | Chaque section occupe un écran plein, défilement aimanté (scroll-snap proximity, jamais piégeant). Réservé aux sites courts et aux directions peu animées : `motion !== 'rich'` (une direction déjà très animée + un défilement aimanté surchargerait l'expérience). |
 | `magazine` | Grille asymétrique : largeurs et décalages alternés, grands numéros de section en marge sur desktop. Évite `scale: 'compact'` (la mise en marge a besoin d'air). Cabinets, agences de design, journaux — mise en page éditoriale affirmée. |
 | `sticky-hero` | Le hero reste épinglé en fond, les sections glissent par-dessus comme une feuille. Marche mieux avec un hero plein écran : `hero` en `fullbleed`, `typographic` ou `video`. Maisons de luxe, hôtellerie, restauration — une image ou un message qui reste present pendant tout le défilement. |
@@ -312,6 +312,13 @@ restyle jamais une section (voir `docs/CONVENTIONS.md` § Coquilles).
 Ces contraintes (« va bien avec », « évite ») sont les règles d'adéquation appliquées par
 `ff composer` (`scripts/ff/composer.mjs`, fonction `shellFits`) et vérifiées pour chaque modèle par
 `tests/presets.test.mjs`.
+
+### Deux réglages transversaux (toutes coquilles)
+
+| Réglage | Quand l'utiliser |
+|---|---|
+| `layout.contactDrawer: true` | **Contact en tiroir** : un `<dialog>` natif (formulaire + coordonnées) s'ouvre depuis tout lien `#contact` — nav, CTA, bandeau — sans descendre en bas de page ; plein écran sur mobile. Métiers d'urgence (plombier, couvreur, serrurier, électricien, dépannage) et tout site où la demande doit partir en une seconde. La section contact finale reste possible en plus ; sans elle, le tiroir est la seule porte. Exemples : `dubois-plomberie`, `toits-cie`. Détail : `docs/CONVENTIONS.md` § Coquilles. |
+| `transitions: true` | **Transitions de page** natives (ClientRouter, fondu 0,3 s, nav qui reste en place, hero qui persiste) entre l'accueil et les pages `/services/<slug>`, `/zones/<ville>`. À activer sur les sites multi-pages dont les scripts sur mesure passent par `onPage()` (`docs/ANIMATIONS.md` § Transitions de page). Exemples : `finck-fisch`, `dubois-plomberie`, `toits-cie`. |
 
 ### En-têtes
 
