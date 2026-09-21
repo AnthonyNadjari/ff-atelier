@@ -1,5 +1,12 @@
 // DEMO : cliente inventée (Léa Marchand, ostéopathe). Coordonnées fictives (plage 06 39 98).
 // Hero et blocs principaux dessinés à la main pour ce site : sites/osteo-marchand/sections/.
+//
+// Squelette (21 sept 2026) : coquille `slides` — chaque chapitre occupe un écran, défilement
+// aimanté (proximity, jamais piégeant), motion `subtle`. Un cabinet d'ostéo a peu à dire et doit le
+// dire calmement : cinq écrans (le cabinet, pour quoi consulter, la séance, FAQ, rendez-vous), pas
+// un de plus. Retiré pour tenir dans les cinq : `about/story` (le parcours de Léa — diplôme 2016,
+// cabinet ouvert en 2020 — n'a plus de bloc dédié ; la page reste sans donnée inventée). Le
+// séparateur `curve` disparaît aussi : entre deux écrans aimantés, un motif décoratif casse l'aimant.
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
@@ -8,7 +15,7 @@ export default defineSite({
   motion: 'subtle',
   scale: 'normal',
   layout: {
-    shell: 'flow',
+    shell: 'slides',
     nav: 'bar',
     hero: 'custom/hero',
     headings: 'center',
@@ -16,12 +23,11 @@ export default defineSite({
       { type: 'custom', variant: 'cabinet' },
       { type: 'custom', variant: 'motifs', label: 'Consultations' },
       { type: 'custom', variant: 'seance', label: 'La séance' },
-      { type: 'about', variant: 'story' },
       { type: 'faq', variant: 'accordion' },
       { type: 'contact', variant: 'form-card' },
     ],
     footer: 'minimal',
-    divider: 'curve',
+    divider: 'none',
     tone: 'flat',
   },
 

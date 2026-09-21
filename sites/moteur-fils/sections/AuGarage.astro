@@ -15,7 +15,8 @@ const services = site.services;
 // (bg-accent/15, bg-accent-2/20) ou --muted (#7a5a45) ne tient qu'a 4.0-4.2:1 sur le fond teinte
 // resultant (rapport impeccable) -- text-fg y tient >9:1.
 const looks = [
-  { bg: 'bg-surface', text: 'text-on-ink', badge: 'border-on-ink/30 bg-ink/20', iconColor: 'text-on-ink', photo: true },
+  // bg-ink (pas bg-surface) sous la photo : le texte on-ink se mesure contre l'encre, pas contre la surface (ff detect, 21 sept 2026).
+  { bg: 'bg-ink', text: 'text-on-ink', badge: 'border-on-ink/30 bg-ink/20', iconColor: 'text-on-ink', photo: true },
   { bg: 'bg-surface', text: 'text-fg', badge: 'border-ink/15 bg-bg', iconColor: 'text-accent' },
   { bg: 'bg-bg-2', text: 'text-fg', badge: 'border-ink/15 bg-bg', iconColor: 'text-accent' },
   { bg: 'bg-accent/15', text: 'text-fg', badge: 'border-ink/15 bg-bg', iconColor: 'text-accent', body: 'text-fg' },

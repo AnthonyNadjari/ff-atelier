@@ -1,5 +1,14 @@
 // DEMO : cliente inventée
 // Hero, nav et blocs principaux dessinés à la main pour ce site : sites/anna-vidal/sections/.
+//
+// Squelette (21 sept 2026) : coquille `index` — le menu EST la page. Ses quatre séries (mariage,
+// élopement, famille, portrait = services, chacune avec sa photo) sont les quatre premières entrées,
+// en liens réels vers /services/<slug>, photo révélée au survol ; galerie, manifeste, FAQ et contact
+// se déroulent sous leur entrée. Un seul geste riche : l'image de survol. Le hero sur mesure
+// (sections/Hero.astro, data-pin) n'est plus rendu par cette coquille ; Instants et Formules sortent du
+// layout (les séries en liens et les pages de prestation portent déjà photos et contenus) ; Series
+// perd son data-horizontal et Manifeste son data-text-fill (effets pilotés par le scroll, incompatibles
+// avec un panneau <details> fermé).
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
@@ -9,13 +18,11 @@ export default defineSite({
   motion: 'rich',
   scale: 'display',
   layout: {
-    shell: 'flow',
+    shell: 'index',
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      { type: 'custom', variant: 'instants', label: 'Instants' },
-      { type: 'custom', variant: 'formules', label: 'Formules' },
-      { type: 'custom', variant: 'series', label: 'Séries' },
+      { type: 'custom', variant: 'series', label: 'Galerie' },
       { type: 'custom', variant: 'manifeste', label: 'Manifeste' },
       { type: 'faq', variant: 'accordion' },
       { type: 'contact', variant: 'form-card' },

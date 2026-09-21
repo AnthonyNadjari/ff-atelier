@@ -139,6 +139,7 @@ Google Maps ; c'est alors la façade, jamais l'iframe directe, qui doit être ut
 | `steps` | Le client a décrit ses étapes de travail (devis → intervention → suivi). |
 | `timeline` | Étapes avec une notion de durée/chronologie. |
 | `numbered` | Peu d'étapes (2-4), direction typographique (journal, brut). |
+| `horizon` | Chapitre épinglé qui défile horizontalement (`data-horizontal`, desktop ≥ 1024 px, motion `rich`) : une étape par écran, numéro géant, photo de l'étape si `process[i].image` est renseignée. Sous 1024 px, en `subtle`/`none` ou avec `prefers-reduced-motion` : étapes empilées, sans épinglage. **C'est le seul effet riche de la page** (règle 16) : jamais avec un marquee, un `data-frames` ou un shader. Métiers en étapes de chantier (menuisier, couvreur, forge). Exemple : `atelier-lecerf`. |
 
 Si le brief ne détaille pas de méthode de travail, ne pas inclure de section `process`.
 
@@ -308,6 +309,7 @@ restyle jamais une section (voir `docs/CONVENTIONS.md` § Coquilles).
 | `slides` | Chaque section occupe un écran plein, défilement aimanté (scroll-snap proximity, jamais piégeant). Réservé aux sites courts et aux directions peu animées : `motion !== 'rich'` (une direction déjà très animée + un défilement aimanté surchargerait l'expérience). |
 | `magazine` | Grille asymétrique : largeurs et décalages alternés, grands numéros de section en marge sur desktop. Évite `scale: 'compact'` (la mise en marge a besoin d'air). Cabinets, agences de design, journaux — mise en page éditoriale affirmée. |
 | `sticky-hero` | Le hero reste épinglé en fond, les sections glissent par-dessus comme une feuille. Marche mieux avec un hero plein écran : `hero` en `fullbleed`, `typographic` ou `video`. Maisons de luxe, hôtellerie, restauration — une image ou un message qui reste present pendant tout le défilement. |
+| `index` | **Site-index : le menu EST la page.** Un seul écran — ligne d'identité (nom, métier · ville, téléphone, CTA du tiroir) puis liste géante des entrées : les prestations `/services/<slug>` en liens réels quand le layout n'a pas de section `services` (photo révélée au survol, `data-hover-img`, motion `rich`), et chaque section du layout en `<details>` natif qui se déroule sous son entrée (une seule ouverte à la fois, `aria-expanded` tenu à jour, ancre `#id` qui ouvre l'entrée). `layout.hero` n'est pas rendu (réduit à la ligne d'identité + tagline en pied), les sections `cta` non plus, aucune `<nav>` séparée. Contact : `contactDrawer: true` ou section contact en dernière entrée. Éviter dans ses sections les effets pilotés par le scroll (`data-horizontal`, `data-pin`, `data-text-fill`) : ils se calculent sur un panneau fermé. 4 à 8 entrées. Photographe, artiste, architecte d'intérieur — jamais un métier d'urgence. Exemple : `anna-vidal`. |
 
 Ces contraintes (« va bien avec », « évite ») sont les règles d'adéquation appliquées par
 `ff composer` (`scripts/ff/composer.mjs`, fonction `shellFits`) et vérifiées pour chaque modèle par

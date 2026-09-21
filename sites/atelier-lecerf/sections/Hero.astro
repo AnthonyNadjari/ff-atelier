@@ -1,21 +1,14 @@
 ---
 /**
- * Hero "grain de bois" : titre serif géant + trois essences (chêne / frêne / noyer) en piste
- * horizontale plein cadre (data-horizontal + .h-track), chaque planche teintée par sa propre
- * couleur d'accent posée en style inline — héritée par le filtre data-duotone de sa photo, même
- * principe que sites/jardins-mael/sections/Saisons.astro (data-sticky-stack, empilement vertical)
- * mais appliqué ici à un défilement HORIZONTAL utilisé comme hero, jamais fait ailleurs dans le
- * dépôt (grep `data-horizontal` : sites/anna-vidal/Series, sites/encre-noire/Styles — deux
- * galeries en milieu de page, pas un hero). Planches à 60vw (pas 100vw) : un premier essai en
- * pleine largeur de viewport par planche laissait un vide massif dans les captures pleine page
- * (la distance de scroll réservée par le pin — largeur totale de la piste moins celle du
- * conteneur — grandit avec chaque planche ; à 100vw × 3 elle dépassait 2 hauteurs d'écran de vide
- * sous la planche visible). Repéré et corrigé en relisant `captures/atelier-lecerf-desktop.png`.
- * <img> brut (pas <Img>) sur les trois panneaux :
- * [data-duotone] > img cible un enfant direct, que le <picture> de <Img> casserait (même remarque
- * que sites/jardins-mael/sections/Hero.astro). Sous les 64rem (mobile/tablette), motion.ts ne pin
- * jamais data-horizontal (garde `matchMedia('(min-width: 64rem)')` dans motion.ts) : la piste
- * reste simplement une colonne empilée, chaque planche visible normalement au scroll.
+ * Hero "grain de bois" : titre serif géant + trois essences (chêne / frêne / noyer) en trois
+ * planches pleine hauteur côte à côte, chaque planche teintée par sa propre couleur d'accent posée
+ * en style inline — héritée par le filtre data-duotone de sa photo, même principe que
+ * sites/jardins-mael/sections/Saisons.astro. La piste data-horizontal d'origine a été retirée le
+ * 21 sept 2026 : le défilement horizontal de la page est désormais porté par le chapitre
+ * process/horizon (un seul effet riche par page, CONVENTIONS.md règle 16). <img> brut (pas <Img>)
+ * sur les trois panneaux : [data-duotone] > img cible un enfant direct, que le <picture> de <Img>
+ * casserait (même remarque que sites/jardins-mael/sections/Hero.astro). Sous md, les planches
+ * s'empilent.
  */
 import { site, tel } from '@/lib/site';
 import Button from '@/components/Button.astro';
@@ -47,14 +40,11 @@ const woods = [
     </div>
   </div>
 
-  <div class="relative mt-16 md:mt-20" data-horizontal>
-    <p class="container-ff mb-4 flex items-center gap-2 text-sm text-muted lg:hidden">
-      <Icon name="MoveHorizontal" size={16} class="text-accent" /> Trois essences, une par une
-    </p>
-    <ul class="h-track flex flex-col md:flex-row">
+  <div class="relative mt-16 md:mt-20">
+    <ul class="grid md:grid-cols-3">
       {woods.map((w, i) => (
         <li
-          class="relative flex min-h-[64vh] w-full items-end overflow-hidden bg-ink text-on-ink md:min-h-[72vh] md:w-[60vw] md:flex-none"
+          class="relative flex min-h-[56vh] w-full items-end overflow-hidden bg-ink text-on-ink md:min-h-[68vh]"
           style={`--accent:${w.accent}; --on-accent:#f7f4ec;`}
         >
           <div class="absolute inset-0" data-duotone>

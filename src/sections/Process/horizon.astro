@@ -1,0 +1,73 @@
+---
+/**
+ * Process "horizon" : chapitre epingle qui defile horizontalement (data-horizontal + .h-track,
+ * docs/veille/squelettes.md § 3b n°2) — une etape par ecran, numero geant, photo de l'etape quand
+ * `process[i].image` existe (composition sans image sinon). Desktop >= 64rem en motion "rich" :
+ * la section fait un ecran de haut, la piste glisse sur la molette (scrub 1, motion.ts). Sous 64rem,
+ * en "subtle"/"none" ou avec prefers-reduced-motion : etapes empilees verticalement, aucun
+ * epinglage (motion.ts ne pin jamais sous 64rem, le CSS ci-dessous ne passe en ligne qu'en rich).
+ * Compte comme LE seul effet riche de la page (CONVENTIONS.md regle 16) : jamais avec un marquee,
+ * un data-frames ou un shader. Aucun data-reveal dedans : le defilement est le geste.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const steps = site.process;
+const total = String(steps.length).padStart(2, '0');
+---
+
+{steps.length > 0 && (
+  <section id="process" class="ff-horizon relative overflow-hidden bg-bg-2" data-horizontal>
+    <div class="ff-horizon-tete container-ff flex items-baseline justify-between gap-6 pt-12 lg:pt-8">
+      <h2 class="text-display-sm">Notre méthode</h2>
+      <p class="font-mono text-xs uppercase tracking-[0.18em] text-muted">{steps.length} étapes</p>
+    </div>
+    <ol class="h-track ff-horizon-piste">
+      {steps.map((p, i) => (
+        <li class="ff-horizon-etape">
+          <div class:list={['container-ff grid items-center gap-10', p.image && 'lg:grid-cols-[1.1fr_1fr] lg:gap-16']}>
+            <div>
+              <p class="font-mono text-xs uppercase tracking-[0.18em] text-muted">Étape {String(i + 1).padStart(2, '0')} / {total}</p>
+              <p class="ff-horizon-numero font-display text-accent" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+              <h3 class="text-display-md">{p.title}</h3>
+              <p class="measure mt-4 text-lg text-muted">{p.text}</p>
+            </div>
+            {p.image && (
+              <figure class="overflow-hidden rounded-card bg-surface shadow-card">
+                <Img src={p.image.src} alt={p.image.alt} class="ff-horizon-image w-full object-cover" sizes="(min-width: 1024px) 42vw, 100vw" loading="lazy" />
+                {p.image.caption && <figcaption class="px-4 py-3 text-sm text-muted">{p.image.caption}</figcaption>}
+              </figure>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+)}
+
+<style is:global>
+  /* Etapes empilees par defaut (mobile, subtle/none, reduced-motion). Tokens uniquement. */
+  .ff-horizon-piste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .ff-horizon-etape { padding-block: 3.5rem; border-top: 1px solid var(--line); }
+  .ff-horizon-etape:first-child { border-top: 0; }
+  .ff-horizon-numero { font-size: clamp(4.5rem, 16vw, 14rem); line-height: 0.85; margin-block: 0.5rem 1rem; letter-spacing: -0.03em; }
+  .ff-horizon-image { aspect-ratio: 4 / 3; max-height: 60svh; }
+
+  /* Desktop rich : un ecran de haut, une etape par ecran, la piste en ligne (motion.ts la fait glisser). */
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    [data-motion='rich'] .ff-horizon { height: 100svh; }
+    [data-motion='rich'] .ff-horizon-tete { position: absolute; inset-inline: 0; top: 0; z-index: 1; }
+    [data-motion='rich'] .ff-horizon-piste { flex-direction: row; height: 100%; }
+    [data-motion='rich'] .ff-horizon-etape {
+      flex: none;
+      width: 100vw;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding-block: 4rem 0;
+      border-top: 0;
+    }
+    [data-motion='rich'] .ff-horizon-etape + .ff-horizon-etape { border-inline-start: 1px solid var(--line); }
+    [data-motion='rich'] .ff-horizon-numero { font-size: clamp(8rem, 18vw, 16rem); }
+  }
+</style>

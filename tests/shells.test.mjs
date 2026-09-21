@@ -35,15 +35,33 @@ test('chaque fichier src/shells/*.astro correspond a une entree de SHELLS (pas d
   }
 });
 
+// La coquille "index" (site-index, le menu EST la page) est la seule qui ne rend pas <Hero /> : le
+// hero y est reduit a une ligne d'identite rendue par la coquille elle-meme (voir son en-tete).
+const SANS_HERO = ['index'];
+
 test('chaque coquille rend <Hero />, <Footer /> et mappe sections', () => {
   for (const name of SHELLS) {
     const p = path.join(SHELLS_DIR, `${name}.astro`);
     if (!fs.existsSync(p)) continue; // deja signale par le test precedent
     const src = fs.readFileSync(p, 'utf8');
-    assert.match(src, /<Hero\s*\/>/, `src/shells/${name}.astro ne rend pas <Hero />`);
+    if (!SANS_HERO.includes(name)) assert.match(src, /<Hero\s*\/>/, `src/shells/${name}.astro ne rend pas <Hero />`);
     assert.match(src, /<Footer\s*\/>/, `src/shells/${name}.astro ne rend pas <Footer />`);
-    assert.match(src, /sections\.map\(/, `src/shells/${name}.astro ne mappe pas "sections"`);
+    assert.match(src, /sections\.map\(|entries\.map\(/, `src/shells/${name}.astro ne mappe pas "sections"`);
   }
+});
+
+test("coquille index : ligne d'identite (h1 + tel:), entrees <details>/<summary> avec aria-expanded, liens reels, hover-img, onPage", () => {
+  const src = fs.readFileSync(path.join(SHELLS_DIR, 'index.astro'), 'utf8');
+  assert.match(src, /<h1[\s>]/, "la ligne d'identite porte le h1 (le hero n'est pas rendu)");
+  assert.match(src, /href=\{tel\(\)\}/, "telephone dans la ligne d'identite");
+  assert.match(src, /<details[^>]*name=/, 'entrees en <details> natifs (une seule ouverte a la fois via name)');
+  assert.match(src, /<summary[^>]*aria-expanded=/, 'summary avec aria-expanded');
+  assert.match(src, /href=\{p\.href\}/, 'entrees de page en liens reels');
+  assert.match(src, /data-hover-img=/, 'image revelee au survol via data-hover-img');
+  assert.match(src, /prefers-reduced-motion/, 'transitions coupees en reduced-motion');
+  assert.match(src, /onPage\(/, 'script inline rearme via onPage()');
+  assert.doesNotMatch(src, /<Nav\s*\/>/, 'aucune <nav> separee : les entrees sont la navigation');
+  assert.doesNotMatch(src.replace(/\/\*[\s\S]*?\*\//g, ''), /#[0-9a-fA-F]{3,8}/, 'tokens uniquement');
 });
 
 for (const name of SHELLS) {

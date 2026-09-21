@@ -1,0 +1,165 @@
+---
+/**
+ * Coquille "index" : le menu EST la page (site-index, docs/veille/squelettes.md § 3b n°1). Un seul
+ * ecran : une ligne d'identite en haut (nom, metier · ville, telephone, CTA du tiroir s'il est actif)
+ * puis une liste geante d'entrees qui occupe l'ecran. Deux sortes d'entrees :
+ *  - une PAGE (lien reel) : les prestations `/services/<slug>` quand le layout n'a pas de section
+ *    `services` (sinon elles vivent dans cette section) — l'image de la prestation est revelee au
+ *    survol (data-hover-img, motion rich, pointeur fin) ;
+ *  - une SECTION du layout : `<details>` natif, le clic deroule la section sous l'entree (une seule
+ *    ouverte a la fois via l'attribut `name`), l'image de survol vient des photos du client
+ *    (images.hero, proof.gallery, about.portrait, dans cet ordre, jamais repetee).
+ * Le hero (`layout.hero`) N'EST PAS rendu : il est reduit a la ligne d'identite + la tagline en pied
+ * d'ecran. Les sections `cta` ne sont pas rendues non plus (le CTA vit dans la ligne d'identite).
+ * Aucune `<nav>` separee : les entrees sont la navigation. Contact : tiroir (layout.contactDrawer)
+ * ou derniere entree (section contact du layout).
+ * Mobile : meme liste, verticale, `<details>` natifs sans script. Clavier / lecteurs d'ecran : liens
+ * reels, `<summary>` focusable avec `aria-expanded` tenu a jour, une ancre `#id` ouvre l'entree qui
+ * contient la cible. Les effets pilotes par le scroll (data-horizontal, data-pin, data-text-fill,
+ * data-frames) sont a eviter dans les sections d'un site-index : ils se calculent sur un panneau
+ * ferme (display:none) — un `resize` est emis a chaque ouverture pour rafraichir ScrollTrigger, mais
+ * le seul geste riche attendu ici est l'image de survol. Metiers : photographe, artiste, architecte
+ * d'interieur — jamais un metier d'urgence.
+ */
+import Icon from '@/components/Icon.astro';
+import { site, tel, navLinks } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Footer, sections } = Astro.props;
+const drawer = site.layout.contactDrawer;
+const links = navLinks();
+const idOf = (s: { type: string; variant: string }) => (s.type === 'custom' ? s.variant.toLowerCase() : s.type);
+const labelOf = (s: { type: string; variant: string }) => links.find((l) => l.href === `#${idOf(s)}`)?.label ?? s.variant;
+
+const hasServicesSection = sections.some((s) => s.type === 'services');
+const pages = hasServicesSection
+  ? []
+  : site.services.map((s) => ({ href: `/services/${s.slug}`, label: s.title, image: s.image?.src }));
+
+const pool = [site.images.hero, ...site.proof.gallery, site.about.portrait].filter(Boolean).map((i) => i!.src);
+const entries = sections
+  .filter((s) => s.type !== 'cta')
+  .map((s, i) => ({ id: idOf(s), label: labelOf(s), Component: s.Component, image: pool[i] }));
+const total = pages.length + entries.length;
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<div class="index-ecran flex min-h-svh flex-col">
+  <header class="container-ff flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 pt-6 pb-4 text-sm">
+    <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+      <a href="/" class="font-display text-lg leading-none"><h1 class="inline">{site.business.name}</h1></a>
+      <p class="text-muted">{site.business.trade} · {site.contact.address.city}</p>
+    </div>
+    <div class="flex items-baseline gap-5">
+      <a href={tel()} class="tabular-nums underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
+      {drawer && <a href="#contact" class="btn btn-primary inline-flex items-center gap-2 rounded-ui bg-accent px-4 py-2 text-on-accent">{site.wording.devis}</a>}
+    </div>
+  </header>
+
+  <main id="main" class="flex flex-1 flex-col">
+    <ol class="index-liste container-ff flex flex-1 flex-col justify-center py-6" aria-label="Sommaire du site">
+      {pages.map((p, i) => (
+        <li>
+          <a href={p.href} class="index-entree" data-hover-img={p.image}>
+            <span class="index-num">{num(i)}</span>
+            <span class="index-label">{p.label}</span>
+            <Icon name="ArrowUpRight" size={28} class="index-signe" />
+          </a>
+        </li>
+      ))}
+      {entries.map((e, i) => (
+        <li>
+          <details class="index-details" name="index-entree">
+            <summary class="index-entree" data-hover-img={e.image} aria-expanded="false">
+              <span class="index-num">{num(pages.length + i)}</span>
+              <span class="index-label">{e.label}</span>
+              <Icon name="Plus" size={28} class="index-signe" />
+            </summary>
+            <div class="index-panneau">
+              <e.Component />
+            </div>
+          </details>
+        </li>
+      ))}
+    </ol>
+    <p class="container-ff flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 pb-6 text-sm text-muted">
+      <span class="font-display italic" set:html={site.business.tagline} />
+      <span class="font-mono text-xs tabular-nums">{total} entrées{site.business.since && ` · depuis ${site.business.since}`}</span>
+    </p>
+  </main>
+</div>
+<Footer />
+
+<style is:global>
+  /* Entrees : gros texte display, filet entre chaque ligne, numero mono. Tokens uniquement. */
+  [data-shell='index'] .index-liste { list-style: none; }
+  [data-shell='index'] .index-liste > li { border-top: 1px solid var(--line); }
+  [data-shell='index'] .index-liste > li:last-child { border-bottom: 1px solid var(--line); }
+  [data-shell='index'] .index-entree {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    padding-block: clamp(0.5rem, 1.4vh, 1rem);
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 5.2vw, 4.5rem);
+    line-height: 1;
+    color: var(--fg);
+    cursor: pointer;
+    list-style: none;
+    text-decoration: none;
+    transition: color var(--motion-ui) var(--ease-out), padding-inline-start var(--motion-ui) var(--ease-out);
+  }
+  [data-shell='index'] .index-entree::-webkit-details-marker { display: none; }
+  [data-shell='index'] .index-entree::marker { content: ''; }
+  [data-shell='index'] .index-entree:hover,
+  [data-shell='index'] .index-entree:focus-visible,
+  [data-shell='index'] .index-details[open] > .index-entree { color: var(--accent); padding-inline-start: 0.35em; }
+  [data-shell='index'] .index-num { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--muted); font-variant-numeric: tabular-nums; }
+  [data-shell='index'] .index-label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  [data-shell='index'] .index-signe { flex: none; align-self: center; color: var(--muted); transition: transform var(--motion-ui) var(--ease-out), color var(--motion-ui) var(--ease-out); }
+  [data-shell='index'] .index-entree:hover .index-signe,
+  [data-shell='index'] .index-details[open] > .index-entree .index-signe { color: currentColor; }
+  [data-shell='index'] .index-details[open] > .index-entree .index-signe { transform: rotate(45deg); }
+  [data-shell='index'] .index-panneau { border-top: 1px solid var(--line); }
+  /* Panneau ferme = non rendu (display:none explicite) : Chromium garde des client rects sur le
+     contenu d'un <details> ferme (content-visibility), et ff audit-motion y comptait des reveals
+     « restes invisibles » que seul un clic peut reveler. */
+  [data-shell='index'] .index-details:not([open]) > .index-panneau { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-shell='index'] .index-entree, [data-shell='index'] .index-signe { transition: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Amelioration progressive : les <details> fonctionnent sans ce script (mobile compris).
+  // Ici : aria-expanded tenu a jour sur le <summary>, une seule entree ouverte a la fois (repli
+  // pour les navigateurs sans l'attribut `name`), ancre #id qui ouvre l'entree contenant la cible,
+  // et un `resize` emis a l'ouverture pour que les effets lies au scroll se recalculent.
+  onPage(() => {
+    const all = Array.from(document.querySelectorAll<HTMLDetailsElement>('[data-shell="index"] .index-details'));
+    if (!all.length) return;
+    const sync = (d: HTMLDetailsElement) => d.querySelector('summary')?.setAttribute('aria-expanded', String(d.open));
+    all.forEach((d) => {
+      sync(d);
+      d.addEventListener('toggle', () => {
+        sync(d);
+        if (d.open) {
+          all.forEach((o) => { if (o !== d && o.open) o.open = false; });
+          window.dispatchEvent(new Event('resize'));
+        }
+      });
+    });
+    const openFor = (hash: string) => {
+      if (!hash || hash === '#') return;
+      const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+      const d = target?.closest<HTMLDetailsElement>('.index-details');
+      if (d && !d.open) d.open = true;
+    };
+    openFor(location.hash);
+    document.body.addEventListener('click', (e) => {
+      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
+      if (a) openFor(a.getAttribute('href') || '');
+    });
+  });
+</script>

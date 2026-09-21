@@ -1,20 +1,15 @@
 ---
 /**
- * "Matières" : carnet d'échantillons des trois essences travaillées à l'atelier, en piste
- * glissable (data-drag-grid — mandat explicite). Aucune photo : chaque planche est une texture
- * générée en CSS pur (grain multi-couches + nœuds en dégradés radiaux), jamais une couleur en
- * dur (color-mix depuis les hex propres à chaque essence, pas les tokens de la direction — le
- * bois a sa propre teinte, indépendante de l'accent du site). Diffère de
- * sites/studio-ambre/sections/Materiaux.astro (seul précédent data-drag-grid + échantillons CSS
- * du dépôt, mandat oblige) : trois planches d'une seule matière (pas six matières hétérogènes),
- * grain à nœuds plutôt qu'un simple hachurage, fiche technique (teinte/dureté/usage) sous chaque
- * planche, et data-tilt/data-tilt-glare sur chaque échantillon (reflet façon vernis au survol —
- * absent chez studio-ambre, effet à 6 usages dans un site dessiné à la main avant ce tour, sous
- * le seuil de 5 demandé par le mandat). Le tilt/glare est posé sur la planche elle-même, pas sur
- * la carte entière, pour que la fiche technique en dessous ne soit jamais recadrée par
- * `overflow:hidden` (règle globale sur `[data-tilt][data-tilt-glare]`, global.css).
+ * "Matières" : carnet d'échantillons des trois essences travaillées à l'atelier, trois planches
+ * en grille fixe. Aucune photo : chaque planche est une texture générée en CSS pur (grain
+ * multi-couches + nœuds en dégradés radiaux), jamais une couleur en dur (color-mix depuis les hex
+ * propres à chaque essence, pas les tokens de la direction — le bois a sa propre teinte,
+ * indépendante de l'accent du site). Fiche technique (teinte/dureté/usage) sous chaque planche,
+ * data-tilt/data-tilt-glare sur la planche elle-même (reflet façon vernis au survol), pas sur la
+ * carte entière, pour que la fiche ne soit jamais recadrée par `overflow:hidden` (règle globale sur
+ * `[data-tilt][data-tilt-glare]`, global.css). La piste glissable data-drag-grid d'origine a été
+ * retirée le 21 sept 2026 : le seul défilement horizontal de la page est le chapitre process/horizon.
  */
-import Icon from '@/components/Icon.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 
 const matieres = [
@@ -26,18 +21,13 @@ const matieres = [
 
 <section id="matieres" class="section-y overflow-hidden bg-bg-2">
   <div class="container-ff">
-    <div class="flex flex-wrap items-end justify-between gap-6">
-      <SectionHeading eyebrow="Le carnet d’essences" title="Trois bois, une seule règle : massif" text="Chaque pièce est choisie pour ce qu’elle doit devenir — un plan de travail, une bibliothèque, un meuble ancien à restaurer." />
-      <p class="hidden shrink-0 items-center gap-2 text-sm text-muted lg:flex" data-reveal-native>
-        <Icon name="MoveHorizontal" size={16} class="text-accent" /> Glissez pour comparer les essences
-      </p>
-    </div>
+    <SectionHeading eyebrow="Le carnet d’essences" title="Trois bois, une seule règle : massif" text="Chaque pièce est choisie pour ce qu’elle doit devenir — un plan de travail, une bibliothèque, un meuble ancien à restaurer." />
   </div>
 
-  <div class="mt-12" data-drag-grid id="matieres-drag">
-    <ul class="drag-track px-[max(1.25rem,calc((100vw-var(--container))/2+1.25rem))]">
+  <div class="container-ff mt-12">
+    <ul class="grid gap-8 sm:grid-cols-3 sm:gap-6 lg:gap-10">
       {matieres.map((m) => (
-        <li class="w-72 flex-none select-none sm:w-80">
+        <li>
           <div class:list={['swatch aspect-[4/5] rounded-card border border-line', `swatch--${m.tex}`]} data-tilt="6" data-tilt-glare aria-hidden="true"></div>
           <p class="mt-4 font-display text-lg">{m.nom}</p>
           <dl class="mt-3 space-y-1.5 text-sm">
@@ -70,12 +60,4 @@ const matieres = [
       repeating-linear-gradient(97deg, color-mix(in oklch, #5a3a1e 65%, #3a2412) 0 2px, color-mix(in oklch, #3a2412 100%, black 10%) 2px 5px, color-mix(in oklch, #4d3018 55%, #3a2412) 5px 8px);
   }
 
-  /* Repli accessible : sans JS de glisser-déposer (motion "none"/"subtle" ou prefers-reduced-motion),
-     la piste reste utilisable au doigt/à la molette plutôt que rognée par overflow:hidden — même
-     correctif que sites/jardins-mael/sections/Services.astro et sites/studio-ambre/sections/Materiaux.astro. */
-  @media (prefers-reduced-motion: reduce) {
-    #matieres-drag { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; }
-    #matieres-drag .drag-track { touch-action: auto; cursor: auto; }
-    #matieres-drag li { scroll-snap-align: start; }
-  }
 </style>

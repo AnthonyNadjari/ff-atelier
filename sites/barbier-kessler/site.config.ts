@@ -10,7 +10,15 @@
 //    qu'en texte sur les fonds clairs) au lieu de l'orange-brun par défaut d'atelier ;
 //  - une typographie condensée (Oswald, "condensé, affiche") + un corps humaniste (Cabin, "humaniste,
 //    doux") à la place de Fraunces/Inter, pour une enseigne de barbier plutôt qu'un atelier de bois.
-// Nav, hero et quatre blocs dessinés pour ce client : sites/barbier-kessler/sections/.
+// Hero et quatre blocs dessinés pour ce client : sites/barbier-kessler/sections/.
+//
+// Squelette (21 sept 2026) : nav `burger` partagée (menu plein écran, liens numérotés) + contact en
+// tiroir (`contactDrawer: true`) — la section contact finale sort du layout, le tiroir est la seule
+// porte : « Prendre rendez-vous » (hero, bandeau CTA, menu plein écran) l'ouvre sans descendre en bas
+// de page, exactement ce qu'un barbier vend (un créneau, tout de suite). La nav sur mesure d'origine
+// (Nav.astro : nom en data-split, pastille enseigne, fil de lecture) est retirée au profit du burger ;
+// la bande data-marquee du hero devient une ligne fixe : le seul geste riche reste la traînée d'images
+// de la galerie (data-trail).
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
@@ -22,8 +30,9 @@ export default defineSite({
   typography: { display: 'oswald', body: 'cabin' },
   layout: {
     shell: 'flow',
-    nav: 'custom/nav',
+    nav: 'burger',
     hero: 'custom/hero',
+    contactDrawer: true,
     sections: [
       { type: 'custom', variant: 'tarifs', label: 'Tarifs' },
       { type: 'custom', variant: 'equipe', label: 'Équipe' },
@@ -31,7 +40,6 @@ export default defineSite({
       { type: 'custom', variant: 'infos', label: 'Infos pratiques' },
       { type: 'faq', variant: 'accordion' },
       { type: 'cta', variant: 'band' },
-      { type: 'contact', variant: 'form-card' },
     ],
     footer: 'minimal',
     divider: 'rule',

@@ -1,8 +1,10 @@
 ---
 /**
- * « Manifeste » — propre à ce site. Un texte plein cadre en text-display-lg, rempli mot à mot
- * au défilement (data-text-fill), un filet qui se trace (data-draw), puis les quatre services
- * en une ligne simple, sans prix. Aucune réutilisation ailleurs.
+ * « Manifeste » — propre à ce site. Un texte plein cadre en text-display-lg (data-reveal, seul
+ * élément animé de la section), un filet, puis les quatre services en une ligne simple, sans prix.
+ * Le data-text-fill d'origine a été retiré le 21 sept 2026 : le bloc vit sous une entrée <details>
+ * de la coquille `index`, et un effet piloté par le scroll se calcule sur un panneau fermé.
+ * Aucune réutilisation ailleurs.
  */
 import { site } from '@/lib/site';
 
@@ -12,9 +14,9 @@ const manifeste =
 
 <section id="manifeste" class="section-y">
   <div class="container-ff">
-    <p class="text-display-lg font-display max-w-5xl" data-text-fill>{manifeste}</p>
+    <p class="text-display-lg font-display max-w-5xl" data-reveal>{manifeste}</p>
 
-    <div class="mt-16 h-px w-full bg-line" data-draw aria-hidden="true"></div>
+    <div class="mt-16 h-px w-full bg-line" aria-hidden="true"></div>
 
     <p class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-muted">
       {site.services.map((s, i) => (

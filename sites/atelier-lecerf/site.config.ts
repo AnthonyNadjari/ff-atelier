@@ -1,5 +1,13 @@
 // DEMO : client inventé
 /**
+ * Squelette (21 sept 2026) : variante partagée `process/horizon` — le chapitre « du croquis à la
+ * pose » est un écran épinglé qui défile horizontalement, une étape par écran, numéro géant, la
+ * photo de la pièce posée sur la dernière étape. Il remplace le bloc sur mesure Fabrication.astro
+ * (data-stack, supprimé — jamais deux blocs pour les mêmes étapes). C'est le seul geste fort de la
+ * page : le hero perd son data-horizontal (les trois essences deviennent une grille fixe) et
+ * Matières sa piste glissable data-drag-grid (grille fixe aussi) ; restent le curseur avant/après,
+ * le décodage des prix et le halo du contact, des réponses au geste, pas des bandes.
+ *
  * Atelier Lecerf — menuisier-ébéniste, Roubaix (ancienne filature). Métier 16 de
  * docs/OBJECTIF.md. Mandat de conception imposé pour ce tour : "material and process" —
  * un site construit autour du grain du bois et du geste, pas du catalogue de prestations.
@@ -60,7 +68,7 @@ export default defineSite({
     nav: 'custom/Nav',
     hero: 'custom/Hero',
     sections: [
-      { type: 'custom', variant: 'Fabrication', label: 'Du croquis à la pose' },
+      { type: 'process', variant: 'horizon' },
       { type: 'custom', variant: 'Matieres', label: 'Matières' },
       { type: 'custom', variant: 'Restauration', label: 'Restauration' },
       { type: 'custom', variant: 'Estimation', label: 'Tarifs' },
@@ -156,7 +164,11 @@ export default defineSite({
     { title: 'Le croquis', text: 'On discute du projet, on prend les mesures, on dessine ensemble la pièce avant tout achat de bois.' },
     { title: 'Le choix du bois', text: 'Chêne, frêne ou noyer massif — choisi selon l’usage de la pièce et la lumière qui l’éclaire.' },
     { title: 'La fabrication', text: 'Débit, assemblage, finition à l’huile ou à la cire — tout se fait à l’atelier de Roubaix.' },
-    { title: 'La pose', text: 'Installation chez vous, réglages sur place, et les conseils d’entretien du bois massif.' },
+    {
+      title: 'La pose',
+      text: 'Installation chez vous, réglages sur place, et les conseils d’entretien du bois massif.',
+      image: { src: '/images/service-4.webp', alt: 'Meuble en bois massif installé chez le client' },
+    },
   ],
 
   form: { provider: 'mailto' },

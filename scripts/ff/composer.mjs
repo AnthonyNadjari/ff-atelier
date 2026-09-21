@@ -40,7 +40,15 @@ const SHELL_WEIGHTS = { flow: 30, split: 15, sidebar: 12, slides: 12, magazine: 
 const HEADINGS_WEIGHTS = { auto: 60, center: 25, left: 15 };
 
 /** Une coquille convient-elle au contexte (nav/hero/echelle/mouvement/nombre de sections) ? `flow` convient toujours. */
-function shellFits(shell, { sectionsCount, motion, nav, hero, scale }) {
+// Coquille `index` (le menu est la page, docs/veille/squelettes.md § 3b n°1) : reservee aux metiers
+// de portfolio, ou le visiteur vient VOIR des pieces — pas a un plombier qu'on appelle en urgence.
+const METIERS_INDEX = ['photograph', 'artiste', 'architect', 'tatou', 'illustrat', 'galerie', 'design', 'decorat', 'ceramist', 'ebenist', 'sculpt', 'peintre'];
+
+function shellFits(shell, { sectionsCount, motion, nav, hero, scale, metier = '' }) {
+  if (shell === 'index') {
+    const m = String(metier).toLowerCase();
+    return sectionsCount <= 8 && METIERS_INDEX.some((k) => m.includes(k));
+  }
   if (shell === 'slides') return sectionsCount <= 6 && motion !== 'rich';
   if (shell === 'sticky-hero') return ['fullbleed', 'typographic', 'video'].includes(hero);
   if (shell === 'split' || shell === 'sidebar') return nav !== 'floating';
@@ -239,7 +247,7 @@ export function pickLook(slug, opts = {}) {
   // choisi (nav, hero, echelle, mouvement, nombre de sections), penalise de -1 point par usage
   // existant (meme logique que les directions, en moins agressif).
   const shellCounts = usage.shellCounts || new Map();
-  const shellCtx = { sectionsCount: sections.length, motion, nav, hero, scale };
+  const shellCtx = { sectionsCount: sections.length, motion, nav, hero, scale, metier: metierFinal };
   const eligibleShells = SHELLS.filter((s) => shellFits(s, shellCtx));
   const shellWeighted = eligibleShells.map((s) => ({
     key: s,

@@ -2,8 +2,12 @@
 /**
  * Hero dessiné pour Garage Moteur & Fils. Section coupée en diagonale (clip-path) : crème à
  * gauche avec l'accroche en très grand, orange à droite avec deux badges façon autocollants,
- * dont un qui tourne lentement. Une double bande défilante des services en pied, sens opposés.
- * Composition propre à ce site, aucune réutilisation ailleurs.
+ * dont un qui tourne lentement. En pied, la liste des services sur une bande encre fixe (la
+ * double bande défilante data-marquee d'origine a été retirée le 21 sept 2026 : un seul geste
+ * riche par page, c'est le curseur avant/après qui le porte). Coquille `split` : la colonne de
+ * contenu fait ~1000 px à 1400 px d'écran, la coupe en diagonale (texte à 42 % de large) n'y
+ * tient pas — elle ne s'active que si la SECTION (container query, pas la fenêtre) fait au moins
+ * 72rem de large, en dessous le hero reste empilé (texte, badges, bande). Composition propre à ce site.
  */
 import { site, tel } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
@@ -12,10 +16,13 @@ const firstLine = site.business.description.split(/\n/)[0];
 const services = site.services.map((s) => s.title);
 ---
 
-<section id="hero" class="relative overflow-hidden bg-accent">
-  <div class="hero-split relative flex flex-col lg:block">
+<section id="hero" class="@container relative overflow-hidden bg-bg">
+  {/* L'orange est une couche de fond, pas la classe de la section : `.bg-accent .eyebrow` (global.css)
+      passait sinon l'eyebrow en on-accent sur le bloc creme — creme sur creme (ff detect, 21 sept 2026). */}
+  <div class="absolute inset-0 bg-accent" aria-hidden="true"></div>
+  <div class="hero-split relative flex flex-col @6xl:block">
     <div class="hero-cream relative z-[1] bg-bg">
-      <div class="hero-text relative mx-auto w-full max-w-2xl px-6 py-16 sm:px-8 lg:mx-0 lg:max-w-none lg:py-0">
+      <div class="hero-text relative mx-auto w-full max-w-2xl px-6 py-16 sm:px-8 @6xl:mx-0 @6xl:max-w-none @6xl:py-0">
         <div data-stagger="130">
           {/* Ville + "depuis {since}" retires (all-caps-body, 56 car.) : le badge tournant plus bas
               (hero-badges) affiche deja "Depuis {since}", la ville complete reste dans Contact. */}
@@ -46,7 +53,7 @@ const services = site.services.map((s) => s.title);
       </div>
     </div>
 
-    <div class="hero-badges relative z-[2] flex items-center justify-center gap-6 py-10 lg:justify-end lg:gap-10 lg:py-0 lg:pr-[7%]">
+    <div class="hero-badges relative z-[2] flex items-center justify-center gap-6 py-10 @6xl:justify-end @6xl:gap-10 @6xl:py-0 @6xl:pr-[7%]">
       <div class="shrink-0">
         <div class="badge-spin flex h-32 w-32 flex-col items-center justify-center rounded-full border-[3px] border-ink bg-surface text-center shadow-card sm:h-40 sm:w-40">
           <span class="font-display text-sm uppercase tracking-wide text-muted">Depuis</span>
@@ -61,20 +68,15 @@ const services = site.services.map((s) => s.title);
     </div>
   </div>
 
-  <div class="relative z-[2] border-y-[3px] border-ink bg-ink py-3" data-marquee="26s">
-    <div class="marquee-track font-display text-xl uppercase tracking-widest text-on-ink sm:text-2xl">
-      {services.map((s) => <span class="flex items-center gap-8">{s}<span class="text-accent">✶</span></span>)}
-    </div>
-  </div>
-  <div class="marquee-b relative z-[2] border-b-[3px] border-ink bg-surface py-3" data-marquee="32s">
-    <div class="marquee-track font-display text-xl uppercase tracking-widest text-fg sm:text-2xl">
-      {services.map((s) => <span class="flex items-center gap-8">{s}<span class="text-accent">✶</span></span>)}
-    </div>
+  <div class="relative z-[2] border-y-[3px] border-ink bg-ink py-3">
+    <ul class="container-ff flex flex-wrap items-center gap-x-6 gap-y-2 font-display text-lg uppercase tracking-widest text-on-ink sm:text-xl" aria-label="Services">
+      {services.map((s) => <li class="flex items-center gap-6">{s}<span class="text-accent" aria-hidden="true">✶</span></li>)}
+    </ul>
   </div>
 </section>
 
 <style>
-  @media (min-width: 1024px) {
+  @container (min-width: 72rem) {
     .hero-split {
       min-height: 74svh;
     }
@@ -100,9 +102,6 @@ const services = site.services.map((s) => s.title);
   }
   @keyframes spin-slow {
     to { transform: rotate(360deg); }
-  }
-  .marquee-b .marquee-track {
-    animation-direction: reverse;
   }
   @media (prefers-reduced-motion: reduce) {
     .badge-spin {

@@ -110,3 +110,16 @@ for (const { folder, file, full } of allSectionFiles) {
     }
   });
 }
+
+// Process "horizon" (docs/veille/squelettes.md § 3b n°2) : chapitre epingle qui defile horizontalement.
+test('src/sections/Process/horizon.astro : data-horizontal + .h-track, une etape par ecran, image optionnelle, repli empile', () => {
+  const src = stripComments(fs.readFileSync(path.join(SECTIONS_DIR, 'Process', 'horizon.astro'), 'utf8'));
+  assert.match(src, /id="process"[^>]*data-horizontal|data-horizontal[^>]*id="process"/, 'section #process porte data-horizontal');
+  assert.match(src, /class="h-track/, 'piste .h-track attendue par motion.ts');
+  assert.match(src, /p\.image\s*&&/, 'image affichee seulement si process[i].image existe');
+  assert.match(src, /<Img\s/, 'photo via <Img> (jamais un <img> brut dans une section partagee)');
+  assert.match(src, /min-width:\s*64rem/, 'mise en ligne seulement au-dela de 64rem (motion.ts ne pin jamais en dessous)');
+  assert.match(src, /\[data-motion='rich'\]/, 'mise en ligne seulement en motion rich (sinon empile)');
+  assert.match(src, /prefers-reduced-motion: no-preference/, 'reduced-motion = etapes empilees');
+  assert.doesNotMatch(src, /data-reveal|data-stagger/, 'aucun reveal : le defilement est le geste (regle 21)');
+});

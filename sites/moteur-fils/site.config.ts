@@ -1,5 +1,12 @@
 // DEMO : client inventé (Garage Moteur & Fils). Coordonnées fictives (plage 06 39 98), aucun avis.
 // Nav, hero et blocs principaux dessinés à la main pour ce site : sites/moteur-fils/sections/.
+//
+// Squelette (21 sept 2026) : coquille `split` — panneau fixe à gauche (enseigne, sommaire actif
+// numéroté, horaires, téléphone), contenu qui défile à droite. Un garage vend un numéro qu'on voit
+// tout le temps et un sommaire court (avant/après, symptômes, services, rendez-vous) : le panneau
+// le porte en permanence sur desktop ; la nav sur mesure ne sert plus qu'en mobile. Un seul geste
+// riche sur la page : le curseur avant/après (data-compare) — les deux bandes défilantes du hero
+// (data-marquee) deviennent une ligne fixe des services.
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
@@ -9,7 +16,7 @@ export default defineSite({
   scale: 'display',
   typography: { display: 'bricolage', body: 'nunito' },
   layout: {
-    shell: 'flow',
+    shell: 'split',
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [

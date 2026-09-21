@@ -2,8 +2,10 @@
 /**
  * Hero dessiné pour Barbier Kessler : fond sombre (bg-ink), nom de l'enseigne géant découpé en
  * caractères (data-split="chars"), une bande "pole" verticale rayée en fond (CSS pur, tokens
- * accent/on-ink), chiffres réels (fauteuils, barbiers, année) en data-counter, puis une bande
- * data-marquee-velocity qui porte "sans rendez-vous le samedi". Composition propre à ce site.
+ * accent/on-ink), chiffres réels (fauteuils, barbiers, année) en data-counter, puis une ligne fixe
+ * qui porte "sans rendez-vous le samedi" (la bande data-marquee-velocity d'origine a été retirée
+ * le 21 sept 2026 : un seul geste riche par page, la traînée d'images de la galerie). Le CTA
+ * « Prendre rendez-vous » ouvre le tiroir de contact (layout.contactDrawer). Composition propre à ce site.
  */
 import { site, tel } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
@@ -19,6 +21,10 @@ const teamCount = site.about.team.length;
   <div class="container-ff relative z-[2] flex min-h-[82svh] flex-col justify-center gap-8 py-28 sm:py-32">
     {/* "Krutenau" et "depuis {since}" retires (all-caps-body, 44 car.) : l'annee reste affichee un
         peu plus bas (data-counter), le quartier n'est pas necessaire a l'identite courte. */}
+    {/* Le telephone ouvre le hero (nav burger sans barre : rien d'autre ne l'affiche au premier ecran). */}
+    <a href={tel()} class="inline-flex w-fit items-center gap-2 font-mono text-xs tracking-[0.18em] text-on-ink/70 hover:text-on-ink">
+      <Icon name="Phone" size={14} />{site.contact.phoneDisplay}
+    </a>
     <p class="eyebrow flex items-center gap-3 text-on-ink/70">
       <span class="inline-block h-px w-10 bg-on-ink/40" aria-hidden="true"></span>
       {site.business.trade} · {site.contact.address.city}
@@ -41,8 +47,8 @@ const teamCount = site.about.team.length;
       >
         {site.wording.devis}
       </a>
-      <a href={tel()} class="inline-flex items-center gap-2 border-b-2 border-on-ink/30 pb-1 font-display text-lg text-on-ink hover:border-accent hover:text-accent">
-        <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
+      <a href="#galerie" class="inline-flex items-center gap-2 border-b-2 border-on-ink/30 pb-1 font-display text-lg text-on-ink hover:border-accent hover:text-accent">
+        Voir le salon
       </a>
     </div>
 
@@ -53,13 +59,12 @@ const teamCount = site.about.team.length;
     </div>
   </div>
 
-  <div class="relative z-[2] border-t border-on-ink/15 bg-ink/70 py-4" data-marquee="24s" data-marquee-velocity="24">
-    <div class="marquee-track font-display uppercase text-display-sm tracking-wide text-on-ink/85">
+  <div class="relative z-[2] border-t border-on-ink/15 bg-ink/70 py-4">
+    <p class="container-ff flex flex-wrap items-center gap-x-5 gap-y-1 font-display text-display-sm tracking-wide text-on-ink/85">
       <span>Sans rendez-vous le samedi</span>
       <span class="text-accent" aria-hidden="true">✂</span>
       <span>Réservez en ligne du mardi au vendredi</span>
-      <span class="text-accent" aria-hidden="true">✂</span>
-    </div>
+    </p>
   </div>
 </section>
 

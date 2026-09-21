@@ -40,6 +40,7 @@ export const SHELLS = [
   'slides', // chaque section occupe l ecran, defilement aimante
   'magazine', // largeurs et decalages alternes, grille asymetrique
   'sticky-hero', // hero epingle, les sections glissent par-dessus
+  'index', // site-index : le menu EST la page, liste geante d entrees depliables, hero reduit a une ligne d identite
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -52,7 +53,7 @@ export const VARIANTS = {
   about: ['portrait', 'story', 'values', 'timeline'],
   proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes'],
   zones: ['list', 'map', 'chips'],
-  process: ['steps', 'timeline', 'numbered'],
+  process: ['steps', 'timeline', 'numbered', 'horizon'],
   faq: ['accordion', 'two-columns'],
   cta: ['band', 'card', 'phone-giant'],
   contact: ['form-split', 'form-card', 'simple', 'full'],
@@ -243,7 +244,15 @@ export const siteSchema = z.object({
     })
     .prefault({}),
 
-  process: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
+  process: z
+    .array(
+      z.object({
+        title: z.string(),
+        text: z.string(),
+        image: img.optional().describe("Photo de l'etape (process/horizon l'affiche a cote du numero geant) — absente = etape sans image"),
+      }),
+    )
+    .default([]),
   faq: z.array(z.object({ q: z.string(), a: md })).default([]),
 
   social: z
