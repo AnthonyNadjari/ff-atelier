@@ -14,7 +14,7 @@ const hasFacts = !!years || site.business.certifications.length > 0 || !!site.bu
 <section id="about" class="section-y">
   <div class="container-ff grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
     {hasImage && (
-      <div class="lg:col-span-5" data-reveal="left">
+      <div class="lg:col-span-5">
         <figure class="relative aspect-[4/5] overflow-hidden rounded-card shadow-lift">
           <Img src={a.portrait!.src} alt={a.portrait!.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1280px) 470px, (min-width: 1024px) 42vw, 100vw" data-parallax="0.15" loading="lazy" />
         </figure>

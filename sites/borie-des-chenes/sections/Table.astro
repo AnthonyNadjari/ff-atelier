@@ -19,14 +19,14 @@ const temps = [
 
 <section id="table" class="section-y bg-bg-2">
   <div class="container-ff">
-    <div class="flex flex-wrap items-end justify-between gap-6" data-reveal>
+    <div class="flex flex-wrap items-end justify-between gap-6">
       <h2 class="max-w-lg font-display text-display-lg leading-none">La table d’hôtes</h2>
       <p class="max-w-sm text-muted">Le soir, sur réservation — un seul menu, servi ensemble, autour de la même table.</p>
     </div>
 
     <ul class="mx-auto mt-16 max-w-2xl space-y-7" data-stagger="90">
       {temps.map((t) => (
-        <li class="leader" data-reveal>
+        <li class="leader">
           <span class="leader-name font-display">{t.nom}</span>
           <span class="leader-fill" aria-hidden="true"></span>
           <span class="leader-note">{t.mot}</span>
@@ -34,7 +34,7 @@ const temps = [
       ))}
     </ul>
 
-    <div class="mx-auto mt-14 max-w-2xl border-t border-line pt-6 text-center" data-reveal>
+    <div class="mx-auto mt-14 max-w-2xl border-t border-line pt-6 text-center">
       <p class="font-display text-2xl tabular-nums text-accent">32&nbsp;€ <span class="text-base font-sans text-muted">par personne (indicatif)</span></p>
       <p class="mt-2 text-sm text-muted">Réservation la veille, pour connaître le nombre de convives.</p>
     </div>

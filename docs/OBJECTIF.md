@@ -98,6 +98,15 @@ S'arrêter et le dire quand : les sept critères sont cochés ; ou un critère d
 
 ## Journal
 
+- 21 sept 2026 : **vraies photos sur les 20 démos** (Wikimedia Commons et Openverse sans clé, licences
+  CC0/BY/BY-SA, crédits dans `sites/<slug>/CREDITS.md`) — jusqu'ici toutes les images étaient des
+  dégradés synthétiques, cause première du « ça fait IA » et du « flou » vus par le fondateur.
+  Onze sites par agent, neuf par script (`ff photos --source wikimedia --auto 1 --nom <slot>`),
+  ~70 photos posées. **Régime des apparitions** par script : 275 → 88 `data-reveal` (titres, figures
+  et groupes gardés, texte courant et listes libérés), plus aucun avertissement « > 16 apparitions ».
+  30 sites construits, audit-motion vert partout, 432 tests. Reste : attribution CC BY à afficher
+  côté site (pied de page) quand le schéma le permettra ; un vrai client apporte ses propres photos.
+
 - 20 sept 2026 : deep dive « factory opérationnelle en quelques jours, site le moins IA possible »,
   cinq agents en parallèle. **Site F&F** : tells IA retirés (nom trois fois au-dessus du pli,
   11 tirets cadratins, 6 triptyques, FAQ de 10 → 5, slogans → phrases parlées), galerie rendue

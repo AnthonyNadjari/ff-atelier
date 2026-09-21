@@ -105,7 +105,6 @@ export default defineSite({
     title: 'Depuis 2017',
     story:
       'Jonas Kessler a ouvert son premier fauteuil dans la Krutenau en 2017. Malik puis Théo l’ont rejoint : la maison compte aujourd’hui trois fauteuils, et ne désemplit pas le samedi.\n\nOn y coupe au ciseau, on y rase au blaireau, et on y attend son tour en discutant — sans rendez-vous, le samedi.',
-    portrait: { src: '/images/portrait.webp', alt: 'Jonas Kessler, fondateur du salon, dans la Krutenau à Strasbourg' },
     team: [
       { name: 'Jonas Kessler', role: 'Fondateur, barbier' },
       { name: 'Malik', role: 'Barbier' },
@@ -116,9 +115,9 @@ export default defineSite({
   proof: {
     gallery: [
       { src: '/images/galerie-1.webp', alt: 'Un des trois fauteuils du salon' },
-      { src: '/images/galerie-2.webp', alt: 'Plan de travail et outils du barbier' },
-      { src: '/images/galerie-3.webp', alt: 'Intérieur du salon, Krutenau, Strasbourg' },
-      { src: '/images/galerie-4.webp', alt: 'Façade du salon rue de Zurich' },
+      { src: '/images/galerie-2.webp', alt: 'Blaireaux du salon, prêts pour le rasage' },
+      { src: '/images/galerie-3.webp', alt: 'Lavabos et fauteuils, intérieur du salon' },
+      { src: '/images/galerie-4.webp', alt: 'Blaireaux et bols à raser sur le plan de travail' },
     ],
   },
 

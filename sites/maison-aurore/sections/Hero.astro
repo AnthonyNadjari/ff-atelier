@@ -60,7 +60,7 @@ const rituals = site.services.map((s) => s.title);
     <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink/70 via-transparent to-ink/40" aria-hidden="true"></div>
 
     <div class="container-ff relative z-[2] text-on-ink">
-      <p class="eyebrow text-on-ink/75" data-reveal>{site.business.trade} · {site.contact.address.city}</p>
+      <p class="eyebrow text-on-ink/75">{site.business.trade} · {site.contact.address.city}</p>
       <h1
         class="mx-auto mt-6 max-w-3xl font-display text-display-md italic leading-[1.15] tracking-tight text-on-ink"
         data-reveal="blur"
@@ -83,7 +83,7 @@ const rituals = site.services.map((s) => s.title);
 
   <div class="section-y">
     <div class="container-ff mx-auto max-w-2xl text-center">
-      {site.about.title && <p class="eyebrow" data-reveal>{site.about.title}</p>}
+      {site.about.title && <p class="eyebrow">{site.about.title}</p>}
       <div class="mt-6" data-stagger="140">
         {paragraphs(site.about.story).map((p) => (
           <p class="measure mx-auto text-lg text-muted">{p}</p>

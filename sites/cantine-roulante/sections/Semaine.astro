@@ -30,7 +30,7 @@ const planning = [
 
     <ol class="semaine-grid mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-4 lg:grid-cols-7" data-stagger="50">
       {planning.map((j) => (
-        <li data-jsday={j.jsDay} data-reveal class:list={['semaine-cell relative flex min-h-[9rem] flex-col justify-between bg-surface p-4', !j.ville && 'text-muted']}>
+        <li data-jsday={j.jsDay} class:list={['semaine-cell relative flex min-h-[9rem] flex-col justify-between bg-surface p-4', !j.ville && 'text-muted']}>
           <span class="semaine-today-tag absolute right-3 top-3 hidden rounded-pill bg-accent px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-on-accent">Aujourd’hui</span>
           <p class="font-mono text-xs uppercase tracking-[0.14em] text-muted">{j.day}</p>
           {j.ville ? (

@@ -27,7 +27,7 @@ const phoneSize = Math.min(9, 100 / Math.max(phone.length, 8)).toFixed(1);
 
 <section id="rendezvous" class="section-y overflow-hidden bg-bg-2">
   <div class="container-ff">
-    <p class="eyebrow" data-reveal>{site.wording.devis}</p>
+    <p class="eyebrow">{site.wording.devis}</p>
     <h2 class="mt-4 max-w-2xl text-display-md" data-reveal>Trois étapes, <em>un seul rendez-vous</em></h2>
 
     <ol class="mt-16 flex flex-col gap-10 lg:mt-24 lg:gap-6">
@@ -48,20 +48,20 @@ const phoneSize = Math.min(9, 100 / Math.max(phone.length, 8)).toFixed(1);
     </ol>
 
     <div class="mt-20 border-t border-line pt-14 text-center lg:mt-28">
-      <p class="eyebrow" data-reveal>Réserver un créneau</p>
+      <p class="eyebrow">Réserver un créneau</p>
       <a
         href={tel()}
         class="mt-4 inline-flex items-center gap-4 font-display leading-none tracking-tight text-fg hover:text-accent-2"
         style={`font-size: clamp(2.25rem, ${phoneSize}vw, 7rem);`}
-        data-reveal
+       
         data-magnetic="0.15"
       >
         <Icon name="Phone" size={36} class="hidden shrink-0 sm:block" />{phone}
       </a>
-      <p class="mt-4 text-muted" data-reveal>{site.contact.hours.map((h) => `${h.days} : ${h.hours}`).join(' · ')}</p>
+      <p class="mt-4 text-muted">{site.contact.hours.map((h) => `${h.days} : ${h.hours}`).join(' · ')}</p>
     </div>
 
-    <div class="mx-auto mt-20 max-w-md lg:mt-28" data-reveal>
+    <div class="mx-auto mt-20 max-w-md lg:mt-28">
       <p class="eyebrow">Après la séance</p>
       <ul class="mt-5 flex flex-col gap-3 border-t border-line pt-5 font-mono text-sm text-muted">
         {soins.map((s) => (

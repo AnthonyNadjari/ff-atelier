@@ -12,7 +12,7 @@ const wa = whatsapp();
     <SectionHeading eyebrow="Contact" title={site.wording.contactTitle} text={site.wording.contactText} align="center" />
 
     <div class="mt-12 grid sm:grid-cols-2 gap-6" data-stagger="120">
-      <a href={tel()} class="card group rounded-card border border-line bg-surface p-8 transition-colors hover:border-accent" data-reveal>
+      <a href={tel()} class="card group rounded-card border border-line bg-surface p-8 transition-colors hover:border-accent">
         <Icon name="Phone" size={28} class="text-accent" />
         <p class="mt-5 font-display text-2xl">Appelez</p>
         <p class="mt-2 text-lg text-fg">{site.contact.phoneDisplay}</p>
@@ -24,7 +24,7 @@ const wa = whatsapp();
         )}
       </a>
 
-      <div class="card rounded-card border border-line bg-surface p-8" data-reveal>
+      <div class="card rounded-card border border-line bg-surface p-8">
         <Icon name="Mail" size={28} class="text-accent" />
         <p class="mt-5 font-display text-2xl">Écrivez</p>
         <a href={mailto()} class="mt-2 block text-lg text-fg hover:text-accent break-all">{site.contact.email}</a>
@@ -36,12 +36,12 @@ const wa = whatsapp();
       </div>
     </div>
 
-    <p class="mt-8 flex items-center justify-center gap-2 text-center text-muted" data-reveal>
+    <p class="mt-8 flex items-center justify-center gap-2 text-center text-muted">
       <Icon name="MapPin" size={16} class="text-accent shrink-0" /> {fullAddress()}
     </p>
 
     {site.form.provider !== 'none' && (
-      <details class="mt-10 mx-auto max-w-2xl card rounded-card border border-line bg-surface p-6" data-reveal>
+      <details class="mt-10 mx-auto max-w-2xl card rounded-card border border-line bg-surface p-6">
         <summary class="flex items-center justify-between gap-4 font-medium text-fg">
           Ou envoyez-nous un message
           <Icon name="ChevronDown" size={18} class="text-muted" />

@@ -27,7 +27,7 @@ const firstHours = site.contact.hours[0];
     {/* "au Barreau de" retire (all-caps-body, 48 car.) : le rattachement au barreau reste affiche
         juste au-dessus (Nav.astro, ligne d'ours "Avocates au Barreau de Montpellier"), business.since
         n'est montre nulle part ailleurs sur la page donc reste ici. */}
-    <p class="eyebrow flex items-center gap-2" data-reveal>
+    <p class="eyebrow flex items-center gap-2">
       <Icon name="Scale" size={14} class="text-accent" strokeWidth={1.75} />
       Avocates à {site.contact.address.city} — depuis {site.business.since}
     </p>
@@ -36,11 +36,11 @@ const firstHours = site.contact.hours[0];
       {site.business.tagline}
     </h1>
 
-    <p class="measure mt-8 max-w-xl text-lg text-muted" data-reveal data-reveal-delay="150">
+    <p class="measure mt-8 max-w-xl text-lg text-muted">
       Quatre domaines d’intervention, un cabinet de deux avocates à Montpellier — Maître Claire Lemaire et Maître Inès Dahmani.
     </p>
 
-    <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="250">
+    <div class="mt-10 flex flex-wrap items-center gap-4">
       <Button href="#contact" variant="primary" size="lg" magnetic>{site.wording.devis}</Button>
       <Button href="#domaines" variant="ghost" size="lg">Voir les domaines d’intervention</Button>
     </div>
@@ -48,7 +48,7 @@ const firstHours = site.contact.hours[0];
     {/* normal-case (all-caps-body) : horaires + numero de telephone concatenes forment une phrase
         de 61 caracteres en petites capitales, illisible — et un numero de telephone en capitales
         n'apporte rien visuellement. */}
-    <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs normal-case tracking-[0.14em] text-muted" data-reveal data-reveal-delay="350">
+    <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs normal-case tracking-[0.14em] text-muted">
       {firstHours && <span>{firstHours.days} — {firstHours.hours}</span>}
       {firstHours && <span aria-hidden="true">·</span>}
       <a href={tel()} class="text-fg hover:text-accent">{site.contact.phoneDisplay}</a>

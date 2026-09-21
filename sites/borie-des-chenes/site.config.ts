@@ -124,13 +124,12 @@ export default defineSite({
     title: 'Anne et Marc',
     story:
       'Anne et Marc Delpech ont ouvert La Borie des Chênes en 2011, dans cette maison en pierre entourée des chênes qui lui donnent son nom.\n\nAnne s’occupe de la table d’hôtes, Marc du jardin et de la piscine. Ils reçoivent leurs hôtes comme on reçoit des amis — quelques familles à la fois, jamais plus.\n\nLa maison ouvre ses portes d’avril à octobre, le temps que la vallée se prête à la lenteur.',
-    portrait: { src: '/images/portrait.webp', alt: 'Anne et Marc Delpech, devant La Borie des Chênes' },
   },
 
   form: { provider: 'mailto' },
 
   images: {
-    hero: { src: '/images/hero.webp', alt: 'La terrasse de La Borie des Chênes au soir, table dressée pour la table d’hôtes' },
+    hero: { src: '/images/hero.webp', alt: 'Longue table dressée sous la tonnelle pour la table d’hôtes, au soir' },
   },
 
   wording: {

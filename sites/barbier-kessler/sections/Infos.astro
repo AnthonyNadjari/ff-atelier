@@ -9,10 +9,10 @@ import Icon from '@/components/Icon.astro';
 
 <section id="infos" class="section-y">
   <div class="container-ff">
-    <p class="eyebrow" data-reveal>Infos pratiques</p>
+    <p class="eyebrow">Infos pratiques</p>
     <h2 class="mt-4 max-w-xl font-display text-display-lg uppercase leading-[0.92]" data-reveal>Trouver le salon</h2>
 
-    <div class="relative mt-10 overflow-hidden rounded-card bg-ink p-8 text-on-ink shadow-lift sm:p-12" data-spotlight data-reveal>
+    <div class="relative mt-10 overflow-hidden rounded-card bg-ink p-8 text-on-ink shadow-lift sm:p-12" data-spotlight>
       <div class="relative z-[2] grid gap-10 sm:grid-cols-2">
         <div>
           <p class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-on-ink/60">
@@ -20,7 +20,7 @@ import Icon from '@/components/Icon.astro';
           </p>
           <dl class="mt-5 grid gap-2" data-stagger="80">
             {site.contact.hours.map((h) => (
-              <div class="flex items-baseline justify-between gap-4 border-b border-on-ink/15 pb-2" data-reveal>
+              <div class="flex items-baseline justify-between gap-4 border-b border-on-ink/15 pb-2">
                 <dt class="font-display text-lg">{h.days}</dt>
                 <dd class="tabular-nums text-on-ink/80">{h.hours}</dd>
               </div>

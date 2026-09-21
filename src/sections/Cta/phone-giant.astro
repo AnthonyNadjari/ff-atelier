@@ -5,12 +5,12 @@ import { site, tel } from '@/lib/site';
 
 <section class="section-y bg-accent text-on-accent">
   <div class="container-ff text-center">
-    <p class="eyebrow text-on-accent/80" data-reveal>Appelez maintenant</p>
+    <p class="eyebrow text-on-accent/80">Appelez maintenant</p>
     <a
       href={tel()}
       class="mt-4 block font-display leading-none tracking-tight text-on-accent whitespace-nowrap"
       style={`font-size: clamp(2rem, ${Math.min(10, 120 / Math.max(site.contact.phoneDisplay.length, 8)).toFixed(1)}vw, 8rem);`}
-      data-reveal
+     
       data-magnetic="0.15"
     >
       {site.contact.phoneDisplay}

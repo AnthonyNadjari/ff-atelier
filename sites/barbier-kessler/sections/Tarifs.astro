@@ -9,13 +9,13 @@ const services = site.services;
 
 <section id="tarifs" class="section-y">
   <div class="container-ff">
-    <p class="eyebrow" data-reveal>Tarifs</p>
+    <p class="eyebrow">Tarifs</p>
     <h2 class="mt-4 max-w-xl font-display text-display-lg uppercase leading-[0.92]" data-reveal>La carte de la maison</h2>
     <hr class="mt-8 max-w-xl border-t-2 border-accent" data-draw />
 
     <ul class="mt-10 max-w-2xl divide-y divide-line" data-stagger="90">
       {services.map((s) => (
-        <li class="flex items-baseline gap-4 py-5" data-reveal>
+        <li class="flex items-baseline gap-4 py-5">
           <span class="font-display text-xl uppercase tracking-wide sm:text-2xl">{s.title}</span>
           <span class="menu-leader" aria-hidden="true"></span>
           <span class="shrink-0 font-display text-xl tabular-nums text-accent sm:text-2xl">{s.priceFrom}</span>

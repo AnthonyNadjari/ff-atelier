@@ -12,7 +12,7 @@ const formules = ['mariage', 'elopement', 'famille'].map((slug) => site.services
 
 <section id="formules" class="section-y bg-bg-2">
   <div class="container-ff">
-    <div class="max-w-xl" data-reveal>
+    <div class="max-w-xl">
       <p class="eyebrow">Formules</p>
       <h2 class="mt-4 text-display-md">Trois façons de travailler ensemble</h2>
     </div>
@@ -22,7 +22,7 @@ const formules = ['mariage', 'elopement', 'famille'].map((slug) => site.services
         <div
           class:list={['card group flex h-full flex-col rounded-card border border-line bg-surface p-8 shadow-card transition-transform duration-500 ease-out-quart', i === 1 && 'md:-translate-y-10']}
           data-tilt="6"
-          data-reveal
+         
         >
           <h3 class="font-display text-display-sm">{f.title}</h3>
           <p class="mt-3 text-muted">{f.short}</p>
@@ -39,7 +39,7 @@ const formules = ['mariage', 'elopement', 'famille'].map((slug) => site.services
       ))}
     </div>
 
-    <div class="mt-20 text-center" data-reveal>
+    <div class="mt-20 text-center">
       <a
         href="#contact"
         class="group inline-flex items-center gap-3 font-display text-display-sm [&_em]:not-italic [&_em]:text-accent"

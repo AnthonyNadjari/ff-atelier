@@ -29,7 +29,7 @@ const categories = [
           <p class="carte-sticky sticky top-[4.5rem] z-10 border-b border-line bg-bg-2/95 py-3 font-mono text-xs uppercase tracking-[0.16em] text-muted backdrop-blur-sm">{cat.label}</p>
           <ul class="divide-y divide-line" data-stagger="60">
             {cat.items.map((item) => (
-              <li class="flex items-baseline gap-3 py-4" data-reveal>
+              <li class="flex items-baseline gap-3 py-4">
                 <Icon name={item.icon} size={18} class="shrink-0 text-accent" strokeWidth={1.5} />
                 <span class="font-display text-lg leading-tight">{item.title}</span>
                 {item.featured && <span class="carte-badge">Spécialité</span>}

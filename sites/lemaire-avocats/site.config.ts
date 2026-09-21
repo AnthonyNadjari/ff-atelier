@@ -144,8 +144,8 @@ export default defineSite({
     story:
       'Claire Lemaire et Inès Dahmani ont fondé le cabinet à Montpellier en 2014. Chacune suit ses dossiers du premier rendez-vous jusqu’à leur résolution, sans les transmettre à un confrère en cours de route.\n\nLe cabinet reçoit sur rendez-vous, du lundi au vendredi, au 5 rue Foch.',
     team: [
-      { name: 'Maître Claire Lemaire', role: 'Avocate associée — Barreau de Montpellier depuis 2009', photo: { src: '/images/portrait.webp', alt: 'Portrait de Maître Claire Lemaire, avocate associée du cabinet' } },
-      { name: 'Maître Inès Dahmani', role: 'Avocate associée — Barreau de Montpellier depuis 2015', photo: { src: '/images/galerie-1.webp', alt: 'Portrait de Maître Inès Dahmani, avocate associée du cabinet' } },
+      { name: 'Maître Claire Lemaire', role: 'Avocate associée — Barreau de Montpellier depuis 2009' },
+      { name: 'Maître Inès Dahmani', role: 'Avocate associée — Barreau de Montpellier depuis 2015' },
     ],
   },
 

@@ -9,7 +9,7 @@ const team = site.about.team;
 
 <section id="artistes" class="section-y">
   <div class="container-ff">
-    <p class="eyebrow" data-reveal>L’équipe</p>
+    <p class="eyebrow">L’équipe</p>
 
     <ul class="mt-8 border-t border-line">
       {team.map((t) => (
@@ -18,7 +18,7 @@ const team = site.about.team;
             href="#rendezvous"
             class="group flex flex-col items-baseline justify-between gap-2 md:flex-row md:gap-8"
             data-hover-img={t.photo?.src}
-            data-reveal
+           
           >
             <span class="font-display text-display-lg leading-none transition-colors group-hover:text-accent-2">{t.name}</span>
             <span class="font-mono text-sm uppercase tracking-[0.18em] text-muted">{t.role}</span>

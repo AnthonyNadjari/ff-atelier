@@ -10,15 +10,15 @@ import Icon from '@/components/Icon.astro';
   <div class="container-ff max-w-2xl mx-auto">
     <SectionHeading eyebrow="Contact" title={site.wording.contactTitle} text={site.wording.contactText} align="center" />
 
-    <div class="mt-10 card rounded-card bg-surface p-6 md:p-8 shadow-card" data-reveal="scale">
+    <div class="mt-10 card rounded-card bg-surface p-6 md:p-8 shadow-card">
       <ContactForm />
       {site.form.provider === 'none' && <p class="text-muted text-center">Appelez-nous ou écrivez-nous, nous répondons vite.</p>}
     </div>
 
     <ul class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted" data-stagger="70">
-      <li class="flex items-center gap-2" data-reveal><Icon name="Phone" size={16} class="text-accent" /><a href={tel()} class="hover:text-fg">{site.contact.phoneDisplay}</a></li>
-      <li class="flex items-center gap-2" data-reveal><Icon name="Mail" size={16} class="text-accent" /><a href={mailto()} class="hover:text-fg break-all">{site.contact.email}</a></li>
-      <li class="flex items-center gap-2" data-reveal><Icon name="MapPin" size={16} class="text-accent" /><span>{fullAddress()}</span></li>
+      <li class="flex items-center gap-2"><Icon name="Phone" size={16} class="text-accent" /><a href={tel()} class="hover:text-fg">{site.contact.phoneDisplay}</a></li>
+      <li class="flex items-center gap-2"><Icon name="Mail" size={16} class="text-accent" /><a href={mailto()} class="hover:text-fg break-all">{site.contact.email}</a></li>
+      <li class="flex items-center gap-2"><Icon name="MapPin" size={16} class="text-accent" /><span>{fullAddress()}</span></li>
     </ul>
   </div>
 </section>

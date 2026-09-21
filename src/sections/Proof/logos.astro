@@ -10,21 +10,21 @@ const hasContent = logos.length > 0 || certifications.length > 0;
 {hasContent && (
   <section id="proof" class="section-y">
     <div class="container-ff">
-      <p class="eyebrow text-center" data-reveal>Certifications et garanties</p>
+      <p class="eyebrow text-center">Certifications et garanties</p>
 
       <div class="mt-8 flex flex-wrap items-center justify-center gap-4" data-stagger="80">
         {logos.map((l) => (
-          <div class="card flex items-center gap-2 rounded-ui border border-line bg-surface px-5 py-3 text-muted" data-reveal>
+          <div class="card flex items-center gap-2 rounded-ui border border-line bg-surface px-5 py-3 text-muted">
             {l.image ? <Img src={l.image.src} alt={l.image.alt} class="h-8 w-auto object-contain grayscale opacity-80" sizes="120px" /> : <span class="font-medium">{l.name}</span>}
           </div>
         ))}
         {certifications.map((c) => (
-          <div class="card rounded-ui border border-line bg-surface px-5 py-3 text-muted font-medium" data-reveal>{c}</div>
+          <div class="card rounded-ui border border-line bg-surface px-5 py-3 text-muted font-medium">{c}</div>
         ))}
       </div>
 
       {site.business.insurance && (
-        <p class="mt-8 text-center text-sm text-muted" data-reveal>{site.business.insurance}</p>
+        <p class="mt-8 text-center text-sm text-muted">{site.business.insurance}</p>
       )}
     </div>
   </section>

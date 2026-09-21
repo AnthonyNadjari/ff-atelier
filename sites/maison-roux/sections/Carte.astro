@@ -32,7 +32,7 @@ const favoris = priced
     {favoris.length > 0 && (
       <ul class="mt-10 grid gap-5 sm:grid-cols-3" data-stagger="90">
         {favoris.map((f) => (
-          <li class="favori-card group relative overflow-hidden rounded-card shadow-card" data-tilt="8" data-tilt-glare data-reveal="scale">
+          <li class="favori-card group relative overflow-hidden rounded-card shadow-card" data-tilt="8" data-tilt-glare>
             <Img src={f.img} alt={f.title} class="h-40 w-full object-cover" sizes="(min-width: 640px) 33vw, 100vw" loading="lazy" />
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent p-4">
               <p class="font-display text-lg text-on-ink">{f.title}</p>
@@ -52,7 +52,7 @@ const favoris = priced
             {cat.items.map((item) => (
               <li
                 class:list={['flex items-baseline gap-3 py-4', item.slug === 'pain-au-levain' && 'carte-special relative rounded-card px-4']}
-                data-reveal
+               
                 data-border-beam={item.slug === 'pain-au-levain' ? true : undefined}
               >
                 {item.slug === 'pain-au-levain' && <span class="carte-badge">Spécialité</span>}

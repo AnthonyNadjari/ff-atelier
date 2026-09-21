@@ -14,7 +14,7 @@ const [first, ...rest] = paras;
       <p class="eyebrow mb-4">L’atelier</p>
       <h2 class="text-display-md" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
     </div>
-    <div class="mx-auto mt-10 flex max-w-3xl flex-col gap-5" data-reveal>
+    <div class="mx-auto mt-10 flex max-w-3xl flex-col gap-5">
       {first && <p class="text-xl text-fg">{first}</p>}
       {rest.map((p) => <p class="text-lg text-muted">{p}</p>)}
     </div>

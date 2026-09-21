@@ -30,12 +30,12 @@ const portrait = site.about.portrait;
     </div>
 
     <div class="lg:col-span-7">
-      <p class="eyebrow" data-reveal>{site.about.title ?? 'Les hôtes'}</p>
+      <p class="eyebrow">{site.about.title ?? 'Les hôtes'}</p>
       <p class="mt-6 max-w-2xl font-display text-display-md leading-tight" data-text-fill>
         Ce n’est pas une réception qui vous accueille&nbsp;: c’est Anne, ou c’est Marc.
       </p>
 
-      <div class="measure mt-8 space-y-4 text-muted" data-reveal data-reveal-delay="100">
+      <div class="measure mt-8 space-y-4 text-muted">
         {site.about.story.split(/\n\s*\n/).filter(Boolean).map((p) => <p>{p.trim()}</p>)}
       </div>
     </div>

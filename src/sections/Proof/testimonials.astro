@@ -10,7 +10,7 @@ const testimonials = site.proof.testimonials;
   <section id="proof" class="section-y">
     <div class="container-ff">
       {google && (
-        <div class="mb-12 flex items-center justify-center gap-3" data-reveal>
+        <div class="mb-12 flex items-center justify-center gap-3">
           <div class="flex items-center gap-1" aria-hidden="true">
             {Array.from({ length: 5 }).map((_, i) => (
               <Icon name="Star" size={18} class={i < Math.round(google.rating) ? 'text-accent fill-accent' : 'text-muted'} />

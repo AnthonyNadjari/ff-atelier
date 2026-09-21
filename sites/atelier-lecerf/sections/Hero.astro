@@ -31,12 +31,12 @@ const woods = [
 <section id="hero" class="relative overflow-hidden">
   <div class="container-ff pt-14 md:pt-20">
     <div class="max-w-3xl" data-stagger="120">
-      <p class="eyebrow" data-reveal>{site.business.trade} à {site.contact.address.city}</p>
+      <p class="eyebrow">{site.business.trade} à {site.contact.address.city}</p>
       <h1 class="mt-5 text-display-xl" data-reveal set:html={site.business.tagline} />
-      <p class="measure mt-6 text-lg text-muted" data-reveal>
+      <p class="measure mt-6 text-lg text-muted">
         Cuisines, bibliothèques, escaliers et restauration de meubles anciens, en chêne, frêne et noyer — dessinés et fabriqués à l’atelier.
       </p>
-      <div class="mt-9 flex flex-wrap items-center gap-4" data-reveal>
+      <div class="mt-9 flex flex-wrap items-center gap-4">
         <Button href={tel()} magnetic>
           <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
         </Button>

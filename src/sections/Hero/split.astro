@@ -27,7 +27,7 @@ const hero = site.images.hero;
         {site.proof.google && <li class="flex items-center gap-2"><Icon name="Star" size={16} class="text-accent" /> {site.proof.google.rating.toFixed(1)}/5 sur Google ({site.proof.google.count} avis)</li>}
       </ul>
     </div>
-    <div class="lg:col-span-6 relative" data-reveal="scale" data-reveal-delay="200">
+    <div class="lg:col-span-6 relative">
       {hero ? (
         <figure class="relative aspect-[4/5] md:aspect-[5/4] lg:aspect-[4/5] overflow-hidden rounded-card shadow-lift">
           <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.split} data-parallax="0.15" priority />
@@ -37,7 +37,7 @@ const hero = site.images.hero;
           <Icon name={site.services[0]?.icon ?? 'Wrench'} size={96} class="text-accent/60" strokeWidth={1} />
         </div>
       )}
-      <div class="absolute -bottom-5 -left-5 hidden md:block card rounded-card bg-surface shadow-card px-5 py-4" data-reveal="left" data-reveal-delay="500">
+      <div class="absolute -bottom-5 -left-5 hidden md:block card rounded-card bg-surface shadow-card px-5 py-4">
         <p class="text-sm text-muted">Basé à</p>
         <p class="font-display text-lg">{site.contact.address.city}</p>
       </div>

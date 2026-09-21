@@ -21,13 +21,13 @@ const steps = ['Le matin sur la terrasse', 'L’après-midi à la piscine', 'Le 
 ---
 
 <section id="hero" class="relative h-svh w-full overflow-hidden bg-ink" data-pin="200">
-  <div class="absolute inset-0" data-reveal="mask">
+  <div class="absolute inset-0">
     <Img src={hero.src} alt={hero.alt} class="h-full w-full object-cover" sizes="100vw" loading="eager" fetchpriority="high" />
   </div>
   <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/15 to-ink/35"></div>
 
   <div class="relative flex h-full flex-col items-center justify-between px-6 py-16 text-center text-on-ink sm:py-20">
-    <p class="eyebrow text-on-ink/80" data-reveal>{site.contact.address.city} · Dordogne</p>
+    <p class="eyebrow text-on-ink/80">{site.contact.address.city} · Dordogne</p>
 
     <h1 class="font-display text-display-xl leading-[0.95]" data-reveal="scale">
       {site.business.name}

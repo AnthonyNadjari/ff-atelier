@@ -20,14 +20,14 @@ import Carte from '@/components/Carte.astro';
     <SectionHeading eyebrow="Contact" title={site.wording.contactTitle} text={site.wording.contactText} />
 
     <div class="mt-12 grid gap-10 lg:grid-cols-12">
-      <div class="lg:col-span-7" data-reveal="left">
+      <div class="lg:col-span-7">
         <div class="card rounded-card bg-surface p-6 shadow-card md:p-8">
           <ContactForm />
           {site.form.provider === 'none' && <p class="text-muted">Appelez-nous ou écrivez-nous, nous répondons vite.</p>}
         </div>
       </div>
 
-      <div class="lg:col-span-5" data-reveal="right">
+      <div class="lg:col-span-5">
         <div class="ticket-receipt rounded-card bg-surface shadow-card">
           <div class="border-b-2 border-dashed border-fg/20 p-6 text-center font-mono">
             <p class="text-xs uppercase tracking-[0.24em] text-muted">Maison Roux — ticket</p>

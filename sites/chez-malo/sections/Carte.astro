@@ -39,7 +39,7 @@ const colonnes = [
 
 <section id="carte" class="section-y">
   <div class="container-ff">
-    <div class="flex flex-wrap items-end justify-between gap-6" data-reveal>
+    <div class="flex flex-wrap items-end justify-between gap-6">
       <h2 class="font-display text-display-lg leading-none">La <em class="text-accent-2 not-italic">carte</em></h2>
       <p class="max-w-sm text-muted">Composée chaque matin selon ce que la criée a donné.</p>
     </div>
@@ -50,7 +50,7 @@ const colonnes = [
           <p class="eyebrow border-b border-line pb-3">{col.titre}</p>
           <ul class="mt-6 space-y-6" data-stagger="90">
             {col.plats.map((p) => (
-              <li class="dish" data-reveal data-hover-img={img()}>
+              <li class="dish" data-hover-img={img()}>
                 <span class="dish-name font-display">{p.nom}</span>
                 <span class="dish-fill" aria-hidden="true"></span>
                 <span class="dish-price">{p.prix}</span>
@@ -61,7 +61,7 @@ const colonnes = [
       ))}
     </div>
 
-    <p class="mt-14 text-sm text-muted" data-reveal>La carte change avec la pêche&nbsp;: certains plats peuvent manquer un soir, d’autres apparaître sans préavis.</p>
+    <p class="mt-14 text-sm text-muted">La carte change avec la pêche&nbsp;: certains plats peuvent manquer un soir, d’autres apparaître sans préavis.</p>
   </div>
 </section>
 

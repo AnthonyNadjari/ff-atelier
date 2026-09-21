@@ -35,7 +35,7 @@ const bySlug = new Map(site.services.map((s) => [s.slug, s.title]));
 
     <ol class="calendrier-grid mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-3 lg:grid-cols-4" data-stagger="40">
       {months.map((m) => (
-        <li class="calendrier-cell group relative bg-surface p-6 transition-colors duration-300 hover:bg-accent" data-reveal>
+        <li class="calendrier-cell group relative bg-surface p-6 transition-colors duration-300 hover:bg-accent">
           <p class="font-display text-3xl tabular-nums text-accent transition-colors duration-300 group-hover:text-on-accent">{m.n}</p>
           <p class="eyebrow mt-3 transition-colors duration-300 group-hover:text-on-accent/80">{m.name}</p>
           <p class="mt-2 text-sm text-muted transition-colors duration-300 group-hover:text-on-accent">{m.task}</p>

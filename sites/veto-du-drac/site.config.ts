@@ -151,9 +151,9 @@ export default defineSite({
     story:
       'La clinique a ouvert ses portes en 2009, avenue Gabriel-Péri, à quelques mètres de la limite entre Saint-Martin-d’Hères et Grenoble.\n\nSophie Barral, Karim Ouali et Léa Fontaine se partagent aujourd’hui les consultations, la chirurgie et le suivi des animaux du quartier. Chacun garde ses propres dossiers en tête : c’est un choix, pour qu’un animal soit suivi par la même équipe d’une visite à l’autre.',
     team: [
-      { name: 'Dr Sophie Barral', role: 'Vétérinaire — chirurgie et médecine générale', photo: { src: '/images/portrait.webp', alt: 'Dr Sophie Barral, vétérinaire' } },
-      { name: 'Dr Karim Ouali', role: 'Vétérinaire — dentisterie et imagerie', photo: { src: '/images/service-1.webp', alt: 'Dr Karim Ouali, vétérinaire' } },
-      { name: 'Dr Léa Fontaine', role: 'Vétérinaire — consultations et NAC', photo: { src: '/images/service-2.webp', alt: 'Dr Léa Fontaine, vétérinaire' } },
+      { name: 'Dr Sophie Barral', role: 'Vétérinaire — chirurgie et médecine générale' },
+      { name: 'Dr Karim Ouali', role: 'Vétérinaire — dentisterie et imagerie' },
+      { name: 'Dr Léa Fontaine', role: 'Vétérinaire — consultations et NAC' },
     ],
   },
 

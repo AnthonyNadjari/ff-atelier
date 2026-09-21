@@ -22,7 +22,7 @@ const hero = site.images.hero!;
   <div class="absolute inset-0 mix-blend-multiply" style="background: linear-gradient(155deg, color-mix(in srgb, var(--accent-2) 55%, transparent) 0%, transparent 45%, color-mix(in srgb, var(--accent) 50%, transparent) 100%);"></div>
 
   <div class="container-ff relative flex min-h-svh flex-col justify-between py-10 sm:py-14">
-    <p class="eyebrow text-on-ink/80" data-reveal>
+    <p class="eyebrow text-on-ink/80">
       {site.business.name} <span class="text-on-ink/40">·</span> {site.contact.address.city}{site.business.since && <span class="text-on-ink/40"> · depuis {site.business.since}</span>}
     </p>
 
@@ -35,8 +35,8 @@ const hero = site.images.hero!;
     </h1>
 
     <div class="flex flex-wrap items-end justify-between gap-8">
-      <p class="max-w-md text-on-ink/75" data-reveal data-reveal-delay="120">{site.business.description.split(/\n/)[0]}</p>
-      <a href={tel()} class="badge-call shrink-0" data-reveal="scale" data-reveal-delay="200">
+      <p class="max-w-md text-on-ink/75">{site.business.description.split(/\n/)[0]}</p>
+      <a href={tel()} class="badge-call shrink-0">
         <svg viewBox="0 0 140 140" class="badge-call-ring" aria-hidden="true">
           <path id="badge-path" d="M 70,70 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0" fill="none" />
           <text font-size="12.2" letter-spacing="2.6" fill="currentColor">

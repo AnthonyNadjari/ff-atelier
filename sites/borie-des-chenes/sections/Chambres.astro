@@ -23,7 +23,7 @@ const gite = site.services.find((s) => s.slug.startsWith('gite-'));
         <p class="eyebrow">Les chambres</p>
         <h2 class="mt-4 max-w-lg text-display-lg">Quatre chambres, chacune sa vue</h2>
       </div>
-      <p class="max-w-sm text-muted" data-reveal data-reveal-delay="100">
+      <p class="max-w-sm text-muted">
         95 à 130&nbsp;€ la nuit, petit-déjeuner compris — tarifs indicatifs.
       </p>
     </div>
@@ -62,7 +62,7 @@ const gite = site.services.find((s) => s.slug.startsWith('gite-'));
 
   {gite && (
     <div class="container-ff mt-16">
-      <div class="card flex flex-col items-start justify-between gap-4 rounded-card border border-line bg-surface p-6 shadow-card sm:flex-row sm:items-center md:p-8" data-reveal>
+      <div class="card flex flex-col items-start justify-between gap-4 rounded-card border border-line bg-surface p-6 shadow-card sm:flex-row sm:items-center md:p-8">
         <div>
           <p class="eyebrow">Aussi à La Borie</p>
           <h3 class="mt-2 font-display text-xl text-fg">{gite.title}</h3>

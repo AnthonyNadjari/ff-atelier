@@ -26,7 +26,7 @@ const familles = [
 
 <section id="cartedessoins" class="section-y bg-bg-2">
   <div class="container-ff mx-auto max-w-2xl">
-    <div class="text-center" data-reveal>
+    <div class="text-center">
       <p class="eyebrow">Carte des soins</p>
       <h2 class="mt-4 text-display-md">Ce qui se prépare pour vous</h2>
       <p class="mt-4 text-muted">Prix indicatifs — le devis exact se fait à la réservation.</p>
@@ -38,7 +38,7 @@ const familles = [
           <p class="eyebrow border-b border-line pb-3">{f.label}</p>
           <ul class="mt-5 divide-y divide-line/60" data-stagger="90">
             {f.items.map((s) => (
-              <li class="soin flex items-baseline gap-3 py-4" data-reveal data-hover-img={f.img}>
+              <li class="soin flex items-baseline gap-3 py-4" data-hover-img={f.img}>
                 <span class="soin-name font-display italic">{s.title}</span>
                 {s.priceFrom && <span class="soin-leader" aria-hidden="true"></span>}
                 {s.priceFrom && <span class="soin-price shrink-0 tabular-nums text-accent">{s.priceFrom}</span>}

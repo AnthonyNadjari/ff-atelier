@@ -26,7 +26,7 @@ const stickers = [
     />
 
     <div class="relative mx-auto mt-16 max-w-2xl sm:mt-20">
-      <div class="relative aspect-[4/3] select-none overflow-hidden rounded-card border-[3px] border-ink bg-surface shadow-lift" data-compare data-reveal="scale">
+      <div class="relative aspect-[4/3] select-none overflow-hidden rounded-card border-[3px] border-ink bg-surface shadow-lift" data-compare>
         <img src={avant.src} alt={avant.alt} loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
         <div class="absolute inset-0" data-compare-after style="clip-path: inset(0 50% 0 0)">
           <img src={apres.src} alt={apres.alt} loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
@@ -48,7 +48,7 @@ const stickers = [
       <p class="caption-scribble mx-auto mt-8 max-w-xs text-center text-xl text-accent sm:-rotate-1">Même aile, huit jours plus tard.</p>
 
       {stickers.map((s) => (
-        <div class:list={['pointer-events-none absolute z-10 hidden sm:block', s.pos]} data-reveal="scale">
+        <div class:list={['pointer-events-none absolute z-10 hidden sm:block', s.pos]}>
           <span class:list={['inline-block rounded-pill border-[3px] border-ink px-4 py-2 text-sm font-medium shadow-card', s.bg, s.rot]}>{s.label}</span>
         </div>
       ))}
