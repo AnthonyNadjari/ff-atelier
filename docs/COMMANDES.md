@@ -69,7 +69,9 @@ ff sante boulangerie-durand
 - `ff og boulangerie-durand` — génère l'image affichée quand le site est partagé.
 
 **Look et variantes**
-- `ff composer boulangerie-durand` — propose un look automatiquement.
+- `ff composer boulangerie-durand` — propose un look automatiquement : direction (ambiance) **et**
+  squelette de page (disposition, nav, contact en tiroir) choisis d'après le métier du client, voir
+  `docs/DIRECTIONS.md` § Choix automatique du squelette par métier.
 - `ff propositions boulangerie-durand` — génère plusieurs looks à comparer avant de choisir.
 - `ff studio boulangerie-durand` — éditeur visuel du look, en local, avec aperçu live.
 - `ff figer boulangerie-durand` — fige le look choisi dans `site.config.ts`.

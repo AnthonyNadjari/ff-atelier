@@ -105,6 +105,7 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
 - `src/directions/<nom>/` — `index.css` (tokens + polices) + `meta.ts` (ambiance, métiers, à éviter).
 - `sites/<slug>/site.config.ts` — le contenu d'un client. `sites/<slug>/public/images/` — ses photos.
 - `sites/_exemple/` — référence de schéma et fumigène de build. Ne pas y toucher pour un client.
+- `src/pages-optional/credits.astro` (`src/lib/credits.ts` pour le parseur, `scripts/astro-credits-integration.mjs` pour l'injection de route) — page `/credits` : attribution visible des photos CC BY/CC BY-SA de `sites/<slug>/CREDITS.md`, générée au build seulement si ce fichier a au moins une entrée, liée depuis les pieds de page partagés ; voir `docs/veille/redaction-images.md` §2.
 - `docs/BRIEF.md` — brief à remplir pendant l'appel client. `docs/DIRECTIONS.md` — guide de choix de
   direction et de variantes. `docs/PROCESS.md` — processus client complet, de la prospection à la
   livraison. `docs/REDACTION.md` — règles opérationnelles de rédaction (mots interdits, professions

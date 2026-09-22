@@ -272,6 +272,41 @@ function checkConfidentialite(distDir, checks) {
   }
 }
 
+/**
+ * Attribution photo obligatoire (CC BY / CC BY-SA, `ff photos`) affichee sur le site livre : si
+ * sites/<slug>/CREDITS.md contient au moins une ligne "attribution obligatoire", la page /credits
+ * doit exister dans dist/ ET etre linkee depuis index.html — sinon l'attribution legalement due
+ * n'est visible que dans un fichier Markdown interne au studio, jamais du visiteur (voir
+ * docs/veille/redaction-images.md §2, src/pages-optional/credits.astro,
+ * scripts/astro-credits-integration.mjs). Fonction pure separee de la lecture disque pour le test
+ * (tests/credits.test.mjs) : aucune de ces trois entrees n'implique un acces au systeme de fichiers.
+ */
+export function evaluerCreditsAffiches({ creditsMd, distHasCreditsPage, indexHtml }) {
+  const requiert = /attribution obligatoire/i.test(creditsMd || '');
+  if (!requiert) return []; // pas de CREDITS.md, ou aucune licence de ce site n'exige d'attribution
+  if (!distHasCreditsPage) {
+    return [{
+      pass: false,
+      label: "CREDITS.md exige une attribution obligatoire mais dist/credits.html (ou credits/index.html) est absent : page /credits manquante au build",
+    }];
+  }
+  const checks = [{ pass: true, label: 'Page /credits presente (CREDITS.md exige une attribution obligatoire)' }];
+  checks.push(/href=["']\/credits["']/i.test(indexHtml || '')
+    ? { pass: true, label: '/credits linkee depuis index.html' }
+    : { pass: false, label: "CREDITS.md exige une attribution obligatoire mais aucun lien vers /credits dans index.html" });
+  return checks;
+}
+
+/** Wrapper disque de evaluerCreditsAffiches() : lit sites/<slug>/CREDITS.md et dist/<slug>/{credits.html|credits/index.html, index.html}. */
+function checkCreditsAffiches(slug, distDir, checks) {
+  const creditsPath = path.join(SITES_DIR, slug, 'CREDITS.md');
+  const creditsMd = fs.existsSync(creditsPath) ? fs.readFileSync(creditsPath, 'utf8') : '';
+  const distHasCreditsPage = fs.existsSync(path.join(distDir, 'credits.html')) || fs.existsSync(path.join(distDir, 'credits', 'index.html'));
+  const indexPath = path.join(distDir, 'index.html');
+  const indexHtml = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, 'utf8') : '';
+  checks.push(...evaluerCreditsAffiches({ creditsMd, distHasCreditsPage, indexHtml }));
+}
+
 /** Mentions legales : SIRET present, ou a defaut un avertissement (donnee optionnelle au brief). */
 function warnMentionsLegalesSansSiret(distDir, warnings) {
   const p = path.join(distDir, 'mentions-legales.html');
@@ -736,6 +771,7 @@ export async function cmdVerifier(args) {
   checkTelPremierEcran(distDir, checks);
   checkPasIframeGoogleAuChargement(files, distDir, checks);
   checkConfidentialite(distDir, checks);
+  checkCreditsAffiches(slug, distDir, checks);
   checkHtmlLangFr(files, distDir, checks);
   checkSitemapIndex(distDir, checks);
 

@@ -125,6 +125,10 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
       au brief est resté absent, pas approximé.
 - [ ] Page `/confidentialite` présente et liée depuis le pied de page et le petit texte du formulaire
       (RGPD, généré depuis `site.config.ts` — voir `src/pages/confidentialite.astro`).
+- [ ] Si `sites/<slug>/CREDITS.md` exige une attribution obligatoire (photo CC BY/CC BY-SA posée par
+      `ff photos`), la page `/credits` existe et est liée depuis le pied de page — généré/vérifié
+      automatiquement (`src/pages-optional/credits.astro`, `ff verifier`), voir
+      `docs/veille/redaction-images.md` §2.
 - [ ] Carte sans traceur : `contact.mapsProvider` laissé sur `'osm'` (défaut) sauf demande explicite du
       client pour Google Maps — et dans ce cas, uniquement via la façade cliquable (`<Carte />`), jamais
       une iframe Google Maps chargée directement.

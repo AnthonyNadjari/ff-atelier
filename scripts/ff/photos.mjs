@@ -870,7 +870,8 @@ export async function cmdPhotos(args) {
             .toFile(out);
           await declencherUnsplash(cand);
           poserCredits(slug, blocCredits(cand, `raw/${base}.jpg -> public/images/${base}.webp (via ff images)`, { ratio: ratioTexte, dateDuJour }));
-          ok(`#${cand.index} -> raw/${base}.jpg (${cadre.width}x${cadre.height}), credite dans CREDITS.md`);
+          const attributionMsg = (cand.licence === 'by' || cand.licence === 'by-sa') ? ' — Attribution affichée sur /credits.' : '';
+          ok(`#${cand.index} -> raw/${base}.jpg (${cadre.width}x${cadre.height}), credite dans CREDITS.md${attributionMsg}`);
         } catch (e) {
           fail(`#${cand.index} : echec (${e.message})`);
         }
@@ -901,7 +902,8 @@ export async function cmdPhotos(args) {
         await sharp(recadre).resize({ width: 800, withoutEnlargement: true }).webp({ quality: 80 }).toFile(out800);
         await declencherUnsplash(cand);
         poserCredits(slug, blocCredits(cand, `public/images/photo-${num}.webp`, { ratio: ratioTexte, dateDuJour }));
-        ok(`#${cand.index} -> public/images/photo-${num}.webp (+ -800.webp), credite dans CREDITS.md`);
+        const attributionMsg = (cand.licence === 'by' || cand.licence === 'by-sa') ? ' — Attribution affichée sur /credits.' : '';
+        ok(`#${cand.index} -> public/images/photo-${num}.webp (+ -800.webp), credite dans CREDITS.md${attributionMsg}`);
       } catch (e) {
         fail(`#${cand.index} : echec (${e.message})`);
       }

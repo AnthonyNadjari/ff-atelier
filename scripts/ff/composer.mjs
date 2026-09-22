@@ -56,6 +56,126 @@ function shellFits(shell, { sectionsCount, motion, nav, hero, scale, metier = ''
   return true;
 }
 
+/**
+ * Table des squelettes conseilles par famille de metier (docs/veille/squelettes.md § 3a, croisee avec
+ * les 20 sites re-squelettes a la main par le fondateur : sites/anna-vidal, moteur-fils/ampere-fils,
+ * osteo-marchand/veto-du-drac, atelier-lecerf, cantine-roulante, auto-ecole-rabelais, barbier-kessler,
+ * maison-roux, dubois-plomberie, toits-cie, lemaire-avocats, forge-delacroix, jardins-mael,
+ * studio-ambre, chez-malo, maison-aurore). `ff composer` choisissait jusqu'ici une AMBIANCE (direction)
+ * mais laissait la coquille au tirage pondere generique — un plombier pouvait retomber sur `flow` sans
+ * tiroir, un ostéopathe sur `magazine`. Chaque famille impose desormais une coquille (parmi deux, la
+ * seconde servant de repli au malus de reutilisation ci-dessous), et pour certaines : la nav, le
+ * `contactDrawer`, le mouvement, ou la variante `process` conseillee.
+ */
+const SQUELETTES_PAR_METIER = [
+  {
+    id: 'portfolio',
+    metiers: ['photograph', 'tatou', 'chambre', 'artiste', 'galerie', 'portfolio'],
+    shells: ['index', 'sticky-hero'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: null,
+    motion: null,
+    label: "métier portfolio → l'accueil devient l'index (le menu est la page)",
+  },
+  {
+    id: 'urgence',
+    metiers: ['plomb', 'couvreur', 'couverture', 'serrurier', 'electricien', 'depannage', 'chauffagiste', 'urgence'],
+    shells: ['flow', 'split'],
+    nav: 'bar',
+    contactDrawer: true,
+    processVariant: null,
+    motion: null,
+    label: 'métier urgence → contact en tiroir, nav bar',
+  },
+  {
+    id: 'sante',
+    metiers: ['osteo', 'veto', 'veterinaire', 'dentist', 'avocat', 'notaire', 'medecin', 'kine'],
+    shells: ['slides', 'sidebar'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: null,
+    motion: 'subtle',
+    label: 'métier réglementé → sobriété (slides/sidebar), mouvement discret',
+  },
+  {
+    id: 'atelier',
+    metiers: ['menuisier', 'ebenist', 'forge', 'ferronni', 'auto-ecole', 'auto ecole', 'traiteur'],
+    shells: ['flow', 'sidebar'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: 'horizon',
+    motion: null,
+    label: 'métier avec étapes → chapitre horizontal du savoir-faire (process/horizon)',
+  },
+  {
+    id: 'hospitalite',
+    metiers: ['restaurant', 'hotel', 'institut', 'spa', 'beaute', 'coiffure', 'boulanger'],
+    shells: ['sticky-hero', 'index'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: null,
+    motion: null,
+    label: 'métier accueil/plaisir → hero épinglé immersif (sticky-hero)',
+  },
+  {
+    id: 'creation',
+    metiers: ['architect', 'paysagist', 'decorat', 'design'],
+    shells: ['magazine', 'split'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: null,
+    motion: null,
+    label: 'métier création/espace → mise en page éditoriale (magazine)',
+  },
+];
+
+/**
+ * Choisit le squelette conseillé pour `metier`, sans accéder au contexte du site (pur, testé
+ * directement, comme `scoreDirections`). Retourne `null` si aucune famille ne reconnaît ce métier — le
+ * reste de `pickLook` garde alors son tirage pondéré générique, inchangé.
+ *
+ * Malus de réutilisation : si la coquille préférée de la famille est déjà portée par >= 3 sites
+ * existants (`shellCounts`), bascule sur la seconde coquille de la famille — jamais un troisième choix
+ * inventé, chaque famille n'en propose que deux (voir SQUELETTES_PAR_METIER ci-dessus).
+ */
+export function pickSquelette(metier, { shellCounts = new Map(), stepsCount = 0 } = {}) {
+  const m = normalise(metier);
+  if (!m) return null;
+  const famille = SQUELETTES_PAR_METIER.find((f) => f.metiers.some((k) => m.includes(normalise(k))));
+  if (!famille) return null;
+
+  const [prefere, repli] = famille.shells;
+  const usageCount = shellCounts.get(prefere) || 0;
+  const reutilise = usageCount >= 3;
+  const shell = reutilise ? repli : prefere;
+  const alternative = reutilise ? prefere : repli;
+  const processVariant = famille.processVariant === 'horizon' && stepsCount >= 3 ? 'horizon' : null;
+  const reason = reutilise
+    ? `${famille.label} (mais "${prefere}" déjà porté par ${usageCount} sites → repli sur "${repli}")`
+    : famille.label;
+
+  return {
+    familyId: famille.id,
+    shell,
+    alternative,
+    nav: famille.nav,
+    contactDrawer: famille.contactDrawer,
+    motion: famille.motion,
+    processVariant,
+    reason,
+  };
+}
+
+/**
+ * Même logique d'adéquation que `shellFits`, sauf pour `index` : la famille a déjà validé le métier
+ * (ex. « chambres d'hôtes » n'est pas dans METIERS_INDEX mais figure dans la famille "portfolio").
+ */
+function squeletteShellCompatible(shell, ctx) {
+  if (shell === 'index') return ctx.sectionsCount <= 8;
+  return shellFits(shell, ctx);
+}
+
 /** Tirage pondere deterministe (rng) parmi `weighted` : [{ key, weight }], weight > 0. */
 function pickWeighted(rng, weighted) {
   const total = weighted.reduce((sum, w) => sum + w.weight, 0);
@@ -193,6 +313,8 @@ export function pickLook(slug, opts = {}) {
   };
   const metierFinal = metier || cfg.business?.trade || '';
   const usage = usageStats(slug);
+  const stepsCount = Array.isArray(cfg.process) ? cfg.process.length : 0;
+  const squelette = pickSquelette(metierFinal, { shellCounts: usage.shellCounts || new Map(), stepsCount });
 
   const scored = scoreDirections(dirMetas, metierFinal, usage.directionCounts).filter(
     (d) => !excludeDirections.includes(d.dir),
@@ -216,11 +338,13 @@ export function pickLook(slug, opts = {}) {
   const heroCounts = usage.variantCounts.hero || new Map();
   const hero = pickLeastUsed(heroCandidates, heroCounts, rng);
 
-  const nav = pickLeastUsed(VARIANTS.nav, usage.variantCounts.nav || new Map(), rng);
+  let nav = pickLeastUsed(VARIANTS.nav, usage.variantCounts.nav || new Map(), rng);
+  if (squelette?.nav) nav = squelette.nav;
   const footer = pickLeastUsed(VARIANTS.footer, usage.variantCounts.footer || new Map(), rng);
 
   const sectionDefs = detectSections(cfg);
   const sections = sectionDefs.map(({ type, forcedVariant }) => {
+    if (type === 'process' && squelette?.processVariant) return { type, variant: squelette.processVariant };
     const variant = forcedVariant || pickLeastUsed(VARIANTS[type] || [], usage.variantCounts[type] || new Map(), rng);
     return { type, variant };
   });
@@ -241,11 +365,14 @@ export function pickLook(slug, opts = {}) {
   const scale = pickScale(chosen.dir, cfg.business?.tagline);
   const tone = rng() < 0.5 ? 'alternate' : 'flat';
   const divider = pickDivider(chosen.dir);
-  const motion = chosen.motionParDefaut || 'subtle';
+  let motion = chosen.motionParDefaut || 'subtle';
+  if (squelette?.motion) motion = squelette.motion;
 
   // Coquille (layout.shell) : tirage pondere parmi les coquilles compatibles avec le contexte deja
   // choisi (nav, hero, echelle, mouvement, nombre de sections), penalise de -1 point par usage
-  // existant (meme logique que les directions, en moins agressif).
+  // existant (meme logique que les directions, en moins agressif). Remplacee par le choix de la famille
+  // de metier (SQUELETTES_PAR_METIER) quand une famille reconnait le metier ET que sa coquille
+  // conseillee (ou son repli) reste compatible avec ce contexte.
   const shellCounts = usage.shellCounts || new Map();
   const shellCtx = { sectionsCount: sections.length, motion, nav, hero, scale, metier: metierFinal };
   const eligibleShells = SHELLS.filter((s) => shellFits(s, shellCtx));
@@ -254,7 +381,20 @@ export function pickLook(slug, opts = {}) {
     weight: Math.max(0.5, (SHELL_WEIGHTS[s] ?? 10) - (shellCounts.get(s) || 0)),
     used: shellCounts.get(s) || 0,
   }));
-  const shell = pickWeighted(rng, shellWeighted) || 'flow';
+  let shell = pickWeighted(rng, shellWeighted) || 'flow';
+  let squeletteApplied = null;
+  if (squelette) {
+    const preferred = squeletteShellCompatible(squelette.shell, shellCtx)
+      ? squelette.shell
+      : squeletteShellCompatible(squelette.alternative, shellCtx)
+        ? squelette.alternative
+        : null;
+    if (preferred) {
+      shell = preferred;
+      squeletteApplied = { ...squelette, shell: preferred };
+    }
+  }
+  const contactDrawer = squelette ? squelette.contactDrawer : false;
 
   // En-tetes (layout.headings) : tirage pondere simple, aucune regle d'adequation ni penalite d'usage.
   const headingsWeighted = HEADINGS.map((h) => ({ key: h, weight: HEADINGS_WEIGHTS[h] ?? 10 }));
@@ -265,13 +405,19 @@ export function pickLook(slug, opts = {}) {
     motion,
     scale,
     typography: { display: fontPair.display, body: fontPair.body },
-    layout: { nav, hero, sections, footer, divider, tone, shell, headings },
+    layout: { nav, hero, sections, footer, divider, tone, shell, headings, contactDrawer },
   };
 
   const shellEntry = shellWeighted.find((w) => w.key === shell);
   const justification = [
     ['direction', chosen.dir, chosen.reasons.length ? chosen.reasons.join(' ; ') : 'meilleur score par defaut'],
-    ['nav', nav, `variante la moins utilisee (${nav} : ${(usage.variantCounts.nav || new Map()).get(nav) || 0} fois)`],
+    [
+      'nav',
+      nav,
+      squelette?.nav
+        ? `imposée par la famille métier "${squelette.familyId}" (${squelette.reason})`
+        : `variante la moins utilisee (${nav} : ${(usage.variantCounts.nav || new Map()).get(nav) || 0} fois)`,
+    ],
     ['hero', hero, `variante la moins utilisee pour "${chosen.dir}" (${hero} : ${heroCounts.get(hero) || 0} fois)`],
     ...sections.map((s) => [
       s.type,
@@ -285,14 +431,29 @@ export function pickLook(slug, opts = {}) {
     ['echelle', scale, `d'après la direction "${chosen.dir}"${cfg.business?.tagline ? ' et la longueur de l’accroche' : ''}`],
     ['ton', tone, 'alterné 50 % (fond bg-2 une section sur deux)'],
     ['separateur', divider, `adapté à la direction "${chosen.dir}"`],
-    ['mouvement', motion, `motionParDefaut de la direction "${chosen.dir}"`],
+    [
+      'mouvement',
+      motion,
+      squelette?.motion
+        ? `imposé par la famille métier "${squelette.familyId}" (jamais "rich")`
+        : `motionParDefaut de la direction "${chosen.dir}"`,
+    ],
     [
       'disposition (shell)',
       shell,
-      `tirage pondéré (${SHELL_WEIGHTS[shell] ?? 10} pts de base${shellEntry?.used ? `, -${shellEntry.used} déjà utilisée` : ''}) parmi ${eligibleShells.join(', ')}`,
+      squeletteApplied
+        ? squeletteApplied.reason
+        : `tirage pondéré (${SHELL_WEIGHTS[shell] ?? 10} pts de base${shellEntry?.used ? `, -${shellEntry.used} déjà utilisée` : ''}) parmi ${eligibleShells.join(', ')}`,
+    ],
+    [
+      'contact',
+      contactDrawer ? 'tiroir (contactDrawer: true)' : 'section finale uniquement',
+      squelette ? squelette.reason : 'défaut : aucune famille métier détectée pour ce métier',
     ],
     ['en-têtes', headings, `tirage pondéré (${HEADINGS_WEIGHTS[headings] ?? 10} pts de base)`],
   ];
+
+  const squeletteResult = squelette ? { ...squelette, shell, applied: Boolean(squeletteApplied) } : null;
 
   return {
     slug,
@@ -303,6 +464,7 @@ export function pickLook(slug, opts = {}) {
     metier: metierFinal,
     top3,
     metierAdapte,
+    squelette: squeletteResult,
   };
 }
 
@@ -327,6 +489,18 @@ function printProposal(slug, result) {
     );
   }
   info('');
+
+  // Squelette (layout.shell + nav/contactDrawer/mouvement conseillés) choisi par metier, distinct de
+  // l'ambiance (direction) ci-dessus — voir SQUELETTES_PAR_METIER dans composer.mjs.
+  if (result.squelette) {
+    info(
+      c.bold('Squelette retenu : ') +
+        c.cyan(result.squelette.shell) +
+        c.dim(`  (alternative : ${result.squelette.alternative})`),
+    );
+    info(`  ${result.squelette.reason}`);
+    info('');
+  }
 
   const width1 = Math.max(...result.justification.map((r) => r[0].length)) + 2;
   const width2 = Math.max(...result.justification.map((r) => String(r[1]).length)) + 2;

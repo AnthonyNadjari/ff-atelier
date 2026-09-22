@@ -315,6 +315,35 @@ Ces contraintes (« va bien avec », « évite ») sont les règles d'adéquatio
 `ff composer` (`scripts/ff/composer.mjs`, fonction `shellFits`) et vérifiées pour chaque modèle par
 `tests/presets.test.mjs`.
 
+### Choix automatique du squelette par métier
+
+`ff composer` ne se contente pas de choisir une direction (une ambiance) : il choisit aussi un
+**squelette** (`layout.shell` + `nav` + `contactDrawer` + variante `process` conseillée), sinon le
+prochain client retombe systématiquement sur `flow` + contact en bas de page — le reproche du
+fondateur (`docs/veille/squelettes.md`, `docs/veille/inventaire-outils.md`). La table
+`SQUELETTES_PAR_METIER` (`scripts/ff/composer.mjs`) reconnaît le métier du client et impose une
+coquille parmi deux options par famille :
+
+| Famille de métier | Coquille (préférée / repli) | Réglages imposés |
+|---|---|---|
+| Portfolio (photographe, tatoueur, chambres d'hôtes, artiste, galerie) | `index` / `sticky-hero` | — |
+| Urgence (plombier, couvreur, serrurier, électricien, dépanneur) | `flow` / `split` | `contactDrawer: true`, `nav: 'bar'` |
+| Réglementé (ostéopathe, vétérinaire, dentiste, avocat, notaire, médecin) | `slides` / `sidebar` | `motion: 'subtle'` (jamais `rich`) |
+| Atelier à étapes (menuisier, forge, ferronnier, auto-école, traiteur) | `flow` / `sidebar` | variante `process/horizon` si le site a ≥ 3 étapes |
+| Accueil/plaisir (restaurant, hôtel, institut, spa, beauté, coiffure) | `sticky-hero` / `index` | — |
+| Création/espace (architecte, paysagiste, décoration) | `magazine` / `split` | — |
+
+**Malus de réutilisation** : si la coquille préférée de la famille est déjà portée par ≥ 3 sites
+existants, `ff composer` bascule automatiquement sur le second choix de la famille — jamais un
+troisième squelette inventé. La sortie de `ff composer` affiche un bloc « Squelette retenu » avec la
+raison en une ligne (ex. « métier urgence → contact en tiroir, nav bar ») et l'alternative écartée.
+Un métier sans famille reconnue garde l'ancien comportement (tirage pondéré générique, `shellFits`).
+Voir `pickSquelette` (fonction pure, testée dans `tests/composer.test.mjs`) et les 18 sites
+re-squelettés à la main qui ont servi de référence : `anna-vidal`, `moteur-fils`/`ampere-fils`,
+`osteo-marchand`/`veto-du-drac`, `atelier-lecerf`, `cantine-roulante`, `auto-ecole-rabelais`,
+`barbier-kessler`, `maison-roux`, `dubois-plomberie`, `toits-cie`, `lemaire-avocats`,
+`forge-delacroix`, `jardins-mael`, `studio-ambre`, `chez-malo`, `maison-aurore`.
+
 ### Deux réglages transversaux (toutes coquilles)
 
 | Réglage | Quand l'utiliser |

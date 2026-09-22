@@ -1,6 +1,6 @@
 ---
 /** Footer "big-name" : le nom de l'entreprise en tres grand, sur fond ink. */
-import { site, tel, mailto, fullAddress } from '@/lib/site';
+import { site, tel, mailto, fullAddress, hasCredits } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 const year = new Date().getFullYear();
 const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
@@ -22,6 +22,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
         {site.services.slice(0, 5).map((s) => <a href={`/services/${s.slug}`} class="hover:text-on-ink">{s.title}</a>)}
         <a href="/mentions-legales" class="hover:text-on-ink">Mentions légales</a>
         <a href="/confidentialite" class="hover:text-on-ink">Confidentialité</a>
+        {hasCredits && <a href="/credits" class="hover:text-on-ink">Crédits photos</a>}
       </nav>
 
       <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-on-ink/70">

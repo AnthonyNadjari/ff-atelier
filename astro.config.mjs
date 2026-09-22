@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { FontaineTransform } from 'fontaine';
 import { ffLookPlugin } from './scripts/vite-ff-look.mjs';
 import { imagesIntegration } from './scripts/astro-images-integration.mjs';
+import { creditsIntegration } from './scripts/astro-credits-integration.mjs';
 import { readSiteSecurityConfig, buildSecurityHeaderLines } from './scripts/ff/csp.mjs';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -84,7 +85,14 @@ export default defineConfig({
   outDir,
   trailingSlash: 'never',
   build: { format: 'file', inlineStylesheets: 'always' },
-  integrations: [sitemap(), headersIntegration, imagesIntegration({ root: process.cwd(), slug })],
+  integrations: [
+    // /credits est noindex (page utilitaire, voir src/pages-optional/credits.astro) : jamais dans
+    // le sitemap, meme quand la route est injectee (docs/veille/redaction-images.md §2).
+    sitemap({ filter: (page) => !/\/credits\/?$/.test(page) }),
+    headersIntegration,
+    imagesIntegration({ root: process.cwd(), slug }),
+    creditsIntegration({ root: process.cwd(), slug }),
+  ],
   vite: {
     plugins: [
       // Direction + polices resolues au build (voir scripts/vite-ff-look.mjs) : une seule direction dans le graphe.

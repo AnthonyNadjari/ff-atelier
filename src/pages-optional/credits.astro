@@ -1,0 +1,77 @@
+---
+/**
+ * Page /credits : attribution VISIBLE des photos sous licence Creative Commons a attribution
+ * obligatoire (CC BY / CC BY-SA), posees par `ff photos` (et generalement `ff video`) et
+ * consignees dans sites/<slug>/CREDITS.md (scripts/ff/photos.mjs, scripts/ff/util.mjs).
+ *
+ * Ce fichier vit hors de src/pages/ : Astro ne le route jamais tout seul. La route /credits n'est
+ * injectee (astro.config.mjs, scripts/astro-credits-integration.mjs) que quand
+ * sites/<slug>/CREDITS.md existe et contient au moins une entree — un site sans CREDITS.md
+ * (sites/_exemple, ou un client sans photo de banque) n'a donc pas cette page dans dist/.
+ *
+ * N'affiche que les entrees dont la licence exige une attribution visible (CC BY / CC BY-SA) :
+ * une photo CC0/domaine public n'a legalement rien a afficher ici (choix assume, voir le rapport
+ * de la mission qui a cree ce fichier).
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import Base from '@/layouts/Base.astro';
+import { site, slugCourant } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import { parseCredits, entriesRequiringAttribution } from '@/lib/credits';
+
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+
+const creditsPath = path.resolve(process.cwd(), 'sites', slugCourant, 'CREDITS.md');
+const md = fs.existsSync(creditsPath) ? fs.readFileSync(creditsPath, 'utf8') : '';
+const entries = entriesRequiringAttribution(parseCredits(md));
+---
+
+<Base title={`Crédits photos — ${site.business.name}`} path="/credits" noindex>
+  <Nav />
+  <main id="main" class="section-y">
+    <div class="container-ff max-w-3xl space-y-10 text-[0.95rem] leading-relaxed">
+      <h1 class="text-display-md">Crédits photos</h1>
+      <p class="text-muted">
+        Certaines photographies de ce site proviennent de bibliothèques libres, sous licence Creative
+        Commons imposant la mention de l'auteur. Voici l'origine et la licence de chacune.
+      </p>
+      {entries.length > 0 ? (
+        <ul class="space-y-8 divide-y divide-line">
+          {entries.map((entry) => (
+            <li class="pt-8 first:pt-0">
+              {entry.title && <p class="font-medium">{entry.title}</p>}
+              <p class="text-muted mt-1">
+                Photo :{' '}
+                {entry.authorUrl || entry.sourceUrl ? (
+                  <a href={entry.authorUrl ?? entry.sourceUrl ?? undefined} rel="noopener" target="_blank" class="underline hover:text-fg">
+                    {entry.author ?? 'auteur inconnu'}
+                  </a>
+                ) : (
+                  entry.author ?? 'auteur inconnu'
+                )}
+                {entry.licenceLabel && (
+                  <>
+                    {' — '}
+                    {entry.licenceUrl ? (
+                      <a href={entry.licenceUrl} rel="noopener" target="_blank" class="underline hover:text-fg">
+                        {entry.licenceLabel}
+                      </a>
+                    ) : (
+                      entry.licenceLabel
+                    )}
+                  </>
+                )}
+                {entry.cropped && ' — recadrée'}
+              </p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="text-muted">Aucun visuel de ce site n'exige actuellement de mention d'attribution.</p>
+      )}
+    </div>
+  </main>
+  <Footer />
+</Base>

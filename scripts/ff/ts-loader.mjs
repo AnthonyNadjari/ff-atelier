@@ -103,6 +103,19 @@ export async function loadJsonLdModule() {
   return import(url);
 }
 
+/**
+ * Copie src/lib/credits.ts (module pur, aucune dependance) dans TMP_DIR/lib/ et l'importe.
+ * Renvoie { parseCredits, requiresAttribution, entriesRequiringAttribution }.
+ */
+export async function loadCreditsModule() {
+  const libDir = path.join(TMP_DIR, 'lib');
+  fs.mkdirSync(libDir, { recursive: true });
+  const src = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'credits.ts'), 'utf8');
+  fs.writeFileSync(path.join(libDir, 'credits.ts'), addTsExtensions(src));
+  const url = pathToFileURL(path.join(libDir, 'credits.ts')).href;
+  return import(url);
+}
+
 export function cleanTmp() {
   fs.rmSync(TMP_DIR, { recursive: true, force: true });
 }

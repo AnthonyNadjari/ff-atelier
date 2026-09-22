@@ -10,6 +10,7 @@
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { siteHasCredits } from './astro-credits-integration.mjs';
 
 const VIRTUAL = 'virtual:ff-look';
 const RESOLVED = '\0' + VIRTUAL;
@@ -163,11 +164,11 @@ export function ffLookPlugin({ root, slug, ffLook }) {
     /** En dev (studio) : look.json, site.config.ts ou le dossier sections/ change => module virtuel invalide + rechargement. */
     configureServer(server) {
       const dir = resolve(root, 'sites', slug);
-      server.watcher.add([resolve(dir, 'look.json'), resolve(dir, 'site.config.ts'), resolve(dir, 'sections')]);
+      server.watcher.add([resolve(dir, 'look.json'), resolve(dir, 'site.config.ts'), resolve(dir, 'sections'), resolve(dir, 'CREDITS.md')]);
       const refresh = (file) => {
         const f = file.replace(/\\/g, '/');
         if (!f.includes(`/sites/${slug}/`)) return;
-        if (!/look\.json$|site\.config\.ts$|\/sections\//.test(f)) return;
+        if (!/look\.json$|site\.config\.ts$|\/sections\/|CREDITS\.md$/.test(f)) return;
         const mod = server.moduleGraph.getModuleById(RESOLVED);
         if (mod) server.moduleGraph.invalidateModule(mod);
         server.ws.send({ type: 'full-reload' });
@@ -229,6 +230,11 @@ export function ffLookPlugin({ root, slug, ffLook }) {
         entries.push(`${JSON.stringify(name.toLowerCase())}: Custom${i}`);
       });
       lines.push(`export const customSections = { ${entries.join(', ')} };`);
+
+      // Credits photos (scripts/astro-credits-integration.mjs) : les pieds de page partages
+      // (src/sections/Footer/*.astro) n'affichent le lien "Credits photos" que si la route /credits
+      // a effectivement ete injectee pour ce site (meme condition, calculee la meme facon).
+      lines.push(`export const hasCredits = ${JSON.stringify(siteHasCredits(root, slug))};`);
 
       // Config et look.json du site courant uniquement (src/lib/site.ts ne globbe plus tous les sites :
       // une faute de syntaxe dans le config d'un autre site ne casse plus ce build).

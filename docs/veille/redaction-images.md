@@ -349,6 +349,18 @@ l'estimation, le mandat ».)*
 
 ## 2. Images quand le client n'en a pas
 
+**Où s'affiche l'attribution obligatoire (CC BY / CC BY-SA) :** `ff photos` consigne l'origine, la
+licence et — quand la licence l'exige — le texte exact à afficher dans `sites/<slug>/CREDITS.md`
+(section « Attribution a afficher (obligatoire) » de chaque bloc). Ce texte est **affiché sur le
+site livré**, page `/credits` (`src/pages-optional/credits.astro`, `src/lib/credits.ts` pour le
+parseur), liée depuis le pied de page (« Crédits photos »). La page n'existe que si
+`CREDITS.md` contient au moins une entrée (route injectée au build,
+`scripts/astro-credits-integration.mjs`) ; elle est `noindex` et absente du sitemap (page
+utilitaire, pas un contenu éditorial). `ff verifier` échoue si une licence de `CREDITS.md` exige
+une attribution obligatoire et que la page ou le lien manquent au build. Les licences CC0/domaine
+public/Unsplash/Pexels n'ont rien à afficher (aucune attribution requise) et ne créent pas
+d'entrée sur `/credits`.
+
 ### 2.1 Shot list par métier — 8 photos à faire au smartphone
 
 Document à envoyer tel quel au client (ou à adapter en fiche PDF courte) avant le rendez-vous photo.

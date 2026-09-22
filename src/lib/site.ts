@@ -4,7 +4,9 @@ import type { Site } from './schema';
 import { siteSchema } from './schema';
 export { schemaTypeForTrade } from './schemaType';
 
-import { config as siteConfig, lookFile } from 'virtual:ff-look';
+import { config as siteConfig, lookFile, hasCredits } from 'virtual:ff-look';
+
+export { hasCredits };
 
 // Le config et le look.json du site courant sont resolus au build par scripts/vite-ff-look.mjs :
 // les autres sites ne sont jamais lus (isolation : un site casse n'en bloque aucun autre).
