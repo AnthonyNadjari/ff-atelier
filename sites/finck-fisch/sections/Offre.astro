@@ -16,7 +16,15 @@
  *   conditionnel, faisait amateur ;
  * - petits labels en capitales (.eyebrow) remplacés par des sous-titres display : règle 13
  *   (un eyebrow pour deux sections au plus, la FAQ partagée en a déjà un).
+ *
+ * 22 sept 2026, coquille `split` : la FAQ n'est plus une section pleine page (faq/two-columns retirée
+ * du layout). Les cinq questions de site.config.ts vivent ici, en <details> natifs repliés sous le
+ * tableau — c'est là qu'on les pose vraiment, juste après avoir lu un prix. Conséquence assumée :
+ * sans section id="faq" sur l'accueil, le JSON-LD FAQPage n'est plus émis (index.astro ne le produit
+ * que pour une section de type `faq`) et `ff verifier` ne le réclame plus. Aucune animation ajoutée :
+ * cette section a déjà son titre en data-reveal et son seul groupe en data-stagger (règle 21).
  */
+import { site } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 
 const formules = [
@@ -113,5 +121,43 @@ const toujoursInclus = [
         </p>
       </div>
     </div>
+
+    {/* Les quatre prestations ont chacune leur page (/services/<slug>). Sans section `services` dans
+        le layout, l'accueil n'y menait pas du tout : quatre pages orphelines, aucun maillage interne,
+        et rien à cliquer pour passer d'une page à l'autre avec les transitions. Une ligne de liens
+        sous le prix suffit — c'est là qu'on veut le détail. */}
+    <p class="mt-12 flex flex-wrap items-baseline gap-x-6 gap-y-2 text-sm">
+      <span class="text-muted">Le détail, prestation par prestation&nbsp;:</span>
+      {site.services.map((s) => (
+        <a href={`/services/${s.slug}`} class="text-fg underline underline-offset-4 transition-colors hover:text-muted">{s.title}</a>
+      ))}
+    </p>
+
+    {/* Les questions posées au téléphone, repliées sous le prix. <details> natifs : rien à charger,
+        rien à câbler, et le clavier les ouvre tout seul (règle 7). */}
+    <div id="questions" class="mt-16 border-t border-line pt-10">
+      <h3 class="font-display text-lg">Les questions qu’on nous pose</h3>
+      <div class="mt-6 max-w-2xl">
+        {site.faq.map((item) => (
+          <details class="ff-q border-b border-line">
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-4 text-base text-fg">
+              <span>{item.q}</span>
+              <Icon name="Plus" size={18} class="ff-q-signe mt-1 shrink-0 text-muted" />
+            </summary>
+            <p class="max-w-prose pb-5 text-sm leading-relaxed text-muted">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  /* Tokens uniquement : le « + » pivote en « × » a l'ouverture, sur --motion-ui (geste, pas entree). */
+  .ff-q > summary::-webkit-details-marker { display: none; }
+  .ff-q-signe { transition: transform var(--motion-ui) var(--ease-out); }
+  .ff-q[open] .ff-q-signe { transform: rotate(45deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .ff-q-signe { transition: none; }
+  }
+</style>

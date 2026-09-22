@@ -12,6 +12,12 @@
  * chip de hero que ff detect signale. Sous-titre ramene a deux phrases (il empilait quatre
  * arguments en une). Les delais de reveal sont raccourcis d autant.
  *
+ * 22 sept 2026, coquille `split` : le hero vit desormais dans la colonne qui defile a droite du
+ * panneau fixe (58 rem). Au-dessus de 1024 px il n'y a plus de barre de nav au-dessus de lui (le
+ * panneau la remplace), sous 1024 px la nav sur mesure pose deja son espaceur : le padding haut est
+ * donc devenu progressif (pt-12 / md:pt-24 / lg:pt-32) au lieu d'un pt-32 constant qui, cumule a
+ * l'espaceur, repoussait le titre hors du premier ecran sur telephone.
+ *
  * L'animation (v3 acceleree) : chaque sous-trait du SVG vectorise (sections/mono-subpaths.ts,
  * extrait de public/images/monogramme.svg) se trace apres le precedent (stroke-dashoffset en
  * cascade, 0,25 s -> 2,7 s, accent eclipse), le corps se pose en degrade perle, une lame de
@@ -26,7 +32,7 @@ import { site } from '@/lib/site';
 import { MONO_SUBPATHS } from './mono-subpaths';
 ---
 
-<section id="hero" data-grain class="relative flex min-h-[86svh] items-center overflow-hidden pt-32 pb-20 md:pt-36">
+<section id="hero" data-grain class="relative flex min-h-[86svh] items-center overflow-hidden pt-12 pb-20 md:pt-24 lg:pt-32">
   {/* Monogramme geant en arriere-plan : il se dessine derriere le contenu, decale a droite,
       saignant hors du cadre — le trace reste le feu d'artifice, le filigrane sa matiere. */}
   <div class="hero-mono-bg" aria-hidden="true">

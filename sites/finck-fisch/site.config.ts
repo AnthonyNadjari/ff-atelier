@@ -6,6 +6,14 @@
  * Relecture « moins IA, plus pro » du 20 sept 2026 : textes réécrits sans tirets cadratins en
  * rafale ni triptyques, phrases courtes ; FAQ ramenée à cinq questions ; contact sur mesure
  * (sections/Contact.astro) pour ne pas empiler deux eyebrows de suite (FAQ + contact partagés).
+ *
+ * Squelette du 22 sept 2026 — coquille `split` plutôt que `index`, en trois lignes :
+ * 1. `index` ne rend pas le hero (src/shells/index.astro) : il aurait supprimé le monogramme animé en
+ *    filigrane, seul geste fort de la page et signature de la maison — inacceptable pour notre vitrine.
+ * 2. `split` garde ce hero intact et casse quand même le « full scroll down, contact en bas » : panneau
+ *    fixe à gauche (nom, une phrase, sommaire actif, téléphone, CTA du tiroir), contenu qui défile à droite.
+ * 3. Mobile : le panneau disparaît et la nav sur mesure devient l'en-tête qui porte les mêmes entrées —
+ *    dégradation prévue par la coquille, là où l'index mobile n'aurait été qu'une liste de liens de plus.
  */
 import { defineSite } from '@/lib/schema';
 
@@ -28,17 +36,22 @@ export default defineSite({
   scale: 'display',
   typography: { display: 'cormorant' },
   layout: {
+    shell: 'split',
+    // Contact en tiroir : plus de section contact finale dans le layout (sections/Contact.astro reste
+    // dans le dossier, hors layout). navLinks() ajoute alors « Contact » au sommaire du panneau, et
+    // ContactDrawer.astro intercepte l'ancre #contact sur toutes les pages, page service comprise.
+    contactDrawer: true,
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      // Cinq blocs entre le hero et le contact, pas un de plus. Le manifeste (bloc encre inverse,
-      // signe) est la seule section qui inverse noir/blanc : il casse le rythme uniforme de la page.
+      // Quatre blocs après le hero, pas un de plus : ce sont aussi les quatre entrées numérotées du
+      // sommaire actif du panneau (data-scrollspy), d'où un label sur chacune. Le manifeste (bloc
+      // encre inversé, signé) reste le temps fort qui casse le rythme, entre la moitié et les 2/3.
+      // La FAQ n'est plus un bloc pleine page : elle vit en <details> sous le tableau de l'offre.
       { type: 'custom', variant: 'realisations', label: 'Réalisations' },
-      { type: 'custom', variant: 'manifeste' },
-      { type: 'custom', variant: 'commentcasepasse' },
+      { type: 'custom', variant: 'manifeste', label: 'Manifeste' },
+      { type: 'custom', variant: 'methode', label: 'Méthode' },
       { type: 'custom', variant: 'offre', label: 'Offre' },
-      { type: 'faq', variant: 'two-columns' },
-      { type: 'custom', variant: 'contact', label: 'Contact' },
     ],
     footer: 'minimal',
     divider: 'rule',

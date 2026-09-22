@@ -1,23 +1,25 @@
 ---
 /**
  * Réalisations — sur mesure Finck & Fisch. Douze sites de démonstration (un par métier, choisis
- * dans vitrine.json parmi les vingt générés), en grille simple, légendés par le métier seul.
- * Aucune figure ne pointe vers un lien (pas en ligne) : ce sont des figures, pas des cartes
+ * dans vitrine.json parmi les vingt générés), en LISTE-INDEX : une ligne par métier, numéro en
+ * chiffres tabulaires, nom du métier en display, la vignette posée au bout de la ligne. Aucune
+ * figure ne pointe vers un lien (pas en ligne) : ce sont des lignes d'index, pas des cartes
  * cliquables — jamais de href="#" vide (interdit par le vérificateur). Vignettes générées depuis
- * captures/<slug>-desktop.png par `ff vitrine` (vitrine.json, une entrée par site) en 1400 et 700 px :
- * `sizes` ci-dessous = largeur réelle d'une vignette (3 colonnes gap 2rem dans le conteneur de 1216px
- * = 384px au-delà de 1280px ; 31vw en lg ; 47vw en 2 colonnes), à garder aligné avec scripts/ff/vitrine.mjs.
+ * captures/<slug>-desktop.png par `ff vitrine` (vitrine.json, une entrée par site) en 1400 et 700 px.
  *
- * Relecture du 20 sept 2026, règle dure n°2 (rien d'inventé) :
- * - ces vingt sites sont des démonstrations, pas des clients. L'ancien titre « Vingt métiers,
- *   vingt sites » + « ce sont les vraies pages » + une ville par vignette les faisait passer pour
- *   des références. Le titre et l'intro le disent maintenant en clair, la ville (fictive) n'est
- *   plus affichée, l'alt dit « démonstration » ;
- * - la légende « signature » (« data-frames », « data-horizontal », « data-stack »...) exposait
- *   notre jargon technique à des artisans : retirée de l'affichage, conservée dans vitrine.json
- *   pour `ff vitrine` ;
- * - filtre par famille (six pastilles mono en capitales) et data-tilt retirés : gadgets de
- *   template, et douze vignettes se parcourent sans filtre. La section fait moitié moins haut.
+ * Refonte du 22 sept 2026, passage à la coquille `split` : la grille à trois colonnes tenait dans une
+ * page pleine largeur, pas dans la colonne de 58 rem qui défile à droite du panneau — trois captures
+ * de site par rangée y devenaient illisibles. La liste-index répond au panneau : même famille que le
+ * sommaire actif (numéro, filet, un mot), et elle se lit du premier coup d'œil. Pas de `data-hover-img`
+ * ici : le monogramme animé du hero est le seul effet riche de la page (règle 16), les vignettes
+ * restent donc visibles en permanence, ce qui marche aussi au doigt et au clavier.
+ * Règle 21 : un seul groupe animé — le titre, puis la liste entière en une apparition (opacité seule).
+ * Un data-stagger sur douze lignes poussait la page à 24 éléments animés, au-delà du seuil de 16
+ * de `ff audit-motion` ; la liste arrive donc d'un bloc, comme un index qu'on pose sur la table.
+ *
+ * Règle dure n°2 (rien d'inventé) : ces douze sites sont des démonstrations, pas des clients. Le
+ * titre, l'intro, la légende de chaque ligne et l'alt de chaque vignette le disent en clair ; la ville
+ * (fictive) et la « signature » technique de vitrine.json ne sont pas affichées.
  * À remplacer par les vrais sites clients dès leur mise en ligne (docs/HANDOVER.md § P1).
  */
 import vitrine from '../vitrine.json';
@@ -42,14 +44,19 @@ const sites = choisis.map((slug) => tous.find((s) => s.slug === slug)).filter((s
       Nos premiers sites clients prendront leur place ici dès leur mise en ligne.
     </p>
 
-    <div class="mt-12 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8" data-stagger="60">
-      {sites.map((s) => (
-        <figure data-reveal>
-          <div class="overflow-hidden rounded-card border border-line">
+    <ol class="mt-12 border-t border-line" data-reveal>
+      {sites.map((s, i) => (
+        <li class="grid grid-cols-[2rem_1fr_auto] items-center gap-4 border-b border-line py-4 sm:gap-8 sm:py-5">
+          <span class="font-mono text-xs tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
+          <div class="min-w-0">
+            <h3 class="font-display text-xl leading-tight sm:text-2xl">{s.metier}</h3>
+            <p class="mt-1 text-sm text-muted">Démonstration</p>
+          </div>
+          <div class="w-24 shrink-0 overflow-hidden rounded-card border border-line sm:w-36 lg:w-48">
             <img
-              src={`/images/sites/${s.slug}.webp`}
+              src={`/images/sites/${s.slug}-700.webp`}
               srcset={`/images/sites/${s.slug}-700.webp 700w, /images/sites/${s.slug}.webp 1400w`}
-              sizes="(min-width: 1280px) 384px, (min-width: 1024px) 31vw, 47vw"
+              sizes="(min-width: 1024px) 192px, (min-width: 640px) 144px, 96px"
               width="1400"
               height="900"
               alt={`Site de démonstration pour un métier : ${s.metier.toLowerCase()}`}
@@ -58,9 +65,8 @@ const sites = choisis.map((slug) => tous.find((s) => s.slug === slug)).filter((s
               class="aspect-[14/9] w-full object-cover object-top"
             />
           </div>
-          <figcaption class="mt-3 text-sm text-fg">{s.metier}</figcaption>
-        </figure>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>

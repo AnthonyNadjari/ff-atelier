@@ -287,14 +287,29 @@ function mesurer(distDir) {
   return result;
 }
 
-function ligne(cat, mesure, budget) {
+/**
+ * Budget effectif d'une categorie pour CE site. Un plafond fixe mentirait sur un choix delibere :
+ * `site.transitions` embarque le routeur d'Astro (ClientRouter, ~15 Ko) dans le JS initial, en
+ * echange des navigations sans rechargement. Plutot que de gonfler le budget de tout le monde (le
+ * dernier des reflexes qu'on veut prendre) ou d'afficher un echec permanent, la tolerance est
+ * nommee, chiffree et n'existe que pour les sites qui activent la fonctionnalite.
+ */
+export function budgetEffectif(cat, budget, { transitions = false } = {}) {
+  const base = budget.maxKB;
+  if (cat === 'js-initial' && transitions) return { maxKB: base + ALLOWANCE_TRANSITIONS_KB, note: `+${ALLOWANCE_TRANSITIONS_KB} routeur de page` };
+  return { maxKB: base, note: '' };
+}
+
+const ALLOWANCE_TRANSITIONS_KB = 16;
+
+function ligne(cat, mesure, budget, opts = {}) {
   const kbUsed = mesure.bytes / 1024;
-  const kbMax = budget.maxKB;
+  const { maxKB: kbMax, note } = budgetEffectif(cat, budget, opts);
   const passe = kbUsed <= kbMax || cat === 'js-lazy';
   const mark = cat === 'js-lazy' ? c.dim('i') : passe ? c.green('✓') : c.red('✗');
   const used = `${kbUsed.toFixed(1)} Ko`.padStart(10);
   const max = `${kbMax} Ko`.padStart(8);
-  return `  ${mark} ${cat.padEnd(14)} ${used} / ${max}  (${mesure.files.length} fichier${mesure.files.length > 1 ? 's' : ''})`;
+  return `  ${mark} ${cat.padEnd(14)} ${used} / ${max}  (${mesure.files.length} fichier${mesure.files.length > 1 ? 's' : ''})${note ? c.dim(`  ${note}`) : ''}`;
 }
 
 export async function cmdPerf(args) {
@@ -320,6 +335,12 @@ export async function cmdPerf(args) {
 
   const mesures = mesurer(distDir);
 
+  // Le site active-t-il les transitions de page ? Lu par regex dans site.config.ts, meme motif que
+  // scripts/ff/csp.mjs (pas d'import TS hors contexte Vite).
+  const cfgPath = path.join(ROOT, 'sites', slug, 'site.config.ts');
+  const transitions = fs.existsSync(cfgPath) && /\btransitions\s*:\s*true\b/.test(fs.readFileSync(cfgPath, 'utf8'));
+  const opts = { transitions };
+
   info('');
   info(`Budget de performance de ${c.bold(slug)} (perf-budget.json, tailles brutes) :`);
   info('');
@@ -327,11 +348,11 @@ export async function cmdPerf(args) {
   let echec = false;
   for (const cat of Object.keys(budget)) {
     const mesure = mesures[cat] ?? { bytes: 0, files: [] };
-    info(ligne(cat, mesure, budget[cat]));
+    info(ligne(cat, mesure, budget[cat], opts));
     // js-lazy : somme de tous les chunks emis, meme jamais importes par ce site (verification sans
     // navigateur) : informatif, jamais bloquant. Les chunks reellement charges se voient dans Lighthouse.
     if (cat === 'js-lazy') continue;
-    if (mesure.bytes / 1024 > budget[cat].maxKB) {
+    if (mesure.bytes / 1024 > budgetEffectif(cat, budget[cat], opts).maxKB) {
       echec = true;
       const pires = [...mesure.files].sort((a, b) => b.bytes - a.bytes).slice(0, 5);
       for (const f of pires) info(`      ${c.dim(f.url)} ${c.dim(`(${(f.bytes / 1024).toFixed(1)} Ko)`)}`);

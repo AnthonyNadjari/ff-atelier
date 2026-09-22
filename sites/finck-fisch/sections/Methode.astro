@@ -1,11 +1,13 @@
 ---
 /**
- * « Comment ça se passe » — sur mesure Finck & Fisch. Cinq étapes du processus réel
+ * « Méthode » (anciennement « Comment ça se passe ») — sur mesure Finck & Fisch. Cinq étapes du processus réel
  * (docs/PROCESS.md), en ligne sur desktop (grille à cinq colonnes séparées par un filet vertical,
  * façon frise), empilées sur mobile. Durées reprises telles quelles de la doc : appel de 15 minutes
  * (docs/PROCESS.md § 2), production en 48 à 72 h (§ 4, cohérent avec le "livré sous 72 h" de la
  * section Offre), fenêtre de corrections de deux semaines (§ 6). Aucune donnée inventée.
- * Appelée par { type: 'custom', variant: 'commentcasepasse' } (pas de label dans le nav).
+ * Appelée par { type: 'custom', variant: 'methode', label: 'Méthode' } : depuis le passage à la
+ * coquille `split` (22 sept 2026), chaque section porte un label — ce sont les entrées numérotées du
+ * sommaire actif du panneau. Le fichier a été renommé pour que l'ancre reste lisible (#methode).
  * Textes relus le 20 sept 2026 : phrases courtes, sans tiret cadratin ni énumération en trois.
  */
 const etapes = [
@@ -17,7 +19,7 @@ const etapes = [
 ];
 ---
 
-<section id="comment-ca-se-passe" class="section-y bg-bg-2">
+<section id="methode" class="section-y bg-bg-2">
   <div class="container-ff">
     <h2 class="max-w-2xl text-display-md" data-reveal>De l’appel à la mise en ligne.</h2>
 

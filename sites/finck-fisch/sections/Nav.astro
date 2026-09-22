@@ -1,39 +1,53 @@
 ---
 /**
- * Nav sur mesure Finck & Fisch : nom en petites capitales à gauche, trois liens seulement
- * (Réalisations, Offre, Contact — l'IA du site tient volontairement à trois portes d'entrée,
- * pas une par section), téléphone à droite. Se masque au scroll vers le bas (data-nav="hide-on-scroll",
- * voir src/scripts/motion.ts). Liens câblés en dur plutôt que via navLinks() : ce nav ne doit jamais
- * grossir au rythme des sections ajoutées à la page (Manifeste, Comment ça se passe, Trois propositions,
- * FAQ n'ont pas vocation à y figurer).
+ * Nav sur mesure Finck & Fisch. Depuis le passage à la coquille `split` (22 sept 2026), cette barre
+ * n'existe plus que SOUS 1024 px sur l'accueil (src/shells/split.astro la rend dans un `lg:hidden`) :
+ * c'est le panneau latéral devenu en-tête. Elle en reprend donc exactement le contenu — monogramme et
+ * nom, la phrase « métier · ville », le sommaire (les quatre sections du layout, mêmes libellés que
+ * les entrées numérotées du panneau), le téléphone et le CTA qui ouvre le tiroir de contact.
+ * Sur les pages service (/services/<slug>), elle reste la navigation à toutes les largeurs.
+ *
+ * Le CTA pointe sur #contact : ContactDrawer.astro (layout.contactDrawer) intercepte l'ancre et ouvre
+ * le tiroir, sur l'accueil comme sur une page service. Il n'y a plus de section contact en bas de page.
+ * Liens câblés en dur plutôt que via navLinks() : ce nav ne doit jamais grossir au rythme des sections.
+ * Se masque au scroll vers le bas (data-nav="hide-on-scroll", voir src/scripts/motion.ts).
  */
 import { site, tel } from '@/lib/site';
 
 const links = [
   { href: '#realisations', label: 'Réalisations' },
+  { href: '#manifeste', label: 'Manifeste' },
+  { href: '#methode', label: 'Méthode' },
   { href: '#offre', label: 'Offre' },
-  { href: '#contact', label: 'Contact' },
 ];
 ---
 
 <header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-[transform,background-color,box-shadow] duration-500 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/85 [&.is-scrolled]:shadow-card [&.is-scrolled]:backdrop-blur-md">
-  <div class="container-ff flex items-center justify-between gap-6 py-6 [.is-scrolled_&]:py-4 transition-[padding] duration-500">
+  <div class="container-ff flex items-center justify-between gap-4 py-6 [.is-scrolled_&]:py-4 transition-[padding] duration-500">
     <a href="/" class="flex items-center gap-3" aria-label={`${site.business.name}, accueil`}>
       <img src="/images/monogramme-clair.png" alt="" width="868" height="283" class="h-7 w-auto" />
       <span class="hidden font-display text-sm uppercase tracking-[0.18em] text-fg sm:inline">{site.business.name}</span>
     </a>
 
-    <nav class="hidden items-center gap-8 text-sm text-muted sm:flex" aria-label="Navigation principale">
+    <nav class="hidden items-center gap-8 text-sm text-muted md:flex" aria-label="Navigation principale">
       {links.map((l) => <a href={l.href} class="transition-colors hover:text-fg">{l.label}</a>)}
     </nav>
 
-    <a href={tel()} class="font-display text-sm tabular-nums text-fg transition-colors hover:text-muted" data-magnetic="0.2">
-      {site.contact.phoneDisplay}
-    </a>
+    <div class="flex items-center gap-4">
+      <a href={tel()} class="hidden font-display text-sm tabular-nums text-fg transition-colors hover:text-muted sm:inline" data-magnetic="0.2">
+        {site.contact.phoneDisplay}
+      </a>
+      <a href="#contact" class="btn btn-primary shrink-0 text-sm">{site.wording.devis}</a>
+    </div>
   </div>
 
-  <nav class="container-ff flex items-center gap-6 overflow-x-auto pb-4 text-sm text-muted sm:hidden" aria-label="Navigation principale (mobile)">
-    {links.map((l) => <a href={l.href} class="shrink-0 transition-colors hover:text-fg">{l.label}</a>)}
-  </nav>
+  {/* Sous md : le reste du panneau — la phrase, puis le sommaire et le téléphone sur une ligne. */}
+  <div class="container-ff pb-4 md:hidden">
+    <p class="text-xs text-muted">{site.business.trade} · {site.contact.address.city}</p>
+    <nav class="mt-2 flex items-center gap-5 overflow-x-auto text-sm text-muted" aria-label="Navigation principale (mobile)">
+      <a href={tel()} class="shrink-0 font-display tabular-nums text-fg">{site.contact.phoneDisplay}</a>
+      {links.map((l) => <a href={l.href} class="shrink-0 transition-colors hover:text-fg">{l.label}</a>)}
+    </nav>
+  </div>
 </header>
-<div class="h-[68px] sm:h-[76px]" aria-hidden="true"></div>
+<div class="h-[136px] md:h-[76px]" aria-hidden="true"></div>

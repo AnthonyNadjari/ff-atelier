@@ -43,3 +43,13 @@ test('srcsetUrls : srcset en descripteurs x ou sans descripteur -> premier candi
   assert.deepEqual(srcsetUrls('/seul.webp', '100vw'), ['/seul.webp']);
   assert.deepEqual(srcsetUrls('', '100vw'), []);
 });
+
+test('perf : le routeur de page est budgete explicitement, et seulement pour les sites en transitions', async () => {
+  const { budgetEffectif } = await import('../scripts/ff/perf.mjs');
+  const base = { maxKB: 40 };
+  assert.equal(budgetEffectif('js-initial', base, { transitions: false }).maxKB, 40);
+  assert.equal(budgetEffectif('js-initial', base, { transitions: true }).maxKB, 56);
+  assert.match(budgetEffectif('js-initial', base, { transitions: true }).note, /routeur/);
+  // Les autres categories ne beneficient d'aucune tolerance.
+  assert.equal(budgetEffectif('css', { maxKB: 120 }, { transitions: true }).maxKB, 120);
+});

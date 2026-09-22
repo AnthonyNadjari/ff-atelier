@@ -5,6 +5,11 @@
  * d'en-tete et la nav mobile classique prend le relais.
  * Sommaire actif (data-scrollspy, src/scripts/scrollspy.ts) : liens numerotes, le lien de la section
  * visible passe en fg et un trait d'accent se deploie devant lui.
+ *
+ * Contact en tiroir (layout.contactDrawer) : le panneau EST la nav sur desktop, il porte donc le meme
+ * CTA `wording.devis` que les cinq nav partagees (src/sections/Nav/*.astro) et que la coquille `index`
+ * — sans lui, un site en tiroir et sans section contact n'avait aucun CTA au-dessus de 1024 px, seule
+ * l'ancre #contact noyee dans le sommaire. Tokens uniquement, aucune section restylee (22 sept 2026).
  */
 import Divider from '@/components/Divider.astro';
 import Button from '@/components/Button.astro';
@@ -39,6 +44,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
     <div class="space-y-5">
       {site.contact.hours[0] && <p class="text-sm text-muted">{site.contact.hours[0].days} · {site.contact.hours[0].hours}</p>}
       <Button href={tel()} size="lg" class="w-full" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+      {site.layout.contactDrawer && <Button href="#contact" variant="ghost" size="lg" class="w-full">{site.wording.devis}</Button>}
       {socials.length > 0 && (
         <ul class="flex gap-3">{socials.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener" aria-label={k} class="inline-flex h-9 w-9 items-center justify-center rounded-ui border border-line hover:border-fg"><Icon name={iconFor[k]} size={16} /></a></li>)}</ul>
       )}
