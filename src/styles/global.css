@@ -63,7 +63,15 @@
   --shadow-lift: 0 20px 40px -16px rgb(0 0 0 / 0.25);
   --section-y: clamp(4rem, 10vw, 8rem);   /* respiration verticale des sections */
   --container: 76rem;
-  --measure: 65ch;                        /* largeur de confort du texte long, distincte de --container */
+  /* Mesure = largeur de confort du texte long, distincte de --container. ATTENTION : `ch` mesure la
+     chasse du glyphe « 0 », pas celle d'un caractere moyen — en fonte proportionnelle, 1ch vaut
+     environ 1,33 caractere reel (Rutter, clagnut.com/blog/2432 ; Meyer, meyerweb.com/eric/thoughts/
+     2018/06/28/what-is-the-css-ch-unit/). Les 65ch d'avant donnaient donc ~87 caracteres par ligne,
+     au-dessus du plafond de 75 de Bringhurst/Rutter. 58ch ~= 72 caracteres reels : dans la fourchette
+     45-75, proche du 66 « ideal ». Repere de production : Mediapart compose entre 42ch et 66ch.
+     Voir docs/veille/typographie.md §B1. */
+  --measure: 58ch;
+  --measure-large: 72ch;                  /* chapeau, manifeste, bloc de tete : une ligne plus longue assumee */
   /* Echelle d'espacement fluide (Utopia reduite) : a utiliser pour les gaps internes des blocs */
   --space-3xs: 0.3125rem;
   --space-2xs: clamp(0.5625rem, 0.5369rem + 0.1136vw, 0.625rem);
@@ -116,6 +124,140 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 }
 
+/* =====================================================================
+   COMPOSITION — ce qui separe un texte COMPOSE d'un texte POSE.
+
+   Le contenu francais correct (apostrophe ’, guillemets « », fine insecable avant ; ! ?) est le
+   travail de `ff typo` (scripts/ff/typo.mjs) et de docs/CONVENTIONS.md regle 22. Ce bloc-ci
+   s'occupe de l'autre moitie : la maniere dont le navigateur POSE ce texte — retour a la ligne,
+   interlignage, cesure, chiffres, mesure. Veille et mesures : docs/veille/typographie.md §B.
+
+   Regle de survie : chaque declaration ci-dessous doit degrader en silence. Aucune n'est
+   compensee par un hack (pas de retrait negatif pour simuler hanging-punctuation, pas de
+   line-height en px) ; un navigateur qui ne connait pas la propriete rend simplement le texte
+   comme avant. Ce bloc vient APRES @layer base pour gagner sur ses defauts a specificite egale.
+   ===================================================================== */
+@layer base {
+  /* --- 1. Equilibrage des retours a la ligne ------------------------------------------------
+     `balance` (Baseline 2024, 92,7 % des navigateurs) repartit les mots sur les lignes d'un titre :
+     plus de dernier mot seul, plus de drapeau en escalier. Plafonne a 6 lignes sur Chromium et 10
+     sur Firefox — au-dela il est ignore, ce qui le rend inutile (et inoffensif) sur un paragraphe.
+     Il ne change PAS la largeur de la boite : un titre court peut laisser un grand blanc a droite.
+     Repli : `wrap` normal, c'est-a-dire le rendu d'avant. */
+  h1, h2, h3, h4, h5, h6,
+  .text-display-xl, .text-display-lg, .text-display-md, .text-display-sm,
+  blockquote, figcaption, summary, legend, dt, .eyebrow, .btn {
+    text-wrap: balance;
+  }
+  /* `pretty` (87 %, Chrome 117+ / Safari 26+, PAS Firefox) traite les orphelines : plus de dernier
+     mot seul en fin de paragraphe, moins de cesures consecutives. Chromium n'optimise que les 4
+     dernieres lignes, WebKit tout le paragraphe : le rendu differe d'un moteur a l'autre, donc rien
+     dans nos mises en page ne doit dependre du nombre de lignes obtenu. Cout negligeable (WebKit :
+     il faudrait des milliers de lignes dans un meme element). Repli Firefox : `hyphens` ci-dessous. */
+  p, li, dd, .measure, .measure-large {
+    text-wrap: pretty;
+  }
+  /* Un titre ne se coupe jamais : ni cesure, ni rupture de mot. */
+  h1, h2, h3, h4, h5, h6, .text-display-xl, .text-display-lg, .text-display-md, .text-display-sm {
+    hyphens: manual;
+  }
+
+  /* --- 2. Interlignage lie a la TAILLE, pas fixe -------------------------------------------
+     Un interlignage unique sur tous les titres est un marqueur de gabarit : 1,05 est juste sur un
+     h1 de 80 px et etouffant sur un h3 de 20 px. Regle de Butterick/Pimp my Type : l'interligne
+     DECROIT quand le corps CROIT. Valeurs sans unite, imperativement : une valeur avec unite
+     transmet aux enfants la hauteur calculee, pas le ratio, et ecrase l'interligne des titres
+     imbriques. Le corps reste a 1.6 (@layer base ci-dessus), au-dessus du plancher WCAG de 1,5. */
+  h1, .text-display-xl, .text-display-lg { line-height: 1.05; }
+  h2, .text-display-md { line-height: 1.12; }
+  h3, h4, .text-display-sm { line-height: 1.25; }
+  h5, h6 { line-height: 1.35; }
+  /* Meme logique pour l'interlettrage : --display-tracking (-0.02em par defaut) est dessine pour
+     du gros titre. Sous ~32 px il serre des lettres deja serrees et, surtout, tout letter-spacing
+     non nul DESACTIVE les ligatures optionnelles. On le remet a zero sur les petits niveaux. */
+  h4, h5, h6 { letter-spacing: normal; }
+
+  /* --- 3. Cesure en francais ---------------------------------------------------------------
+     `hyphens: auto` n'agit QUE si l'element herite d'un `lang` connu du navigateur. Ici c'est
+     acquis : src/layouts/Base.astro pose <html lang={site.lang}> et site.lang vaut 'fr' par defaut
+     (src/lib/schema.ts). D'ou le selecteur :lang(fr) — un bloc en langue etrangere qui porterait son
+     propre lang serait automatiquement exclu, ce qui est le comportement voulu.
+     Sans cesure, le francais (« professionnalisme », « exceptionnellement ») creuse des trous
+     enormes dans une colonne etroite : c'est le defaut le plus visible de nos grilles a 375 px.
+     `hyphenate-limit-chars: 8 3 3` = mot d'au moins 8 lettres, 3 avant la coupe, 3 apres. Les
+     defauts du navigateur (5 2 2) coupent « e-tudier ». Regle de Bringhurst : au moins 2 derriere,
+     au moins 3 devant. Support : Chrome 109+, Firefox 137+ ; Safari ignore la propriete et
+     appliquera 5/2/2 — degradation acceptable, `hyphens: auto` marche quand meme. */
+  :lang(fr) p,
+  :lang(fr) li,
+  :lang(fr) dd,
+  :lang(fr) blockquote,
+  :lang(fr) .measure,
+  :lang(fr) .measure-large {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-character: auto;
+    hyphenate-limit-chars: 8 3 3;
+  }
+  /* Une URL ou un mot technique tres long ne doit pas faire deborder sa carte. `anywhere` (et non
+     `break-word`) est le seul a compter dans le calcul de largeur min-content : c'est lui qui evite
+     qu'une cellule de grille reclame la largeur du mot entier. */
+  p, li, dd, td, .measure, .measure-large { overflow-wrap: anywhere; }
+
+  /* --- 4. Chiffres -------------------------------------------------------------------------
+     `tabular-nums` donne a tous les chiffres la meme chasse : une colonne de prix s'aligne, un
+     numero de telephone ne « saute » plus d'un chiffre a l'autre, un horaire reste stable. A
+     reserver aux chiffres : dans du texte courant, le 1 devient trop espace et le mot perd sa
+     couleur. Sans effet silencieux si la fonte n'a pas `tnum` — aucun risque.
+     `lining-nums` force les chiffres capitales : plusieurs de nos display (Fraunces, EB Garamond,
+     Cormorant) ont des chiffres elzeviriens par defaut, superbes en texte, illisibles en tableau. */
+  table, th, td,
+  time,
+  address,
+  a[href^='tel:'],
+  .tabulaire {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  /* Un telephone et une adresse ne se coupent pas en deux lignes. */
+  a[href^='tel:'] { white-space: nowrap; }
+
+  /* --- 5. Detail de fonte ------------------------------------------------------------------
+     `font-optical-sizing: auto` est deja pose sur body (bloc @layer base ci-dessus) : les fontes
+     variables a axe `opsz` (Fraunces, Literata, Newsreader, Bodoni Moda...) adaptent leur graisse
+     et leur contraste a la taille reelle. Ne jamais piloter `font-variation-settings: "wght"` a la
+     main dans une direction : cela ecrase l'axe opsz automatique (utiliser `font-weight`).
+     Crenage et ligatures contextuelles : actifs par defaut, on les declare pour qu'un
+     letter-spacing pose ailleurs ne les emporte pas en silence. */
+  body {
+    font-kerning: normal;
+    font-variant-ligatures: common-ligatures contextual;
+  }
+
+  /* --- 6. Guillemets automatiques ----------------------------------------------------------
+     Pour un <q> ou un ::before de citation : guillemets francais au premier niveau avec leur fine
+     insecable interieure (U+202F, ecrite \202f), guillemets anglais courbes au second, comme le
+     veut l'Imprimerie nationale. Le texte ecrit a la main passe lui par `ff typo`. */
+  :lang(fr) q { quotes: '\ab\202f' '\202f\bb' '\201c' '\201d'; }
+
+  /* --- 7. Ponctuation suspendue (bonus muet) -----------------------------------------------
+     Le guillemet ouvrant d'une citation pend hors de la colonne, le bord gauche redevient droit.
+     Safari uniquement (~16 % des visites) et zero site du panel de veille ne l'utilise. On
+     l'applique nu, sous @supports : les autres navigateurs ne voient rien et il n'y a RIEN a
+     compenser. Ne jamais simuler par un text-indent negatif : les 84 % restants heriteraient d'un
+     decalage bien visible. */
+  @supports (hanging-punctuation: first) {
+    blockquote, .pull-quote { hanging-punctuation: first last; }
+  }
+
+  /* --- 8. Impression -----------------------------------------------------------------------
+     `widows`/`orphans` n'ont AUCUN effet sur du texte en flux continu a l'ecran (et Firefox ignore
+     `orphans`) : ils ne valent que pour la fragmentation. Leur seule place utile est ici — un
+     devis ou des mentions legales imprimes par le client. */
+  @media print {
+    p, li, blockquote { orphans: 3; widows: 3; }
+  }
+}
+
 /* ---------- Echelle typographique (site.scale) ---------- */
 [data-scale='compact'] { --scale-xl: clamp(2.25rem, 5vw, 4rem); --scale-lg: clamp(1.9rem, 3.8vw, 3rem); --scale-md: clamp(1.5rem, 2.6vw, 2.1rem); --scale-sm: clamp(1.1rem, 1.6vw, 1.35rem); --section-y: clamp(3rem, 7vw, 5.5rem); }
 [data-scale='normal'] { --scale-xl: clamp(2.75rem, 7vw, 6rem); --scale-lg: clamp(2.25rem, 5vw, 4.25rem); --scale-md: clamp(1.75rem, 3.5vw, 2.75rem); --scale-sm: clamp(1.25rem, 2vw, 1.6rem); }
@@ -139,6 +281,12 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 }
 @utility section-y { padding-block: var(--section-y); }
 @utility measure { max-width: var(--measure); }
+/* Chapeau / manifeste / bloc de tete : une ligne plus longue, assumee (voir --measure-large). */
+@utility measure-large { max-width: var(--measure-large); }
+/* Chiffres a chasse fixe : grille tarifaire, horaires, compteurs, tout ce qui doit s'aligner ou ne
+   pas sauter. A poser sur le conteneur des chiffres, jamais sur du texte courant (le 1 y devient
+   trop espace). Voir le bloc « Composition » plus haut, §4. */
+@utility tabulaire { font-variant-numeric: tabular-nums lining-nums; }
 @utility surface-tint { background: color-mix(in oklch, var(--accent) 6%, var(--bg)); }
 @utility eyebrow {
   font-family: var(--font-mono);
@@ -575,3 +723,6 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 /* Details/summary sans marqueur */
 summary { list-style: none; cursor: pointer; }
 summary::-webkit-details-marker { display: none; }
+
+/* Plancher de soin (etats de focus, formulaires, 404, impression) : voir src/styles/craft.css */
+@import './craft.css';

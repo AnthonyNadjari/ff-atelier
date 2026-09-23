@@ -1,113 +1,28 @@
 ---
 /**
- * Hero sur mesure "la route" : gros titre a gauche, panneau route a droite/dessous — une courbe
- * SVG (ligne d'axe pointillee) tracee au scroll par data-draw-svg, un point-voiture qui avance
- * dessus en boucle CSS pure (pas de GSAP sur ce point : juste offset via % + @keyframes, repli
- * prefers-reduced-motion). La barre de progression de page (data-scroll-progress) est restylee
- * ici en pointille route (dashes) via une regle scopee a ce fichier — le comportement (largeur =
- * avancement de lecture) reste celui du moteur (motion.ts, non modifie). Ligne fixe en bas de hero
- * (les quatre familles de formation) : le data-marquee d'origine a ete retire le 21 sept 2026 —
- * un seul geste riche par page, desormais le chapitre `process/horizon` du parcours de l'eleve
- * (voir site.config.ts, qui remplace sections/Parcours.astro dans le layout).
+ * Premier écran « le panneau » — propre à l'Auto-école Rabelais.
+ * Idée : le premier signe qu'un élève apprend à lire, c'est un panneau. L'écran n'en montre qu'un :
+ * un disque bordé, et le titre enfermé dedans ; sous le disque, l'adresse et le numéro, rien d'autre.
+ * Ni eyebrow, ni sous-titre, ni second bouton, ni route dessinée, ni bande de mots.
  */
-import { site, tel, yearsSince, paragraphs } from '@/lib/site';
-import Button from '@/components/Button.astro';
-import Icon from '@/components/Icon.astro';
-import Img from '@/components/Img.astro';
-
-const years = yearsSince();
-const intro = paragraphs(site.business.description)[0];
-const hero = site.images.hero;
-const teamCount = site.about.team.length;
-
-const stages = ['Inscription', 'Code', 'Conduite', 'Examen'];
-const marqueeWords = ['Permis auto', 'Permis moto', 'AAC', 'Code de la route'];
+import { site, tel } from '@/lib/site';
 ---
 
-<section id="hero" class="relative section-y overflow-hidden">
-  {/* data-scroll-progress : barre fixee en haut, restylee en pointille route ci-dessous (style scope) */}
-  <div data-scroll-progress aria-hidden="true"></div>
-
-  <div class="container-ff">
-    <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
-      <div class="lg:col-span-6" data-stagger="110">
-        <p class="eyebrow">{site.business.trade} · {site.contact.address.city}</p>
-        <h1 class="text-display-xl mt-5" data-split set:html={site.business.tagline} />
-        <p class="mt-6 max-w-xl text-lg text-muted md:text-xl">{intro}</p>
-        <div class="mt-9 flex flex-wrap items-center gap-4">
-          <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
-          <Button href="#contact" variant="ghost" size="lg">{site.wording.devis}</Button>
-        </div>
-        <ul class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
-          {years && <li class="flex items-center gap-2"><Icon name="CalendarClock" size={16} class="text-accent" /> {years} ans d’expérience</li>}
-          {teamCount > 0 && <li class="flex items-center gap-2"><Icon name="Users" size={16} class="text-accent" /> {teamCount} enseignants de la conduite</li>}
-          {site.business.certifications.map((c) => (
-            <li class="flex items-center gap-2"><Icon name="BadgeCheck" size={16} class="text-accent" /> Certifié {c}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div class="lg:col-span-6">
-        <div class="relative h-40 w-full overflow-hidden rounded-card bg-bg-2 md:h-56">
-          <svg data-draw-svg viewBox="0 0 1200 240" preserveAspectRatio="none" class="absolute inset-0 h-full w-full" fill="none" aria-hidden="true">
-            <path d="M0 190 C 200 110, 380 110, 600 150 C 820 190, 1000 70, 1200 60" stroke="var(--line)" stroke-width="10" stroke-linecap="round" />
-            <path d="M0 190 C 200 110, 380 110, 600 150 C 820 190, 1000 70, 1200 60" stroke="var(--accent)" stroke-width="3" stroke-dasharray="22 18" stroke-linecap="round" />
-          </svg>
-          <div class="road-car" aria-hidden="true"></div>
-
-          {hero && (
-            <figure class="absolute -bottom-4 -right-4 hidden w-28 overflow-hidden rounded-ui shadow-lift ring-4 ring-bg md:block">
-              <Img src={hero.src} alt={hero.alt} class="h-20 w-full object-cover" sizes="112px" loading="lazy" />
-            </figure>
-          )}
-        </div>
-        <ul class="mt-4 grid grid-cols-4 gap-2 text-center text-xs text-muted" aria-hidden="true">
-          {stages.map((s, i) => <li class="border-t-2 border-accent/40 pt-2">{String(i + 1).padStart(2, '0')}<span class="block text-fg">{s}</span></li>)}
-        </ul>
-      </div>
+<section id="hero" class="bg-bg">
+  <div class="container-ff flex min-h-[86svh] flex-col items-center justify-center gap-10 pb-16 pt-32 md:pt-40">
+    <div
+      class="flex w-full max-w-[34rem] items-center justify-center rounded-card border-[6px] border-accent px-8 py-14 text-center sm:aspect-square sm:rounded-pill sm:px-14 sm:py-0"
+      data-reveal
+    >
+      <h1 class="text-display-sm leading-snug" set:html={site.business.tagline} />
     </div>
-  </div>
 
-  <div class="mt-16 border-y border-line py-5">
-    <p class="container-ff flex flex-wrap items-center gap-x-3 gap-y-2 font-display text-display-sm uppercase text-muted">
-      {marqueeWords.map((w) => (
-        <>
-          <span>{w}</span>
-          <span class="text-accent" aria-hidden="true">•</span>
-        </>
-      ))}
+    <p class="flex flex-wrap items-baseline justify-center gap-x-6 gap-y-1 text-center text-sm text-muted">
+      <span>{site.contact.address.street}, {site.contact.address.city}</span>
+      <a href={tel()} class="font-display text-base text-fg underline-offset-4 hover:underline">
+        {site.contact.phoneDisplay}
+      </a>
+      {site.business.certifications.length > 0 && <span>{site.business.certifications.join(' · ')}</span>}
     </p>
   </div>
 </section>
-
-<style>
-  /* data-scroll-progress restylee en route (tokens uniquement) : hauteur route + pointille jaune sur bleu. */
-  #hero [data-scroll-progress] {
-    height: 6px;
-    background-color: var(--ink);
-    background-image: repeating-linear-gradient(to right, var(--on-ink) 0 14px, transparent 14px 26px);
-  }
-
-  /* Point-voiture : boucle CSS pure le long de la courbe (memes proportions que le path ci-dessus,
-     viewBox 1200x240 -> pourcentages), independante du moteur GSAP. */
-  .road-car {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-radius: 999px;
-    background: var(--accent);
-    box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 18%, transparent);
-    transform: translate(-50%, -50%);
-    animation: road-drive 9s ease-in-out infinite;
-  }
-  @keyframes road-drive {
-    0% { left: 0%; top: 78%; }
-    25% { left: 25%; top: 54%; }
-    50% { left: 50%; top: 62%; }
-    75% { left: 75%; top: 67%; }
-    100% { left: 100%; top: 24%; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .road-car { animation: none; left: 50%; top: 62%; }
-  }
-</style>

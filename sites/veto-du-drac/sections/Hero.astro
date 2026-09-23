@@ -1,119 +1,35 @@
 ---
 /**
- * Hero sur mesure pour la Clinique vétérinaire du Drac. Composition en deux temps, différente des
- * heros déjà dessinés dans le repo : un titre serif centré (aucune carte de faits accolée comme
- * `sites/dubois-plomberie/sections/Hero.astro`, aucun panneau plein écran coloré comme
- * `sites/toits-cie`, aucune photo comme `sites/osteo-marchand`/`sites/jardins-mael`), puis en
- * dessous une large scène de formes abstraites (`data-parallax-depth` + enfants `data-depth`) —
- * pas de photo d'animal, le mandat interdit les images de mignons animaux de stock : les formes
- * sont des dégradés/blobs 100 % CSS dérivés des tokens (`color-mix`), avec un simple trait qui se
- * trace au scroll (`data-draw-svg`, un pouls/battement — signal de soin sobre, pas un animal), se
- * défloute légèrement en se traçant (`data-blur-scrub="6"`, flou faible comme
- * `sites/studio-ambre/sections/CaseStudy.astro` — la clarté qui se dissipe plutôt que le doute)
- * et deux chiffres réels qui flottent au-dessus (`data-counter`, jamais un chiffre inventé) : le
- * nombre de vétérinaires et l'ancienneté réelle (`business.since`). Aucun de ces quatre effets
- * n'était encore utilisé plus de deux fois par un site dessiné à la main au moment d'écrire ce
- * fichier (voir en-tête de `site.config.ts`).
- *
- * 20 sept. 2026 : un fond `data-shader="silk"` a été essayé sur cette section puis RETIRÉ : le hero
- * porte déjà sa scène de formes (`data-parallax-depth`), un second fond animé faisait deux feux
- * d'artifice au même endroit (CONVENTIONS.md règle 16). La démonstration vivante de `data-shader`
- * est sur `sites/lemaire-avocats` ; ici on garde le calme du registre santé.
+ * Premier écran « l'instruction » — propre à la Clinique vétérinaire du Drac.
+ * Idée : quand on s'inquiète pour un animal, on n'a pas besoin d'un argumentaire mais d'un ordre de
+ * marche. Le titre situe la clinique, puis une seule consigne occupe l'écran, suivie du numéro.
+ * Ni eyebrow, ni sous-titre, ni bouton, ni décor abstrait : une phrase, un geste à faire.
  */
-import { site, tel, yearsSince, paragraphs } from '@/lib/site';
-import Button from '@/components/Button.astro';
-import Icon from '@/components/Icon.astro';
+import { site, tel } from '@/lib/site';
 
-const years = yearsSince();
-const teamCount = site.about.team.length;
-const intro = paragraphs(site.business.description)[0];
+const consigne = site.process[1] ?? site.process[0];
 ---
 
-<section id="hero" class="relative overflow-hidden bg-bg pt-32 section-y md:pt-40">
-  <div class="container-ff text-center" data-stagger="120">
-    {/* Qualificatif "a la limite de Grenoble" retire (all-caps-body, 59 car.) : la ville complete
-        (Saint-Martin-d'Heres) suffit deja comme identite courte, l'adresse complete reste dans
-        Contact/PreparerVisite plus bas sur la page. */}
-    <p class="eyebrow mx-auto">{site.business.trade} · {site.contact.address.city}</p>
-    {/*
-      data-split (mode "mots", pas "chars") : le mode caractere par caractere decoupe chaque
-      lettre dans son propre <span data-inline-block>, ce qui autorise le navigateur a couper la
-      ligne ENTRE deux lettres d'un meme mot (aucun point d'espace entre les spans adjacents pour
-      l'en empecher) — verifie sur ce hero avec "NAC"/"même" coupes en deux ("N" / "AC", "m" /
-      "ême") a la fois en mobile et en desktop avant ce correctif. Le mode mots ne decoupe qu'aux
-      espaces reelles du texte, donc ne peut jamais couper un mot en deux.
-    */}
+<section id="hero" class="bg-bg">
+  <div class="container-ff flex min-h-[80svh] flex-col justify-center gap-12 pb-16 pt-32 md:pt-40">
     <h1
-      class="mx-auto mt-6 max-w-2xl font-display leading-[1.02]"
-      style="font-size: clamp(2.5rem, 5.5vw, 4.75rem);"
-      data-split
+      class="max-w-2xl text-display-sm leading-snug text-fg"
+      data-reveal
       set:html={site.business.tagline}
     />
-    {intro && <p class="measure mx-auto mt-6 text-lg text-muted">{intro}</p>}
 
-    <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
-      <Button href="#contact" size="lg">{site.wording.devis}</Button>
-      <Button href={tel()} variant="ghost" size="lg" magnetic>
-        <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
-      </Button>
-    </div>
-  </div>
-
-  <div class="relative mt-16 h-[42vh] min-h-[280px] md:mt-20 md:h-[52vh]" data-parallax-depth>
-    <div
-      class="absolute -left-[8%] top-[10%] h-[60%] w-[42%] rounded-[62%_38%_55%_45%/48%_52%_48%_52%]"
-      style="background: color-mix(in oklch, var(--accent) 26%, transparent); filter: blur(2px);"
-      data-depth="0.12"
-      aria-hidden="true"
-    ></div>
-    <div
-      class="absolute right-[4%] top-0 h-[46%] w-[30%] rounded-[45%_55%_60%_40%/55%_45%_55%_45%]"
-      style="background: color-mix(in oklch, var(--accent-2) 30%, transparent);"
-      data-depth="0.22"
-      aria-hidden="true"
-    ></div>
-    <div
-      class="absolute bottom-[6%] left-[28%] h-[38%] w-[26%] rounded-[50%_50%_42%_58%/40%_60%_40%_60%]"
-      style="background: color-mix(in oklch, var(--accent) 18%, var(--bg-2));"
-      data-depth="0.3"
-      aria-hidden="true"
-    ></div>
-    <div
-      class="absolute bottom-0 right-[10%] h-[30%] w-[22%] rounded-[55%_45%_50%_50%/55%_45%_55%_45%]"
-      style="background: color-mix(in oklch, var(--accent) 12%, transparent);"
-      data-depth="0.08"
-      aria-hidden="true"
-    ></div>
-
-    <svg
-      data-draw-svg
-      data-blur-scrub="6"
-      data-depth="0.16"
-      viewBox="0 0 400 100"
-      class="pointer-events-none absolute inset-x-[8%] top-1/2 h-16 w-[84%] -translate-y-1/2 stroke-accent"
-      fill="none"
-      stroke-width="2.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M0 50 H120 L140 20 L160 80 L180 50 H400" />
-    </svg>
-
-    <div class="absolute left-[6%] top-[6%] rounded-pill border border-line bg-surface/90 px-4 py-2.5 shadow-card backdrop-blur-sm" data-depth="0.05">
-      <p class="flex items-baseline gap-1.5 font-display text-2xl leading-none text-fg">
-        <span data-counter={teamCount}>0</span>
-      </p>
-      <p class="mt-1 text-xs text-muted">vétérinaires</p>
-    </div>
-
-    {years !== undefined && (
-      <div class="absolute bottom-[8%] right-[6%] rounded-pill border border-line bg-surface/90 px-4 py-2.5 shadow-card backdrop-blur-sm" data-depth="0.1">
-        <p class="flex items-baseline gap-1.5 font-display text-2xl leading-none text-fg">
-          <span data-counter={years}>0</span><span class="text-sm font-normal text-muted">ans</span>
-        </p>
-        <p class="mt-1 text-xs text-muted">à {site.contact.address.city}</p>
-      </div>
+    {consigne && (
+      <p
+        class="max-w-4xl font-display leading-[1.04] text-fg"
+        style="font-size: clamp(2rem, 7vw, 5rem);"
+      >{consigne.title}</p>
     )}
+
+    <p class="flex flex-wrap items-baseline gap-x-6 gap-y-2">
+      <a href={tel()} class="font-display text-2xl text-fg underline-offset-4 hover:underline">
+        {site.contact.phoneDisplay}
+      </a>
+      <span class="text-muted">{site.contact.address.street}, {site.contact.address.city}</span>
+    </p>
   </div>
 </section>

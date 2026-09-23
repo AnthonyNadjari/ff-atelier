@@ -8,17 +8,37 @@
   --accent-s: 85%;
   --accent-l: 46%; /* 50 -> 46 : eyebrow (defaut color:accent) et texte sur bouton sous 4.5:1 sur la palette par defaut de la direction (un site peut deja surcharger site.accent, ex. dubois-plomberie) */
 
-  --bg: #ffffff;
-  --bg-2: #f7f7f7;
+  /* Couleurs empruntees au chantier du metier (plombier, serrurier, electricien, depanneur), pas
+     derivees d'un HSL. Aucune ligne ci-dessous n'est un calcul — ce sont des relevés de matiere.
+       --bg      le blanc froid d'une plaque d'acier galvanise neuve (3 points de bleu : 249/251/252).
+                 Le #ffffff d'avant, avec ses gris parfaitement neutres (#f7f7f7, #5a5a5a, #e5e5e5),
+                 etait le reglage d'usine de n'importe quel generateur de palette.
+       --bg-2    le meme acier apres une saison de pluie : gris-vert, 6 points d'ecart de luminosite
+                 avec --bg, quand --surface n'en a que 1,4 — deux marches inegales, pas un escalier.
+       --surface le seul blanc pur qui reste dans la direction, reserve aux cartes : le papier du devis.
+       --fg      l'encre du marquage serigraphie sur un tube de cuivre, bleu-noir, jamais #000.
+       --muted   le gris mat du plomb.
+       --ink     le noir bleute de la fonte d'un regard de chaussee. Avant, --ink valait
+                 `calc(var(--accent-l) - 18%)` : le noir de la page etait une nuance du rouge de
+                 la marque. Trois tokens tires du meme HSL, c'est la definition du generateur. */
+  --bg: #f9fbfc;
+  --bg-2: #e8edee;
   --surface: #ffffff;
-  --fg: #101010;
-  --muted: #5a5a5a;
-  --line: #e5e5e5;
+  --fg: #12181a;
+  --muted: #5c6360;
+  --line: #ccd5d6;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
   --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 10%));
   --on-accent: #ffffff;
-  --ink: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 18%));
-  --on-ink: #ffffff;
+  --ink: #131a1d;
+  --on-ink: #f9fbfc;
+
+  /* Le vert-jaune de la gaine du conducteur de terre (code couleur NF C 15-100). Il ne sert QU'A
+     UNE CHOSE : l'anneau de focus clavier (regle plus bas). Dans une direction ou tout est rouge
+     — boutons, titres, eyebrow, filets —, le seul repere qui dit « vous etes ici » ne doit jamais
+     pouvoir etre lu comme une alerte de plus. Valeur relevee sur la gaine, assombrie juste assez
+     pour tenir 4,9:1 sur --bg (verifie par `ff couleur signal`), pas calculee depuis l'accent. */
+  --signal-terre: #4a7a12;
 
   --font-display: 'Archivo Black', Arial, sans-serif;
   --font-body: 'Archivo Variable', ui-sans-serif, sans-serif;
@@ -57,8 +77,15 @@
   color: var(--fg);
   background: transparent;
 }
-[data-direction='signal'] .btn-ghost:hover { background: var(--fg); color: #ffffff; }
+[data-direction='signal'] .btn-ghost:hover { background: var(--fg); color: var(--surface); }
 [data-direction='signal'] .btn-ink { background: var(--ink); color: var(--on-ink); }
+
+/* L'unique emploi de --signal-terre (voir le commentaire du bloc de tokens). global.css pose
+   `outline: 2px solid var(--accent)` dans @layer base ; cette regle n'est dans aucune couche,
+   elle gagne donc toujours, quel que soit l'ordre de chargement des feuilles. */
+[data-direction='signal'] :focus-visible {
+  outline-color: var(--signal-terre);
+}
 
 [data-direction='signal'] .card {
   border: 1px solid var(--line);

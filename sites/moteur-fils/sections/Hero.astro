@@ -1,111 +1,36 @@
 ---
 /**
- * Hero dessiné pour Garage Moteur & Fils. Section coupée en diagonale (clip-path) : crème à
- * gauche avec l'accroche en très grand, orange à droite avec deux badges façon autocollants,
- * dont un qui tourne lentement. En pied, la liste des services sur une bande encre fixe (la
- * double bande défilante data-marquee d'origine a été retirée le 21 sept 2026 : un seul geste
- * riche par page, c'est le curseur avant/après qui le porte). Coquille `split` : la colonne de
- * contenu fait ~1000 px à 1400 px d'écran, la coupe en diagonale (texte à 42 % de large) n'y
- * tient pas — elle ne s'active que si la SECTION (container query, pas la fenêtre) fait au moins
- * 72rem de large, en dessous le hero reste empilé (texte, badges, bande). Composition propre à ce site.
+ * Premier écran « 1994 » — propre au Garage Moteur & Fils.
+ * Idée : dans un garage indépendant, le premier argument n'est pas une phrase, c'est une date. Le
+ * millésime d'ouverture ouvre l'écran en chiffres à pleine largeur, le titre se pose dessous.
+ * Ni eyebrow, ni sous-titre, ni second bouton, ni badge, ni bande de services.
  */
 import { site, tel } from '@/lib/site';
-import Icon from '@/components/Icon.astro';
+
 const since = site.business.since;
-const firstLine = site.business.description.split(/\n/)[0];
-const services = site.services.map((s) => s.title);
 ---
 
-<section id="hero" class="@container relative overflow-hidden bg-bg">
-  {/* L'orange est une couche de fond, pas la classe de la section : `.bg-accent .eyebrow` (global.css)
-      passait sinon l'eyebrow en on-accent sur le bloc creme — creme sur creme (ff detect, 21 sept 2026). */}
-  <div class="absolute inset-0 bg-accent" aria-hidden="true"></div>
-  <div class="hero-split relative flex flex-col @6xl:block">
-    <div class="hero-cream relative z-[1] bg-bg">
-      <div class="hero-text relative mx-auto w-full max-w-2xl px-6 py-16 sm:px-8 @6xl:mx-0 @6xl:max-w-none @6xl:py-0">
-        <div data-stagger="130">
-          {/* Ville + "depuis {since}" retires (all-caps-body, 56 car.) : le badge tournant plus bas
-              (hero-badges) affiche deja "Depuis {since}", la ville complete reste dans Contact. */}
-          <p class="eyebrow flex items-center gap-3">
-            <span class="inline-block h-px w-10 bg-accent" aria-hidden="true"></span>
-            {site.business.trade}
-          </p>
-          <h1
-            class="mt-6 font-display leading-[0.92] text-fg"
-            style="font-size: clamp(2.75rem, 9vw, 6.5rem);"
-            data-split
-            set:html={site.business.tagline}
-          />
-          <p class="mt-7 max-w-md text-lg text-muted">{firstLine}</p>
-          <div class="mt-9 flex flex-wrap items-center gap-5">
-            <a
-              href={tel()}
-              class="btn btn-primary inline-flex items-center gap-3 rounded-ui bg-accent px-7 py-4 font-display text-xl text-on-accent shadow-card"
-              data-magnetic="0.2"
-            >
-              <Icon name="Phone" size={20} />{site.contact.phoneDisplay}
-            </a>
-            <a href="#contact" class="inline-flex items-center gap-2 border-b-2 border-ink/30 pb-1 font-medium text-fg hover:border-accent hover:text-accent">
-              {site.wording.devis}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+<section id="hero" class="overflow-hidden bg-bg">
+  <div class="container-ff flex min-h-[80svh] flex-col justify-end pb-14 pt-32 md:pt-40">
+    {since && (
+      <p
+        class="font-display leading-[0.76] tracking-tight tabular-nums text-fg"
+        style="font-size: clamp(5.5rem, 26vw, 19rem);"
+        aria-hidden="true"
+      >{since}</p>
+    )}
 
-    <div class="hero-badges relative z-[2] flex items-center justify-center gap-6 py-10 @6xl:justify-end @6xl:gap-10 @6xl:py-0 @6xl:pr-[7%]">
-      <div class="shrink-0">
-        <div class="badge-spin flex h-32 w-32 flex-col items-center justify-center rounded-full border-[3px] border-ink bg-surface text-center shadow-card sm:h-40 sm:w-40">
-          <span class="font-display text-sm uppercase tracking-wide text-muted">Depuis</span>
-          <span class="font-display text-3xl text-fg sm:text-4xl">{since}</span>
-        </div>
-      </div>
-      <div data-reveal="left" data-reveal-delay="200">
-        <div class="-rotate-6 rounded-pill border-[3px] border-ink bg-bg px-5 py-3 text-center font-display text-base text-fg shadow-card sm:px-6 sm:py-4 sm:text-lg">
-          Toutes marques
-        </div>
-      </div>
-    </div>
-  </div>
+    <h1
+      class="mt-8 max-w-2xl font-display text-display-md leading-[0.98]"
+      data-split
+      set:html={site.business.tagline}
+    />
 
-  <div class="relative z-[2] border-y-[3px] border-ink bg-ink py-3">
-    <ul class="container-ff flex flex-wrap items-center gap-x-6 gap-y-2 font-display text-lg uppercase tracking-widest text-on-ink sm:text-xl" aria-label="Services">
-      {services.map((s) => <li class="flex items-center gap-6">{s}<span class="text-accent" aria-hidden="true">✶</span></li>)}
-    </ul>
+    <p class="mt-8 flex flex-wrap items-baseline gap-x-6 gap-y-1">
+      <a href={tel()} class="font-display text-xl text-fg underline-offset-4 hover:underline">
+        {site.contact.phoneDisplay}
+      </a>
+      <span class="text-muted">{site.contact.address.street}, {site.contact.address.city}</span>
+    </p>
   </div>
 </section>
-
-<style>
-  @container (min-width: 72rem) {
-    .hero-split {
-      min-height: 74svh;
-    }
-    .hero-cream {
-      position: absolute;
-      inset: 0;
-      clip-path: polygon(0 0, 60% 0, 37% 100%, 0 100%);
-      display: flex;
-      align-items: center;
-    }
-    .hero-text {
-      padding-inline-start: clamp(1.5rem, 4vw, 3rem);
-      max-width: 42%;
-    }
-    .hero-badges {
-      position: absolute;
-      inset: 0;
-    }
-  }
-
-  .badge-spin {
-    animation: spin-slow 26s linear infinite;
-  }
-  @keyframes spin-slow {
-    to { transform: rotate(360deg); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .badge-spin {
-      animation: none;
-    }
-  }
-</style>

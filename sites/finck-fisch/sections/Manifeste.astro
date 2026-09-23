@@ -1,42 +1,56 @@
 ---
 /**
- * Section sur mesure Finck & Fisch : le manifeste en trois affirmations, en liste typographique
- * numérotée (plutôt que trois cartes) — un seul filet qui se trace au scroll (data-draw) referme
- * la liste. Fond encre (bg-ink) : le seul écran du site à inverser noir/blanc, un unique temps
- * fort plutôt qu'un habillage répété. Appelée dans le layout par
- * { type: 'custom', variant: 'manifeste' } (pas de label : ce bloc n'a pas d'ancre de nav, voir
- * sites/finck-fisch/sections/Nav.astro — trois liens seulement).
+ * Manifeste — sur mesure Finck & Fisch. Le temps fort de la page (règle 19) : le seul écran qui
+ * inverse le noir et le blanc (bg-ink), placé au 3e des 5 blocs, soit entre la moitié et les deux
+ * tiers. Pas de label dans le layout : ce n'est pas une destination du sommaire, c'est une rupture.
  *
- * Relecture du 20 sept 2026 : le titre « Trois règles, aucune exception » sonnait slogan de
- * générateur ; remplacé par une phrase plate. Les trois titres en formule choc (« Un prix, une
- * fois. », « Vite, mais pas pareil. ») réécrits en phrases qu'on dirait au téléphone. La
- * signature ne répète plus le sous-titre du hero (« deux associés, un seul interlocuteur »).
+ * Réécriture du 22 sept 2026 (décision 7 de `sites/finck-fisch/ETALON.md`) :
+ * - Le titre dit ce qu'on s'INTERDIT, pas ce qu'on promet. Le relevé des 17 studios est net sur ce
+ *   point : le ton est la différenciation la moins chère et celle qui se décide (Akaru se définit
+ *   contre le client-roi, darkroom écrit en minuscules, basement jure dans sa balise title). Notre
+ *   angle est déjà écrit dans le repo — règle dure n°2, jamais de donnée inventée — il suffisait de
+ *   l'assumer en façade.
+ * - La liste numérotée 01/02/03 disparaît. Réalisations, juste après, est un index numéroté de douze
+ *   lignes : deux listes numérotées d'affilée, c'est le gabarit répété que la règle 19 interdit. Ce
+ *   bloc devient donc un moment purement typographique, trois phrases posées, sans filet ni chiffre.
+ * - La signature reste (règle 20, geste humain) et gagne une phrase vraie que personne ne génère :
+ *   la troisième interdiction est réellement une règle de notre atelier, et elle nous coûte des
+ *   phrases à chaque site.
+ *
+ * Règle 21 : deux groupes animés au plus — le titre en data-split, le bloc des trois phrases en un
+ * seul data-reveal. Rien sur la signature. data-grain : matière du noir (règle 20).
  */
 import { site } from '@/lib/site';
-const points = [
-  { n: '01', titre: 'Vous payez une fois.', texte: 'Pas d’abonnement, pas de frais cachés. Le site est à vous le jour de la mise en ligne.' },
-  { n: '02', titre: 'Deux clients, deux sites différents.', texte: 'Chaque site a sa direction et sa typographie. Aucun modèle recopié d’un client à l’autre.' },
-  { n: '03', titre: 'Rien d’inventé.', texte: 'Pas de faux avis, pas de chiffres gonflés. Si une chose n’est pas vraie, le site ne la dit pas.' },
+
+const refus = [
+  { quoi: 'Pas d’abonnement.', pourquoi: 'Le site est payé une fois, et il vous appartient le jour de la mise en ligne.' },
+  { quoi: 'Pas de modèle recopié.', pourquoi: 'Deux clients n’ont jamais la même direction ni la même typographie.' },
+  { quoi: 'Pas de faux avis, pas de chiffre gonflé.', pourquoi: 'Si une chose n’est pas vraie, le site ne la dit pas.' },
 ];
 ---
 
 <section id="manifeste" data-grain class="section-y bg-ink text-on-ink">
   <div class="container-ff">
-    <h2 class="max-w-4xl text-display-lg" data-split>Comment nous travaillons.</h2>
+    <h2 class="max-w-3xl text-display-lg" data-split>Ce que nous nous interdisons.</h2>
 
-    <ol class="mt-14 border-t border-on-ink/15">
-      {points.map((p) => (
-        <li class="grid grid-cols-1 gap-3 border-b border-on-ink/15 py-9 md:grid-cols-[6rem_1fr] md:gap-10 md:py-10">
-          <span class="font-display text-display-sm text-on-ink/35">{p.n}</span>
-          <div>
-            <h3 class="text-display-sm">{p.titre}</h3>
-            <p class="mt-3 max-w-prose text-on-ink/70 leading-relaxed">{p.texte}</p>
-          </div>
-        </li>
+    <div class="mt-16 max-w-3xl" data-reveal>
+      {refus.map((r) => (
+        <p class="ff-refus text-display-sm leading-snug">
+          <span class="text-on-ink">{r.quoi}</span>{' '}
+          <span class="text-on-ink/60">{r.pourquoi}</span>
+        </p>
       ))}
-    </ol>
+    </div>
 
-    <div class="mt-10 h-px w-full bg-on-ink/20" data-draw aria-hidden="true"></div>
-    <p class="mt-6 font-display text-lg italic text-on-ink/60">Signé {site.business.name}.</p>
+    <p class="mt-20 font-display text-lg italic text-on-ink/70">Signé {site.business.name}.</p>
+    <p class="mt-4 max-w-md text-sm leading-relaxed text-on-ink/50">
+      La troisième est écrite en toutes lettres dans les règles de notre atelier. C’est celle qui nous
+      a fait supprimer le plus de belles phrases.
+    </p>
   </div>
 </section>
+
+<style>
+  /* Trois phrases posées, pas une liste : l'espace entre elles est l'unique séparateur. */
+  .ff-refus + .ff-refus { margin-top: 2.25rem; }
+</style>

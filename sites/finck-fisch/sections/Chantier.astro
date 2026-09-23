@@ -1,0 +1,119 @@
+---
+/**
+ * « Délais » (id `chantier`) — sur mesure Finck & Fisch, créé le 22 sept 2026 (décision 4 de
+ * `sites/finck-fisch/ETALON.md`). Remplace l'ancienne section « Méthode » en cinq étapes.
+ *
+ * Pourquoi ce bloc existe : sur les 17 sites de studios relevés, AUCUN n'affiche de processus étapé
+ * et un seul affiche un délai (Grapheine, « sous 48 heures », et c'est un délai de réponse
+ * commerciale, pas de production). Deux d'entre eux revendiquent explicitement de ne pas avoir de
+ * méthode. C'est le trou le plus net du marché : un artisan veut savoir combien, quand, et ce qu'il
+ * doit fournir. On l'occupe.
+ *
+ * Pourquoi cette forme : une frise « 1. Découverte 2. Design 3. Lancement » est exactement le cliché
+ * que ces dix-sept fuient, et le deuxième tell « généré par IA » après l'eyebrow. Ici, une RÉGLURE :
+ * un filet vertical continu, trois graduations, l'heure en chiffres tabulaires. L'écart entre deux
+ * graduations est PROPORTIONNEL au temps réel (0 -> 48 h vaut deux fois 48 -> 72 h : `pb-24` puis
+ * `pb-12`). C'est ce rapport d'espacement qui fait sentir la vitesse, pas un adjectif.
+ *
+ * Aucune donnée inventée (règle dure n°2) : les trois heures viennent de `docs/PROCESS.md` — § 4
+ * « jour de production », § 4 « trois propositions en 48 à 72 h », § 6 « fenêtre de corrections de
+ * deux semaines » — et de la note d'ordre strict du § 9 (« le délai de 72 h ne démarre qu'à réception
+ * des éléments, jamais avant devis signé + acompte reçu »). L'engagement de 72 h et la remise de 10 %
+ * restent marqués provisoires en bas de bloc, comme dans `sections/Offre.astro`.
+ *
+ * Règle 21 : un seul groupe animé — le titre en data-reveal, puis la réglure entière en un
+ * data-stagger. Les graduations arrivent donc l'une après l'autre, de haut en bas : le seul endroit
+ * de la page où l'animation dit quelque chose (le temps qui passe) au lieu de décorer.
+ * Aucun eyebrow, aucune icône (décision 6).
+ */
+const graduations = [
+  {
+    heure: '0 h',
+    texte:
+      'Vos textes, vos photos et votre logo nous arrivent. Le compte à rebours démarre là, pas au premier appel.',
+    // Intervalle jusqu'à la graduation suivante : 48 h, soit le double de 48 -> 72. D'où pb-24 / pb-12.
+    espace: 'pb-24',
+  },
+  {
+    heure: '48 h',
+    texte: 'Les trois propositions sont en ligne. Vous les ouvrez chacune, vous en choisissez une.',
+    espace: 'pb-12',
+  },
+  {
+    heure: '72 h',
+    texte: 'Le site est publié sur votre nom de domaine, enregistré à votre nom.',
+    espace: 'pb-0',
+  },
+];
+---
+
+<section id="chantier" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <h2 class="max-w-2xl text-display-md" data-reveal>Ce que veut dire 72 heures.</h2>
+    <p class="mt-6 max-w-2xl leading-relaxed text-muted">
+      Le délai court à partir du moment où vos éléments sont chez nous. C’est la seule façon de le
+      tenir, et c’est la seule chose que nous vous demandons de faire vite.
+    </p>
+
+    <ol class="ff-reglure mt-16 max-w-3xl" data-stagger="120">
+      {graduations.map((g) => (
+        <li class={`ff-grad relative grid grid-cols-[5.5rem_1fr] gap-5 sm:grid-cols-[8rem_1fr] sm:gap-10 ${g.espace}`}>
+          <span class="font-display text-2xl tabular-nums leading-none text-fg sm:text-3xl">{g.heure}</span>
+          <p class="max-w-md leading-relaxed text-muted">{g.texte}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="mt-16 grid gap-8 border-t border-line pt-10 sm:grid-cols-2">
+      <p class="max-w-sm text-sm leading-relaxed text-muted">
+        <span class="text-fg">Avant.</span> Un appel de quinze minutes, un devis signé, un acompte.
+        Rien ne part avant.
+      </p>
+      <p class="max-w-sm text-sm leading-relaxed text-muted">
+        <span class="text-fg">Après.</span> Deux semaines pour ajuster un texte ou une photo,
+        comprises dans le prix.
+      </p>
+    </div>
+
+    {/* ENGAGEMENT PROVISOIRE — à confirmer par les fondateurs avant mise en ligne (même statut que
+        les prix de sections/Offre.astro, voir docs/HANDOVER.md § P0). */}
+    <p class="mt-8 text-xs leading-relaxed text-muted">
+      Le délai de 72 heures et la remise de 10 % en cas de dépassement sont un engagement provisoire,
+      à confirmer avant signature.
+    </p>
+  </div>
+</section>
+
+<style>
+  /* La réglure : un filet vertical continu derrière les graduations, et une cote horizontale à
+     chaque heure. Tokens uniquement (--line, --accent). Le filet s'arrête à la dernière graduation :
+     72 h est la fin de l'échelle, pas une flèche vers l'infini. */
+  .ff-reglure {
+    position: relative;
+    list-style: none;
+    padding-left: 0;
+  }
+  .ff-grad::before {
+    content: '';
+    position: absolute;
+    inset-block: 0.5rem auto;
+    left: 0;
+    width: 1px;
+    height: calc(100% - 0.5rem);
+    background: var(--line);
+  }
+  .ff-grad:last-child::before { display: none; }
+
+  /* La cote : un tiret d'accent devant chaque heure, à hauteur de ligne. */
+  .ff-grad::after {
+    content: '';
+    position: absolute;
+    top: 0.55rem;
+    left: 0;
+    width: 0.75rem;
+    height: 1px;
+    background: var(--accent);
+  }
+  /* L'heure se décale du filet ; le texte, lui, occupe sa colonne de grille sans retrait. */
+  .ff-grad > span { padding-left: 1.5rem; }
+</style>

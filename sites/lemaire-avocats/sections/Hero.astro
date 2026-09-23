@@ -1,57 +1,42 @@
 ---
 /**
- * Hero sur mesure : aucune photo (option explicitement permise par le mandat — "no image or a dark
- * abstract image at low contrast" — aucune photo du cabinet n'est fournie par le brief ; le ciel
- * étoilé très discret de la direction "nuit", déjà posé par `body::before` dans le token système,
- * donne toute la texture nécessaire, jamais une image générée pour combler l'absence). Depuis le
- * 20 sept. 2026, `data-shader="mesh"` (docs/ANIMATIONS.md, docs/veille/shaders.md) pose sous le hero
- * un fond WebGL très lent aux seules couleurs de la direction (bleu nuit, ambre à 40 %) : de la
- * matière sans photo (CONVENTIONS.md règle 20), le ciel étoilé reprend sous les sections suivantes.
- * C'est le seul feu d'artifice de la page (règle 16) — aucun marquee, `data-frames` ou
- * `data-horizontal` ailleurs sur ce site. `data-shader-pointer="1"` : dérive imperceptible vers le
- * curseur, inactive au tactile. Repli automatique (reduced-motion, sans WebGL) : dégradé statique.
- * Une seule phrase longue en serif (data-text-fill, business.tagline) énonce ce que fait le cabinet
- * et pour qui — voir l'en-tête de site.config.ts pour la raison de laisser cette phrase sans <em>
- * (data-text-fill redécoupe le texte via `textContent` dans motion.ts, toute balise imbriquée y
- * serait perdue au montage). Une ligne d'identité (deux avocates) et deux actions en dessous,
- * jamais de promesse de résultat (docs/veille/redaction-images.md §1.4).
+ * Premier écran « la page de titre » — propre au cabinet Lemaire.
+ * Idée : une profession réglementée ne vend rien au premier écran. Une seule phrase, un filet, puis
+ * trois mentions nues : depuis quand, quand le cabinet reçoit, où il intervient. Rien d'autre.
+ * Ni eyebrow, ni sous-titre, ni bouton — le fond animé de la direction porte seul la matière.
  */
 import { site, tel } from '@/lib/site';
-import Button from '@/components/Button.astro';
-import Icon from '@/components/Icon.astro';
-const firstHours = site.contact.hours[0];
+
+const heures = site.contact.hours[0];
+const mentions = [
+  ...(site.business.since ? [`Depuis ${site.business.since}`] : []),
+  ...(heures ? [`${heures.days} — ${heures.hours}`] : []),
+  ...(site.zones?.label ? [site.zones.label] : []),
+];
 ---
 
-<section id="hero" class="section-y relative overflow-hidden pt-8 sm:pt-12" data-shader="mesh" data-shader-speed="0.8" data-shader-pointer="1">
+<section
+  id="hero"
+  class="relative overflow-hidden"
+  data-shader="mesh"
+  data-shader-speed="0.8"
+  data-shader-pointer="1"
+>
   <div class="container-ff relative">
-    {/* "au Barreau de" retire (all-caps-body, 48 car.) : le rattachement au barreau reste affiche
-        juste au-dessus (Nav.astro, ligne d'ours "Avocates au Barreau de Montpellier"), business.since
-        n'est montre nulle part ailleurs sur la page donc reste ici. */}
-    <p class="eyebrow flex items-center gap-2">
-      <Icon name="Scale" size={14} class="text-accent" strokeWidth={1.75} />
-      Avocates à {site.contact.address.city} — depuis {site.business.since}
-    </p>
+    <div class="flex min-h-[80svh] max-w-3xl flex-col justify-center gap-10 pb-16 pt-32 md:pt-40">
+      <h1 class="text-display-lg leading-[1.12]" data-reveal>{site.business.tagline}</h1>
 
-    <h1 class="mt-6 max-w-4xl font-display text-display-xl leading-[1.08]" data-text-fill>
-      {site.business.tagline}
-    </h1>
+      <div class="h-px w-full bg-line" aria-hidden="true"></div>
 
-    <p class="measure mt-8 max-w-xl text-lg text-muted">
-      Quatre domaines d’intervention, un cabinet de deux avocates à Montpellier — Maître Claire Lemaire et Maître Inès Dahmani.
-    </p>
+      <ul class="flex flex-wrap gap-x-10 gap-y-3 font-mono text-xs tracking-[0.12em] text-muted">
+        {mentions.map((m) => <li>{m}</li>)}
+      </ul>
 
-    <div class="mt-10 flex flex-wrap items-center gap-4">
-      <Button href="#contact" variant="primary" size="lg" magnetic>{site.wording.devis}</Button>
-      <Button href="#domaines" variant="ghost" size="lg">Voir les domaines d’intervention</Button>
+      <p>
+        <a href={tel()} class="font-display text-lg text-fg underline-offset-4 hover:underline">
+          {site.contact.phoneDisplay}
+        </a>
+      </p>
     </div>
-
-    {/* normal-case (all-caps-body) : horaires + numero de telephone concatenes forment une phrase
-        de 61 caracteres en petites capitales, illisible — et un numero de telephone en capitales
-        n'apporte rien visuellement. */}
-    <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs normal-case tracking-[0.14em] text-muted">
-      {firstHours && <span>{firstHours.days} — {firstHours.hours}</span>}
-      {firstHours && <span aria-hidden="true">·</span>}
-      <a href={tel()} class="text-fg hover:text-accent">{site.contact.phoneDisplay}</a>
-    </p>
   </div>
 </section>

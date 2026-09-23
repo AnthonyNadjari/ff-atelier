@@ -81,9 +81,9 @@ export default defineSite({
     // sur cette phrase, et motion.ts la reduit a `textContent` avant de la decouper mot par mot —
     // toute balise imbriquee (<em>) y serait detruite au montage JS (rich). Texte brut donc, l'accent
     // <em> du mandat est porte par wording.ctaTitle (rendu via set:html, jamais decoupe).
-    tagline: 'Le droit du travail, de la famille, de l’immobilier et des TPE, expliqué clairement.',
+    tagline: 'Deux avocates à Montpellier. Le premier rendez-vous sert à y voir clair.',
     description:
-      'Le cabinet Lemaire Avocats réunit deux avocates inscrites au Barreau de Montpellier, Maître Claire Lemaire et Maître Inès Dahmani. Depuis 2014, il accompagne particuliers et petites entreprises en droit du travail, droit de la famille, droit immobilier et droit des affaires.\n\nLes consultations se tiennent sur rendez-vous, au cabinet du 5 rue Foch à Montpellier. L’aide juridictionnelle est acceptée en droit de la famille.',
+      'Le cabinet réunit deux avocates inscrites au Barreau de Montpellier, Maître Claire Lemaire et Maître Inès Dahmani. Depuis 2014, elles suivent des particuliers et des petites entreprises en droit du travail, en droit de la famille, en droit immobilier et en droit des affaires.\n\nLes consultations ont lieu sur rendez-vous, au cabinet du 5 rue Foch. La première dure 45 minutes et coûte 90 € TTC, à titre indicatif. L’aide juridictionnelle est acceptée en droit de la famille.',
     since: 2014,
     schemaType: 'LegalService',
   },
@@ -107,19 +107,19 @@ export default defineSite({
     {
       slug: 'droit-travail',
       title: 'Droit du travail',
-      short: 'Licenciement, rupture conventionnelle, litiges avec l’employeur.',
+      short: 'Licenciement, rupture conventionnelle, conflit avec l’employeur. Côté salarié comme côté employeur.',
       description:
-        'Salariés et employeurs nous consultent pour un licenciement contesté, une rupture conventionnelle à négocier, ou un différend qui s’aggrave.\n\nNous étudions le dossier, expliquons les options et, si besoin, vous représentons devant le conseil de prud’hommes.',
-      bullets: ['Licenciement contesté', 'Rupture conventionnelle', 'Harcèlement ou discrimination au travail'],
+        'Nous recevons aussi bien des salariés que des employeurs. Le premier travail consiste à lire les pièces et à dire ce que le dossier vaut. Et cette réponse ne va pas toujours dans le sens espéré.\n\nSi une procédure s’impose, nous vous représentons devant le conseil de prud’hommes.',
+      bullets: ['Licenciement contesté', 'Rupture conventionnelle à négocier', 'Harcèlement ou discrimination au travail'],
       icon: 'Briefcase',
       featured: true,
     },
     {
       slug: 'droit-famille',
       title: 'Droit de la famille',
-      short: 'Divorce, garde d’enfants, pension alimentaire, succession.',
+      short: 'Divorce, séparation, garde d’enfants, succession.',
       description:
-        'Un divorce, une séparation, une question de garde ou une succession touchent à ce qu’il y a de plus personnel. Nous prenons le temps d’écouter la situation avant d’évoquer une procédure.\n\nL’aide juridictionnelle est acceptée pour les dossiers de droit de la famille qui y sont éligibles.',
+        'Un divorce, une question de garde, une succession : ces dossiers touchent à la vie privée, pas seulement au droit. Nous prenons le temps d’écouter la situation avant de parler procédure.\n\nL’aide juridictionnelle est acceptée pour les dossiers qui y sont éligibles. Nous vérifions ce point dès le premier échange.',
       bullets: ['Divorce et séparation', 'Garde d’enfants et pension alimentaire', 'Succession et partage'],
       icon: 'Users',
       featured: true,
@@ -127,9 +127,9 @@ export default defineSite({
     {
       slug: 'droit-immobilier',
       title: 'Droit immobilier',
-      short: 'Baux, copropriété, litiges de voisinage, vente immobilière.',
+      short: 'Bail contesté, désaccord en copropriété, vente qui se complique.',
       description:
-        'Un bail contesté, un désaccord en copropriété, une vente qui se complique : le droit immobilier touche autant les particuliers que les petites entreprises propriétaires de leurs murs.\n\nNous intervenons en conseil comme en contentieux, à Montpellier et dans les communes voisines.',
+        'Le droit immobilier concerne autant les particuliers que les petites entreprises propriétaires de leurs murs. Nous intervenons en conseil, avant le conflit, et en contentieux lorsqu’il est déjà installé.\n\nUn litige de voisinage se règle parfois sans procédure. Nous le disons quand c’est le cas.',
       bullets: ['Litige de bail ou de copropriété', 'Vente ou achat immobilier', 'Conflit de voisinage'],
       icon: 'Home',
       featured: false,
@@ -137,9 +137,9 @@ export default defineSite({
     {
       slug: 'droit-affaires',
       title: 'Droit des affaires',
-      short: 'Conseil aux TPE : contrats, création d’entreprise, litiges commerciaux.',
+      short: 'Contrats, création ou cession d’entreprise, litige avec un fournisseur.',
       description:
-        'Les petites entreprises ont rarement un juriste sur place. Nous intervenons en amont, sur un contrat ou une création de structure, comme en aval, lorsqu’un différend commercial survient.\n\nNous restons le même interlocuteur du conseil initial jusqu’à la résolution du litige.',
+        'Les petites entreprises n’ont pas de juriste sur place. Nous relisons un contrat avant signature, nous accompagnons une création ou une cession, et nous prenons le dossier quand le différend est déjà ouvert.\n\nL’avocate qui ouvre le dossier le garde. Il ne passe pas d’un bureau à l’autre.',
       bullets: ['Rédaction et relecture de contrats', 'Création ou cession d’entreprise', 'Litige commercial ou avec un fournisseur'],
       icon: 'Building2',
       featured: false,
@@ -149,7 +149,7 @@ export default defineSite({
   about: {
     title: 'Les avocates',
     story:
-      'Claire Lemaire et Inès Dahmani ont fondé le cabinet à Montpellier en 2014. Chacune suit ses dossiers du premier rendez-vous jusqu’à leur résolution, sans les transmettre à un confrère en cours de route.\n\nLe cabinet reçoit sur rendez-vous, du lundi au vendredi, au 5 rue Foch.',
+      'Claire Lemaire et Inès Dahmani ont fondé le cabinet à Montpellier en 2014. Chacune suit ses dossiers du premier rendez-vous jusqu’à leur terme, sans les confier à un confrère en cours de route.\n\nLe cabinet reçoit sur rendez-vous, du lundi au vendredi, au 5 rue Foch. Il n’y a pas de permanence sans rendez-vous.',
     team: [
       { name: 'Maître Claire Lemaire', role: 'Avocate associée — Barreau de Montpellier depuis 2009' },
       { name: 'Maître Inès Dahmani', role: 'Avocate associée — Barreau de Montpellier depuis 2015' },
@@ -164,19 +164,19 @@ export default defineSite({
   ],
 
   faq: [
-    { q: 'Faut-il prendre rendez-vous ?', a: 'Oui, le cabinet reçoit uniquement sur rendez-vous, du lundi au vendredi de 9h à 18h.' },
-    { q: 'Combien coûte la première consultation ?', a: 'La première consultation dure 45 minutes et est facturée 90 € TTC, à titre indicatif. Toute mission ultérieure fait l’objet d’une convention d’honoraires signée au préalable.' },
-    { q: 'L’aide juridictionnelle est-elle possible ?', a: 'Oui, en droit de la famille, pour les situations qui y sont éligibles. Nous vérifions votre éligibilité dès le premier échange.' },
-    { q: 'Le cabinet intervient-il en dehors de Montpellier ?', a: 'Oui, à Castelnau-le-Lez, Lattes, Sète et Nîmes, ainsi que dans les communes voisines.' },
+    { q: 'Faut-il prendre rendez-vous ?', a: 'Oui. Le cabinet ne reçoit pas sans rendez-vous, du lundi au vendredi, de 9h à 18h.' },
+    { q: 'Combien coûte la première consultation ?', a: '90 € TTC pour 45 minutes, à titre indicatif. Si vous nous confiez ensuite le dossier, une convention d’honoraires écrite est signée avant toute intervention.' },
+    { q: 'L’aide juridictionnelle est-elle possible ?', a: 'En droit de la famille, pour les situations qui y sont éligibles. Nous vérifions votre éligibilité dès le premier échange, avant de fixer le rendez-vous.' },
+    { q: 'Le cabinet intervient-il en dehors de Montpellier ?', a: 'À Castelnau-le-Lez, Lattes, Sète et Nîmes, ainsi que dans les communes voisines.' },
   ],
 
   form: { provider: 'mailto' },
 
   wording: {
     devis: 'Prendre rendez-vous',
-    ctaTitle: 'Une question juridique&nbsp;? <em>Un premier rendez-vous pour y voir clair.</em>',
+    ctaTitle: 'Une situation à démêler&nbsp;? <em>Le premier rendez-vous dure 45 minutes.</em>',
     contactTitle: 'Prendre rendez-vous',
-    contactText: 'Exposez votre situation en quelques lignes ; nous vous rappelons pour fixer un rendez-vous.',
+    contactText: 'Décrivez votre situation en quelques lignes. Nous rappelons pour fixer un rendez-vous, ou pour vous dire que le cabinet n’est pas le bon interlocuteur.',
   },
 
   images: {

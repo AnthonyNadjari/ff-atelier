@@ -15,13 +15,32 @@
  * provider 'cloudflare' (src/worker/contact.js, `env.TURNSTILE_SECRET`) — web3forms ne sait verifier
  * que hCaptcha, pas Turnstile : le jeton est alors soumis mais jamais controle (docs/DEPLOIEMENT.md
  * § Anti-spam).
+ *
+ * ETATS DES CHAMPS (docs/veille/plancher-de-soin.md, src/styles/craft.css bloc 5).
+ * Chaque champ porte la classe `.ff-champ` et trois choses qu'un formulaire genere n'a jamais :
+ *   1. un `id` unique, prefixe par `idPrefix` (voir plus bas) ;
+ *   2. un message d'erreur en francais SOUS le champ, lie par `aria-describedby`, revele par CSS via
+ *      `:user-invalid` (donc apres interaction seulement, jamais pendant la frappe) — il fonctionne
+ *      meme si le JavaScript n'a pas tourne ;
+ *   3. un resume d'erreurs en tete de formulaire a la soumission (GOV.UK « Error summary »), qui
+ *      prend le focus et dont chaque ligne est un lien vers le champ fautif.
+ * Le formulaire reste en `novalidate` : les bulles natives du navigateur sont dans la langue de
+ * l'interface, pas forcement en francais, et ne sont ni stylables ni lisibles au meme endroit.
  */
 import { site } from '@/lib/site';
-interface Props { class?: string; compact?: boolean }
-const { class: cls = '', compact = false } = Astro.props;
+interface Props { class?: string; compact?: boolean; idPrefix?: string }
+const { class: cls = '', compact = false, idPrefix = 'contact' } = Astro.props;
 const f = site.form;
 const services = site.services.map((s) => s.title);
-const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg placeholder:text-muted/70 focus:border-accent focus:outline-none transition-colors';
+
+// Prefixe d'identifiants : DEUX formulaires coexistent sur la meme page des que
+// `layout.contactDrawer` est actif (la section contact + le tiroir, ex. dubois-plomberie).
+// Sans prefixe distinct, les `id` seraient dupliques et `aria-describedby`/`<label for>`
+// pointeraient sur le champ du mauvais formulaire. ContactDrawer.astro passe idPrefix="tiroir".
+const uid = `ff-${idPrefix}`;
+
+const input =
+  'ff-champ w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg transition-colors';
 ---
 
 {f.provider !== 'none' && (
@@ -34,25 +53,88 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
     data-success={f.successMessage}
     novalidate
   >
-    <div class:list={['grid gap-4', !compact && 'sm:grid-cols-2']}>
-      <label class="grid gap-1.5 text-sm"><span>Nom</span><input class={input} name="name" required autocomplete="name" placeholder="Votre nom" /></label>
-      <label class="grid gap-1.5 text-sm"><span>Téléphone</span><input class={input} name="phone" type="tel" required autocomplete="tel" placeholder="Votre numéro" /></label>
+    {/* Resume d'erreurs : masque tant que rien n'a echoue, rempli et focalise par le script. */}
+    <div id={`${uid}-resume`} data-form-erreurs role="alert" tabindex="-1" hidden>
+      <strong>Il y a un problème.</strong>
+      <ul class="mt-2 grid gap-1 text-sm" data-form-erreurs-liste></ul>
     </div>
-    <label class="grid gap-1.5 text-sm"><span>E-mail <span class="text-muted">(facultatif)</span></span><input class={input} name="email" type="email" autocomplete="email" placeholder="votre@email.fr" /></label>
+
+    <div class:list={['grid gap-4', !compact && 'sm:grid-cols-2']}>
+      <label class="grid gap-1.5 text-sm" for={`${uid}-nom`}>
+        <span>Nom</span>
+        <input
+          class={input}
+          id={`${uid}-nom`}
+          name="name"
+          required
+          autocomplete="name"
+          placeholder="Votre nom"
+          aria-describedby={`${uid}-nom-erreur`}
+          data-erreur-requis="Indiquez votre nom, pour savoir à qui répondre."
+        />
+        <p class="ff-erreur" id={`${uid}-nom-erreur`}><span class="sr-only">Erreur&nbsp;: </span><span data-erreur-texte>Indiquez votre nom, pour savoir à qui répondre.</span></p>
+      </label>
+      <label class="grid gap-1.5 text-sm" for={`${uid}-tel`}>
+        <span>Téléphone</span>
+        <input
+          class={input}
+          id={`${uid}-tel`}
+          name="phone"
+          type="tel"
+          inputmode="tel"
+          required
+          autocomplete="tel"
+          placeholder="Votre numéro"
+          aria-describedby={`${uid}-tel-erreur`}
+          data-erreur-requis="Indiquez un numéro où vous rappeler."
+          data-erreur-format="Ce numéro semble incomplet : 10 chiffres, par exemple 06 12 34 56 78."
+        />
+        <p class="ff-erreur" id={`${uid}-tel-erreur`}><span class="sr-only">Erreur&nbsp;: </span><span data-erreur-texte>Indiquez un numéro où vous rappeler.</span></p>
+      </label>
+    </div>
+    <label class="grid gap-1.5 text-sm" for={`${uid}-email`}>
+      <span>E-mail <span class="text-muted">(facultatif)</span></span>
+      <input
+        class={input}
+        id={`${uid}-email`}
+        name="email"
+        type="email"
+        autocomplete="email"
+        placeholder="votre@email.fr"
+        aria-describedby={`${uid}-email-erreur`}
+        data-erreur-format="Cette adresse e-mail n'a pas l'air valide (exemple&nbsp;: nom@domaine.fr)."
+      />
+      <p class="ff-erreur" id={`${uid}-email-erreur`}><span class="sr-only">Erreur&nbsp;: </span><span data-erreur-texte set:html="Cette adresse e-mail n'a pas l'air valide (exemple&nbsp;: nom@domaine.fr)." /></p>
+    </label>
     {services.length > 1 && (
-      <label class="grid gap-1.5 text-sm"><span>Besoin</span>
-        <select class={input} name="service">
+      <label class="grid gap-1.5 text-sm" for={`${uid}-besoin`}>
+        <span>Besoin</span>
+        <select class={input} id={`${uid}-besoin`} name="service">
           <option value="">Choisir…</option>
           {services.map((s) => <option value={s}>{s}</option>)}
           <option value="Autre">Autre</option>
         </select>
       </label>
     )}
-    <label class="grid gap-1.5 text-sm"><span>Votre message</span><textarea class={input} name="message" rows={compact ? 3 : 5} required placeholder="Décrivez votre besoin, votre adresse et le meilleur moment pour vous rappeler."></textarea></label>
+    <label class="grid gap-1.5 text-sm" for={`${uid}-message`}>
+      <span>Votre message</span>
+      <textarea
+        class={input}
+        id={`${uid}-message`}
+        name="message"
+        rows={compact ? 3 : 5}
+        required
+        placeholder="Décrivez votre besoin, votre adresse et le meilleur moment pour vous rappeler."
+        aria-describedby={`${uid}-message-erreur`}
+        data-erreur-requis="Décrivez votre besoin en une phrase : c'est ce qui permet de vous répondre précisément."
+      ></textarea>
+      <p class="ff-erreur" id={`${uid}-message-erreur`}><span class="sr-only">Erreur&nbsp;: </span><span data-erreur-texte>Décrivez votre besoin en une phrase&nbsp;: c'est ce qui permet de vous répondre précisément.</span></p>
+    </label>
     <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
     {f.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={f.turnstileSiteKey}></div>}
     <p class="text-xs text-muted">Vos données servent uniquement à vous répondre. Aucune newsletter, aucune revente. <a href="/confidentialite" class="underline hover:text-fg">Politique de confidentialité</a>.</p>
     <button type="submit" class="btn btn-primary inline-flex items-center justify-center gap-2 rounded-ui bg-accent px-6 py-3.5 font-medium text-on-accent transition-colors hover:bg-accent-2 disabled:opacity-60">
+      <span data-spinner aria-hidden="true"></span>
       <span data-label>Envoyer ma demande</span>
     </button>
     <p class="hidden rounded-ui border border-line bg-bg-2 px-4 py-3 text-sm" data-status role="status" aria-live="polite"></p>
@@ -69,17 +151,101 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
   // Rearme a chaque navigation ClientRouter (site.transitions) : voir src/scripts/page.ts.
   onPage(() => {
     document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
+      if (form.dataset.ready) return;
+      form.dataset.ready = '1';
+
       const status = form.querySelector<HTMLElement>('[data-status]')!;
       const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
       const label = btn.querySelector<HTMLElement>('[data-label]')!;
+      const resume = form.querySelector<HTMLElement>('[data-form-erreurs]')!;
+      const resumeListe = form.querySelector<HTMLElement>('[data-form-erreurs-liste]')!;
+      type Champ = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+      const champs = [...form.querySelectorAll<Champ>('.ff-champ')];
+
       const show = (msg: string, ok: boolean) => {
         status.textContent = msg;
         status.classList.remove('hidden');
-        status.style.borderColor = ok ? 'var(--accent)' : '#c0392b';
+        status.dataset.etat = ok ? 'ok' : 'erreur';
       };
+
+      // Le numero de telephone : verification volontairement large (10 signes au moins, chiffres et
+      // separateurs usuels). setCustomValidity rend le champ `:invalid`, donc le message CSS du
+      // bloc 5 de craft.css s'affiche sans code d'affichage supplementaire.
+      const verifieTelephone = (champ: Champ) => {
+        if (!(champ instanceof HTMLInputElement) || champ.type !== 'tel') return;
+        champ.setCustomValidity('');
+        const brut = champ.value.trim();
+        if (brut && (brut.replace(/\D/g, '').length < 9 || /[a-zA-Z]/.test(brut))) {
+          champ.setCustomValidity(champ.dataset.erreurFormat ?? 'Numéro incomplet.');
+        }
+      };
+
+      // Message francais choisi d'apres ValidityState, jamais d'apres validationMessage (natif,
+      // dans la langue du navigateur). L'element du message est deja dans le DOM (aria-describedby).
+      const messagePour = (champ: Champ): string => {
+        const v = champ.validity;
+        if (v.customError) return champ.validationMessage;
+        if (v.valueMissing) return champ.dataset.erreurRequis ?? 'Ce champ est obligatoire.';
+        if (v.typeMismatch || v.patternMismatch) return champ.dataset.erreurFormat ?? 'Le format attendu n’est pas respecté.';
+        if (v.tooShort) return `Ce champ attend au moins ${(champ as HTMLInputElement).minLength} caractères.`;
+        return 'Cette valeur n’est pas acceptée.';
+      };
+
+      const majChamp = (champ: Champ) => {
+        verifieTelephone(champ);
+        const cible = champ.getAttribute('aria-describedby');
+        const p = cible ? form.querySelector<HTMLElement>(`#${CSS.escape(cible)}`) : null;
+        const invalide = !champ.checkValidity();
+        champ.setAttribute('aria-invalid', invalide ? 'true' : 'false');
+        const texte = p?.querySelector<HTMLElement>('[data-erreur-texte]') ?? p;
+        if (texte && invalide) texte.textContent = messagePour(champ);
+        return invalide;
+      };
+
+      // On ne juge un champ qu'une fois quitte (`blur`), jamais a chaque frappe : valider pendant
+      // la saisie affiche « adresse invalide » des la premiere lettre tapee.
+      champs.forEach((champ) => {
+        champ.addEventListener('blur', () => majChamp(champ));
+        champ.addEventListener('input', () => {
+          champ.setCustomValidity('');
+          if (champ.getAttribute('aria-invalid') === 'true') majChamp(champ);
+        });
+      });
+
+      const libelle = (champ: Champ) =>
+        champ.closest('label')?.querySelector('span')?.textContent?.trim() ?? champ.name;
+
+      const montreResume = (fautifs: Champ[]) => {
+        resumeListe.replaceChildren(
+          ...fautifs.map((champ) => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `#${champ.id}`;
+            a.textContent = `${libelle(champ)} : ${messagePour(champ)}`;
+            a.addEventListener('click', (e) => {
+              e.preventDefault();
+              champ.focus();
+            });
+            li.append(a);
+            return li;
+          }),
+        );
+        resume.hidden = false;
+        resume.focus();
+      };
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!form.reportValidity()) return;
+        // Arme les styles d'erreur meme sur un champ jamais touche (`:user-invalid` ne s'applique
+        // qu'apres interaction ; la classe couvre le cas « on envoie un formulaire vide »).
+        form.classList.add('ff-form-soumis');
+        const fautifs = champs.filter((champ) => majChamp(champ));
+        if (fautifs.length) {
+          montreResume(fautifs);
+          return;
+        }
+        resume.hidden = true;
+
         const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
         if (data.botcheck) return;
         const provider = form.dataset.form;
@@ -91,6 +257,7 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
           return;
         }
         btn.disabled = true;
+        btn.setAttribute('aria-busy', 'true');
         label.textContent = 'Envoi…';
         const endpoint = provider === 'cloudflare' ? '/api/contact' : 'https://api.web3forms.com/submit';
         const payload =
@@ -106,6 +273,8 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
           const json = await res.json();
           if (json.success) {
             form.reset();
+            form.classList.remove('ff-form-soumis');
+            champs.forEach((champ) => champ.removeAttribute('aria-invalid'));
             show(form.dataset.success!, true);
             document.dispatchEvent(new CustomEvent('ff:form-success')); // data-confetti (motion.ts) ecoute cet evenement
           } else throw new Error(json.message);
@@ -113,6 +282,7 @@ const input = 'w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg
           show(`Envoi impossible pour le moment. Appelez-nous ou écrivez à ${form.dataset.to}.`, false);
         } finally {
           btn.disabled = false;
+          btn.removeAttribute('aria-busy');
           label.textContent = 'Envoyer ma demande';
         }
       });

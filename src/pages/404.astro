@@ -1,24 +1,73 @@
 ---
-/** Page 404 : Cloudflare Pages sert 404.html automatiquement. */
+/**
+ * Page 404 : Cloudflare Pages sert 404.html automatiquement, avec le vrai statut HTTP 404
+ * (un 200 sur une page « introuvable » est un soft 404 pour Google, voir docs/veille/plancher-de-soin.md).
+ *
+ * Ce qu'une 404 doit faire (GOV.UK « Page not found », NN/g) : dire simplement que l'adresse n'existe
+ * pas, donner les deux vérifications utiles (adresse tapée / adresse collée), et surtout PROPOSER une
+ * sortie. Chez un artisan, la sortie utile est toujours la même : ses prestations et son téléphone.
+ * Interdits repris de GOV.UK : pas de jargon (« erreur 404 » en gros), pas d'humour, pas de rouge
+ * d'alerte — on n'a rien fait de mal, on s'est juste trompé d'adresse.
+ */
 import Base from '@/layouts/Base.astro';
-import { site, tel } from '@/lib/site';
-import { getSection, resolveSection } from '@/lib/sections';
+import { site, tel, mailto } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
 import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
 const Nav = resolveSection('nav', site.layout.nav);
 const Footer = resolveSection('footer', site.layout.footer);
+// Les six premières prestations : assez pour retomber sur ses pieds, pas assez pour refaire la nav.
+const services = site.services.slice(0, 6);
 ---
 
 <Base title={`Page introuvable — ${site.business.name}`} path="/404" noindex>
   <Nav />
-  <main id="main" class="section-y min-h-[60vh] flex items-center">
-    <div class="container-ff text-center" data-stagger="120">
-      <p class="eyebrow">Erreur 404</p>
-      <h1 class="text-display-lg mt-4">Cette page n'existe pas.</h1>
-      <p class="mt-5 text-lg text-muted max-w-xl mx-auto">Le lien est peut-être ancien. Le plus simple&nbsp;: revenir à l'accueil ou nous appeler.</p>
-      <div class="mt-9 flex flex-wrap justify-center gap-4">
-        <Button href="/" size="lg">Retour à l'accueil</Button>
-        <Button href={tel()} variant="ghost" size="lg">{site.contact.phoneDisplay}</Button>
+  <main id="main" class="section-y">
+    <div class="container-ff grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        {/* Le code d'erreur reste disponible (un visiteur averti le cherche) mais en note de bas de
+            page typographique, pas en eyebrow criard — docs/CONVENTIONS.md règle 13. */}
+        <p class="ff-404-code">404</p>
+        <h1 class="text-display-lg mt-3">Cette page n'existe pas.</h1>
+        <p class="mt-5 text-lg text-muted measure">
+          Si vous avez tapé l'adresse à la main, vérifiez-la. Si vous l'avez collée, vérifiez que vous
+          avez bien copié l'adresse entière. Sinon, le lien est simplement ancien.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <Button href="/" size="lg">Retour à l'accueil</Button>
+          <Button href={tel()} variant="ghost" size="lg">
+            <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
+          </Button>
+        </div>
+        <p class="mt-6 text-sm text-muted">
+          Ou écrivez-nous&nbsp;: <a href={mailto()} class="underline break-all hover:text-fg">{site.contact.email}</a>
+          {site.contact.emergency24h && <span> — urgences 24h/24, 7j/7.</span>}
+        </p>
+        {site.contact.hours.length > 0 && (
+          <dl class="mt-6 grid max-w-xs grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">
+            {site.contact.hours.map((h) => (
+              <><dt class="text-muted">{h.days}</dt><dd>{h.hours}</dd></>
+            ))}
+          </dl>
+        )}
       </div>
+
+      {services.length > 0 && (
+        <div class="lg:col-span-6 lg:col-start-7">
+          <h2 class="font-display text-display-sm">Ce que nous faisons</h2>
+          <ul class="ff-404-liens mt-4">
+            {services.map((s) => (
+              <li>
+                <a href={`/services/${s.slug}`}>
+                  <span>{s.title}</span>
+                  <Icon name="ArrowRight" size={16} class="ml-auto text-accent shrink-0" />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-6"><a href="/#contact" class="underline hover:text-accent">Demander un devis</a></p>
+        </div>
+      )}
     </div>
   </main>
   <Footer />

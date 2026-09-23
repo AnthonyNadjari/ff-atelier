@@ -37,6 +37,7 @@ import { cmdSignatures } from './ff/signatures.mjs';
 import { cmdAuditMotion } from './ff/audit-motion.mjs';
 import { cmdNettete } from './ff/nettete.mjs';
 import { cmdIndexNow } from './ff/indexnow.mjs';
+import { cmdTypo } from './ff/typo.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -92,6 +93,7 @@ const commands = {
   signatures: cmdSignatures,
   nettete: cmdNettete,
   indexnow: cmdIndexNow,
+  typo: cmdTypo,
 };
 
 async function main() {

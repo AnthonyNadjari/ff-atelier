@@ -8,17 +8,33 @@
   --accent-s: 98%;
   --accent-l: 52%;
 
-  --bg: #ffffff;
-  --bg-2: #f0f0f0;
-  --surface: #ffffff;
-  --fg: #0a0a0a;
-  --muted: #4a4a4a;
-  --line: #0a0a0a;
+  /* Empruntes a l'atelier de serigraphie, pas calcules. Avant, --bg #ffffff / --bg-2 #f0f0f0 /
+     --fg #0a0a0a / --muted #4a4a4a etaient quatre gris parfaitement neutres (R=G=B) : la palette
+     par defaut de tout le monde.
+       --bg      le blanc casse du papier d'affiche serigraphiee (252/252/249, 3 points de jaune).
+       --bg-2    le carton gris d'atelier, plus chaud et plus sourd — 7,8 points de luminosite sous
+                 --bg, quand --surface n'en a que 0,6 : un grand saut et un micro-saut, jamais deux
+                 marches egales.
+       --fg      l'encre de serigraphie, qui tire sur le brun quand elle seche (12/11/9).
+       --muted   la mine de crayon graphite 2B sur ce papier. */
+  --bg: #fcfcf9;
+  --bg-2: #eceae2;
+  --surface: #fdfdfb;
+  --fg: #0c0b09;
+  --muted: #4a463e;
+  --line: var(--fg);
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
   --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 10%));
-  --on-accent: #0a0a0a;
-  --ink: #0a0a0a;
-  --on-ink: #ffffff;
+  --on-accent: #0c0b09;
+  --ink: #0c0b09;
+  --on-ink: #fcfcf9;
+
+  /* Le bleu du cordeau traceur de charpentier (la poudre du cordex). Seule couleur froide de la
+     direction, et elle ne sert QU'A UNE CHOSE : la selection de texte (regle plus bas). Un
+     brutalisme n'a pas de couleur secondaire d'interface — il a une trace d'outil. Relevee sur la
+     poudre, pas derivee du jaune : le jaune est a 91° en OKLCH, ce bleu a 268°, il n'y a aucun
+     chemin de calcul de l'un a l'autre. */
+  --brut-cordeau: #1d3fb5;
 
   --font-display: 'Space Grotesk Variable', ui-sans-serif, sans-serif;
   --font-body: 'Archivo Variable', ui-sans-serif, sans-serif;

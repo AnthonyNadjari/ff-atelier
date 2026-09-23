@@ -1,37 +1,41 @@
 ---
 /**
- * Hero dessiné pour Forge Delacroix. Plein écran, photo sombre, mot « FORGE » vertical en bord
- * d'écran, nom en bas à 12vw, bande défilante des pièces en pied. Aucune réutilisation ailleurs.
+ * Premier écran « l'image d'abord » — propre à Forge Delacroix.
+ * Idée : ne rien écrire sur la photo. L'écran s'ouvre sur le fer chaud, plein cadre, sans voile ni
+ * texte superposé ; le titre arrive dessous, sur l'encre nue, comme la légende d'une planche.
+ * Ni eyebrow, ni sous-titre, ni bouton, ni bande défilante : la photo pose, le titre répond.
  */
-import { site, tel, yearsSince } from '@/lib/site';
-import Icon from '@/components/Icon.astro';
-const years = yearsSince();
-const hero = site.images.hero!;
-const pieces = site.services.map((s) => s.title);
+import { site, tel } from '@/lib/site';
+
+const hero = site.images.hero;
 ---
 
-<section id="hero" class="relative min-h-svh overflow-hidden bg-ink text-on-ink">
-  <img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover opacity-60" data-parallax="0.25" loading="eager" fetchpriority="high" />
-  <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/10"></div>
-  <div class="absolute inset-0 bg-gradient-to-r from-ink/70 to-transparent"></div>
-
-  <p class="pointer-events-none absolute left-4 top-1/2 hidden -translate-y-1/2 select-none font-display leading-none text-on-ink/10 lg:block" style="writing-mode: vertical-rl; font-size: clamp(6rem, 16vw, 18rem);" aria-hidden="true">FORGE</p>
-
-  <div class="container-ff relative flex min-h-svh flex-col justify-end pb-28 pt-40">
-    <div class="max-w-4xl" data-stagger="120">
-      <p class="eyebrow flex items-center gap-3 text-on-ink/70"><span class="inline-block h-px w-10 bg-accent"></span>{site.business.trade} · {site.contact.address.city}{years && ` · depuis ${site.business.since}`}</p>
-      <h1 class="mt-6 font-display leading-[0.85]" style="font-size: clamp(4.5rem, 14vw, 13rem);" data-split set:html={site.business.tagline} />
-      <p class="mt-8 max-w-xl text-lg text-on-ink/75">{site.business.description.split(/\n/)[0]}</p>
-      <div class="mt-10 flex flex-wrap items-center gap-6">
-        <a href={tel()} class="btn btn-primary inline-flex items-center gap-3 rounded-ui bg-accent px-8 py-4 font-display text-2xl tracking-wide text-on-accent" data-magnetic="0.2"><Icon name="Phone" size={20} />{site.contact.phoneDisplay}</a>
-        <a href="#contact" class="inline-flex items-center gap-2 border-b border-on-ink/40 pb-1 text-on-ink/80 hover:border-accent hover:text-on-ink">{site.wording.devis} <Icon name="ArrowDownRight" size={18} /></a>
-      </div>
-    </div>
+<section id="hero" class="bg-ink text-on-ink">
+  <div class="relative h-[42svh] min-h-[14rem] w-full overflow-hidden md:h-[46svh]">
+    {hero && (
+      <img
+        src={hero.src}
+        alt={hero.alt}
+        class="h-full w-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    )}
   </div>
 
-  <div class="absolute inset-x-0 bottom-0 border-t border-on-ink/15 bg-ink/70 py-4 backdrop-blur-sm" data-marquee="28s">
-    <div class="marquee-track font-display text-2xl uppercase tracking-widest text-on-ink/80">
-      {pieces.map((p) => <span class="flex items-center gap-8">{p}<span class="text-accent">✦</span></span>)}
-    </div>
+  <div class="container-ff flex min-h-[46svh] flex-col justify-between gap-10 pb-12 pt-10 md:pb-16" data-grain>
+    <h1
+      class="font-display leading-[0.84]"
+      style="font-size: clamp(3rem, 12vw, 11rem);"
+      data-split
+      set:html={site.business.tagline}
+    />
+
+    <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 font-mono text-xs uppercase tracking-[0.18em] text-on-ink/65">
+      <span>{site.contact.address.street}, {site.contact.address.city}</span>
+      <a href={tel()} class="normal-case tracking-normal text-on-ink underline-offset-4 hover:underline">
+        {site.contact.phoneDisplay}
+      </a>
+    </p>
   </div>
 </section>

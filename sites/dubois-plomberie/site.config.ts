@@ -46,9 +46,9 @@ export default defineSite({
   business: {
     name: 'Dubois Plomberie',
     trade: 'Plombier-chauffagiste',
-    tagline: 'Une fuite&nbsp;? <em>On décroche, jour et nuit.</em>',
+    tagline: 'Ça fuit&nbsp;? <em>On décroche, même la nuit.</em>',
     description:
-      'Plombier-chauffagiste à Nantes depuis 2008. Deux plombiers, un seul numéro : fuites, débouchages, chauffe-eau, chaudières gaz et salles de bain, dans Nantes et sa périphérie.\n\nUrgences 24h/24, assurance décennale, certifiés RGE pour les chaudières.',
+      'Plombier-chauffagiste à Nantes depuis 2008. On est deux. Fuites, débouchages, chauffe-eau, chaudières gaz, salles de bain : c’est le même numéro pour tout, dans Nantes et sa périphérie.\n\nLe numéro tourne 24h/24. Assurance décennale, certification RGE pour les chaudières. Et si ce n’est pas une urgence, on vous le dit au téléphone plutôt que de se déplacer pour rien.',
     since: 2008,
     insurance: 'Assurance décennale',
     certifications: ['RGE'],
@@ -75,10 +75,10 @@ export default defineSite({
     {
       slug: 'fuite-depannage',
       title: 'Fuite & dépannage',
-      short: 'Fuite, canalisation percée, robinet bloqué : intervention en urgence, jour et nuit.',
+      short: 'Ça coule, ça goutte, ça ne s’arrête plus. On se déplace, de jour comme de nuit.',
       description:
-        'Une fuite ne prévient pas. On se déplace pour localiser la fuite, couper l’arrivée si besoin, et réparer ou poser une solution provisoire propre en attendant la pièce.\n\nDevis oral sur place avant toute intervention.',
-      bullets: ['Intervention 24h/24, 7j/7', 'Recherche de fuite', 'Devis avant intervention'],
+        'On localise, on coupe l’arrivée s’il le faut, on répare. Quand la pièce manque, on pose une solution provisoire propre plutôt que de vous laisser sans eau.\n\nLe prix est annoncé sur place, avant qu’on touche à quoi que ce soit. À partir de 89 €.',
+      bullets: ['Intervention 24h/24, 7j/7', 'Recherche de fuite', 'Prix annoncé avant de commencer'],
       icon: 'Droplet',
       featured: true,
       priceFrom: 'à partir de 89 €',
@@ -86,7 +86,7 @@ export default defineSite({
     {
       slug: 'debouchage',
       title: 'Débouchage',
-      short: 'Évier, WC, douche ou canalisation bouchée : débouchage mécanique ou haute pression.',
+      short: 'Évier, WC, douche. Le furet d’abord, la haute pression si le furet ne suffit pas.',
       bullets: ['Furet ou haute pression selon le cas', 'Camion équipé', 'Canalisations enterrées possibles'],
       icon: 'Waves',
       featured: true,
@@ -95,15 +95,15 @@ export default defineSite({
     {
       slug: 'chauffe-eau',
       title: 'Chauffe-eau',
-      short: 'Chauffe-eau électrique ou thermodynamique en panne, à remplacer ou à entretenir.',
-      bullets: ['Dépannage ou remplacement', 'Toutes marques', 'Mise en service comprise'],
+      short: 'Plus d’eau chaude ce matin ? On regarde d’abord s’il se répare, avant de parler de remplacement.',
+      bullets: ['Dépannage d’abord, remplacement ensuite', 'Toutes marques', 'Mise en service comprise'],
       icon: 'Flame',
       featured: true,
     },
     {
       slug: 'chaudiere-gaz',
       title: 'Chaudière gaz',
-      short: 'Installation et entretien annuel de chaudière gaz, par un plombier certifié RGE.',
+      short: 'L’entretien annuel est obligatoire. On le fait, et on installe aussi, certification RGE à l’appui.',
       bullets: ['Installation neuve ou remplacement', 'Entretien annuel obligatoire', 'Certifié RGE'],
       icon: 'Thermometer',
       featured: true,
@@ -111,7 +111,7 @@ export default defineSite({
     {
       slug: 'salle-de-bain',
       title: 'Salle de bain',
-      short: 'Rénovation complète ou partielle : douche, baignoire, sanitaires, robinetterie.',
+      short: 'Remplacer une baignoire par une douche, ou refaire la pièce entière. Plomberie et pose comprises.',
       bullets: ['Douche à l’italienne', 'Remplacement baignoire par douche', 'Plomberie et pose comprises'],
       icon: 'ShowerHead',
       featured: false,
@@ -121,7 +121,7 @@ export default defineSite({
   about: {
     title: 'L’équipe',
     story:
-      'Dubois Plomberie intervient à Nantes depuis 2008. L’équipe compte deux plombiers-chauffagistes, l’un plutôt sur les urgences et les dépannages, l’autre sur les chantiers de chaudière et de salle de bain.\n\nMême numéro pour tout : une fuite le dimanche soir ou une chaudière à changer, c’est nous qui répondons.',
+      'Dubois Plomberie intervient à Nantes depuis 2008. L’équipe, c’est deux plombiers-chauffagistes : l’un part plutôt sur les urgences et les dépannages, l’autre suit les chantiers de chaudière et de salle de bain.\n\nMême numéro pour tout. Une fuite un dimanche soir, une chaudière à changer au printemps : c’est nous qui répondons, pas un répondeur.',
   },
 
   process: [
@@ -132,20 +132,20 @@ export default defineSite({
   ],
 
   faq: [
-    { q: 'Intervenez-vous vraiment la nuit et le week-end ?', a: 'Oui, le numéro affiché sur le site est celui des urgences, 24h/24 et 7j/7, pas un simple répondeur.' },
-    { q: 'Le devis est-il gratuit ?', a: 'Le diagnostic sur place et le devis sont communiqués avant toute intervention facturée.' },
-    { q: 'Intervenez-vous en dehors de Nantes ?', a: 'Oui, dans Nantes et les communes limitrophes : Rezé, Saint-Herblain, Orvault, Vertou, Bouguenais, Carquefou, Sainte-Luce-sur-Loire.' },
-    { q: 'Êtes-vous assurés pour les gros travaux ?', a: 'Oui, Dubois Plomberie est couvert par une assurance décennale et certifié RGE pour les chaudières.' },
+    { q: 'Intervenez-vous vraiment la nuit et le week-end ?', a: 'Le numéro affiché est celui des urgences, 24h/24 et 7j/7. Ce n’est pas un répondeur : quelqu’un décroche.' },
+    { q: 'Le devis est-il gratuit ?', a: 'Le diagnostic se fait sur place et le prix est annoncé avant l’intervention. Rien n’est facturé sans que vous l’ayez entendu d’abord.' },
+    { q: 'Intervenez-vous en dehors de Nantes ?', a: 'Dans Nantes et les communes limitrophes : Rezé, Saint-Herblain, Orvault, Vertou, Bouguenais, Carquefou, Sainte-Luce-sur-Loire.' },
+    { q: 'Êtes-vous assurés pour les gros travaux ?', a: 'Assurance décennale pour les travaux, certification RGE pour les chaudières.' },
   ],
 
   form: { provider: 'mailto' },
 
   wording: {
     devis: 'Décrire la panne',
-    ctaTitle: 'Une urgence&nbsp;? <em>On répond, le plus vite possible.</em>',
-    ctaText: 'Fuite, panne de chauffe-eau, chaudière en rade : un seul numéro, jour et nuit, à Nantes et alentours.',
+    ctaTitle: 'Une panne maintenant&nbsp;?<em>Le numéro marche aussi la nuit.</em>',
+    ctaText: 'Un seul numéro, à Nantes et en périphérie. Si ça peut attendre demain, on vous le dira.',
     contactTitle: 'Décrire la panne',
-    contactText: 'Décrivez ce qui se passe, on vous rappelle rapidement pour évaluer l’urgence.',
+    contactText: 'Dites ce qui se passe, et depuis quand. On rappelle pour trier ce qui est urgent de ce qui ne l’est pas.',
   },
 
   images: {},

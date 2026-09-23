@@ -14,6 +14,23 @@
  *    fixe à gauche (nom, une phrase, sommaire actif, téléphone, CTA du tiroir), contenu qui défile à droite.
  * 3. Mobile : le panneau disparaît et la nav sur mesure devient l'en-tête qui porte les mêmes entrées —
  *    dégradation prévue par la coquille, là où l'index mobile n'aurait été qu'une liste de liens de plus.
+ *
+ * REFONTE DU 22 SEPT 2026 AU SOIR — mandat du fondateur : « méga clean, le moins IA possible, méga
+ * beau, super pro, tu peux tout refaire ». Étalonnage de 17 sites de studios dans `ETALON.md` (méthode,
+ * relevés, et les 8 décisions qui suivent). Ce qui change ici, et pourquoi :
+ *
+ * - `split` et `eclipse` sont CONSERVÉS (décisions 2 et 8 de l'étalon) : le panneau fixe est la seule
+ *   coquille du repo qui casse le « full scroll down, contact en bas », et aucun autre site ne l'utilise.
+ * - Le layout passe de quatre blocs à cinq, et l'ordre change complètement. Les 17 sites étalonnés
+ *   montrent le travail juste après le hero ; notre travail, ce n'est pas douze captures, c'est le MÊME
+ *   contenu rendu trois fois (`custom/propositions`, décision 3) — notre argument de vente, montré.
+ * - `custom/chantier` (décision 4) remplace l'ancienne « Méthode » en cinq étapes : zéro des 17 sites
+ *   n'affiche de processus, un seul affiche un délai. Une réglure graduée de 0 à 72 h occupe ce trou
+ *   sans tomber dans la frise « 1. Découverte 2. Design 3. Lancement » que tous fuient.
+ * - Le manifeste (bloc encre) reste le temps fort et garde sa place entre la moitié et les deux tiers
+ *   (règle 19) : 3e des 5 blocs. Il perd sa liste numérotée, parce que Réalisations en a une juste après.
+ * - Réalisations passe APRÈS le manifeste : c'est le catalogue, pas la preuve d'entrée.
+ * - Aucun eyebrow nulle part sur la page (décision 6, lecture stricte de la règle 13).
  */
 import { defineSite } from '@/lib/schema';
 
@@ -44,13 +61,17 @@ export default defineSite({
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      // Quatre blocs après le hero, pas un de plus : ce sont aussi les quatre entrées numérotées du
-      // sommaire actif du panneau (data-scrollspy), d'où un label sur chacune. Le manifeste (bloc
-      // encre inversé, signé) reste le temps fort qui casse le rythme, entre la moitié et les 2/3.
-      // La FAQ n'est plus un bloc pleine page : elle vit en <details> sous le tableau de l'offre.
+      // Cinq blocs après le hero. Quatre portent un label : ce sont les entrées numérotées du sommaire
+      // actif du panneau (data-scrollspy). Le manifeste n'en a pas — ce n'est pas une destination, c'est
+      // le temps fort qui casse le rythme (règle 19), et il tombe ainsi au 3e des 5 blocs, soit entre la
+      // moitié et les deux tiers de la page. La FAQ n'est pas un bloc : elle vit en <details> sous le
+      // tableau de l'offre, là où l'on se pose vraiment ces questions.
+      // Rythme des squelettes, deux voisins n'en partagent jamais un (règle 19) : planche d'images →
+      // réglure typographique → bloc encre → index numéroté → tableau.
+      { type: 'custom', variant: 'propositions', label: 'Propositions' },
+      { type: 'custom', variant: 'chantier', label: 'Délais' },
+      { type: 'custom', variant: 'manifeste' },
       { type: 'custom', variant: 'realisations', label: 'Réalisations' },
-      { type: 'custom', variant: 'manifeste', label: 'Manifeste' },
-      { type: 'custom', variant: 'methode', label: 'Méthode' },
       { type: 'custom', variant: 'offre', label: 'Offre' },
     ],
     footer: 'minimal',

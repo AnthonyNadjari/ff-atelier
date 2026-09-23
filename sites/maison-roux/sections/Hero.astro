@@ -1,101 +1,32 @@
 ---
 /**
- * Hero dessiné pour Maison Roux : nom de l'enseigne en typographie ultra-grasse (Anybody, police
- * d'affichage par défaut de la direction "pop"), fond accent plein avec grain de papier
- * (data-grain), petites étiquettes façon prix de boulangerie collées en biais (CSS pur, tokens).
- * Une bande data-marquee-velocity porte les pains du jour (site.services, pas un texte détaché).
- * Composition propre à ce site — aucune reprise d'un autre hero de l'atelier.
- *
- * Ligne telephone compacte ajoutee en tete du hero (21 sept 2026, nav passee en `burger`) : sans
- * barre permanente, rien n'affiche plus le numero au premier ecran avant que ce bouton n'existe
- * (meme correctif que `barbier-kessler/sections/Hero.astro`, `ff verifier` § tel: du premier ecran).
+ * Premier écran « la devanture » — propre à Maison Roux.
+ * Idée : devant une boulangerie, on lit l'enseigne, puis les heures collées sur la vitre. L'écran
+ * ne montre que ça : le nom en très grand, puis les lignes d'ouverture, jour à gauche, heures à droite.
+ * Ni eyebrow, ni sous-titre, ni bouton, ni étiquette, ni bande défilante.
  */
 import { site, tel } from '@/lib/site';
-import Icon from '@/components/Icon.astro';
-
-const breads = site.services.filter((s) => s.slug.startsWith('pain-')).map((s) => s.title);
 ---
 
-<section id="hero" class="relative overflow-hidden bg-accent text-on-accent" data-grain>
-  <div class="container-ff relative z-[2] flex min-h-[78svh] flex-col justify-center gap-7 py-28 sm:py-32">
-    <a href={tel()} class="inline-flex w-fit items-center gap-2 font-mono text-xs tracking-[0.18em] text-on-accent/75 hover:text-on-accent">
-      <Icon name="Phone" size={14} />{site.contact.phoneDisplay}
-    </a>
-    {/* "Croix-Rousse" et "depuis {since}" retires (all-caps-body, 57 car.) : les deux figurent deja
-        dans business.description (About/Fournee), trade + ville suffisent comme identite courte. */}
-    <p class="eyebrow flex flex-wrap items-center gap-3 text-on-accent/85">
-      <span class="inline-block h-px w-10 bg-on-accent/50" aria-hidden="true"></span>
-      {site.business.trade} · {site.contact.address.city}
+<section id="hero" class="bg-accent text-on-accent" data-grain>
+  <div class="container-ff relative z-[1] flex min-h-[86svh] flex-col justify-center gap-12 pb-16 pt-32 md:pt-40">
+    <h1 class="font-display text-display-xl uppercase leading-[0.86]" data-split>{site.business.name}</h1>
+
+    <div class="border-t border-on-accent/30" data-stagger="90">
+      {site.contact.hours.map((h) => (
+        <div
+          class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 border-b border-on-accent/30 py-3 font-display"
+          style="font-size: clamp(1.1rem, 3.2vw, 2rem);"
+        >
+          <span>{h.days}</span>
+          <span class="tabular-nums">{h.hours}</span>
+        </div>
+      ))}
+    </div>
+
+    <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-on-accent/85">
+      <span>{site.contact.address.street}, {site.contact.address.city}</span>
+      <a href={tel()} class="text-on-accent underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
     </p>
-
-    <h1
-      class="font-display uppercase leading-[0.86] text-display-xl"
-      data-split
-    >{site.business.name}</h1>
-
-    <p class="max-w-xl font-display text-2xl leading-snug sm:text-3xl" set:html={site.business.tagline} />
-
-    <div class="mt-2 flex flex-wrap items-center gap-5">
-      <a
-        href="#contact"
-        class="btn btn-primary inline-flex items-center gap-2 rounded-ui bg-ink px-7 py-4 font-display text-lg text-on-ink shadow-card"
-        data-magnetic="0.22"
-      >
-        {site.wording.devis}
-      </a>
-      <a href={tel()} class="inline-flex items-center gap-2 border-b-2 border-on-accent/40 pb-1 font-display text-lg text-on-accent hover:border-on-accent">
-        <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
-      </a>
-    </div>
-
-    <div class="hero-tag hero-tag-a hidden sm:block" aria-hidden="true">
-      <Icon name="Sprout" size={16} />
-      Levain naturel
-    </div>
-    <div class="hero-tag hero-tag-b hidden sm:block" aria-hidden="true">
-      <Icon name="Wheat" size={16} />
-      Farines de Rhône-Alpes
-    </div>
   </div>
-
-  {breads.length > 0 && (
-    <div class="relative z-[2] border-t-2 border-dashed border-ink/25 bg-ink py-4" data-marquee="28s" data-marquee-velocity="28">
-      <div class="marquee-track font-display uppercase tracking-widest text-on-ink text-display-sm">
-        {breads.map((b) => <span class="flex items-center gap-8">{b}<span class="text-on-ink/70" aria-hidden="true">✶</span></span>)}
-      </div>
-    </div>
-  )}
 </section>
-
-<style>
-  .hero-tag {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    border: 2px solid var(--ink);
-    border-radius: var(--radius-card);
-    background: var(--bg);
-    color: var(--ink);
-    padding: 0.55rem 0.9rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    box-shadow: var(--shadow-card);
-  }
-  .hero-tag-a {
-    top: 14%;
-    right: 6%;
-    transform: rotate(-6deg);
-  }
-  .hero-tag-b {
-    top: 32%;
-    right: 12%;
-    transform: rotate(4deg);
-  }
-  @media (min-width: 1024px) {
-    .hero-tag-a { top: 18%; right: 8%; }
-    .hero-tag-b { top: 38%; right: 4%; }
-  }
-</style>

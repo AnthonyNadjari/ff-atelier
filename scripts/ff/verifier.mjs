@@ -634,6 +634,191 @@ export function warnMajusculesHorsEyebrow(files, distDir, warnings) {
   }
 }
 
+/* ---------------------------------------------------------------------
+   RYTHME — tells « ecrit par une machine » (docs/REDACTION.md §14).
+   Six avertissements, jamais un echec : ce sont des indices de style, pas des fautes. Un site
+   peut legitimement declencher l'un d'eux (une page de tarifs n'a pas de phrase parlee, un
+   glossaire aligne des phrases de meme longueur) — c'est au relecteur de trancher. Tous
+   travaillent sur le contenu de <main> (nav, pied de page et mentions legales exclus : leurs
+   libelles courts et leurs numeros de telephone faussent chaque mesure).
+   --------------------------------------------------------------------- */
+
+const MOT_FR = "[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'’-]*";
+
+/** Contenu visible de <main> (a defaut : page entiere), espaces normalises. */
+function texteMain(html) {
+  const m = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(html);
+  return texteVisible(m ? m[1] : html).replace(/\s+/g, ' ').trim();
+}
+
+/** Phrases du texte visible de <main>, hors fragments de moins de 3 mots (libelles, puces). */
+function phrasesMain(html) {
+  return texteMain(html)
+    .split(/(?<=[.!?…])\s+/)
+    .map((p) => p.trim())
+    .filter((p) => p.split(/\s+/).filter(Boolean).length >= 3);
+}
+
+function nbMots(phrase) {
+  return phrase.split(/\s+/).filter(Boolean).length;
+}
+
+/** Paragraphes de prose de <main> : contenu texte des <p> d'au moins 12 mots. */
+function paragraphesMain(html) {
+  const m = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(html);
+  const zone = m ? m[1] : html;
+  const out = [];
+  for (const p of zone.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)) {
+    const texte = p[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (nbMots(texte) >= 12) out.push(texte);
+  }
+  return out;
+}
+
+/** Trois phrases consecutives de longueur proche dans un meme paragraphe, ou page entiere dont
+ * toutes les phrases font la meme longueur (docs/REDACTION.md §14 R1). */
+export function warnRythmeUniforme(files, distDir, warnings) {
+  const binaires = [];
+  const plates = [];
+  for (const file of files) {
+    const html = fs.readFileSync(file, 'utf8');
+    const rel = path.relative(distDir, file);
+
+    for (const para of paragraphesMain(html)) {
+      const longueurs = para
+        .split(/(?<=[.!?…])\s+/)
+        .map((s) => nbMots(s.trim()))
+        .filter((n) => n >= 3);
+      for (let i = 0; i + 2 < longueurs.length; i += 1) {
+        const trio = longueurs.slice(i, i + 3);
+        if (Math.min(...trio) >= 9 && Math.max(...trio) - Math.min(...trio) <= 2) {
+          binaires.push(`${rel} (${trio.join('/')} mots : "${para.slice(0, 70)}…")`);
+          break;
+        }
+      }
+    }
+
+    const longueurs = phrasesMain(html).map(nbMots).filter((n) => n >= 6);
+    if (longueurs.length >= 8) {
+      const moy = longueurs.reduce((a, b) => a + b, 0) / longueurs.length;
+      const sd = Math.sqrt(longueurs.reduce((a, b) => a + (b - moy) ** 2, 0) / longueurs.length);
+      if (moy > 0 && sd / moy < 0.28) {
+        plates.push(`${rel} (${longueurs.length} phrases, moyenne ${moy.toFixed(1)} mots, ecart-type ${sd.toFixed(1)})`);
+      }
+    }
+  }
+  if (binaires.length > 0) {
+    warnings.push(`Rythme binaire : trois phrases consecutives de longueur proche (docs/REDACTION.md §14 R1) dans ${binaires.join(' ; ')}`);
+  }
+  if (plates.length > 0) {
+    warnings.push(`Rythme plat : toutes les phrases de la page font a peu pres la meme longueur (docs/REDACTION.md §14 R1) dans ${plates.join(' ; ')}`);
+  }
+}
+
+/** Densite de tirets cadratins (docs/REDACTION.md §6bis et §14 R2) : au-dela d'un tiret long pour
+ * 500 caracteres visibles, c'est la signature la plus reconnaissable du texte genere. */
+export function warnTiretsCadratins(files, distDir, warnings) {
+  const offenders = [];
+  for (const file of files) {
+    const texte = texteMain(fs.readFileSync(file, 'utf8'));
+    const tirets = (texte.match(/[—–]/g) || []).length;
+    if (tirets >= 2 && texte.length / tirets < 500) {
+      offenders.push(`${path.relative(distDir, file)} (${tirets} tirets pour ${texte.length} car.)`);
+    }
+  }
+  if (offenders.length > 0) {
+    warnings.push(`Tirets cadratins en rafale (1 pour moins de 500 car., docs/REDACTION.md §14 R2) dans : ${offenders.join(', ')}`);
+  }
+}
+
+/** Mots-valises et formules creuses (docs/REDACTION.md §14 R3) : pas interdits en soi — un client
+ * peut employer « savoir-faire » lui-meme — mais chacun doit etre remplace par le fait concret du
+ * brief quand il ne sert qu'a meubler. */
+const MOTS_VALISES = [
+  { label: '"savoir-faire"', re: /savoir[- ]faire/i },
+  { label: '"passion"/"passionné"', re: /passionn[ée]|\bpassion\b/i },
+  { label: '"au cœur de"', re: /au c(?:œ|oe)ur d(?:e|u|es)\b/i },
+  { label: '"point d\'honneur"', re: /point d[’']honneur/i },
+  { label: '"depuis toujours"', re: /depuis toujours/i },
+  { label: '"expertise"', re: /\bexpertises?\b/i },
+  { label: '"à votre écoute"', re: /[àa] votre [ée]coute/i },
+  { label: '"dans les règles de l\'art"', re: /r[èe]gles de l[’']art/i },
+  { label: '"clé en main"', re: /cl[ée] en main/i },
+  { label: '"haut de gamme"', re: /haut de gamme/i },
+  { label: '"notre ADN"', re: /notre ADN\b/i },
+  { label: '"univers"', re: /\bunivers\b/i },
+];
+
+export function warnMotsValises(files, distDir, warnings) {
+  for (const item of MOTS_VALISES) {
+    const offenders = [];
+    for (const file of files) {
+      if (item.re.test(texteMain(fs.readFileSync(file, 'utf8')))) offenders.push(path.relative(distDir, file));
+    }
+    if (offenders.length > 0) {
+      warnings.push(`Mot-valise ${item.label} (docs/REDACTION.md §14 R3) dans : ${offenders.join(', ')}`);
+    }
+  }
+}
+
+/** Enumerations ternaires « A, B et C » en serie (docs/REDACTION.md §14 R4) : le triplet est le
+ * patron de phrase le plus reconnaissable d'un texte genere. Seuil a 4 par page. */
+export function warnEnumerationsTernaires(files, distDir, warnings) {
+  const re = new RegExp(`${MOT_FR}, ${MOT_FR}(?:, ${MOT_FR})* (?:et|ou) ${MOT_FR}`, 'g');
+  const offenders = [];
+  for (const file of files) {
+    const trouves = texteMain(fs.readFileSync(file, 'utf8')).match(re) || [];
+    if (trouves.length >= 4) {
+      offenders.push(`${path.relative(distDir, file)} (${trouves.length} : "${trouves.slice(0, 2).join('", "')}"…)`);
+    }
+  }
+  if (offenders.length > 0) {
+    warnings.push(`Enumerations ternaires en serie (docs/REDACTION.md §14 R4) dans : ${offenders.join(' ; ')}`);
+  }
+}
+
+/** Aucune phrase parlee sur l'accueil (docs/REDACTION.md §14 R5) : un Francais qui ecrit lui-meme
+ * commence tot ou tard une phrase par « Et », « Mais » ou « Alors ». Zero sur toute une page
+ * d'accueil est un indice de texte lisse par une machine. */
+export function warnAucunePhraseParlee(files, distDir, warnings) {
+  const accueil = files.find((f) => path.basename(f) === 'index.html' && path.dirname(f) === distDir);
+  if (!accueil) return;
+  const phrases = phrasesMain(fs.readFileSync(accueil, 'utf8'));
+  if (phrases.length < 10) return;
+  const parlees = phrases.filter((p) => /^(Et|Mais|Alors|Bref|Pourtant|D[’']ailleurs|Sauf)\b/.test(p));
+  if (parlees.length === 0) {
+    warnings.push(`Aucune phrase de l'accueil ne commence par « Et »/« Mais »/« Alors » sur ${phrases.length} phrases (docs/REDACTION.md §14 R5) : texte sans oral`);
+  }
+}
+
+/** Page de service sans aucun chiffre (docs/REDACTION.md §14 R6) : prix, delai, dimension, norme,
+ * annee — un artisan qui decrit son travail donne au moins un nombre. Le pied de page et ses
+ * numeros de telephone sont exclus (mesure faite dans <main>). */
+export function warnPageServiceSansChiffre(files, distDir, warnings) {
+  const offenders = [];
+  for (const file of files) {
+    const rel = path.relative(distDir, file).replace(/\\/g, '/');
+    if (!rel.startsWith('services/')) continue;
+    if (!/\d/.test(texteMain(fs.readFileSync(file, 'utf8')))) offenders.push(rel);
+  }
+  if (offenders.length > 0) {
+    warnings.push(`Page de service sans aucun chiffre (prix, delai, norme, dimension — docs/REDACTION.md §14 R6) : ${offenders.join(', ')}`);
+  }
+}
+
+/** Reponses de FAQ qui commencent toutes pareil (docs/REDACTION.md §14 R7) : trois « Oui, … » ou
+ * plus sur une meme page trahissent un gabarit de reponse, pas quelqu'un qui repond. */
+export function warnFaqReponsesUniformes(files, distDir, warnings) {
+  const offenders = [];
+  for (const file of files) {
+    const oui = phrasesMain(fs.readFileSync(file, 'utf8')).filter((p) => /^Oui[,.]/.test(p)).length;
+    if (oui >= 3) offenders.push(`${path.relative(distDir, file)} (${oui})`);
+  }
+  if (offenders.length > 0) {
+    warnings.push(`Reponses de FAQ commencant toutes par « Oui, » (docs/REDACTION.md §14 R7) dans : ${offenders.join(', ')}`);
+  }
+}
+
 /* =====================================================================
    VISIBILITE IA — moteurs de reponse (ChatGPT via Bing, Perplexity, AI Overviews).
    Verifie que le site buildé reste lisible et citable par les robots de recherche IA :
@@ -808,6 +993,14 @@ export async function cmdVerifier(args) {
   warnParagrapheTropLongTextes(files, distDir, warnings);
   warnEyebrowTropLong(files, distDir, warnings);
   warnMajusculesHorsEyebrow(files, distDir, warnings);
+  // --- Textes, rythme (docs/REDACTION.md §14) : tells « ecrit par une machine », jamais bloquants ---
+  warnRythmeUniforme(files, distDir, warnings);
+  warnTiretsCadratins(files, distDir, warnings);
+  warnMotsValises(files, distDir, warnings);
+  warnEnumerationsTernaires(files, distDir, warnings);
+  warnAucunePhraseParlee(files, distDir, warnings);
+  warnPageServiceSansChiffre(files, distDir, warnings);
+  warnFaqReponsesUniformes(files, distDir, warnings);
 
   printReport(checks, warnings);
   const checklistOk = !checks.some((x) => !x.pass);

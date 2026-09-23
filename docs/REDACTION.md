@@ -329,3 +329,48 @@ Pour la partie images (shot list par métier, retouche, IA, checklist « images 
 des commandes). Même règle pour une vidéo/animation générée par IA (`ff animer`, `docs/PROCESS.md`
 §4bis) : uniquement à partir d'une photo réelle du client, jamais d'une image inventée — et marquage
 AI Act (`data-ia="1"` + mention visible) obligatoire sur la section qui l'utilise.
+
+## 14. Dix règles contre le « texte écrit par une machine »
+
+Distillées de `docs/veille/ecriture.md` (22 septembre 2026), qui garde les 38 sources et les douze
+marqueurs avec un exemple pris dans nos propres sites. Ces règles portent sur le **rythme** et sur la
+**matière** du texte, pas sur le vocabulaire interdit (§1) : un texte peut passer les §1 à §13 sans une
+faute et rester reconnaissable à la première phrase.
+
+Sept des dix sont vérifiées automatiquement par `ff verifier` (§15), toujours en **avertissement**,
+jamais en échec : ce sont des indices, pas des fautes, et un site peut légitimement en déclencher un.
+
+| # | Règle | Vérification |
+|---|---|---|
+| **R1** | **Casser le rythme.** Jamais trois phrases consécutives de longueur proche dans un même paragraphe. Sur une page, l'écart-type des longueurs de phrase doit dépasser 28 % de la moyenne — concrètement, une phrase de moins de 6 mots tous les 3 à 4 phrases. | `ff verifier` (`warnRythmeUniforme`) |
+| **R2** | **Zéro tiret cadratin de rythme.** Un tiret long isolé passe ; au-delà d'un pour 500 caractères visibles, remplacer par un point, un deux-points ou une virgule. Doublement justifié : signature n° 1 du texte généré, et l'OQLF le proscrit en rédaction web française. | `ff verifier` (`warnTiretsCadratins`) |
+| **R3** | **Aucun mot-valise.** « savoir-faire », « passion », « expertise », « au cœur de », « point d'honneur », « depuis toujours », « à votre écoute », « dans les règles de l'art », « clé en main », « haut de gamme », « notre ADN », « univers ». Chacun se remplace par le fait concret du brief : l'année, le geste, la matière, la norme. | `ff verifier` (`warnMotsValises`) |
+| **R4** | **Trois énumérations ternaires maximum par page.** Le triplet « A, B et C » est le patron de phrase le plus reconnaissable. Préférer une liste de quatre sans « et », ou transformer les noms en verbes (« Taille, dessin et finitions » → « On taille, on dessine, on finit à la lame »). | `ff verifier` (`warnEnumerationsTernaires`) |
+| **R5** | **Au moins une phrase parlée par page d'accueil.** Une phrase qui commence par « Et », « Mais », « Alors », « Pourtant » ou « Sauf ». Zéro sur toute une page est un indice fiable de texte lissé. Vouvoiement maintenu (§2) : l'oralité passe par la syntaxe, pas par le tutoiement. | `ff verifier` (`warnAucunePhraseParlee`) |
+| **R6** | **Un chiffre par page de service.** Prix, durée, délai, dimension, norme, année. Quand `priceFrom` existe, le reprendre dans le texte visible : un prix annoncé est la preuve la moins chère qui existe. Jamais un chiffre absent du brief (règle dure n° 2). | `ff verifier` (`warnPageServiceSansChiffre`) |
+| **R7** | **Les réponses de FAQ ne commencent pas toutes pareil.** Deux « Oui, … » au maximum par page ; au-delà, répondre par le fait lui-même (« 48 h minimum, par téléphone ou par le formulaire »). | `ff verifier` (`warnFaqReponsesUniformes`) |
+| **R8** | **Un mot de métier non traduit par page.** Le lexique du §9 donne les mots que le client emploie ; il en faut au moins un que seul un professionnel écrirait (« zinguerie », « NF P01-012 », « levain », « thermolaquage », « prud'hommes »). Le marqueur d'un texte généré n'est pas le mot suspect, c'est l'absence de mot rare. | Relecture humaine |
+| **R9** | **Une réserve, une limite ou un refus par site.** Ce que l'artisan ne fait pas, ce qui prend du temps, quand il est fermé, ce qui n'est pas garanti. Jamais inventé : la limite doit venir du brief (horaires, zone, délai, « jusqu'à épuisement »). Interdit pour une profession réglementée si cela ressemble à une promesse inversée (§3). | Relecture humaine |
+| **R10** | **Une anecdote datée ou un nom propre par `about.story`.** Une date, un lieu précis, un prénom déjà présent dans le brief (`about.team`, `legal.owner`). Aucun nom ni aucune date ajoutés — seulement ceux que le fichier contient déjà et qu'on n'avait jamais dits. | Relecture humaine |
+
+**Ordre d'application quand deux règles s'opposent** : la règle dure n° 2 de `CLAUDE.md` passe avant les
+dix. Si le brief ne donne ni prix, ni délai, ni refus, ni anecdote, R6/R9/R10 ne s'appliquent pas — la
+section se réduit, elle ne s'invente pas. Le point à corriger est alors en amont, dans `docs/BRIEF.md`.
+
+## 15. `ff verifier` — bloc « Textes », rythme (§14)
+
+`scripts/ff/verifier.mjs` mesure ces sept contrôles sur le contenu de `<main>` de chaque page livrée
+(nav, pied de page et mentions légales exclus : leurs libellés courts et leurs numéros de téléphone
+faussent chaque mesure). **Tous sont des avertissements, aucun ne fait échouer `ff verifier`.**
+
+| Fonction | Ce qu'elle signale | Seuil |
+|---|---|---|
+| `warnRythmeUniforme` | Rythme binaire (3 phrases consécutives de longueur proche dans un `<p>`) et rythme plat (page entière) | trio ≥ 9 mots et écart ≤ 2 ; ou écart-type/moyenne < 0,28 sur ≥ 8 phrases |
+| `warnTiretsCadratins` | Tirets longs en rafale | ≥ 2 tirets et < 500 caractères par tiret |
+| `warnMotsValises` | Les douze formules creuses de R3 | 1 occurrence |
+| `warnEnumerationsTernaires` | Triplets « A, B et C » en série | ≥ 4 par page |
+| `warnAucunePhraseParlee` | Accueil sans aucune phrase ouverte par « Et »/« Mais »/« Alors » | 0 sur ≥ 10 phrases |
+| `warnPageServiceSansChiffre` | Page `services/*.html` sans un seul chiffre dans `<main>` | 0 chiffre |
+| `warnFaqReponsesUniformes` | Réponses commençant toutes par « Oui, » | ≥ 3 par page |
+
+Tests : `tests/verifier-textes.test.mjs` (fixtures HTML en dossier temporaire, sans build Astro).

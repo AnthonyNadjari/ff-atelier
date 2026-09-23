@@ -1,26 +1,35 @@
 ---
 /**
- * Réalisations — sur mesure Finck & Fisch. Douze sites de démonstration (un par métier, choisis
- * dans vitrine.json parmi les vingt générés), en LISTE-INDEX : une ligne par métier, numéro en
- * chiffres tabulaires, nom du métier en display, la vignette posée au bout de la ligne. Aucune
- * figure ne pointe vers un lien (pas en ligne) : ce sont des lignes d'index, pas des cartes
- * cliquables — jamais de href="#" vide (interdit par le vérificateur). Vignettes générées depuis
- * captures/<slug>-desktop.png par `ff vitrine` (vitrine.json, une entrée par site) en 1400 et 700 px.
+ * Réalisations — sur mesure Finck & Fisch. Douze sites de démonstration (un par métier, choisis dans
+ * vitrine.json parmi les vingt générés), en LISTE-INDEX : une ligne par métier, numéro en chiffres
+ * tabulaires, métier en display, direction visuelle nommée, la vignette posée au bout de la ligne.
+ * Aucune figure ne pointe vers un lien (ces sites ne sont pas en ligne) : ce sont des lignes d'index,
+ * pas des cartes cliquables — jamais de href="#" vide (interdit par le vérificateur). Vignettes
+ * générées depuis captures/<slug>-desktop.png par `ff vitrine`, en 1400 et 700 px.
  *
- * Refonte du 22 sept 2026, passage à la coquille `split` : la grille à trois colonnes tenait dans une
- * page pleine largeur, pas dans la colonne de 58 rem qui défile à droite du panneau — trois captures
- * de site par rangée y devenaient illisibles. La liste-index répond au panneau : même famille que le
- * sommaire actif (numéro, filet, un mot), et elle se lit du premier coup d'œil. Pas de `data-hover-img`
- * ici : le monogramme animé du hero est le seul effet riche de la page (règle 16), les vignettes
- * restent donc visibles en permanence, ce qui marche aussi au doigt et au clavier.
- * Règle 21 : un seul groupe animé — le titre, puis la liste entière en une apparition (opacité seule).
- * Un data-stagger sur douze lignes poussait la page à 24 éléments animés, au-delà du seuil de 16
- * de `ff audit-motion` ; la liste arrive donc d'un bloc, comme un index qu'on pose sur la table.
+ * La liste-index (plutôt qu'une grille à trois colonnes) répond à la coquille `split` : la colonne de
+ * 58 rem qui défile à droite du panneau ne peut pas montrer trois captures de site par rangée sans
+ * les rendre illisibles. Elle répond aussi au panneau lui-même : même famille que le sommaire actif
+ * (numéro, filet, un mot).
+ *
+ * Deux changements du 22 sept 2026 au soir :
+ * - Le bloc passe APRÈS le manifeste, plus juste après le hero. La preuve d'entrée, c'est désormais
+ *   la planche de trois propositions (`sections/Propositions.astro`) : le même contenu rendu trois
+ *   fois, c'est-à-dire notre argument. Cet index-ci est le catalogue, pas l'argument.
+ * - Chaque ligne nomme sa DIRECTION VISUELLE (donnée réelle de vitrine.json, jamais inventée).
+ *   Décision 6 de `ETALON.md` : sur les 17 sites étalonnés, la preuve est toujours un nom propre ou
+ *   un nombre, jamais un adjectif — `35 Awwwards`, `© 1972–2026`, `432 tests`. « Direction encre »
+ *   est un fait vérifiable à l'œil sur la vignette ; « site élégant » n'en est pas un.
  *
  * Règle dure n°2 (rien d'inventé) : ces douze sites sont des démonstrations, pas des clients. Le
- * titre, l'intro, la légende de chaque ligne et l'alt de chaque vignette le disent en clair ; la ville
- * (fictive) et la « signature » technique de vitrine.json ne sont pas affichées.
- * À remplacer par les vrais sites clients dès leur mise en ligne (docs/HANDOVER.md § P1).
+ * titre, l'intro et l'alt de chaque vignette le disent en clair ; la ville (fictive) n'est pas
+ * affichée. À remplacer par les vrais sites clients dès leur mise en ligne (docs/HANDOVER.md § P1).
+ *
+ * Règle 21 : un seul groupe animé — le titre, puis la liste entière en une apparition (opacité
+ * seule). Un data-stagger sur douze lignes poussait la page au-delà du seuil de 16 éléments animés
+ * de `ff audit-motion` ; la liste arrive donc d'un bloc, comme un index qu'on pose sur la table.
+ * Pas de data-hover-img : le tracé du monogramme reste le seul geste riche de la page (règle 16), et
+ * une vignette visible en permanence marche aussi au doigt et au clavier.
  */
 import vitrine from '../vitrine.json';
 
@@ -38,19 +47,20 @@ const sites = choisis.map((slug) => tous.find((s) => s.slug === slug)).filter((s
 
 <section id="realisations" class="section-y">
   <div class="container-ff">
-    <h2 class="max-w-2xl text-display-md" data-reveal>Un site par métier, jamais le même.</h2>
-    <p class="mt-5 max-w-2xl text-muted">
-      Douze sites de démonstration, un par métier, pour montrer ce que deux artisans différents obtiennent chez nous.
-      Nos premiers sites clients prendront leur place ici dès leur mise en ligne.
+    <h2 class="max-w-2xl text-display-md" data-reveal>Douze métiers, douze sites.</h2>
+    <p class="mt-6 max-w-2xl leading-relaxed text-muted">
+      Douze démonstrations, un métier chacune, pour montrer ce que deux artisans différents obtiennent
+      chez nous. Aucune n’est un client : nos premiers sites clients prendront leur place ici dès leur
+      mise en ligne.
     </p>
 
-    <ol class="mt-12 border-t border-line" data-reveal>
+    <ol class="mt-14 border-t border-line" data-reveal>
       {sites.map((s, i) => (
         <li class="grid grid-cols-[2rem_1fr_auto] items-center gap-4 border-b border-line py-4 sm:gap-8 sm:py-5">
           <span class="font-mono text-xs tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
           <div class="min-w-0">
             <h3 class="font-display text-xl leading-tight sm:text-2xl">{s.metier}</h3>
-            <p class="mt-1 text-sm text-muted">Démonstration</p>
+            <p class="mt-1 text-sm text-muted">Direction {s.direction} · démonstration</p>
           </div>
           <div class="w-24 shrink-0 overflow-hidden rounded-card border border-line sm:w-36 lg:w-48">
             <img

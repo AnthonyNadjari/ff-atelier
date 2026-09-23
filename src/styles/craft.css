@@ -1,0 +1,725 @@
+/*
+ * craft.css — le « plancher de soin » : ce qu'un studio règle et qu'un générateur oublie.
+ * États de focus, champs de formulaire (repos, focus, erreur, succès, désactivé), sélection,
+ * barre de défilement, curseur, page 404, états vides, impression, `::marker`, `::placeholder`.
+ * Importé par global.css APRÈS le reste : ces règles corrigent des détails, elles ne posent pas
+ * de mise en page. Tokens uniquement, comme partout (docs/CONVENTIONS.md règle 1).
+ *
+ * Veille : docs/veille/plancher-de-soin.md (sources, et ce que chaque règle impose).
+ * Chaque bloc dit POURQUOI il existe et ce qui se passe sans lui.
+ */
+
+/* ------------------------------------------------------------------------------------------------
+   1. Tokens du plancher de soin
+   POURQUOI : ces états ont besoin de couleurs que la palette d'une direction ne fournit pas (une
+   erreur n'est pas « l'accent », un succès non plus) et d'un anneau de focus qui tienne sur les 8
+   directions, claires comme sombres. Les seules valeurs littérales de tout le fichier sont ici :
+   partout ailleurs, `var()` uniquement (tests/craft.test.mjs le vérifie).
+   COMMENT : la teinte est fixe (rouge, vert), la LUMINOSITÉ est tirée du texte courant `--fg` par
+   `color-mix`. Sur une direction claire `--fg` est quasi noir : le rouge fonce et tient 4,5:1 sur
+   fond clair. Sur une direction sombre `--fg` est quasi blanc : le même rouge s'éclaircit et tient
+   4,5:1 sur fond sombre. Une seule déclaration, deux mondes.
+   SANS CE BLOC : on retombe sur un `#c0392b` en dur (ce que faisait ContactForm.astro), invisible
+   sur les directions sombres (« signal », « nuit ») et hors palette sur toutes les autres.
+------------------------------------------------------------------------------------------------ */
+:root {
+  --ff-danger: color-mix(in oklab, oklch(0.606 0.208 27) 76%, var(--fg));
+  --ff-danger-soft: color-mix(in oklab, var(--ff-danger) 8%, var(--bg));
+  --ff-success: color-mix(in oklab, oklch(0.62 0.15 150) 72%, var(--fg));
+
+  /* Anneau de focus à deux couleurs (voir bloc 2) : un trait qui porte la marque + un liseré neutre
+     tiré du fond, pour que l'anneau reste visible sur une carte, une photo ou un bloc encre. */
+  --ff-focus: color-mix(in oklab, var(--accent) 62%, var(--fg));
+  --ff-focus-halo: var(--bg);
+  --ff-focus-width: 2px;
+  --ff-focus-offset: 2px;
+
+  /* Hauteur de dégagement sous une nav fixe : `scroll-padding` pour que l'élément amené au focus ou
+     par une ancre ne se retrouve pas caché derrière l'en-tête collant (WCAG 2.2 — 2.4.11). */
+  --ff-sticky-clearance: 6rem;
+
+  /* Cible tactile minimale (WCAG 2.2 — 2.5.8 impose 24 px, 2.5.5 recommande 44 px : on vise 44). */
+  --ff-target: 44px;
+
+  /* Impression : l'encre et le papier ne sont pas la palette du site (bloc 12). */
+  --ff-print-fg: oklch(0.15 0 0);
+  --ff-print-muted: oklch(0.42 0 0);
+  --ff-print-bg: oklch(1 0 0);
+  --ff-print-line: oklch(0.78 0 0);
+}
+
+/* ------------------------------------------------------------------------------------------------
+   2. Focus visible impeccable
+   POURQUOI : `:focus-visible { outline: 2px solid var(--accent) }` (global.css) échoue dans trois
+   cas réels : accent trop proche du fond de la direction (l'anneau disparaît), focus posé sur un
+   élément accent (anneau accent sur fond accent = contraste 1:1), et anneau rogné par un parent en
+   `overflow: hidden`. WCAG 2.1 SC 1.4.11 demande 3:1 pour l'indicateur ; WCAG 2.2 SC 2.4.11 interdit
+   qu'un en-tête collant le masque.
+   COMMENT : deux couleurs. Le trait extérieur `--ff-focus` (accent tiré vers le texte, donc toujours
+   contrasté sur le fond) et, entre l'élément et le trait, un liseré `--ff-focus-halo` (le fond)
+   dessiné en `box-shadow` : sur une photo ou un bloc coloré, ce liseré sépare l'anneau du décor.
+   SANS CE BLOC : on navigue au clavier sans savoir où on est sur la moitié des directions.
+------------------------------------------------------------------------------------------------ */
+:focus-visible {
+  outline: var(--ff-focus-width) solid var(--ff-focus);
+  outline-offset: var(--ff-focus-offset);
+  box-shadow: 0 0 0 var(--ff-focus-offset) var(--ff-focus-halo);
+  border-radius: inherit;
+}
+
+/* Le focus ne doit jamais être seulement « la souris qui n'en veut pas » : on ne retire l'anneau que
+   pour le focus non clavier (`:focus:not(:focus-visible)`), jamais pour le focus clavier. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Repli pour un navigateur qui ne connaît pas `:focus-visible` (antérieur à 2022) : il n'a pas non
+   plus appliqué la règle ci-dessus, donc l'anneau natif est encore là — on se contente de lui donner
+   nos couleurs. Sans ce bloc, ces navigateurs affichent l'outline système bleu. */
+@supports not selector(:focus-visible) {
+  :focus {
+    outline: var(--ff-focus-width) solid var(--ff-focus);
+    outline-offset: var(--ff-focus-offset);
+  }
+}
+
+/* Un ancêtre qui rogne (carte à image débordante, bloc `data-grain`/`data-duotone`, marquee) coupe un
+   anneau dessiné à l'extérieur : WCAG 2.2 — 2.4.11 « focus non masqué ». On bascule alors l'anneau à
+   l'INTÉRIEUR de l'élément, où rien ne peut le rogner.
+   SANS CETTE RÈGLE : un lien de carte focusé dans un conteneur `overflow-hidden` n'a plus d'anneau. */
+:where(.overflow-hidden, [data-grain], [data-duotone], [data-marquee], [data-shader]) :focus-visible {
+  outline-offset: calc(-1 * var(--ff-focus-width) - 1px);
+  box-shadow: inset 0 0 0 calc(var(--ff-focus-width) + 1px) var(--ff-focus-halo);
+}
+
+/* Nav fixe (toutes nos variantes de nav sont `fixed top-0`) : sans dégagement, la cible d'une ancre
+   ou l'élément amené au focus par Tab se place SOUS l'en-tête. `scroll-padding` règle les deux. */
+html {
+  scroll-padding-top: var(--ff-sticky-clearance);
+}
+:target,
+[data-form-erreurs] {
+  scroll-margin-top: var(--ff-sticky-clearance);
+}
+
+/* Le lien d'évitement (« Aller au contenu », Base.astro) est le premier arrêt du clavier : il doit
+   être au-dessus de la nav fixe (z-index déjà posé) et ne jamais rester translucide. */
+a[href='#main']:focus-visible {
+  box-shadow: 0 0 0 var(--ff-focus-offset) var(--ff-focus-halo), var(--shadow-lift);
+}
+
+/* ------------------------------------------------------------------------------------------------
+   3. Cible tactile de 44 px (nav + pied de page, en mobile)
+   POURQUOI : WCAG 2.2 SC 2.5.8 impose 24x24 px, SC 2.5.5 recommande 44x44. Nos liens de nav et de
+   pied de page sont du texte de 14 px dans une liste `space-y-2` : environ 20 px de haut, deux fois
+   sous le minimum. Un artisan qu'on appelle depuis un téléphone, une main sur une clé à molette,
+   c'est exactement le cas d'usage.
+   COMMENT : `min-height` sur le lien passé en `inline-flex`, seulement sur pointeur grossier — le
+   desktop garde sa densité. On grandit la cible sans la faire se chevaucher avec la voisine (les
+   liens sont empilés : la liste s'allonge, les cibles ne se recouvrent pas).
+   SANS CE BLOC : on rate la moitié des liens du pied de page au doigt.
+------------------------------------------------------------------------------------------------ */
+@media (pointer: coarse) {
+  :is(header[data-nav], nav[data-nav], footer) a:not(.btn),
+  :is(header[data-nav], nav[data-nav], footer) button:not(.btn) {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--ff-target);
+  }
+  /* Les listes de liens du pied de page n'ont plus besoin de leur interligne serré : la hauteur de
+     cible fait déjà la séparation. On évite ainsi un pied de page deux fois trop long. */
+  footer ul:not([class*='flex']) > li + li {
+    margin-top: 0;
+  }
+}
+
+/* Plancher AA (2.5.8) : 24 px, tous pointeurs confondus, pas seulement en mobile. Un lien de nav en
+   14 px fait 20 px de haut — mesuré sur dubois-plomberie avant ce bloc : 8 des 16 premiers arrêts du
+   clavier étaient sous le minimum. Les liens dans une phrase sont exemptés par le critère (exception
+   « Inline »), d'où la restriction à la nav, au pied de page et aux boutons icône. */
+:is(header[data-nav], nav[data-nav], footer) a:not(.btn),
+button[aria-label],
+a[aria-label]:not(.btn) {
+  display: inline-flex;
+  align-items: center;
+  /* `max-width` + `flex-wrap` : sans eux, une adresse e-mail longue (pied de page, `break-all`)
+     deviendrait un bloc flex insécable et provoquerait un débordement horizontal en mobile. */
+  max-width: 100%;
+  flex-wrap: wrap;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+/* ------------------------------------------------------------------------------------------------
+   4. Surfaces du navigateur : sélection, caret, marqueurs, contrôles natifs, barre de défilement
+   POURQUOI : Impeccable (`skill/reference/craft-floor.md`, § Browser surfaces) : « les parties que
+   vous n'avez pas dessinées portent quand même le design […] c'est le signal le moins cher qu'une
+   page a été construite plutôt qu'assemblée, et celui que les modèles sautent le plus sûrement ».
+   Sélection, caret, case à cocher, marqueur de liste, barre de défilement arrivent en bleu système.
+   SANS CE BLOC : un bleu Windows traverse toutes les directions dès qu'on sélectionne trois mots.
+------------------------------------------------------------------------------------------------ */
+:root {
+  /* Cases à cocher, boutons radio, curseurs de plage, barres de progression : une ligne pour tout. */
+  accent-color: var(--accent);
+  /* Le caret reprend la marque, mais tiré vers le texte pour rester visible sur `--surface`. */
+  caret-color: var(--ff-focus);
+}
+
+/* `::selection` est déjà posé dans global.css (accent / on-accent). Sur un bloc encre ou accent, ce
+   couple s'inverse et devient illisible : on le rétablit à partir des tokens du bloc traversé. */
+.bg-ink ::selection,
+.text-on-ink ::selection {
+  background: var(--on-ink);
+  color: var(--ink);
+}
+.bg-accent ::selection {
+  background: var(--on-accent);
+  color: var(--accent);
+}
+
+/* Fragment de texte (lien « …#:~:text=… » envoyé par un client, résultat Google) : sans règle, le
+   navigateur surligne en jaune système, hors palette. */
+::target-text {
+  background: color-mix(in oklab, var(--accent) 24%, var(--bg));
+  color: var(--fg);
+}
+
+/* Marqueurs de liste (listes à puces des mentions légales, listes numérotées d'un process) :
+   la puce prend l'accent, le numéro passe en chiffres tabulaires pour s'aligner. */
+li::marker {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Barre de défilement : `scrollbar-color` est posé sur `body` (global.css) mais pas sur les zones
+   qui défilent seules (tiroir de contact, tableau large, marquee). `scrollbar-gutter: stable` évite
+   le saut de mise en page d'un demi-scrollbar à l'ouverture du tiroir. */
+.tiroir-corps,
+[data-lenis-prevent],
+.overflow-y-auto,
+.overflow-auto {
+  scrollbar-color: var(--accent) var(--bg-2);
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
+/* Curseurs : un bouton se clique, un élément désactivé ne se clique pas, un texte se sélectionne.
+   Les générateurs laissent la flèche par défaut sur un `<button>`, tell discret mais constant. */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+summary,
+label:has(input, select, textarea) {
+  cursor: pointer;
+}
+button:disabled,
+[aria-disabled='true'],
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------------------------------------
+   5. Champs de formulaire — les sept états
+   POURQUOI : le formulaire est la seule chose qui rapporte de l'argent à un artisan, et c'est là que
+   les sites générés sont les plus nus : un seul style, aucun retour quand on se trompe. On couvre
+   repos, survol, focus, rempli, invalide (APRÈS interaction), valide, désactivé et lecture seule.
+   COMMENT : `.ff-champ`, posé par ContactForm.astro. Rien ici ne vise `input` tout court : le
+   curseur de `data-compare`, les cases du honeypot et les champs d'un widget tiers gardent le leur.
+   SANS CE BLOC : on tape, on envoie, rien ne bouge, on ne sait pas quel champ pose problème.
+------------------------------------------------------------------------------------------------ */
+
+/* Repos : la transition est sur `--motion-ui` (réponse à un geste), jamais `--motion-duration`
+   (docs/CONVENTIONS.md règle 21). */
+.ff-champ {
+  transition:
+    border-color var(--motion-ui) var(--ease-out),
+    background-color var(--motion-ui) var(--ease-out),
+    box-shadow var(--motion-ui) var(--ease-out);
+}
+
+/* Le texte indicatif doit tenir 4,5:1 comme le corps de texte (Impeccable, § Verify : « body and
+   placeholder text ≥4.5:1 »). Firefox applique en plus une opacité par défaut : on la remet à 1. */
+.ff-champ::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+/* Survol : signal discret, uniquement sur pointeur fin et si le champ est encore modifiable. */
+@media (hover: hover) {
+  .ff-champ:not(:disabled, [readonly]):hover {
+    border-color: color-mix(in oklab, var(--fg) 45%, var(--line));
+  }
+}
+
+/* Focus : l'anneau du bloc 2 s'applique déjà ; on ajoute la bordure accent pour que le champ actif
+   se lise aussi en un coup d'œil, sans jamais remplacer l'anneau (ContactForm.astro posait
+   `focus:outline-none` : le clavier n'avait plus que cette bordure, souvent sous 3:1). */
+.ff-champ:focus-visible {
+  border-color: var(--ff-focus);
+}
+
+/* Rempli : une fois renseigné, le champ se distingue d'un champ vide (bordure un cran plus franche).
+   `:placeholder-shown` ne marche que sur les champs à placeholder ; pour un `<select>`, on teste
+   l'option vide sélectionnée avec `:has()`. */
+.ff-champ:not(:placeholder-shown):not(:disabled),
+select.ff-champ:not(:has(option[value='']:checked)) {
+  border-color: color-mix(in oklab, var(--fg) 30%, var(--line));
+}
+
+/* Invalide APRÈS interaction : `:user-invalid` n'apparaît qu'une fois que l'utilisateur a modifié le
+   champ puis l'a quitté — jamais pendant la frappe, jamais sur un formulaire encore vierge. C'est la
+   règle d'Adam Silver et du GOV.UK Design System : on ne crie pas « erreur » sur un champ qu'on
+   n'a pas encore fini de remplir.
+   `.ff-form-soumis :invalid` reprend la main à la soumission : le formulaire est en `novalidate`
+   (messages natifs anglophones désactivés), la tentative d'envoi ne suffit pas partout à armer
+   `:user-invalid`, la classe posée par le script le garantit. */
+.ff-champ:user-invalid,
+.ff-form-soumis .ff-champ:invalid {
+  border-color: var(--ff-danger);
+  background-color: var(--ff-danger-soft);
+}
+.ff-champ:user-invalid:focus-visible,
+.ff-form-soumis .ff-champ:invalid:focus-visible {
+  --ff-focus: var(--ff-danger);
+}
+
+/* Le libellé du champ fautif vire aussi : chercher la bordure rouge dans une colonne de champs
+   demande un effort que le libellé épargne. Pas de barre colorée épaisse à gauche (Impeccable
+   refuse le `border-left` coloré au-dessus de 1px sur les alertes) : la couleur suffit. */
+label:has(.ff-champ:user-invalid) > span:first-child,
+.ff-form-soumis label:has(.ff-champ:invalid) > span:first-child {
+  color: var(--ff-danger);
+}
+
+/* Message d'erreur sous le champ (rendu par ContactForm.astro, lié par `aria-describedby`).
+   Affiché par CSS et non par JS : il apparaît dès que le champ devient invalide après interaction,
+   même si le script n'a pas encore tourné. */
+.ff-erreur {
+  display: none;
+  color: var(--ff-danger);
+  font-size: 0.8125rem; /* 13 px — au-dessus du plancher 11 px (règle 15) */
+  line-height: 1.45;
+}
+label:has(.ff-champ:user-invalid) .ff-erreur,
+.ff-form-soumis label:has(.ff-champ:invalid) .ff-erreur {
+  display: block;
+}
+
+/* Valide : retour discret, jamais une coche verte triomphante sur chaque champ (Adam Silver : le
+   succès d'un champ n'est pas une information dont l'utilisateur a besoin). Un simple bord teinté. */
+.ff-champ:user-valid:not(:placeholder-shown):not(:disabled) {
+  border-color: color-mix(in oklab, var(--ff-success) 55%, var(--line));
+}
+
+/* Désactivé et lecture seule : deux états différents, deux rendus différents. Désactivé = hors jeu
+   (atténué, non focusable). Lecture seule = valeur réelle, sélectionnable, simplement non modifiable
+   (on ne l'atténue pas : ce serait mentir sur la lisibilité de la donnée). */
+.ff-champ:disabled {
+  opacity: 0.55;
+  background-color: var(--bg-2);
+}
+.ff-champ[readonly] {
+  background-color: var(--bg-2);
+  border-style: dashed;
+}
+
+/* Zone de texte qui grandit avec son contenu : le client décrit sa fuite d'eau, la boîte suit, sans
+   une ligne de JavaScript. Bornée pour ne pas pousser le bouton d'envoi hors écran.
+   `@supports` : sans le support (Firefox à ce jour), `rows` du HTML reste seul maître. */
+@supports (field-sizing: content) {
+  textarea.ff-champ {
+    field-sizing: content;
+    min-height: 6lh;
+    max-height: 18lh;
+  }
+}
+
+/* Résumé d'erreurs en tête de formulaire (GOV.UK « Error summary ») : affiché à la soumission, il
+   liste chaque problème et chaque entrée est un lien vers le champ. Le script lui donne le focus.
+   POURQUOI : sur un formulaire à cinq champs on voit les bordures rouges ; sur un téléphone où seul
+   un champ tient à l'écran, on ne voit rien du tout. */
+[data-form-erreurs] {
+  border: 1px solid var(--ff-danger);
+  border-radius: var(--radius);
+  background: var(--ff-danger-soft);
+  padding: var(--space-s);
+  color: var(--fg);
+}
+[data-form-erreurs] strong {
+  color: var(--ff-danger);
+}
+[data-form-erreurs] a {
+  color: var(--ff-danger);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+[data-form-erreurs]:focus-visible {
+  --ff-focus: var(--ff-danger);
+}
+
+/* État de chargement du bouton d'envoi : un bouton désactivé sans explication est un bouton cassé.
+   Le libellé change (script), le pointeur change, et un point tourne — sauf en mouvement réduit. */
+[data-spinner] {
+  display: none;
+}
+.btn[aria-busy='true'] {
+  cursor: progress;
+}
+.btn[aria-busy='true'] [data-spinner] {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: ff-spin 0.7s linear infinite;
+}
+@keyframes ff-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Message de statut (succès / échec d'envoi) : l'échec n'est pas décoratif, il porte la couleur
+   d'erreur et le moyen de s'en sortir (téléphone) est dans le texte, côté composant. */
+[data-status][data-etat='ok'] {
+  border-color: var(--ff-success);
+}
+[data-status][data-etat='erreur'] {
+  border-color: var(--ff-danger);
+  color: var(--ff-danger);
+}
+
+/* ------------------------------------------------------------------------------------------------
+   6. Page 404 et états vides
+   POURQUOI : une 404 qui dit seulement « cette page n'existe pas » est un cul-de-sac. Chez un
+   artisan, la sortie utile est toujours la même : les prestations et le téléphone.
+   Les styles sont ici parce qu'ils ne servent que là (la page elle-même est src/pages/404.astro).
+------------------------------------------------------------------------------------------------ */
+.ff-404-code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+}
+.ff-404-liens a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: var(--ff-target);
+  border-bottom: 1px solid var(--line);
+  color: var(--fg);
+}
+.ff-404-liens a:hover {
+  color: var(--accent);
+}
+
+/* État vide générique : un conteneur de liste qui n'a rien à afficher ne doit pas laisser une grille
+   vide avec ses marges. Sans cette règle, une section sans données laisse un trou de 8rem. */
+[data-vide]:empty,
+[data-liste]:empty {
+  display: none;
+}
+
+/* ------------------------------------------------------------------------------------------------
+   7. Avant le chargement : polices et images
+   POURQUOI : le premier dixième de seconde compte aussi. `font-display` est géré par fontaine, mais
+   une image lente laisse un trou blanc au milieu d'une direction sombre.
+   COMMENT : le fond de la case image reprend `--bg-2`, jamais le blanc du navigateur. `<Img>` pose
+   déjà un LQIP en `background-image` quand le manifeste existe ; cette règle couvre les autres.
+------------------------------------------------------------------------------------------------ */
+img:not([src]),
+img[src='']:not([alt='']) {
+  visibility: hidden;
+}
+picture,
+img {
+  background-color: var(--bg-2);
+}
+/* Sauf les images déjà chargées avec un LQIP : leur `background-image` doit rester visible. */
+img[style*='background-image'] {
+  background-color: transparent;
+}
+
+/* ------------------------------------------------------------------------------------------------
+   8. Contraste renforcé (`prefers-contrast: more`)
+   POURQUOI : réglage système d'un utilisateur qui dit « je ne vois pas assez ». On ne peut pas
+   répondre avec la même palette atténuée. Le texte `--muted`, les bordures `--line` et les
+   translucidités `/70` de nos pieds de page sont les premiers à tomber.
+   SANS CE BLOC : le réglage n'a aucun effet sur nos sites — le site ignore une demande explicite.
+------------------------------------------------------------------------------------------------ */
+@media (prefers-contrast: more) {
+  :root {
+    --muted: color-mix(in oklab, var(--fg) 82%, var(--muted));
+    --line: color-mix(in oklab, var(--fg) 55%, var(--line));
+    --ff-focus: var(--fg);
+    --ff-focus-width: 3px;
+  }
+  /* Un lien doit se distinguer du texte autrement que par la couleur. */
+  main a:not(.btn):not([aria-label]) {
+    text-decoration: underline;
+  }
+  .ff-champ {
+    border-width: 2px;
+  }
+  /* Les atténuations posées en markup (`text-on-ink/70`, `border-on-ink/20`) sont remises à plat. */
+  .text-on-ink\/70,
+  .text-on-ink\/80,
+  .text-on-ink\/65,
+  .text-on-ink\/60 {
+    color: var(--on-ink);
+  }
+}
+
+/* ------------------------------------------------------------------------------------------------
+   9. Contraste forcé Windows (`forced-colors: active`)
+   POURQUOI : le mode contraste élevé de Windows remplace autoritairement couleurs de texte, de fond
+   et de bordure par la palette système. Tout ce qui portait une information par la COULEUR SEULE
+   (bouton accent sans bordure, bordure de champ en erreur, anneau de focus) la perd d'un coup.
+   COMMENT : on redonne une forme — bordure explicite sur les boutons et les champs, anneau de focus
+   en `Highlight`, décor purement graphique masqué.
+   SANS CE BLOC : le site s'affiche, mais les boutons deviennent du texte souligné sans limite
+   visible et le champ en erreur ressemble à un champ normal.
+------------------------------------------------------------------------------------------------ */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+  .btn,
+  button,
+  .ff-champ {
+    border: 1px solid ButtonText;
+  }
+  .btn-primary,
+  .btn-ink {
+    forced-color-adjust: none;
+    background: ButtonFace;
+    color: ButtonText;
+    border: 1px solid ButtonText;
+  }
+  /* L'erreur ne peut plus passer par le rouge : elle passe par l'épaisseur et le message texte,
+     qui est déjà là (bloc 5) et reste lu par `aria-describedby`. */
+  .ff-champ:user-invalid,
+  .ff-form-soumis .ff-champ:invalid {
+    border-width: 3px;
+    border-style: dashed;
+  }
+  /* Décor pur : grain, duotone, faisceau de bordure, shaders. En contraste forcé ils ne produisent
+     que du bruit (ou un aplat opaque qui masque le texte). */
+  [data-grain]::after,
+  [data-duotone]::after,
+  [data-border-beam]::before,
+  .ff-shader-canvas {
+    display: none;
+  }
+  /* Les icônes lucide sont des traits : sans cela elles disparaissent sur certains thèmes. */
+  svg {
+    forced-color-adjust: none;
+    stroke: currentColor;
+  }
+}
+
+/* ------------------------------------------------------------------------------------------------
+   10. Mouvement réduit — le complément du bloc de global.css
+   POURQUOI : global.css neutralise déjà les effets du moteur d'animation. Restent les micro-états
+   ajoutés ici (transitions de champ, spinner d'envoi) : un utilisateur qui demande « moins de
+   mouvement » ne veut pas non plus d'un point qui tourne indéfiniment.
+------------------------------------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .ff-champ {
+    transition: none;
+  }
+  .btn[aria-busy='true'] [data-spinner] {
+    animation: none;
+    border-top-color: currentColor;
+    opacity: 0.6;
+  }
+}
+
+/* ------------------------------------------------------------------------------------------------
+   11. Ce qu'on imprime vraiment d'un site d'artisan
+   POURQUOI : on imprime (ou on « enregistre en PDF ») une page d'artisan pour trois raisons : garder
+   le numéro et l'adresse, garder les horaires, garder le devis qu'on vient d'écrire. Tout le reste
+   est du décor qui coûte de l'encre.
+   CE QUI CASSE SANS CE BLOC, vérifié sur nos sites :
+     a) les blocs `bg-ink` / `text-on-ink` (pied de page, CTA) impriment du texte blanc — et comme les
+        navigateurs désactivent les fonds par défaut, le pied de page, c'est-à-dire justement les
+        coordonnées, sort INVISIBLE sur la feuille ;
+     b) tout ce qui porte `data-reveal` / `data-stagger` est à `opacity: 0` tant que le moteur ne l'a
+        pas révélé : les sections hors écran s'impriment vides, et la page qui les contient sort
+        blanche ;
+     c) la nav fixe et son cale de 76 px, le tiroir de contact et la barre d'appel mobile se
+        superposent au contenu ou ajoutent une page vide en fin de document.
+------------------------------------------------------------------------------------------------ */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  /* (a) Encre noire sur papier blanc, quelle que soit la direction. */
+  :root {
+    --fg: var(--ff-print-fg);
+    --muted: var(--ff-print-muted);
+    --bg: var(--ff-print-bg);
+    --bg-2: var(--ff-print-bg);
+    --surface: var(--ff-print-bg);
+    --line: var(--ff-print-line);
+    --ink: var(--ff-print-bg);
+    --on-ink: var(--ff-print-fg);
+    --accent: var(--ff-print-fg);
+    --accent-2: var(--ff-print-fg);
+    --on-accent: var(--ff-print-bg);
+  }
+  html,
+  body {
+    background: var(--ff-print-bg) !important;
+    color: var(--ff-print-fg) !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  /* Les classes utilitaires qui figent une couleur en markup doivent céder, sinon (a) se reproduit. */
+  [class*='bg-ink'],
+  [class*='bg-accent'],
+  [class*='bg-surface'],
+  [class*='bg-bg-2'],
+  [class*='text-on-ink'],
+  [class*='text-on-accent'] {
+    background: var(--ff-print-bg) !important;
+    color: var(--ff-print-fg) !important;
+    box-shadow: none !important;
+  }
+
+  /* (b) Rien ne reste invisible : le moteur d'animation n'a pas tourné pour les sections hors écran. */
+  [data-reveal],
+  [data-stagger] > *,
+  [data-split],
+  [data-split] *,
+  [data-text-fill] .fill-word,
+  [data-pin-step],
+  [data-scramble],
+  .split-word > span,
+  .split-char > span,
+  .split-line {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+
+  /* (c) Chrome d'interface et décor : rien de tout cela n'aide sur une feuille de papier. */
+  header[data-nav],
+  nav[data-nav],
+  dialog,
+  [data-contact-drawer],
+  [data-callbar],
+  [data-scrollspy],
+  .ff-curtain,
+  [data-marquee],
+  [data-shader],
+  [data-lottie],
+  video,
+  canvas,
+  iframe,
+  picture,
+  img,
+  svg,
+  form button[type='submit'],
+  [data-form-erreurs],
+  [aria-hidden='true']:empty {
+    display: none !important;
+  }
+  [data-grain]::after,
+  [data-duotone]::after,
+  [data-border-beam]::before,
+  [data-spotlight]::after {
+    display: none !important;
+  }
+  /* Le hero plein écran deviendrait une page blanche à lui tout seul. */
+  [class*='min-h-screen'],
+  [class*='min-h-['],
+  [class*='h-screen'] {
+    min-height: 0 !important;
+    height: auto !important;
+  }
+  /* Respiration verticale divisée : 8rem de marge de section = une page perdue tous les deux écrans. */
+  :root {
+    --section-y: 1.25rem;
+  }
+
+  /* Accordéons (FAQ, formulaire replié de contact/simple) : ce qui est fermé à l'écran doit
+     s'imprimer ouvert, sinon la feuille ne porte que les questions. */
+  details > *:not(summary) {
+    display: block !important;
+  }
+  summary {
+    font-weight: 600;
+  }
+
+  /* Liens dépliés : sur papier, « cliquez ici » ne mène nulle part. On ne déplie que ce qui n'est pas
+     déjà écrit en clair — un `tel:` ou un `mailto:` affiche déjà son numéro ou son adresse. */
+  main a[href^='http']:not([role])::after,
+  footer a[href^='http']:not([role])::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    color: var(--ff-print-muted);
+    word-break: break-all;
+  }
+  a[href^='#']::after,
+  a[href^='/']::after,
+  a[href^='tel:']::after,
+  a[href^='mailto:']::after {
+    content: '';
+  }
+
+  /* Ce qu'on garde absolument lisible : coordonnées et horaires. */
+  footer,
+  #contact,
+  [data-drawer-coordonnees],
+  dl,
+  address {
+    break-inside: avoid;
+  }
+  footer {
+    border-top: 1px solid var(--ff-print-line);
+    padding-top: 0.75rem;
+  }
+  dl {
+    font-size: 11pt;
+  }
+
+  /* Coupures propres : un titre ne reste jamais seul en bas de page, une carte ne se coupe pas. */
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  li,
+  figure,
+  blockquote,
+  .card,
+  tr {
+    break-inside: avoid;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Pas de page blanche finale : plus aucune marge ni élément fantôme après le dernier contenu. */
+  body > *:last-child,
+  main > *:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

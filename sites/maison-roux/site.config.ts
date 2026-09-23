@@ -57,9 +57,9 @@ export default defineSite({
   business: {
     name: 'Maison Roux',
     trade: 'Boulangerie-pâtisserie',
-    tagline: 'Le pain sort du four <em>toute la matinée</em>.',
+    tagline: 'Première fournée à 6h30, <em>et ça recommence à 16h.</em>',
     description:
-      'Depuis 1987, la famille Roux pétrit et cuit son pain dans le même fournil de la Croix-Rousse. Levain naturel, farines de meuniers de Rhône-Alpes, et des fournées qui se succèdent du petit matin jusqu’en fin de matinée.\n\nTroisième génération aux commandes : le tour de main se transmet, le pain reste le même.',
+      'Le fournil est rue des Pierres Plantées, à la Croix-Rousse, et il n’a pas bougé depuis 1987. Levain naturel, farines de meuniers de Rhône-Alpes. Trois générations de Roux y ont mis les mains.\n\nOn cuit en continu du petit matin jusqu’à la fin de la matinée, puis une dernière fournée part à 16h. Et le dimanche, ça part vite.',
     since: 1987,
   },
 
@@ -83,7 +83,7 @@ export default defineSite({
     {
       slug: 'pain-tradition',
       title: 'Pain tradition',
-      short: 'La baguette de tous les jours, croûte craquante, mie alvéolée.',
+      short: 'La baguette qu’on prend tous les jours : croûte craquante, mie alvéolée.',
       icon: 'Wheat',
       featured: true,
       priceFrom: '1,30 €',
@@ -91,7 +91,7 @@ export default defineSite({
     {
       slug: 'pain-au-levain',
       title: 'Pain au levain, 500 g',
-      short: 'Levain naturel, fermentation longue, croûte épaisse.',
+      short: 'Fermentation longue, levain naturel, croûte épaisse. Un pain de 500 g qui demande du temps.',
       icon: 'Sprout',
       featured: true,
       priceFrom: '4,20 €',
@@ -99,24 +99,24 @@ export default defineSite({
     {
       slug: 'pain-de-seigle',
       title: 'Pain de seigle',
-      short: 'Mie dense, léger goût acidulé, parfait avec un fromage.',
+      short: 'Mie dense, un peu acidulé. À prendre si vous mangez du fromage.',
       icon: 'Flame',
       priceFrom: '3,60 €',
     },
     {
       slug: 'pain-epeautre',
       title: 'Pain d’épeautre',
-      short: 'Farine d’épeautre de Rhône-Alpes, mie claire, goût de noisette.',
+      short: 'Farine d’épeautre de Rhône-Alpes. Mie claire, goût de noisette.',
       icon: 'Wheat',
       priceFrom: '4,50 €',
     },
     {
       slug: 'viennoiseries',
       title: 'Viennoiseries',
-      short: 'Croissants, pains au chocolat, chaussons aux pommes, feuilletés dans la matinée.',
+      short: 'Croissants, pains au chocolat, chaussons aux pommes. On enfourne jusqu’à 11h.',
       description:
-        'Beurre AOP, feuilletage tourné à la main chaque matin. Prêts dès l’ouverture, jusqu’à épuisement — comptez pour un dimanche, ça part vite.',
-      bullets: ['Croissant, pain au chocolat, chausson', 'Beurre AOP', 'Cuits en continu jusqu’à 11h'],
+        'Beurre AOP, feuilletage tourné à la main chaque matin. Prêts dès l’ouverture, cuits en continu jusqu’à 11h, et après il n’y en a plus.\n\nLe dimanche, ça part vite. Venez tôt.',
+      bullets: ['Croissant, pain au chocolat, chausson', 'Beurre AOP', 'Cuits en continu jusqu’à 11h', 'Jusqu’à épuisement'],
       icon: 'Croissant',
       featured: true,
       priceFrom: 'à partir de 1,30 €',
@@ -124,25 +124,25 @@ export default defineSite({
     {
       slug: 'patisseries-de-saison',
       title: 'Pâtisseries de saison',
-      short: 'Tartes, flans, éclairs et entremets, selon les fruits du moment.',
-      bullets: ['Recettes qui changent avec la saison', 'Fruits de producteurs locaux quand c’est possible'],
+      short: 'Tartes, flans, éclairs, entremets. Ce qu’il y a en vitrine dépend des fruits du moment.',
+      bullets: ['La recette change avec la saison', 'Fruits de producteurs locaux quand c’est possible'],
       icon: 'CakeSlice',
       priceFrom: 'à partir de 4,50 €',
     },
     {
       slug: 'sandwichs-du-midi',
       title: 'Sandwichs du midi',
-      short: 'Préparés sur notre pain, à emporter entre midi et deux.',
-      bullets: ['Faits sur place, sur notre pain du jour', 'Prêts à partir de 11h'],
+      short: 'Faits sur notre pain du jour, prêts à partir de 11h.',
+      bullets: ['Faits sur place, sur notre pain du jour', 'Prêts à partir de 11h', 'À emporter entre midi et deux'],
       icon: 'Sandwich',
       priceFrom: 'à partir de 5,90 €',
     },
     {
       slug: 'gateaux-sur-commande',
       title: 'Gâteaux sur commande',
-      short: 'Anniversaire, baptême, réunion de famille : un gâteau sur mesure, pensé avec vous.',
+      short: 'Dites-nous l’occasion et le nombre de parts. Comptez 48 h, minimum.',
       description:
-        'Décrivez l’occasion, le nombre de parts et vos goûts : nous vous proposons une recette et un prix avant de lancer la commande.\n\nDélai minimum 48 h — pour un dimanche, commandez avant jeudi.',
+        'Vous nous dites l’occasion, le nombre de parts et ce que vous aimez. On vous propose une recette et un prix avant de lancer quoi que ce soit.\n\n48 h minimum. Pour un dimanche, il faut commander avant jeudi.',
       bullets: ['Recette classique ou personnalisée', 'Message ou décor sur demande', 'Délai minimum : 48 h'],
       icon: 'Cake',
       featured: true,
@@ -152,7 +152,7 @@ export default defineSite({
   about: {
     title: 'Trois générations, un fournil',
     story:
-      'Le fournil de la rue des Pierres Plantées n’a pas changé d’adresse depuis 1987. On y pétrit toujours à la main les petites quantités, on y laisse le levain travailler son temps, et on y fait toujours confiance aux farines des meuniers de la région plutôt qu’à un fournisseur unique.\n\nCe qui a changé, ce sont les mains : après les grands-parents, puis leurs enfants, la troisième génération de la famille Roux est aujourd’hui aux fourneaux — avec la même envie que le pain d’aujourd’hui donne autant de plaisir que celui d’hier.',
+      'Le fournil de la rue des Pierres Plantées n’a pas changé d’adresse depuis 1987. On y pétrit encore à la main les petites quantités, et on laisse le levain prendre le temps qu’il lui faut.\n\nLes farines viennent de meuniers de la région, pas d’un fournisseur unique. C’est plus compliqué à gérer. On continue quand même.\n\nCe qui a changé, ce sont les mains : les grands-parents, puis leurs enfants, puis la troisième génération. Le pain, lui, sort du même four.',
   },
 
   process: [
@@ -163,20 +163,20 @@ export default defineSite({
   ],
 
   faq: [
-    { q: 'Combien de temps à l’avance dois-je commander un gâteau ?', a: 'Au moins 48 h à l’avance, par téléphone ou via le formulaire. Pour un dimanche, commandez avant jeudi.' },
-    { q: 'Le pain est-il au levain naturel ?', a: 'Oui, tous nos pains sont fermentés au levain naturel, sans levure ajoutée.' },
-    { q: 'Proposez-vous des sandwichs à emporter ?', a: 'Oui, préparés sur notre pain, disponibles à partir de 11h jusqu’à épuisement.' },
-    { q: 'Puis-je adapter un gâteau à une allergie ou une envie particulière ?', a: 'Parlez-nous de votre demande au moment de la commande, nous vous dirons ce qui est possible selon la recette.' },
+    { q: 'Combien de temps à l’avance dois-je commander un gâteau ?', a: '48 h minimum, par téléphone ou par le formulaire. Pour un dimanche, passez commande avant jeudi.' },
+    { q: 'Le pain est-il au levain naturel ?', a: 'Tous, oui. Levain naturel, aucune levure ajoutée.' },
+    { q: 'Proposez-vous des sandwichs à emporter ?', a: 'À partir de 11h, sur notre pain du jour, et jusqu’à épuisement.' },
+    { q: 'Puis-je adapter un gâteau à une allergie ou une envie particulière ?', a: 'Dites-le au moment de la commande. Selon la recette, c’est possible ou non, et on vous le dira franchement.' },
   ],
 
   form: { provider: 'mailto' },
 
   wording: {
     devis: 'Commander un gâteau',
-    ctaTitle: 'Un gâteau pour dimanche&nbsp;? <em>Commandez avant jeudi.</em>',
-    ctaText: 'Anniversaire, baptême ou simple envie du dimanche : dites-nous ce qu’il vous faut, on s’occupe du reste.',
-    contactTitle: 'Commander ou nous écrire',
-    contactText: 'Décrivez votre gâteau ou votre question, nous vous répondons rapidement.',
+    ctaTitle: 'Un gâteau pour dimanche&nbsp;? <em>Il faut nous le dire avant jeudi.</em>',
+    ctaText: 'Le nombre de parts, la date, ce que vous aimez. On vous rappelle avec une recette et un prix.',
+    contactTitle: 'Passer commande',
+    contactText: 'Écrivez-nous ce qu’il vous faut. On répond depuis le fournil, entre deux fournées.',
   },
 
   images: {},

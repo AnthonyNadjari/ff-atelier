@@ -1,89 +1,38 @@
 ---
 /**
- * Hero dessiné pour Barbier Kessler : fond sombre (bg-ink), nom de l'enseigne géant découpé en
- * caractères (data-split="chars"), une bande "pole" verticale rayée en fond (CSS pur, tokens
- * accent/on-ink), chiffres réels (fauteuils, barbiers, année) en data-counter, puis une ligne fixe
- * qui porte "sans rendez-vous le samedi" (la bande data-marquee-velocity d'origine a été retirée
- * le 21 sept 2026 : un seul geste riche par page, la traînée d'images de la galerie). Le CTA
- * « Prendre rendez-vous » ouvre le tiroir de contact (layout.contactDrawer). Composition propre à ce site.
+ * Premier écran « la note » — propre à Barbier Kessler.
+ * Idée : chez un barbier, ce qu'on cherche en premier c'est le prix d'une coupe. Les prestations et
+ * leurs tarifs sont composés en un seul bloc de texte display qui remplit l'écran, sous l'enseigne.
+ * Ni eyebrow, ni sous-titre, ni bouton, ni compteur : la carte parle, le téléphone suffit.
  */
 import { site, tel } from '@/lib/site';
-import Icon from '@/components/Icon.astro';
-const since = site.business.since;
-const firstLine = site.business.description.split(/\n/)[0];
-const teamCount = site.about.team.length;
+
+const tarifs = site.services.filter((s) => s.priceFrom);
 ---
 
-<section id="hero" class="relative overflow-hidden bg-ink text-on-ink">
-  <div class="pole-stripe absolute inset-y-0 left-0 w-2 sm:w-3" aria-hidden="true"></div>
-  <div class="pole-stripe absolute inset-y-0 right-0 w-2 sm:w-3" aria-hidden="true"></div>
+<section id="hero" class="bg-ink text-on-ink" data-grain>
+  <div class="container-ff relative z-[1] flex min-h-[84svh] flex-col justify-center gap-10 pb-16 pt-32 md:pt-40">
+    <h1 class="font-display text-display-sm uppercase tracking-tight" data-reveal>{site.business.name}</h1>
 
-  <div class="container-ff relative z-[2] flex min-h-[82svh] flex-col justify-center gap-8 py-28 sm:py-32">
-    {/* "Krutenau" et "depuis {since}" retires (all-caps-body, 44 car.) : l'annee reste affichee un
-        peu plus bas (data-counter), le quartier n'est pas necessaire a l'identite courte. */}
-    {/* Le telephone ouvre le hero (nav burger sans barre : rien d'autre ne l'affiche au premier ecran). */}
-    <a href={tel()} class="inline-flex w-fit items-center gap-2 font-mono text-xs tracking-[0.18em] text-on-ink/70 hover:text-on-ink">
-      <Icon name="Phone" size={14} />{site.contact.phoneDisplay}
-    </a>
-    <p class="eyebrow flex items-center gap-3 text-on-ink/70">
-      <span class="inline-block h-px w-10 bg-on-ink/40" aria-hidden="true"></span>
-      {site.business.trade} · {site.contact.address.city}
+    <p
+      class="font-display leading-[1.2] text-on-ink"
+      style="font-size: clamp(1.55rem, 4.8vw, 3.4rem);"
+      data-stagger="70"
+    >
+      {tarifs.map((s, i) => (
+        <span class="inline-block pr-[0.4em]">
+          {s.title}&nbsp;<span class="text-on-ink/55">{s.priceFrom}</span>{i < tarifs.length - 1 && (
+            <span class="text-on-ink/25" aria-hidden="true">&nbsp;/</span>
+          )}
+        </span>
+      ))}
     </p>
 
-    <h1
-      class="font-display uppercase leading-[0.86]"
-      style="font-size: clamp(2.75rem, 10vw, 8rem);"
-      data-split="chars"
-    >{site.business.name}</h1>
-
-    <p class="max-w-xl text-lg text-on-ink/80" set:html={site.business.tagline} />
-    <p class="max-w-lg text-on-ink/60">{firstLine}</p>
-
-    <div class="mt-2 flex flex-wrap items-center gap-5">
-      <a
-        href="#contact"
-        class="btn btn-primary inline-flex items-center gap-2 rounded-ui bg-accent px-7 py-4 font-display text-lg text-on-accent shadow-card"
-        data-magnetic="0.25"
-      >
-        {site.wording.devis}
+    <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-sm text-on-ink/65">
+      <a href={tel()} class="font-display text-base text-on-ink underline-offset-4 hover:underline">
+        {site.contact.phoneDisplay}
       </a>
-      <a href="#galerie" class="inline-flex items-center gap-2 border-b-2 border-on-ink/30 pb-1 font-display text-lg text-on-ink hover:border-accent hover:text-accent">
-        Voir le salon
-      </a>
-    </div>
-
-    <div class="mt-4 flex flex-wrap items-baseline gap-x-8 gap-y-3 font-mono text-xs uppercase tracking-[0.18em] text-on-ink/60" data-stagger="90">
-      <span class="flex items-baseline gap-2"><span class="font-display text-2xl text-on-ink" data-counter="3">0</span>fauteuils</span>
-      <span class="flex items-baseline gap-2"><span class="font-display text-2xl text-on-ink" data-counter={teamCount}>0</span>barbiers</span>
-      <span>Depuis {since}</span>
-    </div>
-  </div>
-
-  <div class="relative z-[2] border-t border-on-ink/15 bg-ink/70 py-4">
-    <p class="container-ff flex flex-wrap items-center gap-x-5 gap-y-1 font-display text-display-sm tracking-wide text-on-ink/85">
-      <span>Sans rendez-vous le samedi</span>
-      <span class="text-accent" aria-hidden="true">✂</span>
-      <span>Réservez en ligne du mardi au vendredi</span>
+      <span>{site.contact.address.street}, {site.contact.address.city}</span>
     </p>
   </div>
 </section>
-
-<style>
-  /* Signature "pole" : rayures diagonales derivees des tokens, en bordure du hero. */
-  .pole-stripe {
-    background-image: repeating-linear-gradient(
-      45deg,
-      var(--accent) 0 14px,
-      var(--on-ink) 14px 24px,
-      color-mix(in oklch, var(--accent) 45%, var(--on-ink) 55%) 24px 34px
-    );
-    opacity: 0.9;
-    animation: pole-scroll 3.6s linear infinite;
-  }
-  @keyframes pole-scroll {
-    to { background-position-y: 34px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .pole-stripe { animation: none; }
-  }
-</style>

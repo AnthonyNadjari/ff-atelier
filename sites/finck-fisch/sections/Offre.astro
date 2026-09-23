@@ -23,6 +23,16 @@
  * sans section id="faq" sur l'accueil, le JSON-LD FAQPage n'est plus émis (index.astro ne le produit
  * que pour une section de type `faq`) et `ff verifier` ne le réclame plus. Aucune animation ajoutée :
  * cette section a déjà son titre en data-reveal et son seul groupe en data-stagger (règle 21).
+ *
+ * 22 sept 2026 au soir, décision 5 de `sites/finck-fisch/ETALON.md` — le prix est affiché ET ARGUMENTÉ.
+ * Sur les 17 sites de studios relevés, un seul publie un barème (Dinamo), et il en fait un éditorial
+ * de mille mots expliquant pourquoi ce barème est juste ; les seize autres ne disent même pas « sur
+ * demande », et aucun formulaire français n'a même un champ « budget ». Sur le marché de l'artisan
+ * c'est l'inverse : tout le monde affiche « dès 299 € » sans rien derrière. La place vide est celle
+ * d'un studio qui annonce un prix clair et dit pourquoi — d'où la phrase qui ouvre le bloc. Le titre
+ * « Un prix affiché » (constat) devient « Le prix est écrit » (décision).
+ * Le délai de 72 h n'est plus expliqué ici : `sections/Chantier.astro` le détaille deux blocs plus
+ * haut. Il n'en reste qu'une ligne dans le tableau, pour qu'on le retrouve à côté du montant.
  */
 import { site } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
@@ -48,15 +58,18 @@ const lignes = [
 const toujoursInclus = [
   'Le code, les textes et le nom de domaine sont à vous.',
   'Hébergement inclus, sans frais mensuel.',
-  'Livré sous 72 h après réception de vos éléments, sinon remise de 10 % (engagement provisoire, à confirmer avant signature).',
+  // Le détail du délai vit dans sections/Chantier.astro (deux blocs plus haut) ; ici, la ligne courte
+  // qu'on veut lire à côté du montant. ENGAGEMENT PROVISOIRE, à confirmer par les fondateurs.
+  'Livré sous 72 h après réception de vos éléments, sinon remise de 10 % (engagement provisoire).',
 ];
 ---
 
 <section id="offre" class="section-y bg-bg-2">
   <div class="container-ff">
-    <h2 class="max-w-2xl text-display-md" data-reveal>Un prix affiché.</h2>
-    <p class="mt-5 max-w-2xl text-muted">
-      Deux formules. Le tarif est fixé avant de commencer et payé en une fois.
+    <h2 class="max-w-2xl text-display-md" data-reveal>Le prix est écrit.</h2>
+    <p class="mt-6 max-w-2xl leading-relaxed text-muted">
+      Nous l’affichons parce que nous vendons un site fini, pas des heures. Vous savez avant même de
+      nous appeler si c’est pour vous. Deux formules, fixées avant de commencer, payées en une fois.
     </p>
 
     {/*

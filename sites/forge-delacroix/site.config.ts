@@ -33,9 +33,9 @@ export default defineSite({
   business: {
     name: 'Forge Delacroix',
     trade: 'Ferronnerie d’art',
-    tagline: 'Le fer, <em>à la main.</em>',
+    tagline: 'Deux forgerons, <em>un feu.</em>',
     description:
-      'Atelier de ferronnerie d’art à Toulouse depuis 1987. Portails, garde-corps, escaliers et mobilier en acier forgé, dessinés avec vous et martelés ici, au feu.\n\nDeux forgerons, une forge à charbon, aucune pièce de catalogue.',
+      'Ferronnerie d’art à Toulouse, impasse des Forges, depuis 1987. On y fait des portails, des garde-corps, des escaliers, du mobilier.\n\nNous sommes deux. La forge est au charbon. Et rien ne sort d’un catalogue : chaque pièce est dessinée pour un endroit précis avant d’être mise au feu.',
     since: 1987,
     legalForm: 'SARL',
     insurance: 'Assurance décennale Groupama n° 000 000',
@@ -54,16 +54,16 @@ export default defineSite({
   zones: { cities: ['Toulouse', 'Blagnac', 'Colomiers', 'Balma', 'Castanet-Tolosan', 'Montauban'], radiusKm: 80 },
 
   services: [
-    { slug: 'portails', title: 'Portails et grilles', short: 'Battants ou coulissants, motorisés ou non, dessinés pour votre entrée.', icon: 'DoorOpen', featured: true, bullets: ['Relevé sur place', 'Dessin à l’échelle validé avec vous', 'Galvanisation et thermolaquage'] },
-    { slug: 'garde-corps', title: 'Garde-corps et rampes', short: 'Intérieur ou extérieur, aux normes, en acier forgé ou en plat.', icon: 'Fence', featured: true, bullets: ['Norme NF P01-012', 'Fixation sur béton, pierre ou bois'] },
-    { slug: 'escaliers', title: 'Escaliers métalliques', short: 'Droits, quart tournant ou hélicoïdaux, marches bois ou tôle.', icon: 'Layers', bullets: ['Structure autoportante', 'Marches chêne, hêtre ou acier'] },
-    { slug: 'mobilier', title: 'Mobilier et pièces uniques', short: 'Tables, consoles, luminaires, enseignes : une pièce, un dessin.', icon: 'Hammer', bullets: ['Acier brut ciré ou patiné', 'Pour particuliers, restaurants, boutiques'] },
+    { slug: 'portails', title: 'Portails et grilles', short: 'Battant ou coulissant, motorisé ou non. On relève les cotes chez vous avant de dessiner.', icon: 'DoorOpen', featured: true, bullets: ['Relevé des cotes chez vous', 'Dessin à l’échelle, validé avant la forge', 'Galvanisation et thermolaquage'] },
+    { slug: 'garde-corps', title: 'Garde-corps et rampes', short: 'Dedans ou dehors, en fer forgé ou en plat. La norme NF P01-012 n’est pas négociable.', icon: 'Fence', featured: true, bullets: ['Norme NF P01-012', 'Fixation sur béton, pierre ou bois'] },
+    { slug: 'escaliers', title: 'Escaliers métalliques', short: 'Droit, quart tournant ou hélicoïdal. La structure tient seule : c’est elle qui porte les marches.', icon: 'Layers', bullets: ['Structure autoportante', 'Marches en chêne, en hêtre ou en acier'] },
+    { slug: 'mobilier', title: 'Mobilier et pièces uniques', short: 'Des tables, des consoles, des luminaires, des enseignes. Une pièce, un dessin, pas de série.', icon: 'Hammer', bullets: ['Acier brut, ciré ou patiné', 'Particuliers, restaurants, boutiques'] },
   ],
 
   about: {
     title: 'L’atelier',
     story:
-      'Michel Delacroix a allumé la forge en 1987 dans une ancienne écurie du quartier Bonnefoy. Son fils Antoine l’a rejoint en 2012.\n\nOn travaille l’acier à chaud, au marteau et à la presse, sur une forge à charbon. Ce qui sort d’ici a été dessiné pour un lieu précis.',
+      'Michel Delacroix a allumé la forge en 1987, dans une ancienne écurie du quartier Bonnefoy. Antoine, son fils, est arrivé en 2012. Depuis, ils sont deux devant le feu.\n\nL’acier se travaille à chaud, au marteau et à la presse. C’est lent. Et ça ne se rattrape pas : ce qui est raté repart au feu. Ce qui sort d’ici a été dessiné pour un endroit précis, pas pour un catalogue.',
     values: [],
   },
 
@@ -77,10 +77,10 @@ export default defineSite({
 
   wording: {
     devis: 'Décrire votre projet',
-    ctaTitle: 'Un portail, une rampe, une pièce unique&nbsp;? <em>On dessine ensemble.</em>',
-    ctaText: 'Visite sur place à Toulouse et alentours, dessin à l’échelle, devis ferme.',
+    ctaTitle: 'Un portail à remplacer, une rampe à poser&nbsp;? <em>Ça commence par un dessin.</em>',
+    ctaText: 'On passe prendre les cotes, on dessine à l’échelle, on chiffre. Le devis est ferme.',
     contactTitle: 'Venir à la forge',
-    contactText: 'Le plus simple : un appel, puis une visite de l’atelier.',
+    contactText: 'Un appel, d’abord. Ensuite vous passez impasse des Forges, voir ce qui sort du feu.',
   },
   form: { provider: 'mailto' },
   images: {
