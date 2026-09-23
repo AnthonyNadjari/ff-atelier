@@ -55,7 +55,11 @@
   filter: blur(10px);
 }
 
-[data-direction='terre'] ::selection { background: var(--accent-2); color: var(--on-accent); }
+/* Selection : l'ocre --accent-2 est un fond, mais `--on-accent` (creme) par-dessus ne fait que
+   2,63:1 — en dessous du seuil de texte, et c'est du texte qu'on selectionne pour le relire.
+   `--ink` (le vert sombre de la direction) sur le meme ocre monte a 7,3:1 sans changer la couleur
+   de la selection, qui reste l'ocre de la marque (mesure par `ff couleur terre`, 23 sept 2026). */
+[data-direction='terre'] ::selection { background: var(--accent-2); color: var(--ink); }
 
 [data-direction='terre'] h1 em,
 [data-direction='terre'] h2 em { font-style: italic; color: var(--accent-2-text); }

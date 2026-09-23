@@ -333,6 +333,79 @@ export function resoudreCouleur(valeur, tokens, profondeur = 0) {
     }
   }
 
+  // color-mix(in <espace>, A p%, B q%) — utilise par `global.css` (eyebrow sur fond accent) et par
+  // `craft.css` (anneau de focus). Sans lui, ces couleurs etaient « non resolubles » et leur
+  // contraste n'etait jamais mesure : les deux endroits les plus sensibles du site echappaient au
+  // controle. Melange en oklab (perceptuel, pas de virage au gris comme en sRGB) ou en sRGB quand
+  // l'espace est explicitement srgb ; les autres espaces retombent sur oklab, plus proche du rendu
+  // navigateur que sRGB.
+  if (v.toLowerCase().startsWith('color-mix(')) {
+    const corps = corpsFonction(v, 'color-mix');
+    if (!corps) return null;
+    // `argsCss` decoupe aussi sur les espaces (il sert a `hsl(8 85% 46%)`) : ici il faut les
+    // virgules de premier niveau, et elles seules, sinon « in srgb » compte pour deux arguments.
+    const args = [];
+    {
+      let buf = '';
+      let prof = 0;
+      for (const ch of corps) {
+        if (ch === '(') prof++;
+        else if (ch === ')') prof--;
+        if (ch === ',' && prof === 0) { args.push(buf.trim()); buf = ''; continue; }
+        buf += ch;
+      }
+      if (buf.trim()) args.push(buf.trim());
+    }
+    if (args.length < 3) return null;
+    const espace = (args[0] || '').trim().replace(/^in\s+/i, '').toLowerCase();
+    const lire = (arg) => {
+      const m = /^(.*?)(?:\s+([\d.]+)%)?$/s.exec(String(arg).trim());
+      if (!m) return null;
+      const couleur = resoudreCouleur(m[1].trim(), tokens, profondeur + 1);
+      if (!couleur) return null;
+      return { couleur, part: m[2] === undefined ? null : Number(m[2]) / 100 };
+    };
+    const a = lire(args[1]);
+    const b = lire(args[2]);
+    if (!a || !b) return null;
+    // Regle CSS : une seule part donnee, l'autre vaut le complement ; aucune, 50/50.
+    let pa = a.part;
+    let pb = b.part;
+    if (pa == null && pb == null) { pa = 0.5; pb = 0.5; }
+    else if (pa == null) pa = 1 - pb;
+    else if (pb == null) pb = 1 - pa;
+    const somme = pa + pb;
+    if (somme <= 0) return null;
+    pa /= somme;
+    pb /= somme;
+
+    if (espace === 'srgb') {
+      return {
+        r: a.couleur.r * pa + b.couleur.r * pb,
+        g: a.couleur.g * pa + b.couleur.g * pb,
+        b: a.couleur.b * pa + b.couleur.b * pb,
+        a: (a.couleur.a ?? 1) * pa + (b.couleur.a ?? 1) * pb,
+      };
+    }
+    // oklab : on passe par oklch (deja disponible) puis en coordonnees rectangulaires, seule facon
+    // d'interpoler une teinte sans tourner autour du cercle chromatique.
+    const versLab = (c) => {
+      const { L, C, H } = rgbVersOklch([c.r, c.g, c.b]);
+      const rad = (H * Math.PI) / 180;
+      return { L, a: C * Math.cos(rad), b: C * Math.sin(rad) };
+    };
+    const la = versLab(a.couleur);
+    const lb = versLab(b.couleur);
+    const L = la.L * pa + lb.L * pb;
+    const ax = la.a * pa + lb.a * pb;
+    const bx = la.b * pa + lb.b * pb;
+    const C = Math.sqrt(ax * ax + bx * bx);
+    let H = (Math.atan2(bx, ax) * 180) / Math.PI;
+    if (H < 0) H += 360;
+    const [r, g, bb] = oklchVersRgb(L, C, H);
+    return { r, g, b: bb, a: (a.couleur.a ?? 1) * pa + (b.couleur.a ?? 1) * pb };
+  }
+
   if (v.toLowerCase().startsWith('oklch(')) {
     const parts = argsCss(corpsFonction(v, 'oklch') ?? '');
     let env = {};
@@ -559,10 +632,15 @@ export function pairesDe(dir) {
     add('h1 em / bg', r.em.color, r.em.fond ?? 'var(--bg)', 'grand');
   }
 
-  // Anneau de focus : global.css pose `outline: 2px solid var(--accent)` sur tout le site.
-  // C'est un indicateur d'etat d'interface, donc 3:1 contre le fond adjacent (WCAG 1.4.11).
-  add('accent / bg (focus)', 'var(--accent)', 'var(--bg)', 'controle');
-  add('accent / bg-2 (focus)', 'var(--accent)', 'var(--bg-2)', 'controle');
+  // Anneau de focus. ATTENTION : ce n'est PAS `var(--accent)`. `src/styles/craft.css` pose
+  // `--ff-focus: color-mix(in oklab, var(--accent) 62%, var(--fg))` — l'accent tire de 38 % vers la
+  // couleur du texte, precisement pour qu'un accent clair (le jaune de `brut`, 1,47:1 sur son fond)
+  // reste visible. Mesurer l'accent brut donnait un echec permanent sur toutes les directions a
+  // accent clair : un controle qu'on apprend a ignorer ne sert plus a rien (corrige le 23 sept 2026).
+  // Indicateur d'etat d'interface : 3:1 contre le fond adjacent (WCAG 1.4.11).
+  const ANNEAU = 'color-mix(in oklab, var(--accent) 62%, var(--fg))';
+  add('anneau de focus / bg', ANNEAU, 'var(--bg)', 'controle');
+  add('anneau de focus / bg-2', ANNEAU, 'var(--bg-2)', 'controle');
 
   // Filets de carte : mesures, sans seuil WCAG (voir l'entete du fichier).
   add('line / bg', 'var(--line)', 'var(--bg)', 'decor');

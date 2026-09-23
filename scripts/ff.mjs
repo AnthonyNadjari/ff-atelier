@@ -34,6 +34,7 @@ import { cmdVitrine } from './ff/vitrine.mjs';
 import { cmdLogo } from './ff/logo.mjs';
 import { cmdSequencePhoto } from './ff/sequence-photo.mjs';
 import { cmdSignatures } from './ff/signatures.mjs';
+import { cmdCouleur } from './ff/couleur.mjs';
 import { cmdAuditMotion } from './ff/audit-motion.mjs';
 import { cmdNettete } from './ff/nettete.mjs';
 import { cmdIndexNow } from './ff/indexnow.mjs';
@@ -91,6 +92,7 @@ const commands = {
   logo: cmdLogo,
   'sequence-photo': cmdSequencePhoto,
   signatures: cmdSignatures,
+  couleur: cmdCouleur,
   nettete: cmdNettete,
   indexnow: cmdIndexNow,
   typo: cmdTypo,

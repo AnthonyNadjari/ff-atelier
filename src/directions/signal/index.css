@@ -6,7 +6,7 @@
 [data-direction='signal'] {
   --accent-h: 8;
   --accent-s: 85%;
-  --accent-l: 46%; /* 50 -> 46 : eyebrow (defaut color:accent) et texte sur bouton sous 4.5:1 sur la palette par defaut de la direction (un site peut deja surcharger site.accent, ex. dubois-plomberie) */
+  --accent-l: 43%; /* 50 -> 46 -> 44 : l'eyebrow (color:accent par defaut) tombait a 4,12:1 sur --bg-2, l'acier lave par la pluie (mesure par `ff couleur signal`, 23 sept 2026). Un site peut surcharger site.accent, ex. dubois-plomberie. */
 
   /* Couleurs empruntees au chantier du metier (plombier, serrurier, electricien, depanneur), pas
      derivees d'un HSL. Aucune ligne ci-dessous n'est un calcul — ce sont des relevés de matiere.

@@ -77,22 +77,26 @@
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 0 var(--fg);
 }
+/* Tokens, jamais #ffffff en dur (regle dure n°1). Le blanc code ici etait le seul endroit de la
+   direction qui ne venait pas du papier d'affiche : un bouton fantome pose dans un bloc encre
+   affichait du #fcfcf9 sur du #ffffff, soit 1:1 (rapport `ff detect toits-cie`, 23 sept 2026).
+   --surface est le blanc de la direction, --on-ink l'encre inversee. */
 [data-direction='brut'] .btn-primary {
   background: var(--fg);
-  color: #ffffff;
+  color: var(--on-ink);
 }
 [data-direction='brut'] .btn-primary:hover {
-  background: #ffffff;
+  background: var(--surface);
   color: var(--fg);
 }
 [data-direction='brut'] .btn-ghost {
-  background: #ffffff;
+  background: var(--surface);
   color: var(--fg);
   border-color: var(--fg);
 }
 [data-direction='brut'] .btn-ghost:hover {
   background: var(--fg);
-  color: #ffffff;
+  color: var(--on-ink);
 }
 
 [data-direction='brut'] .card {
