@@ -40,7 +40,7 @@ export default defineSite({
     sections: [
       { type: 'custom', variant: 'Services', label: 'Prestations' },
       { type: 'custom', variant: 'Saisons', label: 'Saisons' },
-      { type: 'custom', variant: 'Calendrier', label: 'Calendrier' },
+      { type: 'custom', variant: 'Calendrier', label: 'Çalendrier' },
       { type: 'about', variant: 'story' },
       { type: 'zones', variant: 'chips' },
       { type: 'custom', variant: 'Cta' },
@@ -54,20 +54,20 @@ export default defineSite({
     trade: 'Paysagiste',
     tagline: 'Un jardin qui change <em>à chaque saison.</em>',
     description:
-      'Les Jardins de Maël créent et entretiennent des jardins à Rennes et Cesson-Sévigné depuis 2012. Création, entretien à l’année, terrasses bois, arrosage automatique, élagage : une équipe de quatre personnes qui suit vos extérieurs de saison en saison, pas seulement au moment de la tonte.\n\nChaque jardin est pensé pour rester beau toute l’année — pas seulement en juin.',
+      'Les Jardins de Maël créent et entretiennent des jardins à Rennes et Cesson-Sévigné depuis 2012. Création, entretien à l’année, terrasses bois, arrosage automatique, élagage : une équipe de quatre personnes qui suit vos extérieurs de saison en saison, pas seulement au moment de la tonte.\n\nChaque jardin est pensé pour rester beau toute l’année — pas seulement en juin.',
     since: 2012,
     certifications: ['Qualipaysage'],
   },
 
   contact: {
     phone: '+33639984119',
-    phoneDisplay: '06 39 98 41 19',
+    phoneDisplay: '06 39 98 41 19',
     email: 'contact@exemple.fr',
     address: { street: '22 rue du Bourg', postalCode: '35510', city: 'Cesson-Sévigné' },
     mapsUrl: 'https://maps.google.com/?q=22+rue+du+Bourg+35510+Cesson-Sévigné',
     mapsProvider: 'osm',
     coordinates: { lat: 48.1103, lng: -1.6003 },
-    hours: [{ days: 'Lundi – vendredi', hours: '8h – 18h' }],
+    hours: [{ days: 'Lundi – vendredi', hours: '8 h – 18 h' }],
     emergency24h: false,
   },
 
@@ -91,13 +91,13 @@ export default defineSite({
     {
       slug: 'entretien-a-lannee',
       title: 'Entretien à l’année',
-      short: 'Tonte, taille, désherbage : un contrat annuel qui suit le rythme des saisons.',
+      short: 'Tonte, taille, désherbage : un contrat annuel qui suit le rythme des saisons.',
       icon: 'Leaf',
       featured: true,
       image: { src: '/images/service-2.webp', alt: 'Entretien d’un jardin par Les Jardins de Maël' },
-      bullets: ['Passages réguliers ou contrat annuel', 'Calendrier adapté à chaque saison', 'Ramassage et évacuation des déchets verts'],
+      bullets: ['Passages réguliers ou contrat annuel', 'Çalendrier adapté à chaque saison', 'Ramassage et évacuation des déchets verts'],
       description:
-        'L’entretien d’un jardin change de nature toute l’année : tonte et désherbage au printemps et en été, préparation et protection en automne, structure et propreté en hiver. Le contrat annuel suit ce rythme plutôt qu’une fréquence figée.',
+        'L’entretien d’un jardin change de nature toute l’année : tonte et désherbage au printemps et en été, préparation et protection en automne, structure et propreté en hiver. Le contrat annuel suit ce rythme plutôt qu’une fréquence figée.',
     },
     {
       slug: 'terrasses-bois',
@@ -115,7 +115,7 @@ export default defineSite({
       icon: 'Droplets',
       image: { src: '/images/service-4.webp', alt: 'Installation d’arrosage automatique' },
       bullets: ['Programmation par zone', 'Réglages différents été / hiver', 'Économie d’eau'],
-      description: 'Un arrosage automatique bien réglé change de programme toute l’année : arrosages fréquents et courts en été, arrêt complet en hiver. On installe le système et on ajuste les réglages à chaque changement de saison.',
+      description: 'Un arrosage automatique bien réglé change de programme toute l’année : arrosages fréquents et courts en été, arrêt complet en hiver. On installe le système et on ajuste les réglages à chaque changement de saison.',
     },
     {
       slug: 'taille-et-elagage',
@@ -124,14 +124,14 @@ export default defineSite({
       icon: 'Scissors',
       image: { src: '/images/galerie-1.webp', alt: 'Taille d’une haie par Les Jardins de Maël' },
       bullets: ['Taille de formation ou d’entretien', 'Élagage raisonné', 'Période choisie pour ne pas nuire à la floraison'],
-      description: 'La taille d’une haie ou l’élagage d’un arbre se fait au bon moment de l’année : hors période de nidification, au repos végétatif pour la plupart des arbustes, jamais au moment où ça compromettrait la floraison suivante.',
+      description: 'La taille d’une haie ou l’élagage d’un arbre se fait au bon moment de l’année : hors période de nidification, au repos végétatif pour la plupart des arbustes, jamais au moment où ça compromettrait la floraison suivante.',
     },
   ],
 
   about: {
     title: 'L’équipe',
     story:
-      'Les Jardins de Maël existent depuis 2012 à Cesson-Sévigné. L’équipe compte aujourd’hui quatre personnes, de la création à l’entretien, certifiées Qualipaysage.\n\nOn ne travaille pas sur catalogue : chaque jardin est suivi dans la durée, avec un calendrier d’intervention qui change à chaque saison plutôt qu’un unique passage de printemps.',
+      'Les Jardins de Maël existent depuis 2012 à Cesson-Sévigné. L’équipe compte aujourd’hui quatre personnes, de la création à l’entretien, certifiées Qualipaysage.\n\nOn ne travaille pas sur catalogue : chaque jardin est suivi dans la durée, avec un calendrier d’intervention qui change à chaque saison plutôt qu’un unique passage de printemps.',
   },
 
   form: { provider: 'mailto' },

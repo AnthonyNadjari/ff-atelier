@@ -28,19 +28,19 @@ export default defineSite({
       'Atelier de menuiserie à Roubaix depuis 2009. Escaliers, cuisines, bibliothèques et agencements sur mesure, en bois massif, dessinés avec vous et fabriqués ici.\n\nNous travaillons pour les particuliers et les architectes de la métropole lilloise.',
     since: 2009,
     legalForm: 'EURL',
-    insurance: 'Assurance décennale MAAF n° 000 000',
+    insurance: 'Assurance décennale MAAF n° 000 000',
     certifications: ['Qualibat', 'Artisan d’art'],
   },
 
   contact: {
     phone: '+33600000000',
-    phoneDisplay: '06 00 00 00 00',
+    phoneDisplay: '06 00 00 00 00',
     email: 'contact@exemple.fr',
     whatsapp: '33600000000',
     address: { street: '12 rue de l’Épeule', postalCode: '59100', city: 'Roubaix' },
     mapsUrl: 'https://maps.google.com/?q=Roubaix',
     hours: [
-      { days: 'Lundi – vendredi', hours: '8h – 18h', opens: '08:00', closes: '18:00' },
+      { days: 'Lundi – vendredi', hours: '8 h – 18 h', opens: '08:00', closes: '18:00' },
       { days: 'Samedi', hours: 'Sur rendez-vous' },
     ],
     emergency24h: false,
@@ -51,7 +51,7 @@ export default defineSite({
   services: [
     { slug: 'cuisines', title: 'Cuisines sur mesure', short: 'Dessinée pour votre pièce, fabriquée en chêne ou en frêne massif.', icon: 'CookingPot', featured: true, bullets: ['Plan 3D avant fabrication', 'Bois massif ou plaqué', 'Pose comprise'], description: 'Une cuisine sur mesure commence par une visite chez vous. Nous mesurons, nous écoutons, puis nous dessinons.\n\nLa fabrication se fait à l’atelier, la pose par nos soins. Comptez six à dix semaines entre la validation du plan et la pose.' },
     { slug: 'escaliers', title: 'Escaliers', short: 'Droits, quart tournant ou hélicoïdaux, en bois massif.', icon: 'Layers', featured: true, bullets: ['Relevé sur place', 'Garde-corps assortis', 'Rénovation d’escaliers existants'] },
-    { slug: 'agencement', title: 'Bibliothèques et agencements', short: 'Bibliothèques, dressings, meubles TV : le meuble qui épouse le mur.', icon: 'LayoutPanelLeft', bullets: ['Sous pente, alcôve, angle', 'Finitions huilées ou laquées'] },
+    { slug: 'agencement', title: 'Bibliothèques et agencements', short: 'Bibliothèques, dressings, meubles TV : le meuble qui épouse le mur.', icon: 'LayoutPanelLeft', bullets: ['Sous pente, alcôve, angle', 'Finitions huilées ou laquées'] },
   ],
 
   about: {
@@ -74,8 +74,8 @@ export default defineSite({
   },
 
   faq: [
-    { q: 'Quel délai pour une cuisine ?', a: 'Six à dix semaines entre la validation du plan et la pose, selon la saison.' },
-    { q: 'Vous déplacez-vous pour un devis ?', a: 'Oui, la visite et le devis sont gratuits dans la métropole lilloise.' },
+    { q: 'Quel délai pour une cuisine ?', a: 'Six à dix semaines entre la validation du plan et la pose, selon la saison.' },
+    { q: 'Vous déplacez-vous pour un devis ?', a: 'Oui, la visite et le devis sont gratuits dans la métropole lilloise.' },
   ],
 
   form: { provider: 'mailto' },

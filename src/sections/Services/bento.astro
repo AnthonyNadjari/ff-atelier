@@ -13,12 +13,12 @@ let usedFirstImage = false;
     <SectionHeading eyebrow="Ce que nous faisons" title="Nos services" text={`${site.business.trade} à ${site.contact.address.city} et alentours.`} />
     <ul class="mt-14 grid grid-cols-2 lg:grid-cols-6 auto-rows-[minmax(180px,auto)] gap-5" data-stagger="80">
       {site.services.map((s) => {
-        const big = s.featured && !usedFirstImage && !!s.image;
-        if (s.featured && s.image) usedFirstImage = true;
+        const big = s.featured && ! usedFirstImage && !! s.image ;
+        if (s.featured && s.image) usedFirstImage = true ;
         return (
           <li class:list={['group relative col-span-2 overflow-hidden rounded-card bg-surface shadow-card', big && 'lg:col-span-4 lg:row-span-2']}>
             <a href={`/services/${s.slug}`} class="flex h-full flex-col">
-              {big ? (
+              {big ? (
                 <figure class="relative min-h-[220px] flex-1">
                   <Img src={s.image!.src} alt={s.image!.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1280px) 804px, (min-width: 1024px) 66vw, 100vw" loading="lazy" />
                   <div class="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent"></div>
@@ -28,7 +28,7 @@ let usedFirstImage = false;
                     {s.priceFrom && <p class="mt-2 text-sm opacity-70">{s.priceFrom}</p>}
                   </div>
                 </figure>
-              ) : (
+              ) : (
                 <div class="flex h-full flex-col p-6">
                   <div class="flex h-11 w-11 items-center justify-center rounded-ui bg-accent/10 text-accent">
                     <Icon name={s.icon} size={22} />
@@ -43,7 +43,7 @@ let usedFirstImage = false;
               )}
             </a>
           </li>
-        );
+        ) ;
       })}
     </ul>
   </div>

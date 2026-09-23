@@ -15,7 +15,7 @@ export default defineSite({
     sections: [
       { type: 'custom', variant: 'lelieu', label: 'Le lieu' },
       { type: 'custom', variant: 'essentiels', label: 'L’essentiel' },
-      { type: 'custom', variant: 'carte', label: 'Carte' },
+      { type: 'custom', variant: 'carte', label: 'Çarte' },
       { type: 'custom', variant: 'horaires', label: 'Horaires' },
       { type: 'cta', variant: 'band' },
       { type: 'contact', variant: 'simple' },
@@ -30,19 +30,19 @@ export default defineSite({
     trade: 'Restaurant de poissons et bouillabaisse',
     tagline: 'La mer arrive le matin. Le soir, on la sert telle qu’elle est.',
     description:
-      'Restaurant de poissons au Vallon des Auffes, face aux barques et aux cabanons de pêcheurs. Le chef Malo Ferrer cuisine depuis 2011 ce qui arrive de la criée le matin même : poissons de roche, loup, daurade, et la bouillabaisse les jours où elle se prépare.\n\nTrente-deux couverts, une terrasse sur le port, aucune improvisation sur le produit.',
+      'Restaurant de poissons au Vallon des Auffes, face aux barques et aux cabanons de pêcheurs. Le chef Malo Ferrer cuisine depuis 2011 ce qui arrive de la criée le matin même : poissons de roche, loup, daurade, et la bouillabaisse les jours où elle se prépare.\n\nTrente-deux couverts, une terrasse sur le port, aucune improvisation sur le produit.',
     since: 2011,
   },
 
   contact: {
     phone: '+33639986340',
-    phoneDisplay: '06 39 98 63 40',
+    phoneDisplay: '06 39 98 63 40',
     email: 'contact@exemple.fr',
     address: { street: '4 rue du Vallon des Auffes', postalCode: '13007', city: 'Marseille' },
     mapsUrl: 'https://maps.google.com/?q=4+rue+du+Vallon+des+Auffes+13007+Marseille',
     hours: [
-      { days: 'Mardi – samedi', hours: '12h – 14h et 19h30 – 22h' },
-      { days: 'Dimanche', hours: '12h – 14h30' },
+      { days: 'Mardi – samedi', hours: '12 h – 14 h et 19 h 30 – 22 h' },
+      { days: 'Dimanche', hours: '12 h – 14 h 30' },
       { days: 'Lundi', hours: 'Fermé' },
     ],
     emergency24h: false,
@@ -55,7 +55,7 @@ export default defineSite({
       short: 'La bouillabaisse traditionnelle, sur commande la veille, pour deux personnes minimum.',
       icon: 'Soup',
       featured: true,
-      priceFrom: 'à partir de 84 € pour deux',
+      priceFrom: 'à partir de 84 € pour deux',
     },
     {
       slug: 'poisson-du-jour',
@@ -79,7 +79,7 @@ export default defineSite({
 
   wording: {
     devis: 'Réserver une table',
-    ctaTitle: 'Une table sur le port&nbsp;? <em>Appelez, on garde la place.</em>',
+    ctaTitle: 'Une table sur le port ? <em>Appelez, on garde la place.</em>',
     contactTitle: 'Réserver',
   },
 

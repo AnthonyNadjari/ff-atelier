@@ -28,21 +28,21 @@ export default defineSite({
     trade: 'Paysagiste',
     tagline: 'Un jardin qui vous ressemble, <em>qui pousse avec le temps.</em>',
     description:
-      'Les Jardins de Lise conçoivent, plantent et entretiennent des jardins à Rennes et alentours, pour les particuliers comme pour les petits collectifs.\n\nCréation de jardins, entretien régulier, taille et arrosage automatique : chaque projet part du terrain, de son sol et de son exposition, pas d’un catalogue de plantes.',
+      'Les Jardins de Lise conçoivent, plantent et entretiennent des jardins à Rennes et alentours, pour les particuliers comme pour les petits collectifs.\n\nCréation de jardins, entretien régulier, taille et arrosage automatique : chaque projet part du terrain, de son sol et de son exposition, pas d’un catalogue de plantes.',
     since: 2013,
     legalForm: 'EURL',
-    insurance: 'Assurance décennale Groupama n° 552 019 887',
+    insurance: 'Assurance décennale Groupama n° 552 019 887',
   },
 
   contact: {
     phone: '+33639984054',
-    phoneDisplay: '06 39 98 40 54',
+    phoneDisplay: '06 39 98 40 54',
     email: 'contact@exemple.fr',
     address: { street: '5 rue de la Chalotais', postalCode: '35000', city: 'Rennes' },
     mapsUrl: 'https://maps.google.com/?q=5+rue+de+la+Chalotais+Rennes',
     mapsEmbed: 'https://www.google.com/maps?q=Rennes&output=embed',
     hours: [
-      { days: 'Lundi – vendredi', hours: '8h – 17h30' },
+      { days: 'Lundi – vendredi', hours: '8 h – 17 h 30' },
       { days: 'Samedi', hours: 'Sur rendez-vous, période haute (mars – octobre)' },
     ],
     emergency24h: false,
@@ -63,7 +63,7 @@ export default defineSite({
       image: { src: '/images/service-1.webp', alt: 'Création d’un jardin par Les Jardins de Lise' },
       bullets: ['Visite et étude du sol', 'Plan de plantation', 'Choix d’essences adaptées au climat breton'],
       description:
-        'Un jardin réussi commence par une bonne lecture du terrain : exposition, nature du sol, vis-à-vis. On en tire un plan de plantation qui privilégie des essences adaptées au climat breton, moins gourmandes en entretien.\n\nLa plantation se fait par étapes si le budget le demande, avec un ordre de priorité établi ensemble.',
+        'Un jardin réussi commence par une bonne lecture du terrain : exposition, nature du sol, vis-à-vis. On en tire un plan de plantation qui privilégie des essences adaptées au climat breton, moins gourmandes en entretien.\n\nLa plantation se fait par étapes si le budget le demande, avec un ordre de priorité établi ensemble.',
     },
     {
       slug: 'entretien',
@@ -73,7 +73,7 @@ export default defineSite({
       image: { src: '/images/service-2.webp', alt: 'Entretien d’un espace vert' },
       bullets: ['Passages réguliers ou ponctuels', 'Tonte, désherbage, ramassage', 'Contrat annuel possible'],
       description:
-        'Un jardin demande un entretien régulier pour rester agréable : tonte, désherbage, nettoyage des massifs. On propose des passages ponctuels ou un contrat annuel, avec une fréquence adaptée à la saison.',
+        'Un jardin demande un entretien régulier pour rester agréable : tonte, désherbage, nettoyage des massifs. On propose des passages ponctuels ou un contrat annuel, avec une fréquence adaptée à la saison.',
     },
     {
       slug: 'taille-elagage',
@@ -103,17 +103,17 @@ export default defineSite({
       icon: 'Droplets',
       bullets: ['Étude du réseau existant', 'Programmateur et zones différenciées', 'Économie d’eau à la clé'],
       description:
-        'Un système d’arrosage automatique bien conçu évite le gaspillage d’eau : zones différenciées selon les besoins des plantations, programmateur réglé selon la saison.',
+        'Un système d’arrosage automatique bien conçu évite le gaspillage d’eau : zones différenciées selon les besoins des plantations, programmateur réglé selon la saison.',
     },
   ],
 
   about: {
     title: 'L’atelier',
     story:
-      'Lise Quéré a débuté comme apprentie chez un pépiniériste avant de passer son CAP puis son BTS Aménagements paysagers. Elle crée son entreprise en 2013, seule d’abord, avec une camionnette et un carnet de clients qui se construit de bouche à oreille.\n\nAujourd’hui elle est accompagnée de deux ouvriers paysagistes. L’équipe reste volontairement petite : c’est elle qui rencontre chaque client et qui dessine chaque projet.',
+      'Lise Quéré a débuté comme apprentie chez un pépiniériste avant de passer son CAP puis son BTS Aménagements paysagers. Elle crée son entreprise en 2013, seule d’abord, avec une camionnette et un carnet de clients qui se construit de bouche à oreille.\n\nAujourd’hui elle est accompagnée de deux ouvriers paysagistes. L’équipe reste volontairement petite : c’est elle qui rencontre chaque client et qui dessine chaque projet.',
     milestones: [
       { year: '2013', text: 'Création de l’entreprise, premiers chantiers chez des particuliers rennais.' },
-      { year: '2016', text: 'Premier chantier d’envergure : le jardin d’une résidence à Cesson-Sévigné.' },
+      { year: '2016', text: 'Premier chantier d’envergure : le jardin d’une résidence à Cesson-Sévigné.' },
       { year: '2019', text: 'Arrivée du premier ouvrier paysagiste, l’équipe passe à deux.' },
       { year: '2023', text: 'Installation dans un nouvel atelier avec serre de production, rue de la Chalotais.' },
     ],

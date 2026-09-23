@@ -36,7 +36,7 @@ export default defineSite({
   business: {
     name: 'Toits & Cie',
     trade: 'Couvreur-zingueur',
-    tagline: 'Une fuite&nbsp;? <em>On monte aujourd’hui.</em>',
+    tagline: 'Une fuite ? <em>On monte aujourd’hui.</em>',
     description:
       'Couvreur-zingueur à Rouen depuis 2004. Trois compagnons, une camionnette équipée, et un téléphone qui répond aussi le dimanche.\n\nRéparation de fuite en urgence, réfection complète, zinguerie, démoussage, pose de velux. Assurance décennale, certifiés Qualibat.',
     since: 2004,
@@ -46,11 +46,11 @@ export default defineSite({
 
   contact: {
     phone: '+33639980815',
-    phoneDisplay: '06 39 98 08 15',
+    phoneDisplay: '06 39 98 08 15',
     email: 'contact@exemple.fr',
     address: { street: '27 rue de Constantine', postalCode: '76000', city: 'Rouen' },
     hours: [
-      { days: 'Lundi – samedi', hours: '7h30 – 19h' },
+      { days: 'Lundi – samedi', hours: '7 h 30 – 19 h' },
       { days: 'Urgences fuite', hours: '24h/24, 7j/7' },
     ],
     emergency24h: true,
@@ -62,7 +62,7 @@ export default defineSite({
     {
       slug: 'reparation-fuite',
       title: 'Réparation de fuite',
-      short: 'Intervention en urgence : diagnostic sur le toit, étanchéité rétablie le jour même.',
+      short: 'Intervention en urgence : diagnostic sur le toit, étanchéité rétablie le jour même.',
       description:
         'Une fuite ne prévient pas. On décroche, on prend l’adresse, et un compagnon monte sur le toit le jour même — souvent dans l’heure sur Rouen et les communes proches.\n\nDiagnostic sur place, réparation immédiate quand c’est possible, devis avant toute reprise plus lourde.',
       bullets: ['Intervention 24h/24', 'Diagnostic sur le toit, pas au téléphone', 'Devis avant toute reprise lourde'],
@@ -73,9 +73,9 @@ export default defineSite({
     {
       slug: 'refection-toiture',
       title: 'Réfection complète',
-      short: 'Toiture reprise entièrement : charpente, couverture, isolation.',
+      short: 'Toiture reprise entièrement : charpente, couverture, isolation.',
       description:
-        'Quand la toiture est trop reprise pour tenir, on refait proprement : charpente vérifiée, couverture neuve, isolation si besoin. Un chantier planifié, pas une succession de rustines.',
+        'Quand la toiture est trop reprise pour tenir, on refait proprement : charpente vérifiée, couverture neuve, isolation si besoin. Un chantier planifié, pas une succession de rustines.',
       bullets: ['Diagnostic charpente et couverture', 'Devis détaillé poste par poste', 'Chantier suivi par le même compagnon'],
       icon: 'Hammer',
       featured: true,
@@ -84,7 +84,7 @@ export default defineSite({
     {
       slug: 'zinguerie',
       title: 'Zinguerie',
-      short: 'Gouttières, chéneaux, solins : l’étanchéité qui ne se voit pas.',
+      short: 'Gouttières, chéneaux, solins : l’étanchéité qui ne se voit pas.',
       description: 'La zinguerie, c’est ce qui évacue l’eau au lieu de la laisser s’infiltrer. Gouttières, chéneaux, solins et noues, posés ou repris à la demande.',
       bullets: ['Gouttières et descentes', 'Solins et noues', 'Habillages sur mesure'],
       icon: 'Layers',
@@ -115,7 +115,7 @@ export default defineSite({
   about: {
     title: 'L’équipe',
     story:
-      'Toits & Cie répare des toitures à Rouen depuis 2004. Trois compagnons, un métier : monter, réparer, refaire, et repartir sans laisser une fuite derrière soi.\n\nOn ne vend pas de contrat d’entretien ni de diagnostic à 200 €. On monte, on regarde, on chiffre.',
+      'Toits & Cie répare des toitures à Rouen depuis 2004. Trois compagnons, un métier : monter, réparer, refaire, et repartir sans laisser une fuite derrière soi.\n\nOn ne vend pas de contrat d’entretien ni de diagnostic à 200 €. On monte, on regarde, on chiffre.',
     values: [],
   },
 
@@ -123,10 +123,10 @@ export default defineSite({
 
   wording: {
     devis: 'Décrire la fuite',
-    ctaTitle: 'Ça coule&nbsp;? <em>On arrive.</em>',
+    ctaTitle: 'Ça coule ? <em>On arrive.</em>',
     ctaText: 'Un appel, une adresse, un compagnon sur le toit le jour même — Rouen et les communes alentour.',
     contactTitle: 'Décrire le problème',
-    contactText: 'Une photo, une adresse, un numéro : on rappelle dans l’heure.',
+    contactText: 'Une photo, une adresse, un numéro : on rappelle dans l’heure.',
   },
 
   form: { provider: 'mailto' },

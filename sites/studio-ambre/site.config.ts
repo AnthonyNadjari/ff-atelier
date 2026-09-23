@@ -66,16 +66,16 @@ export default defineSite({
 
   business: {
     name: 'Studio Ambre',
-    trade: "Architecte d'intérieur",
+    trade: "Architecte d’intérieur",
     tagline: 'Redessiner un lieu <em>sans le trahir.</em>',
     description:
-      "Studio Ambre accompagne particuliers et commerçants du 10e arrondissement dans la transformation de leur espace — appartements haussmanniens, boutiques, cabinets. Léa Bonnet part de ce qui existe déjà : la lumière, les proportions, la matière, avant d'y ajouter quoi que ce soit.\n\nSeule à la conception, épaulée d'un collaborateur pour le suivi de chantier, elle mène un nombre volontairement restreint de projets à la fois.",
+      "Studio Ambre accompagne particuliers et commerçants du 10e arrondissement dans la transformation de leur espace — appartements haussmanniens, boutiques, cabinets. Léa Bonnet part de ce qui existe déjà : la lumière, les proportions, la matière, avant d’y ajouter quoi que ce soit.\n\nSeule à la conception, épaulée d’un collaborateur pour le suivi de chantier, elle mène un nombre volontairement restreint de projets à la fois.",
     since: 2015,
   },
 
   contact: {
     phone: '+33639985508',
-    phoneDisplay: '06 39 98 55 08',
+    phoneDisplay: '06 39 98 55 08',
     email: 'contact@exemple.fr',
     address: { street: '31 rue des Vinaigriers', postalCode: '75010', city: 'Paris' },
     mapsUrl: 'https://maps.google.com/?q=31+rue+des+Vinaigriers+75010+Paris',
@@ -106,7 +106,7 @@ export default defineSite({
       title: 'Conception',
       short: 'Plans, volumes en 3D et choix des matériaux.',
       description:
-        "Plans à l'échelle, volumes en 3D, palette de matériaux : le dossier complet qui permet de se projeter avant travaux, puis de consulter les artisans sur une base précise.",
+        "Plans à l’échelle, volumes en 3D, palette de matériaux : le dossier complet qui permet de se projeter avant travaux, puis de consulter les artisans sur une base précise.",
       bullets: ['Plans et implantation', 'Volumes 3D', 'Sélection des matériaux'],
       icon: 'PenTool',
       featured: true,
@@ -116,7 +116,7 @@ export default defineSite({
       title: 'Suivi de chantier',
       short: 'Coordination des corps de métier jusqu’à la réception.',
       description:
-        "Le studio coordonne les artisans, visite le chantier régulièrement et reste l'interlocuteur unique jusqu'à la réception des travaux.",
+        "Le studio coordonne les artisans, visite le chantier régulièrement et reste l’interlocuteur unique jusqu’à la réception des travaux.",
       bullets: ['Coordination des artisans', 'Visites régulières', 'Réception des travaux'],
       icon: 'HardHat',
       featured: true,
@@ -124,9 +124,9 @@ export default defineSite({
     {
       slug: 'amenagement-boutique',
       title: 'Aménagement de boutique',
-      short: 'Agencement de commerces et de cabinets, de la vitrine à la caisse.',
+      short: 'Âgencement de commerces et de cabinets, de la vitrine à la caisse.',
       description:
-        "Même méthode appliquée aux lieux qui reçoivent du public : vitrine, circulation, éclairage, poste de caisse ou d'accueil — pensés pour l'usage autant que pour l'image.",
+        "Même méthode appliquée aux lieux qui reçoivent du public : vitrine, circulation, éclairage, poste de caisse ou d’accueil — pensés pour l’usage autant que pour l’image.",
       bullets: ['Vitrine et circulation', 'Éclairage et matériaux', 'Poste de caisse ou d’accueil'],
       icon: 'Store',
       featured: false,
@@ -136,7 +136,7 @@ export default defineSite({
   about: {
     title: 'Une manière de travailler',
     story:
-      "Léa Bonnet a fondé Studio Ambre en 2015, à Paris. Elle travaille seule sur la conception, avec un collaborateur pour le suivi de chantier.\n\nPas de catalogue ni de style imposé : chaque projet part du lieu tel qu'il est.",
+      "Léa Bonnet a fondé Studio Ambre en 2015, à Paris. Elle travaille seule sur la conception, avec un collaborateur pour le suivi de chantier.\n\nPas de catalogue ni de style imposé : chaque projet part du lieu tel qu’il est.",
     values: [
       { title: 'Le lieu avant le style', text: "La lumière, les proportions et la structure existante orientent chaque décision, avant toute question de tendance." },
       { title: 'Peu de projets, beaucoup d’attention', text: "Un nombre de dossiers volontairement limité, pour rester présente du premier croquis à la réception du chantier." },
@@ -145,10 +145,10 @@ export default defineSite({
   },
 
   faq: [
-    { q: 'Comment se passe la première visite ?', a: "Une visite de deux heures sur place, pour évaluer le potentiel du lieu et esquisser des pistes, avant tout engagement." },
-    { q: 'Travaillez-vous en dehors de Paris ?', a: 'Le studio intervient à Paris et dans les communes limitrophes : Montreuil, Vincennes, Saint-Ouen, Boulogne.' },
-    { q: 'Suivez-vous le chantier jusqu’au bout ?', a: "Oui. La coordination des artisans et les visites de suivi font partie de la mission de conception, jusqu'à la réception des travaux." },
-    { q: 'Le studio s’occupe-t-il aussi de boutiques ?', a: "Oui, en complément des appartements, le studio aménage également des boutiques et des cabinets." },
+    { q: 'Comment se passe la première visite ?', a: "Une visite de deux heures sur place, pour évaluer le potentiel du lieu et esquisser des pistes, avant tout engagement." },
+    { q: 'Travaillez-vous en dehors de Paris ?', a: 'Le studio intervient à Paris et dans les communes limitrophes : Montreuil, Vincennes, Saint-Ouen, Boulogne.' },
+    { q: 'Suivez-vous le chantier jusqu’au bout ?', a: "Oui. La coordination des artisans et les visites de suivi font partie de la mission de conception, jusqu’à la réception des travaux." },
+    { q: 'Le studio s’occupe-t-il aussi de boutiques ?', a: "Oui, en complément des appartements, le studio aménage également des boutiques et des cabinets." },
   ],
 
   form: { provider: 'mailto' },
@@ -158,7 +158,7 @@ export default defineSite({
   seo: { keywords: ["architecte d'intérieur Paris 10e", 'aménagement appartement haussmannien', 'aménagement boutique Paris'] },
   wording: {
     devis: 'Prendre rendez-vous',
-    ctaTitle: 'Un lieu à repenser&nbsp;? <em>Commençons par une visite.</em>',
+    ctaTitle: 'Un lieu à repenser ? <em>Commençons par une visite.</em>',
     contactTitle: 'Prendre rendez-vous',
   },
   legal: { owner: 'Léa Bonnet' },

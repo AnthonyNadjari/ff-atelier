@@ -82,7 +82,7 @@ export default defineSite({
     trade: 'Vétérinaire',
     tagline: 'Chiens, chats, NAC : <em>la même équipe depuis 2009.</em>',
     description:
-      'Depuis 2009, la Clinique vétérinaire du Drac soigne les chiens, les chats et les nouveaux animaux de compagnie (lapins, rongeurs) à Saint-Martin-d’Hères, à la limite de Grenoble.\n\nTrois vétérinaires se relaient pour les consultations, la chirurgie, la dentisterie et l’imagerie. Aux heures d’ouverture, les urgences sont prises en charge sur place ; en dehors, un service de garde de l’agglomération prend le relais.',
+      'Depuis 2009, la Clinique vétérinaire du Drac soigne les chiens, les chats et les nouveaux animaux de compagnie (lapins, rongeurs) à Saint-Martin-d’Hères, à la limite de Grenoble.\n\nTrois vétérinaires se relaient pour les consultations, la chirurgie, la dentisterie et l’imagerie. Aux heures d’ouverture, les urgences sont prises en charge sur place ; en dehors, un service de garde de l’agglomération prend le relais.',
     since: 2009,
     legalForm: 'SELARL',
     schemaType: 'VeterinaryCare',
@@ -90,15 +90,15 @@ export default defineSite({
 
   contact: {
     phone: '+33639989005',
-    phoneDisplay: '06 39 98 90 05',
+    phoneDisplay: '06 39 98 90 05',
     email: 'contact@exemple.fr',
     address: { street: '18 avenue Gabriel-Péri', postalCode: '38400', city: 'Saint-Martin-d’Hères' },
     mapsUrl: 'https://maps.google.com/?q=18+avenue+Gabriel-Peri+38400+Saint-Martin-d-Heres',
     mapsProvider: 'osm',
     coordinates: { lat: 45.1745, lng: 5.7649 },
     hours: [
-      { days: 'Lundi – vendredi', hours: '8h30 – 19h' },
-      { days: 'Samedi', hours: '9h – 13h' },
+      { days: 'Lundi – vendredi', hours: '8 h 30 – 19 h' },
+      { days: 'Samedi', hours: '9 h – 13 h' },
     ],
     emergency24h: false,
   },
@@ -117,14 +117,14 @@ export default defineSite({
         'La consultation commence toujours par une observation et des questions sur l’animal et son quotidien.\n\nUn devis est remis avant tout acte complémentaire. Consultation : 36 €, à titre indicatif.',
       icon: 'Stethoscope',
       featured: true,
-      priceFrom: '36 € (indicatif)',
+      priceFrom: '36 € (indicatif)',
     },
     {
       slug: 'vaccinations',
       title: 'Vaccinations',
       short: 'Primo-vaccination et rappels, carnet de santé tenu à jour.',
       icon: 'Syringe',
-      bullets: ['Rappel annuel', 'Carnet de santé à jour', 'Conseil selon le mode de vie de l’animal'],
+      bullets: ['Rappel annuel', 'Çarnet de santé à jour', 'Conseil selon le mode de vie de l’animal'],
     },
     {
       slug: 'chirurgie-de-convenance',
@@ -148,7 +148,7 @@ export default defineSite({
     {
       slug: 'urgences',
       title: 'Urgences',
-      short: 'Prises en charge sur place aux heures d’ouverture ; le reste du temps, un service de garde prend le relais.',
+      short: 'Prises en charge sur place aux heures d’ouverture ; le reste du temps, un service de garde prend le relais.',
       icon: 'PhoneForwarded',
       featured: true,
     },
@@ -165,7 +165,7 @@ export default defineSite({
   },
 
   process: [
-    { title: 'Restez calme, observez', text: 'Notez ce que vous voyez : symptôme, comportement, depuis combien de temps.' },
+    { title: 'Restez calme, observez', text: 'Notez ce que vous voyez : symptôme, comportement, depuis combien de temps.' },
     { title: 'Appelez avant de vous déplacer', text: 'On vous dit si ça peut attendre un rendez-vous ou s’il faut venir tout de suite.' },
     { title: 'Aux heures d’ouverture', text: 'La clinique répond directement et vous reçoit dès que possible.' },
     { title: 'En dehors des horaires', text: 'Un service de garde de l’agglomération prend le relais — voir le numéro ci-contre.' },
@@ -173,18 +173,18 @@ export default defineSite({
   ],
 
   faq: [
-    { q: 'Faut-il un rendez-vous pour une vaccination ?', a: 'Oui, les vaccinations se font sur rendez-vous, comme les consultations.' },
-    { q: 'Recevez-vous les NAC (lapins, rongeurs) ?', a: 'Oui, en plus des chiens et des chats. Précisez l’espèce lors de la prise de rendez-vous.' },
-    { q: 'Que se passe-t-il si j’appelle en dehors des horaires ?', a: 'La ligne de la clinique vous oriente vers le service de garde de l’agglomération, qui prend le relais jusqu’à la réouverture.' },
-    { q: 'Le prix de la consultation est-il fixe ?', a: 'La consultation est à 36 € à titre indicatif. Tout acte complémentaire fait l’objet d’un devis avant réalisation.' },
-    { q: 'Comment transporter mon chat pour la visite ?', a: 'En caisse de transport, avec un linge qui sent son environnement habituel : cela le rassure pour le trajet et la salle d’attente.' },
+    { q: 'Faut-il un rendez-vous pour une vaccination ?', a: 'Oui, les vaccinations se font sur rendez-vous, comme les consultations.' },
+    { q: 'Recevez-vous les NAC (lapins, rongeurs) ?', a: 'Oui, en plus des chiens et des chats. Précisez l’espèce lors de la prise de rendez-vous.' },
+    { q: 'Que se passe-t-il si j’appelle en dehors des horaires ?', a: 'La ligne de la clinique vous oriente vers le service de garde de l’agglomération, qui prend le relais jusqu’à la réouverture.' },
+    { q: 'Le prix de la consultation est-il fixe ?', a: 'La consultation est à 36 € à titre indicatif. Tout acte complémentaire fait l’objet d’un devis avant réalisation.' },
+    { q: 'Comment transporter mon chat pour la visite ?', a: 'En caisse de transport, avec un linge qui sent son environnement habituel : cela le rassure pour le trajet et la salle d’attente.' },
   ],
 
   form: { provider: 'mailto' },
 
   wording: {
     devis: 'Prendre rendez-vous',
-    ctaTitle: 'Un doute sur votre animal ? <em>Appelez, on vous dit quoi faire.</em>',
+    ctaTitle: 'Un doute sur votre animal ? <em>Appelez, on vous dit quoi faire.</em>',
     ctaText: 'Aux heures d’ouverture, on décroche. En dehors, le service de garde de l’agglomération prend le relais.',
     contactTitle: 'Prendre rendez-vous',
     contactText: 'Décrivez votre besoin et l’animal concerné, nous vous rappelons rapidement.',

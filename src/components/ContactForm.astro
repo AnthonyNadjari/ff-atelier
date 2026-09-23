@@ -43,7 +43,7 @@ const input =
   'ff-champ w-full rounded-ui border border-line bg-surface px-4 py-3 text-fg transition-colors';
 ---
 
-{f.provider !== 'none' && (
+{f.provider !== 'none' && (
   <form
     class:list={['grid gap-4', cls]}
     data-form={f.provider}
@@ -72,7 +72,7 @@ const input =
           aria-describedby={`${uid}-nom-erreur`}
           data-erreur-requis="Indiquez votre nom, pour savoir à qui répondre."
         />
-        <p class="ff-erreur" id={`${uid}-nom-erreur`}><span class="sr-only">Erreur&nbsp;: </span><span data-erreur-texte>Indiquez votre nom, pour savoir à qui répondre.</span></p>
+        <p class="ff-erreur" id={`${uid}-nom-erreur`}><span class="sr-only">Erreur : </span><span data-erreur-texte>Indiquez votre nom, pour savoir à qui répondre.</span></p>
       </label>
       <label class="grid gap-1.5 text-sm" for={`${uid}-tel`}>
         <span>Téléphone</span>
@@ -89,7 +89,7 @@ const input =
           data-erreur-requis="Indiquez un numéro où vous rappeler."
           data-erreur-format="Ce numéro semble incomplet : 10 chiffres, par exemple 06 12 34 56 78."
         />
-        <p class="ff-erreur" id={`${uid}-tel-erreur`}><span class="sr-only">Erreur&nbsp;: </span><span data-erreur-texte>Indiquez un numéro où vous rappeler.</span></p>
+        <p class="ff-erreur" id={`${uid}-tel-erreur`}><span class="sr-only">Erreur : </span><span data-erreur-texte>Indiquez un numéro où vous rappeler.</span></p>
       </label>
     </div>
     <label class="grid gap-1.5 text-sm" for={`${uid}-email`}>
@@ -104,7 +104,7 @@ const input =
         aria-describedby={`${uid}-email-erreur`}
         data-erreur-format="Cette adresse e-mail n'a pas l'air valide (exemple&nbsp;: nom@domaine.fr)."
       />
-      <p class="ff-erreur" id={`${uid}-email-erreur`}><span class="sr-only">Erreur&nbsp;: </span><span data-erreur-texte set:html="Cette adresse e-mail n'a pas l'air valide (exemple&nbsp;: nom@domaine.fr)." /></p>
+      <p class="ff-erreur" id={`${uid}-email-erreur`}><span class="sr-only">Erreur : </span><span data-erreur-texte set:html="Cette adresse e-mail n'a pas l'air valide (exemple&nbsp;: nom@domaine.fr)." /></p>
     </label>
     {services.length > 1 && (
       <label class="grid gap-1.5 text-sm" for={`${uid}-besoin`}>
@@ -128,7 +128,7 @@ const input =
         aria-describedby={`${uid}-message-erreur`}
         data-erreur-requis="Décrivez votre besoin en une phrase : c'est ce qui permet de vous répondre précisément."
       ></textarea>
-      <p class="ff-erreur" id={`${uid}-message-erreur`}><span class="sr-only">Erreur&nbsp;: </span><span data-erreur-texte>Décrivez votre besoin en une phrase&nbsp;: c'est ce qui permet de vous répondre précisément.</span></p>
+      <p class="ff-erreur" id={`${uid}-message-erreur`}><span class="sr-only">Erreur : </span><span data-erreur-texte>Décrivez votre besoin en une phrase : c’est ce qui permet de vous répondre précisément.</span></p>
     </label>
     <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
     {f.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={f.turnstileSiteKey}></div>}

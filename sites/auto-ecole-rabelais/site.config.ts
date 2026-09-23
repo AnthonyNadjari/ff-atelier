@@ -61,13 +61,13 @@ export default defineSite({
 
   contact: {
     phone: '+33639984790',
-    phoneDisplay: '06 39 98 47 90',
+    phoneDisplay: '06 39 98 47 90',
     email: 'contact@exemple.fr',
     address: { street: '27 rue de la Fuye', postalCode: '37000', city: 'Tours' },
     mapsUrl: 'https://maps.google.com/?q=27+rue+de+la+Fuye+37000+Tours',
     hours: [
-      { days: 'Lundi – vendredi', hours: '9h – 12h, 14h – 19h' },
-      { days: 'Samedi', hours: '9h – 12h' },
+      { days: 'Lundi – vendredi', hours: '9 h – 12 h, 14 h – 19 h' },
+      { days: 'Samedi', hours: '9 h – 12 h' },
     ],
     emergency24h: false,
   },
@@ -104,7 +104,7 @@ export default defineSite({
       short: 'Entraînement en ligne illimité et séances en salle avec un enseignant.',
       bullets: ['Accès en ligne', 'Séances en salle', 'Stage accéléré possible'],
       icon: 'BookOpen',
-      priceFrom: 'à partir de 30 €',
+      priceFrom: 'à partir de 30 €',
     },
     {
       slug: 'permis-moto-a2',
@@ -126,7 +126,7 @@ export default defineSite({
     story:
       'Auto-école Rabelais forme des conducteurs dans le quartier Velpeau à Tours depuis 2005 — un premier permis comme une reprise de conduite après plusieurs années sans repasser derrière un volant.\n\nCinq enseignants de la conduite se répartissent les leçons de code et de conduite, en boîte manuelle, automatique et sur moto. Chacun garde le même élève du premier cours jusqu’à l’examen.\n\nL’auto-école est certifiée Qualiopi, la marque qui atteste de la qualité du processus de formation.',
     team: [
-      { name: 'Camille Rouault', role: 'Enseignante de la conduite — permis B, boîte manuelle' },
+      { name: 'Çamille Rouault', role: 'Enseignante de la conduite — permis B, boîte manuelle' },
       { name: 'Thomas Guérin', role: 'Enseignant de la conduite — permis B, boîte automatique' },
       { name: 'Nadia Ferreira', role: 'Enseignante de la conduite — conduite accompagnée (AAC)' },
       { name: 'Karim Belaïd', role: 'Enseignant de la conduite — permis moto A2' },
@@ -140,25 +140,25 @@ export default defineSite({
     { title: 'Inscription', text: 'Dossier, numéro NEPH (ANTS), pièce d’identité, ASSR/ASR ou attestation de recensement, justificatif de domicile.' },
     { title: 'Code', text: 'Entraînement en ligne illimité et séances en salle avec un enseignant, jusqu’à l’examen théorique.' },
     { title: 'Conduite', text: 'Le forfait de conduite, en boîte manuelle ou automatique, ajustable selon la progression de chaque élève.' },
-    { title: 'Examen', text: 'Présentation organisée par l’auto-école ; la date est fixée par la préfecture.' },
+    { title: 'Examen', text: 'Présentation organisée par l’auto-école ; la date est fixée par la préfecture.' },
   ],
 
   faq: [
     {
-      q: 'Quel est le taux de réussite à l’examen ?',
+      q: 'Quel est le taux de réussite à l’examen ?',
       a: 'Taux de réussite communiqué sur demande (chiffres officiels de la préfecture).',
     },
     {
-      q: 'Peut-on commencer le code avant la conduite ?',
+      q: 'Peut-on commencer le code avant la conduite ?',
       a: 'Oui : le code en ligne est accessible dès l’inscription, en complément des séances en salle. La plupart des élèves passent le code avant de commencer les heures de conduite.',
     },
     {
-      q: 'La conduite accompagnée (AAC) est-elle possible dès 15 ans ?',
+      q: 'La conduite accompagnée (AAC) est-elle possible dès 15 ans ?',
       a: 'Oui, l’AAC est ouverte dès 15 ans, avec un accompagnateur désigné et un rendez-vous préalable à l’auto-école.',
     },
     {
-      q: 'Le forfait de 20 heures suffit-il toujours ?',
-      a: 'Le forfait B de 20 heures correspond à la durée réglementaire de référence. Le nombre d’heures réellement nécessaire dépend de chaque élève ; les heures supplémentaires sont facturées à l’heure.',
+      q: 'Le forfait de 20 heures suffit-il toujours ?',
+      a: 'Le forfait B de 20 heures correspond à la durée réglementaire de référence. Le nombre d’heures réellement nécessaire dépend de chaque élève ; les heures supplémentaires sont facturées à l’heure.',
     },
   ],
 

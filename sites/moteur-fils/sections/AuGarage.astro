@@ -31,8 +31,8 @@ const looks = [
 
     <ul class="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
       {services.map((s, i) => {
-        const look = looks[i] ?? looks[1];
-        const hasPhoto = Boolean(look.photo && s.image);
+        const look = looks[i] ?? looks[1] ;
+        const hasPhoto = Boolean(look.photo && s.image) ;
         return (
           <li class:list={[look.photo && 'sm:col-span-2', look.wide && 'lg:col-span-3']} data-reveal={i % 2 ? 'right' : 'left'} data-reveal-delay={String((i % 3) * 90)}>
             <article
@@ -52,7 +52,7 @@ const looks = [
               <p class:list={['relative mt-2 max-w-sm', hasPhoto ? 'text-on-ink/80' : look.text === 'text-on-accent' ? 'text-on-accent/85' : (look.body ?? 'text-muted')]}>{s.short}</p>
             </article>
           </li>
-        );
+        ) ;
       })}
     </ul>
   </div>

@@ -9,7 +9,7 @@ const linked = site.seo.cityPages;
 {cities.length > 0 && (
   <section id="zones" class="section-y">
     <div class="container-ff text-center">
-      <p class="eyebrow">Zones d'intervention</p>
+      <p class="eyebrow">Zones d’intervention</p>
       <h2 class="mt-4 text-display-md" data-reveal>{zones.label ?? 'Nous intervenons près de chez vous'}</h2>
       {zones.radiusKm && (
         <p class="mt-4 text-muted max-w-prose mx-auto">Déplacement dans un rayon d'environ {zones.radiusKm}&nbsp;km autour de {site.contact.address.city}.</p>
@@ -18,9 +18,9 @@ const linked = site.seo.cityPages;
       <ul class="mt-10 flex flex-wrap justify-center gap-3" data-stagger="50">
         {cities.map((city) => (
           <li data-reveal>
-            {linked ? (
+            {linked ? (
               <a href={`/zones/${citySlug(city)}`} class="inline-block rounded-pill border border-line px-5 py-2.5 text-sm text-fg transition-colors duration-300 hover:bg-accent hover:text-on-accent hover:border-accent">{city}</a>
-            ) : (
+            ) : (
               <span class="inline-block rounded-pill border border-line px-5 py-2.5 text-sm text-fg transition-colors duration-300 hover:bg-accent hover:text-on-accent hover:border-accent">{city}</span>
             )}
           </li>

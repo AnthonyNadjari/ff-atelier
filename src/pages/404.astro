@@ -28,19 +28,19 @@ const services = site.services.slice(0, 6);
         {/* Le code d'erreur reste disponible (un visiteur averti le cherche) mais en note de bas de
             page typographique, pas en eyebrow criard — docs/CONVENTIONS.md règle 13. */}
         <p class="ff-404-code">404</p>
-        <h1 class="text-display-lg mt-3">Cette page n'existe pas.</h1>
+        <h1 class="text-display-lg mt-3">Cette page n’existe pas.</h1>
         <p class="mt-5 text-lg text-muted measure">
-          Si vous avez tapé l'adresse à la main, vérifiez-la. Si vous l'avez collée, vérifiez que vous
-          avez bien copié l'adresse entière. Sinon, le lien est simplement ancien.
+          Si vous avez tapé l’adresse à la main, vérifiez-la. Si vous l’avez collée, vérifiez que vous
+          avez bien copié l’adresse entière. Sinon, le lien est simplement ancien.
         </p>
         <div class="mt-8 flex flex-wrap gap-4">
-          <Button href="/" size="lg">Retour à l'accueil</Button>
+          <Button href="/" size="lg">Retour à l’accueil</Button>
           <Button href={tel()} variant="ghost" size="lg">
             <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
           </Button>
         </div>
         <p class="mt-6 text-sm text-muted">
-          Ou écrivez-nous&nbsp;: <a href={mailto()} class="underline break-all hover:text-fg">{site.contact.email}</a>
+          Ou écrivez-nous : <a href={mailto()} class="underline break-all hover:text-fg">{site.contact.email}</a>
           {site.contact.emergency24h && <span> — urgences 24h/24, 7j/7.</span>}
         </p>
         {site.contact.hours.length > 0 && (

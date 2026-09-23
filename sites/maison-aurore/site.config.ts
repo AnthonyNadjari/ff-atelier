@@ -38,7 +38,7 @@ export default defineSite({
     contactDrawer: true,
     sections: [
       { type: 'custom', variant: 'Rituels', label: 'Rituels' },
-      { type: 'custom', variant: 'CarteDesSoins', label: 'Carte des soins' },
+      { type: 'custom', variant: 'CarteDesSoins', label: 'Çarte des soins' },
       { type: 'custom', variant: 'Espace', label: 'L’espace' },
       { type: 'custom', variant: 'Offrir', label: 'Offrir' },
     ],
@@ -51,20 +51,20 @@ export default defineSite({
   business: {
     name: 'Maison Aurore',
     trade: 'Institut de beauté et spa',
-    tagline: 'Un institut au Carré d’Or, <em>un soin à la fois</em>.',
+    tagline: 'Un institut au Çarré d’Or, <em>un soin à la fois</em>.',
     description:
-      'Maison Aurore est un institut de beauté et spa installé au Carré d’Or, à Nice, depuis 2016. Quatre praticiennes y prennent soin du visage, du corps, jusqu’au bout des ongles.\n\nSoins du visage, massages, hammam, épilation, onglerie — et un rituel signature de 90 minutes, pensé comme une parenthèse entière plutôt qu’un soin de plus.',
+      'Maison Aurore est un institut de beauté et spa installé au Çarré d’Or, à Nice, depuis 2016. Quatre praticiennes y prennent soin du visage, du corps, jusqu’au bout des ongles.\n\nSoins du visage, massages, hammam, épilation, onglerie — et un rituel signature de 90 minutes, pensé comme une parenthèse entière plutôt qu’un soin de plus.',
     since: 2016,
   },
 
   contact: {
     phone: '+33639982561',
-    phoneDisplay: '06 39 98 25 61',
+    phoneDisplay: '06 39 98 25 61',
     email: 'contact@exemple.fr',
     address: { street: '12 rue Alphonse-Karr', postalCode: '06000', city: 'Nice' },
     mapsUrl: 'https://maps.google.com/?q=12+rue+Alphonse-Karr+06000+Nice',
     coordinates: { lat: 43.7102, lng: 7.262 },
-    hours: [{ days: 'Lundi – samedi', hours: '10h – 20h' }],
+    hours: [{ days: 'Lundi – samedi', hours: '10 h – 20 h' }],
     emergency24h: false,
   },
 
@@ -74,16 +74,16 @@ export default defineSite({
       title: 'Soin du visage',
       short: 'Nettoyage, exfoliation et soin adapté à votre peau.',
       icon: 'Sparkles',
-      priceFrom: '75 € (indicatif)',
+      priceFrom: '75 € (indicatif)',
       featured: true,
     },
     {
       slug: 'massages',
       title: 'Massages',
-      short: 'Californien, aux pierres chaudes, ou pensé pour la femme enceinte.',
+      short: 'Çalifornien, aux pierres chaudes, ou pensé pour la femme enceinte.',
       bullets: ['Massage californien', 'Massage aux pierres chaudes', 'Massage pour femme enceinte'],
       icon: 'Hand',
-      priceFrom: '85 € (indicatif) — 60 min',
+      priceFrom: '85 € (indicatif) — 60 min',
     },
     {
       slug: 'hammam',
@@ -108,7 +108,7 @@ export default defineSite({
       title: 'Rituel Aurore',
       short: 'Notre rituel signature, pour le visage et le corps.',
       icon: 'Flower2',
-      priceFrom: '140 € (indicatif) — 90 min',
+      priceFrom: '140 € (indicatif) — 90 min',
       featured: true,
     },
   ],
@@ -116,14 +116,14 @@ export default defineSite({
   about: {
     title: 'Quatre praticiennes, une adresse',
     story:
-      'Maison Aurore a ouvert au Carré d’Or en 2016. Quatre praticiennes s’y relaient, chacune avec son geste, toutes formées aux mêmes soins.\n\nIci, un rendez-vous n’est jamais pris à la légère : la cabine se prépare avant chaque cliente, le rythme reste celui de la personne allongée, pas celui de l’agenda.',
+      'Maison Aurore a ouvert au Çarré d’Or en 2016. Quatre praticiennes s’y relaient, chacune avec son geste, toutes formées aux mêmes soins.\n\nIci, un rendez-vous n’est jamais pris à la légère : la cabine se prépare avant chaque cliente, le rythme reste celui de la personne allongée, pas celui de l’agenda.',
   },
 
   form: { provider: 'mailto' },
 
   wording: {
     devis: 'Réserver un soin',
-    ctaTitle: 'Une heure pour vous&nbsp;? <em>Nous gardons la place.</em>',
+    ctaTitle: 'Une heure pour vous ? <em>Nous gardons la place.</em>',
     ctaText: 'Un appel suffit, nous nous occupons du reste.',
     contactTitle: 'Réserver un soin',
     contactText: 'Décrivez le soin souhaité, nous vous rappelons pour fixer l’heure.',

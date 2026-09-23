@@ -227,3 +227,52 @@ test('corrigerSourceAstro : frontmatter, balises et expressions intacts', () => 
   assert.ok(out.includes(`Bonjour l’ami${FINE}!`), out);
   assert.ok(out.includes(`«${FINE}vrai${FINE}»`), out);
 });
+
+test('typo : --corriger ne touche jamais l’indentation d’un fichier source', async () => {
+  const { corrigerTexte, corrigerSourceAstro } = await import('../scripts/ff/typo.mjs');
+  // Entre deux mots, les espaces multiples se resserrent.
+  assert.equal(corrigerTexte('un  deux'), 'un deux');
+  // En debut de ligne, c'est de l'indentation : intouchable.
+  assert.equal(corrigerTexte('a\n    b'), 'a\n    b');
+  const src = '---\nconst x = 1;\n---\n<section>\n  <div>\n    <p>Bonjour</p>\n  </div>\n</section>\n';
+  assert.equal(corrigerSourceAstro(src), src);
+});
+
+test('typo : une entite &nbsp; compte comme une espace insecable, jamais doublee', async () => {
+  const { corrigerTexte } = await import('../scripts/ff/typo.mjs');
+  assert.equal(corrigerTexte('la pêche&nbsp;: des plats'), 'la pêche : des plats');
+  assert.equal(corrigerTexte('prix&nbsp;!'), 'prix !');
+  assert.equal(corrigerTexte('un : deux'), 'un : deux');
+});
+
+test('typo : phoneDisplay est de l’affichage, phone reste technique', async () => {
+  const { corrigerSourceTs } = await import('../scripts/ff/typo.mjs');
+  const src = "export default { contact: { phone: '+33639986340', phoneDisplay: '06 39 98 63 40' } };\n";
+  const out = corrigerSourceTs(src);
+  assert.match(out, /phoneDisplay: '06 39 98 63 40'/);
+  assert.match(out, /phone: '\+33639986340'/);
+});
+
+test('typo : l’operateur de decomposition n’est pas une suspension', async () => {
+  const { corrigerSourceAstro } = await import('../scripts/ff/typo.mjs');
+  // Frontmatter realiste (le motif de detection exige du contenu entre les deux clotures) et un
+  // bloc <style> : ni le spread JavaScript ni les proprietes CSS `--x` ne doivent bouger.
+  const src = [
+    '---',
+    'const items = [];',
+    '---',
+    '<div>{items.map((p) => { const [a, ...rest] = p.t; return a; })}</div>',
+    '<style>',
+    '  .x { color: var(--fg); }',
+    '</style>',
+    '',
+  ].join('\n');
+  assert.equal(corrigerSourceAstro(src), src);
+});
+
+test('typo : jamais de sentinelle ecrite dans un fichier', async () => {
+  const { corrigerSourceAstro } = await import('../scripts/ff/typo.mjs');
+  const src = '---\n---\n<p set:html={site.wording.ctaTitle}>Un texte avec un prix de 1200 € ici.</p>\n';
+  const out = corrigerSourceAstro(src);
+  assert.doesNotMatch(out, /[\uF000-\uF8FF]/, 'une sentinelle a fuite dans la sortie');
+});

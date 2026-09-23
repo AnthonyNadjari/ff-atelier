@@ -82,20 +82,20 @@ export default defineSite({
     trade: 'Menuisier-ébéniste',
     tagline: 'Le bois massif, choisi pièce par pièce, <em>façonné pour durer.</em>',
     description:
-      'Atelier de menuiserie et d’ébénisterie installé à Roubaix, dans une ancienne filature, depuis 1998. Deux personnes y dessinent, choisissent le bois et fabriquent chaque pièce sur place.\n\nChêne, frêne et noyer massifs, jamais de panneau plaqué : cuisines, bibliothèques, escaliers et restauration de meubles anciens, pour Roubaix et la métropole lilloise.',
+      'Atelier de menuiserie et d’ébénisterie installé à Roubaix, dans une ancienne filature, depuis 1998. Deux personnes y dessinent, choisissent le bois et fabriquent chaque pièce sur place.\n\nChêne, frêne et noyer massifs, jamais de panneau plaqué : cuisines, bibliothèques, escaliers et restauration de meubles anciens, pour Roubaix et la métropole lilloise.',
     since: 1998,
   },
 
   contact: {
     phone: '+33639981357',
-    phoneDisplay: '06 39 98 13 57',
+    phoneDisplay: '06 39 98 13 57',
     email: 'contact@exemple.fr',
     address: { street: '14 rue de l’Alma', postalCode: '59100', city: 'Roubaix' },
     mapsUrl: 'https://maps.google.com/?q=14+rue+de+l%27Alma+59100+Roubaix',
     mapsProvider: 'osm',
     coordinates: { lat: 50.6942, lng: 3.1746 },
     hours: [
-      { days: 'Lundi – vendredi', hours: '8h – 18h' },
+      { days: 'Lundi – vendredi', hours: '8 h – 18 h' },
       { days: 'Samedi', hours: 'Sur rendez-vous' },
     ],
     emergency24h: false,
@@ -109,22 +109,22 @@ export default defineSite({
       title: 'Cuisines sur mesure',
       short: 'Dessinée pour votre pièce, fabriquée en chêne, frêne ou noyer massif.',
       description:
-        'Une cuisine sur mesure commence par une visite à votre domicile : mesures, usage réel de la pièce, choix du bois.\n\nLe dessin est validé avec vous avant toute coupe. Fabrication à l’atelier, pose comprise.',
+        'Une cuisine sur mesure commence par une visite à votre domicile : mesures, usage réel de la pièce, choix du bois.\n\nLe dessin est validé avec vous avant toute coupe. Fabrication à l’atelier, pose comprise.',
       bullets: ['Croquis validé avant fabrication', 'Bois massif, jamais de panneau plaqué', 'Pose comprise'],
       icon: 'ChefHat',
       featured: true,
-      priceFrom: 'à partir de 8 000 € (indicatif)',
+      priceFrom: 'à partir de 8 000 € (indicatif)',
     },
     {
       slug: 'bibliotheques-sur-mesure',
       title: 'Bibliothèques sur mesure',
       short: 'Bibliothèques et agencements qui épousent le mur, sous pente ou en alcôve.',
       description:
-        'Chaque bibliothèque est dessinée pour l’espace qu’elle occupe : sous pente, en alcôve, d’angle.\n\nAssemblages traditionnels, finitions huilées ou cirées selon l’essence choisie.',
+        'Chaque bibliothèque est dessinée pour l’espace qu’elle occupe : sous pente, en alcôve, d’angle.\n\nAssemblages traditionnels, finitions huilées ou cirées selon l’essence choisie.',
       bullets: ['Relevé sur place', 'Sous pente, alcôve, angle', 'Finitions huilées ou cirées'],
       icon: 'BookOpen',
       featured: true,
-      priceFrom: 'à partir de 2 500 € (indicatif)',
+      priceFrom: 'à partir de 2 500 € (indicatif)',
     },
     {
       slug: 'escaliers-bois-massif',
@@ -134,24 +134,24 @@ export default defineSite({
         'Relevé précis de la cage d’escalier, dessin de l’ouvrage puis fabrication à l’atelier.\n\nGarde-corps assortis, rénovation d’escaliers existants possible.',
       bullets: ['Relevé sur place', 'Garde-corps assortis', 'Rénovation d’escaliers existants'],
       icon: 'DoorStairwell',
-      priceFrom: 'à partir de 4 500 € (indicatif)',
+      priceFrom: 'à partir de 4 500 € (indicatif)',
     },
     {
       slug: 'restauration-meubles-anciens',
       title: 'Restauration de meubles anciens',
       short: 'Le meuble de famille retrouve son grain d’origine, sans perdre son histoire.',
       description:
-        'Commodes, armoires, chaises anciennes : décapage, recollage, remplacement des pièces manquantes dans une essence compatible, finition à l’huile ou à la cire.\n\nLe geste est le même qu’en fabrication neuve — celui du bois massif.',
+        'Commodes, armoires, chaises anciennes : décapage, recollage, remplacement des pièces manquantes dans une essence compatible, finition à l’huile ou à la cire.\n\nLe geste est le même qu’en fabrication neuve — celui du bois massif.',
       bullets: ['Décapage et recollage', 'Remplacement de pièces manquantes', 'Finition huile ou cire'],
       icon: 'Hammer',
-      priceFrom: 'à partir de 250 € (indicatif)',
+      priceFrom: 'à partir de 250 € (indicatif)',
     },
   ],
 
   about: {
     title: 'L’atelier',
     story:
-      'Atelier Lecerf s’est installé en 1998 dans une ancienne filature de Roubaix — de hauts volumes, de la lumière du nord, la place pour débiter de grandes planches.\n\nDeux personnes y travaillent aujourd’hui : le dessin, le choix du bois et la fabrication restent entre les mêmes mains, du croquis à la pose.\n\nChêne, frêne, noyer — toujours massifs. Jamais de panneau plaqué, jamais de catalogue : chaque pièce est dessinée pour l’endroit où elle vivra.',
+      'Atelier Lecerf s’est installé en 1998 dans une ancienne filature de Roubaix — de hauts volumes, de la lumière du nord, la place pour débiter de grandes planches.\n\nDeux personnes y travaillent aujourd’hui : le dessin, le choix du bois et la fabrication restent entre les mêmes mains, du croquis à la pose.\n\nChêne, frêne, noyer — toujours massifs. Jamais de panneau plaqué, jamais de catalogue : chaque pièce est dessinée pour l’endroit où elle vivra.',
     values: [
       { title: 'Bois massif', text: 'Chêne, frêne, noyer — jamais de panneau plaqué.' },
       { title: 'Le croquis avant l’établi', text: 'Chaque pièce est dessinée avec vous avant d’être coupée.' },
@@ -175,7 +175,7 @@ export default defineSite({
 
   wording: {
     devis: 'Dessiner votre projet',
-    ctaTitle: 'Un meuble qui n’existe pas encore&nbsp;? <em>Dessinons-le ensemble.</em>',
+    ctaTitle: 'Un meuble qui n’existe pas encore ? <em>Dessinons-le ensemble.</em>',
     contactTitle: 'Dessiner votre projet',
     contactText: 'Décrivez votre projet — cuisine, bibliothèque, escalier ou meuble à restaurer — nous vous rappelons pour en parler.',
   },

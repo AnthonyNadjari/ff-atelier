@@ -75,7 +75,7 @@ export default defineSite({
   },
 
   business: {
-    name: 'Cabinet Lemaire Avocats',
+    name: 'Çabinet Lemaire Avocats',
     trade: 'Avocat',
     // Pas de <em> ici (contrairement a la convention habituelle) : le hero applique data-text-fill
     // sur cette phrase, et motion.ts la reduit a `textContent` avant de la decouper mot par mot —
@@ -83,23 +83,23 @@ export default defineSite({
     // <em> du mandat est porte par wording.ctaTitle (rendu via set:html, jamais decoupe).
     tagline: 'Deux avocates à Montpellier. Le premier rendez-vous sert à y voir clair.',
     description:
-      'Le cabinet réunit deux avocates inscrites au Barreau de Montpellier, Maître Claire Lemaire et Maître Inès Dahmani. Depuis 2014, elles suivent des particuliers et des petites entreprises en droit du travail, en droit de la famille, en droit immobilier et en droit des affaires.\n\nLes consultations ont lieu sur rendez-vous, au cabinet du 5 rue Foch. La première dure 45 minutes et coûte 90 € TTC, à titre indicatif. L’aide juridictionnelle est acceptée en droit de la famille.',
+      'Le cabinet réunit deux avocates inscrites au Barreau de Montpellier, Maître Claire Lemaire et Maître Inès Dahmani. Depuis 2014, elles suivent des particuliers et des petites entreprises en droit du travail, en droit de la famille, en droit immobilier et en droit des affaires.\n\nLes consultations ont lieu sur rendez-vous, au cabinet du 5 rue Foch. La première dure 45 minutes et coûte 90 € TTC, à titre indicatif. L’aide juridictionnelle est acceptée en droit de la famille.',
     since: 2014,
     schemaType: 'LegalService',
   },
 
   contact: {
     phone: '+33639988012',
-    phoneDisplay: '06 39 98 80 12',
+    phoneDisplay: '06 39 98 80 12',
     email: 'contact@exemple.fr',
     address: { street: '5 rue Foch', postalCode: '34000', city: 'Montpellier' },
     mapsUrl: 'https://maps.google.com/?q=5+rue+Foch+34000+Montpellier',
-    hours: [{ days: 'Lundi – vendredi', hours: '9h – 18h, sur rendez-vous' }],
+    hours: [{ days: 'Lundi – vendredi', hours: '9 h – 18 h, sur rendez-vous' }],
     emergency24h: false,
   },
 
   zones: {
-    cities: ['Montpellier', 'Castelnau-le-Lez', 'Lattes', 'Sète', 'Nîmes'],
+    cities: ['Montpellier', 'Çastelnau-le-Lez', 'Lattes', 'Sète', 'Nîmes'],
     label: 'Montpellier et sa métropole',
   },
 
@@ -119,7 +119,7 @@ export default defineSite({
       title: 'Droit de la famille',
       short: 'Divorce, séparation, garde d’enfants, succession.',
       description:
-        'Un divorce, une question de garde, une succession : ces dossiers touchent à la vie privée, pas seulement au droit. Nous prenons le temps d’écouter la situation avant de parler procédure.\n\nL’aide juridictionnelle est acceptée pour les dossiers qui y sont éligibles. Nous vérifions ce point dès le premier échange.',
+        'Un divorce, une question de garde, une succession : ces dossiers touchent à la vie privée, pas seulement au droit. Nous prenons le temps d’écouter la situation avant de parler procédure.\n\nL’aide juridictionnelle est acceptée pour les dossiers qui y sont éligibles. Nous vérifions ce point dès le premier échange.',
       bullets: ['Divorce et séparation', 'Garde d’enfants et pension alimentaire', 'Succession et partage'],
       icon: 'Users',
       featured: true,
@@ -164,23 +164,23 @@ export default defineSite({
   ],
 
   faq: [
-    { q: 'Faut-il prendre rendez-vous ?', a: 'Oui. Le cabinet ne reçoit pas sans rendez-vous, du lundi au vendredi, de 9h à 18h.' },
-    { q: 'Combien coûte la première consultation ?', a: '90 € TTC pour 45 minutes, à titre indicatif. Si vous nous confiez ensuite le dossier, une convention d’honoraires écrite est signée avant toute intervention.' },
-    { q: 'L’aide juridictionnelle est-elle possible ?', a: 'En droit de la famille, pour les situations qui y sont éligibles. Nous vérifions votre éligibilité dès le premier échange, avant de fixer le rendez-vous.' },
-    { q: 'Le cabinet intervient-il en dehors de Montpellier ?', a: 'À Castelnau-le-Lez, Lattes, Sète et Nîmes, ainsi que dans les communes voisines.' },
+    { q: 'Faut-il prendre rendez-vous ?', a: 'Oui. Le cabinet ne reçoit pas sans rendez-vous, du lundi au vendredi, de 9 h à 18 h.' },
+    { q: 'Combien coûte la première consultation ?', a: '90 € TTC pour 45 minutes, à titre indicatif. Si vous nous confiez ensuite le dossier, une convention d’honoraires écrite est signée avant toute intervention.' },
+    { q: 'L’aide juridictionnelle est-elle possible ?', a: 'En droit de la famille, pour les situations qui y sont éligibles. Nous vérifions votre éligibilité dès le premier échange, avant de fixer le rendez-vous.' },
+    { q: 'Le cabinet intervient-il en dehors de Montpellier ?', a: 'À Çastelnau-le-Lez, Lattes, Sète et Nîmes, ainsi que dans les communes voisines.' },
   ],
 
   form: { provider: 'mailto' },
 
   wording: {
     devis: 'Prendre rendez-vous',
-    ctaTitle: 'Une situation à démêler&nbsp;? <em>Le premier rendez-vous dure 45 minutes.</em>',
+    ctaTitle: 'Une situation à démêler ? <em>Le premier rendez-vous dure 45 minutes.</em>',
     contactTitle: 'Prendre rendez-vous',
     contactText: 'Décrivez votre situation en quelques lignes. Nous rappelons pour fixer un rendez-vous, ou pour vous dire que le cabinet n’est pas le bon interlocuteur.',
   },
 
   images: {
-    logo: { src: '/logo.svg', alt: 'Cabinet Lemaire Avocats' },
+    logo: { src: '/logo.svg', alt: 'Çabinet Lemaire Avocats' },
   },
 
   seo: {

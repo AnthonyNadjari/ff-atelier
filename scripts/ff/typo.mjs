@@ -18,7 +18,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { DIST_DIR, SITES_DIR, listSites, siteExists, ok, fail, warn, info, c, parseArgs } from './util.mjs';
+import { ROOT, DIST_DIR, SITES_DIR, listSites, siteExists, ok, fail, warn, info, c, parseArgs } from './util.mjs';
 
 /** Espace fine insecable U+202F : avant ; ! ? et a l'interieur des guillemets « ». */
 export const FINE = ' ';
@@ -283,7 +283,10 @@ const REGLES = [
     dur: false,
     libelle: 'espaces multiples consecutives',
     re: /\S {2,}\S/,
-    fix: (t) => t.replace(/ {2,}/g, ' '),
+    // Seulement entre deux mots : une suite d'espaces en DEBUT de ligne est de l'indentation de
+    // source, pas de la typographie. Sans ce garde-fou, `--corriger` aplatissait l'indentation de
+    // tous les .astro qu'il touchait (repere le 23 sept 2026 sur chez-malo).
+    fix: (t) => t.replace(/(?<=\S) {2,}(?=\S)/g, ' '),
   },
   {
     id: 'tiret-double',
@@ -358,9 +361,23 @@ export function guillemetsFrancais(texte) {
  * Les balises, attributs, URL, e-mails, entites HTML et echappements sont masques puis restitues :
  * ils ressortent identiques, au caractere pres.
  */
+/**
+ * Entites d'espaces insecables -> le caractere reel, AVANT toute regle. Deux raisons : dans une
+ * source .astro, `&nbsp;` est une espace pour le navigateur mais pas pour une regexp, et la regle
+ * « insecable avant : » en ajoutait donc une SECONDE (« pêche&nbsp; : ») ; et nos conventions
+ * demandent le caractere U+00A0, l'entite ne fonctionnant que dans les champs rendus par set:html
+ * (CLAUDE.md). Sur du texte extrait d'un HTML construit, les entites sont deja decodees : sans effet.
+ */
+function decoderEspacesInsecables(t) {
+  return t
+    .replace(/&nbsp;|&#160;|&#xa0;/gi, ' ')
+    .replace(/&#8239;|&#x202f;/gi, ' ')
+    .replace(/&thinsp;|&#8201;|&#x2009;/gi, ' ');
+}
+
 export function corrigerTexte(texte) {
   if (texte == null) return texte;
-  const { masque, jetons } = masquer(String(texte).normalize('NFC'));
+  const { masque, jetons } = masquer(decoderEspacesInsecables(String(texte).normalize('NFC')));
   let out = masque;
   for (const regle of REGLES) {
     if (regle.fix) out = regle.fix(out);
@@ -457,6 +474,15 @@ export function analyserHtml(html) {
  * Cles de `site.config.ts` dont la valeur n'est PAS du texte francais destine a l'oeil :
  * identifiants techniques, chemins, numeros bruts, mots-cles de recherche. Jamais reecrites.
  */
+/**
+ * Cles dont la valeur est TOUJOURS de l'affichage, meme quand elle ressemble a de la donnee
+ * technique : un numero de telephone d'affichage n'est que des chiffres et des espaces, et
+ * `valeurTechnique()` l'ecartait donc — il restait le seul endroit du site ou le numero pouvait
+ * se couper en fin de ligne (repere le 23 sept 2026). `phone` reste technique : c'est le E.164
+ * du lien `tel:`, il ne doit jamais bouger.
+ */
+export const CLES_AFFICHAGE = new Set(['phoneDisplay', 'hours', 'days', 'priceFrom', 'label', 'suffix']);
+
 export const CLES_TECHNIQUES = new Set([
   'slug', 'icon', 'href', 'url', 'src', 'pkg', 'provider', 'variant', 'direction', 'type', 'shell',
   'nav', 'hero', 'footer', 'motion', 'opens', 'closes', 'phone', 'whatsapp', 'email', 'mapsUrl',
@@ -508,7 +534,9 @@ export function corrigerSourceTs(source) {
       const { corps, fin } = lireLitteral(src, i);
       const brut = src.slice(i, fin);
       const interdit =
-        apresImport || CLES_TECHNIQUES.has(cleCourante) || valeurTechnique(deEchapper(corps));
+        apresImport
+        || CLES_TECHNIQUES.has(cleCourante)
+        || (!CLES_AFFICHAGE.has(cleCourante) && valeurTechnique(deEchapper(corps)));
       if (interdit) {
         out += brut;
       } else {
@@ -609,6 +637,10 @@ export function corrigerSourceAstro(source) {
     return String.fromCharCode(0xf000 + opaques.length - 1);
   };
   const masqueCorps = corps
+    // `...` d'une decomposition JavaScript n'est pas une suspension : `{ const [a, ...b] = x }`
+    // devenait `[a, …b]` et cassait le build (maison-roux, 23 sept 2026). On protege la forme
+    // `...identifiant`, qui n'existe jamais dans du texte francais.
+    .replace(/\.\.\.(?=[A-Za-z_$])/g, garder)
     .replace(BLOCS_OPAQUES, garder)
     .replace(/<!--[\s\S]*?-->/g, garder)
     .replace(/\{(?:[^{}]|\{[^{}]*\})*\}/g, garder) // expression Astro, un niveau d'imbrication
@@ -617,10 +649,20 @@ export function corrigerSourceAstro(source) {
   // Demasquage ITERATIF : une balise masquee peut contenir une expression `{...}` elle-meme
   // masquee (ex. `<h2 set:html={site.wording.ctaTitle}>`), donc une seule passe laisserait une
   // sentinelle orpheline dans le fichier ecrit.
+  // Demasquage jusqu'a point fixe : une balise masquee peut contenir une expression `{...}`
+  // elle-meme masquee, sur une profondeur qu'on ne connait pas d'avance. Un nombre de passes
+  // fixe laissait une sentinelle orpheline dans le fichier ecrit (sites/_effets casse le
+  // 23 sept 2026 : `Unexpected "\uf10b"`).
   let corrige = corrigerTexte(masqueCorps);
-  for (let passe = 0; passe < 8 && /[-]/.test(corrige); passe++) {
-    corrige = corrige.replace(/[-]/g, (ch) => opaques[ch.charCodeAt(0) - 0xf000] ?? ch);
+  const SENTINELLE = /[\uF000-\uF8FF]/;
+  for (let passe = 0; passe < 64 && SENTINELLE.test(corrige); passe++) {
+    const avant = corrige;
+    corrige = corrige.replace(/[\uF000-\uF8FF]/g, (ch) => opaques[ch.charCodeAt(0) - 0xf000] ?? ch);
+    if (corrige === avant) break; // plus rien a resoudre : sentinelle sans jeton
   }
+  // Garde-fou : plutot qu'un fichier corrompu, on rend la source intacte. Le controle (sans
+  // --corriger) continuera de signaler les fautes, mais rien n'est casse.
+  if (SENTINELLE.test(corrige)) return String(source);
   return front + corrige;
 }
 
@@ -663,6 +705,41 @@ function controlerSite(slug) {
   return { slug, construit: true, pages: fichiers.length, infractions };
 }
 
+/**
+ * Fichiers PARTAGES de src/ qui portent du texte francais visible : pages legales, 404, credits,
+ * sections et composants de la bibliotheque, coquilles. Les corriger vaut pour les 21 sites d'un
+ * coup — c'est de la que venaient la plupart des apostrophes droites et des majuscules non
+ * accentuees relevees par `ff typo` (23 sept 2026). Separe de `corrigerFichiers` parce que la
+ * portee n'est pas la meme : un site, ou toute la fabrique.
+ */
+function fichiersPartages() {
+  const out = [];
+  const racines = ['src/pages', 'src/pages-optional', 'src/sections', 'src/components', 'src/shells', 'src/layouts'];
+  const visiter = (dir) => {
+    if (!fs.existsSync(dir)) return;
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) visiter(full);
+      else if (e.isFile() && e.name.endsWith('.astro')) out.push(full);
+    }
+  };
+  for (const r of racines) visiter(path.join(ROOT, r));
+  return out;
+}
+
+export function corrigerPartages() {
+  const modifies = [];
+  for (const fichier of fichiersPartages()) {
+    const avant = fs.readFileSync(fichier, 'utf8');
+    const apres = corrigerSourceAstro(avant);
+    if (apres !== avant) {
+      fs.writeFileSync(fichier, apres);
+      modifies.push(path.relative(ROOT, fichier));
+    }
+  }
+  return modifies;
+}
+
 function corrigerFichiers(slug) {
   const dirSite = path.join(SITES_DIR, slug);
   const cibles = [];
@@ -691,6 +768,7 @@ function corrigerFichiers(slug) {
 export async function cmdTypo(argv = []) {
   const { positional, flags } = parseArgs(argv);
   const slugs = positional.length > 0 ? positional : listSites({ excludeTestPrefix: true });
+  let partagesFaits = false;
   let echec = false;
 
   for (const slug of slugs) {
@@ -703,6 +781,14 @@ export async function cmdTypo(argv = []) {
     info(c.bold(`Typographie française — ${slug}`));
 
     if (flags.corriger) {
+      // `--partage` : les fichiers de src/ (pages legales, 404, sections partagees) valent pour
+      // tous les sites — on ne les reecrit qu'une fois, sur demande explicite.
+      if (flags.partage && !partagesFaits) {
+        partagesFaits = true;
+        const p = corrigerPartages();
+        if (p.length) ok(`  Fichiers partages reecrits (${p.length}) : ${p.slice(0, 4).join(', ')}${p.length > 4 ? '…' : ''}`);
+        else info(c.dim('  --partage : les fichiers de src/ sont deja propres.'));
+      }
       const modifies = corrigerFichiers(slug);
       if (modifies.length === 0) info(c.dim('  --corriger : rien à réécrire (sources déjà propres).'));
       else for (const f of modifies) ok(`Réécrit : sites/${f}`);

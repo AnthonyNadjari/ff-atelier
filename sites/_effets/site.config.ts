@@ -23,19 +23,19 @@ export default defineSite({
     trade: 'Vitrine du moteur d’animation',
     tagline: 'Vingt-cinq effets, <em>un seul moteur.</em>',
     description:
-      'Page de démonstration interne : chaque attribut data-* du moteur ff-atelier est présenté ici avec son libellé, pour vérifier visuellement le rendu et détecter tout bug avant de l’utiliser dans un site client.\n\nCe site n’est pas livré à un client : il sert de fumigène pour docs/veille/animations.md.',
+      'Page de démonstration interne : chaque attribut data-* du moteur ff-atelier est présenté ici avec son libellé, pour vérifier visuellement le rendu et détecter tout bug avant de l’utiliser dans un site client.\n\nCe site n’est pas livré à un client : il sert de fumigène pour docs/veille/animations.md.',
     since: 2026,
   },
 
   contact: {
     phone: '+33600000000',
-    phoneDisplay: '06 00 00 00 00',
+    phoneDisplay: '06 00 00 00 00',
     email: 'demo@exemple.fr',
     address: { postalCode: '00000', city: 'Démo' },
   },
 
   services: [
-    { slug: 'demo', title: 'Démonstration', short: 'Une seule section : la vitrine du moteur d’animation.', icon: 'Sparkles' },
+    { slug: 'demo', title: 'Démonstration', short: 'Une seule section : la vitrine du moteur d’animation.', icon: 'Sparkles' },
   ],
 
   about: { story: 'Site interne, pas de contenu client.' },

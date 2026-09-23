@@ -40,22 +40,22 @@ const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boole
 
       <section>
         <h2 class="text-display-sm mb-3">Responsable du traitement</h2>
-        <p>{owner}{b.legalForm && ` — ${b.legalForm}`}<br />{fullAddress()}<br />E-mail : {site.contact.email} — Téléphone : {site.contact.phoneDisplay}</p>
+        <p>{owner}{b.legalForm && ` — ${b.legalForm}`}<br />{fullAddress()}<br />E-mail : {site.contact.email} — Téléphone : {site.contact.phoneDisplay}</p>
       </section>
 
-      {provider !== 'none' && (
+      {provider !== 'none' && (
         <section>
           <h2 class="text-display-sm mb-3">Données collectées par le formulaire de contact</h2>
-          <p>Quand vous utilisez le formulaire de contact de ce site, les données suivantes sont collectées : nom, téléphone, e-mail (facultatif), et le contenu de votre message.</p>
+          <p>Quand vous utilisez le formulaire de contact de ce site, les données suivantes sont collectées : nom, téléphone, e-mail (facultatif), et le contenu de votre message.</p>
 
           <h3 class="mt-5 font-medium">Finalité</h3>
           <p>Ces données servent uniquement à répondre à votre demande de contact ou de devis, et à vous recontacter par téléphone ou e-mail.</p>
 
           <h3 class="mt-5 font-medium">Base légale</h3>
-          <p>Le traitement repose sur l'intérêt légitime de {owner} à répondre aux demandes qui lui sont adressées, ou sur les mesures précontractuelles nécessaires à l'établissement d'un devis (article 6.1.b du RGPD), lorsque votre demande vise la conclusion d'un contrat.</p>
+          <p>Le traitement repose sur l’intérêt légitime de {owner} à répondre aux demandes qui lui sont adressées, ou sur les mesures précontractuelles nécessaires à l’établissement d’un devis (article 6.1.b du RGPD), lorsque votre demande vise la conclusion d’un contrat.</p>
 
           <h3 class="mt-5 font-medium">Durée de conservation</h3>
-          <p>Vos données sont conservées 12 mois maximum à compter de votre dernier contact, sauf suite donnée nécessitant une conservation plus longue (devis signé, facturation), auquel cas les règles comptables et fiscales applicables s'appliquent.</p>
+          <p>Vos données sont conservées 12 mois maximum à compter de votre dernier contact, sauf suite donnée nécessitant une conservation plus longue (devis signé, facturation), auquel cas les règles comptables et fiscales applicables s’appliquent.</p>
 
           {destinataireTexte && (
             <>
@@ -68,12 +68,12 @@ const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boole
 
       <section>
         <h2 class="text-display-sm mb-3">Vos droits</h2>
-        <p>Conformément au Règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement et d'opposition sur vos données personnelles. Vous pouvez exercer ces droits en écrivant à {site.contact.email} ou par courrier à l'adresse ci-dessus. Vous disposez également du droit d'introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener" class="underline">cnil.fr</a>).</p>
+        <p>Conformément au Règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés, vous disposez d’un droit d’accès, de rectification, d’effacement et d’opposition sur vos données personnelles. Vous pouvez exercer ces droits en écrivant à {site.contact.email} ou par courrier à l’adresse ci-dessus. Vous disposez également du droit d’introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener" class="underline">cnil.fr</a>).</p>
       </section>
 
       <section>
         <h2 class="text-display-sm mb-3">Cookies et traceurs</h2>
-        <p>Ce site n'utilise aucun cookie publicitaire ni traceur de suivi entre sites.</p>
+        <p>Ce site n’utilise aucun cookie publicitaire ni traceur de suivi entre sites.</p>
         {hasAudience && (
           <p class="mt-3">La mesure d'audience de ce site est réalisée sans cookie et sans donnée personnelle identifiante{site.analytics.plausible ? ' (Plausible)' : site.analytics.umami ? ' (Umami)' : site.analytics.cloudflare ? ' (Cloudflare Web Analytics)' : ''}, et ne nécessite donc pas de consentement préalable (exemption prévue par la CNIL pour la mesure d'audience, voir <a href="https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/exemptions" target="_blank" rel="noopener" class="underline">cnil.fr</a>).</p>
         )}

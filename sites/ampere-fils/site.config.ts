@@ -69,13 +69,13 @@ export default defineSite({
 
   contact: {
     phone: '+33639986630',
-    phoneDisplay: '06 39 98 66 30',
+    phoneDisplay: '06 39 98 66 30',
     email: 'contact@exemple.fr',
     address: { street: '41 rue Francis-de-Pressensé', postalCode: '69100', city: 'Villeurbanne' },
     mapsUrl: 'https://maps.google.com/?q=41+rue+Francis-de-Pressensé+69100+Villeurbanne',
     mapsProvider: 'osm',
     coordinates: { lat: 45.7647, lng: 4.894 },
-    hours: [{ days: 'Lundi – vendredi', hours: '8h – 18h' }],
+    hours: [{ days: 'Lundi – vendredi', hours: '8 h – 18 h' }],
     emergency24h: false,
   },
 
@@ -87,7 +87,7 @@ export default defineSite({
       title: 'Mise aux normes NF C 15-100',
       short: 'Tableau électrique vérifié et remis en conformité, pièce par pièce.',
       description:
-        'Un tableau électrique vieillit mal : fils qui se détendent, disjoncteurs qui ne protègent plus rien. La mise aux normes commence par un diagnostic complet du tableau et du circuit, puis une remise en conformité avec la norme NF C 15-100.\n\nUn rapport détaillé est remis à la fin de l’intervention, avec ce qui a été vérifié et ce qui a été changé.',
+        'Un tableau électrique vieillit mal : fils qui se détendent, disjoncteurs qui ne protègent plus rien. La mise aux normes commence par un diagnostic complet du tableau et du circuit, puis une remise en conformité avec la norme NF C 15-100.\n\nUn rapport détaillé est remis à la fin de l’intervention, avec ce qui a été vérifié et ce qui a été changé.',
       bullets: ['Diagnostic complet du tableau', 'Mise en conformité NF C 15-100', 'Rapport détaillé remis au client'],
       icon: 'ShieldCheck',
       featured: true,
@@ -95,10 +95,10 @@ export default defineSite({
     {
       slug: 'depannage',
       title: 'Dépannage électrique',
-      short: 'Panne, disjonction, court-circuit : intervention sous 24 h.',
+      short: 'Panne, disjonction, court-circuit : intervention sous 24 h.',
       description:
-        'Un disjoncteur qui saute sans raison, une prise qui ne répond plus, un court-circuit : on cherche la vraie cause, pas juste le fusible à remettre.\n\nDevis communiqué avant toute intervention facturée.',
-      bullets: ['Recherche de panne', 'Intervention sous 24 h', 'Devis avant travaux'],
+        'Un disjoncteur qui saute sans raison, une prise qui ne répond plus, un court-circuit : on cherche la vraie cause, pas juste le fusible à remettre.\n\nDevis communiqué avant toute intervention facturée.',
+      bullets: ['Recherche de panne', 'Intervention sous 24 h', 'Devis avant travaux'],
       icon: 'Zap',
       featured: true,
     },
@@ -117,7 +117,7 @@ export default defineSite({
       title: 'Domotique KNX',
       short: 'Éclairage, volets et chauffage pilotés depuis un seul système.',
       description:
-        'KNX est un protocole standard, pas une marque propriétaire : ce qui est installé aujourd’hui reste compatible avec ce qui s’ajoutera demain.\n\nProgrammation sur mesure, pièce par pièce, en partant des usages réels du logement plutôt que d’un catalogue de scénarios.',
+        'KNX est un protocole standard, pas une marque propriétaire : ce qui est installé aujourd’hui reste compatible avec ce qui s’ajoutera demain.\n\nProgrammation sur mesure, pièce par pièce, en partant des usages réels du logement plutôt que d’un catalogue de scénarios.',
       bullets: ['Protocole KNX standard', 'Programmation sur mesure', 'Installation évolutive'],
       icon: 'Cpu',
     },
@@ -140,7 +140,7 @@ export default defineSite({
   about: {
     title: 'L’atelier',
     story:
-      'Le père a fondé Ampère & Fils en 2001, seul, avec une camionnette et un carnet d’adresses à Villeurbanne. Sa fille l’a rejoint après son BTS électrotechnique et sa qualification Qualifelec — elle s’occupe aujourd’hui des bornes de recharge et de la domotique, deux métiers qui n’existaient pas encore en 2001.\n\nDeux électriciens, un seul numéro : celui qui décroche est celui qui vient.',
+      'Le père a fondé Ampère & Fils en 2001, seul, avec une camionnette et un carnet d’adresses à Villeurbanne. Sa fille l’a rejoint après son BTS électrotechnique et sa qualification Qualifelec — elle s’occupe aujourd’hui des bornes de recharge et de la domotique, deux métiers qui n’existaient pas encore en 2001.\n\nDeux électriciens, un seul numéro : celui qui décroche est celui qui vient.',
     values: [
       { title: 'NF C 15-100', text: 'La norme électrique française, vérifiée et appliquée sur chaque tableau, ancien ou neuf.' },
       { title: 'Qualifelec', text: 'La qualification reconnue de la profession, vérifiée chaque année.' },
@@ -156,17 +156,17 @@ export default defineSite({
   ],
 
   faq: [
-    { q: 'Intervenez-vous la nuit ou le week-end ?', a: 'Non : nos horaires sont du lundi au vendredi, 8h – 18h. En cas de panne, nous nous engageons à intervenir sous 24 h.' },
-    { q: 'La mise aux normes est-elle obligatoire ?', a: 'Elle est fortement recommandée dès qu’un tableau électrique date de plus de 15-20 ans, et obligatoire en cas de vente ou de gros travaux. Un diagnostic sur place permet de savoir précisément ce qui doit être fait.' },
-    { q: 'Quelle puissance de borne choisir pour mon véhicule ?', a: 'Cela dépend du véhicule et de la puissance disponible sur votre installation. Nous faisons l’étude avant de proposer une puissance de 7, 11 ou 22 kW.' },
-    { q: 'Le devis est-il gratuit ?', a: 'Oui, le diagnostic et le devis sont gratuits et sans engagement, à Villeurbanne et dans les communes voisines.' },
+    { q: 'Intervenez-vous la nuit ou le week-end ?', a: 'Non : nos horaires sont du lundi au vendredi, 8 h – 18 h. En cas de panne, nous nous engageons à intervenir sous 24 h.' },
+    { q: 'La mise aux normes est-elle obligatoire ?', a: 'Elle est fortement recommandée dès qu’un tableau électrique date de plus de 15-20 ans, et obligatoire en cas de vente ou de gros travaux. Un diagnostic sur place permet de savoir précisément ce qui doit être fait.' },
+    { q: 'Quelle puissance de borne choisir pour mon véhicule ?', a: 'Cela dépend du véhicule et de la puissance disponible sur votre installation. Nous faisons l’étude avant de proposer une puissance de 7, 11 ou 22 kW.' },
+    { q: 'Le devis est-il gratuit ?', a: 'Oui, le diagnostic et le devis sont gratuits et sans engagement, à Villeurbanne et dans les communes voisines.' },
   ],
 
   form: { provider: 'mailto' },
 
   wording: {
     devis: 'Décrire votre projet',
-    ctaTitle: 'Un tableau à refaire, une borne à poser&nbsp;? <em>On chiffre sous 48 h.</em>',
+    ctaTitle: 'Un tableau à refaire, une borne à poser ? <em>On chiffre sous 48 h.</em>',
     contactTitle: 'Décrire votre projet',
   },
 

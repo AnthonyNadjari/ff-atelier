@@ -51,21 +51,21 @@ export default defineSite({
     trade: 'Barbier',
     tagline: 'Trois fauteuils dans la Krutenau. <em>Le samedi, sans rendez-vous.</em>',
     description:
-      '9 rue de Zurich, dans la Krutenau, depuis 2017. Trois fauteuils et trois barbiers : Jonas, Malik et Théo. On coupe au ciseau, on taille à la lame.\n\nEn semaine, réservez en ligne. Le samedi, non : vous poussez la porte et vous attendez votre tour.',
+      '9 rue de Zurich, dans la Krutenau, depuis 2017. Trois fauteuils et trois barbiers : Jonas, Malik et Théo. On coupe au ciseau, on taille à la lame.\n\nEn semaine, réservez en ligne. Le samedi, non : vous poussez la porte et vous attendez votre tour.',
     since: 2017,
   },
 
   contact: {
     phone: '+33639982973',
-    phoneDisplay: '06 39 98 29 73',
+    phoneDisplay: '06 39 98 29 73',
     email: 'contact@exemple.fr',
     address: { street: '9 rue de Zurich', postalCode: '67000', city: 'Strasbourg' },
     mapsUrl: 'https://maps.google.com/?q=9+rue+de+Zurich+67000+Strasbourg',
     mapsProvider: 'osm',
     coordinates: { lat: 48.578, lng: 7.756 },
     hours: [
-      { days: 'Mardi – vendredi', hours: '10h – 19h' },
-      { days: 'Samedi', hours: '9h – 18h, sans rendez-vous' },
+      { days: 'Mardi – vendredi', hours: '10 h – 19 h' },
+      { days: 'Samedi', hours: '9 h – 18 h, sans rendez-vous' },
     ],
     emergency24h: false,
   },
@@ -74,23 +74,23 @@ export default defineSite({
     {
       slug: 'coupe',
       title: 'Coupe',
-      short: 'Classique ou dégradé. Ciseau, tondeuse, 28 €.',
+      short: 'Classique ou dégradé. Ciseau, tondeuse, 28 €.',
       icon: 'Scissors',
-      priceFrom: '28 €',
+      priceFrom: '28 €',
     },
     {
       slug: 'barbe',
       title: 'Barbe',
-      short: 'On taille, on dessine, on finit à la lame. 18 €.',
+      short: 'On taille, on dessine, on finit à la lame. 18 €.',
       icon: 'Sparkles',
-      priceFrom: '18 €',
+      priceFrom: '18 €',
     },
     {
       slug: 'coupe-barbe',
       title: 'Coupe + barbe',
-      short: 'Les deux dans le même fauteuil, en un rendez-vous. 42 €.',
+      short: 'Les deux dans le même fauteuil, en un rendez-vous. 42 €.',
       icon: 'ScissorsLineDashed',
-      priceFrom: '42 €',
+      priceFrom: '42 €',
       featured: true,
     },
     {
@@ -98,21 +98,21 @@ export default defineSite({
       title: 'Rasage à l’ancienne',
       short: 'Serviette chaude, blaireau, lame, baume. Le rasage à l’ancienne ne se fait pas vite.',
       icon: 'MirrorRound',
-      priceFrom: '30 €',
+      priceFrom: '30 €',
     },
     {
       slug: 'enfant',
       title: 'Coupe enfant',
-      short: 'Pour les moins de 12 ans. 20 €, même fauteuil.',
+      short: 'Pour les moins de 12 ans. 20 €, même fauteuil.',
       icon: 'Baby',
-      priceFrom: '20 €',
+      priceFrom: '20 €',
     },
   ],
 
   about: {
     title: 'Depuis 2017',
     story:
-      'Jonas Kessler a ouvert son premier fauteuil dans la Krutenau en 2017. Malik est arrivé, puis Théo. Ils sont trois aujourd’hui.\n\nOn coupe au ciseau, on rase au blaireau. Et le samedi, on ne prend pas de rendez-vous : on reçoit dans l’ordre d’arrivée, et le salon ne désemplit pas.',
+      'Jonas Kessler a ouvert son premier fauteuil dans la Krutenau en 2017. Malik est arrivé, puis Théo. Ils sont trois aujourd’hui.\n\nOn coupe au ciseau, on rase au blaireau. Et le samedi, on ne prend pas de rendez-vous : on reçoit dans l’ordre d’arrivée, et le salon ne désemplit pas.',
     team: [
       { name: 'Jonas Kessler', role: 'Fondateur, barbier' },
       { name: 'Malik', role: 'Barbier' },
@@ -130,10 +130,10 @@ export default defineSite({
   },
 
   faq: [
-    { q: 'Faut-il réserver ?', a: 'Du mardi au vendredi, oui, en ligne. Le samedi, non.' },
-    { q: 'Le samedi, comment ça marche sans rendez-vous ?', a: 'Vous venez au 9 rue de Zurich et vous attendez. Premier arrivé, premier servi.' },
-    { q: 'Accueillez-vous les enfants ?', a: 'La coupe enfant est prévue pour les moins de 12 ans.' },
-    { q: 'Comment réserver en semaine ?', a: 'En ligne, ou au 06 39 98 29 73 si vous préférez parler à quelqu’un.' },
+    { q: 'Faut-il réserver ?', a: 'Du mardi au vendredi, oui, en ligne. Le samedi, non.' },
+    { q: 'Le samedi, comment ça marche sans rendez-vous ?', a: 'Vous venez au 9 rue de Zurich et vous attendez. Premier arrivé, premier servi.' },
+    { q: 'Accueillez-vous les enfants ?', a: 'La coupe enfant est prévue pour les moins de 12 ans.' },
+    { q: 'Comment réserver en semaine ?', a: 'En ligne, ou au 06 39 98 29 73 si vous préférez parler à quelqu’un.' },
   ],
 
   form: { provider: 'mailto' },
@@ -143,7 +143,7 @@ export default defineSite({
     ctaTitle: 'En semaine, on réserve. <em>Le samedi, on vient.</em>',
     ctaText: 'Trois fauteuils, 9 rue de Zurich, dans la Krutenau.',
     contactTitle: 'Prendre rendez-vous',
-    contactText: 'Du mardi au vendredi, réservez en ligne. Le samedi, passez : on vous prendra dans l’ordre.',
+    contactText: 'Du mardi au vendredi, réservez en ligne. Le samedi, passez : on vous prendra dans l’ordre.',
   },
 
   images: {

@@ -43,7 +43,7 @@ export default defineSite({
 
   contact: {
     phone: '+33639985226',
-    phoneDisplay: '06 39 98 52 26',
+    phoneDisplay: '06 39 98 52 26',
     email: 'contact@exemple.fr',
     address: { postalCode: '33000', city: 'Bordeaux' },
     hours: [],
@@ -116,28 +116,28 @@ export default defineSite({
 
   faq: [
     {
-      q: 'Sous combien de temps est-ce que je reçois mes photos ?',
-      a: 'Pour un mariage, comptez environ 6 semaines : le temps de développer et scanner l’argentique de la cérémonie, puis de trier l’ensemble. Pour une famille, un portrait ou un élopement, la galerie est prête sous 2 à 3 semaines.',
+      q: 'Sous combien de temps est-ce que je reçois mes photos ?',
+      a: 'Pour un mariage, comptez environ 6 semaines : le temps de développer et scanner l’argentique de la cérémonie, puis de trier l’ensemble. Pour une famille, un portrait ou un élopement, la galerie est prête sous 2 à 3 semaines.',
     },
     {
-      q: 'Combien de photos vais-je recevoir ?',
-      a: 'Cela dépend de la durée de la séance et de ce qu’il s’y passe, pas d’un chiffre fixé à l’avance. Pour un mariage, comptez plusieurs centaines de photos ; pour une séance famille ou portrait, quelques dizaines, sélectionnées.',
+      q: 'Combien de photos vais-je recevoir ?',
+      a: 'Cela dépend de la durée de la séance et de ce qu’il s’y passe, pas d’un chiffre fixé à l’avance. Pour un mariage, comptez plusieurs centaines de photos ; pour une séance famille ou portrait, quelques dizaines, sélectionnées.',
     },
     {
-      q: 'Vous déplacez-vous en dehors de Bordeaux ?',
+      q: 'Vous déplacez-vous en dehors de Bordeaux ?',
       a: 'Oui, régulièrement, en Nouvelle-Aquitaine et au-delà. Les frais de déplacement au-delà d’un certain rayon autour de Bordeaux sont ajoutés au devis, en toute transparence.',
     },
     {
-      q: 'Puis-je utiliser mes photos comme je le souhaite ?',
-      a: 'Les photos livrées sont à vous, pour un usage personnel et privé : tirages, albums, partage à vos proches. Pour tout usage commercial ou publication professionnelle, on en parle avant, simplement.',
+      q: 'Puis-je utiliser mes photos comme je le souhaite ?',
+      a: 'Les photos livrées sont à vous, pour un usage personnel et privé : tirages, albums, partage à vos proches. Pour tout usage commercial ou publication professionnelle, on en parle avant, simplement.',
     },
   ],
 
   wording: {
     devis: 'Raconter votre journée',
-    ctaTitle: 'Une date&nbsp;? <em>Écrivez-la moi.</em>',
+    ctaTitle: 'Une date ? <em>Écrivez-la moi.</em>',
     contactTitle: 'Raconter votre journée',
-    contactText: 'La date, le lieu, ce que vous imaginez. Je réponds sous 48 h.',
+    contactText: 'La date, le lieu, ce que vous imaginez. Je réponds sous 48 h.',
   },
   form: { provider: 'mailto' },
   images: {

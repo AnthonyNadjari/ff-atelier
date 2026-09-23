@@ -27,20 +27,20 @@ export default defineSite({
     trade: 'Coiffeur-coloriste',
     tagline: 'La couleur prend le temps qu’il faut. <em>Ici, on le lui donne.</em>',
     description:
-      'Maison Aurel est un salon de coiffure et de coloration dans les Chartrons, à Bordeaux. Coupe, coloration végétale et chimique, balayage : chaque rendez-vous commence par une vraie conversation, pas un catalogue.\n\nSur rendez-vous uniquement, pour garder le temps que demande un bon travail de couleur.',
+      'Maison Aurel est un salon de coiffure et de coloration dans les Chartrons, à Bordeaux. Coupe, coloration végétale et chimique, balayage : chaque rendez-vous commence par une vraie conversation, pas un catalogue.\n\nSur rendez-vous uniquement, pour garder le temps que demande un bon travail de couleur.',
     since: 2017,
     legalForm: 'SASU',
   },
 
   contact: {
     phone: '+33639982032',
-    phoneDisplay: '06 39 98 20 32',
+    phoneDisplay: '06 39 98 20 32',
     email: 'contact@exemple.fr',
     address: { street: '22 rue Notre-Dame', postalCode: '33000', city: 'Bordeaux' },
     mapsUrl: 'https://maps.google.com/?q=22+rue+Notre-Dame+Bordeaux',
     hours: [
-      { days: 'Mardi – vendredi', hours: '10h – 19h' },
-      { days: 'Samedi', hours: '9h – 17h' },
+      { days: 'Mardi – vendredi', hours: '10 h – 19 h' },
+      { days: 'Samedi', hours: '9 h – 17 h' },
       { days: 'Dimanche – lundi', hours: 'Fermé' },
     ],
     emergency24h: false,
@@ -52,13 +52,13 @@ export default defineSite({
     {
       slug: 'coupe',
       title: 'Coupe',
-      short: 'Coupe femme, homme, enfant : un diagnostic avant chaque ciseau.',
+      short: 'Coupe femme, homme, enfant : un diagnostic avant chaque ciseau.',
       icon: 'Scissors',
       featured: true,
       image: { src: '/images/service-1.webp', alt: 'Coupe de cheveux au salon Maison Aurel' },
       bullets: ['Diagnostic cheveux et visage', 'Coiffage compris', 'Conseils d’entretien au quotidien'],
       description:
-        'Une coupe commence toujours par une discussion : ce que vous voulez garder, ce que vous voulez changer, ce que vos cheveux permettent réellement.\n\nLe coiffage fait partie du rendez-vous, pour repartir avec une coupe qui se tient sans y passer vingt minutes chaque matin.',
+        'Une coupe commence toujours par une discussion : ce que vous voulez garder, ce que vous voulez changer, ce que vos cheveux permettent réellement.\n\nLe coiffage fait partie du rendez-vous, pour repartir avec une coupe qui se tient sans y passer vingt minutes chaque matin.',
     },
     {
       slug: 'coloration',
@@ -89,18 +89,18 @@ export default defineSite({
       image: { src: '/images/service-4.webp', alt: 'Soin capillaire en cabine' },
       bullets: ['Diagnostic du cuir chevelu', 'Massage et soin en cabine', 'Protocole à poursuivre à la maison'],
       description:
-        'Avant une couleur ou simplement pour réparer des cheveux fatigués, le soin capillaire cible ce dont vos cheveux ont besoin : hydratation, réparation de la fibre, ou apaisement du cuir chevelu.\n\nVous repartez avec un protocole simple à suivre entre deux visites.',
+        'Avant une couleur ou simplement pour réparer des cheveux fatigués, le soin capillaire cible ce dont vos cheveux ont besoin : hydratation, réparation de la fibre, ou apaisement du cuir chevelu.\n\nVous repartez avec un protocole simple à suivre entre deux visites.',
     },
   ],
 
   about: {
     title: 'Le salon',
     story:
-      'Aurel Mercier a ouvert son salon en 2017 après dix ans passés dans des maisons de coiffure parisiennes, spécialisé en coloration. L’idée : ramener ce savoir-faire à Bordeaux, dans un salon à taille humaine.\n\nAujourd’hui l’équipe compte trois personnes, chacune avec sa spécialité — coupe, couleur, soin — mais toujours un seul binôme par client du début à la fin du rendez-vous.',
+      'Aurel Mercier a ouvert son salon en 2017 après dix ans passés dans des maisons de coiffure parisiennes, spécialisé en coloration. L’idée : ramener ce savoir-faire à Bordeaux, dans un salon à taille humaine.\n\nAujourd’hui l’équipe compte trois personnes, chacune avec sa spécialité — coupe, couleur, soin — mais toujours un seul binôme par client du début à la fin du rendez-vous.',
     portrait: { src: '/images/portrait.webp', alt: 'Intérieur du salon Maison Aurel, quartier des Chartrons' },
     team: [
       { name: 'Aurel Mercier', role: 'Fondateur, coloriste' },
-      { name: 'Inès Cabral', role: 'Coiffeuse, spécialiste coupe' },
+      { name: 'Inès Çabral', role: 'Coiffeuse, spécialiste coupe' },
       { name: 'Simon Retif', role: 'Coiffeur, spécialiste balayage' },
     ],
   },
@@ -127,7 +127,7 @@ export default defineSite({
 
   wording: {
     devis: 'Prendre rendez-vous',
-    ctaTitle: 'Une envie de changement&nbsp;? <em>Prenons rendez-vous.</em>',
+    ctaTitle: 'Une envie de changement ? <em>Prenons rendez-vous.</em>',
     ctaText: 'Premier échange au salon ou par téléphone, sans engagement.',
     contactTitle: 'Prendre rendez-vous',
     contactText: 'Dites-nous ce que vous voulez, nous vous rappelons pour caler un créneau.',

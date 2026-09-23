@@ -35,9 +35,9 @@ const entries = entriesRequiringAttribution(parseCredits(md));
       <h1 class="text-display-md">Crédits photos</h1>
       <p class="text-muted">
         Certaines photographies de ce site proviennent de bibliothèques libres, sous licence Creative
-        Commons imposant la mention de l'auteur. Voici l'origine et la licence de chacune.
+        Commons imposant la mention de l’auteur. Voici l’origine et la licence de chacune.
       </p>
-      {entries.length > 0 ? (
+      {entries.length > 0 ? (
         <ul class="space-y-8 divide-y divide-line">
           {entries.map((entry) => (
             <li class="pt-8 first:pt-0">
@@ -68,8 +68,8 @@ const entries = entriesRequiringAttribution(parseCredits(md));
             </li>
           ))}
         </ul>
-      ) : (
-        <p class="text-muted">Aucun visuel de ce site n'exige actuellement de mention d'attribution.</p>
+      ) : (
+        <p class="text-muted">Aucun visuel de ce site n’exige actuellement de mention d’attribution.</p>
       )}
     </div>
   </main>

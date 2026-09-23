@@ -36,19 +36,19 @@ export default defineSite({
     trade: 'Ostéopathe D.O.',
     tagline: 'Retrouver un corps <em>qui ne se fait plus remarquer.</em>',
     description:
-      'Cabinet d’ostéopathie à Annecy, quartier des Marquisats. Adultes, sportifs, femmes enceintes, nourrissons.\n\nUne séance de 45 minutes, un seul praticien, un suivi dans la durée quand il est utile, pas plus.',
+      'Çabinet d’ostéopathie à Annecy, quartier des Marquisats. Adultes, sportifs, femmes enceintes, nourrissons.\n\nUne séance de 45 minutes, un seul praticien, un suivi dans la durée quand il est utile, pas plus.',
     since: 2016,
     certifications: ['Diplômée D.O. (agrément ministériel)', 'Inscrite au RPPS'],
   },
   contact: {
     phone: '+33639987730',
-    phoneDisplay: '06 39 98 77 30',
+    phoneDisplay: '06 39 98 77 30',
     email: 'contact@exemple.fr',
     address: { street: '12 avenue des Marquisats', postalCode: '74000', city: 'Annecy' },
     hours: [
-      { days: 'Lundi, mardi, jeudi', hours: '8h30 – 19h' },
-      { days: 'Mercredi', hours: '8h30 – 13h' },
-      { days: 'Vendredi', hours: '8h30 – 17h' },
+      { days: 'Lundi, mardi, jeudi', hours: '8 h 30 – 19 h' },
+      { days: 'Mercredi', hours: '8 h 30 – 13 h' },
+      { days: 'Vendredi', hours: '8 h 30 – 17 h' },
     ],
   },
   zones: { cities: ['Annecy', 'Annecy-le-Vieux', 'Cran-Gevrier', 'Seynod', 'Sevrier'] },
@@ -68,14 +68,14 @@ export default defineSite({
   },
 
   faq: [
-    { q: 'Faut-il une ordonnance ?', a: 'Non. L’ostéopathie est en accès direct. Certaines mutuelles remboursent une partie des séances : demandez une facture, elle est fournie systématiquement.' },
-    { q: 'Combien de séances ?', a: 'Souvent une ou deux. Si une troisième est utile, on en parle ensemble ; sinon, on ne la programme pas.' },
-    { q: 'Que dois-je apporter ?', a: 'Vos examens récents s’il y en a (radios, IRM) et une tenue dans laquelle vous êtes à l’aise.' },
+    { q: 'Faut-il une ordonnance ?', a: 'Non. L’ostéopathie est en accès direct. Certaines mutuelles remboursent une partie des séances : demandez une facture, elle est fournie systématiquement.' },
+    { q: 'Combien de séances ?', a: 'Souvent une ou deux. Si une troisième est utile, on en parle ensemble ; sinon, on ne la programme pas.' },
+    { q: 'Que dois-je apporter ?', a: 'Vos examens récents s’il y en a (radios, IRM) et une tenue dans laquelle vous êtes à l’aise.' },
   ],
 
   wording: {
     devis: 'Prendre rendez-vous',
-    ctaTitle: 'Une gêne qui dure&nbsp;? <em>Parlons-en.</em>',
+    ctaTitle: 'Une gêne qui dure ? <em>Parlons-en.</em>',
     contactTitle: 'Prendre rendez-vous',
     contactText: 'Par téléphone, ou laissez un message avec vos disponibilités.',
   },

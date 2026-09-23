@@ -26,19 +26,19 @@ export default defineSite({
     trade: 'Boulanger-pâtissier',
     tagline: 'Le pain du matin, <em>pétri avant l’aube.</em>',
     description:
-      'La Boulangerie Petit Pain fabrique chaque jour son pain, ses viennoiseries et ses pâtisseries dans le quartier du Camas à Marseille, au levain naturel et à la farine locale.\n\nOuvert tous les jours sauf le lundi, avec une deuxième fournée de pain en fin d’après-midi.',
+      'La Boulangerie Petit Pain fabrique chaque jour son pain, ses viennoiseries et ses pâtisseries dans le quartier du Çamas à Marseille, au levain naturel et à la farine locale.\n\nOuvert tous les jours sauf le lundi, avec une deuxième fournée de pain en fin d’après-midi.',
     since: 2008,
     legalForm: 'EURL',
   },
 
   contact: {
     phone: '+33639987087',
-    phoneDisplay: '06 39 98 70 87',
+    phoneDisplay: '06 39 98 70 87',
     email: 'contact@exemple.fr',
     address: { street: '19 rue Sylvabelle', postalCode: '13006', city: 'Marseille' },
     mapsUrl: 'https://maps.google.com/?q=19+rue+Sylvabelle+Marseille',
     hours: [
-      { days: 'Mardi – dimanche', hours: '6h30 – 20h' },
+      { days: 'Mardi – dimanche', hours: '6 h 30 – 20 h' },
       { days: 'Lundi', hours: 'Fermé' },
     ],
     emergency24h: false,
@@ -46,7 +46,7 @@ export default defineSite({
 
   zones: {
     cities: ['Marseille 6e', 'Marseille 5e', 'Marseille 1er', 'Marseille 8e', 'Marseille 4e'],
-    label: 'Quartiers du Camas, Baille et alentours',
+    label: 'Quartiers du Çamas, Baille et alentours',
   },
 
   services: [
@@ -80,7 +80,7 @@ export default defineSite({
       image: { src: '/images/service-3.webp', alt: 'Pâtisseries de saison en vitrine' },
       bullets: ['Fruits de saison', 'Pâtisseries individuelles et à partager', 'Commande possible pour un anniversaire'],
       description:
-        'Les pâtisseries changent avec les saisons : tartes aux fruits, flans, quelques entremets simples. Pour un anniversaire ou un repas de famille, une commande peut être passée quelques jours à l’avance.',
+        'Les pâtisseries changent avec les saisons : tartes aux fruits, flans, quelques entremets simples. Pour un anniversaire ou un repas de famille, une commande peut être passée quelques jours à l’avance.',
     },
     {
       slug: 'snacking',
@@ -106,7 +106,7 @@ export default defineSite({
   about: {
     title: 'La boulangerie',
     story:
-      'Nadia Selim a repris la boulangerie familiale en 2008, après avoir travaillé plusieurs années aux côtés de son père. Elle est passée au levain naturel dès la reprise, un choix qui a demandé deux ans d’ajustements avant de trouver le bon équilibre.\n\nL’équipe compte aujourd’hui quatre personnes : deux en fournil, deux en vente, pour une boulangerie qui reste ouverte six jours sur sept.',
+      'Nadia Selim a repris la boulangerie familiale en 2008, après avoir travaillé plusieurs années aux côtés de son père. Elle est passée au levain naturel dès la reprise, un choix qui a demandé deux ans d’ajustements avant de trouver le bon équilibre.\n\nL’équipe compte aujourd’hui quatre personnes : deux en fournil, deux en vente, pour une boulangerie qui reste ouverte six jours sur sept.',
     portrait: { src: '/images/portrait.webp', alt: 'Devanture de la Boulangerie Petit Pain, rue Sylvabelle' },
   },
 
@@ -114,10 +114,10 @@ export default defineSite({
 
   wording: {
     devis: 'Passer commande',
-    ctaTitle: 'Une commande, un événement&nbsp;? <em>On prépare ça.</em>',
-    ctaText: 'Gâteaux, pièces montées, pains spéciaux : appelez-nous ou passez à la boutique.',
+    ctaTitle: 'Une commande, un événement ? <em>On prépare ça.</em>',
+    ctaText: 'Gâteaux, pièces montées, pains spéciaux : appelez-nous ou passez à la boutique.',
     contactTitle: 'Commander ou nous écrire',
-    contactText: 'Le plus simple : un appel ou un passage à la boutique.',
+    contactText: 'Le plus simple : un appel ou un passage à la boutique.',
   },
   form: { provider: 'none' },
   images: {

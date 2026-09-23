@@ -31,25 +31,25 @@ export default defineSite({
       'Volt & Fils intervient à Villeurbanne et dans l’agglomération lyonnaise pour l’installation électrique, la mise aux normes et le dépannage. Entreprise familiale, deux électriciens qualifiés Qualifelec.\n\nInstallation de bornes de recharge pour véhicules électriques (IRVE) en plus des chantiers électriques classiques.',
     since: 2015,
     legalForm: 'SARL',
-    insurance: 'Assurance décennale AXA n° 447 812 003',
+    insurance: 'Assurance décennale AXA n° 447 812 003',
     certifications: ['Qualifelec', 'IRVE'],
   },
 
   contact: {
     phone: '+33639983043',
-    phoneDisplay: '06 39 98 30 43',
+    phoneDisplay: '06 39 98 30 43',
     email: 'contact@exemple.fr',
     address: { street: '8 cours Émile Zola', postalCode: '69100', city: 'Villeurbanne' },
     mapsUrl: 'https://maps.google.com/?q=8+cours+Emile+Zola+Villeurbanne',
     hours: [
-      { days: 'Lundi – vendredi', hours: '7h30 – 18h' },
+      { days: 'Lundi – vendredi', hours: '7 h 30 – 18 h' },
       { days: 'Samedi', hours: 'Sur rendez-vous' },
     ],
     emergency24h: false,
   },
 
   zones: {
-    cities: ['Villeurbanne', 'Lyon', 'Vaulx-en-Velin', 'Bron', 'Vénissieux', 'Caluire-et-Cuire', 'Rillieux-la-Pape'],
+    cities: ['Villeurbanne', 'Lyon', 'Vaulx-en-Velin', 'Bron', 'Vénissieux', 'Çaluire-et-Cuire', 'Rillieux-la-Pape'],
     label: 'Lyon et agglomération',
   },
 
@@ -63,18 +63,18 @@ export default defineSite({
       image: { src: '/images/service-1.webp', alt: 'Installation électrique sur un chantier neuf' },
       bullets: ['Plan de câblage avec vous', 'Tableau électrique neuf', 'Conformité Consuel'],
       description:
-        'Sur une construction neuve ou une extension, l’installation électrique se pense avant les cloisons : emplacement des prises, des points lumineux, du tableau.\n\nLe chantier se termine par la mise en conformité et le passage du Consuel, obligatoire pour le raccordement définitif.',
+        'Sur une construction neuve ou une extension, l’installation électrique se pense avant les cloisons : emplacement des prises, des points lumineux, du tableau.\n\nLe chantier se termine par la mise en conformité et le passage du Consuel, obligatoire pour le raccordement définitif.',
     },
     {
       slug: 'mise-aux-normes',
       title: 'Mise aux normes',
-      short: 'Tableau électrique vétuste, absence de disjoncteur différentiel : mise en conformité.',
+      short: 'Tableau électrique vétuste, absence de disjoncteur différentiel : mise en conformité.',
       icon: 'Shield',
       featured: true,
       image: { src: '/images/service-2.webp', alt: 'Remplacement d’un tableau électrique vétuste' },
       bullets: ['Diagnostic de l’installation existante', 'Remplacement du tableau', 'Attestation de conformité'],
       description:
-        'Une installation ancienne présente souvent les mêmes défauts : pas de disjoncteur différentiel, tableau saturé, fils sous-dimensionnés. On diagnostique et on met aux normes NF C 15-100.\n\nUtile avant une vente, une location, ou simplement pour dormir tranquille.',
+        'Une installation ancienne présente souvent les mêmes défauts : pas de disjoncteur différentiel, tableau saturé, fils sous-dimensionnés. On diagnostique et on met aux normes NF C 15-100.\n\nUtile avant une vente, une location, ou simplement pour dormir tranquille.',
     },
     {
       slug: 'depannage',
@@ -84,7 +84,7 @@ export default defineSite({
       image: { src: '/images/service-3.webp', alt: 'Dépannage électrique chez un particulier' },
       bullets: ['Recherche de panne', 'Réparation le jour même si possible', 'Devis avant intervention'],
       description:
-        'Un disjoncteur qui saute sans raison apparente, une pièce sans courant : on cherche l’origine du problème plutôt que de simplement réarmer le disjoncteur.\n\nLa plupart des pannes se règlent dans la journée.',
+        'Un disjoncteur qui saute sans raison apparente, une pièce sans courant : on cherche l’origine du problème plutôt que de simplement réarmer le disjoncteur.\n\nLa plupart des pannes se règlent dans la journée.',
     },
     {
       slug: 'irve',
@@ -103,7 +103,7 @@ export default defineSite({
       icon: 'Lightbulb',
       bullets: ['Spots, appliques, éclairage extérieur', 'Détecteurs de mouvement', 'Passage en LED'],
       description:
-        'Refaire l’éclairage d’une pièce, ajouter un détecteur de mouvement sur une entrée, passer en LED pour réduire la facture : on intervient sur l’ensemble du circuit d’éclairage.',
+        'Refaire l’éclairage d’une pièce, ajouter un détecteur de mouvement sur une entrée, passer en LED pour réduire la facture : on intervient sur l’ensemble du circuit d’éclairage.',
     },
   ],
 
@@ -124,15 +124,15 @@ export default defineSite({
     testimonials: [
       { author: 'Nadia B.', text: 'Tableau électrique refait en une journée, travail impeccable et explications claires.', source: 'Google', city: 'Villeurbanne' },
       { author: 'Thomas L.', text: 'Installation de la borne de recharge sans accroc, dossier copropriété géré par eux.', source: 'Google', city: 'Lyon' },
-      { author: 'Camille R.', text: 'Dépannage un samedi matin, rappelés dans l’heure.', source: 'Pages Jaunes', city: 'Bron' },
+      { author: 'Çamille R.', text: 'Dépannage un samedi matin, rappelés dans l’heure.', source: 'Pages Jaunes', city: 'Bron' },
     ],
   },
 
   faq: [
-    { q: 'Intervenez-vous en urgence le week-end ?', a: 'Sur demande, selon disponibilité — contactez par téléphone pour connaître les conditions.' },
-    { q: 'La mise aux normes est-elle obligatoire pour vendre un bien ?', a: 'Un diagnostic électrique est obligatoire pour toute vente d’un logement dont l’installation a plus de quinze ans.' },
-    { q: 'Combien de temps pour installer une borne IRVE ?', a: 'Selon la puissance disponible et la distance au tableau, comptez une demi-journée à une journée complète.' },
-    { q: 'Faites-vous les petits dépannages ?', a: 'Oui, une prise qui ne fonctionne plus ou un interrupteur cassé font partie des interventions courantes.' },
+    { q: 'Intervenez-vous en urgence le week-end ?', a: 'Sur demande, selon disponibilité — contactez par téléphone pour connaître les conditions.' },
+    { q: 'La mise aux normes est-elle obligatoire pour vendre un bien ?', a: 'Un diagnostic électrique est obligatoire pour toute vente d’un logement dont l’installation a plus de quinze ans.' },
+    { q: 'Combien de temps pour installer une borne IRVE ?', a: 'Selon la puissance disponible et la distance au tableau, comptez une demi-journée à une journée complète.' },
+    { q: 'Faites-vous les petits dépannages ?', a: 'Oui, une prise qui ne fonctionne plus ou un interrupteur cassé font partie des interventions courantes.' },
   ],
 
   social: { linkedin: 'https://www.linkedin.com/company/volt-et-fils' },

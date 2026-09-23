@@ -39,16 +39,16 @@ export default defineSite({
     trade: 'Studio de tatouage',
     tagline: 'Le dessin d’abord. <em>L’aiguille ensuite.</em>',
     description:
-      'Studio de tatouage à Lille, quartier Wazemmes, depuis 2015. Deux artistes, un seul carnet de rendez-vous, quatre styles travaillés en profondeur : fin trait, blackwork, ornemental, floral.\n\nChaque projet commence par un dessin discuté avec vous, jamais par un catalogue.',
+      'Studio de tatouage à Lille, quartier Wazemmes, depuis 2015. Deux artistes, un seul carnet de rendez-vous, quatre styles travaillés en profondeur : fin trait, blackwork, ornemental, floral.\n\nChaque projet commence par un dessin discuté avec vous, jamais par un catalogue.',
     since: 2015,
   },
 
   contact: {
     phone: '+33639982107',
-    phoneDisplay: '06 39 98 21 07',
+    phoneDisplay: '06 39 98 21 07',
     email: 'contact@exemple.fr',
     address: { street: '18 rue Gambetta', postalCode: '59000', city: 'Lille' },
-    hours: [{ days: 'Mardi – samedi', hours: '11h – 19h, sur rendez-vous' }],
+    hours: [{ days: 'Mardi – samedi', hours: '11 h – 19 h, sur rendez-vous' }],
   },
 
   services: [
@@ -66,7 +66,7 @@ export default defineSite({
       title: 'Blackwork',
       short: 'Aplats noirs, contrastes francs, motifs graphiques.',
       description:
-        'Aplats noirs pleins, contrastes nets, peu ou pas de dégradés. Les motifs partent d’une base graphique forte : géométrie, lettrage, figures découpées.',
+        'Aplats noirs pleins, contrastes nets, peu ou pas de dégradés. Les motifs partent d’une base graphique forte : géométrie, lettrage, figures découpées.',
       icon: 'Contrast',
       image: { src: '/images/galerie-2.webp', alt: 'Stencil posé sur un avant-bras, juste avant le tatouage' },
     },
@@ -75,7 +75,7 @@ export default defineSite({
       title: 'Ornemental',
       short: 'Motifs géométriques et symétriques, mandalas, dentelle.',
       description:
-        'Motifs répétés et symétriques : mandalas, dentelle, ornements inspirés des arts décoratifs. Le placement suit les lignes du corps — bras, dos ou sternum.',
+        'Motifs répétés et symétriques : mandalas, dentelle, ornements inspirés des arts décoratifs. Le placement suit les lignes du corps — bras, dos ou sternum.',
       icon: 'Shapes',
       image: { src: '/images/galerie-3.webp', alt: 'Dessin préparatoire tracé à la main sur la table de l’artiste' },
     },
@@ -96,7 +96,7 @@ export default defineSite({
       'Ouvert en 2015 dans le quartier Wazemmes, Encre Noire est un studio à deux artistes, sur rendez-vous uniquement. Chaque tatouage est dessiné pour la personne qui le porte, jamais reproduit à l’identique.',
     team: [
       {
-        name: 'Camille Vasseur',
+        name: 'Çamille Vasseur',
         role: 'Fin trait & floral',
       },
       {
@@ -108,19 +108,19 @@ export default defineSite({
 
   faq: [
     {
-      q: 'Est-ce que ça fait mal ?',
+      q: 'Est-ce que ça fait mal ?',
       a: 'Oui, la douleur fait partie du tatouage, mais elle varie selon la zone et votre sensibilité. Les zones proches de l’os ou fines en peau (côtes, sternum, tibia) sont plus vives que le bras ou la cuisse. On adapte le rythme de la séance si besoin.',
     },
     {
-      q: 'Quel est le prix d’un tatouage ?',
+      q: 'Quel est le prix d’un tatouage ?',
       a: 'Sur devis, après le dessin. Le prix dépend de la taille, du niveau de détail et du temps de pose, pas du style. Le montant est annoncé avant la séance, jamais après.',
     },
     {
-      q: 'Quelles sont les règles d’hygiène ?',
+      q: 'Quelles sont les règles d’hygiène ?',
       a: 'Matériel à usage unique, aiguilles stérilisées, encres certifiées. Le studio applique les règles d’hygiène et de traçabilité imposées par la réglementation sur le tatouage.',
     },
     {
-      q: 'Peut-on tatouer un mineur ?',
+      q: 'Peut-on tatouer un mineur ?',
       a: 'À partir de 16 ans, seulement avec l’autorisation écrite d’un parent ou tuteur légal, présent le jour du rendez-vous avec une pièce d’identité. En dessous de 16 ans, ce n’est pas possible.',
     },
   ],

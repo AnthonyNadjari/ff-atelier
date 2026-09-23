@@ -25,7 +25,7 @@ const testimonials = site.proof.testimonials;
       <div class="marquee-track">
         {testimonials.map((t) => (
           <figure class="card inline-flex w-[min(20rem,80vw)] shrink-0 flex-col rounded-card border border-line bg-surface p-6 whitespace-normal align-top">
-            <blockquote class="text-fg">« {t.text} »</blockquote>
+            <blockquote class="text-fg">« {t.text} »</blockquote>
             <figcaption class="mt-4 text-sm text-muted">
               <span class="font-medium text-fg">{t.author}</span>{t.city && <>, {t.city}</>} · via {t.source}
             </figcaption>

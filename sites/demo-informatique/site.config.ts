@@ -29,7 +29,7 @@ export default defineSite({
     trade: 'Dépannage informatique et réseau',
     tagline: 'Un ordinateur qui bloque, un réseau qui rame. <em>On répare, à distance ou chez vous.</em>',
     description:
-      'Pixel Dépannage intervient à Toulouse pour les particuliers et les petites entreprises : dépannage d’ordinateur, installation de réseau, sécurisation et sauvegarde de données.\n\nIntervention à domicile, en atelier ou à distance selon la nature du problème.',
+      'Pixel Dépannage intervient à Toulouse pour les particuliers et les petites entreprises : dépannage d’ordinateur, installation de réseau, sécurisation et sauvegarde de données.\n\nIntervention à domicile, en atelier ou à distance selon la nature du problème.',
     since: 2018,
     legalForm: 'EI',
     certifications: [],
@@ -37,13 +37,13 @@ export default defineSite({
 
   contact: {
     phone: '+33639986076',
-    phoneDisplay: '06 39 98 60 76',
+    phoneDisplay: '06 39 98 60 76',
     email: 'contact@exemple.fr',
     address: { street: '31 rue du Taur', postalCode: '31000', city: 'Toulouse' },
     mapsUrl: 'https://maps.google.com/?q=31+rue+du+Taur+Toulouse',
     hours: [
-      { days: 'Lundi – vendredi', hours: '9h – 19h' },
-      { days: 'Samedi', hours: '10h – 16h' },
+      { days: 'Lundi – vendredi', hours: '9 h – 19 h' },
+      { days: 'Samedi', hours: '10 h – 16 h' },
     ],
     emergency24h: false,
   },
@@ -57,14 +57,14 @@ export default defineSite({
     {
       slug: 'depannage-ordinateur',
       title: 'Dépannage ordinateur et Mac',
-      short: 'Lenteur, écran bleu, panne matérielle : diagnostic et réparation.',
+      short: 'Lenteur, écran bleu, panne matérielle : diagnostic et réparation.',
       icon: 'Monitor',
       featured: true,
-      priceFrom: 'à partir de 39 €',
+      priceFrom: 'à partir de 39 €',
       image: { src: '/images/service-1.webp', alt: 'Réparation d’un ordinateur à l’atelier Pixel Dépannage' },
       bullets: ['Diagnostic gratuit si réparation acceptée', 'PC et Mac', 'Remplacement de pièces si nécessaire'],
       description:
-        'Un ordinateur lent, un écran bleu récurrent, une panne matérielle : le diagnostic permet d’identifier si le problème vient du logiciel, du disque, ou d’un composant à remplacer.\n\nLe devis est communiqué avant toute réparation payante.',
+        'Un ordinateur lent, un écran bleu récurrent, une panne matérielle : le diagnostic permet d’identifier si le problème vient du logiciel, du disque, ou d’un composant à remplacer.\n\nLe devis est communiqué avant toute réparation payante.',
     },
     {
       slug: 'reseau-wifi',
@@ -75,18 +75,18 @@ export default defineSite({
       image: { src: '/images/service-2.webp', alt: 'Installation d’un routeur Wifi chez un client' },
       bullets: ['Installation de box, routeur, répéteurs', 'Réseau filaire pour les zones mal couvertes', 'Configuration Wifi sécurisée'],
       description:
-        'Un Wifi qui ne couvre pas toute la maison, un réseau de bureau mal configuré : on installe et on règle box, répéteurs ou réseau filaire pour une couverture stable.',
+        'Un Wifi qui ne couvre pas toute la maison, un réseau de bureau mal configuré : on installe et on règle box, répéteurs ou réseau filaire pour une couverture stable.',
     },
     {
       slug: 'securite',
       title: 'Sécurité et antivirus',
       short: 'Suppression de virus, configuration d’un antivirus, sécurisation des accès.',
       icon: 'Shield',
-      priceFrom: 'à partir de 49 €',
+      priceFrom: 'à partir de 49 €',
       image: { src: '/images/service-3.webp', alt: 'Configuration d’un antivirus sur un ordinateur' },
       bullets: ['Suppression de virus et logiciels malveillants', 'Installation et configuration d’antivirus', 'Sécurisation des mots de passe et accès'],
       description:
-        'Un ordinateur infecté demande souvent plus qu’un simple scan antivirus : nettoyage complet, vérification des programmes installés, puis mise en place d’une protection durable.',
+        'Un ordinateur infecté demande souvent plus qu’un simple scan antivirus : nettoyage complet, vérification des programmes installés, puis mise en place d’une protection durable.',
     },
     {
       slug: 'sauvegarde',
@@ -103,16 +103,16 @@ export default defineSite({
       title: 'Intervention express à domicile',
       short: 'Déplacement rapide à Toulouse pour les pannes bloquantes.',
       icon: 'Zap',
-      bullets: ['Créneau sous 24h en semaine', 'Diagnostic sur place', 'Intervention à distance possible ensuite'],
+      bullets: ['Créneau sous 24 h en semaine', 'Diagnostic sur place', 'Intervention à distance possible ensuite'],
       description:
-        'Pour une panne qui bloque le travail ou les études, un déplacement rapide est possible dans Toulouse et proche agglomération, avec un créneau généralement sous 24h en semaine.',
+        'Pour une panne qui bloque le travail ou les études, un déplacement rapide est possible dans Toulouse et proche agglomération, avec un créneau généralement sous 24 h en semaine.',
     },
   ],
 
   about: {
     title: 'L’activité',
     story:
-      'Pixel Dépannage est né en 2018, quand Léo Fabre a quitté un poste de technicien réseau en entreprise pour se mettre à son compte. L’idée : proposer aux particuliers et petites structures le même niveau de service qu’en entreprise.\n\nAujourd’hui il intervient seul, à domicile, en atelier ou à distance selon ce que la panne exige.',
+      'Pixel Dépannage est né en 2018, quand Léo Fabre a quitté un poste de technicien réseau en entreprise pour se mettre à son compte. L’idée : proposer aux particuliers et petites structures le même niveau de service qu’en entreprise.\n\nAujourd’hui il intervient seul, à domicile, en atelier ou à distance selon ce que la panne exige.',
     values: [
       { title: 'Diagnostic honnête', text: 'Si la réparation coûte plus cher qu’un remplacement, c’est dit clairement.' },
       { title: 'Données respectées', text: 'Aucune donnée personnelle n’est consultée au-delà de ce que la réparation exige.' },
@@ -127,10 +127,10 @@ export default defineSite({
   },
 
   faq: [
-    { q: 'Intervenez-vous à distance ?', a: 'Oui, pour de nombreuses pannes logicielles, avec votre accord et votre présence devant l’écran.' },
-    { q: 'Mes données sont-elles en sécurité ?', a: 'Aucune donnée personnelle n’est consultée au-delà de ce que la réparation nécessite, et rien n’est conservé après l’intervention.' },
-    { q: 'Proposez-vous une garantie sur les réparations ?', a: 'Oui, trois mois sur la main-d’œuvre et selon le fabricant sur les pièces remplacées.' },
-    { q: 'Travaillez-vous avec les petites entreprises ?', a: 'Oui, installation de réseau, configuration de postes et maintenance ponctuelle font partie des interventions courantes.' },
+    { q: 'Intervenez-vous à distance ?', a: 'Oui, pour de nombreuses pannes logicielles, avec votre accord et votre présence devant l’écran.' },
+    { q: 'Mes données sont-elles en sécurité ?', a: 'Aucune donnée personnelle n’est consultée au-delà de ce que la réparation nécessite, et rien n’est conservé après l’intervention.' },
+    { q: 'Proposez-vous une garantie sur les réparations ?', a: 'Oui, trois mois sur la main-d’œuvre et selon le fabricant sur les pièces remplacées.' },
+    { q: 'Travaillez-vous avec les petites entreprises ?', a: 'Oui, installation de réseau, configuration de postes et maintenance ponctuelle font partie des interventions courantes.' },
   ],
 
   social: { instagram: 'https://www.instagram.com/pixeldepannage', facebook: 'https://www.facebook.com/pixeldepannagetoulouse' },
