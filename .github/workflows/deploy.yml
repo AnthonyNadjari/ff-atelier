@@ -16,7 +16,7 @@ jobs:
     outputs:
       sites: ${{ steps.liste.outputs.sites }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Liste les sites a construire (dossiers de sites/ sans le prefixe _)
         id: liste
@@ -40,9 +40,9 @@ jobs:
       matrix:
         slug: ${{ fromJson(needs.liste-sites.outputs.sites) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
