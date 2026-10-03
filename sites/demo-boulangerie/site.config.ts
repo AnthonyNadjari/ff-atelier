@@ -26,7 +26,7 @@ export default defineSite({
     trade: 'Boulanger-pâtissier',
     tagline: 'Le pain du matin, <em>pétri avant l’aube.</em>',
     description:
-      'La Boulangerie Petit Pain fabrique chaque jour son pain, ses viennoiseries et ses pâtisseries dans le quartier du Çamas à Marseille, au levain naturel et à la farine locale.\n\nOuvert tous les jours sauf le lundi, avec une deuxième fournée de pain en fin d’après-midi.',
+      'La Boulangerie Petit Pain fabrique chaque jour son pain, ses viennoiseries et ses pâtisseries dans le quartier du Camas à Marseille, au levain naturel et à la farine locale.\n\nOuvert tous les jours sauf le lundi, avec une deuxième fournée de pain en fin d’après-midi.',
     since: 2008,
     legalForm: 'EURL',
   },
@@ -46,7 +46,7 @@ export default defineSite({
 
   zones: {
     cities: ['Marseille 6e', 'Marseille 5e', 'Marseille 1er', 'Marseille 8e', 'Marseille 4e'],
-    label: 'Quartiers du Çamas, Baille et alentours',
+    label: 'Quartiers du Camas, Baille et alentours',
   },
 
   services: [

@@ -100,7 +100,21 @@ const MAJUSCULES_ACCENTUEES = {
   Evident: 'Évident', Evit: 'Évit', Etre: 'Être', Ile: 'Île', Ilot: 'Îlot', Ame: 'Âme',
   Age: 'Âge', Oeuvr: 'Œuvr', Ca: 'Ça',
 };
-const RE_MAJ_ACCENT = new RegExp(`\\b(?:${Object.keys(MAJUSCULES_ACCENTUEES).join('|')})`, 'g');
+/**
+ * Entrees qui sont des MOTS ENTIERS : elles doivent etre bornees des deux cotes. Sans cette borne,
+ * `Ca` matchait le debut de « Cabinet », « Carte », « Camille », « Castelnau »... et le site
+ * affichait « Çabinet » (repere le 3 oct 2026, apres une correction en masse). Les autres entrees
+ * de la table sont de vrais prefixes de famille (Elagu-, Equip-, Electric-) et gardent leur
+ * comportement : on veut « Elagage » ET « Elaguer ».
+ */
+const MAJ_MOTS_ENTIERS = new Set(['Ca', 'Age', 'Ame', 'Ile', 'Ete', 'Etat', 'Ecran', 'Email', 'Evier', 'Etage', 'Ilot', 'Eglise', 'Edition', 'Element', 'Etude', 'Epicerie', 'Epaisseur', 'Evenement']);
+
+const RE_MAJ_ACCENT = new RegExp(
+  Object.keys(MAJUSCULES_ACCENTUEES)
+    .map((k) => (MAJ_MOTS_ENTIERS.has(k) ? `\\b${k}\\b` : `\\b${k}`))
+    .join('|'),
+  'g',
+);
 
 /** Unites collees au nombre : la valeur et son unite sont separees par une insecable. */
 const UNITES = ['km', 'cm', 'mm', 'kg', 'mL', 'cL', 'min', 'm²', 'm2', '°C', '%', '€', '$'];
@@ -449,7 +463,12 @@ export function textesVisibles(html) {
     .replace(BLOCS_OPAQUES, ' ')
     .replace(/<!--[\s\S]*?-->/g, ' ')
     .split(/<[^>]*>/)
-    .map((s) => decoderEntites(s).replace(/\s+/g, ' ').trim())
+    // On normalise les blancs ORDINAIRES (retours a la ligne et indentation du HTML) mais JAMAIS
+    // les insecables : la classe \s couvre U+00A0 et U+202F, et les ecraser ici revenait a
+    // chercher des espaces insecables apres les avoir supprimees — un texte parfaitement
+    // compose etait signale en faute (prix, heures, unites, ponctuation : quatre fausses
+    // infractions sur un seul paragraphe, repere le 3 oct 2026).
+    .map((s) => decoderEntites(s).replace(/[\t\n\f\r ]+/g, ' ').replace(/^ | $/g, ''))
     .filter((s) => s.length > 1 && /\p{L}|\d/u.test(s));
 }
 
@@ -625,9 +644,30 @@ export function corrigerLitteral(corps, quote = "'") {
  * Reecrit le texte visible d'un fichier `.astro` : le frontmatter (entre les deux `---`), les
  * blocs script/style, les balises, les attributs et les expressions `{...}` sont laisses intacts.
  */
+/**
+ * Attributs qui portent du texte LU par un humain. Leur valeur est corrigee ; tous les autres
+ * attributs (class, href, id, data-* techniques...) restent intouchables.
+ */
+const ATTRIBUTS_TEXTE = /\b(alt|title|placeholder|aria-label|aria-description|aria-placeholder|data-erreur-[a-z-]+|data-message|data-libelle|set:html|set:text)\s*=\s*"([^"{}]*)"/gi;
+
+/** Corrige le texte francais porte par les attributs lisibles, sans toucher au reste de la balise. */
+function corrigerAttributsTexte(src) {
+  return String(src).replace(ATTRIBUTS_TEXTE, (tout, nom, valeur) => {
+    // Une valeur qui ressemble a du technique (pas de lettre accentuee ni d'espace) est laissee.
+    if (!/[A-Za-zÀ-ÿ]/.test(valeur)) return tout;
+    const corrige = corrigerTexte(valeur);
+    return corrige === valeur ? tout : `${nom}="${corrige}"`;
+  });
+}
+
 export function corrigerSourceAstro(source) {
-  const src = String(source);
+  const src = corrigerAttributsTexte(String(source));
   const mFront = /^---\r?\n[\s\S]*?\r?\n---/.exec(src);
+  // Le frontmatter n'est JAMAIS corrige. Essaye le 3 oct 2026 via `corrigerSourceTs` : ses
+  // litteraux ne sont pas de la prose, ils construisent du CSS et des listes de classes
+  // (`--font-${slot}:...`, `background-image:url(...)`) — le correcteur y a transforme `--font`
+  // en tiret cadratin et insere des espaces avant les `;`, cassant le style de tous les sites.
+  // Une phrase francaise ecrite en frontmatter se corrige a la main, c'est plus sur.
   const front = mFront ? mFront[0] : '';
   const corps = src.slice(front.length);
 

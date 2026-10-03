@@ -49,7 +49,7 @@ export default defineSite({
   },
 
   zones: {
-    cities: ['Villeurbanne', 'Lyon', 'Vaulx-en-Velin', 'Bron', 'Vénissieux', 'Çaluire-et-Cuire', 'Rillieux-la-Pape'],
+    cities: ['Villeurbanne', 'Lyon', 'Vaulx-en-Velin', 'Bron', 'Vénissieux', 'Caluire-et-Cuire', 'Rillieux-la-Pape'],
     label: 'Lyon et agglomération',
   },
 
@@ -124,7 +124,7 @@ export default defineSite({
     testimonials: [
       { author: 'Nadia B.', text: 'Tableau électrique refait en une journée, travail impeccable et explications claires.', source: 'Google', city: 'Villeurbanne' },
       { author: 'Thomas L.', text: 'Installation de la borne de recharge sans accroc, dossier copropriété géré par eux.', source: 'Google', city: 'Lyon' },
-      { author: 'Çamille R.', text: 'Dépannage un samedi matin, rappelés dans l’heure.', source: 'Pages Jaunes', city: 'Bron' },
+      { author: 'Camille R.', text: 'Dépannage un samedi matin, rappelés dans l’heure.', source: 'Pages Jaunes', city: 'Bron' },
     ],
   },
 

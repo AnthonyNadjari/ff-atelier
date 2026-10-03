@@ -213,18 +213,22 @@ test('corrigerSourceAstro : frontmatter, balises et expressions intacts', () => 
   const src = [
     '---',
     "import { site } from '@/lib/site';",
-    "const titre = \"l'atelier ?\";",
+    'const style = `--font-${slot}:${famille};`;',
     '---',
     '<section id="menu" class="section-y">',
     '  <h2 set:html={site.wording.ctaTitle}>Nos plats du jour</h2>',
-    "  <p>Bonjour l'ami! Le \"vrai\" gout.</p>",
+    '  <p>Bonjour l\'ami! Le "vrai" gout.</p>',
     '</section>',
   ].join('\n');
   const out = corrigerSourceAstro(src);
-  assert.ok(out.includes("const titre = \"l'atelier ?\";"), 'le frontmatter ne bouge pas');
-  assert.ok(out.includes('class="section-y"'), "l'attribut ne bouge pas");
+  // Le frontmatter n'est JAMAIS corrige : ses litteraux ne sont pas de la prose, ils construisent
+  // du CSS et des listes de classes. Essaye le 3 oct 2026, le correcteur y a change `--font` en
+  // tiret cadratin et insere des espaces avant les `;`, cassant le style de tous les sites.
+  assert.ok(out.includes('const style = `--font-${slot}:${famille};`;'), 'le frontmatter ne bouge pas');
+  assert.ok(out.includes('class="section-y"'), "l'attribut technique ne bouge pas");
   assert.ok(out.includes('{site.wording.ctaTitle}'), "l'expression ne bouge pas");
-  assert.ok(out.includes(`Bonjour l’ami${FINE}!`), out);
+  // Le texte lu par un humain, lui, est corrige.
+  assert.ok(out.includes(`Bonjour l\u2019ami${FINE}!`), out);
   assert.ok(out.includes(`«${FINE}vrai${FINE}»`), out);
 });
 
@@ -275,4 +279,25 @@ test('typo : jamais de sentinelle ecrite dans un fichier', async () => {
   const src = '---\n---\n<p set:html={site.wording.ctaTitle}>Un texte avec un prix de 1200 € ici.</p>\n';
   const out = corrigerSourceAstro(src);
   assert.doesNotMatch(out, /[\uF000-\uF8FF]/, 'une sentinelle a fuite dans la sortie');
+});
+
+test('typo : un HTML parfaitement compose ne declenche aucune infraction', async () => {
+  const { analyserHtml } = await import('../scripts/ff/typo.mjs');
+  const html = '<p>à partir de 1 200 € — 72 h — 10 %  : oui</p>';
+  assert.deepEqual(analyserHtml(html).map((i) => i.id), [], 'les insecables ne doivent pas etre ecrasees avant le controle');
+});
+
+test('typo : les majuscules accentuees ne devorent pas le mot suivant', async () => {
+  const { corrigerTexte } = await import('../scripts/ff/typo.mjs');
+  // Mots entiers : bornes des deux cotes. « Ca » traite en prefixe avait produit « Çabinet »,
+  // « Çarte », « Çamille » EN CLAIR sur les sites (3 oct 2026).
+  for (const intact of ['Cabinet de curiosites', 'Carte des vins', 'Camille Dupont', 'Agencement sur mesure', 'Castelnau']) {
+    assert.equal(corrigerTexte(intact), intact, `mot abime : ${intact}`);
+  }
+  // Mais le mot entier, lui, prend bien son accent.
+  assert.equal(corrigerTexte('Ca ira'), 'Ça ira');
+  assert.equal(corrigerTexte('Age du client'), 'Âge du client');
+  // Et les vrais prefixes de famille continuent de fonctionner.
+  assert.equal(corrigerTexte('Etanche'), 'Étanche');
+  assert.equal(corrigerTexte('Elagage'), 'Élagage');
 });

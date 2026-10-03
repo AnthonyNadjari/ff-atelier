@@ -39,7 +39,7 @@ export default defineSite({
     trade: 'Studio de tatouage',
     tagline: 'Le dessin d’abord. <em>L’aiguille ensuite.</em>',
     description:
-      'Studio de tatouage à Lille, quartier Wazemmes, depuis 2015. Deux artistes, un seul carnet de rendez-vous, quatre styles travaillés en profondeur : fin trait, blackwork, ornemental, floral.\n\nChaque projet commence par un dessin discuté avec vous, jamais par un catalogue.',
+      'Studio de tatouage au 18 rue Gambetta, à Wazemmes, depuis 2015. Deux artistes, un seul carnet de rendez-vous. Fin trait, blackwork, ornemental, floral : quatre styles, et rien au-delà.\n\nUn projet commence toujours par un dessin, discuté avec vous. Pas par un catalogue de motifs à choisir sur place.',
     since: 2015,
   },
 
@@ -55,36 +55,36 @@ export default defineSite({
     {
       slug: 'fin-trait',
       title: 'Fin trait',
-      short: 'Lignes fines, continues, sans remplissage lourd.',
+      short: 'Un trait continu, fin, sans ombrage.',
       description:
-        'Un trait continu, fin, sans ombrage. Convient aux formats discrets comme aux pièces plus grandes quand la composition le permet. Cicatrise bien si l’épaisseur du trait est pensée dès le dessin.',
+        'Un trait continu, fin, sans ombrage. Ça tient sur un format discret comme sur une grande pièce, quand la composition le permet.\n\nL’épaisseur du trait se décide au dessin. C’est de là que dépend la bonne cicatrisation, pas du format.',
       icon: 'PenLine',
       image: { src: '/images/galerie-1.webp', alt: 'Tatouage fin trait sur avant-bras, tracé d’électrocardiogramme et lettrage' },
     },
     {
       slug: 'blackwork',
       title: 'Blackwork',
-      short: 'Aplats noirs, contrastes francs, motifs graphiques.',
+      short: 'Du noir plein, des contrastes nets, et presque aucun dégradé.',
       description:
-        'Aplats noirs pleins, contrastes nets, peu ou pas de dégradés. Les motifs partent d’une base graphique forte : géométrie, lettrage, figures découpées.',
+        'Du noir plein, posé en aplats, avec des contrastes nets et peu de dégradés. La base reste graphique : une géométrie, un lettrage, une figure découpée.',
       icon: 'Contrast',
       image: { src: '/images/galerie-2.webp', alt: 'Stencil posé sur un avant-bras, juste avant le tatouage' },
     },
     {
       slug: 'ornemental',
       title: 'Ornemental',
-      short: 'Motifs géométriques et symétriques, mandalas, dentelle.',
+      short: 'Mandalas, dentelle, ornements qui se répètent et suivent le corps.',
       description:
-        'Motifs répétés et symétriques : mandalas, dentelle, ornements inspirés des arts décoratifs. Le placement suit les lignes du corps — bras, dos ou sternum.',
+        'Des motifs qui se répètent et se répondent : mandalas, dentelle, ornements venus des arts décoratifs.\n\nLe placement compte autant que le dessin. Bras, dos, sternum : on suit les lignes du corps plutôt que de les contrarier.',
       icon: 'Shapes',
       image: { src: '/images/galerie-3.webp', alt: 'Dessin préparatoire tracé à la main sur la table de l’artiste' },
     },
     {
       slug: 'floral',
       title: 'Floral',
-      short: 'Fleurs et végétaux, du bouton discret à la pièce large.',
+      short: 'Fleurs, feuillages, branches. Du poignet à tout l’avant-bras.',
       description:
-        'Fleurs, feuillages et branches, en noir ou avec un peu de couleur. D’un petit bouton au poignet à une composition qui court sur tout l’avant-bras.',
+        'Fleurs, feuillages, branches. En noir, ou avec un peu de couleur.\n\nÇa va du petit bouton au poignet à une composition qui court sur tout l’avant-bras.',
       icon: 'Flower2',
       image: { src: '/images/galerie-4.webp', alt: 'Manche florale en cours, motifs de feuilles et de fleurs' },
     },
@@ -93,10 +93,10 @@ export default defineSite({
   about: {
     title: 'Le studio',
     story:
-      'Ouvert en 2015 dans le quartier Wazemmes, Encre Noire est un studio à deux artistes, sur rendez-vous uniquement. Chaque tatouage est dessiné pour la personne qui le porte, jamais reproduit à l’identique.',
+      'Le studio a ouvert en 2015, 18 rue Gambetta, à Wazemmes. Deux artistes, un seul carnet de rendez-vous, et rien sans rendez-vous.\n\nUn dessin n’est jamais reproduit à l’identique pour quelqu’un d’autre. Il est fait pour la personne qui le porte.',
     team: [
       {
-        name: 'Çamille Vasseur',
+        name: 'Camille Vasseur',
         role: 'Fin trait & floral',
       },
       {
@@ -109,15 +109,15 @@ export default defineSite({
   faq: [
     {
       q: 'Est-ce que ça fait mal ?',
-      a: 'Oui, la douleur fait partie du tatouage, mais elle varie selon la zone et votre sensibilité. Les zones proches de l’os ou fines en peau (côtes, sternum, tibia) sont plus vives que le bras ou la cuisse. On adapte le rythme de la séance si besoin.',
+      a: 'Oui. Ça varie selon la zone et selon vous : les côtes, le sternum, le tibia sont plus vifs que le bras ou la cuisse, la peau y est fine et l’os juste dessous. Et on adapte le rythme de la séance si besoin.',
     },
     {
       q: 'Quel est le prix d’un tatouage ?',
-      a: 'Sur devis, après le dessin. Le prix dépend de la taille, du niveau de détail et du temps de pose, pas du style. Le montant est annoncé avant la séance, jamais après.',
+      a: 'Sur devis, et seulement après le dessin. Ce qui compte, c’est la taille, le détail, le temps de pose. Pas le style. Le montant est annoncé avant la séance, jamais après.',
     },
     {
       q: 'Quelles sont les règles d’hygiène ?',
-      a: 'Matériel à usage unique, aiguilles stérilisées, encres certifiées. Le studio applique les règles d’hygiène et de traçabilité imposées par la réglementation sur le tatouage.',
+      a: 'Matériel à usage unique, aiguilles stérilisées, encres certifiées. Hygiène et traçabilité suivent la réglementation sur le tatouage, qui n’a rien d’optionnel.',
     },
     {
       q: 'Peut-on tatouer un mineur ?',

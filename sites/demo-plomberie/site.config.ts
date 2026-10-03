@@ -116,7 +116,7 @@ export default defineSite({
     values: [
       { title: 'Réactivité', text: 'Le téléphone est pris directement, pas de standard ni de plateforme.' },
       { title: 'Devis avant travaux', text: 'Sauf urgence, rien n’est fait sans accord préalable sur le prix.' },
-      { title: 'Matériel professionnel', text: 'Çaméra d’inspection, hydrocureuse : le bon outil pour le bon problème.' },
+      { title: 'Matériel professionnel', text: 'Caméra d’inspection, hydrocureuse : le bon outil pour le bon problème.' },
     ],
     portrait: { src: '/images/portrait.webp', alt: 'Julien Dumont, plombier-chauffagiste, Plomberie Dumont' },
   },

@@ -37,7 +37,7 @@ export default defineSite({
     trade: 'Photographe de mariage et de famille',
     tagline: 'Vos journées, <em>racontées sans les rejouer.</em>',
     description:
-      'Photographe de mariage et de famille à Bordeaux depuis 2013. Argentique pour la cérémonie, numérique pour le reste, toujours dans la discrétion. Déplacements en Nouvelle-Aquitaine et au-delà.',
+      'Je photographie des mariages et des familles à Bordeaux depuis 2013. L’argentique est réservé à la cérémonie. Le reste de la journée se fait en numérique.\n\nJe travaille en retrait, sans rien faire rejouer. Et je me déplace en Nouvelle-Aquitaine, parfois plus loin.',
     since: 2013,
   },
 
@@ -55,7 +55,7 @@ export default defineSite({
     {
       slug: 'mariage',
       title: 'Mariage',
-      short: 'Journée complète, des préparatifs à l’ouverture du bal.',
+      short: 'La journée entière, des préparatifs au bal. Galerie sous 6 semaines.',
       icon: 'Camera',
       featured: true,
       bullets: [
@@ -69,11 +69,11 @@ export default defineSite({
     {
       slug: 'elopement',
       title: 'Élopement',
-      short: 'Un jour, deux personnes, un lieu choisi ensemble.',
+      short: 'Une journée à deux, dans un lieu choisi ensemble.',
       icon: 'Heart',
       featured: true,
       bullets: [
-        'Un jour, deux personnes, un lieu choisi ensemble',
+        'La date et le lieu se décident ensemble',
         'Repérage et lumière pensés en amont',
         'Reportage libre, sans mise en scène',
         'Galerie complète sous 3 semaines',
@@ -83,7 +83,7 @@ export default defineSite({
     {
       slug: 'famille',
       title: 'Famille',
-      short: 'Une séance chez vous ou dehors, au rythme des enfants.',
+      short: 'Une heure chez vous, ou dehors. Au rythme des enfants, pas du mien.',
       icon: 'Users',
       featured: true,
       bullets: [
@@ -97,7 +97,7 @@ export default defineSite({
     {
       slug: 'portrait',
       title: 'Portrait',
-      short: 'Une courte séance en lumière naturelle, à Bordeaux.',
+      short: 'Une séance courte, en lumière naturelle. Une dizaine de photos, livrées sous deux semaines.',
       icon: 'Aperture',
       bullets: [
         'Séance courte en lumière naturelle',
@@ -111,7 +111,7 @@ export default defineSite({
 
   about: {
     story:
-      'Anna Vidal photographie des mariages et des familles à Bordeaux depuis 2013, en argentique et en numérique.\n\nElle se déplace en Nouvelle-Aquitaine et au-delà, et travaille en retrait, sans mise en scène.',
+      'Je photographie des mariages et des familles depuis 2013, à Bordeaux. L’argentique pour la cérémonie, le numérique pour le reste de la journée.\n\nJe reste en retrait et je ne fais rien rejouer. Une sortie d’église se passe une fois ; si je l’ai manquée, je l’ai manquée.',
   },
 
   faq: [
@@ -121,21 +121,21 @@ export default defineSite({
     },
     {
       q: 'Combien de photos vais-je recevoir ?',
-      a: 'Cela dépend de la durée de la séance et de ce qu’il s’y passe, pas d’un chiffre fixé à l’avance. Pour un mariage, comptez plusieurs centaines de photos ; pour une séance famille ou portrait, quelques dizaines, sélectionnées.',
+      a: 'Pas de nombre promis à l’avance : ça dépend de la durée et de ce qui s’y passe. Pour un mariage, comptez plusieurs centaines de photos. Pour une famille ou un portrait, quelques dizaines, triées.',
     },
     {
       q: 'Vous déplacez-vous en dehors de Bordeaux ?',
-      a: 'Oui, régulièrement, en Nouvelle-Aquitaine et au-delà. Les frais de déplacement au-delà d’un certain rayon autour de Bordeaux sont ajoutés au devis, en toute transparence.',
+      a: 'Oui, régulièrement, en Nouvelle-Aquitaine et plus loin quand il faut. Et au-delà d’un certain rayon autour de Bordeaux, les frais de déplacement apparaissent sur le devis, en ligne à part.',
     },
     {
       q: 'Puis-je utiliser mes photos comme je le souhaite ?',
-      a: 'Les photos livrées sont à vous, pour un usage personnel et privé : tirages, albums, partage à vos proches. Pour tout usage commercial ou publication professionnelle, on en parle avant, simplement.',
+      a: 'Elles sont à vous, pour un usage personnel et privé : tirages, albums, partage à vos proches. Pour un usage commercial ou une publication professionnelle, dites-le-moi avant.',
     },
   ],
 
   wording: {
     devis: 'Raconter votre journée',
-    ctaTitle: 'Une date ? <em>Écrivez-la moi.</em>',
+    ctaTitle: 'Une date ? <em>Écrivez-la-moi.</em>',
     contactTitle: 'Raconter votre journée',
     contactText: 'La date, le lieu, ce que vous imaginez. Je réponds sous 48 h.',
   },

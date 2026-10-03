@@ -71,10 +71,10 @@ export default defineSite({
     },
     {
       slug: 'agencement',
-      title: 'Âgencement sur mesure',
+      title: 'Agencement sur mesure',
       short: 'Rangements, cuisine, bibliothèque : le mobilier dessiné pour l’espace exact.',
       icon: 'House',
-      image: { src: '/images/service-3.webp', alt: 'Âgencement sur mesure d’un rangement' },
+      image: { src: '/images/service-3.webp', alt: 'Agencement sur mesure d’un rangement' },
       bullets: ['Dessin technique pour le menuisier', 'Optimisation des volumes atypiques', 'Choix des matériaux et finitions'],
       description:
         'Les volumes parisiens sont rarement simples : sous pente, alcôve, angle mort. L’agencement sur mesure tire parti de ces contraintes plutôt que de les subir, avec un dessin technique transmis au menuisier.',
@@ -103,14 +103,14 @@ export default defineSite({
   about: {
     title: 'L’agence',
     story:
-      'Çamille Roux a fondé son agence en 2016 après six ans passés dans un cabinet d’architecture parisien, sur des projets résidentiels de plus grande échelle. Elle a choisi de se concentrer sur l’appartement parisien, un format qu’elle connaît par cœur.\n\nL’agence reste volontairement petite : deux personnes, pour garder un contact direct avec chaque client et chaque artisan du chantier.',
+      'Camille Roux a fondé son agence en 2016 après six ans passés dans un cabinet d’architecture parisien, sur des projets résidentiels de plus grande échelle. Elle a choisi de se concentrer sur l’appartement parisien, un format qu’elle connaît par cœur.\n\nL’agence reste volontairement petite : deux personnes, pour garder un contact direct avec chaque client et chaque artisan du chantier.',
     milestones: [
       { year: '2016', text: 'Création de l’agence après six ans en cabinet d’architecture.' },
       { year: '2018', text: 'Premier projet publié dans un magazine de décoration.' },
       { year: '2021', text: 'Arrivée d’une seconde architecte d’intérieur dans l’équipe.' },
       { year: '2024', text: 'Cinquantième projet de rénovation livré dans le 11e arrondissement.' },
     ],
-    portrait: { src: '/images/portrait.webp', alt: 'Çamille Roux, architecte d’intérieur, Atelier Roux Architecture' },
+    portrait: { src: '/images/portrait.webp', alt: 'Camille Roux, architecte d’intérieur, Atelier Roux Architecture' },
   },
 
   proof: {
@@ -149,5 +149,5 @@ export default defineSite({
     hero: { src: '/images/hero.webp', alt: 'Intérieur d’un appartement parisien rénové par l’Atelier Roux Architecture' },
   },
   seo: { keywords: ['architecte intérieur Paris', 'rénovation appartement Paris 11', 'agencement sur mesure Paris', 'architecte 11e arrondissement'] },
-  legal: { owner: 'Çamille Roux' },
+  legal: { owner: 'Camille Roux' },
 });

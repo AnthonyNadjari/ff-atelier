@@ -69,7 +69,7 @@ export default defineSite({
     trade: "Architecte d’intérieur",
     tagline: 'Redessiner un lieu <em>sans le trahir.</em>',
     description:
-      "Studio Ambre accompagne particuliers et commerçants du 10e arrondissement dans la transformation de leur espace — appartements haussmanniens, boutiques, cabinets. Léa Bonnet part de ce qui existe déjà : la lumière, les proportions, la matière, avant d’y ajouter quoi que ce soit.\n\nSeule à la conception, épaulée d’un collaborateur pour le suivi de chantier, elle mène un nombre volontairement restreint de projets à la fois.",
+      'Léa Bonnet dessine des appartements, des boutiques et des cabinets depuis le 31 rue des Vinaigriers, dans le 10e. Elle part de ce qui est déjà là : la lumière, les proportions, la matière.\n\nSeule à la conception, avec un collaborateur pour le suivi de chantier. Peu de projets menés à la fois, et c’est un choix : celle qui dessine est aussi celle qui suit le chantier jusqu’à la réception.',
     since: 2015,
   },
 
@@ -94,9 +94,9 @@ export default defineSite({
     {
       slug: 'conseil',
       title: 'Conseil',
-      short: 'Une visite de deux heures pour évaluer le potentiel du lieu.',
+      short: 'Deux heures sur place, avant tout engagement.',
       description:
-        "La première rencontre a lieu chez vous. Deux heures pour observer la lumière, les volumes, les contraintes du bâti, et écouter ce que vous attendez du lieu.\n\nElle se conclut par des pistes concrètes, avant tout engagement sur la suite.",
+        'La première rencontre a lieu chez vous. Deux heures. On regarde la lumière, les volumes, ce que le bâti autorise, et on écoute ce que vous attendez de la pièce.\n\nÀ la fin, vous repartez avec des pistes. Rien n’est engagé pour autant : la conception se décide après, ou pas du tout.',
       bullets: ['Visite sur place, deux heures', 'Lecture de la lumière et des volumes', 'Premières pistes concrètes'],
       icon: 'Compass',
       featured: true,
@@ -104,9 +104,9 @@ export default defineSite({
     {
       slug: 'conception',
       title: 'Conception',
-      short: 'Plans, volumes en 3D et choix des matériaux.',
+      short: 'Le dossier avec lequel on consulte les artisans : plans, 3D, matériaux.',
       description:
-        "Plans à l’échelle, volumes en 3D, palette de matériaux : le dossier complet qui permet de se projeter avant travaux, puis de consulter les artisans sur une base précise.",
+        'Plans à l’échelle, volumes en 3D, palette de matériaux. Le dossier sert deux fois : à se projeter avant les travaux, puis à consulter les artisans sur une base précise.\n\nUn devis d’artisan ne vaut que ce que vaut le dessin qu’on lui donne.',
       bullets: ['Plans et implantation', 'Volumes 3D', 'Sélection des matériaux'],
       icon: 'PenTool',
       featured: true,
@@ -114,9 +114,9 @@ export default defineSite({
     {
       slug: 'suivi-chantier',
       title: 'Suivi de chantier',
-      short: 'Coordination des corps de métier jusqu’à la réception.',
+      short: 'Un seul interlocuteur sur le chantier, jusqu’à la réception.',
       description:
-        "Le studio coordonne les artisans, visite le chantier régulièrement et reste l’interlocuteur unique jusqu’à la réception des travaux.",
+        'Les artisans sont coordonnés par le studio, pas par vous. Visites régulières, un seul interlocuteur, jusqu’à la réception des travaux.\n\nCelle qui a dessiné le projet est celle qui vient sur le chantier.',
       bullets: ['Coordination des artisans', 'Visites régulières', 'Réception des travaux'],
       icon: 'HardHat',
       featured: true,
@@ -124,9 +124,9 @@ export default defineSite({
     {
       slug: 'amenagement-boutique',
       title: 'Aménagement de boutique',
-      short: 'Âgencement de commerces et de cabinets, de la vitrine à la caisse.',
+      short: 'Même méthode pour un commerce : vitrine, circulation, éclairage, caisse.',
       description:
-        "Même méthode appliquée aux lieux qui reçoivent du public : vitrine, circulation, éclairage, poste de caisse ou d’accueil — pensés pour l’usage autant que pour l’image.",
+        'Même méthode pour les lieux qui reçoivent du public. La vitrine, le sens de circulation, l’éclairage, le poste de caisse ou d’accueil.\n\nUn commerce se juge à l’usage avant de se juger en photo.',
       bullets: ['Vitrine et circulation', 'Éclairage et matériaux', 'Poste de caisse ou d’accueil'],
       icon: 'Store',
       featured: false,
@@ -136,7 +136,7 @@ export default defineSite({
   about: {
     title: 'Une manière de travailler',
     story:
-      "Léa Bonnet a fondé Studio Ambre en 2015, à Paris. Elle travaille seule sur la conception, avec un collaborateur pour le suivi de chantier.\n\nPas de catalogue ni de style imposé : chaque projet part du lieu tel qu’il est.",
+      'Léa Bonnet a fondé Studio Ambre en 2015, rue des Vinaigriers. Elle dessine seule, avec un collaborateur pour le suivi de chantier.\n\nPas de catalogue, pas de style maison. Un projet part du lieu tel qu’il est, et parfois la bonne réponse consiste à ne presque rien changer.',
     values: [
       { title: 'Le lieu avant le style', text: "La lumière, les proportions et la structure existante orientent chaque décision, avant toute question de tendance." },
       { title: 'Peu de projets, beaucoup d’attention', text: "Un nombre de dossiers volontairement limité, pour rester présente du premier croquis à la réception du chantier." },
@@ -145,10 +145,10 @@ export default defineSite({
   },
 
   faq: [
-    { q: 'Comment se passe la première visite ?', a: "Une visite de deux heures sur place, pour évaluer le potentiel du lieu et esquisser des pistes, avant tout engagement." },
+    { q: 'Comment se passe la première visite ?', a: 'Deux heures sur place, chez vous. On regarde, on écoute, on esquisse des pistes. Rien n’est engagé à ce stade.' },
     { q: 'Travaillez-vous en dehors de Paris ?', a: 'Le studio intervient à Paris et dans les communes limitrophes : Montreuil, Vincennes, Saint-Ouen, Boulogne.' },
-    { q: 'Suivez-vous le chantier jusqu’au bout ?', a: "Oui. La coordination des artisans et les visites de suivi font partie de la mission de conception, jusqu’à la réception des travaux." },
-    { q: 'Le studio s’occupe-t-il aussi de boutiques ?', a: "Oui, en complément des appartements, le studio aménage également des boutiques et des cabinets." },
+    { q: 'Suivez-vous le chantier jusqu’au bout ?', a: 'Jusqu’à la réception des travaux, oui. La coordination des artisans et les visites de suivi font partie de la mission de conception.' },
+    { q: 'Le studio s’occupe-t-il aussi de boutiques ?', a: 'Oui, des boutiques et des cabinets, en plus des appartements. Et la méthode ne change pas.' },
   ],
 
   form: { provider: 'mailto' },

@@ -82,7 +82,7 @@ export default defineSite({
     trade: 'Vétérinaire',
     tagline: 'Chiens, chats, NAC : <em>la même équipe depuis 2009.</em>',
     description:
-      'Depuis 2009, la Clinique vétérinaire du Drac soigne les chiens, les chats et les nouveaux animaux de compagnie (lapins, rongeurs) à Saint-Martin-d’Hères, à la limite de Grenoble.\n\nTrois vétérinaires se relaient pour les consultations, la chirurgie, la dentisterie et l’imagerie. Aux heures d’ouverture, les urgences sont prises en charge sur place ; en dehors, un service de garde de l’agglomération prend le relais.',
+      'La clinique est au 18 avenue Gabriel-Péri, à Saint-Martin-d’Hères, à quelques mètres de la limite de Grenoble. Elle soigne les chiens, les chats et les nouveaux animaux de compagnie, lapins et rongeurs compris, depuis 2009.\n\nTrois vétérinaires se relaient pour les consultations, la chirurgie, la dentisterie et l’imagerie. Aux heures d’ouverture, les urgences sont prises en charge sur place ; en dehors, un service de garde de l’agglomération prend le relais.',
     since: 2009,
     legalForm: 'SELARL',
     schemaType: 'VeterinaryCare',
@@ -112,7 +112,7 @@ export default defineSite({
     {
       slug: 'consultations',
       title: 'Consultations',
-      short: 'Examen clinique, conseil et suivi, pour chiens, chats et NAC.',
+      short: 'Examen clinique, conseil, suivi. Consultation à 36 €, à titre indicatif.',
       description:
         'La consultation commence toujours par une observation et des questions sur l’animal et son quotidien.\n\nUn devis est remis avant tout acte complémentaire. Consultation : 36 €, à titre indicatif.',
       icon: 'Stethoscope',
@@ -122,14 +122,14 @@ export default defineSite({
     {
       slug: 'vaccinations',
       title: 'Vaccinations',
-      short: 'Primo-vaccination et rappels, carnet de santé tenu à jour.',
+      short: 'Primo-vaccination puis rappels, sur rendez-vous comme une consultation.',
       icon: 'Syringe',
-      bullets: ['Rappel annuel', 'Çarnet de santé à jour', 'Conseil selon le mode de vie de l’animal'],
+      bullets: ['Rappel annuel', 'Mise à jour du carnet de santé', 'Conseil selon le mode de vie de l’animal'],
     },
     {
       slug: 'chirurgie-de-convenance',
       title: 'Chirurgie de convenance',
-      short: 'Stérilisations et interventions courantes, sous anesthésie surveillée.',
+      short: 'Stérilisations et interventions courantes. Et l’animal doit être à jeun depuis la veille au soir.',
       icon: 'Scissors',
       bullets: ['Animal à jeun depuis la veille au soir', 'Suivi post-opératoire'],
     },
@@ -142,7 +142,7 @@ export default defineSite({
     {
       slug: 'imagerie',
       title: 'Imagerie',
-      short: 'Radiographie et échographie sur place, pour un diagnostic plus précis.',
+      short: 'Radiographie et échographie dans la clinique même.',
       icon: 'Scan',
     },
     {
@@ -156,7 +156,7 @@ export default defineSite({
 
   about: {
     story:
-      'La clinique a ouvert ses portes en 2009, avenue Gabriel-Péri, à quelques mètres de la limite entre Saint-Martin-d’Hères et Grenoble.\n\nSophie Barral, Karim Ouali et Léa Fontaine se partagent aujourd’hui les consultations, la chirurgie et le suivi des animaux du quartier. Chacun garde ses propres dossiers en tête : c’est un choix, pour qu’un animal soit suivi par la même équipe d’une visite à l’autre.',
+      'La clinique a ouvert en 2009, avenue Gabriel-Péri, à quelques mètres de la limite entre Saint-Martin-d’Hères et Grenoble.\n\nSophie Barral, Karim Ouali et Léa Fontaine se partagent les consultations, la chirurgie et le suivi des animaux du quartier. Chacun garde ses dossiers en tête. C’est un choix : un animal revient voir la même équipe d’une visite à l’autre.',
     team: [
       { name: 'Dr Sophie Barral', role: 'Vétérinaire — chirurgie et médecine générale' },
       { name: 'Dr Karim Ouali', role: 'Vétérinaire — dentisterie et imagerie' },
@@ -184,10 +184,10 @@ export default defineSite({
 
   wording: {
     devis: 'Prendre rendez-vous',
-    ctaTitle: 'Un doute sur votre animal ? <em>Appelez, on vous dit quoi faire.</em>',
+    ctaTitle: 'Un doute sur votre animal ? <em>Appelez avant de vous déplacer.</em>',
     ctaText: 'Aux heures d’ouverture, on décroche. En dehors, le service de garde de l’agglomération prend le relais.',
     contactTitle: 'Prendre rendez-vous',
-    contactText: 'Décrivez votre besoin et l’animal concerné, nous vous rappelons rapidement.',
+    contactText: 'Décrivez votre besoin et l’animal concerné. Nous rappelons aux heures d’ouverture.',
   },
 
   images: {},

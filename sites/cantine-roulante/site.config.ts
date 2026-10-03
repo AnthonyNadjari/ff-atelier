@@ -49,11 +49,11 @@ export default defineSite({
   },
 
   business: {
-    name: 'La Çantine Roulante',
+    name: 'La Cantine Roulante',
     trade: 'Food truck et traiteur',
-    tagline: 'La cuisine basque, du marché de Bayonne <em>à votre table.</em>',
+    tagline: 'Axoa, talos, piperade. <em>Servis depuis la remorque.</em>',
     description:
-      'La Çantine Roulante prépare une cuisine basque maison depuis 2019 : axoa de veau, talos, piperade et txistorra, cuisinés et servis à la remorque par une équipe de deux personnes.\n\nEn semaine, retrouvez-nous sur les marchés de Bayonne, Anglet, Biarritz et Saint-Jean-de-Luz. Le soir, la remorque se déplace pour vos mariages et fêtes d’entreprise, jusqu’à 200 convives, dans tout le Pays basque et jusqu’à Pau en traiteur.',
+      'Cuisine basque maison depuis 2019 : axoa de veau, talos, piperade, txistorra. Deux personnes à bord, qui cuisinent et qui servent.\n\nLe mardi à Bayonne, le jeudi à Anglet, le vendredi à Biarritz, le samedi à Saint-Jean-de-Luz. Le mercredi, le dimanche et le lundi, la remorque ne sort pas.\n\nEn traiteur, on se déplace jusqu’à 200 convives, dans tout le Pays basque et jusqu’à Pau.',
     since: 2019,
   },
 
@@ -75,13 +75,13 @@ export default defineSite({
   },
 
   services: [
-    { slug: 'talos-jambon', title: 'Talos garni, jambon de Bayonne', short: 'La galette de maïs traditionnelle, garnie de jambon de Bayonne.', icon: 'Sandwich', priceFrom: '6 €' },
-    { slug: 'talos-fromage', title: 'Talos garni, fromage de brebis', short: 'La même galette, garnie de fromage de brebis des Pyrénées.', icon: 'Sandwich', priceFrom: '6 €' },
-    { slug: 'talos-axoa', title: 'Talos garni, axoa de veau', short: 'Le talos garni de notre axoa de veau au piment d’Espelette.', icon: 'Sandwich', priceFrom: '7 €', featured: true },
-    { slug: 'plat-axoa', title: 'Axoa de veau, riz basquaise', short: 'Veau mijoté au piment d’Espelette, servi avec un riz basquaise.', icon: 'Soup', priceFrom: '13 €', featured: true },
-    { slug: 'plat-piperade', title: 'Piperade et txistorra grillée', short: 'Poivrons, tomates et oignons mijotés, txistorra grillée à la plancha.', icon: 'Flame', priceFrom: '12 €' },
-    { slug: 'plat-txistorra-frites', title: 'Txistorra-frites', short: 'La saucisse basque grillée à la plancha, frites maison.', icon: 'UtensilsCrossed', priceFrom: '9 €' },
-    { slug: 'dessert-gateau-basque', title: 'Gâteau basque, crème pâtissière', short: 'Le classique pâtissier basque, à la crème pâtissière.', icon: 'Cookie', priceFrom: '5 €' },
+    { slug: 'talos-jambon', title: 'Talos garni, jambon de Bayonne', short: 'La galette de maïs, garnie de jambon de Bayonne.', icon: 'Sandwich', priceFrom: '6 €' },
+    { slug: 'talos-fromage', title: 'Talos garni, fromage de brebis', short: 'La même galette, au fromage de brebis des Pyrénées. 6 €, comme la première.', icon: 'Sandwich', priceFrom: '6 €' },
+    { slug: 'talos-axoa', title: 'Talos garni, axoa de veau', short: 'Le talos garni de l’axoa, au piment d’Espelette. 7 €.', icon: 'Sandwich', priceFrom: '7 €', featured: true },
+    { slug: 'plat-axoa', title: 'Axoa de veau, riz basquaise', short: 'Du veau mijoté au piment d’Espelette, avec un riz basquaise.', icon: 'Soup', priceFrom: '13 €', featured: true },
+    { slug: 'plat-piperade', title: 'Piperade et txistorra grillée', short: 'Poivrons, tomates, oignons mijotés longtemps. La txistorra passe à la plancha.', icon: 'Flame', priceFrom: '12 €' },
+    { slug: 'plat-txistorra-frites', title: 'Txistorra-frites', short: 'La saucisse basque à la plancha. Frites maison, 9 €.', icon: 'UtensilsCrossed', priceFrom: '9 €' },
+    { slug: 'dessert-gateau-basque', title: 'Gâteau basque, crème pâtissière', short: 'Le gâteau basque, celui à la crème pâtissière, pas celui à la cerise.', icon: 'Cookie', priceFrom: '5 €' },
   ],
 
   // La tournée de la semaine (process/horizon) : mêmes jours/villes que le planning d'origine
@@ -100,14 +100,14 @@ export default defineSite({
   // le JSON-LD/la méta description, même sans bloc visuel dédié.
   about: {
     story:
-      'La Çantine Roulante est née en 2019 sur les marchés du Pays basque. Une équipe de deux personnes cuisine et sert, chaque semaine, sur la remorque.',
+      'La remorque a pris la route en 2019, sur les marchés du Pays basque. Deux personnes à bord, qui cuisinent et qui servent, chaque semaine.',
   },
 
   faq: [
-    { q: 'Où vous trouve-t-on cette semaine ?', a: 'Le mardi à Bayonne (marché), le jeudi à Anglet, le vendredi à Biarritz et le samedi à Saint-Jean-de-Luz. Le programme complet est plus haut sur cette page.' },
+    { q: 'Où vous trouve-t-on cette semaine ?', a: 'Le mardi à Bayonne, au marché. Le jeudi à Anglet, le vendredi à Biarritz, le samedi à Saint-Jean-de-Luz. Et le mercredi, le dimanche et le lundi, nulle part.' },
     { q: 'Jusqu’à combien de convives pour un mariage ou une fête d’entreprise ?', a: 'Jusqu’à 200 personnes, en buffet ou en service à table, dans tout le Pays basque.' },
-    { q: 'Intervenez-vous en dehors du Pays basque ?', a: 'En traiteur, oui : nous nous déplaçons jusqu’à Pau. Le food truck reste sur Bayonne, Anglet, Biarritz, Saint-Jean-de-Luz et Hendaye.' },
-    { q: 'Comment réserver la remorque pour un événement privé ?', a: 'Par téléphone ou via le formulaire de contact, avec la date, le lieu et le nombre de convives : nous revenons vers vous avec un devis.' },
+    { q: 'Intervenez-vous en dehors du Pays basque ?', a: 'En traiteur, oui, jusqu’à Pau. La remorque, elle, ne quitte pas Bayonne, Anglet, Biarritz, Saint-Jean-de-Luz et Hendaye.' },
+    { q: 'Comment réserver la remorque pour un événement privé ?', a: 'Par téléphone ou par le formulaire, avec trois informations : la date, le lieu, le nombre de convives. Le devis part sous 48 h.' },
   ],
 
   form: { provider: 'mailto' },
@@ -116,9 +116,9 @@ export default defineSite({
   wording: {
     devis: 'Demander un devis traiteur',
     ctaTitle: 'Un mariage, une fête d’entreprise ? <em>On vient avec la remorque.</em>',
-    ctaText: 'Devis clair sous 48 h, menu adapté à votre événement, partout dans le Pays basque.',
+    ctaText: 'Devis sous 48 h. Le menu s’ajuste à l’événement, et la remorque va partout dans le Pays basque.',
     contactTitle: 'Réserver la cantine',
-    contactText: 'Dites-nous la date, le lieu et le nombre de convives : nous vous rappelons rapidement.',
+    contactText: 'Dites-nous la date, le lieu et le nombre de convives. On rappelle pour parler du menu.',
   },
 
   seo: { keywords: ['food truck Bayonne', 'traiteur basque Bayonne', 'axoa Bayonne', 'traiteur mariage Pays basque'] },

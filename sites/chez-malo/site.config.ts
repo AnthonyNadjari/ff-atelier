@@ -15,7 +15,7 @@ export default defineSite({
     sections: [
       { type: 'custom', variant: 'lelieu', label: 'Le lieu' },
       { type: 'custom', variant: 'essentiels', label: 'L’essentiel' },
-      { type: 'custom', variant: 'carte', label: 'Çarte' },
+      { type: 'custom', variant: 'carte', label: 'Carte' },
       { type: 'custom', variant: 'horaires', label: 'Horaires' },
       { type: 'cta', variant: 'band' },
       { type: 'contact', variant: 'simple' },
@@ -28,9 +28,9 @@ export default defineSite({
   business: {
     name: 'Chez Malo',
     trade: 'Restaurant de poissons et bouillabaisse',
-    tagline: 'La mer arrive le matin. Le soir, on la sert telle qu’elle est.',
+    tagline: 'La criée le matin, <em>la carte le soir.</em>',
     description:
-      'Restaurant de poissons au Vallon des Auffes, face aux barques et aux cabanons de pêcheurs. Le chef Malo Ferrer cuisine depuis 2011 ce qui arrive de la criée le matin même : poissons de roche, loup, daurade, et la bouillabaisse les jours où elle se prépare.\n\nTrente-deux couverts, une terrasse sur le port, aucune improvisation sur le produit.',
+      'Restaurant de poissons au Vallon des Auffes, face aux barques et aux cabanons de pêcheurs. Malo Ferrer y cuisine depuis 2011 ce qu’il a acheté à la criée le matin même : poissons de roche, loup, daurade, rouget.\n\nTrente-deux couverts, une terrasse sur le port. La bouillabaisse, elle, se commande la veille, et pour deux personnes au minimum. Le lundi, c’est fermé.',
     since: 2011,
   },
 
@@ -52,7 +52,7 @@ export default defineSite({
     {
       slug: 'bouillabaisse-du-vallon',
       title: 'Bouillabaisse du Vallon',
-      short: 'La bouillabaisse traditionnelle, sur commande la veille, pour deux personnes minimum.',
+      short: 'Elle se commande la veille, et jamais pour une seule personne. 84 € pour deux.',
       icon: 'Soup',
       featured: true,
       priceFrom: 'à partir de 84 € pour deux',
@@ -60,21 +60,21 @@ export default defineSite({
     {
       slug: 'poisson-du-jour',
       title: 'Poisson du jour',
-      short: 'Le loup, la daurade ou le rouget arrivés le matin même, grillés simplement.',
+      short: 'Loup, daurade ou rouget, arrivé le matin même. Et grillé simplement, parce qu’il n’a pas besoin de plus.',
       icon: 'Fish',
       featured: true,
     },
     {
       slug: 'terrasse-sur-le-port',
       title: 'Terrasse sur le port',
-      short: 'Trente-deux couverts, vue sur les barques et les cabanons du Vallon des Auffes.',
+      short: 'Trente-deux couverts en tout. De la table, on voit les barques et les cabanons.',
       icon: 'Sun',
     },
   ],
 
   about: {
     story:
-      'Malo Ferrer a ouvert son restaurant en 2011, dans une ancienne cabane de pêcheur du Vallon des Auffes. Il achète à la criée chaque matin et compose la carte selon ce qui est arrivé.',
+      'Malo Ferrer a ouvert en 2011, dans une ancienne cabane de pêcheur du Vallon des Auffes. Trente-deux couverts, pas un de plus : la salle est ce qu’elle est.\n\nIl passe à la criée chaque matin. La carte s’écrit après, avec ce qui est arrivé. Et certains soirs, il n’y a pas de bouillabaisse.',
   },
 
   wording: {

@@ -100,7 +100,7 @@ export default defineSite({
     portrait: { src: '/images/portrait.webp', alt: 'Intérieur du salon Maison Aurel, quartier des Chartrons' },
     team: [
       { name: 'Aurel Mercier', role: 'Fondateur, coloriste' },
-      { name: 'Inès Çabral', role: 'Coiffeuse, spécialiste coupe' },
+      { name: 'Inès Cabral', role: 'Coiffeuse, spécialiste coupe' },
       { name: 'Simon Retif', role: 'Coiffeur, spécialiste balayage' },
     ],
   },

@@ -60,9 +60,9 @@ export default defineSite({
   business: {
     name: 'Ampère & Fils',
     trade: 'Électricien',
-    tagline: 'Électricien à Villeurbanne, <em>père et fille depuis 2001.</em>',
+    tagline: 'Électricien à Villeurbanne depuis 2001, <em>le père et la fille.</em>',
     description:
-      'Ampère & Fils est une entreprise familiale d’électricité à Villeurbanne. Le père a fondé l’atelier en 2001, sa fille a repris le tableau à ses côtés — même exigence, deux générations.\n\nMise aux normes NF C 15-100, dépannage, bornes de recharge IRVE et domotique KNX, pour les particuliers et les professionnels de l’agglomération lyonnaise.',
+      'Entreprise familiale d’électricité à Villeurbanne, 41 rue Francis-de-Pressensé. Le père a fondé l’atelier en 2001. Sa fille l’a rejoint après un BTS électrotechnique et une qualification Qualifelec.\n\nMise aux normes NF C 15-100, dépannage, bornes de recharge IRVE, domotique KNX. Particuliers et professionnels de l’agglomération lyonnaise. Et la nuit, non : les horaires sont du lundi au vendredi, 8 h – 18 h.',
     since: 2001,
     certifications: ['Qualifelec', 'IRVE'],
   },
@@ -85,9 +85,9 @@ export default defineSite({
     {
       slug: 'mise-aux-normes',
       title: 'Mise aux normes NF C 15-100',
-      short: 'Tableau électrique vérifié et remis en conformité, pièce par pièce.',
+      short: 'Diagnostic du tableau, remise en conformité, rapport écrit à la fin.',
       description:
-        'Un tableau électrique vieillit mal : fils qui se détendent, disjoncteurs qui ne protègent plus rien. La mise aux normes commence par un diagnostic complet du tableau et du circuit, puis une remise en conformité avec la norme NF C 15-100.\n\nUn rapport détaillé est remis à la fin de l’intervention, avec ce qui a été vérifié et ce qui a été changé.',
+        'Un tableau électrique vieillit mal. Les fils se détendent, les bornes se desserrent, et des disjoncteurs finissent par ne plus protéger grand-chose.\n\nOn commence par un diagnostic du tableau et du circuit, puis on remet l’installation en conformité avec la NF C 15-100. À la fin, vous repartez avec un rapport écrit : ce qui a été vérifié, ce qui a été changé.',
       bullets: ['Diagnostic complet du tableau', 'Mise en conformité NF C 15-100', 'Rapport détaillé remis au client'],
       icon: 'ShieldCheck',
       featured: true,
@@ -95,9 +95,9 @@ export default defineSite({
     {
       slug: 'depannage',
       title: 'Dépannage électrique',
-      short: 'Panne, disjonction, court-circuit : intervention sous 24 h.',
+      short: 'Un disjoncteur qui saute sans raison, une prise morte. Intervention sous 24 h.',
       description:
-        'Un disjoncteur qui saute sans raison, une prise qui ne répond plus, un court-circuit : on cherche la vraie cause, pas juste le fusible à remettre.\n\nDevis communiqué avant toute intervention facturée.',
+        'Un disjoncteur qui saute sans raison, une prise qui ne répond plus. On cherche la cause, pas seulement le fusible à relever.\n\nIntervention sous 24 h, du lundi au vendredi. Le devis est communiqué avant toute intervention facturée.',
       bullets: ['Recherche de panne', 'Intervention sous 24 h', 'Devis avant travaux'],
       icon: 'Zap',
       featured: true,
@@ -105,9 +105,9 @@ export default defineSite({
     {
       slug: 'bornes-recharge',
       title: 'Bornes de recharge (IRVE)',
-      short: 'Installation de borne 7, 11 ou 22 kW, maison ou copropriété.',
+      short: 'Trois puissances possibles : 7 kW, 11 kW, 22 kW. Celle que supporte votre installation, pas celle du catalogue.',
       description:
-        'La pose d’une borne de recharge pour véhicule électrique demande une qualification IRVE, obligatoire dès 3,7 kW. Ampère & Fils étudie la puissance disponible sur votre installation avant de proposer la borne adaptée.\n\nCompatible avec la plupart des marques de véhicules et de bornes.',
+        'Poser une borne de recharge demande une qualification IRVE. C’est obligatoire dès 3,7 kW, et ce n’est pas négociable.\n\nOn regarde d’abord la puissance disponible sur votre installation, puis on propose 7, 11 ou 22 kW. Compatible avec la plupart des marques de véhicules et de bornes.',
       bullets: ['Qualification IRVE', 'Étude de la puissance disponible', 'Copropriété ou maison individuelle'],
       icon: 'BatteryCharging',
       featured: true,
@@ -115,23 +115,23 @@ export default defineSite({
     {
       slug: 'domotique-knx',
       title: 'Domotique KNX',
-      short: 'Éclairage, volets et chauffage pilotés depuis un seul système.',
+      short: 'Éclairage, volets, chauffage, sur un seul protocole. KNX est un standard, pas une marque.',
       description:
-        'KNX est un protocole standard, pas une marque propriétaire : ce qui est installé aujourd’hui reste compatible avec ce qui s’ajoutera demain.\n\nProgrammation sur mesure, pièce par pièce, en partant des usages réels du logement plutôt que d’un catalogue de scénarios.',
+        'KNX est un protocole standard, pas une marque propriétaire. Ce qui est posé aujourd’hui reste compatible avec ce qui s’ajoutera plus tard.\n\nLa programmation se fait pièce par pièce, à partir des usages réels du logement. Pas d’un catalogue de scénarios tout faits.',
       bullets: ['Protocole KNX standard', 'Programmation sur mesure', 'Installation évolutive'],
       icon: 'Cpu',
     },
     {
       slug: 'renovation-electrique',
       title: 'Rénovation électrique',
-      short: 'Remise à neuf complète d’une installation vieillissante.',
+      short: 'Tableau, câblage, prises. Logement occupé ou vide, ça ne se planifie pas pareil.',
       bullets: ['Tableau, câblage, prises', 'Logement occupé ou vide', 'Coordination avec les autres corps de métier'],
       icon: 'Home',
     },
     {
       slug: 'eclairage-prises',
       title: 'Éclairage et prises',
-      short: 'Ajout de points lumineux, prises et interrupteurs.',
+      short: 'Un point lumineux en plus, deux prises, un va-et-vient.',
       bullets: ['Extension de circuit', 'Éclairage extérieur', 'Finitions soignées'],
       icon: 'Lightbulb',
     },
@@ -140,7 +140,7 @@ export default defineSite({
   about: {
     title: 'L’atelier',
     story:
-      'Le père a fondé Ampère & Fils en 2001, seul, avec une camionnette et un carnet d’adresses à Villeurbanne. Sa fille l’a rejoint après son BTS électrotechnique et sa qualification Qualifelec — elle s’occupe aujourd’hui des bornes de recharge et de la domotique, deux métiers qui n’existaient pas encore en 2001.\n\nDeux électriciens, un seul numéro : celui qui décroche est celui qui vient.',
+      'Le père a fondé Ampère & Fils en 2001, seul, avec une camionnette et un carnet d’adresses. Sa fille l’a rejoint après son BTS électrotechnique et sa qualification Qualifelec.\n\nElle s’occupe des bornes de recharge et de la domotique. Deux métiers qui n’existaient pas quand l’atelier a ouvert.\n\nDeux électriciens, un seul numéro : celui qui décroche est celui qui vient.',
     values: [
       { title: 'NF C 15-100', text: 'La norme électrique française, vérifiée et appliquée sur chaque tableau, ancien ou neuf.' },
       { title: 'Qualifelec', text: 'La qualification reconnue de la profession, vérifiée chaque année.' },
@@ -157,9 +157,9 @@ export default defineSite({
 
   faq: [
     { q: 'Intervenez-vous la nuit ou le week-end ?', a: 'Non : nos horaires sont du lundi au vendredi, 8 h – 18 h. En cas de panne, nous nous engageons à intervenir sous 24 h.' },
-    { q: 'La mise aux normes est-elle obligatoire ?', a: 'Elle est fortement recommandée dès qu’un tableau électrique date de plus de 15-20 ans, et obligatoire en cas de vente ou de gros travaux. Un diagnostic sur place permet de savoir précisément ce qui doit être fait.' },
-    { q: 'Quelle puissance de borne choisir pour mon véhicule ?', a: 'Cela dépend du véhicule et de la puissance disponible sur votre installation. Nous faisons l’étude avant de proposer une puissance de 7, 11 ou 22 kW.' },
-    { q: 'Le devis est-il gratuit ?', a: 'Oui, le diagnostic et le devis sont gratuits et sans engagement, à Villeurbanne et dans les communes voisines.' },
+    { q: 'La mise aux normes est-elle obligatoire ?', a: 'Obligatoire en cas de vente ou de gros travaux. Fortement recommandée dès qu’un tableau a quinze ou vingt ans. Un diagnostic sur place dit lequel des deux cas est le vôtre.' },
+    { q: 'Quelle puissance de borne choisir pour mon véhicule ?', a: 'Ça dépend du véhicule, et surtout de la puissance disponible chez vous. L’étude passe avant le choix de la puissance.' },
+    { q: 'Le devis est-il gratuit ?', a: 'Oui. Gratuit et sans engagement, à Villeurbanne comme dans les communes voisines. Mais rien n’est chiffré au téléphone : il faut voir le tableau.' },
   ],
 
   form: { provider: 'mailto' },

@@ -120,8 +120,12 @@ a[href='#main']:focus-visible {
    SANS CE BLOC : on rate la moitié des liens du pied de page au doigt.
 ------------------------------------------------------------------------------------------------ */
 @media (pointer: coarse) {
-  :is(header[data-nav], nav[data-nav], footer) a:not(.btn),
-  :is(header[data-nav], nav[data-nav], footer) button:not(.btn) {
+  /* `:not(.hidden)` : sans lui, ce bloc rallume un lien que la section a explicitement masque
+     (`class="hidden sm:inline"`). Ces regles ne sont pas dans une couche, elles battent donc
+     l'utilitaire `.hidden` de Tailwind : le telephone de la nav s'affichait sous 640 px, ecrase a
+     44 px et tronque (vu sur le site F&F le 3 oct 2026, vrai pour les vingt sites). */
+  :is(header[data-nav], nav[data-nav], footer) a:not(.btn):not(.hidden),
+  :is(header[data-nav], nav[data-nav], footer) button:not(.btn):not(.hidden) {
     display: inline-flex;
     align-items: center;
     min-height: var(--ff-target);
@@ -137,9 +141,9 @@ a[href='#main']:focus-visible {
    14 px fait 20 px de haut — mesuré sur dubois-plomberie avant ce bloc : 8 des 16 premiers arrêts du
    clavier étaient sous le minimum. Les liens dans une phrase sont exemptés par le critère (exception
    « Inline »), d'où la restriction à la nav, au pied de page et aux boutons icône. */
-:is(header[data-nav], nav[data-nav], footer) a:not(.btn),
-button[aria-label],
-a[aria-label]:not(.btn) {
+:is(header[data-nav], nav[data-nav], footer) a:not(.btn):not(.hidden),
+button[aria-label]:not(.hidden),
+a[aria-label]:not(.btn):not(.hidden) {
   display: inline-flex;
   align-items: center;
   /* `max-width` + `flex-wrap` : sans eux, une adresse e-mail longue (pied de page, `break-all`)

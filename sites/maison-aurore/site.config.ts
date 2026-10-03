@@ -38,7 +38,7 @@ export default defineSite({
     contactDrawer: true,
     sections: [
       { type: 'custom', variant: 'Rituels', label: 'Rituels' },
-      { type: 'custom', variant: 'CarteDesSoins', label: 'Çarte des soins' },
+      { type: 'custom', variant: 'CarteDesSoins', label: 'Carte des soins' },
       { type: 'custom', variant: 'Espace', label: 'L’espace' },
       { type: 'custom', variant: 'Offrir', label: 'Offrir' },
     ],
@@ -51,9 +51,9 @@ export default defineSite({
   business: {
     name: 'Maison Aurore',
     trade: 'Institut de beauté et spa',
-    tagline: 'Un institut au Çarré d’Or, <em>un soin à la fois</em>.',
+    tagline: 'Un institut rue Alphonse-Karr, <em>un soin à la fois.</em>',
     description:
-      'Maison Aurore est un institut de beauté et spa installé au Çarré d’Or, à Nice, depuis 2016. Quatre praticiennes y prennent soin du visage, du corps, jusqu’au bout des ongles.\n\nSoins du visage, massages, hammam, épilation, onglerie — et un rituel signature de 90 minutes, pensé comme une parenthèse entière plutôt qu’un soin de plus.',
+      'Institut de beauté et spa au 12 rue Alphonse-Karr, à Nice, depuis 2016. Quatre praticiennes y prennent soin du visage, du corps, jusqu’au bout des ongles.\n\nSoins du visage, massages, hammam, épilation, onglerie. Et un rituel de 90 minutes, le Rituel Aurore, pensé comme une parenthèse plutôt que comme un soin de plus.\n\nDu lundi au samedi, 10 h – 20 h. Le dimanche, l’institut est fermé.',
     since: 2016,
   },
 
@@ -72,7 +72,7 @@ export default defineSite({
     {
       slug: 'soin-visage',
       title: 'Soin du visage',
-      short: 'Nettoyage, exfoliation et soin adapté à votre peau.',
+      short: 'Nettoyage, exfoliation, puis le soin choisi après avoir regardé votre peau.',
       icon: 'Sparkles',
       priceFrom: '75 € (indicatif)',
       featured: true,
@@ -80,21 +80,21 @@ export default defineSite({
     {
       slug: 'massages',
       title: 'Massages',
-      short: 'Çalifornien, aux pierres chaudes, ou pensé pour la femme enceinte.',
-      bullets: ['Massage californien', 'Massage aux pierres chaudes', 'Massage pour femme enceinte'],
+      short: 'Au choix : californien, pierres chaudes, ou adapté à la grossesse. 60 minutes.',
+      bullets: ['Le californien, pour commencer', 'Aux pierres chaudes', 'Adapté à la grossesse'],
       icon: 'Hand',
       priceFrom: '85 € (indicatif) — 60 min',
     },
     {
       slug: 'hammam',
       title: 'Hammam',
-      short: 'Un moment de vapeur douce, seul ou avant un soin.',
+      short: 'Vapeur douce, seul ou juste avant un soin.',
       icon: 'Droplets',
     },
     {
       slug: 'epilation',
       title: 'Épilation',
-      short: 'Épilation soignée, à la cire.',
+      short: 'Épilation à la cire.',
       icon: 'Feather',
     },
     {
@@ -106,7 +106,7 @@ export default defineSite({
     {
       slug: 'rituel-aurore',
       title: 'Rituel Aurore',
-      short: 'Notre rituel signature, pour le visage et le corps.',
+      short: 'Le visage et le corps, en 90 minutes. Et la cabine est à vous pendant tout ce temps.',
       icon: 'Flower2',
       priceFrom: '140 € (indicatif) — 90 min',
       featured: true,
@@ -116,7 +116,7 @@ export default defineSite({
   about: {
     title: 'Quatre praticiennes, une adresse',
     story:
-      'Maison Aurore a ouvert au Çarré d’Or en 2016. Quatre praticiennes s’y relaient, chacune avec son geste, toutes formées aux mêmes soins.\n\nIci, un rendez-vous n’est jamais pris à la légère : la cabine se prépare avant chaque cliente, le rythme reste celui de la personne allongée, pas celui de l’agenda.',
+      'Maison Aurore a ouvert rue Alphonse-Karr en 2016. Quatre praticiennes s’y relaient. Chacune a son geste, toutes ont la même formation.\n\nLa cabine se prépare avant chaque cliente. Le rythme est celui de la personne allongée, pas celui de l’agenda. Et c’est pour ça qu’un rendez-vous ne se prend jamais à la légère.',
   },
 
   form: { provider: 'mailto' },
@@ -124,7 +124,7 @@ export default defineSite({
   wording: {
     devis: 'Réserver un soin',
     ctaTitle: 'Une heure pour vous ? <em>Nous gardons la place.</em>',
-    ctaText: 'Un appel suffit, nous nous occupons du reste.',
+    ctaText: 'Le soin, le jour, l’heure qui vous arrange. Du lundi au samedi, 10 h – 20 h.',
     contactTitle: 'Réserver un soin',
     contactText: 'Décrivez le soin souhaité, nous vous rappelons pour fixer l’heure.',
   },

@@ -38,7 +38,7 @@ export default defineSite({
     trade: 'Couvreur-zingueur',
     tagline: 'Une fuite ? <em>On monte aujourd’hui.</em>',
     description:
-      'Couvreur-zingueur à Rouen depuis 2004. Trois compagnons, une camionnette équipée, et un téléphone qui répond aussi le dimanche.\n\nRéparation de fuite en urgence, réfection complète, zinguerie, démoussage, pose de velux. Assurance décennale, certifiés Qualibat.',
+      'Couvreur-zingueur à Rouen depuis 2004, rue de Constantine. Trois compagnons, une camionnette équipée, et un téléphone qui répond aussi le dimanche.\n\nFuite en urgence, réfection complète, zinguerie, démoussage, pose de velux. Assurance décennale, certifiés Qualibat. Et le diagnostic se fait sur le toit, pas au téléphone.',
     since: 2004,
     insurance: 'Assurance décennale',
     certifications: ['Qualibat'],
@@ -62,9 +62,9 @@ export default defineSite({
     {
       slug: 'reparation-fuite',
       title: 'Réparation de fuite',
-      short: 'Intervention en urgence : diagnostic sur le toit, étanchéité rétablie le jour même.',
+      short: 'Un appel, une adresse. Et un compagnon sur le toit le jour même.',
       description:
-        'Une fuite ne prévient pas. On décroche, on prend l’adresse, et un compagnon monte sur le toit le jour même — souvent dans l’heure sur Rouen et les communes proches.\n\nDiagnostic sur place, réparation immédiate quand c’est possible, devis avant toute reprise plus lourde.',
+        'Une fuite ne prévient pas. On décroche, on prend l’adresse, et un compagnon monte le jour même. Sur Rouen et les communes proches, c’est souvent dans l’heure.\n\nLe diagnostic se fait sur le toit, pas au téléphone. Réparation tout de suite quand c’est possible, devis écrit avant toute reprise plus lourde.',
       bullets: ['Intervention 24h/24', 'Diagnostic sur le toit, pas au téléphone', 'Devis avant toute reprise lourde'],
       icon: 'Droplets',
       featured: true,
@@ -73,9 +73,9 @@ export default defineSite({
     {
       slug: 'refection-toiture',
       title: 'Réfection complète',
-      short: 'Toiture reprise entièrement : charpente, couverture, isolation.',
+      short: 'Charpente vérifiée, couverture neuve, isolation si besoin.',
       description:
-        'Quand la toiture est trop reprise pour tenir, on refait proprement : charpente vérifiée, couverture neuve, isolation si besoin. Un chantier planifié, pas une succession de rustines.',
+        'Il arrive qu’une toiture ait été trop souvent reprise pour tenir encore. On refait alors proprement : la charpente est contrôlée, la couverture remplacée, l’isolation reprise si elle le mérite.\n\nUn chantier planifié, avec un devis poste par poste. Pas une succession de rustines.',
       bullets: ['Diagnostic charpente et couverture', 'Devis détaillé poste par poste', 'Chantier suivi par le même compagnon'],
       icon: 'Hammer',
       featured: true,
@@ -84,8 +84,8 @@ export default defineSite({
     {
       slug: 'zinguerie',
       title: 'Zinguerie',
-      short: 'Gouttières, chéneaux, solins : l’étanchéité qui ne se voit pas.',
-      description: 'La zinguerie, c’est ce qui évacue l’eau au lieu de la laisser s’infiltrer. Gouttières, chéneaux, solins et noues, posés ou repris à la demande.',
+      short: 'Gouttières, chéneaux, solins, noues.',
+      description: 'La zinguerie, c’est ce qui évacue l’eau au lieu de la laisser s’infiltrer. Gouttières et descentes, chéneaux, solins, noues : posés neufs, ou repris là où ça fuit.',
       bullets: ['Gouttières et descentes', 'Solins et noues', 'Habillages sur mesure'],
       icon: 'Layers',
       featured: true,
@@ -94,9 +94,9 @@ export default defineSite({
     {
       slug: 'demoussage',
       title: 'Démoussage',
-      short: 'Toiture nettoyée et traitée avant que la mousse ne s’infiltre sous les tuiles.',
-      description: 'La mousse retient l’humidité et finit par soulever les tuiles. On nettoie, on traite, et on vérifie l’état de la couverture pendant qu’on y est.',
-      bullets: ['Nettoyage haute pression maîtrisé', 'Traitement anti-mousse', 'Contrôle de la couverture inclus'],
+      short: 'La mousse retient l’humidité et finit par soulever les tuiles.',
+      description: 'On nettoie, on traite, et on profite d’être en haut pour regarder l’état de la couverture. Ce qu’on voit, on le dit, même si ça n’entrait pas dans la commande.',
+      bullets: ['Nettoyage haute pression', 'Traitement anti-mousse', 'Contrôle de la couverture inclus'],
       icon: 'Leaf',
       featured: true,
       image: { src: '/images/service-4.webp', alt: 'Toiture démoussée et traitée' },
@@ -104,8 +104,8 @@ export default defineSite({
     {
       slug: 'velux',
       title: 'Pose de velux',
-      short: 'Fenêtre de toit posée et raccordée, sans reprise à refaire dans six mois.',
-      description: 'Pose ou remplacement de velux, raccordement à l’étanchéité existante compris. On ne pose pas une fenêtre sans reprendre ce qui l’entoure.',
+      short: 'Pose ou remplacement, étanchéité reprise autour.',
+      description: 'Pose neuve ou remplacement d’un velux existant, raccordement à l’étanchéité compris. On ne pose pas une fenêtre sans reprendre ce qui l’entoure : c’est là que ça refuit, six mois plus tard.',
       bullets: ['Pose neuve ou remplacement', 'Raccordement étanchéité inclus', 'Toutes tailles standards'],
       icon: 'Sun',
       featured: false,
@@ -115,7 +115,7 @@ export default defineSite({
   about: {
     title: 'L’équipe',
     story:
-      'Toits & Cie répare des toitures à Rouen depuis 2004. Trois compagnons, un métier : monter, réparer, refaire, et repartir sans laisser une fuite derrière soi.\n\nOn ne vend pas de contrat d’entretien ni de diagnostic à 200 €. On monte, on regarde, on chiffre.',
+      'Toits & Cie répare des toitures à Rouen depuis 2004, rue de Constantine. Trois compagnons, une camionnette, un métier.\n\nOn ne vend pas de contrat d’entretien, ni de diagnostic à 200 €. On monte, on regarde, on chiffre. Et si le toit peut attendre, on le dit plutôt que de vendre un chantier.',
     values: [],
   },
 
@@ -124,7 +124,7 @@ export default defineSite({
   wording: {
     devis: 'Décrire la fuite',
     ctaTitle: 'Ça coule ? <em>On arrive.</em>',
-    ctaText: 'Un appel, une adresse, un compagnon sur le toit le jour même — Rouen et les communes alentour.',
+    ctaText: 'Un appel, une adresse. Et un compagnon sur le toit le jour même, à Rouen comme dans les communes alentour.',
     contactTitle: 'Décrire le problème',
     contactText: 'Une photo, une adresse, un numéro : on rappelle dans l’heure.',
   },

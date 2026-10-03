@@ -87,7 +87,7 @@ export default defineSite({
       slug: 'debouchage',
       title: 'Débouchage',
       short: 'Évier, WC, douche. Le furet d’abord, la haute pression si le furet ne suffit pas.',
-      bullets: ['Furet ou haute pression selon le cas', 'Çamion équipé', 'Çanalisations enterrées possibles'],
+      bullets: ['Furet ou haute pression selon le cas', 'Camion équipé', 'Canalisations enterrées possibles'],
       icon: 'Waves',
       featured: true,
       priceFrom: 'à partir de 120 €',
@@ -134,7 +134,7 @@ export default defineSite({
   faq: [
     { q: 'Intervenez-vous vraiment la nuit et le week-end ?', a: 'Le numéro affiché est celui des urgences, 24h/24 et 7j/7. Ce n’est pas un répondeur : quelqu’un décroche.' },
     { q: 'Le devis est-il gratuit ?', a: 'Le diagnostic se fait sur place et le prix est annoncé avant l’intervention. Rien n’est facturé sans que vous l’ayez entendu d’abord.' },
-    { q: 'Intervenez-vous en dehors de Nantes ?', a: 'Dans Nantes et les communes limitrophes : Rezé, Saint-Herblain, Orvault, Vertou, Bouguenais, Çarquefou, Sainte-Luce-sur-Loire.' },
+    { q: 'Intervenez-vous en dehors de Nantes ?', a: 'Dans Nantes et les communes limitrophes : Rezé, Saint-Herblain, Orvault, Vertou, Bouguenais, Carquefou, Sainte-Luce-sur-Loire.' },
     { q: 'Êtes-vous assurés pour les gros travaux ?', a: 'Assurance décennale pour les travaux, certification RGE pour les chaudières.' },
   ],
 

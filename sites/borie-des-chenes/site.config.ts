@@ -67,7 +67,7 @@ export default defineSite({
     schemaType: 'BedAndBreakfast',
     tagline: 'Chambres d’hôtes en Dordogne depuis 2011, <em>au rythme de la vallée.</em>',
     description:
-      'Quatre chambres et un gîte pour six personnes au lieu-dit La Borie, à Saint-Cyprien, au cœur de la vallée de la Dordogne.\n\nAnne et Marc Delpech vous accueillent depuis 2011, avec une piscine, une table d’hôtes le soir sur réservation, et le calme d’un lieu à l’écart de la route.\n\nOuvert d’avril à octobre.',
+      'Quatre chambres et un gîte pour six personnes, au lieu-dit La Borie, à Saint-Cyprien, dans la vallée de la Dordogne.\n\nAnne et Marc Delpech reçoivent depuis 2011. Il y a une piscine, une table d’hôtes le soir sur réservation, et la maison est à l’écart de la route.\n\nOuvert d’avril à octobre. Le reste de l’année, la maison dort.',
     since: 2011,
   },
 
@@ -93,7 +93,7 @@ export default defineSite({
     {
       slug: 'chambre-noyer',
       title: 'Chambre Noyer',
-      short: 'Vue sur la vallée, 18 m².',
+      short: '18 m², et la vallée par la fenêtre. 95 € la nuit.',
       bullets: ['18 m²', 'Vue sur la vallée'],
       priceFrom: '95 €',
       icon: 'BedDouble',
@@ -103,7 +103,7 @@ export default defineSite({
     {
       slug: 'chambre-chataignier',
       title: 'Chambre Châtaignier',
-      short: 'Vue sur le jardin, 16 m².',
+      short: 'Seize mètres carrés, fenêtre sur le jardin. 105 €.',
       bullets: ['16 m²', 'Vue sur le jardin'],
       priceFrom: '105 €',
       icon: 'BedDouble',
@@ -112,7 +112,7 @@ export default defineSite({
     {
       slug: 'chambre-tilleul',
       title: 'Chambre Tilleul',
-      short: 'Vue sur la piscine, 20 m².',
+      short: '20 m², vue sur la piscine. 115 € la nuit.',
       bullets: ['20 m²', 'Vue sur la piscine'],
       priceFrom: '115 €',
       icon: 'BedDouble',
@@ -121,7 +121,7 @@ export default defineSite({
     {
       slug: 'chambre-vigne',
       title: 'Chambre Vigne',
-      short: 'Vue sur les chênes, 22 m².',
+      short: 'Vingt-deux mètres carrés, les chênes en face. 130 €.',
       bullets: ['22 m²', 'Vue sur les chênes'],
       priceFrom: '130 €',
       icon: 'BedDouble',
@@ -131,7 +131,7 @@ export default defineSite({
     {
       slug: 'gite-la-grange',
       title: 'Le gîte — La Grange',
-      short: 'Pour six personnes, à la semaine.',
+      short: 'Six personnes, à la semaine, 850 €. Et jamais à la nuit.',
       bullets: ['6 personnes', 'À la semaine'],
       priceFrom: '850 €',
       icon: 'Home',
@@ -141,7 +141,7 @@ export default defineSite({
   about: {
     title: 'Anne et Marc',
     story:
-      'Anne et Marc Delpech ont ouvert La Borie des Chênes en 2011, dans cette maison en pierre entourée des chênes qui lui donnent son nom.\n\nAnne s’occupe de la table d’hôtes, Marc du jardin et de la piscine. Ils reçoivent leurs hôtes comme on reçoit des amis — quelques familles à la fois, jamais plus.\n\nLa maison ouvre ses portes d’avril à octobre, le temps que la vallée se prête à la lenteur.',
+      'Anne et Marc Delpech ont ouvert La Borie des Chênes en 2011, dans cette maison en pierre entourée des chênes qui lui donnent son nom.\n\nAnne tient la table d’hôtes. Marc s’occupe du jardin et de la piscine. Quelques familles à la fois, jamais plus : quatre chambres et un gîte, ça ne s’étire pas.\n\nLa maison est ouverte d’avril à octobre, pas le reste de l’année.',
   },
 
   form: { provider: 'mailto' },
@@ -152,10 +152,10 @@ export default defineSite({
 
   wording: {
     devis: 'Demander une disponibilité',
-    ctaTitle: 'Une chambre, un gîte, une table d’hôtes ? <em>Écrivez-nous, on vous répond le jour même.</em>',
-    ctaText: 'Anne et Marc répondent eux-mêmes — pas de centrale de réservation.',
+    ctaTitle: 'Une chambre, un gîte, la table d’hôtes ? <em>On répond le jour même.</em>',
+    ctaText: 'Anne et Marc répondent eux-mêmes. Pas de centrale de réservation.',
     contactTitle: 'Demander une disponibilité',
-    contactText: 'Dites-nous vos dates et le nombre de nuits — et si vous souhaitez la table d’hôtes le soir.',
+    contactText: 'Dites-nous vos dates, le nombre de nuits, et si vous voulez la table d’hôtes le soir.',
   },
 
   seo: {

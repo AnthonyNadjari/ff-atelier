@@ -75,7 +75,7 @@ export default defineSite({
   },
 
   business: {
-    name: 'Çabinet Lemaire Avocats',
+    name: 'Cabinet Lemaire Avocats',
     trade: 'Avocat',
     // Pas de <em> ici (contrairement a la convention habituelle) : le hero applique data-text-fill
     // sur cette phrase, et motion.ts la reduit a `textContent` avant de la decouper mot par mot —
@@ -99,7 +99,7 @@ export default defineSite({
   },
 
   zones: {
-    cities: ['Montpellier', 'Çastelnau-le-Lez', 'Lattes', 'Sète', 'Nîmes'],
+    cities: ['Montpellier', 'Castelnau-le-Lez', 'Lattes', 'Sète', 'Nîmes'],
     label: 'Montpellier et sa métropole',
   },
 
@@ -167,7 +167,7 @@ export default defineSite({
     { q: 'Faut-il prendre rendez-vous ?', a: 'Oui. Le cabinet ne reçoit pas sans rendez-vous, du lundi au vendredi, de 9 h à 18 h.' },
     { q: 'Combien coûte la première consultation ?', a: '90 € TTC pour 45 minutes, à titre indicatif. Si vous nous confiez ensuite le dossier, une convention d’honoraires écrite est signée avant toute intervention.' },
     { q: 'L’aide juridictionnelle est-elle possible ?', a: 'En droit de la famille, pour les situations qui y sont éligibles. Nous vérifions votre éligibilité dès le premier échange, avant de fixer le rendez-vous.' },
-    { q: 'Le cabinet intervient-il en dehors de Montpellier ?', a: 'À Çastelnau-le-Lez, Lattes, Sète et Nîmes, ainsi que dans les communes voisines.' },
+    { q: 'Le cabinet intervient-il en dehors de Montpellier ?', a: 'À Castelnau-le-Lez, Lattes, Sète et Nîmes, ainsi que dans les communes voisines.' },
   ],
 
   form: { provider: 'mailto' },
@@ -180,7 +180,7 @@ export default defineSite({
   },
 
   images: {
-    logo: { src: '/logo.svg', alt: 'Çabinet Lemaire Avocats' },
+    logo: { src: '/logo.svg', alt: 'Cabinet Lemaire Avocats' },
   },
 
   seo: {

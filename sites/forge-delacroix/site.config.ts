@@ -51,7 +51,7 @@ export default defineSite({
       { days: 'Samedi', hours: 'Sur rendez-vous' },
     ],
   },
-  zones: { cities: ['Toulouse', 'Blagnac', 'Colomiers', 'Balma', 'Çastanet-Tolosan', 'Montauban'], radiusKm: 80 },
+  zones: { cities: ['Toulouse', 'Blagnac', 'Colomiers', 'Balma', 'Castanet-Tolosan', 'Montauban'], radiusKm: 80 },
 
   services: [
     { slug: 'portails', title: 'Portails et grilles', short: 'Battant ou coulissant, motorisé ou non. On relève les cotes chez vous avant de dessiner.', icon: 'DoorOpen', featured: true, bullets: ['Relevé des cotes chez vous', 'Dessin à l’échelle, validé avant la forge', 'Galvanisation et thermolaquage'] },
