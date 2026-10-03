@@ -30,6 +30,11 @@
  * lumière douce balaie les lettres (clippée à leur forme). Référence : ~/Downloads/ff-logo-anime-v3.webm.
  * prefers-reduced-motion : monogramme posé, statique, aucune animation.
  *
+ * Reprise du 3 oct. 2026 : rien n'a changé dans la composition validée (marque, phrase, filet, zéro
+ * bouton) — seul le CADRAGE du SVG a été corrigé. Le viewBox d'origine (0 0 868 283) était celui du
+ * fichier exporté, où le signe n'occupe que le tiers central : à l'écran la marque tombait à deux
+ * cents pixels à droite du filet et du titre, et l'axe du frontispice se lisait comme un accident.
+ *
  * L'emphase du titre porte la vraie italique de Cormorant (eclipse la désactive pour Space Grotesk,
  * qui n'en a pas de vraie — surcharge assumée ici, en spécificité supérieure).
  */
@@ -43,10 +48,16 @@ import { MONO_SUBPATHS } from './mono-subpaths';
   <div class="container-ff relative z-10">
     {/* La marque, en grand, dans le flux. aria-hidden : le nom du studio est déjà dans le panneau
         latéral et dans la nav mobile — le répéter ici ferait trois fois pour un lecteur d'écran. */}
-    <svg class="hero-mono" viewBox="0 0 868 283" aria-hidden="true" focusable="false">
+    <svg class="hero-mono" viewBox="286 -1 294 281" aria-hidden="true">
       <defs>
+        {/* Le tracé était écrit TROIS fois dans chaque page livrée — corps, trait, découpe du
+            reflet — soit 11 Ko de HTML pour un seul dessin. Il n'est plus écrit qu'une fois, ici,
+            et les trois emplois le réfèrent. Rien ne change à l'écran : `fill`, `stroke` et
+            `stroke-dasharray` sont des propriétés héritées, donc les classes posées sur chaque
+            `<use>` descendent dans le clone, et `pathLength` voyage avec le chemin d'origine. */}
+        {MONO_SUBPATHS.map((d, i) => <path id={`hero-mono-p${i}`} d={d} pathLength="1000" />)}
         <clipPath id="hero-mono-clip">
-          {MONO_SUBPATHS.map((d) => <path d={d} />)}
+          {MONO_SUBPATHS.map((_, i) => <use href={`#hero-mono-p${i}`} />)}
         </clipPath>
         <linearGradient id="hero-sheen-grad" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stop-color="rgba(255,255,255,0)" />
@@ -62,8 +73,8 @@ import { MONO_SUBPATHS } from './mono-subpaths';
           <stop class="g3" offset="1" />
         </linearGradient>
       </defs>
-      {MONO_SUBPATHS.map((d) => <path class="mono-fill" d={d} />)}
-      {MONO_SUBPATHS.map((d, i) => <path class="mono-trace" d={d} pathLength="1000" style={`--i:${i}`} />)}
+      {MONO_SUBPATHS.map((_, i) => <use class="mono-fill" href={`#hero-mono-p${i}`} />)}
+      {MONO_SUBPATHS.map((_, i) => <use class="mono-trace" href={`#hero-mono-p${i}`} style={`--i:${i}`} />)}
       <g clip-path="url(#hero-mono-clip)">
         <rect class="mono-sheen" x="0" y="-40" width="420" height="370" fill="url(#hero-sheen-grad)" />
       </g>
@@ -75,7 +86,7 @@ import { MONO_SUBPATHS } from './mono-subpaths';
       <hr class="hero-filet border-0" />
       <h1 class="mt-10 max-w-3xl text-display-lg" set:html={site.business.tagline} />
       <p class="mt-8 max-w-lg text-lg leading-relaxed text-muted">
-        Studio à deux personnes. Vous connaissez le prix avant qu’on commence, et le site vous
+        Studio à deux personnes. Vous connaissez le prix avant de commencer, et le site vous
         appartient le jour de la mise en ligne.
       </p>
     </div>
@@ -83,13 +94,20 @@ import { MONO_SUBPATHS } from './mono-subpaths';
 </section>
 
 <style>
-  /* --- La marque --- */
+  /* --- La marque ---
+     Le viewBox est recadré sur le tracé lui-même (bbox mesurée : x 288, y 0,92, l 289,4, h 277,1,
+     plus la demi-épaisseur du trait). Avant, il valait « 0 0 868 283 » alors que le signe n'occupe
+     que le tiers central de ce cadre : le monogramme flottait au milieu de la colonne, pendant que
+     le filet, le titre et le paragraphe partaient tous du bord gauche. Un frontispice se lit sur un
+     seul axe — la marque part maintenant du même bord que le reste. */
   .hero-mono {
     display: block;
-    width: 100%;
-    max-width: 44rem;
+    width: min(100%, clamp(11rem, 26vw, 16rem));
     height: auto;
     overflow: visible;
+    /* Le pied du second F descend jusqu'au bord bas du tracé : sans cette réserve, il effleure le
+       filet de frontispice posé juste dessous. */
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
   }
 
   /* Halo derrière la marque : la « couleur » d'eclipse, c'est la lumière sur le noir. */

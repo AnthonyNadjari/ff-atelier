@@ -102,7 +102,9 @@ export default defineSite({
   services: [
     {
       slug: 'site-vitrine',
-      title: 'Site vitrine clé en main',
+      // « clé en main » est un mot-valise de docs/REDACTION.md §14 R3, signalé par `ff verifier` et
+      // affiché sur l'accueil (ligne de liens sous le tableau de l'offre). Remplacé par le fait.
+      title: 'Création de site vitrine',
       short: 'Un site de 1 à 6 pages, pensé pour votre activité et livré en une fois.',
       icon: 'Layout',
       featured: true,
@@ -166,7 +168,7 @@ export default defineSite({
   faq: [
     {
       q: 'Faut-il fournir des photos ?',
-      a: 'C’est mieux, mais pas obligatoire. Nous pouvons monter une première version avec des visuels neutres et les remplacer dès que vos photos sont prêtes.',
+      a: 'C’est mieux, mais pas obligatoire. Nous pouvons monter une première version avec des visuels neutres, puis les remplacer dès que vous avez les vôtres.',
     },
     {
       q: 'Est-ce que je vais apparaître sur Google ?',

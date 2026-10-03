@@ -1,82 +1,113 @@
 ---
 /**
- * Réalisations — sur mesure Finck & Fisch. Douze sites de démonstration (un par métier, choisis dans
- * vitrine.json parmi les vingt générés), en LISTE-INDEX : une ligne par métier, numéro en chiffres
- * tabulaires, métier en display, direction visuelle nommée, la vignette posée au bout de la ligne.
- * Aucune figure ne pointe vers un lien (ces sites ne sont pas en ligne) : ce sont des lignes d'index,
- * pas des cartes cliquables — jamais de href="#" vide (interdit par le vérificateur). Vignettes
- * générées depuis captures/<slug>-desktop.png par `ff vitrine`, en 1400 et 700 px.
+ * Réalisations — sur mesure Finck & Fisch. Douze sites de démonstration, un par métier, choisis dans
+ * vitrine.json parmi les vingt générés. Vignettes produites par `ff vitrine` depuis
+ * captures/<slug>-desktop.png, en 1400 et 700 px.
  *
- * La liste-index (plutôt qu'une grille à trois colonnes) répond à la coquille `split` : la colonne de
- * 58 rem qui défile à droite du panneau ne peut pas montrer trois captures de site par rangée sans
- * les rendre illisibles. Elle répond aussi au panneau lui-même : même famille que le sommaire actif
- * (numéro, filet, un mot).
+ * REPRISE DU 3 OCT. 2026 — ce bloc était une liste-index : douze rangées identiques, la vignette
+ * posée au bout de chacune en 96 px sur mobile et 192 px sur desktop. Deux problèmes réels :
  *
- * Deux changements du 22 sept 2026 au soir :
- * - Le bloc passe APRÈS le manifeste, plus juste après le hero. La preuve d'entrée, c'est désormais
- *   la planche de trois propositions (`sections/Propositions.astro`) : le même contenu rendu trois
- *   fois, c'est-à-dire notre argument. Cet index-ci est le catalogue, pas l'argument.
- * - Chaque ligne nomme sa DIRECTION VISUELLE (donnée réelle de vitrine.json, jamais inventée).
- *   Décision 6 de `ETALON.md` : sur les 17 sites étalonnés, la preuve est toujours un nom propre ou
- *   un nombre, jamais un adjectif — `35 Awwwards`, `© 1972–2026`, `432 tests`. « Direction encre »
- *   est un fait vérifiable à l'œil sur la vignette ; « site élégant » n'en est pas un.
+ * 1. Douze rangées au même gabarit, c'est un tableau, pas une planche. Un artisan qui descend ici
+ *    vient voir des sites ; il voyait douze timbres-poste et lisait douze lignes de texte.
+ *    La planche est maintenant une PLANCHE DE CONTACT au rythme 2–3–2–3–2 sur douze colonnes : deux
+ *    grandes vignettes, trois moyennes, et ainsi de suite. Les images font de 280 à 430 px au lieu
+ *    de 192, le bloc ne s'allonge que de deux cents pixels, et aucune rangée ne ressemble à la
+ *    précédente. Les grands emplacements reçoivent les sites qui se lisent de loin (le jaune de
+ *    Toits & Cie, l'orange de Maison Roux) ; les moyens, ceux qui demandent qu'on s'approche.
+ * 2. La sélection montrait TROIS sites en direction « nuit » — deux blocs après un manifeste qui
+ *    affirme « Deux clients n'ont jamais la même direction ni la même typographie ». La preuve
+ *    démentait la promesse sur la même page. Les douze sites tirent désormais douze directions
+ *    différentes (sur les dix-sept de la bibliothèque), ce qui est vérifiable à l'œil sur la planche
+ *    et nommé sous chaque vignette : décision 6 de `ETALON.md`, la preuve est un nom ou un nombre,
+ *    jamais un adjectif. Le titre le dit : « Douze métiers, douze directions. »
+ *
+ * Les noms de direction sont ceux des dossiers de `src/directions/`, écrits ici en français correct
+ * (« méditerranée », « rétro ») : le dossier est en ASCII par convention de code, pas le texte lu.
  *
  * Règle dure n°2 (rien d'inventé) : ces douze sites sont des démonstrations, pas des clients. Le
- * titre, l'intro et l'alt de chaque vignette le disent en clair ; la ville (fictive) n'est pas
- * affichée. À remplacer par les vrais sites clients dès leur mise en ligne (docs/HANDOVER.md § P1).
+ * titre, l'intro et l'alt de chaque vignette le disent en clair, et chaque légende porte le mot
+ * « démonstration » ; la ville (fictive) n'est jamais affichée. À remplacer par les vrais sites
+ * clients dès leur mise en ligne (docs/HANDOVER.md § P1).
  *
- * Règle 21 : un seul groupe animé — le titre, puis la liste entière en une apparition (opacité
- * seule). Un data-stagger sur douze lignes poussait la page au-delà du seuil de 16 éléments animés
- * de `ff audit-motion` ; la liste arrive donc d'un bloc, comme un index qu'on pose sur la table.
- * Pas de data-hover-img : le tracé du monogramme reste le seul geste riche de la page (règle 16), et
- * une vignette visible en permanence marche aussi au doigt et au clavier.
+ * Aucune vignette ne pointe vers un lien : ces sites ne sont pas en ligne, et un `href="#"` vide est
+ * refusé par le vérificateur. Ce sont des images légendées, pas des cartes cliquables.
+ *
+ * Règle 21 : un seul groupe animé — le titre en data-reveal, puis la planche entière en un
+ * data-stagger. Le pas est plafonné par le moteur à 600 ms au total sur douze éléments. Pas de
+ * data-hover-img ni de survol d'image : le tracé du monogramme reste le seul geste riche de la page
+ * (règle 16), et une vignette visible en permanence marche aussi au doigt et au clavier.
  */
 import vitrine from '../vitrine.json';
 
 type Entry = { slug: string; metier: string; ville: string; direction: string; signature: string };
 const tous = vitrine as Entry[];
 
-// Douze métiers, une direction visuelle différente à chaque fois autant que possible.
-const choisis = [
-  'forge-delacroix', 'anna-vidal', 'maison-roux', 'atelier-lecerf',
-  'encre-noire', 'chez-malo', 'dubois-plomberie', 'lemaire-avocats',
-  'toits-cie', 'jardins-mael', 'maison-aurore', 'barbier-kessler',
+// Orthographe française des noms de direction (les dossiers de src/directions/ sont en ASCII).
+const nomDirection: Record<string, string> = { mediterranee: 'méditerranée', retro: 'rétro' };
+
+// Douze métiers, douze directions, dans l'ordre de la planche. `large: true` = emplacement de tête
+// d'une rangée de deux ; les autres vont par trois. Rythme 2–3–2–3–2.
+const planche = [
+  { slug: 'forge-delacroix', large: true },
+  { slug: 'maison-roux', large: true },
+  { slug: 'dubois-plomberie', large: false },
+  { slug: 'atelier-lecerf', large: false },
+  { slug: 'jardins-mael', large: false },
+  { slug: 'toits-cie', large: true },
+  { slug: 'maison-aurore', large: true },
+  { slug: 'barbier-kessler', large: false },
+  { slug: 'moteur-fils', large: false },
+  { slug: 'studio-ambre', large: false },
+  { slug: 'chez-malo', large: true },
+  { slug: 'encre-noire', large: true },
 ];
-const sites = choisis.map((slug) => tous.find((s) => s.slug === slug)).filter((s): s is Entry => Boolean(s));
+
+const sites = planche
+  .map(({ slug, large }) => {
+    const e = tous.find((s) => s.slug === slug);
+    return e ? { ...e, large, direction: nomDirection[e.direction] ?? e.direction } : null;
+  })
+  .filter((s): s is Entry & { large: boolean } => Boolean(s));
 ---
 
 <section id="realisations" class="section-y">
   <div class="container-ff">
-    <h2 class="max-w-2xl text-display-md" data-reveal>Douze métiers, douze sites.</h2>
+    <h2 class="max-w-2xl text-display-md" data-reveal>Douze métiers, douze directions.</h2>
     <p class="mt-6 max-w-2xl leading-relaxed text-muted">
-      Douze démonstrations, un métier chacune, pour montrer ce que deux artisans différents obtiennent
-      chez nous. Aucune n’est un client : nos premiers sites clients prendront leur place ici dès leur
-      mise en ligne.
+      Douze démonstrations, un métier chacune. Aucune n’est un client. Nous les avons construites
+      pour montrer le travail, et chacune tire une direction visuelle différente, nommée sous la
+      vignette. Nos premiers sites clients prendront leur place ici dès leur mise en ligne.
     </p>
 
-    <ol class="mt-14 border-t border-line" data-reveal>
+    <div class="ff-planche mt-14 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-12 sm:gap-x-6 sm:gap-y-14" data-stagger="70">
       {sites.map((s, i) => (
-        <li class="grid grid-cols-[2rem_1fr_auto] items-center gap-4 border-b border-line py-4 sm:gap-8 sm:py-5">
-          <span class="font-mono text-xs tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
-          <div class="min-w-0">
-            <h3 class="font-display text-xl leading-tight sm:text-2xl">{s.metier}</h3>
-            <p class="mt-1 text-sm text-muted">Direction {s.direction} · démonstration</p>
-          </div>
-          <div class="w-24 shrink-0 overflow-hidden rounded-card border border-line sm:w-36 lg:w-48">
-            <img
-              src={`/images/sites/${s.slug}-700.webp`}
-              srcset={`/images/sites/${s.slug}-700.webp 700w, /images/sites/${s.slug}.webp 1400w`}
-              sizes="(min-width: 1024px) 192px, (min-width: 640px) 144px, 96px"
-              width="1400"
-              height="900"
-              alt={`Site de démonstration pour un métier : ${s.metier.toLowerCase()}`}
-              loading="lazy"
-              decoding="async"
-              class="aspect-[14/9] w-full object-cover object-top"
-            />
-          </div>
-        </li>
+        <figure class={`min-w-0 ${s.large ? 'sm:col-span-6' : 'sm:col-span-4'}`}>
+          {/* Emplacement moyen : jamais affiché au-delà de 18 rem, soit 576 px en densité double et
+              495 px en densité triple sur téléphone. La vignette de 700 px suffit partout ; un
+              second candidat ne ferait télécharger 1400 px pour rien. Seuls les grands emplacements
+              (27 rem, 864 px en densité double) ont besoin de la vignette pleine. */}
+          <img
+            src={`/images/sites/${s.slug}-700.webp`}
+            srcset={s.large ? `/images/sites/${s.slug}-700.webp 700w, /images/sites/${s.slug}.webp 1400w` : undefined}
+            sizes={s.large ? '(min-width: 1024px) 27rem, (min-width: 640px) 46vw, 44vw' : undefined}
+            width="1400"
+            height="900"
+            alt={`Site de démonstration, ${s.metier.toLowerCase()}`}
+            loading="lazy"
+            class="aspect-[14/9] w-full border border-line object-cover object-top"
+          />
+          <figcaption class="mt-3 flex items-baseline gap-3 border-t border-line pt-3">
+            <span class="font-mono text-xs tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
+            <span class="min-w-0">
+              <span class="block font-display text-base leading-tight sm:text-lg">{s.metier}</span>
+              {/* Virgule et non point médian : à deux colonnes sur téléphone, la légende passe à la
+                  ligne, et un point médian orphelin en tête de seconde ligne se lit comme un défaut
+                  d'affichage. Une virgule en fin de ligne, elle, est une césure normale. */}
+              <span class="mt-1 block text-sm text-muted">Direction {s.direction}, démonstration</span>
+            </span>
+          </figcaption>
+        </figure>
       ))}
-    </ol>
+    </div>
   </div>
 </section>

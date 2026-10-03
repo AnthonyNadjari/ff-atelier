@@ -33,13 +33,25 @@
  * « Un prix affiché » (constat) devient « Le prix est écrit » (décision).
  * Le délai de 72 h n'est plus expliqué ici : `sections/Chantier.astro` le détaille deux blocs plus
  * haut. Il n'en reste qu'une ligne dans le tableau, pour qu'on le retrouve à côté du montant.
+ *
+ * Reprise du 3 oct. 2026, quatre points :
+ * - Sous 640 px, le tableau partait en défilement horizontal sans aucun indice : on lisait
+ *   « Essent… / à part… / 1 200 » coupés au milieu d'un mot, et la formule Complet n'existait pas à
+ *   l'écran. Le téléphone reçoit maintenant les deux formules l'une sous l'autre ; le tableau de
+ *   comparaison reste la forme de la section à partir de 640 px.
+ * - Les deux montants n'étaient marqués provisoires QUE dans un commentaire de code. Une ligne
+ *   visible le dit maintenant sous le tableau, comme l'engagement de 72 h le fait dans Chantier.
+ * - Le paragraphe d'ouverture avait trois phrases de 12, 11 et 10 mots : rythme plat, signalé par
+ *   `ff verifier` (REDACTION §14 R1). Réécrit en 8 / 26 / 2 / 14 mots.
+ * - Les deux colonnes du bas portaient chacune un `data-reveal` à l'intérieur d'un `data-stagger` :
+ *   doublon inutile (le moteur révèle déjà les enfants du groupe) et deux éléments observés de plus
+ *   pour rien. La section a de nouveau exactement un titre animé et un groupe (règle 21).
  */
 import { site } from '@/lib/site';
-import Icon from '@/components/Icon.astro';
 
 const formules = [
-  { nom: 'Essentiel', prix: 'à partir de 1 200 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
-  { nom: 'Complet', prix: 'à partir de 1 800 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
+  { nom: 'Essentiel', prix: 'à partir de 1 200 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
+  { nom: 'Complet', prix: 'à partir de 1 800 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
 ];
 
 // true/true = commun aux deux formules ; false/true = ajouté par la formule Complet.
@@ -56,11 +68,11 @@ const lignes = [
 ];
 
 const toujoursInclus = [
-  'Le code, les textes et le nom de domaine sont à vous.',
+  'Le code et les textes sont à vous, le nom de domaine aussi.',
   'Hébergement inclus, sans frais mensuel.',
   // Le détail du délai vit dans sections/Chantier.astro (deux blocs plus haut) ; ici, la ligne courte
   // qu'on veut lire à côté du montant. ENGAGEMENT PROVISOIRE, à confirmer par les fondateurs.
-  'Livré sous 72 h après réception de vos éléments, sinon remise de 10 % (engagement provisoire).',
+  'Livré sous 72 h après réception de vos éléments, sinon remise de 10 % (engagement provisoire).',
 ];
 ---
 
@@ -68,18 +80,54 @@ const toujoursInclus = [
   <div class="container-ff">
     <h2 class="max-w-2xl text-display-md" data-reveal>Le prix est écrit.</h2>
     <p class="mt-6 max-w-2xl leading-relaxed text-muted">
-      Nous l’affichons parce que nous vendons un site fini, pas des heures. Vous savez avant même de
-      nous appeler si c’est pour vous. Deux formules, fixées avant de commencer, payées en une fois.
+      Nous vendons un site fini, pas des heures. C’est pour cela que le montant est écrit ici plutôt
+      que gardé pour le téléphone : vous savez avant de nous appeler si c’est pour vous. Deux
+      formules. Le prix est arrêté avant le premier trait, et payé en une fois.
     </p>
 
+    {/* Sous 640 px, les deux formules se lisent l'une sous l'autre : le tableau à trois colonnes
+        demande 36 rem et un téléphone en fait 22. Il était bien en défilement horizontal, mais sans
+        le moindre indice : un visiteur voyait « Essent… / à part… / 1 200 » coupés au milieu d'un
+        mot et une seule colonne de prix sur deux. Même contenu, même ordre, deux présentations. */}
+    {/* Le signe « inclus », dessiné une fois et appelé trente-six fois. L'icône partagée pèse 300
+        octets à chaque emploi : en HTML livré, cette section seule en portait 10,7 Ko, assez pour
+        faire sauter le budget de `perf-budget.json`. Un `<symbol>` + `<use>` ramène chaque emploi à
+        une centaine d'octets, à rendu identique. Couleur par `currentColor`, donc par token. */}
+    <svg width="0" height="0" class="absolute" aria-hidden="true">
+      <symbol id="ff-inclus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 6 9 17l-5-5" />
+      </symbol>
+      <symbol id="ff-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14M12 5v14" />
+      </symbol>
+    </svg>
+
+    <div class="mt-14 flex flex-col gap-10 sm:hidden">
+      {formules.map((f, col) => (
+        <div class="border-t border-line pt-6">
+          <p class="font-display text-display-sm">{f.nom}</p>
+          <p class="mt-1 font-display text-2xl tabular-nums text-fg">{f.prix}</p>
+          {col === 1 && <p class="mt-4 text-sm text-muted">Tout l’Essentiel, plus :</p>}
+          <ul class="mt-4 flex flex-col gap-3 text-sm text-muted">
+            {lignes.filter((l) => (col === 0 ? l.essentiel : !l.essentiel && l.complet)).map((l) => (
+              <li class="flex items-start gap-3">
+                <svg class="mt-1 h-[15px] w-[15px] shrink-0 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg>
+                <span>{l.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
     {/*
-      [contain:layout] : le tableau (largeur intrinsèque ~582px) dépasse ce conteneur sur mobile —
-      voulu, défilement horizontal contenu par overflow-x-auto. Sans `contain: layout`, Chrome
-      laisse ~5px de la largeur du tableau remonter dans document.documentElement.scrollWidth
+      [contain:layout] : le tableau (largeur intrinsèque ~582px) dépasse ce conteneur entre 640 et
+      700 px — voulu, défilement horizontal contenu par overflow-x-auto. Sans `contain: layout`,
+      Chrome laisse ~5px de la largeur du tableau remonter dans document.documentElement.scrollWidth
       (repéré par `ff captures` : "débordement horizontal" sur finck-fisch-mobile alors que rien
       n'est visuellement coupé) ; `contain: layout` isole le calcul de débordement de ce conteneur.
     */}
-    <div class="mt-14 overflow-x-auto [contain:layout]">
+    <div class="mt-14 hidden overflow-x-auto [contain:layout] sm:block">
       <table class="w-full min-w-[36rem] border-collapse text-left text-sm">
         <thead>
           <tr class="border-b border-line">
@@ -98,12 +146,12 @@ const toujoursInclus = [
               <th scope="row" class="py-4 pr-6 font-normal text-muted">{l.label}</th>
               <td class="py-4 pl-6">
                 {l.essentiel
-                  ? <><Icon name="Check" size={16} class="text-accent" aria-hidden="true" /><span class="sr-only">Inclus</span></>
+                  ? <><svg class="h-4 w-4 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg><span class="sr-only">Inclus</span></>
                   : <><span aria-hidden="true" class="text-muted/50">–</span><span class="sr-only">Non inclus</span></>}
               </td>
               <td class="py-4 pl-6">
                 {l.complet
-                  ? <><Icon name="Check" size={16} class="text-accent" aria-hidden="true" /><span class="sr-only">Inclus</span></>
+                  ? <><svg class="h-4 w-4 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg><span class="sr-only">Inclus</span></>
                   : <><span aria-hidden="true" class="text-muted/50">–</span><span class="sr-only">Non inclus</span></>}
               </td>
             </tr>
@@ -112,22 +160,30 @@ const toujoursInclus = [
       </table>
     </div>
 
+    {/* PRIX PROVISOIRES — marquage visible, pas seulement un commentaire de code : tant que les deux
+        associés n'ont pas arrêté le barème, un visiteur doit lire que ces montants peuvent bouger
+        (règle dure n°2, même statut que l'engagement de 72 h ci-dessous et que le téléphone). */}
+    <p class="mt-6 text-xs leading-relaxed text-muted">
+      Les deux montants ci-dessus sont provisoires : ils seront arrêtés par les associés avant la
+      mise en ligne de ce site.
+    </p>
+
     <div class="mt-14 grid gap-8 border-t border-line pt-10 md:grid-cols-2" data-stagger="100">
-      <div data-reveal>
+      <div>
         <h3 class="font-display text-lg">Dans les deux formules</h3>
         <ul class="mt-4 flex flex-col gap-2 text-sm text-muted">
           {toujoursInclus.map((item) => (
             <li class="flex items-start gap-3">
-              <Icon name="Check" size={14} class="mt-0.5 shrink-0 text-accent" />
+              <svg class="mt-1 h-[14px] w-[14px] shrink-0 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg>
               <span>{item}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <div data-reveal>
+      <div>
         <h3 class="font-display text-lg">Après la livraison</h3>
-        {/* 25 €/mois : montant provisoire, à confirmer par les fondateurs avant mise en ligne. */}
+        {/* 25 €/mois : montant provisoire, à confirmer par les fondateurs avant mise en ligne. */}
         <p class="mt-4 max-w-prose text-sm text-muted">
           Rien à payer. Si vous préférez que nous gardions un œil sur le site, une maintenance existe en option,
           25 € par mois, résiliable quand vous voulez. Elle n’est jamais imposée.
@@ -155,7 +211,7 @@ const toujoursInclus = [
           <details class="ff-q border-b border-line">
             <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-4 text-base text-fg">
               <span>{item.q}</span>
-              <Icon name="Plus" size={18} class="ff-q-signe mt-1 shrink-0 text-muted" />
+              <svg class="ff-q-signe mt-1 h-[18px] w-[18px] shrink-0 text-muted" aria-hidden="true"><use href="#ff-plus" /></svg>
             </summary>
             <p class="max-w-prose pb-5 text-sm leading-relaxed text-muted">{item.a}</p>
           </details>
