@@ -4,21 +4,51 @@
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='clair'] {
-  --accent-h: 220;
-  --accent-s: 85%;
-  --accent-l: 54%; /* 55 -> 54 : eyebrow/texte accent sur --bg-2 tombait a 4.38:1 */
+  --accent-h: 208;
+  --accent-s: 62%;
+  --accent-l: 40%;
+  /* Le bleu d'un tirage cyanotype — le vrai bleu des plans d'execution avant la photocopie, celui
+     que l'electricien et le geometre ont encore dans leurs cartons. L'ancien 220/85%/54% etait
+     `blue-600` de Tailwind a la virgule pres, pose sur du #ffffff et du `slate-50` : le trio que
+     tout generateur sort sans y penser (docs/veille/couleur.md §5b, §5c-3). Tient 4,75:1 sur
+     --bg-2, le fond le plus sombre ou l'accent fait du texte (mesure par `ff couleur clair`,
+     3 oct. 2026). Surchargeable par site.accent — ampere-fils, auto-ecole-rabelais et
+     veto-du-drac le font tous les trois. */
 
-  --bg: #ffffff;
-  --bg-2: #f5f7fa;
-  --surface: #ffffff;
-  --fg: #0f172a;
-  --muted: #627288; /* #64748b -> #627288 : texte muted sur --bg-2 tombait a 4.43:1 */
-  --line: #e2e8f0;
+  /* Couleurs empruntees au poste de travail des metiers vises (SaaS, agence web, marketing,
+     recrutement, auto-ecole, cabinet veterinaire) : l'ecran allume, le tableau blanc, le papier
+     millimetre. Aucune ligne ci-dessous n'est un calcul.
+       --bg      le blanc d'une dalle LCD allumee sur une page vide : 3 points de bleu
+                 (250/251/253). Le #ffffff d'avant n'etait pas un blanc, c'etait un ecran eteint.
+       --surface le meme ecran un cran plus clair, la carte posee dessus : 0,6 point de luminosite
+                 au-dessus de --bg, quand --bg-2 en est a 6,1 en dessous — un micro-saut et un
+                 grand saut, jamais l'escalier regulier de 2,9 points d'avant.
+       --bg-2    le voile bleu que laisse un feutre efface sur un tableau blanc de salle de
+                 reunion : 10 points d'ecart RVB, le plus teinte des trois fonds.
+       --fg      l'encre bleu-noir d'un stylo a plume sur la fiche de brief. L'ancien #0f172a etait
+                 `slate-900`.
+       --muted   l'aluminium anodise du capot d'un portable.
+       --line    le quadrillage bleu pale d'une feuille de papier millimetre.
+       --on-accent le blanc de l'ecran lui-meme, pose sur l'accent : aucun #ffffff pur ne reste
+                 dans la direction. */
+  --bg: #fafbfd;
+  --bg-2: #e7ebf1;
+  --surface: #fcfdfe;
+  --fg: #101a26;
+  --muted: #5b6879;
+  --line: #dce3ec;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 10%));
-  --on-accent: #ffffff;
-  --ink: #0f172a;
-  --on-ink: #ffffff;
+  --accent-2: #3b2d8c;
+  --on-accent: #fcfdfe;
+  --ink: #101a26;
+  --on-ink: #fafbfd;
+
+  /* --accent-2, le violet du tampon encreur a l'alcool — celui du cachet d'une auto-ecole, d'un
+     cabinet ou d'une attestation. Hex releve a la main, pas `calc(var(--accent-l) - 10%)` : il est
+     a 283 deg en OKLCH quand l'accent est a 249, aucun chemin de calcul ne mene de l'un a l'autre.
+     Il ne sert QU'A UNE CHOSE : le survol du bouton primaire — l'instant ou le bouton est tamponne.
+     C'est aussi son seul emploi dans tout le repo (les composants partages posent
+     `hover:bg-accent-2 text-on-accent`). 10,6:1 sous --on-accent. */
 
   --font-display: 'Manrope Variable', ui-sans-serif, sans-serif;
   --font-body: 'DM Sans Variable', ui-sans-serif, sans-serif;
@@ -28,17 +58,33 @@
   --heading-transform: none;
   --radius: 12px;
   --radius-card: 20px;
-  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 12px 24px -10px rgb(15 23 42 / 0.10), 0 24px 48px -28px rgb(15 23 42 / 0.14);
-  --shadow-lift: 0 30px 60px -20px rgb(15 23 42 / 0.22);
+  --shadow-card: 0 1px 2px rgb(16 26 38 / 0.04), 0 12px 24px -10px rgb(16 26 38 / 0.10), 0 24px 48px -28px rgb(16 26 38 / 0.14);
+  --shadow-lift: 0 30px 60px -20px rgb(16 26 38 / 0.22);
   /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : quart-out (Stripe x40) : propre, sans effet. */
   --ease-brand: cubic-bezier(0.25, 1, 0.5, 1);
   --motion-ui: 0.2s;
+}
+
+/* Meme couleur, notation moderne. Gain reel : deux couleurs « legacy » (hex, hsl) sont interpolees
+   en sRGB par une transition ou un degrade, et le trajet bleu -> violet y traverse une zone
+   sourde ; des que l'une des deux est declaree en oklch, l'interpolation passe en Oklab et le
+   survol du bouton garde sa chroma (docs/veille/couleur.md §1). Le hex du bloc de tokens reste le
+   repli des navigateurs d'avant mai 2023 — meme couleur exactement, verifiable par
+   `ff couleur clair --base`. */
+@supports (color: oklch(0% 0 0)) {
+  [data-direction='clair'] { --accent-2: oklch(37.5% 0.1501 283.2); }
 }
 
 [data-direction='clair'] ::selection { background: var(--accent); color: var(--on-accent); }
 
 [data-direction='clair'] h1 em,
 [data-direction='clair'] h2 em { font-style: normal; color: var(--accent); }
+
+/* L'eyebrow passe au gris : l'accent etait employe cinq fois (em, eyebrow, bouton, lueur, focus),
+   ce qui est le profil d'une palette generee — dans une palette composee l'accent sert a une chose
+   nommee et les autres roles prennent --fg ou --muted (docs/veille/couleur.md §5a). Ici il reste
+   le bleu du titre et du bouton ; le petit label redevient une legende. */
+[data-direction='clair'] .eyebrow { color: var(--muted); }
 
 [data-direction='clair'] .btn { border-radius: var(--radius); font-weight: 600; }
 [data-direction='clair'] .btn-primary {

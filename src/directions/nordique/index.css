@@ -1,24 +1,48 @@
-/* Direction NORDIQUE — pale et aerienne. Blanc casse, teal sourd, Sora + Literata. */
+/* Direction NORDIQUE — pale et aerienne. Blanc casse, celadon sourd, Sora + Literata. */
 @import '@fontsource-variable/sora';
 @import '@fontsource-variable/literata';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='nordique'] {
-  --accent-h: 175;
-  --accent-s: 30%;
-  --accent-l: 36%; /* 38 -> 36 : eyebrow/texte accent sur --bg-2 tombait a 4.15:1 */
+  --accent-h: 168;
+  --accent-s: 32%;
+  --accent-l: 32%;
+  /* Le celadon d'une glacure de gres cuite au four, pris sur la tranche du tesson — la ou la
+     glacure s'epaissit et fonce. L'ancien 175/30%/36% etait un teal sans provenance, et son
+     --accent-2 reprenait la meme teinte et la meme saturation a une luminosite fixee : deux lignes
+     du meme HSL (docs/veille/couleur.md §5b, §5c-4). Tient 4,88:1 sur --bg-2 (mesure par
+     `ff couleur nordique`, 3 oct. 2026). Surchargeable par site.accent. */
 
-  --bg: #fbfbfa;
-  --bg-2: #f1f2f0;
-  --surface: #ffffff;
-  --fg: #1f2422;
-  --muted: #696e6d; /* #6f7573 -> #696e6d : texte muted sur --bg-2 tombait a 4.19:1 */
-  --line: #e3e5e2;
+  /* Couleurs empruntees aux matieres des metiers vises (decorateur, ebeniste scandinave, ceramiste,
+     therapeute, architecte) : la chaux, le lin, le bouleau, la glacure. Aucune ligne n'est un calcul.
+       --bg      le lait de chaux sec d'un mur de cabinet, a peine vert (247/248/244). L'ancien
+                 #fbfbfa n'avait qu'un point d'ecart entre ses canaux : un gris neutre deguise.
+       --surface le buvard d'une feuille de soin posee sur ce mur : 0,8 point de luminosite
+                 au-dessus de --bg, quand --bg-2 en est a 7,1 en dessous — un micro-saut et un grand
+                 saut, au lieu des 3,7 points reguliers d'avant.
+       --bg-2    la laine grege d'un tapis de sol, lavee et retrecie.
+       --fg      l'ecorce de bouleau la ou elle noircit, vert-noir et jamais #000.
+       --muted   le fil de lin non blanchi.
+       --line    le trait de crayon gris sur le platre, celui qui reste apres la pose.
+       --on-accent le lait de chaux lui-meme, repose sur l'accent : pas un #ffffff d'usine. */
+  --bg: #f7f8f4;
+  --bg-2: #e6e8e0;
+  --surface: #f9faf6;
+  --fg: #1c211e;
+  --muted: #616661;
+  --line: #dadcd3;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --accent-2: hsl(var(--accent-h) var(--accent-s) 30%);
-  --on-accent: #ffffff;
-  --ink: #1f2422;
-  --on-ink: #fbfbfa;
+  --accent-2: #4a3328;
+  --on-accent: #f9faf6;
+  --ink: #1c211e;
+  --on-ink: #f7f8f4;
+
+  /* --accent-2, le goudron de pin dont on badigeonne les eglises en bois et les bardages
+     scandinaves : un brun chaud, presque noir, qui fonce encore en sechant. Hex releve a la main,
+     pas une luminosite fixee sur la teinte de l'accent : 47 deg en OKLCH contre 179 pour le
+     celadon, 132 degres les separent. Il ne sert QU'A UNE CHOSE : le survol du bouton primaire —
+     la planche qu'on vient de passer au goudron. C'est son seul emploi dans le repo (les
+     composants partages posent `hover:bg-accent-2 text-on-accent`). 11,4:1 sous --on-accent. */
 
   --font-display: 'Sora Variable', ui-sans-serif, sans-serif;
   --font-body: 'Literata Variable', 'Georgia', serif;
@@ -28,12 +52,22 @@
   --heading-transform: none;
   --radius: 8px;
   --radius-card: 12px;
-  --shadow-card: 0 1px 2px rgb(31 36 34 / 0.04), 0 10px 24px -18px rgb(31 36 34 / 0.12);
-  --shadow-lift: 0 20px 48px -24px rgb(31 36 34 / 0.2);
+  --shadow-card: 0 1px 2px rgb(28 33 30 / 0.04), 0 10px 24px -18px rgb(28 33 30 / 0.12);
+  --shadow-lift: 0 20px 48px -24px rgb(28 33 30 / 0.2);
   --section-y: clamp(5rem, 12vw, 10rem);
   /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : Whiteout : aerienne, sans rebond. */
   --ease-brand: cubic-bezier(0.16, 0.84, 0.3, 1);
   --motion-ui: 0.25s;
+}
+
+/* Meme couleur, notation moderne. Gain reel : entre deux couleurs « legacy » (hsl, hex), une
+   transition ou un degrade interpole en sRGB, et le trajet celadon -> brun (132 deg de teinte)
+   y traverse un olive terne ; des que l'une des deux est declaree en oklch, l'interpolation passe
+   en Oklab et le survol du bouton reste propre (docs/veille/couleur.md §1). Le hex du bloc de
+   tokens reste le repli des navigateurs d'avant mai 2023 — meme couleur exactement
+   (`ff couleur nordique --base`). */
+@supports (color: oklch(0% 0 0)) {
+  [data-direction='nordique'] { --accent-2: oklch(34.5% 0.0383 46.6); }
 }
 
 [data-direction='nordique'] ::selection { background: var(--accent); color: var(--on-accent); }
@@ -66,4 +100,8 @@
   box-shadow: var(--shadow-card);
 }
 [data-direction='nordique'] .rule { border-top: 1px solid var(--line); }
-[data-direction='nordique'] .eyebrow { letter-spacing: 0.16em; }
+/* L'eyebrow repasse au lin : l'accent etait employe cinq fois (em, eyebrow, bouton, bouton fantome
+   au survol, focus), ce qui est le profil d'une palette generee. Dans une direction qui doit
+   respirer, le celadon se garde pour le titre et le bouton ; le petit label redevient une legende
+   (docs/veille/couleur.md §5a). */
+[data-direction='nordique'] .eyebrow { letter-spacing: 0.16em; color: var(--muted); }

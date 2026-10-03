@@ -4,21 +4,47 @@
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='pierre'] {
-  --accent-h: 30;
-  --accent-s: 8%;
-  --accent-l: 20%;
+  --accent-h: 160;
+  --accent-s: 30%;
+  --accent-l: 27%;
+  /* Le vert des veines du marbre serpentine — le « vert de Suede » des tables et des cheminees,
+     celui qui apparait quand le bloc est scie puis poli. L'ancien accent etait un brun a 8 % de
+     saturation : pas une couleur, un deuxieme texte, et les `h1 em` de la direction y etaient
+     invisibles (docs/veille/couleur.md §5b, §5c-5). Celui-ci est une vraie teinte, a 6,87:1 en
+     titre sur --bg comme sous --on-accent (mesure par `ff couleur pierre`, 3 oct. 2026).
+     Surchargeable par site.accent — studio-ambre le fait. */
 
-  --bg: #f2f1ee;
-  --bg-2: #e8e6e1;
-  --surface: #faf9f7;
-  --fg: #1c1b19;
-  --muted: #696661; /* #6e6b66 -> #696661 : muted (utilise aussi par .eyebrow ici) sur --bg-2 tombait a 4.25:1 */
-  --line: #d5d2cb;
+  /* Couleurs relevees sur l'atelier du tailleur de pierre et le chantier de l'architecte (marbrier,
+     galeriste, geometre, notaire). Aucune ligne n'est un calcul.
+       --bg      la poussiere de sciage du calcaire deposee sur le banc : un gris de pierre tire au
+                 vert (240/241/236), appaire au vert de l'accent comme Radix appaire sage et vert.
+       --surface la tranche du bloc une fois polie, un ton plus claire : 1,0 point de luminosite
+                 au-dessus de --bg, quand --bg-2 en est a 5,9 en dessous — un micro-saut et un
+                 grand saut, au lieu des 4,5 points reguliers d'avant.
+       --bg-2    le granit de l'etabli, plus sombre et plus froid que la pierre qu'on y pose.
+       --fg      le basalte mouille, le noir le plus profond d'une carriere.
+       --muted   le trait de scie dans la pierre, gris-vert.
+       --line    le joint de poussiere laisse dans la rainure.
+       --on-accent la poussiere de calcaire elle-meme, reposee sur le vert : aucun #ffffff pur dans
+                 la direction. */
+  --bg: #f0f1ec;
+  --bg-2: #e2e4db;
+  --surface: #f2f3ef;
+  --fg: #191c19;
+  --muted: #61635c;
+  --line: #d3d6cc;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --accent-2: hsl(var(--accent-h) var(--accent-s) 35%);
-  --on-accent: #f2f1ee;
-  --ink: #1c1b19;
-  --on-ink: #f2f1ee;
+  --accent-2: #7a362a;
+  --on-accent: #f0f1ec;
+  --ink: #191c19;
+  --on-ink: #f0f1ec;
+
+  /* --accent-2, la sanguine : le crayon rouge-brun avec lequel l'appareilleur trace la coupe sur
+     le bloc, et qu'on efface une fois la pierre taillee. Hex releve a la main, pas une luminosite
+     fixee sur la teinte de l'accent comme avant : 32 deg en OKLCH contre 170 pour le serpentine,
+     138 degres les separent. Il ne sert QU'A UNE CHOSE : le survol du bouton primaire — le trait
+     qui apparait sous la main et s'en va. Seul emploi dans le repo (les composants partages posent
+     `hover:bg-accent-2 text-on-accent`). 7,74:1 sous --on-accent. */
 
   --font-display: 'Bodoni Moda Variable', 'Didot', 'Georgia', serif;
   --font-body: 'Epilogue Variable', ui-sans-serif, sans-serif;
@@ -29,12 +55,21 @@
   --radius: 0px;
   --radius-card: 0px;
   --shadow-card: none;
-  --shadow-lift: 0 24px 48px -28px rgb(28 27 25 / 0.3);
+  --shadow-lift: 0 24px 48px -28px rgb(25 28 25 / 0.3);
   --section-y: clamp(5rem, 12vw, 10rem);
   --motion-duration: 1s;
   /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : in-out minerale (Paul Kalkbrenner) : lente, lourde. */
   --ease-brand: cubic-bezier(0.87, 0, 0.13, 1);
   --motion-ui: 0.3s;
+}
+
+/* Meme couleur, notation moderne. Gain reel : entre deux couleurs « legacy » (hsl, hex), une
+   transition ou un degrade interpole en sRGB, et le trajet serpentine -> sanguine (138 deg de
+   teinte) y passe par un gris de boue ; des que l'une des deux est declaree en oklch,
+   l'interpolation se fait en Oklab (docs/veille/couleur.md §1). Le hex du bloc de tokens reste le
+   repli des navigateurs d'avant mai 2023 — meme couleur exactement (`ff couleur pierre --base`). */
+@supports (color: oklch(0% 0 0)) {
+  [data-direction='pierre'] { --accent-2: oklch(42.2% 0.0979 31.7); }
 }
 
 [data-direction='pierre'] ::selection { background: var(--accent); color: var(--on-accent); }
@@ -67,4 +102,6 @@
   border-radius: 0;
 }
 [data-direction='pierre'] .rule { border-top: 1px solid var(--line); }
+/* L'eyebrow reste au gris de scie : dans cette direction l'accent ne sert qu'au titre et au
+   bouton (docs/veille/couleur.md §5a — une chose nommee, les autres roles prennent --fg/--muted). */
 [data-direction='pierre'] .eyebrow { color: var(--muted); }

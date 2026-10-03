@@ -1,24 +1,53 @@
-/* Direction JOURNAL — editorial, presse. Off-white, Playfair, filets fins. */
+/* Direction JOURNAL — editorial, presse. Papier de rotative, Playfair, filets fins. */
 @import '@fontsource-variable/playfair-display';
 @import '@fontsource-variable/lora';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='journal'] {
-  --accent-h: 355;
-  --accent-s: 65%;
+  --accent-h: 237;
+  --accent-s: 54%;
   --accent-l: 42%;
+  /* Le bleu Reflex de l'encre offset — la seconde encre du marbre, celle qu'on voit pure sur la
+     barre de reperage en marge de la bobine. L'ancien accent (355/65%/42% = #b12531) et l'ancien
+     fond (#f7f5f0) tombaient tous les deux dans la palette que les deux outils de detection
+     bannissent : creme + brique, hex voisins de #f5f1ea et #9a2436 (docs/veille/skills-design-ia.md
+     §2 regle 3, docs/veille/couleur.md §5c-6). La direction en sort par le haut : papier gris,
+     encre bleue. Tient 7,38:1 sur --bg-2 (mesure par `ff couleur journal`, 3 oct. 2026).
+     Surchargeable par site.accent. */
 
-  --bg: #f7f5f0;
-  --bg-2: #eeebe2;
-  --surface: #fffdfa;
-  --fg: #1a1712;
-  --muted: #63594d;
-  --line: #d8d2c4;
+  /* Couleurs relevees dans une salle de presse, pas derivees d'un HSL (avocat, notaire, cabinet de
+     conseil, editeur, expert-comptable).
+       --bg      le papier de rotative : fibre de bois recyclee, gris et legerement froid
+                 (239/242/241). Ce n'est pas un off-white creme, c'est du papier journal.
+       --surface la page interieure, moins encree : 1,0 point de luminosite au-dessus de --bg,
+                 quand --bg-2 en est a 5,7 en dessous — un micro-saut et un grand saut, au lieu des
+                 4,5 points reguliers d'avant.
+       --bg-2    la pile de journaux vue sur la tranche, la ou les pages s'ombrent les unes les
+                 autres.
+       --fg      le noir d'imprimerie coupe de bleu Reflex : les imprimeurs ajoutent du bleu au
+                 noir pour qu'il ne tire pas au brun sur le papier. L'ancien #1a1712 etait un
+                 quasi-noir chaud, troisieme hex de la palette bannie.
+       --muted   le gris d'une photo tramee a 85 lignes, vue a bout de bras.
+       --line    le filet de separation de colonne.
+       --on-accent le papier, repose sur l'encre. */
+  --bg: #eff2f1;
+  --bg-2: #e0e4e3;
+  --surface: #f2f4f3;
+  --fg: #14181b;
+  --muted: #5c6366;
+  --line: #ccd2d1;
   --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
-  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 10%));
-  --on-accent: #fdf9f2;
-  --ink: #1a1712;
-  --on-ink: #f7f5f0;
+  --accent-2: #8e1f5e;
+  --on-accent: #f1f3f3;
+  --ink: #14181b;
+  --on-ink: #eff2f1;
+
+  /* --accent-2, le magenta de la quadri — la deuxieme encre de la presse, assombrie en penetrant
+     la fibre du papier journal (un aplat de magenta ne reste jamais aussi clair sur du papier de
+     rotative que sur du couche). Hex releve a la main, pas `calc(var(--accent-l) - 10%)` : 351 deg
+     en OKLCH contre 273 pour le bleu Reflex. Il ne sert QU'A UNE CHOSE : le survol du bouton
+     primaire — la seconde encre qui passe sur la premiere. Seul emploi dans le repo (les composants
+     partages posent `hover:bg-accent-2 text-on-accent`). 7,52:1 sous --on-accent. */
 
   --font-display: 'Playfair Display Variable', 'Georgia', serif;
   --font-body: 'Lora Variable', 'Georgia', serif;
@@ -28,11 +57,20 @@
   --heading-transform: none;
   --radius: 0px;
   --radius-card: 0px;
-  --shadow-card: 0 1px 0 rgb(26 23 18 / 0.08);
-  --shadow-lift: 0 24px 48px -28px rgb(26 23 18 / 0.35);
+  --shadow-card: 0 1px 0 rgb(20 24 27 / 0.08);
+  --shadow-lift: 0 24px 48px -28px rgb(20 24 27 / 0.35);
   /* Courbe signature + regime UI (docs/veille/animations-2.md R1/R2) : courbe Vercel / Love and Money : editoriale, posee. */
   --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
   --motion-ui: 0.25s;
+}
+
+/* Meme couleur, notation moderne. Gain reel : entre deux couleurs « legacy » (hsl, hex), une
+   transition ou un degrade interpole en sRGB, et le trajet bleu -> magenta y traverse un violet
+   sale ; des que l'une des deux est declaree en oklch, l'interpolation passe en Oklab et les deux
+   encres restent franches (docs/veille/couleur.md §1). Le hex du bloc de tokens reste le repli des
+   navigateurs d'avant mai 2023 — meme couleur exactement (`ff couleur journal --base`). */
+@supports (color: oklch(0% 0 0)) {
+  [data-direction='journal'] { --accent-2: oklch(44.3% 0.1573 350.9); }
 }
 
 [data-direction='journal'] ::selection { background: var(--accent); color: var(--on-accent); }
