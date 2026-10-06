@@ -15,19 +15,18 @@
  * Revue motion du 6 oct (Emil Kowalski / review-animations) appliquée : voir le commit.
  */
 const planche = [
-  { n: 1, direction: 'Atelier', ambiance: 'Papier crème, serif, chaleur d’atelier.', cadrage: '50%' },
-  { n: 2, direction: 'Clair', ambiance: 'Blanc net, bleu franc, bande défilante.', cadrage: '22%' },
-  { n: 3, direction: 'Rétro', ambiance: 'Lumière chaude, orange des années 70.', cadrage: '22%' },
+  { n: 1, direction: 'Piste 1', ambiance: 'Chaleureuse, papier et serif.', cadrage: '50%' },
+  { n: 2, direction: 'Piste 2', ambiance: 'Nette, blanche et bleue.', cadrage: '22%' },
+  { n: 3, direction: 'Piste 3', ambiance: 'Rétro, lumière orangée.', cadrage: '22%' },
 ];
 ---
 
 <section id="propositions" class="section-y">
   <div class="container-ff">
     <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
-      <h2 class="text-display-md lg:col-span-6">Trois sites. Un seul contenu.</h2>
-      <p class="max-w-[34rem] leading-relaxed text-muted lg:col-span-5 lg:col-start-8">
-        Nous construisons trois sites entiers, sur vos textes et vos photos. Vous recevez trois liens,
-        vous en gardez un, nous finissons celui-là. C’est la seule décision que vous avez à prendre.
+      <h2 class="text-display-md lg:col-span-6">Comment ça marche</h2>
+      <p class="max-w-[34rem] text-lg leading-relaxed lg:col-span-5 lg:col-start-8">
+        On vous propose trois pistes. Vous choisissez celle qui vous ressemble. On termine le site.
       </p>
     </div>
 
@@ -49,17 +48,17 @@ const planche = [
                 sizes="(min-width: 1024px) 54rem, 94vw"
                 width="1400"
                 height="900"
-                alt={`Boulangerie de démonstration, direction ${p.direction.toLowerCase()} : ${p.ambiance.toLowerCase()}`}
+                alt={`Boulangerie de démonstration, ${p.direction.toLowerCase()} : ${p.ambiance.toLowerCase()}`}
                 loading="lazy"
                 style={`--cadrage: ${p.cadrage}`}
               />
-              <figcaption class="ff-vue-legende">Direction {p.direction.toLowerCase()}. {p.ambiance}</figcaption>
+              <figcaption class="ff-vue-legende">{p.direction}. {p.ambiance}</figcaption>
             </figure>
           ))}
         </div>
       </div>
 
-      <div class="ff-onglets" role="tablist" aria-label="Trois directions, même contenu" data-onglets hidden>
+      <div class="ff-onglets" role="tablist" aria-label="Trois pistes pour le même site" data-onglets hidden>
         {planche.map((p, i) => (
           <button
             type="button"
@@ -79,10 +78,13 @@ const planche = [
       </div>
     </div>
 
-    <p class="mt-8 max-w-[38rem] text-sm text-muted">
-      Une boulangerie de démonstration&nbsp;: même titre, même paragraphe, même numéro sur les trois.
-      Seule la direction change.
-    </p>
+    <p class="mt-6 text-sm text-muted">Ici, une boulangerie de démonstration. Mêmes textes, trois façons de les montrer.</p>
+
+    <ol class="ff-etapes mt-14 grid gap-8 border-t border-line pt-10 md:grid-cols-3">
+      <li><span class="font-display text-2xl tabular-nums">1</span><p class="mt-2 text-muted">Vous nous envoyez vos textes et vos photos.</p></li>
+      <li><span class="font-display text-2xl tabular-nums">2</span><p class="mt-2 text-muted">Deux jours après, les trois pistes sont en ligne.</p></li>
+      <li><span class="font-display text-2xl tabular-nums">3</span><p class="mt-2 text-muted">Le troisième jour, votre site est en ligne, à votre nom.</p></li>
+    </ol>
   </div>
 </section>
 

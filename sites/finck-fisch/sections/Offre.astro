@@ -78,11 +78,9 @@ const toujoursInclus = [
 
 <section id="offre" class="section-y bg-bg-2">
   <div class="container-ff">
-    <h2 class="max-w-2xl text-display-md" data-reveal>Le prix est écrit.</h2>
-    <p class="mt-6 max-w-[38rem] leading-relaxed text-muted">
-      Nous vendons un site fini, pas des heures. C’est pour cela que le montant est écrit ici plutôt
-      que gardé pour le téléphone : vous savez avant de nous appeler si c’est pour vous. Deux
-      formules. Le prix est arrêté avant le premier trait, et payé en une fois.
+    <h2 class="max-w-2xl text-display-md">Combien ça coûte</h2>
+    <p class="mt-6 max-w-[34rem] text-lg leading-relaxed">
+      Deux formules, payées une fois. Vous savez avant d’appeler si c’est pour vous.
     </p>
 
     {/* Sous 640 px, les deux formules se lisent l'une sous l'autre : le tableau à trois colonnes
@@ -123,10 +121,7 @@ const toujoursInclus = [
     {/* PRIX PROVISOIRES — marquage visible, pas seulement un commentaire de code : tant que les deux
         associés n'ont pas arrêté le barème, un visiteur doit lire que ces montants peuvent bouger
         (règle dure n°2, même statut que l'engagement de 72 h ci-dessous et que le téléphone). */}
-    <p class="mt-6 text-xs leading-relaxed text-muted">
-      Les deux montants ci-dessus sont provisoires : ils seront arrêtés par les associés avant la
-      mise en ligne de ce site.
-    </p>
+    <p class="mt-6 text-xs text-muted">Tarifs indicatifs, confirmés au devis.</p>
 
     <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
       <a href={tel()} class="btn btn-primary inline-flex min-h-12 items-center justify-center gap-2 px-8 text-base">
@@ -135,27 +130,10 @@ const toujoursInclus = [
       <a href="#contact" class="inline-flex min-h-11 items-center justify-center text-sm text-fg underline decoration-1 underline-offset-[6px] sm:justify-start">Écrire un message</a>
     </div>
 
-    <div class="mt-16 grid gap-8 border-t border-line pt-10 md:grid-cols-2">
-      <div>
-        <h3 class="font-display text-lg">Dans les deux formules</h3>
-        <ul class="mt-4 flex flex-col gap-2 text-sm text-muted">
-          {toujoursInclus.map((item) => (
-            <li>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="font-display text-lg">Après la livraison</h3>
-        {/* 25 €/mois : montant provisoire, à confirmer par les fondateurs avant mise en ligne. */}
-        <p class="mt-4 max-w-[34rem] text-sm text-muted">
-          Rien à payer. Si vous préférez que nous gardions un œil sur le site, une maintenance existe en option,
-          25 € par mois, résiliable quand vous voulez. Elle n’est jamais imposée.
-        </p>
-      </div>
-    </div>
+    <p class="mt-14 max-w-[34rem] text-sm text-muted">
+      Après la mise en ligne, rien à payer. Si vous voulez qu’on garde un œil sur le site, la
+      maintenance existe en option, 25 € par mois, sans engagement.
+    </p>
 
     {/* Les quatre prestations ont chacune leur page (/services/<slug>). Sans section `services` dans
         le layout, l'accueil n'y menait pas du tout : quatre pages orphelines, aucun maillage interne,

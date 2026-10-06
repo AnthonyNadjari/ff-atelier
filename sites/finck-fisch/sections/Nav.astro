@@ -41,8 +41,8 @@ const accueil = Astro.url.pathname === '/';
 // By-Kin) — le nom à gauche, trois mots à droite, rien d'autre. Plus de panneau latéral, plus de
 // sommaire numéroté 01-05 ni de bouton en pilule : c'était le gabarit « généré » par excellence.
 const links = [
-  { ancre: '#realisations', label: 'Réalisations' },
-  { ancre: '#offre', label: 'Offre' },
+  { ancre: '#realisations', label: 'Exemples' },
+  { ancre: '#offre', label: 'Tarifs' },
 ].map((l) => ({ ...l, href: accueil ? l.ancre : `/${l.ancre}` }));
 ---
 

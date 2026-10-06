@@ -64,22 +64,13 @@ export default defineSite({
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      // Film de 21 s (F-F/video-pub) juste sous le titre, plein cadre : comme Bedow ou Pentagram, le
-      // travail se montre avant de s'expliquer (refonte du 6 oct 2026).
-      { type: 'custom', variant: 'film' },
-      // Cinq blocs après le hero. Quatre portent un label : ce sont les entrées numérotées du sommaire
-      // actif du panneau (data-scrollspy). Le manifeste n'en a pas — ce n'est pas une destination, c'est
-      // le temps fort qui casse le rythme (règle 19), et il tombe ainsi au 3e des 5 blocs, soit entre la
-      // moitié et les deux tiers de la page. La FAQ n'est pas un bloc : elle vit en <details> sous le
-      // tableau de l'offre, là où l'on se pose vraiment ces questions.
-      // Rythme des squelettes, deux voisins n'en partagent jamais un (règle 19) : planche d'images →
-      // réglure typographique → bloc encre → index numéroté → tableau.
-      { type: 'custom', variant: 'propositions', label: 'Propositions' },
-      { type: 'custom', variant: 'chantier', label: 'Délais' },
-      { type: 'custom', variant: 'manifeste' },
-      { type: 'custom', variant: 'realisations', label: 'Réalisations' },
-      { type: 'custom', variant: 'offre', label: 'Offre' },
-      // Dernier écran : la question et les deux façons d'y répondre (la page finissait sur la FAQ).
+      // Refonte du 6 oct 2026 (retour d'un visiteur : « trop expliqué, trop parfait ») : premier
+      // écran, les deux personnes, quelques sites, comment ça marche, le prix, la fin. Le manifeste,
+      // la réglure 72 h et le film sortent de l'accueil (fichiers gardés dans sections/).
+      { type: 'custom', variant: 'humains' },
+      { type: 'custom', variant: 'realisations', label: 'Exemples' },
+      { type: 'custom', variant: 'propositions', label: 'Comment ça marche' },
+      { type: 'custom', variant: 'offre', label: 'Tarifs' },
       { type: 'custom', variant: 'fin' },
     ],
     footer: 'minimal',
@@ -90,7 +81,7 @@ export default defineSite({
   business: {
     name: 'Finck & Fisch',
     trade: 'Studio de sites pour artisans',
-    tagline: 'Un site dessiné pour vous, <em>livré en 72 heures.</em>',
+    tagline: 'Votre métier mérite mieux qu’un template.',
     description:
       'Finck & Fisch dessine des sites vitrines pour des artisans, des commerces et des indépendants. Chaque site part de trois propositions visuelles, jamais d’un modèle décliné par ville. Il est payé une fois et il vous appartient dès la mise en ligne, du code au nom de domaine.\n\nLe studio est tenu par deux associés. Vous parlez à la même personne du premier appel à la livraison.',
     certifications: [],

@@ -1,0 +1,38 @@
+---
+/**
+ * Humains — sur mesure Finck & Fisch (6 oct 2026, retour d'un visiteur : « je ne sens pas deux
+ * personnes derrière »). Juste après le premier écran : qui fait le site, et ce qu'on ne fait pas,
+ * en trois phrases courtes au lieu d'un manifeste.
+ *
+ * Prénoms et photos des deux associés : à poser ici dès qu'ils sont fournis (le studio était resté
+ * anonyme par choix ; rien n'est inventé en attendant).
+ */
+const refus = [
+  { quoi: 'Pas d’abonnement.', suite: 'Vous payez le site, il est à vous.' },
+  { quoi: 'Pas de template.', suite: 'Chaque site est fait pour votre activité.' },
+  { quoi: 'Pas de bullshit.', suite: 'Pas de faux avis, pas de chiffres inventés.' },
+];
+---
+
+<section id="studio" class="section-y">
+  <div class="container-ff grid gap-10 lg:grid-cols-12 lg:gap-16">
+    <h2 class="text-display-md lg:col-span-5">Deux personnes, pas une agence.</h2>
+    <div class="lg:col-span-6 lg:col-start-7">
+      <p class="text-lg leading-relaxed">
+        Finck &amp; Fisch, c’est deux associés. On conçoit et on développe les sites nous-mêmes&nbsp;:
+        pas d’équipe commerciale, pas d’abonnement compliqué, pas de template vendu quarante fois.
+      </p>
+      <p class="mt-4 leading-relaxed text-muted">
+        Vous parlez aux deux mêmes personnes du premier appel à la mise en ligne.
+      </p>
+      <ul class="mt-12 flex flex-col gap-6">
+        {refus.map((r) => (
+          <li>
+            <span class="font-display text-2xl text-fg">{r.quoi}</span>
+            <span class="mt-1 block text-muted">{r.suite}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
