@@ -1,21 +1,22 @@
 ---
 /**
- * Film — sur mesure Finck & Fisch. Le film de 21 s du studio (F-F/video-pub), muet, qui fait visiter
- * le site : trois propositions, les 72 heures, le mur des démonstrations, le prix.
+ * Film — sur mesure Finck & Fisch. Extrait 6-18 s du film du studio (F-F/video-pub), muet : trois
+ * propositions, les 72 heures, le mur des démonstrations, le prix. L'ouverture (le titre du site,
+ * qui ferait doublon juste au-dessus) et la signature finale sont coupées.
  *
- * Squelette : un seul plan plein cadre, sans texte par-dessus. Aucun voisin n'en a (règle 19).
+ * Squelette : un seul plan bord à bord, sans texte par-dessus, juste sous le titre. Aucun voisin n'en a (règle 19).
  * Règle 16 : c'est l'effet riche de cette zone ; rien d'autre ne bouge dans la section.
  *
  * Poids : rien n'est chargé tant que la section n'approche pas de l'écran (preload="none" + image
- * d'aperçu de 19 Ko). Deux montages, recomposés et non recadrés : 16:9 sur grand écran, 9:16 sur
- * téléphone (source media). 1 Mo chacun, H.264 720p/1280p 30 i/s, faststart.
+ * d'aperçu de 56 Ko). Deux montages, recomposés et non recadrés : 16:9 sur grand écran, 9:16 sur
+ * téléphone (source media). 0,7 à 0,8 Mo chacun, H.264 720p/1280p 30 i/s, faststart.
  * Lecture : en boucle, muette, seulement quand le film est visible ; mis en pause hors écran.
  * prefers-reduced-motion : jamais de lecture automatique, les contrôles natifs sont affichés.
  */
 ---
 
-<section id="film" class="section-y">
-  <div class="container-ff">
+<section id="film" class="pb-24 md:pb-32">
+  <div>
     <figure class="ff-film">
       <video
         data-film
@@ -24,12 +25,12 @@
         playsinline
         preload="none"
         poster="/video/film-16x9.webp"
-        aria-label="Film du studio, 21 s, muet"
+        aria-label="Extrait du film du studio, 12 s, muet"
       >
         <source src="/video/film-9x16.mp4" type="video/mp4" media="(max-width: 639px)" />
         <source src="/video/film-16x9.mp4" type="video/mp4" />
       </video>
-      <figcaption class="mt-4 text-sm text-muted">Le studio en 21 secondes. Film muet.</figcaption>
+      <figcaption class="container-ff mt-4 text-sm text-muted">Trois propositions, soixante-douze heures, douze démonstrations, un prix écrit. Film muet.</figcaption>
     </figure>
   </div>
 </section>

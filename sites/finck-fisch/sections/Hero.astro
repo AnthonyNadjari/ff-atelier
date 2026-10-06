@@ -45,10 +45,10 @@ import { MONO_SUBPATHS } from './mono-subpaths';
 <section id="hero" data-grain class="relative flex min-h-[86svh] flex-col justify-center overflow-hidden pt-10 pb-20 md:pt-16 lg:pt-20">
   <div class="hero-halo" aria-hidden="true"></div>
 
-  <div class="container-ff relative z-10">
-    {/* La marque, en grand, dans le flux. aria-hidden : le nom du studio est déjà dans le panneau
-        latéral et dans la nav mobile — le répéter ici ferait trois fois pour un lecteur d'écran. */}
-    <svg class="hero-mono" viewBox="286 -1 294 281" aria-hidden="true">
+  <div class="container-ff relative z-10 lg:grid lg:grid-cols-12 lg:items-end lg:gap-x-10">
+    {/* La marque, en grand, dans le flux. aria-hidden : le nom du studio est déjà dans la barre du
+        haut — le répéter ici ferait trois fois pour un lecteur d'écran. */}
+    <svg class="hero-mono lg:order-2 lg:col-span-5 lg:justify-self-end" viewBox="286 -1 294 281" aria-hidden="true">
       <defs>
         {/* Le tracé était écrit TROIS fois dans chaque page livrée — corps, trait, découpe du
             reflet — soit 11 Ko de HTML pour un seul dessin. Il n'est plus écrit qu'une fois, ici,
@@ -82,9 +82,9 @@ import { MONO_SUBPATHS } from './mono-subpaths';
 
     {/* Filet de frontispice : il sépare la marque du texte, comme sur une page de titre. Il fait
         partie du même groupe animé que le titre (data-reveal porté par le conteneur). */}
-    <div data-reveal data-reveal-delay="300">
+    <div class="lg:order-1 lg:col-span-7" data-reveal data-reveal-delay="300">
       <hr class="hero-filet border-0" />
-      <h1 class="mt-10 max-w-3xl text-display-lg" set:html={site.business.tagline} />
+      <h1 class="mt-10 max-w-4xl text-display-xl" set:html={site.business.tagline} />
       <p class="mt-8 max-w-lg text-lg leading-relaxed text-muted">
         Studio à deux personnes. Vous connaissez le prix avant de commencer, et le site vous
         appartient le jour de la mise en ligne.
@@ -108,6 +108,12 @@ import { MONO_SUBPATHS } from './mono-subpaths';
     /* Le pied du second F descend jusqu'au bord bas du tracé : sans cette réserve, il effleure le
        filet de frontispice posé juste dessous. */
     margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  /* Refonte du 6 oct 2026 (sans panneau latéral) : sur grand écran la marque passe à droite et
+     grandit, le titre occupe la gauche en grand. Une page de titre asymétrique au lieu d'une
+     colonne étroite qui laissait la moitié droite vide. */
+  @media (min-width: 1024px) {
+    .hero-mono { width: clamp(18rem, 28vw, 26rem); margin-bottom: 0; }
   }
 
   /* Halo derrière la marque : la « couleur » d'eclipse, c'est la lumière sur le noir. */

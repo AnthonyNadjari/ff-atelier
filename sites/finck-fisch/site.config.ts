@@ -53,7 +53,7 @@ export default defineSite({
   scale: 'display',
   typography: { display: 'cormorant' },
   layout: {
-    shell: 'split',
+    shell: 'flow',
     // Contact en tiroir : plus de section contact finale dans le layout (sections/Contact.astro reste
     // dans le dossier, hors layout). navLinks() ajoute alors « Contact » au sommaire du panneau, et
     // ContactDrawer.astro intercepte l'ancre #contact sur toutes les pages, page service comprise.
@@ -61,6 +61,9 @@ export default defineSite({
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
+      // Film de 21 s (F-F/video-pub) juste sous le titre, plein cadre : comme Bedow ou Pentagram, le
+      // travail se montre avant de s'expliquer (refonte du 6 oct 2026).
+      { type: 'custom', variant: 'film' },
       // Cinq blocs après le hero. Quatre portent un label : ce sont les entrées numérotées du sommaire
       // actif du panneau (data-scrollspy). Le manifeste n'en a pas — ce n'est pas une destination, c'est
       // le temps fort qui casse le rythme (règle 19), et il tombe ainsi au 3e des 5 blocs, soit entre la
@@ -71,9 +74,6 @@ export default defineSite({
       { type: 'custom', variant: 'propositions', label: 'Propositions' },
       { type: 'custom', variant: 'chantier', label: 'Délais' },
       { type: 'custom', variant: 'manifeste' },
-      // Film de 21 s (F-F/video-pub), juste après la rupture du manifeste : on a dit ce qu'on refuse,
-      // on montre ce qu'on fait. Plan plein cadre, squelette qu'aucun voisin n'a.
-      { type: 'custom', variant: 'film' },
       { type: 'custom', variant: 'realisations', label: 'Réalisations' },
       { type: 'custom', variant: 'offre', label: 'Offre' },
     ],
