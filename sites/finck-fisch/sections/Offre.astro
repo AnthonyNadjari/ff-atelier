@@ -67,13 +67,6 @@ const lignes = [
   { label: 'Deux tours de corrections après la mise en ligne', essentiel: false, complet: true },
 ];
 
-const toujoursInclus = [
-  'Le code et les textes sont à vous, le nom de domaine aussi.',
-  'Hébergement inclus, sans frais mensuel.',
-  // Le détail du délai vit dans sections/Chantier.astro (deux blocs plus haut) ; ici, la ligne courte
-  // qu'on veut lire à côté du montant. ENGAGEMENT PROVISOIRE, à confirmer par les fondateurs.
-  'Livré sous 72 h après réception de vos éléments, sinon remise de 10 % (engagement provisoire).',
-];
 ---
 
 <section id="offre" class="section-y bg-bg-2">
@@ -121,7 +114,6 @@ const toujoursInclus = [
     {/* PRIX PROVISOIRES — marquage visible, pas seulement un commentaire de code : tant que les deux
         associés n'ont pas arrêté le barème, un visiteur doit lire que ces montants peuvent bouger
         (règle dure n°2, même statut que l'engagement de 72 h ci-dessous et que le téléphone). */}
-    <p class="mt-6 text-xs text-muted">Tarifs indicatifs, confirmés au devis.</p>
 
     <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
       <a href={tel()} class="btn btn-primary inline-flex min-h-12 items-center justify-center gap-2 px-8 text-base">

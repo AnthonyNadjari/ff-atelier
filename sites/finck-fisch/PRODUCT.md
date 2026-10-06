@@ -37,8 +37,8 @@ e-mail (contact drawer, mailto). The studio's own site is built in the same repo
 
 ## Capabilities and Constraints
 
-- Offer: "Essentiel" from 1 200 € and "Complet" from 1 800 € — both PROVISIONAL, to be confirmed by
-  the partners before launch.
+- Offer: "Essentiel" from 1 200 € and "Complet" from 1 800 €, 72 h delivery. Shown on the site without any
+  "provisional" wording at the founder's request (6 Oct 2026).
 - Phone 06 00 00 00 00, address 75000 Paris and SIRET are PLACEHOLDERS; real values pending.
 - Domain finckfisch.fr not yet bought; site currently at finckfisch.vercel.app.
 - Static site, French only, must be excellent on iPhone Safari.
