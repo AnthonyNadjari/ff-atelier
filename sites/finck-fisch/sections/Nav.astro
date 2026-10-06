@@ -105,6 +105,9 @@ const links = [
      (léger enfoncement, 160 ms, sortie douce) ; titres équilibrés, paragraphes sans mot orphelin. */
   .btn { transition: transform 0.16s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
   .btn:active { transform: scale(0.97); }
+  /* Pas de rideau d'entrée (.ff-curtain du moteur, motion « rich ») : sur ce site, la barre grise
+     qui montait à l'ouverture était de trop ; le monogramme qui se trace suffit (6 oct 2026). */
+  .ff-curtain { display: none; }
   h1, h2, h3 { text-wrap: balance; }
   main p { text-wrap: pretty; }
   @media (prefers-reduced-motion: reduce) {
