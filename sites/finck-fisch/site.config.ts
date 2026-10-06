@@ -42,7 +42,9 @@ export default defineSite({
   // du studio (repo F-F) veut un serif haut de gamme pour le nom — les titres tout en Space Grotesk
   // donnaient un rendu « template SaaS sombre », exactement ce qu'on vend de ne pas faire. Le corps
   // reste en Instrument Sans (lisible, neutre) : le contraste serif/sans fait le cachet.
-  direction: 'eclipse',
+  // Refonte du 6 oct 2026 (diagnostic Impeccable, docs dans .impeccable/) : le site quitte le
+  // « luxe sombre » générique pour l'univers de l'éphéméride d'atelier (src/directions/ephemeride).
+  direction: 'ephemeride',
   motion: 'rich',
   // Scroll inertiel (Lenis) : vitrine riche, le defilement natif de la molette Windows paraissait
   // « ultra vite » et saccade sur les sequences (20 sept 2026). Coupe automatiquement sous automate.
@@ -50,20 +52,16 @@ export default defineSite({
   // Transitions de page (ClientRouter) : fondu 0,3 s entre l'accueil et /services/<slug>, la nav reste
   // en place, le hero s'efface ; scripts inline et moteur rearmes a chaque navigation (docs/ANIMATIONS.md).
   transitions: true,
-  scale: 'display',
-  typography: { display: 'cormorant' },
+  scale: 'normal',
   layout: {
     shell: 'flow',
     // Contact en tiroir : plus de section contact finale dans le layout (sections/Contact.astro reste
     // dans le dossier, hors layout). navLinks() ajoute alors « Contact » au sommaire du panneau, et
     // ContactDrawer.astro intercepte l'ancre #contact sur toutes les pages, page service comprise.
-    contactDrawer: true,
+    contactDrawer: false,
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      // Film de 21 s (F-F/video-pub) juste sous le titre, plein cadre : comme Bedow ou Pentagram, le
-      // travail se montre avant de s'expliquer (refonte du 6 oct 2026).
-      { type: 'custom', variant: 'film' },
       // Cinq blocs après le hero. Quatre portent un label : ce sont les entrées numérotées du sommaire
       // actif du panneau (data-scrollspy). Le manifeste n'en a pas — ce n'est pas une destination, c'est
       // le temps fort qui casse le rythme (règle 19), et il tombe ainsi au 3e des 5 blocs, soit entre la
@@ -76,9 +74,11 @@ export default defineSite({
       { type: 'custom', variant: 'manifeste' },
       { type: 'custom', variant: 'realisations', label: 'Réalisations' },
       { type: 'custom', variant: 'offre', label: 'Offre' },
+      // La carte-réponse : le contact revient en fin de page (le tiroir faisait de la page une impasse).
+      { type: 'custom', variant: 'contact', label: 'Contact' },
     ],
     footer: 'minimal',
-    divider: 'rule',
+    divider: 'none',
     tone: 'flat',
   },
 

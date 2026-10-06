@@ -1,71 +1,193 @@
 ---
 /**
- * « Propositions » — sur mesure Finck & Fisch, créé le 22 sept 2026 (décision 3 de
- * `sites/finck-fisch/ETALON.md`). C'est le premier bloc après le hero, et c'est voulu : sur les 17
- * sites de studios relevés, quatre des cinq premiers mettent le travail immédiatement après le titre,
- * sans bloc de transition. Notre travail, ce n'est pas une grille de captures : c'est le MÊME contenu
- * rendu trois fois différemment. C'est l'argument qu'on répète au téléphone et qu'on n'avait nulle
- * part sur le site ; il est maintenant montré, pas raconté.
+ * Propositions — sur mesure Finck & Fisch, direction éphéméride (refonte du 6 oct 2026).
  *
- * Les trois images sont de vraies sorties de `node scripts/ff.mjs propositions demo-boulangerie`
- * (propositions/demo-boulangerie/prop-{1,2,3}-desktop.png, recadrées au premier écran en 1400x900 puis
- * déclinées en 700 px). Directions réellement tirées par le composeur : atelier, clair, rétro. Le
- * titre, le paragraphe, le numéro et la ville sont identiques sur les trois — c'est tout l'intérêt de
- * la planche, et c'est ce que la légende dit.
+ * Le mécanisme du studio, montré : la même boulangerie de démonstration (même titre, même
+ * paragraphe, même numéro) imprimée trois fois, une direction par feuille. Les trois feuilles sont
+ * empilées comme un bloc éphéméride ; on détache celle du dessus (bouton, ou glisser vers la gauche
+ * au doigt ou à la souris) pour découvrir la suivante, puis le bloc se reforme.
  *
- * Règle dure n°2 (rien d'inventé) : « Petit Pain » est un site de DÉMONSTRATION, pas un client. Le
- * mot figure dans l'intro, dans la légende de la planche et dans l'alt de chaque image. À remplacer
- * par une vraie planche client dès qu'un client nous autorise à la montrer.
- *
- * Forme : une planche de contact, exactement l'objet que produit la commande (`index.html` de
- * `propositions/<slug>/`). Trois figures de même largeur, alignées, un filet, un numéro, le nom de la
- * direction. Aucun eyebrow (décision 6), aucune icône, aucune carte à ombre : le panel étalonné n'en
- * a aucune sur 17 sites.
- *
- * Règle 21 (un seul groupe animé par section) : le titre en data-reveal, puis la planche entière en
- * un seul data-stagger. Rien sur les paragraphes, rien sur les légendes.
+ * Accessibilité : les trois figures restent dans le DOM, dans l'ordre, lisibles par un lecteur
+ * d'écran ; le compteur « 1 sur 3 » est annoncé (aria-live). prefers-reduced-motion : pas de pile,
+ * les trois feuilles côte à côte. Sans JS : idem (la pile n'est posée que par le script).
  */
 const planche = [
-  { n: '01', direction: 'atelier', ambiance: 'Papier crème, serif, chaleur d’atelier.' },
-  { n: '02', direction: 'clair', ambiance: 'Blanc net, bleu franc, bande défilante.' },
-  { n: '03', direction: 'rétro', ambiance: 'Lumière chaude, orange seventies.' },
+  { n: 1, direction: 'atelier', ambiance: 'papier, serif, chaleur d’atelier' },
+  { n: 2, direction: 'clair', ambiance: 'blanc net, bleu franc, bande défilante' },
+  { n: 3, direction: 'rétro', ambiance: 'lumière chaude, orange des années 70' },
 ];
 ---
 
 <section id="propositions" class="section-y">
-  <div class="container-ff">
-    <h2 class="max-w-3xl text-display-md" data-reveal>Trois sites. Un seul contenu.</h2>
-    <p class="mt-6 max-w-2xl leading-relaxed text-muted">
-      Nous construisons trois sites entiers, sur vos textes et vos photos, jamais sur un contenu
-      d’exemple. Vous recevez trois liens. Vous les ouvrez, vous en gardez un, nous finissons
-      celui-là. C’est le seul moment où vous avez une décision à prendre.
-    </p>
-
-    <div class="mt-14 grid gap-6 sm:grid-cols-3 sm:gap-5" data-stagger="90">
-      {planche.map((p) => (
-        <figure class="min-w-0">
-          <img
-            src={`/images/propositions/proposition-${p.n.slice(1)}-700.webp`}
-            srcset={`/images/propositions/proposition-${p.n.slice(1)}-700.webp 700w, /images/propositions/proposition-${p.n.slice(1)}.webp 1400w`}
-            sizes="(min-width: 1024px) 280px, (min-width: 640px) 30vw, 88vw"
-            width="1400"
-            height="900"
-            alt={`Site de démonstration pour une boulangerie, direction ${p.direction}`}
-            loading="lazy"
-            class="aspect-[14/9] w-full border border-line object-cover object-top"
-          />
-          <figcaption class="mt-4 border-t border-line pt-4">
-            <span class="font-mono text-xs tabular-nums text-muted">{p.n}</span>
-            <p class="mt-2 font-display text-lg leading-tight">Direction {p.direction}</p>
-            <p class="mt-1 text-sm text-muted">{p.ambiance}</p>
-          </figcaption>
-        </figure>
-      ))}
+  <div class="container-ff grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
+    <div class="lg:col-span-5">
+      <h2 class="text-display-md">Trois feuilles, un seul contenu.</h2>
+      <p class="mt-6 max-w-[34rem] text-lg leading-relaxed">
+        Nous construisons trois sites entiers, sur vos textes et vos photos. Vous recevez trois liens,
+        vous en gardez un, nous finissons celui-là.
+      </p>
+      <p class="mt-4 max-w-[34rem] leading-relaxed text-muted">
+        Ici, une boulangerie de démonstration : même titre, même paragraphe, même numéro sur les trois
+        feuilles. Seule la direction change.
+      </p>
+      <div class="mt-8 flex items-center gap-5" data-pile-controles hidden>
+        <button type="button" class="btn btn-ghost ff-detacher inline-flex items-center px-5 text-sm" data-pile-detacher aria-controls="ff-pile-propositions">
+          Détacher la feuille
+        </button>
+        <p class="text-sm font-semibold tabular-nums text-muted" aria-live="polite" data-pile-compteur>1 sur 3</p>
+      </div>
     </div>
 
-    <p class="mt-8 max-w-2xl text-sm text-muted">
-      Planche de démonstration : une boulangerie qui n’existe pas. Même titre, même paragraphe, même
-      numéro sur les trois. Seule la direction change.
-    </p>
+    <div class="lg:col-span-7">
+      <ol id="ff-pile-propositions" class="ff-propositions" data-pile>
+        {planche.map((p) => (
+          <li class="ff-prop bg-surface" data-feuille>
+            <div class="flex items-baseline justify-between gap-4 px-4 pb-3 pt-4 text-xs font-semibold uppercase tracking-[0.14em] sm:px-5">
+              <span>Direction {p.direction}</span>
+              <span class="tabular-nums text-muted">{p.n} / 3</span>
+            </div>
+            <img
+              src={`/images/propositions/proposition-${p.n}-700.webp`}
+              srcset={`/images/propositions/proposition-${p.n}-700.webp 700w, /images/propositions/proposition-${p.n}.webp 1400w`}
+              sizes="(min-width: 1024px) 40rem, 92vw"
+              width="1400"
+              height="900"
+              alt={`Boulangerie de démonstration, direction ${p.direction} : ${p.ambiance}`}
+              loading="lazy"
+              draggable="false"
+              class="aspect-[14/9] w-full object-cover object-top"
+            />
+            <div class="perforation" aria-hidden="true"></div>
+            <p class="px-4 py-3 text-sm text-muted sm:px-5">{p.ambiance[0].toUpperCase() + p.ambiance.slice(1)}.</p>
+          </li>
+        ))}
+      </ol>
+    </div>
   </div>
 </section>
+
+<style>
+  .ff-propositions { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; }
+  .ff-prop { border: 1px solid var(--line); }
+
+  /* Pile : posée par le script seulement (data-pile-actif), jamais sous reduced-motion. */
+  .ff-propositions[data-pile-actif] {
+    display: grid;
+    grid-template-areas: 'pile';
+    gap: 0;
+    padding-bottom: 1rem;
+    /* Le défilement vertical reste natif : le geste qui détache est horizontal. */
+    touch-action: pan-y pinch-zoom;
+  }
+  .ff-propositions[data-pile-actif] > .ff-prop {
+    grid-area: pile;
+    transform-origin: 0% 0%;
+    transition: transform 0.55s var(--ease-brand), opacity 0.55s var(--ease-brand);
+    cursor: grab;
+    user-select: none;
+  }
+  /* Rang dans la pile (posé par le script) : la feuille du dessous dépasse de 0,5 rem, sans ombre. */
+  .ff-propositions[data-pile-actif] > [data-rang='0'] { z-index: 3; }
+  .ff-propositions[data-pile-actif] > [data-rang='1'] { z-index: 2; transform: translate3d(0, 0.5rem, 0) scale(0.985); }
+  .ff-propositions[data-pile-actif] > [data-rang='2'] { z-index: 1; transform: translate3d(0, 1rem, 0) scale(0.97); }
+  .ff-propositions[data-pile-actif] > [data-arrachee] {
+    z-index: 4;
+    transform: translate3d(-4%, -115%, 0) rotate(-8deg);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.5s linear;
+  }
+  .ff-propositions[data-pile-actif] > .ff-prop.is-tiree { transition: none; cursor: grabbing; }
+
+  /* Bouton : état par inversion (encre sur papier -> papier sur encre). */
+  .ff-detacher { min-height: 3rem; }
+  .ff-detacher:hover, .ff-detacher:focus-visible { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+
+  @media (min-width: 640px) and (prefers-reduced-motion: reduce) {
+    .ff-propositions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  onPage(() => {
+    const pile = document.querySelector<HTMLOListElement>('[data-pile]');
+    if (!pile || pile.dataset.pileReady) return;
+    pile.dataset.pileReady = '1';
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const feuilles = Array.from(pile.querySelectorAll<HTMLElement>('[data-feuille]'));
+    const controles = document.querySelector<HTMLElement>('[data-pile-controles]');
+    const bouton = document.querySelector<HTMLButtonElement>('[data-pile-detacher]');
+    const compteur = document.querySelector<HTMLElement>('[data-pile-compteur]');
+    if (feuilles.length < 2 || !controles || !bouton || !compteur) return;
+
+    let ordre = feuilles.map((_, i) => i); // ordre[0] = feuille du dessus
+    let occupe = false;
+
+    const poser = () => {
+      ordre.forEach((idx, rang) => {
+        const f = feuilles[idx];
+        f.dataset.rang = String(rang);
+        f.removeAttribute('data-arrachee');
+        f.style.transform = '';
+        // Seule la feuille du dessus se lit ; les autres restent dans le DOM pour les lecteurs d'écran.
+        f.setAttribute('aria-current', rang === 0 ? 'true' : 'false');
+      });
+      compteur.textContent = `${ordre[0] + 1} sur ${feuilles.length}`;
+      bouton.textContent = ordre[0] === feuilles.length - 1 ? 'Reformer le bloc' : 'Détacher la feuille';
+    };
+
+    const detacher = () => {
+      if (occupe) return;
+      occupe = true;
+      const dessus = feuilles[ordre[0]];
+      dessus.classList.remove('is-tiree');
+      dessus.style.transform = '';
+      dessus.setAttribute('data-arrachee', '');
+      window.setTimeout(() => {
+        ordre = [...ordre.slice(1), ordre[0]];
+        // La feuille arrachée repasse sous la pile sans animation, puis tout se repose.
+        dessus.style.transition = 'none';
+        poser();
+        void dessus.offsetWidth;
+        dessus.style.transition = '';
+        occupe = false;
+      }, 480);
+    };
+
+    pile.setAttribute('data-pile-actif', '');
+    controles.hidden = false;
+    poser();
+
+    bouton.addEventListener('click', detacher);
+
+    // Glisser la feuille du dessus vers la gauche : au-delà de 70 px, elle se détache ; sinon elle
+    // revient. Geste horizontal seulement : le défilement vertical de la page n'est jamais capturé.
+    let depart: { x: number; y: number; id: number } | null = null;
+    pile.addEventListener('pointerdown', (e) => {
+      const f = feuilles[ordre[0]];
+      if (occupe || !f.contains(e.target as Node)) return;
+      depart = { x: e.clientX, y: e.clientY, id: e.pointerId };
+      f.classList.add('is-tiree');
+      f.setPointerCapture(e.pointerId);
+    });
+    pile.addEventListener('pointermove', (e) => {
+      if (!depart || e.pointerId !== depart.id) return;
+      const dx = Math.min(0, e.clientX - depart.x);
+      feuilles[ordre[0]].style.transform = `translate3d(${dx}px, ${dx * 0.25}px, 0) rotate(${dx / 30}deg)`;
+    });
+    const lacher = (e: PointerEvent) => {
+      if (!depart || e.pointerId !== depart.id) return;
+      const f = feuilles[ordre[0]];
+      const dx = e.clientX - depart.x;
+      depart = null;
+      f.classList.remove('is-tiree');
+      if (dx < -70) detacher();
+      else f.style.transform = '';
+    };
+    pile.addEventListener('pointerup', lacher);
+    pile.addEventListener('pointercancel', lacher);
+  });
+</script>

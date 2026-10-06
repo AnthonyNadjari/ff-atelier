@@ -50,8 +50,8 @@
 import { site } from '@/lib/site';
 
 const formules = [
-  { nom: 'Essentiel', prix: 'à partir de 1 200 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
-  { nom: 'Complet', prix: 'à partir de 1 800 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
+  { nom: 'Essentiel', prix: 'à partir de 1 200 €', montant: '1 200 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
+  { nom: 'Complet', prix: 'à partir de 1 800 €', montant: '1 800 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
 ];
 
 // true/true = commun aux deux formules ; false/true = ajouté par la formule Complet.
@@ -76,10 +76,10 @@ const toujoursInclus = [
 ];
 ---
 
-<section id="offre" class="section-y bg-bg-2">
+<section id="offre" class="section-y">
   <div class="container-ff">
-    <h2 class="max-w-2xl text-display-md" data-reveal>Le prix est écrit.</h2>
-    <p class="mt-6 max-w-2xl leading-relaxed text-muted">
+    <h2 class="max-w-2xl text-display-md">Le prix est écrit.</h2>
+    <p class="mt-6 max-w-[38rem] text-lg leading-relaxed">
       Nous vendons un site fini, pas des heures. C’est pour cela que le montant est écrit ici plutôt
       que gardé pour le téléphone : vous savez avant de nous appeler si c’est pour vous. Deux
       formules. Le prix est arrêté avant le premier trait, et payé en une fois.
@@ -106,12 +106,13 @@ const toujoursInclus = [
       {formules.map((f, col) => (
         <div class="border-t border-line pt-6">
           <p class="font-display text-display-sm">{f.nom}</p>
-          <p class="mt-1 font-display text-2xl tabular-nums text-fg">{f.prix}</p>
+          <p class="mt-3 text-sm text-muted">à partir de</p>
+          <p class="chiffre-date ff-montant">{f.montant}</p>
           {col === 1 && <p class="mt-4 text-sm text-muted">Tout l’Essentiel, plus&nbsp;:</p>}
           <ul class="mt-4 flex flex-col gap-3 text-sm text-muted">
             {lignes.filter((l) => (col === 0 ? l.essentiel : !l.essentiel && l.complet)).map((l) => (
               <li class="flex items-start gap-3">
-                <svg class="mt-1 h-[15px] w-[15px] shrink-0 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg>
+                <svg class="mt-1 h-[15px] w-[15px] shrink-0 text-fg" aria-hidden="true"><use href="#ff-inclus" /></svg>
                 <span>{l.label}</span>
               </li>
             ))}
@@ -135,7 +136,8 @@ const toujoursInclus = [
             {formules.map((f) => (
               <th scope="col" class="py-5 pl-6 align-bottom">
                 <p class="font-display text-display-sm">{f.nom}</p>
-                <p class="mt-2 font-display text-2xl tabular-nums text-fg">{f.prix}</p>
+                <p class="mt-3 text-sm font-normal text-muted">à partir de</p>
+                <p class="chiffre-date ff-montant">{f.montant}</p>
               </th>
             ))}
           </tr>
@@ -146,13 +148,13 @@ const toujoursInclus = [
               <th scope="row" class="py-4 pr-6 font-normal text-muted">{l.label}</th>
               <td class="py-4 pl-6">
                 {l.essentiel
-                  ? <><svg class="h-4 w-4 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg><span class="sr-only">Inclus</span></>
-                  : <><span aria-hidden="true" class="text-muted/50">–</span><span class="sr-only">Non inclus</span></>}
+                  ? <><svg class="h-4 w-4 text-fg" aria-hidden="true"><use href="#ff-inclus" /></svg><span class="sr-only">Inclus</span></>
+                  : <><span aria-hidden="true" class="text-muted">–</span><span class="sr-only">Non inclus</span></>}
               </td>
               <td class="py-4 pl-6">
                 {l.complet
-                  ? <><svg class="h-4 w-4 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg><span class="sr-only">Inclus</span></>
-                  : <><span aria-hidden="true" class="text-muted/50">–</span><span class="sr-only">Non inclus</span></>}
+                  ? <><svg class="h-4 w-4 text-fg" aria-hidden="true"><use href="#ff-inclus" /></svg><span class="sr-only">Inclus</span></>
+                  : <><span aria-hidden="true" class="text-muted">–</span><span class="sr-only">Non inclus</span></>}
               </td>
             </tr>
           ))}
@@ -168,13 +170,13 @@ const toujoursInclus = [
       mise en ligne de ce site.
     </p>
 
-    <div class="mt-14 grid gap-8 border-t border-line pt-10 md:grid-cols-2" data-stagger="100">
+    <div class="mt-14 grid gap-8 border-t border-line pt-10 md:grid-cols-2">
       <div>
         <h3 class="font-display text-lg">Dans les deux formules</h3>
         <ul class="mt-4 flex flex-col gap-2 text-sm text-muted">
           {toujoursInclus.map((item) => (
             <li class="flex items-start gap-3">
-              <svg class="mt-1 h-[14px] w-[14px] shrink-0 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg>
+              <svg class="mt-1 h-[14px] w-[14px] shrink-0 text-fg" aria-hidden="true"><use href="#ff-inclus" /></svg>
               <span>{item}</span>
             </li>
           ))}
@@ -222,6 +224,9 @@ const toujoursInclus = [
 </section>
 
 <style>
+  /* Le montant : les chiffres de date de l'éphéméride, à la taille d'un tarif postal. */
+  .ff-montant { font-size: clamp(3.5rem, 9vw, 5rem); margin-top: 0.25rem; word-spacing: 0.12em; }
+
   /* Tokens uniquement : le « + » pivote en « × » a l'ouverture, sur --motion-ui (geste, pas entree). */
   .ff-q > summary::-webkit-details-marker { display: none; }
   .ff-q-signe { transition: transform var(--motion-ui) var(--ease-out); }

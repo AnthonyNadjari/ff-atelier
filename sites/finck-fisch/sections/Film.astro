@@ -8,8 +8,9 @@
  * Règle 16 : c'est l'effet riche de cette zone ; rien d'autre ne bouge dans la section.
  *
  * Poids : rien n'est chargé tant que la section n'approche pas de l'écran (preload="none" + image
- * d'aperçu de 56 Ko). Deux montages, recomposés et non recadrés : 16:9 sur grand écran, 9:16 sur
- * téléphone (source media). 0,7 à 0,8 Mo chacun, H.264 720p/1280p 30 i/s, faststart.
+ * d'aperçu de 56 Ko). Un seul montage 16:9, jamais recadré, téléphone compris (6 oct :
+ * le 9:16 prenait tout l'écran sur iPhone et rejouait le titre de la section suivante ; Safari
+ * ignorait en plus <source media> et recadrait le 16:9 en bande verticale). 0,7 à 0,8 Mo chacun, H.264 720p/1280p 30 i/s, faststart.
  * Lecture : en boucle, muette, seulement quand le film est visible ; mis en pause hors écran.
  * prefers-reduced-motion : jamais de lecture automatique, les contrôles natifs sont affichés.
  */
@@ -25,10 +26,9 @@
         playsinline
         preload="none"
         poster="/video/film-16x9.webp"
+        data-src="/video/film-16x9.mp4"
         aria-label="Extrait du film du studio, 12 s, muet"
       >
-        <source src="/video/film-9x16.mp4" type="video/mp4" media="(max-width: 639px)" />
-        <source src="/video/film-16x9.mp4" type="video/mp4" />
       </video>
       <figcaption class="container-ff mt-4 text-sm text-muted">Trois propositions, soixante-douze heures, douze démonstrations, un prix écrit. Film muet.</figcaption>
     </figure>
@@ -44,9 +44,6 @@
     object-fit: cover;
     background: var(--ink);
   }
-  @media (max-width: 639px) {
-    .ff-film video { aspect-ratio: 9 / 16; max-height: 80svh; }
-  }
 </style>
 
 <script>
@@ -57,8 +54,8 @@
     if (!video || video.dataset.filmReady) return;
     video.dataset.filmReady = '1';
 
-    const portrait = window.matchMedia('(max-width: 639px)').matches;
-    if (portrait) video.poster = '/video/film-9x16.webp';
+    // src posé par script, pas par <source> : rien n'est demandé au réseau avant l'approche.
+    video.src = video.dataset.src!;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       video.controls = true;

@@ -1,0 +1,111 @@
+/* Direction EPHEMERIDE — le bloc éphéméride à feuilles détachables et le calendrier des Postes
+   accroché dans chaque atelier. Carton rouge en fond des grandes zones, feuilles blanches fines
+   (jamais crème), encre noire, un bleu postal pour l'almanach. Une seule famille, Archivo, jouée sur
+   sa largeur : chiffres ultra-condensés (la date de l'éphéméride) contre un texte de largeur normale.
+   Profondeur par superposition de feuilles seulement : aucune ombre, aucun dégradé, aucun halo.
+   Le rouge plein est réservé à l'action décisive. Direction du studio Finck & Fisch (6 oct 2026). */
+/* Archivo variable (graisse 100-900, largeur 62-125 %), sous-ensemble latin seul : il couvre le
+   français entier (œ, €, espaces fines et insécables). Le paquet complet déclare aussi latin-ext
+   (86 Ko) que le budget de `ff perf` compte d'office ; le site n'en a pas besoin. */
+@font-face {
+  font-family: 'Archivo FF';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  src: url('../../../node_modules/@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+[data-direction='ephemeride'] {
+  /* Rouge du carton d'éphéméride. Le blanc dessus : 5,4:1 (AA). */
+  --accent-h: 4;
+  --accent-s: 63%;
+  --accent-l: 47%;
+
+  --bg: #f7f7f5;
+  --bg-2: #ecece8;
+  --surface: #fdfdfc;
+  --fg: #151515;
+  --muted: #595d62;
+  --line: rgba(21, 21, 21, 0.16);
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 12%));
+  --on-accent: #ffffff;
+  --ink: #151515;
+  --on-ink: #f7f7f5;
+  /* Bleu de la couverture du calendrier des Postes : fond de l'almanach des douze métiers. */
+  --poste: #1e3460;
+  --on-poste: #f7f7f5;
+
+  --font-display: 'Archivo FF', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Archivo FF', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Archivo FF', ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 800;
+  --display-tracking: -0.015em;
+  --heading-transform: none;
+  --radius: 2px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4.5rem, 10vw, 8rem);
+  --motion-duration: 0.6s;
+  /* Une feuille qu'on arrache part vite et ralentit : sortie exponentielle. */
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-ui: 0.18s;
+  color-scheme: light;
+}
+
+/* Les titres de section sont larges ; seuls les chiffres de date passent en condensé (classe
+   .chiffre-date, posée par les sections qui affichent une date ou une durée). */
+[data-direction='ephemeride'] .chiffre-date {
+  font-family: var(--font-display);
+  font-stretch: 62%;
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+[data-direction='ephemeride'] .text-display-xl { font-size: clamp(2.75rem, 7vw, 5.75rem); line-height: 0.98; }
+[data-direction='ephemeride'] .text-display-lg { font-size: clamp(2.25rem, 5vw, 4.25rem); line-height: 1; }
+[data-direction='ephemeride'] .text-display-md { font-size: clamp(2rem, 4.2vw, 3.5rem); line-height: 1.02; }
+
+/* Emphase : graisse, jamais une couleur pâle (le diagnostic du 6 oct : la promesse était le texte le
+   plus terne du titre). */
+[data-direction='ephemeride'] h1 em,
+[data-direction='ephemeride'] h2 em {
+  font-style: normal;
+  font-weight: 900;
+}
+
+[data-direction='ephemeride'] ::selection { background: var(--accent); color: var(--on-accent); }
+
+/* Boutons : languette de feuille. Plein rouge pour l'action, rien d'autre en rouge plein. */
+[data-direction='ephemeride'] .btn {
+  border-radius: var(--radius);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+[data-direction='ephemeride'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='ephemeride'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='ephemeride'] .btn-ghost { border: 1px solid currentColor; background: transparent; }
+
+[data-direction='ephemeride'] .rule { border-color: var(--line); }
+
+/* Perforation : rangée de trous ronds, la ligne où la feuille se détache. Générique : toute
+   section peut poser .perforation sur un filet. */
+[data-direction='ephemeride'] .perforation {
+  height: 6px;
+  background-image: radial-gradient(circle at 3px 3px, var(--line) 1.6px, transparent 2px);
+  background-size: 10px 6px;
+  background-repeat: repeat-x;
+}
+
+/* Surfaces du navigateur, depuis la palette. */
+[data-direction='ephemeride'] { accent-color: var(--accent); caret-color: var(--accent); }
+[data-direction='ephemeride'] a { text-underline-offset: 0.22em; text-decoration-thickness: 1px; }
+
+/* Le moment d'entrée de cette direction, c'est la feuille qui se détache (premier écran) : le rideau
+   d'entrée du moteur (.ff-curtain, motion « rich ») ferait un second effet par-dessus. */
+[data-direction='ephemeride'] .ff-curtain { display: none; }

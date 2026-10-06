@@ -17,8 +17,8 @@
  *   la troisième interdiction est réellement une règle de notre atelier, et elle nous coûte des
  *   phrases à chaque site.
  *
- * Règle 21 : deux groupes animés au plus — le titre en data-split, le bloc des trois phrases en un
- * seul data-reveal. Rien sur la signature. data-grain : matière du noir (règle 20).
+ * Refonte éphéméride (6 oct 2026) : c'est le dos de la feuille, l'encre inversée (l'état se lit par
+ * inversion). Aucune animation : la page n'a qu'un geste par moment fort, et celui-ci est typographique.
  */
 import { site } from '@/lib/site';
 
@@ -29,21 +29,21 @@ const refus = [
 ];
 ---
 
-<section id="manifeste" data-grain class="section-y bg-ink text-on-ink">
+<section id="manifeste" class="section-y bg-ink text-on-ink">
   <div class="container-ff">
-    <h2 class="max-w-3xl text-display-lg" data-split>Ce que nous nous interdisons.</h2>
+    <h2 class="max-w-3xl text-display-lg">Ce que nous nous interdisons.</h2>
 
-    <div class="mt-16 max-w-3xl" data-reveal>
+    <div class="mt-14 max-w-3xl">
       {refus.map((r) => (
-        <p class="ff-refus text-display-sm leading-snug">
-          <span class="text-on-ink">{r.quoi}</span>{' '}
-          <span class="text-on-ink/60">{r.pourquoi}</span>
+        <p class="ff-refus text-2xl font-medium leading-snug sm:text-3xl">
+          <strong class="font-extrabold text-on-ink">{r.quoi}</strong>{' '}
+          <span class="text-on-ink/75">{r.pourquoi}</span>
         </p>
       ))}
     </div>
 
-    <p class="mt-20 font-display text-lg italic text-on-ink/70">Signé {site.business.name}.</p>
-    <p class="mt-4 max-w-md text-sm leading-relaxed text-on-ink/50">
+    <p class="mt-16 text-lg font-bold text-on-ink">Signé {site.business.name}.</p>
+    <p class="mt-3 max-w-md text-sm leading-relaxed text-on-ink/75">
       La troisième est écrite en toutes lettres dans les règles de notre atelier. C’est elle qui nous
       fait supprimer, à chaque site, des phrases que nous trouvions belles.
     </p>
