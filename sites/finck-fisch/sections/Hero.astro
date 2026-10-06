@@ -1,181 +1,39 @@
 ---
-/**
- * Hero sur mesure Finck & Fisch — direction eclipse, titres Cormorant (typography.display).
- *
- * REFONTE DU 22 SEPT 2026 AU SOIR — décision 1 de `sites/finck-fisch/ETALON.md` : le premier écran
- * devient un FRONTISPICE, plus une landing page. Trois raisons, toutes tirées du relevé des 17 sites :
- *
- * 1. Le monogramme passe de filigrane d'arrière-plan à PREMIER ÉLÉMENT DE LA PAGE, en grand, dans le
- *    flux. Dans la version précédente il se dessinait derrière le titre : à la capture il ressemblait à
- *    une tache grise qui traversait le mot « livré » et le rendait illisible. C'est le seul geste fort
- *    validé par le fondateur (docs/HANDOVER.md §2) ; le cacher derrière du texte était le gâcher.
- *    Le tracé, le corps en dégradé perle et le filet d'argent persistant sont conservés tels quels —
- *    ne JAMAIS revenir à un blanc plat à faible opacité (rend gris boueux, « tache »).
- * 2. Trois éléments, pas plus : la marque, une phrase, une ligne. AUCUN BOUTON. Le panneau latéral
- *    (src/shells/split.astro) porte déjà le téléphone et le seul CTA de la page, et la nav sur mesure
- *    fait la même chose sous 1024 px. Deux boutons de plus ici auraient été deux intitulés pour une
- *    seule intention (taste-skill §4.5, « no duplicate CTA intent »), et le panel étalonné est formel :
- *    médiane ~20 mots au-dessus de la ligne de flottaison, jamais paragraphe + double bouton.
- * 3. Le champ d'étincelles est retiré. Il n'était dans aucun acquis validé, et c'était l'élément le
- *    moins « méga clean » de la page. Restent le halo radial (la seule lumière d'eclipse) et data-grain
- *    (règle 20, matière du noir).
- *
- * Animation (règle 21, un seul groupe animé par section) : le tracé du monogramme est en CSS pur, donc
- * hors moteur ; côté moteur il n'y a qu'un `data-reveal` sur le titre. Le filet et la ligne de dessous
- * arrivent avec lui, dans le même groupe. La séquence se lit : le trait se dessine, la phrase se pose.
- *
- * Le tracé lui-même (v3 accélérée, inchangée) : chaque sous-trait du SVG vectorisé
- * (sections/mono-subpaths.ts, extrait de public/images/monogramme.svg) se trace après le précédent
- * (stroke-dashoffset en cascade, 0,25 s -> 2,7 s), le corps se pose en dégradé perle, une lame de
- * lumière douce balaie les lettres (clippée à leur forme). Référence : ~/Downloads/ff-logo-anime-v3.webm.
- * prefers-reduced-motion : monogramme posé, statique, aucune animation.
- *
- * Reprise du 3 oct. 2026 : rien n'a changé dans la composition validée (marque, phrase, filet, zéro
- * bouton) — seul le CADRAGE du SVG a été corrigé. Le viewBox d'origine (0 0 868 283) était celui du
- * fichier exporté, où le signe n'occupe que le tiers central : à l'écran la marque tombait à deux
- * cents pixels à droite du filet et du titre, et l'axe du frontispice se lisait comme un accident.
- *
- * L'emphase du titre porte la vraie italique de Cormorant (eclipse la désactive pour Space Grotesk,
- * qui n'en a pas de vraie — surcharge assumée ici, en spécificité supérieure).
- */
 import { site } from '@/lib/site';
 import { MONO_SUBPATHS } from './mono-subpaths';
+import '../styles/frontispice.css';
 ---
 
-<section id="hero" data-grain class="relative flex min-h-[86svh] flex-col justify-center overflow-hidden pt-10 pb-20 md:pt-16 lg:pt-20">
-  <div class="hero-halo" aria-hidden="true"></div>
-
-  <div class="container-ff relative z-10">
-    {/* La marque, en grand, dans le flux. aria-hidden : le nom du studio est déjà dans le panneau
-        latéral et dans la nav mobile — le répéter ici ferait trois fois pour un lecteur d'écran. */}
-    <svg class="hero-mono" viewBox="286 -1 294 281" aria-hidden="true">
-      <defs>
-        {/* Le tracé était écrit TROIS fois dans chaque page livrée — corps, trait, découpe du
-            reflet — soit 11 Ko de HTML pour un seul dessin. Il n'est plus écrit qu'une fois, ici,
-            et les trois emplois le réfèrent. Rien ne change à l'écran : `fill`, `stroke` et
-            `stroke-dasharray` sont des propriétés héritées, donc les classes posées sur chaque
-            `<use>` descendent dans le clone, et `pathLength` voyage avec le chemin d'origine. */}
-        {MONO_SUBPATHS.map((d, i) => <path id={`hero-mono-p${i}`} d={d} pathLength="1000" />)}
-        <clipPath id="hero-mono-clip">
-          {MONO_SUBPATHS.map((_, i) => <use href={`#hero-mono-p${i}`} />)}
-        </clipPath>
-        <linearGradient id="hero-sheen-grad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="rgba(255,255,255,0)" />
-          <stop offset="0.5" stop-color="rgba(255,255,255,0.3)" />
-          <stop offset="1" stop-color="rgba(255,255,255,0)" />
-        </linearGradient>
-        {/* Remplissage « lumière tombante » : perle en haut, presque rien en bas. Les stops portent
-            l'opacité — .mono-fill reste à opacity 1 une fois posé. Valeurs remontées par rapport au
-            filigrane d'avant (0,17 / 0,06) : ce n'est plus un fond, c'est la marque. */}
-        <linearGradient id="hero-mono-grad" x1="0.15" y1="0" x2="0.55" y2="1">
-          <stop class="g1" offset="0" />
-          <stop class="g2" offset="0.55" />
-          <stop class="g3" offset="1" />
-        </linearGradient>
-      </defs>
-      {MONO_SUBPATHS.map((_, i) => <use class="mono-fill" href={`#hero-mono-p${i}`} />)}
-      {MONO_SUBPATHS.map((_, i) => <use class="mono-trace" href={`#hero-mono-p${i}`} style={`--i:${i}`} />)}
-      <g clip-path="url(#hero-mono-clip)">
-        <rect class="mono-sheen" x="0" y="-40" width="420" height="370" fill="url(#hero-sheen-grad)" />
-      </g>
-    </svg>
-
-    {/* Filet de frontispice : il sépare la marque du texte, comme sur une page de titre. Il fait
-        partie du même groupe animé que le titre (data-reveal porté par le conteneur). */}
-    <div data-reveal data-reveal-delay="300">
-      <hr class="hero-filet border-0" />
-      <h1 class="mt-10 max-w-3xl text-display-lg" set:html={site.business.tagline} />
-      <p class="mt-8 max-w-lg text-lg leading-relaxed text-muted">
-        Studio à deux personnes. Vous connaissez le prix avant de commencer, et le site vous
-        appartient le jour de la mise en ligne.
-      </p>
+<section id="hero" data-grain class="ff-frontispice relative overflow-hidden">
+  <div class="container-ff">
+    <div class="ff-frontispice-signature">
+      <svg class="ff-frontispice-mono" viewBox="286 -1 294 281" aria-hidden="true">
+        <defs>
+          {MONO_SUBPATHS.map((d, i) => <path id={`hero-mono-p${i}`} d={d} pathLength="1000" />)}
+          <linearGradient id="hero-mono-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop class="ff-mono-top" offset="0" />
+            <stop class="ff-mono-bottom" offset="1" />
+          </linearGradient>
+        </defs>
+        {MONO_SUBPATHS.map((_, i) => <use class="ff-mono-fill" href={`#hero-mono-p${i}`} />)}
+        {MONO_SUBPATHS.map((_, i) => <use class="ff-mono-trace" href={`#hero-mono-p${i}`} />)}
+      </svg>
+      <p class="ff-frontispice-name">Finck <span>&amp;</span> Fisch</p>
+    </div>
+    <hr class="ff-frontispice-rule" />
+    <h1 class="ff-frontispice-title" set:html={site.business.tagline} />
+    <p class="ff-frontispice-intro">Studio à deux personnes. Trois propositions visuelles à partir de vos textes et de vos photos. Un site payé une fois, qui vous appartient.</p>
+    <p class="ff-frontispice-note">Le délai de 72 heures commence à réception de vos éléments. Engagement provisoire, à confirmer avant signature.</p>
+    <a class="ff-frontispice-next" href="#propositions"><span>Trois sites. Un seul contenu.</span><span aria-hidden="true">↓</span></a>
+    <div class="ff-frontispice-proof" aria-label="Aperçus de sites de démonstration">
+      <figure>
+        <img src="/images/sites/maison-roux-700.webp" alt="Aperçu du site de démonstration de boulangerie-pâtisserie" width="1400" height="900" loading="eager" decoding="async" />
+        <figcaption>Boulangerie-pâtisserie <span>Démonstration</span></figcaption>
+      </figure>
+      <figure>
+        <img src="/images/sites/atelier-lecerf-700.webp" alt="Aperçu du site de démonstration de menuiserie-ébénisterie" width="1400" height="900" loading="eager" decoding="async" />
+        <figcaption>Menuisier-ébéniste <span>Démonstration</span></figcaption>
+      </figure>
     </div>
   </div>
 </section>
-
-<style>
-  /* --- La marque ---
-     Le viewBox est recadré sur le tracé lui-même (bbox mesurée : x 288, y 0,92, l 289,4, h 277,1,
-     plus la demi-épaisseur du trait). Avant, il valait « 0 0 868 283 » alors que le signe n'occupe
-     que le tiers central de ce cadre : le monogramme flottait au milieu de la colonne, pendant que
-     le filet, le titre et le paragraphe partaient tous du bord gauche. Un frontispice se lit sur un
-     seul axe — la marque part maintenant du même bord que le reste. */
-  .hero-mono {
-    display: block;
-    width: min(100%, clamp(11rem, 26vw, 16rem));
-    height: auto;
-    overflow: visible;
-    /* Le pied du second F descend jusqu'au bord bas du tracé : sans cette réserve, il effleure le
-       filet de frontispice posé juste dessous. */
-    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  /* Halo derrière la marque : la « couleur » d'eclipse, c'est la lumière sur le noir. */
-  .hero-halo {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: radial-gradient(48% 46% at 34% 34%, hsl(210 18% 72% / 0.13), transparent 72%);
-  }
-
-  .hero-filet {
-    height: 1px;
-    background: linear-gradient(to right, var(--line), transparent);
-  }
-
-  /* --- Orchestration : tracé 0,25 -> 2,7 s, le corps se pose en dégradé à 2,5 s, lame douce à 3,3 s.
-     Puis la marque reste : corps en lumière tombante + filet d'argent persistant (l'arête nette qui
-     empêche l'effet « tache grise »). --- */
-  .mono-trace {
-    fill: none;
-    stroke: var(--accent);
-    stroke-opacity: 0.6;
-    stroke-width: 2.1;
-    stroke-linecap: round;
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation:
-      mono-trace-in 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards,
-      mono-trace-settle 1s ease 3.1s forwards;
-    animation-delay: calc(0.25s + var(--i) * 0.32s), 3.1s;
-  }
-  @keyframes mono-trace-in { to { stroke-dashoffset: 0; } }
-  @keyframes mono-trace-settle { to { stroke-opacity: 0.3; } }
-
-  .mono-fill {
-    fill: url(#hero-mono-grad);
-    opacity: 0;
-    animation: mono-fill-in 1s cubic-bezier(0.25, 1, 0.5, 1) 2.5s forwards;
-  }
-  @keyframes mono-fill-in { to { opacity: 1; } }
-  #hero-mono-grad .g1 { stop-color: var(--fg); stop-opacity: 0.88; }
-  #hero-mono-grad .g2 { stop-color: var(--fg); stop-opacity: 0.4; }
-  #hero-mono-grad .g3 { stop-color: var(--accent); stop-opacity: 0.16; }
-
-  .mono-sheen { animation: mono-sheen-sweep 1.1s cubic-bezier(0.45, 0, 0.25, 1) 3.3s both; }
-  @keyframes mono-sheen-sweep {
-    from { transform: translateX(-1500px) skewX(-18deg); }
-    to { transform: translateX(1500px) skewX(-18deg); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .mono-trace { animation: none; stroke-dashoffset: 0; stroke-opacity: 0.3; }
-    .mono-fill { opacity: 1; animation: none; }
-    .mono-sheen { display: none; }
-  }
-
-  /* Cormorant a une vraie italique : l'emphase du titre la porte (eclipse pose font-style:normal
-     pour Space Grotesk — règle de direction, passée en spécificité supérieure pour ce hero).
-     line-height >= 1.1 et réserve en bas : clairance des descendantes en italique display
-     (docs/veille/skills-design-ia.md §2 règle 10 — « livré » n'en a pas, « projet » en aurait). */
-  #hero h1 {
-    line-height: 1.06;
-    padding-bottom: 0.08em;
-  }
-  #hero h1 em {
-    font-style: italic;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-  }
-</style>

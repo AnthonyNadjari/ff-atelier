@@ -1,0 +1,36 @@
+/* Scoped studio presentation: existing eclipse tokens remain authoritative. */
+.ff-frontispice { padding-block: 4rem 2.5rem; }
+.ff-frontispice-signature { display: flex; align-items: center; gap: 1.75rem; margin-bottom: 2.5rem; }
+.ff-frontispice-mono { flex: 0 0 auto; width: 5.5rem; height: auto; overflow: visible; }
+.ff-frontispice-name { color: var(--fg); font-family: var(--font-display); font-size: 3rem; font-weight: 500; line-height: 1.05; letter-spacing: 0; }
+.ff-frontispice-name span { font-style: italic; color: var(--muted); }
+.ff-frontispice-rule { border: 0; height: 1px; background: var(--line); }
+.ff-frontispice-title { margin-top: 2rem; max-width: 15ch; font-size: 4.75rem; line-height: 1.08; letter-spacing: 0; padding-bottom: .1em; }
+.ff-frontispice-title em { font-style: italic; font-weight: 500; letter-spacing: 0; }
+.ff-frontispice-intro { max-width: 48ch; margin-top: 1.75rem; font-size: 1.125rem; line-height: 1.65; color: var(--muted); }
+.ff-frontispice-note { max-width: 58ch; margin-top: 1rem; color: var(--muted); font-size: .8125rem; line-height: 1.6; }
+.ff-frontispice-next { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding-block: 1rem; border-top: 1px solid var(--line); color: var(--fg); font-size: .875rem; }
+.ff-frontispice-next span:last-child { transition: transform var(--motion-ui) var(--ease-out); }
+.ff-frontispice-next:hover span:last-child { transform: translateY(3px); }
+.ff-frontispice-proof { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: .5rem; }
+.ff-frontispice-proof figure { min-width: 0; }
+.ff-frontispice-proof img { display: block; width: 100%; height: auto; aspect-ratio: 14 / 9; object-fit: cover; object-position: top; border: 1px solid var(--line); }
+.ff-frontispice-proof figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem .75rem; margin-top: .75rem; color: var(--fg); font-size: .8125rem; line-height: 1.5; }
+.ff-frontispice-proof figcaption span { color: var(--muted); font-size: .75rem; }
+.ff-mono-top { stop-color: var(--fg); stop-opacity: .88; }
+.ff-mono-bottom { stop-color: var(--accent); stop-opacity: .25; }
+.ff-mono-fill { fill: url(#hero-mono-grad); }
+.ff-mono-trace { fill: none; stroke: var(--accent); stroke-width: 2.1; stroke-opacity: .5; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: ff-signature-draw 1.4s var(--ease-out) .15s forwards; }
+@keyframes ff-signature-draw { to { stroke-dashoffset: 0; } }
+@media (min-width: 1440px) { .ff-frontispice { padding-top: 5rem; } }
+@media (max-width: 767px) {
+  .ff-frontispice { padding-top: 2rem; }
+  .ff-frontispice-signature { gap: 1rem; margin-bottom: 1.75rem; }
+  .ff-frontispice-mono { width: 3.5rem; }
+  .ff-frontispice-name { font-size: 2.25rem; }
+  .ff-frontispice-title { font-size: 3rem; }
+  .ff-frontispice-intro { font-size: 1rem; }
+  .ff-frontispice-proof { gap: .75rem; }
+}
+@media (max-width: 359px) { .ff-frontispice-name { font-size: 1.875rem; } .ff-frontispice-title { font-size: 2.5rem; } }
+@media (prefers-reduced-motion: reduce) { .ff-mono-trace { animation: none; stroke-dashoffset: 0; } .ff-frontispice-next span:last-child { transition: none; } }
