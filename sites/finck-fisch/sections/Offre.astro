@@ -107,7 +107,7 @@ const toujoursInclus = [
         <div class="border-t border-line pt-6">
           <p class="font-display text-display-sm">{f.nom}</p>
           <p class="mt-1 font-display text-2xl tabular-nums text-fg">{f.prix}</p>
-          {col === 1 && <p class="mt-4 text-sm text-muted">Tout l’Essentiel, plus :</p>}
+          {col === 1 && <p class="mt-4 text-sm text-muted">Tout l’Essentiel, plus&nbsp;:</p>}
           <ul class="mt-4 flex flex-col gap-3 text-sm text-muted">
             {lignes.filter((l) => (col === 0 ? l.essentiel : !l.essentiel && l.complet)).map((l) => (
               <li class="flex items-start gap-3">

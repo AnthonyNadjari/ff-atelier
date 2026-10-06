@@ -71,6 +71,9 @@ export default defineSite({
       { type: 'custom', variant: 'propositions', label: 'Propositions' },
       { type: 'custom', variant: 'chantier', label: 'Délais' },
       { type: 'custom', variant: 'manifeste' },
+      // Film de 21 s (F-F/video-pub), juste après la rupture du manifeste : on a dit ce qu'on refuse,
+      // on montre ce qu'on fait. Plan plein cadre, squelette qu'aucun voisin n'a.
+      { type: 'custom', variant: 'film' },
       { type: 'custom', variant: 'realisations', label: 'Réalisations' },
       { type: 'custom', variant: 'offre', label: 'Offre' },
     ],

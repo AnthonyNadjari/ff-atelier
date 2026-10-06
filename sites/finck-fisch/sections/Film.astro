@@ -1,0 +1,82 @@
+---
+/**
+ * Film — sur mesure Finck & Fisch. Le film de 21 s du studio (F-F/video-pub), muet, qui fait visiter
+ * le site : trois propositions, les 72 heures, le mur des démonstrations, le prix.
+ *
+ * Squelette : un seul plan plein cadre, sans texte par-dessus. Aucun voisin n'en a (règle 19).
+ * Règle 16 : c'est l'effet riche de cette zone ; rien d'autre ne bouge dans la section.
+ *
+ * Poids : rien n'est chargé tant que la section n'approche pas de l'écran (preload="none" + image
+ * d'aperçu de 19 Ko). Deux montages, recomposés et non recadrés : 16:9 sur grand écran, 9:16 sur
+ * téléphone (source media). 1 Mo chacun, H.264 720p/1280p 30 i/s, faststart.
+ * Lecture : en boucle, muette, seulement quand le film est visible ; mis en pause hors écran.
+ * prefers-reduced-motion : jamais de lecture automatique, les contrôles natifs sont affichés.
+ */
+---
+
+<section id="film" class="section-y">
+  <div class="container-ff">
+    <figure class="ff-film">
+      <video
+        data-film
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="/video/film-16x9.webp"
+        aria-label="Film du studio, 21 s, muet"
+      >
+        <source src="/video/film-9x16.mp4" type="video/mp4" media="(max-width: 639px)" />
+        <source src="/video/film-16x9.mp4" type="video/mp4" />
+      </video>
+      <figcaption class="mt-4 text-sm text-muted">Le studio en 21 secondes. Film muet.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style is:global>
+  /* Global : evite les data-astro-cid sur chaque balise (budget html de l'accueil). */
+  .ff-film video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--ink);
+  }
+  @media (max-width: 639px) {
+    .ff-film video { aspect-ratio: 9 / 16; max-height: 80svh; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  onPage(() => {
+    const video = document.querySelector<HTMLVideoElement>('[data-film]');
+    if (!video || video.dataset.filmReady) return;
+    video.dataset.filmReady = '1';
+
+    const portrait = window.matchMedia('(max-width: 639px)').matches;
+    if (portrait) video.poster = '/video/film-9x16.webp';
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      video.controls = true;
+      return;
+    }
+
+    // Charge un peu avant l'arrivée à l'écran, lit quand la moitié du film est visible.
+    const observer = new IntersectionObserver(
+      ([entree]) => {
+        if (entree.isIntersecting) {
+          if (video.preload === 'none') video.preload = 'auto';
+          if (entree.intersectionRatio >= 0.5) video.play().catch(() => (video.controls = true));
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: '200px 0px', threshold: [0, 0.5] },
+    );
+    observer.observe(video);
+    document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+  });
+</script>

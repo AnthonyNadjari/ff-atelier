@@ -14,7 +14,7 @@ const owner = site.legal.owner ?? b.name;
 
 const provider = site.form.provider;
 const destinataire: Record<string, string> = {
-  mailto: `la messagerie de ${b.name} (aucun serveur intermediaire : votre message ouvre directement le logiciel de messagerie de l'entreprise)`,
+  mailto: `la messagerie de ${b.name} (aucun serveur intermédiaire : votre message ouvre directement le logiciel de messagerie de l’entreprise)`,
   web3forms: 'Web3Forms (États-Unis), le prestataire technique qui relaie le message par e-mail à ' + b.name,
   cloudflare: `Cloudflare, Inc. — le formulaire est traité par un programme (Worker) hébergé sur l'infrastructure Cloudflare, qui transmet ensuite le message par e-mail à ${b.name}. Le traitement peut avoir lieu dans l'Union européenne via la Data Localization Suite de Cloudflare selon la configuration retenue pour ce site (voir la politique de confidentialité de Cloudflare, cloudflare.com/trust-hub/gdpr)`,
 };
