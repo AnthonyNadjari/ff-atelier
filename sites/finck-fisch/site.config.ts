@@ -31,6 +31,11 @@
  *   (règle 19) : 3e des 5 blocs. Il perd sa liste numérotée, parce que Réalisations en a une juste après.
  * - Réalisations passe APRÈS le manifeste : c'est le catalogue, pas la preuve d'entrée.
  * - Aucun eyebrow nulle part sur la page (décision 6, lecture stricte de la règle 13).
+ *
+ * Passe SEO du 6 oct 2026 : title/description explicites (ils étaient absents, donc déduits), mots-clés
+ * élargis aux requêtes réelles (« sans abonnement », refonte, fiche Google), image Open Graph branchée
+ * sur le hero, et schemaType forcé à ProfessionalService — la déduction depuis le métier retombait sur
+ * le repli LocalBusiness, trop générique pour un studio.
  */
 import { defineSite } from '@/lib/schema';
 
@@ -86,14 +91,17 @@ export default defineSite({
     description:
       'Finck & Fisch dessine des sites vitrines pour des artisans, des commerces et des indépendants. Chaque site part de trois propositions visuelles, jamais d’un modèle décliné par ville. Il est payé une fois et il vous appartient dès la mise en ligne, du code au nom de domaine.\n\nLe studio est tenu par deux associés. Vous parlez à la même personne du premier appel à la livraison.',
     certifications: [],
+    // La déduction depuis `trade` retombait sur le repli 'LocalBusiness' ; un studio web est
+    // une ProfessionalService, mieux comprise par les moteurs et les réponses IA.
+    schemaType: 'ProfessionalService',
   },
 
   contact: {
     phone: '+33600000000',
-    phoneDisplay: '06 00 00 00 00',
+    phoneDisplay: '06 00 00 00 00',
     email: 'contact@finckfisch.fr',
     address: { postalCode: '75000', city: 'Paris' },
-    hours: [{ days: 'Lundi – vendredi', hours: '9 h – 19 h', opens: '09:00', closes: '19:00' }],
+    hours: [{ days: 'Lundi – vendredi', hours: '9 h – 19 h', opens: '09:00', closes: '19:00' }],
     emergency24h: false,
   },
 
@@ -111,7 +119,7 @@ export default defineSite({
       image: { src: '/images/service-1.webp', alt: 'Composition graphique abstraite noir et blanc, image de démonstration' },
       bullets: ['1 à 6 pages', 'Formulaire de contact', 'SEO local', 'Mentions légales', 'Hébergement sans frais mensuels', 'Nom de domaine à votre nom'],
       description:
-        'Le site présente votre activité sans détour : ce que vous faites, où vous intervenez, comment vous joindre. Un formulaire permet de vous contacter directement.\n\nIl est optimisé pour le référencement local et comprend vos mentions légales. Il ne génère aucun frais mensuel : l’hébergement est inclus et le nom de domaine est à votre nom.',
+        'Le site présente votre activité sans détour : ce que vous faites, où vous intervenez, comment vous joindre. Un formulaire permet de vous contacter directement.\n\nIl est optimisé pour le référencement local et comprend vos mentions légales. Il ne génère aucun frais mensuel : l’hébergement est inclus et le nom de domaine est à votre nom.',
     },
     {
       slug: 'refonte',
@@ -121,7 +129,7 @@ export default defineSite({
       image: { src: '/images/service-2.webp', alt: 'Composition graphique abstraite noir et blanc, image de démonstration' },
       bullets: ['Reprise des textes et photos existants', 'Mise à jour du contenu', 'Site plus rapide sur mobile'],
       description:
-        'Un site vieillissant ou mal ficelé peut être repris intégralement. Nous gardons vos textes et vos photos utilisables, et nous reconstruisons le reste.\n\nLe résultat est un site plus rapide, lisible sur mobile, et à jour sur ce qui compte pour un client : vos services, votre zone et vos coordonnées.',
+        'Un site vieillissant ou mal ficelé peut être repris intégralement. Nous gardons vos textes et vos photos utilisables, et nous reconstruisons le reste.\n\nLe résultat est un site plus rapide, lisible sur mobile, et à jour sur ce qui compte pour un client : vos services, votre zone et vos coordonnées.',
     },
     {
       slug: 'identite-visuelle',
@@ -141,7 +149,7 @@ export default defineSite({
       image: { src: '/images/service-4.webp', alt: 'Composition graphique abstraite noir et blanc, image de démonstration' },
       bullets: ['Création ou correction de la fiche', 'Horaires, photos, catégorie à jour', 'Cohérence avec le site'],
       description:
-        'Une fiche Google complète et à jour change ce qui apparaît quand un client cherche votre métier dans votre ville : horaires, photos, catégorie d’activité, zone d’intervention.\n\nNous créons ou corrigeons votre fiche, en cohérence avec les informations de votre site.',
+        'Une fiche Google complète et à jour change ce qui apparaît quand un client cherche votre métier dans votre ville : horaires, photos, catégorie d’activité, zone d’intervention.\n\nNous créons ou corrigeons votre fiche, en cohérence avec les informations de votre site.',
     },
   ],
 
@@ -159,7 +167,7 @@ export default defineSite({
   process: [
     { title: 'Appel de 15 minutes', text: 'Un échange court pour comprendre votre activité et ce que le site doit faire pour vous.' },
     { title: 'Brief et photos', text: 'Vous nous envoyez vos informations, vos textes et vos photos. Si vous n’en avez pas, nous vous aidons à les réunir.' },
-    { title: 'Trois propositions en 48 à 72 h', text: 'Vous recevez trois directions visuelles construites sur votre contenu. Vous en choisissez une.' },
+    { title: 'Trois propositions en 48 à 72 h', text: 'Vous recevez trois directions visuelles construites sur votre contenu. Vous en choisissez une.' },
     { title: 'Mise en ligne et remise des clés', text: 'Le site est publié sur votre nom de domaine. Tout vous est transmis, accès compris.' },
   ],
 
@@ -167,23 +175,23 @@ export default defineSite({
   // « deux associés c'est risqué », 72 h trop rapide) argumentaient plus qu'elles ne répondaient.
   faq: [
     {
-      q: 'Faut-il fournir des photos ?',
+      q: 'Faut-il fournir des photos ?',
       a: 'C’est mieux, mais pas obligatoire. Nous pouvons monter une première version avec des visuels neutres, puis les remplacer dès que vous avez les vôtres.',
     },
     {
-      q: 'Est-ce que je vais apparaître sur Google ?',
+      q: 'Est-ce que je vais apparaître sur Google ?',
       a: 'Nous ne promettons pas de première place, personne ne peut la garantir. Nous livrons un site rapide et bien structuré, avec votre ville et votre métier aux bons endroits. Le reste se construit dans le temps, avec ou sans nous.',
     },
     {
-      q: 'Pourquoi pas un abonnement à 30 € par mois ?',
+      q: 'Pourquoi pas un abonnement à 30 € par mois ?',
       a: 'Sur trois ans, un abonnement coûte souvent plus cher qu’un site payé une fois. Et à la fin, il ne vous appartient pas. Ici, le site est à vous dès la mise en ligne.',
     },
     {
-      q: 'Et si je veux changer un texte dans deux ans ?',
+      q: 'Et si je veux changer un texte dans deux ans ?',
       a: 'Vous pouvez repasser par nous, ou par n’importe quel autre développeur. Le code est à vous et ne dépend d’aucun logiciel propriétaire.',
     },
     {
-      q: 'À qui appartient le nom de domaine ?',
+      q: 'À qui appartient le nom de domaine ?',
       a: 'À vous. Il est enregistré à votre nom dès le départ, ou transféré à votre nom si vous en avez déjà un. Jamais au nom du studio.',
     },
   ],
@@ -214,10 +222,25 @@ export default defineSite({
 
   images: {
     hero: { src: '/images/hero.webp', alt: 'Composition graphique abstraite noir et blanc, image de démonstration' },
+    // Image Open Graph : sans elle, les partages (WhatsApp, LinkedIn, iMessage) n'affichent rien.
+    og: '/images/hero.webp',
   },
 
   seo: {
-    keywords: ['création site vitrine artisan', 'site internet artisan pas cher sans abonnement', 'site web indépendant'],
+    // Title ~52 caractères, description ~160 : calibrés pour ne pas être tronqués dans Google.
+    title: 'Finck & Fisch — Site vitrine pour artisan, livré en 72 h',
+    description:
+      'Finck & Fisch dessine des sites vitrines pour artisans, commerces et indépendants. Trois propositions visuelles, livraison en 72 h, site payé une fois et à vous.',
+    keywords: [
+      'création site vitrine artisan',
+      'site internet artisan sans abonnement',
+      'site web indépendant',
+      'refonte site vitrine',
+      'site internet commerce local',
+      'studio création site artisan',
+      'fiche Google établissement',
+      'site vitrine livré en 72 heures',
+    ],
   },
 
   legal: { owner: 'Finck & Fisch' },
