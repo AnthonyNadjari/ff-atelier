@@ -43,7 +43,6 @@ import { MONO_SUBPATHS } from './mono-subpaths';
 ---
 
 <section id="hero" class="relative flex min-h-[calc(100svh-68px)] flex-col justify-center overflow-hidden pt-10 pb-16 md:pt-16 lg:pt-20">
-  <div class="hero-halo" aria-hidden="true"></div>
 
   <div class="container-ff relative z-10 lg:grid lg:grid-cols-12 lg:items-end lg:gap-x-10">
     {/* La marque, en grand, dans le flux. aria-hidden : le nom du studio est déjà dans la barre du
@@ -75,9 +74,6 @@ import { MONO_SUBPATHS } from './mono-subpaths';
       </defs>
       {MONO_SUBPATHS.map((_, i) => <use class="mono-fill" href={`#hero-mono-p${i}`} />)}
       {MONO_SUBPATHS.map((_, i) => <use class="mono-trace" href={`#hero-mono-p${i}`} style={`--i:${i}`} />)}
-      <g clip-path="url(#hero-mono-clip)">
-        <rect class="mono-sheen" x="0" y="-40" width="140" height="370" fill="url(#hero-sheen-grad)" />
-      </g>
     </svg>
 
     {/* Filet de frontispice : il sépare la marque du texte, comme sur une page de titre. Il fait
@@ -92,7 +88,7 @@ import { MONO_SUBPATHS } from './mono-subpaths';
       {/* Le prix et l'action dès le premier écran (diagnostic Impeccable du 6 oct : zéro bouton, prix
           aux 4/5 de la page, téléphone seulement dans le pied de page). Un seul bouton plein. */}
       <p class="hero-talon mt-7 text-xl leading-snug text-fg">
-        <span class="tabular-nums">Dès 1&nbsp;200&nbsp;€</span>, payé une fois<span class="text-muted"> · </span>le site est à vous
+        <span class="tabular-nums">Dès 1&nbsp;200&nbsp;€</span>, payé une fois. Le site est à vous.
       </p>
       <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
         <a href={tel()} class="btn btn-primary inline-flex min-h-12 items-center justify-center gap-2 px-7 text-[0.95rem]">
@@ -200,10 +196,10 @@ import { MONO_SUBPATHS } from './mono-subpaths';
     line-height: 1.06;
     padding-bottom: 0.08em;
   }
+  /* Pas d'italique : le gros titre en serif italique est LE signe des pages faites par une IA
+     (6 oct 2026). L'emphase passe par la lumière seule : début en gris, promesse en blanc. */
   #hero h1 em {
-    font-style: italic;
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    font-style: normal;
   }
   /* La promesse est le texte le plus lumineux du titre, pas le plus terne (eclipse descend l'emphase
      en gris : bonne règle pour une phrase d'accroche, mauvaise quand l'emphase EST l'offre). Le

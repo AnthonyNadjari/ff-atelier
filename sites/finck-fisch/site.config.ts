@@ -51,7 +51,10 @@ export default defineSite({
   // en place, le hero s'efface ; scripts inline et moteur rearmes a chaque navigation (docs/ANIMATIONS.md).
   transitions: true,
   scale: 'display',
-  typography: { display: 'cormorant' },
+  // Polices (6 oct 2026, « ça se voit que c'est fait par Claude ») : Cormorant et Instrument Sans sont
+  // dans toutes les listes de polices par défaut des IA. Bodoni Moda (Didone, la famille du monogramme
+  // F&F) pour les titres, Hanken Grotesk pour le texte.
+  typography: { display: 'bodoni', body: 'hanken' },
   layout: {
     shell: 'flow',
     // Contact en tiroir : plus de section contact finale dans le layout (sections/Contact.astro reste

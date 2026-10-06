@@ -95,7 +95,7 @@ const links = [
       min-height: 48px;
       align-items: center;
       justify-content: center;
-      border-radius: var(--radius);
+      border-radius: 0;
       font-size: 0.95rem;
       font-weight: 500;
       touch-action: manipulation;
@@ -136,10 +136,15 @@ const links = [
   .ff-montant { font-variant-numeric: lining-nums tabular-nums; }
   /* Formulaire sur iPhone : 16 px minimum (sinon Safari zoome au toucher), zone de message et
      liste en coins doux plutôt qu'en pilule, flèche de liste dessinée. */
-  .ff-champ { font-size: max(16px, 1rem); }
-  textarea.ff-champ { border-radius: 1.25rem; }
+  .ff-champ { font-size: max(16px, 1rem); border-radius: 0; }
+
+  /* Signes « fait par une IA » retirés (6 oct 2026, recherche + diagnostic) : boutons en pilule
+     partout, halo lumineux et grain sur fond noir. Angles nets et noir franc : le luxe vient de la
+     typographie et du vide, pas des effets. */
+  html[data-direction] .btn { border-radius: 0; }
+  html[data-direction='eclipse'] body::before,
+  html[data-direction='eclipse'] body::after { content: none; }
   select.ff-champ {
-    border-radius: 1.25rem;
     -webkit-appearance: none;
     appearance: none;
     padding-right: 2.75rem;

@@ -94,9 +94,6 @@ const toujoursInclus = [
         faire sauter le budget de `perf-budget.json`. Un `<symbol>` + `<use>` ramène chaque emploi à
         une centaine d'octets, à rendu identique. Couleur par `currentColor`, donc par token. */}
     <svg width="0" height="0" class="absolute" aria-hidden="true">
-      <symbol id="ff-inclus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 6 9 17l-5-5" />
-      </symbol>
       <symbol id="ff-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
         <path d="M5 12h14M12 5v14" />
       </symbol>
@@ -114,8 +111,7 @@ const toujoursInclus = [
           {col === 1 && <p class="mt-7 text-sm text-muted">Tout l’Essentiel, plus&nbsp;:</p>}
           <ul class={`${col === 1 ? 'mt-4' : 'mt-7'} flex flex-col gap-3 text-sm text-muted`}>
             {lignes.filter((l) => (col === 0 ? l.essentiel : !l.essentiel && l.complet)).map((l) => (
-              <li class="flex items-start gap-3">
-                <svg class="mt-1 h-[15px] w-[15px] shrink-0 text-fg" aria-hidden="true"><use href="#ff-inclus" /></svg>
+              <li>
                 <span>{l.label}</span>
               </li>
             ))}
@@ -144,8 +140,7 @@ const toujoursInclus = [
         <h3 class="font-display text-lg">Dans les deux formules</h3>
         <ul class="mt-4 flex flex-col gap-2 text-sm text-muted">
           {toujoursInclus.map((item) => (
-            <li class="flex items-start gap-3">
-              <svg class="mt-1 h-[14px] w-[14px] shrink-0 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg>
+            <li>
               <span>{item}</span>
             </li>
           ))}

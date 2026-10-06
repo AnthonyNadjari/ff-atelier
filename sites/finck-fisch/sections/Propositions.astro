@@ -33,10 +33,6 @@ const planche = [
 
     <div class="ff-ecran mt-12" data-ecran>
       <div class="ff-ecran-cadre">
-        <div class="ff-ecran-barre" aria-hidden="true">
-          <span></span><span></span><span></span>
-          <p class="ff-ecran-url">boulangerie-petit-pain.fr</p>
-        </div>
         <div class="ff-ecran-vues">
           {planche.map((p, i) => (
             <figure
@@ -57,7 +53,7 @@ const planche = [
                 loading="lazy"
                 style={`--cadrage: ${p.cadrage}`}
               />
-              <figcaption class="ff-vue-legende">Direction {p.direction.toLowerCase()} · {p.ambiance}</figcaption>
+              <figcaption class="ff-vue-legende">Direction {p.direction.toLowerCase()}. {p.ambiance}</figcaption>
             </figure>
           ))}
         </div>
