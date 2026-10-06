@@ -29,28 +29,28 @@ const refus = [
 ];
 ---
 
-<section id="manifeste" data-grain class="section-y bg-ink text-on-ink">
+<section id="manifeste" class="section-y bg-surface text-fg">
   <div class="container-ff">
     <h2 class="max-w-3xl text-display-lg" data-split>Ce que nous nous interdisons.</h2>
 
     <div class="mt-16 max-w-3xl" data-reveal>
       {refus.map((r) => (
-        <p class="ff-refus text-display-sm leading-snug">
-          <span class="text-on-ink">{r.quoi}</span>{' '}
-          <span class="text-on-ink/60">{r.pourquoi}</span>
+        <p class="ff-refus">
+          <span class="block font-display text-display-md leading-[1.05] text-fg">{r.quoi}</span>{' '}
+          <span class="mt-3 block max-w-[34rem] text-lg leading-relaxed text-muted">{r.pourquoi}</span>
         </p>
       ))}
     </div>
 
-    <p class="mt-20 font-display text-lg italic text-on-ink/70">Signé {site.business.name}.</p>
-    <p class="mt-4 max-w-md text-sm leading-relaxed text-on-ink/50">
+    <p class="mt-20 font-display text-xl italic text-fg">Signé {site.business.name}.</p>
+    <p class="mt-4 max-w-md text-sm leading-relaxed text-muted">
       La troisième est écrite en toutes lettres dans les règles de notre atelier. C’est elle qui nous
       fait supprimer, à chaque site, des phrases que nous trouvions belles.
     </p>
   </div>
 </section>
 
-<style>
+<style is:global>
   /* Trois phrases posées, pas une liste : l'espace entre elles est l'unique séparateur. */
-  .ff-refus + .ff-refus { margin-top: 2.25rem; }
+  .ff-refus + .ff-refus { margin-top: 3.25rem; }
 </style>

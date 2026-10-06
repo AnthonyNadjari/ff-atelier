@@ -47,11 +47,11 @@
  *   doublon inutile (le moteur révèle déjà les enfants du groupe) et deux éléments observés de plus
  *   pour rien. La section a de nouveau exactement un titre animé et un groupe (règle 21).
  */
-import { site } from '@/lib/site';
+import { site, tel } from '@/lib/site';
 
 const formules = [
-  { nom: 'Essentiel', prix: 'à partir de 1 200 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
-  { nom: 'Complet', prix: 'à partir de 1 800 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
+  { nom: 'Essentiel', prix: 'à partir de 1 200 €', montant: '1 200 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
+  { nom: 'Complet', prix: 'à partir de 1 800 €', montant: '1 800 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
 ];
 
 // true/true = commun aux deux formules ; false/true = ajouté par la formule Complet.
@@ -102,62 +102,26 @@ const toujoursInclus = [
       </symbol>
     </svg>
 
-    <div class="mt-14 flex flex-col gap-10 sm:hidden">
+    {/* Deux plaques, à toutes les largeurs (plus de tableau à cocher) : le montant est l'événement
+        typographique de la section, en Cormorant display, et l'appel arrive juste dessous (revue de
+        design du 6 oct : prix en 24 px, 1 500 px de petit texte avant le premier bouton). */}
+    <div class="mt-14 grid gap-14 md:grid-cols-2 md:gap-10">
       {formules.map((f, col) => (
         <div class="border-t border-line pt-6">
-          <p class="font-display text-display-sm">{f.nom}</p>
-          <p class="mt-1 font-display text-2xl tabular-nums text-fg">{f.prix}</p>
-          {col === 1 && <p class="mt-4 text-sm text-muted">Tout l’Essentiel, plus&nbsp;:</p>}
-          <ul class="mt-4 flex flex-col gap-3 text-sm text-muted">
+          <p class="text-base text-muted">{f.nom}</p>
+          <p class="mt-5 text-sm text-muted">à partir de</p>
+          <p class="ff-montant mt-1 font-display text-display-lg leading-none text-fg">{f.montant}</p>
+          {col === 1 && <p class="mt-7 text-sm text-muted">Tout l’Essentiel, plus&nbsp;:</p>}
+          <ul class={`${col === 1 ? 'mt-4' : 'mt-7'} flex flex-col gap-3 text-sm text-muted`}>
             {lignes.filter((l) => (col === 0 ? l.essentiel : !l.essentiel && l.complet)).map((l) => (
               <li class="flex items-start gap-3">
-                <svg class="mt-1 h-[15px] w-[15px] shrink-0 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg>
+                <svg class="mt-1 h-[15px] w-[15px] shrink-0 text-fg" aria-hidden="true"><use href="#ff-inclus" /></svg>
                 <span>{l.label}</span>
               </li>
             ))}
           </ul>
         </div>
       ))}
-    </div>
-
-    {/*
-      [contain:layout] : le tableau (largeur intrinsèque ~582px) dépasse ce conteneur entre 640 et
-      700 px — voulu, défilement horizontal contenu par overflow-x-auto. Sans `contain: layout`,
-      Chrome laisse ~5px de la largeur du tableau remonter dans document.documentElement.scrollWidth
-      (repéré par `ff captures` : "débordement horizontal" sur finck-fisch-mobile alors que rien
-      n'est visuellement coupé) ; `contain: layout` isole le calcul de débordement de ce conteneur.
-    */}
-    <div class="mt-14 hidden overflow-x-auto [contain:layout] sm:block">
-      <table class="w-full min-w-[36rem] border-collapse text-left text-sm">
-        <thead>
-          <tr class="border-b border-line">
-            <th scope="col" class="py-5 pr-6 font-normal text-muted"><span class="sr-only">Fonctionnalité</span></th>
-            {formules.map((f) => (
-              <th scope="col" class="py-5 pl-6 align-bottom">
-                <p class="font-display text-display-sm">{f.nom}</p>
-                <p class="mt-2 font-display text-2xl tabular-nums text-fg">{f.prix}</p>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {lignes.map((l) => (
-            <tr class="border-b border-line">
-              <th scope="row" class="py-4 pr-6 font-normal text-muted">{l.label}</th>
-              <td class="py-4 pl-6">
-                {l.essentiel
-                  ? <><svg class="h-4 w-4 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg><span class="sr-only">Inclus</span></>
-                  : <><span aria-hidden="true" class="text-muted/50">–</span><span class="sr-only">Non inclus</span></>}
-              </td>
-              <td class="py-4 pl-6">
-                {l.complet
-                  ? <><svg class="h-4 w-4 text-accent" aria-hidden="true"><use href="#ff-inclus" /></svg><span class="sr-only">Inclus</span></>
-                  : <><span aria-hidden="true" class="text-muted/50">–</span><span class="sr-only">Non inclus</span></>}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
 
     {/* PRIX PROVISOIRES — marquage visible, pas seulement un commentaire de code : tant que les deux
@@ -168,7 +132,14 @@ const toujoursInclus = [
       mise en ligne de ce site.
     </p>
 
-    <div class="mt-14 grid gap-8 border-t border-line pt-10 md:grid-cols-2" data-stagger="100">
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+      <a href={tel()} class="btn btn-primary inline-flex min-h-12 items-center justify-center gap-2 px-8 text-base">
+        Appeler le <span class="tabular-nums">{site.contact.phoneDisplay}</span>
+      </a>
+      <a href="#contact" class="inline-flex min-h-11 items-center justify-center text-sm text-fg underline decoration-1 underline-offset-[6px] sm:justify-start">Écrire un message</a>
+    </div>
+
+    <div class="mt-16 grid gap-8 border-t border-line pt-10 md:grid-cols-2">
       <div>
         <h3 class="font-display text-lg">Dans les deux formules</h3>
         <ul class="mt-4 flex flex-col gap-2 text-sm text-muted">

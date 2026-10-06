@@ -48,23 +48,27 @@ const graduations = [
 ---
 
 <section id="chantier" class="section-y bg-bg-2">
-  <div class="container-ff">
-    <h2 class="max-w-2xl text-display-md" data-reveal>Ce que veut dire 72 heures.</h2>
-    <p class="mt-6 max-w-[38rem] leading-relaxed text-muted">
+  <div class="container-ff lg:grid lg:grid-cols-12 lg:gap-x-10">
+    <div class="lg:col-span-5">
+    <h2 class="max-w-2xl text-display-md">Ce que veut dire 72 heures.</h2>
+    <p class="mt-6 max-w-[34rem] leading-relaxed text-muted">
       Le délai court à partir du moment où vos éléments sont chez nous. C’est la seule façon de le
       tenir, et c’est la seule chose que nous vous demandons de faire vite.
     </p>
+    </div>
 
-    <ol class="ff-reglure mt-16 max-w-3xl" data-stagger="120">
-      {graduations.map((g) => (
-        <li class={`ff-grad relative grid grid-cols-[5.5rem_1fr] gap-5 sm:grid-cols-[8rem_1fr] sm:gap-10 ${g.espace}`}>
-          <span class="font-display text-2xl tabular-nums leading-none text-fg sm:text-3xl">{g.heure}</span>
+    {/* La réglure se trace comme le temps passe : 0 → 48 h en 800 ms, 48 → 72 h en 400 ms, à la même
+        vitesse, pour que l'écart du simple au double se sente (revue motion du 6 oct). */}
+    <ol class="ff-reglure mt-16 lg:col-span-6 lg:col-start-7 lg:mt-2" data-reglure>
+      {graduations.map((g, i) => (
+        <li class={`ff-grad relative grid grid-cols-[6.5rem_1fr] gap-5 sm:grid-cols-[11rem_1fr] sm:gap-8 ${g.espace}`} style={`--at: ${[0, 800, 1200][i]}ms; --d: ${[800, 400, 0][i]}ms`}>
+          <span class="whitespace-nowrap font-display text-4xl tabular-nums leading-none text-fg sm:text-[4.5rem]">{g.heure}</span>
           <p class="max-w-md leading-relaxed text-muted">{g.texte}</p>
         </li>
       ))}
     </ol>
 
-    <div class="mt-16 grid gap-8 border-t border-line pt-10 sm:grid-cols-2">
+    <div class="mt-16 grid gap-8 border-t border-line pt-10 sm:grid-cols-2 lg:col-span-12">
       <p class="max-w-sm text-sm leading-relaxed text-muted">
         <span class="text-fg">Avant.</span> Un appel de quinze minutes, un devis signé, un acompte.
         Rien ne part avant.
@@ -77,14 +81,14 @@ const graduations = [
 
     {/* ENGAGEMENT PROVISOIRE — à confirmer par les fondateurs avant mise en ligne (même statut que
         les prix de sections/Offre.astro, voir docs/HANDOVER.md § P0). */}
-    <p class="mt-8 text-xs leading-relaxed text-muted">
+    <p class="mt-8 text-xs leading-relaxed text-muted lg:col-span-12">
       Le délai de 72 heures et la remise de 10 % en cas de dépassement sont un engagement provisoire,
       à confirmer avant signature.
     </p>
   </div>
 </section>
 
-<style>
+<style is:global>
   /* La réglure : un filet vertical continu derrière les graduations, et une cote horizontale à
      chaque heure. Tokens uniquement (--line, --accent). Le filet s'arrête à la dernière graduation :
      72 h est la fin de l'échelle, pas une flèche vers l'infini. */
@@ -116,4 +120,30 @@ const graduations = [
   }
   /* L'heure se décale du filet ; le texte, lui, occupe sa colonne de grille sans retrait. */
   .ff-grad > span { padding-left: 1.5rem; }
+
+  /* Tracé : posé par le script (data-reglure-pret), déclenché à l'entrée dans l'écran (is-trace). */
+  [data-reglure-pret] .ff-grad::before { transform: scaleY(0); transform-origin: 50% 0; transition: transform var(--d) linear var(--at); }
+  [data-reglure-pret] .ff-grad::after { transform: scaleX(0); transform-origin: 0 50%; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1) var(--at); }
+  [data-reglure-pret] .ff-grad > * { opacity: 0; transition: opacity 400ms ease var(--at); }
+  [data-reglure-pret].is-trace .ff-grad::before { transform: scaleY(1); }
+  [data-reglure-pret].is-trace .ff-grad::after { transform: scaleX(1); }
+  [data-reglure-pret].is-trace .ff-grad > * { opacity: 1; }
 </style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  onPage(() => {
+    const reglure = document.querySelector<HTMLElement>('[data-reglure]');
+    if (!reglure || reglure.dataset.reglurePret !== undefined) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    reglure.setAttribute('data-reglure-pret', '');
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      reglure.classList.add('is-trace');
+      obs.disconnect();
+    }, { threshold: 0.35 });
+    obs.observe(reglure);
+    document.addEventListener('astro:before-swap', () => obs.disconnect(), { once: true });
+  });
+</script>

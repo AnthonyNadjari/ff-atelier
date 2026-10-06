@@ -16,9 +16,10 @@
  */
 ---
 
-<section id="film" class="pb-24 md:pb-32">
-  <div>
+<section id="film" class="pb-16 md:pb-20">
+  <div class="container-ff">
     <figure class="ff-film">
+      <div class="ff-film-cadre">
       <video
         data-film
         muted
@@ -30,7 +31,12 @@
         aria-label="Extrait du film du studio, 12 s, muet"
       >
       </video>
-      <figcaption class="container-ff mt-4 text-sm text-muted">Trois propositions, soixante-douze heures, douze démonstrations, un prix écrit. Film muet.</figcaption>
+      {/* Pause / lecture (WCAG 2.2.2 : un film qui tourne plus de 5 s doit pouvoir s'arrêter). */}
+      <button type="button" class="ff-film-pause" data-film-pause hidden aria-label="Mettre le film en pause">
+        <span class="ff-film-pause-icone" aria-hidden="true"></span>
+      </button>
+      </div>
+      <figcaption class="mt-4 text-sm text-muted">Trois propositions, soixante-douze heures, douze démonstrations, un prix écrit. Film muet.</figcaption>
     </figure>
   </div>
 </section>
@@ -43,6 +49,33 @@
     aspect-ratio: 16 / 9;
     object-fit: cover;
     background: var(--ink);
+  }
+
+  /* Le film est une pièce encadrée dans la page, pas un écran sombre bord à bord sous un hero sombre. */
+  .ff-film-cadre { position: relative; border: 1px solid var(--line); }
+  .ff-film-pause {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--bg) 70%, transparent);
+    border: 1px solid var(--line);
+    color: var(--fg);
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s ease;
+  }
+  .ff-film-pause[hidden] { display: none; }
+  .ff-film-pause:active { transform: scale(0.95); }
+  .ff-film-pause-icone { width: 10px; height: 12px; border-inline: 3px solid currentColor; }
+  .ff-film-pause[data-pause] .ff-film-pause-icone {
+    width: 0; height: 0; border: 0;
+    border-left: 11px solid currentColor;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    margin-left: 3px;
   }
 </style>
 
@@ -78,6 +111,24 @@
       { rootMargin: '200px 0px', threshold: [0, 0.5] },
     );
     observer.observe(video);
+
+    const bouton = document.querySelector<HTMLButtonElement>('[data-film-pause]');
+    if (bouton) {
+      bouton.hidden = false;
+      let arreteParVisiteur = false;
+      const maj = () => {
+        bouton.setAttribute('aria-label', video.paused ? 'Lire le film' : 'Mettre le film en pause');
+        bouton.toggleAttribute('data-pause', video.paused);
+      };
+      video.addEventListener('play', maj);
+      video.addEventListener('pause', maj);
+      bouton.addEventListener('click', () => {
+        if (video.paused) { arreteParVisiteur = false; video.play().catch(() => {}); }
+        else { arreteParVisiteur = true; video.pause(); }
+      });
+      // Une pause demandée par le visiteur n'est pas annulée par le retour du film à l'écran.
+      video.addEventListener('play', () => { if (arreteParVisiteur) video.pause(); });
+    }
     document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
   });
 </script>

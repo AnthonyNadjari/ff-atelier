@@ -46,7 +46,7 @@ const links = [
 ].map((l) => ({ ...l, href: accueil ? l.ancre : `/${l.ancre}` }));
 ---
 
-<header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-[transform,background-color] duration-500 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/90 [&.is-scrolled]:backdrop-blur-md">
+<header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-[transform,background-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none [&.is-hidden]:duration-300 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/90 [&.is-scrolled]:backdrop-blur-md">
   <div class="container-ff flex items-baseline justify-between gap-6 py-5">
     <a href="/" class="font-display text-lg tracking-tight text-fg" aria-label={`${site.business.name}, accueil`}>{site.business.name}</a>
     <nav class="flex items-baseline gap-6 text-sm text-muted sm:gap-8" aria-label="Navigation principale">
@@ -60,7 +60,7 @@ const links = [
 {/* Barre d'action du téléphone (diagnostic du 6 oct : sur iPhone, « Contact » disparaissait au
     défilement et le numéro n'était que dans le pied de page). Elle apparaît une fois le premier
     écran passé, sous le pouce, zone de sécurité de l'iPhone comprise. */}
-<div class="ff-barre-action" data-barre-action hidden>
+<div class="ff-barre-action" data-barre-action>
   <a href={tel()} class="ff-barre-appel">Appeler</a>
   <a href="#contact" class="ff-barre-ecrire">Écrire</a>
 </div>
@@ -80,6 +80,15 @@ const links = [
       -webkit-backdrop-filter: blur(14px);
       backdrop-filter: blur(14px);
       border-top: 1px solid var(--line);
+      /* Sortie : 200 ms ; entrée : 260 ms (courbe de tiroir iOS). Masquée, elle n'attrape pas le doigt. */
+      transform: translateY(110%);
+      visibility: hidden;
+      transition: transform 200ms cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 200ms;
+    }
+    .ff-barre-action[data-shown] {
+      transform: none;
+      visibility: visible;
+      transition: transform 260ms cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
     }
     .ff-barre-action a {
       display: flex;
@@ -89,10 +98,18 @@ const links = [
       border-radius: var(--radius);
       font-size: 0.95rem;
       font-weight: 500;
+      touch-action: manipulation;
+      user-select: none;
       -webkit-tap-highlight-color: transparent;
+      transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
     }
+    .ff-barre-action a:active { transform: scale(0.97); }
     .ff-barre-appel { background: var(--fg); color: var(--bg); }
     .ff-barre-ecrire { border: 1px solid var(--line); color: var(--fg); }
+  }
+  @media (max-width: 639px) and (prefers-reduced-motion: reduce) {
+    .ff-barre-action, .ff-barre-action[data-shown] { transform: none; transition: opacity 150ms ease, visibility 0s; opacity: 0; }
+    .ff-barre-action[data-shown] { opacity: 1; }
   }
 </style>
 
@@ -103,8 +120,34 @@ const links = [
 
   /* Finition du site du studio (Emil Kowalski, design-engineering) : un bouton répond au doigt
      (léger enfoncement, 160 ms, sortie douce) ; titres équilibrés, paragraphes sans mot orphelin. */
-  .btn { transition: transform 0.16s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
-  .btn:active { transform: scale(0.97); }
+  /* Plus spécifique que [data-direction='eclipse'] .btn (sinon sa transition sans transform gagne et
+     l'enfoncement claque sans transition). */
+  html[data-direction] .btn { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease; touch-action: manipulation; }
+  html[data-direction] .btn:active { transform: scale(0.97); }
+  /* Au doigt, le survol reste « collé » après le toucher (Appeler restait inversé sur iPhone) : on
+     annule les survols d'eclipse sur les écrans sans pointeur fin. */
+  @media not ((hover: hover) and (pointer: fine)) {
+    html[data-direction='eclipse'] .btn-primary:hover { background: var(--fg); color: var(--bg); }
+    html[data-direction='eclipse'] .btn-ghost:hover { border-color: var(--line); }
+  }
+  /* Chiffres alignés dans les titres : Cormorant a des chiffres elzéviriens par défaut (« 1 2oo € »,
+     « o h » à grande taille). */
+  h1, h2, h3, .font-display, .ff-montant { font-variant-numeric: lining-nums; }
+  .ff-montant { font-variant-numeric: lining-nums tabular-nums; }
+  /* Formulaire sur iPhone : 16 px minimum (sinon Safari zoome au toucher), zone de message et
+     liste en coins doux plutôt qu'en pilule, flèche de liste dessinée. */
+  .ff-champ { font-size: max(16px, 1rem); }
+  textarea.ff-champ { border-radius: 1.25rem; }
+  select.ff-champ {
+    border-radius: 1.25rem;
+    -webkit-appearance: none;
+    appearance: none;
+    padding-right: 2.75rem;
+    background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+    background-position: calc(100% - 1.4rem) 55%, calc(100% - 1.05rem) 55%;
+    background-size: 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+  }
   /* Pas de rideau d'entrée (.ff-curtain du moteur, motion « rich ») : sur ce site, la barre grise
      qui montait à l'ouverture était de trop ; le monogramme qui se trace suffit (6 oct 2026). */
   .ff-curtain { display: none; }
@@ -120,11 +163,17 @@ const links = [
 
   onPage(() => {
     const barre = document.querySelector<HTMLElement>('[data-barre-action]');
-    const hero = document.getElementById('hero');
     if (!barre) return;
-    if (!hero) { barre.hidden = false; return; }
-    const obs = new IntersectionObserver(([e]) => { barre.hidden = e.isIntersecting; }, { threshold: 0.15 });
-    obs.observe(hero);
+    // Visible hors du premier écran et hors du dernier (#parler porte déjà Appeler / Écrire : quatre
+    // boutons à la fois, c'était trop).
+    const zones = ['hero', 'parler'].map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el));
+    if (!zones.length) { barre.setAttribute('data-shown', ''); return; }
+    const vues = new Set<Element>();
+    const obs = new IntersectionObserver((entrees) => {
+      for (const e of entrees) { if (e.isIntersecting) vues.add(e.target); else vues.delete(e.target); }
+      barre.toggleAttribute('data-shown', vues.size === 0);
+    }, { threshold: 0.15 });
+    zones.forEach((z) => obs.observe(z));
     document.addEventListener('astro:before-swap', () => obs.disconnect(), { once: true });
   });
 </script>
