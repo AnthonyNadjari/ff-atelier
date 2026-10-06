@@ -1,0 +1,31 @@
+---
+/**
+ * Fin — sur mesure Finck & Fisch. La page se terminait sur la FAQ puis le pied de page : elle ne
+ * demandait jamais rien (diagnostic Impeccable du 6 oct 2026, P1). Ce dernier écran pose la seule
+ * question qui compte et les deux façons d'y répondre : appeler, ou écrire (le lien #contact ouvre le
+ * tiroir de contact, comme partout sur le site).
+ *
+ * Textes : site.wording.ctaTitle / ctaText, présents dans le config et jamais affichés jusqu'ici.
+ */
+import { site, tel } from '@/lib/site';
+---
+
+<section id="parler" class="section-y border-t border-line">
+  <div class="container-ff">
+    <h2 class="max-w-3xl text-display-lg" set:html={site.wording.ctaTitle} />
+    <p class="mt-6 max-w-[34rem] text-lg leading-relaxed text-muted">{site.wording.ctaText}</p>
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+      <a href={tel()} class="btn btn-primary inline-flex min-h-12 items-center justify-center gap-2 px-8 text-base">
+        Appeler le <span class="tabular-nums">{site.contact.phoneDisplay}</span>
+      </a>
+      <a href="#contact" class="btn btn-ghost inline-flex min-h-12 items-center justify-center px-8 text-base">Écrire un message</a>
+    </div>
+    <p class="mt-6 text-sm text-muted">
+      {site.contact.hours[0] && <>{site.contact.hours[0].days}, {site.contact.hours[0].hours}. </>}{site.zones.label}.
+    </p>
+  </div>
+</section>
+
+<style is:global>
+  #parler h2 em { font-style: italic; color: var(--fg); }
+</style>

@@ -45,84 +45,94 @@ const tous = vitrine as Entry[];
 // Orthographe française des noms de direction (les dossiers de src/directions/ sont en ASCII).
 const nomDirection: Record<string, string> = { mediterranee: 'méditerranée', retro: 'rétro' };
 
-// Douze métiers, douze directions, dans l'ordre du calendrier.
+// Douze métiers, douze directions, dans l'ordre de la planche. `large: true` = emplacement de tête
+// d'une rangée de deux ; les autres vont par trois. Rythme 2–3–2–3–2.
 const planche = [
-  'forge-delacroix', 'maison-roux', 'dubois-plomberie', 'atelier-lecerf', 'jardins-mael', 'toits-cie',
-  'maison-aurore', 'barbier-kessler', 'moteur-fils', 'studio-ambre', 'chez-malo', 'encre-noire',
+  { slug: 'forge-delacroix', large: true },
+  { slug: 'maison-roux', large: true },
+  { slug: 'dubois-plomberie', large: false },
+  { slug: 'atelier-lecerf', large: false },
+  { slug: 'jardins-mael', large: false },
+  { slug: 'toits-cie', large: true },
+  { slug: 'maison-aurore', large: true },
+  { slug: 'barbier-kessler', large: false },
+  { slug: 'moteur-fils', large: false },
+  { slug: 'studio-ambre', large: false },
+  { slug: 'chez-malo', large: true },
+  { slug: 'encre-noire', large: true },
 ];
 
 const sites = planche
-  .map((slug) => {
+  .map(({ slug, large }) => {
     const e = tous.find((s) => s.slug === slug);
-    return e ? { ...e, direction: nomDirection[e.direction] ?? e.direction } : null;
+    return e ? { ...e, large, direction: nomDirection[e.direction] ?? e.direction } : null;
   })
-  .filter((s): s is Entry => Boolean(s));
+  .filter((s): s is Entry & { large: boolean } => Boolean(s));
 ---
 
-<section id="realisations" class="ff-almanach section-y">
+<section id="realisations" class="section-y">
   <div class="container-ff">
-    <h2 class="max-w-3xl text-display-md">Le calendrier des douze métiers.</h2>
-    <p class="mt-6 max-w-[40rem] text-lg leading-relaxed">
-      Douze démonstrations, un métier et une direction visuelle chacune. Aucune n’est un client : nos
-      premiers sites clients prendront leur place ici dès leur mise en ligne.
+    <h2 class="max-w-2xl text-display-md" data-reveal>Douze métiers, douze directions.</h2>
+    <p class="mt-6 max-w-[38rem] leading-relaxed text-muted">
+      Douze démonstrations, un métier chacune. Aucune n’est un client. Nous les avons construites
+      pour montrer le travail, et chacune tire une direction visuelle différente, nommée sous la
+      vignette. Nos premiers sites clients prendront leur place ici dès leur mise en ligne.
     </p>
-  </div>
 
-  {/* Sur téléphone, un défilement horizontal au doigt (une feuille presque pleine largeur, la suivante
-      dépasse) : les vignettes à deux colonnes de 170 px ne se lisaient pas. Grille de 3 puis 4 au-delà. */}
-  <ol class="ff-mois container-ff mt-12" aria-label="Douze sites de démonstration">
-    {sites.map((s, i) => (
-      <li class="ff-mois-feuille bg-surface text-fg">
-        <div class="flex items-baseline justify-between gap-3 px-4 pb-3 pt-4">
-          <span class="ff-mois-nom font-extrabold uppercase">{s.metier}</span>
-          <span class="shrink-0 text-xs font-semibold tabular-nums text-muted">{i + 1} / 12</span>
-        </div>
-        <img
-          src={`/images/sites/${s.slug}-700.webp`}
-          width="1400"
-          height="900"
-          alt={`Site de démonstration, ${s.metier.toLowerCase()}, direction ${s.direction}`}
-          loading="lazy"
-          class="aspect-[14/9] w-full object-cover object-top"
-        />
-        <div class="perforation" aria-hidden="true"></div>
-        <p class="px-4 py-3 text-sm text-muted">{s.ville}, direction {s.direction}</p>
-      </li>
-    ))}
-  </ol>
+    <div class="ff-planche mt-14 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-12 sm:gap-x-6 sm:gap-y-14">
+      {sites.map((s, i) => (
+        <figure class={`min-w-0 ${s.large ? 'sm:col-span-6' : 'sm:col-span-4'}`}>
+          {/* Emplacement moyen : jamais affiché au-delà de 18 rem, soit 576 px en densité double et
+              495 px en densité triple sur téléphone. La vignette de 700 px suffit partout ; un
+              second candidat ne ferait télécharger 1400 px pour rien. Seuls les grands emplacements
+              (27 rem, 864 px en densité double) ont besoin de la vignette pleine. */}
+          <img
+            src={`/images/sites/${s.slug}-700.webp`}
+            srcset={s.large ? `/images/sites/${s.slug}-700.webp 700w, /images/sites/${s.slug}.webp 1400w` : undefined}
+            sizes={s.large ? '(min-width: 1024px) 27rem, (min-width: 640px) 46vw, 44vw' : undefined}
+            width="1400"
+            height="900"
+            alt={`Site de démonstration, ${s.metier.toLowerCase()}`}
+            loading="lazy"
+            class="aspect-[14/9] w-full border border-line object-cover object-top"
+          />
+          <figcaption class="mt-3 flex items-baseline gap-3 border-t border-line pt-3">
+            <span class="font-mono text-xs tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
+            <span class="min-w-0">
+              <span class="block font-display text-base leading-tight sm:text-lg">{s.metier}</span>
+              {/* Virgule et non point médian : à deux colonnes sur téléphone, la légende passe à la
+                  ligne, et un point médian orphelin en tête de seconde ligne se lit comme un défaut
+                  d'affichage. Une virgule en fin de ligne, elle, est une césure normale. */}
+              <span class="mt-1 block text-sm text-muted">Direction {s.direction}</span>
+            </span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
 </section>
 
-<style>
-  .ff-almanach { background: var(--poste); color: var(--on-poste); }
-
-  .ff-mois {
-    list-style: none;
-    margin-block: 0;
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: min(84vw, 22rem);
-    gap: 0.875rem;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: clamp(1.25rem, 4vw, 2.5rem);
-    padding-bottom: 0.5rem;
-    scrollbar-width: thin;
-    scrollbar-color: var(--on-poste) transparent;
-  }
-  .ff-mois-feuille { scroll-snap-align: start; border: 1px solid var(--line); }
-  .ff-mois-nom { font-size: 1rem; letter-spacing: 0.06em; line-height: 1.15; }
-
-  @media (min-width: 768px) {
-    .ff-mois {
-      grid-auto-flow: row;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      grid-auto-columns: auto;
-      overflow: visible;
-      gap: 1.25rem;
+<style is:global>
+  /* Sur téléphone, les douze démos défilent au doigt, presque pleine largeur (la suivante dépasse) :
+     à deux colonnes, les vignettes faisaient 170 px et ne se lisaient pas (diagnostic du 6 oct). */
+  @media (max-width: 639px) {
+    .ff-planche {
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: 82%;
+      column-gap: 0.875rem;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.75rem;
+      scrollbar-width: none;
     }
+    .ff-planche::-webkit-scrollbar { display: none; }
+    .ff-planche > figure { scroll-snap-align: start; }
   }
-  @media (min-width: 1200px) {
-    .ff-mois { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  /* Survol : l'image s'éclaire d'un cran, le filet passe au blanc. Pas de zoom, pas d'ombre. */
+  .ff-planche img { transition: opacity 0.25s ease, border-color 0.25s ease; }
+  @media (hover: hover) {
+    .ff-planche figure:hover img { border-color: var(--fg); }
   }
 </style>

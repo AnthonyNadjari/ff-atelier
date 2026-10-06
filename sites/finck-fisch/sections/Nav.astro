@@ -1,89 +1,114 @@
 ---
 /**
- * Barre du haut — sur mesure Finck & Fisch, direction éphéméride (refonte du 6 oct 2026).
+ * Nav sur mesure Finck & Fisch. Depuis le passage à la coquille `split` (22 sept 2026), cette barre
+ * n'existe plus que SOUS 1024 px sur l'accueil (src/shells/split.astro la rend dans un `lg:hidden`) :
+ * c'est le panneau latéral devenu en-tête. Elle en reprend donc exactement le contenu — monogramme et
+ * nom, la phrase « métier · ville », le sommaire (les quatre sections du layout, mêmes libellés que
+ * les entrées numérotées du panneau), le téléphone et le CTA qui ouvre le tiroir de contact.
+ * Sur les pages service (/services/<slug>), elle reste la navigation à toutes les largeurs.
  *
- * C'est le haut du carton rouge du bloc éphéméride : le monogramme et le nom à gauche, trois mots à
- * droite. Elle n'est pas fixe : elle fait partie du carton, et sur téléphone c'est la barre d'action
- * du bas (Appeler / Écrire) qui reste à portée de pouce, une fois le premier écran passé — le
- * diagnostic du 6 oct relevait que « Contact », seul moyen d'agir, disparaissait au défilement.
+ * Le CTA pointe sur #contact : ContactDrawer.astro (layout.contactDrawer) intercepte l'ancre et ouvre
+ * le tiroir, sur l'accueil comme sur une page service. Il n'y a plus de section contact en bas de page.
+ * Liens câblés en dur plutôt que via navLinks() : ce nav ne doit jamais grossir au rythme des sections.
+ * Se masque au scroll vers le bas (data-nav="hide-on-scroll", voir src/scripts/motion.ts).
  *
- * Sur une page service, les ancres de l'accueil deviennent des liens vers l'accueil + ancre.
+ * Reprise du 3 oct. 2026 — trois défauts visibles à 390 px, corrigés ici :
+ * 1. Le monogramme était un PNG. `global.css` pose `picture, img { background-color: var(--bg-2) }`
+ *    (fond d'attente des photos) : sur un logo détouré, ce fond restait visible et dessinait un
+ *    rectangle gris autour du F&F. Le monogramme est maintenant le MÊME tracé vectoriel que le hero
+ *    (mono-subpaths.ts), posé en SVG : aucun fond, aucune requête, net à toutes les densités.
+ * 2. Le téléphone de la première ligne portait `data-magnetic`, dont la règle `display:inline-flex`
+ *    annulait le `hidden` de Tailwind : il s'affichait quand même sous 640 px, écrasé à 44 px de
+ *    large par le bouton voisin, donc tronqué. L'aimant est retiré (il ne sert à rien sur une barre
+ *    qui se masque au défilement) et le seuil passe à `md`, exactement là où la deuxième ligne
+ *    disparaît : plus de téléphone en double, plus de numéro coupé.
+ * 3. Les quatre liens et le téléphone sur une même ligne faisaient 405 px de large à 390 px d'écran :
+ *    « Offre » sortait du cadre. Le téléphone remonte en bout de la ligne « métier · ville », les
+ *    quatre liens tiennent seuls (291 px) et le sommaire est entier sans défilement latéral.
  */
 import { site, tel } from '@/lib/site';
 
+// Mêmes entrées que le sommaire numéroté du panneau, dans le même ordre (refonte du 22 sept 2026 au
+// soir : voir sites/finck-fisch/ETALON.md). Le manifeste n'y figure pas — ce n'est pas une
+// destination, c'est le temps fort qui casse le rythme au milieu de la page.
+//
+// Sur une page service, ces quatre ancres ne mènent nulle part : les sections visées n'existent que
+// sur l'accueil, et un clic ne faisait rien du tout. Elles y deviennent donc des liens vers
+// l'accueil + ancre. Sur l'accueil elles restent des ancres nues, pour garder le défilement fluide
+// au lieu d'une navigation complète (site.transitions).
 const accueil = Astro.url.pathname === '/';
-const lien = (ancre: string) => (accueil ? ancre : `/${ancre}`);
+// Refonte du 6 oct 2026 : barre fine des studios de référence (Pentagram, Koto, Studio Dumbar,
+// By-Kin) — le nom à gauche, trois mots à droite, rien d'autre. Plus de panneau latéral, plus de
+// sommaire numéroté 01-05 ni de bouton en pilule : c'était le gabarit « généré » par excellence.
 const links = [
   { ancre: '#realisations', label: 'Réalisations' },
   { ancre: '#offre', label: 'Offre' },
-  { ancre: '#contact', label: 'Contact' },
-];
+].map((l) => ({ ...l, href: accueil ? l.ancre : `/${l.ancre}` }));
 ---
 
-<header class="ff-carton-haut bg-accent text-on-accent">
-  <div class="container-ff flex items-center justify-between gap-6 py-4">
-    <a href="/" class="flex items-center gap-3" aria-label={`${site.business.name}, accueil`}>
-      <img src="/images/monogramme-clair.svg" alt="" width="294" height="281" class="h-8 w-auto bg-transparent" />
-      <span class="ff-nom text-sm font-semibold uppercase">{site.business.name}</span>
-    </a>
-    <nav class="flex items-center gap-5 text-sm font-medium sm:gap-8" aria-label="Navigation principale">
-      {links.map((l, i) => (
-        <span class={i < 2 ? 'hidden sm:inline' : ''}>
-          <a href={lien(l.ancre)} class="underline decoration-transparent hover:decoration-current">{l.label}</a>
-        </span>
-      ))}
+<header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-[transform,background-color] duration-500 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/90 [&.is-scrolled]:backdrop-blur-md">
+  <div class="container-ff flex items-baseline justify-between gap-6 py-5">
+    <a href="/" class="font-display text-lg tracking-tight text-fg" aria-label={`${site.business.name}, accueil`}>{site.business.name}</a>
+    <nav class="flex items-baseline gap-6 text-sm text-muted sm:gap-8" aria-label="Navigation principale">
+      {links.map((l) => <span class="hidden sm:inline"><a href={l.href} class="inline-flex min-h-11 items-center transition-colors hover:text-fg">{l.label}</a></span>)}
+      <a href="#contact" class="inline-flex min-h-11 items-center text-fg underline decoration-1 underline-offset-[6px] transition-colors hover:text-muted">Contact</a>
     </nav>
   </div>
 </header>
+<div class="h-[68px]" aria-hidden="true"></div>
 
-{/* Barre d'action du téléphone : apparaît une fois le premier écran passé (le bouton du premier
-    écran fait le travail avant). Fixée en bas, sous le pouce, avec la zone de sécurité de l'iPhone. */}
+{/* Barre d'action du téléphone (diagnostic du 6 oct : sur iPhone, « Contact » disparaissait au
+    défilement et le numéro n'était que dans le pied de page). Elle apparaît une fois le premier
+    écran passé, sous le pouce, zone de sécurité de l'iPhone comprise. */}
 <div class="ff-barre-action" data-barre-action hidden>
   <a href={tel()} class="ff-barre-appel">Appeler</a>
-  <a href={lien('#contact')} class="ff-barre-ecrire">Écrire</a>
+  <a href="#contact" class="ff-barre-ecrire">Écrire</a>
 </div>
 
-<style>
-  .ff-nom { font-stretch: 112%; letter-spacing: 0.16em; }
-
+<style is:global>
   .ff-barre-action { display: none; }
   @media (max-width: 639px) {
-  .ff-barre-action {
-    position: fixed;
-    inset: auto 0 0 0;
-    z-index: 60;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom));
-    background: var(--ink);
-    transform: translateY(0);
-    transition: transform 0.24s var(--ease-brand);
-  }
-  .ff-barre-action[hidden] { display: grid; transform: translateY(110%); pointer-events: none; }
-  .ff-barre-action a {
-    display: flex;
-    min-height: 48px;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1rem;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .ff-barre-appel { background: var(--accent); color: var(--on-accent); }
-  .ff-barre-ecrire { color: var(--on-ink); }
-  .ff-barre-appel:active { background: var(--accent-2); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .ff-barre-action { transition: none; }
+    .ff-barre-action {
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: 60;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom));
+      background: color-mix(in oklab, var(--bg) 88%, transparent);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--line);
+    }
+    .ff-barre-action a {
+      display: flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      font-weight: 500;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ff-barre-appel { background: var(--fg); color: var(--bg); }
+    .ff-barre-ecrire { border: 1px solid var(--line); color: var(--fg); }
   }
 </style>
 
 <style is:global>
-  /* La barre d'action fixe ne doit jamais couvrir la fin de la page (pied de page, mentions). */
   @media (max-width: 639px) {
-    body { padding-bottom: calc(4rem + env(safe-area-inset-bottom)); }
+    body { padding-bottom: calc(4.5rem + env(safe-area-inset-bottom)); }
+  }
+
+  /* Finition du site du studio (Emil Kowalski, design-engineering) : un bouton répond au doigt
+     (léger enfoncement, 160 ms, sortie douce) ; titres équilibrés, paragraphes sans mot orphelin. */
+  .btn { transition: transform 0.16s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+  .btn:active { transform: scale(0.97); }
+  h1, h2, h3 { text-wrap: balance; }
+  main p { text-wrap: pretty; }
+  @media (prefers-reduced-motion: reduce) {
+    .btn:active { transform: none; }
   }
 </style>
 
@@ -94,7 +119,6 @@ const links = [
     const barre = document.querySelector<HTMLElement>('[data-barre-action]');
     const hero = document.getElementById('hero');
     if (!barre) return;
-    // Sans premier écran (page service), la barre est là tout de suite.
     if (!hero) { barre.hidden = false; return; }
     const obs = new IntersectionObserver(([e]) => { barre.hidden = e.isIntersecting; }, { threshold: 0.15 });
     obs.observe(hero);

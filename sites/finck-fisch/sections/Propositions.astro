@@ -1,110 +1,169 @@
 ---
 /**
- * Propositions — sur mesure Finck & Fisch, direction éphéméride (refonte du 6 oct 2026).
+ * Propositions — sur mesure Finck & Fisch (refonte du 6 oct 2026, thème eclipse conservé).
  *
- * Le mécanisme du studio, montré : la même boulangerie de démonstration (même titre, même
- * paragraphe, même numéro) imprimée trois fois, une direction par feuille. Les trois feuilles sont
- * empilées comme un bloc éphéméride ; on détache celle du dessus (bouton, ou glisser vers la gauche
- * au doigt ou à la souris) pour découvrir la suivante, puis le bloc se reforme.
+ * L'argument du studio, démontré au lieu d'être dit : UN seul écran, et la même boulangerie de
+ * démonstration s'y redessine dans les trois directions (atelier, clair, rétro). Trois onglets sous
+ * l'écran ; sans interaction, l'écran change seul toutes les 4 s tant qu'il est visible, et s'arrête
+ * dès que le visiteur touche un onglet ou survole l'écran. Remplace la rangée de trois cartes égales
+ * (la mise en page « générée » par excellence, diagnostic Impeccable du 6 oct).
  *
- * Accessibilité : les trois figures restent dans le DOM, dans l'ordre, lisibles par un lecteur
- * d'écran ; le compteur « 1 sur 3 » est annoncé (aria-live). prefers-reduced-motion : pas de pile,
- * les trois feuilles côte à côte. Sans JS : idem (la pile n'est posée que par le script).
+ * Accessibilité : vrai tablist (flèches gauche/droite, Début/Fin), panneaux étiquetés ; les trois
+ * images restent dans le DOM. prefers-reduced-motion : pas de défilement automatique, fondu coupé.
+ * Sans JS : les trois images s'affichent l'une sous l'autre avec leur légende.
  */
 const planche = [
-  { n: 1, direction: 'atelier', ambiance: 'papier, serif, chaleur d’atelier' },
-  { n: 2, direction: 'clair', ambiance: 'blanc net, bleu franc, bande défilante' },
-  { n: 3, direction: 'rétro', ambiance: 'lumière chaude, orange des années 70' },
+  { n: 1, direction: 'Atelier', ambiance: 'Papier crème, serif, chaleur d’atelier.' },
+  { n: 2, direction: 'Clair', ambiance: 'Blanc net, bleu franc, bande défilante.' },
+  { n: 3, direction: 'Rétro', ambiance: 'Lumière chaude, orange des années 70.' },
 ];
 ---
 
 <section id="propositions" class="section-y">
-  <div class="container-ff grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
-    <div class="lg:col-span-5">
-      <h2 class="text-display-md">Trois feuilles, un seul contenu.</h2>
-      <p class="mt-6 max-w-[34rem] text-lg leading-relaxed">
+  <div class="container-ff">
+    <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+      <h2 class="text-display-md lg:col-span-6">Trois sites. Un seul contenu.</h2>
+      <p class="max-w-[34rem] leading-relaxed text-muted lg:col-span-5 lg:col-start-8">
         Nous construisons trois sites entiers, sur vos textes et vos photos. Vous recevez trois liens,
-        vous en gardez un, nous finissons celui-là.
+        vous en gardez un, nous finissons celui-là. C’est la seule décision que vous avez à prendre.
       </p>
-      <p class="mt-4 max-w-[34rem] leading-relaxed text-muted">
-        Ici, une boulangerie de démonstration : même titre, même paragraphe, même numéro sur les trois
-        feuilles. Seule la direction change.
-      </p>
-      <div class="mt-8 flex items-center gap-5" data-pile-controles hidden>
-        <button type="button" class="btn btn-ghost ff-detacher inline-flex items-center px-5 text-sm" data-pile-detacher aria-controls="ff-pile-propositions">
-          Détacher la feuille
-        </button>
-        <p class="text-sm font-semibold tabular-nums text-muted" aria-live="polite" data-pile-compteur>1 sur 3</p>
+    </div>
+
+    <div class="ff-ecran mt-12" data-ecran>
+      <div class="ff-ecran-cadre">
+        <div class="ff-ecran-barre" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <p class="ff-ecran-url">boulangerie-petit-pain.fr</p>
+        </div>
+        <div class="ff-ecran-vues">
+          {planche.map((p, i) => (
+            <figure
+              class="ff-vue"
+              id={`ff-vue-${p.n}`}
+              role="tabpanel"
+              aria-labelledby={`ff-onglet-${p.n}`}
+              data-vue
+              data-active={i === 0 ? '' : undefined}
+            >
+              <img
+                src={`/images/propositions/proposition-${p.n}-700.webp`}
+                srcset={`/images/propositions/proposition-${p.n}-700.webp 700w, /images/propositions/proposition-${p.n}.webp 1400w`}
+                sizes="(min-width: 1280px) 72rem, 94vw"
+                width="1400"
+                height="900"
+                alt={`Boulangerie de démonstration, direction ${p.direction.toLowerCase()} : ${p.ambiance.toLowerCase()}`}
+                loading="lazy"
+                class="aspect-[14/9] w-full object-cover object-top"
+              />
+              <figcaption class="ff-vue-legende">Direction {p.direction.toLowerCase()} · {p.ambiance}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+
+      <div class="ff-onglets mt-6" role="tablist" aria-label="Trois directions, même contenu" data-onglets hidden>
+        {planche.map((p, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`ff-onglet-${p.n}`}
+            aria-controls={`ff-vue-${p.n}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            class="ff-onglet"
+            data-onglet
+          >
+            <span class="ff-onglet-nom">{p.direction}</span>
+            <span class="ff-onglet-texte">{p.ambiance}</span>
+            <span class="ff-onglet-jauge" aria-hidden="true"></span>
+          </button>
+        ))}
       </div>
     </div>
 
-    <div class="lg:col-span-7">
-      <ol id="ff-pile-propositions" class="ff-propositions" data-pile>
-        {planche.map((p) => (
-          <li class="ff-prop bg-surface" data-feuille>
-            <div class="flex items-baseline justify-between gap-4 px-4 pb-3 pt-4 text-xs font-semibold uppercase tracking-[0.14em] sm:px-5">
-              <span>Direction {p.direction}</span>
-              <span class="tabular-nums text-muted">{p.n} / 3</span>
-            </div>
-            <img
-              src={`/images/propositions/proposition-${p.n}-700.webp`}
-              srcset={`/images/propositions/proposition-${p.n}-700.webp 700w, /images/propositions/proposition-${p.n}.webp 1400w`}
-              sizes="(min-width: 1024px) 40rem, 92vw"
-              width="1400"
-              height="900"
-              alt={`Boulangerie de démonstration, direction ${p.direction} : ${p.ambiance}`}
-              loading="lazy"
-              draggable="false"
-              class="aspect-[14/9] w-full object-cover object-top"
-            />
-            <div class="perforation" aria-hidden="true"></div>
-            <p class="px-4 py-3 text-sm text-muted sm:px-5">{p.ambiance[0].toUpperCase() + p.ambiance.slice(1)}.</p>
-          </li>
-        ))}
-      </ol>
-    </div>
+    <p class="mt-8 max-w-[38rem] text-sm text-muted">
+      Une boulangerie de démonstration : même titre, même paragraphe, même numéro sur les trois.
+      Seule la direction change.
+    </p>
   </div>
 </section>
 
-<style>
-  .ff-propositions { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; }
-  .ff-prop { border: 1px solid var(--line); }
+<style is:global>
+  /* L'écran : un navigateur réduit à l'essentiel, sans ombre portée (eclipse : profondeur par la
+     lumière). Les vues se superposent dans une même cellule de grille et se relaient en fondu. */
+  .ff-ecran-cadre { border: 1px solid var(--line); background: var(--surface); }
+  .ff-ecran-barre {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .ff-ecran-barre > span { width: 0.5rem; height: 0.5rem; border-radius: 999px; background: var(--line); }
+  .ff-ecran-url {
+    margin-inline: auto;
+    padding-right: 1.4rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
 
-  /* Pile : posée par le script seulement (data-pile-actif), jamais sous reduced-motion. */
-  .ff-propositions[data-pile-actif] {
-    display: grid;
-    grid-template-areas: 'pile';
-    gap: 0;
-    padding-bottom: 1rem;
-    /* Le défilement vertical reste natif : le geste qui détache est horizontal. */
-    touch-action: pan-y pinch-zoom;
-  }
-  .ff-propositions[data-pile-actif] > .ff-prop {
-    grid-area: pile;
-    transform-origin: 0% 0%;
-    transition: transform 0.55s var(--ease-brand), opacity 0.55s var(--ease-brand);
-    cursor: grab;
-    user-select: none;
-  }
-  /* Rang dans la pile (posé par le script) : la feuille du dessous dépasse de 0,5 rem, sans ombre. */
-  .ff-propositions[data-pile-actif] > [data-rang='0'] { z-index: 3; }
-  .ff-propositions[data-pile-actif] > [data-rang='1'] { z-index: 2; transform: translate3d(0, 0.5rem, 0) scale(0.985); }
-  .ff-propositions[data-pile-actif] > [data-rang='2'] { z-index: 1; transform: translate3d(0, 1rem, 0) scale(0.97); }
-  .ff-propositions[data-pile-actif] > [data-arrachee] {
-    z-index: 4;
-    transform: translate3d(-4%, -115%, 0) rotate(-8deg);
+  .ff-ecran-vues { display: grid; }
+  .ff-vue { margin: 0; }
+  .ff-vue-legende { padding: 0.75rem 0.9rem; font-size: 0.875rem; color: var(--muted); border-top: 1px solid var(--line); }
+
+  /* Mode écran (posé par le script) : une seule vue visible à la fois. */
+  [data-ecran-actif] .ff-ecran-vues > .ff-vue {
+    grid-area: 1 / 1;
     opacity: 0;
-    pointer-events: none;
-    transition: transform 0.5s cubic-bezier(0.5, 0, 0.75, 0), opacity 0.5s linear;
+    visibility: hidden;
+    transition: opacity 0.6s var(--ease-brand), visibility 0s linear 0.6s;
   }
-  .ff-propositions[data-pile-actif] > .ff-prop.is-tiree { transition: none; cursor: grabbing; }
+  [data-ecran-actif] .ff-ecran-vues > .ff-vue[data-active] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.6s var(--ease-brand), visibility 0s;
+  }
+  [data-ecran-actif] .ff-vue-legende { display: none; }
 
-  /* Bouton : état par inversion (encre sur papier -> papier sur encre). */
-  .ff-detacher { min-height: 3rem; }
-  .ff-detacher:hover, .ff-detacher:focus-visible { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+  .ff-onglets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+  .ff-onglets[hidden] { display: none; }
+  .ff-onglet {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-height: 3.5rem;
+    padding: 0.9rem 0 0.6rem;
+    text-align: left;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    transition: color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ff-onglet:hover, .ff-onglet[aria-selected='true'] { color: var(--fg); }
+  .ff-onglet-nom { font-family: var(--font-display); font-size: 1.375rem; line-height: 1.1; }
+  .ff-onglet-texte { font-size: 0.875rem; }
+  /* La jauge du défilement automatique : un filet qui se remplit sur le bord haut de l'onglet actif. */
+  .ff-onglet-jauge {
+    position: absolute;
+    inset: -1px 0 auto 0;
+    height: 1px;
+    background: var(--fg);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+  .ff-onglet[aria-selected='true'] .ff-onglet-jauge { transform: scaleX(1); }
+  [data-defile] .ff-onglet[aria-selected='true'] .ff-onglet-jauge { animation: ff-jauge 4s linear both; }
+  @keyframes ff-jauge { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-  @media (min-width: 640px) and (prefers-reduced-motion: reduce) {
-    .ff-propositions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 639px) {
+    .ff-onglet-texte { display: none; }
+    .ff-onglet-nom { font-size: 1.125rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-ecran-actif] .ff-ecran-vues > .ff-vue,
+    [data-ecran-actif] .ff-ecran-vues > .ff-vue[data-active] { transition: none; }
   }
 </style>
 
@@ -112,82 +171,70 @@ const planche = [
   import { onPage } from '@/scripts/page';
 
   onPage(() => {
-    const pile = document.querySelector<HTMLOListElement>('[data-pile]');
-    if (!pile || pile.dataset.pileReady) return;
-    pile.dataset.pileReady = '1';
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ecran = document.querySelector<HTMLElement>('[data-ecran]');
+    if (!ecran || ecran.dataset.ecranReady) return;
+    ecran.dataset.ecranReady = '1';
 
-    const feuilles = Array.from(pile.querySelectorAll<HTMLElement>('[data-feuille]'));
-    const controles = document.querySelector<HTMLElement>('[data-pile-controles]');
-    const bouton = document.querySelector<HTMLButtonElement>('[data-pile-detacher]');
-    const compteur = document.querySelector<HTMLElement>('[data-pile-compteur]');
-    if (feuilles.length < 2 || !controles || !bouton || !compteur) return;
+    const vues = Array.from(ecran.querySelectorAll<HTMLElement>('[data-vue]'));
+    const onglets = Array.from(ecran.querySelectorAll<HTMLButtonElement>('[data-onglet]'));
+    const liste = ecran.querySelector<HTMLElement>('[data-onglets]');
+    if (vues.length < 2 || !liste) return;
 
-    let ordre = feuilles.map((_, i) => i); // ordre[0] = feuille du dessus
-    let occupe = false;
+    ecran.setAttribute('data-ecran-actif', '');
+    liste.hidden = false;
+    let courant = 0;
 
-    const poser = () => {
-      ordre.forEach((idx, rang) => {
-        const f = feuilles[idx];
-        f.dataset.rang = String(rang);
-        f.removeAttribute('data-arrachee');
-        f.style.transform = '';
-        // Seule la feuille du dessus se lit ; les autres restent dans le DOM pour les lecteurs d'écran.
-        f.setAttribute('aria-current', rang === 0 ? 'true' : 'false');
+    const montrer = (i: number, focus = false) => {
+      courant = (i + vues.length) % vues.length;
+      vues.forEach((v, k) => v.toggleAttribute('data-active', k === courant));
+      onglets.forEach((o, k) => {
+        o.setAttribute('aria-selected', k === courant ? 'true' : 'false');
+        o.tabIndex = k === courant ? 0 : -1;
       });
-      compteur.textContent = `${ordre[0] + 1} sur ${feuilles.length}`;
-      bouton.textContent = ordre[0] === feuilles.length - 1 ? 'Reformer le bloc' : 'Détacher la feuille';
+      if (focus) onglets[courant].focus();
     };
 
-    const detacher = () => {
-      if (occupe) return;
-      occupe = true;
-      const dessus = feuilles[ordre[0]];
-      dessus.classList.remove('is-tiree');
-      dessus.style.transform = '';
-      dessus.setAttribute('data-arrachee', '');
-      window.setTimeout(() => {
-        ordre = [...ordre.slice(1), ordre[0]];
-        // La feuille arrachée repasse sous la pile sans animation, puis tout se repose.
-        dessus.style.transition = 'none';
-        poser();
-        void dessus.offsetWidth;
-        dessus.style.transition = '';
-        occupe = false;
-      }, 480);
+    // Défilement automatique : jamais sous reduced-motion, seulement à l'écran, et définitivement
+    // coupé au premier geste du visiteur.
+    const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let minuterie = 0;
+    let arrete = reduit;
+    const arreter = () => { arrete = true; window.clearInterval(minuterie); ecran.removeAttribute('data-defile'); };
+    const lancer = () => {
+      if (arrete) return;
+      window.clearInterval(minuterie);
+      ecran.setAttribute('data-defile', '');
+      minuterie = window.setInterval(() => {
+        montrer(courant + 1);
+        // Relance la jauge de l'onglet devenu actif.
+        ecran.removeAttribute('data-defile'); void ecran.offsetWidth; ecran.setAttribute('data-defile', '');
+      }, 4000);
     };
+    const visible = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) lancer(); else { window.clearInterval(minuterie); ecran.removeAttribute('data-defile'); }
+    }, { threshold: 0.5 });
+    visible.observe(ecran);
+    document.addEventListener('astro:before-swap', () => { visible.disconnect(); window.clearInterval(minuterie); }, { once: true });
 
-    pile.setAttribute('data-pile-actif', '');
-    controles.hidden = false;
-    poser();
-
-    bouton.addEventListener('click', detacher);
-
-    // Glisser la feuille du dessus vers la gauche : au-delà de 70 px, elle se détache ; sinon elle
-    // revient. Geste horizontal seulement : le défilement vertical de la page n'est jamais capturé.
-    let depart: { x: number; y: number; id: number } | null = null;
-    pile.addEventListener('pointerdown', (e) => {
-      const f = feuilles[ordre[0]];
-      if (occupe || !f.contains(e.target as Node)) return;
-      depart = { x: e.clientX, y: e.clientY, id: e.pointerId };
-      f.classList.add('is-tiree');
-      f.setPointerCapture(e.pointerId);
+    onglets.forEach((o, k) => o.addEventListener('click', () => { arreter(); montrer(k); }));
+    liste.addEventListener('keydown', (e) => {
+      const touches: Record<string, number> = { ArrowRight: courant + 1, ArrowLeft: courant - 1, Home: 0, End: vues.length - 1 };
+      if (!(e.key in touches)) return;
+      e.preventDefault();
+      arreter();
+      montrer(touches[e.key], true);
     });
-    pile.addEventListener('pointermove', (e) => {
-      if (!depart || e.pointerId !== depart.id) return;
-      const dx = Math.min(0, e.clientX - depart.x);
-      feuilles[ordre[0]].style.transform = `translate3d(${dx}px, ${dx * 0.25}px, 0) rotate(${dx / 30}deg)`;
+    ecran.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') arreter(); });
+
+    // Au doigt : balayer l'écran vers la gauche ou la droite change de direction.
+    let x0: number | null = null;
+    const cadre = ecran.querySelector<HTMLElement>('.ff-ecran-vues');
+    cadre?.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    cadre?.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) > 50) { arreter(); montrer(courant + (dx < 0 ? 1 : -1)); }
     });
-    const lacher = (e: PointerEvent) => {
-      if (!depart || e.pointerId !== depart.id) return;
-      const f = feuilles[ordre[0]];
-      const dx = e.clientX - depart.x;
-      depart = null;
-      f.classList.remove('is-tiree');
-      if (dx < -70) detacher();
-      else f.style.transform = '';
-    };
-    pile.addEventListener('pointerup', lacher);
-    pile.addEventListener('pointercancel', lacher);
   });
 </script>

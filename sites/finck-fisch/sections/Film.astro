@@ -57,8 +57,11 @@
     // src posé par script, pas par <source> : rien n'est demandé au réseau avant l'approche.
     video.src = video.dataset.src!;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Sur téléphone, pas de lecture automatique en bandeau (le texte du film y fait 4 px) : les
+    // contrôles natifs, et un toucher ouvre le film en plein écran, à l'horizontale.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(max-width: 639px)').matches) {
       video.controls = true;
+      video.preload = 'metadata';
       return;
     }
 

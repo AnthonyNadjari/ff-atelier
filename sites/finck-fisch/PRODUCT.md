@@ -50,6 +50,9 @@ e-mail (contact drawer, mailto). The studio's own site is built in the same repo
   vectors in F-F/brand/logo-anime). The monogram is the one brand element the founder validated.
 - Voice: "vous" to the reader, "nous" for the studio, sentences you would say on the phone; no agency
   jargon (solution, sur-mesure, accompagner, passion).
+- Visual world pinned by the founder (6 Oct 2026): keep the dark luxury "eclipse" theme of the
+  studio site (black, cold white, Cormorant titles, F&F monogram) and refine it; the éphéméride
+  redesign was rejected.
 - The studio stays anonymous: no faces, portraits or first names of the partners (confirmed 6 Oct 2026).
 - Founder rejects: chrome/metal/3D/glow treatments, the dark "luxury AI template" look, the numbered
   sidebar layout.
