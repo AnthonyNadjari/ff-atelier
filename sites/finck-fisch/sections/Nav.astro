@@ -1,5 +1,9 @@
 ---
 /**
+ * Refonte du 6 oct. 2026 : coquille `flow`. Barre fine unique à toutes les largeurs — nom à gauche,
+ * trois liens texte à droite (Réalisations, Offre, Contact). Plus de bouton pilule ni de sommaire.
+ * Contact pointe sur #contact, intercepté par ContactDrawer.astro.
+ *
  * Nav sur mesure Finck & Fisch. Depuis le passage à la coquille `split` (22 sept 2026), cette barre
  * n'existe plus que SOUS 1024 px sur l'accueil (src/shells/split.astro la rend dans un `lg:hidden`) :
  * c'est le panneau latéral devenu en-tête. Elle en reprend donc exactement le contenu — monogramme et
@@ -26,68 +30,25 @@
  *    « Offre » sortait du cadre. Le téléphone remonte en bout de la ligne « métier · ville », les
  *    quatre liens tiennent seuls (291 px) et le sommaire est entier sans défilement latéral.
  */
-import { site, tel } from '@/lib/site';
+import { site } from '@/lib/site';
 
-// Mêmes entrées que le sommaire numéroté du panneau, dans le même ordre (refonte du 22 sept 2026 au
-// soir : voir sites/finck-fisch/ETALON.md). Le manifeste n'y figure pas — ce n'est pas une
-// destination, c'est le temps fort qui casse le rythme au milieu de la page.
-//
-// Sur une page service, ces quatre ancres ne mènent nulle part : les sections visées n'existent que
-// sur l'accueil, et un clic ne faisait rien du tout. Elles y deviennent donc des liens vers
-// l'accueil + ancre. Sur l'accueil elles restent des ancres nues, pour garder le défilement fluide
-// au lieu d'une navigation complète (site.transitions).
 const accueil = Astro.url.pathname === '/';
 const links = [
-  { ancre: '#propositions', label: 'Propositions' },
-  { ancre: '#chantier', label: 'Délais' },
   { ancre: '#realisations', label: 'Réalisations' },
   { ancre: '#offre', label: 'Offre' },
-].map((l) => ({ ...l, href: accueil ? l.ancre : `/${l.ancre}` }));
+  { ancre: '#contact', label: 'Contact' },
+].map((l) => ({ ...l, href: accueil || l.ancre === '#contact' ? l.ancre : `/${l.ancre}` }));
 ---
 
-<header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-[transform,background-color,box-shadow] duration-500 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/85 [&.is-scrolled]:shadow-card [&.is-scrolled]:backdrop-blur-md">
-  <div class="container-ff flex items-center justify-between gap-4 py-6 [.is-scrolled_&]:py-4 transition-[padding] duration-500">
-    <a href="/" class="flex items-center gap-3" aria-label={`${site.business.name}, accueil`}>
-      {/* `bg-transparent` : la classe (0,1,0) l'emporte sur la règle d'élément `picture, img`
-          de global.css. Le SVG est recadré sur le tracé (bbox réelle 288 / 0,9 / 289,4 / 277,1) :
-          le PNG d'avant gardait le cadre d'export, où le signe n'occupe que le tiers central —
-          d'où un logo trois fois trop large, posé au milieu de son propre vide. Fichier externe
-          plutôt que tracé en ligne : 4 Ko de moins dans chaque page livrée, et une seule requête
-          mise en cache pour l'accueil et les quatre pages service. */}
-      <img src="/images/monogramme-clair.svg" alt="" width="294" height="281" class="h-7 w-auto bg-transparent" />
+<header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[transform,background-color,border-color] duration-500 [&.is-hidden]:-translate-y-full [&.is-scrolled]:border-line [&.is-scrolled]:bg-bg/90 [&.is-scrolled]:backdrop-blur-md">
+  <div class="container-ff flex h-14 items-center justify-between gap-4">
+    <a href="/" class="flex min-h-11 items-center gap-3" aria-label={`${site.business.name}, accueil`}>
+      <img src="/images/monogramme-clair.svg" alt="" width="294" height="281" class="h-6 w-auto bg-transparent" />
       <span class="hidden font-display text-sm uppercase tracking-[0.18em] text-fg sm:inline">{site.business.name}</span>
     </a>
-
-    <nav class="hidden items-center gap-8 text-sm text-muted md:flex" aria-label="Navigation principale">
-      {links.map((l) => <a href={l.href} class="transition-colors hover:text-fg">{l.label}</a>)}
-    </nav>
-
-    <div class="flex items-center gap-4">
-      {/* PIÈGE PARTAGÉ — `src/styles/global.css` pose, pour la cible tactile de 24 px :
-          `:is(header[data-nav], nav[data-nav], footer) a:not(.btn) { display: inline-flex }`.
-          Cette règle est plus spécifique que l'utilitaire `.hidden` : TOUT `hidden`/`md:inline`
-          posé sur un `<a>` d'une barre `data-nav` est ignoré en silence. C'est ce qui affichait ce
-          téléphone sous 640 px, écrasé à 44 px de large par le bouton voisin. Le masquage passe donc
-          par le `<span>` qui l'enveloppe, que la règle ne vise pas. Le piège est dans un fichier
-          partagé par les vingt sites : à corriger là-bas, pas ici. */}
-      <span class="hidden md:inline">
-        <a href={tel()} class="font-display text-sm tabular-nums text-fg transition-colors hover:text-muted">
-          {site.contact.phoneDisplay}
-        </a>
-      </span>
-      <a href="#contact" class="btn btn-primary shrink-0 text-sm">{site.wording.devis}</a>
-    </div>
-  </div>
-
-  {/* Sous md : le reste du panneau — la phrase et le téléphone sur une ligne, le sommaire sous elle. */}
-  <div class="container-ff pb-4 md:hidden">
-    <div class="flex items-baseline justify-between gap-4">
-      <p class="text-xs text-muted">{site.business.trade} · {site.contact.address.city}</p>
-      <a href={tel()} class="shrink-0 font-display text-sm tabular-nums text-fg">{site.contact.phoneDisplay}</a>
-    </div>
-    <nav class="mt-2 flex items-center justify-between gap-4 text-sm text-muted" aria-label="Navigation principale (mobile)">
-      {links.map((l) => <a href={l.href} class="shrink-0 transition-colors hover:text-fg">{l.label}</a>)}
+    <nav class="flex items-center gap-5 text-sm text-muted sm:gap-8" aria-label="Navigation principale">
+      {links.map((l) => <a href={l.href} class="min-h-11 items-center transition-colors hover:text-fg">{l.label}</a>)}
     </nav>
   </div>
 </header>
-<div class="h-[140px] md:h-[76px]" aria-hidden="true"></div>
+<div class="h-14" aria-hidden="true"></div>

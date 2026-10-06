@@ -1,5 +1,10 @@
 ---
 /**
+ * Refonte du 6 oct. 2026 : bande horizontale. Ordinateur (≥ 64 rem) : data-horizontal du moteur,
+ * la piste défile pendant le scroll vertical. Téléphone : carrousel natif (scroll-snap), glissé au
+ * doigt, sans JS. Survol (pointeur fin) : la vignette s’agrandit légèrement et affiche le métier ; la
+ * légende reste toujours visible dessous, rien n’existe qu’au survol. Numéros retirés.
+ *
  * Réalisations — sur mesure Finck & Fisch. Douze sites de démonstration, un par métier, choisis dans
  * vitrine.json parmi les vingt générés. Vignettes produites par `ff vitrine` depuis
  * captures/<slug>-desktop.png, en 1400 et 700 px.
@@ -70,7 +75,7 @@ const sites = planche
   .filter((s): s is Entry & { large: boolean } => Boolean(s));
 ---
 
-<section id="realisations" class="section-y">
+<section id="realisations" class="ff-bande section-y" data-horizontal>
   <div class="container-ff">
     <h2 class="max-w-2xl text-display-md" data-reveal>Douze métiers, douze directions.</h2>
     <p class="mt-6 max-w-2xl leading-relaxed text-muted">
@@ -78,36 +83,80 @@ const sites = planche
       pour montrer le travail, et chacune tire une direction visuelle différente, nommée sous la
       vignette. Nos premiers sites clients prendront leur place ici dès leur mise en ligne.
     </p>
+  </div>
 
-    <div class="ff-planche mt-14 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-12 sm:gap-x-6 sm:gap-y-14" data-stagger="70">
+  <div class="ff-piste mt-12" tabindex="0" aria-label="Douze sites de démonstration, faire défiler horizontalement">
+    <ul class="h-track">
       {sites.map((s, i) => (
-        <figure class={`min-w-0 ${s.large ? 'sm:col-span-6' : 'sm:col-span-4'}`}>
-          {/* Emplacement moyen : jamais affiché au-delà de 18 rem, soit 576 px en densité double et
-              495 px en densité triple sur téléphone. La vignette de 700 px suffit partout ; un
-              second candidat ne ferait télécharger 1400 px pour rien. Seuls les grands emplacements
-              (27 rem, 864 px en densité double) ont besoin de la vignette pleine. */}
-          <img
-            src={`/images/sites/${s.slug}-700.webp`}
-            srcset={s.large ? `/images/sites/${s.slug}-700.webp 700w, /images/sites/${s.slug}.webp 1400w` : undefined}
-            sizes={s.large ? '(min-width: 1024px) 27rem, (min-width: 640px) 46vw, 44vw' : undefined}
-            width="1400"
-            height="900"
-            alt={`Site de démonstration, ${s.metier.toLowerCase()}`}
-            loading="lazy"
-            class="aspect-[14/9] w-full border border-line object-cover object-top"
-          />
-          <figcaption class="mt-3 flex items-baseline gap-3 border-t border-line pt-3">
-            <span class="font-mono text-xs tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
-            <span class="min-w-0">
-              <span class="block font-display text-base leading-tight sm:text-lg">{s.metier}</span>
-              {/* Virgule et non point médian : à deux colonnes sur téléphone, la légende passe à la
-                  ligne, et un point médian orphelin en tête de seconde ligne se lit comme un défaut
-                  d'affichage. Une virgule en fin de ligne, elle, est une césure normale. */}
+        <li class="ff-vignette">
+          <figure>
+            <div class="ff-cadre">
+              <img
+                src={`/images/sites/${s.slug}-700.webp`}
+                srcset={`/images/sites/${s.slug}-700.webp 700w, /images/sites/${s.slug}.webp 1400w`}
+                sizes="(min-width: 1024px) 30rem, 80vw"
+                width="1400"
+                height="900"
+                alt={`Site de démonstration, ${s.metier.toLowerCase()}`}
+                loading={i < 2 ? 'eager' : 'lazy'}
+                class="aspect-[14/9] w-full object-cover object-top"
+              />
+              <span class="ff-metier font-display" aria-hidden="true">{s.metier}</span>
+            </div>
+            <figcaption class="mt-3 border-t border-line pt-3">
+              <span class="block font-display text-lg leading-tight">{s.metier}</span>
               <span class="mt-1 block text-sm text-muted">Direction {s.direction}, démonstration</span>
-            </span>
-          </figcaption>
-        </figure>
+            </figcaption>
+          </figure>
+        </li>
       ))}
-    </div>
+    </ul>
   </div>
 </section>
+
+<style>
+  .ff-piste {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--ff-gutter, 1.25rem);
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .ff-piste::-webkit-scrollbar { display: none; }
+  .h-track {
+    display: flex;
+    gap: 1.25rem;
+    width: max-content;
+    margin: 0;
+    padding: 0 var(--ff-gutter, 1.25rem) 0.5rem;
+    list-style: none;
+  }
+  .ff-vignette { width: min(80vw, 22rem); scroll-snap-align: start; }
+  .ff-cadre { position: relative; overflow: hidden; border: 1px solid var(--line); }
+  .ff-cadre img { transition: transform var(--motion-ui) var(--ease-out); }
+  .ff-metier {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 0.75rem 1rem;
+    background: var(--bg);
+    color: var(--fg);
+    opacity: 0;
+    transition: opacity var(--motion-ui) var(--ease-out);
+  }
+
+  @media (min-width: 64rem) {
+    .ff-bande { overflow: hidden; }
+    .ff-piste { overflow: visible; scroll-snap-type: none; }
+    .h-track { gap: 2rem; padding-inline: max(2rem, calc((100vw - 80rem) / 2)); }
+    .ff-vignette { width: 30rem; }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ff-vignette:hover .ff-cadre img { transform: scale(1.04); }
+    .ff-vignette:hover .ff-metier { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ff-cadre img, .ff-metier { transition: none; }
+  }
+</style>

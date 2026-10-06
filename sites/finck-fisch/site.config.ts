@@ -58,7 +58,7 @@ export default defineSite({
   scale: 'display',
   typography: { display: 'cormorant' },
   layout: {
-    shell: 'split',
+    shell: 'flow',
     // Contact en tiroir : plus de section contact finale dans le layout (sections/Contact.astro reste
     // dans le dossier, hors layout). navLinks() ajoute alors « Contact » au sommaire du panneau, et
     // ContactDrawer.astro intercepte l'ancre #contact sur toutes les pages, page service comprise.
@@ -73,10 +73,11 @@ export default defineSite({
       // tableau de l'offre, là où l'on se pose vraiment ces questions.
       // Rythme des squelettes, deux voisins n'en partagent jamais un (règle 19) : planche d'images →
       // réglure typographique → bloc encre → index numéroté → tableau.
+      // Refonte du 6 oct. 2026 : coquille `flow`, le travail se montre dès le deuxième écran.
+      { type: 'custom', variant: 'realisations', label: 'Réalisations' },
       { type: 'custom', variant: 'propositions', label: 'Propositions' },
       { type: 'custom', variant: 'chantier', label: 'Délais' },
       { type: 'custom', variant: 'manifeste' },
-      { type: 'custom', variant: 'realisations', label: 'Réalisations' },
       { type: 'custom', variant: 'offre', label: 'Offre' },
     ],
     footer: 'minimal',

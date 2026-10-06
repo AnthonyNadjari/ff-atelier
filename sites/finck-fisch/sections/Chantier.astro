@@ -1,5 +1,9 @@
 ---
 /**
+ * Refonte du 6 oct. 2026 : la réglure 0 → 72 h se remplit au scroll (data-scrub="scaleY=0" du
+ * moteur, transform seul) et chaque étape s’allume à son heure (petit observateur, opacité seule).
+ * prefers-reduced-motion : réglure pleine, étapes allumées, aucun mouvement.
+ *
  * « Délais » (id `chantier`) — sur mesure Finck & Fisch, créé le 22 sept 2026 (décision 4 de
  * `sites/finck-fisch/ETALON.md`). Remplace l'ancienne section « Méthode » en cinq étapes.
  *
@@ -49,15 +53,16 @@ const graduations = [
 
 <section id="chantier" class="section-y bg-bg-2">
   <div class="container-ff">
-    <h2 class="max-w-2xl text-display-md" data-reveal>Ce que veut dire 72 heures.</h2>
+    <h2 class="max-w-2xl text-display-md">Ce que veut dire 72 heures.</h2>
     <p class="mt-6 max-w-2xl leading-relaxed text-muted">
       Le délai court à partir du moment où vos éléments sont chez nous. C’est la seule façon de le
       tenir, et c’est la seule chose que nous vous demandons de faire vite.
     </p>
 
-    <ol class="ff-reglure mt-16 max-w-3xl" data-stagger="120">
-      {graduations.map((g) => (
-        <li class={`ff-grad relative grid grid-cols-[5.5rem_1fr] gap-5 sm:grid-cols-[8rem_1fr] sm:gap-10 ${g.espace}`}>
+    <ol class="ff-reglure mt-16 max-w-3xl">
+      <li class="ff-remplissage" data-scrub="scaleY=0" aria-hidden="true"></li>
+      {graduations.map((g, i) => (
+        <li data-etape class={`ff-grad relative grid grid-cols-[5.5rem_1fr] gap-5 sm:grid-cols-[8rem_1fr] sm:gap-10 ${g.espace}`}>
           <span class="font-display text-2xl tabular-nums leading-none text-fg sm:text-3xl">{g.heure}</span>
           <p class="max-w-md leading-relaxed text-muted">{g.texte}</p>
         </li>
@@ -84,7 +89,39 @@ const graduations = [
   </div>
 </section>
 
+<script>
+  // Allume chaque étape quand elle passe le milieu de l'écran. Rien sous prefers-reduced-motion.
+  const go = () => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const etapes = document.querySelectorAll<HTMLElement>('#chantier [data-etape]');
+    if (!etapes.length || !('IntersectionObserver' in window)) return;
+    document.getElementById('chantier')?.classList.add('ff-allumage');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => e.target.classList.toggle('is-lit', e.boundingClientRect.top < innerHeight / 2));
+    }, { rootMargin: '0px 0px -50% 0px', threshold: 0 });
+    etapes.forEach((el) => io.observe(el));
+  };
+  go();
+  document.addEventListener('astro:page-load', go);
+</script>
+
 <style>
+  .ff-remplissage {
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0;
+    width: 1px;
+    background: var(--accent);
+    transform-origin: top;
+    z-index: 1;
+  }
+  .ff-allumage .ff-grad { opacity: 0.35; transition: opacity 0.5s var(--ease-out); }
+  .ff-allumage .ff-grad.is-lit { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .ff-allumage .ff-grad { opacity: 1; transition: none; }
+  }
+
   /* La réglure : un filet vertical continu derrière les graduations, et une cote horizontale à
      chaque heure. Tokens uniquement (--line, --accent). Le filet s'arrête à la dernière graduation :
      72 h est la fin de l'échelle, pas une flèche vers l'infini. */
