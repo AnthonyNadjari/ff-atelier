@@ -35,7 +35,7 @@ const { title, description, path = '/', noindex = false, jsonLd = [] } = Astro.p
 let fontStyle = '';
 for (const [slot, family] of Object.entries(fontFamilies as Record<string, string>)) fontStyle += `--font-${slot}:${family};`;
 
-const pageTitle = title ?? site.seo.title ?? `${site.business.name} — ${site.business.trade} à ${site.contact.address.city}`;
+const pageTitle = title ?? site.seo.title ?? `${site.business.name} | ${site.business.trade} à ${site.contact.address.city}`;
 const pageDesc = description ?? site.seo.description ?? site.business.description.split(/\n/)[0].slice(0, 160);
 const canonical = new URL(path, Astro.site).toString();
 const og = site.images.og ?? site.images.hero?.src;

@@ -22,7 +22,7 @@ import { site, tel } from '@/lib/site';
       <a href={tel()} class="font-display text-base text-fg underline-offset-4 hover:underline">
         {site.contact.phoneDisplay}
       </a>
-      {site.business.certifications.length > 0 && <span>{site.business.certifications.join(' · ')}</span>}
+      {site.business.certifications.length > 0 && <span>{site.business.certifications.join(', ')}</span>}
     </p>
   </div>
 </section>

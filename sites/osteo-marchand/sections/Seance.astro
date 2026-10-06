@@ -24,7 +24,7 @@ const etapes = [
       {etapes.map((e) => (
         <li class="relative md:pt-10">
           <span class="absolute left-0 top-0 hidden h-6 w-6 rounded-full border-2 border-accent bg-bg md:block" aria-hidden="true"></span>
-          <p class="font-mono text-xs uppercase tracking-[0.2em] text-accent">{e.min}</p>
+          <p class="text-sm text-accent">{e.min}</p>
           <h3 class="mt-2 text-display-sm">{e.titre}</h3>
           <p class="mt-2 text-muted">{e.texte}</p>
         </li>
@@ -36,6 +36,6 @@ const etapes = [
       <div><p class="eyebrow">Règlement</p><p class="mt-2">Carte, espèces, chèque</p></div>
       <div><p class="eyebrow">Mutuelle</p><p class="mt-2">Facture fournie à chaque séance</p></div>
     </div>
-    <p class="mt-6 text-center text-sm text-muted">{site.contact.hours.map((h) => `${h.days} : ${h.hours}`).join(' · ')}</p>
+    <p class="mt-6 text-center text-sm text-muted">{site.contact.hours.map((h) => `${h.days} : ${h.hours}`).join(', ')}</p>
   </div>
 </section>

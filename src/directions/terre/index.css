@@ -1,5 +1,6 @@
 /* Direction TERRE — organique, nature. Lora + Nunito, formes rondes. */
-@import '@fontsource-variable/lora';
+/* 6 oct 2026 : polices par defaut des IA remplacees (voir docs/veille/signes-ia.md). */
+@import '@fontsource-variable/bitter';
 @import '@fontsource-variable/nunito';
 @import '@fontsource-variable/jetbrains-mono';
 
@@ -27,7 +28,7 @@
   --ink: #24301f;
   --on-ink: #f4f1ea;
 
-  --font-display: 'Lora Variable', 'Georgia', serif;
+  --font-display: 'Bitter Variable', Georgia, serif;
   --font-body: 'Nunito Variable', ui-sans-serif, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --display-weight: 600;
@@ -62,7 +63,7 @@
 [data-direction='terre'] ::selection { background: var(--accent-2); color: var(--ink); }
 
 [data-direction='terre'] h1 em,
-[data-direction='terre'] h2 em { font-style: italic; color: var(--accent-2-text); }
+[data-direction='terre'] h2 em { font-style: normal; color: var(--accent-2-text); }
 
 [data-direction='terre'] .btn { border-radius: 999px; font-weight: 600; }
 [data-direction='terre'] .btn-primary {
@@ -84,3 +85,6 @@
   z-index: 1;
 }
 [data-direction='terre'] .rule { border-top: 1px solid var(--line); }
+
+/* 6 oct 2026 : halo lumineux retire (signe de page generee). */
+[data-direction='terre'] body::before { content: none; }

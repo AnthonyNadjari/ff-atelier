@@ -31,8 +31,8 @@ const tones = [
 
     <div class="mt-12" data-sticky-stack>
       {panels.map((p, i) => {
-        const [time, ...rest] = p.title.split(' — ') ;
-        const label = rest.join(' — ') ;
+        const [time, ...rest] = p.title.split(', ') ;
+        const label = rest.join(', ') ;
         return (
           <div class:list={['flex min-h-[54vh] items-center', tones[i % tones.length]]} data-grain={i === 3 ? true : undefined}>
             <div class="container-ff grid items-center gap-8 py-12 md:grid-cols-[auto_1fr] md:gap-16">

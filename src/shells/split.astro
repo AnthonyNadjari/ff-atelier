@@ -30,7 +30,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
       <a href="/" class="block font-display text-display-md leading-tight">
         {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-12 w-auto" /> : site.business.name}
       </a>
-      <p class="mt-3 text-sm text-muted">{site.business.trade} · {site.contact.address.city}</p>
+      <p class="mt-3 text-sm text-muted">{site.business.trade} à {site.contact.address.city}</p>
       <nav class="mt-12 flex flex-col gap-3" aria-label="Navigation principale" data-scrollspy>
         {links.map((l, i) => (
           <a href={l.href} class="spy-link flex items-baseline gap-3 text-lg text-muted transition-colors hover:text-fg">
@@ -42,7 +42,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
       </nav>
     </div>
     <div class="space-y-5">
-      {site.contact.hours[0] && <p class="text-sm text-muted">{site.contact.hours[0].days} · {site.contact.hours[0].hours}</p>}
+      {site.contact.hours[0] && <p class="text-sm text-muted">{site.contact.hours[0].days}, {site.contact.hours[0].hours}</p>}
       <Button href={tel()} size="lg" class="w-full" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
       {site.layout.contactDrawer && <Button href="#contact" variant="ghost" size="lg" class="w-full">{site.wording.devis}</Button>}
       {socials.length > 0 && (

@@ -153,7 +153,7 @@ export default defineSite({
     story:
       'Atelier Lecerf s’est installé en 1998 dans une ancienne filature de Roubaix, rue de l’Alma. De hauts volumes, la lumière du nord, et la place pour débiter de grandes planches.\n\nDeux personnes y travaillent. Le dessin, le choix du bois, la fabrication : tout reste entre les mêmes mains, du croquis à la pose.\n\nChêne, frêne, noyer, toujours massifs. Jamais de panneau plaqué, jamais de catalogue. Une pièce est dessinée pour l’endroit où elle vivra, et pour personne d’autre.',
     values: [
-      { title: 'Bois massif', text: 'Chêne, frêne, noyer — jamais de panneau plaqué.' },
+      { title: 'Bois massif', text: 'Chêne, frêne, noyer. Jamais de panneau plaqué.' },
       { title: 'Le croquis avant l’établi', text: 'Chaque pièce est dessinée avec vous avant d’être coupée.' },
       { title: 'Neuf et ancien', text: 'Le sur-mesure et la restauration de meubles anciens, avec le même geste.' },
     ],
@@ -162,8 +162,8 @@ export default defineSite({
 
   process: [
     { title: 'Le croquis', text: 'On discute du projet, on prend les mesures, on dessine ensemble la pièce avant tout achat de bois.' },
-    { title: 'Le choix du bois', text: 'Chêne, frêne ou noyer massif — choisi selon l’usage de la pièce et la lumière qui l’éclaire.' },
-    { title: 'La fabrication', text: 'Débit, assemblage, finition à l’huile ou à la cire — tout se fait à l’atelier de Roubaix.' },
+    { title: 'Le choix du bois', text: 'Chêne, frêne ou noyer massif, choisi selon l’usage de la pièce et la lumière qui l’éclaire.' },
+    { title: 'La fabrication', text: 'Débit, assemblage, finition à l’huile ou à la cire. Tout se fait à l’atelier de Roubaix.' },
     {
       title: 'La pose',
       text: 'Installation chez vous, réglages sur place, et les conseils d’entretien du bois massif.',

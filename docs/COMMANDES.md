@@ -80,6 +80,7 @@ ff sante boulangerie-durand
 
 **Qualité**
 - `ff detect boulangerie-durand` — regard automatique (contraste, accessibilité).
+- `ff ia boulangerie-durand` : signes « fait par une IA » (polices par défaut, titres en italique, tirets cadratins, points médians). À passer avant de montrer un site, voir `docs/veille/signes-ia.md`.
 - `ff lighthouse boulangerie-durand` — score performance/accessibilité/SEO.
 - `ff captures boulangerie-durand --comparer` — repère ce qui a changé visuellement.
 - `ff variete` — évite de refaire deux fois le même look qu'un client précédent.

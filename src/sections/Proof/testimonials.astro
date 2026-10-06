@@ -16,7 +16,7 @@ const testimonials = site.proof.testimonials;
               <Icon name="Star" size={18} class={i < Math.round(google.rating) ? 'text-accent fill-accent' : 'text-muted'} />
             ))}
           </div>
-          <p class="text-sm text-muted">{google.rating.toFixed(1)}/5 sur Google · {google.count} avis</p>
+          <p class="text-sm text-muted">{google.rating.toFixed(1)}/5 sur Google, {google.count} avis</p>
         </div>
       )}
 
@@ -26,7 +26,7 @@ const testimonials = site.proof.testimonials;
             <p class="font-display text-display-sm text-accent leading-none" aria-hidden="true">”</p>
             <blockquote class="mt-2 text-fg">{t.text}</blockquote>
             <figcaption class="mt-4 text-sm text-muted">
-              <span class="font-medium text-fg">{t.author}</span>{t.city && <>, {t.city}</>} · via {t.source}
+              <span class="font-medium text-fg">{t.author}</span>{t.city && <>, {t.city}</>}, via {t.source}
             </figcaption>
           </figure>
         ))}

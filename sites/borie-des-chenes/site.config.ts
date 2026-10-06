@@ -130,7 +130,7 @@ export default defineSite({
     },
     {
       slug: 'gite-la-grange',
-      title: 'Le gîte — La Grange',
+      title: 'Le gîte de la Grange',
       short: 'Six personnes, à la semaine, 850 €. Et jamais à la nuit.',
       bullets: ['6 personnes', 'À la semaine'],
       priceFrom: '850 €',

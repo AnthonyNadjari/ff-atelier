@@ -16,7 +16,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
               class:list={[i % 2 === 0 ? 'lg:pr-16 lg:text-right' : 'lg:col-start-2 lg:pl-16']}
               data-reveal={i % 2 === 0 ? 'left' : 'right'}
             >
-              <p class="eyebrow">{String(i + 1).padStart(2, '0')}</p>
+              <p class="text-sm tabular-nums text-muted">Étape {i + 1}</p>
               <h3 class="mt-2 text-display-sm">{p.title}</h3>
               <p class="mt-2 text-muted">{p.text}</p>
             </div>

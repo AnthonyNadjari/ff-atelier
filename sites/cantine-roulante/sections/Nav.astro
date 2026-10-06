@@ -46,7 +46,7 @@ const links = allLinks.filter((l) => ['#semaine', '#carte', '#traiteur', '#conta
       <span class="sm:hidden">Cantine roulante</span>
     </a>
 
-    <p class="today-pill order-2 hidden items-center gap-2 rounded-pill border border-line px-3 py-1.5 font-mono text-xs uppercase tracking-[0.08em] text-muted md:flex" data-today-pill>
+    <p class="today-pill order-2 hidden items-center gap-2 rounded-pill border border-line px-3 py-1.5 text-sm text-muted md:flex" data-today-pill>
       <span class="today-dot h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
       <span data-today-text>Aujourd’hui</span>
     </p>
@@ -91,7 +91,7 @@ const links = allLinks.filter((l) => ['#semaine', '#carte', '#traiteur', '#conta
   const planning: Array<{ ville: string } | null> = [
     null, // dimanche
     null, // lundi
-    { ville: 'Bayonne — marché' }, // mardi
+    { ville: 'Bayonne (marché)' }, // mardi
     null, // mercredi
     { ville: 'Anglet' }, // jeudi
     { ville: 'Biarritz' }, // vendredi

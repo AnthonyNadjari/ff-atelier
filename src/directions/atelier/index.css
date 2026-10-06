@@ -1,6 +1,7 @@
 /* Direction ATELIER — chaleureux, artisanal. Papier chaud, serif Fraunces, filets fins, tampon. */
-@import '@fontsource-variable/fraunces';
-@import '@fontsource-variable/inter';
+/* 6 oct 2026 : polices par defaut des IA remplacees (voir docs/veille/signes-ia.md). */
+@import '@fontsource-variable/domine';
+@import '@fontsource-variable/karla';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='atelier'] {
@@ -20,8 +21,8 @@
   --ink: #1e1a16;
   --on-ink: #f6efe4;
 
-  --font-display: 'Fraunces Variable', Georgia, serif;
-  --font-body: 'Inter Variable', system-ui, sans-serif;
+  --font-display: 'Domine Variable', Georgia, serif;
+  --font-body: 'Karla Variable', ui-sans-serif, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --display-weight: 500;
   --display-tracking: -0.015em;
@@ -45,7 +46,7 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 [data-direction='atelier'] h1 em,
-[data-direction='atelier'] h2 em { font-style: italic; font-variation-settings: 'SOFT' 100, 'WONK' 1; color: var(--accent); }
+[data-direction='atelier'] h2 em { font-style: normal; font-variation-settings: 'SOFT' 100, 'WONK' 1; color: var(--accent); }
 
 [data-direction='atelier'] .btn { border-radius: var(--radius); font-weight: 500; letter-spacing: 0.01em; }
 [data-direction='atelier'] .btn-primary { box-shadow: inset 0 -2px 0 rgb(0 0 0 / 0.15); }

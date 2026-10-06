@@ -1,6 +1,7 @@
 /* Direction CLAIR — SaaS propre, lumineux. Manrope + DM Sans, ombres douces. */
-@import '@fontsource-variable/manrope';
-@import '@fontsource-variable/dm-sans';
+/* 6 oct 2026 : polices par defaut des IA remplacees (voir docs/veille/signes-ia.md). */
+@import '@fontsource-variable/schibsted-grotesk';
+@import '@fontsource-variable/public-sans';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='clair'] {
@@ -50,8 +51,8 @@
      C'est aussi son seul emploi dans tout le repo (les composants partages posent
      `hover:bg-accent-2 text-on-accent`). 10,6:1 sous --on-accent. */
 
-  --font-display: 'Manrope Variable', ui-sans-serif, sans-serif;
-  --font-body: 'DM Sans Variable', ui-sans-serif, sans-serif;
+  --font-display: 'Schibsted Grotesk Variable', ui-sans-serif, sans-serif;
+  --font-body: 'Public Sans Variable', ui-sans-serif, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --display-weight: 700;
   --display-tracking: -0.03em;

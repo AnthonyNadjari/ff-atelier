@@ -23,7 +23,7 @@ const pieces = [
         <li class:list={['relative', p.span]}>
           <figure class="group relative overflow-hidden rounded-card" data-tilt="4" data-reveal="mask" data-scrub="y=6">
             <img src={p.src} alt={p.alt} class:list={['w-full object-cover transition-transform duration-[1.4s] ease-out-expo group-hover:scale-105', p.ratio]} loading="lazy" />
-            <figcaption class="absolute bottom-3 left-3 rounded-ui bg-ink/80 px-3 py-1 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-on-ink backdrop-blur-sm">{p.legende}</figcaption>
+            <figcaption class="absolute bottom-3 left-3 rounded-ui bg-ink/80 px-3 py-1 text-sm text-on-ink backdrop-blur-sm">{p.legende}</figcaption>
           </figure>
         </li>
       ))}

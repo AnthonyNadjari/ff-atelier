@@ -49,7 +49,7 @@ const links = navLinks();
       {links.map((l, i) => (
         <>
           <li><a href={l.href} class="transition-colors hover:text-fg">{l.label}</a></li>
-          {i < links.length - 1 && <li aria-hidden="true" class="text-line">·</li>}
+          {i < links.length - 1 && <li aria-hidden="true" class="text-line">/</li>}
         </>
       ))}
     </ul>

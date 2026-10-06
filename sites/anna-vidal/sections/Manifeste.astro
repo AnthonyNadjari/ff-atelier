@@ -18,11 +18,11 @@ const manifeste =
 
     <div class="mt-16 h-px w-full bg-line" aria-hidden="true"></div>
 
-    <p class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-muted">
+    <p class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted">
       {site.services.map((s, i) => (
         <>
           <span>{s.title}</span>
-          {i < site.services.length - 1 && <span class="text-accent" aria-hidden="true">·</span>}
+          {i < site.services.length - 1 && <span class="text-accent" aria-hidden="true">/</span>}
         </>
       ))}
     </p>

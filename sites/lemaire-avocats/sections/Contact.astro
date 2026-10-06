@@ -39,7 +39,7 @@ import Carte from '@/components/Carte.astro';
           {site.contact.hours.length > 0 && (
             <p class="relative z-[2] mt-3 flex items-start gap-3">
               <Icon name="Clock" size={18} class="mt-0.5 shrink-0 text-accent" />
-              <span>{site.contact.hours.map((h) => `${h.days} : ${h.hours}`).join(' — ')}</span>
+              <span>{site.contact.hours.map((h) => `${h.days} : ${h.hours}`).join(', ')}</span>
             </p>
           )}
         </div>

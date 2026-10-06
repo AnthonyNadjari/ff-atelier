@@ -156,10 +156,10 @@ export default defineSite({
   },
 
   process: [
-    { title: '6 h 30 — Première fournée', text: 'Les pains tradition, levain, seigle et épeautre sortent du four, encore chauds.' },
-    { title: '8 h — Viennoiseries', text: 'Croissants, pains au chocolat et chaussons, feuilletés et cuits dans la matinée.' },
-    { title: '11 h — Pâtisseries et sandwichs', text: 'Les pâtisseries de saison et les sandwichs du midi sont prêts pour la pause déjeuner.' },
-    { title: '16 h — Fournée de l’après-midi', text: 'Une nouvelle fournée de pain pour le dîner, pendant que le fournil prépare déjà demain.' },
+    { title: '6 h 30, première fournée', text: 'Les pains tradition, levain, seigle et épeautre sortent du four, encore chauds.' },
+    { title: '8 h, viennoiseries', text: 'Croissants, pains au chocolat et chaussons, feuilletés et cuits dans la matinée.' },
+    { title: '11 h, pâtisseries et sandwichs', text: 'Les pâtisseries de saison et les sandwichs du midi sont prêts pour la pause déjeuner.' },
+    { title: '16 h, fournée de l’après-midi', text: 'Une nouvelle fournée de pain pour le dîner, pendant que le fournil prépare déjà demain.' },
   ],
 
   faq: [

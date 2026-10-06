@@ -89,10 +89,10 @@ export default defineSite({
   // sans marché (mercredi, dimanche, lundi) ne sont pas des étapes, comme "Semaine" les marquait
   // "Repos" plutôt que d'inventer une ville.
   process: [
-    { title: 'Mardi — Bayonne', text: 'Jour de marché : la remorque s’installe à Bayonne pour la matinée.' },
-    { title: 'Jeudi — Anglet', text: 'La cantine roulante retrouve son emplacement habituel à Anglet.' },
-    { title: 'Vendredi — Biarritz', text: 'Direction Biarritz pour la fin de semaine.' },
-    { title: 'Samedi — Saint-Jean-de-Luz', text: 'Dernier arrêt de la semaine, à Saint-Jean-de-Luz.' },
+    { title: 'Mardi à Bayonne', text: 'Jour de marché : la remorque s’installe à Bayonne pour la matinée.' },
+    { title: 'Jeudi à Anglet', text: 'La cantine roulante retrouve son emplacement habituel à Anglet.' },
+    { title: 'Vendredi à Biarritz', text: 'Direction Biarritz pour la fin de semaine.' },
+    { title: 'Samedi à Saint-Jean-de-Luz', text: 'Dernier arrêt de la semaine, à Saint-Jean-de-Luz.' },
   ],
 
   // Pas de section "about" dans le layout (le récit tient déjà dans business.description et dans

@@ -10,7 +10,6 @@
  * que texture de papier.
  */
 import { site } from '@/lib/site';
-import '@fontsource-variable/cormorant/wght-italic.css';
 
 const bySlug = Object.fromEntries(site.services.map((s) => [s.slug, s]));
 
@@ -29,7 +28,7 @@ const familles = [
     <div class="text-center">
       <p class="eyebrow">Carte des soins</p>
       <h2 class="mt-4 text-display-md">Ce qui se prépare pour vous</h2>
-      <p class="mt-4 text-muted">Prix indicatifs — le devis exact se fait à la réservation.</p>
+      <p class="mt-4 text-muted">Prix indicatifs. Le devis exact se fait à la réservation.</p>
     </div>
 
     <div class="mt-16 space-y-14">
@@ -39,7 +38,7 @@ const familles = [
           <ul class="mt-5 divide-y divide-line/60" data-stagger="90">
             {f.items.map((s) => (
               <li class="soin flex items-baseline gap-3 py-4" data-hover-img={f.img}>
-                <span class="soin-name font-display italic">{s.title}</span>
+                <span class="soin-name font-display">{s.title}</span>
                 {s.priceFrom && <span class="soin-leader" aria-hidden="true"></span>}
                 {s.priceFrom && <span class="soin-price shrink-0 tabular-nums text-accent">{s.priceFrom}</span>}
               </li>

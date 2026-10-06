@@ -23,7 +23,7 @@ const hero = site.images.hero!;
 
   <div class="container-ff relative flex min-h-svh flex-col justify-between py-10 sm:py-14">
     <p class="eyebrow text-on-ink/80">
-      {site.business.name} <span class="text-on-ink/40">·</span> {site.contact.address.city}{site.business.since && <span class="text-on-ink/40"> · depuis {site.business.since}</span>}
+      {site.business.name} à {site.contact.address.city}{site.business.since && <span class="text-on-ink/40">, depuis {site.business.since}</span>}
     </p>
 
     <h1
@@ -40,7 +40,7 @@ const hero = site.images.hero!;
         <svg viewBox="0 0 140 140" class="badge-call-ring" aria-hidden="true">
           <path id="badge-path" d="M 70,70 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0" fill="none" />
           <text font-size="12.2" letter-spacing="2.6" fill="currentColor">
-            <textPath href="#badge-path" startOffset="0%">Réserver — Réserver — Réserver — </textPath>
+            <textPath href="#badge-path" startOffset="0%">Réserver    Réserver    Réserver    </textPath>
           </text>
         </svg>
         <span class="badge-call-center">

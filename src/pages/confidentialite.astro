@@ -16,7 +16,7 @@ const provider = site.form.provider;
 const destinataire: Record<string, string> = {
   mailto: `la messagerie de ${b.name} (aucun serveur intermédiaire : votre message ouvre directement le logiciel de messagerie de l’entreprise)`,
   web3forms: 'Web3Forms (États-Unis), le prestataire technique qui relaie le message par e-mail à ' + b.name,
-  cloudflare: `Cloudflare, Inc. — le formulaire est traité par un programme (Worker) hébergé sur l'infrastructure Cloudflare, qui transmet ensuite le message par e-mail à ${b.name}. Le traitement peut avoir lieu dans l'Union européenne via la Data Localization Suite de Cloudflare selon la configuration retenue pour ce site (voir la politique de confidentialité de Cloudflare, cloudflare.com/trust-hub/gdpr)`,
+  cloudflare: `Cloudflare, Inc. : le formulaire est traité par un programme (Worker) hébergé sur l'infrastructure Cloudflare, qui transmet ensuite le message par e-mail à ${b.name}. Le traitement peut avoir lieu dans l'Union européenne via la Data Localization Suite de Cloudflare selon la configuration retenue pour ce site (voir la politique de confidentialité de Cloudflare, cloudflare.com/trust-hub/gdpr)`,
 };
 const destinataireTexte = destinataire[provider];
 
@@ -31,7 +31,7 @@ const showsOsmMap = usesCarteSection && mapsProvider === 'osm' && Boolean(site.c
 const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boolean(site.contact.mapsEmbed);
 ---
 
-<Base title={`Politique de confidentialité — ${b.name}`} description={`Politique de confidentialité et données personnelles de ${b.name}.`} path="/confidentialite" noindex>
+<Base title={`Politique de confidentialité | ${b.name}`} description={`Politique de confidentialité et données personnelles de ${b.name}.`} path="/confidentialite" noindex>
   <Nav />
   <main id="main" class="section-y">
     <div class="container-ff max-w-3xl space-y-10 text-[0.95rem] leading-relaxed">
@@ -40,7 +40,7 @@ const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boole
 
       <section>
         <h2 class="text-display-sm mb-3">Responsable du traitement</h2>
-        <p>{owner}{b.legalForm && ` — ${b.legalForm}`}<br />{fullAddress()}<br />E-mail : {site.contact.email} — Téléphone : {site.contact.phoneDisplay}</p>
+        <p>{owner}{b.legalForm && `, ${b.legalForm}`}<br />{fullAddress()}<br />E-mail : {site.contact.email}<br />Téléphone : {site.contact.phoneDisplay}</p>
       </section>
 
       {provider !== 'none' && (

@@ -75,7 +75,7 @@ export default defineSite({
   services: [
     {
       slug: 'permis-b-manuelle',
-      title: 'Permis B — boîte manuelle',
+      title: 'Permis B, boîte manuelle',
       short: 'Avec l’embrayage. Et il permet de conduire les deux boîtes, manuelle comme automatique.',
       description:
         'Le permis B en boîte manuelle permet de conduire les deux, manuelle et automatique. L’inverse n’est pas vrai.\n\nLe forfait de base comprend 20 heures de conduite, la durée réglementaire de référence. Le nombre d’heures réellement nécessaire dépend de chaque élève, et les heures supplémentaires sont facturées à l’heure.',
@@ -85,7 +85,7 @@ export default defineSite({
     },
     {
       slug: 'permis-b-automatique',
-      title: 'Permis B — boîte automatique',
+      title: 'Permis B, boîte automatique',
       short: 'Sans embrayage. Le passage vers la boîte manuelle reste possible ensuite.',
       bullets: ['Idéal pour une reprise de conduite', 'Passage possible vers la boîte manuelle ensuite'],
       icon: 'Car',
@@ -126,11 +126,11 @@ export default defineSite({
     story:
       'Auto-école Rabelais forme des conducteurs rue de la Fuye, quartier Velpeau, depuis 2005. Un premier permis, ou une reprise de conduite après des années sans volant.\n\nCinq enseignants de la conduite se répartissent le code et la conduite, en boîte manuelle, en automatique, sur moto. Chacun garde le même élève du premier cours jusqu’à l’examen.\n\nL’auto-école est certifiée Qualiopi, la marque qui atteste de la qualité du processus de formation.',
     team: [
-      { name: 'Camille Rouault', role: 'Enseignante de la conduite — permis B, boîte manuelle' },
-      { name: 'Thomas Guérin', role: 'Enseignant de la conduite — permis B, boîte automatique' },
-      { name: 'Nadia Ferreira', role: 'Enseignante de la conduite — conduite accompagnée (AAC)' },
-      { name: 'Karim Belaïd', role: 'Enseignant de la conduite — permis moto A2' },
-      { name: 'Julien Perrot', role: 'Formateur code de la route — responsable pédagogique' },
+      { name: 'Camille Rouault', role: 'Enseignante de la conduite (permis B, boîte manuelle)' },
+      { name: 'Thomas Guérin', role: 'Enseignant de la conduite (permis B, boîte automatique)' },
+      { name: 'Nadia Ferreira', role: 'Enseignante de la conduite, conduite accompagnée (AAC)' },
+      { name: 'Karim Belaïd', role: 'Enseignant de la conduite, permis moto A2' },
+      { name: 'Julien Perrot', role: 'Formateur code de la route et responsable pédagogique' },
     ],
   },
 
@@ -164,7 +164,7 @@ export default defineSite({
 
   form: {
     provider: 'mailto',
-    successMessage: 'Merci, votre demande d’inscription est bien reçue — nous revenons vers vous pour convenir d’un premier rendez-vous.',
+    successMessage: 'Merci, votre demande d’inscription est bien reçue. Nous revenons vers vous pour convenir d’un premier rendez-vous.',
   },
 
   images: {

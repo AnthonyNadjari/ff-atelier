@@ -49,7 +49,7 @@ const bySlug = new Map(site.services.map((s) => [s.slug, s.title]));
           <p class="cal-name eyebrow mt-3">{m.name}</p>
           <p class="cal-task mt-2 text-sm text-muted">{m.task}</p>
           {bySlug.has(m.slug) && (
-            <p class="cal-service mt-3 text-xs uppercase tracking-wide text-fg/50">{bySlug.get(m.slug)}</p>
+            <p class="cal-service mt-3 text-sm text-muted">{bySlug.get(m.slug)}</p>
           )}
         </li>
       ))}

@@ -1,5 +1,6 @@
 /* Direction NUIT — bleu nuit calme et blanc chaud. Newsreader, ambre discret, ciel etoile. */
-@import '@fontsource-variable/newsreader';
+/* 6 oct 2026 : polices par defaut des IA remplacees (voir docs/veille/signes-ia.md). */
+@import '@fontsource-variable/eb-garamond';
 @import '@fontsource-variable/figtree';
 @import '@fontsource-variable/jetbrains-mono';
 
@@ -20,7 +21,7 @@
   --ink: #050810;
   --on-ink: #f3efe6;
 
-  --font-display: 'Newsreader Variable', 'Georgia', serif;
+  --font-display: 'EB Garamond Variable', Garamond, Georgia, serif;
   --font-body: 'Figtree Variable', ui-sans-serif, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --display-weight: 500;
@@ -61,7 +62,7 @@
 [data-direction='nuit'] ::selection { background: var(--accent); color: var(--on-accent); }
 
 [data-direction='nuit'] h1 em,
-[data-direction='nuit'] h2 em { font-style: italic; color: var(--accent); }
+[data-direction='nuit'] h2 em { font-style: normal; color: var(--accent); }
 
 [data-direction='nuit'] .btn {
   border-radius: 10px;

@@ -1,5 +1,5 @@
 ---
-/** Services "alternating" : rangees alternees image/texte, puces avec icones Check. */
+/** Services "alternating" : rangees alternees image/texte, puces en texte simple (plus de coches : signe de page générée, 6 oct 2026). */
 import { site } from '@/lib/site';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Icon from '@/components/Icon.astro';
@@ -30,8 +30,7 @@ import Img from '@/components/Img.astro';
             {s.bullets.length > 0 && (
               <ul class="mt-6 flex flex-col gap-3">
                 {s.bullets.map((b) => (
-                  <li class="flex items-start gap-3">
-                    <Icon name="Check" size={18} class="mt-0.5 shrink-0 text-accent" />
+                  <li>
                     <span>{b}</span>
                   </li>
                 ))}

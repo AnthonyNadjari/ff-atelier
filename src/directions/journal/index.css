@@ -1,6 +1,7 @@
 /* Direction JOURNAL — editorial, presse. Papier de rotative, Playfair, filets fins. */
-@import '@fontsource-variable/playfair-display';
-@import '@fontsource-variable/lora';
+/* 6 oct 2026 : polices par defaut des IA remplacees (voir docs/veille/signes-ia.md). */
+@import '@fontsource-variable/eb-garamond';
+@import '@fontsource-variable/literata';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='journal'] {
@@ -49,8 +50,8 @@
      primaire — la seconde encre qui passe sur la premiere. Seul emploi dans le repo (les composants
      partages posent `hover:bg-accent-2 text-on-accent`). 7,52:1 sous --on-accent. */
 
-  --font-display: 'Playfair Display Variable', 'Georgia', serif;
-  --font-body: 'Lora Variable', 'Georgia', serif;
+  --font-display: 'EB Garamond Variable', Garamond, Georgia, serif;
+  --font-body: 'Literata Variable', Georgia, serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --display-weight: 600;
   --display-tracking: -0.01em;
@@ -76,7 +77,7 @@
 [data-direction='journal'] ::selection { background: var(--accent); color: var(--on-accent); }
 
 [data-direction='journal'] h1 em,
-[data-direction='journal'] h2 em { font-style: italic; color: var(--accent); }
+[data-direction='journal'] h2 em { font-style: normal; color: var(--accent); }
 
 [data-direction='journal'] .btn {
   border-radius: 0;

@@ -4,10 +4,10 @@
  * verticaux, gros numéros en accent, températures en marge. Composition propre à ce site.
  */
 const temps = [
-  { n: '01', titre: 'Le dessin', texte: 'Relevé sur place, puis dessin à l’échelle. Rien ne chauffe avant votre signature sur le plan.', note: 'à l’atelier' },
+  { n: '01', titre: 'Le dessin', texte: 'Relevé sur place, puis dessin à l’échelle. Rien ne chauffe avant votre signature sur le plan.', note: 'À l’atelier' },
   { n: '02', titre: 'La chauffe', texte: 'L’acier passe au rouge cerise dans la forge à charbon. C’est là qu’il accepte la forme.', note: '≈ 1 000 °C' },
-  { n: '03', titre: 'Le marteau', texte: 'Volutes, torsades, écrasements : chaque motif est frappé à la main, pièce après pièce.', note: 'marteau et presse' },
-  { n: '04', titre: 'La pose', texte: 'Galvanisation ou patine, puis pose par nos soins. On revient régler si besoin.', note: 'chez vous' },
+  { n: '03', titre: 'Le marteau', texte: 'Volutes, torsades, écrasements : chaque motif est frappé à la main, pièce après pièce.', note: 'Marteau et presse' },
+  { n: '04', titre: 'La pose', texte: 'Galvanisation ou patine, puis pose par nos soins. On revient régler si besoin.', note: 'Chez vous' },
 ];
 ---
 
@@ -23,7 +23,7 @@ const temps = [
           <span class="font-display text-7xl leading-none text-accent">{t.n}</span>
           <h3 class="mt-8 font-display text-3xl">{t.titre}</h3>
           <p class="mt-4 text-muted">{t.texte}</p>
-          <span class="mt-auto pt-8 font-mono text-xs uppercase tracking-[0.2em] text-muted/70">{t.note}</span>
+          <span class="mt-auto pt-8 text-sm text-muted">{t.note}</span>
           <span class="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-accent transition-transform duration-700 ease-out-expo group-hover:scale-x-100"></span>
         </li>
       ))}

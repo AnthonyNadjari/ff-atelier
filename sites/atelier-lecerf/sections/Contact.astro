@@ -44,7 +44,7 @@ import Icon from '@/components/Icon.astro';
 
       {site.zones.cities.length > 0 && (
         <div class="relative z-[2] mt-9 border-t border-on-ink/15 pt-6">
-          <p class="text-xs uppercase tracking-[0.16em] text-on-ink/50">{site.zones.label ?? 'Zone d’intervention'}</p>
+          <p class="text-sm text-on-ink/50">{site.zones.label ?? 'Zone d’intervention'}</p>
           <ul class="mt-3 flex flex-wrap gap-2" data-stagger="60">
             {site.zones.cities.map((c) => (
               <li class="rounded-pill border border-on-ink/20 px-3 py-1 text-sm text-on-ink/85">{c}</li>

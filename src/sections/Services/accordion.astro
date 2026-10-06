@@ -17,7 +17,6 @@ import Icon from '@/components/Icon.astro';
         <details class="border-b border-line" open={i === 0}>
           <summary class="flex items-center justify-between gap-4 py-6 cursor-pointer">
             <span class="flex items-baseline gap-4">
-              <span class="eyebrow">{String(i + 1).padStart(2, '0')}</span>
               <span class="text-display-sm">{s.title}</span>
             </span>
             <Icon name="ChevronDown" size={20} class="chevron shrink-0 text-muted" />
@@ -27,8 +26,7 @@ import Icon from '@/components/Icon.astro';
             {s.bullets.length > 0 && (
               <ul class="mt-4 flex flex-col gap-2">
                 {s.bullets.map((b) => (
-                  <li class="flex items-start gap-3 text-sm">
-                    <Icon name="Check" size={16} class="mt-0.5 shrink-0 text-accent" />
+                  <li class="text-sm">
                     <span>{b}</span>
                   </li>
                 ))}

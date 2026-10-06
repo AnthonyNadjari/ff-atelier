@@ -25,14 +25,14 @@ const planning = [
     <div class="max-w-2xl" data-stagger="120">
       <p class="eyebrow">Cette semaine</p>
       <h2 class="mt-4 text-display-md">Où sommes-nous cette semaine ?</h2>
-      <p class="measure mt-4 text-lg text-muted">La colonne d’aujourd’hui se surligne toute seule. Le soir, la remorque part en privatisation — mariages et entreprises, voir plus bas.</p>
+      <p class="measure mt-4 text-lg text-muted">La colonne d’aujourd’hui se surligne toute seule. Le soir, la remorque part en privatisation (mariages et entreprises, voir plus bas).</p>
     </div>
 
     <ol class="semaine-grid mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-4 lg:grid-cols-7" data-stagger="50">
       {planning.map((j) => (
         <li data-jsday={j.jsDay} class:list={['semaine-cell relative flex min-h-[9rem] flex-col justify-between bg-surface p-4', !j.ville && 'text-muted']}>
           <span class="semaine-today-tag absolute right-3 top-3 hidden rounded-pill bg-accent px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-on-accent">Aujourd’hui</span>
-          <p class="font-mono text-xs uppercase tracking-[0.14em] text-muted">{j.day}</p>
+          <p class="text-sm text-muted">{j.day}</p>
           {j.ville ? (
             <div>
               <p class="font-display text-lg leading-tight text-fg">{j.ville}</p>

@@ -12,7 +12,7 @@ const lignes = [
   { k: 'Atelier', v: `${site.contact.address.street}, ${site.contact.address.city}` },
   ...(site.zones?.label ? [{ k: 'Zone', v: site.zones.label }] : []),
   ...(heures ? [{ k: 'Ouvert', v: `${heures.days}, ${heures.hours}` }] : []),
-  ...(site.business.certifications.length ? [{ k: 'Qualifications', v: site.business.certifications.join(' · ') }] : []),
+  ...(site.business.certifications.length ? [{ k: 'Qualifications', v: site.business.certifications.join(', ') }] : []),
   ...(site.business.since ? [{ k: 'Depuis', v: String(site.business.since) }] : []),
 ];
 ---
@@ -28,7 +28,7 @@ const lignes = [
     <dl class="grid gap-x-10 gap-y-8 border-t border-line pt-10 sm:grid-cols-2 lg:grid-cols-3" data-stagger="80">
       {lignes.map((l) => (
         <div>
-          <dt class="font-mono text-xs uppercase tracking-[0.16em] text-muted">{l.k}</dt>
+          <dt class="text-sm text-muted">{l.k}</dt>
           <dd class="mt-2 font-display text-xl leading-snug text-fg">{l.v}</dd>
         </div>
       ))}

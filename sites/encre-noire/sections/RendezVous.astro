@@ -58,7 +58,7 @@ const phoneSize = Math.min(9, 100 / Math.max(phone.length, 8)).toFixed(1);
       >
         <Icon name="Phone" size={36} class="hidden shrink-0 sm:block" />{phone}
       </a>
-      <p class="mt-4 text-muted">{site.contact.hours.map((h) => `${h.days} : ${h.hours}`).join(' · ')}</p>
+      <p class="mt-4 text-muted">{site.contact.hours.map((h) => `${h.days} : ${h.hours}`).join(', ')}</p>
     </div>
 
     <div class="mx-auto mt-20 max-w-md lg:mt-28">
@@ -66,7 +66,7 @@ const phoneSize = Math.min(9, 100 / Math.max(phone.length, 8)).toFixed(1);
       <ul class="mt-5 flex flex-col gap-3 border-t border-line pt-5 font-mono text-sm text-muted">
         {soins.map((s) => (
           <li class="flex gap-3">
-            <span class="text-accent-2">—</span>
+            <span class="text-accent-2" aria-hidden="true">–</span>
             <span>{s}</span>
           </li>
         ))}

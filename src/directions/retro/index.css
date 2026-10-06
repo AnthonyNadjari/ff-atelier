@@ -26,7 +26,7 @@
   --display-weight: 400;
   --display-tracking: 0;
   --heading-transform: none;
-  --radius: 999px;
+  --radius: 3px;
   --radius-card: 18px;
   --shadow-card: 0 1px 0 rgb(59 36 24 / 0.06), 0 20px 44px -26px rgb(59 36 24 / 0.28);
   --shadow-lift: 0 32px 64px -24px rgb(59 36 24 / 0.35);
@@ -50,7 +50,7 @@
 [data-direction='retro'] ::selection { background: var(--accent); color: var(--on-accent); }
 
 [data-direction='retro'] h1 em,
-[data-direction='retro'] h2 em { font-style: italic; color: var(--accent); }
+[data-direction='retro'] h2 em { font-style: normal; color: var(--accent); }
 
 [data-direction='retro'] h2 { position: relative; z-index: 1; }
 
@@ -83,3 +83,6 @@
 }
 [data-direction='retro'] .rule { border-bottom: 3px double var(--accent); padding-bottom: 0.35em; }
 [data-direction='retro'] .eyebrow { color: var(--accent-2); }
+
+/* 6 oct 2026 : halo lumineux retire (signe de page generee). */
+[data-direction='retro'] body::before { content: none; }

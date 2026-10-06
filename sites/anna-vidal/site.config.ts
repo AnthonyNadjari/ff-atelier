@@ -14,7 +14,7 @@ import { defineSite } from '@/lib/schema';
 export default defineSite({
   slug: 'anna-vidal',
   direction: 'nuit',
-  typography: { display: 'playfair', body: 'instrumentSans' },
+  typography: { display: 'libreBodoni', body: 'hanken' },
   motion: 'rich',
   scale: 'display',
   layout: {

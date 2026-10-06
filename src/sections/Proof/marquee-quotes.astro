@@ -16,7 +16,7 @@ const testimonials = site.proof.testimonials;
               <Icon name="Star" size={18} class={i < Math.round(google.rating) ? 'text-accent fill-accent' : 'text-muted'} />
             ))}
           </div>
-          <p class="text-sm text-muted">{google.rating.toFixed(1)}/5 sur Google · {google.count} avis</p>
+          <p class="text-sm text-muted">{google.rating.toFixed(1)}/5 sur Google, {google.count} avis</p>
         </div>
       )}
     </div>
@@ -27,7 +27,7 @@ const testimonials = site.proof.testimonials;
           <figure class="card inline-flex w-[min(20rem,80vw)] shrink-0 flex-col rounded-card border border-line bg-surface p-6 whitespace-normal align-top">
             <blockquote class="text-fg">« {t.text} »</blockquote>
             <figcaption class="mt-4 text-sm text-muted">
-              <span class="font-medium text-fg">{t.author}</span>{t.city && <>, {t.city}</>} · via {t.source}
+              <span class="font-medium text-fg">{t.author}</span>{t.city && <>, {t.city}</>}, via {t.source}
             </figcaption>
           </figure>
         ))}

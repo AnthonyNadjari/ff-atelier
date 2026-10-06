@@ -96,7 +96,7 @@ export default defineSite({
   about: {
     title: 'Le salon',
     story:
-      'Aurel Mercier a ouvert son salon en 2017 après dix ans passés dans des maisons de coiffure parisiennes, spécialisé en coloration. L’idée : ramener ce savoir-faire à Bordeaux, dans un salon à taille humaine.\n\nAujourd’hui l’équipe compte trois personnes, chacune avec sa spécialité — coupe, couleur, soin — mais toujours un seul binôme par client du début à la fin du rendez-vous.',
+      'Aurel Mercier a ouvert son salon en 2017 après dix ans passés dans des maisons de coiffure parisiennes, spécialisé en coloration. L’idée : ramener ce savoir-faire à Bordeaux, dans un salon à taille humaine.\n\nAujourd’hui l’équipe compte trois personnes, chacune avec sa spécialité (coupe, couleur, soin), mais toujours un seul binôme par client du début à la fin du rendez-vous.',
     portrait: { src: '/images/portrait.webp', alt: 'Intérieur du salon Maison Aurel, quartier des Chartrons' },
     team: [
       { name: 'Aurel Mercier', role: 'Fondateur, coloriste' },
@@ -132,7 +132,7 @@ export default defineSite({
     contactTitle: 'Prendre rendez-vous',
     contactText: 'Dites-nous ce que vous voulez, nous vous rappelons pour caler un créneau.',
   },
-  form: { provider: 'web3forms', accessKey: 'A-REMPLACER', subject: 'Nouvelle demande — Maison Aurel' },
+  form: { provider: 'web3forms', accessKey: 'A-REMPLACER', subject: 'Nouvelle demande : Maison Aurel' },
   images: {
     hero: { src: '/images/hero.webp', alt: 'Intérieur du salon Maison Aurel, quartier des Chartrons' },
   },

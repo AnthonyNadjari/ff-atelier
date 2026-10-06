@@ -10,7 +10,7 @@ const cities = site.zones.cities;
 
 <section id="hero" class="relative section-y pt-40 md:pt-48 overflow-hidden">
   <div class="container-ff" data-stagger="120">
-    <p class="eyebrow">{site.business.trade} · {site.contact.address.city}</p>
+    <p class="hero-metier text-base">{site.business.trade} à {site.contact.address.city}</p>
     <h1
       class="text-display-xl mt-6 w-full"
       style="font-size: clamp(3.5rem, 9vw, 8rem);"
@@ -29,10 +29,10 @@ const cities = site.zones.cities;
     <hr class="mt-10 border-t border-line" />
 
     <ul class="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
-      {years && <li class="flex items-center gap-2"><Icon name="Award" size={16} class="text-accent" /> {years} ans d'expérience</li>}
-      {site.contact.emergency24h && <li class="flex items-center gap-2"><Icon name="Clock" size={16} class="text-accent" /> Urgences 24h/24</li>}
-      {site.business.insurance && <li class="flex items-center gap-2"><Icon name="ShieldCheck" size={16} class="text-accent" /> Assuré décennale</li>}
-      {site.proof.google && <li class="flex items-center gap-2"><Icon name="Star" size={16} class="text-accent" /> {site.proof.google.rating.toFixed(1)}/5 sur Google ({site.proof.google.count} avis)</li>}
+      {years && <li class="flex items-center gap-2">{years} ans d'expérience</li>}
+      {site.contact.emergency24h && <li class="flex items-center gap-2">Urgences 24h/24</li>}
+      {site.business.insurance && <li class="flex items-center gap-2">Assuré décennale</li>}
+      {site.proof.google && <li class="flex items-center gap-2">{site.proof.google.rating.toFixed(1)}/5 sur Google ({site.proof.google.count} avis)</li>}
     </ul>
   </div>
 

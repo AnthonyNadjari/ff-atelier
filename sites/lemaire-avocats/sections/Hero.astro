@@ -10,7 +10,7 @@ import { site, tel } from '@/lib/site';
 const heures = site.contact.hours[0];
 const mentions = [
   ...(site.business.since ? [`Depuis ${site.business.since}`] : []),
-  ...(heures ? [`${heures.days} — ${heures.hours}`] : []),
+  ...(heures ? [`${heures.days}, ${heures.hours}`] : []),
   ...(site.zones?.label ? [site.zones.label] : []),
 ];
 ---

@@ -21,7 +21,7 @@ const puissances = [
 
 <section id="bornerecharge" class="grid-paper section-y bg-bg-2">
   <div class="container-ff">
-    <SectionHeading eyebrow="Bornes de recharge · IRVE" title="Trois puissances, une seule étude" text="La puissance disponible sur votre installation détermine la borne posée — jamais l’inverse." />
+    <SectionHeading eyebrow="Bornes de recharge (IRVE)" title="Trois puissances, une seule étude" text="La puissance disponible sur votre installation détermine la borne posée, jamais l’inverse." />
 
     <div class="mt-12 grid gap-6 lg:grid-cols-3">
       {puissances.map((p) => (
@@ -30,7 +30,7 @@ const puissances = [
             <span class="font-display text-display-md tabular-nums text-accent">{p.kw}</span>
             <span class="font-display text-lg text-muted">kW</span>
           </div>
-          <p class="mt-1 font-mono text-xs uppercase tracking-[0.14em] text-muted">{p.phase}</p>
+          <p class="mt-1 text-sm text-muted">{p.phase}</p>
 
           <div class="mt-6 h-2 w-full overflow-hidden rounded-pill bg-bg-2" data-count-bar={p.pct}>
             <div class="bar-fill h-full rounded-pill bg-accent"></div>
@@ -44,7 +44,7 @@ const puissances = [
     {borne && (
       <div class="mt-10 flex flex-wrap items-center gap-3 rounded-ui border border-line bg-surface px-5 py-4">
         <Icon name="BadgeCheck" size={18} class="shrink-0 text-accent" />
-        <p class="text-sm text-fg">Installation par un électricien qualifié <strong class="font-medium">IRVE</strong> — obligatoire dès 3,7&nbsp;kW.</p>
+        <p class="text-sm text-fg">Installation par un électricien qualifié <strong class="font-medium">IRVE</strong>, obligatoire dès 3,7&nbsp;kW.</p>
       </div>
     )}
   </div>

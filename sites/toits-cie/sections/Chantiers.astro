@@ -20,7 +20,7 @@ const cells = pattern.map((isBlack) => {
   }
   const img = images[ii];
   ii += 1;
-  return { kind: 'image' as const, src: `/images/${img}.webp`, alt: `Chantier de couverture — ${site.contact.address.city}` };
+  return { kind: 'image' as const, src: `/images/${img}.webp`, alt: `Chantier de couverture à ${site.contact.address.city}` };
 });
 ---
 

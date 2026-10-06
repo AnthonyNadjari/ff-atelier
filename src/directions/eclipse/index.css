@@ -2,8 +2,9 @@
    filet d'argent. Aucun or, aucune couleur chaude : la couleur, ici, c'est la lumiere sur le noir.
    Space Grotesk tres serre en titres, Instrument Sans en texte, beaucoup de vide, filets d'un pixel,
    mouvement long et retenu. Pour un studio, un horloger, un opticien, une galerie, un architecte. */
-@import '@fontsource-variable/space-grotesk';
-@import '@fontsource-variable/instrument-sans';
+/* 6 oct 2026 : polices par defaut des IA remplacees (voir docs/veille/signes-ia.md). */
+@import '@fontsource-variable/familjen-grotesk';
+@import '@fontsource-variable/hanken-grotesk';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='eclipse'] {
@@ -25,14 +26,14 @@
   --ink: #000000;
   --on-ink: #f4f6f8;
 
-  --font-display: 'Space Grotesk Variable', ui-sans-serif, sans-serif;
-  --font-body: 'Instrument Sans Variable', ui-sans-serif, sans-serif;
+  --font-display: 'Familjen Grotesk Variable', ui-sans-serif, sans-serif;
+  --font-body: 'Hanken Grotesk Variable', ui-sans-serif, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --display-weight: 500;
   /* Tracking negatif marque : c'est lui qui donne le caractere « objet technique » aux titres. */
   --display-tracking: -0.04em;
   --heading-transform: none;
-  --radius: 999px;
+  --radius: 3px;
   --radius-card: 0px;
   --shadow-card: none;
   --shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.9);
@@ -115,3 +116,6 @@
   opacity: 0.22;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+
+/* 6 oct 2026 : halo lumineux retire (signe de page generee). */
+[data-direction='eclipse'] body::before { content: none; }

@@ -129,7 +129,7 @@ export default defineSite({
   },
 
   faq: [
-    { q: 'Intervenez-vous en urgence le week-end ?', a: 'Sur demande, selon disponibilité — contactez par téléphone pour connaître les conditions.' },
+    { q: 'Intervenez-vous en urgence le week-end ?', a: 'Sur demande, selon disponibilité. Appelez-nous pour connaître les conditions.' },
     { q: 'La mise aux normes est-elle obligatoire pour vendre un bien ?', a: 'Un diagnostic électrique est obligatoire pour toute vente d’un logement dont l’installation a plus de quinze ans.' },
     { q: 'Combien de temps pour installer une borne IRVE ?', a: 'Selon la puissance disponible et la distance au tableau, comptez une demi-journée à une journée complète.' },
     { q: 'Faites-vous les petits dépannages ?', a: 'Oui, une prise qui ne fonctionne plus ou un interrupteur cassé font partie des interventions courantes.' },

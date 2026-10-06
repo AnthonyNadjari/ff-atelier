@@ -83,7 +83,7 @@ export default defineSite({
       short: 'Au choix : californien, pierres chaudes, ou adapté à la grossesse. 60 minutes.',
       bullets: ['Le californien, pour commencer', 'Aux pierres chaudes', 'Adapté à la grossesse'],
       icon: 'Hand',
-      priceFrom: '85 € (indicatif) — 60 min',
+      priceFrom: '85 € (indicatif), 60 min',
     },
     {
       slug: 'hammam',
@@ -108,7 +108,7 @@ export default defineSite({
       title: 'Rituel Aurore',
       short: 'Le visage et le corps, en 90 minutes. Et la cabine est à vous pendant tout ce temps.',
       icon: 'Flower2',
-      priceFrom: '140 € (indicatif) — 90 min',
+      priceFrom: '140 € (indicatif), 90 min',
       featured: true,
     },
   ],

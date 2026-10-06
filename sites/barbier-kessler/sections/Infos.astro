@@ -15,7 +15,7 @@ import Icon from '@/components/Icon.astro';
     <div class="relative mt-10 overflow-hidden rounded-card bg-ink p-8 text-on-ink shadow-lift sm:p-12" data-spotlight>
       <div class="relative z-[2] grid gap-10 sm:grid-cols-2">
         <div>
-          <p class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-on-ink/60">
+          <p class="flex items-center gap-2 text-sm text-on-ink/60">
             <Icon name="Clock" size={16} />Horaires
           </p>
           <dl class="mt-5 grid gap-2" data-stagger="80">
@@ -29,7 +29,7 @@ import Icon from '@/components/Icon.astro';
         </div>
 
         <div>
-          <p class="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-on-ink/60">
+          <p class="flex items-center gap-2 text-sm text-on-ink/60">
             <Icon name="MapPin" size={16} />Adresse
           </p>
           <p class="mt-5 font-display text-2xl leading-snug">{fullAddress()}</p>

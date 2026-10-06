@@ -34,7 +34,6 @@
  * non corrigé ici (fichier d'un autre tour, hors périmètre).
  */
 import { site, paragraphs } from '@/lib/site';
-import '@fontsource-variable/cormorant/wght-italic.css';
 
 const hero = site.images.hero;
 const rituals = site.services.map((s) => s.title);
@@ -61,9 +60,9 @@ const rituals = site.services.map((s) => s.title);
     <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink/70 via-transparent to-ink/40" aria-hidden="true"></div>
 
     <div class="container-ff relative z-[2] text-on-ink">
-      <p class="eyebrow text-on-ink/75">{site.business.trade} · {site.contact.address.city}</p>
+      <p class="eyebrow text-on-ink/75">{site.business.trade} à {site.contact.address.city}</p>
       <h1
-        class="mx-auto mt-6 max-w-3xl font-display text-display-md italic leading-[1.15] tracking-tight text-on-ink"
+        class="mx-auto mt-6 max-w-3xl font-display text-display-md leading-[1.15] tracking-tight text-on-ink"
         data-reveal="blur"
         data-reveal-delay="150"
         set:html={site.business.tagline}
@@ -71,11 +70,11 @@ const rituals = site.services.map((s) => s.title);
     </div>
 
     <div class="absolute inset-x-0 bottom-0 z-[2] border-t border-on-ink/15 bg-ink/35 py-4 backdrop-blur-sm">
-      <p class="container-ff flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-display text-lg italic text-on-ink/85 sm:text-xl">
+      <p class="container-ff flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-display text-lg text-on-ink/85 sm:text-xl">
         {rituals.map((r) => (
           <span class="flex items-center gap-6">
             {r}
-            <span class="not-italic text-accent" aria-hidden="true">·</span>
+            <span class="text-accent" aria-hidden="true">/</span>
           </span>
         ))}
       </p>

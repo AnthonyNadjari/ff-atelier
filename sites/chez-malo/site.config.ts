@@ -7,7 +7,7 @@ export default defineSite({
   direction: 'mediterranee',
   motion: 'rich',
   scale: 'display',
-  typography: { display: 'playfair', body: 'figtree' },
+  typography: { display: 'gelasio', body: 'figtree' },
   layout: {
     shell: 'sticky-hero',
     nav: 'custom/nav',

@@ -26,7 +26,7 @@ const categories = [
     <div class="mt-12 max-w-2xl border-t border-line">
       {categories.map((cat) => (
         <div class="carte-group">
-          <p class="carte-sticky sticky top-[4.5rem] z-10 border-b border-line bg-bg-2/95 py-3 font-mono text-xs uppercase tracking-[0.16em] text-muted backdrop-blur-sm">{cat.label}</p>
+          <p class="carte-sticky sticky top-[4.5rem] z-10 border-b border-line bg-bg-2/95 py-3 text-sm text-muted backdrop-blur-sm">{cat.label}</p>
           <ul class="divide-y divide-line" data-stagger="60">
             {cat.items.map((item) => (
               <li class="flex items-baseline gap-3 py-4">
@@ -42,7 +42,7 @@ const categories = [
       ))}
     </div>
 
-    <p class="mt-10 measure text-sm text-muted">Carte servie sur le marché du jour (voir « Cette semaine » ci-dessus) — certains plats peuvent manquer en fin de service.</p>
+    <p class="mt-10 measure text-sm text-muted">Carte servie sur le marché du jour (voir « Cette semaine » ci-dessus). Certains plats peuvent manquer en fin de service.</p>
   </div>
 </section>
 

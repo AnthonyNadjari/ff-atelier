@@ -25,7 +25,7 @@ const links = navLinks();
   */}
   <div class="order-2 border-b border-line">
     <div class="container-ff flex items-center justify-between gap-4 py-4">
-      <a href="/" class="order-1 font-display text-xl leading-none italic tracking-tight md:text-2xl">
+      <a href="/" class="order-1 font-display text-xl leading-none tracking-tight md:text-2xl">
         {site.business.name}
       </a>
 
@@ -50,8 +50,8 @@ const links = navLinks();
   </div>
 
   <div class="nav-top order-1 border-b border-line transition-[max-height,opacity,padding] duration-500 ease-out-quart overflow-hidden">
-    <div class="container-ff flex items-center justify-between gap-4 py-2 text-[0.7rem] uppercase tracking-[0.16em] text-muted">
-      <p>{site.business.trade} — Rennes &amp; {site.contact.address.city}</p>
+    <div class="container-ff flex items-center justify-between gap-4 py-2 text-sm text-muted">
+      <p>{site.business.trade} à Rennes et {site.contact.address.city}</p>
       <p class="hidden sm:block">
         {site.business.certifications.join(', ')}
       </p>

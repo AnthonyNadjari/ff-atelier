@@ -23,11 +23,11 @@ const artistes = site.about.team.map((t) => t.name.split(' ')[0]).join(' & ');
     aria-hidden="true"
   ></span>
 
-  <p class="absolute bottom-10 right-8 max-w-[14rem] text-right font-mono text-xs uppercase tracking-[0.18em] text-on-ink/60 sm:right-16">
-    {artistes} — {site.contact.address.city}
+  <p class="absolute bottom-10 right-8 max-w-[14rem] text-right text-sm text-on-ink/60 sm:right-16">
+    {artistes} à {site.contact.address.city}
   </p>
 
-  <div class="absolute bottom-10 left-8 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-on-ink/50 sm:left-16">
+  <div class="absolute bottom-10 left-8 flex items-center gap-2 text-sm text-on-ink/50 sm:left-16">
     <span class="hidden sm:inline">Défiler</span>
     <span class="scroll-hint block h-8 w-px bg-on-ink/40" aria-hidden="true"></span>
   </div>

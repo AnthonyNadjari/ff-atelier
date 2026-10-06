@@ -20,7 +20,7 @@ const Footer = resolveSection('footer', site.layout.footer);
 const services = site.services.slice(0, 6);
 ---
 
-<Base title={`Page introuvable — ${site.business.name}`} path="/404" noindex>
+<Base title={`Page introuvable | ${site.business.name}`} path="/404" noindex>
   <Nav />
   <main id="main" class="section-y">
     <div class="container-ff grid gap-12 lg:grid-cols-12">
@@ -41,7 +41,7 @@ const services = site.services.slice(0, 6);
         </div>
         <p class="mt-6 text-sm text-muted">
           Ou écrivez-nous : <a href={mailto()} class="underline break-all hover:text-fg">{site.contact.email}</a>
-          {site.contact.emergency24h && <span> — urgences 24h/24, 7j/7.</span>}
+          {site.contact.emergency24h && <span>, urgences 24h/24, 7j/7.</span>}
         </p>
         {site.contact.hours.length > 0 && (
           <dl class="mt-6 grid max-w-xs grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">

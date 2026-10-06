@@ -12,7 +12,6 @@ const valueIcons = ['Sparkles', 'ShieldCheck', 'Handshake', 'Hammer'];
 <section id="about" class="section-y bg-bg-2">
   <div class:list={['container-ff grid gap-12 lg:gap-16', hasValues ? 'lg:grid-cols-12' : '']}>
     <div class:list={[hasValues ? 'lg:col-span-5' : 'max-w-2xl']} data-stagger="110">
-      <p class="eyebrow mb-4">L’atelier</p>
       <h2 class="text-display-md" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
       <div class="mt-6 flex max-w-prose flex-col gap-4 text-muted">
         {paras.map((p) => <p>{p}</p>)}

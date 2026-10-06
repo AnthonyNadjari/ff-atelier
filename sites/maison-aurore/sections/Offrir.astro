@@ -22,19 +22,19 @@ const suggestions = site.services.filter((s) => s.priceFrom);
       <h2 class="mt-4 text-display-md">Un bon cadeau Maison Aurore</h2>
     </div>
 
-    <div class="mt-10 h-[26rem] w-full rounded-card" data-flip-card aria-label="Bon cadeau Maison Aurore — voir comment commander">
+    <div class="mt-10 h-[26rem] w-full rounded-card" data-flip-card aria-label="Bon cadeau Maison Aurore, voir comment commander">
       <div class="flip-inner rounded-card">
         <div class="flip-front relative overflow-hidden rounded-card shadow-card">
           <Img src="/images/portrait.webp" alt="Ambiance de l’institut Maison Aurore" class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 768px) 28rem, 90vw" loading="lazy" />
           <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10"></div>
           <div class="relative z-[2] flex h-full flex-col justify-end gap-4 p-8 text-on-ink">
-            <p class="font-display text-2xl italic">Un soin, un massage, un rituel — à offrir.</p>
+            <p class="font-display text-2xl">Un soin, un massage, un rituel à offrir.</p>
             <ul class="flex flex-wrap gap-x-6 gap-y-1 text-sm text-on-ink/80">
               {suggestions.map((s) => (
                 <li class="tabular-nums">{s.priceFrom}</li>
               ))}
             </ul>
-            <p class="text-xs uppercase tracking-[0.18em] text-on-ink/55">Toucher la carte</p>
+            <p class="text-sm text-on-ink/55">Toucher la carte</p>
           </div>
         </div>
         <div class="flip-back flex h-full flex-col items-center justify-center gap-5 rounded-card border border-line bg-surface p-8 text-center shadow-card">

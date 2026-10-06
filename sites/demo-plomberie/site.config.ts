@@ -105,14 +105,14 @@ export default defineSite({
       icon: 'Thermometer',
       bullets: ['Entretien annuel obligatoire', 'Dépannage en cas de panne', 'Remplacement de chaudière gaz'],
       description:
-        'L’entretien annuel d’une chaudière gaz est obligatoire et évite la plupart des pannes hivernales. On le réalise avec attestation à l’appui.\n\nEn cas de panne, on intervient rapidement — une chaudière qui lâche en plein hiver ne peut pas attendre.',
+        'L’entretien annuel d’une chaudière gaz est obligatoire et évite la plupart des pannes hivernales. On le réalise avec attestation à l’appui.\n\nEn cas de panne, on intervient rapidement. Une chaudière qui lâche en plein hiver ne peut pas attendre.',
     },
   ],
 
   about: {
     title: 'L’entreprise',
     story:
-      'Julien Dumont a repris le métier après huit ans comme salarié chez un chauffagiste nantais. Depuis 2011, l’entreprise porte son nom et son numéro de portable — c’est lui qui décroche, lui qui vient.\n\nAujourd’hui épaulé par un apprenti, il continue à intervenir personnellement sur la plupart des chantiers, du simple joint qui goutte à la chaudière à remplacer.',
+      'Julien Dumont a repris le métier après huit ans comme salarié chez un chauffagiste nantais. Depuis 2011, l’entreprise porte son nom et son numéro de portable. C’est lui qui décroche, lui qui vient.\n\nAujourd’hui épaulé par un apprenti, il continue à intervenir personnellement sur la plupart des chantiers, du simple joint qui goutte à la chaudière à remplacer.',
     values: [
       { title: 'Réactivité', text: 'Le téléphone est pris directement, pas de standard ni de plateforme.' },
       { title: 'Devis avant travaux', text: 'Sauf urgence, rien n’est fait sans accord préalable sur le prix.' },

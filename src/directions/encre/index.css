@@ -1,6 +1,7 @@
 /* Direction ENCRE — noir d'encre sur papier, trait a la main. Instrument Serif + Instrument Sans. */
-@import '@fontsource/instrument-serif/latin.css';
-@import '@fontsource-variable/instrument-sans';
+/* 6 oct 2026 : polices par defaut des IA remplacees (voir docs/veille/signes-ia.md). */
+@import '@fontsource-variable/libre-bodoni';
+@import '@fontsource-variable/public-sans';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='encre'] {
@@ -20,8 +21,8 @@
   --ink: #101010;
   --on-ink: #fdfcf9;
 
-  --font-display: 'Instrument Serif', 'Georgia', serif;
-  --font-body: 'Instrument Sans Variable', ui-sans-serif, sans-serif;
+  --font-display: 'Libre Bodoni Variable', 'Didot', Georgia, serif;
+  --font-body: 'Public Sans Variable', ui-sans-serif, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --display-weight: 400;
   --display-tracking: -0.01em;
@@ -53,7 +54,7 @@
 [data-direction='encre'] ::selection { background: var(--accent-2); color: #ffffff; }
 
 [data-direction='encre'] h1 em,
-[data-direction='encre'] h2 em { font-style: italic; color: var(--accent-2); }
+[data-direction='encre'] h2 em { font-style: normal; color: var(--accent-2); }
 
 /* Soulignement trace a la main sous les <em> de h2 */
 [data-direction='encre'] h2 em {

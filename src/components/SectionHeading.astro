@@ -1,5 +1,7 @@
 ---
-/** En-tete de section : surtitre + titre + texte optionnel. `align` = left | center. */
+/** En-tete de section : titre + texte optionnel. `align` = left | center.
+ * `eyebrow` est accepte mais n'est plus affiche (6 oct 2026) : le petit surtitre en capitales au-dessus
+ * d'un grand titre est le signe n°2 des pages faites par une IA (docs/veille, Impeccable). */
 interface Props {
   eyebrow?: string;
   title: string;
@@ -13,7 +15,6 @@ const Tag = level;
 ---
 
 <div class:list={['section-heading max-w-3xl', align === 'center' && 'mx-auto text-center', cls]} data-stagger="120">
-  {eyebrow && <p class="eyebrow mb-4">{eyebrow}</p>}
   <Tag class="text-display-md" set:html={title} />
   {text && <p class="mt-5 text-lg text-muted max-w-prose" class:list={[align === 'center' && 'mx-auto']}>{text}</p>}
 </div>

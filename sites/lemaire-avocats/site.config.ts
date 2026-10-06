@@ -151,14 +151,14 @@ export default defineSite({
     story:
       'Claire Lemaire et Inès Dahmani ont fondé le cabinet à Montpellier en 2014. Chacune suit ses dossiers du premier rendez-vous jusqu’à leur terme, sans les confier à un confrère en cours de route.\n\nLe cabinet reçoit sur rendez-vous, du lundi au vendredi, au 5 rue Foch. Il n’y a pas de permanence sans rendez-vous.',
     team: [
-      { name: 'Maître Claire Lemaire', role: 'Avocate associée — Barreau de Montpellier depuis 2009' },
-      { name: 'Maître Inès Dahmani', role: 'Avocate associée — Barreau de Montpellier depuis 2015' },
+      { name: 'Maître Claire Lemaire', role: 'Avocate associée, barreau de Montpellier depuis 2009' },
+      { name: 'Maître Inès Dahmani', role: 'Avocate associée, barreau de Montpellier depuis 2015' },
     ],
   },
 
   process: [
     { title: 'Prise de contact', text: 'Vous décrivez votre situation par téléphone ou via le formulaire. Nous fixons ensemble un premier rendez-vous.' },
-    { title: 'Premier rendez-vous — 45 minutes', text: 'Nous étudions votre dossier et vous exposons les options possibles. Tarif à titre indicatif : 90 € TTC.' },
+    { title: 'Premier rendez-vous de 45 minutes', text: 'Nous étudions votre dossier et vous exposons les options possibles. Tarif à titre indicatif : 90 € TTC.' },
     { title: 'Convention d’honoraires', text: 'Si vous nous confiez votre dossier, une convention d’honoraires écrite est signée avant toute intervention, comme l’exige la réglementation de la profession d’avocat.' },
     { title: 'Suivi du dossier', text: 'L’avocate qui a ouvert le dossier le suit jusqu’à sa résolution, avec un point régulier sur son avancement.' },
   ],

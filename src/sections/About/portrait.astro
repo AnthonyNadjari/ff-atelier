@@ -26,7 +26,6 @@ const hasFacts = !!years || site.business.certifications.length > 0 || !!site.bu
           &rdquo;
         </span>
       )}
-      <p class="eyebrow mb-4">L’atelier</p>
       <h2 class="relative text-display-md" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
       <div class="relative mt-6 flex max-w-prose flex-col gap-4 text-lg text-muted">
         {paras.map((p) => <p>{p}</p>)}
@@ -48,7 +47,7 @@ const hasFacts = !!years || site.business.certifications.length > 0 || !!site.bu
           )}
           {site.business.insurance && (
             <p class="flex items-center gap-2 text-sm text-muted">
-              <Icon name="ShieldCheck" size={16} class="text-accent" /> {site.business.insurance}
+              {site.business.insurance}
             </p>
           )}
         </div>

@@ -9,14 +9,14 @@ const b = site.business;
 const owner = site.legal.owner ?? b.name;
 ---
 
-<Base title={`Mentions légales — ${b.name}`} path="/mentions-legales" noindex>
+<Base title={`Mentions légales | ${b.name}`} path="/mentions-legales" noindex>
   <Nav />
   <main id="main" class="section-y">
     <div class="container-ff max-w-3xl space-y-10 text-[0.95rem] leading-relaxed">
       <h1 class="text-display-md">Mentions légales</h1>
       <section>
         <h2 class="text-display-sm mb-3">Éditeur du site</h2>
-        <p>{b.name}{b.legalForm && ` — ${b.legalForm}`}<br />{fullAddress()}<br />Téléphone : {site.contact.phoneDisplay} — E-mail : {site.contact.email}</p>
+        <p>{b.name}{b.legalForm && `, ${b.legalForm}`}<br />{fullAddress()}<br />Téléphone : {site.contact.phoneDisplay}<br />E-mail : {site.contact.email}</p>
         {b.siret && <p>SIRET : {b.siret}</p>}
         {b.tva && <p>TVA intracommunautaire : {b.tva}</p>}
         <p>Responsable de la publication : {owner}</p>

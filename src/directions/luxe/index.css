@@ -1,6 +1,7 @@
 /* Direction LUXE — sombre et precieuse. Or fin, Cormorant, lenteur. */
-@import '@fontsource-variable/cormorant';
-@import '@fontsource-variable/instrument-sans';
+/* 6 oct 2026 : polices par defaut des IA remplacees (voir docs/veille/signes-ia.md). */
+@import '@fontsource-variable/bodoni-moda';
+@import '@fontsource-variable/karla';
 @import '@fontsource-variable/jetbrains-mono';
 
 [data-direction='luxe'] {
@@ -20,13 +21,13 @@
   --ink: #050403;
   --on-ink: #efe9df;
 
-  --font-display: 'Cormorant Variable', 'Georgia', serif;
-  --font-body: 'Instrument Sans Variable', ui-sans-serif, sans-serif;
+  --font-display: 'Bodoni Moda Variable', 'Didot', Georgia, serif;
+  --font-body: 'Karla Variable', ui-sans-serif, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --display-weight: 500;
   --display-tracking: -0.01em;
   --heading-transform: none;
-  --radius: 999px;
+  --radius: 3px;
   --radius-card: 2px;
   --shadow-card: 0 1px 0 rgb(239 233 223 / 0.06), 0 24px 60px -30px rgb(0 0 0 / 0.7);
   --shadow-lift: 0 40px 90px -30px rgb(0 0 0 / 0.8);
@@ -43,7 +44,7 @@
 [data-direction='luxe'] ::selection { background: var(--accent); color: var(--on-accent); }
 
 [data-direction='luxe'] h1 em,
-[data-direction='luxe'] h2 em { font-style: italic; color: var(--accent); }
+[data-direction='luxe'] h2 em { font-style: normal; color: var(--accent); }
 
 [data-direction='luxe'] .btn {
   border-radius: 999px;
@@ -96,3 +97,6 @@
   opacity: 0.2;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+
+/* 6 oct 2026 : halo qui suit le curseur retire (« spotlight », signe de page generee). */
+[data-direction='luxe'] .luxe-cursor-glow { display: none; }

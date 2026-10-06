@@ -309,6 +309,21 @@ a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 [data-direction] .text-on-ink .eyebrow {
   color: color-mix(in oklab, var(--on-ink) 70%, transparent);
 }
+/* 6 oct 2026 : le petit libellé en capitales espacées au-dessus d'un titre (« eyebrow ») est le
+   signe n°2 des pages faites par une IA (veille : TeneX, Inspire Studio, Impeccable). Les libellés qui
+   portent une information restent, mais écrits comme une phrase : police du texte, casse normale,
+   sans espacement ni cadre. Spécificité supérieure aux surcharges des directions. La couleur reste
+   celle de la direction (règles ci-dessus pour les fonds encre et accent). */
+html[data-direction] .eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  border: 0;
+  padding: 0;
+  background: none;
+}
 /* Meme probleme, meme remede, pour `h1 em`/`h2 em` : chaque direction (src/directions/<nom>/index.css)
    colore le mot mis en emphase (set:html d'un titre, ex. site.wording.ctaTitle dans
    src/sections/Cta/band.astro) avec --accent ou --accent-2, jamais garanti contraste sur un fond

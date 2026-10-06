@@ -30,7 +30,7 @@ import Carte from '@/components/Carte.astro';
       <div class="lg:col-span-5">
         <div class="ticket-receipt rounded-card bg-surface shadow-card">
           <div class="border-b-2 border-dashed border-fg/20 p-6 text-center font-mono">
-            <p class="text-xs uppercase tracking-[0.24em] text-muted">Maison Roux — ticket</p>
+            <p class="text-sm text-muted">Ticket Maison Roux</p>
             <p class="mt-1 font-display text-lg uppercase text-fg">Nous trouver</p>
           </div>
 
@@ -40,7 +40,7 @@ import Carte from '@/components/Carte.astro';
 
             {site.contact.hours.length > 0 && (
               <div class="ticket-hours">
-                <p class="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted"><Icon name="Clock" size={14} />Horaires</p>
+                <p class="mb-2 flex items-center gap-2 text-sm text-muted"><Icon name="Clock" size={14} />Horaires</p>
                 <ul class="divide-y divide-dashed divide-fg/15">
                   {site.contact.hours.map((h) => (
                     <li class="flex items-baseline gap-2 py-1.5">
