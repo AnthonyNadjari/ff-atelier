@@ -1019,7 +1019,9 @@ export async function cmdKit(args) {
   const site = cssDuSite(fs.readFileSync(indexHtml, 'utf8'));
   const zone = zoneLisible(cfg);
   const heroSrc = cfg.images?.hero?.src;
-  const photo = heroSrc && fs.existsSync(path.join(DIST_DIR, slug, heroSrc.replace(/^\/+/, ''))) ? cfg.images.hero : null;
+  // Une image de démonstration (texte alternatif) n'est pas imprimée : flyer typographique à la place.
+  const demo = /d[ée]monstration|placeholder|provisoire|illustration/i.test(cfg.images?.hero?.alt || '');
+  const photo = heroSrc && !demo && fs.existsSync(path.join(DIST_DIR, slug, heroSrc.replace(/^\/+/, ''))) ? cfg.images.hero : null;
   const { chromium } = await import('playwright-core');
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   const problemes = [];
