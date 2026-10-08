@@ -70,6 +70,8 @@ export default defineSite({
       { type: 'custom', variant: 'humains' },
       { type: 'custom', variant: 'realisations', label: 'Exemples' },
       { type: 'custom', variant: 'propositions', label: 'Comment ça marche' },
+      // Le film du studio (refait le 8 oct 2026 sur le site actuel), sans lecture automatique.
+      { type: 'custom', variant: 'film' },
       { type: 'custom', variant: 'offre', label: 'Tarifs' },
       { type: 'custom', variant: 'fin' },
     ],

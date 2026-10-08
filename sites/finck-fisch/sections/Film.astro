@@ -1,81 +1,68 @@
 ---
 /**
- * Film — sur mesure Finck & Fisch. Extrait 6-18 s du film du studio (F-F/video-pub), muet : trois
- * propositions, les 72 heures, le mur des démonstrations, le prix. L'ouverture (le titre du site,
- * qui ferait doublon juste au-dessus) et la signature finale sont coupées.
+ * Film — sur mesure Finck & Fisch. Le film du studio (F-F/video-pub), refait le 8 oct 2026 sur le site
+ * actuel, en entier (21 s), muet.
  *
- * Squelette : un seul plan bord à bord, sans texte par-dessus, juste sous le titre. Aucun voisin n'en a (règle 19).
- * Règle 16 : c'est l'effet riche de cette zone ; rien d'autre ne bouge dans la section.
- *
- * Poids : rien n'est chargé tant que la section n'approche pas de l'écran (preload="none" + image
- * d'aperçu de 56 Ko). Un seul montage 16:9, jamais recadré, téléphone compris (6 oct :
- * le 9:16 prenait tout l'écran sur iPhone et rejouait le titre de la section suivante ; Safari
- * ignorait en plus <source media> et recadrait le 16:9 en bande verticale). 0,7 à 0,8 Mo chacun, H.264 720p/1280p 30 i/s, faststart.
- * Lecture : en boucle, muette, seulement quand le film est visible ; mis en pause hors écran.
- * prefers-reduced-motion : jamais de lecture automatique, les contrôles natifs sont affichés.
+ * Aucune lecture automatique : une image d'aperçu et un bouton lecture. Rien n'est téléchargé avant
+ * le clic (preload="none", src posé au clic). Au clic, la vidéo démarre avec les contrôles natifs ;
+ * sur téléphone, elle s'ouvre en plein écran à l'horizontale avec les contrôles du système.
+ * Placé après « Comment ça marche » : le film résume la page, il ne la précède pas.
  */
 ---
 
-<section id="film" class="pb-16 md:pb-20">
+<section id="film" class="pb-16 md:pb-24">
   <div class="container-ff">
     <figure class="ff-film">
       <div class="ff-film-cadre">
-      <video
-        data-film
-        muted
-        loop
-        playsinline
-        preload="none"
-        poster="/video/film-16x9.webp"
-        data-src="/video/film-16x9.mp4"
-        aria-label="Extrait du film du studio, 12 s, muet"
-      >
-      </video>
-      {/* Pause / lecture (WCAG 2.2.2 : un film qui tourne plus de 5 s doit pouvoir s'arrêter). */}
-      <button type="button" class="ff-film-pause" data-film-pause hidden aria-label="Mettre le film en pause">
-        <span class="ff-film-pause-icone" aria-hidden="true"></span>
-      </button>
+        <video
+          data-film
+          muted
+          playsinline
+          preload="none"
+          poster="/video/film-16x9.webp"
+          data-src="/video/film-16x9.mp4"
+          aria-label="Film du studio, 21 secondes, sans son"
+        >
+        </video>
+        <button type="button" class="ff-film-lire" data-film-lire aria-label="Lire le film du studio">
+          <span class="ff-film-lire-icone" aria-hidden="true"></span>
+        </button>
       </div>
-      <figcaption class="mt-4 text-sm text-muted">Trois propositions, soixante-douze heures, douze démonstrations, un prix écrit. Film muet.</figcaption>
+      <figcaption class="mt-3 text-sm text-muted">Le film du studio, 21 secondes.</figcaption>
     </figure>
   </div>
 </section>
 
 <style is:global>
-  /* Global : evite les data-astro-cid sur chaque balise (budget html de l'accueil). */
-  .ff-film video {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    background: var(--ink);
-  }
-
-  /* Le film est une pièce encadrée dans la page, pas un écran sombre bord à bord sous un hero sombre. */
   .ff-film-cadre { position: relative; border: 1px solid var(--line); }
-  .ff-film-pause {
+  .ff-film video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--ink); }
+  .ff-film-lire {
     position: absolute;
-    right: 0.75rem;
-    bottom: 0.75rem;
+    inset: 50% auto auto 50%;
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
+    width: 76px;
+    height: 76px;
+    translate: -50% -50%;
     border-radius: 999px;
-    background: color-mix(in oklab, var(--bg) 70%, transparent);
-    border: 1px solid var(--line);
-    color: var(--fg);
-    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s ease;
+    background: var(--fg);
+    color: var(--bg);
+    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
-  .ff-film-pause[hidden] { display: none; }
-  .ff-film-pause:active { transform: scale(0.95); }
-  .ff-film-pause-icone { width: 10px; height: 12px; border-inline: 3px solid currentColor; }
-  .ff-film-pause[data-pause] .ff-film-pause-icone {
-    width: 0; height: 0; border: 0;
-    border-left: 11px solid currentColor;
-    border-top: 7px solid transparent;
-    border-bottom: 7px solid transparent;
-    margin-left: 3px;
+  .ff-film-lire:active { transform: scale(0.95); }
+  @media (hover: hover) and (pointer: fine) {
+    .ff-film-lire:hover { transform: scale(1.04); }
+  }
+  .ff-film-lire[hidden] { display: none; }
+  .ff-film-lire-icone {
+    width: 0;
+    height: 0;
+    margin-left: 5px;
+    border-left: 18px solid currentColor;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
   }
 </style>
 
@@ -84,51 +71,16 @@
 
   onPage(() => {
     const video = document.querySelector<HTMLVideoElement>('[data-film]');
-    if (!video || video.dataset.filmReady) return;
+    const bouton = document.querySelector<HTMLButtonElement>('[data-film-lire]');
+    if (!video || !bouton || video.dataset.filmReady) return;
     video.dataset.filmReady = '1';
 
-    // src posé par script, pas par <source> : rien n'est demandé au réseau avant l'approche.
-    video.src = video.dataset.src!;
-
-    // Sur téléphone, pas de lecture automatique en bandeau (le texte du film y fait 4 px) : les
-    // contrôles natifs, et un toucher ouvre le film en plein écran, à l'horizontale.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(max-width: 639px)').matches) {
+    bouton.addEventListener('click', () => {
+      if (!video.src) video.src = video.dataset.src!;
       video.controls = true;
-      video.preload = 'metadata';
-      return;
-    }
-
-    // Charge un peu avant l'arrivée à l'écran, lit quand la moitié du film est visible.
-    const observer = new IntersectionObserver(
-      ([entree]) => {
-        if (entree.isIntersecting) {
-          if (video.preload === 'none') video.preload = 'auto';
-          if (entree.intersectionRatio >= 0.5) video.play().catch(() => (video.controls = true));
-        } else {
-          video.pause();
-        }
-      },
-      { rootMargin: '200px 0px', threshold: [0, 0.5] },
-    );
-    observer.observe(video);
-
-    const bouton = document.querySelector<HTMLButtonElement>('[data-film-pause]');
-    if (bouton) {
-      bouton.hidden = false;
-      let arreteParVisiteur = false;
-      const maj = () => {
-        bouton.setAttribute('aria-label', video.paused ? 'Lire le film' : 'Mettre le film en pause');
-        bouton.toggleAttribute('data-pause', video.paused);
-      };
-      video.addEventListener('play', maj);
-      video.addEventListener('pause', maj);
-      bouton.addEventListener('click', () => {
-        if (video.paused) { arreteParVisiteur = false; video.play().catch(() => {}); }
-        else { arreteParVisiteur = true; video.pause(); }
-      });
-      // Une pause demandée par le visiteur n'est pas annulée par le retour du film à l'écran.
-      video.addEventListener('play', () => { if (arreteParVisiteur) video.pause(); });
-    }
-    document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+      bouton.hidden = true;
+      video.play().catch(() => { bouton.hidden = false; });
+    });
+    video.addEventListener('ended', () => { video.controls = false; bouton.hidden = false; video.currentTime = 0; });
   });
 </script>
