@@ -17,6 +17,9 @@ const tones = [
   'bg-accent text-on-accent',
   'bg-ink text-on-ink',
 ];
+// .eyebrow de pop (color: accent, hors couche) disparait sur les panneaux accent et ink : couleur
+// du panneau forcee (suffixe !), sinon contraste nul.
+const eyebrowTones = ['', '', 'text-on-accent!', 'text-on-ink!'];
 ---
 
 <div data-scroll-progress aria-hidden="true"></div>
@@ -40,7 +43,7 @@ const tones = [
                 <span class="font-display tabular-nums">{time}</span>
               </div>
               <div class="measure">
-                {label && <p class="eyebrow">{label}</p>}
+                {label && <p class:list={['eyebrow', eyebrowTones[i % tones.length]]}>{label}</p>}
                 <p class="mt-3 text-xl leading-snug sm:text-2xl">{p.text}</p>
               </div>
             </div>

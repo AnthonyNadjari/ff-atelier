@@ -25,7 +25,8 @@ const services = site.services;
     </div>
   </div>
 
-  <div class="mt-12" data-drag-grid id="services-drag">
+  {/* tabindex : sans lien dans les cartes, la piste defilable (repli reduced-motion) doit rester atteignable au clavier. */}
+  <div class="mt-12" data-drag-grid id="services-drag" tabindex="0" role="region" aria-label="Prestations">
     <ul class="drag-track px-[max(1.25rem,calc((100vw-var(--container))/2+1.25rem))]">
       {services.map((s) => (
         <li class="service-card w-[19rem] flex-none rounded-card border border-line bg-surface shadow-card sm:w-[21rem]">

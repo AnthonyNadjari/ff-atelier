@@ -23,7 +23,7 @@ const motifs = [
     <ol class="mt-14 grid gap-x-16 gap-y-10 md:grid-cols-2" data-stagger="100">
       {motifs.map((m, i) => (
         <li class="relative pl-16">
-          <span class="absolute left-0 top-0 font-display text-5xl leading-none text-accent/30">{String(i + 1).padStart(2, '0')}</span>
+          <span class="absolute left-0 top-0 font-display text-5xl leading-none text-accent">{String(i + 1).padStart(2, '0')}</span>
           <h3 class="text-display-sm">{m.titre}</h3>
           <p class="mt-2 text-muted">{m.texte}</p>
         </li>

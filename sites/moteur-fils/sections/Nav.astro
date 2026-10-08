@@ -26,6 +26,7 @@ import Icon from '@/components/Icon.astro';
       href={tel()}
       class="flex shrink-0 items-center gap-2 rounded-pill border-[3px] border-ink bg-accent px-3 py-2 font-display text-sm text-on-accent shadow-card transition-transform duration-300 hover:scale-[1.04] sm:px-5 sm:py-2.5 sm:text-base"
       data-magnetic="0.15"
+      aria-label={`Appeler ${site.contact.phoneDisplay}`}
     >
       <Icon name="Phone" size={16} />
       <span class="hidden sm:inline">{site.contact.phoneDisplay}</span>

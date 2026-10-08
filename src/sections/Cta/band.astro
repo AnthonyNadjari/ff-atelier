@@ -13,7 +13,8 @@ import Icon from '@/components/Icon.astro';
     </div>
     <div class="flex flex-wrap gap-4 shrink-0">
       <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
-      <Button href="#contact" variant="ghost" size="lg" class="border-on-ink/30 text-on-ink hover:border-on-ink">{site.wording.devis}</Button>
+      {/* Suffixe ! : les directions restylent .btn-ghost hors couche (color: var(--fg)), illisible sur fond ink sans lui. */}
+      <Button href="#contact" variant="ghost" size="lg" class="border-on-ink/30! bg-transparent! text-on-ink! hover:border-on-ink!">{site.wording.devis}</Button>
     </div>
   </div>
 </section>

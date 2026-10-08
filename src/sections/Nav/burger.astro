@@ -3,6 +3,8 @@
  * Nav "burger" : pas de barre. Nom fixe en haut a gauche, bouton rond (burger -> X) fixe en
  * haut a droite. L'ouverture revele un plein ecran (bg-ink) qui glisse depuis le haut, liens
  * numerotes en gros, coordonnees + reseaux en bas. Identique desktop/mobile.
+ * Nom sans logo sur pastille bg-fg (comme le bouton) : fixe, il passe sur des fonds de toute couleur
+ * (hero bg-accent de maison-roux) et doit rester lisible partout.
  */
 import { site, tel, mailto, fullAddress, navLinks } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
@@ -16,7 +18,7 @@ const drawer = site.layout.contactDrawer;
 
 <header data-nav class="contents">
   <a href="/" class="fixed top-4 left-4 sm:top-6 sm:left-6 z-50 flex items-center gap-2 font-display text-sm font-medium">
-    {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-7 w-auto" sizes="200px" loading="eager" /> : <span>{site.business.name}</span>}
+    {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-7 w-auto" sizes="200px" loading="eager" /> : <span class="rounded-ui bg-fg px-4 py-3 text-bg">{site.business.name}</span>}
   </a>
 
   <button
@@ -38,6 +40,7 @@ const drawer = site.layout.contactDrawer;
   id="burger-panel"
   class="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-ink text-on-ink -translate-y-full opacity-0 pointer-events-none transition-[transform,opacity] duration-500 ease-out-quart [&.is-open]:translate-y-0 [&.is-open]:opacity-100 [&.is-open]:pointer-events-auto"
   aria-hidden="true"
+  inert
   data-burger-panel
 >
   <nav class="container-ff flex-1 flex flex-col justify-center gap-1 py-24" aria-label="Navigation principale" data-stagger="60">
@@ -78,6 +81,7 @@ const drawer = site.layout.contactDrawer;
       panel?.classList.remove('is-open');
       toggle?.setAttribute('aria-expanded', 'false');
       panel?.setAttribute('aria-hidden', 'true');
+      panel?.setAttribute('inert', ''); // panneau ferme : ses liens sortent de l'ordre de tabulation
       document.body.style.overflow = '';
     };
     const open = () => {
@@ -85,6 +89,7 @@ const drawer = site.layout.contactDrawer;
       panel?.classList.add('is-open');
       toggle?.setAttribute('aria-expanded', 'true');
       panel?.setAttribute('aria-hidden', 'false');
+      panel?.removeAttribute('inert');
       document.body.style.overflow = 'hidden';
     };
 

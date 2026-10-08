@@ -5,7 +5,7 @@ import { site, tel } from '@/lib/site';
 
 <section class="section-y bg-accent text-on-accent">
   <div class="container-ff text-center">
-    <p class="text-lg text-on-accent/80">Appelez maintenant</p>
+    <p class="text-lg text-on-accent">Appelez maintenant</p>
     <a
       href={tel()}
       class="mt-4 block font-display leading-none tracking-tight text-on-accent whitespace-nowrap"
@@ -16,7 +16,7 @@ import { site, tel } from '@/lib/site';
       {site.contact.phoneDisplay}
     </a>
     {site.contact.hours.length > 0 && (
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-on-accent/80 text-sm" data-stagger="80">
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-on-accent text-sm" data-stagger="80">
         {site.contact.hours.map((h) => (
           <p data-reveal><span class="font-medium text-on-accent">{h.days}</span>, {h.hours}</p>
         ))}

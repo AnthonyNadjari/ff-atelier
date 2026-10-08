@@ -11,12 +11,14 @@ import { site } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 
 const essentiels = site.services;
+// accent-2 (bleu l36) tombe sous 3:1 sur fond ink : texte accent eclairci vers on-ink (contraste AA, teinte gardee).
+const accentSurInk = 'text-[color-mix(in_oklch,var(--accent-2),var(--on-ink)_50%)]';
 ---
 
 <section id="essentiels" class="section-y bg-ink text-on-ink">
   <div class="container-ff">
     <p class="eyebrow text-on-ink/60">L’essentiel</p>
-    <h2 class="mt-4 max-w-xl font-display text-display-lg leading-none" data-reveal>Ce qui fait <em class="text-accent-2 not-italic">la maison</em></h2>
+    <h2 class="mt-4 max-w-xl font-display text-display-lg leading-none" data-reveal>Ce qui fait <em class:list={[accentSurInk, "not-italic"]}>la maison</em></h2>
   </div>
 
   <ul class="mt-14 grid border-y border-on-ink/15 sm:grid-cols-3" data-stagger="110">
@@ -25,7 +27,7 @@ const essentiels = site.services;
         <Icon name={s.icon} size={28} class="text-accent-2" strokeWidth={1.5} />
         <h3 class="mt-6 font-display text-2xl">{s.title}</h3>
         <p class="mt-3 max-w-xs text-on-ink/70">{s.short}</p>
-        {s.priceFrom && <p class="mt-5 font-display text-lg text-accent-2">{s.priceFrom}</p>}
+        {s.priceFrom && <p class:list={["mt-5 font-display text-lg", accentSurInk]}>{s.priceFrom}</p>}
       </li>
     ))}
   </ul>

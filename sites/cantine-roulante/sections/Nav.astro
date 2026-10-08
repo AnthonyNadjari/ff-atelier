@@ -36,7 +36,7 @@ const links = allLinks.filter((l) => ['#semaine', '#carte', '#traiteur', '#conta
       masquant plus jamais le bouton lui-meme, seulement son libelle interne (voir le CTA devis
       plus bas, masque via un `<div>` englobant plutot que sur le `<Button>`).
     */}
-    <Button href={tel()} size="sm" variant="ghost" magnetic class="order-4">
+    <Button href={tel()} size="sm" variant="ghost" magnetic class="order-4" aria-label={`Appeler ${site.contact.phoneDisplay}`}>
       <Icon name="Phone" size={16} /><span class="hidden md:inline">{site.contact.phoneDisplay}</span>
     </Button>
 

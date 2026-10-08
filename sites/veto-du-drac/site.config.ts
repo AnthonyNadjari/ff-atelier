@@ -60,7 +60,7 @@ export default defineSite({
   slug: 'veto-du-drac',
   direction: 'clair',
   motion: 'subtle',
-  accent: { h: 169, s: 45, l: 32 },
+  accent: { h: 169, s: 45, l: 30 }, // l 32 -> 30 : role de l'equipe (text-accent, text-sm) a 4,4:1 sur bg-2 (ff a11y, 8 oct 2026)
   typography: { display: 'gelasio' },
   layout: {
     nav: 'custom/Nav',
