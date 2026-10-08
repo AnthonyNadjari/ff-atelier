@@ -1,10 +1,12 @@
-// `ff verifier [slug] [--lighthouse]` (alias `check`) : build + checklist SEO/contenu sur
-// dist/<slug>/**/*.html. `--lighthouse` ajoute en fin de parcours un audit Lighthouse complet
+// `ff verifier [slug] [--lighthouse] [--sans-a11y]` (alias `check`) : build + checklist SEO/contenu sur
+// dist/<slug>/**/*.html, puis audit d'accessibilite axe (scripts/ff/a11y.mjs, toutes les pages, desktop
+// + mobile ; bloquant sur une violation critical/serious ; `--sans-a11y` pour le sauter, ex. sans Chrome). `--lighthouse` ajoute en fin de parcours un audit Lighthouse complet
 // (scripts/ff/lighthouse.mjs) — non lance par defaut car lent (plusieurs pages x desktop/mobile).
 import fs from 'node:fs';
 import path from 'node:path';
 import { DIST_DIR, SITES_DIR, resolveSlug, runAstro, ok, fail, warn, info, c, parseArgs } from './util.mjs';
 import { runLighthouse } from './lighthouse.mjs';
+import { runA11y } from './a11y.mjs';
 
 const FORBIDDEN = [
   { label: 'lorem', re: /lorem/i },
@@ -1005,6 +1007,18 @@ export async function cmdVerifier(args) {
   printReport(checks, warnings);
   const checklistOk = !checks.some((x) => !x.pass);
 
+  let a11yOk = true;
+  if (!flags['sans-a11y']) {
+    info(c.bold('Accessibilite (axe, WCAG 2.2 AA) :'));
+    try {
+      a11yOk = await runA11y([slug]);
+    } catch (e) {
+      // Chrome absent ou injoignable : on le dit, sans masquer la checklist (relancer `ff a11y <slug>`).
+      a11yOk = false;
+      fail(`Audit d'accessibilite impossible : ${String(e.message || e).split(/\r?\n/)[0]} (--sans-a11y pour le sauter)`);
+    }
+  }
+
   let lighthouseOk = true;
   if (flags.lighthouse) {
     info('');
@@ -1012,7 +1026,7 @@ export async function cmdVerifier(args) {
     lighthouseOk = await runLighthouse(slug, { seuil: Number(flags.seuil) || 90, mobileOnly: Boolean(flags.mobile) });
   }
 
-  process.exit(checklistOk && lighthouseOk ? 0 : 1);
+  process.exit(checklistOk && a11yOk && lighthouseOk ? 0 : 1);
 }
 
 function printReport(checks, warnings = []) {

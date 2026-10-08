@@ -40,6 +40,7 @@ import { cmdNettete } from './ff/nettete.mjs';
 import { cmdIndexNow } from './ff/indexnow.mjs';
 import { cmdTypo } from './ff/typo.mjs';
 import { cmdIa } from './ff/ia.mjs';
+import { cmdA11y } from './ff/a11y.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -98,6 +99,7 @@ const commands = {
   indexnow: cmdIndexNow,
   typo: cmdTypo,
   ia: cmdIa,
+  a11y: cmdA11y,
 };
 
 async function main() {

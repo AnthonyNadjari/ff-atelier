@@ -6,7 +6,7 @@
 import '@/styles/global.css';
 import { site, fullAddress, slugCourant, schemaTypeForTrade } from '@/lib/site';
 import { openingHoursSpecification } from '@/lib/jsonld';
-import { fontFamilies, preloadFonts } from 'virtual:ff-look';
+import { fontFamilies, preloadFonts, themeColor, icons } from 'virtual:ff-look';
 import { lookupImageEntry, splitImagePath, imageSrcsetFor, heroSizesFor } from '@/lib/images';
 // ClientRouter (site.transitions, opt-in) : voir docs/ANIMATIONS.md § Transitions de page.
 import { ClientRouter } from 'astro:transitions';
@@ -142,9 +142,14 @@ const ldJson = { '@context': 'https://schema.org', '@graph': [localBusinessLd, .
     <meta property="og:locale" content="fr_FR" />
     {ogUrl && <meta property="og:image" content={ogUrl} />}
     <meta name="twitter:card" content={ogUrl ? 'summary_large_image' : 'summary'} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {/* Pack d'icones genere au build depuis favicon.svg (scripts/astro-icons-integration.mjs) ;
+        theme-color = token --bg de la direction (scripts/ff/icones.mjs). */}
+    {icons.ico && <link rel="icon" href="/favicon.ico" sizes="32x32" />}
+    {icons.svg && <link rel="icon" href="/favicon.svg" type="image/svg+xml" />}
+    {icons.apple && <link rel="apple-touch-icon" href="/apple-touch-icon.png" />}
+    {icons.manifest && <link rel="manifest" href="/site.webmanifest" />}
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#111111" />
+    <meta name="theme-color" content={themeColor} />
     <script type="application/ld+json" set:html={JSON.stringify(ldJson)} />
     {site.analytics.plausible && <script defer data-domain={site.analytics.plausible} src="https://plausible.io/js/script.js"></script>}
     {site.analytics.umami && <script defer src={site.analytics.umami.src} data-website-id={site.analytics.umami.id}></script>}

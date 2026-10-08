@@ -9,7 +9,7 @@ Exemple utilisé partout ci-dessous : le site `boulangerie-durand`.
 | 1 | `ff nouveau boulangerie-durand` | Crée `sites/boulangerie-durand/` à partir du modèle, prêt pour le brief. | Le dossier existe, `brief.md` est là à remplir. |
 | 2 | `/nouveau-site boulangerie-durand` | Claude Code lit le brief, choisit direction/variantes, rédige les textes et écrit `site.config.ts`. | Le site s'est généré sans erreur. |
 | 3 | `ff build boulangerie-durand` | Construit le site dans `dist/boulangerie-durand`. | La commande se termine sans erreur rouge. |
-| 4 | `ff verifier boulangerie-durand` | Build + contrôles SEO/contenu, checklist ✓/✗. | Tout est vert avant d'aller plus loin. |
+| 4 | `ff verifier boulangerie-durand` | Build + contrôles SEO/contenu + accessibilité (axe), checklist ✓/✗. | Tout est vert avant d'aller plus loin. |
 | 5 | `ff dev boulangerie-durand` | Lance le site en local pour le relire comme un client le lirait. | Chaque texte sonne juste, aucun placeholder oublié. |
 | 6 | `ff deploy boulangerie-durand` | Build puis mise en ligne sur Cloudflare Pages. | L'URL donnée par la commande s'ouvre bien. |
 
@@ -80,6 +80,7 @@ ff sante boulangerie-durand
 
 **Qualité**
 - `ff detect boulangerie-durand` — regard automatique (contraste, accessibilité).
+- `ff a11y boulangerie-durand` — accessibilité de toutes les pages, ordinateur et téléphone (axe, WCAG 2.2 AA). Déjà lancé par `ff verifier` ; en rouge = à corriger avant livraison, détail dans `captures/boulangerie-durand-a11y.json`.
 - `ff ia boulangerie-durand` : signes « fait par une IA » (polices par défaut, titres en italique, tirets cadratins, points médians). À passer avant de montrer un site, voir `docs/veille/signes-ia.md`.
 - `ff lighthouse boulangerie-durand` — score performance/accessibilité/SEO.
 - `ff captures boulangerie-durand --comparer` — repère ce qui a changé visuellement.

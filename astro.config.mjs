@@ -6,6 +6,7 @@ import { FontaineTransform } from 'fontaine';
 import { ffLookPlugin } from './scripts/vite-ff-look.mjs';
 import { imagesIntegration } from './scripts/astro-images-integration.mjs';
 import { creditsIntegration } from './scripts/astro-credits-integration.mjs';
+import { iconsIntegration } from './scripts/astro-icons-integration.mjs';
 import { readSiteSecurityConfig, buildSecurityHeaderLines } from './scripts/ff/csp.mjs';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -92,6 +93,8 @@ export default defineConfig({
     headersIntegration,
     imagesIntegration({ root: process.cwd(), slug }),
     creditsIntegration({ root: process.cwd(), slug }),
+    // favicon.ico, apple-touch-icon, icon-192/512, site.webmanifest depuis public/favicon.svg (scripts/astro-icons-integration.mjs).
+    iconsIntegration({ root: process.cwd(), slug, ffLook }),
   ],
   vite: {
     plugins: [
