@@ -90,6 +90,7 @@ ff sante boulangerie-durand
 **Mise en ligne et suivi**
 - `ff domaine boulangerie-durand boulangerie-durand.fr` — branche le nom de domaine du client.
 - `ff exporter boulangerie-durand` — prépare le dépôt à remettre au client.
+- `ff kit boulangerie-durand` : prépare les documents à remettre au client dans `livrables/boulangerie-durand/` (la fiche Google à remplir avec lui, boutons « Copier » compris, le QR code du site, la carte de visite et le flyer A5 en PDF prêts pour l'imprimeur). Le site doit être construit (`ff build`). Lire les avertissements « donnée de test détectée » avant d'imprimer quoi que ce soit.
 - `ff sante boulangerie-durand` — vérifie que le site déjà en ligne est en bonne santé (à J+1 puis chaque mois).
 - `ff archiver boulangerie-durand` — sauvegarde ponctuelle zippée du site.
 - `ff liste` — liste tous les sites, leur direction, et si le build existe.
