@@ -59,7 +59,7 @@ function defaultSlugs() {
 function startStaticServer(distDir) {
   const server = createServer((req, res) => {
     let f = path.join(distDir, decodeURIComponent(new URL(req.url, 'http://x').pathname));
-    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, 'index.html');
+    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = fs.existsSync(path.join(f, 'index.html')) || !fs.existsSync(`${f}.html`) ? path.join(f, 'index.html') : `${f}.html`; // /audit + /audit/merci : audit.html a cote du dossier audit/ (pages sur mesure)
     if (!fs.existsSync(f) && fs.existsSync(`${f}.html`)) f = `${f}.html`;
     if (!fs.existsSync(f)) {
       res.writeHead(404);

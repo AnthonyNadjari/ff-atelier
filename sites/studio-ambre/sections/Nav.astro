@@ -1,75 +1,49 @@
 ---
 /**
- * Nav dessinée pour Studio Ambre : bandeau fin, hors-pli, fond transparent sur le hero (image
- * plein cadre) puis surface pierre une fois qu'on a défilé (data-nav). Les liens sont numérotés
- * (01·, 02·…) en écho aux numéros de section de la coquille "magazine" — seule marque graphique
- * de la nav, pas de logo. `fixed` (pas `sticky`) pour rester transparente par-dessus le hero :
- * grille à trois colonnes (nom / liens / actions, chacune `shrink-0` sauf la centrale) et texte
- * `whitespace-nowrap` partout pour ne jamais laisser les sept libellés se comprimer verticalement
- * (bug constaté puis corrigé en cours de dessin : un `flex justify-between` sans garde-fous
- * comprimait le nom et le numéro de téléphone lettre par lettre). Sur mobile, un plein écran
- * s'ouvre (data-menu), liens en grand, un par ligne. Composition propre à ce site.
- *
- * Détails techniques (volontairement hors du template : un commentaire HTML `<!-- -->` dans le
- * corps de la page compte dans les 1500 premiers caractères que `ff verifier` scrute pour le lien
- * tel:, un texte trop long y a déjà fait échouer ce contrôle une fois pendant le dessin) :
- * - tel: placé tôt dans le DOM, replacé visuellement à droite par `order-3` — même technique que
- *   `sites/barbier-kessler/sections/Nav.astro`.
- * - `Button.astro` pose déjà `inline-flex` en classe de base (non conditionnelle) : lui ajouter
- *   `hidden sm:inline-flex` ne le cache pas (même spécificité, `inline-flex` généré après `hidden`
- *   dans la feuille Tailwind → gagne la cascade). Il est donc enveloppé dans un conteneur
- *   `hidden sm:block` dont l'affichage n'entre pas en conflit avec ses classes internes.
- * - Nav desktop repoussée à `xl` (pas `lg`) : entre 1024 et 1280px, sept liens même compacts
- *   serrent trop la colonne centrale — le menu plein écran (burger) prend le relais jusqu'à `xl`.
+ * Nav de Studio Ambre : une ligne en haut, transparente sur le premier écran (photo), fond pierre
+ * dès que la page défile. Le nom à gauche, les liens en mots du quotidien, le téléphone à droite,
+ * en texte. Sur mobile, un plein écran s’ouvre (data-menu), un lien par ligne. Sans numéros « 01· »,
+ * sans capitales espacées, sans bouton en capsule ni aimant (9 oct 2026).
+ * tel: placé tôt dans le DOM, replacé visuellement à droite par `order-3` (contrôle « lien tel: dans
+ * les 1500 premiers caractères » de ff verifier).
  */
 import { site, tel, navLinks } from '@/lib/site';
-import Button from '@/components/Button.astro';
-import Icon from '@/components/Icon.astro';
 const links = navLinks();
 ---
 
-<header data-nav class="fixed inset-x-0 top-0 z-50 text-fg transition-colors duration-500 [&.is-scrolled]:border-b [&.is-scrolled]:border-line [&.is-scrolled]:bg-bg/95 [&.is-scrolled]:backdrop-blur-md">
-  <div class="container-ff grid grid-cols-[auto_1fr_auto] items-center gap-6 py-5">
-    <a href="/" class="order-1 shrink-0 whitespace-nowrap font-display text-sm uppercase tracking-[0.22em]">{site.business.name}</a>
+<header data-nav="hide-on-scroll" class="nav-ambre fixed inset-x-0 top-0 z-50 text-on-ink">
+  <div class="container-ff flex items-center justify-between gap-6 py-5">
+    <a href="/" class="order-1 whitespace-nowrap font-display text-lg">{site.business.name}</a>
 
-    <div class="order-3 flex shrink-0 items-center gap-4 justify-self-end">
-      <a href={tel()} class="hidden whitespace-nowrap font-mono text-xs tracking-wide text-muted transition-colors hover:text-fg xl:inline" data-magnetic="0.15">{site.contact.phoneDisplay}</a>
-      <div class="hidden shrink-0 sm:block">
-        <Button href="#contact" size="sm" class="whitespace-nowrap">{site.wording.devis}</Button>
-      </div>
-      <button class="flex flex-col gap-1.5 p-2 xl:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
-        <span class="block h-px w-6 bg-fg"></span>
-        <span class="block h-px w-6 bg-fg"></span>
+    <div class="order-3 flex items-center gap-5">
+      <a href={tel()} class="whitespace-nowrap tabular-nums text-sm underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
+      <button class="flex flex-col gap-1.5 p-2 lg:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
+        <span class="block h-px w-6 bg-current"></span>
+        <span class="block h-px w-6 bg-current"></span>
       </button>
     </div>
 
-    <nav class="order-2 hidden min-w-0 items-center justify-center gap-x-4 xl:flex" aria-label="Navigation principale">
-      {links.map((l, i) => (
-        <a href={l.href} class="whitespace-nowrap font-mono text-[0.6875rem] uppercase tracking-[0.06em] text-muted transition-colors hover:text-fg">
-          <span class="text-accent">{String(i + 1).padStart(2, '0')}·</span><span class="border-b border-transparent hover:border-fg">{l.label}</span>
-        </a>
-      ))}
+    <nav class="order-2 hidden items-center gap-x-6 text-sm lg:flex" aria-label="Navigation principale">
+      {links.map((l) => <a href={l.href} class="whitespace-nowrap underline-offset-4 hover:underline">{l.label}</a>)}
     </nav>
   </div>
 
-  <div class="fixed inset-0 hidden bg-bg" data-menu>
+  <div class="fixed inset-0 hidden bg-bg text-fg" data-menu>
     <div class="container-ff flex h-full flex-col justify-between py-24">
-      <nav class="flex flex-col gap-1" aria-label="Navigation mobile">
-        {links.map((l, i) => (
-          <a href={l.href} class="flex items-baseline gap-4 border-b border-line py-5 font-display text-3xl">
-            <span class="text-sm text-accent">{String(i + 1).padStart(2, '0')}</span>
-            {l.label}
-          </a>
-        ))}
+      <nav class="flex flex-col" aria-label="Navigation mobile">
+        {links.map((l) => <a href={l.href} class="border-b border-line py-5 font-display text-3xl">{l.label}</a>)}
       </nav>
-      <div class="flex flex-col gap-4">
-        <a href={tel()} class="inline-flex items-center gap-2 font-mono text-sm text-muted"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a>
-        <Button href="#contact">{site.wording.devis}</Button>
-      </div>
+      <a href={tel()} class="tabular-nums text-lg">{site.contact.phoneDisplay}</a>
     </div>
   </div>
 </header>
-<div class="h-[72px]" aria-hidden="true"></div>
+
+<style>
+  .nav-ambre { transition: transform 0.4s var(--ease-out), background-color 0.4s ease, color 0.4s ease; }
+  .nav-ambre.is-hidden { transform: translateY(-100%); }
+  .nav-ambre.is-scrolled { background: color-mix(in oklab, var(--bg) 94%, transparent); color: var(--fg); }
+  @media (prefers-reduced-motion: reduce) { .nav-ambre { transition: none; } }
+</style>
 
 <script>
   const btn = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');

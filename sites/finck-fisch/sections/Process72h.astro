@@ -1,0 +1,85 @@
+---
+/**
+ * « Trois jours, pas trois mois. » (plan-site-ff.html v2, S2).
+ *
+ * Remplace Propositions.astro (l'écran à trois onglets) et Chantier.astro : le contenu utile des trois
+ * propositions (même contenu, trois façons de le montrer ; vous choisissez sur pièce, sur votre
+ * téléphone) vit maintenant dans les jours 1 et 2.
+ *
+ * Desktop (≥ 1024 px) : la colonne gauche colle (CSS position: sticky, pas de pin GSAP), la droite
+ * défile normalement. motion-ff.ts active chaque jour quand il passe à 60 % de l'écran (toggleClass
+ * « est-actif » : opacité 0,4 → 1, 0,3 s power2.out) et remplit la jauge verticale au défilement
+ * (scaleY, scrub 0,3). Téléphone : pas de sticky, les trois jours empilés le long d'un fil, chacun
+ * révélé au masque à son entrée. Mouvement réduit et sans JS : tout est posé (jours pleins, jauge
+ * pleine).
+ */
+const jours = [
+  {
+    n: 'Jour 1',
+    titre: 'L’audit, puis trois pistes.',
+    texte: 'Nous partons de l’audit, de vos textes et de vos photos, et nous montons trois versions de votre page d’accueil : le même contenu, montré de trois façons. Vous les ouvrez sur votre téléphone.',
+  },
+  {
+    n: 'Jour 2',
+    titre: 'Vous choisissez, nous écrivons.',
+    texte: 'Vous gardez celle qui vous ressemble. Nous écrivons et montons les autres pages dessus : ce que vous faites, où, quand, et comment vous joindre.',
+  },
+  {
+    n: 'Jour 3',
+    titre: 'En ligne, à votre nom.',
+    texte: 'Le site est publié sur votre nom de domaine. Le code, les textes et le domaine sont à vous, sans abonnement.',
+  },
+];
+---
+
+<section id="trois-jours" class="ff-section ff-p72" data-p72>
+  <div class="ff-conteneur ff-p72-grille">
+    <div class="ff-p72-gauche">
+      <div class="ff-p72-colle">
+        <h2 class="ff-titre ff-masque" data-ff-titre><span>Trois jours, pas trois mois.</span></h2>
+        <p class="ff-texte ff-doux mt-6 max-w-[26rem]">Les 72 heures courent à partir de la réception de vos textes et de vos photos.</p>
+      </div>
+    </div>
+
+    <div class="ff-p72-droite">
+      <span class="ff-p72-fil" aria-hidden="true"><span class="ff-p72-jauge" data-p72-jauge></span></span>
+      <ol class="ff-p72-jours" data-p72-jours>
+        {jours.map((j) => (
+          <li class="ff-p72-jour" data-p72-jour>
+            <div class="ff-p72-masque">
+              <div data-p72-corps>
+                <p class="ff-petit ff-doux">{j.n}</p>
+                <h3 class="ff-p72-titre ff-texte">{j.titre}</h3>
+                <p class="ff-texte ff-doux mt-2">{j.texte}</p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .ff-p72-grille { display: grid; gap: var(--s6); }
+  .ff-p72-droite { position: relative; padding-left: var(--s4); }
+  .ff-p72-fil { position: absolute; top: 0; bottom: 0; left: 0; width: 1px; background: var(--line); }
+  .ff-p72-jauge { position: absolute; inset: 0; background: var(--accent); transform-origin: top; }
+  .ff-p72-jours { display: grid; gap: var(--s6); list-style: none; margin: 0; padding: 0; }
+  .ff-p72-masque { overflow: hidden; }
+  .ff-p72-titre { margin-top: 4px; font-family: var(--font-body); font-weight: 600; letter-spacing: 0; color: var(--fg); }
+  .ff-p72-jour { max-width: 34rem; }
+
+  @media (min-width: 1024px) {
+    .ff-p72-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s6); }
+    .ff-p72-gauche { grid-column: 1 / span 5; }
+    .ff-p72-droite { grid-column: 7 / span 6; padding-left: var(--s6); }
+    .ff-p72-colle { position: sticky; top: calc(var(--entete) + var(--s6)); }
+    /* Chaque jour occupe une hauteur d'écran utile : le jour actif suit le milieu de l'écran. */
+    .ff-p72-jours { gap: 0; }
+    .ff-p72-jour { min-height: 45vh; display: flex; align-items: center; }
+    /* Piloté par motion-ff.ts (desktop seulement) : les jours inactifs à 40 %. */
+    .ff-p72.p72-pilote .ff-p72-jour { opacity: 0.4; transition: opacity 0.3s var(--ff-power2-out); }
+    .ff-p72.p72-pilote .ff-p72-jour.est-actif { opacity: 1; }
+  }
+</style>

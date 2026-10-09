@@ -1,57 +1,21 @@
 ---
 /**
- * Section sur mesure Finck & Fisch : grille tarifaire, deux formules, en tableau de comparaison
- * (une ligne par fonctionnalité, prix en tabular-nums). Appelée dans le layout par
- * { type: 'custom', variant: 'offre', label: 'Offre' } — seule section custom avec une ancre de nav,
- * avec Réalisations et Contact (voir sites/finck-fisch/sections/Nav.astro).
+ * Tarifs (plan-site-ff.html v2) : deux formules payées une fois, puis le seul appel de la page,
+ * « Réserver mon audit gratuit » (→ /audit).
  *
- * Relecture du 20 sept 2026 :
- * - libellés du tableau ramenés à des noms de choses (« Formulaire de contact »), plus des
- *   arguments de vente (« dessiné à la main pour votre activité, pas une seule maquette ») ;
- * - les deux boutons « Parler de votre projet » sous le tableau retirés : le hero et le contact
- *   suffisent, la répétition du même bouton est un tell de landing page ;
- * - liste « Ce qui n'est jamais facturé » retirée : elle disait « aucun abonnement, même en
- *   option » deux lignes au-dessus d'une maintenance mensuelle en option, contradiction ;
- * - paragraphe « Chèque France Num » retiré : dispositif sans source dans le brief, formulé au
- *   conditionnel, faisait amateur ;
- * - petits labels en capitales (.eyebrow) remplacés par des sous-titres display : règle 13
- *   (un eyebrow pour deux sections au plus, la FAQ partagée en a déjà un).
+ * Plan v2 (9 oct 2026) : ancre #tarifs (était #offre) ; la ligne de liens vers les pages
+ * /services/* est retirée (pages supprimées, 301 vers /audit, voir redirects.json) ; les questions
+ * quittent cette section pour leur propre bloc après l'Audit (Questions.astro, avec JSON-LD
+ * FAQPage) ; « Nous écrire pour un devis » devient le bouton d'audit.
  *
- * 22 sept 2026, coquille `split` : la FAQ n'est plus une section pleine page (faq/two-columns retirée
- * du layout). Les cinq questions de site.config.ts vivent ici, en <details> natifs repliés sous le
- * tableau — c'est là qu'on les pose vraiment, juste après avoir lu un prix. Conséquence assumée :
- * sans section id="faq" sur l'accueil, le JSON-LD FAQPage n'est plus émis (index.astro ne le produit
- * que pour une section de type `faq`) et `ff verifier` ne le réclame plus. Aucune animation ajoutée :
- * cette section a déjà son titre en data-reveal et son seul groupe en data-stagger (règle 21).
- *
- * 22 sept 2026 au soir, décision 5 de `sites/finck-fisch/ETALON.md` — le prix est affiché ET ARGUMENTÉ.
- * Sur les 17 sites de studios relevés, un seul publie un barème (Dinamo), et il en fait un éditorial
- * de mille mots expliquant pourquoi ce barème est juste ; les seize autres ne disent même pas « sur
- * demande », et aucun formulaire français n'a même un champ « budget ». Sur le marché de l'artisan
- * c'est l'inverse : tout le monde affiche « dès 299 € » sans rien derrière. La place vide est celle
- * d'un studio qui annonce un prix clair et dit pourquoi — d'où la phrase qui ouvre le bloc. Le titre
- * « Un prix affiché » (constat) devient « Le prix est écrit » (décision).
- * Le délai de 72 h n'est plus expliqué ici : `sections/Chantier.astro` le détaille deux blocs plus
- * haut. Il n'en reste qu'une ligne dans le tableau, pour qu'on le retrouve à côté du montant.
- *
- * Reprise du 3 oct. 2026, quatre points :
- * - Sous 640 px, le tableau partait en défilement horizontal sans aucun indice : on lisait
- *   « Essent… / à part… / 1 200 » coupés au milieu d'un mot, et la formule Complet n'existait pas à
- *   l'écran. Le téléphone reçoit maintenant les deux formules l'une sous l'autre ; le tableau de
- *   comparaison reste la forme de la section à partir de 640 px.
- * - Les deux montants n'étaient marqués provisoires QUE dans un commentaire de code. Une ligne
- *   visible le dit maintenant sous le tableau, comme l'engagement de 72 h le fait dans Chantier.
- * - Le paragraphe d'ouverture avait trois phrases de 12, 11 et 10 mots : rythme plat, signalé par
- *   `ff verifier` (REDACTION §14 R1). Réécrit en 8 / 26 / 2 / 14 mots.
- * - Les deux colonnes du bas portaient chacune un `data-reveal` à l'intérieur d'un `data-stagger` :
- *   doublon inutile (le moteur révèle déjà les enfants du groupe) et deux éléments observés de plus
- *   pour rien. La section a de nouveau exactement un titre animé et un groupe (règle 21).
+ * Historique des choix plus anciens (prix affiché et argumenté, deux plaques plutôt qu'un tableau à
+ * cocher, montants en display) : voir git log de ce fichier.
  */
-import { site, mailto } from '@/lib/site';
-
+// Montants affichés sans mention « provisoire » à la demande du fondateur (6 oct 2026), barème à
+// confirmer par les deux associés (TODO fondateurs).
 const formules = [
-  { nom: 'Essentiel', prix: 'à partir de 1 200 €', montant: '1 200 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
-  { nom: 'Complet', prix: 'à partir de 1 800 €', montant: '1 800 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
+  { nom: 'Essentiel', montant: '1 200 €' },
+  { nom: 'Complet', montant: '1 800 €' },
 ];
 
 // true/true = commun aux deux formules ; false/true = ajouté par la formule Complet.
@@ -66,103 +30,39 @@ const lignes = [
   { label: 'Fiche Google mise à jour', essentiel: false, complet: true },
   { label: 'Deux tours de corrections après la mise en ligne', essentiel: false, complet: true },
 ];
-
 ---
 
-<section id="offre" class="section-y bg-bg-2">
-  <div class="container-ff">
-    <h2 class="max-w-2xl text-display-md">Combien ça coûte</h2>
-    <p class="mt-6 max-w-[34rem] text-lg leading-relaxed">
-      Deux formules, payées une fois. Vous savez avant d’appeler si c’est pour vous.
-    </p>
+<section id="tarifs" class="ff-section ff-tarifs">
+  <div class="ff-conteneur">
+    <h2 class="ff-titre ff-masque max-w-2xl" data-ff-titre><span>Combien ça coûte</span></h2>
+    <p class="ff-texte mt-6 max-w-[34rem]">Deux formules, payées une fois. Vous savez avant d’appeler si c’est pour vous.</p>
 
-    {/* Sous 640 px, les deux formules se lisent l'une sous l'autre : le tableau à trois colonnes
-        demande 36 rem et un téléphone en fait 22. Il était bien en défilement horizontal, mais sans
-        le moindre indice : un visiteur voyait « Essent… / à part… / 1 200 » coupés au milieu d'un
-        mot et une seule colonne de prix sur deux. Même contenu, même ordre, deux présentations. */}
-    {/* Le signe « inclus », dessiné une fois et appelé trente-six fois. L'icône partagée pèse 300
-        octets à chaque emploi : en HTML livré, cette section seule en portait 10,7 Ko, assez pour
-        faire sauter le budget de `perf-budget.json`. Un `<symbol>` + `<use>` ramène chaque emploi à
-        une centaine d'octets, à rendu identique. Couleur par `currentColor`, donc par token. */}
-    <svg width="0" height="0" class="absolute" aria-hidden="true">
-      <symbol id="ff-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14M12 5v14" />
-      </symbol>
-    </svg>
-
-    {/* Deux plaques, à toutes les largeurs (plus de tableau à cocher) : le montant est l'événement
-        typographique de la section, en Cormorant display, et l'appel arrive juste dessous (revue de
-        design du 6 oct : prix en 24 px, 1 500 px de petit texte avant le premier bouton). */}
-    <div class="mt-14 grid gap-14 md:grid-cols-2 md:gap-10">
+    <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-12">
       {formules.map((f, col) => (
-        <div class="border-t border-line pt-6">
-          <p class="text-base text-muted">{f.nom}</p>
-          <p class="mt-5 text-sm text-muted">à partir de</p>
-          <p class="ff-montant mt-1 font-display text-display-lg leading-none text-fg">{f.montant}</p>
-          {col === 1 && <p class="mt-7 text-sm text-muted">Tout l’Essentiel, plus&nbsp;:</p>}
-          <ul class={`${col === 1 ? 'mt-4' : 'mt-7'} flex flex-col gap-3 text-sm text-muted`}>
-            {lignes.filter((l) => (col === 0 ? l.essentiel : !l.essentiel && l.complet)).map((l) => (
-              <li>
-                <span>{l.label}</span>
-              </li>
-            ))}
+        <div class="ff-formule">
+          <p class="ff-texte">{f.nom}</p>
+          <p class="ff-petit ff-doux mt-4">à partir de</p>
+          <p class="ff-titre ff-montant mt-1">{f.montant}</p>
+          <p class="ff-petit ff-doux mt-2">payé une fois</p>
+          {col === 1 && <p class="ff-petit ff-doux mt-6">Tout l’Essentiel, plus&nbsp;:</p>}
+          <ul class={`${col === 1 ? 'mt-3' : 'mt-6'} grid gap-2 ff-petit ff-doux`}>
+            {lignes.filter((l) => (col === 0 ? l.essentiel : !l.essentiel && l.complet)).map((l) => <li>{l.label}</li>)}
           </ul>
         </div>
       ))}
     </div>
 
-    {/* PRIX PROVISOIRES — marquage visible, pas seulement un commentaire de code : tant que les deux
-        associés n'ont pas arrêté le barème, un visiteur doit lire que ces montants peuvent bouger
-        (règle dure n°2, même statut que l'engagement de 72 h ci-dessous et que le téléphone). */}
-
-    {/* 9 oct 2026 : plus de bouton « Appeler le 06 00 00 00 00 » (numéro placeholder, jamais affiché).
-        Un appel calme, en texte. TODO(fondateurs) : vrai numéro → ajouter « ou appelez le … » (tel()). */}
-    <p class="mt-12 text-lg">
-      <a href="#contact" class="ff-lien text-fg">Nous écrire pour un devis</a>
-      <span class="text-muted">, ou directement à </span><a href={mailto()} class="ff-lien break-all text-fg">{site.contact.email}</a><span class="text-muted">.</span>
-    </p>
-
-    <p class="mt-14 max-w-[34rem] text-sm text-muted">
-      Après la mise en ligne, rien à payer. Si vous voulez qu’on garde un œil sur le site, la
-      maintenance existe en option, 25 € par mois, sans engagement.
-    </p>
-
-    {/* Les quatre prestations ont chacune leur page (/services/<slug>). Sans section `services` dans
-        le layout, l'accueil n'y menait pas du tout : quatre pages orphelines, aucun maillage interne,
-        et rien à cliquer pour passer d'une page à l'autre avec les transitions. Une ligne de liens
-        sous le prix suffit — c'est là qu'on veut le détail. */}
-    <p class="mt-12 flex flex-wrap items-baseline gap-x-6 gap-y-2 text-sm">
-      <span class="text-muted">Le détail, prestation par prestation :</span>
-      {site.services.map((s) => (
-        <a href={`/services/${s.slug}`} class="text-fg underline underline-offset-4 transition-colors hover:text-muted">{s.title}</a>
-      ))}
-    </p>
-
-    {/* Les questions posées au téléphone, repliées sous le prix. <details> natifs : rien à charger,
-        rien à câbler, et le clavier les ouvre tout seul (règle 7). */}
-    <div id="questions" class="mt-16 border-t border-line pt-10">
-      <h3 class="font-display text-lg">Les questions qu’on nous pose</h3>
-      <div class="mt-6 max-w-2xl">
-        {site.faq.map((item) => (
-          <details class="ff-q border-b border-line">
-            <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-4 text-base text-fg">
-              <span>{item.q}</span>
-              <svg class="ff-q-signe mt-1 h-[18px] w-[18px] shrink-0 text-muted" aria-hidden="true"><use href="#ff-plus" /></svg>
-            </summary>
-            <p class="max-w-[34rem] pb-5 text-sm leading-relaxed text-muted">{item.a}</p>
-          </details>
-        ))}
-      </div>
+    <div class="mt-12 flex flex-col items-start gap-4">
+      <a href="/audit" class="ff-bouton">Réserver mon audit gratuit</a>
+      <p class="ff-petit ff-doux max-w-[34rem]">
+        Après la mise en ligne, rien à payer. Si vous voulez qu’on garde un œil sur le site, la
+        maintenance existe en option, 25 € par mois, sans engagement.
+      </p>
     </div>
   </div>
 </section>
 
 <style is:global>
-  /* Tokens uniquement : le « + » pivote en « × » a l'ouverture, sur --motion-ui (geste, pas entree). */
-  .ff-q > summary::-webkit-details-marker { display: none; }
-  .ff-q-signe { transition: transform var(--motion-ui) var(--ease-out); }
-  .ff-q[open] .ff-q-signe { transform: rotate(45deg); }
-  @media (prefers-reduced-motion: reduce) {
-    .ff-q-signe { transition: none; }
-  }
+  .ff-tarifs { background: var(--bg-2); }
+  .ff-formule { padding-top: var(--s3); border-top: 1px solid var(--line); }
 </style>

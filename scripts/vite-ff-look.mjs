@@ -204,8 +204,11 @@ export function ffLookPlugin({ root, slug, ffLook }) {
       // sien par-dessus, voir la boucle juste au-dessus) donc les deux sont candidates au preload.
       const displaySpecs = [];
       const dirImportMatch = dirCssText.match(/@import\s+'(@fontsource[^']+)'/);
-      if (dirImportMatch) displaySpecs.push(dirImportMatch[1]);
       const overrideKey = look.typography?.display;
+      // 9 oct 2026 : quand typography.display remplace la police display de la direction, celle-ci
+      // n'est plus utilisee par les titres ; la precharger telechargeait un fichier jamais affiche
+      // (finck-fisch : Familjen Grotesk precharge pour rien a cote de Bodoni, LCP retarde).
+      if (dirImportMatch && !(overrideKey && fonts[overrideKey])) displaySpecs.push(dirImportMatch[1]);
       if (overrideKey && fonts[overrideKey]) displaySpecs.push(fonts[overrideKey].pkg);
       const seenPkgRoot = new Set();
       let preloadCount = 0;

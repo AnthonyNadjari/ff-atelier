@@ -31,6 +31,17 @@
  *   (règle 19) : 3e des 5 blocs. Il perd sa liste numérotée, parce que Réalisations en a une juste après.
  * - Réalisations passe APRÈS le manifeste : c'est le catalogue, pas la preuve d'entrée.
  * - Aucun eyebrow nulle part sur la page (décision 6, lecture stricte de la règle 13).
+ *
+ * PLAN V2 DU 9 OCT 2026 (docs/veille/benchmark-2026-10/plan-site-ff.html, validé : ambiance A
+ * « Atelier de nuit », signatures S1 à S4, formulaire maison, réponse sous 48 h ouvrées). Le site
+ * n'a plus qu'un objectif : donner envie de l'audit gratuit (/audit, page sur mesure dans pages/).
+ * - Ordre : hero, preuve vivante, exemples, avant/après, 72 h, deux personnes, tarifs, audit (bascule
+ *   crème), FAQ, pied. Propositions, Chantier, Fin et le contact en tiroir sont retirés ; le film
+ *   reste hors de l'accueil (Film.astro gardé).
+ * - Système de design et moteur de mouvement propres au site : sections/ff.css, sections/motion-ff.ts
+ *   (gsap.matchMedia, Lenis molette seule). motion « subtle » et smoothScroll false : le moteur de la
+ *   factory n'a plus rien à faire ici (aucun data-* animé), ses GSAP et Lenis ne sont pas chargés.
+ * - Pages /services/* supprimées (servicePages: false) : 301 vers /audit (redirects.json).
  */
 import { defineSite } from '@/lib/schema';
 
@@ -43,13 +54,15 @@ export default defineSite({
   // donnaient un rendu « template SaaS sombre », exactement ce qu'on vend de ne pas faire. Le corps
   // reste en Instrument Sans (lisible, neutre) : le contraste serif/sans fait le cachet.
   direction: 'eclipse',
-  motion: 'rich',
+  motion: 'subtle',
   // Scroll inertiel (Lenis) : vitrine riche, le defilement natif de la molette Windows paraissait
   // « ultra vite » et saccade sur les sequences (20 sept 2026). Coupe automatiquement sous automate.
-  smoothScroll: true,
+  smoothScroll: false,
   // Transitions de page (ClientRouter) : fondu 0,3 s entre l'accueil et /services/<slug>, la nav reste
   // en place, le hero s'efface ; scripts inline et moteur rearmes a chaque navigation (docs/ANIMATIONS.md).
   transitions: true,
+  // Une seule conversion : l'audit. /services/* redirige vers /audit (redirects.json), aucune page service.
+  servicePages: false,
   scale: 'display',
   // Polices (6 oct 2026, « ça se voit que c'est fait par Claude ») : Cormorant et Instrument Sans sont
   // dans toutes les listes de polices par défaut des IA. Bodoni Moda (Didone, la famille du monogramme
@@ -60,28 +73,33 @@ export default defineSite({
     // Contact en tiroir : plus de section contact finale dans le layout (sections/Contact.astro reste
     // dans le dossier, hors layout). navLinks() ajoute alors « Contact » au sommaire du panneau, et
     // ContactDrawer.astro intercepte l'ancre #contact sur toutes les pages, page service comprise.
-    contactDrawer: true,
+    contactDrawer: false,
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
       // Refonte du 9 oct 2026 (benchmark docs/veille/benchmark-2026-10/) : le travail juste après le
       // premier écran (qui en montre déjà un), puis les deux associés, le choix sur pièce, le prix, la
       // fin. Le film sort de l'accueil : il montrait l'ancienne version du site (fichier gardé).
+      { type: 'custom', variant: 'preuve' },
       { type: 'custom', variant: 'realisations', label: 'Exemples' },
+      { type: 'custom', variant: 'avantapres' },
+      { type: 'custom', variant: 'process72h' },
       { type: 'custom', variant: 'humains' },
-      { type: 'custom', variant: 'propositions', label: 'Comment ça marche' },
       { type: 'custom', variant: 'offre', label: 'Tarifs' },
-      { type: 'custom', variant: 'fin' },
+      { type: 'custom', variant: 'audit' },
+      { type: 'custom', variant: 'questions' },
     ],
     // Pied de page sur mesure : footer/minimal affichait le téléphone placeholder (voir sections/Pied.astro).
     footer: 'custom/pied',
-    divider: 'rule',
+    divider: 'none',
     tone: 'flat',
   },
 
   business: {
     name: 'Finck & Fisch',
     trade: 'Studio de sites pour artisans',
+    // JSON-LD (plan v2 § 6 SEO) : un studio de services, pas un commerce local.
+    schemaType: 'ProfessionalService',
     tagline: 'Nous faisons des sites pour les artisans.',
     description:
       'Finck & Fisch dessine des sites vitrines pour des artisans, des commerces et des indépendants. Chaque site part de trois propositions visuelles, jamais d’un modèle décliné par ville. Il est payé une fois et il vous appartient dès la mise en ligne, du code au nom de domaine.\n\nLe studio est tenu par deux associés. Vous parlez à la même personne du premier appel à la livraison.',
@@ -165,7 +183,17 @@ export default defineSite({
 
   // Cinq questions, celles qu'un artisan pose vraiment au téléphone. Les autres (agence locale,
   // « deux associés c'est risqué », 72 h trop rapide) argumentaient plus qu'elles ne répondaient.
+  // Plan v2 : six questions, dont deux sur l'audit ; « changer un texte dans deux ans » retirée (la
+  // réponse est déjà dans « à qui appartient le nom de domaine » et dans les jours 2-3 du process).
   faq: [
+    {
+      q: 'L’audit est-il vraiment gratuit ?',
+      a: 'Oui. Vingt minutes au téléphone ou en visio, et vous gardez les cinq points, même si vous ne travaillez pas avec nous. Pas de relance commerciale ensuite.',
+    },
+    {
+      q: 'Que faut-il préparer pour l’audit ?',
+      a: 'Rien. Donnez-nous l’adresse de votre site si vous en avez un, sinon le nom sous lequel vos clients vous cherchent sur Google.',
+    },
     {
       q: 'Faut-il fournir des photos ?',
       a: 'C’est mieux, mais pas obligatoire. Nous pouvons monter une première version avec des visuels neutres, puis les remplacer dès que vous avez les vôtres.',
@@ -177,10 +205,6 @@ export default defineSite({
     {
       q: 'Pourquoi pas un abonnement à 30 € par mois ?',
       a: 'Sur trois ans, un abonnement coûte souvent plus cher qu’un site payé une fois. Et à la fin, il ne vous appartient pas. Ici, le site est à vous dès la mise en ligne.',
-    },
-    {
-      q: 'Et si je veux changer un texte dans deux ans ?',
-      a: 'Vous pouvez repasser par nous, ou par n’importe quel autre développeur. Le code est à vous et ne dépend d’aucun logiciel propriétaire.',
     },
     {
       q: 'À qui appartient le nom de domaine ?',
@@ -212,8 +236,11 @@ export default defineSite({
     contactText: 'Décrivez votre activité en deux lignes, nous vous rappelons.',
   },
 
+  // Plus d'images.hero : le hero sur mesure n'en affiche pas, et Base.astro préchargeait cette image
+  // pour rien (concurrence avec Bodoni, l'élément LCP étant le titre). Elle reste l'image Open Graph.
+  // TODO(fondateurs) : une vraie image OG 1200×630 (ff og finck-fisch).
   images: {
-    hero: { src: '/images/hero.webp', alt: 'Composition graphique abstraite noir et blanc, image de démonstration' },
+    og: '/images/hero.webp',
   },
 
   seo: {

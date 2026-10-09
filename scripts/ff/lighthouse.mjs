@@ -19,7 +19,7 @@ const MIME = {
 function startStaticServer(distDir) {
   const server = createServer((req, res) => {
     let f = path.join(distDir, decodeURIComponent(new URL(req.url, 'http://x').pathname));
-    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, 'index.html');
+    if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = fs.existsSync(path.join(f, 'index.html')) || !fs.existsSync(`${f}.html`) ? path.join(f, 'index.html') : `${f}.html`; // /audit + /audit/merci : audit.html a cote du dossier audit/ (pages sur mesure)
     if (!fs.existsSync(f) && fs.existsSync(`${f}.html`)) f = `${f}.html`;
     if (!fs.existsSync(f)) {
       res.writeHead(404);
@@ -94,14 +94,44 @@ function imprimerDetail(lhr, label, formFactor) {
 }
 
 /**
+ * preuves.json (sites/<slug>/preuves.json) : la mesure affichee par la preuve vivante du site du
+ * studio (plan-site-ff.html § 7). Ecrit uniquement par une vraie mesure, jamais a la main. `source`
+ * dit si l'URL mesuree est le site en ligne ou un build servi en local.
+ */
+function ecrirePreuves(slug, url, lhr) {
+  const pct = (id) => Math.round((lhr.categories[id]?.score ?? 0) * 100);
+  const num = (id) => (typeof lhr.audits[id]?.numericValue === 'number' ? lhr.audits[id].numericValue : null);
+  const inp = num('interaction-to-next-paint');
+  const data = {
+    url,
+    source: /^https?:\/\/(localhost|127\.)/.test(url) ? 'build local' : 'en ligne',
+    date: new Date().toISOString().slice(0, 10),
+    appareil: 'mobile',
+    performance: pct('performance'),
+    accessibilite: pct('accessibility'),
+    bonnesPratiques: pct('best-practices'),
+    seo: pct('seo'),
+    lcp: Math.round(num('largest-contentful-paint') ?? 0),
+    cls: Number((num('cumulative-layout-shift') ?? 0).toFixed(3)),
+    ...(inp !== null ? { inp: Math.round(inp) } : { tbt: Math.round(num('total-blocking-time') ?? 0) }),
+  };
+  const out = path.join(ROOT, 'sites', slug, 'preuves.json');
+  fs.writeFileSync(out, `${JSON.stringify(data, null, 2)}
+`);
+  ok(`Preuve vivante ecrite : ${c.cyan(path.relative(ROOT, out))} (mediane de 3, performance ${data.performance})`);
+}
+
+/**
  * Coeur reutilisable (par `ff lighthouse` et par `ff verifier --lighthouse`) : construit le site,
  * lance les audits, ecrit captures/<slug>-lighthouse.json. Renvoie true si la page d'accueil est
  * >= seuil sur toutes les categories (desktop et mobile), false sinon. Ne fait jamais
  * process.exit() — c'est aux appelants (cmdLighthouse pour le CLI direct, cmdVerifier pour
  * `--lighthouse`) de decider quoi faire du resultat.
  */
-export async function runLighthouse(slug, { seuil = 90, mobileOnly = false, detail = false } = {}) {
-  const formFactors = mobileOnly ? ['mobile'] : ['desktop', 'mobile'];
+export async function runLighthouse(slug, { seuil = 90, mobileOnly = false, detail = false, url: urlEnLigne = '', preuves = false } = {}) {
+  // --preuves : mesure de la preuve vivante (sites/<slug>/preuves.json, lue par la section
+  // PreuveVivante de finck-fisch) — accueil seul, mobile seul, mediane de 3 passages.
+  const formFactors = mobileOnly || preuves ? ['mobile'] : ['desktop', 'mobile'];
 
   let lighthouse, launch, desktopConfig;
   try {
@@ -114,17 +144,23 @@ export async function runLighthouse(slug, { seuil = 90, mobileOnly = false, deta
     return false;
   }
 
-  info(`Construction de ${c.bold(slug)}...`);
-  const buildStatus = runAstro('build', slug);
-  if (buildStatus !== 0) {
-    fail('Le build a echoue — audit Lighthouse annule.');
-    return false;
+  // --url https://... : audite le site EN LIGNE (accueil seul), sans build ni serveur local.
+  let pages, server = null, base;
+  if (urlEnLigne) {
+    pages = [{ label: 'accueil', urlPath: '/' }];
+    base = urlEnLigne.replace(/\/$/, '');
+  } else {
+    info(`Construction de ${c.bold(slug)}...`);
+    const buildStatus = runAstro('build', slug);
+    if (buildStatus !== 0) {
+      fail('Le build a echoue — audit Lighthouse annule.');
+      return false;
+    }
+    const distDir = path.join(DIST_DIR, slug);
+    pages = preuves ? [{ label: 'accueil', urlPath: '/' }] : choisirPages(distDir);
+    server = startStaticServer(distDir);
+    base = `http://localhost:${server.address().port}`;
   }
-
-  const distDir = path.join(DIST_DIR, slug);
-  const pages = choisirPages(distDir);
-  const server = startStaticServer(distDir);
-  const port = server.address().port;
 
   const chrome = await launch({
     chromeFlags: ['--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
@@ -140,7 +176,7 @@ export async function runLighthouse(slug, { seuil = 90, mobileOnly = false, deta
 
   try {
     for (const page of pages) {
-      const url = `http://localhost:${port}${page.urlPath}`;
+      const url = `${base}${page.urlPath}`;
       const entry = { label: page.label, path: page.urlPath };
       for (const formFactor of formFactors) {
         const flagsLh = { port: chrome.port, onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'], logLevel: 'silent' };
@@ -148,6 +184,14 @@ export async function runLighthouse(slug, { seuil = 90, mobileOnly = false, deta
         let runnerResult;
         try {
           runnerResult = await lighthouse(url, flagsLh, config);
+          if (preuves && page.label === 'accueil') {
+            // Mediane de 3 passages (par score de performance) : un passage seul varie de +-3 points.
+            const runs = [runnerResult];
+            for (let i = 0; i < 2; i++) runs.push(await lighthouse(url, flagsLh, config));
+            runs.sort((a, b) => (a.lhr.categories.performance.score ?? 0) - (b.lhr.categories.performance.score ?? 0));
+            runnerResult = runs[1];
+            ecrirePreuves(slug, url, runnerResult.lhr);
+          }
         } catch (err) {
           warn(`Echec Lighthouse sur ${page.label} (${formFactor}) : ${err?.message ?? err}`);
           continue;
@@ -165,7 +209,7 @@ export async function runLighthouse(slug, { seuil = 90, mobileOnly = false, deta
     }
   } finally {
     await chrome.kill();
-    server.close();
+    server?.close();
   }
 
   fs.mkdirSync(path.join(ROOT, 'captures'), { recursive: true });
@@ -182,11 +226,17 @@ export async function runLighthouse(slug, { seuil = 90, mobileOnly = false, deta
   return true;
 }
 
-/** CLI direct : `ff lighthouse [slug] [--mobile] [--seuil 90] [--detail]`. */
+/** CLI direct : `ff lighthouse [slug] [--mobile] [--seuil 90] [--detail] [--url https://...] [--preuves]`. */
 export async function cmdLighthouse(args) {
   const { positional, flags } = parseArgs(args);
   const slug = resolveSlug(positional[0]);
   const seuil = Number(flags.seuil) || 90;
-  const success = await runLighthouse(slug, { seuil, mobileOnly: Boolean(flags.mobile), detail: Boolean(flags.detail) });
+  const success = await runLighthouse(slug, {
+    seuil,
+    mobileOnly: Boolean(flags.mobile),
+    detail: Boolean(flags.detail),
+    url: typeof flags.url === 'string' ? flags.url : '',
+    preuves: Boolean(flags.preuves),
+  });
   process.exit(success ? 0 : 1);
 }

@@ -1,0 +1,226 @@
+---
+/**
+ * /audit — réservation de l'audit gratuit (plan-site-ff.html v2 § 3 « /audit » et « Après soumission »).
+ * Page sur mesure du site (sites/<slug>/pages, injectée par scripts/astro-site-pages-integration.mjs).
+ * Une page = un objectif = un CTA : « Confirmer le créneau ». Formulaire maison, aucun script tiers.
+ *
+ * Envoi selon site.form.provider (le service déjà configuré, le même que ContactForm.astro) :
+ * - web3forms / cloudflare : POST JSON, bouton désactivé « Envoi… » pendant l'envoi ; succès →
+ *   /audit/merci (prénom et créneau passés par sessionStorage, jamais dans l'URL) ; échec → message
+ *   sous le bouton (aria-live, focus), saisie conservée.
+ * - mailto (réglage actuel) : ouvre la messagerie du visiteur avec la demande remplie. On ne peut pas
+ *   savoir si le message part : pas de redirection vers « C'est noté », un message le dit à la place.
+ * Anti-spam : champ piège (botcheck) + Turnstile si form.turnstileSiteKey est renseignée.
+ *
+ * TODO(fondateurs) — le plan prévoit un e-mail automatique au visiteur (objet « Votre audit
+ * Finck & Fisch », récapitulatif, délai 48 h ouvrées, réponse à contact@) et une notification au
+ * studio (objet « Audit : [métier], [ville] »). Le réglage actuel (mailto) ne fait ni l'un ni
+ * l'autre et ne poste rien : choisir un service (clé Web3Forms ou Worker Cloudflare, voir
+ * docs/DEPLOIEMENT.md), y activer la réponse automatique si l'offre la propose, puis renseigner
+ * form.provider / form.accessKey / form.turnstileSiteKey dans site.config.ts. Rien n'est simulé ici.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, mailto } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const f = site.form;
+const creneaux = ['Le matin, de 9 h à 12 h', 'En début d’après-midi, de 14 h à 17 h', 'En fin de journée, de 17 h à 19 h'];
+const points = [
+  'Vitesse mobile mesurée',
+  'Ce que Google affiche de vous',
+  'Le chemin jusqu’à l’appel',
+  'Vos textes',
+  'Vos photos',
+];
+---
+
+<Base
+  title={`Audit gratuit de votre site internet | ${site.business.name}`}
+  description="20 minutes au téléphone ou en visio avec l’un des deux associés de Finck & Fisch : cinq points concrets sur votre site, pour les artisans de Toulouse et de toute la France."
+  path="/audit"
+>
+  <Nav />
+  <main id="main" class="ff-section ff-page-audit">
+    <div class="ff-conteneur">
+      <h1 class="ff-titre max-w-[14ch]">Réservez votre audit gratuit.</h1>
+      <p class="ff-texte ff-doux mt-6 max-w-[38rem]">
+        20 minutes au téléphone ou en visio avec l’un de nous deux. Vous repartez avec 5 points
+        concrets, même si vous ne travaillez pas avec nous.
+      </p>
+
+      <div class="ff-audit-page-grille mt-12">
+        <form
+          class="ff-form-audit"
+          data-formulaire-audit
+          data-provider={f.provider}
+          data-key={f.accessKey}
+          data-to={site.contact.email}
+          novalidate
+        >
+          <div class="ff-form-ligne">
+            <label class="ff-form-champ" for="aud-nom">
+              <span>Nom</span>
+              <input class="ff-champ" id="aud-nom" name="nom" required autocomplete="name" aria-describedby="aud-nom-err" />
+              <p class="ff-erreur" id="aud-nom-err">Indiquez votre nom, pour savoir qui appeler.</p>
+            </label>
+            <label class="ff-form-champ" for="aud-metier">
+              <span>Métier</span>
+              <input class="ff-champ" id="aud-metier" name="metier" required autocomplete="organization-title" aria-describedby="aud-metier-err" />
+              <p class="ff-erreur" id="aud-metier-err">Indiquez votre métier (boulanger, plombier, ébéniste…).</p>
+            </label>
+          </div>
+          <label class="ff-form-champ" for="aud-ville">
+            <span>Ville</span>
+            <input class="ff-champ" id="aud-ville" name="ville" required autocomplete="address-level2" aria-describedby="aud-ville-err" />
+            <p class="ff-erreur" id="aud-ville-err">Indiquez la ville où vous travaillez.</p>
+          </label>
+          <label class="ff-form-champ" for="aud-site">
+            <span>Adresse du site actuel <span class="ff-doux">(facultatif)</span></span>
+            <input class="ff-champ" id="aud-site" name="site" inputmode="url" autocomplete="url" />
+          </label>
+          <label class="ff-form-champ" for="aud-contact">
+            <span>Téléphone ou e-mail</span>
+            <input class="ff-champ" id="aud-contact" name="contact" required autocomplete="tel" aria-describedby="aud-contact-err" />
+            <p class="ff-erreur" id="aud-contact-err">Un numéro (10 chiffres) ou une adresse e-mail, pour vous joindre.</p>
+          </label>
+
+          <fieldset class="ff-form-creneaux">
+            <legend>Créneau préféré, en semaine</legend>
+            {creneaux.map((c, i) => (
+              <label class="ff-creneau">
+                <input type="radio" name="creneau" value={c} required checked={i === 0} />
+                <span>{c}</span>
+              </label>
+            ))}
+          </fieldset>
+
+          <label class="ff-form-accord ff-petit" for="aud-accord">
+            <input type="checkbox" id="aud-accord" name="accord" required aria-describedby="aud-accord-err" />
+            <span>Mes réponses servent uniquement à organiser cet audit (<a href="/confidentialite" class="ff-lien">confidentialité</a>).</span>
+          </label>
+          <p class="ff-erreur ff-erreur-accord" id="aud-accord-err">Cochez la case pour que nous puissions vous rappeler.</p>
+
+          <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          {f.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={f.turnstileSiteKey}></div>}
+
+          <button type="submit" class="ff-bouton ff-form-envoyer" data-envoyer>Confirmer le créneau</button>
+          <p class="ff-petit ff-doux">Pas de relance commerciale ensuite.</p>
+          <p class="ff-form-statut ff-texte" data-statut role="status" aria-live="polite" tabindex="-1" hidden></p>
+        </form>
+
+        <div class="ff-audit-page-recu">
+          <h2 class="ff-texte ff-audit-page-sous">Ce que vous recevez</h2>
+          <ol class="ff-audit-page-liste">
+            {points.map((p, i) => <li><span class="ff-petit ff-doux ff-montant">{i + 1}</span><span class="ff-texte">{p}</span></li>)}
+          </ol>
+          <p class="ff-petit ff-doux mt-6">Rappel sous 48&nbsp;heures ouvrées sur le créneau choisi. Une question avant&#8239;? <a href={mailto()} class="ff-lien">{site.contact.email}</a></p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+{f.turnstileSiteKey && <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  onPage(() => {
+    const form = document.querySelector<HTMLFormElement>('[data-formulaire-audit]');
+    if (!form || form.dataset.pret) return;
+    form.dataset.pret = '1';
+    const bouton = form.querySelector<HTMLButtonElement>('[data-envoyer]')!;
+    const statut = form.querySelector<HTMLElement>('[data-statut]')!;
+    const contact = form.querySelector<HTMLInputElement>('#aud-contact')!;
+    const libelle = bouton.textContent;
+
+    const verifieContact = () => {
+      const v = contact.value.trim();
+      const ok = !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || (v.replace(/\D/g, '').length >= 9 && !/[a-z]/i.test(v));
+      contact.setCustomValidity(ok ? '' : 'format');
+    };
+    contact.addEventListener('input', verifieContact);
+
+    const dire = (texte: string, erreur: boolean) => {
+      statut.textContent = texte;
+      statut.hidden = false;
+      statut.dataset.etat = erreur ? 'erreur' : 'ok';
+      statut.focus();
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      verifieContact();
+      form.classList.add('ff-form-soumis');
+      if (!form.checkValidity()) {
+        form.querySelector<HTMLElement>(':invalid')?.focus();
+        return;
+      }
+      const d = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+      if (d.botcheck) return;
+      const prenom = (d.nom || '').trim().split(/\s+/)[0] ?? '';
+      const sujet = `Audit : ${d.metier}, ${d.ville}`;
+      const corps = [`Nom : ${d.nom}`, `Métier : ${d.metier}`, `Ville : ${d.ville}`, `Site actuel : ${d.site || 'aucun'}`, `Joindre : ${d.contact}`, `Créneau préféré : ${d.creneau}`].join('\n');
+
+      if (form.dataset.provider === 'mailto') {
+        window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(sujet)}&body=${encodeURIComponent(corps)}`;
+        dire(`Votre messagerie s’ouvre avec la demande remplie : envoyez-la pour confirmer le créneau. Rien ne s’ouvre ? Écrivez-nous à ${form.dataset.to}.`, false);
+        return;
+      }
+
+      bouton.disabled = true;
+      bouton.setAttribute('aria-busy', 'true');
+      bouton.textContent = 'Envoi…';
+      try {
+        const cloud = form.dataset.provider === 'cloudflare';
+        const res = await fetch(cloud ? '/api/contact' : 'https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(cloud ? { subject: sujet, ...d, message: corps } : { access_key: form.dataset.key, subject: sujet, from_name: d.nom, ...d, message: corps }),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || !json.success) throw new Error('envoi');
+        try { sessionStorage.setItem('ff-audit', JSON.stringify({ prenom, creneau: d.creneau })); } catch {}
+        window.location.assign('/audit/merci');
+      } catch {
+        dire(`L’envoi n’a pas marché. Écrivez-nous à ${form.dataset.to} ou réessayez.`, true);
+        bouton.disabled = false;
+        bouton.removeAttribute('aria-busy');
+        bouton.textContent = libelle;
+      }
+    });
+  });
+</script>
+
+<style is:global>
+  .ff-audit-page-grille { display: grid; gap: var(--s8); }
+  @media (min-width: 1024px) {
+    .ff-audit-page-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s6); }
+    .ff-form-audit { grid-column: 1 / span 6; }
+    .ff-audit-page-recu { grid-column: 8 / span 5; }
+  }
+  .ff-form-audit { display: grid; gap: var(--s3); align-content: start; }
+  .ff-form-ligne { display: grid; gap: var(--s3); }
+  @media (min-width: 640px) { .ff-form-ligne { grid-template-columns: 1fr 1fr; } }
+  .ff-form-champ { display: grid; gap: var(--s1); font-size: 0.875rem; line-height: 1.25rem; }
+  .ff-form-audit .ff-champ { width: 100%; min-height: 48px; padding: 0 var(--s2); border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+  .ff-form-creneaux { display: grid; gap: var(--s1); border: 0; margin: 0; padding: 0; }
+  .ff-form-creneaux legend { font-size: 0.875rem; line-height: 1.25rem; margin-bottom: var(--s1); }
+  .ff-creneau { display: flex; min-height: 48px; align-items: center; gap: var(--s2); padding: 0 var(--s2); border: 1px solid var(--line); border-radius: 4px; cursor: pointer; }
+  .ff-creneau:has(input:checked) { border-color: var(--fg); }
+  .ff-creneau input, .ff-form-accord input { width: 18px; height: 18px; accent-color: var(--accent); flex-shrink: 0; }
+  .ff-form-accord { display: flex; gap: var(--s2); align-items: flex-start; }
+  .ff-form-accord input { margin-top: 1px; }
+  .ff-erreur-accord { display: none; }
+  .ff-form-soumis .ff-form-accord:has(input:invalid) + .ff-erreur-accord { display: block; }
+  .ff-form-envoyer { justify-self: start; margin-top: var(--s1); }
+  @media (max-width: 639px) { .ff-form-envoyer { justify-self: stretch; } }
+  .ff-form-statut { padding: var(--s2); border: 1px solid var(--line); border-radius: 4px; }
+  .ff-form-statut[data-etat='erreur'] { border-color: var(--ff-danger, var(--accent)); }
+  .ff-audit-page-sous { font-family: var(--font-body); font-weight: 600; letter-spacing: 0; }
+  .ff-audit-page-liste { list-style: none; margin: var(--s2) 0 0; padding: 0; display: grid; }
+  .ff-audit-page-liste > li { display: grid; grid-template-columns: var(--s4) minmax(0, 1fr); gap: var(--s2); padding-block: var(--s2); border-top: 1px solid var(--line); align-items: baseline; }
+</style>

@@ -9,6 +9,8 @@ import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
 
 export function getStaticPaths() {
+  // site.servicePages: false -> aucune page service (voir src/lib/schema.ts).
+  if (!site.servicePages) return [];
   return site.services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
 }
 const { service } = Astro.props;

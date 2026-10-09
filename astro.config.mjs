@@ -7,6 +7,7 @@ import { ffLookPlugin } from './scripts/vite-ff-look.mjs';
 import { imagesIntegration } from './scripts/astro-images-integration.mjs';
 import { creditsIntegration } from './scripts/astro-credits-integration.mjs';
 import { iconsIntegration } from './scripts/astro-icons-integration.mjs';
+import { sitePagesIntegration, siteNoindexRoutes } from './scripts/astro-site-pages-integration.mjs';
 import { readSiteSecurityConfig, buildSecurityHeaderLines } from './scripts/ff/csp.mjs';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -52,6 +53,7 @@ securityConfig.usesLottie = existsSync(sectionsDir)
 const ffLook = process.env.FF_LOOK || '';
 if (ffLook) JSON.parse(ffLook); // echoue tot si invalide
 const outDir = process.env.FF_OUT || `dist/${slug}`;
+const noindexSitePages = siteNoindexRoutes(process.cwd(), slug);
 
 /**
  * Cloudflare Pages lit un fichier `_headers` a la racine du dossier deploye : cache long et immuable
@@ -89,7 +91,10 @@ export default defineConfig({
   integrations: [
     // /credits est noindex (page utilitaire, voir src/pages-optional/credits.astro) : jamais dans
     // le sitemap, meme quand la route est injectee (docs/veille/redaction-images.md §2).
-    sitemap({ filter: (page) => !/\/credits\/?$/.test(page) }),
+    // Pages sur mesure noindex (sites/<slug>/pages, ex. /audit/merci) : hors sitemap aussi.
+    sitemap({ filter: (page) => !/\/credits\/?$/.test(page) && !noindexSitePages.some((r) => new URL(page).pathname.replace(/\/$/, '') === r) }),
+    // Pages sur mesure du site (sites/<slug>/pages/**/*.astro), voir scripts/astro-site-pages-integration.mjs.
+    sitePagesIntegration({ root: process.cwd(), slug }),
     headersIntegration,
     imagesIntegration({ root: process.cwd(), slug }),
     creditsIntegration({ root: process.cwd(), slug }),

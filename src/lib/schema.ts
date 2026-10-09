@@ -86,6 +86,10 @@ export const siteSchema = z.object({
   direction: z.enum(DIRECTIONS),
   motion: z.enum(MOTION).default('subtle'),
   smoothScroll: z.boolean().default(false).describe('Active Lenis (scroll fluide, data-smooth), tier motion "rich" uniquement — jamais par defaut (voir docs/veille/animations.md §3 #1)'),
+  servicePages: z
+    .boolean()
+    .default(true)
+    .describe("Genere une page /services/<slug> par service (defaut). false : aucune page service n'est construite (les services restent dans le contenu), ni listee par llms.txt ou la 404 — pour un site a une seule conversion (ex. finck-fisch : /services/* redirige vers /audit)."),
   transitions: z.boolean().default(false).describe('Active <ClientRouter /> (astro:transitions) pour des transitions de page douces — opt-in, audit des scripts inline non complet (voir docs/ANIMATIONS.md § Transitions de page)'),
   accent: hsl.optional().describe("Surcharge la couleur d'accent de la direction (HSL)"),
   typography: z

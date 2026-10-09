@@ -1,0 +1,47 @@
+---
+/**
+ * Preuve vivante (plan-site-ff.html v2, § 7) : une ligne, trois faits.
+ *
+ * 1. Les scores Lighthouse mobile de ce site, lus au build dans sites/finck-fisch/preuves.json.
+ *    Ce fichier n'est écrit QUE par une vraie mesure :
+ *      node scripts/ff.mjs lighthouse finck-fisch --mobile --preuves [--url https://finckfisch.fr]
+ *    (accueil, profil mobile Lighthouse par défaut, médiane de 3 passages). Jamais à la main.
+ *    Le fait se masque de lui-même si le fichier manque, si la mesure a plus de 30 jours ou si la
+ *    performance est sous 95 (même seuil que le contrôle qualité) : jamais de chiffre faux ou flatteur.
+ * 2. En ligne en 72 h après réception des contenus (l'engagement de l'offre).
+ * 3. Réponse sous 48 h ouvrées (délai validé le 9 oct 2026, à resserrer avec le volume).
+ *
+ * Pas de « dernier site livré » tant qu'aucun client n'est livré (aucune donnée inventée) :
+ * TODO(fondateurs) l'ajouter ici au premier site livré, avec l'accord du client.
+ */
+import { lirePreuves } from './preuves';
+
+const p = lirePreuves();
+const date = p
+  ? new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' }).format(new Date(`${p.date}T12:00:00Z`))
+  : '';
+---
+
+<section id="preuve" class="ff-preuve" aria-label="En bref">
+  <ul class="ff-conteneur ff-preuve-liste ff-petit">
+    {p && (
+      <li>
+        <span class="text-fg">Lighthouse mobile de ce site&nbsp;:</span> performance {p.performance}, accessibilité {p.accessibilite}, bonnes pratiques {p.bonnesPratiques}, référencement {p.seo}. <span class="ff-doux">Mesuré le {date}.</span>
+      </li>
+    )}
+    <li><span class="text-fg">En ligne en 72 heures</span> <span class="ff-doux">après réception de vos contenus.</span></li>
+    <li><span class="text-fg">Réponse sous 48 heures ouvrées</span> <span class="ff-doux">à votre demande d’audit.</span></li>
+  </ul>
+</section>
+
+<style is:global>
+  .ff-preuve { border-block: 1px solid var(--line); }
+  .ff-preuve-liste { display: grid; list-style: none; margin-block: 0; }
+  .ff-preuve-liste > li { padding-block: var(--s2); }
+  .ff-preuve-liste > li + li { border-top: 1px solid var(--line); }
+  @media (min-width: 1024px) {
+    .ff-preuve-liste { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+    .ff-preuve-liste > li { padding: var(--s3) var(--s3) var(--s3) 0; }
+    .ff-preuve-liste > li + li { border-top: 0; border-left: 1px solid var(--line); padding-left: var(--s3); }
+  }
+</style>

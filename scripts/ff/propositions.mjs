@@ -32,7 +32,7 @@ function startServer() {
       return;
     }
     let f = path.join(root, decodeURIComponent(new URL(req.url, 'http://localhost').pathname));
-    if (existsSync(f) && statSync(f).isDirectory()) f = path.join(f, 'index.html');
+    if (existsSync(f) && statSync(f).isDirectory()) f = existsSync(path.join(f, 'index.html')) || !existsSync(`${f}.html`) ? path.join(f, 'index.html') : `${f}.html`; // /audit + /audit/merci : audit.html a cote du dossier audit/ (pages sur mesure)
     if (!existsSync(f) && existsSync(f + '.html')) f = f + '.html';
     if (!existsSync(f)) {
       res.writeHead(404);

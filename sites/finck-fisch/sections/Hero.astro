@@ -1,75 +1,87 @@
 ---
 /**
- * Hero sur mesure Finck & Fisch.
+ * Hero du site du studio (plan-site-ff.html v2, S1 « Monogramme tracé + titre révélé par lignes »).
  *
- * REFONTE DU 9 OCT 2026 — benchmark de 30 sites (docs/veille/benchmark-2026-10/, synthèses studios,
- * marques, fr, awwwards). Ce qui change, et pourquoi :
+ * Un écran qui vend (Trueform) : le monogramme, le titre, la ligne d'offre (prix + délai), un seul
+ * bouton plein (« Réserver mon audit gratuit » → /audit), un lien texte vers les exemples, et une
+ * ligne de présence (e-mail en clair + heure de Paris en direct). À droite, la démo vidéo de la forge.
  *
- * 1. Le travail est le hero (Pentagram, Order, twks, Linear) : un site d'exemple livré par l'atelier,
- *    en grand, avec une légende factuelle (métier, ville, « exemple »). Plus de slogan abstrait
- *    (« Votre métier mérite mieux qu'un template »), qui était la phrase la plus générique de la page.
- * 2. Une phrase à la première personne qui dit qui, pour qui, combien et en combien de temps
- *    (Pianetti, ONCE), le prix sur la même ligne que l'action (Diptyque).
- * 3. Trois tailles de texte, très écartées (Prødux) : le titre, la ligne d'offre, les petites lignes.
- * 4. Contact direct : l'e-mail en clair, pas de bouton plein (Pianetti). Signe de présence vrai et
- *    sans risque : l'heure de Paris en direct (Koto, Revelatio).
- * 5. Le monogramme tracé reste en haut, au-dessus du titre, en petit (décision du fondateur, 9 oct :
- *    « sinon ça nous distingue pas »). C'est la seule marque de la page ; il ne revient pas en bas.
+ * S1 est en CSS PUR (@keyframes dans le CSS inliné au build, aucun script, aucune hydratation) : il
+ * démarre au premier rendu, indépendamment du chargement des scripts.
+ * - Monogramme : 6 sous-tracés SVG (mono-subpaths.ts), stroke-dashoffset 1000 → 0, 0,8 s chacun,
+ *   cubic-bezier(0.4, 0, 0.2, 1), décalage 0,26 s ; remplissage crème 0,9 s à partir de 2,1 s (fin du
+ *   dernier trait) ; le trait cuivre s'efface à 2,5 s.
+ * - Titre (élément LCP) : chaque ligne dans un masque, translateY 55 % → 0, 0,6 s power3.out
+ *   (cubic-bezier(0.165, 0.84, 0.44, 1)), décalage 0,09 s, départ 0,15 s. Départ à 55 % et non 100 % :
+ *   la ligne est déjà à moitié peinte au premier rendu, Chrome enregistre le LCP à la première
+ *   peinture au lieu d'attendre la fin du geste (~0,9 s gagnées).
+ * - Phrase, boutons, présence : translateY 12 px → 0 + opacité, 0,4 s power2.out, à +0,35 s.
+ * - Mouvement réduit : tout est posé, aucune animation.
  *
- * TODO(fondateurs) : téléphone réel absent (le config porte un placeholder). Quand il arrive, ajouter
- * « ou appelez le <numéro> » dans la petite ligne de contact ci-dessous, en lien tel().
+ * Les lignes du titre sont écrites ici (un découpage CSS ne peut pas se calculer) : elles doivent
+ * redonner exactement business.tagline (« Nous faisons des sites pour les artisans. »).
  */
 import { site, mailto } from '@/lib/site';
+import { MONO_SUBPATHS } from './mono-subpaths';
+
+const lignes = ['Nous faisons', 'des sites pour', 'les artisans.'];
+if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
+  throw new Error('Hero : les lignes du titre ne redonnent plus business.tagline, à réécrire ensemble.');
+}
 ---
 
-<section id="hero" class="relative flex flex-col justify-center pt-8 pb-14 md:pt-12 lg:min-h-[calc(100svh-68px)] lg:pb-16">
-  <div class="container-ff grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-x-12">
-    <div class="hero-texte lg:col-span-5">
-      {/* Étape 4 bis (9 oct) : le monogramme se forme dans une fumée d'encre blanche (vidéo fal.ai /
-          Veo 3.1, image de fin = le monogramme exact), lue une fois à l'ouverture, puis reste sur la
-          dernière image. Le fond de la vidéo est encodé dans le noir chaud exact de la page (#15120f) : aucun
-          fondu CSS (mix-blend-mode ignoré sur <video> par Chrome), aucun carré visible. Pas de masque : il coupait le haut du F (essai du 9 oct
-          au matin). Mouvement réduit ou lecture bloquée : l'image fixe du logo fini. */}
-      <div class="hero-mono" data-hero-mono-cadre>
-        <video
-          data-hero-mono
-          src="/video/monogramme.mp4"
-          muted
-          playsinline
-          preload="auto"
-          width="640"
-          height="640"
-          aria-hidden="true"
-        ></video>
-        {/* Le logo fini, toujours là : par-dessus la vidéo tant qu'elle n'a pas vraiment démarré (Chrome
-            retire le poster dès play() et montre du noir pendant le chargement : « le logo marche pas »,
-            9 oct). Si la vidéo ne charge jamais, c'est lui qu'on voit. */}
-        <img src="/video/monogramme.webp" width="640" height="640" alt="" aria-hidden="true" decoding="async" fetchpriority="high" data-hero-mono-fixe />
-      </div>
+<section id="hero" class="ff-hero">
+  <div class="ff-conteneur ff-hero-grille">
+    <div class="ff-hero-texte">
+      <svg class="ff-mono" viewBox="286 -1 294 281" aria-hidden="true" focusable="false">
+        <defs>
+          {MONO_SUBPATHS.map((d, i) => <path id={`ff-mono-p${i}`} d={d} pathLength="1000" />)}
+        </defs>
+        {MONO_SUBPATHS.map((_, i) => <use class="ff-mono-corps" href={`#ff-mono-p${i}`} />)}
+        {MONO_SUBPATHS.map((_, i) => <use class="ff-mono-trait" href={`#ff-mono-p${i}`} style={`--i:${i}`} />)}
+      </svg>
 
-      <h1 class="hero-titre" set:html={site.business.tagline} />
+      <h1 class="ff-titre ff-hero-titre">
+        {lignes.map((l, i) => <span class="ff-masque"><span style={`--l:${i}`}>{l}</span></span>)}
+      </h1>
 
-      <p class="hero-offre mt-10">
-        Un site vitrine sur mesure pour votre atelier ou votre boutique, à partir de 1 200 €, en
-        ligne 72 heures après réception de vos textes et de vos photos.
-        <a href="#offre" class="ff-lien whitespace-nowrap text-fg">Voir les tarifs</a>
-      </p>
-
-      <div class="hero-contact mt-10 border-t border-line pt-5 text-[0.95rem] text-muted">
-        <p>Écrivez-nous à <a href={mailto()} class="ff-lien text-fg">{site.contact.email}</a>, c’est nous deux qui lisons.</p>
-        <p class="mt-1" data-heure hidden>Il est <span data-heure-valeur></span> à Paris.</p>
+      <div class="ff-hero-suite">
+        <p class="ff-texte ff-hero-offre">
+          Un site sur mesure pour votre métier, dès <span class="ff-montant whitespace-nowrap">1 200 €</span>,
+          en ligne 72 heures après réception de vos textes et de vos photos.
+        </p>
+        <div class="ff-hero-actions">
+          <a href="/audit" class="ff-bouton">Réserver mon audit gratuit</a>
+          <a href="#realisations" class="ff-lien ff-texte">Voir des exemples</a>
+        </div>
+        <div class="ff-hero-presence ff-petit ff-doux">
+          <p>Écrivez-nous à <a href={mailto()} class="ff-lien">{site.contact.email}</a>, c’est nous deux qui lisons.</p>
+          <p data-heure hidden>Il est <span data-heure-valeur></span> à Paris.</p>
+        </div>
       </div>
     </div>
 
-    <figure class="hero-oeuvre lg:col-span-7">
-      {/* 9 oct, soir : la capture figée devient un enregistrement muet (6 s, en boucle) de l'accueil de
-          la forge qui défile : le geste du forgeron bouge vraiment. L'image d'aperçu (poster, même
-          cadrage 14:9) est ce que voient le premier rendu, le mouvement réduit et le téléphone (où rien
-          n'est téléchargé avant un toucher). Chargement et lecture pilotés par demo-video.ts. */}
+    <figure class="ff-hero-oeuvre">
+      {/* Démo de la forge en vidéo (6 s, en boucle), pilotée par demo-video.ts : image fixe au premier
+          rendu, sur téléphone (lecture au toucher) et en mouvement réduit ; preload none.
+          L'image fixe est un vrai <img> (fetchpriority high, srcset) sous la vidéo, et non l'attribut
+          poster : un poster n'est demandé qu'au moment où le navigateur atteint la vidéo, en priorité
+          basse ; mesuré le 9 oct 2026, il retardait le LCP mobile d'environ une seconde (4G lente).
+          Sans poster, la vidéo reste transparente tant qu'elle ne joue pas : on voit l'image. */}
+      <div class="ff-hero-media">
+      <img
+        src="/images/sites/forge-delacroix.webp"
+        srcset="/images/sites/forge-delacroix-700.webp 700w, /images/sites/forge-delacroix.webp 1260w"
+        sizes="(min-width: 1024px) 40vw, 100vw"
+        width="1260"
+        height="810"
+        alt=""
+        aria-hidden="true"
+        decoding="async"
+      />
       <video
         data-demo
         data-src="/video/demos/forge-delacroix.mp4"
-        poster="/images/sites/forge-delacroix.webp"
         muted
         loop
         playsinline
@@ -77,21 +89,17 @@ import { site, mailto } from '@/lib/site';
         width="1260"
         height="810"
         aria-hidden="true"
-        class="block aspect-[14/9] w-full border border-line object-cover object-top lg:aspect-[4/3]"
       ></video>
-      <span class="sr-only">Page d’accueil du site d’exemple d’une ferronnerie d’art à Toulouse : un forgeron au travail, le titre « Le fer, à la main »</span>
-      <figcaption class="mt-3 flex flex-wrap justify-between gap-x-6 gap-y-1 text-sm text-muted">
-        <span><span class="text-fg">Ferronnerie d’art, Toulouse.</span> Le geste du forgeron défile avec la page.</span>
-        <span>Site d’exemple</span>
-      </figcaption>
+      </div>
+      <span class="sr-only">Page d’accueil du site d’exemple d’une ferronnerie d’art à Toulouse : un forgeron au travail, le titre « Le fer, à la main »</span>
+      <figcaption class="ff-petit ff-doux"><span class="text-fg">Ferronnerie d’art, Toulouse.</span> Exemple.</figcaption>
     </figure>
   </div>
 </section>
 
 <script>
-  // « Le site s'ouvre par le bas parfois » (9 oct 2026) : au rechargement ou à la réouverture d'un
-  // onglet, le navigateur restaurait l'ancienne position (souvent le bas de page). Une page vitrine
-  // s'ouvre en haut. Exceptions : lien vers une ancre, retour arrière.
+  // Une page vitrine s'ouvre en haut (9 oct 2026 : le navigateur restaurait parfois le bas de page).
+  // Exceptions : lien vers une ancre, retour arrière.
   const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
   if (!location.hash && nav?.type !== 'back_forward') {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -103,72 +111,10 @@ import { site, mailto } from '@/lib/site';
   import { onPage } from '@/scripts/page';
   import { initDemoVideos } from './demo-video';
 
-  // La démo de la forge, en vidéo : voir demo-video.ts (aussi appelé par Realisations.astro, idempotent).
   onPage(initDemoVideos);
 
-  // Le monogramme en vidéo : lecture une fois à l'ouverture, reste sur la dernière image. Mouvement
-  // réduit : saut direct à la fin. Lecture refusée (économie d'énergie iOS) : idem.
-  onPage(() => {
-    const v = document.querySelector<HTMLVideoElement>('[data-hero-mono]');
-    const fixe = document.querySelector<HTMLElement>('[data-hero-mono-fixe]');
-    const cadre = document.querySelector<HTMLElement>('[data-hero-mono-cadre]');
-    if (!v || !fixe || !cadre || v.dataset.pret) return;
-    v.dataset.pret = '1';
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.remove(); return; }
-
-    // L'image fixe ne s'efface qu'une fois une image réellement peinte, jamais avant : aucun noir.
-    let joue = false, secoursLance = false;
-    v.addEventListener('playing', () => { joue = true; fixe.classList.add('est-cachee'); }, { once: true });
-    v.addEventListener('ended', () => { fixe.classList.remove('est-cachee'); }, { once: true });
-
-    // Secours (9 oct 2026, « je vois pas d'animation logo ») : quand le navigateur refuse la vidéo
-    // (iOS en économie d'énergie, onglet bridé), la même animation est dessinée image par image sur
-    // un canvas (48 WebP, 200 Ko, chargées seulement ici). Rien ne peut bloquer un canvas.
-    const secours = () => {
-      if (joue || secoursLance) return;
-      secoursLance = true;
-      v.remove();
-      const N = 48, FPS = 12;
-      const c = document.createElement('canvas');
-      c.width = 480; c.height = 480; c.setAttribute('aria-hidden', 'true');
-      cadre.insertBefore(c, fixe);
-      const ctx = c.getContext('2d');
-      if (!ctx) return;
-      const imgs = Array.from({ length: N }, (_, i) => { const im = new Image(); im.decoding = 'async'; im.src = `/video/mono-frames/${String(i + 1).padStart(2, '0')}.webp`; return im; });
-      const prete = (im: HTMLImageElement) => im.complete && im.naturalWidth > 0;
-      let t0: number | null = null, derniere = -1;
-      const tick = (t: number) => {
-        if (t0 === null) t0 = t;
-        const cible = Math.min(N - 1, Math.floor((t - t0) / (1000 / FPS)));
-        if (prete(imgs[cible])) {
-          if (cible !== derniere) { ctx.drawImage(imgs[cible], 0, 0, 480, 480); derniere = cible; if (cible >= 1) fixe.classList.add('est-cachee'); }
-        } else {
-          t0 += 16; // image pas encore là : on retient le temps au lieu de sauter
-        }
-        if (derniere < N - 1) requestAnimationFrame(tick);
-        else fixe.classList.remove('est-cachee');
-      };
-      const demarrer = () => { if (imgs.slice(0, 10).every(prete)) requestAnimationFrame(tick); else window.setTimeout(demarrer, 80); };
-      demarrer();
-    };
-
-    // Lecture demandée tout de suite (iOS ne charge qu'au play()) ; refus -> secours ; silence
-    // (rien de peint au bout de 1,5 s) -> secours aussi.
-    const lancer = () => { if (!secoursLance) v.play().catch(secours); };
-    lancer();
-    v.addEventListener('canplay', lancer, { once: true });
-    window.setTimeout(() => { if (!joue) secours(); }, 1500);
-
-    // Rejouer : un clic ou un toucher sur la marque relance la fumée (on arrive souvent après la fin).
-    cadre.style.cursor = 'pointer';
-    cadre.addEventListener('click', () => {
-      if (secoursLance) return;
-      if (v.readyState >= 2) { fixe.classList.add('est-cachee'); v.currentTime = 0; v.play().catch(() => {}); }
-    });
-  });
-
-  // L'heure de Paris, en direct (signe de présence vrai, rien à promettre). Rien n'est écrit dans le
-  // HTML livré : sans JavaScript, la ligne reste masquée plutôt que d'afficher une heure fausse.
+  // L'heure de Paris, en direct (signe de présence vrai). Sans JavaScript, la ligne reste masquée
+  // plutôt que d'afficher une heure fausse.
   onPage(() => {
     const ligne = document.querySelector<HTMLElement>('[data-heure]');
     const valeur = document.querySelector<HTMLElement>('[data-heure-valeur]');
@@ -188,47 +134,73 @@ import { site, mailto } from '@/lib/site';
 </script>
 
 <style is:global>
-  /* Trois tailles, pas une de plus : titre, ligne d'offre, petites lignes. */
-  #hero .hero-titre {
-    font-size: clamp(2.6rem, 5vw, 4.9rem);
-    line-height: 1.04;
-    letter-spacing: -0.015em;
-    font-style: normal;
-  }
-  #hero .hero-offre {
-    max-width: 30rem;
-    font-size: clamp(1.15rem, 1.45vw, 1.35rem);
-    line-height: 1.45;
-    color: var(--fg);
-  }
-  .hero-oeuvre video { background: var(--surface); }
-
-  /* #hero porte un view-transition-name (global.css), donc un contexte d'empilement : le fondu
-     « screen » de la vidéo se ferait contre du transparent (carré noir visible). Le hero prend le fond
-     de la page pour que le noir de la vidéo s'y dissolve. */
-  #hero { background: var(--bg); isolation: isolate; }
-
-  /* La marque en vidéo : grande, au-dessus du titre, fondue dans la page (screen), sans fond d'attente. */
-  .hero-mono {
-    position: relative;
-    display: block;
-    width: clamp(11rem, 17vw, 17rem);
-    aspect-ratio: 1;
-    margin: -2.5rem 0 clamp(0.5rem, 1.5vw, 1rem) -2rem;
-  }
-  .hero-mono video, .hero-mono img, .hero-mono canvas { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent !important; }
-  .hero-mono img { transition: opacity 240ms ease; }
-  .hero-mono img.est-cachee { opacity: 0; }
-  @media (max-width: 1023px) {
-    .hero-mono { width: clamp(9rem, 34vw, 12rem); margin-left: -0.6rem; margin-top: -1.5rem; }
+  .ff-hero { padding-block: var(--s4) var(--s8); background: var(--bg); }
+  /* Téléphone : la pièce exposée (la forge) commence sous le premier écran ; le titre reste l'élément
+     LCP, peint à la première peinture (mesuré : une bande de 56 px de l'image suffisait à en faire le LCP). */
+  .ff-hero-grille { display: grid; gap: var(--s12); }
+  @media (min-width: 1024px) {
+    .ff-hero { min-height: calc(100svh - var(--entete)); display: flex; align-items: center; padding-block: var(--s6); }
+    .ff-hero-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s6); align-items: center; }
+    .ff-hero-texte { grid-column: 1 / span 7; }
+    .ff-hero-oeuvre { grid-column: 8 / span 5; }
   }
 
-  /* Entrée en CSS pur, sans attendre le chargement complet (titre visible tout de suite en 4G). */
-  /* background : l'animation (fill-mode both) fait de ce bloc un contexte d'empilement, où le fondu
-     « screen » de la vidéo doit trouver le fond de la page, pas du transparent. */
-  .hero-texte { background: var(--bg); animation: hero-in 600ms cubic-bezier(0.23, 1, 0.32, 1) 120ms both; }
-  @keyframes hero-in { from { opacity: 0; transform: translateY(10px); } }
+  /* --- Monogramme (S1) : 96 px sur téléphone, 120 px sur ordinateur --- */
+  .ff-mono { display: block; width: 96px; height: auto; overflow: visible; margin-bottom: var(--s4); }
+  @media (min-width: 1024px) { .ff-mono { width: 120px; margin-bottom: var(--s6); } }
+  .ff-mono-corps { fill: var(--fg); opacity: 0; animation: ff-mono-corps 0.9s cubic-bezier(0.23, 1, 0.32, 1) 2.1s forwards; }
+  .ff-mono-trait {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation:
+      ff-mono-trait 0.8s cubic-bezier(0.4, 0, 0.2, 1) calc(var(--i) * 0.26s) forwards,
+      ff-mono-trait-fin 0.6s ease 2.5s forwards;
+  }
+  @keyframes ff-mono-trait { to { stroke-dashoffset: 0; } }
+  @keyframes ff-mono-trait-fin { to { opacity: 0; } }
+  @keyframes ff-mono-corps { to { opacity: 1; } }
+
+  /* --- Titre (S1, élément LCP) --- */
+  .ff-hero-titre .ff-masque > span { animation: ff-ligne 0.6s var(--ff-power3-out) calc(0.15s + var(--l) * 0.09s) both; }
+  @keyframes ff-ligne { from { transform: translateY(55%); } }
+
+  /* --- Phrase, boutons, présence --- */
+  .ff-hero-suite { animation: ff-hero-suite 0.4s var(--ff-power2-out) 0.5s both; }
+  @keyframes ff-hero-suite { from { opacity: 0; transform: translateY(12px); } }
+  .ff-hero-offre { margin-top: var(--s4); max-width: 32rem; }
+  .ff-hero-actions { margin-top: var(--s4); display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4); }
+  .ff-hero-presence { margin-top: var(--s8); padding-top: var(--s2); border-top: 1px solid var(--line); display: grid; gap: 4px; max-width: 32rem; }
+  @media (max-width: 639px) {
+    .ff-hero-actions .ff-bouton { width: 100%; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .hero-texte { animation: none; }
+    .ff-mono-corps { animation: none; opacity: 1; }
+    .ff-mono-trait { animation: none; opacity: 0; }
+    .ff-hero-titre .ff-masque > span, .ff-hero-suite { animation: none; }
   }
+
+  /* --- Démo de la forge, 4:3 --- */
+  .ff-hero-media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface);
+  }
+  .ff-hero-media img, .ff-hero-media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    background: none;
+  }
+  .ff-hero-oeuvre figcaption { margin-top: var(--s1); }
 </style>

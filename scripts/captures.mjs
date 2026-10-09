@@ -38,7 +38,7 @@ const server = createServer((req, res) => {
   const root = join('dist', current);
   const pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname);
   let f = join(root, pathname);
-  if (existsSync(f) && statSync(f).isDirectory()) f = join(f, 'index.html');
+  if (existsSync(f) && statSync(f).isDirectory()) f = existsSync(join(f, 'index.html')) || !existsSync(`${f}.html`) ? join(f, 'index.html') : `${f}.html`; // /audit + /audit/merci : audit.html a cote du dossier audit/ (pages sur mesure)
   if (!existsSync(f) && existsSync(f + '.html')) f = f + '.html';
   // Applique les en-tetes de dist/<slug>/_headers (astro.config.mjs, integration ff-headers, dont
   // la CSP) comme le ferait Cloudflare Pages en production : sans ca, une capture locale ne peut

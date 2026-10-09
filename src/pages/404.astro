@@ -17,7 +17,8 @@ import Icon from '@/components/Icon.astro';
 const Nav = resolveSection('nav', site.layout.nav);
 const Footer = resolveSection('footer', site.layout.footer);
 // Les six premières prestations : assez pour retomber sur ses pieds, pas assez pour refaire la nav.
-const services = site.services.slice(0, 6);
+// site.servicePages: false -> pas de page service, donc pas de liens vers elles.
+const services = site.servicePages ? site.services.slice(0, 6) : [];
 ---
 
 <Base title={`Page introuvable | ${site.business.name}`} path="/404" noindex>

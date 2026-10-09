@@ -1,58 +1,39 @@
 ---
 /**
- * Hero "custom/hero" — dessiné pour Studio Ambre. Volontairement pauvre en éléments : une image
- * plein cadre, le nom du studio en petites capitales mix-blend-mode: difference (jamais géant,
- * contrairement au hero épinglé d'Anna Vidal — ici le nom se décode au chargement via
- * data-scramble plutôt que de rester fixe), et l'accroche posée en bas de la photo, sur un voile
- * encre dégradé (tokens), pour qu'on sache en deux secondes qui c'est et ce qu'elle fait. Un grain
- * léger (data-grain, CSS pur) casse l'aplat de la photo pour un rendu papier plutôt qu'écran.
- * Aucun bouton, aucun bloc de texte long : le reste du discours vient des sections suivantes.
- * Composition propre à ce site.
- *
- * Correction (20 sept 2026, planche-contact des premiers écrans) : l'accroche vivait sous la photo,
- * dans un bandeau que le premier écran (1400×900, nav fixe comprise) coupait — le visiteur ne voyait
- * qu'un aplat de couleur et un nom minuscule. Elle remonte sur la photo, en text-display-lg, ligne
- * d'identité (lieu + métier) juste au-dessus ; le bandeau bas ne garde qu'une légende fine.
+ * Premier écran de Studio Ambre : un intérieur, en plein cadre (9 oct 2026). La photo du dossier
+ * couvre l’écran ; l’accroche est posée en bas à gauche, en romain (le <em> de la config est retiré
+ * ici : pas d’italique d’emphase sur un titre), suivie d’une phrase qui dit qui, quoi, où, depuis
+ * quand, puis l’adresse et le téléphone. Avant : le nom en capitales espacées qui se décodait au
+ * chargement, l’accroche en italique, une ligne d’identité sous la photo coupée par le premier écran.
  */
-import { site } from '@/lib/site';
+import { site, tel } from '@/lib/site';
 import Img from '@/components/Img.astro';
 
 const hero = site.images.hero;
 ---
 
-<section id="hero" class="relative bg-bg">
-  <div class="relative h-[82svh] min-h-[28rem] w-full overflow-hidden bg-ink" data-grain>
-    {hero && (
-      <Img
-        src={hero.src}
-        alt={hero.alt}
-        class="absolute inset-0 h-full w-full object-cover"
-        sizes="100vw"
-        loading="eager"
-        fetchpriority="high"
-      />
-    )}
-    {/* Voile encre dégradé (tokens) sous le texte : la photo peut être claire ou chargée, l'accroche reste lisible. */}
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" aria-hidden="true"></div>
+<section id="hero" class="relative flex min-h-svh flex-col justify-end overflow-hidden bg-ink text-on-ink">
+  {hero && (
+    <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover object-[35%_50%]" sizes="100vw" loading="eager" fetchpriority="high" />
+  )}
+  <div class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/30 to-transparent" aria-hidden="true"></div>
 
+  <div class="container-ff relative flex flex-col gap-8 pb-12 pt-40 md:gap-10 md:pb-16">
     <h1
-      class="pointer-events-none absolute inset-x-0 top-10 px-6 text-center font-display uppercase leading-none sm:top-14"
-      style="font-size: clamp(0.85rem, 1.4vw, 1.15rem); letter-spacing: 0.55em; mix-blend-mode: difference; color: var(--on-ink);"
-      data-scramble="1100"
-    >
-      {site.business.name}
-    </h1>
+      class="max-w-[14ch] font-display leading-[0.98]"
+      style="font-size: clamp(2.75rem, 7.5vw, 6.5rem);"
+      data-split
+      set:html={site.business.tagline.replace(/<\/?em>/g, '')}
+    />
 
-    <div class="absolute inset-x-0 bottom-0 z-[1]">
-      <div class="container-ff pb-10 sm:pb-14">
-        <p class="text-sm text-on-ink/80">Paris 10e, architecture d’intérieur.</p>
-        <p class="mt-4 max-w-4xl font-display text-display-lg leading-[1.02] text-on-ink" set:html={site.business.tagline} />
-      </div>
-    </div>
-  </div>
+    <p class="max-w-[36rem] text-lg leading-snug text-on-ink/85 sm:text-xl">
+      {site.legal?.owner}, architecte d’intérieur. Appartements, boutiques et cabinets, à Paris et dans les communes voisines, depuis {site.business.since}.
+    </p>
 
-  <div class="container-ff flex flex-wrap items-baseline justify-between gap-x-10 gap-y-2 border-b border-line py-5">
-    <p class="text-sm text-muted">{site.business.trade}</p>
-    {site.legal?.owner && <p class="text-sm text-muted">{site.legal.owner}</p>}
+    <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-sm text-on-ink/65">
+      <span>{site.contact.address.street}, {site.contact.address.postalCode} {site.contact.address.city}</span>
+      <a href={tel()} class="text-on-ink underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
+      <span>Sur rendez-vous</span>
+    </p>
   </div>
 </section>

@@ -1,16 +1,19 @@
 /**
- * Vidéos des sites d'exemple (Hero.astro, Realisations.astro) : à la place d'une capture figée, un court
- * enregistrement muet (6 s, en boucle) de l'accueil de chaque démo qui défile tout seul. Le site
- * d'exemple se voit bouger, pas seulement sa première page.
+ * Vidéos des sites d'exemple (Hero.astro, Realisations.astro) : un court enregistrement muet (6 s, en
+ * boucle) de l'accueil de chaque démo qui défile tout seul.
  *
- * Règles, dans l'ordre :
- * - `prefers-reduced-motion: reduce` : rien ne bouge, l'image d'aperçu (poster) reste, rien n'est
- *   téléchargé.
- * - Téléphone (pointeur grossier sans survol, ou écran < 768 px) : poster seul, aucun octet de vidéo
- *   tant qu'on n'a pas touché la vignette ; un second toucher met en pause.
- * - Ailleurs : la vidéo ne se charge (`src` posé, `preload="none"` avant) et ne joue que lorsqu'elle
- *   est visible à moitié au moins ; sortie de l'écran, elle est mise en pause.
- * - Transitions de page (`site.transitions`) : observateur coupé avant l'échange, vignettes
+ * Règles, dans l'ordre (retour du fondateur, 9 oct 2026 : « sur téléphone, les vidéos ne doivent pas
+ * attendre un toucher ») :
+ * - `prefers-reduced-motion: reduce` : rien ne bouge, l'image fixe reste, rien n'est téléchargé.
+ * - Partout (téléphone compris) : lecture muette en ligne dès que la vidéo est visible à 50 % ; hors
+ *   de l'écran, pause. `preload="none"` dans le HTML : le `src` n'est posé qu'à l'approche (moins
+ *   d'un écran de distance), le téléchargement ne commence qu'à ce moment-là.
+ * - Téléphone (pointeur grossier sans survol, ou écran < 768 px) : UNE seule vidéo joue à la fois, la
+ *   plus visible ; les autres sont en pause (batterie, forfait).
+ * - Lecture refusée (iPhone en économie d'énergie : play() rejeté) : l'image fixe reste, jamais
+ *   d'image noire. Le poster (ou l'image posée sous la vidéo dans le hero) n'est masqué que par une
+ *   vraie image jouée (événement « playing ») ; un toucher retente la lecture.
+ * - Transitions de page (`site.transitions`) : observateurs coupés avant l'échange, vignettes
  *   ré-initialisées par `onPage()` (garde `data-demo-ready`).
  */
 export function initDemoVideos(): void {
@@ -22,43 +25,66 @@ export function initDemoVideos(): void {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const telephone = matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 768;
+  const ratios = new Map<HTMLVideoElement, number>();
 
-  // play() retire le poster aussitôt : si les données ne sont pas là, Chrome montre du noir le temps
-  // du chargement. On ne demande la lecture qu'une fois la première image décodable (canplay).
-  const lire = (v: HTMLVideoElement) => {
+  const charger = (v: HTMLVideoElement) => {
     if (!v.src && v.dataset.src) v.src = v.dataset.src;
-    if (v.readyState >= 3) { v.play().catch(() => {}); return; }
+  };
+
+  // play() avant que les données soient là peut montrer du noir : on attend canplay.
+  const lire = (v: HTMLVideoElement) => {
+    if (v.dataset.demoRefus) return;
+    charger(v);
+    const go = () => v.play().catch(() => { v.dataset.demoRefus = '1'; });
+    if (v.readyState >= 3) { go(); return; }
     if (v.dataset.demoAttente) return;
     v.dataset.demoAttente = '1';
-    v.addEventListener('canplay', () => { delete v.dataset.demoAttente; if (v.dataset.demoVisible) v.play().catch(() => {}); }, { once: true });
+    v.addEventListener('canplay', () => { delete v.dataset.demoAttente; if (doitJouer(v)) go(); }, { once: true });
     v.load();
   };
 
-  const io = new IntersectionObserver(
+  // Desktop : toute vidéo visible à 50 % joue. Téléphone : seulement la plus visible.
+  const doitJouer = (v: HTMLVideoElement) => {
+    const r = ratios.get(v) ?? 0;
+    if (r < 0.5) return false;
+    if (!telephone) return true;
+    let meilleure: HTMLVideoElement | null = null;
+    let max = 0;
+    for (const [autre, ra] of ratios) if (ra >= 0.5 && ra > max) { max = ra; meilleure = autre; }
+    return meilleure === v;
+  };
+
+  const arbitrer = () => {
+    for (const v of videos) {
+      if (doitJouer(v)) lire(v);
+      else if (!v.paused) v.pause();
+    }
+  };
+
+  // Approche : le src est posé à moins d'un écran de distance (aucun octet avant).
+  const approche = new IntersectionObserver(
     (entries) => {
-      for (const e of entries) {
-        const v = e.target as HTMLVideoElement;
-        const visible = e.isIntersecting && e.intersectionRatio >= 0.5;
-        if (visible) v.dataset.demoVisible = '1'; else delete v.dataset.demoVisible;
-        if (visible && (!telephone || v.dataset.demoLu)) lire(v);
-        else if (!v.paused) v.pause();
-      }
+      for (const e of entries) if (e.isIntersecting) { charger(e.target as HTMLVideoElement); approche.unobserve(e.target); }
     },
-    { threshold: [0, 0.5, 1] },
+    { rootMargin: '100% 0px' },
+  );
+  const vue = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) ratios.set(e.target as HTMLVideoElement, e.isIntersecting ? e.intersectionRatio : 0);
+      arbitrer();
+    },
+    { threshold: [0, 0.25, 0.5, 0.75, 1] },
   );
 
   for (const v of videos) {
-    io.observe(v);
-    if (telephone) {
-      v.addEventListener('click', () => {
-        if (v.paused) {
-          v.dataset.demoLu = '1';
-          lire(v);
-        } else {
-          v.pause();
-        }
-      });
-    }
+    approche.observe(v);
+    vue.observe(v);
+    // Lecture refusée : un toucher la retente (geste de l'utilisateur, accepté par iOS).
+    v.addEventListener('click', () => {
+      if (!v.dataset.demoRefus) return;
+      delete v.dataset.demoRefus;
+      lire(v);
+    });
   }
-  document.addEventListener('astro:before-swap', () => io.disconnect(), { once: true });
+  document.addEventListener('astro:before-swap', () => { approche.disconnect(); vue.disconnect(); }, { once: true });
 }

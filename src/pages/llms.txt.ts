@@ -29,7 +29,7 @@ export const GET: APIRoute = ({ site: astroSite }) => {
   lignes.push('');
 
   lignes.push('## Services');
-  for (const s of site.services) lignes.push(`- [${s.title}](${url(`/services/${s.slug}`)}) : ${s.short}`);
+  for (const s of site.services) lignes.push(site.servicePages ? `- [${s.title}](${url(`/services/${s.slug}`)}) : ${s.short}` : `- ${s.title} : ${s.short}`);
   lignes.push('');
 
   const villes = site.zones.cities;

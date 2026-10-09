@@ -1,66 +1,41 @@
 ---
 /**
- * "Méthode" (custom/methode) : les quatre prestations du studio (site.services) présentées comme
- * les quatre phases d'une mission, en accordéon (data-accordion="single" — GSAP Flip, un seul
- * ouvert à la fois). Chaque ligne porte aussi une durée indicative en semaines
- * (data-count-bar, valeurs de démonstration marquées comme telles — aucun engagement contractuel).
- * Composition propre à ce site.
+ * « Méthode » : les quatre prestations du studio (site.services) lues comme les quatre temps d’une
+ * mission, en lignes sur filets : le titre (lien vers la page de la prestation), ce qu’on y fait,
+ * et la durée écrite en toutes lettres. Sans accordéon, sans barre de progression ni numéro en
+ * mono (9 oct 2026). Durées indicatives, données comme telles.
  */
 import { site } from '@/lib/site';
-import SectionHeading from '@/components/SectionHeading.astro';
-import Icon from '@/components/Icon.astro';
 
-const MAX_SEMAINES = 8;
-const phases = site.services.map((s, i) => ({
-  n: String(i + 1).padStart(2, '0'),
-  titre: s.title,
-  resume: s.short,
-  bullets: s.bullets,
-  semaines: [1, 4, 8, 5][i] ?? 2,
-}));
+const durees: Record<string, string> = {
+  conseil: 'Deux heures, chez vous',
+  conception: 'Huit à douze semaines',
+  'suivi-chantier': 'Le temps du chantier, trois à cinq mois',
+  'amenagement-boutique': 'Même déroulé, souvent plus court',
+};
+const phases = site.services.map((s) => ({ ...s, duree: durees[s.slug] }));
 ---
 
-<section id="methode" class="section-y">
+<section id="methode" class="section-y bg-bg-2">
   <div class="container-ff">
-    <SectionHeading eyebrow="Méthode" title="Une mission, quatre phases" text="Les mêmes quatre temps, que le lieu soit un appartement ou une boutique, plus ou moins longs selon l’ampleur du projet." />
-
-    <div class="mt-12 grid gap-3" data-accordion="single">
-      {phases.map((p) => (
-        <details class="phase rounded-card border border-line bg-surface">
-          <summary class="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:p-7">
-            <span class="flex items-baseline gap-4">
-              <span class="font-mono text-sm text-accent">{p.n}</span>
-              <span class="font-display text-xl sm:text-2xl">{p.titre}</span>
-            </span>
-            <span class="flex w-full items-center gap-4 sm:w-64 sm:shrink-0">
-              <span class="h-1.5 w-full overflow-hidden rounded-pill bg-bg-2" data-count-bar={(p.semaines / MAX_SEMAINES) * 100}>
-                <span class="bar-fill block h-full rounded-pill bg-accent"></span>
-              </span>
-              <span class="shrink-0 font-mono text-xs tabular-nums text-muted">{p.semaines} sem.</span>
-            </span>
-            <Icon name="ChevronDown" size={18} class="chevron hidden shrink-0 text-muted sm:block" />
-          </summary>
-          <div class="border-t border-line p-6 sm:p-7">
-            <p class="max-w-prose text-muted">{p.resume}</p>
-            {p.bullets.length > 0 && (
-              <ul class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
-                {p.bullets.map((b) => <li class="flex items-center gap-2"><span class="h-1 w-1 rounded-full bg-accent" aria-hidden="true"></span>{b}</li>)}
-              </ul>
-            )}
-          </div>
-        </details>
-      ))}
+    <div class="md:flex md:items-baseline md:gap-10">
+      <h2 class="font-display text-display-lg leading-none">Une mission, quatre temps</h2>
+      <p class="mt-4 max-w-md text-muted md:mt-0">Les mêmes, que le lieu soit un appartement ou une boutique. Plus ou moins longs selon le projet.</p>
     </div>
 
-    <p class="mt-6 text-xs text-muted">Durées indicatives, variables selon la nature et l’ampleur du projet.</p>
+    <ol class="mt-12 border-t border-line">
+      {phases.map((p, i) => (
+        <li class="grid gap-x-10 gap-y-2 border-b border-line py-7 md:grid-cols-[3rem_minmax(0,1fr)_minmax(0,14rem)] md:items-baseline">
+          <span class="tabular-nums text-muted">{i + 1}.</span>
+          <div>
+            <h3 class="font-display text-display-sm leading-tight"><a href={`/services/${p.slug}`} class="hover:text-accent">{p.title}</a></h3>
+            <p class="mt-2 max-w-[36rem] text-muted">{p.short}</p>
+          </div>
+          {p.duree && <p class="text-sm text-fg md:text-right">{p.duree}</p>}
+        </li>
+      ))}
+    </ol>
+
+    <p class="mt-6 max-w-prose text-sm text-muted">Durées indicatives. Les honoraires sont un pourcentage du montant des travaux, écrit dans le contrat avant de commencer.</p>
   </div>
 </section>
-
-<style>
-  .phase summary { cursor: pointer; }
-  .chevron { transition: transform 0.35s var(--ease-out-expo); }
-  details[open] .chevron { transform: rotate(180deg); }
-  @media (prefers-reduced-motion: reduce) {
-    .chevron { transition: none; }
-  }
-</style>

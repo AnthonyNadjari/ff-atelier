@@ -23,20 +23,20 @@
 import { site } from '@/lib/site';
 ---
 
-<section id="studio" class="section-y">
-  <div class="container-ff grid gap-10 lg:grid-cols-12 lg:gap-16">
-    <h2 class="text-display-md lg:col-span-5">Nous sommes deux, et c’est voulu.</h2>
+<section id="studio" class="ff-section">
+  <div class="ff-conteneur grid gap-12 lg:grid-cols-12 lg:gap-12">
+    <h2 class="ff-titre ff-masque lg:col-span-5" data-ff-titre><span>Nous sommes deux, et c’est voulu.</span></h2>
     <div class="max-w-[36rem] lg:col-span-6 lg:col-start-7">
-      <p class="text-xl leading-relaxed text-fg">
+      <p class="ff-texte text-fg">
         Il n’y a ni commercial ni sous-traitant entre vous et nous. L’un de nous prend votre appel et
         écrit les textes avec vous. L’autre construit le site.
       </p>
-      <p class="mt-6 text-lg leading-relaxed text-muted">
+      <p class="ff-texte ff-doux mt-6">
         On travaille avec un outil maison, du code et de l’intelligence artificielle, ce qui nous permet
         d’aller vite. Les choix, eux, on les fait à la main et on les relit à deux. Vous payez le site
         une fois, il est à votre nom, et vous n’avez pas d’abonnement à résilier dans trois ans.
       </p>
-      <p class="mt-10 font-display text-2xl text-fg">{site.business.name}</p>
+      <p class="ff-texte mt-8 font-display text-fg">{site.business.name}</p>
     </div>
   </div>
 </section>

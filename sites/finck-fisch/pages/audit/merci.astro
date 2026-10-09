@@ -1,0 +1,56 @@
+---
+/**
+ * /audit/merci — après une demande d'audit envoyée (plan-site-ff.html v2 « Après soumission »).
+ * noindex, hors sitemap (astro.config.mjs lit le `noindex` ci-dessous via siteNoindexRoutes).
+ *
+ * Le prénom et le créneau viennent du formulaire par sessionStorage (jamais dans l'URL) ; sans eux
+ * (visite directe), la page reste juste, en termes généraux. L'événement « audit_reserve » part vers
+ * la mesure d'audience si elle est installée (Plausible ou Umami, site.analytics) et seulement quand
+ * une vraie demande vient d'être envoyée. TODO(fondateurs) : aucune mesure n'est configurée
+ * aujourd'hui (site.analytics vide) ; l'événement partira tout seul dès qu'elle le sera.
+ */
+import Base from '@/layouts/Base.astro';
+import { site } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+---
+
+<Base title={`C’est noté | ${site.business.name}`} path="/audit/merci" noindex>
+  <Nav />
+  <main id="main" class="ff-section">
+    <div class="ff-conteneur max-w-[46rem]">
+      <h1 class="ff-titre">C’est noté<span data-merci-prenom></span>.</h1>
+      <p class="ff-texte mt-6" data-merci-phrase>On vous rappelle sous 48&nbsp;heures ouvrées sur le créneau que vous avez choisi.</p>
+      <ol class="ff-merci-suite ff-texte ff-doux mt-8">
+        <li>Nous vous appelons, ou vous envoyons le lien de la visio, sur ce créneau.</li>
+        <li>Pendant 20&nbsp;minutes, nous passons en revue les cinq points avec vous.</li>
+        <li>Vous gardez ces cinq points, que vous travailliez avec nous ou non. Pas de relance ensuite.</li>
+      </ol>
+      <p class="ff-texte mt-8"><a href="/#realisations" class="ff-lien">En attendant, voir des exemples</a></p>
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  onPage(() => {
+    let d: { prenom?: string; creneau?: string } | null = null;
+    try { d = JSON.parse(sessionStorage.getItem('ff-audit') || 'null'); sessionStorage.removeItem('ff-audit'); } catch {}
+    if (!d) return;
+    const prenom = document.querySelector<HTMLElement>('[data-merci-prenom]');
+    const phrase = document.querySelector<HTMLElement>('[data-merci-phrase]');
+    if (prenom && d.prenom) prenom.textContent = `, ${d.prenom}`;
+    if (phrase && d.creneau) phrase.textContent = `On vous rappelle sous 48 heures ouvrées sur le créneau choisi : ${d.creneau.charAt(0).toLowerCase()}${d.creneau.slice(1)}.`;
+    const w = window as unknown as { plausible?: (e: string) => void; umami?: { track(e: string): void } };
+    w.plausible?.('audit_reserve');
+    w.umami?.track('audit_reserve');
+  });
+</script>
+
+<style is:global>
+  .ff-merci-suite { display: grid; gap: var(--s2); padding-left: 1.25em; }
+</style>

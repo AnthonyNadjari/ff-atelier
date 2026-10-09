@@ -1,0 +1,320 @@
+<html><head><meta charset="utf-8"><title>Finck & Fisch : plan du site (audit gratuit)</title></head><body>
+
+<h1>Finck &amp; Fisch : plan du site orienté « audit gratuit »</h1>
+<p><b>Version 2</b> du 9 octobre 2026 (retours intégrés : LCP de S1, preuve vivante, délai, contraste du cuivre, pages /services, SIRET, Lighthouse 95, après-soumission, source des scores, plan de test, SEO local Toulouse). Décisions validées : ambiance A, signatures S1 à S4, formulaire maison.</p><p> Stack validée : Astro + Tailwind + GSAP/ScrollTrigger + Lenis + View Transitions natives + Vercel. Spline et Lottie possibles en îlots, aucun n'est nécessaire dans ce plan.</p>
+<p>Sources : parsing réel de 9 sites modèles (landonorris.com, 27-b.com, trueform.agency, temper.studio, apple.com/macbook-pro, sbs.com.au/theboat, linear.app, vercel.com, stripe.com) et des 30 sites du benchmark précédent. Rapport complet et captures : docs/veille/benchmark-2026-10/modeles.md. analogue.agency est un domaine parqué (à vendre) ; bogdan.design est un cabinet d'architecture sans animation (11 Mo au chargement) ; apple.com/mac-pro redirige vers /mac/, remplacé par la page MacBook Pro.</p>
+
+<h2>0. Ce qu'on a appris des sites modèles</h2>
+<table border="1" cellpadding="6">
+<tr><th>Site</th><th>Ce qui marche</th><th>Ce qu'on transpose</th><th>Ce qu'on laisse</th></tr>
+<tr><td>Lando Norris (OFF+BRAND)</td><td>Révélations au masque (57 clip-path), power2.out 0,5-0,6 s, stagger 0,015 s/caractère ; changement de thème clair/sombre par section épinglée, la nav suit ; preuve = donnée vivante (« Next race »)</td><td>Révélation au masque ; une bascule de thème ; preuve datée</td><td>SplitText par caractère, casque Rive au curseur, marquee à la vitesse du scroll, signature fluo</td></tr>
+<tr><td>Trueform</td><td>Hero qui vend en un écran (H1, phrase, 2 CTA, preuve) ; pilule « Speak to us » fixe jusqu'au footer ; réservation cal.com 15 min avec le fondateur ; 884 Ko sans vidéo</td><td>CTA de réservation toujours visible ; créneau court avec une vraie personne</td><td>Badge-pilule au-dessus du titre, boutons pilule</td></tr>
+<tr><td>Apple MacBook Pro</td><td>Barre locale sticky avec « Acheter » dès que le hero sort ; sections épinglées ; bouton pause sur toute galerie animée</td><td>CTA dans la barre dès la sortie du hero ; bouton pause</td><td>42 000 px de page, dégradé sur un mot du titre</td></tr>
+<tr><td>Linear</td><td>34 Ko et 5 scripts au premier rendu ; titre révélé ligne par ligne (≈ 0,6 s, 0,1 s/ligne) ; marquee seulement sur mobile</td><td>Révélation par lignes ; budget léger</td><td>Grain, glow, libellés monospace en capitales, titre bicolore (le kit IA par excellence)</td></tr>
+<tr><td>Vercel</td><td>Marquee CSS pur 50 s, coupé en mouvement réduit ; focus clavier soigné partout</td><td>Animations CSS « motion-safe » ; focus-visible</td><td>Triangle à halo, dégradés arc-en-ciel, bento à logos 3D</td></tr>
+<tr><td>Stripe</td><td>Graphiques qui s'animent une seule fois à l'entrée (lazy-animation) ; transitions de page</td><td>Animation « avant/après » jouée une fois à l'entrée</td><td>80 scripts, dégradé violet-orange, chiffre géant en dégradé</td></tr>
+<tr><td>27b</td><td>Projets en planches plein écran, l'un après l'autre</td><td>Les démos en grand, une par ligne sur mobile</td><td>Wordmark géant sans phrase, « Scroll Now »</td></tr>
+<tr><td>Temper</td><td>CTA collé en bas, persistant</td><td>(déjà retenu via Trueform)</td><td>Vidéo hero de 17,7 Mo, question rhétorique en titre</td></tr>
+<tr><td>The Boat (SBS)</td><td>Parallaxe dessinée main, une vraie œuvre</td><td>Rien pour un site commercial</td><td>Scroll détourné, « click to start », audio</td></tr>
+</table>
+
+<h2>1. Moodboard : 3 ambiances</h2>
+<p>Les trois restent dans le sombre chaud validé (pas de changement d'univers). Elles diffèrent par le geste dominant.</p>
+
+<h3>A. « Atelier de nuit » (recommandée)</h3>
+<p>Le studio la nuit, une lampe sur l'établi. Fond encre chaud, texte crème, un seul accent cuivre. Typographie Bodoni grande et calme, beaucoup d'air, les démos en vidéo comme des pièces exposées. Un seul moment fort : la section Audit passe au crème, comme quand on allume la lumière. Références : Order (deux associés, fond sombre, seulement le travail), Basement (l'atelier et les gens), Lando (bascule de thème, preuve datée), Trueform (structure du hero et CTA persistant).</p>
+
+<h3>B. « Encre et papier »</h3>
+<p>Le monde de l'imprimeur : noir encre et papier crème qui alternent en grands aplats, comme les pages d'un livre. Plus contrasté, plus éditorial ; chaque section a son fond plein. Texture unique : le grain du papier noir des démos, en photo réelle, jamais en filtre. Références : Lundgren+Lindqvist (grain d'imprimé), Astier de Villatte, Pentagram (légendes factuelles).</p>
+
+<h3>C. « Établi de précision »</h3>
+<p>Plus technique : graphite chaud, grille visible très fine, données réelles mises en avant (scores Lighthouse du site mesurés au build, poids des pages, dates de livraison). Le sérieux d'un outil plutôt que la chaleur d'un atelier. Références : Linear (légèreté, révélation par lignes), Apple (barre sticky, bouton pause), Vercel (focus clavier). Risque : glisser vers le kit « SaaS généré » ; à tenir sans grain, sans glow, sans monospace en capitales.</p>
+
+<h2>2. Design system</h2>
+<h3>Typographies (2)</h3>
+<ul>
+<li><b>Bodoni Moda</b> (titres, jamais en italique), variable, sous-ensemble latin, woff2.</li>
+<li><b>Hanken Grotesk</b> (texte, interface, boutons), variable, woff2. Bodoni est la seule préchargée (le titre du hero est l'élément LCP).</li>
+</ul>
+<h3>Couleurs (3)</h3>
+<table border="1" cellpadding="6">
+<tr><th>Nom</th><th>Hex</th><th>Usage</th></tr>
+<tr><td>Encre</td><td>#15120F</td><td>Fond principal ; texte sur la section crème</td></tr>
+<tr><td>Crème</td><td>#F0E8DB</td><td>Texte principal ; fond de la section Audit (bascule)</td></tr>
+<tr><td>Cuivre</td><td>#D39A6A</td><td>Accent unique : soulignés de liens, bouton principal au survol, tracé du monogramme</td></tr>
+</table>
+<p>Nuances dérivées par opacité seulement (pas de nouvelle couleur) : texte secondaire = crème 68 %, filets = crème 13 %, fond de carte = encre + 4 % de crème. Contrastes (WCAG 2.2) : crème/encre ≈ 15:1, crème 68 %/encre ≈ 8:1, cuivre/encre ≈ 7,6:1 : tous AA. <b>Cuivre sur crème ≈ 2:1 : échec AA</b>, y compris pour un composant (seuil 3:1). Règle : sur la section crème, le cuivre n'est jamais du texte ni un contour porteur de sens ; les liens y sont soulignés en encre, et l'accent passe au <b>cuivre foncé #8A5A33</b> (même teinte, dérivée du cuivre, ≈ 4,8:1 sur crème : AA texte normal). Le filet décoratif cuivre reste permis (non porteur de sens). Vérifié par ff a11y sur la section après bascule.</p>
+<h3>Échelle typographique (3 tailles, très écartées)</h3>
+<ul>
+<li>Titre : clamp(44 px, 5,5 vw, 80 px), interligne 1,04, approche -1,5 %.</li>
+<li>Texte : 18 px / 28 px (17 px sur mobile).</li>
+<li>Petit : 14 px / 20 px (légendes, mentions, ligne de présence).</li>
+</ul>
+<h3>Espacements (grille 8 pt)</h3>
+<p>8, 16, 24, 32, 48, 64, 96, 128 px. Marge latérale : 24 px mobile, 48 px tablette, conteneur 1200 px desktop. Écart entre sections : 128 px desktop, 96 px mobile. Rayon : 4 px partout (pas de pilules). Hauteur minimale de cible tactile : 48 px.</p>
+<h3>Boutons</h3>
+<ul>
+<li>Principal : fond crème, texte encre, 48 px de haut, rayon 4 px. Survol : fond cuivre. Appui : scale 0,97 en 160 ms.</li>
+<li>Secondaire : lien texte souligné cuivre (pas de deuxième bouton plein).</li>
+</ul>
+
+<h2>3. Arborescence et wireframes</h2>
+<h3>Arborescence (une page = un objectif = un CTA)</h3>
+<ul>
+<li><b>/</b> Accueil. Objectif : donner envie de l'audit. CTA : « Réserver mon audit gratuit » (vers /audit).</li>
+<li><b>/audit</b> Réservation. Objectif : réserver un créneau. CTA : « Confirmer le créneau ».</li>
+<li><b>/mentions-legales</b>, <b>/confidentialite</b> : sans CTA.</li>
+<li>Les démos restent des sites à part (ouverts dans un nouvel onglet depuis les exemples).</li>
+</ul>
+<p><b>Pages /services/*</b> : supprimées, <b>redirection 301 vers /audit</b> (vercel.json « redirects »), retirées du sitemap. Aucune page orpheline. Les liens internes qui y pointaient sont réécrits vers /audit ou #tarifs.</p>
+
+<h3>Accueil, desktop (1440)</h3>
+<pre>
+[HEADER sticky, 72 px, fond encre 90 % + flou]
+ Finck &amp; Fisch            Exemples   Tarifs   contact@…   [Réserver un audit]
+
+[HERO, 100svh - 72]
+ col 7 :                                         col 5 :
+  (monogramme tracé, 120 px)                      [vidéo démo forge, 4:3, poster]
+  H1 « Nous faisons des sites                      légende : Ferronnerie, Toulouse. Exemple.
+       pour les artisans. »
+  Phrase : site sur mesure, dès 1 200 €, en ligne en 72 h.
+  [Réserver mon audit gratuit]   Voir des exemples →
+  ─────────────
+  Écrivez-nous : contact@…  ·  il est 14 h 32 à Paris
+
+[PREUVE VIVANTE, 1 ligne, 3 faits]
+ Score Lighthouse mobile de ce site : 98 / 100 / 100 / 100, mesuré le …  |  En ligne en 72 h après réception de vos contenus  |  Réponse sous 48 h ouvrées
+ (« Dernier site livré » : retiré tant qu'aucun client n'est livré ; ajouté au premier site livré.)
+
+[EXEMPLES]  H2 « Un site par métier »
+ grille asymétrique, 6 démos vidéo, légende métier, ville, une phrase, « Exemple »
+
+[AVANT / APRÈS]  H2 « Ce que change un vrai site »
+ curseur glissant sur la boulangerie : version 1 | version 2 (nos deux versions réelles)
+ 3 points à droite : lisible sur téléphone, horaires en premier, appel en un geste
+
+[72 HEURES, section sticky]
+ col gauche sticky : H2 « Trois jours, pas trois mois. » + jauge verticale
+ col droite qui défile : Jour 1 audit et trois pistes | Jour 2 vous choisissez, on écrit | Jour 3 en ligne
+
+[DEUX PERSONNES]
+ photo des deux associés (emplacement prêt) | prénoms, 4 lignes à la première personne
+
+[TARIFS]
+ 1 200 € Essentiel | 1 800 € Complet, payé une fois | [Réserver mon audit gratuit]
+
+[AUDIT : bascule de thème, fond crème]
+ H2 « L'audit gratuit, en 20 minutes. »
+ 5 points vérifiés (vitesse mobile, Google, appels, textes, photos) | ce que vous recevez
+ [Réserver mon audit gratuit]
+
+[FAQ] 6 questions réelles
+
+[FOOTER] e-mail, zone, mentions légales, SIRET (emplacement prêt)
+</pre>
+
+<h3>Accueil, mobile (390)</h3>
+<pre>
+[HEADER sticky 56 px] Finck &amp; Fisch                         [Audit]
+[HERO]
+ monogramme 96 px
+ H1 (3 lignes)
+ Phrase offre
+ [Réserver mon audit gratuit]  (pleine largeur)
+ Voir des exemples →
+ vidéo forge : image fixe, lecture au toucher
+[PREUVE VIVANTE] 3 lignes empilées
+[EXEMPLES] 1 démo par ligne, image fixe, lecture au toucher
+[AVANT / APRÈS] curseur au doigt, pleine largeur
+[72 HEURES] pas de sticky : 3 jours empilés + fil vertical
+[DEUX PERSONNES] photo puis texte
+[TARIFS] 2 cartes empilées
+[AUDIT crème] 5 points + bouton
+[FAQ] [FOOTER]
+[BARRE BASSE fixe, zone de sécurité iPhone] [Réserver un audit]  [Écrire]
+ (masquée quand le formulaire ou la section Audit est à l'écran)
+</pre>
+
+<h3>/audit, desktop et mobile</h3>
+<pre>
+[HEADER] sans bouton audit (on y est), lien « Retour »
+H1 « Réservez votre audit gratuit. »
+Phrase : 20 minutes au téléphone ou en visio avec l'un de nous deux. Vous repartez avec 5 points concrets, même si vous ne travaillez pas avec nous.
+col 6 : formulaire court                    col 6 : ce que vous recevez
+ Nom, métier, ville                          1. Vitesse mobile mesurée
+ Adresse du site actuel (facultatif)         2. Ce que Google affiche de vous
+ Téléphone ou e-mail                         3. Le chemin jusqu'à l'appel
+ Créneau préféré (3 choix)                   4. Vos textes
+ [Confirmer le créneau]                      5. Vos photos
+ « Pas de relance commerciale ensuite. »
+Mobile : une colonne, formulaire d'abord, liste ensuite.
+</pre>
+<p>Validé : formulaire maison (aucun script tiers).</p>
+<h4>Après soumission</h4>
+<ul>
+<li><b>Envoi</b> : POST vers le service de formulaire déjà configuré (site.form), protection anti-spam existante (champ piège + Turnstile), bouton désactivé pendant l'envoi avec « Envoi… ».</li>
+<li><b>Succès</b> : redirection vers <b>/audit/merci</b> (noindex, hors sitemap) : « C'est noté, [prénom]. On vous rappelle sous 48 h ouvrées sur le créneau choisi : [créneau]. » + ce qui va se passer (3 lignes) + lien vers les exemples. Événement « audit_reserve » envoyé à la mesure d'audience.</li>
+<li><b>E-mail au visiteur</b> (réponse automatique du service de formulaire) : objet « Votre audit Finck &amp; Fisch », récapitulatif (nom, métier, ville, site, créneau), délai 48 h ouvrées, adresse de réponse = contact@, désinscription inutile (pas de liste).</li>
+<li><b>E-mail au studio</b> : notification immédiate à contact@ avec toutes les réponses ; objet « Audit : [métier], [ville] ».</li>
+<li><b>Erreur</b> : message sous le bouton (« L'envoi n'a pas marché. Écrivez-nous à contact@ ou réessayez. »), saisie conservée, focus sur le message (aria-live).</li>
+<li><b>Délai tenu</b> : rappel sous 48 h ouvrées ; tableau de suivi des demandes côté studio (simple feuille), hors site.</li>
+</ul>
+
+<h2>4. Animations : 4 signatures retenues (S1 à S4), S5 et S6 en annexe</h2>
+<p>Règles communes : transform et opacity (ou clip-path) uniquement ; aucune animation de propriétés de mise en page ; tout passe par gsap.matchMedia avec trois branches : (prefers-reduced-motion: reduce) = état final immédiat ; (hover: none) or (pointer: coarse) = version tactile ; sinon desktop. Scroll natif : Lenis seulement à la molette sur desktop (smoothWheel, lerp 0,1), jamais au doigt (syncTouch: false), coupé en mouvement réduit. Aucune section ne bloque ou ne détourne le défilement.</p>
+
+<h3>S1. Monogramme tracé + titre révélé par lignes (au chargement) : recommandée</h3>
+<ul>
+<li>Monogramme : 6 sous-tracés SVG, stroke-dashoffset 1000 → 0, 0,8 s chacun, cubic-bezier(0.4, 0, 0.2, 1), décalage 0,26 s ; remplissage crème 0,9 s à 2,1 s ; trait cuivre qui s'efface à 2,5 s.</li>
+<li>Titre : chaque ligne dans un masque (overflow hidden), translateY 55 % → 0 (voir LCP ci-dessous), 0,6 s power3.out, décalage 0,09 s, départ à 0,15 s. Phrase et bouton : translateY 12 px → 0 + opacité, 0,4 s power2.out, à +0,35 s.</li>
+<li><b>Verrouillé : S1 est en CSS pur</b> (@keyframes dans le CSS critique inline, aucun JS, aucune hydratation). Il démarre au premier rendu, indépendamment du chargement des scripts.</li>
+<li><b>LCP</b> : le titre est l'élément LCP. Chrome ne compte un texte que s'il est peint ; un texte entièrement caché par son masque retarderait le LCP de ~0,9 s. Donc chaque ligne part de translateY(55 %) (déjà à moitié visible dans son masque au premier rendu) et non de 100 % : le LCP est enregistré à la première peinture, l'animation ne fait que finir le geste. Police du titre (Bodoni) préchargée, font-display: swap, métriques de repli ajustées (size-adjust) pour que l'échange de police ne crée ni CLS ni nouveau LCP tardif.</li>
+<li>Mouvement réduit : tout est posé, aucune animation.</li>
+</ul>
+
+<h3>S2. Section « 72 heures » collante : recommandée</h3>
+<ul>
+<li>CSS position: sticky (pas de pin GSAP) sur la colonne gauche ; la colonne droite défile normalement.</li>
+<li>Chaque jour s'active quand son bloc passe au milieu : ScrollTrigger start « top 60 % », end « bottom 60 % », toggleClass « est-actif » (opacité 0,4 → 1, 0,3 s power2.out).</li>
+<li>Jauge verticale : scaleY 0 → 1 liée au scroll de la section, scrub 0,3 (transform seulement).</li>
+<li>Mobile : pas de sticky, les 3 jours empilés, chacun révélé au masque à l'entrée.</li>
+</ul>
+
+<h3>S3. Avant / après au curseur : recommandée</h3>
+<ul>
+<li>Deux captures réelles (Maison Roux version 1 et version 2, nos deux versions), clip-path: inset(0 X% 0 0) sur la seconde, poignée centrale.</li>
+<li>Interaction : glisser à la souris ou au doigt (pointer events), flèches du clavier (role slider, aria-valuenow), pas de 5 %.</li>
+<li>Indice une seule fois à l'entrée : poignée 50 % → 38 % → 50 %, 1,2 s power2.inOut, start « top 75 % », once. Mouvement réduit : pas d'indice.</li>
+</ul>
+
+<h3>S4. Bascule de thème sur la section Audit : recommandée</h3>
+<ul>
+<li>Le fond de la page passe d'encre à crème quand la section Audit atteint le milieu de l'écran, la nav suit (texte encre).</li>
+<li>ScrollTrigger start « top 50 % », end « bottom 50 % », toggleClass sur html ; transition CSS background-color et color 0,6 s cubic-bezier(0.65, 0, 0.35, 1).</li>
+<li>Mouvement réduit : bascule instantanée (0 s), même résultat visuel.</li>
+</ul>
+
+<h3>S5. Démos vidéo à l'entrée (déjà en place)</h3>
+<ul>
+<li>Lecture quand 50 % de la vidéo est visible, pause hors écran ; image fixe sur téléphone (lecture au toucher) et en mouvement réduit ; preload none.</li>
+<li>C'est du contenu plutôt qu'une signature : ne compte pas dans le quota si on le juge ainsi.</li>
+</ul>
+
+<h3>S6. Bouton principal magnétique (option)</h3>
+<ul>
+<li>Seulement sur « Réserver mon audit gratuit », seulement si (hover: hover) and (pointer: fine).</li>
+<li>gsap.quickTo x/y, déplacement maximal 6 px, 0,35 s power3.out ; retour 0,5 s elastic.out(1, 0.75) à la sortie du survol.</li>
+</ul>
+
+<h3>Le reste, sobre</h3>
+<ul>
+<li>Titres de section : révélation au masque, 0,8 s expo.out, start « top 90 % », once.</li>
+<li>Images : clip-path inset(0 0 100% 0) → inset(0), 0,9 s expo.out, once.</li>
+<li>Survols : souligné cuivre qui s'épaissit, 160 ms ; cartes de démo : légende qui passe en crème plein, pas de zoom.</li>
+<li>Transitions de page (View Transitions) : fondu 0,25 s, la nav reste en place ; mouvement réduit : aucune.</li>
+<li>CTA persistant : la barre du haut garde son bouton ; sur mobile, la barre basse apparaît quand le hero sort (translateY 110 % → 0, 0,26 s cubic-bezier(0.32, 0.72, 0, 1)), disparaît quand la section Audit ou le formulaire est visible.</li>
+</ul>
+
+<h2>5. Composants à développer</h2>
+<table border="1" cellpadding="6">
+<tr><th>Composant</th><th>État</th><th>Notes</th></tr>
+<tr><td>HeaderAudit (sticky, bouton toujours visible)</td><td>À modifier</td><td>Nav actuelle + bouton « Réserver un audit » ; ne se masque plus au défilement</td></tr>
+<tr><td>BarreAudit mobile (fixe en bas)</td><td>À modifier</td><td>Barre actuelle « Voir les tarifs / Écrire » → « Réserver un audit / Écrire »</td></tr>
+<tr><td>Hero (MonogrammeTrace + TitreLignes + DemoVideo)</td><td>À modifier</td><td>Retour au monogramme tracé SVG (S1) au lieu de la vidéo fumée</td></tr>
+<tr><td>PreuveVivante</td><td>Nouveau</td><td>3 faits : scores Lighthouse (lus dans preuves.json, voir § 7), délai 72 h, réponse sous 48 h ouvrées. Pas de « dernier site livré » avant le premier client.</td></tr>
+<tr><td>GrilleDemos (DemoVideo)</td><td>Existe</td><td>Garder ; ouvrir la démo dans un nouvel onglet quand les URL publiques existent</td></tr>
+<tr><td>AvantApres (curseur)</td><td>Nouveau</td><td>S3 ; accessible au clavier ; captures v1/v2 Maison Roux</td></tr>
+<tr><td>Process72h (sticky)</td><td>Nouveau</td><td>S2</td></tr>
+<tr><td>Humains (photo + prénoms)</td><td>Existe</td><td>Emplacement photo prêt, en attente des données</td></tr>
+<tr><td>Tarifs</td><td>Existe</td><td>CTA vers /audit</td></tr>
+<tr><td>SectionAudit + BasculeTheme</td><td>Nouveau</td><td>S4</td></tr>
+<tr><td>FAQ</td><td>Existe</td><td>+ 2 questions sur l'audit ; JSON-LD FAQPage</td></tr>
+<tr><td>Pied</td><td>Existe</td><td>SIRET obligatoire avant mise en ligne publique ; téléphone</td></tr>
+<tr><td>Page /audit + FormulaireAudit</td><td>Nouveau</td><td>Formulaire maison (provider existant), page /audit/merci, e-mails automatiques</td></tr>
+<tr><td>motion-ff.ts (gsap.matchMedia, Lenis)</td><td>À modifier</td><td>Trois branches : réduit / tactile / desktop ; Lenis à la molette seulement</td></tr>
+<tr><td>BoutonMagnetique</td><td>Option</td><td>S6</td></tr>
+</table>
+
+<h2>6. Checklist QA</h2>
+<h3>Performance (mesurée sur mobile 4G simulée)</h3>
+<ul>
+<li>LCP &lt; 2,5 s, INP &lt; 200 ms, CLS &lt; 0,1 (PageSpeed Insights + données de terrain une fois le domaine en ligne).</li>
+<li>Au-dessus de la ligne de flottaison ≤ 300 Ko ; JS initial ≤ 60 Ko ; GSAP chargé à la demande.</li>
+<li>2 familles de polices, woff2 ; une seule préchargée : <b>Bodoni (titre = LCP)</b> ; font-display swap avec police de repli ajustée (size-adjust).</li>
+<li>Images AVIF/WebP avec srcset ; dimensions déclarées (zéro CLS) ; vidéos preload none + poster.</li>
+<li>Commandes : ff perf, ff lighthouse --mobile <b>--seuil 95</b> (bloquant ; cohérent avec le score affiché), ff nettete.</li>
+</ul>
+<h3>SEO</h3>
+<ul>
+<li>Domaine finckfisch.fr acheté et canonique partout (aujourd'hui bloquant).</li>
+<li>Title et description uniques par page ; un seul H1 ; JSON-LD ProfessionalService avec offres chiffrées, FAQPage ; pas d'aggregateRating.</li>
+<li>Sitemap, robots, image Open Graph 1200×630, IndexNow, Search Console et Bing Webmaster.</li>
+</ul>
+<h3>Accessibilité</h3>
+<ul>
+<li>ff a11y : 0 violation critique ou sérieuse, desktop et mobile.</li>
+<li>Contraste AA vérifié sur fond encre et sur la section crème.</li>
+<li>Focus visible partout ; curseur avant/après au clavier ; vidéos décoratives aria-hidden avec texte alternatif lisible.</li>
+<li>Chaque signature testée en mouvement réduit (état final immédiat) ; bouton pause si une animation dure plus de 5 s.</li>
+<li>Formulaire : libellés, messages d'erreur liés, consentement RGPD.</li>
+</ul>
+<h3>Mobile</h3>
+<ul>
+<li>Testé à 360, 390 et 430 px, sur un vrai iPhone (Safari) et un Android (Chrome).</li>
+<li>Barre basse au-dessus de la zone de sécurité ; cibles ≥ 48 px ; aucun défilement horizontal ; aucun survol qui reste collé au doigt.</li>
+<li>iPhone en économie d'énergie : aucune vidéo ne joue, les images fixes doivent suffire.</li>
+</ul>
+<h3>Contenu et conversion</h3>
+<ul>
+<li>Un objectif et un CTA principal par page ; « Réserver mon audit gratuit » visible à tout moment.</li>
+<li>Aucune donnée inventée (pas de faux témoignages, chiffres, logos) ; ff ia : 0 signe bloquant ; ff typo : 0 erreur.</li>
+<li>Mesure : événement « audit réservé » dans Plausible ou Umami (sans cookies, sans bandeau).</li>
+</ul>
+
+<h2>7. Source des scores Lighthouse (preuve vivante)</h2>
+<ul>
+<li><b>Mesure</b> : après chaque déploiement en production, la commande <code>node scripts/ff.mjs lighthouse finck-fisch --mobile --seuil 95</code> audite <b>l'URL en ligne</b> (pas le build local), profil mobile Lighthouse par défaut (Moto G Power, 4G lente simulée), médiane de 3 passages.</li>
+<li><b>Stockage</b> : le résultat est écrit dans <code>sites/finck-fisch/preuves.json</code> : { url, date, appareil: "mobile", performance, accessibilite, bonnesPratiques, seo, lcp, cls, inp (si disponible, sinon TBT) }. Ce fichier est versionné ; ce n'est pas site.config.ts (le contenu éditorial reste séparé des mesures).</li>
+<li><b>Affichage</b> : la section PreuveVivante lit preuves.json au build. Elle affiche les 4 scores et la date (« mesuré le 12 octobre 2026, sur mobile »). Elle se masque d'elle-même si le fichier manque, si la mesure a plus de 30 jours, ou si la performance est sous 95 : on n'affiche jamais un chiffre faux ou flatteur.</li>
+<li><b>Cohérence</b> : le seuil bloquant du contrôle qualité (95) est le même que le seuil d'affichage.</li>
+</ul>
+
+<h2>8. Plan de test des 4 signatures</h2>
+<table border="1" cellpadding="6">
+<tr><th>Appareil</th><th>Navigateur</th><th>Réglages testés</th></tr>
+<tr><td>iPhone réel (13 ou plus récent)</td><td>Safari</td><td>normal, mouvement réduit (Réglages &gt; Accessibilité), mode économie d'énergie</td></tr>
+<tr><td>Android réel milieu de gamme</td><td>Chrome</td><td>normal, « supprimer les animations »</td></tr>
+<tr><td>PC Windows</td><td>Chrome, Firefox, Edge</td><td>normal, mouvement réduit (Windows : effets d'animation désactivés)</td></tr>
+<tr><td>Moteur Safari sur PC</td><td>WebKit (Playwright)</td><td>émulation iPhone 13 et desktop</td></tr>
+<tr><td>Clavier seul</td><td>Chrome</td><td>Tab, flèches (curseur avant/après), focus visible</td></tr>
+</table>
+<p><b>Seuils</b> (par signature, sur chaque ligne) :</p>
+<ul>
+<li>Fluidité : aucune tâche longue &gt; 50 ms pendant l'animation (PerformanceObserver « longtask ») ; 60 i/s visuellement sur desktop, pas de saccade visible sur Android milieu de gamme.</li>
+<li>CLS = 0 pendant et après chaque animation ; INP &lt; 200 ms sur le glissement du curseur avant/après et le clic des CTA.</li>
+<li>LCP &lt; 2,5 s mobile avec S1 actif (mesuré, pas estimé).</li>
+<li>Mouvement réduit : état final immédiat, aucune transition &gt; 0 s, aucun contenu masqué.</li>
+<li>Économie d'énergie iPhone : rien de bloqué, aucun écran vide.</li>
+</ul>
+<p><b>Cas par signature</b> : S1 (titre lisible à la première peinture ; rechargement ; retour arrière), S2 (le jour actif suit le milieu de l'écran en descendant et en remontant ; pas de sticky sur mobile), S3 (souris, doigt, clavier, valeurs 0 % et 100 % atteignables, indice joué une seule fois), S4 (bascule en descendant et en remontant, nav lisible dans les deux thèmes, contrastes AA dans la section crème).</p>
+<p><b>Automatisé</b> à chaque build : ff audit-motion, ff a11y (incluant l'état basculé), un script Playwright par signature qui vérifie l'état final et l'état en mouvement réduit ; captures avant/après.</p>
+
+<h2>9. SEO local Toulouse (marché prioritaire)</h2>
+<ul>
+<li><b>Fiche Google Business Profile</b> du studio : catégorie principale « Concepteur de sites Web », secondaire « Service de marketing internet » ; <b>zone desservie</b> (Toulouse et 50 km : Haute-Garonne, Tarn, Tarn-et-Garonne) avec adresse masquée si c'est un domicile ; horaires réels ; description de 750 caractères (générée par ff kit) ; photos réelles des associés et de l'espace de travail ; publications mensuelles (un exemple, un conseil). Vérification Google requise (vidéo ou courrier) : nécessite une adresse réelle.</li>
+<li><b>Mots-clés cibles</b> (une intention par page, pas de bourrage) : « création site internet Toulouse », « site vitrine artisan Toulouse », « refonte site internet Toulouse », « site internet artisan Haute-Garonne », « création site vitrine prix ». Accueil = « sites vitrines pour artisans, Toulouse et toute la France » ; /audit = « audit gratuit de site internet, Toulouse ».</li>
+<li><b>NAP identique partout</b> (nom, adresse ou zone, téléphone) : site, fiche Google, JSON-LD (ProfessionalService avec areaServed Toulouse et France), mentions légales.</li>
+<li><b>Citations</b> à créer : Bing Places, Apple Business Connect, PagesJaunes, annuaire de la CCI Toulouse Haute-Garonne, LinkedIn (page entreprise), Malt (profil des associés), annuaires locaux de qualité (pas de fermes d'annuaires).</li>
+<li><b>Preuve locale honnête</b> : la démo de ferronnerie est à Toulouse ; le premier vrai client toulousain devient une étude de cas (avec son accord) ; les avis Google viennent uniquement de vrais clients, demandés après livraison (jamais achetés, jamais rédigés par le studio).</li>
+<li><b>Contenu local</b> : pas de pages « ville » clonées (pénalisées) ; une seule page Toulouse quand il y a au moins un vrai projet local à montrer.</li>
+<li><b>Prérequis</b> : domaine finckfisch.fr, adresse ou zone confirmée, téléphone réel, SIRET.</li>
+</ul>
+
+<h2>Décisions et données manquantes</h2>
+<ol>
+<li>Validé : ambiance A, signatures S1 à S4, formulaire maison.</li>
+<li>Délai de réponse : <b>« sous 48 h ouvrées »</b> (validé), à resserrer avec le volume.</li>
+<li>Données manquantes : prénoms, photo, téléphone, domaine. <b>SIRET : bloquant pour la mise en ligne publique</b> (mentions légales obligatoires, art. 6 LCEN) ; tant qu'il manque, le site reste sur l'URL de prévisualisation non indexée.</li>
+</ol>
+</body></html>

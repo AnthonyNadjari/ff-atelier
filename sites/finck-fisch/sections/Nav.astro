@@ -1,233 +1,175 @@
 ---
 /**
- * Nav sur mesure Finck & Fisch. Depuis le passage à la coquille `split` (22 sept 2026), cette barre
- * n'existe plus que SOUS 1024 px sur l'accueil (src/shells/split.astro la rend dans un `lg:hidden`) :
- * c'est le panneau latéral devenu en-tête. Elle en reprend donc exactement le contenu — monogramme et
- * nom, la phrase « métier · ville », le sommaire (les quatre sections du layout, mêmes libellés que
- * les entrées numérotées du panneau), le téléphone et le CTA qui ouvre le tiroir de contact.
- * Sur les pages service (/services/<slug>), elle reste la navigation à toutes les largeurs.
+ * En-tête + barre basse du site du studio (plan-site-ff.html v2, composants HeaderAudit et BarreAudit).
  *
- * Le CTA pointe sur #contact : ContactDrawer.astro (layout.contactDrawer) intercepte l'ancre et ouvre
- * le tiroir, sur l'accueil comme sur une page service. Il n'y a plus de section contact en bas de page.
- * Liens câblés en dur plutôt que via navLinks() : ce nav ne doit jamais grossir au rythme des sections.
- * Se masque au scroll vers le bas (data-nav="hide-on-scroll", voir src/scripts/motion.ts).
+ * En-tête : collant (position: sticky), 72 px sur ordinateur, 56 px sur téléphone, fond encre à 90 %
+ * avec flou. Il ne se masque plus au défilement : le bouton « Réserver un audit » reste visible à tout
+ * moment (Trueform, Apple : le CTA dans la barre). Sur /audit, pas de bouton (on y est) mais un lien
+ * « Retour ». Le fond et le texte suivent la bascule crème de la section Audit (tokens, ff.css).
  *
- * Reprise du 3 oct. 2026 — trois défauts visibles à 390 px, corrigés ici :
- * 1. Le monogramme était un PNG. `global.css` pose `picture, img { background-color: var(--bg-2) }`
- *    (fond d'attente des photos) : sur un logo détouré, ce fond restait visible et dessinait un
- *    rectangle gris autour du F&F. Le monogramme est maintenant le MÊME tracé vectoriel que le hero
- *    (mono-subpaths.ts), posé en SVG : aucun fond, aucune requête, net à toutes les densités.
- * 2. Le téléphone de la première ligne portait `data-magnetic`, dont la règle `display:inline-flex`
- *    annulait le `hidden` de Tailwind : il s'affichait quand même sous 640 px, écrasé à 44 px de
- *    large par le bouton voisin, donc tronqué. L'aimant est retiré (il ne sert à rien sur une barre
- *    qui se masque au défilement) et le seuil passe à `md`, exactement là où la deuxième ligne
- *    disparaît : plus de téléphone en double, plus de numéro coupé.
- * 3. Les quatre liens et le téléphone sur une même ligne faisaient 405 px de large à 390 px d'écran :
- *    « Offre » sortait du cadre. Le téléphone remonte en bout de la ligne « métier · ville », les
- *    quatre liens tiennent seuls (291 px) et le sommaire est entier sans défilement latéral.
+ * Barre basse (téléphone) : « Réserver un audit » + « Écrire », au-dessus de la zone de sécurité
+ * iPhone. Elle apparaît quand le premier écran est passé (translateY 110 % → 0, 0,26 s, courbe de
+ * tiroir iOS) et disparaît quand la section Audit est à l'écran (son propre bouton suffit). Elle
+ * n'existe pas sur /audit : le formulaire y est la page.
+ *
+ * Ce composant est rendu sur toutes les pages (accueil, /audit, mentions) : il importe donc le système
+ * de design (ff.css) et lance le moteur du site (motion-ff.ts : Lenis, gsap.matchMedia, S2-S4).
+ *
+ * TODO(fondateurs) : vrai numéro de téléphone → « Écrire » peut devenir « Appeler » (tel()) dans la
+ * barre basse ; le 06 00 00 00 00 du config est un placeholder, jamais affiché.
  */
+import './ff.css';
 import { site, mailto } from '@/lib/site';
 
-// Mêmes entrées que le sommaire numéroté du panneau, dans le même ordre (refonte du 22 sept 2026 au
-// soir : voir sites/finck-fisch/ETALON.md). Le manifeste n'y figure pas — ce n'est pas une
-// destination, c'est le temps fort qui casse le rythme au milieu de la page.
-//
-// Sur une page service, ces quatre ancres ne mènent nulle part : les sections visées n'existent que
-// sur l'accueil, et un clic ne faisait rien du tout. Elles y deviennent donc des liens vers
-// l'accueil + ancre. Sur l'accueil elles restent des ancres nues, pour garder le défilement fluide
-// au lieu d'une navigation complète (site.transitions).
-const accueil = Astro.url.pathname === '/';
-// Benchmark d'octobre 2026 (docs/veille/benchmark-2026-10/) : barre en mots, sans bouton, comme Order,
-// Pianetti ou Locomotive. L'adresse e-mail est en clair à droite sur grand écran (Pianetti) : écrire
-// est l'un des deux chemins de la page, l'autre est de lire les tarifs.
-const links = [
+const chemin = Astro.url.pathname.replace(/\/$/, '') || '/';
+const accueil = chemin === '/';
+const surAudit = chemin.startsWith('/audit');
+const liens = [
   { ancre: '#realisations', label: 'Exemples' },
-  { ancre: '#offre', label: 'Tarifs' },
+  { ancre: '#tarifs', label: 'Tarifs' },
 ].map((l) => ({ ...l, href: accueil ? l.ancre : `/${l.ancre}` }));
 ---
 
-<header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-[transform,background-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none [&.is-hidden]:duration-300 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/90 [&.is-scrolled]:backdrop-blur-md">
-  <div class="container-ff flex items-baseline justify-between gap-6 py-5">
-    <a href="/" class="font-display text-xl tracking-tight text-fg" aria-label={`${site.business.name}, accueil`}>{site.business.name}</a>
-    <nav class="flex items-baseline gap-6 text-[0.95rem] text-muted sm:gap-8" aria-label="Navigation principale">
-      {links.map((l) => <span class="hidden sm:inline"><a href={l.href} class="inline-flex min-h-11 items-center transition-colors hover:text-fg">{l.label}</a></span>)}
-      <a href={mailto()} class="ff-lien hidden min-h-11 items-center text-fg lg:inline-flex">{site.contact.email}</a>
-      <a href="#contact" class="ff-lien inline-flex min-h-11 items-center text-fg lg:hidden">Écrire</a>
+<header data-nav="fixe" class="ff-entete">
+  <div class="ff-conteneur ff-entete-ligne">
+    <a href="/" class="ff-entete-nom" aria-label={`${site.business.name}, accueil`}>{site.business.name}</a>
+    <nav class="ff-entete-nav ff-petit" aria-label="Navigation principale">
+      {surAudit ? (
+        <a href="/" class="ff-lien">Retour</a>
+      ) : (
+        <>
+          {liens.map((l) => <a href={l.href} class="ff-entete-lien hidden md:inline-flex">{l.label}</a>)}
+          <a href={mailto()} class="ff-entete-lien ff-entete-mail hidden min-[1100px]:inline-flex">{site.contact.email}</a>
+          <a href="/audit" class="ff-bouton ff-bouton-compact ff-entete-cta" aria-label="Réserver un audit">
+            <span class="ff-entete-long">Réserver un audit</span><span class="ff-entete-court">Audit</span>
+          </a>
+        </>
+      )}
     </nav>
   </div>
 </header>
-<div class="h-[68px]" aria-hidden="true"></div>
 
-{/* Barre d'action sur téléphone, sous le pouce une fois le premier écran passé : les deux chemins de
-    la page, lire les tarifs ou écrire.
-    TODO(fondateurs) : quand le vrai numéro est fourni (contact.phone dans site.config.ts), remplacer
-    « Tarifs » par <a href={tel()}>Appeler</a> — le 06 00 00 00 00 actuel est un placeholder. */}
-<div class="ff-barre-action" data-barre-action>
-  <a href={accueil ? '#offre' : '/#offre'} class="ff-barre-ecrire">Voir les tarifs</a>
-  <a href="#contact" class="ff-barre-appel">Écrire</a>
-</div>
+{!surAudit && (
+  <div class="ff-barre" data-barre-audit>
+    <a href="/audit" class="ff-barre-audit">Réserver un audit</a>
+    <a href={mailto()} class="ff-barre-ecrire">Écrire</a>
+  </div>
+)}
 
 <script>
-  // La barre du navigateur (theme-color) suit le noir chaud du site, pas le noir froid de la direction.
+  import { onPage } from '@/scripts/page';
+  import { initMotionFF } from './motion-ff';
+
+  // La barre du navigateur (theme-color) suit l'encre du site, pas le noir froid de la direction.
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#15120f');
+
+  onPage(initMotionFF);
+
+  // Barre basse : visible hors du premier écran, masquée quand la section Audit (ou un formulaire
+  // d'audit) est à l'écran.
+  onPage(() => {
+    const barre = document.querySelector<HTMLElement>('[data-barre-audit]');
+    if (!barre) return;
+    const hero = document.getElementById('hero');
+    const caches = [...document.querySelectorAll<HTMLElement>('#audit, [data-formulaire-audit]')];
+    const vues = new Set<Element>();
+    let heroVu = Boolean(hero);
+    const maj = () => barre.toggleAttribute('data-shown', !heroVu && vues.size === 0);
+    const obs = new IntersectionObserver((entrees) => {
+      for (const e of entrees) {
+        if (e.target === hero) heroVu = e.isIntersecting;
+        else if (e.isIntersecting) vues.add(e.target);
+        else vues.delete(e.target);
+      }
+      maj();
+    }, { threshold: 0 });
+    if (hero) obs.observe(hero);
+    caches.forEach((z) => obs.observe(z));
+    maj();
+    document.addEventListener('astro:before-swap', () => obs.disconnect(), { once: true });
+  });
 </script>
 
 <style is:global>
-  .ff-barre-action { display: none; }
-  @media (max-width: 639px) {
-    .ff-barre-action {
+  .ff-entete {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: var(--entete);
+    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .ff-entete-ligne { display: flex; height: 100%; align-items: center; justify-content: space-between; gap: var(--s3); }
+  .ff-entete-nom { font-family: var(--ff-titres); font-size: 1.125rem; line-height: 1; color: var(--fg); text-decoration: none; white-space: nowrap; }
+  .ff-entete-nav { display: flex; align-items: center; gap: var(--s3); }
+  /* Affichage des liens par les utilitaires `hidden md:inline-flex` : la règle de cible tactile de
+     craft.css (header[data-nav] a:not(.btn):not(.hidden), spécificité 0,3,2) ignore les éléments
+     .hidden et ne rallume donc pas ces liens sur téléphone. */
+  .ff-entete-lien { min-height: 48px; align-items: center; color: var(--muted); text-decoration: none; transition: color 160ms ease; }
+  @media (hover: hover) and (pointer: fine) { .ff-entete-lien:hover { color: var(--fg); } }
+  .ff-entete-court { display: inline; }
+  .ff-entete-long { display: none; }
+  /* Le bouton : `:is(.ff-entete-cta, #ff-specificite)` porte la spécificité d'un id (le second
+     sélecteur ne correspond à rien) pour passer devant la même règle de craft.css (min-height 24 px).
+     Téléphone : 40 px visibles, cible de 48 px (::after) dans un en-tête de 56. */
+  .ff-entete :is(.ff-entete-cta, #ff-specificite) { position: relative; min-height: 40px; }
+  .ff-entete :is(.ff-entete-cta, #ff-specificite)::after { content: ''; position: absolute; inset: -4px 0; }
+  @media (min-width: 768px) {
+    .ff-entete-court { display: none; }
+    .ff-entete-long { display: inline; }
+    .ff-entete-nav { gap: var(--s4); }
+    .ff-entete :is(.ff-entete-cta, #ff-specificite) { min-height: 48px; padding: 0 var(--s3); font-size: 1rem; }
+  }
+  .ff-entete-mail { color: var(--fg); }
+
+  /* Barre basse (téléphone seulement) */
+  .ff-barre { display: none; }
+  @media (max-width: 767px) {
+    .ff-barre {
       position: fixed;
       inset: auto 0 0 0;
       z-index: 60;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-      padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom));
-      background: color-mix(in oklab, var(--bg) 88%, transparent);
-      -webkit-backdrop-filter: blur(14px);
-      backdrop-filter: blur(14px);
+      grid-template-columns: 1.4fr 1fr;
+      gap: var(--s1);
+      padding: var(--s1) var(--s2) calc(var(--s1) + env(safe-area-inset-bottom));
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
       border-top: 1px solid var(--line);
-      /* Sortie : 200 ms ; entrée : 260 ms (courbe de tiroir iOS). Masquée, elle n'attrape pas le doigt. */
       transform: translateY(110%);
       visibility: hidden;
+      /* Sortie plus rapide que l'entrée ; masquée, elle n'attrape pas le doigt. */
       transition: transform 200ms cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 200ms;
     }
-    .ff-barre-action[data-shown] {
+    .ff-barre[data-shown] {
       transform: none;
       visibility: visible;
       transition: transform 260ms cubic-bezier(0.32, 0.72, 0, 1), visibility 0s;
     }
-    .ff-barre-action a {
+    .ff-barre a {
       display: flex;
       min-height: 48px;
       align-items: center;
       justify-content: center;
-      border-radius: 0;
-      font-size: 0.95rem;
-      font-weight: 500;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 550;
+      text-decoration: none;
       touch-action: manipulation;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
+      transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
     }
-    .ff-barre-action a:active { transform: scale(0.97); }
-    .ff-barre-appel { background: var(--fg); color: var(--bg); }
+    .ff-barre a:active { transform: scale(0.97); }
+    .ff-barre-audit { background: var(--fg); color: var(--bg); }
     .ff-barre-ecrire { border: 1px solid var(--line); color: var(--fg); }
+    body:has(.ff-barre) { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
   }
-  @media (max-width: 639px) and (prefers-reduced-motion: reduce) {
-    .ff-barre-action, .ff-barre-action[data-shown] { transform: none; transition: opacity 150ms ease, visibility 0s; opacity: 0; }
-    .ff-barre-action[data-shown] { opacity: 1; }
-  }
-</style>
-
-<style is:global>
-  @media (max-width: 639px) {
-    body { padding-bottom: calc(4.5rem + env(safe-area-inset-bottom)); }
-  }
-
-  /* Finition du site du studio (Emil Kowalski, design-engineering) : un bouton répond au doigt
-     (léger enfoncement, 160 ms, sortie douce) ; titres équilibrés, paragraphes sans mot orphelin. */
-  /* Plus spécifique que [data-direction='eclipse'] .btn (sinon sa transition sans transform gagne et
-     l'enfoncement claque sans transition). */
-  html[data-direction] .btn { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease; touch-action: manipulation; }
-  html[data-direction] .btn:active { transform: scale(0.97); }
-  /* Au doigt, le survol reste « collé » après le toucher (Appeler restait inversé sur iPhone) : on
-     annule les survols d'eclipse sur les écrans sans pointeur fin. */
-  @media not ((hover: hover) and (pointer: fine)) {
-    html[data-direction='eclipse'] .btn-primary:hover { background: var(--fg); color: var(--bg); }
-    html[data-direction='eclipse'] .btn-ghost:hover { border-color: var(--line); }
-  }
-  /* Chiffres alignés dans les titres : Cormorant a des chiffres elzéviriens par défaut (« 1 2oo € »,
-     « o h » à grande taille). */
-  h1, h2, h3, .font-display, .ff-montant { font-variant-numeric: lining-nums; }
-  .ff-montant { font-variant-numeric: lining-nums tabular-nums; }
-  /* Formulaire sur iPhone : 16 px minimum (sinon Safari zoome au toucher), zone de message et
-     liste en coins doux plutôt qu'en pilule, flèche de liste dessinée. */
-  .ff-champ { font-size: max(16px, 1rem); border-radius: 0; }
-
-  /* Signes « fait par une IA » retirés (6 oct 2026, recherche + diagnostic) : boutons en pilule
-     partout, halo lumineux et grain sur fond noir. Angles nets et noir franc : le luxe vient de la
-     typographie et du vide, pas des effets. */
-  html[data-direction] .btn { border-radius: 0; }
-  html[data-direction='eclipse'] body::before,
-  html[data-direction='eclipse'] body::after { content: none; }
-  select.ff-champ {
-    -webkit-appearance: none;
-    appearance: none;
-    padding-right: 2.75rem;
-    background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
-    background-position: calc(100% - 1.4rem) 55%, calc(100% - 1.05rem) 55%;
-    background-size: 0.35rem 0.35rem;
-    background-repeat: no-repeat;
-  }
-  /* Pas de rideau d'entrée (.ff-curtain du moteur, motion « rich ») : sur ce site, la barre grise
-     qui montait à l'ouverture était de trop ; le monogramme qui se trace suffit (6 oct 2026). */
-  .ff-curtain { display: none; }
-  h1, h2, h3 { text-wrap: balance; }
-  main p { text-wrap: pretty; }
-  @media (prefers-reduced-motion: reduce) {
-    .btn:active { transform: none; }
+  @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    .ff-barre, .ff-barre[data-shown] { transform: none; transition: none; }
+    .ff-barre a:active { transform: none; }
   }
 </style>
-
-<style is:global>
-  /* --- Palette du studio (benchmark d'octobre 2026, docs/veille/benchmark-2026-10/) ---
-     Le noir froid d'eclipse (#0a0b0d, blanc bleuté) faisait « SaaS sombre ». Les sombres désirables du
-     relevé (LxL Creative, Collins, Order) sont des bruns-noirs ou des anthracites, avec un texte crème
-     et une seule couleur rare. Trois fonds en couches (page, section alternée, surface), un crème, un
-     gris chaud, un accent cuivre réservé aux soulignés et aux survols. Contrastes mesurés (WCAG) :
-     crème sur fond 15,2:1, gris chaud sur fond 7,3:1 et sur surface 6,3:1, cuivre sur fond 6,4:1.
-     Ces valeurs sont des TOKENS redéfinis au niveau du site : les sections ne lisent que var(--…). */
-  html[data-direction='eclipse'] {
-    --bg: #15120f;
-    --bg-2: #1c1814;
-    --surface: #241f1a;
-    --fg: #f0e8db;
-    --muted: #b0a596;
-    --line: rgba(240, 232, 219, 0.13);
-    --accent: #d39a6a;
-    --accent-2: #e6bd96;
-    --on-accent: #15120f;
-    --ink: #0f0d0b;
-    --on-ink: #f0e8db;
-  }
-  html[data-direction='eclipse'] body { background: var(--bg); color: var(--fg); }
-
-  /* Liens texte du studio : soulignés cuivre, fins, qui passent au crème au survol. */
-  .ff-lien {
-    text-decoration-line: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.3em;
-    text-decoration-color: var(--accent);
-    transition: text-decoration-color var(--motion-ui) ease, color var(--motion-ui) ease;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .ff-lien:hover { text-decoration-color: currentColor; }
-  }
-
-  /* Tiroir de contact (composant partagé src/components/ContactDrawer.astro) : il affiche le
-     téléphone, l'adresse et les horaires du config, qui sont des PLACEHOLDERS pour le studio.
-     TODO(fondateurs) : supprimer cette règle quand contact.phone, contact.address et contact.hours
-     portent les vraies valeurs. En attendant, seul l'e-mail (réel) reste visible. */
-  [data-drawer-coordonnees] > li:not(:has(a[href^='mailto:'])) { display: none; }
-</style>
-
-<script>
-  import { onPage } from '@/scripts/page';
-
-  onPage(() => {
-    const barre = document.querySelector<HTMLElement>('[data-barre-action]');
-    if (!barre) return;
-    // Visible hors du premier écran et hors du dernier (#parler porte déjà Appeler / Écrire : quatre
-    // boutons à la fois, c'était trop).
-    const zones = ['hero', 'parler'].map((id) => document.getElementById(id)).filter((el): el is HTMLElement => Boolean(el));
-    if (!zones.length) { barre.setAttribute('data-shown', ''); return; }
-    const vues = new Set<Element>();
-    const obs = new IntersectionObserver((entrees) => {
-      for (const e of entrees) { if (e.isIntersecting) vues.add(e.target); else vues.delete(e.target); }
-      barre.toggleAttribute('data-shown', vues.size === 0);
-    }, { threshold: 0.15 });
-    zones.forEach((z) => obs.observe(z));
-    document.addEventListener('astro:before-swap', () => obs.disconnect(), { once: true });
-  });
-</script>

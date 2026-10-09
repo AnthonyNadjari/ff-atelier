@@ -1,41 +1,15 @@
-// DEMO : cliente inventée
-/**
- * Studio Ambre — Léa Bonnet, architecte d'intérieur, Paris 10e.
- * Site sur mesure : nav + hero + quatre blocs dessinés pour ce site (sites/studio-ambre/sections/).
- *
- * Ecarts assumés par rapport à la proposition de `ff composer` (direction "pierre" gardée : Bodoni
- * Moda + gris minéral colle exactement au mandat « quiet luxury, éditorial », voir
- * src/directions/pierre/) :
- *  - accent surchargé en ambre (hsl(28 55% 36%), proche du placeholder #b8763b assombri) au lieu du
- *    gris minéral par défaut de "pierre" — le mandat demande un unique accent chaud nommé "ambre".
- *    Luminosité 46 -> 36 (rapport impeccable) : à 46 %, l'ambre tombe dans la zone morte du contraste
- *    pour ses deux usages — texte clair (--on-accent, fixe par la direction "pierre" à #f2f1ee) sur
- *    fond accent (3.4:1) ET accent utilisé comme couleur de texte sur --surface (3.7:1). --on-accent
- *    n'étant pas surchargeable par site (schema.ts), seule la luminosité de l'accent peut résoudre les
- *    deux a la fois ; 36 les satisfait toutes deux (>= 4.5:1, calcul WCAG) en restant un ambre franc.
- *  - motion "rich" (au lieu de "subtle") : plusieurs effets du mandat sont palier rich
- *    (data-stack, data-draw-svg, data-accordion, data-drag-grid).
- *  - shell "magazine" plutôt que "sidebar" proposé : les 8 autres sites dessinés à la main se
- *    répartissent déjà sur flow/sidebar/sticky-hero — magazine et split restent inutilisés
- *    (voir docs/OBJECTIF.md, critère 1). Magazine choisi plutôt que split car il laisse la nav
- *    sur-mesure piloter tout le rendu (desktop compris), split réserve la nav desktop au panneau
- *    latéral de la coquille elle-même.
- *  - typographie par défaut de "pierre" conservée (Bodoni Moda / Epilogue) plutôt que la paire
- *    proposée (delaGothic/domine) : Bodoni Moda porte particulièrement bien le nom du studio en
- *    grand format sur le hero (mandat), une police géométrique aurait affaibli l'effet.
- *  - `smoothScroll` (Lenis) essayé puis retiré : synchronisé avec ScrollTrigger via ses propres
- *    évènements de scroll, il n'a pas suivi le `window.scrollTo()` programmatique du script de
- *    captures (`scripts/captures.mjs`, qui simule un défilement pour déclencher les reveals avant
- *    de reprendre en haut) — les effets `data-scrub` (ici `data-blur-scrub` sur les plans de
- *    "Projets") restaient figés dans leur état de départ sur la capture. Laissé à sa valeur par
- *    défaut `false` : pas de gain assez net pour ce site pour justifier ce risque d'incompatibilité
- *    avec l'outil de vérification.
- *
- * Les quatre services (conseil, conception, suivi de chantier, aménagement de boutique) sont
- * présentés dans la section "Méthode" (sur mesure, data-accordion) plutôt que dans une grille de
- * services séparée : ils sont autant des phases de la mission que des prestations, l'accordéon
- * évite la redite. Les pages /services/<slug> restent générées normalement.
- */
+// DEMO : cliente inventée (Studio Ambre, Léa Bonnet, architecte d’intérieur, Paris 10e). Coordonnées
+// fictives (plage 06 39 98), aucun avis. Le dossier ne contient qu’une photo libre (intérieur de la
+// Farnsworth House, Library of Congress, voir CREDITS.md) : elle sert de premier écran et, en trois
+// cadrages (public/images/projet-1/2/3.webp), illustre le projet raconté ; les légendes décrivent ce
+// qu’on voit, jamais une adresse.
+//
+// 9 oct 2026 : coquille `magazine` (numéros géants 01-08 à chaque section) remplacée par `flow` ;
+// le hero perd le nom en capitales espacées qui se décode, l’accroche en italique et le voile ; le
+// bloc signature est un projet raconté avec ses faits (surface, budget, honoraires, durées, dates) et
+// trois photos ; « Méthode » devient quatre phases en texte, avec leur durée écrite, à la place d’un
+// accordéon à barres de progression ; les trois cartes de valeurs, la liste de zones en pastilles, la
+// carte d’appel finale, le halo et le filet lumineux du contact sont partis. Contact partagé.
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
@@ -45,22 +19,20 @@ export default defineSite({
   accent: { h: 28, s: 55, l: 36 },
   scale: 'display',
   layout: {
-    shell: 'magazine',
+    shell: 'flow',
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      { type: 'custom', variant: 'casestudy', label: 'Projets' },
-      { type: 'about', variant: 'values' },
-      { type: 'custom', variant: 'materiaux', label: 'Matériaux' },
+      { type: 'custom', variant: 'projet', label: 'Un projet' },
       { type: 'custom', variant: 'methode', label: 'Méthode' },
-      { type: 'zones', variant: 'list' },
+      { type: 'custom', variant: 'materiaux', label: 'Matières' },
+      { type: 'custom', variant: 'studio', label: 'Le studio' },
       { type: 'faq', variant: 'two-columns' },
-      { type: 'cta', variant: 'card' },
-      { type: 'custom', variant: 'contact', label: 'Contact' },
+      { type: 'contact', variant: 'form-split' },
     ],
     footer: 'columns',
-    divider: 'rule',
-    tone: 'alternate',
+    divider: 'none',
+    tone: 'flat',
     headings: 'left',
   },
 
@@ -136,30 +108,28 @@ export default defineSite({
   about: {
     title: 'Une manière de travailler',
     story:
-      'Léa Bonnet a fondé Studio Ambre en 2015, rue des Vinaigriers. Elle dessine seule, avec un collaborateur pour le suivi de chantier.\n\nPas de catalogue, pas de style maison. Un projet part du lieu tel qu’il est, et parfois la bonne réponse consiste à ne presque rien changer.',
-    values: [
-      { title: 'Le lieu avant le style', text: "La lumière, les proportions et la structure existante orientent chaque décision, avant toute question de tendance." },
-      { title: 'Peu de projets, beaucoup d’attention', text: "Un nombre de dossiers volontairement limité, pour rester présente du premier croquis à la réception du chantier." },
-      { title: 'Un interlocuteur, du début à la fin', text: "Celle qui dessine le projet suit aussi le chantier, aux côtés d’un collaborateur unique." },
-    ],
+      'Léa Bonnet a fondé Studio Ambre en 2015, rue des Vinaigriers, après six ans en agence. Elle dessine seule, avec Karim Haddad pour le suivi de chantier depuis 2019.\n\nPas de catalogue, pas de style maison. Un projet part du lieu tel qu’il est : la lumière à chaque heure, les proportions, ce que la structure autorise. Parfois la bonne réponse consiste à ne presque rien changer, et on le dit.\n\nCinq à six projets par an, pas davantage. Celle qui dessine est celle qui vient sur le chantier, jusqu’à la réception.',
   },
 
   faq: [
     { q: 'Comment se passe la première visite ?', a: 'Deux heures sur place, chez vous. On regarde, on écoute, on esquisse des pistes. Rien n’est engagé à ce stade.' },
+    { q: 'Comment sont calculés les honoraires ?', a: 'En pourcentage du montant des travaux, entre 10 et 14 % selon l’ampleur de la mission, conception et suivi de chantier compris. Le pourcentage est écrit dans le contrat avant de commencer.' },
+    { q: 'Combien de temps prend un projet ?', a: 'Comptez deux à trois mois de conception, puis trois à cinq mois de chantier pour un appartement. Les délais réels de chaque phase sont donnés avec le dossier de conception.' },
     { q: 'Travaillez-vous en dehors de Paris ?', a: 'Le studio intervient à Paris et dans les communes limitrophes : Montreuil, Vincennes, Saint-Ouen, Boulogne.' },
-    { q: 'Suivez-vous le chantier jusqu’au bout ?', a: 'Jusqu’à la réception des travaux, oui. La coordination des artisans et les visites de suivi font partie de la mission de conception.' },
+    { q: 'Suivez-vous le chantier jusqu’au bout ?', a: 'Jusqu’à la réception des travaux, oui. La coordination des artisans et les visites de suivi font partie de la mission.' },
     { q: 'Le studio s’occupe-t-il aussi de boutiques ?', a: 'Oui, des boutiques et des cabinets, en plus des appartements. Et la méthode ne change pas.' },
   ],
 
   form: { provider: 'mailto' },
   images: {
-    hero: { src: '/images/hero.webp', alt: 'Intérieur baigné de lumière, matières brutes et proportions généreuses' },
+    hero: { src: '/images/hero.webp', alt: 'Séjour vitré toute hauteur, mur de rangements en bois clair, banquette de cuir face au jardin' },
   },
   seo: { keywords: ["architecte d'intérieur Paris 10e", 'aménagement appartement haussmannien', 'aménagement boutique Paris'] },
   wording: {
     devis: 'Prendre rendez-vous',
     ctaTitle: 'Un lieu à repenser ? <em>Commençons par une visite.</em>',
     contactTitle: 'Prendre rendez-vous',
+    contactText: 'Dites-nous le lieu, ce qui ne va plus, et quand vous aimeriez commencer. On rappelle pour fixer la première visite.',
   },
   legal: { owner: 'Léa Bonnet' },
 });

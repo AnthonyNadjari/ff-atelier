@@ -1,0 +1,174 @@
+/*
+ * Système de design du site du studio (plan-site-ff.html v2, ambiance A « Atelier de nuit »).
+ * Importé une fois par Nav.astro (présente sur toutes les pages), inliné dans le <head> au build
+ * (inlineStylesheets: 'always') : c'est aussi le CSS critique du premier écran.
+ *
+ * Trois couleurs, nuances par opacité seulement. Les tokens sont ceux de la factory (--bg, --fg...) :
+ * on les redéfinit au niveau du site, les sections ne lisent que var(--…).
+ *   Encre  #15120F  fond ; texte sur la section crème
+ *   Crème  #F0E8DB  texte ; fond de la section Audit (bascule S4)
+ *   Cuivre #D39A6A  accent unique (soulignés, survol du bouton principal, tracé du monogramme)
+ *   Cuivre foncé #8A5A33 : uniquement dans l'état crème (≈ 4,8:1 sur crème) ; le cuivre clair y
+ *   tombe à ≈ 2:1 et n'y porte jamais de sens.
+ * Dérivées (mélange à l'opacité indiquée, posées en valeurs pleines pour des contrastes exacts) :
+ *   texte secondaire = crème 68 % sur encre (#AAA49A, ≈ 8:1), filet = crème 13 %,
+ *   fond de carte = encre + 4 % de crème (#1E1B17). Thème crème : symétrique.
+ */
+
+/* Les tokens de couleur sont enregistrés comme <color> : la bascule encre → crème (S4) se fait en
+   interpolant les tokens sur <html> (0,6 s), et toute la page suit, nav comprise, sans poser une
+   transition sur chaque élément. Navigateur sans @property : bascule instantanée, même résultat. */
+@property --bg { syntax: '<color>'; inherits: true; initial-value: #15120f; }
+@property --bg-2 { syntax: '<color>'; inherits: true; initial-value: #1e1b17; }
+@property --surface { syntax: '<color>'; inherits: true; initial-value: #1e1b17; }
+@property --fg { syntax: '<color>'; inherits: true; initial-value: #f0e8db; }
+@property --muted { syntax: '<color>'; inherits: true; initial-value: #aaa49a; }
+@property --line { syntax: '<color>'; inherits: true; initial-value: rgb(240 232 219 / 0.13); }
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #d39a6a; }
+
+html[data-direction='eclipse'] {
+  --bg: #15120f;
+  --bg-2: #1e1b17;
+  --surface: #1e1b17;
+  --fg: #f0e8db;
+  --muted: #aaa49a;
+  --line: rgb(240 232 219 / 0.13);
+  --accent: #d39a6a;
+  --accent-2: #d39a6a;
+  --on-accent: #15120f;
+  --ink: #15120f;
+  --on-ink: #f0e8db;
+  --radius: 4px;
+  --radius-card: 4px;
+
+  /* Grille 8 pt */
+  --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s6: 48px; --s8: 64px; --s12: 96px; --s16: 128px;
+  --gouttiere: 24px;
+  --entete: 56px;
+  /* Courbes (équivalents CSS des courbes GSAP du plan) */
+  --ff-power2-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ff-power3-out: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ff-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ff-bascule: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Titres : Bodoni (préchargée, élément LCP) puis son repli aux métriques ajustées (size-adjust,
+     ascent/descent-override générés au build par Fontaine) : l'échange de police ne crée ni décalage
+     de mise en page ni nouveau LCP tardif. */
+  --ff-titres: 'Bodoni Moda Variable', 'Bodoni Moda Variable fallback', Georgia, serif;
+
+  transition: --bg 0.6s var(--ff-bascule), --bg-2 0.6s var(--ff-bascule), --surface 0.6s var(--ff-bascule),
+    --fg 0.6s var(--ff-bascule), --muted 0.6s var(--ff-bascule), --line 0.6s var(--ff-bascule), --accent 0.6s var(--ff-bascule);
+  color-scheme: dark;
+}
+@media (min-width: 768px) {
+  html[data-direction='eclipse'] { --gouttiere: 48px; --entete: 72px; }
+}
+
+/* S4 : état crème (posé sur <html> par motion-ff.ts quand la section Audit passe le milieu de l'écran). */
+html[data-direction='eclipse'].ff-creme {
+  --bg: #f0e8db;
+  --bg-2: #e7dfd3;
+  --surface: #e7dfd3;
+  --fg: #15120f;
+  --muted: #5b5750;
+  --line: rgb(21 18 15 / 0.13);
+  --accent: #8a5a33;
+  --on-accent: #f0e8db;
+  color-scheme: light;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-direction='eclipse'] { transition: none; }
+}
+
+html[data-direction='eclipse'] body { background: var(--bg); color: var(--fg); }
+html[data-direction='eclipse'] ::selection { background: var(--accent); color: var(--bg); }
+html[data-direction='eclipse'] :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+html[data-direction='eclipse'] { scroll-padding-top: calc(var(--entete) + var(--s2)); }
+/* Signes « fait par une IA » de la direction retirés : grain et halo d'eclipse. */
+html[data-direction='eclipse'] body::before,
+html[data-direction='eclipse'] body::after { content: none; }
+.ff-curtain { display: none; }
+
+/* --- Trois tailles de texte, pas une de plus --- */
+.ff-titre {
+  font-family: var(--ff-titres);
+  font-weight: 450;
+  font-style: normal;
+  font-size: clamp(2.75rem, 5.5vw, 5rem); /* 44 → 80 px */
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  font-variant-numeric: lining-nums;
+  text-wrap: balance;
+}
+.ff-texte { font-size: 1.0625rem; line-height: 1.75rem; } /* 17/28 */
+.ff-petit { font-size: 0.875rem; line-height: 1.25rem; } /* 14/20 */
+@media (min-width: 768px) { .ff-texte { font-size: 1.125rem; } } /* 18/28 */
+.ff-doux { color: var(--muted); }
+main p { text-wrap: pretty; }
+.ff-montant { font-variant-numeric: lining-nums tabular-nums; }
+
+/* --- Mise en page : conteneur 1200 px, gouttières 24/48, 128/96 px entre sections --- */
+.ff-conteneur { width: 100%; max-width: calc(1200px + 2 * var(--gouttiere)); margin-inline: auto; padding-inline: var(--gouttiere); }
+.ff-section { padding-block: var(--s6); }
+@media (min-width: 1024px) { .ff-section { padding-block: var(--s8); } }
+
+/* --- Boutons ---
+   Principal : fond crème, texte encre, 48 px, rayon 4 px ; survol cuivre ; appui scale 0,97 en 160 ms.
+   Secondaire : lien texte souligné cuivre (jamais un deuxième bouton plein). */
+.ff-bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 var(--s3);
+  border-radius: 4px;
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 1.0625rem;
+  font-weight: 550;
+  line-height: 1;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms ease, color 160ms ease;
+}
+.ff-bouton:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .ff-bouton:hover { background: var(--accent); color: var(--on-accent); }
+}
+.ff-bouton[disabled], .ff-bouton[aria-busy='true'] { opacity: 0.6; cursor: progress; }
+.ff-bouton-compact { min-height: 40px; padding: 0 var(--s2); font-size: 0.875rem; }
+@media (prefers-reduced-motion: reduce) { .ff-bouton:active { transform: none; } }
+
+.ff-lien {
+  color: var(--fg);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  text-decoration-color: var(--accent);
+  transition: text-decoration-thickness 160ms ease, text-decoration-color 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ff-lien:hover { text-decoration-thickness: 2px; }
+}
+/* Sur la section crème, les liens sont soulignés en encre (le cuivre y est trop pâle pour porter un sens). */
+html.ff-creme .ff-lien { text-decoration-color: currentColor; }
+
+/* --- Révélations « le reste, sobre » (motion-ff.ts pose html.ff-anime : sans JS, tout est visible) ---
+   Titres de section : au masque, 0,8 s expo.out, une fois. Images : clip-path inset, 0,9 s expo.out. */
+.ff-masque { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+.ff-masque > span { display: block; }
+html.ff-anime [data-ff-titre] > span { transform: translateY(105%); }
+html.ff-anime [data-ff-titre].est-vu > span { transform: none; transition: transform 0.8s var(--ff-expo-out); }
+html.ff-anime [data-ff-image] { clip-path: inset(0 0 100% 0); }
+html.ff-anime [data-ff-image].est-vu { clip-path: inset(0); transition: clip-path 0.9s var(--ff-expo-out); }
+
+/* --- Transitions de page (View Transitions) : fondu 0,25 s, la nav reste en place --- */
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 0.25s; }
+
+/* Formulaires : 16 px minimum (Safari zoome en dessous). */
+.ff-champ { font-size: max(16px, 1rem); border-radius: 4px; }
+
+/* Lenis pilote le défilement à la molette : le scroll-behavior: smooth natif doublerait le lissage. */
+html.lenis { scroll-behavior: auto; }

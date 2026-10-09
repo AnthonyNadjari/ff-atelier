@@ -21,7 +21,7 @@ function serve(slug, port) {
   const server = createServer((req, res) => {
     const pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname);
     let f = join(root, pathname);
-    if (existsSync(f) && statSync(f).isDirectory()) f = join(f, 'index.html');
+    if (existsSync(f) && statSync(f).isDirectory()) f = existsSync(join(f, 'index.html')) || !existsSync(`${f}.html`) ? join(f, 'index.html') : `${f}.html`; // /audit + /audit/merci : audit.html a cote du dossier audit/ (pages sur mesure)
     if (!existsSync(f) && existsSync(f + '.html')) f = f + '.html';
     // Applique dist/<slug>/_headers (CSP comprise) comme Cloudflare Pages le ferait en prod — utile
     // pour tester la CSP en local avant deploiement (voir scripts/ff/headers-file.mjs), et pour que
