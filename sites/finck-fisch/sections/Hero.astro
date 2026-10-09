@@ -118,10 +118,12 @@ import { site, mailto } from '@/lib/site';
     // peinte), jamais avant : aucun noir possible. Lecture demandée seulement quand les données sont là.
     v.addEventListener('playing', () => { fixe.classList.add('est-cachee'); }, { once: true });
     v.addEventListener('ended', () => { fixe.classList.remove('est-cachee'); }, { once: true });
+    // Lecture demandée tout de suite (iOS ne charge qu'au play()) ; l'image fixe par-dessus couvre
+    // l'attente, donc aucun noir possible. Si le navigateur refuse (économie d'énergie), on retente
+    // dès que des données arrivent, puis on reste sur le logo fixe.
     const lancer = () => { v.play().catch(() => {}); };
-    if (v.readyState >= 3) lancer(); else v.addEventListener('canplay', lancer, { once: true });
-    // Rien au bout de 8 s (réseau lent, onglet en arrière-plan) : on reste sur le logo fixe.
-    window.setTimeout(() => { if (v.currentTime === 0) v.removeEventListener('canplay', lancer); }, 8000);
+    lancer();
+    v.addEventListener('canplay', lancer, { once: true });
   });
 
   // L'heure de Paris, en direct (signe de présence vrai, rien à promettre). Rien n'est écrit dans le
