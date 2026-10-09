@@ -1,32 +1,45 @@
 ---
 /**
  * Premier écran « la devanture » — propre à Maison Roux.
- * Idée : devant une boulangerie, on lit l'enseigne, puis les heures collées sur la vitre. L'écran
- * ne montre que ça : le nom en très grand, puis les lignes d'ouverture, jour à gauche, heures à droite.
- * Ni eyebrow, ni sous-titre, ni bouton, ni étiquette, ni bande défilante.
+ * Idée : devant une boulangerie, on lit l'enseigne, les heures collées sur la vitre, et on voit le
+ * pain derrière. L'écran se coupe en deux : à gauche le nom en très grand puis les lignes
+ * d'ouverture, jour à gauche, heures à droite ; à droite, bord à bord, les baguettes sur la grille
+ * (site.images.hero). Avant le 9 oct 2026, l'écran était un aplat ocre sans aucune photo : on lisait
+ * une enseigne, on ne voyait pas le pain. Ni sous-titre, ni bouton, ni étiquette, ni bande défilante.
  */
 import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const hero = site.images.hero;
 ---
 
 <section id="hero" class="bg-accent text-on-accent" data-grain>
-  <div class="container-ff relative z-[1] flex min-h-[86svh] flex-col justify-center gap-12 pb-16 pt-32 md:pt-40">
-    <h1 class="font-display text-display-xl uppercase leading-[0.86]" data-split>{site.business.name}</h1>
+  <div class:list={['relative z-[1] grid', hero && 'lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]']}>
+    <div class="flex flex-col justify-center gap-10 px-5 pb-14 pt-28 sm:px-8 lg:min-h-svh lg:gap-12 lg:pl-[max(2rem,calc((100vw-var(--container,72rem))/2))] lg:pr-16 lg:pt-32">
+      <h1 class="font-display text-display-xl uppercase leading-[0.86]" data-split>{site.business.name}</h1>
 
-    <div class="border-t border-on-accent/30" data-stagger="90">
-      {site.contact.hours.map((h) => (
-        <div
-          class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 border-b border-on-accent/30 py-3 font-display"
-          style="font-size: clamp(1.1rem, 3.2vw, 2rem);"
-        >
-          <span>{h.days}</span>
-          <span class="tabular-nums">{h.hours}</span>
-        </div>
-      ))}
+      <div class="border-t border-on-accent/30" data-stagger="90">
+        {site.contact.hours.map((h) => (
+          <div
+            class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-1 border-b border-on-accent/30 py-3 font-display"
+            style="font-size: clamp(1.1rem, 2.4vw, 1.75rem);"
+          >
+            <span>{h.days}</span>
+            <span class="tabular-nums">{h.hours}</span>
+          </div>
+        ))}
+      </div>
+
+      <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-on-accent/85">
+        <span>{site.contact.address.street}, {site.contact.address.postalCode} {site.contact.address.city}</span>
+        <a href={tel()} class="text-on-accent underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
+      </p>
     </div>
 
-    <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-on-accent/85">
-      <span>{site.contact.address.street}, {site.contact.address.city}</span>
-      <a href={tel()} class="text-on-accent underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
-    </p>
+    {hero && (
+      <div class="relative min-h-[52svh] lg:min-h-svh">
+        <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 42vw, 100vw" loading="eager" fetchpriority="high" />
+      </div>
+    )}
   </div>
 </section>

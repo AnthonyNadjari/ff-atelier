@@ -1,0 +1,59 @@
+---
+/**
+ * « L'atelier » : l'histoire de la forge (about.story, qui n'était affichée nulle part), les faits
+ * tirés de la config (année, adresse, forme, label, assurance) sur des filets, et la marche d'un
+ * chantier en quatre lignes. Remplace « Le feu en quatre temps » (9 oct 2026) : gros numéros 01-04 en
+ * accent et quatre colonnes identiques, qui répétaient chauffe/marteau/pose déjà racontés par la
+ * séquence du premier écran. Deux colonnes, aucune carte, aucun numéro décoratif.
+ */
+import { site, paragraphs } from '@/lib/site';
+
+const b = site.business;
+const faits = [
+  b.since ? { k: 'Forge allumée en', v: String(b.since) } : null,
+  { k: 'Adresse', v: `${site.contact.address.street}, ${site.contact.address.postalCode} ${site.contact.address.city}` },
+  b.legalForm ? { k: 'Forme', v: b.legalForm } : null,
+  ...b.certifications.map((c) => ({ k: 'Label', v: c })),
+  b.insurance ? { k: 'Assurance', v: b.insurance } : null,
+  site.zones.radiusKm ? { k: 'Déplacements', v: `Jusqu’à ${site.zones.radiusKm} km autour de la forge` } : null,
+].filter((f): f is { k: string; v: string } => Boolean(f));
+
+const marche = [
+  'On passe chez vous relever les cotes.',
+  'On dessine à l’échelle. Rien ne chauffe avant votre accord sur le plan, et le devis qui suit est ferme.',
+  'On forge au charbon, au marteau et à la presse. Ce qui est raté repart au feu.',
+  'On galvanise ou on patine, puis on pose. On revient régler si besoin.',
+];
+---
+
+<section id="atelier" class="section-y bg-bg">
+  <div class="container-ff grid gap-14 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-7">
+      <h2 class="font-display text-display-lg leading-none">{site.about.title}</h2>
+      <div class="mt-8 max-w-[34rem] space-y-5 text-lg leading-relaxed sm:text-xl" data-reveal>
+        {paragraphs(site.about.story).map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 lg:pt-4">
+      <dl class="border-t border-line">
+        {faits.map((f) => (
+          <div class="flex justify-between gap-6 border-b border-line py-3 text-sm">
+            <dt class="shrink-0 text-muted">{f.k}</dt>
+            <dd class="text-right text-fg">{f.v}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <h3 class="mt-12 font-display text-2xl">Comment ça se passe</h3>
+      <ol class="mt-4 space-y-3 text-muted">
+        {marche.map((m, i) => (
+          <li class="flex gap-4">
+            <span class="shrink-0 pt-px font-mono text-sm tabular-nums text-fg">{i + 1}.</span>
+            <span>{m}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

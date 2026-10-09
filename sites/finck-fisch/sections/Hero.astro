@@ -111,19 +111,60 @@ import { site, mailto } from '@/lib/site';
   onPage(() => {
     const v = document.querySelector<HTMLVideoElement>('[data-hero-mono]');
     const fixe = document.querySelector<HTMLElement>('[data-hero-mono-fixe]');
-    if (!v || !fixe || v.dataset.pret) return;
+    const cadre = document.querySelector<HTMLElement>('[data-hero-mono-cadre]');
+    if (!v || !fixe || !cadre || v.dataset.pret) return;
     v.dataset.pret = '1';
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.remove(); return; }
-    // L'image fixe ne s'efface qu'une fois la vidéo réellement en train de jouer (première image
-    // peinte), jamais avant : aucun noir possible. Lecture demandée seulement quand les données sont là.
-    v.addEventListener('playing', () => { fixe.classList.add('est-cachee'); }, { once: true });
+
+    // L'image fixe ne s'efface qu'une fois une image réellement peinte, jamais avant : aucun noir.
+    let joue = false, secoursLance = false;
+    v.addEventListener('playing', () => { joue = true; fixe.classList.add('est-cachee'); }, { once: true });
     v.addEventListener('ended', () => { fixe.classList.remove('est-cachee'); }, { once: true });
-    // Lecture demandée tout de suite (iOS ne charge qu'au play()) ; l'image fixe par-dessus couvre
-    // l'attente, donc aucun noir possible. Si le navigateur refuse (économie d'énergie), on retente
-    // dès que des données arrivent, puis on reste sur le logo fixe.
-    const lancer = () => { v.play().catch(() => {}); };
+
+    // Secours (9 oct 2026, « je vois pas d'animation logo ») : quand le navigateur refuse la vidéo
+    // (iOS en économie d'énergie, onglet bridé), la même animation est dessinée image par image sur
+    // un canvas (48 WebP, 200 Ko, chargées seulement ici). Rien ne peut bloquer un canvas.
+    const secours = () => {
+      if (joue || secoursLance) return;
+      secoursLance = true;
+      v.remove();
+      const N = 48, FPS = 12;
+      const c = document.createElement('canvas');
+      c.width = 480; c.height = 480; c.setAttribute('aria-hidden', 'true');
+      cadre.insertBefore(c, fixe);
+      const ctx = c.getContext('2d');
+      if (!ctx) return;
+      const imgs = Array.from({ length: N }, (_, i) => { const im = new Image(); im.decoding = 'async'; im.src = `/video/mono-frames/${String(i + 1).padStart(2, '0')}.webp`; return im; });
+      const prete = (im: HTMLImageElement) => im.complete && im.naturalWidth > 0;
+      let t0: number | null = null, derniere = -1;
+      const tick = (t: number) => {
+        if (t0 === null) t0 = t;
+        const cible = Math.min(N - 1, Math.floor((t - t0) / (1000 / FPS)));
+        if (prete(imgs[cible])) {
+          if (cible !== derniere) { ctx.drawImage(imgs[cible], 0, 0, 480, 480); derniere = cible; if (cible >= 1) fixe.classList.add('est-cachee'); }
+        } else {
+          t0 += 16; // image pas encore là : on retient le temps au lieu de sauter
+        }
+        if (derniere < N - 1) requestAnimationFrame(tick);
+        else fixe.classList.remove('est-cachee');
+      };
+      const demarrer = () => { if (imgs.slice(0, 10).every(prete)) requestAnimationFrame(tick); else window.setTimeout(demarrer, 80); };
+      demarrer();
+    };
+
+    // Lecture demandée tout de suite (iOS ne charge qu'au play()) ; refus -> secours ; silence
+    // (rien de peint au bout de 1,5 s) -> secours aussi.
+    const lancer = () => { if (!secoursLance) v.play().catch(secours); };
     lancer();
     v.addEventListener('canplay', lancer, { once: true });
+    window.setTimeout(() => { if (!joue) secours(); }, 1500);
+
+    // Rejouer : un clic ou un toucher sur la marque relance la fumée (on arrive souvent après la fin).
+    cadre.style.cursor = 'pointer';
+    cadre.addEventListener('click', () => {
+      if (secoursLance) return;
+      if (v.readyState >= 2) { fixe.classList.add('est-cachee'); v.currentTime = 0; v.play().catch(() => {}); }
+    });
   });
 
   // L'heure de Paris, en direct (signe de présence vrai, rien à promettre). Rien n'est écrit dans le
@@ -175,7 +216,7 @@ import { site, mailto } from '@/lib/site';
     aspect-ratio: 1;
     margin: -2.5rem 0 clamp(0.5rem, 1.5vw, 1rem) -2rem;
   }
-  .hero-mono video, .hero-mono img { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent !important; }
+  .hero-mono video, .hero-mono img, .hero-mono canvas { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent !important; }
   .hero-mono img { transition: opacity 240ms ease; }
   .hero-mono img.est-cachee { opacity: 0; }
   @media (max-width: 1023px) {

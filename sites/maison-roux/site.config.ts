@@ -40,13 +40,15 @@ export default defineSite({
     nav: 'burger',
     hero: 'custom/hero',
     contactDrawer: true,
+    // 9 oct 2026 : la fournée devient une ardoise (un bloc encre, le temps fort, juste sous la
+    // devanture), la carte et les gâteaux perdent leurs effets, la bande CTA finale saute (deux blocs
+    // encre à la suite du pied de page ; le bouton de commande est dans la section gâteaux).
     sections: [
-      { type: 'custom', variant: 'Fournee', label: 'Fournées' },
+      { type: 'custom', variant: 'Fournee', label: 'Fournée du jour' },
       { type: 'custom', variant: 'Carte', label: 'La carte' },
       { type: 'about', variant: 'story' },
       { type: 'custom', variant: 'CommanderGateau', label: 'Gâteaux' },
       { type: 'faq', variant: 'accordion' },
-      { type: 'cta', variant: 'band' },
     ],
     footer: 'columns',
     divider: 'none',
@@ -156,10 +158,10 @@ export default defineSite({
   },
 
   process: [
-    { title: '6 h 30, première fournée', text: 'Les pains tradition, levain, seigle et épeautre sortent du four, encore chauds.' },
-    { title: '8 h, viennoiseries', text: 'Croissants, pains au chocolat et chaussons, feuilletés et cuits dans la matinée.' },
-    { title: '11 h, pâtisseries et sandwichs', text: 'Les pâtisseries de saison et les sandwichs du midi sont prêts pour la pause déjeuner.' },
-    { title: '16 h, fournée de l’après-midi', text: 'Une nouvelle fournée de pain pour le dîner, pendant que le fournil prépare déjà demain.' },
+    { title: '6 h 30, Les pains', text: 'Tradition, levain, seigle et épeautre sortent du four, encore chauds.' },
+    { title: '8 h, Les viennoiseries', text: 'Croissants, pains au chocolat, chaussons : feuilletés le matin même, enfournés jusqu’à 11 h.' },
+    { title: '11 h, Pâtisseries et sandwichs', text: 'Les tartes et entremets de saison, et les sandwichs du midi sur le pain du jour.' },
+    { title: '16 h, La fournée de l’après-midi', text: 'Une dernière fournée de pain pour le dîner, pendant que le fournil prépare déjà demain.' },
   ],
 
   faq: [
@@ -167,6 +169,8 @@ export default defineSite({
     { q: 'Le pain est-il au levain naturel ?', a: 'Tous, oui. Levain naturel, aucune levure ajoutée.' },
     { q: 'Proposez-vous des sandwichs à emporter ?', a: 'À partir de 11 h, sur notre pain du jour, et jusqu’à épuisement.' },
     { q: 'Puis-je adapter un gâteau à une allergie ou une envie particulière ?', a: 'Dites-le au moment de la commande. Selon la recette, c’est possible ou non, et on vous le dira franchement.' },
+    { q: 'Peut-on mettre du pain de côté ?', a: 'Un coup de fil avant 10 h et on vous garde vos pains jusqu’à la fermeture. Pour le dimanche, appelez le samedi.' },
+    { q: 'Faites-vous du pain sans gluten ?', a: 'Non. Le fournil travaille le blé, le seigle et l’épeautre dans le même four, on ne peut pas garantir l’absence de traces.' },
   ],
 
   form: { provider: 'mailto' },
@@ -179,7 +183,9 @@ export default defineSite({
     contactText: 'Écrivez-nous ce qu’il vous faut. On répond depuis le fournil, entre deux fournées.',
   },
 
-  images: {},
+  images: {
+    hero: { src: '/images/galerie-1.webp', alt: 'Baguettes tradition sur la grille de refroidissement, encore farinées' },
+  },
 
   seo: {
     keywords: ['boulangerie Lyon', 'boulangerie Croix-Rousse', 'pain au levain Lyon', 'pâtisserie Lyon', 'gâteau sur commande Lyon'],

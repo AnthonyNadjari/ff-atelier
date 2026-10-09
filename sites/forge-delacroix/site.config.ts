@@ -1,5 +1,6 @@
-// DEMO : client inventé (Forge Delacroix). Coordonnées fictives (plage 06 39 98), avis fictifs.
-// Hero et blocs principaux dessinés à la main pour ce site : sites/forge-delacroix/sections/.
+// DEMO : client inventé (Forge Delacroix). Coordonnées fictives (plage 06 39 98). Aucun avis affiché :
+// un site d’exemple ne montre pas de faux retours clients (9 oct 2026, les deux témoignages fictifs ont
+// été retirés au profit d’une FAQ). Hero et blocs principaux dessinés à la main : sites/forge-delacroix/sections/.
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
@@ -16,16 +17,17 @@ export default defineSite({
     shell: 'sidebar',
     nav: 'minimal',
     hero: 'custom/hero',
+    // 9 oct 2026 : le geste (séquence) est devenu le premier écran ; « Le feu en quatre temps » (gros
+    // numéros) remplacé par « L’atelier » (histoire + faits) ; témoignages fictifs et bande CTA retirés,
+    // FAQ avec les vraies questions d’un client à la place ; le nom en très grand ferme la page.
     sections: [
-      { type: 'custom', variant: 'geste', label: 'Le geste' },
-      { type: 'custom', variant: 'feu', label: 'Le feu' },
+      { type: 'custom', variant: 'atelier', label: 'Atelier' },
       { type: 'custom', variant: 'pieces', label: 'Pièces' },
       { type: 'services', variant: 'list' },
-      { type: 'proof', variant: 'testimonials' },
-      { type: 'cta', variant: 'band' },
+      { type: 'faq', variant: 'accordion' },
       { type: 'contact', variant: 'simple' },
     ],
-    footer: 'minimal',
+    footer: 'big-name',
     divider: 'none',
     tone: 'flat',
   },
@@ -33,7 +35,7 @@ export default defineSite({
   business: {
     name: 'Forge Delacroix',
     trade: 'Ferronnerie d’art',
-    tagline: 'Deux forgerons, <em>un feu.</em>',
+    tagline: 'Le fer, forgé <em>à la main.</em>',
     description:
       'Ferronnerie d’art à Toulouse, impasse des Forges, depuis 1987. On y fait des portails, des garde-corps, des escaliers, du mobilier.\n\nNous sommes deux. La forge est au charbon. Et rien ne sort d’un catalogue : chaque pièce est dessinée pour un endroit précis avant d’être mise au feu.',
     since: 1987,
@@ -67,20 +69,21 @@ export default defineSite({
     values: [],
   },
 
-  // DEMO : données fictives
-  proof: {
-    testimonials: [
-      { author: 'Hélène R.', text: 'Un portail qu’on nous demande de photographier. Le dessin a été repris trois fois jusqu’à ce que ce soit exactement ça.', source: 'Google', city: 'Balma' },
-      { author: 'Restaurant Le Quai', text: 'Rampe, enseigne et pieds de table. Tout est arrivé le même jour, posé en une matinée.', source: 'E-mail', city: 'Toulouse' },
-    ],
-  },
+  faq: [
+    { q: 'Combien coûte un portail en fer forgé ?', a: 'Ça dépend de la largeur, du dessin et de la motorisation. On ne donne pas de prix au mètre : on vient relever les cotes, on dessine, et le devis qui suit est ferme.' },
+    { q: 'Quel délai entre le devis et la pose ?', a: 'Il est écrit sur le devis. Il dépend du carnet de l’atelier et du passage chez le galvaniseur, et on vous le dit avant que vous signiez.' },
+    { q: 'Le fer forgé demande-t-il de l’entretien ?', a: 'Dehors, une pièce galvanisée puis thermolaquée ne demande rien pendant des années. Dedans, l’acier ciré se contente d’un chiffon huilé une fois l’an.' },
+    { q: 'Pouvez-vous restaurer une grille ancienne ?', a: 'Oui, c’est une part du travail. On refait à la forge les volutes manquantes, à l’identique, et on traite la rouille avant de repeindre.' },
+    { q: 'Vous déplacez-vous en dehors de Toulouse ?', a: 'Jusqu’à Montauban, environ 80 km autour de la forge. Au-delà, on en parle au téléphone.' },
+    { q: 'Peut-on venir voir l’atelier ?', a: 'Le samedi, sur rendez-vous. On vous montre les pièces en cours et les dessins.' },
+  ],
 
   wording: {
     devis: 'Décrire votre projet',
     ctaTitle: 'Un portail à remplacer, une rampe à poser ? <em>Ça commence par un dessin.</em>',
     ctaText: 'On passe prendre les cotes, on dessine à l’échelle, on chiffre. Le devis est ferme.',
     contactTitle: 'Venir à la forge',
-    contactText: 'Un appel, d’abord. Ensuite vous passez impasse des Forges, voir ce qui sort du feu.',
+    contactText: 'Un appel, d’abord. On passe prendre les cotes, on dessine à l’échelle, on chiffre. Ensuite vous venez impasse des Forges voir ce qui sort du feu.',
   },
   form: { provider: 'mailto' },
   images: {

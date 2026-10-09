@@ -1,41 +1,97 @@
 ---
 /**
- * Premier écran « l'image d'abord » — propre à Forge Delacroix.
- * Idée : ne rien écrire sur la photo. L'écran s'ouvre sur le fer chaud, plein cadre, sans voile ni
- * texte superposé ; le titre arrive dessous, sur l'encre nue, comme la légende d'une planche.
- * Ni eyebrow, ni sous-titre, ni bouton, ni bande défilante : la photo pose, le titre répond.
+ * Premier écran de Forge Delacroix : le geste, en plein cadre (9 oct 2026).
+ * Un seul temps fort sur la page : la photo de la forge se rapproche et s'embrase pendant que la
+ * page défile (séquence data-frames, 48 images générées depuis la photo du client dans
+ * sites/forge-delacroix/public/anim/geste, 0,35 Mo desktop + mobile), épinglée le temps de trois
+ * légendes. Avant, la même photo ouvrait la page en fixe puis recommençait en séquence juste
+ * dessous : on la voyait deux fois de suite. Le titre reste posé en bas à gauche, comme la légende
+ * d'une planche ; ni sous-titre marketing, ni bouton, ni bande défilante : une phrase, trois temps,
+ * l'adresse. Avec une vraie vidéo du client : `ff sequence forge-delacroix video.mp4 --nom geste`.
  */
 import { site, tel } from '@/lib/site';
 
-const hero = site.images.hero;
+const temps = [
+  {
+    titre: 'Deux forgerons, une forge au charbon.',
+    texte: 'Portails, garde-corps, escaliers, mobilier. Chaque pièce est dessinée pour un endroit précis avant d’être mise au feu, impasse des Forges, depuis 1987.',
+  },
+  {
+    titre: 'On chauffe.',
+    texte: 'L’acier passe au rouge cerise. C’est là qu’il accepte la forme.',
+  },
+  {
+    titre: 'On frappe, puis on pose.',
+    texte: 'Volutes, torsades, écrasements : chaque motif naît sous le marteau. Galvanisé ou patiné, puis fixé chez vous.',
+  },
+];
 ---
 
-<section id="hero" class="bg-ink text-on-ink">
-  <div class="relative h-[42svh] min-h-[14rem] w-full overflow-hidden md:h-[46svh]">
-    {hero && (
-      <img
-        src={hero.src}
-        alt={hero.alt}
-        class="h-full w-full object-cover"
-        loading="eager"
-        fetchpriority="high"
+<section
+  id="hero"
+  class="relative min-h-svh overflow-hidden bg-ink text-on-ink"
+  data-frames="/anim/geste/"
+  data-frames-count="48"
+  data-frames-ext="webp"
+  data-frames-pad="4"
+  data-frames-mobile="/anim/geste-mobile/"
+  data-frames-poster="/anim/geste/0001.webp"
+  data-pin="250"
+  data-frames-fallback-done="1"
+>
+  <!-- data-pin="250" : 100 % d'écran par légende, moins le dernier temps qui n'a pas besoin d'un écran
+       entier (règle R4, docs/veille/animations-2.md). -->
+  {/* Premier écran : la photo doit être là au premier rendu, avant que les 48 images de la séquence
+      soient chargées (la vignette et la vidéo de démo F&F prenaient un fond vide, 9 oct 2026). La
+      première image est posée en <img> eager sous le canvas, avec la classe que motion.ts donne à
+      son propre repli (data-frames-fallback-done évite qu'il en ajoute un second) ; le canvas la
+      recouvre dès qu'il dessine, mouvement réduit = cette image seule. */}
+  <img src="/anim/geste/0001.webp" alt="" class="ff-frames-fallback" width="1280" height="854" loading="eager" fetchpriority="high" decoding="async" />
+  <canvas data-frames-canvas class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+  {/* Le voile est DANS le bloc de contenu : global.css remet en « position: relative » tout enfant
+      direct d'un [data-frames] qui n'est pas le canvas, un voile posé là ne couvrait rien. */}
+  <div class="hero-contenu relative flex min-h-svh flex-col justify-end">
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/35 to-transparent" aria-hidden="true"></div>
+    <div class="container-ff relative flex flex-col gap-8 pb-10 pt-32 md:gap-10 md:pb-14">
+      <h1
+        class="max-w-[14ch] font-display leading-[0.86]"
+        style="font-size: clamp(3.25rem, 11vw, 10rem);"
+        data-split
+        set:html={site.business.tagline}
       />
-    )}
-  </div>
 
-  <div class="container-ff flex min-h-[46svh] flex-col justify-between gap-10 pb-12 pt-10 md:pb-16" data-grain>
-    <h1
-      class="font-display leading-[0.84]"
-      style="font-size: clamp(3rem, 12vw, 11rem);"
-      data-split
-      set:html={site.business.tagline}
-    />
+      <div class="hero-temps relative">
+        {temps.map((t) => (
+          <div data-pin-step class="absolute inset-x-0 top-0">
+            <p class="max-w-[38rem] text-lg leading-snug sm:text-xl md:text-2xl">
+              <strong class="font-medium text-on-ink">{t.titre}</strong>
+              <span class="text-on-ink/75"> {t.texte}</span>
+            </p>
+          </div>
+        ))}
+      </div>
 
-    <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-sm text-on-ink/65">
-      <span>{site.contact.address.street}, {site.contact.address.city}</span>
-      <a href={tel()} class="normal-case tracking-normal text-on-ink underline-offset-4 hover:underline">
-        {site.contact.phoneDisplay}
-      </a>
-    </p>
+      <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-sm text-on-ink/65">
+        <span>{site.contact.address.street}, {site.contact.address.postalCode} {site.contact.address.city}</span>
+        <a href={tel()} class="text-on-ink underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
+      </p>
+    </div>
   </div>
 </section>
+
+<style>
+  .hero-temps { height: 9.5rem; }
+  @media (min-width: 40rem) { .hero-temps { height: 7.5rem; } }
+  @media (min-width: 64rem) { .hero-temps { height: 6.5rem; } }
+  /* Les trois temps sont superposés : un temps inactif disparaît (fondu croisé 0,5 s de global.css),
+     il ne reste pas en filigrane. Avant que le moteur n'ait posé .is-active, le premier temps est lu. */
+  #hero [data-pin-step]:not(.is-active) { opacity: 0; }
+  #hero:not(:has(.is-active)) [data-pin-step]:first-child { opacity: 1; }
+  /* Mouvement réduit : pas d'épinglage, global.css force les trois temps visibles ; on les empile
+     comme une liste au lieu de les laisser se chevaucher. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-temps { height: auto; }
+    #hero [data-pin-step] { position: static; }
+    #hero [data-pin-step] + [data-pin-step] { margin-top: 0.75rem; }
+  }
+</style>
