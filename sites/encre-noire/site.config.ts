@@ -1,14 +1,12 @@
 // DEMO : client inventé (Encre Noire, studio de tatouage). Coordonnées fictives (plage 06 39 98).
 // Nav, hero et blocs principaux dessinés à la main pour ce site : sites/encre-noire/sections/.
 //
-// Squelette (21 sept 2026) : coquille `index` — le menu EST la page. Les quatre styles (fin trait,
-// blackwork, ornemental, floral = site.services) deviennent les premières entrées, en liens réels
-// vers /services/<slug> ; « Styles », « Artistes », « Rendez-vous », FAQ et contact se déroulent
-// sous leur entrée. `Styles.astro` perd son data-horizontal (grille à deux colonnes plutôt qu'une
-// piste plein écran) et `Artistes.astro` son data-hover-img (portrait au survol) : deux effets
-// pilotés par le scroll ou le pointeur qui se calculent mal sur un panneau <details> fermé, comme
-// fait sur anna-vidal. layout.hero n'est plus rendu par cette coquille (réduit à la ligne
-// d'identité + la tagline en pied).
+// 9 oct 2026 : la coquille `index` (le menu est la page) est abandonnée : l’accueil ne montrait aucun
+// dessin, aucune peau, aucune encre, rien que neuf lignes numérotées. Le premier écran est à présent
+// le geste du métier (la main qui dessine, photo du dossier) avec l’accroche posée dessus ; les quatre
+// styles se lisent avec leur photo ; le mur de flashs (dessins à prix fixe, tatoués une seule fois)
+// est le bloc signature ; « Le studio » réunit l’histoire, les deux artistes et les règles d’hygiène.
+// Les numéros décoratifs, les surtitres, l’escalier de trois étapes et le téléphone géant sont partis.
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
@@ -18,12 +16,13 @@ export default defineSite({
   scale: 'normal',
   typography: { display: 'bodoni', body: 'archivo' },
   layout: {
-    shell: 'index',
+    shell: 'flow',
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
       { type: 'custom', variant: 'styles', label: 'Styles' },
-      { type: 'custom', variant: 'artistes', label: 'Artistes' },
+      { type: 'custom', variant: 'flashs', label: 'Flashs' },
+      { type: 'custom', variant: 'studio', label: 'Le studio' },
       { type: 'custom', variant: 'rendezvous', label: 'Rendez-vous' },
       { type: 'faq', variant: 'two-columns' },
       { type: 'contact', variant: 'simple' },
@@ -41,6 +40,7 @@ export default defineSite({
     description:
       'Studio de tatouage au 18 rue Gambetta, à Wazemmes, depuis 2015. Deux artistes, un seul carnet de rendez-vous. Fin trait, blackwork, ornemental, floral : quatre styles, et rien au-delà.\n\nUn projet commence toujours par un dessin, discuté avec vous. Pas par un catalogue de motifs à choisir sur place.',
     since: 2015,
+    certifications: ['Formation hygiène et salubrité (21 h), les deux artistes'],
   },
 
   contact: {
@@ -93,15 +93,15 @@ export default defineSite({
   about: {
     title: 'Le studio',
     story:
-      'Le studio a ouvert en 2015, 18 rue Gambetta, à Wazemmes. Deux artistes, un seul carnet de rendez-vous, et rien sans rendez-vous.\n\nUn dessin n’est jamais reproduit à l’identique pour quelqu’un d’autre. Il est fait pour la personne qui le porte.',
+      'Le studio a ouvert en 2015, 18 rue Gambetta, à Wazemmes, dans une ancienne mercerie. Camille Vasseur y tatoue le fin trait et le floral, Théo Renard le blackwork et l’ornemental. Un seul carnet de rendez-vous, et rien sans rendez-vous.\n\nUn dessin n’est jamais reproduit à l’identique pour quelqu’un d’autre. Il est fait pour la personne qui le porte, et le stencil est détruit après la séance.',
     team: [
       {
         name: 'Camille Vasseur',
-        role: 'Fin trait & floral',
+        role: 'Fin trait et floral',
       },
       {
         name: 'Théo Renard',
-        role: 'Blackwork & ornemental',
+        role: 'Blackwork et ornemental',
       },
     ],
   },
@@ -113,15 +113,23 @@ export default defineSite({
     },
     {
       q: 'Quel est le prix d’un tatouage ?',
-      a: 'Sur devis, et seulement après le dessin. Ce qui compte, c’est la taille, le détail, le temps de pose. Pas le style. Le montant est annoncé avant la séance, jamais après.',
+      a: 'Les flashs du mur ont un prix fixe, affiché. Tout le reste est sur devis, et seulement après le dessin : ce qui compte, c’est la taille, le détail, le temps de pose. Le montant est annoncé avant la séance, jamais après.',
+    },
+    {
+      q: 'Un flash peut-il être tatoué deux fois ?',
+      a: 'Non. Chaque flash du mur est tatoué une seule fois, puis rayé. Si vous aimez un dessin déjà pris, l’artiste vous en propose un autre dans le même esprit.',
     },
     {
       q: 'Quelles sont les règles d’hygiène ?',
-      a: 'Matériel à usage unique, aiguilles stérilisées, encres certifiées. Hygiène et traçabilité suivent la réglementation sur le tatouage, qui n’a rien d’optionnel.',
+      a: 'Aiguilles, cartouches et buses à usage unique, ouvertes devant vous. Encres conformes au règlement européen. Poste désinfecté entre chaque client. Les deux artistes ont suivi la formation hygiène et salubrité obligatoire, et l’activité est déclarée à l’ARS.',
     },
     {
       q: 'Peut-on tatouer un mineur ?',
       a: 'À partir de 16 ans, seulement avec l’autorisation écrite d’un parent ou tuteur légal, présent le jour du rendez-vous avec une pièce d’identité. En dessous de 16 ans, ce n’est pas possible.',
+    },
+    {
+      q: 'Faut-il venir à jeun, ou éviter quelque chose avant ?',
+      a: 'Mangez avant, dormez la veille, pas d’alcool ni d’aspirine dans les 24 h : ça fluidifie le sang et gêne la pose. Venez avec des vêtements qui dégagent la zone.',
     },
   ],
 
@@ -132,9 +140,10 @@ export default defineSite({
   },
   form: { provider: 'mailto' },
   images: {
+    hero: { src: '/images/galerie-3.webp', alt: 'Les mains tatouées de l’artiste dessinant un motif dans un carnet' },
     og: '/images/galerie-2.webp',
   },
   seo: {
-    keywords: ['tatoueur Lille', 'tatouage fin trait Lille', 'tatouage blackwork Lille', 'studio de tatouage Wazemmes'],
+    keywords: ['tatoueur Lille', 'tatouage fin trait Lille', 'tatouage blackwork Lille', 'studio de tatouage Wazemmes', 'flash tattoo Lille'],
   },
 });

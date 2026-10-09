@@ -1,99 +1,44 @@
 ---
 /**
- * Hero dessiné pour Chez Malo. Photo plein écran du Vallon en parallaxe, duoton mer/terre cuite,
- * nom du restaurant tout petit en haut, citation du chef en très grand qui se remplit au scroll
- * (data-text-fill), badge circulaire tournant "Réserver" en bas à droite (SVG textPath + spin CSS).
- * Aucune réutilisation ailleurs.
-
- * Le titre est un <h1>, pas un <blockquote> : c'est le titre de la page, pas une citation.
- * En blockquote, la page ne portait AUCUN h1 (repere par `ff verifier` le 18 sept 2026) —
- * mauvais pour le referencement et pour un lecteur d'ecran, qui n'avait aucun titre de
- * niveau 1 ou se poser. Garder les commentaires d'intention ICI et jamais en commentaire
- * HTML : un commentaire livre dans le <body> repousse le contenu reel et fait echouer le
- * controle « lien tel: dans les 1500 premiers caracteres ».
+ * Premier écran de Chez Malo : le poisson, en plein cadre (9 oct 2026). Les grondins rouges de la
+ * criée sur la planche (images.hero, photo du dossier) couvrent l’écran ; l’accroche « La criée le
+ * matin, la carte le soir. » est posée en bas à gauche, suivie d’une phrase qui dit qui, où, combien
+ * de couverts, depuis quand, puis l’adresse, le téléphone et les heures de service. Le hero reste
+ * épinglé sous la page qui glisse (coquille sticky-hero), c’est le seul geste.
+ * Avant : la vue du Vallon en duotone, le titre qui se remplit au défilement, un badge rond
+ * « Réserver » qui tourne, un surtitre, et l’accroche affichée avec ses balises <em> en clair.
+ *
+ * Le titre est un <h1> (titre de la page). Garder les commentaires d’intention ICI et jamais en
+ * commentaire HTML : un commentaire livré dans le body repousse le contenu réel et fait échouer le
+ * contrôle « lien tel: dans les 1500 premiers caractères ».
  */
 import { site, tel } from '@/lib/site';
-const hero = site.images.hero!;
+import Img from '@/components/Img.astro';
+const hero = site.images.hero;
 ---
 
-<section id="hero" class="relative min-h-svh overflow-hidden bg-ink text-on-ink">
-  <img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" data-parallax="0.22" loading="eager" fetchpriority="high" />
-  <div class="absolute inset-0 bg-gradient-to-b from-ink/75 via-ink/35 to-ink/80"></div>
-  <div class="absolute inset-0 mix-blend-multiply" style="background: linear-gradient(155deg, color-mix(in srgb, var(--accent-2) 55%, transparent) 0%, transparent 45%, color-mix(in srgb, var(--accent) 50%, transparent) 100%);"></div>
+<section id="hero" class="relative flex min-h-svh flex-col justify-end overflow-hidden bg-ink text-on-ink">
+  {hero && (
+    <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover object-[55%_45%]" sizes="100vw" loading="eager" fetchpriority="high" />
+  )}
+  <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" aria-hidden="true"></div>
 
-  <div class="container-ff relative flex min-h-svh flex-col justify-between py-10 sm:py-14">
-    <p class="eyebrow text-on-ink/80">
-      {site.business.name} à {site.contact.address.city}{site.business.since && <span class="text-on-ink/40">, depuis {site.business.since}</span>}
+  <div class="container-ff relative flex flex-col gap-8 pb-12 pt-40 md:gap-10 md:pb-16">
+    <h1
+      class="max-w-[14ch] font-display leading-[0.95]"
+      style="font-size: clamp(2.75rem, 8vw, 7rem);"
+      data-split
+      set:html={site.business.tagline.replace(/<\/?em>/g, '')}
+    />
+
+    <p class="max-w-[36rem] text-lg leading-snug text-on-ink/85 sm:text-xl">
+      Malo Ferrer achète à la criée du Vieux-Port ce qu’il cuisine le jour même. Trente-deux couverts et une terrasse au Vallon des Auffes, depuis {site.business.since}.
     </p>
 
-    <h1
-      class="max-w-4xl font-display leading-[1.05] text-on-ink"
-      style="font-size: clamp(2.1rem, 6.4vw, 5.75rem);"
-      data-text-fill
-    >
-      {site.business.tagline}
-    </h1>
-
-    <div class="flex flex-wrap items-end justify-between gap-8">
-      <p class="max-w-md text-on-ink/75">{site.business.description.split(/\n/)[0]}</p>
-      <a href={tel()} class="badge-call shrink-0">
-        <svg viewBox="0 0 140 140" class="badge-call-ring" aria-hidden="true">
-          <path id="badge-path" d="M 70,70 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0" fill="none" />
-          <text font-size="12.2" letter-spacing="2.6" fill="currentColor">
-            <textPath href="#badge-path" startOffset="0%">Réserver    Réserver    Réserver    </textPath>
-          </text>
-        </svg>
-        <span class="badge-call-center">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.291 1.217 14 14 0 0 0 6.392 6.4"></path>
-          </svg>
-        </span>
-        <span class="sr-only">Réserver une table par téléphone au {site.contact.phoneDisplay}</span>
-      </a>
-    </div>
+    <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-sm text-on-ink/65">
+      <span>{site.contact.address.street}, {site.contact.address.postalCode} {site.contact.address.city}</span>
+      <a href={tel()} class="text-on-ink underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
+      <span>Fermé le lundi</span>
+    </p>
   </div>
 </section>
-
-<style>
-  .badge-call {
-    position: relative;
-    display: grid;
-    place-items: center;
-    width: clamp(6rem, 12vw, 8.5rem);
-    aspect-ratio: 1;
-    color: var(--on-ink);
-    flex-shrink: 0;
-  }
-  .badge-call-ring {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    animation: badge-spin 14s linear infinite;
-  }
-  .badge-call-center {
-    display: grid;
-    place-items: center;
-    width: 38%;
-    aspect-ratio: 1;
-    border-radius: 999px;
-    background: var(--accent);
-    color: var(--on-accent);
-    transition: background 0.25s ease, transform 0.3s var(--ease-out-quart);
-  }
-  .badge-call:hover .badge-call-center,
-  .badge-call:focus-visible .badge-call-center {
-    background: var(--accent-2);
-    transform: scale(1.08);
-  }
-  .badge-call:hover .badge-call-ring,
-  .badge-call:focus-visible .badge-call-ring {
-    animation-play-state: paused;
-  }
-  @keyframes badge-spin {
-    to { transform: rotate(360deg); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .badge-call-ring { animation: none; }
-  }
-</style>

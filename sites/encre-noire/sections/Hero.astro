@@ -1,54 +1,45 @@
 ---
 /**
- * Hero dessiné pour Encre Noire : plein écran, fond noir, le nom du studio en deux lignes
- * géantes (20vw), un trait vertical qui se trace, une légende discrète en bas à droite,
- * une invite à défiler. Rien d'autre. Composition propre à ce site.
+ * Premier écran d’Encre Noire : le geste, en plein cadre (9 oct 2026).
+ * La photo du dossier où l’artiste dessine dans son carnet (images.hero) couvre l’écran ; l’accroche
+ * « Le dessin d’abord. L’aiguille ensuite. » est posée en bas à gauche, comme la légende d’une
+ * planche, suivie d’une phrase qui dit qui, quoi, où, depuis quand, puis l’adresse et le téléphone.
+ * Ni sous-titre marketing, ni bouton, ni trait qui se trace, ni invite à défiler. Le <em> de l’accroche
+ * est retiré ici (titre d’un seul ton sur la photo ; `ff detect` lit un faux fond blanc sous l’em en
+ * bloc encre). Marge basse large : le nom fixé en bas à gauche (Nav) ne recouvre pas les horaires. Avant : le nom du
+ * studio en 20 vw sur fond noir, sans aucune image (et, depuis la coquille index, plus de hero du tout).
  */
-import { site } from '@/lib/site';
-const [mot1, mot2] = site.business.name.toUpperCase().split(' ');
-const artistes = site.about.team.map((t) => t.name.split(' ')[0]).join(' & ');
+import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const hero = site.images.hero;
+const artistes = site.about.team.map((t) => t.name).join(' et ');
+const styles = site.services.map((s) => s.title.toLowerCase()).join(', ');
 ---
 
-<section id="hero" class="relative flex min-h-svh flex-col overflow-hidden bg-ink text-on-ink">
-  <div class="flex flex-1 flex-col items-center justify-center px-4 text-center">
-    <h1 class="select-none font-display uppercase leading-[0.82]" data-split data-reveal style="font-size: clamp(4rem, 20vw, 17rem);">
-      <span class="block">{mot1}</span>
-      <span class="block text-on-ink/90">{mot2}</span>
-    </h1>
-  </div>
+<section id="hero" class="relative flex min-h-svh flex-col justify-end overflow-hidden bg-ink text-on-ink">
+  {hero && (
+    <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover object-[48%_50%] md:object-[60%_40%]" sizes="100vw" loading="eager" fetchpriority="high" />
+  )}
+  <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-ink/10" aria-hidden="true"></div>
 
-  <span
-    class="v-draw pointer-events-none absolute bottom-32 right-8 h-20 w-px bg-on-ink/50 sm:right-16 sm:h-28"
-    data-draw
-    aria-hidden="true"
-  ></span>
+  <div class="container-ff relative flex flex-col gap-8 pb-28 pt-40 md:gap-10 md:pb-24">
+    <h1
+      class="max-w-[12ch] font-display leading-[0.92]"
+      style="font-size: clamp(2.75rem, 8.5vw, 7.5rem);"
+      data-split
+      set:html={site.business.tagline.replace(/<\/?em>/g, '')}
+    />
 
-  <p class="absolute bottom-10 right-8 max-w-[14rem] text-right text-sm text-on-ink/60 sm:right-16">
-    {artistes} à {site.contact.address.city}
-  </p>
+    <p class="max-w-[36rem] text-lg leading-snug text-on-ink/85 sm:text-xl">
+      {artistes}. {styles.charAt(0).toUpperCase() + styles.slice(1)}. Rue Gambetta, à Wazemmes, depuis {site.business.since}.
+    </p>
 
-  <div class="absolute bottom-10 left-8 flex items-center gap-2 text-sm text-on-ink/50 sm:left-16">
-    <span class="hidden sm:inline">Défiler</span>
-    <span class="scroll-hint block h-8 w-px bg-on-ink/40" aria-hidden="true"></span>
+    <p class="flex flex-wrap items-baseline gap-x-6 gap-y-1 text-sm text-on-ink/65">
+      <span>{site.contact.address.street}, {site.contact.address.postalCode} {site.contact.address.city}</span>
+      <a href={tel()} class="text-on-ink underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
+      {site.contact.hours.map((h) => <span>{h.days}, {h.hours}</span>)}
+    </p>
   </div>
 </section>
 
-<style>
-  #hero .v-draw {
-    transform: scaleY(0);
-    transform-origin: top;
-  }
-  #hero .v-draw.is-drawn {
-    transform: scaleY(1);
-  }
-  .scroll-hint {
-    animation: scroll-hint 1.8s ease-in-out infinite;
-  }
-  @keyframes scroll-hint {
-    0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
-    50% { transform: scaleY(1); opacity: 1; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .scroll-hint { animation: none; }
-  }
-</style>

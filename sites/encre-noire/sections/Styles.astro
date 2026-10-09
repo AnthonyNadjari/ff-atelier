@@ -1,31 +1,39 @@
 ---
 /**
- * « Styles » : quatre panneaux, un par style, texte + image. Le data-horizontal d'origine (piste
- * défilant sur la molette, un panneau plein écran par style) a été retiré le 21 sept 2026 : le bloc
- * vit désormais sous une entrée <details> de la coquille `index`, et un effet piloté par le scroll
- * se calcule sur un panneau fermé (comme anna-vidal/sections/Series.astro). Grille à deux colonnes
- * sur desktop, pile verticale sur mobile ; les images suivent le data-reveal générique de motion.ts.
+ * « Styles » : les quatre styles du studio (site.services), chacun avec sa photo en 4:5, son titre
+ * en Bodoni et deux paragraphes. Deux colonnes sur desktop, pile sur mobile. Le titre est un lien
+ * vers la page du style. Sans numérotation « 01 / 04 » ni surtitre (9 oct 2026) : quatre mots suffisent.
  */
-import { site } from '@/lib/site';
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
 const styles = site.services;
 ---
 
-<section id="styles" class="relative overflow-hidden bg-bg section-y">
-  <div class="container-ff grid gap-16 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-20" data-stagger="120">
-    {styles.map((s, i) => (
-      <article class="style-panel flex flex-col gap-8 sm:flex-row sm:items-center sm:gap-10">
-        <div class="max-w-xl">
-          <p class="eyebrow">{String(i + 1).padStart(2, '0')} / {String(styles.length).padStart(2, '0')}</p>
-          <h2 class="mt-4 font-display uppercase leading-[0.85]" style="font-size: clamp(2.25rem, 5vw, 4rem);">{s.title}</h2>
-          <p class="mt-6 max-w-md text-lg text-muted">{s.description}</p>
-        </div>
-        {s.image && (
-          <figure class="aspect-[4/5] w-full overflow-hidden sm:w-56 sm:shrink-0" data-reveal="mask">
-            <img src={s.image.src} alt={s.image.alt} class="h-full w-full object-cover" loading="lazy" />
-          </figure>
-        )}
-      </article>
-    ))}
+<section id="styles" class="section-y bg-bg">
+  <div class="container-ff">
+    <div class="md:flex md:items-baseline md:gap-10">
+      <h2 class="font-display text-display-lg leading-none">Quatre styles</h2>
+      <p class="mt-4 max-w-md text-muted md:mt-0">Et rien au-delà. Si votre projet n’entre dans aucun des quatre, on vous dira à qui vous adresser.</p>
+    </div>
+
+    <ul class="mt-14 grid gap-x-10 gap-y-16 md:grid-cols-2" data-stagger="110">
+      {styles.map((s) => (
+        <li class="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
+          {s.image && (
+            <a href={`/services/${s.slug}`} class="block w-full overflow-hidden sm:w-52 sm:shrink-0" tabindex="-1" aria-hidden="true">
+              <Img src={s.image.src} alt="" class="aspect-[4/5] w-full object-cover" sizes="(min-width: 640px) 208px, 100vw" loading="lazy" />
+            </a>
+          )}
+          <div class="min-w-0">
+            <h3 class="font-display text-display-md leading-none">
+              <a href={`/services/${s.slug}`} class="hover:text-accent-2">{s.title}</a>
+            </h3>
+            <div class="mt-4 max-w-[32rem] space-y-3 text-muted">
+              {paragraphs(s.description ?? s.short).map((p) => <p>{p}</p>)}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
   </div>
 </section>
-

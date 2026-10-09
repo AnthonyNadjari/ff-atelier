@@ -1,5 +1,13 @@
 // DEMO : client inventé (Chez Malo). Coordonnées fictives (plage 06 39 98), aucun avis inventé.
 // Nav, hero et blocs principaux dessinés à la main pour ce site : sites/chez-malo/sections/.
+//
+// 9 oct 2026 : le premier écran montre le poisson (grondin sur la planche, photo du dossier) et non plus
+// la vue du Vallon ; l’accroche s’affichait avec ses balises <em> en clair (bug), le badge tournant
+// « Réserver », le remplissage du titre au défilement et le duotone sont partis. « L’essentiel »
+// (trois cartes à icône sur fond encre), « Une journée » (quatre heures géantes épinglées) et la bande
+// d’appel finale sont remplacés par l’ardoise de l’arrivage du jour (bloc signature : ce qui est
+// arrivé de la criée, à quel prix, et les heures de service), une carte avec trois photos de plats,
+// « Le lieu » avec l’histoire et les faits de la maison sur filets, et une FAQ de vraies questions.
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
@@ -13,11 +21,10 @@ export default defineSite({
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
+      { type: 'custom', variant: 'carte', label: 'La carte' },
+      { type: 'custom', variant: 'arrivage', label: 'Arrivage' },
       { type: 'custom', variant: 'lelieu', label: 'Le lieu' },
-      { type: 'custom', variant: 'essentiels', label: 'L’essentiel' },
-      { type: 'custom', variant: 'carte', label: 'Carte' },
-      { type: 'custom', variant: 'horaires', label: 'Horaires' },
-      { type: 'cta', variant: 'band' },
+      { type: 'faq', variant: 'two-columns' },
       { type: 'contact', variant: 'simple' },
     ],
     footer: 'big-name',
@@ -55,7 +62,7 @@ export default defineSite({
       short: 'Elle se commande la veille, et jamais pour une seule personne. 84 € pour deux.',
       icon: 'Soup',
       featured: true,
-      priceFrom: 'à partir de 84 € pour deux',
+      priceFrom: '84 € pour deux',
     },
     {
       slug: 'poisson-du-jour',
@@ -73,20 +80,31 @@ export default defineSite({
   ],
 
   about: {
+    title: 'Le lieu',
     story:
-      'Malo Ferrer a ouvert en 2011, dans une ancienne cabane de pêcheur du Vallon des Auffes. Trente-deux couverts, pas un de plus : la salle est ce qu’elle est.\n\nIl passe à la criée chaque matin. La carte s’écrit après, avec ce qui est arrivé. Et certains soirs, il n’y a pas de bouillabaisse.',
+      'Malo Ferrer a ouvert en 2011, dans une ancienne cabane de pêcheur du Vallon des Auffes, sous le pont de la Corniche. Trente-deux couverts, pas un de plus : la salle est ce qu’elle est, et la terrasse s’ouvre dès les beaux jours, au ras de l’eau.\n\nIl passe à la criée du Vieux-Port chaque matin à six heures. La carte s’écrit après, avec ce qui est arrivé. Certains soirs, il n’y a pas de bouillabaisse ; il y a toujours un poisson entier à partager.',
   },
+
+  faq: [
+    { q: 'Faut-il réserver ?', a: 'Le soir et le dimanche midi, oui : trente-deux couverts, c’est vite complet. Un appel suffit, on garde la table un quart d’heure.' },
+    { q: 'Comment commander la bouillabaisse ?', a: 'La veille au plus tard, par téléphone, pour deux personnes au minimum. Le fond se prépare la nuit et le poisson est acheté pour vous le matin même. Sans commande, il n’y en a pas.' },
+    { q: 'La carte est-elle la même chaque jour ?', a: 'Non. Elle s’écrit à onze heures avec ce que la criée a donné. Les entrées et les desserts changent peu ; les poissons, tous les jours.' },
+    { q: 'Peut-on réserver la terrasse ?', a: 'On note votre préférence, mais la terrasse dépend du mistral. S’il souffle, on vous installe en salle, face au port quand même.' },
+    { q: 'Y a-t-il un menu pour les enfants ?', a: 'Pas de menu à part : un filet de poisson du jour grillé, des pommes de terre, un dessert, à prix réduit. Dites-le en réservant.' },
+    { q: 'Où se garer au Vallon des Auffes ?', a: 'Pas dans le vallon, les rues sont trop étroites. Le parking de la Corniche, à trois minutes à pied, ou le bus 83 qui s’arrête juste au-dessus.' },
+  ],
 
   wording: {
     devis: 'Réserver une table',
-    ctaTitle: 'Une table sur le port ? <em>Appelez, on garde la place.</em>',
     contactTitle: 'Réserver',
+    contactText: 'Un appel, et on garde la table. La bouillabaisse se commande la veille.',
   },
 
   form: { provider: 'mailto' },
 
   images: {
-    hero: { src: '/images/hero.webp', alt: 'Vue en surplomb du Vallon des Auffes, barques de pêcheurs amarrées au pied des façades' },
+    hero: { src: '/images/galerie-5.webp', alt: 'Grondins rouges de la criée sur la planche de la cuisine' },
+    og: '/images/hero.webp',
   },
 
   seo: {

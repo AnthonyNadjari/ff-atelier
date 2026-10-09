@@ -1,0 +1,62 @@
+---
+/**
+ * « Le studio » : l’histoire du lieu (about.story), les deux artistes en grand avec leur spécialité
+ * (about.team), et à droite les faits sur des filets : ouverture, adresse, formation, puis les règles
+ * d’hygiène, en texte simple. Remplace « Artistes » (9 oct 2026) : deux noms géants sous un surtitre,
+ * spécialité en capitales espacées, et rien sur le lieu ni sur l’hygiène.
+ */
+import { site, paragraphs } from '@/lib/site';
+
+const b = site.business;
+const faits = [
+  b.since ? { k: 'Ouvert en', v: String(b.since) } : null,
+  { k: 'Adresse', v: `${site.contact.address.street}, ${site.contact.address.postalCode} ${site.contact.address.city}` },
+  { k: 'Rendez-vous', v: site.contact.hours.map((h) => `${h.days}, ${h.hours}`).join(' ; ') },
+  ...b.certifications.map((c) => ({ k: 'Formation', v: c })),
+].filter((f): f is { k: string; v: string } => Boolean(f));
+
+const hygiene = [
+  'Aiguilles, cartouches et buses à usage unique, ouvertes devant vous.',
+  'Encres conformes au règlement européen, lot et date notés sur votre fiche.',
+  'Poste désinfecté entre chaque client, déchets piquants collectés en filière DASRI.',
+  'Activité déclarée à l’ARS Hauts-de-France, affichage des règles d’hygiène dans le studio.',
+];
+---
+
+<section id="studio" class="section-y bg-bg">
+  <div class="container-ff grid gap-14 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-7">
+      <h2 class="font-display text-display-lg leading-none">{site.about.title}</h2>
+      <div class="mt-8 max-w-[34rem] space-y-5 text-lg leading-relaxed" data-reveal>
+        {paragraphs(site.about.story).map((p) => <p>{p}</p>)}
+      </div>
+
+      {site.about.team.length > 0 && (
+        <ul class="mt-12 border-t border-line/30">
+          {site.about.team.map((t) => (
+            <li class="flex flex-col gap-1 border-b border-line/30 py-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
+              <span class="font-display text-display-md leading-none">{t.name}</span>
+              <span class="text-muted">{t.role}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <div class="lg:col-span-5 lg:pt-4">
+      <dl class="border-t border-line/30">
+        {faits.map((f) => (
+          <div class="flex justify-between gap-6 border-b border-line/30 py-3 text-sm">
+            <dt class="shrink-0 text-muted">{f.k}</dt>
+            <dd class="text-right text-fg">{f.v}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <h3 class="mt-12 font-display text-2xl">Hygiène</h3>
+      <ul class="mt-4 space-y-3 text-muted">
+        {hygiene.map((h) => <li>{h}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>

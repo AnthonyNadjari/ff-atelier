@@ -1,0 +1,66 @@
+---
+/**
+ * « Le mur de flashs » : le bloc signature du studio (9 oct 2026). Dans un studio de tatouage, le mur
+ * de flashs est la feuille de dessins déjà faits, à prix fixe, que l’on peut réserver tel quel. Ici
+ * chaque flash est une feuille de papier punaisée (fond surface, filet, pas d’ombre) : le titre du
+ * dessin en Bodoni, l’artiste, la taille, le prix. Règle de la maison : un flash n’est tatoué qu’une
+ * fois, puis rayé du mur (ligne barrée, « pris »). Le mur change chaque mois ; la date est écrite.
+ * Démo : dessins fictifs, plausibles ; aucun avis, aucun chiffre de fréquentation.
+ */
+import { site, tel } from '@/lib/site';
+
+const mois = 'Octobre 2026';
+const flashs = [
+  { titre: 'Serpent et dague', artiste: 'Théo', taille: '9 × 14 cm', prix: '180 €', pris: false },
+  { titre: 'Branche de cerisier', artiste: 'Camille', taille: '12 cm', prix: '150 €', pris: false },
+  { titre: 'Papillon de nuit', artiste: 'Camille', taille: '7 cm', prix: '120 €', pris: false },
+  { titre: 'Araignée', artiste: 'Théo', taille: '5 cm', prix: '90 €', pris: true },
+  { titre: 'Main et œil', artiste: 'Théo', taille: '10 cm', prix: '160 €', pris: false },
+  { titre: 'Pivoine ouverte', artiste: 'Camille', taille: '15 cm', prix: '220 €', pris: false },
+  { titre: 'Clé ancienne', artiste: 'Théo', taille: '8 cm', prix: '110 €', pris: true },
+  { titre: 'Lune et brins d’herbe', artiste: 'Camille', taille: '9 cm', prix: '130 €', pris: false },
+];
+const restants = flashs.filter((f) => !f.pris).length;
+---
+
+<section id="flashs" class="section-y bg-bg-2">
+  <div class="container-ff">
+    <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+      <h2 class="font-display text-display-lg leading-none lg:col-span-7">Le mur de flashs</h2>
+      <p class="max-w-md text-muted lg:col-span-5">Des dessins déjà faits, à prix fixe, tatoués une seule fois puis rayés du mur. Le mur change chaque mois.</p>
+    </div>
+
+    <ol class="mt-12 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4" data-stagger="70" aria-label={`Flashs, ${mois}`}>
+      {flashs.map((f) => (
+        <li class:list={['flash-feuille flex min-h-[11rem] flex-col justify-between border border-line/20 bg-surface p-4 sm:min-h-[13rem] sm:p-5', f.pris && 'is-pris']}>
+          <p class="font-display text-xl leading-tight sm:text-2xl"><span class="flash-titre">{f.titre}</span></p>
+          <dl class="mt-6 flex items-end justify-between gap-3 text-sm">
+            <div class="text-muted">
+              <dt class="sr-only">Artiste et taille</dt>
+              <dd>{f.artiste}, {f.taille}</dd>
+            </div>
+            <div class="text-right">
+              <dt class="sr-only">Prix</dt>
+              <dd class="tabular-nums text-fg">{f.pris ? 'Pris' : f.prix}</dd>
+            </div>
+          </dl>
+        </li>
+      ))}
+    </ol>
+
+    <p class="mt-8 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 text-sm text-muted">
+      <span>{mois}. {restants} dessins encore libres sur {flashs.length}.</span>
+      <span>Pour réserver un flash : <a href={tel()} class="text-fg underline-offset-4 hover:underline">un appel</a>, un acompte, et le dessin est à vous.</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  /* Flash pris : titre rayé d’un trait de plume, feuille en retrait. */
+  .flash-feuille.is-pris { color: var(--muted); }
+  .flash-feuille.is-pris .flash-titre {
+    text-decoration: line-through;
+    text-decoration-thickness: 0.08em;
+    text-decoration-color: var(--accent-2);
+  }
+</style>
