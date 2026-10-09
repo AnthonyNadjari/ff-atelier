@@ -39,6 +39,7 @@
  * qui n'en a pas de vraie — surcharge assumée ici, en spécificité supérieure).
  */
 import { site, tel } from '@/lib/site';
+import { MONO_SUBPATHS } from './mono-subpaths';
 ---
 
 <section id="hero" class="relative flex min-h-[calc(100svh-68px)] flex-col justify-center overflow-hidden pt-10 pb-16 md:pt-16 lg:pt-20">
@@ -46,21 +47,34 @@ import { site, tel } from '@/lib/site';
   <div class="container-ff relative z-10 lg:grid lg:grid-cols-12 lg:items-end lg:gap-x-10">
     {/* La marque, en grand, dans le flux. aria-hidden : le nom du studio est déjà dans la barre du
         haut — le répéter ici ferait trois fois pour un lecteur d'écran. */}
-    {/* 9 oct 2026 : la marque se forme dans une fumée d'encre blanche (Veo 3.1, image de fin = le
-        monogramme exact). Fond noir de la vidéo fondu dans la page par mix-blend-mode: screen : le
-        noir disparaît, seul le blanc reste, halo du hero compris. Lue une fois, reste sur la
-        dernière image. Pas de poster : la première image est noire, donc invisible. Mouvement réduit : saut direct à la dernière image. */}
-    <video
-      class="hero-mono lg:order-2 lg:col-span-5 lg:justify-self-end"
-      data-hero-mono
-      src="/video/monogramme.mp4"
-      muted
-      playsinline
-      preload="auto"
-      width="720"
-      height="720"
-      aria-hidden="true"
-    ></video>
+    <svg class="hero-mono lg:order-2 lg:col-span-5 lg:justify-self-end" viewBox="286 -1 294 281" aria-hidden="true">
+      <defs>
+        {/* Le tracé était écrit TROIS fois dans chaque page livrée — corps, trait, découpe du
+            reflet — soit 11 Ko de HTML pour un seul dessin. Il n'est plus écrit qu'une fois, ici,
+            et les trois emplois le réfèrent. Rien ne change à l'écran : `fill`, `stroke` et
+            `stroke-dasharray` sont des propriétés héritées, donc les classes posées sur chaque
+            `<use>` descendent dans le clone, et `pathLength` voyage avec le chemin d'origine. */}
+        {MONO_SUBPATHS.map((d, i) => <path id={`hero-mono-p${i}`} d={d} pathLength="1000" />)}
+        <clipPath id="hero-mono-clip">
+          {MONO_SUBPATHS.map((_, i) => <use href={`#hero-mono-p${i}`} />)}
+        </clipPath>
+        <linearGradient id="hero-sheen-grad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="rgba(255,255,255,0)" />
+          <stop offset="0.5" stop-color="rgba(255,255,255,0.3)" />
+          <stop offset="1" stop-color="rgba(255,255,255,0)" />
+        </linearGradient>
+        {/* Remplissage « lumière tombante » : perle en haut, presque rien en bas. Les stops portent
+            l'opacité — .mono-fill reste à opacity 1 une fois posé. Valeurs remontées par rapport au
+            filigrane d'avant (0,17 / 0,06) : ce n'est plus un fond, c'est la marque. */}
+        <linearGradient id="hero-mono-grad" x1="0.15" y1="0" x2="0.55" y2="1">
+          <stop class="g1" offset="0" />
+          <stop class="g2" offset="0.55" />
+          <stop class="g3" offset="1" />
+        </linearGradient>
+      </defs>
+      {MONO_SUBPATHS.map((_, i) => <use class="mono-fill" href={`#hero-mono-p${i}`} />)}
+      {MONO_SUBPATHS.map((_, i) => <use class="mono-trace" href={`#hero-mono-p${i}`} style={`--i:${i}`} />)}
+    </svg>
 
     {/* Filet de frontispice : il sépare la marque du texte, comme sur une page de titre. Il fait
         partie du même groupe animé que le titre (data-reveal porté par le conteneur). */}
@@ -89,8 +103,6 @@ import { site, tel } from '@/lib/site';
 </section>
 
 <script>
-  import { onPage } from '@/scripts/page';
-
   // « Le site s'ouvre par le bas parfois » (9 oct 2026) : au rechargement ou à la réouverture d'un
   // onglet, le navigateur restaurait l'ancienne position (souvent le bas de page). Une page vitrine
   // s'ouvre en haut, sur la marque. Exceptions : lien vers une ancre, retour arrière.
@@ -99,18 +111,6 @@ import { site, tel } from '@/lib/site';
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
   }
-
-  onPage(() => {
-    const v = document.querySelector<HTMLVideoElement>('[data-hero-mono]');
-    if (!v) return;
-    const fin = () => { v.currentTime = Math.max(0, v.duration - 0.05); };
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      if (v.readyState >= 1) fin(); else v.addEventListener('loadedmetadata', fin, { once: true });
-      return;
-    }
-    // Lecture bloquée (mode économie d'énergie iOS) : on montre la marque finie plutôt qu'un vide.
-    v.play().catch(() => { if (v.readyState >= 1) fin(); else v.addEventListener('loadedmetadata', fin, { once: true }); });
-  });
 </script>
 
 <style is:global>
@@ -122,11 +122,6 @@ import { site, tel } from '@/lib/site';
      seul axe — la marque part maintenant du même bord que le reste. */
   .hero-mono {
     display: block;
-    aspect-ratio: 1;
-    mix-blend-mode: screen;
-    /* Bords du cadre adoucis : la fumée entre par la gauche, pas de coupure nette. */
-    -webkit-mask-image: radial-gradient(closest-side, #000 78%, transparent);
-    mask-image: radial-gradient(closest-side, #000 78%, transparent);
     width: min(100%, clamp(11rem, 26vw, 16rem));
     height: auto;
     overflow: visible;
