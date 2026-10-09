@@ -29,19 +29,23 @@ import { site, mailto } from '@/lib/site';
           Veo 3.1, image de fin = le monogramme exact), lue une fois à l'ouverture, puis reste sur la
           dernière image. Le fond de la vidéo est encodé dans le noir chaud exact de la page (#15120f) : aucun
           fondu CSS (mix-blend-mode ignoré sur <video> par Chrome), aucun carré visible. Pas de masque : il coupait le haut du F (essai du 9 oct
-          au matin). Mouvement réduit ou lecture bloquée : la dernière image (poster). */}
-      <video
-        class="hero-mono"
-        data-hero-mono
-        src="/video/monogramme.mp4"
-        poster="/video/monogramme.webp"
-        muted
-        playsinline
-        preload="auto"
-        width="960"
-        height="960"
-        aria-hidden="true"
-      ></video>
+          au matin). Mouvement réduit ou lecture bloquée : l'image fixe du logo fini. */}
+      <div class="hero-mono" data-hero-mono-cadre>
+        <video
+          data-hero-mono
+          src="/video/monogramme.mp4"
+          muted
+          playsinline
+          preload="auto"
+          width="640"
+          height="640"
+          aria-hidden="true"
+        ></video>
+        {/* Le logo fini, toujours là : par-dessus la vidéo tant qu'elle n'a pas vraiment démarré (Chrome
+            retire le poster dès play() et montre du noir pendant le chargement : « le logo marche pas »,
+            9 oct). Si la vidéo ne charge jamais, c'est lui qu'on voit. */}
+        <img src="/video/monogramme.webp" width="640" height="640" alt="" aria-hidden="true" decoding="async" fetchpriority="high" data-hero-mono-fixe />
+      </div>
 
       <h1 class="hero-titre" set:html={site.business.tagline} />
 
@@ -106,10 +110,18 @@ import { site, mailto } from '@/lib/site';
   // réduit : saut direct à la fin. Lecture refusée (économie d'énergie iOS) : idem.
   onPage(() => {
     const v = document.querySelector<HTMLVideoElement>('[data-hero-mono]');
-    if (!v) return;
-    const fin = () => { const go = () => { v.currentTime = Math.max(0, v.duration - 0.05); }; if (v.readyState >= 1) go(); else v.addEventListener('loadedmetadata', go, { once: true }); };
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return fin();
-    v.play().catch(fin);
+    const fixe = document.querySelector<HTMLElement>('[data-hero-mono-fixe]');
+    if (!v || !fixe || v.dataset.pret) return;
+    v.dataset.pret = '1';
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.remove(); return; }
+    // L'image fixe ne s'efface qu'une fois la vidéo réellement en train de jouer (première image
+    // peinte), jamais avant : aucun noir possible. Lecture demandée seulement quand les données sont là.
+    v.addEventListener('playing', () => { fixe.classList.add('est-cachee'); }, { once: true });
+    v.addEventListener('ended', () => { fixe.classList.remove('est-cachee'); }, { once: true });
+    const lancer = () => { v.play().catch(() => {}); };
+    if (v.readyState >= 3) lancer(); else v.addEventListener('canplay', lancer, { once: true });
+    // Rien au bout de 8 s (réseau lent, onglet en arrière-plan) : on reste sur le logo fixe.
+    window.setTimeout(() => { if (v.currentTime === 0) v.removeEventListener('canplay', lancer); }, 8000);
   });
 
   // L'heure de Paris, en direct (signe de présence vrai, rien à promettre). Rien n'est écrit dans le
@@ -155,13 +167,15 @@ import { site, mailto } from '@/lib/site';
 
   /* La marque en vidéo : grande, au-dessus du titre, fondue dans la page (screen), sans fond d'attente. */
   .hero-mono {
+    position: relative;
     display: block;
     width: clamp(11rem, 17vw, 17rem);
-    height: auto;
     aspect-ratio: 1;
     margin: -2.5rem 0 clamp(0.5rem, 1.5vw, 1rem) -2rem;
-    background: transparent !important;
   }
+  .hero-mono video, .hero-mono img { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent !important; }
+  .hero-mono img { transition: opacity 240ms ease; }
+  .hero-mono img.est-cachee { opacity: 0; }
   @media (max-width: 1023px) {
     .hero-mono { width: clamp(9rem, 34vw, 12rem); margin-left: -0.6rem; margin-top: -1.5rem; }
   }

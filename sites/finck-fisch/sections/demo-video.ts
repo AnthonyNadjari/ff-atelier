@@ -23,9 +23,15 @@ export function initDemoVideos(): void {
 
   const telephone = matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 768;
 
+  // play() retire le poster aussitôt : si les données ne sont pas là, Chrome montre du noir le temps
+  // du chargement. On ne demande la lecture qu'une fois la première image décodable (canplay).
   const lire = (v: HTMLVideoElement) => {
     if (!v.src && v.dataset.src) v.src = v.dataset.src;
-    v.play().catch(() => {});
+    if (v.readyState >= 3) { v.play().catch(() => {}); return; }
+    if (v.dataset.demoAttente) return;
+    v.dataset.demoAttente = '1';
+    v.addEventListener('canplay', () => { delete v.dataset.demoAttente; if (v.dataset.demoVisible) v.play().catch(() => {}); }, { once: true });
+    v.load();
   };
 
   const io = new IntersectionObserver(
@@ -33,6 +39,7 @@ export function initDemoVideos(): void {
       for (const e of entries) {
         const v = e.target as HTMLVideoElement;
         const visible = e.isIntersecting && e.intersectionRatio >= 0.5;
+        if (visible) v.dataset.demoVisible = '1'; else delete v.dataset.demoVisible;
         if (visible && (!telephone || v.dataset.demoLu)) lire(v);
         else if (!v.paused) v.pause();
       }
