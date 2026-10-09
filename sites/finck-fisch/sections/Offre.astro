@@ -47,7 +47,7 @@
  *   doublon inutile (le moteur révèle déjà les enfants du groupe) et deux éléments observés de plus
  *   pour rien. La section a de nouveau exactement un titre animé et un groupe (règle 21).
  */
-import { site, tel } from '@/lib/site';
+import { site, mailto } from '@/lib/site';
 
 const formules = [
   { nom: 'Essentiel', prix: 'à partir de 1 200 €', montant: '1 200 €' }, // PRIX PROVISOIRES — à confirmer par les fondateurs
@@ -115,12 +115,12 @@ const lignes = [
         associés n'ont pas arrêté le barème, un visiteur doit lire que ces montants peuvent bouger
         (règle dure n°2, même statut que l'engagement de 72 h ci-dessous et que le téléphone). */}
 
-    <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
-      <a href={tel()} class="btn btn-primary inline-flex min-h-12 items-center justify-center gap-2 px-8 text-base">
-        Appeler le <span class="tabular-nums">{site.contact.phoneDisplay}</span>
-      </a>
-      <a href="#contact" class="inline-flex min-h-11 items-center justify-center text-sm text-fg underline decoration-1 underline-offset-[6px] sm:justify-start">Écrire un message</a>
-    </div>
+    {/* 9 oct 2026 : plus de bouton « Appeler le 06 00 00 00 00 » (numéro placeholder, jamais affiché).
+        Un appel calme, en texte. TODO(fondateurs) : vrai numéro → ajouter « ou appelez le … » (tel()). */}
+    <p class="mt-12 text-lg">
+      <a href="#contact" class="ff-lien text-fg">Nous écrire pour un devis</a>
+      <span class="text-muted">, ou directement à </span><a href={mailto()} class="ff-lien break-all text-fg">{site.contact.email}</a><span class="text-muted">.</span>
+    </p>
 
     <p class="mt-14 max-w-[34rem] text-sm text-muted">
       Après la mise en ligne, rien à payer. Si vous voulez qu’on garde un œil sur le site, la

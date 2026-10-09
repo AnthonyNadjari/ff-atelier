@@ -1,38 +1,42 @@
 ---
 /**
- * Humains — sur mesure Finck & Fisch (6 oct 2026, retour d'un visiteur : « je ne sens pas deux
- * personnes derrière »). Juste après le premier écran : qui fait le site, et ce qu'on ne fait pas,
- * en trois phrases courtes au lieu d'un manifeste.
+ * Humains — sur mesure Finck & Fisch.
  *
- * Prénoms et photos des deux associés : à poser ici dès qu'ils sont fournis (le studio était resté
- * anonyme par choix ; rien n'est inventé en attendant).
+ * REFONTE DU 9 OCT 2026 (benchmark docs/veille/benchmark-2026-10/, Oimachi, Minimo, ONCE) : la voix
+ * des deux associés, à la première personne, en phrases qu'on dirait au téléphone, signée. Plus de
+ * série de trois refus (« Pas d'abonnement. Pas de template. Pas de bullshit. ») : c'était la cadence
+ * en trois fragments que `docs/veille/signes-ia.md` demande de fuir.
+ *
+ * La composition se lit complète sans photo : le texte occupe la colonne de droite, la colonne de
+ * gauche porte le titre. Quand la photo arrive, elle prend la place du titre à gauche (le titre
+ * passe au-dessus du texte), sans rien d'autre à changer.
+ *
+ * TODO(fondateurs) — photo + prénoms, à poser ICI quand ils sont fournis (rien n'est inventé en
+ * attendant, aucun emplacement vide n'est visible) :
+ *   1. photo réelle des deux associés au travail, non posée, dans public/images/associes.webp
+ *      (ff images finck-fisch), puis dans la colonne de gauche :
+ *      <figure><img src="/images/associes.webp" width=… height=… alt="<Prénom> et <Prénom>, les deux
+ * associés de Finck & Fisch, à leur table de travail" /><figcaption><Prénom> et <Prénom></figcaption></figure>
+ *   2. dans le texte, remplacer « L’un de nous » / « L’autre » par les deux prénoms ;
+ *   3. remplacer la signature « Finck & Fisch » par « <Prénom> et <Prénom> ».
  */
-const refus = [
-  { quoi: 'Pas d’abonnement.', suite: 'Vous payez le site, il est à vous.' },
-  { quoi: 'Pas de template.', suite: 'Chaque site est fait pour votre activité.' },
-  { quoi: 'Pas de bullshit.', suite: 'Pas de faux avis, pas de chiffres inventés.' },
-];
+import { site } from '@/lib/site';
 ---
 
 <section id="studio" class="section-y">
   <div class="container-ff grid gap-10 lg:grid-cols-12 lg:gap-16">
-    <h2 class="text-display-md lg:col-span-5">Deux personnes, pas une agence.</h2>
-    <div class="lg:col-span-6 lg:col-start-7">
-      <p class="text-lg leading-relaxed">
-        Finck &amp; Fisch, c’est deux associés. On fait ça nous-mêmes, à deux : pas d’équipe
-        commerciale, pas d’abonnement compliqué, pas de template vendu quarante fois.
+    <h2 class="text-display-md lg:col-span-5">Nous sommes deux, et c’est voulu.</h2>
+    <div class="max-w-[36rem] lg:col-span-6 lg:col-start-7">
+      <p class="text-xl leading-relaxed text-fg">
+        Il n’y a ni commercial ni sous-traitant entre vous et nous. L’un de nous prend votre appel et
+        écrit les textes avec vous. L’autre construit le site.
       </p>
-      <p class="mt-4 leading-relaxed text-muted">
-        Vous parlez aux deux mêmes personnes du premier appel à la mise en ligne.
+      <p class="mt-6 text-lg leading-relaxed text-muted">
+        On travaille avec un outil maison, du code et de l’intelligence artificielle, ce qui nous permet
+        d’aller vite. Les choix, eux, on les fait à la main et on les relit à deux. Vous payez le site
+        une fois, il est à votre nom, et vous n’avez pas d’abonnement à résilier dans trois ans.
       </p>
-      <ul class="mt-12 flex flex-col gap-6">
-        {refus.map((r) => (
-          <li>
-            <span class="font-display text-2xl text-fg">{r.quoi}</span>
-            <span class="mt-1 block text-muted">{r.suite}</span>
-          </li>
-        ))}
-      </ul>
+      <p class="mt-10 font-display text-2xl text-fg">{site.business.name}</p>
     </div>
   </div>
 </section>

@@ -1,0 +1,33 @@
+---
+/**
+ * Pied de page sur mesure Finck & Fisch (9 oct 2026, benchmark docs/veille/benchmark-2026-10/ :
+ * Oimachi, twks — un pied de page « administratif » qui rassure, fait de faits vrais seulement).
+ * Remplace footer/minimal, qui affichait le téléphone placeholder du config.
+ *
+ * TODO(fondateurs) — à ajouter quand les données réelles arrivent, jamais avant :
+ *   - SIRET : <p>SIRET <numéro></p> dans la première colonne, sous le nom ;
+ *   - téléphone réel : lien tel() à côté de l'e-mail ;
+ *   - ville du studio si elle doit être dite (l'adresse 75000 Paris du config est un placeholder).
+ */
+import { site, mailto, hasCredits } from '@/lib/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line bg-bg-2">
+  <div class="container-ff grid gap-8 py-12 text-[0.95rem] text-muted sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <p class="font-display text-xl text-fg">{site.business.name}</p>
+      <p class="mt-2">Sites vitrines pour artisans et commerçants.</p>
+    </div>
+    <div>
+      <p><a href={mailto()} class="ff-lien break-all text-fg">{site.contact.email}</a></p>
+      <p class="mt-2">{site.zones.label}.</p>
+    </div>
+    <div class="flex flex-col items-start gap-1">
+      <a href="/mentions-legales" class="inline-flex min-h-11 items-center transition-colors hover:text-fg">Mentions légales</a>
+      <a href="/confidentialite" class="inline-flex min-h-11 items-center transition-colors hover:text-fg">Confidentialité</a>
+      {hasCredits && <a href="/credits" class="inline-flex min-h-11 items-center transition-colors hover:text-fg">Crédits photos</a>}
+    </div>
+    <p class="lg:text-right">© {year} {site.business.name}</p>
+  </div>
+</footer>

@@ -64,18 +64,17 @@ export default defineSite({
     nav: 'custom/nav',
     hero: 'custom/hero',
     sections: [
-      // Refonte du 6 oct 2026 (retour d'un visiteur : « trop expliqué, trop parfait ») : premier
-      // écran, les deux personnes, quelques sites, comment ça marche, le prix, la fin. Le manifeste,
-      // la réglure 72 h et le film sortent de l'accueil (fichiers gardés dans sections/).
-      { type: 'custom', variant: 'humains' },
+      // Refonte du 9 oct 2026 (benchmark docs/veille/benchmark-2026-10/) : le travail juste après le
+      // premier écran (qui en montre déjà un), puis les deux associés, le choix sur pièce, le prix, la
+      // fin. Le film sort de l'accueil : il montrait l'ancienne version du site (fichier gardé).
       { type: 'custom', variant: 'realisations', label: 'Exemples' },
+      { type: 'custom', variant: 'humains' },
       { type: 'custom', variant: 'propositions', label: 'Comment ça marche' },
-      // Le film du studio (refait le 8 oct 2026 sur le site actuel), sans lecture automatique.
-      { type: 'custom', variant: 'film' },
       { type: 'custom', variant: 'offre', label: 'Tarifs' },
       { type: 'custom', variant: 'fin' },
     ],
-    footer: 'minimal',
+    // Pied de page sur mesure : footer/minimal affichait le téléphone placeholder (voir sections/Pied.astro).
+    footer: 'custom/pied',
     divider: 'rule',
     tone: 'flat',
   },
@@ -83,7 +82,7 @@ export default defineSite({
   business: {
     name: 'Finck & Fisch',
     trade: 'Studio de sites pour artisans',
-    tagline: 'Votre métier mérite mieux qu’un template.',
+    tagline: 'Nous faisons des sites pour les artisans.',
     description:
       'Finck & Fisch dessine des sites vitrines pour des artisans, des commerces et des indépendants. Chaque site part de trois propositions visuelles, jamais d’un modèle décliné par ville. Il est payé une fois et il vous appartient dès la mise en ligne, du code au nom de domaine.\n\nLe studio est tenu par deux associés. Vous parlez à la même personne du premier appel à la livraison.',
     certifications: [],
@@ -207,8 +206,8 @@ export default defineSite({
 
   wording: {
     devis: 'Parler de votre projet',
-    ctaTitle: 'Dites-nous ce que vous <em>faites.</em>',
-    ctaText: 'Un appel de quinze minutes suffit pour savoir si nous pouvons vous aider.',
+    ctaTitle: 'Racontez-nous votre métier.',
+    ctaText: 'Deux lignes suffisent : ce que vous faites, où, et si vous avez déjà un site. On vous répond nous-mêmes, avec une première idée et le prix.',
     contactTitle: 'Parlons de votre projet',
     contactText: 'Décrivez votre activité en deux lignes, nous vous rappelons.',
   },

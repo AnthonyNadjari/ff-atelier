@@ -1,111 +1,86 @@
 ---
 /**
- * Hero sur mesure Finck & Fisch — direction eclipse, titres Cormorant (typography.display).
+ * Hero sur mesure Finck & Fisch.
  *
- * REFONTE DU 22 SEPT 2026 AU SOIR — décision 1 de `sites/finck-fisch/ETALON.md` : le premier écran
- * devient un FRONTISPICE, plus une landing page. Trois raisons, toutes tirées du relevé des 17 sites :
+ * REFONTE DU 9 OCT 2026 — benchmark de 30 sites (docs/veille/benchmark-2026-10/, synthèses studios,
+ * marques, fr, awwwards). Ce qui change, et pourquoi :
  *
- * 1. Le monogramme passe de filigrane d'arrière-plan à PREMIER ÉLÉMENT DE LA PAGE, en grand, dans le
- *    flux. Dans la version précédente il se dessinait derrière le titre : à la capture il ressemblait à
- *    une tache grise qui traversait le mot « livré » et le rendait illisible. C'est le seul geste fort
- *    validé par le fondateur (docs/HANDOVER.md §2) ; le cacher derrière du texte était le gâcher.
- *    Le tracé, le corps en dégradé perle et le filet d'argent persistant sont conservés tels quels —
- *    ne JAMAIS revenir à un blanc plat à faible opacité (rend gris boueux, « tache »).
- * 2. Trois éléments, pas plus : la marque, une phrase, une ligne. AUCUN BOUTON. Le panneau latéral
- *    (src/shells/split.astro) porte déjà le téléphone et le seul CTA de la page, et la nav sur mesure
- *    fait la même chose sous 1024 px. Deux boutons de plus ici auraient été deux intitulés pour une
- *    seule intention (taste-skill §4.5, « no duplicate CTA intent »), et le panel étalonné est formel :
- *    médiane ~20 mots au-dessus de la ligne de flottaison, jamais paragraphe + double bouton.
- * 3. Le champ d'étincelles est retiré. Il n'était dans aucun acquis validé, et c'était l'élément le
- *    moins « méga clean » de la page. Restent le halo radial (la seule lumière d'eclipse) et data-grain
- *    (règle 20, matière du noir).
+ * 1. Le travail est le hero (Pentagram, Order, twks, Linear) : un site d'exemple livré par l'atelier,
+ *    en grand, avec une légende factuelle (métier, ville, « exemple »). Plus de slogan abstrait
+ *    (« Votre métier mérite mieux qu'un template »), qui était la phrase la plus générique de la page.
+ * 2. Une phrase à la première personne qui dit qui, pour qui, combien et en combien de temps
+ *    (Pianetti, ONCE), le prix sur la même ligne que l'action (Diptyque).
+ * 3. Trois tailles de texte, très écartées (Prødux) : le titre, la ligne d'offre, les petites lignes.
+ * 4. Contact direct : l'e-mail en clair, pas de bouton plein (Pianetti). Signe de présence vrai et
+ *    sans risque : l'heure de Paris en direct (Koto, Revelatio).
+ * 5. Le monogramme tracé reste en haut, au-dessus du titre, en petit (décision du fondateur, 9 oct :
+ *    « sinon ça nous distingue pas »). C'est la seule marque de la page ; il ne revient pas en bas.
  *
- * Animation (règle 21, un seul groupe animé par section) : le tracé du monogramme est en CSS pur, donc
- * hors moteur ; côté moteur il n'y a qu'un `data-reveal` sur le titre. Le filet et la ligne de dessous
- * arrivent avec lui, dans le même groupe. La séquence se lit : le trait se dessine, la phrase se pose.
- *
- * Le tracé lui-même (v3 accélérée, inchangée) : chaque sous-trait du SVG vectorisé
- * (sections/mono-subpaths.ts, extrait de public/images/monogramme.svg) se trace après le précédent
- * (stroke-dashoffset en cascade, 0,25 s -> 2,7 s), le corps se pose en dégradé perle, une lame de
- * lumière douce balaie les lettres (clippée à leur forme). Référence : ~/Downloads/ff-logo-anime-v3.webm.
- * prefers-reduced-motion : monogramme posé, statique, aucune animation.
- *
- * Reprise du 3 oct. 2026 : rien n'a changé dans la composition validée (marque, phrase, filet, zéro
- * bouton) — seul le CADRAGE du SVG a été corrigé. Le viewBox d'origine (0 0 868 283) était celui du
- * fichier exporté, où le signe n'occupe que le tiers central : à l'écran la marque tombait à deux
- * cents pixels à droite du filet et du titre, et l'axe du frontispice se lisait comme un accident.
- *
- * L'emphase du titre porte la vraie italique de Cormorant (eclipse la désactive pour Space Grotesk,
- * qui n'en a pas de vraie — surcharge assumée ici, en spécificité supérieure).
+ * TODO(fondateurs) : téléphone réel absent (le config porte un placeholder). Quand il arrive, ajouter
+ * « ou appelez le <numéro> » dans la petite ligne de contact ci-dessous, en lien tel().
  */
-import { site, tel } from '@/lib/site';
-import { MONO_SUBPATHS } from './mono-subpaths';
+import { site, mailto } from '@/lib/site';
 ---
 
-<section id="hero" class="relative flex min-h-[calc(100svh-68px)] flex-col justify-center overflow-hidden pt-10 pb-16 md:pt-16 lg:pt-20">
+<section id="hero" class="relative flex flex-col justify-center pt-8 pb-14 md:pt-12 lg:min-h-[calc(100svh-68px)] lg:pb-16">
+  <div class="container-ff grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-x-12">
+    <div class="hero-texte lg:col-span-5">
+      {/* Étape 4 bis (9 oct) : le monogramme se forme dans une fumée d'encre blanche (vidéo fal.ai /
+          Veo 3.1, image de fin = le monogramme exact), lue une fois à l'ouverture, puis reste sur la
+          dernière image. Le fond de la vidéo est encodé dans le noir chaud exact de la page (#15120f) : aucun
+          fondu CSS (mix-blend-mode ignoré sur <video> par Chrome), aucun carré visible. Pas de masque : il coupait le haut du F (essai du 9 oct
+          au matin). Mouvement réduit ou lecture bloquée : la dernière image (poster). */}
+      <video
+        class="hero-mono"
+        data-hero-mono
+        src="/video/monogramme.mp4"
+        poster="/video/monogramme.webp"
+        muted
+        playsinline
+        preload="auto"
+        width="960"
+        height="960"
+        aria-hidden="true"
+      ></video>
 
-  <div class="container-ff relative z-10 lg:grid lg:grid-cols-12 lg:items-end lg:gap-x-10">
-    {/* La marque, en grand, dans le flux. aria-hidden : le nom du studio est déjà dans la barre du
-        haut — le répéter ici ferait trois fois pour un lecteur d'écran. */}
-    <svg class="hero-mono lg:order-2 lg:col-span-5 lg:justify-self-end" viewBox="286 -1 294 281" aria-hidden="true">
-      <defs>
-        {/* Le tracé était écrit TROIS fois dans chaque page livrée — corps, trait, découpe du
-            reflet — soit 11 Ko de HTML pour un seul dessin. Il n'est plus écrit qu'une fois, ici,
-            et les trois emplois le réfèrent. Rien ne change à l'écran : `fill`, `stroke` et
-            `stroke-dasharray` sont des propriétés héritées, donc les classes posées sur chaque
-            `<use>` descendent dans le clone, et `pathLength` voyage avec le chemin d'origine. */}
-        {MONO_SUBPATHS.map((d, i) => <path id={`hero-mono-p${i}`} d={d} pathLength="1000" />)}
-        <clipPath id="hero-mono-clip">
-          {MONO_SUBPATHS.map((_, i) => <use href={`#hero-mono-p${i}`} />)}
-        </clipPath>
-        <linearGradient id="hero-sheen-grad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="rgba(255,255,255,0)" />
-          <stop offset="0.5" stop-color="rgba(255,255,255,0.3)" />
-          <stop offset="1" stop-color="rgba(255,255,255,0)" />
-        </linearGradient>
-        {/* Remplissage « lumière tombante » : perle en haut, presque rien en bas. Les stops portent
-            l'opacité — .mono-fill reste à opacity 1 une fois posé. Valeurs remontées par rapport au
-            filigrane d'avant (0,17 / 0,06) : ce n'est plus un fond, c'est la marque. */}
-        <linearGradient id="hero-mono-grad" x1="0.15" y1="0" x2="0.55" y2="1">
-          <stop class="g1" offset="0" />
-          <stop class="g2" offset="0.55" />
-          <stop class="g3" offset="1" />
-        </linearGradient>
-      </defs>
-      {MONO_SUBPATHS.map((_, i) => <use class="mono-fill" href={`#hero-mono-p${i}`} />)}
-      {MONO_SUBPATHS.map((_, i) => <use class="mono-trace" href={`#hero-mono-p${i}`} style={`--i:${i}`} />)}
-    </svg>
+      <h1 class="hero-titre" set:html={site.business.tagline} />
 
-    {/* Filet de frontispice : il sépare la marque du texte, comme sur une page de titre. Il fait
-        partie du même groupe animé que le titre (data-reveal porté par le conteneur). */}
-    <div class="hero-texte lg:order-1 lg:col-span-7">
-      <hr class="hero-filet border-0" />
-      <h1 class="mt-10 max-w-4xl text-display-xl" set:html={site.business.tagline} />
-      <p class="mt-8 max-w-lg text-lg leading-relaxed text-muted">
-        Sites vitrines sur mesure pour artisans, indépendants et petites entreprises. Conçus et mis en
-        ligne en 72 heures.
+      <p class="hero-offre mt-10">
+        Un site vitrine sur mesure pour votre atelier ou votre boutique, à partir de 1 200 €, en
+        ligne 72 heures après réception de vos textes et de vos photos.
+        <a href="#offre" class="ff-lien whitespace-nowrap text-fg">Voir les tarifs</a>
       </p>
-      {/* Le prix et l'action dès le premier écran (diagnostic Impeccable du 6 oct : zéro bouton, prix
-          aux 4/5 de la page, téléphone seulement dans le pied de page). Un seul bouton plein. */}
-      <p class="hero-talon mt-7 text-xl leading-snug text-fg">
-        <span class="tabular-nums">Dès 1 200 €</span>, payé une fois. Le site est à vous.
-      </p>
-      <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
-        <a href={tel()} class="btn btn-primary inline-flex min-h-12 items-center justify-center gap-2 px-7 text-[0.95rem]">
-          Appeler le <span class="tabular-nums">{site.contact.phoneDisplay}</span>
-        </a>
-        <a href="#contact" class="inline-flex min-h-11 items-center justify-center text-sm text-fg underline decoration-1 underline-offset-[6px] transition-colors hover:text-muted sm:justify-start">
-          Écrire un message
-        </a>
+
+      <div class="hero-contact mt-10 border-t border-line pt-5 text-[0.95rem] text-muted">
+        <p>Écrivez-nous à <a href={mailto()} class="ff-lien text-fg">{site.contact.email}</a>, c’est nous deux qui lisons.</p>
+        <p class="mt-1" data-heure hidden>Il est <span data-heure-valeur></span> à Paris.</p>
       </div>
     </div>
+
+    <figure class="hero-oeuvre lg:col-span-7">
+      <img
+        src="/images/sites/forge-delacroix.webp"
+        srcset="/images/sites/forge-delacroix-700.webp 700w, /images/sites/forge-delacroix.webp 1400w"
+        sizes="(min-width: 1024px) 54vw, 92vw"
+        width="1400"
+        height="900"
+        alt="Page d’accueil du site d’exemple d’une ferronnerie d’art à Toulouse : un forgeron au travail, le titre « Le fer, à la main »"
+        fetchpriority="high"
+        decoding="async"
+        class="aspect-[14/9] w-full border border-line object-cover object-top lg:aspect-[4/3]"
+      />
+      <figcaption class="mt-3 flex flex-wrap justify-between gap-x-6 gap-y-1 text-sm text-muted">
+        <span><span class="text-fg">Ferronnerie d’art, Toulouse.</span> Le geste du forgeron défile avec la page.</span>
+        <span>Site d’exemple</span>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
 <script>
   // « Le site s'ouvre par le bas parfois » (9 oct 2026) : au rechargement ou à la réouverture d'un
   // onglet, le navigateur restaurait l'ancienne position (souvent le bas de page). Une page vitrine
-  // s'ouvre en haut, sur la marque. Exceptions : lien vers une ancre, retour arrière.
+  // s'ouvre en haut. Exceptions : lien vers une ancre, retour arrière.
   const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
   if (!location.hash && nav?.type !== 'back_forward') {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -113,107 +88,79 @@ import { MONO_SUBPATHS } from './mono-subpaths';
   }
 </script>
 
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Le monogramme en vidéo : lecture une fois à l'ouverture, reste sur la dernière image. Mouvement
+  // réduit : saut direct à la fin. Lecture refusée (économie d'énergie iOS) : idem.
+  onPage(() => {
+    const v = document.querySelector<HTMLVideoElement>('[data-hero-mono]');
+    if (!v) return;
+    const fin = () => { const go = () => { v.currentTime = Math.max(0, v.duration - 0.05); }; if (v.readyState >= 1) go(); else v.addEventListener('loadedmetadata', go, { once: true }); };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return fin();
+    v.play().catch(fin);
+  });
+
+  // L'heure de Paris, en direct (signe de présence vrai, rien à promettre). Rien n'est écrit dans le
+  // HTML livré : sans JavaScript, la ligne reste masquée plutôt que d'afficher une heure fausse.
+  onPage(() => {
+    const ligne = document.querySelector<HTMLElement>('[data-heure]');
+    const valeur = document.querySelector<HTMLElement>('[data-heure-valeur]');
+    if (!ligne || !valeur) return;
+    const fmt = new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', hour: 'numeric', minute: '2-digit' });
+    const maj = () => {
+      const parts = fmt.formatToParts(new Date());
+      const h = parts.find((p) => p.type === 'hour')?.value ?? '';
+      const m = parts.find((p) => p.type === 'minute')?.value ?? '';
+      valeur.textContent = `${Number(h)} h ${m}`;
+      ligne.hidden = false;
+    };
+    maj();
+    const t = window.setInterval(maj, 20_000);
+    document.addEventListener('astro:before-swap', () => window.clearInterval(t), { once: true });
+  });
+</script>
+
 <style is:global>
-  /* --- La marque ---
-     Le viewBox est recadré sur le tracé lui-même (bbox mesurée : x 288, y 0,92, l 289,4, h 277,1,
-     plus la demi-épaisseur du trait). Avant, il valait « 0 0 868 283 » alors que le signe n'occupe
-     que le tiers central de ce cadre : le monogramme flottait au milieu de la colonne, pendant que
-     le filet, le titre et le paragraphe partaient tous du bord gauche. Un frontispice se lit sur un
-     seul axe — la marque part maintenant du même bord que le reste. */
-  .hero-mono {
-    display: block;
-    width: min(100%, clamp(11rem, 26vw, 16rem));
-    height: auto;
-    overflow: visible;
-    /* Le pied du second F descend jusqu'au bord bas du tracé : sans cette réserve, il effleure le
-       filet de frontispice posé juste dessous. */
-    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-  }
-  /* Refonte du 6 oct 2026 (sans panneau latéral) : sur grand écran la marque passe à droite et
-     grandit, le titre occupe la gauche en grand. Une page de titre asymétrique au lieu d'une
-     colonne étroite qui laissait la moitié droite vide. */
-  @media (min-width: 1024px) {
-    .hero-mono { width: clamp(18rem, 28vw, 26rem); margin-bottom: 0; }
-  }
-
-  /* Halo derrière la marque : la « couleur » d'eclipse, c'est la lumière sur le noir. */
-  .hero-halo {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: radial-gradient(48% 46% at 34% 34%, hsl(210 18% 72% / 0.13), transparent 72%);
-  }
-
-  .hero-filet {
-    height: 1px;
-    background: linear-gradient(to right, var(--line), transparent);
-  }
-
-  /* --- Orchestration : tracé 0,25 -> 2,7 s, le corps se pose en dégradé à 2,5 s, lame douce à 3,3 s.
-     Puis la marque reste : corps en lumière tombante + filet d'argent persistant (l'arête nette qui
-     empêche l'effet « tache grise »). --- */
-  .mono-trace {
-    fill: none;
-    stroke: var(--accent);
-    stroke-opacity: 0.6;
-    stroke-width: 2.1;
-    stroke-linecap: round;
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation:
-      mono-trace-in 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards,
-      mono-trace-settle 1s ease 3.1s forwards;
-    animation-delay: calc(0.25s + var(--i) * 0.32s), 3.1s;
-  }
-  @keyframes mono-trace-in { to { stroke-dashoffset: 0; } }
-  @keyframes mono-trace-settle { to { stroke-opacity: 0.3; } }
-
-  .mono-fill {
-    fill: url(#hero-mono-grad);
-    opacity: 0;
-    animation: mono-fill-in 1s cubic-bezier(0.25, 1, 0.5, 1) 2.5s forwards;
-  }
-  @keyframes mono-fill-in { to { opacity: 1; } }
-  #hero-mono-grad .g1 { stop-color: var(--fg); stop-opacity: 0.88; }
-  #hero-mono-grad .g2 { stop-color: var(--fg); stop-opacity: 0.4; }
-  #hero-mono-grad .g3 { stop-color: var(--accent); stop-opacity: 0.16; }
-
-  /* Reflet : une lame de 140 unités qui traverse le tracé (x 288 à 578) en 1 s. Les ±1500 d'avant
-     dataient de l'ancien viewBox de 868 : le reflet passait en un éclair de 100 ms (revue du 6 oct). */
-  .mono-sheen { animation: mono-sheen-sweep 1s cubic-bezier(0.65, 0, 0.35, 1) 3.3s both; }
-  @keyframes mono-sheen-sweep {
-    from { transform: translateX(120px) skewX(-18deg); }
-    to { transform: translateX(700px) skewX(-18deg); }
-  }
-
-  /* Le texte du premier écran apparaît en CSS pur, sans attendre le chargement complet de la page
-     (data-reveal attendait l'événement load : titre invisible jusqu'à 5 s en 4G lente). */
-  .hero-texte { animation: hero-in 600ms cubic-bezier(0.23, 1, 0.32, 1) 200ms both; }
-  @keyframes hero-in { from { opacity: 0; transform: translateY(8px); } }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-texte { animation: none; }
-    .mono-trace { animation: none; stroke-dashoffset: 0; stroke-opacity: 0.3; }
-    .mono-fill { opacity: 1; animation: none; }
-    .mono-sheen { display: none; }
-  }
-
-  /* Cormorant a une vraie italique : l'emphase du titre la porte (eclipse pose font-style:normal
-     pour Space Grotesk — règle de direction, passée en spécificité supérieure pour ce hero).
-     line-height >= 1.1 et réserve en bas : clairance des descendantes en italique display
-     (docs/veille/skills-design-ia.md §2 règle 10 — « livré » n'en a pas, « projet » en aurait). */
-  #hero h1 {
-    line-height: 1.06;
-    padding-bottom: 0.08em;
-  }
-  /* Pas d'italique : le gros titre en serif italique est LE signe des pages faites par une IA
-     (6 oct 2026). L'emphase passe par la lumière seule : début en gris, promesse en blanc. */
-  #hero h1 em {
+  /* Trois tailles, pas une de plus : titre, ligne d'offre, petites lignes. */
+  #hero .hero-titre {
+    font-size: clamp(2.6rem, 5vw, 4.9rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
     font-style: normal;
   }
-  /* La promesse est le texte le plus lumineux du titre, pas le plus terne (eclipse descend l'emphase
-     en gris : bonne règle pour une phrase d'accroche, mauvaise quand l'emphase EST l'offre). Le
-     début de la phrase passe en gris de lumière, « livré en 72 heures » en blanc plein. */
-  #hero h1 em { color: var(--fg); }
+  #hero .hero-offre {
+    max-width: 30rem;
+    font-size: clamp(1.15rem, 1.45vw, 1.35rem);
+    line-height: 1.45;
+    color: var(--fg);
+  }
+  .hero-oeuvre img { background: var(--surface); }
+
+  /* #hero porte un view-transition-name (global.css), donc un contexte d'empilement : le fondu
+     « screen » de la vidéo se ferait contre du transparent (carré noir visible). Le hero prend le fond
+     de la page pour que le noir de la vidéo s'y dissolve. */
+  #hero { background: var(--bg); isolation: isolate; }
+
+  /* La marque en vidéo : grande, au-dessus du titre, fondue dans la page (screen), sans fond d'attente. */
+  .hero-mono {
+    display: block;
+    width: clamp(11rem, 17vw, 17rem);
+    height: auto;
+    aspect-ratio: 1;
+    margin: -2.5rem 0 clamp(0.5rem, 1.5vw, 1rem) -2rem;
+    background: transparent !important;
+  }
+  @media (max-width: 1023px) {
+    .hero-mono { width: clamp(9rem, 34vw, 12rem); margin-left: -0.6rem; margin-top: -1.5rem; }
+  }
+
+  /* Entrée en CSS pur, sans attendre le chargement complet (titre visible tout de suite en 4G). */
+  /* background : l'animation (fill-mode both) fait de ce bloc un contexte d'empilement, où le fondu
+     « screen » de la vidéo doit trouver le fond de la page, pas du transparent. */
+  .hero-texte { background: var(--bg); animation: hero-in 600ms cubic-bezier(0.23, 1, 0.32, 1) 120ms both; }
+  @keyframes hero-in { from { opacity: 0; transform: translateY(10px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-texte { animation: none; }
+  }
 </style>

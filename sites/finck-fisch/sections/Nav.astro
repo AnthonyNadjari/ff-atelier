@@ -26,7 +26,7 @@
  *    « Offre » sortait du cadre. Le téléphone remonte en bout de la ligne « métier · ville », les
  *    quatre liens tiennent seuls (291 px) et le sommaire est entier sans défilement latéral.
  */
-import { site, tel } from '@/lib/site';
+import { site, mailto } from '@/lib/site';
 
 // Mêmes entrées que le sommaire numéroté du panneau, dans le même ordre (refonte du 22 sept 2026 au
 // soir : voir sites/finck-fisch/ETALON.md). Le manifeste n'y figure pas — ce n'est pas une
@@ -37,9 +37,9 @@ import { site, tel } from '@/lib/site';
 // l'accueil + ancre. Sur l'accueil elles restent des ancres nues, pour garder le défilement fluide
 // au lieu d'une navigation complète (site.transitions).
 const accueil = Astro.url.pathname === '/';
-// Refonte du 6 oct 2026 : barre fine des studios de référence (Pentagram, Koto, Studio Dumbar,
-// By-Kin) — le nom à gauche, trois mots à droite, rien d'autre. Plus de panneau latéral, plus de
-// sommaire numéroté 01-05 ni de bouton en pilule : c'était le gabarit « généré » par excellence.
+// Benchmark d'octobre 2026 (docs/veille/benchmark-2026-10/) : barre en mots, sans bouton, comme Order,
+// Pianetti ou Locomotive. L'adresse e-mail est en clair à droite sur grand écran (Pianetti) : écrire
+// est l'un des deux chemins de la page, l'autre est de lire les tarifs.
 const links = [
   { ancre: '#realisations', label: 'Exemples' },
   { ancre: '#offre', label: 'Tarifs' },
@@ -48,22 +48,29 @@ const links = [
 
 <header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-[transform,background-color] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none [&.is-hidden]:duration-300 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/90 [&.is-scrolled]:backdrop-blur-md">
   <div class="container-ff flex items-baseline justify-between gap-6 py-5">
-    <a href="/" class="font-display text-lg tracking-tight text-fg" aria-label={`${site.business.name}, accueil`}>{site.business.name}</a>
-    <nav class="flex items-baseline gap-6 text-sm text-muted sm:gap-8" aria-label="Navigation principale">
+    <a href="/" class="font-display text-xl tracking-tight text-fg" aria-label={`${site.business.name}, accueil`}>{site.business.name}</a>
+    <nav class="flex items-baseline gap-6 text-[0.95rem] text-muted sm:gap-8" aria-label="Navigation principale">
       {links.map((l) => <span class="hidden sm:inline"><a href={l.href} class="inline-flex min-h-11 items-center transition-colors hover:text-fg">{l.label}</a></span>)}
-      <a href="#contact" class="inline-flex min-h-11 items-center text-fg underline decoration-1 underline-offset-[6px] transition-colors hover:text-muted">Contact</a>
+      <a href={mailto()} class="ff-lien hidden min-h-11 items-center text-fg lg:inline-flex">{site.contact.email}</a>
+      <a href="#contact" class="ff-lien inline-flex min-h-11 items-center text-fg lg:hidden">Écrire</a>
     </nav>
   </div>
 </header>
 <div class="h-[68px]" aria-hidden="true"></div>
 
-{/* Barre d'action du téléphone (diagnostic du 6 oct : sur iPhone, « Contact » disparaissait au
-    défilement et le numéro n'était que dans le pied de page). Elle apparaît une fois le premier
-    écran passé, sous le pouce, zone de sécurité de l'iPhone comprise. */}
+{/* Barre d'action sur téléphone, sous le pouce une fois le premier écran passé : les deux chemins de
+    la page, lire les tarifs ou écrire.
+    TODO(fondateurs) : quand le vrai numéro est fourni (contact.phone dans site.config.ts), remplacer
+    « Tarifs » par <a href={tel()}>Appeler</a> — le 06 00 00 00 00 actuel est un placeholder. */}
 <div class="ff-barre-action" data-barre-action>
-  <a href={tel()} class="ff-barre-appel">Appeler</a>
-  <a href="#contact" class="ff-barre-ecrire">Écrire</a>
+  <a href={accueil ? '#offre' : '/#offre'} class="ff-barre-ecrire">Voir les tarifs</a>
+  <a href="#contact" class="ff-barre-appel">Écrire</a>
 </div>
+
+<script>
+  // La barre du navigateur (theme-color) suit le noir chaud du site, pas le noir froid de la direction.
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#15120f');
+</script>
 
 <style is:global>
   .ff-barre-action { display: none; }
@@ -161,6 +168,48 @@ const links = [
   @media (prefers-reduced-motion: reduce) {
     .btn:active { transform: none; }
   }
+</style>
+
+<style is:global>
+  /* --- Palette du studio (benchmark d'octobre 2026, docs/veille/benchmark-2026-10/) ---
+     Le noir froid d'eclipse (#0a0b0d, blanc bleuté) faisait « SaaS sombre ». Les sombres désirables du
+     relevé (LxL Creative, Collins, Order) sont des bruns-noirs ou des anthracites, avec un texte crème
+     et une seule couleur rare. Trois fonds en couches (page, section alternée, surface), un crème, un
+     gris chaud, un accent cuivre réservé aux soulignés et aux survols. Contrastes mesurés (WCAG) :
+     crème sur fond 15,2:1, gris chaud sur fond 7,3:1 et sur surface 6,3:1, cuivre sur fond 6,4:1.
+     Ces valeurs sont des TOKENS redéfinis au niveau du site : les sections ne lisent que var(--…). */
+  html[data-direction='eclipse'] {
+    --bg: #15120f;
+    --bg-2: #1c1814;
+    --surface: #241f1a;
+    --fg: #f0e8db;
+    --muted: #b0a596;
+    --line: rgba(240, 232, 219, 0.13);
+    --accent: #d39a6a;
+    --accent-2: #e6bd96;
+    --on-accent: #15120f;
+    --ink: #0f0d0b;
+    --on-ink: #f0e8db;
+  }
+  html[data-direction='eclipse'] body { background: var(--bg); color: var(--fg); }
+
+  /* Liens texte du studio : soulignés cuivre, fins, qui passent au crème au survol. */
+  .ff-lien {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    text-decoration-color: var(--accent);
+    transition: text-decoration-color var(--motion-ui) ease, color var(--motion-ui) ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .ff-lien:hover { text-decoration-color: currentColor; }
+  }
+
+  /* Tiroir de contact (composant partagé src/components/ContactDrawer.astro) : il affiche le
+     téléphone, l'adresse et les horaires du config, qui sont des PLACEHOLDERS pour le studio.
+     TODO(fondateurs) : supprimer cette règle quand contact.phone, contact.address et contact.hours
+     portent les vraies valeurs. En attendant, seul l'e-mail (réel) reste visible. */
+  [data-drawer-coordonnees] > li:not(:has(a[href^='mailto:'])) { display: none; }
 </style>
 
 <script>

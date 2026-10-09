@@ -1,55 +1,70 @@
 ---
 /**
- * Réalisations — sur mesure Finck & Fisch (refonte du 6 oct 2026, retour d'un visiteur : la galerie
- * « fait portfolio généré », le système « Direction X » sous chaque vignette « crie l'IA »).
- * Six sites, pas douze ; une légende minuscule (métier, ville) ; pas de théorie sous les images.
- * Honnêteté : ce sont des démonstrations, dit une fois, en une ligne. Vignettes produites par
- * `ff vitrine` (images/sites/<slug>-700.webp et 1400 px).
+ * Réalisations — sur mesure Finck & Fisch.
+ *
+ * REFONTE DU 9 OCT 2026 (benchmark docs/veille/benchmark-2026-10/) : le travail montré en grand,
+ * en lignes asymétriques comme chez Order (une grande image, puis deux de largeurs différentes), avec
+ * une légende d'une phrase factuelle sous chaque capture (Pentagram, Astier de Villatte) : métier,
+ * ville, et ce que le site a de particulier. Pas de vignettes en grille régulière.
+ *
+ * Honnêteté : ce sont des sites d'exemple, faits par l'atelier pour montrer chaque métier. C'est dit
+ * dans l'intro et rappelé dans le texte alternatif. Les sites d'exemple ne sont pas encore en ligne
+ * (aucun domain.txt ni URL publique dans le repo) : les images ne sont donc PAS cliquables.
+ * TODO(fondateurs) : quand les démos auront une adresse publique, envelopper chaque <figure> dans un
+ * lien vers elle (ne jamais inventer d'URL).
+ *
+ * La ferronnerie de Toulouse est dans le premier écran (Hero.astro) : elle n'est pas répétée ici.
  */
 import vitrine from '../vitrine.json';
 
 type Entry = { slug: string; metier: string; ville: string };
 const tous = vitrine as Entry[];
 
-// Les six plus parlants, avec un intitulé court comme on le dirait (« Ferronnerie », pas « Ferronnerie
-// d'art »). Ordre de lecture : grand, grand, puis quatre.
+// largeur : nombre de colonnes sur 12 à partir de 1024 px. Lignes : 12 / 7 + 5 / 5 + 7.
 const choix = [
-  { slug: 'forge-delacroix', metier: 'Ferronnerie' },
-  { slug: 'maison-roux', metier: 'Boulangerie' },
-  { slug: 'encre-noire', metier: 'Tatouage' },
-  { slug: 'chez-malo', metier: 'Restaurant' },
-  { slug: 'atelier-lecerf', metier: 'Ébéniste' },
-  { slug: 'studio-ambre', metier: 'Architecte d’intérieur' },
+  { slug: 'maison-roux', metier: 'Boulangerie-pâtisserie', ligne: 'La fournée du jour écrite comme sur l’ardoise du comptoir.', largeur: 12 },
+  { slug: 'encre-noire', metier: 'Studio de tatouage', ligne: 'Les styles et les artistes du studio, face à face, noir sur papier.', largeur: 7 },
+  { slug: 'chez-malo', metier: 'Restaurant de poissons', ligne: 'Les horaires du service et la carte du jour avant tout le reste.', largeur: 5 },
+  { slug: 'atelier-lecerf', metier: 'Menuisier-ébéniste', ligne: 'Fabrication et restauration racontées côte à côte.', largeur: 5 },
+  { slug: 'studio-ambre', metier: 'Architecte d’intérieur', ligne: 'Les projets s’empilent au défilement, une grande image à la fois.', largeur: 7 },
 ];
 const sites = choix
   .map((c) => {
     const e = tous.find((s) => s.slug === c.slug);
-    return e ? { ...e, ...c } : null;
+    return e ? { ...c, ville: e.ville } : null;
   })
-  .filter((s): s is Entry => Boolean(s));
+  .filter((s): s is (typeof choix)[number] & { ville: string } => Boolean(s));
+const span: Record<number, string> = { 12: 'lg:col-span-12', 7: 'lg:col-span-7', 5: 'lg:col-span-5' };
 ---
 
 <section id="realisations" class="section-y">
   <div class="container-ff">
-    <h2 class="text-display-md">Quelques sites qu’on a faits</h2>
-    <p class="mt-4 max-w-[34rem] text-muted">
-      Des démonstrations pour l’instant, une par métier. Les premiers sites clients arrivent.
-    </p>
+    <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+      <h2 class="text-display-md lg:col-span-6">Un site par métier</h2>
+      <p class="max-w-[32rem] text-lg leading-relaxed text-muted lg:col-span-5 lg:col-start-8">
+        Ce sont des exemples : nous les avons faits pour montrer à quoi ressemble le site d’un
+        boulanger, d’un tatoueur ou d’un ébéniste. Les premiers sites de clients arrivent.
+      </p>
+    </div>
 
-    <div class="ff-planche mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-6" tabindex="0" role="region" aria-label="Sites réalisés, défilement horizontal sur téléphone">
+    <div class="mt-14 grid gap-x-8 gap-y-16 lg:grid-cols-12 lg:gap-y-20">
       {sites.map((s, i) => (
-        <figure class={`min-w-0 ${i < 2 ? 'lg:col-span-3' : 'lg:col-span-3 xl:col-span-3'}`}>
+        <figure class={`min-w-0 ${span[s.largeur]} ${s.largeur === 5 ? 'lg:self-end' : ''}`}>
           <img
             src={`/images/sites/${s.slug}-700.webp`}
             srcset={`/images/sites/${s.slug}-700.webp 700w, /images/sites/${s.slug}.webp 1400w`}
-            sizes="(min-width: 1024px) 36rem, (min-width: 640px) 46vw, 82vw"
+            sizes={s.largeur === 12 ? '(min-width: 1280px) 76rem, 92vw' : s.largeur === 7 ? '(min-width: 1024px) 50vw, 92vw' : '(min-width: 1024px) 36vw, 92vw'}
             width="1400"
             height="900"
-            alt={`Site de démonstration, ${s.metier.toLowerCase()} à ${s.ville}`}
+            alt={`Site d’exemple, ${s.metier.toLowerCase()} à ${s.ville}`}
             loading="lazy"
-            class="aspect-[14/9] w-full border border-line object-cover object-top"
+            decoding="async"
+            class={`w-full border border-line object-cover object-top ${s.largeur === 12 ? 'aspect-[14/9] lg:aspect-[21/10]' : 'aspect-[14/9]'}`}
           />
-          <figcaption class="mt-3 text-sm text-muted">{s.metier}, {s.ville}</figcaption>
+          <figcaption class="mt-4 grid gap-1 text-[0.95rem] sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-6">
+            <span><span class="text-fg">{s.metier}, {s.ville}.</span> <span class="text-muted">{s.ligne}</span></span>
+            <span class="text-sm text-muted">Exemple</span>
+          </figcaption>
         </figure>
       ))}
     </div>
@@ -57,27 +72,5 @@ const sites = choix
 </section>
 
 <style is:global>
-  /* Sur téléphone, les sites défilent au doigt, presque pleine largeur (la suivante dépasse). */
-  @media (max-width: 639px) {
-    .ff-planche {
-      grid-template-columns: none;
-      grid-auto-flow: column;
-      grid-auto-columns: 82%;
-      column-gap: 0.875rem;
-      overflow-x: auto;
-      overscroll-behavior-x: contain;
-      scroll-snap-type: x mandatory;
-      padding-bottom: 0.75rem;
-      margin-inline: calc(-1 * clamp(1.25rem, 4vw, 2.5rem));
-      padding-inline: clamp(1.25rem, 4vw, 2.5rem);
-      scroll-padding-inline: clamp(1.25rem, 4vw, 2.5rem);
-      scrollbar-width: none;
-    }
-    .ff-planche::-webkit-scrollbar { display: none; }
-    .ff-planche > figure { scroll-snap-align: start; }
-  }
-  .ff-planche img { transition: border-color 0.25s ease; }
-  @media (hover: hover) and (pointer: fine) {
-    .ff-planche figure:hover img { border-color: var(--fg); }
-  }
+  #realisations img { background: var(--surface); }
 </style>
