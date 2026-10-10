@@ -42,7 +42,7 @@ export function initMotionFF(): void {
     }
   }
 
-  const besoinGsap = document.querySelector('#audit, [data-p72], [data-aa]') || matchMedia(DESKTOP).matches;
+  const besoinGsap = document.querySelector('[data-p72]') || matchMedia(DESKTOP).matches;
   if (!besoinGsap) return;
   // GSAP n'est utile qu'au défilement : chargé après l'événement load, au premier temps libre, pour ne
   // pas disputer le fil principal à la première peinture (mesuré : 0,6 s de script pendant le LCP mobile).
@@ -51,13 +51,8 @@ export function initMotionFF(): void {
     const mm = gsap.matchMedia();
     nettoyages.push(() => mm.revert());
 
-    // S4 — bascule de thème : <html>.ff-creme tant que la section Audit couvre le milieu de l'écran.
-    // Toutes branches : en mouvement réduit, la transition CSS est à 0 s (ff.css), même résultat.
-    const audit = document.getElementById('audit');
-    if (audit) {
-      const st = ScrollTrigger.create({ trigger: audit, start: 'top 50%', end: 'bottom 50%', toggleClass: { targets: html, className: 'ff-creme' } });
-      nettoyages.push(() => st.kill());
-    }
+    // S4 (bascule encre/crème sur la section Audit) retirée le 10 oct 2026 : retour fondateur, le
+    // passage noir, blanc, noir au défilement gênait. La page reste sombre de bout en bout.
 
     mm.add(REDUIT, () => {
       document.querySelectorAll('[data-p72-jour]').forEach((j) => j.classList.add('est-actif'));
@@ -65,13 +60,11 @@ export function initMotionFF(): void {
 
     mm.add(TACTILE, () => {
       const fin = process72(gsap, ScrollTrigger, 'tactile');
-      indiceAvantApres(gsap);
       return fin;
     });
 
     mm.add(DESKTOP, () => {
       const fin = process72(gsap, ScrollTrigger, 'desktop');
-      indiceAvantApres(gsap);
       if (navigator.webdriver || !Lenis) return fin;
       const lenis = new Lenis({ autoRaf: false, smoothWheel: true, syncTouch: false, lerp: 0.1, anchors: { offset: -80 } });
       lenis.on('scroll', ScrollTrigger.update);
@@ -128,16 +121,3 @@ function process72(gsap: any, ScrollTrigger: any, mode: 'desktop' | 'tactile') {
   return () => { section.classList.remove('p72-pilote'); jours.forEach((j) => j.classList.remove('est-actif')); };
 }
 
-/** S3 — indice joué une seule fois à l'entrée : poignée 50 % → 38 % → 50 %, 1,2 s power2.inOut. */
-function indiceAvantApres(gsap: any) {
-  const el = document.querySelector<HTMLElement & { ffAa?: { poser(p: number): void; touche(): boolean } }>('[data-aa]');
-  if (!el?.ffAa || el.dataset.aaIndice) return;
-  const ctl = el.ffAa;
-  const etat = { p: 50 };
-  gsap.timeline({
-    scrollTrigger: { trigger: el, start: 'top 75%', once: true, onEnter: () => { el.dataset.aaIndice = '1'; } },
-    onUpdate: () => { if (!ctl.touche()) ctl.poser(etat.p); },
-  })
-    .to(etat, { p: 38, duration: 0.6, ease: 'power2.inOut' })
-    .to(etat, { p: 50, duration: 0.6, ease: 'power2.inOut' });
-}

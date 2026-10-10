@@ -1,6 +1,7 @@
 ---
 /**
- * Section Audit (plan-site-ff.html v2, S4 « bascule de thème ») : le seul moment fort de la page,
+ * Section Audit. 10 oct 2026 : la bascule de thème encre/crème (S4) est retirée (retour fondateur) ;
+ * la section se distingue par un fond légèrement plus clair (--bg-2). Ancienne note : le seul moment fort de la page,
  * « comme quand on allume la lumière ». Quand elle atteint le milieu de l'écran, motion-ff.ts pose
  * html.ff-creme : les tokens passent d'encre à crème en 0,6 s (ff.css), la nav suit. En remontant ou
  * en la quittant, retour à l'encre. Mouvement réduit : même bascule, instantanée.
@@ -45,7 +46,7 @@ const points = [
 </section>
 
 <style is:global>
-  .ff-audit { padding-block: var(--s8); }
+  .ff-audit { padding-block: var(--s8); background: var(--bg-2); border-block: 1px solid var(--line); }
   @media (min-width: 768px) { .ff-audit { padding-block: var(--s12); } }
   @media (min-width: 1024px) { .ff-audit { padding-block: var(--s16); } }
   .ff-audit-grille { display: grid; gap: var(--s6); }

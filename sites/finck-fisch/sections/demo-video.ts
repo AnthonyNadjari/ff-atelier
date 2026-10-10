@@ -4,7 +4,10 @@
  *
  * Règles, dans l'ordre (retour du fondateur, 9 oct 2026 : « sur téléphone, les vidéos ne doivent pas
  * attendre un toucher ») :
- * - `prefers-reduced-motion: reduce` : rien ne bouge, l'image fixe reste, rien n'est téléchargé.
+ * - `prefers-reduced-motion` n'arrête plus les démos (10 oct 2026, « les vidéos ne marchent pas ») :
+ *   Windows avec « effets d'animation » coupés l'active sans que la personne le sache, et les démos ne
+ *   jouaient alors jamais. Ce sont des captures d'écran qui défilent lentement, sans effet de
+ *   mouvement brusque ; les animations décoratives, elles, respectent toujours ce réglage.
  * - Partout (téléphone compris) : lecture muette en ligne dès que la vidéo est visible à 50 % ; hors
  *   de l'écran, pause. `preload="none"` dans le HTML : le `src` n'est posé qu'à l'approche (moins
  *   d'un écran de distance), le téléchargement ne commence qu'à ce moment-là.
@@ -18,7 +21,7 @@
  */
 // Performance (10 oct 2026) : rien ne démarre pendant le premier affichage. Les vidéos ne sont
 // préparées qu'après « load » + un moment de calme du fil principal, et chargées à un quart d'écran
-// de distance. Les images dessous sont dans DemoVideo.astro (<picture>, 4:5 sur téléphone).
+// de distance. Les images dessous sont dans DemoVideo.astro (<picture>, écran de téléphone entier).
 export function initDemoVideos(): void {
   const demarrer = () => initDemoVideosMaintenant();
   const calme = (f: () => void) => ('requestIdleCallback' in window ? (window as any).requestIdleCallback(f, { timeout: 2500 }) : window.setTimeout(f, 1200));
@@ -32,10 +35,9 @@ function initDemoVideosMaintenant(): void {
   );
   if (!videos.length) return;
   for (const v of videos) v.dataset.demoReady = '1';
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const telephone = matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 768;
-  // La source suit la mise en page (même seuil que le CSS de DemoVideo.astro) : 4:5 mobile sous 768 px.
+  // La source suit la mise en page (même seuil que le CSS de DemoVideo.astro) : écran de téléphone sous 768 px.
   const mobile = window.innerWidth < 768;
   const ratios = new Map<HTMLVideoElement, number>();
   const cadre = (v: HTMLVideoElement) => v.closest<HTMLElement>('.ff-demo');

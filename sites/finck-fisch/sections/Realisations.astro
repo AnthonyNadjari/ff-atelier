@@ -15,8 +15,12 @@
  *
  * La ferronnerie de Toulouse est dans le premier écran (Hero.astro) : elle n'est pas répétée ici.
  *
- * Plan v2 (9 oct 2026) : grille et vidéos inchangées ; titre au masque et images en clip-path à
- * l'entrée (motion-ff.ts, une fois), tailles de texte du système (ff.css).
+ * Plan v2 (9 oct 2026) : titre au masque et images en clip-path à l'entrée (motion-ff.ts, une fois).
+ *
+ * 10 oct 2026, soir (retour fondateur : « le premier exemple est beaucoup trop gros, trop zoomé, coupé
+ * comme un moule ») : plus de bandeau pleine largeur ni de recadrage. Ordinateur : deux colonnes égales,
+ * chaque démo montrée en entier (écran 16:10 de la démo, HD). Téléphone : carrousel d'écrans de
+ * téléphone entiers (format 390:844), rien de coupé.
  */
 import vitrine from '../vitrine.json';
 import DemoVideo from './DemoVideo.astro';
@@ -24,15 +28,15 @@ import DemoVideo from './DemoVideo.astro';
 type Entry = { slug: string; metier: string; ville: string };
 const tous = vitrine as Entry[];
 
-// largeur : nombre de colonnes sur 12 à partir de 1024 px. Lignes : 12 / 7 + 5 / 5 + 7.
-// La forge (largeur 0) n'apparaît que sur téléphone : ailleurs elle est dans le hero.
+// bureau : false = téléphone seulement (la forge est déjà dans le hero sur ordinateur).
 const choix = [
-  { slug: 'forge-delacroix', metier: 'Ferronnerie d’art', ligne: 'Le geste du forgeron en grand, le numéro toujours à portée.', largeur: 0 },
-  { slug: 'maison-roux', metier: 'Boulangerie-pâtisserie', ligne: 'La fournée du jour écrite comme sur l’ardoise du comptoir.', largeur: 12 },
-  { slug: 'encre-noire', metier: 'Studio de tatouage', ligne: 'Les styles et les artistes du studio, face à face, noir sur papier.', largeur: 7 },
-  { slug: 'chez-malo', metier: 'Restaurant de poissons', ligne: 'Les horaires du service et la carte du jour avant tout le reste.', largeur: 5 },
-  { slug: 'atelier-lecerf', metier: 'Menuisier-ébéniste', ligne: 'Fabrication et restauration racontées côte à côte.', largeur: 5 },
-  { slug: 'studio-ambre', metier: 'Architecte d’intérieur', ligne: 'Les projets s’empilent au défilement, une grande image à la fois.', largeur: 7 },
+  { slug: 'forge-delacroix', metier: 'Ferronnerie d’art', ligne: 'Le geste du forgeron en grand, le numéro toujours à portée.', bureau: false },
+  { slug: 'maison-roux', metier: 'Boulangerie-pâtisserie', ligne: 'Les horaires sous le nom, la fournée du jour en photo.', bureau: true },
+  { slug: 'encre-noire', metier: 'Studio de tatouage', ligne: 'Les styles et les artistes du studio, face à face.', bureau: true },
+  { slug: 'chez-malo', metier: 'Restaurant de poissons', ligne: 'Les horaires du service et la carte du jour avant tout le reste.', bureau: true },
+  { slug: 'barbier-kessler', metier: 'Barbier', ligne: 'Le rendez-vous en un geste, les trois fauteuils présentés.', bureau: true },
+  { slug: 'atelier-lecerf', metier: 'Menuisier-ébéniste', ligne: 'Fabrication et restauration racontées côte à côte.', bureau: true },
+  { slug: 'studio-ambre', metier: 'Architecte d’intérieur', ligne: 'Les projets s’empilent au défilement, une grande image à la fois.', bureau: true },
 ];
 const sites = choix
   .map((c) => {
@@ -40,9 +44,6 @@ const sites = choix
     return e ? { ...c, ville: e.ville } : null;
   })
   .filter((s): s is (typeof choix)[number] & { ville: string } => Boolean(s));
-const span: Record<number, string> = { 0: 'md:hidden', 12: 'lg:col-span-12', 7: 'lg:col-span-7', 5: 'lg:col-span-5' };
-// Rapport d'aspect du cadre : 4:5 sur téléphone (fixé par DemoVideo), 14:9 au-delà, bandeau 21:10 en 12 colonnes.
-const aspect: Record<number, string> = { 0: '', 12: 'md:aspect-[14/9] lg:aspect-[21/10]', 7: 'md:aspect-[14/9]', 5: 'md:aspect-[14/9]' };
 ---
 
 <section id="realisations" class="ff-section">
@@ -55,17 +56,16 @@ const aspect: Record<number, string> = { 0: '', 12: 'md:aspect-[14/9] lg:aspect-
       </p>
     </div>
 
-    {/* Téléphone (10 oct 2026, « trop de scrolling ») : carrousel horizontal à faire glisser, une
-        démo par carte en 4:5 enregistrée en rendu téléphone ; la suivante dépasse pour inviter au geste.
-        La vidéo jouée est celle de la carte la plus visible (demo-video.ts). ≥ 768 px : grille. */}
-    <ul class="ff-real-liste mt-8 grid gap-x-8 gap-y-16 md:mt-12 lg:grid-cols-12 lg:gap-y-24" aria-label="Sites d’exemple">
+    {/* Téléphone : carrousel horizontal à faire glisser, un écran de téléphone entier par carte ; la
+        suivante dépasse pour inviter au geste. La vidéo jouée est celle de la carte la plus visible
+        (demo-video.ts). ≥ 768 px : deux colonnes égales. */}
+    <ul class="ff-real-liste mt-8 grid gap-x-8 gap-y-14 md:mt-12 md:grid-cols-2" aria-label="Sites d’exemple">
       {sites.map((s) => (
-        <li class={`ff-real-carte min-w-0 ${span[s.largeur]} ${s.largeur === 5 ? 'lg:self-end' : ''}`}>
+        <li class={`ff-real-carte min-w-0 ${s.bureau ? '' : 'md:hidden'}`}>
           <figure>
             <DemoVideo
               slug={s.slug}
-              class={aspect[s.largeur]}
-              sizes={s.largeur === 12 ? '(min-width: 1024px) 1200px, 100vw' : '(min-width: 1024px) 700px, 100vw'}
+              sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 60vw"
               revele
             />
             <figcaption class="ff-petit mt-3 grid gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-6">
@@ -88,6 +88,13 @@ const aspect: Record<number, string> = { 0: '', 12: 'md:aspect-[14/9] lg:aspect-
 
 <style is:global>
   .ff-real-liste { list-style: none; margin-bottom: 0; padding: 0; }
+  /* Survol (souris seulement) : la démo avance d'un rien, la bordure s'éclaire. */
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    #realisations .ff-demo { transition: border-color 0.4s ease; }
+    #realisations .ff-demo :is(img, video) { transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
+    #realisations .ff-real-carte:hover .ff-demo { border-color: color-mix(in srgb, var(--fg) 35%, transparent); }
+    #realisations .ff-real-carte:hover .ff-demo :is(img, video) { transform: scale(1.02); }
+  }
   @media (max-width: 767px) {
     #realisations .ff-real-liste {
       display: flex;
@@ -101,6 +108,6 @@ const aspect: Record<number, string> = { 0: '', 12: 'md:aspect-[14/9] lg:aspect-
       scroll-padding-inline: var(--gouttiere);
     }
     #realisations .ff-real-liste::-webkit-scrollbar { display: none; }
-    #realisations .ff-real-carte { flex: 0 0 76%; scroll-snap-align: start; }
+    #realisations .ff-real-carte { flex: 0 0 58%; scroll-snap-align: start; }
   }
 </style>

@@ -8,18 +8,21 @@
  * dès que `load()` est appelé). Le clip-path d'entrée posé sur la <video> elle-même ne se repeignait pas
  * non plus sous WebKit.
  *
- * Maintenant, une seule recette partout :
- * - une vraie image (<picture>) en dessous, toujours visible ; la <video> par-dessus, transparente
- *   (opacity 0) tant qu'elle n'a pas réellement joué une image (événement « playing », classe .joue) ;
- * - play() appelé directement, sans load() ni attente : lecture refusée (économie d'énergie), l'image
- *   reste, jamais de noir ;
- * - téléphone (< 768 px) : enregistrement mobile 4:5 de la démo (`<slug>-mobile.mp4`, rendu téléphone
- *   réel), image `<slug>-portrait.webp` ; au-delà : enregistrement 1260 × 810 et captures 14:9.
- * - la révélation d'entrée (data-ff-image) est posée sur ce conteneur, jamais sur la vidéo.
+ * Recette (10 oct 2026, soir — retour fondateur : « trop zoomé, on ne voit rien, coupé comme un moule,
+ * flou ») : l'écran ENTIER de la démo, jamais recadré, en haute définition.
+ * - ordinateur : enregistrement 1440 × 900 à dpr 2, réduit à 1600 × 1000 (16:10) ; cadre 16:10 ;
+ * - téléphone (< 768 px) : enregistrement 390 × 844 à dpr 2, réduit à 600 × 1298 ; cadre au format
+ *   exact de l'écran d'iPhone (390:844) : rien n'est coupé ;
+ * - une vraie image (première image de la vidéo) dessous, toujours visible ; la <video> par-dessus,
+ *   transparente tant qu'elle n'a pas joué une image (« playing », classe .joue) : jamais de noir ;
+ * - play() direct (pas de load()/canplay : iOS ne télécharge rien avant play()).
+ * Fichiers : public/video/demos/<slug>.mp4|.webp|-800.webp, <slug>-mobile.mp4|.webp
+ * (scratchpad record3.mjs). Le rapport d'aspect est posé ICI et seulement ici : une classe utilitaire
+ * Tailwind ne peut pas le surcharger (style global hors couche, bug du 10 oct qui étirait tout en 4:5).
  */
 interface Props {
   slug: string;
-  /** Classes du conteneur (rapport d'aspect, coins). Le rapport mobile 4:5 est fixé ici. */
+  /** Classes du conteneur (marges, coins). Le rapport d'aspect est fixé par ce composant. */
   class?: string;
   sizes: string;
   /** Révélation d'entrée au défilement (pas pour le hero). */
@@ -30,13 +33,13 @@ const { slug, class: cls = '', sizes, revele = false } = Astro.props;
 
 <div class={`ff-demo ${cls}`} data-ff-image={revele ? '' : undefined}>
   <picture>
-    <source media="(max-width: 767px)" srcset={`/images/sites/${slug}-portrait.webp`} width="720" height="900" />
+    <source media="(max-width: 767px)" srcset={`/video/demos/${slug}-mobile.webp`} width="600" height="1298" />
     <img
-      src={`/images/sites/${slug}.webp`}
-      srcset={`/images/sites/${slug}-700.webp 700w, /images/sites/${slug}.webp 1260w`}
+      src={`/video/demos/${slug}.webp`}
+      srcset={`/video/demos/${slug}-800.webp 800w, /video/demos/${slug}.webp 1600w`}
       sizes={sizes}
-      width="1260"
-      height="810"
+      width="1600"
+      height="1000"
       alt=""
       aria-hidden="true"
       loading="lazy"
@@ -63,9 +66,12 @@ const { slug, class: cls = '', sizes, revele = false } = Astro.props;
     position: relative;
     overflow: hidden;
     border: 1px solid var(--line);
-    border-radius: 4px;
+    border-radius: 6px;
     background: var(--surface);
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 16 / 10;
+  }
+  @media (max-width: 767px) {
+    .ff-demo { aspect-ratio: 390 / 844; border-radius: 14px; }
   }
   .ff-demo > picture { display: contents; }
   .ff-demo img, .ff-demo video {
@@ -74,9 +80,8 @@ const { slug, class: cls = '', sizes, revele = false } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top;
     background: none;
   }
-  .ff-demo video { opacity: 0; transition: opacity 0.3s ease; }
+  .ff-demo video { opacity: 0; transition: opacity 0.4s ease; }
   .ff-demo.joue video { opacity: 1; }
 </style>

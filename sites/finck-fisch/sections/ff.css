@@ -63,7 +63,8 @@ html[data-direction='eclipse'] {
   html[data-direction='eclipse'] { --gouttiere: 48px; --entete: 72px; }
 }
 
-/* S4 : état crème (posé sur <html> par motion-ff.ts quand la section Audit passe le milieu de l'écran). */
+/* S4 : état crème, plus posé par motion-ff.ts depuis le 10 oct 2026 (bascule retirée) ; gardé
+   pour un éventuel usage ponctuel. Ancien commentaire : (posé sur <html> par motion-ff.ts quand la section Audit passe le milieu de l'écran). */
 html[data-direction='eclipse'].ff-creme {
   --bg: #f0e8db;
   --bg-2: #e7dfd3;
@@ -180,3 +181,9 @@ html.ff-anime [data-ff-titre].est-vu > span { transform: none; transition: trans
 
 /* Lenis pilote le défilement à la molette : le scroll-behavior: smooth natif doublerait le lissage. */
 html.lenis { scroll-behavior: auto; }
+
+/* 10 oct 2026 : un clic dans un texte faisait clignoter un curseur d'écriture, comme dans un
+   traitement de texte (navigation au curseur de Chrome, touche F7, ou focus d'un élément cliqué).
+   Le curseur d'écriture n'est montré que là où l'on peut écrire. */
+html[data-direction='eclipse'] { caret-color: transparent; }
+html[data-direction='eclipse'] :is(input, textarea, select, [contenteditable='true']) { caret-color: var(--fg); }

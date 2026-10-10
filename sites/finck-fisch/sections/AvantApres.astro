@@ -1,202 +1,119 @@
 ---
 /**
- * Avant / après au curseur (plan-site-ff.html v2, S3).
+ * Avant / après, côte à côte (10 oct 2026, soir).
  *
- * Deux captures réelles du premier écran de Maison Roux, notre boulangerie d'exemple à Lyon : la
- * « avant » = un site d'artisan vieillissant typique, recréé pour l'exemple (fictif, signalé dans la
- * légende ; source : scratchpad avant-roux/index.html, non adapté au téléphone) et la version 2
- * (aujourd'hui), prises à 1440×900 et à 390×844 (téléphone), en WebP dans
- * public/images/avant-apres/. Ce sont nos deux versions, pas le site d'un client : c'est dit.
+ * Remplace le curseur glissant (plan v2, S3). Retour fondateur : curseur au milieu, on ne voyait que
+ * du pain à droite et un bout de vieux site à gauche, et l'« après » était trop zoomé. Maintenant les
+ * deux versions sont montrées EN ENTIER, l'une à côté de l'autre, jamais recadrées :
+ * - ordinateur : l'écran d'ordinateur (1440 × 900 à dpr 2, réduit à 1600 × 1000), et par-dessus, en
+ *   bas à droite, l'écran de téléphone (390 × 844 à dpr 2) de la même version ;
+ * - téléphone : seulement les deux écrans de téléphone, côte à côte. C'est là que l'écart est le plus
+ *   parlant : à gauche la page d'ordinateur rétrécie, illisible ; à droite une page faite pour le pouce.
  *
- * La version 2 est par-dessus, découpée par clip-path: inset(0 0 0 X%) ; la poignée est à X %.
- * Interaction : glisser à la souris ou au doigt (pointer events + capture), flèches du clavier
- * (role="slider", aria-valuenow, pas de 5 %, Page préc./suiv. 10 %, Début/Fin 0 et 100 %).
- * Indice une seule fois à l'entrée (motion-ff.ts) : 50 → 38 → 50 %, 1,2 s ; mouvement réduit :
- * pas d'indice. Sans JavaScript : les deux moitiés à 50 %, rien ne bouge.
+ * « Avant » = un site d'artisan vieillissant typique, recréé pour l'exemple (fictif, dit dans la
+ * légende ; source : scratchpad avant-roux/index.html, sans balise viewport). « Après » = Maison Roux,
+ * notre boulangerie d'exemple à Lyon. Images : public/images/avant-apres/.
  */
-const pas = 5;
+const versions = [
+  {
+    nom: 'Avant',
+    bureau: 'avant-bureau',
+    tel: 'roux-v1-mobile',
+    alt: 'Avant, exemple fictif : un site de boulangerie vieillissant, bandeau marron, menu à neuf entrées, texte de bienvenue, horaires renvoyés vers la page Contact. Sur téléphone, la même page rétrécie, texte minuscule.',
+  },
+  {
+    nom: 'Après',
+    bureau: 'apres-bureau',
+    tel: 'roux-v2-mobile',
+    alt: 'Après : le nom, les horaires et l’adresse à gauche, la photo des baguettes à droite. Sur téléphone, le nom en grand, les horaires et le numéro lisibles sans zoomer.',
+  },
+];
 ---
 
 <section id="avant-apres" class="ff-section">
-  <div class="ff-conteneur ff-aa-grille">
+  <div class="ff-conteneur">
     <div class="ff-aa-tete">
       <h2 class="ff-titre ff-masque" data-ff-titre><span>Ce que change un vrai site</span></h2>
       <p class="ff-texte ff-doux mt-6 max-w-[34rem]">
         À gauche, le site qu’ont encore beaucoup d’artisans. À droite, la même boulangerie refaite
-        par nous. Glissez pour comparer.
+        par nous, sur ordinateur et sur téléphone.
       </p>
     </div>
 
-    <figure class="ff-aa-figure">
-      <div class="ff-aa" data-aa>
-        <picture>
-          <source media="(max-width: 767px)" srcset="/images/avant-apres/roux-v1-mobile.webp" width="780" height="1688" />
-          <img class="ff-aa-img" src="/images/avant-apres/roux-v1.webp" srcset="/images/avant-apres/roux-v1-960.webp 960w, /images/avant-apres/roux-v1.webp 1440w" sizes="(min-width: 1024px) 760px, 100vw" width="1440" height="900" alt="Avant, exemple fictif : un site de boulangerie vieillissant, bandeau marron, menu à neuf entrées, texte de bienvenue, horaires renvoyés vers la page Contact, numéro en bas de page." loading="lazy" decoding="async" />
-        </picture>
-        <picture>
-          <source media="(max-width: 767px)" srcset="/images/avant-apres/roux-v2-mobile.webp" width="780" height="1688" />
-          <img class="ff-aa-img ff-aa-apres" data-aa-apres src="/images/avant-apres/roux-v2.webp" srcset="/images/avant-apres/roux-v2-960.webp 960w, /images/avant-apres/roux-v2.webp 1440w" sizes="(min-width: 1024px) 760px, 100vw" width="1440" height="900" alt="Après : le nom, les horaires et l’adresse à gauche, la photo des baguettes à droite." loading="lazy" decoding="async" />
-        </picture>
-        <span class="ff-aa-etiquette ff-petit" aria-hidden="true">Avant</span>
-        <span class="ff-aa-etiquette ff-aa-etiquette-droite ff-petit" aria-hidden="true">Après</span>
-        <div class="ff-aa-rail" data-aa-rail>
-          <div
-            class="ff-aa-poignee"
-            role="slider"
-            tabindex="0"
-            aria-label="Comparer l’avant et l’après"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            aria-valuenow="50"
-            aria-valuetext="Moitié avant, moitié après"
-            data-aa-poignee
-            data-pas={pas}
-          >
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    <div class="ff-aa-paire mt-8 md:mt-12">
+      {versions.map((v, i) => (
+        <figure class="ff-aa-version" data-ff-image>
+          <p class="ff-aa-nom ff-petit"><span class={i === 1 ? 'text-fg' : 'ff-doux'}>{v.nom}</span></p>
+          <div class="ff-aa-ecrans" role="img" aria-label={v.alt}>
+            <img
+              class="ff-aa-bureau"
+              src={`/images/avant-apres/${v.bureau}.webp`}
+              srcset={`/images/avant-apres/${v.bureau}-800.webp 800w, /images/avant-apres/${v.bureau}.webp 1600w`}
+              sizes="(min-width: 1280px) 600px, 48vw"
+              width="1600"
+              height="1000"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              class="ff-aa-tel"
+              src={`/images/avant-apres/${v.tel}.webp`}
+              width="780"
+              height="1688"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-        </div>
-      </div>
-      <figcaption class="ff-petit ff-doux mt-3">Avant : un site vieillissant typique, recréé pour l’exemple (fictif). Après : Maison Roux, boulangerie d’exemple à Lyon.</figcaption>
-    </figure>
+        </figure>
+      ))}
+    </div>
 
-    <ul class="ff-aa-points ff-texte">
+    <ul class="ff-aa-points ff-texte mt-8 md:mt-12">
       <li><span class="text-fg">Lisible sur un téléphone.</span> <span class="ff-doux">Avant, la page se rétrécit et le texte devient minuscule. Après, elle est faite pour le pouce.</span></li>
       <li><span class="text-fg">Les horaires tout de suite.</span> <span class="ff-doux">Avant, il faut aller sur la page Contact. Après, ils sont sous le nom.</span></li>
       <li><span class="text-fg">On voit le pain, on appelle.</span> <span class="ff-doux">Une vraie photo au lieu d’un bandeau, et le numéro en un toucher au lieu du bas de page.</span></li>
     </ul>
+    <p class="ff-petit ff-doux mt-6">Avant : un site vieillissant typique, recréé pour l’exemple (fictif). Après : Maison Roux, boulangerie d’exemple à Lyon.</p>
   </div>
 </section>
 
-<script>
-  import { onPage } from '@/scripts/page';
-
-  onPage(() => {
-    const el = document.querySelector<HTMLElement & { ffAa?: { poser(p: number): void; touche(): boolean } }>('[data-aa]');
-    if (!el || el.ffAa) return;
-    const apres = el.querySelector<HTMLElement>('[data-aa-apres]')!;
-    const rail = el.querySelector<HTMLElement>('[data-aa-rail]')!;
-    const poignee = el.querySelector<HTMLElement>('[data-aa-poignee]')!;
-    const pas = Number(poignee.dataset.pas) || 5;
-    let valeur = 50;
-    let touche = false;
-
-    // transform et clip-path seulement (aucune propriété de mise en page). Le rail fait toute la
-    // largeur : translateX(p %) le décale de p % de la figure, poignée comprise.
-    const poser = (p: number) => {
-      valeur = Math.min(100, Math.max(0, p));
-      apres.style.clipPath = `inset(0 0 0 ${valeur}%)`;
-      rail.style.transform = `translateX(${valeur}%)`;
-    };
-    const annoncer = () => {
-      const v = Math.round(valeur);
-      poignee.setAttribute('aria-valuenow', String(v));
-      poignee.setAttribute('aria-valuetext', v === 0 ? 'Après seulement' : v === 100 ? 'Avant seulement' : `Avant sur ${v} %, après sur ${100 - v} %`);
-    };
-    el.ffAa = { poser, touche: () => touche };
-    el.classList.add('est-pret');
-
-    const depuisPointeur = (x: number) => {
-      const r = el.getBoundingClientRect();
-      poser(((x - r.left) / r.width) * 100);
-    };
-    let actif: number | null = null;
-    el.addEventListener('pointerdown', (e) => {
-      if (actif !== null || (e.pointerType === 'mouse' && e.button !== 0)) return; // un seul doigt
-      actif = e.pointerId;
-      touche = true;
-      el.setPointerCapture(e.pointerId);
-      el.classList.add('est-glisse');
-      depuisPointeur(e.clientX);
-    });
-    el.addEventListener('pointermove', (e) => { if (e.pointerId === actif) depuisPointeur(e.clientX); });
-    const fin = (e: PointerEvent) => {
-      if (e.pointerId !== actif) return;
-      actif = null;
-      el.classList.remove('est-glisse');
-      annoncer();
-    };
-    el.addEventListener('pointerup', fin);
-    el.addEventListener('pointercancel', fin);
-
-    poignee.addEventListener('keydown', (e) => {
-      const cibles: Record<string, number> = { ArrowLeft: valeur - pas, ArrowDown: valeur - pas, ArrowRight: valeur + pas, ArrowUp: valeur + pas, PageDown: valeur - 10, PageUp: valeur + 10, Home: 0, End: 100 };
-      if (!(e.key in cibles)) return;
-      e.preventDefault();
-      touche = true;
-      poser(Math.round(cibles[e.key] / pas) * pas);
-      annoncer();
-    });
-  });
-</script>
-
 <style is:global>
-  .ff-aa-grille { display: grid; gap: var(--s6); }
-  @media (min-width: 1024px) {
-    .ff-aa-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s6); row-gap: var(--s6); }
-    .ff-aa-tete { grid-column: 1 / span 8; }
-    .ff-aa-figure { grid-column: 1 / span 8; }
-    .ff-aa-points { grid-column: 9 / span 4; align-self: center; }
-  }
-  .ff-aa-figure { margin: 0; min-width: 0; }
-  .ff-aa {
-    position: relative;
-    display: grid;
-    overflow: hidden;
+  .ff-aa-paire { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); }
+  @media (min-width: 768px) { .ff-aa-paire { gap: var(--s6); } }
+  .ff-aa-version { margin: 0; min-width: 0; }
+  .ff-aa-nom { margin: 0 0 var(--s2); }
+
+  /* Ordinateur : écran d'ordinateur entier (16:10), téléphone posé en bas à droite. */
+  .ff-aa-ecrans { position: relative; padding-bottom: 6%; }
+  .ff-aa-ecrans img { display: block; background: none; }
+  .ff-aa-bureau {
+    width: 100%;
+    height: auto;
     border: 1px solid var(--line);
-    border-radius: 4px;
-    background: var(--surface);
-    touch-action: pan-y;
-    user-select: none;
-    -webkit-user-select: none;
+    border-radius: 6px;
   }
-  /* global.css pose un fond d'attente sur picture/img : ici il masquerait la version 1. */
-  .ff-aa > picture { grid-area: 1 / 1; background: none; }
-  .ff-aa-img { display: block; width: 100%; height: auto; background: none; pointer-events: none; -webkit-user-drag: none; }
-  .ff-aa-apres { clip-path: inset(0 0 0 50%); }
-  .ff-aa.est-pret { cursor: ew-resize; }
-  .ff-aa-etiquette {
+  .ff-aa-tel {
     position: absolute;
-    bottom: var(--s2);
-    left: var(--s2);
-    padding: 4px var(--s1);
-    border-radius: 4px;
-    background: var(--bg);
-    color: var(--fg);
+    right: 4%;
+    bottom: 0;
+    width: 22%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgb(0 0 0 / 0.45);
   }
-  .ff-aa-etiquette-droite { left: auto; right: var(--s2); }
 
-  /* Rail : toute la largeur, décalé de p % ; son bord gauche est la ligne de coupe. */
-  .ff-aa-rail { position: absolute; inset: 0; transform: translateX(50%); pointer-events: none; }
-  .ff-aa-rail::before { content: ''; position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: var(--fg); }
-  .ff-aa-poignee {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    margin: -24px 0 0 -24px;
-    border-radius: 4px;
-    background: var(--fg);
-    color: var(--bg);
-    pointer-events: auto;
-    cursor: ew-resize;
-    transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
-  .ff-aa.est-glisse .ff-aa-poignee { transform: scale(0.97); }
-  @media (prefers-reduced-motion: reduce) { .ff-aa.est-glisse .ff-aa-poignee { transform: none; } }
-
-  .ff-aa-points { display: grid; gap: var(--s3); list-style: none; margin: 0; padding: 0; }
+  .ff-aa-points { display: grid; gap: var(--s3); list-style: none; margin-bottom: 0; padding: 0; }
+  @media (min-width: 1024px) { .ff-aa-points { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s6); } }
   .ff-aa-points > li { padding-top: var(--s2); border-top: 1px solid var(--line); }
 
-  /* Téléphone (10 oct 2026, page trop longue) : cadre 4:5 rogné en haut au lieu de la capture entière
-     (1,1 écran), et les trois points réduits à leur phrase forte. */
+  /* Téléphone : seulement les deux écrans de téléphone, entiers, côte à côte. */
   @media (max-width: 767px) {
-    .ff-aa-grille { gap: var(--s4); }
-    .ff-aa { aspect-ratio: 4 / 5; grid-template-rows: minmax(0, 1fr); }
-    .ff-aa > picture { min-height: 0; }
-    .ff-aa-img { height: 100%; object-fit: cover; object-position: top; }
+    .ff-aa-ecrans { padding-bottom: 0; }
+    .ff-aa-bureau { display: none !important; }
+    .ff-aa-tel { position: static; width: 100%; border-radius: 12px; box-shadow: none; }
     .ff-aa-points { gap: 0; }
     .ff-aa-points > li { padding-block: var(--s1); }
     .ff-aa-points .ff-doux { display: none; }
