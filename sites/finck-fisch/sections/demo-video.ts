@@ -13,7 +13,10 @@
  *   d'un écran de distance), le téléchargement ne commence qu'à ce moment-là.
  * - Téléphone (pointeur grossier sans survol, ou écran < 768 px) : UNE seule vidéo joue à la fois, la
  *   plus visible ; les autres sont en pause (batterie, forfait).
- * - Lecture refusée (iPhone en économie d'énergie : play() rejeté) : l'image fixe reste, jamais
+ * - Lecture refusée (iPhone en économie d'énergie : iOS bloque TOUTE vidéo automatique, play() rejeté,
+ *   ou rien ne joue au bout de 3,5 s) : sur téléphone, repli « défilement » — une capture complète
+ *   de la page (<slug>-long.webp) qui défile en CSS, permis en économie d'énergie (10 oct 2026, retour
+ *   fondateur sur iPhone réel : « pas de vidéos »). Ailleurs : l'image fixe reste, jamais
  *   d'image noire. La vidéo est transparente jusqu'à sa première image jouée (« playing ») ; un
  *   toucher retente la lecture.
  * - Transitions de page (`site.transitions`) : observateurs coupés avant l'échange, vignettes
@@ -51,6 +54,17 @@ function initDemoVideosMaintenant(): void {
   // Recette unique (bug iPhone du 10 oct 2026) : play() tout de suite, sans load() ni attente de
   // canplay (iOS ne télécharge rien avant play()). La vidéo ne devient visible qu'à sa première image
   // réellement jouée (« playing ») : avant, ou si la lecture est refusée, l'image dessous reste.
+  // Repli téléphone : la capture longue défile (animation CSS, DemoVideo.astro). Son src n'est posé
+  // qu'ici : aucun octet de plus quand la vidéo joue normalement.
+  const secours = (v: HTMLVideoElement) => {
+    v.dataset.demoRefus = '1';
+    const c = cadre(v);
+    const long = c?.querySelector<HTMLImageElement>('img[data-src-long]');
+    if (!c || !long || !mobile) return;
+    if (!long.getAttribute('src')) long.src = long.dataset.srcLong!;
+    c.classList.add('defile');
+    arbitrer();
+  };
   const lire = (v: HTMLVideoElement) => {
     if (v.dataset.demoRefus) return;
     charger(v);
@@ -59,8 +73,12 @@ function initDemoVideosMaintenant(): void {
     const p = v.play();
     if (p) p.catch((err: DOMException) => {
       // AbortError = pause() demandée avant le début de la lecture : pas un refus.
-      if (err?.name === 'NotAllowedError') v.dataset.demoRefus = '1';
+      if (err?.name === 'NotAllowedError') secours(v);
     });
+    // Certains iOS ne rejettent pas play() mais ne jouent jamais : même repli après 3,5 s.
+    window.setTimeout(() => {
+      if (!cadre(v)?.classList.contains('joue') && doitJouer(v) && !v.dataset.demoRefus) secours(v);
+    }, 3500);
   };
 
   // Desktop : toute vidéo visible à 50 % joue. Téléphone : seulement la plus visible.
@@ -76,7 +94,10 @@ function initDemoVideosMaintenant(): void {
 
   const arbitrer = () => {
     for (const v of videos) {
-      if (doitJouer(v)) { if (v.paused) lire(v); }
+      const ok = doitJouer(v);
+      // Repli : le défilement n'avance que pour la carte qui jouerait (une à la fois sur téléphone).
+      if (v.dataset.demoRefus) { cadre(v)?.classList.toggle('en-vue', ok); continue; }
+      if (ok) { if (v.paused) lire(v); }
       else if (!v.paused) v.pause();
     }
   };
@@ -100,7 +121,7 @@ function initDemoVideosMaintenant(): void {
   for (const v of videos) {
     approche.observe(v);
     vue.observe(v);
-    v.addEventListener('playing', () => cadre(v)?.classList.add('joue'));
+    v.addEventListener('playing', () => { const c = cadre(v); c?.classList.add('joue'); c?.classList.remove('defile', 'en-vue'); });
     // Lecture refusée : un toucher la retente (geste de l'utilisateur, accepté par iOS).
     cadre(v)?.addEventListener('click', () => {
       if (!v.dataset.demoRefus) return;

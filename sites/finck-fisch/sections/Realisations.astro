@@ -29,12 +29,13 @@ type Entry = { slug: string; metier: string; ville: string };
 const tous = vitrine as Entry[];
 
 // bureau : false = téléphone seulement (la forge est déjà dans le hero sur ordinateur).
+// tel : false = ordinateur seulement (le barbier, sans photo sur téléphone, y paraît vide).
 const choix = [
   { slug: 'forge-delacroix', metier: 'Ferronnerie d’art', ligne: 'Le geste du forgeron en grand, le numéro toujours à portée.', bureau: false },
   { slug: 'maison-roux', metier: 'Boulangerie-pâtisserie', ligne: 'Les horaires sous le nom, la fournée du jour en photo.', bureau: true },
   { slug: 'encre-noire', metier: 'Studio de tatouage', ligne: 'Les styles et les artistes du studio, face à face.', bureau: true },
   { slug: 'chez-malo', metier: 'Restaurant de poissons', ligne: 'Les horaires du service et la carte du jour avant tout le reste.', bureau: true },
-  { slug: 'barbier-kessler', metier: 'Barbier', ligne: 'Le rendez-vous en un geste, les trois fauteuils présentés.', bureau: true },
+  { slug: 'barbier-kessler', metier: 'Barbier', ligne: 'Le rendez-vous en un geste, les trois fauteuils présentés.', bureau: true, tel: false },
   { slug: 'atelier-lecerf', metier: 'Menuisier-ébéniste', ligne: 'Fabrication et restauration racontées côte à côte.', bureau: true },
   { slug: 'studio-ambre', metier: 'Architecte d’intérieur', ligne: 'Les projets s’empilent au défilement, une grande image à la fois.', bureau: true },
 ];
@@ -61,7 +62,7 @@ const sites = choix
         (demo-video.ts). ≥ 768 px : deux colonnes égales. */}
     <ul class="ff-real-liste mt-8 grid gap-x-8 gap-y-14 md:mt-12 md:grid-cols-2" aria-label="Sites d’exemple">
       {sites.map((s) => (
-        <li class={`ff-real-carte min-w-0 ${s.bureau ? '' : 'md:hidden'}`}>
+        <li class={`ff-real-carte min-w-0 ${s.bureau ? '' : 'md:hidden'} ${'tel' in s && s.tel === false ? 'max-md:hidden' : ''}`}>
           <figure>
             <DemoVideo
               slug={s.slug}
@@ -76,7 +77,7 @@ const sites = choix
         </li>
       ))}
     </ul>
-    <p class="ff-petit ff-doux mt-4 md:hidden" aria-hidden="true">Faites glisser pour voir les {sites.length} exemples.</p>
+    <p class="ff-petit ff-doux mt-4 md:hidden" aria-hidden="true">Faites glisser pour voir les {sites.filter((s) => !('tel' in s && s.tel === false)).length} exemples.</p>
   </div>
 </section>
 

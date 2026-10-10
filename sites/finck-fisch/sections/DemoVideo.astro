@@ -11,7 +11,7 @@
  * Recette (10 oct 2026, soir — retour fondateur : « trop zoomé, on ne voit rien, coupé comme un moule,
  * flou ») : l'écran ENTIER de la démo, jamais recadré, en haute définition.
  * - ordinateur : enregistrement 1440 × 900 à dpr 2, réduit à 1600 × 1000 (16:10) ; cadre 16:10 ;
- * - téléphone (< 768 px) : enregistrement 390 × 844 à dpr 2, réduit à 600 × 1298 ; cadre au format
+ * - téléphone (< 768 px) : enregistrement 390 × 844 à dpr 2, 780 × 1688 sans réduction ; cadre au format
  *   exact de l'écran d'iPhone (390:844) : rien n'est coupé ;
  * - une vraie image (première image de la vidéo) dessous, toujours visible ; la <video> par-dessus,
  *   transparente tant qu'elle n'a pas joué une image (« playing », classe .joue) : jamais de noir ;
@@ -33,7 +33,7 @@ const { slug, class: cls = '', sizes, revele = false } = Astro.props;
 
 <div class={`ff-demo ${cls}`} data-ff-image={revele ? '' : undefined}>
   <picture>
-    <source media="(max-width: 767px)" srcset={`/video/demos/${slug}-mobile.webp`} width="600" height="1298" />
+    <source media="(max-width: 767px)" srcset={`/video/demos/${slug}-mobile.webp`} width="780" height="1688" />
     <img
       src={`/video/demos/${slug}.webp`}
       srcset={`/video/demos/${slug}-800.webp 800w, /video/demos/${slug}.webp 1600w`}
@@ -46,6 +46,8 @@ const { slug, class: cls = '', sizes, revele = false } = Astro.props;
       decoding="async"
     />
   </picture>
+  {/* Repli économie d'énergie iPhone (demo-video.ts) : capture complète qui défile en CSS. */}
+  <img class="ff-demo-long" data-src-long={`/video/demos/${slug}-long.webp`} alt="" aria-hidden="true" decoding="async" />
   <video
     data-demo
     data-src={`/video/demos/${slug}.mp4`}
@@ -83,5 +85,17 @@ const { slug, class: cls = '', sizes, revele = false } = Astro.props;
     background: none;
   }
   .ff-demo video { opacity: 0; transition: opacity 0.4s ease; }
+  /* Repli « défilement » : hauteur naturelle, glisse du haut vers le bas de la capture puis remonte. */
+  @media (max-width: 767px) { .ff-demo { container-type: size; } }
+  .ff-demo img.ff-demo-long { display: none; inset: 0 0 auto; height: auto; object-fit: initial; will-change: transform; }
+  .ff-demo.defile img.ff-demo-long {
+    display: block;
+    animation: ff-demo-defile 16s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate both paused;
+  }
+  .ff-demo.defile.en-vue img.ff-demo-long { animation-play-state: running; }
+  @keyframes ff-demo-defile {
+    0%, 8% { transform: translateY(0); }
+    92%, 100% { transform: translateY(calc(-100% + 100cqh)); }
+  }
   .ff-demo.joue video { opacity: 1; }
 </style>
