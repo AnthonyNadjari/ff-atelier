@@ -7,10 +7,15 @@ const Nav = resolveSection('nav', site.layout.nav);
 const Footer = resolveSection('footer', site.layout.footer);
 const b = site.business;
 const owner = site.legal.owner ?? b.name;
+// Texte sur mesure d'un site (sites/<slug>/legal/MentionsLegales.astro), quand la page générée ne suffit pas
+// (ex. finck-fisch : société pas encore immatriculée, formulaire d'audit propre). Rend le <main> entier.
+const SurMesure = Object.entries(import.meta.glob<{ default: any }>('/sites/*/legal/MentionsLegales.astro', { eager: true }))
+  .find(([k]) => k.startsWith(`/sites/${site.slug}/`))?.[1].default;
 ---
 
 <Base title={`Mentions légales | ${b.name}`} path="/mentions-legales" noindex>
   <Nav />
+  {SurMesure ? <SurMesure /> : (
   <main id="main" class="section-y">
     <div class="container-ff max-w-3xl space-y-10 text-[0.95rem] leading-relaxed">
       <h1 class="text-display-md">Mentions légales</h1>
@@ -44,5 +49,6 @@ const owner = site.legal.owner ?? b.name;
       </section>
     </div>
   </main>
+  )}
   <Footer />
 </Base>

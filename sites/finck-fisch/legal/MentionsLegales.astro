@@ -1,0 +1,65 @@
+---
+/**
+ * Mentions légales de Finck & Fisch (10 oct 2026), rendues par src/pages/mentions-legales.astro.
+ * La page générée affichait les placeholders du config (06 00 00 00 00, 75000 Paris) et Cloudflare
+ * comme hébergeur alors que le site est servi par Vercel : elle ne convenait pas.
+ *
+ * Rien d'inventé : la société n'est pas encore immatriculée (docs/juridique/structure-juridique.md),
+ * donc ni forme, ni siège, ni SIRET. TODO(fondateurs) avant toute vente : forme et capital, siège,
+ * SIRET/RCS, TVA, nom du directeur de la publication (business.legalForm/siret/tva, legal.owner),
+ * puis retirer le paragraphe « en cours de création ». Hébergeur à changer au passage sur
+ * Cloudflare Pages (docs/exploitation/hebergement-livraison.md).
+ */
+import { site, mailto } from '@/lib/site';
+const b = site.business;
+---
+
+<main id="main" class="ff-section ff-legal">
+  <div class="ff-conteneur">
+    <h1 class="ff-titre">Mentions légales</h1>
+    <p class="ff-texte ff-doux mt-6">Mises à jour le 10 octobre 2026.</p>
+
+    <section>
+      <h2>Éditeur du site</h2>
+      <p>Ce site est édité par {b.name}, studio de création de sites internet pour artisans et commerçants.</p>
+      {b.legalForm || b.siret ? (
+        <p>
+          {b.legalForm && <>{b.name}, {b.legalForm}<br /></>}
+          {b.siret && <>SIRET : {b.siret}<br /></>}
+          {b.tva && <>TVA intracommunautaire : {b.tva}</>}
+        </p>
+      ) : (
+        <p>La société {b.name} est en cours de création. Sa forme juridique, son siège et son numéro SIRET seront indiqués sur cette page dès son immatriculation.</p>
+      )}
+      <p>Contact : <a href={mailto()} class="ff-lien">{site.contact.email}</a></p>
+      <p>Directeur de la publication : {site.legal.owner ?? b.name}.</p>
+    </section>
+
+    <section>
+      <h2>Hébergement</h2>
+      <p>Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis. Site : <a href="https://vercel.com" rel="noopener" class="ff-lien">vercel.com</a>.</p>
+    </section>
+
+    <section>
+      <h2>Propriété intellectuelle</h2>
+      <p>Les textes, le nom {b.name}, le monogramme, la mise en page et le code de ce site appartiennent à {b.name}. Toute reproduction, même partielle, demande notre accord écrit.</p>
+      <p>Les sites montrés en exemple (boulangerie, ferronnerie, studio de tatouage, restaurant, barbier, menuisier, architecte d’intérieur) sont des entreprises fictives, créées par l’atelier pour montrer son travail. Toute ressemblance avec une entreprise existante serait fortuite.</p>
+    </section>
+
+    <section>
+      <h2>Données personnelles et cookies</h2>
+      <p>Ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience ni de publicité. Ce que nous faisons des informations que vous nous envoyez est expliqué dans la page <a href="/confidentialite" class="ff-lien">Confidentialité</a>.</p>
+    </section>
+
+    <section>
+      <h2>Liens et responsabilité</h2>
+      <p>Nous faisons notre possible pour que les informations de ce site soient exactes et à jour. Si vous repérez une erreur, écrivez-nous. Les liens vers d’autres sites sont donnés à titre d’information : nous ne sommes pas responsables de leur contenu.</p>
+    </section>
+
+    <section>
+      <h2>Droit applicable</h2>
+      <p>Ce site et ces mentions sont soumis au droit français.</p>
+    </section>
+  </div>
+</main>
+

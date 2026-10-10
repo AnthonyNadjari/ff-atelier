@@ -16,6 +16,10 @@ const year = new Date().getFullYear();
 <footer class="border-t border-line bg-bg-2">
   <div class="ff-conteneur ff-petit grid gap-8 py-12 text-muted sm:grid-cols-2 lg:grid-cols-4">
     <div>
+      {/* Monogramme en bas de page aussi (10 oct 2026, demande fondateur) : il ouvre et ferme la page. */}
+      <a href="/" class="mb-4 inline-block" aria-label={`${site.business.name}, accueil`}>
+        <img src="/images/monogramme-clair.svg" width="64" height="61" alt="" class="block h-auto w-16 opacity-90" decoding="async" />
+      </a>
       <p class="ff-texte font-display text-fg">{site.business.name}</p>
       <p class="mt-2">Sites vitrines pour artisans et commerçants.</p>
     </div>

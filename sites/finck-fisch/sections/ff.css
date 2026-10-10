@@ -187,3 +187,12 @@ html.lenis { scroll-behavior: auto; }
    Le curseur d'écriture n'est montré que là où l'on peut écrire. */
 html[data-direction='eclipse'] { caret-color: transparent; }
 html[data-direction='eclipse'] :is(input, textarea, select, [contenteditable='true']) { caret-color: var(--fg); }
+
+/* Pages légales sur mesure (sites/finck-fisch/legal/*.astro, 10 oct 2026). */
+  .ff-legal .ff-conteneur { max-width: calc(46rem + 2 * var(--gouttiere)); }
+  .ff-legal section { margin-top: var(--s6); padding-top: var(--s3); border-top: 1px solid var(--line); }
+  .ff-legal h2 { font-family: var(--ff-titres); font-size: clamp(1.5rem, 2.5vw, 2rem); line-height: 1.15; color: var(--fg); margin-bottom: var(--s2); }
+  .ff-legal h3 { font-weight: 600; color: var(--fg); margin-top: var(--s3); }
+  .ff-legal section p, .ff-legal section li { font-size: 1.0625rem; line-height: 1.65; color: var(--muted); }
+  .ff-legal section p + p { margin-top: var(--s2); }
+  .ff-legal section ul { margin: var(--s2) 0 0; padding-left: 1.2em; list-style: disc; }

@@ -1,0 +1,74 @@
+---
+/**
+ * Politique de confidentialité de Finck & Fisch (10 oct 2026), rendue par
+ * src/pages/confidentialite.astro. Décrit ce que le site fait réellement : le formulaire /audit
+ * (sites/finck-fisch/pages/audit.astro : nom, métier, ville, site actuel, contact, créneau), envoyé
+ * selon site.form.provider ; aucun cookie, aucune mesure d'audience ; hébergement Vercel.
+ * Styles .ff-legal dans sections/ff.css. TODO(fondateurs) : compléter l'identité du
+ * responsable une fois la société immatriculée.
+ */
+import { site, mailto } from '@/lib/site';
+const b = site.business;
+const viaMessagerie = site.form.provider === 'mailto';
+---
+
+<main id="main" class="ff-section ff-legal">
+  <div class="ff-conteneur">
+    <h1 class="ff-titre">Confidentialité</h1>
+    <p class="ff-texte ff-doux mt-6">Ce que nous faisons de vos informations, en clair. Mise à jour le 10 octobre 2026.</p>
+
+    <section>
+      <h2>En bref</h2>
+      <ul>
+        <li>Pas de cookie, pas de publicité, pas d’outil de mesure d’audience.</li>
+        <li>Nous ne recevons que ce que vous nous écrivez, pour vous répondre et préparer votre audit.</li>
+        <li>Rien n’est vendu ni prêté à qui que ce soit.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Qui est responsable</h2>
+      <p>{site.legal.owner ?? b.name}, joignable à <a href={mailto()} class="ff-lien">{site.contact.email}</a>. Les informations légales complètes sont dans les <a href="/mentions-legales" class="ff-lien">mentions légales</a>.</p>
+    </section>
+
+    <section>
+      <h2>Ce que nous recevons</h2>
+      <h3>Quand vous réservez un audit</h3>
+      <p>Votre nom, votre métier, votre ville, l’adresse de votre site actuel si vous en avez un, votre téléphone ou votre e-mail, et le créneau qui vous arrange.</p>
+      {viaMessagerie ? (
+        <p>Le formulaire ne passe par aucun serveur : il prépare un e-mail dans votre propre messagerie, et c’est vous qui l’envoyez. Nous recevons donc un e-mail ordinaire.</p>
+      ) : (
+        <p>Le formulaire transmet ces informations à notre boîte e-mail par un prestataire technique. Votre prénom et le créneau choisi sont gardés le temps de l’onglet ouvert (stockage de session du navigateur) pour afficher la page de confirmation, puis effacés.</p>
+      )}
+      <h3>Quand vous nous écrivez</h3>
+      <p>Votre adresse e-mail et le contenu de votre message.</p>
+      <h3>Pendant l’audit</h3>
+      <p>Nous regardons ce qui est déjà public : votre site actuel et ce que Google montre de votre entreprise. Nous ne cherchons rien d’autre.</p>
+    </section>
+
+    <section>
+      <h2>Pourquoi, et sur quelle base</h2>
+      <p>Pour vous rappeler, faire l’audit que vous avez demandé et, si vous le souhaitez, vous faire une proposition. C’est une démarche que vous engagez avant un éventuel contrat (article 6.1.b du RGPD). Nous ne vous inscrivons à aucune lettre d’information et ne vous relançons pas sans réponse de votre part.</p>
+    </section>
+
+    <section>
+      <h2>Combien de temps</h2>
+      <p>Si nous ne travaillons pas ensemble : 12 mois après notre dernier échange, puis suppression. Si nous travaillons ensemble : le temps du contrat, puis ce que la loi impose de garder (10 ans pour les factures et pièces comptables).</p>
+    </section>
+
+    <section>
+      <h2>Qui y a accès</h2>
+      <p>Les deux associés de {b.name}, et personne d’autre. Comme tout site, celui-ci est servi par un hébergeur, Vercel Inc. (États-Unis), qui traite l’adresse IP des visiteurs pour afficher les pages et protéger le site contre les attaques. Ces transferts sont encadrés par les garanties décrites dans <a href="https://vercel.com/legal/privacy-policy" rel="noopener" class="ff-lien">la politique de confidentialité de Vercel</a>.</p>
+    </section>
+
+    <section>
+      <h2>Vos droits</h2>
+      <p>Vous pouvez à tout moment nous demander ce que nous avons sur vous, le corriger, le supprimer, ou vous opposer à son utilisation : écrivez à <a href={mailto()} class="ff-lien">{site.contact.email}</a>, nous répondons sous un mois au plus. Si notre réponse ne vous convient pas, vous pouvez saisir la CNIL (<a href="https://www.cnil.fr/fr/plaintes" rel="noopener" class="ff-lien">cnil.fr</a>).</p>
+    </section>
+
+    <section>
+      <h2>Cookies</h2>
+      <p>Ce site n’en dépose aucun, ni les nôtres ni ceux d’un tiers. Les polices de caractères sont servies par le site lui-même, sans appel à Google. Il n’y a donc pas de bandeau à accepter.</p>
+    </section>
+  </div>
+</main>

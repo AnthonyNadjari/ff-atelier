@@ -69,15 +69,18 @@ const heroPreload = heroImg
 // set:html, comme historiquement, est immunise. Ne jamais ecrire le nom de cette balise en
 // chevrons dans un commentaire du frontmatter : le scan de Vite l'y prend pour une vraie balise.
 const ohsSpec = openingHoursSpecification(site.contact.hours);
+// Données de test (mêmes repères que scripts/ff/kit.mjs) : jamais envoyées à Google dans le JSON-LD.
+const telTest = /^(\+33|0)6(0{8})$/.test(site.contact.phone.replace(/\s/g, ''));
+const adresseTest = String(site.contact.address.postalCode ?? '').trim() === '75000';
 const localBusinessLd = {
   '@type': site.business.schemaType || schemaTypeForTrade(site.business.trade),
   name: site.business.name,
   description: pageDesc,
   url: Astro.site?.toString(),
-  telephone: site.contact.phone,
+  telephone: telTest ? undefined : site.contact.phone,
   email: site.contact.email,
   image: ogUrl,
-  address: {
+  address: adresseTest ? undefined : {
     '@type': 'PostalAddress',
     streetAddress: site.contact.address.street,
     postalCode: site.contact.address.postalCode,

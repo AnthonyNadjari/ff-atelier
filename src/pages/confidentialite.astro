@@ -11,6 +11,10 @@ const Nav = resolveSection('nav', site.layout.nav);
 const Footer = resolveSection('footer', site.layout.footer);
 const b = site.business;
 const owner = site.legal.owner ?? b.name;
+// Texte sur mesure d'un site (sites/<slug>/legal/Confidentialite.astro), quand la page générée ne suffit pas
+// (ex. finck-fisch : société pas encore immatriculée, formulaire d'audit propre). Rend le <main> entier.
+const SurMesure = Object.entries(import.meta.glob<{ default: any }>('/sites/*/legal/Confidentialite.astro', { eager: true }))
+  .find(([k]) => k.startsWith(`/sites/${site.slug}/`))?.[1].default;
 
 const provider = site.form.provider;
 const destinataire: Record<string, string> = {
@@ -33,6 +37,7 @@ const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boole
 
 <Base title={`Politique de confidentialité | ${b.name}`} description={`Politique de confidentialité et données personnelles de ${b.name}.`} path="/confidentialite" noindex>
   <Nav />
+  {SurMesure ? <SurMesure /> : (
   <main id="main" class="section-y">
     <div class="container-ff max-w-3xl space-y-10 text-[0.95rem] leading-relaxed">
       <h1 class="text-display-md">Politique de confidentialité</h1>
@@ -95,5 +100,6 @@ const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boole
       </section>
     </div>
   </main>
+  )}
   <Footer />
 </Base>
