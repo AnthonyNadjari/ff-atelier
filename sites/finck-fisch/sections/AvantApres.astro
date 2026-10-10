@@ -3,7 +3,8 @@
  * Avant / après au curseur (plan-site-ff.html v2, S3).
  *
  * Deux captures réelles du premier écran de Maison Roux, notre boulangerie d'exemple à Lyon : la
- * version 1 (le site tel qu'il était avant le commit 69799eb du 9 oct 2026) et la version 2
+ * « avant » = un site d'artisan vieillissant typique, recréé pour l'exemple (fictif, signalé dans la
+ * légende ; source : scratchpad avant-roux/index.html, non adapté au téléphone) et la version 2
  * (aujourd'hui), prises à 1440×900 et à 390×844 (téléphone), en WebP dans
  * public/images/avant-apres/. Ce sont nos deux versions, pas le site d'un client : c'est dit.
  *
@@ -21,8 +22,8 @@ const pas = 5;
     <div class="ff-aa-tete">
       <h2 class="ff-titre ff-masque" data-ff-titre><span>Ce que change un vrai site</span></h2>
       <p class="ff-texte ff-doux mt-6 max-w-[34rem]">
-        Deux versions de la même boulangerie d’exemple, faites par nous. Glissez pour passer de la
-        première à celle d’aujourd’hui.
+        À gauche, le site qu’ont encore beaucoup d’artisans. À droite, la même boulangerie refaite
+        par nous. Glissez pour comparer.
       </p>
     </div>
 
@@ -30,24 +31,24 @@ const pas = 5;
       <div class="ff-aa" data-aa>
         <picture>
           <source media="(max-width: 767px)" srcset="/images/avant-apres/roux-v1-mobile.webp" width="780" height="1688" />
-          <img class="ff-aa-img" src="/images/avant-apres/roux-v1.webp" srcset="/images/avant-apres/roux-v1-960.webp 960w, /images/avant-apres/roux-v1.webp 1440w" sizes="(min-width: 1024px) 760px, 100vw" width="1440" height="900" alt="Maison Roux, version 1 : le nom en très grand sur fond caramel, les horaires dessous, sans photo." loading="lazy" decoding="async" />
+          <img class="ff-aa-img" src="/images/avant-apres/roux-v1.webp" srcset="/images/avant-apres/roux-v1-960.webp 960w, /images/avant-apres/roux-v1.webp 1440w" sizes="(min-width: 1024px) 760px, 100vw" width="1440" height="900" alt="Avant, exemple fictif : un site de boulangerie vieillissant, bandeau marron, menu à neuf entrées, texte de bienvenue, horaires renvoyés vers la page Contact, numéro en bas de page." loading="lazy" decoding="async" />
         </picture>
         <picture>
           <source media="(max-width: 767px)" srcset="/images/avant-apres/roux-v2-mobile.webp" width="780" height="1688" />
-          <img class="ff-aa-img ff-aa-apres" data-aa-apres src="/images/avant-apres/roux-v2.webp" srcset="/images/avant-apres/roux-v2-960.webp 960w, /images/avant-apres/roux-v2.webp 1440w" sizes="(min-width: 1024px) 760px, 100vw" width="1440" height="900" alt="Maison Roux, version 2 : le nom, les horaires et l’adresse à gauche, la photo des baguettes à droite." loading="lazy" decoding="async" />
+          <img class="ff-aa-img ff-aa-apres" data-aa-apres src="/images/avant-apres/roux-v2.webp" srcset="/images/avant-apres/roux-v2-960.webp 960w, /images/avant-apres/roux-v2.webp 1440w" sizes="(min-width: 1024px) 760px, 100vw" width="1440" height="900" alt="Après : le nom, les horaires et l’adresse à gauche, la photo des baguettes à droite." loading="lazy" decoding="async" />
         </picture>
-        <span class="ff-aa-etiquette ff-petit" aria-hidden="true">Version 1</span>
-        <span class="ff-aa-etiquette ff-aa-etiquette-droite ff-petit" aria-hidden="true">Version 2</span>
+        <span class="ff-aa-etiquette ff-petit" aria-hidden="true">Avant</span>
+        <span class="ff-aa-etiquette ff-aa-etiquette-droite ff-petit" aria-hidden="true">Après</span>
         <div class="ff-aa-rail" data-aa-rail>
           <div
             class="ff-aa-poignee"
             role="slider"
             tabindex="0"
-            aria-label="Comparer la version 1 et la version 2"
+            aria-label="Comparer l’avant et l’après"
             aria-valuemin="0"
             aria-valuemax="100"
             aria-valuenow="50"
-            aria-valuetext="Moitié version 1, moitié version 2"
+            aria-valuetext="Moitié avant, moitié après"
             data-aa-poignee
             data-pas={pas}
           >
@@ -55,13 +56,13 @@ const pas = 5;
           </div>
         </div>
       </div>
-      <figcaption class="ff-petit ff-doux mt-3">Maison Roux, boulangerie d’exemple à Lyon. À gauche notre première version, à droite celle d’aujourd’hui.</figcaption>
+      <figcaption class="ff-petit ff-doux mt-3">Avant : un site vieillissant typique, recréé pour l’exemple (fictif). Après : Maison Roux, boulangerie d’exemple à Lyon.</figcaption>
     </figure>
 
     <ul class="ff-aa-points ff-texte">
-      <li><span class="text-fg">Le pain dès le premier écran.</span> <span class="ff-doux">La photo des baguettes à côté des horaires, au lieu du nom seul en très grand.</span></li>
-      <li><span class="text-fg">Les horaires en premier.</span> <span class="ff-doux">Lisibles d’un coup d’œil sur un téléphone, avant tout le reste.</span></li>
-      <li><span class="text-fg">L’adresse complète et le numéro.</span> <span class="ff-doux">Le code postal en plus, et un toucher pour appeler.</span></li>
+      <li><span class="text-fg">Lisible sur un téléphone.</span> <span class="ff-doux">Avant, la page se rétrécit et le texte devient minuscule. Après, elle est faite pour le pouce.</span></li>
+      <li><span class="text-fg">Les horaires tout de suite.</span> <span class="ff-doux">Avant, il faut aller sur la page Contact. Après, ils sont sous le nom.</span></li>
+      <li><span class="text-fg">On voit le pain, on appelle.</span> <span class="ff-doux">Une vraie photo au lieu d’un bandeau, et le numéro en un toucher au lieu du bas de page.</span></li>
     </ul>
   </div>
 </section>
@@ -89,7 +90,7 @@ const pas = 5;
     const annoncer = () => {
       const v = Math.round(valeur);
       poignee.setAttribute('aria-valuenow', String(v));
-      poignee.setAttribute('aria-valuetext', v === 0 ? 'Version 2 seule' : v === 100 ? 'Version 1 seule' : `Version 1 sur ${v} %, version 2 sur ${100 - v} %`);
+      poignee.setAttribute('aria-valuetext', v === 0 ? 'Après seulement' : v === 100 ? 'Avant seulement' : `Avant sur ${v} %, après sur ${100 - v} %`);
     };
     el.ffAa = { poser, touche: () => touche };
     el.classList.add('est-pret');
