@@ -1,39 +1,41 @@
 ---
 /**
- * "Restauration" : un avant/après en curseur (data-compare, 7 usages dans un site dessiné à la
- * main avant ce tour — sous le seuil de 5 demandé par le mandat), volontairement SANS liste de
- * prix accolée ni halo data-spotlight : sites/dubois-plomberie/sections/Tarifs.astro combine déjà
- * les trois (spotlight + prix pointillés + compare) dans un seul bloc — ici le compare reste seul,
- * porté par le récit du geste (décapage/recollage/finition), pas par une grille tarifaire (voir
- * Estimation.astro, section dédiée). <img> brut comme sites/dubois-plomberie et
- * sites/moteur-fils : le sélecteur CSS `[data-compare] img` cible tout `<img>` descendant, mais on
- * reste sur le motif déjà éprouvé plutôt que d'introduire <Img> (déjà utilisé une fois dans
- * Fabrication.astro pour ce site) dans un contexte de positionnement absolu non testé ici.
+ * « Restauration » (10 oct 2026) : le curseur avant/après a été retiré. Ses deux images n'étaient
+ * pas le même meuble (une chaise devant un mur, puis une planche de dessin) : un faux avant/après.
+ * Reste le récit du geste, en étapes de texte, et une commode à vantaux (domaine public) présentée
+ * pour ce qu'elle est : le genre de pièce qui passe à l'atelier, pas un chantier de l'atelier.
  */
 import SectionHeading from '@/components/SectionHeading.astro';
+import Img from '@/components/Img.astro';
+
+const gestes = [
+  { t: 'On regarde avant de toucher.', d: 'Essence, assemblages, finition d’origine. On vous dit ce qui se sauve et ce qui se refait, et combien.' },
+  { t: 'On défait ce qui a lâché.', d: 'Décapage de l’ancienne finition, assemblages démontés puis recollés à la colle chaude quand le meuble en avait.' },
+  { t: 'On refait ce qui manque.', d: 'Un pied, une moulure, un fond de tiroir, dans une essence compatible et un fil de bois dans le même sens.' },
+  { t: 'On finit sans vernis plastique.', d: 'Huile ou cire, qui laissent le bois respirer et se reprennent dans dix ans.' },
+];
 ---
 
 <section id="restauration" class="section-y">
-  <div class="container-ff grid gap-12 lg:grid-cols-2 lg:items-center">
+  <div class="container-ff grid gap-12 lg:grid-cols-2 lg:items-start">
     <div>
       <SectionHeading
-        eyebrow="Restauration"
-        title="Le meuble de famille retrouve son grain"
-        text="Une commode, une armoire, une chaise cabossée par les années : le bois massif se ponce, se recolle et se retient. Il n’a presque jamais besoin d’être remplacé."
+        title="Le meuble de famille garde ses rides"
+        text="Une commode qui a déménagé quatre fois, une armoire de grand-mère, des chaises de bistrot. Le bois massif se ponce, se recolle et se reprend. Il a rarement besoin d’être remplacé, et il ne doit pas ressortir d’ici comme s’il était neuf."
       />
-      <p class="measure mt-6 text-muted">
-        Décapage de l’ancienne finition, recollage des assemblages fatigués, remplacement des pièces manquantes dans une essence compatible, puis une finition à l’huile ou à la cire qui laisse le bois respirer. Le geste est le même qu’en fabrication neuve.
-      </p>
+      <dl class="mt-10 border-t border-line">
+        {gestes.map((g) => (
+          <div class="border-b border-line py-4">
+            <dt class="font-display text-lg">{g.t}</dt>
+            <dd class="mt-1 text-muted">{g.d}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
 
-    <figure data-reveal="scale">
-      <div class="aspect-[4/3] select-none rounded-card border-2 border-line shadow-lift" data-compare>
-        <img class="compare-before" src="/images/avant.webp" alt="Commode ancienne avant restauration, finition ternie et rayée" loading="lazy" />
-        <img class="compare-after" src="/images/apres.webp" alt="Même commode après restauration, bois massif à nu et huilé" loading="lazy" />
-        <div class="compare-handle" aria-hidden="true"></div>
-        <input type="range" min="0" max="100" value="50" aria-label="Comparer la commode avant et après restauration" />
-      </div>
-      <figcaption class="mt-3 text-sm text-muted">Commode ancienne, avant et après restauration.</figcaption>
+    <figure data-reveal>
+      <Img src="/images/service-4.webp" alt="Commode à vantaux ancienne, marqueterie de fruits et pieds tournés" sizes="(min-width: 1024px) 46vw, 100vw" class="aspect-[4/3] w-full object-cover" />
+      <figcaption class="mt-3 text-sm text-muted">Commode à vantaux, XVIIIe siècle. Le genre de pièce qu’on reçoit à l’atelier : marqueterie, placages anciens, bronzes à déposer avant tout le reste.</figcaption>
     </figure>
   </div>
 </section>

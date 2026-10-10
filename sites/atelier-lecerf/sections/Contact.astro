@@ -1,7 +1,7 @@
 ---
 /**
  * "Contact" (custom/Contact) : panneau de coordonnées avec halo qui suit le curseur
- * (data-spotlight, mandat explicite), fond veiné en CSS pur (repeating-linear-gradient depuis les
+ * (data-spotlight retiré le 10 oct 2026, zones en texte simple et non plus en pastilles), fond veiné en CSS pur (repeating-linear-gradient depuis les
  * tokens, jamais une couleur en dur) plutôt que la bande data-marquee déjà posée par
  * sites/veto-du-drac/sections/Contact.astro et sites/ampere-fils/sections/Contact.astro — variation
  * volontaire pour ne pas répéter le même habillage. Zone d'intervention (site.zones) affichée en
@@ -16,11 +16,10 @@ import Icon from '@/components/Icon.astro';
 
 <section id="contact" class="section-y">
   <div class="container-ff grid gap-8 lg:grid-cols-12 lg:gap-10">
-    <div class="relative overflow-hidden rounded-card bg-ink p-8 text-on-ink md:p-10 lg:col-span-5" data-spotlight>
+    <div class="relative overflow-hidden rounded-card bg-ink p-8 text-on-ink md:p-10 lg:col-span-5">
       <div class="pointer-events-none absolute inset-0 opacity-[0.14]" aria-hidden="true" style="background-image: repeating-linear-gradient(95deg, color-mix(in oklch, var(--accent) 70%, white) 0 4px, transparent 4px 11px);"></div>
 
-      <p class="eyebrow relative z-[2] text-on-ink/60">Contact</p>
-      <h2 class="relative z-[2] mt-4 text-display-md" set:html={site.wording.contactTitle} />
+      <h2 class="relative z-[2] text-display-md" set:html={site.wording.contactTitle} />
       <p class="relative z-[2] mt-4 max-w-sm text-on-ink/75">{site.wording.contactText}</p>
 
       <ul class="relative z-[2] mt-9 space-y-5">
@@ -45,11 +44,7 @@ import Icon from '@/components/Icon.astro';
       {site.zones.cities.length > 0 && (
         <div class="relative z-[2] mt-9 border-t border-on-ink/15 pt-6">
           <p class="text-sm text-on-ink/50">{site.zones.label ?? 'Zone d’intervention'}</p>
-          <ul class="mt-3 flex flex-wrap gap-2" data-stagger="60">
-            {site.zones.cities.map((c) => (
-              <li class="rounded-pill border border-on-ink/20 px-3 py-1 text-sm text-on-ink/85">{c}</li>
-            ))}
-          </ul>
+          <p class="mt-2 text-sm text-on-ink/85">{site.zones.cities.join(', ')}</p>
         </div>
       )}
     </div>

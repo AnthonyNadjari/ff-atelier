@@ -1,0 +1,42 @@
+---
+/**
+ * « L'atelier » (10 oct 2026) : l'histoire (about.story, affichée nulle part avant), les faits tirés
+ * de la config sur des filets, une photo de bâtiment en brique pour l'ambiance de filature. Deux
+ * colonnes, aucune carte, aucune icône, aucun numéro.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const b = site.business;
+const faits = [
+  b.since ? { k: 'Atelier ouvert en', v: String(b.since) } : null,
+  { k: 'Adresse', v: `${site.contact.address.street}, ${site.contact.address.postalCode} ${site.contact.address.city}` },
+  { k: 'Essences', v: 'Chêne, frêne, noyer, toujours massifs' },
+  b.legalForm ? { k: 'Forme', v: b.legalForm } : null,
+  b.insurance ? { k: 'Assurance', v: b.insurance } : null,
+  { k: 'Déplacements', v: site.zones.cities.join(', ') },
+].filter((f): f is { k: string; v: string } => Boolean(f));
+---
+
+<section id="atelier" class="section-y bg-bg">
+  <div class="container-ff grid gap-14 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-7">
+      <h2 class="text-display-lg leading-none">{site.about.title}</h2>
+      <div class="mt-8 max-w-[34rem] space-y-5 text-lg leading-relaxed" data-reveal>
+        {paragraphs(site.about.story).map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 lg:pt-3">
+      <Img src="/images/service-1.webp" alt="Façade en brique d’un ancien atelier industriel" sizes="(min-width: 1024px) 34vw, 100vw" class="aspect-[4/3] w-full object-cover" />
+      <dl class="mt-8 border-t border-line">
+        {faits.map((f) => (
+          <div class="flex justify-between gap-6 border-b border-line py-3 text-sm">
+            <dt class="shrink-0 text-muted">{f.k}</dt>
+            <dd class="text-right">{f.v}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>

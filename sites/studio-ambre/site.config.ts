@@ -43,6 +43,8 @@ export default defineSite({
     description:
       'Léa Bonnet dessine des appartements, des boutiques et des cabinets depuis le 31 rue des Vinaigriers, dans le 10e. Elle part de ce qui est déjà là : la lumière, les proportions, la matière.\n\nSeule à la conception, avec un collaborateur pour le suivi de chantier. Peu de projets menés à la fois, et c’est un choix : celle qui dessine est aussi celle qui suit le chantier jusqu’à la réception.',
     since: 2015,
+    legalForm: 'EURL',
+    insurance: 'RC professionnelle MAF n° 000 000',
   },
 
   contact: {
@@ -117,6 +119,7 @@ export default defineSite({
     { q: 'Combien de temps prend un projet ?', a: 'Comptez deux à trois mois de conception, puis trois à cinq mois de chantier pour un appartement. Les délais réels de chaque phase sont donnés avec le dossier de conception.' },
     { q: 'Travaillez-vous en dehors de Paris ?', a: 'Le studio intervient à Paris et dans les communes limitrophes : Montreuil, Vincennes, Saint-Ouen, Boulogne.' },
     { q: 'Suivez-vous le chantier jusqu’au bout ?', a: 'Jusqu’à la réception des travaux, oui. La coordination des artisans et les visites de suivi font partie de la mission.' },
+    { q: 'Faut-il l’accord de la copropriété pour abattre une cloison ?', a: 'Pour une cloison légère, en général non. Pour un mur porteur, une gaine ou une évacuation qui traverse les parties communes, oui, et un ingénieur structure s’en mêle. On regarde le règlement de copropriété à la première visite, avant de dessiner quoi que ce soit.' },
     { q: 'Le studio s’occupe-t-il aussi de boutiques ?', a: 'Oui, des boutiques et des cabinets, en plus des appartements. Et la méthode ne change pas.' },
   ],
 

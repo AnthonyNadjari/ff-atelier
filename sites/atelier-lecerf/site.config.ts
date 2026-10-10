@@ -1,59 +1,14 @@
-// DEMO : client inventé
+// DEMO : client inventé (Atelier Lecerf, Roubaix). Coordonnées fictives (plage 06 39 98), prénoms
+// fictifs, aucun avis ni chiffre de clientèle. Prix tous suffixés « (indicatif) ».
 /**
- * Squelette (21 sept 2026) : variante partagée `process/horizon` — le chapitre « du croquis à la
- * pose » est un écran épinglé qui défile horizontalement, une étape par écran, numéro géant, la
- * photo de la pièce posée sur la dernière étape. Il remplace le bloc sur mesure Fabrication.astro
- * (data-stack, supprimé — jamais deux blocs pour les mêmes étapes). C'est le seul geste fort de la
- * page : le hero perd son data-horizontal (les trois essences deviennent une grille fixe) et
- * Matières sa piste glissable data-drag-grid (grille fixe aussi) ; restent le curseur avant/après,
- * le décodage des prix et le halo du contact, des réponses au geste, pas des bandes.
- *
- * Atelier Lecerf — menuisier-ébéniste, Roubaix (ancienne filature). Métier 16 de
- * docs/OBJECTIF.md. Mandat de conception imposé pour ce tour : "material and process" —
- * un site construit autour du grain du bois et du geste, pas du catalogue de prestations.
- *
- * Direction : `terre` (organique, Lora/Nunito, formes rondes) — grep `direction:` sur les 16
- * sites dessinés à la main confirme `terre`/`luxe`/`neon`/`industriel` encore inutilisés ;
- * `atelier` et `encre` explicitement écartés par la tâche (sites/_exemple est une menuiserie en
- * `atelier`, à ne pas confondre). `luxe` (bijoutier/horloger, or sur noir, "eviter: low-cost")
- * et `neon` ("eviter: artisanat traditionnel") ne conviennent pas à un atelier de bois massif ;
- * `industriel` (béton/acier, Bebas, "eviter: delicat") est l'exact opposé d'un travail de
- * précision au bois — `terre` reste seule cohérente : ambiance "organique, nature", "formes
- * rondes genereuses", rien à éviter qui concerne un menuisier. Écart documenté : accent
- * surchargé en brun noyer/chêne (hsl(28 42% 34%), proche de #7a4c26, dans la famille des
- * placeholders `#3a2a1c`/`#e6d5b8`) à la place du vert par défaut de `terre` — un accent qui se
- * lit comme du bois, pas comme un jardin. `scale: 'display'` pour le titre géant du hero demandé
- * par le mandat. Typographie par défaut de `terre` (Lora Variable) gardée telle quelle : c'est
- * déjà la serif chaleureuse "grand titre serif géant" voulue par le mandat, aucune surcharge
- * nécessaire. `motion: 'rich'` : la moitié des sections sur mesure s'appuient sur des effets du
- * palier rich (data-stack, data-tilt-glare, data-draw-svg, data-drag-grid, data-horizontal,
- * data-scramble).
- *
- * Nav et hero sur mesure (`sections/Nav.astro`, `sections/Hero.astro`), plus quatre blocs sur
- * mesure : `Fabrication.astro` ("du croquis à la pose", data-stack de 4 cartes lisant
- * `site.process`, esquisse SVG d'une chaise tracée par data-draw-svg sur la première carte),
- * `Matieres.astro` (piste glissable data-drag-grid des trois essences chêne/frêne/noyer, textures
- * 100 % CSS — aucune photo, comme demandé), `Restauration.astro` (data-compare avant/après d'un
- * meuble ancien restauré, aucune liste de prix accolée — volontairement différent de
- * `sites/dubois-plomberie/sections/Tarifs.astro` qui combine déjà spotlight + prix pointillés +
- * compare dans un seul bloc), `Estimation.astro` (grille de prix indicatifs en tabular-nums,
- * lignes de tableau plutôt que les pointillés déjà utilisés par dubois-plomberie), et `Contact.astro`
- * (halo data-spotlight sur le panneau de coordonnées, mandat explicite). Six effets `data-*`
- * mobilisés qui comptaient ≤ 8 usages dans un site dessiné à la main avant ce tour (grep sur
- * `sites/<slug>/sections/*.astro`, hors `sites/_effets`) : `data-compare` (7), `data-stack` (8),
- * `data-tilt-glare` (6), `data-scramble` (7), `data-reveal-native` (6) — dépasse le minimum de
- * cinq demandé par le mandat ; `data-horizontal`, `data-duotone`, `data-draw-svg`,
- * `data-drag-grid`, `data-scroll-progress`, `data-spotlight` réemployés pour le reste du mandat.
- * `Matieres.astro` reprend l'idée de carnet d'échantillons CSS de `studio-ambre/Materiaux.astro`
- * (seul précédent, mandat oblige) mais en diffère : trois planches (pas six matières mélangées),
- * grain multi-couches + noeuds radiaux par essence plutôt qu'un simple hachurage, et
- * `data-tilt`/`data-tilt-glare` sur chaque planche (absent chez `studio-ambre`).
- *
- * Aucune donnée inventée : pas d'avis (le brief n'en fournit pas, `proof` reste absent du
- * layout), pas de nom de personne (le brief donne "2 personnes" sans prénom — `about.team`
- * reste vide plutôt que d'inventer des prénoms). Seule exception, explicitement autorisée par le
- * mandat pour cette démo : la grille de prix indicative (`services[].priceFrom`, toujours
- * suffixée "(indicatif)").
+ * 10 oct 2026, refonte d'après le benchmark (même méthode que forge-delacroix et encre-noire) :
+ * - premier écran = le croquis (planche de chêne en grand), titre, une phrase avec les noms, l'adresse ;
+ * - « L'atelier » ajouté : histoire + faits sur des filets (about.story n'était affiché nulle part) ;
+ * - FAQ avec les vraies questions d'un client d'ébéniste ;
+ * - retirés : reflet au survol des essences, décodage des prix, halo du contact, pastilles de villes,
+ *   badge « depuis 1998 » de la nav, et le faux avant/après de la restauration (deux images sans
+ *   rapport) remplacé par le geste en texte.
+ * Direction `terre` (Bitter + Nunito), accent brun noyer, chapitre process/horizon gardés.
  */
 import { defineSite } from '@/lib/schema';
 
@@ -68,10 +23,12 @@ export default defineSite({
     nav: 'custom/Nav',
     hero: 'custom/Hero',
     sections: [
+      { type: 'custom', variant: 'Atelier', label: 'L’atelier' },
       { type: 'process', variant: 'horizon' },
       { type: 'custom', variant: 'Matieres', label: 'Matières' },
       { type: 'custom', variant: 'Restauration', label: 'Restauration' },
       { type: 'custom', variant: 'Estimation', label: 'Tarifs' },
+      { type: 'faq', variant: 'accordion' },
       { type: 'custom', variant: 'Contact', label: 'Contact' },
     ],
     footer: 'columns',
@@ -84,6 +41,8 @@ export default defineSite({
     description:
       'Atelier de menuiserie et d’ébénisterie à Roubaix, 14 rue de l’Alma, dans une ancienne filature. Depuis 1998. Ils sont deux : le dessin, le choix du bois et la fabrication restent dans les mêmes mains.\n\nChêne, frêne, noyer. Massifs, et jamais de panneau plaqué. Cuisines, bibliothèques, escaliers, restauration de meubles anciens, pour Roubaix et la métropole lilloise.',
     since: 1998,
+    legalForm: 'SARL',
+    insurance: 'Assurance décennale MAAF n° 000 000',
   },
 
   contact: {
@@ -151,7 +110,7 @@ export default defineSite({
   about: {
     title: 'L’atelier',
     story:
-      'Atelier Lecerf s’est installé en 1998 dans une ancienne filature de Roubaix, rue de l’Alma. De hauts volumes, la lumière du nord, et la place pour débiter de grandes planches.\n\nDeux personnes y travaillent. Le dessin, le choix du bois, la fabrication : tout reste entre les mêmes mains, du croquis à la pose.\n\nChêne, frêne, noyer, toujours massifs. Jamais de panneau plaqué, jamais de catalogue. Une pièce est dessinée pour l’endroit où elle vivra, et pour personne d’autre.',
+      'Thomas Lecerf a ouvert l’atelier en 1998 au rez-de-chaussée d’une ancienne filature, rue de l’Alma. Il sortait de huit ans chez un ébéniste de Lille. Hugo Desmet, son ancien apprenti, est resté : ils sont deux depuis 2009.\n\nLe lieu a gardé ses hauts plafonds et sa lumière du nord. On y débite des planches de quatre mètres, on y laisse sécher le bois plusieurs mois avant de le travailler. Thomas dessine et vient chez vous relever les cotes ; Hugo tient l’établi. La pose, ils la font à deux.\n\nPas de panneau plaqué, pas de catalogue. Une pièce est dessinée pour l’endroit où elle va vivre.',
     values: [
       { title: 'Bois massif', text: 'Chêne, frêne, noyer. Jamais de panneau plaqué.' },
       { title: 'Le croquis avant l’établi', text: 'Chaque pièce est dessinée avec vous avant d’être coupée.' },
@@ -167,8 +126,16 @@ export default defineSite({
     {
       title: 'La pose',
       text: 'Installation chez vous, réglages sur place, et les conseils d’entretien du bois massif.',
-      image: { src: '/images/service-4.webp', alt: 'Meuble en bois massif installé chez le client' },
     },
+  ],
+
+  faq: [
+    { q: 'Combien coûte une cuisine en bois massif ?', a: 'Les cuisines partent d’environ 8 000 €, pose comprise, mais le prix dépend surtout du linéaire, de l’essence et du plan de travail. On vient relever les cotes, on dessine, et le devis qui suit est ferme.' },
+    { q: 'Quel délai entre le croquis et la pose ?', a: 'Il est écrit sur le devis. Il dépend du carnet de l’atelier et du séchage du bois choisi. On vous le donne avant que vous signiez, pas après.' },
+    { q: 'Pourquoi jamais de panneau plaqué ?', a: 'Un meuble massif se ponce, se répare et se reprend dans vingt ans. Un plaqué abîmé se remplace. C’est plus cher au départ, et c’est le seul argument qu’on ait.' },
+    { q: 'Pouvez-vous restaurer un meuble que je vous apporte ?', a: 'Oui. Apportez-le rue de l’Alma, ou envoyez des photos d’abord. On vous dit ce qui se sauve, ce qui se refait et combien, avant de toucher à quoi que ce soit.' },
+    { q: 'Travaillez-vous en dehors de Roubaix ?', a: 'Dans toute la métropole lilloise : Tourcoing, Lille, Croix, Wasquehal, Marcq-en-Barœul. Au-delà, on en parle au téléphone.' },
+    { q: 'Peut-on venir voir l’atelier ?', a: 'Le samedi, sur rendez-vous. On vous montre les bois en séchage et les pièces en cours.' },
   ],
 
   form: { provider: 'mailto' },

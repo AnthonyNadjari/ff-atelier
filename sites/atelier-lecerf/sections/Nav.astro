@@ -24,12 +24,9 @@ const links = navLinks();
         dans les 1500 premiers caracteres du corps (ff verifier). Ordre visuel inchange via order-*
         (flex) — meme correctif que sites/dubois-plomberie, barbier-kessler, jardins-mael, etc. */}
     <div class="order-2 flex items-center gap-3 lg:order-3">
-      <Button href={tel()} size="sm" magnetic class="order-2">
+      <Button href={tel()} size="sm" class="order-2">
         <Icon name="Phone" size={16} /><span class="hidden sm:inline">{site.contact.phoneDisplay}</span><span class="sm:hidden">Appeler</span>
       </Button>
-      <span class="order-1 hidden items-center gap-2 rounded-pill border border-line bg-surface px-3 py-1.5 text-sm text-muted md:flex">
-        <Icon name="Hammer" size={13} class="text-accent" />Atelier depuis 1998
-      </span>
       <button class="order-3 -mr-2 p-2 lg:hidden" aria-label="Menu" aria-expanded="false" data-menu-toggle>
         <Icon name="Menu" size={22} />
       </button>

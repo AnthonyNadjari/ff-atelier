@@ -4,7 +4,7 @@
  * explicitement autorisée par le mandat pour cette démo — voir en-tête de site.config.ts). Lignes
  * de tableau bordées plutôt que les pointillés déjà utilisés par
  * sites/dubois-plomberie/sections/Tarifs.astro (même idée de repère de prix, rendu différent).
- * Chaque montant se "décode" à l'entrée (data-scramble, 7 usages dans un site dessiné à la main
+ * Le « décodage » des montants (data-scramble) a été retiré le 10 oct 2026 (gadget). Historique : (data-scramble, 7 usages dans un site dessiné à la main
  * avant ce tour — sous le seuil de 5 demandé par le mandat) : le prix se révèle plutôt que de
  * simplement apparaître, cohérent avec le reste du site (le geste, la révélation progressive).
  */
@@ -17,7 +17,6 @@ const rows = site.services.filter((s) => s.priceFrom);
 <section id="estimation" class="section-y bg-bg-2">
   <div class="container-ff">
     <SectionHeading
-      eyebrow="Repères de prix"
       title="Une idée du budget, avant le devis"
       text="Des ordres de grandeur pour se projeter. Chaque pièce reste dessinée sur mesure, le montant exact vient après une visite."
     />
@@ -29,11 +28,11 @@ const rows = site.services.filter((s) => s.priceFrom);
             <p class="font-display text-lg">{s.title}</p>
             <p class="mt-1 text-sm text-muted">{s.short}</p>
           </div>
-          <p class="shrink-0 whitespace-nowrap font-display text-lg tabular-nums text-accent" data-scramble>{s.priceFrom}</p>
+          <p class="shrink-0 whitespace-nowrap font-display text-lg tabular-nums text-accent">{s.priceFrom}</p>
         </div>
       ))}
     </div>
 
-    <p class="measure mt-6 text-sm text-muted">Montants indicatifs pour cette démonstration ; un devis précis est toujours établi après une visite de l’atelier ou du chantier.</p>
+    <p class="measure mt-6 text-sm text-muted">Montants indicatifs. Le devis, lui, est établi après le relevé chez vous, et il est ferme.</p>
   </div>
 </section>

@@ -1,6 +1,6 @@
 ---
 /**
- * « Le studio » : le temps fort de la page, un bloc encre avec grain. L’histoire (about.story) et,
+ * « Le studio » : le temps fort de la page, un bloc encre (grain retiré le 10 oct 2026, signes-ia.md). L’histoire (about.story) et,
  * sur des filets, les faits : fondation, adresse, équipe, projets par an, zone, rendez-vous.
  * Remplace les trois cartes de valeurs et la liste de zones en pastilles (9 oct 2026).
  */
@@ -11,12 +11,14 @@ const faits = [
   { k: 'Adresse', v: `${site.contact.address.street}, ${site.contact.address.postalCode} ${site.contact.address.city}` },
   { k: 'Équipe', v: 'Léa Bonnet, conception ; Karim Haddad, chantier' },
   { k: 'Projets', v: 'Cinq à six par an' },
+  site.business.legalForm ? { k: 'Forme', v: site.business.legalForm } : null,
+  site.business.insurance ? { k: 'Assurance', v: site.business.insurance } : null,
   site.zones.cities.length ? { k: site.zones.label ?? 'Zone', v: site.zones.cities.join(', ') } : null,
   ...site.contact.hours.map((h) => ({ k: h.days, v: h.hours })),
 ].filter((f): f is { k: string; v: string } => Boolean(f));
 ---
 
-<section id="studio" class="section-y bg-ink text-on-ink" data-grain>
+<section id="studio" class="section-y bg-ink text-on-ink">
   <div class="container-ff relative z-[1] grid gap-14 lg:grid-cols-12 lg:gap-16">
     <div class="lg:col-span-7">
       <h2 class="font-display text-display-lg leading-none">{site.about.title}</h2>
