@@ -1,0 +1,82 @@
+---
+/**
+ * Vidéo d'une démo (Hero, Réalisations), pilotée par demo-video.ts.
+ *
+ * 10 oct 2026, bug iPhone (« les vidéos ne se montrent pas ») : l'ancienne version attendait
+ * `canplay` après `load()` avant d'appeler play(). iOS Safari ne télécharge rien tant que play() n'est
+ * pas demandé : canplay n'arrivait jamais, la vidéo restait sur un cadre noir (WebKit masque le poster
+ * dès que `load()` est appelé). Le clip-path d'entrée posé sur la <video> elle-même ne se repeignait pas
+ * non plus sous WebKit.
+ *
+ * Maintenant, une seule recette partout :
+ * - une vraie image (<picture>) en dessous, toujours visible ; la <video> par-dessus, transparente
+ *   (opacity 0) tant qu'elle n'a pas réellement joué une image (événement « playing », classe .joue) ;
+ * - play() appelé directement, sans load() ni attente : lecture refusée (économie d'énergie), l'image
+ *   reste, jamais de noir ;
+ * - téléphone (< 768 px) : enregistrement mobile 4:5 de la démo (`<slug>-mobile.mp4`, rendu téléphone
+ *   réel), image `<slug>-portrait.webp` ; au-delà : enregistrement 1260 × 810 et captures 14:9.
+ * - la révélation d'entrée (data-ff-image) est posée sur ce conteneur, jamais sur la vidéo.
+ */
+interface Props {
+  slug: string;
+  /** Classes du conteneur (rapport d'aspect, coins). Le rapport mobile 4:5 est fixé ici. */
+  class?: string;
+  sizes: string;
+  /** Révélation d'entrée au défilement (pas pour le hero). */
+  revele?: boolean;
+}
+const { slug, class: cls = '', sizes, revele = false } = Astro.props;
+---
+
+<div class={`ff-demo ${cls}`} data-ff-image={revele ? '' : undefined}>
+  <picture>
+    <source media="(max-width: 767px)" srcset={`/images/sites/${slug}-portrait.webp`} width="720" height="900" />
+    <img
+      src={`/images/sites/${slug}.webp`}
+      srcset={`/images/sites/${slug}-700.webp 700w, /images/sites/${slug}.webp 1260w`}
+      sizes={sizes}
+      width="1260"
+      height="810"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  <video
+    data-demo
+    data-src={`/video/demos/${slug}.mp4`}
+    data-src-mobile={`/video/demos/${slug}-mobile.mp4`}
+    muted
+    loop
+    playsinline
+    preload="none"
+    disablepictureinpicture
+    disableremoteplayback
+    aria-hidden="true"
+    tabindex="-1"
+  ></video>
+</div>
+
+<style is:global>
+  .ff-demo {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface);
+    aspect-ratio: 4 / 5;
+  }
+  .ff-demo > picture { display: contents; }
+  .ff-demo img, .ff-demo video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    background: none;
+  }
+  .ff-demo video { opacity: 0; transition: opacity 0.3s ease; }
+  .ff-demo.joue video { opacity: 1; }
+</style>

@@ -69,6 +69,11 @@ const jours = [
   .ff-p72-masque { overflow: hidden; }
   .ff-p72-titre { margin-top: 4px; font-family: var(--font-body); font-weight: 600; letter-spacing: 0; color: var(--fg); }
   .ff-p72-jour { max-width: 34rem; }
+  @media (max-width: 767px) {
+    .ff-p72-grille { gap: var(--s4); }
+    .ff-p72-jours { gap: var(--s4); }
+    .ff-p72-droite { padding-left: var(--s3); }
+  }
 
   @media (min-width: 1024px) {
     .ff-p72-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s6); }

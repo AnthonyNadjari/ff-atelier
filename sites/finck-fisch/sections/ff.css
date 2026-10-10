@@ -93,7 +93,7 @@ html[data-direction='eclipse'] body::after { content: none; }
   font-family: var(--ff-titres);
   font-weight: 450;
   font-style: normal;
-  font-size: clamp(2.75rem, 5.5vw, 5rem); /* 44 → 80 px */
+  font-size: clamp(2.25rem, 5.5vw, 5rem); /* 36 → 80 px */
   line-height: 1.04;
   letter-spacing: -0.015em;
   font-variant-numeric: lining-nums;
@@ -160,8 +160,16 @@ html.ff-creme .ff-lien { text-decoration-color: currentColor; }
 .ff-masque > span { display: block; }
 html.ff-anime [data-ff-titre] > span { transform: translateY(105%); }
 html.ff-anime [data-ff-titre].est-vu > span { transform: none; transition: transform 0.8s var(--ff-expo-out); }
-html.ff-anime [data-ff-image] { clip-path: inset(0 0 100% 0); }
-html.ff-anime [data-ff-image].est-vu { clip-path: inset(0); transition: clip-path 0.9s var(--ff-expo-out); }
+/* Images : clip-path au pointeur fin seulement. Tactile (iPhone) : simple fondu ; un clip-path sur un
+   parent de <video> ne se repeignait pas toujours sous WebKit (10 oct 2026). */
+@media (hover: hover) and (pointer: fine) {
+  html.ff-anime [data-ff-image] { clip-path: inset(0 0 100% 0); }
+  html.ff-anime [data-ff-image].est-vu { clip-path: inset(0); transition: clip-path 0.9s var(--ff-expo-out); }
+}
+@media (hover: none), (pointer: coarse) {
+  html.ff-anime [data-ff-image] { opacity: 0; }
+  html.ff-anime [data-ff-image].est-vu { opacity: 1; transition: opacity 0.6s var(--ff-power2-out); }
+}
 
 /* --- Transitions de page (View Transitions) : fondu 0,25 s, la nav reste en place --- */
 ::view-transition-old(root),

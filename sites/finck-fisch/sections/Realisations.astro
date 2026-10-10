@@ -19,12 +19,15 @@
  * l'entrée (motion-ff.ts, une fois), tailles de texte du système (ff.css).
  */
 import vitrine from '../vitrine.json';
+import DemoVideo from './DemoVideo.astro';
 
 type Entry = { slug: string; metier: string; ville: string };
 const tous = vitrine as Entry[];
 
 // largeur : nombre de colonnes sur 12 à partir de 1024 px. Lignes : 12 / 7 + 5 / 5 + 7.
+// La forge (largeur 0) n'apparaît que sur téléphone : ailleurs elle est dans le hero.
 const choix = [
+  { slug: 'forge-delacroix', metier: 'Ferronnerie d’art', ligne: 'Le geste du forgeron en grand, le numéro toujours à portée.', largeur: 0 },
   { slug: 'maison-roux', metier: 'Boulangerie-pâtisserie', ligne: 'La fournée du jour écrite comme sur l’ardoise du comptoir.', largeur: 12 },
   { slug: 'encre-noire', metier: 'Studio de tatouage', ligne: 'Les styles et les artistes du studio, face à face, noir sur papier.', largeur: 7 },
   { slug: 'chez-malo', metier: 'Restaurant de poissons', ligne: 'Les horaires du service et la carte du jour avant tout le reste.', largeur: 5 },
@@ -37,7 +40,9 @@ const sites = choix
     return e ? { ...c, ville: e.ville } : null;
   })
   .filter((s): s is (typeof choix)[number] & { ville: string } => Boolean(s));
-const span: Record<number, string> = { 12: 'lg:col-span-12', 7: 'lg:col-span-7', 5: 'lg:col-span-5' };
+const span: Record<number, string> = { 0: 'md:hidden', 12: 'lg:col-span-12', 7: 'lg:col-span-7', 5: 'lg:col-span-5' };
+// Rapport d'aspect du cadre : 4:5 sur téléphone (fixé par DemoVideo), 14:9 au-delà, bandeau 21:10 en 12 colonnes.
+const aspect: Record<number, string> = { 0: '', 12: 'md:aspect-[14/9] lg:aspect-[21/10]', 7: 'md:aspect-[14/9]', 5: 'md:aspect-[14/9]' };
 ---
 
 <section id="realisations" class="ff-section">
@@ -50,35 +55,28 @@ const span: Record<number, string> = { 12: 'lg:col-span-12', 7: 'lg:col-span-7',
       </p>
     </div>
 
-    <div class="mt-12 grid gap-x-8 gap-y-16 lg:grid-cols-12 lg:gap-y-24">
-      {sites.map((s, i) => (
-        <figure class={`min-w-0 ${span[s.largeur]} ${s.largeur === 5 ? 'lg:self-end' : ''}`}>
-          {/* 9 oct, soir : la capture figée devient un enregistrement muet de l'accueil de la démo qui
-              défile (6 s, 14:9 comme l'image d'aperçu, ~130-320 Ko). Rien n'est téléchargé avant d'être
-              à moitié visible (preload="none", src posé par demo-video.ts) ; mouvement réduit ou
-              téléphone : l'image d'aperçu seule. La description est portée par la légende. */}
-          <video
-            data-demo
-            data-src={`/video/demos/${s.slug}.mp4`}
-            poster={`/images/sites/${s.slug}-700.webp`}
-            data-poster-hd={s.largeur === 5 ? undefined : `/images/sites/${s.slug}.webp`}
-            muted
-            loop
-            playsinline
-            preload="none"
-            width="1260"
-            height="810"
-            aria-hidden="true"
-            data-ff-image
-            class={`block w-full rounded-[4px] border border-line object-cover object-top ${s.largeur === 12 ? 'aspect-[14/9] lg:aspect-[21/10]' : 'aspect-[14/9]'}`}
-          ></video>
-          <figcaption class="ff-petit mt-3 grid gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-6">
-            <span><span class="text-fg">{s.metier}, {s.ville}.</span> <span class="text-muted">{s.ligne}</span></span>
-            <span class="text-muted">Exemple</span>
-          </figcaption>
-        </figure>
+    {/* Téléphone (10 oct 2026, « trop de scrolling ») : carrousel horizontal à faire glisser, une
+        démo par carte en 4:5 enregistrée en rendu téléphone ; la suivante dépasse pour inviter au geste.
+        La vidéo jouée est celle de la carte la plus visible (demo-video.ts). ≥ 768 px : grille. */}
+    <ul class="ff-real-liste mt-8 grid gap-x-8 gap-y-16 md:mt-12 lg:grid-cols-12 lg:gap-y-24" aria-label="Sites d’exemple">
+      {sites.map((s) => (
+        <li class={`ff-real-carte min-w-0 ${span[s.largeur]} ${s.largeur === 5 ? 'lg:self-end' : ''}`}>
+          <figure>
+            <DemoVideo
+              slug={s.slug}
+              class={aspect[s.largeur]}
+              sizes={s.largeur === 12 ? '(min-width: 1024px) 1200px, 100vw' : '(min-width: 1024px) 700px, 100vw'}
+              revele
+            />
+            <figcaption class="ff-petit mt-3 grid gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-6">
+              <span><span class="text-fg">{s.metier}, {s.ville}.</span> <span class="text-muted">{s.ligne}</span></span>
+              <span class="text-muted max-md:hidden">Exemple</span>
+            </figcaption>
+          </figure>
+        </li>
       ))}
-    </div>
+    </ul>
+    <p class="ff-petit ff-doux mt-4 md:hidden" aria-hidden="true">Faites glisser pour voir les {sites.length} exemples.</p>
   </div>
 </section>
 
@@ -89,5 +87,20 @@ const span: Record<number, string> = { 12: 'lg:col-span-12', 7: 'lg:col-span-7',
 </script>
 
 <style is:global>
-  #realisations video { background: var(--surface); }
+  .ff-real-liste { list-style: none; margin-bottom: 0; padding: 0; }
+  @media (max-width: 767px) {
+    #realisations .ff-real-liste {
+      display: flex;
+      gap: var(--s2);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      margin-inline: calc(-1 * var(--gouttiere));
+      padding-inline: var(--gouttiere);
+      scroll-padding-inline: var(--gouttiere);
+    }
+    #realisations .ff-real-liste::-webkit-scrollbar { display: none; }
+    #realisations .ff-real-carte { flex: 0 0 76%; scroll-snap-align: start; }
+  }
 </style>

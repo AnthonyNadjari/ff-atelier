@@ -45,7 +45,8 @@ const points = [
 </section>
 
 <style is:global>
-  .ff-audit { padding-block: var(--s12); }
+  .ff-audit { padding-block: var(--s8); }
+  @media (min-width: 768px) { .ff-audit { padding-block: var(--s12); } }
   @media (min-width: 1024px) { .ff-audit { padding-block: var(--s16); } }
   .ff-audit-grille { display: grid; gap: var(--s6); }
   .ff-audit-titre { max-width: 14ch; }

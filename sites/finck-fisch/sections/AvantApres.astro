@@ -189,4 +189,16 @@ const pas = 5;
 
   .ff-aa-points { display: grid; gap: var(--s3); list-style: none; margin: 0; padding: 0; }
   .ff-aa-points > li { padding-top: var(--s2); border-top: 1px solid var(--line); }
+
+  /* Téléphone (10 oct 2026, page trop longue) : cadre 4:5 rogné en haut au lieu de la capture entière
+     (1,1 écran), et les trois points réduits à leur phrase forte. */
+  @media (max-width: 767px) {
+    .ff-aa-grille { gap: var(--s4); }
+    .ff-aa { aspect-ratio: 4 / 5; grid-template-rows: minmax(0, 1fr); }
+    .ff-aa > picture { min-height: 0; }
+    .ff-aa-img { height: 100%; object-fit: cover; object-position: top; }
+    .ff-aa-points { gap: 0; }
+    .ff-aa-points > li { padding-block: var(--s1); }
+    .ff-aa-points .ff-doux { display: none; }
+  }
 </style>

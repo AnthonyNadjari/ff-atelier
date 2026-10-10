@@ -11,15 +11,14 @@
  * - Téléphone (pointeur grossier sans survol, ou écran < 768 px) : UNE seule vidéo joue à la fois, la
  *   plus visible ; les autres sont en pause (batterie, forfait).
  * - Lecture refusée (iPhone en économie d'énergie : play() rejeté) : l'image fixe reste, jamais
- *   d'image noire. Le poster (ou l'image posée sous la vidéo dans le hero) n'est masqué que par une
- *   vraie image jouée (événement « playing ») ; un toucher retente la lecture.
+ *   d'image noire. La vidéo est transparente jusqu'à sa première image jouée (« playing ») ; un
+ *   toucher retente la lecture.
  * - Transitions de page (`site.transitions`) : observateurs coupés avant l'échange, vignettes
  *   ré-initialisées par `onPage()` (garde `data-demo-ready`).
  */
-// Performance (10 oct 2026, Lighthouse mobile 92 -> objectif 95) : rien ne démarre pendant le premier
-// affichage. Les posters du HTML sont en 700 px (légers, téléphone) ; sur grand écran, la version 1400
-// remplace le poster une fois la page chargée. Les vidéos ne sont préparées qu'après « load » + un
-// moment de calme du fil principal, et chargées à un quart d'écran de distance, pas un écran entier.
+// Performance (10 oct 2026) : rien ne démarre pendant le premier affichage. Les vidéos ne sont
+// préparées qu'après « load » + un moment de calme du fil principal, et chargées à un quart d'écran
+// de distance. Les images dessous sont dans DemoVideo.astro (<picture>, 4:5 sur téléphone).
 export function initDemoVideos(): void {
   const demarrer = () => initDemoVideosMaintenant();
   const calme = (f: () => void) => ('requestIdleCallback' in window ? (window as any).requestIdleCallback(f, { timeout: 2500 }) : window.setTimeout(f, 1200));
@@ -33,27 +32,33 @@ function initDemoVideosMaintenant(): void {
   );
   if (!videos.length) return;
   for (const v of videos) v.dataset.demoReady = '1';
-  // Grand écran : poster 1400 px (le HTML porte la version 700 px), mouvement réduit compris.
-  if (!(matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 768)) for (const v of videos) if (v.dataset.posterHd) v.poster = v.dataset.posterHd;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const telephone = matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 768;
+  // La source suit la mise en page (même seuil que le CSS de DemoVideo.astro) : 4:5 mobile sous 768 px.
+  const mobile = window.innerWidth < 768;
   const ratios = new Map<HTMLVideoElement, number>();
+  const cadre = (v: HTMLVideoElement) => v.closest<HTMLElement>('.ff-demo');
 
   const charger = (v: HTMLVideoElement) => {
-    if (!v.src && v.dataset.src) v.src = v.dataset.src;
+    if (v.getAttribute('src')) return;
+    const src = (mobile && v.dataset.srcMobile) || v.dataset.src;
+    if (src) v.src = src;
   };
 
-  // play() avant que les données soient là peut montrer du noir : on attend canplay.
+  // Recette unique (bug iPhone du 10 oct 2026) : play() tout de suite, sans load() ni attente de
+  // canplay (iOS ne télécharge rien avant play()). La vidéo ne devient visible qu'à sa première image
+  // réellement jouée (« playing ») : avant, ou si la lecture est refusée, l'image dessous reste.
   const lire = (v: HTMLVideoElement) => {
     if (v.dataset.demoRefus) return;
     charger(v);
-    const go = () => v.play().catch(() => { v.dataset.demoRefus = '1'; });
-    if (v.readyState >= 3) { go(); return; }
-    if (v.dataset.demoAttente) return;
-    v.dataset.demoAttente = '1';
-    v.addEventListener('canplay', () => { delete v.dataset.demoAttente; if (doitJouer(v)) go(); }, { once: true });
-    v.load();
+    v.muted = true;
+    v.playsInline = true;
+    const p = v.play();
+    if (p) p.catch((err: DOMException) => {
+      // AbortError = pause() demandée avant le début de la lecture : pas un refus.
+      if (err?.name === 'NotAllowedError') v.dataset.demoRefus = '1';
+    });
   };
 
   // Desktop : toute vidéo visible à 50 % joue. Téléphone : seulement la plus visible.
@@ -69,17 +74,18 @@ function initDemoVideosMaintenant(): void {
 
   const arbitrer = () => {
     for (const v of videos) {
-      if (doitJouer(v)) lire(v);
+      if (doitJouer(v)) { if (v.paused) lire(v); }
       else if (!v.paused) v.pause();
     }
   };
 
-  // Approche : le src est posé à un quart d'écran de distance (aucun octet avant).
+  // Approche : le src est posé à un quart d'écran de distance (aucun octet avant). Dans le carrousel
+  // mobile des réalisations, l'observateur tient compte du défilement horizontal (rognage du parent).
   const approche = new IntersectionObserver(
     (entries) => {
       for (const e of entries) if (e.isIntersecting) { charger(e.target as HTMLVideoElement); approche.unobserve(e.target); }
     },
-    { rootMargin: '25% 0px' },
+    { rootMargin: '25% 25%' },
   );
   const vue = new IntersectionObserver(
     (entries) => {
@@ -92,8 +98,9 @@ function initDemoVideosMaintenant(): void {
   for (const v of videos) {
     approche.observe(v);
     vue.observe(v);
+    v.addEventListener('playing', () => cadre(v)?.classList.add('joue'));
     // Lecture refusée : un toucher la retente (geste de l'utilisateur, accepté par iOS).
-    v.addEventListener('click', () => {
+    cadre(v)?.addEventListener('click', () => {
       if (!v.dataset.demoRefus) return;
       delete v.dataset.demoRefus;
       lire(v);

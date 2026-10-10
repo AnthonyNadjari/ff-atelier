@@ -23,6 +23,7 @@
  */
 import { site, mailto } from '@/lib/site';
 import { MONO_SUBPATHS } from './mono-subpaths';
+import DemoVideo from './DemoVideo.astro';
 
 const lignes = ['Nous faisons', 'des sites pour', 'les artisans.'];
 if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
@@ -62,35 +63,10 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
     </div>
 
     <figure class="ff-hero-oeuvre">
-      {/* Démo de la forge en vidéo (6 s, en boucle), pilotée par demo-video.ts : image fixe au premier
-          rendu, sur téléphone (lecture au toucher) et en mouvement réduit ; preload none.
-          L'image fixe est un vrai <img> (fetchpriority high, srcset) sous la vidéo, et non l'attribut
-          poster : un poster n'est demandé qu'au moment où le navigateur atteint la vidéo, en priorité
-          basse ; mesuré le 9 oct 2026, il retardait le LCP mobile d'environ une seconde (4G lente).
-          Sans poster, la vidéo reste transparente tant qu'elle ne joue pas : on voit l'image. */}
-      <div class="ff-hero-media">
-      <img
-        src="/images/sites/forge-delacroix.webp"
-        srcset="/images/sites/forge-delacroix-700.webp 700w, /images/sites/forge-delacroix.webp 1260w"
-        sizes="(min-width: 1024px) 40vw, 100vw"
-        width="1260"
-        height="810"
-        alt=""
-        aria-hidden="true"
-        decoding="async"
-      />
-      <video
-        data-demo
-        data-src="/video/demos/forge-delacroix.mp4"
-        muted
-        loop
-        playsinline
-        preload="none"
-        width="1260"
-        height="810"
-        aria-hidden="true"
-      ></video>
-      </div>
+      {/* Démo de la forge en vidéo (6 s, en boucle), DemoVideo.astro + demo-video.ts. Téléphone : la
+          figure est masquée (10 oct 2026, page trop longue sur iPhone) ; la forge ouvre le carrousel
+          des réalisations à la place. */}
+      <DemoVideo slug="forge-delacroix" class="ff-hero-demo" sizes="(min-width: 1024px) 40vw, 100vw" />
       <span class="sr-only">Page d’accueil du site d’exemple d’une ferronnerie d’art à Toulouse : un forgeron au travail, le titre « Le fer, à la main »</span>
       <figcaption class="ff-petit ff-doux"><span class="text-fg">Ferronnerie d’art, Toulouse.</span> Exemple.</figcaption>
     </figure>
@@ -177,6 +153,11 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
   @media (max-width: 639px) {
     .ff-hero-actions .ff-bouton { width: 100%; }
   }
+  @media (max-width: 767px) {
+    .ff-hero { padding-block: var(--s3) var(--s6); }
+    .ff-mono { width: 80px; margin-bottom: var(--s3); }
+    .ff-hero-presence { margin-top: var(--s6); }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .ff-mono-corps { animation: none; opacity: 1; }
@@ -184,23 +165,8 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
     .ff-hero-titre .ff-masque > span, .ff-hero-suite { animation: none; }
   }
 
-  /* --- Démo de la forge, 4:3 --- */
-  .ff-hero-media {
-    position: relative;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    background: var(--surface);
-  }
-  .ff-hero-media img, .ff-hero-media video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-    background: none;
-  }
+  /* --- Démo de la forge, 4:3 ; absente sur téléphone (dans le carrousel des réalisations) --- */
+  .ff-hero-demo { aspect-ratio: 4 / 3; }
+  @media (max-width: 767px) { .ff-hero-oeuvre { display: none; } }
   .ff-hero-oeuvre figcaption { margin-top: var(--s1); }
 </style>
