@@ -60,7 +60,8 @@ const span: Record<number, string> = { 12: 'lg:col-span-12', 7: 'lg:col-span-7',
           <video
             data-demo
             data-src={`/video/demos/${s.slug}.mp4`}
-            poster={s.largeur === 5 ? `/images/sites/${s.slug}-700.webp` : `/images/sites/${s.slug}.webp`}
+            poster={`/images/sites/${s.slug}-700.webp`}
+            data-poster-hd={s.largeur === 5 ? undefined : `/images/sites/${s.slug}.webp`}
             muted
             loop
             playsinline

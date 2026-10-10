@@ -16,12 +16,25 @@
  * - Transitions de page (`site.transitions`) : observateurs coupés avant l'échange, vignettes
  *   ré-initialisées par `onPage()` (garde `data-demo-ready`).
  */
+// Performance (10 oct 2026, Lighthouse mobile 92 -> objectif 95) : rien ne démarre pendant le premier
+// affichage. Les posters du HTML sont en 700 px (légers, téléphone) ; sur grand écran, la version 1400
+// remplace le poster une fois la page chargée. Les vidéos ne sont préparées qu'après « load » + un
+// moment de calme du fil principal, et chargées à un quart d'écran de distance, pas un écran entier.
 export function initDemoVideos(): void {
+  const demarrer = () => initDemoVideosMaintenant();
+  const calme = (f: () => void) => ('requestIdleCallback' in window ? (window as any).requestIdleCallback(f, { timeout: 2500 }) : window.setTimeout(f, 1200));
+  if (document.readyState === 'complete') calme(demarrer);
+  else window.addEventListener('load', () => calme(demarrer), { once: true });
+}
+
+function initDemoVideosMaintenant(): void {
   const videos = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-demo]')).filter(
     (v) => !v.dataset.demoReady,
   );
   if (!videos.length) return;
   for (const v of videos) v.dataset.demoReady = '1';
+  // Grand écran : poster 1400 px (le HTML porte la version 700 px), mouvement réduit compris.
+  if (!(matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 768)) for (const v of videos) if (v.dataset.posterHd) v.poster = v.dataset.posterHd;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const telephone = matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 768;
@@ -61,12 +74,12 @@ export function initDemoVideos(): void {
     }
   };
 
-  // Approche : le src est posé à moins d'un écran de distance (aucun octet avant).
+  // Approche : le src est posé à un quart d'écran de distance (aucun octet avant).
   const approche = new IntersectionObserver(
     (entries) => {
       for (const e of entries) if (e.isIntersecting) { charger(e.target as HTMLVideoElement); approche.unobserve(e.target); }
     },
-    { rootMargin: '100% 0px' },
+    { rootMargin: '25% 0px' },
   );
   const vue = new IntersectionObserver(
     (entries) => {
