@@ -1,121 +1,110 @@
 ---
 /**
- * Avant / après, côte à côte (10 oct 2026, soir).
+ * Avant / après (11 oct 2026). Retour fondateur sur la version côte à côte de la veille : « moche et
+ * pas attractif » (deux captures figées et petites, liste à part).
  *
- * Remplace le curseur glissant (plan v2, S3). Retour fondateur : curseur au milieu, on ne voyait que
- * du pain à droite et un bout de vieux site à gauche, et l'« après » était trop zoomé. Maintenant les
- * deux versions sont montrées EN ENTIER, l'une à côté de l'autre, jamais recadrées :
- * - ordinateur : l'écran d'ordinateur (1440 × 900 à dpr 2, réduit à 1600 × 1000), et par-dessus, en
- *   bas à droite, l'écran de téléphone (390 × 844 à dpr 2) de la même version ;
- * - téléphone : seulement les deux écrans de téléphone, côte à côte. C'est là que l'écart est le plus
- *   parlant : à gauche la page d'ordinateur rétrécie, illisible ; à droite une page faite pour le pouce.
+ * Maintenant : deux écrans de téléphone, grands, comme on les voit dans la main. L'« avant » est la
+ * page d'ordinateur rétrécie telle qu'un iPhone l'affiche (pas de balise viewport : texte minuscule,
+ * illisible sans zoomer) ; l'« après » est Maison Roux, notre boulangerie d'exemple, qui défile toute
+ * seule (DemoVideo.astro, CSS pur). Trois différences en face, chacune avec son « avant » en clair.
+ * Ordinateur : texte à gauche, les deux téléphones à droite. Téléphone : les deux écrans côte à côte
+ * sous le titre, puis les trois différences.
  *
  * « Avant » = un site d'artisan vieillissant typique, recréé pour l'exemple (fictif, dit dans la
- * légende ; source : scratchpad avant-roux/index.html, sans balise viewport). « Après » = Maison Roux,
- * notre boulangerie d'exemple à Lyon. Images : public/images/avant-apres/.
+ * légende ; source : scratchpad avant-roux/index.html, capturé à 980 px comme le fait un iPhone).
+ * Fichiers : public/video/demos/avant-roux-t-m0..3.webp et maison-roux-t-m0..3.webp (tuiles.mjs).
  */
-const versions = [
-  {
-    nom: 'Avant',
-    bureau: 'avant-bureau',
-    tel: 'roux-v1-mobile',
-    alt: 'Avant, exemple fictif : un site de boulangerie vieillissant, bandeau marron, menu à neuf entrées, texte de bienvenue, horaires renvoyés vers la page Contact. Sur téléphone, la même page rétrécie, texte minuscule.',
-  },
-  {
-    nom: 'Après',
-    bureau: 'apres-bureau',
-    tel: 'roux-v2-mobile',
-    alt: 'Après : le nom, les horaires et l’adresse à gauche, la photo des baguettes à droite. Sur téléphone, le nom en grand, les horaires et le numéro lisibles sans zoomer.',
-  },
+import DemoVideo from './DemoVideo.astro';
+
+const points = [
+  { apres: 'Lisible sans zoomer.', avant: 'la page d’ordinateur rétrécie, le texte minuscule.' },
+  { apres: 'Les horaires sous le nom.', avant: 'cachés dans la page Contact.' },
+  { apres: 'Le numéro en un toucher.', avant: 'tout en bas, à recopier.' },
 ];
 ---
 
 <section id="avant-apres" class="ff-section">
-  <div class="ff-conteneur">
-    <div class="ff-aa-tete">
+  <div class="ff-conteneur ff-aa">
+    <div class="ff-aa-texte">
       <h2 class="ff-titre ff-masque" data-ff-titre><span>Ce que change un vrai site</span></h2>
-      <p class="ff-texte ff-doux mt-6 max-w-[34rem]">
-        À gauche, le site qu’ont encore beaucoup d’artisans. À droite, la même boulangerie refaite
-        par nous, sur ordinateur et sur téléphone.
+      <p class="ff-texte ff-doux mt-6 max-w-[30rem]">
+        La même boulangerie, sur le téléphone d’un client qui cherche si elle est ouverte. À gauche, le
+        site qu’ont encore beaucoup d’artisans. À droite, celui que nous lui ferions.
       </p>
+      <ol class="ff-aa-points mt-8 md:mt-10">
+        {points.map((p, i) => (
+          <li>
+            <span class="ff-aa-num ff-petit" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="ff-texte text-fg">{p.apres}</span>
+            <span class="ff-petit ff-doux">Avant : {p.avant}</span>
+          </li>
+        ))}
+      </ol>
     </div>
 
-    <div class="ff-aa-paire mt-8 md:mt-12">
-      {versions.map((v, i) => (
-        <figure class="ff-aa-version" data-ff-image>
-          <p class="ff-aa-nom ff-petit"><span class={i === 1 ? 'text-fg' : 'ff-doux'}>{v.nom}</span></p>
-          <div class="ff-aa-ecrans" role="img" aria-label={v.alt}>
-            <img
-              class="ff-aa-bureau"
-              src={`/images/avant-apres/${v.bureau}.webp`}
-              srcset={`/images/avant-apres/${v.bureau}-800.webp 800w, /images/avant-apres/${v.bureau}.webp 1600w`}
-              sizes="(min-width: 1280px) 600px, 48vw"
-              width="1600"
-              height="1000"
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
-            <img
-              class="ff-aa-tel"
-              src={`/images/avant-apres/${v.tel}.webp`}
-              width="780"
-              height="1688"
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        </figure>
-      ))}
+    <div class="ff-aa-scene">
+      <figure class="ff-aa-ecran ff-aa-avant">
+        <figcaption class="ff-petit ff-doux">Avant</figcaption>
+        <DemoVideo slug="avant-roux" tel revele />
+        <span class="sr-only">Avant, exemple fictif : un site de boulangerie vieillissant affiché sur un téléphone, la page d’ordinateur rétrécie, texte illisible sans zoomer.</span>
+      </figure>
+      <figure class="ff-aa-ecran ff-aa-apres">
+        <figcaption class="ff-petit">Après</figcaption>
+        <DemoVideo slug="maison-roux" tel revele />
+        <span class="sr-only">Après : Maison Roux sur téléphone, le nom en grand, les horaires et le numéro lisibles tout de suite, puis la photo des baguettes.</span>
+      </figure>
     </div>
 
-    <ul class="ff-aa-points ff-texte mt-8 md:mt-12">
-      <li><span class="text-fg">Lisible sur un téléphone.</span> <span class="ff-doux">Avant, la page se rétrécit et le texte devient minuscule. Après, elle est faite pour le pouce.</span></li>
-      <li><span class="text-fg">Les horaires tout de suite.</span> <span class="ff-doux">Avant, il faut aller sur la page Contact. Après, ils sont sous le nom.</span></li>
-      <li><span class="text-fg">On voit le pain, on appelle.</span> <span class="ff-doux">Une vraie photo au lieu d’un bandeau, et le numéro en un toucher au lieu du bas de page.</span></li>
-    </ul>
-    <p class="ff-petit ff-doux mt-6">Avant : un site vieillissant typique, recréé pour l’exemple (fictif). Après : Maison Roux, boulangerie d’exemple à Lyon.</p>
+    <p class="ff-aa-legende ff-petit ff-doux">Avant : un site vieillissant typique, recréé pour l’exemple (fictif). Après : Maison Roux, boulangerie d’exemple à Lyon.</p>
   </div>
 </section>
 
 <style is:global>
-  .ff-aa-paire { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); }
-  @media (min-width: 768px) { .ff-aa-paire { gap: var(--s6); } }
-  .ff-aa-version { margin: 0; min-width: 0; }
-  .ff-aa-nom { margin: 0 0 var(--s2); }
-
-  /* Ordinateur : écran d'ordinateur entier (16:10), téléphone posé en bas à droite. */
-  .ff-aa-ecrans { position: relative; padding-bottom: 6%; }
-  .ff-aa-ecrans img { display: block; background: none; }
-  .ff-aa-bureau {
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--line);
-    border-radius: 6px;
+  .ff-aa { display: grid; gap: var(--s6); }
+  .ff-aa-scene {
+    display: grid;
+    grid-template-columns: 0.86fr 1fr;
+    align-items: end;
+    gap: var(--s2);
   }
-  .ff-aa-tel {
-    position: absolute;
-    right: 4%;
-    bottom: 0;
-    width: 22%;
-    height: auto;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    box-shadow: 0 12px 32px rgb(0 0 0 / 0.45);
+  .ff-aa-ecran { margin: 0; min-width: 0; }
+  .ff-aa-ecran figcaption { margin-bottom: var(--s1); }
+  .ff-aa-apres figcaption { color: var(--accent); }
+  .ff-aa-apres .ff-demo {
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
   }
 
-  .ff-aa-points { display: grid; gap: var(--s3); list-style: none; margin-bottom: 0; padding: 0; }
-  @media (min-width: 1024px) { .ff-aa-points { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s6); } }
-  .ff-aa-points > li { padding-top: var(--s2); border-top: 1px solid var(--line); }
+  .ff-aa-points { display: grid; list-style: none; margin: 0; padding: 0; }
+  .ff-aa-points > li {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    column-gap: var(--s1);
+    row-gap: 2px;
+    padding-block: var(--s2);
+    border-top: 1px solid var(--line);
+  }
+  .ff-aa-points > li:last-child { border-bottom: 1px solid var(--line); }
+  .ff-aa-num { grid-row: span 2; color: var(--accent); padding-top: 0.2em; font-variant-numeric: tabular-nums; }
+  .ff-aa-legende { margin: 0; }
 
-  /* Téléphone : seulement les deux écrans de téléphone, entiers, côte à côte. */
-  @media (max-width: 767px) {
-    .ff-aa-ecrans { padding-bottom: 0; }
-    .ff-aa-bureau { display: none !important; }
-    .ff-aa-tel { position: static; width: 100%; border-radius: 12px; box-shadow: none; }
-    .ff-aa-points { gap: 0; }
-    .ff-aa-points > li { padding-block: var(--s1); }
-    .ff-aa-points .ff-doux { display: none; }
+  /* Téléphone : titre, les deux écrans, puis les différences. */
+  @media (max-width: 1023px) {
+    .ff-aa-texte { display: contents; }
+    .ff-aa-texte > h2, .ff-aa-texte > p { order: 0; }
+    .ff-aa-scene { order: 1; }
+    .ff-aa-points { order: 2; margin-top: 0; }
+    .ff-aa-legende { order: 3; }
+    .ff-aa { gap: var(--s4); }
+    .ff-aa-texte > p { margin-top: calc(-1 * var(--s2)); }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .ff-aa-scene { max-width: 560px; }
+  }
+  /* Ordinateur : texte à gauche, téléphones à droite. */
+  @media (min-width: 1024px) {
+    .ff-aa { grid-template-columns: minmax(0, 1fr) minmax(0, 560px); column-gap: var(--s12); align-items: center; }
+    .ff-aa-scene { gap: var(--s4); }
+    .ff-aa-legende { grid-column: 1 / -1; }
   }
 </style>

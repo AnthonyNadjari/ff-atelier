@@ -63,10 +63,10 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
     </div>
 
     <figure class="ff-hero-oeuvre">
-      {/* Démo de la forge en vidéo (6 s, en boucle), DemoVideo.astro + demo-video.ts. Téléphone : la
+      {/* Démo de la forge qui défile (DemoVideo.astro, CSS pur). Téléphone : la
           figure est masquée (10 oct 2026, page trop longue sur iPhone) ; la forge ouvre le carrousel
           des réalisations à la place. */}
-      <DemoVideo slug="forge-delacroix" class="ff-hero-demo" sizes="(min-width: 1024px) 40vw, 100vw" />
+      <DemoVideo slug="forge-delacroix" class="ff-hero-demo" prioritaire />
       <span class="sr-only">Page d’accueil du site d’exemple d’une ferronnerie d’art à Toulouse : un forgeron au travail, le titre « Le fer, à la main »</span>
       <figcaption class="ff-petit ff-doux"><span class="text-fg">Ferronnerie d’art, Toulouse.</span> Exemple.</figcaption>
     </figure>
@@ -85,9 +85,6 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
 
 <script>
   import { onPage } from '@/scripts/page';
-  import { initDemoVideos } from './demo-video';
-
-  onPage(initDemoVideos);
 
   // L'heure de Paris, en direct (signe de présence vrai). Sans JavaScript, la ligne reste masquée
   // plutôt que d'afficher une heure fausse.

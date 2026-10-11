@@ -58,15 +58,15 @@ const sites = choix
     </div>
 
     {/* Téléphone : carrousel horizontal à faire glisser, un écran de téléphone entier par carte ; la
-        suivante dépasse pour inviter au geste. La vidéo jouée est celle de la carte la plus visible
-        (demo-video.ts). ≥ 768 px : deux colonnes égales. */}
+        suivante dépasse pour inviter au geste. Toutes les démos défilent dès l'affichage, décalées
+        (DemoVideo.astro). ≥ 768 px : deux colonnes égales. */}
     <ul class="ff-real-liste mt-8 grid gap-x-8 gap-y-14 md:mt-12 md:grid-cols-2" aria-label="Sites d’exemple">
-      {sites.map((s) => (
+      {sites.map((s, i) => (
         <li class={`ff-real-carte min-w-0 ${s.bureau ? '' : 'md:hidden'} ${'tel' in s && s.tel === false ? 'max-md:hidden' : ''}`}>
           <figure>
             <DemoVideo
               slug={s.slug}
-              sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 60vw"
+              decalage={i * 2.6}
               revele
             />
             <figcaption class="ff-petit mt-3 grid gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-6">
@@ -81,20 +81,12 @@ const sites = choix
   </div>
 </section>
 
-<script>
-  import { onPage } from '@/scripts/page';
-  import { initDemoVideos } from './demo-video';
-  onPage(initDemoVideos);
-</script>
-
 <style is:global>
   .ff-real-liste { list-style: none; margin-bottom: 0; padding: 0; }
-  /* Survol (souris seulement) : la démo avance d'un rien, la bordure s'éclaire. */
-  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  /* Survol (souris seulement) : la bordure s'éclaire. */
+  @media (hover: hover) and (pointer: fine) {
     #realisations .ff-demo { transition: border-color 0.4s ease; }
-    #realisations .ff-demo :is(img, video) { transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
     #realisations .ff-real-carte:hover .ff-demo { border-color: color-mix(in srgb, var(--fg) 35%, transparent); }
-    #realisations .ff-real-carte:hover .ff-demo :is(img, video) { transform: scale(1.02); }
   }
   @media (max-width: 767px) {
     #realisations .ff-real-liste {
@@ -109,6 +101,6 @@ const sites = choix
       scroll-padding-inline: var(--gouttiere);
     }
     #realisations .ff-real-liste::-webkit-scrollbar { display: none; }
-    #realisations .ff-real-carte { flex: 0 0 58%; scroll-snap-align: start; }
+    #realisations .ff-real-carte { flex: 0 0 76%; scroll-snap-align: start; }
   }
 </style>

@@ -1,66 +1,64 @@
 ---
 /**
- * Vidéo d'une démo (Hero, Réalisations), pilotée par demo-video.ts.
+ * Démo qui défile (Hero, Réalisations, Avant/après) : la page d'exemple ENTIÈRE, jamais recadrée,
+ * qui glisse lentement de haut en bas puis remonte, en boucle.
  *
- * 10 oct 2026, bug iPhone (« les vidéos ne se montrent pas ») : l'ancienne version attendait
- * `canplay` après `load()` avant d'appeler play(). iOS Safari ne télécharge rien tant que play() n'est
- * pas demandé : canplay n'arrivait jamais, la vidéo restait sur un cadre noir (WebKit masque le poster
- * dès que `load()` est appelé). Le clip-path d'entrée posé sur la <video> elle-même ne se repeignait pas
- * non plus sous WebKit.
+ * 11 oct 2026, retour fondateur sur iPhone : « toujours des problèmes de vidéos, je veux qu'au
+ * chargement elles défilent toutes ; c'est flou ». Les vidéos sont abandonnées :
+ * - iOS en économie d'énergie bloque toute vidéo automatique (le repli précédent ne démarrait
+ *   qu'après un refus constaté, et une seule carte à la fois) ;
+ * - une vidéo compressée de texte qui défile bave toujours un peu.
+ * À la place : une capture pleine page nette, animée en CSS pur (aucun JavaScript, rien à
+ * autoriser, marche en économie d'énergie et avec « réduire les animations »). Toutes les démos
+ * bougent dès l'affichage, décalées entre elles (`decalage`) pour ne pas glisser en même temps.
  *
- * Recette (10 oct 2026, soir — retour fondateur : « trop zoomé, on ne voit rien, coupé comme un moule,
- * flou ») : l'écran ENTIER de la démo, jamais recadré, en haute définition.
- * - ordinateur : enregistrement 1440 × 900 à dpr 2, réduit à 1600 × 1000 (16:10) ; cadre 16:10 ;
- * - téléphone (< 768 px) : enregistrement 390 × 844 à dpr 2, 780 × 1688 sans réduction ; cadre au format
- *   exact de l'écran d'iPhone (390:844) : rien n'est coupé ;
- * - une vraie image (première image de la vidéo) dessous, toujours visible ; la <video> par-dessus,
- *   transparente tant qu'elle n'a pas joué une image (« playing », classe .joue) : jamais de noir ;
- * - play() direct (pas de load()/canplay : iOS ne télécharge rien avant play()).
- * Fichiers : public/video/demos/<slug>.mp4|.webp|-800.webp, <slug>-mobile.mp4|.webp
- * (scratchpad record3.mjs). Le rapport d'aspect est posé ICI et seulement ici : une classe utilitaire
- * Tailwind ne peut pas le surcharger (style global hors couche, bug du 10 oct qui étirait tout en 4:5).
+ * Netteté : la capture est découpée en 4 tuiles empilées (une seule image de 6 000 px de haut animée
+ * est réduite par iOS au-delà de la taille de texture du GPU, d'où le flou). Téléphone (< 768 px) :
+ * capture 390 × 844 à dpr 3, 900 px de large (tuiles de 900 × 1460) ; ordinateur : 1440 × 900 à
+ * dpr 2, 1600 px de large (tuiles de 1600 × 750). `<picture>` : un seul jeu téléchargé. Pas de
+ * loading="lazy" : les tuiles du bas sont rognées par le cadre et ne se chargeraient qu'en arrivant
+ * dans le cadre (trou visible) ; priorité basse à la place, sauf la première tuile du hero. width/height
+ * posés : la hauteur de la colonne est connue avant le chargement, l'animation ne saute pas.
+ * Fichiers : public/video/demos/<slug>-t-m0..3.webp et -t-d0..3.webp (scratchpad tuiles.mjs).
+ * Le rapport d'aspect est posé ICI et seulement ici (style global hors couche : une classe
+ * utilitaire Tailwind ne peut pas le surcharger, bug du 10 oct qui étirait tout en 4:5).
  */
 interface Props {
   slug: string;
   /** Classes du conteneur (marges, coins). Le rapport d'aspect est fixé par ce composant. */
   class?: string;
-  sizes: string;
   /** Révélation d'entrée au défilement (pas pour le hero). */
   revele?: boolean;
+  /** Toujours au format écran de téléphone, même sur ordinateur (Avant/après). */
+  tel?: boolean;
+  /** Décalage de l'animation, en secondes, pour que les cartes voisines ne glissent pas ensemble. */
+  decalage?: number;
+  /** Première tuile en priorité haute (hero). */
+  prioritaire?: boolean;
 }
-const { slug, class: cls = '', sizes, revele = false } = Astro.props;
+const { slug, class: cls = '', revele = false, tel = false, decalage = 0, prioritaire = false } = Astro.props;
+const tuiles = [0, 1, 2, 3];
+const base = `/video/demos/${slug}`;
 ---
 
-<div class={`ff-demo ${cls}`} data-ff-image={revele ? '' : undefined}>
-  <picture>
-    <source media="(max-width: 767px)" srcset={`/video/demos/${slug}-mobile.webp`} width="780" height="1688" />
-    <img
-      src={`/video/demos/${slug}.webp`}
-      srcset={`/video/demos/${slug}-800.webp 800w, /video/demos/${slug}.webp 1600w`}
-      sizes={sizes}
-      width="1600"
-      height="1000"
-      alt=""
-      aria-hidden="true"
-      loading="lazy"
-      decoding="async"
-    />
-  </picture>
-  {/* Repli économie d'énergie iPhone (demo-video.ts) : capture complète qui défile en CSS. */}
-  <img class="ff-demo-long" data-src-long={`/video/demos/${slug}-long.webp`} alt="" aria-hidden="true" decoding="async" />
-  <video
-    data-demo
-    data-src={`/video/demos/${slug}.mp4`}
-    data-src-mobile={`/video/demos/${slug}-mobile.mp4`}
-    muted
-    loop
-    playsinline
-    preload="none"
-    disablepictureinpicture
-    disableremoteplayback
-    aria-hidden="true"
-    tabindex="-1"
-  ></video>
+<div
+  class={`ff-demo ${tel ? 'ff-demo-tel' : ''} ${cls}`}
+  data-ff-image={revele ? '' : undefined}
+  style={decalage ? `--ff-decalage: -${decalage}s` : undefined}
+  aria-hidden="true"
+>
+  <div class="ff-demo-page">
+    {tuiles.map((i) =>
+      tel ? (
+        <img src={`${base}-t-m${i}.webp`} width="900" height="1460" alt="" fetchpriority={prioritaire && i === 0 ? 'high' : 'low'} decoding="async" />
+      ) : (
+        <picture>
+          <source media="(max-width: 767px)" srcset={`${base}-t-m${i}.webp`} width="900" height="1460" />
+          <img src={`${base}-t-d${i}.webp`} width="1600" height="750" alt="" fetchpriority={prioritaire && i === 0 ? 'high' : 'low'} decoding="async" />
+        </picture>
+      ),
+    )}
+  </div>
 </div>
 
 <style is:global>
@@ -71,31 +69,23 @@ const { slug, class: cls = '', sizes, revele = false } = Astro.props;
     border-radius: 6px;
     background: var(--surface);
     aspect-ratio: 16 / 10;
+    container-type: size;
   }
+  .ff-demo-tel { aspect-ratio: 390 / 844; border-radius: 14px; }
   @media (max-width: 767px) {
     .ff-demo { aspect-ratio: 390 / 844; border-radius: 14px; }
   }
-  .ff-demo > picture { display: contents; }
-  .ff-demo img, .ff-demo video {
+  .ff-demo-page {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background: none;
+    inset: 0 0 auto;
+    animation: ff-demo-defile 18s cubic-bezier(0.45, 0, 0.55, 1) var(--ff-decalage, 0s) infinite alternate both;
+    will-change: transform;
   }
-  .ff-demo video { opacity: 0; transition: opacity 0.4s ease; }
-  /* Repli « défilement » : hauteur naturelle, glisse du haut vers le bas de la capture puis remonte. */
-  @media (max-width: 767px) { .ff-demo { container-type: size; } }
-  .ff-demo img.ff-demo-long { display: none; inset: 0 0 auto; height: auto; object-fit: initial; will-change: transform; }
-  .ff-demo.defile img.ff-demo-long {
-    display: block;
-    animation: ff-demo-defile 16s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate both paused;
-  }
-  .ff-demo.defile.en-vue img.ff-demo-long { animation-play-state: running; }
+  .ff-demo-page picture { display: contents; }
+  .ff-demo-page img { display: block; width: 100%; height: auto; background: none; }
+  /* Tout en haut un moment, descend jusqu'au bas de la capture, s'y pose, remonte. */
   @keyframes ff-demo-defile {
-    0%, 8% { transform: translateY(0); }
-    92%, 100% { transform: translateY(calc(-100% + 100cqh)); }
+    0%, 10% { transform: translateY(0); }
+    90%, 100% { transform: translateY(calc(-100% + 100cqh)); }
   }
-  .ff-demo.joue video { opacity: 1; }
 </style>
