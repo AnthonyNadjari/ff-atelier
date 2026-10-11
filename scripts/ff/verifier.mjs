@@ -7,6 +7,7 @@ import path from 'node:path';
 import { DIST_DIR, SITES_DIR, resolveSlug, runAstro, ok, fail, warn, info, c, parseArgs } from './util.mjs';
 import { runLighthouse } from './lighthouse.mjs';
 import { runA11y } from './a11y.mjs';
+import { garderDonneesTest } from './garde-donnees.mjs';
 
 const FORBIDDEN = [
   { label: 'lorem', re: /lorem/i },
@@ -309,12 +310,17 @@ function checkCreditsAffiches(slug, distDir, checks) {
   checks.push(...evaluerCreditsAffiches({ creditsMd, distHasCreditsPage, indexHtml }));
 }
 
-/** Mentions legales : SIRET present, ou a defaut un avertissement (donnee optionnelle au brief). */
-function warnMentionsLegalesSansSiret(distDir, warnings) {
-  const p = path.join(distDir, 'mentions-legales.html');
-  if (!fs.existsSync(p)) return; // deja signale ailleurs si la page manque totalement
-  const html = fs.readFileSync(p, 'utf8');
-  if (!/SIRET/i.test(html)) warnings.push('mentions-legales.html ne mentionne pas de SIRET (business.siret absent du brief ?)');
+/**
+ * Données de test et mentions légales vides (scripts/ff/garde-donnees.mjs, même garde que `ff deploy`
+ * et `ff vercel`) : téléphone 06 00 00 00 00 sous toutes ses formes (tel:/wa.me compris), code postal
+ * 75000, mentions légales sans SIRET/RCS/RM ni avis « en cours de création ». Bloquant, sauf site de
+ * démonstration (slug `_…`/`demo-…` ou en-tête DEMO de site.config.ts) : avertissements.
+ * Remplace l'ancien simple avertissement « pas de SIRET ».
+ */
+function checkDonneesTest(slug, distDir, checks, warnings) {
+  const r = garderDonneesTest({ slug, distDir, sitesDir: SITES_DIR });
+  checks.push(...r.checks);
+  warnings.push(...r.warnings);
 }
 
 /** <html lang="fr"> attendu sur chaque page (site francophone). */
@@ -982,7 +988,7 @@ export async function cmdVerifier(args) {
   checkImagesReferencees(files, distDir, checks);
   warnSchemaTypeGenerique(slug, files, distDir, warnings);
   warnFormulaireTropLong(files, distDir, warnings);
-  warnMentionsLegalesSansSiret(distDir, warnings);
+  checkDonneesTest(slug, distDir, checks, warnings);
   warnFontDisplaySwap(distDir, warnings);
   // --- Rendu (docs/veille/rendu.md §7), suite : warnings ---
   warnBlocTexteSansMesure(files, distDir, warnings);

@@ -198,3 +198,15 @@ l'exécution des modules) **et** après chaque navigation ; le document persiste
 Reste à faire (hors périmètre) : `data-curtain-nav` et `data-view-transition` par élément
 (docs/veille/animations.md § 3, lignes 19 et 24) ; avant d'activer `transitions` sur un site à nav sur
 mesure qui porte un `<script>`, l'envelopper dans `onPage()`.
+
+## iPhone : vidéo autoplay et images hautes (leçons de sites/finck-fisch, oct. 2026)
+
+- **Mode économie d'énergie = plus aucun autoplay.** `play()` est rejeté ou la vidéo ne démarre jamais,
+  même `muted playsinline`. Une démo, une preuve ou un hero qui doit être vu ne repose jamais sur une
+  vidéo : images fixes animées en CSS (ou `data-frames`, qui dessine des images dans un canvas), la
+  vidéo n'étant qu'un bonus derrière un `poster` qui se suffit à lui-même.
+- **Une seule image très haute translatée (`transform`) est floue sur iOS** : la texture GPU est
+  plafonnée, Safari la rééchantillonne. Empiler des tuiles de ~1 500 px de haut au plus :
+  `ff tuiles <slug>` (`scripts/ff/tuiles.mjs`, 4 tuiles mobile 900 px + 4 desktop 1600 px).
+- **Tester iOS sur l'URL https déployée** : contre `ff servir` (http), la CSP
+  (`upgrade-insecure-requests`) + HSTS font échouer l'émulation WebKit.

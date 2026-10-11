@@ -1,0 +1,62 @@
+---
+/**
+ * MODÈLE de mentions légales sur mesure — à copier dans sites/<slug>/legal/MentionsLegales.astro.
+ * Rangé ici (et pas dans sites/_exemple/legal/) parce qu'un fichier à cet endroit remplacerait la
+ * page générée de _exemple et changerait le fumigène de build de tout le monde.
+ *
+ * Quand s'en servir : la page générée (src/pages/mentions-legales.astro) ne convient pas, par
+ * exemple société pas encore immatriculée, hébergeur différent de site.legal.host, profession
+ * réglementée (ordre, numéro RPPS, assurance obligatoire...). Sinon, ne rien copier : remplir
+ * business.legalForm / siret / tva et legal.owner / host suffit.
+ *
+ * Mécanique : src/pages/mentions-legales.astro trouve ce fichier par import.meta.glob et le rend à la
+ * place de son main, entre la nav et le pied de page du site (le Base, le title et le noindex
+ * restent ceux de la page générée). Ce composant rend donc le main entier, id="main" compris.
+ * Pareil pour sites/<slug>/legal/Confidentialite.astro et src/pages/confidentialite.astro.
+ *
+ * Règles : rien d'inventé (pas de SIRET, capital ou adresse « provisoires ») ; tokens uniquement ;
+ * `ff verifier` et `ff deploy` échouent si la page n'affiche ni SIRET/RCS/RM ni l'avis
+ * « en cours de création » (scripts/ff/garde-donnees.mjs). Exemple réel : sites/finck-fisch/legal/.
+ */
+import { site, mailto, fullAddress } from '@/lib/site';
+const b = site.business;
+const identite = Boolean(b.legalForm || b.siret);
+---
+
+<main id="main" class="section-y">
+  <div class="container-ff max-w-3xl space-y-10 text-[0.95rem] leading-relaxed">
+    <h1 class="text-display-md">Mentions légales</h1>
+
+    <section>
+      <h2 class="text-display-sm mb-3">Éditeur du site</h2>
+      {identite ? (
+        <p>
+          {b.name}{b.legalForm && `, ${b.legalForm}`}<br />
+          {fullAddress()}<br />
+          {b.siret && <>SIRET : {b.siret}<br /></>}
+          {b.tva && <>TVA intracommunautaire : {b.tva}</>}
+        </p>
+      ) : (
+        <p>L’entreprise {b.name} est en cours de création. Sa forme juridique, son siège et son numéro SIRET seront indiqués sur cette page dès son immatriculation.</p>
+      )}
+      <p>Contact : <a href={mailto()} class="underline">{site.contact.email}</a></p>
+      <p>Responsable de la publication : {site.legal.owner ?? b.name}</p>
+    </section>
+
+    <section>
+      <h2 class="text-display-sm mb-3">Hébergement</h2>
+      {/* Hébergeur réel du site (nom, adresse, site web) : à vérifier au moment du déploiement. */}
+      <p>{site.legal.host}</p>
+    </section>
+
+    <section>
+      <h2 class="text-display-sm mb-3">Données personnelles</h2>
+      <p>Ce que nous faisons des informations que vous nous envoyez est expliqué dans la page <a href="/confidentialite" class="underline">Confidentialité</a>.</p>
+    </section>
+
+    <section>
+      <h2 class="text-display-sm mb-3">Propriété intellectuelle</h2>
+      <p>Le contenu de ce site (textes, photos, logo) appartient à {b.name}. Toute reproduction sans accord est interdite.</p>
+    </section>
+  </div>
+</main>

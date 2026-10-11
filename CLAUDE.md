@@ -28,7 +28,9 @@ contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté don
 | `node scripts/ff.mjs sequence-photo <slug> <image> [--nom x] [--n 48] [--largeur 1920] [--qualite 82] [--zoom 1.22] [--chaleur 0.18] [--sombre 0.25]` | Séquence `data-frames` à partir d'**une photo fixe** : mouvement de caméra lent (zoom + dérive), réchauffement et vignette progressifs en option. Recadre sur l'original sans agrandir, 1920 px / qualité 82 (jamais sous 15 Ko par image : la première séquence de la forge, 5 Ko par image, était floue), variante mobile 1080. Pour un client sans vidéo ; avec une vidéo, `ff sequence`. |
 | `node scripts/ff.mjs animer <slug> <image> "<prompt>" [--modele minimax\|kling] [--duree 5] [--simuler]` | Anime une **photo réelle** du client (image-to-video, fal.ai) : mp4 dans `.ff-tmp/animer/`, journalise `CREDITS.md`, suggère d'enchaîner avec `ff sequence`. Jamais sur une image générée ou une photo de banque présentée comme "du client" (`docs/veille/redaction-images.md` §2.3) ; marquage AI Act obligatoire (`data-ia="1"` + mention visible) sur la section qui l'utilise. `--simuler` affiche les appels prévus sans clé API. |
 | `node scripts/ff.mjs illustration <slug> "<thème>"` | Tente une illustration unDraw recolorée (`--couleur`) ; sans API disponible, affiche la procédure manuelle. |
-| `node scripts/ff.mjs deploy <slug>` | Déploie le site buildé sur Cloudflare Pages (voir `docs/DEPLOIEMENT.md`). |
+| `node scripts/ff.mjs deploy <slug> [--vercel]` | Build, garde « données de test » (`scripts/ff/garde-donnees.mjs` : téléphone 06 00 00 00 00 sous toutes ses formes, code postal 75000, mentions légales sans SIRET ni avis « en cours de création » ; bloquante sauf site de démo `_…`/`demo-…`/`// DEMO`), puis Cloudflare Pages (voir `docs/DEPLOIEMENT.md`). Même garde dans `ff verifier`. |
+| `node scripts/ff.mjs vercel <slug> [--simuler] [--sans-build]` | Déploiement Vercel (≡ `deploy --vercel`) : build + garde, `_headers` → `dist/<slug>/vercel.json` (**`cleanUrls: true` obligatoire**, sinon `/audit` et `/mentions-legales` en 404) + `sites/<slug>/redirects.json`, `.vercelignore`, puis `npx -y vercel deploy --prod --yes`. Identifiants : `VERCEL_ORG_ID`/`VERCEL_PROJECT_ID` (env ou `.env`) ou `sites/<slug>/vercel-projet.json`. `--simuler` n'écrit que `vercel.json`. Vercel Hobby interdit l'usage commercial : clients sur Cloudflare. Voir `docs/DEPLOIEMENT.md` § 2.7. |
+| `node scripts/ff.mjs tuiles <slug> [--dest dossier] [--nom x] [--n 4] [--ecrans 3]` | Capture l'accueil d'un site **déjà construit** sur 3 écrans de haut (mobile 390x844 @3 → 900 px, desktop 1440x900 @2 → 1600 px) et le découpe en tuiles webp `<nom>-t-m0..3`/`-t-d0..3` (défaut `.ff-tmp/tuiles/<slug>/`), pour une démo défilante nette sur iOS. |
 | `node scripts/ff.mjs domaine <slug> <domaine> [--zone-id X] [--email-vers adresse] [--www] [--simuler]` | Branche un site déjà déployé sur un domaine personnalisé en une commande : projet Pages, DNS (CNAME proxifié, idempotent), et avec `--email-vers`, Email Routing (`contact@domaine` → l'adresse donnée). Écrit `sites/<slug>/domain.txt` et affiche une checklist finale. `--simuler` affiche les appels API sans les exécuter. Voir `docs/DEPLOIEMENT.md` § 2.2bis. |
 | `node scripts/ff.mjs exporter <slug>` | Prépare la livraison finale au client (repo + domaine au nom du client). |
 | `node scripts/ff.mjs composer <slug>` | Propose automatiquement un look (direction, variantes, typographie...) à partir de `site.config.ts`, écrit dans `look.json` sans toucher au contenu. |
@@ -144,6 +146,22 @@ Trois choses, dans l'ordre, jamais une seule :
 
 Une direction fonctionne pareil : dossier `src/directions/<nom>/` (`index.css` + `meta.ts`) + une ligne
 dans la table des 8 directions de `docs/DIRECTIONS.md`.
+
+## Pièges déjà payés
+
+Liste complète : `docs/HANDOVER.md` § 5. Leçons d'octobre 2026 (site du studio) :
+
+- `<style is:global>` sans couche bat **toute** classe Tailwind (rangées dans `@layer utilities`) :
+  un `.x{aspect-ratio}` global écrasait `md:aspect-*` en silence. Voir `docs/CONVENTIONS.md` § CSS global.
+- iPhone en économie d'énergie bloque **tout** autoplay vidéo : jamais de contenu essentiel en vidéo,
+  préférer des images fixes animées en CSS.
+- Une image très haute animée en `transform` est floue sur iOS (texture GPU) : tuiles ≤ ~1 500 px,
+  `ff tuiles`.
+- Émulation WebKit/iPhone contre le serveur local = échec (CSP `upgrade-insecure-requests` + HSTS) :
+  vérifier iOS sur l'URL https déployée.
+- Vercel sans `cleanUrls: true` = 404 sur `/audit`, `/mentions-legales` : passer par `ff vercel`.
+- Pages légales sur mesure : `sites/<slug>/legal/MentionsLegales.astro` / `Confidentialite.astro`
+  (modèle `outils/legal/`), voir `docs/CONVENTIONS.md` § Pages légales.
 
 ## Ne pas toucher sans raison
 

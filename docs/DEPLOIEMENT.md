@@ -47,7 +47,7 @@ manuellement (`Actions -> Deploiement des sites -> Run workflow`) en precisant u
 node scripts/ff.mjs deploy <slug>
 ```
 
-Cela construit le site (`dist/<slug>`) puis le publie sur Cloudflare Pages sous un
+Cela construit le site (`dist/<slug>`), passe la garde « donnees de test » (§ 2.6), puis le publie sur Cloudflare Pages sous un
 projet nomme `<slug>` (ou `--projet <nom>` pour choisir un autre nom). Le site est
 immediatement visible sur `https://<slug>.pages.dev`.
 
@@ -199,6 +199,41 @@ la Cache API). Aucune cle a mettre dans `site.config.ts`.
 Documenter le choix retenu (Cloudflare seul, ou + Resend) au client dans la politique de
 confidentialite du site — deja fait automatiquement par `src/pages/confidentialite.astro` selon
 `form.provider`.
+
+### 2.6 Garde « donnees de test » (avant tout deploiement)
+
+`ff deploy` et `ff vercel` construisent le site puis refusent de publier si `dist/<slug>` montre le
+telephone de test (06 00 00 00 00 sous toutes ses formes, `tel:+33600000000`, `wa.me/33600000000`),
+le code postal 75000, ou des mentions legales sans SIRET/RCS/RM ni avis « en cours de creation ».
+Meme controle dans `ff verifier`. Sites de demonstration (slug `_…`/`demo-…` ou `// DEMO` en tete de
+`site.config.ts`) : avertissement seulement. Il n'y a pas d'option pour passer outre : on met les
+vraies donnees, ou une page legale sur mesure honnete (`docs/CONVENTIONS.md` § Pages legales).
+
+### 2.7 Vercel — `ff vercel`
+
+Cas d'usage : le site du studio tant qu'il y est (Vercel Hobby interdit l'usage commercial, les sites
+clients vont sur Cloudflare, voir `docs/exploitation/hebergement-livraison.md`).
+
+```
+node scripts/ff.mjs vercel <slug> --simuler    # build + garde + ecrit dist/<slug>/vercel.json, n'envoie rien
+node scripts/ff.mjs vercel <slug>              # idem puis npx -y vercel deploy --prod --yes
+node scripts/ff.mjs deploy <slug> --vercel     # meme chose
+```
+
+Dans `dist/<slug>` : le `_headers` (format Cloudflare, ecrit au build) devient `vercel.json`
+(`headers`, `*` -> `:path*`), `sites/<slug>/redirects.json` (format Vercel,
+`{ "redirects": [{ "source", "destination", "statusCode" }] }`) s'y ajoute, et `.vercelignore`
+exclut `_headers` et `.env*`. **`cleanUrls: true` est obligatoire** : le build est en
+`format: 'file'` (`audit.html`, `mentions-legales.html`) et sans lui Vercel repond 404 sur `/audit`
+et `/mentions-legales`. Conversion pure : `headersVersVercel` (`scripts/ff/vercel.mjs`,
+`tests/vercel.test.mjs`).
+
+Identifiants du projet : `VERCEL_ORG_ID` + `VERCEL_PROJECT_ID` dans l'environnement ou `.env`, sinon
+`sites/<slug>/vercel-projet.json` : `{ "orgId": "team_…", "projectId": "prj_…" }` (memes valeurs que le
+`.vercel/project.json` cree par `vercel link`). Connexion : `npx vercel login` une fois.
+
+Apres le deploiement, verifier l'iPhone sur l'URL https publiee : l'emulation WebKit contre le serveur
+local echoue a cause de `upgrade-insecure-requests` + HSTS dans la CSP.
 
 ## 3. Remise au client
 

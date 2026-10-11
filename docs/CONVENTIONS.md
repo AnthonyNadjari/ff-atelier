@@ -41,6 +41,44 @@ Astro 5 (statique, zero JS par defaut) + Tailwind 4 (config CSS-first, `src/styl
 ## Regles des directions
 Voir `src/directions/README.md`. Une direction doit definir tous les tokens, importer ses polices via `@fontsource-variable/*` (deja installees : fraunces, inter, space-grotesk, cormorant, playfair-display, manrope, unbounded, syne, lora, nunito, archivo, dm-sans, jetbrains-mono, instrument-sans, outfit, bricolage-grotesque ; statiques : `@fontsource/archivo-black`, `@fontsource/instrument-serif`). Elle peut styliser `.btn`, `.btn-primary`, `.btn-ghost`, `.card`, `.rule`, `.eyebrow`, `h1 em`, `body::before` (texture), `::selection`.
 
+## CSS global et iPhone (lecons de sites/finck-fisch, oct. 2026)
+
+- **Une regle `<style is:global>` sans couche bat toute classe Tailwind.** Tailwind 4 range ses
+  utilitaires dans `@layer utilities` ; une regle hors couche gagne contre n'importe quelle couche,
+  quelle que soit la specificite. Cas reel : `.demo{aspect-ratio:…}` en global ecrasait en silence
+  `md:aspect-[16/10]` pose sur le meme element. Dans un style global, ne jamais poser une propriete
+  qu'un utilitaire doit pouvoir changer (taille, ratio, display, marges) — ou l'envelopper dans
+  `@layer components { … }`, ou la porter par une classe Tailwind dans le balisage.
+- **Aucun contenu essentiel en video autoplay.** En mode economie d'energie (Low Power Mode), l'iPhone
+  bloque TOUT autoplay : `play()` est rejete ou la video ne demarre jamais, meme `muted playsinline`.
+  Ce qui doit etre vu (demo, preuve, hero) passe par des images fixes animees en CSS ; la video n'est
+  qu'un bonus, avec un `poster` qui se suffit a lui-meme.
+- **Une image tres haute animee en `transform` est floue sur iOS** (texture GPU plafonnee : Safari la
+  reechantillonne). Decouper en tuiles de ~1 500 px de haut au plus, empilees : `ff tuiles <slug>`
+  (`scripts/ff/tuiles.mjs`) produit ces tuiles depuis le build d'un site.
+- **Verifier iOS sur l'URL https deployee**, pas en local : la CSP du site contient
+  `upgrade-insecure-requests` et HSTS, l'emulation WebKit/iPhone contre `ff servir` (http) echoue
+  (ressources reecrites en https introuvables). Chrome local suffit pour tout le reste.
+
+## Pages legales (mentions, confidentialite)
+
+`src/pages/mentions-legales.astro` et `src/pages/confidentialite.astro` generent les deux pages depuis
+`site.config.ts` (`business.legalForm`/`siret`/`tva`/`insurance`, `legal.owner`/`host`/`mediator`,
+`form.provider`). Quand le texte genere ne suffit pas (societe pas encore immatriculee, hebergeur
+particulier, profession reglementee), un site fournit sa propre version :
+`sites/<slug>/legal/MentionsLegales.astro` et/ou `sites/<slug>/legal/Confidentialite.astro`. La page
+les trouve par `import.meta.glob` et rend ce composant **a la place de son `<main>`** (meme `Base`,
+meme title, `noindex`, nav et pied de page du site autour) : le composant rend donc le `<main id="main">`
+entier. Modele commente : `outils/legal/MentionsLegales.astro` (pas dans `sites/_exemple/legal/`, qui
+changerait la page de reference). Exemple reel : `sites/finck-fisch/legal/`.
+
+Rien d'invente : sans SIRET, la page dit « en cours de creation » plutot que d'afficher un numero
+provisoire. `ff verifier`, `ff deploy` et `ff vercel` **echouent** si les mentions legales n'affichent
+ni SIRET/RCS/RM ni cet avis, ou si le site montre le telephone de test 06 00 00 00 00 (toutes formes,
+`tel:`/`wa.me` compris) ou le code postal 75000 (`scripts/ff/garde-donnees.mjs`). Un site de
+demonstration (slug `_…`/`demo-…`, ou commentaire `// DEMO` en tete de `site.config.ts`) recoit de
+simples avertissements.
+
 ## Images
 
 `ff images <slug>` (`scripts/ff/images.mjs`) genere, pour chaque photo de `sites/<slug>/raw/` (ou,

@@ -153,6 +153,9 @@ version accélérée (~35 % plus rapide que la vidéo de référence
 - `ff servir <slug>` sert le build avec les en-têtes CSP — c'est LA façon fiable de montrer
   un site. Le dev server est pour développer.
 
+- **Octobre 2026** (global CSS vs Tailwind, autoplay iPhone, image haute floue sur iOS, test iOS
+  en https seulement, Vercel `cleanUrls`) : voir `CLAUDE.md` § Pièges déjà payés.
+
 ## 6. Carte des fichiers (les plus importants)
 
 ```

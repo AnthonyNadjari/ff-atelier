@@ -42,6 +42,8 @@ import { cmdTypo } from './ff/typo.mjs';
 import { cmdIa } from './ff/ia.mjs';
 import { cmdA11y } from './ff/a11y.mjs';
 import { cmdKit } from './ff/kit.mjs';
+import { cmdVercel } from './ff/vercel.mjs';
+import { cmdTuiles } from './ff/tuiles.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -102,6 +104,8 @@ const commands = {
   ia: cmdIa,
   a11y: cmdA11y,
   kit: cmdKit,
+  vercel: cmdVercel,
+  tuiles: cmdTuiles,
 };
 
 async function main() {

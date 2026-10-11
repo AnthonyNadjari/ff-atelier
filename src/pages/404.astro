@@ -19,6 +19,10 @@ const Footer = resolveSection('footer', site.layout.footer);
 // Les six premières prestations : assez pour retomber sur ses pieds, pas assez pour refaire la nav.
 // site.servicePages: false -> pas de page service, donc pas de liens vers elles.
 const services = site.servicePages ? site.services.slice(0, 6) : [];
+// Téléphone de test (06 00 00 00 00, même repère que le JSON-LD de Base.astro) : pas de bouton d'appel.
+// Un site sans vrai numéro (ex. finck-fisch, contact par formulaire) garde une 404 propre ; un client
+// qui l'aurait oublié est arrêté par la garde de `ff verifier`/`ff deploy` sur ses autres pages.
+const telTest = /^(\+33|0)6(0{8})$/.test(site.contact.phone.replace(/\s/g, ''));
 ---
 
 <Base title={`Page introuvable | ${site.business.name}`} path="/404" noindex>
@@ -36,9 +40,11 @@ const services = site.servicePages ? site.services.slice(0, 6) : [];
         </p>
         <div class="mt-8 flex flex-wrap gap-4">
           <Button href="/" size="lg">Retour à l’accueil</Button>
-          <Button href={tel()} variant="ghost" size="lg">
-            <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
-          </Button>
+          {!telTest && (
+            <Button href={tel()} variant="ghost" size="lg">
+              <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
+            </Button>
+          )}
         </div>
         <p class="mt-6 text-sm text-muted">
           Ou écrivez-nous : <a href={mailto()} class="underline break-all hover:text-fg">{site.contact.email}</a>

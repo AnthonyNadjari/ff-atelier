@@ -1,4 +1,6 @@
-// `ff deploy <slug> [--projet <nom>]` : build puis `npx wrangler pages deploy`.
+// `ff deploy <slug> [--projet <nom>] [--vercel]` : build, garde « données de test »
+// (scripts/ff/garde-donnees.mjs, bloquante hors site de démo), puis `npx wrangler pages deploy`.
+// `--vercel` : délègue à `ff vercel` (scripts/ff/vercel.mjs).
 // Si le site a un domaine (sites/<slug>/domain.txt), enchaîne avec une soumission IndexNow
 // (Bing -> visibilité ChatGPT/Copilot) — jamais bloquante.
 import fs from 'node:fs';
@@ -6,9 +8,11 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { ROOT, resolveSlug, runAstro, ok, fail, warn, info, c, parseArgs } from './util.mjs';
 import { indexNowForSlug, ensureIndexNowKey } from './indexnow.mjs';
+import { cmdVercel, garderAvantDeploiement } from './vercel.mjs';
 
 export async function cmdDeploy(args) {
   const { positional, flags } = parseArgs(args);
+  if (flags.vercel) return cmdVercel(args.filter((a) => a !== '--vercel'));
   const slug = resolveSlug(positional[0]);
   const projet = flags.projet || slug;
 
@@ -28,6 +32,8 @@ export async function cmdDeploy(args) {
   }
   ok('Build reussi.');
   info('');
+
+  if (!garderAvantDeploiement(slug)) process.exit(1);
 
   const whoami = spawnSync('npx', ['wrangler', 'whoami'], { cwd: ROOT, stdio: 'pipe', shell: true });
   if (whoami.status !== 0) {
