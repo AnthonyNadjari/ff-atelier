@@ -19,7 +19,6 @@
  */
 
 const REDUIT = '(prefers-reduced-motion: reduce)';
-const TACTILE = '(prefers-reduced-motion: no-preference) and ((hover: none) or (pointer: coarse))';
 const DESKTOP = '(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)';
 
 export function initMotionFF(): void {
@@ -42,8 +41,9 @@ export function initMotionFF(): void {
     }
   }
 
-  const besoinGsap = document.querySelector('[data-p72]') || matchMedia(DESKTOP).matches;
-  if (!besoinGsap) return;
+  // GSAP ne sert plus qu'au défilement doux (Lenis) sur ordinateur : les scènes (Réalisations,
+  // Avant/après, Trois jours) passent par scene-ff.ts depuis le 11 oct 2026.
+  if (!matchMedia(DESKTOP).matches) return;
   // GSAP n'est utile qu'au défilement : chargé après l'événement load, au premier temps libre, pour ne
   // pas disputer le fil principal à la première peinture (mesuré : 0,6 s de script pendant le LCP mobile).
   apresChargement().then(charger).then(({ gsap, ScrollTrigger, Lenis }) => {
@@ -54,24 +54,14 @@ export function initMotionFF(): void {
     // S4 (bascule encre/crème sur la section Audit) retirée le 10 oct 2026 : retour fondateur, le
     // passage noir, blanc, noir au défilement gênait. La page reste sombre de bout en bout.
 
-    mm.add(REDUIT, () => {
-      document.querySelectorAll('[data-p72-jour]').forEach((j) => j.classList.add('est-actif'));
-    });
-
-    mm.add(TACTILE, () => {
-      const fin = process72(gsap, ScrollTrigger, 'tactile');
-      return fin;
-    });
-
     mm.add(DESKTOP, () => {
-      const fin = process72(gsap, ScrollTrigger, 'desktop');
-      if (navigator.webdriver || !Lenis) return fin;
+      if (navigator.webdriver || !Lenis) return;
       const lenis = new Lenis({ autoRaf: false, smoothWheel: true, syncTouch: false, lerp: 0.1, anchors: { offset: -80 } });
       lenis.on('scroll', ScrollTrigger.update);
       const tick = (t: number) => lenis.raf(t * 1000);
       gsap.ticker.add(tick);
       gsap.ticker.lagSmoothing(0);
-      return () => { fin?.(); gsap.ticker.remove(tick); gsap.ticker.lagSmoothing(500, 33); lenis.destroy(); };
+      return () => { gsap.ticker.remove(tick); gsap.ticker.lagSmoothing(500, 33); lenis.destroy(); };
     });
   }).catch(() => {});
 }
@@ -92,32 +82,3 @@ async function charger() {
   ]);
   return { gsap, ScrollTrigger, Lenis: lenisMod?.default ?? null };
 }
-
-/**
- * S2 — « Trois jours, pas trois mois. » La colonne gauche colle en CSS (position: sticky, pas de pin
- * GSAP). Desktop : chaque jour s'active quand son bloc passe à 60 % de l'écran (toggleClass, opacité
- * 0,4 → 1 en 0,3 s par CSS) ; jauge scaleY 0 → 1 liée au défilement (scrub 0,3). Tactile : pas de
- * sticky (CSS), chaque jour révélé au masque à son entrée, une fois.
- */
-function process72(gsap: any, ScrollTrigger: any, mode: 'desktop' | 'tactile') {
-  const section = document.querySelector<HTMLElement>('[data-p72]');
-  if (!section) return;
-  const jours = [...section.querySelectorAll<HTMLElement>('[data-p72-jour]')];
-  const piste = section.querySelector<HTMLElement>('[data-p72-jours]');
-  const jauge = section.querySelector<HTMLElement>('[data-p72-jauge]');
-  if (mode === 'desktop') {
-    section.classList.add('p72-pilote');
-    for (const j of jours) ScrollTrigger.create({ trigger: j, start: 'top 60%', end: 'bottom 60%', toggleClass: 'est-actif' });
-  } else {
-    for (const j of jours) {
-      j.classList.add('est-actif');
-      const corps = j.querySelector('[data-p72-corps]');
-      if (corps) gsap.from(corps, { yPercent: 100, duration: 0.8, ease: 'expo.out', scrollTrigger: { trigger: j, start: 'top 90%', once: true } });
-    }
-  }
-  if (jauge && piste) {
-    gsap.fromTo(jauge, { scaleY: 0 }, { scaleY: 1, ease: 'none', scrollTrigger: { trigger: piste, start: 'top 60%', end: 'bottom 60%', scrub: 0.3 } });
-  }
-  return () => { section.classList.remove('p72-pilote'); jours.forEach((j) => j.classList.remove('est-actif')); };
-}
-

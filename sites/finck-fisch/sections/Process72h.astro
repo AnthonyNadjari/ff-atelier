@@ -1,28 +1,34 @@
 ---
 /**
- * « Trois jours, pas trois mois. » (plan-site-ff.html v2, S2).
+ * « Trois jours, pas trois mois. » (refonte du 11 oct 2026, soir).
  *
- * Remplace Propositions.astro (l'écran à trois onglets) et Chantier.astro : le contenu utile des trois
- * propositions (même contenu, trois façons de le montrer ; vous choisissez sur pièce, sur votre
- * téléphone) vit maintenant dans les jours 1 et 2.
- *
- * Desktop (≥ 1024 px) : la colonne gauche colle (CSS position: sticky, pas de pin GSAP), la droite
- * défile normalement. motion-ff.ts active chaque jour quand il passe à 60 % de l'écran (toggleClass
- * « est-actif » : opacité 0,4 → 1, 0,3 s power2.out) et remplit la jauge verticale au défilement
- * (scaleY, scrub 0,3). Téléphone : pas de sticky, les trois jours empilés le long d'un fil, chacun
- * révélé au masque à son entrée. Mouvement réduit et sans JS : tout est posé (jours pleins, jauge
- * pleine).
+ * Retour fondateur sur la version précédente (trois blocs de texte le long d'un fil) : « beaucoup de
+ * scroll pour peu de visuel ». Maintenant les trois jours se jouent sur une seule scène collante
+ * (scene-ff.ts pose --p), avec de vrais écrans :
+ * - Jour 1 : trois téléphones arrivent en éventail. Ce sont les trois propositions que l'atelier a
+ *   réellement générées pour la boulangerie d'exemple Petit Pain (`ff propositions`, mêmes textes,
+ *   trois looks), capturées en tuiles comme les autres démos.
+ * - Jour 2 : les deux autres s'écartent ; la piste choisie avance et ses autres pages se déploient
+ *   derrière elle (la même démo, décalée dans son défilement).
+ * - Jour 3 : le téléphone se redresse, « En ligne » s'allume et des ondes partent de l'écran.
+ * Le texte du jour change avec la scène ; une jauge en trois segments suit l'avancée.
+ * Ordinateur : texte à gauche, scène à droite. Téléphone : titre au-dessus, dans la scène le texte du
+ * jour en haut et les téléphones dessous.
+ * Réduire les animations ou sans JavaScript : pas de scène collante, les trois jours listés, l'éventail
+ * des trois propositions posé (--p par défaut à 0 pour la scène, textes tous visibles).
  */
+import DemoVideo from './DemoVideo.astro';
+
 const jours = [
   {
     n: 'Jour 1',
     titre: 'L’audit, puis trois pistes.',
-    texte: 'Nous partons de l’audit, de vos textes et de vos photos, et nous montons trois versions de votre page d’accueil : le même contenu, montré de trois façons. Vous les ouvrez sur votre téléphone.',
+    texte: 'Nous partons de l’audit, de vos textes et de vos photos, et nous montons trois versions de votre page d’accueil : le même contenu, montré de trois façons. Vous les ouvrez sur votre téléphone.',
   },
   {
     n: 'Jour 2',
     titre: 'Vous choisissez, nous écrivons.',
-    texte: 'Vous gardez celle qui vous ressemble. Nous écrivons et montons les autres pages dessus : ce que vous faites, où, quand, et comment vous joindre.',
+    texte: 'Vous gardez celle qui vous ressemble. Nous écrivons et montons les autres pages dessus : ce que vous faites, où, quand, et comment vous joindre.',
   },
   {
     n: 'Jour 3',
@@ -32,59 +38,170 @@ const jours = [
 ];
 ---
 
-<section id="trois-jours" class="ff-section ff-p72" data-p72>
-  <div class="ff-conteneur ff-p72-grille">
-    <div class="ff-p72-gauche">
-      <div class="ff-p72-colle">
+<section id="trois-jours" class="ff-section ff-p72">
+  <div class="ff-p72-scene" data-scene>
+    <div class="ff-p72-colle">
+      <div class="ff-p72-texte">
         <h2 class="ff-titre ff-masque" data-ff-titre><span>Trois jours, pas trois mois.</span></h2>
-        <p class="ff-texte ff-doux mt-6 max-w-[26rem]">Les 72 heures courent à partir de la réception de vos textes et de vos photos.</p>
+        <p class="ff-petit ff-doux ff-p72-depart">Les 72 heures courent à partir de la réception de vos textes et de vos photos.</p>
+        <div class="ff-p72-jauge" aria-hidden="true"><span></span><span></span><span></span></div>
+        <ol class="ff-p72-jours">
+          {jours.map((j, i) => (
+            <li class={`ff-p72-jour ff-p72-j${i + 1}`}>
+              <p class="ff-petit ff-p72-n">{j.n}</p>
+              <h3 class="ff-p72-titre">{j.titre}</h3>
+              <p class="ff-texte ff-doux ff-p72-corps">{j.texte}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="ff-p72-plateau" aria-hidden="true">
+        <div class="ff-p72-ondes"><span></span><span></span><span></span></div>
+        <div class="ff-p72-tel ff-p72-page ff-p72-page-g"><DemoVideo slug="piste-boulangerie-3" tel decalage={6} /></div>
+        <div class="ff-p72-tel ff-p72-page ff-p72-page-d"><DemoVideo slug="piste-boulangerie-3" tel decalage={12} /></div>
+        <div class="ff-p72-tel ff-p72-g"><DemoVideo slug="piste-boulangerie-1" tel decalage={2} /><span class="ff-petit">Piste 1</span></div>
+        <div class="ff-p72-tel ff-p72-d"><DemoVideo slug="piste-boulangerie-2" tel decalage={4} /><span class="ff-petit">Piste 2</span></div>
+        <div class="ff-p72-tel ff-p72-c"><DemoVideo slug="piste-boulangerie-3" tel /><span class="ff-petit">Piste 3</span></div>
+        <p class="ff-p72-badge ff-petit"><span class="ff-p72-point"></span>En ligne, à votre nom</p>
       </div>
     </div>
-
-    <div class="ff-p72-droite">
-      <span class="ff-p72-fil" aria-hidden="true"><span class="ff-p72-jauge" data-p72-jauge></span></span>
-      <ol class="ff-p72-jours" data-p72-jours>
-        {jours.map((j) => (
-          <li class="ff-p72-jour" data-p72-jour>
-            <div class="ff-p72-masque">
-              <div data-p72-corps>
-                <p class="ff-petit ff-doux">{j.n}</p>
-                <h3 class="ff-p72-titre ff-texte">{j.titre}</h3>
-                <p class="ff-texte ff-doux mt-2">{j.texte}</p>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </div>
   </div>
+  <p class="sr-only">Illustration : les trois propositions de page d’accueil faites par l’atelier pour une boulangerie d’exemple ; l’une est choisie, ses autres pages se déploient, puis le site est en ligne.</p>
 </section>
 
 <style is:global>
-  .ff-p72-grille { display: grid; gap: var(--s6); }
-  .ff-p72-droite { position: relative; padding-left: var(--s4); }
-  .ff-p72-fil { position: absolute; top: 0; bottom: 0; left: 0; width: 1px; background: var(--line); }
-  .ff-p72-jauge { position: absolute; inset: 0; background: var(--accent); transform-origin: top; }
-  .ff-p72-jours { display: grid; gap: var(--s6); list-style: none; margin: 0; padding: 0; }
-  .ff-p72-masque { overflow: hidden; }
-  .ff-p72-titre { margin-top: 4px; font-family: var(--font-body); font-weight: 600; letter-spacing: 0; color: var(--fg); }
-  .ff-p72-jour { max-width: 34rem; }
-  @media (max-width: 767px) {
-    .ff-p72-grille { gap: var(--s4); }
-    .ff-p72-jours { gap: var(--s4); }
-    .ff-p72-droite { padding-left: var(--s3); }
+  /* --f : arrivée de l'éventail ; --s1 : jour 1 → 2 ; --s2 : jour 2 → 3. */
+  .ff-p72-colle {
+    --f: clamp(0, var(--p, 0) * 6, 1);
+    --s1: clamp(0, (var(--p, 0) - 0.34) * 6, 1);
+    --s2: clamp(0, (var(--p, 0) - 0.67) * 6, 1);
+    position: relative;
+    display: grid;
+    gap: var(--s4);
+    padding-inline: var(--gouttiere);
+    overflow: hidden;
+  }
+  .ff-p72-depart { margin: var(--s3) 0 0; max-width: 26rem; }
+
+  /* Jauge : trois segments qui se remplissent. */
+  .ff-p72-jauge { display: none; gap: 6px; margin-top: var(--s3); }
+  .ff-p72-jauge > span { height: 3px; flex: 1; border-radius: 2px; background: linear-gradient(to right, var(--accent) calc(var(--g) * 100%), var(--line) 0); }
+  .ff-p72-jauge > span:nth-child(1) { --g: clamp(0, var(--p, 0) * 3, 1); }
+  .ff-p72-jauge > span:nth-child(2) { --g: clamp(0, var(--p, 0) * 3 - 1, 1); }
+  .ff-p72-jauge > span:nth-child(3) { --g: clamp(0, var(--p, 0) * 3 - 2, 1); }
+
+  .ff-p72-jours { list-style: none; margin: var(--s3) 0 0; padding: 0; display: grid; gap: var(--s3); }
+  .ff-p72-n { color: var(--accent); margin: 0; }
+  .ff-p72-titre { font-family: var(--ff-titres); font-weight: 450; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.1; color: var(--fg); margin: 4px 0 var(--s1); }
+  .ff-p72-corps { margin: 0; max-width: 32rem; }
+
+  /* Plateau : les téléphones empilés au même endroit, placés par transform. */
+  .ff-p72-plateau {
+    position: relative;
+    height: min(64svh, 560px);
+    display: grid;
+    place-items: center;
+    perspective: 1600px;
+  }
+  .ff-p72-tel { grid-area: 1 / 1; width: calc(min(64svh, 560px) * 0.62 * 390 / 844); position: relative; text-align: center; }
+  .ff-p72-tel > .ff-petit { display: block; margin-top: var(--s1); color: var(--muted); opacity: calc(1 - var(--s1)); }
+  .ff-p72-tel .ff-demo { border-radius: 16px; border: 2px solid color-mix(in srgb, var(--fg) 80%, transparent); background: var(--bg); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.9); }
+
+  .ff-p72-g {
+    transform: translateX(calc(var(--f) * -78% - var(--s1) * 120%)) translateY(calc(var(--f) * 6%)) rotate(calc(var(--f) * -9deg)) scale(0.92);
+    opacity: calc(var(--f) * (1 - var(--s1)));
+  }
+  .ff-p72-d {
+    transform: translateX(calc(var(--f) * 78% + var(--s1) * 120%)) translateY(calc(var(--f) * 6%)) rotate(calc(var(--f) * 9deg)) scale(0.92);
+    opacity: calc(var(--f) * (1 - var(--s1)));
+  }
+  .ff-p72-c {
+    z-index: 2;
+    transform: translateY(calc((1 - var(--f)) * 30px)) scale(calc(1 + var(--s1) * 0.1)) rotateY(calc(var(--s1) * (1 - var(--s2)) * -14deg));
+  }
+  .ff-p72-c .ff-demo { border-color: color-mix(in srgb, var(--accent) calc(var(--s1) * 100%), color-mix(in srgb, var(--fg) 80%, transparent)); }
+  /* Jour 2 : les autres pages de la piste choisie, en éventail derrière elle. */
+  .ff-p72-page { opacity: calc(var(--s1) * 0.9); }
+  .ff-p72-page-g { transform: translateX(calc(var(--s1) * -46%)) rotate(calc(var(--s1) * -7deg)) scale(0.9); }
+  .ff-p72-page-d { transform: translateX(calc(var(--s1) * 46%)) rotate(calc(var(--s1) * 7deg)) scale(0.9); }
+  .ff-p72-page .ff-demo { filter: brightness(0.7); }
+
+  /* Jour 3 : « En ligne » et les ondes. */
+  .ff-p72-badge {
+    position: absolute;
+    left: 50%;
+    top: 4%;
+    z-index: 3;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--s1);
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: var(--fg);
+    color: var(--bg);
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 16px 40px -10px rgb(0 0 0 / 0.8);
+    opacity: var(--s2);
+    transform: translateX(-50%) translateY(calc((1 - var(--s2)) * 24px)) scale(calc(0.85 + var(--s2) * 0.15));
+  }
+  .ff-p72-point { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: ff-p72-pouls 1.6s ease-out infinite; }
+  @keyframes ff-p72-pouls { to { box-shadow: 0 0 0 10px transparent; } }
+  .ff-p72-ondes { grid-area: 1 / 1; width: 100%; height: 100%; display: grid; place-items: center; opacity: var(--s2); }
+  .ff-p72-ondes > span {
+    grid-area: 1 / 1;
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    animation: ff-p72-onde 3.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  }
+  .ff-p72-ondes > span:nth-child(2) { animation-delay: -1.2s; }
+  .ff-p72-ondes > span:nth-child(3) { animation-delay: -2.4s; }
+  @keyframes ff-p72-onde { 0% { transform: scale(0.4); opacity: 0.7; } 100% { transform: scale(1.5); opacity: 0; } }
+
+  /* Scène active : collante, les jours se relaient au même endroit. */
+  @media (prefers-reduced-motion: no-preference) {
+    .ff-scenes .ff-p72-scene { height: 300vh; }
+    .ff-scenes .ff-p72-colle { position: sticky; top: 0; height: 100svh; align-content: center; }
+    .ff-scenes .ff-p72-jauge { display: flex; }
+    .ff-scenes .ff-p72-jours { grid-template-areas: 'j'; }
+    .ff-scenes .ff-p72-jour { grid-area: j; }
+    .ff-scenes .ff-p72-j1 { opacity: calc(1 - clamp(0, var(--s1) * 2, 1)); transform: translateY(calc(var(--s1) * -24px)); }
+    .ff-scenes .ff-p72-j2 { opacity: calc(clamp(0, var(--s1) * 2 - 1, 1) * (1 - clamp(0, var(--s2) * 2, 1))); transform: translateY(calc((1 - var(--s1)) * 24px - var(--s2) * 24px)); }
+    .ff-scenes .ff-p72-j3 { opacity: clamp(0, var(--s2) * 2 - 1, 1); transform: translateY(calc((1 - var(--s2)) * 24px)); }
+  }
+  /* Sans scène (sans JS, mouvement réduit) : l'éventail des trois pistes posé, les jours en liste. */
+  :root:not(.ff-scenes) .ff-p72-colle { --f: 1; --s1: 0; --s2: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .ff-p72-ondes > span, .ff-p72-point { animation: none; }
   }
 
+  /* Téléphone : texte du jour en haut, plateau dessous. */
+  @media (max-width: 1023px) {
+    .ff-scenes .ff-p72-colle { align-content: start; padding-top: calc(var(--entete) + var(--s3)); gap: var(--s3); }
+    .ff-scenes .ff-p72-depart { display: none; }
+    .ff-scenes .ff-p72-plateau { height: min(52svh, 480px); }
+    .ff-scenes .ff-p72-tel { width: calc(min(52svh, 480px) * 0.62 * 390 / 844); }
+    .ff-p72-corps { font-size: 0.95rem; }
+    .ff-p72-titre { font-size: 1.45rem; }
+  }
   @media (min-width: 1024px) {
-    .ff-p72-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s6); }
-    .ff-p72-gauche { grid-column: 1 / span 5; }
-    .ff-p72-droite { grid-column: 7 / span 6; padding-left: var(--s6); }
-    .ff-p72-colle { position: sticky; top: calc(var(--entete) + var(--s6)); }
-    /* Chaque jour occupe une hauteur d'écran utile : le jour actif suit le milieu de l'écran. */
-    .ff-p72-jours { gap: 0; }
-    .ff-p72-jour { min-height: 45vh; display: flex; align-items: center; }
-    /* Piloté par motion-ff.ts (desktop seulement) : les jours inactifs à 40 %. */
-    .ff-p72.p72-pilote .ff-p72-jour { opacity: 0.4; transition: opacity 0.3s var(--ff-power2-out); }
-    .ff-p72.p72-pilote .ff-p72-jour.est-actif { opacity: 1; }
+    .ff-p72-colle {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      align-items: center;
+      column-gap: var(--s8);
+      padding-inline: max(var(--gouttiere), calc((100vw - 1320px) / 2));
+    }
+    .ff-p72-plateau { height: min(76svh, 680px); }
+    .ff-p72-tel { width: calc(min(76svh, 680px) * 0.72 * 390 / 844); }
   }
 </style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initScenes } from './scene-ff';
+  onPage(initScenes);
+</script>

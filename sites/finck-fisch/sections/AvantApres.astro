@@ -1,18 +1,26 @@
 ---
 /**
- * Avant / après (11 oct 2026). Retour fondateur sur la version côte à côte de la veille : « moche et
- * pas attractif » (deux captures figées et petites, liste à part).
+ * Avant / après (refonte du 11 oct 2026, soir).
  *
- * Maintenant : deux écrans de téléphone, grands, comme on les voit dans la main. L'« avant » est la
- * page d'ordinateur rétrécie telle qu'un iPhone l'affiche (pas de balise viewport : texte minuscule,
- * illisible sans zoomer) ; l'« après » est Maison Roux, notre boulangerie d'exemple, qui défile toute
- * seule (DemoVideo.astro, CSS pur). Trois différences en face, chacune avec son « avant » en clair.
- * Ordinateur : texte à gauche, les deux téléphones à droite. Téléphone : les deux écrans côte à côte
- * sous le titre, puis les trois différences.
+ * Retours fondateur : la version côte à côte était « moche et pas attractive », puis les deux
+ * téléphones montraient « beaucoup de texte, pas assez d'images, ça ne pète pas aux yeux ». Sur la page
+ * d'essais, l'effet « le téléphone se retourne » a été retenu.
+ *
+ * Scène collante (scene-ff.ts pose --p) : un seul téléphone, au centre, sur une grande photo de la
+ * fournée de Maison Roux (photo du site d'exemple, crédits /credits) éteinte et grise. En défilant, le
+ * téléphone pivote du vieux site (« avant ») au nouveau (« après ») et la photo reprend ses couleurs ;
+ * puis les trois différences sortent une à une à côté du téléphone, chacune avec son « avant ».
+ * Ordinateur : titre à gauche, téléphone au centre, différences à droite, tout dans la scène.
+ * Téléphone : le titre au-dessus de la scène ; dans la scène, le téléphone se range vers le haut pour
+ * laisser sortir les différences dessous. Les deux écrans restent entiers (DemoVideo).
+ *
+ * Faces masquées par opacité à mi-tour, pas par backface-visibility : Safari l'ignore quand la face
+ * contient une couche animée (l'écran qui défile) et montre le dos en miroir.
+ * Réduire les animations ou sans JavaScript : --p vaut 1 par défaut, l'« après » est posé avec ses
+ * trois différences ; l'« avant » reste décrit dans chaque différence et dans le texte caché.
  *
  * « Avant » = un site d'artisan vieillissant typique, recréé pour l'exemple (fictif, dit dans la
- * légende ; source : scratchpad avant-roux/index.html, capturé à 980 px comme le fait un iPhone).
- * Fichiers : public/video/demos/avant-roux-t-m0..3.webp et maison-roux-t-m0..3.webp (tuiles.mjs).
+ * légende ; capturé à 980 px comme le fait un iPhone sans balise viewport).
  */
 import DemoVideo from './DemoVideo.astro';
 
@@ -23,88 +31,151 @@ const points = [
 ];
 ---
 
-<section id="avant-apres" class="ff-section">
-  <div class="ff-conteneur ff-aa">
-    <div class="ff-aa-texte">
-      <h2 class="ff-titre ff-masque" data-ff-titre><span>Ce que change un vrai site</span></h2>
-      <p class="ff-texte ff-doux mt-6 max-w-[30rem]">
-        La même boulangerie, sur le téléphone d’un client qui cherche si elle est ouverte. À gauche, le
-        site qu’ont encore beaucoup d’artisans. À droite, celui que nous lui ferions.
-      </p>
-      <ol class="ff-aa-points mt-8 md:mt-10">
+<section id="avant-apres" class="ff-section ff-aa">
+  <div class="ff-aa-scene" data-scene>
+    <div class="ff-aa-colle">
+      <img class="ff-aa-fond" src="/images/metiers/maison-roux-a-1000.webp" srcset="/images/metiers/maison-roux-a-1000.webp 1000w, /images/metiers/maison-roux-a-2000.webp 1820w" sizes="100vw" width="1000" height="667" alt="" loading="lazy" decoding="async" />
+
+      <div class="ff-aa-tete">
+        <h2 class="ff-titre ff-masque" data-ff-titre><span>Ce que change un vrai site</span></h2>
+        <p class="ff-texte ff-aa-intro">
+          La même boulangerie, sur le téléphone d’un client qui cherche si elle est ouverte. D’abord le
+          site qu’ont encore beaucoup d’artisans, puis celui que nous lui ferions.
+        </p>
+      </div>
+
+      <div class="ff-aa-centre">
+        <p class="ff-aa-etiq ff-petit" aria-hidden="true"><span class="ff-aa-etiq-a">Avant</span><span class="ff-aa-etiq-b">Après</span></p>
+        <div class="ff-aa-tel" aria-hidden="true">
+          <div class="ff-aa-face"><DemoVideo slug="avant-roux" tel /></div>
+          <div class="ff-aa-face ff-aa-dos"><DemoVideo slug="maison-roux" tel /></div>
+        </div>
+      </div>
+
+      <ol class="ff-aa-points">
         {points.map((p, i) => (
-          <li>
+          <li style={`--i: ${i}`}>
             <span class="ff-aa-num ff-petit" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-            <span class="ff-texte text-fg">{p.apres}</span>
-            <span class="ff-petit ff-doux">Avant : {p.avant}</span>
+            <span class="ff-aa-apres">{p.apres}</span>
+            <span class="ff-petit ff-aa-avant">Avant : {p.avant}</span>
           </li>
         ))}
       </ol>
     </div>
-
-    <div class="ff-aa-scene">
-      <figure class="ff-aa-ecran ff-aa-avant">
-        <figcaption class="ff-petit ff-doux">Avant</figcaption>
-        <DemoVideo slug="avant-roux" tel revele />
-        <span class="sr-only">Avant, exemple fictif : un site de boulangerie vieillissant affiché sur un téléphone, la page d’ordinateur rétrécie, texte illisible sans zoomer.</span>
-      </figure>
-      <figure class="ff-aa-ecran ff-aa-apres">
-        <figcaption class="ff-petit">Après</figcaption>
-        <DemoVideo slug="maison-roux" tel revele />
-        <span class="sr-only">Après : Maison Roux sur téléphone, le nom en grand, les horaires et le numéro lisibles tout de suite, puis la photo des baguettes.</span>
-      </figure>
-    </div>
-
-    <p class="ff-aa-legende ff-petit ff-doux">Avant : un site vieillissant typique, recréé pour l’exemple (fictif). Après : Maison Roux, boulangerie d’exemple à Lyon.</p>
   </div>
+  <p class="sr-only">Avant, exemple fictif : un site de boulangerie vieillissant sur un téléphone, la page d’ordinateur rétrécie, texte illisible sans zoomer. Après : Maison Roux sur téléphone, le nom en grand, les horaires et le numéro lisibles tout de suite, puis la photo des baguettes.</p>
+  <p class="ff-conteneur ff-petit ff-doux ff-aa-legende">Avant : un site vieillissant typique, recréé pour l’exemple (fictif). Après : Maison Roux, boulangerie d’exemple à Lyon.</p>
 </section>
 
 <style is:global>
-  .ff-aa { display: grid; gap: var(--s6); }
-  .ff-aa-scene {
+  /* --p : 1 par défaut (sans JS, mouvement réduit) = l'« après » posé avec ses différences.
+     --a : le retournement (0 → 1 entre 12 % et 52 % de la scène). --b : sortie des différences. */
+  .ff-aa { padding-bottom: var(--s4); }
+  .ff-aa-colle {
+    --a: clamp(0, (var(--p, 1) - 0.12) * 2.5, 1);
+    --b: clamp(0, (var(--p, 1) - 0.55) * 3, 1);
+    --m: clamp(0, var(--b) * 2, 1);
+    --tourne: clamp(0, (var(--a) - 0.5) * 100, 1);
+    position: relative;
     display: grid;
-    grid-template-columns: 0.86fr 1fr;
-    align-items: end;
-    gap: var(--s2);
+    gap: var(--s3);
+    padding: var(--s8) var(--gouttiere);
+    overflow: hidden;
+    isolation: isolate;
   }
-  .ff-aa-ecran { margin: 0; min-width: 0; }
-  .ff-aa-ecran figcaption { margin-bottom: var(--s1); }
-  .ff-aa-apres figcaption { color: var(--accent); }
-  .ff-aa-apres .ff-demo {
-    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
-    box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
+  /* La fournée : éteinte et grise pour l'avant, en couleur pour l'après. */
+  .ff-aa-fond {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: grayscale(calc(1 - var(--a))) brightness(calc(0.22 + var(--a) * 0.2)) blur(calc((1 - var(--a)) * 3px));
+    transform: scale(calc(1.15 - var(--p, 1) * 0.1));
   }
+  .ff-aa-intro { margin: var(--s3) 0 0; max-width: 30rem; color: color-mix(in srgb, var(--fg) 82%, transparent); }
 
-  .ff-aa-points { display: grid; list-style: none; margin: 0; padding: 0; }
+  .ff-aa-centre { display: grid; justify-items: center; gap: var(--s2); perspective: 1600px; }
+  .ff-aa-etiq { display: grid; justify-items: center; margin: 0; letter-spacing: 0.04em; }
+  .ff-aa-etiq > span { grid-area: 1 / 1; }
+  .ff-aa-etiq-a { opacity: calc(1 - var(--tourne)); color: var(--muted); }
+  .ff-aa-etiq-b { opacity: var(--tourne); color: var(--accent); }
+  .ff-aa-tel {
+    position: relative;
+    width: min(64vw, 290px);
+    transform-style: preserve-3d;
+    transform: rotateY(calc(var(--a) * 180deg)) rotateX(calc(sin(var(--a) * 3.1416) * 10deg)) scale(calc(1 - sin(var(--a) * 3.1416) * 0.08));
+  }
+  .ff-aa-face { opacity: calc(1 - var(--tourne)); }
+  .ff-aa-dos { position: absolute; inset: 0; transform: rotateY(180deg); opacity: var(--tourne); }
+  .ff-aa-tel .ff-demo {
+    border-radius: 22px;
+    border: 3px solid color-mix(in srgb, var(--fg) 85%, transparent);
+    background: var(--bg);
+    box-shadow: 0 40px 80px -24px rgb(0 0 0 / 0.95);
+  }
+  .ff-aa-dos .ff-demo { border-color: var(--accent); box-shadow: 0 40px 90px -20px rgb(0 0 0 / 0.95), 0 0 70px -10px color-mix(in srgb, var(--accent) 45%, transparent); }
+
+  /* Les différences : sortent une à une, décalées (--i). */
+  .ff-aa-points { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s1); }
   .ff-aa-points > li {
+    --e: clamp(0, (var(--b) - 0.45 - var(--i) * 0.18) * 3, 1);
     display: grid;
-    grid-template-columns: 2.5rem minmax(0, 1fr);
+    grid-template-columns: 2.2rem minmax(0, 1fr);
     column-gap: var(--s1);
-    row-gap: 2px;
-    padding-block: var(--s2);
-    border-top: 1px solid var(--line);
+    padding: var(--s2);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    border: 1px solid var(--line);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: var(--e);
+    transform: translateY(calc((1 - var(--e)) * 40px)) scale(calc(0.92 + var(--e) * 0.08));
   }
-  .ff-aa-points > li:last-child { border-bottom: 1px solid var(--line); }
-  .ff-aa-num { grid-row: span 2; color: var(--accent); padding-top: 0.2em; font-variant-numeric: tabular-nums; }
-  .ff-aa-legende { margin: 0; }
+  .ff-aa-num { grid-row: span 2; color: var(--accent); padding-top: 0.15em; font-variant-numeric: tabular-nums; }
+  .ff-aa-apres { color: var(--fg); font-weight: 600; }
+  .ff-aa-avant { color: var(--muted); }
+  .ff-aa-legende { margin-top: var(--s2); }
 
-  /* Téléphone : titre, les deux écrans, puis les différences. */
+  /* Scène active (JS, mouvement autorisé) : collante, sur toute la hauteur de l'écran. */
+  @media (prefers-reduced-motion: no-preference) {
+    .ff-scenes .ff-aa-scene { height: 250vh; }
+    .ff-scenes .ff-aa-colle { position: sticky; top: 0; height: 100svh; padding-block: calc(var(--entete) + var(--s2)) var(--s3); }
+  }
+
+  /* Téléphone : titre en haut, téléphone qui remonte et rapetisse, différences dessous. */
   @media (max-width: 1023px) {
-    .ff-aa-texte { display: contents; }
-    .ff-aa-texte > h2, .ff-aa-texte > p { order: 0; }
-    .ff-aa-scene { order: 1; }
-    .ff-aa-points { order: 2; margin-top: 0; }
-    .ff-aa-legende { order: 3; }
-    .ff-aa { gap: var(--s4); }
-    .ff-aa-texte > p { margin-top: calc(-1 * var(--s2)); }
+    .ff-aa-colle { align-content: start; }
+    .ff-aa-intro { font-size: 0.95rem; }
+    .ff-scenes .ff-aa-tete { opacity: calc(1 - var(--m) * 3); transform: translateY(calc(var(--m) * -30px)); }
+    .ff-scenes .ff-aa-centre {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(var(--entete) + 262px - var(--m) * 236px);
+      transform-origin: 50% 0;
+      transform: scale(calc(1 - var(--m) * 0.3));
+    }
+    .ff-scenes .ff-aa-tel { width: min(54vw, 46svh * 390 / 844, 290px); }
+    .ff-scenes .ff-aa-points { position: absolute; left: var(--gouttiere); right: var(--gouttiere); bottom: 88px; }
   }
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .ff-aa-scene { max-width: 560px; }
-  }
-  /* Ordinateur : texte à gauche, téléphones à droite. */
+  /* Ordinateur : titre | téléphone | différences. */
   @media (min-width: 1024px) {
-    .ff-aa { grid-template-columns: minmax(0, 1fr) minmax(0, 560px); column-gap: var(--s12); align-items: center; }
-    .ff-aa-scene { gap: var(--s4); }
-    .ff-aa-legende { grid-column: 1 / -1; }
+    .ff-aa-colle {
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      column-gap: var(--s8);
+      padding-inline: max(var(--gouttiere), calc((100vw - 1320px) / 2));
+    }
+    .ff-aa-tel { width: min(300px, 62svh * 390 / 844); }
+    .ff-aa-points { gap: var(--s2); }
+    .ff-aa-points > li { transform: translateX(calc((1 - var(--e)) * -60px)) scale(calc(0.92 + var(--e) * 0.08)); }
   }
 </style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initScenes } from './scene-ff';
+  onPage(initScenes);
+</script>
