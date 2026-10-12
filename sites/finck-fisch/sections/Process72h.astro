@@ -3,19 +3,19 @@
  * « Trois jours, pas trois mois. » (refonte du 11 oct 2026, soir).
  *
  * Retour fondateur sur la version précédente (trois blocs de texte le long d'un fil) : « beaucoup de
- * scroll pour peu de visuel ». Maintenant les trois jours se jouent sur une seule scène collante
- * (scene-ff.ts pose data-etape), avec de vrais écrans : les trois propositions que l'atelier a
- * réellement générées pour la boulangerie d'exemple Petit Pain (`ff propositions`, mêmes textes, trois
- * looks), capturées en tuiles comme les autres démos.
- * 12 oct 2026, soir (« pas fluide, on ne voit pas grand-chose ») : la scène passe en étapes jouées en
- * temps (data-etape) au lieu d'un mouvement calé image par image sur le défilement. Téléphones plus
- * grands, étiquettes « Piste 1/2/3 » en haut des écrans ; jour 2 : un toucher choisit la piste 3, les
- * deux autres tombent, deux autres pages de la piste choisie s'ouvrent en éventail ; jour 3 : l'adresse
- * « votre-nom.fr » se tape au-dessus du téléphone, puis « En ligne ». Scène de 200vh.
- * Titre au-dessus de la scène. Ordinateur : grand chiffre, jauge et texte du jour à gauche, téléphones
- * à droite. Téléphone : texte du jour en haut, téléphones dans toute la hauteur restante.
- * Réduire les animations ou sans JavaScript : pas de scène collante ni de data-etape, les trois jours
- * listés, l'éventail des trois propositions posé.
+ * scroll pour peu de visuel ». Les trois jours se jouent sur une seule scène, avec de vrais écrans :
+ * les trois propositions que l'atelier a réellement générées pour la boulangerie d'exemple Petit Pain
+ * (`ff propositions`, mêmes textes, trois looks), capturées en tuiles comme les autres démos.
+ * Jour 1 : les trois pistes en éventail, étiquetées. Jour 2 : un toucher choisit la piste 3, les deux
+ * autres tombent, deux autres pages de la piste choisie s'ouvrent en éventail. Jour 3 : l'adresse
+ * « votre-nom.fr » se tape au-dessus du téléphone, puis « En ligne ».
+ * 12 oct 2026, soir : la scène collante pilotée au défilement a été jugée « pas fluide », puis, en
+ * étapes, « toujours trop galère ». Plus aucun défilement bloqué : quand la section est visible, les
+ * jours s'enchaînent seuls (data-etape, transitions en temps), jauge façon « stories » cliquable.
+ * Ordinateur : grand chiffre, jauge et texte du jour à gauche, téléphones à droite. Téléphone : texte
+ * du jour en haut, téléphones dessous.
+ * Réduire les animations ou sans JavaScript : rien ne tourne, les trois jours listés, l'éventail des
+ * trois propositions posé.
  */
 import DemoVideo from './DemoVideo.astro';
 
@@ -43,10 +43,10 @@ const jours = [
     <h2 class="ff-titre ff-masque" data-ff-titre><span>Trois jours, pas trois mois.</span></h2>
     <p class="ff-texte ff-doux ff-p72-depart">Les 72 heures courent à partir de la réception de vos textes et de vos photos.</p>
   </div>
-  <div class="ff-p72-scene" data-scene data-etapes="-0.4,0.34,0.68">
+  <div class="ff-p72-scene">
     <div class="ff-p72-colle">
       <div class="ff-p72-texte">
-        <div class="ff-p72-jauge" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="ff-p72-jauge">{[1, 2, 3].map((n) => <button type="button" aria-label={`Voir le jour ${n}`}><span></span></button>)}</div>
         <div class="ff-p72-ligne">
           <p class="ff-p72-chiffre" aria-hidden="true"><span>1</span><span>2</span><span>3</span></p>
           <ol class="ff-p72-jours">
@@ -107,16 +107,17 @@ const jours = [
   .ff-p72-scene { margin-top: var(--s4); }
 
   /* Jauge : un segment par jour. */
-  .ff-p72-jauge { display: none; gap: 6px; margin-bottom: var(--s2); }
-  .ff-p72-jauge > span { height: 2px; flex: 1; border-radius: 2px; background: var(--line); position: relative; overflow: hidden; }
-  .ff-p72-jauge > span::after {
+  .ff-p72-jauge { display: none; gap: 6px; margin-bottom: var(--s1); }
+  .ff-p72-jauge > button { flex: 1; padding: 10px 0; margin: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .ff-p72-jauge > button > span { display: block; width: 100%; height: 3px; border-radius: 2px; background: var(--line); position: relative; overflow: hidden; }
+  .ff-p72-jauge > button > span::after {
     content: '';
     position: absolute;
     inset: 0;
     background: var(--accent);
     transform-origin: left;
     transform: scaleX(0);
-    transition: transform 0.9s var(--ff-p72-ease);
+    transition: transform 0.3s ease;
   }
 
   .ff-p72-ligne { display: grid; gap: var(--s2); }
@@ -283,18 +284,19 @@ const jours = [
   .ff-p72-scene[data-etape="3"] .ff-p72-ondes { opacity: 1; transition-delay: 2s; }
 
   /* Jauge et chiffre. */
-  .ff-p72-scene:not([data-etape="0"]) .ff-p72-jauge > span:nth-child(1)::after,
-  .ff-p72-scene:is([data-etape="2"], [data-etape="3"]) .ff-p72-jauge > span:nth-child(2)::after,
-  .ff-p72-scene[data-etape="3"] .ff-p72-jauge > span:nth-child(3)::after { transform: scaleX(1); }
+  .ff-p72-scene:is([data-etape="2"], [data-etape="3"]) .ff-p72-jauge > :nth-child(1) > span::after,
+  .ff-p72-scene[data-etape="3"] .ff-p72-jauge > :nth-child(2) > span::after { transform: scaleX(1); }
+  .ff-p72-scene[data-etape="1"] .ff-p72-jauge > :nth-child(1) > span::after,
+  .ff-p72-scene[data-etape="2"] .ff-p72-jauge > :nth-child(2) > span::after,
+  .ff-p72-scene[data-etape="3"] .ff-p72-jauge > :nth-child(3) > span::after { transform: scaleX(1); transition: transform var(--ff-p72-duree, 4.5s) linear; }
+  .ff-p72-scene[data-etape="3"] { --ff-p72-duree: 5.5s; }
 
   /* Scène active : collante ; grand chiffre et texte du jour se relaient au même endroit (le sortant
      s'efface vers le haut, l'entrant monte ensuite). */
   @media (prefers-reduced-motion: no-preference) {
-    .ff-scenes .ff-p72-scene { height: 200vh; }
-    .ff-scenes .ff-p72-colle { position: sticky; top: 0; height: 100svh; align-content: center; }
-    .ff-scenes .ff-p72-jauge { display: flex; }
-    .ff-scenes .ff-p72-ligne { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--s3); align-items: start; }
-    .ff-scenes .ff-p72-chiffre {
+    .ff-p72-auto .ff-p72-jauge { display: flex; }
+    .ff-p72-auto .ff-p72-ligne { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--s3); align-items: start; }
+    .ff-p72-auto .ff-p72-chiffre {
       display: grid;
       margin: 0;
       overflow: hidden;
@@ -304,16 +306,16 @@ const jours = [
       color: var(--accent);
       font-variant-numeric: tabular-nums;
     }
-    .ff-scenes .ff-p72-n { display: none; }
-    .ff-scenes .ff-p72-jours { grid-template-areas: 'j'; }
-    .ff-scenes :is(.ff-p72-jour, .ff-p72-chiffre > span) {
+    .ff-p72-auto .ff-p72-n { display: none; }
+    .ff-p72-auto .ff-p72-jours { grid-template-areas: 'j'; }
+    .ff-p72-auto :is(.ff-p72-jour, .ff-p72-chiffre > span) {
       grid-area: 1 / 1;
       opacity: 0;
       transform: translateY(-24px);
       transition: transform 0.5s var(--ff-p72-ease), opacity 0.35s ease;
     }
-    .ff-scenes .ff-p72-jours > li { grid-area: j; }
-    .ff-scenes .ff-p72-chiffre > span { transform: translateY(-70%); }
+    .ff-p72-auto .ff-p72-jours > li { grid-area: j; }
+    .ff-p72-auto .ff-p72-chiffre > span { transform: translateY(-70%); }
     .ff-p72-scene:is(:not([data-etape]), [data-etape="0"], [data-etape="1"]) :is(.ff-p72-j1, .ff-p72-chiffre > span:nth-child(1)),
     .ff-p72-scene[data-etape="2"] :is(.ff-p72-j2, .ff-p72-chiffre > span:nth-child(2)),
     .ff-p72-scene[data-etape="3"] :is(.ff-p72-j3, .ff-p72-chiffre > span:nth-child(3)) {
@@ -326,18 +328,11 @@ const jours = [
     .ff-p72 *, .ff-p72 *::before, .ff-p72 *::after { transition: none !important; animation: none !important; }
   }
 
-  /* Téléphone et tablette : texte du jour en haut (court), plateau dans toute la hauteur restante
-     entre le texte et la barre basse. */
+  /* Téléphone et tablette : texte du jour en haut (court), téléphones dessous. */
   @media (max-width: 1023px) {
-    .ff-scenes .ff-p72-colle {
-      display: flex;
-      flex-direction: column;
-      gap: var(--s3);
-      padding-top: calc(var(--entete) + var(--s2));
-      padding-bottom: calc(var(--barre) + var(--s2));
-    }
-    .ff-scenes .ff-p72-plateau { flex: 1; min-height: 0; height: auto; }
-    .ff-scenes .ff-p72-chiffre { font-size: 3.2rem; }
+    .ff-p72-colle { gap: var(--s2); }
+    .ff-p72-plateau { height: min(62svh, 560px); }
+    .ff-p72-auto .ff-p72-chiffre { font-size: 3.2rem; }
     .ff-p72-corps { font-size: 0.9rem; line-height: 1.45; }
     .ff-p72-titre { font-size: 1.35rem; }
     .ff-p72-tel { width: min(46vw, calc(80cqh * 390 / 844)); }
@@ -353,15 +348,42 @@ const jours = [
       column-gap: var(--s6);
       padding-inline: max(var(--gouttiere), calc((100vw - 1320px) / 2));
     }
-    .ff-scenes .ff-p72-colle { padding-top: var(--entete); }
     .ff-p72-plateau { height: min(84svh, 760px); }
-    .ff-scenes .ff-p72-ligne { grid-template-columns: minmax(0, 1fr); }
-    .ff-scenes .ff-p72-chiffre { font-size: clamp(8rem, 16vw, 14rem); line-height: 0.9; }
+    .ff-p72-auto .ff-p72-ligne { grid-template-columns: minmax(0, 1fr); }
+    .ff-p72-auto .ff-p72-chiffre { font-size: clamp(8rem, 16vw, 14rem); line-height: 0.9; }
   }
 </style>
 
 <script>
   import { onPage } from '@/scripts/page';
-  import { initScenes } from './scene-ff';
-  onPage(initScenes);
+
+  // 12 oct 2026, soir (« toujours trop galère, le truc en 3 étapes ») : plus de défilement bloqué. Quand
+  // la section est visible, les trois jours s'enchaînent seuls en boucle, façon « stories » ; un toucher
+  // sur la jauge saute à un jour. Hors écran, tout s'arrête. « Réduire les animations » : rien ne tourne,
+  // les trois jours restent listés.
+  const DUREES = [0, 4500, 4500, 5500];
+  onPage(() => {
+    const section = document.querySelector<HTMLElement>('.ff-p72');
+    const scene = section?.querySelector<HTMLElement>('.ff-p72-scene');
+    if (!section || !scene || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    section.classList.add('ff-p72-auto');
+    let etape = 0;
+    let minuteur = 0;
+    let visible = false;
+    const aller = (n: number) => {
+      etape = n;
+      scene.dataset.etape = String(n);
+      clearTimeout(minuteur);
+      if (visible) minuteur = window.setTimeout(() => aller((etape % 3) + 1), DUREES[n]);
+    };
+    aller(0);
+    section.querySelectorAll<HTMLButtonElement>('.ff-p72-jauge > button').forEach((b, i) => b.addEventListener('click', () => aller(i + 1)));
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) aller(etape || 1);
+      else clearTimeout(minuteur);
+    }, { threshold: 0.45 });
+    io.observe(scene);
+    document.addEventListener('astro:before-swap', () => { io.disconnect(); clearTimeout(minuteur); }, { once: true });
+  });
 </script>
