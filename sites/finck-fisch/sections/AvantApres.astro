@@ -6,21 +6,21 @@
  * téléphones montraient « beaucoup de texte, pas assez d'images, ça ne pète pas aux yeux ». Sur la page
  * d'essais, l'effet « le téléphone se retourne » a été retenu.
  *
- * Scène collante (scene-ff.ts pose --p) : un seul téléphone sur une grande photo de la fournée de
- * Maison Roux (photo du site d'exemple, crédits /credits) éteinte et grise. En défilant, le téléphone
- * pivote du vieux site (« avant ») au nouveau (« après ») et la photo reprend ses couleurs ; puis les
- * trois différences sortent une à une, chacune avec son « avant ».
+ * Scène collante en étapes (scene-ff.ts pose data-etape) : un seul téléphone sur une grande photo de
+ * la fournée de Maison Roux (photo du site d'exemple, crédits /credits) éteinte et grise. Au premier
+ * coup de défilement, un rideau lumineux balaie l'écran et découvre le nouveau site (« après »), la
+ * photo reprend ses couleurs ; puis les trois différences sortent une à une, chacune avec son « avant ».
+ * 12 oct 2026, soir (« l'anim avant/après bugue un peu et n'est pas wow ») : le retournement 3D calé
+ * sur le défilement est remplacé par ce rideau joué en temps.
  * Le titre et l'intro sont au-dessus de la scène (12 oct : dans la scène, sur petit iPhone, le
  * téléphone finissait sous la barre basse). Ordinateur : grand « Avant / Après » à gauche, téléphone
  * au centre, différences à droite. Téléphone : le téléphone prend toute la hauteur libre entre
  * l'en-tête et la barre basse, puis se range vers le haut pour laisser sortir les différences dessous.
  * Les deux écrans restent entiers (DemoVideo).
  *
- * Faces masquées par opacité à mi-tour, pas par backface-visibility : Safari l'ignore quand la face
- * contient une couche animée (l'écran qui défile) et montre le dos en miroir.
  * Photo : deux couches fixes (grise, en couleur) dont seule l'opacité change ; un filtre animé
  * repeignait la photo plein écran à chaque image (saccades sur iPhone).
- * Réduire les animations ou sans JavaScript : --p vaut 1 par défaut, l'« après » est posé avec ses
+ * Réduire les animations ou sans JavaScript : pas de data-etape, l'« après » est posé avec ses
  * trois différences ; l'« avant » reste décrit dans chaque différence et dans le texte caché.
  *
  * « Avant » = un site d'artisan vieillissant typique, recréé pour l'exemple (fictif, dit dans la
@@ -48,7 +48,7 @@ const fond = {
     </p>
   </div>
 
-  <div class="ff-aa-scene" data-scene>
+  <div class="ff-aa-scene" data-scene data-etapes="0.12,0.55">
     <div class="ff-aa-colle">
       <img class="ff-aa-fond ff-aa-fond-gris" src={fond.src} srcset={fond.srcset} sizes="100vw" width="1000" height="667" alt="" loading="lazy" decoding="async" />
       <img class="ff-aa-fond ff-aa-fond-couleur" src={fond.src} srcset={fond.srcset} sizes="100vw" width="1000" height="667" alt="" loading="lazy" decoding="async" />
@@ -58,8 +58,8 @@ const fond = {
       <div class="ff-aa-centre">
         <p class="ff-aa-etiq ff-petit" aria-hidden="true"><span class="ff-aa-etiq-a">Avant</span><span class="ff-aa-etiq-b">Après</span></p>
         <div class="ff-aa-tel" aria-hidden="true">
-          <div class="ff-aa-face"><DemoVideo slug="avant-roux" tel largeur={300} /></div>
-          <div class="ff-aa-face ff-aa-dos"><DemoVideo slug="maison-roux" tel largeur={300} /></div>
+          <DemoVideo slug="avant-roux" tel largeur={300} />
+          <div class="ff-aa-rideau"><div class="ff-aa-rideau-in"><DemoVideo slug="maison-roux" tel largeur={300} /></div></div>
         </div>
       </div>
 
@@ -79,17 +79,22 @@ const fond = {
 </section>
 
 <style is:global>
-  /* --p : 1 par défaut (sans JS, mouvement réduit) = l'« après » posé avec ses différences.
-     --a : le retournement (12 % → 52 % de la scène). --b : sortie des différences ; --m : le
-     téléphone se range pendant la première moitié de --b, les différences sortent ensuite. */
-  .ff-aa { padding-bottom: var(--s4); }
+  /* Étapes posées par scene-ff.ts (data-etape, seuils data-etapes) : 0 = l'« avant » sur la photo
+     éteinte ; 1 = un rideau balaie l'écran de haut en bas et découvre l'« après », la photo reprend ses
+     couleurs, le téléphone respire ; 2 = les trois différences sortent une à une.
+     Chaque étape est une transition EN TEMPS sur transform/opacity (compositeur), plus un mouvement
+     recalculé à chaque image de défilement : c'était la cause du « ça bugue » (retournement 3D calé
+     sur le doigt, saccadé, parfois montré à l'envers par Safari). Sans JavaScript ou avec « réduire
+     les animations », pas de data-etape : les règles « au moins 1 / au moins 2 » s'appliquent,
+     l'« après » est posé avec ses trois différences. */
+  .ff-aa {
+    padding-bottom: var(--s4);
+    --ff-aa-ease: cubic-bezier(0.77, 0, 0.18, 1);
+    --ff-aa-sortie: cubic-bezier(0.16, 1, 0.3, 1);
+  }
   .ff-aa-intro { margin: var(--s3) 0 0; max-width: 32rem; }
   .ff-aa-scene { margin-top: var(--s4); }
   .ff-aa-colle {
-    --a: clamp(0, (var(--p, 1) - 0.12) * 2.5, 1);
-    --b: clamp(0, (var(--p, 1) - 0.55) * 3, 1);
-    --m: clamp(0, var(--b) * 2, 1);
-    --tourne: clamp(0, (var(--a) - 0.5) * 100, 1);
     position: relative;
     display: grid;
     justify-items: center;
@@ -98,6 +103,9 @@ const fond = {
     overflow: hidden;
     isolation: isolate;
   }
+
+  /* Photo : deux couches fixes, seule l'opacité de la couche en couleur change (un filtre animé
+     repeignait la photo plein écran à chaque image). */
   .ff-aa-fond {
     position: absolute;
     inset: 0;
@@ -105,39 +113,67 @@ const fond = {
     height: 100%;
     object-fit: cover;
     z-index: -1;
-    transform: scale(calc(1.12 - var(--p, 1) * 0.08));
+    transform: scale(1.1);
+    transition: transform 2.2s var(--ff-aa-sortie), opacity 1.4s ease;
+    will-change: transform, opacity;
   }
-  .ff-aa-fond, .ff-aa-centre, .ff-aa-points > li, .ff-aa-grand > span, .ff-aa-etiq > span { will-change: transform, opacity; }
   .ff-aa-fond-gris { filter: grayscale(1) brightness(0.24) blur(2px); }
-  .ff-aa-fond-couleur { filter: brightness(0.42); opacity: var(--a); }
+  .ff-aa-fond-couleur { filter: brightness(0.42); opacity: 0; }
 
   .ff-aa-grand { display: none; }
-  .ff-aa-centre { display: grid; justify-items: center; gap: var(--s2); perspective: 1600px; }
-  .ff-aa-etiq { display: grid; justify-items: center; margin: 0; letter-spacing: 0.04em; }
-  .ff-aa-etiq > span, .ff-aa-grand > span { grid-area: 1 / 1; }
-  .ff-aa-etiq-a, .ff-aa-grand-a { opacity: calc(1 - var(--tourne)); color: var(--muted); }
-  .ff-aa-etiq-b, .ff-aa-grand-b { opacity: var(--tourne); color: var(--accent); }
-  .ff-aa-tel {
-    position: relative;
-    width: min(64vw, 290px);
-    transform-style: preserve-3d;
-    transform: rotateY(calc(var(--a) * 180deg)) rotateX(calc(sin(var(--a) * 3.1416) * 10deg)) scale(calc(1 - sin(var(--a) * 3.1416) * 0.08));
-  }
-  .ff-aa-face { opacity: calc(1 - var(--tourne)); }
-  .ff-aa-dos { position: absolute; inset: 0; transform: rotateY(180deg); opacity: var(--tourne); }
+  .ff-aa-centre { display: grid; justify-items: center; gap: var(--s2); transition: transform 0.9s var(--ff-aa-ease); will-change: transform; }
+  .ff-aa-etiq { display: grid; justify-items: center; margin: 0; letter-spacing: 0.04em; overflow: hidden; }
+  .ff-aa-etiq > span, .ff-aa-grand > span { grid-area: 1 / 1; transition: transform 0.7s var(--ff-aa-ease), opacity 0.5s ease; }
+  .ff-aa-etiq-a, .ff-aa-grand-a { color: var(--muted); }
+  .ff-aa-etiq-b, .ff-aa-grand-b { color: var(--accent); opacity: 0; transform: translateY(100%); }
+
+  .ff-aa-tel { position: relative; width: min(64vw, 290px); }
   .ff-aa-tel .ff-demo {
     border-radius: 22px;
     border: 3px solid color-mix(in srgb, var(--fg) 85%, transparent);
     background: var(--bg);
     box-shadow: 0 40px 80px -24px rgb(0 0 0 / 0.95);
   }
-  .ff-aa-dos .ff-demo { border-color: var(--accent); }
+  /* Rideau : le cadre descend (-101 % → 0) pendant que son contenu remonte d'autant, avec la même
+     courbe : l'écran « après » reste immobile et se découvre de haut en bas. Deux translations, rien à
+     repeindre. Le liseré lumineux suit le bord du rideau. */
+  .ff-aa-rideau {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 22px;
+    transform: translateY(-101%);
+    transition: transform 1.15s var(--ff-aa-ease);
+    will-change: transform;
+  }
+  .ff-aa-rideau-in { transform: translateY(101%); transition: transform 1.15s var(--ff-aa-ease); will-change: transform; }
+  .ff-aa-rideau .ff-demo { border-color: var(--accent); box-shadow: none; }
+  .ff-aa-rideau::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    z-index: 1;
+    background: var(--accent);
+    box-shadow: 0 0 18px 4px color-mix(in srgb, var(--accent) 70%, transparent);
+    opacity: 0;
+  }
+  /* Halo cuivre derrière le téléphone une fois l'« après » posé (calque, seule l'opacité change). */
+  .ff-aa-tel::before {
+    content: '';
+    position: absolute;
+    inset: 8% -18%;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 38%, transparent), transparent);
+    opacity: 0;
+    transition: opacity 1.2s ease 0.6s;
+  }
 
-  /* Les différences sortent une à une (--i). Fond plein, pas de backdrop-filter (coûteux sur iPhone
-     au-dessus d'écrans animés). */
   .ff-aa-points { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s1); width: 100%; max-width: 30rem; }
   .ff-aa-points > li {
-    --e: clamp(0, (var(--b) - 0.45 - var(--i) * 0.18) * 3, 1);
     display: grid;
     grid-template-columns: 2rem minmax(0, 1fr);
     column-gap: var(--s1);
@@ -145,22 +181,47 @@ const fond = {
     border-radius: 12px;
     background: color-mix(in srgb, var(--bg) 92%, transparent);
     border: 1px solid var(--line);
-    opacity: var(--e);
-    transform: translateY(calc((1 - var(--e)) * 30px)) scale(calc(0.94 + var(--e) * 0.06));
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+    transition: transform 0.4s ease, opacity 0.3s ease;
+    will-change: transform, opacity;
   }
   .ff-aa-num { grid-row: span 2; color: var(--accent); padding-top: 0.15em; font-variant-numeric: tabular-nums; }
   .ff-aa-apres { color: var(--fg); font-weight: 600; }
   .ff-aa-avant { color: var(--muted); }
   .ff-aa-legende { margin-top: var(--s2); }
 
+  /* Au moins l'étape 1 (ou pas de data-etape) : l'« après ». */
+  .ff-aa-scene:not([data-etape="0"]) .ff-aa-fond { transform: scale(1.02); }
+  .ff-aa-scene:not([data-etape="0"]) .ff-aa-fond-couleur { opacity: 1; }
+  .ff-aa-scene:not([data-etape="0"]) :is(.ff-aa-rideau, .ff-aa-rideau-in) { transform: none; }
+  .ff-aa-scene:not([data-etape="0"]) .ff-aa-tel::before { opacity: 1; }
+  .ff-aa-scene:not([data-etape="0"]) :is(.ff-aa-etiq-a, .ff-aa-grand-a) { opacity: 0; transform: translateY(-100%); transition-delay: 0.25s; }
+  .ff-aa-scene:not([data-etape="0"]) :is(.ff-aa-etiq-b, .ff-aa-grand-b) { opacity: 1; transform: none; transition-delay: 0.4s; }
+  /* Au moins l'étape 2 : les différences, l'une après l'autre. */
+  .ff-aa-scene:not([data-etape="0"]):not([data-etape="1"]) .ff-aa-points > li {
+    opacity: 1;
+    transform: none;
+    transition: transform 0.8s var(--ff-aa-sortie), opacity 0.5s ease;
+    transition-delay: calc(0.25s + var(--i) * 0.14s);
+  }
+  /* Passage à l'étape 1 (pas sans JavaScript) : liseré qui balaie, téléphone qui respire. */
+  .ff-aa-scene:is([data-etape="1"], [data-etape="2"]) .ff-aa-rideau::after { animation: ff-aa-lisere 1.15s ease forwards; }
+  .ff-aa-scene:is([data-etape="1"], [data-etape="2"]) .ff-aa-tel { animation: ff-aa-respire 0.9s var(--ff-aa-sortie) 0.95s both; }
+  @keyframes ff-aa-lisere { 0% { opacity: 0; } 12%, 80% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes ff-aa-respire { 0% { transform: scale(1); } 40% { transform: scale(1.035); } 100% { transform: scale(1); } }
+
   @media (prefers-reduced-motion: no-preference) {
-    .ff-scenes .ff-aa-scene { height: 190vh; }
+    .ff-scenes .ff-aa-scene { height: 170vh; }
     .ff-scenes .ff-aa-colle { position: sticky; top: 0; height: 100svh; padding-block: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ff-aa *, .ff-aa *::before, .ff-aa *::after { transition: none !important; animation: none !important; }
   }
 
   /* Téléphone et tablette : le téléphone occupe la hauteur libre entre l'en-tête et la barre basse
-     (unités de conteneur), puis se range vers le haut (scale, origine en haut) pour laisser les
-     différences sortir dessous. Rien ne passe sous la barre basse. */
+     (unités de conteneur), puis se range vers le haut (scale, origine en haut) à l'étape 2 pour laisser
+     les différences sortir dessous. Rien ne passe sous la barre basse. */
   @media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
     .ff-scenes .ff-aa-centre {
       position: absolute;
@@ -172,8 +233,8 @@ const fond = {
       align-content: start;
       gap: var(--s1);
       transform-origin: 50% 0;
-      transform: scale(calc(1 - var(--m) * var(--range, 0.45)));
     }
+    .ff-scenes .ff-aa-scene:not([data-etape="0"]):not([data-etape="1"]) .ff-aa-centre { transform: scale(calc(1 - var(--range, 0.45))); }
     .ff-scenes .ff-aa-tel { width: min(78vw, calc((100cqh - 36px) * 390 / 844)); }
     .ff-scenes .ff-aa-points {
       position: absolute;
@@ -204,15 +265,16 @@ const fond = {
       display: grid;
       justify-self: start;
       margin: 0;
+      overflow: hidden;
       font-family: var(--ff-titres);
       font-size: clamp(4rem, 8vw, 8rem);
-      line-height: 1;
+      line-height: 1.1;
       letter-spacing: -0.02em;
     }
     .ff-aa-etiq { display: none; }
     .ff-aa-tel { width: min(300px, calc((100svh - var(--entete) - 80px) * 390 / 844)); }
     .ff-aa-points { gap: var(--s2); }
-    .ff-aa-points > li { padding: var(--s2); transform: translateX(calc((1 - var(--e)) * -60px)) scale(calc(0.94 + var(--e) * 0.06)); }
+    .ff-aa-points > li { padding: var(--s2); transform: translateX(-40px); }
   }
 </style>
 

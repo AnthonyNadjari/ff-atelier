@@ -8,6 +8,12 @@
  *   avec `data-scene-libre` (de son entrée en bas à sa sortie en haut).
  *   `data-scene-dx` : pose aussi `--dx` (px), la longueur à faire glisser d'une piste horizontale
  *   (`[data-piste]` à l'intérieur) pour qu'elle défile en entier pendant la scène.
+ * - `data-etapes="-0.3,0.35,0.7"` (12 oct 2026) : la scène reçoit aussi `data-etape` = nombre de seuils
+ *   franchis par l'avancée (non bornée : un seuil négatif tombe avant que la scène ne colle). Le CSS
+ *   joue alors des transitions EN TEMPS sur transform/opacity, gérées par le compositeur : bien plus
+ *   fluide sur iPhone qu'un mouvement recalculé à chaque image de défilement (Safari défile hors du
+ *   fil principal, une animation calée sur --p y suit le doigt avec du retard et saccade). Retour
+ *   fondateur sur Avant/après et Trois jours : « ça bugue un peu », « pas fluide ».
  * - `[data-couv]` (carrousel horizontal) : chaque enfant reçoit `--d` (-1 → 1, distance au centre de
  *   l'écran, en largeurs de carte) et `--ad` (sa valeur absolue, plafonnée à 1). Marche pour une piste
  *   qu'on fait glisser au doigt (scrollLeft) comme pour une piste poussée par `--dx` (translation).
@@ -25,7 +31,7 @@
  */
 const REDUIT = '(prefers-reduced-motion: reduce)';
 
-type Scene = { el: HTMLElement; course: number; haut: number; piste: HTMLElement | null; dx: number; p: number; pTxt: string };
+type Scene = { el: HTMLElement; course: number; haut: number; piste: HTMLElement | null; dx: number; p: number; pTxt: string; seuils: number[]; etape: number };
 type Carte = { el: HTMLElement; centre: number; largeur: number; d: string };
 type Couv = { el: HTMLElement; scene: Scene | null; base: number; cartes: Carte[] };
 
@@ -42,6 +48,8 @@ export function initScenes(): void {
     dx: -1,
     p: 0,
     pTxt: '',
+    seuils: (el.dataset.etapes ?? '').split(',').filter(Boolean).map(Number),
+    etape: -1,
   }));
   const couvs: Couv[] = [...document.querySelectorAll<HTMLElement>('[data-couv]')].map((el) => ({
     el,
@@ -96,8 +104,13 @@ export function initScenes(): void {
       // héritée par tout le contenu de la scène ; la reposer à chaque image recalculait les styles de
       // toutes ses cartes pour rien (mesuré le 12 oct 2026).
       if (!s.course && !s.el.hasAttribute('data-scene-libre')) return;
-      if (top > vh * 2 || top + s.haut < -vh) return;
+      if (!s.seuils.length && (top > vh * 2 || top + s.haut < -vh)) return;
       const brut = s.course ? -top / s.course : (vh - top) / (vh + s.haut);
+      if (s.seuils.length) {
+        const n = s.seuils.filter((x) => brut >= x).length;
+        if (n !== s.etape) { s.etape = n; s.el.dataset.etape = String(n); }
+        return;
+      }
       s.p = Math.min(1, Math.max(0, brut));
       const txt = s.p.toFixed(4);
       if (txt !== s.pTxt) { s.pTxt = txt; s.el.style.setProperty('--p', txt); }

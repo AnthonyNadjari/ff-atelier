@@ -4,21 +4,18 @@
  *
  * Retour fondateur sur la version précédente (trois blocs de texte le long d'un fil) : « beaucoup de
  * scroll pour peu de visuel ». Maintenant les trois jours se jouent sur une seule scène collante
- * (scene-ff.ts pose --p), avec de vrais écrans :
- * - Jour 1 : trois téléphones arrivent en éventail. Ce sont les trois propositions que l'atelier a
- *   réellement générées pour la boulangerie d'exemple Petit Pain (`ff propositions`, mêmes textes,
- *   trois looks), capturées en tuiles comme les autres démos.
- * - Jour 2 : les deux autres glissent derrière la piste choisie et deviennent ses autres pages (même
- *   groupe, seul le contenu se fond : rien ne disparaît pour réapparaître ailleurs).
- * - Jour 3 : les pages se rangent dessous, « En ligne » monte au-dessus du téléphone, des ondes partent.
- * Un grand chiffre roule de 1 à 3 à côté du texte du jour ; une jauge d'un segment par passage.
- * 12 oct 2026 (retour fondateur : « la transition n'est pas très fluide ni très belle ») : passages
- * adoucis (smoothstep), paliers entre les jours, téléphone qui flotte, scène raccourcie (230vh).
- * Titre au-dessus de la scène (12 oct : dans la scène, sur petit iPhone, les téléphones passaient sous
- * la barre basse). Ordinateur : jauge et texte du jour à gauche, téléphones à droite. Téléphone : texte
- * du jour en haut, téléphones dans toute la hauteur restante (unités de conteneur).
- * Réduire les animations ou sans JavaScript : pas de scène collante, les trois jours listés, l'éventail
- * des trois propositions posé (--p par défaut à 0 pour la scène, textes tous visibles).
+ * (scene-ff.ts pose data-etape), avec de vrais écrans : les trois propositions que l'atelier a
+ * réellement générées pour la boulangerie d'exemple Petit Pain (`ff propositions`, mêmes textes, trois
+ * looks), capturées en tuiles comme les autres démos.
+ * 12 oct 2026, soir (« pas fluide, on ne voit pas grand-chose ») : la scène passe en étapes jouées en
+ * temps (data-etape) au lieu d'un mouvement calé image par image sur le défilement. Téléphones plus
+ * grands, étiquettes « Piste 1/2/3 » en haut des écrans ; jour 2 : un toucher choisit la piste 3, les
+ * deux autres tombent, deux autres pages de la piste choisie s'ouvrent en éventail ; jour 3 : l'adresse
+ * « votre-nom.fr » se tape au-dessus du téléphone, puis « En ligne ». Scène de 200vh.
+ * Titre au-dessus de la scène. Ordinateur : grand chiffre, jauge et texte du jour à gauche, téléphones
+ * à droite. Téléphone : texte du jour en haut, téléphones dans toute la hauteur restante.
+ * Réduire les animations ou sans JavaScript : pas de scène collante ni de data-etape, les trois jours
+ * listés, l'éventail des trois propositions posé.
  */
 import DemoVideo from './DemoVideo.astro';
 
@@ -46,12 +43,12 @@ const jours = [
     <h2 class="ff-titre ff-masque" data-ff-titre><span>Trois jours, pas trois mois.</span></h2>
     <p class="ff-texte ff-doux ff-p72-depart">Les 72 heures courent à partir de la réception de vos textes et de vos photos.</p>
   </div>
-  <div class="ff-p72-scene" data-scene>
+  <div class="ff-p72-scene" data-scene data-etapes="-0.4,0.34,0.68">
     <div class="ff-p72-colle">
       <div class="ff-p72-texte">
         <div class="ff-p72-jauge" aria-hidden="true"><span></span><span></span><span></span></div>
         <div class="ff-p72-ligne">
-          <p class="ff-p72-chiffre" aria-hidden="true"><span class="ff-p72-rouleau"><span>1</span><span>2</span><span>3</span></span></p>
+          <p class="ff-p72-chiffre" aria-hidden="true"><span>1</span><span>2</span><span>3</span></p>
           <ol class="ff-p72-jours">
             {jours.map((j, i) => (
               <li class={`ff-p72-jour ff-p72-j${i + 1}`}>
@@ -66,20 +63,23 @@ const jours = [
 
       <div class="ff-p72-plateau" aria-hidden="true">
         <div class="ff-p72-ondes"><span></span><span></span><span></span></div>
-        {/* Côtés : la piste non choisie (jour 1) et, au même endroit, une autre page de la piste
-            choisie (jour 2). Le groupe bouge d'un seul tenant, seul son contenu se fond. */}
-        {[['g', 'piste-boulangerie-1', 'Piste 1', 6], ['d', 'piste-boulangerie-2', 'Piste 2', 12]].map(([cote, slug, nom, dec]) => (
-          <div class={`ff-p72-cote ff-p72-cote-${cote}`}>
-            <div class="ff-p72-tel ff-p72-piste"><DemoVideo slug={slug as string} tel decalage={2} /><span class="ff-petit">{nom}</span></div>
-            <div class="ff-p72-tel ff-p72-page"><DemoVideo slug="piste-boulangerie-3" tel decalage={dec as number} /></div>
-          </div>
-        ))}
+        {/* Jour 1 : les deux pistes non choisies, de chaque côté. Jour 2 : elles tombent, et deux autres
+            pages de la piste choisie s'ouvrent en éventail derrière elle. */}
+        <div class="ff-p72-tel ff-p72-piste ff-p72-g"><DemoVideo slug="piste-boulangerie-1" tel decalage={2} /><span class="ff-p72-etiq">Piste 1</span></div>
+        <div class="ff-p72-tel ff-p72-piste ff-p72-d"><DemoVideo slug="piste-boulangerie-2" tel decalage={4} /><span class="ff-p72-etiq">Piste 2</span></div>
+        <div class="ff-p72-tel ff-p72-page ff-p72-g"><DemoVideo slug="piste-boulangerie-3" tel decalage={6} /></div>
+        <div class="ff-p72-tel ff-p72-page ff-p72-d"><DemoVideo slug="piste-boulangerie-3" tel decalage={12} /></div>
         <div class="ff-p72-centre">
           <div class="ff-p72-flotte">
-            <div class="ff-p72-tel ff-p72-choisie"><DemoVideo slug="piste-boulangerie-3" tel /><span class="ff-petit">Piste 3</span></div>
+            <div class="ff-p72-tel ff-p72-choisie">
+              <DemoVideo slug="piste-boulangerie-3" tel />
+              <span class="ff-p72-etiq ff-p72-etiq-3">Piste 3</span>
+              <span class="ff-p72-etiq ff-p72-etiq-ok">Choisie</span>
+              <span class="ff-p72-tap"></span>
+            </div>
           </div>
         </div>
-        <p class="ff-p72-badge ff-petit"><span class="ff-p72-point"></span>En ligne, à votre nom</p>
+        <p class="ff-p72-adresse"><span class="ff-p72-point"></span><span class="ff-p72-url">votre-nom.fr</span><span class="ff-p72-enligne">En ligne</span></p>
       </div>
     </div>
   </div>
@@ -87,17 +87,16 @@ const jours = [
 </section>
 
 <style is:global>
-  /* Avancée brute de chaque passage (0 → 1), puis adoucie (smoothstep : départ et arrivée en douceur,
-     plus de mouvement à vitesse constante qui démarre et s'arrête sec). Paliers entre les passages :
-     chaque jour reste posé un moment. Noms --ta/--tb/--tc et --a/--b/--c : jamais --s1, --s2…
-     (ce sont les espacements du site, bug du 12 oct). */
+  /* Étapes posées par scene-ff.ts (data-etape, seuils data-etapes) : 0 = avant la scène, 1 = jour 1,
+     2 = jour 2, 3 = jour 3. Sans data-etape (sans JavaScript, « réduire les animations ») : le jour 1
+     posé, les trois jours listés. Chaque passage est une transition EN TEMPS sur transform/opacity
+     (compositeur), plus un mouvement recalculé à chaque image de défilement (12 oct 2026, soir :
+     « le 1 2 3 n'est pas fluide et on ne voit pas grand-chose »). */
+  .ff-p72 {
+    --ff-p72-ease: cubic-bezier(0.77, 0, 0.18, 1);
+    --ff-p72-sortie: cubic-bezier(0.16, 1, 0.3, 1);
+  }
   .ff-p72-colle {
-    --ta: clamp(0, var(--p, 0) / 0.14, 1);
-    --tb: clamp(0, (var(--p, 0) - 0.3) / 0.17, 1);
-    --tc: clamp(0, (var(--p, 0) - 0.63) / 0.17, 1);
-    --a: calc(var(--ta) * var(--ta) * (3 - 2 * var(--ta)));
-    --b: calc(var(--tb) * var(--tb) * (3 - 2 * var(--tb)));
-    --c: calc(var(--tc) * var(--tc) * (3 - 2 * var(--tc)));
     position: relative;
     display: grid;
     gap: var(--s4);
@@ -107,88 +106,140 @@ const jours = [
   .ff-p72-depart { margin: var(--s3) 0 0; max-width: 30rem; }
   .ff-p72-scene { margin-top: var(--s4); }
 
-  /* Jauge : un segment par passage. */
+  /* Jauge : un segment par jour. */
   .ff-p72-jauge { display: none; gap: 6px; margin-bottom: var(--s2); }
   .ff-p72-jauge > span { height: 2px; flex: 1; border-radius: 2px; background: var(--line); position: relative; overflow: hidden; }
-  .ff-p72-jauge > span::after { content: ''; position: absolute; inset: 0; background: var(--accent); transform-origin: left; transform: scaleX(var(--g)); }
-  .ff-p72-jauge > span:nth-child(1) { --g: var(--a); }
-  .ff-p72-jauge > span:nth-child(2) { --g: var(--b); }
-  .ff-p72-jauge > span:nth-child(3) { --g: var(--c); }
+  .ff-p72-jauge > span::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.9s var(--ff-p72-ease);
+  }
 
   .ff-p72-ligne { display: grid; gap: var(--s2); }
   .ff-p72-chiffre { display: none; }
   .ff-p72-jours { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
   .ff-p72-n { color: var(--accent); margin: 0; }
-  .ff-p72-titre { font-family: var(--ff-titres); font-weight: 450; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.1; color: var(--fg); margin: 4px 0 var(--s1); }
+  .ff-p72-titre { font-family: var(--ff-titres); font-weight: 450; font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1.1; color: var(--fg); margin: 4px 0 var(--s1); }
   .ff-p72-corps { margin: 0; max-width: 32rem; }
 
   /* Plateau : tout est empilé au même endroit et placé par transform (unités de conteneur). */
   .ff-p72-plateau {
     position: relative;
-    height: min(64svh, 560px);
+    height: min(70svh, 600px);
     display: grid;
     place-items: center;
-    perspective: 1600px;
     container-type: size;
   }
   .ff-p72-plateau > * { grid-area: 1 / 1; }
-  .ff-p72-tel { width: calc(72cqh * 390 / 844); position: relative; text-align: center; }
-  .ff-p72-tel > .ff-petit { display: block; margin-top: var(--s1); color: var(--muted); opacity: calc(1 - var(--b)); }
+  .ff-p72-tel { width: calc(76cqh * 390 / 844); position: relative; }
   .ff-p72-tel .ff-demo { border-radius: 16px; border: 2px solid color-mix(in srgb, var(--fg) 80%, transparent); background: var(--bg); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.9); }
+  .ff-p72-tel, .ff-p72-centre, .ff-p72-flotte, .ff-p72-adresse, .ff-p72-ondes, .ff-p72-jour, .ff-p72-chiffre > span { will-change: transform, opacity; }
 
-  /* Côtés : éventail (jour 1, ±74 %) → glissés derrière la piste choisie en pages (jour 2, ±30 %) →
-     rangés dessous (jour 3). */
-  .ff-p72-cote { display: grid; will-change: transform, opacity; opacity: calc(var(--a) * (1 - var(--c))); }
-  .ff-p72-cote > * { grid-area: 1 / 1; }
-  .ff-p72-cote-g { --sens: -1; }
-  .ff-p72-cote-d { --sens: 1; }
-  .ff-p72-cote {
-    transform:
-      translateX(calc(var(--sens) * (74% * var(--a) - 44% * var(--b) - 30% * var(--c))))
-      translateY(calc(4% * var(--a)))
-      rotate(calc(var(--sens) * (8deg * var(--a) - 3deg * var(--b) - 5deg * var(--c))))
-      scale(calc(0.9 - 0.05 * var(--b)));
-  }
-  .ff-p72-piste { opacity: calc(1 - var(--b)); will-change: opacity; }
-  .ff-p72-page { opacity: var(--b); will-change: opacity; }
-  .ff-p72-page .ff-demo { filter: brightness(0.75); }
-
-  /* La piste choisie : monte légèrement, s'incline au jour 2, se redresse en ligne. */
-  .ff-p72-centre {
+  /* Étiquettes « Piste 1/2/3 », posées en haut des écrans : lisibles d'un coup d'œil. */
+  .ff-p72-etiq {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    translate: -50% 0;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--bg-2, var(--bg));
+    border: 1px solid var(--line);
+    color: var(--fg);
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
     z-index: 2;
-    will-change: transform;
-    transform:
-      translateY(calc((1 - var(--a)) * 28px))
-      scale(calc(1 + 0.07 * var(--b) + 0.02 * var(--c)))
-      rotateY(calc(var(--b) * (1 - var(--c)) * -10deg));
+    transition: opacity 0.4s ease;
   }
-  .ff-p72-flotte { animation: ff-p72-flotte 5s ease-in-out infinite alternate; will-change: transform; }
+  .ff-p72-etiq-ok { background: var(--accent); border-color: var(--accent); color: var(--bg); opacity: 0; }
+
+  /* Pistes non choisies : en éventail au jour 1, puis elles tombent. */
+  .ff-p72-piste {
+    --sens: -1;
+    z-index: 1;
+    transform: translate(calc(var(--sens) * 70%), 5%) rotate(calc(var(--sens) * 8deg)) scale(0.84);
+    transition: transform 1s var(--ff-p72-ease), opacity 0.6s ease;
+  }
+  .ff-p72-piste.ff-p72-d, .ff-p72-page.ff-p72-d { --sens: 1; }
+  .ff-p72-piste .ff-demo { filter: brightness(0.85); }
+
+  /* Pages de la piste choisie : cachées derrière elle au jour 1, en éventail au jour 2. */
+  .ff-p72-page {
+    --sens: -1;
+    z-index: 1;
+    opacity: 0;
+    transform: translate(calc(var(--sens) * 8%), 0) rotate(0) scale(0.8);
+    transition: transform 0.9s var(--ff-p72-ease), opacity 0.5s ease;
+  }
+  .ff-p72-page .ff-demo { filter: brightness(0.8); }
+
+  .ff-p72-centre { z-index: 2; transform: scale(0.94); transition: transform 1s var(--ff-p72-ease), opacity 0.6s ease; }
+  .ff-p72-flotte { animation: ff-p72-flotte 5s ease-in-out infinite alternate; }
   @keyframes ff-p72-flotte { from { transform: translateY(4px); } to { transform: translateY(-6px); } }
   /* Liseré de la piste choisie : calque dont seule l'opacité change. */
-  .ff-p72-choisie::after { content: ''; position: absolute; left: 0; right: 0; top: 0; aspect-ratio: 390 / 844; border: 2px solid var(--accent); border-radius: 16px; opacity: var(--b); pointer-events: none; }
+  .ff-p72-choisie::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    aspect-ratio: 390 / 844;
+    border: 2px solid var(--accent);
+    border-radius: 16px;
+    box-shadow: 0 0 40px -6px color-mix(in srgb, var(--accent) 60%, transparent);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+  /* Le « toucher » qui choisit, joué une fois à l'entrée du jour 2. */
+  .ff-p72-tap {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    border-radius: 50%;
+    border: 2px solid var(--fg);
+    background: color-mix(in srgb, var(--fg) 25%, transparent);
+    opacity: 0;
+  }
+  @keyframes ff-p72-tap {
+    0% { opacity: 0; transform: scale(1.6); }
+    25% { opacity: 1; transform: scale(0.8); }
+    45% { opacity: 1; transform: scale(0.7); }
+    100% { opacity: 0; transform: scale(2.2); }
+  }
 
-  /* Jour 3 : « En ligne » monte au-dessus du téléphone, les ondes partent. */
-  .ff-p72-badge {
+  /* Jour 3 : l'adresse se tape au-dessus du téléphone, « En ligne », les ondes partent. */
+  .ff-p72-adresse {
     z-index: 3;
     align-self: start;
     margin: 0;
     display: flex;
     align-items: center;
-    gap: var(--s1);
-    padding: 10px 16px;
-    border-radius: 10px;
+    gap: 10px;
+    padding: 9px 9px 9px 14px;
+    border-radius: 999px;
     background: var(--fg);
     color: var(--bg);
     font-weight: 600;
+    font-size: 0.9rem;
     white-space: nowrap;
     box-shadow: 0 16px 40px -10px rgb(0 0 0 / 0.8);
-    opacity: var(--c);
-    will-change: transform, opacity;
-    transform: translateY(calc((1 - var(--c)) * 28px)) scale(calc(0.9 + var(--c) * 0.1));
+    opacity: 0;
+    transform: translateY(24px) scale(0.9);
+    transition: transform 0.5s ease, opacity 0.3s ease;
   }
+  .ff-p72-url { clip-path: inset(0 100% 0 0); }
+  .ff-p72-enligne { padding: 3px 10px; border-radius: 999px; background: var(--accent); color: var(--bg); font-size: 0.8rem; opacity: 0; transform: scale(0.6); transition: transform 0.3s ease, opacity 0.2s ease; }
   .ff-p72-point { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: ff-p72-pouls 1.6s ease-out infinite; }
   @keyframes ff-p72-pouls { to { box-shadow: 0 0 0 10px transparent; } }
-  .ff-p72-ondes { width: 100%; height: 100%; display: grid; place-items: center; opacity: var(--c); will-change: opacity; }
+  @keyframes ff-p72-tape { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 -12% 0 0); } }
+  .ff-p72-ondes { width: 100%; height: 100%; display: grid; place-items: center; opacity: 0; transition: opacity 0.8s ease; }
   .ff-p72-ondes > span {
     grid-area: 1 / 1;
     width: 70%;
@@ -201,72 +252,111 @@ const jours = [
   .ff-p72-ondes > span:nth-child(3) { animation-delay: -2.4s; }
   @keyframes ff-p72-onde { 0% { transform: scale(0.4); opacity: 0.7; } 100% { transform: scale(1.5); opacity: 0; } }
 
-  /* Scène active : collante ; grand chiffre qui roule (1 → 2 → 3) à côté du texte du jour, les textes
-     se relaient au même endroit (le sortant s'efface avant que l'entrant n'arrive). */
+  /* ---- Étape 0 : avant la scène, tout attend sous le plateau. ---- */
+  .ff-p72-scene[data-etape="0"] .ff-p72-piste { opacity: 0; transform: translate(calc(var(--sens) * 20%), 30%) rotate(0) scale(0.84); }
+  .ff-p72-scene[data-etape="0"] .ff-p72-centre { opacity: 0; transform: translateY(20%) scale(0.94); }
+  /* Entrée du jour 1 : le centre d'abord, les pistes s'ouvrent ensuite. */
+  .ff-p72-scene[data-etape="1"] .ff-p72-piste { transition-delay: 0.2s; }
+
+  /* ---- Jour 2 : toucher, les pistes tombent, les pages s'ouvrent. ---- */
+  .ff-p72-scene:is([data-etape="2"], [data-etape="3"]) .ff-p72-piste {
+    opacity: 0;
+    transform: translate(calc(var(--sens) * 95%), 60%) rotate(calc(var(--sens) * 24deg)) scale(0.78);
+    transition-delay: 0.35s;
+  }
+  .ff-p72-scene[data-etape="2"] .ff-p72-page {
+    opacity: 1;
+    transform: translate(calc(var(--sens) * 62%), 4%) rotate(calc(var(--sens) * 7deg)) scale(0.86);
+    transition: transform 1.1s var(--ff-p72-sortie) 0.8s, opacity 0.5s ease 0.8s;
+  }
+  .ff-p72-scene[data-etape="2"] .ff-p72-centre { transform: scale(1.02); transition-delay: 0.3s; }
+  .ff-p72-scene:is([data-etape="2"], [data-etape="3"]) .ff-p72-choisie::after { opacity: 1; transition-delay: 0.3s; }
+  .ff-p72-scene:is([data-etape="2"], [data-etape="3"]) .ff-p72-etiq-3 { opacity: 0; }
+  .ff-p72-scene[data-etape="2"] .ff-p72-etiq-ok { opacity: 1; transition-delay: 0.35s; }
+  .ff-p72-scene[data-etape="2"] .ff-p72-tap { animation: ff-p72-tap 0.9s ease-out both; }
+
+  /* ---- Jour 3 : les pages se rangent, l'adresse se tape, en ligne. ---- */
+  .ff-p72-scene[data-etape="3"] .ff-p72-centre { transform: translateY(5%) scale(1); }
+  .ff-p72-scene[data-etape="3"] .ff-p72-adresse { opacity: 1; transform: none; transition: transform 0.7s var(--ff-p72-sortie) 0.5s, opacity 0.4s ease 0.5s; }
+  .ff-p72-scene[data-etape="3"] .ff-p72-url { animation: ff-p72-tape 0.9s steps(12, end) 1s both; }
+  .ff-p72-scene[data-etape="3"] .ff-p72-enligne { opacity: 1; transform: none; transition: transform 0.5s var(--ff-p72-sortie) 2s, opacity 0.3s ease 2s; }
+  .ff-p72-scene[data-etape="3"] .ff-p72-ondes { opacity: 1; transition-delay: 2s; }
+
+  /* Jauge et chiffre. */
+  .ff-p72-scene:not([data-etape="0"]) .ff-p72-jauge > span:nth-child(1)::after,
+  .ff-p72-scene:is([data-etape="2"], [data-etape="3"]) .ff-p72-jauge > span:nth-child(2)::after,
+  .ff-p72-scene[data-etape="3"] .ff-p72-jauge > span:nth-child(3)::after { transform: scaleX(1); }
+
+  /* Scène active : collante ; grand chiffre et texte du jour se relaient au même endroit (le sortant
+     s'efface vers le haut, l'entrant monte ensuite). */
   @media (prefers-reduced-motion: no-preference) {
-    .ff-scenes .ff-p72-scene { height: 230vh; }
+    .ff-scenes .ff-p72-scene { height: 200vh; }
     .ff-scenes .ff-p72-colle { position: sticky; top: 0; height: 100svh; align-content: center; }
     .ff-scenes .ff-p72-jauge { display: flex; }
     .ff-scenes .ff-p72-ligne { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--s3); align-items: start; }
     .ff-scenes .ff-p72-chiffre {
-      display: block;
+      display: grid;
       margin: 0;
-      height: 1em;
       overflow: hidden;
       font-family: var(--ff-titres);
       font-size: clamp(3.6rem, 9vw, 7.5rem);
       line-height: 1;
       color: var(--accent);
       font-variant-numeric: tabular-nums;
-      /* Fondu haut et bas : le chiffre qui roule entre et sort en douceur, pas coupé net. */
-      -webkit-mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent);
-      mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent);
     }
-    .ff-p72-rouleau { display: grid; will-change: transform; transform: translateY(calc((var(--b) + var(--c)) * -1em)); }
     .ff-scenes .ff-p72-n { display: none; }
     .ff-scenes .ff-p72-jours { grid-template-areas: 'j'; }
-    .ff-scenes .ff-p72-jour { grid-area: j; will-change: transform, opacity; }
-    .ff-scenes .ff-p72-j1 { opacity: calc(1 - clamp(0, var(--b) * 2, 1)); transform: translateY(calc(clamp(0, var(--b) * 2, 1) * -14px)); }
-    .ff-scenes .ff-p72-j2 {
-      opacity: calc(clamp(0, var(--b) * 2 - 1, 1) * (1 - clamp(0, var(--c) * 2, 1)));
-      transform: translateY(calc((1 - clamp(0, var(--b) * 2 - 1, 1)) * 14px - clamp(0, var(--c) * 2, 1) * 14px));
+    .ff-scenes :is(.ff-p72-jour, .ff-p72-chiffre > span) {
+      grid-area: 1 / 1;
+      opacity: 0;
+      transform: translateY(-24px);
+      transition: transform 0.5s var(--ff-p72-ease), opacity 0.35s ease;
     }
-    .ff-scenes .ff-p72-j3 { opacity: clamp(0, var(--c) * 2 - 1, 1); transform: translateY(calc((1 - clamp(0, var(--c) * 2 - 1, 1)) * 14px)); }
+    .ff-scenes .ff-p72-jours > li { grid-area: j; }
+    .ff-scenes .ff-p72-chiffre > span { transform: translateY(-70%); }
+    .ff-p72-scene:is(:not([data-etape]), [data-etape="0"], [data-etape="1"]) :is(.ff-p72-j1, .ff-p72-chiffre > span:nth-child(1)),
+    .ff-p72-scene[data-etape="2"] :is(.ff-p72-j2, .ff-p72-chiffre > span:nth-child(2)),
+    .ff-p72-scene[data-etape="3"] :is(.ff-p72-j3, .ff-p72-chiffre > span:nth-child(3)) {
+      opacity: 1;
+      transform: none;
+      transition: transform 0.8s var(--ff-p72-sortie) 0.3s, opacity 0.5s ease 0.3s;
+    }
   }
-  /* Sans scène (sans JS, mouvement réduit) : l'éventail des trois pistes posé, les jours en liste. */
-  :root:not(.ff-scenes) .ff-p72-colle { --a: 1; --b: 0; --c: 0; }
   @media (prefers-reduced-motion: reduce) {
-    .ff-p72-ondes > span, .ff-p72-point, .ff-p72-flotte { animation: none; }
+    .ff-p72 *, .ff-p72 *::before, .ff-p72 *::after { transition: none !important; animation: none !important; }
   }
 
-  /* Téléphone et tablette : texte du jour en haut, plateau dans toute la hauteur restante entre le
-     texte et la barre basse. */
+  /* Téléphone et tablette : texte du jour en haut (court), plateau dans toute la hauteur restante
+     entre le texte et la barre basse. */
   @media (max-width: 1023px) {
     .ff-scenes .ff-p72-colle {
       display: flex;
       flex-direction: column;
-      gap: var(--s2);
+      gap: var(--s3);
       padding-top: calc(var(--entete) + var(--s2));
       padding-bottom: calc(var(--barre) + var(--s2));
     }
     .ff-scenes .ff-p72-plateau { flex: 1; min-height: 0; height: auto; }
-    .ff-scenes .ff-p72-chiffre { font-size: 3.4rem; }
-    .ff-p72-corps { font-size: 0.95rem; }
-    .ff-p72-titre { font-size: 1.4rem; }
+    .ff-scenes .ff-p72-chiffre { font-size: 3.2rem; }
+    .ff-p72-corps { font-size: 0.9rem; line-height: 1.45; }
+    .ff-p72-titre { font-size: 1.35rem; }
+    .ff-p72-tel { width: min(46vw, calc(80cqh * 390 / 844)); }
   }
   @media (max-width: 1023px) and (max-height: 720px) {
-    .ff-p72-corps { font-size: 0.875rem; line-height: 1.45; }
-    .ff-p72-titre { font-size: 1.2rem; }
+    .ff-p72-corps { font-size: 0.82rem; }
+    .ff-p72-titre { font-size: 1.15rem; }
   }
   @media (min-width: 1024px) {
     .ff-p72-colle {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
       align-items: center;
-      column-gap: var(--s8);
+      column-gap: var(--s6);
       padding-inline: max(var(--gouttiere), calc((100vw - 1320px) / 2));
     }
     .ff-scenes .ff-p72-colle { padding-top: var(--entete); }
-    .ff-p72-plateau { height: min(78svh, 700px); }
+    .ff-p72-plateau { height: min(84svh, 760px); }
+    .ff-scenes .ff-p72-ligne { grid-template-columns: minmax(0, 1fr); }
+    .ff-scenes .ff-p72-chiffre { font-size: clamp(8rem, 16vw, 14rem); line-height: 0.9; }
   }
 </style>
 

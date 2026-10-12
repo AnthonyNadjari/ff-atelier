@@ -164,6 +164,9 @@ Liste complète : `docs/HANDOVER.md` § 5. Leçons d'octobre 2026 (site du studi
   Préfixer les variables de scène (`--j2`, `--p`, `--a`).
 - Scène collante pilotée au défilement sur iPhone : mesurer la course sur l'enfant `100svh`, pas `innerHeight`
   (qui bouge quand la barre de Safari se replie), et garder les écrans au-dessus de la barre basse (`--barre`).
+- Animation riche calée image par image sur `--p` (3D, plusieurs téléphones) : saccadée sur iPhone, Safari
+  défile hors du fil principal. Préférer des étapes (`data-etapes` → `data-etape`, scene-ff.ts) et des
+  transitions en temps sur transform/opacity ; garder `--p` pour les simples translations.
 - Vercel sans `cleanUrls: true` = 404 sur `/audit`, `/mentions-legales` : passer par `ff vercel`.
 - Pages légales sur mesure : `sites/<slug>/legal/MentionsLegales.astro` / `Confidentialite.astro`
   (modèle `outils/legal/`), voir `docs/CONVENTIONS.md` § Pages légales.
