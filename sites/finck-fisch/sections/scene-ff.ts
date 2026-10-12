@@ -33,7 +33,11 @@ export function initScenes(): void {
     for (const s of scenes) {
       const r = s.getBoundingClientRect();
       if (r.bottom < -vh || r.top > vh * 2) continue;
-      const p = r.height > vh * 1.2 ? -r.top / (r.height - vh) : (vh - r.top) / (vh + r.height);
+      // Scène collante : course = hauteur du bloc moins celle de l'enfant collant (100svh). Mesurer
+      // innerHeight faisait sauter --p quand la barre de Safari se replie en cours de défilement.
+      const colle = s.firstElementChild as HTMLElement | null;
+      const v = colle && getComputedStyle(colle).position === 'sticky' ? colle.offsetHeight : vh;
+      const p = r.height > v * 1.2 ? -r.top / (r.height - v) : (vh - r.top) / (vh + r.height);
       s.style.setProperty('--p', Math.min(1, Math.max(0, p)).toFixed(4));
       if (s.hasAttribute('data-scene-dx')) {
         const piste = s.querySelector<HTMLElement>('[data-piste]');

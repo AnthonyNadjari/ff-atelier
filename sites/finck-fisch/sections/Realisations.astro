@@ -130,8 +130,17 @@ const dossier = '/images/metiers';
     height: 100%;
     object-fit: cover;
     transform: translateX(calc(var(--d) * -9%)) scale(calc(1.04 + var(--ad) * 0.08));
-    filter: brightness(calc(0.8 - var(--ad) * 0.25));
+    filter: brightness(0.8);
     z-index: -2;
+  }
+  /* Voile des cartes hors centre : opacité seule (un filtre animé repeignait la photo à chaque image). */
+  .ff-rea-carte::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--bg);
+    opacity: calc(var(--ad) * 0.45);
   }
   .ff-rea-carte::after {
     content: '';

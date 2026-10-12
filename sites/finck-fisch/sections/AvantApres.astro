@@ -1,21 +1,25 @@
 ---
 /**
- * Avant / après (refonte du 11 oct 2026, soir).
+ * Avant / après (refonte du 11 oct 2026, corrigée le 12).
  *
  * Retours fondateur : la version côte à côte était « moche et pas attractive », puis les deux
  * téléphones montraient « beaucoup de texte, pas assez d'images, ça ne pète pas aux yeux ». Sur la page
  * d'essais, l'effet « le téléphone se retourne » a été retenu.
  *
- * Scène collante (scene-ff.ts pose --p) : un seul téléphone, au centre, sur une grande photo de la
- * fournée de Maison Roux (photo du site d'exemple, crédits /credits) éteinte et grise. En défilant, le
- * téléphone pivote du vieux site (« avant ») au nouveau (« après ») et la photo reprend ses couleurs ;
- * puis les trois différences sortent une à une à côté du téléphone, chacune avec son « avant ».
- * Ordinateur : titre à gauche, téléphone au centre, différences à droite, tout dans la scène.
- * Téléphone : le titre au-dessus de la scène ; dans la scène, le téléphone se range vers le haut pour
- * laisser sortir les différences dessous. Les deux écrans restent entiers (DemoVideo).
+ * Scène collante (scene-ff.ts pose --p) : un seul téléphone sur une grande photo de la fournée de
+ * Maison Roux (photo du site d'exemple, crédits /credits) éteinte et grise. En défilant, le téléphone
+ * pivote du vieux site (« avant ») au nouveau (« après ») et la photo reprend ses couleurs ; puis les
+ * trois différences sortent une à une, chacune avec son « avant ».
+ * Le titre et l'intro sont au-dessus de la scène (12 oct : dans la scène, sur petit iPhone, le
+ * téléphone finissait sous la barre basse). Ordinateur : grand « Avant / Après » à gauche, téléphone
+ * au centre, différences à droite. Téléphone : le téléphone prend toute la hauteur libre entre
+ * l'en-tête et la barre basse, puis se range vers le haut pour laisser sortir les différences dessous.
+ * Les deux écrans restent entiers (DemoVideo).
  *
  * Faces masquées par opacité à mi-tour, pas par backface-visibility : Safari l'ignore quand la face
  * contient une couche animée (l'écran qui défile) et montre le dos en miroir.
+ * Photo : deux couches fixes (grise, en couleur) dont seule l'opacité change ; un filtre animé
+ * repeignait la photo plein écran à chaque image (saccades sur iPhone).
  * Réduire les animations ou sans JavaScript : --p vaut 1 par défaut, l'« après » est posé avec ses
  * trois différences ; l'« avant » reste décrit dans chaque différence et dans le texte caché.
  *
@@ -29,20 +33,27 @@ const points = [
   { apres: 'Les horaires sous le nom.', avant: 'cachés dans la page Contact.' },
   { apres: 'Le numéro en un toucher.', avant: 'tout en bas, à recopier.' },
 ];
+const fond = {
+  src: '/images/metiers/maison-roux-a-1000.webp',
+  srcset: '/images/metiers/maison-roux-a-1000.webp 1000w, /images/metiers/maison-roux-a-2000.webp 1820w',
+};
 ---
 
 <section id="avant-apres" class="ff-section ff-aa">
+  <div class="ff-conteneur">
+    <h2 class="ff-titre ff-masque" data-ff-titre><span>Ce que change un vrai site</span></h2>
+    <p class="ff-texte ff-doux ff-aa-intro">
+      La même boulangerie, sur le téléphone d’un client qui cherche si elle est ouverte. D’abord le
+      site qu’ont encore beaucoup d’artisans, puis celui que nous lui ferions.
+    </p>
+  </div>
+
   <div class="ff-aa-scene" data-scene>
     <div class="ff-aa-colle">
-      <img class="ff-aa-fond" src="/images/metiers/maison-roux-a-1000.webp" srcset="/images/metiers/maison-roux-a-1000.webp 1000w, /images/metiers/maison-roux-a-2000.webp 1820w" sizes="100vw" width="1000" height="667" alt="" loading="lazy" decoding="async" />
+      <img class="ff-aa-fond ff-aa-fond-gris" src={fond.src} srcset={fond.srcset} sizes="100vw" width="1000" height="667" alt="" loading="lazy" decoding="async" />
+      <img class="ff-aa-fond ff-aa-fond-couleur" src={fond.src} srcset={fond.srcset} sizes="100vw" width="1000" height="667" alt="" loading="lazy" decoding="async" />
 
-      <div class="ff-aa-tete">
-        <h2 class="ff-titre ff-masque" data-ff-titre><span>Ce que change un vrai site</span></h2>
-        <p class="ff-texte ff-aa-intro">
-          La même boulangerie, sur le téléphone d’un client qui cherche si elle est ouverte. D’abord le
-          site qu’ont encore beaucoup d’artisans, puis celui que nous lui ferions.
-        </p>
-      </div>
+      <p class="ff-aa-grand" aria-hidden="true"><span class="ff-aa-grand-a">Avant</span><span class="ff-aa-grand-b">Après</span></p>
 
       <div class="ff-aa-centre">
         <p class="ff-aa-etiq ff-petit" aria-hidden="true"><span class="ff-aa-etiq-a">Avant</span><span class="ff-aa-etiq-b">Après</span></p>
@@ -69,8 +80,11 @@ const points = [
 
 <style is:global>
   /* --p : 1 par défaut (sans JS, mouvement réduit) = l'« après » posé avec ses différences.
-     --a : le retournement (0 → 1 entre 12 % et 52 % de la scène). --b : sortie des différences. */
+     --a : le retournement (12 % → 52 % de la scène). --b : sortie des différences ; --m : le
+     téléphone se range pendant la première moitié de --b, les différences sortent ensuite. */
   .ff-aa { padding-bottom: var(--s4); }
+  .ff-aa-intro { margin: var(--s3) 0 0; max-width: 32rem; }
+  .ff-aa-scene { margin-top: var(--s4); }
   .ff-aa-colle {
     --a: clamp(0, (var(--p, 1) - 0.12) * 2.5, 1);
     --b: clamp(0, (var(--p, 1) - 0.55) * 3, 1);
@@ -78,12 +92,12 @@ const points = [
     --tourne: clamp(0, (var(--a) - 0.5) * 100, 1);
     position: relative;
     display: grid;
-    gap: var(--s3);
-    padding: var(--s8) var(--gouttiere);
+    justify-items: center;
+    gap: var(--s4);
+    padding: var(--s6) var(--gouttiere);
     overflow: hidden;
     isolation: isolate;
   }
-  /* La fournée : éteinte et grise pour l'avant, en couleur pour l'après. */
   .ff-aa-fond {
     position: absolute;
     inset: 0;
@@ -91,16 +105,17 @@ const points = [
     height: 100%;
     object-fit: cover;
     z-index: -1;
-    filter: grayscale(calc(1 - var(--a))) brightness(calc(0.22 + var(--a) * 0.2)) blur(calc((1 - var(--a)) * 3px));
-    transform: scale(calc(1.15 - var(--p, 1) * 0.1));
+    transform: scale(calc(1.12 - var(--p, 1) * 0.08));
   }
-  .ff-aa-intro { margin: var(--s3) 0 0; max-width: 30rem; color: color-mix(in srgb, var(--fg) 82%, transparent); }
+  .ff-aa-fond-gris { filter: grayscale(1) brightness(0.24) blur(2px); }
+  .ff-aa-fond-couleur { filter: brightness(0.42); opacity: var(--a); }
 
+  .ff-aa-grand { display: none; }
   .ff-aa-centre { display: grid; justify-items: center; gap: var(--s2); perspective: 1600px; }
   .ff-aa-etiq { display: grid; justify-items: center; margin: 0; letter-spacing: 0.04em; }
-  .ff-aa-etiq > span { grid-area: 1 / 1; }
-  .ff-aa-etiq-a { opacity: calc(1 - var(--tourne)); color: var(--muted); }
-  .ff-aa-etiq-b { opacity: var(--tourne); color: var(--accent); }
+  .ff-aa-etiq > span, .ff-aa-grand > span { grid-area: 1 / 1; }
+  .ff-aa-etiq-a, .ff-aa-grand-a { opacity: calc(1 - var(--tourne)); color: var(--muted); }
+  .ff-aa-etiq-b, .ff-aa-grand-b { opacity: var(--tourne); color: var(--accent); }
   .ff-aa-tel {
     position: relative;
     width: min(64vw, 290px);
@@ -115,52 +130,67 @@ const points = [
     background: var(--bg);
     box-shadow: 0 40px 80px -24px rgb(0 0 0 / 0.95);
   }
-  .ff-aa-dos .ff-demo { border-color: var(--accent); box-shadow: 0 40px 90px -20px rgb(0 0 0 / 0.95), 0 0 70px -10px color-mix(in srgb, var(--accent) 45%, transparent); }
+  .ff-aa-dos .ff-demo { border-color: var(--accent); }
 
-  /* Les différences : sortent une à une, décalées (--i). */
-  .ff-aa-points { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s1); }
+  /* Les différences sortent une à une (--i). Fond plein, pas de backdrop-filter (coûteux sur iPhone
+     au-dessus d'écrans animés). */
+  .ff-aa-points { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s1); width: 100%; max-width: 30rem; }
   .ff-aa-points > li {
     --e: clamp(0, (var(--b) - 0.45 - var(--i) * 0.18) * 3, 1);
     display: grid;
-    grid-template-columns: 2.2rem minmax(0, 1fr);
+    grid-template-columns: 2rem minmax(0, 1fr);
     column-gap: var(--s1);
-    padding: var(--s2);
-    border-radius: 14px;
-    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    padding: 12px var(--s2);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
     border: 1px solid var(--line);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
     opacity: var(--e);
-    transform: translateY(calc((1 - var(--e)) * 40px)) scale(calc(0.92 + var(--e) * 0.08));
+    transform: translateY(calc((1 - var(--e)) * 30px)) scale(calc(0.94 + var(--e) * 0.06));
   }
   .ff-aa-num { grid-row: span 2; color: var(--accent); padding-top: 0.15em; font-variant-numeric: tabular-nums; }
   .ff-aa-apres { color: var(--fg); font-weight: 600; }
   .ff-aa-avant { color: var(--muted); }
   .ff-aa-legende { margin-top: var(--s2); }
 
-  /* Scène active (JS, mouvement autorisé) : collante, sur toute la hauteur de l'écran. */
   @media (prefers-reduced-motion: no-preference) {
     .ff-scenes .ff-aa-scene { height: 250vh; }
-    .ff-scenes .ff-aa-colle { position: sticky; top: 0; height: 100svh; padding-block: calc(var(--entete) + var(--s2)) var(--s3); }
+    .ff-scenes .ff-aa-colle { position: sticky; top: 0; height: 100svh; padding-block: 0; }
   }
 
-  /* Téléphone : titre en haut, téléphone qui remonte et rapetisse, différences dessous. */
-  @media (max-width: 1023px) {
-    .ff-aa-colle { align-content: start; }
-    .ff-aa-intro { font-size: 0.95rem; }
-    .ff-scenes .ff-aa-tete { opacity: calc(1 - var(--m) * 3); transform: translateY(calc(var(--m) * -30px)); }
+  /* Téléphone et tablette : le téléphone occupe la hauteur libre entre l'en-tête et la barre basse
+     (unités de conteneur), puis se range vers le haut (scale, origine en haut) pour laisser les
+     différences sortir dessous. Rien ne passe sous la barre basse. */
+  @media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
     .ff-scenes .ff-aa-centre {
       position: absolute;
       left: 0;
       right: 0;
-      top: calc(var(--entete) + 262px - var(--m) * 236px);
+      top: calc(var(--entete) + var(--s2));
+      bottom: calc(var(--barre) + var(--s2));
+      container-type: size;
+      align-content: start;
+      gap: var(--s1);
       transform-origin: 50% 0;
-      transform: scale(calc(1 - var(--m) * 0.3));
+      transform: scale(calc(1 - var(--m) * var(--range, 0.45)));
     }
-    .ff-scenes .ff-aa-tel { width: min(54vw, 46svh * 390 / 844, 290px); }
-    .ff-scenes .ff-aa-points { position: absolute; left: var(--gouttiere); right: var(--gouttiere); bottom: 88px; }
+    .ff-scenes .ff-aa-tel { width: min(78vw, calc((100cqh - 36px) * 390 / 844)); }
+    .ff-scenes .ff-aa-points {
+      position: absolute;
+      left: var(--gouttiere);
+      right: var(--gouttiere);
+      bottom: calc(var(--barre) + var(--s2));
+      width: auto;
+      margin-inline: auto;
+      gap: 6px;
+    }
+    .ff-scenes .ff-aa-points > li { padding: 9px 14px; }
   }
-  /* Ordinateur : titre | téléphone | différences. */
+  @media (max-width: 1023px) and (max-height: 720px) {
+    .ff-aa-colle { --range: 0.5; }
+    .ff-aa-points .ff-aa-avant { font-size: 0.8rem; }
+  }
+
+  /* Ordinateur : grand « Avant / Après » | téléphone | différences. */
   @media (min-width: 1024px) {
     .ff-aa-colle {
       grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -168,9 +198,20 @@ const points = [
       column-gap: var(--s8);
       padding-inline: max(var(--gouttiere), calc((100vw - 1320px) / 2));
     }
-    .ff-aa-tel { width: min(300px, 62svh * 390 / 844); }
+    .ff-scenes .ff-aa-colle { padding-top: var(--entete); }
+    .ff-aa-grand {
+      display: grid;
+      justify-self: start;
+      margin: 0;
+      font-family: var(--ff-titres);
+      font-size: clamp(4rem, 8vw, 8rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .ff-aa-etiq { display: none; }
+    .ff-aa-tel { width: min(300px, calc((100svh - var(--entete) - 80px) * 390 / 844)); }
     .ff-aa-points { gap: var(--s2); }
-    .ff-aa-points > li { transform: translateX(calc((1 - var(--e)) * -60px)) scale(calc(0.92 + var(--e) * 0.08)); }
+    .ff-aa-points > li { padding: var(--s2); transform: translateX(calc((1 - var(--e)) * -60px)) scale(calc(0.94 + var(--e) * 0.06)); }
   }
 </style>
 

@@ -159,6 +159,11 @@ Liste complète : `docs/HANDOVER.md` § 5. Leçons d'octobre 2026 (site du studi
   `ff tuiles`.
 - Émulation WebKit/iPhone contre le serveur local = échec (CSP `upgrade-insecure-requests` + HSTS) :
   vérifier iOS sur l'URL https déployée.
+- Variable CSS locale d'animation nommée comme un token (`--s1`, `--s2`… = espacements) : elle écrase le token
+  dans toute la sous-arborescence, les `calc(var(--s2) + …)` deviennent invalides et les marges tombent à 0.
+  Préfixer les variables de scène (`--j2`, `--p`, `--a`).
+- Scène collante pilotée au défilement sur iPhone : mesurer la course sur l'enfant `100svh`, pas `innerHeight`
+  (qui bouge quand la barre de Safari se replie), et garder les écrans au-dessus de la barre basse (`--barre`).
 - Vercel sans `cleanUrls: true` = 404 sur `/audit`, `/mentions-legales` : passer par `ff vercel`.
 - Pages légales sur mesure : `sites/<slug>/legal/MentionsLegales.astro` / `Confidentialite.astro`
   (modèle `outils/legal/`), voir `docs/CONVENTIONS.md` § Pages légales.

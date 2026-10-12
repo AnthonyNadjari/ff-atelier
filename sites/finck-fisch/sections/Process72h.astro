@@ -12,8 +12,9 @@
  *   derrière elle (la même démo, décalée dans son défilement).
  * - Jour 3 : le téléphone se redresse, « En ligne » s'allume et des ondes partent de l'écran.
  * Le texte du jour change avec la scène ; une jauge en trois segments suit l'avancée.
- * Ordinateur : texte à gauche, scène à droite. Téléphone : titre au-dessus, dans la scène le texte du
- * jour en haut et les téléphones dessous.
+ * Titre au-dessus de la scène (12 oct : dans la scène, sur petit iPhone, les téléphones passaient sous
+ * la barre basse). Ordinateur : jauge et texte du jour à gauche, téléphones à droite. Téléphone : texte
+ * du jour en haut, téléphones dans toute la hauteur restante (unités de conteneur).
  * Réduire les animations ou sans JavaScript : pas de scène collante, les trois jours listés, l'éventail
  * des trois propositions posé (--p par défaut à 0 pour la scène, textes tous visibles).
  */
@@ -39,11 +40,13 @@ const jours = [
 ---
 
 <section id="trois-jours" class="ff-section ff-p72">
+  <div class="ff-conteneur">
+    <h2 class="ff-titre ff-masque" data-ff-titre><span>Trois jours, pas trois mois.</span></h2>
+    <p class="ff-texte ff-doux ff-p72-depart">Les 72 heures courent à partir de la réception de vos textes et de vos photos.</p>
+  </div>
   <div class="ff-p72-scene" data-scene>
     <div class="ff-p72-colle">
       <div class="ff-p72-texte">
-        <h2 class="ff-titre ff-masque" data-ff-titre><span>Trois jours, pas trois mois.</span></h2>
-        <p class="ff-petit ff-doux ff-p72-depart">Les 72 heures courent à partir de la réception de vos textes et de vos photos.</p>
         <div class="ff-p72-jauge" aria-hidden="true"><span></span><span></span><span></span></div>
         <ol class="ff-p72-jours">
           {jours.map((j, i) => (
@@ -71,27 +74,29 @@ const jours = [
 </section>
 
 <style is:global>
-  /* --f : arrivée de l'éventail ; --s1 : jour 1 → 2 ; --s2 : jour 2 → 3. */
+  /* --f : arrivée de l'éventail ; --j2 : jour 1 → 2 ; --j3 : jour 2 → 3. Pas --s1/--s2 : ce sont les
+     espacements du site (bug du 12 oct, marges annulées dans toute la section). */
   .ff-p72-colle {
     --f: clamp(0, var(--p, 0) * 6, 1);
-    --s1: clamp(0, (var(--p, 0) - 0.34) * 6, 1);
-    --s2: clamp(0, (var(--p, 0) - 0.67) * 6, 1);
+    --j2: clamp(0, (var(--p, 0) - 0.34) * 6, 1);
+    --j3: clamp(0, (var(--p, 0) - 0.67) * 6, 1);
     position: relative;
     display: grid;
     gap: var(--s4);
     padding-inline: var(--gouttiere);
     overflow: hidden;
   }
-  .ff-p72-depart { margin: var(--s3) 0 0; max-width: 26rem; }
+  .ff-p72-depart { margin: var(--s3) 0 0; max-width: 30rem; }
+  .ff-p72-scene { margin-top: var(--s4); }
 
   /* Jauge : trois segments qui se remplissent. */
-  .ff-p72-jauge { display: none; gap: 6px; margin-top: var(--s3); }
+  .ff-p72-jauge { display: none; gap: 6px; }
   .ff-p72-jauge > span { height: 3px; flex: 1; border-radius: 2px; background: linear-gradient(to right, var(--accent) calc(var(--g) * 100%), var(--line) 0); }
   .ff-p72-jauge > span:nth-child(1) { --g: clamp(0, var(--p, 0) * 3, 1); }
   .ff-p72-jauge > span:nth-child(2) { --g: clamp(0, var(--p, 0) * 3 - 1, 1); }
   .ff-p72-jauge > span:nth-child(3) { --g: clamp(0, var(--p, 0) * 3 - 2, 1); }
 
-  .ff-p72-jours { list-style: none; margin: var(--s3) 0 0; padding: 0; display: grid; gap: var(--s3); }
+  .ff-p72-jours { list-style: none; margin: var(--s2) 0 0; padding: 0; display: grid; gap: var(--s3); }
   .ff-p72-n { color: var(--accent); margin: 0; }
   .ff-p72-titre { font-family: var(--ff-titres); font-weight: 450; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.1; color: var(--fg); margin: 4px 0 var(--s1); }
   .ff-p72-corps { margin: 0; max-width: 32rem; }
@@ -103,28 +108,29 @@ const jours = [
     display: grid;
     place-items: center;
     perspective: 1600px;
+    container-type: size;
   }
-  .ff-p72-tel { grid-area: 1 / 1; width: calc(min(64svh, 560px) * 0.62 * 390 / 844); position: relative; text-align: center; }
-  .ff-p72-tel > .ff-petit { display: block; margin-top: var(--s1); color: var(--muted); opacity: calc(1 - var(--s1)); }
+  .ff-p72-tel { grid-area: 1 / 1; width: calc(76cqh * 390 / 844); position: relative; text-align: center; }
+  .ff-p72-tel > .ff-petit { display: block; margin-top: var(--s1); color: var(--muted); opacity: calc(1 - var(--j2)); }
   .ff-p72-tel .ff-demo { border-radius: 16px; border: 2px solid color-mix(in srgb, var(--fg) 80%, transparent); background: var(--bg); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.9); }
 
   .ff-p72-g {
-    transform: translateX(calc(var(--f) * -78% - var(--s1) * 120%)) translateY(calc(var(--f) * 6%)) rotate(calc(var(--f) * -9deg)) scale(0.92);
-    opacity: calc(var(--f) * (1 - var(--s1)));
+    transform: translateX(calc(var(--f) * -78% - var(--j2) * 120%)) translateY(calc(var(--f) * 6%)) rotate(calc(var(--f) * -9deg)) scale(0.92);
+    opacity: calc(var(--f) * (1 - var(--j2)));
   }
   .ff-p72-d {
-    transform: translateX(calc(var(--f) * 78% + var(--s1) * 120%)) translateY(calc(var(--f) * 6%)) rotate(calc(var(--f) * 9deg)) scale(0.92);
-    opacity: calc(var(--f) * (1 - var(--s1)));
+    transform: translateX(calc(var(--f) * 78% + var(--j2) * 120%)) translateY(calc(var(--f) * 6%)) rotate(calc(var(--f) * 9deg)) scale(0.92);
+    opacity: calc(var(--f) * (1 - var(--j2)));
   }
   .ff-p72-c {
     z-index: 2;
-    transform: translateY(calc((1 - var(--f)) * 30px)) scale(calc(1 + var(--s1) * 0.1)) rotateY(calc(var(--s1) * (1 - var(--s2)) * -14deg));
+    transform: translateY(calc((1 - var(--f)) * 30px)) scale(calc(1 + var(--j2) * 0.1)) rotateY(calc(var(--j2) * (1 - var(--j3)) * -14deg));
   }
-  .ff-p72-c .ff-demo { border-color: color-mix(in srgb, var(--accent) calc(var(--s1) * 100%), color-mix(in srgb, var(--fg) 80%, transparent)); }
+  .ff-p72-c .ff-demo { border-color: color-mix(in srgb, var(--accent) calc(var(--j2) * 100%), color-mix(in srgb, var(--fg) 80%, transparent)); }
   /* Jour 2 : les autres pages de la piste choisie, en éventail derrière elle. */
-  .ff-p72-page { opacity: calc(var(--s1) * 0.9); }
-  .ff-p72-page-g { transform: translateX(calc(var(--s1) * -46%)) rotate(calc(var(--s1) * -7deg)) scale(0.9); }
-  .ff-p72-page-d { transform: translateX(calc(var(--s1) * 46%)) rotate(calc(var(--s1) * 7deg)) scale(0.9); }
+  .ff-p72-page { opacity: calc(var(--j2) * 0.9); }
+  .ff-p72-page-g { transform: translateX(calc(var(--j2) * -46%)) rotate(calc(var(--j2) * -7deg)) scale(0.9); }
+  .ff-p72-page-d { transform: translateX(calc(var(--j2) * 46%)) rotate(calc(var(--j2) * 7deg)) scale(0.9); }
   .ff-p72-page .ff-demo { filter: brightness(0.7); }
 
   /* Jour 3 : « En ligne » et les ondes. */
@@ -144,12 +150,12 @@ const jours = [
     font-weight: 600;
     white-space: nowrap;
     box-shadow: 0 16px 40px -10px rgb(0 0 0 / 0.8);
-    opacity: var(--s2);
-    transform: translateX(-50%) translateY(calc((1 - var(--s2)) * 24px)) scale(calc(0.85 + var(--s2) * 0.15));
+    opacity: var(--j3);
+    transform: translateX(-50%) translateY(calc((1 - var(--j3)) * 24px)) scale(calc(0.85 + var(--j3) * 0.15));
   }
   .ff-p72-point { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: ff-p72-pouls 1.6s ease-out infinite; }
   @keyframes ff-p72-pouls { to { box-shadow: 0 0 0 10px transparent; } }
-  .ff-p72-ondes { grid-area: 1 / 1; width: 100%; height: 100%; display: grid; place-items: center; opacity: var(--s2); }
+  .ff-p72-ondes { grid-area: 1 / 1; width: 100%; height: 100%; display: grid; place-items: center; opacity: var(--j3); }
   .ff-p72-ondes > span {
     grid-area: 1 / 1;
     width: 70%;
@@ -169,24 +175,33 @@ const jours = [
     .ff-scenes .ff-p72-jauge { display: flex; }
     .ff-scenes .ff-p72-jours { grid-template-areas: 'j'; }
     .ff-scenes .ff-p72-jour { grid-area: j; }
-    .ff-scenes .ff-p72-j1 { opacity: calc(1 - clamp(0, var(--s1) * 2, 1)); transform: translateY(calc(var(--s1) * -24px)); }
-    .ff-scenes .ff-p72-j2 { opacity: calc(clamp(0, var(--s1) * 2 - 1, 1) * (1 - clamp(0, var(--s2) * 2, 1))); transform: translateY(calc((1 - var(--s1)) * 24px - var(--s2) * 24px)); }
-    .ff-scenes .ff-p72-j3 { opacity: clamp(0, var(--s2) * 2 - 1, 1); transform: translateY(calc((1 - var(--s2)) * 24px)); }
+    .ff-scenes .ff-p72-j1 { opacity: calc(1 - clamp(0, var(--j2) * 2, 1)); transform: translateY(calc(var(--j2) * -24px)); }
+    .ff-scenes .ff-p72-j2 { opacity: calc(clamp(0, var(--j2) * 2 - 1, 1) * (1 - clamp(0, var(--j3) * 2, 1))); transform: translateY(calc((1 - var(--j2)) * 24px - var(--j3) * 24px)); }
+    .ff-scenes .ff-p72-j3 { opacity: clamp(0, var(--j3) * 2 - 1, 1); transform: translateY(calc((1 - var(--j3)) * 24px)); }
   }
   /* Sans scène (sans JS, mouvement réduit) : l'éventail des trois pistes posé, les jours en liste. */
-  :root:not(.ff-scenes) .ff-p72-colle { --f: 1; --s1: 0; --s2: 0; }
+  :root:not(.ff-scenes) .ff-p72-colle { --f: 1; --j2: 0; --j3: 0; }
   @media (prefers-reduced-motion: reduce) {
     .ff-p72-ondes > span, .ff-p72-point { animation: none; }
   }
 
-  /* Téléphone : texte du jour en haut, plateau dessous. */
+  /* Téléphone et tablette : texte du jour en haut, le plateau prend toute la hauteur restante entre
+     le texte et la barre basse (rien ne passe dessous, même sur un petit iPhone). */
   @media (max-width: 1023px) {
-    .ff-scenes .ff-p72-colle { align-content: start; padding-top: calc(var(--entete) + var(--s3)); gap: var(--s3); }
-    .ff-scenes .ff-p72-depart { display: none; }
-    .ff-scenes .ff-p72-plateau { height: min(52svh, 480px); }
-    .ff-scenes .ff-p72-tel { width: calc(min(52svh, 480px) * 0.62 * 390 / 844); }
+    .ff-scenes .ff-p72-colle {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+      padding-top: calc(var(--entete) + var(--s2));
+      padding-bottom: calc(var(--barre) + var(--s2));
+    }
+    .ff-scenes .ff-p72-plateau { flex: 1; min-height: 0; height: auto; }
     .ff-p72-corps { font-size: 0.95rem; }
     .ff-p72-titre { font-size: 1.45rem; }
+  }
+  @media (max-width: 1023px) and (max-height: 720px) {
+    .ff-p72-corps { font-size: 0.875rem; line-height: 1.45; }
+    .ff-p72-titre { font-size: 1.25rem; }
   }
   @media (min-width: 1024px) {
     .ff-p72-colle {
@@ -195,8 +210,8 @@ const jours = [
       column-gap: var(--s8);
       padding-inline: max(var(--gouttiere), calc((100vw - 1320px) / 2));
     }
-    .ff-p72-plateau { height: min(76svh, 680px); }
-    .ff-p72-tel { width: calc(min(76svh, 680px) * 0.72 * 390 / 844); }
+    .ff-scenes .ff-p72-colle { padding-top: var(--entete); }
+    .ff-p72-plateau { height: min(78svh, 700px); }
   }
 </style>
 

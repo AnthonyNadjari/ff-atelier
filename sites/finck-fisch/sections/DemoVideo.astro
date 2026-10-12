@@ -81,6 +81,7 @@ const base = `/video/demos/${slug}`;
     animation: ff-demo-defile 18s cubic-bezier(0.45, 0, 0.55, 1) var(--ff-decalage, 0s) infinite alternate both;
     will-change: transform;
   }
+  .ff-demo.ff-demo-pause .ff-demo-page { animation-play-state: paused; }
   .ff-demo-page picture { display: contents; }
   .ff-demo-page img { display: block; width: 100%; height: auto; background: none; }
   /* Tout en haut un moment, descend jusqu'au bas de la capture, s'y pose, remonte. */
@@ -89,3 +90,18 @@ const base = `/video/demos/${slug}`;
     90%, 100% { transform: translateY(calc(-100% + 100cqh)); }
   }
 </style>
+
+<script>
+  // Pause hors de la vue : l'accueil compte une vingtaine de démos animées ; sur iPhone, les faire
+  // toutes tourner hors écran coûte de la mémoire graphique et des saccades. 300 px d'avance : la démo
+  // repart avant d'entrer. Sans JS ou sans IntersectionObserver, rien ne change (tout tourne).
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    if (!('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entrees) => {
+      for (const e of entrees) e.target.classList.toggle('ff-demo-pause', !e.isIntersecting);
+    }, { rootMargin: '300px' });
+    document.querySelectorAll('.ff-demo').forEach((d) => io.observe(d));
+    document.addEventListener('astro:before-swap', () => io.disconnect(), { once: true });
+  });
+</script>

@@ -96,7 +96,8 @@ const liens = [
     top: 0;
     z-index: 50;
     height: var(--entete);
-    background: color-mix(in srgb, var(--bg) 90%, transparent);
+    /* Presque opaque : à 90 %, les titres qui passent dessous se lisaient en fantôme (11 oct 2026). */
+    background: color-mix(in srgb, var(--bg) 97%, transparent);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--line);
@@ -124,7 +125,10 @@ const liens = [
   }
   .ff-entete-mail { color: var(--fg); }
 
-  /* Barre basse (téléphone seulement) */
+  /* Barre basse (téléphone seulement). --barre : sa hauteur, pour les scènes collantes qui doivent
+     garder leurs écrans au-dessus (AvantApres, Process72h). */
+  :root { --barre: 0px; }
+  @media (max-width: 767px) { :root { --barre: calc(64px + env(safe-area-inset-bottom)); } }
   .ff-barre { display: none; }
   @media (max-width: 767px) {
     .ff-barre {
