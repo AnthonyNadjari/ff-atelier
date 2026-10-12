@@ -19,7 +19,10 @@
  * loading="lazy" : les tuiles du bas sont rognées par le cadre et ne se chargeraient qu'en arrivant
  * dans le cadre (trou visible) ; priorité basse à la place, sauf la première tuile du hero. width/height
  * posés : la hauteur de la colonne est connue avant le chargement, l'animation ne saute pas.
- * Fichiers : public/video/demos/<slug>-t-m0..3.webp et -t-d0..3.webp (scratchpad tuiles.mjs).
+ * Fichiers : public/video/demos/<slug>-t-m0..3.webp et -t-d0..3.webp (ff tuiles), plus -t-m0..3-600.webp
+ * (12 oct 2026) : un téléphone affiché à 150-200 px n'a pas besoin des tuiles de 900 px ; chaque démo
+ * animée est une texture GPU de toute sa hauteur (900 × 5 840 ≈ 21 Mo, 600 px ≈ 9 Mo). Avec une
+ * vingtaine de démos sur l'accueil, c'était la première cause des saccades sur iPhone.
  * Le rapport d'aspect est posé ICI et seulement ici (style global hors couche : une classe
  * utilitaire Tailwind ne peut pas le surcharger, bug du 10 oct qui étirait tout en 4:5).
  */
@@ -35,8 +38,11 @@ interface Props {
   decalage?: number;
   /** Première tuile en priorité haute (hero). */
   prioritaire?: boolean;
+  /** Largeur affichée maximale, en px CSS (attribut sizes) : le navigateur prend les tuiles de 600 px
+   *  quand elles suffisent. Défaut 200 (mur du hero, cartes, Trois jours). */
+  largeur?: number;
 }
-const { slug, class: cls = '', revele = false, tel = false, decalage = 0, prioritaire = false } = Astro.props;
+const { slug, class: cls = '', revele = false, tel = false, decalage = 0, prioritaire = false, largeur = 200 } = Astro.props;
 const tuiles = [0, 1, 2, 3];
 const base = `/video/demos/${slug}`;
 ---
@@ -50,7 +56,16 @@ const base = `/video/demos/${slug}`;
   <div class="ff-demo-page">
     {tuiles.map((i) =>
       tel ? (
-        <img src={`${base}-t-m${i}.webp`} width="900" height="1460" alt="" fetchpriority={prioritaire && i === 0 ? 'high' : 'low'} decoding="async" />
+        <img
+          src={`${base}-t-m${i}-600.webp`}
+          srcset={`${base}-t-m${i}-600.webp 600w, ${base}-t-m${i}.webp 900w`}
+          sizes={`${largeur}px`}
+          width="900"
+          height="1460"
+          alt=""
+          fetchpriority={prioritaire && i === 0 ? 'high' : 'low'}
+          decoding="async"
+        />
       ) : (
         <picture>
           <source media="(max-width: 767px)" srcset={`${base}-t-m${i}.webp`} width="900" height="1460" />

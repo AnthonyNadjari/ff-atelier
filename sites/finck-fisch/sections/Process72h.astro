@@ -114,6 +114,7 @@ const jours = [
   .ff-p72-tel > .ff-petit { display: block; margin-top: var(--s1); color: var(--muted); opacity: calc(1 - var(--j2)); }
   .ff-p72-tel .ff-demo { border-radius: 16px; border: 2px solid color-mix(in srgb, var(--fg) 80%, transparent); background: var(--bg); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.9); }
 
+  .ff-p72-tel, .ff-p72-badge, .ff-p72-ondes, .ff-p72-jour { will-change: transform, opacity; }
   .ff-p72-g {
     transform: translateX(calc(var(--f) * -78% - var(--j2) * 120%)) translateY(calc(var(--f) * 6%)) rotate(calc(var(--f) * -9deg)) scale(0.92);
     opacity: calc(var(--f) * (1 - var(--j2)));
@@ -126,7 +127,9 @@ const jours = [
     z-index: 2;
     transform: translateY(calc((1 - var(--f)) * 30px)) scale(calc(1 + var(--j2) * 0.1)) rotateY(calc(var(--j2) * (1 - var(--j3)) * -14deg));
   }
-  .ff-p72-c .ff-demo { border-color: color-mix(in srgb, var(--accent) calc(var(--j2) * 100%), color-mix(in srgb, var(--fg) 80%, transparent)); }
+  /* Liseré de la piste choisie : un calque dont seule l'opacité change (une couleur de bordure animée
+     repeignait l'écran à chaque image). */
+  .ff-p72-c::after { content: ''; position: absolute; left: 0; right: 0; top: 0; aspect-ratio: 390 / 844; border: 2px solid var(--accent); border-radius: 16px; opacity: var(--j2); pointer-events: none; }
   /* Jour 2 : les autres pages de la piste choisie, en éventail derrière elle. */
   .ff-p72-page { opacity: calc(var(--j2) * 0.9); }
   .ff-p72-page-g { transform: translateX(calc(var(--j2) * -46%)) rotate(calc(var(--j2) * -7deg)) scale(0.9); }
@@ -170,7 +173,7 @@ const jours = [
 
   /* Scène active : collante, les jours se relaient au même endroit. */
   @media (prefers-reduced-motion: no-preference) {
-    .ff-scenes .ff-p72-scene { height: 300vh; }
+    .ff-scenes .ff-p72-scene { height: 220vh; }
     .ff-scenes .ff-p72-colle { position: sticky; top: 0; height: 100svh; align-content: center; }
     .ff-scenes .ff-p72-jauge { display: flex; }
     .ff-scenes .ff-p72-jours { grid-template-areas: 'j'; }

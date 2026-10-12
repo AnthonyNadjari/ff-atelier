@@ -58,8 +58,8 @@ const fond = {
       <div class="ff-aa-centre">
         <p class="ff-aa-etiq ff-petit" aria-hidden="true"><span class="ff-aa-etiq-a">Avant</span><span class="ff-aa-etiq-b">Après</span></p>
         <div class="ff-aa-tel" aria-hidden="true">
-          <div class="ff-aa-face"><DemoVideo slug="avant-roux" tel /></div>
-          <div class="ff-aa-face ff-aa-dos"><DemoVideo slug="maison-roux" tel /></div>
+          <div class="ff-aa-face"><DemoVideo slug="avant-roux" tel largeur={300} /></div>
+          <div class="ff-aa-face ff-aa-dos"><DemoVideo slug="maison-roux" tel largeur={300} /></div>
         </div>
       </div>
 
@@ -107,6 +107,7 @@ const fond = {
     z-index: -1;
     transform: scale(calc(1.12 - var(--p, 1) * 0.08));
   }
+  .ff-aa-fond, .ff-aa-centre, .ff-aa-points > li, .ff-aa-grand > span, .ff-aa-etiq > span { will-change: transform, opacity; }
   .ff-aa-fond-gris { filter: grayscale(1) brightness(0.24) blur(2px); }
   .ff-aa-fond-couleur { filter: brightness(0.42); opacity: var(--a); }
 
@@ -153,7 +154,7 @@ const fond = {
   .ff-aa-legende { margin-top: var(--s2); }
 
   @media (prefers-reduced-motion: no-preference) {
-    .ff-scenes .ff-aa-scene { height: 250vh; }
+    .ff-scenes .ff-aa-scene { height: 190vh; }
     .ff-scenes .ff-aa-colle { position: sticky; top: 0; height: 100svh; padding-block: 0; }
   }
 

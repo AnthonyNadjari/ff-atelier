@@ -744,10 +744,20 @@ function navScroll() {
   const nav = document.querySelector<HTMLElement>('[data-nav]');
   if (!nav) return;
   let last = 0;
+  let defile: boolean | null = null;
+  let cache: boolean | null = null;
+  const cacheAuDefilement = nav.dataset.nav === 'hide-on-scroll';
+  // Ne touche la classe QUE si l'état change : classList.toggle(x, force) réécrit l'attribut class même
+  // sans changement (norme DOM), ce qui relançait le calcul des styles à chaque événement de défilement
+  // — et de toute la page dès qu'une règle :has() existe (mesuré le 12 oct 2026 : 8 ms par image).
   const onScroll = () => {
     const y = window.scrollY;
-    nav.classList.toggle('is-scrolled', y > 40);
-    if (nav.dataset.nav === 'hide-on-scroll') nav.classList.toggle('is-hidden', y > last && y > 200);
+    const d = y > 40;
+    if (d !== defile) { defile = d; nav.classList.toggle('is-scrolled', d); }
+    if (cacheAuDefilement) {
+      const c = y > last && y > 200;
+      if (c !== cache) { cache = c; nav.classList.toggle('is-hidden', c); }
+    }
     last = y;
   };
   onScroll();
@@ -971,9 +981,11 @@ async function rich() {
   document.querySelectorAll<HTMLElement>('[data-pin]').forEach((el) => {
     const steps = el.querySelectorAll<HTMLElement>('[data-pin-step]');
     const len = pinLength(el);
+    let etape = 0;
     ScrollTrigger.create({
       trigger: el, start: 'top top', end: `+=${len}%`, pin: true, anticipatePin: 1,
-      onUpdate: (st) => { const i = Math.min(steps.length - 1, Math.floor(st.progress * steps.length)); steps.forEach((s, k) => s.classList.toggle('is-active', k === i)); },
+      // Seulement quand l'étape change : sinon l'attribut class est réécrit à chaque image (voir navScroll).
+      onUpdate: (st) => { const i = Math.min(steps.length - 1, Math.floor(st.progress * steps.length)); if (i === etape) return; etape = i; steps.forEach((s, k) => s.classList.toggle('is-active', k === i)); },
     });
     steps[0]?.classList.add('is-active');
   });

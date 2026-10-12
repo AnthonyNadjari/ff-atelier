@@ -205,10 +205,12 @@ const dossier = '/images/metiers';
     transform: rotate(calc(-5deg + var(--d) * -8deg)) translateY(calc(var(--d) * 30%));
   }
   .ff-rea-aide { margin-top: var(--s1); }
+  .ff-rea-photo, .ff-rea-tel, .ff-rea-vignette, .ff-rea-texte, .ff-rea-carte::before { will-change: transform, opacity; }
+  .ff-scenes .ff-rea-piste { will-change: transform; }
 
   /* Ordinateur : scène collante, la piste glisse au défilement de la page. */
   @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-    .ff-scenes .ff-rea-scene { height: calc(var(--n) * 60vh + 100svh); margin-top: var(--s4); }
+    .ff-scenes .ff-rea-scene { height: calc(var(--n) * 38vh + 100svh); margin-top: var(--s4); }
     .ff-scenes .ff-rea-colle {
       position: sticky;
       top: 0;
