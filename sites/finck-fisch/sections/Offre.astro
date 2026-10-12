@@ -35,28 +35,41 @@ const lignes = [
 <section id="tarifs" class="ff-section ff-tarifs">
   <div class="ff-conteneur">
     <h2 class="ff-titre ff-masque max-w-2xl" data-ff-titre><span>Combien ça coûte</span></h2>
-    <p class="ff-texte mt-6 max-w-[34rem]">Deux formules, payées une fois. Vous savez avant d’appeler si c’est pour vous.</p>
+    <p class="ff-texte mt-4 max-w-[34rem]">Deux formules, payées une fois. Vous savez avant d’appeler si c’est pour vous.</p>
 
-    <div class="mt-8 grid gap-8 md:mt-12 md:grid-cols-2 md:gap-12">
-      {formules.map((f, col) => (
+    {/* 12 oct 2026 (« vers la fin, compacter pour moins scroller ») : les deux prix côte à côte, puis
+        une seule liste (commun aux deux, puis ce que Complet ajoute) au lieu de deux plaques empilées. */}
+    <div class="ff-tarifs-prix mt-6 md:mt-10">
+      {formules.map((f) => (
         <div class="ff-formule">
           <p class="ff-texte">{f.nom}</p>
-          <p class="ff-petit ff-doux mt-4">à partir de</p>
-          <p class="ff-titre ff-montant mt-1">{f.montant}</p>
-          <p class="ff-petit ff-doux mt-2">payé une fois</p>
-          {col === 1 && <p class="ff-petit ff-doux mt-6">Tout l’Essentiel, plus&nbsp;:</p>}
-          <ul class={`${col === 1 ? 'mt-3' : 'mt-6'} grid gap-2 ff-petit ff-doux`}>
-            {lignes.filter((l) => (col === 0 ? l.essentiel : !l.essentiel && l.complet)).map((l) => <li>{l.label}</li>)}
-          </ul>
+          <p class="ff-petit ff-doux mt-2">à partir de</p>
+          <p class="ff-titre ff-montant">{f.montant}</p>
+          <p class="ff-petit ff-doux">payé une fois</p>
         </div>
       ))}
     </div>
 
-    <div class="mt-8 flex flex-col items-start gap-4 md:mt-12">
+    <div class="ff-tarifs-listes mt-6 md:mt-8">
+      <div>
+        <p class="ff-petit">Dans les deux formules</p>
+        <ul class="ff-petit ff-doux">
+          {lignes.filter((l) => l.essentiel).map((l) => <li>{l.label}</li>)}
+        </ul>
+      </div>
+      <div>
+        <p class="ff-petit">En plus dans Complet</p>
+        <ul class="ff-petit ff-doux">
+          {lignes.filter((l) => !l.essentiel && l.complet).map((l) => <li>{l.label}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-col items-start gap-3 md:mt-10">
       <a href="/audit" class="ff-bouton">Réserver mon audit gratuit</a>
       <p class="ff-petit ff-doux max-w-[34rem]">
         Après la mise en ligne, rien à payer. Si vous voulez qu’on garde un œil sur le site, la
-        maintenance existe en option, 25 € par mois, sans engagement.
+        maintenance existe en option, 25 € par mois, sans engagement.
       </p>
     </div>
   </div>
@@ -64,5 +77,14 @@ const lignes = [
 
 <style is:global>
   .ff-tarifs { background: var(--bg-2); }
-  .ff-formule { padding-top: var(--s3); border-top: 1px solid var(--line); }
+  .ff-tarifs-prix { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3); }
+  .ff-formule { padding-top: var(--s2); border-top: 1px solid var(--line); }
+  .ff-tarifs .ff-montant { font-size: clamp(2rem, 7vw, 3.5rem); margin: 2px 0; }
+  .ff-tarifs-listes { display: grid; gap: var(--s3); }
+  .ff-tarifs-listes ul { list-style: none; margin: var(--s1) 0 0; padding: 0; display: grid; gap: 4px; }
+  .ff-tarifs-listes > div > p { color: var(--fg); margin: 0; }
+  @media (min-width: 768px) {
+    .ff-tarifs-prix, .ff-tarifs-listes { gap: var(--s6); }
+    .ff-tarifs-listes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
 </style>

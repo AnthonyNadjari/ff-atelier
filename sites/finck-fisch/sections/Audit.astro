@@ -40,19 +40,18 @@ const points = [
         points, concrets, même si vous ne travaillez pas avec nous.
       </p>
       <p class="ff-petit ff-doux mt-4">Pas de relance commerciale ensuite. Réponse sous 48 heures ouvrées.</p>
-      <a href="/audit" class="ff-bouton mt-8">Réserver mon audit gratuit</a>
+      <a href="/audit" class="ff-bouton mt-6">Réserver mon audit gratuit</a>
     </div>
   </div>
 </section>
 
 <style is:global>
-  .ff-audit { padding-block: var(--s8); background: var(--bg-2); border-block: 1px solid var(--line); }
-  @media (min-width: 768px) { .ff-audit { padding-block: var(--s12); } }
-  @media (min-width: 1024px) { .ff-audit { padding-block: var(--s16); } }
-  .ff-audit-grille { display: grid; gap: var(--s6); }
+  .ff-audit { padding-block: var(--s6); background: var(--bg-2); border-block: 1px solid var(--line); }
+  @media (min-width: 1024px) { .ff-audit { padding-block: var(--s12); } }
+  .ff-audit-grille { display: grid; gap: var(--s4); }
   .ff-audit-titre { max-width: 14ch; }
   .ff-audit-points { list-style: none; margin: 0; padding: 0; display: grid; }
-  .ff-audit-points > li { display: grid; grid-template-columns: var(--s4) minmax(0, 1fr); gap: var(--s2); padding-block: var(--s2); border-top: 1px solid var(--line); }
+  .ff-audit-points > li { display: grid; grid-template-columns: var(--s4) minmax(0, 1fr); gap: var(--s2); padding-block: 12px; border-top: 1px solid var(--line); }
   .ff-audit-points > li > span { padding-top: 6px; }
   .ff-audit-point { font-weight: 600; }
   @media (min-width: 1024px) {

@@ -8,10 +8,12 @@
  * - Jour 1 : trois téléphones arrivent en éventail. Ce sont les trois propositions que l'atelier a
  *   réellement générées pour la boulangerie d'exemple Petit Pain (`ff propositions`, mêmes textes,
  *   trois looks), capturées en tuiles comme les autres démos.
- * - Jour 2 : les deux autres s'écartent ; la piste choisie avance et ses autres pages se déploient
- *   derrière elle (la même démo, décalée dans son défilement).
- * - Jour 3 : le téléphone se redresse, « En ligne » s'allume et des ondes partent de l'écran.
- * Le texte du jour change avec la scène ; une jauge en trois segments suit l'avancée.
+ * - Jour 2 : les deux autres glissent derrière la piste choisie et deviennent ses autres pages (même
+ *   groupe, seul le contenu se fond : rien ne disparaît pour réapparaître ailleurs).
+ * - Jour 3 : les pages se rangent dessous, « En ligne » monte au-dessus du téléphone, des ondes partent.
+ * Un grand chiffre roule de 1 à 3 à côté du texte du jour ; une jauge d'un segment par passage.
+ * 12 oct 2026 (retour fondateur : « la transition n'est pas très fluide ni très belle ») : passages
+ * adoucis (smoothstep), paliers entre les jours, téléphone qui flotte, scène raccourcie (230vh).
  * Titre au-dessus de la scène (12 oct : dans la scène, sur petit iPhone, les téléphones passaient sous
  * la barre basse). Ordinateur : jauge et texte du jour à gauche, téléphones à droite. Téléphone : texte
  * du jour en haut, téléphones dans toute la hauteur restante (unités de conteneur).
@@ -48,24 +50,35 @@ const jours = [
     <div class="ff-p72-colle">
       <div class="ff-p72-texte">
         <div class="ff-p72-jauge" aria-hidden="true"><span></span><span></span><span></span></div>
-        <ol class="ff-p72-jours">
-          {jours.map((j, i) => (
-            <li class={`ff-p72-jour ff-p72-j${i + 1}`}>
-              <p class="ff-petit ff-p72-n">{j.n}</p>
-              <h3 class="ff-p72-titre">{j.titre}</h3>
-              <p class="ff-texte ff-doux ff-p72-corps">{j.texte}</p>
-            </li>
-          ))}
-        </ol>
+        <div class="ff-p72-ligne">
+          <p class="ff-p72-chiffre" aria-hidden="true"><span class="ff-p72-rouleau"><span>1</span><span>2</span><span>3</span></span></p>
+          <ol class="ff-p72-jours">
+            {jours.map((j, i) => (
+              <li class={`ff-p72-jour ff-p72-j${i + 1}`}>
+                <p class="ff-petit ff-p72-n">{j.n}</p>
+                <h3 class="ff-p72-titre">{j.titre}</h3>
+                <p class="ff-texte ff-doux ff-p72-corps">{j.texte}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
 
       <div class="ff-p72-plateau" aria-hidden="true">
         <div class="ff-p72-ondes"><span></span><span></span><span></span></div>
-        <div class="ff-p72-tel ff-p72-page ff-p72-page-g"><DemoVideo slug="piste-boulangerie-3" tel decalage={6} /></div>
-        <div class="ff-p72-tel ff-p72-page ff-p72-page-d"><DemoVideo slug="piste-boulangerie-3" tel decalage={12} /></div>
-        <div class="ff-p72-tel ff-p72-g"><DemoVideo slug="piste-boulangerie-1" tel decalage={2} /><span class="ff-petit">Piste 1</span></div>
-        <div class="ff-p72-tel ff-p72-d"><DemoVideo slug="piste-boulangerie-2" tel decalage={4} /><span class="ff-petit">Piste 2</span></div>
-        <div class="ff-p72-tel ff-p72-c"><DemoVideo slug="piste-boulangerie-3" tel /><span class="ff-petit">Piste 3</span></div>
+        {/* Côtés : la piste non choisie (jour 1) et, au même endroit, une autre page de la piste
+            choisie (jour 2). Le groupe bouge d'un seul tenant, seul son contenu se fond. */}
+        {[['g', 'piste-boulangerie-1', 'Piste 1', 6], ['d', 'piste-boulangerie-2', 'Piste 2', 12]].map(([cote, slug, nom, dec]) => (
+          <div class={`ff-p72-cote ff-p72-cote-${cote}`}>
+            <div class="ff-p72-tel ff-p72-piste"><DemoVideo slug={slug as string} tel decalage={2} /><span class="ff-petit">{nom}</span></div>
+            <div class="ff-p72-tel ff-p72-page"><DemoVideo slug="piste-boulangerie-3" tel decalage={dec as number} /></div>
+          </div>
+        ))}
+        <div class="ff-p72-centre">
+          <div class="ff-p72-flotte">
+            <div class="ff-p72-tel ff-p72-choisie"><DemoVideo slug="piste-boulangerie-3" tel /><span class="ff-petit">Piste 3</span></div>
+          </div>
+        </div>
         <p class="ff-p72-badge ff-petit"><span class="ff-p72-point"></span>En ligne, à votre nom</p>
       </div>
     </div>
@@ -74,12 +87,17 @@ const jours = [
 </section>
 
 <style is:global>
-  /* --f : arrivée de l'éventail ; --j2 : jour 1 → 2 ; --j3 : jour 2 → 3. Pas --s1/--s2 : ce sont les
-     espacements du site (bug du 12 oct, marges annulées dans toute la section). */
+  /* Avancée brute de chaque passage (0 → 1), puis adoucie (smoothstep : départ et arrivée en douceur,
+     plus de mouvement à vitesse constante qui démarre et s'arrête sec). Paliers entre les passages :
+     chaque jour reste posé un moment. Noms --ta/--tb/--tc et --a/--b/--c : jamais --s1, --s2…
+     (ce sont les espacements du site, bug du 12 oct). */
   .ff-p72-colle {
-    --f: clamp(0, var(--p, 0) * 6, 1);
-    --j2: clamp(0, (var(--p, 0) - 0.34) * 6, 1);
-    --j3: clamp(0, (var(--p, 0) - 0.67) * 6, 1);
+    --ta: clamp(0, var(--p, 0) / 0.14, 1);
+    --tb: clamp(0, (var(--p, 0) - 0.3) / 0.17, 1);
+    --tc: clamp(0, (var(--p, 0) - 0.63) / 0.17, 1);
+    --a: calc(var(--ta) * var(--ta) * (3 - 2 * var(--ta)));
+    --b: calc(var(--tb) * var(--tb) * (3 - 2 * var(--tb)));
+    --c: calc(var(--tc) * var(--tc) * (3 - 2 * var(--tc)));
     position: relative;
     display: grid;
     gap: var(--s4);
@@ -89,19 +107,22 @@ const jours = [
   .ff-p72-depart { margin: var(--s3) 0 0; max-width: 30rem; }
   .ff-p72-scene { margin-top: var(--s4); }
 
-  /* Jauge : trois segments qui se remplissent. */
-  .ff-p72-jauge { display: none; gap: 6px; }
-  .ff-p72-jauge > span { height: 3px; flex: 1; border-radius: 2px; background: linear-gradient(to right, var(--accent) calc(var(--g) * 100%), var(--line) 0); }
-  .ff-p72-jauge > span:nth-child(1) { --g: clamp(0, var(--p, 0) * 3, 1); }
-  .ff-p72-jauge > span:nth-child(2) { --g: clamp(0, var(--p, 0) * 3 - 1, 1); }
-  .ff-p72-jauge > span:nth-child(3) { --g: clamp(0, var(--p, 0) * 3 - 2, 1); }
+  /* Jauge : un segment par passage. */
+  .ff-p72-jauge { display: none; gap: 6px; margin-bottom: var(--s2); }
+  .ff-p72-jauge > span { height: 2px; flex: 1; border-radius: 2px; background: var(--line); position: relative; overflow: hidden; }
+  .ff-p72-jauge > span::after { content: ''; position: absolute; inset: 0; background: var(--accent); transform-origin: left; transform: scaleX(var(--g)); }
+  .ff-p72-jauge > span:nth-child(1) { --g: var(--a); }
+  .ff-p72-jauge > span:nth-child(2) { --g: var(--b); }
+  .ff-p72-jauge > span:nth-child(3) { --g: var(--c); }
 
-  .ff-p72-jours { list-style: none; margin: var(--s2) 0 0; padding: 0; display: grid; gap: var(--s3); }
+  .ff-p72-ligne { display: grid; gap: var(--s2); }
+  .ff-p72-chiffre { display: none; }
+  .ff-p72-jours { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
   .ff-p72-n { color: var(--accent); margin: 0; }
   .ff-p72-titre { font-family: var(--ff-titres); font-weight: 450; font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.1; color: var(--fg); margin: 4px 0 var(--s1); }
   .ff-p72-corps { margin: 0; max-width: 32rem; }
 
-  /* Plateau : les téléphones empilés au même endroit, placés par transform. */
+  /* Plateau : tout est empilé au même endroit et placé par transform (unités de conteneur). */
   .ff-p72-plateau {
     position: relative;
     height: min(64svh, 560px);
@@ -110,38 +131,46 @@ const jours = [
     perspective: 1600px;
     container-type: size;
   }
-  .ff-p72-tel { grid-area: 1 / 1; width: calc(76cqh * 390 / 844); position: relative; text-align: center; }
-  .ff-p72-tel > .ff-petit { display: block; margin-top: var(--s1); color: var(--muted); opacity: calc(1 - var(--j2)); }
+  .ff-p72-plateau > * { grid-area: 1 / 1; }
+  .ff-p72-tel { width: calc(72cqh * 390 / 844); position: relative; text-align: center; }
+  .ff-p72-tel > .ff-petit { display: block; margin-top: var(--s1); color: var(--muted); opacity: calc(1 - var(--b)); }
   .ff-p72-tel .ff-demo { border-radius: 16px; border: 2px solid color-mix(in srgb, var(--fg) 80%, transparent); background: var(--bg); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.9); }
 
-  .ff-p72-tel, .ff-p72-badge, .ff-p72-ondes, .ff-p72-jour { will-change: transform, opacity; }
-  .ff-p72-g {
-    transform: translateX(calc(var(--f) * -78% - var(--j2) * 120%)) translateY(calc(var(--f) * 6%)) rotate(calc(var(--f) * -9deg)) scale(0.92);
-    opacity: calc(var(--f) * (1 - var(--j2)));
+  /* Côtés : éventail (jour 1, ±74 %) → glissés derrière la piste choisie en pages (jour 2, ±30 %) →
+     rangés dessous (jour 3). */
+  .ff-p72-cote { display: grid; will-change: transform, opacity; opacity: calc(var(--a) * (1 - var(--c))); }
+  .ff-p72-cote > * { grid-area: 1 / 1; }
+  .ff-p72-cote-g { --sens: -1; }
+  .ff-p72-cote-d { --sens: 1; }
+  .ff-p72-cote {
+    transform:
+      translateX(calc(var(--sens) * (74% * var(--a) - 44% * var(--b) - 30% * var(--c))))
+      translateY(calc(4% * var(--a)))
+      rotate(calc(var(--sens) * (8deg * var(--a) - 3deg * var(--b) - 5deg * var(--c))))
+      scale(calc(0.9 - 0.05 * var(--b)));
   }
-  .ff-p72-d {
-    transform: translateX(calc(var(--f) * 78% + var(--j2) * 120%)) translateY(calc(var(--f) * 6%)) rotate(calc(var(--f) * 9deg)) scale(0.92);
-    opacity: calc(var(--f) * (1 - var(--j2)));
-  }
-  .ff-p72-c {
-    z-index: 2;
-    transform: translateY(calc((1 - var(--f)) * 30px)) scale(calc(1 + var(--j2) * 0.1)) rotateY(calc(var(--j2) * (1 - var(--j3)) * -14deg));
-  }
-  /* Liseré de la piste choisie : un calque dont seule l'opacité change (une couleur de bordure animée
-     repeignait l'écran à chaque image). */
-  .ff-p72-c::after { content: ''; position: absolute; left: 0; right: 0; top: 0; aspect-ratio: 390 / 844; border: 2px solid var(--accent); border-radius: 16px; opacity: var(--j2); pointer-events: none; }
-  /* Jour 2 : les autres pages de la piste choisie, en éventail derrière elle. */
-  .ff-p72-page { opacity: calc(var(--j2) * 0.9); }
-  .ff-p72-page-g { transform: translateX(calc(var(--j2) * -46%)) rotate(calc(var(--j2) * -7deg)) scale(0.9); }
-  .ff-p72-page-d { transform: translateX(calc(var(--j2) * 46%)) rotate(calc(var(--j2) * 7deg)) scale(0.9); }
-  .ff-p72-page .ff-demo { filter: brightness(0.7); }
+  .ff-p72-piste { opacity: calc(1 - var(--b)); will-change: opacity; }
+  .ff-p72-page { opacity: var(--b); will-change: opacity; }
+  .ff-p72-page .ff-demo { filter: brightness(0.75); }
 
-  /* Jour 3 : « En ligne » et les ondes. */
+  /* La piste choisie : monte légèrement, s'incline au jour 2, se redresse en ligne. */
+  .ff-p72-centre {
+    z-index: 2;
+    will-change: transform;
+    transform:
+      translateY(calc((1 - var(--a)) * 28px))
+      scale(calc(1 + 0.07 * var(--b) + 0.02 * var(--c)))
+      rotateY(calc(var(--b) * (1 - var(--c)) * -10deg));
+  }
+  .ff-p72-flotte { animation: ff-p72-flotte 5s ease-in-out infinite alternate; will-change: transform; }
+  @keyframes ff-p72-flotte { from { transform: translateY(4px); } to { transform: translateY(-6px); } }
+  /* Liseré de la piste choisie : calque dont seule l'opacité change. */
+  .ff-p72-choisie::after { content: ''; position: absolute; left: 0; right: 0; top: 0; aspect-ratio: 390 / 844; border: 2px solid var(--accent); border-radius: 16px; opacity: var(--b); pointer-events: none; }
+
+  /* Jour 3 : « En ligne » monte au-dessus du téléphone, les ondes partent. */
   .ff-p72-badge {
-    position: absolute;
-    left: 50%;
-    top: 4%;
     z-index: 3;
+    align-self: start;
     margin: 0;
     display: flex;
     align-items: center;
@@ -153,12 +182,13 @@ const jours = [
     font-weight: 600;
     white-space: nowrap;
     box-shadow: 0 16px 40px -10px rgb(0 0 0 / 0.8);
-    opacity: var(--j3);
-    transform: translateX(-50%) translateY(calc((1 - var(--j3)) * 24px)) scale(calc(0.85 + var(--j3) * 0.15));
+    opacity: var(--c);
+    will-change: transform, opacity;
+    transform: translateY(calc((1 - var(--c)) * 28px)) scale(calc(0.9 + var(--c) * 0.1));
   }
   .ff-p72-point { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: ff-p72-pouls 1.6s ease-out infinite; }
   @keyframes ff-p72-pouls { to { box-shadow: 0 0 0 10px transparent; } }
-  .ff-p72-ondes { grid-area: 1 / 1; width: 100%; height: 100%; display: grid; place-items: center; opacity: var(--j3); }
+  .ff-p72-ondes { width: 100%; height: 100%; display: grid; place-items: center; opacity: var(--c); will-change: opacity; }
   .ff-p72-ondes > span {
     grid-area: 1 / 1;
     width: 70%;
@@ -171,25 +201,46 @@ const jours = [
   .ff-p72-ondes > span:nth-child(3) { animation-delay: -2.4s; }
   @keyframes ff-p72-onde { 0% { transform: scale(0.4); opacity: 0.7; } 100% { transform: scale(1.5); opacity: 0; } }
 
-  /* Scène active : collante, les jours se relaient au même endroit. */
+  /* Scène active : collante ; grand chiffre qui roule (1 → 2 → 3) à côté du texte du jour, les textes
+     se relaient au même endroit (le sortant s'efface avant que l'entrant n'arrive). */
   @media (prefers-reduced-motion: no-preference) {
-    .ff-scenes .ff-p72-scene { height: 220vh; }
+    .ff-scenes .ff-p72-scene { height: 230vh; }
     .ff-scenes .ff-p72-colle { position: sticky; top: 0; height: 100svh; align-content: center; }
     .ff-scenes .ff-p72-jauge { display: flex; }
+    .ff-scenes .ff-p72-ligne { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--s3); align-items: start; }
+    .ff-scenes .ff-p72-chiffre {
+      display: block;
+      margin: 0;
+      height: 1em;
+      overflow: hidden;
+      font-family: var(--ff-titres);
+      font-size: clamp(3.6rem, 9vw, 7.5rem);
+      line-height: 1;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      /* Fondu haut et bas : le chiffre qui roule entre et sort en douceur, pas coupé net. */
+      -webkit-mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent);
+      mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent);
+    }
+    .ff-p72-rouleau { display: grid; will-change: transform; transform: translateY(calc((var(--b) + var(--c)) * -1em)); }
+    .ff-scenes .ff-p72-n { display: none; }
     .ff-scenes .ff-p72-jours { grid-template-areas: 'j'; }
-    .ff-scenes .ff-p72-jour { grid-area: j; }
-    .ff-scenes .ff-p72-j1 { opacity: calc(1 - clamp(0, var(--j2) * 2, 1)); transform: translateY(calc(var(--j2) * -24px)); }
-    .ff-scenes .ff-p72-j2 { opacity: calc(clamp(0, var(--j2) * 2 - 1, 1) * (1 - clamp(0, var(--j3) * 2, 1))); transform: translateY(calc((1 - var(--j2)) * 24px - var(--j3) * 24px)); }
-    .ff-scenes .ff-p72-j3 { opacity: clamp(0, var(--j3) * 2 - 1, 1); transform: translateY(calc((1 - var(--j3)) * 24px)); }
+    .ff-scenes .ff-p72-jour { grid-area: j; will-change: transform, opacity; }
+    .ff-scenes .ff-p72-j1 { opacity: calc(1 - clamp(0, var(--b) * 2, 1)); transform: translateY(calc(clamp(0, var(--b) * 2, 1) * -14px)); }
+    .ff-scenes .ff-p72-j2 {
+      opacity: calc(clamp(0, var(--b) * 2 - 1, 1) * (1 - clamp(0, var(--c) * 2, 1)));
+      transform: translateY(calc((1 - clamp(0, var(--b) * 2 - 1, 1)) * 14px - clamp(0, var(--c) * 2, 1) * 14px));
+    }
+    .ff-scenes .ff-p72-j3 { opacity: clamp(0, var(--c) * 2 - 1, 1); transform: translateY(calc((1 - clamp(0, var(--c) * 2 - 1, 1)) * 14px)); }
   }
   /* Sans scène (sans JS, mouvement réduit) : l'éventail des trois pistes posé, les jours en liste. */
-  :root:not(.ff-scenes) .ff-p72-colle { --f: 1; --j2: 0; --j3: 0; }
+  :root:not(.ff-scenes) .ff-p72-colle { --a: 1; --b: 0; --c: 0; }
   @media (prefers-reduced-motion: reduce) {
-    .ff-p72-ondes > span, .ff-p72-point { animation: none; }
+    .ff-p72-ondes > span, .ff-p72-point, .ff-p72-flotte { animation: none; }
   }
 
-  /* Téléphone et tablette : texte du jour en haut, le plateau prend toute la hauteur restante entre
-     le texte et la barre basse (rien ne passe dessous, même sur un petit iPhone). */
+  /* Téléphone et tablette : texte du jour en haut, plateau dans toute la hauteur restante entre le
+     texte et la barre basse. */
   @media (max-width: 1023px) {
     .ff-scenes .ff-p72-colle {
       display: flex;
@@ -199,12 +250,13 @@ const jours = [
       padding-bottom: calc(var(--barre) + var(--s2));
     }
     .ff-scenes .ff-p72-plateau { flex: 1; min-height: 0; height: auto; }
+    .ff-scenes .ff-p72-chiffre { font-size: 3.4rem; }
     .ff-p72-corps { font-size: 0.95rem; }
-    .ff-p72-titre { font-size: 1.45rem; }
+    .ff-p72-titre { font-size: 1.4rem; }
   }
   @media (max-width: 1023px) and (max-height: 720px) {
     .ff-p72-corps { font-size: 0.875rem; line-height: 1.45; }
-    .ff-p72-titre { font-size: 1.25rem; }
+    .ff-p72-titre { font-size: 1.2rem; }
   }
   @media (min-width: 1024px) {
     .ff-p72-colle {

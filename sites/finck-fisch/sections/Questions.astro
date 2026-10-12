@@ -35,7 +35,7 @@ const ldJson = ld ? JSON.stringify({ '@context': 'https://schema.org', ...ld }) 
 {ldJson && <script type="application/ld+json" set:html={ldJson} />}
 
 <style is:global>
-  .ff-faq-grille { display: grid; gap: var(--s6); }
+  .ff-faq-grille { display: grid; gap: var(--s4); }
   @media (min-width: 1024px) {
     .ff-faq-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--s6); }
     .ff-faq-grille > h2 { grid-column: 1 / span 5; }
@@ -43,7 +43,7 @@ const ldJson = ld ? JSON.stringify({ '@context': 'https://schema.org', ...ld }) 
   }
   .ff-q { border-bottom: 1px solid var(--line); }
   .ff-q:first-child { border-top: 1px solid var(--line); }
-  .ff-q > summary { display: flex; min-height: 48px; align-items: flex-start; justify-content: space-between; gap: var(--s3); padding-block: var(--s2); cursor: pointer; list-style: none; color: var(--fg); }
+  .ff-q > summary { display: flex; min-height: 48px; align-items: flex-start; justify-content: space-between; gap: var(--s3); padding-block: 12px; cursor: pointer; list-style: none; color: var(--fg); }
   .ff-q > summary::-webkit-details-marker { display: none; }
   .ff-q > p { max-width: 34rem; padding-bottom: var(--s3); }
   .ff-q-signe { flex-shrink: 0; margin-top: 5px; color: var(--muted); transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1); }
