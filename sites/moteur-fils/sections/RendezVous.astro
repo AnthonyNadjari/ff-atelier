@@ -10,14 +10,14 @@ import SectionHeading from '@/components/SectionHeading.astro';
 
 const temps = [
   { n: '01', titre: 'Appelez', texte: 'Un coup de fil au garage suffit pour convenir d’un créneau qui vous arrange.', icon: 'Phone' },
-  { n: '02', titre: 'Déposez', texte: 'Le matin ou la veille : on récupère les clés et on regarde ce qu’il y a à faire.', icon: 'Key' },
+  { n: '02', titre: 'Déposez', texte: 'Le matin ou la veille : on récupère les clés et on regarde ce qu’il y a à faire.', icon: 'Key' },
   { n: '03', titre: 'Repartez', texte: 'On vous rappelle dès que c’est prêt, avec le prix convenu à l’avance.', icon: 'CircleCheck' },
 ];
 ---
 
 <section id="rendezvous" class="section-y bg-bg">
   <div class="container-ff">
-    <SectionHeading eyebrow="Rendez-vous express" title="Trois temps, pas plus" text="Pas de formulaire à rallonge : un appel, un passage au garage, c’est réglé." align="center" />
+    <SectionHeading eyebrow="Rendez-vous express" title="Trois temps, pas plus" text="Pas de formulaire à rallonge : un appel, un passage au garage, c’est réglé." align="center" />
 
     <ol class="mt-14 grid gap-8 sm:grid-cols-3 sm:gap-6" data-stagger="130">
       {temps.map((t) => (

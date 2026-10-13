@@ -104,7 +104,8 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
 
 ### Définition de fait — à cocher avant d'annoncer une livraison
 
-- [ ] `node scripts/ff.mjs verifier <slug>` vert.
+- [ ] `node scripts/ff.mjs verifier <slug>` vert (il inclut l'accessibilité, la typographie française et
+      les signes « fait par une IA » ; une faute de typo se corrige avec `ff typo <slug> --corriger`).
 - [ ] Site vérifié sur mobile (375 px) en plus du desktop.
 - [ ] Mentions légales complètes (`legal.owner`, SIRET, hébergeur, médiateur de la consommation si
       applicable).

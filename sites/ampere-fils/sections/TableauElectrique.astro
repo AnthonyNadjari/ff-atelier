@@ -26,7 +26,7 @@ const services = site.services;
               <div class="flip-front flex h-full flex-col rounded-card border border-line bg-surface p-6">
                 <div class="flex items-start justify-between">
                   <span class="breaker-switch" aria-hidden="true"><span class="breaker-knob"></span></span>
-                  <span class="font-mono text-xs tabular-nums text-muted">n°{String(i + 1).padStart(2, '0')}</span>
+                  <span class="font-mono text-xs tabular-nums text-muted">n° {String(i + 1).padStart(2, '0')}</span>
                 </div>
                 <Icon name={s.icon} size={26} class="mt-6 text-accent" strokeWidth={1.5} />
                 <p class="mt-4 font-display text-lg leading-snug">{s.title}</p>

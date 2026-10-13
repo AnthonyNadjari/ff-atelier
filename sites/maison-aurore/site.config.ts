@@ -53,7 +53,7 @@ export default defineSite({
     trade: 'Institut de beauté et spa',
     tagline: 'Un institut rue Alphonse-Karr, <em>un soin à la fois.</em>',
     description:
-      'Institut de beauté et spa au 12 rue Alphonse-Karr, à Nice, depuis 2016. Quatre praticiennes y prennent soin du visage, du corps, jusqu’au bout des ongles.\n\nSoins du visage, massages, hammam, épilation, onglerie. Et un rituel de 90 minutes, le Rituel Aurore, pensé comme une parenthèse plutôt que comme un soin de plus.\n\nDu lundi au samedi, 10 h – 20 h. Le dimanche, l’institut est fermé.',
+      'Institut de beauté et spa au 12 rue Alphonse-Karr, à Nice, depuis 2016. Quatre praticiennes y prennent soin du visage, du corps, jusqu’au bout des ongles.\n\nSoins du visage, massages, hammam, épilation, onglerie. Et un rituel de 90 minutes, le Rituel Aurore, pensé comme une parenthèse plutôt que comme un soin de plus.\n\nDu lundi au samedi, 10 h – 20 h. Le dimanche, l’institut est fermé.',
     since: 2016,
   },
 
@@ -80,7 +80,7 @@ export default defineSite({
     {
       slug: 'massages',
       title: 'Massages',
-      short: 'Au choix : californien, pierres chaudes, ou adapté à la grossesse. 60 minutes.',
+      short: 'Au choix : californien, pierres chaudes, ou adapté à la grossesse. 60 minutes.',
       bullets: ['Le californien, pour commencer', 'Aux pierres chaudes', 'Adapté à la grossesse'],
       icon: 'Hand',
       priceFrom: '85 € (indicatif), 60 min',
@@ -106,7 +106,7 @@ export default defineSite({
     {
       slug: 'rituel-aurore',
       title: 'Rituel Aurore',
-      short: 'Le visage et le corps, en 90 minutes. Et la cabine est à vous pendant tout ce temps.',
+      short: 'Le visage et le corps, en 90 minutes. Et la cabine est à vous pendant tout ce temps.',
       icon: 'Flower2',
       priceFrom: '140 € (indicatif), 90 min',
       featured: true,

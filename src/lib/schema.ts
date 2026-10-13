@@ -297,7 +297,7 @@ export const siteSchema = z.object({
   wording: z
     .object({
       devis: z.string().default('Demander un devis').describe('Libelle du bouton secondaire : "Réserver", "Commander", "Prendre rendez-vous"...'),
-      ctaTitle: z.string().default('Un projet, une urgence&nbsp;? <em>Parlons-en.</em>').describe('Titre du bandeau CTA (HTML autorise)'),
+      ctaTitle: z.string().default('Un projet, une urgence ? <em>Parlons-en.</em>').describe('Titre du bandeau CTA (HTML autorise)'),
       ctaText: z.string().optional().describe('Phrase sous le titre du CTA ; par defaut une phrase generique avec la ville'),
       contactTitle: z.string().default('Parlons de votre projet'),
       contactText: z.string().default('Décrivez votre besoin, nous vous rappelons rapidement.'),

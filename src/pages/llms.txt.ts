@@ -25,7 +25,7 @@ export const GET: APIRoute = ({ site: astroSite }) => {
   lignes.push(`- E-mail : ${site.contact.email}`);
   lignes.push(`- Adresse : ${fullAddress()}`);
   for (const h of site.contact.hours) lignes.push(`- Horaires : ${h.days} ${h.hours}`);
-  if (site.contact.emergency24h) lignes.push('- Urgences : 24h/24, 7j/7');
+  if (site.contact.emergency24h) lignes.push('- Urgences : 24 h/24, 7 j/7');
   lignes.push('');
 
   lignes.push('## Services');

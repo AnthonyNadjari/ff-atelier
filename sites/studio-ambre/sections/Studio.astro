@@ -9,7 +9,7 @@ import { site, paragraphs } from '@/lib/site';
 const faits = [
   site.business.since ? { k: 'Fondé en', v: String(site.business.since) } : null,
   { k: 'Adresse', v: `${site.contact.address.street}, ${site.contact.address.postalCode} ${site.contact.address.city}` },
-  { k: 'Équipe', v: 'Léa Bonnet, conception ; Karim Haddad, chantier' },
+  { k: 'Équipe', v: 'Léa Bonnet, conception ; Karim Haddad, chantier' },
   { k: 'Projets', v: 'Cinq à six par an' },
   site.business.legalForm ? { k: 'Forme', v: site.business.legalForm } : null,
   site.business.insurance ? { k: 'Assurance', v: site.business.insurance } : null,

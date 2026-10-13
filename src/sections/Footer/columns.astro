@@ -23,7 +23,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
     <div>
       <p class="mb-4 text-sm font-medium">Navigation</p>
       <ul class="space-y-2 text-sm text-on-ink/80">{navLinks().map((l) => <li><a href={`/${l.href}`} class="hover:text-on-ink">{l.label}</a></li>)}</ul>
-      {site.zones.cities.length > 0 && <p class="mt-6 text-xs text-on-ink/65">Intervention : {site.zones.cities.slice(0, 8).join(', ')}{site.zones.cities.length > 8 && '…'}</p>}
+      {site.zones.cities.length > 0 && <p class="mt-6 text-xs text-on-ink/65">Intervention : {site.zones.cities.slice(0, 8).join(', ')}{site.zones.cities.length > 8 && '…'}</p>}
     </div>
     <div>
       <p class="mb-4 text-sm font-medium">Contact</p>

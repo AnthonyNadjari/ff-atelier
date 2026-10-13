@@ -83,7 +83,7 @@ export default defineSite({
     // <em> du mandat est porte par wording.ctaTitle (rendu via set:html, jamais decoupe).
     tagline: 'Deux avocates à Montpellier. Le premier rendez-vous sert à y voir clair.',
     description:
-      'Le cabinet réunit deux avocates inscrites au Barreau de Montpellier, Maître Claire Lemaire et Maître Inès Dahmani. Depuis 2014, elles suivent des particuliers et des petites entreprises en droit du travail, en droit de la famille, en droit immobilier et en droit des affaires.\n\nLes consultations ont lieu sur rendez-vous, au cabinet du 5 rue Foch. La première dure 45 minutes et coûte 90 € TTC, à titre indicatif. L’aide juridictionnelle est acceptée en droit de la famille.',
+      'Le cabinet réunit deux avocates inscrites au Barreau de Montpellier, Maître Claire Lemaire et Maître Inès Dahmani. Depuis 2014, elles suivent des particuliers et des petites entreprises en droit du travail, en droit de la famille, en droit immobilier et en droit des affaires.\n\nLes consultations ont lieu sur rendez-vous, au cabinet du 5 rue Foch. La première dure 45 minutes et coûte 90 € TTC, à titre indicatif. L’aide juridictionnelle est acceptée en droit de la famille.',
     since: 2014,
     schemaType: 'LegalService',
   },
@@ -158,14 +158,14 @@ export default defineSite({
 
   process: [
     { title: 'Prise de contact', text: 'Vous décrivez votre situation par téléphone ou via le formulaire. Nous fixons ensemble un premier rendez-vous.' },
-    { title: 'Premier rendez-vous de 45 minutes', text: 'Nous étudions votre dossier et vous exposons les options possibles. Tarif à titre indicatif : 90 € TTC.' },
+    { title: 'Premier rendez-vous de 45 minutes', text: 'Nous étudions votre dossier et vous exposons les options possibles. Tarif à titre indicatif : 90 € TTC.' },
     { title: 'Convention d’honoraires', text: 'Si vous nous confiez votre dossier, une convention d’honoraires écrite est signée avant toute intervention, comme l’exige la réglementation de la profession d’avocat.' },
     { title: 'Suivi du dossier', text: 'L’avocate qui a ouvert le dossier le suit jusqu’à sa résolution, avec un point régulier sur son avancement.' },
   ],
 
   faq: [
     { q: 'Faut-il prendre rendez-vous ?', a: 'Oui. Le cabinet ne reçoit pas sans rendez-vous, du lundi au vendredi, de 9 h à 18 h.' },
-    { q: 'Combien coûte la première consultation ?', a: '90 € TTC pour 45 minutes, à titre indicatif. Si vous nous confiez ensuite le dossier, une convention d’honoraires écrite est signée avant toute intervention.' },
+    { q: 'Combien coûte la première consultation ?', a: '90 € TTC pour 45 minutes, à titre indicatif. Si vous nous confiez ensuite le dossier, une convention d’honoraires écrite est signée avant toute intervention.' },
     { q: 'L’aide juridictionnelle est-elle possible ?', a: 'En droit de la famille, pour les situations qui y sont éligibles. Nous vérifions votre éligibilité dès le premier échange, avant de fixer le rendez-vous.' },
     { q: 'Le cabinet intervient-il en dehors de Montpellier ?', a: 'À Castelnau-le-Lez, Lattes, Sète et Nîmes, ainsi que dans les communes voisines.' },
   ],
@@ -174,7 +174,7 @@ export default defineSite({
 
   wording: {
     devis: 'Prendre rendez-vous',
-    ctaTitle: 'Une situation à démêler ? <em>Le premier rendez-vous dure 45 minutes.</em>',
+    ctaTitle: 'Une situation à démêler ? <em>Le premier rendez-vous dure 45 minutes.</em>',
     contactTitle: 'Prendre rendez-vous',
     contactText: 'Décrivez votre situation en quelques lignes. Nous rappelons pour fixer un rendez-vous, ou pour vous dire que le cabinet n’est pas le bon interlocuteur.',
   },

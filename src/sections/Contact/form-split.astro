@@ -12,7 +12,7 @@ const wa = whatsapp();
     <div class="lg:col-span-5">
       <SectionHeading eyebrow="Contact" title={site.wording.contactTitle} text={site.wording.contactText} />
       <ul class="mt-10 space-y-5" data-stagger="100">
-        <li class="flex gap-4"><Icon name="Phone" class="text-accent shrink-0 mt-0.5" /><div><a href={tel()} class="font-medium text-lg">{site.contact.phoneDisplay}</a>{site.contact.emergency24h && <p class="text-sm text-muted">Urgences 24h/24, 7j/7</p>}</div></li>
+        <li class="flex gap-4"><Icon name="Phone" class="text-accent shrink-0 mt-0.5" /><div><a href={tel()} class="font-medium text-lg">{site.contact.phoneDisplay}</a>{site.contact.emergency24h && <p class="text-sm text-muted">Urgences 24 h/24, 7 j/7</p>}</div></li>
         {wa && <li class="flex gap-4"><Icon name="MessageCircle" class="text-accent shrink-0 mt-0.5" /><a href={wa} class="font-medium" target="_blank" rel="noopener">Écrire sur WhatsApp</a></li>}
         <li class="flex gap-4"><Icon name="Mail" class="text-accent shrink-0 mt-0.5" /><a href={mailto()} class="font-medium break-all">{site.contact.email}</a></li>
         <li class="flex gap-4"><Icon name="MapPin" class="text-accent shrink-0 mt-0.5" /><div><p>{fullAddress()}</p>{site.contact.mapsUrl && <a href={site.contact.mapsUrl} class="text-sm text-accent" target="_blank" rel="noopener">Voir sur Google Maps</a>}</div></li>

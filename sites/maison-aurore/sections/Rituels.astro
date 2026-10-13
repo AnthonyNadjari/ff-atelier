@@ -7,7 +7,7 @@
  * (même effet, quatre panneaux avec photo en duotone) : ici le silence vient de l'absence
  * d'image, pas d'un habillage supplémentaire. Un seul accent (token --accent), jamais de
  * couleur par panneau en dur. Durée/prix repris tels quels des trois données réelles du brief
- * (soin visage 75 €, massage 60 min 85 €, rituel Aurore 90 min 140 €) — aucun chiffre inventé ;
+ * (soin visage 75 €, massage 60 min 85 €, rituel Aurore 90 min 140 €) — aucun chiffre inventé ;
  * le soin du visage n'a pas de durée donnée par le brief, seul son prix est donc affiché.
  */
 import { site } from '@/lib/site';
@@ -15,9 +15,9 @@ import { site } from '@/lib/site';
 const bySlug = Object.fromEntries(site.services.map((s) => [s.slug, s]));
 
 const panels = [
-  { numeral: 'I', slug: 'soin-visage', duration: null, price: '75 €', promise: 'Un geste précis pour une peau qui respire à nouveau.' },
-  { numeral: 'II', slug: 'massages', duration: '60 min', price: '85 €', promise: 'Les mains guident, le temps s’efface.' },
-  { numeral: 'III', slug: 'rituel-aurore', duration: '90 min', price: '140 €', promise: 'Du visage aux épaules, jusqu’au silence.' },
+  { numeral: 'I', slug: 'soin-visage', duration: null, price: '75 €', promise: 'Un geste précis pour une peau qui respire à nouveau.' },
+  { numeral: 'II', slug: 'massages', duration: '60 min', price: '85 €', promise: 'Les mains guident, le temps s’efface.' },
+  { numeral: 'III', slug: 'rituel-aurore', duration: '90 min', price: '140 €', promise: 'Du visage aux épaules, jusqu’au silence.' },
 ].filter((p) => bySlug[p.slug]);
 ---
 

@@ -8,6 +8,8 @@ import { DIST_DIR, SITES_DIR, resolveSlug, runAstro, ok, fail, warn, info, c, pa
 import { runLighthouse } from './lighthouse.mjs';
 import { runA11y } from './a11y.mjs';
 import { garderDonneesTest } from './garde-donnees.mjs';
+import { analyserHtml as analyserTypo } from './typo.mjs';
+import { analyserSite as analyserIa } from './ia.mjs';
 
 const FORBIDDEN = [
   { label: 'lorem', re: /lorem/i },
@@ -335,6 +337,33 @@ function warnFontDisplaySwap(distDir, warnings) {
   const re = /font-display\s*:\s*swap/i;
   const found = cssFiles.some((f) => re.test(fs.readFileSync(f, 'utf8'))) || htmlFiles.some((f) => re.test(fs.readFileSync(f, 'utf8')));
   if (!found) warnings.push('font-display: swap absent du CSS livre');
+}
+
+/**
+ * Typographie française (`ff typo`) et signes « fait par une IA » (`ff ia`) dans la définition de fait
+ * (13 oct 2026) : les deux existaient mais restaient des commandes à part, et 151 fautes dures
+ * s'étaient accumulées sur les sites sans que `ff verifier` le dise. Les règles dures de la typo et
+ * les échecs d'`ff ia` bloquent ; le reste est signalé. La page /credits est exclue de la typo : elle
+ * recopie les titres d'œuvres tels que leurs auteurs les ont écrits (souvent en anglais).
+ */
+function checkTypographieEtIa(slug, files, distDir, checks, warnings) {
+  const durs = new Map();
+  for (const f of files) {
+    const page = path.relative(distDir, f).split(path.sep).join('/');
+    if (page === 'credits.html') continue;
+    for (const inf of analyserTypo(fs.readFileSync(f, 'utf8'))) {
+      if (!inf.dur) continue;
+      const d = durs.get(inf.id) || { libelle: inf.libelle, extrait: inf.extrait, n: 0 };
+      d.n += inf.n;
+      durs.set(inf.id, d);
+    }
+  }
+  if (durs.size === 0) checks.push({ pass: true, label: 'Typographie française conforme (ff typo)' });
+  else for (const d of durs.values()) checks.push({ pass: false, label: `Typo : ${d.libelle} (${d.n}), ex. « ${d.extrait} » — ff typo ${slug} --corriger` });
+  const ia = analyserIa(slug);
+  if (!ia.echecs.length) checks.push({ pass: true, label: 'Aucun signe « fait par une IA » bloquant (ff ia)' });
+  for (const e of ia.echecs) checks.push({ pass: false, label: `Signe IA : ${e.regle} (${e.n})${e.exemples ? ', ex. ' + e.exemples[0] : ''}` });
+  for (const a of ia.alertes) warnings.push(`Signe IA à surveiller : ${a.regle} (${a.n})`);
 }
 
 /** sitemap-index.xml genere par @astrojs/sitemap. */
@@ -981,6 +1010,7 @@ export async function cmdVerifier(args) {
 
   // --- Textes (docs/REDACTION.md) ---
   checkMotsInterditsTextes(files, distDir, checks);
+  checkTypographieEtIa(slug, files, distDir, checks, warnings);
 
   warnImagesSansDimension(files, distDir, warnings);
   warnOgImageManquant(slug, files, distDir, warnings);

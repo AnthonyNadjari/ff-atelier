@@ -3,7 +3,7 @@
  * Consultation sur mesure — processus vertical numéroté (site.process, quatre étapes réelles du
  * brief), relié par un simple trait qui se trace (data-draw), différent de la frise horizontale à
  * cercles d'osteo-marchand/Seance.astro et des bandes penchées pleine largeur de
- * toits-cie/Methode.astro. La durée de l'étape « premier rendez-vous » (45 minutes, donnée réelle
+ * toits-cie/Methode.astro. La durée de l'étape « premier rendez-vous » (45 minutes, donnée réelle
  * du brief) est visualisée par une barre qui se remplit au scroll (data-count-bar) plutôt qu'un
  * simple chiffre — la seule étape qui a une durée connue en a une, les trois autres n'en inventent
  * pas.
@@ -30,7 +30,7 @@ const steps = site.process;
             {i === 1 && (
               <div class="mt-5 max-w-[14rem]">
                 <div class="flex items-baseline justify-between text-sm text-muted">
-                  <span>Durée</span><span>45 min</span>
+                  <span>Durée</span><span>45 min</span>
                 </div>
                 <div class="mt-2 h-1.5 w-full overflow-hidden rounded-pill bg-line" data-count-bar="100">
                   <div class="bar-fill h-full rounded-pill bg-accent"></div>

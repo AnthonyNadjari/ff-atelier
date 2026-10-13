@@ -16,7 +16,7 @@ const wa = whatsapp();
         <Icon name="Phone" size={28} class="text-accent" />
         <p class="mt-5 font-display text-2xl">Appelez</p>
         <p class="mt-2 text-lg text-fg">{site.contact.phoneDisplay}</p>
-        {site.contact.emergency24h && <p class="mt-1 text-sm text-muted">Urgences 24h/24, 7j/7</p>}
+        {site.contact.emergency24h && <p class="mt-1 text-sm text-muted">Urgences 24 h/24, 7 j/7</p>}
         {site.contact.hours.length > 0 && (
           <dl class="mt-4 space-y-1 text-sm text-muted">
             {site.contact.hours.map((h) => <div class="flex gap-2"><dt>{h.days}</dt><dd class="text-fg">{h.hours}</dd></div>)}

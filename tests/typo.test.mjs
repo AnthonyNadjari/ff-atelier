@@ -232,6 +232,28 @@ test('corrigerSourceAstro : frontmatter, balises et expressions intacts', () => 
   assert.ok(out.includes(`«${FINE}vrai${FINE}»`), out);
 });
 
+test('corrigerSourceAstro : le code d’une expression imbriquée (ternaire) reste intact', () => {
+  const src = [
+    '---',
+    'const x = 1;',
+    '---',
+    '<div>',
+    '  {tel ? (',
+    '    <span>{x}</span>',
+    '  ) : (',
+    '    <img src={y} alt="" />',
+    '  )}',
+    '  {Sur ? <Sur /> : (<p>{a}</p>)}',
+    '  <p>Avant : la suite</p>',
+    '</div>',
+  ].join('\n');
+  const out = corrigerSourceAstro(src);
+  assert.ok(out.includes('  {tel ? (\n    <span>{x}</span>\n  ) : (\n'), out);
+  assert.ok(out.includes('{Sur ? <Sur /> : (<p>{a}</p>)}'), out);
+  // Le texte hors expression est toujours corrige.
+  assert.ok(out.includes(`Avant${NBSP}: la suite`), out);
+});
+
 test('typo : --corriger ne touche jamais l’indentation d’un fichier source', async () => {
   const { corrigerTexte, corrigerSourceAstro } = await import('../scripts/ff/typo.mjs');
   // Entre deux mots, les espaces multiples se resserrent.

@@ -23,8 +23,8 @@ const shown = (featured.length > 0 ? featured : site.services).slice(0, 3);
         <Button href="#contact" variant="ghost" size="lg">{site.wording.devis}</Button>
       </div>
       <ul class="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-muted">
-        {years && <li class="flex items-center gap-2">{years} ans d'expérience</li>}
-        {site.contact.emergency24h && <li class="flex items-center gap-2">Urgences 24h/24</li>}
+        {years && <li class="flex items-center gap-2">{years} ans d’expérience</li>}
+        {site.contact.emergency24h && <li class="flex items-center gap-2">Urgences 24 h/24</li>}
         {site.business.insurance && <li class="flex items-center gap-2">Assuré décennale</li>}
         {site.proof.google && <li class="flex items-center gap-2">{site.proof.google.rating.toFixed(1)}/5 sur Google ({site.proof.google.count} avis)</li>}
       </ul>

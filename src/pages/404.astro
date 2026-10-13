@@ -48,7 +48,7 @@ const telTest = /^(\+33|0)6(0{8})$/.test(site.contact.phone.replace(/\s/g, ''));
         </div>
         <p class="mt-6 text-sm text-muted">
           Ou écrivez-nous : <a href={mailto()} class="underline break-all hover:text-fg">{site.contact.email}</a>
-          {site.contact.emergency24h && <span>, urgences 24h/24, 7j/7.</span>}
+          {site.contact.emergency24h && <span>, urgences 24 h/24, 7 j/7.</span>}
         </p>
         {site.contact.hours.length > 0 && (
           <dl class="mt-6 grid max-w-xs grid-cols-[auto_1fr] gap-x-6 gap-y-1 text-sm">

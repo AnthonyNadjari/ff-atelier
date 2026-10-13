@@ -36,14 +36,14 @@ const viaMessagerie = site.form.provider === 'mailto';
       <h3>Quand vous réservez un audit</h3>
       <p>Votre nom, votre métier, votre ville, l’adresse de votre site actuel si vous en avez un, votre téléphone ou votre e-mail, et le créneau qui vous arrange.</p>
       {viaMessagerie ? (
-        <p>Le formulaire ne passe par aucun serveur : il prépare un e-mail dans votre propre messagerie, et c’est vous qui l’envoyez. Nous recevons donc un e-mail ordinaire.</p>
+        <p>Le formulaire ne passe par aucun serveur : il prépare un e-mail dans votre propre messagerie, et c’est vous qui l’envoyez. Nous recevons donc un e-mail ordinaire.</p>
       ) : (
         <p>Le formulaire transmet ces informations à notre boîte e-mail par un prestataire technique. Votre prénom et le créneau choisi sont gardés le temps de l’onglet ouvert (stockage de session du navigateur) pour afficher la page de confirmation, puis effacés.</p>
       )}
       <h3>Quand vous nous écrivez</h3>
       <p>Votre adresse e-mail et le contenu de votre message.</p>
       <h3>Pendant l’audit</h3>
-      <p>Nous regardons ce qui est déjà public : votre site actuel et ce que Google montre de votre entreprise. Nous ne cherchons rien d’autre.</p>
+      <p>Nous regardons ce qui est déjà public : votre site actuel et ce que Google montre de votre entreprise. Nous ne cherchons rien d’autre.</p>
     </section>
 
     <section>
@@ -53,7 +53,7 @@ const viaMessagerie = site.form.provider === 'mailto';
 
     <section>
       <h2>Combien de temps</h2>
-      <p>Si nous ne travaillons pas ensemble : 12 mois après notre dernier échange, puis suppression. Si nous travaillons ensemble : le temps du contrat, puis ce que la loi impose de garder (10 ans pour les factures et pièces comptables).</p>
+      <p>Si nous ne travaillons pas ensemble : 12 mois après notre dernier échange, puis suppression. Si nous travaillons ensemble : le temps du contrat, puis ce que la loi impose de garder (10 ans pour les factures et pièces comptables).</p>
     </section>
 
     <section>
@@ -63,7 +63,7 @@ const viaMessagerie = site.form.provider === 'mailto';
 
     <section>
       <h2>Vos droits</h2>
-      <p>Vous pouvez à tout moment nous demander ce que nous avons sur vous, le corriger, le supprimer, ou vous opposer à son utilisation : écrivez à <a href={mailto()} class="ff-lien">{site.contact.email}</a>, nous répondons sous un mois au plus. Si notre réponse ne vous convient pas, vous pouvez saisir la CNIL (<a href="https://www.cnil.fr/fr/plaintes" rel="noopener" class="ff-lien">cnil.fr</a>).</p>
+      <p>Vous pouvez à tout moment nous demander ce que nous avons sur vous, le corriger, le supprimer, ou vous opposer à son utilisation : écrivez à <a href={mailto()} class="ff-lien">{site.contact.email}</a>, nous répondons sous un mois au plus. Si notre réponse ne vous convient pas, vous pouvez saisir la CNIL (<a href="https://www.cnil.fr/fr/plaintes" rel="noopener" class="ff-lien">cnil.fr</a>).</p>
     </section>
 
     <section>

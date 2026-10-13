@@ -660,6 +660,30 @@ function corrigerAttributsTexte(src) {
   });
 }
 
+/** Remplace chaque expression `{...}` de premier niveau (accolades equilibrees) par `garder(expr)`. */
+function masquerExpressions(texte, garder) {
+  let out = '';
+  let debut = -1;
+  let profondeur = 0;
+  for (let i = 0; i < texte.length; i++) {
+    const ch = texte[i];
+    if (ch === '{') {
+      if (profondeur === 0) debut = i;
+      profondeur++;
+    } else if (ch === '}' && profondeur > 0) {
+      profondeur--;
+      if (profondeur === 0) {
+        out += garder(texte.slice(debut, i + 1));
+        continue;
+      }
+    }
+    if (profondeur === 0) out += ch;
+  }
+  // Accolade jamais refermee : on rend le reste tel quel plutot que de le perdre.
+  if (profondeur > 0) out += texte.slice(debut);
+  return out;
+}
+
 export function corrigerSourceAstro(source) {
   const src = corrigerAttributsTexte(String(source));
   const mFront = /^---\r?\n[\s\S]*?\r?\n---/.exec(src);
@@ -683,8 +707,13 @@ export function corrigerSourceAstro(source) {
     .replace(/\.\.\.(?=[A-Za-z_$])/g, garder)
     .replace(BLOCS_OPAQUES, garder)
     .replace(/<!--[\s\S]*?-->/g, garder)
-    .replace(/\{(?:[^{}]|\{[^{}]*\})*\}/g, garder) // expression Astro, un niveau d'imbrication
-    .replace(/<[^<>]*>/g, garder); // balise complete, attributs compris
+    .replace(/<[^<>{}]*>/g, garder); // balise complete sans expression, attributs compris
+  // Expressions Astro `{...}` masquees ENTIERES, quelle que soit leur profondeur. L'ancienne regex
+  // ne suivait qu'un niveau d'imbrication : dans `{tel ? (<div>{x}</div>) : (...)}`, le code du
+  // ternaire restait a decouvert et `?`/`:` recevaient une espace insecable (13 oct 2026, sections
+  // de finck-fisch et pages partagees). Le texte d'un JSX niche dans une expression n'est donc plus
+  // corrige automatiquement ; `ff typo` continue de le signaler, il se corrige a la main.
+  const masqueFinal = masquerExpressions(masqueCorps, garder).replace(/<[^<>]*>/g, garder);
 
   // Demasquage ITERATIF : une balise masquee peut contenir une expression `{...}` elle-meme
   // masquee (ex. `<h2 set:html={site.wording.ctaTitle}>`), donc une seule passe laisserait une
@@ -693,7 +722,7 @@ export function corrigerSourceAstro(source) {
   // elle-meme masquee, sur une profondeur qu'on ne connait pas d'avance. Un nombre de passes
   // fixe laissait une sentinelle orpheline dans le fichier ecrit (sites/_effets casse le
   // 23 sept 2026 : `Unexpected "\uf10b"`).
-  let corrige = corrigerTexte(masqueCorps);
+  let corrige = corrigerTexte(masqueFinal);
   const SENTINELLE = /[\uF000-\uF8FF]/;
   for (let passe = 0; passe < 64 && SENTINELLE.test(corrige); passe++) {
     const avant = corrige;

@@ -79,7 +79,7 @@ export function analyserTypographie(config) {
   return { echecs: ia.length ? [{ regle: 'polices-ia', n: ia.length, exemples: ia }] : [], alertes: [] };
 }
 
-function analyserSite(slug) {
+export function analyserSite(slug) {
   const config = fs.readFileSync(path.join(SITES_DIR, slug, 'site.config.ts'), 'utf8');
   const direction = (config.match(/direction:\s*'([^']+)'/) || [])[1];
   const typo = analyserTypographie(config);

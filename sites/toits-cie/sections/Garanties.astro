@@ -10,7 +10,7 @@ import Icon from '@/components/Icon.astro';
 const stamps = [
   site.business.insurance && { icon: 'ShieldCheck', title: site.business.insurance, text: 'Chantier couvert du premier coup de marteau à la réception.', rotate: '-rotate-2' },
   site.business.certifications.includes('Qualibat') && { icon: 'BadgeCheck', title: 'Certifiés Qualibat', text: 'Contrôlé, à jour, vérifiable.', rotate: 'rotate-1' },
-  { icon: 'FileCheck', title: 'Devis sous 24h', text: 'Après le passage sur le toit, le chiffrage arrive vite, pas dans trois semaines.', rotate: '-rotate-1' },
+  { icon: 'FileCheck', title: 'Devis sous 24 h', text: 'Après le passage sur le toit, le chiffrage arrive vite, pas dans trois semaines.', rotate: '-rotate-1' },
 ].filter(Boolean) as { icon: string; title: string; text: string; rotate: string }[];
 ---
 
