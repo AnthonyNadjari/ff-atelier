@@ -1,0 +1,121 @@
+---
+/**
+ * Clôture « le mur » (revue DA du 13 oct 2026 : « le dernier tiers de la page est du texte mort »).
+ * La page s'ouvre sur le mur de démos du hero ; elle se referme sur un mur plus grand, pleine largeur :
+ * les dix écrans de l'atelier (six sites d'exemple, les trois pistes de la boulangerie, le menuisier),
+ * entiers, chacun défilant (DemoVideo). En entrant, le plan se redresse (--p, posé ci-dessous) ; au
+ * centre, une phrase et le bouton d'audit. Téléphone : trois colonnes (six écrans) seulement, la
+ * mémoire graphique d'un iPhone ne suit pas dix démos animées.
+ * Réduire les animations : plan fixe, démos arrêtées (DemoVideo), texte lisible.
+ */
+import DemoVideo from './DemoVideo.astro';
+
+const colonnes = [
+  ['piste-boulangerie-1', 'studio-ambre'],
+  ['encre-noire', 'dentaire-morvan'],
+  ['maison-roux', 'barbier-kessler'],
+  ['chez-malo', 'piste-boulangerie-3'],
+  ['atelier-lecerf', 'piste-boulangerie-2'],
+];
+---
+
+<section id="fin" class="ff-fin" data-fin>
+  <div class="ff-fin-mur" aria-hidden="true">
+    <div class="ff-fin-plan">
+      {colonnes.map((col, c) => (
+        <div class="ff-fin-col">
+          {col.map((slug, i) => <DemoVideo slug={slug} tel decalage={(c * 2 + i) * 2.3} largeur={220} />)}
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="ff-conteneur ff-fin-texte">
+    <h2 class="ff-titre">Le septième exemple sera le vôtre</h2>
+    <p class="ff-texte ff-fin-sous">Vingt minutes au téléphone, gratuites. Nous vous répondons sous 48 heures ouvrées.</p>
+    <a href="/audit" class="ff-bouton">Réserver un audit gratuit</a>
+  </div>
+</section>
+
+<style is:global>
+  .ff-fin {
+    position: relative;
+    overflow: clip;
+    min-height: min(100svh, 980px);
+    display: grid;
+    place-items: center;
+    padding-block: var(--s12);
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+  }
+  .ff-fin-mur {
+    position: absolute;
+    inset: 0;
+    perspective: 1800px;
+    perspective-origin: 50% 40%;
+  }
+  /* Voile : le texte du centre reste lisible, les bords du mur restent nets. */
+  .ff-fin-mur::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 40% 36% at 50% 50%, var(--bg) 35%, color-mix(in srgb, var(--bg) 70%, transparent) 70%, transparent),
+      linear-gradient(to bottom, var(--bg), transparent 18%, transparent 82%, var(--bg)),
+      color-mix(in srgb, var(--bg) 35%, transparent);
+  }
+  .ff-fin-plan {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(1180px, 112vw);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 22px;
+    transform-style: preserve-3d;
+    transform: translate(-50%, -50%) rotateX(calc(42deg - var(--p, 0) * 22deg)) rotateZ(calc(14deg - var(--p, 0) * 8deg)) scale(calc(0.92 + var(--p, 0) * 0.08));
+  }
+  .ff-fin-col { display: grid; gap: 22px; align-content: start; transform: translateY(calc((0.5 - var(--p, 0)) * var(--vitesse, 0px))); }
+  .ff-fin-col:nth-child(odd) { margin-top: 120px; --vitesse: 140px; }
+  .ff-fin-col:nth-child(even) { --vitesse: -100px; }
+  .ff-fin .ff-demo { border-radius: 16px; border-color: rgb(240 232 219 / 0.16); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.85); }
+  .ff-fin-texte { position: relative; z-index: 3; text-align: center; display: grid; justify-items: center; gap: var(--s3); }
+  .ff-fin-texte .ff-titre { max-width: 14ch; }
+  .ff-fin-sous { max-width: 30rem; margin: 0; }
+  @media (max-width: 767px) {
+    .ff-fin-plan { width: 150vw; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .ff-fin-col { gap: 14px; }
+    .ff-fin-col:nth-child(n + 4) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ff-fin-plan { transform: translate(-50%, -50%) rotateX(24deg) rotateZ(8deg); }
+    .ff-fin-col { transform: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // --p : 0 quand le haut de la section entre par le bas de l'écran, 1 quand son bas atteint le bas de
+  // l'écran. Écrit seulement s'il change, et seulement quand la section est proche.
+  onPage(() => {
+    const fin = document.querySelector<HTMLElement>('[data-fin]');
+    const plan = fin?.querySelector<HTMLElement>('.ff-fin-plan');
+    if (!fin || !plan || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    let p = '';
+    const maj = () => {
+      raf = 0;
+      const r = fin.getBoundingClientRect();
+      const vh = window.innerHeight;
+      if (r.top > vh * 1.5 || r.bottom < -vh * 0.5) return;
+      const np = Math.min(1, Math.max(0, (vh - r.top) / r.height)).toFixed(3);
+      if (np !== p) { p = np; plan.style.setProperty('--p', p); }
+    };
+    const relancer = () => { if (!raf) raf = requestAnimationFrame(maj); };
+    window.addEventListener('scroll', relancer, { passive: true });
+    relancer();
+    document.addEventListener('astro:before-swap', () => window.removeEventListener('scroll', relancer), { once: true });
+  });
+</script>

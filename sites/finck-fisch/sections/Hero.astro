@@ -281,10 +281,22 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
     .ff-mur-plan { width: 640px; }
   }
   @media (min-width: 1024px) {
-    .ff-mur { height: min(80svh, 720px); margin-inline: -12vw calc(-1 * var(--gouttiere) - 4vw); }
-    .ff-mur-plan { width: 600px; left: 56%; }
+    .ff-mur { height: min(80svh, 720px); margin-inline: -12vw 0; }
+    .ff-mur-plan { width: 560px; left: 54%; }
   }
   @media (prefers-reduced-motion: reduce) {
     .ff-mur-plan { animation: none; }
+  }
+  /* Téléphone et tablette (13 oct 2026, revue DA : « premier écran mobile sans aucun visuel ») : le mur
+     passe derrière le texte, sur toute la hauteur du premier écran, atténué ; le titre reste au-dessus
+     et reste l'élément LCP (chaque écran du mur est plus petit que le bloc du titre). */
+  @media (max-width: 1023px) {
+    .ff-hero { position: relative; }
+    .ff-hero-grille { position: relative; }
+    .ff-hero-texte { position: relative; z-index: 1; }
+    .ff-hero-oeuvre { position: absolute; inset: calc(-1 * var(--s3)) 0 auto; z-index: 0; pointer-events: none; }
+    .ff-mur { height: 100svh; opacity: 0.38; }
+    .ff-mur-plan { width: 600px; left: 62%; top: 4%; }
+    .ff-mur::before { background: linear-gradient(to bottom, transparent 40%, var(--bg) 92%); }
   }
 </style>

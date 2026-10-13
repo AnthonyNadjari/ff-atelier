@@ -88,6 +88,7 @@ export default defineSite({
       { type: 'custom', variant: 'offre', label: 'Tarifs' },
       { type: 'custom', variant: 'audit' },
       { type: 'custom', variant: 'questions' },
+      { type: 'custom', variant: 'fin' },
     ],
     // Pied de page sur mesure : footer/minimal affichait le téléphone placeholder (voir sections/Pied.astro).
     footer: 'custom/pied',

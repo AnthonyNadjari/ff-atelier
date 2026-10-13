@@ -71,7 +71,7 @@ const liens = [
     const barre = document.querySelector<HTMLElement>('[data-barre-audit]');
     if (!barre) return;
     const hero = document.getElementById('hero');
-    const caches = [...document.querySelectorAll<HTMLElement>('#audit, [data-formulaire-audit]')];
+    const caches = [...document.querySelectorAll<HTMLElement>('#audit, #fin, [data-formulaire-audit]')];
     const vues = new Set<Element>();
     let heroVu = Boolean(hero);
     const maj = () => barre.toggleAttribute('data-shown', !heroVu && vues.size === 0);
