@@ -7,6 +7,7 @@ import { ffLookPlugin } from './scripts/vite-ff-look.mjs';
 import { imagesIntegration } from './scripts/astro-images-integration.mjs';
 import { creditsIntegration } from './scripts/astro-credits-integration.mjs';
 import { iconsIntegration } from './scripts/astro-icons-integration.mjs';
+import { typoIntegration } from './scripts/astro-typo-integration.mjs';
 import { sitePagesIntegration, siteNoindexRoutes } from './scripts/astro-site-pages-integration.mjs';
 import { readSiteSecurityConfig, buildSecurityHeaderLines } from './scripts/ff/csp.mjs';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
@@ -100,6 +101,9 @@ export default defineConfig({
     creditsIntegration({ root: process.cwd(), slug }),
     // favicon.ico, apple-touch-icon, icon-192/512, site.webmanifest depuis public/favicon.svg (scripts/astro-icons-integration.mjs).
     iconsIntegration({ root: process.cwd(), slug, ffLook }),
+    // Typographie française sur le HTML final (insécables, guillemets, apostrophes), en dernier : voir
+    // scripts/astro-typo-integration.mjs. `ff typo` contrôle le résultat.
+    typoIntegration(),
   ],
   vite: {
     plugins: [

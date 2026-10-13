@@ -1,4 +1,4 @@
-// `ff verifier [slug] [--lighthouse] [--sans-a11y]` (alias `check`) : build + checklist SEO/contenu sur
+// `ff verifier [slug] [--lighthouse] [--sans-a11y] [--sans-build] [--bavard]` (alias `check`) : build + checklist SEO/contenu sur
 // dist/<slug>/**/*.html, puis audit d'accessibilite axe (scripts/ff/a11y.mjs, toutes les pages, desktop
 // + mobile ; bloquant sur une violation critical/serious ; `--sans-a11y` pour le sauter, ex. sans Chrome). `--lighthouse` ajoute en fin de parcours un audit Lighthouse complet
 // (scripts/ff/lighthouse.mjs) — non lance par defaut car lent (plusieurs pages x desktop/mobile).
@@ -933,7 +933,10 @@ export async function cmdVerifier(args) {
   info(`Verification de ${c.bold(slug)}`);
   info('');
 
-  const buildStatus = runAstro('build', slug);
+  // `--sans-build` : controle le dist/ deja construit (relance rapide apres une correction de texte
+  // faite sans toucher au code). Sinon build silencieux : la sortie de Vite ne s'affiche qu'en cas d'echec.
+  const dejaConstruit = fs.existsSync(path.join(DIST_DIR, slug, 'index.html'));
+  const buildStatus = flags['sans-build'] && dejaConstruit ? 0 : runAstro('build', slug, [], {}, { silencieux: !flags.bavard });
   const checks = [];
   if (buildStatus !== 0) {
     checks.push({ pass: false, label: 'Build (voir la sortie ci-dessus pour le detail)' });

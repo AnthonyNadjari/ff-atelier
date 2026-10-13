@@ -15,6 +15,7 @@ pas besoin d'y aller pour le quotidien.
 | `marque/cartes-de-visite/` | Les cartes de visite : 3 modèles, PDF prêts pour l'imprimeur. Mode d'emploi : `README.md`. |
 | `commercial/COMMERCIAL.md` | Comment on démarche : qui, comment, ce qu'on a le droit de faire (e-mail, SMS, WhatsApp). |
 | `commercial/brief-client.html` | Le formulaire que le client remplit (ou qu'on remplit avec lui pendant l'appel). Mode d'emploi : `BRIEF-CLIENT.md`. |
+| `commercial/guide-photos.html` | Le guide photo à envoyer au client dès le premier appel : 12 photos au téléphone, comment les prendre, comment nous les envoyer. Remplacer [téléphone] et [e-mail] avant envoi. |
 | `commercial/apres-livraison.html` | Ce qu'on remet au client une fois son site en ligne. Mode d'emploi : `APRES-LIVRAISON.md`. |
 | `juridique/` | Structure de la société, CGV, et les modèles de devis, contrat, facture et CGV (`modeles/`). |
 | `decisions/` | Les décisions prises et leurs raisons (structure, hébergement, prix). Le résumé lisible : `decisions-octobre-2026.html`. |

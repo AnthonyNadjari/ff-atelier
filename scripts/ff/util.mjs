@@ -75,15 +75,19 @@ export function resolveSlug(argSlug, { mustExist = true } = {}) {
 }
 
 /** Lance `node node_modules/astro/astro.js <cmd>` avec SITE=<slug>, sans quitter le process. */
-export function runAstro(cmd, slug, extraArgs = [], extraEnv = {}) {
+export function runAstro(cmd, slug, extraArgs = [], extraEnv = {}, { silencieux = false } = {}) {
   writeFFCurrent(slug);
   const env = { ...process.env, SITE: slug, ...extraEnv };
   const astroJs = path.join(ROOT, 'node_modules', 'astro', 'astro.js');
   const r = spawnSync(process.execPath, [astroJs, cmd, ...extraArgs], {
-    stdio: 'inherit',
+    stdio: silencieux ? 'pipe' : 'inherit',
     cwd: ROOT,
     env,
+    encoding: 'utf8',
+    maxBuffer: 64 * 1024 * 1024,
   });
+  // Silencieux : la centaine de lignes de Vite ne s'affiche qu'en cas d'echec (la fin, la ou est l'erreur).
+  if (silencieux && r.status !== 0) process.stdout.write(`${r.stdout || ''}${r.stderr || ''}`.split(/\r?\n/).slice(-60).join('\n') + '\n');
   return r.status ?? 1;
 }
 

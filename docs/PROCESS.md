@@ -34,7 +34,10 @@ du Code de la consommation).
 ## 3. Ce que le client doit envoyer après l'appel
 
 - Photos réelles (logo, portrait/équipe, chantiers, avant/après si pertinent) — lien Drive/Dropbox/
-  WeTransfer.
+  WeTransfer. **Le jour même de l'appel**, envoyer le guide `studio/commercial/guide-photos.html`
+  (12 photos au téléphone, consignes, envoi en « Document » sur WhatsApp). Sans photo du vrai travail,
+  le site ressemble à une affiche (rodage du 13 oct 2026) : on ne livre pas un site sans au moins le
+  portrait, un geste et un avant/après ; jamais de photo de banque présentée comme celle du client.
 - Lien vers sa fiche Google (Maps ou Google Business).
 - SIRET (et n° de TVA intracommunautaire si assujetti).
 - Numéro et compagnie de l'assurance décennale, si le métier l'exige.
