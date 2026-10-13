@@ -4,7 +4,7 @@ Ce dossier est pour nous deux : tout ce qui fait tourner le studio et qui n'est 
 Le reste du dépôt (`sites/`, `src/`, `scripts/`, `docs/`) est la machine à fabriquer les sites ;
 pas besoin d'y aller pour le quotidien.
 
-**À ouvrir en premier : le tableau des tâches, https://github.com/users/AnthonyNadjari/projects/1** (qui fait quoi, ce qui reste).
+**À ouvrir en premier : le doc partagé « Finck & Fisch », https://claude.ai/code/artifact/f663772e-bd93-4326-b5e6-ca4f48fdb44f** (tâches et notes).
 
 ## Où est quoi
 
@@ -27,5 +27,5 @@ pas besoin d'y aller pour le quotidien.
 ## Règles simples
 
 - Une décision prise : une ligne dans `decisions/` (date, ce qu'on a décidé, pourquoi).
-- Une tâche finie : on fait glisser sa carte dans « Fait » sur le tableau.
+- Une tâche finie : on coche sa case dans le doc partagé.
 - Les vraies coordonnées (téléphone, adresse, SIRET) ne vont dans les sites qu'une fois la société immatriculée.
