@@ -20,13 +20,15 @@ const p = lirePreuves();
 const date = p
   ? new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Paris' }).format(new Date(`${p.date}T12:00:00Z`))
   : '';
+// Temps d'affichage du plus grand élément (LCP), arrondi au dixième, à la française.
+const secondes = p ? (Math.round(p.lcp / 100) / 10).toLocaleString('fr-FR') : '';
 ---
 
 <section id="preuve" class="ff-preuve" aria-label="En bref">
   <ul class="ff-conteneur ff-preuve-liste ff-petit">
     {p && (
       <li>
-        <span class="text-fg">Lighthouse mobile de ce site&nbsp;:</span> performance {p.performance}, accessibilité {p.accessibilite}, bonnes pratiques {p.bonnesPratiques}, référencement {p.seo}. <span class="ff-doux">Mesuré le {date}.</span>
+        <span class="text-fg">Ce site s’affiche en {secondes} secondes sur un téléphone</span> <span class="ff-doux">(mesure Google Lighthouse du {date}).</span>
       </li>
     )}
     <li><span class="text-fg">En ligne en 72 heures</span> <span class="ff-doux">après réception de vos contenus.</span></li>

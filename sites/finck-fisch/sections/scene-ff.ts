@@ -57,6 +57,16 @@ export function initScenes(): void {
     base: 0,
     cartes: [...el.children].map((k) => ({ el: k as HTMLElement, centre: 0, largeur: 1, d: '' })),
   }));
+  // Accent du métier : la carte au centre d'une piste [data-couv] prête son data-accent à toute la page
+  // (--accent est un <color> enregistré, la transition de 0,6 s est dans ff.css). Hors de la piste, ou
+  // aucune carte au centre : retour au cuivre du studio.
+  let accentPose = '';
+  const poserAccent = (c: string) => {
+    if (c === accentPose) return;
+    accentPose = c;
+    if (c) racine.style.setProperty('--accent', c);
+    else racine.style.removeProperty('--accent');
+  };
   if (!scenes.length && !couvs.length) return;
   racine.classList.add('ff-scenes');
 
@@ -97,6 +107,7 @@ export function initScenes(): void {
     // 1. Lectures (une seule mise en page, avant toute écriture).
     const hauts = scenes.map((s) => s.el.getBoundingClientRect().top);
     const defile = couvs.map((c) => c.el.scrollLeft);
+    const couvVisible = couvs.map((c) => { const r = c.el.getBoundingClientRect(); return r.top < vh * 0.75 && r.bottom > vh * 0.25; });
     // 2. Écritures.
     scenes.forEach((s, i) => {
       const top = hauts[i];
@@ -115,12 +126,14 @@ export function initScenes(): void {
       const txt = s.p.toFixed(4);
       if (txt !== s.pTxt) { s.pTxt = txt; s.el.style.setProperty('--p', txt); }
     });
+    let accent = '';
     couvs.forEach((c, i) => {
       const tx = c.scene ? -c.scene.p * c.scene.dx : 0;
       for (const k of c.cartes) {
         const x = c.base + tx + k.centre - defile[i];
         if (x < -vw || x > vw * 2) continue;
         const d = Math.max(-1.5, Math.min(1.5, (x - vw / 2) / k.largeur));
+        if (couvVisible[i] && Math.abs(d) < 0.5 && k.el.dataset.accent) accent = k.el.dataset.accent;
         const txt = d.toFixed(3);
         if (txt === k.d) continue;
         k.d = txt;
@@ -128,6 +141,7 @@ export function initScenes(): void {
         k.el.style.setProperty('--ad', Math.min(1, Math.abs(d)).toFixed(3));
       }
     });
+    poserAccent(accent);
   };
   const relancer = () => { if (!raf) raf = requestAnimationFrame(maj); };
   const remesurer = () => { aMesurer = true; relancer(); };
@@ -145,5 +159,6 @@ export function initScenes(): void {
     ro?.disconnect();
     delete racine.dataset.scenes;
     racine.classList.remove('ff-scenes');
+    poserAccent('');
   }, { once: true });
 }
