@@ -21,6 +21,9 @@ const RE_CP_JSONLD = /"postalCode"\s*:\s*"75000"/;
 // Mentions légales : une identité d'entreprise, ou l'avis honnête qu'elle n'existe pas encore.
 const RE_IDENTITE_LEGALE = /\bSIRE[NT]\b|\bR\.?C\.?S\b|\bRNE\b|r[ée]pertoire des m[ée]tiers|registre du commerce|en cours (?:de |d['’])?(?:cr[ée]ation|immatriculation)/i;
 
+/** Textes propres au modèle sites/_exemple, qui ne doivent jamais sortir d'un autre site. */
+export const RE_DONNEES_EXEMPLE = [/Claire D\./, /Marc & Sophie/, /Menuiserie Vasseur/, /Julien Vasseur/, /MAAF n°\s?000 000/, /exactement le dessin validé/, /Escalier en chêne posé en une journée/];
+
 /** HTML sans <style>, sans scripts (sauf JSON-LD), sans attributs de style ni géométrie SVG (faux positifs numériques). */
 function htmlUtile(html) {
   return html
@@ -52,6 +55,17 @@ export function controlerDonneesTest(pages) {
   checks.push(cp.length
     ? { pass: false, label: `Code postal de test 75000 dans : ${cp.join(', ')} — mettre la vraie adresse (contact.address)` }
     : { pass: true, label: 'Pas de code postal de test (75000)' });
+
+  // Contenu du modèle sites/_exemple resté dans un site : ses avis (« Claire D. », « Marc & Sophie »),
+  // sa note Google 4,9 sur 37 avis et son identité sont FICTIFS. `ff nouveau` copiait tout cela dans
+  // chaque nouveau site (rodage du 13 oct 2026) : publier ces avis serait une pratique commerciale
+  // trompeuse (art. L121-2 du Code de la consommation). Bloquant, démo ou non.
+  const exemple = pages
+    .filter((p) => { const t = htmlUtile(p.html).replace(/&amp;/g, '&'); return RE_DONNEES_EXEMPLE.some((re) => re.test(t)); })
+    .map((p) => p.chemin);
+  checks.push(exemple.length
+    ? { pass: false, label: `Contenu fictif du modèle _exemple (avis, note Google 4,9/37, Menuiserie Vasseur) dans : ${exemple.join(', ')} — tout remplacer par les données du brief, ou supprimer (proof, insurance, legal)` }
+    : { pass: true, label: 'Aucun contenu fictif du modèle _exemple' });
 
   const ml = pages.find((p) => p.chemin === 'mentions-legales.html' || p.chemin === 'mentions-legales/index.html');
   if (!ml) {

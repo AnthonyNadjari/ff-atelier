@@ -20,7 +20,7 @@ export const POLICES_IA = [
   'space-mono', 'dm-sans', 'dm-serif', 'outfit', 'plus-jakarta', 'syne', 'newsreader', 'lora', 'crimson',
   'ibm-plex', 'geist', 'general-sans', 'source-serif', 'manrope',
 ];
-const CLES_IA = ['cormorant', 'instrumentSans', 'instrumentSerif', 'inter', 'playfair', 'fraunces', 'spaceGrotesk', 'dmSans', 'dmSerif', 'outfit', 'plusJakarta', 'syne', 'newsreader', 'lora', 'crimson', 'ibmPlex', 'geist', 'sourceSerif', 'manrope'];
+export const CLES_IA = ['cormorant', 'instrumentSans', 'instrumentSerif', 'inter', 'playfair', 'fraunces', 'spaceGrotesk', 'dmSans', 'dmSerif', 'outfit', 'plusJakarta', 'syne', 'newsreader', 'lora', 'crimson', 'ibmPlex', 'geist', 'sourceSerif', 'manrope'];
 
 const normaliser = (n) => n.toLowerCase().replace(/[\s_]+/g, '-');
 export const estPoliceIa = (nom) => {

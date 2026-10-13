@@ -27,7 +27,15 @@ Dans l'ordre :
    etc. — surtout pertinent si tu dois aussi toucher une section, ce qui ne devrait pas arriver ici).
 5. `sites/_exemple/site.config.ts` — référence de style et de structure d'un `site.config.ts` complet.
 
-### 2. Laisser le sélecteur proposer, puis lire ce qui existe
+### 2. Poser les données du brief, puis laisser le sélecteur proposer
+
+**D'abord les données, ensuite le look.** `ff nouveau` copie le gabarit `sites/_exemple` (menuiserie
+fictive ; ses avis et sa note Google sont retirés à la copie, et `ff verifier` bloque s'il en reste).
+Avant `composer`, remplace dans `site.config.ts` tout ce qui vient du brief : `business`, `contact`,
+`zones`, `services`, `faq`, `process`, `proof` (seulement les avis réels), `images` (seulement les
+fichiers déposés dans `public/images/`). Le sélecteur lit ces données pour écarter les variantes
+impossibles (hero photo sans photo, carte sans coordonnées, services en images sans image, FAQ en deux
+colonnes pour deux questions) : lancé sur le gabarit, il proposait des blocs vides (rodage du 13 oct 2026).
 
 ```
 node scripts/ff.mjs variete

@@ -5,6 +5,32 @@ import { ROOT, SITES_DIR, ok, fail, warn, info, c, writeFFCurrent, siteExists, p
 
 const SLUG_RE = /^_?[a-z0-9-]+$/;
 
+/**
+ * Retire du modèle copié ce qui est FICTIF et ne doit jamais survivre à une réécriture partielle :
+ * les avis et la note Google (`proof`), le n° d'assurance, le responsable légal. Rodage du 13 oct
+ * 2026 : `ff nouveau` recopiait les avis « Claire D. » / « Marc & Sophie » et la note 4,9 sur 37 de
+ * l'exemple ; oubliés dans site.config.ts, ils partaient en ligne (pratique commerciale trompeuse,
+ * art. L121-2 du Code de la consommation). Un vrai avis du brief se rajoute à la main dans `proof`.
+ * Le reste du contenu de l'exemple (textes, services) sert de gabarit et se réécrit entièrement.
+ */
+export function retirerDonneesFictives(cfg) {
+  let out = cfg;
+  const i = out.search(/\n {2}proof:\s*\{/);
+  if (i !== -1) {
+    // Bloc `proof: {...}` à accolades équilibrées, virgule finale comprise.
+    let j = out.indexOf('{', i);
+    for (let prof = 0; j < out.length; j++) {
+      if (out[j] === '{') prof++;
+      else if (out[j] === '}' && --prof === 0) break;
+    }
+    const fin = out[j + 1] === ',' ? j + 2 : j + 1;
+    out = out.slice(0, i) + '\n  // proof : uniquement les avis réels du brief (auteur, texte tel quel, source). Aucun avis = pas de bloc.' + out.slice(fin);
+  }
+  out = out.replace(/\n\s*insurance:\s*'[^'\n]*',?/, '');
+  out = out.replace(/legal:\s*\{\s*owner:\s*'[^']*'\s*\}/, 'legal: {}, // owner : le gérant (brief § 1)');
+  return out;
+}
+
 export function cmdNouveau(args) {
   const { positional, flags } = parseArgs(args);
   const slug = positional[0];
@@ -51,6 +77,7 @@ export function cmdNouveau(args) {
     const metier = String(flags.metier).replace(/'/g, "\\'");
     cfg = cfg.replace(/trade:\s*'[^']*'/, `trade: '${metier}'`);
   }
+  cfg = retirerDonneesFictives(cfg);
   fs.writeFileSync(configPath, cfg);
 
   fs.mkdirSync(path.join(destDir, 'raw'), { recursive: true });

@@ -23,7 +23,7 @@ un client du même secteur ou de la même zone, prends la deuxième meilleure di
 "métiers typiques" ci-dessous, ou change de variante de hero/nav/footer pour rester dans la même
 direction sans la dupliquer visuellement.
 
-## Les 8 directions
+## Les directions
 
 | Direction | Ambiance | Métiers typiques | À éviter | Motion conseillée |
 |---|---|---|---|---|
@@ -252,17 +252,19 @@ reprendre la paire par défaut de la direction choisie — sinon la surcharge ne
 clients dans la même direction se ressembleront trait pour trait. Vérifie `src/directions/<direction>/index.css`
 avant de choisir.
 
-Dix paires à essayer pour varier un override (display / corps) :
+Dix paires à essayer pour varier un override (display / corps). Aucune police de la liste « signes
+IA » (`docs/veille/signes-ia.md`, `ff ia` : Inter, Playfair, Syne, DM Sans, Manrope, Lora...), que le
+sélecteur écarte aussi depuis le 13 oct 2026 :
 
-1. `literata` / `inter` — sobre, lisible, universel.
-2. `playfair` / `dmSans` — éditorial adouci.
-3. `syne` / `hanken` — arty tendu sur suisse sobre.
+1. `literata` / `publicSans` — sobre, lisible, universel.
+2. `spectral` / `karla` — éditorial adouci.
+3. `gloock` / `hanken` — affirmé sur suisse sobre.
 4. `epilogue` / `figtree` — architecture nette, doux.
-5. `outfit` / `workSans` — géométrique startup, simple.
-6. `josefin` / `lora` — art déco calme.
+5. `familjenGrotesk` / `workSans` — grotesque net, simple.
+6. `josefin` / `gelasio` — art déco calme.
 7. `schibsted` / `nunito` — presse nordique, rond amical.
-8. `bricolage` / `instrumentSans` — vivant, pop, discret en dessous.
-9. `delaGothic` / `manrope` — ultra gras pop sur tech propre.
+8. `bricolage` / `redHat` — vivant, pop, discret en dessous.
+9. `delaGothic` / `chivo` — ultra gras pop sur sans franc.
 10. `bodoni` / `epilogue` — haute couture sur net contemporain.
 
 ## Échelle
@@ -397,10 +399,10 @@ l'aider.
 (fusion faite par `applyLook` dans `src/lib/site.ts`). Il permet d'essayer et d'ajuster une apparence
 sans éditer de TypeScript, avant de la figer.
 
-Interface prévue (commandes en cours d'écriture par d'autres agents, décrites ici pour l'usage visé) :
+Commandes du look :
 
 - `node scripts/ff.mjs composer <slug>` — choisit automatiquement un look (direction + variantes)
-  pour le site à partir de son `site.config.ts`, et l'écrit dans `look.json`. Sert de proposition de
+  pour le site à partir de son `site.config.ts` (affiche la proposition ; `--ecrire` l'écrit dans `look.json`). Sert de proposition de
   référence à comparer avec un choix manuel.
 - `node scripts/ff.mjs propositions <slug>` — construit N looks différents avec captures d'écran, un
   par dossier `propositions/<slug>/index.html`, pour comparer plusieurs directions/variantes avant de

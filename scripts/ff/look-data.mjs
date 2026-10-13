@@ -151,6 +151,8 @@ export function readConfigParts(slug) {
     faq: extractTopLevelValue(text, 'faq') || [],
     process: extractTopLevelValue(text, 'process') || [],
     images: extractTopLevelValue(text, 'images') || {},
+    services: extractTopLevelValue(text, 'services') || [],
+    about: extractTopLevelValue(text, 'about') || {},
   };
 }
 

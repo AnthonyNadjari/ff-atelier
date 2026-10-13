@@ -323,3 +323,25 @@ test('typo : les majuscules accentuees ne devorent pas le mot suivant', async ()
   assert.equal(corrigerTexte('Etanche'), 'Étanche');
   assert.equal(corrigerTexte('Elagage'), 'Élagage');
 });
+
+test('composerHtml (build) : corrige le texte, jamais les balises, scripts, JSON-LD, code ni commentaires', async () => {
+  const { composerHtml } = await import('../scripts/astro-typo-integration.mjs');
+  const html = [
+    '<!doctype html><html lang="fr"><head><title>Prix : 1290 €</title>',
+    '<script type="application/ld+json">{"name":"A : B","price":"30 €"}</script>',
+    '<style>a:hover{color:red}</style></head><body>',
+    '<p class="x : y" data-a="a ? b">Appelez le 06 12 34 56 78 ? C\'est "simple".</p>',
+    '<!-- note : ne pas toucher ? -->',
+    '<pre>code : x ? y</pre><script>const a = b ? c : d;</script>',
+    '</body></html>',
+  ].join('');
+  const out = composerHtml(html);
+  assert.ok(out.includes('<script type="application/ld+json">{"name":"A : B","price":"30 €"}</script>'), 'JSON-LD intact');
+  assert.ok(out.includes('<script>const a = b ? c : d;</script>'), 'script intact');
+  assert.ok(out.includes('<style>a:hover{color:red}</style>'), 'style intact');
+  assert.ok(out.includes('<p class="x : y" data-a="a ? b">'), 'attributs intacts');
+  assert.ok(out.includes('<!-- note : ne pas toucher ? -->') && out.includes('<pre>code : x ? y</pre>'), 'commentaire et pre intacts');
+  assert.ok(out.includes(`C’est «${FINE}simple${FINE}»`), out);
+  assert.ok(out.includes(`78${FINE}?`), out);
+  assert.ok(out.includes(`Prix${NBSP}:`), out);
+});

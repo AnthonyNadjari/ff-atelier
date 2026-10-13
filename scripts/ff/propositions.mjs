@@ -8,6 +8,7 @@ import { createServer } from 'node:http';
 import { chromium } from 'playwright-core';
 import { ROOT, SITES_DIR, DIST_DIR, siteExists, parseArgs, runAstro, ok, fail, info, c } from './util.mjs';
 import { pickLook } from './composer.mjs';
+import { readConfigParts } from './look-data.mjs';
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -137,6 +138,19 @@ function writeContactSheet(slug, outDir, propositions) {
   return indexPath;
 }
 
+/**
+ * Remet dans un look propose les sections sur mesure du site (`{ type: 'custom' }`) a leur rang
+ * d'origine. Le look remplace `layout.sections` en entier : le bloc signature du client, obligatoire,
+ * disparaissait des trois propositions (rodage du 13 oct 2026). Pure, testee.
+ */
+export function garderSurMesure(sectionsLook, sectionsSite = []) {
+  const out = [...sectionsLook];
+  sectionsSite.forEach((s, rang) => {
+    if (s && s.type === 'custom') out.splice(Math.min(rang, out.length), 0, s);
+  });
+  return out;
+}
+
 export async function cmdPropositions(args) {
   const { positional, flags } = parseArgs(args);
   const slug = positional[0];
@@ -174,6 +188,8 @@ export async function cmdPropositions(args) {
 
   const usedDirections = [];
   const usedHeroes = [];
+  const usedShells = [];
+  const sectionsSite = (readConfigParts(slug)?.layout?.sections) || [];
   const propositions = [];
   let failed = false;
 
@@ -182,7 +198,8 @@ export async function cmdPropositions(args) {
       const seed = grBase + i * 101;
       let result;
       try {
-        result = pickLook(slug, { metier: flags.metier, graine: seed, excludeDirections: usedDirections, excludeHeroes: usedHeroes });
+        result = pickLook(slug, { metier: flags.metier, graine: seed, excludeDirections: usedDirections, excludeHeroes: usedHeroes, excludeShells: usedShells });
+        result.look.layout.sections = garderSurMesure(result.look.layout.sections, sectionsSite);
       } catch (e) {
         fail(e.message);
         failed = true;
@@ -190,6 +207,7 @@ export async function cmdPropositions(args) {
       }
       usedDirections.push(result.direction);
       usedHeroes.push(result.look.layout.hero);
+      usedShells.push(result.look.layout.shell);
 
       writeFileSync(path.join(outDir, `look-${i}.json`), JSON.stringify(result.look, null, 2) + '\n');
 
@@ -209,6 +227,8 @@ export async function cmdPropositions(args) {
 
       setRoot(propDistDir);
       const shots = await captureBoth(browser, port, path.join(outDir, `prop-${i}`));
+      // Le build de la proposition ne sert qu'aux captures : 2 Mo par proposition laisses dans dist/.
+      rmSync(propDistDir, { recursive: true, force: true });
 
       propositions.push({ i, result, shots });
       ok(`Proposition ${i} : ${result.direction} / ${result.look.layout.hero}`);

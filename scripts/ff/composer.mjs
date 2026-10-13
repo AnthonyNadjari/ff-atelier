@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { SITES_DIR, siteExists, parseArgs, ok, fail, warn, info, c } from './util.mjs';
+import { CLES_IA } from './ia.mjs';
 import {
   mulberry32,
   seedFromString,
@@ -256,6 +257,40 @@ function pickScale(dir, tagline) {
   return 'normal';
 }
 
+/**
+ * Variante utilisable avec les donnees REELLES du site (rodage du 13 oct 2026 : pour un couvreur sans
+ * photo, le selecteur proposait un hero plein cadre, des services en zigzag d'images et une carte sans
+ * coordonnees ; la section s'affichait vide ou retombait sur un gabarit pauvre). Pure, testee.
+ */
+export function varianteCompatible(type, variant, cfg = {}) {
+  const services = Array.isArray(cfg.services) ? cfg.services : [];
+  const avecImage = services.filter((s) => s && s.image).length;
+  const imagesServices = services.length > 0 && avecImage >= Math.ceil(services.length / 2);
+  const heroImage = Boolean(cfg.images && cfg.images.hero);
+  switch (`${type}/${variant}`) {
+    case 'hero/fullbleed':
+    case 'hero/split':
+    case 'hero/stacked':
+      return heroImage;
+    case 'hero/video':
+      return Boolean(cfg.images && (cfg.images.video || cfg.images.heroVideo));
+    case 'services/alternating':
+    case 'services/bento':
+    case 'services/cards-hover':
+      return imagesServices;
+    case 'about/portrait':
+      return Boolean(cfg.about && cfg.about.portrait);
+    case 'process/horizon':
+      return Array.isArray(cfg.process) && cfg.process.some((p) => p && p.image);
+    case 'zones/map':
+      return Boolean(cfg.contact && cfg.contact.coordinates);
+    case 'faq/two-columns':
+      return Array.isArray(cfg.faq) && cfg.faq.length >= 4;
+    default:
+      return true;
+  }
+}
+
 function detectSections(cfg) {
   const types = [{ type: 'services' }, { type: 'about' }];
   const proof = cfg.proof || {};
@@ -292,7 +327,7 @@ function pickFontPair(displayCandidates, bodyCandidates, usedPairs, rng) {
  * opts: { metier, graine, excludeDirections, excludeHeroes }
  */
 export function pickLook(slug, opts = {}) {
-  const { metier, graine = 1, excludeDirections = [], excludeHeroes = [] } = opts;
+  const { metier, graine = 1, excludeDirections = [], excludeHeroes = [], excludeShells = [] } = opts;
   const seed = typeof graine === 'number' && !Number.isNaN(graine) ? graine >>> 0 : seedFromString(graine ?? slug);
   const rng = mulberry32(seed);
 
@@ -330,10 +365,12 @@ export function pickLook(slug, opts = {}) {
   const metierAdapte = directionTier(chosen) === 0;
 
   // Hero : evite les combinaisons direction+hero deja utilisees, sinon les heros deja forces (propositions).
-  let heroCandidates = VARIANTS.hero.filter(
+  const heroPossibles = VARIANTS.hero.filter((h) => varianteCompatible('hero', h, cfg));
+  let heroCandidates = heroPossibles.filter(
     (h) => !excludeHeroes.includes(h) && !usage.dirHeroUsed.has(`${chosen.dir}|${h}`),
   );
-  if (heroCandidates.length === 0) heroCandidates = VARIANTS.hero.filter((h) => !excludeHeroes.includes(h));
+  if (heroCandidates.length === 0) heroCandidates = heroPossibles.filter((h) => !excludeHeroes.includes(h));
+  if (heroCandidates.length === 0) heroCandidates = [...heroPossibles];
   if (heroCandidates.length === 0) heroCandidates = [...VARIANTS.hero];
   const heroCounts = usage.variantCounts.hero || new Map();
   const hero = pickLeastUsed(heroCandidates, heroCounts, rng);
@@ -345,7 +382,8 @@ export function pickLook(slug, opts = {}) {
   const sectionDefs = detectSections(cfg);
   const sections = sectionDefs.map(({ type, forcedVariant }) => {
     if (type === 'process' && squelette?.processVariant) return { type, variant: squelette.processVariant };
-    const variant = forcedVariant || pickLeastUsed(VARIANTS[type] || [], usage.variantCounts[type] || new Map(), rng);
+    const possibles = (VARIANTS[type] || []).filter((v) => varianteCompatible(type, v, cfg));
+    const variant = forcedVariant || pickLeastUsed(possibles.length ? possibles : VARIANTS[type] || [], usage.variantCounts[type] || new Map(), rng);
     return { type, variant };
   });
 
@@ -358,6 +396,11 @@ export function pickLook(slug, opts = {}) {
   const dirBodyKey = fonts.find((f) => primaryFamily(f.family) === dirBodyName)?.key;
   let displayCandidates = fonts.filter((f) => (f.role === 'display' || f.role === 'both') && f.key !== dirDisplayKey).map((f) => f.key);
   let bodyCandidates = fonts.filter((f) => (f.role === 'body' || f.role === 'both') && f.key !== dirBodyKey).map((f) => f.key);
+  // Jamais une police de la liste « signes IA » (docs/veille/signes-ia.md, scripts/ff/ia.mjs) : le
+  // selecteur proposait Instrument Serif / Syne, que `ff ia` fait ensuite echouer (rodage 13 oct 2026).
+  const pasIa = (k) => !CLES_IA.some((c) => k === c || k.startsWith(c));
+  displayCandidates = displayCandidates.filter(pasIa);
+  bodyCandidates = bodyCandidates.filter(pasIa);
   if (displayCandidates.length === 0) displayCandidates = fonts.filter((f) => f.role === 'display' || f.role === 'both').map((f) => f.key);
   if (bodyCandidates.length === 0) bodyCandidates = fonts.filter((f) => f.role === 'body' || f.role === 'both').map((f) => f.key);
   const fontPair = pickFontPair(displayCandidates, bodyCandidates, usage.typoPairsUsed, rng);
@@ -375,7 +418,10 @@ export function pickLook(slug, opts = {}) {
   // conseillee (ou son repli) reste compatible avec ce contexte.
   const shellCounts = usage.shellCounts || new Map();
   const shellCtx = { sectionsCount: sections.length, motion, nav, hero, scale, metier: metierFinal };
-  const eligibleShells = SHELLS.filter((s) => shellFits(s, shellCtx));
+  const compatibles = SHELLS.filter((s) => shellFits(s, shellCtx));
+  // Propositions : une coquille differente a chaque look quand c'est possible (sinon les trois ne
+  // differaient que par la couleur et la police, rodage du 13 oct 2026).
+  const eligibleShells = compatibles.filter((s) => !excludeShells.includes(s)).length ? compatibles.filter((s) => !excludeShells.includes(s)) : compatibles;
   const shellWeighted = eligibleShells.map((s) => ({
     key: s,
     weight: Math.max(0.5, (SHELL_WEIGHTS[s] ?? 10) - (shellCounts.get(s) || 0)),
@@ -389,7 +435,7 @@ export function pickLook(slug, opts = {}) {
       : squeletteShellCompatible(squelette.alternative, shellCtx)
         ? squelette.alternative
         : null;
-    if (preferred) {
+    if (preferred && !excludeShells.includes(preferred)) {
       shell = preferred;
       squeletteApplied = { ...squelette, shell: preferred };
     }

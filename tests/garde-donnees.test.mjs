@@ -93,3 +93,19 @@ test('garderDonneesTest : bloquant pour un client, simple avertissement pour une
     fs.rmSync(tmp, { recursive: true, force: true });
   }
 });
+
+test('controlerDonneesTest : les avis fictifs du modèle _exemple bloquent', () => {
+  const pages = [{ chemin: 'index.html', html: '<p>Une cuisine magnifique.</p><cite>Marc &amp; Sophie</cite>' }];
+  const echec = controlerDonneesTest(pages).find((x) => !x.pass && /modèle _exemple/.test(x.label));
+  assert.ok(echec, 'les avis de l’exemple doivent faire échouer la garde');
+  const propre = controlerDonneesTest([{ chemin: 'index.html', html: '<p>Marc et Sophie Durand, clients.</p>' }]);
+  assert.ok(!propre.some((x) => !x.pass && /modèle _exemple/.test(x.label)));
+});
+
+test('ff nouveau : les avis, la note Google et l’assurance de l’exemple ne sont pas recopiés', async () => {
+  const fs = await import('node:fs');
+  const { retirerDonneesFictives } = await import('../scripts/ff/nouveau.mjs');
+  const out = retirerDonneesFictives(fs.readFileSync(new URL('../sites/_exemple/site.config.ts', import.meta.url), 'utf8'));
+  assert.ok(!/Claire D\.|Marc & Sophie|rating: 4\.9|MAAF|owner: 'Julien/.test(out), out);
+  assert.ok(/faq:/.test(out) && /services:/.test(out), 'le reste du gabarit est gardé');
+});

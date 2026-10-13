@@ -139,3 +139,25 @@ test('pickLook : "plombier" impose contactDrawer=true quelle que soit la graine 
     assert.ok(Array.isArray(result.top3), 'le reste de pickLook (directions) doit rester intact');
   }
 });
+
+test('varianteCompatible : pas de variante à photo, carte ou FAQ longue sans les données', async () => {
+  const { varianteCompatible } = await import('../scripts/ff/composer.mjs');
+  const sansPhoto = { images: {}, services: [{ title: 'A' }, { title: 'B' }], faq: [{ q: 'a', a: 'b' }], contact: {} };
+  for (const h of ['fullbleed', 'split', 'stacked', 'video']) assert.equal(varianteCompatible('hero', h, sansPhoto), false, h);
+  assert.equal(varianteCompatible('hero', 'typographic', sansPhoto), true);
+  assert.equal(varianteCompatible('services', 'alternating', sansPhoto), false);
+  assert.equal(varianteCompatible('services', 'list', sansPhoto), true);
+  assert.equal(varianteCompatible('zones', 'map', sansPhoto), false);
+  assert.equal(varianteCompatible('faq', 'two-columns', sansPhoto), false);
+  const avec = { images: { hero: { src: '/images/h.webp' } }, services: [{ image: {} }, { image: {} }], contact: { coordinates: { lat: 1, lng: 2 } } };
+  assert.equal(varianteCompatible('hero', 'fullbleed', avec), true);
+  assert.equal(varianteCompatible('services', 'bento', avec), true);
+  assert.equal(varianteCompatible('zones', 'map', avec), true);
+});
+
+test('propositions : le bloc sur mesure du site reste dans chaque look', async () => {
+  const { garderSurMesure } = await import('../scripts/ff/propositions.mjs');
+  const site = [{ type: 'services' }, { type: 'custom', variant: 'bache' }, { type: 'faq' }, { type: 'custom', variant: 'fin' }];
+  const look = [{ type: 'services', variant: 'list' }, { type: 'faq', variant: 'accordion' }];
+  assert.deepEqual(garderSurMesure(look, site).map((s) => s.variant), ['list', 'bache', 'accordion', 'fin']);
+});
