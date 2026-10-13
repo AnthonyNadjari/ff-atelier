@@ -2,22 +2,21 @@
 
 Origine, licence et attribution des visuels tiers utilisés sur ce site. Les photos des métiers viennent des sites d’exemple de l’atelier (leurs CREDITS.md).
 
-## sites/forge-delacroix/raw/hero.jpg -> public/images/metiers/forge-delacroix-a-*.webp
-- Titre : Vintage smith's workshop - 0158
-- Auteur : Jorge Royan
-- Source : Wikimedia Commons — https://commons.wikimedia.org/wiki/File:Vintage_smith%27s_workshop_-_0158.jpg
-- Licence : CC BY-SA 3.0 — CC BY-SA — attribution obligatoire + la photo recadree reste sous BY-SA (https://creativecommons.org/licenses/by-sa/3.0)
-- Attribution a afficher (obligatoire) : « Photo : Jorge Royan, CC BY-SA 3.0, https://commons.wikimedia.org/wiki/File:Vintage_smith%27s_workshop_-_0158.jpg » — le schema n a pas de champ credits : a poser dans les mentions legales ou le pied de page a la livraison.
-- Recadrage : 3:2 (sharp.strategy.attention) — adaptation, la photo recadree reste sous BY-SA
-- Date : 2026-09-20
-
-## sites/forge-delacroix/raw/galerie-1.jpg -> public/images/metiers/forge-delacroix-b-*.webp
-- Titre : Wrought iron gate in cemetery Großostheim (2)
-- Auteur : FF-11
-- Source : Wikimedia Commons — https://commons.wikimedia.org/wiki/File:Wrought_iron_gate_in_cemetery_Gro%C3%9Fostheim_(2).jpg
-- Licence : CC0 — CC0 1.0 (domaine public, aucune attribution requise) (http://creativecommons.org/publicdomain/zero/1.0/deed.en)
+## sites/dentaire-morvan/raw/instruments.jpg -> public/images/metiers/dentaire-morvan-b-*.webp
+- Titre : Collection of dental instruments attached to a dental chair. There are three tubes, each with a different tip suggesting they are tools for dental procedures. Below them, there’s a tray containing several dental instruments.
+- Auteur : Nilo Velez (https://www.nilovelez.com)
+- Source : Openverse (wordpress) — https://wordpress.org/photos/photo/67469efbf7/
+- Licence : CC0 1.0 — CC0 1.0 (domaine public, aucune attribution requise) (https://creativecommons.org/publicdomain/zero/1.0/)
 - Recadrage : 4:3 (sharp.strategy.attention) — adaptation
-- Date : 2026-09-20
+- Date : 2026-10-13
+
+## sites/dentaire-morvan/raw/hero.jpg -> public/images/metiers/dentaire-morvan-a-*.webp
+- Titre : Toothbrush 20050716 004
+- Auteur : Jonas Bergsten
+- Source : Wikimedia Commons — https://commons.wikimedia.org/wiki/File:Toothbrush_20050716_004.jpg
+- Licence : Public domain — Domaine public (Public Domain Mark, aucune attribution requise)
+- Recadrage : 3:2 (sharp.strategy.attention) — adaptation
+- Date : 2026-10-13
 
 ## sites/maison-roux/raw/galerie-1.jpg -> public/images/metiers/maison-roux-a-*.webp
 - Titre : Many freshly baked golden-brown baguettes bread loaves dusted with flour rest on a metal cooling rack. It shows crisp crusts with diagonal scoring along the tops.

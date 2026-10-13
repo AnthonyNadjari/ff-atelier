@@ -29,7 +29,7 @@ const lignes = ['Nous faisons', 'des sites pour', 'les artisans.'];
 // Mur de démos : trois colonnes, celle du milieu décalée vers le bas.
 const colonnes = [
   ['encre-noire', 'chez-malo'],
-  ['forge-delacroix', 'maison-roux'],
+  ['dentaire-morvan', 'maison-roux'],
   ['atelier-lecerf', 'studio-ambre'],
 ];
 if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
@@ -84,7 +84,7 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
           ))}
         </div>
       </div>
-      <figcaption class="sr-only">Six de nos sites d’exemple sur téléphone : ferronnerie, boulangerie, tatoueur, restaurant, menuisier, architecte d’intérieur.</figcaption>
+      <figcaption class="sr-only">Six de nos sites d’exemple sur téléphone : cabinet dentaire, boulangerie, tatoueur, restaurant, menuisier, architecte d’intérieur.</figcaption>
     </figure>
   </div>
 </section>
@@ -156,7 +156,7 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
 
 <style is:global>
   .ff-hero { padding-block: var(--s4) var(--s8); background: var(--bg); }
-  /* Téléphone : la pièce exposée (la forge) commence sous le premier écran ; le titre reste l'élément
+  /* Téléphone : la pièce exposée (le cabinet dentaire) commence sous le premier écran ; le titre reste l'élément
      LCP, peint à la première peinture (mesuré : une bande de 56 px de l'image suffisait à en faire le LCP). */
   .ff-hero-grille { display: grid; gap: var(--s12); }
   @media (min-width: 1024px) {

@@ -1,0 +1,96 @@
+---
+/**
+ * Premier écran « ouvert maintenant » — propre au cabinet Morvan.
+ * Idée : la première question d'un patient qui a mal est « est-ce qu'ils sont ouverts, là ? ». Le
+ * hero y répond avant tout le reste : les horaires de site.contact.hours, la ligne du jour mise en
+ * avant et un état « Ouvert / Fermé » calculé dans le navigateur à partir de opens/closes (rien
+ * n'est affiché comme ouvert sans ces deux champs). Sans script, la liste des horaires reste lisible.
+ * La photo (une brosse à dents, banque libre) est posée à droite, grande, sur le fond clair.
+ */
+import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Button from '@/components/Button.astro';
+
+const hero = site.images.hero;
+const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+// « Lundi – jeudi » -> [1, 2, 3, 4] ; « Vendredi » -> [5]. Une ligne illisible n'a pas de jours (jamais mise en avant).
+const joursDe = (txt: string) => {
+  const noms = txt.toLowerCase().split(/\s*[–-]\s*|\s*,\s*/).map((s) => JOURS.indexOf(s.trim()));
+  if (noms.some((n) => n < 0)) return [];
+  if (/[–-]/.test(txt) && noms.length === 2) {
+    const out: number[] = [];
+    for (let d = noms[0]; ; d = (d + 1) % 7) { out.push(d); if (d === noms[1] || out.length > 7) break; }
+    return out;
+  }
+  return noms;
+};
+const lignes = site.contact.hours.map((h) => ({ ...h, jours: joursDe(h.days).join(',') }));
+---
+
+<section id="hero" class="bg-bg">
+  <div class="container-ff grid items-center gap-12 pb-16 pt-28 md:pt-36 lg:grid-cols-12 lg:gap-16">
+    <div class="lg:col-span-6">
+      <p class="text-sm text-muted">{site.business.trade} à {site.contact.address.city}</p>
+      <h1 class="hero-titre text-display-xl mt-5 max-w-[14ch]" data-split set:html={site.business.tagline} />
+
+      <div class="mt-10 max-w-md border-t border-line pt-6" data-horaires>
+        <p class="flex items-center gap-3 text-sm font-medium" data-etat hidden>
+          <span class="inline-block size-2.5 rounded-full" data-pastille></span>
+          <span data-etat-texte></span>
+        </p>
+        <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-8 gap-y-2 text-sm">
+          {lignes.map((h) => (
+            <div class="contents" data-jours={h.jours} data-opens={h.opens} data-closes={h.closes}>
+              <dt class="text-muted">{h.days}</dt>
+              <dd class="tabular-nums">{h.hours}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div class="mt-10 flex flex-wrap items-center gap-4">
+        <Button href={tel()} size="lg">Appeler le {site.contact.phoneDisplay}</Button>
+        <Button href="#contact" variant="link">Écrire au secrétariat</Button>
+      </div>
+    </div>
+
+    {hero && (
+      <div class="lg:col-span-6">
+        <Img src={hero.src} alt={hero.alt} class="aspect-[4/5] w-full rounded-card object-cover lg:aspect-[5/6]" sizes="(min-width: 64rem) 46vw, 100vw" priority />
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  // Ligne du jour en gras + état « Ouvert » / « Fermé » (heure locale du visiteur, cabinet en France).
+  function etatHoraires() {
+    const bloc = document.querySelector<HTMLElement>('[data-horaires]');
+    if (!bloc) return;
+    const now = new Date();
+    const jour = now.getDay();
+    const minutes = now.getHours() * 60 + now.getMinutes();
+    const enMin = (hhmm?: string) => (hhmm ? Number(hhmm.slice(0, 2)) * 60 + Number(hhmm.slice(3, 5)) : NaN);
+    let ouvert = false;
+    let connu = false;
+    bloc.querySelectorAll<HTMLElement>('[data-jours]').forEach((l) => {
+      const jours = (l.dataset.jours || '').split(',').filter(Boolean).map(Number);
+      if (!jours.includes(jour)) return;
+      l.querySelectorAll('dt, dd').forEach((c) => c.classList.add('font-semibold', 'text-fg'));
+      const o = enMin(l.dataset.opens);
+      const f = enMin(l.dataset.closes);
+      if (Number.isNaN(o) || Number.isNaN(f)) return;
+      connu = true;
+      ouvert = minutes >= o && minutes < f;
+    });
+    const etat = bloc.querySelector<HTMLElement>('[data-etat]');
+    if (!etat) return;
+    const texte = etat.querySelector('[data-etat-texte]');
+    const pastille = etat.querySelector<HTMLElement>('[data-pastille]');
+    if (texte) texte.textContent = ouvert ? 'Ouvert en ce moment' : connu ? 'Fermé en ce moment' : 'Fermé aujourd’hui';
+    if (pastille) pastille.style.background = ouvert ? 'var(--color-accent)' : 'var(--color-muted)';
+    etat.hidden = false;
+  }
+  etatHoraires();
+  document.addEventListener('astro:page-load', etatHoraires);
+</script>

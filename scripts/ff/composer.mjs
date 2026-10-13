@@ -401,6 +401,13 @@ export function pickLook(slug, opts = {}) {
   const pasIa = (k) => !CLES_IA.some((c) => k === c || k.startsWith(c));
   displayCandidates = displayCandidates.filter(pasIa);
   bodyCandidates = bodyCandidates.filter(pasIa);
+  // Métier réglementé (santé, droit) : pas de police d'affiche ou de fête. Le sélecteur donnait
+  // Archivo Black (« urgence, affiche ») à un cabinet dentaire (13 oct 2026).
+  if (squelette?.familyId === 'sante') {
+    const criard = /urgence|affiche|pop|gras|fete|futuriste|retro/;
+    const calme = (k) => !criard.test(fonts.find((f) => f.key === k)?.mood || '');
+    if (displayCandidates.some(calme)) displayCandidates = displayCandidates.filter(calme);
+  }
   if (displayCandidates.length === 0) displayCandidates = fonts.filter((f) => f.role === 'display' || f.role === 'both').map((f) => f.key);
   if (bodyCandidates.length === 0) bodyCandidates = fonts.filter((f) => f.role === 'body' || f.role === 'both').map((f) => f.key);
   const fontPair = pickFontPair(displayCandidates, bodyCandidates, usage.typoPairsUsed, rng);

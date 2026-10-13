@@ -1,0 +1,32 @@
+---
+/**
+ * Bloc signature « ce que vous avancez » — propre au cabinet Morvan.
+ * Idée : chez le dentiste, la peur du patient est autant la facture que la roulette. Plutôt qu'une
+ * liste de soins de plus, une table à trois lignes qui répond à la seule question d'argent : qu'est-ce
+ * que je paie le jour même ? La réponse est écrite en grand, le soin en petit. Faits repris du
+ * cabinet (secteur 1, tiers payant, devis avant prothèse, examen M'T dents), aucun tarif inventé.
+ * Temps fort de la page : bloc encre inversé, entre les soins et le cabinet.
+ */
+const lignes = [
+  { soin: 'Soins courants', detail: 'Caries, détartrage, dévitalisation. Secteur 1, tiers payant sur la part Assurance maladie.', reponse: 'La part de votre mutuelle, seulement.' },
+  { soin: 'Couronnes et bridges', detail: 'Le devis écrit indique le prix, la part remboursée et ce qui reste à votre charge.', reponse: 'Ce que dit le devis, signé avant.' },
+  { soin: 'Enfants de 3 à 24 ans', detail: 'Examen de prévention M’T dents, et les soins qui en découlent.', reponse: 'Rien. C’est entièrement pris en charge.' },
+];
+---
+
+<section id="remboursement" class="section-y bg-ink text-on-ink">
+  <div class="container-ff">
+    <h2 class="font-display text-display-md max-w-[16ch]">Ce que vous avancez le jour du rendez-vous</h2>
+    <dl class="mt-14 border-t border-on-ink/20">
+      {lignes.map((l) => (
+        <div class="grid gap-3 border-b border-on-ink/20 py-8 md:grid-cols-12 md:gap-10 md:py-10" data-reveal>
+          <dt class="md:col-span-4">
+            <span class="block font-medium">{l.soin}</span>
+            <span class="mt-2 block text-sm leading-relaxed text-on-ink/70">{l.detail}</span>
+          </dt>
+          <dd class="font-display text-display-sm md:col-span-8">{l.reponse}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
