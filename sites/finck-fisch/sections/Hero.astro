@@ -4,7 +4,7 @@
  *
  * Un écran qui vend (Trueform) : le monogramme, le titre, la ligne d'offre (prix + délai), un seul
  * bouton plein (« Réserver mon audit gratuit » → /audit), un lien texte vers les exemples, et une
- * ligne de présence (e-mail en clair + heure de Paris en direct). À droite, le mur de démos en 3D.
+ * ligne de présence (e-mail en clair). À droite, le mur de démos en 3D.
  *
  * S1 est en CSS PUR (@keyframes dans le CSS inliné au build, aucun script, aucune hydratation) : il
  * démarre au premier rendu, indépendamment du chargement des scripts.
@@ -63,7 +63,6 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
         </div>
         <div class="ff-hero-presence ff-petit ff-doux">
           <p>Écrivez-nous à <a href={mailto()} class="ff-lien">{site.contact.email}</a>, c’est nous deux qui lisons.</p>
-          <p data-heure hidden>Il est <span data-heure-valeur></span> à Paris.</p>
         </div>
       </div>
     </div>
@@ -134,24 +133,6 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
     }, { once: true });
   });
 
-  // L'heure de Paris, en direct (signe de présence vrai). Sans JavaScript, la ligne reste masquée
-  // plutôt que d'afficher une heure fausse.
-  onPage(() => {
-    const ligne = document.querySelector<HTMLElement>('[data-heure]');
-    const valeur = document.querySelector<HTMLElement>('[data-heure-valeur]');
-    if (!ligne || !valeur) return;
-    const fmt = new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', hour: 'numeric', minute: '2-digit' });
-    const maj = () => {
-      const parts = fmt.formatToParts(new Date());
-      const h = parts.find((p) => p.type === 'hour')?.value ?? '';
-      const m = parts.find((p) => p.type === 'minute')?.value ?? '';
-      valeur.textContent = `${Number(h)} h ${m}`;
-      ligne.hidden = false;
-    };
-    maj();
-    const t = window.setInterval(maj, 20_000);
-    document.addEventListener('astro:before-swap', () => window.clearInterval(t), { once: true });
-  });
 </script>
 
 <style is:global>
@@ -236,7 +217,7 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
     pointer-events: none;
   }
   .ff-mur::before { background: linear-gradient(to bottom, var(--bg), transparent 14%, transparent 80%, var(--bg)); }
-  .ff-mur::after { background: linear-gradient(to right, var(--bg), transparent 18%); }
+  .ff-mur::after { background: linear-gradient(to right, var(--bg), transparent 18%, transparent 84%, var(--bg)); }
   @media (max-width: 1023px) {
     .ff-hero-grille { gap: var(--s4); }
     .ff-mur::after { content: none; }
@@ -295,12 +276,13 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
     .ff-hero-grille { position: relative; }
     .ff-hero-texte { position: relative; z-index: 1; }
     .ff-hero-oeuvre { position: absolute; inset: calc(-1 * var(--s3)) 0 auto; z-index: 0; pointer-events: none; }
-    /* Lisibilité (retour fondateur sur iPhone, 13 oct 2026) : le mur couvre toute la largeur (« on ne voit
-       pas le côté gauche » quand il était poussé à droite) ; c'est le texte qui se détache, par une ombre
-       portée couleur du fond (sombre, sans lueur colorée), pas le mur qu'on éteint. */
-    .ff-mur { height: 100svh; opacity: 0.42; }
-    .ff-mur-plan { width: 600px; left: 52%; top: 5%; }
-    .ff-mur::before { background: linear-gradient(to bottom, transparent 40%, var(--bg) 92%); }
-    .ff-hero-texte :is(p, .ff-lien) { text-shadow: 0 1px 2px var(--bg), 0 0 14px var(--bg), 0 0 28px var(--bg), 0 0 44px var(--bg); }
+    /* Lisibilité (retours fondateur sur iPhone, 13 oct 2026 : « texte pas ultra lisible », puis « on ne voit
+       pas le côté gauche ») : le mur couvre toute la largeur et exactement le hero, assez sombre pour que
+       le texte crème garde un contraste de lecture (mur à 30 % : un écran blanc devient un gris ~#4f4b46,
+       ~5,5:1 avec le texte) ; aucune ombre portée sur le texte. Fondu vers le fond en bas du hero. */
+    .ff-hero-oeuvre { inset: calc(-1 * var(--s3)) calc(-1 * var(--gouttiere)) calc(-1 * var(--s6)); }
+    .ff-mur { height: 100%; margin-inline: 0; opacity: 0.3; }
+    .ff-mur-plan { width: 600px; left: 52%; top: 4%; }
+    .ff-mur::before { background: linear-gradient(to bottom, transparent 55%, var(--bg) 100%); }
   }
 </style>

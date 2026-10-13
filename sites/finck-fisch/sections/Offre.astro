@@ -21,7 +21,7 @@ const formules = [
 // true/true = commun aux deux formules ; false/true = ajouté par la formule Complet.
 const lignes = [
   { label: 'Site de 1 à 5 pages', essentiel: true, complet: true },
-  { label: 'Trois propositions visuelles au départ', essentiel: true, complet: true },
+  { label: 'Trois versions de la page d’accueil au départ', essentiel: true, complet: true },
   { label: 'Formulaire de contact', essentiel: true, complet: true },
   { label: 'Mentions légales et politique de confidentialité', essentiel: true, complet: true },
   { label: 'Mise en ligne, nom de domaine à votre nom', essentiel: true, complet: true },
@@ -45,7 +45,6 @@ const lignes = [
           <p class="ff-texte">{f.nom}</p>
           <p class="ff-petit ff-doux mt-2">à partir de</p>
           <p class="ff-titre ff-montant">{f.montant}</p>
-          <p class="ff-petit ff-doux">payé une fois</p>
         </div>
       ))}
     </div>

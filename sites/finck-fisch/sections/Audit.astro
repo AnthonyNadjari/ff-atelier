@@ -23,12 +23,11 @@ const points = [
 
 <section id="audit" class="ff-audit">
   <div class="ff-conteneur ff-audit-grille">
-    <h2 class="ff-titre ff-masque ff-audit-titre" data-ff-titre><span>L’audit gratuit, en 20 minutes.</span></h2>
+    <h2 class="ff-titre ff-masque ff-audit-titre" data-ff-titre><span>L’audit gratuit, en vingt minutes</span></h2>
 
     <ol class="ff-audit-points">
-      {points.map((p, i) => (
+      {points.map((p) => (
         <li>
-          <span class="ff-petit ff-doux ff-montant">{i + 1}</span>
           <p class="ff-texte"><span class="ff-audit-point">{p.titre}.</span> <span class="ff-doux">{p.texte}</span></p>
         </li>
       ))}
@@ -51,7 +50,7 @@ const points = [
   .ff-audit-grille { display: grid; gap: var(--s4); }
   .ff-audit-titre { max-width: 14ch; }
   .ff-audit-points { list-style: none; margin: 0; padding: 0; display: grid; }
-  .ff-audit-points > li { display: grid; grid-template-columns: var(--s4) minmax(0, 1fr); gap: var(--s2); padding-block: 12px; border-top: 1px solid var(--line); }
+  .ff-audit-points > li { display: grid; padding-block: 12px; border-top: 1px solid var(--line); }
   .ff-audit-points > li > span { padding-top: 6px; }
   .ff-audit-point { font-weight: 600; }
   @media (min-width: 1024px) {

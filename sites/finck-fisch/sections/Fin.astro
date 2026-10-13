@@ -2,20 +2,21 @@
 /**
  * Clôture « le mur » (revue DA du 13 oct 2026 : « le dernier tiers de la page est du texte mort »).
  * La page s'ouvre sur le mur de démos du hero ; elle se referme sur un mur plus grand, pleine largeur :
- * les dix écrans de l'atelier (six sites d'exemple, les trois pistes de la boulangerie, le menuisier),
- * entiers, chacun défilant (DemoVideo). En entrant, le plan se redresse (--p, posé ci-dessous) ; au
- * centre, une phrase et le bouton d'audit. Téléphone : trois colonnes (six écrans) seulement, la
- * mémoire graphique d'un iPhone ne suit pas dix démos animées.
+ * les six sites d'exemple de la section Réalisations, entiers, chacun défilant (DemoVideo), et un
+ * septième écran VIDE, « votre-nom.fr » : le titre dit vrai (revue du 13 oct 2026 : un mur de dix écrans
+ * dont trois fois la même boulangerie rendait « septième » faux). En entrant, le plan se redresse (--p,
+ * posé ci-dessous) ; au centre, la phrase et le bouton, sur un aplat du fond (pas de projecteur radial).
+ * Téléphone : trois colonnes seulement (mémoire graphique d'un iPhone).
  * Réduire les animations : plan fixe, démos arrêtées (DemoVideo), texte lisible.
  */
 import DemoVideo from './DemoVideo.astro';
 
-const colonnes = [
-  ['piste-boulangerie-1', 'studio-ambre'],
-  ['encre-noire', 'dentaire-morvan'],
-  ['maison-roux', 'barbier-kessler'],
-  ['chez-malo', 'piste-boulangerie-3'],
-  ['atelier-lecerf', 'piste-boulangerie-2'],
+// null = le septième écran, vide.
+const colonnes: (string | null)[][] = [
+  ['dentaire-morvan', 'maison-roux'],
+  ['encre-noire', null],
+  ['chez-malo', 'barbier-kessler'],
+  ['studio-ambre'],
 ];
 ---
 
@@ -24,14 +25,19 @@ const colonnes = [
     <div class="ff-fin-plan">
       {colonnes.map((col, c) => (
         <div class="ff-fin-col">
-          {col.map((slug, i) => <DemoVideo slug={slug} tel decalage={(c * 2 + i) * 2.3} largeur={220} />)}
+          {col.map((slug, i) =>
+            slug ? (
+              <DemoVideo slug={slug} tel decalage={(c * 2 + i) * 2.3} largeur={280} />
+            ) : (
+              <div class="ff-demo ff-demo-tel ff-fin-vide"><span>votre-nom.fr</span></div>
+            ),
+          )}
         </div>
       ))}
     </div>
   </div>
   <div class="ff-conteneur ff-fin-texte">
     <h2 class="ff-titre">Le septième exemple sera le vôtre</h2>
-    <p class="ff-texte ff-fin-sous">Vingt minutes au téléphone, gratuites. Nous vous répondons sous 48 heures ouvrées.</p>
     <a href="/audit" class="ff-bouton">Réserver un audit gratuit</a>
   </div>
 </section>
@@ -45,7 +51,6 @@ const colonnes = [
     place-items: center;
     padding-block: var(--s12);
     background: var(--bg);
-    border-top: 1px solid var(--line);
   }
   .ff-fin-mur {
     position: absolute;
@@ -61,17 +66,16 @@ const colonnes = [
     z-index: 2;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 40% 36% at 50% 50%, var(--bg) 35%, color-mix(in srgb, var(--bg) 70%, transparent) 70%, transparent),
       linear-gradient(to bottom, var(--bg), transparent 18%, transparent 82%, var(--bg)),
-      color-mix(in srgb, var(--bg) 35%, transparent);
+      color-mix(in srgb, var(--bg) 30%, transparent);
   }
   .ff-fin-plan {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: min(1180px, 112vw);
+    width: min(1100px, 104vw);
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 22px;
     transform-style: preserve-3d;
     transform: translate(-50%, -50%) rotateX(calc(42deg - var(--p, 0) * 22deg)) rotateZ(calc(14deg - var(--p, 0) * 8deg)) scale(calc(0.92 + var(--p, 0) * 0.08));
@@ -80,11 +84,13 @@ const colonnes = [
   .ff-fin-col:nth-child(odd) { margin-top: 120px; --vitesse: 140px; }
   .ff-fin-col:nth-child(even) { --vitesse: -100px; }
   .ff-fin .ff-demo { border-radius: 16px; border-color: rgb(240 232 219 / 0.16); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.85); }
-  .ff-fin-texte { position: relative; z-index: 3; text-align: center; display: grid; justify-items: center; gap: var(--s3); }
+  .ff-fin .ff-fin-texte { position: relative; z-index: 3; width: fit-content; max-width: calc(100% - 2 * var(--gouttiere)); margin-inline: auto; text-align: center; display: grid; justify-items: center; gap: var(--s4); padding: var(--s6) var(--s8); background: var(--bg); border: 1px solid var(--line); border-radius: 4px; }
+  .ff-fin-vide { display: grid; place-items: center; background: #f4efe6; border-style: dashed; }
+  .ff-fin-vide > span { font-size: 0.95rem; font-weight: 600; color: #15120f; letter-spacing: 0.01em; }
   .ff-fin-texte .ff-titre { max-width: 14ch; }
-  .ff-fin-sous { max-width: 30rem; margin: 0; }
   @media (max-width: 767px) {
     .ff-fin-plan { width: 150vw; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .ff-fin .ff-fin-texte { padding: var(--s4) var(--s3); }
     .ff-fin-col { gap: 14px; }
     .ff-fin-col:nth-child(n + 4) { display: none; }
   }

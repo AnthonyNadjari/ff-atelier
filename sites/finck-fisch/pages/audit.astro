@@ -38,7 +38,7 @@ const points = [
 
 <Base
   title={`Audit gratuit de votre site internet | ${site.business.name}`}
-  description="20 minutes au téléphone ou en visio avec l’un des deux associés de Finck & Fisch : cinq points concrets sur votre site, pour les artisans de Toulouse et de toute la France."
+  description="20 minutes au téléphone ou en visio avec l’un des deux associés de Finck & Fisch : cinq points concrets sur votre site. Partout en France, à distance."
   path="/audit"
 >
   <Nav />
@@ -87,7 +87,7 @@ const points = [
           </label>
 
           <fieldset class="ff-form-creneaux">
-            <legend>Créneau préféré, en semaine</legend>
+            <legend>Moment préféré pour l’appel, en semaine</legend>
             {creneaux.map((c, i) => (
               <label class="ff-creneau">
                 <input type="radio" name="creneau" value={c} required checked={i === 0} />
@@ -105,7 +105,7 @@ const points = [
           <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
           {f.turnstileSiteKey && <div class="cf-turnstile" data-sitekey={f.turnstileSiteKey}></div>}
 
-          <button type="submit" class="ff-bouton ff-form-envoyer" data-envoyer>Confirmer le créneau</button>
+          <button type="submit" class="ff-bouton ff-form-envoyer" data-envoyer>Envoyer ma demande</button>
           <p class="ff-petit ff-doux">Pas de relance commerciale ensuite.</p>
           <p class="ff-form-statut ff-texte" data-statut role="status" aria-live="polite" tabindex="-1" hidden></p>
         </form>
@@ -167,7 +167,7 @@ const points = [
 
       if (form.dataset.provider === 'mailto') {
         window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(sujet)}&body=${encodeURIComponent(corps)}`;
-        dire(`Votre messagerie s’ouvre avec la demande remplie : envoyez-la pour confirmer le créneau. Rien ne s’ouvre ? Écrivez-nous à ${form.dataset.to}.`, false);
+        dire(`Votre messagerie s’ouvre avec la demande remplie : envoyez-la, nous vous rappelons. Rien ne s’ouvre ? Écrivez-nous à ${form.dataset.to}.`, false);
         return;
       }
 

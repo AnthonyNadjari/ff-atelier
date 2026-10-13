@@ -99,6 +99,7 @@ const base = `/video/demos/${slug}`;
   .ff-demo.ff-demo-pause .ff-demo-page { animation-play-state: paused; }
   /* Feuilleter à la souris (ordinateur) : le haut du cadre = le haut du site, le bas = le bas. Le cadre ne
      bouge pas, rien n'est recadré ni zoomé ; on relâche, la démo reprend seule (revue DA du 13 oct 2026). */
+  .ff-rea-tel .ff-demo { cursor: ns-resize; }
   .ff-demo.ff-demo-main .ff-demo-page {
     animation: none;
     transform: translateY(calc((-100% + 100cqh) * var(--ff-y, 0)));
@@ -124,20 +125,47 @@ const base = `/video/demos/${slug}`;
       for (const e of entrees) e.target.classList.toggle('ff-demo-pause', !e.isIntersecting);
     }, { rootMargin: '300px' });
     document.querySelectorAll('.ff-demo').forEach((d) => io.observe(d));
-    // Feuilleter : seulement avec une vraie souris (pas au toucher, qui défile la page).
+    // Feuilleter (cartes des exemples seulement, pas les murs décoratifs) : avec une vraie souris. Sans
+    // saut ni à l'entrée ni à la sortie (revue du 13 oct 2026, mesuré -690 -> 0 px) : à l'entrée on part
+    // de la position où l'animation se trouvait ; à la sortie on recale l'animation sur la position atteinte.
     if (matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll<HTMLElement>('.ff-demo').forEach((d) => {
+      document.querySelectorAll<HTMLElement>('.ff-rea-tel .ff-demo').forEach((d) => {
+        const page = d.querySelector<HTMLElement>('.ff-demo-page');
+        if (!page) return;
         let raf = 0;
         let y = 0;
+        const course = () => Math.max(1, page.offsetHeight - d.clientHeight);
+        const ty = () => new DOMMatrix(getComputedStyle(page).transform).m42;
         const poser = () => { raf = 0; d.style.setProperty('--ff-y', y.toFixed(3)); };
-        d.addEventListener('pointerenter', () => d.classList.add('ff-demo-main'));
+        d.addEventListener('pointerenter', () => {
+          y = Math.min(1, Math.max(0, -ty() / course()));
+          d.style.setProperty('--ff-y', y.toFixed(3));
+          d.classList.add('ff-demo-main');
+        });
         d.addEventListener('pointermove', (e) => {
           const r = d.getBoundingClientRect();
           // Marges de 12 % en haut et en bas : on atteint le haut et le bas du site sans viser le bord exact.
           y = Math.min(1, Math.max(0, ((e.clientY - r.top) / r.height - 0.12) / 0.76));
           if (!raf) raf = requestAnimationFrame(poser);
         });
-        d.addEventListener('pointerleave', () => { d.classList.remove('ff-demo-main'); d.style.removeProperty('--ff-y'); });
+        d.addEventListener('pointerleave', () => {
+          const cible = -ty();
+          d.classList.remove('ff-demo-main');
+          d.style.removeProperty('--ff-y');
+          const anim = page.getAnimations()[0];
+          if (!anim || !anim.effect) return;
+          const duree = Number(anim.effect.getComputedTiming().duration) || 18000;
+          anim.effect.updateTiming({ delay: 0 });
+          // La descente (10 % -> 90 % du premier aller) est monotone : recherche dichotomique du temps
+          // qui redonne la position atteinte.
+          let a = duree * 0.1, b = duree * 0.9;
+          for (let k = 0; k < 16; k++) {
+            const m = (a + b) / 2;
+            anim.currentTime = m;
+            if (-ty() < cible) a = m; else b = m;
+          }
+          anim.currentTime = (a + b) / 2;
+        });
       });
     }
     document.addEventListener('astro:before-swap', () => io.disconnect(), { once: true });
