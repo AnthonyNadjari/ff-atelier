@@ -37,7 +37,7 @@
  * n'a plus qu'un objectif : donner envie de l'audit gratuit (/audit, page sur mesure dans pages/).
  * - Ordre : hero, preuve vivante, exemples, avant/après, 72 h, deux personnes, tarifs, audit (bascule
  *   crème), FAQ, pied. Propositions, Chantier, Fin et le contact en tiroir sont retirés ; le film
- *   reste hors de l'accueil (Film.astro gardé).
+ *   a été retiré du dépôt le 13 oct 2026 (historique git).
  * - Système de design et moteur de mouvement propres au site : sections/ff.css, sections/motion-ff.ts
  *   (gsap.matchMedia, Lenis molette seule). motion « subtle » et smoothScroll false : le moteur de la
  *   factory n'a plus rien à faire ici (aucun data-* animé), ses GSAP et Lenis ne sont pas chargés.

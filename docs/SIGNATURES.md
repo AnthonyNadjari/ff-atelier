@@ -32,12 +32,13 @@
 
 ## atelier-lecerf
 
-- **Contact** (505aa55491c0) — "Contact" (custom/Contact) : panneau de coordonnées avec halo qui suit le curseur
-- **Estimation** (bb65eedd74da) — "Estimation" : grille de prix indicatifs en tabular-nums (tous "(indicatif)", exception
-- **Hero** (1ccf0f0cbadb) — Premier écran « la colonne de matière » — propre à l'Atelier Lecerf.
-- **Matieres** (6e47a9c768cc) — "Matières" : carnet d'échantillons des trois essences travaillées à l'atelier, trois planches
-- **Nav** (06088f5ee79e) — Nav sur mesure : une plaque d'atelier plutôt qu'un bandeau générique — filet bas couleur bois,
-- **Restauration** (8da71cb7ba6a) — "Restauration" : un avant/après en curseur (data-compare, 7 usages dans un site dessiné à la
+- **Atelier** (0eaf6c3a0028) — « L'atelier » (10 oct 2026) : l'histoire (about.story, affichée nulle part avant), les faits tirés
+- **Contact** (43f2cbcd819b) — "Contact" (custom/Contact) : panneau de coordonnées avec halo qui suit le curseur
+- **Estimation** (7f73d55a8189) — "Estimation" : grille de prix indicatifs en tabular-nums (tous "(indicatif)", exception
+- **Hero** (adcaa5ab1cb9) — Premier écran de l'Atelier Lecerf : le croquis (10 oct 2026).
+- **Matieres** (9091a121ca1f) — "Matières" : carnet d'échantillons des trois essences travaillées à l'atelier, trois planches
+- **Nav** (d57a90bf3806) — Nav sur mesure : une plaque d'atelier plutôt qu'un bandeau générique — filet bas couleur bois,
+- **Restauration** (41c455f5d802) — « Restauration » (10 oct 2026) : le curseur avant/après a été retiré. Ses deux images n'étaient
 
 ## auto-ecole-rabelais
 
@@ -76,12 +77,11 @@
 
 ## chez-malo
 
-- **Carte** (86388ef9917f) — "Carte" : la carte comme une liste typographique — entrées / plats / desserts en trois
-- **Essentiels** (d04d096167ec) — « L'essentiel » — propre à ce site. Les trois entrées de site.services (bouillabaisse, poisson
-- **Hero** (5362373547af) — Hero dessiné pour Chez Malo. Photo plein écran du Vallon en parallaxe, duoton mer/terre cuite,
-- **Horaires** (e644a48b2897) — "Horaires" : la journée du restaurant en quatre temps, épinglée au scroll (data-pin="160",
-- **LeLieu** (d0f67d674629) — "Le lieu" : composition diagonale, deux photos qui se chevauchent à des décalages différents
-- **Nav** (2a81b96c70f0) — Nav "dock" : pastille fixe en bas de l'écran, identique mobile/desktop.
+- **Arrivage** (a112fda390bc) — « L’arrivage du jour » : l’ardoise du comptoir, le bloc signature de Chez Malo (9 oct 2026). Un
+- **Carte** (2938ea1337bd) — « La carte » : trois photos de plats du dossier (bouillabaisse, daurade grillée, poisson entier),
+- **Hero** (01bb942871e1) — Premier écran de Chez Malo : le poisson, en plein cadre (9 oct 2026). Les grondins rouges de la
+- **LeLieu** (cc02e52e99a6) — « Le lieu » : l’histoire de la maison (about.story), deux photos du Vallon du dossier posées
+- **Nav** (ca0488e1bf98) — Nav de Chez Malo : une ligne en haut, transparente sur le premier écran, fond papier dès que la
 
 ## dubois-plomberie
 
@@ -94,29 +94,33 @@
 
 ## encre-noire
 
-- **Artistes** (a95d10f1d25d) — « Artistes » : les deux tatoueurs en liste de noms géants, spécialité en dessous, filet entre
-- **Hero** (8541ded90054) — Hero dessiné pour Encre Noire : plein écran, fond noir, le nom du studio en deux lignes
-- **Nav** (af8c18ea4d10) — Nav dessinée pour Encre Noire : rien qu'un nom fixé en bas à gauche et un bouton rond en haut
-- **RendezVous** (ca3118743add) — « Rendez-vous » : remplace le cta partagé. Trois étapes numérotées disposées en escalier
-- **Styles** (14a84eb0fc26) — « Styles » : quatre panneaux, un par style, texte + image. Le data-horizontal d'origine (piste
+- **Flashs** (193bc7e3393c) — « Le mur de flashs » : le bloc signature du studio (9 oct 2026). Dans un studio de tatouage, le mur
+- **Hero** (01bb942871e1) — Premier écran d’Encre Noire : le geste, en plein cadre (9 oct 2026).
+- **Nav** (449b8ff92ae3) — Nav dessinée pour Encre Noire : rien qu'un nom fixé en bas à gauche et un bouton carré en haut
+- **RendezVous** (06c508430621) — « Rendez-vous » : le temps fort de la page, un bloc encre avec grain. À gauche, la marche d’un
+- **Studio** (8f91b282fbe7) — « Le studio » : l’histoire du lieu (about.story), les deux artistes en grand avec leur spécialité
+- **Styles** (501431a63de2) — « Styles » : les quatre styles du studio (site.services), chacun avec sa photo en 4:5, son titre
 
 ## finck-fisch
 
-- **Chantier** (2b6d77a59ac9) — « Délais » (id `chantier`) — sur mesure Finck & Fisch, créé le 22 sept 2026 (décision 4 de
-- **Contact** (427635b75bb7) — Contact sur mesure Finck & Fisch (id="contact", même ancre que la section partagée). Deux
-- **Hero** (fc00b41cf54c) — Hero sur mesure Finck & Fisch — direction eclipse, titres Cormorant (typography.display).
-- **Manifeste** (f0f8589303bc) — Manifeste — sur mesure Finck & Fisch. Le temps fort de la page (règle 19) : le seul écran qui
-- **Nav** (023612117039) — Nav sur mesure Finck & Fisch. Depuis le passage à la coquille `split` (22 sept 2026), cette barre
-- **Offre** (1040b96728e6) — Section sur mesure Finck & Fisch : grille tarifaire, deux formules, en tableau de comparaison
-- **Propositions** (60d0d4812e51) — « Propositions » — sur mesure Finck & Fisch, créé le 22 sept 2026 (décision 3 de
-- **Realisations** (dc1df242bea6) — Réalisations — sur mesure Finck & Fisch. Douze sites de démonstration, un par métier, choisis dans
+- **Audit** (d1f80e28b2b9) — Section Audit. 10 oct 2026 : la bascule de thème encre/crème (S4) est retirée (retour fondateur) ;
+- **AvantApres** (15952e866f0f) — Avant / après (refonte du 11 oct 2026, corrigée le 12).
+- **DemoVideo** (33b68c36e1b7) — Démo qui défile (Hero, Réalisations, Avant/après) : la page d'exemple ENTIÈRE, jamais recadrée,
+- **Hero** (7182d2e0d3c0) — Hero du site du studio (plan-site-ff.html v2, S1 « Monogramme tracé + titre révélé par lignes »).
+- **Humains** (627caaf88ba8) — Humains — sur mesure Finck & Fisch.
+- **Nav** (30025c815df9) — En-tête + barre basse du site du studio (plan-site-ff.html v2, composants HeaderAudit et BarreAudit).
+- **Offre** (50aa5c11aa4e) — Tarifs (plan-site-ff.html v2) : deux formules payées une fois, puis le seul appel de la page,
+- **Pied** (fc6d2cfed5e5) — Pied de page sur mesure Finck & Fisch (9 oct 2026, benchmark docs/veille/benchmark-2026-10/ :
+- **Preuve** (ac87088caf74) — Preuve vivante (plan-site-ff.html v2, § 7) : une ligne, trois faits.
+- **Process72h** (1baa61ce7755) — « Trois jours, pas trois mois. » (refonte du 11 oct 2026, soir).
+- **Questions** (fda6c7a4437a) — FAQ (plan-site-ff.html v2) : six questions réelles de site.faq, dont deux sur l'audit, en
+- **Realisations** (d40d062ac2fb) — « Un site par métier » (refonte du 11 oct 2026).
 
 ## forge-delacroix
 
-- **Feu** (0869043721bc) — « Le feu en quatre temps » : bande horizontale de quatre étapes séparées par des filets
-- **Geste** (d58acb34808b) — « Le geste » : séquence d'images pilotée par le scroll (data-frames). La photo de la forge se
-- **Hero** (b1075046806b) — Premier écran « l'image d'abord » — propre à Forge Delacroix.
-- **Pieces** (c5e59855d809) — « Pièces » : collage asymétrique sur 12 colonnes, légendes tournées, une grande image et des
+- **Atelier** (db55d2a0197b) — « L'atelier » : l'histoire de la forge (about.story, qui n'était affichée nulle part), les faits
+- **Hero** (4343f515ece9) — Premier écran de Forge Delacroix : le geste, en plein cadre (9 oct 2026).
+- **Pieces** (03a3234e22d3) — « Pièces » : collage asymétrique sur 12 colonnes, une grande image et des petites, chacune à sa
 
 ## jardins-mael
 
@@ -149,11 +153,11 @@
 
 ## maison-roux
 
-- **Carte** (f0aad9bc9567) — "La carte" : liste typographique à filets pointillés + tabular-nums (site.services, filtrés sur
-- **CommanderGateau** (98ac44daf123) — "Commander un gâteau" : grille de cartes retournables (data-flip-card) — recto photo, verso
+- **Carte** (9286e34ccf8a) — « La carte » : trois photos de ce qu'on achète (levain, croissants, pâtisserie), nom et prix
+- **CommanderGateau** (1f471f260af9) — « Gâteaux sur commande » : à gauche, ce qu'il faut dire pour commander (site.services,
 - **Contact** (4369f1719671) — "Commander ou nous écrire" : formulaire à gauche, coordonnées à droite présentées comme un
-- **Fournee** (54b122337d7f) — "Fournée du jour" : les 4 temps de site.process (config réelle, pas de texte détaché) en
-- **Hero** (6a315f8a42d2) — Premier écran « la devanture » — propre à Maison Roux.
+- **Fournee** (98186d842848) — « La fournée du jour » : l'ardoise du comptoir. Les 4 heures de sortie du four (site.process,
+- **Hero** (bfc1f87ce403) — Premier écran « la devanture » — propre à Maison Roux.
 - **Nav** (bfd88ce4fe85) — Nav dessinée pour Maison Roux : une barre "ticket de caisse" — papier clair, bordure basse en
 
 ## moteur-fils
@@ -174,12 +178,12 @@
 
 ## studio-ambre
 
-- **CaseStudy** (66f8a96e247c) — "Projets" (custom/casestudy) : trois typologies de projet en pile (data-stack, chaque panneau
-- **Contact** (f4f9f31392e1) — "Contact" (custom/contact) : remplace la variante partagée pour porter deux effets demandés par
-- **Hero** (3120e8694f36) — Hero "custom/hero" — dessiné pour Studio Ambre. Volontairement pauvre en éléments : une image
-- **Materiaux** (9409d7dabdb1) — "Matériaux" (custom/materiaux) : carnet d'échantillons en piste glissable (data-drag-grid,
-- **Methode** (eb9f1bc41491) — "Méthode" (custom/methode) : les quatre prestations du studio (site.services) présentées comme
-- **Nav** (efb1546c3b6b) — Nav dessinée pour Studio Ambre : bandeau fin, hors-pli, fond transparent sur le hero (image
+- **Hero** (01bb942871e1) — Premier écran de Studio Ambre : un intérieur, en plein cadre (9 oct 2026). La photo du dossier
+- **Materiaux** (84bed1cf8e34) — « Matières » : le carnet d’échantillons du studio, six matières en grille fixe, chacune avec une
+- **Methode** (1c469426dbf3) — « Méthode » : les quatre prestations du studio (site.services) lues comme les quatre temps d’une
+- **Nav** (f6e413897c66) — Nav de Studio Ambre : une ligne en haut, transparente sur le premier écran (photo), fond pierre
+- **Projet** (af4a0f472c65) — « Un projet » : le bloc signature du studio (9 oct 2026). Un seul projet, raconté : ce qu’il y
+- **Studio** (ba649c9df370) — « Le studio » : le temps fort de la page, un bloc encre (grain retiré le 10 oct 2026, signes-ia.md). L’histoire (about.story) et,
 
 ## toits-cie
 
