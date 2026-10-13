@@ -100,10 +100,10 @@ concret et spécifique à une formule vague.
 
 Quatre formules réutilisables, à remplir avec les données réelles du brief :
 
-1. **Métier + lieu + promesse concrète** — « Plombier-chauffagiste à Nantes, dépannage sous l'heure »
+1. **Métier + lieu + promesse concrète** — « Plombier-chauffagiste à Nantes, dépannage sous l’heure »
 2. **Geste + matière + résultat** — « Le fer forgé à la main, pour un portail qui dure trente ans »
 3. **Situation du client + solution directe** — « Une fuite qui ne peut pas attendre ? On décroche. »
-4. **Depuis quand + ce qui a changé** — « Ferronnerie d'art à Toulouse depuis 2015, sur mesure » (le
+4. **Depuis quand + ce qui a changé** — « Ferronnerie d’art à Toulouse depuis 2015, sur mesure » (le
    « depuis 2015 » vient du champ `Depuis quand ?` du brief, jamais estimé)
 
 ## 6. Longueur idéale par section
@@ -177,19 +177,19 @@ Les mots que le client emploie réellement au téléphone (à reprendre dans les
 | Plombier-chauffagiste | la fuite, le chauffe-eau, la chaudière, déboucher, dépannage | « solutions thermiques » |
 | Coiffeur / barbier | la coupe, la couleur, la barbe, le rendez-vous, le fauteuil | « expertise capillaire » |
 | Paysagiste | le jardin, tailler, tondre, l'entretien, planter | « aménagement paysager » (à garder si le client le dit lui-même) |
-| Architecte d'intérieur | le plan, réaménager, les travaux, l'agencement | « scénographie d'espace » |
+| Architecte d'intérieur | le plan, réaménager, les travaux, l'agencement | « scénographie d’espace » |
 | Boulanger-pâtissier | le pain, la boulange, le fournil, la pâtisserie, frais du jour | « artisan de la gourmandise » |
 | Électricien | le tableau, la panne, la mise aux normes, disjoncter, domotique | « solutions électriques connectées » |
 | Avocat | le dossier, le rendez-vous, la procédure, le conseil, l'audience | « expertise juridique 360° » |
 | Vétérinaire | la consultation, la vaccination, l'urgence, mon chien/chat | « médecine vétérinaire globale » |
-| Menuisier-ébéniste | le bois, sur mesure, la pièce, poser, restaurer | « mobilier d'exception » |
+| Menuisier-ébéniste | le bois, sur mesure, la pièce, poser, restaurer | « mobilier d’exception » |
 | Institut de beauté/spa | le soin, l'épilation, la cabine, se détendre, prendre soin de soi | « rituel bien-être premium » |
 | Traiteur/food truck | le menu, la commande, le service, préparé sur place | « expérience culinaire nomade » |
 | Auto-école | le permis, les heures de conduite, l'examen, le moniteur | « pédagogie de la mobilité » |
-| Chambres d'hôtes | la chambre, le petit-déjeuner, réserver une nuit, l'accueil | « expérience d'hébergement » |
+| Chambres d'hôtes | la chambre, le petit-déjeuner, réserver une nuit, l'accueil | « expérience d’hébergement » |
 | Coach sportif/yoga | la séance, le cours, progresser, le tapis, s'étirer | « transformation physique » |
 | Serrurier | la porte claquée, la clé cassée, le cylindre, ouvrir sans casser | « solutions de sécurisation » |
-| Fleuriste | le bouquet, la composition, livrer des fleurs, le marché | « art floral d'exception » |
+| Fleuriste | le bouquet, la composition, livrer des fleurs, le marché | « art floral d’exception » |
 | Maçon | les fondations, rénover, le devis, le chantier, agrandir | « solutions constructives » |
 | Dentiste | le détartrage, la carie, le rendez-vous, la consultation | « esthétique dentaire premium » |
 | Brasseur (pour mémoire) | le brassin, la bière, le houblon, la brasserie | — |
@@ -202,73 +202,73 @@ matière, délai) — jamais à copier telles quelles dans un `site.config.ts` s
 
 **Urgence (12)**
 
-1. Plombier-chauffagiste — « Une fuite ne prévient pas. Nous non plus n'attendons pas. »
+1. Plombier-chauffagiste — « Une fuite ne prévient pas. Nous non plus n’attendons pas. »
 2. Plombier-chauffagiste — « Chauffe-eau en panne un dimanche ? On décroche aussi le dimanche. »
 3. Plombier-chauffagiste — « De la chaudière au robinet qui goutte, un seul numéro à retenir. »
 4. Serrurier — « Porte claquée, clé cassée : on est déjà en route avant que vous ayez fini de nous décrire le problème. »
-5. Serrurier — « Ouvrir sans casser, réparer sans repasser — le serrurier du quartier. »
+5. Serrurier — « Ouvrir sans casser, réparer sans repasser, le serrurier du quartier. »
 6. Serrurier — « Un cylindre à changer, une urgence à ne pas remettre à demain. »
-7. Couvreur (urgence toiture) — « Une tuile envolée, une fuite qui s'installe : on grimpe avant l'orage suivant. »
-8. Couvreur — « La toiture ne pardonne pas d'attendre — nous non plus. »
-9. Électricien (dépannage) — « Un court-circuit n'a pas d'horaires. Nous non plus. »
+7. Couvreur (urgence toiture) — « Une tuile envolée, une fuite qui s’installe : on grimpe avant l’orage suivant. »
+8. Couvreur — « La toiture n’attend pas. Nous non plus. »
+9. Électricien (dépannage) — « Un court-circuit n’a pas d’horaires. Nous non plus. »
 10. Électricien — « Tableau qui disjoncte sans raison : on cherche la vraie cause, pas juste le fusible. »
 11. Électricien — « De la panne du soir à la mise aux normes du matin. »
-12. Plombier-chauffagiste — « L'eau qui monte n'attend pas un rendez-vous — appelez, on arrive. »
+12. Plombier-chauffagiste — « L’eau qui monte n’attend pas un rendez-vous, appelez, on arrive. »
 
 **Rendez-vous (22)**
 
 13. Coiffeur/barbier — « Une coupe qui tient la semaine, pas juste le jour du rendez-vous. »
 14. Coiffeur/barbier — « Le fauteuil du quartier où on vous appelle par votre prénom. »
-15. Barbier — « La barbe, ça se taille avec la lame et le temps qu'il faut. »
-16. Dentiste — « Un sourire qu'on soigne, pas qu'on vend. »
+15. Barbier — « La barbe, ça se taille avec la lame et le temps qu’il faut. »
+16. Dentiste — « Un sourire qu’on soigne, pas qu’on vend. »
 17. Dentiste — « Le cabinet où on explique avant de soigner. »
 18. Vétérinaire — « Votre compagnon mérite un vétérinaire qui le connaît, pas juste son dossier. »
-19. Vétérinaire — « De la visite de routine à l'urgence du soir, la même équipe. »
+19. Vétérinaire — « De la visite de routine à l’urgence du soir, la même équipe. »
 20. Ostéopathe — « Le geste juste, pour la douleur qui revient toujours au même endroit. »
-21. Ostéopathe — « Un corps, une histoire — l'ostéopathie prend le temps de l'écouter. »
-22. Institut de beauté/spa — « Une parenthèse qu'on prépare pour vous, pas un passage éclair. »
+21. Ostéopathe — « Un corps, une histoire, l’ostéopathie prend le temps de l’écouter. »
+22. Institut de beauté/spa — « Une parenthèse qu’on prépare pour vous, pas un passage éclair. »
 23. Institut de beauté/spa — « Le soin qui commence dès que la porte se referme sur le bruit dehors. »
 24. Coach sportif/yoga — « Progresser à votre rythme, pas au rythme de la salle. »
-25. Coach sportif/yoga — « Le tapis se déroule, le reste s'apprend séance après séance. »
-26. Auto-école — « Le permis, ça s'apprend avec un moniteur qui reste le même du premier au dernier cours. »
+25. Coach sportif/yoga — « Le tapis se déroule, le reste s’apprend séance après séance. »
+26. Auto-école — « Le permis, ça s’apprend avec un moniteur qui reste le même du premier au dernier cours. »
 27. Auto-école — « Conduire sans stresser : on commence toujours par ce qui vous fait peur. »
-28. Architecte d'intérieur — « Un intérieur qui vous ressemble, dessiné avant d'être posé. »
-29. Architecte d'intérieur — « Repenser un espace sans tout casser — le plan avant les travaux. »
-30. Avocat — « Le droit expliqué en clair, avant d'être plaidé. »
-31. Avocat — « Un dossier suivi par la même personne du premier rendez-vous à l'audience. »
-32. Menuisier-ébéniste — « Le bois se choisit avant de se travailler — un rendez-vous pour en parler. »
-33. Institut de beauté/spa — « Chaque peau a son rythme, chaque soin s'y adapte. »
+28. Architecte d'intérieur — « Un intérieur qui vous ressemble, dessiné avant d’être posé. »
+29. Architecte d'intérieur — « Repenser un espace sans tout casser, le plan avant les travaux. »
+30. Avocat — « Le droit expliqué en clair, avant d’être plaidé. »
+31. Avocat — « Un dossier suivi par la même personne du premier rendez-vous à l’audience. »
+32. Menuisier-ébéniste — « Le bois se choisit avant de se travailler, un rendez-vous pour en parler. »
+33. Institut de beauté/spa — « Chaque peau a son rythme, chaque soin s’y adapte. »
 34. Coach sportif/yoga — « Un cours qui commence par où vous en êtes, pas par où il faudrait être. »
 
 **Commerce / achat réfléchi (14)**
 
-35. Fleuriste — « Un bouquet qui dit ce que les mots n'ont pas le temps de dire. »
+35. Fleuriste — « Un bouquet qui dit ce que les mots n’ont pas le temps de dire. »
 36. Fleuriste — « Les fleurs du marché, composées le matin même. »
-37. Boulanger-pâtissier — « Le pain qui sort du four à l'heure où le quartier se réveille. »
+37. Boulanger-pâtissier — « Le pain qui sort du four à l’heure où le quartier se réveille. »
 38. Boulanger-pâtissier — « Une pâtisserie qui se prépare la veille, pas la vitrine. »
-39. Brasseur — « La bière qu'on brasse ici, pas celle qu'on fait venir. »
+39. Brasseur — « La bière qu’on brasse ici, pas celle qu’on fait venir. »
 40. Brasseur — « Un houblon choisi, un brassin suivi du premier au dernier degré. »
 41. Traiteur/food truck — « Le repas qui se prépare sur place, pas qui se réchauffe. »
 42. Traiteur/food truck — « De la commande du midi au buffet du samedi, la même cuisine. »
-43. Chambres d'hôtes — « Une chambre, un accueil — pas un numéro de réservation. »
-44. Chambres d'hôtes — « Le petit-déjeuner qu'on prépare en fonction de qui dort ici ce soir-là. »
-45. Agence immobilière — « Le bien qu'on connaît vraiment, pas juste l'annonce qu'on a postée. »
-46. Agence immobilière — « Vendre un bien, c'est d'abord bien le regarder — nous le visitons avant de le vanter. »
-47. Garagiste (vente) — « Un véhicule vérifié avant d'être proposé, pas juste nettoyé. »
-48. Garagiste — « L'entretien qui prévient la panne plutôt que de la réparer. »
+43. Chambres d'hôtes — « Une chambre, un accueil, pas un numéro de réservation. »
+44. Chambres d'hôtes — « Le petit-déjeuner qu’on prépare en fonction de qui dort ici ce soir-là. »
+45. Agence immobilière — « Le bien qu’on connaît vraiment, pas juste l’annonce qu’on a postée. »
+46. Agence immobilière — « Vendre un bien, c’est d’abord bien le regarder, nous le visitons avant de le vanter. »
+47. Garagiste (vente) — « Un véhicule vérifié avant d’être proposé, pas juste nettoyé. »
+48. Garagiste — « L’entretien qui prévient la panne plutôt que de la réparer. »
 
 **Artisanat / réalisation (14)**
 
 49. Ferronnier d'art — « Le fer se plie à la forge, pas à la machine. »
 50. Ferronnier d'art — « Un portail qui se transmet, pas qui se remplace. »
 51. Tatoueur — « Un trait qui reste, dessiné pour durer autant que la peau qui le porte. »
-52. Tatoueur — « Le dessin se prépare avant l'aiguille, jamais l'inverse. »
-53. Photographe de mariage — « Le jour ne se refait pas — il se raconte en images. »
+52. Tatoueur — « Le dessin se prépare avant l’aiguille, jamais l’inverse. »
+53. Photographe de mariage — « Le jour ne se refait pas, il se raconte en images. »
 54. Photographe de mariage — « Capturer ce qui se passe, pas ce qui se pose. »
-55. Restaurateur — « Une carte qui change avec la saison, pas avec l'imprimante. »
+55. Restaurateur — « Une carte qui change avec la saison, pas avec l’imprimante. »
 56. Restaurateur — « La cuisine se fait ici, à quelques mètres de votre table. »
-57. Menuisier-ébéniste — « Le bois qu'on choisit pièce par pièce, pas au mètre. »
-58. Maçon — « Les fondations d'abord, la promesse ensuite. »
+57. Menuisier-ébéniste — « Le bois qu’on choisit pièce par pièce, pas au mètre. »
+58. Maçon — « Les fondations d’abord, la promesse ensuite. »
 59. Maçon — « Rénover sans trahir ce que la maison était déjà. »
 60. Paysagiste — « Un jardin qui se dessine avec les saisons, pas contre elles. »
 
@@ -344,13 +344,13 @@ jamais en échec : ce sont des indices, pas des fautes, et un site peut légitim
 |---|---|---|
 | **R1** | **Casser le rythme.** Jamais trois phrases consécutives de longueur proche dans un même paragraphe. Sur une page, l'écart-type des longueurs de phrase doit dépasser 28 % de la moyenne — concrètement, une phrase de moins de 6 mots tous les 3 à 4 phrases. | `ff verifier` (`warnRythmeUniforme`) |
 | **R2** | **Zéro tiret cadratin de rythme.** Un tiret long isolé passe ; au-delà d'un pour 500 caractères visibles, remplacer par un point, un deux-points ou une virgule. Doublement justifié : signature n° 1 du texte généré, et l'OQLF le proscrit en rédaction web française. | `ff verifier` (`warnTiretsCadratins`) |
-| **R3** | **Aucun mot-valise.** « savoir-faire », « passion », « expertise », « au cœur de », « point d'honneur », « depuis toujours », « à votre écoute », « dans les règles de l'art », « clé en main », « haut de gamme », « notre ADN », « univers ». Chacun se remplace par le fait concret du brief : l'année, le geste, la matière, la norme. | `ff verifier` (`warnMotsValises`) |
+| **R3** | **Aucun mot-valise.** « savoir-faire », « passion », « expertise », « au cœur de », « point d’honneur », « depuis toujours », « à votre écoute », « dans les règles de l’art », « clé en main », « haut de gamme », « notre ADN », « univers ». Chacun se remplace par le fait concret du brief : l'année, le geste, la matière, la norme. | `ff verifier` (`warnMotsValises`) |
 | **R4** | **Trois énumérations ternaires maximum par page.** Le triplet « A, B et C » est le patron de phrase le plus reconnaissable. Préférer une liste de quatre sans « et », ou transformer les noms en verbes (« Taille, dessin et finitions » → « On taille, on dessine, on finit à la lame »). | `ff verifier` (`warnEnumerationsTernaires`) |
 | **R5** | **Au moins une phrase parlée par page d'accueil.** Une phrase qui commence par « Et », « Mais », « Alors », « Pourtant » ou « Sauf ». Zéro sur toute une page est un indice fiable de texte lissé. Vouvoiement maintenu (§2) : l'oralité passe par la syntaxe, pas par le tutoiement. | `ff verifier` (`warnAucunePhraseParlee`) |
 | **R6** | **Un chiffre par page de service.** Prix, durée, délai, dimension, norme, année. Quand `priceFrom` existe, le reprendre dans le texte visible : un prix annoncé est la preuve la moins chère qui existe. Jamais un chiffre absent du brief (règle dure n° 2). | `ff verifier` (`warnPageServiceSansChiffre`) |
 | **R7** | **Les réponses de FAQ ne commencent pas toutes pareil.** Deux « Oui, … » au maximum par page ; au-delà, répondre par le fait lui-même (« 48 h minimum, par téléphone ou par le formulaire »). | `ff verifier` (`warnFaqReponsesUniformes`) |
-| **R8** | **Un mot de métier non traduit par page.** Le lexique du §9 donne les mots que le client emploie ; il en faut au moins un que seul un professionnel écrirait (« zinguerie », « NF P01-012 », « levain », « thermolaquage », « prud'hommes »). Le marqueur d'un texte généré n'est pas le mot suspect, c'est l'absence de mot rare. | Relecture humaine |
-| **R9** | **Une réserve, une limite ou un refus par site.** Ce que l'artisan ne fait pas, ce qui prend du temps, quand il est fermé, ce qui n'est pas garanti. Jamais inventé : la limite doit venir du brief (horaires, zone, délai, « jusqu'à épuisement »). Interdit pour une profession réglementée si cela ressemble à une promesse inversée (§3). | Relecture humaine |
+| **R8** | **Un mot de métier non traduit par page.** Le lexique du §9 donne les mots que le client emploie ; il en faut au moins un que seul un professionnel écrirait (« zinguerie », « NF P01-012 », « levain », « thermolaquage », « prud’hommes »). Le marqueur d'un texte généré n'est pas le mot suspect, c'est l'absence de mot rare. | Relecture humaine |
+| **R9** | **Une réserve, une limite ou un refus par site.** Ce que l'artisan ne fait pas, ce qui prend du temps, quand il est fermé, ce qui n'est pas garanti. Jamais inventé : la limite doit venir du brief (horaires, zone, délai, « jusqu’à épuisement »). Interdit pour une profession réglementée si cela ressemble à une promesse inversée (§3). | Relecture humaine |
 | **R10** | **Une anecdote datée ou un nom propre par `about.story`.** Une date, un lieu précis, un prénom déjà présent dans le brief (`about.team`, `legal.owner`). Aucun nom ni aucune date ajoutés — seulement ceux que le fichier contient déjà et qu'on n'avait jamais dits. | Relecture humaine |
 
 **Ordre d'application quand deux règles s'opposent** : la règle dure n° 2 de `CLAUDE.md` passe avant les

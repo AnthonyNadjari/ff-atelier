@@ -16,7 +16,7 @@ const testimonials = site.proof.testimonials;
               <Icon name="Star" size={18} class={i < Math.round(google.rating) ? 'text-accent fill-accent' : 'text-muted'} />
             ))}
           </div>
-          <p class="text-sm text-muted">{google.rating.toFixed(1)}/5 sur Google, {google.count} avis</p>
+          <p class="text-sm text-muted">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</p>
         </div>
       )}
 

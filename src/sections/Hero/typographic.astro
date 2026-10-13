@@ -32,7 +32,7 @@ const cities = site.zones.cities;
       {years && <li class="flex items-center gap-2">{years} ans d’expérience</li>}
       {site.contact.emergency24h && <li class="flex items-center gap-2">Urgences 24 h/24</li>}
       {site.business.insurance && <li class="flex items-center gap-2">Assuré décennale</li>}
-      {site.proof.google && <li class="flex items-center gap-2">{site.proof.google.rating.toFixed(1)}/5 sur Google ({site.proof.google.count} avis)</li>}
+      {site.proof.google && <li class="flex items-center gap-2">{site.proof.google.rating.toFixed(1).replace('.', ',')}/5 sur Google ({site.proof.google.count} avis)</li>}
     </ul>
   </div>
 

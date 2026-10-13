@@ -94,12 +94,12 @@ export function cmdNouveau(args) {
   writeFFCurrent(slug);
 
   info('');
-  ok(`sites/${slug} cree (modele : ${depuis}).`);
+  ok(`sites/${slug} créé (gabarit : ${depuis} ; avis, note Google et assurance fictifs retirés).`);
   info('');
-  info(c.bold('Prochaines etapes :'));
-  info(`  1. Remplis ${c.cyan(`sites/${slug}/brief.md`)} (ou attends le brief).`);
-  info(`  2. Depose les photos originales dans ${c.cyan(`sites/${slug}/raw/`)}.`);
-  info(`  3. Lance ${c.cyan(`ff images ${slug}`)} pour generer les .webp dans public/images/.`);
-  info(`  4. Edite ${c.cyan(`sites/${slug}/site.config.ts`)} avec les informations du client.`);
-  info(`  5. Lance ${c.cyan(`ff dev ${slug}`)} pour previsualiser.`);
+  info(c.bold('Prochaines étapes (chaîne client, docs/PROCESS.md) :'));
+  info(`  1. Remplis ${c.cyan(`sites/${slug}/brief.md`)} pendant l'appel ; envoie au client ${c.cyan('studio/commercial/guide-photos.html')}.`);
+  info(`  2. Dans Claude Code : ${c.cyan(`/nouveau-site ${slug}`)} (données du brief, puis ${c.cyan('ff composer')}, textes, build).`);
+  info(`  3. Photos reçues : dans ${c.cyan(`sites/${slug}/raw/`)}, puis ${c.cyan(`ff images ${slug}`)}.`);
+  info(`  4. ${c.cyan(`ff propositions ${slug}`)} pour montrer 3 looks au client, ${c.cyan(`--appliquer <n>`)} pour garder le choisi.`);
+  info(`  5. ${c.cyan(`ff verifier ${slug}`)} doit être vert avant toute livraison.`);
 }

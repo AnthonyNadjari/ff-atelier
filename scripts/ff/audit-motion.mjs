@@ -8,7 +8,8 @@
 //   - [data-reveal]/[data-stagger] > */.split-word > span/.fill-word encore invisibles apres le scroll ;
 //   - [data-pin]/[data-frames]/[data-horizontal] : spacer ScrollTrigger demesure (> 400vh, fin cassee),
 //     [data-pin-step] dont aucun n'est jamais devenu .is-active ;
-//   - [data-frames-canvas] jamais dessine (pixel central transparent) ;
+//   - [data-frames-canvas] jamais dessine (pixel central transparent), ou sequence epinglee qui ne
+//     s'anime qu'apres la moitie de l'epinglage (image figee puis saut) ;
 //   - [data-shader] (fond WebGL, src/scripts/shader.ts) : canvas .ff-shader-canvas present mais jamais
 //     dessine (data-shader-state != "drawn"), ou repli sans degrade — un canvas WebGL ne se lit pas
 //     par getContext('2d') (contexte deja pris), d'ou l'etat pose par le moteur plutot qu'un pixel ;
@@ -244,6 +245,24 @@ function collectDiagnostics() {
     }
   });
 
+  // ---- 3ter. data-frames + data-pin : la sequence doit avancer PENDANT l'epinglage ----
+  // window.__ffFrameDraws (pose par FRAME_DRAW_PROBE avant le chargement) : par canvas, les frames
+  // dessinees et le scrollY du moment. Moins de 3 frames differentes dans la premiere moitie de
+  // l'epinglage = image figee pendant que la page « bloque », puis tout d'un coup a la sortie (bug
+  // forge-delacroix, 13 oct 2026 : le declencheur de la sequence demarrait a la fin de l'epinglage).
+  document.querySelectorAll('[data-frames][data-pin]').forEach((el) => {
+    const canvas = el.querySelector('[data-frames-canvas]');
+    if (!canvas || getComputedStyle(canvas).display === 'none') return;
+    const spacer = el.closest('.pin-spacer');
+    if (!spacer) return;
+    const debut = spacer.getBoundingClientRect().top + window.scrollY;
+    const longueur = spacer.offsetHeight - el.offsetHeight;
+    if (longueur <= 0) return;
+    const dessins = (window.__ffFrameDraws || new Map()).get(canvas) || [];
+    const frames = new Set(dessins.filter(([, y]) => y >= debut && y <= debut + longueur / 2).map(([src]) => src));
+    if (frames.size < 3) results.framesCanvasBlank.push({ selector: cssPath(el), reason: `sequence figee pendant l'epinglage (${frames.size} image(s) differente(s) sur la premiere moitie)` });
+  });
+
   // ---- 3bis. data-shader : fond WebGL dessine (data-shader-state="drawn") ou repli pose ----
   // Un canvas de shader est "dessine" des que shader.ts a rendu une frame (etat pose par le moteur) :
   // il ne passe jamais par le test du pixel 2D ci-dessus (getContext('2d') rend null sur un canvas
@@ -410,6 +429,20 @@ function detailLine(section, item) {
   }
 }
 
+/** Avant le chargement : retient, par canvas, les images dessinees et le scrollY du moment (plafond 3000). */
+const FRAME_DRAW_PROBE = () => {
+  const draws = new Map();
+  window.__ffFrameDraws = draws;
+  const orig = CanvasRenderingContext2D.prototype.drawImage;
+  CanvasRenderingContext2D.prototype.drawImage = function (img, ...rest) {
+    const cv = this.canvas;
+    if (!draws.has(cv)) draws.set(cv, []);
+    const l = draws.get(cv);
+    if (l.length < 3000) l.push([(img && img.src) || '', window.scrollY]);
+    return orig.call(this, img, ...rest);
+  };
+};
+
 async function auditSlug(browser, slug) {
   const distDir = path.join(DIST_DIR, slug);
   if (!fs.existsSync(distDir)) {
@@ -433,6 +466,7 @@ async function auditSlug(browser, slug) {
     page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text()); });
     page.on('pageerror', (e) => consoleErrors.push(e.message));
     page.on('requestfailed', (r) => failedRequests.push(r.url()));
+    await page.addInitScript(FRAME_DRAW_PROBE);
 
     await page.goto(`http://localhost:${port}/`, { waitUntil: 'networkidle' });
     const diagnostics = await auditPage(page);

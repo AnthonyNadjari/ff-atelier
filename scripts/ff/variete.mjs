@@ -38,7 +38,9 @@ function printCounts(values) {
 }
 
 export function cmdVariete() {
-  const slugs = listSites();
+  // Sans _exemple ni _effets : un site tout juste cree par `ff nouveau` est encore une copie de _exemple et
+  // faisait sortir variete en erreur avant le moindre choix (rodage du 13 oct 2026).
+  const slugs = listSites({ excludeUnderscore: true });
   const rows = slugs.map(parseConfig).filter(Boolean);
 
   info(
@@ -60,7 +62,9 @@ export function cmdVariete() {
   let hasError = false;
   const byDirHero = new Map();
   for (const r of rows) {
-    if (!r.direction || !r.hero) continue;
+    // Un hero sur mesure (`custom/...`) est propre a son site : deux sites en `custom/hero` ne partagent
+    // rien, le doublon direction+hero n'a pas de sens (faux echec repere au rodage du 13 oct 2026).
+    if (!r.direction || !r.hero || /^custom\//i.test(r.hero)) continue;
     const key = `${r.direction}|${r.hero}`;
     if (!byDirHero.has(key)) byDirHero.set(key, []);
     byDirHero.get(key).push(r);

@@ -10,6 +10,17 @@ Un site = un fichier `sites/<slug>/site.config.ts` qui exporte `defineSite({...}
 (`src/directions/<nom>/`) lisent ce fichier via `site` (`src/lib/site.ts`) et n'affichent que ce qu'il
 contient. Rien n'est codé en dur côté contenu, rien n'est inventé côté données.
 
+## Chaîne client (l'essentiel, dans l'ordre)
+
+1. `node scripts/ff.mjs nouveau <slug>` : dossier du site (gabarit `_exemple`, ses avis fictifs retirés).
+2. Brief rempli dans `sites/<slug>/brief.md` ; guide photo envoyé au client (`studio/commercial/guide-photos.html`).
+3. `/nouveau-site <slug>` : données du brief dans `site.config.ts`, PUIS `ff composer`, textes, bloc sur mesure, build.
+4. Photos reçues : `sites/<slug>/raw/` puis `ff images <slug>`.
+5. `ff propositions <slug>` (3 looks à montrer), `--appliquer <n>`, puis `ff figer <slug>`.
+6. `ff verifier <slug>` vert (accessibilité, typo, signes IA, données de test), puis `ff deploy <slug>`.
+
+Le reste du tableau ci-dessous sert au besoin.
+
 ## Workflows en une commande
 
 | Commande | Ce qu'elle fait |

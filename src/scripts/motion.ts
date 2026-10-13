@@ -114,6 +114,8 @@ let pageAbort: AbortController | null = null;
 let signal: AbortSignal = new AbortController().signal;
 let stRef: { getAll(): { kill(): void }[] } | null = null;
 let lenisRef: any = null;
+/** Section data-frames ET data-pin : la sequence suit la progression de l'epinglage (voir setupFrameSequence). */
+const pinProgress = new WeakMap<HTMLElement, (p: number) => void>();
 let pageLoads = 0;
 
 export function initMotion() {
@@ -428,18 +430,29 @@ async function setupFrameSequence(el: HTMLElement, canvas: HTMLCanvasElement, po
     const diff = target - current;
     if (Math.abs(diff) < 0.05) current = target;
     else current += diff * lerp;
-    drawIndex(Math.min(count, Math.max(1, Math.round(current) + 1)));
+    // Meme frame qu'a l'image precedente : pas de redessin (le lerp passe plusieurs rAF par frame).
+    const idx = Math.min(count, Math.max(1, Math.round(current) + 1));
+    if (idx !== currentIndex) drawIndex(idx);
     if (current !== target) raf = requestAnimationFrame(tick);
   };
+  const onProgress = (p: number) => {
+    target = p * (count - 1);
+    if (!raf) raf = requestAnimationFrame(tick);
+  };
+  // Section aussi epinglee (data-pin, cas recommande) : la progression vient du ScrollTrigger de
+  // l'epinglage (rich()). Un second declencheur sur le meme element, cree AVANT l'epinglage, voyait
+  // son debut decale de toute la longueur epinglee : la sequence ne jouait qu'a la sortie, image figee
+  // pendant 2,5 ecrans puis tout d'un coup (forge-delacroix, retour fondateur du 13 oct 2026).
+  if (el.hasAttribute('data-pin')) {
+    pinProgress.set(el, onProgress);
+    return;
+  }
   ScrollTrigger.create({
     trigger: el,
     start: 'top top',
     end: `+=${len}%`,
     // Pas de `scrub` ici : sans tween lie, il n'a aucun effet sur st.progress ; le lissage est le lerp.
-    onUpdate: (st) => {
-      target = st.progress * (count - 1);
-      if (!raf) raf = requestAnimationFrame(tick);
-    },
+    onUpdate: (st) => onProgress(st.progress),
   });
 }
 
@@ -985,7 +998,7 @@ async function rich() {
     ScrollTrigger.create({
       trigger: el, start: 'top top', end: `+=${len}%`, pin: true, anticipatePin: 1,
       // Seulement quand l'étape change : sinon l'attribut class est réécrit à chaque image (voir navScroll).
-      onUpdate: (st) => { const i = Math.min(steps.length - 1, Math.floor(st.progress * steps.length)); if (i === etape) return; etape = i; steps.forEach((s, k) => s.classList.toggle('is-active', k === i)); },
+      onUpdate: (st) => { pinProgress.get(el)?.(st.progress); const i = Math.min(steps.length - 1, Math.floor(st.progress * steps.length)); if (i === etape) return; etape = i; steps.forEach((s, k) => s.classList.toggle('is-active', k === i)); },
     });
     steps[0]?.classList.add('is-active');
   });

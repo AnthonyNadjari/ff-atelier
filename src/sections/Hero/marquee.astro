@@ -39,7 +39,7 @@ const cities = site.zones.cities;
       )}
       {google && (
         <div class="card flex items-center gap-4 rounded-card bg-surface px-5 py-4 shadow-card">
-                    <p><span class="font-display text-lg">{google.rating.toFixed(1)}/5</span> <span class="text-sm text-muted">sur Google ({google.count} avis)</span></p>
+                    <p><span class="font-display text-lg">{google.rating.toFixed(1).replace('.', ',')}/5</span> <span class="text-sm text-muted">sur Google ({google.count} avis)</span></p>
         </div>
       )}
     </div>
