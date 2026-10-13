@@ -295,8 +295,11 @@ if (lignes.join(' ') !== site.business.tagline.replace(/<[^>]+>/g, '')) {
     .ff-hero-grille { position: relative; }
     .ff-hero-texte { position: relative; z-index: 1; }
     .ff-hero-oeuvre { position: absolute; inset: calc(-1 * var(--s3)) 0 auto; z-index: 0; pointer-events: none; }
-    .ff-mur { height: 100svh; opacity: 0.38; }
-    .ff-mur-plan { width: 600px; left: 62%; top: 4%; }
-    .ff-mur::before { background: linear-gradient(to bottom, transparent 40%, var(--bg) 92%); }
+    /* Lisibilité (retour fondateur sur iPhone : « le texte est pas ultra lisible ») : mur poussé à
+       droite, plus sombre, et un fondu vers le fond sous la colonne de texte. */
+    .ff-mur { height: 100svh; opacity: 0.3; }
+    .ff-mur-plan { width: 560px; left: 78%; top: 6%; }
+    .ff-mur::before { background: linear-gradient(to bottom, transparent 35%, var(--bg) 88%); }
+    .ff-mur::after { content: ''; background: linear-gradient(to right, var(--bg) 8%, color-mix(in srgb, var(--bg) 75%, transparent) 45%, transparent 85%); }
   }
 </style>
