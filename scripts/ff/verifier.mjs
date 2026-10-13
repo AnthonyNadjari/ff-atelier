@@ -488,12 +488,21 @@ function warnBlocTexteSansMesure(files, distDir, warnings) {
 
 /** Rendu : au moins 2 familles de police distinctes attendues (display + corps) dans le CSS livre,
  * sinon la direction n'a probablement pas charge de police display (docs/veille/rendu.md §7 point 9). */
+/** CSS livre : fichiers .css ET blocs <style> des pages (inlineStylesheets: 'always' met tout en ligne,
+ * et les controles qui ne lisaient que les .css voyaient « 0 police » / « pas de soulignement » a tort). */
+function cssLivre(distDir) {
+  const morceaux = listFilesWithExt(distDir, '.css').map((f) => fs.readFileSync(f, 'utf8'));
+  for (const f of listHtmlFiles(distDir)) {
+    for (const m of fs.readFileSync(f, 'utf8').matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)) morceaux.push(m[1]);
+  }
+  return morceaux;
+}
+
 function warnMoinsDeDeuxPolices(distDir, warnings) {
-  const cssFiles = listFilesWithExt(distDir, '.css');
+  const cssFiles = cssLivre(distDir);
   const families = new Set();
   const declRe = /(?:--font-(?:display|body|mono)|(?<!-)font-family)\s*:\s*([^;]+);/gi;
-  for (const file of cssFiles) {
-    const css = fs.readFileSync(file, 'utf8');
+  for (const css of cssFiles) {
     let m;
     while ((m = declRe.exec(css))) {
       const first = m[1].split(',')[0].trim().replace(/^['"]|['"]$/g, '');
@@ -508,8 +517,7 @@ function warnMoinsDeDeuxPolices(distDir, warnings) {
 /** Rendu : `text-underline-offset` attendu quelque part dans le CSS livre (docs/veille/rendu.md §5.7 /
  * §7 point 32) — sinon les liens gardent le soulignement brut du navigateur, colle au texte. */
 function warnUnderlineOffsetAbsent(distDir, warnings) {
-  const cssFiles = listFilesWithExt(distDir, '.css');
-  const found = cssFiles.some((f) => /text-underline-offset/i.test(fs.readFileSync(f, 'utf8')));
+  const found = cssLivre(distDir).some((css) => /text-underline-offset/i.test(css));
   if (!found) warnings.push('text-underline-offset absent du CSS livre (soulignement de lien brut, colle au texte)');
 }
 

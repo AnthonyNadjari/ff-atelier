@@ -352,6 +352,15 @@ html[data-direction] .eyebrow {
 @utility text-display-md { font-size: var(--scale-md, clamp(1.75rem, 3.5vw, 2.75rem)); }
 @utility text-display-sm { font-size: var(--scale-sm, clamp(1.25rem, 2vw, 1.6rem)); }
 
+/* Titre des heros de la bibliotheque : sa taille suit la largeur de SA colonne, pas celle de l'ecran.
+   Rodage du 13 oct 2026 : en coquille split/sidebar (ou dans la colonne 7/12 du hero marquee), un
+   titre a 7vw tombait a deux mots par ligne (12 lignes pour 11 mots en direction industriel). 12,5 % de
+   la colonne garde 3 a 4 lignes pour une accroche de 9 mots, sans jamais depasser l'echelle choisie. */
+@layer utilities {
+  :has(> h1.hero-titre) { container-type: inline-size; }
+  h1.hero-titre.text-display-xl { font-size: min(var(--scale-xl, clamp(2.75rem, 7vw, 6rem)), max(2.5rem, 12.5cqi)); }
+}
+
 /* ---------- Motion (pilote par src/scripts/motion.ts) ----------
    data-reveal            : apparait au scroll (opacite seule, 0,5 s, --ease-out — regle R6)
    data-reveal="up|left|right|scale|blur|clip|wipe|mask" : variantes avec deplacement (up = 12 px)

@@ -33,7 +33,7 @@ const video = site.images.heroVideo;
   )}
   <div class="container-ff relative pb-16 pt-40 md:pb-24 text-on-ink" data-stagger="110">
     <p class="hero-metier text-base">{site.business.trade} à {site.contact.address.city}</p>
-    <h1 class="text-display-xl mt-5 max-w-3xl" data-split set:html={site.business.tagline} />
+    <h1 class="hero-titre text-display-xl mt-5 max-w-3xl" data-split set:html={site.business.tagline} />
     <p class="mt-6 text-lg md:text-xl text-on-ink/80 max-w-xl">{intro}</p>
     <div class="mt-9 flex flex-wrap items-center gap-4">
       <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
