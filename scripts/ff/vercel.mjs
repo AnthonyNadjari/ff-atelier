@@ -11,7 +11,7 @@
 // sites/<slug>/vercel-projet.json `{ "orgId": "...", "projectId": "..." }` (mêmes clés que le
 // .vercel/project.json écrit par `vercel link`). Jamais d'identifiant en dur dans le code.
 //
-// Rappel (docs/exploitation/hebergement-livraison.md) : Vercel Hobby interdit l'usage commercial ;
+// Rappel (studio/decisions/hebergement-livraison.md) : Vercel Hobby interdit l'usage commercial ;
 // l'hébergement des sites clients reste Cloudflare Pages (`ff deploy`).
 import fs from 'node:fs';
 import path from 'node:path';
@@ -113,7 +113,7 @@ export async function cmdVercel(args) {
     info(`  sites/${slug}/vercel-projet.json : { "orgId": "team_…", "projectId": "prj_…" } (voir docs/DEPLOIEMENT.md § Vercel).`);
     process.exit(1);
   }
-  warn('Rappel : Vercel Hobby interdit l’usage commercial (docs/exploitation/hebergement-livraison.md) ; les sites clients vont sur Cloudflare (`ff deploy`).');
+  warn('Rappel : Vercel Hobby interdit l’usage commercial (studio/decisions/hebergement-livraison.md) ; les sites clients vont sur Cloudflare (`ff deploy`).');
   info(`Déploiement de dist/${slug} sur Vercel (identifiants : ${ids.source})...`);
   const res = spawnSync('npx', ['-y', 'vercel', 'deploy', '--prod', '--yes'], {
     cwd: distDir,

@@ -1,0 +1,497 @@
+<title>Signatures Finck &amp; Fisch</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Archivo:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper:     #F5F4F0;
+    --panel:     #FFFFFF;
+    --ink:       #12110F;
+    --ink-soft:  #6F6960;
+    --ink-faint: #A39C93;
+    --rule:      #E3DED6;
+    --rule-firm: #C7C0B6;
+    --ok:        #3E6B50;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #131211; --panel: #1B1918; --ink: #F2F0EB;
+      --ink-soft: #9A938A; --ink-faint: #6B655D;
+      --rule: #2C2825; --rule-firm: #423C35; --ok: #82AC8E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #131211; --panel: #1B1918; --ink: #F2F0EB;
+    --ink-soft: #9A938A; --ink-faint: #6B655D;
+    --rule: #2C2825; --rule-firm: #423C35; --ok: #82AC8E;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    padding-block: 28px 56px;
+  }
+
+  header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule-firm);
+  }
+  .wordmark {
+    font-family: "Bodoni Moda", Didot, Georgia, serif;
+    font-size: 14px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+  }
+  .wordmark i { font-style: italic; }
+  header p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--ink-faint);
+  }
+  header .right { margin-left: auto; font-size: 11px; color: var(--ink-faint); }
+
+  /* ---------- champs ---------- */
+
+  form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px 26px;
+    margin: 26px 0 10px;
+  }
+  .field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .field label {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .field input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--rule-firm);
+    border-radius: 0;
+    background: transparent;
+    padding: 6px 0;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .field input:hover { border-bottom-color: var(--ink-soft); }
+  .field input:focus { outline: none; border-bottom-color: var(--ink); }
+  .field input:focus-visible { outline: 1.5px solid var(--ink); outline-offset: 5px; }
+
+  .logo-zone {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    padding: 16px 0 0;
+    margin-bottom: 4px;
+    border-top: 1px solid var(--rule);
+  }
+  .logo-apercu {
+    flex: 0 0 auto;
+    background: #FFFFFF;
+    border: 1px solid var(--rule-firm);
+    padding: 8px;
+    line-height: 0;
+  }
+  .logo-apercu img { display: block; height: 46px; width: auto; }
+  .logo-texte { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; min-width: 0; }
+  .logo-texte .hint {
+    flex: 1 1 340px;
+    margin: 0;
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: var(--ink-faint);
+  }
+  label.lien { display: inline-block; }
+  .visuellement-cache {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0);
+    white-space: nowrap; border: 0;
+  }
+  .visuellement-cache:focus-visible + label.lien,
+  label.lien:focus-visible { outline: 1.5px solid var(--ink); outline-offset: 4px; }
+
+  .barre {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    min-height: 22px;
+    margin-bottom: 30px;
+  }
+  .lien {
+    background: none; border: 0; padding: 0;
+    font-family: inherit; font-size: 11px;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-faint);
+    border-bottom: 1px solid var(--rule-firm);
+    cursor: pointer;
+  }
+  .lien:hover { color: var(--ink); border-bottom-color: var(--ink); }
+  .lien:focus-visible { outline: 1.5px solid var(--ink); outline-offset: 4px; }
+  #status { font-size: 12px; color: var(--ok); margin: 0; }
+
+  /* ---------- signatures ---------- */
+
+  .grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 520px));
+    gap: 34px 30px;
+  }
+  @media (max-width: 420px) {
+    .grille { grid-template-columns: 1fr; }
+  }
+
+  .carte { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+  .entete { display: flex; align-items: baseline; gap: 12px; }
+  .entete h2 {
+    margin: 0;
+    font-family: "Bodoni Moda", Didot, Georgia, serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1;
+  }
+  .entete .actions { margin-left: auto; display: flex; gap: 12px; }
+  .note {
+    margin: 0;
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: var(--ink-faint);
+  }
+  .note:empty { display: none; }
+
+  /* Volontairement clair dans les deux themes : c'est ce que verra le destinataire. */
+  .feuille {
+    background: #FFFFFF;
+    color: #111111;
+    border: 1px solid var(--rule-firm);
+    padding: 26px 24px;
+    overflow-x: auto;
+  }
+  .feuille pre {
+    margin: 0;
+    font-family: Menlo, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #33302C;
+  }
+  .manque {
+    margin: 8px 0 0;
+    font-size: 11px;
+    color: #A39C93;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<div class="shell">
+
+  <header>
+    <span class="wordmark">Finck <i>&amp;</i> Fisch</span>
+    <p>Signature email</p>
+    <span class="right">Valeurs d'exemple — à remplacer</span>
+  </header>
+
+  <form id="form" autocomplete="off">
+    <div class="field">
+      <label for="nom">Nom complet</label>
+      <input id="nom" name="NOM_COMPLET" type="text" value="Anthony Nadjari">
+    </div>
+    <div class="field">
+      <label for="role">Rôle</label>
+      <input id="role" name="ROLE" type="text" value="Fondateur">
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" name="EMAIL" type="email" value="anthony@finckfisch.fr">
+    </div>
+    <div class="field">
+      <label for="tel">Téléphone</label>
+      <input id="tel" name="TELEPHONE" type="tel" value="+33 6 00 00 00 00">
+    </div>
+    <div class="field">
+      <label for="site">Site</label>
+      <input id="site" name="SITE" type="text" value="finckfisch.fr">
+    </div>
+  </form>
+
+  <div class="logo-zone" id="logoZone">
+    <div class="logo-apercu" id="logoApercu" hidden></div>
+    <div class="logo-texte">
+      <input id="logoFichier" type="file" accept="image/png,image/jpeg,image/webp" class="visuellement-cache">
+      <label class="lien" for="logoFichier" id="logoLabel">Choisir le logo</label>
+      <button type="button" class="lien" id="logoRetirer" hidden>Revenir au logo du studio</button>
+      <p class="hint" id="logoHint">PNG à fond transparent. Le fichier reste dans ton navigateur&nbsp;: en collant la signature, Gmail héberge l'image lui-même — ni domaine ni hébergement nécessaires.</p>
+    </div>
+  </div>
+
+  <div class="barre">
+    <button type="button" class="lien" id="reset">Revenir aux exemples</button>
+    <p id="status" role="status" aria-live="polite"></p>
+  </div>
+
+  <div class="grille" id="grille"></div>
+
+</div>
+
+<script type="module">
+  import { VARIANTS, plain, normalise } from './variants.mjs';
+  import { MONOGRAMME } from './logo-embed.mjs';
+
+  const STORE = 'ff-signature-v2';
+  const STORE_LOGO = 'ff-logo-v1';
+  const TAILLE_MAX = 480;
+  const DEFAULTS = {
+    NOM_COMPLET: 'Anthony Nadjari',
+    ROLE: 'Fondateur',
+    EMAIL: 'anthony@finckfisch.fr',
+    TELEPHONE: '+33 6 00 00 00 00',
+    SITE: 'finckfisch.fr',
+    LOGO_URL: ''
+  };
+
+  const form = document.getElementById('form');
+  const inputs = [...form.querySelectorAll('input')];
+  const logoFichier = document.getElementById('logoFichier');
+  const logoApercu = document.getElementById('logoApercu');
+  const logoLabel = document.getElementById('logoLabel');
+  const logoRetirer = document.getElementById('logoRetirer');
+  const logoHint = document.getElementById('logoHint');
+
+  let logoPerso = null; // { src, ratio }
+  const grille = document.getElementById('grille');
+  const status = document.getElementById('status');
+
+  let timer;
+  function dire(message) {
+    status.textContent = message;
+    clearTimeout(timer);
+    timer = setTimeout(() => { status.textContent = ''; }, 3500);
+  }
+
+  function valeurs() {
+    const v = {};
+    inputs.forEach((i) => { v[i.name] = i.value.trim(); });
+    v.LOGO_DATA = logoPerso ? logoPerso.src : '';
+    v.LOGO_RATIO = logoPerso ? logoPerso.ratio : 1;
+    return v;
+  }
+
+  /* ---------- logoPerso ---------- */
+
+  /**
+   * Redimensionne le fichier a 480px sur son plus grand cote avant de le
+   * garder : une signature ne doit pas trainer un PNG de 2 Mo dans chaque mail,
+   * et le base64 doit tenir dans le stockage du navigateur.
+   */
+  function lireLogo(file) {
+    const reader = new FileReader();
+    reader.onerror = () => dire('Fichier illisible.');
+    reader.onload = () => {
+      const im = new Image();
+      im.onerror = () => dire('Ce fichier n\'est pas une image exploitable.');
+      im.onload = () => {
+        const echelle = Math.min(1, TAILLE_MAX / Math.max(im.naturalWidth, im.naturalHeight));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(im.naturalWidth * echelle));
+        canvas.height = Math.max(1, Math.round(im.naturalHeight * echelle));
+        canvas.getContext('2d').drawImage(im, 0, 0, canvas.width, canvas.height);
+        logoPerso = { src: canvas.toDataURL('image/png'), ratio: im.naturalWidth / im.naturalHeight };
+        try { localStorage.setItem(STORE_LOGO, JSON.stringify(logoPerso)); } catch (e) { /* trop lourd ou navigation privee */ }
+        appliquerLogo();
+        construire();
+        dire('Logo remplacé — il apparaît dans les six compositions qui en portent un.');
+      };
+      im.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function appliquerLogo() {
+    if (logoPerso) {
+      logoApercu.innerHTML = '';
+      const vignette = new Image();
+      vignette.src = logoPerso.src;
+      vignette.alt = 'Logo chargé';
+      logoApercu.append(vignette);
+      logoApercu.hidden = false;
+      logoLabel.textContent = 'Changer le logo';
+      logoRetirer.hidden = false;
+      logoHint.textContent = "Logo remplacé pour cet écran seulement. « Revenir au logo du studio » rétablit celui du repo.";
+    } else {
+      logoApercu.innerHTML = '';
+      const studio = new Image();
+      studio.src = MONOGRAMME.src;
+      studio.alt = 'Monogramme Finck & Fisch';
+      logoApercu.append(studio);
+      logoApercu.hidden = false;
+      logoLabel.textContent = 'Remplacer le logo';
+      logoRetirer.hidden = true;
+      logoHint.textContent = "Le monogramme du studio, vectorisé depuis le logo d'origine. Il part avec le copier-coller : Gmail l'héberge lui-même, ni domaine ni hébergement nécessaires.";
+    }
+  }
+
+  /* ---------- copie ---------- */
+
+  async function copierRendu(node, nom) {
+    const html = node.innerHTML;
+    const texte = plain(valeurs());
+    try {
+      if (navigator.clipboard && window.ClipboardItem) {
+        await navigator.clipboard.write([new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([texte], { type: 'text/plain' })
+        })]);
+        dire(`« ${nom} » copiée — colle-la dans le champ signature de ton client mail.`);
+        return;
+      }
+    } catch (e) { /* on tente la sélection ci-dessous */ }
+
+    try {
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      const ok = document.execCommand('copy');
+      sel.removeAllRanges();
+      if (ok) { dire(`« ${nom} » copiée — colle-la dans ton client mail.`); return; }
+    } catch (e) { /* rien de plus à tenter */ }
+
+    dire('Copie automatique bloquée : sélectionne la signature et fais Cmd/Ctrl+C.');
+  }
+
+  async function copierTexte(texte, message) {
+    try {
+      await navigator.clipboard.writeText(texte);
+      dire(message);
+      return;
+    } catch (e) { /* repli sur un champ temporaire */ }
+
+    const scratch = document.createElement('textarea');
+    scratch.value = texte;
+    scratch.style.cssText = 'position:fixed;top:-2000px;left:0;opacity:0;';
+    document.body.appendChild(scratch);
+    scratch.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    scratch.remove();
+    dire(ok ? message : 'Copie automatique bloquée : sélectionne le texte et fais Cmd/Ctrl+C.');
+  }
+
+  /* ---------- rendu ---------- */
+
+  function carte(titre, note) {
+    const el = document.createElement('section');
+    el.className = 'carte';
+    el.innerHTML = `
+      <div class="entete">
+        <h2></h2>
+        <div class="actions">
+          <button type="button" class="lien" data-role="copier">Copier</button>
+          <button type="button" class="lien" data-role="code">HTML</button>
+        </div>
+      </div>
+      <p class="note"></p>
+      <div class="feuille"></div>`;
+    el.querySelector('h2').textContent = titre;
+    el.querySelector('.note').textContent = note;
+    return el;
+  }
+
+  const cartes = VARIANTS.map((variante) => {
+    const el = carte(variante.nom, variante.note);
+    const feuille = el.querySelector('.feuille');
+    el.querySelector('[data-role="copier"]')
+      .addEventListener('click', () => copierRendu(feuille, variante.nom));
+    el.querySelector('[data-role="code"]')
+      .addEventListener('click', () => copierTexte(feuille.innerHTML, `Code HTML de « ${variante.nom} » copié.`));
+    grille.append(el);
+    return { variante, feuille };
+  });
+
+  // Version texte : dernière carte, celle à mettre sur iPhone.
+  const carteTexte = carte('Texte brut', "iOS ne garde pas la mise en forme : c'est cette version-là qu'il faut y coller.");
+  carteTexte.querySelector('[data-role="code"]').remove();
+  const feuilleTexte = carteTexte.querySelector('.feuille');
+  feuilleTexte.innerHTML = '<pre></pre>';
+  carteTexte.querySelector('[data-role="copier"]')
+    .addEventListener('click', () => copierTexte(plain(valeurs()), 'Version texte copiée.'));
+  grille.append(carteTexte);
+
+  function construire() {
+    const v = valeurs();
+    const normalisees = normalise(v);
+
+    cartes.forEach(({ variante, feuille }) => {
+      feuille.innerHTML = variante.render(normalisees);
+    });
+
+    feuilleTexte.querySelector('pre').textContent = plain(v);
+
+    try { localStorage.setItem(STORE, JSON.stringify(v)); } catch (e) { /* navigation privée */ }
+  }
+
+  function restaurer() {
+    try {
+      const brut = JSON.parse(localStorage.getItem(STORE_LOGO) || 'null');
+      if (brut && typeof brut.src === 'string') logoPerso = brut;
+    } catch (e) { logoPerso = null; }
+    appliquerLogo();
+
+    let saved = null;
+    try { saved = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { saved = null; }
+    if (!saved) return;
+    inputs.forEach((i) => {
+      if (typeof saved[i.name] === 'string') i.value = saved[i.name];
+    });
+  }
+
+  form.addEventListener('input', construire);
+
+  logoFichier.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) lireLogo(file);
+    e.target.value = '';
+  });
+
+  logoRetirer.addEventListener('click', () => {
+    logoPerso = null;
+    try { localStorage.removeItem(STORE_LOGO); } catch (e) { /* rien a nettoyer */ }
+    appliquerLogo();
+    construire();
+    dire('Logo du studio rétabli.');
+  });
+
+  document.getElementById('reset').addEventListener('click', () => {
+    inputs.forEach((i) => { i.value = DEFAULTS[i.name] ?? ''; });
+    construire();
+    dire("Champs remis aux valeurs d'exemple.");
+  });
+
+  restaurer();
+  construire();
+</script>

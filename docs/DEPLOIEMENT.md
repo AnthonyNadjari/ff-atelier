@@ -212,7 +212,7 @@ vraies donnees, ou une page legale sur mesure honnete (`docs/CONVENTIONS.md` § 
 ### 2.7 Vercel — `ff vercel`
 
 Cas d'usage : le site du studio tant qu'il y est (Vercel Hobby interdit l'usage commercial, les sites
-clients vont sur Cloudflare, voir `docs/exploitation/hebergement-livraison.md`).
+clients vont sur Cloudflare, voir `studio/decisions/hebergement-livraison.md`).
 
 ```
 node scripts/ff.mjs vercel <slug> --simuler    # build + garde + ecrit dist/<slug>/vercel.json, n'envoie rien

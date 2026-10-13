@@ -44,7 +44,7 @@ Chaque action porte un numéro pour être reprise dans `docs/OBJECTIF.md`.
   mise en ligne, aucun abonnement, jamais, même optionnel ».
 - A3. Page `finck-fisch` : trois propositions visibles, avant/après par métier, prix affichés, les
   deux fondateurs nommés. Les huit objections du dossier concurrents et leurs réponses en FAQ.
-- A4. Le formulaire client (`outils/brief-client.html`) reçoit une question « avez-vous vu une aide
+- A4. Le formulaire client (`studio/commercial/brief-client.html`) reçoit une question « avez-vous vu une aide
   France Num ? » et une case « photos : qui les prend ? ».
 
 ### B. Livrable conforme, automatisé (moi, deux à trois tours de boucle)

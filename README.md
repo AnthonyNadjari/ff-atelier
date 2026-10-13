@@ -7,6 +7,9 @@ plusieurs sites clients (`sites/<slug>/`), une seule source de vérité par site
 Deux personnes : une vend et brief le client (pas développeuse), l'autre construit. Ce dépôt est fait
 pour que le passage de l'appel client au site en ligne tienne en une poignée de commandes.
 
+**Pour les fondateurs** : tout ce qui n'est pas du code (marque, signature e-mail, commercial,
+juridique, décisions, liste des choses à faire) est dans [`studio/`](studio/LISEZ-MOI.md).
+
 ## Installation
 
 ```bash

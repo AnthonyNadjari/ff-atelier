@@ -169,7 +169,7 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
 
 ## 7bis. Suivi après livraison
 
-Le client reçoit `docs/APRES-LIVRAISON.md` (et sa version autonome `outils/apres-livraison.html`,
+Le client reçoit `studio/commercial/APRES-LIVRAISON.md` (et sa version autonome `studio/commercial/apres-livraison.html`,
 avec cases à cocher) : ce qu'il doit faire lui-même la semaine qui suit la mise en ligne (fiche
 Google Business Profile, Search Console, Bing Places, Apple Business Connect, PagesJaunes, demande
 d'avis, statistiques, renouvellement du domaine, sauvegarde, contact du studio).
@@ -215,16 +215,16 @@ tard si la demande se confirme, pas un engagement pris au moment de la vente ini
 ## 9. Parcours documentaire
 
 Quatre documents contractuels encadrent le processus décrit ci-dessus (modèles complets dans
-`outils/juridique/`, cadre juridique détaillé dans `docs/JURIDIQUE.md` — **modèles à faire relire par un
+`studio/juridique/modeles/`, cadre juridique détaillé dans `studio/juridique/JURIDIQUE.md` — **modèles à faire relire par un
 professionnel du droit avant tout premier usage réel**). À quel moment chacun intervient :
 
 | Document | Modèle | Envoyé/signé à quelle étape | Ce qu'il fige |
 |---|---|---|---|
-| **Devis** | `outils/juridique/devis-modele.md` | Après l'appel client (§ 2), avant le jour de production — **doit être signé et l'acompte encaissé avant de lancer l'étape § 4 (jour de production)**. Le délai de 72 h du § 4 ne démarre qu'à réception des éléments, jamais avant devis signé + acompte reçu. | Formule (Essentiel/Complet), prix, acompte, délai, droit de rétractation le cas échéant. |
-| **CGV** | `outils/juridique/cgv-modele.md` | Jointes systématiquement au devis (obligatoire sur demande en B2B, Code de commerce art. L441-1) et publiées sur `sites/finck-fisch`. | Conditions générales : paiement, résiliation, propriété intellectuelle, garanties — cadre commun à toutes les prestations. |
-| **Contrat de prestation** | `outils/juridique/contrat-modele.md` | Signé en même temps que le devis, ou juste après (les deux peuvent être fusionnés en un seul envoi pour un client TPE — le contrat détaille ce que le devis résume). Couvre tout le parcours jusqu'à la livraison (§ 4 à § 7). | Cession des droits d'auteur sur le site livré (clause L131-3 CPI), RGPD sous-traitance le temps de la production, réversibilité, garantie, responsabilité. |
-| **PV de livraison** | Annexe 2 de `outils/juridique/contrat-modele.md` | Signé lors de l'appel de restitution (§ 5), ouvre la fenêtre de corrections de deux semaines (§ 6). | Constat de conformité au périmètre convenu ; les réserves notées dessus sont couvertes par la fenêtre de corrections. |
-| **Facture de solde** | `outils/juridique/facture-modele.md` | Émise à la livraison (§ 7), solde réglé avant le transfert final des accès (domaine, dépôt de code, formulaire) au nom du client. | Montant du solde, pénalités de retard/indemnité de 40 € applicables, mentions légales de facturation. |
+| **Devis** | `studio/juridique/modeles/devis-modele.md` | Après l'appel client (§ 2), avant le jour de production — **doit être signé et l'acompte encaissé avant de lancer l'étape § 4 (jour de production)**. Le délai de 72 h du § 4 ne démarre qu'à réception des éléments, jamais avant devis signé + acompte reçu. | Formule (Essentiel/Complet), prix, acompte, délai, droit de rétractation le cas échéant. |
+| **CGV** | `studio/juridique/modeles/cgv-modele.md` | Jointes systématiquement au devis (obligatoire sur demande en B2B, Code de commerce art. L441-1) et publiées sur `sites/finck-fisch`. | Conditions générales : paiement, résiliation, propriété intellectuelle, garanties — cadre commun à toutes les prestations. |
+| **Contrat de prestation** | `studio/juridique/modeles/contrat-modele.md` | Signé en même temps que le devis, ou juste après (les deux peuvent être fusionnés en un seul envoi pour un client TPE — le contrat détaille ce que le devis résume). Couvre tout le parcours jusqu'à la livraison (§ 4 à § 7). | Cession des droits d'auteur sur le site livré (clause L131-3 CPI), RGPD sous-traitance le temps de la production, réversibilité, garantie, responsabilité. |
+| **PV de livraison** | Annexe 2 de `studio/juridique/modeles/contrat-modele.md` | Signé lors de l'appel de restitution (§ 5), ouvre la fenêtre de corrections de deux semaines (§ 6). | Constat de conformité au périmètre convenu ; les réserves notées dessus sont couvertes par la fenêtre de corrections. |
+| **Facture de solde** | `studio/juridique/modeles/facture-modele.md` | Émise à la livraison (§ 7), solde réglé avant le transfert final des accès (domaine, dépôt de code, formulaire) au nom du client. | Montant du solde, pénalités de retard/indemnité de 40 € applicables, mentions légales de facturation. |
 
 Rappel d'ordre strict pour le jour de production (§ 4) : **jamais de production sans devis signé et
 acompte reçu** — le studio ne débute `node scripts/ff.mjs nouveau <slug>` qu'une fois ces deux éléments
