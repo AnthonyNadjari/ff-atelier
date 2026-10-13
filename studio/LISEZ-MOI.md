@@ -4,7 +4,7 @@ Ce dossier est pour nous deux : tout ce qui fait tourner le studio et qui n'est 
 Le reste du dépôt (`sites/`, `src/`, `scripts/`, `docs/`) est la machine à fabriquer les sites ;
 pas besoin d'y aller pour le quotidien.
 
-**À ouvrir en premier : [`A-FAIRE.md`](A-FAIRE.md)**, la liste de ce qui reste à faire et qui s'en occupe.
+**À ouvrir en premier : le tableau des tâches, https://github.com/users/AnthonyNadjari/projects/1** (qui fait quoi, ce qui reste).
 
 ## Où est quoi
 
@@ -27,5 +27,5 @@ pas besoin d'y aller pour le quotidien.
 ## Règles simples
 
 - Une décision prise : une ligne dans `decisions/` (date, ce qu'on a décidé, pourquoi).
-- Une tâche finie : on la coche dans `A-FAIRE.md`, ou on ferme le ticket si on passe aux tickets GitHub.
+- Une tâche finie : on fait glisser sa carte dans « Fait » sur le tableau.
 - Les vraies coordonnées (téléphone, adresse, SIRET) ne vont dans les sites qu'une fois la société immatriculée.
