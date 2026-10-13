@@ -244,7 +244,20 @@ export default defineSite({
   },
 
   seo: {
-    keywords: ['création site vitrine artisan', 'site internet artisan pas cher sans abonnement', 'site web indépendant'],
+    // Title ~52 caractères, description ~160 : calibrés pour ne pas être tronqués dans Google.
+    title: 'Finck & Fisch | Site vitrine pour artisan, livré en 72 h',
+    description:
+      'Finck & Fisch dessine des sites vitrines pour artisans, commerces et indépendants. Trois propositions visuelles, livraison en 72 h, site payé une fois et à vous.',
+    keywords: [
+      'création site vitrine artisan',
+      'site internet artisan sans abonnement',
+      'site web indépendant',
+      'refonte site vitrine',
+      'site internet commerce local',
+      'studio création site artisan',
+      'fiche Google établissement',
+      'site vitrine livré en 72 heures',
+    ],
   },
 
   legal: { owner: 'Finck & Fisch' },
