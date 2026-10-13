@@ -12,7 +12,7 @@ pas besoin d'y aller pour le quotidien.
 |---|---|
 | `marque/logo/` | Le logo : fichier d'origine (`source/`), exports prêts à l'emploi (`export/` : SVG, PNG, favicon). |
 | `marque/signature-mail/` | La signature e-mail. Ouvrir `generateur.html` dans le navigateur, remplir ses coordonnées, copier le rendu dans Gmail ou Outlook. |
-| `marque/cartes-de-visite/` | Les cartes de visite (à venir). |
+| `marque/cartes-de-visite/` | Les cartes de visite : 3 modèles, PDF prêts pour l'imprimeur. Mode d'emploi : `README.md`. |
 | `commercial/COMMERCIAL.md` | Comment on démarche : qui, comment, ce qu'on a le droit de faire (e-mail, SMS, WhatsApp). |
 | `commercial/brief-client.html` | Le formulaire que le client remplit (ou qu'on remplit avec lui pendant l'appel). Mode d'emploi : `BRIEF-CLIENT.md`. |
 | `commercial/apres-livraison.html` | Ce qu'on remet au client une fois son site en ligne. Mode d'emploi : `APRES-LIVRAISON.md`. |
