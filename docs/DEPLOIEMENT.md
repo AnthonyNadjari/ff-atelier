@@ -339,13 +339,11 @@ les deux clés ensemble.
 
 ### 5.3 Dépendances : Dependabot
 
-`.github/dependabot.yml` : mises à jour npm groupées en une seule PR mensuelle (le repo a près de 90
-dépendances `@fontsource*`/`@fontsource-variable*` à lui seul — une PR par paquet serait ingérable pour
-un atelier d'une ou deux personnes), majeures d'`astro`/`tailwindcss`/`@tailwindcss/vite` ignorées
-(elles pilotent tout le pipeline de build — une montée majeure mérite une lecture du changelog et un
-test manuel, jamais un merge automatique). Les mineures/patchs de ces mêmes paquets, correctifs de
-sécurité compris, restent proposés normalement. Un second bloc couvre les actions GitHub utilisées par
-`.github/workflows/*.yml`.
+Dependabot a été retiré le 13 oct 2026 : il ouvrait une branche et une PR par mois, et les fondateurs
+veulent une seule branche (`main`). À la place, avant chaque nouveau client : `npm outdated`, puis
+`npm update` (mineures et correctifs), build et tests. Les majeures d'`astro`/`tailwindcss` restent une
+décision à part (lire le changelog, tester plusieurs sites). L'ancienne configuration est dans
+l'historique git (`git show ffb2da6:.github/dependabot.yml`).
 
 ## 6. Suivi automatisé (sites en ligne)
 

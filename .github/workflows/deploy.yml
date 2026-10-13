@@ -1,8 +1,9 @@
 name: Deploiement des sites
 
+# Lancement à la main seulement (onglet Actions > « Deploiement des sites » > Run workflow) tant que
+# Cloudflare n'est pas branché (secrets CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID absents) : sinon
+# chaque push sur main construirait les 28 sites pour échouer au déploiement. Remettre `push:` ensuite.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
     inputs:
       slug:

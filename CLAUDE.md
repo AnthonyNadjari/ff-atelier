@@ -131,7 +131,7 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `site.config.ts`), utilisée par `astro.config.mjs` (intégration `ff-headers`, écrit `_headers`) et
   testée par `tests/headers.test.mjs`. `scripts/ff/headers-file.mjs` — applique `_headers` dans les
   serveurs statiques locaux (`ff captures`, `ff servir`), pour révéler une violation CSP avant le
-  premier déploiement. `.github/dependabot.yml` — mises à jour npm/actions groupées mensuelles. Voir
+  premier déploiement. Plus de Dependabot (13 oct 2026, une seule branche) : `npm outdated` à la main. Voir
   `docs/DEPLOIEMENT.md` § Sécurité (CSP, Turnstile, Dependabot) et § Suivi automatisé
   (`sites-en-ligne.json`, job planifié `sante-hebdomadaire`).
 

@@ -453,7 +453,8 @@ Sources :
 
 ### 5.1 Dépendances
 
-`.github/dependabot.yml` existe déjà : une PR npm groupée par mois, sans les montées de version
+(13 oct 2026 : Dependabot retiré, il créait une branche par mois ; mise à jour à la main avant chaque
+client, voir `docs/DEPLOIEMENT.md` § 5.3.) `.github/dependabot.yml` existait : une PR npm groupée par mois, sans les montées de version
 majeures d'Astro et de Tailwind. C'est suffisant. Renovate (application Mend, gratuite)
 n'apporterait que l'automerge des patchs, et ce n'est pas souhaitable sans CI visuelle. Avec un
 monorepo, une PR met à jour tous les sites d'un coup. Avec un dépôt par client, il en faudrait 100.
