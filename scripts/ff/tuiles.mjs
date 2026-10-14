@@ -1,7 +1,7 @@
 // `ff tuiles <slug> [--dest dossier] [--nom prefixe] [--ecrans 3] [--n 4] [--mobile-seul|--desktop-seul]`
 // Capture l'accueil d'un site DÉJÀ CONSTRUIT (dist/<slug>, en-têtes de _headers appliqués comme
 // `ff captures`) sur N écrans de haut, puis le découpe en tuiles webp :
-//   mobile  390x844 @3  -> 900 px de large  -> <nom>-t-m0.webp … <nom>-t-m3.webp
+//   mobile  390x844 @3  -> 900 px de large  -> <nom>-t-m0.webp … <nom>-t-m3.webp (+ -600.webp)
 //   desktop 1440x900 @2 -> 1600 px de large -> <nom>-t-d0.webp … <nom>-t-d3.webp
 // Usage : démos défilantes (ex. galerie du site du studio). Une seule image très haute animée en
 // `transform` est floue sur iOS (texture GPU plafonnée) : des tuiles de ~1500 px de haut au plus,
@@ -91,6 +91,9 @@ export async function cmdTuiles(args) {
         const out = path.join(dest, `${nom}-t-${k}${i}.webp`);
         await sharp(img).extract({ left: 0, top: b.top, width: M.largeur, height: b.height }).webp({ quality: 88 }).toFile(out);
         ko += fs.statSync(out).size / 1024;
+        // Mobile : aussi la tuile de 600 px (-600.webp), celle que prend un téléphone affiché à 150-300 px
+        // (DemoVideo, srcset) ; faite à la main avec sharp à chaque recapture jusqu'au 14 oct 2026.
+        if (k === 'm') await sharp(out).resize({ width: 600 }).webp({ quality: 78 }).toFile(path.join(dest, `${nom}-t-${k}${i}-600.webp`));
       }
       ok(`${slug} ${k === 'm' ? 'mobile' : 'desktop'} : ${M.largeur}x${bandes[0].height * n} en ${n} tuiles, ${Math.round(ko)} Ko`);
     }

@@ -797,6 +797,8 @@ const MOTS_VALISES = [
   { label: '"haut de gamme"', re: /haut de gamme/i },
   { label: '"notre ADN"', re: /notre ADN\b/i },
   { label: '"univers"', re: /\bunivers\b/i },
+  // 14 oct 2026 : « sur mesure » sur un site sur deux, il ne dit rien du métier (rayé du site du studio).
+  { label: '"sur mesure"', re: /sur[- ]mesure/i },
 ];
 
 export function warnMotsValises(files, distDir, warnings) {

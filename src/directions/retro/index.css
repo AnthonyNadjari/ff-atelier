@@ -55,7 +55,8 @@
 [data-direction='retro'] h2 { position: relative; z-index: 1; }
 
 [data-direction='retro'] .btn {
-  border-radius: 999px;
+  /* Plus de bouton pilule (signe « fait par une IA », 14 oct 2026) : le rayon de la direction. */
+  border-radius: var(--radius);
   font-weight: 600;
   letter-spacing: 0.01em;
 }

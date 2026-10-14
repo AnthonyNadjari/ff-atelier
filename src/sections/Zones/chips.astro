@@ -18,9 +18,9 @@ const linked = site.seo.cityPages;
         {cities.map((city) => (
           <li data-reveal>
             {linked ? (
-              <a href={`/zones/${citySlug(city)}`} class="inline-block rounded-pill border border-line px-5 py-2.5 text-sm text-fg transition-colors duration-300 hover:bg-accent hover:text-on-accent hover:border-accent">{city}</a>
+              <a href={`/zones/${citySlug(city)}`} class="inline-block rounded-ui border border-line px-5 py-2.5 text-sm text-fg transition-colors duration-300 hover:bg-accent hover:text-on-accent hover:border-accent">{city}</a>
             ) : (
-              <span class="inline-block rounded-pill border border-line px-5 py-2.5 text-sm text-fg transition-colors duration-300 hover:bg-accent hover:text-on-accent hover:border-accent">{city}</span>
+              <span class="inline-block rounded-ui border border-line px-5 py-2.5 text-sm text-fg transition-colors duration-300 hover:bg-accent hover:text-on-accent hover:border-accent">{city}</span>
             )}
           </li>
         ))}

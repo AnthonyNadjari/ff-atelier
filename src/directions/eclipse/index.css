@@ -65,7 +65,8 @@
 }
 
 [data-direction='eclipse'] .btn {
-  border-radius: 999px;
+  /* Plus de bouton pilule (signe « fait par une IA », 14 oct 2026) : le rayon de la direction. */
+  border-radius: var(--radius);
   font-weight: 500;
   letter-spacing: 0.01em;
   font-size: 0.9rem;

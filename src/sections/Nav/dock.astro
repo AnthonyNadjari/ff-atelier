@@ -27,11 +27,11 @@ const iconFor: Record<string, string> = {
   aria-label="Navigation principale"
   class="fixed inset-x-0 bottom-4 z-50 flex justify-center transition-[transform,opacity] duration-500 ease-out-quart [&.is-hidden]:translate-y-24 [&.is-hidden]:opacity-0"
 >
-  <div class="mx-4 flex max-w-full items-center gap-1 overflow-x-auto rounded-pill border border-line bg-surface/90 px-3 py-2 shadow-lift backdrop-blur-md">
+  <div class="mx-4 flex max-w-full items-center gap-1 overflow-x-auto rounded-ui border border-line bg-surface/90 px-3 py-2 shadow-lift backdrop-blur-md">
     {links.map((l) => {
       const type = l.href.replace('#', '');
       return (
-        <a href={l.href} class="flex shrink-0 flex-col items-center gap-1 rounded-pill px-3 py-1.5 text-muted transition-colors hover:bg-bg/60 hover:text-fg">
+        <a href={l.href} class="flex shrink-0 flex-col items-center gap-1 rounded-ui px-3 py-1.5 text-muted transition-colors hover:bg-bg/60 hover:text-fg">
           <Icon name={iconFor[type] ?? 'Circle'} size={18} />
           <span class="text-xs">{l.label}</span>
         </a>
