@@ -44,7 +44,7 @@ export default defineSite({
       'Léa Bonnet dessine des appartements, des boutiques et des cabinets depuis le 31 rue des Vinaigriers, dans le 10e. Elle part de ce qui est déjà là : la lumière, les proportions, la matière.\n\nSeule à la conception, avec un collaborateur pour le suivi de chantier. Peu de projets menés à la fois, et c’est un choix : celle qui dessine est aussi celle qui suit le chantier jusqu’à la réception.',
     since: 2015,
     legalForm: 'EURL',
-    insurance: 'RC professionnelle MAF n° 000 000',
+    insurance: 'RC professionnelle, attestation sur demande',
   },
 
   contact: {

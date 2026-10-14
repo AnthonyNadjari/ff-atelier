@@ -47,11 +47,11 @@ const cities = site.zones.cities;
 
   {site.services.length > 0 && (
     <div class="mt-16 bg-accent py-4 text-on-accent" data-marquee="28s">
-      <div class="marquee-track font-display text-display-sm uppercase">
+      <div class="marquee-track font-display text-display-sm">
         {site.services.map((s) => (
           <>
             <span>{s.title}</span>
-            <span aria-hidden="true">•</span>
+            <span aria-hidden="true" class="opacity-60">/</span>
           </>
         ))}
       </div>

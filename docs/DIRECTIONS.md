@@ -50,7 +50,7 @@ Un métier hors de ces listes : choisis par ambiance recherchée (les 3 adjectif
 plutôt que par métier littéral — un consultant qui se décrit comme "chaleureux, humain, simple" ira
 peut-être mieux en `atelier` qu'en `journal`.
 
-Ces 17 directions et leurs métadonnées (`ambiance`, `metiers`, `eviter`, `motionParDefaut`) viennent des
+Ces 18 directions et leurs métadonnées (`ambiance`, `metiers`, `eviter`, `motionParDefaut`) viennent des
 commentaires de `DIRECTIONS` dans `src/lib/schema.ts` et, quand ils existent, des fichiers
 `src/directions/<nom>/meta.ts` — ne pas dépendre de ces derniers pour choisir une direction : ils
 peuvent manquer pour une direction toute neuve, `src/lib/schema.ts` reste la source normative.

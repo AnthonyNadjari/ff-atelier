@@ -3,7 +3,7 @@
  * Nav dessinée pour Maison Roux : une barre "ticket de caisse" — papier clair, bordure basse en
  * tirets (perforation), nom de l'enseigne en police mono façon en-tête de reçu, chaque lien de
  * navigation traité comme une ligne de ticket (libellé, filet pointillé, icône) plutôt qu'un menu
- * classique. Grain de papier léger (data-grain, CSS pur). Le bouton d'appel joue le rôle de la
+ * classique. Le bouton d'appel joue le rôle de la
  * ligne "total" du ticket, en chiffres tabulaires. Sur mobile, le menu déroule la suite du ticket
  * (mêmes lignes, pleine largeur), le bouton d'appel restant toujours visible en tête de barre.
  * Composition propre à ce site — aucune reprise d'un autre nav de l'atelier.
@@ -22,7 +22,7 @@ const icons: Record<string, string> = {
 };
 ---
 
-<header data-nav data-grain class="ticket-nav sticky top-0 z-50 bg-surface">
+<header data-nav class="ticket-nav sticky top-0 z-50 bg-surface">
   <div class="container-ff flex items-center justify-between gap-4 py-3">
     <a href="#hero" class="flex flex-col leading-none">
       <span class="text-sm text-muted">Boulangerie depuis {site.business.since}</span>
@@ -53,7 +53,7 @@ const icons: Record<string, string> = {
 
     <nav class="order-2 hidden items-center gap-6 lg:flex" aria-label="Navigation">
       {links.map((l) => (
-        <a href={l.href} class="ticket-line group flex items-center gap-2 font-mono text-xs uppercase tracking-[0.1em] text-fg/80 hover:text-accent">
+        <a href={l.href} class="ticket-line group flex items-center gap-2 font-mono text-xs text-fg/80 hover:text-accent">
           <span>{l.label}</span>
           <span class="ticket-leader" aria-hidden="true"></span>
           <Icon name={icons[l.href] ?? 'Dot'} size={14} class="shrink-0 opacity-70 group-hover:opacity-100" />
@@ -66,14 +66,13 @@ const icons: Record<string, string> = {
     <ul class="container-ff flex flex-col divide-y divide-dashed divide-fg/15 py-2">
       {links.map((l) => (
         <li>
-          <a href={l.href} class="flex items-center justify-between gap-4 py-3 font-mono text-sm uppercase tracking-[0.08em] text-fg">
+          <a href={l.href} class="flex items-center justify-between gap-4 py-3 font-mono text-sm text-fg">
             <span class="flex items-center gap-3"><Icon name={icons[l.href] ?? 'Dot'} size={16} class="text-accent" />{l.label}</span>
-            <span class="text-fg/40" aria-hidden="true">···</span>
           </a>
         </li>
       ))}
       <li>
-        <a href={tel()} class="flex items-center justify-between gap-4 py-3 font-mono text-sm uppercase tracking-[0.08em] text-accent">
+        <a href={tel()} class="flex items-center justify-between gap-4 py-3 font-mono text-sm text-accent">
           <span class="flex items-center gap-3"><Icon name="Phone" size={16} />Appeler</span>
           <span class="tabular-nums">{site.contact.phoneDisplay}</span>
         </a>

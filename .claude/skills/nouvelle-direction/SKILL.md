@@ -5,7 +5,7 @@ description: Ajoute une direction visuelle (personnalité complète : polices, p
 
 # Nouvelle direction
 
-Quand l'utiliser : le brief décrit une ambiance qui ne correspond à aucune des 16 directions
+Quand l'utiliser : le brief décrit une ambiance qui ne correspond à aucune des directions existantes (`ls src/directions`)
 (`ff modeles` et `docs/DIRECTIONS.md` les listent). Exemples : « esprit bord de mer breton »,
 « cabinet médical apaisant », « street food fluo ». Une direction sert tous les futurs sites.
 

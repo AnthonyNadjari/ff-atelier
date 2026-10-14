@@ -1,7 +1,7 @@
 ---
 /**
- * "Infos pratiques" : horaires et adresse sur un panneau sombre avec un halo qui suit le curseur
- * (data-spotlight), plutôt qu'un bloc de texte plat. Propre à ce site.
+ * "Infos pratiques" : horaires et adresse sur un panneau sombre, plutôt qu'un bloc de texte plat.
+ * Propre à ce site.
  */
 import { site, tel, fullAddress } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
@@ -12,7 +12,7 @@ import Icon from '@/components/Icon.astro';
     <p class="eyebrow">Infos pratiques</p>
     <h2 class="mt-4 max-w-xl font-display text-display-lg uppercase leading-[0.92]" data-reveal>Trouver le salon</h2>
 
-    <div class="relative mt-10 overflow-hidden rounded-card bg-ink p-8 text-on-ink shadow-lift sm:p-12" data-spotlight>
+    <div class="relative mt-10 overflow-hidden rounded-card bg-ink p-8 text-on-ink shadow-lift sm:p-12">
       <div class="relative z-[2] grid gap-10 sm:grid-cols-2">
         <div>
           <p class="flex items-center gap-2 text-sm text-on-ink/60">

@@ -7,14 +7,16 @@ import path from 'node:path';
 import { DIST_DIR, SITES_DIR, resolveSlug, runAstro, ok, fail, warn, info, c, parseArgs } from './util.mjs';
 import { runLighthouse } from './lighthouse.mjs';
 import { runA11y } from './a11y.mjs';
-import { garderDonneesTest } from './garde-donnees.mjs';
+import { garderDonneesTest, estSiteDemo } from './garde-donnees.mjs';
 import { analyserHtml as analyserTypo } from './typo.mjs';
 import { analyserSite as analyserIa } from './ia.mjs';
 
 const FORBIDDEN = [
   { label: 'lorem', re: /lorem/i },
   { label: '+500', re: /\+500/ },
-  { label: '100 %', re: /100\s?%/ },
+  // Promesse creuse (« 100 % satisfaits », « 100 % garanti ») seulement : « 100 % Santé » (dispositif
+  // officiel, dentistes, opticiens) et « remboursé à 100 % » sont des faits (audit du 14 oct 2026).
+  { label: '100 % (promesse)', re: /100\s?%\s*(?:de\s+(?:nos\s+)?clients|satisf|garanti|naturel|qualit|fiable|s[ée]rieux)/i },
   { label: 'Prenom Nom', re: /pr[ée]nom nom/i },
   { label: '06 00 00 00 00', re: /06\s?00\s?00\s?00\s?00/ },
 ];
@@ -430,7 +432,7 @@ function warnOgImageManquant(slug, files, distDir, warnings) {
  * aspect-ratio par grille, docs/veille/rendu.md §4.1/§7 point 18). Heuristique : ratio intrinseque
  * width/height (pose par <Img>, voir src/components/Img.astro), pas le ratio rendu par object-fit —
  * tolerance large (>15%) pour ne pas signaler de faux positifs sur un simple arrondi de sharp. */
-function checkGrilleImagesRatioCoherente(files, distDir, checks) {
+export function checkGrilleImagesRatioCoherente(files, distDir, checks) {
   const listRe = /<(ul|ol)\b[^>]*>([\s\S]*?)<\/\1>/gi;
   const imgRe = /<img\b[^>]*>/gi;
   const widthRe = /\bwidth\s*=\s*["']?(\d+)["']?/i;
@@ -438,9 +440,12 @@ function checkGrilleImagesRatioCoherente(files, distDir, checks) {
   const offenders = [];
   for (const file of files) {
     const html = fs.readFileSync(file, 'utf8');
+    listRe.lastIndex = 0; // regex /g partagée : sans remise à zéro, le fichier suivant était lu en décalé
     let m;
     while ((m = listRe.exec(html))) {
-      const imgs = m[2].match(imgRe) || [];
+      // Une image recadrée par object-fit (cover/contain) s'affiche au ratio de son cadre, pas au sien :
+      // seule une image affichée à son ratio propre peut casser l'alignement d'une grille.
+      const imgs = (m[2].match(imgRe) || []).filter((tag) => !/\bobject-(?:cover|contain)\b/.test(tag));
       if (imgs.length < 3) continue;
       const ratios = [];
       for (const tag of imgs) {
@@ -962,6 +967,12 @@ export async function cmdVerifier(args) {
   }
 
   const activeForbidden = slug === '_exemple' ? FORBIDDEN : [...FORBIDDEN, { label: 'exemple.fr', re: /exemple\.fr/i }];
+  // Site de démonstration : téléphone et e-mail fictifs attendus, en avertissement comme dans la garde
+  // de `ff deploy` (avant : `ff verifier` échouait sur une démo que `ff deploy` acceptait).
+  // Pas les gabarits `_…` (un `_test-*` simule un vrai client : ses données de test doivent bloquer).
+  const demo = !slug.startsWith('_') && estSiteDemo(slug, fs.existsSync(path.join(SITES_DIR, slug, 'site.config.ts')) ? fs.readFileSync(path.join(SITES_DIR, slug, 'site.config.ts'), 'utf8') : '');
+  const fictifsDemo = new Set(['06 00 00 00 00', 'exemple.fr']);
+  const avertDemo = [];
   for (const forbid of [...activeForbidden, ...ALWAYS_FORBIDDEN]) {
     const offenders = [];
     for (const file of files) {
@@ -973,7 +984,9 @@ export async function cmdVerifier(args) {
         .replace(/<[^>]+>/g, ' ');
       if (forbid.re.test(html)) offenders.push(path.relative(distDir, file));
     }
-    if (offenders.length > 0) {
+    if (offenders.length > 0 && demo && fictifsDemo.has(forbid.label)) {
+      avertDemo.push(`Texte de substitution "${forbid.label}" dans : ${offenders.join(', ')} (site de démonstration : non bloquant)`);
+    } else if (offenders.length > 0) {
       checks.push({ pass: false, label: `Texte de substitution "${forbid.label}" trouve dans : ${offenders.join(', ')}` });
     } else {
       checks.push({ pass: true, label: `Pas de "${forbid.label}"` });
@@ -1008,7 +1021,7 @@ export async function cmdVerifier(args) {
   checkHtmlLangFr(files, distDir, checks);
   checkSitemapIndex(distDir, checks);
 
-  const warnings = [];
+  const warnings = [...avertDemo];
   // --- Visibilité IA (moteurs de réponse) ---
   checkRobotsTxtIA(slug, distDir, checks, warnings);
   checkLlmsTxt(distDir, checks);

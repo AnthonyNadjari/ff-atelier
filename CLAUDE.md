@@ -31,7 +31,7 @@ Le reste du tableau ci-dessous sert au besoin.
 | `node scripts/ff.mjs build <slug>` | Build statique du site dans `dist/<slug>`. |
 | `node scripts/ff.mjs verifier <slug> [--sans-a11y] [--sans-build] [--bavard]` | Contrôle qualité avant livraison (voir `docs/PROCESS.md` § définition de fait), audit d'accessibilité `ff a11y` compris (bloquant), typographie française (règles dures de `ff typo`, hors /credits) et signes « fait par une IA » (`ff ia`) compris (bloquants depuis le 13 oct 2026). Build silencieux (sortie de Vite seulement en cas d'échec, `--bavard` pour tout voir) ; `--sans-build` contrôle le `dist/` existant. |
 | `node scripts/ff.mjs variete` | Liste les combinaisons direction + variantes déjà utilisées par les sites existants — à consulter avant de choisir une direction pour un nouveau client. |
-| `node scripts/ff.mjs images <slug>` | Optimise/redimensionne les photos déposées dans `sites/<slug>/public/images/`. |
+| `node scripts/ff.mjs images <slug> [--depuis-public]` | Optimise/redimensionne les photos déposées dans `sites/<slug>/raw/` vers `public/images/` (`--depuis-public` : retraite celles déjà dans `public/images/`). |
 | `node scripts/ff.mjs nettoyer-photos <slug> [--angle N] [--duotone] [--valider]` | Nettoie `sites/<slug>/raw/*` avant `ff images` (sharp seul) : rotation EXIF + angle fin, recadrage des bordures unies, recadrage focal 4:3/3:2 (`sharp.strategy.attention`), balance des blancs gray-world, duotone optionnel (couleurs de la direction du site ou deux hex en argument). Sortie dans `.ff-tmp/nettoye/` + feuille de contact `apercu.html` ; `--valider` déplace les originaux dans `raw/originaux/` et copie les fichiers nettoyés dans `raw/`. Voir `docs/veille/redaction-images.md` §2.6. |
 | `node scripts/ff.mjs photos <slug> "<requête>"` | Cherche des photos libres (Unsplash/Pexels, clés dans `.env`), feuille de contact `.ff-tmp/photos/apercu.html` ; `--choisir 1,3` copie les choisies dans `public/images/photo-<n>.webp` et journalise `CREDITS.md`. |
 | `node scripts/ff.mjs video <slug> "<requête>"` | Cherche une vidéo Pexels, génère `public/videos/hero.webm` + `hero.mp4` + `poster.jpg` via ffmpeg (ou garde le mp4 source si ffmpeg absent) et journalise `CREDITS.md`. |
@@ -156,7 +156,7 @@ Trois choses, dans l'ordre, jamais une seule :
 3. Une ligne dans le tableau correspondant de `docs/DIRECTIONS.md` (variante + quand l'utiliser).
 
 Une direction fonctionne pareil : dossier `src/directions/<nom>/` (`index.css` + `meta.ts`) + une ligne
-dans la table des 8 directions de `docs/DIRECTIONS.md`.
+dans la table des directions de `docs/DIRECTIONS.md`.
 
 ## Pièges déjà payés
 

@@ -1,26 +1,14 @@
-// `ff variete` : parse sites/*/site.config.ts par regex (pas d'import TS), compare direction/nav/hero/sections/footer.
-import fs from 'node:fs';
-import path from 'node:path';
-import { SITES_DIR, listSites, fail, warn, info, c } from './util.mjs';
+// `ff variete` : lit le look effectif de chaque site (site.config.ts + look.json), compare direction/nav/hero/sections/footer.
+import { effectiveLook } from './look-data.mjs';
+import { listSites, fail, warn, info, c } from './util.mjs';
 
-function match1(src, re) {
-  const m = src.match(re);
-  return m ? m[1] : undefined;
-}
-
+// Lecture par effectiveLook (look-data.mjs) : la regex d'avant ratait les sections écrites par `ff figer`
+// et `ff-generer` (virgule finale, `label:` des sections sur mesure) et ignorait look.json (audit du 14 oct 2026).
 function parseConfig(slug) {
-  const configPath = path.join(SITES_DIR, slug, 'site.config.ts');
-  if (!fs.existsSync(configPath)) return null;
-  const src = fs.readFileSync(configPath, 'utf8');
-  const direction = match1(src, /direction:\s*'([^']+)'/);
-  const nav = match1(src, /nav:\s*'([^']+)'/);
-  const hero = match1(src, /hero:\s*'([^']+)'/);
-  const footer = match1(src, /footer:\s*'([^']+)'/);
-  const sections = [...src.matchAll(/\{\s*type:\s*'([^']+)',\s*variant:\s*'([^']+)'\s*\}/g)].map((m) => ({
-    type: m[1],
-    variant: m[2],
-  }));
-  return { slug, direction, nav, hero, footer, sections };
+  const look = effectiveLook(slug);
+  if (!look) return null;
+  const sections = (look.sections || []).map((s) => ({ type: s.type, variant: s.variant }));
+  return { slug, direction: look.direction, nav: look.nav, hero: look.hero, footer: look.footer, sections };
 }
 
 function printCounts(values) {

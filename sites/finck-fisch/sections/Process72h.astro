@@ -135,10 +135,11 @@ const jours = [
   .ff-p72-tel .ff-demo { border-radius: 16px; border: 2px solid color-mix(in srgb, var(--fg) 80%, transparent); background: var(--bg); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.9); }
   .ff-p72-tel, .ff-p72-centre, .ff-p72-flotte, .ff-p72-adresse, .ff-p72-jour, .ff-p72-chiffre > span { will-change: transform, opacity; }
 
-  /* Étiquettes « Piste 1/2/3 », posées en haut des écrans : lisibles d'un coup d'œil. */
+  /* Étiquettes « Version 1/2/3 », posées AU-DESSUS des écrans (revue du 13 oct 2026 : à cheval sur le
+     haut, elles cachaient l'en-tête des démos). */
   .ff-p72-etiq {
     position: absolute;
-    top: -14px;
+    bottom: calc(100% + 8px);
     left: 50%;
     translate: -50% 0;
     padding: 5px 12px;

@@ -1,7 +1,7 @@
 ---
 /**
  * « La fournée du jour » : l'ardoise du comptoir. Les 4 heures de sortie du four (site.process,
- * config réelle) écrites sur un seul bloc encre avec grain, l'heure en très grand à gauche, ce qui
+ * config réelle) écrites sur un seul bloc encre, l'heure en très grand à gauche, ce qui
  * sort à droite, un trait de craie en pointillé entre chaque ligne. C'est le temps fort de la page,
  * placé juste sous la devanture.
  * Avant le 9 oct 2026 : quatre panneaux sticky de 54 vh (data-sticky-stack) avec une horloge
@@ -17,7 +17,7 @@ const fournees = site.process.map((p) => {
 ---
 
 {fournees.length > 0 && (
-  <section id="fournee" class="section-y bg-ink text-on-ink" data-grain>
+  <section id="fournee" class="section-y bg-ink text-on-ink">
     <div class="container-ff relative z-[1]">
       <div class="flex flex-wrap items-end justify-between gap-x-12 gap-y-4">
         <h2 class="text-display-lg">La fournée du jour</h2>

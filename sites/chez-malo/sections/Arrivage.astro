@@ -1,7 +1,7 @@
 ---
 /**
  * « L’arrivage du jour » : l’ardoise du comptoir, le bloc signature de Chez Malo (9 oct 2026). Un
- * seul bloc encre avec grain : à gauche, ce qui est arrivé de la criée ce matin (poisson, origine,
+ * seul bloc encre : à gauche, ce qui est arrivé de la criée ce matin (poisson, origine,
  * comment il est cuisiné, prix), un trait de craie entre chaque ligne ; à droite, les heures de
  * service (site.contact.hours) et le téléphone pour réserver, avec la règle de la bouillabaisse
  * (site.services, prix du brief). Remplace « L’essentiel » (trois cartes à icône) et « Une journée »
@@ -9,7 +9,7 @@
  */
 import { site, tel } from '@/lib/site';
 
-const date = 'Jeudi 9 octobre';
+const date = 'Vendredi 9 octobre';
 const arrivage = [
   { poisson: 'Grondin rouge', origine: 'Criée de Marseille, petit bateau', cuisson: 'Grillé entier, huile d’olive et citron', prix: '24 €' },
   { poisson: 'Loup de ligne', origine: 'Carry-le-Rouet', cuisson: 'Grillé, fenouil confit', prix: '28 €' },
@@ -20,7 +20,7 @@ const arrivage = [
 const bouillabaisse = site.services.find((s) => s.slug === 'bouillabaisse-du-vallon');
 ---
 
-<section id="arrivage" class="section-y bg-ink text-on-ink" data-grain>
+<section id="arrivage" class="section-y bg-ink text-on-ink">
   <div class="container-ff relative z-[1]">
     <div class="flex flex-wrap items-end justify-between gap-x-12 gap-y-4">
       <h2 class="font-display text-display-lg leading-none">L’arrivage du jour</h2>

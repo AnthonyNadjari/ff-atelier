@@ -112,7 +112,7 @@ export default defineSite({
   about: {
     title: 'Depuis 2017',
     story:
-      'Jonas Kessler a ouvert son premier fauteuil dans la Krutenau en 2017. Malik est arrivé, puis Théo. Ils sont trois aujourd’hui.\n\nOn coupe au ciseau, on rase au blaireau. Et le samedi, on ne prend pas de rendez-vous : on reçoit dans l’ordre d’arrivée, et le salon ne désemplit pas.',
+      'Jonas Kessler a ouvert son premier fauteuil dans la Krutenau en 2017. Malik est arrivé, puis Théo. Ils sont trois aujourd’hui.\n\nOn coupe au ciseau, on rase au blaireau. Et le samedi, on ne prend pas de rendez-vous : on reçoit dans l’ordre d’arrivée, alors mieux vaut venir tôt.',
     team: [
       { name: 'Jonas Kessler', role: 'Fondateur, barbier' },
       { name: 'Malik', role: 'Barbier' },

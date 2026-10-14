@@ -8,7 +8,7 @@ description: Ajoute une variante de section partagée (hero, services, proof...)
 Quand l'utiliser : un brief ou une demande client décrit une composition qu'aucune variante existante
 ne couvre (ex : « un hero avec le numéro en très grand et une photo ronde », « services en carrousel »).
 Une variante sert tous les futurs sites : elle doit être générique, lire uniquement `site`, et rester
-belle dans les 16 directions.
+belle dans toutes les directions.
 
 Si la demande est unique à un client (menu du restaurant, carte des zones dessinée, manifeste),
 ne crée PAS une variante : crée une section sur mesure dans `sites/<slug>/sections/<Nom>.astro`

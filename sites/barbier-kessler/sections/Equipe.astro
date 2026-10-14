@@ -27,7 +27,7 @@ const roleOpacity = ['text-fg/80', 'text-on-ink/70', 'text-on-accent'];
       <div class:list={['flex h-[68vh] flex-col items-center justify-center gap-4 border-t border-line', tones[i % tones.length]]}>
         <span class="team-tick" aria-hidden="true"></span>
         <p class="font-display uppercase leading-none" style="font-size: clamp(2.5rem, 9vw, 6rem);">{m.name}</p>
-        <p class:list={['font-mono text-sm uppercase tracking-[0.2em]', roleOpacity[i % roleOpacity.length]]}>{m.role}</p>
+        <p class:list={['font-mono text-sm', roleOpacity[i % roleOpacity.length]]}>{m.role}</p>
       </div>
     ))}
   </div>

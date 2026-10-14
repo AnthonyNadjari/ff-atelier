@@ -19,7 +19,7 @@ Astro 5 (statique, zero JS par defaut) + Tailwind 4 (config CSS-first, `src/styl
 1. Fichier : `src/sections/<Type>/<variante>.astro`, variante en kebab-case, exactement le nom liste dans `VARIANTS` (`src/lib/schema.ts`).
 2. Frontmatter : `import { site, ... } from '@/lib/site'`. Aucune prop : une section lit `site` directement.
 3. Racine : `<section id="<type>" class="section-y ...">` (id = `services`, `about`, `proof`, `zones`, `process`, `faq`, `contact` ; le hero a `id="hero"`, la nav n'a pas d'id, le footer est `<footer>`). Un seul id par type, meme si deux variantes du meme type sont dans le layout (dans ce cas la seconde n'a pas d'id : utiliser `id={Astro.props.id ?? 'proof'}`... non : garder simple, une variante par type dans un layout).
-4. **Jamais de couleur, police ou rayon en dur.** Uniquement les tokens. Une section doit etre belle dans les 8 directions sans les connaitre.
+4. **Jamais de couleur, police ou rayon en dur.** Uniquement les tokens. Une section doit etre belle dans toutes les directions sans les connaitre.
 5. **Jamais de donnee inventee.** Pas de "+500 clients", pas d'avis fictifs, pas de "100 % satisfaits". Si `site.proof.google` est absent, la section proof/google rend `null` (frontmatter : `if (!site.proof.google) return;` n'existe pas en Astro — encadrer tout le markup dans `{site.proof.google && (...)}` ou rendre un fragment vide).
 6. Donnee absente = section qui s'adapte : pas de placeholder gris, pas de "Lorem ipsum". Image absente = composition sans image (voir hero/split).
 7. Accessibilite : `alt` obligatoire, contrastes via tokens, focus visible herite, `aria-label` sur les boutons icones, `<details>/<summary>` natifs pour les accordeons.

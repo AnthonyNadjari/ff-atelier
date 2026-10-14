@@ -42,7 +42,7 @@ export default defineSite({
       'Atelier de menuiserie et d’ébénisterie à Roubaix, 14 rue de l’Alma, dans une ancienne filature. Depuis 1998. Ils sont deux : le dessin, le choix du bois et la fabrication restent dans les mêmes mains.\n\nChêne, frêne, noyer. Massifs, et jamais de panneau plaqué. Cuisines, bibliothèques, escaliers, restauration de meubles anciens, pour Roubaix et la métropole lilloise.',
     since: 1998,
     legalForm: 'SARL',
-    insurance: 'Assurance décennale MAAF n° 000 000',
+    insurance: 'Assurance décennale, attestation sur demande',
   },
 
   contact: {
@@ -65,10 +65,10 @@ export default defineSite({
   services: [
     {
       slug: 'cuisines-sur-mesure',
-      title: 'Cuisines sur mesure',
+      title: 'Cuisines',
       short: 'Relevé chez vous, croquis validé, puis la coupe. À partir de 8 000 € (indicatif).',
       description:
-        'Une cuisine sur mesure commence chez vous, mètre en main. On relève les cotes, on regarde comment la pièce est vraiment utilisée, puis on parle du bois.\n\nLe dessin est validé avant la moindre coupe. Fabrication à l’atelier, pose comprise. À partir de 8 000 €, à titre indicatif.',
+        'Une cuisine commence chez vous, mètre en main. On relève les cotes, on regarde comment la pièce est vraiment utilisée, puis on parle du bois.\n\nLe dessin est validé avant la moindre coupe. Fabrication à l’atelier, pose comprise. À partir de 8 000 €, à titre indicatif.',
       bullets: ['Croquis validé avant fabrication', 'Bois massif, jamais de panneau plaqué', 'Pose comprise'],
       icon: 'ChefHat',
       featured: true,
@@ -76,7 +76,7 @@ export default defineSite({
     },
     {
       slug: 'bibliotheques-sur-mesure',
-      title: 'Bibliothèques sur mesure',
+      title: 'Bibliothèques',
       short: 'Sous pente, en alcôve, d’angle. Et toujours dessinée pour le mur qu’elle occupe.',
       description:
         'Une bibliothèque se dessine pour le mur qu’elle occupe. Sous pente, en alcôve, d’angle : le relevé se fait sur place.\n\nAssemblages traditionnels. Finition huilée ou cirée, selon l’essence.',
@@ -114,7 +114,7 @@ export default defineSite({
     values: [
       { title: 'Bois massif', text: 'Chêne, frêne, noyer. Jamais de panneau plaqué.' },
       { title: 'Le croquis avant l’établi', text: 'Chaque pièce est dessinée avec vous avant d’être coupée.' },
-      { title: 'Neuf et ancien', text: 'Le sur-mesure et la restauration de meubles anciens, avec le même geste.' },
+      { title: 'Neuf et ancien', text: 'Les pièces neuves et la restauration de meubles anciens, avec le même geste.' },
     ],
     milestones: [{ year: '1998', text: 'Ouverture de l’atelier, dans une ancienne filature de Roubaix.' }],
   },
@@ -150,6 +150,6 @@ export default defineSite({
   images: {},
 
   seo: {
-    keywords: ['menuisier Roubaix', 'ébéniste Roubaix', 'cuisine sur mesure bois massif', 'escalier bois Roubaix', 'restauration meubles anciens Lille'],
+    keywords: ['menuisier Roubaix', 'ébéniste Roubaix', 'cuisine bois massif Roubaix', 'escalier bois Roubaix', 'restauration meubles anciens Lille'],
   },
 });

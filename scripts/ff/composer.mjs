@@ -91,7 +91,7 @@ const SQUELETTES_PAR_METIER = [
   },
   {
     id: 'sante',
-    metiers: ['osteo', 'veto', 'veterinaire', 'dentist', 'avocat', 'notaire', 'medecin', 'kine'],
+    metiers: ['osteo', 'veto', 'veterinaire', 'dentist', 'dentaire', 'orthodont', 'infirm', 'orthophon', 'sage-femme', 'sage femme', 'podolog', 'psycholog', 'pharmac', 'avocat', 'notaire', 'medecin', 'kine'],
     shells: ['slides', 'sidebar'],
     nav: null,
     contactDrawer: false,
@@ -111,7 +111,7 @@ const SQUELETTES_PAR_METIER = [
   },
   {
     id: 'hospitalite',
-    metiers: ['restaurant', 'hotel', 'institut', 'spa', 'beaute', 'coiffure', 'boulanger'],
+    metiers: ['restaurant', 'hotel', 'institut', 'spa', 'beaute', 'coiff', 'barbier', 'esthetic', 'patiss', 'chambre', 'boulanger'],
     shells: ['sticky-hero', 'index'],
     nav: null,
     contactDrawer: false,
@@ -193,7 +193,8 @@ function normalise(s) {
   return String(s || '')
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '');
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[’‘`]/g, "'"); // « Chambres d’hôtes » (apostrophe typographique) = « chambre d'hotes »
 }
 
 export function scoreDirections(dirMetas, metier, directionCounts) {
@@ -381,7 +382,8 @@ export function pickLook(slug, opts = {}) {
 
   const sectionDefs = detectSections(cfg);
   const sections = sectionDefs.map(({ type, forcedVariant }) => {
-    if (type === 'process' && squelette?.processVariant) return { type, variant: squelette.processVariant };
+    // Variante du squelette seulement si ses données sont là (horizon veut une image par étape).
+    if (type === 'process' && squelette?.processVariant && varianteCompatible(type, squelette.processVariant, cfg)) return { type, variant: squelette.processVariant };
     const possibles = (VARIANTS[type] || []).filter((v) => varianteCompatible(type, v, cfg));
     const variant = forcedVariant || pickLeastUsed(possibles.length ? possibles : VARIANTS[type] || [], usage.variantCounts[type] || new Map(), rng);
     return { type, variant };
@@ -408,8 +410,9 @@ export function pickLook(slug, opts = {}) {
     const calme = (k) => !criard.test(fonts.find((f) => f.key === k)?.mood || '');
     if (displayCandidates.some(calme)) displayCandidates = displayCandidates.filter(calme);
   }
-  if (displayCandidates.length === 0) displayCandidates = fonts.filter((f) => f.role === 'display' || f.role === 'both').map((f) => f.key);
-  if (bodyCandidates.length === 0) bodyCandidates = fonts.filter((f) => f.role === 'body' || f.role === 'both').map((f) => f.key);
+  // Repli (liste vide) : toujours sans les polices « signes IA ».
+  if (displayCandidates.length === 0) displayCandidates = fonts.filter((f) => f.role === 'display' || f.role === 'both').map((f) => f.key).filter(pasIa);
+  if (bodyCandidates.length === 0) bodyCandidates = fonts.filter((f) => f.role === 'body' || f.role === 'both').map((f) => f.key).filter(pasIa);
   const fontPair = pickFontPair(displayCandidates, bodyCandidates, usage.typoPairsUsed, rng);
 
   const scale = pickScale(chosen.dir, cfg.business?.tagline);
@@ -444,7 +447,8 @@ export function pickLook(slug, opts = {}) {
         : null;
     if (preferred && !excludeShells.includes(preferred)) {
       shell = preferred;
-      squeletteApplied = { ...squelette, shell: preferred };
+      // L'alternative retenue (coquille préférée incompatible) : l'autre devient l'alternative affichée.
+      squeletteApplied = { ...squelette, shell: preferred, alternative: preferred === squelette.shell ? squelette.alternative : squelette.shell };
     }
   }
   const contactDrawer = squelette ? squelette.contactDrawer : false;
@@ -506,7 +510,7 @@ export function pickLook(slug, opts = {}) {
     ['en-têtes', headings, `tirage pondéré (${HEADINGS_WEIGHTS[headings] ?? 10} pts de base)`],
   ];
 
-  const squeletteResult = squelette ? { ...squelette, shell, applied: Boolean(squeletteApplied) } : null;
+  const squeletteResult = squelette ? { ...squelette, ...(squeletteApplied || {}), shell, applied: Boolean(squeletteApplied) } : null;
 
   return {
     slug,

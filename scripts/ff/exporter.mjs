@@ -4,7 +4,13 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { ROOT, resolveSlug, ok, fail, warn, info, c, parseArgs } from './util.mjs';
 
-const EXCLUDED_TOP = new Set(['node_modules', 'dist', '.git', '.astro']);
+// Liste BLANCHE (audit du 14 oct 2026) : la liste noire d'avant envoyait au client les livrables des
+// autres clients, propositions/, archives/, captures/, les documents juridiques et commerciaux de
+// studio/, .claude, .ff-tmp... Seul ce qui sert à construire et à faire évoluer CE site part.
+const INCLUS_RACINE = new Set([
+  'src', 'scripts', 'astro.config.mjs', 'package.json', 'package-lock.json', 'tsconfig.json',
+  '.gitignore', '.gitattributes', '.env.example', 'perf-budget.json',
+]);
 
 function buildReadme(slug) {
   return `# Site ${slug}
@@ -71,13 +77,13 @@ export function cmdExporter(args) {
       const rel = path.relative(ROOT, src);
       if (rel === '') return true;
       const parts = rel.split(path.sep);
-      if (EXCLUDED_TOP.has(parts[0])) return false;
-      if (rel === '.env') return false;
       if (parts[0] === 'sites') {
-        if (parts.length >= 2 && parts[1] !== slug) return false; // autres sites
-        if (parts.length >= 3 && parts[1] === slug && parts[2] === 'raw') return false; // photos originales
+        if (parts.length === 1) return true;
+        if (parts[1] !== slug) return false; // autres sites (et _exemple : .ff-current pointe sur le slug)
+        if (parts.length >= 3 && ['raw', 'brief.md', 'look.json'].includes(parts[2])) return false; // originaux, notes d'appel
+        return true;
       }
-      return true;
+      return INCLUS_RACINE.has(parts[0]);
     },
   });
 

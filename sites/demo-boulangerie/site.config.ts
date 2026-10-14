@@ -24,10 +24,9 @@ export default defineSite({
   business: {
     name: 'Boulangerie Petit Pain',
     trade: 'Boulanger-pâtissier',
-    tagline: 'Le pain du matin, <em>pétri avant l’aube.</em>',
+    tagline: 'Le pain du matin, <em>et une deuxième fournée à 17 h.</em>',
     description:
-      'La Boulangerie Petit Pain fabrique chaque jour son pain, ses viennoiseries et ses pâtisseries dans le quartier du Camas à Marseille, au levain naturel et à la farine locale.\n\nOuvert tous les jours sauf le lundi, avec une deuxième fournée de pain en fin d’après-midi.',
-    since: 2008,
+      'La Boulangerie Petit Pain fabrique chaque jour son pain, ses viennoiseries et ses pâtisseries près de la Préfecture à Marseille, au levain naturel et à la farine locale.\n\nOuvert tous les jours sauf le lundi, avec une deuxième fournée de pain en fin d’après-midi.',
     legalForm: 'EURL',
   },
 
@@ -46,7 +45,7 @@ export default defineSite({
 
   zones: {
     cities: ['Marseille 6e', 'Marseille 5e', 'Marseille 1er', 'Marseille 8e', 'Marseille 4e'],
-    label: 'Quartiers du Camas, Baille et alentours',
+    label: 'Quartier de la Préfecture et alentours',
   },
 
   services: [
@@ -110,8 +109,6 @@ export default defineSite({
     portrait: { src: '/images/portrait.webp', alt: 'Devanture de la Boulangerie Petit Pain, rue Sylvabelle' },
   },
 
-  social: { instagram: 'https://www.instagram.com/boulangeriepetitpain' },
-
   wording: {
     devis: 'Passer commande',
     ctaTitle: 'Une commande, un événement ? <em>On prépare ça.</em>',
@@ -123,6 +120,6 @@ export default defineSite({
   images: {
     hero: { src: '/images/hero.webp', alt: 'Pains et viennoiseries de la Boulangerie Petit Pain' },
   },
-  seo: { keywords: ['boulangerie Marseille', 'pain au levain Marseille', 'boulangerie Camas', 'viennoiserie Marseille 6e'] },
+  seo: { keywords: ['boulangerie Marseille', 'pain au levain Marseille', 'boulangerie Préfecture Marseille', 'viennoiserie Marseille 6e'] },
   legal: { owner: 'Nadia Selim' },
 });

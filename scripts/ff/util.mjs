@@ -142,6 +142,23 @@ export function appendCredits(slug, block) {
   fs.appendFileSync(dest, `\n${block.trim()}\n`);
 }
 
+/**
+ * Drapeaux qui ne prennent JAMAIS de valeur. Sans cette liste, `ff typo --corriger mon-site` lisait
+ * corriger='mon-site' et réécrivait TOUS les sites ; `ff vercel --sans-build mon-site` déployait le
+ * site courant au lieu de celui demandé (audit du 14 oct 2026).
+ */
+export const DRAPEAUX_BOOLEENS = new Set([
+  'bavard', 'build', 'comparer', 'conseils', 'corriger', 'depuis-public', 'desktop-seul', 'detail',
+  'ecrire', 'figer', 'forcer', 'json', 'lighthouse', 'matiere', 'mobile', 'mobile-seul', 'pages',
+  'partage', 'preuves', 'rapide', 'sans-a11y', 'sans-build', 'simuler', 'strict', 'tout', 'valider',
+  'vercel', 'www',
+]);
+
+/** Drapeaux à valeur facultative : ne prennent l'argument suivant que s'il a la forme attendue. */
+const VALEUR_FACULTATIVE = {
+  duotone: /^#?[0-9a-f]{3,8}\s*,\s*#?[0-9a-f]{3,8}$/i,
+};
+
 /** Parseur d'arguments minimal : positionnels + --flag valeur / --flag=valeur / --flag (booleen). */
 export function parseArgs(argv) {
   const flags = {};
@@ -150,12 +167,18 @@ export function parseArgs(argv) {
     const a = argv[i];
     if (a.startsWith('--')) {
       const eq = a.indexOf('=');
+      const nom = eq === -1 ? a.slice(2) : a.slice(2, eq);
+      const suivant = argv[i + 1];
       if (eq !== -1) {
-        flags[a.slice(2, eq)] = a.slice(eq + 1);
-      } else if (i + 1 < argv.length && !argv[i + 1].startsWith('--')) {
-        flags[a.slice(2)] = argv[++i];
+        flags[nom] = a.slice(eq + 1);
+      } else if (DRAPEAUX_BOOLEENS.has(nom)) {
+        flags[nom] = true;
+      } else if (VALEUR_FACULTATIVE[nom]) {
+        flags[nom] = suivant !== undefined && VALEUR_FACULTATIVE[nom].test(suivant) ? argv[++i] : true;
+      } else if (suivant !== undefined && !suivant.startsWith('--')) {
+        flags[nom] = argv[++i];
       } else {
-        flags[a.slice(2)] = true;
+        flags[nom] = true;
       }
     } else {
       positional.push(a);

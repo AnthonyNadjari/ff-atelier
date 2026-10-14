@@ -219,7 +219,8 @@ function bump(map, key) {
  * (typography.display+body) deja utilisees.
  */
 export function usageStats(excludeSlug) {
-  const slugs = listSites().filter((s) => s !== excludeSlug);
+  // Sans _exemple/_effets/_test : ces gabarits pénalisaient à tort leurs directions (audit du 14 oct 2026).
+  const slugs = listSites({ excludeUnderscore: true }).filter((s) => s !== excludeSlug);
   const directionCounts = new Map();
   const dirHeroUsed = new Set();
   const variantCounts = {};

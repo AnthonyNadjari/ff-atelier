@@ -1,4 +1,4 @@
-// DEMO : client inventé (Encre Noire, studio de tatouage). Coordonnées fictives (plage 06 39 98).
+// DEMO : client inventé (Atelier Vasseur, studio de tatouage ; nom fictif, slug historique encre-noire). Coordonnées fictives (plage 06 39 98).
 // Nav, hero et blocs principaux dessinés à la main pour ce site : sites/encre-noire/sections/.
 //
 // 9 oct 2026 : la coquille `index` (le menu est la page) est abandonnée : l’accueil ne montrait aucun
@@ -34,7 +34,7 @@ export default defineSite({
   },
 
   business: {
-    name: 'Encre Noire',
+    name: 'Atelier Vasseur',
     trade: 'Studio de tatouage',
     tagline: 'Le dessin d’abord. <em>L’aiguille ensuite.</em>',
     description:
