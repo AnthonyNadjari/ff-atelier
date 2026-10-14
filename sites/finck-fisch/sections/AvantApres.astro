@@ -12,6 +12,10 @@
  * photo reprend ses couleurs ; puis les trois différences sortent une à une, chacune avec son « avant ».
  * 12 oct 2026, soir (« l'anim avant/après bugue un peu et n'est pas wow ») : le retournement 3D calé
  * sur le défilement est remplacé par ce rideau joué en temps.
+ * 14 oct 2026 (« le scroll du avant après est vraiment pas homogène ») : joué en temps, le rideau partait
+ * d'un coup au premier cran puis plus rien ne bougeait. Il suit maintenant le défilement, cran par cran
+ * (--r, de --p : deux simples translations, rien à repeindre) ; seules l'étiquette et les trois
+ * différences restent des étapes.
  * Le titre et l'intro sont au-dessus de la scène (12 oct : dans la scène, sur petit iPhone, le
  * téléphone finissait sous la barre basse). Ordinateur : grand « Avant / Après » à gauche, téléphone
  * au centre, différences à droite. Téléphone : le téléphone prend toute la hauteur libre entre
@@ -48,7 +52,7 @@ const fond = {
     </p>
   </div>
 
-  <div class="ff-aa-scene" data-scene data-etapes="0.12,0.55">
+  <div class="ff-aa-scene" data-scene data-scene-suivi data-etapes="0.33,0.7">
     <div class="ff-aa-colle">
       <img class="ff-aa-fond ff-aa-fond-gris" src={fond.src} srcset={fond.srcset} sizes="100vw" width="1000" height="667" alt="" loading="lazy" decoding="async" />
       <img class="ff-aa-fond ff-aa-fond-couleur" src={fond.src} srcset={fond.srcset} sizes="100vw" width="1000" height="667" alt="" loading="lazy" decoding="async" />
@@ -193,7 +197,7 @@ const fond = {
   @keyframes ff-aa-respire { 0% { transform: scale(1); } 40% { transform: scale(1.035); } 100% { transform: scale(1); } }
 
   @media (prefers-reduced-motion: no-preference) {
-    .ff-scenes .ff-aa-scene { height: 170vh; }
+    .ff-scenes .ff-aa-scene { height: 200vh; }
     .ff-scenes .ff-aa-colle { position: sticky; top: 0; height: 100svh; padding-block: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -257,6 +261,17 @@ const fond = {
     .ff-aa-points { gap: var(--s2); }
     .ff-aa-points > li { padding: var(--s2); transform: translateX(-40px); }
   }
+
+  /* Défilement homogène (14 oct 2026) : --r = avancée du rideau, de 0 à 1 entre 8 % et 58 % de la
+     scène, recalculée à chaque cran (--p, scene-ff.ts). Le rideau, la photo qui reprend ses couleurs
+     et le liseré suivent le doigt ; plus de transition en temps sur eux. */
+  .ff-scenes .ff-aa-scene { --r: clamp(0, (var(--p, 1) - 0.08) * 2, 1); }
+  .ff-scenes .ff-aa-scene[data-etape] .ff-aa-rideau { transform: translateY(calc((1 - var(--r)) * -101%)); transition: none; }
+  .ff-scenes .ff-aa-scene[data-etape] .ff-aa-rideau-in { transform: translateY(calc((1 - var(--r)) * 101%)); transition: none; }
+  .ff-scenes .ff-aa-scene[data-etape] .ff-aa-fond { transform: scale(calc(1.1 - var(--r) * 0.08)); transition: none; }
+  .ff-scenes .ff-aa-scene[data-etape] .ff-aa-fond-couleur { opacity: var(--r); }
+  .ff-scenes .ff-aa-scene[data-etape] .ff-aa-rideau::after { animation: none; opacity: calc(min(var(--r), 1 - var(--r)) * 14); }
+  .ff-scenes .ff-aa-scene[data-etape] .ff-aa-tel { animation: none; }
 </style>
 
 <script>

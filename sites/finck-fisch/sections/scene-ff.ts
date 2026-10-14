@@ -31,7 +31,7 @@
  */
 const REDUIT = '(prefers-reduced-motion: reduce)';
 
-type Scene = { el: HTMLElement; course: number; haut: number; piste: HTMLElement | null; dx: number; p: number; pTxt: string; seuils: number[]; etape: number };
+type Scene = { el: HTMLElement; course: number; haut: number; piste: HTMLElement | null; dx: number; p: number; pTxt: string; seuils: number[]; etape: number; suivi: boolean };
 type Carte = { el: HTMLElement; centre: number; largeur: number; d: string };
 type Couv = { el: HTMLElement; scene: Scene | null; base: number; cartes: Carte[] };
 
@@ -50,6 +50,7 @@ export function initScenes(): void {
     pTxt: '',
     seuils: (el.dataset.etapes ?? '').split(',').filter(Boolean).map(Number),
     etape: -1,
+    suivi: el.hasAttribute('data-scene-suivi'),
   }));
   const couvs: Couv[] = [...document.querySelectorAll<HTMLElement>('[data-couv]')].map((el) => ({
     el,
@@ -109,7 +110,9 @@ export function initScenes(): void {
       if (s.seuils.length) {
         const n = s.seuils.filter((x) => brut >= x).length;
         if (n !== s.etape) { s.etape = n; s.el.dataset.etape = String(n); }
-        return;
+        // `data-scene-suivi` (14 oct 2026, Avant/après) : la scène à étapes reçoit AUSSI --p, pour un
+        // mouvement simple qui suit le doigt (le rideau) en plus des étapes jouées en temps.
+        if (!s.suivi) return;
       }
       s.p = Math.min(1, Math.max(0, brut));
       const txt = s.p.toFixed(4);
