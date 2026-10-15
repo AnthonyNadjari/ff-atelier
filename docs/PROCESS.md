@@ -157,6 +157,9 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
       scroll restée invisible, aucune section épinglée cassée, aucune séquence d'images/marquee/
       compteur bloqué, aucun débordement horizontal ni contraste insuffisant sur `.eyebrow`/
       `.text-muted`. Résultats dans `captures/<slug>-motion.json`.
+- [ ] **`ff planche <slug>` regardée** (ordinateur et téléphone, `captures/planches/`) : le défilement à la
+      molette, vignette par vignette. Une capture fixe et les audits automatiques n'ont pas vu la forge
+      dont la séquence ne s'animait qu'à la fin de l'épinglage (13 oct 2026). `/site-final` le fait.
 - [ ] **`ff nettete <slug>` vert** (site déjà construit, desktop @2x + mobile @3x) : aucune image, séquence
       `data-frames` ou vidéo affichée plus grande que sa source réelle (étirement = flou, cas de la
       séquence « Le geste » de forge-delacroix, 5 Ko/image sur un canvas plein écran). Résultats dans

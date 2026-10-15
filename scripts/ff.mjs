@@ -44,6 +44,7 @@ import { cmdA11y } from './ff/a11y.mjs';
 import { cmdKit } from './ff/kit.mjs';
 import { cmdVercel } from './ff/vercel.mjs';
 import { cmdTuiles } from './ff/tuiles.mjs';
+import { cmdPlanche } from './ff/planche.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -106,6 +107,7 @@ const commands = {
   kit: cmdKit,
   vercel: cmdVercel,
   tuiles: cmdTuiles,
+  planche: cmdPlanche,
 };
 
 async function main() {
