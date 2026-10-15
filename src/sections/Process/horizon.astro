@@ -13,7 +13,7 @@ import { site } from '@/lib/site';
 import Img from '@/components/Img.astro';
 
 const steps = site.process;
-const total = String(steps.length).padStart(2, '0');
+const total = String(steps.length);
 ---
 
 {steps.length > 0 && (
@@ -27,8 +27,8 @@ const total = String(steps.length).padStart(2, '0');
         <li class="ff-horizon-etape">
           <div class:list={['container-ff grid items-center gap-10', p.image && 'lg:grid-cols-[1.1fr_1fr] lg:gap-16']}>
             <div>
-              <p class="font-mono text-xs text-muted">Étape {String(i + 1).padStart(2, '0')} / {total}</p>
-              <p class="ff-horizon-numero font-display text-accent" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+              <p class="font-mono text-xs text-muted">Étape {String(i + 1)} sur {total}</p>
+              <p class="ff-horizon-numero font-display text-accent" aria-hidden="true">{String(i + 1)}</p>
               <h3 class="text-display-md">{p.title}</h3>
               <p class="measure mt-4 text-lg text-muted">{p.text}</p>
             </div>

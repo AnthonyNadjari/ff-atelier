@@ -46,7 +46,6 @@ const drawer = site.layout.contactDrawer;
   <nav class="container-ff flex-1 flex flex-col justify-center gap-1 py-24" aria-label="Navigation principale" data-stagger="60">
     {links.map((l, i) => (
       <a href={l.href} class="group flex items-baseline gap-4 py-2 text-display-lg font-display" data-burger-link>
-        <span class="font-mono text-sm text-on-ink/50">{String(i + 1).padStart(2, '0')}</span>
         <span class="transition-opacity group-hover:opacity-70">{l.label}</span>
       </a>
     ))}

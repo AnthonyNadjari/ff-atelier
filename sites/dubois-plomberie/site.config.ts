@@ -12,6 +12,7 @@ import { defineSite } from '@/lib/schema';
 export default defineSite({
   slug: 'dubois-plomberie',
   direction: 'signal',
+  typography: { display: 'oswald', body: 'workSans' },
   motion: 'subtle',
   // Transitions de page (ClientRouter) : fondu 0,3 s accueil <-> pages services ; nav, tiroir de contact,
   // formulaire et reveals rearmes a chaque navigation (docs/ANIMATIONS.md § Transitions de page).

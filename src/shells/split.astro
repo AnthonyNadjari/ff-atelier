@@ -35,7 +35,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
         {links.map((l, i) => (
           <a href={l.href} class="spy-link flex items-baseline gap-3 text-lg text-muted transition-colors hover:text-fg">
             <span class="spy-trait" aria-hidden="true"></span>
-            <span class="font-mono text-xs text-muted tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+            <span class="font-mono text-xs text-muted tabular-nums">{String(i + 1)}</span>
             {l.label}
           </a>
         ))}

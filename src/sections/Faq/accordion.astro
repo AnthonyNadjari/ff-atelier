@@ -18,9 +18,9 @@ const faqLd = {
   <section id="faq" class="section-y">
     <div class="container-ff max-w-3xl">
       <SectionHeading eyebrow="Questions fréquentes" title="Vous vous demandez peut-être" align="center" />
-      <div class="mt-14 border-t border-line" data-stagger="70">
+      <div class="faq-native mt-14 border-t border-line" data-stagger="70">
         {site.faq.map((f, i) => (
-          <details class="border-b border-line" open={i === 0}>
+          <details class="border-b border-line" name="faq" open={i === 0}>
             <summary class="flex items-center justify-between gap-4 py-6 cursor-pointer">
               {/* normal-case : neutralise heading-transform:uppercase (directions signal/brut/industriel,
                   global.css `h1, h2, h3, .font-display`) sur cette question — une phrase longue en

@@ -51,3 +51,15 @@ test('reconnaissance des noms de polices', () => {
   for (const n of ['cormorant', 'Instrument Sans Variable', 'space-grotesk', 'playfair-display', 'dm-sans']) assert.ok(estPoliceIa(n), n);
   for (const n of ['bodoni-moda', 'hanken-grotesk', 'Karla Variable', 'literata', 'archivo']) assert.ok(!estPoliceIa(n), n);
 });
+
+test('effets interdits par GOÛT (grain, spotlight, aurora) : alerte', () => {
+  const r = analyserHtml('<section data-grain><div data-spotlight></div><canvas data-shader="aurora"></canvas></section>');
+  assert.deepEqual(r.alertes.map((a) => a.regle), ['effets-interdits']);
+  assert.equal(r.alertes[0].n, 3);
+});
+
+test('numérotation décorative 01 02 03 : alerte à partir de trois', () => {
+  assert.deepEqual(analyserHtml('<p>01</p><p>02</p><p>03</p><p>Devis</p>').alertes.map((a) => a.regle), ['numerotation-decorative']);
+  assert.equal(analyserHtml('<p>01</p><p>02</p>').alertes.length, 0);
+  assert.equal(analyserHtml('<p>Ouvert de 09 h à 19 h, le 05 et le 06</p>').alertes.length, 0);
+});

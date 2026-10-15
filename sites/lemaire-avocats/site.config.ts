@@ -52,6 +52,7 @@ import { defineSite } from '@/lib/schema';
 export default defineSite({
   slug: 'lemaire-avocats',
   direction: 'nuit',
+  typography: { display: 'ancizarSerif', body: 'hanken' },
   motion: 'rich',
   scale: 'normal',
 

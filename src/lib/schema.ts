@@ -25,7 +25,6 @@ export const DIRECTIONS = [
   'industriel', // beton, acier, orange securite, Bebas, garages/metallerie/BTP
   'mediterranee', // terracotta, bleu mer, blanc chaux, restaurants/ceramistes/immobilier sud
   'eclipse', // noir encre, blanc froid, argent, Space Grotesk serre, epure futuriste, studios/horlogers/opticiens
-  'ephemeride', // bloc ephemeride + calendrier des Postes : carton rouge, feuilles blanches, Archivo condense, studio F&F
 ] as const;
 export type Direction = (typeof DIRECTIONS)[number];
 

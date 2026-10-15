@@ -18,7 +18,7 @@ const divider = site.layout.divider;
   {sections.map(({ Component, type }, i) => (
     <>
       {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
-      <div class="mag" data-num={String(i + 1).padStart(2, '0')}><Component /></div>
+      <div class="mag" data-num={String(i + 1)}><Component /></div>
     </>
   ))}
 </main>

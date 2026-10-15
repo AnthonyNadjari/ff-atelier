@@ -119,6 +119,68 @@ const SQUELETTES_PAR_METIER = [
     motion: null,
     label: 'métier accueil/plaisir → hero épinglé immersif (sticky-hero)',
   },
+  // Familles ajoutées le 15 oct 2026 (audit : automobile, bâtiment hors urgence, alimentation, commerce,
+  // bien-être/sport et numérique retombaient sur le tirage générique).
+  {
+    id: 'automobile',
+    metiers: ['garag', 'carross', 'mecanic', 'pneu', 'moto', 'controle technique', 'depanneur auto'],
+    shells: ['split', 'flow'],
+    nav: 'bar',
+    contactDrawer: false,
+    processVariant: 'steps',
+    motion: null,
+    label: 'métier automobile → panneau latéral (adresse, horaires, téléphone toujours visibles)',
+  },
+  {
+    id: 'batiment',
+    metiers: ['macon', 'carrel', 'peintre en bat', 'plaquiste', 'charpent', 'zingu', 'terrass', 'renovation', 'isolation', 'facad'],
+    shells: ['sidebar', 'flow'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: 'horizon',
+    motion: null,
+    label: 'métier du bâtiment → rail de chantiers (sidebar), étapes en chapitre horizontal',
+  },
+  {
+    id: 'alimentation',
+    metiers: ['boucher', 'charcut', 'fromag', 'primeur', 'cavist', 'epicer', 'poissonn', 'glacier', 'chocolat', 'torrefact', 'food truck'],
+    shells: ['sticky-hero', 'flow'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: null,
+    motion: null,
+    label: 'métier de bouche → hero épinglé sur le produit, horaires au premier écran',
+  },
+  {
+    id: 'commerce',
+    metiers: ['boutique', 'fleurist', 'librair', 'friperie', 'brocant', 'opticien', 'bijout', 'mercerie', 'magasin'],
+    shells: ['index', 'flow'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: null,
+    motion: null,
+    label: 'commerce de détail → accueil-index (rayons, horaires, où)',
+  },
+  {
+    id: 'bien-etre',
+    metiers: ['coach', 'yoga', 'pilates', 'massage', 'salle de sport', 'naturopath', 'sophrolog', 'reflexolog', 'bien-etre'],
+    shells: ['slides', 'flow'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: null,
+    motion: 'subtle',
+    label: 'métier bien-être/sport → écrans posés un par un (slides), mouvement discret',
+  },
+  {
+    id: 'numerique',
+    metiers: ['developpeur', 'agence', 'graphist', 'freelance', 'consultant', 'studio'],
+    shells: ['magazine', 'split'],
+    nav: null,
+    contactDrawer: false,
+    processVariant: null,
+    motion: null,
+    label: 'métier numérique/création → mise en page éditoriale (magazine)',
+  },
   {
     id: 'creation',
     metiers: ['architect', 'paysagist', 'decorat', 'design'],
@@ -301,6 +363,8 @@ function detectSections(cfg) {
   else if (Array.isArray(proof.gallery) && proof.gallery.length > 0) proofVariant = 'gallery';
   else if (Array.isArray(proof.beforeAfter) && proof.beforeAfter.length > 0) proofVariant = 'before-after';
   if (proofVariant) types.push({ type: 'proof', forcedVariant: proofVariant });
+  // Logos (labels, partenaires) en plus de la preuve principale : `proof/logos` n'était jamais choisi.
+  if (Array.isArray(proof.logos) && proof.logos.length >= 3 && proofVariant !== 'logos') types.push({ type: 'proof', forcedVariant: 'logos' });
   if (Array.isArray(cfg.zones?.cities) && cfg.zones.cities.length > 0) types.push({ type: 'zones' });
   if (Array.isArray(cfg.process) && cfg.process.length > 0) types.push({ type: 'process' });
   if (Array.isArray(cfg.faq) && cfg.faq.length > 0) types.push({ type: 'faq' });

@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { parseArgs } from '../scripts/ff/util.mjs';
-import { checkGrilleImagesRatioCoherente } from '../scripts/ff/verifier.mjs';
+import { checkGrilleImagesRatioCoherente, analyserReglesEmpruntees } from '../scripts/ff/verifier.mjs';
 import { controlerDonneesTest } from '../scripts/ff/garde-donnees.mjs';
 import { effectiveLook } from '../scripts/ff/look-data.mjs';
 
@@ -48,4 +48,10 @@ test('variete : les sections écrites par ff figer (virgule finale, label) sont 
   const look = effectiveLook('dentaire-morvan');
   assert.ok(look.sections.length >= 5);
   assert.ok(look.sections.some((s) => s.type === 'services'));
+});
+
+test('règles empruntées : transition all, 100vh seul, user-scalable, Défilez, flèches', () => {
+  const r = analyserReglesEmpruntees({ css: '.a{transition:all .3s}.b{height:100vh}', pages: [{ chemin: 'index.html', html: '<meta content="user-scalable=no"><p>Défilez</p><a>Voir →</a><a>Lire →</a><a>Appeler →</a>' }] });
+  assert.equal(r.length, 5, r.join(' | '));
+  assert.deepEqual(analyserReglesEmpruntees({ css: '.a{transition:opacity .3s}.b{height:100svh}', pages: [{ chemin: 'index.html', html: '<p>Bonjour</p>' }] }), []);
 });

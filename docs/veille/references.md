@@ -873,10 +873,10 @@ créer » = brique absente, à concevoir si un client le justifie vraiment.
 | 21 | Carte inclinée légèrement au survol | Moyen | Faible | `data-tilt` |
 | 22 | Compteur numérique animé pour une preuve de volume réelle | Moyen | Faible | `data-counter` (chiffres réels uniquement) |
 | 23 | Bandeau défilant pour presse/avis/mots-clés, pause au survol | Moyen | Faible | `data-marquee` |
-| 24 | Numérotation éditoriale des sections (01, 02…) | Moyen | Faible | `data-stagger` sur bloc numéro + titre |
+| 24 | ~~Numérotation éditoriale des sections (01, 02…)~~ **retiré le 6 oct 2026** (signe IA, docs/GOUT.md § 2) | Moyen | Faible | `data-stagger` sur bloc numéro + titre |
 | 25 | Duo de photos ensemble + détail présentées comme une paire | Moyen | Faible | `data-reveal` en stagger |
 | 26 | Ligne de filiation/pedigree sous le titre (formation, maison, ancienneté) | Moyen | Faible | `data-split` court |
-| 27 | Emphase italique ciblée sur un segment du titre | Moyen | Faible | `data-split` + `data-reveal-delay` |
+| 27 | ~~Emphase italique ciblée sur un segment du titre~~ **retiré le 6 oct 2026** (signe IA, docs/GOUT.md § 2) | Moyen | Faible | `data-split` + `data-reveal-delay` |
 | 28 | Rythme de reveal différencié par zone (delays variés, pas un seul timing) | Moyen | Faible | `data-reveal-delay` |
 | 29 | Trait qui se trace sous un titre ou une séparation | Faible | Faible | `data-draw` |
 | 30 | Liste d'adresses/horaires en index typographique soigné | Faible | Faible | `data-stagger` |

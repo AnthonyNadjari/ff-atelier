@@ -805,6 +805,29 @@ const MOTS_VALISES = [
   { label: '"sur mesure"', re: /sur[- ]mesure/i },
 ];
 
+/** Règles empruntées aux skills de design (docs/GOUT.md § 8, docs/veille/outils-2026-10.md § 1.3) :
+ * pure, testée dans tests/audit-14-oct.test.mjs. `css` = CSS livré, `html` = pages. Renvoie des libellés. */
+export function analyserReglesEmpruntees({ css = '', pages = [] }) {
+  const out = [];
+  const nAll = (css.match(/transition\s*:\s*all\b/g) || []).length;
+  if (nAll) out.push(`\`transition: all\` (${nAll}) : nommer les propriétés animées`);
+  if (/\b100vh\b/.test(css) && !/100[sd]vh\b/.test(css)) out.push('`100vh` sans `svh`/`dvh` : la barre de Safari fausse la hauteur, préférer `100svh`');
+  for (const { chemin, html } of pages) {
+    if (/user-scalable\s*=\s*no/i.test(html)) out.push(`${chemin} : \`user-scalable=no\` empêche le zoom (accessibilité)`);
+    const texte = html.replace(/<(script|style|svg)\b[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]+>/g, ' ');
+    if (/(?:^|\s)(?:D[ée]filez|Scroll(?:ez)?)\b/.test(texte)) out.push(`${chemin} : « Défilez / Scroll » en bas du hero, le visiteur sait défiler`);
+    const fleches = (texte.match(/\s→(?:\s|$)|→\s*$/gm) || []).length;
+    if (fleches >= 3) out.push(`${chemin} : flèches « → » décoratives (${fleches}) sur les liens`);
+  }
+  return out;
+}
+
+export function warnReglesEmpruntees(files, distDir, warnings) {
+  const css = listFilesWithExt(distDir, '.css').map((f) => fs.readFileSync(f, 'utf8')).join('\n');
+  const pages = files.map((f) => ({ chemin: path.relative(distDir, f), html: fs.readFileSync(f, 'utf8') }));
+  for (const l of analyserReglesEmpruntees({ css, pages })) warnings.push(`Règle empruntée (docs/GOUT.md § 8) : ${l}`);
+}
+
 export function warnMotsValises(files, distDir, warnings) {
   for (const item of MOTS_VALISES) {
     const offenders = [];
@@ -1069,6 +1092,7 @@ export async function cmdVerifier(args) {
   warnRythmeUniforme(files, distDir, warnings);
   warnTiretsCadratins(files, distDir, warnings);
   warnMotsValises(files, distDir, warnings);
+  warnReglesEmpruntees(files, distDir, warnings);
   warnEnumerationsTernaires(files, distDir, warnings);
   warnAucunePhraseParlee(files, distDir, warnings);
   warnPageServiceSansChiffre(files, distDir, warnings);

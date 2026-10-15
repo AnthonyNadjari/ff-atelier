@@ -104,7 +104,31 @@ Origine : « ça se voit que tu l'as fait avec Claude » (6 oct 2026). Liste com
 4. Montrer en vrai (lien, captures), une seule fois, avec ce qui a été rejeté en interne.
 5. Chaque « non » du fondateur → une ligne ici, datée. Chaque bug payé → `CLAUDE.md` § Pièges.
 
+## 8. Règles empruntées (veille des skills de design, 15 oct 2026)
+
+Tirées de `docs/veille/outils-2026-10.md` § 1.3 (28 règles, source par règle). Les plus utiles ici ;
+les autres servent à la relecture adverse et à `ff verifier` (bloc « règles empruntées »).
+
+- **Mouvement** : jamais `transition: all` ; entrée et sortie en `ease-out`, jamais `ease-in` sur un
+  élément d'interface ; une animation d'interface reste sous 300 ms, seul le « feu d'artifice » peut
+  durer ; la sortie est plus rapide que l'entrée ; un stagger fait 30-80 ms entre éléments avec un
+  plafond total ; avant d'animer, dire en un mot à quoi ça sert, sinon pas d'animation.
+- **Téléphone** : tout `:hover` qui bouge est dans `@media (hover: hover) and (pointer: fine)`, le retour
+  tactile passe par `:active` ; champs à 16 px minimum (sinon iOS zoome), `type="tel"`, `autocomplete` ;
+  jamais `user-scalable=no` ; `100svh` plutôt que `100vh` seul ; `touch-action: pan-y` sur un carrousel.
+- **Robustesse** : tester une raison sociale longue à diacritiques, 0 / 1 / 12 services, un horaire
+  fermé, une photo manquante ; colonnes en `min-width: 0`, e-mails en `overflow-wrap: anywhere`.
+- **Composition** : le H1 tient en 2-3 lignes sur ordinateur, on élargit ou on réduit, on ne coupe pas ;
+  pas de « Défilez » ni de flèche qui rebondit en bas du hero ; pas de badge « Depuis 1998 », de strip
+  ville/heure/météo, de légende photo décorative ; pas de capture bricolée en `<div>` ; pas de cartes
+  dans des cartes ; pas de « → » décoratif sur les liens ; pas d'accent sur un seul mot du titre.
+- **Propositions** : les trois versions divergent sur un axe nommé (squelette, densité, rythme), jamais
+  trois palettes de la même page.
+- **Livraison** : un fichier livré est complet, jamais `// ...`.
+
 ## Journal des ajouts
 
 - 15 oct 2026 : création, compilation des retours du 6 au 14 oct 2026 (mémoires de session, PRODUCT.md,
   signes-ia.md, commentaires de code du site du studio).
+- 15 oct 2026, nuit : § 8 (règles empruntées aux skills de design, veille outils) ; § 2 complété
+  (« Depuis 1998 » en badge, polaroid, grands rayons).

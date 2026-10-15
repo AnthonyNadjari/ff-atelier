@@ -40,7 +40,7 @@ const entries = sections
   .filter((s) => s.type !== 'cta')
   .map((s, i) => ({ id: idOf(s), label: labelOf(s), Component: s.Component, image: pool[i] }));
 const total = pages.length + entries.length;
-const num = (i: number) => String(i + 1).padStart(2, '0');
+const num = (i: number) => String(i + 1);
 ---
 
 <div class="index-ecran flex min-h-svh flex-col">

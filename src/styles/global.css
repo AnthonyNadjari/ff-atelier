@@ -750,3 +750,26 @@ summary::-webkit-details-marker { display: none; }
 
 /* Plancher de soin (etats de focus, formulaires, 404, impression) : voir src/styles/craft.css */
 @import './craft.css';
+
+/* ---- Veille du 15 oct 2026 (docs/veille/techniques-2026-10.md), CSS pur, sans JS ---- */
+/* D1. Bouton ajusté à la hauteur des capitales : le texte d'un .btn paraissait toujours un peu bas
+   (demi-interligne au-dessus des capitales). Safari 18.2+, Chrome 133+ ; ailleurs, rien ne change.
+   Pas sur les titres ni sur `*` : ça changerait le rythme vertical de pages déjà réglées. */
+.btn { text-box: trim-both cap alphabetic; }
+/* A5. FAQ native : un seul <details name="faq"> ouvert à la fois (attribut name), et la réponse
+   s'ouvre en hauteur animée sans GSAP Flip (`::details-content`, Baseline 2025 ; `interpolate-size`
+   Chrome 129+, opt-in). Sans prise en charge : ouverture sèche, comme avant. */
+:root { interpolate-size: allow-keywords; }
+.faq-native details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size 0.3s ease, content-visibility 0.3s allow-discrete;
+}
+.faq-native details[open]::details-content { block-size: auto; }
+@media (prefers-reduced-motion: reduce) { .faq-native details::details-content { transition: none; } }
+/* A13. Fondu des bords d'un marquee (`data-marquee-fade`) : les mots entrent et sortent en s'estompant
+   au lieu d'être coupés net (vu sur boc.studio). */
+[data-marquee][data-marquee-fade] {
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}

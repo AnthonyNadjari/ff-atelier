@@ -29,7 +29,7 @@ const cities = site.zones.cities;
     <hr class="mt-10 border-t border-line" />
 
     <ul class="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
-      {years && <li class="flex items-center gap-2">{years} ans d’expérience</li>}
+      {years && <li class="flex items-center gap-2">Depuis {site.business.since}</li>}
       {site.contact.emergency24h && <li class="flex items-center gap-2">Urgences 24 h/24</li>}
       {site.business.insurance && <li class="flex items-center gap-2">Assuré décennale</li>}
       {site.proof.google && <li class="flex items-center gap-2">{site.proof.google.rating.toFixed(1).replace('.', ',')}/5 sur Google ({site.proof.google.count} avis)</li>}
