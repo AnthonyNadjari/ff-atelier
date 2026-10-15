@@ -7,7 +7,7 @@ import path from 'node:path';
 import { DIST_DIR, SITES_DIR, resolveSlug, runAstro, ok, fail, warn, info, c, parseArgs } from './util.mjs';
 import { runLighthouse } from './lighthouse.mjs';
 import { runA11y } from './a11y.mjs';
-import { garderDonneesTest, estSiteDemo } from './garde-donnees.mjs';
+import { garderDonneesTest, estSiteDemo, RE_TEL_TEST } from './garde-donnees.mjs';
 import { analyserHtml as analyserTypo } from './typo.mjs';
 import { analyserSite as analyserIa } from './ia.mjs';
 
@@ -445,7 +445,11 @@ export function checkGrilleImagesRatioCoherente(files, distDir, checks) {
     while ((m = listRe.exec(html))) {
       // Une image recadrée par object-fit (cover/contain) s'affiche au ratio de son cadre, pas au sien :
       // seule une image affichée à son ratio propre peut casser l'alignement d'une grille.
-      const imgs = (m[2].match(imgRe) || []).filter((tag) => !/\bobject-(?:cover|contain)\b/.test(tag));
+      // Idem pour les blocs décoratifs (`aria-hidden="true"`, ex. les écrans de démo défilants du site du
+      // studio, 24 tuiles 900x1460 à côté de deux photos 4:3 dans la même carte) : pas une grille.
+      let corps = m[2];
+      for (let garde = 0; garde < 50; garde++) { const avant = corps; corps = stripBalancedDiv(corps, 'aria-hidden="true"'); if (corps === avant) break; }
+      const imgs = (corps.match(imgRe) || []).filter((tag) => !/\bobject-(?:cover|contain)\b/.test(tag));
       if (imgs.length < 3) continue;
       const ratios = [];
       for (const tag of imgs) {
@@ -1016,7 +1020,11 @@ export async function cmdVerifier(args) {
   checkNoEmptyAnchor(files, distDir, checks);
   checkHoneypot(files, distDir, checks);
   checkNoAggregateRating(files, distDir, checks);
-  checkTelPremierEcran(distDir, checks);
+  // Téléphone encore au numéro de test dans la config : le site le cache à dessein (site du studio avant
+  // immatriculation), pas de lien tel: à attendre ; on le dit en avertissement au lieu d'échouer.
+  const configTel = fs.existsSync(path.join(SITES_DIR, slug, 'site.config.ts')) ? fs.readFileSync(path.join(SITES_DIR, slug, 'site.config.ts'), 'utf8').match(/\bphone\s*:\s*['"]([^'"]*)['"]/)?.[1] ?? '' : '';
+  if (configTel && RE_TEL_TEST.test(configTel)) avertDemo.push('Téléphone de test dans contact.phone : lien tel: du premier écran non contrôlé (mettre le vrai numéro avant la mise en ligne)');
+  else checkTelPremierEcran(distDir, checks);
   checkPasIframeGoogleAuChargement(files, distDir, checks);
   checkConfidentialite(distDir, checks);
   checkCreditsAffiches(slug, distDir, checks);

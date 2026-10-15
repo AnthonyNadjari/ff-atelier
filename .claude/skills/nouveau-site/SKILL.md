@@ -18,6 +18,8 @@ Utilisation : `/nouveau-site <slug>` ou "génère le site pour <slug>".
 
 Dans l'ordre :
 
+0. `docs/GOUT.md` : la charte de goût des fondateurs (ce qu'un site doit être, ce qu'il ne doit jamais
+   montrer). Impérative, avant le brief.
 1. `sites/<slug>/brief.md` (ou le brief collé dans le message de l'utilisateur s'il n'y a pas de
    fichier). Si aucun brief n'est trouvé nulle part, arrête-toi et demande-le.
 2. `src/lib/schema.ts` — le schéma complet (`DIRECTIONS`, `MOTION`, `VARIANTS`, `siteSchema`, chaque

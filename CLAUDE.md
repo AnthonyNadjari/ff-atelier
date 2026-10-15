@@ -97,6 +97,11 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
 
 ## Où sont les choses
 
+- `docs/GOUT.md` — **la charte de goût des fondateurs** : ce qu'un site doit être, les signes « fait par une
+  IA » interdits, les règles de démo, de mouvement, de texte, et la façon de travailler sans allers-retours.
+  Tout agent qui dessine, écrit ou relit un site la lit en premier ; chaque « non » d'un fondateur y
+  entre, daté. Skills : `/site-final <slug>` (jusqu'à l'état « à montrer », en une passe) et `/veille`
+  (tour d'entretien et d'apprentissage de l'usine, journal dans `docs/veille/journal.md`).
 - `docs/COMMANDES.md` — les commandes du quotidien résumées sur une page, pour le fondateur non
   technique : les 6 commandes de base, un chantier client de bout en bout, que faire quand un truc
   cloche, le reste par besoin.
