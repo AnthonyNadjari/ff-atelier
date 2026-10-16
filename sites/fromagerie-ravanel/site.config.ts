@@ -9,7 +9,7 @@ export default defineSite({
   direction: 'terre',
   typography: { display: 'savate', body: 'hanken' },
   scale: 'normal',
-  motion: 'subtle',
+  motion: 'rich',
   layout: {
     nav: 'bar',
     hero: 'custom/hero',

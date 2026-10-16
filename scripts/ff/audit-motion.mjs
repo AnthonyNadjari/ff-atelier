@@ -312,6 +312,16 @@ function collectDiagnostics() {
   document.querySelectorAll('body *').forEach((el) => {
     if (results.overflowX.length >= 15) return;
     if (el.closest('[data-horizontal], .marquee-track, [data-drag-grid], [data-frames]')) return;
+    // Piste à défilement horizontal voulu (scroll-snap, bande qu'on fait glisser) : ses pages sortent de l'écran par
+    // construction (fromagerie-ravanel, « l'âge du beaufort », 16 oct 2026).
+    let anc = el.parentElement;
+    let dansPiste = false;
+    while (anc && anc !== document.body) {
+      const ox = getComputedStyle(anc).overflowX;
+      if ((ox === 'auto' || ox === 'scroll') && anc.scrollWidth > anc.clientWidth + 4) { dansPiste = true; break; }
+      anc = anc.parentElement;
+    }
+    if (dansPiste) return;
     if (el.clientWidth <= 0 || el.scrollWidth <= el.clientWidth + 4) return;
     // Texte pour lecteurs d'ecran (.sr-only : 1x1 px, overflow hidden, clip) : deborde par construction.
     if (el.clientWidth <= 1 && el.clientHeight <= 1 && getComputedStyle(el).overflow === 'hidden') return;

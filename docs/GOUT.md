@@ -67,6 +67,13 @@ Origine : « ça se voit que tu l'as fait avec Claude » (6 oct 2026). Liste com
 - **Rien ne tourne tout seul** quand on peut faire glisser à la main (14 oct 2026, Trois jours : « un
   scroll latéral manuel »). Pas d'autoplay de « stories ».
 - Pas de défilement bloqué qui surprend (pin trop long, scroll-jacking).
+- **Un site doit être vivant** (16 oct 2026, sur la démo de fromagerie relue « à montrer » mais quasi immobile :
+  « pourquoi y'a aucune animation ? fais vraiment améliorer ça »). « Un seul feu d'artifice » veut dire un seul
+  effet RICHE, pas un site immobile : chaque site a au moins (1) une entrée du premier écran (titre par lignes,
+  `data-split="lines"`), (2) un rythme d'apparition au défilement (un groupe par section), (3) le feu
+  d'artifice, qui répond au doigt ou au défilement, (4) une image qui bouge au défilement (`data-scrub`,
+  `data-parallax`, révélation `clip`/`wipe`). `motion: 'rich'` par défaut ; `subtle` seulement pour la santé et
+  le droit (et encore : entrée et rythme y restent).
 - Logo : **aucune animation générée** (Remotion, IA vidéo, 3D, encre au scroll, tout rejeté les 8-9 oct
   2026). Le monogramme reste le SVG tracé en CSS. Ne pas reproposer ; demander des références ou un
   motion designer humain.
@@ -130,5 +137,6 @@ les autres servent à la relecture adverse et à `ff verifier` (bloc « règles 
 
 - 15 oct 2026 : création, compilation des retours du 6 au 14 oct 2026 (mémoires de session, PRODUCT.md,
   signes-ia.md, commentaires de code du site du studio).
+- 16 oct 2026 : § 4 « un site doit être vivant » (démo fromagerie immobile).
 - 15 oct 2026, nuit : § 8 (règles empruntées aux skills de design, veille outils) ; § 2 complété
   (« Depuis 1998 » en badge, polaroid, grands rayons).

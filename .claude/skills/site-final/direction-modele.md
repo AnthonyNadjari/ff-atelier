@@ -21,7 +21,8 @@ Si oui, l'idée est celle du métier : en prendre une autre dans la liste. Écri
 - THÈSE : l'idée, et l'arrangement par défaut du métier qu'elle refuse.
 - SQUELETTE : coquille, nav, où vit le contact, ordre des blocs, et l'écart avec `ff variete`.
 - PREMIER ÉCRAN : ce qui est où, à quelle taille, où est le téléphone ou le bouton.
-- FEU D'ARTIFICE : le seul effet riche, son but en un mot.
+- MOUVEMENT : quatre lignes (GOUT § 4) : entrée du premier écran ; rythme d'apparition ; le feu d'artifice
+  (le seul effet riche, son but en un mot, ce qui répond au doigt ou au défilement) ; l'image qui bouge.
 - REFUSÉ : ce qu'on a écarté et pourquoi (sert au compte rendu).
 - FIN : non relu = pas fini ; ce site se termine par le verdict du relecteur.
 

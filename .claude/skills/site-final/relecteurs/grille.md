@@ -18,6 +18,8 @@ PLAFONDS (priment sur le calcul) :
 - le site passerait pour celui du concurrent (test du concurrent) : idée ≤ 6 ;
 - pas de bloc sur mesure, ou un bloc qui décrit au lieu de montrer : idée ≤ 6 ;
 - deux effets riches sur la page : composition ≤ 7 ;
+- site immobile (pas d'entrée du premier écran, ou aucune apparition au défilement, ou `motion` qui n'est pas
+  'rich' hors santé/droit) : composition ≤ 6,5 (GOUT § 4, 16 oct 2026) ;
 - un élément couvre un titre ou un texte à une position de défilement : usage ≤ 6 ;
 - une bande vide où un reveal n'a pas joué, ou un contenu rogné : usage ≤ 5 ;
 - texte peu lisible sur fond animé au téléphone (GOUT.md § 1) : usage ≤ 6 ;

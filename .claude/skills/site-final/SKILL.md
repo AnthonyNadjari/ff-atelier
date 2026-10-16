@@ -59,7 +59,8 @@ une heure après.
 
 - Site neuf : `/nouveau-site <slug>` étapes 1 à 7, en suivant le contrat (pas son résumé final).
   Site existant : `node scripts/ff.mjs build <slug>`.
-- Bloc sur mesure obligatoire, conforme à la phrase-idée ; un seul feu d'artifice par page.
+- Bloc sur mesure obligatoire, conforme à la phrase-idée ; un seul feu d'artifice par page, **mais un site
+  vivant** : les quatre lignes MOUVEMENT du contrat sont posées (`docs/GOUT.md` § 4), `motion: 'rich'`.
 - **Calibration** : les pages générées tombent dans cinq grappes quel que soit le sujet : fond crème + serif
   + terracotta ; noir + un accent acide ; broadsheet à filets et petites capitales ; cartes SaaS identiques à
   grand rayon et ombre grise ; chrome de gabarit (eyebrow, « A · B · C », flèche « → »). Pour un métier
@@ -105,6 +106,11 @@ refaire) ; la première vignette montre le haut de page et la dernière atteint 
 `--debut 24`, puis `--debut 48`) ; si le site affiche « Ouvert / Fermé », l'heure de capture le montre
 « Ouvert ». Une planche invalide se refait avant toute relecture ; on ne passe jamais une planche invalide
 à un agent.
+
+Le mouvement ne se voit pas sur une planche fixe : **le filmer** (premier écran image par image à 100, 300,
+600, 1 000 ms, puis le feu d'artifice en action) dans `captures/planches/<slug>-film.jpg`, avec un petit script
+playwright (modèle : `scripts/outils/film-fromagerie.mjs`). Au test du 16 oct 2026, c'est le film qui a
+montré que le chiffre suivant de la bande restait invisible au bord.
 
 Puis ouvrir chaque image avec l'outil Read et faire **ces passes, une par une**, sur les images seulement
 (on a écrit le code, on y lirait ses intentions) :
@@ -217,6 +223,9 @@ scripts/ff.mjs vercel <slug>` sur un projet d'aperçu si les identifiants existe
   facultatif), pas d'avis de démo (`legal.demo`), titre de FAQ figé (`wording.faqTitle`), rayons de terre
   (20 / 28 px → 4 px), deux faux positifs (`ff ia` lisait le CSS, `ff verifier` voyait « tes » dans
   « fêtes »). Leçons intégrées : `ff relecture`, correction mesurée avant d'être annoncée.
+  Retour du fondateur sur le lien en ligne : « pourquoi y'a aucune animation ? ». Les relecteurs l'avaient laissé
+  passer (planches fixes, aucune exigence de mouvement). Corrigé : GOUT § 4 « un site doit être vivant », ligne
+  MOUVEMENT du contrat, question et plafond « site immobile » chez le DA, film du mouvement.
 
 ## 11. Vérifier que la skill marche (une fois par mois, ou après une grosse modification)
 

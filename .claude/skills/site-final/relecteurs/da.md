@@ -38,6 +38,10 @@ CE QUE TU VÉRIFIES :
 - Calibration : le site tombe-t-il dans une des cinq grappes (crème + serif + terracotta ; noir + accent acide ;
   broadsheet à filets et petites capitales ; cartes SaaS à grand rayon ; chrome de gabarit) sans que le brief
   l'ait demandé ?
+- Vivant (GOUT § 4) : le premier écran a-t-il une entrée ? Les sections apparaissent-elles au défilement ? Le
+  feu d'artifice répond-il au doigt ? Une image bouge-t-elle ? Les planches sont des images fixes : lis
+  `data-split`, `data-reveal`, `data-stagger`, `data-scrub`, `data-parallax` et `motion:` dans le code, et
+  regarde `captures/planches/<slug>-film.jpg` s'il existe. Un site immobile est un constat à 75.
 - Un seul feu d'artifice : un deuxième effet riche est un constat. Pour le mouvement, propose d'abord de
   supprimer, puis de réduire, puis seulement de corriger.
 - Téléphone (GOUT.md § 1) : texte lisible sur fond animé, rien sous la barre basse, contact au pouce.

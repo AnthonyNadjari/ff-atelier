@@ -31,7 +31,7 @@ const horaires = site.contact.hours.map((h) => ({ ...h, jours: joursDe(h.days).j
 <section id="hero" class="ardoise bg-ink text-on-ink">
   <div class="container-ff pb-16 pt-24 md:pb-24 md:pt-36">
     <p class="text-sm text-on-ink/75">{site.business.trade}, {site.contact.address.street}, {site.contact.address.city}</p>
-    <h1 class="hero-titre text-display-xl mt-4 max-w-[16ch] font-display" set:html={site.business.tagline} />
+    <h1 class="hero-titre text-display-xl mt-4 max-w-[16ch] font-display" data-split="lines" set:html={site.business.tagline} />
 
     {/* Téléphone : l'horaire du jour et l'appel tout de suite sous le titre (relecture DA, 16 oct 2026 :
         sur 390 x 844, le bouton tombait sous le pli). L'ordinateur garde la colonne complète. */}
@@ -43,7 +43,8 @@ const horaires = site.contact.hours.map((h) => ({ ...h, jours: joursDe(h.days).j
     <div class="mt-10 grid gap-12 lg:mt-12 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-7">
         <p class="font-display text-xl">À savoir avant de passer</p>
-        <ul class="ardoise-liste mt-4">
+        <span class="ardoise-trait mt-3 block h-px" data-draw aria-hidden="true"></span>
+        <ul class="ardoise-liste mt-2" data-stagger="110">
           {lignes.map((l) => (
             <li>
               <span class="font-display text-lg">{l.quoi}</span>
@@ -74,6 +75,7 @@ const horaires = site.contact.hours.map((h) => ({ ...h, jours: joursDe(h.days).j
 <style>
   /* Ardoise : un trait de craie entre les lignes, pas de cadre ni de texture (grain interdit, GOUT § 2). */
   .ardoise-liste { list-style: none; margin: 0; padding: 0; }
+  .ardoise-trait { width: 100%; background: color-mix(in srgb, var(--on-ink) 55%, transparent); }
   .ardoise-liste li {
     display: grid;
     gap: 2px;

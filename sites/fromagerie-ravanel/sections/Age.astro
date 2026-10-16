@@ -21,7 +21,7 @@ const ages = [
   <div class="container-ff">
     <div class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
       <div class="lg:col-span-7">
-        <h2 class="text-display-md font-display max-w-[18ch]" data-reveal>Le beaufort d’alpage se vend à l’âge que vous voulez.</h2>
+        <h2 class="text-display-md font-display max-w-[18ch]" data-split="lines">Le beaufort d’alpage se vend à l’âge que vous voulez.</h2>
         <p class="mt-5 max-w-prose text-lg text-muted">Douze, dix-huit ou vingt-quatre mois de cave. On vous fait goûter avant de couper.</p>
       </div>
       <nav class="age-onglets lg:col-span-5" aria-label="Choisir l’âge">
@@ -33,7 +33,7 @@ const ages = [
 
     <div class="mt-12 grid gap-8 lg:grid-cols-12 lg:gap-16">
       <div class="order-last lg:order-none lg:col-span-5">
-        <Img src="/images/beaufort.webp" alt="Meule de beaufort entière, au talon creusé, sur une planche de cave" class="aspect-[4/3] w-full object-cover object-[50%_45%]" sizes="(min-width: 64rem) 38vw, 100vw" />
+        <Img data-reveal="clip" src="/images/beaufort.webp" alt="Meule de beaufort entière, au talon creusé, sur une planche de cave" class="aspect-[4/3] w-full object-cover object-[50%_45%]" sizes="(min-width: 64rem) 38vw, 100vw" />
         <p class="mt-3 text-sm text-muted">Une meule de beaufort, talon creusé. Photo : Ibex73, CC BY-SA 4.0.</p>
       </div>
       <div class="age-bande lg:col-span-7" data-age-bande tabindex="0" aria-label="Les trois âges du beaufort, faites glisser sur le côté">
@@ -73,7 +73,20 @@ const ages = [
   /* Téléphone : l'âge suivant dépasse à droite, on comprend qu'il faut faire glisser (relecture DA). */
   @media (max-width: 63.99rem) { .age-page { flex-basis: 86%; padding-right: 24px; } }
   /* Le chiffre : la seule chose énorme du bloc. */
-  .age-chiffre { margin: 0 0 8px; font-size: clamp(7rem, 22vw, 15rem); line-height: 0.85; color: var(--accent); font-variant-numeric: tabular-nums; }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .age-page .age-chiffre, .age-page h3, .age-page p:not(.age-chiffre) {
+        animation: age-entree linear both;
+        animation-timeline: view(inline);
+        animation-range: entry 0% contain 0%;
+      }
+      .age-page h3 { animation-range: entry 10% contain 0%; }
+      .age-page p:not(.age-chiffre) { animation-range: entry 20% contain 0%; }
+    }
+  }
+  /* Départ à demi visible : le chiffre suivant doit rester lisible au bord droit (invitation à glisser). */
+  @keyframes age-entree { from { opacity: 0.45; transform: scale(0.8); } to { opacity: 1; transform: none; } }
+  .age-chiffre { transform-origin: 0 100%; margin: 0 0 8px; font-size: clamp(7rem, 22vw, 15rem); line-height: 0.85; color: var(--accent); font-variant-numeric: tabular-nums; }
 </style>
 
 <script>
@@ -81,6 +94,16 @@ const ages = [
   function initAge() {
     const bande = document.querySelector<HTMLElement>('[data-age-bande]');
     if (!bande) return;
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const io = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        if (bande.scrollLeft > 4) return;
+        bande.scrollTo({ left: bande.clientWidth * 0.28, behavior: 'smooth' });
+        window.setTimeout(() => bande.scrollTo({ left: 0, behavior: 'smooth' }), 650);
+      }, { threshold: 0.7 });
+      io.observe(bande);
+    }
     const liens = [...document.querySelectorAll<HTMLAnchorElement>('[data-age-lien]')];
     const poser = (i: number) => liens.forEach((l, k) => (k === i ? l.setAttribute('aria-current', 'true') : l.removeAttribute('aria-current')));
     let raf = 0;

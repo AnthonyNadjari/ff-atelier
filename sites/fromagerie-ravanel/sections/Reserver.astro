@@ -34,11 +34,11 @@ const bons = [
 
 <section id="reserver" class="section-y bg-bg">
   <div class="container-ff">
-    <h2 class="text-display-md font-display max-w-[20ch]" data-reveal>Deux choses se réservent : l’appareil à raclette et le plateau.</h2>
+    <h2 class="text-display-md font-display max-w-[20ch]" data-split="lines">Deux choses se réservent : l’appareil à raclette et le plateau.</h2>
     <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-16" data-stagger="80">
       {bons.map((b) => (
         <article class="bon">
-          {b.image && <Img src={b.image.src} alt={b.image.alt} class="mb-6 aspect-[3/2] w-full object-cover" sizes="(min-width: 48rem) 45vw, 100vw" />}
+          {b.image && <Img data-reveal="wipe" src={b.image.src} alt={b.image.alt} class="mb-6 aspect-[3/2] w-full object-cover" sizes="(min-width: 48rem) 45vw, 100vw" />}
           <h3 class="font-display text-2xl">{b.titre}</h3>
           <dl class="bon-lignes mt-4">
             {b.lignes.map(([k, v]) => (

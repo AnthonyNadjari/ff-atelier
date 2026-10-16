@@ -36,8 +36,10 @@ tient pas ; l'ardoise qui porte ces trois faits-là tient. Retenu : le bloc sign
 - PREMIER ÉCRAN : fond ardoise (`--ink`), titre à la craie en grande taille (« Fromager-affineur, rue de la
   Gare »), trois lignes d'ardoise (raclette à réserver, plateaux 48 h, marché mardi/vendredi), horaires du jour,
   téléphone en bouton. Lisible sans défiler sur un iPhone.
-- FEU D'ARTIFICE : l'âge du beaufort, une bande qu'on fait glisser à la main (scroll-snap) entre 12, 18 et 24
-  mois ; but : choisir.
+- MOUVEMENT (ajouté le 16 oct après « pourquoi y'a aucune animation ? ») : entrée = titre par lignes et trait
+  de craie qui se trace ; rythme = lignes de l'ardoise et bons qui apparaissent l'un après l'autre ; feu
+  d'artifice = l'âge du beaufort, bande qu'on fait glisser à la main, le chiffre suivant pâle au bord grandit en
+  arrivant, la bande s'entrouvre une fois pour montrer qu'elle glisse ; image = la cave qui recule au défilement.
 - REFUSÉ : nav `dock` du composer (pilule), `about/timeline` (trois dates déjà dites dans la cave), carreaux
   rouges et bois verni (le client n'aime pas), crème + serif + terracotta (grappe dépensée), toute photo qui
   prétendrait montrer Claire, Théo ou la boutique.
