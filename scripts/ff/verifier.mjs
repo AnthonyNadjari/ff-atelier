@@ -10,6 +10,7 @@ import { runA11y } from './a11y.mjs';
 import { garderDonneesTest, estSiteDemo, RE_TEL_TEST } from './garde-donnees.mjs';
 import { analyserHtml as analyserTypo } from './typo.mjs';
 import { analyserSite as analyserIa } from './ia.mjs';
+import { aiguillageDuSite, controlerAiguillage, lireDist } from './aiguillage.mjs';
 
 const FORBIDDEN = [
   { label: 'lorem', re: /lorem/i },
@@ -366,6 +367,14 @@ function checkTypographieEtIa(slug, files, distDir, checks, warnings) {
   if (!ia.echecs.length) checks.push({ pass: true, label: 'Aucun signe « fait par une IA » bloquant (ff ia)' });
   for (const e of ia.echecs) checks.push({ pass: false, label: `Signe IA : ${e.regle} (${e.n})${e.exemples ? ', ex. ' + e.exemples[0] : ''}` });
   for (const a of ia.alertes) warnings.push(`Signe IA à surveiller : ${a.regle} (${a.n})`);
+  // Aiguillage du client (16 oct 2026, .claude/skills/site-final/aiguillage.md) : seulement si le brief y répond.
+  const aig = aiguillageDuSite(slug);
+  if (aig) {
+    const r = controlerAiguillage({ decision: aig.decision, ...lireDist(slug) });
+    if (!r.echecs.length) checks.push({ pass: true, label: `Aiguillage du client respecté (ff aiguillage ${slug})` });
+    for (const e of r.echecs) checks.push({ pass: false, label: `Aiguillage : ${e}` });
+    for (const a of r.alertes) warnings.push(`Aiguillage : ${a}`);
+  }
 }
 
 /** sitemap-index.xml genere par @astrojs/sitemap. */

@@ -1,5 +1,11 @@
 # Aiguillage : ce que les réponses du client décident avant toute idée
 
+Calcul : `node scripts/ff.mjs aiguillage <slug>` (lit le brief, compte les photos du client présentes dans `raw/` et
+`public/images/` hors banque d'images de `CREDITS.md`, imprime la décision et les deux lignes du contrat).
+Contrôle : `ff verifier` échoue si un client « calme » reçoit `motion: 'rich'`, un attribut de défilement continu
+(`data-scrub`, `data-parallax`, `data-pin`, `data-horizontal`, `data-frames`, `data-text-fill`, `data-stack`) ou une
+timeline de défilement CSS dans une section sur mesure ; il alerte sur une photo affichée sans photo du client.
+
 Les réponses du formulaire (`ff brief`, section 8 « Photos » et 12 « Ressenti ») tranchent des choix que
 la skill ne devine pas. On les lit en premier, on écrit le résultat en tête du contrat (ligne AIGUILLAGE de
 `direction-modele.md`), puis on invente les pistes **dans** ce cadre. Une piste qui sort du cadre est
