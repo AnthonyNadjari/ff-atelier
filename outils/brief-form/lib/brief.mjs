@@ -65,6 +65,7 @@ ${ou(d.difference)}
 ${ou(d.avis)}
 
 ## 8. Photos disponibles
+- **Photos sur le site ? :** ${ou(d.photos_souhait)}${d.photos_souhait === 'Oui, mais je n’en ai pas' ? ' : **à organiser** (guide photo au client, ou séance sur place)' : ''}
 - [${coche('Logo')}] Logo
 - [${coche('Portrait')}] Portrait / photo de l'artisan ou de l'équipe
 - [${coche('Réalisations')}] Photos du travail, de la boutique
@@ -82,6 +83,7 @@ ${ou(d.demandes)}
 - **Domaine :** ${ou(d.domaine)}
 
 ## 12. Ressenti du client
+- **Ambiance (calme ou vivant) :** ${ou(d.ambiance)}
 - **3 adjectifs :** ${ou(d.adjectifs)}
 - **Sites qu'il aime :** ${ou(d.aime)}
 - **Ce qu'il ne veut pas :** ${ou(d.deteste)}

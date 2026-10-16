@@ -38,6 +38,8 @@
   @media (min-width: 40rem) { .ligne.deux { grid-template-columns: 1fr 1fr; } .ligne.cp { grid-template-columns: 9rem 1fr; } }
   .cases { display: grid; gap: 10px; margin-top: 12px; }
   .cases label, .accord { display: flex; gap: 12px; align-items: flex-start; margin: 0; font-weight: 400; }
+  .question { font-weight: 600; margin: 20px 0 0; }
+  input[type=radio] { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--cuivre); flex: none; }
   input[type=checkbox] { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--cuivre); flex: none; }
   .alerte { border-left: 2px solid var(--cuivre); padding: 4px 0 4px 14px; color: var(--doux); font-size: .95rem; margin: 8px 0 0; }
   .envoi { margin-top: 48px; border-top: 1px solid var(--ligne); padding-top: 28px; }
@@ -124,6 +126,13 @@
     <fieldset>
       <legend>Vos photos</legend>
       <p class="aide">Les vraies photos font les beaux sites. Pas besoin de photographe : un téléphone, de la lumière du jour.</p>
+      <p class="question">Des photos sur votre site ?</p>
+      <div class="cases">
+        <label><input type="radio" name="photos_souhait" value="Oui, j’en ai"> Oui, et j’en ai</label>
+        <label><input type="radio" name="photos_souhait" value="Oui, mais je n’en ai pas"> Oui, mais je n’en ai pas encore</label>
+        <label><input type="radio" name="photos_souhait" value="Peu ou pas"> Peu ou pas, ça me va</label>
+      </div>
+      <p class="question">Ce que vous avez déjà</p>
       <div class="cases">
         <label><input type="checkbox" name="photos_dispo" value="Logo"> J’ai un logo</label>
         <label><input type="checkbox" name="photos_dispo" value="Portrait"> Des photos de moi ou de l’équipe</label>
@@ -136,6 +145,12 @@
 
     <fieldset>
       <legend>Votre goût</legend>
+      <p class="question">L’ambiance</p>
+      <div class="cases">
+        <label><input type="radio" name="ambiance" value="Calme, posé"> Plutôt calme, posé</label>
+        <label><input type="radio" name="ambiance" value="Vivant, qui bouge"> Plutôt vivant, qui bouge</label>
+        <label><input type="radio" name="ambiance" value="Je ne sais pas"> Je ne sais pas, montrez-moi</label>
+      </div>
       <label for="adjectifs">Trois mots pour le site que vous voulez</label>
       <input id="adjectifs" name="adjectifs" type="text" placeholder="Ex. chaleureux, franc, montagnard">
       <label for="aime">Des sites que vous aimez, et pourquoi <span class="facultatif">(n’importe quel métier)</span></label>
@@ -180,7 +195,7 @@
     const b = JSON.parse(localStorage.getItem(CLE) || '{}');
     for (const [k, v] of Object.entries(b)) {
       const champs = form.querySelectorAll(`[name="${k}"]`);
-      champs.forEach((c) => { if (c.type === 'checkbox') c.checked = Array.isArray(v) ? v.includes(c.value) : !!v; else c.value = v; });
+      champs.forEach((c) => { if (c.type === 'checkbox') c.checked = Array.isArray(v) ? v.includes(c.value) : !!v; else if (c.type === 'radio') c.checked = c.value === v; else c.value = v; });
     }
   } catch {}
   const lire = () => {
@@ -188,6 +203,7 @@
     for (const el of form.elements) {
       if (!el.name) continue;
       if (el.type === 'checkbox') { if (el.name === 'accord') d.accord = el.checked; else { d[el.name] ??= []; if (el.checked) d[el.name].push(el.value); } }
+      else if (el.type === 'radio') { if (el.checked) d[el.name] = el.value; }
       else d[el.name] = el.value.trim();
     }
     return d;

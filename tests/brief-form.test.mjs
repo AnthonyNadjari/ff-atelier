@@ -24,3 +24,9 @@ test('slug proposé, relu par ff brief', () => {
   assert.equal(slugPropose('Fromagerie Ravanel & Fils', 'Annecy'), 'fromagerie-ravanel-et-fils');
   assert.equal(slugDuBrief(briefMarkdown(d)), 'fromagerie-ravanel');
 });
+
+test('photos souhaitées sans en avoir : signalé à organiser', () => {
+  const md = briefMarkdown({ ...d, photos_souhait: 'Oui, mais je n’en ai pas', ambiance: 'Calme, posé' });
+  assert.match(md, /Photos sur le site \? :\*\* Oui, mais je n’en ai pas : \*\*à organiser\*\*/);
+  assert.match(md, /Ambiance \(calme ou vivant\) :\*\* Calme, posé/);
+});
