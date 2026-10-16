@@ -4,6 +4,26 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 16 oct 2026 — veille longue + skill /site-final v3 + premier test
+
+**Fait**
+- Démontage systématique de 25 sites récents de petites structures (fiche fixe, captures) :
+  `docs/veille/demontages/` ; l'INDEX classe 10 gestes à transposer (portes « Réserver / Commander / Bon cadeau »
+  dans la nav, barre d'actions en bas sur téléphone, horaires avec le jour courant, réalisations avec métadonnées…).
+- Lecture complète de 15 dépôts de skills de design : `docs/veille/skills-profond-2026-10.md`.
+- `/site-final` v3 : contrat de direction, captures validées, 11 passes de regard, deux relecteurs neufs avec barème
+  de confiance et grille à plafonds, passes de verdict, seuil « montrer » à 7,5.
+- Test de bout en bout sur une démo neuve, `fromagerie-ravanel` : 6,55 → 7,35 → **7,6 (montrer)** en trois tours.
+- Le test a fait réparer l'usine : e-mail facultatif, `legal.demo`, `wording.faqTitle`, rayons de `terre`, deux
+  faux positifs ; nouvelle commande `ff relecture`.
+
+**Proposé** : les gestes 1 à 5 de l'INDEX des démontages (schéma : `bookingUrl` / `orderUrl` / `giftCardUrl`,
+barre d'actions, composant Horaires) ; recapturer `atelier-lecerf` (rayons de `terre` changés) si la démo reste
+sur le site du studio.
+
+**À décider** : planifier `/veille` en ligne ; montrer la fromagerie sur le site du studio ou la garder comme
+référence interne.
+
 ## 15-16 oct 2026 — premier tour (nuit, carte blanche du fondateur)
 
 **Fait**
