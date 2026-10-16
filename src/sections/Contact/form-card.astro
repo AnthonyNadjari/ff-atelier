@@ -17,7 +17,7 @@ import Icon from '@/components/Icon.astro';
 
     <ul class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted" data-stagger="70">
       <li class="flex items-center gap-2"><Icon name="Phone" size={16} class="text-accent" /><a href={tel()} class="hover:text-fg">{site.contact.phoneDisplay}</a></li>
-      <li class="flex items-center gap-2"><Icon name="Mail" size={16} class="text-accent" /><a href={mailto()} class="hover:text-fg break-all">{site.contact.email}</a></li>
+      {site.contact.email && (<li class="flex items-center gap-2"><Icon name="Mail" size={16} class="text-accent" /><a href={mailto()} class="hover:text-fg break-all">{site.contact.email}</a></li>)}
       <li class="flex items-center gap-2"><Icon name="MapPin" size={16} class="text-accent" /><span>{fullAddress()}</span></li>
     </ul>
   </div>

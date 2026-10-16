@@ -24,16 +24,18 @@ const wa = whatsapp();
         )}
       </a>
 
+      {(site.contact.email || wa) && (
       <div class="card rounded-card border border-line bg-surface p-8">
         <Icon name="Mail" size={28} class="text-accent" />
         <p class="mt-5 font-display text-2xl">Écrivez</p>
-        <a href={mailto()} class="mt-2 block text-lg text-fg hover:text-accent break-all">{site.contact.email}</a>
+        {site.contact.email && (<a href={mailto()} class="mt-2 block text-lg text-fg hover:text-accent break-all">{site.contact.email}</a>)}
         {wa && (
           <a href={wa} target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 text-sm text-muted hover:text-accent">
             <Icon name="MessageCircle" size={16} class="text-accent" /> Écrire sur WhatsApp
           </a>
         )}
       </div>
+      )}
     </div>
 
     <p class="mt-8 flex items-center justify-center gap-2 text-center text-muted">

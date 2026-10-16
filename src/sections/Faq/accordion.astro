@@ -17,7 +17,7 @@ const faqLd = {
 {site.faq.length > 0 && (
   <section id="faq" class="section-y">
     <div class="container-ff max-w-3xl">
-      <SectionHeading eyebrow="Questions fréquentes" title="Vous vous demandez peut-être" align="center" />
+      <SectionHeading eyebrow="Questions fréquentes" title={site.wording.faqTitle ?? 'Vous vous demandez peut-être'} align="center" />
       <div class="faq-native mt-14 border-t border-line" data-stagger="70">
         {site.faq.map((f, i) => (
           <details class="border-b border-line" name="faq" open={i === 0}>

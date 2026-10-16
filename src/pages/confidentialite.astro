@@ -45,7 +45,7 @@ const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boole
 
       <section>
         <h2 class="text-display-sm mb-3">Responsable du traitement</h2>
-        <p>{owner}{b.legalForm && `, ${b.legalForm}`}<br />{fullAddress()}<br />E-mail : {site.contact.email}<br />Téléphone : {site.contact.phoneDisplay}</p>
+        <p>{owner}{b.legalForm && `, ${b.legalForm}`}<br />{fullAddress()}{site.contact.email && <><br />E-mail : {site.contact.email}</>}<br />Téléphone : {site.contact.phoneDisplay}</p>
       </section>
 
       {provider !== 'none' && (
@@ -73,7 +73,7 @@ const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boole
 
       <section>
         <h2 class="text-display-sm mb-3">Vos droits</h2>
-        <p>Conformément au Règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés, vous disposez d’un droit d’accès, de rectification, d’effacement et d’opposition sur vos données personnelles. Vous pouvez exercer ces droits en écrivant à {site.contact.email} ou par courrier à l’adresse ci-dessus. Vous disposez également du droit d’introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener" class="underline">cnil.fr</a>).</p>
+        <p>Conformément au Règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés, vous disposez d’un droit d’accès, de rectification, d’effacement et d’opposition sur vos données personnelles. Vous pouvez exercer ces droits {site.contact.email ? `en écrivant à ${site.contact.email} ou par courrier à l’adresse ci-dessus` : 'par courrier à l’adresse ci-dessus ou par téléphone'}. Vous disposez également du droit d’introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener" class="underline">cnil.fr</a>).</p>
       </section>
 
       <section>
@@ -96,7 +96,7 @@ const showsGoogleFacade = usesCarteSection && mapsProvider === 'google' && Boole
       </section>
 
       <section>
-        <p class="text-muted">Pour toute question sur cette politique, écrivez à {site.contact.email}. Voir aussi les <a href="/mentions-legales" class="underline hover:text-fg">mentions légales</a>.</p>
+        <p class="text-muted">Pour toute question sur cette politique, {site.contact.email ? `écrivez à ${site.contact.email}` : `appelez le ${site.contact.phoneDisplay}`}. Voir aussi les <a href="/mentions-legales" class="underline hover:text-fg">mentions légales</a>.</p>
       </section>
     </div>
   </main>

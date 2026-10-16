@@ -45,7 +45,7 @@ const hasForm = site.form.provider !== 'none';
       {wa && (
         <li class="flex gap-3"><Icon name="MessageCircle" size={18} class="text-accent shrink-0 mt-0.5" /><a href={wa} class="font-medium" target="_blank" rel="noopener">Écrire sur WhatsApp</a></li>
       )}
-      <li class="flex gap-3"><Icon name="Mail" size={18} class="text-accent shrink-0 mt-0.5" /><a href={mailto()} class="font-medium break-all">{site.contact.email}</a></li>
+      {site.contact.email && (<li class="flex gap-3"><Icon name="Mail" size={18} class="text-accent shrink-0 mt-0.5" /><a href={mailto()} class="font-medium break-all">{site.contact.email}</a></li>)}
       <li class="flex gap-3"><Icon name="MapPin" size={18} class="text-accent shrink-0 mt-0.5" /><p class="text-muted">{fullAddress()}</p></li>
       {site.contact.hours.length > 0 && (
         <li class="flex gap-3">

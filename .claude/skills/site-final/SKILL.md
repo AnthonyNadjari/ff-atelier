@@ -127,10 +127,11 @@ Chaque défaut se note avec sa vignette (`m-0, vignette 7`) et se corrige avant 
 
 ## 6. Relecture adverse notée (deux agents neufs, en parallèle, lecture seule)
 
-Lancer **dans le même message** deux agents `general-purpose` (jamais en `fork`) avec, mot pour mot :
-- `.claude/skills/site-final/relecteurs/da.md` (après la ligne `---`), `<slug>` remplacé, la sortie de
-  `ff variete` collée, `relecteurs/bareme.md` et `relecteurs/grille.md` collés aux endroits indiqués ;
-- `.claude/skills/site-final/relecteurs/redacteur.md`, idem.
+`node scripts/ff.mjs relecture <slug>` assemble les deux prompts (charte, barème, grille, variété) dans
+`captures/relecture/<slug>-da.txt` et `-redacteur.txt`. Lancer **dans le même message** deux agents
+`general-purpose` (jamais en `fork`) dont la consigne est : « Lis en entier le fichier
+captures/relecture/<slug>-da.txt (ou -redacteur.txt) et exécute-le à la lettre ; ta réponse finale est
+exactement la SORTIE qu'il demande. »
 Ne pas résumer les prompts (leur dureté est voulue), ne pas y coller les sorties de `ff detect`, `ff ia`,
 `ff audit-motion` (elles ancrent le regard). Garder l'identifiant de l'agent DA pour la passe de verdict.
 Pendant qu'ils lisent, ne pas modifier le site.
@@ -147,7 +148,11 @@ verdict « montrer ».
    états → mouvement (supprimer d'abord).
 2. Verdict `refaire` : ne pas retoucher ; refaire le bloc ou le premier écran nommé, puis relecture
    **complète** (étape 6).
-3. Rebuild, étape 4, nouvelles captures **aux mêmes chemins**, validées (étape 5).
+3. Rebuild, étape 4, nouvelles captures **aux mêmes chemins**, validées (étape 5). **Une correction de mise en
+   page se mesure avant d'être annoncée** (petit script playwright : nombre de lignes du titre, position du
+   bouton, `display` calculé). Au premier test (fromagerie-ravanel, 16 oct 2026), deux correctifs en classes
+   Tailwind (`hidden`, `lg:max-w-*`) étaient sans effet, battus par le `<style>` de la section : la passe de
+   verdict l'a vu, pas le constructeur. Corriger dans le style de la section, puis mesurer.
 4. **Passe de verdict** : renvoyer au même agent DA (SendMessage avec son identifiant ; sinon un agent neuf
    qui reçoit la liste du tour précédent) : « Voici les planches après correction, aux mêmes chemins. Tu
    notes, tu ne cherches pas de nouveaux défauts. Pour chaque constat du tour précédent : résolu, partiel
@@ -203,6 +208,15 @@ scripts/ff.mjs vercel <slug>` sur un projet d'aperçu si les identifiants existe
   daté ; les relectures suivantes de ce site ne le resignalent pas.
 - Un bug payé → une ligne de `CLAUDE.md` § Pièges. Un constat du DA qu'un contrôle aurait dû attraper →
   une ligne dans `docs/veille/journal.md` (piste pour améliorer le contrôle).
+
+## Journal des tests de la skill
+
+- 16 oct 2026, fromagerie-ravanel (démo, brief fictif, nouvelle famille « alimentation ») : tour 1 global
+  6,55 (composition 6,5 plafonnée, textes 3 plafonnés) → tour 2 7,35 → tour 3 **7,6, montrer**. 15 constats
+  appliqués, 0 écarté. Le test a fait corriger 5 défauts de l'usine elle-même : e-mail obligatoire (devenu
+  facultatif), pas d'avis de démo (`legal.demo`), titre de FAQ figé (`wording.faqTitle`), rayons de terre
+  (20 / 28 px → 4 px), deux faux positifs (`ff ia` lisait le CSS, `ff verifier` voyait « tes » dans
+  « fêtes »). Leçons intégrées : `ff relecture`, correction mesurée avant d'être annoncée.
 
 ## 11. Vérifier que la skill marche (une fois par mois, ou après une grosse modification)
 

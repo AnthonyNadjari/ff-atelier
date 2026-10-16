@@ -49,7 +49,7 @@ export const slugCourant = slug;
 
 /** Helpers partages par les sections. */
 export const tel = (s: Site = site) => `tel:${s.contact.phone}`;
-export const mailto = (s: Site = site) => `mailto:${s.contact.email}`;
+export const mailto = (s: Site = site) => (s.contact.email ? `mailto:${s.contact.email}` : undefined);
 export const whatsapp = (s: Site = site) => (s.contact.whatsapp ? `https://wa.me/${s.contact.whatsapp}` : undefined);
 export const fullAddress = (s: Site = site) =>
   [s.contact.address.street, `${s.contact.address.postalCode} ${s.contact.address.city}`].filter(Boolean).join(', ');

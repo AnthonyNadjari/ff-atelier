@@ -1,0 +1,66 @@
+---
+/**
+ * Réserver — les deux choses qui se réservent à la Fromagerie Ravanel, avec leurs conditions exactes (brief) :
+ * l'appareil à raclette (4 ou 8 personnes, caution 50 €, deux jours avant le week-end) et les plateaux
+ * (6 à 30 personnes, dès 6 € par personne, 48 heures avant, une semaine pour les fêtes). Composition : deux
+ * « bons de commande » côte à côte, en lignes « libellé / valeur » comme on les écrit au comptoir, et le
+ * téléphone dessous. Pas de formulaire de réservation : la boutique prend les réservations au téléphone.
+ */
+import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const bons = [
+  {
+    titre: 'L’appareil à raclette',
+    lignes: [
+      ['Pour', '4 ou 8 personnes'],
+      ['Caution', '50 €, rendue au retour'],
+      ['Réserver', 'deux jours avant le week-end'],
+      ['Avec', 'le fromage coupé à la demande'],
+    ],
+    image: { src: '/images/raclette.webp', alt: 'Tranches de fromage à raclette sur une assiette' },
+  },
+  {
+    titre: 'Le plateau',
+    lignes: [
+      ['Pour', 'de 6 à 30 personnes'],
+      ['Prix', 'dès 6 € par personne'],
+      ['Commander', '48 heures avant'],
+      ['Fêtes', 'une semaine avant Noël et le Nouvel An'],
+    ],
+  },
+];
+---
+
+<section id="reserver" class="section-y bg-bg">
+  <div class="container-ff">
+    <h2 class="text-display-md font-display max-w-[20ch]" data-reveal>Deux choses se réservent : l’appareil à raclette et le plateau.</h2>
+    <div class="mt-12 grid gap-12 md:grid-cols-2 md:gap-16" data-stagger="80">
+      {bons.map((b) => (
+        <article class="bon">
+          {b.image && <Img src={b.image.src} alt={b.image.alt} class="mb-6 aspect-[3/2] w-full object-cover" sizes="(min-width: 48rem) 45vw, 100vw" />}
+          <h3 class="font-display text-2xl">{b.titre}</h3>
+          <dl class="bon-lignes mt-4">
+            {b.lignes.map(([k, v]) => (
+              <div>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </article>
+      ))}
+    </div>
+    <p class="mt-12 text-lg">
+      Par téléphone, aux heures d’ouverture : <a href={tel()} class="font-medium underline decoration-1 underline-offset-4">{site.contact.phoneDisplay}</a>.
+    </p>
+  </div>
+</section>
+
+<style>
+  .bon-lignes { margin: 0; }
+  .bon-lignes > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 16px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .bon-lignes > div:last-child { border-bottom: 1px solid var(--line); }
+  .bon-lignes dt { color: var(--muted); }
+  .bon-lignes dd { margin: 0; }
+</style>

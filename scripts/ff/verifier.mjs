@@ -594,7 +594,8 @@ function warnMotsASurveillerTextes(files, distDir, warnings) {
 
 /** Tutoiement possible ("tu"/"ton"/"tes") alors que le vouvoiement est la regle (docs/REDACTION.md §2). */
 function warnTutoiementTextes(files, distDir, warnings) {
-  const re = /\b(?:tu|ton|tes)\b/i;
+  // Bornes de mot Unicode : `\b` ignore les lettres accentuées et voyait « tes » dans « fêtes » (test /site-final, 16 oct 2026).
+  const re = /(?<![\p{L}\p{N}])(?:tu|ton|tes)(?![\p{L}\p{N}])/iu;
   const offenders = [];
   for (const file of files) {
     const texte = texteVisible(fs.readFileSync(file, 'utf8'));

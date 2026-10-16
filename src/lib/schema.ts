@@ -168,7 +168,7 @@ export const siteSchema = z.object({
   contact: z.object({
     phone: z.string().describe('Format international +33612345678'),
     phoneDisplay: z.string().describe('Format affiche 06 12 34 56 78'),
-    email: z.string().email(),
+    email: z.string().email().optional().describe("E-mail de contact. Absent = rien d’affiché (pas d’adresse inventée) ; obligatoire si form.provider vaut 'mailto'."),
     whatsapp: z.string().optional().describe('Numero international sans +, ex 33612345678'),
     address: z.object({
       street: z.string().optional(),
@@ -298,6 +298,7 @@ export const siteSchema = z.object({
       devis: z.string().default('Demander un devis').describe('Libelle du bouton secondaire : "Réserver", "Commander", "Prendre rendez-vous"...'),
       ctaTitle: z.string().default('Un projet, une urgence ? <em>Parlons-en.</em>').describe('Titre du bandeau CTA (HTML autorise)'),
       ctaText: z.string().optional().describe('Phrase sous le titre du CTA ; par defaut une phrase generique avec la ville'),
+      faqTitle: z.string().optional().describe('Titre de la section FAQ, propre au client (ex. « Avant de passer à la boutique »). Absent = titre par défaut de la variante, générique : à éviter (docs/GOUT.md § 5).'),
       contactTitle: z.string().default('Parlons de votre projet'),
       contactText: z.string().default('Décrivez votre besoin, nous vous rappelons rapidement.'),
     })
@@ -326,6 +327,7 @@ export const siteSchema = z.object({
       owner: z.string().optional().describe('Nom du responsable de publication'),
       host: z.string().default('Cloudflare, Inc. — 101 Townsend St, San Francisco, CA 94107, USA'),
       mediator: z.string().optional(),
+      demo: z.boolean().default(false).describe("Site de démonstration (client inventé) : l’avis « aucun client derrière » s’affiche une fois en pied de page et remplace l’identité légale dans les mentions légales (relecture /site-final du 16 oct 2026 : une démo qui ne le dit pas a l’air d’un vrai commerce)."),
     })
     .prefault({}),
 
@@ -352,6 +354,9 @@ export function defineSite(input: SiteInput): Site {
   if (!parsed.success) {
     const lines = parsed.error.issues.map((i) => `  - ${i.path.join('.') || '(racine)'} : ${i.message}`);
     throw new Error(`site.config.ts invalide :\n${lines.join('\n')}`);
+  }
+  if (parsed.data.form.provider === 'mailto' && !parsed.data.contact.email) {
+    throw new Error("site.config.ts invalide :\n  - contact.email : obligatoire avec form.provider 'mailto' (sinon form: { provider: 'none' })");
   }
   for (const s of parsed.data.layout.sections) {
     if (s.type === 'custom') continue; // section propre au site, verifiee au build par le registre

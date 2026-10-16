@@ -63,3 +63,7 @@ test('numérotation décorative 01 02 03 : alerte à partir de trois', () => {
   assert.equal(analyserHtml('<p>01</p><p>02</p>').alertes.length, 0);
   assert.equal(analyserHtml('<p>Ouvert de 09 h à 19 h, le 05 et le 06</p>').alertes.length, 0);
 });
+
+test('effets interdits : le CSS en ligne du moteur ne compte pas', () => {
+  assert.equal(analyserHtml('<style>[data-grain]:after{opacity:.3}[data-spotlight]{}</style><p>Fromages</p>').alertes.length, 0);
+});

@@ -29,7 +29,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
       <p class="mb-4 text-sm font-medium">Contact</p>
       <ul class="space-y-2 text-sm text-on-ink/80">
         <li><a href={tel()} class="hover:text-on-ink">{site.contact.phoneDisplay}</a></li>
-        <li><a href={mailto()} class="hover:text-on-ink break-all">{site.contact.email}</a></li>
+        {site.contact.email && (<li><a href={mailto()} class="hover:text-on-ink break-all">{site.contact.email}</a></li>)}
         <li class="text-on-ink/60">{fullAddress()}</li>
       </ul>
     </div>
@@ -37,6 +37,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
   <div class="border-t border-on-ink/10">
     <div class="container-ff py-5 flex flex-col sm:flex-row gap-2 justify-between text-xs text-on-ink/65">
       <p>© {year} {site.business.name}. Tous droits réservés.</p>
+      {site.legal.demo && <p class="text-xs">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
       <p class="flex flex-wrap gap-x-5 gap-y-1"><a href="/mentions-legales" class="hover:text-on-ink">Mentions légales</a><a href="/confidentialite" class="hover:text-on-ink">Confidentialité</a>{hasCredits && <a href="/credits" class="hover:text-on-ink">Crédits photos</a>}<span>Site réalisé par <a href="https://finckfisch.fr" class="hover:text-on-ink" rel="noopener">Finck &amp; Fisch</a></span></p>
     </div>
   </div>

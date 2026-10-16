@@ -21,10 +21,11 @@ const SurMesure = Object.entries(import.meta.glob<{ default: any }>('/sites/*/le
       <h1 class="text-display-md">Mentions légales</h1>
       <section>
         <h2 class="text-display-sm mb-3">Éditeur du site</h2>
-        <p>{b.name}{b.legalForm && `, ${b.legalForm}`}<br />{fullAddress()}<br />Téléphone : {site.contact.phoneDisplay}<br />E-mail : {site.contact.email}</p>
+        <p>{b.name}{b.legalForm && `, ${b.legalForm}`}<br />{fullAddress()}<br />Téléphone : {site.contact.phoneDisplay}{site.contact.email && <><br />E-mail : {site.contact.email}</>}</p>
         {b.siret && <p>SIRET : {b.siret}</p>}
         {b.tva && <p>TVA intracommunautaire : {b.tva}</p>}
         <p>Responsable de la publication : {owner}</p>
+        {site.legal.demo && <p>Site de démonstration (voir le pied de page).</p>}
         {b.insurance && <p>Assurance professionnelle : {b.insurance}</p>}
       </section>
       <section>
@@ -33,7 +34,7 @@ const SurMesure = Object.entries(import.meta.glob<{ default: any }>('/sites/*/le
       </section>
       <section>
         <h2 class="text-display-sm mb-3">Données personnelles</h2>
-        <p>Les informations transmises via le formulaire de contact (nom, téléphone, e-mail, message) sont utilisées uniquement pour répondre à votre demande. Elles ne sont ni cédées ni revendues et sont conservées le temps nécessaire au traitement de la demande. Conformément au RGPD, vous pouvez demander l’accès, la rectification ou la suppression de vos données en écrivant à {site.contact.email}.</p>
+        <p>Les informations transmises via le formulaire de contact (nom, téléphone, e-mail, message) sont utilisées uniquement pour répondre à votre demande. Elles ne sont ni cédées ni revendues et sont conservées le temps nécessaire au traitement de la demande. Conformément au RGPD, vous pouvez demander l’accès, la rectification ou la suppression de vos données {site.contact.email ? `en écrivant à ${site.contact.email}` : `par téléphone au ${site.contact.phoneDisplay}`}.</p>
         <p class="mt-3">Ce site n’utilise pas de cookies publicitaires.{site.analytics.plausible || site.analytics.umami ? " La mesure d'audience est réalisée sans cookie et sans donnée personnelle." : ''}</p>
       </section>
       {site.legal.mediator && (

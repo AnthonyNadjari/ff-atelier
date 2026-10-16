@@ -1,0 +1,100 @@
+---
+/**
+ * Bloc signature « l'âge du beaufort » — le seul feu d'artifice de la page (direction.md).
+ * Fait du brief : le beaufort d'alpage se vend à l'âge choisi, 12, 18 ou 24 mois, et on goûte avant
+ * d'acheter. Le bloc MONTRE ce choix : une bande qu'on fait glisser à la main (défilement natif aimanté,
+ * GOUT § 4 : « rien ne tourne tout seul quand on peut faire glisser à la main »), un âge par écran, le
+ * chiffre en très grand. Les trois libellés au-dessus font défiler la bande et suivent la position.
+ * Textes : conseils généraux sur l'affinage du beaufort (plus jeune = plus souple, plus vieux = plus sec),
+ * aucun prix ni chiffre absent du brief. Sans JavaScript : la bande défile au doigt, les libellés sont des ancres.
+ */
+import Img from '@/components/Img.astro';
+
+const ages = [
+  { mois: 12, titre: 'Souple', texte: 'Doux, fondant. Celui qu’on prend pour la fondue, ou pour les enfants.' },
+  { mois: 18, titre: 'Entre les deux', texte: 'Plus de goût, encore souple. Celui du plateau, quand on ne sait pas lequel choisir.' },
+  { mois: 24, titre: 'Sec et fort', texte: 'Il a pris du goût, il sèche, il craque un peu sous la dent. À la fin du repas, en petits morceaux.' },
+];
+---
+
+<section id="age" class="section-y bg-bg">
+  <div class="container-ff">
+    <div class="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
+      <div class="lg:col-span-7">
+        <h2 class="text-display-md font-display max-w-[18ch]" data-reveal>Le beaufort d’alpage se vend à l’âge que vous voulez.</h2>
+        <p class="mt-5 max-w-prose text-lg text-muted">Douze, dix-huit ou vingt-quatre mois de cave. On vous fait goûter avant de couper.</p>
+      </div>
+      <nav class="age-onglets lg:col-span-5" aria-label="Choisir l’âge">
+        {ages.map((a, i) => (
+          <a href={`#age-${a.mois}`} data-age-lien={i} aria-current={i === 0 ? 'true' : undefined}>{a.mois} mois</a>
+        ))}
+      </nav>
+    </div>
+
+    <div class="mt-12 grid gap-8 lg:grid-cols-12 lg:gap-16">
+      <div class="order-last lg:order-none lg:col-span-5">
+        <Img src="/images/beaufort.webp" alt="Meule de beaufort entière, au talon creusé, sur une planche de cave" class="aspect-[4/3] w-full object-cover object-[50%_45%]" sizes="(min-width: 64rem) 38vw, 100vw" />
+        <p class="mt-3 text-sm text-muted">Une meule de beaufort, talon creusé. Photo : Ibex73, CC BY-SA 4.0.</p>
+      </div>
+      <div class="age-bande lg:col-span-7" data-age-bande tabindex="0" aria-label="Les trois âges du beaufort, faites glisser sur le côté">
+        {ages.map((a) => (
+          <article id={`age-${a.mois}`} class="age-page">
+            <p class="age-chiffre font-display" aria-hidden="true">{a.mois}</p>
+            <h3 class="font-display text-2xl">{a.mois} mois, {a.titre.toLowerCase()}</h3>
+            <p class="mt-3 max-w-[34ch] text-lg text-muted">{a.texte}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Libellés : soulignés quand actifs, jamais des pastilles (GOUT § 2). */
+  .age-onglets { display: flex; gap: 28px; font-size: 1.05rem; }
+  .age-onglets a { padding: 6px 0; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; transition: color 0.2s ease-out, border-color 0.2s ease-out; }
+  .age-onglets a[aria-current='true'] { color: var(--fg); border-bottom-color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) { .age-onglets a:hover { color: var(--fg); } }
+
+  /* La bande : défilement horizontal natif, aimanté, un âge par écran. */
+  .age-bande {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .age-bande::-webkit-scrollbar { display: none; }
+  .age-bande:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .age-page { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; padding: 28px 0 32px; min-width: 0; }
+  /* Téléphone : l'âge suivant dépasse à droite, on comprend qu'il faut faire glisser (relecture DA). */
+  @media (max-width: 63.99rem) { .age-page { flex-basis: 86%; padding-right: 24px; } }
+  /* Le chiffre : la seule chose énorme du bloc. */
+  .age-chiffre { margin: 0 0 8px; font-size: clamp(7rem, 22vw, 15rem); line-height: 0.85; color: var(--accent); font-variant-numeric: tabular-nums; }
+</style>
+
+<script>
+  // Les libellés suivent la bande ; un clic fait défiler la bande (pas la page).
+  function initAge() {
+    const bande = document.querySelector<HTMLElement>('[data-age-bande]');
+    if (!bande) return;
+    const liens = [...document.querySelectorAll<HTMLAnchorElement>('[data-age-lien]')];
+    const poser = (i: number) => liens.forEach((l, k) => (k === i ? l.setAttribute('aria-current', 'true') : l.removeAttribute('aria-current')));
+    let raf = 0;
+    bande.addEventListener('scroll', () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => { raf = 0; poser(Math.round(bande.scrollLeft / Math.max(1, (bande.firstElementChild as HTMLElement)?.offsetWidth || bande.clientWidth))); });
+    }, { passive: true });
+    liens.forEach((l, i) => l.addEventListener('click', (e) => {
+      e.preventDefault();
+      const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const page = bande.children[i] as HTMLElement | undefined;
+      bande.scrollTo({ left: page ? page.offsetLeft - bande.offsetLeft : 0, behavior: reduit ? 'auto' : 'smooth' });
+    }));
+  }
+  initAge();
+  document.addEventListener('astro:page-load', initAge);
+</script>

@@ -17,7 +17,7 @@ const faqLd = {
 {site.faq.length > 0 && (
   <section id="faq" class="section-y bg-bg-2">
     <div class="container-ff">
-      <SectionHeading eyebrow="Questions fréquentes" title="Vous vous demandez peut-être" />
+      <SectionHeading eyebrow="Questions fréquentes" title={site.wording.faqTitle ?? 'Vous vous demandez peut-être'} />
       <div class="mt-14 border-t border-line" data-stagger="70">
         {site.faq.map((f) => (
           <div class="grid gap-4 border-b border-line py-8 md:grid-cols-[minmax(0,18rem)_1fr] md:gap-16">

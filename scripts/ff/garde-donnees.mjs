@@ -19,7 +19,7 @@ export const RE_TEL_TEST = /(?<!\d)(?:\+\s?33|0033|33|0)[\s.\-]?(?:\(0\)\s?)?6(?
 export const RE_CP_TEST = /(?<![\d.,])\b75000\b(?![\d.,]|\s?(?:€|euros?\b|EUR\b|km\b|m²|habitants\b))/i;
 const RE_CP_JSONLD = /"postalCode"\s*:\s*"75000"/;
 // Mentions légales : une identité d'entreprise, ou l'avis honnête qu'elle n'existe pas encore.
-const RE_IDENTITE_LEGALE = /\bSIRE[NT]\b|\bR\.?C\.?S\b|\bRNE\b|r[ée]pertoire des m[ée]tiers|registre du commerce|en cours (?:de |d['’])?(?:cr[ée]ation|immatriculation)/i;
+const RE_IDENTITE_LEGALE = /\bSIRE[NT]\b|\bR\.?C\.?S\b|\bRNE\b|r[ée]pertoire des m[ée]tiers|registre du commerce|en cours (?:de |d['’])?(?:cr[ée]ation|immatriculation)|site de d[ée]monstration/i;
 
 /** Textes propres au modèle sites/_exemple, qui ne doivent jamais sortir d'un autre site. */
 // + l'e-mail et l'adresse du modèle : `ff nouveau` les laisse, et un formulaire mailto vers
@@ -87,7 +87,7 @@ export function controlerDonneesTest(pages) {
 /** Site de démonstration : slug `_…`/`demo-…`, ou « DEMO » dans les premières lignes de site.config.ts. */
 export function estSiteDemo(slug, configSrc = '') {
   if (slug.startsWith('_') || slug.startsWith('demo-')) return true;
-  return /\bDEMO\b/.test(configSrc.split(/\r?\n/).slice(0, 8).join('\n'));
+  return /\bDEMO\b/.test(configSrc.split(/\r?\n/).slice(0, 8).join('\n')) || /\bdemo\s*:\s*true\b/.test(configSrc);
 }
 
 function listerHtml(dir, base = dir) {

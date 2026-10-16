@@ -9,11 +9,12 @@ const year = new Date().getFullYear();
     <p class="text-fg font-medium">{site.business.name}</p>
     <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
       <a href={tel()} class="hover:text-fg">{site.contact.phoneDisplay}</a>
-      <a href={mailto()} class="hover:text-fg break-all">{site.contact.email}</a>
+      {site.contact.email && (<a href={mailto()} class="hover:text-fg break-all">{site.contact.email}</a>)}
       <a href="/mentions-legales" class="hover:text-fg">Mentions légales</a>
       <a href="/confidentialite" class="hover:text-fg">Confidentialité</a>
       {hasCredits && <a href="/credits" class="hover:text-fg">Crédits photos</a>}
     </div>
     <p class="text-xs">© {year}. Site réalisé par <a href="https://finckfisch.fr" class="hover:text-fg" rel="noopener" target="_blank">Finck &amp; Fisch</a></p>
+    {site.legal.demo && <p class="text-xs">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
   </div>
 </footer>

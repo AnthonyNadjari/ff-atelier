@@ -56,7 +56,10 @@ export function analyserHtml(html) {
   if (capitales) alertes.push({ regle: 'capitales-espacees', n: capitales });
   // 15 oct 2026 : effets du moteur interdits par docs/GOUT.md § 2 (grain, halo qui suit la souris, reflet,
   // dégradés aurora) ; et numérotation décorative « 01 02 03 » dans le texte visible (≥ 3 occurrences).
-  const effets = (html.match(/\bdata-(?:grain|spotlight|tilt-glare)\b|data-shader="(?:aurora|grain-gradient)"/g) || []).length;
+  // Sur le balisage seulement : le CSS en ligne (inlineStylesheets) contient les sélecteurs [data-grain] du
+  // moteur même quand aucun bloc ne s'en sert (faux positif vu au test /site-final du 16 oct 2026).
+  const balisage = html.replace(/<(style|script)\b[\s\S]*?<\/\1>/gi, ' ');
+  const effets = (balisage.match(/\bdata-(?:grain|spotlight|tilt-glare)\b|data-shader="(?:aurora|grain-gradient)"/g) || []).length;
   if (effets) alertes.push({ regle: 'effets-interdits', n: effets });
   const numeros = new Set((texte.match(/(?:^|\s)0[1-9](?=\s|$)/g) || []).map((s) => s.trim()));
   if (numeros.has('01') && numeros.has('02') && numeros.has('03')) alertes.push({ regle: 'numerotation-decorative', n: numeros.size });

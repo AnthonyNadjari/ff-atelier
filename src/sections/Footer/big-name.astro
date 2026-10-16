@@ -27,7 +27,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
 
       <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-on-ink/70">
         <a href={tel()} class="hover:text-on-ink">{site.contact.phoneDisplay}</a>
-        <a href={mailto()} class="hover:text-on-ink break-all">{site.contact.email}</a>
+        {site.contact.email && (<a href={mailto()} class="hover:text-on-ink break-all">{site.contact.email}</a>)}
         <span>{fullAddress()}</span>
       </div>
 
@@ -41,5 +41,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
     </div>
 
     <p class="mt-6 text-xs text-on-ink/65">© {year} {site.business.name}. Tous droits réservés. Site réalisé par <a href="https://finckfisch.fr" class="hover:text-on-ink" rel="noopener" target="_blank">Finck &amp; Fisch</a>.</p>
+
+    {site.legal.demo && <p class="text-xs text-on-ink/65">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
   </div>
 </footer>
