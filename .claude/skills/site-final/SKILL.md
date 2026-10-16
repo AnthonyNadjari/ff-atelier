@@ -14,8 +14,8 @@ Sources des mécanismes (lus en entier, licences et détails) : `docs/veille/ski
 (Impeccable, taste-skill v2, Anthropic frontend-design et code-review, Emil Kowalski, wshobson, jschulte,
 gstack). Gestes de sites réels : `docs/veille/demontages/`.
 
-Utilisation : `/site-final <slug>` ; `/site-final <slug> --relecture` (site déjà construit : étapes 4 à 9,
-en lisant d'abord `sites/<slug>/relecture.md`).
+Utilisation : `/site-final <slug> [--pistes N]` (défaut 3 : `<slug>`, `<slug>-b`, `<slug>-c`…) ; `--une-piste` ;
+`/site-final <slug> --relecture` (site déjà construit : étapes 4 à 9, en lisant d'abord `sites/<slug>/relecture.md`).
 
 Règles d'or :
 - **On ne montre qu'une fois.** Pendant toute la passe, on ne pose aucune question au fondateur : on
@@ -41,6 +41,27 @@ Copier `.claude/skills/site-final/direction-modele.md` en `sites/<slug>/directio
 (thèse, squelette, premier écran, feu d'artifice, refusé, fin), typo/couleur/images, deux références
 démontées. Point de départ des réglages : `node scripts/ff.mjs composer <slug>` ; on s'en écarte avec une
 raison du brief, écrite dans le contrat.
+
+## 1bis. Plusieurs pistes, inventées depuis le brief (jamais des modèles écrits d'avance)
+
+Le studio vend plusieurs versions de la page d'accueil, et une piste unique finit « assez monotone » (fondateur,
+16 oct 2026). Mais les pistes ne sont **jamais des archétypes écrits à l'avance** (« la sombre, la claire, la
+colorée ») : le fondateur veut un outil « ultra flexible ».
+
+- **Combien** : `--pistes N` (défaut 3 ; 1 = `--une-piste`). Le nombre se règle selon le client et le temps.
+- **D'où viennent les idées** : chaque piste est inventée à partir des faits propres du brief, de son ressenti
+  (adjectifs, sites aimés et détestés, contraintes) et des gestes de `docs/veille/demontages/`. Chaque piste
+  pousse au bout UNE lecture différente du client (un fait, une humeur, un usage), écrite dans son contrat.
+- **La diversité se vérifie, elle ne se décrète pas** : après les N contrats, comparer deux à deux sur les cinq
+  axes (squelette, direction/couleur, typographie, rythme, mécanisme du geste). Deux pistes qui partagent plus
+  d'un axe : réinventer la plus faible. Écrire le tableau de comparaison dans le contrat de chaque piste.
+- **Fabrication** : la piste principale par soi-même, les autres par des agents `general-purpose` (deux au plus
+  à la fois), chacun avec le contrat de SA piste et les consignes communes
+  (`.claude/skills/site-final/modeles/consignes-pistes.md` : lectures, périmètre `sites/<slug>-x/`, verrou de
+  build `.ff-tmp/build.lock`, boucle de qualité). Le constructeur ne reçoit pas l'idée des autres pistes à imiter,
+  seulement ce qu'il ne doit pas refaire.
+- Chaque piste passe les étapes 4 à 7. Le compte rendu donne les N liens et le classement d'un agent neuf qui note
+  toutes les pistes avec la même grille, avec une phrase par piste : l'idée, et pour qui elle est faite.
 
 ## 2. Attaquer le contrat (avant de construire)
 

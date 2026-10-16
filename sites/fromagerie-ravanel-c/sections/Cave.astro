@@ -1,0 +1,45 @@
+---
+/**
+ * La cave (piste C), sur aplat encre. Faits du brief : cave à 11 °C sous la boutique, creusée en 2014 ;
+ * tommes et reblochons fermiers de six fermes des Aravis et des Bauges ; date d'entrée à la craie sur
+ * chaque meule, « plus jeune » ou « plus fait » ; Claire (affinage, commandes) et Théo (boutique, marché) ;
+ * 2011 reprise, 2019 le marché ; le comptoir (beurre de baratte, crème crue, yaourts, vins de Savoie).
+ * La température en très grand, la photo qui se pose au défilement (data-scrub).
+ */
+import Img from '@/components/Img.astro';
+import { site } from '@/lib/site';
+const comptoir = site.services.find((s) => s.slug === 'comptoir');
+---
+
+<section id="cave" class="cave bg-ink text-on-ink">
+  <div class="container-ff section-y cave-grille">
+    <div class="cave-texte">
+      <p class="cave-degres font-display" data-reveal="up" aria-hidden="true">11 °C</p>
+      <h2 class="cave-titre font-display" data-split="lines">Les meules finissent de s’affiner dans la cave, sous la boutique.</h2>
+      <div class="cave-corps" data-reveal>
+        <p>Claire l’a creusée en 2014, trois ans après avoir repris la crémerie de la rue de la Gare. Les tommes et les reblochons fermiers de six fermes des Aravis et des Bauges y finissent de s’affiner.</p>
+        <p>Chaque meule porte sa date d’entrée, écrite à la craie. Au comptoir, demandez-la plus jeune ou plus faite.</p>
+        <p>Claire s’occupe de l’affinage et des commandes ; Théo tient la boutique, et le stand du marché de la vieille ville depuis 2019.</p>
+        {comptoir && <p class="cave-comptoir"><strong>Au comptoir, aussi&nbsp;:</strong> {comptoir.short.charAt(0).toLowerCase() + comptoir.short.slice(1)}</p>}
+      </div>
+    </div>
+
+    <figure class="cave-photo">
+      <div class="overflow-hidden" data-reveal="clip">
+        <Img src="/images/cave.webp" alt="Meules de fromage sur des planches de bois dans une cave d’affinage" class="aspect-[4/5] w-full object-cover" sizes="(min-width: 64rem) 42vw, 100vw" data-scrub="scale=1.2" />
+      </div>
+      <figcaption>Une cave d’affinage (photo d’illustration : DimiTalen, domaine public).</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .cave-grille { display: grid; gap: 40px; }
+  @media (min-width: 64rem) { .cave-grille { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 72px; align-items: center; } }
+  .cave-degres { font-size: clamp(5rem, 16vw, 12rem); line-height: 0.85; color: var(--bg-2); white-space: nowrap; }
+  .cave-titre { margin-top: 16px; font-size: clamp(1.9rem, 3.6vw, 3.1rem); line-height: 1.05; max-width: 20ch; }
+  .cave-corps { margin-top: 24px; display: grid; gap: 14px; max-width: 36rem; font-size: 1.1rem; color: color-mix(in srgb, var(--on-ink) 88%, transparent); }
+  .cave-comptoir { padding-top: 14px; border-top: 2px solid color-mix(in srgb, var(--on-ink) 30%, transparent); }
+  .cave-photo { margin: 0; }
+  .cave-photo figcaption { margin-top: 8px; font-size: 0.85rem; color: color-mix(in srgb, var(--on-ink) 75%, transparent); }
+</style>

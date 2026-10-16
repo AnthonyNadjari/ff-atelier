@@ -1,0 +1,200 @@
+---
+/**
+ * « Composer son plateau », le geste de la piste C (direction.md, phrase-idée). Faits du brief seulement :
+ * plateaux de 6 à 30 personnes, composés avec le client, dès 6 € par personne (SEULE donnée de prix), à
+ * commander 48 heures avant, une semaine avant pour Noël et le Nouvel An. On règle le nombre de convives
+ * (curseur ou + / −) : la meule dessinée se recoupe en autant de parts, « à partir de N € » se calcule
+ * (N × 6 €, prix de départ, pas un devis), le délai suit la case « fêtes », et le bouton appelle.
+ * Sans JavaScript : le réglage reste caché, le tableau des conditions dit tout.
+ */
+import { site, tel } from '@/lib/site';
+
+const MIN = 6;
+const MAX = 30;
+const DEPART = 12;
+const PRIX = 6;
+const nbsp = ' ';
+const angle = (i: number, n: number) => (i < n ? (360 / n) * i : 360);
+const conditions = [
+  ['Pour', 'de 6 à 30 personnes'],
+  ['Prix', `dès 6${nbsp}€ par personne`],
+  ['Commander', '48 heures avant'],
+  ['Fêtes', 'une semaine avant Noël et le Nouvel An'],
+  ['Composé', 'avec vous, au téléphone ou au comptoir'],
+];
+---
+
+<section id="plateau" class="plateau bg-accent text-on-accent">
+  <div class="container-ff section-y">
+    <h2 class="plateau-titre font-display" data-split="lines">Dites combien vous serez, on compose le plateau.</h2>
+
+    <div class="plateau-grille">
+      <div class="plateau-meule" data-reveal="scale">
+        <svg viewBox="0 0 240 240" role="img" aria-label="Une meule coupée en autant de parts que de personnes" data-meule>
+          <circle cx="120" cy="120" r="112" class="meule-croute" />
+          <circle cx="120" cy="120" r="100" class="meule-pate" />
+          {Array.from({ length: MAX }, (_, i) => (
+            <line x1="120" y1="120" x2="120" y2="20" class="meule-coupe" style={`transform: rotate(${angle(i, DEPART)}deg); opacity: ${i < DEPART ? 1 : 0};`} />
+          ))}
+          <circle cx="120" cy="120" r="5" class="meule-centre" />
+        </svg>
+      </div>
+
+      <div class="plateau-reglage">
+        <div class="reglage" data-reglage hidden>
+          <label for="convives" class="reglage-label">Nombre de personnes <span class="reglage-astuce">(ou faites glisser la meule)</span></label>
+          <div class="reglage-ligne">
+            <button type="button" class="reglage-bouton" data-moins aria-label="Une personne de moins">−</button>
+            <output for="convives" class="reglage-nombre font-display" data-nombre>{DEPART}</output>
+            <button type="button" class="reglage-bouton" data-plus aria-label="Une personne de plus">+</button>
+          </div>
+          <input id="convives" type="range" min={MIN} max={MAX} step="1" value={DEPART} class="reglage-curseur" data-curseur />
+          <p class="reglage-prix" aria-live="polite">
+            <span>À partir de</span>
+            <strong class="font-display" data-prix>{DEPART * PRIX}{nbsp}€</strong>
+          </p>
+          <p class="reglage-note">Calculé sur le prix de départ, 6{nbsp}€ par personne. Et le plateau se compose avec vous, à votre goût.</p>
+          <label class="reglage-fetes">
+            <input type="checkbox" data-fetes />
+            <span>C’est pour Noël ou le Nouvel An</span>
+          </label>
+          <p class="reglage-delai" data-delai>À commander 48 heures avant.</p>
+          <a href={tel()} class="reglage-appel">Appeler pour commander</a>
+        </div>
+
+        <noscript><p><a href={tel()} class="reglage-appel">Appeler le {site.contact.phoneDisplay}</a></p></noscript>
+      </div>
+
+      <div class="plateau-conditions">
+          <dl class="conditions">
+          {conditions.map(([k, v]) => (
+            <div>
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plateau-titre { font-size: clamp(2.1rem, 5.4vw, 4.75rem); line-height: 1; max-width: 18ch; }
+  .plateau-grille { margin-top: 40px; display: grid; gap: 40px; grid-template-areas: 'meule' 'reglage' 'conditions'; }
+  .plateau-meule { grid-area: meule; }
+  .plateau-reglage { grid-area: reglage; }
+  .plateau-conditions { grid-area: conditions; }
+  /* Ordinateur : la meule et les conditions à gauche, le réglage à droite (deux colonnes de même hauteur). */
+  @media (min-width: 64rem) {
+    .plateau-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: 'meule reglage' 'conditions reglage'; column-gap: 72px; row-gap: 32px; align-items: start; margin-top: 56px; }
+  }
+  .plateau-meule { max-width: min(34rem, 78vw); width: 100%; justify-self: center; }
+  .plateau-meule svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .meule-croute { fill: var(--accent-2); stroke: var(--ink); stroke-width: 3; }
+  .meule-pate { fill: var(--bg-2); stroke: var(--ink); stroke-width: 2; }
+  .meule-coupe {
+    stroke: var(--ink);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    transform-box: view-box;
+    transform-origin: 120px 120px;
+    transition: transform 0.55s var(--ease-brand), opacity 0.2s var(--ease-out);
+  }
+  .meule-centre { fill: var(--ink); }
+  .plateau-meule svg.meule-active { cursor: ew-resize; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+
+  .reglage-label { display: block; font-weight: 700; font-size: 1.05rem; }
+  .reglage-astuce { font-weight: 400; }
+  .reglage-ligne { margin-top: 8px; display: flex; align-items: center; gap: 16px; }
+  .reglage-nombre { display: inline-block; min-width: 2.2ch; text-align: center; font-size: clamp(4.5rem, 11vw, 8rem); line-height: 1; font-variant-numeric: tabular-nums; }
+  .reglage-bouton {
+    width: 56px; height: 56px; flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--bg-2); color: var(--fg);
+    border: 2px solid var(--ink); border-radius: 4px; box-shadow: 4px 4px 0 var(--ink);
+    font-size: 2rem; font-weight: 700; line-height: 1; cursor: pointer;
+    touch-action: manipulation;
+    transition: transform var(--motion-ui) var(--ease-out), box-shadow var(--motion-ui) var(--ease-out);
+  }
+  .reglage-bouton:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+  .reglage-bouton:disabled { opacity: 0.45; cursor: default; }
+  .reglage-curseur { margin-top: 20px; width: 100%; max-width: 30rem; accent-color: var(--bg-2); height: 32px; }
+  .reglage-prix { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; font-size: 1.2rem; font-weight: 600; }
+  .reglage-prix strong { font-weight: 400; font-size: clamp(2.6rem, 6vw, 4.5rem); line-height: 1; color: var(--bg-2); }
+  .reglage-note { margin-top: 6px; font-size: 0.95rem; opacity: 0.9; max-width: 30rem; }
+  .reglage-fetes { margin-top: 20px; display: flex; align-items: center; gap: 12px; font-weight: 600; cursor: pointer; min-height: 44px; }
+  .reglage-fetes input { width: 22px; height: 22px; accent-color: var(--bg-2); }
+  .reglage-delai { font-family: var(--font-display); font-size: 1.5rem; line-height: 1.15; }
+  .reglage-appel {
+    margin-top: 20px;
+    display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px;
+    background: var(--bg-2); color: var(--fg);
+    border: 2px solid var(--ink); border-radius: 4px; box-shadow: 4px 4px 0 var(--ink);
+    font-weight: 700; font-size: 1.05rem; text-decoration: none;
+    transition: transform var(--motion-ui) var(--ease-out), box-shadow var(--motion-ui) var(--ease-out);
+  }
+  .reglage-appel:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+  @media (hover: hover) and (pointer: fine) {
+    .reglage-bouton:not(:disabled):hover, .reglage-appel:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  }
+
+  .conditions { margin: 0; max-width: 34rem; }
+  .conditions > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 16px; padding: 9px 0; border-top: 2px solid color-mix(in srgb, var(--on-accent) 35%, transparent); }
+  .conditions > div:last-child { border-bottom: 2px solid color-mix(in srgb, var(--on-accent) 35%, transparent); }
+  .conditions dt { font-weight: 700; }
+  .conditions dd { margin: 0; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    const boite = document.querySelector<HTMLElement>('[data-reglage]');
+    if (!boite) return;
+    const curseur = boite.querySelector<HTMLInputElement>('[data-curseur]')!;
+    const nombre = boite.querySelector<HTMLElement>('[data-nombre]')!;
+    const prix = boite.querySelector<HTMLElement>('[data-prix]')!;
+    const fetes = boite.querySelector<HTMLInputElement>('[data-fetes]')!;
+    const delai = boite.querySelector<HTMLElement>('[data-delai]')!;
+    const moins = boite.querySelector<HTMLButtonElement>('[data-moins]')!;
+    const plus = boite.querySelector<HTMLButtonElement>('[data-plus]')!;
+    const coupes = Array.from(document.querySelectorAll<SVGLineElement>('[data-meule] .meule-coupe'));
+    const min = Number(curseur.min);
+    const max = Number(curseur.max);
+
+    const rendre = (n: number) => {
+      n = Math.max(min, Math.min(max, Math.round(n)));
+      curseur.value = String(n);
+      nombre.textContent = String(n);
+      prix.textContent = `${n * 6} €`;
+      moins.disabled = n <= min;
+      plus.disabled = n >= max;
+      // La meule se recoupe : les n premières coupes s'ouvrent en éventail, les autres se replient sur la première.
+      coupes.forEach((c, i) => {
+        c.style.transform = `rotate(${i < n ? (360 / n) * i : 360}deg)`;
+        c.style.opacity = i < n ? '1' : '0';
+      });
+    };
+    curseur.addEventListener('input', () => rendre(Number(curseur.value)));
+    moins.addEventListener('click', () => rendre(Number(curseur.value) - 1));
+    plus.addEventListener('click', () => rendre(Number(curseur.value) + 1));
+    fetes.addEventListener('change', () => {
+      delai.textContent = fetes.checked ? 'À commander une semaine avant.' : 'À commander 48 heures avant.';
+    });
+    // La meule elle-même se règle au doigt : glisser vers la droite ajoute une part, vers la gauche en retire.
+    const meule = document.querySelector<SVGSVGElement>('[data-meule]');
+    if (meule) {
+      let x0 = 0;
+      let n0 = 0;
+      let actif = false;
+      meule.addEventListener('pointerdown', (e) => { actif = true; x0 = e.clientX; n0 = Number(curseur.value); meule.setPointerCapture(e.pointerId); });
+      meule.addEventListener('pointermove', (e) => { if (actif) rendre(n0 + (e.clientX - x0) / 14); });
+      const fin = () => { actif = false; };
+      meule.addEventListener('pointerup', fin);
+      meule.addEventListener('pointercancel', fin);
+      meule.classList.add('meule-active');
+    }
+    boite.hidden = false;
+    rendre(Number(curseur.value));
+  });
+</script>

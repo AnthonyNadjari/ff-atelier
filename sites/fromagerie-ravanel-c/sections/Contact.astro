@@ -1,0 +1,86 @@
+---
+/**
+ * Venir et appeler (piste C), dernière affiche, aplat outremer. Le numéro en très grand (tout se réserve
+ * au téléphone), l'adresse, le marché, les horaires avec le jour courant en gras. Rien d'autre :
+ * pas de formulaire (form.provider 'none'), pas d'e-mail (démo).
+ */
+import { site, tel, fullAddress } from '@/lib/site';
+
+const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+const joursDe = (txt: string) => {
+  const noms = txt.toLowerCase().split(/\s+à\s+|\s*[–-]\s*/).map((s) => JOURS.indexOf(s.trim()));
+  if (noms.some((n) => n < 0)) return [];
+  if (noms.length === 2) {
+    const out: number[] = [];
+    for (let d = noms[0]; ; d = (d + 1) % 7) { out.push(d); if (d === noms[1] || out.length > 7) break; }
+    return out;
+  }
+  return noms;
+};
+const horaires = site.contact.hours.map((h) => ({ ...h, jours: joursDe(h.days).join(',') }));
+const carte = `https://www.openstreetmap.org/search?query=${encodeURIComponent(fullAddress())}`;
+---
+
+<section id="contact" class="venir bg-accent text-on-accent">
+  <div class="container-ff section-y">
+    <h2 class="venir-titre font-display" data-split="lines">{site.wording.contactTitle}</h2>
+    <a href={tel()} class="venir-numero font-display" data-reveal="up">{site.contact.phoneDisplay}</a>
+    {site.wording.contactText && <p class="venir-texte">{site.wording.contactText}</p>}
+
+    <div class="venir-grille" data-reveal>
+      <div>
+        <h3 class="venir-sous font-display">La boutique</h3>
+        <p class="mt-3 text-lg"><a href={carte} rel="noopener" class="underline decoration-2 underline-offset-4">{fullAddress()}</a></p>
+        <h3 class="venir-sous font-display mt-8">Le marché</h3>
+        <p class="mt-3 text-lg">Marché de la vieille ville, le mardi et le vendredi matin. Mêmes fromages qu’à la boutique.</p>
+      </div>
+      <div>
+        <h3 class="venir-sous font-display">Les horaires</h3>
+        <dl class="venir-horaires" data-horaires-contact>
+          {horaires.map((h) => (
+            <div data-jours={h.jours}>
+              <dt>{h.days}</dt>
+              <dd>{h.hours}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .venir-titre { font-size: clamp(2rem, 4.6vw, 4rem); line-height: 1.02; max-width: 18ch; }
+  .venir-numero {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: clamp(2.6rem, 10.5vw, 9.5rem);
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--bg-2);
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+    transition: color var(--motion-ui) var(--ease-out);
+  }
+  .venir-numero:active { color: var(--on-accent); }
+  @media (hover: hover) and (pointer: fine) { .venir-numero:hover { color: var(--on-accent); } }
+  .venir-texte { margin-top: 16px; max-width: 36rem; font-size: 1.15rem; }
+  .venir-grille { margin-top: 48px; display: grid; gap: 40px; }
+  @media (min-width: 48rem) { .venir-grille { grid-template-columns: 1fr 1fr; gap: 64px; } }
+  .venir-sous { font-size: 1.5rem; line-height: 1.1; }
+  .venir-horaires { margin: 12px 0 0; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+  .venir-horaires > div { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 12px; padding: 8px 0; border-top: 2px solid color-mix(in srgb, var(--on-accent) 35%, transparent); }
+  .venir-horaires > div:last-child { border-bottom: 2px solid color-mix(in srgb, var(--on-accent) 35%, transparent); }
+  .venir-horaires dt, .venir-horaires dd { margin: 0; }
+  .venir-horaires > div.aujourdhui { font-weight: 700; color: var(--bg-2); }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    const j = new Date().getDay();
+    document.querySelectorAll<HTMLElement>('[data-horaires-contact] [data-jours]').forEach((l) => {
+      l.classList.toggle('aujourdhui', (l.dataset.jours || '').split(',').filter(Boolean).map(Number).includes(j));
+    });
+  });
+</script>

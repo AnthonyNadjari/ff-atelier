@@ -1,0 +1,69 @@
+---
+/**
+ * « Venir » (contact) : la dernière page du carnet. La semaine complète, le jour courant à l'encre (même
+ * script que le panneau), l'adresse, le marché, qui vous sert, le téléphone. Pas de formulaire (brief :
+ * pas d'e-mail), on appelle. Rythme : les jours de la semaine en cascade.
+ */
+import { site, tel } from '@/lib/site';
+const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+const joursDe = (txt: string) => {
+  const noms = txt.toLowerCase().split(/\s+à\s+/).map((s) => JOURS.indexOf(s.trim()));
+  if (noms.some((n) => n < 0)) return [];
+  if (noms.length === 2) {
+    const out: number[] = [];
+    for (let d = noms[0]; ; d = (d + 1) % 7) { out.push(d); if (d === noms[1] || out.length > 7) break; }
+    return out;
+  }
+  return noms;
+};
+const horaires = site.contact.hours.map((h) => ({ ...h, jours: joursDe(h.days).join(',') }));
+const a = site.contact.address;
+---
+
+<section id="venir" class="venir section-y">
+  <div class="venir-cadre">
+    <h2 class="venir-titre font-display" data-split="lines">{site.wording.contactTitle}</h2>
+
+    <div class="venir-grille">
+      <div>
+        <p class="venir-adresse font-display">{a.street}<br />{a.postalCode} {a.city}</p>
+        <p class="venir-p">{site.wording.contactText}</p>
+        <a href={tel()} class="venir-tel btn">Appeler le {site.contact.phoneDisplay}</a>
+        <p class="venir-p mt-10">Au marché de la vieille ville le mardi et le vendredi matin, avec les mêmes fromages. Claire s’occupe de l’affinage et des commandes ; Théo tient la boutique et le stand du marché.</p>
+      </div>
+
+      <dl class="venir-horaires" data-horaires data-reveal>
+        {horaires.map((h) => (
+          <div data-jours={h.jours}>
+            <dt>{h.days}</dt>
+            <dd class="tabular-nums">{h.hours}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .venir { background: var(--bg-2); border-top: 1px solid var(--line); }
+  .venir-cadre { padding-inline: 16px; max-width: 72rem; }
+  .venir-titre { font-size: clamp(2.1rem, 7.5vw, 3.4rem); line-height: 1.04; max-width: 18ch; }
+  .venir-grille { margin-top: 40px; display: grid; gap: 48px; }
+  .venir-adresse { font-size: clamp(1.7rem, 5vw, 2.2rem); line-height: 1.1; }
+  .venir-p { margin-top: 16px; font-size: 1.05rem; line-height: 1.55; max-width: 40ch; }
+  .venir-tel {
+    margin-top: 24px; display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px;
+    background: var(--accent); color: var(--on-accent); border-radius: var(--radius); text-decoration: none; font-weight: 500;
+    transition: background-color var(--motion-ui) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) { .venir-tel:hover { background: var(--fg); } }
+  .venir-horaires { margin: 0; border-top: 2px solid var(--fg); }
+  .venir-horaires > div { display: grid; grid-template-columns: minmax(0, 10rem) minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
+  .venir-horaires dt, .venir-horaires dd { margin: 0; }
+  .venir-horaires > div.aujourdhui { color: var(--fg); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); padding-left: 14px; }
+
+  @media (min-width: 64rem) {
+    .venir-cadre { padding-inline: clamp(32px, 4vw, 64px); }
+    .venir-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; margin-top: 56px; }
+  }
+</style>

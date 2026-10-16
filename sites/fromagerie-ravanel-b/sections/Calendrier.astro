@@ -1,0 +1,274 @@
+---
+/**
+ * Bloc signature « le calendrier d'affinage » : le seul feu d'artifice de la page (direction.md).
+ * Fait du brief : chaque meule porte sa date d'entrée à la craie, on peut la demander plus jeune ou plus
+ * fait, le beaufort d'alpage se vend à 12, 18 ou 24 mois, le très vieux contient très peu de lactose.
+ * Le bloc MONTRE le temps : une règle de 0 à 24 mois qui passe sous une aiguille fixe pendant qu'on défile.
+ *   - mouvement principal (suit le défilement, linéaire, GOUT § 4) : la piste avance et le trait d'encre se
+ *     trace ; transform posé sur l'élément qui bouge, jamais une variable sur un parent ;
+ *   - ornements (étapes, transitions en temps) : chaque graduation et chaque arrêt s'allume quand
+ *     l'aiguille le touche, le compteur de mois change d'un cran.
+ * Aucune durée inventée : seuls 12, 18 et 24 mois sont écrits ; « plus jeune » et « plus fait » sont des
+ * repères sans chiffre (conseil général d'affinage).
+ * Sans JavaScript ou en mouvement réduit : la même bande défile au doigt (défilement natif), rien n'est caché.
+ * Course mesurée sur la scène 100svh (CLAUDE.md § Pièges iPhone), pas sur innerHeight.
+ */
+import Img from '@/components/Img.astro';
+
+const arrets = [
+  { m: 0, quoi: 'Entrée en cave', titre: 'La date, à la craie', texte: 'Les tommes et les reblochons fermiers descendent avec leur date d’entrée écrite à la craie. À partir de là, vous choisissez le moment.' },
+  { m: 12, quoi: 'Beaufort d’alpage', titre: '12 mois', texte: 'Souple et doux, il fond bien. Celui de la fondue, et celui des enfants.' },
+  { m: 18, quoi: 'Beaufort d’alpage', titre: '18 mois', texte: 'Plus de goût, la pâte encore souple. Pour le plateau, quand on hésite entre les deux.' },
+  { m: 24, quoi: 'Beaufort d’alpage', titre: '24 mois', texte: 'Plus sec, plus fort, il craque un peu sous la dent. Il contient très peu de lactose : demandez à Claire.' },
+];
+const reperes = [
+  { m: 1, quoi: 'Plus jeune', texte: 'pâte souple, goût doux, proche du lait' },
+  { m: 9, quoi: 'Plus fait', texte: 'croûte marquée, goût qui monte' },
+];
+const graduations = Array.from({ length: 25 }, (_, i) => i);
+const majeures = [0, 12, 18, 24];
+const photo = { src: '/images/beaufort.webp', alt: 'Meule de beaufort entière, talon creusé, sur une planche de cave' };
+---
+
+<section id="calendrier" class="cal" data-cal>
+  <div class="cal-tete">
+    <h2 class="cal-titre font-display" data-split="lines">Le calendrier d’affinage, de l’entrée en cave à vingt-quatre mois.</h2>
+    <p class="cal-chapo" data-reveal>Sous la boutique, la cave reste à 11 °C. On y lit la date à la craie pour vous dire où en est chaque fromage, et on vous fait goûter avant de couper.</p>
+  </div>
+
+  <div class="cal-course" data-cal-course>
+    <div class="cal-scene" data-cal-scene>
+      <p class="cal-lecture" aria-hidden="true"><span class="cal-lecture-n font-display" data-cal-mois>0</span> <span class="cal-lecture-u">mois de cave</span></p>
+      <div class="cal-fenetre" data-cal-fenetre tabindex="0" aria-label="Le calendrier d’affinage, de l’entrée en cave à 24 mois">
+        <div class="cal-piste" data-cal-piste>
+          <ol class="cal-arrets">
+            {arrets.map((a) => (
+              <li class:list={['cal-arret', a.m === 24 && 'cal-arret-fin']} data-m={a.m} style={`--m:${a.m}`}>
+                <div class="cal-arret-texte">
+                  <p class="cal-quoi">{a.quoi}</p>
+                  <h3 class="cal-arret-titre font-display">{a.titre}</h3>
+                  <p class="cal-arret-p">{a.texte}</p>
+                </div>
+                {a.m === 24 && (
+                  <figure class="cal-photo">
+                    <Img src={photo.src} alt={photo.alt} sizes="26rem" class="cal-photo-img" />
+                    <figcaption>Photo : Ibex73, CC BY-SA 4.0.</figcaption>
+                  </figure>
+                )}
+              </li>
+            ))}
+          </ol>
+
+          <div class="cal-regle" aria-hidden="true">
+            <span class="cal-fond"></span>
+            <span class="cal-encre" data-cal-encre></span>
+            {graduations.map((i) => (
+              <span class:list={['cal-grad', majeures.includes(i) && 'cal-grad-maj']} data-m={i} style={`--m:${i}`}></span>
+            ))}
+            {majeures.map((i) => (
+              <span class="cal-grad-n" data-m={i} style={`--m:${i}`}>{i}</span>
+            ))}
+            <span class="cal-accolade" style="--a:1;--b:9"></span>
+          </div>
+          <ul class="cal-reperes">
+            {reperes.map((r, i) => (
+              <li class:list={['cal-repere', i === 1 && 'cal-repere-fin']} data-m={r.m} style={`--m:${r.m}`}>
+                <span class="cal-repere-quoi">{r.quoi}</span> <span class="cal-repere-t">{r.texte}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <span class="cal-aiguille" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <figure class="cal-photo-mobile">
+    <Img src={photo.src} alt={photo.alt} sizes="100vw" class="w-full" data-reveal="clip" />
+    <figcaption>Une meule de beaufort, talon creusé. Photo : Ibex73, CC BY-SA 4.0.</figcaption>
+  </figure>
+</section>
+
+<style>
+  .cal { background: var(--bg); padding-top: var(--section-y); }
+  .cal-tete { padding-inline: 16px; max-width: 48rem; }
+  .cal-titre { font-size: clamp(2.1rem, 7.5vw, 3.6rem); line-height: 1.04; max-width: 20ch; }
+  .cal-chapo { margin-top: 20px; font-size: 1.1rem; line-height: 1.55; color: var(--muted); max-width: 44ch; }
+
+  /* Valeurs de repli (sans JS) : la bande défile au doigt. Le script les remplace par des mesures. */
+  .cal-course { margin-top: 32px; }
+  .cal-scene { position: relative; --cal-n: 16px; --cal-l: 2200px; }
+  .cal-fenetre { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
+  .cal-fenetre:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .cal-piste { position: relative; height: 640px; width: calc(var(--cal-l) + 100vw); }
+  .cal-aiguille { display: none; }
+  .cal-lecture { padding: 0 16px; display: flex; align-items: baseline; gap: 10px; color: var(--muted); }
+  .cal-lecture-n { font-size: clamp(5.5rem, 26vw, 7.5rem); line-height: 0.85; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 1.1em; }
+  .cal-lecture-u { font-size: 1rem; }
+
+  /* Règle : graduations à intervalle constant, position = n + l x mois / 24. */
+  .cal-regle { position: absolute; left: 0; right: 0; bottom: var(--cal-bas, 150px); height: 0; }
+  .cal-fond, .cal-encre { position: absolute; left: var(--cal-n); width: var(--cal-l); height: 1px; top: 0; }
+  .cal-fond { background: var(--line); }
+  .cal-encre { height: 3px; top: -1px; background: var(--accent); transform-origin: 0 50%; transform: scaleX(0); }
+  .cal-grad {
+    position: absolute; left: calc(var(--cal-n) + var(--cal-l) * var(--m) / 24); top: 0;
+    width: 1px; height: 12px; background: var(--muted); opacity: 0.45;
+    transform-origin: 50% 0; transition: transform 0.4s var(--ease-out), opacity 0.4s var(--ease-out), background-color 0.4s var(--ease-out);
+  }
+  .cal-grad-maj { height: 26px; }
+  .cal-grad.is-on { background: var(--accent); opacity: 1; transform: scaleY(1.6); }
+  .cal-grad-maj.is-on { transform: none; width: 2px; }
+  .cal-grad-n { position: absolute; top: 40px; left: calc(var(--cal-n) + var(--cal-l) * var(--m) / 24); transform: translateX(-50%); white-space: nowrap; transition: color 0.4s var(--ease-out); font-size: 0.95rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .cal-grad-n.is-on { color: var(--fg); }
+  .cal-accolade {
+    position: absolute; top: 84px; height: 10px;
+    left: calc(var(--cal-n) + var(--cal-l) * var(--a) / 24); width: calc(var(--cal-l) * (var(--b) - var(--a)) / 24);
+    border: 1px solid var(--line); border-top: 0;
+  }
+
+  /* Repères « plus jeune » / « plus fait », sous la règle, sans chiffre. */
+  .cal-reperes { list-style: none; margin: 0; padding: 0; }
+  .cal-repere {
+    position: absolute; bottom: calc(var(--cal-bas, 150px) - 140px); left: calc(var(--cal-n) + var(--cal-l) * var(--m) / 24);
+    width: 13rem; font-size: 0.92rem; line-height: 1.4; color: var(--muted); opacity: 0.5;
+    transition: opacity 0.5s var(--ease-out);
+  }
+  .cal-repere-fin { transform: translateX(-100%); text-align: right; }
+  .cal-repere-quoi { display: block; font-weight: 600; color: var(--fg); }
+  .cal-repere.is-on { opacity: 1; }
+
+  /* Arrêts : au-dessus de la règle, une tige les y rattache. */
+  .cal-arrets { list-style: none; margin: 0; padding: 0; }
+  .cal-arret {
+    position: absolute; left: calc(var(--cal-n) + var(--cal-l) * var(--m) / 24);
+    bottom: calc(var(--cal-bas, 150px) + 40px); padding-left: 18px; display: flex; gap: 40px; align-items: flex-end;
+  }
+  .cal-arret::before { content: ''; position: absolute; left: 0; bottom: -40px; top: 6px; width: 1px; background: var(--line); transition: background-color 0.5s var(--ease-out); }
+  .cal-arret.is-on::before { background: var(--accent); }
+  .cal-arret.is-tenu::before { opacity: 0; }
+  .cal-arret-texte { width: min(72vw, 23rem); opacity: 0.3; transition: opacity 0.6s var(--ease-out); }
+  .cal-arret-titre { font-size: clamp(2rem, 6vw, 3rem); line-height: 1; margin-top: 6px; transform: translateY(10px); transition: transform 0.6s var(--ease-out); }
+  .cal-arret.is-on .cal-arret-texte { opacity: 1; }
+  .cal-arret.is-on .cal-arret-titre { transform: none; }
+  .cal-quoi { font-size: 0.92rem; color: var(--muted); }
+  .cal-arret-p { margin-top: 12px; font-size: 1rem; line-height: 1.5; }
+  .cal-photo { display: none; margin: 0; }
+  .cal-photo-mobile { margin: 40px 16px 0; }
+  .cal-photo-mobile figcaption, .cal-photo figcaption { margin-top: 8px; font-size: 0.85rem; color: var(--muted); }
+
+  /* Actif (script) : la scène se colle, la piste suit le défilement. */
+  .cal-actif .cal-scene { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; padding-top: 84px; }
+  .cal-actif .cal-fenetre { overflow: hidden; flex: 1; }
+  .cal-actif .cal-piste { height: 100%; will-change: transform; }
+  .cal-actif .cal-aiguille {
+    display: block; position: absolute; left: var(--cal-n); bottom: calc(var(--cal-bas, 150px) - 30px); height: 64px; width: 3px;
+    margin-left: -1px; background: var(--accent);
+  }
+  .cal-actif .cal-scene { --cal-bas: 30svh; }
+  .cal-actif .cal-arret { will-change: transform; }
+
+  @media (min-width: 64rem) {
+    .cal-tete { padding-inline: clamp(32px, 4vw, 64px); }
+    .cal-lecture { padding-inline: clamp(32px, 4vw, 64px); }
+    .cal-lecture-n { font-size: clamp(8rem, 15vw, 14rem); }
+    .cal-actif .cal-scene { padding-top: 40px; --cal-bas: 24svh; }
+    .cal-arret-texte { width: 25rem; }
+    .cal-arret-titre { font-size: 3.6rem; }
+    .cal-arret-p { font-size: 1.1rem; }
+    .cal-photo { display: block; width: clamp(16rem, 26vw, 26rem); opacity: 0; transform: translateY(16px); transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out); }
+    .cal-photo :global(img) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+    .cal-arret.is-on .cal-photo { opacity: 1; transform: none; }
+    .cal-photo-mobile { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cal-grad, .cal-repere, .cal-arret-texte, .cal-arret-titre, .cal-photo { transition: none; }
+    .cal-arret-texte, .cal-repere, .cal-photo { opacity: 1; transform: none; }
+  }
+  /* Sans JS (pas de classe active) : tout est lisible, rien n'attend l'aiguille. */
+  .cal:not(.cal-actif) .cal-arret-texte, .cal:not(.cal-actif) .cal-repere, .cal:not(.cal-actif) .cal-photo { opacity: 1; transform: none; }
+  .cal:not(.cal-actif) .cal-lecture { display: none; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  function initCal() {
+    const sec = document.querySelector<HTMLElement>('[data-cal]');
+    if (!sec || sec.dataset.calPret) return;
+    sec.dataset.calPret = '1';
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const course = sec.querySelector<HTMLElement>('[data-cal-course]')!;
+    const scene = sec.querySelector<HTMLElement>('[data-cal-scene]')!;
+    const piste = sec.querySelector<HTMLElement>('[data-cal-piste]')!;
+    const encre = sec.querySelector<HTMLElement>('[data-cal-encre]')!;
+    const mois = sec.querySelector<HTMLElement>('[data-cal-mois]')!;
+    const marques = [...sec.querySelectorAll<HTMLElement>('[data-m]:not(.cal-arret)')];
+    // Arrêts tenus à l'aiguille : un arrêt dépassé reste lisible contre l'aiguille jusqu'à ce que le
+    // suivant arrive et le pousse (comme un en-tête collant, en horizontal).
+    const arrets = [...sec.querySelectorAll<HTMLElement>('.cal-arret')];
+    let poussees: number[] = [];
+    let avance = 0;
+    let dernierAvance = -1;
+    let N = 0;
+    sec.classList.add('cal-actif');
+    let L = 1;
+    let dernier = -1;
+    let raf = 0;
+
+    const maj = () => {
+      raf = 0;
+      const p = Math.min(1, Math.max(0, -course.getBoundingClientRect().top / L));
+      piste.style.transform = `translate3d(${(-p * L).toFixed(1)}px,0,0)`;
+      encre.style.transform = `scaleX(${p.toFixed(4)})`;
+      const x = p * L;
+      arrets.forEach((a, i) => {
+        const mi = Number(a.dataset.m);
+        const retard = Math.max(0, Math.min(x - (L * mi) / 24, poussees[i]));
+        a.style.transform = retard > 0 ? `translate3d(${retard.toFixed(1)}px,0,0)` : '';
+        a.classList.toggle('is-tenu', retard > 0.5);
+      });
+      const m = p * 24;
+      const n = Math.floor(m + 0.02);
+      if (n !== dernier) {
+        dernier = n;
+        mois.textContent = String(n);
+        marques.forEach((el) => el.classList.toggle('is-on', Number(el.dataset.m) <= m + 0.02));
+      }
+      // L'arrêt suivant s'allume un peu avant l'aiguille, pour qu'il y ait toujours un texte à lire.
+      const n2 = Math.floor((m + avance) * 4);
+      if (n2 !== dernierAvance) {
+        dernierAvance = n2;
+        arrets.forEach((a) => a.classList.toggle('is-on', Number(a.dataset.m) <= m + avance));
+      }
+    };
+    const mesurer = () => {
+      const W = scene.clientWidth;
+      const H = scene.clientHeight;
+      const mobile = W < 768;
+      L = Math.round(W * (mobile ? 4.6 : 2.6));
+      N = Math.round(mobile ? 28 : W * 0.1);
+      scene.style.setProperty('--cal-l', `${L}px`);
+      scene.style.setProperty('--cal-n', `${N}px`);
+      piste.style.width = `${L + W}px`;
+      course.style.height = `${L + H}px`;
+      // Course de chaque arrêt tenu : jusqu'à ce que son bord droit touche l'arrêt suivant (marge 32 px).
+      poussees = arrets.map((a, i) => {
+        const suivant = arrets[i + 1];
+        if (!suivant) return 0;
+        const ecart = (L * (Number(suivant.dataset.m) - Number(a.dataset.m))) / 24;
+        const larg = (a.querySelector('.cal-arret-texte') as HTMLElement).offsetWidth + 18;
+        return Math.max(0, ecart - larg - 32);
+      });
+      avance = ((W - N) * 0.45 * 24) / L;
+      dernier = -1;
+      dernierAvance = -1;
+      maj();
+    };
+    mesurer();
+    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(maj); }, { passive: true });
+    let t = 0;
+    window.addEventListener('resize', () => { clearTimeout(t); t = window.setTimeout(mesurer, 150); });
+    document.fonts?.ready.then(mesurer);
+  }
+  onPage(initCal);
+</script>

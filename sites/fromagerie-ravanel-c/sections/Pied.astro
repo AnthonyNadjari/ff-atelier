@@ -1,0 +1,44 @@
+---
+/**
+ * Pied de page de la piste C : le nom revient en très grand, sur deux lignes comme sur l'affiche du
+ * premier écran (le pied « big-name » partagé le mettait sur une ligne, coupée à droite sur téléphone
+ * avec une slab aussi large qu'Alfa Slab One). Liens légaux, crédits, mention de démo.
+ */
+import { site, tel, fullAddress, hasCredits } from '@/lib/site';
+const year = new Date().getFullYear();
+const [mot1, ...reste] = site.business.name.split(' ');
+---
+
+<footer class="pied bg-ink text-on-ink">
+  <div class="container-ff pied-corps">
+    <p class="pied-nom font-display" aria-hidden="true"><span>{mot1}</span> <br /><span class="pied-nom-2">{reste.join(' ')}</span></p>
+
+    <div class="pied-ligne">
+      <nav class="pied-liens" aria-label="Pied de page">
+        {site.services.map((s) => <a href={`/services/${s.slug}`}>{s.title}</a>)}
+        <a href="/mentions-legales">Mentions légales</a>
+        <a href="/confidentialite">Confidentialité</a>
+        {hasCredits && <a href="/credits">Crédits photos</a>}
+      </nav>
+      <p class="pied-contact"><a href={tel()}>{site.contact.phoneDisplay}</a><br />{fullAddress()}</p>
+    </div>
+
+    <p class="pied-petit">© {year} {site.business.name}. Site réalisé par <a href="https://finckfisch.fr" rel="noopener" target="_blank">Finck &amp; Fisch</a>.</p>
+    {site.legal.demo && <p class="pied-petit">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
+  </div>
+</footer>
+
+<style>
+  .pied-corps { --container: 96rem; padding-top: 56px; padding-bottom: 32px; }
+  .pied-nom { font-size: calc((100vw - 40px) / 6.15); line-height: 0.92; color: var(--bg-2); white-space: nowrap; }
+  .pied-nom-2 { font-size: 1.43em; }
+  @media (min-width: 48rem) { .pied-nom { font-size: min(calc((100vw - 100px) / 6.15), 15rem); } }
+  .pied-ligne { margin-top: 40px; padding-top: 24px; border-top: 2px solid color-mix(in srgb, var(--on-ink) 25%, transparent); display: grid; gap: 24px; }
+  @media (min-width: 48rem) { .pied-ligne { grid-template-columns: minmax(0, 1fr) auto; align-items: start; } }
+  .pied-liens { display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 0.95rem; }
+  .pied-liens a, .pied-contact a, .pied-petit a { color: inherit; }
+  .pied-liens a { text-decoration: none; }
+  @media (hover: hover) and (pointer: fine) { .pied-liens a:hover { text-decoration: underline; } }
+  .pied-contact { font-size: 0.95rem; }
+  .pied-petit { margin-top: 12px; font-size: 0.8rem; color: color-mix(in srgb, var(--on-ink) 72%, transparent); }
+</style>
