@@ -21,8 +21,11 @@ Si oui, l'idée est celle du métier : en prendre une autre dans la liste. Écri
 - THÈSE : l'idée, et l'arrangement par défaut du métier qu'elle refuse.
 - SQUELETTE : coquille, nav, où vit le contact, ordre des blocs, et l'écart avec `ff variete`.
 - PREMIER ÉCRAN : ce qui est où, à quelle taille, où est le téléphone ou le bouton.
-- MOUVEMENT : quatre lignes (GOUT § 4) : entrée du premier écran ; rythme d'apparition ; le feu d'artifice
-  (le seul effet riche, son but en un mot, ce qui répond au doigt ou au défilement) ; l'image qui bouge.
+- MOUVEMENT : quatre lignes (GOUT § 4), chacune avec **l'objet qui bouge** (une chose du métier, pas un titre ni
+  un cadre) et **la raison en un mot**. Interdit d'écrire un attribut du moteur dans cette ligne : on décrit ce
+  qu'on voit (« la craie s'écrit sur l'ardoise », « les meules s'empilent »), on choisit l'outil après. Dire
+  laquelle des entrées des démontages on transpose (fiche + ce qu'on en garde). Courbes : nommer les deux
+  régimes (sec / lent ou à rebond) et pourquoi.
 - REFUSÉ : ce qu'on a écarté et pourquoi (sert au compte rendu).
 - FIN : non relu = pas fini ; ce site se termine par le verdict du relecteur.
 

@@ -47,7 +47,7 @@ retour 0,25 s (était 0,5 / 0,8).
 | `data-horizontal` (+ `.h-track`) | rich | Piste qui défile horizontalement pendant le scroll vertical (desktop ≥ 64rem), scrub 1. |
 | `data-text-fill` | rich | Texte qui se remplit mot par mot au scroll (scrub 1). |
 | `data-split` / `data-split="chars"` | rich | Titre découpé en mots (défaut) ou en caractères, révélé en cascade (CSS maison). |
-| `data-split="lines"` (+ `data-split-ease="out"` optionnel) | rich | **Le geste de base d'un hero « cher »** : titre révélé par lignes masquées (GSAP SplitText, `mask: "lines"`, gratuit depuis 3.13) — `yPercent 110 → 0`, 0,9 s, stagger 0,09, sur `--ease-brand` (courbe signature de la direction ; `data-split-ease="out"` pour `--ease-out`). Chargé à la demande, attend les polices, re-découpe au resize (`autoSplit`). Repli sans SplitText : découpage mots maison. `prefers-reduced-motion` : texte visible, non découpé. Pour les `h1`/`h2`, à la place de `data-reveal`. |
+| `data-split="lines"` (+ `data-split-ease="out"` optionnel) | rich | **Réservé à un h1 au plus, quand le contrat dit pourquoi ; jamais sur les h2** (signe IA, GOUT § 2, 16 oct 2026) : titre révélé par lignes masquées (GSAP SplitText, `mask: "lines"`, gratuit depuis 3.13) — `yPercent 110 → 0`, 0,9 s, stagger 0,09, sur `--ease-brand` (courbe signature de la direction ; `data-split-ease="out"` pour `--ease-out`). Chargé à la demande, attend les polices, re-découpe au resize (`autoSplit`). Repli sans SplitText : découpage mots maison. `prefers-reduced-motion` : texte visible, non découpé. Pour les `h1`/`h2`, à la place de `data-reveal`. |
 | `data-hover-img="/images/x.webp"` | rich | Une image flotte près du curseur pendant le survol (pointer fin). |
 
 ## Nouveaux effets (docs/veille/animations.md § 3)

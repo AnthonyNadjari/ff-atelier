@@ -38,10 +38,15 @@ CE QUE TU VÉRIFIES :
 - Calibration : le site tombe-t-il dans une des cinq grappes (crème + serif + terracotta ; noir + accent acide ;
   broadsheet à filets et petites capitales ; cartes SaaS à grand rayon ; chrome de gabarit) sans que le brief
   l'ait demandé ?
-- Vivant (GOUT § 4) : le premier écran a-t-il une entrée ? Les sections apparaissent-elles au défilement ? Le
-  feu d'artifice répond-il au doigt ? Une image bouge-t-elle ? Les planches sont des images fixes : lis
-  `data-split`, `data-reveal`, `data-stagger`, `data-scrub`, `data-parallax` et `motion:` dans le code, et
-  regarde `captures/planches/<slug>-film.jpg` s'il existe. Un site immobile est un constat à 75.
+- Vivant ET humain (GOUT § 2 et § 4) : regarde le film. (1) Qu'est-ce qui bouge : des titres et des cadres de
+  photo, ou des choses du métier ? Plus de deux titres de section qui se lèvent ligne par ligne = constat à 80.
+  (2) L'entrée montre-t-elle le client, ou un rideau / un titre qui monte que n'importe quel site de l'usine
+  aurait ? (3) Une seule courbe et une seule durée partout = constat à 75. (4) Si d'autres pistes existent,
+  compare leurs films à 400 ms : même entrée ou même apparition = constat à 85, verdict « refaire » le
+  mouvement. (5) Compare à un démontage du même métier : nomme une chose qu'il anime et que nous n'animons pas.
+- Typographie : une seule police de titre à une seule graisse pour tous les niveaux, ou un h2 plus grand que le
+  h1 = constat à 75. Titres : compte ceux qui finissent par un point ; plus de la moitié = constat (rédacteur).
+- Images : photo de banque visible, légendée « d'illustration », ou la même photo dans deux pistes = constat à 80.
 - Un seul feu d'artifice : un deuxième effet riche est un constat. Pour le mouvement, propose d'abord de
   supprimer, puis de réduire, puis seulement de corriger.
 - Téléphone (GOUT.md § 1) : texte lisible sur fond animé, rien sous la barre basse, contact au pouce.

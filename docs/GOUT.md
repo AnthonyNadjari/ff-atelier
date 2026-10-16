@@ -44,6 +44,13 @@ Origine : « ça se voit que tu l'as fait avec Claude » (6 oct 2026). Liste com
 - titres en cadence de trois (« Trois sites. Un seul contenu. »), séries de trois partout ;
 - « X ans d'expérience » calculé, badge « depuis 1998 » : on écrit « Depuis 1998 » en texte.
 - Vignettes polaroid inclinées, cartes à grand rayon (20-28 px) sur un système à 4 px (13 oct 2026).
+- Titres de section révélés ligne par ligne sous masque, sur toute la page ; rideau plein écran qui se lève à
+  l'ouverture ; photo qui se découvre par volet puis zoome au défilement, à chaque section (16 oct 2026,
+  fromagerie A/B/C).
+- Surtitre gris « métier, rue, ville » au-dessus du h1 : c'est l'eyebrow en casse normale (16 oct 2026).
+- Photo de banque légendée « photo d'illustration » : sans photo du client, on dessine, on compose en typo ou on
+  montre un objet (ardoise, étiquette, ticket), on n'illustre pas (16 oct 2026).
+- Une seule police de titre à une seule graisse pour h1, h2, h3 ; un h2 plus grand que le h1.
 
 ## 3. Démos et captures (site du studio, propositions aux clients)
 
@@ -67,13 +74,19 @@ Origine : « ça se voit que tu l'as fait avec Claude » (6 oct 2026). Liste com
 - **Rien ne tourne tout seul** quand on peut faire glisser à la main (14 oct 2026, Trois jours : « un
   scroll latéral manuel »). Pas d'autoplay de « stories ».
 - Pas de défilement bloqué qui surprend (pin trop long, scroll-jacking).
-- **Un site doit être vivant** (16 oct 2026, sur la démo de fromagerie relue « à montrer » mais quasi immobile :
-  « pourquoi y'a aucune animation ? fais vraiment améliorer ça »). « Un seul feu d'artifice » veut dire un seul
-  effet RICHE, pas un site immobile : chaque site a au moins (1) une entrée du premier écran (titre par lignes,
-  `data-split="lines"`), (2) un rythme d'apparition au défilement (un groupe par section), (3) le feu
-  d'artifice, qui répond au doigt ou au défilement, (4) une image qui bouge au défilement (`data-scrub`,
-  `data-parallax`, révélation `clip`/`wipe`). `motion: 'rich'` par défaut ; `subtle` seulement pour la santé et
-  le droit (et encore : entrée et rythme y restent).
+- **Un site doit être vivant** (16 oct 2026, « pourquoi y'a aucune animation ? ») : une entrée du premier écran,
+  un rythme au défilement, un feu d'artifice qui répond au doigt ou au défilement, une image qui bouge.
+- **Vivant ne veut pas dire « tout se lève »** (16 oct 2026, trois pistes de fromagerie : « très similaire sur
+  les animations », « aucun que je ne trouve pas IA generated »). Les quatre moments restent (entrée, rythme,
+  feu d'artifice, image), mais aucun n'impose d'outil. Règles :
+  - **Ce qui bouge est une chose du métier** (une meule, une ardoise, un ticket, un plat, un outil), pas un titre
+    ni un cadre de photo. Un titre de section ne s'anime pas ; seul le h1 peut avoir une entrée, et alors elle
+    est propre au client (enseigne, craie, tampon), jamais la montée de lignes sous masque du moteur.
+  - **Pas de rideau d'ouverture** générique. L'entrée montre le client ou rien.
+  - **Au moins deux régimes** sur la page : un sec (≤ 0,2 s, linéaire ou ease-out court) et un lent ou à rebond,
+    choisis pour une raison écrite ; jamais une seule courbe expo-out partout.
+  - **Deux pistes d'une même proposition n'ont jamais la même entrée ni le même mécanisme d'apparition** au
+    défilement.
 - Logo : **aucune animation générée** (Remotion, IA vidéo, 3D, encre au scroll, tout rejeté les 8-9 oct
   2026). Le monogramme reste le SVG tracé en CSS. Ne pas reproposer ; demander des références ou un
   motion designer humain.
@@ -86,7 +99,14 @@ Origine : « ça se voit que tu l'as fait avec Claude » (6 oct 2026). Liste com
   clé en main, haut de gamme, univers, à votre écoute, dans les règles de l'art.
 - On écrit comme on parle au téléphone au client. « Vous » au lecteur, « nous » pour le studio. Pas de
   jargon d'agence (solution, accompagner).
-- Titres : une phrase, pas un fragment. « Vous parlez à ceux qui font le site », pas « Humains. ».
+- Titres : **jamais un fragment creux** (« Humains. »), mais pas non plus une phrase-consigne finie par un point
+  à chaque section (16 oct 2026 : 15 titres sur 18 finissaient par un point dans les trois fromageries, 0 sur 26
+  chez quatre sites humains). Sur une page : au moins un titre-étiquette de 1 à 4 mots qui nomme une chose du
+  client (« L'ardoise », « Beaufort 24 mois »), au plus la moitié des titres finis par un point, des longueurs
+  qui varient du simple au triple.
+- Une voix par site : au moins une phrase qu'une personne nommée du brief dirait (avec son prénom), une
+  question ou une exclamation si le ton le permet, des noms propres (fermes, produits, lieux) plutôt que des
+  consignes.
 - Typographie française stricte (`ff typo`) : espaces insécables avant `: ; ! ?`, « guillemets »,
   apostrophe ’, 9 h 30, 1 200 €.
 - Une seule fois « exemple » par écran ; dire « aucun client derrière » une fois, pas partout.
@@ -138,5 +158,8 @@ les autres servent à la relecture adverse et à `ff verifier` (bloc « règles 
 - 15 oct 2026 : création, compilation des retours du 6 au 14 oct 2026 (mémoires de session, PRODUCT.md,
   signes-ia.md, commentaires de code du site du studio).
 - 16 oct 2026 : § 4 « un site doit être vivant » (démo fromagerie immobile).
+- 16 oct 2026, soir : § 2, § 4 et § 5 réécrits d'après `docs/veille/pourquoi-ia-2026-10.md` (trois pistes « très
+  similaires », « aucune que je ne trouve pas IA generated ») : on anime les choses du métier, pas les titres ;
+  pas de rideau ; deux régimes de courbe ; titres-étiquettes ; une voix signée.
 - 15 oct 2026, nuit : § 8 (règles empruntées aux skills de design, veille outils) ; § 2 complété
   (« Depuis 1998 » en badge, polaroid, grands rayons).

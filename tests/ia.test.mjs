@@ -67,3 +67,20 @@ test('numérotation décorative 01 02 03 : alerte à partir de trois', () => {
 test('effets interdits : le CSS en ligne du moteur ne compte pas', () => {
   assert.equal(analyserHtml('<style>[data-grain]:after{opacity:.3}[data-spotlight]{}</style><p>Fromages</p>').alertes.length, 0);
 });
+
+test('titres de section révélés par lignes : échec au-delà de deux', () => {
+  const h = '<h1 data-split="lines">A</h1>' + '<h2 data-split="lines">B</h2>'.repeat(3);
+  assert.ok(analyserHtml(h).echecs.some((e) => e.regle === 'split-titres'));
+  assert.ok(!analyserHtml('<h1 data-split>A</h1><h2 data-split>B</h2><h2>C</h2>').echecs.some((e) => e.regle === 'split-titres'));
+});
+
+test('rideau, photo d’illustration, titres tous à point final : alertes', () => {
+  const r = analyserHtml('<div class="ff-curtain"></div><p>Une cave (photo d’illustration).</p><h1>Ici, les fromages s’affinent sous la boutique.</h1><h2>La cave est sous la boutique.</h2><h2>Deux choses se réservent ici.</h2><h2>Pour réserver, appelez la boutique.</h2>');
+  const regles = r.alertes.map((a) => a.regle);
+  assert.ok(regles.includes('rideau') && regles.includes('photo-illustration') && regles.includes('titres-point'), regles.join(','));
+});
+
+test('titres-étiquettes variés : pas d’alerte titres-point', () => {
+  const r = analyserHtml('<h1>Fromagerie Ravanel</h1><h2>L’ardoise</h2><h2>Beaufort 24 mois</h2><h2>Où nous trouver le mardi ?</h2>');
+  assert.ok(!r.alertes.some((a) => a.regle === 'titres-point'));
+});

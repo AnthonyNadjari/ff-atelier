@@ -19,6 +19,8 @@ Contrôle automatique : `node scripts/ff.mjs ia [slug ...]` (sur les sites const
 | Tiret cadratin « — » comme ponctuation | Le tic d'écriture n°1 des modèles | Virgule, point, deux-points, parenthèses. Le titre d'onglet utilise « | » |
 | Point médian « · » comme séparateur | Même famille que le tiret cadratin | Virgule, « à » (« Plombier à Nantes »), ou de l'espace dans la mise en page |
 
+| Plus de deux titres de section (h2/h3) révélés ligne par ligne (`data-split`) | Le mouvement générique du moteur, partout (16 oct 2026, `pourquoi-ia-2026-10.md`) | On anime une chose du métier ; au plus le h1, avec une raison écrite au contrat |
+
 ## Alerte (`ff ia` signale)
 
 | Signe | Ce qu'on fait |
@@ -26,6 +28,10 @@ Contrôle automatique : `node scripts/ff.mjs ia [slug ...]` (sur les sites const
 | Boutons pilule partout (`--radius: 999px`) | Angles nets ou à peine adoucis (0–3 px) |
 | Coches devant chaque ligne (tarif façon logiciel en ligne) | Liste en texte simple |
 | Libellés en capitales espacées (`uppercase tracking-[0.2em]`) | Le libellé, s'il porte une information, s'écrit comme une phrase |
+| Rideau plein écran à l'ouverture (`.ff-curtain`, `layout.curtain`) | L'entrée montre le client ou rien |
+| Volet / zoom / parallaxe d'image dans plus de la moitié des sections | Une image qui bouge par page, pour une raison |
+| « Photo d'illustration » | Pas de photo du client : composition typographique ou objet du métier |
+| Titres h1/h2 presque tous des phrases à point final, ou aucun de moins de 5 mots | Des titres-étiquettes qui nomment une chose du client, des longueurs variées |
 
 ## Retirés de la factory le 6 oct 2026 (ne pas réintroduire)
 

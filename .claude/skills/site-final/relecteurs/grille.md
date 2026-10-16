@@ -25,7 +25,13 @@ PLAFONDS (priment sur le calcul) :
 - texte peu lisible sur fond animé au téléphone (GOUT.md § 1) : usage ≤ 6 ;
 - le premier écran ne dit pas quoi / où / combien ou quand : usage ≤ 7 ;
 - une donnée sans source dans le brief : textes ≤ 3, constat bloquant ;
-- deux écrans d'ordinateur presque vides : composition ≤ 6,5.
+- deux écrans d'ordinateur presque vides : composition ≤ 6,5 ;
+- mouvement « moteur » : plus de deux titres h2 animés par lignes, ou rideau d'ouverture, ou une seule courbe
+  pour toutes les apparitions : composition ≤ 6,5 (GOUT § 2, 16 oct 2026) ;
+- deux pistes avec la même entrée ou la même manière d'apparaître au défilement : idée ≤ 6 pour la plus faible ;
+- photo de banque légendée « d'illustration » à la place d'une photo du client : composition ≤ 7 ;
+- plus de la moitié des titres sont des phrases finies par un point, ou aucun titre de moins de 5 mots : textes
+  ≤ 6 (rédacteur).
 
 SEUILS :
 - montrer : global ≥ 7,5, aucun critère < 7, aucun plafond actif, aucun constat ≥ 75 ouvert ;

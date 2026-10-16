@@ -136,6 +136,7 @@ export const siteSchema = z.object({
       shell: z.enum(SHELLS).default('flow').describe('Disposition globale de la page (voir SHELLS)'),
       headings: z.enum(HEADINGS).default('auto').describe('Alignement force des en-tetes de section'),
       tone: z.enum(TONES).default('flat').describe('alternate = une section sur deux sur fond bg-2'),
+      curtain: z.boolean().default(false).describe("Rideau plein écran à l'ouverture (motion 'rich'). Désactivé par défaut depuis le 16 oct 2026 : signe IA générique (docs/GOUT.md § 2) ; ff ia alerte quand il est actif."),
       contactDrawer: z
         .boolean()
         .default(false)

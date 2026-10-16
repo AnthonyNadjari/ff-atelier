@@ -63,6 +63,23 @@ export function analyserHtml(html) {
   if (effets) alertes.push({ regle: 'effets-interdits', n: effets });
   const numeros = new Set((texte.match(/(?:^|\s)0[1-9](?=\s|$)/g) || []).map((s) => s.trim()));
   if (numeros.has('01') && numeros.has('02') && numeros.has('03')) alertes.push({ regle: 'numerotation-decorative', n: numeros.size });
+  // 16 oct 2026 (docs/veille/pourquoi-ia-2026-10.md : trois pistes « toutes IA ») : le mouvement du moteur
+  // appliqué partout trahit la machine. Titres de section révélés par lignes = échec ; le reste, alertes.
+  const titresSplit = (balisage.match(/<h[23]\b[^>]*\bdata-split\b/gi) || []).length;
+  if (titresSplit > 2) echecs.push({ regle: 'split-titres', n: titresSplit, exemples: ['plus de deux h2/h3 révélés ligne par ligne (GOUT § 2 et § 4)'] });
+  if (/class="[^"]*\bff-curtain\b/.test(balisage)) alertes.push({ regle: 'rideau', n: 1 });
+  const sections = balisage.split(/<section\b/i).slice(1);
+  if (sections.length >= 4) {
+    const animees = sections.filter((s) => /data-reveal="(?:clip|wipe|mask)"|<img\b[^>]*\bdata-(?:scrub|parallax)\b|\bdata-(?:scrub|parallax)\b[^>]*>\s*<(?:img|picture)/i.test(s)).length;
+    if (animees * 2 > sections.length) alertes.push({ regle: 'reveal-partout', n: animees });
+  }
+  if (/photo d[’']illustration/i.test(texte)) alertes.push({ regle: 'photo-illustration', n: 1 });
+  const titres = [...balisage.matchAll(/<h([12])\b[^>]*>([\s\S]*?)<\/h\1>/gi)].map((m) => m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()).filter(Boolean);
+  if (titres.length >= 4) {
+    const point = titres.filter((x) => /\.$/.test(x)).length;
+    const courts = titres.filter((x) => x.split(' ').length < 5).length;
+    if (point * 2 > titres.length || courts === 0) alertes.push({ regle: 'titres-point', n: point });
+  }
   return { echecs, alertes };
 }
 

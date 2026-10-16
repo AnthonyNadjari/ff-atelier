@@ -52,8 +52,9 @@ colorée ») : le fondateur veut un outil « ultra flexible ».
 - **D'où viennent les idées** : chaque piste est inventée à partir des faits propres du brief, de son ressenti
   (adjectifs, sites aimés et détestés, contraintes) et des gestes de `docs/veille/demontages/`. Chaque piste
   pousse au bout UNE lecture différente du client (un fait, une humeur, un usage), écrite dans son contrat.
-- **La diversité se vérifie, elle ne se décrète pas** : après les N contrats, comparer deux à deux sur les cinq
-  axes (squelette, direction/couleur, typographie, rythme, mécanisme du geste). Deux pistes qui partagent plus
+- **La diversité se vérifie, elle ne se décrète pas** : après les N contrats, comparer deux à deux sur les sept axes (squelette, direction/couleur, typographie, rythme,
+  mécanisme du geste, **entrée du premier écran**, **manière d'apparaître au défilement**). Deux pistes qui
+  partagent l'entrée ou la manière d'apparaître échouent, même si tout le reste diffère. Deux pistes qui partagent plus
   d'un axe : réinventer la plus faible. Écrire le tableau de comparaison dans le contrat de chaque piste.
 - **Fabrication** : la piste principale par soi-même, les autres par des agents `general-purpose` (deux au plus
   à la fois), chacun avec le contrat de SA piste et les consignes communes
@@ -81,7 +82,8 @@ une heure après.
 - Site neuf : `/nouveau-site <slug>` étapes 1 à 7, en suivant le contrat (pas son résumé final).
   Site existant : `node scripts/ff.mjs build <slug>`.
 - Bloc sur mesure obligatoire, conforme à la phrase-idée ; un seul feu d'artifice par page, **mais un site
-  vivant** : les quatre lignes MOUVEMENT du contrat sont posées (`docs/GOUT.md` § 4), `motion: 'rich'`.
+  vivant ET humain** : les quatre lignes MOUVEMENT du contrat animent des choses du métier, pas les titres
+  (`docs/GOUT.md` § 2 et § 4), sans rideau, avec deux régimes de courbe.
 - **Calibration** : les pages générées tombent dans cinq grappes quel que soit le sujet : fond crème + serif
   + terracotta ; noir + un accent acide ; broadsheet à filets et petites capitales ; cartes SaaS identiques à
   grand rayon et ombre grise ; chrome de gabarit (eyebrow, « A · B · C », flèche « → »). Pour un métier
@@ -127,6 +129,11 @@ refaire) ; la première vignette montre le haut de page et la dernière atteint 
 `--debut 24`, puis `--debut 48`) ; si le site affiche « Ouvert / Fermé », l'heure de capture le montre
 « Ouvert ». Une planche invalide se refait avant toute relecture ; on ne passe jamais une planche invalide
 à un agent.
+
+Pour une proposition à plusieurs pistes, faire **une seule planche comparée** : les premiers écrans des N pistes
+à 0, 150, 400, 800, 1 500 ms côte à côte, puis la première section sous le hero de chacune à +250 ms. Si deux
+colonnes se ressemblent à 400 ms (même aplat, même titre coupé à mi-hauteur), les pistes ne sont pas
+différentes. Ajouter à côté les mêmes vignettes d'un démontage de `docs/veille/demontages/` du même métier.
 
 Le mouvement ne se voit pas sur une planche fixe : **le filmer** (premier écran image par image à 100, 300,
 600, 1 000 ms, puis le feu d'artifice en action) dans `captures/planches/<slug>-film.jpg`, avec un petit script

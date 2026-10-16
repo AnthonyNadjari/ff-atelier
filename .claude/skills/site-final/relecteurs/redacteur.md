@@ -21,7 +21,7 @@ CE QUE TU VÉRIFIES :
   contredit ailleurs ?
 - Mots creux et phrases d'agence (GOUT.md § 5, REDACTION.md § 1) : savoir-faire, passion, sur mesure,
   expertise, au cœur de, clé en main, haut de gamme, univers, à votre écoute, solution, accompagner.
-- Titres : une phrase, pas un fragment ; pas de cadence de trois ; pas d'accent sur un seul mot ; le titre du
+- Titres : jamais un fragment creux, pas tous des phrases à point final (GOUT § 5) ; pas de cadence de trois ; pas d'accent sur un seul mot ; le titre du
   hero, lu seul, dit ce qui est vendu. Pas de « Nos services », « Notre histoire », « Vous vous demandez
   peut-être ».
 - « Exemple » plus d'une fois par écran ; « aucun client derrière » plus d'une fois (démos).
@@ -30,6 +30,9 @@ CE QUE TU VÉRIFIES :
 - Ton : registre du métier (REDACTION.md § 4) tenu partout, pas seulement dans le hero ; vouvoiement ;
   profession réglementée (REDACTION.md § 3).
 - Typographie française que `ff typo` ne voit pas (dans un `aria-label`, un `alt`, un `title`).
+- Lis les titres à la suite, à voix haute. S'ils ont tous la même forme (phrase de 8 à 12 mots, point final),
+  c'est une notice, pas un commerçant. Y a-t-il un nom propre, une phrase signée par une personne du brief, une
+  question ? Sinon, constat à 75.
 - L'idée du contrat dans les mots : la FAQ, le contact et le pied de page parlent-ils encore de ce client-là ?
 
 [CONTENU DE relecteurs/bareme.md]

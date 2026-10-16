@@ -2,9 +2,7 @@ CONSIGNES COMMUNES (pistes B et C de la Fromagerie Ravanel, démo fictive)
 
 Repo : C:\Users\nadja\ff-atelier (Astro multi-site). Lis D'ABORD, en entier : CLAUDE.md, docs/GOUT.md (charte de goût
 des fondateurs, impérative, en particulier § 2 signes IA interdits et § 4 « un site doit être vivant »),
-.claude/skills/site-final/SKILL.md (la méthode que tu appliques), docs/ANIMATIONS.md (le moteur d'animation :
-data-split="lines", data-reveal, data-stagger, data-scrub, data-parallax, data-pin, data-horizontal, data-counter,
-data-draw…), docs/veille/demontages/INDEX.md (gestes de sites réels à transposer), et le brief
+.claude/skills/site-final/SKILL.md (la méthode que tu appliques), docs/ANIMATIONS.md (le moteur d'animation, outil et non recette), docs/veille/pourquoi-ia-2026-10.md (ce qui fait « IA »), docs/veille/demontages/INDEX.md (gestes de sites réels à transposer), et le brief
 sites/fromagerie-ravanel/brief.md (SEULE source des faits : rien d'inventé, aucun chiffre, nom, date, avis absent
 du brief ; les conseils généraux du métier sont permis).
 
@@ -27,6 +25,11 @@ Contraintes machine (IMPORTANT) : PC à 2 Go de RAM libre, un autre agent constr
 C:\Users\nadja\ff-atelier\.ff-tmp\build.lock n'existe pas (vérifie toutes les 10 s), puis crée-le, lance la
 commande, et supprime-le juste après (même en cas d'échec). Ne touche à RIEN hors de sites/<slug>/ (pas de src/,
 pas de scripts/, pas des autres sites). Pas de commit, pas de déploiement.
+
+Mouvement : tu ne réutilises ni l'entrée ni la manière d'apparaître des autres pistes (lis leurs MOUVEMENT). Tu
+n'utilises `data-split` sur aucun h2 ; au plus sur le h1, et seulement si le contrat dit pourquoi cette entrée
+est celle de ce client. `motion: 'rich'` sans rideau (`layout.curtain: false` dès qu'il existe). Pas de photo
+de banque légendée « photo d'illustration » : à la place, une composition typographique ou un objet du métier.
 
 Boucle de qualité (version courte de /site-final) : build, `node scripts/ff.mjs verifier <slug> --sans-build`
 (bloquants verts ; avertissements « données de test » attendus), `ff ia <slug>`, `ff audit-motion <slug>`,
