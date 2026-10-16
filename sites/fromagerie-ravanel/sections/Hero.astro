@@ -1,23 +1,25 @@
 ---
 /**
- * Premier écran « l'ardoise du comptoir » — propre à la Fromagerie Ravanel (direction.md, phrase-idée).
- * Le défaut du métier (grande photo de plateau + « Bienvenue ») est refusé : le premier écran est l'ardoise
- * qu'on lit en entrant, sur fond --ink. Elle dit qui, où, ce qui se réserve cette semaine (faits du brief :
- * raclette deux jours avant, plateaux 48 h, marché mardi et vendredi), les horaires du jour et le téléphone.
- * Titres en Savate (grotesque dessinée à la main : la craie sans pastiche de craie). Aucune animation
- * riche ici : le seul feu d'artifice de la page est l'âge du beaufort (Age.astro).
+ * Premier écran de la piste A « L'ardoise » : l'ardoise du comptoir, et Claire qui écrit dessus.
+ *
+ * Entrée (direction.md, MOUVEMENT) : le nom de la boutique s'écrit à la craie, lettre après lettre dans
+ * l'ordre où on les trace, puis un trait de craie le souligne ; pendant ce temps, la meule de beaufort se
+ * dessine à droite, et la part coupée est en craie jaune. C'est l'entrée de CE client (une ardoise, une
+ * meule vendue à l'âge choisi), pas la montée de lignes du moteur : aucun data-split.
+ * Image qui bouge : la part de beaufort se détache de la meule à mesure qu'on descend (translation seule,
+ * posée sur le groupe qui bouge, calée sur le défilement).
+ * Le téléphone et l'horaire du jour sont là dès la première image : rien d'utile n'attend la craie.
  */
 import { site, tel } from '@/lib/site';
 
-const lignes = [
-  { quoi: 'Appareil à raclette', detail: 'à réserver deux jours avant le week-end' },
-  { quoi: 'Plateaux', detail: 'de 6 à 30 personnes, à commander 48 heures avant' },
-  { quoi: 'Marché de la vieille ville', detail: 'mardi et vendredi matin, mêmes fromages' },
-];
+const mots = site.business.name.split(' ');
+const n = mots.join('').length;
+const finTitre = 140 + n * 58 + (mots.length - 1) * 160;
+
 const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
 const joursDe = (txt: string) => {
-  const noms = txt.toLowerCase().split(/\s+à\s+|\s*[–-]\s*/).map((s) => JOURS.indexOf(s.trim()));
-  if (noms.some((n) => n < 0)) return [];
+  const noms = txt.toLowerCase().split(/\s+à\s+/).map((s) => JOURS.indexOf(s.trim()));
+  if (noms.some((x) => x < 0)) return [];
   if (noms.length === 2) {
     const out: number[] = [];
     for (let d = noms[0]; ; d = (d + 1) % 7) { out.push(d); if (d === noms[1] || out.length > 7) break; }
@@ -25,92 +27,189 @@ const joursDe = (txt: string) => {
   }
   return noms;
 };
-const horaires = site.contact.hours.map((h) => ({ ...h, jours: joursDe(h.days).join(',') }));
+const horaires = site.contact.hours.map((h) => ({ jours: joursDe(h.days).join(','), hours: h.hours }));
 ---
 
-<section id="hero" class="ardoise bg-ink text-on-ink">
-  <div class="container-ff pb-16 pt-24 md:pb-24 md:pt-36">
-    <p class="text-sm text-on-ink/75">{site.business.trade}, {site.contact.address.street}, {site.contact.address.city}</p>
-    <h1 class="hero-titre text-display-xl mt-4 max-w-[16ch] font-display" data-split="lines" set:html={site.business.tagline} />
+<section id="hero" class="hero-a" data-hero-a style={`--fin-titre:${finTitre}ms`}>
+  <div class="container-ff hero-a-grille">
+    <div class="hero-a-texte">
+      <h1 class="hero-a-titre font-display" data-titre>
+        {mots.map((m) => <span class="hero-a-mot">{m}</span>)}
+      </h1>
+      <svg class="hero-a-trait" viewBox="0 0 600 24" preserveAspectRatio="none" aria-hidden="true">
+        <path data-trait pathLength="100" d="M4,15 C120,9 260,8 380,11 C470,13 540,16 596,10" />
+      </svg>
 
-    {/* Téléphone : l'horaire du jour et l'appel tout de suite sous le titre (relecture DA, 16 oct 2026 :
-        sur 390 x 844, le bouton tombait sous le pli). L'ordinateur garde la colonne complète. */}
-    <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 lg:hidden">
-      <a href={tel()} class="btn inline-flex items-center justify-center rounded-ui bg-on-ink px-6 py-3 font-medium text-ink">Appeler le {site.contact.phoneDisplay}</a>
-      <p class="text-sm text-on-ink/80" data-aujourdhui hidden></p>
+      <p class="hero-a-qui">
+        {site.business.trade} au {site.contact.address.street}, à {site.contact.address.city}, depuis {site.business.since}.
+        Les fromages de six fermes des Aravis et des Bauges, affinés dans la cave sous la boutique.
+      </p>
+
+      <figure class="hero-a-claire">
+        <blockquote><p class="font-display" data-ecrit>« Goûtez d’abord. On coupe après. »</p></blockquote>
+        <figcaption>Claire, au comptoir</figcaption>
+      </figure>
+
+      <div class="hero-a-actions">
+        <a href={tel()} class="hero-a-appel">Appeler le {site.contact.phoneDisplay}</a>
+        <p class="hero-a-jour" data-aujourdhui hidden></p>
+      </div>
+      <dl hidden data-horaires>
+        {horaires.map((h) => (<div data-jours={h.jours}><dt>.</dt><dd>{h.hours}</dd></div>))}
+      </dl>
     </div>
 
-    <div class="mt-10 grid gap-12 lg:mt-12 lg:grid-cols-12 lg:gap-16">
-      <div class="lg:col-span-7">
-        <p class="font-display text-xl">À savoir avant de passer</p>
-        <span class="ardoise-trait mt-3 block h-px" data-draw aria-hidden="true"></span>
-        <ul class="ardoise-liste mt-2" data-stagger="110">
-          {lignes.map((l) => (
-            <li>
-              <span class="font-display text-lg">{l.quoi}</span>
-              <span class="text-on-ink/75">{l.detail}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div class="lg:col-span-5">
-        <dl class="ardoise-horaires" data-horaires>
-          {horaires.map((h) => (
-            <div data-jours={h.jours}>
-              <dt>{h.days}</dt>
-              <dd class="tabular-nums">{h.hours}</dd>
-            </div>
-          ))}
-        </dl>
-        <div class="mt-8 hidden flex-wrap items-center gap-x-6 gap-y-3 lg:flex">
-          <a href={tel()} class="btn inline-flex items-center justify-center rounded-ui bg-on-ink px-8 py-4 font-medium text-ink transition-opacity duration-300 hover:opacity-90">Appeler le {site.contact.phoneDisplay}</a>
-          <a href="#reserver" class="underline decoration-1 underline-offset-4 text-on-ink/85 hover:text-on-ink">Réserver une raclette</a>
-        </div>
-      </div>
-    </div>
+    <figure class="hero-a-meule" aria-label="Dessin à la craie d’une meule de beaufort dont on a coupé une part">
+      <svg viewBox="0 0 400 260" aria-hidden="true">
+        <g class="meule-corps">
+          <path data-meule pathLength="100" d="M341,125.4 A150,45 0 1 0 263.4,150.8" />
+          <path data-meule pathLength="100" d="M341,125.4 L200,110 L263.4,150.8" />
+          <path data-meule pathLength="100" d="M50,110 Q60,140 50,170 A150,45 0 0 0 263.4,210.8" />
+          <path data-meule pathLength="100" d="M350,110 Q340,140 350,170 A150,45 0 0 1 341,185.4" />
+          <path data-meule pathLength="100" d="M200,110 L200,170 L263.4,210.8" />
+          <path data-meule pathLength="100" class="meule-fin" d="M200,170 L341,185.4" />
+        </g>
+        <g class="meule-part" data-part>
+          <path data-meule pathLength="100" d="M200,110 L341,125.4 A150,45 0 0 1 263.4,150.8 Z" />
+          <path data-meule pathLength="100" d="M263.4,150.8 L263.4,210.8 A150,45 0 0 0 341,185.4 L341,125.4" />
+          <path data-meule pathLength="100" d="M200,110 L200,170 L263.4,210.8" />
+        </g>
+      </svg>
+      <figcaption class="font-display" data-ecrit>Beaufort d’alpage : 12, 18 ou 24 mois, à l’âge que vous voulez</figcaption>
+    </figure>
   </div>
 </section>
 
 <style>
-  /* Ardoise : un trait de craie entre les lignes, pas de cadre ni de texture (grain interdit, GOUT § 2). */
-  .ardoise-liste { list-style: none; margin: 0; padding: 0; }
-  .ardoise-trait { width: 100%; background: color-mix(in srgb, var(--on-ink) 55%, transparent); }
-  .ardoise-liste li {
-    display: grid;
-    gap: 2px;
-    padding: 14px 0;
-    border-top: 1px solid color-mix(in srgb, var(--on-ink) 22%, transparent);
+  .hero-a { padding: 36px 0 64px; overflow: clip; }
+  .hero-a-grille { display: grid; gap: 40px; }
+  @media (min-width: 64rem) {
+    .hero-a { padding: 64px 0 96px; }
+    .hero-a-grille { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; gap: 56px; }
   }
-  .ardoise-liste li:last-child { border-bottom: 1px solid color-mix(in srgb, var(--on-ink) 22%, transparent); }
-  @media (min-width: 48rem) {
-    .ardoise-liste li { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); align-items: baseline; gap: 24px; }
+
+  .hero-a-titre {
+    margin: 0;
+    font-size: min(17.5vw, 8.75rem);
+    font-weight: 560;
+    line-height: 0.95;
+    color: var(--fg);
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.28em;
   }
-  .ardoise-horaires { margin: 0; display: grid; gap: 8px; font-size: 0.95rem; }
-  /* Relecture DA, tour 3 (16 oct 2026). Dans le style de la section et non en classes Tailwind : une règle
-     de <style> hors couche bat les utilitaires (`hidden`, `lg:max-w-*` restaient sans effet, CLAUDE.md § Pièges).
-     Téléphone : la ligne « Aujourd'hui » suffit, le tableau complet est repris dans le contact.
-     Ordinateur : le titre tient en trois lignes, le bouton reste dans le premier écran. */
-  @media (max-width: 63.99rem) { .ardoise-horaires { display: none; } }
-  @media (min-width: 64rem) { .ardoise h1.hero-titre.text-display-xl { max-width: 24ch; font-size: clamp(3.25rem, 5.4vw, 5.25rem); } }
-  .ardoise-horaires > div { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 12px; color: color-mix(in srgb, var(--on-ink) 72%, transparent); }
-  .ardoise-horaires > div.aujourdhui { color: var(--on-ink); font-weight: 600; }
-  .ardoise-horaires dt, .ardoise-horaires dd { margin: 0; }
+  .hero-a-mot { white-space: nowrap; display: inline-block; }
+  .hero-a-titre :global(.hero-a-l) { display: inline-block; }
+  html.craie .hero-a-titre:not(.decoupe) { visibility: hidden; }
+  html.craie .hero-a-titre :global(.hero-a-l) { clip-path: inset(-0.3em 100% -0.3em -0.15em); }
+  html.craie .hero-a.ecrit .hero-a-titre :global(.hero-a-l) {
+    clip-path: inset(-0.3em -0.15em -0.3em -0.15em);
+    transition: clip-path 85ms linear var(--d);
+  }
+
+  html.craie .hero-a [data-meule], html.craie .hero-a [data-trait] { stroke-dasharray: 100 100; stroke-dashoffset: 100; }
+  .hero-a-trait { display: block; width: min(100%, 34rem); height: 18px; margin-top: 10px; overflow: visible; }
+  .hero-a-trait path { fill: none; stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; }
+
+  .hero-a-qui { margin-top: 24px; max-width: 34rem; font-size: clamp(1.05rem, 1.4vw, 1.25rem); line-height: 1.5; color: var(--muted); }
+
+  .hero-a-claire { margin: 28px 0 0; }
+  .hero-a-claire blockquote { margin: 0; }
+  .hero-a-claire p { font-size: clamp(1.6rem, 5.4vw, 2.25rem); line-height: 1.15; color: var(--fg); }
+  .hero-a-claire figcaption { margin-top: 6px; font-size: 0.95rem; color: var(--muted); }
+
+  .hero-a-actions { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+  .hero-a-appel {
+    display: inline-flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 24px;
+    background: var(--accent);
+    color: var(--on-accent);
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-decoration: none;
+    transition: transform 120ms linear;
+  }
+  .hero-a-appel:active { transform: translateY(1px); }
+  .hero-a-jour { margin: 0; color: var(--fg); font-size: 0.98rem; }
+
+  .hero-a-meule { margin: 0; justify-self: center; width: min(100%, 36rem); }
+  .hero-a-meule svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .hero-a-meule path { fill: none; stroke: var(--fg); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  .hero-a-meule .meule-fin { opacity: 0.45; }
+  .meule-part path { stroke: var(--accent); stroke-width: 3; }
+  .meule-part { transform: translate(var(--px, 0px), var(--py, 0px)); will-change: transform; }
+  .hero-a-meule figcaption { margin-top: 14px; text-align: center; font-size: clamp(1.15rem, 3.6vw, 1.45rem); line-height: 1.25; color: var(--fg); }
+  @media (max-width: 63.99rem) { .hero-a-meule { width: min(88%, 22rem); } }
 </style>
 
 <script>
-  // Ligne du jour en clair (heure locale du visiteur, boutique en France). Sans script : liste lisible.
+  import { animer, ecrireLignes, tracer, observerBlocs } from '../lib/craie';
+
   function jourDuJour() {
     const j = new Date().getDay();
-    let ligne = '';
     document.querySelectorAll<HTMLElement>('[data-horaires] [data-jours]').forEach((l) => {
       const oui = (l.dataset.jours || '').split(',').filter(Boolean).map(Number).includes(j);
-      l.classList.toggle('aujourdhui', oui);
-      if (oui) ligne = `Aujourd’hui : ${l.querySelector('dd')?.textContent ?? ''}`;
+      const p = document.querySelector<HTMLElement>('[data-aujourdhui]');
+      if (oui && p) {
+        const h = l.querySelector('dd')?.textContent ?? '';
+        p.textContent = h === 'Fermé' ? 'Aujourd’hui : fermé' : `Aujourd’hui : ${h}`;
+        p.hidden = false;
+      }
     });
-    const p = document.querySelector<HTMLElement>('[data-aujourdhui]');
-    if (p && ligne) { p.textContent = ligne; p.hidden = false; }
   }
-  jourDuJour();
-  document.addEventListener('astro:page-load', jourDuJour);
+
+  function entree() {
+    const hero = document.querySelector<HTMLElement>('[data-hero-a]');
+    if (!hero) return;
+    (window as any).__craie = true;
+    jourDuJour();
+    observerBlocs();
+    const fin = parseInt(getComputedStyle(hero).getPropertyValue('--fin-titre'), 10) || 1200;
+    // Le nom, découpé en lettres dans l'ordre où on les écrit (seulement si la craie s'anime).
+    const h1 = hero.querySelector<HTMLElement>('[data-titre]');
+    if (h1 && animer()) {
+      h1.setAttribute('aria-label', h1.textContent!.replace(/\s+/g, ' ').trim());
+      let k = 0;
+      h1.querySelectorAll<HTMLElement>('.hero-a-mot').forEach((mot, mi) => {
+        const txt = mot.textContent || '';
+        mot.textContent = '';
+        mot.setAttribute('aria-hidden', 'true');
+        Array.from(txt).forEach((c) => {
+          const l = document.createElement('span');
+          l.className = 'hero-a-l';
+          l.textContent = c;
+          l.style.setProperty('--d', `${140 + k * 58 + mi * 160}ms`);
+          mot.appendChild(l);
+          k++;
+        });
+      });
+      h1.classList.add('decoupe');
+    }
+    requestAnimationFrame(() => hero.classList.add('ecrit'));
+    const trait = hero.querySelector<SVGPathElement>('[data-trait]');
+    if (trait) tracer(trait, 420, fin);
+    hero.querySelectorAll<SVGPathElement>('[data-meule]').forEach((p, i) => tracer(p, 760, 260 + i * 110));
+    if (animer()) {
+      window.setTimeout(() => ecrireLignes(hero.querySelector('.hero-a-claire') as HTMLElement), fin + 80);
+      window.setTimeout(() => ecrireLignes(hero.querySelector('.hero-a-meule') as HTMLElement), 1500);
+    }
+
+    // La part se détache au défilement : une translation sur le seul groupe qui bouge.
+    const part = hero.querySelector<SVGGElement>('[data-part]');
+    if (!part || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let enCours = false;
+    const maj = () => {
+      enCours = false;
+      const r = hero.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height * 0.8)));
+      part.style.setProperty('--px', `${(6 + p * 46).toFixed(1)}px`);
+      part.style.setProperty('--py', `${(4 + p * 30).toFixed(1)}px`);
+    };
+    window.addEventListener('scroll', () => { if (!enCours) { enCours = true; requestAnimationFrame(maj); } }, { passive: true });
+    maj();
+  }
+  entree();
 </script>

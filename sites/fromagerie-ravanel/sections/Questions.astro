@@ -1,0 +1,66 @@
+---
+/**
+ * Questions du comptoir (piste A). Écrites ici plutôt que par la FAQ partagée : son titre et son groupe
+ * se lèvent avec le moteur, et un titre de section ne s'anime pas (GOUT § 4). Les trois questions du brief,
+ * en <details> natifs ; la réponse s'ouvre sèche (aucune animation de hauteur). JSON-LD FAQPage gardé.
+ */
+import { site, paragraphs } from '@/lib/site';
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: site.faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: paragraphs(f.a).join(' ') },
+  })),
+};
+---
+
+{site.faq.length > 0 && (
+  <section id="faq" class="qst">
+    <div class="container-ff qst-grille">
+      <h2 class="titre-imprime qst-titre">{site.wording.faqTitle}</h2>
+      <div class="qst-liste">
+        {site.faq.map((f, i) => (
+          <details name="faq" open={i === 0}>
+            <summary>
+              <span class="qst-q">{f.q}</span>
+              <span class="qst-signe font-display" aria-hidden="true"></span>
+            </summary>
+            <div class="qst-r">{paragraphs(f.a).map((p) => <p>{p}</p>)}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </section>
+)}
+
+<style>
+  .qst { padding: 72px 0 80px; border-top: 1px solid var(--line); }
+  .qst-grille { display: grid; gap: 28px; }
+  @media (min-width: 64rem) {
+    .qst { padding: 96px 0; }
+    .qst-grille { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 72px; }
+  }
+  .qst-titre { margin: 0; font-size: clamp(1.9rem, 6.4vw, 2.75rem); max-width: 12ch; }
+  .qst-liste details { border-top: 1px solid var(--line); }
+  .qst-liste details:last-child { border-bottom: 1px solid var(--line); }
+  .qst-liste summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: baseline;
+    padding: 20px 0;
+    cursor: pointer;
+    font-size: 1.15rem;
+    font-weight: 650;
+  }
+  .qst-liste summary::-webkit-details-marker { display: none; }
+  .qst-signe::before { content: '+'; color: var(--accent); font-size: 1.7rem; line-height: 1; }
+  details[open] .qst-signe::before { content: '-'; }
+  .qst-r { padding: 0 0 22px; display: grid; gap: 10px; color: var(--muted); max-width: 40rem; }
+  .qst-r p { margin: 0; }
+</style>

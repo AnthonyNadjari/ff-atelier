@@ -1,0 +1,241 @@
+---
+/**
+ * Bloc signature de la piste A : l'ardoise du comptoir. Les fromages sont écrits à la craie, une ligne
+ * après l'autre quand l'ardoise arrive à l'écran (régime sec, 180 ms par ligne, 70 ms d'écart).
+ * Geste : toucher un fromage l'entoure à la craie jaune (régime lent, un cercle de main de 0,62 s) et
+ * écrit dessous d'où il vient. Le brief ne nomme pas les fermes : la ligne dit « une des six fermes des
+ * Aravis et des Bauges » et renvoie à l'ardoise de la boutique, où Claire les nomme (brief § 6). Rien
+ * d'inventé : chaque détail est une phrase du brief (cave à 11 °C, date à la craie, plus jeune ou plus
+ * fait, beaufort à 12, 18 ou 24 mois, très peu de lactose, coupé ou râpé à la demande).
+ * Le beaufort a sa propre ligne qui s'efface et se réécrit quand on change d'âge.
+ * Sans JavaScript : tout est écrit et tous les détails sont ouverts.
+ */
+const ORIGINE = 'D’une des six fermes des Aravis et des Bauges. Son nom est écrit sur l’ardoise de la boutique.';
+
+const fromages = [
+  {
+    id: 'tomme',
+    nom: 'Tomme fermière',
+    note: 'cave',
+    lignes: ['Elle finit de s’affiner dans la cave, sous la boutique, à 11 °C.', 'Plus jeune ou plus faite : dites-le, on coupe dans la bonne meule.'],
+  },
+  {
+    id: 'reblochon',
+    nom: 'Reblochon fermier',
+    note: 'cave',
+    lignes: ['Sa date d’entrée en cave est écrite à la craie sur la meule.'],
+  },
+  { id: 'beaufort', nom: 'Beaufort d’alpage', note: '12, 18, 24 mois', ages: true, lignes: [] as string[] },
+  {
+    id: 'vieille-tomme',
+    nom: 'Vieille tomme',
+    note: 'peu de lactose',
+    lignes: ['Affinée longtemps, elle contient très peu de lactose. Demandez à Claire lesquelles.'],
+  },
+  {
+    id: 'raclette',
+    nom: 'Raclette, fondue',
+    note: 'coupé ou râpé',
+    lignes: ['Le fromage coupé ou râpé à la demande. L’appareil se réserve, voir plus bas.'],
+  },
+];
+
+const AGES = [
+  { mois: 12, mot: 'Le plus jeune des trois.' },
+  { mois: 18, mot: 'Entre les deux.' },
+  { mois: 24, mot: 'Le plus fait des trois, avec très peu de lactose.' },
+];
+
+const comptoir = ['Beurre de baratte', 'Crème crue', 'Yaourts de la ferme', 'Quelques vins de Savoie'];
+---
+
+<section id="ardoise" class="ard">
+  <div class="container-ff">
+    <div class="ard-tete">
+      <h2 class="titre-imprime ard-titre">L’ardoise</h2>
+      <p class="ard-consigne">Touchez un fromage : on l’entoure à la craie et on vous dit d’où il vient.</p>
+    </div>
+
+    <div class="ard-grille">
+      <ul class="ard-liste" data-craie data-ardoise>
+        {fromages.map((f, i) => (
+          <li class="fro" data-fro>
+            <button type="button" class="fro-btn" aria-expanded="true" aria-controls={`fro-${f.id}`} data-graine={i + 3}>
+              <span class="fro-nom font-display">
+                <span data-ecrit>{f.nom}</span>
+                <svg class="fro-cercle" aria-hidden="true"><path /></svg>
+              </span>
+              <span class="fro-note" data-ecrit>{f.note}</span>
+            </button>
+            <div class="fro-detail" id={`fro-${f.id}`}>
+              <p class="fro-origine" data-ecrit>{ORIGINE}</p>
+              {f.lignes.map((l) => <p data-ecrit>{l}</p>)}
+              {f.ages && (
+                <div class="ages" data-ages>
+                  <p class="ages-ligne font-display" aria-live="polite">
+                    <span data-ecrit data-age-texte>Beaufort d’alpage, 18 mois</span>
+                  </p>
+                  <p class="ages-mot" data-ecrit data-age-mot>{AGES[1].mot}</p>
+                  <div class="ages-choix" role="group" aria-label="Âge du beaufort">
+                    {AGES.map((a) => (
+                      <button type="button" class="age-btn font-display" aria-pressed={a.mois === 18 ? 'true' : 'false'} data-mois={a.mois} data-mot={a.mot}>{a.mois} mois</button>
+                    ))}
+                  </div>
+                  <p class="ages-goute">Vous goûtez avant de choisir.</p>
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <div class="ard-cote">
+        <h3 class="ard-sous titre-imprime">Au comptoir aussi</h3>
+        <ul class="ard-comptoir" data-craie>
+          {comptoir.map((c) => <li class="font-display" data-ecrit>{c}</li>)}
+        </ul>
+        <p class="ard-goute font-display" data-craie><span data-ecrit>Tout se goûte avant d’acheter.</span> <span data-ecrit class="ard-toujours">Toujours !</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ard { padding: 72px 0 88px; border-top: 1px solid var(--line); }
+  .ard-tete { display: grid; gap: 12px; }
+  .ard-titre { font-size: clamp(2.6rem, 9vw, 4.5rem); margin: 0; }
+  .ard-consigne { margin: 0; max-width: 30rem; color: var(--muted); font-size: 1.05rem; }
+  @media (min-width: 64rem) {
+    .ard { padding: 88px 0 72px; }
+    .ard-tete { grid-template-columns: auto minmax(0, 1fr); align-items: end; gap: 40px; }
+    .ard-consigne { padding-bottom: 10px; }
+  }
+
+  .ard-grille { margin-top: 36px; display: grid; gap: 56px; }
+  @media (min-width: 64rem) { .ard-grille { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 72px; } }
+
+  .ard-liste { list-style: none; margin: 0; padding: 0; }
+  .fro { border-top: 1px solid var(--line); }
+  .fro:last-child { border-bottom: 1px solid var(--line); }
+  .fro-btn {
+    all: unset;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 4px 16px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .fro-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .fro-nom { position: relative; display: inline-block; font-size: clamp(1.75rem, 6.9vw, 3rem); line-height: 1.05; color: var(--fg); }
+  .fro-nom > span { display: inline-block; }
+  .fro-note { flex: none; font-size: 0.92rem; color: var(--muted); text-align: right; }
+  .fro-cercle {
+    position: absolute;
+    left: -14px;
+    top: -10px;
+    width: calc(100% + 28px);
+    height: calc(100% + 20px);
+    overflow: visible;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 120ms linear;
+  }
+  .fro-cercle path { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; }
+  .fro.choisi .fro-cercle { opacity: 1; transition: none; }
+  .fro.choisi .fro-note { color: var(--accent); }
+
+  .fro-detail { padding: 0 4px 22px; display: grid; gap: 6px; max-width: 38rem; }
+  .fro-detail p { margin: 0; }
+  .fro-origine { color: var(--accent); font-weight: 600; }
+  .fro-detail[hidden] { display: none; }
+
+  .ages { margin-top: 14px; }
+  .ages-ligne span { display: inline-block; }
+  .ages-ligne { margin: 0; font-size: clamp(1.6rem, 6vw, 2.4rem); line-height: 1.1; color: var(--fg); }
+  .ages-mot { color: var(--muted); }
+  .ages-choix { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .age-btn {
+    min-height: 48px;
+    padding: 0 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 3px;
+    background: transparent;
+    color: var(--fg);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: border-color 120ms linear, color 120ms linear;
+  }
+  .age-btn[aria-pressed='true'] { border-color: var(--accent); color: var(--accent); }
+  .ages-goute { margin-top: 12px !important; font-size: 0.95rem; color: var(--muted); }
+
+  .ard-sous { font-size: 1.5rem; margin: 0; }
+  .ard-comptoir { list-style: none; margin: 18px 0 0; padding: 0; }
+  .ard-comptoir li { font-size: clamp(1.5rem, 5.6vw, 2rem); line-height: 1.15; padding: 12px 0; border-top: 1px solid var(--line); }
+  .ard-comptoir li:last-child { border-bottom: 1px solid var(--line); }
+  .ard-goute { margin-top: 40px; font-size: clamp(2rem, 7.6vw, 3.1rem); line-height: 1.05; color: var(--fg); }
+  .ard-goute span { display: inline-block; }
+  .ard-toujours { color: var(--accent); }
+</style>
+
+<script>
+  import { animer, ecrireLignes, reecrire, tracer, cercleMain } from '../lib/craie';
+
+  function init() {
+    const liste = document.querySelector<HTMLElement>('[data-ardoise]');
+    if (!liste) return;
+    const items = Array.from(liste.querySelectorAll<HTMLElement>('[data-fro]'));
+
+    const fermer = (li: HTMLElement) => {
+      li.classList.remove('choisi');
+      const b = li.querySelector<HTMLButtonElement>('.fro-btn')!;
+      b.setAttribute('aria-expanded', 'false');
+      li.querySelector<HTMLElement>('.fro-detail')!.hidden = true;
+    };
+    const ouvrir = (li: HTMLElement) => {
+      const b = li.querySelector<HTMLButtonElement>('.fro-btn')!;
+      const nom = li.querySelector<HTMLElement>('.fro-nom')!;
+      const svg = li.querySelector<SVGSVGElement>('.fro-cercle')!;
+      const path = svg.querySelector('path')!;
+      const w = nom.offsetWidth + 28, h = nom.offsetHeight + 20;
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      path.setAttribute('d', cercleMain(w, h, Number(b.dataset.graine) || 1));
+      li.classList.add('choisi');
+      tracer(path, 620);
+      b.setAttribute('aria-expanded', 'true');
+      const d = li.querySelector<HTMLElement>('.fro-detail')!;
+      d.querySelectorAll<HTMLElement>('[data-ecrit]').forEach((e) => e.classList.remove('ecrit'));
+      d.hidden = false;
+      if (animer()) requestAnimationFrame(() => ecrireLignes(d, 380));
+    };
+
+    items.forEach((li) => {
+      fermer(li);
+      li.querySelector('.fro-btn')!.addEventListener('click', () => {
+        const deja = li.classList.contains('choisi');
+        items.forEach((x) => { if (x !== li && x.classList.contains('choisi')) fermer(x); });
+        if (deja) fermer(li); else ouvrir(li);
+      });
+    });
+
+    // Le beaufort : la ligne s'efface et se réécrit à l'âge choisi.
+    const ages = document.querySelector<HTMLElement>('[data-ages]');
+    if (ages) {
+      const texte = ages.querySelector<HTMLElement>('[data-age-texte]')!;
+      const mot = ages.querySelector<HTMLElement>('[data-age-mot]')!;
+      ages.querySelectorAll<HTMLButtonElement>('[data-mois]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (btn.getAttribute('aria-pressed') === 'true') return;
+          ages.querySelectorAll('[data-mois]').forEach((x) => x.setAttribute('aria-pressed', String(x === btn)));
+          reecrire(texte, `Beaufort d’alpage, ${btn.dataset.mois} mois`);
+          reecrire(mot, btn.dataset.mot || '');
+        });
+      });
+    }
+
+  }
+  init();
+</script>

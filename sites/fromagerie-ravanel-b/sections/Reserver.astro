@@ -1,0 +1,114 @@
+---
+/**
+ * « Vous serez combien ? » (direction.md, faits 8 à 10). Ce qui se prend à la boutique, chaque fois avec son
+ * objet dessiné sur sa planche (la meule à raclette et son quartier, le plateau, le comptoir) et son étiquette
+ * de papier piquée à côté, en mono : les seuls chiffres du brief (4 ou 8 personnes, 50 €, 6 à 30 personnes,
+ * dès 6 €, 48 h, une semaine pour les fêtes). Les objets se posent comme les meules (Porte.astro).
+ */
+import { site, tel } from '@/lib/site';
+const plateaux = site.services.find((s) => s.slug === 'plateaux');
+---
+
+<section id="reserver" class="palier reserver" aria-labelledby="reserver-titre">
+  <div class="escalier-col" style="--pas: 3">
+    <h2 id="reserver-titre" class="font-display">Vous serez combien ?</h2>
+    <p class="reserver-p">Une raclette, un plateau pour une fête : Claire prend les commandes à la boutique et au téléphone.</p>
+  </div>
+
+  <div class="escalier-large reserver-choses" style="--pas: 3">
+
+    <article class="reserver-chose">
+      <div class="planche reserver-planche" data-pose>
+        <span class="meule tomme reserver-raclette" data-meule></span>
+        <span class="reserver-quartier" data-meule></span>
+      </div>
+      <h3 class="etiquette reserver-h3">Raclette et fondue</h3>
+      <p>Le fromage coupé ou râpé à la demande, et l’appareil à raclette prêté.</p>
+      <p class="reserver-tag etiquette">appareil pour 4 ou 8 personnes<br />caution de 50 €<br />à réserver deux jours avant le week-end</p>
+    </article>
+
+    <article class="reserver-chose">
+      <div class="planche reserver-planche" data-pose>
+        <span class="reserver-plateau" data-meule>
+          <span class="meule reblochon"></span>
+          <span class="reserver-part"></span>
+          <span class="reserver-part reserver-part-2"></span>
+        </span>
+      </div>
+      <h3 class="etiquette reserver-h3">Plateaux</h3>
+      <p>Composés avec vous, pour 6 à 30 personnes.</p>
+      <p class="reserver-tag etiquette">{plateaux?.priceFrom}<br />à commander 48 heures avant<br />une semaine avant pour Noël et le Nouvel An</p>
+    </article>
+
+    <article class="reserver-chose">
+      <div class="planche reserver-planche" data-pose>
+        <span class="reserver-beurre" data-meule></span>
+        <span class="reserver-pot" data-meule></span>
+        <span class="reserver-pot reserver-pot-petit" data-meule></span>
+        <span class="reserver-bouteille" data-meule></span>
+      </div>
+      <h3 class="etiquette reserver-h3">Le comptoir</h3>
+      <p>Beurre de baratte, crème crue, yaourts de la ferme, et quelques vins de Savoie pour aller avec.</p>
+    </article>
+  </div>
+
+  <div class="escalier-col" style="--pas: 3">
+
+    <a href={tel()} class="reserver-tel"><span class="etiquette">réserver ou commander</span><span class="reserver-num">{site.contact.phoneDisplay}</span></a>
+  </div>
+</section>
+
+<style>
+  .reserver { background: linear-gradient(to bottom, var(--cave-2), var(--cave-3) 25%); }
+  .reserver-p { margin-top: 20px; font-size: 1.0625rem; line-height: 1.6; max-width: 40ch; }
+  .reserver-chose { margin-top: clamp(3.5rem, 9vw, 5rem); }
+  .reserver-chose > p:not(.reserver-tag) { margin-top: 10px; font-size: 1.0625rem; line-height: 1.55; max-width: 38ch; }
+  .reserver-planche { padding-top: 40px; max-width: 22rem; }
+  @media (min-width: 64rem) {
+    .reserver-chose { display: grid; grid-template-columns: 22rem minmax(0, 1fr); column-gap: 3.5rem; align-items: start; }
+    .reserver-chose > .reserver-planche { grid-row: 1 / span 3; align-self: end; }
+    .reserver-chose > .reserver-h3 { margin-top: 0; }
+    .reserver-chose > .reserver-tag { justify-self: start; }
+  }
+  .reserver-h3 { margin-top: 28px; font-size: 1rem; color: var(--craie); text-transform: none; }
+
+  .reserver-raclette { --l: clamp(96px, 27vw, 128px); --h: clamp(46px, 13vw, 60px); }
+  .reserver-quartier {
+    width: clamp(54px, 15vw, 70px); height: clamp(38px, 10vw, 48px);
+    background: var(--pate); border-right: 5px solid var(--croute-tomme);
+    clip-path: polygon(0 100%, 100% 100%, 100% 0);
+  }
+  .reserver-plateau { position: relative; display: flex; align-items: flex-end; gap: 8px; padding: 0 14px 10px; }
+  .reserver-plateau::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 10px;
+    background: var(--bois-arete);
+  }
+  .reserver-part {
+    width: 46px; height: 30px; background: var(--pate); border-top: 4px solid var(--croute-beaufort);
+    clip-path: polygon(0 100%, 100% 100%, 85% 0, 15% 0);
+  }
+  .reserver-part-2 { width: 36px; height: 24px; border-top-color: var(--croute-tomme); clip-path: polygon(0 100%, 100% 100%, 100% 0); }
+  .reserver-beurre { width: 62px; height: 34px; background: var(--pate); }
+  .reserver-pot { width: 34px; height: 42px; background: var(--craie); border-top: 6px solid var(--craie-2); }
+  .reserver-pot-petit { width: 26px; height: 30px; }
+  .reserver-bouteille {
+    width: 26px; height: 96px; background: color-mix(in oklab, var(--accent-2) 70%, var(--on-ink));
+    clip-path: polygon(30% 0, 70% 0, 70% 28%, 100% 40%, 100% 100%, 0 100%, 0 40%, 30% 28%);
+  }
+
+  .reserver-tag {
+    margin-top: 16px; display: inline-block; padding: 12px 16px 12px 22px;
+    background: var(--craie); color: var(--ink); line-height: 1.6;
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
+  }
+
+  .reserver-tel {
+    margin-top: clamp(3.5rem, 9vw, 5rem); display: inline-flex; flex-direction: column; gap: 2px;
+    color: var(--craie); text-decoration: none; border-bottom: 2px solid var(--craie); padding-bottom: 6px;
+    transition: color var(--sec) linear, border-color var(--sec) linear;
+  }
+  .reserver-tel .etiquette { color: var(--craie-2); }
+  .reserver-tel:active { color: var(--croute-tomme); border-color: var(--croute-tomme); }
+  @media (hover: hover) and (pointer: fine) { .reserver-tel:hover { color: var(--croute-tomme); border-color: var(--croute-tomme); } }
+  .reserver-num { font-family: var(--font-mono); font-size: clamp(1.7rem, 7.6vw, 2.4rem); font-weight: 500; line-height: 1.1; white-space: nowrap; }
+</style>

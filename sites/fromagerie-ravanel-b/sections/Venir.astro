@@ -1,8 +1,8 @@
 ---
 /**
- * « Venir » (contact) : la dernière page du carnet. La semaine complète, le jour courant à l'encre (même
- * script que le panneau), l'adresse, le marché, qui vous sert, le téléphone. Pas de formulaire (brief :
- * pas d'e-mail), on appelle. Rythme : les jours de la semaine en cascade.
+ * « 12 rue de la Gare » (contact) : le bas de l'escalier, le palier le plus sombre. La semaine complète, le
+ * jour courant marqué (script de Porte.astro), le marché de la vieille ville avec Théo, le numéro en mono.
+ * Pas de formulaire (pas d'e-mail au brief) : on appelle. Rien ne bouge.
  */
 import { site, tel } from '@/lib/site';
 const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
@@ -20,50 +20,47 @@ const horaires = site.contact.hours.map((h) => ({ ...h, jours: joursDe(h.days).j
 const a = site.contact.address;
 ---
 
-<section id="venir" class="venir section-y">
-  <div class="venir-cadre">
-    <h2 class="venir-titre font-display" data-split="lines">{site.wording.contactTitle}</h2>
+<section id="venir" class="palier venir" aria-labelledby="venir-titre">
+  <div class="escalier-col" style="--pas: 5">
+    <h2 id="venir-titre" class="font-display">{site.wording.contactTitle}</h2>
+    <p class="venir-ville">{a.postalCode} {a.city}</p>
 
-    <div class="venir-grille">
-      <div>
-        <p class="venir-adresse font-display">{a.street}<br />{a.postalCode} {a.city}</p>
-        <p class="venir-p">{site.wording.contactText}</p>
-        <a href={tel()} class="venir-tel btn">Appeler le {site.contact.phoneDisplay}</a>
-        <p class="venir-p mt-10">Au marché de la vieille ville le mardi et le vendredi matin, avec les mêmes fromages. Claire s’occupe de l’affinage et des commandes ; Théo tient la boutique et le stand du marché.</p>
-      </div>
+    <dl class="venir-semaine">
+      {horaires.map((h) => (
+        <div data-jours={h.jours}>
+          <dt>{h.days}</dt>
+          <dd>{h.hours}</dd>
+        </div>
+      ))}
+    </dl>
 
-      <dl class="venir-horaires" data-horaires data-reveal>
-        {horaires.map((h) => (
-          <div data-jours={h.jours}>
-            <dt>{h.days}</dt>
-            <dd class="tabular-nums">{h.hours}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
+    <p class="venir-p">Le mardi et le vendredi matin, Théo tient le stand du marché de la vieille ville, avec les mêmes fromages.</p>
+    <p class="venir-p">{site.wording.contactText}</p>
+    <a href={tel()} class="venir-tel"><span class="etiquette">appeler la boutique</span><span class="venir-num">{site.contact.phoneDisplay}</span></a>
   </div>
 </section>
 
 <style>
-  .venir { background: var(--bg-2); border-top: 1px solid var(--line); }
-  .venir-cadre { padding-inline: 16px; max-width: 72rem; }
-  .venir-titre { font-size: clamp(2.1rem, 7.5vw, 3.4rem); line-height: 1.04; max-width: 18ch; }
-  .venir-grille { margin-top: 40px; display: grid; gap: 48px; }
-  .venir-adresse { font-size: clamp(1.7rem, 5vw, 2.2rem); line-height: 1.1; }
-  .venir-p { margin-top: 16px; font-size: 1.05rem; line-height: 1.55; max-width: 40ch; }
+  .venir { background: linear-gradient(to bottom, var(--cave-4), var(--cave-5) 30%); }
+  .venir-ville { margin-top: 8px; font-family: var(--font-mono); font-size: 0.9375rem; }
+  .venir-semaine { margin: 36px 0 0; }
+  .venir-semaine > div {
+    display: grid; grid-template-columns: minmax(0, 10rem) minmax(0, 1fr); gap: 4px 16px;
+    padding: 12px 0 12px 14px; border-left: 3px solid transparent;
+  }
+  .venir-semaine dt { font-weight: 600; color: var(--craie); }
+  .venir-semaine dd { margin: 0; font-family: var(--font-mono); font-size: 0.9375rem; color: var(--craie-2); }
+  .venir-semaine > :global(.est-aujourdhui) { border-left-color: var(--croute-tomme); background: color-mix(in oklab, var(--on-ink) 7%, transparent); }
+  .venir-semaine > :global(.est-aujourdhui) dd { color: var(--craie); }
+  @media (max-width: 30rem) { .venir-semaine > div { grid-template-columns: 1fr; } }
+  .venir-p { margin-top: 24px; font-size: 1.0625rem; line-height: 1.6; max-width: 40ch; }
   .venir-tel {
-    margin-top: 24px; display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px;
-    background: var(--accent); color: var(--on-accent); border-radius: var(--radius); text-decoration: none; font-weight: 500;
-    transition: background-color var(--motion-ui) var(--ease-out);
+    margin-top: 32px; display: inline-flex; flex-direction: column; gap: 2px;
+    color: var(--craie); text-decoration: none; border-bottom: 2px solid var(--craie); padding-bottom: 6px;
+    transition: color var(--sec) linear, border-color var(--sec) linear;
   }
-  @media (hover: hover) and (pointer: fine) { .venir-tel:hover { background: var(--fg); } }
-  .venir-horaires { margin: 0; border-top: 2px solid var(--fg); }
-  .venir-horaires > div { display: grid; grid-template-columns: minmax(0, 10rem) minmax(0, 1fr); gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
-  .venir-horaires dt, .venir-horaires dd { margin: 0; }
-  .venir-horaires > div.aujourdhui { color: var(--fg); font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); padding-left: 14px; }
-
-  @media (min-width: 64rem) {
-    .venir-cadre { padding-inline: clamp(32px, 4vw, 64px); }
-    .venir-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; margin-top: 56px; }
-  }
+  .venir-tel .etiquette { color: var(--craie-2); }
+  .venir-tel:active { color: var(--croute-tomme); border-color: var(--croute-tomme); }
+  @media (hover: hover) and (pointer: fine) { .venir-tel:hover { color: var(--croute-tomme); border-color: var(--croute-tomme); } }
+  .venir-num { font-family: var(--font-mono); font-size: clamp(1.7rem, 7.6vw, 2.4rem); font-weight: 500; line-height: 1.1; white-space: nowrap; }
 </style>

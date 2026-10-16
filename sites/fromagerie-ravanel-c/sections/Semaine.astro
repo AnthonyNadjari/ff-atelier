@@ -1,0 +1,464 @@
+---
+/**
+ * Premier écran de la piste C « La semaine » : il EST la semaine de Claire et Théo.
+ * À gauche (ordinateur) ou en haut (téléphone) : le nom, une phrase, le téléphone. Puis la barre à tickets :
+ * sept talons de jour suspendus à une tringle, aujourd'hui en orange ; sous la fente de la caisse, le ticket
+ * du jour choisi : horaires de la boutique, marché le mardi et le vendredi matin, où sont Claire et Théo, et
+ * ce qu'on peut encore réserver pour ce jour-là (plateau 48 heures avant, une semaine pour Noël et le Nouvel
+ * An ; appareil à raclette deux jours avant le week-end), calculé depuis aujourd'hui par le script.
+ *
+ * Mouvement (contrat, MOUVEMENT 1 et 3) :
+ * - entrée : les talons se posent sur la tringle l'un après l'autre (sec, 0,14 s, 45 ms d'écart), puis le
+ *   ticket sort de la fente par à-coups (12 crans linéaires, imprimante thermique). CSS seul : rien ne
+ *   dépend du script pour s'afficher ;
+ * - geste : toucher un talon le fait balancer sur la tringle (lent, amorti, 0,9 s) et la caisse réimprime le
+ *   ticket de ce jour (9 crans). Clavier : flèches gauche/droite, Début, Fin (onglets ARIA).
+ * Sans script : les sept tickets sont imprimés l'un sous l'autre, dans l'ordre de la semaine de la boutique,
+ * avec les règles de réservation générales. Mouvement réduit : aucune animation.
+ */
+import { site, tel } from '@/lib/site';
+
+// Semaine de la boutique (mardi d'abord, comme le brief), lundi fermé en dernier.
+const JOURS = [
+  { dow: 2, nom: 'mardi', court: 'Mar' },
+  { dow: 3, nom: 'mercredi', court: 'Mer' },
+  { dow: 4, nom: 'jeudi', court: 'Jeu' },
+  { dow: 5, nom: 'vendredi', court: 'Ven' },
+  { dow: 6, nom: 'samedi', court: 'Sam' },
+  { dow: 0, nom: 'dimanche', court: 'Dim' },
+  { dow: 1, nom: 'lundi', court: 'Lun' },
+];
+const NOMS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+// Lignes d'horaires du brief (« Mardi à vendredi », « Samedi »…) ramenées à des numéros de jour.
+const joursDe = (txt: string) => {
+  const n = txt.toLowerCase().split(/\s+à\s+/).map((s) => NOMS.indexOf(s.trim()));
+  if (n.some((x) => x < 0)) return [];
+  if (n.length === 2) {
+    const out: number[] = [];
+    for (let d = n[0]; ; d = (d + 1) % 7) { out.push(d); if (d === n[1] || out.length > 7) break; }
+    return out;
+  }
+  return n;
+};
+const horaireDe = (dow: number) => site.contact.hours.find((h) => joursDe(h.days).includes(dow))?.hours ?? '';
+const MARCHE = [2, 5]; // marché de la vieille ville, mardi et vendredi matin (brief § 3)
+
+const jours = JOURS.map((j) => {
+  const h = horaireDe(j.dow);
+  const ferme = /ferm/i.test(h) || !h;
+  return { ...j, ferme, plages: ferme ? [] : h.split(/,\s*/), marche: MARCHE.includes(j.dow) };
+});
+const nom = site.business.name.split(' ');
+---
+
+<section id="semaine" class="sem" data-semaine aria-labelledby="sem-titre">
+  <div class="sem-gauche">
+    <h1 class="sem-nom"><span>{nom[0]}</span> <span>{nom.slice(1).join(' ')}</span></h1>
+    <p class="sem-phrase">
+      Fromager-affineur rue de la Gare à Annecy depuis {site.business.since}, et au marché de la vieille ville
+      le mardi et le vendredi matin. Les fromages de six fermes des Aravis et des Bauges, affinés dans la cave
+      sous la boutique.
+    </p>
+    <p class="sem-appel">
+      <span>Tout se réserve au téléphone</span>
+      <a href={tel()}>{site.contact.phoneDisplay}</a>
+    </p>
+  </div>
+
+  <div class="sem-droite">
+    <h2 id="sem-titre" class="sem-titre">La semaine de Claire et Théo</h2>
+    <p class="sem-aide">Touchez un jour : où les trouver, et ce qui se réserve encore pour ce jour-là.</p>
+
+    <div class="tringle">
+      <div class="rail" role="tablist" aria-label="Jours de la semaine" data-rail>
+        {jours.map((j, i) => (
+          <button
+            type="button"
+            class:list={['talon', { 'talon-ferme': j.ferme, 'talon-marche': j.marche }]}
+            role="tab"
+            id={`talon-${j.dow}`}
+            aria-controls={`ticket-${j.dow}`}
+            aria-selected="false"
+            aria-label={j.nom.charAt(0).toUpperCase() + j.nom.slice(1)}
+            data-talon={j.dow}
+            style={`--i:${i}`}
+          >
+            <span class="talon-in">
+              <span class="talon-j">{j.court}</span>
+              <span class="talon-d" data-talon-date aria-hidden="true"></span>
+              <span class="talon-m" aria-hidden="true">{j.ferme ? 'fermé' : j.marche ? 'marché' : ''}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="caisse">
+      <div class="fente" aria-hidden="true"></div>
+      <div class="sortie">
+        <div class="rouleau" data-rouleau>
+          {jours.map((j) => (
+            <article class="ticket" id={`ticket-${j.dow}`} role="tabpanel" aria-labelledby={`talon-${j.dow}`} data-ticket={j.dow}>
+              <p class="t-entete">{site.business.name}<br />{site.contact.address.street}, {site.contact.address.city}</p>
+              <h3 class="t-jour"><span class="t-nom">{j.nom}</span> <span class="t-date" data-ticket-date></span></h3>
+              <dl class="t-lignes">
+                <div>
+                  <dt>Boutique</dt>
+                  <dd>{j.ferme ? 'fermée' : j.plages.map((p, k) => (<>{k > 0 && <br />}{p}</>))}</dd>
+                </div>
+                {j.marche && (
+                  <div class="t-marche">
+                    <dt>Marché</dt>
+                    <dd>vieille ville, le matin</dd>
+                  </div>
+                )}
+              </dl>
+              <p class="t-qui">
+                {j.ferme
+                  ? 'Fermé le lundi. À mardi, rue de la Gare et au marché !'
+                  : j.marche
+                    ? 'Le matin, Théo tient le stand du marché de la vieille ville, Claire est rue de la Gare.'
+                    : 'Claire et Théo sont rue de la Gare.'}
+              </p>
+              {!j.ferme && (
+                <div class="t-resa">
+                  <p class="t-resa-titre">À réserver pour ce {j.nom}</p>
+                  <ul data-resa>
+                    <li>Plateau de 6 à 30 personnes : 48 heures avant, une semaine pour Noël et le Nouvel An.</li>
+                    <li>Appareil à raclette, 4 ou 8 personnes : deux jours avant le week-end, caution 50 €.</li>
+                  </ul>
+                </div>
+              )}
+              <p class="t-pied">Réservations au {site.contact.phoneDisplay}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sem {
+    position: relative;
+    display: grid;
+    gap: 22px;
+    padding: 22px 16px 40px;
+    background: var(--bg);
+    color: var(--fg);
+  }
+  @media (min-width: 48rem) {
+    .sem { padding: 64px 40px 56px; }
+  }
+  @media (min-width: 64rem) {
+    .sem {
+      min-height: 100svh;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      align-items: start;
+      gap: 56px;
+      padding-top: 72px;
+    }
+  }
+
+  /* Le nom : l'enseigne, en grotesque large. Seul élément en Archivo Black sur la page. */
+  .sem-nom {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.55rem, 11.2vw, 5.4rem);
+    line-height: 0.94;
+    letter-spacing: -0.02em;
+  }
+  .sem-nom span { display: block; }
+  .sem-phrase { margin-top: 14px; max-width: 34rem; font-size: 1rem; line-height: 1.45; }
+  .sem-appel { display: none; }
+  @media (min-width: 48rem) {
+    .sem-phrase { font-size: 1.2rem; margin-top: 22px; }
+    .sem-appel { display: grid; gap: 6px; margin-top: 34px; font-weight: 600; }
+    .sem-appel a {
+      justify-self: start;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+      line-height: 1.1;
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 6px solid var(--accent);
+      font-variant-numeric: tabular-nums;
+      transition: color 0.12s linear;
+    }
+  }
+  @media (hover: hover) and (pointer: fine) { .sem-appel a:hover { color: var(--accent); } }
+  @media (min-width: 64rem) { .sem-gauche { position: sticky; top: 72px; } }
+
+  .sem-titre {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .sem-aide { margin-top: 6px; font-size: 0.95rem; color: var(--muted); }
+
+  /* La tringle et les talons suspendus. */
+  .tringle { position: relative; margin-top: 18px; padding-top: 4px; }
+  .tringle::before {
+    content: '';
+    position: absolute;
+    inset: 0 -8px auto -8px;
+    height: 10px;
+    background: var(--ink);
+    z-index: 2;
+  }
+  .rail { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+  @media (min-width: 48rem) { .rail { gap: 8px; } }
+  .talon {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 2px;
+    min-height: 92px;
+    padding: 16px 2px 10px;
+    background: var(--surface);
+    color: var(--fg);
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 18%, transparent), 0 8px 14px -10px color-mix(in srgb, var(--ink) 45%, transparent);
+    cursor: pointer;
+    transform-origin: 50% 0;
+    font: inherit;
+    transition: translate 0.14s cubic-bezier(0.3, 0.7, 0.4, 1), background-color 0.12s linear;
+    animation: talon-pose 0.14s cubic-bezier(0.3, 0.7, 0.4, 1) backwards;
+    animation-delay: calc(80ms + var(--i, 0) * 45ms);
+    -webkit-tap-highlight-color: transparent;
+  }
+  @keyframes talon-pose {
+    from { translate: 0 -36px; opacity: 0; }
+    to { opacity: 1; }
+  }
+  @media (min-width: 48rem) { .talon { min-height: 128px; padding-top: 22px; gap: 6px; } }
+  .talon-in { display: flex; flex-direction: column; align-items: center; gap: inherit; width: 100%; }
+  .talon-j { font-family: var(--font-body); font-weight: 800; font-size: 0.95rem; line-height: 1; }
+  .talon-d { font-family: var(--font-mono); font-weight: 700; font-size: 1.25rem; line-height: 1.1; min-height: 1.1em; font-variant-numeric: tabular-nums; }
+  .talon-m { font-weight: 600; font-size: 0.6875rem; line-height: 1.2; }
+  @media (min-width: 48rem) {
+    .talon-j { font-size: 1.15rem; }
+    .talon-d { font-size: 1.9rem; }
+    .talon-m { font-size: 0.8rem; }
+  }
+  .talon-marche .talon-m { color: var(--accent); }
+  /* Lundi : talon barré, la boutique est fermée. */
+  .talon-ferme {
+    background: repeating-linear-gradient(135deg, var(--surface) 0 7px, color-mix(in srgb, var(--ink) 9%, var(--surface)) 7px 9px);
+    color: var(--muted);
+  }
+  /* Aujourd'hui : l'orange franc. */
+  .talon.auj { background: var(--accent); color: var(--on-accent); }
+  .talon.auj .talon-m { color: var(--on-accent); }
+  /* Talon choisi : tiré vers le bas, bord d'encre. */
+  .talon[aria-selected='true'] { translate: 0 12px; outline: 3px solid var(--ink); outline-offset: -3px; }
+  .talon:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .talon.balance { animation: talon-balance 0.9s cubic-bezier(0.37, 0, 0.63, 1); }
+  @keyframes talon-balance {
+    0% { rotate: 0deg; }
+    16% { rotate: 5deg; }
+    38% { rotate: -3deg; }
+    60% { rotate: 1.5deg; }
+    80% { rotate: -0.6deg; }
+    100% { rotate: 0deg; }
+  }
+
+  /* La caisse : une fente, et le ticket qui en sort. */
+  .caisse { margin-top: 30px; max-width: 34rem; }
+  @media (min-width: 64rem) { .caisse { margin-top: 38px; } }
+  .fente {
+    height: 14px;
+    margin-inline: -10px;
+    background: var(--ink);
+    border-bottom: 3px solid color-mix(in srgb, var(--on-ink) 30%, var(--ink));
+  }
+  .sortie { overflow: hidden; padding-bottom: 18px; margin-inline: 0; }
+  .rouleau {
+    display: grid;
+    gap: 22px;
+    filter: drop-shadow(0 1px 1px color-mix(in srgb, var(--ink) 22%, transparent)) drop-shadow(0 10px 12px color-mix(in srgb, var(--ink) 16%, transparent));
+    animation: imprime 0.72s steps(12, end) 0.5s backwards;
+  }
+  .rouleau.reimprime { animation: reimprime 0.5s steps(9, end) backwards; }
+  /* Le ticket s'imprime de haut en bas, ligne par ligne, juste sous la fente. */
+  @keyframes imprime {
+    from { clip-path: inset(0 -30px 100% -30px); }
+    to { clip-path: inset(0 -30px -30px -30px); }
+  }
+  /* Même course, autre nom : changer de nom relance l'animation à chaque jour touché. */
+  @keyframes reimprime {
+    from { clip-path: inset(0 -30px 100% -30px); }
+    to { clip-path: inset(0 -30px -30px -30px); }
+  }
+
+  .ticket {
+    --dent: 7px;
+    padding: 18px 20px calc(18px + var(--dent));
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    mask:
+      linear-gradient(#000 0 0) top / 100% calc(100% - var(--dent)) no-repeat,
+      conic-gradient(from 135deg at 50% 0, #000 0 90deg, #0000 0) bottom / calc(var(--dent) * 2) var(--dent) repeat-x;
+  }
+  @media (min-width: 48rem) { .ticket { font-size: 0.98rem; padding-inline: 26px; } }
+  .sem.js .ticket:not(.choisi) { display: none; }
+  .t-entete { text-align: center; font-size: 0.82em; color: var(--muted); padding-bottom: 12px; border-bottom: 2px dashed var(--line); }
+  .t-jour {
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 1.35em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .t-date { font-weight: 500; text-transform: none; font-size: 0.72em; display: block; color: var(--muted); }
+  .t-lignes { margin: 12px 0 0; display: grid; gap: 6px; }
+  .t-lignes > div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 10px; }
+  .t-lignes dt { font-weight: 700; }
+  .t-lignes dd { margin: 0; }
+  .t-marche dd { color: var(--accent); font-weight: 700; }
+  .t-qui { margin-top: 14px; padding-top: 12px; border-top: 2px dashed var(--line); }
+  .t-resa { margin-top: 14px; padding-top: 12px; border-top: 2px dashed var(--line); }
+  .t-resa-titre { font-weight: 800; }
+  .t-resa ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 8px; }
+  .t-resa li { padding-left: 1.4em; text-indent: -1.4em; }
+  .t-resa li::before { content: '> '; color: var(--muted); }
+  .t-resa li.ok::before { content: '> '; color: var(--accent); font-weight: 800; }
+  .t-resa li.tard { color: var(--muted); }
+  .t-pied { margin-top: 14px; padding-top: 12px; border-top: 2px dashed var(--line); text-align: center; font-weight: 700; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .talon, .rouleau, .rouleau.reimprime, .talon.balance { animation: none; }
+    .talon { transition: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  const NOMS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+  const JOUR = 86400000;
+  const plus = (d: Date, n: number) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+  const ecart = (a: Date, b: Date) => Math.round((b.getTime() - a.getTime()) / JOUR);
+  const fete = (d: Date) => (d.getMonth() === 11 && [24, 25, 31].includes(d.getDate())) || (d.getMonth() === 0 && d.getDate() === 1);
+  const quand = (auj: Date, d: Date) => {
+    const n = ecart(auj, d);
+    return n === 0 ? 'aujourd’hui' : n === 1 ? `demain (${NOMS[d.getDay()]})` : NOMS[d.getDay()];
+  };
+
+  // Ce qui se réserve encore pour le jour D, vu d'aujourd'hui. Règles du brief seulement.
+  function reservations(auj: Date, D: Date): { texte: string; ok: boolean }[] {
+    const lignes: { texte: string; ok: boolean }[] = [];
+    const n = ecart(auj, D);
+    const delai = fete(D) ? 7 : 2;
+    let lim = plus(D, -delai);
+    while (lim.getDay() === 1) lim = plus(lim, -1); // le lundi, personne ne décroche
+    if (ecart(auj, lim) < 0 || n < delai) {
+      lignes.push({ ok: false, texte: `Plateau : trop tard pour ce jour-là, il faut ${delai === 7 ? 'une semaine pour les fêtes' : '48 heures'}.` });
+    } else {
+      lignes.push({ ok: true, texte: `Plateau de 6 à 30 personnes, dès 6 € par personne : commandez-le au plus tard ${quand(auj, lim)}.` });
+    }
+    const dow = D.getDay();
+    if (dow === 6 || dow === 0) {
+      const jeudi = plus(D, dow === 6 ? -2 : -3);
+      if (ecart(auj, jeudi) >= 0) {
+        lignes.push({ ok: true, texte: `Appareil à raclette, 4 ou 8 personnes : réservez-le au plus tard ${quand(auj, jeudi)}, caution 50 €.` });
+      } else {
+        lignes.push({ ok: false, texte: 'Appareil à raclette : appelez pour savoir s’il en reste, le samedi il en reste rarement.' });
+      }
+    } else {
+      lignes.push({ ok: true, texte: 'Appareil à raclette, 4 ou 8 personnes : sur réservation, caution 50 €.' });
+    }
+    return lignes;
+  }
+
+  onPage(() => {
+    const sem = document.querySelector<HTMLElement>('[data-semaine]');
+    const rail = sem?.querySelector<HTMLElement>('[data-rail]');
+    const rouleau = sem?.querySelector<HTMLElement>('[data-rouleau]');
+    if (!sem || !rail || !rouleau) return;
+    const talons = new Map<number, HTMLButtonElement>();
+    rail.querySelectorAll<HTMLButtonElement>('[data-talon]').forEach((t) => talons.set(Number(t.dataset.talon), t));
+    const tickets = new Map<number, HTMLElement>();
+    rouleau.querySelectorAll<HTMLElement>('[data-ticket]').forEach((t) => tickets.set(Number(t.dataset.ticket), t));
+
+    const now = new Date();
+    const auj = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const fmt = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long' });
+    const ordre: number[] = [];
+
+    // Les sept prochains jours, aujourd'hui d'abord.
+    for (let k = 0; k < 7; k++) {
+      const D = plus(auj, k);
+      const dow = D.getDay();
+      ordre.push(dow);
+      const t = talons.get(dow);
+      const tk = tickets.get(dow);
+      if (!t || !tk) continue;
+      rail.appendChild(t);
+      t.style.setProperty('--i', String(k));
+      const date = t.querySelector('[data-talon-date]');
+      if (date) date.textContent = String(D.getDate());
+      const etiquette = k === 0 ? 'aujourd’hui' : k === 1 ? 'demain' : '';
+      t.setAttribute('aria-label', `${NOMS[dow]} ${fmt.format(D)}${etiquette ? `, ${etiquette}` : ''}`);
+      if (k === 0) t.classList.add('auj');
+      const td = tk.querySelector('[data-ticket-date]');
+      if (td) td.textContent = `${fmt.format(D)}${etiquette ? `, ${etiquette}` : ''}`;
+      const ul = tk.querySelector('[data-resa]');
+      if (ul) {
+        ul.replaceChildren(
+          ...reservations(auj, D).map((l) => {
+            const li = document.createElement('li');
+            li.textContent = l.texte;
+            li.className = l.ok ? 'ok' : 'tard';
+            return li;
+          }),
+        );
+      }
+    }
+
+    const choisir = (dow: number, geste: boolean) => {
+      talons.forEach((t, d) => {
+        const oui = d === dow;
+        t.setAttribute('aria-selected', String(oui));
+        t.tabIndex = oui ? 0 : -1;
+      });
+      tickets.forEach((tk, d) => tk.classList.toggle('choisi', d === dow));
+      if (!geste) return;
+      const t = talons.get(dow);
+      if (t) { t.classList.remove('balance'); void t.offsetWidth; t.classList.add('balance'); }
+      rouleau.classList.remove('reimprime');
+      void rouleau.offsetWidth;
+      rouleau.classList.add('reimprime');
+    };
+
+    sem.classList.add('js');
+    choisir(ordre[0], false);
+
+    talons.forEach((t, dow) => {
+      t.addEventListener('click', () => {
+        if (t.getAttribute('aria-selected') === 'true') return;
+        choisir(dow, true);
+      });
+    });
+    rail.addEventListener('keydown', (e) => {
+      const i = ordre.findIndex((d) => talons.get(d)?.getAttribute('aria-selected') === 'true');
+      let j = -1;
+      if (e.key === 'ArrowRight') j = (i + 1) % 7;
+      else if (e.key === 'ArrowLeft') j = (i + 6) % 7;
+      else if (e.key === 'Home') j = 0;
+      else if (e.key === 'End') j = 6;
+      if (j < 0) return;
+      e.preventDefault();
+      choisir(ordre[j], true);
+      talons.get(ordre[j])?.focus();
+    });
+  });
+</script>

@@ -1,0 +1,175 @@
+---
+/**
+ * « L'étagère des âges » (direction.md, fait 5, MOUVEMENT 3 : le feu d'artifice). Trois planches, 12, 18 et
+ * 24 mois, la plus vieille en bas (plus on descend, plus c'est fait). Une meule de beaufort d'alpage qu'on
+ * fait glisser d'une planche à l'autre : au doigt ou à la souris (glisser), en touchant une planche
+ * (boutons), ou au clavier (flèches sur la meule, rôle slider). La fiche à côté change d'un coup (régime sec,
+ * 0,14 s) ; la meule lâchée se pose sur sa planche avec un léger rebond (régime lent, 0,6 s).
+ *
+ * Textes de la fiche : généralités du métier sur le beaufort qui vieillit (pâte, goût), et le seul fait
+ * précis du brief (24 mois = très peu de lactose). Aucun prix (le brief n'en donne pas).
+ * Sans script : la meule est sur 18 mois, les trois fiches sont lisibles l'une sous l'autre.
+ */
+const ages = [
+  { mois: 12, pate: 'Pâte souple, goût doux, de lait et de beurre.', pour: 'Pour le casse-croûte et les enfants.' },
+  { mois: 18, pate: 'Pâte plus ferme, goût plus marqué et plus fruité.', pour: 'Pour le plateau et l’apéritif.' },
+  { mois: 24, pate: 'Pâte sèche qui se casse, goût long ; on sent parfois de petits cristaux sous la dent. Très peu de lactose.', pour: 'Pour finir le repas, en copeaux.' },
+];
+const depart = 1;
+---
+
+<section id="etagere" class="palier etagere" aria-labelledby="etagere-titre">
+  <div class="escalier-col" style="--pas: 2">
+    <h2 id="etagere-titre" class="font-display">L’étagère des âges</h2>
+    <p class="etagere-p">Le beaufort d’alpage se vend à l’âge que vous voulez. Faites glisser la meule d’une planche à l’autre, ou touchez une planche.</p>
+  </div>
+
+  <div class="escalier-large etagere-jeu" style="--pas: 2" data-ages data-rang={depart}>
+    <div class="etagere-meuble" data-pose>
+      {ages.map((a, i) => (
+        <button type="button" class="etagere-planche" data-planche={i} aria-pressed={i === depart ? 'true' : 'false'} aria-label={`Poser la meule sur la planche des ${a.mois} mois`}>
+          <span class="etiquette etagere-mois">{a.mois} mois</span>
+        </button>
+      ))}
+      <div
+        class="etagere-meule"
+        data-ages-meule
+        tabindex="0"
+        role="slider"
+        aria-label="Âge du beaufort"
+        aria-valuemin="12"
+        aria-valuemax="24"
+        aria-valuenow={ages[depart].mois}
+        aria-valuetext={`${ages[depart].mois} mois`}
+      >
+        <span class="meule beaufort" data-meule><svg class="meule-craie" viewBox="0 0 84 15" aria-hidden="true"><text x="0" y="11" style="font-size:12px">beaufort</text><path d="M1 6 C4 2, 7 8, 10 4 S15 2, 18 6 S23 6, 25 2" transform="translate(56 3)" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" /></svg></span>
+      </div>
+    </div>
+
+    <div class="etagere-fiches" aria-live="polite">
+      {ages.map((a, i) => (
+        <div class="etagere-fiche" data-fiche={i} data-actif={i === depart ? '' : undefined}>
+          <p class="etiquette etagere-nom">beaufort d’alpage, {a.mois} mois</p>
+          <p class="etagere-pate">{a.pate}</p>
+          <p class="etagere-pour">{a.pour}</p>
+          <p class="etagere-dire"><span class="etiquette">au comptoir, dites :</span> <span class="font-display">« Un beaufort de {a.mois} mois, s’il vous plaît. »</span></p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .etagere { --craie-2: var(--craie); background: linear-gradient(to bottom, var(--cave-1), var(--cave-2) 30%); }
+  .etagere-p { margin-top: 20px; font-size: 1.0625rem; line-height: 1.6; max-width: 40ch; }
+  .etagere-jeu { margin-top: clamp(2.5rem, 7vw, 4rem); display: grid; gap: 40px; }
+  @media (min-width: 56rem) { .etagere-jeu { grid-template-columns: minmax(0, 26rem) minmax(0, 1fr); gap: clamp(2.5rem, 5vw, 4.5rem); align-items: center; } }
+
+  .etagere-meuble {
+    --rang-h: clamp(108px, 28vw, 128px);
+    position: relative; height: calc(var(--rang-h) * 3);
+    border-left: 10px solid var(--bois); border-right: 10px solid var(--bois);
+  }
+  .etagere-planche {
+    position: relative; display: block; width: 100%; height: var(--rang-h); padding: 0;
+    background: transparent; border: 0; color: inherit; cursor: pointer; text-align: left;
+    border-bottom: 12px solid var(--bois); box-shadow: inset 0 -2px 0 var(--bois-arete);
+    transition: background-color var(--sec) linear;
+  }
+  .etagere-planche[aria-pressed='true'] { background: color-mix(in oklab, var(--on-ink) 6%, transparent); }
+  @media (hover: hover) and (pointer: fine) { .etagere-planche:hover { background: color-mix(in oklab, var(--on-ink) 9%, transparent); } }
+  .etagere-planche:focus-visible { outline: 2px solid var(--craie); outline-offset: -4px; }
+  .etagere-mois { position: absolute; left: 12px; bottom: 10px; color: var(--craie); font-size: 0.9375rem; }
+
+  .etagere-meule {
+    --rang: 1;
+    position: absolute; right: clamp(12px, 6%, 40px); top: 0;
+    height: calc(var(--rang-h) - 12px); display: flex; align-items: flex-end;
+    transform: translateY(calc(var(--rang) * var(--rang-h) + var(--glisse, 0px)));
+    transition: transform 0.6s var(--pose-courbe);
+    cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+    padding-top: 16px;
+  }
+  .etagere-meule.tient { transition: none; cursor: grabbing; }
+  .etagere-meule:focus-visible { outline: 2px solid var(--craie); outline-offset: 6px; }
+  :global([data-ages][data-rang='0']) .etagere-meule { --rang: 0; }
+  :global([data-ages][data-rang='2']) .etagere-meule { --rang: 2; }
+
+  .etagere-fiches { display: grid; }
+  .etagere-fiche { padding-top: 18px; border-top: 2px solid var(--croute-beaufort); }
+  .etagere-fiche + .etagere-fiche { margin-top: 28px; }
+  :global(.ages-pret) .etagere-fiche { grid-area: 1 / 1; margin-top: 0; }
+  .etagere-nom { color: var(--craie-2); }
+  .etagere-pate { margin-top: 14px; font-size: clamp(1.25rem, 4.6vw, 1.5rem); line-height: 1.35; color: var(--craie); }
+  .etagere-pour { margin-top: 10px; font-size: 1.0625rem; }
+  .etagere-dire { margin-top: 22px; display: grid; gap: 4px; }
+  .etagere-dire .etiquette { color: var(--craie-2); }
+  .etagere-dire .font-display { font-size: clamp(1.4rem, 5vw, 1.8rem); line-height: 1.1; color: var(--craie); }
+
+  /* Avec script : une seule fiche, qui change d'un coup. Sans script : les trois, l'une sous l'autre. */
+  :global(.ages-pret) .etagere-fiche:not([data-actif]) { visibility: hidden; }
+  :global(.ages-pret) .etagere-fiche[data-actif] { animation: fiche-sec var(--sec) linear; }
+  @keyframes fiche-sec { from { opacity: 0; } }
+</style>
+
+<script>
+  const jeu = document.querySelector<HTMLElement>('[data-ages]');
+  const meule = jeu?.querySelector<HTMLElement>('[data-ages-meule]');
+  const meuble = jeu?.querySelector<HTMLElement>('.etagere-meuble');
+  if (jeu && meule && meuble) {
+    jeu.classList.add('ages-pret');
+    const planches = Array.from(jeu.querySelectorAll<HTMLButtonElement>('[data-planche]'));
+    const fiches = Array.from(jeu.querySelectorAll<HTMLElement>('[data-fiche]'));
+    const MOIS = [12, 18, 24];
+    let rang = Number(jeu.dataset.rang || 1);
+
+    const montre = (r: number) => {
+      fiches.forEach((f, i) => (i === r ? f.setAttribute('data-actif', '') : f.removeAttribute('data-actif')));
+      planches.forEach((p, i) => p.setAttribute('aria-pressed', i === r ? 'true' : 'false'));
+      meule.setAttribute('aria-valuenow', String(MOIS[r]));
+      meule.setAttribute('aria-valuetext', `${MOIS[r]} mois`);
+    };
+    const pose = (r: number) => {
+      rang = Math.max(0, Math.min(2, r));
+      jeu.dataset.rang = String(rang);
+      meule.style.setProperty('--glisse', '0px');
+      montre(rang);
+    };
+
+    planches.forEach((p, i) => p.addEventListener('click', () => pose(i)));
+    meule.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); pose(rang + 1); }
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); pose(rang - 1); }
+      if (e.key === 'Home') { e.preventDefault(); pose(0); }
+      if (e.key === 'End') { e.preventDefault(); pose(2); }
+    });
+
+    // Glisser : la meule suit le doigt (sans courbe), la fiche suit la planche la plus proche ; lâchée, elle
+    // se pose sur cette planche (courbe à rebond du CSS).
+    let depart = 0;
+    let tenu = false;
+    let proche = rang;
+    const hauteur = () => meuble.getBoundingClientRect().height / 3;
+    meule.addEventListener('pointerdown', (e) => {
+      tenu = true; depart = e.clientY; proche = rang;
+      meule.setPointerCapture(e.pointerId);
+      meule.classList.add('tient');
+    });
+    meule.addEventListener('pointermove', (e) => {
+      if (!tenu) return;
+      const h = hauteur();
+      const dy = Math.max(-rang * h, Math.min((2 - rang) * h, e.clientY - depart));
+      meule.style.setProperty('--glisse', `${dy}px`);
+      const r = Math.round(rang + dy / h);
+      if (r !== proche) { proche = r; montre(r); }
+    });
+    const lache = () => {
+      if (!tenu) return;
+      tenu = false;
+      meule.classList.remove('tient');
+      pose(proche);
+    };
+    meule.addEventListener('pointerup', lache);
+    meule.addEventListener('pointercancel', lache);
+  }
+</script>

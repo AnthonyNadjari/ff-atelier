@@ -1,0 +1,51 @@
+---
+/**
+ * « Demandez à Claire » : les trois questions du brief, mot pour mot (site.faq), en <details> natifs, plus bas
+ * dans la cave. JSON-LD FAQPage posé ici puisque la page n'a pas de section faq partagée (le contenu est
+ * affiché, le schéma ne décrit que ce qu'on voit). Rien ne bouge : on lit.
+ */
+import { site, paragraphs } from '@/lib/site';
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: site.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: paragraphs(f.a).join(' ') } })),
+};
+const equipe = site.about.team;
+---
+
+{site.faq.length > 0 && (
+  <section id="claire" class="palier claire" aria-labelledby="claire-titre">
+    <div class="escalier-col" style="--pas: 4">
+      <h2 id="claire-titre" class="font-display">{site.wording.faqTitle}</h2>
+      {equipe.length > 0 && (
+        <p class="claire-p">{equipe.map((m) => `${m.name} : ${m.role.toLowerCase()}`).join('. ')}.</p>
+      )}
+      <div class="claire-liste">
+        {site.faq.map((f, i) => (
+          <details name="claire" open={i === 0}>
+            <summary>{f.q}</summary>
+            <div class="claire-r">{paragraphs(f.a).map((p) => <p>{p}</p>)}</div>
+          </details>
+        ))}
+      </div>
+    </div>
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </section>
+)}
+
+<style>
+  .claire { background: linear-gradient(to bottom, var(--cave-3), var(--cave-4) 25%); }
+  .claire-p { margin-top: 20px; font-family: var(--font-mono); font-size: 0.875rem; line-height: 1.6; }
+  .claire-liste { margin-top: 36px; border-top: 1px solid var(--craie-2); }
+  .claire-liste details { border-bottom: 1px solid var(--craie-2); }
+  .claire-liste summary {
+    display: flex; justify-content: space-between; gap: 16px; align-items: baseline;
+    padding: 20px 0; cursor: pointer; list-style: none;
+    font-size: 1.125rem; line-height: 1.35; font-weight: 600; color: var(--craie);
+  }
+  .claire-liste summary::-webkit-details-marker { display: none; }
+  .claire-liste summary::after { content: '+'; font-family: var(--font-mono); font-weight: 400; flex: none; }
+  .claire-liste details[open] summary::after { content: '−'; }
+  .claire-liste summary:focus-visible { outline: 2px solid var(--craie); outline-offset: 4px; }
+  .claire-r { padding-bottom: 22px; font-size: 1.0625rem; line-height: 1.6; max-width: 40ch; }
+</style>

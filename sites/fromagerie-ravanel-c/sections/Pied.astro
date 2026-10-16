@@ -1,44 +1,48 @@
 ---
 /**
- * Pied de page de la piste C : le nom revient en très grand, sur deux lignes comme sur l'affiche du
- * premier écran (le pied « big-name » partagé le mettait sur une ligne, coupée à droite sur téléphone
- * avec une slab aussi large qu'Alfa Slab One). Liens légaux, crédits, mention de démo.
+ * Pied de la piste C : le bas du ticket de caisse, sur fond d'encre. Nom, adresse, téléphone, liens légaux,
+ * crédits, mention de démo. Bord haut dentelé comme un ticket déchiré.
  */
 import { site, tel, fullAddress, hasCredits } from '@/lib/site';
 const year = new Date().getFullYear();
-const [mot1, ...reste] = site.business.name.split(' ');
 ---
 
-<footer class="pied bg-ink text-on-ink">
-  <div class="container-ff pied-corps">
-    <p class="pied-nom font-display" aria-hidden="true"><span>{mot1}</span> <br /><span class="pied-nom-2">{reste.join(' ')}</span></p>
-
+<footer class="pied">
+  <div class="pied-corps">
+    <p class="pied-merci">Merci, et à mardi au marché !</p>
     <div class="pied-ligne">
+      <p class="pied-nom">{site.business.name}<br />{fullAddress()}<br /><a href={tel()}>{site.contact.phoneDisplay}</a></p>
       <nav class="pied-liens" aria-label="Pied de page">
         {site.services.map((s) => <a href={`/services/${s.slug}`}>{s.title}</a>)}
         <a href="/mentions-legales">Mentions légales</a>
         <a href="/confidentialite">Confidentialité</a>
         {hasCredits && <a href="/credits">Crédits photos</a>}
       </nav>
-      <p class="pied-contact"><a href={tel()}>{site.contact.phoneDisplay}</a><br />{fullAddress()}</p>
     </div>
-
     <p class="pied-petit">© {year} {site.business.name}. Site réalisé par <a href="https://finckfisch.fr" rel="noopener" target="_blank">Finck &amp; Fisch</a>.</p>
     {site.legal.demo && <p class="pied-petit">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
   </div>
 </footer>
 
 <style>
-  .pied-corps { --container: 96rem; padding-top: 56px; padding-bottom: 32px; }
-  .pied-nom { font-size: calc((100vw - 40px) / 6.15); line-height: 0.92; color: var(--bg-2); white-space: nowrap; }
-  .pied-nom-2 { font-size: 1.43em; }
-  @media (min-width: 48rem) { .pied-nom { font-size: min(calc((100vw - 100px) / 6.15), 15rem); } }
-  .pied-ligne { margin-top: 40px; padding-top: 24px; border-top: 2px solid color-mix(in srgb, var(--on-ink) 25%, transparent); display: grid; gap: 24px; }
-  @media (min-width: 48rem) { .pied-ligne { grid-template-columns: minmax(0, 1fr) auto; align-items: start; } }
-  .pied-liens { display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 0.95rem; }
-  .pied-liens a, .pied-contact a, .pied-petit a { color: inherit; }
+  .pied {
+    --dent: 8px;
+    background: var(--ink);
+    color: var(--on-ink);
+    padding: calc(56px + var(--dent)) 16px 32px;
+    mask:
+      conic-gradient(from -45deg at 50% 100%, #000 0 90deg, #0000 0) top / calc(var(--dent) * 2) var(--dent) repeat-x,
+      linear-gradient(#000 0 0) bottom / 100% calc(100% - var(--dent)) no-repeat;
+  }
+  @media (min-width: 48rem) { .pied { padding-inline: 40px; } }
+  .pied-corps { max-width: 80rem; margin-inline: auto; font-family: var(--font-mono); }
+  .pied-merci { font-family: var(--font-body); font-weight: 800; font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.1; }
+  .pied-ligne { margin-top: 32px; padding-top: 22px; border-top: 2px dashed color-mix(in srgb, var(--on-ink) 40%, transparent); display: grid; gap: 22px; }
+  @media (min-width: 48rem) { .pied-ligne { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .pied-nom { font-size: 0.95rem; line-height: 1.6; }
+  .pied-nom a, .pied-liens a, .pied-petit a { color: inherit; }
+  .pied-liens { display: flex; flex-wrap: wrap; gap: 10px 22px; font-size: 0.9rem; align-content: start; }
   .pied-liens a { text-decoration: none; }
   @media (hover: hover) and (pointer: fine) { .pied-liens a:hover { text-decoration: underline; } }
-  .pied-contact { font-size: 0.95rem; }
-  .pied-petit { margin-top: 12px; font-size: 0.8rem; color: color-mix(in srgb, var(--on-ink) 72%, transparent); }
+  .pied-petit { margin-top: 14px; font-size: 0.8rem; color: color-mix(in srgb, var(--on-ink) 74%, transparent); }
 </style>

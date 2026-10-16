@@ -1,0 +1,121 @@
+---
+/**
+ * Nav de la piste A « L'ardoise ». Une ligne sur l'ardoise : le nom écrit à la craie à gauche, trois
+ * ancres, le téléphone à droite (toujours visible : on réserve par téléphone). Fixe en haut, fond ardoise.
+ *
+ * Règles globales du site, posées ici une seule fois (la nav est sur toutes les pages) :
+ * - l'ardoise : le fond est tiré des tokens de `nuit` (bleu nuit + gris chaud) vers un gris ardoise ; le
+ *   ciel étoilé de la direction est retiré (une ardoise n'a pas d'étoiles, et pas de grain non plus) ;
+ * - les deux régimes de courbe du site (lib/craie.ts) et l'état « pas encore écrit » des lignes de craie,
+ *   qui n'existe que si le script en ligne ci-dessous a posé `craie` (sinon tout est lisible d'emblée).
+ */
+import { site, tel } from '@/lib/site';
+
+const liens = site.layout.sections
+  .filter((s) => s.type === 'custom' && s.label)
+  .map((s) => ({ href: `/#${s.variant}`, label: s.label as string }));
+---
+
+<script is:inline>
+  (function () {
+    var d = document.documentElement;
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    d.classList.add('craie');
+    // Filet de sécurité : si le script de la page ne démarre pas, la craie est déjà écrite.
+    window.setTimeout(function () { if (!window.__craie) d.classList.remove('craie'); }, 2500);
+  })();
+</script>
+
+<header class="nav-a">
+  <div class="container-ff nav-a-ligne">
+    <a href="/" class="nav-a-nom font-display">{site.business.name}</a>
+    <nav class="nav-a-liens" aria-label="Navigation principale">
+      {liens.map((l) => <a href={l.href}>{l.label}</a>)}
+    </nav>
+    <a href={tel()} class="nav-a-appel" aria-label={`Appeler la fromagerie au ${site.contact.phoneDisplay}`}>
+      <span class="nav-a-court">Appeler</span><span class="nav-a-long">{site.contact.phoneDisplay}</span>
+    </a>
+  </div>
+</header>
+
+<style is:global>
+  [data-direction='nuit'] { --ardoise-src: var(--bg); --gris-src: var(--muted); }
+  [data-direction='nuit'] body {
+    --bg: color-mix(in oklab, var(--ardoise-src) 80%, var(--gris-src));
+    --bg-2: color-mix(in oklab, var(--ardoise-src) 72%, var(--gris-src));
+    --surface: color-mix(in oklab, var(--ardoise-src) 68%, var(--gris-src));
+    --line: color-mix(in srgb, var(--fg) 20%, transparent);
+    --muted: color-mix(in oklab, var(--fg) 72%, var(--gris-src));
+    --display-weight: 500;
+    --display-tracking: 0;
+    /* Régime lent : la main (accélère puis ralentit). Régime sec : linéaire, 180 ms. */
+    --ease-main: cubic-bezier(0.45, 0.05, 0.3, 1);
+    --craie-sec: 180ms;
+  }
+  [data-direction='nuit'] body::before { display: none; }
+
+  /* Une ligne de craie pas encore écrite : coupée à gauche, elle se découvre vers la droite. */
+  html.craie [data-ecrit] {
+    clip-path: inset(-0.35em 100% -0.35em -0.3em);
+  }
+  html.craie [data-ecrit].ecrit {
+    clip-path: inset(-0.35em -0.3em -0.35em -0.3em);
+    transition: clip-path var(--craie-sec) linear;
+  }
+  /* Un dessin à la craie (path pathLength="100") pas encore tracé. */
+  html.craie [data-trace] { stroke-dasharray: 100 100; stroke-dashoffset: 100; }
+  /* Le chiffon : on efface de gauche à droite, encore plus vite. */
+  html.craie [data-ecrit].efface {
+    clip-path: inset(-0.35em -0.3em -0.35em 100%);
+    transition: clip-path 120ms linear;
+  }
+
+  /* Un titre de section est imprimé (grotesque), la craie est réservée à ce qu'on écrit à la main. */
+  .titre-imprime {
+    font-family: var(--font-body);
+    font-weight: 750;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+  }
+</style>
+
+<style>
+  .nav-a {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-a-ligne { display: flex; align-items: center; gap: 24px; min-height: 60px; }
+  .nav-a-nom { font-size: 1.35rem; color: var(--fg); text-decoration: none; white-space: nowrap; }
+  .nav-a-liens { display: none; gap: 28px; margin-left: auto; }
+  .nav-a-liens a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+  .nav-a-appel {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1.5px solid var(--accent);
+    border-radius: 3px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 650;
+    white-space: nowrap;
+    transition: background-color 120ms linear, color 120ms linear;
+  }
+  .nav-a-appel:active { background: var(--accent); color: var(--on-accent); }
+  .nav-a-long { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .nav-a-liens a:hover { color: var(--fg); }
+    .nav-a-appel:hover { background: var(--accent); color: var(--on-accent); }
+  }
+  @media (min-width: 64rem) {
+    .nav-a-liens { display: flex; }
+    .nav-a-appel { margin-left: 8px; }
+    .nav-a-court { display: none; }
+    .nav-a-long { display: inline; }
+  }
+</style>

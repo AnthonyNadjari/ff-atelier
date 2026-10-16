@@ -1,0 +1,87 @@
+---
+/**
+ * « Rue de la Gare » : où venir, et qui vous y attend. L'adresse en grand (Archivo 800), le téléphone en
+ * mono, les deux endroits (boutique, marché de la vieille ville le mardi et le vendredi matin), puis Claire
+ * et Théo et les trois dates du brief (2011, 2014, 2019) sur des tickets datés posés en paquet.
+ * Les horaires complets ne sont pas répétés ici : ils sont le premier écran (un lien y ramène).
+ */
+import { site, tel } from '@/lib/site';
+const a = site.contact.address;
+---
+
+<section id="venir" class="venir" aria-labelledby="venir-titre">
+  <div class="venir-ou">
+    <h2 id="venir-titre" class="venir-titre">{site.wording.contactTitle ?? 'Venir'}</h2>
+    <p class="venir-adresse">{a.street}<br />{a.postalCode} {a.city}</p>
+    <p class="venir-tel"><a href={tel()}>{site.contact.phoneDisplay}</a></p>
+    <p class="venir-texte">{site.wording.contactText} Le mardi et le vendredi matin, Théo tient aussi le stand du marché de la vieille ville, avec les mêmes fromages.</p>
+    <p class="venir-lien"><a href="#semaine">Les horaires, jour par jour</a></p>
+  </div>
+
+  <div class="venir-qui">
+    <h3 class="venir-qui-titre">Claire et Théo</h3>
+    <p class="venir-qui-texte">
+      Claire a appris l’affinage chez un affineur de la vallée de Thônes ; elle s’occupe de la cave et des
+      commandes. Théo tient la boutique et le marché.
+    </p>
+    <ol class="jalons" data-paquet>
+      <li class="jalon" data-fiche><span class="jalon-an">2011</span><span>Claire reprend une crémerie de quartier, rue de la Gare.</span></li>
+      <li class="jalon" data-fiche><span class="jalon-an">2014</span><span>Elle creuse la cave d’affinage sous la boutique.</span></li>
+      <li class="jalon" data-fiche><span class="jalon-an">2019</span><span>Le stand au marché de la vieille ville, le mardi et le vendredi matin.</span></li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .venir {
+    display: grid;
+    gap: 48px;
+    padding: 72px 16px 80px;
+    background: var(--bg);
+    color: var(--fg);
+    border-top: 2px solid var(--ink);
+  }
+  @media (min-width: 48rem) { .venir { padding: 104px 40px 112px; } }
+  @media (min-width: 64rem) {
+    .venir { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 72px; padding-inline: max(40px, calc((100% - 80rem) / 2)); }
+  }
+  .venir-titre {
+    font-family: var(--font-body);
+    font-weight: 800;
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .venir-adresse { margin-top: 18px; font-weight: 800; font-size: clamp(1.5rem, 3.4vw, 2.4rem); line-height: 1.15; }
+  .venir-tel { margin-top: 18px; }
+  .venir-tel a {
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--fg);
+    text-decoration: none;
+    border-bottom: 6px solid var(--accent);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .venir-texte { margin-top: 24px; font-size: 1.05rem; max-width: 34rem; }
+  .venir-lien { margin-top: 14px; }
+  .venir-lien a { color: var(--fg); font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  @media (hover: hover) and (pointer: fine) {
+    .venir-tel a:hover, .venir-lien a:hover { color: var(--accent); }
+  }
+
+  .venir-qui-titre { font-family: var(--font-mono); font-weight: 800; font-size: 1.3rem; }
+  .venir-qui-texte { margin-top: 10px; font-size: 1.05rem; }
+  .jalons { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; }
+  .jalon {
+    display: grid;
+    grid-template-columns: 4.2rem minmax(0, 1fr);
+    gap: 14px;
+    align-items: baseline;
+    padding: 14px 18px;
+    background: var(--surface);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 20%, transparent), 0 12px 18px -14px color-mix(in srgb, var(--ink) 50%, transparent);
+  }
+  .jalon-an { font-family: var(--font-mono); font-weight: 800; font-size: 1.2rem; color: var(--accent); }
+</style>

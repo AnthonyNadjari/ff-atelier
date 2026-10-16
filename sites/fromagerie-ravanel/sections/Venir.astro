@@ -1,0 +1,97 @@
+---
+/**
+ * Venir (piste A « L'ardoise ») : l'adresse, les horaires écrits à la craie (la ligne du jour en jaune,
+ * comme Claire l'entourerait), le marché de Théo, et qui tient la boutique. Faits du brief seulement.
+ * Les horaires s'écrivent ligne à ligne quand le bloc arrive (régime sec), rien d'autre ne bouge.
+ */
+import { site, tel, fullAddress } from '@/lib/site';
+
+const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+const joursDe = (txt: string) => {
+  const noms = txt.toLowerCase().split(/\s+à\s+/).map((s) => JOURS.indexOf(s.trim()));
+  if (noms.some((x) => x < 0)) return [];
+  if (noms.length === 2) {
+    const out: number[] = [];
+    for (let d = noms[0]; ; d = (d + 1) % 7) { out.push(d); if (d === noms[1] || out.length > 7) break; }
+    return out;
+  }
+  return noms;
+};
+const itineraire = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress())}`;
+---
+
+<section id="venir" class="ven">
+  <div class="container-ff">
+    <h2 class="titre-imprime ven-titre">{site.wording.contactTitle}</h2>
+    <p class="ven-adresse font-display">{fullAddress()}</p>
+    <div class="ven-actions">
+      <a href={tel()} class="ven-btn">Appeler le {site.contact.phoneDisplay}</a>
+      <a href={itineraire} class="ven-lien" rel="noopener" target="_blank">Itinéraire</a>
+    </div>
+
+    <div class="ven-grille">
+      <div>
+        <h3 class="titre-imprime ven-sous">Horaires</h3>
+        <dl class="ven-horaires" data-craie data-ven-horaires>
+          {site.contact.hours.map((h) => (
+            <div data-jours={joursDe(h.days).join(',')}>
+              <dt data-ecrit>{h.days}</dt>
+              <dd class="font-display" data-ecrit>{h.hours}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div class="ven-cote">
+        <h3 class="titre-imprime ven-sous">Au marché</h3>
+        <p>Mardi et vendredi matin, marché de la vieille ville : le stand de Théo, avec les mêmes fromages qu’à la boutique. Depuis 2019.</p>
+        <h3 class="titre-imprime ven-sous ven-sous-2">Claire et Théo</h3>
+        <p>Claire a appris l’affinage chez un affineur de la vallée de Thônes. Elle a repris la crémerie de la rue de la Gare en 2011 et creusé la cave en 2014 ; elle s’occupe de l’affinage et des commandes. Théo tient la boutique et le marché.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ven { padding: 72px 0 80px; border-top: 1px solid var(--line); }
+  @media (min-width: 64rem) { .ven { padding: 96px 0 104px; } }
+  .ven-titre { margin: 0; font-size: clamp(2.3rem, 8.4vw, 4.25rem); }
+  .ven-adresse { margin-top: 14px; font-size: clamp(1.6rem, 6vw, 2.5rem); line-height: 1.1; color: var(--fg); }
+  .ven-actions { margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
+  .ven-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 24px;
+    background: var(--accent);
+    color: var(--on-accent);
+    border-radius: 3px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 120ms linear;
+  }
+  .ven-btn:active { transform: translateY(1px); }
+  .ven-lien { color: var(--fg); text-decoration: underline; text-underline-offset: 0.2em; min-height: 44px; display: inline-flex; align-items: center; }
+
+  .ven-grille { margin-top: 48px; display: grid; gap: 44px; }
+  @media (min-width: 64rem) { .ven-grille { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 72px; } }
+  .ven-sous { margin: 0; font-size: 1.35rem; }
+  .ven-sous-2 { margin-top: 32px; }
+  .ven-cote p { margin-top: 10px; max-width: 34rem; color: var(--muted); }
+
+  .ven-horaires { margin: 14px 0 0; display: grid; }
+  .ven-horaires > div { display: grid; gap: 2px; padding: 12px 0; border-top: 1px solid var(--line); }
+  .ven-horaires > div:last-child { border-bottom: 1px solid var(--line); }
+  @media (min-width: 40rem) { .ven-horaires > div { grid-template-columns: 11rem minmax(0, 1fr); gap: 16px; align-items: baseline; } }
+  .ven-horaires dt { color: var(--muted); }
+  .ven-horaires dd { margin: 0; font-size: clamp(1.3rem, 4.8vw, 1.6rem); line-height: 1.2; color: var(--fg); }
+  .ven-horaires > div.aujourdhui dt, .ven-horaires > div.aujourdhui dd { color: var(--accent); }
+</style>
+
+<script>
+  const j = new Date().getDay();
+  document.querySelectorAll<HTMLElement>('[data-ven-horaires] [data-jours]').forEach((l) => {
+    const oui = (l.dataset.jours || '').split(',').filter(Boolean).map(Number).includes(j);
+    l.classList.toggle('aujourdhui', oui);
+  });
+</script>

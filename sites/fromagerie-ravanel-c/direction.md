@@ -1,80 +1,100 @@
-# Direction — Fromagerie Ravanel, piste C « Le comptoir » (fromagerie-ravanel-c)
+# Direction — Fromagerie Ravanel, piste C « La semaine » (fromagerie-ravanel-c)
 
-Contrat écrit AVANT de toucher au site (étape 1 de `/site-final`), attaqué (étape 2), puis lu par le
-relecteur DA : il juge le site CONTRE ce contrat. Jamais publié (ni dans `dist/`, ni en commentaire HTML).
+Contrat écrit AVANT de toucher au site (étape 1 de `/site-final`), refait de zéro le 16 oct 2026 au soir
+après « très similaire sur les animations » et « aucun que je ne trouve pas IA generated »
+(`docs/veille/pourquoi-ia-2026-10.md`). Jamais publié.
 
-## Faits propres (8 à 12, tous tirés du brief)
-1. Fromagerie Ravanel, fromager-affineur, 12 rue de la Gare, 74000 Annecy, depuis 2011 (reprise d'une crémerie de quartier).
-2. Plateaux de 6 à 30 personnes, composés avec le client, dès 6 € par personne, à commander 48 heures avant ; une semaine avant pour Noël et le Nouvel An. C'est la SEULE donnée de prix.
-3. Appareil à raclette prêté, pour 4 ou 8 personnes, contre une caution de 50 €, à réserver deux jours avant le week-end (« il en reste rarement le samedi »).
-4. Beaufort d'alpage vendu à l'âge qu'on veut : 12, 18 ou 24 mois ; les fromages affinés longtemps (beaufort 24 mois) contiennent très peu de lactose.
-5. La cave d'affinage sous la boutique, à 11 °C, creusée en 2014 ; chaque meule porte sa date d'entrée à la craie ; on peut demander « plus jeune » ou « plus fait ».
-6. Six fermes du massif des Aravis et des Bauges, nommées sur l'ardoise (pas dans le brief : on ne les nomme pas).
-7. On goûte avant d'acheter, toujours.
-8. Stand au marché de la vieille ville le mardi et le vendredi matin, depuis 2019, mêmes fromages.
-9. Horaires : mardi à vendredi 8 h 30 à 12 h 30 et 15 h 30 à 19 h ; samedi 8 h à 13 h et 15 h à 19 h ; dimanche 8 h 30 à 12 h 30 ; lundi fermé.
-10. Le comptoir : beurre de baratte, crème crue, yaourts de la ferme, quelques vins de Savoie.
-11. Claire (affinage, commandes) et Théo (boutique, marché). Téléphone 04 65 71 23 18 (fictif) : tout se réserve par téléphone.
+## Faits propres (tous tirés du brief)
+1. Boutique 12 rue de la Gare, Annecy : mardi à vendredi 8 h 30 à 12 h 30 et 15 h 30 à 19 h ; samedi 8 h à
+   13 h et 15 h à 19 h ; dimanche 8 h 30 à 12 h 30 ; lundi fermé.
+2. Stand au marché de la vieille ville le mardi et le vendredi matin, mêmes fromages, depuis 2019.
+3. Claire (affinage, commandes) et Théo (boutique, marché) : deux personnes, deux endroits certains matins.
+4. Appareil à raclette prêté (4 ou 8 personnes, caution 50 €) : réserver deux jours avant le week-end, « il en
+   reste rarement le samedi ».
+5. Plateaux de 6 à 30 personnes, dès 6 € par personne, 48 heures avant ; une semaine avant pour Noël et le
+   Nouvel An.
+6. Cave à 11 °C creusée en 2014 sous la boutique ; date d'entrée de chaque meule à la craie ; « plus jeune »
+   ou « plus fait ».
+7. Beaufort d'alpage vendu à 12, 18 ou 24 mois.
+8. Six fermes des Aravis et des Bauges, nommées sur l'ardoise (le brief ne donne pas leurs noms : on n'en
+   écrit aucun).
+9. On goûte avant d'acheter, toujours.
+10. Comptoir : beurre de baratte, crème crue, yaourts de la ferme, quelques vins de Savoie.
+11. Claire a appris l'affinage dans la vallée de Thônes ; 2011 reprise de la crémerie rue de la Gare.
 
 ## Phrase-idée
-« Sur ce site, le plateau de 6 à 30 personnes à dès 6 € devient une meule qu'on coupe au doigt : on
-choisit le nombre de convives, la meule se recoupe en autant de parts, le prix de départ et le délai
-s'affichent, et le bouton appelle la boutique. »
+« Sur ce site, la semaine de Claire et Théo (boutique, marché le mardi et le vendredi matin, ce qui se
+réserve avant le week-end) devient une barre à tickets : sept talons de jour, et la caisse imprime le
+ticket du jour qu'on touche. »
 
 ## Test du concurrent
-La crémerie d'à côté a peut-être des plateaux, mais pas ces bornes (6 à 30), ce prix de départ (6 €),
-ce délai (48 h, une semaine pour les fêtes) ni l'appareil à 4 ou 8 personnes contre 50 € : le dispositif
-ne marche qu'avec les chiffres de Ravanel. Le premier écran porte le nom, la rue de la Gare, l'horaire du
-jour et la bande de ce qui se réserve chez elle : il ne passe pas chez un autre.
+La crémerie d'à côté a des horaires, mais pas un stand au marché deux matins par semaine ni un appareil à
+raclette qui part avant le samedi : chez elle, le ticket du mardi et celui du samedi seraient identiques.
+Ici, toucher mardi change l'endroit (Théo au marché) et toucher samedi change ce qui reste réservable (la
+raclette se réserve le jeudi). La phrase ne marche que pour Ravanel.
 
 ## Contrat (six lignes)
-- THÈSE : une affiche de marché, pas une vitrine. Le défaut du métier (grande photo de plateau, crème +
-  serif, « bienvenue chez nous », ardoise sombre de la piste A) est refusé : de grands aplats francs qui
-  changent à chaque section, un nom énorme, et les réservations (plateau, raclette) au premier plan.
-- SQUELETTE : coquille `sticky-hero` (le premier écran reste collé, chaque section arrive par-dessus comme
-  une nouvelle affiche collée sur la précédente). Nav sur mesure fine, qui prend la couleur de l'affiche
-  qu'elle survole. Ordre : affiche-titre + bande défilante, Composer son plateau, l'étiquette raclette,
-  le beaufort par âge, la cave, questions, contact en grand numéro, pied de page au nom géant.
-  `ff variete` : pop n'a qu'un site (maison-roux, coquille flow/burger) ; pop + sticky-hero n'existe pas ;
-  aucun site en Alfa Slab One.
-- PREMIER ÉCRAN : fond beurre (--bg-2), « Fromagerie Ravanel » sur toute la largeur en Alfa Slab One
-  outremer ; au-dessus, métier et rue de la Gare ; dessous, une phrase (six fermes, cave, on goûte), les
-  horaires avec le jour courant en gras, le bouton « Appeler » ; en pied d'écran une bande noire défilante
-  des choses à réserver, séparées par un petit sommet (triangle), jamais un point médian.
-- MOUVEMENT : (1) entrée : titre par lignes (`data-split="lines"`, courbe pop à rebond), la bande démarre ;
-  (2) rythme : un groupe `data-stagger` ou `data-reveal` par section ; (3) feu d'artifice : la meule du
-  plateau, qui se recoupe en N parts au curseur ou aux boutons + / − (le but : « choisir ») ; (4) image :
-  la photo de la cave en `data-scrub` (zoom qui se pose), la raclette en `data-parallax`, l'étiquette qui
-  se redresse au défilement. Plus : chaque affiche glisse sur la précédente (coquille), la nav change de
-  couleur avec l'affiche.
-- REFUSÉ : ardoise sombre, bande horizontale épinglée des âges (piste A) ; bois, carreaux rouges, chalet,
-  or ; terracotta + crème + serif (grappe) ; rangée de trois chiffres identiques (les trois âges sont une
-  marche qui grandit, pas trois cartes) ; tout prix autre que « dès 6 € par personne » et la caution.
+- THÈSE : un commerce de bouche se lit d'abord par « quand ? » (est-ce ouvert, est-il au marché, est-ce que
+  j'ai encore le temps de commander) ; on refuse l'arrangement du métier « photo de meules + texte
+  d'ambiance + horaires en pied de page ». Les horaires ne sont pas en bas : ils SONT le premier écran.
+- SQUELETTE : index. Le premier écran EST la semaine (coquille `flow`, hero sur mesure `semaine`), le reste
+  en dessous comme des fiches posées sur le comptoir : À réserver (bon de plateau + bon de prêt raclette
+  avec la photo agrafée), La cave, 11 °C (plus jeune ou plus fait, beaufort, comptoir), Les questions du
+  comptoir, Rue de la Gare (Claire et Théo, trois jalons, coordonnées), pied en bas de ticket. Pas de nav
+  en haut sur téléphone : une barre d'actions collée en bas (Appeler, La semaine, Venir), reprise de Délice.
+  Sur ordinateur, une ligne d'ancres + le téléphone en haut à droite. Écart avec `ff variete` : aucun site
+  n'a un hero-semaine ni une barre basse ; direction `encre` n'est portée que par encre-noire (tatoueur).
+- PREMIER ÉCRAN : téléphone : « Fromagerie Ravanel » en grotesque large noire (2 lignes), une phrase, la
+  barre à tickets (7 talons, aujourd'hui en orange), puis le ticket imprimé du jour sous la fente de la
+  caisse ; « Appeler » dans la barre basse. Ordinateur : à gauche le nom (≈ 5 rem), la phrase, le
+  téléphone en gros chiffres mono ; à droite (60 %) la barre à tickets et le ticket imprimé.
+- MOUVEMENT (rien sur les titres, aucun `data-split`, pas de rideau, aucun attribut du moteur) :
+  1. Entrée : les sept talons de jour se posent sur la barre l'un après l'autre (sec, 0,14 s chacun, 45 ms
+     d'écart), puis le ticket du jour s'imprime sous la fente de la caisse, de haut en bas, par à-coups,
+     comme une imprimante thermique (12 crans linéaires). Raison : imprimer. Transposé de Pizza Amici (tickets d'étapes sur un fil :
+     on garde l'objet ticket suspendu, pas l'inclinaison permanente).
+  2. Rythme : en descendant, les fiches de chaque bloc (bons, étiquettes, jalons, questions) arrivent en paquet,
+     posées d'un coup sec sur le comptoir (0,16 s, ombre qui se resserre, 50 ms entre deux). Raison : poser.
+  3. Feu d'artifice : toucher un talon : il se balance sur la barre (lent, rebond amorti 0,9 s) et la caisse
+     réimprime le ticket de ce jour-là (où sont Claire et Théo, horaires, ce qu'on peut encore réserver,
+     calculé depuis aujourd'hui). Raison : choisir.
+  4. Image : la seule photo (raclette, réservée à cette piste) est agrafée au bon de prêt et arrive avec son
+     paquet ; aucune légende « d'illustration ». Raison : montrer le fromage à racler.
+  Courbes : régime sec = `steps(12)` linéaire pour l'impression, `cubic-bezier(.3,.7,.4,1)` 0,14 à 0,16 s pour
+  poser ; régime lent = balancier amorti 0,9 s (keyframes 5°, -3°, 1,5°, -0,6°, 0). Un ticket qu'on pose ne
+  traîne pas ; un ticket suspendu qu'on touche oscille.
+- REFUSÉ : rideau ; titres qui montent ligne par ligne ; photo de cave (piste B) et beaufort (personne) ;
+  chiffre géant de l'âge du beaufort (les trois pistes l'avaient) ; surtitre « métier, rue, ville » ; FAQ
+  partagée (même composant dans les trois anciennes pistes) ; tickets inclinés en permanence (polaroid) ;
+  bandeau qui défile tout seul (ancienne piste C) ; crème + serif ; prénom de ferme inventé.
 - FIN : non relu = pas fini ; ce site se termine par le verdict du relecteur.
 
 ## Typographie, couleur, images
-Direction `pop` (blocs de couleur, courbe à rebond : « joyeux »), accent surchargé en outremer
-`hsl(226 78% 44%)` (blanc dessus 7,9:1 ; sur beurre 7,1:1). Aplats : beurre `--bg-2`, outremer `--accent`,
-vert sapin `--accent-2`, crème `--bg`, encre `--ink`. Pas de rouge (nappe à carreaux), pas d'or.
-Titres : Alfa Slab One (bois d'imprimerie des affiches de foire, poids unique : `--display-weight` ramené
-à 400 pour éviter le faux gras). Texte : Karla (grotesque nette et ronde ; la piste B a pris Schibsted). Photos : les trois de Wikimedia
-déjà au dossier (cave CC0, beaufort CC BY-SA 4.0 crédité, raclette CC0), présentées comme illustrations.
-« Chaleureux, franc, montagnard » : franc par les aplats et le nom énorme, chaleureux par le beurre et le
-rebond, montagnard par le vert sapin, l'outremer du ciel et le petit sommet du séparateur, sans chalet.
+Direction `encre` (papier blanc #fdfcf9, encre #101010, filets noirs, rayon 0) + UNE couleur franche :
+orange de caisse `hsl(20 95% 40%)` (contraste 4,7:1 sur le papier), réservée à « aujourd'hui », à ce qui est
+encore réservable et au bouton d'appel. Polices, une par rôle : Archivo Black (enseigne : le h1 seul),
+Archivo 800 (étiquettes h2), JetBrains Mono (le ticket : h3, horaires, délais, prix), Archivo (texte). Aucune
+police de la liste IA. Images : une photo (raclette, Wikimedia CC0), le reste est typographique (tickets,
+talons, étiquettes). Calibration : pas crème + serif, pas noir + acide, pas broadsheet ; le papier blanc et le
+mono viennent du ticket de caisse, l'orange de l'étiquette de prix.
 
 ## Références
-- Délice (demontages/delice.md) : une couleur de fond par section, saturée, et les horaires ouverts sur
-  le jour même. On prend les aplats qui changent et le jour courant en gras.
-- Café Binocle (demontages/cafebinocle.md) : un manifeste en très grand sur toute la largeur. On prend la
-  taille du nom, qui remplit l'écran.
+- Pizza Amici (`docs/veille/demontages/pizza-amici.md`) : tickets d'étapes suspendus à un fil qui bougent ;
+  un rôle par police (mono pour les fiches techniques). On garde le ticket-objet et le mono, pas le rebond
+  sur chaque bouton ni les timbres inclinés.
+- Délice (`docs/veille/demontages/delice.md`) : horaires par jour ouverts sur le jour même ; barre d'actions
+  collée en bas sur téléphone. On garde les deux, sans carrousel automatique.
 
-## Différence avec la piste A et l'autre piste
-- Piste A : coquille flow, ardoise vert sombre, Savate + Hanken, direction terre, âges du beaufort en
-  bande horizontale épinglée, bons de commande côte à côte. Ici : coquille sticky-hero (les affiches se
-  recouvrent), fond beurre et outremer, Alfa Slab One + Karla, direction pop, âges en marche qui
-  grandit, et un plateau qui se règle au doigt au lieu d'un bon de commande à lire.
-- Piste B : direction pierre, coquille flow avec panneau fixe, Libre Caslon Condensed, carnet clair et lent.
-  Ici tout l’inverse : aplats saturés qui changent, affiches empilées, slab de foire, rebond, geste au doigt.
+## Différence avec la piste A et la piste B
+| Axe | A « L'ardoise » | B « La cave » | C « La semaine » |
+|---|---|---|---|
+| Lecture | l'ardoise du comptoir | la cave à 11 °C | la semaine de Claire et Théo |
+| Couleur | sombre (ardoise) | clair qui s'assombrit | papier blanc + orange franc |
+| Typo | craie + grotesque | serif condensée + mono | grotesque large (Archivo Black) + mono de ticket |
+| Entrée | la craie qui s'écrit | la lumière qui baisse | les talons se posent, le ticket sort de la caisse |
+| Apparition | lignes écrites de gauche à droite | meules posées sur les étagères (lent) | fiches posées en paquet (sec) |
+| Geste | toucher un fromage de l'ardoise | glisser une meule d'âge en âge | toucher un jour : où, quand, quoi réserver |
+| Squelette | flow, ardoise en premier écran | colonne étroite en escalier | index : la semaine en premier écran |
 
 ## Accepté par le fondateur
-(vide)
+(rien encore)

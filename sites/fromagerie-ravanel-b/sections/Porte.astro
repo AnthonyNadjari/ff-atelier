@@ -1,0 +1,201 @@
+---
+/**
+ * Nav sur mesure « la porte » (direction.md, SQUELETTE). Une bande claire et fine en haut, qui reste claire
+ * quand la page s'assombrit en dessous : c'est la porte sur la rue de la Gare, vue d'en bas de l'escalier.
+ * Téléphone : nom + « Appeler » au pouce. Ordinateur : nom, quatre ancres, numéro en mono.
+ *
+ * Porte aussi ce qui sert à toute la page (une seule fois) :
+ * - les tons de la descente (`--cave-*`), tous des mélanges de `--bg` et `--ink` de la direction ;
+ * - la colonne en escalier (`.escalier-col`, `.escalier-large`, décalée de `--pas` marches sur ordinateur) ;
+ * - le dessin des meules (`.meule`) et des planches (`.planche`) ;
+ * - « les meules se posent » : régime lent à léger rebond (0,75 s, cubic-bezier(0.3, 1.4, 0.55, 1)), une
+ *   meule après l'autre, quand sa planche arrive à l'écran. Sans script ou en mouvement réduit : tout est
+ *   posé d'avance ;
+ * - l'horaire du jour, calculé chez le visiteur à partir de `contact.hours` (sans script : la ligne reste
+ *   cachée, la semaine complète est dans « Venir »).
+ */
+import { site, tel } from '@/lib/site';
+
+const ancres = [
+  { href: '#cave', label: 'La cave' },
+  { href: '#etagere', label: 'Le beaufort' },
+  { href: '#reserver', label: 'Raclette et plateaux' },
+  { href: '#venir', label: 'Venir' },
+];
+const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+const joursDe = (txt: string) => {
+  const noms = txt.toLowerCase().split(/\s+à\s+/).map((s) => JOURS.indexOf(s.trim()));
+  if (noms.some((n) => n < 0)) return [];
+  if (noms.length === 2) {
+    const out: number[] = [];
+    for (let d = noms[0]; ; d = (d + 1) % 7) { out.push(d); if (d === noms[1] || out.length > 7) break; }
+    return out;
+  }
+  return noms;
+};
+const semaine = site.contact.hours.map((h) => ({ jours: joursDe(h.days), hours: h.hours }));
+---
+
+<header class="porte">
+  <div class="porte-in">
+    <a href="/" class="porte-nom font-display">{site.business.name}</a>
+    <nav class="porte-ancres" aria-label="Navigation principale">
+      {ancres.map((a) => <a href={a.href}>{a.label}</a>)}
+    </nav>
+    <a href={tel()} class="porte-tel"><span class="porte-tel-long">{site.contact.phoneDisplay}</span><span class="porte-tel-court">Appeler</span></a>
+  </div>
+</header>
+
+<script type="application/json" data-semaine set:html={JSON.stringify(semaine)} />
+
+<style is:global>
+  :root {
+    --cave-0: var(--bg);
+    --cave-1: color-mix(in oklab, var(--ink) 67%, var(--bg));
+    --cave-2: color-mix(in oklab, var(--ink) 74%, var(--bg));
+    --cave-3: color-mix(in oklab, var(--ink) 83%, var(--bg));
+    --cave-4: color-mix(in oklab, var(--ink) 90%, var(--bg));
+    --cave-5: color-mix(in oklab, var(--ink) 95%, var(--bg));
+    /* Texte dans la cave : la craie (--on-ink), et un gris de craie pour le secondaire. */
+    --craie: var(--on-ink);
+    --craie-2: color-mix(in oklab, var(--on-ink) 80%, var(--ink));
+    /* Croûtes, pâte et bois : l'ocre de l'accent mêlé à la craie ou à l'encre. */
+    --croute-tomme: color-mix(in oklab, var(--accent) 88%, var(--on-ink));
+    --croute-tomme-dessus: color-mix(in oklab, var(--accent) 34%, var(--on-ink));
+    --croute-reblochon: color-mix(in oklab, var(--accent) 80%, var(--on-ink));
+    --croute-reblochon-dessus: color-mix(in oklab, var(--accent) 50%, var(--on-ink));
+    --croute-beaufort: color-mix(in oklab, var(--accent) 94%, var(--on-ink));
+    --croute-beaufort-dessus: color-mix(in oklab, var(--accent) 62%, var(--on-ink));
+    --pate: color-mix(in oklab, var(--on-ink) 78%, var(--accent));
+    --bois: color-mix(in oklab, var(--accent) 58%, var(--ink));
+    --bois-arete: color-mix(in oklab, var(--accent) 75%, var(--on-ink));
+    --pose-courbe: cubic-bezier(0.3, 1.4, 0.55, 1);
+    --pose-duree: 0.75s;
+    --sec: 0.14s;
+  }
+  html { scroll-padding-top: 4.25rem; }
+
+  /* La colonne en escalier : une marche plus à droite par section, sur ordinateur. */
+  .escalier-col, .escalier-large { --gauche: 16px; margin-left: var(--gauche); min-width: 0; }
+  @media (min-width: 48rem) {
+    .escalier-col, .escalier-large {
+      --gauche: calc(clamp(1.5rem, 5vw, 6rem) + var(--pas, 0) * min(10vw, (100vw - 34rem - 9rem) / 5));
+    }
+  }
+  .escalier-col { width: min(100% - var(--gauche) - 16px, 34rem); }
+  .escalier-large { width: min(100% - var(--gauche) - 16px, 62rem); }
+
+  /* Une section de cave : fond du palier, texte à la craie. */
+  .palier { color: var(--craie); padding-block: clamp(4rem, 11vw, 8rem); }
+  .palier h2 { font-weight: 500; font-size: clamp(2.3rem, 8vw, 4rem); line-height: 1; letter-spacing: -0.01em; }
+  .palier p { color: var(--craie-2); }
+  .palier .etiquette, .etiquette {
+    font-family: var(--font-mono); font-size: 0.8125rem; line-height: 1.4; letter-spacing: 0; font-weight: 500;
+  }
+  .palier a { color: var(--craie); }
+
+  /* Les meules : un cylindre vu d'un peu au-dessus. --l largeur, --h hauteur, --e demi-hauteur du dessus. */
+  .meule {
+    --e: calc(var(--h) * 0.2);
+    position: relative; flex: none; width: var(--l); height: var(--h);
+    border-radius: 50% / var(--e);
+    background: var(--croute, var(--croute-tomme));
+    display: grid; place-items: center; padding-top: calc(var(--e) * 1.6);
+    color: var(--ink);
+  }
+  .meule::before {
+    content: ''; position: absolute; inset: 0 0 auto 0; height: calc(var(--e) * 2);
+    border-radius: 50%; background: var(--dessus, var(--croute-tomme-dessus));
+  }
+  .meule.tomme { --l: clamp(92px, 25vw, 132px); --h: clamp(46px, 12.5vw, 64px); --croute: var(--croute-tomme); --dessus: var(--croute-tomme-dessus); }
+  .meule.reblochon { --l: clamp(54px, 14.5vw, 82px); --h: clamp(26px, 7vw, 36px); --croute: var(--croute-reblochon); --dessus: var(--croute-reblochon-dessus); }
+  .meule.beaufort { --l: clamp(150px, 42vw, 220px); --h: clamp(56px, 15vw, 76px); --croute: var(--croute-beaufort); --dessus: var(--croute-beaufort-dessus); }
+  /* L'inscription à la craie sur le flanc : « entrée » et un trait illisible (aucune date inventée). */
+  .meule-craie { position: relative; display: block; width: 62px; height: 12px; color: var(--craie); }
+  .meule-craie text { font-family: var(--font-mono); font-size: 10px; fill: currentColor; }
+  .meule.beaufort .meule-craie { width: 84px; height: 15px; }
+  .meule.reblochon .meule-craie { width: 26px; }
+
+  /* Les planches : le bois et ses deux montants. */
+  .planche { position: relative; display: flex; align-items: flex-end; gap: clamp(6px, 2vw, 14px); padding: 0 12px; min-height: 1px; }
+  .planche::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px;
+    background: var(--bois); border-top: 2px solid var(--bois-arete);
+  }
+
+  /* Les meules se posent l'une après l'autre (régime lent, léger rebond). */
+  [data-meule] {
+    transition:
+      transform var(--pose-duree) var(--pose-courbe) calc(var(--pose-i, 0) * 110ms),
+      opacity var(--sec) linear calc(var(--pose-i, 0) * 110ms);
+  }
+  .pose-attend [data-meule] { transform: translateY(-64px); opacity: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-meule] { transition: none; }
+    .pose-attend [data-meule] { transform: none; opacity: 1; }
+  }
+</style>
+
+<style>
+  .porte { position: sticky; top: 0; z-index: 40; background: var(--bg); color: var(--fg); border-bottom: 1px solid var(--line); }
+  .porte-in { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 56px; padding: 0 16px; }
+  @media (min-width: 48rem) { .porte-in { padding: 0 clamp(1.5rem, 5vw, 6rem); min-height: 64px; } }
+  .porte-nom { font-size: 1.5rem; font-weight: 600; line-height: 1; text-decoration: none; color: var(--fg); }
+  .porte-ancres { display: none; }
+  @media (min-width: 64rem) {
+    .porte-ancres { display: flex; gap: 28px; margin-left: auto; font-size: 0.95rem; }
+    .porte-ancres a { color: var(--fg); text-decoration: none; padding: 8px 0; border-bottom: 1px solid transparent; transition: border-color var(--sec) linear; }
+  }
+  @media (hover: hover) and (pointer: fine) { .porte-ancres a:hover { border-bottom-color: var(--fg); } }
+  .porte-tel {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px;
+    background: var(--fg); color: var(--bg); text-decoration: none; font-weight: 600;
+    transition: background-color var(--sec) linear;
+  }
+  .porte-tel:active { background: var(--accent); }
+  @media (hover: hover) and (pointer: fine) { .porte-tel:hover { background: var(--accent); } }
+  .porte-tel-long { display: none; font-family: var(--font-mono); font-weight: 500; }
+  @media (min-width: 48rem) { .porte-tel-long { display: inline; } .porte-tel-court { display: none; } }
+</style>
+
+<script>
+  // L'horaire du jour, et le jour courant marqué dans toute liste [data-jours].
+  const brut = document.querySelector('[data-semaine]')?.textContent;
+  if (brut) {
+    const semaine = JSON.parse(brut) as { jours: number[]; hours: string }[];
+    const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+    const j = new Date().getDay();
+    const du = semaine.find((s) => s.jours.includes(j));
+    if (du) {
+      const ferme = /ferm/i.test(du.hours);
+      const texte = ferme ? `Fermé aujourd’hui, ${JOURS[j]}.` : `Ouvert ce ${JOURS[j]} : ${du.hours}.`;
+      document.querySelectorAll<HTMLElement>('[data-aujourdhui]').forEach((el) => { el.textContent = texte; el.hidden = false; });
+    }
+    document.querySelectorAll<HTMLElement>('[data-jours]').forEach((el) => {
+      const liste = (el.dataset.jours || '').split(',').filter(Boolean).map(Number);
+      if (liste.includes(j)) el.classList.add('est-aujourdhui');
+    });
+  }
+
+  // Les meules se posent : seulement les planches encore sous l'écran au chargement.
+  const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduit && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entrees) => {
+        for (const e of entrees) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.remove('pose-attend');
+          io.unobserve(e.target);
+        }
+      },
+      { rootMargin: '0px 0px -14% 0px' },
+    );
+    document.querySelectorAll<HTMLElement>('[data-pose]').forEach((g) => {
+      g.querySelectorAll<HTMLElement>('[data-meule]').forEach((m, i) => m.style.setProperty('--pose-i', String(i)));
+      if (g.getBoundingClientRect().top > window.innerHeight * 0.86) {
+        g.classList.add('pose-attend');
+        io.observe(g);
+      }
+    });
+  }
+</script>

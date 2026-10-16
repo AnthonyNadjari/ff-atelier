@@ -1,0 +1,143 @@
+---
+/**
+ * Navigation de la piste C « La semaine ».
+ * - Ordinateur : une ligne d'ancres et le téléphone, posée en haut à droite du premier écran (le nom est le
+ *   h1 de la semaine, à gauche : pas de logo répété).
+ * - Téléphone : pas de barre en haut ; une barre d'actions collée en bas, au-dessus de la barre de l'iPhone
+ *   (reprise de Délice, docs/veille/demontages/delice.md) : Appeler, La semaine, Venir.
+ * Ce fichier porte aussi, une seule fois pour la page, le mécanisme d'apparition de la piste : les fiches
+ * « posées en paquet » ([data-paquet] > [data-fiche]) quand leur bloc arrive à l'écran. Régime sec : 0,16 s,
+ * 50 ms entre deux fiches, ombre qui se resserre comme une fiche qu'on plaque sur le comptoir.
+ */
+import { site, tel } from '@/lib/site';
+
+const liens = site.layout.sections
+  .filter((s) => s.type === 'custom' && s.label)
+  .map((s) => ({ href: `/#${s.variant.toLowerCase()}`, label: s.label as string }));
+---
+
+<header class="barre-haut" aria-label="En-tête">
+  <nav class="barre-liens" aria-label="Navigation principale">
+    {liens.map((l) => <a href={l.href}>{l.label}</a>)}
+  </nav>
+  <a href={tel()} class="barre-tel">{site.contact.phoneDisplay}</a>
+</header>
+
+<nav class="barre-bas" aria-label="Actions rapides">
+  <a href={tel()} class="barre-bas-appel" aria-label={`Appeler la fromagerie au ${site.contact.phoneDisplay}`}>Appeler</a>
+  <a href="/#semaine">La semaine</a>
+  <a href="/#venir">Venir</a>
+</nav>
+
+<style is:global>
+  /* Barre basse du téléphone : la page laisse sa place pour que le pied ne passe jamais dessous. */
+  @media (max-width: 47.99rem) {
+    body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+  }
+
+  /* Fiches posées en paquet. Sans script, ou mouvement réduit : tout est là, immobile. */
+  html.js-paquet [data-paquet]:not(.pose) [data-fiche] { opacity: 0; }
+  html.js-paquet [data-paquet].pose [data-fiche] {
+    animation: fiche-posee 0.16s cubic-bezier(0.3, 0.7, 0.4, 1) backwards;
+    animation-delay: calc(var(--n, 0) * 50ms);
+  }
+  @keyframes fiche-posee {
+    from { opacity: 0; transform: translateY(-14px) scale(1.025); box-shadow: 0 18px 22px -12px color-mix(in srgb, var(--ink) 35%, transparent); }
+    60% { opacity: 1; }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.js-paquet [data-paquet]:not(.pose) [data-fiche] { opacity: 1; }
+    html.js-paquet [data-paquet].pose [data-fiche] { animation: none; }
+  }
+</style>
+
+<style>
+  .barre-haut { display: none; }
+  @media (min-width: 48rem) {
+    .barre-haut {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 22px 40px 0 0;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+  }
+  .barre-liens { display: none; gap: 22px; }
+  @media (min-width: 64rem) { .barre-liens { display: flex; } }
+  .barre-liens a { color: var(--fg); text-decoration: none; }
+  .barre-tel {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--fg);
+    text-decoration: none;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .barre-liens a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+    .barre-tel:hover { color: var(--accent); }
+  }
+
+  .barre-bas {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 60;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    background: var(--ink);
+    padding-bottom: env(safe-area-inset-bottom);
+    border-top: 2px solid var(--ink);
+  }
+  .barre-bas a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 58px;
+    color: var(--on-ink);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border-left: 1px solid color-mix(in srgb, var(--on-ink) 22%, transparent);
+    transition: background-color 0.12s linear;
+  }
+  .barre-bas a:first-child { border-left: 0; }
+  .barre-bas .barre-bas-appel { background: var(--accent); color: var(--on-accent); }
+  .barre-bas a:active { background: color-mix(in srgb, var(--on-ink) 18%, var(--ink)); }
+  .barre-bas .barre-bas-appel:active { background: var(--accent-2); }
+  @media (min-width: 48rem) { .barre-bas { display: none; } }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Fiches posées en paquet : un bloc [data-paquet] reçoit .pose quand il entre à l'écran (une seule fois).
+  // Chaque fiche porte son rang (--n) pour l'écart de 50 ms ; au-delà de 6, même rang (paquet plafonné).
+  onPage(() => {
+    const paquets = Array.from(document.querySelectorAll<HTMLElement>('[data-paquet]'));
+    if (!paquets.length || !('IntersectionObserver' in window)) return;
+    paquets.forEach((p) => p.querySelectorAll<HTMLElement>('[data-fiche]').forEach((f, i) => f.style.setProperty('--n', String(Math.min(i, 6)))));
+    document.documentElement.classList.add('js-paquet');
+    const io = new IntersectionObserver(
+      (entrees) => {
+        for (const e of entrees) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add('pose');
+          io.unobserve(e.target);
+        }
+      },
+      { rootMargin: '0px 0px -12% 0px', threshold: 0 },
+    );
+    paquets.forEach((p) => {
+      // Déjà à l'écran au chargement (lien direct vers une ancre) : posé tout de suite.
+      const r = p.getBoundingClientRect();
+      if (r.top < innerHeight * 0.88 && r.bottom > 0) p.classList.add('pose');
+      else io.observe(p);
+    });
+  });
+</script>
