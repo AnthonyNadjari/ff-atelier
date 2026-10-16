@@ -46,6 +46,7 @@ import { cmdVercel } from './ff/vercel.mjs';
 import { cmdTuiles } from './ff/tuiles.mjs';
 import { cmdPlanche } from './ff/planche.mjs';
 import { cmdRelecture } from './ff/relecture.mjs';
+import { cmdBrief } from './ff/brief.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -110,6 +111,7 @@ const commands = {
   tuiles: cmdTuiles,
   planche: cmdPlanche,
   relecture: cmdRelecture,
+  brief: cmdBrief,
 };
 
 async function main() {

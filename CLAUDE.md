@@ -26,6 +26,7 @@ Le reste du tableau ci-dessous sert au besoin.
 | Commande | Ce qu'elle fait |
 |---|---|
 | `node scripts/ff.mjs nouveau <slug>` | Crée `sites/<slug>/` à partir de `sites/_exemple`, prêt pour un brief. |
+| Formulaire client https://ff-brief.vercel.app + `node scripts/ff.mjs brief [numéro] [slug]` | Le client remplit le formulaire (`outils/brief-form/` : page statique + fonction Vercel) ; ses réponses ouvrent un ticket GitHub étiqueté « brief » dans ce dépôt (jeton `FF_BRIEF_TOKEN` côté Vercel, à grain fin, Issues seulement ; sans jeton, la page affiche le brief à copier). `ff brief` sans argument liste les briefs en attente ; `ff brief <numéro>` crée le site si besoin et écrit `sites/<slug>/brief.md`, puis `/site-final <slug>`. |
 | `/nouveau-site <slug>` (Claude Code) | Lit `sites/<slug>/brief.md`, choisit direction/variantes, rédige les textes en français, écrit `site.config.ts`, build et vérifie. Voir `.claude/skills/nouveau-site/SKILL.md`. |
 | `node scripts/ff-generer.mjs <slug>` | Même résultat que `/nouveau-site`, mais sans Claude Code : appelle l'API Anthropic directement (pour l'automatisation, ex. depuis `scrapping_artisans`). Sortie structurée : le modèle remplit un JSON contraint par le schéma zod (tool use), validé par `siteSchema` avant le build, puis sérialisé en TS de façon déterministe (`toTs`). |
 | `node scripts/ff.mjs build <slug>` | Build statique du site dans `dist/<slug>`. |

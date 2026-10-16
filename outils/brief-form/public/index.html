@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Votre site | Finck & Fisch</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Formulaire de brief client de Finck & Fisch (outils/brief-form). Couleurs du studio : encre, crème, cuivre.
+     Charte docs/GOUT.md : pas d'italique, pas de pilule, pas de capitales espacées, pas de numérotation 01/02. */
+  :root { --encre: #15120f; --encre-2: #1e1a16; --creme: #f0e8db; --doux: #b9ae9f; --ligne: #3a332c; --cuivre: #d39a6a; --erreur: #f0a28a; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--encre); color: var(--creme); font: 400 1rem/1.55 'Hanken Grotesk', system-ui, sans-serif; }
+  main { max-width: 44rem; margin: 0 auto; padding: 48px 20px 96px; }
+  .marque { display: flex; align-items: center; gap: 12px; color: var(--doux); font-size: .95rem; }
+  .marque b { font-family: 'Bodoni Moda', Georgia, serif; font-weight: 600; color: var(--creme); font-size: 1.15rem; }
+  h1 { font-family: 'Bodoni Moda', Georgia, serif; font-weight: 500; font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1.05; margin: 40px 0 16px; text-wrap: balance; }
+  .intro { color: var(--doux); font-size: 1.08rem; max-width: 36rem; margin: 0; }
+  .intro strong { color: var(--creme); font-weight: 500; }
+  fieldset { border: 0; border-top: 1px solid var(--ligne); margin: 48px 0 0; padding: 28px 0 0; }
+  legend { font-family: 'Bodoni Moda', Georgia, serif; font-size: 1.6rem; font-weight: 500; padding: 0; margin-bottom: 6px; }
+  .aide { color: var(--doux); font-size: .95rem; margin: 0 0 20px; }
+  label { display: block; margin: 20px 0 6px; font-weight: 500; }
+  label .facultatif { color: var(--doux); font-weight: 400; }
+  .precision { display: block; color: var(--doux); font-weight: 400; font-size: .9rem; margin-top: 2px; }
+  input[type=text], input[type=tel], input[type=email], input[type=url], input[type=number], textarea {
+    width: 100%; font: inherit; font-size: 16px; color: var(--creme); background: var(--encre-2);
+    border: 1px solid var(--ligne); border-radius: 3px; padding: 12px 14px; transition: border-color .2s ease-out;
+  }
+  textarea { min-height: 7.5rem; resize: vertical; field-sizing: content; }
+  input:focus, textarea:focus { outline: none; border-color: var(--cuivre); }
+  input:user-invalid, textarea:user-invalid { border-color: var(--erreur); }
+  .ligne { display: grid; gap: 0 16px; }
+  @media (min-width: 40rem) { .ligne.deux { grid-template-columns: 1fr 1fr; } .ligne.cp { grid-template-columns: 9rem 1fr; } }
+  .cases { display: grid; gap: 10px; margin-top: 12px; }
+  .cases label, .accord { display: flex; gap: 12px; align-items: flex-start; margin: 0; font-weight: 400; }
+  input[type=checkbox] { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--cuivre); flex: none; }
+  .alerte { border-left: 2px solid var(--cuivre); padding: 4px 0 4px 14px; color: var(--doux); font-size: .95rem; margin: 8px 0 0; }
+  .envoi { margin-top: 48px; border-top: 1px solid var(--ligne); padding-top: 28px; }
+  button { font: 600 1.05rem 'Hanken Grotesk', system-ui, sans-serif; color: var(--encre); background: var(--creme); border: 0; border-radius: 3px; padding: 16px 28px; cursor: pointer; touch-action: manipulation; transition: opacity .2s ease-out; }
+  button:active { transform: scale(.98); }
+  button[disabled] { opacity: .5; cursor: wait; }
+  .pot { position: absolute; left: -9999px; }
+  #retour { margin-top: 28px; }
+  #retour h2 { font-family: 'Bodoni Moda', Georgia, serif; font-weight: 500; font-size: 1.8rem; margin: 0 0 10px; }
+  #retour pre { white-space: pre-wrap; background: var(--encre-2); border: 1px solid var(--ligne); padding: 16px; font-size: .9rem; max-height: 22rem; overflow: auto; }
+  .secondaire { background: transparent; color: var(--creme); border: 1px solid var(--ligne); margin-top: 12px; }
+  .pied { color: var(--doux); font-size: .85rem; margin-top: 64px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="marque"><b>Finck &amp; Fisch</b> Studio de sites pour artisans</p>
+  <h1>Racontez-nous votre métier, on s’occupe du site.</h1>
+  <p class="intro">Une quinzaine de minutes. Répondez avec vos mots, comme au téléphone : <strong>une case vide vaut mieux qu’une réponse inventée</strong>, on ne met sur votre site que ce que vous nous dites.</p>
+
+  <form id="brief" novalidate>
+    <input class="pot" type="text" name="site_web_pot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <fieldset>
+      <legend>Votre entreprise</legend>
+      <label for="nom">Nom de l’entreprise</label>
+      <input id="nom" name="nom" type="text" required autocomplete="organization">
+      <div class="ligne deux">
+        <div><label for="metier">Votre métier, comme vous le dites<span class="precision">Ex. « Fromager-affineur », « Plombier-chauffagiste »</span></label><input id="metier" name="metier" type="text" required></div>
+        <div><label for="depuis">Depuis quelle année <span class="facultatif">(facultatif)</span><span class="precision">Affichée seulement si vous la donnez</span></label><input id="depuis" name="depuis" type="number" inputmode="numeric" min="1800" max="2100"></div>
+      </div>
+      <label for="rue">Adresse <span class="facultatif">(si vous recevez des clients)</span></label>
+      <input id="rue" name="rue" type="text" autocomplete="street-address" placeholder="Numéro et rue">
+      <div class="ligne cp">
+        <div><label for="cp">Code postal</label><input id="cp" name="cp" type="text" inputmode="numeric" autocomplete="postal-code"></div>
+        <div><label for="ville">Ville</label><input id="ville" name="ville" type="text" required autocomplete="address-level2"></div>
+      </div>
+      <div class="ligne deux">
+        <div><label for="tel">Téléphone affiché sur le site</label><input id="tel" name="tel" type="tel" required autocomplete="tel"></div>
+        <div><label for="email">E-mail affiché <span class="facultatif">(facultatif)</span></label><input id="email" name="email" type="email" autocomplete="email"></div>
+      </div>
+      <label for="horaires">Horaires<span class="precision">Une ligne par jour ou groupe de jours, ex. « Mardi à vendredi : 8 h 30 à 12 h 30, 15 h 30 à 19 h »</span></label>
+      <textarea id="horaires" name="horaires"></textarea>
+      <label for="zone">Où vous travaillez<span class="precision">Votre ville, ou les communes où vous vous déplacez</span></label>
+      <input id="zone" name="zone" type="text">
+      <label for="siret">SIRET <span class="facultatif">(pour les mentions légales, vous pourrez le donner plus tard)</span></label>
+      <input id="siret" name="siret" type="text" inputmode="numeric">
+    </fieldset>
+
+    <fieldset>
+      <legend>Ce que vous faites</legend>
+      <p class="aide">Trois à six choses, une par ligne. Mettez un prix seulement si vous voulez qu’il soit affiché.</p>
+      <label for="services">Vos services ou vos produits</label>
+      <textarea id="services" name="services" required placeholder="Ex. Plateaux de fromages, de 6 à 30 personnes, dès 6 € par personne"></textarea>
+      <label for="demandes">Ce que vos clients vous demandent tout le temps<span class="precision">Au téléphone, au comptoir : les questions qui reviennent, avec votre réponse habituelle</span></label>
+      <textarea id="demandes" name="demandes"></textarea>
+      <label for="difference">Ce qui vous distingue des autres<span class="precision">Des faits, pas des adjectifs : « on goûte avant d’acheter », « devis écrit avant de commencer »</span></label>
+      <textarea id="difference" name="difference"></textarea>
+      <label for="histoire">Votre histoire<span class="precision">Qui vous êtes, depuis quand, pourquoi vous vous êtes lancé</span></label>
+      <textarea id="histoire" name="histoire"></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend>Ce qui n’appartient qu’à vous</legend>
+      <p class="aide">C’est ici qu’on trouve l’idée de votre site. Une phrase suffit.</p>
+      <label for="filmer">Qu’est-ce qu’on pourrait filmer chez vous en cinq secondes ?<span class="precision">Un geste, un objet, un lieu : la pâte qu’on plie, la meule qu’on retourne, le portail qu’on soude</span></label>
+      <textarea id="filmer" name="filmer"></textarea>
+      <label for="objet">Un objet, un papier ou un rituel propre à votre boutique<span class="precision">L’ardoise du comptoir, le ticket, le carnet de rendez-vous, le devis écrit à la main</span></label>
+      <textarea id="objet" name="objet"></textarea>
+      <label for="rassure">Quand un client hésite, qu’est-ce qui le rassure ?</label>
+      <textarea id="rassure" name="rassure"></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend>Avis de vos clients</legend>
+      <p class="alerte">Uniquement de vrais avis, recopiés tels quels, avec leur source (Google, e-mail, SMS). Inventer un avis est interdit par la loi (art. L121-2 du Code de la consommation) : sans avis, votre site n’en affiche pas, et c’est très bien.</p>
+      <label for="avis">Avis réels <span class="facultatif">(facultatif)</span><span class="precision">Prénom et initiale, texte exact, source</span></label>
+      <textarea id="avis" name="avis"></textarea>
+      <label for="google">Lien de votre fiche Google <span class="facultatif">(facultatif)</span></label>
+      <input id="google" name="google" type="url" inputmode="url">
+    </fieldset>
+
+    <fieldset>
+      <legend>Vos photos</legend>
+      <p class="aide">Les vraies photos font les beaux sites. Pas besoin de photographe : un téléphone, de la lumière du jour.</p>
+      <div class="cases">
+        <label><input type="checkbox" name="photos_dispo" value="Logo"> J’ai un logo</label>
+        <label><input type="checkbox" name="photos_dispo" value="Portrait"> Des photos de moi ou de l’équipe</label>
+        <label><input type="checkbox" name="photos_dispo" value="Réalisations"> Des photos de mon travail, de ma boutique</label>
+        <label><input type="checkbox" name="photos_dispo" value="Avant/après"> Des photos avant / après</label>
+      </div>
+      <label for="photos">Lien vers vos photos <span class="facultatif">(Google Drive, WeTransfer, Dropbox…)</span></label>
+      <input id="photos" name="photos" type="url" inputmode="url">
+    </fieldset>
+
+    <fieldset>
+      <legend>Votre goût</legend>
+      <label for="adjectifs">Trois mots pour le site que vous voulez</label>
+      <input id="adjectifs" name="adjectifs" type="text" placeholder="Ex. chaleureux, franc, montagnard">
+      <label for="aime">Des sites que vous aimez, et pourquoi <span class="facultatif">(n’importe quel métier)</span></label>
+      <textarea id="aime" name="aime"></textarea>
+      <label for="deteste">Ce que vous ne voulez surtout pas<span class="precision">Une couleur, un style, un site que vous trouvez raté</span></label>
+      <textarea id="deteste" name="deteste"></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend>Pour finir</legend>
+      <div class="ligne deux">
+        <div><label for="instagram">Instagram <span class="facultatif">(lien)</span></label><input id="instagram" name="instagram" type="url" inputmode="url"></div>
+        <div><label for="facebook">Facebook <span class="facultatif">(lien)</span></label><input id="facebook" name="facebook" type="url" inputmode="url"></div>
+      </div>
+      <label for="domaine">Votre nom de domaine, si vous en avez un ou une idée</label>
+      <input id="domaine" name="domaine" type="text" placeholder="Ex. fromagerie-ravanel.fr">
+      <label for="remarques">Autre chose à nous dire ?</label>
+      <textarea id="remarques" name="remarques"></textarea>
+      <label for="contact_nom">Votre prénom et nom, pour vous rappeler</label>
+      <input id="contact_nom" name="contact_nom" type="text" required autocomplete="name">
+    </fieldset>
+
+    <div class="envoi">
+      <label class="accord"><input type="checkbox" name="accord" required> J’accepte que Finck &amp; Fisch utilise ces réponses pour préparer mon site et me recontacter. Elles ne sont ni cédées ni revendues.</label>
+      <p id="manque" class="alerte" hidden></p>
+      <p style="margin-top:24px"><button type="submit" id="envoyer">Envoyer mes réponses</button></p>
+    </div>
+  </form>
+
+  <div id="retour" hidden></div>
+  <p class="pied">Finck &amp; Fisch, studio de sites pour artisans. Vos réponses servent uniquement à préparer votre site.</p>
+</main>
+
+<script>
+  const form = document.getElementById('brief');
+  const retour = document.getElementById('retour');
+  const manque = document.getElementById('manque');
+  const bouton = document.getElementById('envoyer');
+  // Brouillon gardé sur l'appareil : on peut fermer la page et revenir.
+  const CLE = 'ff-brief-brouillon';
+  try {
+    const b = JSON.parse(localStorage.getItem(CLE) || '{}');
+    for (const [k, v] of Object.entries(b)) {
+      const champs = form.querySelectorAll(`[name="${k}"]`);
+      champs.forEach((c) => { if (c.type === 'checkbox') c.checked = Array.isArray(v) ? v.includes(c.value) : !!v; else c.value = v; });
+    }
+  } catch {}
+  const lire = () => {
+    const d = {};
+    for (const el of form.elements) {
+      if (!el.name) continue;
+      if (el.type === 'checkbox') { if (el.name === 'accord') d.accord = el.checked; else { d[el.name] ??= []; if (el.checked) d[el.name].push(el.value); } }
+      else d[el.name] = el.value.trim();
+    }
+    return d;
+  };
+  form.addEventListener('input', () => { try { localStorage.setItem(CLE, JSON.stringify(lire())); } catch {} });
+  const echapper = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const requis = [...form.querySelectorAll('[required]')].filter((c) => (c.type === 'checkbox' ? !c.checked : !c.value.trim()));
+    if (requis.length) {
+      manque.textContent = 'Il manque : ' + requis.map((c) => (c.type === 'checkbox' ? 'l’accord en bas' : (form.querySelector(`label[for="${c.id}"]`)?.firstChild?.textContent || c.name).trim())).join(', ') + '.';
+      manque.hidden = false; requis[0].focus(); return;
+    }
+    manque.hidden = true; bouton.disabled = true; bouton.textContent = 'Envoi…';
+    let r = null;
+    try { r = await (await fetch('/api/brief', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lire()) })).json(); } catch {}
+    form.hidden = true; retour.hidden = false;
+    if (r && r.ok) {
+      try { localStorage.removeItem(CLE); } catch {}
+      retour.innerHTML = '<h2>Merci, c’est bien reçu.</h2><p>Nous lisons vos réponses et nous vous rappelons sous 48 heures ouvrées pour en parler.</p>';
+    } else {
+      retour.innerHTML = '<h2>Vos réponses sont prêtes à nous envoyer.</h2><p>L’envoi automatique n’a pas fonctionné. Copiez le texte ci-dessous et envoyez-le à votre interlocuteur chez Finck &amp; Fisch, par e-mail ou par SMS.</p><pre id="texte">' + echapper((r && r.brief) || JSON.stringify(lire(), null, 2)) + '</pre><button type="button" class="secondaire" id="copier">Copier le texte</button>';
+      document.getElementById('copier').addEventListener('click', async (ev) => { try { await navigator.clipboard.writeText(document.getElementById('texte').textContent); ev.target.textContent = 'Copié'; } catch {} });
+    }
+    retour.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+</script>
+</body>
+</html>

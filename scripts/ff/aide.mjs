@@ -2,6 +2,7 @@
 import { c, info } from './util.mjs';
 
 const ROWS = [
+  ['brief [numero] [slug] | brief --liste', "Lit un ticket « brief » ouvert par le formulaire client (outils/brief-form) et ecrit sites/<slug>/brief.md (cree le site si besoin). Sans argument : les briefs en attente."],
   ['nouveau <slug> [--direction X] [--metier "..."] [--depuis _exemple]', "Cree un nouveau site a partir d'un modele."],
   ['dev [slug]', 'Lance le serveur de developpement.'],
   ['build [slug]', 'Construit le site (dist/<slug>).'],
