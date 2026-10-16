@@ -19,7 +19,7 @@ PLAFONDS (priment sur le calcul) :
 - pas de bloc sur mesure, ou un bloc qui décrit au lieu de montrer : idée ≤ 6 ;
 - deux effets riches sur la page : composition ≤ 7 ;
 - site immobile (pas d'entrée du premier écran, ou aucune apparition au défilement, ou `motion` qui n'est pas
-  'rich' hors santé/droit) : composition ≤ 6,5 (GOUT § 4, 16 oct 2026) ;
+  'rich' hors santé/droit et hors client « calme » de l'aiguillage) : composition ≤ 6,5 (GOUT § 4, 16 oct 2026) ;
 - un élément couvre un titre ou un texte à une position de défilement : usage ≤ 6 ;
 - une bande vide où un reveal n'a pas joué, ou un contenu rogné : usage ≤ 5 ;
 - texte peu lisible sur fond animé au téléphone (GOUT.md § 1) : usage ≤ 6 ;
@@ -29,6 +29,8 @@ PLAFONDS (priment sur le calcul) :
 - mouvement « moteur » : plus de deux titres h2 animés par lignes, ou rideau d'ouverture, ou une seule courbe
   pour toutes les apparitions : composition ≤ 6,5 (GOUT § 2, 16 oct 2026) ;
 - deux pistes avec la même entrée ou la même manière d'apparaître au défilement : idée ≤ 6 pour la plus faible ;
+- aiguillage non respecté (mouvement plus vif que la réponse « calme », photo que le client n'a pas, place
+  vide en attente d'une photo) : idée ≤ 6 ;
 - photo de banque légendée « d'illustration » à la place d'une photo du client : composition ≤ 7 ;
 - plus de la moitié des titres sont des phrases finies par un point, ou aucun titre de moins de 5 mots : textes
   ≤ 6 (rédacteur).

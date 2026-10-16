@@ -26,7 +26,7 @@ test('slug proposé, relu par ff brief', () => {
 });
 
 test('photos souhaitées sans en avoir : signalé à organiser', () => {
-  const md = briefMarkdown({ ...d, photos_souhait: 'Oui, mais je n’en ai pas', ambiance: 'Calme, posé' });
-  assert.match(md, /Photos sur le site \? :\*\* Oui, mais je n’en ai pas : \*\*à organiser\*\*/);
+  const md = briefMarkdown({ ...d, photos_souhait: 'Oui, mais je n’en ai pas', photos_qui: 'Vous, sur place', ambiance: 'Calme, posé' });
+  assert.match(md, /Photos sur le site \? :\*\* Oui, mais je n’en ai pas : \*\*à organiser\*\*, qui les fait : Vous, sur place/);
   assert.match(md, /Ambiance \(calme ou vivant\) :\*\* Calme, posé/);
 });

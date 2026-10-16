@@ -65,7 +65,7 @@ ${ou(d.difference)}
 ${ou(d.avis)}
 
 ## 8. Photos disponibles
-- **Photos sur le site ? :** ${ou(d.photos_souhait)}${d.photos_souhait === 'Oui, mais je n’en ai pas' ? ' : **à organiser** (guide photo au client, ou séance sur place)' : ''}
+- **Photos sur le site ? :** ${ou(d.photos_souhait)}${d.photos_souhait === 'Oui, mais je n’en ai pas' ? ` : **à organiser**, qui les fait : ${ou(d.photos_qui)}` : ''}
 - [${coche('Logo')}] Logo
 - [${coche('Portrait')}] Portrait / photo de l'artisan ou de l'équipe
 - [${coche('Réalisations')}] Photos du travail, de la boutique

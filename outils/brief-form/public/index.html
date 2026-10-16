@@ -132,6 +132,14 @@
         <label><input type="radio" name="photos_souhait" value="Oui, mais je n’en ai pas"> Oui, mais je n’en ai pas encore</label>
         <label><input type="radio" name="photos_souhait" value="Peu ou pas"> Peu ou pas, ça me va</label>
       </div>
+      <div id="qui-photos" hidden>
+        <p class="question">Qui les fait ?</p>
+        <div class="cases">
+          <label><input type="radio" name="photos_qui" value="Moi, au téléphone"> Moi, au téléphone, si vous me dites quoi prendre</label>
+          <label><input type="radio" name="photos_qui" value="Vous, sur place"> Vous, en venant sur place</label>
+          <label><input type="radio" name="photos_qui" value="À voir ensemble"> À voir ensemble</label>
+        </div>
+      </div>
       <p class="question">Ce que vous avez déjà</p>
       <div class="cases">
         <label><input type="checkbox" name="photos_dispo" value="Logo"> J’ai un logo</label>
@@ -198,6 +206,9 @@
       champs.forEach((c) => { if (c.type === 'checkbox') c.checked = Array.isArray(v) ? v.includes(c.value) : !!v; else if (c.type === 'radio') c.checked = c.value === v; else c.value = v; });
     }
   } catch {}
+  const quiPhotos = document.getElementById('qui-photos');
+  const majPhotos = () => { quiPhotos.hidden = form.querySelector('[name=photos_souhait]:checked')?.value !== 'Oui, mais je n’en ai pas'; };
+  form.addEventListener('change', majPhotos); majPhotos();
   const lire = () => {
     const d = {};
     for (const el of form.elements) {

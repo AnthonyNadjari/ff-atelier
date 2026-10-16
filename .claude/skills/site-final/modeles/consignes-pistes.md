@@ -28,7 +28,8 @@ pas de scripts/, pas des autres sites). Pas de commit, pas de déploiement.
 
 Mouvement : tu ne réutilises ni l'entrée ni la manière d'apparaître des autres pistes (lis leurs MOUVEMENT). Tu
 n'utilises `data-split` sur aucun h2 ; au plus sur le h1, et seulement si le contrat dit pourquoi cette entrée
-est celle de ce client. `motion: 'rich'` sans rideau (`layout.curtain: false` dès qu'il existe). Pas de photo
+est celle de ce client. `motion` selon l'aiguillage du contrat (`.claude/skills/site-final/aiguillage.md` : `subtle` si le client
+a répondu « calme », sinon `rich`), sans rideau (`layout.curtain: false` dès qu'il existe). Pas de photo
 de banque légendée « photo d'illustration » : à la place, une composition typographique ou un objet du métier.
 
 Boucle de qualité (version courte de /site-final) : build, `node scripts/ff.mjs verifier <slug> --sans-build`

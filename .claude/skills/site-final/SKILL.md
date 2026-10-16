@@ -30,7 +30,9 @@ Règles d'or :
 
 1. `docs/GOUT.md` : la charte. Chaque ligne est un motif de refus, pas une opinion.
 2. `CLAUDE.md` (règles dures, pièges), `docs/CONVENTIONS.md`, `docs/REDACTION.md` § 11.
-3. Le brief `sites/<slug>/brief.md` (seule source des faits) et `site.config.ts` s'il existe.
+3. Le brief `sites/<slug>/brief.md` (seule source des faits) et `site.config.ts` s'il existe. Puis
+   `.claude/skills/site-final/aiguillage.md` : les réponses « photos » et « ambiance » du client fixent le cadre
+   (photos ou non, liste de prises, calme ou vivant) AVANT toute idée. On l'applique, on ne le rediscute pas.
 4. `docs/veille/demontages/INDEX.md` (gestes à transposer), `docs/veille/redondances.md` (ce qui est déjà
    trop vu), et `node scripts/ff.mjs variete` + `node scripts/ff.mjs signatures`.
 
@@ -49,6 +51,9 @@ Le studio vend plusieurs versions de la page d'accueil, et une piste unique fini
 colorée ») : le fondateur veut un outil « ultra flexible ».
 
 - **Combien** : `--pistes N` (défaut 3 ; 1 = `--une-piste`). Le nombre se règle selon le client et le temps.
+- **Le cadre d'abord** : toutes les pistes respectent l'aiguillage (`aiguillage.md`). Client « calme » : N pistes
+  calmes, différentes autrement. Client « je ne sais pas » ou sans réponse : au moins une piste calme et une vivante.
+  Client sans photo : aucune piste n'en dépend. Le cadre réduit l'espace, jamais la diversité des idées.
 - **D'où viennent les idées** : chaque piste est inventée à partir des faits propres du brief, de son ressenti
   (adjectifs, sites aimés et détestés, contraintes) et des gestes de `docs/veille/demontages/`. Chaque piste
   pousse au bout UNE lecture différente du client (un fait, une humeur, un usage), écrite dans son contrat.
@@ -231,8 +236,11 @@ scripts/ff.mjs vercel <slug>` sur un projet d'aperçu si les identifiants existe
    les notes finales (« global 7,8 : composition 8, usage 8, idée 7, textes 8 »).
 4. **Décisions que j'ai prises pour vous** : au plus 3, chacune avec l'autre option et ce qu'il faut dire
    pour basculer (« téléphone dans la barre du bas ; pour l'inverse, dites "téléphone en haut" »).
-5. **Non vérifié** : ce qui n'a pas pu l'être (iPhone en ligne, heure d'ouverture…).
-6. Rien d'autre : pas de « pistes », pas de « à envisager ».
+5. **Ce qu'il manque du client** (seulement si l'aiguillage l'a noté) : photos attendues, ou la liste de prises
+   (3 à 6 photos, sujet, cadrage, section) avec les deux options : il les fait au téléphone avec le guide photo,
+   ou on vient. Et, pour « je ne sais pas », laquelle des pistes est calme et laquelle est vivante.
+6. **Non vérifié** : ce qui n'a pas pu l'être (iPhone en ligne, heure d'ouverture…).
+7. Rien d'autre : pas de « à envisager ».
 
 ## 10. Après le retour du fondateur
 

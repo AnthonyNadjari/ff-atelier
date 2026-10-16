@@ -3,6 +3,10 @@
 Contrat écrit AVANT de toucher au site (étape 1 de `/site-final`), attaqué (étape 2), puis lu par le
 relecteur DA : il juge le site CONTRE ce contrat. Jamais publié (ni dans `dist/`, ni en commentaire HTML).
 
+## Aiguillage (deux phrases, depuis `aiguillage.md`)
+Photos : <décision du tableau, avec la liste de prises si le client veut des photos sans en avoir>.
+Mouvement : <calme | vivant>, `motion` <subtle | rich>, parce que <réponse du client, citée>.
+
 ## Faits propres (8 à 12, tous tirés du brief)
 Choses qui appartiennent à ce client et à aucun concurrent : nom et ce qu'il veut dire, rue, ce qu'on voit
 devant la porte, chiffres donnés, contrainte du métier (« fournée à 17 h »), matières, rituels, horaires,
@@ -30,8 +34,8 @@ Si oui, l'idée est celle du métier : en prendre une autre dans la liste. Écri
 - FIN : non relu = pas fini ; ce site se termine par le verdict du relecteur.
 
 ## Typographie, couleur, images
-Direction, paire de polices (rare, hors polices IA), accent ; photos (du client, sinon `ff photos` +
-requête exacte) ; pourquoi ça colle aux trois adjectifs du brief. Vérifier la calibration (SKILL.md § 3).
+Direction, paire de polices (rare, hors polices IA), accent ; photos (celles du client seulement, selon
+l'aiguillage ; jamais de banque d'images sans décision datée du fondateur) ; pourquoi ça colle aux trois adjectifs du brief. Vérifier la calibration (SKILL.md § 3).
 
 ## Références
 Deux fiches de `docs/veille/demontages/` dont on reprend un geste précis, et ce qu'on en prend.

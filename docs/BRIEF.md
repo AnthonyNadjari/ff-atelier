@@ -94,6 +94,12 @@ Pour chaque avis réel disponible :
 
 ## 8. Photos disponibles
 
+**Des photos sur le site ?** (aiguille la skill, voir `.claude/skills/site-final/aiguillage.md`)
+
+- [ ] Oui, et j'en ai
+- [ ] Oui, mais je n'en ai pas encore → qui les fait : [ ] lui, au téléphone avec le guide photo  [ ] nous, sur place
+- [ ] Peu ou pas, ça me va
+
 Coche ce qui existe réellement chez le client (rien de tout ça ne se fabrique) :
 
 - [ ] Logo (fichier vectoriel ou haute résolution)
@@ -128,6 +134,8 @@ Les 2-4 questions que les clients posent le plus souvent au téléphone, avec la
 
 ## 12. Ressenti du client — pour choisir la direction visuelle
 
+- **Ambiance** (règle le mouvement, voir `aiguillage.md`) : [ ] plutôt calme, posé  [ ] plutôt vivant, qui bouge
+  [ ] je ne sais pas, montrez-moi
 - **3 adjectifs utilisés par le client pour décrire ce qu'il veut** (ses mots, pas les nôtres) :
 - **Sites concurrents qu'il aime** (URL + ce qu'il aime) :
 - **Sites concurrents qu'il n'aime pas** (URL + pourquoi) :
