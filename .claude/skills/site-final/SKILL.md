@@ -51,7 +51,8 @@ Règles d'or :
 
 ## 1. Contrat de direction (avant de toucher au site)
 
-Copier `.claude/skills/site-final/direction-modele.md` en `sites/<slug>/direction.md` et le remplir :
+Lire `.claude/skills/site-final/premiers-ecrans.md` (familles de premier écran). Copier
+`.claude/skills/site-final/direction-modele.md` en `sites/<slug>/direction.md` et le remplir :
 le **Socle** (GOUT § 0 : ce qui fait acheter, point par point, présent ou absent faute de donnée), 8 à 12 faits propres tirés du brief, la phrase-idée, le test du concurrent, le contrat en six lignes
 (thèse, squelette, premier écran, feu d'artifice, refusé, fin), typo/couleur/images, deux références
 démontées. Point de départ des réglages : `node scripts/ff.mjs composer <slug>` ; on s'en écarte avec une
@@ -109,8 +110,9 @@ une heure après.
 - Site neuf : `/nouveau-site <slug>` étapes 1 à 7, en suivant le contrat (pas son résumé final).
   Site existant : `node scripts/ff.mjs build <slug>`.
 - **Le socle d'abord** (GOUT § 0) : plusieurs pages, téléphone en haut, métier + ville, avis, ancienneté, vraies
-  photos, portes par intention. Le premier écran se construit avec lui ; l'originalité vient ensuite, sur un ou
-  deux éléments propres au client. Une piste qui sacrifie le socle au style est refusée, même belle.
+  photos, portes par intention. Le socle dit QUOI ; la construction du premier écran vient de la famille choisie au
+  contrat (`premiers-ecrans.md`), différente des pistes sœurs et des 4 derniers sites. Une piste qui sacrifie le
+  socle au style est refusée, même belle ; une piste qui ressemble à un autre site (`ff ressemblance`) aussi.
 - Bloc sur mesure obligatoire, conforme à la phrase-idée ; un seul feu d'artifice par page, **mais un site
   vivant ET humain** : les quatre lignes MOUVEMENT du contrat animent des choses du métier, pas les titres
   (`docs/GOUT.md` § 2 et § 4), sans rideau, avec deux régimes de courbe.

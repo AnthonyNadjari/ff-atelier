@@ -41,7 +41,7 @@ métier : elle reste, mais ne porte rien.
   plus sombre) → pied. Contact au pouce dans la nav sur téléphone. Écart avec `ff variete` : pierre n'est
   porté que par studio-ambre (coquille flow, colonnes larges) ; ici colonne en escalier, aucune section partagée
   sauf le schéma.
-- PREMIER ÉCRAN : téléphone : nav (nom + « Appeler »), h1 « Fromagerie Ravanel » en serif condensée grasse
+- PREMIER ÉCRAN — famille : objet-du-metier (attribuée le 17 oct 2026, après coup) ; téléphone : nav (nom + « Appeler »), h1 « Fromagerie Ravanel » en serif condensée grasse
   sur deux lignes (≈ 4 rem), deux phrases (cave à 11 °C, six fermes, on goûte), le numéro en mono en gros
   comme lien d'appel, l'horaire du jour ; en bas de l'écran, les premières marches de l'escalier commencent
   et s'assombrissent. Ordinateur : même colonne à gauche, h1 plus grand (≈ 8 rem sur une ligne), l'escalier

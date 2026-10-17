@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { sections, lignesContrat, faits, faitSource, analyserContrat } from '../scripts/ff/contrat.mjs';
+import { sections, lignesContrat, faits, faitSource, analyserContrat, famillesConnues, familleDuContrat, famillesInterdites } from '../scripts/ff/contrat.mjs';
 
 const brief = `# Brief — Fromagerie Ravanel
 - Cave d'affinage à 11 °C sous la boutique, creusée en 2014.
@@ -142,4 +142,26 @@ test('socle : servicePages: false accepte quand le site a au moins deux pages su
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
+});
+
+test('familles de premier écran : lues, écrites, interdites aux sœurs et aux 4 derniers sites', () => {
+  const md = '| id | x |\n|---|---|\n| `carte-sur-photo` | a |\n| `typographique` | b |\n| `diptyque` | c |\n';
+  assert.deepEqual(famillesConnues(md), ['carte-sur-photo', 'typographique', 'diptyque']);
+  assert.equal(familleDuContrat('- PREMIER ÉCRAN — famille : `diptyque` ; puis…'), 'diptyque');
+  assert.equal(familleDuContrat('- PREMIER ÉCRAN : rien'), null);
+  const autres = [
+    { slug: 'x', famille: 'typographique', date: 1 },
+    { slug: 'y', famille: 'carte-sur-photo', date: 9 },
+    { slug: 'z', famille: 'diptyque', date: 2 },
+    { slug: 'w', famille: 'mosaique', date: 3 }, { slug: 'v', famille: 'editorial', date: 4 }, { slug: 'u', famille: 'outil', date: 5 },
+  ];
+  const i = famillesInterdites('x-b', autres);
+  assert.equal(i.get('typographique'), 'piste sœur x');
+  assert.equal(i.get('carte-sur-photo'), 'site récent y');
+  assert.ok(!i.has('diptyque'), 'z est le 5e plus récent : libre');
+  const familles = famillesConnues(md);
+  const avec = bon.replace("- PREMIER ÉCRAN : le nom", "- PREMIER ÉCRAN — famille : carte-sur-photo ; le nom");
+  assert.ok(analyserContrat({ contrat: avec, ...ctx, familles, interdites: i }).echecs.some((e) => /déjà prise/.test(e)));
+  assert.ok(analyserContrat({ contrat: bon, ...ctx, familles, interdites: new Map() }).echecs.some((e) => /famille absente/.test(e)));
+  assert.deepEqual(analyserContrat({ contrat: avec, ...ctx, familles, interdites: new Map() }).echecs, []);
 });

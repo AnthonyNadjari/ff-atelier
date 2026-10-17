@@ -64,7 +64,7 @@ les deux avis. Résultat : le mécanisme est un geste de métier, le contenu et 
   et appeler (adresse, horaires, téléphone, e-mail) → pied sur mesure. Cinq pages par rubrique, même barre. Barre
   d'actions en bas sur téléphone (Appeler, Écrire, Venir). Écart avec `ff variete` : aucun site n'a un mur en
   perspective pour premier écran ; direction `nordique` jamais portée par un menuisier dans l'usine (deux sites).
-- PREMIER ÉCRAN : le mur occupe tout l'écran (quinze panneaux sur ordinateur, douze sur téléphone, chacun à une
+- PREMIER ÉCRAN — famille : carte-sur-photo (attribuée le 17 oct 2026, après coup) ; le mur occupe tout l'écran (quinze panneaux sur ordinateur, douze sur téléphone, chacun à une
   taille que sa photo tient) ; dessus, en bas à gauche (téléphone : sur la moitié basse), une planche claire avec
   un chant de bois et une ombre portée : h1 « Ébéniste et menuisier à Puyricard, Aix-en-Provence », une phrase
   (Guy Andries, depuis 2006, route de Rognes), 06 74 03 78 31 en grand, « 5,0 sur Google, 3 avis », deux portes

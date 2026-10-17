@@ -44,7 +44,7 @@ raclette se réserve le jeudi). La phrase ne marche que pour Ravanel.
   en haut sur téléphone : une barre d'actions collée en bas (Appeler, La semaine, Venir), reprise de Délice.
   Sur ordinateur, une ligne d'ancres + le téléphone en haut à droite. Écart avec `ff variete` : aucun site
   n'a un hero-semaine ni une barre basse ; direction `encre` n'est portée que par encre-noire (tatoueur).
-- PREMIER ÉCRAN : téléphone : « Fromagerie Ravanel » en grotesque large noire (2 lignes), une phrase, la
+- PREMIER ÉCRAN — famille : outil (attribuée le 17 oct 2026, après coup) ; téléphone : « Fromagerie Ravanel » en grotesque large noire (2 lignes), une phrase, la
   barre à tickets (7 talons, aujourd'hui en orange), puis le ticket imprimé du jour sous la fente de la
   caisse ; « Appeler » dans la barre basse. Ordinateur : à gauche le nom (≈ 5 rem), la phrase, le
   téléphone en gros chiffres mono ; à droite (60 %) la barre à tickets et le ticket imprimé.

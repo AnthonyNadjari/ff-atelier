@@ -32,6 +32,9 @@ est celle de ce client. `motion` selon l'aiguillage du contrat (`.claude/skills/
 a répondu « calme », sinon `rich`), sans rideau (`layout.curtain: false` dès qu'il existe). Pas de photo
 de banque légendée « photo d'illustration » : à la place, une composition typographique ou un objet du métier.
 
+Premier écran : choisis une famille de .claude/skills/site-final/premiers-ecrans.md (jamais celle des pistes sœurs
+ni des 4 derniers sites) et écris-la au contrat. Aucun exemple donné dans cette consigne n'est une forme à copier.
+
 Avant de construire : `node scripts/ff.mjs contrat <slug>` sur ton direction.md, vert obligatoire.
 
 Boucle de qualité (version courte de /site-final) : build, `node scripts/ff.mjs verifier <slug> --sans-build`

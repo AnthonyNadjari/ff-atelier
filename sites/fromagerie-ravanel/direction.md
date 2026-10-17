@@ -37,7 +37,7 @@ seule ne tient pas ; l'ardoise qui porte CES lignes et CE geste (entourer, dire 
   L'ardoise (signature) → Une raclette samedi ? (ce qui se réserve, dessins) → On nous demande souvent → Rue de la
   Gare (adresse, horaires du jour, marché, Claire et Théo) → pied `minimal`. Aucune section partagée animée : la
   FAQ est réécrite pour ne pas lever son titre.
-- PREMIER ÉCRAN : téléphone, « Fromagerie Ravanel » à la craie sur deux lignes (≈ 17 vw), soulignée en jaune ;
+- PREMIER ÉCRAN — famille : typographique (attribuée le 17 oct 2026, après coup) ; téléphone, « Fromagerie Ravanel » à la craie sur deux lignes (≈ 17 vw), soulignée en jaune ;
   une phrase grotesque (métier, rue, depuis 2011, six fermes) SOUS le titre, jamais au-dessus ; « Goûtez d'abord.
   On coupe après. », signé Claire ; bouton « Appeler le 04 65 71 23 18 » + horaire du jour. Ordinateur : la meule
   dessinée à droite, 5/12 de la largeur, sa part coupée en jaune.

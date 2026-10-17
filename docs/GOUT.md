@@ -36,15 +36,20 @@ préfère une démo bâtie sur un vrai commerce (fiche Google publique, démo pr
 
 **Et le socle doit être beau** (17 oct 2026, piste D de la fromagerie, socle complet : « un peu mieux, perso je
 l'achèterais pas. Trop 2D, pas beau »). Un site juste mais plat ne se vend pas non plus. Ce qui manquait à D :
-- **de la profondeur** : des plans qui se superposent (une carte, un texte ou un objet posé sur la photo, qui
-  déborde d'une section sur l'autre), de l'ombre portée réelle, une perspective, du relief au défilement ; pas
-  des blocs empilés à plat sur un fond uni ;
-- **l'image en grand** : la photo du lieu ou du produit occupe l'écran (plein cadre au premier écran, pleine
-  largeur entre les sections), pas une vignette arrondie à côté du texte ;
+- **de la profondeur** : des plans qui se superposent, de l'ombre portée réelle, une perspective, du relief au
+  défilement ; pas des blocs empilés à plat sur un fond uni ;
+- **l'image en grand** quand le client a de bonnes photos : pas une vignette arrondie à côté du texte ;
 - **de la matière et de la lumière** : la couleur et la texture viennent des photos et des objets du métier,
   pas d'un aplat beige ou blanc ;
 - le site du studio, que le fondateur aime (mur 3D d'écrans, téléphone posé sur la photo), est la référence
   de profondeur. « Flashy » reste permis s'il est sobre (§ 1).
+
+**Mais jamais une recette de premier écran** (17 oct 2026, soir : quatre sites faits le même jour, même premier
+écran, « encore une fois ils sont très similaires… c'est ça qui m'angoisse »). La consigne « photo plein cadre,
+texte posé sur une carte » avait été écrite ici et dans les consignes des agents : tous l'ont suivie. Le socle dit
+**quoi** est au premier écran ; **comment** vient d'une famille de `.claude/skills/site-final/premiers-ecrans.md`,
+jamais celle des pistes sœurs ni des 4 derniers sites. Une règle de goût qui décrit une mise en page uniformise :
+on écrit le but (« de la profondeur »), jamais la forme (« une carte sur la photo »).
 
 ## 1. Ce qui fait qu'un site est « à nous »
 

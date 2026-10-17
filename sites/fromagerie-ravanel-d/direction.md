@@ -67,7 +67,7 @@ A, B, C (entourer un fromage, glisser une meule d'un âge à l'autre, toucher un
   jalons) → bande photo du bas de la cave → questions (faq/two-columns partagée) → 12 rue de la Gare (contact/simple partagée, sans formulaire) → pied
   `columns`. Cinq pages d'offre (`/services/` puis le nom de l’offre) avec leur photo et le téléphone. Barre d'actions en bas sur
   téléphone : Appeler, Venir.
-- PREMIER ÉCRAN : téléphone : barre (nom, bouton Appeler) ; h1 « Fromager-affineur rue de la Gare, à Annecy » en
+- PREMIER ÉCRAN — famille : carte-sur-photo (attribuée le 17 oct 2026, après coup) ; téléphone : barre (nom, bouton Appeler) ; h1 « Fromager-affineur rue de la Gare, à Annecy » en
   slab grasse sur trois lignes ; une phrase (depuis 2011, six fermes, on goûte) ; le numéro en gros chiffres ;
   la pancarte de porte avec l'état du moment et les horaires du jour ; « Marché de la vieille ville : mardi et
   vendredi matin, avec Théo » ; trois portes (Réserver une raclette, Commander un plateau, Venir). Tour 1 (17 oct

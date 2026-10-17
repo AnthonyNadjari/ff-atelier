@@ -30,7 +30,8 @@ export function sections(md) {
 /** Pure : lignes `- CLÉ :` du contrat (THÈSE, SQUELETTE, PREMIER ÉCRAN, MOUVEMENT, REFUSÉ, FIN). */
 export function lignesContrat(texte) {
   const out = {};
-  const re = /^- ([A-ZÉÈÀ][A-ZÉÈÀ ]{2,})\s*(?:\([^)]*\))?\s*:/gm;
+  // « - PREMIER ÉCRAN — famille : x ; … » : le tiret long et la famille appartiennent à la ligne PREMIER ÉCRAN.
+  const re = /^- ([A-ZÉÈÀ][A-ZÉÈÀ ]{2,}?)\s*(?:\([^)]*\))?\s*(?:[—–]\s*famille)?\s*:/gm;
   const m = [...(texte || '').matchAll(re)];
   m.forEach((x, i) => {
     const fin = i + 1 < m.length ? m[i + 1].index : texte.length;
@@ -58,7 +59,31 @@ const MOTS_COMMUNS = new Set('client clients boutique atelier maison metier depu
 const ATTRIBUTS_MOTEUR = /\bdata-(?:split|reveal|stagger|scrub|parallax|pin|horizontal|frames|draw|counter|marquee|text-fill|stack)\b|\bgsap\b|scrolltrigger|\blenis\b|splittext/i;
 
 /** Pure : analyse d'un contrat. `fiches` = noms (sans .md) des démontages disponibles. */
-export function analyserContrat({ contrat, brief, fiches = [], directions = [], decision = null, config = null, pagesSurMesure = 0 }) {
+/** Pure : ids des familles de premier écran (première colonne du tableau de premiers-ecrans.md). */
+export function famillesConnues(md) {
+  return [...(md || '').matchAll(/^\| `([a-z0-9-]+)` \|/gm)].map((m) => m[1]);
+}
+
+/** Pure : la famille écrite au contrat (« PREMIER ÉCRAN — famille : <id> »), ou null. */
+export function familleDuContrat(md) {
+  return /PREMIER [ÉE]CRAN\s*[—–-]\s*famille\s*:\s*`?([a-z0-9-]+)`?/i.exec(md || '')?.[1] ?? null;
+}
+
+/** Pure : familles interdites pour `slug` : celles des pistes sœurs et des `n` derniers autres sites.
+ *  autres = [{ slug, famille, date }] (date = modification du contrat, ms). */
+export function famillesInterdites(slug, autres, n = 4) {
+  const base = slug.replace(/-[b-h]$/, '');
+  const memeClient = (s) => s === base || s.replace(/-[b-h]$/, '') === base;
+  const avecFamille = autres.filter((a) => a.slug !== slug && a.famille);
+  const soeurs = avecFamille.filter((a) => memeClient(a.slug));
+  const recents = avecFamille.filter((a) => !memeClient(a.slug)).sort((x, y) => y.date - x.date).slice(0, n);
+  const out = new Map();
+  for (const a of soeurs) out.set(a.famille, `piste sœur ${a.slug}`);
+  for (const a of recents) if (!out.has(a.famille)) out.set(a.famille, `site récent ${a.slug}`);
+  return out;
+}
+
+export function analyserContrat({ contrat, brief, fiches = [], directions = [], decision = null, config = null, pagesSurMesure = 0, familles = [], interdites = new Map() }) {
   const echecs = [], alertes = [];
   contrat = (contrat || '').replace(/\r/g, '');
   const sec = sections(contrat);
@@ -121,7 +146,26 @@ export function analyserContrat({ contrat, brief, fiches = [], directions = [], 
   if (config != null && /servicePages:\s*false/.test(stripComments(config)) && pagesSurMesure < 2 && !/une seule page|une page seulement|pages\s*:\s*absent/i.test(norm(socle || '') + norm(contrat))) {
     echecs.push('servicePages: false sans raison : le socle demande plusieurs pages ; écrire dans le Socle « Pages : absent : <raison du brief> » ou rétablir les pages service (ou en fournir au moins deux sur mesure dans pages/)');
   }
+  // Famille de premier écran (premiers-ecrans.md, 17 oct 2026 : quatre sites, même premier écran).
+  if (familles.length) {
+    const fam = familleDuContrat(contrat);
+    if (!fam) echecs.push('PREMIER ÉCRAN : famille absente (« PREMIER ÉCRAN — famille : <id> », voir premiers-ecrans.md)');
+    else if (!familles.includes(fam)) echecs.push(`PREMIER ÉCRAN : famille « ${fam} » inconnue (connues : ${familles.join(', ')} ; une nouvelle s'ajoute d'abord au tableau)`);
+    else if (interdites.has(fam)) echecs.push(`PREMIER ÉCRAN : famille « ${fam} » déjà prise (${interdites.get(fam)}) ; libres : ${familles.filter((x) => !interdites.has(x)).join(', ')}`);
+  }
   return { echecs, alertes, nFaits: f.length };
+}
+
+/** Familles des contrats de tous les sites (hors _), avec la date de leur contrat. */
+function famillesDesSites() {
+  const out = [];
+  for (const d of fs.readdirSync(SITES_DIR, { withFileTypes: true })) {
+    if (!d.isDirectory() || d.name.startsWith('_')) continue;
+    const p = path.join(SITES_DIR, d.name, 'direction.md');
+    if (!fs.existsSync(p)) continue;
+    out.push({ slug: d.name, famille: familleDuContrat(fs.readFileSync(p, 'utf8')), date: fs.statSync(p).mtimeMs });
+  }
+  return out;
 }
 
 export function cmdContrat(args) {
@@ -135,7 +179,9 @@ export function cmdContrat(args) {
     const lire = (f) => (fs.existsSync(path.join(dir, f)) ? fs.readFileSync(path.join(dir, f), 'utf8') : '');
     const brief = lire('brief.md');
     if (!brief) { fail(`${slug} : brief.md absent, impossible de sourcer les faits.`); rouge = true; continue; }
-    const r = analyserContrat({ contrat: lire('direction.md'), brief, fiches, directions, decision: aiguillageDuSite(slug)?.decision ?? null, config: lire('site.config.ts') || null, pagesSurMesure: sitePages(ROOT, slug).length });
+    const famillesMd = path.join(ROOT, '.claude', 'skills', 'site-final', 'premiers-ecrans.md');
+    const familles = fs.existsSync(famillesMd) ? famillesConnues(fs.readFileSync(famillesMd, 'utf8')) : [];
+    const r = analyserContrat({ contrat: lire('direction.md'), brief, fiches, directions, decision: aiguillageDuSite(slug)?.decision ?? null, config: lire('site.config.ts') || null, pagesSurMesure: sitePages(ROOT, slug).length, familles, interdites: famillesInterdites(slug, famillesDesSites()) });
     info(`Contrat de ${slug} (${r.nFaits ?? 0} faits propres)`);
     for (const e of r.echecs) fail(`  ${e}`);
     for (const a of r.alertes) warn(`  ${a}`);

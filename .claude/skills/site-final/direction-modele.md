@@ -27,7 +27,8 @@ Si oui, l'idée est celle du métier : en prendre une autre dans la liste. Écri
 ## Contrat (six lignes)
 - THÈSE : l'idée, et l'arrangement par défaut du métier qu'elle refuse.
 - SQUELETTE : coquille, nav, où vit le contact, ordre des blocs, et l'écart avec `ff variete`.
-- PREMIER ÉCRAN : ce qui est où, à quelle taille, où est le téléphone ou le bouton.
+- PREMIER ÉCRAN — famille : <id de premiers-ecrans.md> ; puis ce qui est où, à quelle taille, où est le téléphone
+  ou le bouton. La famille n'est ni celle des pistes sœurs ni celle des 4 derniers sites (`ff contrat` les liste).
 - MOUVEMENT : quatre lignes (GOUT § 4), chacune avec **l'objet qui bouge** (une chose du métier, pas un titre ni
   un cadre) et **la raison en un mot**. Interdit d'écrire un attribut du moteur dans cette ligne : on décrit ce
   qu'on voit (« la craie s'écrit sur l'ardoise », « les meules s'empilent »), on choisit l'outil après. Dire

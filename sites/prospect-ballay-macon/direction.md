@@ -66,7 +66,7 @@ photos et de ne nommer que les matériaux qu'on y voit.
   (estimation gratuite, zone, horaires, adresse) → pied sur mesure. Barre d'actions en bas sur téléphone (Appeler,
   Estimation gratuite, Venir). Écart avec `ff variete` : direction `mediterranee` portée une seule fois (restaurant),
   jamais par un artisan du bâtiment ; aucun échantillonnier dans les signatures.
-- PREMIER ÉCRAN : photo du barbecue en pierre plein cadre (tout l'écran sur ordinateur, 56 % de la hauteur sur
+- PREMIER ÉCRAN — famille : carte-sur-photo (attribuée le 17 oct 2026, après coup) ; photo du barbecue en pierre plein cadre (tout l'écran sur ordinateur, 56 % de la hauteur sur
   téléphone) ; une carte posée dessus, en bas à gauche, avec une tranche terre cuite (épaisseur d'un carreau) et une
   ombre portée : h1 « Maçon carreleur à Perpignan », la phrase (Alain Ballay, septembre 2000, monuments
   historiques), 06 88 70 72 35 en très grand, « Estimation gratuite », la note 5,0 sur Google (5 avis). Le numéro

@@ -67,7 +67,7 @@ reste rien du bloc. Résultat : l'idée tient, à condition de ne rien y mettre 
   « Devanture » ; puis Avis, Rayons (les cinq familles en grand, photo ou faïence), Vitrine (le bloc), Équipe, Venir
   (contact, la semaine, l'itinéraire) ; pied de page partagé `columns`. Direction `mediterranee` (utilisée une fois, par
   chez-malo, autre nav, autre pied) ; aucun site de `ff variete` n'a flow + Enseigne + mediterranee + columns.
-- PREMIER ÉCRAN : la photo de la devanture en plein cadre (tout l'écran sur ordinateur, la moitié haute sur téléphone) ;
+- PREMIER ÉCRAN — famille : carte-sur-photo (attribuée le 17 oct 2026, après coup) ; la photo de la devanture en plein cadre (tout l'écran sur ordinateur, la moitié haute sur téléphone) ;
   posée dessus, en bas à gauche, une carte papier épaisse avec ombre portée qui déborde sur la section suivante : h1
   « Boulangerie-pâtisserie à Orléans », phrase avec l'adresse et les prénoms, note Google 4,6 (162 avis), numéro en
   grand, état et horaires du jour, deux portes (Commander un gâteau, Venir). Numéro aussi dans l'enseigne, en haut à droite.
