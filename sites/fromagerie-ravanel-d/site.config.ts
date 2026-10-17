@@ -11,7 +11,7 @@ import { defineSite } from '@/lib/schema';
 
 export default defineSite({
   slug: 'fromagerie-ravanel-d',
-  direction: 'nordique',
+  direction: 'terre',
   typography: { display: 'epundaSlab', body: 'hanken' },
   scale: 'normal',
   // Le moteur ne fait rien bouger (aucun titre, aucune section partagée ne se lève) ; le mouvement vient des deux
@@ -21,10 +21,15 @@ export default defineSite({
   layout: {
     nav: 'bar',
     hero: 'custom/Comptoir',
+    // Tour 1 (17 oct 2026, « trop 2D, pas beau ») : services/list (liste à plat) remplacée par des cartes avec photo
+    // (custom/Offres) ; deux bandes photo pleine largeur entre les sections (beaufort, que la planche du plateau
+    // chevauche ; le bas de la cave, avant les questions : la raclette, 1 000 px à la source, serait floue en pleine largeur).
     sections: [
-      { type: 'services', variant: 'list' },
+      { type: 'custom', variant: 'Offres', label: 'Cave et comptoir' },
+      { type: 'custom', variant: 'BandeBeaufort' },
       { type: 'custom', variant: 'Plateau', label: 'Le plateau' },
       { type: 'about', variant: 'timeline' },
+      { type: 'custom', variant: 'BandeCave' },
       { type: 'faq', variant: 'two-columns' },
       { type: 'contact', variant: 'simple' },
     ],
@@ -143,6 +148,7 @@ export default defineSite({
 
   wording: {
     devis: 'Venir',
+    servicesTitle: 'À la cave et au comptoir',
     ctaTitle: 'Un plateau, une raclette ? Appelez Claire.',
     ctaText: 'Plateaux 48 heures avant, appareil à raclette deux jours avant le week-end. Du mardi au samedi, et le dimanche matin.',
     faqTitle: 'Ce qu’on nous demande au comptoir',

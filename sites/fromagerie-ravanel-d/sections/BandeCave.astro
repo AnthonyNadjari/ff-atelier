@@ -1,0 +1,22 @@
+---
+/**
+ * Bande pleine largeur avant les questions : le bas de la photo de cave (les rangs du dessous), un autre cadrage que
+ * le premier écran. Tour 1 (17 oct 2026) : la consigne demandait la raclette en pleine largeur, mais sa source fait
+ * 1 000 px (Wikimedia, original compris) : floue à 952 px @2x (ff nettete) ; elle reste dans sa carte d'offre.
+ */
+import { site } from '@/lib/site';
+import Bande from './parts/Bande.astro';
+const img = site.images.hero;
+---
+
+{img && (
+  <section class="bde-sec">
+    <Bande src={img.src} alt={img.alt} position="50% 88%" hauteur="clamp(14rem, 40svh, 26rem)" />
+  </section>
+)}
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initPlans } from './plans';
+  onPage(initPlans);
+</script>
