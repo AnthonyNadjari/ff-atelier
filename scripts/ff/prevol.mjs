@@ -1,7 +1,7 @@
 // `ff prevol <slug> [<slug-b> …] [--sans-navigateur] [--sans-build]` : TOUS les contrôles mécaniques de /site-final
 // en une commande, dans l'ordre, avec le verrou de build, un seul Chrome à la fois, et une table ✓/✗ à la fin.
 // Par piste : contrat → aiguillage → build → verifier (a11y compris) → audit-motion → nettete → ressemblance
-// (mise en page du premier écran contre tous les sites du registre) → detect → perf ; puis signatures ; puis,
+// (premier écran ET déroulé de l'accueil contre tous les sites du registre) → detect → perf ; puis signatures ; puis,
 // s'il y a plusieurs pistes, pistes (film comparé). Sort en erreur si une étape échoue.
 //
 // Pourquoi (17 oct 2026) : la skill lançait neuf commandes à la main, piste par piste, et en oubliait ; chaque

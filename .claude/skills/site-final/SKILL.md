@@ -88,10 +88,14 @@ colorée ») : le fondateur veut un outil « ultra flexible ».
   écrans côte à côte (`captures/planches/<slug>-pistes.jpg`) et échoue sur une entrée ou une apparition partagée
   (texte du contrat, h1 révélé par lignes des deux côtés, ou même mise en page du premier écran). On le lance après les
   contrats (`--sans-film`, sur le texte) puis après les builds (avec le film). Un échec se corrige dans la piste, pas
-  dans le seuil. **La diversité se mesure contre TOUS les sites, par la mise en page** : chaque piste construite passe
-  `ff ressemblance <piste>` (premier écran téléphone et ordinateur comparé au registre `docs/empreintes/` de tous
-  les sites, pas seulement aux pistes sœurs) ; quatre sites « photo, carte crème posée dessus, numéro en grand,
-  barre de trois boutons » avaient passé `ff pistes` le 17 oct 2026.
+  dans le seuil. **La diversité se mesure contre TOUS les sites, sur la PAGE ENTIÈRE** : chaque piste construite passe
+  `ff ressemblance <piste>` (premier écran téléphone et ordinateur ET déroulé de l'accueil comparés au registre
+  `docs/empreintes/` de tous les sites, pas seulement aux pistes sœurs) ; quatre sites « photo, carte crème posée
+  dessus, numéro en grand, barre de trois boutons » avaient passé `ff pistes` le 17 oct 2026, puis, premier écran
+  corrigé, restaient pareils « dans leur déroulé » (18 oct : même ordre héros, avis, services, à propos, venir,
+  pied ; même menu vers des pages de services ; même longueur). Une piste se pense donc aussi par son ordre de
+  sections, sa navigation (une longue page, plusieurs pages, un accueil-menu, des onglets, un défilement
+  horizontal) et sa longueur, tirés du brief, pas du gabarit « héros, avis, services, à propos, contact ».
 - **Fabrication** : la piste principale par soi-même, les autres par des agents `general-purpose` (deux au plus
   à la fois), chacun avec le contrat de SA piste et les consignes communes
   (`.claude/skills/site-final/modeles/consignes-pistes.md` : lectures, périmètre `sites/<slug>-x/`, verrou de
@@ -144,8 +148,10 @@ node scripts/ff.mjs prevol <slug> [<slug-b> <slug-c>]   # tout, dans l'ordre, un
 ```
 
 `ff prevol` enchaîne contrat, aiguillage, build (verrou), verifier (a11y, typo, ia, ancres, crédits, données de
-test, textes, règles empruntées), audit-motion, nettete, ressemblance (mise en page du premier écran contre tous les
-sites du registre, planche `captures/planches/<slug>-ressemblance.jpg`), detect, perf, signatures, puis `ff pistes`
+test, textes, règles empruntées), audit-motion, nettete, ressemblance (la diversité se mesure sur la page entière :
+premier écran ET déroulé de l'accueil + navigation du site, contre tous les sites du registre ; refus si l'un ou
+l'autre dépasse 0,65 ; planche `captures/planches/<slug>-ressemblance.jpg` avec la colonne « déroulé »), detect,
+perf, signatures, puis `ff pistes`
 (film comparé) s'il y a plusieurs pistes ; un seul Chrome à la fois. Une étape rouge se corrige à la source (`ff typo <slug>
 --corriger` pour la typographie, puis relancer). Détail dans `.ff-tmp/prevol-<slug>.json`.
 

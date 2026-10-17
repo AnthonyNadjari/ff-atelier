@@ -1,5 +1,6 @@
-// `ff ressemblance [<slug> …] [--seuil 0.65] [--tous] [--registre]`
-// Contrôle de diversité par la MISE EN PAGE du premier écran, contre TOUS les sites du registre.
+// `ff ressemblance [<slug> …] [--seuil 0.65] [--seuil-deroule 0.65] [--tous] [--registre]`
+// Contrôle de diversité par la MISE EN PAGE du premier écran ET par le DÉROULÉ de la page entière et du site,
+// contre TOUS les sites du registre. Refus si premier écran > 0,65 (téléphone OU ordinateur) OU déroulé > 0,65.
 // --tous : recalcule les empreintes de tous les sites construits (hors _*) et liste les paires trop proches.
 // --registre : sans Chrome ni build, compare les empreintes déjà versionnées dans docs/empreintes/.
 //
@@ -52,13 +53,59 @@
 //   Sur les 35 sites construits ce jour-là, 0.65 signale 53 paires sur 595 (téléphone ou ordinateur) : la
 //   famille « photo plein écran, h1 blanc dessus » (chez-malo, studio-ambre, forge-delacroix, encre-noire,
 //   maison-aurore, demo-coiffure…) est réellement une seule mise en page.
+//
+// DÉROULÉ (18 oct 2026, scripts/ff/deroule.mjs) : « on scrolle et tout en bas il y a les mêmes informations, tout en
+// haut les mêmes informations » (fondateur). Le premier écran ne suffisait pas : les quatre sites ci-dessus
+// suivaient aussi le même ordre de sections et la même navigation. Empreinte de déroulé (téléphone, page défilée
+// jusqu'en bas) = suite des blocs de premier niveau classés par rôle (héros, avis, services, réalisations, à propos,
+// questions, contact, lieu/horaires, outil, texte long, bandeau d'appel, pied de page, autre) avec hauteur et part
+// d'image ; empreinte de site = pages HTML de dist/, pages de contenu, liens du menu et du pied vers des pages ou
+// des ancres, longueur de l'accueil en écrans, part d'image, modèle de navigation (longue page à ancres / plusieurs
+// pages / accueil-menu sans défilement / défilement horizontal / onglets). Ressemblance de déroulé = 0,5 x accord
+// des suites (distance d'édition normalisée) + 0,5 x accord du site (modèle 1, tranche de pages 1, longueur 0,5,
+// image 0,5 ; sur 3).
+//
+// CALIBRATION DU DÉROULÉ (17 oct 2026 vers 20 h, dist de ce moment ; suites figées dans tests/ressemblance.test.mjs) :
+//
+//                 epi  ballay   acb  rav-d   rav  rav-b  rav-c    ff
+//   epi             —    0.89  0.85   0.75  0.43   0.38   0.42  0.36
+//   ballay       0.89       —  0.77   0.71  0.35   0.37   0.37  0.37
+//   acb          0.85    0.77     —   0.81  0.48   0.42   0.39  0.26
+//   rav-d        0.75    0.71  0.81      —  0.58   0.50   0.48  0.29
+//   rav          0.43    0.35  0.48   0.58     —   0.83   0.81  0.44
+//   rav-b        0.38    0.37  0.42   0.50  0.83      —   0.85  0.45
+//   rav-c        0.42    0.37  0.39   0.48  0.81   0.85      —  0.43
+//   ff           0.36    0.37  0.26   0.29  0.44   0.45   0.43     —
+//
+//   epi    héros › avis › services › réalisations › à propos › lieu › pied ; plusieurs pages (5), 7,7 écrans
+//   ballay héros › avis › réalisations › services › à propos › contact › pied ; plusieurs pages (6), 8 écrans
+//   acb    héros › services › avis › à propos › lieu › pied ; plusieurs pages (5), 7,7 écrans
+//   rav-d  héros › services › à propos › questions › lieu › pied ; plusieurs pages (5, liées du pied), 6,5 écrans
+//   rav    héros › services › contact › questions › lieu › pied ; longue page à ancres, 6,6 écrans
+//   rav-b  héros › services › outil › services › questions › lieu › pied ; longue page à ancres, 7,4 écrans
+//   rav-c  héros › contact › services › questions › lieu › pied ; longue page à ancres, 7,1 écrans
+//   ff     héros › avis › réalisations x3 › à propos › services › autre › questions › appel › pied ; ancres, 10,4 écrans
+//
+//   Paires du fondateur : 0.71 à 0.89. Paires entre les quatre et les autres : 0.58 au plus (rav-d / rav : même
+//   client, même ordre, mais une seule page). SEUIL DE DÉROULÉ 0.65 : au milieu de l'écart 0.58 – 0.71. Le poids
+//   du site (0,5) est ce qui range rav-d avec les prospects : par la seule suite des rôles, rav-d est plus près de
+//   rav (0.83) que d'epi (0.57) ; c'est la navigation vers cinq pages de services qui le rend « pareil ». Les trois
+//   pistes Ravanel (ardoise, escalier, semaine) ont ENTRE ELLES le même déroulé (0.81 – 0.85 : même contenu dans le
+//   même ordre, une seule page de 7 écrans) : le contrôle le dit, c'est vrai, et c'est à corriger dans les pistes.
+//   PARC (36 sites construits, 17 oct 2026 vers 20 h 30) : 263 paires sur 630 au-dessus d'un seuil, 46 par le
+//   premier écran, 238 par le déroulé (21 par les deux). Les 21 sites « plusieurs pages » (menu vers 4 à 8 pages de
+//   services, accueil de 6 à 15 écrans, héros › services › à propos › questions › contact › pied) forment UNE grappe :
+//   chacun en touche 16 à 21 autres. Seul finck-fisch n'a aucun voisin de déroulé. C'est le gabarit du socle, pas un
+//   défaut de mesure : un nouveau site passe en changeant l'ordre et la nature de ses sections ou sa navigation.
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { ROOT, DIST_DIR, resolveSlug, ok, fail, info, warn, parseArgs, listSites } from './util.mjs';
 import { servir } from './film.mjs';
+import { releverDeroule, empreinteDeroule, pagesDist, similariteDeroule, ceQuiEstPareilDeroule, alignerSuites, suiteEnMots, MOTS_ROLE, rafraichirDeroule } from './deroule.mjs';
 
 export const SEUIL_RESSEMBLANCE = 0.65;
+export const SEUIL_DEROULE = 0.65;
 export const COLS = 8, ROWS = 12;
 export const ROLES = ['image', 'carte', 'nav', 'barre-bas', 'texte', 'actions', 'telephone', 'titre'];
 export const MODES = { m: { vw: 390, vh: 844, mobile: true, nom: 'téléphone' }, d: { vw: 1400, vh: 900, mobile: false, nom: 'ordinateur' } };
@@ -319,30 +366,44 @@ export function ceQuiEstPareil(a, b) {
 }
 
 /** Pure : verdict d'une empreinte de site contre le registre (liste d'empreintes de sites). */
-export function verdict(cible, registre, seuil = SEUIL_RESSEMBLANCE) {
+export function verdict(cible, registre, seuil = SEUIL_RESSEMBLANCE, seuilDeroule = SEUIL_DEROULE) {
   const proches = [];
   for (const e of registre) {
     if (e.slug === cible.slug) continue;
     const m = cible.m && e.m ? similarite(cible.m, e.m) : null;
     const d = cible.d && e.d ? similarite(cible.d, e.d) : null;
+    const r = cible.deroule && e.deroule ? similariteDeroule(cible.deroule, e.deroule) : null;
     const max = Math.max(m ?? 0, d ?? 0);
-    const trop = (m ?? 0) > seuil || (d ?? 0) > seuil;
-    const pareil = trop ? [m > seuil ? `téléphone : ${ceQuiEstPareil(cible.m, e.m)}` : null, d > seuil ? `ordinateur : ${ceQuiEstPareil(cible.d, e.d)}` : null].filter(Boolean) : [];
-    proches.push({ slug: e.slug, m, d, max, trop, pareil });
+    const tropEcran = (m ?? 0) > seuil || (d ?? 0) > seuil;
+    const tropDeroule = (r ?? 0) > seuilDeroule;
+    const trop = tropEcran || tropDeroule;
+    const pareil = [
+      m > seuil ? `téléphone : ${ceQuiEstPareil(cible.m, e.m)}` : null,
+      d > seuil ? `ordinateur : ${ceQuiEstPareil(cible.d, e.d)}` : null,
+      tropDeroule ? `déroulé : ${ceQuiEstPareilDeroule(cible.deroule, e.deroule)}` : null,
+    ].filter(Boolean);
+    proches.push({ slug: e.slug, m, d, max, deroule: r, tropEcran, tropDeroule, trop, pareil });
   }
-  proches.sort((x, y) => y.max - x.max || (y.m ?? 0) - (x.m ?? 0));
-  return { slug: cible.slug, seuil, proches, echec: proches.some((p) => p.trop) };
+  proches.sort((x, y) => Math.max(y.max, y.deroule ?? 0) - Math.max(x.max, x.deroule ?? 0) || y.max - x.max || (y.m ?? 0) - (x.m ?? 0));
+  return { slug: cible.slug, seuil, seuilDeroule, proches, echec: proches.some((p) => p.trop) };
 }
 
 /** Pure : toutes les paires trop proches d'un registre. */
-export function pairesTropProches(registre, seuil = SEUIL_RESSEMBLANCE) {
+export function pairesTropProches(registre, seuil = SEUIL_RESSEMBLANCE, seuilDeroule = SEUIL_DEROULE) {
   const out = [];
   for (let i = 0; i < registre.length; i++) for (let j = i + 1; j < registre.length; j++) {
     const a = registre[i], b = registre[j];
     const m = a.m && b.m ? similarite(a.m, b.m) : null, d = a.d && b.d ? similarite(a.d, b.d) : null;
-    if ((m ?? 0) > seuil || (d ?? 0) > seuil) out.push({ a: a.slug, b: b.slug, m, d, pareil: ceQuiEstPareil((m ?? 0) > seuil ? a.m : a.d, (m ?? 0) > seuil ? b.m : b.d) });
+    const r = a.deroule && b.deroule ? similariteDeroule(a.deroule, b.deroule) : null;
+    const tropEcran = (m ?? 0) > seuil || (d ?? 0) > seuil, tropDeroule = (r ?? 0) > seuilDeroule;
+    if (!tropEcran && !tropDeroule) continue;
+    const pareil = [
+      tropEcran ? ceQuiEstPareil((m ?? 0) > seuil ? a.m : a.d, (m ?? 0) > seuil ? b.m : b.d) : null,
+      tropDeroule ? `déroulé : ${ceQuiEstPareilDeroule(a.deroule, b.deroule)}` : null,
+    ].filter(Boolean).join(' | ');
+    out.push({ a: a.slug, b: b.slug, m, d, deroule: r, tropEcran, tropDeroule, pareil });
   }
-  return out.sort((x, y) => Math.max(y.m ?? 0, y.d ?? 0) - Math.max(x.m ?? 0, x.d ?? 0));
+  return out.sort((x, y) => Math.max(y.m ?? 0, y.d ?? 0, y.deroule ?? 0) - Math.max(x.m ?? 0, x.d ?? 0, x.deroule ?? 0));
 }
 
 /** Pure : la grille en texte (une lettre par rôle), pour lire une empreinte d'un coup d'œil. */
@@ -357,7 +418,8 @@ export function grilleTexte(g, cols = COLS) {
 
 export function lireRegistre(dir = REGISTRE) {
   if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch { return null; } }).filter((e) => e?.slug && !e.slug.startsWith('_'));
+  return fs.readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch { return null; } }).filter((e) => e?.slug && !e.slug.startsWith('_'))
+    .map((e) => (e.deroule ? { ...e, deroule: rafraichirDeroule(e.deroule) } : e));
 }
 
 function ecrireEmpreinte(e) {
@@ -391,7 +453,7 @@ export async function calculerEmpreintes(slugs, { ecrire = true } = {}) {
       if (!fs.existsSync(path.join(DIST_DIR, slug, 'index.html'))) { warn(`${slug} : dist absent (build en cours ?), sauté.`); continue; }
       const srv = servir(path.join(DIST_DIR, slug));
       await new Promise((r) => srv.listen(0, '127.0.0.1', r));
-      const e = { slug, date: new Date().toISOString().slice(0, 10), version: 1 };
+      const e = { slug, date: new Date().toISOString().slice(0, 10), version: 2 };
       try {
         for (const [k, M] of Object.entries(MODES)) {
           const ctx = await browser.newContext({ viewport: { width: M.vw, height: M.vh }, isMobile: M.mobile, hasTouch: M.mobile, deviceScaleFactor: 1 });
@@ -403,6 +465,23 @@ export async function calculerEmpreintes(slugs, { ecrire = true } = {}) {
             e[k] = empreinteMode(rel);
             const png = await page.screenshot().catch(() => page.screenshot());
             await sharp(png).jpeg({ quality: 72 }).toFile(path.join(CAPTURES, `${slug}-${k}.jpg`));
+            if (k === 'm') {
+              // Déroulé (téléphone) : défiler jusqu'en bas pour jouer les apparitions, puis relever la page entière.
+              await page.evaluate(async () => {
+                for (let n = 0; n < 120; n++) {
+                  const avant = scrollY;
+                  scrollTo({ top: scrollY + innerHeight * 0.8, behavior: 'instant' });
+                  await new Promise((r) => setTimeout(r, 120));
+                  if (scrollY === avant) break;
+                }
+              });
+              await page.waitForTimeout(600);
+              await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+              await page.waitForTimeout(300);
+              const relD = await page.evaluate(releverDeroule);
+              if (process.env.FF_DEROULE_BRUT) { fs.mkdirSync(process.env.FF_DEROULE_BRUT, { recursive: true }); fs.writeFileSync(path.join(process.env.FF_DEROULE_BRUT, `${slug}.json`), JSON.stringify(relD)); }
+              e.deroule = empreinteDeroule(relD, pagesDist(path.join(DIST_DIR, slug)));
+            }
           } finally {
             await ctx.close();
           }
@@ -440,29 +519,67 @@ function schema(g, larg, haut) {
   return Buffer.from(`<svg width="${larg}" height="${haut}" xmlns="http://www.w3.org/2000/svg">${rects}</svg>`);
 }
 
-async function planche(cible, proches, sharp) {
+const xml = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/** Pure : lignes de la colonne « déroulé » (ce site à gauche, le plus proche à droite, alignés). */
+export function lignesDeroule(a, b) {
+  const { paires } = alignerSuites(a?.roles || [], b?.roles || []);
+  return paires.map(([x, y]) => ({ gauche: x ? MOTS_ROLE[x] || x : '—', droite: y ? MOTS_ROLE[y] || y : '—', etat: x && y ? (x === y ? 'pareil' : (cout(x, y) < 1 ? 'voisin' : 'autre')) : 'trou' }));
+}
+const cout = (x, y) => alignerSuites([x], [y]).distance;
+
+function colonneDeroule(cible, proche, L, H, E) {
+  const W = 300;
+  const a = cible.deroule, b = proche?.empreinte?.deroule;
+  const lignes = a ? lignesDeroule(a, b) : [];
+  const fond = { pareil: '#cfe8c6', voisin: '#f1e2ae', autre: '#ffffff', trou: '#eeeeee' };
+  const hL = Math.max(16, Math.min(30, Math.floor((H - 120) / Math.max(1, lignes.length))));
+  let y = E + 26;
+  const parts = [`<rect width="${W}" height="${H + E}" fill="#fafafa"/>`, `<rect width="${W}" height="${E}" fill="#ff0"/>`,
+    `<text x="4" y="15" font-size="12" font-family="Arial">${xml(proche && b ? `déroulé · ${proche.slug} ${proche.deroule?.toFixed(2) ?? '?'}` : 'déroulé (pas d\'empreinte)')}</text>`,
+    `<text x="6" y="${E + 16}" font-size="11" font-family="Arial" font-weight="bold">ce site</text>`,
+    `<text x="${W / 2 + 4}" y="${E + 16}" font-size="11" font-family="Arial" font-weight="bold">${xml(proche?.slug ?? '')}</text>`];
+  for (const l of lignes) {
+    parts.push(`<rect x="2" y="${y}" width="${W - 4}" height="${hL - 2}" fill="${fond[l.etat]}"/>`);
+    parts.push(`<text x="6" y="${y + hL * 0.62}" font-size="12" font-family="Arial">${xml(l.gauche)}</text>`);
+    parts.push(`<text x="${W / 2 + 4}" y="${y + hL * 0.62}" font-size="12" font-family="Arial">${xml(l.droite)}</text>`);
+    y += hL;
+  }
+  const site = (d) => (d?.site ? `${d.site.modele}, ${d.site.pagesContenu} p. de contenu, ${d.site.ecrans} écrans` : '');
+  y += 14;
+  for (const [t, d] of [['ce site', a], [proche?.slug ?? '', b]]) if (d) { parts.push(`<text x="6" y="${y}" font-size="10" font-family="Arial">${xml(`${t} : ${site(d)}`)}</text>`); y += 14; }
+  return { W, svg: Buffer.from(`<svg width="${W}" height="${H + E}" xmlns="http://www.w3.org/2000/svg">${parts.join('')}</svg>`) };
+}
+
+async function planche(cible, proches, sharp, procheDeroule) {
   const L = 260, H = Math.round(L * 844 / 390), E = 22;
   const colonne = async (slug, empreinte, label) => {
     const cap = path.join(CAPTURES, `${slug}-m.jpg`);
     const fond = fs.existsSync(cap) ? await sharp(cap).resize(L, H, { fit: 'cover', position: 'top' }).png().toBuffer() : await sharp(schema(empreinte.grille, L, H)).png().toBuffer();
-    const eti = Buffer.from(`<svg width="${L}" height="${E}"><rect width="${L}" height="${E}" fill="#ff0"/><text x="4" y="15" font-size="12" font-family="Arial">${label.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</text></svg>`);
+    const eti = Buffer.from(`<svg width="${L}" height="${E}"><rect width="${L}" height="${E}" fill="#ff0"/><text x="4" y="15" font-size="12" font-family="Arial">${xml(label)}</text></svg>`);
     return sharp({ create: { width: L, height: H + E, channels: 3, background: '#fff' } }).composite([{ input: eti, top: 0, left: 0 }, { input: fond, top: E, left: 0 }]).png().toBuffer();
   };
   const cols = [await colonne(cible.slug, cible.m, `${cible.slug} (ce site)`)];
   for (const p of proches.slice(0, 3)) cols.push(await colonne(p.slug, p.empreinte.m, `${p.slug} · tél. ${p.m?.toFixed(2) ?? '?'} · ordi. ${p.d?.toFixed(2) ?? '?'}`));
+  const der = colonneDeroule(cible, procheDeroule, L, H, E);
+  const larg = cols.length * (L + 6) + der.W;
   fs.mkdirSync(path.join(ROOT, 'captures', 'planches'), { recursive: true });
   const sortie = path.join(ROOT, 'captures', 'planches', `${cible.slug}-ressemblance.jpg`);
-  await sharp({ create: { width: cols.length * (L + 6), height: H + E, channels: 3, background: '#777' } }).composite(cols.map((input, i) => ({ input, left: i * (L + 6), top: 0 }))).jpeg({ quality: 78 }).toFile(sortie);
+  await sharp({ create: { width: larg, height: H + E, channels: 3, background: '#777' } })
+    .composite([...cols.map((input, i) => ({ input, left: i * (L + 6), top: 0 })), { input: await sharp(der.svg).png().toBuffer(), left: cols.length * (L + 6), top: 0 }])
+    .jpeg({ quality: 78 }).toFile(sortie);
   return path.relative(ROOT, sortie);
 }
 
 /* ---------- commande ---------- */
 
 const construits = () => listSites({ excludeUnderscore: true }).filter((s) => fs.existsSync(path.join(DIST_DIR, s, 'index.html')));
+const f2 = (x) => (x == null ? '—' : x.toFixed(2));
 
 export async function cmdRessemblance(args) {
   const { positional, flags } = parseArgs(args);
   const seuil = flags.seuil != null && flags.seuil !== true ? Number(flags.seuil) : SEUIL_RESSEMBLANCE;
+  const seuilD = flags['seuil-deroule'] != null && flags['seuil-deroule'] !== true ? Number(flags['seuil-deroule']) : SEUIL_DEROULE;
   const existants = new Set(listSites());
   const registre = lireRegistre().filter((e) => existants.has(e.slug));
   let nouvelles;
@@ -473,11 +590,13 @@ export async function cmdRessemblance(args) {
     const manquants = voulus.filter((s) => !nouvelles.some((e) => e.slug === s));
     if (manquants.length) { fail(`pas d'empreinte dans docs/empreintes/ pour ${manquants.join(', ')} : lancer \`ff ressemblance <slug>\` sur un poste avec Chrome.`); process.exit(1); }
     info(`Registre seul (sans Chrome) : ${registre.length} empreintes.`);
+    const sansDeroule = registre.filter((e) => !e.deroule).map((e) => e.slug);
+    if (sansDeroule.length) warn(`sans empreinte de déroulé (registre d'avant le 18 oct) : ${sansDeroule.join(', ')} — premier écran seul pour eux.`);
   } else {
     const slugs = flags.tous ? construits() : (positional.length ? positional : [undefined]).map((s) => resolveSlug(s));
     const absents = slugs.filter((s) => !fs.existsSync(path.join(DIST_DIR, s, 'index.html')));
     if (absents.length) { fail(`dist absent pour ${absents.join(', ')} : lance d'abord \`ff build <slug>\`.`); process.exit(1); }
-    info(`Empreinte du premier écran (téléphone puis ordinateur) : ${slugs.length} site(s)…`);
+    info(`Empreinte du premier écran (téléphone puis ordinateur) et du déroulé (téléphone) : ${slugs.length} site(s)…`);
     nouvelles = await calculerEmpreintes(slugs);
   }
   const parSlug = new Map(registre.map((e) => [e.slug, e]));
@@ -488,21 +607,29 @@ export async function cmdRessemblance(args) {
   let echec = false;
 
   if (flags.tous) {
-    const paires = pairesTropProches(tout, seuil);
-    info(`Registre : ${tout.length} sites (docs/empreintes/), seuil ${seuil}.`);
-    for (const p of paires) fail(`${p.a} / ${p.b} : tél. ${p.m?.toFixed(2)} · ordi. ${p.d?.toFixed(2)} — ${p.pareil}`);
-    if (paires.length) { echec = true; fail(`${paires.length} paire(s) de sites trop proches par la mise en page du premier écran.`); }
-    else ok('Aucune paire de sites ne dépasse le seuil.');
+    const paires = pairesTropProches(tout, seuil, seuilD);
+    info(`Registre : ${tout.length} sites (docs/empreintes/), seuils : premier écran ${seuil}, déroulé ${seuilD}.`);
+    for (const p of paires) fail(`${p.a} / ${p.b} : tél. ${f2(p.m)} · ordi. ${f2(p.d)} · déroulé ${f2(p.deroule)} — ${p.pareil}`);
+    const nE = paires.filter((p) => p.tropEcran).length, nD = paires.filter((p) => p.tropDeroule).length, nDeux = paires.filter((p) => p.tropEcran && p.tropDeroule).length;
+    if (paires.length) { echec = true; fail(`${paires.length} paire(s) de sites trop proches : ${nE} par le premier écran, ${nD} par le déroulé (dont ${nDeux} par les deux).`); }
+    else ok('Aucune paire de sites ne dépasse les seuils.');
   } else {
     for (const e of nouvelles) {
-      const v = verdict(e, tout, seuil);
+      const v = verdict(e, tout, seuil, seuilD);
       info(`\n${e.slug} — h1 « ${e.m.h1Texte ?? '?'} »\n${grilleTexte(e.m.grille).split('\n').map((l) => '  ' + l).join('\n')}`);
-      for (const p of [...v.proches.filter((x) => x.trop), ...v.proches.filter((x) => !x.trop).slice(0, 3)]) (p.trop ? fail : ok)(`${p.slug.padEnd(26)} tél. ${p.m?.toFixed(2) ?? '—'} · ordi. ${p.d?.toFixed(2) ?? '—'}${p.trop ? '  ' + p.pareil.join(' | ') : ''}`);
-      // Planche au téléphone : les trois plus proches AU TÉLÉPHONE (ce que voit le fondateur sur son écran).
-      const plan = await planche(e, [...v.proches].sort((x, y) => (y.m ?? 0) - (x.m ?? 0)).map((p) => ({ ...p, empreinte: parSlug.get(p.slug) })), sharp);
-      info(`Planche : ${plan} (ce site à gauche, les trois plus proches au téléphone à droite).`);
-      if (v.echec) { echec = true; fail(`${e.slug} ressemble trop à ${v.proches.filter((p) => p.trop).map((p) => p.slug).join(', ')} (seuil ${seuil}) : réinventer le premier écran (SKILL.md § 1bis).`); }
-      else ok(`${e.slug} : aucun site du registre au-dessus de ${seuil}.`);
+      if (e.deroule) info(`  déroulé : ${suiteEnMots(e.deroule.roles)}\n  site : ${e.deroule.site.modele}, ${e.deroule.site.pagesHtml} pages HTML dont ${e.deroule.site.pagesContenu} de contenu, menu vers ${e.deroule.site.navPages} page(s) et ${e.deroule.site.navAncres} ancre(s), ${e.deroule.site.ecrans} écrans`);
+      for (const p of [...v.proches.filter((x) => x.trop), ...v.proches.filter((x) => !x.trop).slice(0, 3)]) (p.trop ? fail : ok)(`${p.slug.padEnd(26)} tél. ${f2(p.m)} · ordi. ${f2(p.d)} · déroulé ${f2(p.deroule)}${p.trop ? '  ' + p.pareil.join(' | ') : ''}`);
+      // Planche au téléphone : les trois plus proches AU TÉLÉPHONE (ce que voit le fondateur sur son écran),
+      // puis la colonne « déroulé » alignée avec le plus proche PAR LE DÉROULÉ.
+      const parDeroule = [...v.proches].filter((p) => p.deroule != null).sort((x, y) => y.deroule - x.deroule)[0];
+      const plan = await planche(e, [...v.proches].sort((x, y) => (y.m ?? 0) - (x.m ?? 0)).map((p) => ({ ...p, empreinte: parSlug.get(p.slug) })), sharp, parDeroule ? { ...parDeroule, empreinte: parSlug.get(parDeroule.slug) } : null);
+      info(`Planche : ${plan} (ce site à gauche, les trois plus proches au téléphone, puis le déroulé contre le plus proche par le déroulé).`);
+      if (v.echec) {
+        echec = true;
+        const ecran = v.proches.filter((p) => p.tropEcran).map((p) => p.slug), der = v.proches.filter((p) => p.tropDeroule).map((p) => p.slug);
+        if (ecran.length) fail(`${e.slug} : premier écran trop proche de ${ecran.join(', ')} (seuil ${seuil}) : réinventer le premier écran (SKILL.md § 1bis).`);
+        if (der.length) fail(`${e.slug} : déroulé trop proche de ${der.join(', ')} (seuil ${seuilD}) : changer l'ordre et la nature des sections, la navigation ou la longueur (SKILL.md § 1bis).`);
+      } else ok(`${e.slug} : aucun site du registre au-dessus des seuils (premier écran ${seuil}, déroulé ${seuilD}).`);
     }
   }
   if (echec) process.exitCode = 1;
