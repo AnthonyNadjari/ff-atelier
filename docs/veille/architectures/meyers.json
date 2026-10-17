@@ -1,0 +1,1164 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://meyers.dk/",
+  "nom": "meyers",
+  "date": "2026-10-17",
+  "identite": {
+    "title": "Ny kogebog på gaden: Meyers Hverdagsgrøntsager | Meyers",
+    "siteName": "",
+    "lang": "da",
+    "description": "Smag det hele før de andre og få nyheder og skønne opskrifter. Bestil catering til fest og højtider, frokost til firmaer og tag på Madkursus i Meyers ",
+    "technologies": [
+      "Nuxt",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#d6ceb4",
+      "h1": "NY KOGEBOG PÅ GADEN: MEYERS HVERDAGSGRØNTSAGER",
+      "h1Visible": true,
+      "mots": 149,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.hero-image"
+      },
+      "boutonPrincipal": {
+        "texte": "Samtykke",
+        "x": 270,
+        "y": 278.8125,
+        "cx": 0.2916666666666667,
+        "cy": 0.343125,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#CybotCookiebotDialogBodyUnderlay",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#CybotCookiebotDialogBodyUnderlay"
+      },
+      "barreBas": null,
+      "scrollHeight": 8656,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.table",
+        "famille": "\"Meyer Grand\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 128,
+        "graisse": "700",
+        "interlignage": 0.75,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-2.56px"
+      },
+      "h2": {
+        "selecteur": "h2.mb-4",
+        "famille": "\"Meyer Grand\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 32,
+        "graisse": "700",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.64px"
+      },
+      "p": {
+        "selecteur": "p.mt-sm",
+        "famille": "\"Meyer Grand\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 18,
+        "graisse": "300",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#CybotCookiebotDialogBodyButtonDecline",
+        "famille": "sans-serif",
+        "taille": 15,
+        "graisse": "600",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.1px"
+      },
+      "nav": {
+        "selecteur": "a.motion-trigger",
+        "famille": "\"Meyer Grand\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 18,
+        "graisse": "700",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Meyer Grand",
+          "url": "/_nuxt/MeyerGrandLight.DoBKzsDB.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Meyer Grand",
+          "url": "/_nuxt/MeyerGrandBold.DA-n7oWJ.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Graphik",
+          "url": "/_nuxt/GraphikLight.mHtg-b2o.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Graphik",
+          "url": "/_nuxt/GraphikRegular.SXG1SlTA.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Graphik",
+          "url": "/_nuxt/GraphikMedium.BedmpGd6.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hatton",
+          "url": "/_nuxt/Hatton-Bold.W0xPUg3h.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Dahlia",
+          "url": "/_nuxt/Dahlia-Regular.CtE9FZVu.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Thin.ZTbBWAAM.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-ExtraLight.D56lmexr.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Light.DEF_sYaU.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Regular.pMcw8h-0.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-SemiBold.DQ3eegz_.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Bold.eaCiuPTC.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Black.Bg3glOFf.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://meyers.dk/_nuxt/MeyerGrandBold.DA-n7oWJ.woff2",
+        "https://meyers.dk/_nuxt/MeyerGrandLight.DoBKzsDB.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Meyer Grand",
+          "n": 349
+        },
+        {
+          "famille": "sans-serif",
+          "n": 13
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#d6ceb4",
+      "texte": "#291d1a",
+      "fondsBruts": [
+        {
+          "hex": "#d6ceb4",
+          "n": 6,
+          "poids": 14007417.75
+        },
+        {
+          "hex": "#f4f2e0",
+          "n": 2,
+          "poids": 11598007.5
+        },
+        {
+          "hex": "#484c38",
+          "n": 5,
+          "poids": 3333895
+        },
+        {
+          "hex": "#e5e0ca",
+          "n": 7,
+          "poids": 1533789.90625
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#75313d",
+          "n": 3,
+          "poids": 694737
+        },
+        {
+          "hex": "#291d1a",
+          "n": 6,
+          "poids": 585537
+        },
+        {
+          "hex": "#702b1d",
+          "n": 1,
+          "poids": 231579
+        },
+        {
+          "hex": "#6b401e",
+          "n": 1,
+          "poids": 231579
+        },
+        {
+          "hex": "#bf8f2d",
+          "n": 3,
+          "poids": 47760
+        },
+        {
+          "hex": "#f3c2b0",
+          "n": 1,
+          "poids": 16240
+        },
+        {
+          "hex": "#c7bb9f",
+          "n": 1,
+          "poids": 11999
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#291d1a",
+          "n": 160,
+          "poids": 5124
+        },
+        {
+          "hex": "#f4f2e0",
+          "n": 157,
+          "poids": 3014
+        },
+        {
+          "hex": "#bf8f2d",
+          "n": 9,
+          "poids": 95
+        }
+      ],
+      "nbImages": 25,
+      "nbVideos": 0,
+      "nbFondsImage": 25,
+      "masques": 121,
+      "fonds": [
+        {
+          "hex": "#d6ceb4",
+          "n": 6,
+          "poids": 14007417.75,
+          "part": 0.417
+        },
+        {
+          "hex": "#f4f2e0",
+          "n": 2,
+          "poids": 11598007.5,
+          "part": 0.345
+        },
+        {
+          "hex": "#484c38",
+          "n": 5,
+          "poids": 3333895,
+          "part": 0.099
+        },
+        {
+          "hex": "#e5e0ca",
+          "n": 7,
+          "poids": 1533789.90625,
+          "part": 0.046
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.039
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#291d1a",
+          "n": 160,
+          "poids": 5124,
+          "part": 0.622
+        },
+        {
+          "hex": "#f4f2e0",
+          "n": 157,
+          "poids": 3014,
+          "part": 0.366
+        },
+        {
+          "hex": "#bf8f2d",
+          "n": 9,
+          "poids": 95,
+          "part": 0.012
+        }
+      ],
+      "contraste": 10.39
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "header.relative",
+          "ecrans": 8.6
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "transform 0.35s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 142
+        },
+        {
+          "valeur": "transform 0.45s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 63
+        },
+        {
+          "valeur": "opacity 0.25s ease",
+          "n": 51
+        },
+        {
+          "valeur": "opacity 0.4s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 51
+        },
+        {
+          "valeur": "animation hero-word-reveal-62bb4c3f 0.75s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 6
+        },
+        {
+          "valeur": "background-color 0.4s ease",
+          "n": 4
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "transform 0.55s cubic-bezier(0.33, 1, 0.68, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "width 0.5s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "img.hero-image",
+        "score": 3,
+        "animations": [
+          "animation hero-media-zoom-in-load-62bb4c3f 1.75s cubic-bezier(0.75, 0, 0.2, 1)"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.frame",
+      "sections": [
+        {
+          "selecteur": "div.hero-primary-content",
+          "titre": "DET, VI ARBEJDER MED LIGE NU",
+          "top": 900,
+          "hauteur": 6683,
+          "ecrans": 7.4,
+          "mots": 1118,
+          "images": 24,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "dialog"
+          ]
+        },
+        {
+          "selecteur": "section.bg-theme-distant",
+          "titre": "TILMELD DIG VORES NYHEDSBREV",
+          "top": 7743,
+          "hauteur": 907,
+          "ecrans": 1,
+          "mots": 116,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav#main-navigation",
+        "hauteur": 144,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Gå til forsiden",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "KANTINE KANTINE KANTINE",
+            "href": "/kantine",
+            "bouton": false
+          },
+          {
+            "texte": "FROKOSTORDNING FROKOSTORDNING FROKOSTORD",
+            "href": "/frokost",
+            "bouton": false
+          },
+          {
+            "texte": "CATERING CATERING & & EVENTS EVENTS CATE",
+            "href": "/catering",
+            "bouton": false
+          },
+          {
+            "texte": "MADKURSER MADKURSER & & TEAMBUILDING TEA",
+            "href": "/madkurser",
+            "bouton": false
+          },
+          {
+            "texte": "OPSKRIFTER OPSKRIFTER OPSKRIFTER",
+            "href": "/opskrifter",
+            "bouton": false
+          },
+          {
+            "texte": "RESTAURANTER RESTAURANTER & & BAGERIER B",
+            "href": "/restauranter-bagerier",
+            "bouton": false
+          },
+          {
+            "texte": "FOODSERVICE FOODSERVICE FOODSERVICE",
+            "href": "/foodservice",
+            "bouton": false
+          },
+          {
+            "texte": "DETAIL DETAIL DETAIL",
+            "href": "/produkter",
+            "bouton": false
+          },
+          {
+            "texte": "PROJEKTER PROJEKTER & & RÅDGIVNING RÅDGI",
+            "href": "/raadgivning-og-projekter",
+            "bouton": false
+          },
+          {
+            "texte": "EVENTKALENDER EVENTKALENDER EVENTKALENDE",
+            "href": "https://meyers.dk/events",
+            "bouton": false
+          },
+          {
+            "texte": "KØB KØB GAVEKORT GAVEKORT KØB GAVEKORT",
+            "href": "https://meyers.understory.io/giftcards",
+            "bouton": false
+          },
+          {
+            "texte": "KUNDESERVICE KUNDESERVICE KUNDESERVICE",
+            "href": "/kundeservice",
+            "bouton": false
+          },
+          {
+            "texte": "MIT MEYERS",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.sticky",
+        "liens": [
+          {
+            "texte": "VILKÅR VILKÅR VILKÅR",
+            "href": "/vilkaar",
+            "bouton": false
+          },
+          {
+            "texte": "TILGÆNGELIGHEDSERKLÆRING TILGÆNGELIGHEDS",
+            "href": "/tilgaengelighedserklaering",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "FACEBOOK FACEBOOK FACEBOOK",
+          "href": "https://www.facebook.com/meyersmad/?locale=da_DK"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#CybotCookiebotDialog",
+          "position": "fixed",
+          "hauteur": 498,
+          "largeur": 900,
+          "enBas": false,
+          "mots": 78
+        },
+        {
+          "selecteur": "div#CybotCookiebotDialogBodyUnderlay",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "nav#main-navigation",
+          "position": "fixed",
+          "hauteur": 144,
+          "largeur": 1392,
+          "enBas": false,
+          "mots": 65
+        },
+        {
+          "selecteur": "header.relative",
+          "position": "sticky",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 6
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "C:\\Users\\nadja\\ff-atelier\\docs\\veille\\architectures\\captures\\meyers-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#d6ceb4",
+      "h1": "NY KOGEBOG PÅ GADEN: MEYERS HVERDAGSGRØNTSAGER",
+      "h1Visible": true,
+      "mots": 85,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.hero-image"
+      },
+      "boutonPrincipal": {
+        "texte": "Tillad alle",
+        "x": 23,
+        "y": 631,
+        "cx": 0.5,
+        "cy": 0.7819905213270142,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#CybotCookiebotDialogBodyUnderlay",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#CybotCookiebotDialogBodyUnderlay"
+      },
+      "barreBas": null,
+      "scrollHeight": 11762,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.table",
+        "famille": "\"Meyer Grand\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 33.5844,
+        "graisse": "700",
+        "interlignage": 0.9,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.671688px"
+      },
+      "h2": {
+        "selecteur": "h2.mb-4",
+        "famille": "\"Meyer Grand\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 24,
+        "graisse": "700",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.48px"
+      },
+      "p": {
+        "selecteur": "p.mt-sm",
+        "famille": "\"Meyer Grand\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 14,
+        "graisse": "300",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",
+        "famille": "sans-serif",
+        "taille": 15,
+        "graisse": "600",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.1px"
+      },
+      "nav": {
+        "selecteur": "a.motion-trigger",
+        "famille": "\"Meyer Grand\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 14,
+        "graisse": "700",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Meyer Grand",
+          "url": "/_nuxt/MeyerGrandLight.DoBKzsDB.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Meyer Grand",
+          "url": "/_nuxt/MeyerGrandBold.DA-n7oWJ.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Graphik",
+          "url": "/_nuxt/GraphikLight.mHtg-b2o.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Graphik",
+          "url": "/_nuxt/GraphikRegular.SXG1SlTA.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Graphik",
+          "url": "/_nuxt/GraphikMedium.BedmpGd6.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hatton",
+          "url": "/_nuxt/Hatton-Bold.W0xPUg3h.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Dahlia",
+          "url": "/_nuxt/Dahlia-Regular.CtE9FZVu.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Thin.ZTbBWAAM.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-ExtraLight.D56lmexr.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Light.DEF_sYaU.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Regular.pMcw8h-0.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-SemiBold.DQ3eegz_.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Bold.eaCiuPTC.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merlod Norme",
+          "url": "/_nuxt/MerlodNorme-Black.Bg3glOFf.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://meyers.dk/_nuxt/MeyerGrandBold.DA-n7oWJ.woff2",
+        "https://meyers.dk/_nuxt/MeyerGrandLight.DoBKzsDB.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Meyer Grand",
+          "n": 293
+        },
+        {
+          "famille": "sans-serif",
+          "n": 13
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#d6ceb4",
+      "texte": "#291d1a",
+      "fondsBruts": [
+        {
+          "hex": "#d6ceb4",
+          "n": 6,
+          "poids": 4994605.5
+        },
+        {
+          "hex": "#f4f2e0",
+          "n": 2,
+          "poids": 4519673.25
+        },
+        {
+          "hex": "#484c38",
+          "n": 5,
+          "poids": 1204946.53125
+        },
+        {
+          "hex": "#e5e0ca",
+          "n": 8,
+          "poids": 964994.375
+        },
+        {
+          "hex": "#75313d",
+          "n": 3,
+          "poids": 509729.34375
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#291d1a",
+          "n": 5,
+          "poids": 185652
+        },
+        {
+          "hex": "#702b1d",
+          "n": 1,
+          "poids": 181004.15625
+        },
+        {
+          "hex": "#6b401e",
+          "n": 1,
+          "poids": 181004.15625
+        },
+        {
+          "hex": "#bf8f2d",
+          "n": 4,
+          "poids": 46800
+        },
+        {
+          "hex": "#f3c2b0",
+          "n": 1,
+          "poids": 19952
+        },
+        {
+          "hex": "#c7bb9f",
+          "n": 1,
+          "poids": 6144
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#291d1a",
+          "n": 158,
+          "poids": 5100
+        },
+        {
+          "hex": "#f4f2e0",
+          "n": 134,
+          "poids": 2806
+        },
+        {
+          "hex": "#bf8f2d",
+          "n": 9,
+          "poids": 95
+        }
+      ],
+      "nbImages": 25,
+      "nbVideos": 0,
+      "nbFondsImage": 25,
+      "masques": 88,
+      "fonds": [
+        {
+          "hex": "#d6ceb4",
+          "n": 6,
+          "poids": 4994605.5,
+          "part": 0.38
+        },
+        {
+          "hex": "#f4f2e0",
+          "n": 2,
+          "poids": 4519673.25,
+          "part": 0.344
+        },
+        {
+          "hex": "#484c38",
+          "n": 5,
+          "poids": 1204946.53125,
+          "part": 0.092
+        },
+        {
+          "hex": "#e5e0ca",
+          "n": 8,
+          "poids": 964994.375,
+          "part": 0.073
+        },
+        {
+          "hex": "#75313d",
+          "n": 3,
+          "poids": 509729.34375,
+          "part": 0.039
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#291d1a",
+          "n": 158,
+          "poids": 5100,
+          "part": 0.637
+        },
+        {
+          "hex": "#f4f2e0",
+          "n": 134,
+          "poids": 2806,
+          "part": 0.351
+        },
+        {
+          "hex": "#bf8f2d",
+          "n": 9,
+          "poids": 95,
+          "part": 0.012
+        }
+      ],
+      "contraste": 10.39
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "header.relative",
+          "ecrans": 12.8
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "transform 0.35s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 100
+        },
+        {
+          "valeur": "transform 0.45s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 63
+        },
+        {
+          "valeur": "opacity 0.25s ease",
+          "n": 51
+        },
+        {
+          "valeur": "opacity 0.4s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 51
+        },
+        {
+          "valeur": "animation hero-word-reveal-62bb4c3f 0.75s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 6
+        },
+        {
+          "valeur": "background-color 0.4s ease",
+          "n": 4
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "transform 0.55s cubic-bezier(0.33, 1, 0.68, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "width 0.5s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "img.hero-image",
+        "score": 3,
+        "animations": [
+          "animation hero-media-zoom-in-load-62bb4c3f 1.75s cubic-bezier(0.75, 0, 0.2, 1)"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.frame",
+      "sections": [
+        {
+          "selecteur": "div.hero-primary-content",
+          "titre": "DET, VI ARBEJDER MED LIGE NU",
+          "top": 844,
+          "hauteur": 9855,
+          "ecrans": 11.7,
+          "mots": 1116,
+          "images": 24,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "dialog"
+          ]
+        },
+        {
+          "selecteur": "section.bg-theme-distant",
+          "titre": "TILMELD DIG VORES NYHEDSBREV",
+          "top": 10795,
+          "hauteur": 970,
+          "ecrans": 1.1,
+          "mots": 116,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav#main-navigation",
+        "hauteur": 64,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Gå til forsiden",
+            "href": "/",
+            "bouton": true
+          },
+          {
+            "texte": "MENU",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.sticky",
+        "liens": [
+          {
+            "texte": "VILKÅR VILKÅR VILKÅR",
+            "href": "/vilkaar",
+            "bouton": false
+          },
+          {
+            "texte": "TILGÆNGELIGHEDSERKLÆRING TILGÆNGELIGHEDS",
+            "href": "/tilgaengelighedserklaering",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "MENU",
+          "href": ""
+        },
+        {
+          "texte": "FACEBOOK FACEBOOK FACEBOOK",
+          "href": "https://www.facebook.com/meyersmad/?locale=da_DK"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#CybotCookiebotDialog",
+          "position": "fixed",
+          "hauteur": 828,
+          "largeur": 374,
+          "enBas": false,
+          "mots": 78
+        },
+        {
+          "selecteur": "div#CybotCookiebotDialogBodyUnderlay",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "nav#main-navigation",
+          "position": "fixed",
+          "hauteur": 64,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 1
+        },
+        {
+          "selecteur": "header.relative",
+          "position": "sticky",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 6
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Meyers",
+  "dureeS": 22.4
+}

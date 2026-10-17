@@ -1,0 +1,1583 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.degroeneafslag.nl/",
+  "nom": "groene-afslag",
+  "date": "2026-10-17",
+  "identite": {
+    "title": "De Groene Afslag – Circulaire ontmoetingsplek in Bussum",
+    "siteName": "",
+    "lang": "nl",
+    "description": "De Groene Afslag biedt ruimte voor verandering. Hier kun je anders eten en drinken, slapen, werken, vergaderen, vieren, leren en ontmoeten.",
+    "technologies": [
+      "Webflow",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fafaf9",
+      "h1": "De Groene Afslag is het Veranderhuis van Nederland met vergaderzalen, restaurant, hotel, programmering, werkplaats voor de nieuwe economie en een school. Wij roeren bijzondere kunst, design, nieuwe economie, oude zooi en een scheut lol door elkaar.",
+      "h1Visible": true,
+      "mots": 99,
+      "images": 8,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 0.91,
+        "selecteur": "div.load-img"
+      },
+      "boutonPrincipal": {
+        "texte": "Alles toestaan",
+        "x": 1130,
+        "y": 684.75,
+        "cx": 0.8840277777777777,
+        "cy": 0.7930555555555555,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "D e G roene A fslag",
+        "selecteur": "div#loader",
+        "cookie": false
+      },
+      "cookie": {
+        "couverture": 0.27,
+        "texte": "Deze website maakt gebruik van cookies Niet zo sexy, maar we moeten het even gezegd hebben. We gebruiken zo nu en dan cookies om content en advertenties te personaliseren, om functies voor social medi",
+        "selecteur": "div#CybotCookiebotDialog"
+      },
+      "barreBas": null,
+      "scrollHeight": 11153,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.hero-intro-text",
+        "famille": "\"Helvetica Neue\", Arial, sans-serif",
+        "taille": 40,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.logo-text",
+        "famille": "\"Times New Roman\", \"Times New Roman\", sans-serif",
+        "taille": 72,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.text-sm",
+        "famille": "\"Helvetica Neue\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",
+        "famille": "sans-serif",
+        "taille": 15,
+        "graisse": "600",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a#skip-link",
+        "famille": "\"Helvetica Neue\", Arial, sans-serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Courier",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce5a_OGCourier.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Courier",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce5c_OGCourier-Italic.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce59_HelveticaNeueItalic.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Times New Roman",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b323e27c9fdda5149b4_Times-Bold.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Times New Roman",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b327bb976aa6e0b4b78_Times-BoldItalic.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Times New Roman",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b32486975c87bdc25af_Times-Roman.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Times New Roman",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b3294ee98b39af15791_Times-Italic.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce57_HelveticaNeueMediumItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce58_HelveticaNeueMedium.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce56_HelveticaNeueRoman.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.plyr.io"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce56_HelveticaNeueRoman.otf",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b3294ee98b39af15791_Times-Italic.ttf",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b32486975c87bdc25af_Times-Roman.ttf",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce5a_OGCourier.woff2",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce58_HelveticaNeueMedium.otf",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce59_HelveticaNeueItalic.ttf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Helvetica Neue",
+          "n": 283
+        },
+        {
+          "famille": "Times New Roman",
+          "n": 67
+        },
+        {
+          "famille": "Courier",
+          "n": 14
+        },
+        {
+          "famille": "sans-serif",
+          "n": 5
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#e6e2da",
+      "texte": "#1a1a1a",
+      "fondsBruts": [
+        {
+          "hex": "#e6e2da",
+          "n": 1,
+          "poids": 16060320
+        },
+        {
+          "hex": "#1a1a1a",
+          "n": 91,
+          "poids": 6916399.408203125
+        },
+        {
+          "hex": "#ffffff",
+          "n": 24,
+          "poids": 1666327.3603515625
+        },
+        {
+          "hex": "#f9c314",
+          "n": 17,
+          "poids": 1638880.8125
+        },
+        {
+          "hex": "#81c5e2",
+          "n": 13,
+          "poids": 1441683.25
+        },
+        {
+          "hex": "#ff8ac4",
+          "n": 10,
+          "poids": 1363853.7455797195
+        },
+        {
+          "hex": "#00a65d",
+          "n": 8,
+          "poids": 1331788.46875
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 1296000
+        },
+        {
+          "hex": "#f15935",
+          "n": 4,
+          "poids": 1273034.25
+        },
+        {
+          "hex": "#71723b",
+          "n": 6,
+          "poids": 212250.375
+        },
+        {
+          "hex": "#df6256",
+          "n": 3,
+          "poids": 153354.25
+        },
+        {
+          "hex": "#18263d",
+          "n": 5,
+          "poids": 54039.8125
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#1a1a1a",
+          "n": 269,
+          "poids": 8049
+        },
+        {
+          "hex": "#ffffff",
+          "n": 93,
+          "poids": 1119
+        },
+        {
+          "hex": "#141414",
+          "n": 3,
+          "poids": 381
+        },
+        {
+          "hex": "#ff9bc8",
+          "n": 1,
+          "poids": 13
+        },
+        {
+          "hex": "#00a65d",
+          "n": 1,
+          "poids": 12
+        },
+        {
+          "hex": "#f15935",
+          "n": 1,
+          "poids": 10
+        },
+        {
+          "hex": "#312f6e",
+          "n": 1,
+          "poids": 3
+        }
+      ],
+      "nbImages": 63,
+      "nbVideos": 0,
+      "nbFondsImage": 9,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#e6e2da",
+          "n": 1,
+          "poids": 16060320,
+          "part": 0.481
+        },
+        {
+          "hex": "#1a1a1a",
+          "n": 91,
+          "poids": 6916399.408203125,
+          "part": 0.207
+        },
+        {
+          "hex": "#ffffff",
+          "n": 24,
+          "poids": 1666327.3603515625,
+          "part": 0.05
+        },
+        {
+          "hex": "#f9c314",
+          "n": 17,
+          "poids": 1638880.8125,
+          "part": 0.049
+        },
+        {
+          "hex": "#81c5e2",
+          "n": 13,
+          "poids": 1441683.25,
+          "part": 0.043
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1a1a1a",
+          "n": 269,
+          "poids": 8049,
+          "part": 0.84
+        },
+        {
+          "hex": "#ffffff",
+          "n": 93,
+          "poids": 1119,
+          "part": 0.117
+        },
+        {
+          "hex": "#141414",
+          "n": 3,
+          "poids": 381,
+          "part": 0.04
+        },
+        {
+          "hex": "#ff9bc8",
+          "n": 1,
+          "poids": 13,
+          "part": 0.001
+        },
+        {
+          "hex": "#00a65d",
+          "n": 1,
+          "poids": 12,
+          "part": 0.001
+        }
+      ],
+      "contraste": 13.47
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Swiper",
+          "preuve": "window.Swiper"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.stacking-card",
+          "ecrans": 5.3
+        },
+        {
+          "selecteur": "div.stacking-card",
+          "ecrans": 5.3
+        },
+        {
+          "selecteur": "div.stacking-card",
+          "ecrans": 5.3
+        },
+        {
+          "selecteur": "div.stacking-card",
+          "ecrans": 5.3
+        },
+        {
+          "selecteur": "div.stacking-card",
+          "ecrans": 5.3
+        },
+        {
+          "selecteur": "div.logo_sticky-wrapper",
+          "ecrans": 1.2
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "all 0.2s cubic-bezier(1, 0, 0, 1)",
+          "n": 49
+        },
+        {
+          "valeur": "none 0.2s ease",
+          "n": 45
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 25
+        },
+        {
+          "valeur": "box-shadow 0.2s ease",
+          "n": 19
+        },
+        {
+          "valeur": "all 0.4s cubic-bezier(0.77, 0, 0.175, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "margin 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animate",
+          "n": 62
+        },
+        {
+          "nom": "data-animate-stagger",
+          "n": 40
+        },
+        {
+          "nom": "data-animate-delay",
+          "n": 11
+        },
+        {
+          "nom": "data-animation",
+          "n": 5
+        },
+        {
+          "nom": "data-gsap",
+          "n": 5
+        },
+        {
+          "nom": "data-word-reveal",
+          "n": 4
+        },
+        {
+          "nom": "data-split",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div#w-node-_28ad2629-8d94-6f95-a31e-b2bf3778f1ec-d430cd3b",
+        "score": 6,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-animate-stagger",
+          "data-animate",
+          "data-animate-delay"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "main.main",
+      "sections": [
+        {
+          "selecteur": "div.section_hero",
+          "titre": null,
+          "top": 0,
+          "hauteur": 846,
+          "ecrans": 0.9,
+          "mots": 11,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "De Groene Afslag is het Veranderhuis van Nederland met verga",
+          "top": 846,
+          "hauteur": 399,
+          "ecrans": 0.4,
+          "mots": 36,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section",
+          "titre": null,
+          "top": 1245,
+          "hauteur": 711,
+          "ecrans": 0.8,
+          "mots": 480,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "Restaurant",
+          "top": 1956,
+          "hauteur": 4930,
+          "ecrans": 5.5,
+          "mots": 226,
+          "images": 16,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "Agenda",
+          "top": 6886,
+          "hauteur": 1226,
+          "ecrans": 1.4,
+          "mots": 95,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "Nieuws",
+          "top": 8112,
+          "hauteur": 1054,
+          "ecrans": 1.2,
+          "mots": 1030,
+          "images": 37,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.w-variant-bd7ed545-54a1-f2fe-dfd6-f2df5e3b2b4f",
+          "titre": "Verder grasduinen?",
+          "top": 9166,
+          "hauteur": 555,
+          "ecrans": 0.6,
+          "mots": 10,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "Anders in je mailbox.",
+          "top": 9721,
+          "hauteur": 536,
+          "ecrans": 0.6,
+          "mots": 44,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": "Contact",
+          "top": 10265,
+          "hauteur": 888,
+          "ecrans": 1,
+          "mots": 110,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "| Kom je langs?! Klik hier voor onze ope",
+            "href": "/contact",
+            "bouton": true
+          },
+          {
+            "texte": "D e G roene A fslag",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "Home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Restaurant",
+            "href": "/restaurant",
+            "bouton": false
+          },
+          {
+            "texte": "School",
+            "href": "/school",
+            "bouton": false
+          },
+          {
+            "texte": "Zalen",
+            "href": "/zalen",
+            "bouton": false
+          },
+          {
+            "texte": "Hotel",
+            "href": "/hotel",
+            "bouton": false
+          },
+          {
+            "texte": "Agenda",
+            "href": "/agenda",
+            "bouton": false
+          },
+          {
+            "texte": "De Groene Afslag",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "Over Ons",
+            "href": "/over-ons",
+            "bouton": false
+          },
+          {
+            "texte": "Agenda",
+            "href": "/agenda",
+            "bouton": false
+          },
+          {
+            "texte": "Inspiratie",
+            "href": "/inspiratie",
+            "bouton": false
+          },
+          {
+            "texte": "Vacatures",
+            "href": "/over-ons/vacatures",
+            "bouton": false
+          },
+          {
+            "texte": "Veelgestelde vragen",
+            "href": "/faqs",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Wij zijn B-Corp",
+            "href": "/over-ons/voorleverschap/b-corp",
+            "bouton": false
+          },
+          {
+            "texte": "035 888 88 77",
+            "href": "tel:+31358888877",
+            "bouton": false
+          },
+          {
+            "texte": "doejeding@degroeneafslag.nl",
+            "href": "mailto:doejeding@degroeneafslag.nl",
+            "bouton": false
+          },
+          {
+            "texte": "weeswelkom@degroeneafslag.nl",
+            "href": "mailto:weeswelkom@degroeneafslag.nl",
+            "bouton": false
+          },
+          {
+            "texte": "Hubrand",
+            "href": "https://www.hubrand.nl/",
+            "bouton": false
+          },
+          {
+            "texte": "Algemene Voorwaarden",
+            "href": "/legal/algemene-voorwaarden",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Verklaring",
+            "href": "/legal/privacy-verklaring",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+31358888877"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div#CybotCookiebotDialog",
+          "position": "fixed",
+          "hauteur": 239,
+          "largeur": 1440,
+          "enBas": true,
+          "mots": 66
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.gimmick-rain-container",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 15,
+        "pilules": 2,
+        "exemples": [
+          "Alle activiteiten",
+          "Meer nieuws"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "C:\\Users\\nadja\\ff-atelier\\docs\\veille\\architectures\\captures\\groene-afslag-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fafaf9",
+      "h1": "De Groene Afslag is het Veranderhuis van Nederland met vergaderzalen, restaurant, hotel, programmering, werkplaats voor de nieuwe economie en een school. Wij roeren bijzondere kunst, design, nieuwe economie, oude zooi en een scheut lol door elkaar.",
+      "h1Visible": true,
+      "mots": 123,
+      "images": 17,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Alles toestaan",
+        "x": 23,
+        "y": 550,
+        "cx": 0.5,
+        "cy": 0.6860189573459715,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 0.61,
+        "texte": "Deze website maakt gebruik van cookies Niet zo sexy, maar we moeten het even gezegd hebben. We gebruiken zo nu en dan cookies om content en advertenties te personaliseren, om functies voor social medi",
+        "selecteur": "div#CybotCookiebotDialog",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 0.61,
+        "texte": "Deze website maakt gebruik van cookies Niet zo sexy, maar we moeten het even gezegd hebben. We gebruiken zo nu en dan cookies om content en advertenties te personaliseren, om functies voor social medi",
+        "selecteur": "div#CybotCookiebotDialog"
+      },
+      "barreBas": null,
+      "scrollHeight": 10802,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.hero-intro-text",
+        "famille": "\"Helvetica Neue\", Arial, sans-serif",
+        "taille": 24,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.logo-text",
+        "famille": "\"Times New Roman\", \"Times New Roman\", sans-serif",
+        "taille": 40,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.text-sm",
+        "famille": "\"Helvetica Neue\", Arial, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",
+        "famille": "sans-serif",
+        "taille": 15,
+        "graisse": "600",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a#skip-link",
+        "famille": "\"Helvetica Neue\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Courier",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce5a_OGCourier.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Courier",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce5c_OGCourier-Italic.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce59_HelveticaNeueItalic.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Times New Roman",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b323e27c9fdda5149b4_Times-Bold.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Times New Roman",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b327bb976aa6e0b4b78_Times-BoldItalic.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Times New Roman",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b32486975c87bdc25af_Times-Roman.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Times New Roman",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b3294ee98b39af15791_Times-Italic.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce57_HelveticaNeueMediumItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce58_HelveticaNeueMedium.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce56_HelveticaNeueRoman.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.plyr.io"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce56_HelveticaNeueRoman.otf",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b3294ee98b39af15791_Times-Italic.ttf",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/69f31b32486975c87bdc25af_Times-Roman.ttf",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce58_HelveticaNeueMedium.otf",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce5a_OGCourier.woff2",
+        "https://cdn.prod.website-files.com/686e055e96b321efd430cd60/686e055e96b321efd430ce59_HelveticaNeueItalic.ttf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Helvetica Neue",
+          "n": 285
+        },
+        {
+          "famille": "Times New Roman",
+          "n": 67
+        },
+        {
+          "famille": "Courier",
+          "n": 14
+        },
+        {
+          "famille": "sans-serif",
+          "n": 5
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#e6e2da",
+      "texte": "#1a1a1a",
+      "fondsBruts": [
+        {
+          "hex": "#e6e2da",
+          "n": 1,
+          "poids": 4235010
+        },
+        {
+          "hex": "#1a1a1a",
+          "n": 90,
+          "poids": 3077727.8538589478
+        },
+        {
+          "hex": "#ffffff",
+          "n": 24,
+          "poids": 634165.6196289062
+        },
+        {
+          "hex": "#f9c314",
+          "n": 17,
+          "poids": 485470.40625
+        },
+        {
+          "hex": "#81c5e2",
+          "n": 13,
+          "poids": 393176.03125
+        },
+        {
+          "hex": "#ff8ac4",
+          "n": 10,
+          "poids": 362273.4411817193
+        },
+        {
+          "hex": "#f15935",
+          "n": 4,
+          "poids": 354068.09375
+        },
+        {
+          "hex": "#00a65d",
+          "n": 8,
+          "poids": 343936.08349609375
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 329160
+        },
+        {
+          "hex": "#75182a",
+          "n": 5,
+          "poids": 49037.1875
+        },
+        {
+          "hex": "#18263d",
+          "n": 5,
+          "poids": 49037.1875
+        },
+        {
+          "hex": "#df6256",
+          "n": 3,
+          "poids": 46104.9375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#1a1a1a",
+          "n": 272,
+          "poids": 8046
+        },
+        {
+          "hex": "#ffffff",
+          "n": 92,
+          "poids": 1113
+        },
+        {
+          "hex": "#141414",
+          "n": 3,
+          "poids": 381
+        },
+        {
+          "hex": "#ff9bc8",
+          "n": 1,
+          "poids": 13
+        },
+        {
+          "hex": "#00a65d",
+          "n": 1,
+          "poids": 12
+        },
+        {
+          "hex": "#f15935",
+          "n": 1,
+          "poids": 10
+        },
+        {
+          "hex": "#312f6e",
+          "n": 1,
+          "poids": 3
+        }
+      ],
+      "nbImages": 64,
+      "nbVideos": 0,
+      "nbFondsImage": 9,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#e6e2da",
+          "n": 1,
+          "poids": 4235010,
+          "part": 0.409
+        },
+        {
+          "hex": "#1a1a1a",
+          "n": 90,
+          "poids": 3077727.8538589478,
+          "part": 0.297
+        },
+        {
+          "hex": "#ffffff",
+          "n": 24,
+          "poids": 634165.6196289062,
+          "part": 0.061
+        },
+        {
+          "hex": "#f9c314",
+          "n": 17,
+          "poids": 485470.40625,
+          "part": 0.047
+        },
+        {
+          "hex": "#81c5e2",
+          "n": 13,
+          "poids": 393176.03125,
+          "part": 0.038
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1a1a1a",
+          "n": 272,
+          "poids": 8046,
+          "part": 0.84
+        },
+        {
+          "hex": "#ffffff",
+          "n": 92,
+          "poids": 1113,
+          "part": 0.116
+        },
+        {
+          "hex": "#141414",
+          "n": 3,
+          "poids": 381,
+          "part": 0.04
+        },
+        {
+          "hex": "#ff9bc8",
+          "n": 1,
+          "poids": 13,
+          "part": 0.001
+        },
+        {
+          "hex": "#00a65d",
+          "n": 1,
+          "poids": 12,
+          "part": 0.001
+        }
+      ],
+      "contraste": 13.47
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Swiper",
+          "preuve": "window.Swiper"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.logo_sticky-wrapper",
+          "ecrans": 1.6
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "all 0.2s cubic-bezier(1, 0, 0, 1)",
+          "n": 49
+        },
+        {
+          "valeur": "none 0.2s ease",
+          "n": 45
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 25
+        },
+        {
+          "valeur": "box-shadow 0.2s ease",
+          "n": 19
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "width 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "margin 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "border-radius 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animate",
+          "n": 62
+        },
+        {
+          "nom": "data-animate-stagger",
+          "n": 40
+        },
+        {
+          "nom": "data-animate-delay",
+          "n": 11
+        },
+        {
+          "nom": "data-animation",
+          "n": 5
+        },
+        {
+          "nom": "data-gsap",
+          "n": 5
+        },
+        {
+          "nom": "data-word-reveal",
+          "n": 4
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div#w-node-_28ad2629-8d94-6f95-a31e-b2bf3778f1ec-d430cd3b",
+        "score": 6,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-animate-stagger",
+          "data-animate",
+          "data-animate-delay"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "main.main",
+      "sections": [
+        {
+          "selecteur": "div.section_hero",
+          "titre": null,
+          "top": 0,
+          "hauteur": 602,
+          "ecrans": 0.7,
+          "mots": 11,
+          "images": 8,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "De Groene Afslag is het Veranderhuis van Nederland met verga",
+          "top": 602,
+          "hauteur": 295,
+          "ecrans": 0.3,
+          "mots": 36,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section",
+          "titre": null,
+          "top": 946,
+          "hauteur": 271,
+          "ecrans": 0.3,
+          "mots": 480,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "Restaurant",
+          "top": 1216,
+          "hauteur": 4463,
+          "ecrans": 5.3,
+          "mots": 226,
+          "images": 16,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "Agenda",
+          "top": 5679,
+          "hauteur": 1367,
+          "ecrans": 1.6,
+          "mots": 95,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "Nieuws",
+          "top": 7046,
+          "hauteur": 919,
+          "ecrans": 1.1,
+          "mots": 1030,
+          "images": 37,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.w-variant-bd7ed545-54a1-f2fe-dfd6-f2df5e3b2b4f",
+          "titre": "Verder grasduinen?",
+          "top": 7965,
+          "hauteur": 690,
+          "ecrans": 0.8,
+          "mots": 10,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "Anders in je mailbox.",
+          "top": 8655,
+          "hauteur": 783,
+          "ecrans": 0.9,
+          "mots": 44,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": "Contact",
+          "top": 9443,
+          "hauteur": 1416,
+          "ecrans": 1.7,
+          "mots": 110,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "| Kom je langs?! Klik hier voor onze ope",
+            "href": "/contact",
+            "bouton": true
+          },
+          {
+            "texte": "D e G roene A fslag",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "Home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Restaurant",
+            "href": "/restaurant",
+            "bouton": false
+          },
+          {
+            "texte": "School",
+            "href": "/school",
+            "bouton": false
+          },
+          {
+            "texte": "Zalen",
+            "href": "/zalen",
+            "bouton": false
+          },
+          {
+            "texte": "Hotel",
+            "href": "/hotel",
+            "bouton": false
+          },
+          {
+            "texte": "Agenda",
+            "href": "/agenda",
+            "bouton": false
+          },
+          {
+            "texte": "De Groene Afslag",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "Over Ons",
+            "href": "/over-ons",
+            "bouton": false
+          },
+          {
+            "texte": "Agenda",
+            "href": "/agenda",
+            "bouton": false
+          },
+          {
+            "texte": "Inspiratie",
+            "href": "/inspiratie",
+            "bouton": false
+          },
+          {
+            "texte": "Vacatures",
+            "href": "/over-ons/vacatures",
+            "bouton": false
+          },
+          {
+            "texte": "Veelgestelde vragen",
+            "href": "/faqs",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Wij zijn B-Corp",
+            "href": "/over-ons/voorleverschap/b-corp",
+            "bouton": false
+          },
+          {
+            "texte": "035 888 88 77",
+            "href": "tel:+31358888877",
+            "bouton": false
+          },
+          {
+            "texte": "doejeding@degroeneafslag.nl",
+            "href": "mailto:doejeding@degroeneafslag.nl",
+            "bouton": false
+          },
+          {
+            "texte": "weeswelkom@degroeneafslag.nl",
+            "href": "mailto:weeswelkom@degroeneafslag.nl",
+            "bouton": false
+          },
+          {
+            "texte": "Hubrand",
+            "href": "https://www.hubrand.nl/",
+            "bouton": false
+          },
+          {
+            "texte": "Algemene Voorwaarden",
+            "href": "/legal/algemene-voorwaarden",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Verklaring",
+            "href": "/legal/privacy-verklaring",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+31358888877"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div#CybotCookiebotDialog",
+          "position": "fixed",
+          "hauteur": 535,
+          "largeur": 374,
+          "enBas": false,
+          "mots": 66
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.gimmick-rain-container",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 14,
+        "pilules": 2,
+        "exemples": [
+          "Alle activiteiten",
+          "Meer nieuws"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "De Groene Afslag",
+  "dureeS": 28.8
+}

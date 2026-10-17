@@ -1,0 +1,655 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.studiorhe.com/",
+  "nom": "studio-rhe",
+  "date": "2026-10-17",
+  "identite": {
+    "title": "Studio RHE | London based Architecture and Design firm",
+    "siteName": "",
+    "lang": "en",
+    "description": "We are a London based architecture and design practice with a global reputation for innovative and sustainable workplaces, resorts and residences.",
+    "technologies": [
+      "Nuxt",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Building Beyond",
+      "h1Visible": true,
+      "mots": 185,
+      "images": 9,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img"
+      },
+      "boutonPrincipal": {
+        "texte": "Accept",
+        "x": 22.5,
+        "y": 482.125,
+        "cx": 0.02978515625,
+        "cy": 0.5442447916666666,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.02,
+        "texte": "Privacy Policy By continue to use this website, you agree to our privacy policy. Accept",
+        "selecteur": "section.cookieControl"
+      },
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 21,
+        "exemples": [
+          "div.hero-bg",
+          "div",
+          "div.relative"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.px-20",
+        "famille": "the-serif",
+        "taille": 187.2,
+        "graisse": "300",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-4.68px"
+      },
+      "h2": {
+        "selecteur": "h2.px-20",
+        "famille": "the-serif",
+        "taille": 21,
+        "graisse": "300",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.525px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "the-sans",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.uline",
+        "famille": "the-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.1,
+        "italique": true,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.absolute",
+        "famille": "the-serif",
+        "taille": 10.5,
+        "graisse": "300",
+        "interlignage": 1.5,
+        "italique": true,
+        "transform": "none",
+        "interlettrage": "-0.2625px"
+      },
+      "fontFaces": [
+        {
+          "famille": "the-serif",
+          "url": "/_nuxt/fonts/Reckless-Light.c765955.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "the-serif",
+          "url": "/_nuxt/fonts/Reckless-RegularItalic.65b7f41.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "the-sans",
+          "url": "/_nuxt/fonts/SuisseIntl-Regular-WebM.128e425.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "the-sans",
+          "url": "/_nuxt/fonts/SuisseIntl-SemiBold-WebM.edb2568.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.studiorhe.com/_nuxt/fonts/Reckless-RegularItalic.65b7f41.woff2",
+        "https://www.studiorhe.com/_nuxt/fonts/Reckless-Light.c765955.woff2",
+        "https://www.studiorhe.com/_nuxt/fonts/SuisseIntl-SemiBold-WebM.edb2568.woff2",
+        "https://www.studiorhe.com/_nuxt/fonts/SuisseIntl-Regular-WebM.128e425.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "the-serif",
+          "n": 43
+        },
+        {
+          "famille": "the-sans",
+          "n": 12
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#f06446",
+          "n": 2,
+          "poids": 788231.25
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 72
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 697
+        },
+        {
+          "hex": "#ffffff",
+          "n": 30,
+          "poids": 340
+        }
+      ],
+      "nbImages": 9,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.622
+        },
+        {
+          "hex": "#f06446",
+          "n": 2,
+          "poids": 788231.25,
+          "part": 0.378
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 72,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 697,
+          "part": 0.672
+        },
+        {
+          "hex": "#ffffff",
+          "n": 30,
+          "poids": 340,
+          "part": 0.328
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "all 1s cubic-bezier(0.23, 1, 0.32, 1)",
+          "n": 3
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.fixed",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [],
+      "nav": {
+        "selecteur": "header.fixed",
+        "hauteur": 900,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Toggle menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Est. 1997",
+            "href": "/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "C:\\Users\\nadja\\ff-atelier\\docs\\veille\\architectures\\captures\\studio-rhe-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Building Beyond",
+      "h1Visible": true,
+      "mots": 47,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img"
+      },
+      "boutonPrincipal": {
+        "texte": "Accept",
+        "x": 31.1875,
+        "y": 465.0390625,
+        "cx": 0.13225160256410257,
+        "cy": 0.5601118187203792,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.18,
+        "texte": "Privacy Policy By continue to use this website, you agree to our privacy policy. Accept",
+        "selecteur": "section.cookieControl"
+      },
+      "barreBas": null,
+      "scrollHeight": 6111,
+      "bougeSeul": {
+        "n": 21,
+        "exemples": [
+          "div.hero-bg",
+          "div",
+          "div.relative"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.px-20",
+        "famille": "the-serif",
+        "taille": 52,
+        "graisse": "300",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.3px"
+      },
+      "h2": {
+        "selecteur": "h2.px-20",
+        "famille": "the-serif",
+        "taille": 18.72,
+        "graisse": "300",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.468px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "the-sans",
+        "taille": 14.56,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.uline",
+        "famille": "the-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.1,
+        "italique": true,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.relative",
+        "famille": "the-sans",
+        "taille": 14.56,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "the-serif",
+          "url": "/_nuxt/fonts/Reckless-Light.c765955.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "the-serif",
+          "url": "/_nuxt/fonts/Reckless-RegularItalic.65b7f41.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "the-sans",
+          "url": "/_nuxt/fonts/SuisseIntl-Regular-WebM.128e425.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "the-sans",
+          "url": "/_nuxt/fonts/SuisseIntl-SemiBold-WebM.edb2568.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.studiorhe.com/_nuxt/fonts/Reckless-Light.c765955.woff2",
+        "https://www.studiorhe.com/_nuxt/fonts/Reckless-RegularItalic.65b7f41.woff2",
+        "https://www.studiorhe.com/_nuxt/fonts/SuisseIntl-SemiBold-WebM.edb2568.woff2",
+        "https://www.studiorhe.com/_nuxt/fonts/SuisseIntl-Regular-WebM.128e425.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "the-serif",
+          "n": 40
+        },
+        {
+          "famille": "the-sans",
+          "n": 12
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2383290
+        },
+        {
+          "hex": "#f06446",
+          "n": 3,
+          "poids": 674720.71875
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 36,
+          "poids": 513
+        },
+        {
+          "hex": "#000000",
+          "n": 16,
+          "poids": 513
+        }
+      ],
+      "nbImages": 9,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2383290,
+          "part": 0.779
+        },
+        {
+          "hex": "#f06446",
+          "n": 3,
+          "poids": 674720.71875,
+          "part": 0.221
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 36,
+          "poids": 513,
+          "part": 0.5
+        },
+        {
+          "hex": "#000000",
+          "n": 16,
+          "poids": 513,
+          "part": 0.5
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 1s cubic-bezier(0.23, 1, 0.32, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "fill 0.4s cubic-bezier(0.215, 0.61, 0.355, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "header.small-header",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.relative",
+      "sections": [
+        {
+          "selecteur": "div.hero-has-gradient",
+          "titre": "Building Beyond",
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 19,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.relative",
+          "titre": "Introduction",
+          "top": 844,
+          "hauteur": 2411,
+          "ecrans": 2.9,
+          "mots": 53,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.s:min-w-188",
+          "titre": "What We Do",
+          "top": 3255,
+          "hauteur": 1275,
+          "ecrans": 1.5,
+          "mots": 28,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.flex",
+          "titre": "Journal",
+          "top": 4530,
+          "hauteur": 1581,
+          "ecrans": 1.9,
+          "mots": 47,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.small-header",
+        "hauteur": 76,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Toggle menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "section.cookieControl",
+          "position": "fixed",
+          "hauteur": 186,
+          "largeur": 312,
+          "enBas": false,
+          "mots": 15
+        },
+        {
+          "selecteur": "header.small-header",
+          "position": "fixed",
+          "hauteur": 76,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Studio RHE",
+  "dureeS": 27
+}
