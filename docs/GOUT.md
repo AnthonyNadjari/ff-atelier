@@ -51,6 +51,18 @@ texte posé sur une carte » avait été écrite ici et dans les consignes des a
 jamais celle des pistes sœurs ni des 4 derniers sites. Une règle de goût qui décrit une mise en page uniformise :
 on écrit le but (« de la profondeur »), jamais la forme (« une carte sur la photo »).
 
+**Les photos font la différence** (18 oct 2026, sur les quatre premiers écrans refaits : « ce qui fait vraiment
+la différence et qu'on devrait intégrer de manière générale, c'est les photos »). Un site se fait avec les vraies
+photos du client : celles de son site actuel (`ff refonte`), celles qu'il envoie (formulaire, guide photo), ou une
+séance. Sans photo, on le dit et on la demande ; on ne compense pas par du dessin.
+
+**Et le déroulé change d'un site à l'autre** (18 oct 2026 : « on scrolle et tout en bas il y a les mêmes
+informations, tout en haut les mêmes… c'est littéralement propre à Claude »). Le déroulé « premier écran, avis,
+services, à propos, questions, contact » sur une longue page est le réflexe de la machine, pas un choix. Chaque
+site prend une ARCHITECTURE entière (nombre de pages, navigation, ordre des blocs, place du contact) tirée d'un vrai
+site (`docs/veille/architectures/INDEX.md`) ; trois versions = trois architectures ; deux clients récents ne
+partagent pas la leur. `ff ressemblance` compare la page entière, pas seulement le haut.
+
 ## 1. Ce qui fait qu'un site est « à nous »
 
 - **La différence vient du squelette, pas des couleurs.** Coquille, place de la nav, où vit le contact,

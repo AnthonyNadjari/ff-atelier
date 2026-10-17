@@ -79,6 +79,17 @@ du gérant au premier écran : 7 sites sur 27 »), les sites qui l'illustrent, e
 encore. Un levier vu sur au moins 40 % des sites et absent de l'usine devient le premier point « à implémenter »
 du tour (étape 3), avant tout autre volet. On ne copie jamais une maquette : on transpose un levier.
 
+### 2a ter. Les architectures, À CHAQUE TOUR (ce qui rend les sites différents)
+
+Le fondateur, 18 oct 2026 : « il y a une infinité de sites internet différents, chacun pourrait représenter une
+catégorie, tu aurais des dizaines de catégories et tu pourrais juste les reprendre ». Par tour, **2 architectures
+nouvelles** de sites ENTIERS (nombre de pages, navigation, ordre des blocs, place du contact, téléphone), tirées de
+vrais sites dont l'architecture n'est pas encore dans `docs/veille/architectures/INDEX.md`, tous métiers confondus :
+fiche `docs/veille/architectures/<id>.md` (méthode et format : voir les fiches existantes), puis implémentation dans
+l'usine (coquille `src/shells/`, sections manquantes, entrée dans le registre des architectures), preuve sur un
+site jetable comparé à la source en page entière, `ff ressemblance` vert contre tous les sites. Ce volet passe
+AVANT les compositions (2a bis) : des sections nouvelles dans un même déroulé ne rendent pas les sites différents.
+
 ### 2a bis. Les compositions, À CHAQUE TOUR (ce qui rend un site beau)
 
 Le fondateur, 17 oct 2026, sur une démo juste mais plate : « trop 2D, pas beau » ; et : « je vois pas pourquoi
@@ -128,7 +139,7 @@ Format des fiches : voir en tête de chaque fichier. Sources citées en lien. Ve
 
 ## 3. Améliorer (une par tour, testée)
 
-Les 3 compositions (2a bis) sont l'amélioration du tour. En plus, si le temps le permet : le levier du marché (2a)
+Les 2 architectures (2a ter) sont l'amélioration du tour ; les compositions (2a bis) viennent ensuite, si le temps le permet. En plus, si le temps le permet : le levier du marché (2a)
 s'il y en a un au-dessus de 40 % et absent de l'usine. Sinon, le premier point
 de « à implémenter en premier » du volet du jour qui n'est pas encore fait :
 - nouvelle variante → `/nouvelle-variante` (fichier + `VARIANTS` + `docs/DIRECTIONS.md` + test) ;
