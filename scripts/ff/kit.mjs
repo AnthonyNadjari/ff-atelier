@@ -1023,7 +1023,7 @@ export async function cmdKit(args) {
   const demo = /d[ée]monstration|placeholder|provisoire|illustration/i.test(cfg.images?.hero?.alt || '');
   const photo = heroSrc && !demo && fs.existsSync(path.join(DIST_DIR, slug, heroSrc.replace(/^\/+/, ''))) ? cfg.images.hero : null;
   const { chromium } = await import('playwright-core');
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
   const problemes = [];
   try {
     problemes.push(

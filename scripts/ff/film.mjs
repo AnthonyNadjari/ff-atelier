@@ -105,7 +105,7 @@ export async function cmdFilm(args) {
   fs.mkdirSync(path.join(ROOT, 'captures', 'planches'), { recursive: true });
   const srv = servir(distDir);
   await new Promise((r) => srv.listen(0, r));
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
   try {
     for (const m of modes) {
       const r = await filmerMode(browser, sharp, `http://127.0.0.1:${srv.address().port}/`, m, options, slug);

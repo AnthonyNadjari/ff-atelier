@@ -9,7 +9,7 @@ const slug = process.argv[2]; if (!slug) { console.error('slug ?'); process.exit
 const root = path.resolve('dist', slug);
 const T = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.webp': 'image/webp', '.avif': 'image/avif', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.png': 'image/png', '.jpg': 'image/jpeg' };
 const srv = createServer((q, s) => { let f = path.join(root, decodeURIComponent(q.url.split('?')[0])); if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, 'index.html'); if (!fs.existsSync(f)) { s.writeHead(404); return s.end(); } s.writeHead(200, { 'Content-Type': T[path.extname(f)] || 'application/octet-stream' }); s.end(fs.readFileSync(f)); }).listen(0);
-const b = await chromium.launch({ channel: 'chrome', headless: true });
+const b = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
 try {
   const p = await b.newPage({ viewport: { width: 1400, height: 900 } });
   const temps = [0, 200, 350, 700, 1100, 1600, 2400]; const vues = [];

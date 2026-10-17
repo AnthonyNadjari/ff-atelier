@@ -121,7 +121,7 @@ export async function cmdVignettes(args) {
   const { server, setRoot, port } = startServer();
   let browser;
   try {
-    browser = await chromium.launch({ channel: 'chrome', headless: true });
+    browser = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
   } catch (e) {
     server.close();
     fail(`Impossible de lancer Chrome : ${e.message}`);

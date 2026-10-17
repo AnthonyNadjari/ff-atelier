@@ -172,7 +172,7 @@ async function filmer(slugs) {
   const require = createRequire(import.meta.url);
   const { chromium } = require('playwright-core');
   const sharp = require('sharp');
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
   const colonnes = [];
   try {
     for (const slug of slugs) {

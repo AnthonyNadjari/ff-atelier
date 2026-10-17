@@ -64,7 +64,7 @@ export async function cmdPlanche(args) {
   const sharp = (await import('sharp')).default;
   const srv = servir(distDir);
   await new Promise((r) => srv.listen(0, '127.0.0.1', r));
-  const navigateur = await chromium.launch({ channel: 'chrome', headless: true, args: ['--disable-blink-features=AutomationControlled'] });
+  const navigateur = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true, args: ['--disable-blink-features=AutomationControlled'] });
   try {
     for (const [k, M] of modes) {
       const ctx = await navigateur.newContext({ viewport: { width: M.vw, height: M.vh }, deviceScaleFactor: M.dpr, isMobile: M.mobile, hasTouch: M.mobile });

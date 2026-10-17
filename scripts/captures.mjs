@@ -53,7 +53,7 @@ const server = createServer((req, res) => {
 }).listen(0);
 const port = server.address().port;
 
-const browser = await chromium.launch({ channel: 'chrome', headless: true });
+const browser = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
 const problems = [];
 const diffWarnings = [];
 for (const slug of sites) {

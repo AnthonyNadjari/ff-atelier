@@ -28,14 +28,14 @@ ligne) ; une seule branche `main` ; jamais de donnée inventée ; jamais affiche
 
 ## 0. Lire
 
-`docs/GOUT.md`, `CLAUDE.md`, les trois derniers journaux (`docs/veille/journal.md`), et les fichiers
-de veille existants pour **ne pas répéter** : `techniques-2026-10.md`, `outils-2026-10.md`,
+`docs/GOUT.md`, `CLAUDE.md`, les trois derniers journaux (`docs/veille/journal.md`), `docs/veille/marche/CE-QUI-VEND.md`
+(la synthèse du marché, ce qui fait signer un artisan), et les fichiers de veille existants pour **ne pas répéter** : `techniques-2026-10.md`, `outils-2026-10.md`,
 `redondances.md`, `references.md` § 5, `tendances.md`, `signes-ia.md`.
 
 ## 1. Santé (toujours)
 
 ```
-F=($(ls tests/*.test.mjs)); node --test --test-concurrency=1 "${F[@]:0:13}" ; "${F[@]:13:13}" ; "${F[@]:26:30}"
+F=($(ls tests/*.test.mjs)); for r in "0 15" "15 15" "30 15" "45 40"; do set -- $r; node --test --test-concurrency=1 "${F[@]:$1:$2}"; done
 node scripts/ff.mjs variete
 node scripts/ff.mjs signatures
 npm outdated   # lecture seule : on note, on ne met pas à jour sans tour dédié
@@ -44,6 +44,37 @@ Puis un site d'exemple au hasard (pas finck-fisch) : build, `verifier`, `ia`, `p
 Tout rouge se corrige dans ce tour (c'est prioritaire sur le reste).
 
 ## 2. Apprendre (agents de lecture seule, 2 en parallèle au plus)
+
+### 2a. Le marché, À CHAQUE TOUR (le volet qui compte le plus)
+
+Le fondateur, 17 oct 2026 : les démos « ne feraient pas acheter », « c'est toujours la même chose », « est-ce que
+tu as scrappé assez de sites qui marchent ? ». Les 25 démontages d'octobre venaient surtout d'Awwwards : des sites
+qui plaisent aux designers. Ce volet étudie **ce qui fait signer un artisan**, tous métiers confondus (jamais
+métier par métier : on tire au hasard, on cherche ce qui revient partout).
+
+Par tour, **9 sites qui vendent**, trois de chaque source, jamais déjà dans `docs/veille/marche/` (grep l'URL) :
+1. **Agences qui ont des clients artisans** : portfolios d'agences web françaises de petite taille (recherche
+   « création site artisan » + une ville tirée au hasard parmi les 30 plus grandes de France ; on ouvre la page
+   réalisations d'une agence, on prend 1 site client récent).
+2. **Classés sur Google** : une recherche locale « <métier> <ville> » avec un métier tiré au hasard dans
+   `docs/OBJECTIF.md` et une ville tirée au hasard ; le premier site d'artisan indépendant des résultats (pas
+   un annuaire, pas une plateforme, pas une franchise nationale).
+3. **Modèles qui se vendent** : les modèles les plus populaires des places de marché (Framer Marketplace trié par
+   popularité, Squarespace et Wix catégories services locaux, ThemeForest « local business » trié par ventes).
+
+Pour chacun : `node scripts/ff.mjs demonter <url> --dossier docs/veille/marche` (sans navigateur disponible :
+récupérer le HTML et le CSS, et remplir la fiche à la main avec le même format, en écrivant « mesuré sur le code,
+pas sur capture »). Puis juger, dans la fiche, avec **la seule question du fondateur** : « un artisan paierait-il
+1 200 € pour ça, et pourquoi ? » ; et noter les **leviers de vente** vus : photos réelles (combien, de quoi),
+premier écran (quoi / où / téléphone), preuves (avis, années, réalisations chiffrées, labels), structure (une page
+ou plusieurs, où est le contact), appels à l'action (combien, lesquels), vitesse, mobile.
+
+Ensuite, mettre à jour `docs/veille/marche/CE-QUI-VEND.md` : un tableau des leviers avec **le compte** (« photo
+du gérant au premier écran : 7 sites sur 27 »), les sites qui l'illustrent, et ce que l'usine fait ou ne fait pas
+encore. Un levier vu sur au moins 40 % des sites et absent de l'usine devient le premier point « à implémenter »
+du tour (étape 3), avant tout autre volet. On ne copie jamais une maquette : on transpose un levier.
+
+### 2b. Un autre volet, si le temps le permet
 
 Par tour, choisir **un** volet principal (tourner : techniques → outils → bibliothèque → techniques…) :
 
@@ -58,15 +89,14 @@ Par tour, choisir **un** volet principal (tourner : techniques → outils → bi
   même squelette, même police), trous (un métier sans direction, une variante jamais choisie par
   `composer`), ce que `composer` ne sait pas faire. Mettre à jour `redondances.md`.
 
-Quel que soit le volet : **trois sites démontés** par tour avec `node scripts/ff.mjs demonter <url>` (petites
-structures, jamais un site déjà dans `docs/veille/demontages/`, choisis dans les galeries du volet techniques),
-puis le geste signature jugé sur les captures et écrit dans la fiche, et une ligne dans l'INDEX. Un Chrome à la fois.
+Un Chrome à la fois.
 
 Format des fiches : voir en tête de chaque fichier. Sources citées en lien. Verdicts nets.
 
 ## 3. Améliorer (une par tour, testée)
 
-Prendre le premier point de « à implémenter en premier » du volet du jour qui n'est pas encore fait :
+D'abord le levier du marché (2a) s'il y en a un au-dessus de 40 % et absent de l'usine. Sinon, le premier point
+de « à implémenter en premier » du volet du jour qui n'est pas encore fait :
 - nouvelle variante → `/nouvelle-variante` (fichier + `VARIANTS` + `docs/DIRECTIONS.md` + test) ;
 - nouvelle direction → `/nouvelle-direction` ;
 - nouvelle police → registre + `ff ia` toujours vert ;
@@ -93,7 +123,9 @@ une doc à jour, un commentaire périmé. Petits commits.
 
 ## Routine
 
-Planifiée tous les 3 jours dans Claude Code en ligne (le repo est privé : la session en ligne doit
-avoir le droit de pousser sur `main`). Prompt de la routine : « /veille ». Si la planification n'est
-pas disponible sur le compte, le fondateur lance `/veille` à la main ; le journal note la date du
-dernier tour pour qu'on voie le retard.
+Active depuis le 17 oct 2026 : routine Claude Code en ligne « Veille ff-atelier », tous les 3 jours à 4 h (Paris),
+https://claude.ai/code/routines (le fondateur la met en pause ou la supprime là). La session en ligne n'a ni le PC
+du fondateur, ni sa mémoire locale, ni forcément Chrome : si `playwright-core` ne trouve pas Chrome, essayer
+`npx -y playwright install chromium` puis `FF_CHROMIUM=1` devant chaque commande (Chromium au lieu du Chrome installé) ; sinon, démonter sur le code (2a) et sauter
+les étapes avec navigateur en le notant au journal. Elle pousse sur `main` ; si le push est refusé, elle pousse
+une branche `veille/<date>` et le journal le dit. Le fondateur peut aussi lancer `/veille` à la main.

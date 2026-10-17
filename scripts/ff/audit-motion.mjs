@@ -533,7 +533,7 @@ export async function cmdAuditMotion(args) {
   const capturesDir = path.join(ROOT, 'captures');
   fs.mkdirSync(capturesDir, { recursive: true });
 
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
   const reports = [];
   try {
     for (const slug of slugs) {

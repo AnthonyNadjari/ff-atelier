@@ -4,7 +4,7 @@ const sharp = createRequire(import.meta.url)('sharp');
 const root = 'C:/Users/nadja/ff-atelier/dist/fromagerie-ravanel';
 const T = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.webp': 'image/webp', '.avif': 'image/avif', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
 const srv = createServer((q, s) => { let f = path.join(root, decodeURIComponent(q.url.split('?')[0])); if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, 'index.html'); if (!fs.existsSync(f)) { s.writeHead(404); return s.end(); } s.writeHead(200, { 'Content-Type': T[path.extname(f)] || 'application/octet-stream' }); s.end(fs.readFileSync(f)); }).listen(0);
-const b = await chromium.launch({ channel: 'chrome', headless: true });
+const b = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
 const p = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 const vues = [];
 const snap = async (lab) => { const buf = await p.screenshot(); vues.push(await sharp(buf).resize(195).composite([{ input: Buffer.from(`<svg width="195" height="30"><rect width="195" height="18" fill="#ff0"/><text x="3" y="13" font-size="11" font-family="Arial">${lab}</text></svg>`), top: 0, left: 0 }]).png().toBuffer()); };

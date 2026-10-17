@@ -184,7 +184,7 @@ export async function cmdPropositions(args) {
   mkdirSync(outDir, { recursive: true });
 
   const { server, setRoot, port } = startServer();
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
 
   const usedDirections = [];
   const usedHeroes = [];

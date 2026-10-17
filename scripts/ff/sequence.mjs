@@ -182,7 +182,7 @@ export async function cmdSequence(args) {
     process.exit(1);
   }
 
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true });
   const page = await browser.newPage();
 
   let meta;

@@ -1094,7 +1094,7 @@ export async function cmdDemonter(args) {
 
   const { chromium } = await import('playwright-core');
   const sharp = (await import('sharp')).default;
-  const navigateur = await chromium.launch({ channel: 'chrome', headless: true, args: ['--disable-blink-features=AutomationControlled'] });
+  const navigateur = await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true, args: ['--disable-blink-features=AutomationControlled'] });
   const mesures = { outil: 'ff demonter', version: 1, url, nom, date: new Date().toISOString().slice(0, 10), identite: null, d: null, m: null };
   try {
     for (const cle of ['d', 'm']) {
