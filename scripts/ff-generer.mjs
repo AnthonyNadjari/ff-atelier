@@ -140,6 +140,7 @@ Tu NE rédiges PAS de TypeScript : tu appelles l'outil \`ecrire_site_config\` av
 Règles impératives :
 - slug : "${slug}". direction, motion, variantes : utilise exactement les noms de l'énumération du schéma. Toute variante inconnue fait planter le build.
 - N'invente JAMAIS un chiffre, un avis, une note Google, un nombre d'années : si le brief ne le donne pas, omets le champ (ne mets pas de valeur plausible à sa place). Un faux avis est une pratique commerciale trompeuse illégale (art. L121-2 du Code de la consommation) — proof.testimonials doit rester vide si le brief n'a pas d'avis réel avec sa source.
+- conseils (articles) : seulement les articles que le brief donne (section 10bis, texte du client) ; sinon laisse le champ absent. N'écris jamais un article à la place du client.
 - Textes en français, vouvoiement (jamais le tutoiement), registre concret et local, sans cliché marketing ("votre satisfaction est notre priorité", etc.).
 - business.tagline peut contenir un seul <em>...</em> autour du mot à accentuer.
 - Les champs texte long (description, story, services[].description, faq[].a) séparent leurs paragraphes par une ligne vide.

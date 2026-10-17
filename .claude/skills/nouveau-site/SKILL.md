@@ -96,6 +96,8 @@ En croisant le brief (section 12 : 3 adjectifs, métier, sites aimés/pas aimés
     faire avant la venue, plus les questions libres) deviennent la FAQ, **telles quelles reformulées en une
     phrase** (les mots du client, mis au propre, sans rien ajouter) ; **une question sans réponse n'entre pas**
     (pas de « Nous contacter pour en savoir plus », pas de réponse devinée d'après le métier).
+  - `conseils` (hors layout : pages `/conseils`) — seulement si le brief § 10bis donne des articles du client
+    (texte, ou enregistrement retranscrit) ; mis au propre, jamais écrits à sa place ; date fournie par lui.
   - `cta` — presque toujours (bandeau avant contact), sauf site très court.
   - `contact` — toujours.
   - Variante de chaque section : voir le tableau correspondant dans `docs/DIRECTIONS.md`.

@@ -1,0 +1,41 @@
+---
+/** Liste des conseils du client (src/lib/conseils.ts) : générée seulement s'il y a au moins un article. */
+import Base from '@/layouts/Base.astro';
+import { site, conseilsTries, dateConseil } from '@/lib/site';
+import { getSection, resolveSection } from '@/lib/sections';
+import Img from '@/components/Img.astro';
+
+export function getStaticPaths() {
+  return site.conseils.length > 0 ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const Cta = getSection('cta', site.layout.sections.find((s) => s.type === 'cta')?.variant ?? 'band');
+const conseils = conseilsTries(site.conseils);
+const titre = site.wording.conseils;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}.`} path="/conseils">
+  <Nav />
+  <main id="main">
+    <section class="section-y">
+      <div class="container-ff">
+        <h1 class="text-display-lg">{titre}</h1>
+        <ol class="mt-12 grid gap-8 md:grid-cols-2" data-stagger="110">
+          {conseils.map((c) => (
+            <li>
+              <a href={`/conseils/${c.slug}`} class="card block h-full rounded-card border border-line bg-surface p-6 shadow-card transition-colors duration-300 hover:border-fg">
+                {c.image && <Img src={c.image.src} alt={c.image.alt} class="mb-6 w-full rounded-card object-cover aspect-[3/2]" sizes="(min-width: 768px) 45vw, 100vw" />}
+                <time datetime={c.date} class="text-sm text-muted">{dateConseil(c.date)}</time>
+                <h2 class="mt-2 font-display text-2xl">{c.title}</h2>
+                <p class="mt-3 text-muted">{c.summary}</p>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+    <Cta />
+  </main>
+  <Footer />
+</Base>

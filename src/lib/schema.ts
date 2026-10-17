@@ -89,6 +89,17 @@ export type Realisation = z.infer<typeof realisation>;
 
 const md = z.string().describe('Texte, paragraphes separes par une ligne vide');
 
+/** Article de la rubrique conseils (src/lib/conseils.ts, src/pages/conseils/). */
+const conseil = z.object({
+  slug: z.string().regex(/^[a-z0-9-]+$/),
+  title: z.string(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('Date de publication AAAA-MM-JJ, donnée par le client'),
+  summary: z.string().describe("Une ou deux phrases : la carte de la liste et la meta description"),
+  body: md,
+  image: img.optional().describe("Photo du client (chantier, atelier) ; absente = pas d'image, jamais une photo de banque présentée comme la sienne"),
+});
+export type Conseil = z.infer<typeof conseil>;
+
 const hsl = z.object({
   h: z.number().min(0).max(360),
   s: z.number().min(0).max(100),
@@ -303,6 +314,13 @@ export const siteSchema = z.object({
     .default([]),
   faq: z.array(z.object({ q: z.string(), a: md })).default([]),
 
+  conseils: z
+    .array(conseil)
+    .default([])
+    .describe(
+      "Articles du client (conseils, actualités du métier) : page /conseils + une page par article + lien dans la nav, seulement s'il y en a. Vu sur 5 sites qui vendent sur 9 (docs/veille/marche/CE-QUI-VEND.md). Matière du client uniquement (écrite, dictée, réponse qu'il donne souvent au téléphone) : jamais un article rédigé sans elle.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -344,6 +362,7 @@ export const siteSchema = z.object({
       ctaText: z.string().optional().describe('Phrase sous le titre du CTA. Par défaut, une phrase sans donnée (le téléphone seulement) : le « intervention sous 48 h » d’avant le 17 oct 2026 était un délai que le brief ne donnait pas. Écrire la vraie phrase du client.'),
       faqTitle: z.string().optional().describe('Titre de la section FAQ, propre au client (ex. « Avant de passer à la boutique »). Absent = titre par défaut de la variante, générique : à éviter (docs/GOUT.md § 5).'),
       contactTitle: z.string().default('Parlons de votre projet'),
+      conseils: z.string().default('Conseils').describe('Libellé de la rubrique articles dans la nav et titre de /conseils (« Conseils », « Le carnet de l’atelier »)'),
       contactText: z.string().default('Décrivez votre besoin, nous vous rappelons rapidement.'),
       actions: z
         .object({

@@ -1,0 +1,49 @@
+---
+/** Article de la rubrique conseils : une page par entrée de site.conseils (src/lib/conseils.ts). */
+import Base from '@/layouts/Base.astro';
+import { site, tel, paragraphs, hasContactDoor, conseilsTries, dateConseil } from '@/lib/site';
+import { getSection, resolveSection } from '@/lib/sections';
+import { conseilLd } from '@/lib/jsonld';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+export function getStaticPaths() {
+  return site.conseils.map((c) => ({ params: { slug: c.slug }, props: { conseil: c } }));
+}
+const { conseil } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const Cta = getSection('cta', site.layout.sections.find((s) => s.type === 'cta')?.variant ?? 'band');
+const autres = conseilsTries(site.conseils).filter((c) => c.slug !== conseil.slug).slice(0, 3);
+const pageUrl = new URL(`/conseils/${conseil.slug}`, Astro.site).toString();
+const imageUrl = conseil.image ? new URL(conseil.image.src, Astro.site).toString() : undefined;
+---
+
+<Base title={`${conseil.title} | ${site.business.name}`} description={conseil.summary} path={`/conseils/${conseil.slug}`} jsonLd={[conseilLd(site, conseil, pageUrl, imageUrl)]}>
+  <Nav />
+  <main id="main">
+    <article class="section-y">
+      <div class="container-ff max-w-3xl">
+        <a href="/conseils" class="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"><Icon name="ArrowLeft" size={16} /> {site.wording.conseils}</a>
+        <h1 class="text-display-lg mt-8">{conseil.title}</h1>
+        <p class="mt-4 text-muted"><time datetime={conseil.date}>{dateConseil(conseil.date)}</time></p>
+        {conseil.image && <Img src={conseil.image.src} alt={conseil.image.alt} priority class="mt-10 w-full rounded-card object-cover aspect-[3/2] shadow-card" sizes="(min-width: 768px) 720px, 100vw" />}
+        <div class="mt-10 space-y-5 text-lg leading-relaxed max-w-prose">{paragraphs(conseil.body).map((p) => <p>{p}</p>)}</div>
+        <div class="mt-12 flex flex-wrap gap-4">
+          <Button href={tel()} size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+          {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
+        </div>
+        {autres.length > 0 && (
+          <nav aria-label={`Autres articles : ${site.wording.conseils}`} class="mt-16 border-t border-line pt-8">
+            <ul class="space-y-3">
+              {autres.map((a) => <li><a href={`/conseils/${a.slug}`} class="hover:text-accent">{a.title}</a></li>)}
+            </ul>
+          </nav>
+        )}
+      </div>
+    </article>
+    <Cta />
+  </main>
+  <Footer />
+</Base>

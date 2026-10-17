@@ -142,6 +142,14 @@ export async function loadGalerieModule() {
   return loadPureLibModule('galerie.ts');
 }
 
+/**
+ * Copie src/lib/conseils.ts (module pur : un seul `import type` du schema) dans TMP_DIR/lib/ et l'importe.
+ * Renvoie { conseilsTries, dateConseil, lienConseils } (tests/conseils.test.mjs).
+ */
+export async function loadConseilsModule() {
+  return loadPureLibModule('conseils.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

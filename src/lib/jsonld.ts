@@ -86,3 +86,19 @@ export function serviceLd(site: Site, service: Site['services'][number], pageUrl
     ...(service.priceFrom ? { offers: { '@type': 'Offer', description: service.priceFrom } } : {}),
   };
 }
+
+/** BlogPosting d'un article de la rubrique conseils (src/pages/conseils/[slug].astro). */
+export function conseilLd(site: Site, conseil: Site['conseils'][number], pageUrl: string, imageUrl?: string): Json {
+  return {
+    '@type': 'BlogPosting',
+    headline: conseil.title,
+    description: conseil.summary,
+    datePublished: conseil.date,
+    url: pageUrl,
+    mainEntityOfPage: pageUrl,
+    inLanguage: 'fr-FR',
+    ...(imageUrl ? { image: imageUrl } : {}),
+    author: { '@type': site.business.schemaType || schemaTypeForTrade(site.business.trade), name: site.business.name },
+    publisher: { '@type': site.business.schemaType || schemaTypeForTrade(site.business.trade), name: site.business.name },
+  };
+}

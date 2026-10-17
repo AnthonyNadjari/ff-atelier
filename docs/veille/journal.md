@@ -4,6 +4,38 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 17 oct 2026 (routine en ligne) — premier tour « ce qui se vend » : rubrique Conseils
+
+**Fait**
+- Santé : 56 fichiers de tests verts (4 blocs), `ff variete` et `ff signatures` verts (152 blocs, aucune copie),
+  `ff verifier ampere-fils` vert (avertissements de démo seulement), planche téléphone regardée, rien de cassé.
+  Chromium de la session trop ancien pour `playwright-core` 1.63 : `npx playwright install chromium` puis
+  `FF_CHROMIUM=1`, tout a tourné avec navigateur.
+- Volet 2a, 9 sites tirés au hasard et démontés (`ff demonter`) : 3 sites clients d'agences (Grenoble, Strasbourg,
+  Angers), 3 artisans classés (chambres d'hôtes Marseille, ferronnier d'art Paris, électricien Rennes), 3 modèles
+  (ThemeForest 10 654 ventes, Framer, Wix). Fiches et verdicts dans `docs/veille/marche/`, comptes dans
+  [CE-QUI-VEND.md](marche/CE-QUI-VEND.md).
+- Amélioration du tour, le seul levier ≥ 40 % absent de l'usine : la **rubrique Conseils** (5 sites sur 9).
+  Champ `conseils` du schéma (articles du client, jamais écrits à sa place), pages `/conseils` et `/conseils/<article>`
+  avec `BlogPosting`, lien de nav avant Contact, sitemap ; rien du tout sans article. `src/lib/conseils.ts`,
+  `src/pages/conseils/`, `tests/conseils.test.mjs` (7 tests dont un build), brief § 10bis, `/nouveau-site`.
+  Prouvé sur un site jetable (build, `ff ia`, a11y, typo verts, captures liste et article regardées), supprimé.
+
+**Appris du marché**
+- Ce qui revient partout est simple : plusieurs pages (9/9), une page par service (7/9), avis (7/9), téléphone en
+  haut (6/9), l'année de création (6/9), métier + ville dans le titre (5/9). L'usine fait déjà tout ça.
+- Les sites d'agence locale sont techniquement faibles (bannières cookies sur le titre, téléphone absent sur mobile,
+  image de banque) : ce qui les fait payer, c'est d'être trouvés et appelés, pas le dessin.
+- Le modèle le plus « vendeur » (Framer) aligne des preuves vérifiables : licence, assurance, délais chiffrés,
+  note avec nombre d'avis. L'usine sait les afficher, à condition que le brief les demande.
+
+**Proposé** : le formulaire client (`outils/brief-form/`) ne pose pas encore la question 10bis ; vérifier si les heros
+partagés montrent les labels (44 %) dès le premier écran.
+
+**À décider** : proposer la rubrique Conseils aux clients (un article par mois écrit avec eux = un service récurrent
+à facturer ?) ; le badge « depuis 1998 » reste refusé alors que 6 sites sur 9 mettent l'ancienneté en avant (en texte,
+l'usine le fait déjà).
+
 ## 17 oct 2026 — « concurrent de Framer / Lovable » : la skill s'outille
 
 **Fait**

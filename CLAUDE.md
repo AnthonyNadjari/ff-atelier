@@ -125,6 +125,9 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `business.schemaType` (sous-type schema.org, ex. `Plumber`) et
   `contact.mapsProvider`/`contact.coordinates` (carte sans traceur, voir `docs/DIRECTIONS.md` § Carte)
   sont optionnels — ne jamais les deviner pour un client, laisser absent si le brief ne les fournit pas.
+  `conseils` (défaut `[]`) : articles fournis par le client (brief § 10bis) → `/conseils`, une page par article
+  (`BlogPosting`), lien de nav avant Contact ; aucun article = aucune page (`src/lib/conseils.ts`,
+  `tests/conseils.test.mjs`, levier du marché `docs/veille/marche/CE-QUI-VEND.md`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

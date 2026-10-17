@@ -177,6 +177,16 @@ Autres questions qui reviennent tout le temps (avec la réponse habituelle) :
 > Dans `site.config.ts`, les réponses de cette section deviennent la `faq`, telles quelles reformulées en une
 > phrase ; une question sans réponse n'entre pas (`.claude/skills/nouveau-site/SKILL.md`).
 
+### 10bis. Conseils (facultatif)
+
+Les conseils que le client donne au téléphone, ou un article qu'il a déjà écrit, peuvent devenir une rubrique
+« Conseils » du site (5 sites qui vendent sur 9 en ont une, `docs/veille/marche/CE-QUI-VEND.md`). Pour chacun :
+titre, date, deux phrases de résumé, le texte (ou un enregistrement à retranscrire), une photo à lui si possible.
+
+- Conseil 1 : titre … / date … / texte …
+
+> Dans `site.config.ts` : `conseils`. Rien de sa part = pas de rubrique ; on n'écrit jamais un article à sa place.
+
 ## 11. Domaine et mise en ligne
 
 - **Domaine : le client en a déjà un ?** [ ] oui, lequel et chez quel registrar (OVH, Ionos, Gandi…) :

@@ -6,6 +6,8 @@ export { schemaTypeForTrade } from './schemaType';
 import { actions as actionsFor } from './actions';
 export { hasContactDoor, ACTION_LABELS, ACTION_ICONS } from './actions';
 export type { Action, ActionKind } from './actions';
+export { conseilsTries, dateConseil, lienConseils } from './conseils';
+import { lienConseils } from './conseils';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 
 import { config as siteConfig, lookFile, hasCredits } from 'virtual:ff-look';
@@ -104,5 +106,11 @@ export const navLinks = (s: Site = site) => {
   // Ancres absolues (« /#contact ») : depuis la 404, la confidentialité ou une page service, « #contact » ne mène
   // nulle part (contrôle « ancre interne sans cible » de ff verifier, 17 oct 2026).
   if (s.layout.contactDrawer && !links.some((l) => l.href === '/#contact')) links.push({ href: '/#contact', label: labels.contact });
+  // Rubrique conseils (src/lib/conseils.ts) : une page, pas une ancre ; seulement si le client a des articles.
+  const conseils = lienConseils(s.conseils ?? [], s.wording.conseils);
+  if (conseils) {
+    const iContact = links.findIndex((l) => l.href === '/#contact');
+    links.splice(iContact === -1 ? links.length : iContact, 0, conseils);
+  }
   return links;
 };

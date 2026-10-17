@@ -1,0 +1,37 @@
+# Maison Stamm — https://maisonstamm.fr/
+Titre « Coutellerie Maison Stamm - Achat, gammes et information », `lang="fr"`, description « Découvrez Maison Stamm, coutellerie alsacienne éco-responsable : couteaux de cuisine, pliants et accessoires fabriqués en France », technologie lue : Shopify, jQuery. Démontage automatique du 2026-10-17 (`ff demonter`, mesures brutes dans `maisonstamm.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Coutellerie Alsacienne : l’artisanat au service du patrimoine » ; image plein écran (76 % de l'écran) ; bouton principal « IGNORER ET PASSER AU CONTENU » en haut à gauche (-99999, 0 px) ; 77 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « Coutellerie Alsacienne : l’artisanat au service du patrimoine » ; image plein écran (64 % de l'écran) ; bouton principal « IGNORER ET PASSER AU CONTENU » en haut à gauche (-99999, 0 px) ; 68 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 9 lien(s) — NOS PRODUITS, À PROPOS, OÙ NOUS TROUVER ?, NOS SERVICES, CADEAUX D'ENTREPRISE, ACTUALITÉS, [Rechercher], [Compte], [NOMBRE TOTAL D’ARTICLES DANS LE PANIER: ] ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `main#MainContent` « Coutellerie Alsacienne : l’artisanat au… » (8,9 écrans, 768 mots, 47 img) → `div#shopify-section-sections--26791713243523__section_mjbHPg` (0,9 écran, 3 mots, 2 img) → `div#shopify-section-sections--26791713243523__section_PUG4k3` (0,5 écran, 17 mots, 0 img) → `footer#shopify-section-sections--26791713243523__footer_m9NzUG` (0,3 écran, 86 mots, 0 img) → `div#shopify-section-sections--26791713243523__footer_utilities_jLGE8U` (0,1 écran, 10 mots, 1 img). Calques hors flux (fixes/absolus) : `a.skip-to-content-link` (absolute, 24 px, 5 mots).
+Pied de page : 14 lien(s) — Nos produits, À propos, OÙ NOUS TROUVER ?, Nos services, Cadeaux d'entreprise, Actualités, Mentions légales, CGV, NOUS CONTACTER, contact@maisonstamm.fr (+4). Téléphone cliquable : oui (1, tel:+33 06 12 63 35 86). Formulaire : 8 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « CADEAUX D'ENTREPRISE » (/pages/cadeaux-dentreprise), « Découvrir nos cadeaux d’entreprise » (/pages/cadeaux-dentreprise), « FACEBOOK » (https://www.facebook.com/Cygocraft/).
+En 3 secondes : à juger sur `captures/maisonstamm-d.webp` (mesuré : fond du premier écran #f8f8f5, 3 image(s) et 77 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Chau Philomene One**, 48 px / 36 px téléphone, graisse 700, interlignage 1,20, interlettrage 1.44px ; h2 **Chau Philomene One**, 48 px / 36 px téléphone, graisse 700, interlignage 1,20, interlettrage 1.44px ; corps **Inter**, 14 px / 14 px téléphone, graisse 400, interlignage 1,60 ; boutons **Inter**, 12 px / 12 px téléphone, graisse 600, interlignage 1,60, capitales, interlettrage 1px ; nav **Chau Philomene One**, 18 px / 16 px téléphone, graisse 700, interlignage 1,67, capitales.
+Sources `@font-face` : auto-hébergée (Inter, Anonymous Pro) ; tiers (cdn.shopify.com) (GTStandard-M) ; fichiers chargés : https://maisonstamm.fr/cdn/fonts/inter/inter_n4.b2a3f24c19b4de56e8871f609e73ca7f6d2e2bb9.woff2, https://maisonstamm.fr/cdn/fonts/inter/inter_n7.02711e6b374660cfc7915d1afc1c204e633421e4.woff2, https://maisonstamm.fr/cdn/fonts/inter/inter_n6.771af0474a71b3797eb38f3487d6fb79d43b6877.woff2, https://maisonstamm.fr/cdn/fonts/anonymous_pro/anonymouspro_n4.f8892cc1cfa3d797af6172c8eeddce62cf610e33.woff2, https://maisonstamm.fr/cdn/fonts/inter/inter_i7.b377bcd4cc0f160622a22d638ae7e2cd9b86ea4c.woff2, https://maisonstamm.fr/cdn/fonts/inter/inter_i4.feae1981dda792ab80d117249d9c7e0f1017e5b3.woff2. Familles en usage sur le texte visible : Inter ×103, Chau Philomene One ×24. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #f8f8f5, texte #221e20 (contraste 15,48:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #f8f8f5 (61 %), #f3f3ec (38 %), #dd643a (1 %), #ffffff (0 %), #221e20 (0 %) ; textes par nombre de caractères : #221e20 (71 %), #ffffff (24 %), #dd643a (3 %), #000000 (2 %). Images : 51 `<img>` visibles, 0 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Shopify (window.Shopify), Swiper (script swiper-bundle.min_95051764-3f4c-4415-aff7-848f444c), Locomotive Scroll (attribut data-scroll). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.125s ease-in-out` ×45, `text-decoration-color 0.125s ease-in-out` ×33, `box-shadow 0.125s ease-in-out` ×6, `transform 0.25s ease-out` ×6, `box-shadow 0.25s ease-out` ×6, `scale 0.125s cubic-bezier(0.33, 1, 0.68, 1)` ×6, `background-color 0.125s ease-in-out` ×5, `opacity 0.125s ease-in-out` ×4, `opacity 0.3s ease` ×3, `opacity 0.5s ease-in-out` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-scroll-direction` ×1, `data-sticky-state` ×1, `data-animation-delay` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/maisonstamm-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `main#MainContent` « Coutellerie Alsacienne : l’artisanat au… » (8,9 écrans, 768 mots, 47 image(s)).
+2. L'élément le plus animé : `header-component#header-component` (1 transition(s) : opacity 0.125s ease-in-out ; attributs data-scroll-direction, data-sticky-state).
+3. Le bloc le plus singulier par sa structure : `footer#shopify-section-sections--26791713243523__footer_m9NzUG` (seule à contenir <details>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« CADEAUX D'ENTREPRISE », « Découvrir nos cadeaux d’entreprise », « FACEBOOK »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : Inter ; boutons pilule : 0/23 ordinateur, 0/24 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Verdict marché (veille du 17 oct 2026)
+Source : Studio Seja (Strasbourg), https://studioseja.fr/cas-client/maison-stamm. Observations complétées par la lecture du HTML (agent de recherche) et les captures `captures/maisonstamm-d|m.webp`, regardées.
+
+**Un artisan paierait-il 1 200 € pour ça ?** Oui, et bien plus que 1 200 € : c'est une boutique (Shopify, configurateur de gravure), le site vend directement. Leviers transposables : photos produit réelles en nombre, témoignages signés de restaurants de la ville, label régional (« Savoir-faire alsacien ») dans le premier écran, bandeau garantie et paiement en 3 fois.
+
+**Leviers vus** : Photos réelles : ~78 images, produits et mains au travail. Premier écran : promesse + label ; téléphone en pied de page seulement. Preuves : « plus de 1 000 clients », année de création, 3 témoignages signés. Structure : plusieurs pages, rubrique Actualités. Appels : Voir la collection, Personnaliser.

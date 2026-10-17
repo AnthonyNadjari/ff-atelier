@@ -1,0 +1,956 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://s-elec.bzh/",
+  "nom": "s-elec",
+  "date": "2026-10-17",
+  "identite": {
+    "title": "S Elec - Electricien à Rennes et ses alentours",
+    "siteName": "S Elec - Électricien à Rennes",
+    "lang": "fr-FR",
+    "description": "Un électricien à Rennes ? S Elec est une entreprise d’électricité accompagnant les professionnels et particuliers dans tous leurs projets d'installations électriques. Électricien à Rennes",
+    "technologies": [
+      "generator « WordPress 7.1.3 »",
+      "WordPress",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [
+      "jQuery is not defined",
+      "wp is not defined"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Électricien à Rennes",
+      "h1Visible": true,
+      "mots": 0,
+      "images": 0,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 34592,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.jet-headline",
+        "famille": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 40,
+        "graisse": "500",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.elementor-heading-title",
+        "famille": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 32,
+        "graisse": "500",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.cmplz-category-toggle",
+        "famille": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.elementor-item",
+        "famille": "Poppins, sans-serif",
+        "taille": 16,
+        "graisse": "500",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com"
+      ],
+      "fichiersPolices": [
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto%20Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CLato%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CPoppins%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "-apple-system",
+          "n": 113
+        },
+        {
+          "famille": "Poppins",
+          "n": 4
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#333333",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 52595704
+        },
+        {
+          "hex": "#69727d",
+          "n": 11,
+          "poids": 95516.203125
+        },
+        {
+          "hex": "#061f46",
+          "n": 1,
+          "poids": 92160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#333333",
+          "n": 52,
+          "poids": 4019
+        },
+        {
+          "hex": "#cc3366",
+          "n": 42,
+          "poids": 2157
+        },
+        {
+          "hex": "#6ec1e4",
+          "n": 9,
+          "poids": 180
+        },
+        {
+          "hex": "#54595f",
+          "n": 9,
+          "poids": 140
+        },
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 74
+        }
+      ],
+      "nbImages": 5,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 52595704,
+          "part": 0.996
+        },
+        {
+          "hex": "#69727d",
+          "n": 11,
+          "poids": 95516.203125,
+          "part": 0.002
+        },
+        {
+          "hex": "#061f46",
+          "n": 1,
+          "poids": 92160,
+          "part": 0.002
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#333333",
+          "n": 52,
+          "poids": 4019,
+          "part": 0.612
+        },
+        {
+          "hex": "#cc3366",
+          "n": 42,
+          "poids": 2157,
+          "part": 0.328
+        },
+        {
+          "hex": "#6ec1e4",
+          "n": 9,
+          "poids": 180,
+          "part": 0.027
+        },
+        {
+          "hex": "#54595f",
+          "n": 9,
+          "poids": 140,
+          "part": 0.021
+        },
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 74,
+          "part": 0.011
+        }
+      ],
+      "contraste": 12.63
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Swiper",
+          "preuve": "script swiper.min.js"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "background 0.3s ease",
+          "n": 148
+        },
+        {
+          "valeur": "border 0.3s ease",
+          "n": 148
+        },
+        {
+          "valeur": "box-shadow 0.3s ease",
+          "n": 148
+        },
+        {
+          "valeur": "transform 0.4s ease",
+          "n": 148
+        },
+        {
+          "valeur": "border-radius 0.3s ease",
+          "n": 69
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 20
+        },
+        {
+          "valeur": "all 0.4s ease",
+          "n": 4
+        },
+        {
+          "valeur": "fill 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "color 0.3s ease",
+          "n": 3
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.elementor-element",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "background 0.3s ease",
+          "border 0.3s ease",
+          "border-radius 0.3s ease",
+          "box-shadow 0.3s ease",
+          "transform 0.4s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.elementor",
+      "sections": [
+        {
+          "selecteur": "div#cmplz-cookiebanner-container",
+          "titre": null,
+          "top": 0,
+          "hauteur": 2599,
+          "ecrans": 2.9,
+          "mots": 112,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "header.elementor",
+          "titre": null,
+          "top": 2599,
+          "hauteur": 126,
+          "ecrans": 0.1,
+          "mots": 23,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.elementor-element-25e375f",
+          "titre": "Électricien à Rennes",
+          "top": 2727,
+          "hauteur": 345,
+          "ecrans": 0.4,
+          "mots": 72,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#services",
+          "titre": "Travaux d’électricité fiables et sécurisés, des prestations ",
+          "top": 3052,
+          "hauteur": 1674,
+          "ecrans": 1.9,
+          "mots": 241,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.elementor-element-1eadda55",
+          "titre": "Pourquoi Choisir S Elec ?",
+          "top": 4706,
+          "hauteur": 1344,
+          "ecrans": 1.5,
+          "mots": 60,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.elementor-element-7e943405",
+          "titre": null,
+          "top": 6031,
+          "hauteur": 452,
+          "ecrans": 0.5,
+          "mots": 11,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.elementor-element-6357eb9f",
+          "titre": "Avis clients",
+          "top": 6463,
+          "hauteur": 2888,
+          "ecrans": 3.2,
+          "mots": 40,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.elementor-element-5abfdd2e",
+          "titre": "FAQ sur nos prestations électriques",
+          "top": 9331,
+          "hauteur": 25507,
+          "ecrans": 28.3,
+          "mots": 91,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "details"
+          ]
+        },
+        {
+          "selecteur": "footer.elementor",
+          "titre": "S Elec Rennes",
+          "top": 34839,
+          "hauteur": 1441,
+          "ecrans": 1.6,
+          "mots": 78,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "div#cmplz-manage-consent",
+          "titre": null,
+          "top": 36281,
+          "hauteur": 42,
+          "ecrans": 0,
+          "mots": 5,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.elementor",
+        "hauteur": 126,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "+33 6 16 12 24 94",
+            "href": "tel:+33%206%2016%2012%2024%2094",
+            "bouton": false
+          },
+          {
+            "texte": "contact@s-elec.bzh",
+            "href": "mailto:contact@s-elec.bzh",
+            "bouton": false
+          },
+          {
+            "texte": "ACCUEIL",
+            "href": "https://s-elec.bzh/",
+            "bouton": false
+          },
+          {
+            "texte": "SERVICES",
+            "href": "https://s-elec.bzh/travaux-d-electricite-generale-a-rennes/",
+            "bouton": false
+          },
+          {
+            "texte": "À PROPOS DE NOUS",
+            "href": "https://s-elec.bzh/a-propos-de-nous/",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "https://s-elec.bzh/contact/",
+            "bouton": false
+          },
+          {
+            "texte": "Obtenir un Devis",
+            "href": "https://s-elec.bzh/index.php/contact/",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.elementor",
+        "liens": [
+          {
+            "texte": "+33 6 16 12 24 94",
+            "href": "tel:+33%206%2016%2012%2024%2094",
+            "bouton": false
+          },
+          {
+            "texte": "contact@s-elec.bzh",
+            "href": "mailto:contact@s-elec.bzh",
+            "bouton": false
+          },
+          {
+            "texte": "Obtenir un devis",
+            "href": "https://s-elec.bzh/index.php/contact/",
+            "bouton": true
+          },
+          {
+            "texte": "Accueil",
+            "href": "https://s-elec.bzh",
+            "bouton": false
+          },
+          {
+            "texte": "A Propos",
+            "href": "https://s-elec.bzh/index.php/a-propos-de-nous/",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "https://s-elec.bzh/index.php/contact/",
+            "bouton": false
+          },
+          {
+            "texte": "Électricité générale",
+            "href": "https://s-elec.bzh/travaux-d-electricite-generale-a-rennes/",
+            "bouton": false
+          },
+          {
+            "texte": "Électricité tertiaire",
+            "href": "https://s-elec.bzh/index.php/installation-electrcite-tertiaire-rennes/",
+            "bouton": false
+          },
+          {
+            "texte": "Solutions Domotiques",
+            "href": "https://s-elec.bzh/index.php/installation-solutions-domotique-rennes/",
+            "bouton": false
+          },
+          {
+            "texte": "Bornes de recharge électrique",
+            "href": "https://s-elec.bzh/index.php/installation-borne-de-recharge/",
+            "bouton": false
+          },
+          {
+            "texte": "Vidéosurveillance et Alarme",
+            "href": "https://s-elec.bzh/index.php/installation-videosurveillance-et-alarme-rennes/",
+            "bouton": false
+          },
+          {
+            "texte": "Dépannage",
+            "href": "https://s-elec.bzh/index.php/depannage-electricite/",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "https://s-elec.bzh/mentions-legales/",
+            "bouton": false
+          },
+          {
+            "texte": "Confidentialité",
+            "href": "https://s-elec.bzh/politique-de-confidentialite-2",
+            "bouton": false
+          },
+          {
+            "texte": "Création AVI AND COM",
+            "href": "http://aviandcom.com",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 3,
+        "href": "tel:+33%206%2016%2012%2024%2094"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Obtenir un Devis",
+          "href": "https://s-elec.bzh/index.php/contact/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-link",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 15,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/marche/captures/s-elec-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [
+      "jQuery is not defined",
+      "wp is not defined"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Électricien à Rennes",
+      "h1Visible": true,
+      "mots": 14,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.61,
+        "selecteur": "img.attachment-full"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 16510,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.jet-headline",
+        "famille": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 40,
+        "graisse": "500",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.elementor-heading-title",
+        "famille": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 32,
+        "graisse": "500",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.elementor-button",
+        "famille": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com",
+        "s-elec.bzh"
+      ],
+      "fichiersPolices": [
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto%20Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CLato%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CPoppins%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "-apple-system",
+          "n": 74
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#333333",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9744896
+        },
+        {
+          "hex": "#69727d",
+          "n": 10,
+          "poids": 88077.5625
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#333333",
+          "n": 32,
+          "poids": 3439
+        },
+        {
+          "hex": "#cc3366",
+          "n": 20,
+          "poids": 1731
+        },
+        {
+          "hex": "#6ec1e4",
+          "n": 9,
+          "poids": 180
+        },
+        {
+          "hex": "#54595f",
+          "n": 9,
+          "poids": 140
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 58
+        }
+      ],
+      "nbImages": 5,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9744896,
+          "part": 0.991
+        },
+        {
+          "hex": "#69727d",
+          "n": 10,
+          "poids": 88077.5625,
+          "part": 0.009
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#333333",
+          "n": 32,
+          "poids": 3439,
+          "part": 0.62
+        },
+        {
+          "hex": "#cc3366",
+          "n": 20,
+          "poids": 1731,
+          "part": 0.312
+        },
+        {
+          "hex": "#6ec1e4",
+          "n": 9,
+          "poids": 180,
+          "part": 0.032
+        },
+        {
+          "hex": "#54595f",
+          "n": 9,
+          "poids": 140,
+          "part": 0.025
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 58,
+          "part": 0.01
+        }
+      ],
+      "contraste": 12.63
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Swiper",
+          "preuve": "script swiper.min.js"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "background 0.3s ease",
+          "n": 136
+        },
+        {
+          "valeur": "border 0.3s ease",
+          "n": 136
+        },
+        {
+          "valeur": "box-shadow 0.3s ease",
+          "n": 136
+        },
+        {
+          "valeur": "transform 0.4s ease",
+          "n": 136
+        },
+        {
+          "valeur": "border-radius 0.3s ease",
+          "n": 61
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 11
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.elementor-element",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "background 0.3s ease",
+          "border 0.3s ease",
+          "border-radius 0.3s ease",
+          "box-shadow 0.3s ease",
+          "transform 0.4s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body.home",
+      "sections": [
+        {
+          "selecteur": "header.elementor-83",
+          "titre": null,
+          "top": 0,
+          "hauteur": 664,
+          "ecrans": 0.8,
+          "mots": 124,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "main#content",
+          "titre": "Électricien à Rennes",
+          "top": 664,
+          "hauteur": 16001,
+          "ecrans": 19,
+          "mots": 512,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "details"
+          ]
+        },
+        {
+          "selecteur": "footer.elementor-223",
+          "titre": "S Elec Rennes",
+          "top": 16665,
+          "hauteur": 2360,
+          "ecrans": 2.8,
+          "mots": 58,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "iframe"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.elementor",
+        "hauteur": 664,
+        "position": "static",
+        "liens": []
+      },
+      "pied": {
+        "selecteur": "footer.elementor",
+        "liens": [
+          {
+            "texte": "+33 6 16 12 24 94",
+            "href": "tel:+33%206%2016%2012%2024%2094",
+            "bouton": false
+          },
+          {
+            "texte": "contact@s-elec.bzh",
+            "href": "mailto:contact@s-elec.bzh",
+            "bouton": false
+          },
+          {
+            "texte": "Obtenir un devis",
+            "href": "https://s-elec.bzh/index.php/contact/",
+            "bouton": true
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "https://s-elec.bzh/mentions-legales/",
+            "bouton": false
+          },
+          {
+            "texte": "Confidentialité",
+            "href": "https://s-elec.bzh/politique-de-confidentialite-2",
+            "bouton": false
+          },
+          {
+            "texte": "Création AVI AND COM",
+            "href": "http://aviandcom.com",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 3,
+        "href": "tel:+33%206%2016%2012%2024%2094"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Obtenir un devis",
+          "href": "https://s-elec.bzh/index.php/contact/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-link",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 4,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "S Elec - Électricien à Rennes",
+  "dureeS": 95.2
+}
