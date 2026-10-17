@@ -258,6 +258,10 @@ scripts/ff.mjs vercel <slug>` sur un projet d'aperçu si les identifiants existe
 
 ## 10. Après le retour du fondateur
 
+- « On prend la B » → `node scripts/ff.mjs choisir <slug> b` : la piste devient `sites/<slug>`, les autres sont
+  rangées dans `sites/_pistes/` (plus construites ni déployées), puis build, vérification, déploiement sous le
+  vrai nom. Les retouches suivantes passent par `/retouche <slug> "<phrase>"`.
+
 - Un « non » → une ligne datée de `docs/GOUT.md` avec l'exemple, et si possible un contrôle (`ff ia`,
   `ff verifier`) ou une question de plus dans `relecteurs/da.md` ou `relecteurs/redacteur.md`.
 - Un « oui » sur un écart signalé → `sites/<slug>/direction.md`, section « Accepté par le fondateur »,

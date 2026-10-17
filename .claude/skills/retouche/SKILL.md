@@ -71,7 +71,8 @@ Mots du fondateur déjà traduits (à enrichir à chaque retouche, ici même) :
 4. `node scripts/ff.mjs verifier <slug> --sans-build` (a11y, typo, ia, aiguillage, données). Rouge =
    corriger à la source, jamais assouplir ; si la demande elle-même est la cause, s'arrêter et le dire.
 5. `node scripts/ff.mjs captures <slug> --comparer` : le pourcentage de pixels qui changent, desktop et
-   mobile. Une retouche de texte qui change 40 % de la page = quelque chose d'autre a bougé : regarder
+   mobile ; ou, si la hauteur de page a bougé, « dimensions changées (avant → après) » : c'est la mesure d'une
+   retouche de structure (la page a perdu ou gagné N px). Une retouche de texte qui change 40 % de la page = quelque chose d'autre a bougé : regarder
    `captures/diff/` avant de continuer.
 6. Si la retouche touche la structure, le mouvement ou un bloc sur mesure : `node scripts/ff.mjs planche
    <slug> --mobile-seul`, et la regarder (outil Read) ; `node scripts/ff.mjs audit-motion <slug>` si le
@@ -105,4 +106,8 @@ Rien d'autre : pas de « je peux aussi », pas de liste d'options.
 
 ## Journal des tests de la skill
 
-- (à remplir au premier essai réel : phrase, famille, fichiers touchés, % de comparaison, temps)
+- 17 oct 2026, site jetable `_test-retouche` (copie de `_exemple`), sans agent : « enlève le bandeau d'appel » =
+  une ligne de `layout.sections` ; build + `verifier --sans-build --sans-a11y` + `captures --comparer` = **32 s**.
+  La comparaison a dit « dimensions changées (1400x3468 → 1400x3076) » : pour une retouche de structure, c'est
+  la mesure (la page a perdu 392 px) ; le pourcentage de pixels n'existe que quand la hauteur ne bouge pas.
+  Leçon : lire la comparaison comme « hauteur » OU « pixels », et le dire au fondateur dans la ligne 2.
