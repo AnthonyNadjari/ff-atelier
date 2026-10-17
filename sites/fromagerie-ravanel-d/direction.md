@@ -61,16 +61,20 @@ A, B, C (entourer un fromage, glisser une meule d'un âge à l'autre, toucher un
   formulaire en bas (les trois pistes d'avant), et l'idée qui prend la place du socle.
 - SQUELETTE : coquille `split` (aucune piste ne l'a) : sur ordinateur, panneau de gauche collé avec le nom,
   « Fromager-affineur à Annecy », la nav et le téléphone ; le contenu défile à droite. Nav `bar` sur téléphone et
-  sur les pages d'offre. Accueil : Comptoir (premier écran, sur mesure) → les cinq offres (services/list partagée,
-  une ligne = une page) → Le plateau (bloc sur mesure) → Claire et Théo (about/timeline partagée, jalons) →
-  questions (faq/two-columns partagée) → 12 rue de la Gare (contact/simple partagée, sans formulaire) → pied
+  sur les pages d'offre. Accueil : Comptoir (premier écran, sur mesure) → les cinq offres (Offres, sur mesure depuis
+  le tour 1 : une carte par offre, photo ou objet dessiné, une carte = une page) → bande photo du beaufort, pleine
+  largeur → Le plateau (bloc sur mesure, sa planche chevauche la bande) → Claire et Théo (about/timeline partagée,
+  jalons) → bande photo du bas de la cave → questions (faq/two-columns partagée) → 12 rue de la Gare (contact/simple partagée, sans formulaire) → pied
   `columns`. Cinq pages d'offre (`/services/` puis le nom de l’offre) avec leur photo et le téléphone. Barre d'actions en bas sur
   téléphone : Appeler, Venir.
 - PREMIER ÉCRAN : téléphone : barre (nom, bouton Appeler) ; h1 « Fromager-affineur rue de la Gare, à Annecy » en
   slab grasse sur trois lignes ; une phrase (depuis 2011, six fermes, on goûte) ; le numéro en gros chiffres ;
   la pancarte de porte avec l'état du moment et les horaires du jour ; « Marché de la vieille ville : mardi et
-  vendredi matin, avec Théo » ; trois portes (Réserver une raclette, Commander un plateau, Venir). Ordinateur :
-  panneau de gauche (téléphone dedans), à droite le même texte sur 7 colonnes, la photo de la cave sur 5.
+  vendredi matin, avec Théo » ; trois portes (Réserver une raclette, Commander un plateau, Venir). Tour 1 (17 oct
+  2026, « trop 2D ») : la photo de cave en plein cadre (moitié haute de l'écran sur téléphone, tout l'écran à
+  droite du panneau sur ordinateur) et tout ce texte POSÉ dessus sur une carte (tranche couleur croûte, ombre
+  portée), qui déborde sur la section suivante à l'ordinateur ; la pancarte pend à un clou planté dans la photo,
+  devant le bord de la carte. Ordinateur : panneau de gauche (téléphone dedans).
 - MOUVEMENT (rien sur les titres, pas de rideau, aucun outil du moteur) :
   1. Entrée : la pancarte de la porte se retourne une fois à l'arrivée et montre l'état du moment (« Ouvert »,
      « Ouvre à 15 h 30 », « Fermé »), comme Claire la retourne le matin ; lent à léger rebond, 0,7 s. Raison :
@@ -81,8 +85,10 @@ A, B, C (entourer un fromage, glisser une meule d'un âge à l'autre, toucher un
   3. Feu d'artifice : on fait glisser le curseur « combien à table » (ou les boutons moins et plus, ou les
      flèches du clavier) : chaque part ajoutée tombe sur la planche avec un rebond (0,45 s), chaque part retirée
      s'efface sec (0,12 s) ; le prix de départ et le jour de retrait changent en même temps, sec. Raison : choisir.
-  4. Image qui bouge : dans le premier écran, la photo de la cave glisse lentement dans son cadre quand on descend
-     (translation verticale seule, le cadre ne bouge pas). Raison : descendre à la cave.
+  4. Image qui bouge : trois plans au défilement (tour 1) : les photos (cave du premier écran, bandes du beaufort et
+     du bas de la cave) descendent moins vite que la page dans leur cadre fixe, la carte suit la page, la pancarte
+     monte un peu plus vite ; translations verticales seules, bornées à ce que la photo dépasse de son cadre.
+     Raison : descendre à la cave.
   Courbes : SEC = ease-out court ou linéaire, 0,12 à 0,16 s (parts posées en série, part retirée, chiffres qui
   changent : ce sont des réponses) ; LENT à rebond = `cubic-bezier(0.34, 1.45, 0.6, 1)`, 0,45 à 0,7 s (une
   part qui tombe sur le bois, une pancarte qui tourne sur son clou : des objets qui ont du poids).
@@ -94,15 +100,20 @@ A, B, C (entourer un fromage, glisser une meule d'un âge à l'autre, toucher un
 - FIN : non relu = pas fini ; ce site se termine par le verdict du relecteur.
 
 ## Typographie, couleur, images
-- Direction `nordique` (blanc cassé froid, vert sapin, brun goudron) : la montagne sans le chalet, franc, clair.
-  Aucune piste ne l'a ; aucun site fromager non plus.
+- Direction `terre` depuis le tour 1 (17 oct 2026) : papier chanvre, vert mousse, ocre de croûte (son --accent-2,
+  la couleur des meules sur les photos), noyer pour la planche (ocre foncé). `nordique` (blanc froid) était un aplat
+  sans matière à côté des photos de cave. Aucune autre piste ne l'a (A nuit, B pierre, C encre ; `ff pistes` vert).
 - Polices : Epunda Slab (slab sec, contemporain : l'étiquette imprimée de crémerie) pour h1 et h2, Hanken Grotesk
   pour le texte et les h3 en gras. Deux rôles, h1 nettement plus grand que h2. Aucune police de la liste IA.
-- Accent : vert sapin de la direction (contraste vérifié par `ff detect`), réservé au téléphone, aux portes et
-  aux parts du plateau.
-- Images : cave (premier écran et page « La cave »), beaufort (page beaufort), raclette (page raclette), libres de
-  droits, créditées, sans légende. Le plateau est dessiné en CSS (planche, parts), pas en photo.
-- Calibration : pas crème + serif (blanc froid + slab), pas noir + acide, pas broadsheet, pas de cartes SaaS.
+- Accent : vert mousse de la direction (contraste vérifié par `ff detect`), réservé au téléphone, aux portes, à la
+  pancarte et au bouton du plateau. L'ocre n'est jamais un fond de texte (2,6:1 sous le crème) : tranches des
+  cartes, croûtes, bois.
+- Images : cave (premier écran plein cadre, carte, bande du bas, page « La cave »), beaufort (carte, bande pleine
+  largeur, page beaufort), raclette (carte, page raclette ; 1 000 px à la source, trop petite pour une bande), libres
+  de droits, créditées, sans légende. Le plateau est dessiné en CSS (planche, parts), pas en photo ; le comptoir est
+  une étiquette posée sur le bois.
+- Calibration : pas crème + serif (chanvre + slab), pas noir + acide, pas broadsheet, pas de cartes SaaS (les cartes
+  ont une photo ou un objet, une plaque qui déborde, une tranche, pas un rayon de 20 px).
 
 ## Références
 - Délice (`docs/veille/demontages/delice.md`) : horaires ouverts sur le jour même et barre d'actions en bas sur
@@ -117,7 +128,7 @@ A, B, C (entourer un fromage, glisser une meule d'un âge à l'autre, toucher un
 | Axe | A « L'ardoise » | B « La cave » | C « La semaine » | D « Le comptoir » (ici) |
 |---|---|---|---|---|
 | Squelette | flow, une page | colonne en escalier, une page | index, une page | split (panneau collé), accueil + 5 pages |
-| Couleur | sombre ardoise | clair qui s'assombrit | papier blanc + orange | blanc froid + vert sapin |
+| Couleur | sombre ardoise | clair qui s'assombrit | papier blanc + orange | chanvre + vert mousse + ocre, photos en grand |
 | Typo | craie + grotesque | serif condensée + mono | Archivo Black + mono | Epunda Slab + Hanken |
 | Entrée | la craie s'écrit | marches, lumière qui baisse | talons, ticket imprimé | la pancarte se retourne sur l'état du moment |
 | Apparition | lignes écrites | meules posées (lent) | fiches en paquet | rien n'apparaît ; seules les parts du plateau se posent |

@@ -9,6 +9,10 @@ import type { APIRoute } from 'astro';
 import { site } from '@/lib/site';
 
 export const GET: APIRoute = ({ site: astroSite }) => {
+  // Démo privée pour un prospect (legal.prospect) : aucun robot, aucun sitemap annoncé.
+  if (site.legal.prospect) {
+    return new Response(`# ${site.business.name} : démo privée, non indexée\nUser-agent: *\nDisallow: /\n`, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+  }
   const sitemap = astroSite ? `Sitemap: ${new URL('/sitemap-index.xml', astroSite).toString()}\n` : '';
   const body = `# ${site.business.name} — robots.txt (généré par src/pages/robots.txt.ts)
 

@@ -61,3 +61,57 @@ commandes de plateaux au téléphone en répondant seul à « combien ça coûte
 Ce qui le retiendrait : sans ses photos et ses avis, le site ressemble à n'importe quelle fromagerie sérieuse ; il
 faut ses vraies photos (cave, comptoir, Claire, Théo au marché) et ses avis Google pour qu'il dise « c'est moi ».
 Sur un vrai commerce avec ces deux données, oui.
+
+## Tour 1 — 17 oct 2026 : profondeur
+
+Verdict du fondateur sur le tour 0 : « un peu mieux déjà. Perso je l'achèterais pas. Trop 2D, pas beau ». Le fond
+(socle, textes, plateau et son calcul) ne bouge pas ; l'habillage est refait (GOUT § 0, « le socle doit être beau »).
+Référence de profondeur : le site du studio (mur d'écrans en perspective, téléphone posé sur une grande photo).
+Relecture dégradée, un seul contexte : captures, planches à la molette (téléphone et ordinateur) et film regardés.
+
+### Avant / après
+| | Avant (tour 0) | Après (tour 1) |
+|---|---|---|
+| Premier écran téléphone | texte sur fond blanc froid, photo de cave en vignette arrondie sous les portes | photo de cave plein cadre sous la barre, texte posé dessus sur une carte (tranche couleur croûte, ombre portée en quatre couches), pancarte « Ouvert » pendue à un clou planté dans la photo, devant le bord de la carte |
+| Premier écran ordinateur | texte à gauche, photo en vignette 3:4 à droite | photo plein cadre sur toute la colonne de droite (100svh), carte posée en bas à gauche, qui déborde de 24 à 36 px sur la section suivante ; h1 sur 2 lignes |
+| Offres | liste à plat, « Nos services » + surtitre | « À la cave et au comptoir » (`wording.servicesTitle`) ; cinq cartes : photo (cave, beaufort, raclette) ou objet dessiné (planche des plateaux, étiquette du comptoir), plaque de texte qui déborde sur le bas de la photo, ombre ; rangée qu'on fait glisser sur téléphone |
+| Entre les sections | rien, blocs empilés sur fond uni | bande pleine largeur du beaufort (la planche du plateau la chevauche) ; bande du bas de la cave avant les questions |
+| Le plateau | planche plate, grille de parts | planche de noyer vue en perspective (rotateX 20°), tranche épaisse, ombre portée sur la page et sur la photo, parts couleur pâte et croûte avec leur ombre ; 5 parts par rang à l'ordinateur |
+| Couleur | `nordique` (blanc froid, vert sapin) | `terre` (chanvre, vert mousse, ocre de croûte), couleurs des photos ; ombres tirées de `--ink` |
+| Défilement | photo de cave qui glisse dans sa vignette | trois plans : photos derrière (plus lentes), cartes avec la page, pancarte devant (un peu plus rapide), translations seules bornées (`sections/plans.ts`) |
+
+Mesuré (playwright, `dist/`) : 1400x900, h1 2 lignes, numéro en bas à 760 px, horaires 799, portes 899 ; 1280x800
+portes 793 ; 1024x768 portes 761 ; 390x844 numéro 613, horaires 657 ; 375x667 numéro 512, horaires 578 (au-dessus
+de la barre d'actions, règle « petit téléphone » ajoutée). Texte de la carte : `--muted` sur `--surface`, AA (axe
+dans `ff verifier`). Pancarte, entrée et geste du plateau vérifiés au film (13 personnes, 78 €).
+
+### Contrôles
+- `ff prevol` : tout vert (contrat, aiguillage, build, verifier avec a11y, audit-motion, netteté, detect, perf,
+  signatures). Corrigé en route : grille d'images aux ratios « incohérents » (classe `object-cover` manquante pour
+  le contrôle), raclette floue en bande pleine largeur, HTML de l'accueil à 141,5 Ko pour 140 (styles des sections
+  sur mesure passés en global préfixé, semaines du premier écran et du plateau encodées en texte compact, rang des
+  parts posé par le script) : 138 Ko, marge faible.
+- `ff pistes` A, B, C, D (`--sans-film`) : vert, D ne partage aucun axe avec A, B, C.
+- Piège noté : `craft.css` impose `display: inline-flex` à tout `button[aria-label]` (plus spécifique qu'une classe
+  de section) : les boutons moins et plus du plateau avaient leur signe collé à gauche depuis le tour 0 ; centrés.
+
+### Ce qui reste plat
+- Claire et Théo (about/timeline), questions (faq/two-columns), 12 rue de la Gare (contact/simple) et le pied :
+  sections partagées, blocs à plat sur le fond ; les rendre profondes demande des variantes dans `src/` ou des
+  sections sur mesure de plus (budget HTML déjà au bord).
+- Panneau de la coquille `split` (ordinateur) : aplat `--bg-2` à côté de la photo ; la coquille est dans `src/`.
+- Pages d'offre (`/services/*`) : photo en vignette 4:3 arrondie à droite du texte. Le gabarit
+  `src/pages/services/[slug].astro` est partagé et sans variante : pas d'image en grand possible sans toucher `src/`.
+  À ouvrir : une variante de page d'offre « photo plein cadre + carte posée ».
+- La raclette n'a pas sa bande : source de 1 000 px (original Wikimedia compris), floue en pleine largeur
+  (`ff nettete`) ; remplacée par le bas de la photo de cave. Un vrai client fournit ses photos en grand.
+- La carte du premier écran ne déborde que de 24 à 36 px à l'ordinateur : plus, et les portes passent sous le pli.
+- Réglage du plateau (curseur, prix, jour) posé à plat à côté de la planche ; grand vide sous la planche à
+  l'ordinateur.
+- Non vérifié : iPhone en ligne (pas de déploiement demandé), un jour fermé en vrai.
+
+### Plus beau qu'avant ?
+Oui. Le premier écran montre enfin une cave (on sent le fromage avant de lire), le texte a un support qui a du
+poids, la pancarte pend devant, et la page alterne photo, cartes et planche au lieu d'empiler des blocs blancs.
+Ce n'est pas encore le niveau du site du studio : la moitié basse de l'accueil (Claire et Théo, questions, contact)
+reste plate, et les photos sont de banque, sans la boutique ni les gens.

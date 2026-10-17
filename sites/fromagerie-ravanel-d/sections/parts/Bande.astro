@@ -1,0 +1,38 @@
+---
+/**
+ * Bande photo pleine largeur entre deux sections (tour 1, 17 oct 2026, GOUT § 0 « l'image en grand »). Pas une
+ * section : un morceau partagé par BandeBeaufort et BandeRaclette, qui lisent leur photo dans site.services.
+ * La photo est le plan du fond : elle glisse moins vite que la page (plans.ts, translation seule) ; le cadre ne
+ * bouge pas. Sans rayon, sans légende (photos libres, créditées sur /credits).
+ */
+import Img from '@/components/Img.astro';
+interface Props { src: string; alt: string; position?: string; hauteur?: string }
+const { src, alt, position = '50% 50%', hauteur = 'clamp(15rem, 46svh, 30rem)' } = Astro.props;
+---
+
+<div class="bde" data-plan-cadre style={`--bde-h: ${hauteur}; --bde-pos: ${position};`}>
+  <div class="bde-plan" data-plan="0.12">
+    <Img src={src} alt={alt} class="bde-img" sizes="(min-width: 1024px) 70vw, 100vw" />
+  </div>
+</div>
+
+<style>
+  .bde {
+    position: relative;
+    height: min(var(--bde-h), 66vw);
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .bde-plan {
+    position: absolute;
+    inset: -14% 0 auto;
+    height: 128%;
+    will-change: transform;
+  }
+  .bde :global(.bde-img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--bde-pos);
+  }
+</style>

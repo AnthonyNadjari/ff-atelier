@@ -21,14 +21,16 @@ const MAX = 30;
 const DEPART = 12;
 const PRIX = 6; // € par personne, « à partir de » (brief § 4)
 const sem = semaine(site.contact.hours) ?? [];
-const data = JSON.stringify(sem.map((j) => ({ creneaux: j.creneaux, ferme: j.ferme })));
+// Semaine compacte (budget HTML de ff perf) : un jour par segment « | », créneaux « 08:30-12:30 15:30-19:00 »,
+// segment vide = fermé. Lundi d'abord, comme semaine().
+const data = sem.map((j) => (j.ferme ? '' : j.creneaux.map((c) => `${c.opens}-${c.closes}`).join(' '))).join('|');
 // Trois formes de part, en alternance : pointe de tomme, carré de reblochon, tranche de beaufort.
 const FORMES = ['pointe', 'carre', 'tranche'];
 const parts = Array.from({ length: MAX }, (_, i) => ({ i, forme: FORMES[(i * 7) % 3], tour: ((i * 37) % 9) - 4 }));
 const euros = (n: number) => `${n * PRIX} €`;
 ---
 
-<section id="plateau" class="pla section-y" aria-labelledby="pla-titre" data-plateau={data} data-min={MIN} data-max={MAX} data-prix={PRIX}>
+<section id="plateau" class="pla" aria-labelledby="pla-titre" data-plateau={data} data-min={MIN} data-max={MAX} data-prix={PRIX}>
   <div class="pla-grille">
     <div class="pla-tete">
       <h2 id="pla-titre" class="text-display-md">Le plateau</h2>
@@ -40,7 +42,7 @@ const euros = (n: number) => `${n * PRIX} €`;
     <div class="pla-planche" aria-hidden="true">
       <div class="pla-bois">
         {parts.map((p) => (
-          <span class:list={['pla-part', `pla-${p.forme}`]} style={`--pla-tour: ${p.tour * 4}deg; --pla-i: ${p.i};`} data-pose={p.i < DEPART ? '' : undefined}></span>
+          <span class:list={['pla-part', `pla-${p.forme}`]} style={`--pla-tour:${p.tour * 4}deg`} data-pose={p.i < DEPART ? '' : undefined}></span>
         ))}
       </div>
     </div>
@@ -72,30 +74,39 @@ const euros = (n: number) => `${n * PRIX} €`;
   </div>
 </section>
 
-<style>
+<style is:global>
+  /* Global (tour 1) : classes préfixées propres à la section, sans attribut de portée Astro sur chaque élément
+     et chaque sélecteur (budget HTML de ff perf, 140 Ko). Aucune classe Tailwind n'est redéfinie ici. */
+  /* Tour 1 (17 oct 2026, « trop 2D ») : la planche est un objet posé, vu d'un peu au-dessus (perspective), avec
+     son épaisseur et son ombre ; elle CHEVAUCHE la bande photo du beaufort au-dessus (deux sections). */
+  .pla { position: relative; z-index: 1; padding-bottom: var(--section-y); }
   .pla-grille {
     width: min(100% - 2rem, 72rem);
     margin-inline: auto;
     display: grid;
     gap: 2rem;
   }
+  .pla-planche { order: -1; margin-top: clamp(-7rem, -18vw, -4rem); }
   @media (min-width: 64rem) {
     .pla-grille {
-      width: min(100% - 5rem, 72rem);
+      width: min(100% - 5rem, 58rem);
       grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-      grid-template-areas: 'tete tete' 'planche reglage';
+      grid-template-areas: 'planche tete' 'planche reglage';
+      grid-template-rows: auto 1fr;
       column-gap: 3.5rem;
-      row-gap: 2.5rem;
-      align-items: center;
+      row-gap: 1.5rem;
     }
-    .pla-tete { grid-area: tete; }
-    .pla-planche { grid-area: planche; }
+    .pla-tete { grid-area: tete; padding-top: 3rem; }
+    .pla-planche { grid-area: planche; margin-top: clamp(-13rem, -12vw, -8rem); }
+    /* Ordinateur : cinq parts par rang, la planche monte plus haut et remplit la colonne à côté du réglage. */
+    .pla-planche .pla-bois { grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 2rem 2.2rem 2.4rem; }
     .pla-reglage { grid-area: reglage; }
   }
-  .pla-tete, .pla-planche, .pla-reglage { min-width: 0; }
   .pla-intro { margin-top: 1rem; font-size: 1.1rem; line-height: 1.5; color: var(--muted); max-width: 36rem; }
 
-  /* La planche : du bois clair (mélange du brun goudron et du fond), veinée de deux filets. */
+  /* La planche : du noyer (l'ocre de la croûte assombri par le vert-noir de la direction), veinée, vue d'un peu
+     au-dessus ; une tranche épaisse en bas et une ombre portée large sur la page et sur la photo. */
+  .pla-planche { position: relative; z-index: 2; perspective: 1100px; }
   .pla-bois {
     position: relative;
     display: grid;
@@ -104,23 +115,29 @@ const euros = (n: number) => `${n * PRIX} €`;
     padding: clamp(1rem, 3vw, 1.75rem);
     border-radius: var(--radius-card);
     background:
-      repeating-linear-gradient(176deg, transparent 0 1.6rem, color-mix(in oklab, var(--accent-2) 22%, transparent) 1.6rem 1.7rem),
-      color-mix(in oklab, var(--accent-2) 46%, var(--bg));
-    box-shadow: inset 0 -0.4rem 0 color-mix(in oklab, var(--accent-2) 72%, var(--bg));
+      repeating-linear-gradient(176deg, transparent 0 1.6rem, color-mix(in oklab, var(--ink) 14%, transparent) 1.6rem 1.7rem),
+      linear-gradient(to bottom, var(--accent-2-text), color-mix(in oklab, var(--accent-2-text) 78%, var(--ink)));
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--accent-2) 70%, var(--surface)),
+      0 10px 0 color-mix(in oklab, var(--accent-2-text) 55%, var(--ink)),
+      0 14px 6px -2px color-mix(in oklab, var(--ink) 40%, transparent),
+      0 50px 70px -24px color-mix(in oklab, var(--ink) 70%, transparent);
+    transform: rotateX(20deg);
+    transform-origin: 50% 100%;
   }
   .pla-part {
     aspect-ratio: 1;
     opacity: 0;
     transform: translateY(-0.9rem) rotate(var(--pla-tour));
     transition: opacity 0.12s ease-out, transform 0.12s ease-out;
-    background: color-mix(in oklab, var(--accent-2) 9%, var(--surface));
-    box-shadow: 0 0.14rem 0 color-mix(in oklab, var(--accent-2) 80%, var(--bg));
+    background: color-mix(in oklab, var(--accent-2) 22%, var(--surface));
+    box-shadow: 0 0.25rem 0.3rem -0.05rem color-mix(in oklab, var(--ink) 55%, transparent);
   }
   .pla-part[data-pose] { opacity: 1; transform: translateY(0) rotate(var(--pla-tour)); }
   /* Pointe de tomme (triangle avec sa croûte), carré de reblochon, tranche de beaufort. */
-  .pla-pointe { clip-path: polygon(50% 6%, 96% 94%, 4% 94%); box-shadow: none; background: linear-gradient(to top, color-mix(in oklab, var(--accent-2) 62%, var(--bg)) 0 14%, color-mix(in oklab, var(--accent-2) 9%, var(--surface)) 14%); }
-  .pla-carre { border-radius: 3px; border: 3px solid color-mix(in oklab, var(--accent-2) 58%, var(--bg)); width: 78%; justify-self: center; align-self: center; }
-  .pla-tranche { border-radius: 2px; width: 92%; height: 46%; aspect-ratio: auto; align-self: center; justify-self: center; border-top: 4px solid color-mix(in oklab, var(--accent-2) 62%, var(--bg)); }
+  .pla-pointe { clip-path: polygon(50% 6%, 96% 94%, 4% 94%); box-shadow: none; background: linear-gradient(to top, color-mix(in oklab, var(--accent-2) 80%, var(--fg)) 0 14%, color-mix(in oklab, var(--accent-2) 22%, var(--surface)) 14%); }
+  .pla-carre { border-radius: 3px; border: 3px solid color-mix(in oklab, var(--accent-2) 75%, var(--surface)); width: 78%; justify-self: center; align-self: center; }
+  .pla-tranche { border-radius: 2px; width: 92%; height: 46%; aspect-ratio: auto; align-self: center; justify-self: center; border-top: 4px solid color-mix(in oklab, var(--accent-2) 80%, var(--fg)); }
 
   /* Script prêt : on part d'une planche vide, les parts se posent (rythme sec), puis au geste (rebond). */
   .pla[data-js] .pla-part:not([data-pose]) { opacity: 0; }
@@ -139,6 +156,11 @@ const euros = (n: number) => `${n * PRIX} €`;
     width: 3rem;
     height: 3rem;
     flex: none;
+    /* craft.css pose display: inline-flex sur tout button[aria-label] (plus spécifique) : on centre en flex. */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: var(--surface);
@@ -171,9 +193,9 @@ const euros = (n: number) => `${n * PRIX} €`;
     text-decoration: none;
     transition: background-color 0.15s ease-out;
   }
-  .pla-appel:active { background: var(--accent-2); }
+  .pla-appel:active { background: color-mix(in oklab, var(--accent) 75%, var(--ink)); }
   @media (hover: hover) and (pointer: fine) {
-    .pla-appel:hover { background: var(--accent-2); }
+    .pla-appel:hover { background: color-mix(in oklab, var(--accent) 75%, var(--ink)); }
   }
   .pla-note { margin-top: 0.6rem; font-size: 0.95rem; color: var(--muted); }
 
@@ -208,7 +230,10 @@ const euros = (n: number) => `${n * PRIX} €`;
   onPage(() => {
     const bloc = document.querySelector<HTMLElement>('[data-plateau]');
     if (!bloc) return;
-    const sem: Jour[] = JSON.parse(bloc.dataset.plateau || '[]');
+    const sem: Jour[] = (bloc.dataset.plateau || '').split('|').map((j) => ({
+      ferme: !j,
+      creneaux: j ? j.split(' ').map((c) => { const [opens, closes] = c.split('-'); return { opens, closes }; }) : [],
+    }));
     const MIN = Number(bloc.dataset.min), MAX = Number(bloc.dataset.max), PRIX = Number(bloc.dataset.prix);
     const parts = [...bloc.querySelectorAll<HTMLElement>('.pla-part')];
     const curseur = bloc.querySelector<HTMLInputElement>('[data-pla-curseur]')!;
@@ -244,6 +269,8 @@ const euros = (n: number) => `${n * PRIX} €`;
     const io = new IntersectionObserver((entrees) => {
       if (!entrees.some((e) => e.isIntersecting)) return;
       io.disconnect();
+      // Rang de chaque part pour le décalage de la série (posé ici, pas dans le HTML : budget de ff perf).
+      parts.forEach((p, i) => p.style.setProperty('--pla-i', String(i)));
       bloc.dataset.js = 'serie';
       requestAnimationFrame(() => requestAnimationFrame(() => poser(depart)));
       window.setTimeout(() => { if (bloc.dataset.js === 'serie') bloc.dataset.js = 'geste'; }, 40 * MAX + 400);
