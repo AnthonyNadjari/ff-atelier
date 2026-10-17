@@ -186,7 +186,8 @@ async function filmer(slugs) {
         for (const t of TEMPS) {
           const reste = t - (Date.now() - t0);
           if (reste > 0) await page.waitForTimeout(reste);
-          vues.push({ label: `${t} ms`, png: await page.screenshot() });
+          // À 0 ms, Chrome peut refuser la capture (page pas encore composée) : un second essai suffit.
+          vues.push({ label: `${t} ms`, png: await page.screenshot().catch(() => page.screenshot()) });
         }
         await page.waitForTimeout(600);
         // Première section sous le hero : le 2e enfant de <main> (ou la 2e section), amenée en haut.

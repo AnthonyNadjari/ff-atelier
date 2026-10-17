@@ -38,3 +38,21 @@ Plafonds actifs : aucun. Constats ≥ 75 ouverts : aucun.
 glisser à la main, seul effet riche.
 Non retenu, sous le seuil : vides avant la FAQ sur ordinateur ; « la date à la craie est dite, pas montrée »
 (idée 7 et pas 8 : piste pour une vraie photo du client).
+
+## Tour 4 — 17 oct 2026 (piste A refaite le 16 au soir) — verdict DA : corriger / rédacteur : corriger
+Notes DA : composition 7,5 · usage 8 · idée 7,5 ; textes 3 (plafond « donnée sans source » : « intervention sous 48 h »
+sur les pages service, texte par défaut du moteur) → sans ce plafond, textes 8.
+Constats appliqués :
+- Rédacteur 1-3 : `servicePages: false` (le contrat ne prévoit pas de pages service ; elles réintroduisaient le
+  surtitre gris, un doublon de description et des liens `/#contact` sans cible). Et dans l'usine : le bandeau CTA
+  n'invente plus « sous 48 h » par défaut (`src/sections/Cta/band.astro`, describe de `wording.ctaText`).
+- Rédacteur 4 : CREDITS.md vidé, photos cave / beaufort / raclette retirées de la piste A (0 `<img>`) : plus de
+  page /credits ni de lien « Crédits photos ».
+- Rédacteur 5 + DA 2 : l'origine (« six fermes des Aravis et des Bauges, nommées sur l'ardoise ») dite une fois en
+  tête de l'ardoise ; sous chaque fromage, ses seules lignes propres ; consigne « on vous dit comment il se vend ».
+- DA 1 : « Toujours ! » n'est plus en jaune (pas d'accent sur un seul mot).
+- DA 3 : sur ordinateur la meule part avec la première lettre (`140 + i*110` ms) et l'entrée attend
+  `document.fonts.ready` ; vérifié sur `captures/planches/fromagerie-ravanel-film-d.jpg` (script
+  `scripts/outils/film-hero-desktop.mjs`).
+Non retenu : rien.
+Décision prise pour le fondateur : les pages service disparaissent de la piste A (tout est sur l'ardoise).

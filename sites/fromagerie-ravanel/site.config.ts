@@ -12,7 +12,7 @@ export default defineSite({
   typography: { display: 'savate', body: 'specialGothic' },
   scale: 'normal',
   motion: 'rich',
-  servicePages: true,
+  servicePages: false,
   layout: {
     nav: 'custom/nav',
     hero: 'custom/hero',

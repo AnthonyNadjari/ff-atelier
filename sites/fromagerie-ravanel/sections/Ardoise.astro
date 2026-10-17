@@ -3,14 +3,15 @@
  * Bloc signature de la piste A : l'ardoise du comptoir. Les fromages sont écrits à la craie, une ligne
  * après l'autre quand l'ardoise arrive à l'écran (régime sec, 180 ms par ligne, 70 ms d'écart).
  * Geste : toucher un fromage l'entoure à la craie jaune (régime lent, un cercle de main de 0,62 s) et
- * écrit dessous d'où il vient. Le brief ne nomme pas les fermes : la ligne dit « une des six fermes des
- * Aravis et des Bauges » et renvoie à l'ardoise de la boutique, où Claire les nomme (brief § 6). Rien
+ * écrit dessous comment il se vend. Le brief ne nomme pas les fermes : l'origine se dit une fois en tête
+ * (« six fermes des Aravis et des Bauges »), et renvoie à l'ardoise de la boutique, où Claire les nomme (brief § 6). Rien
  * d'inventé : chaque détail est une phrase du brief (cave à 11 °C, date à la craie, plus jeune ou plus
  * fait, beaufort à 12, 18 ou 24 mois, très peu de lactose, coupé ou râpé à la demande).
  * Le beaufort a sa propre ligne qui s'efface et se réécrit quand on change d'âge.
  * Sans JavaScript : tout est écrit et tous les détails sont ouverts.
  */
-const ORIGINE = 'D’une des six fermes des Aravis et des Bauges. Son nom est écrit sur l’ardoise de la boutique.';
+// L'origine se dit une fois, en tête de l'ardoise (relecture du 17 oct 2026 : cinq fois la même non-réponse).
+const ORIGINE = 'Tout vient de six fermes des Aravis et des Bauges ; Claire les nomme sur l’ardoise de la boutique.';
 
 const fromages = [
   {
@@ -53,7 +54,8 @@ const comptoir = ['Beurre de baratte', 'Crème crue', 'Yaourts de la ferme', 'Qu
   <div class="container-ff">
     <div class="ard-tete">
       <h2 class="titre-imprime ard-titre">L’ardoise</h2>
-      <p class="ard-consigne">Touchez un fromage : on l’entoure à la craie et on vous dit d’où il vient.</p>
+      <p class="ard-origine" data-ecrit>{ORIGINE}</p>
+      <p class="ard-consigne">Touchez un fromage : on l’entoure à la craie et on vous dit comment il se vend.</p>
     </div>
 
     <div class="ard-grille">
@@ -68,7 +70,6 @@ const comptoir = ['Beurre de baratte', 'Crème crue', 'Yaourts de la ferme', 'Qu
               <span class="fro-note" data-ecrit>{f.note}</span>
             </button>
             <div class="fro-detail" id={`fro-${f.id}`}>
-              <p class="fro-origine" data-ecrit>{ORIGINE}</p>
               {f.lignes.map((l) => <p data-ecrit>{l}</p>)}
               {f.ages && (
                 <div class="ages" data-ages>
@@ -150,7 +151,7 @@ const comptoir = ['Beurre de baratte', 'Crème crue', 'Yaourts de la ferme', 'Qu
 
   .fro-detail { padding: 0 4px 22px; display: grid; gap: 6px; max-width: 38rem; }
   .fro-detail p { margin: 0; }
-  .fro-origine { color: var(--accent); font-weight: 600; }
+  .ard-origine { margin: 0 0 6px; max-width: 34rem; color: var(--accent); font-weight: 600; }
   .fro-detail[hidden] { display: none; }
 
   .ages { margin-top: 14px; }
@@ -178,7 +179,7 @@ const comptoir = ['Beurre de baratte', 'Crème crue', 'Yaourts de la ferme', 'Qu
   .ard-comptoir li:last-child { border-bottom: 1px solid var(--line); }
   .ard-goute { margin-top: 40px; font-size: clamp(2rem, 7.6vw, 3.1rem); line-height: 1.05; color: var(--fg); }
   .ard-goute span { display: inline-block; }
-  .ard-toujours { color: var(--accent); }
+  .ard-toujours { color: var(--fg); } /* pas d'accent sur un seul mot (GOUT § 8, relecture du 17 oct 2026) */
 </style>
 
 <script>

@@ -68,6 +68,25 @@ const img = z.object({
 });
 export type Img = z.infer<typeof img>;
 
+/**
+ * Réalisation de la galerie (proof/gallery) : une photo + quatre métadonnées optionnelles, toutes
+ * fournies par le client (docs/BRIEF.md § 8), jamais devinées — absente = non affichée. Geste 5 des
+ * démontages (docs/veille/demontages/INDEX.md : KS Architectes, Artisans de Genève, Mathilde De Chiara).
+ */
+const realisation = img.extend({
+  place: z.string().optional().describe('Lieu de la réalisation : ville ou quartier (« Roubaix », « Vieux-Lille »). Absent = non affiché.'),
+  kind: z
+    .string()
+    .optional()
+    .describe('Type de travaux ou de pièce (« Cuisine », « Escalier ») : sert de filtre dans proof/gallery dès que deux types distincts existent. Absent = non affiché.'),
+  size: z.string().optional().describe('Mesure réelle donnée par le client : « 12 m² », « 2 jours », « 4 m de linéaire ». Absent = non affiché.'),
+  client: z
+    .string()
+    .optional()
+    .describe('Initiales ou prénom du client (« M. L. », « Sophie »), avec son accord ; jamais un nom complet sans accord écrit. Absent = non affiché.'),
+});
+export type Realisation = z.infer<typeof realisation>;
+
 const md = z.string().describe('Texte, paragraphes separes par une ligne vide');
 
 const hsl = z.object({
@@ -268,7 +287,7 @@ export const siteSchema = z.object({
         )
         .default([]),
       logos: z.array(z.object({ name: z.string(), image: img.optional() })).default([]),
-      gallery: z.array(img).default([]),
+      gallery: z.array(realisation).default([]).describe('Photos de réalisations avec lieu / type / mesure / client optionnels (proof/gallery filtre par `kind`)'),
       beforeAfter: z.array(z.object({ before: img, after: img, caption: z.string().optional() })).default([]),
     })
     .prefault({}),
@@ -322,7 +341,7 @@ export const siteSchema = z.object({
     .object({
       devis: z.string().default('Demander un devis').describe('Libelle du bouton secondaire : "Réserver", "Commander", "Prendre rendez-vous"...'),
       ctaTitle: z.string().default('Un projet, une urgence ? <em>Parlons-en.</em>').describe('Titre du bandeau CTA (HTML autorise)'),
-      ctaText: z.string().optional().describe('Phrase sous le titre du CTA ; par defaut une phrase generique avec la ville'),
+      ctaText: z.string().optional().describe('Phrase sous le titre du CTA. Par défaut, une phrase sans donnée (le téléphone seulement) : le « intervention sous 48 h » d’avant le 17 oct 2026 était un délai que le brief ne donnait pas. Écrire la vraie phrase du client.'),
       faqTitle: z.string().optional().describe('Titre de la section FAQ, propre au client (ex. « Avant de passer à la boutique »). Absent = titre par défaut de la variante, générique : à éviter (docs/GOUT.md § 5).'),
       contactTitle: z.string().default('Parlons de votre projet'),
       contactText: z.string().default('Décrivez votre besoin, nous vous rappelons rapidement.'),

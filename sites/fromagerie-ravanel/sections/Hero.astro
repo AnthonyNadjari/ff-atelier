@@ -191,7 +191,8 @@ const horaires = site.contact.hours.map((h) => ({ jours: joursDe(h.days).join(',
     requestAnimationFrame(() => hero.classList.add('ecrit'));
     const trait = hero.querySelector<SVGPathElement>('[data-trait]');
     if (trait) tracer(trait, 420, fin);
-    hero.querySelectorAll<SVGPathElement>('[data-meule]').forEach((p, i) => tracer(p, 760, 260 + i * 110));
+    // La meule part avec la première lettre (relecture DA du 17 oct 2026 : sur ordinateur elle était finie avant que le nom commence).
+    hero.querySelectorAll<SVGPathElement>('[data-meule]').forEach((p, i) => tracer(p, 760, 140 + i * 110));
     if (animer()) {
       window.setTimeout(() => ecrireLignes(hero.querySelector('.hero-a-claire') as HTMLElement), fin + 80);
       window.setTimeout(() => ecrireLignes(hero.querySelector('.hero-a-meule') as HTMLElement), 1500);
@@ -211,5 +212,6 @@ const horaires = site.contact.hours.map((h) => ({ jours: joursDe(h.days).join(',
     window.addEventListener('scroll', () => { if (!enCours) { enCours = true; requestAnimationFrame(maj); } }, { passive: true });
     maj();
   }
-  entree();
+  // Lettres et traits sur la même horloge : on attend la police d'affichage, sinon le h1 se découpe sur la police de repli.
+  if (document.fonts?.ready) document.fonts.ready.then(entree, entree); else entree();
 </script>
