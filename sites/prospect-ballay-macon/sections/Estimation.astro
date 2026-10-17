@@ -1,0 +1,63 @@
+---
+/**
+ * Contact (id « contact », porte « Estimation gratuite ») : la phrase de son site (estimation gratuite), le numéro
+ * en très grand, l'e-mail (mailto : rien n'est envoyé par le site, aucun formulaire), l'adresse et les horaires de sa
+ * fiche Google, la zone, et les trois questions dont le brief a la réponse. Fond encre, carte claire qui déborde.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
+
+const c = site.contact;
+const ecrire = mailto();
+---
+
+<section id="contact" class="est" aria-labelledby="est-titre">
+  <div class="est-in">
+    <div class="est-gauche">
+      <h2 id="est-titre" class="est-titre">{site.wording.contactTitle}</h2>
+      <p class="est-texte">{site.wording.contactText}</p>
+      <a href={tel()} class="est-tel" aria-label={`Appeler Alain Ballay au ${c.phoneDisplay}`}><Icon name="Phone" size={28} /><span>{c.phoneDisplay}</span></a>
+      {ecrire && (
+        <a href={`${ecrire}?subject=${encodeURIComponent('Demande d’estimation')}`} class="est-mail"><Icon name="Mail" size={18} /><span>{c.email}</span></a>
+      )}
+      <dl class="est-qr">
+        {site.faq.map((f) => (
+          <div><dt>{f.q}</dt><dd>{f.a}</dd></div>
+        ))}
+      </dl>
+    </div>
+    <div class="est-carte">
+      <p class="est-carte-tete">L’entreprise</p>
+      <p class="est-adresse">{fullAddress()}</p>
+      {c.mapsUrl && <a href={c.mapsUrl} class="est-lien" target="_blank" rel="noopener">Sa fiche Google Maps</a>}
+      <Horaires class="est-horaires" />
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .est { background: var(--ink); color: var(--on-ink); padding: clamp(3.5rem, 8vw, 6.5rem) 0; }
+  .est-in { width: min(100% - 1.4rem, 76rem); margin-inline: auto; display: grid; gap: 2rem; }
+  .est-titre { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.1rem, 6vw, 3.4rem); line-height: 1; }
+  .est-texte { margin-top: 0.8rem; max-width: 30rem; font-size: 1.08rem; color: color-mix(in oklab, var(--on-ink) 85%, transparent); }
+  .est-tel { margin-top: 1.2rem; display: inline-flex; align-items: center; gap: 0.6rem; color: var(--on-ink); font-family: var(--font-display); font-weight: 800; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1; white-space: nowrap; text-decoration: none; text-decoration-color: var(--accent); }
+  .est-mail { margin-top: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; color: var(--on-ink); font-weight: 600; overflow-wrap: anywhere; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+  .est-gauche > a.est-mail { display: flex; width: fit-content; }
+  .est-qr { margin-top: 2rem; display: grid; gap: 1rem; max-width: 34rem; }
+  .est-qr dt { font-weight: 700; }
+  .est-qr dd { margin-top: 0.2rem; color: color-mix(in oklab, var(--on-ink) 80%, transparent); }
+  .est-carte { align-self: start; padding: 1.5rem 1.3rem; background: var(--surface); color: var(--fg); border-left: 0.6rem solid var(--accent); box-shadow: 0 30px 60px -24px color-mix(in oklab, var(--ink) 80%, transparent); }
+  .est-carte-tete { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; }
+  .est-adresse { margin-top: 0.5rem; font-size: 1.08rem; }
+  .est-lien { display: inline-block; margin-top: 0.7rem; color: var(--fg); font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+  .est-horaires { margin-top: 1.2rem; }
+  .est-horaires .horaires-etat { font-weight: 700; margin-bottom: 0.4rem; }
+  @media (hover: hover) and (pointer: fine) {
+    .est-tel:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.15em; }
+  }
+  @media (min-width: 64rem) {
+    .est-in { width: min(100% - 5rem, 76rem); grid-template-columns: minmax(0, 1fr) 26rem; gap: 4rem; }
+    .est-carte { margin-top: 0.5rem; padding: 2rem; }
+  }
+</style>

@@ -1,0 +1,289 @@
+---
+/**
+ * Premier écran d'À cœur bois : « le mur » (direction.md, phrase-idée). Ses photos font 283 à 800 px : aucune ne
+ * tient seule un plein cadre sans être étirée. Le plein cadre est donc fait de TOUTES ses réalisations, posées comme
+ * des panneaux d'habillage sur un mur vu de biais (perspective), chacune à une taille que sa photo tient
+ * (photos.ts : unité --u, colonnes de 10, 13,5 et 21 unités ; 11 px sur téléphone, 20 px sur ordinateur).
+ * Le texte n'est jamais sur une photo : il est sur une planche claire posée devant le mur, avec son chant (tranche
+ * brun noyer) et une ombre portée ; sur ordinateur elle déborde sur la section suivante.
+ *
+ * Socle (GOUT § 0) : métier + ville dans le h1, « Depuis 2006 » en texte, le numéro en grand, la note Google réelle
+ * (5,0, 3 avis), trois portes par projet (pages de rubrique).
+ *
+ * Mouvement (direction.md, MOUVEMENT 1 et 3) :
+ * - entrée : les panneaux se posent sur le mur un par un (de l'avant vers le mur), lent à léger rebond, 0,5 s,
+ *   40 ms d'écart ; aucun titre ne bouge ;
+ * - feu d'artifice : le mur suit le défilement, linéairement : il tourne pour se mettre face à vous (de 18° à 6°)
+ *   et descend moins vite que la page. Une seule propriété transform, posée sur le mur lui-même (pas de variable
+ *   sur un parent, CLAUDE.md § Pièges). Mouvement réduit : mur immobile, panneaux posés.
+ */
+import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import { PHOTOS, type NomPhoto } from './photos';
+
+// Colonnes du mur, de gauche (loin) à droite (près). Largeur en unités --u ; décalage vertical en unités.
+const COLONNES: { u: number; dy: number; photos: NomPhoto[] }[] = [
+  { u: 10, dy: 2, photos: ['bibliotheque-01', 'cuisine-04', 'cuisine-03'] },
+  { u: 13.5, dy: -3, photos: ['agencement-02', 'menuiserie-02'] },
+  { u: 21, dy: 4, photos: ['cuisine-01', 'agencement-01', 'meuble-02'] },
+  { u: 13.5, dy: -5, photos: ['meuble-01', 'bibliotheque-02', 'bibliotheque-03'] },
+  { u: 21, dy: 0, photos: ['cuisine-02', 'agencement-03', 'meuble-03'] },
+];
+// sizes : largeur réelle de la colonne (u × 20 px sur ordinateur, × 15 sur tablette, × 11 sur téléphone).
+const sizes = (u: number) => `(min-width: 64rem) ${Math.round(u * 20)}px, (min-width: 48rem) ${Math.round(u * 15)}px, ${Math.round(u * 11)}px`;
+let n = 0;
+const google = site.proof.google;
+// « Aix-en-Provence » ne se coupe jamais à son trait d’union (premier jet : « Aix- / en-Provence »).
+const i = site.business.tagline.lastIndexOf(", ");
+const debut = site.business.tagline.slice(0, i);
+const ville = site.business.tagline.slice(i + 2);
+const portes = ['cuisines', 'meubles', 'bibliotheques']
+  .map((slug) => site.services.find((s) => s.slug === slug))
+  .filter(Boolean);
+const PORTE: Record<string, string> = { cuisines: 'Votre cuisine', meubles: 'Un meuble', bibliotheques: 'Une bibliothèque' };
+---
+
+<section id="hero" class="mur" aria-labelledby="mur-titre">
+  <div class="mur-scene">
+    <div class="mur-plan" data-mur>
+      {COLONNES.map((col) => (
+        <div class="mur-col" style={`--cw:${col.u};--dy:${col.dy}`}>
+          {col.photos.map((nom) => {
+            const ph = PHOTOS[nom];
+            return (
+              <figure class="mur-panneau" style={`--i:${n++}`}>
+                <Img src={ph.src} alt={ph.alt} class="mur-img" sizes={sizes(col.u)} priority={n <= 6} />
+              </figure>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="mur-planche">
+    <h1 id="mur-titre" class="mur-titre">{debut}, <span class="mur-nw">{ville}</span></h1>
+    <p class="mur-phrase">
+      Guy Andries fabrique cuisines, meubles, bibliothèques et agencements dans son atelier de la route de Rognes.
+      Depuis {site.business.since}.
+    </p>
+
+    <a href={tel()} class="mur-tel" aria-label={`Appeler Guy Andries au ${site.contact.phoneDisplay}`}>
+      <Icon name="Phone" size={24} class="mur-tel-icone" />
+      <span>{site.contact.phoneDisplay}</span>
+    </a>
+    <p class="mur-heures">Du lundi au vendredi, 9 h à 12 h et 14 h à 18 h</p>
+
+    {google && (
+      <a href="#avis" class="mur-note">
+        <span class="mur-etoiles" aria-hidden="true">★★★★★</span>
+        <span><strong>{google.rating.toFixed(1).replace('.', ',')}</strong> sur Google, {google.count} avis</span>
+      </a>
+    )}
+
+    <ul class="mur-portes" aria-label="Votre projet">
+      {portes.map((s) => <li><a href={`/${s!.slug}`} class="mur-porte">{PORTE[s!.slug]}</a></li>)}
+      <li><a href="#rubriques" class="mur-porte is-discrete">Tout voir</a></li>
+    </ul>
+  </div>
+</section>
+
+<style is:global>
+  .mur {
+    --u: 11px;
+    --rebond: cubic-bezier(0.34, 1.4, 0.64, 1);
+    --mur-ombre:
+      0 1px 0 color-mix(in oklab, var(--ink) 10%, transparent),
+      0 3px 6px -2px color-mix(in oklab, var(--ink) 22%, transparent),
+      0 24px 46px -14px color-mix(in oklab, var(--ink) 40%, transparent),
+      0 64px 110px -40px color-mix(in oklab, var(--ink) 46%, transparent);
+    position: relative;
+    z-index: 2;
+    display: grid;
+  }
+  @media (min-width: 48rem) { .mur { --u: 15px; } }
+  @media (min-width: 64rem) { .mur { --u: 20px; } }
+
+  /* La scène : le mur clair de l'atelier, la lumière vient d'en haut (dégradé linéaire, pas de halo). */
+  .mur-scene {
+    grid-area: 1 / 1;
+    position: relative;
+    height: clamp(25rem, 60svh, 34rem);
+    overflow: hidden;
+    perspective: 650px;
+    perspective-origin: 50% 40%;
+    background: linear-gradient(to bottom, color-mix(in oklab, var(--bg-2) 45%, var(--bg)), var(--bg-2) 70%, color-mix(in oklab, var(--bg-2) 86%, var(--ink)));
+  }
+  .mur-plan {
+    position: absolute;
+    top: calc(var(--u) * -3);
+    right: -1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: calc(var(--u) * 0.8);
+    transform-origin: 100% 40%;
+    transform: rotateY(-24deg) rotateX(3deg);
+    will-change: transform;
+  }
+  .mur-col {
+    flex: none;
+    width: calc(var(--u) * var(--cw));
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--u) * 0.8);
+    margin-top: calc(var(--u) * var(--dy));
+  }
+  .mur-panneau {
+    margin: 0;
+    background: var(--surface);
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--surface) 60%, transparent) inset,
+      0 1px 2px color-mix(in oklab, var(--ink) 18%, transparent),
+      0 12px 22px -10px color-mix(in oklab, var(--ink) 42%, transparent);
+    animation: mur-pose 0.5s var(--rebond) calc(0.12s + var(--i) * 40ms) both;
+  }
+  .mur-panneau .mur-img { display: block; width: 100%; height: auto; }
+  @keyframes mur-pose {
+    from { opacity: 0; transform: translate3d(0, -8px, 0) scale(1.07); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* La planche : posée devant le mur, chant brun noyer (épaisseur à droite et en bas), ombre portée. */
+  .mur-planche {
+    grid-area: 1 / 1 / span 2 / 1;
+    align-self: start;
+    position: relative;
+    z-index: 1;
+    margin: calc(clamp(25rem, 60svh, 34rem) - 8.5rem) 0.85rem 0 0.6rem;
+    padding: 1.5rem 1.25rem 1.35rem;
+    border-radius: 2px;
+    background: linear-gradient(to bottom, var(--surface), color-mix(in oklab, var(--surface) 86%, var(--bg-2)));
+    box-shadow:
+      5px 5px 0 color-mix(in oklab, var(--accent-2) 88%, var(--accent)),
+      var(--mur-ombre);
+  }
+  /* Petit téléphone (iPhone SE, 667 px) : la planche monte un peu pour garder le numéro au-dessus de la barre. */
+  @media (max-width: 63.99rem) and (max-height: 700px) {
+    .mur-scene { height: 21rem; }
+    .mur-planche { margin-top: 13rem; }
+  }
+
+  .mur-titre {
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-size: clamp(2rem, 8.6vw, 2.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    max-width: 16ch;
+    color: var(--fg);
+  }
+  .mur-nw { white-space: nowrap; }
+  .mur-phrase { margin-top: 0.75rem; font-size: 1rem; line-height: 1.5; color: var(--muted); max-width: 34rem; }
+  .mur-tel {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    transition: color 0.15s ease-out;
+  }
+  .mur-tel:active { color: var(--fg); }
+  .mur-heures { margin-top: 0.35rem; font-size: 0.92rem; color: var(--muted); }
+  .mur-note {
+    margin-top: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.98rem;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .mur-note strong { font-weight: 700; }
+  .mur-etoiles { color: var(--accent); letter-spacing: 0.08em; font-size: 1.05rem; line-height: 1; }
+  .mur-etoile { fill: currentColor; }
+  .mur-portes {
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+  }
+  .mur-porte {
+    display: inline-block;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--line));
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--fg);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease-out, background-color 0.15s ease-out;
+  }
+  .mur-porte.is-discrete { border-color: transparent; background: none; text-decoration: underline; text-underline-offset: 0.3em; text-decoration-color: var(--accent); }
+  .mur-porte:active { background: var(--bg-2); }
+  @media (hover: hover) and (pointer: fine) {
+    .mur-tel:hover { color: var(--fg); }
+    .mur-porte:hover { border-color: var(--accent); background: var(--surface); }
+  }
+
+  @media (min-width: 64rem) {
+    .mur-scene { height: calc(100svh - 4.4rem); min-height: 40rem; max-height: 62rem; perspective: 1100px; }
+    .mur-plan { right: -5rem; top: calc(var(--u) * -2); transform: rotateY(-26deg) rotateX(3deg); }
+    .mur-planche {
+      grid-area: 1 / 1;
+      align-self: end;
+      justify-self: start;
+      width: min(100% - 6rem, 38rem);
+      margin: 0 0 -3rem clamp(2rem, 5vw, 5rem);
+      padding: 2rem 2.3rem 1.8rem;
+      box-shadow: 7px 7px 0 color-mix(in oklab, var(--accent-2) 88%, var(--accent)), var(--mur-ombre);
+    }
+    .mur-titre { font-size: clamp(2.6rem, 3.4vw, 3.3rem); max-width: 18ch; }
+    .mur-phrase { font-size: 1.08rem; }
+  }
+  @media (min-width: 64rem) and (max-height: 860px) {
+    .mur-planche { padding-block: 1.5rem 1.4rem; margin-bottom: -2rem; }
+    .mur-titre { font-size: clamp(2.3rem, 3vw, 2.9rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mur-panneau { animation: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Le mur suit le défilement : rotation de -18° (-16° sur téléphone) à -6°, et descente plus lente que la page.
+  onPage(() => {
+    const mur = document.querySelector<HTMLElement>('[data-mur]');
+    const scene = mur?.parentElement;
+    if (!mur || !scene || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    let dernier = '';
+    const tick = () => {
+      raf = 0;
+      const r = scene.getBoundingClientRect();
+      const grand = window.innerWidth >= 1024;
+      const depart = grand ? -26 : -24;
+      const p = Math.max(0, Math.min(1, -r.top / (r.height * 0.9)));
+      const t = `translate3d(0, ${(p * r.height * 0.28).toFixed(1)}px, 0) rotateY(${(depart + (-8 - depart) * p).toFixed(2)}deg) rotateX(3deg)`;
+      if (t !== dernier) { mur.style.transform = t; dernier = t; }
+    };
+    const demander = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    window.addEventListener('scroll', demander, { passive: true });
+    window.addEventListener('resize', demander, { passive: true });
+    tick();
+  });
+</script>

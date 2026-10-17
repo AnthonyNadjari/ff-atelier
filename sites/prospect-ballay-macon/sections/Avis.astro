@@ -1,0 +1,54 @@
+---
+/**
+ * Les avis, juste sous le premier écran (GOUT § 0, point 4). Note et nombre réels (5,0, 5 avis), et les deux avis
+ * recopiés mot pour mot (brief § 7) : Julien D. ; Nonam Tattoo, nom du compte tel que Google l'affiche (un commerce,
+ * pas une personne). L'avis de MARI Electricité, replié par Google, reste dehors (brief : à relire avant usage).
+ * Trois carreaux posés sur un fond de chaux, joints clairs ; aucun mouvement.
+ */
+import { site } from '@/lib/site';
+const g = site.proof.google;
+const avis = site.proof.testimonials;
+---
+
+{g && (
+  <section id="avis" class="mav" aria-labelledby="mav-titre">
+    <div class="mav-in">
+      <div class="mav-note">
+        <h2 id="mav-titre" class="mav-titre">Avis Google</h2>
+        <p class="mav-chiffre">{g.rating.toFixed(1).replace('.', ',')}<span class="sr-only"> sur 5</span></p>
+        <p class="mav-etoiles" aria-hidden="true">★★★★★</p>
+        <p class="mav-compte">{g.count} avis sur sa fiche</p>
+        <a href={g.url} class="mav-lien" target="_blank" rel="noopener">Lire les avis sur Google</a>
+      </div>
+      {avis.map((a) => (
+        <figure class="mav-avis">
+          <blockquote class="mav-texte">« {a.text} »</blockquote>
+          <figcaption class="mav-auteur"><strong>{a.author}</strong>, {a.source.replace(/^Avis/, 'avis')}{a.date && `, ${a.date}`}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+)}
+
+<style is:global>
+  .mav { background: var(--bg-2); padding: 2.2rem 0.6rem 2.6rem; }
+  .mav-in { width: min(100%, 76rem); margin-inline: auto; display: grid; gap: 6px; padding: 6px; background: color-mix(in oklab, var(--bg-2) 70%, var(--surface)); }
+  .mav-note, .mav-avis { margin: 0; padding: 1.3rem 1.2rem; background: var(--surface); box-shadow: 0 1px 0 color-mix(in oklab, var(--ink) 10%, transparent), 0 14px 26px -16px color-mix(in oklab, var(--ink) 40%, transparent); }
+  .mav-note { display: grid; grid-template-columns: auto 1fr; column-gap: 0.9rem; align-items: center; background: var(--ink); color: var(--on-ink); }
+  .mav-titre { grid-column: 1 / -1; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; margin-bottom: 0.2rem; }
+  .mav-chiffre { grid-row: span 2; font-family: var(--font-display); font-weight: 800; font-size: 3.4rem; line-height: 1; }
+  .mav-etoiles { color: color-mix(in oklab, var(--accent) 55%, var(--on-ink)); letter-spacing: 0.08em; font-size: 1.25rem; line-height: 1; }
+  .mav-compte { font-size: 0.95rem; color: color-mix(in oklab, var(--on-ink) 78%, transparent); }
+  .mav-lien { grid-column: 1 / -1; justify-self: start; margin-top: 0.7rem; color: var(--on-ink); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+  .mav-texte { font-size: 1.12rem; line-height: 1.45; color: var(--fg); }
+  .mav-auteur { margin-top: 0.7rem; font-size: 0.9rem; color: var(--muted); }
+  .mav-auteur strong { color: var(--fg); font-weight: 700; }
+  @media (min-width: 64rem) {
+    .mav { padding: 7rem clamp(2rem, 5vw, 5rem) 4.5rem; }
+    .mav-in { grid-template-columns: 15rem 1fr 1fr; gap: 8px; padding: 8px; }
+    .mav-note { grid-template-columns: 1fr; align-content: start; padding: 1.8rem; }
+    .mav-chiffre { grid-row: auto; font-size: 4.4rem; }
+    .mav-avis { padding: 1.8rem 2rem; }
+    .mav-texte { font-size: 1.3rem; }
+  }
+</style>

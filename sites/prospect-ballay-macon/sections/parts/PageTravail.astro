@@ -1,0 +1,140 @@
+---
+/**
+ * Page d'un travail (/carrelage, /parement, /cuisines-d-ete, /maconnerie, /demoussage, /facades) : une par service
+ * de sa page Services (GOUT § 0, point 1). Remplace la page service partagée (photo en vignette arrondie à côté du
+ * texte, direction.md § Socle).
+ * Avec photos : la première en plein cadre derrière une carte (h1, ville, texte du brief, points, numéro,
+ * estimation), puis ses autres chantiers en grand. Sans photo (démoussage, façades) : un premier écran encre, la
+ * carte seule ; aucune photo de banque. Puis les autres travaux et le contact.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, mailto, paragraphs, fullAddress } from '@/lib/site';
+import { serviceLd } from '@/lib/jsonld';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import Nav from '../Nav.astro';
+import Pied from '../Pied.astro';
+import { PHOTOS, PAR_TRAVAIL, PORTE, lienTravail } from '../photos';
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+const service = site.services.find((s) => s.slug === slug);
+if (!service) throw new Error(`Travail inconnu : ${slug}`);
+const photos = (PAR_TRAVAIL[slug] ?? []).map((n) => PHOTOS[n]);
+const [une, ...autresPhotos] = photos;
+const autres = site.services.filter((s) => s.slug !== slug);
+const url = new URL(lienTravail(slug), Astro.site).toString();
+const ecrire = mailto();
+const g = site.proof.google;
+---
+
+<Base
+  title={`${service.title} à Perpignan | ${site.business.name}, maçon carreleur`}
+  description={`${service.short} Alain Ballay, maçon carreleur à Perpignan depuis 2000. Estimation gratuite : ${site.contact.phoneDisplay}.`}
+  path={lienTravail(slug)}
+  jsonLd={[serviceLd(site, service, url)]}
+>
+  <Nav />
+  <main id="main">
+    <section class:list={['ptr-tete', !une && 'is-sans-photo']} aria-labelledby="ptr-titre">
+      {une && (
+        <div class="ptr-photo"><Img src={une.src} alt={une.alt} class="ptr-img" sizes="100vw" priority /></div>
+      )}
+      <div class="ptr-carte">
+        <a href="/#travaux" class="ptr-retour"><Icon name="ArrowLeft" size={16} /> Tous les travaux</a>
+        <h1 id="ptr-titre" class="ptr-titre">{service.title}</h1>
+        <p class="ptr-lieu">À Perpignan et ses alentours, par Alain Ballay, maçon carreleur depuis {site.business.since}</p>
+        <div class="ptr-texte">{paragraphs(service.description ?? service.short).map((t) => <p>{t}</p>)}</div>
+        {service.bullets.length > 0 && <ul class="ptr-points">{service.bullets.map((b) => <li>{b}</li>)}</ul>}
+        <div class="ptr-actions">
+          <a href={tel()} class="ptr-tel" aria-label={`Appeler Alain Ballay au ${site.contact.phoneDisplay}`}><Icon name="Phone" size={22} /><span>{site.contact.phoneDisplay}</span></a>
+          {ecrire && <a href={`${ecrire}?subject=${encodeURIComponent(`Estimation : ${service.title}`)}`} class="ptr-estim">Estimation gratuite par e-mail</a>}
+        </div>
+        {g && <p class="ptr-note"><a href="/#avis"><span aria-hidden="true">★★★★★</span> {g.rating.toFixed(1).replace('.', ',')} sur Google, {g.count} avis</a></p>}
+      </div>
+    </section>
+
+    {autresPhotos.length > 0 && (
+      <section class="ptr-chantiers" aria-labelledby="ptr-chantiers-titre">
+        <h2 id="ptr-chantiers-titre" class="ptr-h2">Sur ses chantiers</h2>
+        <ul class="ptr-galerie">
+          {autresPhotos.map((p) => (
+            <li><Img src={p.src} alt={p.alt} class="ptr-galerie-img object-cover" sizes="(min-width: 64rem) 36rem, 100vw" /></li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="ptr-autres" aria-labelledby="ptr-autres-titre">
+      <h2 id="ptr-autres-titre" class="ptr-h2">Les autres travaux</h2>
+      <ul class="ptr-autres-liste">
+        {autres.map((s) => <li><a href={lienTravail(s.slug)} class="ptr-autre"><strong>{s.title}</strong><span>{PORTE[s.slug]}</span></a></li>)}
+      </ul>
+    </section>
+
+    <section class="ptr-contact" aria-labelledby="ptr-contact-titre">
+      <div class="ptr-contact-in">
+        <h2 id="ptr-contact-titre" class="ptr-h2">Estimation gratuite</h2>
+        <a href={tel()} class="ptr-tel ptr-tel-clair"><Icon name="Phone" size={24} /><span>{site.contact.phoneDisplay}</span></a>
+        <p>{fullAddress()}. Du lundi au vendredi, 8 h à 18 h.</p>
+      </div>
+    </section>
+  </main>
+  <Pied />
+</Base>
+
+<style is:global>
+  .ptr-tete { display: grid; }
+  .ptr-photo { grid-area: 1 / 1; height: clamp(16rem, 44svh, 24rem); overflow: hidden; background: var(--ink); }
+  .ptr-photo picture { display: contents; }
+  .ptr-img { width: 100%; height: 100%; object-fit: cover; }
+  .ptr-tete.is-sans-photo { background: var(--ink); padding-top: 3rem; }
+  .ptr-carte {
+    grid-area: 1 / 1 / span 2 / 1;
+    align-self: start;
+    position: relative;
+    margin: calc(clamp(16rem, 44svh, 24rem) - 3rem) 0.6rem 0;
+    padding: 1.4rem 1.2rem 1.4rem 1.3rem;
+    background: var(--surface);
+    border-left: 0.6rem solid var(--accent);
+    box-shadow: 0 30px 60px -24px color-mix(in oklab, var(--ink) 60%, transparent);
+  }
+  .is-sans-photo .ptr-carte { margin-top: 0; margin-bottom: -1.5rem; }
+  .ptr-retour { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.92rem; color: var(--muted); text-decoration: none; }
+  .ptr-titre { margin-top: 0.7rem; font-family: var(--font-display); font-weight: 800; font-size: clamp(2.2rem, 9vw, 3.8rem); line-height: 0.98; }
+  .ptr-lieu { margin-top: 0.5rem; color: var(--muted); }
+  .ptr-texte { margin-top: 1rem; display: grid; gap: 0.8rem; max-width: 38rem; font-size: 1.06rem; line-height: 1.6; }
+  .ptr-points { margin-top: 1rem; display: grid; gap: 0.35rem; padding-left: 1.1rem; list-style: square; }
+  .ptr-points li::marker { color: var(--accent); }
+  .ptr-actions { margin-top: 1.3rem; padding-top: 1rem; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.4rem; }
+  .ptr-tel { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--accent); font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 3.4vw, 2.6rem); line-height: 1; white-space: nowrap; text-decoration: none; }
+  .ptr-tel-clair { color: var(--on-ink); margin-top: 0.8rem; }
+  .ptr-estim, .ptr-note a { color: var(--fg); font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+  .ptr-note { margin-top: 0.9rem; font-size: 0.95rem; }
+  .ptr-note span { color: var(--accent); letter-spacing: 0.08em; }
+  .ptr-h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.6rem, 4vw, 2.3rem); line-height: 1.05; }
+  .ptr-chantiers, .ptr-autres { width: min(100% - 1.4rem, 76rem); margin: clamp(3.5rem, 8vw, 6rem) auto 0; }
+  .ptr-galerie { margin-top: 1.2rem; display: grid; gap: 0.8rem; list-style: none; }
+  .ptr-galerie picture { display: contents; }
+  .ptr-galerie-img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; box-shadow: 0 24px 44px -24px color-mix(in oklab, var(--ink) 60%, transparent); }
+  .ptr-autres-liste { margin-top: 1.2rem; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); list-style: none; }
+  .ptr-autre { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.9rem 1rem; background: var(--surface); color: var(--fg); text-decoration: none; }
+  .ptr-autre strong { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; }
+  .ptr-autre span { font-size: 0.92rem; color: var(--muted); }
+  .ptr-contact { margin-top: clamp(3.5rem, 8vw, 6rem); background: var(--ink); color: var(--on-ink); padding: clamp(2.5rem, 6vw, 4.5rem) 0; }
+  .ptr-contact-in { width: min(100% - 1.4rem, 76rem); margin-inline: auto; }
+  .ptr-contact p { margin-top: 0.8rem; color: color-mix(in oklab, var(--on-ink) 82%, transparent); }
+  @media (hover: hover) and (pointer: fine) {
+    .ptr-autre:hover strong { color: var(--accent); }
+  }
+  @media (min-width: 64rem) {
+    .ptr-photo { height: calc(100svh - 4.4rem); min-height: 36rem; max-height: 56rem; }
+    .ptr-carte { grid-area: 1 / 1; align-self: end; justify-self: start; width: min(100% - 6rem, 40rem); margin: 0 0 -4rem clamp(2rem, 5vw, 5rem); padding: 2rem 2.3rem 1.9rem 2.4rem; border-left-width: 0.8rem; }
+    .is-sans-photo { min-height: 26rem; padding-top: 5rem; }
+    .is-sans-photo .ptr-carte { align-self: end; margin-bottom: -4rem; }
+    .ptr-chantiers, .ptr-autres, .ptr-contact-in { width: min(100% - 5rem, 76rem); }
+    .ptr-chantiers { margin-top: 8rem; }
+    .ptr-galerie { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; }
+    .ptr-autres-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+</style>

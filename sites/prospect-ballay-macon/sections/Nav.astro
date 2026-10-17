@@ -1,0 +1,177 @@
+---
+/**
+ * Barre du haut d'Alain Ballay (toutes les pages), couleur encre : son nom, son métier, le numéro ÉCRIT EN ENTIER
+ * (téléphone et ordinateur, sans défiler). Les six travaux sont des pages, dans le menu (téléphone) et dans la
+ * liste déroulante « Travaux » (ordinateur, <details> natif). Barre d'actions en bas sur téléphone : Appeler,
+ * Estimation gratuite (mailto vers son e-mail, objet rempli ; rien n'est envoyé par le site), Venir.
+ * Tokens seulement ; aucun mouvement (client calme).
+ */
+import { site, tel, mailto } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import { lienTravail } from './photos';
+
+const travaux = site.services.map((s) => ({ href: lienTravail(s.slug), label: s.title }));
+const courant = Astro.url.pathname.replace(/\/$/, '') || '/';
+const estimation = mailto() ? `${mailto()}?subject=${encodeURIComponent('Demande d’estimation')}` : '/#contact';
+---
+
+<header class="nab">
+  <div class="nab-in">
+    <a href="/" class="nab-nom" aria-label={`${site.business.name}, accueil`}>
+      <span class="nab-marque">{site.business.name}</span>
+      <span class="nab-metier">Maçon carreleur, Perpignan</span>
+    </a>
+
+    <nav class="nab-liens" aria-label="Navigation principale">
+      <details class="nab-travaux" data-nab-travaux>
+        <summary>Travaux <Icon name="ChevronDown" size={16} /></summary>
+        <div class="nab-deroulant">
+          {travaux.map((t) => <a href={t.href} aria-current={courant === t.href ? 'page' : undefined}>{t.label}</a>)}
+        </div>
+      </details>
+      <a href="/#materiaux">Matériaux</a>
+      <a href="/#avis">Avis</a>
+      <a href="/#contact">Estimation gratuite</a>
+    </nav>
+
+    <a href={tel()} class="nab-tel" aria-label={`Appeler Alain Ballay au ${site.contact.phoneDisplay}`}>
+      <Icon name="Phone" size={17} />
+      <span>{site.contact.phoneDisplay}</span>
+    </a>
+
+    <button class="nab-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nab-panneau" data-nab-menu>
+      <Icon name="Menu" size={22} />
+    </button>
+  </div>
+
+  <nav id="nab-panneau" class="nab-panneau" aria-label="Menu" hidden data-nab-panneau>
+    <p class="nab-panneau-tete">Travaux</p>
+    {travaux.map((t) => <a href={t.href}>{t.label}</a>)}
+    <p class="nab-panneau-tete">Sur cette page</p>
+    <a href="/#materiaux">Matériaux</a>
+    <a href="/#avis">Avis</a>
+    <a href="/#contact">Estimation gratuite</a>
+  </nav>
+</header>
+
+<nav class="nab-barre" aria-label="Actions rapides" data-nab-barre>
+  <a href={tel()} class="nab-porte is-principale"><Icon name="Phone" size={18} /><span>Appeler</span></a>
+  <a href={estimation} class="nab-porte"><Icon name="Mail" size={18} /><span>Estimation</span></a>
+  <a href="/#contact" class="nab-porte"><Icon name="MapPin" size={18} /><span>Venir</span></a>
+</nav>
+
+<style is:global>
+  .nab { position: sticky; top: 0; z-index: 50; background: var(--ink); color: var(--on-ink); }
+  .nab-in { display: flex; align-items: center; gap: 0.75rem; width: min(100% - 1.5rem, 88rem); margin-inline: auto; min-height: 3.6rem; }
+  .nab-nom { display: flex; flex-direction: column; line-height: 1.05; color: var(--on-ink); text-decoration: none; margin-right: auto; min-width: 0; }
+  .nab-marque { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; white-space: nowrap; }
+  .nab-metier { font-size: 0.78rem; color: color-mix(in oklab, var(--on-ink) 72%, transparent); white-space: nowrap; }
+  .nab-liens { display: none; }
+  .nab-tel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: 3px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background-color 0.15s ease-out;
+  }
+  /* .nab .nab-in : bat la règle globale a[aria-label] qui faisait passer le numéro sous l’icône. */
+  .nab .nab-in .nab-tel.nab-tel { flex: none; flex-wrap: nowrap; }
+  .nab .nab-in .nab-nom.nab-nom { display: flex; flex-direction: column; align-items: flex-start; }
+  .nab-tel:active { background: color-mix(in oklab, var(--accent) 80%, var(--ink)); }
+  .nab-menu { display: inline-flex; padding: 0.5rem; margin-right: -0.4rem; color: var(--on-ink); }
+  .nab-panneau { display: flex; flex-direction: column; padding: 0.4rem 1rem 1rem; border-top: 1px solid color-mix(in oklab, var(--on-ink) 16%, transparent); }
+  .nab-panneau[hidden] { display: none; }
+  .nab-panneau-tete { margin-top: 0.8rem; font-size: 0.82rem; color: color-mix(in oklab, var(--on-ink) 70%, transparent); }
+  .nab-panneau a { padding: 0.7rem 0.2rem; border-bottom: 1px solid color-mix(in oklab, var(--on-ink) 14%, transparent); color: var(--on-ink); text-decoration: none; font-size: 1.05rem; }
+  @media (max-width: 23.5rem) {
+    .nab-metier { display: none; }
+    .nab-tel { padding-inline: 0.6rem; font-size: 0.92rem; }
+  }
+  @media (min-width: 64rem) {
+    .nab-in { min-height: 4.4rem; gap: 2rem; }
+    .nab-marque { font-size: 1.35rem; }
+    .nab-liens { display: flex; align-items: center; gap: 1.6rem; font-size: 1rem; }
+    .nab-liens > a, .nab-travaux > summary { color: color-mix(in oklab, var(--on-ink) 82%, transparent); text-decoration: none; padding-block: 0.4rem; }
+    .nab-travaux { position: relative; }
+    .nab-travaux > summary { list-style: none; display: inline-flex; align-items: center; gap: 0.3rem; cursor: pointer; }
+    .nab-travaux > summary::-webkit-details-marker { display: none; }
+    .nab-deroulant {
+      position: absolute;
+      top: calc(100% + 0.7rem);
+      left: -1rem;
+      min-width: 17rem;
+      display: flex;
+      flex-direction: column;
+      padding: 0.5rem;
+      background: var(--surface);
+      border-radius: 3px;
+      box-shadow: 0 24px 40px -18px color-mix(in oklab, var(--ink) 60%, transparent);
+    }
+    .nab-deroulant a { padding: 0.55rem 0.7rem; color: var(--fg); text-decoration: none; border-radius: 2px; }
+    .nab-deroulant a[aria-current='page'] { color: var(--accent); font-weight: 700; }
+    .nab-tel { padding: 0.7rem 1.1rem; font-size: 1.12rem; }
+    .nab .nab-in .nab-menu { display: none; }
+    .nab .nab-panneau { display: none; }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .nab-liens > a:hover, .nab-travaux > summary:hover { color: var(--on-ink); }
+    .nab-deroulant a:hover { background: var(--bg-2); }
+    .nab-tel:hover { background: color-mix(in oklab, var(--accent) 80%, var(--ink)); }
+  }
+
+  .nab-barre {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 45;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr 1fr;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--ink);
+    transition: transform 0.2s ease-out;
+  }
+  .nab-barre.is-cachee { transform: translateY(110%); }
+  .nab-porte { display: flex; align-items: center; justify-content: center; gap: 0.45rem; min-height: 3.6rem; color: var(--on-ink); font-weight: 700; font-size: 0.98rem; text-decoration: none; }
+  .nab-porte + .nab-porte { border-left: 1px solid color-mix(in oklab, var(--on-ink) 16%, transparent); }
+  .nab-porte.is-principale { background: var(--accent); color: var(--on-accent); }
+  .nab-porte:active { background: color-mix(in oklab, var(--ink) 80%, var(--on-ink)); }
+  @media (max-width: 47.99rem) {
+    body { padding-bottom: calc(3.6rem + env(safe-area-inset-bottom)); }
+  }
+  @media (min-width: 48rem) { .nab-barre { display: none; } }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    const btn = document.querySelector<HTMLButtonElement>('[data-nab-menu]');
+    const panneau = document.querySelector<HTMLElement>('[data-nab-panneau]');
+    if (btn && panneau) {
+      btn.addEventListener('click', () => {
+        const ouvrir = panneau.hidden;
+        panneau.hidden = !ouvrir;
+        btn.setAttribute('aria-expanded', String(ouvrir));
+      });
+      panneau.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { panneau.hidden = true; btn.setAttribute('aria-expanded', 'false'); }));
+    }
+    // Liste « Travaux » : se referme quand on clique ailleurs ou sur Échap.
+    const det = document.querySelector<HTMLDetailsElement>('[data-nab-travaux]');
+    if (det) {
+      document.addEventListener('click', (e) => { if (det.open && !det.contains(e.target as Node)) det.open = false; });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') det.open = false; });
+    }
+    const barre = document.querySelector<HTMLElement>('[data-nab-barre]');
+    const pied = document.querySelector('footer');
+    if (barre && pied && 'IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => barre.classList.toggle('is-cachee', e.isIntersecting), { rootMargin: '0px 0px -40px 0px' }).observe(pied);
+    }
+  });
+</script>

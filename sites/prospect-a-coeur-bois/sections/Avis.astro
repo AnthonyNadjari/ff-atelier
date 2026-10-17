@@ -1,0 +1,101 @@
+---
+/**
+ * Les avis, haut dans la page (GOUT § 0, point 4). Seulement ce que le brief a recopié de sa fiche Google : la note
+ * (5,0), le nombre d'avis (3), et les deux avis qui ont un texte, mot pour mot (fautes comprises), prénom + initiale,
+ * « avis Google » et le mois de la visite. Le troisième avis n'a pas de texte : il n'est compté que dans la note.
+ * Sur ordinateur, la planche remonte sur le bas du mur (à droite, la planche du premier écran est à gauche) : deux
+ * plans, une ombre portée, le chant brun noyer. Aucun mouvement.
+ */
+import { site } from '@/lib/site';
+
+const g = site.proof.google;
+const avis = site.proof.testimonials;
+---
+
+{g && (
+  <section id="avis" class="avi" aria-labelledby="avi-titre">
+    <div class="avi-planche">
+      <div class="avi-note">
+        <h2 id="avi-titre" class="avi-titre">Avis Google</h2>
+        <p class="avi-chiffre">{g.rating.toFixed(1).replace('.', ',')}<span class="sr-only"> sur 5</span></p>
+        <p class="avi-etoiles" aria-hidden="true">★★★★★</p>
+        <p class="avi-compte">{g.count} avis sur sa fiche</p>
+        <a href={g.url} class="avi-lien" target="_blank" rel="noopener">Voir la fiche Google</a>
+      </div>
+      <ul class="avi-liste">
+        {avis.map((a) => (
+          <li>
+            <figure class="avi-avis">
+              <blockquote class="avi-texte">« {a.text} »</blockquote>
+              <figcaption class="avi-auteur"><strong>{a.author}</strong>, {a.source.replace(/^Avis/, "avis")}{a.date && `, ${a.date}`}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style is:global>
+  .avi {
+    position: relative;
+    z-index: 3;
+    padding: 2.5rem 0.85rem 1rem 0.6rem;
+  }
+  .avi-planche {
+    display: grid;
+    gap: 1.25rem;
+    padding: 1.4rem 1.25rem;
+    border-radius: 2px;
+    background: var(--surface);
+    box-shadow:
+      5px 5px 0 color-mix(in oklab, var(--accent-2) 88%, var(--accent)),
+      0 1px 0 color-mix(in oklab, var(--ink) 8%, transparent),
+      0 22px 44px -16px color-mix(in oklab, var(--ink) 34%, transparent);
+  }
+  .avi-note { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 0.9rem; }
+  .avi-titre { grid-column: 1 / -1; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; margin-bottom: 0.3rem; }
+  .avi-chiffre { grid-row: span 2; font-family: var(--font-display); font-weight: 750; font-size: 3.2rem; line-height: 1; color: var(--fg); }
+  .avi-etoiles { color: var(--accent); letter-spacing: 0.08em; font-size: 1.25rem; line-height: 1; }
+  .avi-etoile { fill: currentColor; }
+  .avi-compte { font-size: 0.95rem; color: var(--muted); }
+  .avi-lien {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-top: 0.6rem;
+    font-weight: 600;
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+  .avi-liste { display: grid; gap: 1rem; list-style: none; }
+  .avi-avis { margin: 0; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .avi-texte { font-size: 1.15rem; line-height: 1.45; color: var(--fg); }
+  .avi-auteur { margin-top: 0.5rem; font-size: 0.9rem; color: var(--muted); }
+  .avi-auteur strong { color: var(--fg); font-weight: 650; }
+  @media (hover: hover) and (pointer: fine) {
+    .avi-lien:hover { color: var(--accent); }
+  }
+
+  @media (min-width: 64rem) {
+    .avi { padding: 0 clamp(2rem, 5vw, 5rem) 0 0; display: flex; justify-content: flex-end; }
+    .avi-planche {
+      width: min(100% - 50rem, 42rem);
+      min-width: 28rem;
+      margin-top: -9rem;
+      grid-template-columns: 11rem 1fr;
+      gap: 2rem;
+      padding: 1.8rem 2rem;
+      box-shadow:
+        7px 7px 0 color-mix(in oklab, var(--accent-2) 88%, var(--accent)),
+        0 1px 0 color-mix(in oklab, var(--ink) 8%, transparent),
+        0 30px 60px -20px color-mix(in oklab, var(--ink) 40%, transparent);
+    }
+    .avi-note { grid-template-columns: 1fr; align-content: start; }
+    .avi-chiffre { grid-row: auto; font-size: 4rem; }
+    .avi-avis { padding-top: 0; border-top: 0; }
+    .avi-liste li + li .avi-avis { padding-top: 1rem; border-top: 1px solid var(--line); }
+  }
+</style>

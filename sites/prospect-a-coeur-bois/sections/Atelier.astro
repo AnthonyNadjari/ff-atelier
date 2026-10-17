@@ -1,0 +1,123 @@
+---
+/**
+ * L'atelier : Guy Andries, sa phrase (recopiée de son site), le bois et les plans de travail du brief, et le stage
+ * prévu pour 2027 (son texte). Rien d'autre : parcours, équipe, essences nommées sont « à demander » au brief.
+ * À droite (dessous sur téléphone), trois photos posées en plans superposés, qui glissent à des vitesses
+ * différentes au défilement (direction.md, MOUVEMENT 4 : plans.ts, translation seule). Tailles plafonnées par
+ * photo (photos.ts).
+ */
+import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { PHOTOS } from './photos';
+
+const a = PHOTOS['agencement-01'];
+const b = PHOTOS['meuble-02'];
+const c = PHOTOS['bibliotheque-02'];
+const stage = site.about.milestones.find((m) => m.year === '2027');
+---
+
+<section id="atelier" class="atl" aria-labelledby="atl-titre">
+  <div class="atl-in">
+    <div class="atl-texte">
+      <h2 id="atl-titre" class="atl-titre">Guy Andries</h2>
+      <p class="atl-p">
+        Ébéniste et menuisier diplômé. Son atelier, à cœur bois, est au 820 route de Rognes, à Puyricard. Il a créé
+        l’entreprise en {site.business.since}.
+      </p>
+      <figure class="atl-citation">
+        <blockquote>« Chaque réalisation est le fruit de vos envies et exigences ! »</blockquote>
+        <figcaption>Guy Andries, sur son site</figcaption>
+      </figure>
+
+      <h3 class="atl-h3">Le bois, les plans de travail</h3>
+      <p class="atl-p">Un large choix d’essences de bois et de dérivés du bois. Et pour les cuisines, quatre matières de plan de travail :</p>
+      <ul class="atl-matieres">
+        <li>pierre acrylique LG HI-MACS</li>
+        <li>compact stratifié</li>
+        <li>Dekton</li>
+        <li>pierre</li>
+      </ul>
+
+      {stage && (
+        <aside class="atl-stage" aria-labelledby="atl-stage-titre">
+          <h3 id="atl-stage-titre" class="atl-stage-titre">En projet pour 2027</h3>
+          <p>Un stage d’initiation à la menuiserie et à l’ébénisterie, pour particuliers débutants : une semaine, 30 heures.</p>
+          <a href={tel()} class="atl-stage-lien">Ça vous tente ? Dites-le à Guy Andries</a>
+        </aside>
+      )}
+    </div>
+
+    <div class="atl-photos" data-plan-cadre>
+      <div class="atl-ph atl-ph-a" data-plan="0.1" data-plan-max="28">
+        <Img src={a.src} alt={a.alt} class="atl-img" sizes="(min-width: 64rem) 460px, 300px" />
+      </div>
+      <div class="atl-ph atl-ph-b" data-plan="-0.06" data-plan-max="24">
+        <Img src={b.src} alt={b.alt} class="atl-img" sizes="(min-width: 64rem) 330px, 206px" />
+      </div>
+      <div class="atl-ph atl-ph-c" data-plan="-0.14" data-plan-max="40">
+        <Img src={c.src} alt={c.alt} class="atl-img" sizes="(min-width: 64rem) 190px, 124px" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .atl { padding: clamp(3rem, 7vw, 6.5rem) 0; background: color-mix(in oklab, var(--bg-2) 55%, var(--bg)); }
+  .atl-in { width: min(100% - 1.6rem, 76rem); margin-inline: auto; display: grid; gap: 2.5rem; }
+  .atl-titre { font-family: var(--font-display); font-weight: 750; font-size: clamp(1.75rem, 4.4vw, 2.5rem); letter-spacing: -0.015em; }
+  .atl-p { margin-top: 0.8rem; max-width: 36rem; line-height: 1.6; }
+  .atl-citation { margin: 1.6rem 0 0; padding-left: 1rem; border-left: 4px solid color-mix(in oklab, var(--accent-2) 90%, var(--accent)); }
+  .atl-citation blockquote { font-family: var(--font-display); font-weight: 650; font-size: clamp(1.3rem, 2.6vw, 1.7rem); line-height: 1.25; letter-spacing: -0.01em; }
+  .atl-citation figcaption { margin-top: 0.5rem; font-size: 0.9rem; color: var(--muted); }
+  .atl-h3 { margin-top: 2rem; font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+  .atl-matieres { margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; }
+  .atl-matieres li {
+    padding: 0.4rem 0.7rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 0 color-mix(in oklab, var(--ink) 10%, transparent);
+  }
+  .atl-stage {
+    margin-top: 2rem;
+    max-width: 30rem;
+    padding: 1.2rem 1.3rem;
+    background: var(--ink);
+    color: var(--on-ink);
+    border-radius: 2px;
+    box-shadow: 5px 5px 0 color-mix(in oklab, var(--accent-2) 88%, var(--accent)), 0 20px 36px -18px color-mix(in oklab, var(--ink) 50%, transparent);
+  }
+  .atl-stage-titre { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
+  .atl-stage p { margin-top: 0.4rem; line-height: 1.5; color: color-mix(in oklab, var(--on-ink) 88%, transparent); }
+  .atl-stage-lien { display: inline-block; margin-top: 0.7rem; color: var(--on-ink); font-weight: 650; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+
+  /* Trois photos posées l'une sur l'autre : la grande au fond, le buffet devant à droite, le meuble bas devant à gauche. */
+  .atl-photos { position: relative; height: 20rem; max-width: 22.5rem; }
+  .atl-ph { position: absolute; will-change: transform; }
+  .atl-ph .atl-img { display: block; width: 100%; height: auto; }
+  .atl-ph-a { top: 0; left: 0; width: 18.75rem; }
+  .atl-ph-b { top: 7rem; right: 0; width: 12.9rem; }
+  .atl-ph-c { top: 9.5rem; left: 0.6rem; width: 7.75rem; }
+  .atl-ph :is(picture, img) { display: block; }
+  .atl-ph {
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--ink) 10%, transparent),
+      0 4px 8px -3px color-mix(in oklab, var(--ink) 22%, transparent),
+      0 24px 40px -16px color-mix(in oklab, var(--ink) 42%, transparent);
+  }
+
+  @media (min-width: 64rem) {
+    .atl-in { width: min(100% - 5rem, 76rem); grid-template-columns: minmax(0, 1fr) 33rem; gap: 4rem; align-items: center; }
+    .atl-photos { height: 29rem; max-width: none; }
+    .atl-ph-a { width: 28.75rem; top: 0; left: 0; }
+    .atl-ph-b { width: 20.6rem; top: 10rem; right: 0; }
+    .atl-ph-c { width: 11.9rem; top: 13rem; left: 1rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initPlans } from './plans';
+  onPage(initPlans);
+</script>

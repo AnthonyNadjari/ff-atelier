@@ -1,0 +1,179 @@
+---
+/**
+ * Bloc signature (direction.md, phrase-idée) : l'échantillonnier. Six matériaux qu'on voit sur ses chantiers (brief
+ * § 8 : parement pierre, opus incertum, grands carreaux, effet bois, brique, ardoise). Chaque échantillon est
+ * découpé dans SA photo (zoom sur le matériau, jamais au-delà de la taille de la source) ; le toucher ouvre ce
+ * chantier en grand, avec le nom du matériau et la page du travail qui le pose.
+ * Mouvement (client calme, rien ne suit le défilement) :
+ * - rythme : l'échantillon touché s'enfonce d'un pixel, son nom passe en gras, sec, 0,15 s ;
+ * - geste : la grande photo change par un glissé latéral court (12 px), sec à l'arrivée, 0,15 s ; flèches du clavier
+ *   aussi. Rien ne tourne tout seul.
+ * Sans script : la première photo et la liste des échantillons, chacun lien vers sa page de travail.
+ * Images cachées : chargées seulement quand on les ouvre (loading lazy + hidden).
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { slugCourant } from '@/lib/site';
+import { lookupImageEntry, imageSrcsetFor } from '@/lib/images';
+import { PHOTOS, MATERIAUX, lienTravail, derivee } from './photos';
+
+// Vues 2 à 6 : pas de <picture> dans la page (elles ne se chargent qu'au toucher) ; leurs srcset sont en data-*.
+const vue = (nom: string) => {
+  const e = lookupImageEntry(slugCourant, `/images/vue-${nom}.webp`);
+  return e ? { avif: imageSrcsetFor(e, '/images', `vue-${nom}`, 'avif'), webp: imageSrcsetFor(e, '/images', `vue-${nom}`, 'webp') } : { avif: '', webp: '' };
+};
+
+const titre = (slug: string) => site.services.find((s) => s.slug === slug)?.title ?? '';
+---
+
+<section id="materiaux" class="mat" aria-labelledby="mat-titre">
+  <div class="mat-in">
+    <div class="mat-tete">
+      <h2 id="mat-titre" class="mat-titre">Ses matériaux, sur ses chantiers</h2>
+      <p class="mat-sous">Touchez un échantillon : il est découpé dans la photo d’un chantier d’Alain Ballay, et le chantier s’ouvre.</p>
+    </div>
+
+    <ul class="mat-echantillons" role="list" data-mat-liste>
+      {MATERIAUX.map((m, i) => {
+        const ph = PHOTOS[m.photo];
+        return (
+          <li>
+            <a href={lienTravail(m.travail)} class="mat-ech" aria-pressed={i === 0 ? 'true' : 'false'} role="button" data-mat={i} aria-controls="mat-vue">
+              <span class="mat-carreau">
+                <Img src={derivee('ech', m.photo)} alt="" class="mat-carreau-img object-cover" sizes="(min-width: 64rem) 124px, 104px" />
+              </span>
+              <span class="mat-nom">{m.nom}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+
+    <div id="mat-vue" class="mat-vue" aria-live="polite">
+      {MATERIAUX.map((m, i) => {
+        const ph = PHOTOS[m.photo];
+        return (
+          <figure class="mat-chantier" data-mat-vue={i} hidden={i !== 0} {...(i === 0 ? {} : { 'data-avif': vue(m.photo).avif, 'data-webp': vue(m.photo).webp, 'data-src': derivee('vue', m.photo), 'data-alt': ph.alt })}>
+            <div class="mat-cadre">
+              {i === 0 && <Img src={derivee('vue', m.photo)} alt={ph.alt} class="mat-grande object-cover" sizes="(min-width: 64rem) 30rem, 100vw" />}
+            </div>
+            <figcaption class="mat-legende">
+              <span class="mat-legende-nom">{m.nom}</span>
+              <a href={lienTravail(m.travail)} class="mat-legende-lien">{titre(m.travail)} : la page</a>
+            </figcaption>
+          </figure>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .mat { padding: clamp(3.5rem, 8vw, 7rem) 0; }
+  .mat-in { width: min(100% - 1.4rem, 76rem); margin-inline: auto; display: grid; gap: 1.4rem; }
+  .mat-titre { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.02; }
+  .mat-sous { margin-top: 0.6rem; color: var(--muted); max-width: 34rem; }
+
+  /* La planche d'échantillons : des carreaux à joint clair, comme un calepinage. */
+  .mat-echantillons {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    padding: 5px;
+    background: color-mix(in oklab, var(--bg-2) 60%, var(--line));
+    list-style: none;
+  }
+  .mat-ech { display: flex; flex-direction: column; background: var(--surface); color: var(--fg); text-decoration: none; transition: transform 0.15s ease-out; }
+  .mat-carreau { position: relative; display: block; aspect-ratio: 1; overflow: hidden; background: var(--bg-2); }
+  .mat-carreau picture { display: contents; }
+  .mat-carreau-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .mat-nom { padding: 0.5rem 0.55rem 0.6rem; font-size: 0.86rem; line-height: 1.2; font-weight: 600; transition: color 0.15s ease-out; }
+  .mat-ech[aria-pressed='true'] { box-shadow: inset 0 -4px 0 var(--accent); }
+  .mat-ech[aria-pressed='true'] .mat-nom { color: var(--accent); font-weight: 800; }
+  .mat-ech:active { transform: translateY(1px); }
+
+  /* Téléphone : la vue AU-DESSUS des échantillons, carrée, pour que le toucher et sa réponse tiennent dans le même écran. */
+  .mat-vue { position: relative; order: 1; }
+  .mat-echantillons { order: 2; }
+  .mat-tete { order: 0; }
+  .mat-chantier { margin: 0; }
+  .mat-chantier[hidden] { display: none; }
+  .mat-chantier.is-arrive { animation: mat-glisse 0.15s ease-out both; }
+  @keyframes mat-glisse { from { opacity: 0.4; transform: translate3d(12px, 0, 0); } to { opacity: 1; transform: none; } }
+  .mat-cadre { aspect-ratio: 4 / 3; overflow: hidden; background: var(--ink); box-shadow: 0 30px 60px -26px color-mix(in oklab, var(--ink) 60%, transparent); }
+  .mat-cadre picture { display: contents; }
+  .mat-grande { width: 100%; height: 100%; object-fit: cover; }
+  .mat-legende {
+    position: relative;
+    margin: -2rem 0.8rem 0 auto;
+    width: fit-content;
+    max-width: calc(100% - 1.6rem);
+    padding: 0.9rem 1.1rem;
+    background: var(--surface);
+    border-left: 0.5rem solid var(--accent);
+    box-shadow: 0 18px 34px -16px color-mix(in oklab, var(--ink) 50%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .mat-legende-nom { font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1.05; }
+  .mat-legende-lien { font-weight: 700; color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+  @media (hover: hover) and (pointer: fine) {
+    .mat-ech:hover .mat-nom { color: var(--accent); }
+    .mat-legende-lien:hover { color: var(--accent); }
+  }
+
+  @media (min-width: 64rem) {
+    .mat-in { grid-template-columns: minmax(0, 1fr) 30rem; grid-template-rows: auto 1fr; column-gap: 4rem; row-gap: 2rem; align-items: start; }
+    .mat-tete { grid-column: 1; }
+    .mat-echantillons { grid-column: 1; grid-row: 2; max-width: 30rem; gap: 7px; padding: 7px; }
+    .mat-vue { grid-column: 2; grid-row: 1 / span 2; }
+    .mat-nom { font-size: 0.95rem; }
+    .mat-cadre { aspect-ratio: 4 / 5; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mat-chantier.is-arrive { animation: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    const liste = document.querySelector<HTMLElement>('[data-mat-liste]');
+    if (!liste) return;
+    const boutons = [...liste.querySelectorAll<HTMLAnchorElement>('[data-mat]')];
+    const vues = [...document.querySelectorAll<HTMLElement>('[data-mat-vue]')];
+    const ouvrir = (i: number, focus = false) => {
+      boutons.forEach((b, k) => b.setAttribute('aria-pressed', String(k === i)));
+      vues.forEach((v, k) => {
+        if (k === i) {
+          // Première ouverture : la photo est posée maintenant (srcset en data-*), pas au chargement de la page.
+          const cadre = v.querySelector<HTMLElement>('.mat-cadre');
+          if (cadre && !cadre.querySelector('img') && v.dataset.webp) {
+            cadre.innerHTML = `<picture><source type="image/avif" srcset="${v.dataset.avif}" sizes="(min-width: 64rem) 30rem, 100vw"><source type="image/webp" srcset="${v.dataset.webp}" sizes="(min-width: 64rem) 30rem, 100vw"><img class="mat-grande object-cover" src="${v.dataset.src}" alt="${(v.dataset.alt || '').replace(/"/g, '&quot;')}" width="960" height="1200"></picture>`;
+          }
+          v.hidden = false;
+          v.classList.remove('is-arrive');
+          void v.offsetWidth;
+          v.classList.add('is-arrive');
+        } else v.hidden = true;
+      });
+      if (focus) boutons[i].focus();
+    };
+    boutons.forEach((b, i) => {
+      // Avec le script, l'échantillon ouvre le chantier ici ; la page du travail reste dans la légende.
+      b.addEventListener('click', (e) => { e.preventDefault(); ouvrir(i); });
+      b.addEventListener('keydown', (e) => {
+        if (e.key === ' ') { e.preventDefault(); ouvrir(i); }
+        const pas = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+        if (pas) { e.preventDefault(); ouvrir((i + pas + boutons.length) % boutons.length, true); }
+      });
+    });
+  });
+</script>

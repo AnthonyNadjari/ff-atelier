@@ -1,0 +1,62 @@
+---
+/**
+ * Alain Ballay : ce que le brief dit de lui, et rien d'autre (parcours publié sur son site, septembre 2000, maçonnerie
+ * et carrelage par la même entreprise). Pas de portrait (aucun au brief : ni silhouette ni avatar). À côté, trois
+ * photos « en cours de chantier » (natte orange, salle de bain préparée, croisillons) posées l'une sur l'autre :
+ * c'est le travail qu'on ne voit plus une fois fini. Aucun mouvement.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { PHOTOS, derivee } from './photos';
+
+const cours = (['realisation-06', 'realisation-12', 'accueil-01'] as const).map((n) => ({ ...PHOTOS[n], src: derivee('cours', n) }));
+---
+
+<section id="alain" class="aln" aria-labelledby="aln-titre">
+  <div class="aln-in">
+    <div class="aln-texte">
+      <h2 id="aln-titre" class="aln-titre">{site.about.title}</h2>
+      <p class="aln-titre-2">Monuments historiques, puis Perpignan</p>
+      <div class="aln-p">{paragraphs(site.about.story).map((t) => <p>{t}</p>)}</div>
+      <dl class="aln-faits">
+        <div><dt>Depuis</dt><dd>septembre {site.business.since}</dd></div>
+        <div><dt>Avant</dt><dd>maître ouvrier, monuments historiques</dd></div>
+        <div><dt>Zone</dt><dd>{site.zones.label}</dd></div>
+      </dl>
+    </div>
+    <div class="aln-photos" aria-label="En cours de chantier">
+      {cours.map((ph, i) => (
+        <div class={`aln-ph aln-ph-${i}`}>
+          <Img src={ph.src} alt={ph.alt} class="aln-img object-cover" sizes={i === 0 ? '(min-width: 64rem) 16rem, 44vw' : '(min-width: 64rem) 13rem, 36vw'} />
+        </div>
+      ))}
+      <p class="aln-legende">En cours de chantier</p>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .aln { padding: clamp(3.5rem, 8vw, 7rem) 0; }
+  .aln-in { width: min(100% - 1.4rem, 76rem); margin-inline: auto; display: grid; gap: 2.4rem; }
+  .aln-titre { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.02; }
+  .aln-titre-2 { margin-top: 0.35rem; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.2rem, 3vw, 1.5rem); color: var(--accent); }
+  .aln-p { margin-top: 1rem; display: grid; gap: 0.8rem; max-width: 34rem; font-size: 1.08rem; line-height: 1.6; }
+  .aln-faits { margin-top: 1.6rem; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); max-width: 34rem; }
+  .aln-faits > div { display: grid; grid-template-columns: 6rem 1fr; gap: 0.8rem; padding: 0.7rem 0.9rem; background: var(--surface); }
+  .aln-faits dt { font-weight: 700; }
+  .aln-photos { position: relative; height: 24rem; }
+  .aln-ph { position: absolute; overflow: hidden; background: var(--ink); box-shadow: 0 1px 0 color-mix(in oklab, var(--ink) 10%, transparent), 0 24px 40px -18px color-mix(in oklab, var(--ink) 55%, transparent); }
+  .aln-ph picture { display: contents; }
+  .aln-img { width: 100%; height: 100%; object-fit: cover; }
+  .aln-ph-0 { left: 0; top: 0; width: 44%; aspect-ratio: 3 / 4; z-index: 1; }
+  .aln-ph-1 { left: 36%; top: 3.5rem; width: 36%; aspect-ratio: 3 / 4; z-index: 2; }
+  .aln-ph-2 { right: 0; top: 8rem; width: 30%; aspect-ratio: 3 / 5; z-index: 3; }
+  .aln-legende { position: absolute; left: 0; bottom: 0; font-size: 0.9rem; color: var(--muted); }
+  @media (min-width: 64rem) {
+    .aln-in { width: min(100% - 5rem, 76rem); grid-template-columns: minmax(0, 1fr) 34rem; gap: 4rem; align-items: center; }
+    .aln-photos { height: 31rem; }
+    .aln-ph-0 { width: 16rem; }
+    .aln-ph-1 { left: 12.5rem; width: 13rem; top: 4rem; }
+    .aln-ph-2 { width: 11rem; top: 9rem; }
+  }
+</style>

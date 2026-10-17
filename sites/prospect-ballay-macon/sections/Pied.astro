@@ -1,0 +1,53 @@
+---
+/**
+ * Pied de page d'Alain Ballay : les six pages de travaux (pas les /services/* partagées, coupées), coordonnées,
+ * horaires, liens légaux. Fond bleu foncé de la direction (la porte bleue de ses terrasses), texte clair.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import { lienTravail } from './photos';
+const annee = new Date().getFullYear();
+---
+
+<footer class="pdb">
+  <div class="pdb-in">
+    <div>
+      <p class="pdb-nom">{site.business.name}</p>
+      <p class="pdb-metier">Artisan maçon carreleur à Perpignan, depuis septembre {site.business.since}. Estimation gratuite.</p>
+    </div>
+    <nav aria-label="Travaux">
+      <p class="pdb-tete">Travaux</p>
+      <ul>{site.services.map((s) => <li><a href={lienTravail(s.slug)}>{s.title}</a></li>)}</ul>
+    </nav>
+    <div>
+      <p class="pdb-tete">Contact</p>
+      <ul>
+        <li><a href={tel()}>{site.contact.phoneDisplay}</a></li>
+        {site.contact.email && <li><a href={mailto()} class="pdb-mail">{site.contact.email}</a></li>}
+        <li class="pdb-faible">{fullAddress()}</li>
+        <li class="pdb-faible">Du lundi au vendredi, 8 h à 18 h</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pdb-bas">
+    <p>© {annee} {site.business.name}, artisan maçon carreleur</p>
+    <p class="pdb-legal"><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a><span>Site réalisé par <a href="https://finckfisch.fr" rel="noopener">Finck &amp; Fisch</a></span></p>
+  </div>
+</footer>
+
+<style is:global>
+  .pdb { background: color-mix(in oklab, var(--accent-2) 55%, var(--ink)); color: var(--on-ink); }
+  .pdb-in { width: min(100% - 2rem, 76rem); margin-inline: auto; padding: 3.5rem 0 2.5rem; display: grid; gap: 2rem; }
+  .pdb-nom { font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; }
+  .pdb-metier { margin-top: 0.5rem; font-size: 0.95rem; color: color-mix(in oklab, var(--on-ink) 80%, transparent); max-width: 22rem; }
+  .pdb-tete { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.7rem; }
+  .pdb ul { list-style: none; display: grid; gap: 0.45rem; font-size: 0.95rem; }
+  .pdb a { color: color-mix(in oklab, var(--on-ink) 88%, transparent); text-decoration: none; }
+  .pdb-mail { overflow-wrap: anywhere; }
+  .pdb-faible { color: color-mix(in oklab, var(--on-ink) 75%, transparent); }
+  .pdb-bas { width: min(100% - 2rem, 76rem); margin-inline: auto; padding: 1.2rem 0 1.6rem; border-top: 1px solid color-mix(in oklab, var(--on-ink) 18%, transparent); display: flex; flex-wrap: wrap; gap: 0.6rem 2rem; justify-content: space-between; font-size: 0.82rem; color: color-mix(in oklab, var(--on-ink) 75%, transparent); }
+  .pdb-legal { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  @media (hover: hover) and (pointer: fine) {
+    .pdb a:hover { color: var(--on-ink); text-decoration: underline; text-underline-offset: 0.25em; }
+  }
+  @media (min-width: 48rem) { .pdb-in { grid-template-columns: 1.4fr 1fr 1.2fr; } }
+</style>

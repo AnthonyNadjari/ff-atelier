@@ -1,0 +1,60 @@
+---
+/**
+ * Pied de page d'À cœur bois : les cinq pages de rubrique (pas les /services/* partagées, coupées), coordonnées,
+ * horaires, liens légaux. Fond encre de la direction.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import { lienRubrique } from './photos';
+const annee = new Date().getFullYear();
+---
+
+<footer class="pied">
+  <div class="pied-in">
+    <div>
+      <p class="pied-nom">{site.business.name}</p>
+      <p class="pied-metier">Ébéniste et menuisier à Puyricard, Aix-en-Provence. Guy Andries, depuis {site.business.since}.</p>
+    </div>
+    <nav aria-label="Rubriques">
+      <p class="pied-tete">Rubriques</p>
+      <ul>{site.services.map((s) => <li><a href={lienRubrique(s.slug)}>{s.title}</a></li>)}</ul>
+    </nav>
+    <div>
+      <p class="pied-tete">Contact</p>
+      <ul>
+        <li><a href={tel()}>{site.contact.phoneDisplay}</a></li>
+        {site.contact.email && <li><a href={mailto()} class="pied-mail">{site.contact.email}</a></li>}
+        <li class="pied-faible">{fullAddress()}</li>
+      </ul>
+    </div>
+    <div>
+      <p class="pied-tete">Horaires</p>
+      <p class="pied-horaires">Du lundi au vendredi<br />9 h à 12 h et 14 h à 18 h<br />Fermé le samedi et le dimanche</p>
+    </div>
+  </div>
+  <div class="pied-bas">
+    <p>© {annee} {site.business.name}, {site.legal.owner}</p>
+    <p class="pied-legal"><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a><span>Site réalisé par <a href="https://finckfisch.fr" rel="noopener">Finck &amp; Fisch</a></span></p>
+  </div>
+</footer>
+
+<style is:global>
+  .pied { background: var(--ink); color: var(--on-ink); }
+  .pied-in { width: min(100% - 2rem, 76rem); margin-inline: auto; padding: 3.5rem 0 2.5rem; display: grid; gap: 2rem; }
+  .pied-nom { font-family: var(--font-display); font-weight: 750; font-size: 1.5rem; }
+  .pied-metier { margin-top: 0.5rem; font-size: 0.95rem; color: color-mix(in oklab, var(--on-ink) 75%, transparent); max-width: 22rem; }
+  .pied-tete { font-weight: 650; font-size: 0.95rem; margin-bottom: 0.7rem; }
+  .pied ul { list-style: none; display: grid; gap: 0.45rem; font-size: 0.95rem; }
+  .pied a { color: color-mix(in oklab, var(--on-ink) 85%, transparent); text-decoration: none; }
+  .pied-mail { overflow-wrap: anywhere; }
+  .pied-faible { color: color-mix(in oklab, var(--on-ink) 70%, transparent); }
+  .pied-horaires { font-size: 0.92rem; color: color-mix(in oklab, var(--on-ink) 85%, transparent); }
+  .pied-bas { border-top: 1px solid color-mix(in oklab, var(--on-ink) 14%, transparent); }
+  .pied-bas { width: min(100% - 2rem, 76rem); margin-inline: auto; padding: 1.2rem 0 1.6rem; display: flex; flex-wrap: wrap; gap: 0.6rem 2rem; justify-content: space-between; font-size: 0.82rem; color: color-mix(in oklab, var(--on-ink) 70%, transparent); }
+  .pied-legal { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
+  @media (hover: hover) and (pointer: fine) {
+    .pied a:hover { color: var(--on-ink); text-decoration: underline; text-underline-offset: 0.25em; }
+  }
+  @media (min-width: 48rem) {
+    .pied-in { grid-template-columns: 1.3fr 1fr 1.2fr 1.2fr; }
+  }
+</style>

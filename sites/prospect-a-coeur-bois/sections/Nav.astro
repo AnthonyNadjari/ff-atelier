@@ -1,0 +1,182 @@
+---
+/**
+ * Barre du haut d'À cœur bois, sur toutes les pages (accueil et pages de rubrique). Socle (GOUT § 0) : le numéro
+ * ÉCRIT EN ENTIER, cliquable, sur téléphone comme sur ordinateur, sans défiler ; les cinq rubriques sont des PAGES
+ * (pas des ancres) ; sur téléphone, un menu et une barre d'actions en bas (Appeler, Écrire, Venir).
+ * La barre partagée (BarreActions) n'est pas utilisée : sa porte « Écrire » exige une section contact partagée ;
+ * ici l'e-mail du brief ouvre la messagerie du visiteur (mailto, rien n'est envoyé par le site).
+ * Tokens seulement ; rayon de la direction ; aucune pilule.
+ */
+import { site, tel, mailto } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import { lienRubrique } from './photos';
+
+const rubriques = site.services.map((s) => ({ href: lienRubrique(s.slug), label: s.title.replace(' d’intérieurs', '').replace(' et extérieurs', '') }));
+const courant = Astro.url.pathname.replace(/\/$/, '') || '/';
+const ecrire = mailto();
+---
+
+<header class="nav-acb" data-acb-nav>
+  <div class="nav-acb-in">
+    <a href="/" class="nav-acb-nom" aria-label={`${site.business.name}, accueil`}>
+      <span class="nav-acb-marque">{site.business.name}</span>
+      <span class="nav-acb-metier">Ébéniste, Puyricard</span>
+    </a>
+
+    <nav class="nav-acb-liens" aria-label="Rubriques">
+      {rubriques.map((r) => (
+        <a href={r.href} aria-current={courant === r.href ? 'page' : undefined}>{r.label}</a>
+      ))}
+    </nav>
+
+    <a href={tel()} class="nav-acb-tel" aria-label={`Appeler Guy Andries au ${site.contact.phoneDisplay}`}>
+      <Icon name="Phone" size={17} />
+      <span>{site.contact.phoneDisplay}</span>
+    </a>
+
+    <button class="nav-acb-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="acb-menu" data-acb-menu>
+      <Icon name="Menu" size={22} />
+    </button>
+  </div>
+
+  <nav id="acb-menu" class="nav-acb-panneau" aria-label="Menu" hidden data-acb-panneau>
+    {rubriques.map((r) => <a href={r.href}>{r.label}</a>)}
+    <a href="/#avis">Avis</a>
+    <a href="/#atelier">L’atelier</a>
+    <a href="/#venir">Venir</a>
+  </nav>
+</header>
+
+<nav class="acb-barre" aria-label="Actions rapides" data-acb-barre>
+  <a href={tel()} class="acb-barre-porte is-principale"><Icon name="Phone" size={18} /><span>Appeler</span></a>
+  {ecrire && <a href={`${ecrire}?subject=${encodeURIComponent('Un projet')}`} class="acb-barre-porte"><Icon name="Mail" size={18} /><span>Écrire</span></a>}
+  <a href="/#venir" class="acb-barre-porte"><Icon name="MapPin" size={18} /><span>Venir</span></a>
+</nav>
+
+<style is:global>
+  .nav-acb {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in oklab, var(--bg) 90%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid color-mix(in oklab, var(--line) 70%, transparent);
+  }
+  .nav-acb-in {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: min(100% - 1.5rem, 88rem);
+    margin-inline: auto;
+    min-height: 3.6rem;
+  }
+  .nav-acb-nom { display: flex; flex-direction: column; line-height: 1.05; color: var(--fg); text-decoration: none; margin-right: auto; min-width: 0; }
+  .nav-acb-marque { font-family: var(--font-display); font-weight: 750; font-size: 1.12rem; letter-spacing: -0.01em; white-space: nowrap; }
+  .nav-acb-metier { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+  /* .nav-acb .nav-acb-in : bat la règle globale a[aria-label] (inline-flex centré) qui centrait le nom sur le métier. */
+  .nav-acb .nav-acb-in .nav-acb-nom.nav-acb-nom { display: flex; flex-direction: column; align-items: flex-start; }
+  .nav-acb-liens { display: none; }
+  .nav-acb-tel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.8rem;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.98rem;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    text-decoration: none;
+    box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--accent) 60%, var(--ink));
+    transition: background-color 0.15s ease-out;
+  }
+  .nav-acb-tel:active { background: var(--accent-2); }
+  .nav-acb-menu { display: inline-flex; padding: 0.5rem; margin-right: -0.4rem; color: var(--fg); }
+  .nav-acb-panneau { display: flex; flex-direction: column; padding: 0.4rem 1rem 1rem; border-top: 1px solid var(--line); background: var(--bg); }
+  .nav-acb-panneau[hidden] { display: none; }
+  .nav-acb-panneau a { padding: 0.8rem 0.25rem; border-bottom: 1px solid var(--line); color: var(--fg); text-decoration: none; font-size: 1.05rem; }
+  .nav-acb-panneau a:last-child { border-bottom: 0; }
+
+  @media (max-width: 23.5rem) {
+    .nav-acb-metier { display: none; }
+    .nav-acb-tel { padding-inline: 0.6rem; font-size: 0.92rem; }
+  }
+
+  @media (min-width: 64rem) {
+    .nav-acb-in { min-height: 4.4rem; gap: 2rem; }
+    .nav-acb-marque { font-size: 1.3rem; }
+    .nav-acb-liens { display: flex; gap: 1.6rem; font-size: 0.98rem; }
+    .nav-acb-liens a { color: var(--muted); text-decoration: none; padding-block: 0.4rem; border-bottom: 2px solid transparent; transition: color 0.15s ease-out, border-color 0.15s ease-out; }
+    .nav-acb-liens a[aria-current='page'] { color: var(--fg); border-bottom-color: var(--accent); }
+    .nav-acb-tel { padding: 0.7rem 1.1rem; font-size: 1.1rem; }
+    /* .nav-acb .nav-acb-in : bat la règle globale button[aria-label] (cibles tactiles) qui remettait le bouton. */
+    .nav-acb .nav-acb-in .nav-acb-menu { display: none; }
+    .nav-acb-panneau { display: none !important; }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .nav-acb-liens a:hover { color: var(--fg); border-bottom-color: var(--line); }
+    .nav-acb-tel:hover { background: var(--accent-2); }
+  }
+
+  /* Barre d'actions du bas (téléphone) : trois portes, au-dessus de la barre de l'iPhone, cachée quand le pied de
+     page est visible. Le corps reçoit la hauteur de la barre pour que rien ne passe dessous. */
+  .acb-barre {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 45;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -8px 24px -16px color-mix(in oklab, var(--ink) 40%, transparent);
+    transition: transform 0.2s ease-out;
+  }
+  .acb-barre.is-cachee { transform: translateY(110%); }
+  .acb-barre-porte {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 3.6rem;
+    color: var(--fg);
+    font-weight: 600;
+    font-size: 0.98rem;
+    text-decoration: none;
+  }
+  .acb-barre-porte + .acb-barre-porte { border-left: 1px solid var(--line); }
+  .acb-barre-porte.is-principale { background: var(--accent); color: var(--on-accent); }
+  .acb-barre-porte:active { background: var(--bg-2); }
+  .acb-barre-porte.is-principale:active { background: var(--accent-2); }
+  @media (max-width: 47.99rem) {
+    body { padding-bottom: calc(3.6rem + env(safe-area-inset-bottom)); }
+  }
+  @media (min-width: 48rem) {
+    .acb-barre { display: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    const btn = document.querySelector<HTMLButtonElement>('[data-acb-menu]');
+    const panneau = document.querySelector<HTMLElement>('[data-acb-panneau]');
+    if (btn && panneau) {
+      btn.addEventListener('click', () => {
+        const ouvert = panneau.hidden;
+        panneau.hidden = !ouvert;
+        btn.setAttribute('aria-expanded', String(ouvert));
+      });
+      panneau.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { panneau.hidden = true; btn.setAttribute('aria-expanded', 'false'); }));
+    }
+    // Barre du bas cachée quand le pied de page est à l'écran (ses coordonnées y sont déjà).
+    const barre = document.querySelector<HTMLElement>('[data-acb-barre]');
+    const pied = document.querySelector('footer');
+    if (barre && pied && 'IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => barre.classList.toggle('is-cachee', e.isIntersecting), { rootMargin: '0px 0px -40px 0px' }).observe(pied);
+    }
+  });
+</script>

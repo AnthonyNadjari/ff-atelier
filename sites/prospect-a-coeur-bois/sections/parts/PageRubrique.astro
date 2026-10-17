@@ -1,0 +1,217 @@
+---
+/**
+ * Page d'une rubrique (/cuisines, /meubles, /bibliotheques, /agencement, /menuiseries) : une par service du brief
+ * (GOUT § 0, point 1). Remplace la page service partagée, qui met la photo à 100 % de la largeur du téléphone
+ * (une photo de 800 px y serait étirée, direction.md § Socle).
+ * Premier écran : les photos de la rubrique posées sur un petit mur vu de biais (même geste que l'accueil, sans
+ * défilement), et une planche posée devant : h1 (la rubrique), métier + lieu, le texte du brief, les points, le
+ * numéro en grand, Écrire. Puis les autres rubriques, et l'atelier (adresse, horaires).
+ * Tailles : deux colonnes, la grande à min(380 px, largeur × 0,6) sur ordinateur et min(210 px, largeur × 0,4) sur
+ * téléphone, la petite à 220 / 130 au plus (photos.ts).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, mailto, paragraphs, fullAddress } from '@/lib/site';
+import { serviceLd } from '@/lib/jsonld';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
+import Nav from '../Nav.astro';
+import Pied from '../Pied.astro';
+import { PHOTOS, PAR_RUBRIQUE, PORTE, lienRubrique, type Photo } from '../photos';
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+const service = site.services.find((s) => s.slug === slug);
+if (!service) throw new Error(`Rubrique inconnue : ${slug}`);
+
+const photos: Photo[] = (PAR_RUBRIQUE[slug] ?? []).map((n) => PHOTOS[n]);
+const grandes = photos.filter((p) => p.w >= 452);
+const petites = photos.filter((p) => p.w < 452);
+// Une rubrique sans « petite » (meubles, agencement) : la plus étroite des grandes passe dans la petite colonne.
+if (!petites.length && grandes.length > 1) petites.push(grandes.pop()!);
+const min = (xs: Photo[]) => Math.min(...xs.map((p) => p.w));
+const col = (xs: Photo[], plafondD: number, plafondM: number) =>
+  xs.length ? { d: Math.min(plafondD, Math.floor(min(xs) * 0.6)), m: Math.min(plafondM, Math.floor(min(xs) * 0.4)) } : { d: 0, m: 0 };
+const cg = col(grandes, 380, 210);
+const cp = col(petites, 220, 130);
+let n = 0;
+
+const autres = site.services.filter((s) => s.slug !== slug);
+const url = new URL(lienRubrique(slug), Astro.site).toString();
+const ecrire = mailto();
+const g = site.proof.google;
+---
+
+<Base
+  title={`${service.title} à Puyricard, Aix-en-Provence | ${site.business.name}`}
+  description={`${service.short} Guy Andries, ébéniste et menuisier à Puyricard (Aix-en-Provence). ${site.contact.phoneDisplay}.`}
+  path={lienRubrique(slug)}
+  jsonLd={[serviceLd(site, service, url)]}
+>
+  <Nav />
+  <main id="main">
+    <section class="pr-tete" aria-labelledby="pr-titre">
+      <div class="pr-scene">
+        <div class="pr-mur" style={`--cg-d:${cg.d}px;--cp-d:${cp.d}px;--cg-m:${cg.m}px;--cp-m:${cp.m}px`}>
+          {[grandes, petites].map((xs, k) => xs.length > 0 && (
+            <div class:list={['pr-col', k === 0 ? 'is-grande' : 'is-petite']}>
+              {xs.map((p) => (
+                <figure class="pr-panneau" style={`--i:${n++}`}>
+                  <Img src={p.src} alt={p.alt} class="pr-img" sizes={k === 0 ? `(min-width: 64rem) ${cg.d}px, ${cg.m}px` : `(min-width: 64rem) ${cp.d}px, ${cp.m}px`} priority={n <= 2} />
+                </figure>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="pr-planche">
+        <a href="/#rubriques" class="pr-retour"><Icon name="ArrowLeft" size={16} /> Les cinq rubriques</a>
+        <h1 id="pr-titre" class="pr-titre">{service.title}</h1>
+        <p class="pr-lieu">Guy Andries, ébéniste et menuisier à Puyricard, Aix-en-Provence</p>
+        <div class="pr-texte">{paragraphs(service.description ?? service.short).map((t) => <p>{t}</p>)}</div>
+        {service.bullets.length > 0 && <ul class="pr-points">{service.bullets.map((b) => <li>{b}</li>)}</ul>}
+        <div class="pr-actions">
+          <a href={tel()} class="pr-tel" aria-label={`Appeler Guy Andries au ${site.contact.phoneDisplay}`}><Icon name="Phone" size={22} /><span>{site.contact.phoneDisplay}</span></a>
+          {ecrire && <a href={`${ecrire}?subject=${encodeURIComponent(service.title)}`} class="pr-ecrire">Écrire pour {PORTE[slug]?.toLowerCase()}</a>}
+        </div>
+        {g && <p class="pr-note"><a href="/#avis">{g.rating.toFixed(1).replace('.', ',')} sur Google, {g.count} avis</a></p>}
+      </div>
+    </section>
+
+    <section class="pr-autres" aria-labelledby="pr-autres-titre">
+      <h2 id="pr-autres-titre" class="pr-h2">Les autres rubriques</h2>
+      <ul class="pr-autres-liste">
+        {autres.map((s) => {
+          const ph = PHOTOS[(PAR_RUBRIQUE[s.slug] ?? [])[0]];
+          return (
+            <li>
+              <a href={lienRubrique(s.slug)} class="pr-autre">
+                {ph && <Img src={ph.src} alt="" class="pr-autre-img object-cover" sizes="(min-width: 64rem) 160px, 112px" />}
+                <span>{s.title}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+
+    <section class="pr-atelier" aria-labelledby="pr-atelier-titre">
+      <div class="pr-atelier-in">
+        <div>
+          <h2 id="pr-atelier-titre" class="pr-h2">L’atelier, route de Rognes</h2>
+          <p class="pr-adresse">{fullAddress()}</p>
+          {site.contact.mapsUrl && <a href={site.contact.mapsUrl} class="pr-lien" target="_blank" rel="noopener">L’itinéraire sur Google Maps</a>}
+        </div>
+        <Horaires class="pr-horaires" />
+      </div>
+    </section>
+  </main>
+  <Pied />
+</Base>
+
+<style is:global>
+  .pr-tete { display: grid; }
+  .pr-scene {
+    grid-area: 1 / 1;
+    position: relative;
+    overflow: hidden;
+    height: 22rem;
+    perspective: 900px;
+    background: linear-gradient(to bottom, color-mix(in oklab, var(--bg-2) 45%, var(--bg)), var(--bg-2) 75%, color-mix(in oklab, var(--bg-2) 86%, var(--ink)));
+  }
+  .pr-mur {
+    position: absolute;
+    top: 1.2rem;
+    right: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    transform-origin: 100% 40%;
+    transform: rotateY(-12deg);
+  }
+  .pr-col { display: flex; flex-direction: column; gap: 10px; }
+  .pr-col.is-grande { width: var(--cg-m); }
+  .pr-col.is-petite { width: var(--cp-m); margin-top: 1.6rem; }
+  .pr-panneau {
+    margin: 0;
+    background: var(--surface);
+    box-shadow:
+      0 1px 2px color-mix(in oklab, var(--ink) 18%, transparent),
+      0 12px 22px -10px color-mix(in oklab, var(--ink) 42%, transparent);
+    animation: mur-pose-p 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) calc(0.1s + var(--i) * 50ms) both;
+  }
+  .pr-panneau .pr-img { display: block; width: 100%; height: auto; }
+  @keyframes mur-pose-p {
+    from { opacity: 0; transform: translate3d(0, -8px, 0) scale(1.07); }
+    to { opacity: 1; transform: none; }
+  }
+  .pr-planche {
+    grid-area: 1 / 1 / span 2 / 1;
+    align-self: start;
+    position: relative;
+    z-index: 1;
+    margin: 16.5rem 0.85rem 0 0.6rem;
+    padding: 1.3rem 1.25rem 1.4rem;
+    background: var(--surface);
+    border-radius: 2px;
+    box-shadow:
+      5px 5px 0 color-mix(in oklab, var(--accent-2) 88%, var(--accent)),
+      0 1px 0 color-mix(in oklab, var(--ink) 10%, transparent),
+      0 24px 46px -14px color-mix(in oklab, var(--ink) 40%, transparent);
+  }
+  .pr-retour { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.92rem; color: var(--muted); text-decoration: none; }
+  .pr-titre { margin-top: 0.8rem; font-family: var(--font-display); font-weight: 750; font-size: clamp(2.1rem, 8vw, 3.2rem); line-height: 1.02; letter-spacing: -0.02em; }
+  .pr-lieu { margin-top: 0.4rem; color: var(--muted); }
+  .pr-texte { margin-top: 1.1rem; display: grid; gap: 0.8rem; max-width: 38rem; line-height: 1.6; }
+  .pr-points { margin-top: 1rem; display: grid; gap: 0.35rem; padding-left: 1.1rem; list-style: square; }
+  .pr-points li::marker { color: var(--accent); }
+  .pr-actions { margin-top: 1.3rem; padding-top: 1rem; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.4rem; }
+  .pr-tel { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--accent); font-family: var(--font-display); font-weight: 750; font-size: clamp(1.7rem, 3vw, 2.3rem); line-height: 1; white-space: nowrap; text-decoration: none; font-variant-numeric: tabular-nums; }
+  .pr-ecrire, .pr-lien, .pr-note a { color: var(--fg); font-weight: 600; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+  .pr-note { margin-top: 0.9rem; font-size: 0.95rem; }
+
+  .pr-autres { width: min(100% - 1.6rem, 76rem); margin: clamp(3rem, 7vw, 5.5rem) auto 0; }
+  .pr-h2 { font-family: var(--font-display); font-weight: 750; font-size: clamp(1.5rem, 3.6vw, 2rem); letter-spacing: -0.015em; }
+  .pr-autres-liste { margin-top: 1.2rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; list-style: none; }
+  .pr-autre {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.45rem;
+    background: var(--surface);
+    border-radius: 2px;
+    color: var(--fg);
+    font-weight: 650;
+    text-decoration: none;
+    box-shadow: 0 1px 0 color-mix(in oklab, var(--ink) 8%, transparent), 0 12px 24px -14px color-mix(in oklab, var(--ink) 34%, transparent);
+  }
+  .pr-autre :is(picture) { display: contents; }
+  .pr-autre-img { width: 3.5rem; height: 3.5rem; object-fit: cover; flex: none; }
+  .pr-atelier { margin-top: clamp(3rem, 7vw, 5.5rem); padding: clamp(2.5rem, 6vw, 4.5rem) 0; background: color-mix(in oklab, var(--bg-2) 55%, var(--bg)); }
+  .pr-atelier-in { width: min(100% - 1.6rem, 76rem); margin-inline: auto; display: grid; gap: 1.6rem; }
+  .pr-adresse { margin-top: 0.6rem; font-size: 1.1rem; }
+  .pr-lien { display: inline-block; margin-top: 0.8rem; }
+  .pr-horaires .horaires-etat { font-weight: 700; margin-bottom: 0.4rem; }
+  @media (hover: hover) and (pointer: fine) {
+    .pr-tel:hover { color: var(--fg); }
+    .pr-autre:hover { color: var(--accent); }
+  }
+
+  @media (min-width: 64rem) {
+    .pr-tete { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: calc(100svh - 4.4rem); }
+    .pr-scene { grid-area: 1 / 1 / 2 / 3; height: auto; min-height: calc(100svh - 4.4rem); perspective: 1500px; }
+    .pr-mur { top: 2.5rem; right: 3rem; gap: 18px; transform: rotateY(-14deg); }
+    .pr-col { gap: 18px; }
+    .pr-col.is-grande { width: var(--cg-d); }
+    .pr-col.is-petite { width: var(--cp-d); margin-top: 3rem; }
+    .pr-planche { grid-area: 1 / 1; align-self: center; justify-self: end; margin: 2.5rem -2rem 2.5rem clamp(2rem, 5vw, 5rem); width: min(100%, 36rem); padding: 2rem 2.3rem; }
+    .pr-autres, .pr-atelier-in { width: min(100% - 5rem, 76rem); }
+    .pr-autres-liste { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.2rem; }
+    .pr-autre-img { width: 5rem; height: 5rem; }
+    .pr-atelier-in { grid-template-columns: 1fr 1fr; align-items: start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pr-panneau { animation: none; }
+  }
+</style>

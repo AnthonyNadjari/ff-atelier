@@ -1,0 +1,140 @@
+---
+/**
+ * Les cinq rubriques de son site, une « façade » chacune ; une façade = une page (/cuisines…). Socle : une porte
+ * par projet, une page par service. Chaque façade est un caisson : cadre brun noyer, deux photos assemblées à joint
+ * fin (on voit le bois dans le joint), le nom sur la plinthe. Tailles plafonnées par photo (photos.ts) : sur
+ * téléphone 62 % / 38 % d'une rangée de 22 rem au plus ; la façade des menuiseries est plus étroite (portillon de
+ * 283 px).
+ * Mouvement (direction.md, MOUVEMENT 2) : quand une façade arrive à l'écran, ses deux photos s'assemblent (elles
+ * glissent l'une contre l'autre, joint de 12 px à 3 px), sec, 0,18 s. Sans script ou mouvement réduit : assemblées.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { PHOTOS, PAR_RUBRIQUE, PORTE, lienRubrique } from './photos';
+
+const facades = site.services.map((s, i) => {
+  const [a, b] = PAR_RUBRIQUE[s.slug] ?? [];
+  return { s, a: a && PHOTOS[a], b: b && PHOTOS[b], grande: i < 2 };
+});
+---
+
+<section id="rubriques" class="rub" aria-labelledby="rub-titre">
+  <div class="rub-tete">
+    <h2 id="rub-titre" class="rub-titre">Ce qui sort de l’atelier</h2>
+    <p class="rub-sous">Cinq rubriques, une page chacune. Toutes les photos viennent de ses chantiers.</p>
+  </div>
+
+  <ul class="rub-liste">
+    {facades.map(({ s, a, b, grande }) => (
+      <li class:list={['rub-carte', grande && 'is-grande']} data-rub={s.slug}>
+        <a href={lienRubrique(s.slug)} class="rub-lien">
+          <div class="rub-caisson">
+            <div class="rub-mosaique" data-assemble>
+              {a && <Img src={a.src} alt={a.alt} class="rub-photo rub-a object-cover" sizes={grande ? '(min-width: 64rem) 410px, 222px' : '(min-width: 64rem) 236px, 222px'} />}
+              {b && <Img src={b.src} alt={b.alt} class="rub-photo rub-b object-cover" sizes={grande ? '(min-width: 64rem) 170px, 136px' : '(min-width: 64rem) 140px, 136px'} />}
+            </div>
+          </div>
+          <div class="rub-plinthe">
+            <h3 class="rub-nom">{s.title}</h3>
+            <p class="rub-court">{s.short}</p>
+            <span class="rub-porte">{PORTE[s.slug]} : la page</span>
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style is:global>
+  .rub { padding: clamp(3.5rem, 8vw, 7rem) 0 clamp(3rem, 6vw, 5rem); }
+  .rub-tete, .rub-liste { width: min(100% - 1.6rem, 76rem); margin-inline: auto; }
+  .rub-titre { font-family: var(--font-display); font-weight: 750; font-size: clamp(1.75rem, 4.4vw, 2.5rem); letter-spacing: -0.015em; }
+  .rub-sous { margin-top: 0.5rem; color: var(--muted); max-width: 40rem; }
+  .rub-liste { margin-top: 1.8rem; display: grid; gap: 1.6rem; list-style: none; }
+  .rub-carte { min-width: 0; }
+  .rub-lien {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: var(--fg);
+    text-decoration: none;
+    background: var(--surface);
+    border-radius: 2px;
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--ink) 8%, transparent),
+      0 3px 6px -2px color-mix(in oklab, var(--ink) 16%, transparent),
+      0 22px 40px -18px color-mix(in oklab, var(--ink) 38%, transparent);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+  .rub-lien:active { transform: translateY(1px); }
+  /* Le caisson : cadre brun noyer, photos à joint fin. */
+  .rub-caisson { padding: 6px; background: color-mix(in oklab, var(--accent-2) 90%, var(--accent)); border-radius: 2px 2px 0 0; }
+  .rub-mosaique { display: flex; gap: 3px; height: 11.25rem; max-width: 22rem; }
+  .rub-carte[data-rub='menuiseries'] .rub-mosaique { max-width: 18.5rem; }
+  .rub-photo { display: block; height: 100%; min-width: 0; object-fit: cover; transition: transform 0.18s ease-out; }
+  .rub-a { flex: 62 1 0; }
+  .rub-b { flex: 38 1 0; }
+  .rub-mosaique :is(picture) { display: contents; }
+  .rub-mosaique.is-loin .rub-a { transform: translateX(-5px); }
+  .rub-mosaique.is-loin .rub-b { transform: translateX(5px); }
+  .rub-plinthe { padding: 1rem 1.1rem 1.15rem; display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
+  .rub-nom { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; letter-spacing: -0.01em; }
+  .rub-court { color: var(--muted); font-size: 0.97rem; line-height: 1.45; }
+  .rub-porte {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-weight: 650;
+    font-size: 0.95rem;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .rub-lien:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 1px 0 color-mix(in oklab, var(--ink) 8%, transparent),
+        0 6px 10px -4px color-mix(in oklab, var(--ink) 18%, transparent),
+        0 32px 52px -20px color-mix(in oklab, var(--ink) 44%, transparent);
+    }
+    .rub-lien:hover .rub-porte { color: var(--accent); }
+  }
+
+  @media (min-width: 64rem) {
+    .rub-tete, .rub-liste { width: min(100% - 5rem, 76rem); }
+    .rub-liste { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 2.2rem 1.8rem; margin-top: 2.6rem; }
+    .rub-carte { grid-column: span 2; }
+    .rub-carte.is-grande { grid-column: span 3; }
+    .rub-mosaique { height: 15.6rem; max-width: none; }
+    .rub-carte[data-rub='menuiseries'] .rub-mosaique { max-width: none; }
+    .rub-carte.is-grande .rub-a { flex: 70 1 0; }
+    .rub-carte.is-grande .rub-b { flex: 30 1 0; }
+    .rub-carte:not(.is-grande) .rub-a { flex: 62 1 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rub-mosaique.is-loin .rub-a, .rub-mosaique.is-loin .rub-b { transform: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Assemblage : les façades encore sous l'écran s'ouvrent d'un joint, puis s'assemblent en arrivant (une fois).
+  onPage(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const vh = window.innerHeight;
+    const io = new IntersectionObserver((entrees) => {
+      for (const e of entrees) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.remove('is-loin');
+        io.unobserve(e.target);
+      }
+    }, { rootMargin: '0px 0px -12% 0px' });
+    document.querySelectorAll<HTMLElement>('[data-assemble]').forEach((m) => {
+      if (m.getBoundingClientRect().top < vh * 0.88) return;
+      m.classList.add('is-loin');
+      io.observe(m);
+    });
+  });
+</script>

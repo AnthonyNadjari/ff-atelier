@@ -1,0 +1,96 @@
+---
+/**
+ * Les six travaux de sa page Services, une page chacun (GOUT § 0, points 1 et 7). Les quatre qui ont des photos :
+ * la photo du chantier en grand (portrait), le nom posé sur une plaque qui déborde du bord gauche (deux plans,
+ * tranche terre cuite). Démoussage et façades n'ont aucune photo au brief : une carte encre avec le fait du brief
+ * (produits biodégradables, produits spécifiques), jamais une photo de banque. Aucun mouvement.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { PHOTOS, PAR_TRAVAIL, PORTE, lienTravail, derivee } from './photos';
+---
+
+<section id="travaux" class="trv" aria-labelledby="trv-titre">
+  <div class="trv-in">
+    <h2 id="trv-titre" class="trv-titre">{site.wording.servicesTitle}</h2>
+    <p class="trv-sous">Maçonnerie et carrelage par la même entreprise. Une page par travail, avec ses chantiers.</p>
+    <ul class="trv-liste">
+      {site.services.map((s) => {
+        const nom = (PAR_TRAVAIL[s.slug] ?? [])[0];
+        const ph = nom ? PHOTOS[nom] : undefined;
+        return (
+          <li class:list={['trv-carte', !ph && 'is-sans-photo']}>
+            <a href={lienTravail(s.slug)} class="trv-lien">
+              {ph ? (
+                <span class="trv-photo"><Img src={derivee('carte', nom)} alt={ph.alt} class="trv-img object-cover" sizes="(min-width: 64rem) 22rem, 8.5rem" /></span>
+              ) : (
+                <span class="trv-fait" aria-hidden="true">{s.bullets[0]}</span>
+              )}
+              <span class="trv-plaque">
+                <span class="trv-nom">{s.title}</span>
+                <span class="trv-porte">{PORTE[s.slug]}</span>
+              </span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style is:global>
+  .trv { padding: clamp(3rem, 7vw, 6rem) 0 clamp(3.5rem, 8vw, 7rem); background: color-mix(in oklab, var(--bg-2) 45%, var(--bg)); }
+  .trv-in { width: min(100% - 1.4rem, 76rem); margin-inline: auto; }
+  .trv-titre { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.9rem, 5vw, 2.8rem); line-height: 1.02; }
+  .trv-sous { margin-top: 0.6rem; color: var(--muted); max-width: 36rem; }
+  /* Téléphone : une rangée par travail, photo 8,5 rem à gauche, plaque qui la chevauche (image dérivée de 480 px). */
+  .trv-liste { margin-top: 1.6rem; display: grid; gap: 0.9rem; list-style: none; }
+  .trv-carte { min-width: 0; }
+  .trv-lien { position: relative; display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); align-items: center; height: 100%; color: var(--fg); text-decoration: none; }
+  .trv-photo { display: block; aspect-ratio: 3 / 4; overflow: hidden; background: var(--ink); box-shadow: 0 22px 40px -22px color-mix(in oklab, var(--ink) 60%, transparent); }
+  .trv-photo picture { display: contents; }
+  .trv-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.25s ease-out; }
+  .trv-fait {
+    display: flex;
+    align-items: flex-start;
+    aspect-ratio: 3 / 4;
+    padding: 0.9rem;
+    background: var(--ink);
+    color: var(--on-ink);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.82rem;
+    line-height: 1.15;
+    hyphens: none;
+    overflow-wrap: normal;
+  }
+  .trv-plaque {
+    position: relative;
+    margin: 0 0 0 -1rem;
+    padding: 0.7rem 0.75rem 0.75rem;
+    background: var(--surface);
+    border-left: 0.4rem solid var(--accent);
+    box-shadow: 0 16px 28px -16px color-mix(in oklab, var(--ink) 55%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+  }
+  .trv-nom { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; line-height: 1.1; }
+  .trv-porte { font-size: 0.86rem; color: var(--muted); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.25em; }
+  .trv-lien:active .trv-plaque { transform: translateY(1px); }
+  @media (hover: hover) and (pointer: fine) {
+    .trv-lien:hover .trv-img { transform: scale(1.03); }
+    .trv-lien:hover .trv-porte { color: var(--accent); }
+  }
+  @media (min-width: 64rem) {
+    .trv-in { width: min(100% - 5rem, 76rem); }
+    .trv-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 2.2rem; margin-top: 2.4rem; padding-left: 1rem; }
+    .trv-lien { display: flex; flex-direction: column; align-items: stretch; }
+    .trv-photo, .trv-fait { aspect-ratio: 4 / 3; }
+    .trv-fait { padding: 1.6rem 1.6rem 4rem; font-size: 2rem; line-height: 1.08; }
+    .trv-plaque { margin: -3rem 1.2rem 0 -1rem; padding: 1rem 1.1rem 1.05rem; }
+    .trv-nom { font-size: 1.35rem; }
+    .trv-porte { font-size: 0.95rem; }
+  }
+</style>
