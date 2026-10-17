@@ -1,0 +1,302 @@
+---
+/**
+ * Premier écran de la piste D « Le comptoir » : le socle d'abord (docs/GOUT.md § 0). Sur mesure parce que les
+ * heros partagés posent un surtitre « métier à ville » au-dessus du h1 et révèlent le h1 par lignes (GOUT § 2) ;
+ * il ne porte aucune idée de plus que ce qu'un client cherche en arrivant :
+ * métier + ville dans le h1, « Depuis 2011 » dans la phrase, le numéro en grand, l'état et les horaires du jour,
+ * le marché du mardi et du vendredi, trois portes par intention (raclette, plateau, venir). À droite sur
+ * ordinateur, la photo de cave (libre, créditée sur /credits, sans légende).
+ *
+ * Mouvement (direction.md, MOUVEMENT 1 et 4) :
+ * - entrée : la pancarte de la porte se retourne une fois sur l'état du moment (lent, léger rebond, 0,7 s) ;
+ * - image : la photo de cave glisse lentement dans son cadre au défilement (translation seule, le cadre est fixe).
+ * Sans script : la pancarte reste cachée, la ligne des horaires dit la semaine en une phrase. Mouvement réduit :
+ * pancarte posée sans tourner, photo immobile.
+ */
+import { site, tel } from '@/lib/site';
+import { semaine } from '@/lib/horaires';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+const sem = semaine(site.contact.hours) ?? [];
+const data = JSON.stringify(sem.map((j) => ({ jour: j.jour.toLowerCase(), libelle: j.libelle, creneaux: j.creneaux, ferme: j.ferme })));
+const hero = site.images.hero;
+const raclette = site.services.find((s) => s.slug === 'raclette');
+---
+
+<section id="hero" class="cpt" aria-labelledby="cpt-titre">
+  <div class="cpt-grille">
+    <div class="cpt-texte">
+      <h1 id="cpt-titre" class="cpt-titre">{site.business.tagline}</h1>
+      <p class="cpt-phrase">
+        Depuis {site.business.since}, Claire Ravanel affine dans sa cave, sous la boutique, les tommes et les reblochons
+        de six fermes des Aravis et des Bauges. On goûte avant d’acheter, toujours.
+      </p>
+
+      <a href={tel()} class="cpt-tel" aria-label={`Appeler la fromagerie au ${site.contact.phoneDisplay}`}>
+        <Icon name="Phone" size={26} class="cpt-tel-icone" />
+        <span class="cpt-tel-num">{site.contact.phoneDisplay}</span>
+      </a>
+
+      <div class="cpt-jour" data-cpt-jour={data}>
+        <div class="cpt-pancarte-clou" aria-hidden="true">
+          <p class="cpt-pancarte" data-cpt-pancarte hidden></p>
+        </div>
+        <p class="cpt-horaire" data-cpt-horaire>Du mardi au samedi, et le dimanche matin. Fermé le lundi.</p>
+      </div>
+      <p class="cpt-marche" data-cpt-marche>Le mardi et le vendredi matin, Théo tient le stand au marché de la vieille ville.</p>
+
+      <ul class="cpt-portes" aria-label="Ce que vous venez faire">
+        {raclette && <li><a href={tel()} class="cpt-porte">Réserver l’appareil à raclette</a></li>}
+        <li><a href="/#plateau" class="cpt-porte">Commander un plateau</a></li>
+        <li><a href="/#contact" class="cpt-porte">Venir rue de la Gare</a></li>
+      </ul>
+    </div>
+
+    {hero && (
+      <div class="cpt-photo" data-cpt-photo>
+        <Img src={hero.src} alt={hero.alt} class="cpt-photo-img" sizes="(min-width: 1280px) 420px, (min-width: 1024px) 30vw, 100vw" priority />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .cpt {
+    padding-block: clamp(1.25rem, 4vw, 4.5rem) clamp(3rem, 7vw, 6rem);
+  }
+  .cpt-grille {
+    width: min(100% - 2rem, var(--container, 72rem));
+    margin-inline: auto;
+    display: grid;
+    gap: 2.5rem;
+  }
+  @media (min-width: 64rem) {
+    .cpt-grille {
+      width: min(100% - 5rem, 72rem);
+      grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+      align-items: start;
+      gap: 3.5rem;
+      padding-top: 2rem;
+    }
+  }
+  .cpt-texte { min-width: 0; }
+
+  /* h1 : l'étiquette imprimée, slab grasse ; plus grand que tous les h2 de la page (text-display-md). */
+  .cpt-titre {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.35rem, 5.2vw, 4.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    max-width: 15ch;
+    text-wrap: balance;
+  }
+  @media (min-width: 64rem) {
+    .cpt-titre { max-width: none; font-size: clamp(2.6rem, 4vw, 3.9rem); }
+  }
+  .cpt-phrase {
+    margin-top: 1rem;
+    font-size: clamp(1.02rem, 1.4vw, 1.2rem);
+    line-height: 1.5;
+    max-width: 38rem;
+    color: var(--muted);
+  }
+
+  .cpt-tel {
+    margin-top: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.15s ease-out;
+  }
+  .cpt-tel-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .cpt-tel:active { color: var(--accent-2); }
+  @media (hover: hover) and (pointer: fine) {
+    .cpt-tel:hover { color: var(--accent-2); }
+  }
+
+  /* La pancarte de la porte, pendue à son clou : elle se retourne une fois à l'arrivée. */
+  .cpt-jour {
+    margin-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .cpt-pancarte-clou {
+    perspective: 600px;
+    position: relative;
+    padding-top: 0.55rem;
+  }
+  .cpt-pancarte-clou:has(.cpt-pancarte[hidden]) { display: none; }
+  /* La ficelle : deux traits du clou aux coins de la pancarte. */
+  .cpt-pancarte-clou::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2.4rem;
+    height: 0.62rem;
+    transform: translateX(-50%);
+    background:
+      linear-gradient(to top right, transparent calc(50% - 0.6px), var(--muted) 50%, transparent calc(50% + 0.6px)) left / 50% 100% no-repeat,
+      linear-gradient(to top left, transparent calc(50% - 0.6px), var(--muted) 50%, transparent calc(50% + 0.6px)) right / 50% 100% no-repeat;
+  }
+  .cpt-pancarte {
+    display: block;
+    min-width: 6.5rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-align: center;
+    white-space: nowrap;
+    transform-origin: 50% -0.55rem;
+    backface-visibility: hidden;
+  }
+  .cpt-pancarte[data-etat='ferme'] { background: var(--ink); color: var(--on-ink); }
+  .cpt-pancarte.is-tourne { animation: cpt-tourne 0.7s cubic-bezier(0.34, 1.45, 0.6, 1) 0.25s both; }
+  @keyframes cpt-tourne {
+    from { transform: rotateY(-180deg); }
+    to { transform: rotateY(0deg); }
+  }
+  .cpt-horaire {
+    font-size: 1.02rem;
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+  }
+  .cpt-horaire strong { font-weight: 650; }
+  .cpt-marche {
+    margin-top: 0.6rem;
+    font-size: 1.02rem;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+  .cpt-marche strong { color: var(--fg); font-weight: 650; }
+
+  /* Portes par intention : liens soulignés au trait épais, pas des boutons empilés. */
+  .cpt-portes {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.4rem;
+    list-style: none;
+    padding: 0;
+  }
+  .cpt-porte {
+    display: inline-block;
+    padding-block: 0.35rem;
+    font-weight: 650;
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.35em;
+    transition: color 0.15s ease-out, text-decoration-color 0.15s ease-out;
+  }
+  .cpt-porte:active { color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) {
+    .cpt-porte:hover { color: var(--accent); text-decoration-color: var(--fg); }
+  }
+
+  /* La photo de cave : le cadre est fixe, l'image glisse dedans au défilement (script). */
+  .cpt-photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    aspect-ratio: 4 / 3;
+    background: var(--bg-2);
+  }
+  @media (min-width: 64rem) {
+    .cpt-photo { aspect-ratio: 3 / 4; }
+  }
+  .cpt-photo :global(.cpt-photo-img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 116%;
+    object-fit: cover;
+    transform: translate3d(0, var(--cpt-y, 0%), 0);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cpt-pancarte.is-tourne { animation: none; }
+    .cpt-photo :global(.cpt-photo-img) { transform: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant, etatDuJour } from '@/lib/horaires';
+
+  type Jour = { jour: string; libelle: string; creneaux: { opens: string; closes: string }[]; ferme: boolean };
+  const NBSP = ' ';
+
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-cpt-jour]');
+    if (bloc) {
+      const sem: Jour[] = JSON.parse(bloc.dataset.cptJour || '[]');
+      if (sem.length === 7) {
+        const now = new Date();
+        const etat = etatDuJour(sem, now);
+        const { jour, minutes } = maintenant(now);
+        const pancarte = bloc.querySelector<HTMLElement>('[data-cpt-pancarte]');
+        const horaire = bloc.querySelector<HTMLElement>('[data-cpt-horaire]');
+        const auj = sem[jour];
+        if (pancarte && etat.texte) {
+          pancarte.textContent = etat.texte;
+          pancarte.dataset.etat = etat.ouvert ? 'ouvert' : etat.texte.startsWith('Ouvre') ? 'bientot' : 'ferme';
+          pancarte.hidden = false;
+          requestAnimationFrame(() => pancarte.classList.add('is-tourne'));
+        }
+        if (horaire && auj) {
+          // Jour fermé : on dit quand on rouvre (prochain jour ouvert de la semaine).
+          if (auj.ferme) {
+            let k = 1;
+            while (k < 7 && sem[(jour + k) % 7].ferme) k++;
+            const suivant = sem[(jour + k) % 7];
+            horaire.innerHTML = `Aujourd’hui ${auj.jour}${NBSP}: fermé. <strong>${k === 1 ? 'Demain' : suivant.jour[0].toUpperCase() + suivant.jour.slice(1)}${NBSP}: ${suivant.libelle}</strong>`;
+          } else {
+            horaire.innerHTML = `Aujourd’hui ${auj.jour}${NBSP}: <strong>${auj.libelle}</strong>`;
+          }
+        }
+        // Marché : mardi (1) et vendredi (4) matin, Théo au stand.
+        const marche = document.querySelector<HTMLElement>('[data-cpt-marche]');
+        if (marche && (jour === 1 || jour === 4) && minutes < 13 * 60) {
+          marche.innerHTML = `<strong>Ce matin, Théo est au marché de la vieille ville</strong>, avec les mêmes fromages qu’à la boutique.`;
+        }
+      }
+    }
+
+    // Image qui bouge : la photo de cave glisse dans son cadre, translation seule, posée sur l'image elle-même.
+    const cadre = document.querySelector<HTMLElement>('[data-cpt-photo]');
+    const img = cadre?.querySelector<HTMLElement>('img');
+    if (!cadre || !img || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let attente = false;
+    const poser = () => {
+      attente = false;
+      const r = cadre.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+      img.style.setProperty('--cpt-y', `${(-p * 13).toFixed(2)}%`);
+    };
+    const demander = () => { if (!attente) { attente = true; requestAnimationFrame(poser); } };
+    poser();
+    window.addEventListener('scroll', demander, { passive: true });
+    window.addEventListener('resize', demander, { passive: true });
+  });
+</script>

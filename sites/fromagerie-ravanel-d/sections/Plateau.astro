@@ -1,0 +1,257 @@
+---
+/**
+ * Bloc sur mesure de la piste D : le plateau qu'on remplit (direction.md, phrase-idée). On dit combien on sera à
+ * table (6 à 30, les bornes du brief) : les parts se posent sur la planche, le prix de départ (6 € par personne,
+ * le seul prix du brief) et le premier jour où le plateau peut être prêt (48 heures après l'appel, boutique
+ * fermée le lundi, horaires réels) se recalculent. Le bouton appelle : Claire compose le plateau au téléphone.
+ *
+ * Mouvement (direction.md, MOUVEMENT 2 et 3) :
+ * - rythme : quand la planche arrive à l'écran, les parts du nombre de départ se posent une à une (sec, 0,16 s,
+ *   40 ms d'écart) ;
+ * - geste : curseur, boutons moins/plus ou flèches du clavier ; une part ajoutée tombe avec un rebond (0,45 s),
+ *   une part retirée s'efface sec (0,12 s), les chiffres changent sec.
+ * Sans script : 12 parts posées, prix pour 12, règle des 48 heures en toutes lettres. Mouvement réduit : rien ne
+ * tombe, les parts apparaissent.
+ */
+import { site, tel } from '@/lib/site';
+import { semaine } from '@/lib/horaires';
+
+const MIN = 6;
+const MAX = 30;
+const DEPART = 12;
+const PRIX = 6; // € par personne, « à partir de » (brief § 4)
+const sem = semaine(site.contact.hours) ?? [];
+const data = JSON.stringify(sem.map((j) => ({ creneaux: j.creneaux, ferme: j.ferme })));
+// Trois formes de part, en alternance : pointe de tomme, carré de reblochon, tranche de beaufort.
+const FORMES = ['pointe', 'carre', 'tranche'];
+const parts = Array.from({ length: MAX }, (_, i) => ({ i, forme: FORMES[(i * 7) % 3], tour: ((i * 37) % 9) - 4 }));
+const euros = (n: number) => `${n * PRIX} €`;
+---
+
+<section id="plateau" class="pla section-y" aria-labelledby="pla-titre" data-plateau={data} data-min={MIN} data-max={MAX} data-prix={PRIX}>
+  <div class="pla-grille">
+    <div class="pla-tete">
+      <h2 id="pla-titre" class="text-display-md">Le plateau</h2>
+      <p class="pla-intro">
+        Pour 6 à 30 personnes, composé avec vous, à partir de 6&nbsp;€ par personne. Dites combien vous serez à table.
+      </p>
+    </div>
+
+    <div class="pla-planche" aria-hidden="true">
+      <div class="pla-bois">
+        {parts.map((p) => (
+          <span class:list={['pla-part', `pla-${p.forme}`]} style={`--pla-tour: ${p.tour * 4}deg; --pla-i: ${p.i};`} data-pose={p.i < DEPART ? '' : undefined}></span>
+        ))}
+      </div>
+    </div>
+
+    <div class="pla-reglage">
+      <label for="pla-nombre" class="pla-label">Combien à table ?</label>
+      <div class="pla-compteur">
+        <button type="button" class="pla-pas" data-pla-moins aria-label="Une personne de moins" aria-controls="pla-nombre">−</button>
+        <output class="pla-n" for="pla-nombre" aria-live="polite"><span data-pla-n>{DEPART}</span> personnes</output>
+        <button type="button" class="pla-pas" data-pla-plus aria-label="Une personne de plus" aria-controls="pla-nombre">+</button>
+      </div>
+      <input id="pla-nombre" class="pla-curseur" type="range" min={MIN} max={MAX} step="1" value={DEPART} data-pla-curseur />
+
+      <dl class="pla-calcul">
+        <div>
+          <dt>Prix de départ</dt>
+          <dd>à partir de <strong data-pla-prix>{euros(DEPART)}</strong></dd>
+        </div>
+        <div>
+          <dt>Prêt au plus tôt</dt>
+          <dd data-pla-jour>48 heures après votre appel</dd>
+        </div>
+      </dl>
+      <p class="pla-fetes">Pour Noël et le Nouvel An, commandez une semaine avant.</p>
+
+      <a href={tel()} class="pla-appel">Commander ce plateau au {site.contact.phoneDisplay}</a>
+      <p class="pla-note">Claire le compose avec vous au téléphone.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pla-grille {
+    width: min(100% - 2rem, 72rem);
+    margin-inline: auto;
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 64rem) {
+    .pla-grille {
+      width: min(100% - 5rem, 72rem);
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      grid-template-areas: 'tete tete' 'planche reglage';
+      column-gap: 3.5rem;
+      row-gap: 2.5rem;
+      align-items: center;
+    }
+    .pla-tete { grid-area: tete; }
+    .pla-planche { grid-area: planche; }
+    .pla-reglage { grid-area: reglage; }
+  }
+  .pla-tete, .pla-planche, .pla-reglage { min-width: 0; }
+  .pla-intro { margin-top: 1rem; font-size: 1.1rem; line-height: 1.5; color: var(--muted); max-width: 36rem; }
+
+  /* La planche : du bois clair (mélange du brun goudron et du fond), veinée de deux filets. */
+  .pla-bois {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: clamp(0.35rem, 1.4vw, 0.7rem);
+    padding: clamp(1rem, 3vw, 1.75rem);
+    border-radius: var(--radius-card);
+    background:
+      repeating-linear-gradient(176deg, transparent 0 1.6rem, color-mix(in oklab, var(--accent-2) 22%, transparent) 1.6rem 1.7rem),
+      color-mix(in oklab, var(--accent-2) 46%, var(--bg));
+    box-shadow: inset 0 -0.4rem 0 color-mix(in oklab, var(--accent-2) 72%, var(--bg));
+  }
+  .pla-part {
+    aspect-ratio: 1;
+    opacity: 0;
+    transform: translateY(-0.9rem) rotate(var(--pla-tour));
+    transition: opacity 0.12s ease-out, transform 0.12s ease-out;
+    background: color-mix(in oklab, var(--accent-2) 9%, var(--surface));
+    box-shadow: 0 0.14rem 0 color-mix(in oklab, var(--accent-2) 80%, var(--bg));
+  }
+  .pla-part[data-pose] { opacity: 1; transform: translateY(0) rotate(var(--pla-tour)); }
+  /* Pointe de tomme (triangle avec sa croûte), carré de reblochon, tranche de beaufort. */
+  .pla-pointe { clip-path: polygon(50% 6%, 96% 94%, 4% 94%); box-shadow: none; background: linear-gradient(to top, color-mix(in oklab, var(--accent-2) 62%, var(--bg)) 0 14%, color-mix(in oklab, var(--accent-2) 9%, var(--surface)) 14%); }
+  .pla-carre { border-radius: 3px; border: 3px solid color-mix(in oklab, var(--accent-2) 58%, var(--bg)); width: 78%; justify-self: center; align-self: center; }
+  .pla-tranche { border-radius: 2px; width: 92%; height: 46%; aspect-ratio: auto; align-self: center; justify-self: center; border-top: 4px solid color-mix(in oklab, var(--accent-2) 62%, var(--bg)); }
+
+  /* Script prêt : on part d'une planche vide, les parts se posent (rythme sec), puis au geste (rebond). */
+  .pla[data-js] .pla-part:not([data-pose]) { opacity: 0; }
+  .pla[data-js='attente'] .pla-part { opacity: 0; transform: translateY(-0.9rem) rotate(var(--pla-tour)); }
+  .pla[data-js='serie'] .pla-part[data-pose] {
+    transition: opacity 0.16s ease-out, transform 0.16s ease-out;
+    transition-delay: calc(var(--pla-i) * 40ms);
+  }
+  .pla[data-js='geste'] .pla-part[data-pose] {
+    transition: opacity 0.16s ease-out, transform 0.45s cubic-bezier(0.34, 1.45, 0.6, 1);
+  }
+
+  .pla-label { display: block; font-weight: 650; font-size: 1.1rem; }
+  .pla-compteur { margin-top: 0.75rem; display: flex; align-items: center; gap: 1rem; }
+  .pla-pas {
+    width: 3rem;
+    height: 3rem;
+    flex: none;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--fg);
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: border-color 0.15s ease-out, transform 0.12s ease-out;
+  }
+  .pla-pas:active { transform: scale(0.94); border-color: var(--fg); }
+  @media (hover: hover) and (pointer: fine) {
+    .pla-pas:hover { border-color: var(--fg); }
+  }
+  .pla-n { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.1rem); font-variant-numeric: tabular-nums; min-width: 9ch; text-align: center; }
+  .pla-curseur { margin-top: 1rem; width: 100%; accent-color: var(--accent); touch-action: pan-y; min-height: 2rem; }
+
+  .pla-calcul { margin-top: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+  .pla-calcul dt { font-size: 0.92rem; color: var(--muted); }
+  .pla-calcul dd { margin-top: 0.2rem; font-size: 1.05rem; line-height: 1.35; }
+  .pla-calcul strong { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+  .pla-fetes { margin-top: 0.75rem; font-size: 0.95rem; color: var(--muted); }
+
+  .pla-appel {
+    margin-top: 1.5rem;
+    display: inline-block;
+    padding: 0.95rem 1.4rem;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 650;
+    text-decoration: none;
+    transition: background-color 0.15s ease-out;
+  }
+  .pla-appel:active { background: var(--accent-2); }
+  @media (hover: hover) and (pointer: fine) {
+    .pla-appel:hover { background: var(--accent-2); }
+  }
+  .pla-note { margin-top: 0.6rem; font-size: 0.95rem; color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pla .pla-part,
+    .pla[data-js] .pla-part { transition: opacity 0.12s linear !important; transform: rotate(var(--pla-tour)) !important; transition-delay: 0ms !important; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  type Jour = { creneaux: { opens: string; closes: string }[]; ferme: boolean };
+  const NBSP = ' ';
+  const JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+  const MOIS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  const min = (hhmm: string) => { const [h, m] = hhmm.split(':').map(Number); return h * 60 + m; };
+
+  /** Premier jour où la boutique est ouverte après « maintenant + 48 h » (semaine : 0 = lundi). */
+  function pretLe(sem: Jour[], depuis: Date): Date | undefined {
+    const t = new Date(depuis.getTime() + 48 * 3600 * 1000);
+    for (let k = 0; k < 8; k++) {
+      const d = new Date(t.getFullYear(), t.getMonth(), t.getDate() + k);
+      const j = sem[(d.getDay() + 6) % 7];
+      if (!j || j.ferme || j.creneaux.length === 0) continue;
+      const seuil = k === 0 ? t.getHours() * 60 + t.getMinutes() : -1;
+      if (j.creneaux.some((c) => min(c.closes) > seuil)) return d;
+    }
+    return undefined;
+  }
+
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-plateau]');
+    if (!bloc) return;
+    const sem: Jour[] = JSON.parse(bloc.dataset.plateau || '[]');
+    const MIN = Number(bloc.dataset.min), MAX = Number(bloc.dataset.max), PRIX = Number(bloc.dataset.prix);
+    const parts = [...bloc.querySelectorAll<HTMLElement>('.pla-part')];
+    const curseur = bloc.querySelector<HTMLInputElement>('[data-pla-curseur]')!;
+    const nEl = bloc.querySelector<HTMLElement>('[data-pla-n]')!;
+    const prixEl = bloc.querySelector<HTMLElement>('[data-pla-prix]')!;
+    const jourEl = bloc.querySelector<HTMLElement>('[data-pla-jour]')!;
+
+    const pret = sem.length === 7 ? pretLe(sem, new Date()) : undefined;
+    if (pret) {
+      const noel = (pret.getMonth() === 11 && pret.getDate() >= 20) || (pret.getMonth() === 0 && pret.getDate() <= 2);
+      jourEl.textContent = noel
+        ? 'Pour les fêtes, une semaine après votre appel'
+        : `${JOURS[pret.getDay()]} ${pret.getDate() === 1 ? '1er' : pret.getDate()}${NBSP}${MOIS[pret.getMonth()]}, si vous appelez aujourd’hui`;
+    }
+
+    const poser = (n: number) => {
+      parts.forEach((p, i) => p.toggleAttribute('data-pose', i < n));
+      nEl.textContent = String(n);
+      prixEl.textContent = `${n * PRIX}${NBSP}€`;
+    };
+    const regler = (n: number) => {
+      const v = Math.min(MAX, Math.max(MIN, n));
+      curseur.value = String(v);
+      bloc.dataset.js = 'geste';
+      poser(v);
+    };
+
+    // Rythme : planche vide jusqu'à ce qu'elle arrive à l'écran, puis les parts de départ se posent en série.
+    const depart = Number(curseur.value);
+    bloc.dataset.js = 'attente';
+    parts.forEach((p) => p.removeAttribute('data-pose'));
+    const planche = bloc.querySelector<HTMLElement>('.pla-planche')!;
+    const io = new IntersectionObserver((entrees) => {
+      if (!entrees.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      bloc.dataset.js = 'serie';
+      requestAnimationFrame(() => requestAnimationFrame(() => poser(depart)));
+      window.setTimeout(() => { if (bloc.dataset.js === 'serie') bloc.dataset.js = 'geste'; }, 40 * MAX + 400);
+    }, { threshold: 0.35 });
+    io.observe(planche);
+
+    curseur.addEventListener('input', () => regler(Number(curseur.value)));
+    bloc.querySelector('[data-pla-moins]')?.addEventListener('click', () => regler(Number(curseur.value) - 1));
+    bloc.querySelector('[data-pla-plus]')?.addEventListener('click', () => regler(Number(curseur.value) + 1));
+  });
+</script>
