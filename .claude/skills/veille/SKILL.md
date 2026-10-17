@@ -74,6 +74,34 @@ du gérant au premier écran : 7 sites sur 27 »), les sites qui l'illustrent, e
 encore. Un levier vu sur au moins 40 % des sites et absent de l'usine devient le premier point « à implémenter »
 du tour (étape 3), avant tout autre volet. On ne copie jamais une maquette : on transpose un levier.
 
+### 2a bis. Les compositions, À CHAQUE TOUR (ce qui rend un site beau)
+
+Le fondateur, 17 oct 2026, sur une démo juste mais plate : « trop 2D, pas beau » ; et : « je vois pas pourquoi
+on peut pas faire pareil [que les modèles Framer] si tu scrapes des centaines de sites ». Mesurer des sites
+(polices, couleurs, leviers) ne rend pas beau : la beauté est dans la composition. Ce volet **recrée des
+compositions** de ce qui se fait de mieux, section par section, à partir de captures, dans la bibliothèque.
+
+Par tour, **3 sections nouvelles** :
+1. Sources, en tournant : les modèles les plus vendus ou les mieux notés (Framer Marketplace trié par popularité,
+   puis Webflow, puis Squarespace, puis les sites primés de petits commerces) ; jamais une source déjà dans
+   `docs/veille/compositions/INDEX.md`. Les sites que le fondateur dit aimer passent en premier.
+2. Capturer la page (`node scripts/ff.mjs demonter <url> --dossier docs/veille/compositions`), choisir les sections
+   qui ont de la profondeur (image en grand, plans superposés, rythme), de préférence d'un type où la bibliothèque est
+   pauvre (`docs/DIRECTIONS.md`, `ff variete`).
+3. Recréer chaque section comme **variante partagée** (`/nouvelle-variante` : fichier dans `src/sections/<Type>/`,
+   `VARIANTS`, ligne de `docs/DIRECTIONS.md`, test) : même construction, mêmes proportions, même profondeur, mêmes
+   rapports de taille ; contenu tiré de `site` (rien d'inventé, la section disparaît si la donnée manque), tokens
+   seulement, aucune police de la liste IA, aucun signe de GOUT § 2. **On reprend une construction, jamais les
+   textes, les images, le code, le nom ou l'identité visuelle de la source.**
+4. Prouver : site jetable (copie de `_exemple`) qui utilise les 3 variantes, `ff prevol`, captures téléphone et
+   ordinateur posées À CÔTÉ de la capture de la source (`docs/veille/compositions/<nom>-comparaison.jpg`), regardées :
+   la recréation tient-elle la comparaison ? Sinon on la reprend ou on ne la garde pas.
+5. Une ligne par variante dans `docs/veille/compositions/INDEX.md` : source (URL), section, variante créée, ce qui
+   a été gardé, ce qui s'est perdu.
+
+Ces variantes deviennent le choix par défaut de `ff composer` quand elles conviennent aux données du site (photos
+présentes, nombre de services…) : la bibliothèque se remplit de compositions éprouvées au lieu de dessins de l'usine.
+
 ### 2b. Un autre volet, si le temps le permet
 
 Par tour, choisir **un** volet principal (tourner : techniques → outils → bibliothèque → techniques…) :
@@ -95,7 +123,8 @@ Format des fiches : voir en tête de chaque fichier. Sources citées en lien. Ve
 
 ## 3. Améliorer (une par tour, testée)
 
-D'abord le levier du marché (2a) s'il y en a un au-dessus de 40 % et absent de l'usine. Sinon, le premier point
+Les 3 compositions (2a bis) sont l'amélioration du tour. En plus, si le temps le permet : le levier du marché (2a)
+s'il y en a un au-dessus de 40 % et absent de l'usine. Sinon, le premier point
 de « à implémenter en premier » du volet du jour qui n'est pas encore fait :
 - nouvelle variante → `/nouvelle-variante` (fichier + `VARIANTS` + `docs/DIRECTIONS.md` + test) ;
 - nouvelle direction → `/nouvelle-direction` ;
