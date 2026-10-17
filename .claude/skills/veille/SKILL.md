@@ -79,6 +79,32 @@ du gérant au premier écran : 7 sites sur 27 »), les sites qui l'illustrent, e
 encore. Un levier vu sur au moins 40 % des sites et absent de l'usine devient le premier point « à implémenter »
 du tour (étape 3), avant tout autre volet. On ne copie jamais une maquette : on transpose un levier.
 
+### 2a quater. Les STYLES, À CHAQUE TOUR, en volume (le volet qui compte le plus)
+
+Le fondateur, 18 oct 2026 : « ce n'est pas juste une question de disposition, mais de design. Pourquoi tu ne
+scrapes pas des dizaines et des centaines de sites pour connaître les techniques, les styles, et qu'on les applique
+juste à des clients ? ». Jusque-là l'usine étudiait peu de sites (une cinquantaine) et INVENTAIT le design de chaque
+client : le goût de la machine revenait partout. Désormais on **applique** des styles réels, on n'en invente plus.
+
+Par tour, **10 styles nouveaux** tirés de 10 vrais sites jamais étudiés (galeries : Awwwards, godly.website,
+siteinspire, minimal.gallery, onepagelove, Framer Marketplace, Webflow showcase ; tous métiers, petites structures de
+préférence, faits par des humains, qui donnent envie) :
+1. `node scripts/ff.mjs demonter <url> --dossier docs/veille/styles --nom <id>` (ou sur le code si pas de navigateur).
+2. Fiche `docs/veille/styles/<id>.md` : le STYLE COMPLET, assez précis pour le réappliquer : polices (familles,
+   graisses, tailles h1/h2/texte au téléphone et à l'ordinateur, interlignage, casse), couleurs en hex avec leur rôle,
+   espacements, rayons, bordures, ombres, traitement des photos, boutons et liens, icônes, animations (quoi, durées,
+   courbes), textures ; plus son architecture (pages, navigation, ordre des blocs, contact). Captures à côté.
+3. Le style devient une **direction** de l'usine (`/nouvelle-direction` : `src/directions/<id>/` tokens + polices
+   les plus proches disponibles en licence libre, jamais une police de la liste IA ; `meta.ts` avec la source), et
+   son architecture une entrée de `docs/veille/architectures/` si elle est nouvelle.
+4. Preuve : `_exemple` habillé du style (FF_LOOK), capture posée à côté de la source ; on ne garde que ce qui tient
+   la comparaison.
+5. Une ligne dans `docs/veille/styles/INDEX.md` : id, source, style en une phrase, architecture, convient à quels
+   clients (selon leurs données : photos, produits, lieu, urgence).
+
+Ce volet passe AVANT tous les autres. Un tour qui n'ajoute pas au moins 5 styles gardés est un tour raté (le
+journal dit pourquoi).
+
 ### 2a ter. Les architectures, À CHAQUE TOUR (ce qui rend les sites différents)
 
 Le fondateur, 18 oct 2026 : « il y a une infinité de sites internet différents, chacun pourrait représenter une
@@ -139,7 +165,7 @@ Format des fiches : voir en tête de chaque fichier. Sources citées en lien. Ve
 
 ## 3. Améliorer (une par tour, testée)
 
-Les 2 architectures (2a ter) sont l'amélioration du tour ; les compositions (2a bis) viennent ensuite, si le temps le permet. En plus, si le temps le permet : le levier du marché (2a)
+Les styles (2a quater) sont l'amélioration du tour ; puis les architectures (2a ter) ; les compositions (2a bis) si le temps le permet. En plus, si le temps le permet : le levier du marché (2a)
 s'il y en a un au-dessus de 40 % et absent de l'usine. Sinon, le premier point
 de « à implémenter en premier » du volet du jour qui n'est pas encore fait :
 - nouvelle variante → `/nouvelle-variante` (fichier + `VARIANTS` + `docs/DIRECTIONS.md` + test) ;
@@ -168,7 +194,7 @@ une doc à jour, un commentaire périmé. Petits commits.
 
 ## Routine
 
-Active depuis le 17 oct 2026 : routine Claude Code en ligne « Veille ff-atelier », tous les 3 jours à 4 h (Paris),
+Active depuis le 17 oct 2026 : routine Claude Code en ligne « Veille ff-atelier », TOUS LES JOURS à 4 h (Paris) depuis le 18 oct,
 https://claude.ai/code/routines (le fondateur la met en pause ou la supprime là). La session en ligne n'a ni le PC
 du fondateur, ni sa mémoire locale, ni forcément Chrome : si `playwright-core` ne trouve pas Chrome, essayer
 `npx -y playwright install chromium` puis `FF_CHROMIUM=1` devant chaque commande (Chromium au lieu du Chrome installé) ; sinon, démonter sur le code (2a) et sauter

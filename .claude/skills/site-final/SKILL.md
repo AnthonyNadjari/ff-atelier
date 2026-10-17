@@ -58,6 +58,15 @@ le **Socle** (GOUT § 0 : ce qui fait acheter, point par point, présent ou abse
 démontées. Point de départ des réglages : `node scripts/ff.mjs composer <slug>` ; on s'en écarte avec une
 raison du brief, écrite dans le contrat.
 
+## 1 ter. On applique un style réel, on ne l'invente pas (18 oct 2026)
+
+Le design de chaque piste vient d'un STYLE de `docs/veille/styles/INDEX.md` (un vrai site étudié, devenu direction
+de l'usine) et d'une ARCHITECTURE de `docs/veille/architectures/INDEX.md`, choisis selon les données du client
+(photos, produits, lieu, urgence). On applique le style tel quel : polices, couleurs, espacements, traitement des
+photos, boutons, mouvement ; on adapte le contenu, pas le style. Trois pistes = trois styles et trois architectures
+différents ; ni l'un ni l'autre ne reprend ceux des 4 derniers sites. L'invention reste pour le seul bloc sur
+mesure. Écrire au contrat : « Style : <id> (source) · Architecture : <id> (source) ».
+
 ## 1bis. Plusieurs pistes, inventées depuis le brief (jamais des modèles écrits d'avance)
 
 Le studio vend plusieurs versions de la page d'accueil, et une piste unique finit « assez monotone » (fondateur,
