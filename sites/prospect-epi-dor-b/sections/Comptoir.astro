@@ -1,0 +1,112 @@
+---
+/**
+ * Bloc sur mesure de la version B : « Quel jour passez-vous ? ». Sept jours à toucher ; le comptoir de ce jour se
+ * pose dessous : ses horaires (contact.hours du brief) et ce qu'on y trouve ce jour-là. Une seule règle de pain, celle
+ * du catalogue (« Baguette 4 Saisons : Que les weekends ») : une ligne de la carte dont le détail dit « week-end »
+ * n'apparaît que le samedi et le dimanche ; les lignes « Sur commande » sont rappelées avec le numéro. Le lundi, la
+ * boutique est fermée et le dit. Rien d'autre : aucun produit, aucun horaire deviné.
+ *
+ * Sans script : la semaine entière, chaque jour avec ses horaires. Avec script : aujourd'hui choisi (heure de Paris),
+ * un jour à la fois. Boutons à aria-pressed. Mouvement (GESTE du contrat) : le comptoir du jour glisse en place,
+ * sec (0,15 s, ease-out) ; rien en mouvement réduit. Tokens seulement.
+ */
+import { site, tel } from '@/lib/site';
+import { semaine } from '@/lib/horaires';
+
+const sem = semaine(site.contact.hours) ?? [];
+const lignes = site.services.flatMap((s) => s.lignes.map((l) => ({ ...l, rayon: s.title })));
+const weekEnd = lignes.filter((l) => /week-end/i.test(l.detail ?? ''));
+const surCommande = lignes.filter((l) => /sur commande/i.test(l.detail ?? ''));
+const court = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+const jours = sem.map((j) => ({
+  ...j,
+  pains: j.ferme ? [] : weekEnd.filter(() => j.index >= 5).map((l) => l.nom),
+}));
+---
+
+{jours.length > 0 && (
+  <section id="comptoir" class="cpt choisir-jour section-y" aria-labelledby="cpt-titre">
+    <div class="container-ff">
+      <h2 id="cpt-titre" class="cpt-titre">Quel jour passez-vous ?</h2>
+      <div class="cpt-jours" role="group" aria-label="Choisir un jour" data-cpt-jours hidden>
+        {jours.map((j) => (
+          <button type="button" class:list={['cpt-jour', j.ferme && 'cpt-ferme']} aria-pressed="false" aria-label={j.jour} data-jour={j.index}>{court[j.index]}</button>
+        ))}
+      </div>
+      <ol class="cpt-panneaux">
+        {jours.map((j) => (
+          <li data-panneau={j.index}>
+            <p class="cpt-nom">{j.jour}</p>
+            <p class="cpt-heures">{j.ferme ? 'Fermé' : j.libelles.join(' et ')}</p>
+            {!j.ferme && j.pains.length > 0 && (
+              <p class="cpt-pain">Ce jour-là au comptoir : {j.pains.join(', ')}, qui ne se fait que le week-end.</p>
+            )}
+            {j.ferme && <p class="cpt-pain">La boutique est fermée le {j.jour.toLowerCase()}.</p>}
+          </li>
+        ))}
+      </ol>
+      {surCommande.length > 0 && (
+        <p class="cpt-commande">
+          {surCommande.map((l) => l.nom).join(', ')} : sur commande, au <a href={tel()}>{site.contact.phoneDisplay}</a>.
+        </p>
+      )}
+      <p class="cpt-feries">Fermé les après-midi des jours fériés.</p>
+    </div>
+  </section>
+)}
+
+<style is:global>
+  .cpt-titre { font-family: var(--font-display); font-size: var(--scale-md); line-height: 1.05; }
+  .cpt-jours { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.35rem; }
+  .cpt-jours[hidden] { display: none; }
+  .cpt-jour {
+    min-block-size: 3rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 0.95rem;
+    transition: background-color 0.15s ease-out, color 0.15s ease-out;
+  }
+  .cpt-ferme { color: var(--muted); }
+  .cpt-jour[aria-pressed='true'] { background: var(--fill); color: var(--on-fill); border-color: var(--fill); }
+  .cpt-jour:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .cpt-panneaux { margin-top: 1.25rem; display: grid; gap: 1rem; }
+  [data-panneau] { border-top: 1px solid var(--line); padding-top: 1rem; }
+  .cpt-nom { font-family: var(--font-display); font-size: 1.6rem; line-height: 1.1; }
+  .cpt-heures { margin-top: 0.3rem; font-size: 1.15rem; }
+  .cpt-pain { margin-top: 0.5rem; color: var(--muted); }
+  .cpt-commande { margin-top: 1.5rem; }
+  .cpt-commande a { text-decoration: underline; text-underline-offset: 0.2em; font-variant-numeric: tabular-nums; }
+  .cpt-feries { margin-top: 0.4rem; font-size: 0.95rem; color: var(--muted); }
+
+  /* Avec script : un jour à la fois, grand. */
+  .cpt[data-un-jour] [data-panneau] { display: none; border: 0; padding: 0; }
+  .cpt[data-un-jour] [data-panneau][data-actif] { display: block; }
+  .cpt[data-un-jour] .cpt-nom { font-size: clamp(2.6rem, 9vw, 3.6rem); }
+  .cpt[data-un-jour] .cpt-heures { font-size: clamp(1.25rem, 3.6vw, 1.5rem); }
+  @media (prefers-reduced-motion: no-preference) {
+    .cpt[data-un-jour] [data-panneau][data-actif] { animation: cpt-pose 0.15s ease-out both; }
+  }
+  @keyframes cpt-pose { from { transform: translateY(0.5rem); opacity: 0; } to { transform: none; opacity: 1; } }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant } from '@/lib/horaires';
+
+  onPage(() => {
+    const s = document.querySelector<HTMLElement>('.cpt');
+    if (!s) return;
+    const boutons = [...s.querySelectorAll<HTMLButtonElement>('.cpt-jour')];
+    const panneaux = [...s.querySelectorAll<HTMLElement>('[data-panneau]')];
+    const choisir = (j: number) => {
+      boutons.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.jour) === j)));
+      panneaux.forEach((p) => p.toggleAttribute('data-actif', Number(p.dataset.panneau) === j));
+    };
+    s.querySelector<HTMLElement>('[data-cpt-jours]')?.removeAttribute('hidden');
+    s.setAttribute('data-un-jour', '');
+    boutons.forEach((b) => b.addEventListener('click', () => choisir(Number(b.dataset.jour))));
+    choisir(maintenant(new Date()).jour);
+  });
+</script>

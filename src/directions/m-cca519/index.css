@@ -1,0 +1,85 @@
+/* Direction M-CCA519 : MÉLANGE d'atomes de vrais sites, généré par `ff melanger` le 2026-10-17.
+   Ne pas éditer à la main : regénérer (`ff melanger <slug> --typo … --couleurs …`). Format : docs/veille/styles/ATOMES.md.
+   typo : coutumes (https://coutumes.com/)
+   couleurs : cafebinocle (https://www.cafebinocle.com/)
+   densite : coutumes (https://coutumes.com/)
+   formes : paputmenorca (https://www.paputmenorca.com/)
+   photos : odysseeclinic (https://www.odysseeclinic.com.au/)
+   mouvement : relaisrossar (https://www.relaisrossar.it)
+   matiere : cafebinocle (https://www.cafebinocle.com/)
+   Dérivé par calcul (contraste AA) : texte secondaire #8b784b → #71613d (AA sur les fonds) ; accent #ef5b34 → #b8340f pour le texte (AA sur les fonds) ; la couleur mesurée reste en accent 2 (aplats, survols).
+*/
+@import '@fontsource/bebas-neue/latin-400.css';
+@import '@fontsource/spectral/latin-400.css';
+@import '@fontsource/spectral/latin-700.css';
+
+[data-direction='m-cca519'] {
+  --accent-h: 13;
+  --accent-s: 85%;
+  --accent-l: 39%;
+
+  --bg: #ffe26e;
+  --bg-2: #fffeec;
+  --surface: #fffeec;
+  --fg: #594b3c;
+  --muted: #71613d;
+  --line: #594b3c;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #00a881;
+  --on-accent: #ffe26e;
+  --ink: #594b3c;
+  --on-ink: #ffe26e;
+  /* Aplat de marque (boutons pleins, sélection) : la couleur mesurée sur cafebinocle. */
+  --fill: #ef5b34;
+  --on-fill: #111111;
+
+  --font-display: 'Bebas Neue', Impact, sans-serif;
+  --font-body: 'Spectral', Georgia, serif;
+  --font-mono: ui-monospace, monospace;
+  --display-weight: 400;
+  --body-weight: 400;
+  --display-tracking: -0.021em;
+  --heading-transform: uppercase;
+  --radius: 6px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: 0 24px 48px -28px rgb(0 0 0 / 0.35);
+  --container: 60rem;
+  /* 75 caractères réels par ligne (1ch ≈ 1,25 caractère, voir global.css). */
+  --measure: 60ch;
+  --motion-ui: 0.3s;
+  --motion-duration: 1s;
+  --ease-brand: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Échelle typographique mesurée sur coutumes (h1, h2, texte ; téléphone 390 px → ordinateur 1 440 px) et marge de section de coutumes. */
+[data-direction='m-cca519'][data-scale] {
+  --scale-xl: clamp(5.606rem, 3.677rem + 7.914vw, 10.8rem);
+  --scale-lg: clamp(3.706rem, 3.288rem + 1.716vw, 4.833rem);
+  --scale-md: clamp(1.806rem, 1.674rem + 0.543vw, 2.163rem);
+  --scale-sm: clamp(1.2rem, 1.181rem + 0.076vw, 1.25rem);
+  --section-y: clamp(2.875rem, 1.529rem + 5.524vw, 6.5rem);
+}
+
+[data-direction='m-cca519'] body { font-size: 1rem; line-height: 1.4; }
+[data-direction='m-cca519'] :is(h1, .text-display-xl, .text-display-lg) { line-height: 0.9; }
+[data-direction='m-cca519'] :is(h2, .text-display-md) { line-height: 0.9; }
+[data-direction='m-cca519'] ::selection { background: var(--fill); color: var(--on-fill); }
+[data-direction='m-cca519'] :is(h1, h2) em { font-style: normal; color: #b8340f; }
+
+/* Boutons (paputmenorca) : plein, pilule mesurée rendue à 6 px (signe IA, GOUT § 2). */
+[data-direction='m-cca519'] .btn { border-radius: var(--radius); text-transform: none; letter-spacing: 0; font-weight: 600; transition: background-color var(--motion-ui) var(--ease-out), color var(--motion-ui) var(--ease-out), border-color var(--motion-ui) var(--ease-out); }
+[data-direction='m-cca519'] .btn-primary { background: var(--fill); color: var(--on-fill); border: 1px solid var(--fill); }
+[data-direction='m-cca519'] .btn-primary:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+[data-direction='m-cca519'] .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+[data-direction='m-cca519'] .btn-ghost:hover { border-color: var(--fg); }
+[data-direction='m-cca519'] main p a:not(.btn) { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+[data-direction='m-cca519'] .card { background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card); border: 1px solid var(--line); }
+[data-direction='m-cca519'] .rule { border-top: 1px solid var(--line); }
+
+/* Photos (odysseeclinic) : plein-cadre. */
+[data-direction='m-cca519'] main :is(img, video):not([src$=".svg"]) { border-radius: 0px; }
+
+/* Matière (cafebinocle) : fond uni, filets grille. Ni grain, ni halo, ni reflet (GOUT § 2). */
+[data-direction='m-cca519'] main section + section { border-top: 1px solid var(--line); }
+[data-direction='m-cca519'] .card { box-shadow: none; }

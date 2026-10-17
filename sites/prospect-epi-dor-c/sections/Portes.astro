@@ -1,0 +1,146 @@
+---
+/**
+ * Version C (architecture accueil-portes : Maisons de Bricourt, Cabalar) : l'accueil est un sommaire, une porte par
+ * rayon, chaque porte ouvre la page de son rayon (gabarit « porte »). Ici les cinq portes sont posées côte à côte
+ * comme la devanture qu'on longe, et on les fait glisser au doigt (défilement horizontal natif, accroché porte par
+ * porte ; rien ne tourne tout seul, GOUT § 4). L'entrée « Les rayons » reste collée à gauche et les portes passent
+ * dessous (deux plans) : un dos vertical au téléphone, un panneau avec deux boutons qui font avancer d'une porte à
+ * l'ordinateur.
+ *
+ * Une porte = photo du rayon dans son cadre (atome photos de meyers : la photo dans une marge, jamais à fond perdu)
+ * + nom, phrase, ce qu'on y trouve. Le pain et les sandwichs n'ont aucune photo (brief : « aucune photo de pain ») :
+ * leur porte montre leurs noms de produits en grand, en typographie, sur l'aplat ; rien n'est illustré.
+ * Mouvement (GESTE du contrat) : la porte suit le doigt sans délai ; la photo d'une porte s'avance d'un rien quand on
+ * la survole (sec) ; rien en mouvement réduit. Tokens seulement.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+// Les portes qui ont une photo du client passent devant (la première porte vue au téléphone montre un gâteau) ; le pain
+// et les sandwichs suivent, en typographie.
+const portes = [...site.services].sort((a, b) => Number(Boolean(b.image)) - Number(Boolean(a.image)));
+---
+
+<section id="portes" class="prt" aria-labelledby="prt-titre" data-prt>
+  <div class="prt-entree">
+    <h2 id="prt-titre" class="prt-titre">{site.wording.servicesTitle}</h2>
+    <p class="prt-sous">Une porte par rayon. Faites-les glisser, touchez-en une : sa page s’ouvre.</p>
+    <div class="prt-fleches" data-prt-fleches hidden>
+      <button type="button" class="prt-fleche" data-prt-pas="-1" aria-label="Rayon précédent"><Icon name="ArrowLeft" size={20} /></button>
+      <button type="button" class="prt-fleche" data-prt-pas="1" aria-label="Rayon suivant"><Icon name="ArrowRight" size={20} /></button>
+    </div>
+  </div>
+  {portes.map((s) => (
+    <a href={`/services/${s.slug}`} class:list={['prt-porte', !s.image && 'prt-sans-photo']}>
+      {s.image ? (
+        <div class="prt-cadre">
+          <Img src={s.image.src} alt={s.image.alt} sizes="(min-width: 1024px) 26rem, 80vw" class="prt-img" />
+        </div>
+      ) : (
+        <ul class="prt-noms" aria-hidden="true">
+          {(s.lignes.length ? s.lignes.map((l) => l.nom) : s.bullets).slice(0, 6).map((n) => <li>{n}</li>)}
+        </ul>
+      )}
+      <div class="prt-texte">
+        <h3 class="prt-nom">{s.title}</h3>
+        <p class="prt-court">{s.short}</p>
+        <span class="prt-suite">Ouvrir la page<Icon name="ArrowRight" size={16} /></span>
+      </div>
+    </a>
+  ))}
+</section>
+
+<style>
+  .prt {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 3.25rem 1rem;
+    padding: 2.5rem 1rem 2rem;
+    background: var(--surface);
+    scrollbar-width: thin;
+    scrollbar-color: var(--fg) transparent;
+  }
+  .prt-entree, .prt-porte { flex: 0 0 auto; scroll-snap-align: start; }
+  /* Téléphone : l'entrée est un dos vertical collé à gauche (le titre se lit de bas en haut), les portes passent dessous. */
+  .prt-entree {
+    position: sticky; left: -1rem; z-index: 2;
+    inline-size: 3.25rem; margin-left: -1rem; padding-left: 0.5rem;
+    display: flex; align-items: flex-end;
+    background: var(--surface);
+    box-shadow: 0.75rem 0 1rem -0.75rem color-mix(in oklab, var(--fg) 35%, transparent);
+  }
+  .prt-titre { font-family: var(--font-display); font-size: var(--scale-md); line-height: 1; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+  .prt-sous, .prt-fleches { display: none; }
+  .prt-fleches { margin-top: 1.25rem; gap: 0.5rem; }
+  .prt-fleche {
+    inline-size: 3rem; block-size: 3rem; display: inline-grid; place-items: center;
+    border: 1px solid var(--fg); border-radius: var(--radius); color: var(--fg); background: var(--bg);
+    transition: background-color 0.15s ease-out, color 0.15s ease-out;
+  }
+  .prt-fleche:active { background: var(--fg); color: var(--bg); }
+  @media (hover: hover) and (pointer: fine) { .prt-fleche:hover { background: var(--fg); color: var(--bg); } }
+
+  .prt-porte {
+    inline-size: 72vw;
+    min-block-size: 70svh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    color: var(--fg);
+    overflow: hidden;
+  }
+  .prt-cadre { padding: 0.75rem 0.75rem 0; flex: 1 1 auto; min-block-size: 0; display: flex; }
+  .prt-cadre :global(.prt-img) { inline-size: 100%; block-size: 100%; min-block-size: 16rem; object-fit: cover; border-radius: calc(var(--radius-card) / 2); transition: transform 0.2s ease-out; }
+  .prt-noms {
+    flex: 1 1 auto;
+    margin: 0.75rem 0.75rem 0;
+    padding: 1.25rem;
+    background: var(--fill);
+    color: var(--on-fill);
+    border-radius: calc(var(--radius-card) / 2);
+    display: flex; flex-direction: column; justify-content: flex-end; gap: 0.1rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 6.5vw, 2.4rem);
+    line-height: 1.05;
+  }
+  .prt-texte { padding: 1.1rem 1.25rem 1.35rem; }
+  .prt-nom { font-family: var(--font-display); font-size: clamp(1.6rem, 6.5vw, 2.1rem); line-height: 1.05; }
+  .prt-court { margin-top: 0.5rem; color: var(--muted); }
+  .prt-suite { margin-top: 0.9rem; display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; text-decoration: underline; text-underline-offset: 0.25em; }
+  .prt-porte:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
+  @media (hover: hover) and (pointer: fine) { .prt-porte:hover :global(.prt-img) { transform: scale(1.03); } }
+
+  /* Ordinateur : l'entrée reste collée à gauche, les portes passent dessous. */
+  @media (min-width: 1024px) {
+    .prt { padding: 3.5rem 2rem 2.5rem; gap: 1rem; scroll-padding-inline: 21rem 2rem; }
+    .prt-entree { left: -2rem; inline-size: 22rem; margin-left: -2rem; padding: 0 2rem 0.5rem; flex-direction: column; justify-content: flex-end; align-items: flex-start; }
+    .prt-titre { font-size: var(--scale-lg); writing-mode: horizontal-tb; transform: none; white-space: normal; }
+    .prt-sous { display: block; margin-top: 0.75rem; color: var(--muted); max-width: 24ch; }
+    .prt-fleches { display: flex; }
+    .prt-fleches[hidden] { display: none; }
+    .prt-porte { inline-size: 26rem; min-block-size: 36rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    const rail = document.querySelector<HTMLElement>('[data-prt]');
+    if (!rail) return;
+    const fl = rail.querySelector<HTMLElement>('[data-prt-fleches]');
+    fl?.removeAttribute('hidden');
+    const pas = () => (rail.querySelector<HTMLElement>('.prt-porte')?.offsetWidth ?? 300) + 16;
+    rail.querySelectorAll<HTMLButtonElement>('[data-prt-pas]').forEach((b) =>
+      b.addEventListener('click', () => {
+        const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        rail.scrollBy({ left: Number(b.dataset.prtPas) * pas(), behavior: reduit ? 'auto' : 'smooth' });
+      }),
+    );
+  });
+</script>

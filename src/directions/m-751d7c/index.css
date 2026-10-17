@@ -1,0 +1,84 @@
+/* Direction M-751D7C : MÉLANGE d'atomes de vrais sites, généré par `ff melanger` le 2026-10-17.
+   Ne pas éditer à la main : regénérer (`ff melanger <slug> --typo … --couleurs …`). Format : docs/veille/styles/ATOMES.md.
+   typo : cafebinocle (https://www.cafebinocle.com/)
+   couleurs : pizza-amici (https://www.pizza-amici.nl/)
+   densite : framer-lintel (https://communicative-psychology-099138.framer.app/)
+   formes : monarque (https://monarque-evenements.com/)
+   photos : meyers (https://meyers.dk)
+   mouvement : relaisrossar (https://www.relaisrossar.it)
+   matiere : coutumes (https://coutumes.com/)
+   Dérivé par calcul (contraste AA) : texte secondaire #536682 → #4e5f79 (AA sur les fonds) ; accent #e3af04 → #745902 pour le texte (AA sur les fonds) ; la couleur mesurée reste en accent 2 (aplats, survols).
+*/
+@import '@fontsource/gloock/latin-400.css';
+@import '@fontsource-variable/karla';
+
+[data-direction='m-751d7c'] {
+  --accent-h: 46;
+  --accent-s: 97%;
+  --accent-l: 23%;
+
+  --bg: #f2ede9;
+  --bg-2: #c0deee;
+  --surface: #c0deee;
+  --fg: #0f2c56;
+  --muted: #4e5f79;
+  --line: #ceced1;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #c72531;
+  --on-accent: #f2ede9;
+  --ink: #0f2c56;
+  --on-ink: #f2ede9;
+  /* Aplat de marque (boutons pleins, sélection) : la couleur mesurée sur pizza-amici. */
+  --fill: #e3af04;
+  --on-fill: #0f2c56;
+
+  --font-display: 'Gloock', Georgia, serif;
+  --font-body: 'Karla Variable', system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --display-weight: 400;
+  --body-weight: 500;
+  --display-tracking: 0.008em;
+  --heading-transform: none;
+  --radius: 6px;
+  --radius-card: 8px;
+  --shadow-card: 0 1px 0 rgb(0 0 0 / 0.04), 0 18px 40px -24px rgb(0 0 0 / 0.28);
+  --shadow-lift: 0 32px 64px -24px rgb(0 0 0 / 0.38);
+  --container: 85rem;
+  /* 55 caractères réels par ligne (1ch ≈ 1,25 caractère, voir global.css). */
+  --measure: 44ch;
+  --motion-ui: 0.3s;
+  --motion-duration: 1s;
+  --ease-brand: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Échelle typographique mesurée sur cafebinocle (h1, h2, texte ; téléphone 390 px → ordinateur 1 440 px) et marge de section de framer-lintel. */
+[data-direction='m-751d7c'][data-scale] {
+  --scale-xl: clamp(2.563rem, 1.75rem + 3.333vw, 4.75rem);
+  --scale-lg: clamp(2.563rem, 1.75rem + 3.333vw, 4.75rem);
+  --scale-md: clamp(2.563rem, 1.75rem + 3.333vw, 4.75rem);
+  --scale-sm: clamp(1.5rem, 1.361rem + 0.571vw, 1.875rem);
+  --section-y: clamp(4.5rem, 3.339rem + 4.762vw, 7.625rem);
+}
+
+[data-direction='m-751d7c'] body { font-size: 1.5rem; line-height: 1.4; }
+[data-direction='m-751d7c'] :is(h1, .text-display-xl, .text-display-lg) { line-height: 1.1; }
+[data-direction='m-751d7c'] :is(h2, .text-display-md) { line-height: 1.1; }
+[data-direction='m-751d7c'] ::selection { background: var(--fill); color: var(--on-fill); }
+[data-direction='m-751d7c'] :is(h1, h2) em { font-style: normal; color: #c72531; }
+
+/* Boutons (monarque) : plein, pilule mesurée rendue à 6 px (signe IA, GOUT § 2). */
+[data-direction='m-751d7c'] .btn { border-radius: var(--radius); text-transform: none; letter-spacing: 0; font-weight: 600; transition: background-color var(--motion-ui) var(--ease-out), color var(--motion-ui) var(--ease-out), border-color var(--motion-ui) var(--ease-out); }
+[data-direction='m-751d7c'] .btn-primary { background: var(--fill); color: var(--on-fill); border: 1px solid var(--fill); }
+[data-direction='m-751d7c'] .btn-primary:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+[data-direction='m-751d7c'] .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+[data-direction='m-751d7c'] .btn-ghost:hover { border-color: var(--fg); }
+[data-direction='m-751d7c'] main p a:not(.btn) { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+[data-direction='m-751d7c'] main p a:not(.btn):hover { text-decoration-thickness: 2px; }
+[data-direction='m-751d7c'] .card { background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card); border: 1px solid var(--line); }
+[data-direction='m-751d7c'] .rule { border-top: 1px solid var(--line); }
+
+/* Photos (meyers) : cadre. */
+[data-direction='m-751d7c'] main :is(img, video):not([src$=".svg"]) { border-radius: 0px; }
+[data-direction='m-751d7c'] main :is(img, video):not([src$=".svg"]) { box-shadow: 0 0 0 clamp(6px, 1vw, 12px) var(--surface), 0 0 0 calc(clamp(6px, 1vw, 12px) + 1px) var(--line); }
+
+/* Matière (coutumes) : fond uni, filets aucun. Ni grain, ni halo, ni reflet (GOUT § 2). */

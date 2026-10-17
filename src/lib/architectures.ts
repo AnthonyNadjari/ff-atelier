@@ -270,3 +270,22 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
   }
   return out;
 }
+
+/** Ce que avisDeCarte() lit : la note Google et les avis recopiés (proof). */
+export interface PreuveArchi {
+  google?: { rating: number; count: number; url?: string };
+  testimonials?: { text: string; author: string; source?: string; date?: string }[];
+}
+
+/**
+ * Avis de la coquille `carte` (architecture carte-de-visite) : la note Google (« 4,6 ») ET les avis recopiés courts
+ * (`max` signes au plus, `n` au plus), dans l'ordre du site. Socle docs/GOUT.md § 0 : « les avis du client, dès
+ * qu'il y en a, haut dans la page » ; jusqu'au 17 oct 2026 la carte n'en montrait aucun dès qu'une note existait
+ * (version D de L'Épi d'Or : la note seule, ses avis absents). Rien n'est recalculé ni coupé : un avis trop long
+ * n'est pas tronqué, il n'est pas pris.
+ */
+export function avisDeCarte(p: PreuveArchi | undefined, max = 160, n = 2): { note?: string; avis: { text: string; author: string; source?: string; date?: string }[] } {
+  const note = p?.google ? p.google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : undefined;
+  const avis = (p?.testimonials ?? []).filter((t) => t.text.length <= max).slice(0, n);
+  return { note, avis };
+}

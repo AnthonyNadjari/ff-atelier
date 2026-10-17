@@ -72,6 +72,22 @@ function resolveLatinWoff2(root, pkgSpecifier) {
   return { pkgRoot, file };
 }
 
+/**
+ * Pure : la surcharge typography.<slot> désigne-t-elle la police que la direction déclare déjà pour ce rôle
+ * (`--font-display` / `--font-body`) ? Cas des mélanges (`ff melanger` écrit les polices de la direction dans le look,
+ * pour qu'une surcharge du site.config ne les défasse pas) : il ne faut alors ni retirer l'@import de la direction ni
+ * ajouter le paquet entier de src/lib/fonts.ts (L'Épi d'Or D, 17 oct 2026 : Spectral importé deux fois, toutes graisses,
+ * 300 Ko de polices au lieu de quatre fichiers). Appliqué aux seules directions de mélange (`m-…`) : une direction écrite
+ * à la main garde son comportement.
+ */
+export function memePoliceQueDirection(dirCssText, slot, family) {
+  const role = slot === 'display' ? 'display' : slot === 'body' ? 'body' : null;
+  if (!role || !family) return false;
+  const m = new RegExp(`--font-${role}:\\s*([^;]+);`).exec(dirCssText || '');
+  const norm = (x) => x.replace(/["']/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+  return Boolean(m) && norm(m[1]) === norm(family);
+}
+
 export function resolveLook({ root, slug, ffLook }) {
   const siteDir = resolve(root, 'sites', slug);
   let look = {};
@@ -149,10 +165,13 @@ export function ffLookPlugin({ root, slug, ffLook }) {
       if (dirMatch) {
         const look = resolveLook({ root, slug, ffLook });
         if (dirMatch[1] !== look.direction || !look.typography) return null;
+        const fontsT = parseFonts(root);
+        const melange = dirMatch[1].startsWith('m-');
+        const remplace = (slot) => Boolean(look.typography[slot]) && !(melange && memePoliceQueDirection(code, slot, fontsT[look.typography[slot]]?.family));
         let index = 0;
         const out = code.replace(/^@import\s+'@fontsource[^']+';\s*$/gm, (line) => {
           const i = index++;
-          if ((i === 0 && look.typography.display) || (i === 1 && look.typography.body)) return '/* police remplacee par typography */';
+          if ((i === 0 && remplace('display')) || (i === 1 && remplace('body'))) return '/* police remplacee par typography */';
           return line;
         });
         return { code: out, map: null };
@@ -191,7 +210,8 @@ export function ffLookPlugin({ root, slug, ffLook }) {
         if (!key) continue;
         const f = fonts[key];
         if (!f) throw new Error(`Police inconnue dans typography.${slot} : ${key} (voir src/lib/fonts.ts)`);
-        lines.push(`import '${f.pkg}';`);
+        // Même police que la direction (mélange) : la direction l'importe déjà, graisses choisies.
+        if (!(look.direction.startsWith('m-') && memePoliceQueDirection(dirCssText, slot, f.family))) lines.push(`import '${f.pkg}';`);
         families[slot] = f.family;
       }
       lines.push(`export const direction = ${JSON.stringify(look.direction)};`);

@@ -54,3 +54,12 @@ test("setTopLevelValue : remplace un objet qui contient un commentaire // l'atel
   assert.deepEqual(extractTopLevelValue(t, 'layout'), { nav: 'bar' });
   assert.equal(extractTopLevelValue(t, 'direction'), 'terre');
 });
+
+test('vite-ff-look : une surcharge typography identique à la police de la direction (mélange) ne réimporte rien', async () => {
+  const { memePoliceQueDirection } = await import('../scripts/vite-ff-look.mjs');
+  const css = "[data-direction='m-x'] {\n  --font-display: 'Bebas Neue', Impact, sans-serif;\n  --font-body: 'Spectral', Georgia, serif;\n}";
+  assert.equal(memePoliceQueDirection(css, 'display', "'Bebas Neue', Impact, sans-serif"), true);
+  assert.equal(memePoliceQueDirection(css, 'body', "'Spectral', Georgia, serif"), true);
+  assert.equal(memePoliceQueDirection(css, 'body', "'Karla Variable', sans-serif"), false, 'une vraie surcharge reste une surcharge');
+  assert.equal(memePoliceQueDirection('', 'display', "'Bebas Neue'"), false);
+});

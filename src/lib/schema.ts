@@ -37,6 +37,10 @@ export const DIRECTIONS = [
   'arche', // blanc et pierre, grille de quatre colonnes au filet, serif condense fin (studio d'interieur)
   'labo', // blanc et bleu roi, cases filetees, capitales legeres, boutons mono (fermentation)
   'citron', // jaune citron pale en damier avec les photos, serif fin, etiquettes mono (atelier de cuisine)
+  // ff melanger : directions générées (src/directions/m-<hash>/), une par site ; écrites et retirées par la commande.
+  'm-e7e9e8', // mélange de prospect-epi-dor-b
+  'm-751d7c', // mélange de prospect-epi-dor-c
+  'm-cca519', // mélange de prospect-epi-dor-d
 ] as const;
 export type Direction = (typeof DIRECTIONS)[number];
 

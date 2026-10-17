@@ -10,7 +10,12 @@
  *
  * Téléphone : l'identité passe AU-DESSUS de la photo, sur la marge (pas de h1 blanc posé sur une photo plein
  * écran, la mise en page la plus vue de l'usine), la photo garde le salut, le panneau d'infos remonte sur le bas de
- * la photo avec son ombre (comme la carte d'infos de la source au téléphone), puis la carte des pages.
+ * la photo avec son ombre (comme la carte d'infos de la source au téléphone), puis les avis, puis la carte des pages.
+ * Ordinateur (17 oct 2026, version D de L'Épi d'Or) : l'identité et les avis restent aussi SUR LA MARGE, dans une
+ * colonne à gauche (`ff ressemblance` : « h1 sur l'image, image sur plus de la moitié » était le premier écran de quatre
+ * autres sites) ; la photo en carte à droite garde le salut et deux plans posés dessus (pages, panneau).
+ * Avis (avisDeCarte) : la note Google ET les avis recopiés courts, dans leur propre plan (socle GOUT § 0 : la carte ne
+ * montrait que la note dès qu'elle existait).
  *
  * Socle docs/GOUT.md § 0, que la source n'a pas : le téléphone est en tête du panneau, visible sans défiler ; métier
  * + ville sous le h1 ; la note Google (ou un avis court) dans le panneau s'il y en a ; les pages /services/<slug>
@@ -29,39 +34,27 @@ import Img from '@/components/Img.astro';
 import Icon from '@/components/Icon.astro';
 import HorairesDuJour from '@/components/HorairesDuJour.astro';
 import { site, tel, mailto, fullAddress, metierEtVille, actions, paragraphs } from '@/lib/site';
+import { avisDeCarte } from '@/lib/architectures';
 interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
 const { Footer, sections } = Astro.props;
 
 // La photo de la carte : la photo principale du client, sinon une photo de service, de réalisation, le portrait.
 const photo = site.images.hero ?? site.services.find((s) => s.image)?.image ?? site.proof.gallery[0] ?? site.about.portrait;
 const google = site.proof.google;
-const avis = google ? undefined : site.proof.testimonials.find((t) => t.text.length <= 160);
+const { note, avis } = avisDeCarte(site.proof);
 const enLigne = actions().filter((a) => a.kind === 'booking' || a.kind === 'order' || a.kind === 'giftCard');
 const ecrire = site.layout.contactDrawer ? '/#contact' : mailto();
 const phrase = paragraphs(site.business.description)[0]?.split(/(?<=[.!?])\s/)[0];
 const pages = site.servicePages ? site.services : [];
-const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
 ---
 
 <main id="main">
   <div class="carte-ecran">
     <section id="hero" class="carte-hero">
       <div class="carte-identite" data-reveal>
-        <h1 class="text-display-sm">{site.business.name}</h1>
+        <h1 class="carte-h1 text-display-lg">{site.business.name}</h1>
         <p class="mt-2 text-lg">{metierEtVille()}</p>
         {phrase && <p class="carte-phrase mt-3 max-w-[42ch]">{phrase}</p>}
-      </div>
-      <div class="carte relative isolate flex flex-col overflow-hidden rounded-card bg-ink text-on-ink">
-        {photo && (
-          <Img src={photo.src} alt={photo.alt} priority sizes="100vw" class="absolute inset-0 -z-10 h-full w-full object-cover" />
-        )}
-        {photo && <div class="carte-voile absolute inset-0 -z-10" aria-hidden="true"></div>}
-        <a href="/" class="carte-nom font-display text-lg leading-none p-5 md:p-8">
-          {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-10 w-auto" /> : site.business.name}
-        </a>
-        <div class="flex flex-1 items-center justify-center px-5 py-8 text-center">
-          <p class="carte-salut font-display" data-salut>Bonjour</p>
-        </div>
       </div>
     </section>
 
@@ -84,20 +77,36 @@ const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDig
             <dd><HorairesDuJour /></dd>
           </>
         )}
-        {google && (
-          <>
-            <dt class="text-muted">Avis</dt>
-            <dd><a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4 hover:opacity-70">{note}{' '}sur 5, {google.count}{' '}avis Google</a></dd>
-          </>
-        )}
-        {avis && (
-          <>
-            <dt class="text-muted">Avis</dt>
-            <dd>« {avis.text} » {avis.author}, {avis.source}</dd>
-          </>
-        )}
       </dl>
     </section>
+
+    {/* La photo APRÈS le panneau dans le code (le numéro arrive tôt dans la page : ff verifier, 2 200 premiers signes),
+        AVANT lui à l'écran (order au téléphone, position à l'ordinateur). */}
+    <div class="carte relative isolate flex flex-col overflow-hidden rounded-card bg-ink text-on-ink">
+      {photo && (
+        <Img src={photo.src} alt={photo.alt} priority sizes="100vw" class="absolute inset-0 -z-10 h-full w-full object-cover" />
+      )}
+      {photo && <div class="carte-voile absolute inset-0 -z-10" aria-hidden="true"></div>}
+      <div class="flex flex-1 items-center justify-center px-5 py-8 text-center">
+        <p class="carte-salut font-display" data-salut>Bonjour</p>
+      </div>
+    </div>
+
+    {(google || avis.length > 0) && (
+      <section class="carte-avis rounded-card bg-bg text-fg p-5" aria-label="Avis">
+        {google && (
+          <p class="font-display text-xl leading-none">
+            <a href={google.url} target="_blank" rel="noopener" class="underline-offset-4 hover:underline">{note}{' '}sur 5, {google.count}{' '}avis Google</a>
+          </p>
+        )}
+        {avis.map((a) => (
+          <figure class="carte-avis-un">
+            <blockquote><p>« {a.text} »</p></blockquote>
+            <figcaption class="mt-1 text-sm text-muted">{a.author}, avis {a.source}{a.date ? `, ${a.date}` : ''}</figcaption>
+          </figure>
+        ))}
+      </section>
+    )}
 
     {(pages.length > 0 || enLigne.length > 0) && (
       <section id="services" class="carte-pages rounded-card bg-bg text-fg p-5" aria-label="Les pages du site">
@@ -127,11 +136,21 @@ const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDig
 <style>
   /* Téléphone : identité sur la marge, la photo (salut), le panneau qui remonte sur la photo, la carte des pages. */
   .carte-ecran { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .carte { order: 1; }
+  .carte-panneau { order: 2; }
+  .carte-avis { order: 3; }
+  .carte-pages { order: 4; }
   .carte-identite { padding: 0.75rem 0.5rem 0.25rem; }
+  .carte-h1 { line-height: 0.95; overflow-wrap: anywhere; }
+  .carte-avis-un { margin-top: 0.85rem; font-size: 0.95rem; line-height: 1.4; }
+  /* Téléphone : un seul avis recopié sous la note, pour que la carte reste un écran (le second à l'ordinateur). */
+  .carte-avis-un + .carte-avis-un { display: none; }
+  @media (min-width: 768px) { .carte-avis-un + .carte-avis-un { display: block; } }
   .carte-phrase { color: var(--color-muted); }
-  .carte { min-block-size: 46svh; margin-block-start: 0.75rem; }
-  .carte-nom { display: none; }
-  .carte-panneau { position: relative; margin: -4.5rem 0.75rem 0; box-shadow: var(--shadow-card); }
+  .carte { min-block-size: 42svh; margin-block-start: 0.75rem; }
+  /* Un filet en plus de l'ombre : une direction sans ombre (shadow-card: none) gardait un panneau de la couleur de la
+     marge qui semblait entailler la photo (version D de L'Épi d'Or, 17 oct 2026). */
+  .carte-panneau { position: relative; margin: -4.5rem 0.75rem 0; box-shadow: var(--shadow-card); border: 1px solid var(--color-line); }
   .carte-infos dd { overflow-wrap: anywhere; }
   .carte-salut {
     font-size: clamp(3rem, 10vw, 7.5rem);
@@ -150,37 +169,47 @@ const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDig
     );
   }
 
-  /* Ordinateur : UN écran. La carte prend toute la marge (moins la ligne du pied), les trois plans posés dessus. */
+  /* Ordinateur : UN écran. L'identité et les avis sur la marge de couleur à gauche (le h1 n'est jamais posé sur la
+     photo : `ff ressemblance`, 17 oct 2026), la photo en carte à droite avec ses deux plans posés dessus (les pages en
+     haut, le panneau en bas), le salut au milieu. */
   @media (min-width: 768px) {
-    .carte-ecran { position: relative; display: block; padding: 1rem; }
+    .carte-ecran { position: relative; display: block; padding: 1rem; --carte-marge: 36%; }
     .carte-hero { position: relative; block-size: calc(100svh - 8rem); min-block-size: 34rem; }
-    .carte { position: absolute; inset: 0; margin: 0; min-block-size: 0; }
-    .carte-nom { display: block; }
+    .carte { position: absolute; inset: 1rem 1rem 1rem calc(1rem + var(--carte-marge)); margin: 0; min-block-size: 0; z-index: 0; }
     .carte-identite {
       position: absolute;
-      z-index: 1;
-      inset-inline-start: 2rem;
-      inset-block-end: 2rem;
-      max-inline-size: min(28rem, 40%);
-      padding: 0;
-      color: var(--color-on-ink);
+      inset: 0 auto auto 0;
+      inline-size: calc(var(--carte-marge) - 2.5rem);
+      padding: 0.5rem 0.5rem 0;
     }
-    .carte-phrase { color: color-mix(in oklab, var(--color-on-ink) 80%, transparent); }
+    .carte-identite > h1 { font-size: min(var(--scale-xl), 7rem); }
     .carte-panneau {
       position: absolute;
       z-index: 1;
       margin: 0;
       inset-inline-end: 3rem;
       inset-block-end: 3rem;
-      inline-size: min(26rem, 44%);
+      inline-size: min(26rem, 40%);
       box-shadow: none;
+      border: 0;
     }
     .carte-pages {
       position: absolute;
       z-index: 1;
       inset-inline-end: 3rem;
       inset-block-start: 3rem;
-      inline-size: min(18rem, 30%);
+      inline-size: min(18rem, 28%);
+    }
+    .carte-avis {
+      position: absolute;
+      z-index: 1;
+      inset-inline-start: 1rem;
+      inset-block-end: 1rem;
+      inline-size: calc(var(--carte-marge) - 3.5rem);
+      padding: 1rem 0 0;
+      border-top: 1px solid var(--color-line);
+      border-radius: 0;
+      background: transparent;
     }
   }
 </style>

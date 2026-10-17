@@ -55,17 +55,20 @@ import Icon from '@/components/Icon.astro';
   </div>
 </section>
 
-<style>
+<style is:global>
+  /* Global (17 oct 2026) : en style limité, Astro posait un attribut data-astro-cid sur chaque ligne de la carte
+     (3 Ko sur L'Épi d'Or B, page d'accueil au-dessus du budget html de perf-budget.json) ; toutes les classes sont
+     préfixées « carte- », rien ne fuit. */
   /* Titre de la carte en grand (Le Petit Bleu : MENU pleine colonne), toujours sous le h1 de la page (GOUT § 2). */
-  :global(.carte-entete h2) { font-size: clamp(2rem, 5vw, 3rem); line-height: 0.95; letter-spacing: -0.02em; }
+  .carte-entete h2 { font-size: clamp(2rem, 5vw, 3rem); line-height: 0.95; letter-spacing: -0.02em; }
   .carte-rubrique summary { list-style: none; }
   .carte-rubrique summary::-webkit-details-marker { display: none; }
-  .carte-rubrique :global(.carte-signe) { transition: transform var(--motion-ui, 0.25s) var(--ease-out-quart); }
-  .carte-rubrique[open] :global(.carte-signe) { transform: rotate(45deg); }
+  .carte-rubrique .carte-signe { transition: transform var(--motion-ui, 0.25s) var(--ease-out-quart); }
+  .carte-rubrique[open] .carte-signe { transform: rotate(45deg); }
   .carte-rubrique summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
   /* Pointillés entre l'intitulé et le prix : filet pointillé de la couleur des filets. */
   .carte-points { border-bottom: 2px dotted var(--color-line); transform: translateY(-0.3em); min-inline-size: 1.5rem; }
   @media (prefers-reduced-motion: reduce) {
-    .carte-rubrique :global(.carte-signe) { transition: none; }
+    .carte-rubrique .carte-signe { transition: none; }
   }
 </style>

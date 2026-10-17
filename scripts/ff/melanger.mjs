@@ -253,13 +253,41 @@ const OMBRES_CSS = {
  * interlignage serré (< 0,95) seulement en capitales ; boutons pilule mesurés rendus à 6 px (signe IA, GOUT § 2) ;
  * aucun grain, halo ni reflet (GOUT § 2).
  */
+/**
+ * Pure : les fichiers CSS à importer pour une police. Une police statique de fontsource (`@fontsource/<x>/latin.css`)
+ * déclare TOUTES ses graisses : on n'importe que celles servies (ramenées aux graisses disponibles), sinon le budget
+ * « fonts » de perf-budget.json saute (L'Épi d'Or D, Spectral : 16 fichiers, 300 Ko, 17 oct 2026). Police variable
+ * ou sans metadata : le paquet tel quel (un fichier par plage d'écriture).
+ */
+export function importsDePolice(pkg, graisses, meta) {
+  const m = /^(@fontsource\/[^/]+)\/latin\.css$/.exec(pkg || '');
+  if (!m || !meta?.weights?.length) return [pkg];
+  const ws = [...new Set(graisses.map((g) => graissePlusProche(g, meta)))].sort((x, y) => x - y);
+  return ws.map((w) => `${m[1]}/latin-${w}.css`);
+}
+
+/**
+ * Pure : une courbe mesurée en mot-clé (« ease », « ease-out »…) écrite en cubic-bezier. --ease-brand doit être un
+ * cubic-bezier (tests/motion.test.mjs) ; Café Binocle mesure « ease » (L'Épi d'Or B, 17 oct 2026). « ease-in » sur une
+ * entrée est refusé (GOUT § 8) : rendu en ease-out.
+ */
+export function courbeCubique(c) {
+  const mots = { ease: 'cubic-bezier(0.25, 0.1, 0.25, 1)', 'ease-out': 'cubic-bezier(0, 0, 0.58, 1)', 'ease-in-out': 'cubic-bezier(0.42, 0, 0.58, 1)', linear: 'cubic-bezier(0, 0, 1, 1)', 'ease-in': 'cubic-bezier(0, 0, 0.58, 1)' };
+  const k = String(c ?? '').trim().toLowerCase();
+  if (/^cubic-bezier\(/.test(k)) return k;
+  return mots[k] ?? mots['ease-out'];
+}
+
 export function genererDirection(nom, { atomes, ids, sources, polices, metaPolices = {}, date }) {
   const t = atomes.typo, c = atomes.couleurs, d = atomes.densite, f = atomes.formes, ph = atomes.photos, mv = atomes.mouvement, mt = atomes.matiere;
   const pal = paletteComplete(c[c.principal]);
   const k = pal.tokens;
   const acc = accentHsl(k.accent, [k.bg, k.bg2, k.surface]);
   const P = (cle) => polices[cle];
-  const titre = P(t.titre.libre), texte = P(t.texte.libre), mono = P(t.mono?.libre || 'jetbrains') || P('jetbrains');
+  const titre = P(t.titre.libre), texte = P(t.texte.libre), mono = t.mono?.libre ? P(t.mono.libre) : null;
+  // Pas de chasse fixe mesurée sur le site source : aucune police chargée, la pile système suffit (les rares usages
+  // de --font-mono sont des numéros d'étape). Avant le 17 oct 2026, JetBrains Mono était importée d'office : 5 Ko de
+  // @font-face inutiles dans chaque page, et L'Épi d'Or B passait au-dessus du budget html de perf-budget.json.
   const gTitre = graissePlusProche(t.titre.graisse ?? 400, metaPolices[t.titre.libre]);
   const gTexte = graissePlusProche(t.texte.graisse ?? 400, metaPolices[t.texte.libre]);
   const casse = t.titre.casse && t.titre.casse !== A_JUGER ? t.titre.casse : 'none';
@@ -295,20 +323,24 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
   L.push(liste);
   if (pal.ajustements.length) L.push(`   Dérivé par calcul (contraste AA) : ${pal.ajustements.join(' ; ')}.`);
   L.push('*/');
-  L.push(`@import '${titre.pkg}';`);
-  L.push(`@import '${texte.pkg}';`);
-  L.push(`@import '${mono.pkg}';`);
+  // Graisses servies : le titre à sa graisse ; le texte à la sienne et 700 (gras). Un 500 ou un 600 demandé (boutons)
+  // prend la graisse chargée la plus proche (règle de correspondance CSS), jamais un faux gras.
+  const imports = titre.pkg === texte.pkg
+    ? importsDePolice(titre.pkg, [gTitre, gTexte, 700], metaPolices[t.titre.libre])
+    : [...importsDePolice(titre.pkg, [gTitre], metaPolices[t.titre.libre]), ...importsDePolice(texte.pkg, [gTexte, 700], metaPolices[t.texte.libre])];
+  for (const i of imports) L.push(`@import '${i}';`);
+  if (mono) L.push(`@import '${mono.pkg}';`);
   L.push('');
   L.push(`${sel} {`);
   L.push(`  --accent-h: ${acc.h};`, `  --accent-s: ${acc.s}%;`, `  --accent-l: ${acc.l}%;`, '');
   L.push(`  --bg: ${k.bg};`, `  --bg-2: ${k.bg2};`, `  --surface: ${k.surface};`, `  --fg: ${k.fg};`, `  --muted: ${k.muted};`, `  --line: ${k.line};`);
   L.push('  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));', `  --accent-2: ${k.accent2};`, `  --on-accent: ${k.onAccent};`, `  --ink: ${k.ink};`, `  --on-ink: ${k.onInk};`);
   L.push(`  /* Aplat de marque (boutons pleins, sélection) : la couleur mesurée sur ${ids.couleurs}. */`, `  --fill: ${k.fill};`, `  --on-fill: ${k.onFill};`, '');
-  L.push(`  --font-display: ${titre.family};`, `  --font-body: ${texte.family};`, `  --font-mono: ${mono.family};`);
+  L.push(`  --font-display: ${titre.family};`, `  --font-body: ${texte.family};`, `  --font-mono: ${mono ? mono.family : 'ui-monospace, monospace'};`);
   L.push(`  --display-weight: ${gTitre};`, `  --body-weight: ${gTexte};`, `  --display-tracking: ${r1(track)}em;`, `  --heading-transform: ${casse};`);
   L.push(`  --radius: ${rayon}px;`, `  --radius-card: ${rayonCarte}px;`, `  --shadow-card: ${ombreCarte};`, `  --shadow-lift: ${ombreLift};`);
   L.push(`  --container: ${rem(conteneur)};`, `  /* ${mesure} caractères réels par ligne (1ch ≈ 1,25 caractère, voir global.css). */`, `  --measure: ${Math.round(mesure / 1.25)}ch;`);
-  L.push(`  --motion-ui: ${ui}s;`, `  --motion-duration: ${scene}s;`, `  --ease-brand: ${mv.scene.courbe};`);
+  L.push(`  --motion-ui: ${ui}s;`, `  --motion-duration: ${scene}s;`, `  --ease-brand: ${courbeCubique(mv.scene.courbe)};`);
   if (k.sombre) L.push('  color-scheme: dark;');
   L.push('}', '');
   L.push(`/* Échelle typographique mesurée sur ${ids.typo} (h1, h2, texte ; téléphone 390 px → ordinateur 1 440 px) et marge de section de ${ids.densite}. */`);
@@ -342,7 +374,10 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
   L.push(`${sel} .btn-ghost { background: transparent; color: var(--fg); border: ${bordure}px solid var(--line); }`);
   L.push(`${sel} .btn-ghost:hover { border-color: var(--fg); }`);
   if (f.lien === 'souligne') L.push(`${sel} main p a:not(.btn) { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }`);
-  else L.push(`${sel} main p a:not(.btn) { color: var(--accent); text-decoration: none; }`, `${sel} main p a:not(.btn):hover { text-decoration: underline; }`);
+  // Lien « couleur » : la couleur d'accent ET un soulignement fin (épaissi au survol). Sans soulignement, un lien dans un
+  // paragraphe ne se distinguait que par la couleur : axe « link-in-text-block » (sérieux) sur les pages légales de
+  // L'Épi d'Or B et C, 17 oct 2026 (WCAG 1.4.1).
+  else L.push(`${sel} main p a:not(.btn) { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }`, `${sel} main p a:not(.btn):hover { text-decoration-thickness: 2px; }`);
   const bordCarte = f.ombre === 'aucune' || (typeof f.bordure === 'number' && f.bordure > 0) || mt.filets === 'grille';
   L.push(`${sel} .card { background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card);${bordCarte ? ' border: 1px solid var(--line);' : ''} }`);
   L.push(`${sel} .rule { border-top: 1px solid var(--line); }`, '');
@@ -633,8 +668,23 @@ function copierSite(source, copie) {
 
 const DRAPEAUX = { typo: 'typo', couleurs: 'couleurs', densite: 'densite', formes: 'formes', photos: 'photos', mouvement: 'mouvement', matiere: 'matiere', architecture: 'architecture', 'premier-ecran': 'premier_ecran' };
 
+/**
+ * Pure : « --matiere <id> » devient « --matiere=<id> ». `matiere` est un drapeau booléen pour `ff vitrine`
+ * (DRAPEAUX_BOOLEENS de util.mjs) : sans ceci, parseArgs le lisait `true` et l'id passait en argument libre, si bien que
+ * l'atome matière imposé était RETIRÉ au hasard (17 oct 2026, L'Épi d'Or B, C, D : trois matières changées en silence,
+ * alors que `--n 3` imprime justement « --matiere <id> » dans les lignes à lancer).
+ */
+export function normaliserArgs(args) {
+  const out = [];
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--matiere' && args[i + 1] !== undefined && !args[i + 1].startsWith('--')) out.push(`--matiere=${args[++i]}`);
+    else out.push(args[i]);
+  }
+  return out;
+}
+
 export async function cmdMelanger(args) {
-  const { positional, flags } = parseArgs(args);
+  const { positional, flags } = parseArgs(normaliserArgs(args));
   const slug = positional[0];
   if (!slug || !siteExists(slug)) { fail('ff melanger <slug> [--typo id] [--couleurs id] … [--hasard] [--n 3] [--essai]'); process.exit(1); }
   const { registre, polices } = chargerRegistre();

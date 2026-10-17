@@ -114,6 +114,17 @@ if (!tsImportable) {
     assert.match(donneesManquantes('carte-de-visite', { images: { hero: img }, services: [{}], contact: { emergency24h: true } }).join(), /urgence/);
     assert.deepEqual(donneesManquantes('nope', {}), ['architecture inconnue : nope']);
   });
+
+  test('avisDeCarte : la note ET les avis recopiés courts (socle GOUT § 0), jamais tronqués, au plus n', async () => {
+    const { avisDeCarte } = await loadArchitecturesModule();
+    const court = { text: 'Très bon accueil.', author: 'Sylvia D.', source: 'Google' };
+    const long = { text: 'x'.repeat(200), author: 'Long', source: 'Google' };
+    const r = avisDeCarte({ google: { rating: 4.6, count: 162 }, testimonials: [long, court, court, court] });
+    assert.equal(r.note, '4,6');
+    assert.deepEqual(r.avis.map((a) => a.author), ['Sylvia D.', 'Sylvia D.'], 'le long est écarté, pas coupé ; deux au plus');
+    assert.deepEqual(avisDeCarte({ testimonials: [court] }), { note: undefined, avis: [court] });
+    assert.deepEqual(avisDeCarte(undefined), { note: undefined, avis: [] });
+  });
 }
 
 test('sources : module pur, re-exporté par site.ts, appliqué par schema.ts et par le look (applyLook), chargé par ts-loader', () => {
@@ -138,6 +149,8 @@ test('coquille carte : un écran, h1 + métier à ville, tel: dans le panneau id
   assert.match(src, /data-salut>Bonjour</, 'sans script : « Bonjour »');
   assert.match(src, /onPage\(/);
   assert.match(src, /HorairesDuJour/);
+  assert.match(src, /avisDeCarte\(site\.proof\)/, 'la note ET les avis recopiés (socle), même quand la note existe');
+  assert.match(src, /<blockquote/);
   assert.match(src, /\/services\/\$\{s\.slug\}/, 'les pages des services sont listées (socle : plusieurs pages)');
   assert.match(src, /sections\.map\(/);
   assert.doesNotMatch(src, /<Hero\s*\/>|<Nav\s*\/>/, 'la carte remplace hero et nav');
@@ -162,7 +175,8 @@ test('fumigène : architecture carte-de-visite (FF_LOOK) rend la carte, le panne
     const panneau = html.match(/<section id="contact"[\s\S]*?<\/section>/)?.[0];
     assert.ok(panneau, 'panneau id="contact"');
     assert.match(panneau, /href="tel:\+33600000000"/);
-    assert.match(panneau, /4,9 sur 5, 37 avis Google/);
+    // La note (et les avis recopiés courts) ont leur propre plan depuis le 17 oct 2026 (avisDeCarte, socle GOUT § 0).
+    assert.match(html, /<section class="carte-avis[^"]*"[^>]*aria-label="Avis"[\s\S]*?4,9 sur 5, 37 avis Google/);
     assert.match(html, /<section id="services" class="carte-pages[\s\S]*?href="\/services\/cuisines"/);
     assert.match(html, /data-salut[^>]*>Bonjour</);
     assert.match(html, /<dialog id="contact-tiroir"/, 'tiroir de contact posé par l’architecture');

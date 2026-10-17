@@ -1,0 +1,63 @@
+---
+/**
+ * Version B : la vitrine. Les photos de gâteaux de la galerie de L'Épi d'Or (raw/SOURCES.md), en mosaïque serrée à
+ * 8 px (Le Petit Bleu : vignettes en mosaïque) ; traitement du mélange (atome photos de pizza-amici : masque et
+ * chevauchement) : chaque photo est découpée en arche de vitrine, et la rangée du bas chevauche celle du haut d'un
+ * quart d'arche, posée devant avec une ombre réelle (deux plans). Chaque arche mène à la page de son rayon.
+ * Photos 04, 05, 07 jamais utilisées (raw/ecartees/). Légende = ce qu'on voit, rien d'autre.
+ * Mouvement (RYTHME du contrat) : en arrivant, les arches se posent l'une après l'autre (sec, 0,2 s, 60 ms d'écart,
+ * une fois) ; rien en mouvement réduit.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const parSrc = new Map<string, string>();
+for (const s of site.services) for (const im of [s.image, ...s.images].filter(Boolean)) parSrc.set(im!.src, s.slug);
+// Six arches (deux rangées de trois) : une par rayon photographié d'abord, puis les suivantes ; le poids de la page
+// (perf-budget.json) ne permet pas les neuf photos de la galerie sur l'accueil, les autres sont sur les pages des rayons.
+const toutes = site.services.flatMap((s) => [s.image, ...s.images].filter(Boolean)).map((im) => ({ ...im!, slug: parSrc.get(im!.src)! }));
+const premieres = site.services.filter((s) => s.image).map((s) => toutes.find((p) => p.src === s.image!.src)!);
+const photos = [...premieres, ...toutes.filter((p) => !premieres.includes(p))].slice(0, 6);
+---
+
+{photos.length >= 4 && (
+  <section id="vitrine" class="vtr section-y" aria-labelledby="vtr-titre">
+    <div class="container-ff">
+      <h2 id="vtr-titre" class="vtr-titre">La vitrine</h2>
+      <p class="vtr-sous">Les gâteaux de la galerie de la boutique. Touchez-en un : sa page s’ouvre.</p>
+      <ul class="vtr-mosaique" data-stagger="60">
+        {photos.map((p, i) => (
+          <li class:list={['vtr-arche', i % 2 === 1 && 'vtr-bas']} data-reveal>
+            <a href={`/services/${p.slug}`}>
+              <Img src={p.src} alt={p.alt} sizes="(min-width: 1024px) 15rem, 32vw" class="vtr-img object-cover" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style is:global>
+  .vtr-titre { font-family: var(--font-display); font-size: var(--scale-lg); line-height: 1; }
+  .vtr-sous { margin-top: 0.6rem; color: var(--muted); max-width: 40ch; }
+  .vtr-mosaique {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+    padding-bottom: 1.5rem;
+  }
+  @media (min-width: 640px) { .vtr-mosaique { gap: 0.5rem; padding-bottom: 3rem; } }
+  .vtr-arche { position: relative; }
+  .vtr-arche a { display: block; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 50% 50% var(--radius-card) var(--radius-card) / 38% 38% var(--radius-card) var(--radius-card); }
+  /* Une arche sur deux descend d'un quart et passe devant : la vitrine a deux plans. */
+  .vtr-bas { top: 1.5rem; z-index: 1; }
+  @media (min-width: 640px) { .vtr-bas { top: 3rem; } }
+  .vtr-bas a { box-shadow: var(--shadow-lift); outline: 4px solid var(--bg); }
+  .vtr-arche .vtr-img { inline-size: 100%; block-size: 100%; object-fit: cover; transition: transform 0.2s ease-out; }
+  @media (hover: hover) and (pointer: fine) {
+    .vtr-arche a:hover .vtr-img { transform: scale(1.04); }
+  }
+  .vtr-arche a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+</style>

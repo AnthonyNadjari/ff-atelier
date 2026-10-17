@@ -1,0 +1,52 @@
+---
+/**
+ * Version C : le pied de toutes les pages est l'adresse et la semaine (Bricourt finit sur ses adresses). La rue en
+ * grand, le lien d'itinéraire Google (fiche publique du brief), la semaine telle que la boutique l'affiche, la règle
+ * des jours fériés, le numéro et l'e-mail, puis les pages légales. Il porte id="contact" : sans script, les liens
+ * « Commander un gâteau » (/#contact) y mènent ; avec script, ils ouvrent le tiroir.
+ */
+import { site, tel, mailto, fullAddress, hasCredits } from '@/lib/site';
+import { regrouperLignes } from '@/lib/horaires';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+const groupes = regrouperLignes(site.contact.hours);
+---
+
+<footer id="contact" class="vnr venir section-y" aria-labelledby="vnr-titre">
+  <div class="container-ff vnr-grille">
+    <div>
+      <h2 id="vnr-titre" class="vnr-rue">{site.contact.address.street}</h2>
+      <p class="vnr-ville">{site.contact.address.postalCode} {site.contact.address.city}</p>
+      {site.contact.mapsUrl && <p class="mt-4"><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="vnr-lien">L’itinéraire sur Google Maps<span class="sr-only"> : {fullAddress()}</span></a></p>}
+      <p class="mt-6"><Button href={tel()} size="lg" class="vnr-tel"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button></p>
+      {site.contact.email && <p class="mt-3"><a href={mailto()} class="vnr-lien">{site.contact.email}</a></p>}
+    </div>
+    <div>
+      <dl class="vnr-semaine">
+        {groupes.map((g) => (<><dt>{g.days}</dt><dd>{g.hours}</dd></>))}
+      </dl>
+      <p class="vnr-note">Fermé les après-midi des jours fériés.</p>
+    </div>
+  </div>
+  <div class="container-ff vnr-legal">
+    <a href="/mentions-legales">Mentions légales</a>
+    <a href="/confidentialite">Confidentialité</a>
+    {hasCredits && <a href="/credits">Crédits photos</a>}
+    <span>© {new Date().getFullYear()}. Site réalisé par <a href="https://finckfisch.fr" rel="noopener" target="_blank">Finck &amp; Fisch</a></span>
+  </div>
+</footer>
+
+<style>
+  .vnr-grille { display: grid; gap: 2.5rem; }
+  @media (min-width: 768px) { .vnr-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; } }
+  .vnr-rue { font-family: var(--font-display); font-size: var(--scale-lg); line-height: 1; }
+  .vnr-ville { margin-top: 0.4rem; font-size: 1.15rem; }
+  .vnr-lien { text-decoration: underline; text-underline-offset: 0.2em; overflow-wrap: anywhere; }
+  .vnr-tel { font-variant-numeric: tabular-nums; }
+  .vnr-semaine { display: grid; grid-template-columns: auto 1fr; gap: 0.6rem 1.5rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+  .vnr-semaine dt { color: var(--muted); }
+  .vnr-note { margin-top: 1rem; font-size: 0.95rem; color: var(--muted); }
+  .vnr { border-top: 1px solid var(--line); }
+  .vnr-legal { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem 1.25rem; font-size: 0.85rem; color: var(--muted); }
+  .vnr-legal a { text-decoration: underline; text-underline-offset: 0.2em; }
+</style>

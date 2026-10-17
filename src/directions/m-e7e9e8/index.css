@@ -1,0 +1,84 @@
+/* Direction M-E7E9E8 : MÉLANGE d'atomes de vrais sites, généré par `ff melanger` le 2026-10-17.
+   Ne pas éditer à la main : regénérer (`ff melanger <slug> --typo … --couleurs …`). Format : docs/veille/styles/ATOMES.md.
+   typo : relaisrossar (https://www.relaisrossar.it)
+   couleurs : studenterkilden (https://studenterkilden.dk/en)
+   densite : coutumes (https://coutumes.com/)
+   formes : cafebinocle (https://www.cafebinocle.com/)
+   photos : pizza-amici (https://www.pizza-amici.nl/)
+   mouvement : cafebinocle (https://www.cafebinocle.com/)
+   matiere : odysseeclinic (https://www.odysseeclinic.com.au/)
+   Dérivé par calcul (contraste AA) : accent #ebbf7d → #8d5e16 pour le texte (AA sur les fonds) ; la couleur mesurée reste en accent 2 (aplats, survols).
+*/
+@import '@fontsource-variable/bodoni-moda';
+@import '@fontsource-variable/urbanist';
+
+[data-direction='m-e7e9e8'] {
+  --accent-h: 36;
+  --accent-s: 73%;
+  --accent-l: 32%;
+
+  --bg: #fdfdfd;
+  --bg-2: #f2e9cf;
+  --surface: #f2e9cf;
+  --fg: #161513;
+  --muted: #2c2c2c;
+  --line: #d8d8d8;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #ff4c24;
+  --on-accent: #fdfdfd;
+  --ink: #201d1d;
+  --on-ink: #fdfdfd;
+  /* Aplat de marque (boutons pleins, sélection) : la couleur mesurée sur studenterkilden. */
+  --fill: #ebbf7d;
+  --on-fill: #161513;
+
+  --font-display: 'Bodoni Moda Variable', 'Didot', Georgia, serif;
+  --font-body: 'Urbanist Variable', system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --display-weight: 400;
+  --body-weight: 300;
+  --display-tracking: -0.03em;
+  --heading-transform: none;
+  --radius: 6px;
+  --radius-card: 8px;
+  --shadow-card: none;
+  --shadow-lift: 0 24px 48px -28px rgb(0 0 0 / 0.35);
+  --container: 60rem;
+  /* 75 caractères réels par ligne (1ch ≈ 1,25 caractère, voir global.css). */
+  --measure: 60ch;
+  --motion-ui: 0.3s;
+  --motion-duration: 0.5s;
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Échelle typographique mesurée sur relaisrossar (h1, h2, texte ; téléphone 390 px → ordinateur 1 440 px) et marge de section de coutumes. */
+[data-direction='m-e7e9e8'][data-scale] {
+  --scale-xl: clamp(3.125rem, 2.111rem + 4.162vw, 5.856rem);
+  --scale-lg: clamp(2.647rem, 1.846rem + 3.284vw, 4.802rem);
+  --scale-md: clamp(2.169rem, 1.512rem + 2.695vw, 3.938rem);
+  --scale-sm: clamp(1.345rem, 1.148rem + 0.808vw, 1.875rem);
+  --section-y: clamp(2.875rem, 1.529rem + 5.524vw, 6.5rem);
+}
+
+[data-direction='m-e7e9e8'] body { font-size: clamp(1rem, 0.954rem + 0.19vw, 1.125rem); line-height: 1.44; }
+[data-direction='m-e7e9e8'] :is(h1, .text-display-xl, .text-display-lg) { line-height: 1; }
+[data-direction='m-e7e9e8'] :is(h2, .text-display-md) { line-height: 1.02; }
+[data-direction='m-e7e9e8'] ::selection { background: var(--fill); color: var(--on-fill); }
+[data-direction='m-e7e9e8'] :is(h1, h2) em { font-style: normal; color: #8d5e16; }
+
+/* Boutons (cafebinocle) : plein, pilule mesurée rendue à 6 px (signe IA, GOUT § 2). */
+[data-direction='m-e7e9e8'] .btn { border-radius: var(--radius); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; transition: background-color var(--motion-ui) var(--ease-out), color var(--motion-ui) var(--ease-out), border-color var(--motion-ui) var(--ease-out); }
+[data-direction='m-e7e9e8'] .btn-primary { background: var(--fill); color: var(--on-fill); border: 1px solid var(--fill); }
+[data-direction='m-e7e9e8'] .btn-primary:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+[data-direction='m-e7e9e8'] .btn-ghost { background: transparent; color: var(--fg); border: 3px solid var(--line); }
+[data-direction='m-e7e9e8'] .btn-ghost:hover { border-color: var(--fg); }
+[data-direction='m-e7e9e8'] main p a:not(.btn) { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+[data-direction='m-e7e9e8'] main p a:not(.btn):hover { text-decoration-thickness: 2px; }
+[data-direction='m-e7e9e8'] .card { background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card); border: 1px solid var(--line); }
+[data-direction='m-e7e9e8'] .rule { border-top: 1px solid var(--line); }
+
+/* Photos (pizza-amici) : masque. */
+[data-direction='m-e7e9e8'] main :is(img, video):not([src$=".svg"]) { border-radius: 0px; }
+[data-direction='m-e7e9e8'] main :is(img, video):not([src$=".svg"]) { clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 14px 100%, 0 calc(100% - 14px), 0 14px); border-radius: 0; }
+
+/* Matière (odysseeclinic) : fond uni, filets aucun. Ni grain, ni halo, ni reflet (GOUT § 2). */

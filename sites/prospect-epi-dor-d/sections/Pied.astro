@@ -1,0 +1,84 @@
+---
+/**
+ * Bloc sur mesure de la version D (architecture carte-de-visite, Nowa) : le pied de la carte, sur la marge jaune. Il
+ * dit qui fait la boutique, avec les mots de la boutique (brief § 5 : Xavier « Responsable et Boulanger »,
+ * Miroslava « Créatrice de Douceurs », Christelle « Hôtesse des Délices », Pauline « experte en café »), puis les
+ * pages légales. Une ligne à l'ordinateur, trois au téléphone : l'écran reste un écran.
+ *
+ * Et le geste de la carte (FEU D'ARTIFICE du contrat, version calme) : à l'ordinateur, survoler ou atteindre au clavier
+ * un rayon de la liste « Les pages » fait venir SA photo dans la carte (fondu lent, 0,45 s), puis l'entremets revient.
+ * Seulement les rayons qui ont une photo du client (pièces montées, pâtisseries, fêtes) ; le pain et les sandwichs
+ * n'en ont pas : la carte ne change pas. Les photos sont rendues ici, cachées, et posées dans la carte par le script
+ * (la coquille ne connaît pas le client). Rien en mouvement réduit, rien au toucher (le doigt ouvre la page).
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const equipe = site.about.team;
+const rayons = site.services.filter((s) => s.image && s.image.src !== site.images.hero?.src);
+const year = new Date().getFullYear();
+---
+
+<footer class="pd">
+  {equipe.length > 0 && (
+    <p class="pd-equipe">
+      <span class="pd-qui">L’équipe</span>
+      {equipe.map((p, i) => (
+        <span class="pd-un"><strong>{p.name}</strong>, {p.role.toLowerCase()}{i < equipe.length - 1 ? ';' : '.'}</span>
+      ))}
+    </p>
+  )}
+  <p class="pd-legal">
+    <a href="/mentions-legales">Mentions légales</a>
+    <a href="/confidentialite">Confidentialité</a>
+    <span>© {year}. Site réalisé par <a href="https://finckfisch.fr" rel="noopener" target="_blank">Finck &amp; Fisch</a></span>
+  </p>
+  <div class="pd-photos" hidden aria-hidden="true">
+    {rayons.map((s) => (
+      <div class="pd-photo" data-rayon={`/services/${s.slug}`}>
+        <Img src={s.image!.src} alt="" sizes="100vw" loading="lazy" class="pd-img" />
+      </div>
+    ))}
+  </div>
+</footer>
+
+<style>
+  .pd { padding: 0.5rem 1.25rem 1rem; font-size: 0.85rem; line-height: 1.35; color: var(--fg); }
+  .pd-equipe { display: flex; flex-wrap: wrap; column-gap: 0.6rem; row-gap: 0.15rem; }
+  .pd-qui { color: var(--muted); }
+  .pd-legal { margin-top: 0.6rem; display: flex; flex-wrap: wrap; gap: 0.3rem 1.25rem; color: var(--muted); font-size: 0.85rem; }
+  .pd-legal a { text-decoration: underline; text-underline-offset: 0.2em; }
+  @media (min-width: 768px) {
+    .pd { display: flex; justify-content: space-between; align-items: baseline; gap: 2rem; padding: 0 2rem 1.25rem; }
+    .pd-legal { margin-top: 0; flex: none; }
+  }
+  /* Calques de photo posés dans la carte par le script. */
+  :global(.pd-calque) { position: absolute; inset: 0; z-index: -10; opacity: 0; transition: opacity 0.45s ease-out; }
+  :global(.pd-calque.pd-vu) { opacity: 1; }
+  :global(.pd-calque img) { inline-size: 100%; block-size: 100%; object-fit: cover; }
+  @media (prefers-reduced-motion: reduce) { :global(.pd-calque) { transition: none; } }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  onPage(() => {
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const carte = document.querySelector<HTMLElement>('.carte');
+    if (!carte) return;
+    const calques = new Map<string, HTMLElement>();
+    document.querySelectorAll<HTMLElement>('.pd-photo').forEach((p) => {
+      p.classList.add('pd-calque');
+      p.querySelector('img')?.setAttribute('loading', 'eager');
+      carte.insertBefore(p, carte.querySelector('.carte-voile'));
+      calques.set(p.dataset.rayon ?? '', p);
+    });
+    const montrer = (href: string | null) => calques.forEach((c, k) => c.classList.toggle('pd-vu', k === href));
+    document.querySelectorAll<HTMLAnchorElement>('.carte-pages a[href^="/services/"]').forEach((a) => {
+      const href = a.getAttribute('href');
+      a.addEventListener('mouseenter', () => montrer(href));
+      a.addEventListener('focus', () => montrer(href));
+      a.addEventListener('mouseleave', () => montrer(null));
+      a.addEventListener('blur', () => montrer(null));
+    });
+  });
+</script>

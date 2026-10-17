@@ -1,0 +1,24 @@
+---
+/**
+ * Version B : l'histoire, en fin de colonne (Le Petit Bleu finit sur « About »). Le titre nomme les deux personnes du
+ * brief, le texte est celui de about.story (brief § 5, réécrit sans en changer les faits), la phrase de Xavier entre
+ * guillemets. Une colonne de lecture, un filet au-dessus ; ni vignette à initiale ni portrait (aucune photo de
+ * l'équipe au brief).
+ */
+import { site, paragraphs } from '@/lib/site';
+const a = site.about;
+const paras = paragraphs(a.story);
+---
+
+<section id="histoire" class="hst section-y" aria-labelledby="hst-titre">
+  <div class="container-ff">
+    <h2 id="hst-titre" class="hst-titre">{a.title}</h2>
+    <div class="hst-texte">{paras.map((p) => <p>{p}</p>)}</div>
+  </div>
+</section>
+
+<style is:global>
+  .hst .container-ff { border-top: 1px solid var(--line); padding-top: 2rem; }
+  .hst-titre { font-family: var(--font-display); font-size: var(--scale-md); line-height: 1.05; }
+  .hst-texte { margin-top: 1.25rem; max-width: var(--measure); display: grid; gap: 1rem; font-size: 1.1rem; }
+</style>

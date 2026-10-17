@@ -1,0 +1,65 @@
+---
+/**
+ * Version B (architecture lieu-fixe, Le Petit Bleu) : les avis, tout de suite sous la carte d'accueil (socle GOUT § 0).
+ * La note relevée le 17 oct 2026 (4,6 sur 162 avis Google) en une ligne, puis les deux avis du brief recopiés mot
+ * pour mot, en grand, en Bodoni, séparés par un filet, sans carte ni guillemet décoratif. Rien de recalculé.
+ * Entrée de la page (MOUVEMENT 1 du contrat) : la devanture du panneau fixe recule doucement à l'ouverture (lent,
+ * 1,4 s, une fois), posé ici parce que la coquille ne connaît pas le client ; rien en mouvement réduit.
+ */
+import { site } from '@/lib/site';
+
+const g = site.proof.google;
+const avis = site.proof.testimonials;
+const note = g ? g.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+---
+
+{(g || avis.length > 0) && (
+  <section id="proof" class="bav section-y" aria-labelledby="bav-titre">
+    <div class="container-ff">
+      <h2 id="bav-titre" class="bav-titre">Les avis</h2>
+      {g && (
+        <p class="bav-compte">
+          {note}&nbsp;sur 5 sur Google, <a href={g.url} target="_blank" rel="noopener">{g.count}&nbsp;avis</a>
+        </p>
+      )}
+      <ul class="bav-liste">
+        {avis.map((a) => (
+          <li>
+            <blockquote><p>«&nbsp;{a.text}&nbsp;»</p></blockquote>
+            <p class="bav-qui">{a.author}{a.date ? `, ${a.date}` : ''}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style is:global>
+  .bav-titre { font-family: var(--font-display); font-size: var(--scale-md); line-height: 1.05; }
+  .bav-compte { margin-top: 0.5rem; font-size: 1.1rem; }
+  .bav-compte a { color: var(--fg); text-decoration: underline; text-underline-offset: 0.2em; }
+  .bav-liste { margin-top: 2rem; border-top: 1px solid var(--line); }
+  .bav-liste li { padding-block: 1.4rem; border-bottom: 1px solid var(--line); }
+  .bav-liste blockquote p { font-family: var(--font-display); font-size: clamp(1.6rem, 4.2vw, 2.25rem); line-height: 1.2; }
+  .bav-qui { margin-top: 0.6rem; font-size: 0.95rem; color: var(--muted); }
+
+  /* La devanture fixe vue par une grande arche de vitrine (le même masque que les gâteaux de la vitrine, atome photos de
+     pizza-amici), l'étiquette du jour descendue dans l'arche ; l'accueil composé à gauche, sans carte centrée. Posé ici
+     parce que la coquille lieu-fixe ne connaît pas le client (planche des quatre versions, 17 oct 2026 : la devanture en
+     rectangle avec une carte posée dessus rappelait la version A). Classes doublées : plus fortes que le style limité
+     de la coquille. */
+  .lf-cadre.lf-cadre { border-radius: 50% 50% var(--radius-card) var(--radius-card) / 16% 16% var(--radius-card) var(--radius-card); }
+  .lf-etiquette.lf-etiquette { inset-block-start: 18%; }
+  .lf-accueil.lf-accueil { text-align: start; background: transparent; padding: 3rem 0.75rem 1.5rem; }
+  .lf-accueil .lf-titre.lf-titre { font-size: clamp(3.4rem, 13vw, 6rem); line-height: 0.95; }
+  .lf-accueil.lf-accueil ul { margin-inline: 0; }
+  @media (min-width: 1024px) {
+    .lf-cadre.lf-cadre { border-radius: 50% 50% var(--radius-card) var(--radius-card) / 24% 24% var(--radius-card) var(--radius-card); }
+    .lf-etiquette.lf-etiquette { inset-block-start: 26%; }
+    .lf-accueil.lf-accueil { padding: 5rem 2.5rem 3rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .lf-cadre > img, .lf-cadre picture img { animation: bav-recule 1.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  }
+  @keyframes bav-recule { from { transform: scale(1.08); } to { transform: scale(1); } }
+</style>

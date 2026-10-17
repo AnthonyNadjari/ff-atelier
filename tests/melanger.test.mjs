@@ -150,6 +150,23 @@ test('direction générée : tous les tokens du contrat, color-scheme si sombre,
   assert.match(g.meta, /nom: 'm-abc123'/);
 });
 
+test('direction générée : la chasse fixe n’est chargée que si le site source en a une (sinon pile système)', () => {
+  const sources = Object.fromEntries(Object.values(registreReel.parId).map((a) => [a.id, a.source.url]));
+  const base = { couleurs: 'framer-lintel', densite: 'coutumes', formes: 'monarque', photos: 'meyers', mouvement: 'meyers', matiere: 'cafebinocle' };
+  const gen = (typo) => {
+    const ids = { typo, ...base };
+    const atomes = Object.fromEntries(Object.entries(ids).map(([d, id]) => [d, registreReel.parId[id][d]]));
+    return genererDirection('m-abc124', { atomes, ids, sources, polices, date: '2026-10-17' }).css;
+  };
+  const sansMono = Object.values(registreReel.parId).find((a) => a.typo && a.typo !== 'à juger' && !a.typo.mono && registreReel.reserves.typo.includes(a.id));
+  assert.ok(sansMono, 'un atome typo sans chasse fixe dans le registre');
+  const css = gen(sansMono.id);
+  assert.doesNotMatch(css, /jetbrains/i, 'aucune police mono importée d’office');
+  assert.match(css, /--font-mono: ui-monospace, monospace;/);
+  const avecMono = Object.values(registreReel.parId).find((a) => a.typo && a.typo !== 'à juger' && a.typo.mono?.libre && registreReel.reserves.typo.includes(a.id));
+  if (avecMono) assert.ok(gen(avecMono.id).includes(`@import '${polices[avecMono.typo.mono.libre].pkg}';`), 'la chasse fixe mesurée reste chargée');
+});
+
 test('DIRECTIONS : insertion idempotente et retrait propre', () => {
   const schema = "export const DIRECTIONS = [\n  'atelier', // a\n  'brut', // b\n] as const;\nexport type Direction = 1;\n";
   const un = insererDirection(schema, 'm-abc123', 'essai');
@@ -167,4 +184,44 @@ test('le registre réel permet au moins trois mélanges distincts pour un client
     assert.equal(r.erreur, undefined, r.erreur);
     soeurs.push(r.atomes);
   }
+});
+
+test('arguments : « --matiere <id> » est un atome imposé, pas le drapeau booléen de ff vitrine', async () => {
+  const { normaliserArgs } = await import('../scripts/ff/melanger.mjs');
+  const { parseArgs } = await import('../scripts/ff/util.mjs');
+  const { positional, flags } = parseArgs(normaliserArgs(['site-x', '--typo', 'coutumes', '--matiere', 'meyers', '--n', '3']));
+  assert.deepEqual(positional, ['site-x']);
+  assert.equal(flags.matiere, 'meyers');
+  assert.equal(flags.typo, 'coutumes');
+  assert.deepEqual(normaliserArgs(['s', '--matiere', '--essai']), ['s', '--matiere', '--essai'], 'sans valeur : inchangé');
+});
+
+test('direction générée : un lien dans un paragraphe est toujours souligné (WCAG 1.4.1, axe link-in-text-block)', () => {
+  const sources = Object.fromEntries(Object.values(registreReel.parId).map((a) => [a.id, a.source.url]));
+  for (const id of registreReel.reserves.formes) {
+    const ids = { typo: registreReel.reserves.typo[0], couleurs: registreReel.reserves.couleurs[0], densite: registreReel.reserves.densite[0], formes: id, photos: registreReel.reserves.photos[0], mouvement: registreReel.reserves.mouvement[0], matiere: registreReel.reserves.matiere[0] };
+    const atomes = Object.fromEntries(Object.entries(ids).map(([d, x]) => [d, registreReel.parId[x][d]]));
+    const css = genererDirection('m-abc125', { atomes, ids, sources, polices, date: '2026-10-17' }).css;
+    const regle = /main p a:not\(\.btn\) \{([^}]*)\}/.exec(css)?.[1] ?? '';
+    assert.match(regle, /text-decoration: underline/, `formes ${id} : lien souligné`);
+  }
+});
+
+test('importsDePolice : une police statique n’importe que ses graisses servies ; variable ou sans metadata, le paquet', async () => {
+  const { importsDePolice } = await import('../scripts/ff/melanger.mjs');
+  const meta = { weights: [200, 300, 400, 500, 600, 700, 800] };
+  assert.deepEqual(importsDePolice('@fontsource/spectral/latin.css', [400, 500, 600, 700, 700], meta), [
+    '@fontsource/spectral/latin-400.css', '@fontsource/spectral/latin-500.css', '@fontsource/spectral/latin-600.css', '@fontsource/spectral/latin-700.css',
+  ]);
+  assert.deepEqual(importsDePolice('@fontsource/bebas-neue/latin.css', [700], { weights: [400] }), ['@fontsource/bebas-neue/latin-400.css'], 'ramenée à la graisse disponible');
+  assert.deepEqual(importsDePolice('@fontsource-variable/urbanist', [400, 700], meta), ['@fontsource-variable/urbanist']);
+  assert.deepEqual(importsDePolice('@fontsource/spectral/latin.css', [400], undefined), ['@fontsource/spectral/latin.css']);
+});
+
+test('courbeCubique : --ease-brand toujours en cubic-bezier (mot-clé mesuré traduit, ease-in refusé)', async () => {
+  const { courbeCubique } = await import('../scripts/ff/melanger.mjs');
+  assert.equal(courbeCubique('ease'), 'cubic-bezier(0.25, 0.1, 0.25, 1)');
+  assert.equal(courbeCubique('cubic-bezier(0.165, 0.84, 0.44, 1)'), 'cubic-bezier(0.165, 0.84, 0.44, 1)');
+  assert.equal(courbeCubique('ease-in'), courbeCubique('ease-out'));
+  assert.match(courbeCubique('à juger'), /^cubic-bezier\(/);
 });
