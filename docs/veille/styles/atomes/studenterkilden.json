@@ -1,0 +1,122 @@
+{
+  "id": "studenterkilden",
+  "version": 1,
+  "source": {
+    "url": "https://studenterkilden.dk/en",
+    "nom": "Studenterkilden",
+    "metier": "maison de fêtes et restaurant historique",
+    "fiche": "docs/veille/demontages/studenterkilden.md",
+    "mesures": "docs/veille/styles/atomes/mesures/studenterkilden.json",
+    "date": "2026-10-18"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Gt Ultra Median",
+      "libre": "ancizarSerif",
+      "graisse": 400,
+      "interlignage": 0.9,
+      "casse": "none",
+      "interlettrage": -0.05,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Gt Ultra Median",
+      "libre": "ancizarSerif",
+      "graisse": 400,
+      "interlignage": 1.2
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 40.4,
+        "ordinateur": 69.2
+      },
+      "h2": {
+        "telephone": 40.4,
+        "ordinateur": 69.2
+      },
+      "texte": {
+        "telephone": 16.1,
+        "ordinateur": 23.8
+      }
+    },
+    "remarque": "GT Ultra Median, un serif à contraste doux pour tout, titres très serrés (-0,05 em), texte à 24 px : Ancizar Serif."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#fdfdfd",
+      "surface": "#f2e9cf",
+      "texte": "#161513",
+      "texte2": "#2c2c2c",
+      "accent": "#ebbf7d",
+      "accent2": "#ff4c24",
+      "bordure": "à juger",
+      "encre": "#201d1d"
+    },
+    "sombre": null,
+    "remarque": "Blanc #FDFDFD, texte #161513, doré #EBBF7D (boutons), crème #F2E9CF, anthracite #201D1D / #39393B (sections histoire), orange #FF4C24 ponctuel."
+  },
+  "densite": {
+    "section": {
+      "telephone": 98,
+      "ordinateur": 225
+    },
+    "gouttiere": {
+      "telephone": 44,
+      "ordinateur": 18
+    },
+    "conteneur": 1369,
+    "mesure": 62,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": "à juger",
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": "à juger",
+    "ombre": "aucune",
+    "bouton": "à juger",
+    "pilule": false,
+    "casseBouton": "à juger",
+    "lien": "à juger"
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "4:3"
+    ],
+    "pleinCadre": 4,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Premier écran sans photo, la photo de la maison arrive dessous en plein large ; cartes photo des formules."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.625, 0.05, 0, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis"
+    ],
+    "remarque": "Courbe « osmo » cubic-bezier(.625,.05,0,1) sur transform .6 s ; rien d'épinglé."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "typographique"
+}

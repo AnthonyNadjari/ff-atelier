@@ -70,7 +70,8 @@ export function listDirectionMetas() {
         return null;
       }
     })
-    .filter(Boolean);
+    // Directions de mélange (ff melanger, `melange: true`) : propres au site qui les a tirées, jamais proposées ailleurs.
+    .filter((m) => m && !m.melange);
 }
 
 /** Tokens CSS de la direction (couleurs + polices par defaut), parses depuis index.css. */

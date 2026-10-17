@@ -1,0 +1,126 @@
+{
+  "id": "pizza-amici",
+  "version": 1,
+  "source": {
+    "url": "https://www.pizza-amici.nl/",
+    "nom": "Pizza Amici",
+    "metier": "camions à pizza (traiteur événementiel)",
+    "fiche": "docs/veille/demontages/pizza-amici.md",
+    "mesures": "docs/veille/styles/atomes/mesures/pizza-amici.json",
+    "date": "2026-10-18"
+  },
+  "typo": {
+    "titre": {
+      "famille": "salo-variable",
+      "libre": "oswald",
+      "graisse": 400,
+      "interlignage": 0.78,
+      "casse": "uppercase",
+      "interlettrage": -0.015,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Azeret Mono",
+      "libre": "intelOneMono",
+      "graisse": 500,
+      "interlignage": 1.3
+    },
+    "mono": {
+      "famille": "Azeret Mono",
+      "libre": "intelOneMono"
+    },
+    "echelle": {
+      "h1": {
+        "telephone": 48.9,
+        "ordinateur": 66
+      },
+      "h2": {
+        "telephone": 32.6,
+        "ordinateur": 96
+      },
+      "texte": {
+        "telephone": 9.8,
+        "ordinateur": 12
+      }
+    },
+    "remarque": "salo (condensée en capitales, interlignage 0,78) : Oswald. Azeret Mono pour le texte : Intel One Mono. Texte mesuré à 9,8 px au téléphone."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f2ede9",
+      "surface": "#c0deee",
+      "texte": "#0f2c56",
+      "texte2": "à juger",
+      "accent": "#e3af04",
+      "accent2": "#c72531",
+      "bordure": "à juger",
+      "encre": "#0f2c56"
+    },
+    "sombre": null,
+    "remarque": "Off-white #F2EDE9, marine #0F2C56 (texte, bandeau, pied), bleu clair #C0DEEE (cartes), or #E3AF04 (boutons), rouge #C72531 du logo."
+  },
+  "densite": {
+    "section": {
+      "telephone": 216,
+      "ordinateur": 180
+    },
+    "gouttiere": {
+      "telephone": 42,
+      "ordinateur": 94
+    },
+    "conteneur": 1330,
+    "mesure": 49,
+    "rythme": "alterne",
+    "remarque": "Rythme : thèmes de section par variable (fiche) ; fonds mesurés marine 21 %, brun 12 %, bleu clair 11 %."
+  },
+  "formes": {
+    "rayon": "à juger",
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": "à juger",
+    "ombre": "aucune",
+    "bouton": "à juger",
+    "pilule": false,
+    "casseBouton": "à juger",
+    "lien": "à juger"
+  },
+  "photos": {
+    "traitement": "masque",
+    "rapports": [
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Bords de timbre dentelés, étiquette hexagonale posée sur la photo, pizza détourée (fiche)."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.35,
+      "courbe": "cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+    },
+    "scene": {
+      "duree": 0.45,
+      "courbe": "cubic-bezier(0.525, 0, 0, 1)"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis",
+      "Swiper"
+    ],
+    "remarque": "Rebond back-out sur les boutons (.35 s) ; tickets qui s'inclinent au défilement."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

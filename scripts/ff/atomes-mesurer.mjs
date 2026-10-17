@@ -324,3 +324,32 @@ export async function cmdAtomesMesurer({ url, id, fiche, nom }) {
   fs.writeFileSync(cible, JSON.stringify(brouillon, null, 2) + '\n');
   ok(`brouillon : docs/veille/styles/atomes/${id}.json — remplir les « à juger » (police libre, palette, photos, régime, premier écran) puis \`ff atomes\`.`);
 }
+
+/**
+ * `ff atomes` : liste le registre (docs/veille/styles/atomes/*.json), valide chaque fichier et dit quelles dimensions
+ * ff melanger peut en tirer. `ff atomes mesurer <url> --id <id>` : relevé + brouillon (ci-dessus). Sort en erreur si un
+ * fichier est invalide.
+ */
+export async function cmdAtomes(args) {
+  const { parseArgs } = await import('./util.mjs');
+  const { positional, flags } = parseArgs(args);
+  if (positional[0] === 'mesurer') return cmdAtomesMesurer({ url: positional[1], id: flags.id, fiche: flags.fiche, nom: flags.nom });
+  const { lireAtomes, validerAtomes, policesDuRegistre, DIMENSIONS } = await import('./atomes.mjs');
+  const { construireRegistre } = await import('./melanger.mjs');
+  const { CLES_IA } = await import('./ia.mjs');
+  const polices = policesDuRegistre(fs.readFileSync(path.join(ROOT, 'src/lib/fonts.ts'), 'utf8'));
+  const entrees = lireAtomes(path.join(ROOT, 'docs', 'veille', 'styles', 'atomes'));
+  const reg = construireRegistre(entrees, { polices, clesIa: CLES_IA });
+  let rouge = false;
+  for (const { fichier, atomes, erreurJson } of entrees) {
+    if (erreurJson) { fail(`${fichier} : JSON illisible`); rouge = true; continue; }
+    const v = validerAtomes(atomes, { polices, clesIa: CLES_IA });
+    if (v.erreurs.length) { fail(`${fichier} : ${v.erreurs.join(' ; ')}`); rouge = true; continue; }
+    const tirables = DIMENSIONS.filter((d) => reg.reserves[d].includes(atomes.id));
+    ok(`${atomes.id.padEnd(18)} ${tirables.join(', ') || '(rien de tirable)'}`);
+    for (const a of v.alertes) warn(`  ${a}`);
+  }
+  for (const r of reg.rejets.filter((x) => !/: JSON|invalide/.test(x))) info(`  écarté : ${r}`);
+  info(`${Object.keys(reg.parId).length} site(s) ; tirables : ${DIMENSIONS.map((d) => `${d} ${reg.reserves[d].length}`).join(', ')}.`);
+  if (rouge) process.exitCode = 1;
+}

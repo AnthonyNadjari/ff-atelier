@@ -94,13 +94,24 @@ préférence, faits par des humains, qui donnent envie) :
    graisses, tailles h1/h2/texte au téléphone et à l'ordinateur, interlignage, casse), couleurs en hex avec leur rôle,
    espacements, rayons, bordures, ombres, traitement des photos, boutons et liens, icônes, animations (quoi, durées,
    courbes), textures ; plus son architecture (pages, navigation, ordre des blocs, contact). Captures à côté.
-3. Le style devient une **direction** de l'usine (`/nouvelle-direction` : `src/directions/<id>/` tokens + polices
-   les plus proches disponibles en licence libre, jamais une police de la liste IA ; `meta.ts` avec la source), et
-   son architecture une entrée de `docs/veille/architectures/` si elle est nouvelle.
+3. Le site devient des **ATOMES** (18 oct 2026, fondateur : « faut faire des cross ») :
+   `node scripts/ff.mjs atomes mesurer <url> --id <id> --fiche docs/veille/styles/<id>.md --nom "<Nom>"` relève
+   typo, couleurs, marges, rayons, boutons, photos, transitions et écrit le brouillon `docs/veille/styles/atomes/<id>.json` ;
+   on remplit ses « à juger » en regardant les captures (police libre la plus proche, jamais IA ; palette ; traitement
+   des photos ; régime du mouvement ; famille de premier écran ; une `remarque` par choix), puis `ff atomes` vert.
+   Format et règles : `docs/veille/styles/ATOMES.md`. C'est ce qui sert le plus : chaque site ajouté multiplie les
+   croisements de `ff melanger`. Une **direction entière** reste possible quand le style tient d'un bloc
+   (`/nouvelle-direction` : `src/directions/<id>/`, polices libres les plus proches, jamais IA ; `meta.ts` avec la
+   source) ; `ff melanger <slug> --style <id>` applique déjà tous les atomes d'un site sans direction écrite à la main.
+   Son architecture devient une entrée de `docs/veille/architectures/` si elle est nouvelle.
+3 bis. Après 5 sites ajoutés : `node scripts/ff.mjs melanger _exemple --n 3 --hasard --essai` et regarder la planche ;
+   un mélange laid devient une **règle de compatibilité apprise** (ATOMES.md § Règles apprises, et la fonction pure de
+   `scripts/ff/melanger.mjs` avec son test), jamais un atome retiré en silence.
 4. Preuve : `_exemple` habillé du style (FF_LOOK), capture posée à côté de la source ; on ne garde que ce qui tient
    la comparaison.
 5. Une ligne dans `docs/veille/styles/INDEX.md` : id, source, style en une phrase, architecture, convient à quels
-   clients (selon leurs données : photos, produits, lieu, urgence).
+   clients (selon leurs données : photos, produits, lieu, urgence) ; la colonne « Direction » dit `atomes` quand le
+   site n'existe qu'en atomes.
 
 Ce volet passe AVANT tous les autres. Un tour qui n'ajoute pas au moins 5 styles gardés est un tour raté (le
 journal dit pourquoi).

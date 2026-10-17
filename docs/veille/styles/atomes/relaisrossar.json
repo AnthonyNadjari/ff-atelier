@@ -1,0 +1,124 @@
+{
+  "id": "relaisrossar",
+  "version": 1,
+  "source": {
+    "url": "https://www.relaisrossar.it",
+    "nom": "Relais Rossàr",
+    "metier": "hôtel-boutique (lac de Garde)",
+    "fiche": "docs/veille/demontages/relaisrossar.md",
+    "mesures": "docs/veille/styles/atomes/mesures/relaisrossar.json",
+    "date": "2026-10-18"
+  },
+  "typo": {
+    "titre": {
+      "famille": "ivyora-display",
+      "libre": "bodoni",
+      "graisse": 300,
+      "interlignage": 0.99,
+      "casse": "none",
+      "interlettrage": -0.03,
+      "italique": false
+    },
+    "texte": {
+      "famille": "ivystyle-sans",
+      "libre": "urbanist",
+      "graisse": 300,
+      "interlignage": 1.44
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 50,
+        "ordinateur": 93.7
+      },
+      "h2": {
+        "telephone": 34.7,
+        "ordinateur": 63
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "ivyora-display 300 (serif de display fin, mots en italique) : Bodoni Moda ; ivystyle-sans 300 : Urbanist."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f7f6f5",
+      "texte": "#131313",
+      "texte2": "#333333",
+      "accent": "#717658",
+      "accent2": "#854d47",
+      "bordure": "à juger",
+      "encre": "à juger"
+    },
+    "sombre": null,
+    "remarque": "Blanc et crème #F7F6F5, texte #131313, vert olive #717658, bordeaux #854D47 (logo)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 70,
+      "ordinateur": 141
+    },
+    "gouttiere": {
+      "telephone": 10,
+      "ordinateur": 55
+    },
+    "conteneur": "à juger",
+    "mesure": 51,
+    "rythme": "uni",
+    "remarque": "Conteneur : la mesure (3 169 px) est celle d'une piste horizontale, pas d'un conteneur : à juger."
+  },
+  "formes": {
+    "rayon": 75,
+    "rayonCarte": 5,
+    "rayonImage": 5,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": true,
+    "casseBouton": "none",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "2:3-",
+      "4:5",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Vidéo aérienne dans un cadre à marges et coins arrondis (5 px), titre centré dessus."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 1.0,
+      "courbe": "cubic-bezier(0.165, 0.84, 0.44, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis",
+      "Swiper"
+    ],
+    "remarque": "Ressort en linear() .5 s sur les survols ; transform 1 s quart-out (fiche)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

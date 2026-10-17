@@ -45,7 +45,12 @@ const HEADINGS_WEIGHTS = { auto: 60, center: 25, left: 15 };
 // de portfolio, ou le visiteur vient VOIR des pieces — pas a un plombier qu'on appelle en urgence.
 const METIERS_INDEX = ['photograph', 'artiste', 'architect', 'tatou', 'illustrat', 'galerie', 'design', 'decorat', 'ceramist', 'ebenist', 'sculpt', 'peintre'];
 
+// Coquilles d'ARCHITECTURE (src/lib/architectures.ts) : elles ne s'appliquent qu'avec leur architecture entiere
+// (layout.architecture), choisie sur les donnees du client — jamais tirees au hasard ici.
+export const COQUILLES_D_ARCHITECTURE = ['carte'];
+
 function shellFits(shell, { sectionsCount, motion, nav, hero, scale, metier = '' }) {
+  if (COQUILLES_D_ARCHITECTURE.includes(shell)) return false;
   if (shell === 'index') {
     const m = String(metier).toLowerCase();
     return sectionsCount <= 8 && METIERS_INDEX.some((k) => m.includes(k));

@@ -48,7 +48,8 @@ export async function canImportTs() {
 export async function loadSchemaModule() {
   const libDir = path.join(TMP_DIR, 'lib');
   fs.mkdirSync(libDir, { recursive: true });
-  for (const name of ['schema.ts', 'fonts.ts']) {
+  // architectures.ts : module pur importe par schema.ts (layout.architecture, completerLayout).
+  for (const name of ['schema.ts', 'fonts.ts', 'architectures.ts']) {
     const src = fs.readFileSync(path.join(ROOT, 'src', 'lib', name), 'utf8');
     fs.writeFileSync(path.join(libDir, name), addTsExtensions(src));
   }
@@ -148,6 +149,15 @@ export async function loadGalerieModule() {
  */
 export async function loadConseilsModule() {
   return loadPureLibModule('conseils.ts');
+}
+
+/**
+ * Copie src/lib/architectures.ts (module pur : seuls des `import type`) dans TMP_DIR/lib/ et l'importe. Renvoie
+ * { ARCHITECTURES, ARCHITECTURE_IDS, architecture, completerLayout, donneesManquantes, photosDuClient,
+ * nombreDeRealisations } (tests/architectures.test.mjs).
+ */
+export async function loadArchitecturesModule() {
+  return loadPureLibModule('architectures.ts');
 }
 
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */

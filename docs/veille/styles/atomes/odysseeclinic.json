@@ -1,0 +1,117 @@
+{
+  "id": "odysseeclinic",
+  "version": 1,
+  "source": {
+    "url": "https://www.odysseeclinic.com.au/",
+    "nom": "Odyssée",
+    "metier": "clinique de médecine esthétique",
+    "fiche": "docs/veille/demontages/odysseeclinic.md",
+    "mesures": "docs/veille/styles/atomes/mesures/odysseeclinic.json",
+    "date": "2026-10-18"
+  },
+  "typo": {
+    "titre": {
+      "famille": "psTimes",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.1,
+      "casse": "none",
+      "interlettrage": 0.02,
+      "italique": false
+    },
+    "texte": {
+      "famille": "baselGrotesk",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.3
+    },
+    "mono": null,
+    "echelle": {
+      "h1": "à juger",
+      "h2": {
+        "telephone": 32,
+        "ordinateur": 48
+      },
+      "texte": {
+        "telephone": 13,
+        "ordinateur": 14
+      }
+    },
+    "remarque": "psTimes 350 (serif éditorial) : Spectral ; Basel Grotesk 430 : Hanken Grotesk. Le h1 mesuré (18 px) est la phrase de la nav ; les grands paragraphes éditoriaux (28-32 px) ne sont pas mesurés : échelle h1 à juger, atome typo inutilisable."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#fffcf8",
+      "surface": "à juger",
+      "texte": "#1e305e",
+      "texte2": "à juger",
+      "accent": "#1e305e",
+      "accent2": "à juger",
+      "bordure": "à juger",
+      "encre": "#1e305e"
+    },
+    "sombre": null,
+    "remarque": "Crème très pâle #FFFCF8 et bleu marine #1E305E seul (aucun accent : la couleur vient des photos de peau et de lumière)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 36,
+      "ordinateur": 48
+    },
+    "gouttiere": {
+      "telephone": 16,
+      "ordinateur": 73
+    },
+    "conteneur": 1400,
+    "mesure": 38,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": "à juger",
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": "à juger",
+    "ombre": "aucune",
+    "bouton": "à juger",
+    "pilule": false,
+    "casseBouton": "à juger",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "4:3",
+      "3:2"
+    ],
+    "pleinCadre": 5,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Vidéo plein écran, photos plein cadre du corps et du regard ; la nav posée au milieu de la photo."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "scene": {
+      "duree": 1.0,
+      "courbe": "cubic-bezier(0.1, 0, 0, 1)"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "Lenis"
+    ],
+    "remarque": "transform 1 s cubic-bezier(.1,0,0,1) (sortie très longue, fiche) ; compteur qui suit la piste horizontale."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

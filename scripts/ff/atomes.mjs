@@ -37,7 +37,7 @@ export const GENRES = {
   ancizarSerif: 'serif', libreCaslonCondensed: 'serif-affichage', epundaSlab: 'slab', literata: 'serif',
   bodoni: 'serif-affichage', gelasio: 'serif', gloock: 'serif-affichage', ebGaramond: 'serif', spectral: 'serif',
   libreBodoni: 'serif-affichage', zillaSlab: 'slab', bitter: 'slab', domine: 'serif', abrilFatface: 'serif-affichage',
-  yesevaOne: 'serif-affichage', savate: 'manuscrite', specialGothic: 'sans', nunito: 'sans', archivo: 'sans',
+  yesevaOne: 'serif-affichage', gildaDisplay: 'serif-affichage', marcellus: 'serif-affichage', savate: 'manuscrite', specialGothic: 'sans', nunito: 'sans', archivo: 'sans',
   workSans: 'sans', figtree: 'sans', epilogue: 'sans', hanken: 'sans', schibsted: 'sans', redHat: 'sans',
   sora: 'sans-affichage', unbounded: 'sans-affichage', bricolage: 'sans-affichage', anybody: 'sans-affichage',
   josefin: 'sans', archivoBlack: 'sans-affichage', bebas: 'condensee', delaGothic: 'sans-affichage',
@@ -189,7 +189,7 @@ export function validerAtomes(atomes, opts = {}) {
     if (!estAJuger(f.ombre)) champ(e, OMBRES.includes(f.ombre), `formes.ombre : ${OMBRES.join(' | ')}`);
     if (!estAJuger(f.bouton)) champ(e, BOUTONS.includes(f.bouton), `formes.bouton : ${BOUTONS.join(' | ')}`);
     if (!estAJuger(f.lien)) champ(e, LIENS.includes(f.lien), `formes.lien : ${LIENS.join(' | ')}`);
-    if (f.pilule === true) a.push('formes.pilule : boutons pilule mesurés (signe IA, GOUT § 2) : ff melanger les rend avec le rayon des cartes plafonné à 8 px');
+    if (f.pilule === true) a.push('formes.pilule : boutons pilule mesurés (signe IA, GOUT § 2) : ff melanger les rend à 6 px (cartes à 8 px au plus)');
   }
   const p = atomes.photos;
   if (!estAJuger(p)) {

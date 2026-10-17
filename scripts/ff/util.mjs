@@ -152,6 +152,7 @@ export const DRAPEAUX_BOOLEENS = new Set([
   'ecrire', 'figer', 'forcer', 'json', 'lighthouse', 'matiere', 'mobile', 'mobile-seul', 'pages',
   'partage', 'preuves', 'rapide', 'sans-a11y', 'sans-build', 'simuler', 'strict', 'tout', 'valider',
   'vercel', 'www', 'sans-film', 'sans-navigateur', 'supprimer', 'sans-photos', 'tous', 'registre',
+  'hasard', 'essai',
 ]);
 
 /** Drapeaux à valeur facultative : ne prennent l'argument suivant que s'il a la forme attendue. */

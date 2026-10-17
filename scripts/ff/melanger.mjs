@@ -22,7 +22,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createServer } from 'node:http';
-import { ROOT, SITES_DIR, DIST_DIR, ok, fail, info, warn, parseArgs, siteExists, runAstro } from './util.mjs';
+import { ROOT, SITES_DIR, DIST_DIR, FF_CURRENT, ok, fail, info, warn, parseArgs, siteExists, runAstro } from './util.mjs';
 import { mulberry32, seedFromString } from './look-data.mjs';
 import {
   A_JUGER, DIMENSIONS, DIMENSIONS_VALEURS, DOSSIER_ATOMES, lireAtomes, validerAtomes, controlerPolices, paletteComplete,
@@ -96,13 +96,13 @@ export function partages(a, b) {
 export function refusCroises(atomes) {
   const r = [];
   const t = atomes.typo, c = atomes.couleurs, d = atomes.densite;
-  // Titre maigre (≤ 300) sur un fond dont le texte contraste peu : le trait disparaît (essai du 18 oct 2026).
+  // A PRIORI (pas encore vu sur un essai) : titre maigre (≤ 300) sur un contraste texte/fond faible, le trait disparaît.
   if (t && c) {
     const pal = c[c.principal];
     if (pal && (t.titre?.graisse ?? 400) <= 300 && contraste(pal.texte, pal.fond) < 7) r.push(`titre en ${t.titre.graisse} sur un contraste de ${contraste(pal.texte, pal.fond).toFixed(1)}:1 (< 7)`);
   }
-  // Un très grand titre (≥ 140 px à l'ordinateur) dans une page serrée (marge de section < 64 px) : le titre écrase
-  // tout, sans air pour respirer.
+  // A PRIORI (pas encore vu sur un essai) : très grand titre (≥ 140 px à l'ordinateur) dans une page serrée (marge de
+  // section < 64 px) : le titre écrase tout.
   if (t && d && d !== A_JUGER && typeof t.echelle?.h1 === 'object' && t.echelle.h1.ordinateur >= 140 && d.section?.ordinateur < 64) r.push('très grand titre dans une page serrée');
   return r;
 }
@@ -264,14 +264,19 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
   const gTexte = graissePlusProche(t.texte.graisse ?? 400, metaPolices[t.texte.libre]);
   const casse = t.titre.casse && t.titre.casse !== A_JUGER ? t.titre.casse : 'none';
   const lhTitre0 = typeof t.titre.interlignage === 'number' ? t.titre.interlignage : 1.05;
-  const lhTitre = casse === 'uppercase' ? borne(lhTitre0, 0.78, 1.5) : borne(lhTitre0, 0.95, 1.5);
+  // Règle apprise (essai du 18 oct 2026, mélange m-061ddd) : l'interlignage de 0,78 mesuré sur salo, appliqué à
+  // Oswald (la police libre qui la remplace), faisait se chevaucher les lignes du titre (accents et capitales plus
+  // hautes) : la police de remplacement n'a pas les métriques de l'originale. Plancher 0,9 en capitales, 1 sinon.
+  const lhTitre = casse === 'uppercase' ? borne(lhTitre0, 0.9, 1.5) : borne(lhTitre0, 1, 1.5);
   const lhTexte = borne(typeof t.texte.interlignage === 'number' ? t.texte.interlignage : 1.55, 1.4, 1.8);
   const track = typeof t.titre.interlettrage === 'number' ? t.titre.interlettrage : -0.01;
   const e = t.echelle;
   const h1 = e.h1, h2 = e.h2 && e.h2 !== A_JUGER ? e.h2 : { telephone: h1.telephone * 0.6, ordinateur: h1.ordinateur * 0.5 };
   const corps = { telephone: Math.max(16, e.texte.telephone), ordinateur: borne(e.texte.ordinateur, 16, 24) };
   const lg = { telephone: (h1.telephone + h2.telephone) / 2, ordinateur: Math.sqrt(h1.ordinateur * h2.ordinateur) };
-  const sm = { telephone: Math.max(corps.telephone * 1.2, h2.telephone * 0.62), ordinateur: Math.max(corps.ordinateur * 1.25, h2.ordinateur * 0.5) };
+  // Règle apprise (même essai) : --scale-sm sert aux titres des cartes (h3, trois colonnes). Dérivé d'un h2 de 96 px
+  // (pizza-amici), il coupait « BIBLIOTHÈQ-UES » en plein mot : plafonné à 24 px au téléphone, 30 px à l'ordinateur.
+  const sm = { telephone: borne(Math.max(corps.telephone * 1.2, h2.telephone * 0.62), 18, 24), ordinateur: borne(Math.max(corps.ordinateur * 1.25, h2.ordinateur * 0.5), 20, 30) };
   const pilule = f.pilule === true;
   const rayon = pilule ? 6 : borne(f.rayon, 0, 24);
   const rayonCarte = pilule ? Math.min(8, borne(f.rayonCarte, 0, 24)) : borne(f.rayonCarte, 0, 24);
@@ -315,7 +320,11 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
   L.push(`${sel} :is(h1, .text-display-xl, .text-display-lg) { line-height: ${lhTitre}; }`);
   L.push(`${sel} :is(h2, .text-display-md) { line-height: ${r1(Math.max(lhTitre, casse === 'uppercase' ? 0.9 : 1.02))}; }`);
   L.push(`${sel} ::selection { background: var(--fill); color: var(--on-fill); }`);
-  L.push(`${sel} :is(h1, h2) em { font-style: normal; color: var(--accent); }`, '');
+  // Règle apprise (essai, m-394c01) : l'emphase des titres en accent ASSOMBRI pour l'AA (or #e3af04 → #745902) donnait
+  // un olive boueux. Un titre est du grand texte (WCAG : 3:1) : on prend la première couleur mesurée qui tient 3:1
+  // sur le fond (aplat, accent 2), l'accent lisible en dernier recours.
+  const emphase = [k.fill, k.accent2].find((x) => contraste(x, k.bg) >= 3 && contraste(x, k.bg2) >= 3) || k.accent;
+  L.push(`${sel} :is(h1, h2) em { font-style: normal; color: ${emphase}; }`, '');
   // Boutons et liens (formes).
   const casseBouton = f.casseBouton && f.casseBouton !== A_JUGER ? f.casseBouton : 'none';
   L.push(`/* Boutons (${ids.formes}) : ${f.bouton}${pilule ? ', pilule mesurée rendue à 6 px (signe IA, GOUT § 2)' : ''}. */`);
@@ -423,7 +432,7 @@ function metaPolicesDe(polices, cles) {
   for (const cle of cles) {
     const p = polices[cle];
     if (!p) continue;
-    const f = path.join(ROOT, 'node_modules', ...p.pkg.replace(/\/latin\.css$/, '').split('/'), 'metadata.json');
+    const f = path.join(ROOT, 'node_modules', ...p.pkg.replace(/\/latin(-\d+)?\.css$/, '').split('/'), 'metadata.json');
     try { out[cle] = JSON.parse(fs.readFileSync(f, 'utf8')); } catch { /* police sans metadata : graisse telle quelle */ }
   }
   return out;
@@ -657,6 +666,8 @@ export async function cmdMelanger(args) {
 
   if (flags.essai) {
     const copies = tires.map((_, i) => `_essai-melange-${i + 1}`);
+    // runAstro écrit .ff-current : on rend le site courant d'avant (il ne doit pas pointer vers une copie supprimée).
+    const courant = fs.existsSync(FF_CURRENT) ? fs.readFileSync(FF_CURRENT, 'utf8') : null;
     const colonnes = [];
     const { lancerChrome } = await import('./atomes-mesurer.mjs');
     try {
@@ -686,6 +697,7 @@ export async function cmdMelanger(args) {
         fs.rmSync(path.join(SITES_DIR, copies[i]), { recursive: true, force: true });
         fs.rmSync(path.join(DIST_DIR, copies[i]), { recursive: true, force: true });
       }
+      if (courant != null) fs.writeFileSync(FF_CURRENT, courant); else fs.rmSync(FF_CURRENT, { force: true });
       info('copies _essai-melange-* et directions d\'essai supprimées.');
     }
     return;

@@ -1,0 +1,122 @@
+{
+  "id": "cafebinocle",
+  "version": 1,
+  "source": {
+    "url": "https://www.cafebinocle.com/",
+    "nom": "Café Binocle",
+    "metier": "torréfacteur de café",
+    "fiche": "docs/veille/demontages/cafebinocle.md",
+    "mesures": "docs/veille/styles/atomes/mesures/cafebinocle.json",
+    "date": "2026-10-18"
+  },
+  "typo": {
+    "titre": {
+      "famille": "caprasimo",
+      "libre": "gloock",
+      "graisse": 400,
+      "interlignage": 1.1,
+      "casse": "none",
+      "interlettrage": 0.008,
+      "italique": false
+    },
+    "texte": {
+      "famille": "FoundersGroteskRegular",
+      "libre": "karla",
+      "graisse": 500,
+      "interlignage": 1
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 41,
+        "ordinateur": 76
+      },
+      "h2": {
+        "telephone": 41,
+        "ordinateur": 76
+      },
+      "texte": {
+        "telephone": 24,
+        "ordinateur": 32
+      }
+    },
+    "remarque": "Caprasimo (serif très gras et doux) : Gloock. Founders Grotesk : Karla. Le texte mesuré (24/32 px) est celui du manifeste ; le site n'a presque pas de texte courant."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#ffe26e",
+      "surface": "#fffeec",
+      "texte": "#594b3c",
+      "texte2": "à juger",
+      "accent": "#ef5b34",
+      "accent2": "#00a881",
+      "bordure": "#594b3c",
+      "encre": "à juger"
+    },
+    "sombre": null,
+    "remarque": "Fond jaune #FFE26E, texte brun #594B3C, orange #EF5B34, vert #00A881, crème #FFFEEC ; filets bruns qui découpent la page."
+  },
+  "densite": {
+    "section": {
+      "telephone": 130,
+      "ordinateur": 84
+    },
+    "gouttiere": {
+      "telephone": 40,
+      "ordinateur": 53
+    },
+    "conteneur": 1390,
+    "mesure": 53,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 60,
+    "rayonCarte": 25,
+    "rayonImage": 0,
+    "bordure": 3,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": true,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Lien : aucun lien dans du texte courant mesuré ; les liens sont des boutons (couleur)."
+  },
+  "photos": {
+    "traitement": "detoure",
+    "rapports": [
+      "4:3",
+      "16:9+",
+      "2:3-"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Photos produit détourées sur blanc, illustrations plates."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger"
+    ],
+    "remarque": "Sceau qui tourne (30 s), bulle qui flotte (2 s), bande défilante ; transition: all .3s."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "grille",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "typographique"
+}

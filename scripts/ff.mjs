@@ -56,6 +56,8 @@ import { cmdFilm } from './ff/film.mjs';
 import { cmdDemonter } from './ff/demonter.mjs';
 import { cmdRefonte } from './ff/refonte.mjs';
 import { cmdRessemblance } from './ff/ressemblance.mjs';
+import { cmdMelanger } from './ff/melanger.mjs';
+import { cmdAtomes } from './ff/atomes-mesurer.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -130,6 +132,8 @@ const commands = {
   demonter: cmdDemonter,
   refonte: cmdRefonte,
   ressemblance: cmdRessemblance,
+  melanger: cmdMelanger,
+  atomes: cmdAtomes,
 };
 
 async function main() {

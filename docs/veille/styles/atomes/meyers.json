@@ -1,0 +1,115 @@
+{
+  "id": "meyers",
+  "version": 1,
+  "source": {
+    "url": "https://meyers.dk",
+    "nom": "Meyers",
+    "metier": "restaurants, boulangeries, traiteur (Copenhague)",
+    "fiche": "docs/veille/demontages/meyers.md",
+    "mesures": "docs/veille/styles/atomes/mesures/meyers.json",
+    "date": "2026-10-18"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Meyer Grand",
+      "libre": "rubik",
+      "graisse": 700,
+      "interlignage": 0.75,
+      "casse": "uppercase",
+      "interlettrage": -0.02,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Meyer Grand",
+      "libre": "rubik",
+      "graisse": 300,
+      "interlignage": 1.3
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 33.6,
+        "ordinateur": 128
+      },
+      "h2": {
+        "telephone": 32,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Meyer Grand (police de marque ronde et grasse, capitales, interlignage 0,75) : Rubik est la ronde libre la plus proche, en 700 ; le texte en Meyer Grand Light 300 : Rubik 300."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#d6ceb4",
+      "surface": "#f4f2e0",
+      "texte": "#291d1a",
+      "texte2": "à juger",
+      "accent": "#bf8f2d",
+      "accent2": "#702b1d",
+      "bordure": "à juger",
+      "encre": "#291d1a"
+    },
+    "sombre": null,
+    "remarque": "Beige #D6CEB4 (fond et cadre), brun #291D1A (texte, bandeau), ocre #BF8F2D, crème #F4F2E0, bordeaux #702B1D (fiche et relevé)."
+  },
+  "densite": {
+    "section": "à juger",
+    "gouttiere": {
+      "telephone": 24,
+      "ordinateur": 24
+    },
+    "conteneur": 1392,
+    "mesure": 57,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 4,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "4:5",
+      "16:9+",
+      "4:3"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Toute la page posée dans un cadre beige (`.frame`) ; titre géant bicolore sur la photo d'assiette."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.35,
+      "courbe": "cubic-bezier(0.65, 0, 0.35, 1)"
+    },
+    "scene": {
+      "duree": 0.75,
+      "courbe": "cubic-bezier(0.65, 0, 0.35, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "remarque": "hero-word-reveal 0,75 s (fiche) ; l'image du premier écran se resserre au chargement."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "cadre-colore"
+}

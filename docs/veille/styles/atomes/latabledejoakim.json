@@ -1,0 +1,123 @@
+{
+  "id": "latabledejoakim",
+  "version": 1,
+  "source": {
+    "url": "https://latabledejoakim.fr/",
+    "nom": "La Table de Joakim",
+    "metier": "chef à domicile",
+    "fiche": "docs/veille/demontages/latabledejoakim.md",
+    "mesures": "docs/veille/styles/atomes/mesures/latabledejoakim.json",
+    "date": "2026-10-18"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Instrument Serif",
+      "libre": "libreCaslonCondensed",
+      "graisse": 400,
+      "interlignage": 1.1,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Geist Mono",
+      "libre": "dmMono",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": {
+      "famille": "Geist Mono",
+      "libre": "dmMono"
+    },
+    "echelle": {
+      "h1": {
+        "telephone": 44.8,
+        "ordinateur": 64
+      },
+      "h2": {
+        "telephone": 40,
+        "ordinateur": 52.8
+      },
+      "texte": {
+        "telephone": 12.8,
+        "ordinateur": 14.4
+      }
+    },
+    "remarque": "Instrument Serif (liste IA) en capitales, serif étroit : Libre Caslon Condensed. Geist Mono (liste IA) pour le texte et les libellés : DM Mono. Le site met aussi le texte en capitales : non repris pour le texte long (lisibilité)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f6f4f3",
+      "surface": "#eae2df",
+      "texte": "#553d34",
+      "texte2": "#6d7e90",
+      "accent": "#9b7c6d",
+      "accent2": "#d8e1eb",
+      "bordure": "à juger",
+      "encre": "#9b7c6d"
+    },
+    "sombre": null,
+    "remarque": "Crème #F6F4F3, texte brun #553D34 (46 %) et noir ; fonds de chapitre brun #9B7C6D, bleu pâle #D8E1EB, sauge #BFC5AF, rose crème #EAE2DF (objet bgColors du JS, fiche)."
+  },
+  "densite": {
+    "section": "à juger",
+    "gouttiere": {
+      "telephone": 32,
+      "ordinateur": 16
+    },
+    "conteneur": "à juger",
+    "mesure": 52,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": "à juger",
+    "rayonCarte": "à juger",
+    "rayonImage": 0,
+    "bordure": "à juger",
+    "ombre": "à juger",
+    "bouton": "à juger",
+    "pilule": false,
+    "casseBouton": "à juger",
+    "lien": "à juger"
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 2,
+    "superposition": "aucune",
+    "remarque": "Petites photos centrées dans les chapitres (≈ 140 px sur 1 440), une en noir et blanc ; le premier écran est une photo plein écran."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "ease"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis",
+      "Swiper"
+    ],
+    "remarque": "Chapitre épinglé sur ordinateur, fond qui change de couleur, SplitText ; rien sur téléphone (fiche)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "editorial"
+}

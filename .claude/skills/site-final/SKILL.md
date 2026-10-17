@@ -67,6 +67,18 @@ photos, boutons, mouvement ; on adapte le contenu, pas le style. Trois pistes = 
 différents ; ni l'un ni l'autre ne reprend ceux des 4 derniers sites. L'invention reste pour le seul bloc sur
 mesure. Écrire au contrat : « Style : <id> (source) · Architecture : <id> (source) ».
 
+Le style d'une piste vient d'un **MÉLANGE d'atomes** ou d'un **style entier** (18 oct 2026, fondateur : « faut faire
+des cross »). Les atomes (typo, couleurs, densité, formes, photos, mouvement, matière, architecture, premier écran)
+sont ceux de vrais sites, `docs/veille/styles/atomes/` (format : `docs/veille/styles/ATOMES.md`). D'abord
+`node scripts/ff.mjs melanger <slug> --n 3 --hasard --essai` : trois mélanges compatibles avec les données du client
+(contraste, polices, photos de 1 600 px pour un plein cadre, aiguillage calme), regardés côte à côte sur
+`captures/planches/<slug>-melanges.jpg` ; puis chaque piste reçoit le sien (`ff melanger <slug>[-b|-c] --typo … --couleurs …`,
+la ligne exacte est imprimée), ou un style entier (`--style <id>`). **Trois pistes = trois mélanges qui ne partagent
+pas plus de 2 atomes** deux à deux (la commande le garantit) ; aucun mélange ne partage plus de 3 atomes avec un site
+existant (`docs/empreintes/melanges.json`). On peut imposer un atome pour une raison du brief (« la typo de
+studenterkilden parce que le client veut du classique ») et laisser tirer le reste. Recopier au contrat la ligne
+« Style : mélange <typo:… · couleurs:… · …> » que la commande imprime.
+
 ## 1bis. Plusieurs pistes, inventées depuis le brief (jamais des modèles écrits d'avance)
 
 Le studio vend plusieurs versions de la page d'accueil, et une piste unique finit « assez monotone » (fondateur,

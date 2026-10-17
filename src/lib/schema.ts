@@ -6,6 +6,7 @@
  */
 import { z } from 'zod';
 import { FONT_NAMES } from './fonts';
+import { ARCHITECTURE_IDS, completerLayout } from './architectures';
 
 export const DIRECTIONS = [
   'atelier', // chaleureux, artisanal, serif Fraunces, papier
@@ -52,6 +53,7 @@ export const SHELLS = [
   'magazine', // largeurs et decalages alternes, grille asymetrique
   'sticky-hero', // hero epingle, les sections glissent par-dessus
   'index', // site-index : le menu EST la page, liste geante d entrees depliables, hero reduit a une ligne d identite
+  'carte', // carte de visite d un ecran : photo du client en carte, panneau utile pose dessus (architecture carte-de-visite)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -141,6 +143,12 @@ export const siteSchema = z.object({
   scale: z.enum(SCALES).default('normal').describe('compact = dense, display = titres enormes et grandes respirations'),
   layout: z
     .object({
+      architecture: z
+        .enum(ARCHITECTURE_IDS)
+        .optional()
+        .describe(
+          "Architecture entiere tiree d'un vrai site (src/lib/architectures.ts, docs/veille/architectures/INDEX.md) : coquille, nav, hero, pied, ordre des sections de l'accueil, tiroir de contact, gabarit des pages. Chaque reglage de layout que le site ne precise pas en prend la valeur ; un reglage ecrit gagne toujours. Se choisit sur les DONNEES du client (donneesManquantes), jamais deux fois de suite. Absent = reglages par defaut du schema (le deroule long, a eviter : docs/GOUT.md § 0).",
+        ),
       nav: z
         .string()
         .default('bar')
@@ -439,7 +447,8 @@ export type Site = z.output<typeof siteSchema>;
 
 /** A utiliser dans sites/<slug>/site.config.ts : `export default defineSite({...})` */
 export function defineSite(input: SiteInput): Site {
-  const parsed = siteSchema.safeParse(input);
+  // layout.architecture : les reglages de layout absents prennent ceux de l'architecture (src/lib/architectures.ts).
+  const parsed = siteSchema.safeParse(input && input.layout ? { ...input, layout: completerLayout(input.layout as Record<string, unknown>) } : input);
   if (!parsed.success) {
     const lines = parsed.error.issues.map((i) => `  - ${i.path.join('.') || '(racine)'} : ${i.message}`);
     throw new Error(`site.config.ts invalide :\n${lines.join('\n')}`);

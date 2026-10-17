@@ -9,6 +9,8 @@ export type { Action, ActionKind } from './actions';
 export { conseilsTries, dateConseil, lienConseils } from './conseils';
 import { lienConseils } from './conseils';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
+export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
+import { completerLayout } from './architectures';
 
 import { config as siteConfig, lookFile, hasCredits } from 'virtual:ff-look';
 
@@ -27,6 +29,10 @@ const mod = { default: siteConfig as Site };
 const LOOK_KEYS = ['direction', 'motion', 'smoothScroll', 'transitions', 'scale', 'accent', 'typography', 'layout', 'wording'] as const;
 function applyLook(base: Site, look: Record<string, unknown> | undefined): Site {
   if (!look) return base;
+  // Un look qui choisit une architecture (layout.architecture) en apporte les reglages de layout qu'il ne precise
+  // pas lui-meme : ils remplacent ceux du site (src/lib/architectures.ts, completerLayout).
+  const lookLayout = look.layout as Record<string, unknown> | undefined;
+  if (lookLayout && typeof lookLayout === 'object' && lookLayout.architecture) look = { ...look, layout: completerLayout(lookLayout) };
   const merged: Record<string, unknown> = { ...base };
   for (const k of LOOK_KEYS) {
     if (look[k] === undefined) continue;
