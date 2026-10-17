@@ -84,3 +84,8 @@ test('titres-étiquettes variés : pas d’alerte titres-point', () => {
   const r = analyserHtml('<h1>Fromagerie Ravanel</h1><h2>L’ardoise</h2><h2>Beaufort 24 mois</h2><h2>Où nous trouver le mardi ?</h2>');
   assert.ok(!r.alertes.some((a) => a.regle === 'titres-point'));
 });
+
+test('surtitre eyebrow juste au-dessus du h1 : échec', () => {
+  assert.ok(analyserHtml('<p class="eyebrow mt-8">Fromager à Annecy</p><h1>Ravanel</h1>').echecs.some((e) => e.regle === 'surtitre-h1'));
+  assert.ok(!analyserHtml('<h1>Ravanel</h1><p class="eyebrow">Horaires</p><h2>Semaine</h2>').echecs.some((e) => e.regle === 'surtitre-h1'));
+});

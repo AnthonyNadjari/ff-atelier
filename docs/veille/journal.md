@@ -32,8 +32,10 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
   part depuis les pages secondaires (ancres absolues + contrôle `ff verifier`) ; les pages service portaient un
   surtitre gris et des coches ; CREDITS.md créditait des photos jamais affichées (avertissement). Leçon : chaque
   constat d'un relecteur qui vient de `src/` devient un contrôle, pas une retouche.
-- `ff prevol` sur la piste A révèle ce que personne n'avait lancé : `detect` (contraste de la craie sur fond
-  clair ?) et `perf` (polices 192 Ko > 160 Ko). À traiter avec les démos.
+- `ff prevol` sur les trois pistes (2 min par piste) révèle ce que personne n'avait lancé : `perf` (polices 192 Ko
+  sur A, 179 Ko sur B, budget 160 Ko : deux familles à six fichiers ; revoir le budget ou le nombre de graisses),
+  `detect` sur A (contraste), et sur B la nav sur mesure en ancres `#cave` mortes depuis la 404. À traiter avec les
+  démos ; `ff ia` sait maintenant voir un surtitre au-dessus du h1.
 - Après-midi, la skill se mécanise : `ff contrat` (forme du contrat avant de construire), `ff prevol` (tous les
   contrôles en une commande et une table), `ff choisir` (la piste retenue devient le site). Premier essai de
   `/retouche` : 32 s par boucle build + vérification + comparaison.

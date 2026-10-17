@@ -19,6 +19,7 @@ Contrôle automatique : `node scripts/ff.mjs ia [slug ...]` (sur les sites const
 | Tiret cadratin « — » comme ponctuation | Le tic d'écriture n°1 des modèles | Virgule, point, deux-points, parenthèses. Le titre d'onglet utilise « | » |
 | Point médian « · » comme séparateur | Même famille que le tiret cadratin | Virgule, « à » (« Plombier à Nantes »), ou de l'espace dans la mise en page |
 
+| Surtitre `.eyebrow` juste au-dessus du h1 (« Fromager-affineur à Annecy ») | L'eyebrow en casse normale, GOUT § 2 (16 oct 2026) ; pages service de l'usine le 17 oct | La ville est dans le `<title>` et la phrase ; le h1 commence l'écran |
 | Plus de deux titres de section (h2/h3) révélés ligne par ligne (`data-split`) | Le mouvement générique du moteur, partout (16 oct 2026, `pourquoi-ia-2026-10.md`) | On anime une chose du métier ; au plus le h1, avec une raison écrite au contrat |
 
 ## Alerte (`ff ia` signale)

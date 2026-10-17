@@ -67,6 +67,10 @@ export function analyserHtml(html) {
   // appliqué partout trahit la machine. Titres de section révélés par lignes = échec ; le reste, alertes.
   const titresSplit = (balisage.match(/<h[23]\b[^>]*\bdata-split\b/gi) || []).length;
   if (titresSplit > 2) echecs.push({ regle: 'split-titres', n: titresSplit, exemples: ['plus de deux h2/h3 révélés ligne par ligne (GOUT § 2 et § 4)'] });
+  // Surtitre gris « métier, rue, ville » juste au-dessus du h1 (GOUT § 2, 16 oct 2026) : l'eyebrow en casse normale.
+  // Trouvé le 17 oct sur les pages service de l'usine par un relecteur ; depuis, la machine le voit.
+  const surtitre = balisage.match(/<p\b[^>]*class="[^"]*\beyebrow\b[^"]*"[^>]*>([^<]{3,120})<\/p>\s*(?:<[^h][^>]*>\s*)*<h1\b/i);
+  if (surtitre) echecs.push({ regle: 'surtitre-h1', n: 1, exemples: [surtitre[1].trim()] });
   if (/class="[^"]*\bff-curtain\b/.test(balisage)) alertes.push({ regle: 'rideau', n: 1 });
   const sections = balisage.split(/<section\b/i).slice(1);
   if (sections.length >= 4) {
