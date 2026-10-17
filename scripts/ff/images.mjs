@@ -11,7 +11,7 @@ const EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp']);
 // Largeurs cibles (docs/veille/rendu.md §4.3), pas ~x1.5 entre paliers. Les deux dernieres couvrent
 // les ecrans DPR 2 en desktop (un hero pleine largeur sur un 13" @2x demande ~2 600-2 900 px) et ne
 // sont produites que si la source les permet (`withoutEnlargement` : jamais d'agrandissement, une
-// photo de 1 800 px s'arrete a 1 600 + son alias). Audit du 20 sept 2026 (`ff nettete`) : plafonnees
+// photo de 1 800 px a 480/800/1200/1600 + 1 800, sa largeur d'origine, voir largeursCibles). Audit du 20 sept 2026 (`ff nettete`) : plafonnees
 // a 1 600, nos images etaient etirees x1,75 sur un MacBook.
 export const WIDTHS = [480, 800, 1200, 1600, 2000, 2400];
 // Qualites de base. Si une largeur >= 1280 px sort sous 15 Ko (compression destructrice, seuil de
@@ -21,6 +21,20 @@ const QUALITE = { avif: 60, webp: 80 };
 const QUALITE_RELEVEE = { avif: 72, webp: 88 };
 const POIDS_MIN_OCTETS = 15 * 1024;
 const LARGEUR_POIDS_MIN = 1280;
+
+/**
+ * Largeurs a produire pour une source de `origWidth` px : les paliers de WIDTHS qui tiennent dans la
+ * source, plus la largeur d'origine elle-meme quand elle tombe entre deux paliers (jamais d'agrandissement).
+ * Test reel du 17 oct 2026 : une photo de 794 px ressortait a 480 px (palier inferieur), la taille
+ * d'origine etait perdue et `ff nettete` mesurait un flou x1,8. Au-dela du dernier palier (2 400), on
+ * reste plafonne a 2 400 : la largeur d'origine n'est ajoutee que si elle est sous ce plafond.
+ */
+export function largeursCibles(origWidth) {
+  const w0 = Math.round(origWidth);
+  const paliers = WIDTHS.filter((w) => w <= w0);
+  if (w0 > 0 && w0 < WIDTHS[WIDTHS.length - 1] && !paliers.includes(w0)) paliers.push(w0);
+  return paliers.length ? paliers.sort((a, b) => a - b) : [w0];
+}
 
 /** Encode `buf` en `fmt` a la largeur `w` ; releve la qualite si le resultat est suspectement leger. */
 async function encoder(buf, w, fmt, outPath) {
@@ -46,8 +60,7 @@ export async function processImage(srcInput, name, outDir, manifest) {
   const origHeight = meta.height || origWidth;
   const ratio = +(origWidth / origHeight).toFixed(4);
 
-  let candidates = WIDTHS.filter((w) => w <= origWidth);
-  if (candidates.length === 0) candidates = [origWidth];
+  const candidates = largeursCibles(origWidth);
   const maxW = Math.max(...candidates);
 
   const generated = [];
@@ -133,7 +146,7 @@ export async function cmdImages(args) {
   if (generated.length === 0) {
     ok('Toutes les images sont deja a jour.');
   } else {
-    ok(`${generated.length} fichier(s) genere(s) dans sites/${slug}/public/images/ (AVIF+WebP, largeurs ${WIDTHS.join('/')} selon la source) :`);
+    ok(`${generated.length} fichier(s) genere(s) dans sites/${slug}/public/images/ (AVIF+WebP, largeurs ${WIDTHS.join('/')} selon la source, plus sa largeur d'origine si elle tombe entre deux paliers) :`);
     for (const p of generated) info(`  ${c.cyan(p)}`);
     info('');
     info(`Manifeste ecrit : sites/${slug}/images.json (lu par <Img> au build, voir src/components/Img.astro).`);

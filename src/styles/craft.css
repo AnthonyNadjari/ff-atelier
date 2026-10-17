@@ -141,9 +141,7 @@ a[href='#main']:focus-visible {
    14 px fait 20 px de haut — mesuré sur dubois-plomberie avant ce bloc : 8 des 16 premiers arrêts du
    clavier étaient sous le minimum. Les liens dans une phrase sont exemptés par le critère (exception
    « Inline »), d'où la restriction à la nav, au pied de page et aux boutons icône. */
-:is(header[data-nav], nav[data-nav], footer) a:not(.btn):not(.hidden),
-button[aria-label]:not(.hidden),
-a[aria-label]:not(.btn):not(.hidden) {
+:is(header[data-nav], nav[data-nav], footer) a:not(.btn):not(.hidden) {
   display: inline-flex;
   align-items: center;
   /* `max-width` + `flex-wrap` : sans eux, une adresse e-mail longue (pied de page, `break-all`)
@@ -152,6 +150,32 @@ a[aria-label]:not(.btn):not(.hidden) {
   flex-wrap: wrap;
   min-width: 24px;
   min-height: 24px;
+}
+/* Boutons icône. Jusqu'au 17 oct 2026, `button[aria-label]` et `a[aria-label]` étaient dans la règle
+   ci-dessus, hors couche, pour TOUS les liens et boutons à aria-label : elle battait les utilitaires
+   Tailwind (`md:hidden` : bouton menu visible sur ordinateur, sur la nav partagée `bar` comme sur les
+   navs sur mesure) et la classe d'un bloc sur mesure (spécificité 0,2,1 > `.x[data-astro-cid]`) : numéro
+   du maçon passé sous son icône (`flex-wrap`), signe des flèches et des boutons +/- collé à gauche
+   (`inline-flex` au lieu de leur `grid`). Désormais :
+   - mise en page (inline-flex, retour à la ligne) : seulement dans les composants partagés qu'elle visait
+     (nav et pied de page, colonne `sidebar`, tiroir de contact, menus plein écran `floating`/`burger`) ;
+   - partout ailleurs, le plancher de 24 px seul ;
+   - les deux à spécificité nulle (`:where`) et dans la couche `components` : un utilitaire Tailwind
+     comme le style propre d'un site passent devant. Test : tests/craft.test.mjs. */
+@layer components {
+  :where(header[data-nav], nav[data-nav], footer, aside[data-scrollspy], dialog[data-contact-drawer], [data-floating-menu], [data-burger-panel])
+    :where(button[aria-label]:not(.hidden), a[aria-label]:not(.btn):not(.hidden)) {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    flex-wrap: wrap;
+    min-width: 24px;
+    min-height: 24px;
+  }
+  :where(button[aria-label], a[aria-label]:not(.btn)) {
+    min-width: 24px;
+    min-height: 24px;
+  }
 }
 
 /* ------------------------------------------------------------------------------------------------

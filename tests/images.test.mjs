@@ -10,7 +10,8 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import sharp from 'sharp';
 import { ROOT } from '../scripts/ff/ts-loader.mjs';
-import { WIDTHS } from '../scripts/ff/images.mjs';
+import os from 'node:os';
+import { WIDTHS, largeursCibles, processImage } from '../scripts/ff/images.mjs';
 
 const SLUG = '_test-images-x';
 const SITE_DIR = path.join(ROOT, 'sites', SLUG);
@@ -18,6 +19,9 @@ const DIST_DIR = path.join(ROOT, 'dist', SLUG);
 const FF = path.join(ROOT, 'scripts', 'ff.mjs');
 const IMAGES_DIR = path.join(SITE_DIR, 'public', 'images');
 const MANIFEST_PATH = path.join(SITE_DIR, 'images.json');
+// .ff-current d'avant le test, remis en place a la fin : `ff build` (runAstro) l'ecrit avec le slug jetable.
+const FF_CURRENT = path.join(ROOT, '.ff-current');
+const courantAvant = fs.existsSync(FF_CURRENT) ? fs.readFileSync(FF_CURRENT, 'utf8') : null;
 
 let manifest = {};
 let indexHtml = '';
@@ -64,7 +68,11 @@ before(async () => {
   indexHtml = fs.readFileSync(path.join(DIST_DIR, 'index.html'), 'utf8');
 });
 
-after(cleanup);
+after(() => {
+  cleanup();
+  if (courantAvant == null) fs.rmSync(FF_CURRENT, { force: true });
+  else fs.writeFileSync(FF_CURRENT, courantAvant);
+});
 
 test('WIDTHS : paliers 480 -> 2400 (les deux derniers couvrent les ecrans @2x en desktop, audit nettete du 20 sept 2026)', () => {
   assert.deepEqual(WIDTHS, [480, 800, 1200, 1600, 2000, 2400]);
@@ -102,4 +110,30 @@ test('le HTML construit contient un <picture> avec une source AVIF et un <img> a
   assert.ok(imgMatch, '<img src="/images/hero.webp"> introuvable');
   assert.match(imgMatch[0], /\bwidth="\d+"/, 'width manquant sur le <img> hero');
   assert.match(imgMatch[0], /\bheight="\d+"/, 'height manquant sur le <img> hero');
+});
+
+// Test reel du 17 oct 2026 : une photo de 794 px ressortait au palier inferieur (480 px), flou x1,8 mesure par
+// `ff nettete`. La largeur d'origine devient un palier quand elle tombe entre deux paliers, sans agrandir.
+test("largeursCibles : la largeur d'origine devient un palier entre deux paliers, jamais d'agrandissement", () => {
+  assert.deepEqual(largeursCibles(794), [480, 794]);
+  assert.deepEqual(largeursCibles(800), [480, 800]);
+  assert.deepEqual(largeursCibles(1800), [480, 800, 1200, 1600, 1800]);
+  assert.deepEqual(largeursCibles(450), [450]);
+  assert.deepEqual(largeursCibles(2400), WIDTHS);
+  assert.deepEqual(largeursCibles(4000), WIDTHS, 'au-dela du dernier palier : plafonne a 2 400');
+});
+
+test("processImage : une source de 794 px garde sa taille (alias 794 px) et images.json liste 794", async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'ff-images-794-'));
+  try {
+    const buf = await sharp({ create: { width: 794, height: 600, channels: 3, background: { r: 120, g: 80, b: 40 } } }).jpeg().toBuffer();
+    const m = {};
+    await processImage(buf, 'photo', dir, m);
+    assert.deepEqual(m.photo.widths, [480, 794]);
+    assert.equal((await sharp(fs.readFileSync(path.join(dir, 'photo.webp'))).metadata()).width, 794, "l'alias sans suffixe doit garder la largeur d'origine");
+    assert.equal((await sharp(fs.readFileSync(path.join(dir, 'photo-480.webp'))).metadata()).width, 480);
+    assert.ok(fs.existsSync(path.join(dir, 'photo.avif')) && fs.existsSync(path.join(dir, 'photo-480.avif')));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
 });

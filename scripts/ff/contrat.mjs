@@ -11,6 +11,8 @@ import path from 'node:path';
 import { ROOT, SITES_DIR, resolveSlug, ok, fail, warn, info, parseArgs } from './util.mjs';
 import { CLES_IA } from './ia.mjs';
 import { aiguillageDuSite, mouvementDuContrat } from './aiguillage.mjs';
+import { sitePages } from '../astro-site-pages-integration.mjs';
+import { stripComments } from './ts-literal.mjs';
 
 const norm = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[’ʼ]/g, "'");
 
@@ -56,7 +58,7 @@ const MOTS_COMMUNS = new Set('client clients boutique atelier maison metier depu
 const ATTRIBUTS_MOTEUR = /\bdata-(?:split|reveal|stagger|scrub|parallax|pin|horizontal|frames|draw|counter|marquee|text-fill|stack)\b|\bgsap\b|scrolltrigger|\blenis\b|splittext/i;
 
 /** Pure : analyse d'un contrat. `fiches` = noms (sans .md) des démontages disponibles. */
-export function analyserContrat({ contrat, brief, fiches = [], directions = [], decision = null, config = null }) {
+export function analyserContrat({ contrat, brief, fiches = [], directions = [], decision = null, config = null, pagesSurMesure = 0 }) {
   const echecs = [], alertes = [];
   contrat = (contrat || '').replace(/\r/g, '');
   const sec = sections(contrat);
@@ -114,9 +116,10 @@ export function analyserContrat({ contrat, brief, fiches = [], directions = [], 
     if (!norm(socle).includes(point)) echecs.push(`Socle : le point « ${point} » n'est pas renseigné`);
   }
   if (socle != null && /<|…|\.\.\./.test(socle)) echecs.push('Socle : des « … » du modèle sont restés');
-  // Plusieurs pages par défaut : un site d'une page doit le justifier par le brief.
-  if (config != null && /servicePages:\s*false/.test(config) && !/une seule page|une page seulement|pages\s*:\s*absent/i.test(norm(socle || '') + norm(contrat))) {
-    echecs.push('servicePages: false sans raison : le socle demande plusieurs pages ; écrire dans le Socle « Pages : absent : <raison du brief> » ou rétablir les pages service');
+  // Plusieurs pages par défaut : un site d'une page doit le justifier par le brief. Des pages sur mesure
+  // (au moins deux .astro dans sites/<slug>/pages/, test réel du 17 oct 2026) tiennent aussi le socle.
+  if (config != null && /servicePages:\s*false/.test(stripComments(config)) && pagesSurMesure < 2 && !/une seule page|une page seulement|pages\s*:\s*absent/i.test(norm(socle || '') + norm(contrat))) {
+    echecs.push('servicePages: false sans raison : le socle demande plusieurs pages ; écrire dans le Socle « Pages : absent : <raison du brief> » ou rétablir les pages service (ou en fournir au moins deux sur mesure dans pages/)');
   }
   return { echecs, alertes, nFaits: f.length };
 }
@@ -132,7 +135,7 @@ export function cmdContrat(args) {
     const lire = (f) => (fs.existsSync(path.join(dir, f)) ? fs.readFileSync(path.join(dir, f), 'utf8') : '');
     const brief = lire('brief.md');
     if (!brief) { fail(`${slug} : brief.md absent, impossible de sourcer les faits.`); rouge = true; continue; }
-    const r = analyserContrat({ contrat: lire('direction.md'), brief, fiches, directions, decision: aiguillageDuSite(slug)?.decision ?? null, config: lire('site.config.ts') || null });
+    const r = analyserContrat({ contrat: lire('direction.md'), brief, fiches, directions, decision: aiguillageDuSite(slug)?.decision ?? null, config: lire('site.config.ts') || null, pagesSurMesure: sitePages(ROOT, slug).length });
     info(`Contrat de ${slug} (${r.nFaits ?? 0} faits propres)`);
     for (const e of r.echecs) fail(`  ${e}`);
     for (const a of r.alertes) warn(`  ${a}`);

@@ -17,6 +17,51 @@ export function skipString(text, i) {
 }
 
 /**
+ * Si un commentaire (`//` ou `/* *\/`) commence a text[i], retourne l'index du dernier caractere de ce
+ * commentaire (le retour a la ligne d'un `//` n'en fait pas partie) ; sinon -1.
+ */
+function commentEnd(text, i) {
+  if (text[i] !== '/') return -1;
+  if (text[i + 1] === '/') {
+    const nl = text.indexOf('\n', i);
+    return nl === -1 ? text.length - 1 : nl - 1;
+  }
+  if (text[i + 1] === '*') {
+    const fin = text.indexOf('*/', i + 2);
+    return fin === -1 ? text.length - 1 : fin + 1;
+  }
+  return -1;
+}
+
+/**
+ * Retire les commentaires `//` et `/* *\/` hors des chaines (remplaces par des espaces, retours a la
+ * ligne gardes : les index et les lignes ne bougent pas). Test reel du 17 oct 2026 : un commentaire
+ * « // l'atelier » dans site.config.ts etait pris pour le debut d'une chaine et faussait `ff variete`.
+ */
+export function stripComments(text) {
+  let out = '';
+  let i = 0;
+  while (i < text.length) {
+    const c = text[i];
+    if (c === "'" || c === '"' || c === '`') {
+      const j = skipString(text, i);
+      out += text.slice(i, j + 1);
+      i = j + 1;
+      continue;
+    }
+    const fin = commentEnd(text, i);
+    if (fin !== -1) {
+      out += text.slice(i, fin + 1).replace(/[^\n]/g, ' ');
+      i = fin + 1;
+      continue;
+    }
+    out += c;
+    i++;
+  }
+  return out;
+}
+
+/**
  * A partir de `start` (debut d'une valeur JS, espaces avant tolérés), retourne l'index juste apres
  * la fin de cette valeur (objet/tableau/chaine/litteral nu), sans consommer de virgule finale.
  */
@@ -32,6 +77,11 @@ export function findValueEnd(text, start) {
       const c = text[i];
       if (c === "'" || c === '"' || c === '`') {
         i = skipString(text, i);
+        continue;
+      }
+      const fin = commentEnd(text, i);
+      if (fin !== -1) {
+        i = fin;
         continue;
       }
       if (c === open) depth++;
@@ -88,6 +138,7 @@ export function toTs(value, level = 1) {
 
 /** Lit la valeur de la propriete top-level `key: ...` (indent 2 espaces) dans le texte d'un site.config.ts. */
 export function extractTopLevelValue(text, key) {
+  text = stripComments(text);
   const marker = `\n  ${key}:`;
   const idx = text.indexOf(marker);
   if (idx === -1) return undefined;

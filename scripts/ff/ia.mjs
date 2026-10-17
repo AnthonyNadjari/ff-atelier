@@ -13,6 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, DIST_DIR, SITES_DIR, c, info, ok, fail, warn } from './util.mjs';
+import { stripComments } from './ts-literal.mjs';
 
 /** Paquets/familles de polices que les IA choisissent par défaut (listes Impeccable + veille). */
 export const POLICES_IA = [
@@ -111,7 +112,7 @@ export function analyserTypographie(config) {
 
 export function analyserSite(slug) {
   const config = fs.readFileSync(path.join(SITES_DIR, slug, 'site.config.ts'), 'utf8');
-  const direction = (config.match(/direction:\s*'([^']+)'/) || [])[1];
+  const direction = (stripComments(config).match(/direction:\s*'([^']+)'/) || [])[1];
   const typo = analyserTypographie(config);
   // La typographie du site remplace celle de la direction : on ne reproche à la direction que la
   // famille qui reste réellement affichée.

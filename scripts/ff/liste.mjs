@@ -2,6 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { SITES_DIR, DIST_DIR, listSites, readFFCurrent, info, c } from './util.mjs';
+import { stripComments } from './ts-literal.mjs';
 
 export function cmdListe() {
   const current = readFFCurrent();
@@ -16,7 +17,7 @@ export function cmdListe() {
   for (const slug of slugs) {
     const configPath = path.join(SITES_DIR, slug, 'site.config.ts');
     const src = fs.existsSync(configPath) ? fs.readFileSync(configPath, 'utf8') : '';
-    const m = src.match(/direction:\s*'([^']+)'/);
+    const m = stripComments(src).match(/direction:\s*'([^']+)'/);
     const direction = m ? m[1] : '?';
     const hasDist = fs.existsSync(path.join(DIST_DIR, slug));
     const marker = slug === current ? c.cyan('*') : ' ';

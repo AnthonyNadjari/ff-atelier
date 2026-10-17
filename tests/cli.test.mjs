@@ -14,6 +14,10 @@ const FF = path.join(ROOT, 'scripts', 'ff.mjs');
 const SLUG = '_test-cli-x';
 const SITE_DIR = path.join(ROOT, 'sites', SLUG);
 const DIST_DIR = path.join(ROOT, 'dist', SLUG);
+const FF_CURRENT = path.join(ROOT, '.ff-current');
+const lireCourant = () => (fs.existsSync(FF_CURRENT) ? fs.readFileSync(FF_CURRENT, 'utf8') : null);
+// .ff-current d'avant les tests, remis en place a la fin : `ff verifier` (build) l'ecrit.
+const courantAvant = lireCourant();
 
 function run(args, opts = {}) {
   return spawnSync(process.execPath, [FF, ...args], { cwd: ROOT, encoding: 'utf8', ...opts });
@@ -32,7 +36,11 @@ function cleanup() {
   fs.rmSync(DIST_DIR, { recursive: true, force: true });
 }
 
-after(cleanup);
+after(() => {
+  cleanup();
+  if (courantAvant == null) fs.rmSync(FF_CURRENT, { force: true });
+  else fs.writeFileSync(FF_CURRENT, courantAvant);
+});
 
 test('ff aide sort en 0 et mentionne chaque commande enregistree dans scripts/ff.mjs', () => {
   const names = registeredCommandNames();
@@ -55,6 +63,8 @@ test('ff nouveau puis ff verifier : cycle complet sur un site jetable', { timeou
   const created = run(['nouveau', SLUG, '--direction', 'atelier']);
   assert.equal(created.status, 0, `\`ff nouveau ${SLUG}\` a echoue :\n${created.stdout}\n${created.stderr}`);
   assert.ok(fs.existsSync(path.join(SITE_DIR, 'site.config.ts')), 'sites/_test-cli-x/site.config.ts non cree');
+  // Test reel du 17 oct 2026 : `ff nouveau` ne change plus le site courant (agents en parallele).
+  assert.equal(lireCourant(), courantAvant, '`ff nouveau` ne doit pas ecrire .ff-current');
 
   const verified = run(['verifier', SLUG]);
   // Attendu : le site cree depuis _exemple garde des placeholders (ex: "Prenom Nom", numeros bidon) ->

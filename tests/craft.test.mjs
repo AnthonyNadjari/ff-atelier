@@ -38,3 +38,43 @@ test('craft : aucune couleur en dur, tokens uniquement (regle dure n°1)', () =>
   const enDur = sansCommentaires.match(/#[0-9a-fA-F]{3,8}\b|\brgb\(|\bhsl\(/g) || [];
   assert.deepEqual(enDur, [], `couleurs en dur dans craft.css : ${enDur.join(', ')}`);
 });
+
+// Regles de craft.css : selecteur, corps et pile des blocs englobants (@media, @layer...).
+function regles(source) {
+  const s = source.replace(/\/\*[\s\S]*?\*\//g, '');
+  const out = [];
+  const pile = [];
+  let debut = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === ';') debut = i + 1;
+    else if (s[i] === '{') {
+      const tete = s.slice(debut, i).trim();
+      if (!tete.startsWith('@')) out.push({ selecteur: tete, corps: s.slice(i + 1, s.indexOf('}', i)), parents: [...pile] });
+      pile.push(tete);
+      debut = i + 1;
+    } else if (s[i] === '}') {
+      pile.pop();
+      debut = i + 1;
+    }
+  }
+  return out;
+}
+
+test('craft : la regle des boutons icone ne vise plus tous les liens et boutons a aria-label (test reel du 17 oct 2026)', () => {
+  // Hors couche, `button[aria-label]` / `a[aria-label]` battaient `md:hidden` (bouton menu visible sur
+  // ordinateur) et la classe d'un bloc sur mesure (numero du macon sous son icone, +/- colle a gauche).
+  const viseAria = (sel) => /\[aria-label\]/.test(sel.replace(/:not\(\[aria-label\]\)/g, ''));
+  const visees = regles(css).filter((r) => viseAria(r.selecteur));
+  assert.ok(visees.length >= 2, 'les regles des boutons icone doivent exister');
+  for (const r of visees) {
+    assert.ok(r.parents.some((p) => /^@layer\s+components\b/.test(p)), `regle aria-label hors de @layer components : ${r.selecteur.slice(0, 90)}`);
+    // Specificite nulle : chaque [aria-label] est a l'interieur d'un :where(...).
+    const horsWhere = r.selecteur.replace(/:where\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/g, '');
+    assert.doesNotMatch(horsWhere, /\[aria-label\]/, `[aria-label] hors de :where() : ${r.selecteur.slice(0, 90)}`);
+    // La mise en page (inline-flex, retour a la ligne) reste dans les composants partages.
+    if (/display:\s*inline-flex|flex-wrap/.test(r.corps)) {
+      assert.match(r.selecteur, /^:where\(header\[data-nav\]/, `inline-flex sur des boutons a aria-label hors des composants partages : ${r.selecteur.slice(0, 90)}`);
+    }
+  }
+});
+

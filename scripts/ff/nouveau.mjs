@@ -1,7 +1,7 @@
 // `ff nouveau <slug>` : cree sites/<slug>/ a partir d'un modele.
 import fs from 'node:fs';
 import path from 'node:path';
-import { ROOT, SITES_DIR, ok, fail, warn, info, c, writeFFCurrent, siteExists, parseArgs } from './util.mjs';
+import { ROOT, SITES_DIR, ok, fail, warn, info, c, siteExists, parseArgs } from './util.mjs';
 
 const SLUG_RE = /^_?[a-z0-9-]+$/;
 
@@ -91,7 +91,9 @@ export function cmdNouveau(args) {
     warn("docs/BRIEF.md introuvable pour l'instant — brief.md non cree (l'agent qui redige le brief le fournira, ou cree-le a la main).");
   }
 
-  writeFFCurrent(slug);
+  // Plus d'ecriture de .ff-current ici (test reel du 17 oct 2026) : `ff nouveau` changeait le site courant
+  // sous les pieds des agents qui travaillent en parallele sur d'autres sites. Le site courant change
+  // seulement par `ff dev <slug>` (ou un autre choix explicite).
 
   info('');
   ok(`sites/${slug} créé (gabarit : ${depuis} ; avis, note Google et assurance fictifs retirés).`);
@@ -102,4 +104,5 @@ export function cmdNouveau(args) {
   info(`  3. Photos reçues : dans ${c.cyan(`sites/${slug}/raw/`)}, puis ${c.cyan(`ff images ${slug}`)}.`);
   info(`  4. ${c.cyan(`ff propositions ${slug}`)} pour montrer 3 looks au client, ${c.cyan(`--appliquer <n>`)} pour garder le choisi.`);
   info(`  5. ${c.cyan(`ff verifier ${slug}`)} doit être vert avant toute livraison.`);
+  info(`Site courant inchangé : ${c.cyan(`ff dev ${slug}`)} pour travailler dessus sans répéter le slug.`);
 }

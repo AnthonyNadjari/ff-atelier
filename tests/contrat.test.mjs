@@ -118,3 +118,28 @@ test('socle : absent, incomplet, ou une seule page sans raison', () => {
   assert.equal(analyserContrat({ contrat: justifie, ...ctx, config: 'servicePages: false,' }).echecs.length, 0);
   assert.equal(analyserContrat({ contrat: bon, ...ctx, config: 'direction: x,' }).echecs.length, 0);
 });
+
+// Test reel du 17 oct 2026 (macon, menuisier) : `servicePages: false` parce que le site fournit ses propres
+// pages dans sites/<slug>/pages/. Le socle « plusieurs pages » est tenu : accepte des deux pages .astro.
+test('socle : servicePages: false accepte quand le site a au moins deux pages sur mesure dans pages/', async () => {
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { sitePages } = await import('../scripts/astro-site-pages-integration.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'ff-contrat-pages-'));
+  try {
+    const pages = path.join(root, 'sites', 'x', 'pages');
+    fs.mkdirSync(path.join(pages, 'services'), { recursive: true });
+    fs.writeFileSync(path.join(pages, 'carrelage.astro'), '---\n---\n');
+    const une = sitePages(root, 'x').length;
+    assert.equal(une, 1);
+    assert.ok(analyserContrat({ contrat: bon, ...ctx, config: 'servicePages: false,', pagesSurMesure: une }).echecs.some((e) => /servicePages/.test(e)), 'une seule page sur mesure ne tient pas le socle');
+    fs.writeFileSync(path.join(pages, 'services', 'facades.astro'), '---\n---\n');
+    fs.writeFileSync(path.join(pages, 'notes.md'), 'pas une page');
+    const deux = sitePages(root, 'x').length;
+    assert.equal(deux, 2, 'deux .astro (sous-dossier compris), le .md ne compte pas');
+    assert.equal(analyserContrat({ contrat: bon, ...ctx, config: 'servicePages: false,', pagesSurMesure: deux }).echecs.length, 0);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});

@@ -136,7 +136,15 @@ export function parseSchemaConstants() {
 export function readConfigParts(slug) {
   const cfgPath = path.join(SITES_DIR, slug, 'site.config.ts');
   if (!fs.existsSync(cfgPath)) return null;
-  const text = fs.readFileSync(cfgPath, 'utf8');
+  return parseConfigParts(fs.readFileSync(cfgPath, 'utf8'));
+}
+
+/**
+ * Partie pure de readConfigParts : le texte d'un site.config.ts -> ses champs utiles. Les commentaires
+ * (// et /* *\/, hors chaines) sont ignores par extractTopLevelValue : une apostrophe droite dans un
+ * commentaire (« // l'atelier ») ne passe plus pour le debut d'une chaine (test reel du 17 oct 2026).
+ */
+export function parseConfigParts(text) {
   return {
     text,
     direction: extractTopLevelValue(text, 'direction'),
