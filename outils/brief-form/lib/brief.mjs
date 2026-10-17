@@ -113,7 +113,7 @@ ${ou(d.avis)}
 ${sectionFaq(d)}
 
 ## 11. Domaine et mise en ligne
-- **Domaine :** ${ou(d.domaine)}
+- **Domaine :** ${d.domaine_etat ? d.domaine_etat + ' : ' : ''}${ou(d.domaine)}
 
 ## 12. Ressenti du client
 - **Ambiance (calme ou vivant) :** ${ou(d.ambiance)}

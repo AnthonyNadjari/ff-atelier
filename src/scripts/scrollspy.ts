@@ -18,9 +18,10 @@ export function initScrollSpy(): void {
   document.querySelectorAll<HTMLElement>('[data-scrollspy]').forEach((nav) => {
     if (nav.dataset.scrollspyReady) return;
     nav.dataset.scrollspyReady = '1';
-    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'));
+    // Ancres « #x » ou « /#x » (navLinks écrit « /#x » pour marcher depuis toute page, 17 oct 2026).
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"], a[href^="/#"]'));
     const pairs = links
-      .map((a) => ({ a, target: document.getElementById(a.getAttribute('href')!.slice(1)) }))
+      .map((a) => ({ a, target: document.getElementById(a.getAttribute('href')!.replace(/^\/?#/, '')) }))
       .filter((p): p is { a: HTMLAnchorElement; target: HTMLElement } => Boolean(p.target));
     if (!pairs.length) return;
     const counter = nav.querySelector<HTMLElement>('[data-scrollspy-index]');

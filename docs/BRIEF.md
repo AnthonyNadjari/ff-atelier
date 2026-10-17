@@ -179,7 +179,10 @@ Autres questions qui reviennent tout le temps (avec la réponse habituelle) :
 
 ## 11. Domaine et mise en ligne
 
-- **Nom de domaine souhaité** (ex. plomberie-martin.fr, sans https) :
+- **Domaine : le client en a déjà un ?** [ ] oui, lequel et chez quel registrar (OVH, Ionos, Gandi…) :
+  [ ] non → deux ou trois noms souhaités, dans l'ordre (ex. plomberie-martin.fr, sans https) :
+  Règle : le domaine est au nom du client, acheté par lui (`studio/decisions/PROCESS-HEBERGEMENT.md` § 3,
+  fiche `studio/commercial/guide-domaine.html`).
 - **Date limite / contrainte de délai** :
 
 ## 12. Ressenti du client — pour choisir la direction visuelle

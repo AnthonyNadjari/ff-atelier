@@ -58,6 +58,10 @@ Par tour, choisir **un** volet principal (tourner : techniques → outils → bi
   même squelette, même police), trous (un métier sans direction, une variante jamais choisie par
   `composer`), ce que `composer` ne sait pas faire. Mettre à jour `redondances.md`.
 
+Quel que soit le volet : **trois sites démontés** par tour avec `node scripts/ff.mjs demonter <url>` (petites
+structures, jamais un site déjà dans `docs/veille/demontages/`, choisis dans les galeries du volet techniques),
+puis le geste signature jugé sur les captures et écrit dans la fiche, et une ligne dans l'INDEX. Un Chrome à la fois.
+
 Format des fiches : voir en tête de chaque fichier. Sources citées en lien. Verdicts nets.
 
 ## 3. Améliorer (une par tour, testée)

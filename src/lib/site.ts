@@ -97,10 +97,12 @@ export const navLinks = (s: Site = site) => {
     .filter((x) => x.type !== 'cta')
     .filter((x) => (x.type === 'custom' ? Boolean(x.label) : !seen.has(x.type) && seen.add(x.type)))
     .map((x) => x.type === 'custom'
-      ? { href: `#${x.variant.toLowerCase()}`, label: x.label as string }
-      : { href: `#${x.type}`, label: labels[x.type] ?? x.type });
+      ? { href: `/#${x.variant.toLowerCase()}`, label: x.label as string }
+      : { href: `/#${x.type}`, label: labels[x.type] ?? x.type });
   // Contact en tiroir (layout.contactDrawer) sans section contact dans le layout : le tiroir est la
   // seule porte, la nav recoit donc une ancre #contact que ContactDrawer.astro intercepte.
-  if (s.layout.contactDrawer && !links.some((l) => l.href === '#contact')) links.push({ href: '#contact', label: labels.contact });
+  // Ancres absolues (« /#contact ») : depuis la 404, la confidentialité ou une page service, « #contact » ne mène
+  // nulle part (contrôle « ancre interne sans cible » de ff verifier, 17 oct 2026).
+  if (s.layout.contactDrawer && !links.some((l) => l.href === '/#contact')) links.push({ href: '/#contact', label: labels.contact });
   return links;
 };

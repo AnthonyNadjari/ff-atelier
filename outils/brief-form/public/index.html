@@ -202,8 +202,13 @@
         <div><label for="instagram">Instagram <span class="facultatif">(lien)</span></label><input id="instagram" name="instagram" type="url" inputmode="url"></div>
         <div><label for="facebook">Facebook <span class="facultatif">(lien)</span></label><input id="facebook" name="facebook" type="url" inputmode="url"></div>
       </div>
-      <label for="domaine">Votre nom de domaine, si vous en avez un ou une idée</label>
-      <input id="domaine" name="domaine" type="text" placeholder="Ex. fromagerie-ravanel.fr">
+      <p class="question">Votre adresse de site (nom de domaine)</p>
+      <div class="cases">
+        <label><input type="radio" name="domaine_etat" value="J’en ai déjà un"> J’en ai déjà un</label>
+        <label><input type="radio" name="domaine_etat" value="Je n’en ai pas"> Je n’en ai pas encore</label>
+      </div>
+      <label for="domaine">Lequel, et chez qui (OVH, Ionos, Gandi…) ? Sinon, deux ou trois noms souhaités, dans l’ordre</label>
+      <input id="domaine" name="domaine" type="text" placeholder="Ex. fromagerie-ravanel.fr, chez OVH">
       <label for="remarques">Autre chose à nous dire ?</label>
       <textarea id="remarques" name="remarques"></textarea>
       <label for="contact_nom">Votre prénom et nom, pour vous rappeler</label>

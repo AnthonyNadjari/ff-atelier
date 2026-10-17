@@ -387,6 +387,48 @@ function checkSitemapIndex(distDir, checks) {
 
 /** Non-bloquant : og:image absent alors qu'une image OG est configuree (public/og.webp ou images.og). */
 /** Chaque URL /images/... ou /anim/... referencee (src, srcset, preload) doit exister dans dist : sinon 404 silencieux. */
+/** Toute ancre interne (`#id`, `/#id`, `/page#id`) doit exister dans la page visée : sinon le visiteur retombe en
+ *  haut de page (relecture fromagerie, 17 oct 2026 : « Réserver » → `/#contact` sans section contact). Pure. */
+export function ancresCassees(pages) {
+  const ids = new Map();
+  for (const [page, html] of Object.entries(pages)) ids.set(page, new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])));
+  const cassees = [];
+  for (const [page, html] of Object.entries(pages)) {
+    for (const m of html.matchAll(/href="([^"#]*)#([^"]+)"/g)) {
+      const [, chemin, id] = m;
+      let cible = page;
+      if (chemin) {
+        if (/^[a-z]+:/i.test(chemin)) continue; // lien externe
+        const c = chemin.replace(/^\//, '').replace(/\/$/, '');
+        const candidats = c === '' ? ['index.html'] : [c.endsWith('.html') ? c : `${c}.html`, `${c}/index.html`];
+        cible = candidats.map((x) => x.split('/').join(path.sep)).find((x) => pages[x]);
+        if (!cible) continue; // page non générée : pas ce contrôle
+      }
+      if (!ids.get(cible)?.has(id)) cassees.push({ page, href: `${chemin}#${id}` });
+    }
+  }
+  return cassees;
+}
+function checkAncresInternes(files, distDir, checks) {
+  const pages = Object.fromEntries(files.map((f) => [path.relative(distDir, f), fs.readFileSync(f, 'utf8')]));
+  const cassees = ancresCassees(pages);
+  const uniques = [...new Set(cassees.map((c) => `${c.href} (${c.page})`))];
+  if (uniques.length) checks.push({ pass: false, label: `Ancre interne sans cible : ${uniques.slice(0, 4).join(', ')}${uniques.length > 4 ? '…' : ''}` });
+  else checks.push({ pass: true, label: 'Toutes les ancres internes ont une cible' });
+}
+
+/** CREDITS.md crédite une photo que le site n'affiche nulle part : le site promet une page /credits pour rien. Pure. */
+export function creditsSansUsage(creditsMd, htmlTout) {
+  const noms = [...(creditsMd || '').matchAll(/^##\s+.*?public\/images\/([^\s)]+)/gm)].map((m) => m[1].replace(/\.[a-z0-9]+$/i, ''));
+  return noms.filter((n) => !new RegExp(`/images/${n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:-\d+)?\.`).test(htmlTout));
+}
+function warnCreditsSansUsage(slug, files, warnings) {
+  const p = path.join(SITES_DIR, slug, 'CREDITS.md');
+  if (!fs.existsSync(p)) return;
+  const inutiles = creditsSansUsage(fs.readFileSync(p, 'utf8'), files.map((f) => fs.readFileSync(f, 'utf8')).join('\n'));
+  if (inutiles.length) warnings.push(`CREDITS.md crédite des photos jamais affichées (${inutiles.join(', ')}) : retirer l'entrée ou afficher la photo`);
+}
+
 function checkImagesReferencees(files, distDir, checks) {
   const missing = new Set();
   for (const file of files) {
@@ -1083,6 +1125,8 @@ export async function cmdVerifier(args) {
   warnOgImageManquant(slug, files, distDir, warnings);
   warnBlocSurMesure(slug, warnings);
   checkImagesReferencees(files, distDir, checks);
+  checkAncresInternes(files, distDir, checks);
+  warnCreditsSansUsage(slug, files, warnings);
   warnSchemaTypeGenerique(slug, files, distDir, warnings);
   warnFormulaireTropLong(files, distDir, warnings);
   checkDonneesTest(slug, distDir, checks, warnings);

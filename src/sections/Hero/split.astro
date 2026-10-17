@@ -1,6 +1,6 @@
 ---
 /** Hero "split" : texte a gauche, photo a droite. Reference d'implementation d'une section. */
-import { site, tel, yearsSince, paragraphs } from '@/lib/site';
+import { site, tel, yearsSince, paragraphs, hasContactDoor } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
@@ -18,7 +18,7 @@ const hero = site.images.hero;
       <p class="mt-6 text-lg md:text-xl text-muted max-w-xl">{intro}</p>
       <div class="mt-9 flex flex-wrap items-center gap-4">
         <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
-        <Button href="#contact" variant="ghost" size="lg">{site.wording.devis}</Button>
+        {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
       </div>
       <ul class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
         {years && <li class="flex items-center gap-2">Depuis {site.business.since}</li>}

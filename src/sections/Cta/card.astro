@@ -1,6 +1,6 @@
 ---
 /** CTA "card" : carte flottante centree sur fond bg-2, telephone + devis, pastille 24h/24 si active. */
-import { site, tel } from '@/lib/site';
+import { site, tel, hasContactDoor } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 ---
@@ -21,7 +21,7 @@ import Icon from '@/components/Icon.astro';
       <p class="mt-4 text-muted max-w-xl mx-auto">{site.wording.ctaText ?? `Un appel suffit pour une réponse claire et sans engagement, à ${site.contact.address.city} et alentours.`}</p>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
         <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
-        <Button href="#contact" variant="ghost" size="lg">{site.wording.devis}</Button>
+        {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
       </div>
     </div>
   </div>

@@ -16,6 +16,7 @@ export default defineSite({
   typography: { display: 'archivoBlack', body: 'archivo' },
   scale: 'normal',
   motion: 'rich',
+  servicePages: false,
   layout: {
     nav: 'custom/barre',
     hero: 'custom/semaine',

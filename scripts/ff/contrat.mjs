@@ -56,7 +56,7 @@ const MOTS_COMMUNS = new Set('client clients boutique atelier maison metier depu
 const ATTRIBUTS_MOTEUR = /\bdata-(?:split|reveal|stagger|scrub|parallax|pin|horizontal|frames|draw|counter|marquee|text-fill|stack)\b|\bgsap\b|scrolltrigger|\blenis\b|splittext/i;
 
 /** Pure : analyse d'un contrat. `fiches` = noms (sans .md) des démontages disponibles. */
-export function analyserContrat({ contrat, brief, fiches = [], directions = [], decision = null }) {
+export function analyserContrat({ contrat, brief, fiches = [], directions = [], decision = null, config = null }) {
   const echecs = [], alertes = [];
   contrat = (contrat || '').replace(/\r/g, '');
   const sec = sections(contrat);
@@ -107,6 +107,10 @@ export function analyserContrat({ contrat, brief, fiches = [], directions = [], 
     else if (decision.ecart) echecs.push(`aiguillage : le contrat dit « ${mc} », le client a répondu « ${decision.mouvement} »`);
     if (decision.photos === 'liste-de-prises' && !/liste de prises|prises? :|photos? à (?:prendre|faire)/i.test(contrat)) echecs.push('aiguillage : le client veut des photos sans en avoir, le contrat n\'écrit pas la liste de prises');
   }
+  // servicePages est vrai par défaut : des pages /services/* existent tant que le config ne dit pas false.
+  if (config != null && !/servicePages:\s*false/.test(config) && !/pages? (?:par )?service|services?\//i.test(contrat)) {
+    echecs.push('des pages /services/* seront construites (servicePages vrai par défaut) alors que le contrat (SQUELETTE) ne les prévoit pas : `servicePages: false`, ou les écrire au contrat');
+  }
   return { echecs, alertes, nFaits: f.length };
 }
 
@@ -121,7 +125,7 @@ export function cmdContrat(args) {
     const lire = (f) => (fs.existsSync(path.join(dir, f)) ? fs.readFileSync(path.join(dir, f), 'utf8') : '');
     const brief = lire('brief.md');
     if (!brief) { fail(`${slug} : brief.md absent, impossible de sourcer les faits.`); rouge = true; continue; }
-    const r = analyserContrat({ contrat: lire('direction.md'), brief, fiches, directions, decision: aiguillageDuSite(slug)?.decision ?? null });
+    const r = analyserContrat({ contrat: lire('direction.md'), brief, fiches, directions, decision: aiguillageDuSite(slug)?.decision ?? null, config: lire('site.config.ts') || null });
     info(`Contrat de ${slug} (${r.nFaits ?? 0} faits propres)`);
     for (const e of r.echecs) fail(`  ${e}`);
     for (const a of r.alertes) warn(`  ${a}`);

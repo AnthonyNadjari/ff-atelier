@@ -1062,10 +1062,10 @@ async function smoothScroll() {
   const lenis = lenisRef;
   lenis.resize();
   // Ancres internes (#id) : defilement fluide via lenis.scrollTo plutot que le saut natif.
-  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"], a[href^="/#"]').forEach((a) => {
     a.addEventListener('click', (e) => {
-      const id = a.getAttribute('href');
-      if (!id || id === '#') return;
+      const id = (a.getAttribute('href') || '').replace(/^\//, '');
+      if (!id || id === '#' || location.pathname !== '/' && a.getAttribute('href')!.startsWith('/#')) return;
       const target = document.querySelector(id);
       if (!target) return;
       e.preventDefault();

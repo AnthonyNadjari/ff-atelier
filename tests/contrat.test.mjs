@@ -103,3 +103,9 @@ test('police IA et références absentes', () => {
   assert.ok(r.echecs.some((e) => /cormorant/.test(e)));
   assert.ok(r.alertes.some((a) => /références/.test(a)));
 });
+
+test('pages service : vraies par defaut, le contrat doit les prevoir', () => {
+  assert.ok(analyserContrat({ contrat: bon, ...ctx, config: 'direction: x,' }).echecs.some((e) => /services/.test(e)));
+  assert.equal(analyserContrat({ contrat: bon, ...ctx, config: 'servicePages: false,' }).echecs.length, 0);
+  assert.equal(analyserContrat({ contrat: bon.replace('nav fine en haut.', 'nav fine en haut, et une page service par fromage.'), ...ctx, config: 'direction: x,' }).echecs.length, 0);
+});

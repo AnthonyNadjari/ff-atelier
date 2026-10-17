@@ -1,6 +1,6 @@
 ---
 /** CTA "band" : bande pleine largeur sur fond ink, phrase + telephone + devis. */
-import { site, tel } from '@/lib/site';
+import { site, tel, hasContactDoor } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 ---
@@ -15,7 +15,7 @@ import Icon from '@/components/Icon.astro';
     <div class="flex flex-wrap gap-4 shrink-0">
       <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
       {/* Suffixe ! : les directions restylent .btn-ghost hors couche (color: var(--fg)), illisible sur fond ink sans lui. */}
-      <Button href="#contact" variant="ghost" size="lg" class="border-on-ink/30! bg-transparent! text-on-ink! hover:border-on-ink!">{site.wording.devis}</Button>
+      {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg" class="border-on-ink/30! bg-transparent! text-on-ink! hover:border-on-ink!">{site.wording.devis}</Button>}
     </div>
   </div>
 </section>

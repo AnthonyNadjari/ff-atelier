@@ -28,7 +28,7 @@ const { Footer, sections } = Astro.props;
 const drawer = site.layout.contactDrawer;
 const links = navLinks();
 const idOf = (s: { type: string; variant: string }) => (s.type === 'custom' ? s.variant.toLowerCase() : s.type);
-const labelOf = (s: { type: string; variant: string }) => links.find((l) => l.href === `#${idOf(s)}`)?.label ?? s.variant;
+const labelOf = (s: { type: string; variant: string }) => links.find((l) => l.href.replace(/^\//, '') === `#${idOf(s)}`)?.label ?? s.variant;
 
 const hasServicesSection = sections.some((s) => s.type === 'services');
 const pages = hasServicesSection
@@ -51,7 +51,7 @@ const num = (i: number) => String(i + 1);
     </div>
     <div class="flex items-baseline gap-5">
       <a href={tel()} class="tabular-nums underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
-      {drawer && <a href="#contact" class="btn btn-primary inline-flex items-center gap-2 rounded-ui bg-accent px-4 py-2 text-on-accent">{site.wording.devis}</a>}
+      {drawer && <a href="/#contact" class="btn btn-primary inline-flex items-center gap-2 rounded-ui bg-accent px-4 py-2 text-on-accent">{site.wording.devis}</a>}
     </div>
   </header>
 
@@ -158,8 +158,8 @@ const num = (i: number) => String(i + 1);
     };
     openFor(location.hash);
     document.body.addEventListener('click', (e) => {
-      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
-      if (a) openFor(a.getAttribute('href') || '');
+      const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"], a[href^="/#"]');
+      if (a) openFor((a.getAttribute('href') || '').replace(/^\//, ''));
     });
   });
 </script>

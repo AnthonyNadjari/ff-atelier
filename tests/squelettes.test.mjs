@@ -76,7 +76,7 @@ test('Base.astro : ContactDrawer rendu seulement si layout.contactDrawer, Client
 
 test('navLinks (source) : ancre #contact ajoutee quand le tiroir est actif sans section contact', () => {
   const src = read('src/lib/site.ts');
-  assert.match(src, /s\.layout\.contactDrawer && !links\.some\(\(l\) => l\.href === '#contact'\)/);
+  assert.match(src, /s\.layout\.contactDrawer && !links\.some\(\(l\) => l\.href === '\/#contact'\)/);
 });
 
 test('navs partagees : CTA #contact quand le tiroir est actif (porte « Devis » de actions(), src/lib/actions.ts)', () => {
@@ -88,7 +88,7 @@ test('navs partagees : CTA #contact quand le tiroir est actif (porte « Devis »
     assert.match(src, /\bactions\(\)/, `Nav/${nav}.astro n'appelle pas actions()`);
   }
   assert.match(read('src/lib/actions.ts'), /Boolean\(s\.layout\.contactDrawer\)/, 'actions.ts ignore layout.contactDrawer');
-  assert.match(read('src/lib/actions.ts'), /'#contact'/, "actions.ts sans porte #contact");
+  assert.match(read('src/lib/actions.ts'), /'\/#contact'/, "actions.ts sans porte /#contact");
 });
 
 // ---------- sommaire actif ----------
@@ -188,7 +188,7 @@ test('fumigene : _exemple avec contactDrawer + transitions (FF_LOOK) rend le dia
   assert.match(html, /<dialog[^>]*data-contact-drawer/, 'dialog absent de index.html');
   assert.match(serviceHtml, /<dialog[^>]*data-contact-drawer/, 'dialog absent de la page service');
   assert.doesNotMatch(html, /<section id="contact"/, 'le layout de test ne doit pas avoir de section contact');
-  assert.match(html, /<nav[^>]*>[\s\S]*?href="#contact"[\s\S]*?<\/nav>/, 'la nav doit recevoir #contact quand le tiroir est la seule porte');
+  assert.match(html, /<nav[^>]*>[\s\S]*?href="\/#contact"[\s\S]*?<\/nav>/, 'la nav doit recevoir /#contact quand le tiroir est la seule porte');
   // ff verifier : le formulaire du tiroir porte le honeypot
   const dialog = html.match(/<dialog[\s\S]*?<\/dialog>/)[0];
   assert.match(dialog, /<form\b/);

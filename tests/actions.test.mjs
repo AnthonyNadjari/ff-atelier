@@ -26,7 +26,7 @@ if (!tsImportable) {
     const { actions } = await loadActionsModule();
     const out = actions(base);
     assert.deepEqual(out.map((a) => a.kind), ['call', 'quote']);
-    assert.equal(out[1].href, '#contact');
+    assert.equal(out[1].href, '/#contact');
     assert.equal(out[1].label, 'Demander un devis');
     assert.equal(out[0].href, 'tel:+33600000000');
     assert.equal(out[0].label, 'Appeler');

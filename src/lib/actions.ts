@@ -12,7 +12,7 @@
  *                   pour un artisan, l'appel est la porte principale (urgence, devis au téléphone), et
  *                   `ff verifier` exige un tel: au premier écran ; sans lien de réservation, le bouton de la
  *                   barre téléphone reste « Appeler ».
- *   5. Devis      — #contact, seulement s'il existe une porte contact sur la page : tiroir
+ *   5. Devis      — /#contact (absolu : marche depuis toute page), seulement s'il existe une porte contact sur la page : tiroir
  *                   (layout.contactDrawer) ou section contact dans layout.sections
  * Une porte sans donnée n'existe pas (rien n'est deviné : pas de lien de réservation = pas de bouton).
  * Libellés surchargeables par wording.actions.{booking,order,giftCard,quote} ; « Devis » prend
@@ -75,6 +75,6 @@ export function actions(s: ActionsInput): Action[] {
   push('order', s.contact.orderUrl, w.order, true);
   push('giftCard', s.contact.giftCardUrl, w.giftCard, true);
   push('call', `tel:${s.contact.phone}`, undefined, false);
-  push('quote', hasContactDoor(s) ? '#contact' : undefined, w.quote || s.wording.devis, false);
+  push('quote', hasContactDoor(s) ? '/#contact' : undefined, w.quote || s.wording.devis, false);
   return out;
 }

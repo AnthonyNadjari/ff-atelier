@@ -1,7 +1,7 @@
 ---
 /** Page service : une par service, SEO local (metier + ville). */
 import Base from '@/layouts/Base.astro';
-import { site, tel, paragraphs } from '@/lib/site';
+import { site, tel, paragraphs, hasContactDoor } from '@/lib/site';
 import { getSection, resolveSection } from '@/lib/sections';
 import { serviceLd } from '@/lib/jsonld';
 import Button from '@/components/Button.astro';
@@ -20,6 +20,9 @@ const Cta = getSection('cta', site.layout.sections.find((s) => s.type === 'cta')
 const others = site.services.filter((s) => s.slug !== service.slug);
 const title = `${service.title} à ${site.contact.address.city} — ${site.business.name}`;
 const paras = paragraphs(service.description ?? service.short);
+// 17 oct 2026 (relecture fromagerie) : un lien vers une ancre qui n'existe pas renvoie en haut de l'accueil.
+const aSectionServices = site.layout.sections.some((s) => s.type === 'services');
+const aPorteContact = hasContactDoor(site);
 const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug}`, Astro.site).toString());
 ---
 
@@ -29,18 +32,18 @@ const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug
     <article class="section-y">
       <div class="container-ff grid lg:grid-cols-12 gap-12">
         <div class="lg:col-span-7" data-stagger="110">
-          <a href="/#services" class="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"><Icon name="ArrowLeft" size={16} /> Tous les services</a>
-          <p class="eyebrow mt-8">{`${site.business.trade} à ${site.contact.address.city}`.length > 40 ? site.contact.address.city : `${site.business.trade} à ${site.contact.address.city}`}</p>
-          <h1 class="text-display-lg mt-4">{service.title}</h1>
+          <a href={aSectionServices ? '/#services' : '/'} class="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"><Icon name="ArrowLeft" size={16} />{aSectionServices ? ' Tous les services' : ' Accueil'}</a>
+          {/* Pas de surtitre « métier, ville » au-dessus du h1 (signe IA, docs/GOUT.md § 2) : la ville est dans le <title> et le texte. */}
+          <h1 class="text-display-lg mt-8">{service.title}</h1>
           <p class="mt-6 text-xl text-muted">{service.short}</p>
           <div class="mt-8 space-y-5 text-lg leading-relaxed max-w-prose">{paras.map((p) => <p>{p}</p>)}</div>
           {service.bullets.length > 0 && (
-            <ul class="mt-8 grid sm:grid-cols-2 gap-3">{service.bullets.map((b) => <li class="flex gap-3"><Icon name="Check" size={20} class="text-accent shrink-0 mt-0.5" /><span>{b}</span></li>)}</ul>
+            <ul class="mt-8 grid sm:grid-cols-2 gap-x-6 gap-y-2 list-disc pl-5 marker:text-accent">{service.bullets.map((b) => <li>{b}</li>)}</ul>
           )}
           {service.priceFrom && <p class="mt-8 inline-block rounded-ui border border-line px-4 py-2 font-medium tabular-nums">{service.priceFrom}</p>}
           <div class="mt-10 flex flex-wrap gap-4">
             <Button href={tel()} size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
-            <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>
+            {aPorteContact && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
           </div>
         </div>
         <aside class="lg:col-span-5" data-reveal="right">
