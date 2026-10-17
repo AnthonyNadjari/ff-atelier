@@ -213,7 +213,7 @@ test('forge-delacroix : dist/credits.html est genere (CREDITS.md a des entrees C
 
 test('forge-delacroix : credits.html est noindex et liste les 4 photos a attribution obligatoire (pas les CC0/PD)', () => {
   const html = fs.readFileSync(path.join(FD_DIST, 'credits.html'), 'utf8');
-  assert.match(html, /name=["']robots["']\s+content=["']noindex["']/);
+  assert.match(html, /name=["']robots["']\s+content=["']noindex(?:, [a-z, ]+)?["']/);
   assert.match(html, /Jorge Royan/);
   assert.match(html, /Mbzt/);
   assert.match(html, /dalbera/);

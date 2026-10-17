@@ -54,7 +54,7 @@ test('confidentialite.html contient les sections attendues (finalite, base legal
 
 test('mentions-legales.html reste noindex et lien vers /confidentialite', () => {
   const html = fs.readFileSync(path.join(DIST_PATH, 'mentions-legales.html'), 'utf8');
-  assert.match(html, /name=["']robots["']\s+content=["']noindex["']/);
+  assert.match(html, /name=["']robots["']\s+content=["']noindex(?:, [a-z, ]+)?["']/);
 });
 
 test('index.html ne contient pas d\'aggregateRating/Review auto-declare dans le JSON-LD', () => {

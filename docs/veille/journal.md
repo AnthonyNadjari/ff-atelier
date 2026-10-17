@@ -40,6 +40,10 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 - 4 sites sur 18 se cachent derrière une bannière cookies plein écran : notre « zéro traceur » est un argument.
 - En recherche locale, l'artisan indépendant n'arrive qu'au 10e rang ou après (annuaires et plateformes devant).
 
+- En fin de tour, la fusion avec `main` a fait tomber deux tests : le commit `da195bf` (démo prospect) écrit
+  `noindex, nofollow, noarchive` sur toutes les pages légales et crédits, les tests attendaient `noindex` seul.
+  Tests assouplis (noindex reste exigé, `tests/credits.test.mjs`, `tests/legal.test.mjs`), ligne du fondateur intacte.
+
 **Compositions ajoutées** : `services/photo-cards`, `about/overlap`, `cta/photo` (sources et pertes dans l'index).
 
 **Proposé** : prochain tour, `business.certifications` dans les heros (levier à 39 %) ; un hero « nom géant
