@@ -38,10 +38,15 @@ ligne) ; une seule branche `main` ; jamais de donnée inventée ; jamais affiche
 F=($(ls tests/*.test.mjs)); for r in "0 15" "15 15" "30 15" "45 40"; do set -- $r; node --test --test-concurrency=1 "${F[@]:$1:$2}"; done
 node scripts/ff.mjs variete
 node scripts/ff.mjs signatures
+node scripts/ff.mjs ressemblance --tous   # sans Chrome ni dist : --registre --tous
 npm outdated   # lecture seule : on note, on ne met pas à jour sans tour dédié
 ```
+`ff ressemblance --tous` recalcule l'empreinte du premier écran (téléphone et ordinateur) de chaque site construit,
+met à jour `docs/empreintes/` et liste les paires de sites trop proches par la mise en page, avec ce qui est pareil.
+La veille ne touche à aucun site : chaque paire trop proche se **signale** (journal du tour et Notes du doc
+partagé : les deux sites, le score, la phrase « ce qui est pareil »), elle ne se corrige pas ici.
 Puis un site d'exemple au hasard (pas finck-fisch) : build, `verifier`, `ia`, `planche` regardée.
-Tout rouge se corrige dans ce tour (c'est prioritaire sur le reste).
+Tout rouge se corrige dans ce tour (c'est prioritaire sur le reste), sauf `ressemblance` qui se signale.
 
 ## 2. Apprendre (agents de lecture seule, 2 en parallèle au plus)
 

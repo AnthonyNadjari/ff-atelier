@@ -1,4 +1,4 @@
-// `ff pistes <slug> [<slug-b> <slug-c> …] [--sans-film] [--seuil 0.09]`
+// `ff pistes <slug> [<slug-b> <slug-c> …] [--sans-film] [--seuil 0.65]`
 // Compare les pistes d'un même client (défaut : <slug>, <slug>-b, <slug>-c… qui existent) sur les sept axes de
 // /site-final § 1bis : squelette, direction/couleur, typographie, rythme, mécanisme du geste, entrée du premier
 // écran, manière d'apparaître au défilement. Deux pistes qui partagent l'entrée ou l'apparition échouent ; deux
@@ -6,8 +6,11 @@
 //
 // Deux sources : les fichiers (site.config.ts, direction.md, sections sur mesure, CSS de la direction) pour les
 // axes statiques, et un FILM comparé (Chrome, téléphone 390x844) pour l'entrée : premier écran de chaque piste à
-// 0, 150, 400, 800 et 1 500 ms côte à côte, puis la première section sous le hero à +250 ms. La ressemblance
-// de deux colonnes à 400 ms est mesurée (distance moyenne des pixels en gris 32x32) : sous le seuil, même entrée.
+// 0, 150, 400, 800 et 1 500 ms côte à côte, puis la première section sous le hero à +250 ms, à regarder. L'entrée
+// est MESURÉE par la mise en page du premier écran (`ff ressemblance` : grille des rôles h1/image/carte/
+// téléphone/barre basse…, téléphone et ordinateur) : ressemblance au-dessus du seuil = même entrée.
+// (Jusqu'au 17 oct 2026 : distance des pixels en gris 32x32 à 400 ms, qui a dit « différents » pour quatre
+// premiers écrans identiques, photo + carte crème + numéro + barre basse.)
 //
 // Pourquoi (16 oct 2026) : les trois premières pistes de la fromagerie étaient jugées « très similaires » par
 // le fondateur alors que chacune avait sa direction et sa police. La ressemblance était dans le mouvement, que
@@ -19,9 +22,11 @@ import { createRequire } from 'node:module';
 import { ROOT, SITES_DIR, DIST_DIR, resolveSlug, ok, fail, info, warn, parseArgs, listSites } from './util.mjs';
 import { effectiveLook } from './look-data.mjs';
 import { loadHeadersRules, headersForPath } from './headers-file.mjs';
+import { SEUIL_RESSEMBLANCE, distancesMiseEnPage } from './ressemblance.mjs';
 
 export const AXES = ['squelette', 'couleur', 'typographie', 'rythme', 'geste', 'entree', 'apparition'];
-const SEUIL_IMAGE = 0.09;
+/** Distance de mise en page sous laquelle deux pistes ont la même entrée (1 − seuil de ressemblance). */
+const SEUIL_ENTREE = Math.round((1 - SEUIL_RESSEMBLANCE) * 1000) / 1000;
 
 /* ---------- lecture des fichiers ---------- */
 
@@ -106,8 +111,8 @@ export function profilDepuisFichiers({ slug, look, contrat, sources, dirCss, htm
 const memeListe = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const ecartTeinte = (a, b) => (a == null || b == null ? 999 : Math.min(Math.abs(a - b), 360 - Math.abs(a - b)));
 
-/** Pure : axes partagés par deux profils (+ distance d'image à 400 ms si connue). */
-export function axesPartages(p, q, distanceImage = null, seuil = SEUIL_IMAGE) {
+/** Pure : axes partagés par deux profils (+ distance de mise en page du premier écran si connue). */
+export function axesPartages(p, q, distanceMiseEnPage = null, seuil = SEUIL_ENTREE) {
   const partages = [];
   const s = p.squelette, t = q.squelette;
   if (s.shell === t.shell && s.nav === t.nav && s.hero === t.hero && memeListe(s.sections, t.sections)) partages.push('squelette');
@@ -119,8 +124,8 @@ export function axesPartages(p, q, distanceImage = null, seuil = SEUIL_IMAGE) {
   if (memeListe(p.geste.declencheurs, q.geste.declencheurs) && jaccard(new Set(p.geste.mots), new Set(q.geste.mots)) >= 0.5) partages.push('geste');
   const entreeTexte = jaccard(new Set(p.entree.mots), new Set(q.entree.mots)) >= 0.5;
   const entreeMoteur = p.entree.h1Split && q.entree.h1Split;
-  const entreeImage = distanceImage != null && distanceImage < seuil;
-  if (entreeTexte || entreeMoteur || entreeImage) partages.push('entree');
+  const entreePage = distanceMiseEnPage != null && distanceMiseEnPage < seuil;
+  if (entreeTexte || entreeMoteur || entreePage) partages.push('entree');
   const a = p.apparition, b = q.apparition;
   const memesReveals = a.reveals.length > 0 && memeListe(a.reveals, b.reveals);
   if (memesReveals || jaccard(new Set(a.mots), new Set(b.mots)) >= 0.5) partages.push('apparition');
@@ -128,26 +133,18 @@ export function axesPartages(p, q, distanceImage = null, seuil = SEUIL_IMAGE) {
 }
 
 /** Pure : verdict d'un ensemble de profils. */
-export function comparer(profils, distances = {}, seuil = SEUIL_IMAGE) {
+export function comparer(profils, distances = {}, seuil = SEUIL_ENTREE) {
   const paires = [];
   for (let i = 0; i < profils.length; i++) for (let j = i + 1; j < profils.length; j++) {
     const cle = `${profils[i].slug}|${profils[j].slug}`;
     const partages = axesPartages(profils[i], profils[j], distances[cle] ?? null, seuil);
     const echec = partages.includes('entree') || partages.includes('apparition') || partages.length > 1;
-    paires.push({ a: profils[i].slug, b: profils[j].slug, partages, distanceImage: distances[cle] ?? null, echec });
+    paires.push({ a: profils[i].slug, b: profils[j].slug, partages, distanceMiseEnPage: distances[cle] ?? null, echec });
   }
   return { paires, echec: paires.some((p) => p.echec) };
 }
 
 /* ---------- film comparé ---------- */
-
-/** Pure : distance moyenne (0…1) entre deux tableaux de gris de même taille. */
-export function distanceGris(a, b) {
-  if (!a?.length || a.length !== b?.length) return null;
-  let somme = 0;
-  for (let i = 0; i < a.length; i++) somme += Math.abs(a[i] - b[i]);
-  return somme / a.length / 255;
-}
 
 function servir(root) {
   const { createServer } = createRequire(import.meta.url)('node:http');
@@ -202,13 +199,12 @@ async function filmer(slugs) {
         await page.close();
         srv.close();
       }
-      const gris400 = await sharp(vues[2].png).resize(32, 32, { fit: 'fill' }).grayscale().raw().toBuffer();
       const vignettes = [];
       for (const v of vues) {
         const buf = await sharp(v.png).resize(LARG).composite([{ input: Buffer.from(`<svg width="${LARG}" height="16"><rect width="${LARG}" height="16" fill="#ff0"/><text x="3" y="12" font-size="10" font-family="Arial">${slug} · ${v.label}</text></svg>`), top: 0, left: 0 }]).png().toBuffer();
         vignettes.push(buf);
       }
-      colonnes.push({ slug, vignettes, gris400: [...gris400] });
+      colonnes.push({ slug, vignettes });
     }
   } finally {
     await browser.close();
@@ -229,7 +225,8 @@ export async function cmdPistes(args) {
   const existantes = listSites({ excludeUnderscore: true });
   const slugs = positional.length > 1 ? positional.map(resolveSlug) : pistesParDefaut(resolveSlug(positional[0]), existantes);
   if (slugs.length < 2) { fail(`Il faut au moins deux pistes (trouvé : ${slugs.join(', ') || 'aucune'}).`); process.exit(1); }
-  const seuil = Number(flags.seuil) || SEUIL_IMAGE;
+  const seuilRessemblance = Number(flags.seuil) || SEUIL_RESSEMBLANCE;
+  const seuil = Math.round((1 - seuilRessemblance) * 1000) / 1000;
   const profils = [];
   for (const slug of slugs) {
     const dir = path.join(SITES_DIR, slug);
@@ -247,7 +244,8 @@ export async function cmdPistes(args) {
   const filmables = slugs.filter((s) => fs.existsSync(path.join(DIST_DIR, s, 'index.html')));
   if (!flags['sans-film'] && filmables.length >= 2) {
     const { colonnes, sharp } = await filmer(filmables);
-    for (let i = 0; i < colonnes.length; i++) for (let j = i + 1; j < colonnes.length; j++) distances[`${colonnes[i].slug}|${colonnes[j].slug}`] = distanceGris(colonnes[i].gris400, colonnes[j].gris400);
+    // Chrome du film fermé : l'empreinte de mise en page ouvre le sien (un seul à la fois).
+    Object.assign(distances, await distancesMiseEnPage(filmables));
     fs.mkdirSync(path.join(ROOT, 'captures', 'planches'), { recursive: true });
     film = path.join('captures', 'planches', `${slugs[0]}-pistes.jpg`);
     await assembler(colonnes, sharp, path.join(ROOT, film));
@@ -256,12 +254,12 @@ export async function cmdPistes(args) {
   info(`Pistes : ${slugs.join(', ')}`);
   for (const p of profils) info(`  ${p.slug.padEnd(24)} ${p.couleur.direction}/${p.couleur.sombre ? 'sombre' : 'clair'}  ${p.typographie.display}+${p.typographie.body}  ${p.squelette.shell}/${p.squelette.nav}/${p.squelette.hero}  ${p.rythme.nSections} sections  geste:${p.geste.declencheurs.join('+') || '?'}  apparition:${p.apparition.reveals.join(',') || 'sur mesure'}`);
   for (const pr of r.paires) {
-    const d = pr.distanceImage == null ? '' : `, image à 400 ms : ${pr.distanceImage.toFixed(3)}${pr.distanceImage < seuil ? ' (même entrée)' : ''}`;
+    const d = pr.distanceMiseEnPage == null ? '' : `, mise en page du premier écran : ressemblance ${(1 - pr.distanceMiseEnPage).toFixed(2)}${pr.distanceMiseEnPage < seuil ? ` > ${seuilRessemblance} (même entrée)` : ''}`;
     (pr.echec ? fail : ok)(`${pr.a} / ${pr.b} : ${pr.partages.length ? 'partagent ' + pr.partages.join(', ') : 'aucun axe partagé'}${d}`);
   }
   if (film) info(`Film comparé : ${film} (à regarder : deux colonnes qui se ressemblent à 400 ms = même entrée).`);
   fs.mkdirSync(path.join(ROOT, 'captures'), { recursive: true });
-  fs.writeFileSync(path.join(ROOT, 'captures', `${slugs[0]}-pistes.json`), JSON.stringify({ profils, ...r, seuil, film }, null, 2));
+  fs.writeFileSync(path.join(ROOT, 'captures', `${slugs[0]}-pistes.json`), JSON.stringify({ profils, ...r, seuilRessemblance, film }, null, 2));
   if (r.echec) { fail('Deux pistes se ressemblent : réinventer la plus faible (SKILL.md § 1bis).'); process.exitCode = 1; }
   else ok('Les pistes sont différentes sur les sept axes.');
 }

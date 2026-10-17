@@ -1,7 +1,8 @@
 // `ff prevol <slug> [<slug-b> …] [--sans-navigateur] [--sans-build]` : TOUS les contrôles mécaniques de /site-final
 // en une commande, dans l'ordre, avec le verrou de build, un seul Chrome à la fois, et une table ✓/✗ à la fin.
-// Par piste : contrat → aiguillage → build → verifier (a11y compris) → audit-motion → nettete → detect → perf →
-// signatures ; puis, s'il y a plusieurs pistes, pistes (film comparé). Sort en erreur si une étape échoue.
+// Par piste : contrat → aiguillage → build → verifier (a11y compris) → audit-motion → nettete → ressemblance
+// (mise en page du premier écran contre tous les sites du registre) → detect → perf ; puis signatures ; puis,
+// s'il y a plusieurs pistes, pistes (film comparé). Sort en erreur si une étape échoue.
 //
 // Pourquoi (17 oct 2026) : la skill lançait neuf commandes à la main, piste par piste, et en oubliait ; chaque
 // oubli se payait en tour de relecture. Une commande, une table, et on ne regarde les captures que quand tout
@@ -23,6 +24,7 @@ export function etapes(slug, { navigateur = true, build = true } = {}) {
     { nom: 'verifier', args: ['verifier', slug, '--sans-build', ...(navigateur ? [] : ['--sans-a11y'])], navigateur: false },
     { nom: 'audit-motion', args: ['audit-motion', slug], navigateur: true },
     { nom: 'nettete', args: ['nettete', slug], navigateur: true },
+    { nom: 'ressemblance', args: ['ressemblance', slug], navigateur: true },
     { nom: 'detect', args: ['detect', slug], navigateur: false },
     { nom: 'perf', args: ['perf', slug], navigateur: false },
   ].filter(Boolean);

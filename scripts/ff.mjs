@@ -55,6 +55,7 @@ import { cmdPrevol } from './ff/prevol.mjs';
 import { cmdFilm } from './ff/film.mjs';
 import { cmdDemonter } from './ff/demonter.mjs';
 import { cmdRefonte } from './ff/refonte.mjs';
+import { cmdRessemblance } from './ff/ressemblance.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -128,6 +129,7 @@ const commands = {
   film: cmdFilm,
   demonter: cmdDemonter,
   refonte: cmdRefonte,
+  ressemblance: cmdRessemblance,
 };
 
 async function main() {

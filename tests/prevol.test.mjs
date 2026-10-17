@@ -4,7 +4,7 @@ import { etapes, tableau } from '../scripts/ff/prevol.mjs';
 
 test('étapes : ordre complet, puis sans navigateur, puis sans build', () => {
   const noms = etapes('x').map((e) => e.nom);
-  assert.deepEqual(noms, ['contrat', 'aiguillage', 'build', 'verifier', 'audit-motion', 'nettete', 'detect', 'perf']);
+  assert.deepEqual(noms, ['contrat', 'aiguillage', 'build', 'verifier', 'audit-motion', 'nettete', 'ressemblance', 'detect', 'perf']);
   const sans = etapes('x', { navigateur: false });
   assert.ok(!sans.some((e) => e.navigateur));
   assert.ok(sans.find((e) => e.nom === 'verifier').args.includes('--sans-a11y'));

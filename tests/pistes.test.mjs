@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { pistesParDefaut, lignesMouvement, motsCles, jaccard, analyserSources, luminance, profilDepuisFichiers, axesPartages, comparer, distanceGris } from '../scripts/ff/pistes.mjs';
+import { pistesParDefaut, lignesMouvement, motsCles, jaccard, analyserSources, luminance, profilDepuisFichiers, axesPartages, comparer } from '../scripts/ff/pistes.mjs';
 
 const contratA = `## Contrat
 - PREMIER ÉCRAN : x
@@ -67,16 +67,18 @@ test('deux pistes identiques partagent tout ; verdict échec', () => {
 test('deux pistes différentes : aucun axe, verdict ok', () => {
   const p = profilDepuisFichiers({ slug: 'a', look: look(), contrat: contratA, sources: srcDoigt, dirCss: css, html: '<h1>A</h1>' });
   const q = profilDepuisFichiers({ slug: 'b', look: look({ direction: 'pierre', typography: { display: 'libreCaslonCondensed', body: 'archivo' }, nav: 'custom/porte', hero: 'custom/rue', sections: [{ type: 'custom', variant: 'cave' }, { type: 'custom', variant: 'etagere' }, { type: 'custom', variant: 'reserver' }, { type: 'custom', variant: 'venir' }] }), contrat: contratB, sources: srcDefil + srcDoigt, dirCss: cssClair, html: '<h1>B</h1>' });
-  const r = comparer([p, q], { 'a|b': 0.3 });
+  const r = comparer([p, q], { 'a|b': 0.6 });
   assert.deepEqual(r.paires[0].partages, []);
   assert.equal(r.echec, false);
 });
 
-test('même entrée par le film seul : échec', () => {
+test('même entrée par la mise en page du premier écran seule : échec', () => {
   const p = profilDepuisFichiers({ slug: 'a', look: look(), contrat: contratA, sources: srcDoigt, dirCss: css, html: '' });
   const q = profilDepuisFichiers({ slug: 'b', look: look({ direction: 'pierre', typography: { display: 'archivoBlack', body: 'archivo' }, hero: 'custom/x', sections: [] }), contrat: contratB, sources: srcDefil, dirCss: cssClair, html: '' });
-  assert.ok(axesPartages(p, q, 0.02).includes('entree'));
-  assert.ok(!axesPartages(p, q, 0.2).includes('entree'));
+  // distance de mise en page = 1 − ressemblance ; seuil de ressemblance 0,65 -> même entrée sous 0,35
+  assert.ok(axesPartages(p, q, 0.11).includes('entree'));
+  assert.ok(axesPartages(p, q, 0.3).includes('entree'));
+  assert.ok(!axesPartages(p, q, 0.45).includes('entree'));
 });
 
 test('h1 révélé par lignes des deux côtés = même entrée (moteur)', () => {
@@ -84,10 +86,4 @@ test('h1 révélé par lignes des deux côtés = même entrée (moteur)', () => 
   const p = profilDepuisFichiers({ slug: 'a', look: look(), contrat: '', sources: '', dirCss: css, html });
   const q = profilDepuisFichiers({ slug: 'b', look: look({ direction: 'encre', typography: { display: 'archivoBlack' } }), contrat: '', sources: '', dirCss: cssClair, html });
   assert.ok(axesPartages(p, q).includes('entree'));
-});
-
-test('distance de gris', () => {
-  assert.equal(distanceGris([0, 0], [255, 255]), 1);
-  assert.equal(distanceGris([10, 20], [10, 20]), 0);
-  assert.equal(distanceGris([1], [1, 2]), null);
 });

@@ -77,9 +77,12 @@ colorée ») : le fondateur veut un outil « ultra flexible ».
   d'un axe : réinventer la plus faible. Écrire le tableau de comparaison dans le contrat de chaque piste.
   Mécanique : `node scripts/ff.mjs pistes <slug>` lit les contrats, les sections et les builds, filme les premiers
   écrans côte à côte (`captures/planches/<slug>-pistes.jpg`) et échoue sur une entrée ou une apparition partagée
-  (texte du contrat, h1 révélé par lignes des deux côtés, ou images à 400 ms trop proches). On le lance après les
+  (texte du contrat, h1 révélé par lignes des deux côtés, ou même mise en page du premier écran). On le lance après les
   contrats (`--sans-film`, sur le texte) puis après les builds (avec le film). Un échec se corrige dans la piste, pas
-  dans le seuil.
+  dans le seuil. **La diversité se mesure contre TOUS les sites, par la mise en page** : chaque piste construite passe
+  `ff ressemblance <piste>` (premier écran téléphone et ordinateur comparé au registre `docs/empreintes/` de tous
+  les sites, pas seulement aux pistes sœurs) ; quatre sites « photo, carte crème posée dessus, numéro en grand,
+  barre de trois boutons » avaient passé `ff pistes` le 17 oct 2026.
 - **Fabrication** : la piste principale par soi-même, les autres par des agents `general-purpose` (deux au plus
   à la fois), chacun avec le contrat de SA piste et les consignes communes
   (`.claude/skills/site-final/modeles/consignes-pistes.md` : lectures, périmètre `sites/<slug>-x/`, verrou de
@@ -132,8 +135,9 @@ node scripts/ff.mjs prevol <slug> [<slug-b> <slug-c>]   # tout, dans l'ordre, un
 ```
 
 `ff prevol` enchaîne contrat, aiguillage, build (verrou), verifier (a11y, typo, ia, ancres, crédits, données de
-test, textes, règles empruntées), audit-motion, nettete, detect, perf, signatures, puis `ff pistes` (film comparé)
-s'il y a plusieurs pistes ; un seul Chrome à la fois. Une étape rouge se corrige à la source (`ff typo <slug>
+test, textes, règles empruntées), audit-motion, nettete, ressemblance (mise en page du premier écran contre tous les
+sites du registre, planche `captures/planches/<slug>-ressemblance.jpg`), detect, perf, signatures, puis `ff pistes`
+(film comparé) s'il y a plusieurs pistes ; un seul Chrome à la fois. Une étape rouge se corrige à la source (`ff typo <slug>
 --corriger` pour la typographie, puis relancer). Détail dans `.ff-tmp/prevol-<slug>.json`.
 
 Rouge = correction à la source (`site.config.ts`, `sites/<slug>/sections/`), jamais en assouplissant le
