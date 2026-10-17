@@ -34,6 +34,18 @@ L'originalité (bloc sur mesure, mouvement, idée du contrat) se met **sur ce so
 propres au client, jamais à sa place. Une démo sans avis ni photo n'est pas une démo qui vend : on le dit, et on
 préfère une démo bâtie sur un vrai commerce (fiche Google publique, démo privée) à une démo inventée.
 
+**Et le socle doit être beau** (17 oct 2026, piste D de la fromagerie, socle complet : « un peu mieux, perso je
+l'achèterais pas. Trop 2D, pas beau »). Un site juste mais plat ne se vend pas non plus. Ce qui manquait à D :
+- **de la profondeur** : des plans qui se superposent (une carte, un texte ou un objet posé sur la photo, qui
+  déborde d'une section sur l'autre), de l'ombre portée réelle, une perspective, du relief au défilement ; pas
+  des blocs empilés à plat sur un fond uni ;
+- **l'image en grand** : la photo du lieu ou du produit occupe l'écran (plein cadre au premier écran, pleine
+  largeur entre les sections), pas une vignette arrondie à côté du texte ;
+- **de la matière et de la lumière** : la couleur et la texture viennent des photos et des objets du métier,
+  pas d'un aplat beige ou blanc ;
+- le site du studio, que le fondateur aime (mur 3D d'écrans, téléphone posé sur la photo), est la référence
+  de profondeur. « Flashy » reste permis s'il est sobre (§ 1).
+
 ## 1. Ce qui fait qu'un site est « à nous »
 
 - **La différence vient du squelette, pas des couleurs.** Coquille, place de la nav, où vit le contact,

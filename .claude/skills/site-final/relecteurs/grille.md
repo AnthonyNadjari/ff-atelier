@@ -14,6 +14,8 @@ renote comme le juré qui n'a pas construit le site. Ne jamais arrondir à la ha
 
 PLAFONDS (priment sur le calcul) :
 - un contrôle `ff` encore rouge : global ≤ 6,0 ;
+- site plat : premier écran et sections faits de blocs empilés sur un fond uni, sans image en grand ni plan
+  qui se superpose (GOUT § 0, « trop 2D, pas beau », 17 oct 2026) : composition ≤ 6,5 ;
 - un point du socle (GOUT § 0) que le brief permettait et qui manque (une seule page, téléphone qu'il faut chercher,
   avis fournis mais absents ou en bas, métier et ville absents du premier écran) : usage ≤ 6 (17 oct 2026) ;
 - un signe IA de docs/GOUT.md § 2 visible sur une capture : composition ≤ 6,5 ;
