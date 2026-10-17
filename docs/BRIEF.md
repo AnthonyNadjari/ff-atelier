@@ -12,6 +12,13 @@ ce détail). Un chiffre ou un avis inventé, en revanche, est illégal — voir 
 
 ---
 
+## 0. Site actuel
+
+- **Adresse du site actuel** (si le client en a un) :
+- **On peut reprendre ses textes et ses photos ?** [ ] oui, les deux  [ ] seulement les photos  [ ] non, on repart de zéro
+  Oui → `node scripts/ff.mjs refonte <adresse> <slug>` (textes, photos, redirections des anciennes adresses). Ses textes et
+  ses photos sont à lui : on les reprend avec son accord, on réécrit les textes creux.
+
 ## 1. Identité
 
 - **Nom de l'entreprise :**

@@ -62,7 +62,7 @@ export function briefMarkdown(d, date = new Date()) {
 
 Reçu par le formulaire en ligne le ${jour}. Contact : ${net(d.contact_nom)}. Slug proposé : \`${slugPropose(d.nom, d.ville)}\`.
 Réponses du client, non retouchées. **Une case « ? à demander » n'est jamais devinée** (docs/BRIEF.md).
-
+${net(d.site_actuel) ? `\n**Site actuel : ${net(d.site_actuel)}** (reprise : ${ou(d.site_reprise)}). ${d.site_reprise === 'Rien, on repart de zéro' ? 'Ne rien reprendre ; garder seulement ses anciennes adresses (redirections).' : 'Lancer `ff refonte` sur cette adresse : textes et photos du site actuel, redirections des anciennes adresses.'}\n` : ''}
 ## 1. Identité
 - **Nom de l'entreprise :** ${ou(d.nom)}
 - **Métier affiché :** ${ou(d.metier)}

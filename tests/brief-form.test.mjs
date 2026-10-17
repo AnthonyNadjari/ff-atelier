@@ -65,3 +65,11 @@ test('formulaire : les huit textarea facultatifs de la FAQ, libellé-question, p
   }
   assert.match(html, /<legend>Questions fréquentes<\/legend>/);
 });
+
+test('site actuel : la reprise est écrite en tête du brief, avec la consigne ff refonte', () => {
+  const md = briefMarkdown({ ...d, site_actuel: 'https://exemple-ancien.fr', site_reprise: 'Textes et photos' });
+  assert.match(md, /\*\*Site actuel : https:\/\/exemple-ancien\.fr\*\* \(reprise : Textes et photos\)/);
+  assert.match(md, /ff refonte/);
+  assert.match(briefMarkdown({ ...d, site_actuel: 'https://x.fr', site_reprise: 'Rien, on repart de zéro' }), /Ne rien reprendre/);
+  assert.doesNotMatch(briefMarkdown(d), /Site actuel/);
+});

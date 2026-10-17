@@ -66,6 +66,21 @@
     <input class="pot" type="text" name="site_web_pot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
     <fieldset>
+      <legend>Votre site actuel</legend>
+      <p class="aide">Si vous avez déjà un site, on peut repartir de lui : on reprend vos textes et vos photos, on refait tout le reste, et vos anciennes adresses continuent de mener au bon endroit sur Google.</p>
+      <label for="site_actuel">Adresse de votre site actuel <span class="facultatif">(si vous en avez un)</span></label>
+      <input id="site_actuel" name="site_actuel" type="url" inputmode="url" placeholder="https://">
+      <div id="reprise" hidden>
+        <p class="question">On peut reprendre ce qu’il contient ?</p>
+        <div class="cases">
+          <label><input type="radio" name="site_reprise" value="Textes et photos"> Oui, textes et photos</label>
+          <label><input type="radio" name="site_reprise" value="Photos seulement"> Seulement les photos</label>
+          <label><input type="radio" name="site_reprise" value="Rien, on repart de zéro"> Non, on repart de zéro</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
       <legend>Votre entreprise</legend>
       <label for="nom">Nom de l’entreprise</label>
       <input id="nom" name="nom" type="text" required autocomplete="organization">
@@ -242,6 +257,9 @@
       champs.forEach((c) => { if (c.type === 'checkbox') c.checked = Array.isArray(v) ? v.includes(c.value) : !!v; else if (c.type === 'radio') c.checked = c.value === v; else c.value = v; });
     }
   } catch {}
+  const reprise = document.getElementById('reprise');
+  const majReprise = () => { reprise.hidden = !form.querySelector('[name=site_actuel]').value.trim(); };
+  form.addEventListener('input', majReprise); majReprise();
   const quiPhotos = document.getElementById('qui-photos');
   const majPhotos = () => { quiPhotos.hidden = form.querySelector('[name=photos_souhait]:checked')?.value !== 'Oui, mais je n’en ai pas'; };
   form.addEventListener('change', majPhotos); majPhotos();
