@@ -1,0 +1,245 @@
+---
+/**
+ * Premier écran d'À cœur bois, famille `editorial` (premiers-ecrans.md ; direction.md, PREMIER ÉCRAN). Une page de
+ * revue d'atelier : double filet en tête, le h1 en très grand sur plusieurs colonnes, un chapô avec lettrine (Guy
+ * Andries, la route de Rognes, depuis 2006), UNE photo en vignette décalée (elle monte dans la marge du titre et
+ * coupe le filet), le numéro et un avis en citation, puis le sommaire : ses cinq rubriques, une page chacune.
+ * Ses photos font 283 à 800 px : la vignette n'en montre qu'une, à une taille qu'elle tient (au plus 0,62 fois sa
+ * largeur sur ordinateur, DPR 2 ; 0,41 sur téléphone, DPR 3 : photos.ts).
+ * Socle (GOUT § 0) : h1 métier + ville, « Depuis 2006 » en texte, le numéro sans défiler (et dans la barre du haut,
+ * qui reste en haut : pas de barre en bas), 5,0 sur Google (3 avis) et un avis mot pour mot, portes par projet
+ * (le sommaire) et « Écrire » (mailto, rien n'est envoyé par le site).
+ * Mouvement (direction.md) : les filets se tracent de gauche à droite (0,7 s, lent), la vignette se pose dans son
+ * décalage (14 px, 0,6 s, léger rebond) ; aucun titre ne bouge. Feu d'artifice : survoler ou parcourir au clavier
+ * une rubrique du sommaire met sa photo dans la vignette, avec sa légende (fondu sec, 0,18 s). Mouvement réduit :
+ * filets tracés, vignette posée, la photo change sans fondu.
+ */
+import { site, tel, mailto } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import { PHOTOS, PAR_RUBRIQUE, PORTE, lienRubrique } from './photos';
+
+// « Aix-en-Provence » ne se coupe jamais à son trait d’union.
+const i = site.business.tagline.lastIndexOf(', ');
+const debut = site.business.tagline.slice(0, i);
+const ville = site.business.tagline.slice(i + 2);
+// Deux niveaux de titre, comme une une de revue : le métier en très grand, le lieu en dessous, en texte.
+const j = debut.lastIndexOf(' à ');
+const metier = j > 0 ? debut.slice(0, j) : debut;
+const lieu = j > 0 ? debut.slice(j + 1) : '';
+// La une : une cuisine qui n'est pas déjà sur la façade « Cuisines » juste dessous (cuisine-01 et -04 y sont).
+const une = PHOTOS['cuisine-02'];
+const rubriques = site.services.map((s) => {
+  const ph = PHOTOS[(PAR_RUBRIQUE[s.slug] ?? [])[0]];
+  return { s, ph };
+});
+const g = site.proof.google;
+const citation = site.proof.testimonials.find((t) => t.author === 'Patrick D.') ?? site.proof.testimonials[0];
+const ecrire = mailto();
+const chapo = `Guy Andries, ébéniste et menuisier diplômé, fabrique cuisines, meubles, bibliothèques et agencements dans son atelier du 820 route de Rognes, à Puyricard.`;
+---
+
+<section id="hero" class="edi" aria-labelledby="edi-titre" data-edi>
+  <div class="edi-filet edi-filet-haut" aria-hidden="true"></div>
+
+  <h1 id="edi-titre" class="edi-titre"><span class="edi-metier">{metier}</span> <span class="edi-lieu">{lieu}, <span class="edi-nw">{ville}</span></span></h1>
+
+  <figure class="edi-vignette" data-edi-vignette>
+    <div class="edi-cadre">
+      <Img src={une.src} alt="" class="edi-img" sizes="(min-width: 64rem) 420px, 68vw" priority data-edi-img style={`max-width:${Math.round(une.w * 0.62)}px`} />
+    </div>
+    <figcaption class="edi-legende" data-edi-legende>{une.alt}.</figcaption>
+  </figure>
+
+  <div class="edi-filet edi-filet-milieu" aria-hidden="true"></div>
+
+  <p class="edi-chapo">{chapo} <strong>Depuis {site.business.since}.</strong></p>
+
+  <div class="edi-num">
+    <p class="edi-num-titre">Un projet en bois ? Appelez l’atelier.</p>
+    <a href={tel()} class="edi-tel" aria-label={`Appeler Guy Andries au ${site.contact.phoneDisplay}`}>
+      <Icon name="Phone" size={22} />
+      <span>{site.contact.phoneDisplay}</span>
+    </a>
+    <p class="edi-heures">Du lundi au vendredi, 9 h à 12 h et 14 h à 18 h.</p>
+    {ecrire && <a href={`${ecrire}?subject=${encodeURIComponent('Un projet')}`} class="edi-ecrire">Écrire à l’atelier</a>}
+  </div>
+
+  {citation && (
+    <figure class="edi-citation">
+      <blockquote class="edi-citation-texte">« {citation.text} »</blockquote>
+      <figcaption class="edi-citation-auteur">
+        {citation.author}, avis Google{citation.date && `, ${citation.date}`}.
+        {g && <a href="#avis" class="edi-note"><span class="edi-etoiles" aria-hidden="true">★★★★★</span> {g.rating.toFixed(1).replace('.', ',')} sur Google, {g.count} avis</a>}
+      </figcaption>
+    </figure>
+  )}
+
+  <nav class="edi-sommaire" aria-labelledby="edi-som-titre">
+    <h2 id="edi-som-titre" class="edi-som-titre">Au sommaire de l’atelier</h2>
+    <ol class="edi-som-liste">
+      {rubriques.map(({ s, ph }) => (
+        <li>
+          <a
+            href={lienRubrique(s.slug)}
+            class="edi-som-lien"
+            data-edi-photo={ph?.src}
+            data-edi-w={ph?.w}
+            data-edi-alt={ph?.alt}
+          >
+            <span class="edi-som-nom">{s.title}</span>
+            <span class="edi-som-porte">{PORTE[s.slug]}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+</section>
+
+<style is:global>
+  .edi {
+    --rebond: cubic-bezier(0.34, 1.4, 0.64, 1);
+    width: min(100% - 2rem, 84rem);
+    margin-inline: auto;
+    padding: 1rem 0 2.6rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'fh' 'ti' 'fm' 'vi' 'ch' 'nu' 'ci' 'so';
+  }
+  .edi-filet { height: 1px; background: var(--fg); transform-origin: 0 50%; animation: edi-trace 0.7s ease-out both; }
+  .edi-filet-haut { grid-area: fh; height: 5px; background: none; border-top: 3px solid var(--fg); border-bottom: 1px solid var(--fg); }
+  .edi-filet-milieu { grid-area: fm; margin: 1rem 0 0; animation-delay: 0.12s; }
+  @keyframes edi-trace { from { transform: scaleX(0); } to { transform: none; } }
+
+  .edi-titre {
+    grid-area: ti;
+    margin-top: 0.9rem;
+    font-family: var(--font-display);
+    font-weight: 780;
+    font-size: clamp(2.5rem, 12vw, 3.2rem);
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+    color: var(--fg);
+  }
+  .edi-metier { display: block; }
+  .edi-lieu { display: block; margin-top: 0.7rem; font-family: var(--font-body); font-weight: 400; font-size: 1.22rem; line-height: 1.3; letter-spacing: 0; }
+  .edi-nw { white-space: nowrap; }
+
+  /* Téléphone : la photo déborde à droite jusqu'au bord et coupe le filet, sa légende à gauche, en colonne. */
+  .edi-vignette { grid-area: vi; display: grid; grid-template-columns: minmax(0, 1fr) 68%; column-gap: 0.8rem; align-items: end; margin: -0.7rem -1rem 0 0; position: relative; z-index: 1; animation: edi-pose 0.6s var(--rebond) 0.25s both; }
+  .edi-vignette .edi-cadre { grid-column: 2; grid-row: 1; }
+  .edi-vignette .edi-legende { grid-column: 1; grid-row: 1; margin: 0; padding: 0 0 0.1rem; text-align: right; }
+  @keyframes edi-pose { from { opacity: 0; transform: translate3d(0, 14px, 0); } to { opacity: 1; transform: none; } }
+  .edi-cadre { background: var(--bg-2); box-shadow: 0 1px 0 color-mix(in oklab, var(--ink) 10%, transparent), 0 18px 34px -16px color-mix(in oklab, var(--ink) 45%, transparent); }
+  .edi-cadre picture { display: contents; }
+  .edi-img { display: block; width: 100%; height: auto; margin-inline: auto; transition: opacity 0.18s ease-out; }
+  .edi-img.is-change { opacity: 0; }
+  .edi-legende { margin-top: 0.45rem; padding-right: 1rem; font-size: 0.78rem; line-height: 1.35; color: var(--muted); }
+
+  .edi-chapo { grid-area: ch; margin-top: 1.1rem; font-family: var(--font-body); font-size: 1.02rem; line-height: 1.5; color: var(--fg); }
+  .edi-chapo strong { font-weight: 700; }
+  .edi-chapo::first-letter { float: left; margin: 0.3rem 0.45rem 0 0; font-family: var(--font-display); font-weight: 780; font-size: 3.5rem; line-height: 0.78; color: var(--accent); }
+
+  .edi-num { grid-area: nu; margin-top: 1.3rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+  .edi-num-titre { font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; }
+  .edi-tel { margin-top: 0.35rem; display: inline-flex; align-items: center; gap: 0.55rem; color: var(--accent); text-decoration: none; font-family: var(--font-display); font-weight: 780; font-size: clamp(1.95rem, 8.6vw, 2.3rem); line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; transition: color 0.15s ease-out; }
+  .edi-tel:active { color: var(--fg); }
+  .edi-heures { margin-top: 0.4rem; font-size: 0.9rem; color: var(--muted); }
+  .edi-ecrire { display: inline-block; margin-top: 0.35rem; font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+
+  .edi-citation { grid-area: ci; margin: 1.2rem 0 0; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+  .edi-citation-texte { font-family: var(--font-display); font-weight: 700; font-size: 1.55rem; line-height: 1.1; letter-spacing: -0.015em; color: var(--fg); }
+  .edi-citation-auteur { margin-top: 0.45rem; font-size: 0.88rem; line-height: 1.5; color: var(--muted); }
+  .edi-note { display: inline-block; color: var(--fg); font-weight: 600; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 0.3em; }
+  .edi-etoiles { color: var(--accent); letter-spacing: 0.06em; }
+
+  .edi-sommaire { grid-area: so; margin-top: 1.8rem; border-top: 3px solid var(--fg); }
+  .edi-som-titre { padding: 0.55rem 0 0.4rem; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+  .edi-som-liste { list-style: none; }
+  .edi-som-lien { display: flex; flex-direction: column; gap: 0.1rem; padding: 0.7rem 0; border-top: 1px solid var(--line); color: var(--fg); text-decoration: none; }
+  .edi-som-nom { font-family: var(--font-display); font-weight: 720; font-size: 1.3rem; line-height: 1.12; letter-spacing: -0.01em; }
+  .edi-som-porte { font-size: 0.9rem; color: var(--muted); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.28em; }
+  .edi-som-lien:active { background: var(--bg-2); }
+  @media (hover: hover) and (pointer: fine) {
+    .edi-tel:hover { color: var(--fg); }
+    .edi-som-lien:hover .edi-som-nom, .edi-ecrire:hover { color: var(--accent); }
+  }
+
+  /* Ordinateur : douze colonnes de revue. Le titre prend neuf colonnes ; la vignette, quatre, descend dans la marge
+     du titre (sous sa première ligne) et coupe le filet ; chapô, numéro et citation en trois colonnes ; le sommaire
+     en bandeau de cinq colonnes séparées par des filets. */
+  @media (min-width: 64rem) {
+    .edi {
+      width: min(100% - 6rem, 84rem);
+      padding: 1.4rem 0 3.4rem;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-areas: none;
+      column-gap: 1.6rem;
+    }
+    .edi-filet-haut { grid-column: 1 / -1; grid-row: 1; }
+    .edi-titre { grid-column: 1 / 10; grid-row: 2; margin-top: 1.3rem; font-size: clamp(3.2rem, 5.3vw, 5.5rem); line-height: 0.93; }
+    .edi-lieu { margin-top: 0.9rem; font-size: clamp(1.4rem, 1.9vw, 1.85rem); }
+    .edi-vignette { grid-column: 9 / 13; grid-row: 2 / 5; display: block; align-self: start; margin: clamp(5rem, 7vw, 6.6rem) 0 0; }
+    .edi-vignette .edi-legende { margin-top: 0.45rem; text-align: left; }
+    .edi-filet-milieu { grid-column: 1 / -1; grid-row: 3; margin: 1.4rem 0 1.3rem; }
+    .edi-chapo { grid-column: 1 / 5; grid-row: 4; margin-top: 0; font-size: 1.14rem; line-height: 1.55; }
+    .edi-chapo::first-letter { font-size: 4.6rem; }
+    .edi-num { grid-column: 5 / 9; grid-row: 4; margin: 0; padding: 0 0 0 1.6rem; border-top: 0; border-left: 1px solid var(--line); align-self: start; }
+    .edi-tel { font-size: clamp(2rem, 2.7vw, 2.6rem); }
+    .edi-citation { grid-column: 1 / 9; grid-row: 5; margin-top: 1.6rem; display: flex; align-items: baseline; gap: 1.6rem; flex-wrap: wrap; }
+    .edi-citation-texte { font-size: clamp(1.6rem, 2.3vw, 2.2rem); }
+    .edi-legende { padding-right: 0; font-size: 0.85rem; }
+    .edi-sommaire { grid-column: 1 / -1; grid-row: 6; margin-top: 2rem; }
+    .edi-som-titre { padding: 0.6rem 0 0.2rem; }
+    .edi-som-liste { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .edi-som-lien { height: 100%; padding: 0.7rem 1rem 0.9rem; border-top: 0; border-left: 1px solid var(--line); }
+    .edi-som-liste li:first-child .edi-som-lien { padding-left: 0; border-left: 0; }
+    .edi-som-nom { font-size: 1.35rem; }
+  }
+  @media (min-width: 64rem) and (max-height: 860px) {
+    .edi-titre { font-size: clamp(3rem, 4.9vw, 4.8rem); }
+    .edi-sommaire { margin-top: 1.4rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .edi-filet, .edi-vignette { animation: none; }
+    .edi-img { transition: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Feu d'artifice (direction.md, MOUVEMENT 3) : survoler ou parcourir au clavier une rubrique du sommaire met sa
+  // photo dans la vignette, avec sa légende ; la largeur reste plafonnée à ce que la photo tient (0,62 x sa largeur).
+  onPage(() => {
+    const img = document.querySelector<HTMLImageElement>('[data-edi-img]');
+    const legende = document.querySelector<HTMLElement>('[data-edi-legende]');
+    if (!img || !legende) return;
+    const picture = img.parentElement?.tagName === 'PICTURE' ? img.parentElement : null;
+    const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let courante = img.currentSrc || img.src;
+    let minuteur = 0;
+    const montrer = (lien: HTMLElement) => {
+      const src = lien.dataset.ediPhoto;
+      if (!src || src === courante) return;
+      courante = src;
+      const poser = () => {
+        // Les <source> d'origine décriraient l'ancienne photo : on les retire, la nouvelle est un webp simple.
+        picture?.querySelectorAll('source').forEach((s) => s.remove());
+        img.removeAttribute('srcset');
+        img.src = src;
+        img.style.maxWidth = `${Math.round(Number(lien.dataset.ediW || 800) * 0.62)}px`;
+        legende.textContent = `${lien.dataset.ediAlt ?? ''}.`;
+        img.classList.remove('is-change');
+      };
+      if (calme) return poser();
+      img.classList.add('is-change');
+      clearTimeout(minuteur);
+      minuteur = window.setTimeout(poser, 180);
+    };
+    document.querySelectorAll<HTMLElement>('[data-edi-photo]').forEach((lien) => {
+      lien.addEventListener('pointerenter', (e) => { if ((e as PointerEvent).pointerType === 'mouse') montrer(lien); });
+      lien.addEventListener('focus', () => montrer(lien));
+    });
+  });
+</script>

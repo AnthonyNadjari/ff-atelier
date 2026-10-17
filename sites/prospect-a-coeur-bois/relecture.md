@@ -63,3 +63,35 @@ montrer en grand : tant qu'il n'a pas fourni ses originaux, le site plafonne à 
   et si le devis est gratuit ; un portrait et une photo de l'atelier, s'il veut.
 - Confirmer Instagram et Facebook (non affichés, pas confirmés) et régler la deuxième fiche Google « Fermé
   temporairement » (autre numéro).
+
+## Tour 1 — premier écran — 17 oct 2026, soir
+
+Retour du fondateur sur les quatre sites du jour : « encore une fois ils sont très similaires… c'est ça qui
+m'angoisse ». Cause : la recette « photo plein cadre, carte posée dessus » (retirée de GOUT § 0). Famille imposée :
+`editorial` (premiers-ecrans.md) ; ses photos de 800 px servent mieux une vignette qu'un plein cadre.
+
+### Ce qui a changé
+- Premier écran « Édito » (`sections/Edito.astro`, remplace `Mur.astro`) : une page de revue sur le plâtre clair.
+  Double filet ; h1 sur deux niveaux, « Ébéniste et menuisier » en très grand EN HAUT, « à Puyricard,
+  Aix-en-Provence » dessous, en texte ; UNE photo en vignette décalée (la cuisine en bois clair) qui coupe le filet et
+  déborde à droite au téléphone, légendée de ce qu'on y voit sur le côté ; chapô à lettrine (Guy Andries, diplômé,
+  route de Rognes, « Depuis 2006 ») ; 06 74 03 78 31 en grand, horaires, « Écrire à l'atelier » ; l'avis de
+  Patrick D. en citation avec « 5,0 sur Google, 3 avis » ; le sommaire des cinq rubriques (bandeau de cinq colonnes
+  sur ordinateur), une page chacune. Ordinateur : titre sur neuf colonnes de douze, vignette dans la marge.
+- Barre basse de trois boutons supprimée : l'action reste en haut (barre collante avec le numéro en entier).
+- Accueil : édito → les cinq façades des rubriques → les avis en page « courrier » (la note en grand, les deux avis
+  en colonnes, filets ; plus de planche qui chevauche) → l'atelier → venir. Entrée : les filets se tracent, la
+  vignette se pose à léger rebond, le titre ne bouge pas ; feu d'artifice : survoler une rubrique du sommaire met sa
+  photo dans la vignette (ordinateur, souris ou clavier).
+- Contrat refait : phrase-idée (revue d'atelier au lieu du mur), test du concurrent, socle, squelette, mouvement.
+
+### Contrôles
+`ff contrat` vert ; `ff prevol` vert (contrat, aiguillage, build, verifier, audit-motion, nettete, ressemblance,
+detect, perf). `ff ressemblance` : plus proches fromagerie-ravanel 0,49 / 0,61 (ordinateur), fromagerie-ravanel-b
+0,42 / 0,57, demo-paysagiste 0,55 au téléphone (seuil 0,65). Film regardé.
+
+### À l'œil, à côté de prospect-epi-dor et fromagerie-ravanel-d (captures téléphone)
+Différent de l'Épi d'Or sans discussion. Avec la nouvelle fromagerie D (refaite ce soir : titre en haut sur fond
+clair, texte, numéro), le haut de l'écran reste de la même famille « texte d'abord » ; la photo qui déborde avec sa
+légende de côté, le double filet, la lettrine et la citation les séparent, mais c'est la paire la plus proche des
+quatre. Le feu d'artifice (sommaire qui change la une) ne se voit pas au téléphone : le toucher ouvre la page.

@@ -1,6 +1,6 @@
 // DEMO : fromagerie inventée (Claire Ravanel, fromagère-affineuse à Annecy), piste D « Le comptoir »
 // (17 oct 2026) : le socle d'abord (GOUT § 0). Accueil + une page par offre, téléphone toujours visible (panneau
-// collé à gauche sur ordinateur, barre du haut et barre d'actions sur téléphone), métier + ville dans le h1,
+// collé à gauche sur ordinateur, barre du haut sur téléphone), métier + ville dans le h1,
 // « Depuis 2011 » en texte, état et horaires du jour au premier écran, portes par intention. UN bloc sur mesure :
 // le plateau qu'on remplit en disant combien on sera à table (prix de départ et jour de retrait calculés depuis
 // les règles du brief). Coordonnées fictives (plage ARCEP réservée à la fiction 04 65 71), mêmes que les pistes
@@ -21,12 +21,10 @@ export default defineSite({
   layout: {
     nav: 'bar',
     hero: 'custom/Comptoir',
-    // Tour 1 (17 oct 2026, « trop 2D, pas beau ») : services/list (liste à plat) remplacée par des cartes avec photo
-    // (custom/Offres) ; deux bandes photo pleine largeur entre les sections (beaufort, que la planche du plateau
-    // chevauche ; le bas de la cave, avant les questions : la raclette, 1 000 px à la source, serait floue en pleine largeur).
+    // Tour 2 (17 oct 2026 au soir, famille bande-defilante) : le premier écran porte la rangée des produits, qui
+    // remplace la section Offres et la bande du beaufort ; la planche du plateau chevauche le bas du comptoir. Une
+    // bande photo pleine largeur reste avant les questions (le bas de la cave).
     sections: [
-      { type: 'custom', variant: 'Offres', label: 'Cave et comptoir' },
-      { type: 'custom', variant: 'BandeBeaufort' },
       { type: 'custom', variant: 'Plateau', label: 'Le plateau' },
       { type: 'about', variant: 'timeline' },
       { type: 'custom', variant: 'BandeCave' },
@@ -40,7 +38,9 @@ export default defineSite({
     headings: 'left',
     curtain: false,
     contactDrawer: false,
-    actionBar: true,
+    // Tour 2 : plus de barre basse à boutons (celle des quatre sites du 17 oct) ; le téléphone est dans la barre du
+    // haut et en grand au premier écran.
+    actionBar: false,
   },
 
   business: {

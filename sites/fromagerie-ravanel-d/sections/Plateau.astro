@@ -78,7 +78,7 @@ const euros = (n: number) => `${n * PRIX} €`;
   /* Global (tour 1) : classes préfixées propres à la section, sans attribut de portée Astro sur chaque élément
      et chaque sélecteur (budget HTML de ff perf, 140 Ko). Aucune classe Tailwind n'est redéfinie ici. */
   /* Tour 1 (17 oct 2026, « trop 2D ») : la planche est un objet posé, vu d'un peu au-dessus (perspective), avec
-     son épaisseur et son ombre ; elle CHEVAUCHE la bande photo du beaufort au-dessus (deux sections). */
+     son épaisseur et son ombre ; elle CHEVAUCHE le bas du comptoir du premier écran (tour 2 : Comptoir.astro). */
   .pla { position: relative; z-index: 1; padding-bottom: var(--section-y); }
   .pla-grille {
     width: min(100% - 2rem, 72rem);
@@ -97,7 +97,7 @@ const euros = (n: number) => `${n * PRIX} €`;
       row-gap: 1.5rem;
     }
     .pla-tete { grid-area: tete; padding-top: 3rem; }
-    .pla-planche { grid-area: planche; margin-top: clamp(-13rem, -12vw, -8rem); }
+    .pla-planche { grid-area: planche; margin-top: clamp(-6.5rem, -6vw, -4.5rem); }
     /* Ordinateur : cinq parts par rang, la planche monte plus haut et remplit la colonne à côté du réglage. */
     .pla-planche .pla-bois { grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 2rem 2.2rem 2.4rem; }
     .pla-reglage { grid-area: reglage; }

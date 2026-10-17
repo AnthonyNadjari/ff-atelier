@@ -2,18 +2,17 @@
 /**
  * Barre du haut d'À cœur bois, sur toutes les pages (accueil et pages de rubrique). Socle (GOUT § 0) : le numéro
  * ÉCRIT EN ENTIER, cliquable, sur téléphone comme sur ordinateur, sans défiler ; les cinq rubriques sont des PAGES
- * (pas des ancres) ; sur téléphone, un menu et une barre d'actions en bas (Appeler, Écrire, Venir).
- * La barre partagée (BarreActions) n'est pas utilisée : sa porte « Écrire » exige une section contact partagée ;
- * ici l'e-mail du brief ouvre la messagerie du visiteur (mailto, rien n'est envoyé par le site).
+ * (pas des ancres) ; sur téléphone, un menu. Pas de barre d'actions en bas (17 oct 2026 : la barre de trois
+ * boutons était celle de tous les sites du jour) : l'action reste EN HAUT, la barre collante garde le numéro écrit
+ * en entier à l'écran à tout moment ; « Écrire » (mailto) est au premier écran et dans « Venir ».
  * Tokens seulement ; rayon de la direction ; aucune pilule.
  */
-import { site, tel, mailto } from '@/lib/site';
+import { site, tel } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 import { lienRubrique } from './photos';
 
 const rubriques = site.services.map((s) => ({ href: lienRubrique(s.slug), label: s.title.replace(' d’intérieurs', '').replace(' et extérieurs', '') }));
 const courant = Astro.url.pathname.replace(/\/$/, '') || '/';
-const ecrire = mailto();
 ---
 
 <header class="nav-acb" data-acb-nav>
@@ -47,11 +46,6 @@ const ecrire = mailto();
   </nav>
 </header>
 
-<nav class="acb-barre" aria-label="Actions rapides" data-acb-barre>
-  <a href={tel()} class="acb-barre-porte is-principale"><Icon name="Phone" size={18} /><span>Appeler</span></a>
-  {ecrire && <a href={`${ecrire}?subject=${encodeURIComponent('Un projet')}`} class="acb-barre-porte"><Icon name="Mail" size={18} /><span>Écrire</span></a>}
-  <a href="/#venir" class="acb-barre-porte"><Icon name="MapPin" size={18} /><span>Venir</span></a>
-</nav>
 
 <style is:global>
   .nav-acb {
@@ -121,42 +115,6 @@ const ecrire = mailto();
     .nav-acb-tel:hover { background: var(--accent-2); }
   }
 
-  /* Barre d'actions du bas (téléphone) : trois portes, au-dessus de la barre de l'iPhone, cachée quand le pied de
-     page est visible. Le corps reçoit la hauteur de la barre pour que rien ne passe dessous. */
-  .acb-barre {
-    position: fixed;
-    inset: auto 0 0 0;
-    z-index: 45;
-    display: grid;
-    grid-template-columns: 1.3fr 1fr 1fr;
-    padding-bottom: env(safe-area-inset-bottom);
-    background: var(--surface);
-    border-top: 1px solid var(--line);
-    box-shadow: 0 -8px 24px -16px color-mix(in oklab, var(--ink) 40%, transparent);
-    transition: transform 0.2s ease-out;
-  }
-  .acb-barre.is-cachee { transform: translateY(110%); }
-  .acb-barre-porte {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    min-height: 3.6rem;
-    color: var(--fg);
-    font-weight: 600;
-    font-size: 0.98rem;
-    text-decoration: none;
-  }
-  .acb-barre-porte + .acb-barre-porte { border-left: 1px solid var(--line); }
-  .acb-barre-porte.is-principale { background: var(--accent); color: var(--on-accent); }
-  .acb-barre-porte:active { background: var(--bg-2); }
-  .acb-barre-porte.is-principale:active { background: var(--accent-2); }
-  @media (max-width: 47.99rem) {
-    body { padding-bottom: calc(3.6rem + env(safe-area-inset-bottom)); }
-  }
-  @media (min-width: 48rem) {
-    .acb-barre { display: none; }
-  }
 </style>
 
 <script>
@@ -171,12 +129,6 @@ const ecrire = mailto();
         btn.setAttribute('aria-expanded', String(ouvert));
       });
       panneau.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => { panneau.hidden = true; btn.setAttribute('aria-expanded', 'false'); }));
-    }
-    // Barre du bas cachée quand le pied de page est à l'écran (ses coordonnées y sont déjà).
-    const barre = document.querySelector<HTMLElement>('[data-acb-barre]');
-    const pied = document.querySelector('footer');
-    if (barre && pied && 'IntersectionObserver' in window) {
-      new IntersectionObserver(([e]) => barre.classList.toggle('is-cachee', e.isIntersecting), { rootMargin: '0px 0px -40px 0px' }).observe(pied);
     }
   });
 </script>

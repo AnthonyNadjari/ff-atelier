@@ -7,7 +7,10 @@
  *   ech-<photo>   l'échantillon de l'échantillonnier (carré autour du matériau, 330 px) ;
  *   carte-<photo> la photo d'une carte de travail (3:4, 480 et 720 px) ;
  *   vue-<photo>   la grande vue de l'échantillonnier (4:5, 480 et 960 px) ;
- *   cours-<photo> les photos « en cours de chantier » (3:4, 480 px).
+ *   cours-<photo> les photos « en cours de chantier » (3:4, 480 px) ;
+ *   mos-<photo>   les carreaux de la mosaïque du premier écran (17 oct 2026, famille `mosaique`) : en hauteur 1:2
+ *                 (340 x 680) ou carrés (340), une seule largeur : 170 px CSS sur ordinateur (DPR 2), 94 sur
+ *                 téléphone (DPR 3).
  * Aucun agrandissement : chaque découpe est plus petite que la région prise dans la source. Écrit les fichiers dans
  * public/images/ et leurs entrées dans images.json (lu par <Img>). Ne lit que des images (sharp), n'exécute rien de raw/.
  */
@@ -26,6 +29,9 @@ const ZOOM = 2.6;
 const CARTES = ['realisation-36', 'realisation-48', 'realisation-01', 'realisation-66'];
 const VUES = ['realisation-48', 'realisation-66', 'realisation-72', 'realisation-30', 'realisation-60', 'realisation-78'];
 const COURS = ['realisation-06', 'realisation-12', 'accueil-01'];
+// Mosaïque : forme du carreau sur ordinateur (sections/Mosaique.astro) ; le barbecue garde ses tailles d'origine.
+const MOS_HAUT = ['realisation-36', 'realisation-78', 'realisation-72', 'realisation-66', 'realisation-30', 'realisation-54', 'realisation-24'];
+const MOS_CARRE = ['realisation-48', 'realisation-60', 'accueil-01', 'realisation-06', 'realisation-12', 'realisation-42', 'realisation-18'];
 
 async function decoupe(nom, prefixe, ratio, largeurs, mire = [50, 50], zoom = 1) {
   const src = path.join(SITE, 'raw', `${nom}.jpg`);
@@ -58,5 +64,7 @@ async function decoupe(nom, prefixe, ratio, largeurs, mire = [50, 50], zoom = 1)
   for (const nom of CARTES) await decoupe(nom, 'carte', 3 / 4, [480, 720]);
   for (const nom of VUES) await decoupe(nom, 'vue', 4 / 5, [480, 960]);
   for (const nom of COURS) await decoupe(nom, 'cours', 3 / 4, [480]);
+  for (const nom of MOS_HAUT) await decoupe(nom, 'mos', 1 / 2, [340]);
+  for (const nom of MOS_CARRE) await decoupe(nom, 'mos', 1, [340]);
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 })();

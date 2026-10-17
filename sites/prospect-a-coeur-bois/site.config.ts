@@ -19,10 +19,11 @@ export default defineSite({
   servicePages: false,
   layout: {
     nav: 'custom/Nav',
-    hero: 'custom/Mur',
+    // Premier écran famille `editorial` (direction.md) : page de revue, une photo en vignette décalée, le sommaire.
+    hero: 'custom/Edito',
     sections: [
-      { type: 'custom', variant: 'Avis', label: 'Avis' },
       { type: 'custom', variant: 'Rubriques', label: 'Réalisations' },
+      { type: 'custom', variant: 'Avis', label: 'Avis' },
       { type: 'custom', variant: 'Atelier', label: 'L’atelier' },
       { type: 'custom', variant: 'Venir', label: 'Venir' },
     ],
@@ -33,8 +34,7 @@ export default defineSite({
     headings: 'left',
     curtain: false,
     contactDrawer: false,
-    // Barre d’actions du bas : dessinée dans sections/Nav.astro (Appeler, Écrire, Venir), pas la barre partagée
-    // (elle n’offre « Écrire » qu’avec une section contact partagée).
+    // Pas de barre d’actions en bas : le numéro reste dans la barre du haut, collante (sections/Nav.astro).
     actionBar: false,
   },
 

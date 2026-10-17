@@ -55,3 +55,34 @@ seconde : sa plus belle réalisation en grand, « maçon carreleur à Perpignan 
 - Le lieu (commune) de chaque réalisation, pour les légendes.
 - Relire l'avis de MARI Electricité (replié par Google) ; accord sur l'affichage « Nonam Tattoo ».
 - Seul ou en équipe, assurance décennale, délais, zone précise ; retirer les photos Pexels de son site actuel.
+
+## Tour 1 — premier écran — 17 oct 2026, soir
+
+Retour du fondateur sur les quatre sites du jour : « encore une fois ils sont très similaires… c'est ça qui
+m'angoisse ». Cause : la recette « photo plein cadre, carte posée dessus » (retirée de GOUT § 0). Famille imposée :
+`mosaique` (premiers-ecrans.md).
+
+### Ce qui a changé
+- Premier écran « Mosaïque » (`sections/Mosaique.astro`, remplace `Chantier.astro`) : un calepinage à joints clairs
+  qui remplit l'écran (téléphone 4 colonnes, 8 rangs visibles ; ordinateur 8 colonnes sur 5 rangs). Ses quinze
+  photos sont des carreaux, chacun lien vers la page du travail qu'il montre ; le texte est fait de carreaux du même
+  calepinage : h1 dans un carreau terre cuite EN HAUT, numéro + « Estimation gratuite » + horaires dans un carreau
+  encre de toute la largeur, 5,0 sur Google dans un carreau bleu, « depuis septembre 2000 » et les monuments
+  historiques dans un carreau de chaux. Aucune carte posée sur une photo.
+- Barre basse de trois boutons supprimée : un seul carreau « Appeler » en bas à droite, qui n'apparaît qu'une fois
+  le numéro sorti de l'écran (`sections/Nav.astro`).
+- Accueil : mosaïque → avis en grand sur la chaux, sans carreaux (respiration) → les travaux → l'échantillonnier →
+  Alain Ballay → contact. Entrée : les carreaux-photos se posent rang par rang (0,45 s, sans rebond), le texte est
+  là d'emblée ; le barbecue recule une fois.
+- Images `mos-*` (340 px, la taille affichée) ajoutées à `images-derivees.cjs` ; `<picture>` léger sans aperçu flou
+  pour tenir le budget HTML (136,6 Ko / 140).
+
+### Contrôles
+`ff contrat` vert ; `ff prevol` vert (contrat, aiguillage, build, verifier, audit-motion, nettete, ressemblance,
+detect, perf, signatures). `ff ressemblance` : sites les plus proches borie-des-chenes 0,54, anna-vidal 0,51,
+fromagerie-ravanel-d 0,48 au téléphone (seuil 0,65). Film regardé : entrée sur les photos de chantier.
+
+### À l'œil, à côté de prospect-epi-dor et fromagerie-ravanel-d (captures téléphone)
+Clairement différent : aucun des deux n'a de grille, ni de titre dans un carreau de couleur, ni de mur de photos ;
+plus de barre basse. Faiblesses : des carreaux sont des photos « en cours » peu lisibles à 94 px (natte, seaux) ;
+sur ordinateur le bloc de texte est compact, à gauche, et la grille peut sembler chargée.

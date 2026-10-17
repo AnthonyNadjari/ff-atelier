@@ -18,11 +18,12 @@ export default defineSite({
   servicePages: false,
   layout: {
     nav: 'custom/Nav',
-    hero: 'custom/Chantier',
+    // Premier écran famille `mosaique` (direction.md) : ses quinze photos en calepinage, le texte en carreaux.
+    hero: 'custom/Mosaique',
     sections: [
       { type: 'custom', variant: 'Avis', label: 'Avis' },
-      { type: 'custom', variant: 'Materiaux', label: 'Matériaux' },
       { type: 'custom', variant: 'Travaux', label: 'Travaux' },
+      { type: 'custom', variant: 'Materiaux', label: 'Matériaux' },
       { type: 'custom', variant: 'Alain', label: 'Alain Ballay' },
       { type: 'custom', variant: 'Estimation', label: 'Contact' },
     ],
@@ -33,7 +34,7 @@ export default defineSite({
     headings: 'left',
     curtain: false,
     contactDrawer: false,
-    // Barre d’actions du bas : dessinée dans sections/Nav.astro (Appeler, Estimation, Venir).
+    // Pas de barre d’actions de trois boutons : un seul carreau « Appeler » (sections/Nav.astro).
     actionBar: false,
   },
 

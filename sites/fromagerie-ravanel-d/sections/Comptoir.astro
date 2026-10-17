@@ -1,23 +1,22 @@
 ---
 /**
- * Premier écran de la piste D « Le comptoir » : le socle d'abord (docs/GOUT.md § 0). Sur mesure parce que les
- * heros partagés posent un surtitre « métier à ville » au-dessus du h1 et révèlent le h1 par lignes (GOUT § 2) ;
- * il ne porte aucune idée de plus que ce qu'un client cherche en arrivant :
- * métier + ville dans le h1, « Depuis 2011 » dans la phrase, le numéro en grand, l'état et les horaires du jour,
- * le marché du mardi et du vendredi, trois portes par intention (raclette, plateau, venir).
- *
- * Tour 1 (17 oct 2026, « trop 2D, pas beau ») : la photo de cave occupe le premier écran (plein cadre, sans
- * rayon) et le texte est POSÉ dessus, sur une carte qui a une épaisseur (tranche couleur croûte) et une ombre
- * portée réelle ; sur ordinateur la carte déborde sur la section suivante. La pancarte pend à son clou, planté
- * dans la photo, DEVANT le bord de la carte. Trois plans : photo (derrière, plus lente), carte (la page), pancarte
- * (devant, un peu plus rapide), translations seules (plans.ts). Le texte n'est jamais sur la photo : il est sur la
- * carte (texte sur --surface, AA).
+ * Premier écran de la piste D « Le comptoir », tour 2 (17 oct 2026 au soir), famille `bande-defilante`
+ * (.claude/skills/site-final/premiers-ecrans.md). Les tours 0 et 1 posaient une carte sur une photo plein cadre :
+ * le gabarit des quatre sites du jour (« encore une fois ils sont très similaires »). Ici :
+ * - en haut, sur le papier, SANS photo : le h1 (métier + rue + ville), « Depuis 2011 » dans la phrase, le numéro en
+ *   grand, l'état du moment et les horaires du jour, l'adresse qui mène au contact (porte « Venir ») ;
+ * - dessous, pleine largeur, le comptoir : fond vert-noir, rebord de noyer, et les produits de la boutique (tous
+ *   tirés du brief) posés dessus en une rangée qu'on fait glisser. Chaque fiche est une porte : sa page d'offre,
+ *   le bloc plateau, ou l'appel pour réserver l'appareil à raclette.
+ * Aucune carte posée sur une photo, aucune barre de boutons : les portes sont les fiches elles-mêmes.
  *
  * Mouvement (direction.md, MOUVEMENT 1 et 4) :
- * - entrée : la pancarte de la porte se retourne une fois sur l'état du moment (lent, léger rebond, 0,7 s) ;
- * - image : la photo de cave descend moins vite que la page (plan du fond), la pancarte monte un peu plus vite.
- * Sans script : la pancarte reste cachée, la ligne des horaires dit la semaine en une phrase. Mouvement réduit :
- * pancarte posée sans tourner, plans immobiles.
+ * - entrée : la rangée glisse une fois sur le rebord depuis la droite et s'arrête en léger rebond (0,7 s), la
+ *   dernière fiche visible coupée par le bord de l'écran ; rien ne défile ensuite tout seul (GOUT § 4) ;
+ * - image : quand on fait glisser, la photo de chaque fiche glisse moins vite que la fiche (derrière la fenêtre),
+ *   le rebord ne bouge pas. Translations horizontales seules, bornées.
+ * Sans script : la rangée glisse au doigt et au clavier (défilement natif), la ligne des horaires dit la semaine.
+ * Mouvement réduit : pas d'entrée, photos immobiles dans leur fiche.
  */
 import { site, tel } from '@/lib/site';
 import { semaine } from '@/lib/horaires';
@@ -28,150 +27,177 @@ const sem = semaine(site.contact.hours) ?? [];
 // Semaine compacte (budget HTML de ff perf) : lundi d'abord, un jour par segment « | », « créneaux~libellé »,
 // créneaux « 08:30-12:30 15:30-19:00 », vides si fermé.
 const data = sem.map((j) => `${j.ferme ? '' : j.creneaux.map((c) => `${c.opens}-${c.closes}`).join(' ')}~${j.libelle}`).join('|');
-const hero = site.images.hero;
-const raclette = site.services.find((s) => s.slug === 'raclette');
+const svc = (slug: string) => site.services.find((s) => s.slug === slug);
+const cave = svc('cave-affinage');
+const beaufort = svc('beaufort');
+const raclette = svc('raclette');
+const plateaux = svc('plateaux');
+const comptoir = svc('comptoir');
+const adresse = site.contact.address;
+
+// Les produits du brief (§ 4 et § 6), dans l'ordre où on les trouve en entrant. Photo quand il y en a une
+// (libres, créditées), sinon une étiquette imprimée ou la planche dessinée. Rien d'autre que le brief.
+type Fiche = { cle: string; nom: string; detail: string; href: string; img?: { src: string; alt: string }; porte?: string };
+const fiches: Fiche[] = [];
+if (beaufort) fiches.push({ cle: 'photo', nom: 'Beaufort d’alpage', detail: 'À l’âge que vous voulez : 12, 18 ou 24 mois.', href: `/services/${beaufort.slug}`, img: beaufort.image });
+if (cave) fiches.push({ cle: 'photo', nom: 'Tommes et reblochons', detail: 'Affinés dans la cave à 11 °C, goûtés avant d’acheter.', href: `/services/${cave.slug}`, img: cave.image });
+if (raclette) fiches.push({ cle: 'photo', nom: 'Raclette et fondue', detail: 'Coupé ou râpé à la demande, pour le nombre que vous êtes.', href: `/services/${raclette.slug}`, img: raclette.image });
 ---
 
-<section id="hero" class="cpt" aria-labelledby="cpt-titre" data-plan-cadre>
-  {hero && (
-    <div class="cpt-photo">
-      <div class="cpt-photo-plan" data-plan="0.16">
-        <Img src={hero.src} alt={hero.alt} class="cpt-photo-img" sizes="(min-width: 1024px) 70vw, 100vw" priority />
+<section id="hero" class="cpt" aria-labelledby="cpt-titre">
+  <div class="cpt-tete">
+    <div class="cpt-tete-titre">
+      <h1 id="cpt-titre" class="cpt-titre">{site.business.tagline}</h1>
+      <p class="cpt-phrase">
+        Depuis {site.business.since}, Claire Ravanel affine sous la boutique les fromages de six fermes des Aravis et
+        des Bauges.
+      </p>
+    </div>
+    <div class="cpt-tete-jour">
+      <a href={tel()} class="cpt-tel" aria-label={`Appeler la fromagerie au ${site.contact.phoneDisplay}`}>
+        <Icon name="Phone" size={24} class="cpt-tel-icone" />
+        <span class="cpt-tel-num">{site.contact.phoneDisplay}</span>
+      </a>
+      <p class="cpt-etat" data-cpt-jour={data}>
+        <strong class="cpt-etat-mot" data-cpt-etat></strong>
+        <span data-cpt-horaire>Du mardi au samedi, et le dimanche matin. Fermé le lundi.</span>
+      </p>
+      <a href="/#contact" class="cpt-venir">
+        <Icon name="MapPin" size={18} class="cpt-venir-icone" />
+        <span>{adresse.street}, {adresse.city}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="cpt-comptoir" data-cpt-comptoir>
+    <div class="cpt-comptoir-tete">
+      <h2 class="cpt-comptoir-titre">À la boutique</h2>
+      <div class="cpt-fleches" data-cpt-fleches hidden>
+        <button type="button" class="cpt-fleche" data-cpt-pas="-1" aria-label="Produits précédents"><Icon name="ArrowLeft" size={20} /></button>
+        <button type="button" class="cpt-fleche" data-cpt-pas="1" aria-label="Produits suivants"><Icon name="ArrowRight" size={20} /></button>
       </div>
     </div>
-  )}
 
-  <div class="cpt-carte" data-plan-cadre>
-    <div class="cpt-pancarte-clou" aria-hidden="true" data-plan="-0.05">
-      <p class="cpt-pancarte" data-cpt-pancarte hidden></p>
-    </div>
+    <ul class="cpt-rangee" data-cpt-rangee tabindex="0" aria-label="Les produits de la boutique, à faire glisser">
+      {fiches.map((f) => (
+        <li class="cpt-fiche cpt-fiche-photo">
+          <a href={f.href} class="cpt-fiche-lien">
+            <div class="cpt-vue">
+              {f.img && (
+                <div class="cpt-vue-plan" data-cpt-plan>
+                  <Img src={f.img.src} alt={f.img.alt} class="cpt-vue-img object-cover" sizes="(min-width: 1024px) 20rem, 16rem" priority />
+                </div>
+              )}
+            </div>
+            <div class="cpt-fiche-texte">
+              <h3 class="cpt-fiche-nom">{f.nom}</h3>
+              <p class="cpt-fiche-detail">{f.detail}</p>
+            </div>
+          </a>
+        </li>
+      ))}
 
-    <h1 id="cpt-titre" class="cpt-titre">{site.business.tagline}</h1>
-    <p class="cpt-phrase">
-      Depuis {site.business.since}, Claire Ravanel affine dans sa cave, sous la boutique, les tommes et les reblochons
-      de six fermes des Aravis et des Bauges. On goûte avant d’acheter, toujours.
-    </p>
+      {raclette && (
+        <li class="cpt-fiche cpt-fiche-etiquette cpt-fiche-appareil">
+          <a href={tel()} class="cpt-fiche-lien" aria-label={`L’appareil à raclette, prêté pour 4 ou 8 personnes : le réserver au ${site.contact.phoneDisplay}`}>
+            <p class="cpt-gros" aria-hidden="true">4 ou 8 <span>personnes</span></p>
+            <h3 class="cpt-fiche-nom">L’appareil à raclette</h3>
+            <p class="cpt-fiche-detail">Prêté contre une caution de 50&nbsp;€. À réserver deux jours avant le week-end.</p>
+            <p class="cpt-porte">Réserver au {site.contact.phoneDisplay}</p>
+          </a>
+        </li>
+      )}
 
-    <a href={tel()} class="cpt-tel" aria-label={`Appeler la fromagerie au ${site.contact.phoneDisplay}`}>
-      <Icon name="Phone" size={26} class="cpt-tel-icone" />
-      <span class="cpt-tel-num">{site.contact.phoneDisplay}</span>
-    </a>
+      {plateaux && (
+        <li class="cpt-fiche cpt-fiche-plateau">
+          <a href="/#plateau" class="cpt-fiche-lien">
+            <div class="cpt-vue cpt-vue-bois" aria-hidden="true">
+              <div class="cpt-planche">
+                {['pointe', 'carre', 'tranche', 'carre', 'pointe', 'tranche'].map((f, i) => (
+                  <span class={`pla-part pla-${f}`} style={`--pla-tour:${((i * 37) % 9 - 4) * 4}deg`} data-pose></span>
+                ))}
+              </div>
+            </div>
+            <div class="cpt-fiche-texte">
+              <h3 class="cpt-fiche-nom">Le plateau</h3>
+              <p class="cpt-fiche-detail">Sur commande, de 6 à 30 personnes, dès 6&nbsp;€ par personne.</p>
+              <p class="cpt-porte">Le composer</p>
+            </div>
+          </a>
+        </li>
+      )}
 
-    <div class="cpt-jour" data-cpt-jour={data}>
-      <p class="cpt-horaire" data-cpt-horaire>Du mardi au samedi, et le dimanche matin. Fermé le lundi.</p>
-      <p class="cpt-marche" data-cpt-marche>Le mardi et le vendredi matin, Théo tient le stand au marché de la vieille ville.</p>
-    </div>
+      {comptoir && (
+        <li class="cpt-fiche cpt-fiche-etiquette cpt-fiche-liste">
+          <a href={`/services/${comptoir.slug}`} class="cpt-fiche-lien">
+            <h3 class="cpt-fiche-nom">Au comptoir</h3>
+            <ul class="cpt-liste">
+              {comptoir.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          </a>
+        </li>
+      )}
 
-    <ul class="cpt-portes" aria-label="Ce que vous venez faire">
-      {raclette && <li><a href={tel()} class="cpt-porte">Réserver l’appareil à raclette</a></li>}
-      <li><a href="/#plateau" class="cpt-porte">Commander un plateau</a></li>
-      <li><a href="/#contact" class="cpt-porte">Venir rue de la Gare</a></li>
+      <li class="cpt-fiche cpt-fiche-etiquette cpt-fiche-marche">
+        <a href="/#contact" class="cpt-fiche-lien">
+          <h3 class="cpt-fiche-nom">Et au marché</h3>
+          <p class="cpt-fiche-detail">
+            Le mardi et le vendredi matin, Théo tient le stand au marché de la vieille ville, avec les mêmes fromages.
+          </p>
+        </a>
+      </li>
     </ul>
   </div>
 </section>
 
 <style is:global>
-  /* Global (tour 1) : classes préfixées propres à la section, sans attribut de portée Astro sur chaque élément
-     et chaque sélecteur (budget HTML de ff perf, 140 Ko). Aucune classe Tailwind n'est redéfinie ici. */
-  /* Ombres : la couleur vient de --ink (le vert-noir de la direction), jamais d'un noir en dur. Quatre couches :
-     le contact (net, court), la portée (large), le lointain (très large et doux, sous la carte). */
-  .cpt {
-    --cpt-ombre:
-      0 1px 0 color-mix(in oklab, var(--ink) 10%, transparent),
-      0 3px 6px -2px color-mix(in oklab, var(--ink) 22%, transparent),
-      0 22px 44px -14px color-mix(in oklab, var(--ink) 42%, transparent),
-      0 60px 100px -36px color-mix(in oklab, var(--ink) 50%, transparent);
-    position: relative;
-    z-index: 2;
+  /* Global : classes préfixées propres à la section, sans attribut de portée Astro (budget HTML de ff perf). */
+  .cpt { position: relative; z-index: 0; }
+
+  /* L'en-tête : sur le papier, sans photo. Téléphone : une colonne ; ordinateur : titre | numéro et jour. */
+  .cpt-tete {
+    padding: 1rem 1rem 0.95rem;
     display: grid;
-    grid-template-rows: auto auto;
+    gap: 0.7rem;
   }
-
-  /* La photo : plein cadre, sans rayon. Téléphone : la moitié haute de l'écran ; ordinateur : tout l'écran. */
-  .cpt-photo {
-    grid-area: 1 / 1;
-    position: relative;
-    height: clamp(17rem, 44svh, 26rem);
-    overflow: hidden;
-    background: var(--ink);
-  }
-  .cpt-photo-plan {
-    position: absolute;
-    inset: -22% 0 auto;
-    height: 144%;
-    will-change: transform;
-  }
-  .cpt-photo .cpt-photo-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 38%;
-  }
-
-  /* La carte : posée sur la photo, épaisseur couleur croûte en bas, lumière qui vient d'en haut. */
-  .cpt-carte {
-    grid-area: 1 / 1 / span 2 / 1;
-    align-self: start;
-    position: relative;
-    z-index: 1;
-    margin: clamp(11rem, 30svh, 17rem) 0.75rem 0;
-    padding: 1.6rem 1.25rem 1.5rem;
-    border-radius: var(--radius-card);
-    background: linear-gradient(to bottom, var(--surface), color-mix(in oklab, var(--surface) 82%, var(--bg-2)));
-    border-bottom: 5px solid color-mix(in oklab, var(--accent-2) 70%, var(--fg));
-    box-shadow: var(--cpt-ombre);
-  }
-
-  /* Petit téléphone (iPhone SE, 667 px) : la carte monte, pour que les horaires du jour restent au-dessus de la
-     barre d'actions sans défiler. */
-  @media (max-width: 63.99rem) and (max-height: 700px) {
-    .cpt-carte { margin-top: 9.5rem; }
-  }
-
   @media (min-width: 64rem) {
-    .cpt { grid-template-rows: none; min-height: 100svh; }
-    .cpt-photo { height: auto; min-height: 100svh; }
-    .cpt-carte {
-      grid-area: 1 / 1;
-      align-self: end;
-      justify-self: start;
-      width: min(100% - 5rem, 46rem);
-      margin: 0 0 -2.25rem clamp(2rem, 4vw, 3.5rem);
-      padding: 2.2rem 2.6rem 2rem;
+    .cpt-tete {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      align-items: end;
+      gap: 2.5rem;
+      padding: clamp(2.5rem, 7svh, 4.5rem) clamp(2rem, 4vw, 3.5rem) clamp(1.75rem, 4svh, 2.5rem);
     }
   }
-  /* Ordinateur bas de plafond : la carte se resserre et déborde moins, pour que les portes restent dans l'écran. */
-  @media (min-width: 64rem) and (max-height: 860px) {
-    .cpt-carte { padding-block: 1.7rem 1.6rem; margin-bottom: -1.5rem; }
-  }
 
-  /* h1 : l'étiquette imprimée, slab grasse ; plus grand que tous les h2 de la page. */
   .cpt-titre {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2.1rem, 8.4vw, 2.6rem);
+    font-size: clamp(2.15rem, 9vw, 2.6rem);
     line-height: 1.02;
     letter-spacing: -0.015em;
-    max-width: 15ch;
+    max-width: 14ch;
     text-wrap: balance;
     color: var(--fg);
   }
   @media (min-width: 64rem) {
-    .cpt-titre { max-width: 22ch; font-size: clamp(2.6rem, 3.3vw, 3.15rem); }
+    .cpt-titre { max-width: 16ch; font-size: clamp(2.7rem, 3.5vw, 3.5rem); }
   }
   .cpt-phrase {
-    margin-top: 0.9rem;
-    font-size: clamp(1rem, 1.3vw, 1.12rem);
-    line-height: 1.5;
-    max-width: 36rem;
+    margin-top: 0.7rem;
+    font-size: clamp(1rem, 1.2vw, 1.1rem);
+    line-height: 1.45;
+    max-width: 34rem;
     color: var(--muted);
   }
 
+  .cpt-tete-jour { display: grid; justify-items: start; gap: 0.35rem; }
+  @media (min-width: 64rem) {
+    .cpt-tete-jour { padding-left: 1.75rem; border-left: 1px solid var(--line); gap: 0.5rem; }
+  }
   .cpt-tel {
-    margin-top: 1.1rem;
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.6rem;
     color: var(--accent);
     text-decoration: none;
     transition: color 0.15s ease-out;
@@ -179,8 +205,8 @@ const raclette = site.services.find((s) => s.slug === 'raclette');
   .cpt-tel-num {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(1.95rem, 3.6vw, 3rem);
-    line-height: 1;
+    font-size: clamp(1.9rem, 2.9vw, 2.5rem);
+    line-height: 1.05;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
@@ -189,165 +215,428 @@ const raclette = site.services.find((s) => s.slug === 'raclette');
     .cpt-tel:hover { color: var(--fg); }
   }
 
-  /* La pancarte de la porte, pendue à un clou planté dans la photo, devant le bord haut de la carte. */
-  .cpt-pancarte-clou {
-    position: absolute;
-    top: -3.1rem;
-    right: 1.1rem;
-    padding-top: 1.35rem;
-    perspective: 600px;
-    will-change: transform;
-  }
-  .cpt-pancarte-clou:has(.cpt-pancarte[hidden]) { display: none; }
-  /* Le clou. */
-  .cpt-pancarte-clou::after {
-    content: '';
-    position: absolute;
-    top: -0.2rem;
-    left: 50%;
-    width: 0.55rem;
-    height: 0.55rem;
-    margin-left: -0.275rem;
-    border-radius: 50%;
-    background: var(--bg-2);
-    box-shadow: 0 2px 3px color-mix(in oklab, var(--ink) 70%, transparent);
-  }
-  /* La ficelle : deux traits du clou aux coins de la pancarte. */
-  .cpt-pancarte-clou::before {
-    content: '';
-    position: absolute;
-    top: 0.05rem;
-    left: 50%;
-    width: 4.2rem;
-    height: 1.35rem;
-    transform: translateX(-50%);
-    background:
-      linear-gradient(to top right, transparent calc(50% - 0.8px), var(--bg-2) 50%, transparent calc(50% + 0.8px)) left / 50% 100% no-repeat,
-      linear-gradient(to top left, transparent calc(50% - 0.8px), var(--bg-2) 50%, transparent calc(50% + 0.8px)) right / 50% 100% no-repeat;
-  }
-  .cpt-pancarte {
-    display: block;
-    min-width: 7rem;
-    padding: 0.55rem 1rem;
-    border-radius: var(--radius);
-    background: var(--accent);
-    color: var(--on-accent);
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.12rem;
-    text-align: center;
-    white-space: nowrap;
-    transform-origin: 50% -1.3rem;
-    backface-visibility: hidden;
-    box-shadow:
-      inset 0 -3px 0 color-mix(in oklab, var(--accent) 70%, var(--ink)),
-      0 10px 18px -6px color-mix(in oklab, var(--ink) 60%, transparent);
-  }
-  .cpt-pancarte[data-etat='ferme'] { background: var(--ink); color: var(--on-ink); }
-  .cpt-pancarte.is-tourne { animation: cpt-tourne 0.7s cubic-bezier(0.34, 1.45, 0.6, 1) 0.25s both; }
-  @keyframes cpt-tourne {
-    from { transform: rotateY(-180deg); }
-    to { transform: rotateY(0deg); }
-  }
-  @media (min-width: 64rem) {
-    .cpt-pancarte-clou { right: 2.4rem; top: -3.4rem; }
-  }
+  .cpt-etat { font-size: 1rem; line-height: 1.4; font-variant-numeric: tabular-nums; }
+  .cpt-etat-mot { font-weight: 700; color: var(--accent); }
+  .cpt-etat-mot:empty { display: none; }
+  .cpt-etat-mot[data-etat='ferme'] { color: var(--fg); }
+  .cpt-etat-mot::after { content: '. '; color: var(--fg); font-weight: 400; }
 
-  .cpt-jour { margin-top: 1rem; }
-  .cpt-horaire {
-    font-size: 1.02rem;
-    line-height: 1.4;
-    font-variant-numeric: tabular-nums;
-  }
-  .cpt-horaire strong { font-weight: 650; }
-  .cpt-marche {
-    margin-top: 0.4rem;
-    font-size: 1rem;
-    line-height: 1.4;
-    color: var(--muted);
-  }
-  .cpt-marche strong { color: var(--fg); font-weight: 650; }
-
-  /* Portes par intention : liens soulignés au trait épais, séparés du reste de la carte par un filet. */
-  .cpt-portes {
-    margin-top: 1.2rem;
-    padding: 0.9rem 0 0;
-    border-top: 1px solid var(--line);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 1.4rem;
-    list-style: none;
-  }
-  .cpt-porte {
-    display: inline-block;
-    padding-block: 0.35rem;
+  .cpt-venir {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-block: 0.2rem;
     font-weight: 650;
     color: var(--fg);
     text-decoration: underline;
     text-decoration-color: var(--accent);
     text-decoration-thickness: 2px;
-    text-underline-offset: 0.35em;
-    transition: color 0.15s ease-out, text-decoration-color 0.15s ease-out;
+    text-underline-offset: 0.3em;
+    transition: color 0.15s ease-out;
   }
-  .cpt-porte:active { color: var(--accent); }
+  .cpt-venir-icone { flex: none; color: var(--accent); }
+  .cpt-venir:active { color: var(--accent); }
   @media (hover: hover) and (pointer: fine) {
-    .cpt-porte:hover { color: var(--accent); text-decoration-color: var(--fg); }
+    .cpt-venir:hover { color: var(--accent); }
   }
 
+  /* Le comptoir : fond vert-noir (la boutique derrière la vitre), les produits debout sur un rebord de noyer.
+     Le rebord est le fond de la rangée (background non « local ») : il reste en place quand la rangée glisse. Le
+     bas du comptoir continue sous le rebord ; la planche du bloc plateau vient s'y poser (Plateau.astro). */
+  .cpt-comptoir {
+    --cpt-rebord: 1.35rem;
+    --cpt-noyer: var(--accent-2-text);
+    position: relative;
+    background: var(--ink);
+    color: var(--on-ink);
+    padding: 0.7rem 0 clamp(5rem, 20vw, 7.5rem);
+  }
+  .cpt-comptoir-tete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-inline: 1rem;
+  }
+  .cpt-comptoir-titre {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+  @media (min-width: 64rem) {
+    .cpt-comptoir { padding: 1.4rem 0 clamp(6rem, 8vw, 7.5rem); --cpt-rebord: 1.6rem; }
+    .cpt-comptoir-tete { padding-inline: clamp(2rem, 4vw, 3.5rem); }
+    .cpt-comptoir-titre { font-size: 1.35rem; }
+  }
+  .cpt-fleches { display: flex; gap: 0.5rem; }
+  .cpt-fleches[hidden] { display: none; }
+  .cpt-fleche {
+    width: 2.75rem;
+    height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid color-mix(in oklab, var(--on-ink) 40%, transparent);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--on-ink);
+    transition: border-color 0.15s ease-out, background-color 0.15s ease-out, transform 0.12s ease-out;
+  }
+  .cpt-fleche:active { transform: scale(0.94); }
+  .cpt-fleche:disabled { opacity: 0.35; }
+  @media (hover: hover) and (pointer: fine) {
+    .cpt-fleche:not(:disabled):hover { border-color: var(--on-ink); background: color-mix(in oklab, var(--on-ink) 10%, transparent); }
+  }
+
+  .cpt-rangee {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.9rem;
+    margin-top: 0.5rem;
+    padding: 0.3rem 1rem var(--cpt-rebord);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1rem;
+    list-style: none;
+    scrollbar-width: none;
+    /* Le rebord : dessus clair (la lumière tombe dessus), face avant foncée. */
+    background:
+      linear-gradient(
+        to bottom,
+        transparent calc(100% - var(--cpt-rebord)),
+        color-mix(in oklab, var(--cpt-noyer) 82%, var(--surface)) calc(100% - var(--cpt-rebord)),
+        var(--cpt-noyer) calc(100% - var(--cpt-rebord) * 0.45),
+        color-mix(in oklab, var(--cpt-noyer) 55%, var(--ink)) calc(100% - var(--cpt-rebord) * 0.45)
+      );
+  }
+  .cpt-rangee::-webkit-scrollbar { display: none; }
+  .cpt-rangee:focus-visible { outline: 2px solid var(--on-ink); outline-offset: -2px; }
+  .cpt-rangee.is-tenu { scroll-snap-type: none; cursor: grabbing; }
+  .cpt-rangee.is-tenu .cpt-fiche-lien { pointer-events: none; }
+  .cpt-rangee img { -webkit-user-drag: none; user-select: none; }
+  @media (min-width: 64rem) {
+    .cpt-rangee {
+      gap: 1.4rem;
+      margin-top: 1rem;
+      padding-inline: clamp(2rem, 4vw, 3.5rem);
+      scroll-padding-inline: clamp(2rem, 4vw, 3.5rem);
+      cursor: grab;
+    }
+  }
+
+  /* Les fiches : debout sur le rebord, ombre portée sur le bois. Hauteurs d'objet : photo haute, étiquette basse. */
+  .cpt-fiche {
+    flex: none;
+    isolation: isolate;
+    width: 15.5rem;
+    scroll-snap-align: start;
+    position: relative;
+  }
+  .cpt-fiche::after {
+    /* L'ombre de contact sur le dessus du rebord. */
+    content: '';
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    bottom: -0.45rem;
+    height: 0.6rem;
+    background: color-mix(in oklab, var(--ink) 70%, transparent);
+    filter: blur(5px);
+    z-index: -1;
+  }
+  .cpt-fiche-lien {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    color: var(--fg);
+    text-decoration: none;
+    overflow: hidden;
+    box-shadow:
+      inset 0 -3px 0 color-mix(in oklab, var(--accent-2) 55%, var(--surface)),
+      0 18px 28px -16px color-mix(in oklab, var(--ink) 90%, transparent);
+    transition: transform 0.2s ease-out;
+  }
+  .cpt-fiche-lien:active { transform: translateY(1px); }
+  .cpt-fiche-lien:focus-visible { outline: 2px solid var(--on-ink); outline-offset: 3px; }
+  @media (hover: hover) and (pointer: fine) {
+    .cpt-fiche-lien:hover { transform: translateY(-4px); }
+    .cpt-fiche-lien:hover .cpt-fiche-nom { text-decoration-color: var(--accent); }
+  }
+  @media (min-width: 64rem) {
+    .cpt-fiche { width: 19rem; }
+  }
+
+  /* La fenêtre de la photo : la photo, plus large que sa fiche, glisse derrière quand on fait glisser la rangée. */
+  .cpt-vue {
+    position: relative;
+    height: 9.5rem;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  @media (min-width: 64rem) {
+    .cpt-vue { height: clamp(12rem, 30svh, 16rem); }
+  }
+  .cpt-vue-plan {
+    position: absolute;
+    inset: 0 -12%;
+    will-change: transform;
+  }
+  .cpt-vue .cpt-vue-img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+
+  .cpt-fiche-texte { padding: 0.8rem 1rem 1rem; }
+  /* Les trois fiches photo ont la même hauteur (un nom sur deux lignes ne dépasse pas des autres). */
+  .cpt-fiche-photo .cpt-fiche-texte { min-height: 7.4rem; }
+  @media (min-width: 64rem) {
+    .cpt-fiche-photo .cpt-fiche-texte { min-height: 6.6rem; }
+  }
+  .cpt-fiche-nom {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.15;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color 0.15s ease-out;
+  }
+  .cpt-fiche-detail { margin-top: 0.35rem; font-size: 0.95rem; line-height: 1.4; color: var(--muted); }
+  .cpt-porte {
+    margin-top: 0.6rem;
+    font-weight: 650;
+    font-size: 0.98rem;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+
+  /* Étiquettes imprimées (pas de photo au brief) : plus basses, un filet de couleur croûte en tête. */
+  .cpt-fiche-etiquette { width: 13.5rem; }
+  .cpt-fiche-etiquette .cpt-fiche-lien {
+    padding: 1rem 1.05rem 1.15rem;
+    border-top: 6px solid color-mix(in oklab, var(--accent-2) 70%, var(--fg));
+  }
+  @media (min-width: 64rem) {
+    .cpt-fiche-etiquette { width: 16rem; }
+  }
+  .cpt-gros {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2.3rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 0.5rem;
+    color: var(--fg);
+  }
+  .cpt-gros span { font-size: 1rem; font-weight: 600; color: var(--muted); }
+  .cpt-liste { margin-top: 0.55rem; list-style: none; display: grid; gap: 0.2rem; }
+  .cpt-liste li {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.12rem;
+    line-height: 1.25;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px dashed var(--line);
+  }
+  .cpt-liste li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .cpt-fiche-marche { width: 12.5rem; }
+  .cpt-fiche-appareil { width: 15rem; }
+  @media (min-width: 64rem) {
+    .cpt-fiche-appareil { width: 17rem; }
+  }
+
+  /* Le plateau : la planche de noyer, quelques parts dessus, vue d'un peu au-dessus. */
+  .cpt-vue-bois { height: 7rem; background: color-mix(in oklab, var(--bg-2) 70%, var(--accent-2)); }
+  @media (min-width: 64rem) {
+    .cpt-vue-bois { height: clamp(10rem, 24svh, 13rem); }
+  }
+  .cpt-planche {
+    position: absolute;
+    inset: 16% 11% 18%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    justify-items: center;
+    gap: 0.4rem;
+    padding: 6% 8%;
+    border-radius: var(--radius-card);
+    background:
+      repeating-linear-gradient(177deg, transparent 0 1.1rem, color-mix(in oklab, var(--ink) 16%, transparent) 1.1rem 1.18rem),
+      linear-gradient(to bottom, var(--accent-2-text), color-mix(in oklab, var(--accent-2-text) 78%, var(--ink)));
+    box-shadow:
+      0 6px 0 color-mix(in oklab, var(--accent-2-text) 55%, var(--ink)),
+      0 22px 26px -10px color-mix(in oklab, var(--ink) 80%, transparent);
+    transform: perspective(700px) rotateX(26deg);
+  }
+  .cpt-planche .pla-part { width: 72%; }
+
+  /* Entrée : la rangée glisse une fois depuis la droite et s'arrête en léger rebond (0,7 s). Elle attend, garée à
+     droite, que la première photo soit là (au plus 0,6 s, le script pose data-entree) : on voit glisser des
+     fromages, pas des cadres vides. Sans script, rien n'attend et rien ne glisse. */
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .cpt-fiche { animation: cpt-glisse 0.7s cubic-bezier(0.34, 1.45, 0.6, 1) 0.1s both paused; }
+    .cpt-rangee[data-entree] .cpt-fiche { animation-play-state: running; }
+  }
+  @keyframes cpt-glisse {
+    from { transform: translateX(min(55vw, 28rem)); }
+    to { transform: translateX(0); }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .cpt-pancarte.is-tourne { animation: none; }
+    .cpt-fiche-lien, .cpt-fleche { transition: none; }
   }
 </style>
 
 <script>
   import { onPage } from '@/scripts/page';
-  import { maintenant, etatDuJour } from '@/lib/horaires';
+  import { maintenant, etatDuJour, formatHeure } from '@/lib/horaires';
   import { initPlans } from './plans';
 
   type Jour = { jour: string; libelle: string; creneaux: { opens: string; closes: string }[]; ferme: boolean };
   const NBSP = ' ';
+  // Pas de retour à la ligne au milieu d’une heure (« 12 h 30 ») : espaces insécables autour du « h ».
+  const insec = (s: string) => s.replace(/(\d) h/g, `$1${NBSP}h`).replace(/h (\d)/g, `h${NBSP}$1`);
+  const min = (h: string) => { const [a, b] = h.split(':').map(Number); return a * 60 + b; };
 
-  onPage(() => {
+  /** L'état du moment et les horaires du jour, en une ligne sous le numéro. */
+  function jour() {
     const bloc = document.querySelector<HTMLElement>('[data-cpt-jour]');
-    if (bloc) {
-      const JOURS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
-      const sem: Jour[] = (bloc.dataset.cptJour || '').split('|').map((d, i) => {
-        const [c, libelle] = d.split('~');
-        const creneaux = c ? c.split(' ').map((x) => { const [opens, closes] = x.split('-'); return { opens, closes }; }) : [];
-        return { jour: JOURS[i], libelle, creneaux, ferme: !c };
-      });
-      if (sem.length === 7) {
-        const now = new Date();
-        const etat = etatDuJour(sem, now);
-        const { jour, minutes } = maintenant(now);
-        const pancarte = document.querySelector<HTMLElement>('[data-cpt-pancarte]');
-        const horaire = bloc.querySelector<HTMLElement>('[data-cpt-horaire]');
-        const auj = sem[jour];
-        if (pancarte && etat.texte) {
-          pancarte.textContent = etat.texte;
-          pancarte.dataset.etat = etat.ouvert ? 'ouvert' : etat.texte.startsWith('Ouvre') ? 'bientot' : 'ferme';
-          pancarte.hidden = false;
-          requestAnimationFrame(() => pancarte.classList.add('is-tourne'));
-        }
-        if (horaire && auj) {
-          // Jour fermé : on dit quand on rouvre (prochain jour ouvert de la semaine).
-          if (auj.ferme) {
-            let k = 1;
-            while (k < 7 && sem[(jour + k) % 7].ferme) k++;
-            const suivant = sem[(jour + k) % 7];
-            horaire.innerHTML = `Aujourd’hui ${auj.jour}${NBSP}: fermé. <strong>${k === 1 ? 'Demain' : suivant.jour[0].toUpperCase() + suivant.jour.slice(1)}${NBSP}: ${suivant.libelle}</strong>`;
-          } else {
-            horaire.innerHTML = `Aujourd’hui ${auj.jour}${NBSP}: <strong>${auj.libelle}</strong>`;
-          }
-        }
-        // Marché : mardi (1) et vendredi (4) matin, Théo au stand.
-        const marche = document.querySelector<HTMLElement>('[data-cpt-marche]');
-        if (marche && (jour === 1 || jour === 4) && minutes < 13 * 60) {
-          marche.innerHTML = `<strong>Ce matin, Théo est au marché de la vieille ville</strong>, avec les mêmes fromages qu’à la boutique.`;
-        }
+    if (!bloc) return;
+    const JOURS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+    const sem: Jour[] = (bloc.dataset.cptJour || '').split('|').map((d, i) => {
+      const [c, libelle] = d.split('~');
+      const creneaux = c ? c.split(' ').map((x) => { const [opens, closes] = x.split('-'); return { opens, closes }; }) : [];
+      return { jour: JOURS[i], libelle, creneaux, ferme: !c };
+    });
+    if (sem.length !== 7) return;
+    const now = new Date();
+    const etat = etatDuJour(sem, now);
+    const { jour: j, minutes } = maintenant(now);
+    const auj = sem[j];
+    const mot = bloc.querySelector<HTMLElement>('[data-cpt-etat]');
+    const horaire = bloc.querySelector<HTMLElement>('[data-cpt-horaire]');
+    if (mot && etat.texte) {
+      let texte = etat.texte;
+      if (etat.ouvert) {
+        const c = auj.creneaux.find((x) => minutes >= min(x.opens) && minutes < min(x.closes));
+        if (c) texte = `Ouvert jusqu’à ${formatHeure(c.closes)}`;
+      }
+      mot.textContent = texte;
+      mot.dataset.etat = etat.ouvert ? 'ouvert' : texte.startsWith('Ouvre') ? 'bientot' : 'ferme';
+    }
+    if (horaire && auj) {
+      // Fermé pour le reste de la journée (jour fermé, ou après le dernier créneau) : on dit quand on rouvre.
+      const finie = !etat.ouvert && !auj.creneaux.some((x) => min(x.opens) > minutes);
+      if (auj.ferme || finie) {
+        let k = 1;
+        while (k < 7 && sem[(j + k) % 7].ferme) k++;
+        const s = sem[(j + k) % 7];
+        horaire.textContent = `${k === 1 ? `Demain ${s.jour}` : s.jour[0].toUpperCase() + s.jour.slice(1)}${NBSP}: ${insec(s.libelle)}`;
+      } else {
+        horaire.textContent = `Aujourd’hui ${auj.jour}${NBSP}: ${insec(auj.libelle)}`;
       }
     }
-    // Plans au défilement (photo derrière, pancarte devant) : plans.ts, une seule boucle pour la page.
+  }
+
+  /** La rangée : photos derrière leur fenêtre, glisser à la souris, flèches sur ordinateur. */
+  function rangee() {
+    const r = document.querySelector<HTMLElement>('[data-cpt-rangee]');
+    if (!r || r.dataset.pret) return;
+    r.dataset.pret = '1';
+    const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const plans = [...r.querySelectorAll<HTMLElement>('[data-cpt-plan]')];
+    let raf = 0;
+    const poser = () => {
+      raf = 0;
+      if (calme) return;
+      const box = r.getBoundingClientRect();
+      const milieu = box.left + box.width / 2;
+      // Lire toutes les positions, puis écrire : la photo recule de 18 % de son écart au centre, bornée à ce
+      // qu'elle dépasse de sa fenêtre (12 % de chaque côté).
+      const mesures = plans.map((p) => { const f = p.parentElement!.getBoundingClientRect(); return { p, f }; });
+      mesures.forEach(({ p, f }) => {
+        const lim = f.width * 0.12 - 1;
+        const x = Math.max(-lim, Math.min(lim, -(f.left + f.width / 2 - milieu) * 0.18));
+        p.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0)`;
+      });
+    };
+    const demander = () => { if (!raf) raf = requestAnimationFrame(poser); };
+    r.addEventListener('scroll', demander, { passive: true });
+    window.addEventListener('resize', demander, { passive: true });
+    // L'entrée : dès que la première photo est là (au plus 0,6 s), la rangée glisse ; on suit pendant 0,9 s pour
+    // que les photos glissent aussi dans leur fenêtre.
+    const partir = () => {
+      if (r.dataset.entree) return;
+      r.dataset.entree = '1';
+      const t0 = performance.now();
+      const suivre = () => { poser(); if (performance.now() - t0 < 950) requestAnimationFrame(suivre); };
+      requestAnimationFrame(suivre);
+    };
+    const premiere = r.querySelector<HTMLImageElement>('img');
+    if (!premiere || premiere.complete) partir();
+    else {
+      premiere.addEventListener('load', partir, { once: true });
+      premiere.addEventListener('error', partir, { once: true });
+      setTimeout(partir, 600);
+    }
+
+    // Flèches (souris) : une fiche de plus ou de moins.
+    const fleches = document.querySelector<HTMLElement>('[data-cpt-fleches]');
+    const boutons = [...(fleches?.querySelectorAll<HTMLButtonElement>('[data-cpt-pas]') ?? [])];
+    const bornes = () => {
+      const fin = r.scrollWidth - r.clientWidth - 2;
+      boutons.forEach((b) => { b.disabled = b.dataset.cptPas === '-1' ? r.scrollLeft <= 2 : r.scrollLeft >= fin; });
+    };
+    if (fleches && matchMedia('(hover: hover) and (pointer: fine) and (min-width: 64rem)').matches) {
+      fleches.hidden = false;
+      boutons.forEach((b) => b.addEventListener('click', () => {
+        const pas = (r.querySelector<HTMLElement>('.cpt-fiche')?.offsetWidth ?? 280) + 20;
+        r.scrollBy({ left: Number(b.dataset.cptPas) * pas, behavior: calme ? 'auto' : 'smooth' });
+      }));
+      r.addEventListener('scroll', bornes, { passive: true });
+      bornes();
+    }
+
+    // Glisser à la souris (le doigt et le pavé tactile font défiler nativement).
+    let x0 = 0, s0 = 0, tenu = false, bouge = false, annuler = false;
+    // Un glisser à la souris ne doit pas ouvrir la fiche sous le curseur au lâcher.
+    r.addEventListener('click', (e) => { if (annuler) { e.preventDefault(); e.stopPropagation(); annuler = false; } }, true);
+    r.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      x0 = e.clientX; s0 = r.scrollLeft; tenu = true; bouge = false;
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!tenu) return;
+      const dx = e.clientX - x0;
+      if (!bouge && Math.abs(dx) > 5) { bouge = true; r.classList.add('is-tenu'); }
+      if (bouge) r.scrollLeft = s0 - dx;
+    });
+    const lacher = () => {
+      if (!tenu) return;
+      tenu = false;
+      if (!bouge) return;
+      annuler = true;
+      setTimeout(() => { annuler = false; }, 50);
+      // Reprendre l'aimantation sans saut : on cale sur la fiche la plus proche.
+      const pas = (r.querySelector<HTMLElement>('.cpt-fiche')?.offsetWidth ?? 280) + 20;
+      const cible = Math.round(r.scrollLeft / pas) * pas;
+      r.classList.remove('is-tenu');
+      r.scrollTo({ left: cible, behavior: calme ? 'auto' : 'smooth' });
+    };
+    window.addEventListener('pointerup', lacher);
+    window.addEventListener('pointercancel', lacher);
+    r.addEventListener('dragstart', (e) => e.preventDefault());
+  }
+
+  onPage(() => {
+    jour();
+    rangee();
+    // Plans au défilement de la page (bande du bas de la cave) : plans.ts, une seule boucle pour la page.
     initPlans();
   });
 </script>

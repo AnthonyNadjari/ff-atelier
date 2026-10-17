@@ -115,3 +115,48 @@ Oui. Le premier écran montre enfin une cave (on sent le fromage avant de lire),
 poids, la pancarte pend devant, et la page alterne photo, cartes et planche au lieu d'empiler des blocs blancs.
 Ce n'est pas encore le niveau du site du studio : la moitié basse de l'accueil (Claire et Théo, questions, contact)
 reste plate, et les photos sont de banque, sans la boutique ni les gens.
+
+## Tour 2 — premier écran (17 oct 2026, soir)
+
+Verdict du fondateur sur les quatre sites du jour : « encore une fois ils sont très similaires… c'est ça qui
+m'angoisse ». Cause : la recette « photo plein cadre, texte posé sur une carte », retirée de GOUT § 0. Famille
+imposée : `bande-defilante` (aucune piste sœur ni site récent ne l'a ; `ff contrat` vert). Le socle, le plateau et
+son calcul ne bougent pas. Relecture dégradée, un seul contexte : captures, film (entrée, section, glissé de la
+bande), sonde Chrome de l'entrée et d'un petit téléphone (375x667) regardés.
+
+### Avant / après
+| | Avant (tours 0 et 1, `carte-sur-photo`) | Après (tour 2, `bande-defilante`) |
+|---|---|---|
+| Construction | photo de cave plein cadre, carte crème posée dessus avec h1, numéro, horaires, trois portes ; pancarte au clou | en haut, sur le papier, sans photo : h1, phrase « Depuis 2011 », numéro, état du moment + horaires (ou ceux de la prochaine ouverture), adresse ; dessous, pleine largeur, le comptoir vert-noir et son rebord de noyer, les produits debout dessus en une rangée qu'on fait glisser |
+| Produits | dans une section Offres plus bas (cinq cartes) + bande du beaufort | dans le premier écran : beaufort, tommes et reblochons, raclette et fondue (photos), l'appareil à raclette (étiquette « 4 ou 8 personnes », porte : appel), le plateau (planche dessinée, porte : le bloc), le comptoir (beurre, crème, yaourts, vins), le marché ; chaque fiche = sa page |
+| Portes | rangée de trois liens dans la carte + barre basse Appeler / Venir | les fiches elles-mêmes, le numéro, l'adresse ; plus de barre basse (`actionBar: false`) |
+| Entrée | la pancarte se retourne | la rangée glisse une fois sur son rebord depuis la droite et s'arrête en rebond (0,7 s), lancée quand la première photo est là (sonde : de 650 à 1 150 ms) |
+| Image qui bouge | photos plus lentes que la page | photo de chaque fiche plus lente que sa fiche quand on fait glisser, rebord fixe ; bande du bas de la cave inchangée |
+| Accueil | Comptoir, Offres, bande beaufort, Plateau, Claire et Théo, bande cave, questions, contact | Comptoir, Plateau (sa planche se pose sur le bas du comptoir), Claire et Théo, bande cave, questions, contact |
+
+Ordinateur : panneau de la coquille à gauche ; à droite l'en-tête en deux colonnes (h1 | numéro, état, adresse) et
+le comptoir jusqu'au bas de l'écran, flèches précédent / suivant et glisser à la souris (un glisser n'ouvre pas la
+fiche lâchée). Mesuré au téléphone 390x844 : rebord à 717 px, la planche du plateau dépasse en dessous ; à 375x667,
+numéro, état et adresse visibles sans défiler, les fiches commencent dans l'écran.
+
+### Contrôles
+- `ff contrat` vert (famille `bande-defilante`) ; `ff prevol` tout vert, ressemblance comprise ;
+  `ff ressemblance` : aucun site au-dessus de 0,65, le plus proche prospect-ballay-macon (tél. 0,49, ordi. 0,39).
+- `ff captures` sans erreur ni débordement ; film regardé (le film prend sa première vue trop tard pour voir
+  l'entrée : vérifiée à la sonde, transform de 214 px à 0 avec rebond).
+- Corrigé en route : fiches de hauteurs inégales (un trou au-dessus des photos : étiquette de l'appareil et planche
+  raccourcies, fiches photo à hauteur égale) ; « Fermé. Aujourd'hui samedi : … » le soir (dit maintenant la prochaine
+  ouverture) ; heure coupée en fin de ligne (« 12 / h 30 ») ; flèches visibles au téléphone dans la capture.
+
+### À côté de L'Épi d'Or, est-ce le même gabarit ?
+Non. L'Épi d'Or : photo en haut, carte crème posée dessus, h1 au milieu de l'image, barre basse à trois boutons.
+Ici : aucune photo derrière le texte, le titre en haut sur le papier, puis un bandeau sombre de produits qui sort
+de l'écran à droite, pas de barre basse. Ce qui reste commun, c'est le socle (« Appeler » dans la barre du haut,
+numéro en grand, horaires du jour) : voulu.
+
+### Ce qui reste faible
+- L'en-tête est tout en texte : honnête pour une démo sans photo du lieu, mais un vrai client y gagnerait une
+  vraie photo de comptoir comme première fiche de la rangée.
+- Les étiquettes (appareil, comptoir, marché) sont typographiques ; sans photo du client, c'est voulu (GOUT § 2).
+- Non vérifié : iPhone en ligne (pas de déploiement), glisser au doigt réel, un jour ouvert (la sonde a tourné un
+  samedi soir : « Fermé. Demain dimanche »).

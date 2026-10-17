@@ -2,17 +2,18 @@
 /**
  * Barre du haut d'Alain Ballay (toutes les pages), couleur encre : son nom, son métier, le numéro ÉCRIT EN ENTIER
  * (téléphone et ordinateur, sans défiler). Les six travaux sont des pages, dans le menu (téléphone) et dans la
- * liste déroulante « Travaux » (ordinateur, <details> natif). Barre d'actions en bas sur téléphone : Appeler,
- * Estimation gratuite (mailto vers son e-mail, objet rempli ; rien n'est envoyé par le site), Venir.
- * Tokens seulement ; aucun mouvement (client calme).
+ * liste déroulante « Travaux » (ordinateur, <details> natif). Pas de barre de trois boutons en bas (17 oct 2026 :
+ * c'était la barre de tous les sites du jour) : sur téléphone, un seul carreau « Appeler » en bas à droite, qui
+ * n'apparaît qu'une fois le carreau du numéro sorti de l'écran (accueil) ou après un écran de défilement (pages de
+ * travaux), et se retire devant le pied de page. L'estimation gratuite est dans la mosaïque et dans le contact.
+ * Tokens seulement ; le carreau apparaît par un fondu court (0,2 s).
  */
-import { site, tel, mailto } from '@/lib/site';
+import { site, tel } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 import { lienTravail } from './photos';
 
 const travaux = site.services.map((s) => ({ href: lienTravail(s.slug), label: s.title }));
 const courant = Astro.url.pathname.replace(/\/$/, '') || '/';
-const estimation = mailto() ? `${mailto()}?subject=${encodeURIComponent('Demande d’estimation')}` : '/#contact';
 ---
 
 <header class="nab">
@@ -54,11 +55,10 @@ const estimation = mailto() ? `${mailto()}?subject=${encodeURIComponent('Demande
   </nav>
 </header>
 
-<nav class="nab-barre" aria-label="Actions rapides" data-nab-barre>
-  <a href={tel()} class="nab-porte is-principale"><Icon name="Phone" size={18} /><span>Appeler</span></a>
-  <a href={estimation} class="nab-porte"><Icon name="Mail" size={18} /><span>Estimation</span></a>
-  <a href="/#contact" class="nab-porte"><Icon name="MapPin" size={18} /><span>Venir</span></a>
-</nav>
+<a href={tel()} class="nab-carreau" data-nab-carreau aria-label={`Appeler Alain Ballay au ${site.contact.phoneDisplay}`}>
+  <Icon name="Phone" size={22} />
+  <span>Appeler</span>
+</a>
 
 <style is:global>
   .nab { position: sticky; top: 0; z-index: 50; background: var(--ink); color: var(--on-ink); }
@@ -128,25 +128,33 @@ const estimation = mailto() ? `${mailto()}?subject=${encodeURIComponent('Demande
     .nab-tel:hover { background: color-mix(in oklab, var(--accent) 80%, var(--ink)); }
   }
 
-  .nab-barre {
+  .nab-carreau {
     position: fixed;
-    inset: auto 0 0 0;
+    right: 0.75rem;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
     z-index: 45;
-    display: grid;
-    grid-template-columns: 1.25fr 1fr 1fr;
-    padding-bottom: env(safe-area-inset-bottom);
-    background: var(--ink);
-    transition: transform 0.2s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 2px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-decoration: none;
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--line) 70%, var(--surface)), 0 18px 30px -12px color-mix(in oklab, var(--ink) 60%, transparent);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 6px, 0);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0s linear 0.2s;
   }
-  .nab-barre.is-cachee { transform: translateY(110%); }
-  .nab-porte { display: flex; align-items: center; justify-content: center; gap: 0.45rem; min-height: 3.6rem; color: var(--on-ink); font-weight: 700; font-size: 0.98rem; text-decoration: none; }
-  .nab-porte + .nab-porte { border-left: 1px solid color-mix(in oklab, var(--on-ink) 16%, transparent); }
-  .nab-porte.is-principale { background: var(--accent); color: var(--on-accent); }
-  .nab-porte:active { background: color-mix(in oklab, var(--ink) 80%, var(--on-ink)); }
-  @media (max-width: 47.99rem) {
-    body { padding-bottom: calc(3.6rem + env(safe-area-inset-bottom)); }
-  }
-  @media (min-width: 48rem) { .nab-barre { display: none; } }
+  .nab-carreau.is-visible { opacity: 1; visibility: visible; transform: none; transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0s; }
+  .nab-carreau:active { background: color-mix(in oklab, var(--accent) 80%, var(--ink)); }
+  @media (min-width: 48rem) { .nab-carreau { display: none; } }
 </style>
 
 <script>
@@ -168,10 +176,17 @@ const estimation = mailto() ? `${mailto()}?subject=${encodeURIComponent('Demande
       document.addEventListener('click', (e) => { if (det.open && !det.contains(e.target as Node)) det.open = false; });
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape') det.open = false; });
     }
-    const barre = document.querySelector<HTMLElement>('[data-nab-barre]');
-    const pied = document.querySelector('footer');
-    if (barre && pied && 'IntersectionObserver' in window) {
-      new IntersectionObserver(([e]) => barre.classList.toggle('is-cachee', e.isIntersecting), { rootMargin: '0px 0px -40px 0px' }).observe(pied);
+    // Carreau « Appeler » : visible quand le numéro n'est plus à l'écran, retiré devant le pied de page.
+    const carreau = document.querySelector<HTMLElement>('[data-nab-carreau]');
+    if (carreau && 'IntersectionObserver' in window) {
+      const numero = document.querySelector('[data-mos-tel]');
+      const pied = document.querySelector('footer');
+      let numeroVu = Boolean(numero), piedVu = false;
+      const maj = () => carreau.classList.toggle('is-visible', !numeroVu && !piedVu && (numero ? true : scrollY > innerHeight * 0.8));
+      if (numero) new IntersectionObserver(([e]) => { numeroVu = e.isIntersecting; maj(); }).observe(numero);
+      if (pied) new IntersectionObserver(([e]) => { piedVu = e.isIntersecting; maj(); }, { rootMargin: '0px 0px -40px 0px' }).observe(pied);
+      if (!numero) addEventListener('scroll', maj, { passive: true });
+      maj();
     }
   });
 </script>
