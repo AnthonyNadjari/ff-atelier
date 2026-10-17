@@ -1,0 +1,39 @@
+---
+/**
+ * CTA "photo" : une photo du client en pleine largeur entre deux sections, voile sombre, l'appel centré
+ * dessus (téléphone + devis). Composition reprise du dernier bloc d'appel du modèle Framer PlumFix (veille
+ * compositions du 17 oct 2026, docs/veille/compositions/INDEX.md) : construction seulement, ni texte ni
+ * image ni code. Photo : la dernière réalisation, sinon une photo de service, sinon le portrait, sinon la
+ * photo du premier écran ; aucune = bande encre unie (comme cta/band).
+ */
+import { site, tel, hasContactDoor, zonesDesservies } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+const photo = site.proof.gallery.at(-1) ?? site.services.find((s) => s.image)?.image ?? site.about.portrait ?? site.images.hero;
+const texte =
+  site.wording.ctaText ??
+  (site.contact.emergency24h
+    ? `Joignable 24 h/24 et 7 j/7 à ${site.contact.address.city}.`
+    : `Un appel au ${site.contact.phoneDisplay}, à ${site.contact.address.city}${zonesDesservies() ? ' et alentours' : ''} : on vous dit tout de suite ce qui est possible.`);
+---
+
+<section class="cta-photo relative isolate flex min-h-[72svh] items-center overflow-hidden bg-ink text-on-ink">
+  {photo && (
+    <div class="absolute inset-0 -z-10" aria-hidden="true">
+      <Img src={photo.src} alt="" class="absolute inset-0 h-[118%] w-full object-cover" sizes="100vw" data-parallax="0.12" loading="lazy" />
+      <div class="absolute inset-0 bg-ink/45"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/10 to-ink/40"></div>
+    </div>
+  )}
+  <div class="container-ff py-24 text-center md:py-32" data-stagger="110">
+    <h2 class="mx-auto max-w-3xl text-display-lg" set:html={site.wording.ctaTitle} />
+    <p class="mx-auto mt-5 max-w-xl text-lg text-on-ink/85">{texte}</p>
+    <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
+      <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+      {/* Suffixe ! : les directions restylent .btn-ghost hors couche (color: var(--fg)), illisible sur fond ink sans lui. */}
+      {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg" class="border-on-ink/40! bg-transparent! text-on-ink! hover:border-on-ink!">{site.wording.devis}</Button>}
+    </div>
+  </div>
+</section>

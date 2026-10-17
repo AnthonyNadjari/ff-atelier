@@ -4,6 +4,52 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 17 oct 2026, tour 2 (routine en ligne) — trois compositions de modèles Framer : de la profondeur
+
+**Fait**
+- Santé : 57 fichiers de tests verts (4 blocs), `ff variete` et `ff signatures` verts (154 blocs, aucune copie),
+  `ff verifier demo-paysagiste` vert (avertissements de démo seulement), planche téléphone regardée, rien de cassé.
+  Chromium à jour installé par `playwright-core` (`node node_modules/playwright-core/cli.js install chromium
+  chromium-headless-shell`) puis `FF_CHROMIUM=1` : tout a tourné avec navigateur.
+- Volet 2a bis, **l'amélioration du tour** : les trois modèles les plus populaires de la catégorie
+  [Home Services de Framer Marketplace](https://www.framer.com/marketplace/templates/categories/home-services/)
+  (PlumFix n° 1, Solshine n° 2, HandGrid n° 3) démontés, pages entières regardées, trois sections recréées en
+  variantes partagées : `services/photo-cards` (photo qui remplit la carte, panneau clair posé dessus),
+  `about/overlap` (panneau sombre, portrait qui dépasse le haut, seconde photo qui déborde dessous : trois plans),
+  `cta/photo` (photo du client en pleine largeur, appel centré). Construction seulement : aucun texte, image, code
+  ni identité des sources ; refusés en route : photos inclinées, coches, mot du titre en couleur, chiffres factices.
+  Site jetable (copie de `jardins-mael`) : build, `ff verifier` (a11y, typo, `ff ia` verts), `ff audit-motion` vert,
+  captures ordinateur et téléphone posées à côté de la source et regardées
+  ([services](compositions/handgrid-services-comparaison.jpg), [à propos](compositions/handgrid-about-comparaison.jpg),
+  [appel](compositions/plumfix-cta-comparaison.jpg)) ; deux reprises après comparaison (photos de l'à-propos trop
+  petites, voile de l'appel trop lourd). Site jetable supprimé.
+- `ff composer` choisit désormais ces trois variantes d'office quand leurs photos sont là
+  (`COMPOSITIONS_EPROUVEES`, `scripts/ff/composer.mjs`, test dans `tests/composer.test.mjs`) ; six modèles
+  (`presets/`) les portent, vignettes régénérées. Lignes dans [DIRECTIONS.md](../DIRECTIONS.md) et
+  [compositions/INDEX.md](compositions/INDEX.md).
+- Volet 2a : 9 nouveaux sites (agences de Tours, Le Mans, Limoges ; photographe Lyon, plombier Clermont-Ferrand,
+  barbier Nice ; ThemeForest BuildPress 7,8 k ventes, Squarespace Sawyer, Webflow Roofex), fiches dans
+  `docs/veille/marche/`, comptes sur 18 sites dans [CE-QUI-VEND.md](marche/CE-QUI-VEND.md).
+
+**Appris du marché**
+- Plusieurs pages 18/18, avis 14/18, une page par service 13/18, téléphone en haut 12/18 : l'usine fait tout ça.
+- Aucun levier ≥ 40 % absent de l'usine. Le plus proche : **labels et certifications au premier écran, 7/18 (39 %)** ;
+  nos six heros affichent l'assurance mais pas `business.certifications` (RGE, Qualibat ne se voient qu'en bas).
+- Les deux meilleurs premiers écrans d'artisans ajoutent ce que nos heros n'ont pas : les communes desservies en
+  liste cliquable et un délai chiffré (« Devis sous 48 h », donné par le client).
+- 4 sites sur 18 se cachent derrière une bannière cookies plein écran : notre « zéro traceur » est un argument.
+- En recherche locale, l'artisan indépendant n'arrive qu'au 10e rang ou après (annuaires et plateformes devant).
+
+**Compositions ajoutées** : `services/photo-cards`, `about/overlap`, `cta/photo` (sources et pertes dans l'index).
+
+**Proposé** : prochain tour, `business.certifications` dans les heros (levier à 39 %) ; un hero « nom géant
+derrière le gérant détouré » (PlumFix) dès qu'un brief fournit une photo détourée ; `ff detect` signale un faux
+contraste sur le titre en italique des bandeaux encre (`cta/band` comme `cta/photo`, axe ne voit rien) : à
+filtrer dans `scripts/ff/detect.mjs` ou à corriger.
+
+**À décider** : montrer aux fondateurs les trois comparaisons avant d'en faire le défaut de toutes les démos
+(composer les choisit déjà quand les photos sont là).
+
 ## 17 oct 2026 (routine en ligne) — premier tour « ce qui se vend » : rubrique Conseils
 
 **Fait**

@@ -89,6 +89,7 @@ absente (photo, avis, FAQ) ne doit pas être choisie.
 | `accordion` | Beaucoup de services (5-6) et peu de place, mobile-first. |
 | `cards-hover` | Direction animée (neon, luxe), motion rich, envie d'interaction. |
 | `bento` | Un service phare + plusieurs secondaires, direction clair/brut. |
+| `photo-cards` | La moitié des services au moins ont une vraie photo : la photo remplit la carte, un panneau clair posé dessus (titre, phrase, prix). Profondeur sans effet. Composition éprouvée (modèle Framer HandGrid, `docs/veille/compositions/INDEX.md`) : préférée par `ff composer` quand les photos sont là. |
 
 ### `about`
 | Variante | Quand l'utiliser |
@@ -97,6 +98,7 @@ absente (photo, avis, FAQ) ne doit pas être choisie.
 | `story` | Pas de photo, histoire longue à raconter (texte porteur). |
 | `values` | Le brief a surtout des valeurs (section 6) plus qu'une histoire narrative. |
 | `timeline` | Plusieurs jalons datés fournis (`about.milestones`). |
+| `overlap` | Un portrait et, idéalement, une seconde photo (équipe ou réalisation) : panneau sombre arrondi, l'histoire et les valeurs à gauche, les deux photos qui se chevauchent et débordent sous le panneau. Composition éprouvée (modèle Framer HandGrid) : préférée par `ff composer` quand il y a un portrait. |
 
 ### `proof`
 | Variante | Quand l'utiliser |
@@ -157,6 +159,7 @@ Pas de FAQ dans le brief → pas de section `faq` dans `layout.sections`.
 | `band` | Défaut, bandeau pleine largeur avant le contact. |
 | `card` | Direction avec cartes/ombres (clair, atelier). |
 | `phone-giant` | Direction `signal` ou urgence 24/7 : numéro énorme, un seul geste. |
+| `photo` | Le client a des photos (réalisations, services) : une photo en pleine largeur sous un voile sombre, l'appel centré dessus. Image en grand entre deux sections. Composition éprouvée (modèle Framer PlumFix) : préférée par `ff composer` dès qu'une réalisation ou une photo de service existe. |
 
 ### `contact`
 | Variante | Quand l'utiliser |

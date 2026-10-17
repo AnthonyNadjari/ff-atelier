@@ -49,13 +49,13 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 export const VARIANTS = {
   nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
   hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento'],
-  about: ['portrait', 'story', 'values', 'timeline'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards'],
+  about: ['portrait', 'story', 'values', 'timeline', 'overlap'],
   proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes'],
   zones: ['list', 'map', 'chips'],
   process: ['steps', 'timeline', 'numbered', 'horizon'],
   faq: ['accordion', 'two-columns'],
-  cta: ['band', 'card', 'phone-giant'],
+  cta: ['band', 'card', 'phone-giant', 'photo'],
   contact: ['form-split', 'form-card', 'simple', 'full'],
   footer: ['columns', 'minimal', 'big-name'],
 } as const;

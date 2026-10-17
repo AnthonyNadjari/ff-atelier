@@ -1,0 +1,70 @@
+---
+/**
+ * About "overlap" : panneau sombre arrondi posé dans la page, l'histoire à gauche, à droite la photo du
+ * portrait et une seconde photo plus petite qui la chevauche et déborde sous le panneau (trois plans :
+ * fond de page, panneau, photos ; sur ordinateur le portrait dépasse aussi le haut du panneau). Composition reprise du bloc « satisfaction » du modèle Framer HandGrid
+ * (veille compositions du 17 oct 2026, docs/veille/compositions/INDEX.md), sans l'inclinaison des photos
+ * (polaroid refusé, docs/GOUT.md § 2) ; construction seulement, ni texte ni image ni code.
+ * Seconde photo : la première de l'équipe, sinon la première réalisation ; aucune = une seule photo, qui
+ * déborde quand même. Sans portrait : le panneau seul, texte sur toute la largeur.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story).slice(0, 3);
+const portrait = a.portrait;
+const second = portrait ? (a.team.find((m) => m.photo)?.photo ?? site.proof.gallery[0]) : undefined;
+const values = a.values.slice(0, 4);
+const faits = [
+  site.business.since && `Depuis ${site.business.since}`,
+  ...site.business.certifications,
+  site.business.insurance,
+].filter(Boolean) as string[];
+---
+
+<section id="about" class="section-y">
+  <div class="container-ff">
+    <div class:list={['about-overlap relative rounded-card bg-ink text-on-ink', portrait && 'mb-16 md:mb-20 lg:mb-24']}>
+      <div class:list={['grid gap-10 px-6 py-12 md:px-12 md:py-16 lg:gap-16 lg:px-16 lg:py-20', portrait && 'lg:grid-cols-12 lg:items-center']}>
+        <div class:list={[portrait ? 'lg:col-span-6' : 'max-w-3xl']} data-stagger="110">
+          <h2 class="text-display-md" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
+          <div class="mt-6 flex max-w-prose flex-col gap-4 text-lg text-on-ink/80">
+            {paras.map((p) => <p>{p}</p>)}
+          </div>
+          {values.length > 0 && (
+            <ul class="mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2">
+              {values.map((v) => (
+                <li class="border-l-2 border-accent pl-4">
+                  <h3 class="font-medium">{v.title}</h3>
+                  <p class="mt-1 text-sm text-on-ink/70">{v.text}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+          {faits.length > 0 && <p class="mt-8 text-sm text-on-ink/70">{faits.join(', ')}</p>}
+        </div>
+        {portrait && (
+          <div class="relative lg:col-span-6 lg:self-stretch">
+            <figure class="about-overlap-main relative ml-auto aspect-[4/5] w-[86%] overflow-hidden rounded-card shadow-lift sm:w-[70%] lg:-mt-36 lg:w-[90%]">
+              <Img src={portrait.src} alt={portrait.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1280px) 500px, (min-width: 1024px) 40vw, 80vw" data-parallax="0.08" loading="lazy" />
+            </figure>
+            {second && (
+              <figure class="about-overlap-second absolute bottom-0 left-0 aspect-[4/3] w-[58%] translate-y-[38%] overflow-hidden rounded-card border-4 border-ink shadow-lift sm:w-[46%] lg:w-[52%]">
+                <Img src={second.src} alt={second.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 1024px) 300px, 55vw" loading="lazy" />
+              </figure>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Le portrait seul (sans seconde photo) descend sous le bord du panneau : le débord porte la profondeur. */
+  .about-overlap-main:only-child { translate: 0 18%; }
+  @media (min-width: 1024px) {
+    .about-overlap-main:only-child { translate: 0 12%; }
+  }
+</style>

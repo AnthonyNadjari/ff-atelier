@@ -340,9 +340,13 @@ export function varianteCompatible(type, variant, cfg = {}) {
     case 'services/alternating':
     case 'services/bento':
     case 'services/cards-hover':
+    case 'services/photo-cards':
       return imagesServices;
     case 'about/portrait':
+    case 'about/overlap':
       return Boolean(cfg.about && cfg.about.portrait);
+    case 'cta/photo':
+      return (Array.isArray(cfg.proof?.gallery) && cfg.proof.gallery.length > 0) || services.some((s) => s && s.image);
     case 'process/horizon':
       return Array.isArray(cfg.process) && cfg.process.some((p) => p && p.image);
     case 'zones/map':
@@ -353,6 +357,14 @@ export function varianteCompatible(type, variant, cfg = {}) {
       return true;
   }
 }
+
+/**
+ * Compositions recréées depuis les modèles qui se vendent (veille 2a bis, docs/veille/compositions/INDEX.md) :
+ * quand leurs données sont là, composer les choisit avant les dessins de l'usine (« trop 2D, pas beau »,
+ * 17 oct 2026). Une composition éprouvée déjà prise par d'autres sites reste préférée : la variété vient
+ * du squelette et de la direction (docs/GOUT.md § 1), pas du retour aux sections plates.
+ */
+export const COMPOSITIONS_EPROUVEES = ['services/photo-cards', 'about/overlap', 'cta/photo'];
 
 function detectSections(cfg) {
   const types = [{ type: 'services' }, { type: 'about' }];
@@ -449,7 +461,8 @@ export function pickLook(slug, opts = {}) {
     // Variante du squelette seulement si ses données sont là (horizon veut une image par étape).
     if (type === 'process' && squelette?.processVariant && varianteCompatible(type, squelette.processVariant, cfg)) return { type, variant: squelette.processVariant };
     const possibles = (VARIANTS[type] || []).filter((v) => varianteCompatible(type, v, cfg));
-    const variant = forcedVariant || pickLeastUsed(possibles.length ? possibles : VARIANTS[type] || [], usage.variantCounts[type] || new Map(), rng);
+    const eprouvees = possibles.filter((v) => COMPOSITIONS_EPROUVEES.includes(`${type}/${v}`));
+    const variant = forcedVariant || pickLeastUsed(eprouvees.length ? eprouvees : possibles.length ? possibles : VARIANTS[type] || [], usage.variantCounts[type] || new Map(), rng);
     return { type, variant };
   });
 

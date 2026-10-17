@@ -1,0 +1,45 @@
+---
+/**
+ * Services "photo-cards" : la photo du service remplit la carte, un panneau clair est posé dessus en bas
+ * (deux plans qui se superposent, ombre portée). Composition reprise de la grille de services du modèle
+ * Framer HandGrid (veille compositions du 17 oct 2026, docs/veille/compositions/INDEX.md) : construction
+ * seulement, ni texte ni image ni code. Sans photo, la carte garde le panneau sur un fond bg-2 et l'icône
+ * du service (composer ne la propose que si la moitié des services au moins ont une photo).
+ */
+import { site, metierEtVille } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+---
+
+<section id="services" class="section-y">
+  <div class="container-ff">
+    <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} align="center" />
+    <ul class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5" data-stagger="70">
+      {site.services.map((s) => (
+        <li class="group relative min-w-0">
+          <a href={`/services/${s.slug}`} class="relative flex aspect-[5/6] flex-col justify-end overflow-hidden rounded-card bg-bg-2 p-3 shadow-card sm:aspect-[6/7] lg:aspect-[6/5]">
+            {s.image ? (
+              <Img
+                src={s.image.src}
+                alt={s.image.alt}
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
+                sizes="(min-width: 1280px) 392px, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                loading="lazy"
+              />
+            ) : (
+              <span class="absolute inset-0 flex items-start justify-center pt-[12%] text-accent/40" aria-hidden="true">
+                <Icon name={s.icon} size={96} strokeWidth={1} />
+              </span>
+            )}
+            <div class="relative rounded-ui bg-surface px-4 py-4 text-fg shadow-lift md:px-5">
+              <h3 class="text-display-sm">{s.title}</h3>
+              <p class="mt-2 line-clamp-3 text-sm text-muted">{s.short}</p>
+              {s.priceFrom && <p class="mt-2 text-sm font-medium tabular-nums">{s.priceFrom}</p>}
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -155,6 +155,25 @@ test('varianteCompatible : pas de variante à photo, carte ou FAQ longue sans le
   assert.equal(varianteCompatible('zones', 'map', avec), true);
 });
 
+test('compositions éprouvées (veille 2a bis) : seulement avec leurs photos, et préférées quand elles sont là', async () => {
+  const { varianteCompatible, COMPOSITIONS_EPROUVEES } = await import('../scripts/ff/composer.mjs');
+  const sansPhoto = { images: {}, services: [{ title: 'A' }, { title: 'B' }], about: {}, proof: { gallery: [] } };
+  assert.equal(varianteCompatible('services', 'photo-cards', sansPhoto), false);
+  assert.equal(varianteCompatible('about', 'overlap', sansPhoto), false);
+  assert.equal(varianteCompatible('cta', 'photo', sansPhoto), false);
+  const avec = { images: {}, services: [{ image: {} }, { title: 'B' }], about: { portrait: { src: '/p.webp' } }, proof: { gallery: [{ src: '/g.webp' }] } };
+  assert.equal(varianteCompatible('services', 'photo-cards', avec), true);
+  assert.equal(varianteCompatible('about', 'overlap', avec), true);
+  assert.equal(varianteCompatible('cta', 'photo', avec), true);
+  assert.equal(varianteCompatible('cta', 'photo', { services: [{ image: {} }], proof: {} }), true);
+  // Chaque composition éprouvée est une variante enregistrée (sinon defineSite la refuserait).
+  const schema = (await import('node:fs')).readFileSync(new URL('../src/lib/schema.ts', import.meta.url), 'utf8');
+  for (const c of COMPOSITIONS_EPROUVEES) {
+    const [type, v] = c.split('/');
+    assert.match(schema, new RegExp(`${type}: \\[[^\\]]*'${v}'`), c);
+  }
+});
+
 test('propositions : le bloc sur mesure du site reste dans chaque look', async () => {
   const { garderSurMesure } = await import('../scripts/ff/propositions.mjs');
   const site = [{ type: 'services' }, { type: 'custom', variant: 'bache' }, { type: 'faq' }, { type: 'custom', variant: 'fin' }];
