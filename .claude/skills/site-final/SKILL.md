@@ -115,15 +115,13 @@ une heure après.
 ## 4. Contrôles automatiques (tout vert avant de regarder)
 
 ```
-node scripts/ff.mjs build <slug>
-node scripts/ff.mjs verifier <slug> --sans-build     # a11y, typo, ia, données de test, textes, règles empruntées
-node scripts/ff.mjs typo <slug> --corriger            # si besoin, puis rebuild
-node scripts/ff.mjs audit-motion <slug>
-node scripts/ff.mjs nettete <slug>
-node scripts/ff.mjs detect <slug>
-node scripts/ff.mjs perf <slug>
-node scripts/ff.mjs signatures
+node scripts/ff.mjs prevol <slug> [<slug-b> <slug-c>]   # tout, dans l'ordre, une table à la fin
 ```
+
+`ff prevol` enchaîne contrat, aiguillage, build (verrou), verifier (a11y, typo, ia, ancres, crédits, données de
+test, textes, règles empruntées), audit-motion, nettete, detect, perf, signatures, puis `ff pistes` (film comparé)
+s'il y a plusieurs pistes ; un seul Chrome à la fois. Une étape rouge se corrige à la source (`ff typo <slug>
+--corriger` pour la typographie, puis relancer). Détail dans `.ff-tmp/prevol-<slug>.json`.
 
 Rouge = correction à la source (`site.config.ts`, `sites/<slug>/sections/`), jamais en assouplissant le
 contrôle. Les alertes `ff ia` et « Règle empruntée » se corrigent aussi, sauf raison écrite. Démos :
@@ -270,6 +268,12 @@ scripts/ff.mjs vercel <slug>` sur un projet d'aperçu si les identifiants existe
   une ligne dans `docs/veille/journal.md` (piste pour améliorer le contrôle).
 
 ## Journal des tests de la skill
+
+- 17 oct 2026 : la skill s'outille pour tenir en moins de tours. Avant de construire : `ff aiguillage`
+  (réponses du client → cadre), `ff demonter` (sites aimés → fiches mesurées), `ff contrat` (forme du contrat).
+  Avant de regarder : `ff prevol` (tout en une commande), `ff pistes` (diversité mesurée, film comparé). Après le
+  fondateur : `ff choisir`, `/retouche`. Les relecteurs du jour (fromagerie A et B) ont trouvé quatre défauts de
+  l'usine, devenus des contrôles : une relecture qui ne produit pas un contrôle est une relecture perdue.
 
 - 16 oct 2026, fromagerie-ravanel (démo, brief fictif, nouvelle famille « alimentation ») : tour 1 global
   6,55 (composition 6,5 plafonnée, textes 3 plafonnés) → tour 2 7,35 → tour 3 **7,6, montrer**. 15 constats
