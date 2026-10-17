@@ -266,6 +266,9 @@ function mesurer(distDir) {
       // Seuls les sous-ensembles latin (et latin-ext) sont telecharges par un navigateur francais
       // (unicode-range) : les autres subsets presents dans le CSS ne coutent rien a l'utilisateur.
       if (/-(cyrillic|cyrillic-ext|greek|greek-ext|vietnamese|hebrew|arabic|devanagari|thai|symbols|math)-/.test(abs)) continue;
+      // latin-ext (œ, Œ, ă, ș…) n'est téléchargé que si la page en contient un : sinon il ne coûte rien
+      // (17 oct 2026 : la fromagerie dépassait le budget de 30 Ko à cause de Savate latin-ext, jamais chargée).
+      if (/-latin-ext-/.test(abs) && !/[Ā-ɏḀ-ỿ]/.test(html)) continue;
       seenFonts.add(abs);
       const bytes = sizeOf(abs);
       result.fonts.files.push({ url, bytes });

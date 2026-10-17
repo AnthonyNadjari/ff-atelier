@@ -33,7 +33,8 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
   surtitre gris et des coches ; CREDITS.md créditait des photos jamais affichées (avertissement). Leçon : chaque
   constat d'un relecteur qui vient de `src/` devient un contrôle, pas une retouche.
 - `ff prevol` sur les trois pistes (2 min par piste) révèle ce que personne n'avait lancé : `perf` (polices 192 Ko
-  sur A, 179 Ko sur B, budget 160 Ko : deux familles à six fichiers ; revoir le budget ou le nombre de graisses),
+  sur A, 179 Ko sur B : fausse alerte, `ff perf` comptait les sous-ensembles latin-ext que le navigateur ne
+  télécharge que si la page contient œ ou Œ ; corrigé, les trois pistes font 102 à 111 Ko),
   `detect` sur A (contraste), et sur B la nav sur mesure en ancres `#cave` mortes depuis la 404. À traiter avec les
   démos ; `ff ia` sait maintenant voir un surtitre au-dessus du h1.
 - Après-midi, la skill se mécanise : `ff contrat` (forme du contrat avant de construire), `ff prevol` (tous les
