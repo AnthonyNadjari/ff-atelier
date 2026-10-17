@@ -1,6 +1,6 @@
 ---
 name: site-final
-description: Mène un site (client ou démo) jusqu'à l'état « à montrer » en une seule passe sans allers-retours avec les fondateurs - contrat de direction écrit et attaqué avant de construire, contrôles automatiques, planche à la molette validée puis regardée en passes, relecture adverse notée par deux agents (DA, rédacteur) avec barème de confiance et grille à plafonds, passes de verdict jusqu'aux seuils, puis UN SEUL compte rendu.
+description: Mène un site (client ou démo) jusqu'à l'état « à montrer » en une seule passe sans allers-retours avec les fondateurs - réponses du client transformées en cadre (ff aiguillage), sites aimés démontés (ff demonter), contrat de direction vérifié (ff contrat) puis attaqué, N pistes inventées depuis le brief et mesurées différentes (ff pistes), tous les contrôles en une commande (ff prevol), planche et film regardés en passes, relecture adverse notée par deux agents (DA, rédacteur) avec barème de confiance et grille à plafonds, passes de verdict jusqu'aux seuils, UN SEUL compte rendu, puis ff choisir et /retouche après le retour du fondateur.
 ---
 
 # site-final
@@ -21,9 +21,12 @@ Règles d'or :
 - **On ne montre qu'une fois.** Pendant toute la passe, on ne pose aucune question au fondateur : on
   décide, on note la décision dans `relecture.md`, on continue. Le compte rendu est l'endroit où il peut
   nous contredire.
-- Jamais plus de 2 agents à la fois ; les commandes qui ouvrent Chrome (`planche`, `captures`, `a11y`,
-  `audit-motion`, `nettete`, `tuiles`) se lancent l'une après l'autre, jamais en parallèle (PC à 2 Go de
-  RAM libre). Les agents relecteurs n'ouvrent aucun navigateur : ils lisent les captures.
+- Jamais plus de 2 agents à la fois ; les commandes qui ouvrent Chrome (`prevol`, `planche`, `captures`, `film`,
+  `pistes`, `demonter`, `a11y`, `audit-motion`, `nettete`, `tuiles`) se lancent l'une après l'autre, jamais en
+  parallèle (PC à 2 Go de RAM libre). Les agents relecteurs n'ouvrent aucun navigateur : ils lisent les captures.
+- **Tout ce qui peut se vérifier à la machine se vérifie à la machine**, avant qu'un œil ne regarde :
+  `ff contrat` (le contrat), `ff prevol` (le site), `ff pistes` (la diversité). Un relecteur ne redit jamais
+  ce qu'un contrôle a déjà dit ; un constat de relecteur qui vient de `src/` devient un contrôle (§ 10).
 - Jamais de donnée inventée. Jamais `ff deploy` depuis cette skill.
 
 ## 0. Lire (dans l'ordre, sans sauter)
@@ -180,8 +183,8 @@ Chaque défaut se note avec sa vignette (`m-0, vignette 7`) et se corrige avant 
 
 ## 6. Relecture adverse notée (deux agents neufs, en parallèle, lecture seule)
 
-`node scripts/ff.mjs relecture <slug>` assemble les deux prompts (charte, barème, grille, variété) dans
-`captures/relecture/<slug>-da.txt` et `-redacteur.txt`. Lancer **dans le même message** deux agents
+`node scripts/ff.mjs relecture <slug>` assemble les deux prompts (charte, barème, grille, variété, et ce que
+`ff pistes` et `ff aiguillage` ont déjà établi) dans `captures/relecture/<slug>-da.txt` et `-redacteur.txt`. Lancer **dans le même message** deux agents
 `general-purpose` (jamais en `fork`) dont la consigne est : « Lis en entier le fichier
 captures/relecture/<slug>-da.txt (ou -redacteur.txt) et exécute-le à la lettre ; ta réponse finale est
 exactement la SORTIE qu'il demande. »
@@ -238,8 +241,10 @@ fichiers de `src/` touchés : s'arrêter et le dire, la page a un problème de f
 
 ## 8. Aperçu
 
-Démo ou site du studio : captures seulement, pas de mise en ligne sans accord. Site client : `node
-scripts/ff.mjs vercel <slug>` sur un projet d'aperçu si les identifiants existent, sinon captures.
+Démo (`legal.demo`) : `node scripts/ff.mjs vercel <slug> --sans-build` sur son projet de démo
+(`sites/<slug>/vercel-projet.json`, créé au premier déploiement) : le fondateur regarde sur son téléphone. Site du
+studio : jamais sans accord. Site client : un projet d'aperçu Vercel si les identifiants existent, sinon captures ;
+la mise en ligne réelle (Cloudflare, domaine du client) n'est jamais faite par cette skill.
 
 ## 9. Compte rendu (une seule fois, en français simple, sans jargon)
 
@@ -266,8 +271,11 @@ scripts/ff.mjs vercel <slug>` sur un projet d'aperçu si les identifiants existe
   `ff verifier`) ou une question de plus dans `relecteurs/da.md` ou `relecteurs/redacteur.md`.
 - Un « oui » sur un écart signalé → `sites/<slug>/direction.md`, section « Accepté par le fondateur »,
   daté ; les relectures suivantes de ce site ne le resignalent pas.
-- Un bug payé → une ligne de `CLAUDE.md` § Pièges. Un constat du DA qu'un contrôle aurait dû attraper →
-  une ligne dans `docs/veille/journal.md` (piste pour améliorer le contrôle).
+- Un bug payé → une ligne de `CLAUDE.md` § Pièges. Un constat de relecteur dont la cause est dans `src/`
+  (un défaut par défaut du moteur, une ancre morte, un texte inventé par un gabarit) → on corrige `src/` pour
+  tous les sites ET on ajoute le contrôle qui l'aurait vu (`ff verifier`, `ff ia`, `ff contrat`), avec son
+  test ; une ligne dans `docs/veille/journal.md`. Le 17 oct 2026, quatre constats sur la fromagerie sont
+  devenus quatre contrôles.
 
 ## Journal des tests de la skill
 
@@ -295,6 +303,8 @@ Faire noter les deux planches par un agent neuf qui ne sait pas laquelle est laq
 pas d'au moins un point global, revoir l'étape qui coûte le plus. Une passe à la fois, un navigateur.
 
 Et, sans brief ni agent, les contrôles mécaniques de la skill se vérifient en une minute :
-`node --test tests/aiguillage.test.mjs tests/pistes.test.mjs tests/ia.test.mjs tests/brief-form.test.mjs`, puis
+`node --test tests/aiguillage.test.mjs tests/pistes.test.mjs tests/contrat.test.mjs tests/prevol.test.mjs
+tests/film.test.mjs tests/choisir.test.mjs tests/ia.test.mjs tests/brief-form.test.mjs`, puis
+`node scripts/ff.mjs contrat fromagerie-ravanel fromagerie-ravanel-b fromagerie-ravanel-c` (trois contrats verts),
 `node scripts/ff.mjs pistes fromagerie-ravanel --sans-film` (les trois pistes de la démo doivent rester
 différentes) et `node scripts/ff.mjs aiguillage fromagerie-ravanel` (lit le brief, imprime la décision).
