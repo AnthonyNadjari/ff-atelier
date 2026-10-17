@@ -6,6 +6,7 @@ export { schemaTypeForTrade } from './schemaType';
 import { actions as actionsFor } from './actions';
 export { hasContactDoor, ACTION_LABELS, ACTION_ICONS } from './actions';
 export type { Action, ActionKind } from './actions';
+export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 
 import { config as siteConfig, lookFile, hasCredits } from 'virtual:ff-look';
 

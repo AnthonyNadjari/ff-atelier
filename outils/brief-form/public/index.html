@@ -32,6 +32,7 @@
     border: 1px solid var(--ligne); border-radius: 3px; padding: 12px 14px; transition: border-color .2s ease-out;
   }
   textarea { min-height: 7.5rem; resize: vertical; field-sizing: content; }
+  textarea.courte { min-height: 3.5rem; }
   input:focus, textarea:focus { outline: none; border-color: var(--cuivre); }
   input:user-invalid, textarea:user-invalid { border-color: var(--erreur); }
   .ligne { display: grid; gap: 0 16px; }
@@ -102,12 +103,33 @@
       <p class="aide">Trois à six choses, une par ligne. Mettez un prix seulement si vous voulez qu’il soit affiché.</p>
       <label for="services">Vos services ou vos produits</label>
       <textarea id="services" name="services" required placeholder="Ex. Plateaux de fromages, de 6 à 30 personnes, dès 6 € par personne"></textarea>
-      <label for="demandes">Ce que vos clients vous demandent tout le temps<span class="precision">Au téléphone, au comptoir : les questions qui reviennent, avec votre réponse habituelle</span></label>
-      <textarea id="demandes" name="demandes"></textarea>
       <label for="difference">Ce qui vous distingue des autres<span class="precision">Des faits, pas des adjectifs : « on goûte avant d’acheter », « devis écrit avant de commencer »</span></label>
       <textarea id="difference" name="difference"></textarea>
       <label for="histoire">Votre histoire<span class="precision">Qui vous êtes, depuis quand, pourquoi vous vous êtes lancé</span></label>
       <textarea id="histoire" name="histoire"></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend>Questions fréquentes</legend>
+      <p class="aide">Ce que vos clients vous demandent au téléphone avant de venir. Répondez avec vos mots, seulement si vous avez une réponse : une case vide ne donne rien sur le site, on n’invente pas à votre place.</p>
+      <label for="faq_parking">Parking et accès : où se garer, comment entrer ? <span class="facultatif">(facultatif)</span></label>
+      <textarea id="faq_parking" name="faq_parking" class="courte"></textarea>
+      <label for="faq_delais">Vos délais habituels : combien de temps entre l’appel et l’intervention ? <span class="facultatif">(facultatif)</span></label>
+      <textarea id="faq_delais" name="faq_delais" class="courte"></textarea>
+      <label for="faq_devis">Le devis est-il payant ? <span class="facultatif">(facultatif)</span></label>
+      <textarea id="faq_devis" name="faq_devis" class="courte"></textarea>
+      <label for="faq_paiement">Le paiement : acompte, moyens acceptés ? <span class="facultatif">(facultatif)</span></label>
+      <textarea id="faq_paiement" name="faq_paiement" class="courte"></textarea>
+      <label for="faq_zone">Votre zone d’intervention exacte : jusqu’où vous déplacez-vous ? <span class="facultatif">(facultatif)</span></label>
+      <textarea id="faq_zone" name="faq_zone" class="courte"></textarea>
+      <label for="faq_contraintes">Allergies, matériaux, contraintes propres à votre métier ? <span class="facultatif">(facultatif)</span></label>
+      <textarea id="faq_contraintes" name="faq_contraintes" class="courte"></textarea>
+      <label for="faq_urgence">Intervenez-vous en urgence, le soir ou le week-end ? <span class="facultatif">(facultatif)</span></label>
+      <textarea id="faq_urgence" name="faq_urgence" class="courte"></textarea>
+      <label for="faq_avant">Que doit faire le client avant votre venue ? <span class="facultatif">(facultatif)</span></label>
+      <textarea id="faq_avant" name="faq_avant" class="courte"></textarea>
+      <label for="demandes">Autres questions qui reviennent tout le temps<span class="precision">Avec votre réponse habituelle</span></label>
+      <textarea id="demandes" name="demandes"></textarea>
     </fieldset>
 
     <fieldset>

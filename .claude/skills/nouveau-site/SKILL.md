@@ -91,7 +91,11 @@ En croisant le brief (section 12 : 3 adjectifs, métier, sites aimés/pas aimés
     fournis. Pas de proof si le brief n'a rien de tout ça.
   - `zones` — seulement si des villes sont listées.
   - `process` — seulement si le brief décrit des étapes de travail.
-  - `faq` — seulement si le brief a des questions/réponses.
+  - `faq` — seulement si le brief a des questions/réponses. Les réponses de la section 10 du brief (parking et
+    accès, délais, devis payant ou non, paiement, zone exacte, contraintes du métier, urgences / week-end, que
+    faire avant la venue, plus les questions libres) deviennent la FAQ, **telles quelles reformulées en une
+    phrase** (les mots du client, mis au propre, sans rien ajouter) ; **une question sans réponse n'entre pas**
+    (pas de « Nous contacter pour en savoir plus », pas de réponse devinée d'après le métier).
   - `cta` — presque toujours (bandeau avant contact), sauf site très court.
   - `contact` — toujours.
   - Variante de chaque section : voir le tableau correspondant dans `docs/DIRECTIONS.md`.

@@ -24,9 +24,17 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
   courant et l'état ouvert / fermé (sans JS : la liste).
 - Process d'hébergement écrit (`studio/decisions/PROCESS-HEBERGEMENT.md`) et fiche client « votre nom de
   domaine » (`studio/commercial/guide-domaine.html`).
+- Geste 5 : `proof.gallery[].place / kind / size / client` (optionnels, jamais devinés), ligne lieu – type –
+  mesure – client sous chaque photo de `Proof/gallery`, filtres par type en boutons radio + CSS `:has()` sans
+  JS, compteur « N réalisations » à partir de 4 (`src/lib/galerie.ts`, `tests/galerie.test.mjs`). Brief § 8 :
+  les quatre données demandées par photo.
+- Geste 1 : brief § 10 = huit questions logistiques concrètes (parking, délais, devis payant, paiement, zone,
+  contraintes du métier, urgences, avant la venue), réponse du client telle quelle, rien si pas de réponse ;
+  mêmes huit champs dans le formulaire client et dans la section 10 du brief Markdown ; `/nouveau-site` en fait
+  la FAQ sans inventer.
 
-**Proposé** : gestes 5 (réalisations avec métadonnées + filtres) et 1 (FAQ logistique au brief) ; `ff demonter`
-sur une page intérieure ; `/retouche` à l'essai sur une vraie phrase du fondateur.
+**Proposé** : `ff demonter` sur une page intérieure ; `/retouche` à l'essai sur une vraie phrase du fondateur ;
+gestes 6 à 9 (photo dans le titre, titre collant, diptyque, recrutement).
 
 **À décider** : compte Cloudflare F&F ; qui achète le domaine ; dépôt commun ; création de la SAS.
 

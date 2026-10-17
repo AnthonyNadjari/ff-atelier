@@ -22,6 +22,36 @@ export function champsManquants(d) {
   return out;
 }
 
+/**
+ * Les huit questions logistiques de docs/BRIEF.md § 10 (geste 1 des démontages : Studenterkilden, KS) —
+ * clé du formulaire → question telle qu'elle apparaît dans le brief. Même ordre que le formulaire.
+ */
+export const QUESTIONS_FAQ = [
+  ['faq_parking', 'Parking et accès : où se garer, comment entrer ?'],
+  ['faq_delais', 'Vos délais habituels : combien de temps entre l’appel et l’intervention ?'],
+  ['faq_devis', 'Le devis est-il payant ?'],
+  ['faq_paiement', 'Le paiement : acompte, moyens acceptés ?'],
+  ['faq_zone', 'Votre zone d’intervention exacte : jusqu’où vous déplacez-vous ?'],
+  ['faq_contraintes', 'Allergies, matériaux, contraintes propres à votre métier ?'],
+  ['faq_urgence', 'Intervenez-vous en urgence, le soir ou le week-end ?'],
+  ['faq_avant', 'Que doit faire le client avant votre venue ?'],
+];
+
+/**
+ * Section 10 du brief : une ligne « **Q :** … / **R :** … » par question répondue (réponse du client telle
+ * quelle, retours à la ligne aplatis), rien pour les vides — jamais « ? à demander » ici : une question
+ * sans réponse n'entre pas sur le site. Puis les autres questions libres (`demandes`), s'il y en a.
+ */
+const uneLigne = (t) => t.replace(/\s*\n+\s*/g, ' ');
+export function sectionFaq(d) {
+  const lignes = QUESTIONS_FAQ
+    .filter(([k]) => net(d?.[k]))
+    .map(([k, q]) => `- **Q :** ${q} / **R :** ${uneLigne(net(d[k]))}`);
+  const autres = net(d?.demandes);
+  if (autres) lignes.push(`- **Autres questions qui reviennent :** ${uneLigne(autres)}`);
+  return lignes.length ? lignes.join('\n') : 'Aucune réponse : pas de FAQ sur le site (ne rien inventer).';
+}
+
 /** Brief Markdown au format de docs/BRIEF.md (sections 1 à 12), prêt pour `sites/<slug>/brief.md`. */
 export function briefMarkdown(d, date = new Date()) {
   const jour = date.toISOString().slice(0, 10);
@@ -79,8 +109,8 @@ ${ou(d.avis)}
 - **Instagram :** ${ou(d.instagram)}
 - **Facebook :** ${ou(d.facebook)}
 
-## 10. Questions fréquentes (ce que les clients demandent tout le temps)
-${ou(d.demandes)}
+## 10. Questions fréquentes (la logistique, réponses du client telles quelles)
+${sectionFaq(d)}
 
 ## 11. Domaine et mise en ligne
 - **Domaine :** ${ou(d.domaine)}

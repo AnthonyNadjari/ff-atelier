@@ -1,35 +1,131 @@
 ---
-/** Proof "gallery" : grille de realisations, premiere image sur 2 colonnes, effet tilt au survol. */
-import { site } from '@/lib/site';
+/**
+ * Proof "gallery" : grille de réalisations, première image sur 2 colonnes, effet tilt au survol.
+ * Geste 5 des démontages (docs/veille/demontages/INDEX.md) : sous chaque photo, une ligne discrète
+ * lieu – type – mesure – client (seulement ce que le client a donné, src/lib/galerie.ts) ; dès deux
+ * types distincts, une rangée de boutons radio (« Tout » + un par type) filtre la grille SANS JS :
+ * chaque radio porte l'index du type (`#k-1`…), chaque réalisation `data-kind="<index>"`, et le CSS
+ * `.galerie:has(#k-n:checked) .realisation:not([data-kind="n"]) { display: none }` masque les autres
+ * (12 règles statiques, scoped : au-delà de 12 types, les suivants n'ont pas de bouton). Compteur
+ * « N réalisations » seulement à partir de COMPTEUR_MIN photos (chiffre réel).
+ */
+import { site, kindsDeGalerie, metaDeRealisation, libelleCompteur, SEPARATEUR_META } from '@/lib/site';
 import Img from '@/components/Img.astro';
 const gallery = site.proof.gallery;
+const MAX_FILTRES = 12;
+const kinds = (kindsDeGalerie(gallery) ?? []).slice(0, MAX_FILTRES);
+const indexDeKind = (kind: string | undefined) => (kind ? kinds.indexOf(kind.trim()) + 1 : 0);
+const compteur = libelleCompteur(gallery.length);
 ---
 
 {gallery.length > 0 && (
-  <section id="proof" class="section-y">
+  <section id="proof" class="section-y galerie">
     <div class="container-ff">
-      <h2 class="text-display-md" data-reveal>En images</h2>
+      <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+        <h2 class="text-display-md" data-reveal>En images</h2>
+        {compteur && <p class="text-sm text-muted">{compteur}</p>}
+      </div>
+
+      {kinds.length >= 2 && (
+        <fieldset class="galerie-filtres mt-6 flex flex-wrap gap-2">
+          <legend class="sr-only">Filtrer par type de travaux</legend>
+          <input class="sr-only" type="radio" name="galerie-kind" id="k-0" value="" checked />
+          <label for="k-0">Tout</label>
+          {kinds.map((k, i) => (
+            <>
+              <input class="sr-only" type="radio" name="galerie-kind" id={`k-${i + 1}`} value={String(i + 1)} />
+              <label for={`k-${i + 1}`}>{k}</label>
+            </>
+          ))}
+        </fieldset>
+      )}
 
       <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5" data-stagger="90">
-        {gallery.map((img, i) => (
-          <figure
-            class:list={['group relative overflow-hidden rounded-card bg-bg-2', i === 0 && 'col-span-2 row-span-2']}
-            data-reveal
-            data-tilt="6"
-          >
-            <Img
-              src={img.src}
-              alt={img.alt}
-              loading="lazy"
-              sizes={i === 0 ? '(min-width: 1280px) 598px, (min-width: 768px) 50vw, 100vw' : '(min-width: 1280px) 289px, (min-width: 768px) 25vw, 50vw'}
-              class={['h-full w-full object-cover transition-transform duration-500 group-hover:scale-105', i === 0 ? 'aspect-square md:aspect-[4/3]' : 'aspect-square'].join(' ')}
-            />
-            {img.caption && (
-              <figcaption class="absolute inset-x-0 bottom-0 bg-ink/70 text-on-ink text-sm px-4 py-2.5">{img.caption}</figcaption>
-            )}
-          </figure>
-        ))}
+        {gallery.map((img, i) => {
+          const meta = metaDeRealisation(img);
+          const idx = indexDeKind(img.kind);
+          return (
+            <figure
+              class:list={['realisation group flex flex-col', i === 0 && 'col-span-2 row-span-2']}
+              data-kind={idx > 0 ? String(idx) : undefined}
+              data-reveal
+              data-tilt="6"
+            >
+              <div class="relative flex-1 min-h-0 overflow-hidden rounded-card bg-bg-2">
+                <Img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  sizes={i === 0 ? '(min-width: 1280px) 598px, (min-width: 768px) 50vw, 100vw' : '(min-width: 1280px) 289px, (min-width: 768px) 25vw, 50vw'}
+                  class={['h-full w-full object-cover transition-transform duration-500 group-hover:scale-105', i === 0 ? 'aspect-[4/3] md:aspect-auto' : 'aspect-square'].join(' ')}
+                />
+                {img.caption && (
+                  <figcaption class="absolute inset-x-0 bottom-0 bg-ink/70 text-on-ink text-sm px-4 py-2.5">{img.caption}</figcaption>
+                )}
+              </div>
+              {meta.length > 0 && (
+                <p class="realisation-meta mt-2 text-xs text-muted">
+                  {meta.map((m, j) => (
+                    <>
+                      {j > 0 && <span aria-hidden="true">{SEPARATEUR_META}</span>}
+                      <span>{m}</span>
+                    </>
+                  ))}
+                </p>
+              )}
+            </figure>
+          );
+        })}
       </div>
     </div>
   </section>
 )}
+
+<style>
+  /* Boutons de filtre : rayon de l'interface (--radius-ui, jamais une pilule), tokens seulement. */
+  .galerie-filtres label {
+    cursor: pointer;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-ui);
+    padding: 0.5rem 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.25;
+    color: var(--color-fg);
+    background: transparent;
+    transition: background var(--motion-ui, 0.2s) var(--ease-out-quart), color var(--motion-ui, 0.2s) var(--ease-out-quart), border-color var(--motion-ui, 0.2s) var(--ease-out-quart);
+  }
+  .galerie-filtres input:checked + label {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-on-ink);
+  }
+  /* Les radios sont sr-only : le focus clavier se voit sur l'étiquette. */
+  .galerie-filtres input:focus-visible + label {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .galerie-filtres input:not(:checked) + label:hover {
+      border-color: var(--color-fg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .galerie-filtres label { transition: none; }
+  }
+  .realisation-meta { overflow-wrap: anywhere; }
+
+  /* Filtres sans JS : la radio cochée masque les réalisations d'un autre type (`:has()`, Baseline 2023).
+     k-0 = « Tout » : aucune règle, tout reste visible. */
+  .galerie:has(#k-1:checked) .realisation:not([data-kind="1"]) { display: none; }
+  .galerie:has(#k-2:checked) .realisation:not([data-kind="2"]) { display: none; }
+  .galerie:has(#k-3:checked) .realisation:not([data-kind="3"]) { display: none; }
+  .galerie:has(#k-4:checked) .realisation:not([data-kind="4"]) { display: none; }
+  .galerie:has(#k-5:checked) .realisation:not([data-kind="5"]) { display: none; }
+  .galerie:has(#k-6:checked) .realisation:not([data-kind="6"]) { display: none; }
+  .galerie:has(#k-7:checked) .realisation:not([data-kind="7"]) { display: none; }
+  .galerie:has(#k-8:checked) .realisation:not([data-kind="8"]) { display: none; }
+  .galerie:has(#k-9:checked) .realisation:not([data-kind="9"]) { display: none; }
+  .galerie:has(#k-10:checked) .realisation:not([data-kind="10"]) { display: none; }
+  .galerie:has(#k-11:checked) .realisation:not([data-kind="11"]) { display: none; }
+  .galerie:has(#k-12:checked) .realisation:not([data-kind="12"]) { display: none; }
+</style>

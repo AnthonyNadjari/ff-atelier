@@ -133,6 +133,15 @@ export async function loadHorairesModule() {
   return loadPureLibModule('horaires.ts');
 }
 
+/**
+ * Copie src/lib/galerie.ts (module pur : un seul `import type` du schema) dans TMP_DIR/lib/ et l'importe.
+ * Renvoie { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META }
+ * (tests/galerie.test.mjs).
+ */
+export async function loadGalerieModule() {
+  return loadPureLibModule('galerie.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

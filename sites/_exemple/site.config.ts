@@ -80,6 +80,16 @@ export default defineSite({
       { author: 'Claire D.', text: 'Une cuisine magnifique, exactement le dessin validé. Pose propre, délais tenus.', source: 'Google', city: 'Lille' },
       { author: 'Marc & Sophie', text: 'Escalier en chêne posé en une journée. Le résultat est superbe.', source: 'Google', city: 'Tourcoing' },
     ],
+    // Réalisations avec métadonnées (geste 5, src/lib/galerie.ts) : lieu, type (= filtre de proof/gallery dès
+    // deux types distincts), mesure, client en initiales avec son accord. Tout vient du brief (§ 8), rien n'est
+    // deviné : un champ absent n'est pas affiché. Les fichiers n'existent pas ici (_exemple n'a aucune photo,
+    // pas plus de hero) : ces entrées servent de référence de schéma et au fumigène tests/galerie.test.mjs.
+    gallery: [
+      { src: '/images/realisation-cuisine.webp', alt: 'Cuisine en chêne massif, façades lisses, plan de travail bois', place: 'Roubaix', kind: 'Cuisine', size: '14 m²', client: 'Claire D.' },
+      { src: '/images/realisation-escalier.webp', alt: 'Escalier quart tournant en chêne, garde-corps à barreaux plats', place: 'Tourcoing', kind: 'Escalier', size: '2 jours de pose' },
+      { src: '/images/realisation-bibliotheque.webp', alt: 'Bibliothèque sous pente en frêne, du sol au plafond', place: 'Vieux-Lille', kind: 'Agencement', size: '4 m de linéaire' },
+      { src: '/images/realisation-cuisine-2.webp', alt: 'Cuisine en frêne huilé avec îlot central', place: 'Marcq-en-Barœul', kind: 'Cuisine', size: '18 m²' },
+    ],
   },
 
   faq: [

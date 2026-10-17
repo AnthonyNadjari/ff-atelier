@@ -116,6 +116,16 @@ Coche ce qui existe réellement chez le client (rien de tout ça ne se fabrique)
 
 **Lien vers les photos** (Drive, Dropbox, WeTransfer...) :
 
+**Pour chaque photo de réalisation**, demander (c'est ce qui rend une galerie crédible : KS Architectes classe
+ses chantiers par commune et par type, Artisans de Genève signe chaque pièce des initiales du client) :
+
+- **Lieu** (ville ou quartier) :
+- **Type de travaux / de pièce** (cuisine, escalier, toiture… — sert de filtre sur le site dès deux types) :
+- **Mesure** (« 12 m² », « 2 jours », « 4 m de linéaire ») :
+- **Client** (initiales ou prénom, **avec son accord** ; jamais un nom complet sans accord écrit) :
+
+Un champ sans réponse reste vide : la photo s'affiche sans cette ligne, on ne complète jamais de tête.
+
 > Les champs image de `site.config.ts` restent vides tant que les fichiers ne sont pas déposés dans
 > `sites/<slug>/public/images/`. Pas de photo de banque d'images, pas de placeholder.
 
@@ -126,12 +136,46 @@ Coche ce qui existe réellement chez le client (rien de tout ça ne se fabrique)
 - **LinkedIn** (URL complète) :
 - **TikTok** (URL complète) :
 
-## 10. Questions fréquentes (optionnel)
+## 10. Questions fréquentes (la logistique, posée pendant l'appel)
 
-Les 2-4 questions que les clients posent le plus souvent au téléphone, avec la réponse habituelle :
+Les sites qu'on a démontés (Studenterkilden, KS Architectes — `docs/veille/demontages/INDEX.md`, geste 1)
+répondent sur leur page aux questions de terrain que les clients posent au téléphone : parking, délais,
+allergies, musique forte. C'est ce qui rend une FAQ utile, pas « Pourquoi nous choisir ? ». Pose ces huit
+questions au client, note **sa réponse telle quelle** (ses mots, pas les nôtres). **Si pas de réponse : ne
+rien inventer**, la question n'entre pas sur le site.
+
+1. **Parking et accès** (où se garer, comment entrer, étage, ascenseur, accès handicapé) :
+   - Réponse du client, telle quelle :
+   - Si pas de réponse : ne rien inventer.
+2. **Délais habituels** (entre le premier contact et l'intervention, durée moyenne d'un chantier) :
+   - Réponse du client, telle quelle :
+   - Si pas de réponse : ne rien inventer.
+3. **Devis payant ou non** (visite gratuite ? déplacement facturé ? déduit si commande ?) :
+   - Réponse du client, telle quelle :
+   - Si pas de réponse : ne rien inventer.
+4. **Paiement** (acompte et son montant, moyens acceptés : CB, virement, chèque, espèces, en plusieurs fois) :
+   - Réponse du client, telle quelle :
+   - Si pas de réponse : ne rien inventer.
+5. **Zone d'intervention exacte** (communes, rayon en km, frais au-delà) :
+   - Réponse du client, telle quelle :
+   - Si pas de réponse : ne rien inventer.
+6. **Allergies, matériaux, contraintes propres au métier** (allergènes, produits sans ammoniaque, bois certifié, bruit, poussière, animaux) :
+   - Réponse du client, telle quelle :
+   - Si pas de réponse : ne rien inventer.
+7. **Horaires d'urgence ou week-end** (dépannage le soir, le dimanche, majoration) :
+   - Réponse du client, telle quelle :
+   - Si pas de réponse : ne rien inventer.
+8. **Que faire avant la venue** (préparer la pièce, dégager l'accès, apporter quoi au rendez-vous) :
+   - Réponse du client, telle quelle :
+   - Si pas de réponse : ne rien inventer.
+
+Autres questions qui reviennent tout le temps (avec la réponse habituelle) :
 
 - **Q :**
   **R :**
+
+> Dans `site.config.ts`, les réponses de cette section deviennent la `faq`, telles quelles reformulées en une
+> phrase ; une question sans réponse n'entre pas (`.claude/skills/nouveau-site/SKILL.md`).
 
 ## 11. Domaine et mise en ligne
 

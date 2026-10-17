@@ -103,7 +103,7 @@ absente (photo, avis, FAQ) ne doit pas être choisie.
 |---|---|
 | `google` | Note + nombre d'avis Google fournis, rien d'autre. |
 | `testimonials` | Avis clients réels avec texte fournis (section 7 du brief). |
-| `gallery` | Photos de réalisations fournies, pas forcément d'avis. |
+| `gallery` | Photos de réalisations fournies, pas forcément d'avis. Sous chaque photo, la ligne lieu – type – mesure – client (`proof.gallery[].place/kind/size/client`, seulement ce que le brief § 8 donne) ; dès deux `kind` distincts, une rangée de boutons radio « Tout / Cuisine / Escalier » filtre la grille sans JS (`:has()`) ; « N réalisations » affiché à partir de 4 photos. Geste 5 des démontages (KS, Artisans de Genève, Mathilde De Chiara). |
 | `before-after` | Paires avant/après fournies (rénovation, travaux). |
 | `logos` | Logos de partenaires/clients B2B fournis. |
 | `marquee-quotes` | Plusieurs témoignages courts, direction animée. |
