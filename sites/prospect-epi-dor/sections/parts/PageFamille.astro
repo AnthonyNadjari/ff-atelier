@@ -1,0 +1,271 @@
+---
+/**
+ * Page d'une famille de produits (socle : une page par famille), à la place de la page service partagée, trop
+ * plate pour ce site (photo en vignette à côté du texte). Servie à /services/<slug> par sites/<slug>/pages/services/.
+ * En tête : la photo de la famille en grand, ou, sans photo (le pain, les sandwichs), le panneau de faïence avec les
+ * noms du catalogue ; la carte du titre posée dessus avec le numéro. Puis le texte du brief, les autres photos de la
+ * galerie qui vont avec, l'avis du brief qui en parle, et l'appel. Rien d'autre que site.config.ts et la galerie.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, paragraphs } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import { serviceLd } from '@/lib/jsonld';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props { slug: string }
+const { slug } = Astro.props;
+const service = site.services.find((s) => s.slug === slug);
+if (!service) throw new Error(`Famille inconnue : ${slug}`);
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const titre = `${service.title} à ${site.contact.address.city}, ${site.business.name}`;
+const ld = serviceLd(site, service, new URL(`/services/${service.slug}`, Astro.site).toString());
+
+// Les autres photos de la galerie de la boutique qui vont avec la famille (04, 05, 07 écartées : direction.md).
+const GALERIE: Record<string, { src: string; alt: string }[]> = {
+  patisseries: [
+    { src: '/images/galerie-11.webp', alt: 'Tarte meringuée, meringue dorée en spirale et copeaux de chocolat' },
+    { src: '/images/galerie-01.webp', alt: 'Entremets aux fraises nappé de rouge, brins de muguet et fraises sur le dessus' },
+  ],
+  fetes: [
+    { src: '/images/galerie-06.webp', alt: 'Trois cœurs glacés roses, « St Valentin » écrit au chocolat' },
+    { src: '/images/galerie-03.webp', alt: 'Œuf décoré « Joyeuses Pâques », emballé sous cellophane avec un nœud rose' },
+    { src: '/images/galerie-09.webp', alt: 'Bûche de Noël glacée violette à motif de vagues' },
+    { src: '/images/galerie-10.webp', alt: 'Bûche de Noël jaune, décor de chocolat et petit père Noël' },
+  ],
+};
+// L'avis du brief qui parle de cette famille, mot pour mot.
+const AVIS: Record<string, string> = { sandwichs: 'Sylvia D.', patisseries: 'Marie C.' };
+const avis = site.proof.testimonials.find((t) => t.author === AVIS[slug]);
+const photos = GALERIE[slug] ?? [];
+const autres = site.services.filter((s) => s.slug !== slug);
+---
+
+<Base title={titre} description={service.short} path={`/services/${service.slug}`} jsonLd={[ld]}>
+  <Nav />
+  <main id="main" class="fam">
+    <header class={`fam-tete ${service.image ? 'a-photo' : 'a-faience'}`}>
+      {service.image ? (
+        <div class="fam-photo">
+          <Img src={service.image.src} alt={service.image.alt} class="fam-img" sizes="100vw" priority />
+        </div>
+      ) : (
+        <div class="fam-faience" aria-hidden="true">
+          <ul class="fam-noms">{service.bullets.map((b) => <li>{b}</li>)}</ul>
+        </div>
+      )}
+      <div class="fam-carte">
+        <a href="/" class="fam-retour"><Icon name="ArrowLeft" size={16} />Accueil</a>
+        <h1 class="fam-titre">{service.title}</h1>
+        <p class="fam-court">{service.short}</p>
+        <a href={tel()} class="fam-tel">
+          <Icon name="Phone" size={24} />{site.contact.phoneDisplay}
+        </a>
+      </div>
+    </header>
+
+    <section class="fam-corps" aria-label="Le rayon">
+      <div class="fam-texte">{paragraphs(service.description ?? service.short).map((p) => <p>{p}</p>)}</div>
+      {service.bullets.length > 0 && (
+        <div class="fam-catalogue">
+          <h2 class="fam-sous">Au catalogue</h2>
+          <ul>{service.bullets.map((b) => <li>{b}</li>)}</ul>
+        </div>
+      )}
+    </section>
+
+    {photos.length > 0 && (
+      <section class="fam-galerie" aria-label="De la galerie de la boutique">
+        <ul class={`fam-photos n-${photos.length}`}>
+          {photos.map((ph) => (
+            <li><Img src={ph.src} alt={ph.alt} class="fam-ph object-cover" sizes="(min-width: 1024px) 45vw, 100vw" /></li>
+          ))}
+        </ul>
+        {slug === 'fetes' && <p class="fam-lien"><a href="/#vitrine">La vitrine des fêtes, sur l’accueil</a></p>}
+      </section>
+    )}
+
+    {avis && (
+      <section class="fam-avis" aria-label="Un avis Google">
+        <blockquote><p>« {avis.text} »</p></blockquote>
+        <p class="fam-qui">{avis.author}<span>, avis {avis.source}</span></p>
+      </section>
+    )}
+
+    <section class="fam-appel" aria-label="Commander">
+      <p class="fam-appel-titre">{site.wording.ctaTitle}</p>
+      <a href={tel()} class="fam-appel-tel"><Icon name="Phone" size={28} />{site.contact.phoneDisplay}</a>
+      <p class="fam-appel-texte">{site.wording.ctaText}</p>
+      <ul class="fam-autres" aria-label="Les autres rayons">
+        {autres.map((o) => <li><a href={`/services/${o.slug}`}>{o.title}</a></li>)}
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style is:global>
+  .fam-tete { position: relative; display: grid; }
+  .fam-photo, .fam-faience { grid-area: 1 / 1; }
+  .fam-photo { height: clamp(16rem, 50svh, 34rem); overflow: hidden; background: var(--ink); }
+  .fam-photo .fam-img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  @media (min-width: 64rem) { .fam-photo { height: calc(100svh - 10rem); min-height: 30rem; max-height: 46rem; } }
+
+  .fam-faience {
+    min-height: clamp(15rem, 46svh, 30rem);
+    padding: 1.6rem clamp(1rem, 4vw, 3rem) 9rem;
+    background-color: var(--bg-2);
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--line) 80%, var(--fg) 6%) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--line) 80%, var(--fg) 6%) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+    border-bottom: 8px solid color-mix(in oklab, var(--accent) 34%, var(--bg-2));
+  }
+  .fam-noms {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 1.6rem;
+    max-width: 70rem;
+  }
+  .fam-noms li {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 7vw, 4.2rem);
+    line-height: 1.05;
+    color: var(--accent);
+  }
+
+  .fam-carte {
+    grid-area: 1 / 1 / span 2 / 1;
+    align-self: end;
+    position: relative;
+    z-index: 1;
+    margin: 0 0.75rem -1px;
+    transform: translateY(45%);
+    padding: 1.3rem 1.2rem 1.2rem;
+    background: linear-gradient(to bottom, var(--surface), color-mix(in oklab, var(--surface) 80%, var(--bg-2)));
+    border-radius: var(--radius);
+    border-bottom: 6px solid var(--accent);
+    box-shadow:
+      0 4px 8px -3px color-mix(in oklab, var(--ink) 24%, transparent),
+      0 30px 60px -22px color-mix(in oklab, var(--ink) 50%, transparent);
+  }
+  @media (min-width: 64rem) {
+    .fam-carte { justify-self: start; width: min(100% - 5rem, 40rem); margin-left: clamp(2rem, 5vw, 5rem); padding: 1.8rem 2.2rem 1.6rem; }
+  }
+  .fam-retour { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.92rem; color: var(--muted); text-decoration: none; }
+  .fam-retour:active { color: var(--fg); }
+  @media (hover: hover) and (pointer: fine) { .fam-retour:hover { color: var(--fg); } }
+  .fam-titre {
+    margin-top: 0.4rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.3rem, 9vw, 3.6rem);
+    line-height: 0.98;
+    color: var(--fg);
+  }
+  .fam-court { margin-top: 0.6rem; color: var(--muted); line-height: 1.45; max-width: 34rem; }
+  .fam-tel {
+    margin-top: 0.8rem;
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.8rem, 7vw, 2.3rem);
+    line-height: 1;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fam-corps {
+    max-width: 88rem;
+    margin-inline: auto;
+    padding: clamp(9rem, 30vw, 11rem) clamp(1rem, 3vw, 2.5rem) clamp(3rem, 7vw, 5rem);
+    display: grid;
+    gap: 2.5rem;
+  }
+  @media (min-width: 64rem) {
+    .fam-corps { padding-top: 10rem; align-items: start; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); column-gap: 5rem; }
+  }
+  .fam-texte { display: grid; align-content: start; gap: 1rem; font-size: 1.12rem; line-height: 1.6; color: var(--fg); max-width: 40rem; }
+  .fam-sous { font-weight: 700; font-size: 1.05rem; color: var(--fg); }
+  .fam-catalogue ul { margin-top: 0.6rem; list-style: none; border-top: 1px solid var(--line); }
+  .fam-catalogue li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.35rem;
+    line-height: 1.15;
+    color: var(--fg);
+  }
+
+  .fam-galerie { max-width: 88rem; margin-inline: auto; padding: 0 clamp(1rem, 3vw, 2.5rem) clamp(3rem, 7vw, 5rem); }
+  .fam-photos { list-style: none; display: grid; gap: 1rem; }
+  .fam-photos li { overflow: hidden; background: var(--ink); aspect-ratio: 4 / 3; }
+  .fam-photos .fam-ph { width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 48rem) {
+    .fam-photos { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .fam-photos.n-2 li:nth-child(2) { margin-top: 3rem; }
+    .fam-photos.n-4 li:nth-child(even) { margin-top: 3rem; margin-bottom: -3rem; }
+    .fam-photos.n-4 { padding-bottom: 3rem; }
+  }
+  .fam-lien { margin-top: 1.5rem; }
+  .fam-lien a, .fam-autres a {
+    font-weight: 600;
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+
+  .fam-avis {
+    max-width: 56rem;
+    margin: 0 auto clamp(3rem, 7vw, 5rem);
+    padding: 1.6rem clamp(1.2rem, 3vw, 2.2rem);
+    background: var(--surface);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    box-shadow: 0 16px 30px -18px color-mix(in oklab, var(--ink) 40%, transparent);
+  }
+  @media (max-width: 63.99rem) { .fam-avis { margin-inline: clamp(1rem, 3vw, 2.5rem); } }
+  .fam-avis blockquote p { font-size: clamp(1.2rem, 3vw, 1.5rem); line-height: 1.4; color: var(--fg); }
+  .fam-qui { margin-top: 0.7rem; font-weight: 700; color: var(--fg); }
+  .fam-qui span { font-weight: 400; color: var(--muted); }
+
+  .fam-appel {
+    padding: clamp(3rem, 8vw, 5rem) clamp(1rem, 3vw, 2.5rem);
+    background: var(--ink);
+    color: var(--on-ink);
+    text-align: center;
+    display: grid;
+    justify-items: center;
+    gap: 0.8rem;
+  }
+  .fam-appel-titre { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.8rem, 6vw, 2.6rem); line-height: 1.05; }
+  .fam-appel-tel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.3rem;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.7rem, 6vw, 2.2rem);
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .fam-appel-texte { color: color-mix(in oklab, var(--on-ink) 80%, var(--ink)); }
+  .fam-autres { margin-top: 1rem; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.4rem; }
+</style>

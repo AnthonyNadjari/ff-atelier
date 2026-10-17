@@ -1,0 +1,369 @@
+---
+/**
+ * Le bloc sur mesure de L'Épi d'Or (direction.md, phrase-idée) : la galerie des fêtes de la boutique devient sa
+ * vitrine du soir, une étagère courbe qu'on fait tourner au doigt. Chaque gâteau pivote selon sa place (de face au
+ * centre, tourné vers vous sur les côtés), en suivant le doigt : la rotation est liée à la position dans la piste
+ * (CSS, timeline de vue horizontale), rien n'est calculé image par image en JS. À l'arrivée, la vitrine est déjà
+ * tournée sur la prochaine fête du calendrier (Noël à la mi-octobre) ; la règle des fêtes en dessous y mène d'un
+ * toucher. Seules photos : celles de sa galerie (04, 05 et 07 écartées, voir direction.md). Rien ne tourne tout seul.
+ *
+ * Mouvement (direction.md, MOUVEMENT 2 et 3) : en arrivant, les gâteaux s'allument l'un après l'autre (sec, 0,18 s,
+ * 60 ms d'écart, une fois) ; au doigt, la rotation suit sans délai ; au lâcher, l'aimant natif cale le plus proche.
+ * Sans timeline de vue (anciens navigateurs) : étagère droite, tout le reste marche. Mouvement réduit : pas de
+ * rotation, pas d'allumage, défilement direct.
+ */
+import { site, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+type Objet = {
+  cle: string;
+  quand: string;
+  nom: string;
+  fete: string; // libellé de la règle des fêtes
+  date?: string; // « 1-6 », « paques », absent = toute l'année
+  image?: { src: string; alt: string; forme: 'portrait' | 'carre' | 'paysage' };
+};
+const OBJETS: Objet[] = [
+  { cle: 'galettes', quand: 'En janvier', nom: 'Les galettes', fete: 'Janvier', date: '1-6' },
+  { cle: 'valentin', quand: 'Le 14 février', nom: 'Les cœurs de la Saint-Valentin', fete: 'Saint-Valentin', date: '2-14', image: { src: '/images/galerie-06.webp', alt: 'Trois cœurs glacés roses, « St Valentin » écrit au chocolat', forme: 'carre' } },
+  { cle: 'paques', quand: 'À Pâques', nom: 'L’œuf de Pâques', fete: 'Pâques', date: 'paques', image: { src: '/images/galerie-03.webp', alt: 'Œuf décoré « Joyeuses Pâques », emballé sous cellophane avec un nœud rose, entre deux poussins', forme: 'portrait' } },
+  { cle: 'muguet', quand: 'Au printemps', nom: 'Le fraisier au muguet', fete: 'Printemps', date: '5-1', image: { src: '/images/galerie-01.webp', alt: 'Entremets aux fraises nappé de rouge, brins de muguet et fraises sur le dessus', forme: 'portrait' } },
+  { cle: 'piece', quand: 'Pour toutes les occasions', nom: 'La pièce montée', fete: 'Toute l’année', image: { src: '/images/galerie-02.webp', alt: 'Pièce montée blanche à trois étages, décor de feuilles', forme: 'portrait' } },
+  { cle: 'noel', quand: 'À Noël', nom: 'La bûche de Noël', fete: 'Noël', date: '12-25', image: { src: '/images/galerie-08.webp', alt: 'Bûche de Noël à la crème, décor de chocolat et de macarons, devant un sapin', forme: 'paysage' } },
+  { cle: 'noel-violette', quand: 'À Noël', nom: 'La bûche violette', fete: '', image: { src: '/images/galerie-09.webp', alt: 'Bûche de Noël glacée violette à motif de vagues, décor de chocolat et de boules', forme: 'paysage' } },
+  { cle: 'noel-jaune', quand: 'À Noël', nom: 'La bûche jaune', fete: '', image: { src: '/images/galerie-10.webp', alt: 'Bûche de Noël jaune, décor de chocolat, petit père Noël et macaron', forme: 'paysage' } },
+];
+const regle = OBJETS.filter((o) => o.fete);
+const dates = OBJETS.filter((o) => o.date).map((o) => `${o.cle}~${o.date}~${o.fete}`).join('|');
+---
+
+<section id="vitrine" class="vit" aria-labelledby="vit-titre" data-vit data-vit-dates={dates}>
+  <div class="vit-tete">
+    <h2 id="vit-titre" class="vit-titre">L’année en vitrine</h2>
+    <div class="vit-prochaine">
+      <p class="vit-quand" data-vit-prochaine>Galettes, Saint-Valentin, Pâques, muguet, pièces montées et bûches : la vitrine suit le calendrier.</p>
+      <p class="vit-conseil" data-vit-conseil hidden>« Commandez au plus tôt pour vous assurer un Noël gourmand. »</p>
+      <a href={tel()} class="vit-tel">Pour commander, appelez le <span>{site.contact.phoneDisplay}</span></a>
+    </div>
+  </div>
+
+  <div class="vit-scene">
+    <div class="vit-tablette" aria-hidden="true"></div>
+    <ul class="vit-piste" data-vit-piste tabindex="0" aria-label="La vitrine, à faire glisser">
+      {OBJETS.map((o, i) => (
+        <li class="vit-objet" data-vit-cle={o.cle} style={`--i:${i}`}>
+          <figure class="vit-pivot">
+            {o.image ? (
+              <div class={`vit-cadre is-${o.image.forme}`}>
+                <Img src={o.image.src} alt={o.image.alt} class="vit-img object-cover" sizes={o.image.forme === 'paysage' ? '(min-width: 1024px) 432px, 60vw' : '(min-width: 1024px) 320px, 40vw'} />
+              </div>
+            ) : (
+              <div class="vit-cadre is-carre vit-faience" aria-hidden="true">
+                <svg class="vit-epi" viewBox="0 0 24 64">
+                  <path d="M12 62V8" />
+                  <ellipse cx="12" cy="6" rx="3" ry="5" />
+                  <ellipse cx="7.5" cy="15" rx="2.8" ry="5" transform="rotate(-28 7.5 15)" />
+                  <ellipse cx="16.5" cy="15" rx="2.8" ry="5" transform="rotate(28 16.5 15)" />
+                  <ellipse cx="7.5" cy="25" rx="2.8" ry="5" transform="rotate(-28 7.5 25)" />
+                  <ellipse cx="16.5" cy="25" rx="2.8" ry="5" transform="rotate(28 16.5 25)" />
+                  <ellipse cx="7.5" cy="35" rx="2.8" ry="5" transform="rotate(-28 7.5 35)" />
+                  <ellipse cx="16.5" cy="35" rx="2.8" ry="5" transform="rotate(28 16.5 35)" />
+                </svg>
+                <p class="vit-faience-mot">Galettes</p>
+              </div>
+            )}
+            <figcaption class="vit-plaque">
+              <span class="vit-plaque-quand">{o.quand}</span>
+              <span class="vit-plaque-nom">{o.nom}</span>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="vit-regle">
+    <button type="button" class="vit-fleche" data-vit-pas="-1" aria-label="Gâteau précédent"><Icon name="ChevronLeft" size={22} /></button>
+    <ol class="vit-fetes" aria-label="Aller à une fête">
+      {regle.map((o) => (
+        <li><button type="button" class="vit-fete" data-vit-aller={o.cle} aria-pressed="false">{o.fete}</button></li>
+      ))}
+    </ol>
+    <button type="button" class="vit-fleche" data-vit-pas="1" aria-label="Gâteau suivant"><Icon name="ChevronRight" size={22} /></button>
+  </div>
+</section>
+
+<style is:global>
+  .vit {
+    position: relative;
+    padding: clamp(3.5rem, 9vw, 6rem) 0 clamp(3rem, 7vw, 5rem);
+    background: linear-gradient(to bottom, var(--ink), color-mix(in oklab, var(--ink) 86%, var(--accent)) 78%, var(--ink));
+    color: var(--on-ink);
+    overflow: hidden;
+  }
+  .vit-tete {
+    max-width: 88rem;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+    display: grid;
+    gap: 1rem;
+  }
+  .vit-titre {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.2rem, 8vw, 3.6rem);
+    line-height: 0.98;
+    color: var(--on-ink);
+  }
+  .vit-quand { font-size: clamp(1.1rem, 2.6vw, 1.35rem); line-height: 1.35; color: var(--on-ink); max-width: 34rem; }
+  .vit-quand strong { font-weight: 700; }
+  .vit-conseil { margin-top: 0.35rem; color: color-mix(in oklab, var(--on-ink) 78%, var(--ink)); max-width: 34rem; }
+  .vit-tel {
+    display: inline-block;
+    margin-top: 0.8rem;
+    color: var(--on-ink);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--accent) 60%, var(--on-ink));
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+  .vit-tel span { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  @media (min-width: 64rem) {
+    .vit-tete { grid-template-columns: 1fr 1fr; align-items: end; column-gap: 4rem; }
+  }
+
+  /* La scène : une tablette sombre sous les gâteaux, la piste qu'on fait glisser par-dessus. */
+  .vit-scene { position: relative; margin-top: clamp(1.5rem, 4vw, 2.5rem); }
+  .vit-tablette {
+    position: absolute;
+    inset: auto 0 4.4rem;
+    height: 1.1rem;
+    background: linear-gradient(to bottom, color-mix(in oklab, var(--on-ink) 22%, var(--ink)), color-mix(in oklab, var(--on-ink) 6%, var(--ink)));
+    box-shadow: 0 18px 28px -10px color-mix(in oklab, var(--ink) 90%, transparent);
+  }
+  .vit-piste {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(0.6rem, 3vw, 3rem);
+    padding: 1rem max(1rem, calc(50% - 9rem)) 2rem;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+  }
+  .vit-piste::-webkit-scrollbar { display: none; }
+  .vit-piste:focus-visible { outline: 2px solid var(--on-ink); outline-offset: -4px; }
+  .vit-objet { flex: none; scroll-snap-align: center; }
+  .vit-pivot { transform-origin: 50% 100%; }
+
+  .vit-cadre {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: color-mix(in oklab, var(--on-ink) 10%, var(--ink));
+    box-shadow:
+      0 2px 0 color-mix(in oklab, var(--on-ink) 14%, transparent) inset,
+      0 30px 40px -24px color-mix(in oklab, var(--ink) 95%, transparent);
+  }
+  .vit-cadre.is-portrait { width: clamp(9.5rem, 40vw, 19rem); aspect-ratio: 3 / 4; }
+  .vit-cadre.is-carre { width: clamp(9.5rem, 40vw, 20rem); aspect-ratio: 1; }
+  .vit-cadre.is-paysage { width: clamp(14rem, 60vw, 27rem); aspect-ratio: 4 / 3; }
+  .vit-cadre .vit-img { width: 100%; height: 100%; object-fit: cover; }
+  /* Spot éteint : un voile sombre, levé gâteau par gâteau quand la vitrine arrive à l'écran. */
+  .vit-cadre::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    opacity: 0;
+    pointer-events: none;
+  }
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .vit-cadre::after { opacity: 0.62; transition: opacity 0.18s ease-out calc(var(--i) * 60ms); }
+    .vit.is-allume .vit-cadre::after { opacity: 0; }
+  }
+
+  /* Galettes : pas de photo dans la galerie, un carreau de faïence de la devanture, l'épi et le mot. */
+  .vit-faience {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 0.6rem;
+    background-color: var(--bg-2);
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size: 25% 25%;
+    border: 6px solid color-mix(in oklab, var(--accent) 34%, var(--bg-2));
+  }
+  .vit-epi { width: 2.6rem; height: 7rem; fill: color-mix(in oklab, var(--accent) 60%, var(--fg)); stroke: color-mix(in oklab, var(--accent) 60%, var(--fg)); stroke-width: 1.5; }
+  .vit-epi path { fill: none; }
+  .vit-faience-mot { font-family: var(--font-display); font-weight: 600; font-size: 2rem; line-height: 1; color: var(--accent); }
+
+  /* L'étiquette sous chaque gâteau, comme dans une vitrine. */
+  .vit-plaque {
+    display: grid;
+    gap: 0.1rem;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0.9rem auto 0;
+    padding: 0.5rem 0.85rem 0.55rem;
+    background: var(--surface);
+    color: var(--fg);
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: 0 8px 16px -8px color-mix(in oklab, var(--ink) 80%, transparent);
+  }
+  .vit-plaque-quand { font-size: 0.82rem; color: var(--muted); }
+  .vit-plaque-nom { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; line-height: 1.1; }
+
+  /* L'étagère courbe : chaque gâteau tourne selon sa place dans la piste (de face au centre). */
+  @supports (animation-timeline: view(inline)) {
+    @media (prefers-reduced-motion: no-preference) {
+      .vit-pivot {
+        animation: vit-pivot linear both;
+        animation-timeline: view(inline);
+      }
+      @keyframes vit-pivot {
+        0% { transform: perspective(1100px) rotateY(-36deg) scale(0.88); }
+        50% { transform: perspective(1100px) rotateY(0deg) scale(1); }
+        100% { transform: perspective(1100px) rotateY(36deg) scale(0.88); }
+      }
+    }
+  }
+
+  /* La règle des fêtes : on y va d'un toucher ; flèches sur ordinateur (pas de molette détournée). */
+  .vit-regle {
+    max-width: 88rem;
+    margin: 0.4rem auto 0;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .vit-fetes {
+    flex: 1;
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-top: 1px solid color-mix(in oklab, var(--on-ink) 25%, transparent);
+  }
+  .vit-fetes::-webkit-scrollbar { display: none; }
+  .vit-fetes li { flex: 1 0 auto; }
+  .vit-fete {
+    width: 100%;
+    padding: 0.75rem 0.6rem 0.5rem;
+    border-top: 3px solid transparent;
+    margin-top: -2px;
+    background: none;
+    color: color-mix(in oklab, var(--on-ink) 75%, var(--ink));
+    font: inherit;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.15s ease-out, border-color 0.15s ease-out;
+  }
+  .vit-fete[aria-pressed='true'] { color: var(--on-ink); font-weight: 700; border-top-color: var(--on-ink); }
+  .vit-fete:active { color: var(--on-ink); }
+  .vit-fleche {
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid color-mix(in oklab, var(--on-ink) 35%, transparent);
+    border-radius: var(--radius);
+    background: none;
+    color: var(--on-ink);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s ease-out;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .vit-fleche { display: inline-grid; place-items: center; }
+    .vit-fleche:hover { background: color-mix(in oklab, var(--on-ink) 12%, transparent); }
+    .vit-fete:hover { color: var(--on-ink); }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { dateParis, paques } from './jour';
+
+  onPage(() => {
+    const sec = document.querySelector<HTMLElement>('[data-vit]');
+    const piste = sec?.querySelector<HTMLElement>('[data-vit-piste]');
+    if (!sec || !piste) return;
+    const objets = [...piste.querySelectorAll<HTMLElement>('[data-vit-cle]')];
+    const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const centrer = (el: HTMLElement, doux: boolean) => {
+      const x = el.offsetLeft + el.offsetWidth / 2 - piste.clientWidth / 2;
+      piste.scrollTo({ left: x, behavior: doux && !reduit ? 'smooth' : 'instant' });
+    };
+
+    // La prochaine fête du calendrier, à l'heure de Paris : la vitrine s'ouvre dessus.
+    const auj = dateParis(new Date());
+    const fetes = (sec.dataset.vitDates || '').split('|').map((d) => {
+      const [cle, quand, nom] = d.split('~');
+      const jour = (an: number) => {
+        if (quand === 'paques') { const p = paques(an); return Date.UTC(an, p.m - 1, p.j); }
+        const [m, j] = quand.split('-').map(Number);
+        return Date.UTC(an, m - 1, j);
+      };
+      const t0 = Date.UTC(auj.an, auj.m - 1, auj.j);
+      const t = jour(auj.an) >= t0 ? jour(auj.an) : jour(auj.an + 1);
+      return { cle, nom, jours: Math.round((t - t0) / 86400000), t };
+    }).sort((a, b) => a.jours - b.jours);
+    const prochaine = fetes[0];
+    if (prochaine) {
+      const p = sec.querySelector<HTMLElement>('[data-vit-prochaine]');
+      const quand = prochaine.jours === 0 ? 'c’est aujourd’hui' : prochaine.jours === 1 ? 'c’est demain' : `dans ${prochaine.jours} jours`;
+      const nom = prochaine.cle === 'galettes' ? 'les galettes, pour l’Épiphanie' : prochaine.cle === 'muguet' ? 'le 1er mai' : prochaine.nom;
+      if (p) p.innerHTML = `Prochaine fête : <strong>${nom}</strong>, ${quand}.`;
+      const conseil = sec.querySelector<HTMLElement>('[data-vit-conseil]');
+      if (conseil && prochaine.cle === 'noel') conseil.hidden = false;
+      const cible = objets.find((o) => o.dataset.vitCle === prochaine.cle);
+      if (cible) requestAnimationFrame(() => centrer(cible, false));
+    }
+
+    // La règle des fêtes et les flèches.
+    const boutons = [...sec.querySelectorAll<HTMLButtonElement>('[data-vit-aller]')];
+    boutons.forEach((b) => b.addEventListener('click', () => {
+      const cible = objets.find((o) => o.dataset.vitCle === b.dataset.vitAller);
+      if (cible) centrer(cible, true);
+    }));
+    let courant = 0;
+    sec.querySelectorAll<HTMLButtonElement>('[data-vit-pas]').forEach((b) => b.addEventListener('click', () => {
+      const i = Math.max(0, Math.min(objets.length - 1, courant + Number(b.dataset.vitPas)));
+      centrer(objets[i], true);
+    }));
+    // Le gâteau au centre allume sa fête sur la règle (une bûche violette ou jaune allume « Noël »).
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entrees) => {
+        entrees.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const el = e.target as HTMLElement;
+          courant = objets.indexOf(el);
+          const cle = el.dataset.vitCle || '';
+          const fete = cle.startsWith('noel') ? 'noel' : cle;
+          boutons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.vitAller === fete)));
+        });
+      }, { root: piste, rootMargin: '0px -45% 0px -45%', threshold: 0 });
+      objets.forEach((o) => io.observe(o));
+      // Les spots s'allument une fois, quand la vitrine arrive à l'écran.
+      const io2 = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) { sec.classList.add('is-allume'); io2.disconnect(); }
+      }, { threshold: 0.35 });
+      io2.observe(piste);
+    } else {
+      sec.classList.add('is-allume');
+    }
+  });
+</script>

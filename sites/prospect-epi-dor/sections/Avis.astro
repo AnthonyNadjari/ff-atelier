@@ -1,0 +1,96 @@
+---
+/**
+ * Les avis, juste sous le premier écran (GOUT § 0, socle 4) : la note réelle (4,6 sur 162 avis Google, relevé du
+ * 17 oct 2026) et les deux avis du brief signés d'un prénom et d'une initiale, mot pour mot. Rien d'autre : pas de
+ * moyenne recalculée, pas d'avis ajouté. Sur ordinateur, la carte du premier écran déborde dans cette section :
+ * la marge du haut lui laisse la place, et les avis se rangent à sa droite.
+ */
+import { site } from '@/lib/site';
+
+const g = site.proof.google;
+const avis = site.proof.testimonials;
+const note = g ? g.rating.toLocaleString('fr-FR') : '';
+---
+
+{(g || avis.length > 0) && (
+  <section id="avis" class="avs" aria-labelledby="avs-titre">
+    <div class="avs-in">
+      <div class="avs-tete">
+        <h2 id="avs-titre" class="avs-titre">{g ? `${note} sur Google` : 'Ce qu’en disent les clients'}</h2>
+        {g && (
+          <p class="avs-sous">
+            Sur {g.count} avis. <a href={g.url} target="_blank" rel="noopener">Les lire sur Google</a>
+          </p>
+        )}
+      </div>
+      <ul class="avs-liste">
+        {avis.map((a) => (
+          <li class="avs-avis">
+            <blockquote>
+              <p>« {a.text} »</p>
+            </blockquote>
+            <p class="avs-qui">{a.author}<span>, avis {a.source}{a.date ? `, ${a.date}` : ''}</span></p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style is:global>
+  .avs {
+    position: relative;
+    z-index: 2;
+    padding: clamp(2.5rem, 7vw, 4rem) 0 clamp(3rem, 7vw, 5rem);
+  }
+  .avs-in {
+    max-width: 88rem;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+    display: grid;
+    gap: 1.6rem;
+  }
+  .avs-titre {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 7vw, 2.6rem);
+    line-height: 1;
+    color: var(--fg);
+  }
+  .avs-sous { margin-top: 0.45rem; color: var(--muted); }
+  .avs-sous a { color: var(--fg); font-weight: 600; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.3em; }
+  .avs-liste { display: grid; gap: 1.1rem; list-style: none; }
+  /* Chaque avis est une fiche posée : bord rouge d'enseigne à gauche, ombre courte. */
+  .avs-avis {
+    position: relative;
+    padding: 1.2rem 1.25rem 1.1rem 1.4rem;
+    background: var(--surface);
+    border-radius: var(--radius);
+    border-left: 4px solid var(--accent);
+    box-shadow:
+      0 2px 4px -2px color-mix(in oklab, var(--ink) 20%, transparent),
+      0 16px 30px -18px color-mix(in oklab, var(--ink) 40%, transparent);
+  }
+  .avs-avis blockquote p {
+    font-size: clamp(1.12rem, 2.4vw, 1.3rem);
+    line-height: 1.4;
+    color: var(--fg);
+  }
+  .avs-qui { margin-top: 0.7rem; font-weight: 700; font-size: 0.95rem; color: var(--fg); }
+  .avs-qui span { font-weight: 400; color: var(--muted); }
+
+  /* Ordinateur : la carte du premier écran (40 rem, à gauche) descend ici ; le titre passe à sa droite, les deux
+     avis dessous sur toute la largeur, le second décalé vers le bas (deux fiches posées, pas une rangée). */
+  @media (min-width: 64rem) {
+    .avs { padding-top: 3.2rem; }
+    .avs-in {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      column-gap: clamp(2rem, 5vw, 5rem);
+      align-items: start;
+    }
+    .avs-tete { grid-column: 2; min-height: 2.6rem; }
+    .avs-liste { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 4rem); padding-top: 1rem; }
+    .avs-avis { padding: 1.6rem 1.8rem 1.4rem 2rem; }
+    .avs-avis:nth-child(2) { margin-top: 2.4rem; }
+  }
+</style>

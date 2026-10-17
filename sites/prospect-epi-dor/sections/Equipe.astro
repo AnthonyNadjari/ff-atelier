@@ -1,0 +1,111 @@
+---
+/**
+ * L'équipe, sans visage (aucune photo d'eux au brief : ni silhouette ni avatar). La voix signée (GOUT § 5) : la
+ * phrase de Xavier, recopiée de sa page À propos ; puis les quatre prénoms avec les rôles que la boutique leur
+ * donne elle-même (« Créatrice de Douceurs », « Hôtesse des Délices »…). Le parcours de Xavier en noms de lieux.
+ * La phrase parle de pâtisserie : elle est posée, sur une carte, devant la tarte meringuée de la galerie (deux plans).
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+---
+
+<section id="equipe" class="eqp" aria-labelledby="eqp-titre">
+  <div class="eqp-in">
+    <div class="eqp-citation">
+      <div class="eqp-photo"><Img src="/images/galerie-11.webp" alt="Tarte meringuée de la boutique, meringue dorée en spirale" class="eqp-img object-cover" sizes="(min-width: 1024px) 36vw, 40vw" /></div>
+      <div class="eqp-carte">
+      <blockquote>
+        <p>« Une bonne pâtisserie doit non seulement ravir les papilles mais aussi éveiller les souvenirs et créer des moments de bonheur partagé. »</p>
+      </blockquote>
+      <p class="eqp-signe">Xavier</p>
+      </div>
+    </div>
+
+    <div class="eqp-texte">
+      <h2 id="eqp-titre" class="eqp-titre">{a.title}</h2>
+      <div class="eqp-histoire">{paragraphs(a.story).map((p) => <p>{p}</p>)}</div>
+      {a.team.length > 0 && (
+        <ul class="eqp-liste">
+          {a.team.map((t) => (
+            <li><span class="eqp-nom">{t.name}</span><span class="eqp-role">{t.role}</span></li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .eqp {
+    padding: clamp(4rem, 10vw, 7rem) 0;
+    background: var(--bg-2);
+  }
+  .eqp-in {
+    max-width: 88rem;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+    display: grid;
+    gap: 2.5rem;
+  }
+  .eqp-citation { position: relative; }
+  .eqp-photo { width: 40%; aspect-ratio: 4 / 5; overflow: hidden; background: var(--ink); }
+  .eqp-photo .eqp-img { width: 100%; height: 100%; object-fit: cover; }
+  .eqp-carte {
+    position: relative;
+    z-index: 1;
+    margin: -3rem 0 0 auto;
+    width: 88%;
+    padding: 1.4rem 1.4rem 1.2rem;
+    background: var(--surface);
+    border-radius: var(--radius);
+    border-bottom: 6px solid var(--accent);
+    box-shadow:
+      0 4px 8px -3px color-mix(in oklab, var(--ink) 24%, transparent),
+      0 30px 60px -22px color-mix(in oklab, var(--ink) 50%, transparent);
+  }
+  .eqp-citation blockquote p {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    line-height: 1.12;
+    color: var(--fg);
+    text-wrap: balance;
+  }
+  .eqp-signe {
+    margin-top: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .eqp-titre {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    line-height: 1.02;
+    color: var(--fg);
+  }
+  .eqp-histoire { margin-top: 1rem; display: grid; gap: 0.9rem; font-size: 1.05rem; line-height: 1.55; color: var(--fg); max-width: 38rem; }
+  .eqp-liste {
+    margin-top: 1.6rem;
+    list-style: none;
+    display: grid;
+    border-top: 1px solid color-mix(in oklab, var(--fg) 25%, transparent);
+  }
+  .eqp-liste li {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid color-mix(in oklab, var(--fg) 25%, transparent);
+  }
+  .eqp-nom { font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; line-height: 1.1; }
+  .eqp-role { color: var(--muted); }
+  @media (min-width: 40rem) {
+    .eqp-liste li { grid-template-columns: 9rem 1fr; align-items: baseline; gap: 1rem; }
+  }
+  @media (min-width: 64rem) {
+    .eqp-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(3rem, 7vw, 7rem); align-items: start; }
+    .eqp-photo { width: 82%; }
+    .eqp-carte { margin-top: -10rem; padding: 2rem 2.2rem 1.6rem; }
+  }
+</style>

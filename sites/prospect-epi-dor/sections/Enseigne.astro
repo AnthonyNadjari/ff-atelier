@@ -1,0 +1,256 @@
+---
+/**
+ * Navigation de L'Épi d'Or, sur toutes les pages (direction.md, SQUELETTE). Deux pièces de la devanture :
+ * - l'enseigne, collée en haut : le nom en lettres d'enseigne, l'état du moment (ordinateur) et le numéro, toujours
+ *   cliquable (bouton « Appeler » sur téléphone) ;
+ * - le store saumon, juste dessous, qui ne colle pas : sur la photo, il porte « Pains spéciaux, Pâtisserie,
+ *   Traiteur… » ; ici, les cinq familles du brief, chacune vers sa page (le socle : une page par famille), plus
+ *   « Venir ». Sur téléphone, il glisse au doigt.
+ * Plus la barre d'actions du téléphone (Appeler, Commander un gâteau, Venir), écrite ici plutôt que celle de
+ * src/ : la porte « Commander un gâteau » mène à la page des pièces montées, puis au téléphone (aucun lien de
+ * commande au brief). Cachée quand le pied de page est à l'écran.
+ */
+import { site, tel } from '@/lib/site';
+import { semaine } from '@/lib/horaires';
+import Icon from '@/components/Icon.astro';
+
+const COURT: Record<string, string> = {
+  pains: 'Le pain',
+  patisseries: 'Pâtisseries',
+  'pieces-montees': 'Pièces montées',
+  sandwichs: 'Sandwichs',
+  fetes: 'Fêtes de l’année',
+};
+const chemin = Astro.url.pathname.replace(/\/$/, '');
+const liens = site.services.map((s) => ({ href: `/services/${s.slug}`, label: COURT[s.slug] ?? s.title }));
+liens.push({ href: '/#venir', label: 'Venir' });
+const sem = semaine(site.contact.hours) ?? [];
+const data = sem.map((j) => j.creneaux.map((c) => `${c.opens}-${c.closes}`).join(' ')).join('|');
+const gateau = site.services.find((s) => s.slug === 'pieces-montees');
+---
+
+<header class="ens" data-epi-semaine={data}>
+  <div class="ens-in">
+    <a href="/" class="ens-nom" aria-label={`${site.business.name}, accueil`}>{site.business.name}</a>
+    <p class="ens-etat" data-epi-etat hidden></p>
+    <a href={tel()} class="ens-tel" aria-label={`Appeler la boulangerie au ${site.contact.phoneDisplay}`}>
+      <Icon name="Phone" size={18} />
+      <span class="ens-tel-num">{site.contact.phoneDisplay}</span>
+      <span class="ens-tel-court">Appeler</span>
+    </a>
+  </div>
+</header>
+
+<nav class="store" aria-label="Les rayons de la boutique">
+  <ul class="store-in">
+    {liens.map((l, i) => (
+      <li>
+        {i > 0 && (
+          <svg class="store-epi" viewBox="0 0 12 24" aria-hidden="true">
+            <path d="M6 23V4" />
+            <ellipse cx="6" cy="3.2" rx="1.6" ry="2.6" />
+            <ellipse cx="3.6" cy="8" rx="1.5" ry="2.6" transform="rotate(-28 3.6 8)" />
+            <ellipse cx="8.4" cy="8" rx="1.5" ry="2.6" transform="rotate(28 8.4 8)" />
+            <ellipse cx="3.6" cy="13" rx="1.5" ry="2.6" transform="rotate(-28 3.6 13)" />
+            <ellipse cx="8.4" cy="13" rx="1.5" ry="2.6" transform="rotate(28 8.4 13)" />
+          </svg>
+        )}
+        <a href={l.href} class="store-lien" aria-current={chemin === l.href ? 'page' : undefined}>{l.label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<nav class="epi-barre" aria-label="Actions rapides" data-epi-barre>
+  <a href={tel()} class="epi-barre-porte is-principale"><Icon name="Phone" size={18} /><span>Appeler</span></a>
+  {gateau && <a href={`/services/${gateau.slug}`} class="epi-barre-porte"><Icon name="CakeSlice" size={18} /><span>Commander un gâteau</span></a>}
+  <a href="/#venir" class="epi-barre-porte"><Icon name="MapPin" size={18} /><span>Venir</span></a>
+</nav>
+
+<style is:global>
+  /* Global, classes préfixées (budget HTML de ff perf) ; aucune classe Tailwind redéfinie. */
+  .ens {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .ens-in {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 88rem;
+    margin-inline: auto;
+    padding: 0.55rem clamp(1rem, 3vw, 2.5rem);
+  }
+  /* Le nom en lettres d'enseigne : rouge de l'enseigne, condensée, capitales hautes. */
+  .ens-nom {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.55rem, 2.4vw, 2rem);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .ens-etat {
+    margin-left: auto;
+    font-size: 0.95rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .ens-etat[data-ouvert='1'] { color: var(--fg); }
+  .ens-etat::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    vertical-align: 0.08em;
+    background: var(--muted);
+  }
+  .ens-etat[data-ouvert='1']::before { background: var(--accent); }
+  .ens-tel {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.95rem;
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-weight: 650;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s ease-out;
+  }
+  .ens-etat:not([hidden]) + .ens-tel { margin-left: 0; }
+  .ens-tel-num { display: none; font-variant-numeric: tabular-nums; }
+  .ens-tel:active { background: color-mix(in oklab, var(--accent) 82%, var(--ink)); }
+  @media (hover: hover) and (pointer: fine) {
+    .ens-tel:hover { background: color-mix(in oklab, var(--accent) 82%, var(--ink)); }
+  }
+  @media (max-width: 47.99rem) { .ens-etat { display: none; } }
+  @media (min-width: 48rem) {
+    .ens-tel-num { display: inline; }
+    .ens-tel-court { display: none; }
+  }
+
+  /* Le store : saumon de la devanture (rouge de l'enseigne passé dans le crème), il avance sur la page et y pose
+     son ombre. Texte brun encre, jamais le saumon sous un texte fin. */
+  .store {
+    position: relative;
+    z-index: 40;
+    background: color-mix(in oklab, var(--accent) 30%, var(--bg));
+    border-bottom: 3px solid color-mix(in oklab, var(--accent) 55%, var(--bg));
+    box-shadow: 0 10px 14px -10px color-mix(in oklab, var(--ink) 55%, transparent);
+  }
+  .store-in {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    max-width: 88rem;
+    margin-inline: auto;
+    padding: 0 clamp(1rem, 3vw, 2.5rem);
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .store-in::-webkit-scrollbar { display: none; }
+  .store-in li { display: flex; align-items: center; gap: 0.2rem; flex: none; }
+  .store-epi {
+    width: 0.6rem;
+    height: 1.2rem;
+    fill: color-mix(in oklab, var(--accent) 70%, var(--fg));
+    stroke: color-mix(in oklab, var(--accent) 70%, var(--fg));
+    stroke-width: 1;
+  }
+  .store-epi path { fill: none; }
+  .store-lien {
+    display: block;
+    padding: 0.7rem 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.08rem;
+    line-height: 1.1;
+    color: var(--fg);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s ease-out;
+  }
+  .store-lien[aria-current='page'] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em; }
+  .store-lien:active { color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) {
+    .store-lien:hover { color: color-mix(in oklab, var(--accent) 80%, var(--ink)); }
+  }
+  @media (min-width: 64rem) {
+    .store-in { justify-content: center; gap: 0.5rem; }
+    .store-lien { font-size: 1.2rem; padding-inline: 0.8rem; }
+  }
+
+  /* Barre d'actions du téléphone : au ras de l'écran, au-dessus de la barre iPhone. */
+  .epi-barre { display: none; }
+  @media (max-width: 47.99rem) {
+    .epi-barre {
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: 45;
+      display: grid;
+      grid-template-columns: 1fr 1.35fr 1fr;
+      gap: 1px;
+      background: color-mix(in oklab, var(--on-ink) 18%, var(--ink));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      transition: transform 0.2s ease-out;
+    }
+    .epi-barre.is-cachee { transform: translateY(100%); }
+    .epi-barre-porte {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2rem;
+      min-height: 3.5rem;
+      padding: 0.45rem 0.25rem;
+      background: var(--ink);
+      color: var(--on-ink);
+      font-size: 0.8rem;
+      font-weight: 600;
+      line-height: 1.1;
+      text-align: center;
+      text-decoration: none;
+    }
+    .epi-barre-porte.is-principale { background: var(--accent); color: var(--on-accent); }
+    .epi-barre-porte:active { filter: brightness(0.92); }
+  }
+  @layer components {
+    @media (max-width: 47.99rem) {
+      body:has(.epi-barre) { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px)); }
+    }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { lireSemaine, etat } from './jour';
+
+  onPage(() => {
+    const hdr = document.querySelector<HTMLElement>('[data-epi-semaine]');
+    const p = document.querySelector<HTMLElement>('[data-epi-etat]');
+    if (hdr && p && hdr.dataset.epiSemaine) {
+      const e = etat(lireSemaine(hdr.dataset.epiSemaine), new Date());
+      p.textContent = e.titre;
+      p.dataset.ouvert = e.ouvert ? '1' : '0';
+      p.hidden = false;
+    }
+    // La barre du bas s'efface quand le pied de page arrive (il porte les mêmes coordonnées).
+    const barre = document.querySelector<HTMLElement>('[data-epi-barre]');
+    const pied = document.querySelector('footer');
+    if (barre && pied && 'IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => barre.classList.toggle('is-cachee', e.isIntersecting)).observe(pied);
+    }
+  });
+</script>

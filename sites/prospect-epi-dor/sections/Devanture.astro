@@ -1,0 +1,300 @@
+---
+/**
+ * Premier écran de L'Épi d'Or (direction.md, PREMIER ÉCRAN et MOUVEMENT 1 et 4). La devanture du soir en plein
+ * cadre (sa photo, vitrines allumées) ; posée dessus, une carte papier épaisse, ombre portée réelle, qui déborde
+ * sur la section suivante : h1 métier + ville, la phrase avec l'adresse et les prénoms, la note Google, le numéro en
+ * grand, l'état et les horaires du jour, deux portes. Le texte n'est jamais sur la photo.
+ *
+ * Mouvement :
+ * - entrée : la lumière de la devanture s'allume si la boutique est ouverte à cette heure (voile de nuit qui se lève,
+ *   1,2 s, lent) ; fermée, la devanture reste dans la pénombre et la carte dit quand elle rouvre ;
+ * - image : la photo descend moins vite que la page, la carte passe devant (translation seule, rAF).
+ * Sans script : photo allumée, pas d'état, la ligne des horaires dit la semaine. Mouvement réduit : rien ne bouge.
+ */
+import { site, tel } from '@/lib/site';
+import { semaine } from '@/lib/horaires';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+const hero = site.images.hero;
+const g = site.proof.google;
+const sem = semaine(site.contact.hours) ?? [];
+const data = sem.map((j) => j.creneaux.map((c) => `${c.opens}-${c.closes}`).join(' ')).join('|');
+const note = g ? g.rating.toLocaleString('fr-FR') : '';
+const remplissage = g ? `${Math.round((g.rating / 5) * 1000) / 10}%` : '0%';
+const gateau = site.services.find((s) => s.slug === 'pieces-montees');
+const rue = site.contact.address.street;
+---
+
+<section id="hero" class="dev" aria-labelledby="dev-titre" data-epi-semaine={data}>
+  {hero && (
+    <div class="dev-photo" data-dev-cadre>
+      <div class="dev-plan" data-dev-plan>
+        <Img src={hero.src} alt={hero.alt} class="dev-img" sizes="100vw" priority />
+      </div>
+      <div class="dev-voile" data-dev-voile aria-hidden="true"></div>
+    </div>
+  )}
+
+  <div class="dev-carte">
+    <h1 id="dev-titre" class="dev-titre">{site.business.tagline}</h1>
+    <p class="dev-phrase">
+      Au {rue}, Xavier fait le pain et Miroslava les douceurs : baguettes, entremets, bûches, et 36 pièces montées
+      pour toutes les occasions.
+    </p>
+
+    {g && (
+      <a href={g.url} class="dev-note" target="_blank" rel="noopener">
+        <span class="dev-etoiles" style={`--dev-n: ${remplissage}`} aria-hidden="true"><span>★★★★★</span><span>★★★★★</span></span>
+        <span><strong>{note}</strong> sur Google, {g.count} avis</span>
+      </a>
+    )}
+
+    <a href={tel()} class="dev-tel">
+      <Icon name="Phone" size={26} />
+      <span>{site.contact.phoneDisplay}</span>
+    </a>
+
+    <div class="dev-jour">
+      <p class="dev-etat" data-dev-etat hidden></p>
+      <p class="dev-horaire" data-dev-horaire>Du mardi au samedi, et le dimanche matin. Fermé le lundi.</p>
+    </div>
+
+    <ul class="dev-portes" aria-label="Ce que vous venez faire">
+      {gateau && <li><a href={`/services/${gateau.slug}`} class="dev-porte">Commander un gâteau</a></li>}
+      <li><a href="/#venir" class="dev-porte">Venir rue Maurice Dubois</a></li>
+    </ul>
+  </div>
+</section>
+
+<style is:global>
+  .dev {
+    --dev-ombre:
+      0 1px 0 color-mix(in oklab, var(--ink) 8%, transparent),
+      0 4px 8px -3px color-mix(in oklab, var(--ink) 24%, transparent),
+      0 26px 48px -16px color-mix(in oklab, var(--ink) 45%, transparent),
+      0 70px 110px -40px color-mix(in oklab, var(--ink) 55%, transparent);
+    position: relative;
+    z-index: 3;
+    display: grid;
+  }
+
+  /* La photo : plein cadre, sans rayon. Téléphone : la moitié haute ; ordinateur : tout l'écran sous l'enseigne. */
+  .dev-photo {
+    grid-area: 1 / 1;
+    position: relative;
+    height: clamp(15rem, 42svh, 24rem);
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .dev-plan {
+    position: absolute;
+    inset: -8% 0 auto;
+    height: 116%;
+    will-change: transform;
+  }
+  .dev-photo .dev-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 66% 30%;
+  }
+  /* Voile de nuit : levé par le script si la boutique est ouverte. Sans script, aucun voile. */
+  .dev-voile {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    opacity: 0;
+    pointer-events: none;
+  }
+  @media (scripting: enabled) {
+    .dev-voile { opacity: 0.6; }
+    .dev-voile.is-ouvert { opacity: 0; transition: opacity 1.2s ease-out 0.15s; }
+    .dev-voile.is-ferme { opacity: 0.42; transition: opacity 0.6s ease-out; }
+  }
+
+  /* La carte : papier épais, tranche rouge d'enseigne en bas, posée sur la photo. */
+  .dev-carte {
+    grid-area: 1 / 1 / span 2 / 1;
+    align-self: start;
+    position: relative;
+    z-index: 1;
+    margin: clamp(11.5rem, 33svh, 19rem) 0.75rem 0;
+    padding: 1.35rem 1.2rem 1.25rem;
+    border-radius: var(--radius);
+    background: linear-gradient(to bottom, var(--surface), color-mix(in oklab, var(--surface) 80%, var(--bg-2)));
+    border-bottom: 6px solid var(--accent);
+    box-shadow: var(--dev-ombre);
+  }
+  @media (max-width: 63.99rem) and (max-height: 700px) {
+    .dev-carte { margin-top: 9rem; }
+  }
+  @media (min-width: 64rem) {
+    .dev { grid-template-rows: auto; }
+    .dev-photo { height: calc(100svh - 12rem); min-height: 32rem; max-height: 58rem; }
+    .dev-photo .dev-img { object-position: 50% 42%; }
+    .dev-carte {
+      grid-area: 1 / 1;
+      align-self: end;
+      justify-self: start;
+      width: min(100% - 5rem, 40rem);
+      margin: 0 0 -4.5rem clamp(2rem, 5vw, 5rem);
+      padding: 2rem 2.3rem 1.8rem;
+    }
+  }
+
+  .dev-titre {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.3rem, 10vw, 2.9rem);
+    line-height: 0.98;
+    letter-spacing: -0.005em;
+    color: var(--fg);
+    text-wrap: balance;
+  }
+  @media (min-width: 64rem) {
+    .dev-titre { font-size: clamp(3rem, 3.9vw, 3.9rem); }
+  }
+  .dev-phrase {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.45;
+    color: var(--muted);
+    max-width: 34rem;
+  }
+  @media (min-width: 64rem) { .dev-phrase { font-size: 1.1rem; } }
+
+  .dev-note {
+    margin-top: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 0.98rem;
+  }
+  .dev-note strong { font-weight: 700; }
+  @media (hover: hover) and (pointer: fine) {
+    .dev-note:hover span:last-child { text-decoration: underline; text-underline-offset: 0.25em; }
+  }
+  /* Étoiles remplies à la note réelle (4,6 sur 5 = 92 %). */
+  .dev-etoiles {
+    position: relative;
+    display: inline-block;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    color: var(--line);
+  }
+  .dev-etoiles span:last-child {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--dev-n);
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--accent);
+  }
+
+  .dev-tel {
+    margin-top: 0.7rem;
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.1rem, 9vw, 2.6rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s ease-out;
+  }
+  @media (min-width: 64rem) { .dev-tel { font-size: 3rem; } }
+  .dev-tel:active { color: var(--fg); }
+  @media (hover: hover) and (pointer: fine) { .dev-tel:hover { color: var(--fg); } }
+
+  .dev-jour { margin-top: 0.8rem; }
+  .dev-etat {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--fg);
+  }
+  .dev-etat::before {
+    content: '';
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-right: 0.5rem;
+    border-radius: 50%;
+    vertical-align: 0.06em;
+    background: var(--muted);
+  }
+  .dev-etat[data-ouvert='1']::before { background: var(--accent); }
+  .dev-horaire { margin-top: 0.15rem; font-size: 0.98rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .dev-portes {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.5rem;
+    list-style: none;
+  }
+  .dev-porte {
+    display: inline-block;
+    padding-block: 0.35rem;
+    font-weight: 650;
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.35em;
+    transition: color 0.15s ease-out;
+  }
+  .dev-porte:active { color: var(--accent); }
+  @media (hover: hover) and (pointer: fine) { .dev-porte:hover { color: var(--accent); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dev-voile.is-ouvert, .dev-voile.is-ferme { transition: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { lireSemaine, etat } from './jour';
+
+  onPage(() => {
+    const sec = document.querySelector<HTMLElement>('.dev[data-epi-semaine]');
+    if (!sec) return;
+    const voile = sec.querySelector<HTMLElement>('[data-dev-voile]');
+    const e = etat(lireSemaine(sec.dataset.epiSemaine || ''), new Date());
+    const pEtat = sec.querySelector<HTMLElement>('[data-dev-etat]');
+    const pHor = sec.querySelector<HTMLElement>('[data-dev-horaire]');
+    if (pEtat) { pEtat.textContent = e.titre; pEtat.dataset.ouvert = e.ouvert ? '1' : '0'; pEtat.hidden = false; }
+    if (pHor) pHor.textContent = e.detail;
+    // La lumière : au prochain affichage, pour que la transition parte bien du voile de nuit.
+    requestAnimationFrame(() => requestAnimationFrame(() => voile?.classList.add(e.ouvert ? 'is-ouvert' : 'is-ferme')));
+
+    // Deux plans : la photo glisse à 0,14 fois le défilement, bornée à ce qu'elle dépasse de son cadre.
+    const plan = sec.querySelector<HTMLElement>('[data-dev-plan]');
+    const cadre = sec.querySelector<HTMLElement>('[data-dev-cadre]');
+    if (!plan || !cadre || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    let dernier = '';
+    const tick = () => {
+      raf = 0;
+      const r = cadre.getBoundingClientRect();
+      if (r.bottom < 0) return;
+      const lim = (plan.offsetHeight - cadre.offsetHeight) / 2;
+      const y = Math.min(lim, Math.max(-lim, -r.top * 0.14)).toFixed(1);
+      if (y === dernier) return;
+      dernier = y;
+      plan.style.transform = `translate3d(0, ${y}px, 0)`;
+    };
+    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
+    tick();
+  });
+</script>

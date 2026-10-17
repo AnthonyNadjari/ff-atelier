@@ -967,6 +967,15 @@ function checkRobotsTxtIA(slug, distDir, checks, warnings) {
     return;
   }
   const txt = fs.readFileSync(p, 'utf8');
+  // Démo privée d'un vrai commerce prospecté (legal.prospect, 17 oct 2026) : robots.txt ferme tout, exprès.
+  const config = path.join(SITES_DIR, slug, 'site.config.ts');
+  const prospect = fs.existsSync(config) && /\bprospect:\s*true\b/.test(fs.readFileSync(config, 'utf8'));
+  if (prospect) {
+    checks.push(/User-agent:\s*\*\s*\n\s*Disallow:\s*\/\s*$/m.test(txt)
+      ? { pass: true, label: 'robots.txt : démo privée (legal.prospect), tous les robots refusés' }
+      : { pass: false, label: 'robots.txt : démo privée (legal.prospect) mais robots.txt ne refuse pas tout' });
+    return;
+  }
   checks.push(/User-agent:\s*OAI-SearchBot/i.test(txt)
     ? { pass: true, label: 'robots.txt : bots de recherche IA explicitement autorisés (OAI-SearchBot, PerplexityBot...)' }
     : { pass: false, label: 'robots.txt sans autorisation explicite des bots de recherche IA' });
