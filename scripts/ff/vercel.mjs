@@ -41,7 +41,7 @@ export function headersVersVercel(headersText, redirects = []) {
   return config;
 }
 
-export const VERCELIGNORE = '_headers\n.env\n.env.*\n';
+export const VERCELIGNORE = '_headers\n_redirects\n.env\n.env.*\n';
 
 /** Identifiants Vercel : env d'abord (paire complète), sinon sites/<slug>/vercel-projet.json. */
 export function lireIdsVercel(slug, { env = (k) => envKey(k), sitesDir = SITES_DIR } = {}) {

@@ -79,6 +79,9 @@ const headersIntegration = {
         ...buildSecurityHeaderLines(securityConfig),
         '',
       ].join('\n'));
+      // Redirections des anciennes adresses (sites/<slug>/redirects.json) pour Cloudflare Pages (17 oct 2026, ff refonte).
+      const { ecrireRedirectsCloudflare } = await import('./scripts/ff/redirections.mjs');
+      ecrireRedirectsCloudflare(join(process.cwd(), 'sites', slug), out);
     },
   },
 };
