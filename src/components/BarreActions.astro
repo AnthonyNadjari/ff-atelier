@@ -1,0 +1,87 @@
+---
+/**
+ * Barre d'actions collée en bas de l'écran sur téléphone (layout.actionBar, défaut false) — geste 3
+ * de docs/veille/demontages/INDEX.md (Délice : Venir, Réserver, Commander, Carte cadeau). Rendue par
+ * Base.astro sur toutes les pages ; 2 à 3 portes de actions() (src/lib/actions.ts), dans leur ordre.
+ * Moins de 2 portes = rien (une seule porte, c'est déjà le bouton de la nav).
+ *
+ * - visible seulement sous 48 rem (768 px) ; au-dessus, display none ;
+ * - padding-bottom env(safe-area-inset-bottom) : au-dessus de la barre iPhone ;
+ * - le body reçoit un padding-bottom de la hauteur de la barre (style global ci-dessous, sous @layer
+ *   components pour ne jamais battre un utilitaire — leçon docs/CONVENTIONS.md § CSS global) ;
+ * - cachée quand le pied de page est visible (IntersectionObserver sur <footer>) ; sans JS, toujours
+ *   visible, et le pied de page reste lisible grâce au padding du body ;
+ * - tokens uniquement, aucune pilule (rayon 0 : la barre est au ras de l'écran).
+ * Jamais rendue avec nav 'dock' (déjà une barre basse) : Base.astro l'ignore alors.
+ */
+import { actions } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+// Trois cases au plus : à quatre, « Prendre rendez-vous » et « Demander un devis » passent sur deux lignes à 375 px (capture du 17 oct 2026).
+const portes = actions().slice(0, 3);
+---
+
+{portes.length >= 2 && (
+  <nav class="ff-barre-actions" aria-label="Actions rapides" data-barre-actions style={`--n:${portes.length}`}>
+    {portes.map((p, i) => (
+      <a href={p.href} class:list={['barre-porte', i === 0 && 'is-principale']} data-porte={p.kind} target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>
+        <Icon name={p.icon} size={18} />
+        <span>{p.label}</span>
+      </a>
+    ))}
+  </nav>
+)}
+
+<style>
+  .ff-barre-actions {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 45;
+    display: grid;
+    grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border-top: 1px solid var(--line);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    transition: transform var(--motion-ui) var(--ease-out);
+  }
+  .ff-barre-actions.is-hidden { transform: translateY(100%); }
+  .barre-porte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    min-height: 3.5rem;
+    padding: 0.5rem 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.1;
+    text-align: center;
+    background: var(--surface);
+    color: var(--fg);
+  }
+  .barre-porte.is-principale { background: var(--accent); color: var(--on-accent); }
+  @media (min-width: 48rem) { .ff-barre-actions { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .ff-barre-actions { transition: none; } }
+</style>
+
+<style is:global>
+  /* Hauteur réservée en bas de page pour que la barre ne couvre rien (3,5 rem + filet + safe-area). */
+  @layer components {
+    @media (max-width: 47.99rem) {
+      body:has([data-barre-actions]) { padding-bottom: calc(3.5rem + 1px + env(safe-area-inset-bottom, 0px)); }
+    }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Pied de page visible = barre repliée. Rearme a chaque navigation ClientRouter (site.transitions).
+  onPage(() => {
+    const barre = document.querySelector<HTMLElement>('[data-barre-actions]');
+    const footer = document.querySelector('footer');
+    if (!barre || !footer || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(([e]) => barre.classList.toggle('is-hidden', e.isIntersecting)).observe(footer);
+  });
+</script>

@@ -4,6 +4,32 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 17 oct 2026 — « concurrent de Framer / Lovable » : la skill s'outille
+
+**Fait**
+- `ff aiguillage <slug>` : les réponses du client (photos : en veut / en a / qui les fait ; ambiance : calme /
+  vivant) deviennent une décision calculée, écrite en tête du contrat et contrôlée dans `ff verifier` (client
+  « calme » = `subtle`, rien qui suit le défilement). Formulaire brief et brief papier posent les mêmes questions.
+- `ff pistes <slug>` : les pistes d'un client comparées sur les sept axes (fichiers + film des premiers écrans
+  côte à côte, distance d'image à 400 ms). Les trois pistes de la fromagerie : rythme partagé seulement, images
+  à 0,61 / 0,65 / 0,17 ; verdict « différentes ».
+- `ff demonter <url>` : fiche de démontage automatique d'un site aimé du brief (polices, couleurs, premier écran,
+  mouvement, structure, signes IA), rien d'inventé, ~25 s par site. Testée sur Délice et CRISP : voit juste les
+  polices, couleurs, portes d'action, horaires, bibliothèques ; rate le canvas WebGL et la barre d'actions
+  téléphone ; le geste signature reste à juger sur les captures.
+- Skill `/retouche <slug> "<phrase>"` : une phrase du fondateur, plus petite modification à la source, contrôles,
+  comparaison pixel, redéploiement, un commit annulable, réponse en trois lignes, lexique des mots du fondateur.
+- Gestes 2, 3 et 4 des démontages : `contact.bookingUrl / orderUrl / giftCardUrl` et `actions()` dans les six
+  navs, `BarreActions` collée en bas sur téléphone (`layout.actionBar`), composant `Horaires` avec le jour
+  courant et l'état ouvert / fermé (sans JS : la liste).
+- Process d'hébergement écrit (`studio/decisions/PROCESS-HEBERGEMENT.md`) et fiche client « votre nom de
+  domaine » (`studio/commercial/guide-domaine.html`).
+
+**Proposé** : gestes 5 (réalisations avec métadonnées + filtres) et 1 (FAQ logistique au brief) ; `ff demonter`
+sur une page intérieure ; `/retouche` à l'essai sur une vraie phrase du fondateur.
+
+**À décider** : compte Cloudflare F&F ; qui achète le domaine ; dépôt commun ; création de la SAS.
+
 ## 16 oct 2026 — veille longue + skill /site-final v3 + premier test
 
 **Fait**

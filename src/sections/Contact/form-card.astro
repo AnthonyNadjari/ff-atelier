@@ -4,6 +4,7 @@ import { site, tel, mailto, fullAddress } from '@/lib/site';
 import SectionHeading from '@/components/SectionHeading.astro';
 import ContactForm from '@/components/ContactForm.astro';
 import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
 ---
 
 <section id="contact" class="section-y">
@@ -20,5 +21,11 @@ import Icon from '@/components/Icon.astro';
       {site.contact.email && (<li class="flex items-center gap-2"><Icon name="Mail" size={16} class="text-accent" /><a href={mailto()} class="hover:text-fg break-all">{site.contact.email}</a></li>)}
       <li class="flex items-center gap-2"><Icon name="MapPin" size={16} class="text-accent" /><span>{fullAddress()}</span></li>
     </ul>
+    {site.contact.hours.length > 0 && (
+      <div class="mt-6 flex justify-center gap-2 text-sm text-muted">
+        <Icon name="Clock" size={16} class="text-accent shrink-0 mt-0.5" />
+        <Horaires />
+      </div>
+    )}
   </div>
 </section>

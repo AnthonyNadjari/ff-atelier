@@ -2,6 +2,7 @@
 /** Footer "big-name" : le nom de l'entreprise en tres grand, sur fond ink. */
 import { site, tel, mailto, fullAddress, hasCredits } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
 const year = new Date().getFullYear();
 const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
 const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
@@ -29,6 +30,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
         <a href={tel()} class="hover:text-on-ink">{site.contact.phoneDisplay}</a>
         {site.contact.email && (<a href={mailto()} class="hover:text-on-ink break-all">{site.contact.email}</a>)}
         <span>{fullAddress()}</span>
+        {site.contact.hours.length > 0 && <Horaires class="basis-full" />}
       </div>
 
       {socials.length > 0 && (

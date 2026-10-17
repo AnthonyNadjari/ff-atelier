@@ -1,9 +1,12 @@
 ---
 /**
  * Nav "dock" : pas de barre. Nom fixe en haut a gauche, petit. Dock flottant bas-centre (jusqu'a
- * 4 liens icone+libelle + telephone en avant) qui se masque au defilement vers le bas.
+ * 4 liens icone+libelle + portes d'action) qui se masque au defilement vers le bas.
+ * Portes (actions()) : la premiere en rond accent (icone, comme le telephone historique), la deuxieme
+ * en contour sur ordinateur seulement. Le dock est deja une barre basse : Base.astro ignore
+ * layout.actionBar avec cette nav, les portes suivantes restent dans la section contact.
  */
-import { site, tel, navLinks } from '@/lib/site';
+import { site, navLinks, actions } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
 const links = navLinks().slice(0, 4);
@@ -16,6 +19,9 @@ const iconFor: Record<string, string> = {
   faq: 'HelpCircle',
   contact: 'Mail',
 };
+const [premiere, seconde] = actions();
+const ext = (p: { external: boolean }) => (p.external ? { target: '_blank', rel: 'noopener' } : {});
+const libelle = (p: { kind: string; label: string }) => (p.kind === 'call' ? `Appeler ${site.contact.phoneDisplay}` : p.label);
 ---
 
 <a href="/" class="fixed top-4 left-4 sm:top-6 sm:left-6 z-50 flex items-center gap-2 font-display text-sm font-medium">
@@ -37,8 +43,11 @@ const iconFor: Record<string, string> = {
         </a>
       );
     })}
-    <a href={tel()} aria-label={`Appeler ${site.contact.phoneDisplay}`} class="ml-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent">
-      <Icon name="Phone" size={18} />
+    {seconde && (
+      <a href={seconde.href} class="ml-1 hidden h-11 shrink-0 items-center rounded-ui border border-line px-3 text-sm font-medium text-fg transition-colors hover:border-fg md:flex" data-porte={seconde.kind} {...ext(seconde)}>{seconde.label}</a>
+    )}
+    <a href={premiere.href} aria-label={libelle(premiere)} title={libelle(premiere)} class="ml-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent text-on-accent" data-porte={premiere.kind} {...ext(premiere)}>
+      <Icon name={premiere.icon} size={18} />
     </a>
   </div>
 </nav>

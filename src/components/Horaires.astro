@@ -1,0 +1,68 @@
+---
+/**
+ * Horaires par jour (geste 4, docs/veille/demontages/INDEX.md : Délice, Odyssée, Niksen). Lit
+ * site.contact.hours et affiche les 7 jours lundi → dimanche (src/lib/horaires.ts), le jour courant
+ * en gras et l'état « Ouvert » / « Fermé » / « Ouvre à 9 h » calculé dans le navigateur, fuseau
+ * Europe/Paris, sans horloge visible (docs/GOUT.md § 5). Sans JS : la liste des 7 jours, sans état ni
+ * jour mis en avant. Si une ligne a des jours illisibles, la liste brute de contact.hours est rendue
+ * telle quelle (rien d'inventé). Pas de couleur : hérite du parent (section claire ou pied de page
+ * encre), le jour courant se distingue par la graisse. `class` s'applique au bloc.
+ */
+import { site } from '@/lib/site';
+import { semaine } from '@/lib/horaires';
+
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+const lignes = site.contact.hours;
+const sem = lignes.length > 0 ? semaine(lignes) : undefined;
+const data = sem ? JSON.stringify(sem.map((j) => ({ creneaux: j.creneaux, ferme: j.ferme }))) : undefined;
+---
+
+{lignes.length > 0 && sem && (
+  <div class:list={['horaires', cls]} data-horaires={data}>
+    <p class="horaires-etat" data-etat hidden></p>
+    <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
+      {sem.map((j) => (
+        <div class="contents" data-jour={j.index}>
+          <dt class="horaires-jour">{j.jour}</dt>
+          <dd class="tabular-nums">{j.libelle}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+)}
+{lignes.length > 0 && !sem && (
+  <dl class:list={['grid grid-cols-[auto_1fr] gap-x-4 gap-y-1', cls]}>
+    {lignes.map((h) => (
+      <>
+        <dt class="horaires-jour">{h.days}</dt>
+        <dd class="tabular-nums">{h.hours}</dd>
+      </>
+    ))}
+  </dl>
+)}
+
+<style>
+  .horaires-jour { opacity: 0.72; }
+  .horaires-etat { margin-bottom: 0.5rem; font-weight: 600; }
+  [data-courant] .horaires-jour { opacity: 1; }
+  [data-courant] .horaires-jour,
+  [data-courant] dd { font-weight: 600; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { etatDuJour } from '@/lib/horaires';
+
+  // Jour courant + état du moment (Europe/Paris). Rearme a chaque navigation ClientRouter.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-horaires]').forEach((bloc) => {
+      const etat = etatDuJour(JSON.parse(bloc.dataset.horaires || '[]'), new Date());
+      bloc.querySelectorAll<HTMLElement>('[data-jour]').forEach((l) => l.toggleAttribute('data-courant', Number(l.dataset.jour) === etat.jour));
+      const p = bloc.querySelector<HTMLElement>('[data-etat]');
+      if (p && etat.texte) { p.textContent = etat.texte; p.hidden = false; }
+    });
+  });
+</script>

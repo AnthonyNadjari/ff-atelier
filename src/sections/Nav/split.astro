@@ -1,14 +1,22 @@
 ---
-/** Nav "split" : logo centre, liens repartis a gauche/droite (desktop), telephone en icone a droite. Filet bas permanent. */
-import { site, tel, navLinks } from '@/lib/site';
+/**
+ * Nav "split" : logo centre, liens repartis a gauche/droite (desktop), portes d'action a droite. Filet bas permanent.
+ * Portes (actions()) : premiere en bouton plein (seule visible sur telephone), deuxieme en contour sur
+ * ordinateur, les suivantes en liens texte dans la nav de droite ; sur telephone, les autres dans le menu.
+ */
+import { site, navLinks, actions } from '@/lib/site';
+import Porte from '@/components/Porte.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
 const links = navLinks();
 const half = Math.ceil(links.length / 2);
 const left = links.slice(0, half);
 const right = links.slice(half);
-// Contact en tiroir (layout.contactDrawer) : CTA "devis" persistant qui ouvre le tiroir (ContactDrawer.astro).
-const drawer = site.layout.contactDrawer;
+const portes = actions();
+const [premiere, seconde] = portes;
+// Ordinateur : liens texte apres les ancres (sans doublon : « Devis » saute si la nav a deja #contact).
+const autres = portes.slice(2).filter((p) => !links.some((l) => l.href === p.href));
+const menu = portes.slice(1);
 ---
 
 <header data-nav class="fixed inset-x-0 top-0 z-50 border-b border-line transition-all duration-500 [&.is-scrolled]:bg-bg/85 [&.is-scrolled]:backdrop-blur-md">
@@ -22,11 +30,10 @@ const drawer = site.layout.contactDrawer;
     <div class="flex items-center justify-end gap-4">
       <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Navigation principale, droite">
         {right.map((l) => <a href={l.href} class="text-muted hover:text-fg transition-colors">{l.label}</a>)}
+        {autres.map((p) => <a href={p.href} class="text-muted hover:text-fg transition-colors" target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>{p.label}</a>)}
       </nav>
-      <a href={tel()} class="flex h-10 w-10 items-center justify-center rounded-ui border border-line hover:border-fg transition-colors" aria-label={`Appeler ${site.contact.phoneDisplay}`}>
-        <Icon name="Phone" size={17} />
-      </a>
-      {drawer && <a href="#contact" class="hidden md:inline-flex h-10 items-center rounded-ui bg-accent px-4 text-sm font-medium text-on-accent hover:bg-accent-2 transition-colors">{site.wording.devis}</a>}
+      <Porte action={premiere} size="sm" />
+      {seconde && <span class="hidden md:inline-flex"><Porte action={seconde} size="sm" variant="ghost" /></span>}
       <button class="md:hidden p-2 -mr-2" aria-label="Menu" aria-expanded="false" data-split-menu-toggle>
         <Icon name="Menu" size={22} />
       </button>
@@ -35,6 +42,11 @@ const drawer = site.layout.contactDrawer;
   <div class="md:hidden hidden border-t border-line bg-bg" data-split-menu>
     <nav class="container-ff flex flex-col py-3" aria-label="Navigation mobile">
       {links.map((l) => <a href={l.href} class="py-3 border-b border-line last:border-0 text-base">{l.label}</a>)}
+      {menu.length > 0 && (
+        <div class="flex flex-wrap gap-3 py-4">
+          {menu.map((p) => <Porte action={p} size="sm" variant="ghost" numero={false} />)}
+        </div>
+      )}
     </nav>
   </div>
 </header>

@@ -346,11 +346,12 @@ re-squelettés à la main qui ont servi de référence : `anna-vidal`, `moteur-f
 `barbier-kessler`, `maison-roux`, `dubois-plomberie`, `toits-cie`, `lemaire-avocats`,
 `forge-delacroix`, `jardins-mael`, `studio-ambre`, `chez-malo`, `maison-aurore`.
 
-### Deux réglages transversaux (toutes coquilles)
+### Réglages transversaux (toutes coquilles)
 
 | Réglage | Quand l'utiliser |
 |---|---|
 | `layout.contactDrawer: true` | **Contact en tiroir** : un `<dialog>` natif (formulaire + coordonnées) s'ouvre depuis tout lien `#contact` — nav, CTA, bandeau — sans descendre en bas de page ; plein écran sur mobile. Métiers d'urgence (plombier, couvreur, serrurier, électricien, dépannage) et tout site où la demande doit partir en une seconde. La section contact finale reste possible en plus ; sans elle, le tiroir est la seule porte. Exemples : `dubois-plomberie`, `toits-cie`. Détail : `docs/CONVENTIONS.md` § Coquilles. |
+| `layout.actionBar: true` | **Barre d'actions collée en bas sur téléphone** (< 768 px, `src/components/BarreActions.astro`) : 2 à 3 portes de `actions()` (Réserver, Commander, Bon cadeau, Appeler, Devis), au-dessus de la barre iPhone (`safe-area-inset-bottom`), cachée quand le pied de page est visible ; sans JS, toujours visible. Commerces, restaurants, salons : tout métier où le visiteur vient réserver ou commander depuis son téléphone. Ignorée avec `nav: 'dock'` (déjà une barre basse). Les portes se règlent dans `contact.bookingUrl` / `orderUrl` / `giftCardUrl` (jamais devinés) et leurs libellés dans `wording.actions`. |
 | `transitions: true` | **Transitions de page** natives (ClientRouter, fondu 0,3 s, nav qui reste en place, hero qui persiste) entre l'accueil et les pages `/services/<slug>`, `/zones/<ville>`. À activer sur les sites multi-pages dont les scripts sur mesure passent par `onPage()` (`docs/ANIMATIONS.md` § Transitions de page). Exemples : `finck-fisch`, `dubois-plomberie`, `toits-cie`. |
 
 ### En-têtes
@@ -365,7 +366,7 @@ re-squelettés à la main qui ont servi de référence : `anna-vidal`, `moteur-f
 
 ## Libellés
 
-`wording` (`site.config.ts`) : `devis`, `ctaTitle`, `ctaText`, `contactTitle`, `contactText`. Le défaut
+`wording` (`site.config.ts`) : `devis`, `ctaTitle`, `ctaText`, `contactTitle`, `contactText`, `actions`. Le défaut
 de `devis` ("Demander un devis") convient à un artisan de service (plomberie, électricité, garage) mais
 **jamais** à un commerce, un restaurant ou un salon — le client n'y "demande" pas un devis, il réserve,
 commande ou prend rendez-vous.
@@ -377,6 +378,15 @@ commande ou prend rendez-vous.
 | Boulanger | "Commander" | "Du pain frais, <em>tous les matins.</em>" |
 | Architecte | "Discuter du projet" | "Un projet en tête&nbsp;? <em>Parlons-en.</em>" |
 | Garage | "Demander un devis" | "Un bruit suspect&nbsp;? <em>On regarde ça.</em>" |
+
+**Portes d'action par intention** (`actions()`, `src/lib/actions.ts`) : les navs n'affichent plus un
+seul bouton téléphone mais, dans cet ordre, Réserver (`contact.bookingUrl`), Commander
+(`contact.orderUrl`), Bon cadeau (`contact.giftCardUrl`), Devis (`#contact`, si tiroir ou section
+contact), Appeler (`tel:`). Sur ordinateur : la première en bouton plein, la deuxième en contour, les
+suivantes en liens texte ; sur téléphone : la première seule dans la barre, les autres dans le menu.
+Un lien absent du brief = pas de porte. Libellés : `wording.actions.{booking, order, giftCard, quote}`
+(« Réserver une table », « Click & collect »…) ; `quote` reprend `wording.devis` par défaut.
+Vu chez Délice, Relais Rossàr, Meyers (`docs/veille/demontages/INDEX.md`, geste 2).
 
 ## Pages villes
 

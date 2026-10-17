@@ -2,6 +2,7 @@
 /** Footer "columns" : nom + description, services, zones, coordonnees, mentions legales. */
 import { site, tel, mailto, fullAddress, navLinks, hasCredits } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
 const year = new Date().getFullYear();
 const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
 const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
@@ -32,6 +33,7 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
         {site.contact.email && (<li><a href={mailto()} class="hover:text-on-ink break-all">{site.contact.email}</a></li>)}
         <li class="text-on-ink/60">{fullAddress()}</li>
       </ul>
+      {site.contact.hours.length > 0 && <Horaires class="mt-5 text-sm text-on-ink/80" />}
     </div>
   </div>
   <div class="border-t border-on-ink/10">

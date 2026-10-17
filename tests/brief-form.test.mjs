@@ -30,3 +30,10 @@ test('photos souhaitées sans en avoir : signalé à organiser', () => {
   assert.match(md, /Photos sur le site \? :\*\* Oui, mais je n’en ai pas : \*\*à organiser\*\*, qui les fait : Vous, sur place/);
   assert.match(md, /Ambiance \(calme ou vivant\) :\*\* Calme, posé/);
 });
+
+test('portes d’action : lien donné recopié, lien vide = « aucun (ne pas en inventer) »', () => {
+  const md = briefMarkdown({ ...d, reservation: 'https://exemple.fr/reserver' });
+  assert.match(md, /- \*\*Lien de réservation en ligne :\*\* https:\/\/exemple\.fr\/reserver/);
+  assert.match(md, /- \*\*Lien de commande \/ click & collect :\*\* aucun \(ne pas en inventer\)/);
+  assert.match(md, /- \*\*Lien de bon cadeau en ligne :\*\* aucun \(ne pas en inventer\)/);
+});

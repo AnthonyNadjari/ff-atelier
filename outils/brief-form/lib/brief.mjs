@@ -48,6 +48,9 @@ Réponses du client, non retouchées. **Une case « ? à demander » n'est jamai
 - **Horaires :**
 ${liste(d.horaires).map((l) => `  - ${l}`).join('\n') || `  ${QUESTIONS}`}
 - **Lien fiche Google :** ${ou(d.google)}
+- **Lien de réservation en ligne :** ${net(d.reservation) || 'aucun (ne pas en inventer)'}
+- **Lien de commande / click & collect :** ${net(d.commande) || 'aucun (ne pas en inventer)'}
+- **Lien de bon cadeau en ligne :** ${net(d.bon_cadeau) || 'aucun (ne pas en inventer)'}
 
 ## 3. Zone d'intervention
 - ${ou(d.zone)}

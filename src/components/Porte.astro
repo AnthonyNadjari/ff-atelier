@@ -1,0 +1,40 @@
+---
+/**
+ * Porte d'action (une entrée de actions(), src/lib/actions.ts) rendue avec le Button du système :
+ * jamais une pilule, les directions restylent `.btn`. Pour la porte « Appeler », icône + numéro sur
+ * écran ≥ sm et le libellé court « Appeler » en dessous (comportement historique des navs) ;
+ * `numero={false}` garde le libellé seul. Les liens sortants (réservation, commande…) reçoivent
+ * target/rel via Button (href http(s)).
+ */
+import type { Action } from '@/lib/site';
+import { site } from '@/lib/site';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  action: Action;
+  variant?: 'primary' | 'ghost' | 'ink';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  numero?: boolean;
+}
+const { action, variant = 'primary', size = 'sm', class: cls = '', numero = true } = Astro.props;
+---
+
+<Button href={action.href} variant={variant} size={size} class={cls} data-porte={action.kind}>
+  {action.kind === 'call' ? (
+    <>
+      <Icon name="Phone" size={16} />
+      {numero ? (
+        <>
+          <span class="hidden sm:inline">{site.contact.phoneDisplay}</span>
+          <span class="sm:hidden">{action.label}</span>
+        </>
+      ) : (
+        action.label
+      )}
+    </>
+  ) : (
+    action.label
+  )}
+</Button>

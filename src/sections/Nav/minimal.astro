@@ -1,11 +1,14 @@
 ---
-/** Nav "minimal" : transparente, nom a gauche, telephone a droite, aucun lien. Se masque au scroll vers le bas. */
-import { site, tel } from '@/lib/site';
-import Button from '@/components/Button.astro';
-import Icon from '@/components/Icon.astro';
+/**
+ * Nav "minimal" : transparente, nom a gauche, portes d'action a droite, aucun lien. Se masque au scroll vers le bas.
+ * Portes (actions()) : la premiere en bouton plein (seule visible sur telephone), la deuxieme en contour
+ * sur ordinateur ; pas de menu, donc pas de troisieme porte ici (elle reste dans la section contact ou
+ * la barre d'actions).
+ */
+import { site, actions } from '@/lib/site';
+import Porte from '@/components/Porte.astro';
 import Img from '@/components/Img.astro';
-// Contact en tiroir (layout.contactDrawer) : CTA "devis" persistant qui ouvre le tiroir (ContactDrawer.astro).
-const drawer = site.layout.contactDrawer;
+const [premiere, seconde] = actions();
 ---
 
 <header data-nav="hide-on-scroll" class="fixed inset-x-0 top-0 z-50 transition-all duration-500 [&.is-hidden]:-translate-y-full [&.is-scrolled]:bg-bg/85 [&.is-scrolled]:backdrop-blur-md">
@@ -14,8 +17,8 @@ const drawer = site.layout.contactDrawer;
       {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-9 w-auto" sizes="200px" loading="eager" /> : <span>{site.business.name}</span>}
     </a>
     <div class="flex items-center gap-3">
-      <Button href={tel()} size="sm" variant="ghost"><Icon name="Phone" size={16} /><span class="hidden sm:inline">{site.contact.phoneDisplay}</span><span class="sm:hidden">Appeler</span></Button>
-      {drawer && <Button href="#contact" size="sm">{site.wording.devis}</Button>}
+      <Porte action={premiere} size="sm" />
+      {seconde && <span class="hidden md:inline-flex"><Porte action={seconde} size="sm" variant="ghost" /></span>}
     </div>
   </div>
 </header>

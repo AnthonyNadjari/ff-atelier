@@ -1,12 +1,18 @@
 ---
-/** Nav "floating" : pilule flottante centree (desktop : liens + CTA telephone). Mobile : pilule nom + menu plein ecran. */
-import { site, tel, navLinks } from '@/lib/site';
-import Button from '@/components/Button.astro';
+/**
+ * Nav "floating" : barre flottante centree (desktop : liens + portes d'action). Mobile : barre nom + premiere porte + menu plein ecran.
+ * Portes (actions()) : premiere en bouton plein, deuxieme en contour sur ordinateur, les suivantes en
+ * liens texte ; sur telephone la premiere dans la barre, toutes en bas du menu plein ecran.
+ */
+import { site, navLinks, actions } from '@/lib/site';
+import Porte from '@/components/Porte.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
 const links = navLinks();
-// Contact en tiroir (layout.contactDrawer) : CTA "devis" persistant qui ouvre le tiroir (ContactDrawer.astro).
-const drawer = site.layout.contactDrawer;
+const portes = actions();
+const [premiere, seconde] = portes;
+// Ordinateur : liens texte apres les ancres (sans doublon : « Devis » saute si la nav a deja #contact).
+const autres = portes.slice(2).filter((p) => !links.some((l) => l.href === p.href));
 ---
 
 <header data-nav class="fixed inset-x-0 top-4 z-50">
@@ -17,14 +23,18 @@ const drawer = site.layout.contactDrawer;
       </a>
       <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Navigation principale">
         {links.map((l) => <a href={l.href} class="text-muted hover:text-fg transition-colors">{l.label}</a>)}
+        {autres.map((p) => <a href={p.href} class="text-muted hover:text-fg transition-colors" target={p.external ? '_blank' : undefined} rel={p.external ? 'noopener' : undefined}>{p.label}</a>)}
       </nav>
       <div class="hidden md:flex items-center gap-2 shrink-0">
-        {drawer && <Button href="#contact" size="sm" variant="ghost">{site.wording.devis}</Button>}
-        <Button href={tel()} size="sm"><Icon name="Phone" size={15} />{site.contact.phoneDisplay}</Button>
+        <Porte action={premiere} size="sm" />
+        {seconde && <Porte action={seconde} size="sm" variant="ghost" />}
       </div>
-      <button class="md:hidden p-1 -mr-1 shrink-0" aria-label="Menu" aria-expanded="false" data-floating-menu-toggle>
-        <Icon name="Menu" size={22} />
-      </button>
+      <div class="md:hidden flex items-center gap-2 shrink-0">
+        <Porte action={premiere} size="sm" />
+        <button class="p-1 -mr-1 shrink-0" aria-label="Menu" aria-expanded="false" data-floating-menu-toggle>
+          <Icon name="Menu" size={22} />
+        </button>
+      </div>
     </div>
   </div>
 </header>
@@ -43,8 +53,7 @@ const drawer = site.layout.contactDrawer;
     {links.map((l) => <a href={l.href} class="py-3 border-b border-line last:border-0 text-2xl font-display">{l.label}</a>)}
   </nav>
   <div class="container-ff mt-auto pb-10 grid gap-3">
-    <Button href={tel()} size="lg" class="w-full"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
-    {drawer && <Button href="#contact" size="lg" variant="ghost" class="w-full">{site.wording.devis}</Button>}
+    {portes.map((p, i) => <Porte action={p} size="lg" variant={i === 0 ? 'primary' : 'ghost'} class="w-full" />)}
   </div>
 </div>
 

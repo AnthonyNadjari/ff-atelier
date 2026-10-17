@@ -5,21 +5,31 @@
  * numerotes en gros, coordonnees + reseaux en bas. Identique desktop/mobile.
  * Nom sans logo sur pastille bg-fg (comme le bouton) : fixe, il passe sur des fonds de toute couleur
  * (hero bg-accent de maison-roux) et doit rester lisible partout.
+ * Portes (actions()) : la premiere fixee a gauche du bouton rond (meme pastille bg-fg, lisible sur
+ * tout fond), la deuxieme a cote sur ordinateur seulement ; toutes en bas du panneau plein ecran.
  */
-import { site, tel, mailto, fullAddress, navLinks } from '@/lib/site';
+import { site, mailto, fullAddress, navLinks, actions } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
 const links = navLinks();
 const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
 const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
-// Contact en tiroir (layout.contactDrawer) : CTA "devis" persistant qui ouvre le tiroir (ContactDrawer.astro).
-const drawer = site.layout.contactDrawer;
+const portes = actions();
+const [premiere, seconde] = portes;
+const ext = (p: { external: boolean }) => (p.external ? { target: '_blank', rel: 'noopener' } : {});
 ---
 
 <header data-nav class="contents">
   <a href="/" class="fixed top-4 left-4 sm:top-6 sm:left-6 z-50 flex items-center gap-2 font-display text-sm font-medium">
     {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-7 w-auto" sizes="200px" loading="eager" /> : <span class="rounded-ui bg-fg px-4 py-3 text-bg">{site.business.name}</span>}
   </a>
+
+  <div class="fixed top-4 right-[4.5rem] sm:top-6 sm:right-[5.5rem] z-50 flex items-center gap-2">
+    {seconde && (
+      <a href={seconde.href} class="hidden md:inline-flex h-12 items-center rounded-ui border border-fg/30 bg-bg px-4 text-sm font-medium text-fg transition-colors hover:border-fg" data-porte={seconde.kind} {...ext(seconde)}>{seconde.label}</a>
+    )}
+    <a href={premiere.href} class="inline-flex h-12 items-center rounded-ui bg-fg px-4 text-sm font-medium text-bg transition-opacity hover:opacity-90" data-porte={premiere.kind} {...ext(premiere)}>{premiere.label}</a>
+  </div>
 
   <button
     type="button"
@@ -52,8 +62,19 @@ const drawer = site.layout.contactDrawer;
   </nav>
   <div class="container-ff flex flex-wrap items-center justify-between gap-6 border-t border-on-ink/15 pb-10 pt-6 text-sm text-on-ink/70">
     <div class="flex flex-col gap-1">
-      {drawer && <a href="#contact" class="mb-2 inline-flex w-fit items-center rounded-ui bg-accent px-4 py-2 text-on-accent hover:bg-accent-2" data-burger-link>{site.wording.devis}</a>}
-      <a href={tel()} class="hover:text-on-ink">{site.contact.phoneDisplay}</a>
+      <div class="mb-2 flex flex-wrap gap-2">
+        {portes.map((p, i) => (
+          <a
+            href={p.href}
+            class:list={['inline-flex w-fit items-center rounded-ui px-4 py-2', i === 0 ? 'bg-accent text-on-accent hover:bg-accent-2' : 'border border-on-ink/30 text-on-ink hover:border-on-ink']}
+            data-burger-link
+            data-porte={p.kind}
+            {...ext(p)}
+          >
+            {p.kind === 'call' ? site.contact.phoneDisplay : p.label}
+          </a>
+        ))}
+      </div>
       {site.contact.email && (<a href={mailto()} class="break-all hover:text-on-ink">{site.contact.email}</a>)}
       <p>{fullAddress()}</p>
     </div>

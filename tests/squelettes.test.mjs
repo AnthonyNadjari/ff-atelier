@@ -79,12 +79,16 @@ test('navLinks (source) : ancre #contact ajoutee quand le tiroir est actif sans 
   assert.match(src, /s\.layout\.contactDrawer && !links\.some\(\(l\) => l\.href === '#contact'\)/);
 });
 
-test('navs partagees : CTA #contact quand le tiroir est actif', () => {
-  for (const nav of ['bar', 'minimal', 'floating', 'split', 'burger']) {
+test('navs partagees : CTA #contact quand le tiroir est actif (porte « Devis » de actions(), src/lib/actions.ts)', () => {
+  // Depuis les portes d'action (17 oct 2026), le CTA #contact n'est plus code dans chaque nav : actions()
+  // l'ajoute (kind 'quote') des que layout.contactDrawer est actif ou qu'une section contact existe
+  // (tests/actions.test.mjs). Ici : chaque nav passe bien par actions().
+  for (const nav of ['bar', 'minimal', 'floating', 'split', 'burger', 'dock']) {
     const src = read(`src/sections/Nav/${nav}.astro`);
-    assert.match(src, /site\.layout\.contactDrawer/, `Nav/${nav}.astro ignore layout.contactDrawer`);
-    assert.match(src, /href="#contact"/, `Nav/${nav}.astro sans CTA #contact`);
+    assert.match(src, /\bactions\(\)/, `Nav/${nav}.astro n'appelle pas actions()`);
   }
+  assert.match(read('src/lib/actions.ts'), /Boolean\(s\.layout\.contactDrawer\)/, 'actions.ts ignore layout.contactDrawer');
+  assert.match(read('src/lib/actions.ts'), /'#contact'/, "actions.ts sans porte #contact");
 });
 
 // ---------- sommaire actif ----------

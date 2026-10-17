@@ -13,6 +13,9 @@ import { ClientRouter } from 'astro:transitions';
 // Contact en tiroir (layout.contactDrawer, opt-in) : dialog natif rendu sur toutes les pages, voir
 // src/components/ContactDrawer.astro et docs/CONVENTIONS.md § Coquilles.
 import ContactDrawer from '@/components/ContactDrawer.astro';
+// Barre d'actions collee en bas sur telephone (layout.actionBar, opt-in) : 2 a 4 portes de actions(),
+// voir src/components/BarreActions.astro et docs/DIRECTIONS.md § Reglages transversaux.
+import BarreActions from '@/components/BarreActions.astro';
 
 interface Props {
   title?: string;
@@ -171,6 +174,8 @@ const ldJson = { '@context': 'https://schema.org', '@graph': [localBusinessLd, .
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-accent focus:text-on-accent focus:px-4 focus:py-2 focus:rounded-ui">Aller au contenu</a>
     <slot />
     {site.layout.contactDrawer && <ContactDrawer />}
+    {/* nav 'dock' est deja une barre basse : la barre d'actions ne s'y superpose jamais. */}
+    {site.layout.actionBar && site.layout.nav !== 'dock' && <BarreActions />}
     <script>
       import { initMotion } from '@/scripts/motion';
       // site.transitions (ClientRouter) : 'astro:page-load' se declenche au chargement initial (sur `load`,

@@ -35,6 +35,12 @@ ce détail). Un chiffre ou un avis inventé, en revanche, est illégal — voir 
 - **Horaires** (jour(s) → créneau, une ligne par plage) :
 - **Urgence 24/7 ?** (oui/non — n'active le direction `signal` que si oui et que le métier s'y prête)
 - **Lien fiche Google** (Google Maps / Google Business) :
+- **Lien de réservation en ligne** (Zenchef, TheFork, Planity, son propre outil… → bouton « Réserver ») :
+- **Lien de commande / click & collect** (→ bouton « Commander ») :
+- **Lien de bon cadeau en ligne** (→ bouton « Bon cadeau ») :
+
+> Ces trois liens ne s'inventent pas : sans lien dans le brief, le bouton n'existe pas sur le site
+> (`contact.bookingUrl` / `orderUrl` / `giftCardUrl` restent absents).
 - **Note Google actuelle** (sur 5) :
 - **Nombre d'avis Google actuel** :
 

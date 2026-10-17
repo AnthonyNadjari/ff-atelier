@@ -143,6 +143,12 @@ export const siteSchema = z.object({
         .describe(
           "Contact en tiroir : un dialog natif (formulaire + coordonnées) ouvert par tout lien href=\"#contact\" (nav, CTA, bandeau). La section contact finale reste possible en plus ; sans section contact dans le layout, le tiroir est la seule porte et la nav reçoit un lien Contact. Métiers d'urgence (plombier, couvreur, serrurier) — voir docs/CONVENTIONS.md § Coquilles",
         ),
+      actionBar: z
+        .boolean()
+        .default(false)
+        .describe(
+          "Barre d'actions collée en bas de l'écran sur téléphone (< 768 px) : 2 à 4 portes de actions() (Réserver, Commander, Bon cadeau, Devis, Appeler), au-dessus de la barre iPhone (safe-area), cachée quand le pied de page est visible. src/components/BarreActions.astro, rendue par Base.astro. Commerces et restaurants. Ignorée avec nav 'dock' (déjà une barre basse) pour qu'un look dock reste applicable par ff modele/propositions.",
+        ),
     })
     .prefault({}),
 
@@ -177,6 +183,24 @@ export const siteSchema = z.object({
       city: z.string(),
     }),
     mapsUrl: z.string().url().optional().describe('Lien fiche Google Maps'),
+    // Portes d'action par intention (docs/veille/demontages/INDEX.md geste 2) : lues par actions()
+    // (src/lib/actions.ts) pour les navs et la barre d'actions. Jamais devinées : un lien absent du brief
+    // reste absent, la porte n'apparaît pas.
+    bookingUrl: z
+      .string()
+      .url()
+      .optional()
+      .describe("Lien de réservation en ligne du client (Zenchef, TheFork, Planity, son propre outil…). Porte « Réserver » dans la nav et la barre d'actions. Jamais deviné : absent si le brief ne le donne pas."),
+    orderUrl: z
+      .string()
+      .url()
+      .optional()
+      .describe("Lien de commande en ligne / click & collect. Porte « Commander ». Jamais deviné : absent si le brief ne le donne pas."),
+    giftCardUrl: z
+      .string()
+      .url()
+      .optional()
+      .describe("Lien d'achat d'un bon cadeau en ligne. Porte « Bon cadeau ». Jamais deviné : absent si le brief ne le donne pas."),
     mapsEmbed: z.string().optional().describe("URL src de l'iframe Google Maps embed"),
     mapsProvider: z
       .enum(['osm', 'google', 'none'])
@@ -302,6 +326,15 @@ export const siteSchema = z.object({
       faqTitle: z.string().optional().describe('Titre de la section FAQ, propre au client (ex. « Avant de passer à la boutique »). Absent = titre par défaut de la variante, générique : à éviter (docs/GOUT.md § 5).'),
       contactTitle: z.string().default('Parlons de votre projet'),
       contactText: z.string().default('Décrivez votre besoin, nous vous rappelons rapidement.'),
+      actions: z
+        .object({
+          booking: z.string().optional().describe('Libellé de la porte « Réserver » (contact.bookingUrl), ex. « Réserver une table »'),
+          order: z.string().optional().describe('Libellé de la porte « Commander » (contact.orderUrl), ex. « Click & collect »'),
+          giftCard: z.string().optional().describe('Libellé de la porte « Bon cadeau » (contact.giftCardUrl)'),
+          quote: z.string().optional().describe('Libellé de la porte « Devis » (#contact) ; absent = wording.devis'),
+        })
+        .prefault({})
+        .describe("Libellés des portes d'action rendues par actions() (src/lib/actions.ts) : nav et barre d'actions (layout.actionBar)"),
     })
     .prefault({}),
 

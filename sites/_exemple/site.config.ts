@@ -18,6 +18,8 @@ export default defineSite({
       { type: 'contact', variant: 'form-split' },
     ],
     footer: 'columns',
+    // Barre d'actions collée en bas sur téléphone (2 à 4 portes de actions()) — voir docs/DIRECTIONS.md.
+    actionBar: true,
   },
 
   business: {
@@ -39,8 +41,15 @@ export default defineSite({
     whatsapp: '33600000000',
     address: { street: '12 rue de l’Épeule', postalCode: '59100', city: 'Roubaix' },
     mapsUrl: 'https://maps.google.com/?q=Roubaix',
+    // Portes d'action (actions()) : URLs d'exemple pour exercer le schéma — un vrai client ne les a que
+    // si son brief les donne (jamais devinées).
+    bookingUrl: 'https://exemple.fr/reserver',
+    giftCardUrl: 'https://exemple.fr/bon-cadeau',
+    // opens/closes HH:MM : JSON-LD structuré + état « Ouvert / Fermé / Ouvre à 14 h » du composant Horaires
+    // (src/components/Horaires.astro) ; deux lignes pour les mêmes jours = deux créneaux.
     hours: [
-      { days: 'Lundi – vendredi', hours: '8 h – 18 h', opens: '08:00', closes: '18:00' },
+      { days: 'Lundi – vendredi', hours: '8 h – 12 h', opens: '08:00', closes: '12:00' },
+      { days: 'Lundi – vendredi', hours: '14 h – 18 h', opens: '14:00', closes: '18:00' },
       { days: 'Samedi', hours: 'Sur rendez-vous' },
     ],
     emergency24h: false,
@@ -78,6 +87,7 @@ export default defineSite({
     { q: 'Vous déplacez-vous pour un devis ?', a: 'Oui, la visite et le devis sont gratuits dans la métropole lilloise.' },
   ],
 
+  wording: { actions: { booking: 'Prendre rendez-vous' } },
   form: { provider: 'mailto' },
   images: {},
   seo: { keywords: ['menuisier Roubaix', 'cuisine sur mesure Lille', 'escalier bois Roubaix'] },

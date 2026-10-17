@@ -84,6 +84,13 @@
       </div>
       <label for="horaires">Horaires<span class="precision">Une ligne par jour ou groupe de jours, ex. « Mardi à vendredi : 8 h 30 à 12 h 30, 15 h 30 à 19 h »</span></label>
       <textarea id="horaires" name="horaires"></textarea>
+      <p class="aide">Si vos clients peuvent réserver, commander ou offrir un bon cadeau en ligne, donnez le lien : il devient un bouton du site. Sans lien, pas de bouton.</p>
+      <label for="reservation">Lien de réservation en ligne <span class="facultatif">(Zenchef, TheFork, Planity, votre outil…)</span></label>
+      <input id="reservation" name="reservation" type="url" inputmode="url">
+      <div class="ligne deux">
+        <div><label for="commande">Lien de commande / click &amp; collect <span class="facultatif">(facultatif)</span></label><input id="commande" name="commande" type="url" inputmode="url"></div>
+        <div><label for="bon_cadeau">Lien de bon cadeau en ligne <span class="facultatif">(facultatif)</span></label><input id="bon_cadeau" name="bon_cadeau" type="url" inputmode="url"></div>
+      </div>
       <label for="zone">Où vous travaillez<span class="precision">Votre ville, ou les communes où vous vous déplacez</span></label>
       <input id="zone" name="zone" type="text">
       <label for="siret">SIRET <span class="facultatif">(pour les mentions légales, vous pourrez le donner plus tard)</span></label>

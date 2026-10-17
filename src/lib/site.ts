@@ -3,6 +3,9 @@ import type { Site } from './schema';
 
 import { siteSchema } from './schema';
 export { schemaTypeForTrade } from './schemaType';
+import { actions as actionsFor } from './actions';
+export { hasContactDoor, ACTION_LABELS, ACTION_ICONS } from './actions';
+export type { Action, ActionKind } from './actions';
 
 import { config as siteConfig, lookFile, hasCredits } from 'virtual:ff-look';
 
@@ -55,6 +58,12 @@ export const fullAddress = (s: Site = site) =>
   [s.contact.address.street, `${s.contact.address.postalCode} ${s.contact.address.city}`].filter(Boolean).join(', ');
 export const yearsSince = (s: Site = site) => (s.business.since ? new Date().getFullYear() - s.business.since : undefined);
 export const featuredServices = (s: Site = site) => s.services.filter((x) => x.featured);
+/**
+ * Portes d'action par intention, dans l'ordre : Réserver, Commander, Bon cadeau, Devis, Appeler
+ * (src/lib/actions.ts, module pur). Navs : 2 visibles sur ordinateur (pleine puis contour), 1 sur
+ * téléphone, le reste dans le menu ; barre d'actions (layout.actionBar) : 2 à 4.
+ */
+export const actions = (s: Site = site) => actionsFor(s);
 export const paragraphs = (text: string) =>
   text
     .split(/\n\s*\n/)

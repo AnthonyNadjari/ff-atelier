@@ -116,6 +116,32 @@ export async function loadCreditsModule() {
   return import(url);
 }
 
+/**
+ * Copie src/lib/actions.ts (module pur : son seul import est un `import type` du schema, efface par
+ * le type-stripping) dans TMP_DIR/lib/ et l'importe. Renvoie { actions, hasContactDoor, ACTION_LABELS,
+ * ACTION_ICONS } — re-exporte par src/lib/site.ts, teste ici isolement (tests/actions.test.mjs).
+ */
+export async function loadActionsModule() {
+  return loadPureLibModule('actions.ts');
+}
+
+/**
+ * Copie src/lib/horaires.ts (module pur, aucune dependance) dans TMP_DIR/lib/ et l'importe.
+ * Renvoie { joursDe, semaine, formatHeure, formatPlage, maintenant, etatDuJour } (tests/horaires.test.mjs).
+ */
+export async function loadHorairesModule() {
+  return loadPureLibModule('horaires.ts');
+}
+
+/** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
+async function loadPureLibModule(name) {
+  const libDir = path.join(TMP_DIR, 'lib');
+  fs.mkdirSync(libDir, { recursive: true });
+  const src = fs.readFileSync(path.join(ROOT, 'src', 'lib', name), 'utf8');
+  fs.writeFileSync(path.join(libDir, name), addTsExtensions(src));
+  return import(pathToFileURL(path.join(libDir, name)).href);
+}
+
 export function cleanTmp() {
   fs.rmSync(TMP_DIR, { recursive: true, force: true });
 }
