@@ -10,7 +10,8 @@ const plateaux = site.services.find((s) => s.slug === 'plateaux');
 ---
 
 <section id="reserver" class="palier reserver" aria-labelledby="reserver-titre">
-  <div class="escalier-col" style="--pas: 3">
+  <div class="escalier-col a-marche" style="--pas: 3">
+    <p class="marche etiquette" aria-hidden="true">4 ou 8 personnes, 50 €</p>
     <h2 id="reserver-titre" class="font-display">Vous serez combien ?</h2>
     <p class="reserver-p">Une raclette, un plateau pour une fête : Claire prend les commandes à la boutique et au téléphone.</p>
   </div>
@@ -69,6 +70,15 @@ const plateaux = site.services.find((s) => s.slug === 'plateaux');
     .reserver-chose > .reserver-planche { grid-row: 1 / span 3; align-self: end; }
     .reserver-chose > .reserver-h3 { margin-top: 0; }
     .reserver-chose > .reserver-tag { justify-self: start; }
+  }
+  /* Ordinateur large : les trois planches sur une rangée (raclette, plateaux, comptoir côte à côte, 22 rem
+     chacune au plus, moins quand la marche 3 ne laisse pas la place), le bois aligné sur une même ligne. */
+  @media (min-width: 72rem) {
+    .reserver-choses { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, minmax(0, 22rem)); column-gap: 2.5rem; align-items: start; }
+    .reserver-chose { margin-top: 0; display: block; }
+    .reserver-chose > .reserver-planche { height: 136px; padding-top: 0; max-width: none; }
+    .reserver-chose > .reserver-h3 { margin-top: 28px; }
+    .reserver-tel { margin-top: 3rem; }
   }
   .reserver-h3 { margin-top: 28px; font-size: 1rem; color: var(--craie); text-transform: none; }
 

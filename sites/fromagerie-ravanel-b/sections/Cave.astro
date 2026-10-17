@@ -12,9 +12,10 @@ const reblochons = 8;
 ---
 
 <section id="cave" class="palier cave" aria-labelledby="cave-titre">
-  <div class="escalier-col" style="--pas: 1">
+  <div class="escalier-col a-marche" style="--pas: 1">
+    <p class="marche etiquette" aria-hidden="true">cave, 11 °C</p>
     <h2 id="cave-titre" class="font-display">La cave à 11 °C</h2>
-    <p class="cave-p">Claire l’a creusée en 2014, sous la boutique. Les tommes et les reblochons fermiers y finissent de s’affiner. Et chaque meule porte sa date d’entrée à la craie.</p>
+    <p class="cave-p">Claire l’a creusée en 2014, sous la boutique. Les tommes et les reblochons fermiers y restent le temps qu’il faut, et chaque meule porte sa date d’entrée à la craie.</p>
   </div>
 
   <div class="escalier-large cave-planches" style="--pas: 1">
@@ -41,7 +42,7 @@ const reblochons = 8;
       <p class="font-display">« Plus jeune ou plus fait ? Dites-le-moi, je vous coupe celui qu’il vous faut, et vous goûtez avant. »</p>
       <footer class="etiquette">Claire Ravanel, affineuse</footer>
     </blockquote>
-    <p class="cave-p">Les fromages viennent de six fermes du massif des Aravis et des Bauges, et Claire vous dit de laquelle.</p>
+    <p class="cave-p">Chaque fromage a sa ferme, et Claire vous dit laquelle.</p>
   </div>
 </section>
 
@@ -51,6 +52,12 @@ const reblochons = 8;
   @media (min-width: 64rem) { .large-seul { display: grid; } }
   .cave-p { margin-top: 20px; font-size: 1.0625rem; line-height: 1.6; max-width: 40ch; }
   .cave-planches { margin-top: clamp(2.5rem, 7vw, 4rem); display: grid; gap: clamp(3rem, 8vw, 4.5rem); }
+  /* Ordinateur : les planches débordent la colonne de 34 rem vers la droite (direction.md, SQUELETTE), et les
+     meules les remplissent (5 tommes ≈ 46 rem, 8 reblochons ≈ 48 rem). */
+  @media (min-width: 72rem) {
+    .cave { padding-top: var(--palier-haut); }
+    .cave-planches { width: min(60vw, 52rem); }
+  }
   .cave-rang .planche { padding-top: 70px; }
   .cave-etiq { margin-top: 20px; padding-left: 12px; color: var(--craie-2); }
   .cave-voix { margin: clamp(3rem, 8vw, 4.5rem) 0 0; padding-left: 18px; border-left: 3px solid var(--croute-tomme); }

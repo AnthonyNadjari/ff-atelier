@@ -79,14 +79,33 @@ const semaine = site.contact.hours.map((h) => ({ jours: joursDe(h.days), hours: 
   .escalier-col, .escalier-large { --gauche: 16px; margin-left: var(--gauche); min-width: 0; }
   @media (min-width: 48rem) {
     .escalier-col, .escalier-large {
-      --gauche: calc(clamp(1.5rem, 5vw, 6rem) + var(--pas, 0) * min(10vw, (100vw - 34rem - 9rem) / 5));
+      --marche: min(10vw, (100vw - 34rem - 9rem) / 5);
+      --gauche: calc(clamp(1.5rem, 5vw, 6rem) + var(--pas, 0) * var(--marche));
     }
   }
   .escalier-col { width: min(100% - var(--gauche) - 16px, 34rem); }
   .escalier-large { width: min(100% - var(--gauche) - 16px, 62rem); }
 
   /* Une section de cave : fond du palier, texte à la craie. */
-  .palier { color: var(--craie); padding-block: clamp(4rem, 11vw, 8rem); }
+  .palier { --palier-haut: clamp(4rem, 11vw, 8rem); color: var(--craie); padding-block: var(--palier-haut); }
+
+  /* La marche dessinée dans le vide (relecture DA du 17 oct 2026 : « dérive dans le vide » sur ordinateur).
+     À partir de 72 rem : le giron, un trait de 1 px du bord gauche de la colonne précédente au bord gauche de
+     la nouvelle, puis la contremarche, verticale, qui descend jusqu'au h2 ; au pied de la contremarche, dans le
+     vide de gauche, l'étiquette mono de la section peinte sur le mur (un fait du brief, rien d'autre). Et la
+     verticale resserrée : 4 rem avant le h2, 2 rem après la section, jamais un h2 seul sur un écran. */
+  .marche { display: none; }
+  @media (min-width: 72rem) {
+    .palier { --palier-haut: 4rem; padding-block: var(--palier-haut) 2rem; }
+    .a-marche { position: relative; }
+    .a-marche::before, .a-marche::after { content: ''; position: absolute; top: calc(-1 * var(--palier-haut)); background: var(--croute-tomme-dessus); }
+    .a-marche::before { left: 0; width: 1px; height: var(--palier-haut); }
+    .a-marche::after { right: 100%; width: var(--marche); height: 1px; }
+    .marche {
+      display: block; position: absolute; right: calc(100% + 14px); top: calc(14px - var(--palier-haut));
+      margin: 0; white-space: nowrap; text-align: right; color: var(--croute-tomme-dessus);
+    }
+  }
   .palier h2 { font-weight: 500; font-size: clamp(2.3rem, 8vw, 4rem); line-height: 1; letter-spacing: -0.01em; }
   .palier p { color: var(--craie-2); }
   .palier .etiquette, .etiquette {

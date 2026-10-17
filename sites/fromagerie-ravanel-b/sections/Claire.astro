@@ -15,7 +15,7 @@ const equipe = site.about.team;
 
 {site.faq.length > 0 && (
   <section id="claire" class="palier claire" aria-labelledby="claire-titre">
-    <div class="escalier-col" style="--pas: 4">
+    <div class="escalier-col a-marche" style="--pas: 4">
       <h2 id="claire-titre" class="font-display">{site.wording.faqTitle}</h2>
       {equipe.length > 0 && (
         <p class="claire-p">{equipe.map((m) => `${m.name} : ${m.role.toLowerCase()}`).join('. ')}.</p>
