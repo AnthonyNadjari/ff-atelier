@@ -63,6 +63,12 @@ site prend une ARCHITECTURE entière (nombre de pages, navigation, ordre des blo
 site (`docs/veille/architectures/INDEX.md`) ; trois versions = trois architectures ; deux clients récents ne
 partagent pas la leur. `ff ressemblance` compare la page entière, pas seulement le haut.
 
+**La méthode qui marche** (18 oct 2026, L'Épi d'Or en versions b, c, d : « là pour le coup ça ressemble vraiment
+à 3 sites différents », « encore de la proximité, mais beaucoup moins qu'avant »). Architecture entière d'un vrai
+site + mélange d'atomes de styles réels (`ff melanger`) + vraies photos + socle. Version d (jaune d'or plein, Bebas
+Neue, un seul écran) : « juste un peu moche ». Un aplat de couleur vive sur toute la page avec une capitale
+condensée ne suffit pas à faire un style : il faut que le mélange reste beau, pas seulement différent.
+
 ## 1. Ce qui fait qu'un site est « à nous »
 
 - **La différence vient du squelette, pas des couleurs.** Coquille, place de la nav, où vit le contact,
