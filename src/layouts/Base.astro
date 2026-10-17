@@ -139,7 +139,7 @@ const ldJson = { '@context': 'https://schema.org', '@graph': [localBusinessLd, .
         type={heroPreload.imagesrcset ? 'image/avif' : undefined}
       />
     )}
-    {noindex && <meta name="robots" content="noindex" />}
+    {(noindex || site.legal.prospect) && <meta name="robots" content="noindex, nofollow, noarchive" />}
     {site.seo.keywords.length > 0 && <meta name="keywords" content={site.seo.keywords.join(', ')} />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
