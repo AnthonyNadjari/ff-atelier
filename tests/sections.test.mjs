@@ -123,3 +123,37 @@ test('src/sections/Process/horizon.astro : data-horizontal + .h-track, une etape
   assert.match(src, /prefers-reduced-motion: no-preference/, 'reduced-motion = etapes empilees');
   assert.doesNotMatch(src, /data-reveal|data-stagger/, 'aucun reveal : le defilement est le geste (regle 21)');
 });
+
+// Titres figés des sections partagées (17 oct 2026, fromagerie-ravanel-d, docs/GOUT.md § 5) : chaque titre
+// vient de site.wording, avec pour défaut l'ancien titre (aucun site existant ne change) ; « et alentours »
+// seulement si le client se déplace (zones.cities ou zones.radiusKm, metierEtVille()/zonesDesservies()).
+test('titres des sections partagées : wording.servicesTitle/processTitle/galleryTitle/beforeAfterTitle/logosTitle, défauts inchangés', async () => {
+  const { siteSchema } = await loadSchemaModule();
+  const w = siteSchema.shape.wording.parse({});
+  assert.equal(w.servicesTitle, 'Nos services');
+  assert.equal(w.processTitle, 'Notre méthode');
+  assert.equal(w.galleryTitle, 'En images');
+  assert.equal(w.beforeAfterTitle, 'La transformation');
+  assert.equal(w.logosTitle, 'Certifications et garanties');
+  assert.equal(siteSchema.shape.wording.parse({ servicesTitle: 'Au comptoir' }).servicesTitle, 'Au comptoir');
+  const schemaSrc = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'schema.ts'), 'utf8');
+  for (const k of ['servicesTitle', 'processTitle', 'galleryTitle', 'beforeAfterTitle', 'logosTitle']) {
+    assert.match(schemaSrc, new RegExp(`${k}: z\\.string\\(\\)\\.default\\([^)]*\\)\\.describe\\(`), `${k} : .default() + .describe()`);
+  }
+  const lire = (f) => stripComments(fs.readFileSync(path.join(SECTIONS_DIR, f), 'utf8'));
+  for (const v of VARIANTS.services) {
+    const src = lire(`Services/${v}.astro`);
+    assert.match(src, /title=\{site\.wording\.servicesTitle\}/, `Services/${v} : titre depuis wording.servicesTitle`);
+    assert.doesNotMatch(src, /title="Nos services"/, `Services/${v} : titre figé`);
+    assert.doesNotMatch(src, /et alentours/, `Services/${v} : « et alentours » sans condition`);
+    assert.match(src, /metierEtVille\(\)/, `Services/${v} : phrase métier + ville via metierEtVille()`);
+  }
+  for (const v of VARIANTS.process) assert.match(lire(`Process/${v}.astro`), /site\.wording\.processTitle/, `Process/${v}`);
+  assert.match(lire('Proof/gallery.astro'), /site\.wording\.galleryTitle/);
+  assert.match(lire('Proof/before-after.astro'), /site\.wording\.beforeAfterTitle/);
+  assert.match(lire('Proof/logos.astro'), /site\.wording\.logosTitle/);
+  assert.match(lire('Cta/card.astro'), /zonesDesservies\(\) \? ' et alentours' : ''/, 'Cta/card : « et alentours » conditionnel');
+  const siteSrc = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'site.ts'), 'utf8');
+  assert.match(siteSrc, /zonesDesservies = \(s: Site = site\) => s\.zones\.cities\.length > 0 \|\| s\.zones\.radiusKm != null/);
+  assert.match(siteSrc, /zonesDesservies\(s\) \? ' et alentours' : ''/);
+});

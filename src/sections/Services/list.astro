@@ -1,13 +1,13 @@
 ---
 /** Services "list" : liste verticale numerotee, filets entre les lignes, fleche qui glisse au survol. */
-import { site } from '@/lib/site';
+import { site, metierEtVille } from '@/lib/site';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Icon from '@/components/Icon.astro';
 ---
 
 <section id="services" class="section-y">
   <div class="container-ff">
-    <SectionHeading eyebrow="Ce que nous faisons" title="Nos services" text={`${site.business.trade} à ${site.contact.address.city} et alentours.`} />
+    <SectionHeading eyebrow="Ce que nous faisons" title={site.wording.servicesTitle} text={metierEtVille()} />
     <ul class="mt-14 border-t border-line" data-stagger="80">
       {site.services.map((s, i) => (
         <li class="group border-b border-line">

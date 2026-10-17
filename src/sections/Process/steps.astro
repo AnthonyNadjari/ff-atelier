@@ -7,7 +7,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
 {site.process.length > 0 && (
   <section id="process" class="section-y">
     <div class="container-ff">
-      <SectionHeading eyebrow="Comment ça marche" title="Notre méthode" align="center" />
+      <SectionHeading eyebrow="Comment ça marche" title={site.wording.processTitle} align="center" />
       <ol class:list={['mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2', site.process.length >= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3']} data-stagger="100">
         {site.process.map((p, i) => (
           <li class="relative">

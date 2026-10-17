@@ -62,6 +62,15 @@ export const fullAddress = (s: Site = site) =>
 export const yearsSince = (s: Site = site) => (s.business.since ? new Date().getFullYear() - s.business.since : undefined);
 export const featuredServices = (s: Site = site) => s.services.filter((x) => x.featured);
 /**
+ * Le client se déplace autour de sa ville : zones.cities ou zones.radiusKm renseignés. Seule condition pour
+ * écrire « et alentours » (un zones.label seul nomme le lieu, pas une zone desservie : 17 oct 2026,
+ * fromagerie-ravanel-d, « Fromager-affineur à Annecy et alentours » qui n'était pas dans le brief).
+ */
+export const zonesDesservies = (s: Site = site) => s.zones.cities.length > 0 || s.zones.radiusKm != null;
+/** « Plombier à Roubaix et alentours. » si zonesDesservies(), sinon « Fromager-affineur à Annecy. » */
+export const metierEtVille = (s: Site = site) =>
+  `${s.business.trade} à ${s.contact.address.city}${zonesDesservies(s) ? ' et alentours' : ''}.`;
+/**
  * Portes d'action par intention, dans l'ordre : Réserver, Commander, Bon cadeau, Devis, Appeler
  * (src/lib/actions.ts, module pur). Navs : 2 visibles sur ordinateur (pleine puis contour), 1 sur
  * téléphone, le reste dans le menu ; barre d'actions (layout.actionBar) : 2 à 4.

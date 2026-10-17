@@ -1,6 +1,6 @@
 ---
 /** Services "bento" : grille bento, les services vedettes prennent 4/6 colonnes sur 2 rangees. */
-import { site } from '@/lib/site';
+import { site, metierEtVille } from '@/lib/site';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
@@ -10,7 +10,7 @@ let usedFirstImage = false;
 
 <section id="services" class="section-y bg-bg-2">
   <div class="container-ff">
-    <SectionHeading eyebrow="Ce que nous faisons" title="Nos services" text={`${site.business.trade} à ${site.contact.address.city} et alentours.`} />
+    <SectionHeading eyebrow="Ce que nous faisons" title={site.wording.servicesTitle} text={metierEtVille()} />
     <ul class="mt-14 grid grid-cols-2 lg:grid-cols-6 auto-rows-[minmax(180px,auto)] gap-5" data-stagger="80">
       {site.services.map((s) => {
         const big = s.featured && ! usedFirstImage && !! s.image ;

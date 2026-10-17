@@ -222,6 +222,35 @@ test('forge-delacroix : credits.html est noindex et liste les 4 photos a attribu
   assert.doesNotMatch(html, /Tangopaso/, 'galerie-2 (domaine public) ne doit pas apparaitre sur /credits');
 });
 
+test('forge-delacroix : credits.html sans tiret cadratin visible (docs/GOUT.md § 2), mentions séparées par des virgules', () => {
+  const html = fs.readFileSync(path.join(FD_DIST, 'credits.html'), 'utf8');
+  const visible = html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ');
+  assert.doesNotMatch(visible, /—|&mdash;|&#8212;/, 'tiret cadratin dans le texte visible de /credits');
+  assert.match(html, /<title>Crédits photos \| /);
+  assert.match(visible, /Jorge Royan\s*,\s*CC BY-SA 3\.0\s*,\s*recadrée/, '« auteur, licence, recadrée »');
+});
+
+if (tsImportable) {
+  test('sansCadratin : « a — b » → « a, b », null reste null, rien d’autre ne change', async () => {
+    const { sansCadratin, SEPARATEUR_CREDITS } = await loadCreditsModule();
+    assert.equal(SEPARATEUR_CREDITS, ', ');
+    assert.equal(sansCadratin('Fromage — cave d’affinage'), 'Fromage, cave d’affinage');
+    assert.equal(sansCadratin('Atelier—forge'), 'Atelier, forge');
+    assert.equal(sansCadratin('— Jorge Royan'), 'Jorge Royan');
+    assert.equal(sansCadratin("Vintage smith's workshop - 0158"), "Vintage smith's workshop - 0158", 'le trait d’union reste');
+    assert.equal(sansCadratin(null), null);
+  });
+}
+
+test('credits.astro : aucun tiret cadratin dans le gabarit (titre, séparateurs, « recadrée »)', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'src', 'pages-optional', 'credits.astro'), 'utf8');
+  assert.doesNotMatch(src.replace(/^---[\s\S]*?\n---/, ''), /—/);
+  assert.match(src, /sansCadratin\(entry\.title\)/);
+});
+
 test('forge-delacroix : index.html lie vers /credits ("Crédits photos" dans le pied de page)', () => {
   assert.match(fdIndexHtml, /href=["']\/credits["']/);
   assert.match(fdIndexHtml, /Crédits photos/);

@@ -1,6 +1,6 @@
 ---
 /** Services "accordion" : liste <details> a cote d'une colonne SectionHeading collante. */
-import { site } from '@/lib/site';
+import { site, metierEtVille } from '@/lib/site';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Icon from '@/components/Icon.astro';
 ---
@@ -9,7 +9,7 @@ import Icon from '@/components/Icon.astro';
   <div class="container-ff grid lg:grid-cols-12 gap-10 lg:gap-16">
     <div class="lg:col-span-4">
       <div class="lg:sticky lg:top-28">
-        <SectionHeading eyebrow="Ce que nous faisons" title="Nos services" text={`${site.business.trade} à ${site.contact.address.city} et alentours.`} />
+        <SectionHeading eyebrow="Ce que nous faisons" title={site.wording.servicesTitle} text={metierEtVille()} />
       </div>
     </div>
     <div class="lg:col-span-8 border-t border-line" data-stagger="80">

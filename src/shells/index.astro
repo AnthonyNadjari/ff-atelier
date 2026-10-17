@@ -40,7 +40,6 @@ const entries = sections
   .filter((s) => s.type !== 'cta')
   .map((s, i) => ({ id: idOf(s), label: labelOf(s), Component: s.Component, image: pool[i] }));
 const total = pages.length + entries.length;
-const num = (i: number) => String(i + 1);
 ---
 
 <div class="index-ecran flex min-h-svh flex-col">
@@ -57,20 +56,18 @@ const num = (i: number) => String(i + 1);
 
   <main id="main" class="flex flex-1 flex-col">
     <ol class="index-liste container-ff flex flex-1 flex-col justify-center py-6" aria-label="Sommaire du site">
-      {pages.map((p, i) => (
+      {pages.map((p) => (
         <li>
           <a href={p.href} class="index-entree" data-hover-img={p.image}>
-            <span class="index-num">{num(i)}</span>
             <span class="index-label">{p.label}</span>
             <Icon name="ArrowUpRight" size={28} class="index-signe" />
           </a>
         </li>
       ))}
-      {entries.map((e, i) => (
+      {entries.map((e) => (
         <li>
           <details class="index-details" name="index-entree">
             <summary class="index-entree" data-hover-img={e.image} aria-expanded="false">
-              <span class="index-num">{num(pages.length + i)}</span>
               <span class="index-label">{e.label}</span>
               <Icon name="Plus" size={28} class="index-signe" />
             </summary>
@@ -90,7 +87,8 @@ const num = (i: number) => String(i + 1);
 <Footer />
 
 <style is:global>
-  /* Entrees : gros texte display, filet entre chaque ligne, numero mono. Tokens uniquement. */
+  /* Entrees : gros texte display, filet entre chaque ligne. Plus de numero devant (numerotation decorative,
+     docs/GOUT.md § 2, retiree le 17 oct 2026). Tokens uniquement. */
   [data-shell='index'] .index-liste { list-style: none; }
   [data-shell='index'] .index-liste > li { border-top: 1px solid var(--line); }
   [data-shell='index'] .index-liste > li:last-child { border-bottom: 1px solid var(--line); }
@@ -113,7 +111,6 @@ const num = (i: number) => String(i + 1);
   [data-shell='index'] .index-entree:hover,
   [data-shell='index'] .index-entree:focus-visible,
   [data-shell='index'] .index-details[open] > .index-entree { color: var(--accent); padding-inline-start: 0.35em; }
-  [data-shell='index'] .index-num { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.15em; color: var(--muted); font-variant-numeric: tabular-nums; }
   [data-shell='index'] .index-label { flex: 1; min-width: 0; overflow-wrap: anywhere; }
   [data-shell='index'] .index-signe { flex: none; align-self: center; color: var(--muted); transition: transform var(--motion-ui) var(--ease-out), color var(--motion-ui) var(--ease-out); }
   [data-shell='index'] .index-entree:hover .index-signe,

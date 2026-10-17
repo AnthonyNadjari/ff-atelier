@@ -3,8 +3,11 @@
  * Coquille "split" : panneau lateral fixe (nom, metier, navigation, telephone, reseaux) sur la gauche,
  * contenu qui defile a droite dans une colonne plus etroite. Sur mobile, le panneau devient un bloc
  * d'en-tete et la nav mobile classique prend le relais.
- * Sommaire actif (data-scrollspy, src/scripts/scrollspy.ts) : liens numerotes, le lien de la section
- * visible passe en fg et un trait d'accent se deploie devant lui.
+ * Sommaire actif (data-scrollspy, src/scripts/scrollspy.ts) : le lien de la section visible passe en fg
+ * et un trait d'accent se deploie devant lui. Pas de numeros devant les liens (numerotation decorative,
+ * docs/GOUT.md § 2, retiree le 17 oct 2026).
+ * Horaires : toutes les lignes de contact.hours sans script, la journee complete avec script
+ * (src/lib/horaires.ts, ligneDuJour) ; avant le 17 oct 2026, seule la premiere ligne s'affichait.
  *
  * Contact en tiroir (layout.contactDrawer) : le panneau EST la nav sur desktop, il porte donc le meme
  * CTA `wording.devis` que les cinq nav partagees (src/sections/Nav/*.astro) et que la coquille `index`
@@ -15,10 +18,16 @@ import Divider from '@/components/Divider.astro';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import { site, tel, navLinks } from '@/lib/site';
+import { semaine, regrouperLignes } from '@/lib/horaires';
 interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
 const { Nav, Hero, Footer, sections } = Astro.props;
 const divider = site.layout.divider;
 const links = navLinks();
+// Horaires du panneau : sans script, toutes les lignes du client (regroupées par jours identiques) ; avec
+// script, la ligne complète du jour (ligneDuJour), seulement si chaque ligne se lit (semaine() définie).
+const groupes = regrouperLignes(site.contact.hours);
+const sem = site.contact.hours.length > 0 ? semaine(site.contact.hours) : undefined;
+const jourData = sem ? JSON.stringify(sem.map((j) => ({ jour: j.jour, libelles: j.libelles, ferme: j.ferme }))) : undefined;
 const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
 const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
 ---
@@ -32,17 +41,23 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
       </a>
       <p class="mt-3 text-sm text-muted">{site.business.trade} à {site.contact.address.city}</p>
       <nav class="mt-12 flex flex-col gap-3" aria-label="Navigation principale" data-scrollspy>
-        {links.map((l, i) => (
+        {links.map((l) => (
           <a href={l.href} class="spy-link flex items-baseline gap-3 text-lg text-muted transition-colors hover:text-fg">
             <span class="spy-trait" aria-hidden="true"></span>
-            <span class="font-mono text-xs text-muted tabular-nums">{String(i + 1)}</span>
             {l.label}
           </a>
         ))}
       </nav>
     </div>
     <div class="space-y-5">
-      {site.contact.hours[0] && <p class="text-sm text-muted">{site.contact.hours[0].days}, {site.contact.hours[0].hours}</p>}
+      {groupes.length > 0 && (
+        <div class="text-sm text-muted" data-split-horaires={jourData}>
+          <p data-split-jour hidden></p>
+          <ul class="space-y-1" data-split-semaine>
+            {groupes.map((g) => <li>{g.days}, {g.hours}</li>)}
+          </ul>
+        </div>
+      )}
       <Button href={tel()} size="lg" class="w-full" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
       {site.layout.contactDrawer && <Button href="#contact" variant="ghost" size="lg" class="w-full">{site.wording.devis}</Button>}
       {socials.length > 0 && (
@@ -86,5 +101,19 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
 <script>
   import { onPage } from '@/scripts/page';
   import { initScrollSpy } from '@/scripts/scrollspy';
+  import { ligneDuJour, maintenant } from '@/lib/horaires';
   onPage(initScrollSpy);
+  // Horaires du jour en entier (Europe/Paris) à la place de la liste de la semaine.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-split-horaires]').forEach((bloc) => {
+      if (!bloc.dataset.splitHoraires) return;
+      const texte = ligneDuJour(JSON.parse(bloc.dataset.splitHoraires), maintenant(new Date()).jour);
+      const p = bloc.querySelector<HTMLElement>('[data-split-jour]');
+      const liste = bloc.querySelector<HTMLElement>('[data-split-semaine]');
+      if (!texte || !p || !liste) return;
+      p.textContent = texte;
+      p.hidden = false;
+      liste.hidden = true;
+    });
+  });
 </script>

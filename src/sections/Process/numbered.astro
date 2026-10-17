@@ -8,7 +8,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
   <section id="process" class="section-y bg-bg-2">
     <div class="container-ff grid gap-10 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-4">
-        <SectionHeading eyebrow="Comment ça marche" title="Notre méthode" />
+        <SectionHeading eyebrow="Comment ça marche" title={site.wording.processTitle} />
       </div>
       <ol class="flex flex-col lg:col-span-8" data-stagger="80">
         {site.process.map((p, i) => (

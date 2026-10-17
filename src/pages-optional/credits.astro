@@ -6,7 +6,7 @@
  *
  * Ce fichier vit hors de src/pages/ : Astro ne le route jamais tout seul. La route /credits n'est
  * injectee (astro.config.mjs, scripts/astro-credits-integration.mjs) que quand
- * sites/<slug>/CREDITS.md existe et contient au moins une entree — un site sans CREDITS.md
+ * sites/<slug>/CREDITS.md existe et contient au moins une entree : un site sans CREDITS.md
  * (sites/_exemple, ou un client sans photo de banque) n'a donc pas cette page dans dist/.
  *
  * N'affiche que les entrees dont la licence exige une attribution visible (CC BY / CC BY-SA) :
@@ -18,7 +18,7 @@ import path from 'node:path';
 import Base from '@/layouts/Base.astro';
 import { site, slugCourant } from '@/lib/site';
 import { resolveSection } from '@/lib/sections';
-import { parseCredits, entriesRequiringAttribution } from '@/lib/credits';
+import { parseCredits, entriesRequiringAttribution, sansCadratin, SEPARATEUR_CREDITS } from '@/lib/credits';
 
 const Nav = resolveSection('nav', site.layout.nav);
 const Footer = resolveSection('footer', site.layout.footer);
@@ -28,7 +28,7 @@ const md = fs.existsSync(creditsPath) ? fs.readFileSync(creditsPath, 'utf8') : '
 const entries = entriesRequiringAttribution(parseCredits(md));
 ---
 
-<Base title={`Crédits photos — ${site.business.name}`} path="/credits" noindex>
+<Base title={`Crédits photos | ${site.business.name}`} path="/credits" noindex>
   <Nav />
   <main id="main" class="section-y">
     <div class="container-ff max-w-3xl space-y-10 text-[0.95rem] leading-relaxed">
@@ -41,29 +41,29 @@ const entries = entriesRequiringAttribution(parseCredits(md));
         <ul class="space-y-8 divide-y divide-line">
           {entries.map((entry) => (
             <li class="pt-8 first:pt-0">
-              {entry.title && <p class="font-medium">{entry.title}</p>}
+              {entry.title && <p class="font-medium">{sansCadratin(entry.title)}</p>}
               <p class="text-muted mt-1">
                 Photo :{' '}
                 {entry.authorUrl || entry.sourceUrl ? (
                   <a href={entry.authorUrl ?? entry.sourceUrl ?? undefined} rel="noopener" target="_blank" class="underline hover:text-fg">
-                    {entry.author ?? 'auteur inconnu'}
+                    {sansCadratin(entry.author) ?? 'auteur inconnu'}
                   </a>
                 ) : (
-                  entry.author ?? 'auteur inconnu'
+                  sansCadratin(entry.author) ?? 'auteur inconnu'
                 )}
                 {entry.licenceLabel && (
                   <>
-                    {' — '}
+                    {SEPARATEUR_CREDITS}
                     {entry.licenceUrl ? (
                       <a href={entry.licenceUrl} rel="noopener" target="_blank" class="underline hover:text-fg">
-                        {entry.licenceLabel}
+                        {sansCadratin(entry.licenceLabel)}
                       </a>
                     ) : (
-                      entry.licenceLabel
+                      sansCadratin(entry.licenceLabel)
                     )}
                   </>
                 )}
-                {entry.cropped && ' — recadrée'}
+                {entry.cropped && `${SEPARATEUR_CREDITS}recadrée`}
               </p>
             </li>
           ))}

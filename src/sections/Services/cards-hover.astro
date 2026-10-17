@@ -1,6 +1,6 @@
 ---
 /** Services "cards-hover" : cartes pleine image, titre sur degrade, le texte court glisse au survol. */
-import { site } from '@/lib/site';
+import { site, metierEtVille } from '@/lib/site';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
@@ -8,7 +8,7 @@ import Img from '@/components/Img.astro';
 
 <section id="services" class="section-y">
   <div class="container-ff">
-    <SectionHeading eyebrow="Ce que nous faisons" title="Nos services" text={`${site.business.trade} à ${site.contact.address.city} et alentours.`} />
+    <SectionHeading eyebrow="Ce que nous faisons" title={site.wording.servicesTitle} text={metierEtVille()} />
     <ul class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5" data-stagger="80">
       {site.services.map((s) => (
         <li class="group relative aspect-[4/5] overflow-hidden rounded-card shadow-card" data-tilt="6">

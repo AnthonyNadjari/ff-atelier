@@ -108,6 +108,18 @@ export function requiresAttribution(entry: CreditEntry): boolean {
   return Boolean(entry.attribution);
 }
 
+/** Separateur des mentions de /credits (auteur, licence, « recadrée ») : une virgule, jamais un tiret cadratin. */
+export const SEPARATEUR_CREDITS = ', ';
+
+/**
+ * Texte visible de /credits sans tiret cadratin (docs/GOUT.md § 2, signe IA) : un titre ou un nom
+ * d'auteur recopie de la source (« Fromage — cave ») devient « Fromage, cave ». null reste null.
+ */
+export function sansCadratin(value: string | null): string | null {
+  if (value == null) return null;
+  return value.replace(/\s*—\s*/g, SEPARATEUR_CREDITS).replace(/^,\s*|,\s*$/g, '').trim();
+}
+
 /** Sous-ensemble des entrees a afficher sur /credits : celles qui exigent une attribution visible. */
 export function entriesRequiringAttribution(entries: CreditEntry[]): CreditEntry[] {
   return entries.filter(requiresAttribution);

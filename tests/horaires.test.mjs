@@ -38,6 +38,85 @@ if (!tsImportable) {
     assert.equal(joursDe('Sur rendez-vous'), undefined);
   });
 
+  test('joursDe (17 oct 2026, fromagerie-ravanel-d) : « à », « au », « du … au … », tirets, abréviations, listes avec « et »', async () => {
+    const { joursDe } = await loadHorairesModule();
+    const MAR_VEN = [1, 2, 3, 4];
+    assert.deepEqual(joursDe('Mardi à vendredi'), MAR_VEN, '« à » entre deux jours = plage (mercredi et jeudi étaient « Fermé »)');
+    assert.deepEqual(joursDe('mardi a vendredi'), MAR_VEN, 'sans accent');
+    assert.deepEqual(joursDe('Lundi au vendredi'), [0, 1, 2, 3, 4]);
+    assert.deepEqual(joursDe('Du mardi au vendredi'), MAR_VEN);
+    assert.deepEqual(joursDe('De lundi à jeudi'), [0, 1, 2, 3]);
+    assert.deepEqual(joursDe('Du lundi jusqu’au jeudi'), [0, 1, 2, 3]);
+    assert.deepEqual(joursDe('Mar-Ven'), MAR_VEN, 'abréviations et trait d’union collé');
+    assert.deepEqual(joursDe('Lun–Sam'), [0, 1, 2, 3, 4, 5], 'demi-cadratin collé');
+    assert.deepEqual(joursDe('Lun. – Sam.'), [0, 1, 2, 3, 4, 5], 'abréviations avec point');
+    assert.deepEqual(joursDe('mer, ven'), [2, 4]);
+    assert.deepEqual(joursDe(`Lundi${NBSP}–${NBSP}vendredi`), [0, 1, 2, 3, 4], 'insécables autour du tiret');
+    assert.deepEqual(joursDe('Lundi, mercredi et vendredi'), [0, 2, 4], 'liste avec « et »');
+    assert.deepEqual(joursDe('Mardi à vendredi et samedi'), [1, 2, 3, 4, 5]);
+    assert.deepEqual(joursDe('Les samedis'), [5]);
+    assert.deepEqual(joursDe('7j/7'), [0, 1, 2, 3, 4, 5, 6]);
+    assert.deepEqual(joursDe('Tous les jours sauf le lundi'), [1, 2, 3, 4, 5, 6]);
+    assert.deepEqual(joursDe('Du lundi au samedi sauf mercredi'), [0, 1, 3, 4, 5]);
+  });
+
+  test('joursDe : lecture stricte, un mot inconnu = undefined (jamais un jour deviné)', async () => {
+    const { joursDe } = await loadHorairesModule();
+    for (const d of ['Samedi matin', 'Dimanche et jours fériés', 'Urgences', 'Avril – octobre', 'Mars', 'Mardi au', 'à vendredi', 'Lundi – – vendredi', 'Tous les jours de 8 h à 20 h', '']) {
+      assert.equal(joursDe(d), undefined, `« ${d} » ne doit pas se lire`);
+    }
+  });
+
+  test('semaine : « Mardi à vendredi » couvre mercredi et jeudi ; une ligne illisible = undefined, donc liste brute et aucun « Fermé »', async () => {
+    const { semaine } = await loadHorairesModule();
+    for (const days of ['Mardi à vendredi', 'Lundi au vendredi', 'Du mardi au vendredi', 'Mar-Ven', 'Lun–Sam']) {
+      const sem = semaine([{ days, hours: '9 h à 18 h', opens: '09:00', closes: '18:00' }]);
+      assert.equal(sem[2].libelle, '9 h à 18 h', `${days} : mercredi lu`);
+      assert.equal(sem[3].libelle, '9 h à 18 h', `${days} : jeudi lu`);
+      assert.equal(sem[2].ferme, false);
+    }
+    const lu = semaine([{ days: 'Lundi, mercredi et vendredi', hours: '9 h à 12 h' }]);
+    assert.deepEqual(lu.map((j) => j.ferme), [false, true, false, true, false, true, true]);
+    assert.equal(semaine([{ days: 'Mardi à vendredi', hours: '9 h à 18 h' }, { days: 'Samedi matin', hours: '9 h à 12 h' }]), undefined, 'une seule ligne illisible suffit');
+  });
+
+  test('ligneDuJour : toutes les lignes du jour (matin et après-midi), jour fermé, typographie', async () => {
+    const { semaine, ligneDuJour } = await loadHorairesModule();
+    const sem = semaine([
+      { days: 'Du mardi au vendredi', hours: '8 h 30 à 12 h 30', opens: '08:30', closes: '12:30' },
+      { days: 'Du mardi au vendredi', hours: '15 h 30 à 19 h', opens: '15:30', closes: '19:00' },
+      { days: 'Samedi', hours: '8 h à 13 h' },
+      { days: 'Lundi', hours: 'Fermé' },
+    ]);
+    assert.equal(ligneDuJour(sem, 1), `Aujourd’hui mardi${NBSP}: 8 h 30 à 12 h 30 et 15 h 30 à 19 h`);
+    assert.equal(ligneDuJour(sem, 3), `Aujourd’hui jeudi${NBSP}: 8 h 30 à 12 h 30 et 15 h 30 à 19 h`, 'jeudi, jour intermédiaire de la plage');
+    assert.equal(ligneDuJour(sem, 5), `Aujourd’hui samedi${NBSP}: 8 h à 13 h`);
+    assert.equal(ligneDuJour(sem, 0), `Aujourd’hui lundi${NBSP}: fermé`);
+    assert.equal(ligneDuJour(sem, 6), `Aujourd’hui dimanche${NBSP}: fermé`, 'jour non listé');
+    assert.equal(ligneDuJour(sem, 9), undefined);
+    assert.doesNotMatch(ligneDuJour(sem, 1), /—/);
+  });
+
+  test('regrouperLignes : toutes les lignes, regroupées par jours identiques, sans lire les jours', async () => {
+    const { regrouperLignes } = await loadHorairesModule();
+    assert.deepEqual(
+      regrouperLignes([
+        { days: 'Du mardi au vendredi', hours: '8 h 30 à 12 h 30' },
+        { days: 'Du mardi au vendredi', hours: '15 h 30 à 19 h' },
+        { days: 'Samedi', hours: '8 h à 13 h' },
+        { days: 'Samedi', hours: '15 h à 19 h' },
+        { days: 'Sur rendez-vous', hours: 'le soir' },
+        { days: 'Samedi', hours: '18 h à 20 h' },
+      ]),
+      [
+        { days: 'Du mardi au vendredi', hours: '8 h 30 à 12 h 30 et 15 h 30 à 19 h' },
+        { days: 'Samedi', hours: '8 h à 13 h, 15 h à 19 h et 18 h à 20 h' },
+        { days: 'Sur rendez-vous', hours: 'le soir' },
+      ],
+    );
+    assert.deepEqual(regrouperLignes([]), []);
+  });
+
   test('semaine : 7 jours lundi → dimanche, deux créneaux fusionnés, jour non listé = Fermé', async () => {
     const { semaine, JOURS } = await loadHorairesModule();
     const sem = semaine(HOURS);
@@ -122,6 +201,23 @@ test('Horaires.astro : lit contact.hours via semaine(), repli brut, script onPag
   const style = src.match(/<style>([\s\S]*?)<\/style>/)?.[1] ?? '';
   assert.doesNotMatch(style, /#[0-9a-fA-F]{3,8}\b|color:|font-family/, 'tokens uniquement, aucune couleur en dur');
   assert.doesNotMatch(src, /—/, 'jamais de tiret cadratin dans un texte visible');
+});
+
+test('Coquille split : plus de numéros devant les liens, horaires = toutes les lignes sans script puis la journée complète (plus de hours[0])', () => {
+  const src = read('src/shells/split.astro');
+  assert.doesNotMatch(src, /String\(i \+ 1\)/, 'numérotation décorative du sommaire (docs/GOUT.md § 2)');
+  assert.doesNotMatch(src, /contact\.hours\[0\]/, 'la première ligne seule ne suffit pas (matin sans après-midi)');
+  assert.match(src, /regrouperLignes\(site\.contact\.hours\)/, 'sans script : toutes les lignes');
+  assert.match(src, /semaine\(site\.contact\.hours\)/, 'la journée passe par la fonction pure');
+  assert.match(src, /ligneDuJour\(/);
+  assert.match(src, /maintenant\(new Date\(\)\)/);
+  assert.match(src, /onPage\(\(\) =>/);
+  assert.match(src, /<p data-split-jour hidden><\/p>/, 'ligne du jour cachée sans script');
+});
+
+test('Coquille index : plus de numéros devant les entrées (numérotation décorative)', () => {
+  const src = read('src/shells/index.astro');
+  assert.doesNotMatch(src, /index-num|String\(i \+ 1\)/);
 });
 
 test('Les quatre Contact/* et les Footer columns/big-name rendent <Horaires /> ; plus de dl maison sur contact.hours', () => {
