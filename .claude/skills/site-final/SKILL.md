@@ -152,10 +152,12 @@ Pour une proposition à plusieurs pistes, `ff pistes <slug>` produit **la planch
 colonnes se ressemblent à 400 ms (même aplat, même titre coupé à mi-hauteur), les pistes ne sont pas
 différentes. Ajouter à côté les mêmes vignettes d'un démontage de `docs/veille/demontages/` du même métier.
 
-Le mouvement ne se voit pas sur une planche fixe : **le filmer** (premier écran image par image à 100, 300,
-600, 1 000 ms, puis le feu d'artifice en action) dans `captures/planches/<slug>-film.jpg`, avec un petit script
-playwright (modèle : `scripts/outils/film-fromagerie.mjs`). Au test du 16 oct 2026, c'est le film qui a
-montré que le chiffre suivant de la bande restait invisible au bord.
+Le mouvement ne se voit pas sur une planche fixe : **le filmer** avec `node scripts/ff.mjs film <slug> --toucher
+"<sélecteur du geste>"` (ou `--glisser`, `--geste`) : l'entrée du premier écran image par image, téléphone PUIS
+ordinateur (`captures/planches/<slug>-film.jpg` et `-film-d.jpg`), la première section sous le hero, et le geste.
+Au test du 16 oct 2026, c'est le film qui a montré que le chiffre suivant de la bande restait invisible au bord ;
+le 17, que la meule de la piste A était finie avant que le nom commence sur ordinateur (personne n'avait filmé
+l'ordinateur).
 
 Puis ouvrir chaque image avec l'outil Read et faire **ces passes, une par une**, sur les images seulement
 (on a écrit le code, on y lirait ses intentions) :

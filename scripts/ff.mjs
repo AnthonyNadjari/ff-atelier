@@ -52,6 +52,7 @@ import { cmdPistes } from './ff/pistes.mjs';
 import { cmdContrat } from './ff/contrat.mjs';
 import { cmdChoisir } from './ff/choisir.mjs';
 import { cmdPrevol } from './ff/prevol.mjs';
+import { cmdFilm } from './ff/film.mjs';
 import { cmdDemonter } from './ff/demonter.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -123,6 +124,7 @@ const commands = {
   contrat: cmdContrat,
   choisir: cmdChoisir,
   prevol: cmdPrevol,
+  film: cmdFilm,
   demonter: cmdDemonter,
 };
 

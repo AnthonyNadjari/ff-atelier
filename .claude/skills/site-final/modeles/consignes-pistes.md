@@ -37,8 +37,8 @@ Avant de construire : `node scripts/ff.mjs contrat <slug>` sur ton direction.md,
 Boucle de qualité (version courte de /site-final) : build, `node scripts/ff.mjs verifier <slug> --sans-build`
 (bloquants verts ; avertissements « données de test » attendus), `ff ia <slug>`, `ff audit-motion <slug>`,
 `ff planche <slug>`, puis REGARDE les deux planches (outil Read) et corrige ce qui se voit. Puis filme le
-mouvement : copie scripts/outils/film-fromagerie.mjs en .ff-tmp/film-<slug>.mjs, adapte le dossier dist, la
-sortie (captures/planches/<slug>-film.jpg) et les sélecteurs à TON geste signature, lance-le, regarde. Deux tours
+mouvement : `node scripts/ff.mjs film <slug> --toucher "<sélecteur de ton geste>"` (ou `--glisser` / `--geste`),
+qui écrit captures/planches/<slug>-film.jpg (téléphone) ET -film-d.jpg (ordinateur) ; regarde les deux. Deux tours
 au moins. Mesure (petit script playwright) toute correction de mise en page avant de la dire faite : une classe
 Tailwind est battue par un <style> de section.
 

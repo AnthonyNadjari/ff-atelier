@@ -151,7 +151,7 @@ export const DRAPEAUX_BOOLEENS = new Set([
   'bavard', 'build', 'liste', 'comparer', 'conseils', 'corriger', 'depuis-public', 'desktop-seul', 'detail',
   'ecrire', 'figer', 'forcer', 'json', 'lighthouse', 'matiere', 'mobile', 'mobile-seul', 'pages',
   'partage', 'preuves', 'rapide', 'sans-a11y', 'sans-build', 'simuler', 'strict', 'tout', 'valider',
-  'vercel', 'www',
+  'vercel', 'www', 'sans-film', 'sans-navigateur', 'supprimer',
 ]);
 
 /** Drapeaux à valeur facultative : ne prennent l'argument suivant que s'il a la forme attendue. */

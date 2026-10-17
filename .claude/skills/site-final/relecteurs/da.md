@@ -41,7 +41,7 @@ CE QUE TU VÉRIFIES :
 - Aiguillage (ligne en tête du contrat, `aiguillage.md`) : le site le respecte-t-il ? Une piste « calme » où un
   élément suit le défilement, un rebond, une entrée de plus de 0,8 s ; une photo que le client n'a pas ; une place
   vide qui attend une photo = constat à 85.
-- Vivant ET humain (GOUT § 2 et § 4) : regarde le film. (1) Qu'est-ce qui bouge : des titres et des cadres de
+- Vivant ET humain (GOUT § 2 et § 4) : regarde le film, téléphone (`<slug>-film.jpg`) ET ordinateur (`<slug>-film-d.jpg`). (1) Qu'est-ce qui bouge : des titres et des cadres de
   photo, ou des choses du métier ? Plus de deux titres de section qui se lèvent ligne par ligne = constat à 80.
   (2) L'entrée montre-t-elle le client, ou un rideau / un titre qui monte que n'importe quel site de l'usine
   aurait ? (3) Une seule courbe et une seule durée partout = constat à 75. (4) Si d'autres pistes existent,
