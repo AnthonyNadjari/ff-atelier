@@ -49,6 +49,7 @@ import { cmdRelecture } from './ff/relecture.mjs';
 import { cmdBrief } from './ff/brief.mjs';
 import { cmdAiguillage } from './ff/aiguillage.mjs';
 import { cmdPistes } from './ff/pistes.mjs';
+import { cmdContrat } from './ff/contrat.mjs';
 import { cmdDemonter } from './ff/demonter.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -117,6 +118,7 @@ const commands = {
   brief: cmdBrief,
   aiguillage: cmdAiguillage,
   pistes: cmdPistes,
+  contrat: cmdContrat,
   demonter: cmdDemonter,
 };
 

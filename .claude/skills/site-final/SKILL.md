@@ -37,6 +37,9 @@ Règles d'or :
    la contrôle ensuite sur le site construit (une piste « calme » qui suit le défilement échoue).
 4. `docs/veille/demontages/INDEX.md` (gestes à transposer), `docs/veille/redondances.md` (ce qui est déjà
    trop vu), et `node scripts/ff.mjs variete` + `node scripts/ff.mjs signatures`.
+5. Les sites que le client aime (brief § 12) : `node scripts/ff.mjs demonter <url> --slug <slug>` pour chacun
+   (fiche mesurée dans `sites/<slug>/references/`, captures à côté) ; lire la fiche et REGARDER les captures
+   avant d'écrire le contrat. On y prend un geste, jamais une maquette.
 
 ## 1. Contrat de direction (avant de toucher au site)
 
@@ -77,6 +80,10 @@ colorée ») : le fondateur veut un outil « ultra flexible ».
   toutes les pistes avec la même grille, avec une phrase par piste : l'idée, et pour qui elle est faite.
 
 ## 2. Attaquer le contrat (avant de construire)
+
+D'abord la forme, à la machine : `node scripts/ff.mjs contrat <slug>` (sections, 8 à 12 faits retrouvés dans le
+brief, quatre lignes MOUVEMENT sans attribut du moteur et avec deux régimes, deux fiches de démontage citées,
+polices hors liste IA, accord avec l'aiguillage). Rouge = corriger le contrat. Puis le fond, à l'œil :
 
 Relire le contrat comme quelqu'un qui veut le rejeter :
 - refaire mentalement le contrat pour le concurrent le plus proche : si on arrive au même endroit, la

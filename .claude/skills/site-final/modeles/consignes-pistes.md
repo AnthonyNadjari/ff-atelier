@@ -32,6 +32,8 @@ est celle de ce client. `motion` selon l'aiguillage du contrat (`.claude/skills/
 a répondu « calme », sinon `rich`), sans rideau (`layout.curtain: false` dès qu'il existe). Pas de photo
 de banque légendée « photo d'illustration » : à la place, une composition typographique ou un objet du métier.
 
+Avant de construire : `node scripts/ff.mjs contrat <slug>` sur ton direction.md, vert obligatoire.
+
 Boucle de qualité (version courte de /site-final) : build, `node scripts/ff.mjs verifier <slug> --sans-build`
 (bloquants verts ; avertissements « données de test » attendus), `ff ia <slug>`, `ff audit-motion <slug>`,
 `ff planche <slug>`, puis REGARDE les deux planches (outil Read) et corrige ce qui se voit. Puis filme le
