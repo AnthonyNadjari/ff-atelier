@@ -116,6 +116,17 @@ préférence, faits par des humains, qui donnent envie) :
 Ce volet passe AVANT tous les autres. Un tour qui n'ajoute pas au moins 5 styles gardés est un tour raté (le
 journal dit pourquoi).
 
+**Mouvement, à chaque tour aussi** (18 oct 2026, fondateur : « plus de pluralité : animations, même des vidéos en
+fond » ; « le catalogue doit s'agrandir avec les veilles »). Parmi les sites étudiés, **au moins 2 profils de
+mouvement nouveaux** par tour (entrée du premier écran, apparition au défilement, survol, transitions de page, fond
+vidéo ou séquence d'images, défilement horizontal, texte qui se remplit…) : une entrée dans
+`docs/veille/styles/MOUVEMENTS.md` (ce qu'il fait, durées et courbes mesurées, attributs du moteur qui le réalisent
+ou ce qui manque, quand il convient selon l'aiguillage, poids) et l'atome `mouvement` correspondant pour
+`ff melanger`. Si le moteur ne sait pas le faire et que c'est simple : l'ajouter à `src/scripts/motion.ts` avec son
+test et sa ligne dans `docs/ANIMATIONS.md`, preuve sur `sites/_effets/`. Un profil qui ne tient pas sur iPhone
+(autoplay bloqué en économie d'énergie, saccades) n'entre pas. Fond vidéo : seulement avec la vraie vidéo du client
+ou `ff animer`/`ff sequence-photo` sur ses photos, poster obligatoire.
+
 ### 2a ter. Les architectures, À CHAQUE TOUR (ce qui rend les sites différents)
 
 Le fondateur, 18 oct 2026 : « il y a une infinité de sites internet différents, chacun pourrait représenter une
