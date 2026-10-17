@@ -1,0 +1,52 @@
+{
+  "nom": "releve-plan",
+  "titre": "Relevé plan",
+  "description": "Photo et texte côte à côte, services en liste, carte des zones : un architecte ou un géomètre.",
+  "metiers": [
+    "architecte",
+    "géomètre",
+    "maçonnerie"
+  ],
+  "look": {
+    "direction": "releve",
+    "motion": "subtle",
+    "scale": "compact",
+    "layout": {
+      "nav": "bar",
+      "hero": "split",
+      "sections": [
+        {
+          "type": "services",
+          "variant": "list"
+        },
+        {
+          "type": "zones",
+          "variant": "map"
+        },
+        {
+          "type": "process",
+          "variant": "steps"
+        },
+        {
+          "type": "proof",
+          "variant": "testimonials"
+        },
+        {
+          "type": "about",
+          "variant": "timeline"
+        },
+        {
+          "type": "cta",
+          "variant": "card"
+        },
+        {
+          "type": "contact",
+          "variant": "form-card"
+        }
+      ],
+      "footer": "columns",
+      "divider": "none",
+      "tone": "flat"
+    }
+  }
+}

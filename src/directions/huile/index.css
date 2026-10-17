@@ -1,0 +1,65 @@
+/* Direction HUILE : style réel relevé sur https://www.anecdotarural.com/ (veille du 17 oct 2026, fiche
+   docs/veille/styles/anecdota-rural.md). On reprend le style (couleurs, rapports de taille, casse, rayons,
+   boutons), jamais les textes, images, logos ni le code de la source.
+   Domaine oléicole familial : crème, une seule encre rouge tomate pour tout le texte, serif de livre en grand corps, étiquettes en petites capitales sans serif, photos posées sans cadre, pied de page rose.
+   Polices : Ivar (texte, 24 px) et le logotype étiré -> Ancizar Serif ; Neue Haas (étiquettes en capitales) -> la même Ancizar, en petite taille. Rouge #fb4329 assombri à #b8260f (5,58:1 sur la crème, la source était à 3,12:1 : illisible).
+   Couleurs relevées : #f2f1e9 crème 89 %, #ffbed1 rose 11 % des fonds ; #fb4329 rouge 100 % des textes. */
+@import '@fontsource-variable/ancizar-serif';
+@import '@fontsource/fragment-mono/latin.css';
+
+[data-direction='huile'] {
+  --accent-h: 8;
+  --accent-s: 85%;
+  --accent-l: 39%;
+  --bg: #f2f1e9;
+  --bg-2: #ffd6e2;
+  --surface: #f7f6f0;
+  --fg: #b8260f;
+  --muted: #9a3a26;
+  --line: #e8b3a6;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #8f1c0a;
+  --on-accent: #f2f1e9;
+  --ink: #b8260f;
+  --on-ink: #f2f1e9;
+  --font-display: 'Ancizar Serif Variable', Georgia, serif;
+  --font-body: 'Ancizar Serif Variable', Georgia, serif;
+  --font-mono: 'Fragment Mono', ui-monospace, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4rem, 9vw, 7.5rem);
+  --motion-duration: 0.5s;
+  --motion-ui: 0.2s;
+  --ease-brand: cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+[data-direction='huile'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='huile'] h1 em,
+[data-direction='huile'] h2 em { font-style: normal; color: var(--accent); }
+[data-direction='huile'] body { font-size: 1.18rem; line-height: 1.25; }
+[data-direction='huile'] h1 { font-weight: 500; letter-spacing: -0.03em; }
+
+[data-direction='huile'] .btn {
+  border-radius: var(--radius);
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+[data-direction='huile'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='huile'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='huile'] .btn-ghost { border: 1px solid var(--accent); background: transparent; color: var(--fg); }
+[data-direction='huile'] .btn-ghost:hover { background: var(--accent); color: var(--on-accent); }
+[data-direction='huile'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 0;
+  box-shadow: var(--shadow-card);
+}
+[data-direction='huile'] .rule { border-top: 1px solid var(--fg); }
+[data-direction='huile'] .eyebrow { color: var(--fg); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0; }

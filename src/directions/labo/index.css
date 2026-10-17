@@ -1,0 +1,64 @@
+/* Direction LABO : style réel relevé sur https://www.folkkombucha.dk/ (veille du 17 oct 2026, fiche
+   docs/veille/styles/folk-kombucha.md). On reprend le style (couleurs, rapports de taille, casse, rayons,
+   boutons), jamais les textes, images, logos ni le code de la source.
+   Fermentation artisanale nordique : blanc, bleu roi en aplats pleine largeur et pour le texte, fins filets gris qui découpent la page en cases, titres en capitales légères, boutons en mono.
+   Polices : ABC Diatype (titres en capitales légères, texte) -> Work Sans ; Diatype Semi Mono (boutons) -> Intel One Mono.
+   Couleurs relevées : #ffffff 60 %, #003db7 bleu roi 31 % des fonds et 62 % des textes, #ebebeb, #dcdcdc filets ; #333333 texte courant. */
+@import '@fontsource-variable/work-sans';
+@import '@fontsource-variable/intel-one-mono';
+
+[data-direction='labo'] {
+  --accent-h: 220;
+  --accent-s: 100%;
+  --accent-l: 36%;
+  --bg: #ffffff;
+  --bg-2: #ebebeb;
+  --surface: #ffffff;
+  --fg: #1f2a44;
+  --muted: #4a5163;
+  --line: #dcdcdc;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #002c85;
+  --on-accent: #ffffff;
+  --ink: #003db7;
+  --on-ink: #ffffff;
+  --font-display: 'Work Sans Variable', system-ui, sans-serif;
+  --font-body: 'Work Sans Variable', system-ui, sans-serif;
+  --font-mono: 'Intel One Mono Variable', ui-monospace, monospace;
+  --display-weight: 350;
+  --display-tracking: 0.01em;
+  --heading-transform: uppercase;
+  --radius: 4px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4rem, 9vw, 7rem);
+  --motion-duration: 0.5s;
+  --motion-ui: 0.2s;
+  --ease-brand: cubic-bezier(0, 0, 0.58, 1);
+}
+
+[data-direction='labo'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='labo'] h1 em,
+[data-direction='labo'] h2 em { font-style: normal; color: var(--accent); }
+[data-direction='labo'] :is(h1, h2, h3) { color: var(--accent); line-height: 1.12; }
+[data-direction='labo'] .bg-ink :is(h1, h2, h3) { color: var(--on-ink); }
+
+[data-direction='labo'] .btn {
+  border-radius: var(--radius);
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+[data-direction='labo'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='labo'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='labo'] .btn-ghost { border: 1px solid var(--accent); background: transparent; color: var(--fg); }
+[data-direction='labo'] .btn-ghost:hover { background: var(--accent); color: var(--on-accent); }
+[data-direction='labo'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='labo'] .rule { border-top: 1px solid var(--line); }
+[data-direction='labo'] .eyebrow { color: var(--accent); font-family: var(--font-mono); letter-spacing: 0; }

@@ -1,0 +1,68 @@
+/* Direction COBALT : style réel relevé sur https://unionboulangerie.com/en/ (veille du 17 oct 2026, fiche
+   docs/veille/styles/union-boulangerie.md). On reprend le style (couleurs, rapports de taille, casse, rayons,
+   boutons), jamais les textes, images, logos ni le code de la source.
+   Boulangerie de quartier parisienne : fond ivoire, bleu cobalt en aplats pleine largeur, orange vif en signal, texte brun pain brûlé, titres en capitales serrées, texte courant en machine à écrire.
+   Polices : Serial Blur (grotesque variable, capitales serrées) -> Special Gothic ; Shinka Mono (texte courant) -> Fragment Mono.
+   Couleurs relevées : #f2f0ed fond 72 %, #2259ec cobalt 20 % des fonds et 64 % des textes, #55270a brun, #f25a07 orange (seulement en aplat, 2,96:1 sur l'ivoire : jamais en texte). */
+@import '@fontsource-variable/special-gothic';
+@import '@fontsource/fragment-mono/latin.css';
+
+[data-direction='cobalt'] {
+  --accent-h: 224;
+  --accent-s: 84%;
+  --accent-l: 53%;
+  --bg: #f2f0ed;
+  --bg-2: #ece8e2;
+  --surface: #f7f6f3;
+  --fg: #55270a;
+  --muted: #7a5236;
+  --line: #d9d2c8;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #1a47c0;
+  --on-accent: #ffffff;
+  --ink: #2259ec;
+  --on-ink: #ffffff;
+  --font-display: 'Special Gothic Variable', system-ui, sans-serif;
+  --font-body: 'Fragment Mono', ui-monospace, monospace;
+  --font-mono: 'Fragment Mono', ui-monospace, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.04em;
+  --heading-transform: uppercase;
+  --radius: 10px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: 0 18px 40px -24px rgb(34 89 236 / 0.35);
+  --section-y: clamp(4.5rem, 11vw, 9rem);
+  --motion-duration: 0.4s;
+  --motion-ui: 0.3s;
+  --ease-brand: cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+
+[data-direction='cobalt'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='cobalt'] h1 em,
+[data-direction='cobalt'] h2 em { font-style: normal; color: var(--accent); }
+[data-direction='cobalt'] body { font-size: 0.94rem; letter-spacing: -0.01em; }
+[data-direction='cobalt'] :is(h1, h2, h3) { line-height: 1; }
+/* L'orange de la source : un aplat de signal (bouton Contact de la barre), jamais du texte. */
+[data-direction='cobalt'] .btn-accent-2, [data-direction='cobalt'] .tag { background: #f25a07; color: #2a1405; }
+
+[data-direction='cobalt'] .btn {
+  border-radius: var(--radius);
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+[data-direction='cobalt'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='cobalt'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='cobalt'] .btn-ghost { border: 1px solid var(--accent); background: transparent; color: var(--fg); }
+[data-direction='cobalt'] .btn-ghost:hover { background: var(--accent); color: var(--on-accent); }
+[data-direction='cobalt'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 0;
+  box-shadow: var(--shadow-card);
+}
+[data-direction='cobalt'] .rule { border-top: 1px solid var(--accent); }
+[data-direction='cobalt'] .eyebrow { color: var(--accent); font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0; }

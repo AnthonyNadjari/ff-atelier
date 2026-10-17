@@ -22,6 +22,8 @@ export const FONTS = {
   bitter: { family: "'Bitter Variable', Georgia, serif", pkg: '@fontsource-variable/bitter', role: 'both', mood: 'slab doux, lecture ecran' },
   domine: { family: "'Domine Variable', Georgia, serif", pkg: '@fontsource-variable/domine', role: 'both', mood: 'sobre, editorial' },
   abrilFatface: { family: "'Abril Fatface', Georgia, serif", pkg: '@fontsource/abril-fatface/latin.css', role: 'display', mood: 'editorial gras, mode' },
+  gildaDisplay: { family: "'Gilda Display', Georgia, serif", pkg: '@fontsource/gilda-display/latin-400.css', role: 'display', mood: 'serif contraste, salon' },
+  marcellus: { family: "'Marcellus', Georgia, serif", pkg: '@fontsource/marcellus/latin-400.css', role: 'display', mood: 'capitales fines, lapidaire' },
   yesevaOne: { family: "'Yeseva One', Georgia, serif", pkg: '@fontsource/yeseva-one/latin.css', role: 'display', mood: 'feminin, decoratif' },
   // Sans
   savate: { family: "'Savate Variable', system-ui, sans-serif", pkg: '@fontsource-variable/savate', role: 'display', mood: 'grotesque vive, dessinee a la main' },

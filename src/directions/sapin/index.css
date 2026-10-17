@@ -1,0 +1,67 @@
+/* Direction SAPIN : style réel relevé sur https://www.eatcabalar.com/ (veille du 17 oct 2026, fiche
+   docs/veille/styles/cabalar.md). On reprend le style (couleurs, rapports de taille, casse, rayons,
+   boutons), jamais les textes, images, logos ni le code de la source.
+   Comptoir de boucher et snack de quartier : blanc pur, un seul vert sapin pour tout (texte, aplats, pied de page), titres en capitales condensées très grasses, texte courant en grand corps, photos aux coins arrondis.
+   Polices : Titres condensés gras (non mesurés, lus sur capture) -> Oswald 700 ; Neue Montreal (texte, 30 px à l'ordinateur) -> Urbanist.
+   Couleurs relevées : #ffffff 90 % des fonds, #025a3c vert 10 % des fonds et 92 % des textes ; rien d'autre. */
+@import '@fontsource-variable/oswald';
+@import '@fontsource-variable/urbanist';
+@import '@fontsource/space-mono/latin.css';
+
+[data-direction='sapin'] {
+  --accent-h: 160;
+  --accent-s: 96%;
+  --accent-l: 18%;
+  --bg: #ffffff;
+  --bg-2: #eef3ef;
+  --surface: #ffffff;
+  --fg: #025a3c;
+  --muted: #3d6b58;
+  --line: #bcd2c6;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #01412b;
+  --on-accent: #ffffff;
+  --ink: #025a3c;
+  --on-ink: #ffffff;
+  --font-display: 'Oswald Variable', Impact, sans-serif;
+  --font-body: 'Urbanist Variable', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+  --display-weight: 700;
+  --display-tracking: -0.01em;
+  --heading-transform: uppercase;
+  --radius: 12px;
+  --radius-card: 16px;
+  --shadow-card: none;
+  --shadow-lift: 0 22px 44px -26px rgb(2 90 60 / 0.4);
+  --section-y: clamp(4.5rem, 10vw, 8.5rem);
+  --motion-duration: 0.5s;
+  --motion-ui: 0.15s;
+  --ease-brand: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-direction='sapin'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='sapin'] h1 em,
+[data-direction='sapin'] h2 em { font-style: normal; color: var(--accent); }
+[data-direction='sapin'] body { font-size: 1.12rem; line-height: 1.3; }
+[data-direction='sapin'] :is(h1, h2) { line-height: 0.95; }
+[data-direction='sapin'] img { border-radius: var(--radius-card); }
+
+[data-direction='sapin'] .btn {
+  border-radius: var(--radius);
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+[data-direction='sapin'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='sapin'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='sapin'] .btn-ghost { border: 1px solid var(--accent); background: transparent; color: var(--fg); }
+[data-direction='sapin'] .btn-ghost:hover { background: var(--accent); color: var(--on-accent); }
+[data-direction='sapin'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1.5px solid var(--accent);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='sapin'] .rule { border-top: 1.5px solid var(--accent); }
+[data-direction='sapin'] .eyebrow { color: var(--accent); font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0; }

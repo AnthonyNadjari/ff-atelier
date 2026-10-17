@@ -1,0 +1,816 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.durup.com/",
+  "nom": "durup",
+  "date": "2026-10-17",
+  "identite": {
+    "title": "Durup",
+    "siteName": "",
+    "lang": "en",
+    "description": "Luxury drapery and design practice that combines a signature haute couture aesthetic with a joie de vivre approach to interiors.",
+    "technologies": [
+      "Nuxt",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": null,
+      "h1": "Durup",
+      "h1Visible": true,
+      "mots": 1,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.scale-150"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 5624,
+      "bougeSeul": {
+        "n": 34,
+        "exemples": [
+          "div.blurred",
+          "div",
+          "img.scale-150",
+          "div.h-screen",
+          "img.landscape"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.visually-hidden",
+        "famille": "\"Futura PT Book\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.29,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.21px"
+      },
+      "h2": {
+        "selecteur": "h2",
+        "famille": "\"IvyPresto Disp Lt\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 64,
+        "graisse": "400",
+        "interlignage": 0.97,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.21px"
+      },
+      "p": {
+        "selecteur": "p.invisible",
+        "famille": "\"IvyPresto Disp Lt\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 64,
+        "graisse": "400",
+        "interlignage": 0.97,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.21px"
+      },
+      "bouton": {
+        "selecteur": "button.label",
+        "famille": "\"Termina Demi\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 10,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.25px"
+      },
+      "nav": {
+        "selecteur": "a.router-link-active",
+        "famille": "\"Futura PT Book\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.29,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.21px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Futura PT Book",
+          "url": "/fonts/futura-pt_book.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Futura PT Light",
+          "url": "/fonts/futura-pt_light.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Termina Demi",
+          "url": "/fonts/Termina-Demi.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "fastly-cloud.typenetwork.com"
+      ],
+      "fichiersPolices": [
+        "https://www.durup.com/fonts/futura-pt_book.woff2",
+        "https://www.durup.com/fonts/Termina-Demi.woff2",
+        "https://www.durup.com/fonts/futura-pt_light.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "IvyPresto Disp Lt",
+          "n": 83
+        },
+        {
+          "famille": "Termina Demi",
+          "n": 46
+        },
+        {
+          "famille": "Futura PT Book",
+          "n": 13
+        },
+        {
+          "famille": "Futura PT Light",
+          "n": 4
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 16770240
+        },
+        {
+          "hex": "#a31a1c",
+          "n": 1,
+          "poids": 8543.5625
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 100,
+          "poids": 217
+        },
+        {
+          "hex": "#000000",
+          "n": 46,
+          "poids": 191
+        }
+      ],
+      "nbImages": 24,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 106,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 16770240,
+          "part": 0.999
+        },
+        {
+          "hex": "#a31a1c",
+          "n": 1,
+          "poids": 8543.5625,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 100,
+          "poids": 217,
+          "part": 0.532
+        },
+        {
+          "hex": "#000000",
+          "n": 46,
+          "poids": 191,
+          "part": 0.468
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.col-start-2",
+          "ecrans": 2.5
+        },
+        {
+          "selecteur": "ul.sticky",
+          "ecrans": 1.5
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "all 0.4s ease",
+          "n": 6
+        },
+        {
+          "valeur": "all 0.15s ease",
+          "n": 6
+        },
+        {
+          "valeur": "all 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.flex-1",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "article",
+      "sections": [
+        {
+          "selecteur": "section.h-svh",
+          "titre": "PIONEERING A NEW WAY OF WORKING WITH TEXTILES TO CREATE DEEP",
+          "top": 0,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 17,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section",
+          "titre": null,
+          "top": 900,
+          "hauteur": 6922,
+          "ecrans": 7.7,
+          "mots": 0,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.py-56",
+          "titre": null,
+          "top": 7822,
+          "hauteur": 2250,
+          "ecrans": 2.5,
+          "mots": 11,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pt-[7rem]",
+          "titre": null,
+          "top": 10072,
+          "hauteur": 674,
+          "ecrans": 0.7,
+          "mots": 2,
+          "images": 12,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.h-screen",
+          "titre": null,
+          "top": 10746,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 20,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.blurred-mobile",
+        "hauteur": 108,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "MENU MENU",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "durup logo",
+            "href": "/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.h-screen",
+        "liens": [
+          {
+            "texte": "SIGN UP SIGN UP",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/durup__/",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://dk.pinterest.com/officialdurup/",
+            "bouton": false
+          },
+          {
+            "texte": "BOOK AN APPOINTMENT",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "MENU MENU",
+          "href": ""
+        },
+        {
+          "texte": "BOOK AN APPOINTMENT",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "header.blurred-mobile",
+          "position": "fixed",
+          "hauteur": 108,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "div.blurred",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 195,
+          "enBas": false,
+          "mots": 17
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/durup-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": null,
+      "h1": "Durup",
+      "h1Visible": true,
+      "mots": 1,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.placeholder-active"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 3711,
+      "bougeSeul": {
+        "n": 17,
+        "exemples": [
+          "div.blurred",
+          "div",
+          "img.scale-150",
+          "div.h-screen"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.visually-hidden",
+        "famille": "\"Futura PT Book\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.29,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.24px"
+      },
+      "h2": {
+        "selecteur": "h2",
+        "famille": "\"IvyPresto Disp Lt\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 36,
+        "graisse": "400",
+        "interlignage": 0.94,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.24px"
+      },
+      "p": {
+        "selecteur": "p.invisible",
+        "famille": "\"IvyPresto Disp Lt\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 36,
+        "graisse": "400",
+        "interlignage": 0.94,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.24px"
+      },
+      "bouton": {
+        "selecteur": "button.label",
+        "famille": "\"Termina Demi\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 10,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.25px"
+      },
+      "nav": {
+        "selecteur": "a.router-link-active",
+        "famille": "\"Futura PT Book\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.29,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.24px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Futura PT Book",
+          "url": "/fonts/futura-pt_book.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Futura PT Light",
+          "url": "/fonts/futura-pt_light.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Termina Demi",
+          "url": "/fonts/Termina-Demi.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "fastly-cloud.typenetwork.com"
+      ],
+      "fichiersPolices": [
+        "https://www.durup.com/fonts/Termina-Demi.woff2",
+        "https://www.durup.com/fonts/futura-pt_book.woff2",
+        "https://www.durup.com/fonts/futura-pt_light.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "IvyPresto Disp Lt",
+          "n": 83
+        },
+        {
+          "famille": "Termina Demi",
+          "n": 46
+        },
+        {
+          "famille": "Futura PT Book",
+          "n": 13
+        },
+        {
+          "famille": "Futura PT Light",
+          "n": 4
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 3650010
+        },
+        {
+          "hex": "#a31a1c",
+          "n": 1,
+          "poids": 8525
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 100,
+          "poids": 217
+        },
+        {
+          "hex": "#000000",
+          "n": 46,
+          "poids": 191
+        }
+      ],
+      "nbImages": 24,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 106,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 3650010,
+          "part": 0.998
+        },
+        {
+          "hex": "#a31a1c",
+          "n": 1,
+          "poids": 8525,
+          "part": 0.002
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 100,
+          "poids": 217,
+          "part": 0.532
+        },
+        {
+          "hex": "#000000",
+          "n": 46,
+          "poids": 191,
+          "part": 0.468
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.15s ease",
+          "n": 6
+        },
+        {
+          "valeur": "all 0.4s ease",
+          "n": 5
+        },
+        {
+          "valeur": "all 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.flex-1",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "article",
+      "sections": [
+        {
+          "selecteur": "section.h-svh",
+          "titre": "PIONEERING A NEW WAY OF WORKING WITH TEXTILES TO CREATE DEEP",
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 17,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section",
+          "titre": null,
+          "top": 844,
+          "hauteur": 6492,
+          "ecrans": 7.7,
+          "mots": 0,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.py-56",
+          "titre": null,
+          "top": 7336,
+          "hauteur": 727,
+          "ecrans": 0.9,
+          "mots": 11,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pt-[7rem]",
+          "titre": null,
+          "top": 8063,
+          "hauteur": 452,
+          "ecrans": 0.5,
+          "mots": 2,
+          "images": 12,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.h-screen",
+          "titre": null,
+          "top": 8515,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 20,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.blurred-mobile",
+        "hauteur": 60,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "MENU MENU",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "durup logo",
+            "href": "/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.h-screen",
+        "liens": [
+          {
+            "texte": "BOOK AN APPOINTMENT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "SIGN UP SIGN UP",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/durup__/",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://dk.pinterest.com/officialdurup/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "MENU MENU",
+          "href": ""
+        },
+        {
+          "texte": "BOOK AN APPOINTMENT",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "header.blurred-mobile",
+          "position": "fixed",
+          "hauteur": 60,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "div.blurred",
+          "position": "fixed",
+          "hauteur": 74,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 17
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Durup",
+  "dureeS": 23.8
+}

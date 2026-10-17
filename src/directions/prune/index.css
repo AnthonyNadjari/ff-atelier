@@ -1,0 +1,65 @@
+/* Direction PRUNE : style réel relevé sur https://www.houseofhoney.com/ (veille du 17 oct 2026, fiche
+   docs/veille/styles/house-of-honey.md). On reprend le style (couleurs, rapports de taille, casse, rayons,
+   boutons), jamais les textes, images, logos ni le code de la source.
+   Décoratrices d'intérieur : rose poudré et prune très sombre en alternance de pleines bandes, serif à fort contraste en capitales, texte en grotesque neutre, rose bonbon en accent rare, photos au carré sans arrondi.
+   Polices : noeText (titres, capitales) -> Gilda Display ; Neue Haas Grotesk (texte) -> Schibsted Grotesk. Le grand titre manuscrit en italique de la source n'est PAS repris (GOUT § 2, emphase en italique).
+   Couleurs relevées : #0e0e0e 54 %, #331917 prune 26 %, #edccbe rose poudré 21 % des fonds ; #fc72c4 rose vif 8 % des textes (6,46:1 sur la prune). */
+@import '@fontsource/gilda-display/latin-400.css';
+@import '@fontsource-variable/schibsted-grotesk';
+@import '@fontsource/fragment-mono/latin.css';
+
+[data-direction='prune'] {
+  --accent-h: 4;
+  --accent-s: 38%;
+  --accent-l: 15%;
+  --bg: #edccbe;
+  --bg-2: #e3bcab;
+  --surface: #f3dbd0;
+  --fg: #331917;
+  --muted: #5e3a33;
+  --line: #c99d8c;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #5a2c28;
+  --on-accent: #edccbe;
+  --ink: #331917;
+  --on-ink: #edccbe;
+  --font-display: 'Gilda Display', Georgia, serif;
+  --font-body: 'Schibsted Grotesk Variable', system-ui, sans-serif;
+  --font-mono: 'Fragment Mono', ui-monospace, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.02em;
+  --heading-transform: uppercase;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: 0 30px 60px -30px rgb(14 14 14 / 0.5);
+  --section-y: clamp(5rem, 12vw, 10rem);
+  --motion-duration: 0.8s;
+  --motion-ui: 0.4s;
+  --ease-brand: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+[data-direction='prune'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='prune'] h1 em,
+[data-direction='prune'] h2 em { font-style: normal; color: var(--accent); }
+/* Rose vif de la source : seulement sur la prune (6,46:1), en lien ou filet, jamais sur le rose poudré. */
+[data-direction='prune'] .bg-ink a:not(.btn) { color: #fc72c4; }
+[data-direction='prune'] :is(h1, h2) { line-height: 1; }
+
+[data-direction='prune'] .btn {
+  border-radius: var(--radius);
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+  font-size: 0.92rem;
+}
+[data-direction='prune'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='prune'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='prune'] .btn-ghost { border: 1px solid currentColor; background: transparent; color: var(--fg); }
+[data-direction='prune'] .btn-ghost:hover { background: var(--ink); color: var(--on-ink); }
+[data-direction='prune'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 0;
+  box-shadow: var(--shadow-card);
+}
+[data-direction='prune'] .rule { border-top: 1px solid var(--line); }
+[data-direction='prune'] .eyebrow { color: var(--fg); letter-spacing: 0; }

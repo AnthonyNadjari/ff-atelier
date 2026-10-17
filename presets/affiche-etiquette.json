@@ -1,0 +1,52 @@
+{
+  "nom": "affiche-etiquette",
+  "titre": "Affiche étiquette",
+  "description": "Bandeau défilant en ouverture, services en bento, appel en grand : une brasserie ou un caviste qui a des choses à dire.",
+  "metiers": [
+    "brasserie artisanale",
+    "caviste",
+    "friterie"
+  ],
+  "look": {
+    "direction": "affiche",
+    "motion": "subtle",
+    "scale": "normal",
+    "layout": {
+      "nav": "bar",
+      "hero": "marquee",
+      "sections": [
+        {
+          "type": "services",
+          "variant": "bento"
+        },
+        {
+          "type": "about",
+          "variant": "values"
+        },
+        {
+          "type": "proof",
+          "variant": "testimonials"
+        },
+        {
+          "type": "faq",
+          "variant": "two-columns"
+        },
+        {
+          "type": "zones",
+          "variant": "chips"
+        },
+        {
+          "type": "cta",
+          "variant": "band"
+        },
+        {
+          "type": "contact",
+          "variant": "form-split"
+        }
+      ],
+      "footer": "columns",
+      "divider": "none",
+      "tone": "alternate"
+    }
+  }
+}

@@ -25,6 +25,17 @@ export const DIRECTIONS = [
   'industriel', // beton, acier, orange securite, Bebas, garages/metallerie/BTP
   'mediterranee', // terracotta, bleu mer, blanc chaux, restaurants/ceramistes/immobilier sud
   'eclipse', // noir encre, blanc froid, argent, Space Grotesk serre, epure futuriste, studios/horlogers/opticiens
+  // Styles reels (veille 2a quater, 17 oct 2026) : chaque direction reprend le style complet d'un vrai site,
+  // source dans meta.ts et docs/veille/styles/INDEX.md.
+  'cobalt', // ivoire, aplats bleu cobalt, capitales serrees, texte machine a ecrire (boulangerie de quartier)
+  'sapin', // blanc et un seul vert sapin, capitales condensees grasses (comptoir de boucher)
+  'affiche', // rayonnage d'epicerie : filets noirs, rouge etiquette, capitales condensees, zero arrondi
+  'prune', // rose poudre et prune en bandes, serif contraste en capitales (decoratrices)
+  'huile', // creme et une seule encre rouge, serif de lecture en grand corps (domaine familial)
+  'releve', // releve d'architecte : blanc, noir, beton, croix de repere, texte mono
+  'arche', // blanc et pierre, grille de quatre colonnes au filet, serif condense fin (studio d'interieur)
+  'labo', // blanc et bleu roi, cases filetees, capitales legeres, boutons mono (fermentation)
+  'citron', // jaune citron pale en damier avec les photos, serif fin, etiquettes mono (atelier de cuisine)
 ] as const;
 export type Direction = (typeof DIRECTIONS)[number];
 

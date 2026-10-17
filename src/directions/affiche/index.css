@@ -1,0 +1,67 @@
+/* Direction AFFICHE : style réel relevé sur https://www.mathesonfoodcompany.com/ (veille du 17 oct 2026, fiche
+   docs/veille/styles/matheson.md). On reprend le style (couleurs, rapports de taille, casse, rayons,
+   boutons), jamais les textes, images, logos ni le code de la source.
+   Épicerie et sauces : grilles bordées d'un filet noir comme un rayonnage, rouge étiquette, jaune moutarde en aplat, capitales condensées partout, aucun arrondi.
+   Polices : Apercu Condensed Pro (titres et texte) -> Archivo en largeur condensée (axe wdth) ; Arial (boutons) -> Archivo.
+   Couleurs relevées : #ffffff 58 %, #f1f1f1 13 %, #fb0d1b rouge 12 % (assombri à #d6000f pour tenir 5,43:1 sous le blanc), #000000 6 %, #f4d914 jaune 5 %. */
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource/space-mono/latin.css';
+
+[data-direction='affiche'] {
+  --accent-h: 356;
+  --accent-s: 100%;
+  --accent-l: 42%;
+  --bg: #ffffff;
+  --bg-2: #f1f1f1;
+  --surface: #ffffff;
+  --fg: #000000;
+  --muted: #3f3f3f;
+  --line: #000000;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #a3000b;
+  --on-accent: #ffffff;
+  --ink: #d6000f;
+  --on-ink: #ffffff;
+  --font-display: 'Archivo Variable', 'Arial Narrow', sans-serif;
+  --font-body: 'Archivo Variable', Arial, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+  --display-weight: 600;
+  --display-tracking: 0.01em;
+  --heading-transform: uppercase;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(3.5rem, 8vw, 6.5rem);
+  --motion-duration: 0.5s;
+  --motion-ui: 0.2s;
+  --ease-brand: cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+[data-direction='affiche'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='affiche'] h1 em,
+[data-direction='affiche'] h2 em { font-style: normal; color: var(--accent); }
+[data-direction='affiche'] :is(h1, h2, h3, .btn) { font-stretch: 68%; line-height: 0.98; }
+[data-direction='affiche'] body { font-stretch: 85%; }
+/* Le jaune moutarde de la source : un aplat de rayon (étiquette, bandeau), jamais un texte. */
+[data-direction='affiche'] .tag { background: #f4d914; color: #000000; }
+
+[data-direction='affiche'] .btn {
+  border-radius: var(--radius);
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: 1px solid #000000;
+}
+[data-direction='affiche'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='affiche'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='affiche'] .btn-ghost { border: 1px solid #000000; background: transparent; color: var(--fg); }
+[data-direction='affiche'] .btn-ghost:hover { background: #000000; color: #ffffff; }
+[data-direction='affiche'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1px solid #000000;
+  box-shadow: var(--shadow-card);
+}
+[data-direction='affiche'] .rule { border-top: 1px solid #000000; }
+[data-direction='affiche'] .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0; font-weight: 600; }

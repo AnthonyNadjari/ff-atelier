@@ -1,0 +1,68 @@
+/* Direction RELEVE : style réel relevé sur https://www.roxoseco.com/ (veille du 17 oct 2026, fiche
+   docs/veille/styles/roxoseco.md). On reprend le style (couleurs, rapports de taille, casse, rayons,
+   boutons), jamais les textes, images, logos ni le code de la source.
+   Relevé d'architecte en pleine campagne : blanc, noir, gris béton, croix de repère aux angles de la grille, grandes photos de paysage, titres petits et nets, texte en machine à écrire capitales.
+   Polices : Booton (titres, petits) -> Lexend ; GT America Mono (texte en capitales) -> Intel One Mono, en casse normale (des capitales sur du texte long : signe IA, GOUT § 2).
+   Couleurs relevées : #ffffff 72 %, #cccccc 11 %, #000000 11 %, #f0f0f0 6 % des fonds ; textes #000000 73 %, #444444. */
+@import '@fontsource-variable/lexend';
+@import '@fontsource-variable/intel-one-mono';
+
+[data-direction='releve'] {
+  --accent-h: 0;
+  --accent-s: 0%;
+  --accent-l: 7%;
+  --bg: #ffffff;
+  --bg-2: #f0f0f0;
+  --surface: #ffffff;
+  --fg: #000000;
+  --muted: #444444;
+  --line: #cccccc;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #444444;
+  --on-accent: #ffffff;
+  --ink: #000000;
+  --on-ink: #ffffff;
+  --font-display: 'Lexend Variable', system-ui, sans-serif;
+  --font-body: 'Intel One Mono Variable', ui-monospace, monospace;
+  --font-mono: 'Intel One Mono Variable', ui-monospace, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 2px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4rem, 9vw, 7rem);
+  --motion-duration: 0.4s;
+  --motion-ui: 0.3s;
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+[data-direction='releve'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='releve'] h1 em,
+[data-direction='releve'] h2 em { font-style: normal; color: var(--accent); }
+[data-direction='releve'] body { font-size: 0.9rem; line-height: 1.7; }
+/* Les croix de repère aux angles des cartes : la signature de la source. */
+[data-direction='releve'] .card { position: relative; }
+[data-direction='releve'] .card::before { content: ''; position: absolute; inset: -6px; pointer-events: none; background:
+  linear-gradient(var(--fg), var(--fg)) 0 5.5px / 12px 1px no-repeat, linear-gradient(var(--fg), var(--fg)) 5.5px 0 / 1px 12px no-repeat,
+  linear-gradient(var(--fg), var(--fg)) 100% calc(100% - 5.5px) / 12px 1px no-repeat, linear-gradient(var(--fg), var(--fg)) calc(100% - 5.5px) 100% / 1px 12px no-repeat; }
+
+[data-direction='releve'] .btn {
+  border-radius: var(--radius);
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+[data-direction='releve'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='releve'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='releve'] .btn-ghost { border: 1px solid var(--fg); background: transparent; color: var(--fg); }
+[data-direction='releve'] .btn-ghost:hover { background: var(--fg); color: var(--bg); }
+[data-direction='releve'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='releve'] .rule { border-top: 1px solid var(--line); }
+[data-direction='releve'] .eyebrow { color: var(--muted); font-family: var(--font-mono); letter-spacing: 0; }

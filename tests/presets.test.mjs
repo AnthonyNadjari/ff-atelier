@@ -287,13 +287,16 @@ if (!tsImportable) {
     }
   });
 
-  test('variete : scales ~ 8 compact / 14 normal / 10 display', () => {
+  // Proportions (et non plus des comptes fixes) depuis le 17 oct 2026 : la veille ajoute dix directions,
+  // donc vingt presets, par tour. Repere d'origine : 8 compact / 14 normal / 10 display sur 32.
+  test('variete : scales ~ 25 % compact / 45 % normal / 30 % display', () => {
     const all = loadAll();
     const counts = { compact: 0, normal: 0, display: 0 };
     for (const d of all) counts[d.look.scale] = (counts[d.look.scale] || 0) + 1;
-    assert.equal(counts.compact, 8, `compact = ${counts.compact}, attendu 8`);
-    assert.equal(counts.normal, 14, `normal = ${counts.normal}, attendu 14`);
-    assert.equal(counts.display, 10, `display = ${counts.display}, attendu 10`);
+    const part = (k) => counts[k] / all.length;
+    assert.ok(Math.abs(part('compact') - 0.25) <= 0.08, `compact = ${counts.compact}/${all.length}, attendu ~25 %`);
+    assert.ok(Math.abs(part('normal') - 0.45) <= 0.08, `normal = ${counts.normal}/${all.length}, attendu ~45 %`);
+    assert.ok(Math.abs(part('display') - 0.3) <= 0.08, `display = ${counts.display}/${all.length}, attendu ~30 %`);
   });
 
   test('variete : typography definie sur exactement la moitie des presets (16)', () => {
@@ -308,10 +311,10 @@ if (!tsImportable) {
     assert.equal(withAccent, 6, `${withAccent} presets avec accent, attendu 6`);
   });
 
-  test('variete : tone alternate sur environ 12 presets', () => {
+  test('variete : tone alternate sur environ 3 presets sur 8', () => {
     const all = loadAll();
     const alt = all.filter((d) => d.look.layout.tone === 'alternate').length;
-    assert.equal(alt, 12, `${alt} presets en tone alternate, attendu 12`);
+    assert.ok(Math.abs(alt / all.length - 0.375) <= 0.08, `${alt}/${all.length} presets en tone alternate, attendu ~37 %`);
   });
 
   test('au sein d\'une direction, les deux presets different de hero, services, nav et footer', () => {

@@ -4,6 +4,47 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 17 oct 2026, tour 3 (routine en ligne) : 9 styles réels, 2 architectures
+
+**Fait**
+- Santé : 62 fichiers de tests verts avant et après (4 blocs), `ff signatures` vert (177 blocs, aucune copie).
+  Chromium installé par `playwright-core` puis `FF_CHROMIUM=1` : tout a tourné avec navigateur.
+- **Styles (2a quater), l'amélioration du tour** : 16 sites jamais étudiés pris sur [minimal.gallery](https://minimal.gallery/)
+  (rubriques nourriture, intérieur, hôtels, ateliers), démontés par `ff demonter` dans `docs/veille/styles/`. 13 jugés,
+  **9 gardés et devenus des directions** de l'usine, chacune avec ses deux modèles et leurs vignettes :
+  `cobalt` (boulangerie Union), `sapin` (Cabalar), `affiche` (Matheson), `prune` (House of Honey), `huile` (Anècdota),
+  `releve` (Roxoseco), `arche` (Anuc Home), `labo` (Folk Kombucha), `citron` (Pimpinella). Couleurs relevées en hex,
+  polices libres les plus proches (Gilda Display et Marcellus ajoutées au registre ; Instrument Serif et Sans, de la
+  liste IA, remplacées), contrastes AA vérifiés (trois rouges de source assombris, notés dans les fiches).
+  Preuve : `_exemple` habillé de chaque style, posé à côté de la source (`docs/veille/styles/captures/<direction>-comparaison.jpg`),
+  regardé. Refusés : `velours` (Durup, style tout en photo, capture floue : essayé puis retiré), Hyll (bannières
+  bloquantes), Uneven Objects et Grace Walker (pas de défilement). Celtic Sea Salt, Oma Appel, Onoera démontés, en réserve.
+  Index : [styles/INDEX.md](styles/INDEX.md).
+- **Architectures (2a ter)** : registre créé, [architectures/INDEX.md](architectures/INDEX.md), deux fiches :
+  [carrefour-portes](architectures/carrefour-portes.md) (Cabalar : accueil aiguillage, trois portes vers des pages,
+  contact à part) et [projets-fiches](architectures/projets-fiches.md) (House of Honey : une page par chantier avec sa
+  série de photos). Fiches seulement : **pas encore implémentées** dans l'usine (voir « proposé »).
+- **Marché (2a)** : 9 sites de plus (agences de Bordeaux, Perpignan, Dijon ; Google : architecte d'intérieur Rouen,
+  dentiste Lille, traiteur Le Havre ; Framer Refit, Wix, ThemeForest Constructo), mesurés sur le code (agent sans
+  navigateur), [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) sur 27 sites. Aucun levier ≥ 40 % absent de l'usine ; labels
+  au premier écran retombent à 30 %.
+- Tests des modèles : les comptes fixes de variété (8/14/10 échelles, 12 alternances sur 32 modèles) deviennent des
+  proportions (`tests/presets.test.mjs`), la veille ajoutant des modèles à chaque tour. Deux directions qui listaient
+  « fleuriste » l'ont retiré (le test du composeur veut qu'une fleuriste tombe sur `atelier`).
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : 46 paires trop proches au premier écran. Les pires :
+chez-malo / studio-ambre (0,87 téléphone, 0,91 ordinateur : h1 sur l'image au milieu, numéro sous le h1),
+maison-aurore / studio-ambre (0,89), forge-delacroix / studio-ambre (0,88), encre-noire / forge-delacroix (0,88),
+demo-coiffure / demo-informatique (0,86). Signalé, pas corrigé (la veille ne touche à aucun site).
+
+**Proposé** : implémenter les deux architectures (route `/realisations/[slug]` avec un champ `realisations[]` ; pages
+À propos et Contact à part ; hero avec horaires ; variante « portes ») ; faire choisir les 9 styles par `ff composer`
+selon les données du client (photos, produits) ; `ff verifier` devrait repérer un faux numéro de modèle
+(`tel:123456789`, vu chez un artisan du marché), la garde ne connaît que 06 00 00 00 00.
+
+**À décider** : regarder les 9 comparaisons et dire lesquelles ne vous plaisent pas (elles sont déjà proposées par
+`ff studio` et `ff modele`) ; les 46 paires trop proches, surtout autour de studio-ambre.
+
 ## 17 oct 2026, tour 2 (routine en ligne) — trois compositions de modèles Framer : de la profondeur
 
 **Fait**

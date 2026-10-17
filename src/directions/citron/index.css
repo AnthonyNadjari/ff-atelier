@@ -1,0 +1,68 @@
+/* Direction CITRON : style réel relevé sur https://www.pimpinella.cooking/ (veille du 17 oct 2026, fiche
+   docs/veille/styles/pimpinella.md). On reprend le style (couleurs, rapports de taille, casse, rayons,
+   boutons), jamais les textes, images, logos ni le code de la source.
+   Atelier de cuisine en plein air : jaune citron pâle en cases qui alternent avec les photos en damier, serif fin centré, petites étiquettes en machine, questions en liste filetée, rose pour l'inscription.
+   Polices : New Spirit Condensed (titres, graisse 300) -> Spectral 300 ; GT Flexa (texte) -> Cabin ; étiquettes mono -> Space Mono.
+   Couleurs relevées : #ffffff 63 %, #fff5a4 jaune 18 %, #fbf9f4 16 %, #ffb8da rose 3 % des fonds ; #111111 texte. */
+@import '@fontsource/spectral/latin-300.css';
+@import '@fontsource/spectral/latin-400.css';
+@import '@fontsource-variable/cabin';
+@import '@fontsource/space-mono/latin.css';
+
+[data-direction='citron'] {
+  --accent-h: 0;
+  --accent-s: 0%;
+  --accent-l: 7%;
+  --bg: #fbf9f4;
+  --bg-2: #fff5a4;
+  --surface: #ffffff;
+  --fg: #111111;
+  --muted: #4a4740;
+  --line: #e3dfd2;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #3a3a3a;
+  --on-accent: #fff5a4;
+  --ink: #111111;
+  --on-ink: #fff5a4;
+  --font-display: 'Spectral', Georgia, serif;
+  --font-body: 'Cabin Variable', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+  --display-weight: 300;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 4px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4rem, 9vw, 7rem);
+  --motion-duration: 0.5s;
+  --motion-ui: 0.2s;
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+[data-direction='citron'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='citron'] h1 em,
+[data-direction='citron'] h2 em { font-style: normal; color: var(--accent); }
+[data-direction='citron'] :is(h1, h2) { line-height: 1.15; }
+[data-direction='citron'] h3 { font-weight: 400; }
+/* Le rose de la source : l'aplat de l'inscription, jamais un texte. */
+[data-direction='citron'] .tag { background: #ffb8da; color: #111111; }
+
+[data-direction='citron'] .btn {
+  border-radius: var(--radius);
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+[data-direction='citron'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='citron'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='citron'] .btn-ghost { border: 1px solid var(--fg); background: transparent; color: var(--fg); }
+[data-direction='citron'] .btn-ghost:hover { background: var(--fg); color: var(--on-accent); }
+[data-direction='citron'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 0; background: var(--bg-2);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='citron'] .rule { border-top: 1px solid var(--line); }
+[data-direction='citron'] .eyebrow { color: var(--muted); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0; }
