@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Votre nom de domaine | Finck &amp; Fisch</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Hanken+Grotesk:wght@400;600&display=swap">
+<!--
+  Fiche à envoyer au client quand le site est validé (appel de restitution), ou à suivre ensemble en partage
+  d'écran (10 minutes). Règle du studio (studio/decisions/PROCESS-HEBERGEMENT.md § 3) : le domaine est au nom
+  du client, payé par lui, pour toujours ; nous n'achetons jamais un domaine à notre nom et nous ne demandons
+  jamais un mot de passe. Les écrans d'OVHcloud changent : les étapes sont écrites sans capture d'écran, à
+  relire une fois par an. Remplacer [téléphone] et [e-mail] par les coordonnées du studio avant envoi.
+-->
+<style>
+  :root {
+    --papier: #f0e8db;
+    --encre: #15120f;
+    --gris: #5b5750;
+    --cuivre: #8a5a33;
+    --filet: rgb(21 18 15 / 0.14);
+    --titres: 'Bodoni Moda', Didot, 'Bodoni 72', Georgia, serif;
+    --texte: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--papier); color: var(--encre); font-family: var(--texte); font-size: 16px; line-height: 1.55; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 20px 64px; display: grid; gap: 36px; }
+  h1, h2 { font-family: var(--titres); font-weight: 500; margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(2rem, 6vw, 2.8rem); line-height: 1.08; }
+  h2 { font-size: 1.45rem; line-height: 1.2; }
+  p { margin: 0; max-width: 64ch; }
+  .chapo { color: var(--gris); margin-top: 10px; }
+  section { display: grid; gap: 14px; }
+  ol.etapes { list-style: none; padding: 0; margin: 0; counter-reset: e; display: grid; gap: 0; }
+  ol.etapes li { counter-increment: e; display: grid; grid-template-columns: 2.4rem 1fr; gap: 2px 12px; padding: 12px 0; border-top: 1px solid var(--filet); }
+  ol.etapes li::before { content: counter(e); font-family: var(--titres); font-size: 1.4rem; color: var(--cuivre); grid-row: span 2; line-height: 1.1; }
+  ol.etapes strong { font-weight: 600; }
+  ol.etapes span { color: var(--gris); font-size: 0.94rem; }
+  dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; }
+  dt { font-weight: 600; }
+  dd { margin: 0; color: var(--gris); }
+  .pied { border-top: 1px solid var(--filet); padding-top: 16px; color: var(--gris); font-size: 0.94rem; }
+  @media print { body { font-size: 11pt; } main { padding: 0; gap: 18px; } ol.etapes li { padding: 6px 0; break-inside: avoid; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Votre nom de domaine</h1>
+    <p class="chapo">L'adresse de votre site (par exemple fromagerie-ravanel.fr) vous appartient. Vous l'achetez à votre nom, avec votre carte, chez OVHcloud. Nous nous occupons du reste. Comptez un quart d'heure et environ 15 à 20 € par an.</p>
+  </header>
+
+  <section>
+    <h2>Pourquoi à votre nom</h2>
+    <p>Si nous l'achetions pour vous, l'adresse serait à nous : vous ne pourriez pas changer de prestataire sans notre accord, et un oubli de notre part la ferait expirer. À votre nom, elle reste à vous quoi qu'il arrive, et vous pouvez partir quand vous voulez. C'est écrit dans nos conditions.</p>
+  </section>
+
+  <section>
+    <h2>Les six étapes</h2>
+    <ol class="etapes">
+      <li><strong>Choisissez l'adresse.</strong><span>Courte, sans accent, facile à dicter au téléphone : le nom de votre boutique, et la ville si le nom est commun. Le .fr suffit pour une clientèle française. Nous vous proposons deux ou trois formes si vous hésitez.</span></li>
+      <li><strong>Allez sur ovhcloud.com, rubrique « Noms de domaine ».</strong><span>Tapez l'adresse voulue. Si elle est prise, essayez la forme suivante de la liste.</span></li>
+      <li><strong>Créez votre compte OVHcloud</strong><span>avec votre adresse e-mail habituelle et vos coordonnées exactes (c'est le propriétaire du domaine). Gardez le mot de passe chez vous : nous ne le demanderons jamais.</span></li>
+      <li><strong>Payez le domaine seul.</strong><span>Refusez les options proposées en plus (hébergement, site, protection) : le site est déjà hébergé par nos soins. Une boîte e-mail de base est offerte avec le domaine ; vous pouvez l'activer plus tard.</span></li>
+      <li><strong>Ajoutez-nous comme contact technique.</strong><span>Dans votre espace client, sur le domaine : « Contacts » puis « Contact technique » : indiquez l'identifiant que nous vous donnerons. Cela nous permet de brancher le site sans toucher à votre compte. Vous restez propriétaire et administrateur.</span></li>
+      <li><strong>Dites-nous que c'est fait.</strong><span>Nous branchons le site sous 24 h ouvrées. Si vous avez déjà des adresses e-mail sur ce domaine, dites-le-nous avant : nous les préservons.</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Ce qu'il faut savoir</h2>
+    <dl>
+      <dt>Prix</dt><dd>Environ 5 € HT la première année puis environ 8 € HT par an, payés à OVHcloud. Aucun frais de notre côté.</dd>
+      <dt>Renouvellement</dt><dd>Chaque année, automatique si vous laissez l'option cochée. Nous vous le rappelons un mois avant.</dd>
+      <dt>Vous avez déjà un domaine</dt><dd>Gardez-le. Dites-nous chez qui il est : nous l'utilisons tel quel, sans rien racheter.</dd>
+      <dt>Changer de prestataire un jour</dt><dd>Vous demandez votre code de transfert à OVHcloud (gratuit, à tout moment) et remettez vos réglages d'origine en deux clics. Le site vous est remis en fichiers.</dd>
+    </dl>
+  </section>
+
+  <p class="pied">Une question pendant l'achat : appelez-nous au [téléphone], nous le faisons ensemble en partage d'écran. Finck &amp; Fisch, [e-mail].</p>
+</main>
+</body>
+</html>

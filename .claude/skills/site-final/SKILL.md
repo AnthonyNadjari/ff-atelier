@@ -63,6 +63,11 @@ colorée ») : le fondateur veut un outil « ultra flexible ».
   mécanisme du geste, **entrée du premier écran**, **manière d'apparaître au défilement**). Deux pistes qui
   partagent l'entrée ou la manière d'apparaître échouent, même si tout le reste diffère. Deux pistes qui partagent plus
   d'un axe : réinventer la plus faible. Écrire le tableau de comparaison dans le contrat de chaque piste.
+  Mécanique : `node scripts/ff.mjs pistes <slug>` lit les contrats, les sections et les builds, filme les premiers
+  écrans côte à côte (`captures/planches/<slug>-pistes.jpg`) et échoue sur une entrée ou une apparition partagée
+  (texte du contrat, h1 révélé par lignes des deux côtés, ou images à 400 ms trop proches). On le lance après les
+  contrats (`--sans-film`, sur le texte) puis après les builds (avec le film). Un échec se corrige dans la piste, pas
+  dans le seuil.
 - **Fabrication** : la piste principale par soi-même, les autres par des agents `general-purpose` (deux au plus
   à la fois), chacun avec le contrat de SA piste et les consignes communes
   (`.claude/skills/site-final/modeles/consignes-pistes.md` : lectures, périmètre `sites/<slug>-x/`, verrou de
@@ -137,7 +142,7 @@ refaire) ; la première vignette montre le haut de page et la dernière atteint 
 « Ouvert ». Une planche invalide se refait avant toute relecture ; on ne passe jamais une planche invalide
 à un agent.
 
-Pour une proposition à plusieurs pistes, faire **une seule planche comparée** : les premiers écrans des N pistes
+Pour une proposition à plusieurs pistes, `ff pistes <slug>` produit **la planche comparée** (et son verdict) : les premiers écrans des N pistes
 à 0, 150, 400, 800, 1 500 ms côte à côte, puis la première section sous le hero de chacune à +250 ms. Si deux
 colonnes se ressemblent à 400 ms (même aplat, même titre coupé à mi-hauteur), les pistes ne sont pas
 différentes. Ajouter à côté les mêmes vignettes d'un démontage de `docs/veille/demontages/` du même métier.
@@ -271,3 +276,8 @@ Deux briefs de démo. Pour chacun : une passe `/site-final` complète et une pas
 Faire noter les deux planches par un agent neuf qui ne sait pas laquelle est laquelle, avec
 `relecteurs/grille.md` et `GOUT.md`. Noter l'écart dans `docs/veille/journal.md`. Si `/site-final` ne gagne
 pas d'au moins un point global, revoir l'étape qui coûte le plus. Une passe à la fois, un navigateur.
+
+Et, sans brief ni agent, les contrôles mécaniques de la skill se vérifient en une minute :
+`node --test tests/aiguillage.test.mjs tests/pistes.test.mjs tests/ia.test.mjs tests/brief-form.test.mjs`, puis
+`node scripts/ff.mjs pistes fromagerie-ravanel --sans-film` (les trois pistes de la démo doivent rester
+différentes) et `node scripts/ff.mjs aiguillage fromagerie-ravanel` (lit le brief, imprime la décision).

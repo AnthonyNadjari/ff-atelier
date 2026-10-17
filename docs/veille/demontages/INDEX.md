@@ -41,6 +41,20 @@ aucun métier plus de 3 fois (vêtements : Bécane, Their Nibs, Niksen).
 | KS Architectes | Régularisation urbanistique, Bruxelles | Clair | Réalisations classées par commune et type d'infraction | [fiche](ksarchitectes.md) |
 | Mathilde De Chiara | Architecte d'intérieur, Paris / Pays basque | Clair, images seules | Réglages permanents « Slider / Grid » + filtre par typologie | [fiche](mathildedechiara.md) |
 
+## Démontage automatique
+
+`node scripts/ff.mjs demonter <url> [--slug <site>] [--nom <x>]` (17 oct 2026, `scripts/ff/demonter.mjs`) fait la partie
+mesurable de la méthode ci-dessus en 25 s : Chrome sans tête à 1440x900 puis 390x844, captures `captures/<nom>-d|m.webp`
+et planche de 8 vues `<nom>-planche.jpg`, fiche `<nom>.md` aux mêmes titres que celles de ce dossier, `<nom>.json` avec
+les mesures brutes. Essai sur Délice contre la fiche écrite à la main : l'outil lit juste les polices (Ivy Mode, Filson Soft,
+Miller Banner auto-hébergées, h1 Filson 18 px capitales, h2 48/32 px), la palette avec les hex des sections que la main
+n'avait pas lus (#263150, #7c2627, #91964f), Lenis, Swup, `data-module-parallax` ×12, la barre d'actions fixe en bas
+(Venir, Réserver, Commander, Carte cadeau), les horaires, les portes d'action, le « depuis 1970 » à 64 px. Il ne voit pas
+ce qui demande un œil : le titre sur tracés SVG, le canvas WebGL, la matière des photos détourées, « en 3 secondes », et il
+ne choisit pas le geste signature (il propose trois candidats factuels : section la plus haute, élément le plus animé,
+bloc à la structure unique). Les fiches de ce dossier restent écrites à la main ; l'outil sert d'abord aux références du
+brief d'un client (`--slug`, dossier `sites/<slug>/references/`, non livré) avant le contrat de direction.
+
 ## Motifs récurrents
 
 Ce que 4 sites ou plus font et que l'usine ne fait pas encore. « Pas encore » vérifié dans `src/lib/schema.ts`,

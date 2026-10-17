@@ -80,7 +80,7 @@ export function cmdExporter(args) {
       if (parts[0] === 'sites') {
         if (parts.length === 1) return true;
         if (parts[1] !== slug) return false; // autres sites (et _exemple : .ff-current pointe sur le slug)
-        if (parts.length >= 3 && ['raw', 'brief.md', 'look.json', 'direction.md', 'relecture.md'].includes(parts[2])) return false; // originaux, notes d'appel, contrat et journal de /site-final
+        if (parts.length >= 3 && ['raw', 'brief.md', 'look.json', 'direction.md', 'relecture.md', 'references'].includes(parts[2])) return false; // originaux, notes d'appel, contrat et journal de /site-final, demontages des sites aimes (ff demonter --slug)
         return true;
       }
       return INCLUS_RACINE.has(parts[0]);

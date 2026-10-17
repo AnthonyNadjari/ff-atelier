@@ -48,6 +48,8 @@ import { cmdPlanche } from './ff/planche.mjs';
 import { cmdRelecture } from './ff/relecture.mjs';
 import { cmdBrief } from './ff/brief.mjs';
 import { cmdAiguillage } from './ff/aiguillage.mjs';
+import { cmdPistes } from './ff/pistes.mjs';
+import { cmdDemonter } from './ff/demonter.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -114,6 +116,8 @@ const commands = {
   relecture: cmdRelecture,
   brief: cmdBrief,
   aiguillage: cmdAiguillage,
+  pistes: cmdPistes,
+  demonter: cmdDemonter,
 };
 
 async function main() {

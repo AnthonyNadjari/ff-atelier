@@ -39,6 +39,8 @@ l'aiguillage ; jamais de banque d'images sans décision datée du fondateur) ; p
 
 ## Références
 Deux fiches de `docs/veille/demontages/` dont on reprend un geste précis, et ce qu'on en prend.
+`ff demonter <url> --slug <slug>` pour chaque site aimé du brief, avant d'écrire le contrat : la fiche mesurée est dans
+`sites/<slug>/references/<nom>.md` (captures à côté), le geste signature y reste à juger sur les captures.
 
 ## Accepté par le fondateur
 (Daté. Écarts qu'un relecteur signalerait mais que le fondateur a acceptés pour ce site : les relectures
