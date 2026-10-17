@@ -107,9 +107,16 @@ export function analyserContrat({ contrat, brief, fiches = [], directions = [], 
     else if (decision.ecart) echecs.push(`aiguillage : le contrat dit « ${mc} », le client a répondu « ${decision.mouvement} »`);
     if (decision.photos === 'liste-de-prises' && !/liste de prises|prises? :|photos? à (?:prendre|faire)/i.test(contrat)) echecs.push('aiguillage : le client veut des photos sans en avoir, le contrat n\'écrit pas la liste de prises');
   }
-  // servicePages est vrai par défaut : des pages /services/* existent tant que le config ne dit pas false.
-  if (config != null && !/servicePages:\s*false/.test(config) && !/pages? (?:par )?service|services?\//i.test(contrat)) {
-    echecs.push('des pages /services/* seront construites (servicePages vrai par défaut) alors que le contrat (SQUELETTE) ne les prévoit pas : `servicePages: false`, ou les écrire au contrat');
+  // Socle (GOUT § 0, 17 oct 2026) : ce qui fait acheter passe avant l'originalité.
+  const socle = sec[Object.keys(sec).find((k) => k.startsWith('socle')) || ''];
+  if (socle == null) echecs.push('section « Socle » absente (GOUT § 0 : pages, téléphone en haut, métier + ville, avis, ancienneté, photos, portes)');
+  else for (const point of ['pages', 'telephone', 'metier', 'avis', 'anciennete', 'photos', 'portes']) {
+    if (!norm(socle).includes(point)) echecs.push(`Socle : le point « ${point} » n'est pas renseigné`);
+  }
+  if (socle != null && /<|…|\.\.\./.test(socle)) echecs.push('Socle : des « … » du modèle sont restés');
+  // Plusieurs pages par défaut : un site d'une page doit le justifier par le brief.
+  if (config != null && /servicePages:\s*false/.test(config) && !/une seule page|une page seulement|pages\s*:\s*absent/i.test(norm(socle || '') + norm(contrat))) {
+    echecs.push('servicePages: false sans raison : le socle demande plusieurs pages ; écrire dans le Socle « Pages : absent : <raison du brief> » ou rétablir les pages service');
   }
   return { echecs, alertes, nFaits: f.length };
 }

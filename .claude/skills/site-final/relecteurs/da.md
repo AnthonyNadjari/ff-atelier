@@ -38,6 +38,10 @@ CE QUE TU VÉRIFIES :
 - Calibration : le site tombe-t-il dans une des cinq grappes (crème + serif + terracotta ; noir + accent acide ;
   broadsheet à filets et petites capitales ; cartes SaaS à grand rayon ; chrome de gabarit) sans que le brief
   l'ait demandé ?
+- **Socle qui vend** (GOUT § 0) : sur les captures, chaque point présent au contrat se voit-il ? Téléphone sans
+  défiler (téléphone ET ordinateur), métier + ville lisibles au premier écran, avis haut dans la page s'il y en a,
+  plusieurs pages, vraies photos. Un point « présent » au contrat et invisible = constat à 85. Puis la question du
+  fondateur, à écrire en une phrase : « un artisan paierait-il 1 200 € pour ce site, et pourquoi ? »
 - Aiguillage (ligne en tête du contrat, `aiguillage.md`) : le site le respecte-t-il ? Une piste « calme » où un
   élément suit le défilement, un rebond, une entrée de plus de 0,8 s ; une photo que le client n'a pas ; une place
   vide qui attend une photo = constat à 85.

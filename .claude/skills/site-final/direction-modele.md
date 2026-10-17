@@ -7,6 +7,9 @@ relecteur DA : il juge le site CONTRE ce contrat. Jamais publié (ni dans `dist/
 Photos : <décision du tableau, avec la liste de prises si le client veut des photos sans en avoir>.
 Mouvement : <calme | vivant>, `motion` <subtle | rich>, parce que <réponse du client, citée>.
 
+## Socle (docs/GOUT.md § 0, une ligne par point, « présent » ou « absent : <donnée manquante> »)
+Pages : … · Téléphone en haut : … · Métier + ville : … · Avis : … · Ancienneté : … · Photos : … · Portes : …
+
 ## Faits propres (8 à 12, tous tirés du brief)
 Choses qui appartiennent à ce client et à aucun concurrent : nom et ce qu'il veut dire, rue, ce qu'on voit
 devant la porte, chiffres donnés, contrainte du métier (« fournée à 17 h »), matières, rituels, horaires,

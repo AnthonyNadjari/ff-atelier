@@ -112,6 +112,9 @@ ${ou(d.avis)}
 ## 10. Questions fréquentes (la logistique, réponses du client telles quelles)
 ${sectionFaq(d)}
 
+### 10bis. Conseils (facultatif)
+${ou(d.conseils)}
+
 ## 11. Domaine et mise en ligne
 - **Domaine :** ${d.domaine_etat ? d.domaine_etat + ' : ' : ''}${ou(d.domaine)}
 

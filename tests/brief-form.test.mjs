@@ -41,7 +41,7 @@ test('portes d’action : lien donné recopié, lien vide = « aucun (ne pas en 
 
 test('questions fréquentes (§ 10) : une ligne Q / R par réponse non vide, telle quelle ; rien pour les vides ; aucune réponse = pas de FAQ', () => {
   const md = briefMarkdown({ ...d, faq_parking: 'Parking gratuit devant, entrée par la cour.\nSonner au 2.', faq_devis: '', faq_urgence: '  ', faq_avant: 'Vider les placards du bas' });
-  const sec = md.slice(md.indexOf('## 10.'), md.indexOf('## 11.'));
+  const sec = md.slice(md.indexOf('## 10.'), md.indexOf('### 10bis'));
   assert.match(sec, /- \*\*Q :\*\* Parking et accès : où se garer, comment entrer \? \/ \*\*R :\*\* Parking gratuit devant, entrée par la cour\. Sonner au 2\./);
   assert.match(sec, /- \*\*Q :\*\* Que doit faire le client avant votre venue \? \/ \*\*R :\*\* Vider les placards du bas/);
   assert.doesNotMatch(sec, /devis est-il payant|urgence|Délais|délais/i, 'une question sans réponse n’apparaît pas');

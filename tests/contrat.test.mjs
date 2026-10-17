@@ -18,6 +18,9 @@ const bon = `# Direction — Fromagerie Ravanel (x)
 Photos : aucune piste ne dépend d'une photo.
 Mouvement : vivant, \`motion\` rich, parce que le client a répondu « vivant ».
 
+## Socle
+Pages : une par service · Téléphone en haut : présent · Métier + ville : présent · Avis : absent : aucun avis au brief · Ancienneté : depuis 2011 · Photos : absent : aucune photo · Portes : Appeler, Réserver
+
 ## Faits propres (tous tirés du brief)
 1. Une cave à 11 °C sous la boutique, creusée en 2014.
 2. Le beaufort d'alpage à 12, 18 ou 24 mois.
@@ -104,8 +107,14 @@ test('police IA et références absentes', () => {
   assert.ok(r.alertes.some((a) => /références/.test(a)));
 });
 
-test('pages service : vraies par defaut, le contrat doit les prevoir', () => {
-  assert.ok(analyserContrat({ contrat: bon, ...ctx, config: 'direction: x,' }).echecs.some((e) => /services/.test(e)));
-  assert.equal(analyserContrat({ contrat: bon, ...ctx, config: 'servicePages: false,' }).echecs.length, 0);
-  assert.equal(analyserContrat({ contrat: bon.replace('nav fine en haut.', 'nav fine en haut, et une page service par fromage.'), ...ctx, config: 'direction: x,' }).echecs.length, 0);
+
+test('socle : absent, incomplet, ou une seule page sans raison', () => {
+  const sansSocle = bon.replace(/## Socle\n[^\n]*\n\n/, '');
+  assert.ok(analyserContrat({ contrat: sansSocle, ...ctx }).echecs.some((e) => /Socle/.test(e)));
+  const incomplet = bon.replace(' · Ancienneté : depuis 2011', '');
+  assert.ok(analyserContrat({ contrat: incomplet, ...ctx }).echecs.some((e) => /anciennete/.test(e)));
+  assert.ok(analyserContrat({ contrat: bon, ...ctx, config: 'servicePages: false,' }).echecs.some((e) => /servicePages/.test(e)));
+  const justifie = bon.replace('Pages : une par service', 'Pages : absent : une seule page, le brief demande un site minimal');
+  assert.equal(analyserContrat({ contrat: justifie, ...ctx, config: 'servicePages: false,' }).echecs.length, 0);
+  assert.equal(analyserContrat({ contrat: bon, ...ctx, config: 'direction: x,' }).echecs.length, 0);
 });

@@ -13,6 +13,27 @@ Contrôles automatiques qui en découlent : `ff ia` (signes IA), `ff typo`, `ff 
 données inventées), `ff audit-motion`, `ff a11y`, `ff detect`. Ce que ces outils ne voient pas est marqué
 « à l'œil » : la skill `/site-final` le fait relire par un agent avant de montrer quoi que ce soit.
 
+## 0. D'abord, ce qui fait acheter (17 oct 2026)
+
+Le fondateur sur les trois pistes de la fromagerie : « est-ce qu'un client en achèterait vraiment un des trois ?
+Moi, très honnêtement, je pense pas », « c'est un peu tout le temps la même chose ». La veille du marché
+(`docs/veille/marche/CE-QUI-VEND.md`, sites qui vendent vraiment) répond : ce qui fait signer un artisan est
+simple, et nos démos l'avaient sacrifié à l'originalité. **Le socle passe avant le style.** Chaque site a, sauf
+donnée absente du brief :
+
+1. **Plusieurs pages** : une par service (ou par offre, chambre, produit phare), pas une seule longue page.
+2. **Le téléphone en haut**, cliquable, sur téléphone ET ordinateur, sans défiler.
+3. **Le métier et la ville** dans le h1 ou la phrase juste dessous (« Fromager-affineur à Annecy »).
+4. **Les avis** du client (Google ou recopiés), dès qu'il y en a, haut dans la page.
+5. **L'ancienneté** en texte (« Depuis 2011 »), dès que le brief la donne.
+6. **Ses vraies photos** : le travail, le lieu, les gens. Sans photo, on le dit au client (aiguillage), on ne
+   remplace pas l'absence par de l'art.
+7. **Une porte par intention** (Appeler, Devis, Réserver, Commander) plutôt qu'un formulaire en bas de page.
+
+L'originalité (bloc sur mesure, mouvement, idée du contrat) se met **sur ce socle**, sur un ou deux éléments
+propres au client, jamais à sa place. Une démo sans avis ni photo n'est pas une démo qui vend : on le dit, et on
+préfère une démo bâtie sur un vrai commerce (fiche Google publique, démo privée) à une démo inventée.
+
 ## 1. Ce qui fait qu'un site est « à nous »
 
 - **La différence vient du squelette, pas des couleurs.** Coquille, place de la nav, où vit le contact,
