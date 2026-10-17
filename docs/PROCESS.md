@@ -13,6 +13,18 @@ SQLite, relances WhatsApp) — voir son `CLAUDE.md` pour le détail technique. O
 ici : ce dépôt (`ff-atelier`) prend le relais à partir du moment où un client a dit oui à l'appel, ou
 juste avant, pour préparer l'appel.
 
+### 1bis. Refonte d'un site existant
+
+Beaucoup d'artisans ont déjà un site, vieux ou faible : ses textes et ses photos servent de matière. Refonte d'un
+site existant : `node scripts/ff.mjs refonte <url> [slug]`, puis `/site-final <slug>`. La commande lit le site sans
+navigateur (robots.txt respecté, une requête toutes les 500 ms, 25 pages au plus), préremplit `sites/<slug>/brief.md`
+(chaque information avec sa page, le reste en « ? à demander », les textes du site en annexe), télécharge ses photos
+utiles dans `raw/` (`raw/SOURCES.md`) et écrit `redirects.json`. Garder les URL avec `redirects.json` : chaque
+ancienne adresse renvoie vers la nouvelle page, sinon le client perd son référencement Google (garder dans
+`site.config.ts` les slugs de services qu'il nomme). Demander au client l'accord d'utiliser ses textes et photos, qui
+sont à lui (et au développeur nommé en pied de page, s'il y en a un, qui tient le site). Site en JavaScript seul
+(texte vide sans navigateur) : la commande le dit ; compléter le brief à la main ou avec `ff demonter`.
+
 ## 2. Appel client (15 minutes)
 
 Support : `docs/BRIEF.md`, dans l'ordre des sections. Trame :

@@ -54,6 +54,7 @@ import { cmdChoisir } from './ff/choisir.mjs';
 import { cmdPrevol } from './ff/prevol.mjs';
 import { cmdFilm } from './ff/film.mjs';
 import { cmdDemonter } from './ff/demonter.mjs';
+import { cmdRefonte } from './ff/refonte.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -126,6 +127,7 @@ const commands = {
   prevol: cmdPrevol,
   film: cmdFilm,
   demonter: cmdDemonter,
+  refonte: cmdRefonte,
 };
 
 async function main() {

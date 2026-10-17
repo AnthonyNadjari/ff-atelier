@@ -39,6 +39,10 @@ Règles d'or :
    (photos ou non, liste de prises, calme ou vivant) AVANT toute idée. On l'applique, on ne le rediscute pas.
    `node scripts/ff.mjs aiguillage <slug>` calcule la décision et imprime les deux lignes du contrat ; `ff verifier`
    la contrôle ensuite sur le site construit (une piste « calme » qui suit le défilement échoue).
+   Si le brief vient de `ff refonte` (en tête : « REFONTE de … »), lire l'annexe « Textes du site actuel » et
+   réécrire, jamais recopier tel quel un texte creux ; on en garde les faits (noms, années, produits, horaires),
+   pas les phrases. Les photos de `raw/` viennent de son site (`raw/SOURCES.md`) ; les slugs de services de
+   `redirects.json` restent ceux de `site.config.ts`.
 4. `docs/veille/demontages/INDEX.md` (gestes à transposer), `docs/veille/redondances.md` (ce qui est déjà
    trop vu), et `node scripts/ff.mjs variete` + `node scripts/ff.mjs signatures`.
 5. Les sites que le client aime (brief § 12) : `node scripts/ff.mjs demonter <url> --slug <slug>` pour chacun

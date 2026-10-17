@@ -3,6 +3,7 @@ import { c, info } from './util.mjs';
 
 const ROWS = [
   ['brief [numero] [slug] | brief --liste', "Lit un ticket « brief » ouvert par le formulaire client (outils/brief-form) et ecrit sites/<slug>/brief.md (cree le site si besoin). Sans argument : les briefs en attente."],
+  ['refonte <url> [slug] [--max-pages 25] [--sans-photos]', "REFONTE d'un site existant du client, SANS navigateur (fetch, robots.txt respecte, 1 requete / 500 ms, meme domaine) : sitemap ou liens internes, extrait nom, telephones, e-mails, adresse, horaires, services, annees, reseaux, avis affiches, SIRET ; telecharge au plus 40 photos utiles dans sites/<slug>/raw/ (+ SOURCES.md, < 1200 px signalees) ; ecrit brief.md prerempli (source de chaque info, « ? a demander » sinon, textes du site en annexe) et redirects.json (anciennes URL -> nouvelles pages) ; cree le site si besoin. Suite : /site-final <slug>."],
   ['nouveau <slug> [--direction X] [--metier "..."] [--depuis _exemple]', "Cree un nouveau site a partir d'un modele."],
   ['dev [slug]', 'Lance le serveur de developpement.'],
   ['build [slug]', 'Construit le site (dist/<slug>).'],
