@@ -1,0 +1,71 @@
+---
+/**
+ * Services "carte-prix" : la carte ou les tarifs en accordéons, une rubrique par service, des lignes à prix
+ * alignées par des pointillés (Le Petit Bleu, docs/veille/architectures/le-petit-bleu.md ; architecture `lieu-fixe`,
+ * src/lib/architectures.ts). Chaque ligne vient de `services[].lignes` (nom, prix, détail) tels que le client les
+ * donne : une ligne sans prix reste sans prix, une rubrique sans lignes montre ses `bullets`. La première rubrique
+ * est ouverte. `<details>` natifs, sans script ; lien vers la page de la rubrique (`/services/<slug>`).
+ * Titre de la carte en grand (`wording.servicesTitle`), sans capitales espacées (GOUT § 2) ; tokens seulement.
+ */
+import { site, metierEtVille } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+---
+
+<section id="services" class="section-y">
+  <div class="container-ff">
+    <SectionHeading class="carte-entete" title={site.wording.servicesTitle} text={metierEtVille()} />
+    <div class="mt-8 border-t border-line">
+      {site.services.map((s, i) => (
+        <details class="carte-rubrique border-b border-line" open={i === 0}>
+          <summary class="flex cursor-pointer items-center justify-between gap-4 py-5">
+            <span class="font-display text-display-sm">{s.title}</span>
+            <Icon name="Plus" size={22} class="carte-signe shrink-0" />
+          </summary>
+          <div class="pb-8">
+            <p class="text-muted max-w-prose">{s.short}</p>
+            {s.lignes.length > 0 ? (
+              <ul class="mt-5 flex flex-col gap-4">
+                {s.lignes.map((l) => (
+                  <li>
+                    <div class="flex items-baseline gap-3">
+                      <span>{l.nom}</span>
+                      {l.prix && <span class="carte-points flex-1" aria-hidden="true"></span>}
+                      {l.prix && <span class="tabular-nums whitespace-nowrap">{l.prix}</span>}
+                    </div>
+                    {l.detail && <p class="mt-1 text-sm text-muted">{l.detail}</p>}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              s.bullets.length > 0 && (
+                <ul class="mt-5 flex flex-col gap-2">{s.bullets.map((b) => <li>{b}</li>)}</ul>
+              )
+            )}
+            {s.priceFrom && <p class="mt-5 font-medium tabular-nums">{s.priceFrom}</p>}
+            {site.servicePages && (
+              <a href={`/services/${s.slug}`} class="mt-6 inline-flex items-center gap-2 text-sm font-medium underline-offset-4 hover:underline">
+                Voir la page<span class="sr-only"> {s.title}</span><Icon name="ArrowRight" size={16} />
+              </a>
+            )}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Titre de la carte en grand (Le Petit Bleu : MENU pleine colonne), toujours sous le h1 de la page (GOUT § 2). */
+  :global(.carte-entete h2) { font-size: clamp(2rem, 5vw, 3rem); line-height: 0.95; letter-spacing: -0.02em; }
+  .carte-rubrique summary { list-style: none; }
+  .carte-rubrique summary::-webkit-details-marker { display: none; }
+  .carte-rubrique :global(.carte-signe) { transition: transform var(--motion-ui, 0.25s) var(--ease-out-quart); }
+  .carte-rubrique[open] :global(.carte-signe) { transform: rotate(45deg); }
+  .carte-rubrique summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  /* Pointillés entre l'intitulé et le prix : filet pointillé de la couleur des filets. */
+  .carte-points { border-bottom: 2px dotted var(--color-line); transform: translateY(-0.3em); min-inline-size: 1.5rem; }
+  @media (prefers-reduced-motion: reduce) {
+    .carte-rubrique :global(.carte-signe) { transition: none; }
+  }
+</style>

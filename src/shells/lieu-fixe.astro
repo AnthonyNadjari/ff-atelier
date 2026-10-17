@@ -1,0 +1,114 @@
+---
+/**
+ * Coquille "lieu-fixe" : architecture `lieu-fixe` (src/lib/architectures.ts ; source Le Petit Bleu,
+ * docs/veille/architectures/le-petit-bleu.md). Écran partagé : à DROITE, le lieu reste fixé à l'écran pendant toute
+ * la visite (photo du client en grand, avec posés dessus l'état « Ouvert / Fermé » et la ligne du jour en haut, la
+ * carte « Nous trouver » en bas : adresse, téléphone, écrire) ; à GAUCHE, la colonne défile : la carte d'accueil
+ * (h1 + « métier à ville » + une porte par intention), puis les sections du layout (carte à prix, avis, histoire…).
+ * C'est la variante inversée et photographique de la coquille `split`.
+ *
+ * Téléphone : la nav du site, la carte d'accueil, puis le lieu (photo, état, adresse), puis les sections empilées.
+ * Ordinateur : la nav du site n'est pas rendue (une barre pleine largeur couvrirait le lieu) ; un en-tête court dans
+ * la colonne de gauche la remplace (nom, ancres, première porte).
+ *
+ * Socle docs/GOUT.md § 0 : h1 + métier et ville dans la carte d'accueil ; téléphone cliquable dans la carte d'accueil
+ * (porte « Appeler ») et dans le lieu, toujours à l'écran à l'ordinateur ; avis dans le layout (section proof) ;
+ * photo du client dans le lieu (sans photo : aplat d'encre, rien d'inventé). Le lieu porte id="contact" : sans script,
+ * les liens « /#contact » y mènent ; avec le tiroir (`contactDrawer`), ils ouvrent le formulaire.
+ * Signes de la source NON repris (GOUT § 2) : bandes défilantes, grand rayon partout (le rayon vient de la
+ * direction), couche de chargement, encre claire illisible, capitales machine à écrire espacées.
+ *
+ * `layout.hero` n'est pas rendu (la carte d'accueil le remplace ; il sert au préchargement de la photo du lieu).
+ */
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import Porte from '@/components/Porte.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { site, tel, fullAddress, metierEtVille, actions, navLinks } from '@/lib/site';
+import { heroSizesFor } from '@/lib/images';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+
+const photo = site.images.hero ?? site.proof.gallery[0] ?? site.services.find((s) => s.image)?.image ?? site.about.portrait;
+const portes = actions();
+const premiere = portes[0];
+const links = navLinks();
+const ecrire = site.layout.contactDrawer ? '/#contact' : site.contact.email ? `mailto:${site.contact.email}` : undefined;
+---
+
+<div class="lg:hidden"><Nav /></div>
+<main id="main" class="lf">
+  <header class="lf-entete hidden lg:flex">
+    <a href="/" class="font-display text-xl leading-none">
+      {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-10 w-auto" /> : site.business.name}
+    </a>
+    <nav aria-label="Navigation principale" class="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+      {links.map((l) => <a href={l.href} class="underline-offset-4 hover:underline">{l.label}</a>)}
+      {premiere && <Porte action={premiere} />}
+    </nav>
+  </header>
+
+  <section id="hero" class="lf-accueil rounded-card bg-surface text-center">
+    <h1 class="lf-titre font-display" set:html={site.business.tagline} />
+    <p class="mt-4 text-lg">{metierEtVille()}</p>
+    <ul class="mx-auto mt-8 flex max-w-sm flex-col gap-3">
+      {portes.map((a, i) => <li><Porte action={a} variant={i === 0 ? 'primary' : 'ghost'} size="lg" class="w-full justify-center" /></li>)}
+    </ul>
+  </section>
+
+  <section id="contact" class="lf-lieu" aria-label="Le lieu : horaires et adresse">
+    <div class="lf-cadre relative isolate overflow-hidden rounded-card bg-ink text-on-ink">
+      {photo && <Img src={photo.src} alt={photo.alt} priority sizes={heroSizesFor(site.layout.hero)} class="absolute inset-0 -z-10 h-full w-full object-cover" />}
+      {site.contact.hours.length > 0 && (
+        <div class="lf-etiquette rounded-ui bg-bg text-fg text-sm">
+          <HorairesDuJour />
+        </div>
+      )}
+      <div class="lf-trouver rounded-card bg-bg text-fg">
+        <p class="font-display text-xl">Nous trouver</p>
+        <p class="mt-3 text-sm">
+          {site.contact.mapsUrl ? <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="underline underline-offset-4">{fullAddress()}</a> : fullAddress()}
+        </p>
+        <a href={tel()} class="mt-3 inline-flex items-center gap-2 tabular-nums underline-offset-4 hover:underline"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a>
+        {ecrire && <p class="mt-1 text-sm"><a href={ecrire} class="underline underline-offset-4">{site.layout.contactDrawer ? site.wording.devis : site.contact.email}</a></p>}
+      </div>
+    </div>
+  </section>
+
+  {sections.map(({ Component }) => <Component />)}
+</main>
+<Footer />
+
+<style>
+  /* Téléphone : accueil, lieu, sections, les uns sous les autres. */
+  .lf { padding: 0.625rem; display: flex; flex-direction: column; gap: 0.625rem; }
+  .lf-accueil { padding: 6rem 1.25rem 2.5rem; }
+  .lf-titre { font-size: clamp(2.5rem, 6vw, 3.75rem); line-height: 1.1; letter-spacing: -0.02em; }
+  .lf-cadre { block-size: 62svh; min-block-size: 24rem; }
+  .lf-etiquette { position: absolute; inset-block-start: 0.75rem; inset-inline: 0.75rem; padding: 0.6rem 0.9rem; }
+  .lf-trouver { position: absolute; inset-block-end: 0.75rem; inset-inline-end: 0.75rem; inline-size: min(20rem, calc(100% - 1.5rem)); padding: 1rem 1.25rem; }
+
+  /* Ordinateur : deux moitiés ; le lieu à droite reste fixé (sticky) sur toute la hauteur de la colonne de gauche. */
+  @media (min-width: 1024px) {
+    .lf {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+      gap: 0.625rem;
+      /* Les sections vivent dans une demi-largeur : le conteneur suit la colonne. */
+      --container: 44rem;
+    }
+    .lf > :not(.lf-lieu) { grid-column: 1; }
+    .lf-entete { align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1rem 1.5rem; }
+    .lf-accueil { padding: 5rem 2.5rem; }
+    .lf-lieu {
+      grid-column: 2;
+      grid-row: 1 / span 40;
+      position: sticky;
+      top: 0.625rem;
+    }
+    .lf-cadre { block-size: calc(100svh - 1.25rem); min-block-size: 0; }
+    .lf-etiquette { inset-inline: 1.25rem; inset-block-start: 1.25rem; }
+    .lf-trouver { inset-block-end: 1.25rem; inset-inline-end: 1.25rem; }
+  }
+</style>

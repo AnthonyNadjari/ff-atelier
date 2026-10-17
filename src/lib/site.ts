@@ -121,6 +121,20 @@ export const navLinks = (s: Site = site) => {
   // Ancres absolues (« /#contact ») : depuis la 404, la confidentialité ou une page service, « #contact » ne mène
   // nulle part (contrôle « ancre interne sans cible » de ff verifier, 17 oct 2026).
   if (s.layout.contactDrawer && !links.some((l) => l.href === '/#contact')) links.push({ href: '/#contact', label: labels.contact });
+  // Page /a-propos (layout.pageAPropos, architecture index-projets) : un lien de page, avant Contact.
+  if (s.layout.pageAPropos) {
+    const iA = links.findIndex((l) => l.href === '/#about');
+    if (iA !== -1) links.splice(iA, 1);
+    const iC = links.findIndex((l) => l.href === '/#contact');
+    links.splice(iC === -1 ? links.length : iC, 0, { href: '/a-propos', label: labels.about });
+  }
+  // Gabarit de page « porte » (architecture accueil-portes) : chaque activité est une page, la nav les nomme une à une
+  // (les rubriques de Maisons de Bricourt) au lieu de l'ancre #services.
+  if (s.layout.servicePage === 'porte' && s.servicePages) {
+    const i = links.findIndex((l) => l.href === '/#services');
+    const pages = s.services.map((x) => ({ href: `/services/${x.slug}`, label: x.title }));
+    if (i === -1) links.unshift(...pages); else links.splice(i, 1, ...pages);
+  }
   // Rubrique conseils (src/lib/conseils.ts) : une page, pas une ancre ; seulement si le client a des articles.
   const conseils = lienConseils(s.conseils ?? [], s.wording.conseils);
   if (conseils) {

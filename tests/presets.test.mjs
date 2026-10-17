@@ -8,7 +8,7 @@ import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadSchemaModule, loadSiteConfigModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
+import { loadSchemaModule, loadSiteConfigModule, loadArchitecturesModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
 
 const PRESETS_DIR = path.join(ROOT, 'presets');
 const LOOK_KEYS = ['direction', 'motion', 'scale', 'accent', 'typography', 'layout', 'wording'];
@@ -43,8 +43,11 @@ let HEADINGS;
 let siteSchema;
 let FONT_KEYS;
 let exampleConfig;
+// Variantes qui ne vont qu'avec leur architecture (src/lib/architectures.ts) : jamais dans un modèle.
+let VARIANTES_D_ARCHITECTURE = [];
 if (tsImportable) {
   const schemaMod = await loadSchemaModule();
+  VARIANTES_D_ARCHITECTURE = (await loadArchitecturesModule()).VARIANTES_D_ARCHITECTURE;
   VARIANTS = schemaMod.VARIANTS;
   DIRECTIONS = schemaMod.DIRECTIONS;
   SHELLS = schemaMod.SHELLS;
@@ -245,6 +248,7 @@ if (!tsImportable) {
       if (s) counts.set(s.variant, (counts.get(s.variant) || 0) + 1);
     }
     for (const v of VARIANTS.services) {
+      if (VARIANTES_D_ARCHITECTURE.includes(`services/${v}`)) continue;
       assert.ok((counts.get(v) || 0) >= 4, `services "${v}" utilise ${counts.get(v) || 0} fois, attendu >= 4`);
     }
   });

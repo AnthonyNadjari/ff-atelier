@@ -1,0 +1,120 @@
+---
+/**
+ * Page de service en gabarit "porte" (layout.servicePage: 'porte', architecture `accueil-portes`,
+ * src/lib/architectures.ts). Chaque activité a une page courte bâtie sur la même grammaire (Maisons de Bricourt,
+ * docs/veille/architectures/bricourt.md) : grande photo du lieu ou du travail, nom centré, labels
+ * (business.certifications, en texte), une phrase, deux photos côte à côte, le texte et le bouton, quatre photos
+ * en grille, les questions propres à la page (faq[].service, comme les pages de Cabalar, carrefour-portes.md),
+ * puis l'adresse et les horaires centrés, et les autres portes. Photos : `services[].image` puis
+ * `services[].images[]` du client ; sans elles, la page reste typographique (rien d'inventé).
+ * Lignes à prix (services[].lignes, architecture lieu-fixe) alignées par des pointillés sous le texte.
+ * Boutons : la première porte en ligne (réserver, commander…) s'il y en a, et toujours le téléphone.
+ */
+import { site, tel, paragraphs, fullAddress, actions } from '@/lib/site';
+import { regrouperLignes } from '@/lib/horaires';
+import type { Site } from '@/lib/schema';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+interface Props { service: Site['services'][number] }
+const { service } = Astro.props;
+const paras = paragraphs(service.description ?? '');
+const [paire, quatre] = [service.images.slice(0, 2), service.images.slice(2, 6)];
+const questions = site.faq.filter((f) => f.service === service.slug);
+const autres = site.services.filter((s) => s.slug !== service.slug);
+const enLigne = actions().find((a) => a.kind === 'booking' || a.kind === 'order' || a.kind === 'giftCard');
+const horaires = regrouperLignes(site.contact.hours);
+---
+
+<article class="porte-page pb-20">
+  {service.image && (
+    <div class="container-ff pt-24 md:pt-28">
+      <div class="overflow-hidden rounded-card aspect-[4/3] md:aspect-[16/7]">
+        <Img src={service.image.src} alt={service.image.alt} priority class="h-full w-full object-cover" sizes="(min-width: 1280px) 1216px, 100vw" />
+      </div>
+    </div>
+  )}
+
+  <header class:list={['container-ff text-center', service.image ? 'mt-12' : 'pt-32 md:pt-40']}>
+    <a href="/" class="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"><Icon name="ArrowLeft" size={16} />Accueil</a>
+    <h1 class="text-display-lg mt-6">{service.title}</h1>
+    <p class="mt-3 text-muted">{site.business.name}, {site.business.trade.toLowerCase()} à {site.contact.address.city}</p>
+    {site.business.certifications.length > 0 && (
+      <ul class="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm" aria-label="Labels">
+        {site.business.certifications.map((c) => <li class="border-b border-line pb-0.5">{c}</li>)}
+      </ul>
+    )}
+    <p class="mx-auto mt-6 max-w-2xl text-xl">{service.short}</p>
+  </header>
+
+  {paire.length > 0 && (
+    <div class:list={['container-ff mt-14 grid gap-4 md:gap-6', paire.length === 2 && 'md:grid-cols-2']} data-stagger="110">
+      {paire.map((p) => (
+        <div class="overflow-hidden rounded-card aspect-[4/3]"><Img src={p.src} alt={p.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw" /></div>
+      ))}
+    </div>
+  )}
+
+  <div class="container-ff mt-14 text-center">
+    {paras.length > 0 && <div class="mx-auto max-w-prose space-y-5 text-lg leading-relaxed text-left md:text-center">{paras.map((p) => <p>{p}</p>)}</div>}
+    {service.bullets.length > 0 && (
+      <ul class="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-x-8 gap-y-2">{service.bullets.map((b) => <li>{b}</li>)}</ul>
+    )}
+    {service.lignes.length > 0 && (
+      <ul class="mx-auto mt-10 flex max-w-xl flex-col gap-4 text-left">
+        {service.lignes.map((l) => (
+          <li>
+            <div class="flex items-baseline gap-3">
+              <span>{l.nom}</span>
+              {l.prix && <span class="porte-points flex-1" aria-hidden="true"></span>}
+              {l.prix && <span class="tabular-nums whitespace-nowrap">{l.prix}</span>}
+            </div>
+            {l.detail && <p class="mt-1 text-sm text-muted">{l.detail}</p>}
+          </li>
+        ))}
+      </ul>
+    )}
+    {service.priceFrom && <p class="mt-8 font-medium tabular-nums">{service.priceFrom}</p>}
+    <div class="mt-10 flex flex-wrap justify-center gap-4">
+      {enLigne && <Button href={enLigne.href} size="lg">{enLigne.label}</Button>}
+      <Button href={tel()} size="lg" variant={enLigne ? 'ghost' : 'primary'}><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+    </div>
+  </div>
+
+  {quatre.length > 0 && (
+    <div class="container-ff mt-16 grid grid-cols-2 gap-4 md:gap-6" data-stagger="90">
+      {quatre.map((p) => (
+        <div class="overflow-hidden rounded-card aspect-[4/3]"><Img src={p.src} alt={p.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1280px) 600px, 50vw" /></div>
+      ))}
+    </div>
+  )}
+
+  {questions.length > 0 && (
+    <section class="container-ff mt-20 max-w-3xl" aria-labelledby="porte-questions">
+      <h2 id="porte-questions" class="text-display-sm text-center">Vos questions</h2>
+      <div class="mt-8 divide-y divide-line border-y border-line">
+        {questions.map((f) => (
+          <details class="py-4">
+            <summary class="cursor-pointer font-medium">{f.q}</summary>
+            <div class="mt-3 space-y-3 text-muted">{paragraphs(f.a).map((p) => <p>{p}</p>)}</div>
+          </details>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <footer class="container-ff mt-20 text-center text-sm">
+    <p>{site.contact.mapsUrl ? <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="underline underline-offset-4">{fullAddress()}</a> : fullAddress()}</p>
+    {horaires.length > 0 && <p class="mt-2 text-muted">{horaires.map((h) => `${h.days}, ${h.hours}`).join(' ; ')}</p>}
+    {autres.length > 0 && (
+      <nav aria-label="Les autres activités" class="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-base">
+        {autres.map((o) => <a href={`/services/${o.slug}`} class="inline-flex items-center gap-2 underline-offset-4 hover:underline">{o.title}<Icon name="ArrowRight" size={16} /></a>)}
+      </nav>
+    )}
+  </footer>
+</article>
+
+<style>
+  .porte-points { border-bottom: 2px dotted var(--color-line); transform: translateY(-0.3em); min-inline-size: 1.5rem; }
+</style>

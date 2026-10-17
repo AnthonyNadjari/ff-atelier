@@ -47,7 +47,7 @@ const METIERS_INDEX = ['photograph', 'artiste', 'architect', 'tatou', 'illustrat
 
 // Coquilles d'ARCHITECTURE (src/lib/architectures.ts) : elles ne s'appliquent qu'avec leur architecture entiere
 // (layout.architecture), choisie sur les donnees du client — jamais tirees au hasard ici.
-export const COQUILLES_D_ARCHITECTURE = ['carte'];
+export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe'];
 
 function shellFits(shell, { sectionsCount, motion, nav, hero, scale, metier = '' }) {
   if (COQUILLES_D_ARCHITECTURE.includes(shell)) return false;
@@ -346,7 +346,10 @@ export function varianteCompatible(type, variant, cfg = {}) {
     case 'services/bento':
     case 'services/cards-hover':
     case 'services/photo-cards':
+    case 'services/portes':
       return imagesServices;
+    case 'services/carte-prix':
+      return services.some((s) => s && Array.isArray(s.lignes) && s.lignes.length > 0);
     case 'about/portrait':
     case 'about/overlap':
       return Boolean(cfg.about && cfg.about.portrait);

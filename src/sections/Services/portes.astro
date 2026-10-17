@@ -1,0 +1,85 @@
+---
+/**
+ * Services "portes" : architecture `accueil-portes` (src/lib/architectures.ts ; sources Maisons de Bricourt,
+ * docs/veille/architectures/bricourt.md, et Cabalar, carrefour-portes.md). L'accueil est un sommaire : une grande
+ * porte par activité, diptyque photo + aplat (`bg-2`), le côté de la photo alterne, et TOUTE la tuile est un lien
+ * vers la page de l'activité (`/services/<slug>`, gabarit `porte` de layout.servicePage). Dans l'aplat : le nom,
+ * une phrase (`short`), au plus quatre sous-titres courts (`bullets`), le prix s'il est donné. Rien d'autre : ni
+ * texte long, ni bouton par porte (la tuile est le bouton).
+ *
+ * Données : une porte sans photo reste un aplat seul, pleine largeur (rien d'inventé) ; `servicePages: false` =
+ * tuiles sans lien. Survol (pointeur fin) : la photo grandit à peine sur --motion-ui, rien en mouvement réduit.
+ * Téléphone : photo au-dessus, aplat dessous. Signes de la source NON repris (GOUT § 2) : capitales espacées
+ * partout, police de titrage Cormorant ; angles et ombres viennent de la direction (--radius-card).
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+const lien = site.servicePages;
+---
+
+<section id="services" class="section-y">
+  <div class="container-ff">
+    <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} />
+    <ul class="portes mt-10 flex flex-col gap-5 md:gap-8" data-stagger="110">
+      {site.services.map((s, i) => {
+        const Tag = lien ? 'a' : 'div';
+        const droite = i % 2 === 1;
+        return (
+          <li>
+            <Tag
+              href={lien ? `/services/${s.slug}` : undefined}
+              class:list={['porte group grid overflow-hidden rounded-card bg-bg-2 md:grid-cols-12', lien && 'porte-lien']}
+            >
+              {s.image && (
+                <div class:list={['porte-photo relative overflow-hidden md:col-span-7', droite && 'md:order-2']}>
+                  <Img
+                    src={s.image.src}
+                    alt={s.image.alt}
+                    loading="lazy"
+                    sizes="(min-width: 1280px) 700px, (min-width: 768px) 58vw, 100vw"
+                    class="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+              <div class:list={['flex flex-col justify-center gap-3 p-6 md:p-10', s.image ? 'md:col-span-5' : 'md:col-span-12', droite && s.image && 'md:order-1']}>
+                <h3 class="text-display-md">{s.title}</h3>
+                <p class="text-lg text-muted max-w-prose">{s.short}</p>
+                {s.bullets.length > 0 && (
+                  <ul class="mt-2 flex flex-col gap-1 text-sm">
+                    {s.bullets.slice(0, 4).map((b) => <li>{b}</li>)}
+                  </ul>
+                )}
+                {s.priceFrom && <p class="text-sm font-medium tabular-nums">{s.priceFrom}</p>}
+                {lien && (
+                  <span class="porte-suite mt-3 inline-flex items-center gap-2 text-sm font-medium">
+                    Voir la page<Icon name="ArrowRight" size={16} />
+                  </span>
+                )}
+              </div>
+            </Tag>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .porte-photo { aspect-ratio: 3 / 2; }
+  @media (min-width: 768px) {
+    .porte-photo { aspect-ratio: auto; min-block-size: 22rem; }
+  }
+  .porte-photo :global(img) { transition: transform var(--motion-ui, 0.3s) var(--ease-out-quart); }
+  .porte-suite { text-underline-offset: 4px; }
+  @media (hover: hover) and (pointer: fine) {
+    .porte-lien:hover .porte-photo :global(img) { transform: scale(1.03); }
+    .porte-lien:hover .porte-suite { text-decoration: underline; }
+  }
+  .porte-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    .porte-photo :global(img) { transition: none; }
+    .porte-lien:hover .porte-photo :global(img) { transform: none; }
+  }
+</style>

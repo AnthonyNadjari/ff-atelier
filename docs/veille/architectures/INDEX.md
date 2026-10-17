@@ -67,6 +67,13 @@ Ce qui existe déjà et sert de base (vérifié dans `src/lib/schema.ts` et `src
 
 ## Ordre recommandé pour les implémenter
 
+**Faites (18 oct 2026) : 1 à 4**, dans le registre `src/lib/architectures.ts` (`layout: { architecture: '<id>' }` pose
+coquille, ordre des sections et gabarit des pages ; `donneesManquantes` dit ce qui manque au client) : `carte-de-visite`
+(coquille `carte`), `accueil-portes` (section `services/portes`, `layout.servicePage: 'porte'`, `services[].images`,
+`faq[].service` ; seconde source Cabalar), `index-projets` (coquille `index-projets`, `realisations[]` et
+`/realisations/<slug>`, `layout.pageAPropos` ; seconde source House of Honey), `lieu-fixe` (coquille `lieu-fixe`, section
+`services/carte-prix`, `services[].lignes`). Restent 5 à 12.
+
 Les plus éloignées de notre déroulé et les moins coûteuses d'abord. Chacune garde le socle (GOUT § 0 : plusieurs pages,
 téléphone en haut, métier + ville, avis s'il y en a), que plusieurs sources n'ont pas.
 

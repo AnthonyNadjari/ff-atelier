@@ -65,7 +65,7 @@ de l'usine) et d'une ARCHITECTURE de `docs/veille/architectures/INDEX.md`, chois
 (photos, produits, lieu, urgence). On applique le style tel quel : polices, couleurs, espacements, traitement des
 photos, boutons, mouvement ; on adapte le contenu, pas le style. Trois pistes = trois styles et trois architectures
 différents ; ni l'un ni l'autre ne reprend ceux des 4 derniers sites. L'invention reste pour le seul bloc sur
-mesure. Écrire au contrat : « Style : <id> (source) · Architecture : <id> (source) ».
+mesure. Écrire au contrat : « Style : <id> (source) · Architecture : <id> (source) ». Dans le site, l'architecture se choisit dans src/lib/architectures.ts (layout.architecture) : une ligne `layout: { architecture: '<id>' }` pose la coquille, l'ordre des sections et le gabarit des pages, et `donneesManquantes('<id>', site)` dit ce qui manque au client pour la prendre (une architecture absente du registre se construit d'abord, `docs/veille/architectures/INDEX.md` § Ordre recommandé).
 
 Le style d'une piste vient d'un **MÉLANGE d'atomes** ou d'un **style entier** (18 oct 2026, fondateur : « faut faire
 des cross »). Les atomes (typo, couleurs, densité, formes, photos, mouvement, matière, architecture, premier écran)

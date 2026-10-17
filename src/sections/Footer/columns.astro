@@ -6,6 +6,9 @@ import Horaires from '@/components/Horaires.astro';
 const year = new Date().getFullYear();
 const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
 const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'Linkedin', tiktok: 'Music2' };
+// Sans section contact dans le layout (contact en tiroir seul, architecture accueil-portes), la colonne Contact porte
+// id="contact" : sans script, les liens « /#contact » y mènent au lieu de remonter en haut de page (ff verifier).
+const sansSectionContact = !site.layout.sections.some((s) => s.type === 'contact');
 ---
 
 <footer class="bg-ink text-on-ink">
@@ -23,10 +26,10 @@ const iconFor: Record<string, string> = { instagram: 'Instagram', facebook: 'Fac
     </div>
     <div>
       <p class="mb-4 text-sm font-medium">Navigation</p>
-      <ul class="space-y-2 text-sm text-on-ink/80">{navLinks().map((l) => <li><a href={`/${l.href}`} class="hover:text-on-ink">{l.label}</a></li>)}</ul>
+      <ul class="space-y-2 text-sm text-on-ink/80">{navLinks().map((l) => <li><a href={l.href} class="hover:text-on-ink">{l.label}</a></li>)}</ul>
       {site.zones.cities.length > 0 && <p class="mt-6 text-xs text-on-ink/65">Intervention : {site.zones.cities.slice(0, 8).join(', ')}{site.zones.cities.length > 8 && '…'}</p>}
     </div>
-    <div>
+    <div id={sansSectionContact ? 'contact' : undefined}>
       <p class="mb-4 text-sm font-medium">Contact</p>
       <ul class="space-y-2 text-sm text-on-ink/80">
         <li><a href={tel()} class="hover:text-on-ink">{site.contact.phoneDisplay}</a></li>

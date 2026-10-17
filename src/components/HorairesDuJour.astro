@@ -1,0 +1,56 @@
+---
+/**
+ * Horaires du jour en deux lignes, pour les coquilles d'architecture qui posent le lieu sur la photo (`carte`,
+ * `lieu-fixe` : src/lib/architectures.ts). Sans script : toutes les lignes de contact.hours, regroupées par jours
+ * identiques (regrouperLignes, rien de déduit). Avec script : l'état du moment (« Ouvert », « Fermé », « Ouvre à
+ * 14 h », etatDuJour, fuseau Europe/Paris) puis la journée complète (ligneDuJour), seulement si chaque ligne se lit
+ * (semaine() définie). Aucune horloge visible (docs/GOUT.md § 5), aucune couleur : hérite du parent.
+ */
+import { site } from '@/lib/site';
+import { semaine, regrouperLignes } from '@/lib/horaires';
+
+interface Props {
+  class?: string;
+}
+const { class: cls = '' } = Astro.props;
+const lignes = site.contact.hours;
+const groupes = regrouperLignes(lignes);
+const sem = lignes.length > 0 ? semaine(lignes) : undefined;
+const data = sem ? JSON.stringify(sem.map((j) => ({ jour: j.jour, libelles: j.libelles, ferme: j.ferme, creneaux: j.creneaux }))) : undefined;
+---
+
+{groupes.length > 0 && (
+  <div class:list={['horaires-du-jour', cls]} data-horaires-jour={data}>
+    <p class="hj-etat" data-hj-etat hidden></p>
+    <p data-hj-jour hidden></p>
+    <ul class="space-y-0.5" data-hj-semaine>
+      {groupes.map((g) => <li>{g.days}, {g.hours}</li>)}
+    </ul>
+  </div>
+)}
+
+<style>
+  .hj-etat { font-weight: 600; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { etatDuJour, ligneDuJour } from '@/lib/horaires';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-horaires-jour]').forEach((bloc) => {
+      if (!bloc.dataset.horairesJour) return;
+      const sem = JSON.parse(bloc.dataset.horairesJour);
+      const etat = etatDuJour(sem, new Date());
+      const texte = ligneDuJour(sem, etat.jour);
+      const pEtat = bloc.querySelector<HTMLElement>('[data-hj-etat]');
+      const pJour = bloc.querySelector<HTMLElement>('[data-hj-jour]');
+      const liste = bloc.querySelector<HTMLElement>('[data-hj-semaine]');
+      if (!texte || !pJour || !liste) return;
+      if (pEtat && etat.texte) { pEtat.textContent = etat.texte; pEtat.hidden = false; }
+      pJour.textContent = texte;
+      pJour.hidden = false;
+      liste.hidden = true;
+    });
+  });
+</script>

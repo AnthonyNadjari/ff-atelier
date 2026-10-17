@@ -1,0 +1,217 @@
+---
+/**
+ * Coquille "index-projets" : architecture `index-projets` (src/lib/architectures.ts ; sources Mathilde De Chiara,
+ * docs/veille/architectures/mathilde-de-chiara.md, et House of Honey, projets-fiches.md). L'accueil EST l'index des
+ * réalisations, réglable par le visiteur : une colonne d'images au centre (« Défilé ») ou toutes les vignettes en
+ * grille (« Grille »), filtrées par type (`kind`), avec en marge les réglages permanents et un compteur réel. Tout le
+ * reste (qui, comment le joindre) tient sur une page à côté : /a-propos (layout.pageAPropos). Chaque réalisation qui
+ * a sa page (`realisations[]`) y mène : série de photos, lieu, type, mesure, texte, crédit (House of Honey).
+ *
+ * Données : `realisations[]` d'abord (une page chacune), sinon les photos de `proof.gallery` (sans page). Filtres
+ * dès deux types distincts, compteur « N réalisations » (chiffre réel), rien d'inventé.
+ *
+ * Réglages SANS JavaScript : deux groupes de radios + `:has()` (comme proof/gallery). « Tout » + 12 types au plus
+ * (12 règles statiques) ; Défilé / Grille. Les radios sont `sr-only`, le focus se voit sur l'étiquette.
+ *
+ * Socle docs/GOUT.md § 0, que la source n'a pas : h1 (nom) + « métier à ville » + téléphone cliquable dans la marge
+ * gauche (en tête au téléphone), note Google à côté s'il y en a, porte « Écrire » (tiroir de contact) ; les avis
+ * écrits : un avis court dans la marge quand il n’y a pas de note Google (l’architecture n’empile aucune section). Signes de la source NON repris (GOUT § 2) : serif
+ * italique du compteur, capitales espacées de 10 px, numérotation « 01 / 30 », contenu dans un canvas.
+ *
+ * `layout.hero` et `layout.nav` ne sont pas rendus (la marge les remplace) ; les sections du layout descendent sous
+ * l'index, pleine largeur.
+ */
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, metierEtVille, kindsDeGalerie, metaDeRealisation, SEPARATEUR_META } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Footer, sections } = Astro.props;
+
+type Entree = { titre?: string; meta: string[]; kind?: string; photo: { src: string; alt: string }; href?: string };
+const entrees: Entree[] = site.realisations.length
+  ? site.realisations.map((r) => ({
+      titre: r.title,
+      meta: metaDeRealisation(r),
+      kind: r.kind,
+      photo: r.photos[0],
+      href: `/realisations/${r.slug}`,
+    }))
+  : site.proof.gallery.map((g) => ({ meta: metaDeRealisation(g), kind: g.kind, photo: g }));
+const MAX_FILTRES = 12;
+const kinds = (kindsDeGalerie(entrees) ?? []).slice(0, MAX_FILTRES);
+const indexDeKind = (k?: string) => (k ? kinds.indexOf(k.trim()) + 1 : 0);
+const n = entrees.length;
+const compteur = n > 0 ? `${n} réalisation${n > 1 ? 's' : ''}` : '';
+const google = site.proof.google;
+const avis = google ? undefined : site.proof.testimonials.find((t) => t.text.length <= 160);
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const aPropos = site.layout.pageAPropos;
+---
+
+<main id="main">
+  <div class="projets">
+    <section class="projets-identite" id="contact" aria-label="L’atelier">
+      <div>
+        <h1 class="projets-nom font-display">{site.business.name}</h1>
+        <p class="mt-1 text-muted">{metierEtVille()}</p>
+        <a href={tel()} class="mt-4 inline-flex items-center gap-2 text-lg tabular-nums underline-offset-4 hover:underline">
+          <Icon name="Phone" size={18} />{site.contact.phoneDisplay}
+        </a>
+        {google && (
+          <p class="mt-2 text-sm"><a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4">{note}{' '}sur 5, {google.count}{' '}avis Google</a></p>
+        )}
+        {avis && <blockquote class="mt-3 max-w-[34ch] text-sm">« {avis.text} » <span class="text-muted">{avis.author}, {avis.source}</span></blockquote>}
+      </div>
+      {compteur && <p class="projets-compteur font-display">{compteur}</p>}
+      <ul class="projets-liens flex flex-wrap gap-x-6 gap-y-2">
+        {aPropos && <li><a href="/a-propos" class="underline-offset-4 hover:underline">À propos</a></li>}
+        {site.layout.contactDrawer && <li><a href="/#contact" class="underline-offset-4 hover:underline">{site.wording.devis}</a></li>}
+        {site.servicePages && site.services.map((s) => <li><a href={`/services/${s.slug}`} class="underline-offset-4 hover:underline">{s.title}</a></li>)}
+      </ul>
+    </section>
+
+    <div class="outil-reglages" role="group" aria-label="Outil de consultation : type de projet et affichage">
+      {kinds.length >= 2 && (
+        <fieldset class="projets-groupe">
+          <legend>Type de projet</legend>
+          <input class="sr-only" type="radio" name="projets-type" id="pk-0" value="" checked />
+          <label for="pk-0">Tout</label>
+          {kinds.map((k, i) => (
+            <>
+              <input class="sr-only" type="radio" name="projets-type" id={`pk-${i + 1}`} value={String(i + 1)} />
+              <label for={`pk-${i + 1}`}>{k}</label>
+            </>
+          ))}
+        </fieldset>
+      )}
+      {n > 1 && (
+        <fieldset class="projets-groupe">
+          <legend>Affichage</legend>
+          <input class="sr-only" type="radio" name="projets-vue" id="vue-defile" value="defile" checked />
+          <label for="vue-defile">Défilé</label>
+          <input class="sr-only" type="radio" name="projets-vue" id="vue-grille" value="grille" />
+          <label for="vue-grille">Grille</label>
+        </fieldset>
+      )}
+    </div>
+
+    <section id="realisations" class="projets-index" aria-label="Réalisations">
+    <ul class="projets-liste" data-stagger="80">
+      {entrees.map((e, i) => {
+        const idx = indexDeKind(e.kind);
+        const Tag = e.href ? 'a' : 'div';
+        return (
+          <li class="projet" data-kind={idx > 0 ? String(idx) : undefined} data-reveal>
+            <Tag href={e.href} class="projet-lien group block">
+              <div class="projet-photo overflow-hidden bg-bg-2">
+                <Img
+                  src={e.photo.src}
+                  alt={e.photo.alt}
+                  priority={i === 0}
+                  loading={i < 2 ? 'eager' : 'lazy'}
+                  sizes="(min-width: 1024px) 30rem, 100vw"
+                  class="h-full w-full object-cover"
+                />
+              </div>
+              {(e.titre || e.meta.length > 0) && (
+                <p class="projet-legende mt-2 text-sm">
+                  {e.titre && <span class="text-fg">{e.titre}</span>}
+                  {e.meta.map((m, j) => (
+                    <>
+                      {(j > 0 || e.titre) && <span aria-hidden="true" class="text-muted">{SEPARATEUR_META}</span>}
+                      <span class="text-muted">{m}</span>
+                    </>
+                  ))}
+                </p>
+              )}
+            </Tag>
+          </li>
+        );
+      })}
+    </ul>
+    </section>
+  </div>
+  {sections.map(({ Component }) => <Component />)}
+</main>
+<Footer />
+
+<style>
+  /* Téléphone : identité en tête, réglages sur une ligne, colonne d'images pleine largeur. */
+  .projets { padding: 1.25rem 1rem 3rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .projets-identite { display: flex; flex-direction: column; gap: 1.25rem; }
+  .projets-nom { font-size: var(--scale-md, clamp(1.75rem, 4vw, 2.5rem)); line-height: 1.05; }
+  .projets-compteur { font-size: 1.25rem; }
+  .projets-liens { font-size: 0.9375rem; }
+  .outil-reglages { display: flex; flex-wrap: wrap; gap: 1rem 2rem; }
+  .projets-groupe { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; }
+  .projets-groupe legend { float: left; margin-inline-end: 1rem; font-size: 0.875rem; color: var(--color-muted); }
+  .projets-groupe label {
+    cursor: pointer;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    text-underline-offset: 4px;
+    transition: color var(--motion-ui, 0.2s) var(--ease-out-quart);
+  }
+  .projets-groupe input:checked + label { color: var(--color-fg); font-weight: 600; text-decoration: underline; }
+  .projets-groupe input:focus-visible + label { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .projets-groupe input:not(:checked) + label:hover { color: var(--color-fg); }
+  }
+  .projets-liste { display: grid; gap: 2.5rem; grid-template-columns: 1fr; }
+  .projet-photo { aspect-ratio: 4 / 3; border-radius: var(--radius-card); }
+  .projet-photo :global(img) { transition: transform var(--motion-ui, 0.3s) var(--ease-out-quart); }
+  @media (hover: hover) and (pointer: fine) {
+    a.projet-lien:hover .projet-photo :global(img) { transform: scale(1.03); }
+  }
+  .projet-legende { overflow-wrap: anywhere; }
+
+  /* Grille : toutes les vignettes, légendes masquées (le titre reste lu par les lecteurs d'écran via alt). */
+  .projets:has(#vue-grille:checked) .projets-liste { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .projets:has(#vue-grille:checked) .projet-legende { display: none; }
+
+  /* Ordinateur : marges fixes à gauche (identité, compteur, pages) et à droite (réglages), images au centre. */
+  @media (min-width: 1024px) {
+    .projets {
+      display: grid;
+      grid-template-columns: minmax(16rem, 1fr) minmax(0, 30rem) minmax(16rem, 1fr);
+      gap: 0 4rem;
+      padding: 0 2.5rem;
+    }
+    .projets-identite, .outil-reglages {
+      position: sticky;
+      top: 0;
+      block-size: 100svh;
+      padding-block: 2.5rem;
+      align-self: start;
+    }
+    .projets-identite { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .outil-reglages { grid-column: 3; grid-row: 1; flex-direction: column; justify-content: center; gap: 2.5rem; }
+    .projets-groupe { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
+    .projets-groupe legend { float: none; margin: 0 0 0.5rem; }
+    .projets-compteur { border-top: 1px solid var(--color-line); padding-top: 0.75rem; }
+    .projets-liens { flex-direction: column; }
+    .projets-index { grid-column: 2; grid-row: 1; padding-block: 2.5rem 30vh; }
+    .projets-liste { gap: 4rem; }
+    .projets:has(#vue-grille:checked) { grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr) minmax(12rem, 16rem); }
+    .projets:has(#vue-grille:checked) .projets-index { padding-bottom: 2.5rem; }
+    .projets:has(#vue-grille:checked) .projets-liste { grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .projet-photo :global(img), .projets-groupe label { transition: none; }
+    a.projet-lien:hover .projet-photo :global(img) { transform: none; }
+  }
+
+  /* Filtres sans JS : le type coché masque les autres (12 règles statiques ; pk-0 = « Tout »). */
+  .projets:has(#pk-1:checked) .projet:not([data-kind="1"]) { display: none; }
+  .projets:has(#pk-2:checked) .projet:not([data-kind="2"]) { display: none; }
+  .projets:has(#pk-3:checked) .projet:not([data-kind="3"]) { display: none; }
+  .projets:has(#pk-4:checked) .projet:not([data-kind="4"]) { display: none; }
+  .projets:has(#pk-5:checked) .projet:not([data-kind="5"]) { display: none; }
+  .projets:has(#pk-6:checked) .projet:not([data-kind="6"]) { display: none; }
+  .projets:has(#pk-7:checked) .projet:not([data-kind="7"]) { display: none; }
+  .projets:has(#pk-8:checked) .projet:not([data-kind="8"]) { display: none; }
+  .projets:has(#pk-9:checked) .projet:not([data-kind="9"]) { display: none; }
+  .projets:has(#pk-10:checked) .projet:not([data-kind="10"]) { display: none; }
+  .projets:has(#pk-11:checked) .projet:not([data-kind="11"]) { display: none; }
+  .projets:has(#pk-12:checked) .projet:not([data-kind="12"]) { display: none; }
+</style>

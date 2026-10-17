@@ -1,0 +1,197 @@
+---
+/**
+ * Coquille "carte" : architecture `carte-de-visite` (src/lib/architectures.ts ; source Nowa,
+ * docs/veille/architectures/nowa.md). L'accueil est UN écran : la photo du client posée en carte dans une marge
+ * (rayon des cartes de la direction), le salut du moment en grand au milieu, et posés dessus ce qui sert, en trois
+ * plans comme la source : l'identité en bas à gauche (h1 = nom, « métier à ville » juste dessous), le panneau
+ * d'infos en bas à droite (appeler, adresse, écrire, horaires du jour, avis), et en haut à droite une petite carte
+ * « Les pages » (pages des services + portes en ligne : réserver, commander, bon cadeau). Aucune nav, aucune
+ * section empilée.
+ *
+ * Téléphone : l'identité passe AU-DESSUS de la photo, sur la marge (pas de h1 blanc posé sur une photo plein
+ * écran, la mise en page la plus vue de l'usine), la photo garde le salut, le panneau d'infos remonte sur le bas de
+ * la photo avec son ombre (comme la carte d'infos de la source au téléphone), puis la carte des pages.
+ *
+ * Socle docs/GOUT.md § 0, que la source n'a pas : le téléphone est en tête du panneau, visible sans défiler ; métier
+ * + ville sous le h1 ; la note Google (ou un avis court) dans le panneau s'il y en a ; les pages /services/<slug>
+ * listées (la carte est l'accueil d'un site court, pas tout le site). Sans photo du client : la carte reste un aplat
+ * d'encre, rien n'est inventé. Le panneau porte id="contact" : sans script, les liens « /#contact » y mènent ; avec
+ * le tiroir (`contactDrawer`, posé par l'architecture), ils ouvrent le formulaire.
+ *
+ * Salut : « Bonjour », « Bonsoir » à partir de 18 h (Europe/Paris), calculé dans le navigateur ; sans script,
+ * « Bonjour ». Signes de la source NON repris (fiche, GOUT § 2) : sceau qui tourne, prononciation en titre,
+ * surcouche d'inscription à l'arrivée, libellés en capitales espacées, et pas de rideau d'ouverture.
+ *
+ * `layout.hero` et `layout.nav` ne sont pas rendus (la carte les remplace) ; les sections du layout, s'il y en a,
+ * descendent sous la carte (l'architecture n'en a pas).
+ */
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { site, tel, mailto, fullAddress, metierEtVille, actions, paragraphs } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Footer, sections } = Astro.props;
+
+// La photo de la carte : la photo principale du client, sinon une photo de service, de réalisation, le portrait.
+const photo = site.images.hero ?? site.services.find((s) => s.image)?.image ?? site.proof.gallery[0] ?? site.about.portrait;
+const google = site.proof.google;
+const avis = google ? undefined : site.proof.testimonials.find((t) => t.text.length <= 160);
+const enLigne = actions().filter((a) => a.kind === 'booking' || a.kind === 'order' || a.kind === 'giftCard');
+const ecrire = site.layout.contactDrawer ? '/#contact' : mailto();
+const phrase = paragraphs(site.business.description)[0]?.split(/(?<=[.!?])\s/)[0];
+const pages = site.servicePages ? site.services : [];
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+---
+
+<main id="main">
+  <div class="carte-ecran">
+    <section id="hero" class="carte-hero">
+      <div class="carte-identite" data-reveal>
+        <h1 class="text-display-sm">{site.business.name}</h1>
+        <p class="mt-2 text-lg">{metierEtVille()}</p>
+        {phrase && <p class="carte-phrase mt-3 max-w-[42ch]">{phrase}</p>}
+      </div>
+      <div class="carte relative isolate flex flex-col overflow-hidden rounded-card bg-ink text-on-ink">
+        {photo && (
+          <Img src={photo.src} alt={photo.alt} priority sizes="100vw" class="absolute inset-0 -z-10 h-full w-full object-cover" />
+        )}
+        {photo && <div class="carte-voile absolute inset-0 -z-10" aria-hidden="true"></div>}
+        <a href="/" class="carte-nom font-display text-lg leading-none p-5 md:p-8">
+          {site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-10 w-auto" /> : site.business.name}
+        </a>
+        <div class="flex flex-1 items-center justify-center px-5 py-8 text-center">
+          <p class="carte-salut font-display" data-salut>Bonjour</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="carte-panneau rounded-card bg-bg text-fg p-5 md:p-6" aria-label="Nous joindre">
+      <a href={tel()} class="flex items-center gap-3 font-display text-2xl tabular-nums leading-none hover:opacity-70">
+        <Icon name="Phone" size={20} />{site.contact.phoneDisplay}
+      </a>
+      <dl class="carte-infos mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+        <dt class="text-muted">Adresse</dt>
+        <dd>{site.contact.mapsUrl ? <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="underline underline-offset-4 hover:opacity-70">{fullAddress()}</a> : fullAddress()}</dd>
+        {ecrire && (
+          <>
+            <dt class="text-muted">Écrire</dt>
+            <dd><a href={ecrire} class="underline underline-offset-4 hover:opacity-70">{site.layout.contactDrawer ? site.wording.devis : site.contact.email}</a></dd>
+          </>
+        )}
+        {site.contact.hours.length > 0 && (
+          <>
+            <dt class="text-muted">Horaires</dt>
+            <dd><HorairesDuJour /></dd>
+          </>
+        )}
+        {google && (
+          <>
+            <dt class="text-muted">Avis</dt>
+            <dd><a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4 hover:opacity-70">{note}{' '}sur 5, {google.count}{' '}avis Google</a></dd>
+          </>
+        )}
+        {avis && (
+          <>
+            <dt class="text-muted">Avis</dt>
+            <dd>« {avis.text} » {avis.author}, {avis.source}</dd>
+          </>
+        )}
+      </dl>
+    </section>
+
+    {(pages.length > 0 || enLigne.length > 0) && (
+      <section id="services" class="carte-pages rounded-card bg-bg text-fg p-5" aria-label="Les pages du site">
+        {enLigne.length > 0 && (
+          <ul class="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+            {enLigne.map((a) => <li><a href={a.href} target="_blank" rel="noopener" class="underline underline-offset-4 hover:opacity-70">{a.label}</a></li>)}
+          </ul>
+        )}
+        {pages.length > 0 && (
+          <ul class:list={['flex flex-col gap-1.5', enLigne.length > 0 && 'mt-3 border-t border-line pt-3']}>
+            {pages.map((s) => (
+              <li>
+                <a href={`/services/${s.slug}`} class="flex items-center justify-between gap-3 underline-offset-4 hover:underline">
+                  {s.title}<Icon name="ArrowUpRight" size={16} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    )}
+  </div>
+  {sections.map(({ Component }) => <Component />)}
+</main>
+<Footer />
+
+<style>
+  /* Téléphone : identité sur la marge, la photo (salut), le panneau qui remonte sur la photo, la carte des pages. */
+  .carte-ecran { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .carte-identite { padding: 0.75rem 0.5rem 0.25rem; }
+  .carte-phrase { color: var(--color-muted); }
+  .carte { min-block-size: 46svh; margin-block-start: 0.75rem; }
+  .carte-nom { display: none; }
+  .carte-panneau { position: relative; margin: -4.5rem 0.75rem 0; box-shadow: var(--shadow-card); }
+  .carte-infos dd { overflow-wrap: anywhere; }
+  .carte-salut {
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  /* Voile d'encre pour lire le texte posé sur la photo (haut et bas), la photo libre au milieu. */
+  .carte-voile {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-ink) 45%, transparent) 0%,
+      color-mix(in oklab, var(--color-ink) 10%, transparent) 30%,
+      color-mix(in oklab, var(--color-ink) 20%, transparent) 60%,
+      color-mix(in oklab, var(--color-ink) 75%, transparent) 100%
+    );
+  }
+
+  /* Ordinateur : UN écran. La carte prend toute la marge (moins la ligne du pied), les trois plans posés dessus. */
+  @media (min-width: 768px) {
+    .carte-ecran { position: relative; display: block; padding: 1rem; }
+    .carte-hero { position: relative; block-size: calc(100svh - 8rem); min-block-size: 34rem; }
+    .carte { position: absolute; inset: 0; margin: 0; min-block-size: 0; }
+    .carte-nom { display: block; }
+    .carte-identite {
+      position: absolute;
+      z-index: 1;
+      inset-inline-start: 2rem;
+      inset-block-end: 2rem;
+      max-inline-size: min(28rem, 40%);
+      padding: 0;
+      color: var(--color-on-ink);
+    }
+    .carte-phrase { color: color-mix(in oklab, var(--color-on-ink) 80%, transparent); }
+    .carte-panneau {
+      position: absolute;
+      z-index: 1;
+      margin: 0;
+      inset-inline-end: 3rem;
+      inset-block-end: 3rem;
+      inline-size: min(26rem, 44%);
+      box-shadow: none;
+    }
+    .carte-pages {
+      position: absolute;
+      z-index: 1;
+      inset-inline-end: 3rem;
+      inset-block-start: 3rem;
+      inline-size: min(18rem, 30%);
+    }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant } from '@/lib/horaires';
+  // « Bonsoir » à partir de 18 h et jusqu'à 5 h (Europe/Paris) ; sans script, « Bonjour » reste écrit.
+  onPage(() => {
+    const { minutes } = maintenant(new Date());
+    const soir = minutes >= 18 * 60 || minutes < 5 * 60;
+    document.querySelectorAll<HTMLElement>('[data-salut]').forEach((p) => { p.textContent = soir ? 'Bonsoir' : 'Bonjour'; });
+  });
+</script>

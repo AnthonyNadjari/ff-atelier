@@ -54,6 +54,8 @@ export const SHELLS = [
   'sticky-hero', // hero epingle, les sections glissent par-dessus
   'index', // site-index : le menu EST la page, liste geante d entrees depliables, hero reduit a une ligne d identite
   'carte', // carte de visite d un ecran : photo du client en carte, panneau utile pose dessus (architecture carte-de-visite)
+  'index-projets', // l accueil EST l index des realisations : filtres par type, defile ou grille, reglages en marge (architecture index-projets)
+  'lieu-fixe', // ecran partage : le lieu (photo, ouvert / ferme, adresse) reste fixe a droite, la carte et l histoire defilent a gauche (architecture lieu-fixe)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -62,7 +64,7 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 export const VARIANTS = {
   nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
   hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix'],
   about: ['portrait', 'story', 'values', 'timeline', 'overlap'],
   proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes'],
   zones: ['list', 'map', 'chips'],
@@ -185,6 +187,16 @@ export const siteSchema = z.object({
       shell: z.enum(SHELLS).default('flow').describe('Disposition globale de la page (voir SHELLS)'),
       headings: z.enum(HEADINGS).default('auto').describe('Alignement force des en-tetes de section'),
       tone: z.enum(TONES).default('flat').describe('alternate = une section sur deux sur fond bg-2'),
+      pageAPropos: z
+        .boolean()
+        .default(false)
+        .describe("Page /a-propos a deux colonnes (portrait + contact | nom, metier, histoire, valeurs ; src/pages/a-propos/[...index].astro), liee depuis la coquille index-projets : l'histoire et le contact sortent de l'accueil. false = pas de page."),
+      servicePage: z
+        .enum(['fiche', 'porte'])
+        .default('fiche')
+        .describe(
+          "Gabarit des pages /services/<slug>. 'fiche' (defaut) : texte et photo cote a cote, autres services en carte. 'porte' (architecture accueil-portes, src/components/ServicePorte.astro) : page courte a la meme grammaire pour chaque activite, grande photo, nom, labels (business.certifications), phrase, photos du service en grille (services[].images), bouton, questions de la page (faq[].service), adresse et horaires.",
+        ),
       curtain: z.boolean().default(false).describe("Rideau plein écran à l'ouverture (motion 'rich'). Désactivé par défaut depuis le 16 oct 2026 : signe IA générique (docs/GOUT.md § 2) ; ff ia alerte quand il est actif."),
       contactDrawer: z
         .boolean()
@@ -287,6 +299,20 @@ export const siteSchema = z.object({
         bullets: z.array(z.string()).default([]),
         icon: z.string().default('Wrench').describe("Nom d'icone lucide, PascalCase"),
         image: img.optional(),
+        images: z
+          .array(img)
+          .default([])
+          .describe("Photos supplementaires de ce service fournies par le client (chantiers, lieu, produits) : grille de sa page en gabarit 'porte' (layout.servicePage). Vide = pas de grille ; jamais une photo de banque presentee comme la sienne."),
+        lignes: z
+          .array(
+            z.object({
+              nom: z.string().describe('Intitule de la ligne de carte ou de tarif (« Crepe beurre sucre », « Coupe homme »)'),
+              prix: z.string().optional().describe('Prix tel que le client le donne (« 6,50 € », « a partir de 25 € ») ; absent = ligne sans prix, jamais devine'),
+              detail: z.string().optional().describe('Ingredients, duree ou precision courte donnee par le client'),
+            }),
+          )
+          .default([])
+          .describe("Lignes a prix de cette rubrique (carte d'un cafe, tarifs d'un salon) : services/carte-prix les aligne avec des pointilles. Vide = la rubrique montre ses bullets. Jamais un prix invente."),
         featured: z.boolean().default(false),
         priceFrom: z.string().optional().describe('ex: "a partir de 90 EUR" — seulement si le client le veut'),
       }),
@@ -331,7 +357,37 @@ export const siteSchema = z.object({
       }),
     )
     .default([]),
-  faq: z.array(z.object({ q: z.string(), a: md })).default([]),
+  faq: z
+    .array(
+      z.object({
+        q: z.string(),
+        a: md,
+        service: z
+          .string()
+          .optional()
+          .describe("Slug du service auquel la question se rattache : elle s'affiche aussi sur sa page en gabarit 'porte' (layout.servicePage). Absent = question generale seulement."),
+      }),
+    )
+    .default([]),
+
+  realisations: z
+    .array(
+      z.object({
+        slug: z.string().regex(/^[a-z0-9-]+$/),
+        title: z.string().describe('Nom du chantier donne par le client (« Maison de ville, Croix »)'),
+        place: z.string().optional().describe("Ville ou quartier du chantier, jamais l'adresse d'un particulier. Absent = non affiche."),
+        kind: z.string().optional().describe("Type de projet (« Cuisine », « Escalier ») : filtre de l'index (coquille index-projets) des deux types distincts. Absent = non affiche."),
+        size: z.string().optional().describe('Mesure reelle donnee par le client (« 14 m² », « 3 semaines »). Absent = non affiche.'),
+        year: z.string().optional().describe('Annee du chantier, donnee par le client. Absent = non affichee.'),
+        text: md.optional().describe('Quelques lignes du client : la demande, ce qui a ete fait. Absent = page sans texte, jamais un texte invente.'),
+        photos: z.array(img).min(1).describe('Serie de photos du chantier, celles du client ; la premiere sert de vignette dans l index.'),
+        credit: z.string().optional().describe('Photographe a crediter si le client le demande. Absent = non affiche.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Realisations du client, une page chacune (/realisations/<slug>, src/pages/realisations/[slug].astro) : l'index de la coquille index-projets en fait ses vignettes, filtrables par kind. Vide = pas de page ; l'index retombe sur proof.gallery (photos sans page). Jamais un chantier invente.",
+    ),
 
   conseils: z
     .array(conseil)
