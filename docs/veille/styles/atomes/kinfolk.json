@@ -1,0 +1,148 @@
+{
+  "id": "kinfolk",
+  "version": 1,
+  "source": {
+    "url": "https://www.kinfolk.com/",
+    "nom": "kinfolk",
+    "metier": "magazine (édition)",
+    "fiche": "docs/veille/styles/kinfolk.md",
+    "mesures": "docs/veille/styles/atomes/mesures/kinfolk.json",
+    "date": "2026-10-18"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Kinfolk-Serif-Deck",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.04,
+      "casse": "uppercase",
+      "interlettrage": -0.01,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Kinfolk-Sans",
+      "libre": "karla",
+      "graisse": 400,
+      "interlignage": 1.33
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 25,
+        "ordinateur": 50
+      },
+      "h2": {
+        "telephone": 25,
+        "ordinateur": 50
+      },
+      "texte": {
+        "telephone": 13,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Kinfolk Serif Deck (serif éditorial) : Spectral ; Kinfolk Sans : Karla. Fond vert-gris très pâle mesuré à 66 %."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fonds": [
+        {
+          "hex": "#dbded5",
+          "part": 0.662
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.3
+        },
+        {
+          "hex": "#000000",
+          "part": 0.038
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "part": 0.674
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.326
+        }
+      ],
+      "proches": 16777215
+    },
+    "clair": {
+      "texte2": "à juger",
+      "accent2": "à juger",
+      "surface": "#ffffff",
+      "bordure": "à juger",
+      "encre": "#000000",
+      "fond": "#dbded5",
+      "texte": "#000000",
+      "accent": "#000000"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #dbded5 (66 %), #000000 (4 %)",
+    "remarque": "Palette relevée sur les fonds et textes mesurés (docs/veille/styles/atomes/mesures/kinfolk.json) ; valeur absente = à juger."
+  },
+  "densite": {
+    "section": {
+      "telephone": 110,
+      "ordinateur": 180
+    },
+    "gouttiere": {
+      "telephone": 16,
+      "ordinateur": 20
+    },
+    "conteneur": 1873,
+    "mesure": 64,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 22,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo"
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "cubic-bezier(0.25, 1, 0.5, 1)"
+    },
+    "defilement": "à juger",
+    "bibliotheques": [
+      "Lenis"
+    ]
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "editorial"
+}

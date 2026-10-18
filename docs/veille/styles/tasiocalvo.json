@@ -1,0 +1,828 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://tasiocalvo.es/",
+  "nom": "tasiocalvo",
+  "date": "2026-10-18",
+  "identite": {
+    "title": "Tasio Calvo — Independent designer & developer",
+    "siteName": "",
+    "lang": "en",
+    "description": "Tasio Calvo is a independent designer and developer specializing in brand identity, UX/UI, and website design for international clients.",
+    "technologies": [
+      "Nuxt",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 88,
+      "images": 0,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Daniel Vignal",
+        "x": 10,
+        "y": 160,
+        "cx": 0.16873914930555556,
+        "cy": 0.18888888888888888,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 27,
+        "exemples": [
+          "button.pill",
+          "a.pill"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p.reveal-item",
+        "famille": "\"Antique Legacy\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 12.8,
+        "graisse": "400",
+        "interlignage": 1.05,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.384px"
+      },
+      "bouton": {
+        "selecteur": "button.pill",
+        "famille": "\"Antique Legacy\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 12.8,
+        "graisse": "400",
+        "interlignage": 0.63,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.384px"
+      },
+      "nav": {
+        "selecteur": "a.reveal-item",
+        "famille": "\"Antique Legacy\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 12.8,
+        "graisse": "400",
+        "interlignage": 1.05,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.384px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Antique Legacy",
+          "url": "/fonts/AntiqueLegacy-Book.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://tasiocalvo.es/fonts/AntiqueLegacy-Book.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Antique Legacy",
+          "n": 107
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9263520
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 62,
+          "poids": 575579.0625
+        },
+        {
+          "hex": "#202020",
+          "n": 11,
+          "poids": 95101.25
+        },
+        {
+          "hex": "#ff4d00",
+          "n": 2,
+          "poids": 98
+        },
+        {
+          "hex": "#25bf53",
+          "n": 2,
+          "poids": 98
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 96,
+          "poids": 1249
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 11,
+          "poids": 107
+        }
+      ],
+      "nbImages": 22,
+      "nbVideos": 22,
+      "nbFondsImage": 0,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9263520,
+          "part": 0.932
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 62,
+          "poids": 575579.0625,
+          "part": 0.058
+        },
+        {
+          "hex": "#202020",
+          "n": 11,
+          "poids": 95101.25,
+          "part": 0.01
+        },
+        {
+          "hex": "#25bf53",
+          "n": 2,
+          "poids": 98,
+          "part": 0
+        },
+        {
+          "hex": "#ff4d00",
+          "n": 2,
+          "poids": 98,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 96,
+          "poids": 1249,
+          "part": 0.921
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 11,
+          "poids": 107,
+          "part": 0.079
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.site-grid",
+          "ecrans": 6.7
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "opacity 0.45s ease",
+          "n": 20
+        },
+        {
+          "valeur": "animation log-pulse 2.4s ease-in-out infinite",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "span.log-dot-pulse",
+        "score": 3,
+        "animations": [
+          "animation log-pulse 2.4s ease-in-out infinite"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "ul.mt-2.5",
+      "sections": [
+        {
+          "selecteur": "div",
+          "titre": null,
+          "top": 10,
+          "hauteur": 410,
+          "ecrans": 0.5,
+          "mots": 110,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 460,
+          "hauteur": 641,
+          "ecrans": 0.7,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 1111,
+          "hauteur": 641,
+          "ecrans": 0.7,
+          "mots": 8,
+          "images": 8,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 1762,
+          "hauteur": 637,
+          "ecrans": 0.7,
+          "mots": 7,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 2409,
+          "hauteur": 642,
+          "ecrans": 0.7,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 3061,
+          "hauteur": 592,
+          "ecrans": 0.7,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 3663,
+          "hauteur": 318,
+          "ecrans": 0.4,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 3991,
+          "hauteur": 592,
+          "ecrans": 0.7,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 4593,
+          "hauteur": 592,
+          "ecrans": 0.7,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 5195,
+          "hauteur": 590,
+          "ecrans": 0.7,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": 5795,
+          "hauteur": 628,
+          "ecrans": 0.7,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.site-grid",
+        "hauteur": 410,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Info",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Selected clients",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Capabilities",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Contact",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "tasio.calvo@gmail.com",
+            "href": "mailto:tasio.calvo@gmail.com ",
+            "bouton": false
+          },
+          {
+            "texte": "Logs",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Technologies",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Selected Press",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Social Media",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "@tasio.1,",
+            "href": "https://www.instagram.com/tasio.1/",
+            "bouton": false
+          },
+          {
+            "texte": "Linkedin",
+            "href": "https://www.linkedin.com/in/tasio-calvo/",
+            "bouton": false
+          },
+          {
+            "texte": "Cls",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div.site-grid",
+          "position": "sticky",
+          "hauteur": 20,
+          "largeur": 1420,
+          "enBas": false,
+          "mots": 4
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 50,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/tasiocalvo-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 61,
+      "images": 0,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Daniel Vignal",
+        "x": 10,
+        "y": 220,
+        "cx": 0.33535657051282053,
+        "cy": 0.2725118483412322,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 19,
+        "exemples": [
+          "button.pill",
+          "div.grid-cols-[1fr_auto]",
+          "a.pill"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p.reveal-item",
+        "famille": "\"Antique Legacy\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 12.8,
+        "graisse": "400",
+        "interlignage": 1.05,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.384px"
+      },
+      "bouton": {
+        "selecteur": "button.pill",
+        "famille": "\"Antique Legacy\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 12.8,
+        "graisse": "400",
+        "interlignage": 0.63,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.384px"
+      },
+      "nav": {
+        "selecteur": "a.reveal-item",
+        "famille": "\"Antique Legacy\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 12.8,
+        "graisse": "400",
+        "interlignage": 1.05,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.384px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Antique Legacy",
+          "url": "/fonts/AntiqueLegacy-Book.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://tasiocalvo.es/fonts/AntiqueLegacy-Book.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Antique Legacy",
+          "n": 93
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1600560
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 50,
+          "poids": 226860
+        },
+        {
+          "hex": "#202020",
+          "n": 9,
+          "poids": 40000
+        },
+        {
+          "hex": "#ff4d00",
+          "n": 2,
+          "poids": 98
+        },
+        {
+          "hex": "#25bf53",
+          "n": 2,
+          "poids": 98
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 84,
+          "poids": 965
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 9,
+          "poids": 95
+        }
+      ],
+      "nbImages": 22,
+      "nbVideos": 22,
+      "nbFondsImage": 0,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1600560,
+          "part": 0.857
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 50,
+          "poids": 226860,
+          "part": 0.121
+        },
+        {
+          "hex": "#202020",
+          "n": 9,
+          "poids": 40000,
+          "part": 0.021
+        },
+        {
+          "hex": "#25bf53",
+          "n": 2,
+          "poids": 98,
+          "part": 0
+        },
+        {
+          "hex": "#ff4d00",
+          "n": 2,
+          "poids": 98,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 84,
+          "poids": 965,
+          "part": 0.91
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 9,
+          "poids": 95,
+          "part": 0.09
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.site-grid",
+          "ecrans": 4
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "opacity 0.45s ease",
+          "n": 20
+        },
+        {
+          "valeur": "animation log-pulse 2.4s ease-in-out infinite",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "span.log-dot-pulse",
+        "score": 3,
+        "animations": [
+          "animation log-pulse 2.4s ease-in-out infinite"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.p-2.5",
+      "sections": [
+        {
+          "selecteur": "div",
+          "titre": null,
+          "top": 10,
+          "hauteur": 687,
+          "ecrans": 0.8,
+          "mots": 109,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "main.mt-2.5",
+          "titre": null,
+          "top": 707,
+          "hauteur": 3387,
+          "ecrans": 4,
+          "mots": 51,
+          "images": 44,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.site-grid",
+        "hauteur": 687,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Info",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Selected clients",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Capabilities",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Contact",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "tasio.calvo@gmail.com",
+            "href": "mailto:tasio.calvo@gmail.com ",
+            "bouton": false
+          },
+          {
+            "texte": "Logs",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Technologies",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Selected Press",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Social Media",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "@tasio.1,",
+            "href": "https://www.instagram.com/tasio.1/",
+            "bouton": false
+          },
+          {
+            "texte": "Linkedin",
+            "href": "https://www.linkedin.com/in/tasio-calvo/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 38,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Tasio Calvo",
+  "dureeS": 17.2
+}

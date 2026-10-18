@@ -10,6 +10,15 @@ amorcé avec 11 sites (`node scripts/ff.mjs atomes` pour la liste et ce que chac
 
 | id | Source (URL) | Style en une phrase | Architecture | Convient à | Direction |
 |---|---|---|---|---|---|
+| forgooddesignlab | https://www.forgooddesignlab.com/ | Studio de marque : titre serif fin à emphase italique, colonne centrale de photos cadrées, noir sur blanc | atomes seuls | studios, métiers d'art | atomes |
+| frenchtrotters | https://www.frenchtrotters.fr/ | Boutique de mode : slogan espacé sur aplat olive, grille de vignettes sans cadre, légendes dessous | atomes seuls | boutiques | atomes |
+| jarcos | https://jarcos.work/ | Portfolio noir : mot-symbole géant au premier écran, listes de texte gris, très grandes marges | atomes seuls | studios | atomes |
+| kinfolk | https://www.kinfolk.com/ | Magazine : serif éditorial, fond vert-gris pâle, photos plein cadre avec titre dessus | atomes seuls | artisans d'art, éditorial | atomes |
+| nightjar | https://nightjar.co/ | Texte seul en deux tailles sur blanc, aucune image au premier écran | atomes seuls | studios | atomes |
+| ottolenghi | https://www.ottolenghi.co.uk/ | Cuisine : grotesque géométrique, rouge franc en aplats avec pictos découpés, fonds crème | atomes seuls | restaurants, épiceries | atomes |
+| poilane | https://poilane.com/ | Boulangerie : titres en capitales humanistes, boutons à contour fin, rayon 0, photos produit en vignettes | atomes seuls | boulangeries, épiceries | atomes |
+| view-source | https://view-source.com/ | Studio : grotesque à caractère, gris clair, onglets de navigation colorés, bandeau noir | atomes seuls | studios | atomes |
+| workshopcoffee | https://www.workshopcoffee.com/ | Torréfacteur : serif doux sur crème, vert profond et brique, cartes arrondies | atomes seuls | cafés, caves | atomes |
 | cobalt | [unionboulangerie.com](https://unionboulangerie.com/en/) ([fiche](union-boulangerie.md)) | Ivoire, aplats bleu cobalt pleine largeur, orange en signal, capitales grotesques serrées, texte en machine à écrire. | Une page longue : vidéo plein écran, histoire sur bleu, mosaïque de photos du fournil, adresses et horaires de chaque boutique, contact, pied bleu. | Commerce de bouche avec photos du lieu et des gens : boulangerie, pâtisserie, torréfacteur, épicerie fine. | `cobalt` |
 | sapin | [eatcabalar.com](https://www.eatcabalar.com/) ([fiche](cabalar.md)) | Blanc pur et un seul vert sapin, capitales condensées très grasses, grand texte courant, photos aux coins arrondis. | Accueil aiguillage : vidéo, présentation avec horaires, trois portes vers les pages (voir `architectures/carrefour-portes.md`). | Boucher, charcutier, restaurant, food truck : un lieu à montrer, des horaires, une commande. | `sapin` |
 | affiche | [mathesonfoodcompany.com](https://www.mathesonfoodcompany.com/) ([fiche](matheson.md)) | Rayonnage d'épicerie : filets noirs, rouge étiquette, jaune moutarde, capitales condensées partout, zéro arrondi. | Nom géant, grille de produits par gamme, recettes, carte des points de vente. | Producteur avec une gamme de produits photographiés : épicerie, conserverie, brasserie, caviste. | `affiche` |
@@ -24,3 +33,9 @@ amorcé avec 11 sites (`node scripts/ff.mjs atomes` pour la liste et ce que chac
 [hyll](hyll.md) (bannières bloquantes), [uneven-objects](uneven-objects.md) et [grace-walker](grace-walker.md) (pas de
 défilement). Démontés mais pas encore jugés, en réserve pour le prochain tour : [celtic-sea-salt](celtic-sea-salt.md),
 [oma-appel](oma-appel.md), [onoera](onoera.md).
+
+Collecte du 18 oct 2026 (routine) : 9 atomes ajoutés. Démontés mais écartés : [aino](aino.md) (art ASCII, rien à
+mesurer), [maisonkitsune](maisonkitsune.md) et [merci-merci](merci-merci.md) (fenêtre cookies/newsletter qui masque la
+page), [roko-g](roko-g.md) et [tasiocalvo](tasiocalvo.md) (portfolios sans mise en page mesurable). Refusés par le
+réseau ou les sites : cereal-mag, bakery-bread, chezmoimaison (tunnel), pierre-herme, hotel-les-bains, cafekitsune,
+maisonmarie (502), clemencedevaux (404).

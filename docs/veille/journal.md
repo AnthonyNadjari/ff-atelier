@@ -250,3 +250,5 @@ référence interne.
 
 **Prochain volet** : bibliothèque (écarter les directions, fusionner les variantes), puis techniques (piste
 manuelle, parallax natif).
+
+Collecte 2026-10-18 : 9 styles (14 démontés sur 23 essayés ; navigateur Playwright 1194 relié à la version attendue, `FF_CHROMIUM=1`).

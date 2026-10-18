@@ -1,0 +1,30 @@
+# Digital Product Studio — https://nightjar.co/
+Titre « Nightjar – Digital Product Studio », `lang="en"`, description « Nightjar is a digital product studio based in Sydney, working with partners internationally to solve complex business problems by unifying brand, experience an… », technologie lue : Sanity. Démontage automatique du 2026-10-18 (`ff demonter`, mesures brutes dans `nightjar.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Design Technology Studio Design Technology Studio » ; vidéo plein écran (69 % de l'écran) ; bouton principal « Subscribe » en haut à gauche (372, 0 px, dans une barre fixe, dans la nav) ; 83 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 2 élément(s) (`span.c0282`).
+Téléphone (390x844) : h1 « Design Technology Studio Design Technology Studio » ; pas de média plein écran (0 image(s) dans l'écran) ; bouton principal « Subscribe » à mi-hauteur à gauche (16, 544 px, dans une barre fixe, dans la nav) ; 76 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 1 élément(s) (`span.c0282`).
+Nav : 15 lien(s) — WORLDS APART LUXURY GROUP PORTFOLIO PLAT, ALNF WINS GOLD AT GOOD DESIGN AWARDS 202, Instagram, LinkedIn, Awwwards, [Subscribe], [SUBMIT SUBMIT SUBMIT], [Showreel], Work, Expertise, Studio, Insights (+3) ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.c02128` « Design Technology Studio Design Technol… » (9,2 écrans, 1411 mots, 17 img) → `footer.c0297` (0,9 écran, 59 mots, 0 img). Calques hors flux (fixes/absolus) : `header.c025` (fixed, 42 px, 44 mots), `div.c02387` (fixed, 16 px), `div.scrollbar-track` (absolute, 900 px).
+Pied de page : 7 lien(s) — Get In Touch, Instagram, LinkedIn, Awwwards, [Newsletter], Privacy Policy, Nightjar. Téléphone cliquable : oui (1, tel:+61 411 846 026). Formulaire : 1 (2 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Menu » (), « Thinking Gifts Where fun meets functiona » (/work/thinking-gifts), « Offcuts Book Release: Poster Archive 200 » (/insights/offcuts-book-release-poster-archive-200-pa200).
+En 3 secondes : à juger sur `captures/nightjar-d.webp` (mesuré : fond du premier écran #ffffff, 0 image(s) et 83 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Suisse Intl**, 64 px / 40 px téléphone, graisse 400, interlignage 1,00, interlettrage -0.64px ; h2 **Suisse Intl**, 64 px / 40 px téléphone, graisse 400, interlignage 1,00, interlettrage -0.64px ; corps **Suisse Intl**, 16 px / 14 px téléphone, graisse 300, interlignage 1,40 ; boutons **Suisse Intl**, 12 px / 14 px téléphone, graisse 300, interlignage 1,70 ; nav **Suisse Intl**, 16 px / 12 px téléphone, graisse 300, interlignage 1,40.
+Sources `@font-face` : auto-hébergée (Suisse Intl, Suisse Int'l Mono, Suisse Intl SemiBold) ; fichiers chargés : https://nightjar.co/static/media/suisseintl-regular-webm.45afd5bc.woff2, https://nightjar.co/static/media/suisseintl-semibold-webm.eca61528.woff2, https://nightjar.co/static/media/SuisseIntlMono-Regular.e05cf9ac.woff2. Familles en usage sur le texte visible : Suisse Int'l Mono ×378, Suisse Intl ×261. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #f2f2f2 (premier écran #ffffff), texte #000000 (contraste 18,76:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #000000 (60 %), #ffffff (18 %), #f2f2f2 (18 %), #f6f4f2 (2 %), #1a1a1a (2 %) ; textes par nombre de caractères : #000000 (98 %), #ffffff (2 %). Images : 7 `<img>` visibles, 0 fond(s) en image, 4 vidéo(s), `mask-image`/`clip-path` sur 16 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : aucune détectée (window.* et noms de scripts). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `opacity 0.25s ease-in-out` ×69, `opacity 0.5s cubic-bezier(0.26, 1.04, 0.54, 1)` ×7, `border-color 0.25s cubic-bezier(0.48, 0.04, 0.52, 0.96)` ×4, `color 0.15s ease-in-out` ×4, `transform 1.2s cubic-bezier(0.16, 1.08, 0.38, 0.98)` ×2, `transform 1.5s cubic-bezier(0.16, 1.08, 0.38, 0.98)` ×2, `opacity 0.15s cubic-bezier(0.9, 0, 0.1, 1)` ×2, `transform 1s cubic-bezier(0.16, 1.08, 0.38, 0.98)` ×2, `color 0.25s cubic-bezier(0.48, 0.04, 0.52, 0.96)` ×2, `background-color 0.25s cubic-bezier(0.48, 0.04, 0.52, 0.96)` ×2. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-scrollbar` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/nightjar-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.c02128` « Design Technology Studio Design Technol… » (9,2 écrans, 1411 mots, 17 image(s)).
+2. L'élément le plus animé : `input.c0264` (3 transition(s) : border-color 0.25s cubic-bezier(0.48, 0.04, 0.52, 0.96) ; color 0.25s cubic-bezier(0.48, 0.04, 0.52, 0.96)).
+3. Le bloc le plus singulier par sa structure : `div.c02128` « Design Technology Studio Design Technol… » (seule à contenir <video>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« Menu », « Thinking Gifts Where fun meets functiona », « Offcuts Book Release: Poster Archive 200 »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/12 ordinateur, 0/10 téléphone ; vidéo en premier écran : oui ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

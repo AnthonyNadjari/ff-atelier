@@ -1,0 +1,1441 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.ottolenghi.co.uk/",
+  "nom": "ottolenghi",
+  "date": "2026-10-18",
+  "identite": {
+    "title": "Ottolenghi | Recipes, Restaurants, Hampers & Gifts",
+    "siteName": "Ottolenghi",
+    "lang": "en",
+    "description": "Discover the Ottolenghi range of freshly made hampers and bakery products, book a table at one of our London restaurants or Delis and browse online recipes.",
+    "technologies": [
+      "Shopify",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 139,
+      "images": 10,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.82,
+        "selecteur": "img.c-banner__image"
+      },
+      "boutonPrincipal": {
+        "texte": "Preferences",
+        "x": 547.1875,
+        "y": 801.21875,
+        "cx": 0.4365234375,
+        "cy": 0.9177951388888889,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.05,
+        "texte": "This website uses cookies to ensure you get the best experience. Details in our Privacy Policy Preferences Accept",
+        "selecteur": "div.pd-cookie-banner-window"
+      },
+      "barreBas": null,
+      "scrollHeight": 5382,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.c-header__logo-wrapper",
+        "famille": "Riforma, sans-serif",
+        "taille": 78,
+        "graisse": "400",
+        "interlignage": 0.95,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.56px"
+      },
+      "h2": {
+        "selecteur": "h2.c-banner__heading",
+        "famille": "Riforma, sans-serif",
+        "taille": 78,
+        "graisse": "400",
+        "interlignage": 0.95,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.56px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Riforma, sans-serif",
+        "taille": 24,
+        "graisse": "300",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.cc-btn",
+        "famille": "Riforma, sans-serif",
+        "taille": 14.4,
+        "graisse": "700",
+        "interlignage": 1.67,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.c-header__link",
+        "famille": "Riforma, sans-serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": 9.17,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.44px"
+      },
+      "fontFaces": [
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "ottolenghi.co.uk",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Riforma",
+          "url": "./build-RiformaLLSub-Light-nPEXq50m.woff2",
+          "feuille": "ottolenghi.co.uk",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Riforma",
+          "url": "./build-RiformaLLSub-Regular-BW062IBT.woff2",
+          "feuille": "ottolenghi.co.uk",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Riforma",
+          "url": "https://ottolenghi-group.myshopify.com/cdn/shop/t/11/assets/RiformaLLSub-Light-nPEXq50m.woff2",
+          "feuille": "inline",
+          "source": "tiers (ottolenghi-group.myshopify.com)"
+        },
+        {
+          "famille": "Riforma",
+          "url": "https://ottolenghi-group.myshopify.com/cdn/shop/t/11/assets/RiformaLLSub-Regular-BW062IBT.woff2",
+          "feuille": "inline",
+          "source": "tiers (ottolenghi-group.myshopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://ottolenghi.co.uk/cdn/fonts/assistant/assistant_n4.9120912a469cad1cc292572851508ca49d12e768.woff2",
+        "https://ottolenghi.co.uk/cdn/shop/t/11/assets/build-RiformaLLSub-Regular-BW062IBT.woff2",
+        "https://ottolenghi.co.uk/cdn/shop/t/11/assets/build-RiformaLLSub-Light-nPEXq50m.woff2",
+        "https://use.typekit.net/nqe5fhs.css",
+        "https://ottolenghi-group.myshopify.com/cdn/shop/t/11/assets/RiformaLLSub-Regular-BW062IBT.woff2",
+        "https://ottolenghi-group.myshopify.com/cdn/shop/t/11/assets/RiformaLLSub-Light-nPEXq50m.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Riforma",
+          "n": 119
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#1b1b1b",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 7788597.279296875
+        },
+        {
+          "hex": "#fcf7f2",
+          "n": 3,
+          "poids": 829434.375
+        },
+        {
+          "hex": "#cd001a",
+          "n": 9,
+          "poids": 737541.7556152344
+        },
+        {
+          "hex": "#f9f2ec",
+          "n": 1,
+          "poids": 70020
+        },
+        {
+          "hex": "#1b1b1b",
+          "n": 1,
+          "poids": 8074.482421875
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#1b1b1b",
+          "n": 60,
+          "poids": 1306
+        },
+        {
+          "hex": "#ffffff",
+          "n": 48,
+          "poids": 928
+        },
+        {
+          "hex": "#cd001a",
+          "n": 11,
+          "poids": 158
+        }
+      ],
+      "nbImages": 40,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 2,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 7788597.279296875,
+          "part": 0.826
+        },
+        {
+          "hex": "#fcf7f2",
+          "n": 3,
+          "poids": 829434.375,
+          "part": 0.088
+        },
+        {
+          "hex": "#cd001a",
+          "n": 9,
+          "poids": 737541.7556152344,
+          "part": 0.078
+        },
+        {
+          "hex": "#f9f2ec",
+          "n": 1,
+          "poids": 70020,
+          "part": 0.007
+        },
+        {
+          "hex": "#1b1b1b",
+          "n": 1,
+          "poids": 8074.482421875,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1b1b1b",
+          "n": 60,
+          "poids": 1306,
+          "part": 0.546
+        },
+        {
+          "hex": "#ffffff",
+          "n": 48,
+          "poids": 928,
+          "part": 0.388
+        },
+        {
+          "hex": "#cd001a",
+          "n": 11,
+          "poids": 158,
+          "part": 0.066
+        }
+      ],
+      "contraste": 17.22
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "section#shopify-section-sections--15098085867623__header",
+          "ecrans": 6
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.3s ease",
+          "n": 42
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 24
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 19
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 18
+        },
+        {
+          "valeur": "animation fadeIn 0.5s cubic-bezier(0.37, 0, 0.63, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 8
+        },
+        {
+          "valeur": "all 0.3s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "box-shadow 0.1s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-sticky-type",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.c-banner",
+        "score": 3,
+        "animations": [
+          "animation fadeIn 0.5s cubic-bezier(0.37, 0, 0.63, 1)"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#MainContent",
+      "sections": [
+        {
+          "selecteur": "section#shopify-section-sections--15098085867623__announcement-bar",
+          "titre": null,
+          "top": 0,
+          "hauteur": 36,
+          "ecrans": 0,
+          "mots": 6,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--15098086260839__banner",
+          "titre": "Simple Too cookbook hamper",
+          "top": 146,
+          "hauteur": 754,
+          "ecrans": 0.8,
+          "mots": 97,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--15098086260839__recipe_carousel_bdE4U3",
+          "titre": "What to cook this week",
+          "top": 900,
+          "hauteur": 828,
+          "ecrans": 0.9,
+          "mots": 46,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--15098086260839__banner_VmxrXg",
+          "titre": "Visit our restaurants and delis to experience the joy, abund",
+          "top": 1728,
+          "hauteur": 754,
+          "ecrans": 0.8,
+          "mots": 20,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "iframe",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--15098086260839__blog_carousel_pdpmcc",
+          "titre": "Recipe collections and stories",
+          "top": 2482,
+          "hauteur": 822,
+          "ecrans": 0.9,
+          "mots": 34,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--15098086260839__product_promo_HjebiV",
+          "titre": "Our ingredient sets bring big Ottolenghi flavours to your ta",
+          "top": 3304,
+          "hauteur": 582,
+          "ecrans": 0.6,
+          "mots": 22,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--15098086260839__cta_NGPR7K",
+          "titre": "JOIN OUR NEWSLETTER",
+          "top": 3886,
+          "hauteur": 346,
+          "ecrans": 0.4,
+          "mots": 33,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--15098086260839__foodipedia_carousel_rW4Mrm",
+          "titre": "The Ottolenghi Foodipedia",
+          "top": 4233,
+          "hauteur": 560,
+          "ecrans": 0.6,
+          "mots": 46,
+          "images": 8,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-sections--15098085900391__footer",
+          "titre": "Experience Ottolenghi",
+          "top": 4792,
+          "hauteur": 589,
+          "ecrans": 0.7,
+          "mots": 53,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header",
+        "hauteur": 110,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "SIMPLE TOO",
+            "href": "/pages/simple-too",
+            "bouton": false
+          },
+          {
+            "texte": "RECIPES",
+            "href": "/pages/recipes",
+            "bouton": false
+          },
+          {
+            "texte": "RESTAURANTS",
+            "href": "/pages/restaurants",
+            "bouton": false
+          },
+          {
+            "texte": "CATERING",
+            "href": "/pages/catering",
+            "bouton": false
+          },
+          {
+            "texte": "SHOP",
+            "href": "/collections",
+            "bouton": false
+          },
+          {
+            "texte": "Search by ingredient, keyword",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Log in",
+            "href": "/account/login",
+            "bouton": false
+          },
+          {
+            "texte": "Cart",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Open menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Close",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Close",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Close",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Close",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.c-footer",
+        "liens": [
+          {
+            "texte": "Book a table",
+            "href": "https://www.sevenrooms.com/explore/ottolenghi/reservations/create/search?date=2026-10-06&venues=rovilondon%2Cnopilondon%",
+            "bouton": false
+          },
+          {
+            "texte": "Buy a gift voucher",
+            "href": "https://gifts.ottolenghi.co.uk/vouchers/gift-voucher/",
+            "bouton": false
+          },
+          {
+            "texte": "Recipes",
+            "href": "/pages/recipes",
+            "bouton": false
+          },
+          {
+            "texte": "Restaurants",
+            "href": "/pages/restaurants",
+            "bouton": false
+          },
+          {
+            "texte": "Shop",
+            "href": "/collections",
+            "bouton": false
+          },
+          {
+            "texte": "Stockists",
+            "href": "/pages/stores",
+            "bouton": false
+          },
+          {
+            "texte": "Foodipedia",
+            "href": "/pages/foodipedia",
+            "bouton": false
+          },
+          {
+            "texte": "Catering",
+            "href": "/pages/catering",
+            "bouton": false
+          },
+          {
+            "texte": "Simple Too book tour",
+            "href": "/pages/live",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/pages/about",
+            "bouton": false
+          },
+          {
+            "texte": "Careers",
+            "href": "/pages/careers",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Order FAQs",
+            "href": "/pages/order-faqs",
+            "bouton": false
+          },
+          {
+            "texte": "Refund and Returns Policy",
+            "href": "/policies/refund-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Responsible employment policies",
+            "href": "/pages/responsible-employment-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/ottolenghi/",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://www.pinterest.co.uk/ottolenghi/",
+            "bouton": false
+          },
+          {
+            "texte": "YouTube",
+            "href": "https://www.youtube.com/c/Ottolenghitestkitchen",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://en-gb.facebook.com/pages/Ottolenghi/243885972297958",
+            "bouton": false
+          },
+          {
+            "texte": "TikTok",
+            "href": "https://www.tiktok.com/@ottolenghi",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy and Cookies Policy",
+            "href": "/policies/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms and Conditions",
+            "href": "/policies/terms-of-service",
+            "bouton": false
+          },
+          {
+            "texte": "Terms of Use",
+            "href": "/pages/terms-of-use",
+            "bouton": false
+          },
+          {
+            "texte": "Site by",
+            "href": "https://studiograft.co.uk",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 13,
+        "href": "tel:+31 (0)20 570 0000"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "OTTOLENGHI GIFT VOUCHERS - BUY NOW",
+          "href": "https://gifts.ottolenghi.co.uk/vouchers/gift-voucher/"
+        },
+        {
+          "texte": "Open menu",
+          "href": ""
+        },
+        {
+          "texte": "Pre-order",
+          "href": "/collections/books-and-book-hampers"
+        },
+        {
+          "texte": "Book a table",
+          "href": "https://www.sevenrooms.com/explore/rovilondon/reservations/create/search/?venues=rovilondon%2Cnopilo"
+        },
+        {
+          "texte": "Preserved lemon recipes",
+          "href": "/blogs/stories/preserved-lemon-recipes"
+        },
+        {
+          "texte": "Buy a gift voucher",
+          "href": "https://gifts.ottolenghi.co.uk/vouchers/gift-voucher/"
+        },
+        {
+          "texte": "Simple Too book tour",
+          "href": "/pages/live"
+        },
+        {
+          "texte": "Order FAQs",
+          "href": "/pages/order-faqs"
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://en-gb.facebook.com/pages/Ottolenghi/243885972297958"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-content-link",
+          "position": "absolute",
+          "hauteur": 74,
+          "largeur": 194,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "section#shopify-section-sections--15098085867623__header",
+          "position": "sticky",
+          "hauteur": 110,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 15
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 15,
+        "pilules": 2,
+        "exemples": [
+          "Preferences",
+          "Accept"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/ottolenghi-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 124,
+      "images": 10,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.85,
+        "selecteur": "img.c-banner__image"
+      },
+      "boutonPrincipal": {
+        "texte": "Preferences",
+        "x": 49.1875,
+        "y": 740.21875,
+        "cx": 0.5,
+        "cy": 0.9064166172985783,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.26,
+        "texte": "This website uses cookies to ensure you get the best experience. Details in our Privacy Policy Preferences Accept",
+        "selecteur": "div.pd-cookie-banner-window"
+      },
+      "barreBas": null,
+      "scrollHeight": 4771,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.c-header__logo-wrapper",
+        "famille": "Riforma, sans-serif",
+        "taille": 42.765,
+        "graisse": "400",
+        "interlignage": 0.95,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.8553px"
+      },
+      "h2": {
+        "selecteur": "h2.c-banner__heading",
+        "famille": "Riforma, sans-serif",
+        "taille": 42.765,
+        "graisse": "400",
+        "interlignage": 0.95,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.8553px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Riforma, sans-serif",
+        "taille": 20,
+        "graisse": "300",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.cc-btn",
+        "famille": "Riforma, sans-serif",
+        "taille": 14.4,
+        "graisse": "700",
+        "interlignage": 1.67,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "Riforma, sans-serif",
+        "taille": 42.765,
+        "graisse": "400",
+        "interlignage": 0.95,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.8553px"
+      },
+      "fontFaces": [
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "ottolenghi.co.uk",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Riforma",
+          "url": "./build-RiformaLLSub-Light-nPEXq50m.woff2",
+          "feuille": "ottolenghi.co.uk",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Riforma",
+          "url": "./build-RiformaLLSub-Regular-BW062IBT.woff2",
+          "feuille": "ottolenghi.co.uk",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Riforma",
+          "url": "https://ottolenghi-group.myshopify.com/cdn/shop/t/11/assets/RiformaLLSub-Light-nPEXq50m.woff2",
+          "feuille": "inline",
+          "source": "tiers (ottolenghi-group.myshopify.com)"
+        },
+        {
+          "famille": "Riforma",
+          "url": "https://ottolenghi-group.myshopify.com/cdn/shop/t/11/assets/RiformaLLSub-Regular-BW062IBT.woff2",
+          "feuille": "inline",
+          "source": "tiers (ottolenghi-group.myshopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://ottolenghi.co.uk/cdn/fonts/assistant/assistant_n4.9120912a469cad1cc292572851508ca49d12e768.woff2",
+        "https://ottolenghi.co.uk/cdn/shop/t/11/assets/build-RiformaLLSub-Regular-BW062IBT.woff2",
+        "https://use.typekit.net/nqe5fhs.css",
+        "https://ottolenghi-group.myshopify.com/cdn/shop/t/11/assets/RiformaLLSub-Regular-BW062IBT.woff2",
+        "https://ottolenghi-group.myshopify.com/cdn/shop/t/11/assets/RiformaLLSub-Light-nPEXq50m.woff2",
+        "https://ottolenghi.co.uk/cdn/shop/t/11/assets/build-RiformaLLSub-Light-nPEXq50m.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Riforma",
+          "n": 102
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#1b1b1b",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 1889393.93359375
+        },
+        {
+          "hex": "#cd001a",
+          "n": 9,
+          "poids": 546417.361328125
+        },
+        {
+          "hex": "#fcf7f2",
+          "n": 3,
+          "poids": 218105.15625
+        },
+        {
+          "hex": "#f9f2ec",
+          "n": 1,
+          "poids": 85119.375
+        },
+        {
+          "hex": "#1b1b1b",
+          "n": 1,
+          "poids": 14462.77734375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#1b1b1b",
+          "n": 51,
+          "poids": 1203
+        },
+        {
+          "hex": "#ffffff",
+          "n": 41,
+          "poids": 766
+        },
+        {
+          "hex": "#cd001a",
+          "n": 10,
+          "poids": 137
+        }
+      ],
+      "nbImages": 39,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 2,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 1889393.93359375,
+          "part": 0.686
+        },
+        {
+          "hex": "#cd001a",
+          "n": 9,
+          "poids": 546417.361328125,
+          "part": 0.198
+        },
+        {
+          "hex": "#fcf7f2",
+          "n": 3,
+          "poids": 218105.15625,
+          "part": 0.079
+        },
+        {
+          "hex": "#f9f2ec",
+          "n": 1,
+          "poids": 85119.375,
+          "part": 0.031
+        },
+        {
+          "hex": "#1b1b1b",
+          "n": 1,
+          "poids": 14462.77734375,
+          "part": 0.005
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1b1b1b",
+          "n": 51,
+          "poids": 1203,
+          "part": 0.571
+        },
+        {
+          "hex": "#ffffff",
+          "n": 41,
+          "poids": 766,
+          "part": 0.364
+        },
+        {
+          "hex": "#cd001a",
+          "n": 10,
+          "poids": 137,
+          "part": 0.065
+        }
+      ],
+      "contraste": 17.22
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "section#shopify-section-sections--15098085867623__header",
+          "ecrans": 5.7
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.3s ease",
+          "n": 35
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 19
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 18
+        },
+        {
+          "valeur": "animation fadeIn 0.5s cubic-bezier(0.37, 0, 0.63, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "all 0.3s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "box-shadow 0.1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "top 0.15s ease-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-sticky-type",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.c-banner",
+        "score": 3,
+        "animations": [
+          "animation fadeIn 0.5s cubic-bezier(0.37, 0, 0.63, 1)"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body.template-index",
+      "sections": [
+        {
+          "selecteur": "section#shopify-section-sections--15098085867623__announcement-bar",
+          "titre": null,
+          "top": 0,
+          "hauteur": 36,
+          "ecrans": 0,
+          "mots": 6,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "main#MainContent",
+          "titre": "Simple Too cookbook hamper",
+          "top": 92,
+          "hauteur": 3955,
+          "ecrans": 4.7,
+          "mots": 264,
+          "images": 37,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "iframe",
+            "form"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-sections--15098085900391__footer",
+          "titre": null,
+          "top": 4047,
+          "hauteur": 724,
+          "ecrans": 0.9,
+          "mots": 51,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header",
+        "hauteur": 56,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Cart",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Open menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Close",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Close",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Close",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Close",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.c-footer",
+        "liens": [
+          {
+            "texte": "Book a table",
+            "href": "https://www.sevenrooms.com/explore/ottolenghi/reservations/create/search?date=2026-10-06&venues=rovilondon%2Cnopilondon%",
+            "bouton": false
+          },
+          {
+            "texte": "Buy a gift voucher",
+            "href": "https://gifts.ottolenghi.co.uk/vouchers/gift-voucher/",
+            "bouton": false
+          },
+          {
+            "texte": "Recipes",
+            "href": "/pages/recipes",
+            "bouton": false
+          },
+          {
+            "texte": "Restaurants",
+            "href": "/pages/restaurants",
+            "bouton": false
+          },
+          {
+            "texte": "Shop",
+            "href": "/collections",
+            "bouton": false
+          },
+          {
+            "texte": "Stockists",
+            "href": "/pages/stores",
+            "bouton": false
+          },
+          {
+            "texte": "Foodipedia",
+            "href": "/pages/foodipedia",
+            "bouton": false
+          },
+          {
+            "texte": "Catering",
+            "href": "/pages/catering",
+            "bouton": false
+          },
+          {
+            "texte": "Simple Too book tour",
+            "href": "/pages/live",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/pages/about",
+            "bouton": false
+          },
+          {
+            "texte": "Careers",
+            "href": "/pages/careers",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Order FAQs",
+            "href": "/pages/order-faqs",
+            "bouton": false
+          },
+          {
+            "texte": "Refund and Returns Policy",
+            "href": "/policies/refund-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Responsible employment policies",
+            "href": "/pages/responsible-employment-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/ottolenghi/",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://www.pinterest.co.uk/ottolenghi/",
+            "bouton": false
+          },
+          {
+            "texte": "YouTube",
+            "href": "https://www.youtube.com/c/Ottolenghitestkitchen",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://en-gb.facebook.com/pages/Ottolenghi/243885972297958",
+            "bouton": false
+          },
+          {
+            "texte": "TikTok",
+            "href": "https://www.tiktok.com/@ottolenghi",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy and Cookies Policy",
+            "href": "/policies/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms and Conditions",
+            "href": "/policies/terms-of-service",
+            "bouton": false
+          },
+          {
+            "texte": "Terms of Use",
+            "href": "/pages/terms-of-use",
+            "bouton": false
+          },
+          {
+            "texte": "Site by",
+            "href": "https://studiograft.co.uk",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 13,
+        "href": "tel:+31 (0)20 570 0000"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "OTTOLENGHI GIFT VOUCHERS - BUY NOW",
+          "href": "https://gifts.ottolenghi.co.uk/vouchers/gift-voucher/"
+        },
+        {
+          "texte": "Open menu",
+          "href": ""
+        },
+        {
+          "texte": "Pre-order",
+          "href": "/collections/books-and-book-hampers"
+        },
+        {
+          "texte": "Book a table",
+          "href": "https://www.sevenrooms.com/explore/rovilondon/reservations/create/search/?venues=rovilondon%2Cnopilo"
+        },
+        {
+          "texte": "Preserved lemon recipes",
+          "href": "/blogs/stories/preserved-lemon-recipes"
+        },
+        {
+          "texte": "Buy a gift voucher",
+          "href": "https://gifts.ottolenghi.co.uk/vouchers/gift-voucher/"
+        },
+        {
+          "texte": "Simple Too book tour",
+          "href": "/pages/live"
+        },
+        {
+          "texte": "Order FAQs",
+          "href": "/pages/order-faqs"
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://en-gb.facebook.com/pages/Ottolenghi/243885972297958"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-content-link",
+          "position": "absolute",
+          "hauteur": 74,
+          "largeur": 194,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "section#shopify-section-sections--15098085867623__header",
+          "position": "sticky",
+          "hauteur": 56,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 13,
+        "pilules": 2,
+        "exemples": [
+          "Preferences",
+          "Accept"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Ottolenghi",
+  "dureeS": 31.4
+}
