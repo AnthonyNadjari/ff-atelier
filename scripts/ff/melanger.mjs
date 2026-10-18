@@ -1,6 +1,6 @@
 // `ff melanger <slug> [--typo <id>] [--couleurs <id>] [--photos <id>] [--mouvement <id>] [--formes <id>]
 //   [--densite <id>] [--matiere <id>] [--architecture <id>] [--premier-ecran <famille>] [--style <id>]
-//   [--hasard] [--graine <n>] [--n 3] [--essai] [--simuler]`
+//   [--hasard] [--graine <n>] [--n 3] [--essai] [--simuler] [--video client|animer|banque]`
 //
 // CROISE les atomes de style des vrais sites étudiés (docs/veille/styles/atomes/<id>.json, format :
 // docs/veille/styles/ATOMES.md) : la typographie d'un site, les couleurs d'un autre, les photos d'un troisième…
@@ -9,6 +9,10 @@
 // client, mouvement « calme » si l'aiguillage le dit, famille de premier écran et architecture libres (ni celles des
 // pistes sœurs ni celles des 4 derniers sites), et JAMAIS deux fois la même combinaison (registre
 // docs/empreintes/melanges.json : un mélange qui partage plus de 3 atomes avec un site existant est refusé).
+// GARDE DE BEAUTÉ (18 oct 2026, L'Épi d'Or d « juste un peu moche ») : un mélange lisible mais laid est refusé aussi
+// (fond vif, capitales condensées sur fond coloré, aplats vifs concurrents, vibration, trop de teintes, photos sombres
+// nues sur blanc froid ; règles en OKLCH, docs/veille/styles/ATOMES.md § Garde de beauté). Le mouvement tire un PROFIL
+// (docs/veille/styles/MOUVEMENTS.md) : fond vidéo seulement avec une vraie vidéo ou --video animer|banque prévu.
 //
 // Sortie (un mélange appliqué à <slug>) : une direction générée src/directions/m-<hash>/ (index.css : tous les tokens ;
 // meta.ts : les atomes et leurs sources), enregistrée dans DIRECTIONS (src/lib/schema.ts) ; sites/<slug>/look.json
@@ -26,8 +30,9 @@ import { ROOT, SITES_DIR, DIST_DIR, FF_CURRENT, ok, fail, info, warn, parseArgs,
 import { mulberry32, seedFromString } from './look-data.mjs';
 import {
   A_JUGER, DIMENSIONS, DIMENSIONS_VALEURS, DOSSIER_ATOMES, lireAtomes, validerAtomes, controlerPolices, paletteComplete,
-  policesDuRegistre, contraste, hexVersHsl, hslVersHex, estSombre,
+  policesDuRegistre, contraste, hexVersHsl, hslVersHex, estSombre, hexVersOklch, ecartTeinte, GENRES,
 } from './atomes.mjs';
+import { PROFILS_MOUVEMENT, refusProfil, profilsTropProches, consignesProfil } from './mouvements.mjs';
 import { CLES_IA } from './ia.mjs';
 import { famillesConnues, familleDuContrat, famillesInterdites } from './contrat.mjs';
 
@@ -42,9 +47,13 @@ const TOUS_ATOMES = DIMENSIONS; // typo … matiere, architecture, premier_ecran
    CONTRAINTES (pures)
    ===================================================================== */
 
-/** Le client tel que les contraintes le lisent. */
-export function profilClient({ photos = 0, largeurMax = 0, mouvement = null, avis = 0, urgence = false } = {}) {
-  return { photos, largeurMax, mouvement, avis, urgence };
+/**
+ * Le client tel que les contraintes le lisent. `tonPhotos` = { clarte (L* médiane, 0-100), chaleur (R - B médian) } de
+ * ses photos, ou null ; `video` = 'client' (sa vraie vidéo) | 'animer' (ff animer prévu) | 'banque' (ff video prévu,
+ * jamais présentée comme la sienne) | null.
+ */
+export function profilClient({ photos = 0, largeurMax = 0, mouvement = null, avis = 0, urgence = false, tonPhotos = null, video = null } = {}) {
+  return { photos, largeurMax, mouvement, avis, urgence, tonPhotos, video };
 }
 
 /** Pure : l'atome photos convient-il aux photos du client ? Renvoie la raison du refus, ou null. */
@@ -58,9 +67,14 @@ export function refusPhotos(photos, client) {
 
 /** Pure : l'atome mouvement convient-il à l'aiguillage ? (« calme » : régime calme, rien ne suit le défilement). */
 export function refusMouvement(mouvement, client) {
-  if (!mouvement || client.mouvement !== 'calme') return null;
-  if (mouvement.regime !== 'calme') return `client « calme » : mouvement ${mouvement.regime}`;
-  if (mouvement.defilement === 'suit-le-defilement') return 'client « calme » : un élément suit le défilement';
+  if (!mouvement) return null;
+  if (client.mouvement === 'calme') {
+    if (mouvement.regime !== 'calme') return `client « calme » : mouvement ${mouvement.regime}`;
+    if (mouvement.defilement === 'suit-le-defilement') return 'client « calme » : un élément suit le défilement';
+  }
+  // Profil (docs/veille/styles/MOUVEMENTS.md) : fond vidéo seulement avec une vraie vidéo ou ff animer / ff video
+  // prévu, séquence avec une vidéo ou une photo de 1 920 px, compteur avec un vrai chiffre.
+  if (mouvement.profil && mouvement.profil !== A_JUGER) return refusProfil(mouvement.profil, client);
   return null;
 }
 
@@ -89,12 +103,100 @@ export function partages(a, b) {
   return TOUS_ATOMES.filter((d) => a[d] != null && b[d] != null && a[d] === b[d]).length;
 }
 
+/* ---------- GARDE DE BEAUTÉ (pure ; règles et raisons : docs/veille/styles/ATOMES.md § Garde de beauté) ----------
+   Née de L'Épi d'Or d (m-cca519, 18 oct 2026 : « juste un peu moche ») : jaune d'or plein sur toute la page, Bebas
+   Neue en capitales, encre brune, boutons rouge-orangé, vert en second accent. Chaque couleur était lisible (AA), le
+   tout était laid. Les seuils sont en OKLCH (chroma perçue, pas la saturation HSL) et calés sur les palettes mesurées
+   du registre : tous les fonds de vrais sites sont sous 0,04 de chroma, sauf celui de Café Binocle (0,14). */
+export const BEAUTE = {
+  FOND_VIF_CLAIR: 0.08, // chroma d'un fond clair (L ≥ 0,5) au-delà de laquelle c'est un aplat vif, plus un neutre teinté
+  FOND_VIF_SOMBRE: 0.13, // fond sombre : bleu nuit, vert bouteille passent (≤ 0,09 mesurés), un bleu électrique non
+  FOND_TEINTE: 0.045, // au-delà d'un neutre teinté (kraft, crème) : le fond « a une couleur »
+  VIF: 0.12, // une couleur d'aplat (bouton, second accent) « vive »
+  ACTIVE: 0.04, // une couleur qui compte comme teinte active (sinon : un neutre)
+  MAX_VIVES: 2, // aplats vifs concurrents au plus (fond, surface, bouton, second accent)
+  MAX_TEINTES: 3, // familles de teintes actives au plus sur la page (60-30-10 : trois rôles)
+  GROUPE_TEINTE: 30, // deux teintes à moins de 30° sont une même famille (analogues)
+  VIBRATION_DL: 0.1, // deux vives de même clarté (ΔL < 0,1) et de teintes éloignées vibrent à leur frontière (Albers)
+  VIBRATION_DH: 40,
+};
+const okl = (hex) => hexVersOklch(hex);
+const estHex = (v) => typeof v === 'string' && /^#[0-9a-f]{6}$/i.test(v);
+/** Pure : le fond est-il un aplat vif (chroma élevée pour sa clarté) ? */
+export function fondVif(hex) {
+  const o = okl(hex);
+  return o.c >= (o.l >= 0.5 ? BEAUTE.FOND_VIF_CLAIR : BEAUTE.FOND_VIF_SOMBRE);
+}
+
+/**
+ * Pure : la palette d'un atome couleurs tient-elle en grand ? (Règles qui ne dépendent que des couleurs : appliquées
+ * dès la lecture du registre.) Renvoie la liste des raisons de refus.
+ */
+export function refusPalette(couleurs) {
+  const r = [];
+  const p = couleurs?.[couleurs?.principal];
+  if (!p || !estHex(p.fond)) return r;
+  const fond = okl(p.fond);
+  // B1 : aplat vif en fond de page. La direction générée peint --bg sous TOUTE la page : la couleur dominante (60 %)
+  // doit être un neutre, éventuellement teinté ; la couleur vive se garde aux petites surfaces (10 %).
+  if (fondVif(p.fond)) r.push(`fond de page vif ${p.fond} (chroma OKLCH ${fond.c.toFixed(2)} ≥ ${fond.l >= 0.5 ? BEAUTE.FOND_VIF_CLAIR : BEAUTE.FOND_VIF_SOMBRE}) : un aplat saturé sur toute la page fatigue l'œil et écrase les photos`);
+  // B3 : aplats vifs concurrents (fond, surface, bouton = accent mesuré, second accent).
+  const roles = [['fond', p.fond], ['surface', p.surface], ['bouton', p.accent], ['second accent', p.accent2]].filter(([, v]) => estHex(v));
+  const vives = roles.filter(([k, v]) => (k === 'fond' || k === 'surface' ? fondVif(v) : okl(v).c >= BEAUTE.VIF)).map(([k, v]) => ({ k, v, o: okl(v) }));
+  if (vives.length > BEAUTE.MAX_VIVES) r.push(`${vives.length} aplats vifs concurrents (${vives.map((x) => `${x.k} ${x.v}`).join(', ')}) : ${BEAUTE.MAX_VIVES} au plus, le reste en neutres`);
+  else if (vives.length > 1 && vives.some((x) => x.k === 'fond' || x.k === 'surface')) r.push(`fond vif et ${vives.filter((x) => x.k !== 'fond' && x.k !== 'surface').map((x) => x.k).join(', ')} vif : deux couleurs fortes se disputent la page`);
+  // B4 : vibration. Deux vives de même clarté et de teintes éloignées vibrent à leur frontière (Albers, « Interaction
+  // of Color ») : un bouton rouge-orangé contre un vert de même valeur.
+  for (let i = 0; i < vives.length; i++) for (let j = i + 1; j < vives.length; j++) {
+    const a = vives[i], b = vives[j];
+    if (Math.abs(a.o.l - b.o.l) < BEAUTE.VIBRATION_DL && ecartTeinte(a.o.h, b.o.h) >= BEAUTE.VIBRATION_DH) r.push(`${a.k} ${a.v} et ${b.k} ${b.v} vibrent (même clarté, ΔL ${Math.abs(a.o.l - b.o.l).toFixed(2)}, teintes à ${Math.round(ecartTeinte(a.o.h, b.o.h))}°)`);
+  }
+  // B5 : nombre de teintes actives. Au-delà de trois familles de teintes (fond, texte, accents, encre), la page n'a
+  // plus de dominante (règle 60-30-10 ; Itten, contraste de quantité).
+  const actives = Object.values(p).filter(estHex).map(okl).filter((o) => o.c >= BEAUTE.ACTIVE);
+  const familles = [];
+  for (const o of actives) if (!familles.some((h) => ecartTeinte(h, o.h) < BEAUTE.GROUPE_TEINTE)) familles.push(o.h);
+  if (familles.length > BEAUTE.MAX_TEINTES) r.push(`${familles.length} familles de teintes actives (${familles.map((h) => `${Math.round(h)}°`).join(', ')}) : ${BEAUTE.MAX_TEINTES} au plus`);
+  return r;
+}
+
+/** Police de titre condensée (genre `condensee` de GENRES, ou « Condensed » dans la clé). */
+const condensee = (cle) => GENRES[cle] === 'condensee' || /condensed/i.test(cle || '');
+
+/**
+ * Pure : la GARDE DE BEAUTÉ d'un mélange (contenus des atomes + client) : ce qu'un mélange lisible peut encore avoir
+ * de laid. Renvoie la liste des raisons de refus. (L'accord titre/texte en conflit est refusé plus tôt, dans
+ * controlerPolices d'atomes.mjs, B6.)
+ */
+export function refusBeaute(atomes, client = profilClient()) {
+  const r = [];
+  const t = atomes.typo, c = atomes.couleurs, ph = atomes.photos, f = atomes.formes, mt = atomes.matiere;
+  const p = c && c !== A_JUGER ? c[c.principal] : null;
+  if (p) r.push(...refusPalette(c));
+  // B2 : capitales condensées sur fond coloré. Une condensée en capitales est une voix d'affiche ; posée sur un fond
+  // qui a une couleur (au-delà du neutre teinté), la page devient une affiche de foire. Sur blanc ou crème (Coutumes,
+  // Pizza Amici), elle garde sa tenue.
+  if (t && t !== A_JUGER && p && estHex(p.fond) && t.titre?.casse === 'uppercase' && condensee(t.titre.libre) && okl(p.fond).c >= BEAUTE.FOND_TEINTE) {
+    r.push(`capitales condensées (${t.titre.libre}) sur un fond coloré ${p.fond} (chroma ${okl(p.fond).c.toFixed(2)} ≥ ${BEAUTE.FOND_TEINTE}) : effet affiche`);
+  }
+  // B7 : photos sombres et chaudes posées nues sur un blanc froid. Le contraste simultané les assombrit encore (des
+  // trous dans la page) ; un passe-partout, un fond chaud, le plein cadre ou le noir et blanc les tiennent. Vignettes
+  // sans ombre ni filet seulement : le masque, le cadre et le plein cadre passent.
+  const ton = client.tonPhotos;
+  if (ton && p && estHex(p.fond) && ph && ph !== A_JUGER && ph.traitement === 'vignette' && ton.clarte < 55 && ton.chaleur > 15) {
+    const o = okl(p.fond);
+    const sansAppui = (!f || f === A_JUGER || f.ombre === 'aucune') && (!mt || mt === A_JUGER || mt.filets === 'aucun');
+    if (o.l >= 0.97 && o.c < 0.015 && sansAppui) r.push(`photos sombres et chaudes (L* ${Math.round(ton.clarte)}) en vignettes nues sur un blanc froid ${p.fond} : il leur faut un cadre, un fond chaud ou le plein cadre`);
+  }
+  return r;
+}
+
 /**
  * Pure : règles de compatibilité ENTRE atomes, apprises en regardant des mélanges (docs/veille/styles/ATOMES.md
  * § Règles apprises). `atomes` = { typo, couleurs, … } (contenus, pas ids). Renvoie la liste des raisons de refus.
  */
-export function refusCroises(atomes) {
-  const r = [];
+export function refusCroises(atomes, client = profilClient()) {
+  const r = [...refusBeaute(atomes, client)];
   const t = atomes.typo, c = atomes.couleurs, d = atomes.densite;
   // A PRIORI (pas encore vu sur un essai) : titre maigre (≤ 300) sur un contraste texte/fond faible, le trait disparaît.
   if (t && c) {
@@ -132,6 +234,8 @@ export function construireRegistre(entrees, { polices = {}, clesIa = CLES_IA } =
       if (dim === 'couleurs') {
         const p = paletteComplete(atomes.couleurs[atomes.couleurs.principal]);
         if (p.refus.length) { rejets.push(`${atomes.id} couleurs : ${p.refus.join(' ; ')}`); continue; }
+        const b = refusPalette(atomes.couleurs);
+        if (b.length) { rejets.push(`${atomes.id} couleurs (garde de beauté) : ${b.join(' ; ')}`); continue; }
       }
       reserves[dim].push(atomes.id);
     }
@@ -180,19 +284,28 @@ export function tirerMelange({ registre, imposes = {}, client = profilClient(), 
   const famillesOk = (imposes.premier_ecran ? [imposes.premier_ecran] : familles).filter((f) => !refusFamille(f, client));
   if (imposes.premier_ecran && !famillesOk.length) return { erreur: `--premier-ecran ${imposes.premier_ecran} : ${refusFamille(imposes.premier_ecran, client) || 'déjà prise'}` };
   const archisOk = imposes.architecture ? [imposes.architecture] : architectures;
+  const raisons = new Map(); // pourquoi les tirages échouent : dit à l'humain ce qui bloque
+  const noter = (x) => raisons.set(x, (raisons.get(x) || 0) + 1);
   for (let essai = 1; essai <= essaisMax; essai++) {
     const m = {};
     for (const dim of DIMENSIONS_VALEURS) m[dim] = tirerPondere(candidats[dim], usages, rng);
     m.premier_ecran = famillesOk.length ? famillesOk[Math.floor(rng() * famillesOk.length)] : null;
     m.architecture = archisOk.length ? archisOk[Math.floor(rng() * archisOk.length)] : null;
-    if (refusCroises(Object.fromEntries(DIMENSIONS_VALEURS.map((d) => [d, parId[m[d]][d]]))).length) continue;
+    const croises = refusCroises(Object.fromEntries(DIMENSIONS_VALEURS.map((d) => [d, parId[m[d]][d]])), client);
+    if (croises.length) { noter(croises[0]); continue; }
     // Polices : la paire (titre, texte) ne doit pas être celle d'une direction existante (tests/directions.test.mjs).
     if (registre.pairesPrises?.has(`${parId[m.typo].typo.titre.libre}|${parId[m.typo].typo.texte.libre}`)) continue;
     if (existants.some((e) => partages(m, e.atomes) > MAX_PARTAGES_SITE)) continue;
     if (soeurs.some((s) => partages(m, s) > MAX_PARTAGES_PISTES || (s.premier_ecran && s.premier_ecran === m.premier_ecran) || (s.architecture && s.architecture === m.architecture))) continue;
+    // Deux pistes d'un client ne bougent jamais pareil (GOUT § 4) : ni même entrée du premier écran, ni même apparition
+    // au défilement (profils de docs/veille/styles/MOUVEMENTS.md).
+    const profil = parId[m.mouvement].mouvement.profil;
+    const proche = soeurs.map((s) => profilsTropProches(profil, parId[s.mouvement]?.mouvement?.profil)).find(Boolean);
+    if (proche) { noter(`piste sœur : ${proche}`); continue; }
     return { atomes: m, essais: essai };
   }
-  return { erreur: `aucune combinaison neuve en ${essaisMax} tirages (imposés trop nombreux, ou registre trop petit : ${Object.entries(candidats).map(([d, c]) => `${d} ${c.length}`).join(', ')})` };
+  const freq = [...raisons.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([x, n]) => `${x} (${n} fois)`);
+  return { erreur: `aucune combinaison neuve en ${essaisMax} tirages (imposés trop nombreux, ou registre trop petit : ${Object.entries(candidats).map(([d, c]) => `${d} ${c.length}`).join(', ')})${freq.length ? ` ; refus les plus fréquents : ${freq.join(' ; ')}` : ''}` };
 }
 
 /** Pure : identifiant stable d'un mélange (m- + 6 hex), à partir de ses atomes. */
@@ -402,7 +515,9 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
     `  nom: '${nom}',`,
     `  ambiance: ${JSON.stringify(ambiance)},`,
     '  metiers: [],',
-    `  motionParDefaut: '${mv.defilement === 'suit-le-defilement' ? 'rich' : 'subtle'}',`,
+    `  motionParDefaut: '${PROFILS_MOUVEMENT[mv.profil]?.motion ?? (mv.defilement === 'suit-le-defilement' ? 'rich' : 'subtle')}',`,
+    `  // Profil de mouvement (docs/veille/styles/MOUVEMENTS.md) : entrée, apparition, survol, fond, et ses attributs.`,
+    `  profilMouvement: ${JSON.stringify(mv.profil && PROFILS_MOUVEMENT[mv.profil] ? { id: mv.profil, attributs: PROFILS_MOUVEMENT[mv.profil].attributs } : null)},`,
     '  eviter: [],',
     '  // Une direction de mélange appartient au site qui l\'a tirée : ff composer ne la propose jamais à un autre.',
     '  melange: true,',
@@ -473,8 +588,36 @@ function metaPolicesDe(polices, cles) {
   return out;
 }
 
+/** Pure : clarté L* (0-100) et chaleur (R - B) d'une moyenne de canaux RVB (0-255). */
+export function tonDeMoyennes([r, g, b]) {
+  const lin = (v) => { const x = v / 255; return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; };
+  const y = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+  return { clarte: y > 0.008856 ? 116 * Math.cbrt(y) - 16 : 903.3 * y, chaleur: r - b };
+}
+/** Pure : ton médian d'une liste de tons, ou null. */
+export function tonMedian(tons) {
+  if (!tons.length) return null;
+  const med = (xs) => { const t = [...xs].sort((a, b) => a - b); return t[Math.floor(t.length / 2)]; };
+  return { clarte: med(tons.map((t) => t.clarte)), chaleur: med(tons.map((t) => t.chaleur)) };
+}
+/**
+ * Pure : d'où vient la vidéo du client. Une vidéo dans raw/ est la sienne ; dans public/videos/, c'est une vidéo de
+ * banque si CREDITS.md la crédite à Pexels (ff video), une photo animée s'il cite ff animer / fal.ai. `declaree`
+ * (--video client|animer|banque) dit ce qui est prévu et prime. Renvoie 'client' | 'animer' | 'banque' | null.
+ */
+export function origineVideo({ videosRaw = false, videosPub = false, credits = '', declaree = null } = {}) {
+  if (['client', 'animer', 'banque'].includes(declaree)) return declaree;
+  if (videosRaw) return 'client';
+  if (videosPub) {
+    if (/ff animer|fal\.ai/i.test(credits)) return 'animer';
+    if (/public\/videos[^\n]*\n[^#]*Pexels/i.test(credits) || /Pexels Videos/i.test(credits)) return 'banque';
+    return 'client';
+  }
+  return null;
+}
+
 /** Le client vu par les contraintes : photos (hors banque), plus grande largeur (images.json), aiguillage, avis. */
-async function lireClient(slug) {
+async function lireClient(slug, videoDeclaree = null) {
   const dir = path.join(SITES_DIR, slug);
   const { photosClient, aiguillageDuSite } = await import('./aiguillage.mjs');
   const photos = photosClient(dir);
@@ -484,16 +627,27 @@ async function lireClient(slug) {
     try { for (const e of Object.values(JSON.parse(fs.readFileSync(manifeste, 'utf8')))) largeurMax = Math.max(largeurMax, ...(e.widths || [0])); } catch { /* manifeste illisible */ }
   }
   const raw = path.join(dir, 'raw');
+  const tons = [];
   if (fs.existsSync(raw)) {
     const sharp = (await import('sharp')).default;
     for (const f of fs.readdirSync(raw).filter((x) => /\.(jpe?g|png|webp|avif|tiff?)$/i.test(x))) {
-      try { const m = await sharp(path.join(raw, f)).metadata(); largeurMax = Math.max(largeurMax, m.width || 0); } catch { /* fichier illisible */ }
+      try {
+        const img = sharp(path.join(raw, f));
+        const m = await img.metadata();
+        largeurMax = Math.max(largeurMax, m.width || 0);
+        // Ton des photos (garde de beauté B7) : clarté L* et chaleur (R - B) moyennes d'une vignette de 64 px.
+        if (tons.length < 16) { const st = await sharp(path.join(raw, f)).resize(64, 64, { fit: 'inside' }).stats(); tons.push(tonDeMoyennes(st.channels.map((c) => c.mean))); }
+      } catch { /* fichier illisible */ }
     }
   }
+  const credits = fs.existsSync(path.join(dir, 'CREDITS.md')) ? fs.readFileSync(path.join(dir, 'CREDITS.md'), 'utf8') : '';
+  const videosRaw = fs.existsSync(raw) && fs.readdirSync(raw).some((x) => /\.(mp4|mov|m4v|webm)$/i.test(x));
+  const videosPub = fs.existsSync(path.join(dir, 'public', 'videos')) && fs.readdirSync(path.join(dir, 'public', 'videos')).some((x) => /\.(mp4|webm)$/i.test(x));
   const cfg = fs.existsSync(path.join(dir, 'site.config.ts')) ? fs.readFileSync(path.join(dir, 'site.config.ts'), 'utf8') : '';
   const avis = Number(/google:\s*\{[^}]*count:\s*(\d+)/.exec(cfg)?.[1] || 0);
   const urgence = /emergency24h:\s*true/.test(cfg);
-  return profilClient({ photos: photos.length, largeurMax, mouvement: aiguillageDuSite(slug)?.decision?.mouvement ?? null, avis, urgence });
+  const video = origineVideo({ videosRaw, videosPub, credits, declaree: videoDeclaree });
+  return profilClient({ photos: photos.length, largeurMax, mouvement: aiguillageDuSite(slug)?.decision?.mouvement ?? null, avis, urgence, tonPhotos: tonMedian(tons), video });
 }
 
 /** Familles et architectures prises : contrats (direction.md) et registre des mélanges, avec leur date. */
@@ -574,10 +728,12 @@ function preparer(m, registre, polices) {
 
 function motionPour(atomes, client) {
   if (client.mouvement === 'calme') return 'subtle';
+  const p = PROFILS_MOUVEMENT[atomes.mouvement.profil];
+  if (p) return p.motion;
   return atomes.mouvement.defilement === 'suit-le-defilement' ? 'rich' : 'subtle';
 }
 
-function decrire(m, prep, k) {
+function decrire(m, prep, k, client = {}) {
   info(`${k ? `Mélange ${k}` : 'Mélange'} : ${prep.nom}`);
   for (const d of DIMENSIONS_VALEURS) info(`  ${d.padEnd(10)} ${m[d]}`);
   info(`  ${'1er écran'.padEnd(10)} ${m.premier_ecran ?? 'à choisir'}   architecture ${m.architecture ?? 'à choisir (registre vide)'}`);
@@ -585,6 +741,7 @@ function decrire(m, prep, k) {
   const ph = prep.atomes.photos;
   if (ph.traitement === 'duotone') info(`  à faire : ff nettoyer-photos <slug> --duotone ${prep.gen.palette.tokens.fg},${prep.gen.palette.tokens.bg}`);
   if (ph.traitement === 'detoure') info('  photos détourées : sujet sur fond uni (ff nettoyer-photos recadre ; le détourage se demande au client ou se fait à la main)');
+  for (const c of consignesProfil(prep.atomes.mouvement.profil, client)) info(`  ${c}`);
   info(`  ${ligneContrat(m)}`);
 }
 
@@ -698,10 +855,11 @@ export async function cmdMelanger(args) {
   const melanges = lireMelanges();
   const graine = flags.graine != null ? Number(flags.graine) : flags.hasard ? (Date.now() ^ (Math.random() * 2 ** 31)) >>> 0 : seedFromString(`${slug}|${Object.keys(melanges.sites).length}`);
   const rng = mulberry32(graine);
-  const client = await lireClient(slug);
+  if (flags.video && !['client', 'animer', 'banque'].includes(flags.video)) { fail('--video client|animer|banque'); process.exit(1); }
+  const client = await lireClient(slug, typeof flags.video === 'string' ? flags.video : null);
   const { familles, architectures, interditesF } = libres(slug, melanges);
   const existants = Object.entries(melanges.sites).filter(([s]) => s !== slug).map(([s, v]) => ({ slug: s, atomes: v.atomes }));
-  info(`Client ${slug} : ${client.photos} photo(s), la plus large ${client.largeurMax || 0} px, mouvement ${client.mouvement ?? 'non tranché'}, ${client.avis} avis${client.urgence ? ', urgence' : ''}.`);
+  info(`Client ${slug} : ${client.photos} photo(s), la plus large ${client.largeurMax || 0} px${client.tonPhotos ? ` (L* ${Math.round(client.tonPhotos.clarte)}, chaleur ${Math.round(client.tonPhotos.chaleur)})` : ''}, vidéo ${client.video ?? 'aucune'}, mouvement ${client.mouvement ?? 'non tranché'}, ${client.avis} avis${client.urgence ? ', urgence' : ''}.`);
   info(`Registre : ${Object.keys(registre.parId).length} sites, tirables ${DIMENSIONS_VALEURS.map((d) => `${d} ${registre.reserves[d].length}`).join(', ')} ; graine ${graine}.`);
   if (interditesF.size) info(`Familles de premier écran prises : ${[...interditesF.entries()].map(([f, r]) => `${f} (${r})`).join(', ')}.`);
   const tires = [];
@@ -711,7 +869,7 @@ export async function cmdMelanger(args) {
     tires.push(r.atomes);
   }
   const preps = tires.map((m) => preparer(m, registre, polices));
-  tires.forEach((m, i) => decrire(m, preps[i], n > 1 ? i + 1 : 0));
+  tires.forEach((m, i) => decrire(m, preps[i], n > 1 ? i + 1 : 0, client));
   if (flags.simuler) { info('--simuler : rien n\'est écrit.'); return; }
 
   if (flags.essai) {

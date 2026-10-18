@@ -1,5 +1,11 @@
 ---
-/** Hero "video" : comme fullbleed, mais avec une video en fond (site.images.heroVideo). Sans video, rendu fullbleed a l'identique. */
+/**
+ * Hero "video" : comme fullbleed, mais avec une video en fond (site.images.heroVideo), pilotee par le moteur
+ * (data-video-fond, src/scripts/motion.ts) : pas d'autoplay HTML, lecture seulement a l'ecran, bouton pause, rien sous
+ * prefers-reduced-motion. Poster OBLIGATOIRE (images.heroVideoPoster, sinon images.hero) : iPhone en economie
+ * d'energie bloque tout autoplay, le poster porte seul le premier ecran. Sans poster, la video n'est pas rendue.
+ * Sans video, rendu fullbleed a l'identique. Profil « video-de-fond » de docs/veille/styles/MOUVEMENTS.md.
+ */
 import { site, tel, yearsSince, paragraphs, hasContactDoor } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
@@ -8,13 +14,14 @@ import { HERO_SIZES } from '@/lib/images';
 const years = yearsSince();
 const intro = paragraphs(site.business.description)[0];
 const hero = site.images.hero;
-const video = site.images.heroVideo;
+const poster = site.images.heroVideoPoster ?? hero?.src;
+const video = poster ? site.images.heroVideo : undefined;
 ---
 
-<section id="hero" class:list={['relative min-h-[92svh] flex items-end overflow-hidden', !hero && !video && 'bg-ink']}>
+<section id="hero" class:list={['relative min-h-[92svh] flex items-end overflow-hidden', !hero && !video && 'bg-ink']} data-video-fond={video ? '' : undefined}>
   {video && (
     <div class="absolute inset-0 -z-10">
-      <video class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline poster={hero?.src}>
+      <video class="absolute inset-0 h-full w-full object-cover" muted loop playsinline preload="none" poster={poster} aria-hidden="true">
         <source src={video} type="video/mp4" />
       </video>
       <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 to-ink/10"></div>

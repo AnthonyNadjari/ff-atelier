@@ -171,7 +171,8 @@ export async function cmdVideo(args) {
       warn(`Taille au-dessus de --max-mo ${maxMo} malgre les paliers de compression essayes — reduis --duree ou verifie la source.`);
     }
     info('');
-    info("A coller dans site.config.ts : images.heroVideo = '/videos/hero.mp4', images.hero.src comme poster de repli.");
+    info("A coller dans site.config.ts : images.heroVideo = '/videos/hero.mp4', images.heroVideoPoster = '/videos/poster.jpg' (poster obligatoire : sans lui la video n'est pas rendue).");
+    info("Video de BANQUE : ambiance seulement, jamais presentee comme celle du client (creditee sur /credits) ; iPhone en economie d'energie ne la lit pas, le poster doit suffire. Profil video-de-fond : ff melanger --video banque.");
   } else {
     fs.copyFileSync(srcPath, path.join(outDir, 'source.mp4'));
     warn('Fichier source garde tel quel : sites/' + slug + '/public/videos/source.mp4 (pas encore compresse).');

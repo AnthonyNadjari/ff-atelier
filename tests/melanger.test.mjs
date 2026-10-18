@@ -30,7 +30,7 @@ function fauxRegistre(n = 6) {
       densite: { section: { telephone: 64, ordinateur: 120 }, gouttiere: { telephone: 20, ordinateur: 40 }, conteneur: 1280, mesure: 60, rythme: 'uni' },
       formes: { rayon: i, rayonCarte: 0, rayonImage: 0, bordure: 1, ombre: 'aucune', bouton: 'plein', pilule: false, lien: 'souligne' },
       photos: { traitement: traitements[i % traitements.length], superposition: 'aucune' },
-      mouvement: { regime: i % 2 ? 'vivant' : 'calme', defilement: i % 2 ? 'suit-le-defilement' : 'apparitions', ui: { duree: 0.2, courbe: 'ease' }, scene: { duree: 0.6, courbe: 'ease-out' } },
+      mouvement: { profil: ['fondu-sobre', 'chapitres-epingles', 'glisse-a-la-main', 'piste-horizontale', 'plans-au-chargement', 'parallaxe-et-aimant'][i % 6], regime: i % 2 ? 'vivant' : 'calme', defilement: i % 2 ? 'suit-le-defilement' : 'apparitions', ui: { duree: 0.2, courbe: 'ease' }, scene: { duree: 0.6, courbe: 'ease-out' } },
       matiere: { fond: 'uni', filets: 'aucun' }, architecture: null, premier_ecran: 'typographique',
     } });
   }
@@ -224,4 +224,156 @@ test('courbeCubique : --ease-brand toujours en cubic-bezier (mot-clé mesuré tr
   assert.equal(courbeCubique('cubic-bezier(0.165, 0.84, 0.44, 1)'), 'cubic-bezier(0.165, 0.84, 0.44, 1)');
   assert.equal(courbeCubique('ease-in'), courbeCubique('ease-out'));
   assert.match(courbeCubique('à juger'), /^cubic-bezier\(/);
+});
+
+/* ---------- Garde de beauté (18 oct 2026, L'Épi d'Or d « juste un peu moche ») ---------- */
+
+test('OKLCH : blanc neutre, jaune d’or de Café Binocle très chromatique', async () => {
+  const { hexVersOklch, ecartTeinte } = await import('../scripts/ff/atomes.mjs');
+  const blanc = hexVersOklch('#ffffff');
+  assert.ok(Math.abs(blanc.l - 1) < 0.001 && blanc.c < 0.001);
+  const or = hexVersOklch('#ffe26e');
+  assert.ok(or.c > 0.13 && or.c < 0.15, `chroma ${or.c}`);
+  assert.ok(Math.abs(or.h - 95) < 3, `teinte ${or.h}`);
+  assert.equal(ecartTeinte(350, 10), 20);
+});
+
+const pal = (p) => ({ principal: 'clair', clair: { fond: '#fdfdfd', surface: A_JUGER, texte: '#1a1a1a', texte2: A_JUGER, accent: '#8a6500', accent2: A_JUGER, bordure: A_JUGER, encre: A_JUGER, ...p }, sombre: null });
+
+test('beauté B1 : un aplat vif en fond de page est refusé, un neutre teinté (kraft, crème) passe', async () => {
+  const { refusPalette } = await import('../scripts/ff/melanger.mjs');
+  assert.match(refusPalette(pal({ fond: '#ffe26e', texte: '#594b3c' })).join(), /fond de page vif/);
+  assert.deepEqual(refusPalette(pal({ fond: '#d6ceb4', texte: '#291d1a' })), [], 'kraft de Meyers');
+  assert.deepEqual(refusPalette(pal({ fond: '#0f2c56', texte: '#f2ede9', accent: '#e3af04' })), [], 'bleu nuit profond en fond sombre');
+});
+
+test('beauté B3/B4 : trois aplats vifs concurrents refusés ; deux vives de même clarté et de teintes éloignées vibrent', async () => {
+  const { refusPalette } = await import('../scripts/ff/melanger.mjs');
+  assert.match(refusPalette(pal({ fond: '#ffe26e', accent: '#ef5b34', accent2: '#00a881' })).join(), /3 aplats vifs/);
+  assert.match(refusPalette(pal({ accent: '#ef5b34', accent2: '#00a881' })).join(), /vibrent/, 'rouge-orangé et vert de même valeur');
+  assert.deepEqual(refusPalette(pal({ accent: '#e3af04', accent2: '#c72531' })), [], 'or et rouge de Pizza Amici : clartés éloignées');
+});
+
+test('beauté B5 : plus de trois familles de teintes actives refusées', async () => {
+  const { refusPalette } = await import('../scripts/ff/melanger.mjs');
+  assert.match(refusPalette(pal({ texte: '#0f2c56', accent: '#8a6500', accent2: '#702b1d', encre: '#0a4635', surface: '#e9d8f2' })).join(), /familles de teintes/);
+});
+
+test('beauté B2 : capitales condensées sur fond coloré refusées, sur blanc acceptées', async () => {
+  const { refusBeaute } = await import('../scripts/ff/melanger.mjs');
+  const typo = { titre: { libre: 'bebas', casse: 'uppercase' }, texte: { libre: 'spectral' } };
+  assert.match(refusBeaute({ typo, couleurs: pal({ fond: '#f2e3b8', texte: '#3a2a1a' }) }).join(), /capitales condensées/);
+  assert.deepEqual(refusBeaute({ typo, couleurs: pal({}) }), []);
+  assert.deepEqual(refusBeaute({ typo: { ...typo, titre: { libre: 'bebas', casse: 'none' } }, couleurs: pal({ fond: '#f2e3b8', texte: '#3a2a1a' }) }), [], 'casse normale');
+});
+
+test('beauté B6 : accord de polices en conflit (deux serifs, deux sans de texte différentes)', async () => {
+  const { controlerPolices } = await import('../scripts/ff/atomes.mjs');
+  const t = (titre, texte) => controlerPolices({ titre: { libre: titre }, texte: { libre: texte } }, { polices, clesIa: CLES_IA });
+  assert.match(t('ebGaramond', 'spectral').join(), /conflit/);
+  assert.match(t('karla', 'hanken').join(), /conflit/);
+  assert.deepEqual(t('rubik', 'rubik'), [], 'une seule famille');
+  assert.deepEqual(t('bodoni', 'urbanist'), [], 'didone + sans : contraste');
+  assert.deepEqual(t('archivoBlack', 'specialGothic'), [], 'sans d’affichage + sans de texte');
+});
+
+test('beauté B7 : photos sombres et chaudes en vignettes nues sur blanc froid refusées', async () => {
+  const { refusBeaute } = await import('../scripts/ff/melanger.mjs');
+  const sombres = profilClient({ tonPhotos: { clarte: 48, chaleur: 30 } });
+  const at = { couleurs: pal({}), photos: { traitement: 'vignette' }, formes: { ombre: 'aucune' }, matiere: { filets: 'aucun' } };
+  assert.match(refusBeaute(at, sombres).join(), /vignettes nues/);
+  assert.deepEqual(refusBeaute({ ...at, photos: { traitement: 'cadre' } }, sombres), []);
+  assert.deepEqual(refusBeaute({ ...at, couleurs: pal({ fond: '#f2ede9' }) }, sombres), [], 'fond chaud');
+  assert.deepEqual(refusBeaute(at, profilClient({ tonPhotos: { clarte: 70, chaleur: 5 } })), [], 'photos claires');
+});
+
+test('Épi d’Or : m-cca519 (version d, « un peu moche ») refusé, m-e7e9e8 (b) et m-751d7c (c) validés passent', async () => {
+  const { refusBeaute } = await import('../scripts/ff/melanger.mjs');
+  const sites = JSON.parse(fs.readFileSync(path.join(ROOT, 'docs/empreintes/melanges.json'), 'utf8')).sites;
+  // Photos réelles de la boulangerie (raw/ de prospect-epi-dor-*) : L* médiane 48, chaudes (R - B ≈ 30).
+  const client = profilClient({ photos: 10, largeurMax: 2000, tonPhotos: { clarte: 48, chaleur: 30 } });
+  const verdict = (slug) => {
+    const ids = sites[slug].atomes;
+    return refusBeaute(Object.fromEntries(['typo', 'couleurs', 'densite', 'formes', 'photos', 'mouvement', 'matiere'].map((d) => [d, registreReel.parId[ids[d]][d]])), client);
+  };
+  const d = verdict('prospect-epi-dor-d');
+  assert.equal(sites['prospect-epi-dor-d'].direction, 'm-cca519');
+  for (const motif of [/fond de page vif/, /capitales condensées/, /aplats vifs/]) assert.ok(d.some((r) => motif.test(r)), `${motif} : ${d.join(' | ')}`);
+  assert.equal(sites['prospect-epi-dor-b'].direction, 'm-e7e9e8');
+  assert.deepEqual(verdict('prospect-epi-dor-b'), []);
+  assert.equal(sites['prospect-epi-dor-c'].direction, 'm-751d7c');
+  assert.deepEqual(verdict('prospect-epi-dor-c'), []);
+});
+
+test('registre réel : la palette jaune d’or de Café Binocle est écartée par la garde, avec sa raison', () => {
+  assert.ok(!registreReel.reserves.couleurs.includes('cafebinocle'));
+  assert.ok(registreReel.rejets.some((r) => /cafebinocle couleurs \(garde de beauté\)/.test(r)));
+});
+
+/* ---------- Profils de mouvement (docs/veille/styles/MOUVEMENTS.md) ---------- */
+
+test('profils : 12 à 15, tous documentés dans MOUVEMENTS.md, chaque atome du registre nomme un profil connu', async () => {
+  const { PROFILS_MOUVEMENT, IDS_PROFILS } = await import('../scripts/ff/mouvements.mjs');
+  assert.ok(IDS_PROFILS.length >= 12 && IDS_PROFILS.length <= 15, `${IDS_PROFILS.length} profils`);
+  const doc = fs.readFileSync(path.join(ROOT, 'docs/veille/styles/MOUVEMENTS.md'), 'utf8');
+  for (const id of IDS_PROFILS) {
+    assert.match(doc, new RegExp(`### \`${id}\``), `${id} documenté`);
+    const p = PROFILS_MOUVEMENT[id];
+    for (const k of ['entree', 'apparition', 'survol', 'fond', 'regime', 'defilement', 'poids', 'motion']) assert.ok(p[k], `${id}.${k}`);
+    assert.ok(p.attributs.length, `${id} : attributs du moteur`);
+  }
+  for (const id of registreReel.reserves.mouvement) assert.ok(IDS_PROFILS.includes(registreReel.parId[id].mouvement.profil), id);
+  const tirables = new Set(registreReel.reserves.mouvement.map((id) => registreReel.parId[id].mouvement.profil));
+  assert.ok(tirables.size >= 12, `${tirables.size} profils tirables`);
+});
+
+test('profils : fond vidéo seulement avec une vraie vidéo ou ff animer / ff video prévu ; calme ; séquence ; chiffre', async () => {
+  const { refusProfil, consignesProfil } = await import('../scripts/ff/mouvements.mjs');
+  assert.match(refusProfil('video-de-fond', profilClient()), /vidéo/);
+  for (const v of ['client', 'animer', 'banque']) assert.equal(refusProfil('video-de-fond', profilClient({ video: v })), null, v);
+  assert.match(refusProfil('chapitres-epingles', profilClient({ mouvement: 'calme' })), /calme/);
+  assert.equal(refusProfil('photo-qui-respire', profilClient({ mouvement: 'calme' })), null);
+  assert.match(refusProfil('sequence-au-defilement', profilClient({ largeurMax: 1600 })), /1 920/);
+  assert.equal(refusProfil('sequence-au-defilement', profilClient({ largeurMax: 2400 })), null, 'ff sequence-photo');
+  assert.match(refusProfil('chiffres-qui-comptent', profilClient()), /chiffre/);
+  assert.equal(refusProfil('chiffres-qui-comptent', profilClient({ avis: 120 })), null, 'le nombre d’avis Google est un vrai chiffre');
+  const c = consignesProfil('video-de-fond', { video: 'banque' }).join('\n');
+  assert.match(c, /poster obligatoire/);
+  assert.match(c, /économie d'énergie/);
+  assert.match(c, /jamais présentée comme celle du client/);
+  assert.match(consignesProfil('video-de-fond', { video: 'animer' }).join('\n'), /data-ia="1"/);
+});
+
+test('profils : deux pistes sœurs ne partagent ni l’entrée ni l’apparition (GOUT § 4)', async () => {
+  const { profilsTropProches } = await import('../scripts/ff/mouvements.mjs');
+  assert.match(profilsTropProches('fondu-sobre', 'plans-au-chargement'), /apparition/);
+  assert.equal(profilsTropProches('glisse-a-la-main', 'photo-qui-respire'), null, '« aucune » ne compte pas');
+  const rng = mulberry32(5);
+  const soeurs = [];
+  for (let k = 0; k < 3; k++) {
+    const r = tirerMelange({ registre: registreReel, soeurs, familles: ['typographique', 'outil', 'editorial', 'objet-du-metier'], client: profilClient({ photos: 10, largeurMax: 2000 }), rng });
+    assert.equal(r.erreur, undefined, r.erreur);
+    for (const s of soeurs) assert.equal(profilsTropProches(registreReel.parId[r.atomes.mouvement].mouvement.profil, registreReel.parId[s.mouvement].mouvement.profil), null);
+    soeurs.push(r.atomes);
+  }
+});
+
+test('tirage : la garde de beauté et un fond vidéo sans vidéo sont refusés, avec la raison la plus fréquente', () => {
+  const r = tirerMelange({ registre: registreReel, imposes: { mouvement: 'lesaintgeorges' }, client: profilClient(), rng: mulberry32(2) });
+  assert.match(r.erreur, /vidéo/);
+  const ok = tirerMelange({ registre: registreReel, imposes: { mouvement: 'lesaintgeorges' }, client: profilClient({ video: 'client' }), familles: ['typographique'], rng: mulberry32(2) });
+  assert.equal(ok.erreur, undefined, ok.erreur);
+});
+
+test('client : origine de la vidéo (jamais une vidéo de banque comptée comme la sienne) et ton des photos', async () => {
+  const { origineVideo, tonDeMoyennes, tonMedian } = await import('../scripts/ff/melanger.mjs');
+  assert.equal(origineVideo({}), null);
+  assert.equal(origineVideo({ videosRaw: true }), 'client');
+  assert.equal(origineVideo({ videosPub: true, credits: '## public/videos/hero (Jane)\n- Source : Pexels Videos — https://pexels.com/video/1' }), 'banque');
+  assert.equal(origineVideo({ videosPub: true, credits: '## animation\n- ff animer, fal.ai' }), 'animer');
+  assert.equal(origineVideo({ declaree: 'animer' }), 'animer');
+  const t = tonDeMoyennes([137, 114, 88]);
+  assert.ok(Math.abs(t.clarte - 50) < 2 && t.chaleur === 49);
+  assert.deepEqual(tonMedian([{ clarte: 40, chaleur: 10 }, { clarte: 50, chaleur: 30 }, { clarte: 60, chaleur: 20 }]), { clarte: 50, chaleur: 20 });
+  assert.equal(tonMedian([]), null);
 });

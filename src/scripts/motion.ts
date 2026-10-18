@@ -71,6 +71,18 @@
  * data-reveal-native           CSS  variante de data-reveal via animation-timeline:view() (@supports),
  *                                   repli automatique sur le meme IntersectionObserver que data-reveal
  *
+ * --- Profils de mouvement (docs/veille/styles/MOUVEMENTS.md, 18 oct 2026) ---
+ * data-video-fond             toute fond video (profil video-de-fond) : <video> sans autoplay, poster
+ *                                   obligatoire, lecture seulement a l'ecran, pause hors ecran / onglet cache,
+ *                                   bouton pause (WCAG 2.2.2), rien sous none/reduced/economie de donnees ;
+ *                                   iPhone en economie d'energie : poster + bouton « Lire » (videoFonds())
+ * data-derive[="24"]          subtle photo qui respire dans son cadre (profil photo-qui-respire) : CSS
+ *                                   aller-retour 12-60 s, a l'ecran seulement, bouton pause (derives())
+ * data-entree="plans"         CSS   entree du premier ecran par plans (profil plans-au-chargement, Meyers) :
+ *   + data-plan="fond|texte"        [data-plan="fond"] se resserre en 1,6 s (lent), [data-plan="texte"] arrive
+ *                                   en 0,2 s apres 0,55 s (sec) ; rejouee une seule fois par session
+ * data-marquee-sens="inverse" CSS   bande data-marquee qui defile dans l'autre sens (profil bandes-croisees)
+ *
  * --- Sequence d'images "page produit" (effet Apple, docs/ANIMATIONS.md) ---
  * data-frames="/anim/x/"      rich   sequence d'images (WebP) dessinee sur un <canvas data-frames-canvas>
  *                                   au fil du scroll (frameSequences(), voir aussi `ff sequence` et
@@ -135,6 +147,11 @@ export function initMotion() {
   frameSequences(motion, reduced);
   // data-shader : meme logique, le repli (degrade statique) doit se poser quel que soit le palier.
   shaderBackgrounds(motion, reduced);
+  // data-video-fond : poster et bouton quel que soit le palier (aucune lecture sous none/reduced).
+  videoFonds(motion, reduced);
+  // data-entree="plans" : l'entree ne se rejoue pas a chaque navigation (ClientRouter). Pose apres la premiere
+  // entree (1,6 s + marge) : avant, elle couperait l'animation en cours de la premiere page.
+  if (pageLoads === 1) setTimeout(() => (root.dataset.entreeJouee = '1'), 2500);
   if (motion === 'none' || reduced) {
     document.querySelectorAll<HTMLElement>('[data-reveal],[data-stagger],[data-reveal-native]').forEach((el) => el.classList.add('is-visible'));
     // data-split="lines" : texte visible, non decoupe (global.css masque seulement sans data-split-state).
@@ -160,6 +177,7 @@ export function initMotion() {
   scrollProgress();
   confettiOnSuccess();
   if (motion === 'subtle') scrambleSubtle();
+  derives();
 
   if (motion === 'rich') {
     curtain();
@@ -175,6 +193,114 @@ export function initMotion() {
     lottiePlayers().catch(() => {});
     directionScript(root.dataset.direction);
   }
+}
+
+/**
+ * Bouton pause du moteur (WCAG 2.2.2 : tout ce qui bouge seul plus de 5 s doit pouvoir s'arreter). Pose dans `el`
+ * (data-video-fond, data-derive), en bas a droite, 44 px. `onToggle(pause)` recoit le nouvel etat ; renvoie une
+ * fonction qui force l'etat affiche (lecture bloquee par iOS en economie d'energie : le bouton propose « Lire »).
+ */
+function boutonPause(el: HTMLElement, onToggle: (pause: boolean) => void) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'ff-pause';
+  let pause = false;
+  const afficher = () => {
+    btn.setAttribute('aria-pressed', String(pause));
+    btn.setAttribute('aria-label', pause ? "Relancer l'animation" : "Mettre l'animation en pause");
+    btn.dataset.etat = pause ? 'pause' : 'lecture';
+  };
+  btn.addEventListener('click', () => {
+    pause = !pause;
+    afficher();
+    onToggle(pause);
+  });
+  afficher();
+  el.append(btn);
+  return (p: boolean) => {
+    pause = p;
+    afficher();
+  };
+}
+
+/**
+ * data-video-fond (profil « video-de-fond », docs/veille/styles/MOUVEMENTS.md) : une <video> de fond qui ne porte
+ * jamais le contenu. Poster OBLIGATOIRE (sans lui, la video ne joue pas et le moteur le dit en console) ; aucune
+ * lecture automatique sous motion="none", prefers-reduced-motion ou economie de donnees (le poster reste) ; lecture
+ * seulement quand le bloc est a l'ecran (IntersectionObserver, 25 %), pause hors ecran et onglet cache ; bouton pause
+ * (WCAG 2.2.2). iPhone en economie d'energie rejette play() : le poster reste, le bouton propose « Lire » (un geste
+ * de l'utilisateur, que Safari accepte). Appele avant le repli anticipe de initMotion(), comme data-frames.
+ */
+function videoFonds(motion: string, reduced: boolean) {
+  document.querySelectorAll<HTMLElement>('[data-video-fond]').forEach((el) => {
+    if (el.dataset.videoFondState) return;
+    const v = el.querySelector<HTMLVideoElement>('video');
+    if (!v) return;
+    v.muted = true;
+    v.loop = true;
+    v.playsInline = true;
+    v.autoplay = false;
+    v.removeAttribute('autoplay');
+    if (!v.getAttribute('poster')) {
+      el.dataset.videoFondState = 'sans-poster';
+      v.preload = 'none';
+      console.warn('data-video-fond : poster obligatoire (images.heroVideoPoster), la video ne joue pas sans lui', v);
+      return;
+    }
+    const economie = Boolean((navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData);
+    if (motion === 'none' || reduced || economie) {
+      el.dataset.videoFondState = 'poster';
+      v.preload = 'none';
+      v.pause();
+      return;
+    }
+    let voulu = true;
+    let visible = false;
+    const jouer = () => {
+      v.preload = 'auto';
+      const p = v.play();
+      if (p) p.then(() => (el.dataset.videoFondState = 'lecture')).catch(() => { el.dataset.videoFondState = 'bloquee'; voulu = false; forcer(true); });
+    };
+    const forcer = boutonPause(el, (pause) => {
+      voulu = !pause;
+      if (pause) { v.pause(); el.dataset.videoFondState = 'pause'; } else jouer();
+    });
+    el.dataset.videoFondState = 'attente';
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        visible = e.isIntersecting;
+        if (visible && voulu) jouer();
+        else v.pause();
+      }
+    }, { threshold: 0.25 });
+    io.observe(el);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) v.pause();
+      else if (visible && voulu) jouer();
+    }, { signal });
+  });
+}
+
+/**
+ * data-derive[="24"] (profil « photo-qui-respire ») : la photo glisse et se resserre lentement DANS son cadre fixe
+ * (CSS, global.css), aller-retour de N secondes (12 a 60, 24 par defaut). Ne tourne qu'a l'ecran ; bouton pause
+ * (WCAG 2.2.2). Une ou deux photos par page, jamais a chaque section (GOUT § 2). subtle et rich ; rien sous
+ * motion="none" ou prefers-reduced-motion (garde de initMotion()).
+ */
+function derives() {
+  const els = document.querySelectorAll<HTMLElement>('[data-derive]');
+  if (!els.length) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) (e.target as HTMLElement).classList.toggle('is-derive-on', e.isIntersecting);
+  }, { threshold: 0 });
+  els.forEach((el) => {
+    if (el.dataset.deriveState) return;
+    el.dataset.deriveState = '1';
+    const s = Number(el.dataset.derive);
+    if (s > 0) el.style.setProperty('--derive-duree', `${Math.min(60, Math.max(12, s))}s`);
+    boutonPause(el, (pause) => el.classList.toggle('is-derive-pause', pause));
+    io.observe(el);
+  });
 }
 
 /** Rideau d'entree : .ff-curtain (pose par Base.astro) se retire, puis le hero se revele. */

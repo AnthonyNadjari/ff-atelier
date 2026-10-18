@@ -97,6 +97,19 @@ page (même garde que `rich()`), jamais en `<script>` statique. Nouvelles dépen
 | `data-border-beam` | subtle | Bordure conique tournante (`@property --border-beam-angle`), 100 % CSS, pour une carte/CTA qui doit attirer l'œil. |
 | `data-reveal-native` | subtle | Variante de `data-reveal` via `animation-timeline: view()` (`@supports`) : zéro JS là où supporté, repli automatique sur le même `IntersectionObserver` que `data-reveal` sinon. Opt-in, ne remplace pas `data-reveal` par défaut. |
 
+## Profils de mouvement (18 oct 2026, `docs/veille/styles/MOUVEMENTS.md`)
+
+Quinze profils relevés sur de vrais sites, tirés par `ff melanger` avec l'atome `mouvement`. Ajouts au moteur pour les
+trois qui manquaient le plus :
+
+| `data-*` | Palier | Quand l'utiliser |
+|---|---|---|
+| `data-video-fond` (sur le bloc qui contient la `<video>` ; posé par le Hero `video`) | toute | Fond vidéo (profil `video-de-fond`). `<video muted loop playsinline preload="none" poster>` **sans `autoplay`** : le moteur lance la lecture seulement à l'écran (25 %), la coupe hors écran et onglet caché, ajoute un bouton pause `.ff-pause` (WCAG 2.2.2). **Poster obligatoire** : sans lui, rien ne joue (`data-video-fond-state="sans-poster"`). Rien sous `motion: 'none'`, `prefers-reduced-motion` ou économie de données (poster seul). iPhone en économie d'énergie rejette `play()` : poster + bouton « Lire ». Hero `video` : `images.heroVideo` + `images.heroVideoPoster` (sinon `images.hero`) ; sans poster, la vidéo n'est pas rendue. |
+| `data-derive[="24"]` | subtle | Photo qui respire (profil `photo-qui-respire`) : l'`<img>` glisse et se resserre lentement dans son cadre fixe, aller-retour de 12 à 60 s, à l'écran seulement, bouton pause. Une ou deux photos par page, jamais à chaque section. |
+| `data-entree="plans"` + `data-plan="fond"` / `data-plan="texte"` | CSS (hors `none`) | Entrée du premier écran par plans (profil `plans-au-chargement`, Meyers) : l'image se resserre en 1,6 s (lent), le texte arrive en 0,2 s après 0,55 s (sec). Pas rejouée après une navigation (`data-entree-jouee`). Le cadre de l'image coupe (`overflow: hidden`). |
+| `data-marquee-sens="inverse"` (sur un `data-marquee`) | CSS | Bande qui défile dans l'autre sens (profil `bandes-croisees`). |
+| `--ease-ressort` (token) | CSS | Ressort de Relais Rossàr en `linear()` (dépassement 1,084), repli `cubic-bezier` : pour les `:hover`/`:active` en `--motion-ui`. |
+
 ## Sequence d'images "page produit" (`data-frames`, effet Apple)
 
 `data-frames="/anim/x/"` (rich, GSAP ScrollTrigger scrub) : une image sequence (WebP) est dessinée

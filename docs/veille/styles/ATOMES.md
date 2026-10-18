@@ -68,8 +68,10 @@ Chaque atome peut valoir `"à juger"` en entier. Champs (requis pour être tirab
   `rapports` (mesurés) ; `superposition` (`aucune` | `voile` | `texte-sur-photo` | `chevauchement`) ; `remarque`.
 
 ### `mouvement`
-- **`regime`** (`calme` | `vivant`), **`defilement`** (`aucun` | `apparitions` | `suit-le-defilement`),
-  **`ui`** et **`scene`** `{ duree (s), courbe (cubic-bezier ou mot-clé) }`, `bibliotheques`.
+- **`profil`** : id d'un profil de `docs/veille/styles/MOUVEMENTS.md` (entrée, apparition, survol, fond, attributs du
+  moteur ; jugé sur la fiche, justifié dans `remarque`) ; **`regime`** (`calme` | `vivant`), **`defilement`** (`aucun` |
+  `apparitions` | `suit-le-defilement`), **`ui`** et **`scene`** `{ duree (s), courbe (cubic-bezier ou mot-clé) }`,
+  `bibliotheques`.
 
 ### `matiere`
 - **`fond`** (`uni` | `sections-colorees` | `aplats-francs`), **`filets`** (`aucun` | `fins` | `grille`), `texture`.
@@ -83,12 +85,13 @@ Chaque atome peut valoir `"à juger"` en entier. Champs (requis pour être tirab
 
 `node scripts/ff.mjs melanger <slug> [--typo id] [--couleurs id] [--densite id] [--formes id] [--photos id]
 [--mouvement id] [--matiere id] [--architecture id] [--premier-ecran famille] [--style id] [--hasard] [--graine n]
-[--n 3] [--essai] [--simuler]`
+[--n 3] [--essai] [--simuler] [--video client|animer|banque]`
 
 1. Lit le registre (`construireRegistre`) : un atome n'est tirable que s'il est mesuré, valide, et passe ses propres
    règles (polices cohérentes, palette lisible).
-2. Lit le client : photos hors banque, plus grande largeur (`images.json`, `raw/`), aiguillage (`ff aiguillage`),
-   nombre d'avis, urgence.
+2. Lit le client : photos hors banque, plus grande largeur (`images.json`, `raw/`), ton de ses photos (clarté L* et
+   chaleur, `raw/`), vidéo (sa vidéo dans `raw/`, ou `public/videos/` créditée Pexels = banque, `ff animer` = animée ;
+   `--video` déclare ce qui est prévu), aiguillage (`ff aiguillage`), nombre d'avis, urgence.
 3. Tire chaque atome non imposé (`--style id` impose tous les atomes tirables d'un site : un style entier), pondéré
    vers les atomes peu utilisés, sous les contraintes ci-dessous ; recommence jusqu'à 400 fois.
 4. Écrit une direction générée `src/directions/m-<hash>/` (index.css : tous les tokens + échelle, boutons, liens,
@@ -119,11 +122,45 @@ de remplissage ; le mélange la choisit et l'écrit au contrat, l'agent l'appliq
 | Polices | Le texte courant n'est jamais une police d'affichage (didone, grasse, condensée, manuscrite) : donc ni deux serif d'affichage ni deux manuscrites. Une chasse fixe en texte est permise (mesurée sur deux sites). Aucune police IA. La paire (titre, texte) n'est jamais celle d'une direction existante. |
 | Graisses | Graisse ramenée à la plus proche disponible (`metadata.json` de fontsource) : pas de faux gras synthétisé. |
 | Photos | `plein-cadre` exige une photo du client d'au moins 1 600 px. |
-| Mouvement | Aiguillage « calme » : régime calme, rien ne suit le défilement, `motion: 'subtle'`. |
+| Mouvement | Aiguillage « calme » : régime calme, rien ne suit le défilement, profil marqué calme, `motion: 'subtle'`. Profil (`MOUVEMENTS.md`) : fond vidéo seulement avec une vraie vidéo ou `--video animer\|banque` prévu (jamais une vidéo de banque présentée comme celle du client ; poster obligatoire) ; séquence avec une vidéo ou une photo de 1 920 px ; compteur avec un vrai chiffre. Trois pistes : ni la même entrée ni la même apparition. Le profil donne `motion` du look et ses consignes sont imprimées avec le mélange. |
+| Beauté | Voir § Garde de beauté : fond vif, capitales condensées sur fond coloré, aplats vifs concurrents, vibration, trop de teintes, accord de polices en conflit, photos sombres nues sur blanc froid. |
 | Premier écran | Famille libre (ni pistes sœurs ni 4 derniers sites, comme `ff contrat`, registre des mélanges compris) et dont les données existent (`mosaique` : 8 photos ; `preuve-d-abord` : 50 avis ; `numero-geant` : urgence ; …). |
 | Architecture | Libre de la même façon, parmi `docs/veille/architectures/INDEX.md`. |
 | Unicité | Plus de 3 atomes partagés avec un site du registre = refusé ; trois pistes = 2 au plus deux à deux. |
 | Charte | Texte courant ≥ 16 px au téléphone (24 px au plus à l'ordinateur) ; mesure ramenée entre 45 et 75 caractères ; boutons pilule mesurés rendus à 6 px (signe IA, `docs/GOUT.md` § 2) ; emphase des titres sans italique ; ni grain ni halo. |
+
+## Garde de beauté (fonctions pures de `melanger.mjs`, testées)
+
+Née de L'Épi d'Or d (m-cca519, 18 oct 2026 : « juste un peu moche ») : fond jaune d'or plein sur toute la page, Bebas
+Neue en capitales, encre brune, boutons rouge-orangé, vert en second accent. Chaque couleur passait l'AA : le mélange
+était lisible, et laid. La garde refuse ce qui est laid, pas seulement ce qui est illisible. Les couleurs se mesurent en
+**OKLCH** (`hexVersOklch`, `atomes.mjs`) : la chroma y est perçue de la même façon quelle que soit la teinte, ce que la
+saturation HSL ne garantit pas (un jaune HSL 100 % paraît bien plus vif qu'un bleu HSL 100 %). Seuils (`BEAUTE`) calés
+sur les palettes mesurées du registre : tous les fonds de vrais sites sont sous 0,04 de chroma (le kraft de Meyers,
+0,036, est le plus coloré), sauf celui de Café Binocle (0,14).
+
+| Règle | Refus | Raison |
+|---|---|---|
+| B1 Fond vif | Fond de page de chroma ≥ 0,08 (clair) ou ≥ 0,13 (sombre : bleu nuit, vert bouteille passent) | La direction peint `--bg` sous toute la page : la couleur dominante (le « 60 » de la règle 60-30-10) doit être un neutre, au plus teinté ; une couleur saturée en grande surface fatigue l'œil et écrase les photos (Itten, contraste de quantité). La vive se garde aux petites surfaces. |
+| B2 Capitales condensées sur fond coloré | Titre condensé (Bebas, Oswald, « Condensed ») en capitales sur un fond de chroma ≥ 0,045 | Une condensée en capitales est une voix d'affiche ; sur un fond qui a une couleur, la page devient une affiche de foire. Sur blanc ou crème (Coutumes, Pizza Amici, les sites d'où elles viennent), elle garde sa tenue. |
+| B3 Aplats vifs concurrents | Plus de 2 aplats vifs parmi fond, surface, bouton (accent mesuré) et second accent (chroma ≥ 0,12) ; ou un fond vif plus une autre vive | Une page a une couleur forte, deux au plus ; trois vives n'ont plus de hiérarchie, l'œil ne sait plus où aller (règle 60-30-10). |
+| B4 Vibration | Deux vives de même clarté (ΔL < 0,1) et de teintes à 40° ou plus | Deux couleurs saturées de même valeur vibrent à leur frontière (Albers, *Interaction of Color*) : le bouton rouge-orangé contre le vert de m-cca519 (ΔL 0,01). |
+| B5 Trop de teintes | Plus de 3 familles de teintes actives (chroma ≥ 0,04, regroupées à 30° près) dans la palette | Au-delà de trois rôles colorés (dominante, secondaire, accent), la page n'a plus de dominante. |
+| B6 Accord en conflit | Deux polices DIFFÉRENTES du même genre : deux serifs (serif, serif d'affichage, slab), deux sans de texte, deux chasses fixes (`controlerPolices`, `atomes.mjs`) | Bringhurst (*Elements of Typographic Style* § 6.5) et Butterick (*Practical Typography*, « font pairing ») : on accorde par contraste (une serif et une sans, une sans d'affichage et une sans de texte) ou par concordance (une seule famille), jamais par quasi-ressemblance, qui a l'air d'une erreur. Deux polices d'affichage étaient déjà refusées (le texte n'est jamais une police d'affichage). |
+| B7 Photos sombres nues sur blanc froid | Photos du client sombres et chaudes (L* médiane < 55, R - B > 15, mesurées par `ff melanger` sur `raw/`) en vignettes sans ombre ni filet, sur un fond quasi blanc et froid (L ≥ 0,97, chroma < 0,015) | Contraste simultané : un blanc pur autour d'une photo sombre l'assombrit encore, elle fait un trou dans la page. Les encadreurs posent un passe-partout ; ici : cadre, fond chaud, plein cadre ou noir et blanc (masque, cadre et plein cadre passent). |
+
+B1, B3, B4 et B5 ne dépendent que des couleurs : un atome `couleurs` qui les viole est écarté dès la lecture du registre
+(`ff atomes` l'affiche, « écarté : … (garde de beauté) ») ; aujourd'hui, la palette de Café Binocle (fond jaune d'or
+plein, bouton rouge-orangé et vert vifs qui vibrent). B2 et B7 croisent typo, couleurs, photos et client : vérifiés à
+chaque tirage (`refusBeaute`, appelé par `refusCroises`) ; quand plus aucune combinaison ne passe, l'erreur dit les refus
+les plus fréquents.
+
+**Verdict sur L'Épi d'Or** (`tests/melanger.test.mjs`, photos réelles de la boulangerie : L* 48, chaudes) :
+- **d, m-cca519 : refusé** quatre fois (B1 fond #ffe26e chroma 0,14 ; B3 trois aplats vifs fond / bouton #ef5b34 /
+  second accent #00a881 ; B4 bouton et vert qui vibrent ; B2 Bebas en capitales sur fond coloré).
+- **b, m-e7e9e8 : passe** (fond #fdfdfd neutre, une seule vive #ff4c24, Bodoni + Urbanist, photos en masque).
+- **c, m-751d7c : passe** (fond #f2ede9 neutre, deux vives or #e3af04 et rouge #c72531 de clartés éloignées, ΔL 0,24 ;
+  trois familles de teintes ; Gloock + Karla ; photos en cadre).
 
 ## Règles de compatibilité apprises (en regardant des mélanges)
 
@@ -147,8 +184,8 @@ Chaque ligne vient d'un essai regardé, avec le mélange qui l'a provoquée. Une
 1. `node scripts/ff.mjs atomes mesurer <url> --id <id> --fiche <fiche.md> --nom "<Nom>"` : relevé (Chrome, un seul à
    la fois) et brouillon où tout ce qui demande un œil est « à juger ». Un brouillon existant n'est jamais écrasé.
 2. Regarder les captures et la fiche ; remplir `libre` (police du registre la plus proche, jamais IA), `couleurs.principal`
-   et la palette (depuis `couleurs.releve`, puis supprimer `releve`), `photos.traitement`, `mouvement.regime` et
-   `defilement`, `premier_ecran` ; corriger ce que le relevé a mal lu (h1 caché, conteneur qui est une piste
+   et la palette (depuis `couleurs.releve`, puis supprimer `releve`), `photos.traitement`, `mouvement.regime`,
+   `defilement` et `profil` (MOUVEMENTS.md), `premier_ecran` ; corriger ce que le relevé a mal lu (h1 caché, conteneur qui est une piste
    horizontale : « à juger ») ; une `remarque` par choix.
 3. `node scripts/ff.mjs atomes` doit être vert ; `ff melanger _exemple --style <id> --simuler` montre ce que le site
    apporte.

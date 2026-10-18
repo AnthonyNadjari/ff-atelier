@@ -403,6 +403,13 @@ html[data-direction] .eyebrow {
    data-border-beam         : bordure conique tournante (CSS pur, @property)
    data-reveal-native        : variante CSS de data-reveal (animation-timeline:view(), @supports)
 
+   --- Profils de mouvement (docs/veille/styles/MOUVEMENTS.md) ---
+   data-video-fond          : fond video, poster obligatoire, bouton pause .ff-pause (motion.ts videoFonds())
+   data-derive              : photo qui respire dans son cadre, aller-retour lent, bouton pause (subtle)
+   data-entree="plans" + data-plan="fond|texte" : entree du premier ecran par plans (CSS, deux regimes)
+   data-marquee-sens="inverse" : bande qui defile dans l'autre sens (CSS)
+   --ease-ressort           : ressort (depassement 1,084 puis retour, Relais Rossar), pour les :hover
+
    --- Sequence d'images "page produit" (effet Apple) ---
    data-frames (+ data-frames-canvas, data-frames-count, data-frames-ext, data-frames-pad,
    data-frames-mobile, data-frames-poster) : sequence d'images dessinee sur un <canvas> au fil du
@@ -681,6 +688,47 @@ html[data-direction] .eyebrow {
 }
 @keyframes border-beam-spin { to { --border-beam-angle: 360deg; } }
 
+/* ---------- Profils de mouvement (docs/veille/styles/MOUVEMENTS.md, 18 oct 2026) ---------- */
+/* Ressort de Relais Rossàr (fiche : transition .5s linear(… 1.084 45.5%, 1.003 73.8%, 0.993 84.5%, 1 100%) ; points
+   intermédiaires interpolés). Repli cubic-bezier à dépassement pour les navigateurs sans linear(). Réservé aux
+   réponses à un geste (:hover, :active), sur --motion-ui. */
+:root { --ease-ressort: cubic-bezier(0.34, 1.4, 0.64, 1); }
+@supports (transition-timing-function: linear(0, 1)) {
+  :root { --ease-ressort: linear(0, 0.008 1.4%, 0.124 5.8%, 0.28 9.4%, 0.52 14.2%, 0.77 20%, 0.93 26%, 1.03 33%, 1.075 39.5%, 1.084 45.5%, 1.06 54%, 1.003 73.8%, 0.993 84.5%, 1); }
+}
+/* data-marquee-sens="inverse" : la seconde bande de Paput Menorca défile en sens contraire. */
+[data-marquee][data-marquee-sens='inverse'] > .marquee-track { animation-direction: reverse; }
+
+/* data-entree="plans" (Meyers : hero-media-zoom-in-load 1,75 s cubic-bezier(.75,0,.2,1)) : deux régimes, un lent pour
+   l'image qui se resserre, un sec pour le texte qui arrive après. CSS seul : visible même sans JavaScript, rien sous
+   motion="none" ni prefers-reduced-motion, pas rejouée après une navigation (data-entree-jouee, motion.ts). Le cadre de
+   [data-plan='fond'] coupe (overflow hidden : c'est le cas de tous les héros). */
+[data-motion]:not([data-motion='none']):not([data-entree-jouee]) [data-entree='plans'] [data-plan='fond'] { animation: ff-plan-fond 1.6s cubic-bezier(0.75, 0, 0.2, 1) both; transform-origin: 50% 40%; }
+[data-motion]:not([data-motion='none']):not([data-entree-jouee]) [data-entree='plans'] [data-plan='texte'] { animation: ff-plan-texte 0.2s var(--ease-out) 0.55s both; }
+@keyframes ff-plan-fond { from { transform: scale(1.08); } to { transform: none; } }
+@keyframes ff-plan-texte { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* data-derive (Their Nibs : zoom lent de l'image active) : la photo glisse et se resserre DANS son cadre, qui ne bouge
+   pas. Aller-retour (--derive-duree, 24 s), en pause hors écran (.is-derive-on posé par motion.ts) et au bouton. */
+[data-derive] { position: relative; overflow: hidden; }
+[data-motion]:not([data-motion='none']) [data-derive] img { animation: ff-derive var(--derive-duree, 24s) ease-in-out infinite alternate; animation-play-state: paused; will-change: transform; }
+[data-derive].is-derive-on:not(.is-derive-pause) img { animation-play-state: running; }
+@keyframes ff-derive { from { transform: scale(1.04) translate3d(-1.2%, 0.6%, 0); } to { transform: scale(1.12) translate3d(1.2%, -0.8%, 0); } }
+
+/* data-video-fond : la vidéo couvre son bloc ; le poster se suffit à lui-même (iPhone en économie d'énergie). */
+[data-video-fond] { position: relative; }
+[data-video-fond] > video, [data-video-fond] video { object-fit: cover; }
+
+/* Bouton pause du moteur (data-video-fond, data-derive) : WCAG 2.2.2, cible de 44 px, tokens seulement. */
+.ff-pause { position: absolute; right: 1rem; bottom: 1rem; z-index: 2; width: 2.75rem; height: 2.75rem; border-radius: var(--radius, 4px); border: 1px solid color-mix(in srgb, var(--on-ink) 40%, transparent); background: color-mix(in srgb, var(--ink) 55%, transparent); color: var(--on-ink); cursor: pointer; transition: background-color var(--motion-ui) var(--ease-out); }
+.ff-pause::before, .ff-pause::after { content: ''; position: absolute; top: 50%; width: 0.25rem; height: 0.875rem; background: currentColor; transform: translateY(-50%); }
+.ff-pause::before { left: calc(50% - 0.375rem); }
+.ff-pause::after { left: calc(50% + 0.125rem); }
+.ff-pause[data-etat='pause']::before { left: calc(50% - 0.25rem); width: 0; height: 0; background: none; border-style: solid; border-width: 0.5rem 0 0.5rem 0.8rem; border-color: transparent transparent transparent currentColor; }
+.ff-pause[data-etat='pause']::after { display: none; }
+.ff-pause:focus-visible { outline: 2px solid var(--on-ink); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .ff-pause:hover { background: color-mix(in srgb, var(--ink) 80%, transparent); } }
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal], [data-stagger] > * { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; transition: none !important; }
   [data-marquee] > .marquee-track { animation: none; }
@@ -726,8 +774,15 @@ html[data-direction] .eyebrow {
   [data-confetti] { --ff-confetti-reduced: 1; } /* confettiOnSuccess() n'attache jamais l'ecouteur ff:form-success quand reduced */
   [data-duotone]::after, [data-grain]::after { transition: none !important; }
   [data-border-beam]::before { animation: none !important; }
+  /* Profils de mouvement : data-video-fond (videoFonds() ne lance jamais la lecture, poster seul, pas de bouton),
+     data-derive (photo fixe), data-entree="plans" / data-plan (premier écran posé d'emblée), data-marquee-sens. */
+  [data-video-fond] .ff-pause, [data-derive] .ff-pause { display: none !important; }
+  [data-derive] img { animation: none !important; transform: none !important; }
+  [data-entree] [data-plan] { animation: none !important; opacity: 1 !important; transform: none !important; }
+  [data-marquee-sens] > .marquee-track { animation: none !important; }
   html { scroll-behavior: auto; }
 }
+[data-motion='none'] [data-derive] .ff-pause { display: none; }
 
 /* Transitions de page (site.transitions, ClientRouter — docs/ANIMATIONS.md § Transitions de page).
    Fondu 0,3 s sur la page ; le hero (#hero) et la nav ([data-nav]) forment chacun leur propre groupe :

@@ -395,6 +395,25 @@ const revealVariants = [
     </script>
   </div>
 
+  <!-- ===================== Profils de mouvement (docs/veille/styles/MOUVEMENTS.md) ===================== -->
+  <div class="container-ff mt-24">
+    <p class="eyebrow">Profils · data-entree="plans" + data-plan</p>
+    <div class="mt-4 relative h-[50vh] overflow-hidden bg-ink text-on-ink" data-entree="plans">
+      <img src="/images/galerie-1.webp" alt="" class="absolute inset-0 h-full w-full object-cover" data-plan="fond" />
+      <p class="relative p-8 text-display-md" data-plan="texte">Le texte arrive après l’image (0,2 s, sec).</p>
+    </div>
+    <p class="eyebrow mt-16">Profils · data-derive (photo qui respire, bouton pause)</p>
+    <div class="mt-4 aspect-[3/2] max-w-3xl" data-derive="20">
+      <img src="/images/galerie-2.webp" alt="" class="h-full w-full object-cover" />
+    </div>
+  </div>
+  <div class="mt-16 border-y border-line py-6" data-marquee="34s" data-marquee-sens="inverse">
+    <p class="eyebrow container-ff mb-3">Profils · data-marquee-sens="inverse"</p>
+    <div class="marquee-track text-display-md">
+      <span>Dans l’autre sens</span><span>Bandes croisées</span><span>Paput Menorca</span>
+    </div>
+  </div>
+
   <!-- ===================== data-frames (sequence d'images, effet "page produit") ===================== -->
   <div class="mt-24 relative h-[70vh] overflow-hidden bg-ink text-on-ink" data-frames="/anim/demo/" data-frames-count="48" data-frames-ext="webp" data-frames-pad="4" data-frames-mobile="/anim/demo-mobile/" data-frames-poster="/anim/demo/0001.webp" data-pin="180">
     <canvas data-frames-canvas></canvas>

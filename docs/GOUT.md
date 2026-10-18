@@ -67,7 +67,9 @@ partagent pas la leur. `ff ressemblance` compare la page entière, pas seulement
 à 3 sites différents », « encore de la proximité, mais beaucoup moins qu'avant »). Architecture entière d'un vrai
 site + mélange d'atomes de styles réels (`ff melanger`) + vraies photos + socle. Version d (jaune d'or plein, Bebas
 Neue, un seul écran) : « juste un peu moche ». Un aplat de couleur vive sur toute la page avec une capitale
-condensée ne suffit pas à faire un style : il faut que le mélange reste beau, pas seulement différent.
+condensée ne suffit pas à faire un style : il faut que le mélange reste beau, pas seulement différent. Garde automatique
+depuis le 18 oct 2026 : `ff melanger` refuse fond vif, capitales condensées sur fond coloré, aplats vifs concurrents
+(`docs/veille/styles/ATOMES.md` § Garde de beauté), et tire un profil de mouvement parmi quinze (`MOUVEMENTS.md`).
 
 ## 1. Ce qui fait qu'un site est « à nous »
 

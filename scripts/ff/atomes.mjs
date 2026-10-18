@@ -10,6 +10,7 @@
 // dérivations calculées des tokens manquants), règles de compatibilité des polices. Testé par tests/atomes.test.mjs.
 import fs from 'node:fs';
 import path from 'node:path';
+import { IDS_PROFILS } from './mouvements.mjs';
 
 export const A_JUGER = 'à juger';
 export const DIMENSIONS = ['typo', 'couleurs', 'densite', 'formes', 'photos', 'mouvement', 'matiere', 'architecture', 'premier_ecran'];
@@ -95,6 +96,27 @@ export function hslVersHex({ h, s, l }) {
   return rgbVersHex([f(0) * 255, f(8) * 255, f(4) * 255]);
 }
 export const estSombre = (hex) => luminanceHex(hex) < 0.18;
+
+/**
+ * OKLCH (Björn Ottosson, 2020 ; CSS Color 4) d'une couleur hex : { l (0-1), c (chroma, 0 à ~0,37), h (degrés) }.
+ * Espace perceptuellement uniforme : une même chroma « se voit » autant quelle que soit la teinte, ce que HSL ne
+ * garantit pas (le jaune HSL 100 % paraît bien plus vif que le bleu HSL 100 %). Sert à la garde de beauté de
+ * `ff melanger` (docs/veille/styles/ATOMES.md § Garde de beauté).
+ */
+export function hexVersOklch(hex) {
+  const [r, g, b] = hexVersRgb(hex).map(lin);
+  const l_ = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m_ = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s_ = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+  const A = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+  const B = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+  let h = (Math.atan2(B, A) * 180) / Math.PI;
+  if (h < 0) h += 360;
+  return { l: L, c: Math.hypot(A, B), h };
+}
+/** Écart de teinte (degrés, 0 à 180) entre deux angles OKLCH. */
+export const ecartTeinte = (a, b) => { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; };
 
 /**
  * Pousse la luminosité de `hex` (même teinte, même saturation) jusqu'à `cible` de contraste sur `fond` :
@@ -200,6 +222,8 @@ export function validerAtomes(atomes, opts = {}) {
   if (!estAJuger(m)) {
     if (!estAJuger(m.regime)) champ(e, REGIMES.includes(m.regime), `mouvement.regime : ${REGIMES.join(' | ')}`);
     if (!estAJuger(m.defilement)) champ(e, DEFILEMENTS.includes(m.defilement), `mouvement.defilement : ${DEFILEMENTS.join(' | ')}`);
+    if (!estAJuger(m.profil)) champ(e, IDS_PROFILS.includes(m.profil), `mouvement.profil : un id de docs/veille/styles/MOUVEMENTS.md (${IDS_PROFILS.join(', ')})`);
+    else a.push('mouvement.profil à juger : atome mouvement inutilisable (choisir le profil dans MOUVEMENTS.md)');
     for (const k of ['ui', 'scene']) {
       if (estAJuger(m[k])) continue;
       champ(e, estNombre(m[k].duree) && m[k].duree > 0 && m[k].duree <= 3, `mouvement.${k}.duree : secondes`);
@@ -226,7 +250,7 @@ export function utilisables(x) {
     densite: !estAJuger(d) && !estAJuger(d.section) && !estAJuger(d.gouttiere) && !estAJuger(d.conteneur),
     formes: !estAJuger(f) && !estAJuger(f.rayon) && !estAJuger(f.rayonCarte) && !estAJuger(f.bouton) && !estAJuger(f.ombre),
     photos: !estAJuger(p) && !estAJuger(p.traitement),
-    mouvement: !estAJuger(m) && !estAJuger(m.ui) && !estAJuger(m.scene) && !estAJuger(m.defilement) && !estAJuger(m.regime),
+    mouvement: !estAJuger(m) && !estAJuger(m.ui) && !estAJuger(m.scene) && !estAJuger(m.defilement) && !estAJuger(m.regime) && !estAJuger(m.profil),
     matiere: !estAJuger(mt) && !estAJuger(mt.fond) && !estAJuger(mt.filets),
     architecture: !estAJuger(x.architecture),
     premier_ecran: !estAJuger(x.premier_ecran),
@@ -237,7 +261,8 @@ export function utilisables(x) {
 
 /**
  * Rôles de polices : le texte courant n'est jamais une police d'affichage (didone, grasse, condensée, manuscrite),
- * donc jamais deux serif d'affichage ni deux manuscrites ; aucune police de la liste IA ; police du registre.
+ * donc jamais deux serif d'affichage ni deux manuscrites ; jamais deux polices différentes du même genre (accord en
+ * conflit) ; aucune police de la liste IA ; police du registre.
  * `polices` = { cle: { role } }. Renvoie la liste des raisons de refus (vide = cohérent).
  */
 export function controlerPolices(typo, { polices = {}, clesIa = [] } = {}) {
@@ -255,6 +280,14 @@ export function controlerPolices(typo, { polices = {}, clesIa = [] } = {}) {
   if (gTitre === 'manuscrite' && gTexte === 'manuscrite') r.push('deux manuscrites');
   if (gTitre === 'serif-affichage' && gTexte === 'serif-affichage') r.push('deux serif d\'affichage');
   if (mono && GENRES[mono] && GENRES[mono] !== 'mono') r.push(`mono : ${mono} n'est pas une chasse fixe`);
+  // Accord par contraste, jamais par conflit (Bringhurst, « The Elements of Typographic Style » § 6.5 ; Butterick,
+  // « Practical Typography », Font pairing) : deux polices DIFFÉRENTES du même genre (deux serifs, deux sans de
+  // texte, deux slabs, deux chasses fixes) se ressemblent assez pour avoir l'air d'une erreur, pas assez pour faire
+  // un contraste. Une seule famille (titre = texte) ou deux genres nettement différents.
+  if (titre && texte && titre !== texte && gTitre && gTexte) {
+    const famille = (g) => (/^serif|^slab/.test(g) ? 'serif' : g === 'sans' ? 'sans' : g === 'mono' ? 'mono' : g);
+    if (famille(gTitre) === famille(gTexte) && ['serif', 'sans', 'mono'].includes(famille(gTitre))) r.push(`accord en conflit : ${titre} et ${texte} sont deux ${famille(gTitre) === 'serif' ? 'serifs' : famille(gTitre) === 'sans' ? 'sans de texte' : 'chasses fixes'} différentes (une seule famille, ou deux genres nettement différents)`);
+  }
   return r;
 }
 

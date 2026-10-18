@@ -464,6 +464,7 @@ export const siteSchema = z.object({
     .object({
       hero: img.optional(),
       heroVideo: z.string().optional().describe("Chemin public d'un mp4 muet, variante hero video"),
+      heroVideoPoster: z.string().optional().describe("Chemin public de l'image affichée avant et à la place de heroVideo (poster.jpg de ff video) ; à défaut images.hero. Sans aucun des deux, la vidéo n'est pas rendue (iPhone en économie d'énergie bloque l'autoplay)"),
       logo: img.optional(),
       og: z.string().optional(),
     })

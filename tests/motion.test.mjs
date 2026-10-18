@@ -224,3 +224,43 @@ test(
     assert.ok(fs.existsSync(path.join(ROOT, TEST_OUT, 'index.html')), `${TEST_OUT}/index.html manquant apres le build`);
   },
 );
+
+// Profils de mouvement (docs/veille/styles/MOUVEMENTS.md, 18 oct 2026) : fond video, photo qui respire, entree par plans.
+test('data-video-fond : poster obligatoire, pas d’autoplay HTML, lecture a l’ecran seulement, pause, rien sous none/reduced', () => {
+  const fn = body.slice(body.indexOf('function videoFonds'), body.indexOf('function derives'));
+  assert.ok(fn.length > 200, 'videoFonds() dans motion.ts');
+  assert.match(fn, /getAttribute\('poster'\)/, 'poster verifie');
+  assert.match(fn, /sans-poster/, 'sans poster : la video ne joue pas');
+  assert.match(fn, /removeAttribute\('autoplay'\)/);
+  assert.match(fn, /motion === 'none' \|\| reduced/);
+  assert.match(fn, /IntersectionObserver/);
+  assert.match(fn, /visibilitychange/);
+  assert.match(fn, /\.catch\(/, 'play() rejete (iPhone en economie d’energie) : poster + bouton');
+  assert.match(fn, /boutonPause/);
+  const init = body.slice(body.indexOf('export function initMotion'), body.indexOf("if (motion === 'none' || reduced) {"));
+  assert.match(init, /videoFonds\(motion, reduced\)/, 'appele avant le repli anticipe');
+});
+
+test('Hero video : data-video-fond, sans autoplay, poster obligatoire (heroVideoPoster ou hero), sinon pas de video', () => {
+  const hero = fs.readFileSync(path.join(ROOT, 'src', 'sections', 'Hero', 'video.astro'), 'utf8');
+  assert.match(hero, /data-video-fond/);
+  assert.doesNotMatch(hero, /<video[^>]*\sautoplay/);
+  assert.match(hero, /const poster = site\.images\.heroVideoPoster \?\? hero\?\.src;/);
+  assert.match(hero, /const video = poster \? site\.images\.heroVideo : undefined;/);
+  assert.match(hero, /poster=\{poster\}/);
+  const schema = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'schema.ts'), 'utf8');
+  assert.match(schema, /heroVideoPoster: z\.string\(\)\.optional\(\)\.describe\(/);
+});
+
+test('data-derive et data-entree="plans" : CSS seul, deux regimes, pause hors ecran, coupes sous reduced-motion', () => {
+  assert.match(cssSrc, /\[data-derive\]\.is-derive-on:not\(\.is-derive-pause\) img \{ animation-play-state: running; \}/);
+  assert.match(cssSrc, /@keyframes ff-derive/);
+  assert.match(cssSrc, /\[data-plan='fond'\] \{ animation: ff-plan-fond 1\.6s/, 'regime lent');
+  assert.match(cssSrc, /\[data-plan='texte'\] \{ animation: ff-plan-texte 0\.2s/, 'regime sec');
+  assert.match(cssSrc, /:not\(\[data-entree-jouee\]\)/, 'pas rejouee a chaque navigation');
+  assert.match(body, /entreeJouee/);
+  assert.match(reduced, /\[data-entree\] \[data-plan\] \{ animation: none !important;/);
+  assert.match(reduced, /\[data-derive\] img \{ animation: none !important;/);
+  assert.match(cssSrc, /\.ff-pause \{[^}]*width: 2\.75rem; height: 2\.75rem;/, 'cible de 44 px');
+  assert.match(cssSrc, /--ease-ressort: linear\(/);
+});
