@@ -1,0 +1,1466 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.oatly.com/",
+  "nom": "oatly",
+  "date": "2026-10-19",
+  "identite": {
+    "title": "the Original Oat Drink Company | Oatly",
+    "siteName": "",
+    "lang": "en",
+    "description": "A site filled with everything you could possibly think of, and also probably not think of, related to an oat drink company called Oatly.",
+    "technologies": [
+      "Next.js"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "the Original Oat Drink Company",
+      "h1Visible": true,
+      "mots": 177,
+      "images": 7,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 1,
+        "selecteur": "div#coiOverlay"
+      },
+      "boutonPrincipal": {
+        "texte": "Tell me more",
+        "x": 460,
+        "y": 487.953125,
+        "cx": 0.348046875,
+        "cy": 0.5521701388888889,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "We know you didn’t come here for cookies But they’re good if you want our site to work correctly. If you want it to work perfectly, choose “Accept all.” If you don’t like being an anonymous statistic ",
+        "selecteur": "div#coiOverlay",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 1,
+        "texte": "We know you didn’t come here for cookies But they’re good if you want our site to work correctly. If you want it to work perfectly, choose “Accept all.” If you don’t like being an anonymous statistic ",
+        "selecteur": "div#coiOverlay"
+      },
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.u-visuallyHidden",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 32,
+        "graisse": "700",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2#coiBannerHeadline",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 27,
+        "graisse": "500",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#show_details",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.NavigationLink_NavigationLink__FLMsB",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Bjorn Serif Pro",
+          "url": "/_next/static/media/BjornSerifPro-Regular.5128ee31.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Courier Prime",
+          "url": "/_next/static/media/Courier-Prime.8e219b4e.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Courier Prime Bold",
+          "url": "/_next/static/media/Courier-Prime-Bold.93775962.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Courier Prime Bold Italic",
+          "url": "/_next/static/media/Courier-Prime-Bold-Italic.ea45bc5d.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Courier Prime Italic",
+          "url": "/_next/static/media/Courier-Prime-Italic.84bda23f.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Girdo Black Pro",
+          "url": "/_next/static/media/GirdoBlackPro-Regular.a40bd0fc.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Girdo Rounded Pro",
+          "url": "/_next/static/media/GirdoRoundedPro-Regular.ac0a3017.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GT Alpina",
+          "url": "/_next/static/media/GT-Alpina-Standard-Regular.944fd28c.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GT Alpina Italic",
+          "url": "/_next/static/media/GT-Alpina-Standard-Regular-Italic.13d48353.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Margo Pro Regular",
+          "url": "/_next/static/media/MargoPro-Regular.adcdb6c7.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Margo Pro Bold",
+          "url": "/_next/static/media/MargoPro-Bold.d0eee858.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "oatly-icons",
+          "url": "/_next/static/media/oatly-icons.f57770cf.ttf",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Petra Antikva Pro",
+          "url": "/_next/static/media/PetraAntikvaPro-Regular.1a36dee7.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Toni Noveau Pro",
+          "url": "/_next/static/media/ToniNoveauPro-Regular.917643b2.otf",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Tinny Serif Pro",
+          "url": "/_next/static/media/TinnySerifPro-Regular.f534e07f.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Univers",
+          "url": "/_next/static/media/Univers.cf59e211.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Univers Italic",
+          "url": "/_next/static/media/Univers-Oblique.b1dffa33.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.oatly.com/_next/static/media/MargoPro-Regular.adcdb6c7.woff",
+        "https://www.oatly.com/_next/static/media/oatly-icons.f57770cf.ttf",
+        "https://www.oatly.com/_next/static/media/MargoPro-Bold.d0eee858.woff"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Margo Pro Regular",
+          "n": 59
+        },
+        {
+          "famille": "Margo Pro Bold",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 27,
+          "poids": 2370495.3364257812
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 1879126.7216796875
+        },
+        {
+          "hex": "#fffef6",
+          "n": 1,
+          "poids": 1200943.0766601562
+        },
+        {
+          "hex": "#f6f6f6",
+          "n": 1,
+          "poids": 395943.75
+        },
+        {
+          "hex": "#888888",
+          "n": 3,
+          "poids": 8442
+        },
+        {
+          "hex": "#fdcf85",
+          "n": 7,
+          "poids": 7948.71875
+        },
+        {
+          "hex": "#c6c6c6",
+          "n": 3,
+          "poids": 5506.34765625
+        },
+        {
+          "hex": "#2c622c",
+          "n": 1,
+          "poids": 2814
+        },
+        {
+          "hex": "#f8c8d8",
+          "n": 1,
+          "poids": 1971.09765625
+        },
+        {
+          "hex": "#98c5d3",
+          "n": 1,
+          "poids": 1270.130859375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#222222",
+          "n": 7,
+          "poids": 795
+        },
+        {
+          "hex": "#000000",
+          "n": 46,
+          "poids": 759
+        },
+        {
+          "hex": "#ffffff",
+          "n": 7,
+          "poids": 111
+        }
+      ],
+      "nbImages": 8,
+      "nbVideos": 0,
+      "nbFondsImage": 4,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 27,
+          "poids": 2370495.3364257812,
+          "part": 0.404
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 1879126.7216796875,
+          "part": 0.32
+        },
+        {
+          "hex": "#fffef6",
+          "n": 1,
+          "poids": 1200943.0766601562,
+          "part": 0.204
+        },
+        {
+          "hex": "#f6f6f6",
+          "n": 1,
+          "poids": 395943.75,
+          "part": 0.067
+        },
+        {
+          "hex": "#888888",
+          "n": 3,
+          "poids": 8442,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#222222",
+          "n": 7,
+          "poids": 795,
+          "part": 0.477
+        },
+        {
+          "hex": "#000000",
+          "n": 46,
+          "poids": 759,
+          "part": 0.456
+        },
+        {
+          "hex": "#ffffff",
+          "n": 7,
+          "poids": 111,
+          "part": 0.067
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "React",
+          "preuve": "window.__NEXT_DATA__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.3s ease",
+          "n": 6
+        },
+        {
+          "valeur": "translate 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "color 0.4s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-smooth-scroll-disabled",
+          "n": 2
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "a.SkipLink-module_SkipLink__GD6qz",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "translate 0.3s ease"
+        ],
+        "attributs": [
+          "data-smooth-scroll-disabled"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div.BaseCard_Top__hREIy",
+      "sections": [
+        {
+          "selecteur": "header.BrowserMenu_BrowserMenu__OdHhq",
+          "titre": "WELCOME TO OATLY GLOBAL!",
+          "top": -2070,
+          "hauteur": 92,
+          "ecrans": 0.1,
+          "mots": 34,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "ol"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": "WE EXIST TO MAKE IT EASIER FOR PEOPLE TO LIVE HEALTHIER LIVE",
+          "top": -1942,
+          "hauteur": 303,
+          "ecrans": 0.3,
+          "mots": 24,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "THE OATLY EMBASSY",
+          "top": -1942,
+          "hauteur": 643,
+          "ecrans": 0.7,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": "FREQUENTLY ASKED QUESTIONS",
+          "top": -1942,
+          "hauteur": 303,
+          "ecrans": 0.3,
+          "mots": 4,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "LOOK BOOK VOL. 3",
+          "top": -1602,
+          "hauteur": 643,
+          "ecrans": 0.7,
+          "mots": 5,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": "AFTERTASTE",
+          "top": -1602,
+          "hauteur": 643,
+          "ecrans": 0.7,
+          "mots": 2,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": "THE FUTURE OF TASTE",
+          "top": -1262,
+          "hauteur": 303,
+          "ecrans": 0.3,
+          "mots": 5,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "PEE FOR THE PLANET",
+          "top": -922,
+          "hauteur": 303,
+          "ecrans": 0.3,
+          "mots": 5,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.BaseCard_Content__M7yOG",
+          "titre": "OATLY & AVAVAV GOES TO MILAN FASHION WEEK",
+          "top": 21,
+          "hauteur": 39,
+          "ecrans": 0,
+          "mots": 9,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": null,
+          "top": -582,
+          "hauteur": 303,
+          "ecrans": 0.3,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "MUCHO MATCHA",
+          "top": -582,
+          "hauteur": 643,
+          "ecrans": 0.7,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": "OAT DRINK CHOCOLATE",
+          "top": -242,
+          "hauteur": 303,
+          "ecrans": 0.3,
+          "mots": 4,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "THE OATLY LOOK BOOK REFILL",
+          "top": 98,
+          "hauteur": 643,
+          "ecrans": 0.7,
+          "mots": 6,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "OAT DRINK MATCHA",
+          "top": 98,
+          "hauteur": 643,
+          "ecrans": 0.7,
+          "mots": 4,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "TASTES LIKE MIAMI",
+          "top": 98,
+          "hauteur": 643,
+          "ecrans": 0.7,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "div.CardGrid_ShowMoreButtonContainer__fgkyz",
+          "titre": null,
+          "top": 778,
+          "hauteur": 320,
+          "ecrans": 0.4,
+          "mots": 2,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer#footer",
+          "titre": null,
+          "top": 1134,
+          "hauteur": 202,
+          "ecrans": 0.2,
+          "mots": 11,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "div#coiOverlay",
+        "hauteur": 900,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Privacy policy",
+            "href": "https://www.oatly.com/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Our Cookie Policy",
+            "href": "javascript:TogglePage(this, 'coiPage-3');",
+            "bouton": false
+          },
+          {
+            "texte": "Tell me more",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "DECLINE ALL",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "ACCEPT ALL",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#footer",
+        "liens": [
+          {
+            "texte": "Back to top",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "FAQ",
+            "href": "/random-answers",
+            "bouton": false
+          },
+          {
+            "texte": "SUSTAINABILITY",
+            "href": "/sustainability",
+            "bouton": false
+          },
+          {
+            "texte": "CAREERS",
+            "href": "https://careers.oatly.com/",
+            "bouton": false
+          },
+          {
+            "texte": "FOR INVESTORS",
+            "href": "https://investors.oatly.com/",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "LEGAL",
+            "href": "/legal",
+            "bouton": false
+          },
+          {
+            "texte": "PRIVACY POLICY",
+            "href": "/legal/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "COOKIE CONSENT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Oatly's {{ socialMediaPlatform }}",
+            "href": "https://www.facebook.com/oatly",
+            "bouton": false
+          },
+          {
+            "texte": "Oatly's {{ socialMediaPlatform }}",
+            "href": "http://instagram.com/oatly",
+            "bouton": false
+          },
+          {
+            "texte": "Oatly's {{ socialMediaPlatform }}",
+            "href": "https://www.youtube.com/user/oatlyab/",
+            "bouton": false
+          },
+          {
+            "texte": "Oatly's {{ socialMediaPlatform }}",
+            "href": "https://www.tiktok.com/@oatly?lang=en",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "LOOK BOOK VOL. 3",
+          "href": "/recipes/look-book-vol-3"
+        },
+        {
+          "texte": "THE OATLY LOOK BOOK REFILL",
+          "href": "/recipes/look-book-autumn-winter-2025"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "h1.u-visuallyHidden",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 5
+        },
+        {
+          "selecteur": "div.CardGrid_VisuallyHidden__C7MxI",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "div.BackgroundVimeoVideo-module_Wrapper__jpgup",
+          "position": "absolute",
+          "hauteur": 942,
+          "largeur": 641,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.BaseCard_ImageWrapper__BfRpn",
+          "position": "absolute",
+          "hauteur": 942,
+          "largeur": 641,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.PositionedVisual_PositionedVisual__h8qWU",
+          "position": "absolute",
+          "hauteur": 87,
+          "largeur": 607,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 23,
+        "pilules": 1,
+        "exemples": [
+          "SHOW MORE"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/oatly-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "the Original Oat Drink Company",
+      "h1Visible": true,
+      "mots": 189,
+      "images": 4,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 1,
+        "selecteur": "div#coiOverlay"
+      },
+      "boutonPrincipal": {
+        "texte": "DECLINE ALL",
+        "x": 35,
+        "y": 762.75,
+        "cx": 0.28205128205128205,
+        "cy": 0.925207345971564,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "We know you didn’t come here for cookies But they’re good if you want our site to work correctly. If you want it to work perfectly, choose “Accept all.” If you don’t like being an anonymous statistic ",
+        "selecteur": "div#coiOverlay",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 1,
+        "texte": "We know you didn’t come here for cookies But they’re good if you want our site to work correctly. If you want it to work perfectly, choose “Accept all.” If you don’t like being an anonymous statistic ",
+        "selecteur": "div#coiOverlay"
+      },
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "ul.CardGrid_Grid__eDpdq"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.u-visuallyHidden",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 28,
+        "graisse": "700",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2#coiBannerHeadline",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 18,
+        "graisse": "500",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#coi-expand",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.BrowserFooter_TextLink__dYlSW",
+        "famille": "\"Margo Pro Regular\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Bjorn Serif Pro",
+          "url": "/_next/static/media/BjornSerifPro-Regular.5128ee31.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Courier Prime",
+          "url": "/_next/static/media/Courier-Prime.8e219b4e.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Courier Prime Bold",
+          "url": "/_next/static/media/Courier-Prime-Bold.93775962.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Courier Prime Bold Italic",
+          "url": "/_next/static/media/Courier-Prime-Bold-Italic.ea45bc5d.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Courier Prime Italic",
+          "url": "/_next/static/media/Courier-Prime-Italic.84bda23f.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Girdo Black Pro",
+          "url": "/_next/static/media/GirdoBlackPro-Regular.a40bd0fc.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Girdo Rounded Pro",
+          "url": "/_next/static/media/GirdoRoundedPro-Regular.ac0a3017.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GT Alpina",
+          "url": "/_next/static/media/GT-Alpina-Standard-Regular.944fd28c.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GT Alpina Italic",
+          "url": "/_next/static/media/GT-Alpina-Standard-Regular-Italic.13d48353.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Margo Pro Regular",
+          "url": "/_next/static/media/MargoPro-Regular.adcdb6c7.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Margo Pro Bold",
+          "url": "/_next/static/media/MargoPro-Bold.d0eee858.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "oatly-icons",
+          "url": "/_next/static/media/oatly-icons.f57770cf.ttf",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Petra Antikva Pro",
+          "url": "/_next/static/media/PetraAntikvaPro-Regular.1a36dee7.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Toni Noveau Pro",
+          "url": "/_next/static/media/ToniNoveauPro-Regular.917643b2.otf",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Tinny Serif Pro",
+          "url": "/_next/static/media/TinnySerifPro-Regular.f534e07f.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Univers",
+          "url": "/_next/static/media/Univers.cf59e211.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Univers Italic",
+          "url": "/_next/static/media/Univers-Oblique.b1dffa33.woff",
+          "feuille": "www.oatly.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.oatly.com/_next/static/media/MargoPro-Regular.adcdb6c7.woff",
+        "https://www.oatly.com/_next/static/media/oatly-icons.f57770cf.ttf",
+        "https://www.oatly.com/_next/static/media/MargoPro-Bold.d0eee858.woff"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Margo Pro Regular",
+          "n": 44
+        },
+        {
+          "famille": "Margo Pro Bold",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 22,
+          "poids": 681903.5842285156
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 535924.38671875
+        },
+        {
+          "hex": "#fffef6",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#f6f6f6",
+          "n": 1,
+          "poids": 303457.5
+        },
+        {
+          "hex": "#888888",
+          "n": 3,
+          "poids": 4136.566618651152
+        },
+        {
+          "hex": "#2c622c",
+          "n": 1,
+          "poids": 1378.8552404791117
+        },
+        {
+          "hex": "#fdcf85",
+          "n": 6,
+          "poids": 1176
+        },
+        {
+          "hex": "#98c5d3",
+          "n": 1,
+          "poids": 196
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#222222",
+          "n": 7,
+          "poids": 795
+        },
+        {
+          "hex": "#000000",
+          "n": 31,
+          "poids": 590
+        },
+        {
+          "hex": "#ffffff",
+          "n": 7,
+          "poids": 111
+        }
+      ],
+      "nbImages": 5,
+      "nbVideos": 0,
+      "nbFondsImage": 2,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 22,
+          "poids": 681903.5842285156,
+          "part": 0.367
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 535924.38671875,
+          "part": 0.289
+        },
+        {
+          "hex": "#fffef6",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.177
+        },
+        {
+          "hex": "#f6f6f6",
+          "n": 1,
+          "poids": 303457.5,
+          "part": 0.163
+        },
+        {
+          "hex": "#888888",
+          "n": 3,
+          "poids": 4136.566618651152,
+          "part": 0.002
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#222222",
+          "n": 7,
+          "poids": 795,
+          "part": 0.531
+        },
+        {
+          "hex": "#000000",
+          "n": 31,
+          "poids": 590,
+          "part": 0.394
+        },
+        {
+          "hex": "#ffffff",
+          "n": 7,
+          "poids": 111,
+          "part": 0.074
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "React",
+          "preuve": "window.__NEXT_DATA__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.3s ease",
+          "n": 6
+        },
+        {
+          "valeur": "translate 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "color 0.4s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-smooth-scroll-disabled",
+          "n": 2
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "a.SkipLink-module_SkipLink__GD6qz",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "translate 0.3s ease"
+        ],
+        "attributs": [
+          "data-smooth-scroll-disabled"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "ul.CardGrid_Grid__eDpdq",
+      "sections": [
+        {
+          "selecteur": "header.BrowserMenu_BrowserMenu__OdHhq",
+          "titre": "WELCOME TO OATLY GLOBAL!",
+          "top": -597,
+          "hauteur": 38,
+          "ecrans": 0,
+          "mots": 29,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "ol"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": "WE EXIST TO MAKE IT EASIER FOR PEOPLE TO LIVE HEALTHIER LIVE",
+          "top": -545,
+          "hauteur": 174,
+          "ecrans": 0.2,
+          "mots": 24,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "THE OATLY EMBASSY",
+          "top": -357,
+          "hauteur": 362,
+          "ecrans": 0.4,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": "FREQUENTLY ASKED QUESTIONS",
+          "top": -357,
+          "hauteur": 174,
+          "ecrans": 0.2,
+          "mots": 4,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "AFTERTASTE",
+          "top": -169,
+          "hauteur": 362,
+          "ecrans": 0.4,
+          "mots": 2,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": "THE FUTURE OF TASTE",
+          "top": 19,
+          "hauteur": 174,
+          "ecrans": 0.2,
+          "mots": 5,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "LOOK BOOK VOL. 3",
+          "top": 207,
+          "hauteur": 362,
+          "ecrans": 0.4,
+          "mots": 5,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "li",
+          "titre": "PEE FOR THE PLANET",
+          "top": 583,
+          "hauteur": 174,
+          "ecrans": 0.2,
+          "mots": 5,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "li",
+          "titre": "OATLY & AVAVAV GOES TO MILAN FASHION WEEK",
+          "top": 771,
+          "hauteur": 550,
+          "ecrans": 0.7,
+          "mots": 9,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "div.CardGrid_ShowMoreButtonContainer__fgkyz",
+          "titre": null,
+          "top": 1335,
+          "hauteur": 175,
+          "ecrans": 0.2,
+          "mots": 2,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer#footer",
+          "titre": null,
+          "top": 1524,
+          "hauteur": 288,
+          "ecrans": 0.3,
+          "mots": 11,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "div#coiOverlay",
+        "hauteur": 844,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Privacy policy",
+            "href": "https://www.oatly.com/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Our Cookie Policy",
+            "href": "javascript:TogglePage(this, 'coiPage-3');",
+            "bouton": false
+          },
+          {
+            "texte": "Tell me more",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "DECLINE ALL",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "ACCEPT ALL",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#footer",
+        "liens": [
+          {
+            "texte": "Back to top",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "FAQ",
+            "href": "/random-answers",
+            "bouton": false
+          },
+          {
+            "texte": "SUSTAINABILITY",
+            "href": "/sustainability",
+            "bouton": false
+          },
+          {
+            "texte": "CAREERS",
+            "href": "https://careers.oatly.com/",
+            "bouton": false
+          },
+          {
+            "texte": "FOR INVESTORS",
+            "href": "https://investors.oatly.com/",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "LEGAL",
+            "href": "/legal",
+            "bouton": false
+          },
+          {
+            "texte": "PRIVACY POLICY",
+            "href": "/legal/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "COOKIE CONSENT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Oatly's {{ socialMediaPlatform }}",
+            "href": "https://www.facebook.com/oatly",
+            "bouton": false
+          },
+          {
+            "texte": "Oatly's {{ socialMediaPlatform }}",
+            "href": "http://instagram.com/oatly",
+            "bouton": false
+          },
+          {
+            "texte": "Oatly's {{ socialMediaPlatform }}",
+            "href": "https://www.youtube.com/user/oatlyab/",
+            "bouton": false
+          },
+          {
+            "texte": "Oatly's {{ socialMediaPlatform }}",
+            "href": "https://www.tiktok.com/@oatly?lang=en",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "LOOK BOOK VOL. 3",
+          "href": "/recipes/look-book-vol-3"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "h1.u-visuallyHidden",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 5
+        },
+        {
+          "selecteur": "div.CardGrid_VisuallyHidden__C7MxI",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 17,
+        "pilules": 1,
+        "exemples": [
+          "SHOW MORE"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Oatly",
+  "dureeS": 21.2
+}

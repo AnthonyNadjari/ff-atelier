@@ -1,0 +1,30 @@
+# Tom's of Maine — https://www.tomsofmaine.com/
+Titre « Natural Toothpaste, Deodorant, and Body Care - Tom's of Maine », `lang="en"`, description « Learn about Tom's of Maine and our natural toothpaste, deodorant, body care and baby care products. We've been committed to quality for more than 40 years. », technologie lue : Shopify, Tailwind, jQuery. Démontage automatique du 2026-10-19 (`ff demonter`, mesures brutes dans `tomsofmaine.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; pas de média plein écran (2 image(s) dans l'écran) ; bouton principal « Build My Bundle » en bas au centre (830, 579 px) ; 160 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : calque couvrant 100 % de l'écran («  ») ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 absent ; pas de média plein écran (2 image(s) dans l'écran) ; bouton principal « Build My Bundle » en bas au centre (88, 789 px) ; 121 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : calque couvrant 100 % de l'écran («  ») ; rien ne bouge tout seul.
+Nav : 20 lien(s) — Skip announcement bar carousel, [Previous slide], Sign Up for Emails and Get 15% off, Free Shipping on Orders Over $25+, Learn What We Mean By Natural, Explore Our Ingredients, [Next slide], Go to the homepage, [Search], Log in or Sign up, [Bag (0 items)], Shop All (+8) ; boutons entre crochets. **Barre fixe en bas de l'écran (téléphone)** : Manage Cookies, Accept All. Barre fixe en bas (ordinateur) : Privacy Policy., Manage Cookies, Accept All.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `header.bg-brand-green-40` (0,2 écran, 52 mots, 1 img) → `main#MainContent` « Build Your Own Bundle » (0,5 écran, 642 mots, 48 img) → `div.max-w-xl-wrapper` « Tom’s of Maine » (0,8 écran, 71 mots, 0 img) → `div.bg-brand-navy-30` (0,1 écran, 23 mots, 0 img). Calques hors flux (fixes/absolus) : `a.sr-only` (absolute, 1 px, 3 mots).
+Pied de page : 30 lien(s) — Contact Us, Where To Buy, Careers, Frequently Asked Questions, 60 Day Satisfaction Guarantee, Shop All, Oral Care, Deodorant & Antiperspirant, Bar Soap, Our Mission (+20). Téléphone cliquable : non. Formulaire : 16 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Free Shipping on Orders Over $25+ » (/collections/deodorant).
+En 3 secondes : à juger sur `captures/tomsofmaine-d.webp` (mesuré : fond du premier écran #000000, 2 image(s) et 160 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 : non mesuré ; h2 **Gotham**, 64 px / 48 px téléphone, graisse 900, interlignage 1,13 ; corps **Gotham**, 18 px / 16 px téléphone, graisse 300, interlignage 1,63 ; boutons **Gotham**, 16 px / 16 px téléphone, graisse 300, interlignage 1,63 ; nav **Gotham**, 16 px / 16 px téléphone, graisse 300, interlignage 1,63.
+Sources `@font-face` : auto-hébergée (Gotham, Inter) ; fichiers chargés : https://www.tomsofmaine.com/cdn/shop/t/21/assets/Gotham-Black.otf?v=20074493279050343631744730315, https://www.tomsofmaine.com/cdn/shop/t/21/assets/Gotham-Bold.otf?v=109127676084820888571744730316, https://www.tomsofmaine.com/cdn/shop/t/21/assets/Gotham-Light.otf?v=170699154503483188531744730318, https://www.tomsofmaine.com/cdn/shop/t/21/assets/Gotham-Medium.otf?v=125878499179722086991744730319, https://www.tomsofmaine.com/cdn/shop/t/21/assets/Gotham-Light-Italic.otf?v=140320570139424906411744730318, https://www.tomsofmaine.com/cdn/shop/t/21/assets/Gotham-Book.otf?v=127853741272768596421744730317. Familles en usage sur le texte visible : Gotham ×201, Colgate Ready ×3, Open Sans ×2. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff (premier écran #000000), texte #1d1b20 (contraste 17,07:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #0a5751 (27 %), #f9f9f9 (22 %), #ffffff (13 %), #000000 (13 %), #eefffb (12 %) ; textes par nombre de caractères : #1d1b20 (55 %), #ffffff (31 %), #696969 (7 %), #00857a (4 %), #48464c (2 %). Images : 46 `<img>` visibles, 9 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 22 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Shopify (window.Shopify). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1)` ×30, `transform 0.2s ease` ×13, `left 0.2s ease` ×13, `opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1)` ×2, `color 0.2s cubic-bezier(0.4, 0, 0.2, 1)` ×1, `text-underline-offset 0.2s cubic-bezier(0.4, 0, 0.2, 1)` ×1, `animation onetrust-fade-in 0.4s ease-in-out` ×1, `opacity 0.5s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/tomsofmaine-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.max-w-xl-wrapper` « Tom’s of Maine » (0,8 écran, 71 mots, 0 image(s)).
+2. L'élément le plus animé : `div.onetrust-pc-dark-filter` (animation animation onetrust-fade-in 0.4s ease-in-out).
+3. Le bloc le plus singulier par sa structure : `main#MainContent` « Build Your Own Bundle » (contient <svg>, <form>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« Free Shipping on Orders Over $25+ »), barre d'actions fixe en bas sur téléphone, formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 18/32 ordinateur, 18/35 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : oui (calque, 100 % de l'écran) ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

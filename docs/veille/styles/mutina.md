@@ -1,0 +1,30 @@
+# Mutina — https://www.mutina.it/
+Titre « Mutina | Design tiles and elements that enrich your space », `lang="en"`, description « Celebrating the essence of ceramics in a dialogue with the world’s best designers. Discover Mutina’s world and the Mutina for Art project. », technologie lue : aucune reconnue. Démontage automatique du 2026-10-19 (`ff demonter`, mesures brutes dans `mutina.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; vidéo plein écran (91 % de l'écran) ; bouton principal « INFO » en bas à droite (977, 850 px, dans une barre fixe) ; 345 mots visibles au-dessus du pli ; bannière cookies 8 % de l'écran, non bloquante ; bouge tout seul sans défilement : 3 élément(s) (`section.editorial`, `video`, `div.transition`).
+Téléphone (390x844) : h1 absent ; pas de média plein écran (8 image(s) dans l'écran) ; bouton principal « INFO » en bas au centre (176, 719 px, dans une barre fixe) ; 370 mots visibles au-dessus du pli ; bannière cookies 24 % de l'écran, non bloquante ; bouge tout seul sans défilement : 6 élément(s) (`section.editorial`, `h2.h2`, `div.picture`, `div.box`, `div.logo__wrapper`).
+Nav : 18 lien(s) — [COLLECTIONS], [New collections], [Tiles], [Wall Installations], [Bricks], [Wood and Accessories], [EDITIONS], [GET INSPIRED], [Interiors A design style to create origi], [In Use A selection of public and private], [DESIGNERS], [JOURNAL] (+6) ; boutons entre crochets. **Barre fixe en bas de l'écran (téléphone)** : INFO, OK. Barre fixe en bas (ordinateur) : INFO, OK.
+Sections de premier niveau : non mesuré. Calques hors flux (fixes/absolus) : `header.header` (fixed, 81 px, 73 mots), `div.page` (fixed, 7689 px, 147 mots), `div.back-to-top` (fixed, 40 px), `div.side-panel` (fixed, 900 px, 149 mots), `div.dark-layer` (fixed, 900 px), `div#acceptcookie` (fixed, 75 px, collé en bas, 21 mots).
+Pied de page : 14 lien(s) — Mutina logo, About, Casa Mutina Milano, Casa Mutina Modena, Contacts, General Sales Conditions, Video, English, Italiano, [SUBSCRIBE] (+4). Téléphone cliquable : non. Formulaire : 5 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : aucune (réservation, commande, bon cadeau, devis, rendez-vous).
+En 3 secondes : à juger sur `captures/mutina-d.webp` (mesuré : fond du premier écran #ffffff, 9 image(s) et 345 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **futura-pt**, 50 px / 35 px téléphone, graisse 400 ; h2 **futura-pt**, 58 px / 32 px téléphone, graisse 400, interlignage 1,20 ; corps : non mesuré ; boutons **futura-pt**, 15 px / 16 px téléphone, graisse 700, interlignage 1,00, capitales ; nav **futura-pt**, 15 px / 16 px téléphone, graisse 700, interlignage 1,00, capitales.
+Sources `@font-face` : Adobe Fonts (tk-futura-pt-n5, tk-futura-pt-i5, tk-futura-pt-n7, tk-futura-pt-i7, tk-futura-pt-n4, tk-futura-pt-i4, futura-pt) ; fichiers chargés : https://use.typekit.net/tcl0ywe.js, https://use.typekit.net/af/2cd6bf/00000000000000000001008f/27/l?subset_id=2&fvd=n5&v=3, https://use.typekit.net/af/1eb35a/000000000000000000010090/27/l?subset_id=2&fvd=i5&v=3, https://use.typekit.net/af/309dfe/000000000000000000010091/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3, https://use.typekit.net/af/9b05f3/000000000000000000013365/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3, https://use.typekit.net/af/eb729a/000000000000000000010092/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i7&v=3. Familles en usage sur le texte visible : futura-pt ×224. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #121212 (contraste 18,73:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (81 %), #000000 (10 %), #ececec (9 %) ; textes par nombre de caractères : #121212 (82 %), #989898 (12 %), #000000 (4 %), #ffffff (3 %), #808080 (0 %). Images : 21 `<img>` visibles, 0 fond(s) en image, 1 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : GSAP (window.TweenMax), Swiper (window.Swiper). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.5s cubic-bezier(0, 0.97, 0.43, 1)` ×112, `all 1s cubic-bezier(0.32, 0, 0.29, 0.99)` ×55, `all 0.4s cubic-bezier(0.67, 0.005, 0.21, 1)` ×22, `opacity 1s cubic-bezier(0.32, 0, 0.29, 0.99)` ×18, `all 5s cubic-bezier(0, 0.97, 0.43, 1)` ×16, `all 0.35s cubic-bezier(0, 0.97, 0.43, 1)` ×10, `all 0.8s cubic-bezier(0, 0.97, 0.43, 1)` ×7, `transform 1s cubic-bezier(0, 0.97, 0.43, 1)` ×5, `background 1s cubic-bezier(0, 0.97, 0.43, 1)` ×5, `border-color 1s cubic-bezier(0, 0.97, 0.43, 1)` ×5. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-splitting` ×15, `data-parallax` ×6. Ce qui bouge réellement à l'écran : à juger sur `captures/mutina-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : non mesuré.
+2. L'élément le plus animé : `button.btn` (4 transition(s) : transform 1s cubic-bezier(0, 0.97, 0.43, 1) ; background 1s cubic-bezier(0, 0.97, 0.43, 1) ; attributs data-splitting).
+3. Le bloc le plus singulier par sa structure : non mesuré.
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : barre d'actions fixe en bas sur téléphone, formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/9 ordinateur, 0/17 téléphone ; vidéo en premier écran : oui ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
