@@ -1,0 +1,142 @@
+{
+  "id": "kaltpresse",
+  "version": 1,
+  "source": {
+    "url": "https://kaltpresse.de/",
+    "nom": "Kaltpresse",
+    "metier": "jus pressés à froid, manufacture (Cologne)",
+    "fiche": "docs/veille/styles/kaltpresse.md",
+    "mesures": "docs/veille/styles/atomes/mesures/kaltpresse.json",
+    "date": "2026-10-19"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Korpus-Grotesk-C",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.18,
+      "casse": "uppercase",
+      "interlettrage": 0.011,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Korpus-Grotesk-D",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.25
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 33.7,
+        "ordinateur": 58
+      },
+      "h2": {
+        "telephone": 14.7,
+        "ordinateur": 16.9
+      },
+      "texte": {
+        "telephone": 25.3,
+        "ordinateur": 44.5
+      }
+    },
+    "remarque": "Korpus Grotesk : Hanken Grotesk pour les deux rôles. Échelle relevée dans le DOM le 19 oct : titres en capitales 58 px (ordinateur) et 33,7 px (téléphone) posés sur les photos, petits intertitres en capitales de 17 px, texte d'accueil très grand (44 px, ramené à 24 px par ff melanger)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "part": 0.926
+        },
+        {
+          "hex": "#f2f1eb",
+          "part": 0.071
+        },
+        {
+          "hex": "#000000",
+          "part": 0.002
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "part": 0.912
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.088
+        }
+      ],
+      "proches": 16777215
+    },
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f2f1eb",
+      "texte": "#000000",
+      "texte2": "#000000",
+      "accent": "#000000",
+      "bordure": "#f2f1eb",
+      "encre": "#000000"
+    },
+    "sombre": null,
+    "remarque": "Blanc, grège #f2f1eb en bandeau et pied, noir pour tout le reste : boutons noirs pleins, aucune couleur d'accent, la couleur vient des photos produit."
+  },
+  "densite": {
+    "section": {
+      "telephone": 88,
+      "ordinateur": 64
+    },
+    "gouttiere": {
+      "telephone": 24,
+      "ordinateur": 96
+    },
+    "conteneur": 1376,
+    "mesure": 57,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "4:3"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Photos produit et événements en grands rectangles, titres en capitales posés sur deux d'entre elles."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.1,
+      "courbe": "ease-in-out"
+    },
+    "scene": "à juger",
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Boutique Shopify : seuls les fonds des boutons changent en 0,1 s ; rien n'apparaît au défilement. Scène non mesurée."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "bande-defilante"
+}

@@ -1,0 +1,657 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://mandygraham.com/",
+  "nom": "mandygraham",
+  "date": "2026-10-19",
+  "identite": {
+    "title": "Mandy Graham",
+    "siteName": "Mandy Graham",
+    "lang": "en",
+    "description": "Los Angeles based designer, Mandy Graham illustrates a body of work that embraces both the ornate and minimal.",
+    "technologies": [
+      "Nuxt",
+      "Sanity"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 12,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.item__image"
+      },
+      "boutonPrincipal": {
+        "texte": "CART",
+        "x": 24,
+        "y": 457.140625,
+        "cx": 0.02673611111111111,
+        "cy": 0.5158767361111111,
+        "fixe": true,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1",
+        "famille": "\"Univers LT Std\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.22px"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Univers LT Std\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.22px"
+      },
+      "bouton": {
+        "selecteur": "button",
+        "famille": "\"Univers LT Std\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "\"Univers LT Std\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.22px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Univers LT Std",
+          "url": "/_nuxt/Univers-LT-Std.78b691cf.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "inline",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "www.mandygraham.com",
+          "source": "inline (data:)"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.mandygraham.com/_nuxt/Univers-LT-Std.78b691cf.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Univers LT Std",
+          "n": 8
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1296000
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 8,
+          "poids": 75
+        }
+      ],
+      "nbImages": 2,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1296000,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 8,
+          "poids": 75,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        },
+        {
+          "nom": "Swiper",
+          "preuve": "script swiper-vue.5e8118c5.js"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "animation fadeIn-06bc7183 0.8s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.35s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.active",
+        "score": 3,
+        "animations": [
+          "animation fadeIn-06bc7183 0.8s ease-in-out"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [],
+      "nav": {
+        "selecteur": "header.header",
+        "hauteur": 270,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "WORKS",
+            "href": "/works",
+            "bouton": false
+          },
+          {
+            "texte": "COLLECTION",
+            "href": "/collection",
+            "bouton": false
+          },
+          {
+            "texte": "CART",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "PRESS",
+            "href": "/press",
+            "bouton": false
+          },
+          {
+            "texte": "INFORMATION",
+            "href": "/information",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/contact",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/mandygraham-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 47,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.item__image"
+      },
+      "boutonPrincipal": {
+        "texte": "CLOSE",
+        "x": -67,
+        "y": 0,
+        "cx": -0.0858974358974359,
+        "cy": 0.0274270586492891,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1",
+        "famille": "\"Univers LT Std\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.22px"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Univers LT Std\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.22px"
+      },
+      "bouton": {
+        "selecteur": "button.open-menu",
+        "famille": "\"Univers LT Std\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "\"Univers LT Std\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.22px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Univers LT Std",
+          "url": "/_nuxt/Univers-LT-Std.78b691cf.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "inline",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "www.mandygraham.com",
+          "source": "inline (data:)"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.mandygraham.com/_nuxt/Univers-LT-Std.78b691cf.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Univers LT Std",
+          "n": 25
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 270
+        }
+      ],
+      "nbImages": 2,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 329160,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 270,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        },
+        {
+          "nom": "Swiper",
+          "preuve": "script swiper-vue.5e8118c5.js"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "left 0.5s ease",
+          "n": 3
+        },
+        {
+          "valeur": "right 0.5s ease",
+          "n": 3
+        },
+        {
+          "valeur": "opacity 0.85s ease",
+          "n": 1
+        },
+        {
+          "valeur": "margin 0.4s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "animation fadeIn-06bc7183 0.8s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.35s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.active",
+        "score": 3,
+        "animations": [
+          "animation fadeIn-06bc7183 0.8s ease-in-out"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "div#__nuxt",
+          "titre": "",
+          "top": 0,
+          "hauteur": 44,
+          "ecrans": 0.1,
+          "mots": 47,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header",
+        "hauteur": 253,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "WORKS",
+            "href": "/works",
+            "bouton": false
+          },
+          {
+            "texte": "MANHATTAN BEACH 04",
+            "href": "/works/manhattan-beach-04",
+            "bouton": false
+          },
+          {
+            "texte": "HANCOCK PARK 01",
+            "href": "/works/hancock-park-01",
+            "bouton": false
+          },
+          {
+            "texte": "MANHATTAN BEACH 03",
+            "href": "/works/manhattan-beach-03",
+            "bouton": false
+          },
+          {
+            "texte": "MANHATTAN BEACH 02",
+            "href": "/works/manhattan-beach-02",
+            "bouton": false
+          },
+          {
+            "texte": "PALOS VERDES ESTATES 01",
+            "href": "/works/palos-verdes-estates-01",
+            "bouton": false
+          },
+          {
+            "texte": "HOLLYWOOD HILLS 01",
+            "href": "/works/hollywood-hills-01",
+            "bouton": false
+          },
+          {
+            "texte": "HOLLYWOOD HILLS 02",
+            "href": "/works/hollywood-hills-02",
+            "bouton": false
+          },
+          {
+            "texte": "MANHATTAN BEACH 01",
+            "href": "/works/manhattan-beach-01",
+            "bouton": false
+          },
+          {
+            "texte": "COLLECTION",
+            "href": "/collection",
+            "bouton": false
+          },
+          {
+            "texte": "ALFRED",
+            "href": "/collection/alfred",
+            "bouton": false
+          },
+          {
+            "texte": "LOUIS",
+            "href": "/collection/louis",
+            "bouton": false
+          },
+          {
+            "texte": "MARTA",
+            "href": "/collection/marta",
+            "bouton": false
+          },
+          {
+            "texte": "IVAN",
+            "href": "/collection/ivan",
+            "bouton": false
+          },
+          {
+            "texte": "CART",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "PRESS",
+            "href": "/press",
+            "bouton": false
+          },
+          {
+            "texte": "MEDIA",
+            "href": "/press/media",
+            "bouton": false
+          },
+          {
+            "texte": "PRINT",
+            "href": "/press/print",
+            "bouton": false
+          },
+          {
+            "texte": "BOOKS",
+            "href": "/press/books",
+            "bouton": false
+          },
+          {
+            "texte": "INFORMATION",
+            "href": "/information",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/contact",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "BOOKS",
+          "href": "/press/books"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 2,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Mandy Graham",
+  "dureeS": 21.9
+}

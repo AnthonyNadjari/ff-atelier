@@ -1,0 +1,608 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://her.melbourne/",
+  "nom": "her-melbourne",
+  "date": "2026-10-19",
+  "identite": {
+    "title": "HER Melbourne - Dining, Immersive Art & Music",
+    "siteName": "Her",
+    "lang": "en",
+    "description": "Food, Drinks, Music & Art Collide In This Multi-Storey Venue with Four Spaces to Explore. In a World of Its Own, Meet Friends, Sip Sundowners & Kiss The Night Away at HER. Sophisticated Drinks. Art, Design & Music. Modern Classic Food.",
+    "technologies": [
+      "Nuxt",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#000000",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 9,
+      "images": 0,
+      "mediaPleinEcran": {
+        "type": "canvas",
+        "couverture": 1,
+        "selecteur": "canvas.block"
+      },
+      "boutonPrincipal": {
+        "texte": "MUSIC ROOM RADIO",
+        "x": 16,
+        "y": 846,
+        "cx": 0.09341905381944444,
+        "cy": 0.9611111111111111,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "a.btn-default",
+        "famille": "NeueHaasGrotesk, sans-serif",
+        "taille": 17.6,
+        "graisse": "500",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.44px"
+      },
+      "nav": {
+        "selecteur": "a.btn-default",
+        "famille": "NeueHaasGrotesk, sans-serif",
+        "taille": 17.6,
+        "graisse": "500",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.44px"
+      },
+      "fontFaces": [
+        {
+          "famille": "NeueHaasGrotesk",
+          "url": "../fonts/nhaasgrotesk/NHaasGroteskDSStd-Regular.woff2",
+          "feuille": "www.her.melbourne",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "NeueHaasGrotesk",
+          "url": "../fonts/nhaasgrotesk/NHaasGroteskDSStd-Regular-Italic.woff2",
+          "feuille": "www.her.melbourne",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "NeueHaasGrotesk",
+          "url": "../fonts/nhaasgrotesk/NHaasGroteskDSStd-Medium.woff2",
+          "feuille": "www.her.melbourne",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "NeueHaasGrotesk",
+          "url": "../fonts/nhaasgrotesk/NHaasGroteskDSStd-Medium-Italic.woff2",
+          "feuille": "www.her.melbourne",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.her.melbourne/fonts/nhaasgrotesk/NHaasGroteskDSStd-Regular.woff2",
+        "https://www.her.melbourne/fonts/nhaasgrotesk/NHaasGroteskDSStd-Medium.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "NeueHaasGrotesk",
+          "n": 7
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 1298568.7104492188
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 6,
+          "poids": 53
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 3
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 1298568.7104492188,
+          "part": 0.5
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.5
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 6,
+          "poids": 53,
+          "part": 0.946
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 3,
+          "part": 0.054
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 9
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "header.fixed",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#main",
+      "sections": [],
+      "nav": {
+        "selecteur": "header.fixed",
+        "hauteur": 110,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "BOOKINGS",
+            "href": "/bookings",
+            "bouton": true
+          },
+          {
+            "texte": "EVENTS",
+            "href": "/events",
+            "bouton": true
+          },
+          {
+            "texte": "INFO",
+            "href": "/info",
+            "bouton": true
+          },
+          {
+            "texte": "FUNCTIONS",
+            "href": "/functions",
+            "bouton": true
+          },
+          {
+            "texte": "HER",
+            "href": "/",
+            "bouton": true
+          },
+          {
+            "texte": "NEWSLETTER",
+            "href": "/newsletter",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.fixed",
+        "liens": [
+          {
+            "texte": "MUSIC ROOM RADIO",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "BOOKINGS",
+          "href": "/bookings"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "header.fixed",
+          "position": "fixed",
+          "hauteur": 110,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 6
+        },
+        {
+          "selecteur": "footer.fixed",
+          "position": "fixed",
+          "hauteur": 70,
+          "largeur": 1440,
+          "enBas": true,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 9,
+        "pilules": 7,
+        "exemples": [
+          "BOOKINGS",
+          "EVENTS",
+          "INFO"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/her-melbourne-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#000000",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 12,
+      "images": 0,
+      "mediaPleinEcran": {
+        "type": "canvas",
+        "couverture": 1,
+        "selecteur": "canvas.block"
+      },
+      "boutonPrincipal": {
+        "texte": "HER ROOFTOP",
+        "x": 96.0172119140625,
+        "y": 307.0845947265625,
+        "cx": 0.5000003912510016,
+        "cy": 0.3852937165029806,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "button.btn-default",
+        "famille": "NeueHaasGrotesk, sans-serif",
+        "taille": 17.6,
+        "graisse": "500",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.44px"
+      },
+      "nav": {
+        "selecteur": "a.router-link-active",
+        "famille": "NeueHaasGrotesk, sans-serif",
+        "taille": 17.6,
+        "graisse": "500",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.44px"
+      },
+      "fontFaces": [
+        {
+          "famille": "NeueHaasGrotesk",
+          "url": "../fonts/nhaasgrotesk/NHaasGroteskDSStd-Regular.woff2",
+          "feuille": "www.her.melbourne",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "NeueHaasGrotesk",
+          "url": "../fonts/nhaasgrotesk/NHaasGroteskDSStd-Regular-Italic.woff2",
+          "feuille": "www.her.melbourne",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "NeueHaasGrotesk",
+          "url": "../fonts/nhaasgrotesk/NHaasGroteskDSStd-Medium.woff2",
+          "feuille": "www.her.melbourne",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "NeueHaasGrotesk",
+          "url": "../fonts/nhaasgrotesk/NHaasGroteskDSStd-Medium-Italic.woff2",
+          "feuille": "www.her.melbourne",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.her.melbourne/fonts/nhaasgrotesk/NHaasGroteskDSStd-Regular.woff2",
+        "https://www.her.melbourne/fonts/nhaasgrotesk/NHaasGroteskDSStd-Medium.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "NeueHaasGrotesk",
+          "n": 7
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 331728.71044921875
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 47
+        },
+        {
+          "hex": "#f7f7f4",
+          "n": 1,
+          "poids": 4
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 3
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 331728.71044921875,
+          "part": 0.502
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.498
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 47,
+          "part": 0.87
+        },
+        {
+          "hex": "#f7f7f4",
+          "n": 1,
+          "poids": 4,
+          "part": 0.074
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 3,
+          "part": 0.056
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "header.fixed",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#main",
+      "sections": [],
+      "nav": {
+        "selecteur": "header.fixed",
+        "hauteur": 110,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "MENU",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "HER",
+            "href": "/",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.fixed",
+        "liens": [
+          {
+            "texte": "MUSIC ROOM RADIO",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "MENU",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "header.fixed",
+          "position": "fixed",
+          "hauteur": 110,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 2
+        },
+        {
+          "selecteur": "footer.fixed",
+          "position": "fixed",
+          "hauteur": 70,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 7,
+        "pilules": 7,
+        "exemples": [
+          "MENU",
+          "HER",
+          "HER ROOFTOP"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Her",
+  "dureeS": 24.6
+}

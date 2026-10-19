@@ -1,4 +1,4 @@
-# Profils de mouvement : quinze façons de faire bouger une page, relevées sur de vrais sites
+# Profils de mouvement : dix-sept façons de faire bouger une page, relevées sur de vrais sites
 
 Le fondateur, 18 oct 2026, sur L'Épi d'Or b, c, d : « beaucoup plus de pluralité : animations, même des vidéos en
 fond ». L'atome `mouvement` (ATOMES.md) ne portait que des durées et une courbe : trois mélanges différents bougeaient
@@ -165,6 +165,24 @@ Framer Lintel (compteurs qui bougent au premier écran), KS Architectes (`ksarch
 - Moteur : `data-counter` ou `data-counter-flip` sur un **vrai** chiffre (nombre d'avis Google, fournées par jour,
   kilos), jamais « X ans d'expérience » calculé (GOUT § 2). `ff melanger` le refuse sans avis ni chiffre.
 - Quand : urgence, artisan du bâtiment, commerce qui a des chiffres vrais. Calme : oui. Poids : léger.
+
+### `mots-qui-glissent`
+Carne (`carne.md`, [carnehamburguesas.com](https://carnehamburguesas.com/en), veille du 19 oct 2026 : GSAP ScrollTrigger,
+`fadeInLeft` / `fadeInRight` 2 s ease). Des mots géants en capitales condensées traversent l'écran latéralement au
+défilement, deux lignes en sens opposés, derrière un produit détouré qui ne bouge pas.
+- Entrée aucune · apparition glissement · survol couleur · fond aucun.
+- Moteur : `data-scrub="x=-30"` et `data-scrub="x=30"` sur deux lignes d'un mot du client (son nom, un produit phare) ;
+  le produit détouré reste fixe (profondeur : deux plans, GOUT § 0). Jamais un titre de section.
+- Quand : restauration, commerce de bouche joyeux, produit unique photographié détouré. Calme : non. Poids : moyen.
+
+### `ombre-au-survol`
+Jo&So (`joandso.md`, [joandso.com](https://joandso.com/), veille du 19 oct 2026 : `box-shadow 0.6s ease` sur les cartes,
+`opacity 0.4s ease`). Rien ne bouge au défilement ; les cartes (photo + aplat de couleur) se soulèvent lentement sous le
+pointeur par une ombre qui s'élargit.
+- Entrée aucune · apparition aucune · survol ombre · fond aucun.
+- Moteur : CSS seul, `box-shadow` 0,4-0,6 s ease dans `@media (hover: hover) and (pointer: fine)`, `:active` au toucher.
+  Manque : la règle de la carte (section ou bloc), jamais `transition: all`.
+- Quand : catalogue de chambres, de réalisations, de produits en cartes ; client calme. Calme : oui. Poids : nul.
 
 ## Complément transversal : transitions de page
 

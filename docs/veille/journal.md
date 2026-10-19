@@ -4,6 +4,52 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 19 oct 2026, tour 4 (routine en ligne) : 5 styles, 2 architectures
+
+**Fait**
+- Santé : 65 fichiers de tests verts avant et après (5 blocs de `node --test --test-concurrency=1`). Chromium installé
+  par `playwright-core` dans un dossier à part (`PLAYWRIGHT_BROWSERS_PATH`), puis `FF_CHROMIUM=1` : tout a tourné avec navigateur.
+- **Styles (2a quater)** : 20 sites jamais étudiés, pris sur [minimal.gallery](https://minimal.gallery/) (rubriques nourriture,
+  intérieur, santé, commerce), démontés (`ff demonter` + `ff atomes mesurer`). Chaque style a été essayé sur une copie jetable
+  de `demo-boulangerie` (`ff melanger --style <id> --essai`) et posé à côté de la source. **5 gardés** en atomes :
+  `kaltpresse` (jus pressés, Cologne), `podiatry` (podologue, Melbourne), `carne` (burgers, Argentine), `joandso` (guide d'hôtels,
+  Portugal), `nkora` (cafés, Bristol). Les grands titres de Carne et Kaltpresse ont été relevés une seconde fois dans le DOM : le
+  premier relevé prenait une bannière pour le titre. Polices libres : Hanken Grotesk, Spectral, Oswald + Karla, Urbanist. Aucune
+  ne vient de la liste IA ; la police de Two Robbers (Instrument Sans) en faisait partie. Registre : 29 sites
+  ([styles/INDEX.md](styles/INDEX.md)). Refusés après la comparaison : Florentine, Studio Boum, Two Robbers (sans leurs photos,
+  il ne reste rien). Écartés au démontage : 12 sites (écran de chargement, fenêtre cookies, pas de défilement). Raisons dans
+  l'index.
+- **Mouvement** : 2 profils nouveaux dans [MOUVEMENTS.md](styles/MOUVEMENTS.md) et `scripts/ff/mouvements.mjs` :
+  `mots-qui-glissent` (Carne : mots géants qui glissent au défilement derrière un produit détouré) et `ombre-au-survol` (Jo&So :
+  les cartes se soulèvent sous le pointeur, calme). Le test qui plafonnait le catalogue à 15 profils accepte désormais 12 et plus.
+- **Architectures (2a ter)** : [pages-adresses](architectures/pages-adresses.md) (Ten Belles : une page par boutique avec ses
+  horaires et son numéro, une page pour les pros) et [saisons-sorties](architectures/saisons-sorties.md) (Guide La Grave : la nav
+  a deux entrées, Été et Hiver, puis des sorties filtrables). Elles sont lues sur le code et ne sont **pas encore implémentées**.
+- **Marché (2a)** : 9 sites de plus (agences de Villeurbanne, Brest, Nîmes ; brasserie Strasbourg, boulangerie Rennes,
+  couvreur Marseille ; modèles ThemeForest Renovate, Wix Galvanic, Framer PlumFix). [CE-QUI-VEND.md](marche/CE-QUI-VEND.md)
+  passe à 36 sites. Aucun levier à 40 % ou plus n'est absent de l'usine. Labels et certifications passent à 36 %, toujours
+  absents des premiers écrans. Levier nouveau : **la nouvelle du moment** (bière éphémère, page Noël), vue sur 3 sites sur 9.
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : 263 paires trop proches (46 par le premier écran, 238 par le déroulé,
+21 par les deux). Les pires :
+- anna-vidal / borie-des-chenes : déroulé 1,00, téléphone 0,81 (accueil-menu sans défilement) ;
+- chez-malo / studio-ambre : 0,87 au téléphone, 0,91 à l'ordinateur ;
+- demo-informatique / fromagerie-ravanel-d : déroulé 0,90 ;
+- prospect-ballay-macon / prospect-epi-dor : déroulé 0,89 ;
+- forge-delacroix / studio-ambre : 0,88 à l'ordinateur.
+
+Rien n'a été corrigé : la veille ne touche à aucun site.
+
+**Proposé** :
+- un champ « nouvelle du moment », daté, qui disparaît seul à la date de fin (levier du marché à 33 %) ;
+- `business.certifications` dans les premiers écrans, avant que ce levier passe 40 % ;
+- implémenter `pages-adresses` (`lieux[]`, `/adresses/<slug>`), qui sert aussi aux boulangeries à plusieurs boutiques ;
+- quand `ff melanger --essai` copie un site, prendre aussi ses photos : sur `demo-boulangerie`, les photos sont
+  remplacées par un dégradé, et un style qui vit de ses photos se juge mal.
+
+**À décider** : les 5 styles (`ff melanger <slug> --style kaltpresse` les applique) ; les paires trop proches autour de
+studio-ambre et des prospects de l'Épi d'Or.
+
 ## 17 oct 2026, tour 3 (routine en ligne) : 9 styles réels, 2 architectures
 
 **Fait**

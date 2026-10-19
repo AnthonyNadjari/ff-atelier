@@ -1,0 +1,1375 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://takearecess.com/",
+  "nom": "takearecess",
+  "date": "2026-10-19",
+  "identite": {
+    "title": "Recess | Calm Cool Collected",
+    "siteName": "",
+    "lang": "en",
+    "description": "drinks and powders to help you feel calm cool collected despite the stressful world around you",
+    "technologies": [
+      "Shopify",
+      "Nuxt",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#00140c",
+      "h1": "Recess",
+      "h1Visible": true,
+      "mots": 124,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "SKIP TO MAIN CONTENT",
+        "x": 88.9906234741211,
+        "y": 11.399999618530273,
+        "cx": 0.062146266301472984,
+        "cy": 0.01322222179836697,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 15289,
+      "bougeSeul": {
+        "n": 3,
+        "exemples": [
+          "div.marquee-group"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.sr-only",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2#primary-nav-label",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.footer-general-disclaimer",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.63,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.button",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 14.4,
+        "graisse": "700",
+        "interlignage": 1.13,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.is-parent-active",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Antidote Display Web",
+          "url": "/fonts/antidote/AntidoteDisplay.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Web",
+          "url": "/fonts/sharp-grotesk/SharpGroteskBook20.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Web",
+          "url": "/fonts/sharp-grotesk/SharpGroteskMedium23.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Web",
+          "url": "/fonts/sharp-grotesk/SharpGroteskSmBold23.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://takearecess.com/fonts/antidote/AntidoteDisplay.woff2",
+        "https://takearecess.com/fonts/sharp-grotesk/SharpGroteskBook20.woff2",
+        "https://takearecess.com/fonts/sharp-grotesk/SharpGroteskSmBold23.woff2",
+        "https://takearecess.com/fonts/sharp-grotesk/SharpGroteskMedium23.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Sharp Grotesk Web",
+          "n": 169
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#00140c",
+      "texte": "#dadde3",
+      "fondsBruts": [
+        {
+          "hex": "#00140c",
+          "n": 2,
+          "poids": 22047841
+        },
+        {
+          "hex": "#0a0a3a",
+          "n": 1,
+          "poids": 1480837.5
+        },
+        {
+          "hex": "#1d2a58",
+          "n": 1,
+          "poids": 46080
+        },
+        {
+          "hex": "#c2caff",
+          "n": 2,
+          "poids": 26628
+        },
+        {
+          "hex": "#fffcef",
+          "n": 1,
+          "poids": 13370
+        },
+        {
+          "hex": "#ff5a5a",
+          "n": 1,
+          "poids": 12250
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 87,
+          "poids": 2873
+        },
+        {
+          "hex": "#dadde3",
+          "n": 45,
+          "poids": 1661
+        },
+        {
+          "hex": "#52617d",
+          "n": 28,
+          "poids": 520
+        },
+        {
+          "hex": "#163bf3",
+          "n": 1,
+          "poids": 18
+        },
+        {
+          "hex": "#25385b",
+          "n": 1,
+          "poids": 11
+        }
+      ],
+      "nbImages": 33,
+      "nbVideos": 1,
+      "nbFondsImage": 0,
+      "masques": 5,
+      "fonds": [
+        {
+          "hex": "#00140c",
+          "n": 2,
+          "poids": 22047841,
+          "part": 0.933
+        },
+        {
+          "hex": "#0a0a3a",
+          "n": 1,
+          "poids": 1480837.5,
+          "part": 0.063
+        },
+        {
+          "hex": "#1d2a58",
+          "n": 1,
+          "poids": 46080,
+          "part": 0.002
+        },
+        {
+          "hex": "#c2caff",
+          "n": 2,
+          "poids": 26628,
+          "part": 0.001
+        },
+        {
+          "hex": "#fffcef",
+          "n": 1,
+          "poids": 13370,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 87,
+          "poids": 2873,
+          "part": 0.565
+        },
+        {
+          "hex": "#dadde3",
+          "n": 45,
+          "poids": 1661,
+          "part": 0.327
+        },
+        {
+          "hex": "#52617d",
+          "n": 28,
+          "poids": 520,
+          "part": 0.102
+        },
+        {
+          "hex": "#163bf3",
+          "n": 1,
+          "poids": 18,
+          "part": 0.004
+        },
+        {
+          "hex": "#25385b",
+          "n": 1,
+          "poids": 11,
+          "part": 0.002
+        }
+      ],
+      "contraste": 13.96
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 28,
+      "stickyLongs": [
+        {
+          "selecteur": "header",
+          "ecrans": 15.9
+        },
+        {
+          "selecteur": "div.cloud-section-rows",
+          "ecrans": 13.5
+        },
+        {
+          "selecteur": "div.container",
+          "ecrans": 2
+        },
+        {
+          "selecteur": "div.container",
+          "ecrans": 2
+        },
+        {
+          "selecteur": "div.container",
+          "ecrans": 2
+        },
+        {
+          "selecteur": "div.container",
+          "ecrans": 2
+        },
+        {
+          "selecteur": "div.container",
+          "ecrans": 2
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.5s ease",
+          "n": 28
+        },
+        {
+          "valeur": "transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+          "n": 16
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 8
+        },
+        {
+          "valeur": "outline 0.3s ease",
+          "n": 8
+        },
+        {
+          "valeur": "transform 0.15s ease",
+          "n": 8
+        },
+        {
+          "valeur": "animation marquee-scroll-a82fff13 76.5556s linear infinite",
+          "n": 6
+        },
+        {
+          "valeur": "animation marquee-scroll-a82fff13 155.733s linear infinite",
+          "n": 4
+        },
+        {
+          "valeur": "opacity 0.5s ease",
+          "n": 3
+        },
+        {
+          "valeur": "animation fizz-4d130a54 0.6s ease-out infinite",
+          "n": 2
+        },
+        {
+          "valeur": "animation float 2s ease-in-out infinite",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.portal",
+        "score": 4,
+        "animations": [
+          "animation float 2s ease-in-out infinite"
+        ],
+        "transitions": [
+          "opacity 2.5s cubic-bezier(0.075, 0.82, 0.165, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.py-header-block",
+      "sections": [
+        {
+          "selecteur": "aside#88e4a72e-1a1d-42ca-99c0-2818e4d9d08f",
+          "titre": null,
+          "top": 0,
+          "hauteur": 32,
+          "ecrans": 0,
+          "mots": 72,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div",
+          "titre": "meet Zero Proof Apple + Espresso ‘Tinis",
+          "top": 32,
+          "hauteur": 1999,
+          "ecrans": 2.2,
+          "mots": 39,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.cloud-section",
+          "titre": "why we made Recess",
+          "top": 2031,
+          "hauteur": 12145,
+          "ecrans": 13.5,
+          "mots": 611,
+          "images": 58,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "blockquote",
+            "form",
+            "video"
+          ]
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": "Site navigation",
+          "top": 14283,
+          "hauteur": 1028,
+          "ecrans": 1.1,
+          "mots": 234,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header",
+        "hauteur": 107,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "Go to home page",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "shop navigation (open menu)",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "subscribe & save",
+            "href": "/shop/buy-now/subscribe",
+            "bouton": false
+          },
+          {
+            "texte": "login",
+            "href": "https://shop.takearecess.com/account",
+            "bouton": false
+          },
+          {
+            "texte": "0 items in your cart",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "Recess",
+            "href": "/shop/sparkling-water",
+            "bouton": false
+          },
+          {
+            "texte": "Recess Mood",
+            "href": "/shop/recess-mood",
+            "bouton": false
+          },
+          {
+            "texte": "Recess Zero Proof",
+            "href": "/shop/zero-proof",
+            "bouton": false
+          },
+          {
+            "texte": "Recess Mood Powders",
+            "href": "/shop/recess-mood-powders",
+            "bouton": false
+          },
+          {
+            "texte": "realitywear",
+            "href": "/shop/realitywear",
+            "bouton": false
+          },
+          {
+            "texte": "subscribe & save",
+            "href": "/shop/buy-now/subscribe",
+            "bouton": false
+          },
+          {
+            "texte": "what's inside",
+            "href": "/whats-inside",
+            "bouton": false
+          },
+          {
+            "texte": "give $10, get $10",
+            "href": "http://takearecess.refr.cc",
+            "bouton": false
+          },
+          {
+            "texte": "where to buy",
+            "href": "/where-to-buy",
+            "bouton": false
+          },
+          {
+            "texte": "faq",
+            "href": "/faq",
+            "bouton": false
+          },
+          {
+            "texte": "press",
+            "href": "/press",
+            "bouton": false
+          },
+          {
+            "texte": "shipping & return policy",
+            "href": "/shipping-and-returns-faqs",
+            "bouton": false
+          },
+          {
+            "texte": "customer support",
+            "href": "/customer-support",
+            "bouton": false
+          },
+          {
+            "texte": "wholesale",
+            "href": "/wholesale",
+            "bouton": false
+          },
+          {
+            "texte": "partnerships",
+            "href": "/partnerships",
+            "bouton": false
+          },
+          {
+            "texte": "media",
+            "href": "/media",
+            "bouton": false
+          },
+          {
+            "texte": "community",
+            "href": "https://app.tyb.xyz/brand/recess",
+            "bouton": false
+          },
+          {
+            "texte": "careers",
+            "href": "/careers",
+            "bouton": false
+          },
+          {
+            "texte": "Go to home page",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/takearecess/",
+            "bouton": false
+          },
+          {
+            "texte": "Twitter",
+            "href": "https://twitter.com/takearecess",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/takearecess",
+            "bouton": false
+          },
+          {
+            "texte": "BACK TO PAGE START",
+            "href": "#page-start",
+            "bouton": true
+          },
+          {
+            "texte": "sign up",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Day Job",
+            "href": "https://dayjob.work",
+            "bouton": false
+          },
+          {
+            "texte": "terms & conditions",
+            "href": "/terms-and-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "privacy policy",
+            "href": "/privacy-policy",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "shop navigation (open menu)",
+          "href": ""
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/takearecess"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.button",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "a.button",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "span#page-start",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "header",
+          "position": "sticky",
+          "hauteur": 107,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 20
+        },
+        {
+          "selecteur": "h1.sr-only",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 1
+        },
+        {
+          "selecteur": "a.index__floating-cta",
+          "position": "fixed",
+          "hauteur": 56,
+          "largeur": 138,
+          "enBas": true,
+          "mots": 2
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 8,
+        "pilules": 1,
+        "exemples": [
+          "SHOP NOW"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/takearecess-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#00140c",
+      "h1": "Recess",
+      "h1Visible": true,
+      "mots": 70,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "SKIP TO MAIN CONTENT",
+        "x": 25.990625381469727,
+        "y": 11.399999618530273,
+        "cx": 0.06792468046530699,
+        "cy": 0.014099525614372362,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 11166,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div.marquee-group"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.sr-only",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2#primary-nav-label",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.footer-general-disclaimer",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.63,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.button",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 14.4,
+        "graisse": "700",
+        "interlignage": 1.13,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.is-parent-active",
+        "famille": "\"Sharp Grotesk Web\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Antidote Display Web",
+          "url": "/fonts/antidote/AntidoteDisplay.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Web",
+          "url": "/fonts/sharp-grotesk/SharpGroteskBook20.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Web",
+          "url": "/fonts/sharp-grotesk/SharpGroteskMedium23.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Web",
+          "url": "/fonts/sharp-grotesk/SharpGroteskSmBold23.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "takearecess.com"
+      ],
+      "fichiersPolices": [
+        "https://takearecess.com/fonts/antidote/AntidoteDisplay.woff2",
+        "https://takearecess.com/fonts/sharp-grotesk/SharpGroteskBook20.woff2",
+        "https://takearecess.com/fonts/sharp-grotesk/SharpGroteskMedium23.woff2",
+        "https://takearecess.com/fonts/sharp-grotesk/SharpGroteskSmBold23.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Sharp Grotesk Web",
+          "n": 135
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#00140c",
+      "texte": "#e3e6ea",
+      "fondsBruts": [
+        {
+          "hex": "#00140c",
+          "n": 2,
+          "poids": 4368391
+        },
+        {
+          "hex": "#0a0a3a",
+          "n": 1,
+          "poids": 684486.5625
+        },
+        {
+          "hex": "#c2caff",
+          "n": 2,
+          "poids": 24468
+        },
+        {
+          "hex": "#1d2a58",
+          "n": 1,
+          "poids": 12480
+        },
+        {
+          "hex": "#fffcef",
+          "n": 1,
+          "poids": 11842
+        },
+        {
+          "hex": "#ff5a5a",
+          "n": 1,
+          "poids": 10850
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#e3e6ea",
+          "n": 71,
+          "poids": 2160
+        },
+        {
+          "hex": "#ffffff",
+          "n": 55,
+          "poids": 1328
+        },
+        {
+          "hex": "#163bf3",
+          "n": 1,
+          "poids": 18
+        },
+        {
+          "hex": "#25385b",
+          "n": 1,
+          "poids": 11
+        }
+      ],
+      "nbImages": 46,
+      "nbVideos": 1,
+      "nbFondsImage": 0,
+      "masques": 5,
+      "fonds": [
+        {
+          "hex": "#00140c",
+          "n": 2,
+          "poids": 4368391,
+          "part": 0.854
+        },
+        {
+          "hex": "#0a0a3a",
+          "n": 1,
+          "poids": 684486.5625,
+          "part": 0.134
+        },
+        {
+          "hex": "#c2caff",
+          "n": 2,
+          "poids": 24468,
+          "part": 0.005
+        },
+        {
+          "hex": "#1d2a58",
+          "n": 1,
+          "poids": 12480,
+          "part": 0.002
+        },
+        {
+          "hex": "#fffcef",
+          "n": 1,
+          "poids": 11842,
+          "part": 0.002
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#e3e6ea",
+          "n": 71,
+          "poids": 2160,
+          "part": 0.614
+        },
+        {
+          "hex": "#ffffff",
+          "n": 55,
+          "poids": 1328,
+          "part": 0.378
+        },
+        {
+          "hex": "#163bf3",
+          "n": 1,
+          "poids": 18,
+          "part": 0.005
+        },
+        {
+          "hex": "#25385b",
+          "n": 1,
+          "poids": 11,
+          "part": 0.003
+        }
+      ],
+      "contraste": 15.17
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "header",
+          "ecrans": 11.2
+        },
+        {
+          "selecteur": "div.cloud-section-rows",
+          "ecrans": 9.1
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "animation float 2s ease-in-out infinite",
+          "n": 30
+        },
+        {
+          "valeur": "transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+          "n": 10
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 8
+        },
+        {
+          "valeur": "outline 0.3s ease",
+          "n": 8
+        },
+        {
+          "valeur": "transform 0.15s ease",
+          "n": 8
+        },
+        {
+          "valeur": "opacity 0.5s ease",
+          "n": 3
+        },
+        {
+          "valeur": "animation marquee-scroll-a82fff13 76.5556s linear infinite",
+          "n": 2
+        },
+        {
+          "valeur": "animation fizz-4d130a54 0.6s ease-out infinite",
+          "n": 2
+        },
+        {
+          "valeur": "animation scroll-9d542938 42s linear infinite",
+          "n": 2
+        },
+        {
+          "valeur": "animation fizz-4d130a54 0.9s ease-out infinite",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.button",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "opacity 0.3s ease",
+          "outline 0.3s ease",
+          "transform 0.15s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div#app",
+      "sections": [
+        {
+          "selecteur": "div.flex",
+          "titre": "Primary site menu",
+          "top": 0,
+          "hauteur": 9446,
+          "ecrans": 11.2,
+          "mots": 483,
+          "images": 47,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "dialog",
+            "form",
+            "blockquote",
+            "video"
+          ]
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": "Site navigation",
+          "top": 9446,
+          "hauteur": 1755,
+          "ecrans": 2.1,
+          "mots": 234,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header",
+        "hauteur": 91,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "Go to home page",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "shop navigation (open menu)",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "0 items in your cart",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "Recess",
+            "href": "/shop/sparkling-water",
+            "bouton": false
+          },
+          {
+            "texte": "Recess Mood",
+            "href": "/shop/recess-mood",
+            "bouton": false
+          },
+          {
+            "texte": "Recess Zero Proof",
+            "href": "/shop/zero-proof",
+            "bouton": false
+          },
+          {
+            "texte": "Recess Mood Powders",
+            "href": "/shop/recess-mood-powders",
+            "bouton": false
+          },
+          {
+            "texte": "realitywear",
+            "href": "/shop/realitywear",
+            "bouton": false
+          },
+          {
+            "texte": "subscribe & save",
+            "href": "/shop/buy-now/subscribe",
+            "bouton": false
+          },
+          {
+            "texte": "what's inside",
+            "href": "/whats-inside",
+            "bouton": false
+          },
+          {
+            "texte": "give $10, get $10",
+            "href": "http://takearecess.refr.cc",
+            "bouton": false
+          },
+          {
+            "texte": "where to buy",
+            "href": "/where-to-buy",
+            "bouton": false
+          },
+          {
+            "texte": "faq",
+            "href": "/faq",
+            "bouton": false
+          },
+          {
+            "texte": "press",
+            "href": "/press",
+            "bouton": false
+          },
+          {
+            "texte": "shipping & return policy",
+            "href": "/shipping-and-returns-faqs",
+            "bouton": false
+          },
+          {
+            "texte": "customer support",
+            "href": "/customer-support",
+            "bouton": false
+          },
+          {
+            "texte": "wholesale",
+            "href": "/wholesale",
+            "bouton": false
+          },
+          {
+            "texte": "partnerships",
+            "href": "/partnerships",
+            "bouton": false
+          },
+          {
+            "texte": "media",
+            "href": "/media",
+            "bouton": false
+          },
+          {
+            "texte": "community",
+            "href": "https://app.tyb.xyz/brand/recess",
+            "bouton": false
+          },
+          {
+            "texte": "careers",
+            "href": "/careers",
+            "bouton": false
+          },
+          {
+            "texte": "Go to home page",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/takearecess/",
+            "bouton": false
+          },
+          {
+            "texte": "Twitter",
+            "href": "https://twitter.com/takearecess",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/takearecess",
+            "bouton": false
+          },
+          {
+            "texte": "BACK TO PAGE START",
+            "href": "#page-start",
+            "bouton": true
+          },
+          {
+            "texte": "sign up",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Day Job",
+            "href": "https://dayjob.work",
+            "bouton": false
+          },
+          {
+            "texte": "terms & conditions",
+            "href": "/terms-and-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "privacy policy",
+            "href": "/privacy-policy",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "shop navigation (open menu)",
+          "href": ""
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/takearecess"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.button",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "a.button",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "span#page-start",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 8,
+        "pilules": 1,
+        "exemples": [
+          "SHOP NOW"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Recess",
+  "dureeS": 62.8
+}

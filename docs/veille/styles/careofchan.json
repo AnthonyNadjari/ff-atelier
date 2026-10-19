@@ -1,0 +1,591 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://careofchan.com/",
+  "nom": "careofchan",
+  "date": "2026-10-19",
+  "identite": {
+    "title": "Care of Chan",
+    "siteName": "Care of Chan",
+    "lang": "en",
+    "description": "Care of Chan is a hospitality-driven experiential marketing agency that offers production, programming, and partnerships services. We bring people together over ideas, in real life, and over food whenever possible.",
+    "technologies": [
+      "Nuxt",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "GATHER WITH EASE.",
+      "h1Visible": true,
+      "mots": 187,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.absolute"
+      },
+      "boutonPrincipal": {
+        "texte": "READY TO HOST",
+        "x": 1228.15625,
+        "y": 26.25,
+        "cx": 0.91533203125,
+        "cy": 0.0525,
+        "fixe": true,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.pb-8",
+        "famille": "\"Monument Grotesk\", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Arial",
+        "taille": 32,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.32px"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "Tobias",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.38,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.32px"
+      },
+      "bouton": null,
+      "nav": {
+        "selecteur": "a.router-link-active",
+        "famille": "Tobias",
+        "taille": 16,
+        "graisse": "700",
+        "interlignage": 1.38,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.32px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Monument Grotesk",
+          "url": "../fonts/MonumentGrotesk-Regular.woff2",
+          "feuille": "www.careofchan.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Tobias",
+          "url": "../fonts/Tobias-Regular.woff2",
+          "feuille": "www.careofchan.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.careofchan.com/fonts/MonumentGrotesk-Regular.woff2",
+        "https://www.careofchan.com/fonts/Tobias-Regular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Tobias",
+          "n": 11
+        },
+        {
+          "famille": "Monument Grotesk",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#e2ff00",
+          "n": 1,
+          "poids": 7553.4375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 1367
+        }
+      ],
+      "nbImages": 17,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.499
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.499
+        },
+        {
+          "hex": "#e2ff00",
+          "n": 1,
+          "poids": 7553.4375,
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 1367,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [],
+      "attributs": [],
+      "plusAnime": null
+    },
+    "structure": {
+      "conteneur": "main.md:min-h-screen",
+      "sections": [],
+      "nav": {
+        "selecteur": "header#site-header",
+        "hauteur": 96,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "READY TO HOST",
+            "href": "https://readytohost.substack.com/",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div.splash-container",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "header#site-header",
+          "position": "fixed",
+          "hauteur": 96,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "div.md:absolute",
+          "position": "absolute",
+          "hauteur": 580,
+          "largeur": 720,
+          "enBas": false,
+          "mots": 182
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/careofchan-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "GATHER WITH EASE.",
+      "h1Visible": true,
+      "mots": 179,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.absolute"
+      },
+      "boutonPrincipal": {
+        "texte": "READY TO HOST",
+        "x": 194.15625,
+        "y": 10.25,
+        "cx": 0.7284054487179488,
+        "cy": 0.0370260663507109,
+        "fixe": true,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 888,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.pb-8",
+        "famille": "\"Monument Grotesk\", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Arial",
+        "taille": 32,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.32px"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "Tobias",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.38,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.32px"
+      },
+      "bouton": null,
+      "nav": {
+        "selecteur": "a.router-link-active",
+        "famille": "Tobias",
+        "taille": 16,
+        "graisse": "700",
+        "interlignage": 1.38,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.32px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Monument Grotesk",
+          "url": "../fonts/MonumentGrotesk-Regular.woff2",
+          "feuille": "www.careofchan.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Tobias",
+          "url": "../fonts/Tobias-Regular.woff2",
+          "feuille": "www.careofchan.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.careofchan.com/fonts/MonumentGrotesk-Regular.woff2",
+        "https://www.careofchan.com/fonts/Tobias-Regular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Tobias",
+          "n": 11
+        },
+        {
+          "famille": "Monument Grotesk",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 346320
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#e2ff00",
+          "n": 1,
+          "poids": 7553.4375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 1367
+        }
+      ],
+      "nbImages": 17,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 346320,
+          "part": 0.507
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.482
+        },
+        {
+          "hex": "#e2ff00",
+          "n": 1,
+          "poids": 7553.4375,
+          "part": 0.011
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 1367,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [],
+      "attributs": [],
+      "plusAnime": null
+    },
+    "structure": {
+      "conteneur": "div.wrapper",
+      "sections": [
+        {
+          "selecteur": "h1.pb-8",
+          "titre": null,
+          "top": 64,
+          "hauteur": 72,
+          "ecrans": 0.1,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 136,
+          "hauteur": 88,
+          "ecrans": 0.1,
+          "mots": 21,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 232,
+          "hauteur": 110,
+          "ecrans": 0.1,
+          "mots": 33,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 350,
+          "hauteur": 22,
+          "ecrans": 0,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "ul",
+          "titre": null,
+          "top": 380,
+          "hauteur": 220,
+          "ecrans": 0.3,
+          "mots": 51,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 608,
+          "hauteur": 198,
+          "ecrans": 0.2,
+          "mots": 54,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 814,
+          "hauteur": 22,
+          "ecrans": 0,
+          "mots": 10,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 844,
+          "hauteur": 44,
+          "ecrans": 0.1,
+          "mots": 7,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header#site-header",
+        "hauteur": 64,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "READY TO HOST",
+            "href": "https://readytohost.substack.com/",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div.splash-container",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "header#site-header",
+          "position": "fixed",
+          "hauteur": 64,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Care of Chan",
+  "dureeS": 33.2
+}

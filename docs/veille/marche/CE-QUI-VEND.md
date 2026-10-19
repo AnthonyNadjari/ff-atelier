@@ -13,65 +13,77 @@ du tour suivant. On transpose un levier, jamais une maquette.
 
 ## Leviers (compte sur le nombre de sites étudiés)
 
-27 sites au 17 oct 2026, tour 3 (18 sites d'artisans, 9 modèles). Un site compte s'il a le levier sur l'accueil ou dans sa nav.
-Les comptes des tours 1 et 2 sont gardés tels quels ; le tour 3 ajoute ses 9 sites, démontés **sur le code, sans capture** (aucun
-navigateur disponible) : les leviers de position (« au premier écran ») y sont lus dans l'ordre du HTML, la couverture des
+36 sites au 19 oct 2026, tour 4 (24 sites d'artisans, 12 modèles). Un site compte s'il a le levier sur l'accueil ou dans sa nav.
+Les comptes des tours 1 à 3 sont gardés tels quels ; les tours 3 et 4 ajoutent chacun 9 sites démontés **sur le code, sans capture**
+(aucun navigateur disponible) : les leviers de position (« au premier écran ») y sont lus dans l'ordre du HTML, la couverture des
 bannières cookies n'y est pas mesurée. Pourcentage donné à partir de 40 %.
 
 | Levier | Sites qui l'ont | Exemples (fiche) | L'usine le fait ? |
 |---|---|---|---|
-| Plusieurs pages (pas un site d'une page) | 25 / 27 (93 %) | tous sauf [Rami](rami-entretien.md) (une page à ancres + Contact) et [Refit](framer-refit.md) ; le plus maigre compté : [Auvergne Technique Plomberie](auvergne-plomberie.md) | Oui : une page par service, pages villes en option (`seo.cityPages`) |
-| Avis ou témoignages affichés | 18 / 27 (67 %) | [Ouest Car](garage-ouestcar.md) (103 avis Google), [Securya](securya.md) (10 avis Google signés sur 133), [Chez Bex](chez-bex.md) (7 avis datés + livre d'or) | Oui (`proof/google`, `testimonials`), seulement s'ils sont fournis |
-| Une page par service ou par offre | 18 / 27 (67 %) | [Ouest Car](garage-ouestcar.md) (8 pages réparation), [Dr Debouvry](dentiste-cormontaigne.md) (une page par soin et par pathologie), [Chez Bex](chez-bex.md) (une page par occasion) | Oui (`src/pages/services/[slug].astro`) |
-| Métier + ville dans le titre ou la première phrase | 17 / 27 (63 %) | [S Elec](s-elec.md) (« Électricien à Rennes »), [RConstruction](rconstruction.md) (« Maçonnerie et restauration du patrimoine à Dijon et Chalon-sur-Saône »), [Chez Bex](chez-bex.md) (« Traiteur Le Havre ») | Oui (test du hero, docs/REDACTION.md ; `hero-metier` « <métier> à <ville> » dans les heros) |
-| Vraies photos de l'entreprise | 16 / 27 (59 % ; les 9 modèles : banque ou démonstration ; [Securya](securya.md) non compté, origine illisible dans le code) | [Villa d'Orient](villadorient.md) (~20), [Chez Bex](chez-bex.md) (~24 plats et réceptions), [Rami](rami-entretien.md) (7 chantiers pris au téléphone) | Dépend du client : guide photo, `ff images` ; jamais de banque présentée comme « le client » |
-| Téléphone cliquable visible en haut | 15 / 27 (56 %) | [Securya](securya.md) (deux numéros + « 7j/7 8h-20h » en barre haute), [Dr Debouvry](dentiste-cormontaigne.md), [BuildPress](tf-buildpress.md) ; contre-exemples : [Rami](rami-entretien.md) et [Constructo](tf-constructo.md) affichent le numéro sans lien | Oui (porte « Appeler » des navs, `cta/phone-giant`) |
-| Année de création ou années de métier | 15 / 27 (56 %) | [Prat](prat-depannage.md) (depuis 1987), [RConstruction](rconstruction.md) (« depuis plus de 30 ans »), [Rami](rami-entretien.md) (depuis 2010) | Oui, en texte « Depuis 1998 » (`business.since`) ; le badge et le « X ans » calculé restent refusés (docs/GOUT.md § 2) |
-| Formulaire sur l'accueil | 14 / 27 (52 %) | [Auvergne Technique Plomberie](auvergne-plomberie.md) (dès le premier écran), [Chez Bex](chez-bex.md) (panneau en haut de page), [Securya](securya.md) (10 champs, Particulier / Professionnel) | Oui (`contact/form-*`) |
-| Bouton devis ou estimation nommé | 13 / 27 (48 %) | [BM Rénov](bm-renov.md) (« Devis gratuit »), [Securya](securya.md) (« Audit de sécurité offert »), [Chez Bex](chez-bex.md) (« Obtenir un devis gratuit ») | Oui (porte « Devis », `wording.devis`) |
-| Rubrique conseils, actualités ou journal | 12 / 27 (44 %) | [Ouest Car](garage-ouestcar.md) (Conseils auto), [Chez Bex](chez-bex.md) (5 actualités datées, événements locaux), [Securya](securya.md) (Blog) | **Fait le 17 oct 2026** : `conseils` dans le schéma, `/conseils` + une page par article + lien de nav, seulement si le client a des articles |
-| Zone desservie dans le premier écran | 9 / 27 (33 %) | [Auvergne Technique Plomberie](auvergne-plomberie.md) (8 communes en pastilles), [Ekilibr](ekilibr.md) (trois départements sous le h1), [Securya](securya.md) (« en Gironde ») | En partie : `zones.cities` est lu au premier écran par 2 heros sur 6 (`typographic`, `marquee`) ; ailleurs dans la section `zones` |
-| Label, réseau, licence, assurance ou certification | 8 / 27 (30 %) | [Maison Stamm](maisonstamm.md) (Savoir-faire alsacien), [BM Rénov](bm-renov.md) et [Rami](rami-entretien.md) (assurance décennale), [Roofex](webflow-roofex.md) | En partie : `business.insurance` s'affiche dans les 6 heros (« Assuré décennale ») ; `business.certifications` (RGE, Qualibat…) seulement dans `about/portrait`, `about/overlap`, `footer/columns`, `proof/logos`, jamais au premier écran |
-| … dont au premier écran | 3 / 27 relevés | [Maison Stamm](maisonstamm.md), [BM Rénov](bm-renov.md), [Rami](rami-entretien.md) (décennale dans la phrase sous le h1) | Assurance : oui (6 heros sur 6). Certifications : non (aucun hero ne lit `certifications`) |
-| Chiffre de volume (« 4 000 clients ») | 8 / 27 | [Ouest Car](garage-ouestcar.md), [Securya](securya.md) (« 800 sites sécurisés », premier écran), [Chez Bex](chez-bex.md) (« 24 jours, 1200 repas ») | Pas de champ dédié ; seulement si le client le donne (règle dure 2) |
-| Logos de clients, partenaires ou certificats | 8 / 27 | [S Elec](s-elec.md) (Carrefour, Intermarché…), [Securya](securya.md) (Foncia, CCI du Lot…), [Rami](rami-entretien.md) (syndics Citya, Socagest) | Oui (`proof/logos`) |
-| Garantie écrite | 7 / 27 | [Lintel](framer-lintel.md) (10 ans structure), [Maison Stamm](maisonstamm.md) (à vie), [Rami](rami-entretien.md) (« Travaux fiables et garantis », décennale expliquée en FAQ) | Pas de champ ; texte du client seulement |
-| Prix « à partir de » ou page tarifs | 6 / 27 | [Grégory Cros](photo-lyon-cros.md) (« dès 390 € » dans le h1), [Auvergne Technique Plomberie](auvergne-plomberie.md), [Ekilibr](ekilibr.md) (50 à 150 €/h, 1 600 à 2 300 €/m²) | Oui (`services[].priceFrom`) |
-| Délais chiffrés (rappel, devis, livraison) | 6 / 27 | [BM Rénov](bm-renov.md) (« Devis sous 48 h », premier écran), [Rami](rami-entretien.md) (devis sous 24 h, travaux sous 7 jours), [RConstruction](rconstruction.md) (« Devis gratuit sous 48h ») | Texte du client seulement (`wording.ctaText`) |
-| Bannière cookies qui couvre le premier écran (contre-levier) | 4 / 18 mesurés (tour 3 : bannière présente sur 6 / 9, couverture non mesurée sans capture) | [Cordonnerie d'Axel](cordonnerie-axel.md) (100 %, bloquante), [Auvergne Technique Plomberie](auvergne-plomberie.md) (51 % du téléphone), [Prat](prat-depannage.md) | Jamais : aucun traceur, aucune bannière (avantage à dire au client) |
-| Gérant en photo et à la première personne au premier écran | 3 / 27 mesurés | [Phenix](phenix-ferronnerie.md), [Grégory Cros](photo-lyon-cros.md), [Sawyer](squarespace-sawyer.md) ; [Ekilibr](ekilibr.md) a « Qui suis-je ? » juste sous le h1 (position à l'écran non mesurée, non compté) | Possible (`about/portrait`, `images.portrait`), jamais au premier écran : aucun hero ne lit `images.portrait` |
-| Barre d'actions collée en bas sur téléphone | 2 / 27 | [Lintel](framer-lintel.md) (Appeler / SMS / Estimation), [Cordonnerie d'Axel](cordonnerie-axel.md) (Réserver / 2 numéros) | Oui (`layout.actionBar`) |
+| Plusieurs pages (pas un site d'une page) | 33 / 36 (92 %) | tous sauf [Rami](rami-entretien.md), [Refit](framer-refit.md) et [Jacques Couverture](jacques-couverture.md) (une page à ancres + Contact) ; le plus fourni du tour 4 : [Abers Couverture](abers-couverture.md) (environ 25 pages) | Oui : une page par service, pages villes en option (`seo.cityPages`) |
+| Avis ou témoignages affichés | 25 / 36 (69 %) | [Ouest Car](garage-ouestcar.md) (103 avis Google), [Jacques Couverture](jacques-couverture.md) (110 avis à 4,9, une trentaine affichés juste sous le h1), [Activ'Sport](activsport.md) (8 avis signés dont une vidéo) | Oui (`proof/google`, `testimonials`), seulement s'ils sont fournis |
+| Une page par service ou par offre | 25 / 36 (69 %) | [Dr Debouvry](dentiste-cormontaigne.md) (une page par soin), [Abers Couverture](abers-couverture.md) (une page par matériau), [Bendorf](bendorf.md) (bières, consigne, location de tireuse) | Oui (`src/pages/services/[slug].astro`) |
+| Métier + ville dans le titre ou la première phrase | 23 / 36 (64 %) | [S Elec](s-elec.md) (« Électricien à Rennes »), [Bendorf](bendorf.md) (« Brasserie artisanale à Neudorf, Strasbourg »), [Omnisol](omnisol.md) (« Solier-Moquettiste à Nîmes ») | Oui (test du hero, docs/REDACTION.md ; `hero-metier` « <métier> à <ville> » dans les heros) |
+| Année de création ou années de métier | 21 / 36 (58 %) | [Prat](prat-depannage.md) (depuis 1987), [Abers Couverture](abers-couverture.md) (depuis 2002), [Grand-Père Jules](grand-pere-jules.md) (« certifiée Bio depuis 1990 ») | Oui, en texte « Depuis 1998 » (`business.since`) ; le badge et le « X ans » calculé restent refusés (docs/GOUT.md § 2) |
+| Vraies photos de l'entreprise | 19 / 36 (53 % ; les 12 modèles : banque ou démonstration ; non comptés faute de pouvoir le lire dans le code : [Securya](securya.md), [Activ'Sport](activsport.md), [Grand-Père Jules](grand-pere-jules.md)) | [Villa d'Orient](villadorient.md) (~20), [Chez Bex](chez-bex.md) (~24), [Omnisol](omnisol.md) (poses prises au téléphone) ; contre-exemple : [Jacques Couverture](jacques-couverture.md) (banque d'images + photos nommées d'un couvreur de Valenciennes) | Dépend du client : guide photo, `ff images` ; jamais de banque présentée comme « le client » |
+| Téléphone cliquable visible en haut | 19 / 36 (53 %) | [Securya](securya.md) (deux numéros + « 7j/7 8h-20h »), [Jacques Couverture](jacques-couverture.md) (« Une urgence ? 7j/7 24h/24 » + bouton), [Abers Couverture](abers-couverture.md) ; contre-exemples : [Rami](rami-entretien.md), [Constructo](tf-constructo.md), [Bendorf](bendorf.md) (numéro sans lien), [Grand-Père Jules](grand-pere-jules.md) (« [cstmPhoneNumber] » affiché à la place du numéro) | Oui (porte « Appeler » des navs, `cta/phone-giant`) |
+| Formulaire sur l'accueil | 15 / 36 (42 %) | [Auvergne Technique Plomberie](auvergne-plomberie.md) (dès le premier écran), [Securya](securya.md) (10 champs), [Grand-Père Jules](grand-pere-jules.md) (avec « point de retrait » : quelle boutique) | Oui (`contact/form-*`) |
+| Bouton devis ou estimation nommé | 15 / 36 (42 %) | [BM Rénov](bm-renov.md) (« Devis gratuit »), [Jacques Couverture](jacques-couverture.md) (« Obtenir un devis »), [Renovate](tf-renovate.md) (« Request a quote » vers un calculateur) | Oui (porte « Devis », `wording.devis`) |
+| Rubrique conseils, actualités ou journal | 15 / 36 (42 %) | [Ouest Car](garage-ouestcar.md) (Conseils auto), [Abers Couverture](abers-couverture.md) (Actus / Conseils, lien en barre haute), [Activ'Sport](activsport.md) (Blog) | **Fait le 17 oct 2026** : `conseils` dans le schéma, `/conseils` + une page par article + lien de nav, seulement si le client a des articles |
+| Label, réseau, licence, assurance ou certification | 13 / 36 (36 %) | [Maison Stamm](maisonstamm.md) (Savoir-faire alsacien), [Abers Couverture](abers-couverture.md) (RGE Qualibat en logo, trophée CELIA), [Grand-Père Jules](grand-pere-jules.md) (agrément bio avec son numéro), [Omnisol](omnisol.md) (RC pro) | En partie : `business.insurance` s'affiche dans les 6 heros (« Assuré décennale ») ; `business.certifications` (RGE, Qualibat…) seulement dans `about/portrait`, `about/overlap`, `footer/columns`, `proof/logos`, jamais au premier écran |
+| … dont au premier écran | 3 / 36 relevés (aucun au tour 4) | [Maison Stamm](maisonstamm.md), [BM Rénov](bm-renov.md), [Rami](rami-entretien.md) (décennale dans la phrase sous le h1) | Assurance : oui (6 heros sur 6). Certifications : non (aucun hero ne lit `certifications`) |
+| Zone desservie dans le premier écran | 11 / 36 (31 %) | [Auvergne Technique Plomberie](auvergne-plomberie.md) (8 communes en pastilles), [Abers Couverture](abers-couverture.md) (« dans le Finistère » dans le h1), [Jacques Couverture](jacques-couverture.md) (« Marseille et ses alentours ») | En partie : `zones.cities` est lu au premier écran par 2 heros sur 6 (`typographic`, `marquee`) ; ailleurs dans la section `zones` |
+| Chiffre de volume (« 4 000 clients ») | 11 / 36 | [Securya](securya.md) (« 800 sites sécurisés »), [Activ'Sport](activsport.md) (« +1000 personnes accompagnées » sous le bouton), [Bendorf](bendorf.md) (120 000 bouteilles consignées, 174 bières, 23 t de drêches) | Pas de champ dédié ; seulement si le client le donne (règle dure 2) |
+| Logos de clients, partenaires ou certificats | 11 / 36 | [S Elec](s-elec.md) (Carrefour, Intermarché…), [Securya](securya.md), [Abers Couverture](abers-couverture.md) (RGE) | Oui (`proof/logos`) |
+| Garantie écrite | 10 / 36 | [Lintel](framer-lintel.md) (10 ans structure), [Maison Stamm](maisonstamm.md) (à vie), [Omnisol](omnisol.md) (« garanties de 15 à 25 ans selon le fournisseur ») | Pas de champ ; texte du client seulement |
+| Prix « à partir de » ou page tarifs | 6 / 36 (aucun au tour 4) | [Grégory Cros](photo-lyon-cros.md) (« dès 390 € » dans le h1), [Auvergne Technique Plomberie](auvergne-plomberie.md), [Ekilibr](ekilibr.md) | Oui (`services[].priceFrom`) |
+| Délais chiffrés (rappel, devis, livraison) | 6 / 36 (aucun au tour 4) | [BM Rénov](bm-renov.md) (« Devis sous 48 h »), [Rami](rami-entretien.md), [RConstruction](rconstruction.md) | Texte du client seulement (`wording.ctaText`) |
+| Bannière cookies qui couvre le premier écran (contre-levier) | 4 / 18 mesurés (présente, couverture non mesurée sans capture : 6 / 9 au tour 3, 3 / 9 au tour 4) | [Cordonnerie d'Axel](cordonnerie-axel.md) (100 %, bloquante), [Auvergne Technique Plomberie](auvergne-plomberie.md) (51 % du téléphone), [Prat](prat-depannage.md) | Jamais : aucun traceur, aucune bannière (avantage à dire au client) |
+| Gérant en photo et à la première personne au premier écran | 3 / 36 mesurés | [Phenix](phenix-ferronnerie.md), [Grégory Cros](photo-lyon-cros.md), [Sawyer](squarespace-sawyer.md) ; [Ekilibr](ekilibr.md) et [Grand-Père Jules](grand-pere-jules.md) (« Estelle et Kevin » juste sous le h1, sans photo lisible) non comptés | Possible (`about/portrait`, `images.portrait`), jamais au premier écran : aucun hero ne lit `images.portrait` |
+| Barre d'actions collée en bas sur téléphone | 2 / 36 | [Lintel](framer-lintel.md) (Appeler / SMS / Estimation), [Cordonnerie d'Axel](cordonnerie-axel.md) | Oui (`layout.actionBar`) |
 
-Leviers relevés à partir du tour 2 (comptés sur les 18 sites des tours 2 et 3, à recompter sur les 9 du tour 1) :
+Leviers relevés à partir du tour 2 (comptés sur les 27 sites des tours 2 à 4, à recompter sur les 9 du tour 1) :
 
-| Levier | Sites des tours 2 et 3 | Exemples (fiche) | L'usine le fait ? |
+| Levier | Sites des tours 2 à 4 | Exemples (fiche) | L'usine le fait ? |
 |---|---|---|---|
-| Gérant ou équipe en photo quelque part sur l'accueil | 5 / 18 | [BM Rénov](bm-renov.md), [Grégory Cros](photo-lyon-cros.md), [Sawyer](squarespace-sawyer.md), [Ekilibr](ekilibr.md), [Dr Debouvry](dentiste-cormontaigne.md) (3 dentistes et 2 assistantes nommés) | Oui (`about/portrait`, `about/overlap`) |
-| FAQ sur l'accueil | 5 / 18 | [BM Rénov](bm-renov.md), [Grégory Cros](photo-lyon-cros.md), [Rami](rami-entretien.md) (délais, zone, assurance), [Ekilibr](ekilibr.md) (11 questions de prix), [Refit](framer-refit.md) | Oui (`faq/*`) |
-| Prise de rendez-vous ou réservation en ligne | 4 / 18 | [Cordonnerie d'Axel](cordonnerie-axel.md), [South Side Barber](southside-barber.md), [Roofex](webflow-roofex.md), [Dr Debouvry](dentiste-cormontaigne.md) (Doctolib dans l'en-tête) | Oui (`contact.bookingUrl`, porte « Réserver ») |
-| Badges de réassurance sous le titre (devis gratuit, assurance, délai, 7j/7) | 4 / 18 | [BM Rénov](bm-renov.md), [Auvergne Technique Plomberie](auvergne-plomberie.md), [Securya](securya.md) (4 cases chiffrées), [Rami](rami-entretien.md) | Oui (liste sous les boutons des 6 heros : depuis, 24 h/24, décennale, note Google) |
-| Urgence 24/7 ou 7j/7 au premier écran | 4 / 18 | [Auvergne Technique Plomberie](auvergne-plomberie.md), [Roofex](webflow-roofex.md), [Securya](securya.md) (« 7j/7 8h-20h »), [Rami](rami-entretien.md) | Oui (`contact.emergency24h` dans les heros) |
-| Note Google ou preuve sociale au premier écran | 4 / 18 | [Auvergne Technique Plomberie](auvergne-plomberie.md) (4,9/5), [Securya](securya.md) (4,9, 133 avis, **au-dessus du h1**), [Roofex](webflow-roofex.md), [Refit](framer-refit.md) (un témoignage sous le bouton) | Oui (`proof.google` dans les heros) ; un témoignage au premier écran : non |
-| Bouton d'appel flottant sur téléphone | 3 / 18 | [Grégory Cros](photo-lyon-cros.md), [Auvergne Technique Plomberie](auvergne-plomberie.md), [Rami](rami-entretien.md) | Oui sous forme de barre (`layout.actionBar`) |
-| Liste de communes + carte sur l'accueil | 3 / 18 | [BM Rénov](bm-renov.md), [Auvergne Technique Plomberie](auvergne-plomberie.md), [RConstruction](rconstruction.md) (zones nommées + carte en image) | Oui (`zones/*`, carte sans traceur) |
+| Gérant ou équipe en photo quelque part sur l'accueil | 7 / 27 | [BM Rénov](bm-renov.md), [Dr Debouvry](dentiste-cormontaigne.md), [Bendorf](bendorf.md) (photo d'équipe en pied), [PlumFix](framer-plumfix.md) (6 personnes nommées par rôle) ; [Activ'Sport](activsport.md) nomme le gérant et 3 coachs (photos non mesurées, non compté) | Oui (`about/portrait`, `about/overlap`, `about.team`) |
+| FAQ sur l'accueil | 7 / 27 | [Rami](rami-entretien.md), [Ekilibr](ekilibr.md), [Activ'Sport](activsport.md) (8 questions : douleur, contre-indications, durée), [PlumFix](framer-plumfix.md) (délai d'arrivée, prix annoncé d'avance, assurance) | Oui (`faq/*`) |
+| Badges de réassurance sous le titre (devis gratuit, assurance, délai, 7j/7) | 6 / 27 | [BM Rénov](bm-renov.md), [Securya](securya.md), [Activ'Sport](activsport.md) (« Aucun paiement demandé », note, volume), [PlumFix](framer-plumfix.md) | Oui (liste sous les boutons des 6 heros : depuis, 24 h/24, décennale, note Google) |
+| Urgence 24/7 ou 7j/7 au premier écran | 6 / 27 | [Auvergne Technique Plomberie](auvergne-plomberie.md), [Securya](securya.md), [Jacques Couverture](jacques-couverture.md), [PlumFix](framer-plumfix.md) | Oui (`contact.emergency24h` dans les heros) |
+| Prise de rendez-vous ou réservation en ligne | 5 / 27 | [Cordonnerie d'Axel](cordonnerie-axel.md), [Dr Debouvry](dentiste-cormontaigne.md), [Wix Electrician](wix-galvanic-electrician.md) (« Book Now », une page par service réservable) | Oui (`contact.bookingUrl`, porte « Réserver ») |
+| Note Google ou preuve sociale au premier écran | 5 / 27 | [Securya](securya.md) (**au-dessus du h1**), [Auvergne Technique Plomberie](auvergne-plomberie.md), [Activ'Sport](activsport.md) (« 125 avis Google, 5/5 » sous le bouton) | Oui (`proof.google` dans les heros) ; un témoignage au premier écran : non |
+| Liste de communes + carte sur l'accueil | 4 / 27 | [BM Rénov](bm-renov.md), [RConstruction](rconstruction.md), [Abers Couverture](abers-couverture.md) (« Finistère nord » + carte en image) | Oui (`zones/*`, carte sans traceur) |
+| Bouton d'appel flottant sur téléphone | 3 / 27 (aucun lu au tour 4) | [Grégory Cros](photo-lyon-cros.md), [Auvergne Technique Plomberie](auvergne-plomberie.md), [Rami](rami-entretien.md) | Oui sous forme de barre (`layout.actionBar`) |
 
-Leviers relevés pour la première fois au tour 3 (comptés sur ses 9 sites) :
+Leviers relevés à partir du tour 3 (comptés sur les 18 sites des tours 3 et 4) :
 
-| Levier | Sites du tour 3 | Exemples (fiche) | L'usine le fait ? |
+| Levier | Sites des tours 3 et 4 | Exemples (fiche) | L'usine le fait ? |
 |---|---|---|---|
-| Restes du modèle en ligne (numéro factice, liens du thème, texte d'un autre métier ou d'une autre ville) : contre-levier | 3 / 9 | [Rami](rami-entretien.md) (`tel: 123456789`), [Ekilibr](ekilibr.md) (Instagram de l'éditeur du thème, « agglomération Roannaise »), [Wix Home Remodeling](wix-home-remodeling.md) (« 24/7 Locksmith Assistance ») | En partie : la garde « données de test » (`scripts/ff/garde-donnees.mjs`) bloque 06 00 00 00 00, 75000 et le contenu de `_exemple`, pas un `tel:` factice générique (123456789) |
-| Une page par ville desservie | 2 / 9 | [Securya](securya.md) (10 villes), [Ekilibr](ekilibr.md) (5 villes, c'est la page ville qui est classée) | Oui (`seo.cityPages`, une page `/zones/<ville>`) |
-| Réalisations datées ou chiffrées (date, nombre de convives, lieu nommé) | 2 / 9 | [Chez Bex](chez-bex.md) (« 150 convives, 12.06.2025 »), [RConstruction](rconstruction.md) (domaine viticole nommé) | En partie : pas de champ date ou volume par réalisation ; seulement le texte du client |
-| Seuil de commande au premier écran | 1 / 9 | [Chez Bex](chez-bex.md) (« Réservations pour 30 personnes minimum ») | Texte du client seulement |
+| Restes du modèle en ligne (numéro factice, code du thème, texte ou photos d'un autre client) : contre-levier | 5 / 18 | [Rami](rami-entretien.md) (`tel: 123456789`), [Ekilibr](ekilibr.md), [Wix Home Remodeling](wix-home-remodeling.md), [Grand-Père Jules](grand-pere-jules.md) (« [cstmPhoneNumber] » en tête de page), [Jacques Couverture](jacques-couverture.md) (photos « valenciennes-anzin », ancre « Nos réalisations » morte) | En partie : la garde « données de test » (`scripts/ff/garde-donnees.mjs`) bloque 06 00 00 00 00, 75000 et le contenu de `_exemple`, pas un `tel:` factice générique ; un code court non rendu ne peut pas arriver (pas de thème WordPress) |
+| Réalisations datées, chiffrées ou localisées | 3 / 18 | [Chez Bex](chez-bex.md) (« 150 convives, 12.06.2025 »), [RConstruction](rconstruction.md), [Abers Couverture](abers-couverture.md) (« Brest Moulin Blanc ») | En partie : `place`, `kind`, `size`, `client` par réalisation dans `proof/gallery` (schéma, optionnels) ; pas de date |
+| Une page par ville desservie | 2 / 18 | [Securya](securya.md) (10 villes), [Ekilibr](ekilibr.md) | Oui (`seo.cityPages`, une page `/zones/<ville>`) |
+| Seuil de commande au premier écran | 1 / 18 | [Chez Bex](chez-bex.md) | Texte du client seulement |
+
+Leviers relevés pour la première fois au tour 4 (comptés sur ses 9 sites) :
+
+| Levier | Sites du tour 4 | Exemples (fiche) | L'usine le fait ? |
+|---|---|---|---|
+| Nouvelle du moment en tête de page ou dans la nav (nouveauté, saison, fermeture) | 3 / 9 | [Bendorf](bendorf.md) (« La dernière bière éphémère », une tous les 15 jours), [Grand-Père Jules](grand-pere-jules.md) (« Noël 2026 » dans la nav dès octobre), [Omnisol](omnisol.md) (congés d'été **encore affichés en octobre** : la version ratée) | Non : aucun champ d'annonce datée ; `conseils` (articles) est le plus proche, sans place en tête de page |
+| Contenu ou chiffres qui n'existent qu'avec JavaScript (contre-levier) | 3 / 9 | [Activ'Sport](activsport.md) (toute la page dans un élément personnalisé Wix, couche plein écran tant que le script charge), [Bendorf](bendorf.md) et [PlumFix](framer-plumfix.md) (compteurs à 0 dans le HTML) | Pages statiques ; mais `data-counter` du moteur écrit aussi 0 dans le HTML (vitrine `sites/_effets`) |
+| Offre d'entrée gratuite ou remise comme porte d'action | 2 / 9 (+ [Securya](securya.md), « audit de sécurité offert », compté en devis au tour 3) | [Activ'Sport](activsport.md) (« Réserver ma séance offerte », « Aucun paiement demandé », répété 3 fois), [Wix Electrician](wix-galvanic-electrician.md) (« Claim 15% off… this season ») | Texte seulement (`wording.devis`, `wording.ctaText`) ; pas de champ « offre » |
+| Vidéo de la maison ou témoignage vidéo | 2 / 9 | [Bendorf](bendorf.md) (vidéo de fond, version téléphone dédiée), [Activ'Sport](activsport.md) (un témoignage vidéo parmi les avis) | Hero vidéo oui (`hero/video`, `ff video`) ; témoignage vidéo non |
+| Commande à retirer ou location en boutique | 2 / 9 | [Grand-Père Jules](grand-pere-jules.md) (formulaire avec choix de la boutique de retrait), [Bendorf](bendorf.md) (growlers, location de tireuse et de fûts) | Non (pas de commande ; formulaire de contact générique) |
+| Calculateur d'estimation en ligne | 1 / 9 | [Renovate](tf-renovate.md) (surface, murs, sols, portes, fenêtres → coût estimé → coordonnées) | Non |
 
 **Prochain levier ≥ 40 % absent de l'usine** : aucun. Tous les leviers à 40 % ou plus (pages multiples, avis, page par service,
-métier + ville, vraies photos, téléphone en haut, années, formulaire, devis, conseils) existent dans le schéma et les sections.
-Ce qui a bougé au tour 3 : **labels et certifications retombent de 39 % à 30 %** (8 / 27 : un seul des 9 nouveaux sites, Rami, en
-affiche un, la décennale) ; le point « certifications dans les heros » noté au tour 2 n'est donc plus prioritaire, il reste une
-petite amélioration. Le téléphone en haut descend de 67 % à 56 % (deux sites du tour l'affichent **sans lien** : Rami, Constructo),
-les avis de 78 % à 67 %. Les points à surveiller : zone desservie au premier écran (9 / 27, 33 % ; 2 heros sur 6 la montrent) ;
-note Google ou preuve sociale au premier écran (4 / 18 sur les tours 2 et 3, 22 % ; Securya la met au-dessus du h1) ; restes du
-modèle en ligne (3 / 9), que la garde « données de test » de l'usine n'attrape qu'en partie.
+métier + ville, années, vraies photos, téléphone en haut, formulaire, devis, conseils) existent dans le schéma et les sections ; les
+leviers neufs du tour 4 restent sous 40 % (le plus fréquent, la nouvelle du moment, 3 / 9).
+Ce qui a bougé au tour 4 : **le formulaire, le bouton devis et la rubrique conseils retombent à 42 %**, juste au-dessus du seuil (1, 2
+et 3 sites sur 9) ; **les labels remontent de 30 % à 36 %** (5 / 9 au tour 4 : RGE, agrément bio, RC pro, « certified », « licensed »),
+toujours jamais au premier écran ni dans un hero de l'usine : à surveiller, c'est le prochain à franchir 40 %. Le téléphone en
+haut reste à 53 % et deux nouveaux sites l'affichent mal (sans lien ; code du thème à la place). Points à surveiller : nouvelle du
+moment en tête de page (3 / 9, aucun champ dans l'usine) ; restes du modèle (5 / 18) ; compteurs à 0 sans JavaScript, que le moteur
+de l'usine reproduit.
 
 ## Sites étudiés
 
@@ -104,6 +116,15 @@ modèle en ligne (3 / 9), que la garde « données de test » de l'usine n'attra
 | 17 oct 2026, tour 3 | Framer Marketplace, Construction, rang 1, gratuit | https://refit.framer.website/ | Modèle rénovation | Non en l'état (une page, téléphone en bas) ; le témoignage sous le bouton est le levier | [fiche](framer-refit.md) |
 | 17 oct 2026, tour 3 | Wix, Services & Maintenance, rang 2 | https://www.wix.com/demone2/a-reynolds | Modèle rénovation | Non (aucune porte au premier écran, textes de serrurier restés) | [fiche](wix-home-remodeling.md) |
 | 17 oct 2026, tour 3 | ThemeForest « handyman », 7 493 ventes | https://preview.constructo.anpsthemes.com/demo1/ | Modèle bâtiment | Non (téléphone non cliquable, h1 enfoui, aucun avis) | [fiche](tf-constructo.md) |
+| 19 oct 2026, tour 4 | Najumi (Villeurbanne) | https://www.activsport.info/ | Studio d'électrostimulation et coaching, Villeurbanne | Oui pour le parcours (séance offerte, note, équipe, FAQ), non pour la fabrication (contenu en JavaScript seul) | [fiche](activsport.md) |
+| 19 oct 2026, tour 4 | Abergraphique (Brest) | https://www.abers-couverture.fr/ | Couvreur, Plabennec (Finistère nord) | Oui (25 pages de prestations, RGE, depuis 2002, showroom, avis) | [fiche](abers-couverture.md) |
+| 19 oct 2026, tour 4 | Illunimes (Nîmes) | https://omnisol.fr/ | Solier-moquettiste, Nîmes | Oui, de justesse (vraies photos, métier exact ; ni avis ni réalisation, bandeau de congés périmé) | [fiche](omnisol.md) |
+| 19 oct 2026, tour 4 | Recherche étendue, rang 3 | https://brasserie-bendorf.fr/ | Brasserie artisanale, Strasbourg | Oui (bière du moment en tête, chiffres concrets, équipe) ; téléphone sans lien, pas d'horaires | [fiche](bendorf.md) |
+| 19 oct 2026, tour 4 | Recherche étendue, rang 8 | https://www.grandperejules-rennes.com/ | Boulangerie-pâtisserie, Rennes | Pour le contenu oui, pour la finition non (« [cstmPhoneNumber] » à la place du numéro) | [fiche](grand-pere-jules.md) |
+| 19 oct 2026, tour 4 | Recherche étendue, rang 2 | https://jacques-couverture13.fr/ | Couvreur, Marseille | Oui pour ce qu'il rapporte (urgence, 110 avis à 4,9), non pour ce qu'il montre (aucune photo à lui) | [fiche](jacques-couverture.md) |
+| 19 oct 2026, tour 4 | ThemeForest « roofing », rang 1, 6,1 k ventes | https://quanticalabs.com/wp_themes/renovate/ | Modèle rénovation | Pour le calculateur d'estimation peut-être ; pour le reste non (pas de h1, faux latin) | [fiche](tf-renovate.md) |
+| 19 oct 2026, tour 4 | Wix, Services & Maintenance, rang 4 | https://www.wix.com/demone2/galvanic-mercer | Modèle électricien | Non (aucun numéro cliquable) ; la remise de saison est le levier | [fiche](wix-galvanic-electrician.md) |
+| 19 oct 2026, tour 4 | Framer Marketplace, Home Services, « Trending » rang 1, gratuit | https://plumfix.framer.website/ | Modèle plombier | Pour le plan oui (équipe, FAQ, garanties), non en l'état (pas de téléphone en haut, compteurs vides) | [fiche](framer-plumfix.md) |
 
 Méthode du 17 oct 2026 : métiers (chambres d'hôtes, ferronnerie d'art, électricien) et villes (Grenoble, Strasbourg,
 Angers pour les agences ; Marseille, Paris, Rennes pour la recherche) tirés au hasard (`$RANDOM`). La recherche passe
@@ -132,3 +153,19 @@ défaut, rang 1 ; Lintel rang 2 déjà fait), Wix Services & Maintenance (ordre 
 hors métiers ; rang 3 Plumbing Bright déjà fait), ThemeForest « handyman » trié par ventes (rang 2 ; BuildPress rang 1 déjà fait ;
 page lue par WebFetch, `curl` reçoit un 403). Vitesse : premier octet et poids du HTML mesurés par `curl` depuis le proxy de la
 session (indicatif).
+
+Méthode du 19 oct 2026, tour 4 : **sans navigateur** (Chrome occupé par un autre processus), comme au tour 3 ; HTML (et CSS quand il est
+dans la page) récupérés par `curl` avec un User-Agent de navigateur ordinaire, fiches remplies à la main, chacune marquée « mesuré sur
+le code, pas sur capture » ; pas de `.json` ni de capture. Villes des agences parmi les 21 des 30 plus grandes hors les neuf déjà faites
+(Grenoble, Strasbourg, Angers, Tours, Le Mans, Limoges, Bordeaux, Perpignan, Dijon) : `$RANDOM` → Villeurbanne, Boulogne-Billancourt,
+Brest ; Boulogne-Billancourt sans agence montrant un client artisan (Brava Labs : démos internes ; Artichaud Studio : grands comptes),
+écartée, nouveau tirage parmi les 18 restantes → Nîmes. Recherche : métiers parmi les 18 de `docs/OBJECTIF.md` hors ceux des tours 1
+à 3 → brasserie artisanale, boulangerie, couvreur ; villes parmi les 30 → Strasbourg, Rennes, Marseille. Comme aux tours 2 et 3, la
+recherche simple ne rend aucun site d'artisan pour les trois requêtes ; la recherche étendue sert de page suivante (rangs de cette
+recherche) ; Maison Lorand (rang 6 de « boulangerie Rennes ») écartée, elle appartient au réseau Le Grenier à Pain (35 boutiques, son
+site le dit). Modèles : ThemeForest « local business » triée par ventes ne rend que des annuaires et des thèmes d'entreprise, d'où
+« roofing » triée par ventes (rang 1) ; Squarespace non lisible sans navigateur (pages de modèles rendues en JavaScript), remplacé par
+Wix Services & Maintenance (rang 4, les trois premiers hors métiers ou déjà faits) ; Framer catégorie Home Services, tri par défaut
+« Trending » (rang 1). Activ'Sport (Wix) sert son contenu dans un élément personnalisé : texte lu dans le balisage de secours pour les
+moteurs (`seoMarkup`), photos non mesurées. Vitesse : premier octet et poids du HTML mesurés par `curl` depuis le proxy de la session
+(indicatif).

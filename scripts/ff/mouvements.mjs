@@ -1,4 +1,4 @@
-// Profils de MOUVEMENT : quinze façons distinctes de faire bouger une page, chacune relevée sur un vrai site
+// Profils de MOUVEMENT : des façons distinctes de faire bouger une page, chacune relevée sur un vrai site
 // (fiche de démontage ou veille d'animation), avec les attributs du moteur qui la réalisent. Catalogue lisible :
 // docs/veille/styles/MOUVEMENTS.md (mêmes ids, testé par tests/melanger.test.mjs).
 //
@@ -128,6 +128,20 @@ export const PROFILS_MOUVEMENT = {
     regime: 'calme', defilement: 'apparitions', calme: true, poids: 'leger', motion: 'subtle',
     attributs: ['data-counter ou data-counter-flip (rouleaux de chiffres) sur un VRAI chiffre du brief (nombre d’avis Google, fournées par jour, kilos), jamais « X ans d\'expérience » calculé'],
     manque: null, exige: { chiffre: true },
+  },
+  'mots-qui-glissent': {
+    nom: 'Mots qui glissent', sources: ['carne'],
+    entree: 'aucune', apparition: 'glissement', survol: 'couleur', fond: 'aucun',
+    regime: 'vivant', defilement: 'suit-le-defilement', calme: false, poids: 'moyen', motion: 'rich',
+    attributs: ['data-scrub="x=-30" puis data-scrub="x=30" sur deux lignes d\'un mot géant du client (son nom, un produit), sens opposés'],
+    manque: null, exige: {},
+  },
+  'ombre-au-survol': {
+    nom: 'Ombre au survol', sources: ['joandso'],
+    entree: 'aucune', apparition: 'aucune', survol: 'ombre', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['box-shadow 0,4-0,6 s ease sur les cartes (photo + aplat), dans @media (hover: hover) and (pointer: fine), :active au toucher'],
+    manque: 'la règle :hover de la carte (CSS de la section ou du bloc), jamais transition: all', exige: {},
   },
 };
 

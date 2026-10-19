@@ -1,0 +1,167 @@
+{
+  "id": "carne",
+  "version": 1,
+  "source": {
+    "url": "https://carnehamburguesas.com/en",
+    "nom": "Carne",
+    "metier": "restaurant de burgers (Argentine, chef Mauro Colagreco)",
+    "fiche": "docs/veille/styles/carne.md",
+    "mesures": "docs/veille/styles/atomes/mesures/carne.json",
+    "date": "2026-10-19"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Roswell",
+      "libre": "oswald",
+      "graisse": 700,
+      "interlignage": 0.9,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Dia",
+      "libre": "karla",
+      "graisse": 400,
+      "interlignage": 1.2
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 52.5,
+        "ordinateur": 105
+      },
+      "h2": {
+        "telephone": 52.5,
+        "ordinateur": 90
+      },
+      "texte": {
+        "telephone": 21,
+        "ordinateur": 24
+      }
+    },
+    "remarque": "Roswell (grotesque condensée grasse) : Oswald ; Dia : Karla. Échelle relevée dans le DOM le 19 oct (plus gros textes affichés : 105 px ordinateur, 52,5 px téléphone, jusqu'à 165 px pour le prénom du chef)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#363636",
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "part": 0.603
+        },
+        {
+          "hex": "#8bc44a",
+          "part": 0.155
+        },
+        {
+          "hex": "#f5f6f7",
+          "part": 0.155
+        },
+        {
+          "hex": "#000000",
+          "part": 0.088
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#363636",
+          "part": 0.386
+        },
+        {
+          "hex": "#f5f5f5",
+          "part": 0.206
+        },
+        {
+          "hex": "#212121",
+          "part": 0.175
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.136
+        },
+        {
+          "hex": "#000000",
+          "part": 0.044
+        },
+        {
+          "hex": "#808080",
+          "part": 0.037
+        }
+      ],
+      "proches": 13224393
+    },
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f5f6f7",
+      "texte": "#363636",
+      "texte2": "#808080",
+      "accent": "#000000",
+      "accent2": "#8bc44a",
+      "bordure": "#f5f6f7",
+      "encre": "#000000"
+    },
+    "sombre": null,
+    "remarque": "Blanc, gris #f5f6f7, texte gris anthracite #363636, boutons noirs pleins, un vert salade #8bc44a en grandes plages ; pied noir."
+  },
+  "densite": {
+    "section": {
+      "telephone": 116,
+      "ordinateur": 227
+    },
+    "gouttiere": "à juger",
+    "conteneur": "à juger",
+    "mesure": "à juger",
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "aucun"
+  },
+  "photos": {
+    "traitement": "detoure",
+    "rapports": [
+      "16:9+",
+      "1:1"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Le burger détouré posé sur blanc, les mots géants passent derrière ; portrait du chef en rectangle qui chevauche le nom."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "ease"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger"
+    ],
+    "profil": "mots-qui-glissent",
+    "remarque": "GSAP ScrollTrigger : les mots géants en capitales condensées glissent latéralement au défilement, fadeInLeft/Right 2 s ease à l'arrivée ; boutons 0,3 s."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier"
+}

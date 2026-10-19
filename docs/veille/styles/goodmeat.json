@@ -1,0 +1,1222 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://goodmeat.co/",
+  "nom": "goodmeat",
+  "date": "2026-10-19",
+  "identite": {
+    "title": "GOOD Meat | The future of meat",
+    "siteName": "GOOD Meat",
+    "lang": "en-US",
+    "description": "GOOD Meat is real meat made without tearing down a forest or taking a life. Meat without slaughter.",
+    "technologies": [
+      "Nuxt"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#0f0f0f",
+      "h1": "Main navigation",
+      "h1Visible": true,
+      "mots": 30,
+      "images": 4,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "The first cultivated meat to be sold in retail, available at",
+        "x": 153,
+        "y": 72,
+        "cx": 0.275,
+        "cy": 0.137578125,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "Main navigation Close navigation Home",
+        "selecteur": "div.modal-container",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 8225,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.heading-inner",
+        "famille": "\"Sharp Grotesk Book 25\", Helvetica, Arial, sans-serif",
+        "taille": 57.6,
+        "graisse": "400",
+        "interlignage": 1.14,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-2.88px"
+      },
+      "h2": {
+        "selecteur": "h2.heading-inner",
+        "famille": "\"Sharp Grotesk Medium 25\", Helvetica, Arial, sans-serif",
+        "taille": 118.8,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-5.94px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Haas Grot Disp R Roman\", Helvetica, Arial, sans-serif",
+        "taille": 28.8,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.576px"
+      },
+      "bouton": {
+        "selecteur": "button.burger",
+        "famille": "\"Haas Grot Disp R Roman\", Helvetica, Arial, sans-serif",
+        "taille": 9,
+        "graisse": "400",
+        "interlignage": 1.15,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.486px"
+      },
+      "nav": {
+        "selecteur": "a.link",
+        "famille": "\"Haas Grot Disp R Roman\", Helvetica, Arial, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.28px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Haas Grot Disp R Light",
+          "url": "/_nuxt/fonts/HaasGrotDispR-45Light.2c634f1.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Haas Grot Disp R Roman",
+          "url": "/_nuxt/fonts/HaasGrotDispR-55Roman.0fcf8b6.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Haas Grot Disp R Medium",
+          "url": "/_nuxt/fonts/HaasGrotDispR-65Medium.e41780e.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Book 21",
+          "url": "/_nuxt/fonts/SharpGroteskBook21.b3915b0.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Book 25",
+          "url": "/_nuxt/fonts/SharpGroteskBook25.7a50f1e.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Medium 21",
+          "url": "/_nuxt/fonts/SharpGroteskMedium21.cae531e.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Medium 25",
+          "url": "/_nuxt/fonts/SharpGroteskMedium25.c4ad643.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "S-Core Light",
+          "url": "/_nuxt/fonts/S-CoreDream-3Light.66287d0.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "S-Core Regular",
+          "url": "/_nuxt/fonts/S-CoreDream-4Regular.df09c35.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "S-Core Medium",
+          "url": "/_nuxt/fonts/S-CoreDream-5Medium.d9ab650.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "S-Core Bold",
+          "url": "/_nuxt/fonts/S-CoreDream-6Bold.fc1416a.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Emoji-Fix",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.goodmeat.co/_nuxt/fonts/HaasGrotDispR-55Roman.0fcf8b6.woff2",
+        "https://www.goodmeat.co/_nuxt/fonts/SharpGroteskBook25.7a50f1e.woff2",
+        "https://www.goodmeat.co/_nuxt/fonts/SharpGroteskMedium25.c4ad643.woff2",
+        "https://www.goodmeat.co/_nuxt/fonts/HaasGrotDispR-65Medium.e41780e.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Haas Grot Disp R Roman",
+          "n": 37
+        },
+        {
+          "famille": "Haas Grot Disp R Medium",
+          "n": 16
+        },
+        {
+          "famille": "Sharp Grotesk Medium 25",
+          "n": 11
+        },
+        {
+          "famille": "Sharp Grotesk Book 25",
+          "n": 9
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 11844000
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 3,
+          "poids": 2656800
+        },
+        {
+          "hex": "#fef5ea",
+          "n": 2,
+          "poids": 2060257.5
+        },
+        {
+          "hex": "#000000",
+          "n": 7,
+          "poids": 1296259.125
+        },
+        {
+          "hex": "#ff411d",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#fffdfa",
+          "n": 4,
+          "poids": 829697.375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 25,
+          "poids": 504
+        },
+        {
+          "hex": "#fffdfa",
+          "n": 30,
+          "poids": 398
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 10,
+          "poids": 170
+        },
+        {
+          "hex": "#000000",
+          "n": 7,
+          "poids": 113
+        }
+      ],
+      "nbImages": 10,
+      "nbVideos": 1,
+      "nbFondsImage": 0,
+      "masques": 18,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 11844000,
+          "part": 0.593
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 3,
+          "poids": 2656800,
+          "part": 0.133
+        },
+        {
+          "hex": "#fef5ea",
+          "n": 2,
+          "poids": 2060257.5,
+          "part": 0.103
+        },
+        {
+          "hex": "#000000",
+          "n": 7,
+          "poids": 1296259.125,
+          "part": 0.065
+        },
+        {
+          "hex": "#ff411d",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.065
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 25,
+          "poids": 504,
+          "part": 0.425
+        },
+        {
+          "hex": "#fffdfa",
+          "n": 30,
+          "poids": 398,
+          "part": 0.336
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 10,
+          "poids": 170,
+          "part": 0.143
+        },
+        {
+          "hex": "#000000",
+          "n": 7,
+          "poids": 113,
+          "part": 0.095
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.stickyInner",
+          "ecrans": 3
+        },
+        {
+          "selecteur": "div.inner",
+          "ecrans": 3
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "n": 11
+        },
+        {
+          "valeur": "all 0.3s ease-out",
+          "n": 10
+        },
+        {
+          "valeur": "all 0.25s ease-out",
+          "n": 10
+        },
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.77, 0, 0.175, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "transform 0.8s cubic-bezier(0.45, 0.01, 0.2, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "box-shadow 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "border-color 0.2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.1s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "border-color 0.1s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-is-animated",
+          "n": 1
+        },
+        {
+          "nom": "data-cursor-id",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "span.heading",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-is-animated"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [],
+      "nav": {
+        "selecteur": "header",
+        "hauteur": 900,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "Open navigation",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Home",
+            "href": "/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer",
+        "liens": [
+          {
+            "texte": "Eat",
+            "href": "/eat/cultivated-chicken",
+            "bouton": false
+          },
+          {
+            "texte": "United States",
+            "href": "/eat/cultivated-chicken",
+            "bouton": false
+          },
+          {
+            "texte": "Singapore",
+            "href": "/butchery",
+            "bouton": false
+          },
+          {
+            "texte": "Learn",
+            "href": "/purpose",
+            "bouton": false
+          },
+          {
+            "texte": "Purpose",
+            "href": "/purpose",
+            "bouton": false
+          },
+          {
+            "texte": "Process",
+            "href": "/process",
+            "bouton": false
+          },
+          {
+            "texte": "Stories",
+            "href": "/stories",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ",
+            "href": "/faq",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "About us",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Newsroom",
+            "href": "/newsroom",
+            "bouton": false
+          },
+          {
+            "texte": "Careers",
+            "href": "/careers",
+            "bouton": false
+          },
+          {
+            "texte": "facebook",
+            "href": "https://www.facebook.com/goodmeat/",
+            "bouton": false
+          },
+          {
+            "texte": "instagram",
+            "href": "https://www.instagram.com/goodmeatinc",
+            "bouton": false
+          },
+          {
+            "texte": "twitter",
+            "href": "https://twitter.com/goodmeat",
+            "bouton": false
+          },
+          {
+            "texte": "linkedin",
+            "href": "https://www.linkedin.com/showcase/goodmeat/",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy policy",
+            "href": "/privacy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms and conditions",
+            "href": "/terms",
+            "bouton": false
+          },
+          {
+            "texte": "Cookie declaration",
+            "href": "/cookies",
+            "bouton": false
+          },
+          {
+            "texte": "Your California Privacy Rights",
+            "href": "/privacy-ca",
+            "bouton": false
+          },
+          {
+            "texte": "Do Not Sell My Info",
+            "href": "/cookies",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "facebook",
+          "href": "https://www.facebook.com/goodmeat/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div",
+          "position": "absolute",
+          "hauteur": 900,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div",
+          "position": "absolute",
+          "hauteur": 8225,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/goodmeat-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#0f0f0f",
+      "h1": "Main navigation",
+      "h1Visible": true,
+      "mots": 33,
+      "images": 4,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "The first cultivated meat to be sold in retail, available at",
+        "x": 24.375,
+        "y": 581.375,
+        "cx": 0.5,
+        "cy": 0.7719934834123223,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "Main navigation",
+        "selecteur": "div.modal-container",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": {
+        "selecteur": "div.plyr__controls",
+        "hauteur": 37,
+        "largeur": 390,
+        "liens": [
+          {
+            "texte": "Play",
+            "href": ""
+          },
+          {
+            "texte": "Mute",
+            "href": ""
+          },
+          {
+            "texte": "Settings",
+            "href": ""
+          },
+          {
+            "texte": "Enter fullscreen",
+            "href": ""
+          }
+        ]
+      },
+      "scrollHeight": 9538,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.heading-inner",
+        "famille": "\"Sharp Grotesk Book 21\", Helvetica, Arial, sans-serif",
+        "taille": 43.875,
+        "graisse": "400",
+        "interlignage": 1.14,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-2.19375px"
+      },
+      "h2": {
+        "selecteur": "h2.heading-inner",
+        "famille": "\"Sharp Grotesk Medium 21\", Helvetica, Arial, sans-serif",
+        "taille": 53.625,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-2.68125px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Haas Grot Disp R Roman\", Helvetica, Arial, sans-serif",
+        "taille": 29.25,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.585px"
+      },
+      "bouton": {
+        "selecteur": "button.burger",
+        "famille": "\"Haas Grot Disp R Roman\", Helvetica, Arial, sans-serif",
+        "taille": 12.1875,
+        "graisse": "400",
+        "interlignage": 1.15,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.34125px"
+      },
+      "nav": {
+        "selecteur": "a.link",
+        "famille": "\"Haas Grot Disp R Roman\", Helvetica, Arial, sans-serif",
+        "taille": 14.625,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.2925px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Haas Grot Disp R Light",
+          "url": "/_nuxt/fonts/HaasGrotDispR-45Light.2c634f1.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Haas Grot Disp R Roman",
+          "url": "/_nuxt/fonts/HaasGrotDispR-55Roman.0fcf8b6.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Haas Grot Disp R Medium",
+          "url": "/_nuxt/fonts/HaasGrotDispR-65Medium.e41780e.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Book 21",
+          "url": "/_nuxt/fonts/SharpGroteskBook21.b3915b0.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Book 25",
+          "url": "/_nuxt/fonts/SharpGroteskBook25.7a50f1e.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Medium 21",
+          "url": "/_nuxt/fonts/SharpGroteskMedium21.cae531e.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sharp Grotesk Medium 25",
+          "url": "/_nuxt/fonts/SharpGroteskMedium25.c4ad643.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "S-Core Light",
+          "url": "/_nuxt/fonts/S-CoreDream-3Light.66287d0.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "S-Core Regular",
+          "url": "/_nuxt/fonts/S-CoreDream-4Regular.df09c35.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "S-Core Medium",
+          "url": "/_nuxt/fonts/S-CoreDream-5Medium.d9ab650.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "S-Core Bold",
+          "url": "/_nuxt/fonts/S-CoreDream-6Bold.fc1416a.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Emoji-Fix",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.goodmeat.co/_nuxt/fonts/HaasGrotDispR-55Roman.0fcf8b6.woff2",
+        "https://www.goodmeat.co/_nuxt/fonts/SharpGroteskBook21.b3915b0.woff2",
+        "https://www.goodmeat.co/_nuxt/fonts/SharpGroteskMedium21.cae531e.woff2",
+        "https://www.goodmeat.co/_nuxt/fonts/HaasGrotDispR-65Medium.e41780e.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Haas Grot Disp R Roman",
+          "n": 29
+        },
+        {
+          "famille": "Haas Grot Disp R Medium",
+          "n": 16
+        },
+        {
+          "famille": "Sharp Grotesk Medium 21",
+          "n": 11
+        },
+        {
+          "famille": "Sharp Grotesk Book 21",
+          "n": 9
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 3720761.7101726243
+        },
+        {
+          "hex": "#fef5ea",
+          "n": 2,
+          "poids": 1031653.59375
+        },
+        {
+          "hex": "#fffdfa",
+          "n": 5,
+          "poids": 625438.125
+        },
+        {
+          "hex": "#ff411d",
+          "n": 2,
+          "poids": 331464
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 329352.3839808516
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 28,
+          "poids": 442
+        },
+        {
+          "hex": "#fffdfa",
+          "n": 21,
+          "poids": 416
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 10,
+          "poids": 170
+        },
+        {
+          "hex": "#000000",
+          "n": 4,
+          "poids": 89
+        },
+        {
+          "hex": "#4a5464",
+          "n": 1,
+          "poids": 5
+        }
+      ],
+      "nbImages": 10,
+      "nbVideos": 1,
+      "nbFondsImage": 0,
+      "masques": 5,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 3720761.7101726243,
+          "part": 0.584
+        },
+        {
+          "hex": "#fef5ea",
+          "n": 2,
+          "poids": 1031653.59375,
+          "part": 0.162
+        },
+        {
+          "hex": "#fffdfa",
+          "n": 5,
+          "poids": 625438.125,
+          "part": 0.098
+        },
+        {
+          "hex": "#ff411d",
+          "n": 2,
+          "poids": 331464,
+          "part": 0.052
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 329352.3839808516,
+          "part": 0.052
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 28,
+          "poids": 442,
+          "part": 0.394
+        },
+        {
+          "hex": "#fffdfa",
+          "n": 21,
+          "poids": 416,
+          "part": 0.371
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 10,
+          "poids": 170,
+          "part": 0.152
+        },
+        {
+          "hex": "#000000",
+          "n": 4,
+          "poids": 89,
+          "part": 0.079
+        },
+        {
+          "hex": "#4a5464",
+          "n": 1,
+          "poids": 5,
+          "part": 0.004
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.stickyInner",
+          "ecrans": 3
+        },
+        {
+          "selecteur": "div.inner",
+          "ecrans": 3
+        },
+        {
+          "selecteur": "div.inner",
+          "ecrans": 1.4
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "n": 11
+        },
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.77, 0, 0.175, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 5
+        },
+        {
+          "valeur": "transform 0.8s cubic-bezier(0.45, 0.01, 0.2, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "transform 0.2s cubic-bezier(0.215, 0.61, 0.355, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "box-shadow 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "opacity 0.3s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "all 0.3s ease-out",
+          "n": 2
+        },
+        {
+          "valeur": "all 0.25s ease-out",
+          "n": 2
+        },
+        {
+          "valeur": "fill 0.2s ease-in-out",
+          "n": 2
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-is-animated",
+          "n": 1
+        },
+        {
+          "nom": "data-cursor-id",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "span.heading",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-is-animated"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [],
+      "nav": {
+        "selecteur": "nav.nav",
+        "hauteur": 270,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Eat",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Learn",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "About",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "facebook",
+            "href": "https://www.facebook.com/goodmeat/",
+            "bouton": false
+          },
+          {
+            "texte": "instagram",
+            "href": "https://www.instagram.com/goodmeatinc",
+            "bouton": false
+          },
+          {
+            "texte": "twitter",
+            "href": "https://twitter.com/goodmeat",
+            "bouton": false
+          },
+          {
+            "texte": "linkedin",
+            "href": "https://www.linkedin.com/showcase/goodmeat/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer",
+        "liens": [
+          {
+            "texte": "Eat",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Learn",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "About",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "facebook",
+            "href": "https://www.facebook.com/goodmeat/",
+            "bouton": false
+          },
+          {
+            "texte": "instagram",
+            "href": "https://www.instagram.com/goodmeatinc",
+            "bouton": false
+          },
+          {
+            "texte": "twitter",
+            "href": "https://twitter.com/goodmeat",
+            "bouton": false
+          },
+          {
+            "texte": "linkedin",
+            "href": "https://www.linkedin.com/showcase/goodmeat/",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy policy",
+            "href": "/privacy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms and conditions",
+            "href": "/terms",
+            "bouton": false
+          },
+          {
+            "texte": "Cookie declaration",
+            "href": "/cookies",
+            "bouton": false
+          },
+          {
+            "texte": "Your California Privacy Rights",
+            "href": "/privacy-ca",
+            "bouton": false
+          },
+          {
+            "texte": "Do Not Sell My Info",
+            "href": "/cookies",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "facebook",
+          "href": "https://www.facebook.com/goodmeat/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div",
+          "position": "absolute",
+          "hauteur": 844,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div",
+          "position": "absolute",
+          "hauteur": 9538,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": {
+        "selecteur": "div.plyr__controls",
+        "hauteur": 37,
+        "largeur": 390,
+        "liens": [
+          {
+            "texte": "Play",
+            "href": ""
+          },
+          {
+            "texte": "Mute",
+            "href": ""
+          },
+          {
+            "texte": "Settings",
+            "href": ""
+          },
+          {
+            "texte": "Enter fullscreen",
+            "href": ""
+          }
+        ]
+      }
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 13,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "GOOD Meat",
+  "dureeS": 26.5
+}

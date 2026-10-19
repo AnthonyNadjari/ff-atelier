@@ -19,6 +19,11 @@ amorcé avec 11 sites (`node scripts/ff.mjs atomes` pour la liste et ce que chac
 | poilane | https://poilane.com/ | Boulangerie : titres en capitales humanistes, boutons à contour fin, rayon 0, photos produit en vignettes | atomes seuls | boulangeries, épiceries | atomes |
 | view-source | https://view-source.com/ | Studio : grotesque à caractère, gris clair, onglets de navigation colorés, bandeau noir | atomes seuls | studios | atomes |
 | workshopcoffee | https://www.workshopcoffee.com/ | Torréfacteur : serif doux sur crème, vert profond et brique, cartes arrondies | atomes seuls | cafés, caves | atomes |
+| kaltpresse | https://kaltpresse.de/ ([fiche](kaltpresse.md)) | Manufacture de jus : blanc et grège, noir seul, titres en capitales grotesques posés sur les photos, texte d'accueil très grand, boutons noirs pleins à angles droits | boutique Shopify : bandeau, nom centré, carrousel produit, texte, événements et ateliers en photos titrées | commerce de bouche avec une gamme photographiée (jus, épicerie, traiteur, torréfacteur) | atomes |
+| podiatry | https://integratedpodiatry.com.au/ ([fiche](podiatry.md)) | Cabinet de soin : un seul gris froid #ebecec, serif maigre en très grand corps (120 px) sur photo plein cadre, liens soulignés, beaucoup de vide | longue page calme : photo plein écran, phrase, blocs texte et photos verticales décalées | métier de soin ou réglementé avec de bonnes photos (podologue, kiné, ostéopathe, institut) | atomes |
+| carne | https://carnehamburguesas.com/en ([fiche](carne.md)) | Burgers : grotesque condensée grasse géante (105 à 165 px) qui glisse au défilement derrière un produit détouré, blanc, noir, vert salade en plages | page d'accueil en blocs : produit détouré, manifeste, portrait du chef, réseaux ; nav verticale filetée à droite | restauration, commerce de bouche joyeux avec un produit phare détourable | atomes |
+| joandso | https://joandso.com/ ([fiche](joandso.md)) | Guide d'hôtels : néo-grotesque légère, grand titre blanc sur paysage plein cadre, boutons noirs à 8 px, cartes photo + aplat ocre ou terre qui prennent une ombre au survol | accueil catalogue : paysage, cartes par région, listes, citation sur noir, pied à colonnes | gîte, chambre d'hôtes, hôtel, loueur : plusieurs lieux ou offres en photos | atomes |
+| nkora | https://nkora.co.uk/ ([fiche](nkora.md)) | Cafés : brun café, crème beurre, terracotta et olive en panneaux pleins accolés aux photos chaudes, géométrique maigre en capitales | photo plein cadre, panneaux couleur + photo en damier, adresses en liste, pictogrammes au trait | café, boulangerie, bar, épicerie avec plusieurs adresses et des photos chaudes | atomes |
 | cobalt | [unionboulangerie.com](https://unionboulangerie.com/en/) ([fiche](union-boulangerie.md)) | Ivoire, aplats bleu cobalt pleine largeur, orange en signal, capitales grotesques serrées, texte en machine à écrire. | Une page longue : vidéo plein écran, histoire sur bleu, mosaïque de photos du fournil, adresses et horaires de chaque boutique, contact, pied bleu. | Commerce de bouche avec photos du lieu et des gens : boulangerie, pâtisserie, torréfacteur, épicerie fine. | `cobalt` |
 | sapin | [eatcabalar.com](https://www.eatcabalar.com/) ([fiche](cabalar.md)) | Blanc pur et un seul vert sapin, capitales condensées très grasses, grand texte courant, photos aux coins arrondis. | Accueil aiguillage : vidéo, présentation avec horaires, trois portes vers les pages (voir `architectures/carrefour-portes.md`). | Boucher, charcutier, restaurant, food truck : un lieu à montrer, des horaires, une commande. | `sapin` |
 | affiche | [mathesonfoodcompany.com](https://www.mathesonfoodcompany.com/) ([fiche](matheson.md)) | Rayonnage d'épicerie : filets noirs, rouge étiquette, jaune moutarde, capitales condensées partout, zéro arrondi. | Nom géant, grille de produits par gamme, recettes, carte des points de vente. | Producteur avec une gamme de produits photographiés : épicerie, conserverie, brasserie, caviste. | `affiche` |
@@ -39,3 +44,17 @@ mesurer), [maisonkitsune](maisonkitsune.md) et [merci-merci](merci-merci.md) (fe
 page), [roko-g](roko-g.md) et [tasiocalvo](tasiocalvo.md) (portfolios sans mise en page mesurable). Refusés par le
 réseau ou les sites : cereal-mag, bakery-bread, chezmoimaison (tunnel), pierre-herme, hotel-les-bains, cafekitsune,
 maisonmarie (502), clemencedevaux (404).
+
+Collecte du 19 oct 2026 (routine, [minimal.gallery](https://minimal.gallery/), rubriques nourriture, intérieur, santé,
+commerce) : 20 sites démontés, **5 gardés** (kaltpresse, podiatry, carne, joandso, nkora) après essai `ff melanger
+demo-boulangerie --style <id> --essai` posé à côté de la source (`captures/<id>-comparaison.jpg`, non versionné).
+Refusés à la comparaison : [florentine](florentine.md) (le mélange garde la grotesque mais perd la photo d'atelier sombre
+qui fait tout le site : plat), [studioboum](studioboum.md) (titre en image, typo non mesurable : page noire sans
+caractère), [tworobbers](tworobbers.md) (petits titres sur grandes photos : sans photo il ne reste rien ; police
+d'origine de la liste IA). Écartés au démontage : [careofchan](careofchan.md) (agence, logo sur photo, rien d'appliquable),
+[fieldstudies](fieldstudies.md) et [arnoldcircus](arnoldcircus.md) (pas de défilement), [owlfurniture](owlfurniture.md),
+[focalglow](focalglow.md), [mandygraham](mandygraham.md), [her-melbourne](her-melbourne.md) et [goodmeat](goodmeat.md)
+(écran de chargement ou images non chargées à la capture), [palmer](palmer.md), [limonoslo](limonoslo.md) et
+[sgrappa](sgrappa.md) (fenêtre cookies qui masque la page), [takearecess](takearecess.md) (couleurs relevées sans
+rapport avec la page vue). Refusés par le réseau : fortheloveofbread, morningbaker6am, moondeliverscakes, saporienatura,
+mapfurniture (certificat expiré), oliverbrewingco.

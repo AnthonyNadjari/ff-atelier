@@ -312,9 +312,9 @@ test('registre réel : la palette jaune d’or de Café Binocle est écartée pa
 
 /* ---------- Profils de mouvement (docs/veille/styles/MOUVEMENTS.md) ---------- */
 
-test('profils : 12 à 15, tous documentés dans MOUVEMENTS.md, chaque atome du registre nomme un profil connu', async () => {
+test('profils : 12 et plus (le catalogue grandit à chaque veille), tous documentés dans MOUVEMENTS.md, chaque atome du registre nomme un profil connu', async () => {
   const { PROFILS_MOUVEMENT, IDS_PROFILS } = await import('../scripts/ff/mouvements.mjs');
-  assert.ok(IDS_PROFILS.length >= 12 && IDS_PROFILS.length <= 15, `${IDS_PROFILS.length} profils`);
+  assert.ok(IDS_PROFILS.length >= 12, `${IDS_PROFILS.length} profils`);
   const doc = fs.readFileSync(path.join(ROOT, 'docs/veille/styles/MOUVEMENTS.md'), 'utf8');
   for (const id of IDS_PROFILS) {
     assert.match(doc, new RegExp(`### \`${id}\``), `${id} documenté`);
