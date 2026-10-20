@@ -104,18 +104,19 @@ client demande une structure très différente, c'est un nouveau brief, pas une 
 ## 6. Fenêtre de corrections (2 semaines)
 
 Les retours du client (texte, photo, coordonnée) sont inclus pendant les deux semaines qui suivent la
-restitution. Passé ce délai, toute modification relève d'une prestation de maintenance séparée (voir
-§ 8).
+restitution. Passé ce délai, chaque modification se commande à la demande, au forfait (voir § 8).
 
 ## 7. Livraison
 
-- `node scripts/ff.mjs deploy <slug>` — mise en ligne (voir `docs/DEPLOIEMENT.md` pour le détail
-  technique Cloudflare Pages, domaine et DNS).
-- `node scripts/ff.mjs exporter <slug>` — prépare la remise finale :
-  - domaine transféré ou acheté **au nom du client**, pas au nom du studio ;
-  - clé Web3Forms (`form.accessKey` dans `site.config.ts`) générée **au nom du client**, sur son
-    propre compte — jamais la clé du studio réutilisée d'un client à l'autre ;
-  - accès au dépôt de code remis au client.
+Mise en ligne **seulement après paiement du solde** (modèle du 20 oct 2026,
+`studio/decisions/PROCESS-HEBERGEMENT.md`).
+
+- Domaine acheté par F&F chez OVH **au nom du client**, payé 10 ans (jamais au nom du studio).
+- `node scripts/ff.mjs deploy <slug>` — mise en ligne sur le compte Cloudflare F&F, hébergement
+  gratuit (voir `docs/DEPLOIEMENT.md`). Formulaire : `form.provider: 'cloudflare'` (Worker + Email
+  Routing, rien n'est stocké) ; le client clique une fois sur le lien de vérification de son adresse.
+- `node scripts/ff.mjs exporter <slug>` — le site complet, remis sur demande du client ou d'office si
+  F&F arrête l'hébergement (préavis de 3 mois), avec le code de transfert du domaine.
 
 ### Définition de fait — à cocher avant d'annoncer une livraison
 
@@ -135,8 +136,9 @@ restitution. Passé ce délai, toute modification relève d'une prestation de ma
       - [ ] Cloudflare : l'option « Block AI bots » ( Bots / AI Crawl Control) **décochée** pour
             les bots de recherche (OAI-SearchBot, PerplexityBot, Claude-SearchBot) — le robots.txt
             du site les autorise, encore faut-il que le pare-feu ne les jette pas.
-- [ ] Domaine au nom du client, pas du studio.
-- [ ] Dépôt de code remis/accessible au client.
+- [ ] Domaine au nom du client, pas du studio, payé 10 ans, renouvellement automatique désactivé.
+- [ ] Solde payé avant la mise en ligne.
+- [ ] Formulaire testé après le clic de vérification du client.
 - [ ] Aucun chiffre, avis ou note inventé n'a été laissé dans `site.config.ts` — tout ce qui manquait
       au brief est resté absent, pas approximé.
 - [ ] Page `/confidentialite` présente et liée depuis le pied de page et le petit texte du formulaire
@@ -227,9 +229,9 @@ référence si le changement est voulu.
 ## 8. Positionnement prix
 
 Prestation **au forfait, en une fois** (one-shot) : brief, production, restitution, corrections
-pendant deux semaines, livraison. La maintenance après livraison (mises à jour de contenu, ajout de
-pages, évolutions) **n'est pas incluse** — c'est une offre à proposer séparément, à construire plus
-tard si la demande se confirme, pas un engagement pris au moment de la vente initiale.
+pendant deux semaines, livraison, domaine 10 ans compris, hébergement offert. **Aucun abonnement**
+(décision du 20 oct 2026). Les modifications après livraison se commandent à la demande, au forfait,
+sur devis court. Prix : [à fixer]. Chaîne commerciale : `studio/decisions/PIPELINE.md`.
 
 ## 9. Parcours documentaire
 
@@ -243,7 +245,7 @@ professionnel du droit avant tout premier usage réel**). À quel moment chacun 
 | **CGV** | `studio/juridique/modeles/cgv-modele.md` | Jointes systématiquement au devis (obligatoire sur demande en B2B, Code de commerce art. L441-1) et publiées sur `sites/finck-fisch`. | Conditions générales : paiement, résiliation, propriété intellectuelle, garanties — cadre commun à toutes les prestations. |
 | **Contrat de prestation** | `studio/juridique/modeles/contrat-modele.md` | Signé en même temps que le devis, ou juste après (les deux peuvent être fusionnés en un seul envoi pour un client TPE — le contrat détaille ce que le devis résume). Couvre tout le parcours jusqu'à la livraison (§ 4 à § 7). | Cession des droits d'auteur sur le site livré (clause L131-3 CPI), RGPD sous-traitance le temps de la production, réversibilité, garantie, responsabilité. |
 | **PV de livraison** | Annexe 2 de `studio/juridique/modeles/contrat-modele.md` | Signé lors de l'appel de restitution (§ 5), ouvre la fenêtre de corrections de deux semaines (§ 6). | Constat de conformité au périmètre convenu ; les réserves notées dessus sont couvertes par la fenêtre de corrections. |
-| **Facture de solde** | `studio/juridique/modeles/facture-modele.md` | Émise à la livraison (§ 7), solde réglé avant le transfert final des accès (domaine, dépôt de code, formulaire) au nom du client. | Montant du solde, pénalités de retard/indemnité de 40 € applicables, mentions légales de facturation. |
+| **Facture de solde** | `studio/juridique/modeles/facture-modele.md` | Émise à la validation (§ 5-6), solde réglé avant la mise en ligne (§ 7). | Montant du solde, pénalités de retard/indemnité de 40 € applicables, mentions légales de facturation. |
 
 Rappel d'ordre strict pour le jour de production (§ 4) : **jamais de production sans devis signé et
 acompte reçu** — le studio ne débute `node scripts/ff.mjs nouveau <slug>` qu'une fois ces deux éléments

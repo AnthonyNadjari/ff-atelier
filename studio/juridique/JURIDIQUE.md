@@ -20,6 +20,14 @@ Prestation : conception d'un site vitrine one-shot pour artisans/TPE, 1 200 à 1
 après réception des éléments du client, site possédé par le client, fenêtre de corrections de deux
 semaines après restitution, maintenance optionnelle 25 €/mois (voir `docs/PROCESS.md`).
 
+> **20 oct 2026 : modèle validé par le fondateur** (`studio/decisions/PROCESS-HEBERGEMENT.md`). Plus de
+> maintenance mensuelle ni d'abonnement : site vendu une fois ([prix à fixer]), modifications au
+> forfait, hébergement gratuit accessoire sur le compte Cloudflare de F&F (arrêt possible avec 3 mois de
+> préavis et remise du site), domaine acheté par F&F au nom du client et payé 10 ans, formulaire relayé
+> sans stockage (F&F reste sous-traitant RGPD pour ce relais, annexe courte). Forme retenue : SAS. Les
+> § 5.5 et 5.6 ci-dessous sont à lire avec ce modèle ; les CGV à jour sont `cgv-projet.md` et
+> `modeles/cgv-modele.md`.
+
 Deux régimes juridiques différents s'appliquent selon le statut du client final :
 
 - **B2B (le cas très majoritaire)** : le client est un professionnel (artisan, commerçant, société) qui

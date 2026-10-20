@@ -196,8 +196,7 @@ dans l'équipe, nouveau local...), vous pouvez les faire ajouter.
    d'une prestation en particulier).
 
 Cette mise à jour de contenu n'est pas incluse dans la prestation initiale (qui couvrait la création du
-site) — le studio vous indiquera si une petite intervention facturée est nécessaire, ou si c'est
-compris dans un forfait de maintenance si vous en avez souscrit un.
+site). Le studio vous envoie un petit devis au forfait ; il n'y a pas d'abonnement.
 
 ---
 
@@ -236,22 +235,19 @@ Si vous n'avez reçu aucun message alors que vous savez que des visiteurs ont re
 
 ---
 
-## 10. Renouvellement du nom de domaine
+## 10. Votre nom de domaine
 
 Votre nom de domaine (ex. `votre-entreprise.fr`) a été enregistré **à votre nom**, pas à celui du
-studio — c'est important, cela signifie qu'il vous appartient et que personne ne peut vous le
-reprendre.
+studio : il vous appartient et personne ne peut vous le reprendre.
 
-- Le renouvellement est **annuel**, environ 10 € par an selon le registrar (l'organisme chez qui le nom
-  a été acheté ou transféré).
-- Le registrar vous envoie un **e-mail de rappel** avant l'échéance, en général plusieurs semaines à
-  l'avance — surveillez cette adresse e-mail, y compris son dossier spam.
-- Si le domaine expire sans être renouvelé, votre site **devient inaccessible** et votre adresse e-mail
-  professionnelle (si vous en avez une sur ce domaine) cesse également de fonctionner — le
-  renouvellement n'est donc pas optionnel une fois le site utile à votre activité.
-- Le studio peut, sur demande, lancer un `ff sante` une fois par mois de son côté pour surveiller entre
-  autres la date d'expiration de votre domaine et vous alerter si elle approche — mais la responsabilité
-  du paiement et du renouvellement reste la vôtre, en tant que titulaire.
+- Il est **payé pour 10 ans**, compris dans le prix du site. Vous ne recevez aucune facture annuelle.
+- Il expire dix ans après la mise en ligne (date exacte sur la page de remise). Sans prolongation, le site et
+  l'e-mail sur ce domaine s'arrêtent à cette date. Le studio, s'il est encore en activité, vous prévient
+  trois mois avant.
+- Sur simple demande, le studio vous remet gratuitement le **code de transfert** de votre domaine pour
+  le gérer où vous voulez.
+- L'hébergement du site est offert. Si le studio devait l'arrêter un jour, il vous préviendrait trois
+  mois avant et vous remettrait votre site complet et ce code.
 
 ---
 
@@ -298,5 +294,4 @@ de retrouver votre dossier plus rapidement.
 | **En continu, dès le premier client** | Demander un avis à chaque client, sans sélection ni récompense | Lien fiche Google envoyé par SMS/e-mail |
 | **En continu** | Répondre à chaque avis reçu, positif ou négatif | google.com/business |
 | **Jour 30** | Premier point statistiques : combien de visiteurs, quelles pages, d'où viennent-ils | Cloudflare Web Analytics ou Plausible |
-| **Jour 30, puis chaque mois** | Vérifier qu'aucune échéance de renouvellement de domaine n'approche | E-mail du registrar |
 | **Au besoin** | Envoyer de nouvelles photos au studio | contact@finckfisch.fr |

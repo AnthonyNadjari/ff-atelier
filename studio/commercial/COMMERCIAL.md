@@ -331,7 +331,7 @@ modèle déjà en place dans `whatsapp/templates.py`).
   d'invérifiable ne se présente comme un fait » (`CLAUDE.md` règle 2, étendue ici à la prospection).
   Remplacée par des faits strictement vérifiables : absence de site, note et nombre d'avis réels.
 - **Correction du discours de paiement.** L'ancien texte (« vous payez une seule fois, quand le site est
-  prêt ») contredit le fonctionnement réel du studio, où un **acompte** de 50 % est dû à la signature du
+  prêt ») contredit le fonctionnement réel du studio, où un **acompte** est dû à la signature du
   devis et le solde à la livraison (`studio/juridique/JURIDIQUE.md` § 7) — un prospect qui retiendrait cette phrase
   littéralement se sentirait trompé au moment du devis. Remplacé par « en une fois, {prix} €, sans
   abonnement » : vrai dans tous les cas, sans préciser un calendrier de paiement qui n'est pas encore
@@ -526,23 +526,25 @@ pour un site, `docs/BRIEF.md` § 8) et amorce déjà la transition vers le brief
 
 ### Ancrage prix (1-2 minutes)
 
-> « Pour un site comme le vôtre, comptez entre {1 200} et {1 800} euros — le prix exact dépend du nombre
-> de pages et de services à présenter, je vous le confirme après notre échange. C'est **une seule fois**,
-> pas d'abonnement mensuel, jamais. Le site vous appartient dès la livraison — le nom de domaine est à
-> votre nom, le code du site aussi, vous n'êtes attaché à rien chez nous après coup. »
+> « Pour un site comme le vôtre, c'est {prix} euros [prix à fixer], je vous le confirme après notre
+> échange. C'est **une seule fois**, pas d'abonnement, jamais. Ce prix comprend votre nom de domaine pour
+> dix ans, à votre nom, et l'hébergement est offert. Le site vous appartient dès qu'il est payé. Si un
+> jour vous voulez changer quelque chose, on vous fait un petit devis au forfait, rien de plus. »
 
-Note : les montants 1 200 €/1 800 € sont ceux fixés dans `studio/juridique/JURIDIQUE.md` § 0 — à date, `OBJECTIF.md`
-critère 12 signale que les prix affichés sur `sites/finck-fisch/sections/Offre.astro` restent marqués
-`// PRIX PROVISOIRES` en attente d'une décision définitive des fondateurs. Mettre à jour ce script dès
-que le prix est arrêté.
+Note (20 oct 2026) : le prix n'est pas encore fixé ; le modèle, lui, est arrêté
+(`studio/decisions/PROCESS-HEBERGEMENT.md`) : site vendu une fois, aucun abonnement ni entretien
+mensuel, modifications au forfait, domaine 10 ans compris, hébergement gratuit. Les prix affichés sur
+`sites/finck-fisch/sections/Offre.astro` restent marqués `// PRIX PROVISOIRES`. Mettre à jour ce script
+dès que le prix est arrêté.
 
 ### Clôture (1-2 minutes)
 
 Si intéressé(e) :
 
 > « Parfait. Pour avancer, je vous envoie un devis par e-mail dans la journée, avec le détail et le prix
-> exact. Il suffit de me répondre "bon pour accord" pour valider, et un acompte de 50 % pour lancer la
-> production — le reste à la livraison. Une fois le devis signé et l'acompte reçu, je vous recontacte
+> exact. Il suffit de me répondre "bon pour accord" pour valider, et un acompte pour lancer la
+> production, le reste quand vous avez validé le site, juste avant sa mise en ligne. Une fois le devis
+> signé et l'acompte reçu, je vous recontacte
 > pour le brief complet, ça prend 15 minutes, et le site est en ligne 72h après que vous m'ayez envoyé vos
 > photos et informations. »
 
@@ -554,7 +556,8 @@ Si hésitant(e) :
 **Rappel obligatoire pour tout devis conclu par téléphone/à distance** (`studio/juridique/JURIDIQUE.md` § 6.2) : le
 devis envoyé après cet appel doit comporter la case de demande expresse d'exécution avant la fin du délai
 de rétractation de 14 jours, si le client a ≤ 5 salariés — sans quoi la promesse « en ligne 72h après »
-n'est pas sécurisée juridiquement.
+n'est pas sécurisée juridiquement. Pour ce même client, **aucun acompte n'est encaissé avant le 8e jour**
+après la signature (C. consom. L221-10, CGV § 5).
 
 ### Les 8 objections (rewrites parlées, source `docs/veille/concurrents.md` § 4)
 
@@ -562,10 +565,10 @@ n'est pas sécurisée juridiquement.
 |---|---|
 | « Un abonnement à 30-40 € par mois, c'est quand même moins cher qu'un site à plus de mille euros d'un coup, non ? » | « Sur trois ans, un abonnement à 79 € par mois, ça fait déjà plus de 2 800 € — et à la fin, le site ne vous appartient pas, il s'arrête si vous arrêtez de payer. Notre prix fixe, souvent moins cher sur la durée, et le site est à vous dès le premier jour. » |
 | « Comment je sais que ça va bien référencer sur Google ? » | « Honnêtement, personne ne peut vous garantir une première place, ce serait mentir. Ce qu'on garantit, c'est un site techniquement propre — rapide, bien structuré, avec votre zone et votre métier bien indiqués pour Google. Après, le référencement se travaille dans la durée, avec ou sans nous. » |
-| « Vous n'êtes que deux, c'est risqué si vous arrêtez un jour. » | « C'est justement pour ça que le site est un fichier standard, pas lié à un logiciel à nous — n'importe quel développeur peut le reprendre. Contrairement à un site fait sur Wix ou chez une plateforme par abonnement, qui disparaît si l'abonnement s'arrête. » |
+| « Vous n'êtes que deux, c'est risqué si vous arrêtez un jour. » | « C'est écrit dans nos conditions : si on arrête, on vous prévient trois mois avant et on vous remet votre site complet et le code de votre nom de domaine, qui est déjà à votre nom et payé pour dix ans. Le site est un fichier standard, n'importe quel développeur ou hébergeur peut le reprendre. Un site Wix, lui, disparaît si l'abonnement s'arrête. » |
 | « Pourquoi pas Wix ou Hostinger à quelques euros par mois, ça a l'air suffisant ? » | « Ces outils-là vendent un logiciel, pas un résultat — il faut apprendre à s'en servir pour obtenir un site qui ressemble à des milliers d'autres. Nous, on vous livre le résultat fini, en 72h, sans que vous ayez à y toucher. » |
 | « 72 heures, c'est trop rapide pour être vraiment sur mesure, c'est un template ? » | « C'est un système de composants qu'on assemble et qu'on adapte à vous — pas un thème universel. D'ailleurs, c'est pour ça qu'on vous montre trois propositions différentes dès le départ, pas une seule maquette. » |
-| « Et si je veux changer un truc dans deux ans, il faut repasser par vous ? » | « Non — le code vous appartient et n'est lié à aucun logiciel chez nous. N'importe quel développeur peut reprendre le site à ce moment-là, même si ce n'est pas nous. » |
+| « Et si je veux changer un truc dans deux ans, il faut repasser par vous ? » | « Vous pouvez : on vous fait un petit devis au forfait, sans abonnement. Mais vous n'êtes pas obligé : le code vous appartient, n'importe quel développeur peut reprendre le site. » |
 | « Vous garantissez quoi si je ne suis pas satisfait ? » | « On vous garantit le délai — livré dans les temps convenus — et deux semaines de corrections gratuites après la mise en ligne pour ajuster texte, photos, coordonnées. Ce qu'on ne fait pas, c'est promettre un résultat commercial qu'on ne maîtrise pas entièrement — aucun prestataire sérieux ne peut le faire. » |
 | « Pourquoi pas une agence locale, au moins j'ai quelqu'un à voir en vrai ? » | « On peut tout à fait se voir ou faire un appel vidéo, comme une agence locale — sans la structure (les réunions, les intermédiaires) qui fait souvent doubler ou tripler le prix pour un résultat comparable sur un simple site vitrine. » |
 
@@ -657,7 +660,8 @@ Déroulé recommandé :
 
 ### L'acompte
 
-50 % à la signature du devis, solde à la livraison — c'est un **acompte**, pas des arrhes, qualifié
+[30] % à la signature du devis (pas avant J+7 pour un client démarché de 5 salariés ou moins), solde à
+la validation, **mise en ligne seulement après le solde** — c'est un **acompte**, pas des arrhes, qualifié
 explicitement comme tel dans le devis (`studio/juridique/JURIDIQUE.md` § 7 : la qualification écrite protège le
 studio, l'absence de précision jouerait en sa défaveur). Rappel dur déjà en place dans
 `docs/PROCESS.md` § 9 : **jamais de production sans devis signé et acompte reçu**.
@@ -715,7 +719,8 @@ et les modèles `studio/juridique/modeles/*.md`** avant un usage à volume — r
 - `docs/BRIEF.md` (structure de l'appel, informations à collecter).
 - `docs/PROCESS.md` § 2, § 9 (déroulé de l'appel, parcours documentaire devis/CGV/contrat/PV/facture).
 - `docs/veille/concurrents.md` § 4 (tableau des 8 objections, source des réponses réécrites à l'oral).
-- `studio/juridique/JURIDIQUE.md` § 0 (fourchette de prix 1 200-1 800 €), § 6.2 (clause de rétractation).
+- `studio/decisions/PROCESS-HEBERGEMENT.md` § 0 (modèle sans abonnement, 20 oct 2026) ; prix [à fixer].
+- `studio/juridique/JURIDIQUE.md` § 6.2 (clause de rétractation).
 - `sites/finck-fisch/sections/Offre.astro` — prix actuellement marqués `// PRIX PROVISOIRES` (`docs/OBJECTIF.md` critère 12, A1/A2 non tranchés).
 
 **Propositions et devis (§ 6)** :
@@ -739,6 +744,6 @@ session disposant d'un budget de recherche web.
 - Comme pour `studio/juridique/JURIDIQUE.md`, ce document n'est pas un avis juridique — une relecture par un
   professionnel du droit avant un usage intensif (volume, campagne automatisée) reste une action humaine
   non faite.
-- Les prix cités (1 200-1 800 €) restent provisoires tant que `docs/OBJECTIF.md` critère 12 (A1/A2) n'est
-  pas tranché par les fondateurs — ce document devra être mis à jour au même moment que
-  `sites/finck-fisch/sections/Offre.astro`.
+- Le prix n'est pas fixé au 20 oct 2026 (« {prix} » dans les messages) ; ce document devra être mis à
+  jour au même moment que `sites/finck-fisch/sections/Offre.astro`. Le modèle, lui, est arrêté : aucun
+  abonnement, modifications au forfait (`studio/decisions/PROCESS-HEBERGEMENT.md`).

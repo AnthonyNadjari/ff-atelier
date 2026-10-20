@@ -4,6 +4,11 @@
 > « **[variante A / B]** » doivent être choisies avant l'envoi au premier client, en fonction des
 > décisions listées dans `studio/juridique/JURIDIQUE.md` § 12 (forme juridique, régime de TVA, politique de
 > rétractation).
+>
+> **Réaligné le 20 octobre 2026** sur le modèle validé par le fondateur
+> (`studio/decisions/PROCESS-HEBERGEMENT.md`) : aucun abonnement, modifications au forfait, hébergement
+> gratuit accessoire, domaine au nom du client payé 10 ans par le Studio. **Projet à faire relire une
+> fois par un avocat.**
 
 ---
 
@@ -33,8 +38,9 @@ brief validé le {{DATE_BRIEF}} (`sites/{{slug}}/brief.md`).
 formule en annexe du devis — pages incluses, nombre de sections sur mesure, options)*
 
 Livrables :
-- Un site vitrine déployé sur le domaine du client (voir § 5).
-- Formulaire de contact fonctionnel, configuré au nom du client.
+- Un site vitrine déployé sur le domaine du client (voir § 5), mis en ligne après paiement du solde.
+- Le nom de domaine, au nom du client, payé pour 10 ans (compris dans le prix).
+- Formulaire de contact fonctionnel, qui envoie les messages sur l'adresse e-mail du client.
 - Fichiers sources du site (dépôt de code) remis au client à la livraison.
 - {{Autres livrables spécifiques à la formule choisie}}
 
@@ -53,7 +59,7 @@ semaines** pendant laquelle les retours de texte, photo ou coordonnée sont incl
 
 | Élément | Montant HT | TVA | Montant TTC |
 |---|---|---|---|
-| {{Formule Essentiel / Complet}} | {{montant}} € | {{taux ou « non applicable »}} | {{montant}} € |
+| {{Formule Essentiel / Complet}}, nom de domaine 10 ans compris | [prix à fixer] € | {{taux ou « non applicable »}} | {{montant}} € |
 | {{Options éventuelles}} | {{montant}} € | | {{montant}} € |
 | **Total** | **{{total_ht}} €** | | **{{total_ttc}} €** |
 
@@ -62,23 +68,31 @@ semaines** pendant laquelle les retours de texte, photo ou coordonnée sont incl
 
 ## 4. Acompte et modalités de paiement
 
-- **Acompte de {{50}} %** à la signature du présent devis, soit **{{montant_acompte}} €**, à régler par
+- **Aucun abonnement, aucune facture récurrente.** Ce devis est le seul montant dû pour le site.
+- **Acompte de {{30}} %** à la signature du présent devis (au plus tôt le 8e jour après la signature
+  si le § 6 variante B s'applique), soit **{{montant_acompte}} €**, à régler par
   {{moyen de paiement}}. Cette somme constitue un **acompte** (et non des arrhes) : elle engage les deux
   parties et n'est pas remboursable en cas de rétractation tardive du client après le début de la
   production, hors exercice du droit de rétractation prévu au § 6 ci-dessous le cas échéant.
-- **Solde de {{montant_solde}} €** à régler à la livraison, avant transfert final des accès et remise
-  du dépôt de code (le studio peut légitimement retenir la livraison des accès tant que le solde n'est
-  pas réglé).
+- **Solde de {{montant_solde}} €** à régler à la validation du site. **La mise en ligne a lieu après
+  paiement complet du solde.** Une fois en ligne, le site n'est jamais suspendu pour un impayé.
 - Paiement au-delà de la date d'échéance facturée : pénalités de retard au taux de la Banque centrale
   européenne majoré de 10 points, plus une indemnité forfaitaire de 40 € pour frais de recouvrement
   (Code de commerce, art. L441-10) — voir `studio/juridique/modeles/facture-modele.md`.
 
 ## 5. Domaine, hébergement et formulaire — au nom du client
 
-- Le nom de domaine {{nom_de_domaine_souhaite}} est acheté ou transféré **au nom du client**, jamais au
-  nom du studio.
-- La clé/le compte du formulaire de contact est créé **au nom du client**, sur son propre compte.
-- Voir § 5 du contrat de prestation pour le détail de la réversibilité.
+- Le nom de domaine {{nom_de_domaine_souhaite}} est enregistré par le studio chez {{OVHcloud}} **au nom
+  du client**, seul titulaire, **payé d'avance pour 10 ans** (compris dans le prix). Sans prolongation,
+  il expire au bout de 10 ans. Code de transfert remis gratuitement sur demande.
+- **Hébergement offert**, gratuit et accessoire, sur le compte {{Cloudflare}} du studio. Le studio peut
+  l'arrêter avec 3 mois de préavis, en remettant au client son site complet et le code de transfert du
+  domaine.
+- Le formulaire relaie les messages vers l'adresse du client sans les conserver. Le client clique une
+  fois sur le lien de vérification reçu par e-mail.
+- Pas de boîte mail, de paiement en ligne ni d'agenda hébergés par le studio : liens vers les comptes
+  du client.
+- Voir l'article 9 du contrat de prestation pour le détail de la remise.
 
 ## 6. Droit de rétractation
 
@@ -105,11 +119,10 @@ conforme à l'article L131-3 du Code de la propriété intellectuelle) figure au
 (`studio/juridique/modeles/contrat-modele.md` § Propriété intellectuelle) ; la cession prend effet au paiement
 intégral du solde.
 
-## 8. Maintenance (optionnelle, hors périmètre du présent devis)
+## 8. Modifications après livraison
 
-Offre séparée, non incluse : maintenance à {{25}} €/mois (mises à jour de contenu mineures, assistance).
-Contrat de maintenance distinct proposé après livraison si le client est intéressé — voir
-`docs/PROCESS.md` § 8.
+Pas d'abonnement ni de contrat d'entretien. Après la fenêtre de corrections, chaque modification se
+commande à la demande, au forfait, sur un devis court accepté par e-mail.
 
 ## 9. Acceptation
 

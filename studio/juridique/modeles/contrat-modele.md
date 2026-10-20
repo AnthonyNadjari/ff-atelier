@@ -3,6 +3,11 @@
 > équilibrées entre les deux parties (aucune clause de la liste des clauses abusives DGCCRF/Code de la
 > consommation art. R212-1, voir `studio/juridique/JURIDIQUE.md` § 3.3, n'a été reprise ici). Compléter les
 > `{{placeholders}}` et choisir les variantes A/B selon `studio/juridique/JURIDIQUE.md` § 12.
+>
+> **Réaligné le 20 octobre 2026** sur le modèle validé par le fondateur
+> (`studio/decisions/PROCESS-HEBERGEMENT.md`) : aucun abonnement, modifications au forfait, hébergement
+> gratuit accessoire, domaine au nom du client payé 10 ans par le Studio. **Projet à faire relire une
+> fois par un avocat.**
 
 ---
 
@@ -32,10 +37,14 @@ Formule retenue : **{{Essentiel / Complet}}**. Contenu détaillé en Annexe 1 (p
 ## Article 2 — Livrables
 
 Le Studio livre au Client :
-1. Un site vitrine déployé et accessible sur le nom de domaine du Client.
-2. Un formulaire de contact fonctionnel, configuré avec une clé/un compte propre au Client (§ Article 8).
-3. L'accès au dépôt de code source du site livré (§ Article 5 — Propriété intellectuelle).
-4. Un procès-verbal de livraison (voir modèle en Annexe 2 / `docs/PROCESS.md` § parcours documentaire),
+1. Un site vitrine déployé et accessible sur le nom de domaine du Client, mis en ligne après paiement
+   complet du solde.
+2. Un formulaire de contact fonctionnel, qui relaie les messages vers l'adresse du Client sans les
+   conserver (§ Article 8).
+3. Le nom de domaine {{nom_de_domaine}}, enregistré **au nom du Client** et payé pour 10 ans
+   (§ Article 9).
+4. L'accès au dépôt de code source du site livré (§ Article 5 — Propriété intellectuelle).
+5. Un procès-verbal de livraison (voir modèle en Annexe 2 / `docs/PROCESS.md` § parcours documentaire),
    signé par les deux parties à la restitution, constatant la conformité du site livré au périmètre
    convenu.
 
@@ -51,7 +60,7 @@ Studio. Un appel de restitution est organisé à l'issue de ce délai.
 Pendant les **deux semaines** suivant l'appel de restitution, les retours du Client portant sur le texte,
 les photos ou les coordonnées affichées sont inclus dans la prestation sans supplément. Passé ce délai,
 ou pour toute demande de structure ou de fonctionnalité substantiellement différente du périmètre
-convenu en Annexe 1, toute intervention relève d'une prestation de maintenance distincte (§ Article 10).
+convenu en Annexe 1, toute modification se commande à la demande, au forfait (§ Article 10).
 
 ## Article 5 — Propriété intellectuelle
 
@@ -97,8 +106,11 @@ n° {{numero_devis}}.
 
 - Acompte de {{50}} % (soit {{montant_acompte}} €) à la signature du présent contrat — versement
   qualifié d'**acompte**, engageant fermement les deux parties.
-- Solde de {{montant_solde}} € à régler à la livraison, avant transfert des accès finaux (domaine,
-  dépôt de code, compte de formulaire) au Client.
+- Solde de {{montant_solde}} € à régler à la validation du site. **La mise en ligne n'a lieu qu'après
+  paiement complet du solde.** Aucun acompte n'est encaissé avant le 8e jour pour un Client visé à
+  l'article 7 variante B (Code de la consommation, art. L221-10).
+- Le prix comprend le nom de domaine pour 10 ans. Aucun abonnement, aucune facture récurrente.
+- Une fois le site en ligne, le Studio ne le suspend jamais pour obtenir le paiement d'une autre somme.
 - Tout retard de paiement du Client au-delà de la date d'échéance facturée entraîne, de plein droit et
   sans mise en demeure préalable, l'application de pénalités de retard au taux BCE majoré de 10 points
   et d'une indemnité forfaitaire de recouvrement de 40 € (Code de commerce, art. L441-10).
@@ -119,9 +131,9 @@ fait perdre son droit de rétractation.
 ## Article 8 — Protection des données personnelles (RGPD)
 
 Le formulaire de contact du site traite des données personnelles (nom, e-mail, téléphone, message) des
-visiteurs du site du Client. Le Client est **responsable de traitement**. Pendant la phase de production
-et de test, avant que la clé/le compte du formulaire ne soit basculé au nom du Client, le Studio agit
-comme **sous-traitant au sens de l'article 28 du RGPD** et s'engage à :
+visiteurs du site du Client. Le Client est **responsable de traitement**. Tant que le Studio héberge le
+site et relaie ces messages vers le Client (sans les conserver), il agit comme **sous-traitant au sens
+de l'article 28 du RGPD** et s'engage à :
 
 - traiter les données uniquement sur instruction du Client et pour les seules finalités de la présente
   prestation ;
@@ -130,29 +142,31 @@ comme **sous-traitant au sens de l'article 28 du RGPD** et s'engage à :
 - notifier sans délai indu au Client toute violation de données dont il aurait connaissance ;
 - ne recourir à un sous-traitant ultérieur (hébergeur, service d'envoi de formulaire) qu'après
   information du Client, et documenter cette chaîne de sous-traitance ;
-- supprimer ou restituer les données à la fin de cette phase, au plus tard à la date de bascule prévue
-  ci-dessous.
+- ne conserver aucun message (relais seulement) ; le seul sous-traitant ultérieur est
+  {{Cloudflare, Inc.}} (hébergement, routage e-mail).
 
-**Date de bascule** : le Studio cesse d'agir comme sous-traitant à la date de livraison définie à
-l'article 3, dès que la clé/le compte du formulaire est configuré au nom du Client (article 9). À
-compter de cette date, le Client est seul responsable du traitement des données de son formulaire.
+**Fin** : le Studio cesse d'agir comme sous-traitant quand l'hébergement gratuit s'arrête ou quand le
+Client fait héberger son site ailleurs (article 9). Aucune donnée n'est alors à restituer.
 
 ## Article 9 — Réversibilité
 
-À la livraison, le Studio remet au Client :
-- l'accès au dépôt de code source du site (voir article 5.1) ;
-- le nom de domaine, enregistré ou transféré au nom du Client dès le départ, jamais au nom du Studio ;
-- la clé/le compte du service d'envoi du formulaire de contact, créé au nom du Client sur son propre
-  compte ;
-- les identifiants d'accès à l'hébergement du site, ou le fichier statique complet si le Client choisit
-  un hébergement autre que celui utilisé en production par le Studio.
+- Le nom de domaine est enregistré par le Studio **au nom du Client**, seul titulaire, chez
+  {{OVHcloud}}, payé d'avance pour 10 ans (coût compris dans le prix). Le Studio n'en est jamais
+  titulaire. Au terme des 10 ans, il expire s'il n'est pas prolongé.
+- Après paiement complet, le Studio héberge le site **gratuitement**, à titre accessoire, sur son compte
+  {{Cloudflare}}. Il peut arrêter cet hébergement avec un **préavis de 3 mois**.
+- Sur simple demande du Client (sous 15 jours), et d'office avant tout arrêt de l'hébergement, le
+  Studio remet gratuitement : les fichiers sources du site, la version publiée prête à héberger
+  ailleurs, l'export de la zone DNS et le **code de transfert du domaine**. Ensuite, aucune des parties
+  n'a plus d'obligation ni de frais envers l'autre au titre de l'hébergement.
 
-## Article 10 — Maintenance (hors périmètre du présent contrat)
+## Article 10 — Modifications après livraison (au forfait)
 
-La maintenance après livraison (mises à jour de contenu, ajout de pages, évolutions) n'est pas incluse
-dans le présent contrat. Elle fait l'objet d'une offre séparée, proposée au Client après livraison :
-{{25}} €/mois, résiliable {{à tout moment / avec préavis de N jours}}, sans engagement de durée minimale
-au-delà du mois en cours.
+Il n'existe ni abonnement ni contrat d'entretien. Après la fenêtre de corrections, chaque modification
+(contenu, page nouvelle, évolution) se commande à la demande, au forfait indiqué dans un devis court
+accepté par e-mail, et se facture à sa mise en ligne. Le Studio ne fournit ni n'héberge de boîte mail,
+de paiement en ligne ni d'agenda : ces services restent sur les comptes du Client, le site y renvoie
+par un lien.
 
 ## Article 11 — Garantie et responsabilité
 
@@ -165,9 +179,9 @@ La responsabilité du Studio, en cas de manquement avéré à ses obligations, e
 de la prestation prévu à l'article 6, sauf faute lourde ou dolosive du Studio. Cette limitation ne prive
 pas le Client de son droit à réparation en cas de manquement à une obligation essentielle du contrat.
 
-Une fois le site transféré à un hébergeur au nom du Client (article 9), le Studio n'est plus hébergeur
-du contenu au sens de la loi pour la confiance dans l'économie numérique (LCEN) et n'est plus responsable
-du contenu publié après cette date.
+Le Client est seul éditeur du site et responsable de son contenu. Le Studio n'est pas hébergeur au
+sens de la LCEN (l'hébergeur technique est {{Cloudflare, Inc.}}, cité dans les mentions légales) ;
+l'hébergement qu'il offre est gratuit et n'ouvre droit à aucune indemnité au-delà du plafond ci-dessus.
 
 ## Article 12 — Résiliation anticipée
 
@@ -222,7 +236,7 @@ Fait à {{VILLE}}, le {{DATE}}, en deux exemplaires originaux.
 
 ## Annexe 1 — Périmètre détaillé de la formule
 
-{{À compléter : pages incluses, nombre de sections sur mesure, options (maintenance, formulaire
+{{À compléter : pages incluses, nombre de sections sur mesure, options (formulaire
 avancé), direction visuelle proposée.}}
 
 ## Annexe 2 — Procès-verbal de livraison (modèle court)

@@ -7,7 +7,7 @@
 > confirmés sur une source officielle pendant la recherche.
 >
 > Complète `studio/juridique/JURIDIQUE.md` (17 sept. 2026) sans le remplacer. Contexte repris de ce document :
-> site vitrine 1 200 à 1 800 € HT, maintenance optionnelle ≈ 25 €/mois, clients B2B (TPE, artisans).
+> site vitrine 1 200 à 1 800 € HT, maintenance optionnelle ≈ 25 €/mois (abandonnée le 20 oct 2026 : aucun abonnement, voir `studio/decisions/PROCESS-HEBERGEMENT.md`), clients B2B (TPE, artisans).
 
 ---
 

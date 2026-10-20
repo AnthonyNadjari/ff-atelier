@@ -482,7 +482,10 @@ export const siteSchema = z.object({
   legal: z
     .object({
       owner: z.string().optional().describe('Nom du responsable de publication'),
-      host: z.string().default('Cloudflare, Inc. — 101 Townsend St, San Francisco, CA 94107, USA'),
+      host: z
+        .string()
+        .default('Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, États-Unis, +1 (650) 319-8930')
+        .describe("Hébergeur affiché dans les mentions légales : nom, adresse ET téléphone (LCEN art. 1-1). Défaut = Cloudflare, coordonnées relevées sur cloudflare.com/website-terms le 20 oct 2026."),
       mediator: z.string().optional(),
       prospect: z.boolean().default(false).describe("Démo PRIVÉE faite pour un vrai commerce qu’on prospecte (ses données publiques, ses photos) : tout le site est en noindex, robots.txt interdit tout, rien n’entre dans un sitemap. Jamais montrée à un autre que lui ; supprimée s’il dit non (17 oct 2026)."),
       demo: z.boolean().default(false).describe("Site de démonstration (client inventé) : l’avis « aucun client derrière » s’affiche une fois en pied de page et remplace l’identité légale dans les mentions légales (relecture /site-final du 16 oct 2026 : une démo qui ne le dit pas a l’air d’un vrai commerce)."),

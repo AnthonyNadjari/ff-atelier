@@ -1,5 +1,10 @@
 # Hébergement, domaines, livraison et modèle commercial — Finck & Fisch
 
+> **20 oct 2026 : modèle remplacé.** Le fondateur a validé un modèle sans abonnement ni suivi mensuel,
+> avec le domaine acheté par F&F au nom du client et payé 10 ans. La règle est dans
+> `PROCESS-HEBERGEMENT.md` ; ce fichier reste la recherche du 10 oct (sources, comparatifs). Les § 0.1
+> (formule Suivi), 2.1 (le client paie son domaine), 5.5 et 7.2 (Suivi) ne s'appliquent plus.
+
 Recherche du 10 octobre 2026. Chaque prix et chaque limite renvoie à une source (en fin de section).
 Quand la page officielle n'a pas pu être lue (pages rendues en JavaScript : OVHcloud, Infomaniak,
 Wix), le chiffre vient d'une source secondaire, et c'est indiqué **(source secondaire)**. Ces

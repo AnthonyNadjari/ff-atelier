@@ -18,7 +18,7 @@ pas besoin d'y aller pour le quotidien.
 | `commercial/guide-photos.html` | Le guide photo à envoyer au client dès le premier appel : 12 photos au téléphone, comment les prendre, comment nous les envoyer. Remplacer [téléphone] et [e-mail] avant envoi. |
 | `commercial/apres-livraison.html` | Ce qu'on remet au client une fois son site en ligne. Mode d'emploi : `APRES-LIVRAISON.md`. |
 | `juridique/` | Structure de la société, CGV, et les modèles de devis, contrat, facture et CGV (`modeles/`). |
-| `decisions/` | Les décisions prises et leurs raisons (structure, hébergement, prix). Le résumé lisible : `decisions-octobre-2026.html`. |
+| `decisions/` | Les décisions prises et leurs raisons. **La règle du jeu : `PROCESS-HEBERGEMENT.md`** (aucun abonnement, hébergement, domaine, 20 oct 2026) et **`PIPELINE.md`** (de la démo à la facture payée, relances, outils). Le résumé lisible : `decisions-octobre-2026.html`. |
 
 ## Liens utiles
 

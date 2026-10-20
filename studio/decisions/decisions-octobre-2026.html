@@ -8,6 +8,7 @@
 <li><code>studio/juridique/cgv-projet.md</code> : obligations et projet complet de CGV ;</li>
 <li><code>studio/decisions/hebergement-livraison.md</code> : hébergement, domaines, code, automatisation et prix.</li>
 </ul>
+<p><b>Mis à jour le 20 octobre 2026.</b> Le fondateur a validé un modèle sans aucun abonnement : site vendu une fois (prix à fixer), modifications au forfait, hébergement gratuit accessoire, domaine au nom du client acheté par F&amp;F et payé 10 ans. Il remplace les décisions 5 et 6 ci-dessous. Détail : <code>studio/decisions/PROCESS-HEBERGEMENT.md</code> et <code>studio/decisions/PIPELINE.md</code>.</p>
 <p><b>Ce n'est pas un conseil juridique.</b> La structure, le pacte d'associés et les CGV sont à faire relire par un expert-comptable et un avocat avant signature, pour un budget d'environ 500 à 1 500 €.</p>
 
 <h2>1. Les 6 décisions recommandées</h2>
@@ -22,11 +23,11 @@
 <li><b>Barclays d'abord.</b> Anthony déclare son activité extérieure par écrit à la conformité de Barclays, dans l'outil prévu pour ces déclarations plus un mail à son manager. Il attend l'accord écrit avant de signer les statuts, de facturer ou d'apparaître comme fondateur sur le site ou sur LinkedIn.</li>
 <li><b>Pont possible.</b> Si un client signe avant la réponse de Barclays, le cousin facture seul en micro-entreprise quelques mois. Un écrit signé par les deux fixe les parts futures et la cession des actifs à la SAS pour 1 €.</li>
 <li><b>Hébergement : quitter Vercel pour Cloudflare.</b> Les conditions de l'offre gratuite de Vercel interdisent l'usage commercial et citent notre cas exact (« Receiving payment to create, update, or host the site »). Cloudflare Pages est gratuit, autorise l'usage commercial, et notre outil sait déjà y déployer.</li>
-<li><b>Le client possède tout.</b> Il achète son domaine à son nom chez OVH, environ 8 € HT par an pour un .fr. Le site est en fichiers statiques qu'il peut emporter n'importe où. F&amp;F ne paie rien par client, donc rien ne continue de courir si l'activité s'arrête.</li>
-<li><b>Modèle : paiement unique plus suivi optionnel.</b>
+<li><b>Le client possède tout.</b> <i>(Remplacé le 20 oct 2026 : F&amp;F achète le domaine chez OVH au nom du client, payé 10 ans, compris dans le prix.)</i> Il achète son domaine à son nom chez OVH, environ 8 € HT par an pour un .fr. Le site est en fichiers statiques qu'il peut emporter n'importe où. F&amp;F ne paie rien par client, donc rien ne continue de courir si l'activité s'arrête.</li>
+<li><b>Modèle : paiement unique, aucun abonnement</b> (20 oct 2026 ; le « suivi optionnel » du 10 oct est abandonné).
   <ul>
-  <li>Essentiel : 1 190 € HT. Complet : 1 790 € HT.</li>
-  <li>Suivi : 29 € HT par mois, sans engagement au-delà de 3 mois, ou 290 € HT par an.</li>
+  <li>Prix : à fixer.</li>
+  <li>Modifications après livraison : à la demande, au forfait. Pas de suivi mensuel.</li>
   <li>Pas de location de site sans frais d'entrée : litiges fréquents et contrôles de la DGCCRF.</li>
   </ul></li>
 </ol>
@@ -85,7 +86,7 @@
 <li>le nombre de corrections inclus ;</li>
 <li>la cession explicite des droits d'auteur au client ;</li>
 <li>le domaine au nom du client ;</li>
-<li>le suivi optionnel (préavis, sortie) ;</li>
+<li>l'hébergement gratuit accessoire (préavis de 3 mois, remise du site et du code de transfert) ;</li>
 <li>la réversibilité : le client récupère ses fichiers ;</li>
 <li>la responsabilité ;</li>
 <li>les données personnelles : nous traitons pour son compte les messages de son formulaire, annexe RGPD jointe ;</li>
@@ -100,7 +101,7 @@
   <ul>
   <li>une variante livrée ne change plus ;</li>
   <li>une comparaison visuelle automatique avant chaque mise à jour ;</li>
-  <li>on ne redéploie que les sites modifiés. Un site livré sans suivi est « figé » et sort de la boucle.</li>
+  <li>on ne redéploie que les sites modifiés (modification payée ou correction de sécurité).</li>
   </ul></li>
 <li><b>Sortie d'un client :</b> un « kit de sortie » qui contient le zip du site, la marche à suivre pour l'héberger ailleurs et le code de transfert du domaine. À automatiser plus tard (commande <code>ff sortie</code>).</li>
 <li><b>Chaîne automatisée, sans outil payant :</b>
@@ -141,13 +142,13 @@
 <li>Faire relire par un avocat le projet de CGV et le pacte d'associés.</li>
 <li>Immatriculer la SAS. On obtient le SIRET, ce qui débloque le lancement public, les mentions légales et la facturation.</li>
 <li>Choisir l'outil de facturation électronique.</li>
-<li>Mettre les prix à jour sur le site : HT, suivi à 29 €, mention de la rétractation dans le parcours /audit.</li>
+<li>Mettre les prix à jour sur le site : HT, sans abonnement, mention de la rétractation dans le parcours /audit.</li>
 <li>Sauvegarder les photos originales des clients (stockage en ligne) et lancer la surveillance quotidienne <code>ff sante</code>.</li>
 </ol>
 <h3>À partir de 30 clients</h3>
 <ol>
 <li>Chaîne automatisée complète, du Google Form à la prévisualisation.</li>
-<li>CRM simple et suivi des demandes de modification avec un quota.</li>
+<li>CRM simple (tableau GitHub Projects) et demandes de modification au forfait.</li>
 <li>Kit de sortie automatisé.</li>
 <li>Revoir l'hébergement au-delà de 80 sites.</li>
 </ol>

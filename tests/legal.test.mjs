@@ -57,6 +57,14 @@ test('mentions-legales.html reste noindex et lien vers /confidentialite', () => 
   assert.match(html, /name=["']robots["']\s+content=["']noindex(?:, [a-z, ]+)?["']/);
 });
 
+// LCEN art. 1-1 : nom, adresse ET téléphone de l'hébergeur (défaut legal.host, 20 oct 2026).
+test('mentions-legales.html donne le nom, l\'adresse et le téléphone de l\'hébergeur', () => {
+  const html = fs.readFileSync(path.join(DIST_PATH, 'mentions-legales.html'), 'utf8');
+  assert.match(html, /Cloudflare, Inc\./);
+  assert.match(html, /101 Townsend St/);
+  assert.match(html, /\+1 \(650\) 319-8930/);
+});
+
 test('index.html ne contient pas d\'aggregateRating/Review auto-declare dans le JSON-LD', () => {
   assert.doesNotMatch(indexHtml, /"aggregateRating"/i);
   assert.doesNotMatch(indexHtml, /"@type"\s*:\s*"AggregateRating"/);

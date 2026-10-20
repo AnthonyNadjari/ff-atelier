@@ -2,8 +2,9 @@
 > Synthèse de veille juridique (voir `studio/juridique/JURIDIQUE.md` § 2), pas un conseil juridique ou comptable.
 > Choisir la variante TVA (§ 11 du document) selon la forme juridique retenue avant tout premier envoi.
 > À partir du 1er septembre 2027 (PME/TPE/micro-entreprises), cette facture devra être émise via une
-> plateforme de dématérialisation partenaire conforme à la réforme de facturation électronique — voir
-> `studio/juridique/JURIDIQUE.md` § 2.3, calendrier à reconfirmer avant cette échéance.
+> **plateforme agréée** (nouveau nom des « plateformes de dématérialisation partenaires ») ; la
+> réception par plateforme agréée est obligatoire depuis le 1er septembre 2026. Calendrier vérifié le
+> 20 oct 2026, outil choisi : `studio/decisions/PIPELINE.md` § 6.
 
 ---
 

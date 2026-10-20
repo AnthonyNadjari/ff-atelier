@@ -1,7 +1,9 @@
 # CGV Finck & Fisch — analyse des obligations et projet complet
 
-> **Projet à faire valider par un avocat (droit des affaires / numérique) avant tout usage.** Rédigé
-> le 10 octobre 2026. Ce document n'est pas un conseil juridique. Les textes cités ont été vérifiés
+> **PROJET À FAIRE RELIRE UNE FOIS PAR UN AVOCAT** (droit des affaires / numérique) avant tout usage.
+> Rédigé le 10 octobre 2026, réaligné le 20 octobre 2026 sur le modèle validé par le fondateur
+> (`studio/decisions/PROCESS-HEBERGEMENT.md` : aucun abonnement, hébergement gratuit accessoire,
+> domaine au nom du client payé 10 ans, modifications au forfait). Ce document n'est pas un conseil juridique. Les textes cités ont été vérifiés
 > sur des sources officielles quand c'est indiqué ; les points marqués **[à confirmer]** reposent sur
 > une lecture du texte ou des sources secondaires. Complète `studio/juridique/JURIDIQUE.md` (17 sept. 2026) et
 > `studio/juridique/structure-juridique.md`.
@@ -116,13 +118,16 @@ Sources : Légifrance CPI art. L131-1, L131-2, L131-3, L122-6.
 - **Création seule** (on livre le site, le client l'héberge et reçoit ses formulaires) : nous
   traitons ponctuellement des données (coordonnées du client, contenus) en tant que **responsable de
   traitement** pour notre propre relation commerciale.
-- **Hébergement / maintenance + formulaires** (les messages des clients du client transitent par nos
-  outils : routage e-mail, service de formulaires, Cloudflare) : F&F traite des données personnelles
-  **pour le compte** du client → **sous-traitant au sens de l'article 28 RGPD**. Un contrat écrit est
+- **Hébergement gratuit + formulaire** (modèle du 20 oct 2026 : le Worker Cloudflare relaie chaque
+  message par e-mail vers le client, **rien n'est stocké chez F&F**) : relayer un message reste un
+  traitement (RGPD art. 4.2, « communication par transmission »), fait **pour le compte** du client →
+  F&F reste **sous-traitant au sens de l'article 28 RGPD**, même sans stockage. Un écrit est
   obligatoire, avec les mentions de l'art. 28.3 : objet, durée, nature et finalité, types de données,
   catégories de personnes, instructions documentées, confidentialité, sécurité (art. 32), autorisation
   des sous-traitants ultérieurs, assistance (droits des personnes, violations de données sous 72 h côté
-  responsable), suppression ou restitution en fin de contrat, audits.
+  responsable), suppression ou restitution en fin de contrat, audits. Sans stockage, la plupart de ces
+  points tiennent en une ligne : d'où l'annexe 2, courte. Reste aussi un registre des traitements
+  faits pour le compte des clients (art. 30.2), un tableau suffit.
 - **Sous-traitants ultérieurs** à lister (ex. Cloudflare pour l'hébergement et le routage e-mail,
   fournisseur de formulaires et d'e-mail). Pour un transfert hors UE : Data Privacy Framework ou
   clauses contractuelles types.
@@ -143,8 +148,10 @@ sources secondaires concordantes, à confirmer sur Légifrance]**. À fournir su
   directeur de la publication, numéro de TVA si assujetti.
 - **Personne physique (EI, micro)** : nom, prénom, domicile ou adresse pro, téléphone, e-mail,
   numéro d'immatriculation.
-- **Hébergeur** : nom, dénomination ou raison sociale, adresse et téléphone (ex. Cloudflare, Inc. —
-  coordonnées à reprendre à jour sur le site de Cloudflare).
+- **Hébergeur** : nom, dénomination ou raison sociale, adresse et téléphone. Pour nos sites :
+  Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA, +1 (650) 319-8930 (coordonnées
+  publiées par Cloudflare, https://www.cloudflare.com/website-terms/, relevées le 20 oct 2026). C'est
+  le défaut de `legal.host` dans `src/lib/schema.ts`.
 - Profession réglementée : ordre, titre, règles professionnelles.
 - Sanction : jusqu'à 1 an d'emprisonnement et 75 000 € d'amende (personne physique), 375 000 € pour
   une personne morale.
@@ -170,9 +177,9 @@ https://www.legalplace.fr/guides/mentions-legales/ (secondaire)
   sous **2 jours ouvrés**, demande mineure sous **5 jours ouvrés**, mises à jour de sécurité, une
   sauvegarde du code (dépôt Git) et des contenus.
 - **Résiliation et réversibilité** : le domaine est **au nom du client** dès le départ, ce qui supprime
-  le principal verrou. En fin d'abonnement : remise des sources (archive ou dépôt Git), du build, des
-  contenus, de l'export des formulaires, et accompagnement au changement de DNS ; puis suppression de
-  nos copies, hors archives comptables.
+  le principal verrou. Il n'y a pas d'abonnement à résilier (modèle du 20 oct 2026) : à l'arrêt de
+  l'hébergement gratuit, remise des sources (archive ou dépôt Git), du build, des contenus, de la zone
+  DNS et du code de transfert du domaine ; puis suppression de nos copies, hors archives comptables.
 - **Acompte** : pratique (30 à 50 %), mais **pas avant J+7** pour un client démarché (§ 1.2). Un
   acompte est juridiquement un premier versement qui engage les deux parties ; ne pas l'appeler
   « arrhes », qui permettraient un dédit.
@@ -210,7 +217,7 @@ factures électroniques obligatoire depuis le 1er sept. 2026, émission au forma
 
 ## Partie 2 — Projet de conditions générales de vente
 
-> **PROJET — À FAIRE VALIDER PAR UN AVOCAT AVANT USAGE.** Les éléments entre [crochets] sont à
+> **PROJET À FAIRE RELIRE UNE FOIS PAR UN AVOCAT AVANT USAGE.** Les éléments entre [crochets] sont à
 > compléter. Les variantes « micro-entreprise » et « SAS » sont signalées. Le devis signé et ses
 > annexes priment sur les CGV en cas de contradiction.
 
@@ -233,8 +240,13 @@ immatriculée sous le numéro SIREN [numéro] [RCS [ville] / registre national d
 2.1. Les présentes conditions générales (« CGV ») régissent les prestations proposées par le
 Prestataire à des **professionnels** (« le Client ») agissant pour les besoins de leur activité :
 (a) l'audit gratuit ; (b) la conception et la réalisation d'un site internet vitrine (« le Site ») au
-prix forfaitaire indiqué au devis ; (c) en option, un service mensuel d'hébergement et de maintenance
-(« l'Abonnement »).
+prix forfaitaire indiqué au devis, nom de domaine compris (article 11) ; (c) l'hébergement gratuit du
+Site, à titre accessoire (article 12) ; (d) les modifications demandées après la livraison, au
+forfait (article 12 bis).
+
+2.1 bis. **Aucun abonnement.** Le Prestataire ne propose ni abonnement, ni contrat d'entretien
+mensuel, ni facturation récurrente. Seuls sont facturés le Site et, le cas échéant, les modifications
+commandées une par une.
 
 2.2. Le Prestataire ne contracte pas avec des consommateurs. Toute personne qui commande déclare agir à
 des fins professionnelles.
@@ -242,7 +254,7 @@ des fins professionnelles.
 2.3. Les CGV sont communiquées avec chaque devis et disponibles sur [URL]. La signature du devis vaut
 acceptation des CGV. Les CGV prévalent sur les conditions d'achat du Client, sauf accord écrit
 contraire. Les documents contractuels s'appliquent dans l'ordre suivant : (1) le devis signé et ses
-annexes, (2) l'annexe « Protection des données » le cas échéant, (3) les présentes CGV.
+annexes, (2) l'annexe 2 « Protection des données », (3) les présentes CGV.
 
 #### Article 3 — Audit gratuit
 
@@ -302,23 +314,23 @@ prévu à l'article 5.4, dans les quatorze (14) jours.
 6.1. Les prix sont ceux du devis, exprimés en euros **hors taxes**. [Variante franchise : « TVA non
 applicable, art. 293 B du CGI. »] [Variante assujetti : la TVA au taux en vigueur s'ajoute.]
 
-6.2. Prix forfaitaire du Site : [montant] € HT, pour le périmètre décrit au devis. Toute demande hors
-périmètre fait l'objet d'un devis complémentaire ou est facturée au tarif de [montant] € HT de l'heure,
-après accord écrit (e-mail) du Client.
+6.2. Prix forfaitaire du Site : [prix à fixer] € HT, pour le périmètre décrit au devis. Ce prix
+comprend l'enregistrement du nom de domaine pour dix (10) ans (article 11). Toute demande hors
+périmètre fait l'objet d'un devis complémentaire au forfait (article 12 bis), après accord écrit
+(e-mail) du Client.
 
-6.3. Abonnement : [montant] € HT par mois, payable [d'avance, le [jour] de chaque mois / par
-prélèvement]. Le Prestataire peut réviser ce prix une fois par an en informant le Client au moins
-[deux (2)] mois avant ; le Client peut alors résilier sans frais avant l'entrée en vigueur du nouveau
-prix.
+6.3. Aucun montant n'est dû par le Client après le paiement du solde, sauf modification qu'il commande
+lui-même (article 12 bis). L'hébergement est gratuit (article 12).
 
-6.4. Les frais tiers éventuels (nom de domaine, licences, photographies payantes, services
-additionnels choisis par le Client) sont à la charge du Client et réglés directement par lui auprès du
-fournisseur, sauf mention contraire du devis.
+6.4. Les frais tiers éventuels choisis par le Client (licences, photographies payantes, boîte mail,
+paiement en ligne, agenda en ligne, autres services) sont à sa charge et réglés directement par lui
+auprès du fournisseur, sur un compte à son nom, sauf mention contraire du devis.
 
 #### Article 7 — Modalités de paiement
 
 7.1. Échéancier par défaut du Site : **acompte de [30] %** à la commande (sous réserve de l'article
-5.3), **solde à la livraison** du Site, avant la mise en ligne sur le domaine du Client.
+5.3 : jamais avant le 8e jour pour un Client visé à l'article 4.3), **solde à la validation** du Site
+(article 9.3). **La mise en ligne n'a lieu qu'après paiement complet du solde.**
 
 7.2. Les factures sont payables à **[réception / trente (30) jours]** à compter de leur date
 d'émission, par virement à [IBAN] [ou prélèvement / carte]. Aucun escompte n'est accordé pour
@@ -331,9 +343,14 @@ majoré de dix (10) points**, et une **indemnité forfaitaire pour frais de reco
 complémentaire sur justificatifs.
 
 7.4. En cas de retard de plus de [15] jours après une relance écrite restée sans effet, le Prestataire
-peut suspendre ses prestations (travaux en cours, maintenance), après préavis de [8] jours, sans que
-cette suspension puisse lui être reprochée. La mise en ligne ou le transfert final du Site peut être
-différé jusqu'au paiement complet.
+peut suspendre les **travaux en cours** (production, modification commandée), après préavis de [8]
+jours, sans que cette suspension puisse lui être reprochée. La mise en ligne d'un Site non soldé est
+différée jusqu'au paiement complet.
+
+7.5. **Pas de site pris en otage.** Un Site mis en ligne, donc payé, n'est jamais suspendu, retiré ni
+rendu inaccessible par le Prestataire pour obtenir le paiement d'une autre somme (notamment une
+modification commandée plus tard). Le Prestataire recouvre cette somme par les voies prévues aux
+articles 7.3 et 19.
 
 #### Article 8 — Obligations du Client et contenus
 
@@ -373,8 +390,9 @@ sections) ; un changement de structure ou de direction graphique est une demande
 Client, mise en ligne demandée par le Client, ou expiration de la fenêtre de corrections sans demande
 de correction relevant du périmètre.
 
-9.4. **Mise en ligne** : le Site est publié sur le nom de domaine du Client (article 11) après paiement
-du solde.
+9.4. **Mise en ligne** : le Site est publié sur le nom de domaine du Client (article 11) **uniquement
+après paiement complet du solde**. Avant, il reste visible pour validation sur une adresse
+d'aperçu privée, non référencée.
 
 #### Article 10 — Propriété intellectuelle
 
@@ -402,8 +420,11 @@ Composants Génériques séparément du Site.
 Site restent soumis à leurs licences respectives, dont la liste est remise au Client à la livraison
 (fichier de crédits). Le Client s'engage à les respecter, notamment les obligations d'attribution.
 
-10.4. **Avant complet paiement**, le Client ne dispose d'aucun droit sur le Site, hormis le droit de
-le consulter pour validation.
+10.4. **Transfert de propriété.** La propriété du Site (fichiers sources, fichiers publiés, contenus
+créés pour le Client) et la cession des droits de l'article 10.1 sont transférées au Client **au
+paiement complet du prix**. Avant, le Client ne dispose d'aucun droit sur le Site, hormis le droit de
+le consulter pour validation. Ensuite, le Client peut obtenir à tout moment une copie complète de son
+Site (sources et version publiée), gratuitement, sous quinze (15) jours.
 
 10.5. **Mention de l'auteur.** Le Prestataire peut faire figurer une mention discrète « Site réalisé
 par Finck & Fisch » en pied de page ; le Client peut la retirer sur simple demande.
@@ -414,59 +435,73 @@ moment pour l'avenir.
 
 #### Article 11 — Nom de domaine
 
-11.1. Le nom de domaine du Site est **enregistré au nom du Client**, qui en est titulaire, auprès d'un
-bureau d'enregistrement accrédité, sur un compte au nom du Client. Le Prestataire peut l'assister
-lors de l'achat ; il n'est jamais titulaire du domaine.
+11.1. Le Prestataire enregistre le nom de domaine choisi par le Client auprès d'un bureau
+d'enregistrement accrédité ([OVHcloud]), **au nom du Client, qui en est le seul titulaire**. Le
+Prestataire n'est jamais titulaire du domaine ; il en assure la gestion technique (DNS).
 
-11.2. Le Client reste seul responsable du renouvellement de son domaine et de la disponibilité de ses
-identifiants. Le Prestataire peut recevoir un accès délégué (gestion DNS) pour la mise en ligne et la
-maintenance ; cet accès est révocable à tout moment par le Client.
+11.2. Le domaine est **enregistré et payé d'avance pour dix (10) ans**, durée maximale pour un .fr.
+Ce coût est **compris dans le prix du Site** : aucune facture annuelle n'est adressée au Client. Le
+renouvellement automatique est désactivé. Au terme des dix ans, le domaine expire s'il n'est pas
+prolongé ; le Prestataire le rappelle au Client [trois (3)] mois avant s'il est encore en activité,
+et peut le prolonger sur devis.
 
-11.3. Le Client garantit que le nom de domaine choisi ne porte pas atteinte aux droits de tiers
-(marques, dénominations).
+11.3. **Code de transfert.** Sur simple demande, et d'office en cas d'arrêt de l'hébergement
+(article 12.4), le Prestataire remet gratuitement au Client le code d'autorisation de transfert de son
+domaine, sous quinze (15) jours. Le Client peut alors le transférer chez le bureau d'enregistrement de
+son choix.
 
-#### Article 12 — Abonnement hébergement et maintenance (optionnel)
+11.4. Le Client garantit que le nom de domaine choisi ne porte pas atteinte aux droits de tiers
+(marques, dénominations) et fournit des coordonnées de titulaire exactes. Pour un domaine qu'il
+possède déjà, il en reste gestionnaire ; le Prestataire ne modifie que ce qu'il faut pour la mise en
+ligne (serveurs de noms ou enregistrement DNS), après accord.
 
-12.1. **Souscription.** L'Abonnement est facultatif : le Site peut être livré sans Abonnement et
-hébergé par le Client ou par un tiers.
+#### Article 12 — Hébergement gratuit (accessoire)
 
-12.2. **Contenu.** L'Abonnement comprend, sauf disposition contraire du devis :
-- l'hébergement du Site chez le fournisseur choisi par le Prestataire ([Cloudflare Pages] ou
-  équivalent) et la gestion du certificat HTTPS ;
-- [le cas échéant] le transfert des messages du formulaire de contact vers l'adresse du Client ;
-- les mises à jour techniques et de sécurité ;
-- une sauvegarde du code source et des contenus ;
-- [jusqu'à [x] petites modifications de contenu par mois (texte, photo, horaires), non cumulables] ;
-- un contrôle périodique de bon fonctionnement.
+12.1. **Gratuité et caractère accessoire.** Après la mise en ligne, le Prestataire héberge le Site
+gratuitement, chez le fournisseur de son choix ([Cloudflare]), avec certificat HTTPS. Cet hébergement
+est un service **gratuit et accessoire** à la vente du Site : il n'est ni vendu ni facturé, et ne
+constitue pas un abonnement.
 
-12.3. **Niveaux de service.** Le Prestataire est tenu d'une **obligation de moyens**. La disponibilité
-du Site dépend de l'hébergeur et des réseaux ; aucun taux de disponibilité n'est garanti. Le
-Prestataire s'engage à prendre en charge : un **incident bloquant** (Site inaccessible, formulaire
-hors service) dans un délai de **deux (2) jours ouvrés** après son signalement par e-mail à
-[adresse] ; une **demande de modification** incluse dans un délai de **cinq (5) jours ouvrés**.
+12.2. **Moyens.** Le Prestataire est tenu d'une **obligation de moyens**. La disponibilité du Site
+dépend de l'hébergeur et des réseaux ; aucun taux de disponibilité n'est garanti. Un incident bloquant
+(Site inaccessible, formulaire hors service) signalé par e-mail à [adresse] est pris en charge dans un
+délai raisonnable, en principe [deux (2)] jours ouvrés.
 
-12.4. **Durée.** L'Abonnement prend effet à la mise en ligne du Site et est conclu [pour une durée
-indéterminée, sans engagement de durée] / [pour une durée initiale de [douze (12)] mois puis
-renouvelé tacitement par périodes d'un mois].
+12.3. **Formulaire de contact.** Les messages envoyés par les visiteurs sont relayés par e-mail à
+l'adresse indiquée par le Client, sans être conservés par le Prestataire. Le Client confirme une fois
+son adresse en cliquant sur le lien de vérification envoyé par l'hébergeur.
 
-12.5. **Résiliation par le Client** : à tout moment [à l'issue de la période initiale], par e-mail ou
-lettre, avec un **préavis d'un (1) mois** ; le mois en cours reste dû.
+12.4. **Arrêt par le Prestataire.** Le Prestataire peut mettre fin à l'hébergement gratuit, pour
+tout motif, notamment l'arrêt de son activité, avec un **préavis de trois (3) mois** notifié par
+e-mail. Avant la date d'arrêt, il remet d'office au Client : (a) le Site complet (fichiers sources et
+version publiée, prêts à être hébergés ailleurs) ; (b) l'export de la zone DNS du domaine ; (c) le
+code de transfert du domaine (article 11.3) ; (d) une notice de mise en ligne chez un autre hébergeur.
+Le Site reste en ligne jusqu'à la fin du préavis. Après cette date, aucune des parties n'a plus
+d'obligation ni de frais envers l'autre au titre de l'hébergement.
 
-12.6. **Résiliation par le Prestataire** : avec un préavis de **trois (3) mois**, ou sans préavis en
-cas de manquement grave du Client (notamment impayé de plus de [30] jours après mise en demeure
-restée sans effet pendant [15] jours, ou contenu manifestement illicite).
+12.5. **Départ du Client.** Le Client peut à tout moment faire héberger son Site ailleurs : le
+Prestataire lui remet les éléments de l'article 12.4 sous quinze (15) jours, gratuitement.
 
-12.7. **Réversibilité.** À la fin de l'Abonnement, quelle qu'en soit la cause, et sous réserve du
-paiement des sommes dues, le Prestataire remet au Client dans un délai de **quinze (15) jours** :
-(a) une archive complète des fichiers sources du Site, ou l'accès à son dépôt de code ; (b) la
-version publiée (fichiers statiques) ; (c) les contenus et médias ; (d) l'export des messages de
-formulaire encore conservés ; (e) les instructions de mise en ligne et de redirection DNS. Le
-Prestataire maintient le Site en ligne jusqu'à la fin du préavis et assiste le Client pour le
-changement de DNS [dans la limite d'une (1) heure]. Il supprime ensuite ses copies, à l'exception de
-ce qu'il doit conserver pour des obligations légales.
+12.6. **Suspension.** Le Prestataire peut suspendre l'hébergement sans préavis uniquement en cas de
+contenu manifestement illicite ou de faille de sécurité, le temps d'y remédier. Il ne le suspend
+jamais pour un impayé (article 7.5).
 
-12.8. **Hors Abonnement** : les interventions sont facturées au tarif horaire du devis ou sur devis
-préalable.
+#### Article 12 bis — Modifications après livraison (au forfait)
+
+12 bis.1. Passé la fenêtre de corrections (article 9.2), toute modification du Site (texte, photo,
+horaires, tarifs, page nouvelle) se commande **à la demande**, au **forfait** indiqué dans un devis
+court accepté par e-mail. Il n'existe pas de contrat d'entretien ni de forfait mensuel.
+
+12 bis.2. Le Prestataire indique le délai de réalisation dans le devis. La modification est
+facturée à sa mise en ligne, payable à [réception / quinze (15) jours].
+
+#### Article 12 ter — Limites du service
+
+Le Prestataire **n'héberge pas** et ne fournit pas : de boîte mail, de paiement en ligne, d'agenda ou
+de prise de rendez-vous, d'avis en direct. Lorsque le Client utilise de tels services (par exemple
+Stripe, Planity, Calendly, fiche Google), ils restent sur **ses propres comptes**, à ses frais, et le
+Site y renvoie par un lien. Les avis affichés sur le Site sont de vrais avis recopiés avec l'accord du
+Client, avec un lien vers leur source.
 
 #### Article 13 — Responsabilité
 
@@ -486,7 +521,8 @@ Client ou par un tiers.
 
 13.4. **Plafond.** Sauf faute lourde ou dolosive, et sauf dommage corporel, la responsabilité totale du
 Prestataire, toutes causes confondues, est limitée **au montant HT effectivement payé par le Client**
-au titre du Site, et, pour l'Abonnement, **aux sommes payées au cours des douze (12) derniers mois**.
+au titre du Site et des modifications commandées. L'hébergement étant gratuit, il n'ouvre droit à
+aucune indemnité au-delà de ce plafond.
 
 13.5. Le Prestataire déclare être assuré en responsabilité civile professionnelle auprès de
 [assureur], police n° [numéro].
@@ -498,9 +534,10 @@ commerciale (base légale : exécution du contrat et intérêt légitime), penda
 puis [3] ans pour la prospection, et 10 ans pour les pièces comptables. Les personnes concernées
 peuvent exercer leurs droits à [e-mail] et saisir la CNIL.
 
-14.2. Lorsque, dans le cadre de l'Abonnement, le Prestataire héberge le Site ou achemine les messages
-des visiteurs du Site, il agit en qualité de **sous-traitant** du Client au sens de l'article 28 du
-RGPD, dans les conditions de l'**annexe 2**, qui fait partie intégrante du contrat.
+14.2. Lorsque le Prestataire héberge le Site et relaie les messages des visiteurs du Site vers le
+Client (article 12.3), il agit en qualité de **sous-traitant** du Client au sens de l'article 28 du
+RGPD, dans les conditions de l'**annexe 2**, qui fait partie intégrante du contrat. Il ne stocke pas
+ces messages.
 
 #### Article 15 — Confidentialité
 
@@ -532,9 +569,9 @@ fait de ne pas se prévaloir d'une clause ne vaut pas renonciation.
 18.3. **Preuve** : les e-mails échangés aux adresses indiquées au devis valent preuve des demandes,
 validations et notifications, sauf lorsqu'un écrit recommandé est exigé.
 
-18.4. **Modification des CGV** : les CGV applicables sont celles en vigueur à la date du devis ; pour
-l'Abonnement, une nouvelle version est notifiée au moins [un (1)] mois avant son application, et le
-Client peut résilier sans frais avant.
+18.4. **Modification des CGV** : les CGV applicables sont celles en vigueur à la date du devis. Pour
+l'hébergement gratuit, une nouvelle version est notifiée au moins [un (1)] mois avant son application ;
+le Client peut alors reprendre son Site (article 12.5).
 
 #### Article 19 — Droit applicable, médiation et litiges
 
@@ -563,37 +600,28 @@ autres cas, les règles légales de compétence s'appliquent.
 
 #### Annexe 2 — Clauses de sous-traitance des données personnelles (art. 28 RGPD)
 
-1. **Objet et durée** : hébergement du Site et, le cas échéant, transmission au Client des messages
-   envoyés par les visiteurs via le formulaire de contact, pendant la durée de l'Abonnement.
-2. **Nature et finalité** : stockage technique, acheminement, sauvegarde ; finalité = permettre au
+1. **Objet et durée** : relais des messages envoyés par les visiteurs via le formulaire de contact du
+   Site vers l'adresse e-mail du Client, et hébergement du Site, tant que dure l'hébergement gratuit
+   (article 12).
+2. **Nature et finalité** : transmission, sans stockage par le Prestataire ; finalité = permettre au
    Client de recevoir les demandes de ses prospects et clients.
-3. **Données et personnes concernées** : visiteurs du Site et auteurs de messages : identité,
-   coordonnées, contenu du message, données techniques de connexion (journaux de l'hébergeur).
-4. **Instructions** : le Prestataire ne traite les données que sur instruction documentée du Client
-   (le présent contrat en constitue une) et l'informe si une instruction lui paraît contraire au RGPD.
-5. **Confidentialité** : les personnes autorisées à traiter les données sont soumises à une obligation
-   de confidentialité.
-6. **Sécurité (art. 32)** : HTTPS, accès restreints et authentification forte aux comptes
-   d'administration, protection anti-spam du formulaire, minimisation (pas de stockage durable des
-   messages au-delà de [30] jours si le fonctionnement le permet), sauvegarde.
-7. **Sous-traitants ultérieurs autorisés** : [Cloudflare, Inc. (hébergement, routage e-mail) — transfert
-   encadré par le Data Privacy Framework UE–États-Unis et/ou clauses contractuelles types] ; [autre
-   fournisseur]. Le Prestataire informe le Client de tout changement envisagé ; le Client peut s'y
-   opposer et, dans ce cas, résilier l'Abonnement sans frais.
-8. **Droits des personnes** : le Prestataire aide le Client à répondre aux demandes d'exercice de
-   droits et lui transmet sans délai toute demande reçue directement.
-9. **Violation de données** : notification au Client dans les meilleurs délais et au plus tard
-   **[48] heures** après en avoir pris connaissance, avec les informations utiles, pour permettre au
-   Client de notifier la CNIL dans les 72 heures si nécessaire.
-10. **Assistance** : aide raisonnable pour les analyses d'impact et la consultation préalable, le cas
-    échéant.
-11. **Fin du contrat** : restitution des données (article 12.7) puis suppression des copies sous
-    [30] jours, sauf obligation légale de conservation.
-12. **Audit** : le Prestataire met à disposition les informations nécessaires pour démontrer le
-    respect de ses obligations ; un audit sur pièces est possible une fois par an, aux frais du Client,
-    avec un préavis de [30] jours.
-13. **Registre** : le Prestataire tient un registre des catégories d'activités de traitement effectuées
-    pour le compte de ses clients (art. 30.2 RGPD).
+3. **Données et personnes concernées** : auteurs de messages (nom, téléphone, e-mail, contenu du
+   message) ; visiteurs du Site (données techniques de connexion traitées par l'hébergeur).
+4. **Instructions** : le Prestataire ne traite les données que pour ce relais (le présent contrat vaut
+   instruction documentée) et prévient le Client si une instruction lui paraît contraire au RGPD.
+5. **Confidentialité et sécurité (art. 32)** : seuls les fondateurs ont accès au compte d'hébergement,
+   protégé par une authentification forte ; HTTPS ; protection anti-spam ; aucun message conservé.
+6. **Sous-traitant ultérieur autorisé** : [Cloudflare, Inc. (hébergement, routage e-mail), transfert
+   encadré par le Data Privacy Framework UE–États-Unis et/ou des clauses contractuelles types]. Tout
+   changement est annoncé au Client, qui peut alors reprendre son Site (article 12.5).
+7. **Assistance et violations** : le Prestataire transmet sans délai au Client toute demande d'une
+   personne concernée et lui notifie toute violation de données dans les meilleurs délais, au plus
+   tard **[48] heures** après en avoir eu connaissance.
+8. **Fin** : à la fin de l'hébergement, le formulaire est déconnecté ; aucune donnée n'est à
+   restituer, le Prestataire n'en conservant pas. Il fournit sur demande les informations utiles pour
+   démontrer le respect de ces clauses.
+9. **Registre** : le Prestataire tient un registre des traitements effectués pour le compte de ses
+   clients (art. 30.2 RGPD).
 
 ---
 
@@ -603,14 +631,20 @@ autres cas, les règles légales de compétence s'appliquent.
    salariés démarchés, et sa sanction.
 2. **Formulation de la renonciation** (art. 5.5) au regard de L221-28 1° pour une prestation livrée en
    72 h.
-3. **Cohérence commerciale** : le discours de vente dit « sans abonnement » (`studio/commercial/COMMERCIAL.md`).
-   L'Abonnement doit rester optionnel et sans engagement, sinon il faut corriger le discours.
+3. **Hébergement gratuit accessoire** (article 12) : vérifier que la gratuité, l'obligation de moyens
+   et l'arrêt à 3 mois de préavis tiennent face à l'art. 1171 C. civ. (contrat d'adhésion), et que la
+   clause « pas de site pris en otage » (7.5) est bien rédigée. Plus d'abonnement depuis le
+   20 oct 2026 : le discours « sans abonnement » de `COMMERCIAL.md` est exact.
+3 bis. **Domaine au nom du client acheté par F&F** (article 11) : faut-il une case « j'autorise
+   Finck & Fisch à enregistrer le domaine à mon nom » au devis ? Si F&F disparaît sans avoir remis le
+   code de transfert, le Client, titulaire, peut-il l'obtenir directement du bureau d'enregistrement
+   ou de l'Afnic ? (a priori oui : à confirmer).
 4. **Équilibre de la clause limitative** (C. civ. 1170 / 1171) et du délai de 72 h ouvrées
    (engagement de moyens renforcé ou de résultat ?).
 5. **Clause attributive de juridiction** : tribunal compétent à Toulouse (tribunal de commerce ou
    tribunal des activités économiques selon l'expérimentation en cours **[non vérifié]**).
-6. **Liste à jour des sous-traitants ultérieurs** et coordonnées exactes de l'hébergeur pour les
-   mentions légales des clients.
+6. **Liste à jour des sous-traitants ultérieurs** (Cloudflare seul au 20 oct 2026). Coordonnées de
+   l'hébergeur relevées le 20 oct 2026 (§ 1.5).
 7. Version **B2C** séparée si le studio vend un jour à des particuliers.
 
 Sources générales : https://www.legifrance.gouv.fr · https://entreprendre.service-public.gouv.fr ·
