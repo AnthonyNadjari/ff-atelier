@@ -1,0 +1,30 @@
+# Bonton Paris — https://www.bonton.fr/
+Titre « Collection Automne - Hiver 26 – Bonton Paris », `lang="fr"`, description « Découvrez tout l'univers de la mode enfant BONTON ✓De la naissance au 12 ans ✓Livraison offerte dès 150€ d'achat », technologie lue : Shopify, jQuery. Démontage automatique du 2026-10-20 (`ff demonter`, mesures brutes dans `bonton.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « MANTEAUX » ; image plein écran (90 % de l'écran) ; bouton principal « IGNORER ET PASSER AU CONTENU » en haut à gauche (-1, -1 px) ; 301 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « MANTEAUX » ; image plein écran (75 % de l'écran) ; bouton principal « IGNORER ET PASSER AU CONTENU » en haut à gauche (-1, -1 px) ; 39 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 8 élément(s) (`nav.menu-drawer__navigation`, `div.menu-drawer__inner-submenu`, `div.menu-drawer__utility-links`).
+Nav : 20 lien(s) — Bonton Paris, FILLE, Bébé 3M - 3A, Voir tout 👀, Vestes - Manteaux, Robes, Pulls - Cardigans - Sweats, T-shirts - Blouses, Ensembles - Combinaisons, Pantalons - Shorts, Bodies - Pyjamas, Chaussures - Chaussons (+8) ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div#shopify-section-sections--25002024862077__announcement-bar` (0,0 écran, 19 mots, 0 img) → `main#MainContent` « MANTEAUX » (3,1 écrans, 205 mots, 22 img) → `div#shopify-section-reassurance` (0,2 écran, 25 mots, 5 img) → `div#shopify-section-sections--25002024829309__footer` « NEWSLETTER » (0,5 écran, 102 mots, 1 img) → `section#shopify-section-sections--25002024829309__17531077344190613f` (0,1 écran, 6 mots, 0 img). Calques hors flux (fixes/absolus) : `a.skip-to-content-link` (absolute, 32 px, 5 mots), `div#shopify-section-sections--25002024862077__header` (sticky, 68 px, 13 mots).
+Pied de page : 19 lien(s) — [OK], 06 64 24 65 27, Prendre rendez-vous, E-carte cadeau, Newspaper, Mon compte, Qui sommes-nous ?, Nos boutiques, Bonus Réparation, Confidentialité des données (+9). Téléphone cliquable : oui (1, tel:+33664246527). Formulaire : 2 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « E-carte cadeau » (/products/e-carte), « Prendre rendez-vous » (https://user.clicrdv.com/bonton).
+En 3 secondes : à juger sur `captures/bonton-d.webp` (mesuré : fond du premier écran #0e0e0e, 8 image(s) et 301 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **owners-narrow**, 42 px / 30 px téléphone, graisse 700, interlignage 1,14, capitales, interlettrage 1.68px ; h2 **owners-narrow**, 30 px / 20 px téléphone, graisse 700, interlignage 1,20, capitales, interlettrage 1.2px ; corps **futura-pt**, 16 px / 16 px téléphone, graisse 450, interlignage 1,38 ; boutons **futura-pt**, 16 px / 16 px téléphone, graisse 450, interlignage 1,38, capitales ; nav **futura-pt**, 16 px / 16 px téléphone, graisse 450.
+Sources `@font-face` : auto-hébergée (Jost, slick) ; tiers (static.klaviyo.com) (Caveat-Brush-Klaviyo-Hosted) ; fichiers chargés : https://use.typekit.net/pda7lxj.css, https://www.bonton.fr/cdn/fonts/jost/jost_n6.ec1178db7a7515114a2d84e3dd680832b7af8b99.woff2, https://use.typekit.net/qtk4kvk.css, https://use.typekit.net/pqq3yff.css. Familles en usage sur le texte visible : futura-pt ×155, owners-narrow ×35, Arial ×1. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff (premier écran #0e0e0e), texte #0e0e0e (contraste 19,30:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (52 %), #0e0e0e (30 %), #f7f5f6 (8 %), #fbfbfb (8 %), #2c3050 (3 %) ; textes par nombre de caractères : #0e0e0e (84 %), #ffffff (8 %), #f3f3f3 (7 %), #000000 (1 %). Images : 23 `<img>` visibles, 1 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 1 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Swiper (window.Swiper), jQuery (window.jQuery), Shopify (window.Shopify), Slick (script slick.min.js). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.15s ease` ×139, `all 0.2s ease` ×16, `transform 0.3s ease` ×6, `all 0.25s cubic-bezier(0.4, 0, 0, 1)` ×6, `text-decoration-thickness 0.1s ease` ×5, `all 0.4s cubic-bezier(0.4, 0, 0, 1)` ×4, `transform 0.5s ease` ×4, `box-shadow 0.1s ease` ×4, `transform 0.15s ease` ×1, `opacity 0.15s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 1 bloc(s) de plus d'un écran (`div#shopify-section-sections--25002024862077__header` 3,9 écrans). Attributs de mouvement : `data-speed` ×1, `data-sticky-type` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/bonton-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `main#MainContent` « MANTEAUX » (3,1 écrans, 205 mots, 22 image(s)).
+2. L'élément le plus animé : `div#Slider-sections--25002024862077__announcement-bar` (attributs data-speed).
+3. Le bloc le plus singulier par sa structure : `div#shopify-section-sections--25002024829309__footer` « NEWSLETTER » (seule à contenir <form>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« E-carte cadeau », « Prendre rendez-vous »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/7 ordinateur, 0/7 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

@@ -1,0 +1,30 @@
+# The Fat Duck, Bray, Berkshire — https://thefatduck.co.uk/
+Titre « The Fat Duck, Bray, Berkshire », `lang="en"`, description « The Fat Duck Restaurant, Heston Blumenthal, awarded three Michelin stars, restaurant of the year, Best Restaurant in the World and Best Restaurant in the UK. », technologie lue : jQuery. Démontage automatique du 2026-10-20 (`ff demonter`, mesures brutes dans `thefatduck.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Eating at The Fat Duck is one of the most memorable experiences you’re ever likely to have at a dining table. » ; pas de média plein écran (5 image(s) dans l'écran) ; bouton principal « Accept all » en bas au centre (856, 804 px, dans une barre fixe) ; 267 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : bannière cookies couvrant 100 % de l'écran (« We use cookies on our site to enhance your user experience … ») ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « Eating at The Fat Duck is one of the most memorable experiences you’re ever likely to have at a dining table. » ; fond en image plein écran (74 % de l'écran) ; bouton principal « Accept all » en bas au centre (48, 650 px, dans une barre fixe) ; 245 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : bannière cookies couvrant 100 % de l'écran (« We use cookies on our site to enhance your user experience … ») ; bouge tout seul sans défilement : 19 élément(s) (`div`).
+Nav : 15 lien(s) — Home, News, Discover more, Heston Blumenthal, Reservations, Drinks List, Gift Shop, Careers, FAQs, Contact, Terms and Conditions, The Fat Duck (+3) ; boutons entre crochets. **Barre fixe en bas de l'écran (téléphone)** : Experiences, Book a Table.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.home-header` « Eating at The Fat Duck is one of the mo… » (0,2 écran, 34 mots, 1 img) → `section` (3,9 écrans, 226 mots, 10 img) → `div.container` (0,4 écran, 32 mots, 3 img) → `div.newsletter` (0,2 écran, 57 mots, 0 img) → `div.restaurants` (0,4 écran, 73 mots, 0 img) → `footer` (1,0 écran, 36 mots, 2 img). Calques hors flux (fixes/absolus) : `div#silktide-wrapper` (fixed, 900 px, 20 mots), `header.page-head` (fixed, 63 px, 36 mots), `div#promoModal` (fixed, 900 px, 100 mots), `div.modal-backdrop` (fixed, 900 px).
+Pied de page : 1 lien(s) — CONTACT. Téléphone cliquable : oui (1, tel:01628580333). Formulaire : aucun. Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Reservations » (/book-your-ticket), « Gift Shop » (https://thefatduck.giftpro.co.uk/), « Book a Table » (/book-your-ticket), « View Menu » (https://thefatduck.co.uk/the-fable-tree).
+En 3 secondes : à juger sur `captures/thefatduck-d.webp` (mesuré : fond du premier écran #fffdfa, 5 image(s) et 267 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Cormorant Garamond**, 40 px / 30 px téléphone, graisse 500, interlignage 1,20, italique ; h2 : non mesuré ; corps **Cormorant Garamond**, 18 px / 18 px téléphone, graisse 500, interlignage 1,15 ; boutons **Helvetica Neue**, 16 px / 16 px téléphone, graisse 400, interlignage 1,50 ; nav **Cormorant Garamond**, 18 px / 18 px téléphone, graisse 500, interlignage 1,00.
+Sources `@font-face` : auto-hébergée (Roboto, slick) ; fichiers chargés : https://fonts.googleapis.com/, https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap. Familles en usage sur le texte visible : Cormorant Garamond ×104, Helvetica Neue ×4, Inter ×1. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #fffdfa, texte #212529 (contraste 15,19:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #fffdfa (84 %), #000000 (14 %), #ffffff (2 %), #585858 (0 %) ; textes par nombre de caractères : #212529 (64 %), #000000 (27 %), #ffffff (7 %), #ff0000 (2 %), #9b9b9b (1 %). Images : 13 `<img>` visibles, 13 fond(s) en image, 4 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : GSAP (window.gsap), ScrollTrigger (window.ScrollTrigger), jQuery (window.jQuery), Slick (script slick.min.js). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.25s ease-in-out` ×4, `all 0.3s ease` ×2, `color 0.15s ease-in-out` ×2, `background-color 0.15s ease-in-out` ×2, `border-color 0.15s ease-in-out` ×2, `box-shadow 0.15s ease-in-out` ×2, `opacity 0.15s linear` ×2, `animation silktide-slideInDown 0.35s ease-out` ×1, `all 0.4s ease` ×1, `all 0.5s ease-in-out` ×1. Scroll lié : ScrollTrigger oui ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/thefatduck-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `section` (3,9 écrans, 226 mots, 10 image(s)).
+2. L'élément le plus animé : `a.btn` (4 transition(s) : color 0.15s ease-in-out ; background-color 0.15s ease-in-out).
+3. Le bloc le plus singulier par sa structure : `footer` (seule à contenir <svg>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« Reservations », « Gift Shop », « Book a Table », « View Menu »), barre d'actions fixe en bas sur téléphone.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : Cormorant Garamond, Inter ; boutons pilule : 0/10 ordinateur, 0/11 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : oui (bannière cookies, 100 % de l'écran) ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

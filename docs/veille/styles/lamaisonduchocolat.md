@@ -1,0 +1,30 @@
+# Maison du chocolat — https://www.lamaisonduchocolat.com/
+Titre « La Maison du Chocolat : Chocolats & Pâtisseries fines en ligne », `lang="fr"`, description « Découvrez les pâtisseries et chocolats artisanaux (ganaches, pralinés et truffes) signés La Maison du Chocolat. Livraison offerte dès 75€ partout en France. », technologie lue : Prismic, Tailwind. Démontage automatique du 2026-10-20 (`ff demonter`, mesures brutes dans `lamaisonduchocolat.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; image plein écran (80 % de l'écran) ; bouton principal « DÉCOUVRIR » en bas au centre (656, 734 px) ; 47 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 absent ; image plein écran (71 % de l'écran) ; bouton principal « DÉCOUVRIR » en bas au centre (131, 618 px) ; 33 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 1 élément(s) (`div.newsletter-popin-wrapper`).
+Nav : 17 lien(s) — Aller au contenu, [Accessibilité], Cadeaux d'affaires, [Besoin d'aide ?], [Pays et Langue], La maison du chocolat, Nous Trouver, Mon compte, [Mon panier], [CHOCOLATS], CHOCOLATS, [PÂTISSERIES] (+5) ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.sticky-wrapper` (0,2 écran, 39 mots, 1 img) → `main#maincontent` « CALENDRIER DE L'AVENT VERTIGES » (6,5 écrans, 484 mots, 36 img) → `div.page-footer-wrapper` « UN CADEAU CHOCOLATÉ VOUS ATTEND » (1,1 écran, 252 mots, 1 img). Calques hors flux (fixes/absolus) : `div#newsletter-popin` (fixed, 900 px, 77 mots).
+Pied de page : 30 lien(s) — LIVRAISON OFFERTE Dès 75€ en France. cli, CLICK & COLLECT Retrait boutique en 2 he, NOS BOUTIQUES Trouvez la plus proche. cl, BESOIN D'AIDE ? Le service client est à , [JE M'INSCRIS], [En savoir plus sur l' Utilisation des do], La Maison du Chocolat - Paris, [LA MAISON DU CHOCOLAT], Une Maison Historique, Une Maison de Création (+20). Téléphone cliquable : oui (2, tel:0155518318). Formulaire : 8 (0 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Cadeaux d'affaires » (https://cadeaux-entreprises.lamaisonduchocolat.com/fr_fr/), « CADEAUX » (), « CADEAUX ENTREPRISE » (https://www.lamaisonduchocolat.com/fr_fr/cadeaux-entreprise), « BOITES CADEAUX » (https://www.lamaisonduchocolat.com/fr_fr/cadeaux-liste/boites-cadeaux-chocolat), « LIVRAISON OFFERTE Dès 75€ en France. cli » (https://www.lamaisonduchocolat.com/fr_fr/info-livraison/), « Livraison » (https://www.lamaisonduchocolat.com/fr_fr/delivery-info), « Suivre une commande » (https://www.lamaisonduchocolat.com/fr_fr/sales/guest/form), « Facebook La Maison du chocolat, s'ouvre » (https://www.facebook.com/LaMaisonDuChocolat).
+En 3 secondes : à juger sur `captures/lamaisonduchocolat-d.webp` (mesuré : fond du premier écran #ffffff, 3 image(s) et 47 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Montserrat**, 16 px / 16 px téléphone, graisse 400, interlignage 1,50 ; h2 **Montserrat**, 20 px / 18 px téléphone, graisse 600, interlignage 1,50, capitales, interlettrage 3px ; corps **Montserrat**, 10 px / 12 px téléphone, graisse 400, interlignage 1,20, interlettrage 0.25px ; boutons **Montserrat**, 16 px / 16 px téléphone, graisse 400, interlignage 0,75 ; nav **Montserrat**, 16 px / 16 px téléphone, graisse 400, interlignage 1,50.
+Sources `@font-face` : feuilles d'origine croisée non lisibles () ; fichiers chargés : https://fonts.googleapis.com/. Familles en usage sur le texte visible : Montserrat ×184. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #130a0a (contraste 19,53:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (84 %), #000000 (16 %), #151515 (0 %) ; textes par nombre de caractères : #130a0a (59 %), #ffffff (34 %), #000000 (7 %), #6b7280 (1 %). Images : 35 `<img>` visibles, 2 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Alpine (window.Alpine). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `transform 1.5s ease` ×13, `all 0.2s cubic-bezier(0.4, 0, 0.2, 1)` ×8, `color 0.5s cubic-bezier(0.4, 0, 0.2, 1)` ×6, `color 0.15s cubic-bezier(0.4, 0, 0.2, 1)` ×4, `all 0.5s ease` ×2, `animation topbanner-scroll 18s steps(3) infinite` ×1, `animation topbanner-slide 6s ease-in-out infinite` ×1, `all 0.15s cubic-bezier(0.4, 0, 0.2, 1)` ×1, `all 0.3s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-enable-parallax` ×1, `data-parallax-speed` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/lamaisonduchocolat-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `main#maincontent` « CALENDRIER DE L'AVENT VERTIGES » (6,5 écrans, 484 mots, 36 image(s)).
+2. L'élément le plus animé : `div` (attributs data-enable-parallax, data-parallax-speed).
+3. Le bloc le plus singulier par sa structure : `div.sticky-wrapper` (contient <svg>, <form>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« Cadeaux d'affaires », « CADEAUX », « CADEAUX ENTREPRISE », « BOITES CADEAUX », « LIVRAISON OFFERTE Dès 75€ en France. cli », « Livraison », « Suivre une commande », « Facebook La Maison du chocolat, s'ouvre »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 8/31 ordinateur, 8/22 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

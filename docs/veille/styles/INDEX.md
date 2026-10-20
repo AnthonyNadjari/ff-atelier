@@ -58,3 +58,25 @@ d'origine de la liste IA). Écartés au démontage : [careofchan](careofchan.md)
 [sgrappa](sgrappa.md) (fenêtre cookies qui masque la page), [takearecess](takearecess.md) (couleurs relevées sans
 rapport avec la page vue). Refusés par le réseau : fortheloveofbread, morningbaker6am, moondeliverscakes, saporienatura,
 mapfurniture (certificat expiré), oliverbrewingco.
+| bellocq | https://www.bellocq.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| heathceramics | https://www.heathceramics.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| tartinebakery | https://www.tartinebakery.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| stjohnrestaurant | https://stjohnrestaurant.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| pierrehermeparis | https://www.pierreherme.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| thefatduck | https://thefatduck.co.uk | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| lamaisonduchocolat | https://www.lamaisonduchocolat.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| sweetgreen | https://www.sweetgreen.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| sunspel | https://www.sunspel.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| fortnumandmason | https://www.fortnumandmason.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| lesaintjames | https://www.saint-james.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| bonton | https://www.bonton.fr | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| hotelcostes | https://www.hotelcostes.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| frama | https://www.framacph.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| hay | https://www.hay.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| thehoxton | https://thehoxton.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| cubitts | https://www.cubitts.co.uk | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| formafantasma | https://www.formafantasma.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| normcph | https://www.normcph.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| fritzhansen | https://www.fritzhansen.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| stelton | https://www.stelton.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| nomos | https://nomos-glashuette.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |

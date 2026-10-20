@@ -1,0 +1,30 @@
+# Fritz Hansen — https://www.fritzhansen.com/
+Titre « Furniture, lighting and accessory design - Fritz Hansen », `lang="en"`, technologie lue : aucune reconnue. Démontage automatique du 2026-10-20 (`ff demonter`, mesures brutes dans `fritzhansen.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « PK22™ & PK61™ » ; image plein écran (97 % de l'écran) ; bouton principal « DECLINE ALL » à mi-hauteur au centre (460, 529 px, dans une barre fixe) ; 103 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : bannière cookies couvrant 100 % de l'écran (« THE WEBSITE USES COOKIES Some are used for statistical purp… ») ; bouge tout seul sans défilement : 1 élément(s) (`div.needsclick`).
+Téléphone (390x844) : h1 « PK22™ & PK61™ » ; pas de média plein écran (1 image(s) dans l'écran) ; bouton principal « DECLINE ALL » à mi-hauteur à gauche (35, 489 px, dans une barre fixe) ; 91 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : bannière cookies couvrant 100 % de l'écran (« THE WEBSITE USES COOKIES Some are used for statistical purp… ») ; bouge tout seul sans défilement : 2 élément(s) (`div.hero-cover__text`, `div.needsclick`).
+Nav : 5 lien(s) — Privacy Policy, About cookies, [DECLINE ALL], [ACCEPT ALL], [Show details] ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.hero-cover` « PK22™ & PK61™ » (1,0 écran, 7 mots, 1 img) → `div.list-title` « SPRING NEWS 2026 » (0,2 écran, 36 mots, 0 img) → `div.nav-tiles-block` (0,7 écran, 7 mots, 0 img) → `div.carousel` « EXPLORE PRODUCTS » (0,7 écran, 84 mots, 0 img) → `div.nav-highlight-block` « SERIES 7™ – VERNER PANTON 100 » (1,0 écran, 57 mots, 0 img) → `div.micro-tile-grid` (0,5 écran, 8 mots, 0 img) → `div.carousel` « STORIES FROM FRITZ HANSEN » (1,1 écran, 121 mots, 0 img) → `div.site-footer__upper-part` « NEWSLETTER » (0,2 écran, 18 mots, 5 img). Calques hors flux (fixes/absolus) : `div#a11y-status-message` (absolute, 1 px, collé en bas), `div.mode-switch` (fixed, 30 px, 8 mots), `footer.site-footer` (sticky, 366 px, collé en bas, 38 mots).
+Pied de page : 15 lien(s) — My Fritz Hansen, Partner Portal, Privacy policy, Data Ethics Policy, Fighting Copies, Letter of Compliance, Whistleblowing Channel, Company profile, Career, Press (+5). Téléphone cliquable : oui (1, tel:+45 48 17 23 00). Formulaire : aucun. Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : aucune (réservation, commande, bon cadeau, devis, rendez-vous).
+En 3 secondes : à juger sur `captures/fritzhansen-d.webp` (mesuré : fond du premier écran #ffffff, 1 image(s) et 103 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **HansenGrotesque**, 49 px / 30 px téléphone, graisse 400, interlignage 1,29, capitales ; h2 **HansenGrotesque**, 27 px / 18 px téléphone, graisse 500, interlignage 1,20 ; corps **HansenGrotesque**, 15 px / 15 px téléphone, graisse 400, interlignage 1,47 ; boutons **HansenGrotesque**, 14 px / 14 px téléphone, graisse 700, capitales ; nav **HansenGrotesque**, 14 px / 22 px téléphone, graisse 400, interlignage 1,57.
+Sources `@font-face` : auto-hébergée (HansenGrotesque) ; fichiers chargés : https://www.fritzhansen.com/dist/ConsumersAndProfessionals/static/media/HansenGrotesque-Regular.7c880d9a.woff2, https://www.fritzhansen.com/dist/ConsumersAndProfessionals/static/media/HansenGrotesque-Medium.8f3b6176.woff2, https://www.fritzhansen.com/dist/ConsumersAndProfessionals/font/HansenGrotesque-Regular.woff2, https://www.fritzhansen.com/dist/ConsumersAndProfessionals/font/HansenGrotesque-Medium.woff2, https://www.fritzhansen.com/dist/ConsumersAndProfessionals/font/HansenGrotesque-Bold.woff2. Familles en usage sur le texte visible : HansenGrotesque ×120. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #000000 (contraste 21,00:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #000000 (40 %), #ffffff (34 %), #efeeeb (14 %), #d6e1b9 (8 %), #f6f6f6 (5 %) ; textes par nombre de caractères : #000000 (82 %), #ffffff (18 %), #222222 (0 %). Images : 1 `<img>` visibles, 0 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : aucune détectée (window.* et noms de scripts). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.25s cubic-bezier(0.25, 0.01, 0.25, 1)` ×31, `opacity 0.25s cubic-bezier(0.25, 0.01, 0.25, 1)` ×19, `all 0.3s ease` ×2, `background-color 0.2s ease` ×2, `opacity 0.2s ease` ×2, `height 0.2s ease` ×1, `padding 0.2s ease` ×1, `transform 0.5s ease` ×1, `color 0.2s ease` ×1, `transform 0.7s cubic-bezier(0.75, 0, 0.4, 1)` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 1 bloc(s) de plus d'un écran (`footer.site-footer` 6,2 écrans). Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/fritzhansen-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.carousel` « STORIES FROM FRITZ HANSEN » (1,1 écran, 121 mots, 0 image(s)).
+2. L'élément le plus animé : `div.mode-switch` (3 transition(s) : height 0.2s ease ; padding 0.2s ease).
+3. Le bloc le plus singulier par sa structure : `div.hero-cover` « PK22™ & PK61™ » (contient <svg>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/24 ordinateur, 0/30 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : oui (bannière cookies, 100 % de l'écran) ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

@@ -1,0 +1,706 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.formafantasma.com/",
+  "nom": "formafantasma",
+  "date": "2026-10-20",
+  "identite": {
+    "title": "FormaFantasma",
+    "siteName": "",
+    "lang": "en",
+    "description": "Formafantasma is a research-based design studio investigating the ecological, historical, political and social forces shaping the discipline of design today. Whether designing for a client or developing self – initiated projects, the studio applies the same rigorous attention to context, proc...",
+    "technologies": [
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 83,
+      "images": 0,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Allow selection",
+        "x": 1284.5,
+        "y": 826,
+        "cx": 0.9309027777777777,
+        "cy": 0.9455555555555556,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.11,
+        "texte": "This website uses cookies. Please refer to our policies for more details. Necessary Preferences Statistics Marketing Allow selection",
+        "selecteur": "div#CybotCookiebotDialog"
+      },
+      "barreBas": {
+        "selecteur": "div#CybotCookiebotDialog",
+        "hauteur": 98,
+        "largeur": 1440,
+        "liens": [
+          {
+            "texte": "policies",
+            "href": "/privacy"
+          },
+          {
+            "texte": "Allow selection",
+            "href": ""
+          }
+        ]
+      },
+      "scrollHeight": 2176,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.title",
+        "famille": "Times, \"Times New Roman\", serif",
+        "taille": 19.98,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.998px"
+      },
+      "p": null,
+      "bouton": {
+        "selecteur": "button#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection",
+        "famille": "sans-serif",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1.85,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.local",
+        "famille": "Times, \"Times New Roman\", serif",
+        "taille": 33.3,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [],
+      "famillesVisibles": [
+        {
+          "famille": "Times",
+          "n": 20
+        },
+        {
+          "famille": "sans-serif",
+          "n": 7
+        },
+        {
+          "famille": "Arial",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 3133440
+        },
+        {
+          "hex": "#f8f8f8",
+          "n": 1,
+          "poids": 141120
+        },
+        {
+          "hex": "#141414",
+          "n": 1,
+          "poids": 5600
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 4,
+          "poids": 449
+        },
+        {
+          "hex": "#0000ff",
+          "n": 17,
+          "poids": 140
+        },
+        {
+          "hex": "#141414",
+          "n": 6,
+          "poids": 109
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 15
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 3133440,
+          "part": 0.955
+        },
+        {
+          "hex": "#f8f8f8",
+          "n": 1,
+          "poids": 141120,
+          "part": 0.043
+        },
+        {
+          "hex": "#141414",
+          "n": 1,
+          "poids": 5600,
+          "part": 0.002
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 4,
+          "poids": 449,
+          "part": 0.63
+        },
+        {
+          "hex": "#0000ff",
+          "n": 17,
+          "poids": 140,
+          "part": 0.196
+        },
+        {
+          "hex": "#141414",
+          "n": 6,
+          "poids": 109,
+          "part": 0.153
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 15,
+          "part": 0.021
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "background-color 0.4s ease",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.4s ease",
+          "n": 3
+        },
+        {
+          "valeur": "opacity 0.4s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 1s ease",
+          "n": 2
+        },
+        {
+          "valeur": "visibility 1s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 1s linear",
+          "n": 2
+        },
+        {
+          "valeur": "transform 1.5s cubic-bezier(0.19, 1, 0.22, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "width 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.5s ease-in",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div#main-container",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "opacity 1s ease",
+          "visibility 1s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body#cover-page",
+      "sections": [
+        {
+          "selecteur": "div#main-container",
+          "titre": "PREFACE",
+          "top": 0,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 77,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "ol"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.navigation",
+        "hauteur": 47,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "STUDIO",
+            "href": "/studio",
+            "bouton": false
+          },
+          {
+            "texte": "WORKS",
+            "href": "/works",
+            "bouton": false
+          },
+          {
+            "texte": "UPCOMING",
+            "href": "/upcoming",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 4
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div#CybotCookiebotDialog",
+          "position": "fixed",
+          "hauteur": 98,
+          "largeur": 1440,
+          "enBas": true,
+          "mots": 18
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": {
+        "selecteur": "div#CybotCookiebotDialog",
+        "hauteur": 98,
+        "largeur": 1440,
+        "liens": [
+          {
+            "texte": "policies",
+            "href": "/privacy"
+          },
+          {
+            "texte": "Allow selection",
+            "href": ""
+          }
+        ]
+      }
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/formafantasma-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#121212",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 82,
+      "images": 0,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Allow selection",
+        "x": 13,
+        "y": 781,
+        "cx": 0.5,
+        "cy": 0.9549763033175356,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.39,
+        "texte": "This website uses cookies. Please refer to our policies for more details. Necessary Preferences Statistics Marketing Allow selection",
+        "selecteur": "div#CybotCookiebotDialog"
+      },
+      "barreBas": null,
+      "scrollHeight": 1963,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.title",
+        "famille": "Times, \"Times New Roman\", serif",
+        "taille": 15.68,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.176px"
+      },
+      "p": null,
+      "bouton": {
+        "selecteur": "button#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection",
+        "famille": "sans-serif",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1.85,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.local",
+        "famille": "Times, \"Times New Roman\", serif",
+        "taille": 22.4,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [],
+      "famillesVisibles": [
+        {
+          "famille": "Times",
+          "n": 20
+        },
+        {
+          "famille": "sans-serif",
+          "n": 7
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#121212",
+      "texte": "#e0e0e0",
+      "fondsBruts": [
+        {
+          "hex": "#121212",
+          "n": 1,
+          "poids": 765570
+        },
+        {
+          "hex": "#f8f8f8",
+          "n": 1,
+          "poids": 129943.125
+        },
+        {
+          "hex": "#141414",
+          "n": 1,
+          "poids": 18200
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#e0e0e0",
+          "n": 3,
+          "poids": 436
+        },
+        {
+          "hex": "#2f63be",
+          "n": 17,
+          "poids": 140
+        },
+        {
+          "hex": "#141414",
+          "n": 6,
+          "poids": 109
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 15
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#121212",
+          "n": 1,
+          "poids": 765570,
+          "part": 0.838
+        },
+        {
+          "hex": "#f8f8f8",
+          "n": 1,
+          "poids": 129943.125,
+          "part": 0.142
+        },
+        {
+          "hex": "#141414",
+          "n": 1,
+          "poids": 18200,
+          "part": 0.02
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#e0e0e0",
+          "n": 3,
+          "poids": 436,
+          "part": 0.623
+        },
+        {
+          "hex": "#2f63be",
+          "n": 17,
+          "poids": 140,
+          "part": 0.2
+        },
+        {
+          "hex": "#141414",
+          "n": 6,
+          "poids": 109,
+          "part": 0.156
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 15,
+          "part": 0.021
+        }
+      ],
+      "contraste": 14.19
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "background-color 0.4s ease",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.4s ease",
+          "n": 3
+        },
+        {
+          "valeur": "opacity 0.4s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 1s ease",
+          "n": 2
+        },
+        {
+          "valeur": "visibility 1s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 1s linear",
+          "n": 2
+        },
+        {
+          "valeur": "transform 1.5s cubic-bezier(0.19, 1, 0.22, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "width 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.5s ease-in",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div#main-container",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "opacity 1s ease",
+          "visibility 1s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body#cover-page",
+      "sections": [
+        {
+          "selecteur": "div#main-container",
+          "titre": "PREFACE",
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 76,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "ol"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.navigation",
+        "hauteur": 31,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "STUDIO",
+            "href": "/studio",
+            "bouton": false
+          },
+          {
+            "texte": "WORKS",
+            "href": "/works",
+            "bouton": false
+          },
+          {
+            "texte": "UPCOMING",
+            "href": "/upcoming",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 4
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div#CybotCookiebotDialog",
+          "position": "fixed",
+          "hauteur": 333,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 18
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "FormaFantasma",
+  "dureeS": 22
+}

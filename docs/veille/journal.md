@@ -300,3 +300,4 @@ manuelle, parallax natif).
 Collecte 2026-10-18 : 9 styles (14 démontés sur 23 essayés ; navigateur Playwright 1194 relié à la version attendue, `FF_CHROMIUM=1`).
 
 Collecte 2026-10-19 : 10 styles (16 démontés sur 31 essayés ; Awwwards/land-book bloqués, sites choisis à la main ; navigateur Playwright 1243 relié à la version 1194 par lien, `FF_CHROMIUM=1` ; 6 fiches trop maigres écartées : cosmos, monopo, nobu, casalupo, chateaumarmont, borgobrufa ; 10 atomes valides, champs non mesurés laissés « à juger »).
+- Collecte 2026-10-20 : 22 styles (atomes mesurés ; 12 sites refusés par le réseau ou bloquant les navigateurs sans tête : farmgirlflowers, bluebottle, sezane, sanjosehotel, bakerandspice, vitra, atelierdeschefs, cabanes-lesbains, andtheregoes, leclairieur, maisonmargiela, maisonsimons, mariagefreres).

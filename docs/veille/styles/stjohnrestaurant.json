@@ -1,0 +1,643 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://stjohnrestaurant.com/",
+  "nom": "stjohnrestaurant",
+  "date": "2026-10-20",
+  "identite": {
+    "title": "St. JOHN",
+    "siteName": "St. JOHN",
+    "lang": "en",
+    "description": "St. JOHN has three restaurants, a bakery, a winery and a wine company. Each adheres to the distinct style and philosophy which is so integral to St. JOHN and which has been so influential.",
+    "technologies": [
+      "Shopify",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#000000",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 32,
+      "images": 2,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 1166,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p.sj-footer__legal",
+        "famille": "Georgia, Times, \"Times New Roman\", serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.35,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.96px"
+      },
+      "bouton": {
+        "selecteur": "button.sj-button",
+        "famille": "Georgia, Times, \"Times New Roman\", serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "1.08px"
+      },
+      "nav": {
+        "selecteur": "a.sj-masthead__link",
+        "famille": "Georgia, Times, \"Times New Roman\", serif",
+        "taille": 14,
+        "graisse": "700",
+        "interlignage": null,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.84px"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "cdn.jsdelivr.net",
+        "instafeed.nfcube.com",
+        "s3-us-west-2.amazonaws.com",
+        "s3-us-west-2.amazonaws.com"
+      ],
+      "fichiersPolices": [],
+      "famillesVisibles": [
+        {
+          "famille": "Georgia",
+          "n": 30
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f9f9f9",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#f9f9f9",
+          "n": 1,
+          "poids": 1679040
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 1551961.875
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 795981.03125
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 22,
+          "poids": 282
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 87
+        }
+      ],
+      "nbImages": 3,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f9f9f9",
+          "n": 1,
+          "poids": 1679040,
+          "part": 0.417
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 1551961.875,
+          "part": 0.385
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 795981.03125,
+          "part": 0.198
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 22,
+          "poids": 282,
+          "part": 0.764
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 87,
+          "part": 0.236
+        }
+      ],
+      "contraste": 19.95
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.TweenLite"
+        },
+        {
+          "nom": "Flickity",
+          "preuve": "window.Flickity"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "ScrollReveal",
+          "preuve": "window.ScrollReveal"
+        },
+        {
+          "nom": "Vue",
+          "preuve": "window.Vue"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button.sj-button",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "background-color 0.2s ease",
+          "color 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body#page-",
+      "sections": [
+        {
+          "selecteur": "div.sj-page-header",
+          "titre": null,
+          "top": 0,
+          "hauteur": 169,
+          "ecrans": 0.2,
+          "mots": 15,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.sj-page-main",
+          "titre": null,
+          "top": 169,
+          "hauteur": 574,
+          "ecrans": 0.6,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.sj-page-footer",
+          "titre": null,
+          "top": 743,
+          "hauteur": 423,
+          "ecrans": 0.5,
+          "mots": 40,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "div.sj-masthead",
+        "hauteur": 26,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "FACEBOOK",
+            "href": "https://www.facebook.com/StJOHNRestaurant/",
+            "bouton": false
+          },
+          {
+            "texte": "TWITTER",
+            "href": "https://twitter.com/sjrestaurant",
+            "bouton": false
+          },
+          {
+            "texte": "INSTAGRAM",
+            "href": "https://www.instagram.com/st.john.restaurant/",
+            "bouton": false
+          },
+          {
+            "texte": "PRIVATE EVENTS",
+            "href": "/pages/private-events",
+            "bouton": false
+          },
+          {
+            "texte": "BASKET ( 0 )",
+            "href": "/cart",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 1,
+        "href": "tel:+442072510848"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 3
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "FACEBOOK",
+          "href": "https://www.facebook.com/StJOHNRestaurant/"
+        },
+        {
+          "texte": "reservations@stjohnrestaurant.com",
+          "href": "mailto:reservations@stjohnrestaurant.com"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#stj-search-results-dropdown",
+          "position": "absolute",
+          "hauteur": 2,
+          "largeur": 547,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/stjohnrestaurant-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 29,
+      "images": 3,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Sign up to our Mailing List",
+        "x": 32,
+        "y": 505.59375,
+        "cx": 0.5,
+        "cy": 0.6251110781990521,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 1166,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p.sj-footer__legal",
+        "famille": "Georgia, Times, \"Times New Roman\", serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.35,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.42px"
+      },
+      "bouton": {
+        "selecteur": "button.sj-button",
+        "famille": "Georgia, Times, \"Times New Roman\", serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.42px"
+      },
+      "nav": {
+        "selecteur": "a#basket",
+        "famille": "Georgia, Times, \"Times New Roman\", serif",
+        "taille": 11,
+        "graisse": "700",
+        "interlignage": null,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.33px"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "cdn.jsdelivr.net",
+        "instafeed.nfcube.com",
+        "s3-us-west-2.amazonaws.com",
+        "s3-us-west-2.amazonaws.com"
+      ],
+      "fichiersPolices": [],
+      "famillesVisibles": [
+        {
+          "famille": "Georgia",
+          "n": 21
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f9f9f9",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#f9f9f9",
+          "n": 1,
+          "poids": 454740
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 446814.84375
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 83764
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 17,
+          "poids": 248
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 49
+        }
+      ],
+      "nbImages": 4,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f9f9f9",
+          "n": 1,
+          "poids": 454740,
+          "part": 0.462
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 446814.84375,
+          "part": 0.453
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 83764,
+          "part": 0.085
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 17,
+          "poids": 248,
+          "part": 0.835
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 49,
+          "part": 0.165
+        }
+      ],
+      "contraste": 19.95
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.TweenLite"
+        },
+        {
+          "nom": "Flickity",
+          "preuve": "window.Flickity"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "ScrollReveal",
+          "preuve": "window.ScrollReveal"
+        },
+        {
+          "nom": "Vue",
+          "preuve": "window.Vue"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button.sj-button",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "background-color 0.2s ease",
+          "color 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body#page-",
+      "sections": [
+        {
+          "selecteur": "div.sj-page-header",
+          "titre": null,
+          "top": 0,
+          "hauteur": 93,
+          "ecrans": 0.1,
+          "mots": 5,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.sj-page-main",
+          "titre": null,
+          "top": 93,
+          "hauteur": 186,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.sj-page-footer",
+          "titre": null,
+          "top": 279,
+          "hauteur": 887,
+          "ecrans": 1.1,
+          "mots": 40,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "div.sj-masthead",
+        "hauteur": 22,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "BASKET ( 0 )",
+            "href": "/cart",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 1,
+        "href": "tel:+442072510848"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 3
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/StJOHNRestaurant/"
+        },
+        {
+          "texte": "reservations@stjohnrestaurant.com",
+          "href": "mailto:reservations@stjohnrestaurant.com"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#stj-search-results-dropdown",
+          "position": "absolute",
+          "hauteur": 2,
+          "largeur": 300,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "St. JOHN",
+  "dureeS": 79.2
+}
