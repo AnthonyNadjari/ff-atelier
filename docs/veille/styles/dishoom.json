@@ -1,0 +1,1413 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://dishoom.com/",
+  "nom": "dishoom",
+  "date": "2026-10-21",
+  "identite": {
+    "title": "Dishoom | Indian Restaurants | From Bombay with Love",
+    "siteName": "Dishoom",
+    "lang": "en",
+    "description": "Dishoom cafés pay homage to the food of Bombay. Open all day, from breakfast to dinner and later. Enjoy Bombay comfort food and first-class drinks. All welcome.",
+    "technologies": [
+      "Shopify",
+      "Next.js",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#151515",
+      "h1": "“Look across the bay. You’ll be walking and eating your way through the city that lies before you.”",
+      "h1Visible": true,
+      "mots": 34,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "LISTEN IN",
+        "x": 1279,
+        "y": 835,
+        "cx": 0.9284722222222223,
+        "cy": 0.9388888888888889,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 10198,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.prose-text",
+        "famille": "cheltenhamBT, \"cheltenhamBT Fallback\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 32,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "3.2px"
+      },
+      "h2": {
+        "selecteur": "h2.max-w-[95vw]",
+        "famille": "cheltenhamBT, \"cheltenhamBT Fallback\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 30,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "5.4px"
+      },
+      "p": {
+        "selecteur": "p.paragraph",
+        "famille": "cheltenhamBT, \"cheltenhamBT Fallback\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 21,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.42px"
+      },
+      "bouton": {
+        "selecteur": "button.relative",
+        "famille": "gill-sans-nova, ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 15,
+        "graisse": "600",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "3.75px"
+      },
+      "nav": {
+        "selecteur": "a.paragraph",
+        "famille": "cheltenhamBT, \"cheltenhamBT Fallback\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 21,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.42px"
+      },
+      "fontFaces": [
+        {
+          "famille": "cheltenhamBT",
+          "url": "../media/CheltenhmBT_normal_normal_400-s.p.6b0a891c.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "cheltenhamBT",
+          "url": "../media/CheltenhmBT_italic_normal_400-s.p.377f4bd3.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "cheltenhamBT",
+          "url": "../media/CheltenhmBT_normal_normal_700-s.p.67f7e1b0.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "cheltenhamBT",
+          "url": "../media/CheltenhmBT_italic_normal_700-s.p.1b035d87.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "cheltenhamBT Fallback",
+          "url": "",
+          "feuille": "www.dishoom.com",
+          "source": "locale"
+        },
+        {
+          "famille": "dishoomBattersea",
+          "url": "../media/DishoomBattersea-s.p.ab77bd51.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "dishoomBattersea Fallback",
+          "url": "",
+          "feuille": "www.dishoom.com",
+          "source": "locale"
+        },
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "www.dishoom.com",
+          "source": "inline (data:)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "use.typekit.net",
+        "use.typekit.net"
+      ],
+      "fichiersPolices": [
+        "https://www.dishoom.com/_next/static/media/CheltenhmBT_italic_normal_400-s.p.377f4bd3.woff2",
+        "https://www.dishoom.com/_next/static/media/CheltenhmBT_italic_normal_700-s.p.1b035d87.woff2",
+        "https://www.dishoom.com/_next/static/media/CheltenhmBT_normal_normal_400-s.p.6b0a891c.woff2",
+        "https://www.dishoom.com/_next/static/media/CheltenhmBT_normal_normal_700-s.p.67f7e1b0.woff2",
+        "https://www.dishoom.com/_next/static/media/DishoomBattersea-s.p.ab77bd51.woff2",
+        "https://use.typekit.net/axn5fbj.css",
+        "https://use.typekit.net/"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "cheltenhamBT",
+          "n": 190
+        },
+        {
+          "famille": "gill-sans-nova",
+          "n": 65
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f0ece0",
+      "texte": "#353839",
+      "fondsBruts": [
+        {
+          "hex": "#f0ece0",
+          "n": 1,
+          "poids": 14685120
+        },
+        {
+          "hex": "#151515",
+          "n": 1,
+          "poids": 2592000
+        },
+        {
+          "hex": "#353839",
+          "n": 37,
+          "poids": 40475.20292878151
+        },
+        {
+          "hex": "#e1a894",
+          "n": 8,
+          "poids": 21220.375
+        },
+        {
+          "hex": "#006642",
+          "n": 4,
+          "poids": 6261.75
+        },
+        {
+          "hex": "#5b5b5b",
+          "n": 1,
+          "poids": 3600
+        },
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 257
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#353839",
+          "n": 189,
+          "poids": 4168
+        },
+        {
+          "hex": "#fffdf9",
+          "n": 35,
+          "poids": 444
+        },
+        {
+          "hex": "#c4bfaf",
+          "n": 25,
+          "poids": 116
+        },
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 32
+        },
+        {
+          "hex": "#737373",
+          "n": 1,
+          "poids": 22
+        }
+      ],
+      "nbImages": 38,
+      "nbVideos": 0,
+      "nbFondsImage": 1,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f0ece0",
+          "n": 1,
+          "poids": 14685120,
+          "part": 0.846
+        },
+        {
+          "hex": "#151515",
+          "n": 1,
+          "poids": 2592000,
+          "part": 0.149
+        },
+        {
+          "hex": "#353839",
+          "n": 37,
+          "poids": 40475.20292878151,
+          "part": 0.002
+        },
+        {
+          "hex": "#e1a894",
+          "n": 8,
+          "poids": 21220.375,
+          "part": 0.001
+        },
+        {
+          "hex": "#006642",
+          "n": 4,
+          "poids": 6261.75,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#353839",
+          "n": 189,
+          "poids": 4168,
+          "part": 0.872
+        },
+        {
+          "hex": "#fffdf9",
+          "n": 35,
+          "poids": 444,
+          "part": 0.093
+        },
+        {
+          "hex": "#c4bfaf",
+          "n": 25,
+          "poids": 116,
+          "part": 0.024
+        },
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 32,
+          "part": 0.007
+        },
+        {
+          "hex": "#737373",
+          "n": 1,
+          "poids": 22,
+          "part": 0.005
+        }
+      ],
+      "contraste": 10.01
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.home-hero-inner",
+          "ecrans": 2
+        },
+        {
+          "selecteur": "div.sticky",
+          "ecrans": 2
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 100
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 36
+        },
+        {
+          "valeur": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 33
+        },
+        {
+          "valeur": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 10
+        },
+        {
+          "valeur": "opacity 1s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "color 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "padding 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button.relative",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "color 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body.overscroll-none",
+      "sections": [
+        {
+          "selecteur": "div",
+          "titre": "“Look across the bay. You’ll be walking and eating your way ",
+          "top": 0,
+          "hauteur": 1800,
+          "ecrans": 2,
+          "mots": 28,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "main.z-content",
+          "titre": "Each Dishoom is a love letter to Bombay – its food and its c",
+          "top": 1800,
+          "hauteur": 7130,
+          "ecrans": 7.9,
+          "mots": 579,
+          "images": 36,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.max-w-full-without-scrollbar",
+          "titre": null,
+          "top": 8930,
+          "hauteur": 652,
+          "ecrans": 0.7,
+          "mots": 77,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg",
+            "select"
+          ]
+        },
+        {
+          "selecteur": "div.relative",
+          "titre": "VISIT US",
+          "top": 9582,
+          "hauteur": 616,
+          "ecrans": 0.7,
+          "mots": 104,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.fixed",
+        "hauteur": 67,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "EXPLORE",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "CAFÉS",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "MENUS",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "SHOP",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "FESTIVITIES",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Dishoom",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Search",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Open cart",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Book a table",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.bg-beige",
+        "liens": [
+          {
+            "texte": "Dishoom Cafés",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Battersea",
+            "href": "/battersea/",
+            "bouton": false
+          },
+          {
+            "texte": "Borough",
+            "href": "/borough/",
+            "bouton": false
+          },
+          {
+            "texte": "Canary Wharf",
+            "href": "/canary-wharf/",
+            "bouton": false
+          },
+          {
+            "texte": "Carnaby",
+            "href": "/carnaby/",
+            "bouton": false
+          },
+          {
+            "texte": "Covent Garden",
+            "href": "/covent-garden/",
+            "bouton": false
+          },
+          {
+            "texte": "Kensington",
+            "href": "/kensington/",
+            "bouton": false
+          },
+          {
+            "texte": "King's Cross",
+            "href": "/kings-cross/",
+            "bouton": false
+          },
+          {
+            "texte": "Shoreditch",
+            "href": "/shoreditch/",
+            "bouton": false
+          },
+          {
+            "texte": "Birmingham",
+            "href": "/birmingham/",
+            "bouton": false
+          },
+          {
+            "texte": "Edinburgh",
+            "href": "/edinburgh/",
+            "bouton": false
+          },
+          {
+            "texte": "Glasgow",
+            "href": "/glasgow/",
+            "bouton": false
+          },
+          {
+            "texte": "Leeds",
+            "href": "/leeds/",
+            "bouton": false
+          },
+          {
+            "texte": "Manchester",
+            "href": "/manchester/",
+            "bouton": false
+          },
+          {
+            "texte": "Permit Rooms",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Brighton",
+            "href": "https://www.permitroom.co.uk/locations/brighton/",
+            "bouton": false
+          },
+          {
+            "texte": "Cambridge",
+            "href": "https://www.permitroom.co.uk/locations/cambridge/",
+            "bouton": false
+          },
+          {
+            "texte": "Liverpool",
+            "href": "https://www.permitroom.co.uk/locations/liverpool/",
+            "bouton": false
+          },
+          {
+            "texte": "Oxford",
+            "href": "https://www.permitroom.co.uk/locations/oxford/",
+            "bouton": false
+          },
+          {
+            "texte": "Portobello",
+            "href": "https://www.permitroom.co.uk/locations/portobello/",
+            "bouton": false
+          },
+          {
+            "texte": "Lodgings",
+            "href": "https://www.permitroom.co.uk/stay/portobello/",
+            "bouton": false
+          },
+          {
+            "texte": "Menus",
+            "href": "/menu/all-day-main/",
+            "bouton": false
+          },
+          {
+            "texte": "Food and Drink",
+            "href": "/food-drink/",
+            "bouton": false
+          },
+          {
+            "texte": "Reservations",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Christmas",
+            "href": "/christmas/",
+            "bouton": false
+          },
+          {
+            "texte": "Delivery",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Delivery at Dishoom",
+            "href": "/delivery/",
+            "bouton": false
+          },
+          {
+            "texte": "Place an order",
+            "href": "https://delivery.dishoom.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Careers",
+            "href": "/careers/",
+            "bouton": false
+          },
+          {
+            "texte": "Charity",
+            "href": "/charity/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 4
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "MENUS",
+          "href": ""
+        },
+        {
+          "texte": "Book a table",
+          "href": ""
+        },
+        {
+          "texte": "MENUS Breakfast, lunch, dinner and late ",
+          "href": "/menu/all-day-main/"
+        },
+        {
+          "texte": "Book a table RESERVATIONS For bookings a",
+          "href": ""
+        },
+        {
+          "texte": "STORE First-class gifts and sundries",
+          "href": "/store/"
+        },
+        {
+          "texte": "View menus",
+          "href": "/menu/all-day-main/"
+        },
+        {
+          "texte": "Reservations",
+          "href": ""
+        },
+        {
+          "texte": "Delivery",
+          "href": ""
+        },
+        {
+          "texte": "Delivery at Dishoom",
+          "href": "/delivery/"
+        },
+        {
+          "texte": "Place an order",
+          "href": "https://delivery.dishoom.com/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "header.fixed",
+          "position": "fixed",
+          "hauteur": 67,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 8
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 24,
+        "pilules": 1,
+        "exemples": [
+          "Book a table"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/dishoom-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#151515",
+      "h1": "“Look across the bay. You’ll be walking and eating your way through the city that lies before you.”",
+      "h1Visible": true,
+      "mots": 77,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Customize",
+        "x": 25,
+        "y": 725,
+        "cx": 0.5,
+        "cy": 0.8850710900473934,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.39,
+        "texte": "The best cookies are for dipping Preferably into a warming cup of our House Chai. Regrettably, our digital cookies are less tasty than nankhatai or jeera biscuits. Kindly accept or adjust your prefere",
+        "selecteur": "div.cky-consent-container"
+      },
+      "barreBas": null,
+      "scrollHeight": 10847,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.prose-text",
+        "famille": "cheltenhamBT, \"cheltenhamBT Fallback\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 24,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "2.4px"
+      },
+      "h2": {
+        "selecteur": "h2.max-w-[95vw]",
+        "famille": "cheltenhamBT, \"cheltenhamBT Fallback\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 24,
+        "graisse": "700",
+        "interlignage": 1.33,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "4.32px"
+      },
+      "p": {
+        "selecteur": "p.paragraph",
+        "famille": "cheltenhamBT, \"cheltenhamBT Fallback\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.33,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.36px"
+      },
+      "bouton": {
+        "selecteur": "button.cky-btn",
+        "famille": "cheltenhamBT, \"cheltenhamBT Fallback\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 14,
+        "graisse": "500",
+        "interlignage": 1.71,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.col-start-2",
+        "famille": "cheltenhamBT, \"cheltenhamBT Fallback\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "cheltenhamBT",
+          "url": "../media/CheltenhmBT_normal_normal_400-s.p.6b0a891c.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "cheltenhamBT",
+          "url": "../media/CheltenhmBT_italic_normal_400-s.p.377f4bd3.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "cheltenhamBT",
+          "url": "../media/CheltenhmBT_normal_normal_700-s.p.67f7e1b0.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "cheltenhamBT",
+          "url": "../media/CheltenhmBT_italic_normal_700-s.p.1b035d87.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "cheltenhamBT Fallback",
+          "url": "",
+          "feuille": "www.dishoom.com",
+          "source": "locale"
+        },
+        {
+          "famille": "dishoomBattersea",
+          "url": "../media/DishoomBattersea-s.p.ab77bd51.woff2",
+          "feuille": "www.dishoom.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "dishoomBattersea Fallback",
+          "url": "",
+          "feuille": "www.dishoom.com",
+          "source": "locale"
+        },
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "www.dishoom.com",
+          "source": "inline (data:)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "use.typekit.net"
+      ],
+      "fichiersPolices": [
+        "https://www.dishoom.com/_next/static/media/CheltenhmBT_italic_normal_400-s.p.377f4bd3.woff2",
+        "https://www.dishoom.com/_next/static/media/CheltenhmBT_italic_normal_700-s.p.1b035d87.woff2",
+        "https://www.dishoom.com/_next/static/media/CheltenhmBT_normal_normal_400-s.p.6b0a891c.woff2",
+        "https://www.dishoom.com/_next/static/media/CheltenhmBT_normal_normal_700-s.p.67f7e1b0.woff2",
+        "https://www.dishoom.com/_next/static/media/DishoomBattersea-s.p.ab77bd51.woff2",
+        "https://use.typekit.net/axn5fbj.css",
+        "https://use.typekit.net/"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "cheltenhamBT",
+          "n": 148
+        },
+        {
+          "famille": "gill-sans-nova",
+          "n": 56
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f0ece0",
+      "texte": "#353839",
+      "fondsBruts": [
+        {
+          "hex": "#f0ece0",
+          "n": 1,
+          "poids": 4230330
+        },
+        {
+          "hex": "#151515",
+          "n": 1,
+          "poids": 493740
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 185862.9638671875
+        },
+        {
+          "hex": "#36393a",
+          "n": 1,
+          "poids": 128700
+        },
+        {
+          "hex": "#353839",
+          "n": 18,
+          "poids": 20430.08030256629
+        },
+        {
+          "hex": "#666666",
+          "n": 1,
+          "poids": 14960
+        },
+        {
+          "hex": "#e1a894",
+          "n": 5,
+          "poids": 11416.8359375
+        },
+        {
+          "hex": "#006642",
+          "n": 4,
+          "poids": 5474.4375
+        },
+        {
+          "hex": "#5b5b5b",
+          "n": 1,
+          "poids": 2304
+        },
+        {
+          "hex": "#c4bfaf",
+          "n": 5,
+          "poids": 1950
+        },
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 401
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#353839",
+          "n": 127,
+          "poids": 3641
+        },
+        {
+          "hex": "#fffdf9",
+          "n": 35,
+          "poids": 436
+        },
+        {
+          "hex": "#f0ece0",
+          "n": 6,
+          "poids": 272
+        },
+        {
+          "hex": "#c4bfaf",
+          "n": 25,
+          "poids": 116
+        },
+        {
+          "hex": "#151515",
+          "n": 7,
+          "poids": 73
+        },
+        {
+          "hex": "#737373",
+          "n": 1,
+          "poids": 22
+        },
+        {
+          "hex": "#d0d0d0",
+          "n": 2,
+          "poids": 19
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 11
+        }
+      ],
+      "nbImages": 43,
+      "nbVideos": 0,
+      "nbFondsImage": 1,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f0ece0",
+          "n": 1,
+          "poids": 4230330,
+          "part": 0.83
+        },
+        {
+          "hex": "#151515",
+          "n": 1,
+          "poids": 493740,
+          "part": 0.097
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 185862.9638671875,
+          "part": 0.036
+        },
+        {
+          "hex": "#36393a",
+          "n": 1,
+          "poids": 128700,
+          "part": 0.025
+        },
+        {
+          "hex": "#353839",
+          "n": 18,
+          "poids": 20430.08030256629,
+          "part": 0.004
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#353839",
+          "n": 127,
+          "poids": 3641,
+          "part": 0.793
+        },
+        {
+          "hex": "#fffdf9",
+          "n": 35,
+          "poids": 436,
+          "part": 0.095
+        },
+        {
+          "hex": "#f0ece0",
+          "n": 6,
+          "poids": 272,
+          "part": 0.059
+        },
+        {
+          "hex": "#c4bfaf",
+          "n": 25,
+          "poids": 116,
+          "part": 0.025
+        },
+        {
+          "hex": "#151515",
+          "n": 7,
+          "poids": 73,
+          "part": 0.016
+        }
+      ],
+      "contraste": 10.01
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.home-hero-inner",
+          "ecrans": 1.5
+        },
+        {
+          "selecteur": "div.sticky",
+          "ecrans": 1.9
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 52
+        },
+        {
+          "valeur": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 38
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 31
+        },
+        {
+          "valeur": "transform 1s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "color 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "transform 0.3s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "top 0.3s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "span.relative",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "transform 0.3s ease-in-out",
+          "top 0.3s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body.overscroll-none",
+      "sections": [
+        {
+          "selecteur": "div",
+          "titre": "“Look across the bay. You’ll be walking and eating your way ",
+          "top": 0,
+          "hauteur": 1266,
+          "ecrans": 1.5,
+          "mots": 26,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "main.z-content",
+          "titre": "Each Dishoom is a love letter to Bombay – its food and its c",
+          "top": 1266,
+          "hauteur": 7573,
+          "ecrans": 9,
+          "mots": 585,
+          "images": 41,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.max-w-full-without-scrollbar",
+          "titre": null,
+          "top": 8879,
+          "hauteur": 1085,
+          "ecrans": 1.3,
+          "mots": 77,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg",
+            "select"
+          ]
+        },
+        {
+          "selecteur": "div.relative",
+          "titre": "VISIT US",
+          "top": 9963,
+          "hauteur": 884,
+          "ecrans": 1,
+          "mots": 29,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.fixed",
+        "hauteur": 82,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Toggle Menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Dishoom",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Search",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Open cart",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Book",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.bg-beige",
+        "liens": [
+          {
+            "texte": "VISIT US",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Dishoom Cafés",
+            "href": "/locations/",
+            "bouton": false
+          },
+          {
+            "texte": "Permit Rooms",
+            "href": "/permit-room/",
+            "bouton": false
+          },
+          {
+            "texte": "Lodgings",
+            "href": "https://www.permitroom.co.uk/stay/portobello/",
+            "bouton": false
+          },
+          {
+            "texte": "Menus",
+            "href": "/menu/all-day-main/",
+            "bouton": false
+          },
+          {
+            "texte": "Food and drink",
+            "href": "/food-drink/",
+            "bouton": false
+          },
+          {
+            "texte": "Reservations",
+            "href": "/reservations/",
+            "bouton": false
+          },
+          {
+            "texte": "Christmas",
+            "href": "/christmas/",
+            "bouton": false
+          },
+          {
+            "texte": "EXPLORE",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "SHOP DISHOOM",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "CAFÉ SUPPORT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "STORE SUPPORT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/dishoom/",
+            "bouton": false
+          },
+          {
+            "texte": "LinkedIn",
+            "href": "https://uk.linkedin.com/company/dishoom",
+            "bouton": false
+          },
+          {
+            "texte": "TikTok",
+            "href": "https://www.tiktok.com/@dishoom_uk",
+            "bouton": false
+          },
+          {
+            "texte": "X",
+            "href": "https://x.com/dishoom?lang=en",
+            "bouton": false
+          },
+          {
+            "texte": "Youtube",
+            "href": "https://www.youtube.com/user/DishoomLondon",
+            "bouton": false
+          },
+          {
+            "texte": "Happily, we are B-Corp certified.",
+            "href": "https://www.bcorporation.net/en-us/",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy policy",
+            "href": "/policies/privacy-policy/",
+            "bouton": false
+          },
+          {
+            "texte": "Cookie policy",
+            "href": "/policies/cookie-policy/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 4
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Toggle Menu",
+          "href": ""
+        },
+        {
+          "texte": "Book",
+          "href": ""
+        },
+        {
+          "texte": "MENUS Breakfast, lunch, dinner and late ",
+          "href": "/menu/all-day-main/"
+        },
+        {
+          "texte": "Book a table RESERVATIONS For bookings a",
+          "href": ""
+        },
+        {
+          "texte": "STORE First-class gifts and sundries",
+          "href": "/store/"
+        },
+        {
+          "texte": "View menus",
+          "href": "/menu/all-day-main/"
+        },
+        {
+          "texte": "Book a table",
+          "href": ""
+        },
+        {
+          "texte": "Menus",
+          "href": "/menu/all-day-main/"
+        },
+        {
+          "texte": "Reservations",
+          "href": "/reservations/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.cky-consent-container",
+          "position": "fixed",
+          "hauteur": 330,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 48
+        },
+        {
+          "selecteur": "header.fixed",
+          "position": "fixed",
+          "hauteur": 82,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 22,
+        "pilules": 1,
+        "exemples": [
+          "Book"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Dishoom",
+  "dureeS": 28
+}

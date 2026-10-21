@@ -1,0 +1,30 @@
+# Silver Flatware & Tableware since 1830 — https://christofle.com/
+Titre « Silver Flatware & Tableware since 1830 », `lang="en-US"`, description « Christofle, Parisian Goldsmith, creates with Elegance and Know-how, Silver Flatware, Exceptional Tableware, Refined Jewelry and Home Accessories. », technologie lue : Next.js. Démontage automatique du 2026-10-21 (`ff demonter`, mesures brutes dans `christofle.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; image plein écran (80 % de l'écran) ; bouton principal « Previous » à mi-hauteur à gauche (10, 520 px) ; 126 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 1 élément(s) (`div.MuiBox-root`).
+Téléphone (390x844) : h1 absent ; pas de média plein écran (3 image(s) dans l'écran) ; bouton principal « Previous » en haut à gauche (16, 255 px) ; 100 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 25 élément(s) (`span.MuiTypography-root`, `a.MuiTypography-root`, `ul`, `span`, `div.MuiBox-root`, `p`).
+Nav : 16 lien(s) — Our Boutiques, [United States | USD], [Contact us], [account], [account], [0], CURATED EDIT, GIFTS, FLATWARE, TABLEWARE, BARWARE, HOME (+4) ; boutons entre crochets.
+Sections de premier niveau : non mesuré. Calques hors flux (fixes/absolus) : `div` (absolute, 900 px), `div` (absolute, 7509 px, 853 mots).
+Pied de page : aucun pied de page lu. Téléphone cliquable : non. Formulaire : 1 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « GIFTS » (/us_en/gifts.html), « Customizable Gifts » (/us_en/gifts/the-products/customizable-gifts.html), « Bridal Gifts » (/us_en/gifts/the-products/bridal.html), « Vintage Gifts » (/us_en/gifts/the-products/vintage-gifts.html), « All Gifts » (/us_en/gifts/the-products/all-gifts.html), « Wedding Gifts » (/us_en/gifts/the-moments/wedding.html), « Baby Gifts » (/us_en/gifts/the-moments/birth-gifts.html), « Hostess Gifts » (/us_en/gifts/the-moments/thank-you-gifts.html), « Hanukkah Gifts » (/us_en/gifts/the-moments/gift-ideas.html), « Silver Anniversary Gift » (/us_en/gifts/the-moments/silver-anniversary-gift.html).
+En 3 secondes : à juger sur `captures/christofle-d.webp` (mesuré : fond du premier écran #ffffff, 3 image(s) et 126 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 : non mesuré ; h2 **FontGaramond**, 18 px / 18 px téléphone, graisse 600, interlignage 1,33, capitales, interlettrage 1px ; corps **FontCrimsonText**, 18 px / 18 px téléphone, graisse 400, interlignage 1,33 ; boutons **FontGaramond**, 14 px / 14 px téléphone, graisse 600, interlignage 1,43, capitales, interlettrage 1px ; nav **FontCrimsonText**, 16 px / 16 px téléphone, graisse 400, interlignage 1,31.
+Sources `@font-face` : auto-hébergée (swiper-icons, FontCrimsonText, FontGaramond) ; locale (FontCrimsonText Fallback, FontGaramond Fallback, Axeptio CJK Fallback) ; fichiers chargés : https://www.christofle.com/_next/static/media/EBGaramond_SemiBold-s.p.0yzm10mqbs7tv.woff2, https://www.christofle.com/_next/static/media/CrimsonText_Italic-s.p.1h8isjwqv2po5.woff2, https://www.christofle.com/_next/static/media/CrimsonText_Regular-s.p.0c71jq8z1fnbk.woff2, https://www.christofle.com/_next/static/media/CrimsonText_SemiBold-s.p.30xja3lebv6l3.woff2, https://fonts.axept.io/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700&display=swap&ax-prefix=Axeptio%20. Familles en usage sur le texte visible : FontCrimsonText ×280, FontGaramond ×37. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #191919 (contraste 17,58:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (87 %), #fbf9f6 (10 %), #62541e (2 %), #7c6923 (1 %) ; textes par nombre de caractères : #665514 (56 %), #191919 (34 %), #ffffff (5 %), #7c6923 (3 %), #000000 (2 %). Images : 20 `<img>` visibles, 0 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : aucune détectée (window.* et noms de scripts). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `fill 0.3s cubic-bezier(0.4, 0, 0.2, 1)` ×16, `border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)` ×8, `opacity 0.3s ease-in-out` ×8, `background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)` ×6, `color 0.3s cubic-bezier(0.4, 0, 0.2, 1)` ×6, `transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)` ×4, `background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)` ×3, `height 0.3s cubic-bezier(0.4, 0, 0.2, 1)` ×2, `animation mui-auto-fill-cancel 0.01s ease` ×2, `border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)` ×2. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/christofle-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : non mesuré.
+2. L'élément le plus animé : `button.MuiButtonBase-root` (3 transition(s) : background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1) ; box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1)).
+3. Le bloc le plus singulier par sa structure : non mesuré.
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« GIFTS », « Customizable Gifts », « Bridal Gifts », « Vintage Gifts », « All Gifts », « Wedding Gifts », « Baby Gifts », « Hostess Gifts », « Hanukkah Gifts », « Silver Anniversary Gift »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/17 ordinateur, 0/78 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

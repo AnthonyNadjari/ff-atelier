@@ -80,3 +80,23 @@ mapfurniture (certificat expiré), oliverbrewingco.
 | fritzhansen | https://www.fritzhansen.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
 | stelton | https://www.stelton.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
 | nomos | https://nomos-glashuette.com | Atomes mesurés au DOM (champs « à juger » laissés tels quels), collecte du 20 oct 2026 | atomes seuls | à juger | atomes |
+| dishoom | https://dishoom.com | Dishoom (restaurant indien (cafés irani de Bombay)) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| buly1803 | https://buly1803.com | buly1803 (parfumerie et cosmétique) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| monocle | https://monocle.com | monocle (magazine et boutique) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| mokonuts | https://mokonuts.com | mokonuts (restaurant et pâtisserie) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| opinel | https://opinel.com | opinel (couteaux (coutellerie)) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| hotelsaintmarc | https://hotelsaintmarc.com | hotelsaintmarc (hôtel) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| ruinart | https://ruinart.com | ruinart (maison de champagne) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| puiforcat | https://puiforcat.com | puiforcat (orfèvrerie) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| christofle | https://christofle.com | christofle (orfèvrerie et arts de la table) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| baccarat | https://baccarat.com | baccarat (cristallerie) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| lobmeyr | https://lobmeyr.com | lobmeyr (verrerie et luminaires) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| monbazillac | https://monbazillac.com | monbazillac (vin (appellation)) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| bonpoint | https://bonpoint.com | bonpoint (mode enfant) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| muuto | https://muuto.com | muuto (mobilier scandinave) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| skultuna | https://skultuna.com | skultuna (laiton et objets de maison) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| iittala | https://iittala.com | iittala (verre et arts de la table) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| kvadrat | https://kvadrat.dk | kvadrat (textiles d'ameublement) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| lebernardin | https://le-bernardin.com | lebernardin (restaurant (fine dining)) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| fauchon | https://fauchon.com | fauchon (épicerie fine et pâtisserie) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| flos | https://flos.com | flos (luminaires) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |

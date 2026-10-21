@@ -1,0 +1,106 @@
+{
+  "id": "fauchon",
+  "version": 1,
+  "source": {
+    "url": "https://fauchon.com",
+    "nom": "fauchon",
+    "metier": "épicerie fine et pâtisserie",
+    "fiche": "docs/veille/styles/fauchon.md",
+    "mesures": "docs/veille/styles/atomes/mesures/fauchon.json",
+    "date": "2026-10-21"
+  },
+  "typo": {
+    "titre": {
+      "famille": "PlayfairDisplay",
+      "libre": "libreBodoni",
+      "graisse": 400,
+      "interlignage": 1,
+      "casse": "none",
+      "interlettrage": 0.01,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Montserrat",
+      "libre": "figtree",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 36,
+        "ordinateur": 60
+      },
+      "h2": {
+        "telephone": 32,
+        "ordinateur": 54
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Police libre la plus proche jugée sur le nom de la police mesurée (PlayfairDisplay → libreBodoni ; Montserrat → figtree) ; polices commerciales ou maison, remplacées par la plus proche en licence libre."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f9f8f5",
+      "texte": "#494c4e",
+      "surface": "#ffffff",
+      "texte2": "#6b6b6b",
+      "accent": "#e10080",
+      "accent2": "#e10080",
+      "encre": "#212121"
+    },
+    "sombre": null,
+    "remarque": "Palette tirée des fonds et textes mesurés (parts de surface) ; accent = la couleur la plus chromatique mesurée."
+  },
+  "densite": {
+    "section": {
+      "telephone": 104,
+      "ordinateur": 104
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 24
+    },
+    "conteneur": 1300,
+    "mesure": 75,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 4,
+    "rayonCarte": 4,
+    "rayonImage": 4,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne"
+  },
+  "photos": "à juger",
+  "mouvement": {
+    "regime": "à juger",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "defilement": "à juger",
+    "bibliotheques": [
+      "Swiper"
+    ]
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "à juger"
+  },
+  "architecture": null,
+  "premier_ecran": "à juger"
+}
