@@ -49,10 +49,12 @@ export interface LayoutArchi {
  *  - lignesPrix      : services qui ont des lignes à prix (services[].lignes) ;
  *  - pasUrgence      : contact.emergency24h faux (architecture où l'on n'appelle pas en urgence) ;
  *  - histoire        : paragraphes de about.story (du vrai texte, un écran par paragraphe) ;
- *  - agenda          : rendez-vous datés (agenda[]) ; les dates passées tombent au build (src/lib/agenda.ts).
+ *  - agenda          : rendez-vous datés (agenda[]) ; les dates passées tombent au build (src/lib/agenda.ts) ;
+ *  - produits        : produits de la gamme (produits[], chacun avec sa photo détourée ; src/lib/produits.ts) ;
+ *  - espaces         : espaces du lieu qu'on visite (about.espaces[] : nom, phrase, photo et couleur optionnelles).
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -80,6 +82,9 @@ export const ARCHITECTURE_IDS = [
   'livre-ecrans',
   'cartes-empilees-agenda',
   'carnet-horizontal',
+  'gamme-vitrine',
+  'cadre-couleur',
+  'scenes-epinglees',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -300,6 +305,96 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Métier de conception avec des réalisations nommées (6 et plus, avec lieu) et, idéalement, des artisans partenaires à citer : paysagiste, architecte d'intérieur, menuisier-agenceur, ferronnier d'art, céramiste. Pas pour l'urgence ni pour qui n'a qu'une poignée de photos.",
   },
+  'gamme-vitrine': {
+    id: 'gamme-vitrine',
+    modele:
+      "Catalogue d'abord : l'accueil tient en un écran et n'est rien d'autre que la gamme, les produits détourés sur une piste horizontale qu'on fait glisser à la main (chacun pivote un peu selon sa place, chacun ouvre sa page), sous une barre fixe (nom, téléphone, bouton Menu qui ouvre le reste du site en plein écran) avec le h1, le métier et la ville, la note Google ; chaque produit a sa page (titre géant, le produit posé par-dessus les lettres, fiche technique à filets, photos d'ambiance en piste aimantée, les autres produits), la liste /produits les regroupe par famille ; l'histoire et le contact sur la page À propos.",
+    sources: [{ fiche: 'docs/veille/architectures/agrumea.md', site: 'agrumeafarm.it' }],
+    layout: {
+      shell: 'vitrine',
+      // nav : seulement les pages intérieures (produits, activités, À propos) ; l'accueil a sa barre fixe à bouton Menu.
+      // hero : non rendu (la gamme EST le premier écran) ; fullbleed garde le préchargement de images.hero s'il y en a une.
+      nav: 'minimal',
+      hero: 'fullbleed',
+      footer: 'columns',
+      // Aucune section sur l'accueil (un écran) : les sections écrites dans le layout du site descendent sous la vitrine.
+      sections: [],
+      contactDrawer: true,
+      actionBar: false,
+      pageAPropos: true,
+    },
+    requis: [
+      { mesure: 'produits', min: 6, max: 20, libelle: '6 à 20 produits avec une photo détourée chacun (produits[]) : la gamme est l’accueil' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on regarde la gamme, on n'appelle pas vite" },
+    ],
+    convientA:
+      "Producteur ou artisan à gamme courte et photogénique (6 à 20 produits) avec de bonnes photos détourables : confiturier, savonnier, brasseur, chocolatier, torréfacteur, coutelier, céramiste, boulangerie à gamme fixe. Pas pour un métier de service (plombier, couvreur), ni l'urgence, ni sans photos de produits.",
+  },
+  'cadre-couleur': {
+    id: 'cadre-couleur',
+    modele:
+      "Tout le site posé dans un cadre de couleur fixe (une marge de 24 px tout autour, 16 au téléphone) : le premier écran reste collé au fond (h1 géant et métier à ville sur le papier, téléphone et note Google à côté, la photo du client dessous), le contenu monte dessus comme une feuille avec une seule ombre (les activités en cartes de couleur, une couleur par activité donnée par le client, les avis, l'histoire), le contact en tiroir et au pied, qui ferme la page dans le cadre ; chaque activité a sa page, coiffée de sa couleur.",
+    sources: [{ fiche: 'docs/veille/architectures/meyers.md', site: 'meyers.dk' }],
+    layout: {
+      shell: 'cadre',
+      // nav minimale rentrée dans le cadre (nom + portes d'action, aucun lien : la nav à étages de Meyers « n'est utile
+      // qu'au-delà de 3 activités », fiche ; les pages sont dans les cartes et au pied) ; hero : non rendu (la coquille
+      // fait le premier écran : h1 sur le papier, téléphone à côté, photo dessous), `fullbleed` garde le préchargement.
+      nav: 'minimal',
+      hero: 'fullbleed',
+      footer: 'columns',
+      // La feuille s'ouvre sur la maison (l'histoire, courte), puis les activités en cartes de couleur, puis ce qu'on en
+      // dit (avis) ; pas de section de contact sur l'accueil (« Service client » en porte chez Meyers) : le contact est
+      // en tiroir, et au pied. Un ordre que le déroulé long (services, avis, à propos, contact) n'a pas.
+      sections: [
+        { type: 'about', variant: 'story' },
+        { type: 'services', variant: 'cartes-couleur' },
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      // Une page par activité, nommée dans la nav (les rubriques de Meyers), coiffée de la couleur de l'activité.
+      servicePage: 'porte',
+    },
+    requis: [
+      { mesure: 'photos', min: 1, libelle: 'une photo de héros forte (images.hero) : la feuille monte dessus' },
+      { mesure: 'services', min: 2, max: 6, libelle: '2 à 6 activités (services) à colorer, une carte chacune' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on feuillette, on n'appelle pas vite" },
+    ],
+    convientA:
+      "Client à identité de couleur forte (devanture peinte, logo, emballage) et plusieurs activités à colorer différemment (services[].couleur) : boulangerie-pâtisserie-traiteur, épicerie fine avec cours, restaurant avec boutique, fromager avec plateaux et ateliers. Le cadre seul convient à tout client qui a une couleur ; la feuille qui monte demande une photo de héros forte. Pas pour l'urgence.",
+  },
+  'scenes-epinglees': {
+    id: 'scenes-epinglees',
+    modele:
+      "On traverse le lieu pièce par pièce : sous une barre fixe (nom, téléphone), un premier écran typographique (h1, métier et ville, téléphone, note), puis une scène épinglée à étapes où chaque espace du lieu est un panneau de couleur (nom, phrase, photo) qui pousse le précédent, l'équipe en cartes qui arrivent de côté, les avis, le contact ; au plus 8 écrans sur l'accueil, une page par activité.",
+    sources: [{ fiche: 'docs/veille/architectures/tab-kitchen.md', site: 'tabkitchenbakery.com' }],
+    layout: {
+      // Coquille `scenes`, dérivée de `slides` (chaque bloc occupe un écran, défilement aimanté en proximity) : la barre
+      // fine fixe (nom, métier à ville, téléphone, menu) et la scène d'ouverture sont rendues par la coquille ; la scène
+      // épinglée (data-pin) y tient ses étapes. nav : pages intérieures seulement ; hero : non rendu (`typographic`,
+      // sans photo, en garde l'équivalent pour le préchargement).
+      shell: 'scenes',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      sections: [
+        { type: 'about', variant: 'espaces' },
+        { type: 'about', variant: 'equipe-cartes' },
+        { type: 'proof', variant: 'testimonials' },
+        { type: 'contact', variant: 'simple' },
+      ],
+      contactDrawer: false,
+      actionBar: false,
+    },
+    requis: [
+      { mesure: 'espaces', min: 3, libelle: '3 espaces du lieu au moins (about.espaces : nom, phrase, photo) : un panneau chacun' },
+      { mesure: 'photos', min: 3, libelle: 'des photos du lieu (3 au moins) : les espaces se visitent en photo' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on visite, on n'appelle pas vite" },
+    ],
+    convientA:
+      "Lieu qu'on visite avec plusieurs espaces ou ateliers à montrer (3 au moins) et, idéalement, une équipe qui pose (about.team) : café, boulangerie avec salle, restaurant, tiers-lieu, atelier visitable, ferme. Client qui veut séduire plus qu'informer. Pas pour l'urgence ni les clients pressés.",
+  },
 };
 
 
@@ -316,6 +411,9 @@ export const VARIANTES_D_ARCHITECTURE = [
   'about/ecran-texte-photo',
   'proof/citations',
   'contact/ecran',
+  'about/espaces',
+  'about/equipe-cartes',
+  'services/cartes-couleur',
 ] as const;
 
 /**
@@ -329,11 +427,12 @@ export const COQUILLES_A_INDEX_REALISATIONS: readonly string[] = ['panneaux', 'c
 export interface SiteArchi {
   images?: { hero?: unknown };
   services?: { image?: unknown; lignes?: unknown[] }[];
-  about?: { portrait?: unknown; story?: string };
+  about?: { portrait?: unknown; story?: string; espaces?: { photo?: unknown }[] };
   proof?: { gallery?: { kind?: string }[] };
   realisations?: { kind?: string; photos?: unknown[] }[];
   contact?: { hours?: unknown[]; address?: { street?: string }; emergency24h?: boolean };
   agenda?: { date: string }[];
+  produits?: { photo?: unknown }[];
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -366,6 +465,7 @@ export function photosDuClient(s: SiteArchi): number {
     (s.services ?? []).filter((x) => x.image).length +
     (s.proof?.gallery ?? []).length +
     (s.about?.portrait ? 1 : 0) +
+    (s.about?.espaces ?? []).filter((e) => e.photo).length +
     (s.realisations ?? []).reduce((n, r) => n + (r.photos?.length ?? 0), 0)
   );
 }
@@ -400,6 +500,8 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
       case 'lignesPrix': n = (s.services ?? []).filter((x) => (x.lignes ?? []).length > 0).length; break;
       case 'histoire': n = (s.about?.story ?? '').split(/\n\s*\n/).filter((p) => p.trim()).length; break;
       case 'agenda': n = (s.agenda ?? []).length; break;
+      case 'espaces': n = (s.about?.espaces ?? []).length; break;
+      case 'produits': n = (s.produits ?? []).filter((p) => p.photo).length; break;
       case 'pasUrgence': if (s.contact?.emergency24h) out.push(e.libelle); continue;
     }
     if (compte(n, e)) out.push(`${e.libelle} (${n} aujourd’hui)`);

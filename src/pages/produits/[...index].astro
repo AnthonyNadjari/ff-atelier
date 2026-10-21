@@ -1,0 +1,70 @@
+---
+/**
+ * Page /produits : toute la gamme du client (site.produits, src/lib/produits.ts), regroupée par famille (`categorie`)
+ * dès deux familles distinctes, chaque produit en vignette détourée vers sa page /produits/<slug>. Architecture
+ * `gamme-vitrine` (Agrumea Farm, docs/veille/architectures/agrumea.md, page « Dispensa » : la gamme). Générée pour
+ * toute coquille dès qu'un produit est déclaré ; aucun produit = aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, categoriesProduits } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return site.produits.length > 0 ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const produits = site.produits;
+const familles = categoriesProduits(produits);
+// Dès deux familles : un groupe par famille, les produits sans famille à la fin (« Autres » n'est pas inventé :
+// ils sont simplement listés sans titre).
+const groupes = familles.length >= 2
+  ? [...familles.map((f) => ({ titre: f, items: produits.filter((p) => (p.categorie ?? '').trim() === f) })), { titre: '', items: produits.filter((p) => !(p.categorie ?? '').trim()) }].filter((g) => g.items.length > 0)
+  : [{ titre: '', items: produits }];
+const titre = site.wording.produits;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : ${produits.length} produits.`} path="/produits">
+  <Nav />
+  <main id="main" class="pl">
+    <div class="container-ff section-y">
+      <a href="/" class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />Accueil</a>
+      <h1 class="text-display-lg mt-6">{titre}</h1>
+      <p class="mt-4 max-w-prose text-lg">{metierEtVille()} {produits.length}&nbsp;produits, une page chacun.</p>
+      <p class="mt-3"><a href={tel()} class="inline-flex items-center gap-2 tabular-nums underline underline-offset-4"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a></p>
+      {groupes.map((g, gi) => (
+        <section class="pl-groupe" aria-labelledby={g.titre ? `pl-groupe-${gi}` : undefined}>
+          {g.titre && <h2 id={`pl-groupe-${gi}`} class="pl-famille font-display">{g.titre}</h2>}
+          <ul class="pl-liste">
+            {g.items.map((p, i) => (
+              <li class="pl-item">
+                <a href={`/produits/${p.slug}`} class="pl-lien group">
+                  <span class="pl-photo"><Img src={p.photo.src} alt={p.photo.alt} loading={gi === 0 && i < 3 ? 'eager' : 'lazy'} priority={gi === 0 && i === 0} class="pl-img" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 100vw" /></span>
+                  <span class="mt-3 block font-display text-xl group-hover:underline">{p.nom}</span>
+                  {p.prix && <span class="block text-sm tabular-nums text-muted">{p.prix}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pl-groupe { margin-block-start: 3rem; }
+  .pl-famille { font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.1; border-block-end: 1px solid var(--color-line); padding-block-end: 0.5rem; margin-block-end: 1.5rem; }
+  .pl-liste { display: grid; gap: 2.5rem 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pl-photo { display: block; aspect-ratio: 4 / 5; }
+  .pl-photo > :global(picture) { display: block; block-size: 100%; }
+  .pl-img { inline-size: 100%; block-size: 100%; object-fit: contain; filter: drop-shadow(0 1rem 1.2rem color-mix(in oklch, var(--color-ink) 24%, transparent)); transition: scale var(--motion-ui) var(--ease-out); }
+  .pl-lien { display: block; text-align: center; }
+  .pl-lien:hover .pl-img { scale: 1.03; }
+  .pl-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+  @media (min-width: 640px) { .pl-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .pl-liste { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+</style>

@@ -1,0 +1,104 @@
+---
+/**
+ * Coquille "scenes" : architecture `scenes-epinglees` (src/lib/architectures.ts ; source TAB Kitchen & Bakery,
+ * docs/veille/architectures/tab-kitchen.md). Dérivée de `slides` (chaque bloc occupe un écran, défilement aimanté en
+ * proximity, jamais piégeant) avec ce que la source n'a pas et que le socle exige :
+ *   → une BARRE FINE FIXE en haut (la « TAB KITCHEN | JP NAGAR » de la source) : le nom, « métier à ville », le
+ *     téléphone cliquable (toutes tailles), un menu <details> vers les pages (activités, conseils) et les ancres ;
+ *   → le premier écran = la scène d'ouverture : un aplat d'encre, le h1 géant posé EN BAS à gauche comme une affiche,
+ *     le métier et l'ancienneté au-dessus, la note Google et la porte d'écriture à droite (le numéro est dans la
+ *     barre, pas sous le h1 : ff ressemblance) ;
+ *   → les sections du layout, un écran chacune : la scène épinglée des espaces (about/espaces), l'équipe en cartes
+ *     (about/equipe-cartes), les avis, le contact ;
+ *   → le pied.
+ * Au plus 8 écrans sur l'accueil (la source en a 26 pour 600 mots) : la scène des espaces vaut un écran par espace.
+ *
+ * Socle docs/GOUT.md § 0 : h1 + métier à ville, `tel:` sans défiler (barre et contact), note Google au premier écran,
+ * avis en section, photos des espaces, plusieurs pages (servicePages). `layout.hero` n'est pas rendu ; `typographic`
+ * (sans photo) est son équivalent pour le préchargement. Signes de la source NON repris (GOUT § 2) : script mêlé au
+ * titre, quatre polices, 26 écrans sans téléphone, curseur, arche partout.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, metierEtVille, navLinks, hasContactDoor } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const liens = navLinks();
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+---
+
+<header class="sc-barre bg-bg text-fg border-line">
+  <a href="/" class="sc-nom font-display">{site.business.name}</a>
+  <p class="sc-lieu">{metierEtVille()}</p>
+  <a href={tel()} class="sc-tel tabular-nums"><Icon name="Phone" size={16} /><span class="sc-tel-num">{site.contact.phoneDisplay}</span><span class="sc-tel-court">Appeler</span></a>
+  <details class="sc-menu">
+    <summary class="sc-menu-bouton">Menu</summary>
+    <nav class="sc-menu-panneau bg-surface text-fg shadow-lift rounded-card" aria-label="Navigation principale">
+      <ul class="flex flex-col gap-2">
+        {liens.map((l) => <li><a href={l.href} class="sc-menu-lien font-display">{l.label}</a></li>)}
+        {site.servicePages && site.services.map((s) => <li><a href={`/services/${s.slug}`} class="sc-menu-lien font-display">{s.title}</a></li>)}
+      </ul>
+    </nav>
+  </details>
+</header>
+
+<main id="main">
+  <section id="hero" class="slide sc-ouverture bg-ink text-on-ink" aria-label="Accueil">
+    <div class="sc-ouverture-corps" data-stagger="110">
+      <p class="sc-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      <h1 class="sc-h1 font-display" set:html={site.business.tagline} />
+    </div>
+    <div class="sc-ouverture-cote">
+      {google && <a href={google.url} target="_blank" rel="noopener" class="sc-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google</a>}
+      {hasContactDoor(site) && <a href="/#contact" class="sc-ecrire">{site.wording.devis}<Icon name="ArrowDown" size={16} /></a>}
+    </div>
+  </section>
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      {/* Le type de la section sur l'enveloppe : ff ressemblance classe le bloc par son nom (l'enveloppe, pas la section). */}
+      <div class:list={['slide', `slide-${type}`]}><Component /></div>
+    </>
+  ))}
+</main>
+<Footer />
+
+<style is:global>
+  [data-shell='scenes'] { scroll-snap-type: y proximity; --sc-barre: 3.25rem; }
+  [data-shell='scenes'] .slide { scroll-snap-align: start; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+  [data-shell='scenes'] .slide > section { width: 100%; }
+  [data-shell='scenes'] .slide > section:not([class*='bg-']) { background: var(--bg); }
+  [data-shell='scenes'] .slide:nth-of-type(even) > section:not([class*='bg-ink']):not([class*='bg-accent']) { background: var(--bg-2); }
+  /* Barre fine fixe : nom, métier à ville, téléphone, menu. */
+  [data-shell='scenes'] .sc-barre { position: fixed; inset-block-start: 0; inset-inline: 0; z-index: 50; display: flex; align-items: center; gap: 1rem; block-size: var(--sc-barre); padding-inline: clamp(1rem, 3vw, 2rem); border-block-end: 1px solid var(--color-line); font-size: 0.9rem; }
+  [data-shell='scenes'] .sc-nom { font-size: 1.05rem; white-space: nowrap; }
+  [data-shell='scenes'] .sc-lieu { display: none; margin-inline-end: auto; color: var(--color-muted); }
+  [data-shell='scenes'] .sc-tel { display: inline-flex; align-items: center; gap: 0.4rem; margin-inline-start: auto; font-weight: 600; }
+  [data-shell='scenes'] .sc-tel-num { display: none; }
+  [data-shell='scenes'] .sc-menu { position: relative; }
+  [data-shell='scenes'] .sc-menu-bouton { cursor: pointer; list-style: none; padding: 0.4rem 0.75rem; border: 1px solid var(--color-line); border-radius: var(--radius, 6px); font-weight: 600; }
+  [data-shell='scenes'] .sc-menu-bouton::-webkit-details-marker { display: none; }
+  [data-shell='scenes'] .sc-menu-bouton:focus-visible, [data-shell='scenes'] .sc-tel:focus-visible, [data-shell='scenes'] .sc-nom:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  [data-shell='scenes'] .sc-menu-panneau { position: absolute; inset-inline-end: 0; inset-block-start: calc(100% + 0.6rem); inline-size: min(20rem, 86vw); padding: 1.25rem; }
+  [data-shell='scenes'] .sc-menu-lien { font-size: 1.25rem; line-height: 1.3; }
+  [data-shell='scenes'] .sc-menu-lien:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+  /* Scène d'ouverture : aplat d'encre, h1 géant en bas à gauche (l'affiche), note et porte à droite. */
+  [data-shell='scenes'] .sc-ouverture { display: grid; grid-template-rows: 1fr auto; gap: 1.5rem; padding: calc(var(--sc-barre) + 2rem) clamp(1.25rem, 4vw, 3rem) clamp(1.5rem, 5vh, 3.5rem); justify-content: stretch; }
+  [data-shell='scenes'] .sc-ouverture-corps { align-self: end; }
+  [data-shell='scenes'] .sc-metier { font-size: clamp(1rem, 1.4vw, 1.25rem); opacity: 0.85; }
+  [data-shell='scenes'] .sc-h1 { margin-block-start: 1rem; font-size: clamp(2.6rem, 8vw, 7.5rem); line-height: 0.95; max-inline-size: 12ch; }
+  [data-shell='scenes'] .sc-ouverture-cote { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 2rem; }
+  [data-shell='scenes'] .sc-note, [data-shell='scenes'] .sc-ecrire { text-decoration: underline; text-underline-offset: 0.2em; }
+  [data-shell='scenes'] .sc-ecrire { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; }
+  [data-shell='scenes'] .sc-note:focus-visible, [data-shell='scenes'] .sc-ecrire:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  @media (min-width: 48rem) {
+    [data-shell='scenes'] .sc-lieu { display: block; }
+    [data-shell='scenes'] .sc-tel-num { display: inline; }
+    [data-shell='scenes'] .sc-tel-court { display: none; }
+    [data-shell='scenes'] .sc-ouverture { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); grid-template-rows: 1fr; align-items: end; }
+    [data-shell='scenes'] .sc-ouverture-cote { flex-direction: column; align-items: flex-end; text-align: end; }
+  }
+  @media (prefers-reduced-motion: reduce) { [data-shell='scenes'] { scroll-snap-type: none; } }
+</style>

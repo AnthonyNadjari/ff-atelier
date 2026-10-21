@@ -168,6 +168,22 @@ export async function loadAgendaModule() {
   return loadPureLibModule('agenda.ts');
 }
 
+/**
+ * Copie src/lib/couleur.ts (module pur, sans import) dans TMP_DIR/lib/ et l'importe. Renvoie { COULEUR_RE, parseCouleur,
+ * luminance, contraste, teinteLisible, encreSur, styleTeinte, oklchVersRgb, rgbVersOklch } (tests/architectures.test.mjs).
+ */
+export async function loadCouleurModule() {
+  return loadPureLibModule('couleur.ts');
+}
+
+/**
+ * Copie src/lib/produits.ts (module pur) dans TMP_DIR/lib/ et l'importe. Renvoie { categoriesProduits, autresProduits,
+ * lienProduits, prixEnOffre } (tests/architectures.test.mjs, architecture gamme-vitrine).
+ */
+export async function loadProduitsModule() {
+  return loadPureLibModule('produits.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

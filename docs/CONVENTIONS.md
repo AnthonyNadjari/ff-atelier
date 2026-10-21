@@ -18,7 +18,7 @@ Astro 5 (statique, zero JS par defaut) + Tailwind 4 (config CSS-first, `src/styl
 ## Regles des sections
 1. Fichier : `src/sections/<Type>/<variante>.astro`, variante en kebab-case, exactement le nom liste dans `VARIANTS` (`src/lib/schema.ts`).
 2. Frontmatter : `import { site, ... } from '@/lib/site'`. Aucune prop : une section lit `site` directement.
-3. Racine : `<section id="<type>" class="section-y ...">` (id = `services`, `about`, `proof`, `zones`, `process`, `faq`, `contact` ; le hero a `id="hero"`, la nav n'a pas d'id, le footer est `<footer>`). Un seul id par type, meme si deux variantes du meme type sont dans le layout (dans ce cas la seconde n'a pas d'id : utiliser `id={Astro.props.id ?? 'proof'}`... non : garder simple, une variante par type dans un layout).
+3. Racine : `<section id="<type>" class="section-y ...">` (id = `services`, `about`, `proof`, `zones`, `process`, `faq`, `contact` ; le hero a `id="hero"`, la nav n'a pas d'id, le footer est `<footer>`). Un seul id par type : une variante par type dans un layout. Exception documentee (tests/sections.test.mjs, `idPropre`) : `About/equipe-cartes` porte `id="equipe"` parce qu'elle est faite pour suivre `About/espaces` (`#about`) sur la meme page (architecture scenes-epinglees).
 4. **Jamais de couleur, police ou rayon en dur.** Uniquement les tokens. Une section doit etre belle dans toutes les directions sans les connaitre.
 5. **Jamais de donnee inventee.** Pas de "+500 clients", pas d'avis fictifs, pas de "100 % satisfaits". Si `site.proof.google` est absent, la section proof/google rend `null` (frontmatter : `if (!site.proof.google) return;` n'existe pas en Astro — encadrer tout le markup dans `{site.proof.google && (...)}` ou rendre un fragment vide).
 6. Donnee absente = section qui s'adapte : pas de placeholder gris, pas de "Lorem ipsum". Image absente = composition sans image (voir hero/split).
@@ -140,7 +140,7 @@ possible en plus (jamais retiree) ; sans section contact dans le layout, le tiro
 dans une section. Metiers d'urgence : `dubois-plomberie`, `toits-cie`. Tokens uniquement.
 
 **Coquilles d'architecture** (`src/lib/architectures.ts`, `docs/veille/architectures/INDEX.md`) : `carte`,
-`index-projets`, `lieu-fixe`, `panneaux`, `carnet`, `livre`, `cartes-agenda` ne se prennent qu'avec leur architecture
+`index-projets`, `lieu-fixe`, `panneaux`, `carnet`, `livre`, `cartes-agenda`, `vitrine`, `cadre`, `scenes` ne se prennent qu'avec leur architecture
 (`layout.architecture`), jamais tirees par `ff composer` (`COQUILLES_D_ARCHITECTURE`). Elles rendent elles-memes leur
 premier ecran (h1 + metier a ville + `tel:` visible sans defiler, socle `docs/GOUT.md` § 0) et les sections du layout
 ensuite ; un bloc de la coquille qui porterait l'id d'une section du layout (`contact`, `about`, `proof`) le lui laisse.
@@ -152,6 +152,29 @@ seulement a partir de 64 rem et sans `prefers-reduced-motion` ; `.is-bande` pose
 `overflow: clip` (pas `hidden` : une ancre ne doit pas pouvoir la faire defiler), le focus clavier et les ancres ramenent
 la page au bon panneau, `[data-bande-progres]` recoit le pourcentage. Sans bande (telephone, mouvement reduit, sans
 script), les enveloppes sont en `display: contents` : chaque panneau est un bloc ordinaire de la page.
+
+**Couleur donnee par le client (`services[].couleur`, `about.espaces[].couleur`).** Une couleur du client (hex ou oklch) n'est
+jamais posee telle quelle sous du texte : `styleTeinte()` de `src/lib/couleur.ts` (module pur) rend `--teinte` et
+`--teinte-encre` (encre claire ou sombre de la meme teinte, choisie par contraste WCAG ; si aucune encre ne tient 4,5:1 sur
+une couleur moyenne, le fond est creuse dans sa teinte jusqu'a la lisibilite) et la section lit ces deux variables ;
+`data-theme="service"` marque l'element colore. Sans couleur, `styleTeinte` rend undefined et rien ne change (tokens). Sans
+couleur declaree, une rangee prend UNE teinte douce pour toutes ses cartes, jamais des teintes qui tournent (garde B5).
+
+**Scene epinglee a etapes (`about/espaces`).** `data-pin` va sur un enfant de la section (la scene), pas sur la section :
+le moteur enveloppe l'element epingle dans un `.pin-spacer` sans id, et `ff ressemblance` classerait le bloc sans son
+`id`. Les etapes (`data-pin-step`) changent par classe `.is-active` et transitions en temps (transform/opacite) ; le
+repli (motion `subtle`/`none`, `prefers-reduced-motion`, sans script) est la pile des panneaux, et `:has(.is-active)`
+garde le premier panneau visible tant que le moteur n'a rien active. Les coquilles a slides nomment leurs enveloppes
+(`slide-<type>`) pour la meme raison.
+
+**Piste manuelle (`vitrine`, fiche produit).** Une rangee d'objets qu'on fait glisser a la main (la gamme de la coquille
+`vitrine`, les photos d'ambiance d'une fiche `/produits/<slug>`) est un conteneur `overflow-x: auto` en
+`scroll-snap-type: x mandatory` avec `overscroll-behavior-x: contain`, barre de defilement fine par tokens, jamais la molette
+detournee ni un defilement simule (docs/GOUT.md § 4 : « un scroll lateral manuel ») ; pour la souris, deux boutons qui font
+`scrollBy` d'un ecran (un clic, pas la molette). Un objet qui pivote selon sa place le fait par `animation-timeline:
+view(inline)` sous `@supports`, avec un repli CSS fixe (inclinaison alternee) et rien sous `prefers-reduced-motion` ; rien ne
+tourne tout seul. Une piste sans lien dedans porte `role="region"`, un `aria-label` et `tabindex="0"` (axe :
+`scrollable-region-focusable`). Variables de scene prefixees (`--vt-*`, `--pf-*`).
 
 **Un ecran = un bloc.** Les sections faites d'ecrans ou de chapitres (`about/ecran-texte-photo`, `proof/citations`,
 `services/liste-a-filets`, `services/cartes-empilees`, le bloc agenda) ont pour racine une enveloppe `<div id="<type>">`

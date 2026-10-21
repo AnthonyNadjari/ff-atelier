@@ -47,7 +47,7 @@ const METIERS_INDEX = ['photograph', 'artiste', 'architect', 'tatou', 'illustrat
 
 // Coquilles d'ARCHITECTURE (src/lib/architectures.ts) : elles ne s'appliquent qu'avec leur architecture entiere
 // (layout.architecture), choisie sur les donnees du client — jamais tirees au hasard ici.
-export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda'];
+export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda', 'vitrine', 'cadre', 'scenes'];
 
 function shellFits(shell, { sectionsCount, motion, nav, hero, scale, metier = '' }) {
   if (COQUILLES_D_ARCHITECTURE.includes(shell)) return false;
@@ -361,6 +361,14 @@ export function varianteCompatible(type, variant, cfg = {}) {
       return cfg.layout?.architecture === 'livre-ecrans' && String(cfg.about?.story ?? '').split(/\n\s*\n/).filter((x) => x.trim()).length >= 2;
     case 'proof/citations':
       return cfg.layout?.architecture === 'livre-ecrans' && Array.isArray(cfg.proof?.testimonials) && cfg.proof.testimonials.length > 0;
+    // Scènes épinglées (TAB Kitchen) : les espaces du lieu, 3 au moins, avec leur architecture ; l'équipe en cartes dès
+    // que le client a donné son équipe.
+    case 'services/cartes-couleur':
+      return cfg.layout?.architecture === 'cadre-couleur' || services.some((s) => s && s.couleur);
+    case 'about/espaces':
+      return cfg.layout?.architecture === 'scenes-epinglees' && Array.isArray(cfg.about?.espaces) && cfg.about.espaces.length >= 3;
+    case 'about/equipe-cartes':
+      return Array.isArray(cfg.about?.team) && cfg.about.team.length > 0;
     case 'about/portrait':
     case 'about/overlap':
       return Boolean(cfg.about && cfg.about.portrait);

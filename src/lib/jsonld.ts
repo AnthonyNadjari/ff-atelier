@@ -102,3 +102,23 @@ export function conseilLd(site: Site, conseil: Site['conseils'][number], pageUrl
     publisher: { '@type': site.business.schemaType || schemaTypeForTrade(site.business.trade), name: site.business.name },
   };
 }
+
+/**
+ * Product d'une fiche /produits/<slug> (architecture gamme-vitrine, src/pages/produits/[slug].astro) : nom, photo,
+ * famille et description SI le client les donne ; `offers` seulement avec un prix (prixEnOffre de
+ * src/lib/produits.ts : « 6,50 € » devient un prix numérique en EUR, un prix en texte reste une description d'offre).
+ * Jamais de prix deviné, jamais de note (aggregateRating) : voir CLAUDE.md § Où sont les choses.
+ */
+export function produitLd(site: Site, produit: Site['produits'][number], pageUrl: string, imageUrl: string, offre?: Record<string, string>): Json {
+  return {
+    '@type': 'Product',
+    name: produit.nom,
+    url: pageUrl,
+    image: imageUrl,
+    ...(produit.description ? { description: produit.description } : {}),
+    ...(produit.categorie ? { category: produit.categorie } : {}),
+    brand: { '@type': 'Brand', name: site.business.name },
+    manufacturer: { '@type': site.business.schemaType || schemaTypeForTrade(site.business.trade), name: site.business.name },
+    ...(offre ? { offers: offre } : {}),
+  };
+}

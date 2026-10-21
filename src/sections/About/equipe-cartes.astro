@@ -1,0 +1,70 @@
+---
+/**
+ * About "equipe-cartes" : architecture `scenes-epinglees` (src/lib/architectures.ts ; source TAB Kitchen & Bakery,
+ * docs/veille/architectures/tab-kitchen.md, « les gens derrière le lieu » : cartes de l'équipe qui arrivent par la
+ * droite). Une carte par personne de `about.team[]` (nom, rôle, photo si le client l'a donnée) en file : à l'ordinateur
+ * une rangée, au téléphone la file glisse au doigt (scroll-snap, jamais de défilement détourné). Les cartes ARRIVENT
+ * DE CÔTÉ à l'intersection : le `data-stagger` du moteur révèle les enfants en cascade (opacité) et cette section
+ * remplace la translation de repos par une translation horizontale (simple transform, 0 sous `prefers-reduced-motion`).
+ * Rayon modéré (`--radius-card`), pas de pilule, pas de rond (signes IA, GOUT § 2). Sans équipe : rien.
+ *
+ * Id `equipe` : la scène des espaces (about/espaces) porte déjà l'id `about` du type dans ce layout (docs/CONVENTIONS.md
+ * règle 3 : un seul id par type) ; `ff ressemblance` classe « equipe » en à propos (scripts/ff/deroule.mjs).
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const equipe = site.about.team;
+---
+
+{equipe.length > 0 && (
+  <section id="equipe" class="eq section-y" aria-labelledby="eq-titre">
+    <div class="container-ff">
+      <h2 id="eq-titre" class="text-display-md">L’équipe</h2>
+    </div>
+    {/* La file glisse au doigt sous 64 rem : région défilable accessible au clavier (tabindex, axe). */}
+    <div class="eq-vue" tabindex="0" role="region" aria-label="Les cartes de l’équipe">
+    <ul class="eq-file" data-stagger="110">
+      {equipe.map((m) => (
+        <li class="eq-carte rounded-card bg-surface shadow-card">
+          {m.photo ? (
+            <figure class="eq-photo"><Img src={m.photo.src} alt={m.photo.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 64rem) 22vw, 70vw" /></figure>
+          ) : (
+            <div class="eq-photo eq-initiale font-display bg-bg-2 text-accent" aria-hidden="true">{m.name.charAt(0)}</div>
+          )}
+          <p class="eq-nom font-display">{m.name}</p>
+          <p class="eq-role text-muted">{m.role}</p>
+        </li>
+      ))}
+    </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .eq-vue { margin-block-start: 2rem; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .eq-vue::-webkit-scrollbar { display: none; }
+  .eq-vue:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+  .eq-file {
+    display: flex;
+    gap: 1rem;
+    padding-inline: max(clamp(1.25rem, 4vw, 2.5rem), calc((100% - var(--container)) / 2 + clamp(1.25rem, 4vw, 2.5rem)));
+    padding-block-end: 0.5rem;
+  }
+  .eq-carte { flex: 0 0 min(70vw, 18rem); scroll-snap-align: start; overflow: hidden; }
+  .eq-photo { aspect-ratio: 4 / 5; overflow: hidden; }
+  .eq-initiale { display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+  .eq-nom { padding: 1rem 1.25rem 0; font-size: 1.25rem; line-height: 1.2; }
+  .eq-role { padding: 0.25rem 1.25rem 1.25rem; font-size: 0.95rem; }
+  /* Entrée de côté : les cartes attendent à droite (48 px), le moteur les révèle en cascade (.is-visible sur la file). */
+  :global([data-motion]:not([data-motion='none'])) .eq-file:not(.is-visible) > .eq-carte { transform: translateX(48px); }
+  @media (min-width: 64rem) {
+    .eq-vue { overflow-x: visible; }
+    .eq-file { flex-wrap: wrap; gap: 1.25rem; }
+    .eq-carte { flex: 1 1 14rem; max-inline-size: 18rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .eq-vue { scroll-snap-type: none; }
+    :global([data-motion]) .eq-file > .eq-carte { transform: none; }
+  }
+</style>

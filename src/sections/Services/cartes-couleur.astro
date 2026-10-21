@@ -1,0 +1,74 @@
+---
+/**
+ * Services "cartes-couleur" : architecture `cadre-couleur` (src/lib/architectures.ts ; source Meyers,
+ * docs/veille/architectures/meyers.md, « rangées de cartes à aplat de couleur, une couleur par activité »). Une
+ * rangée de cartes, toute la carte est le lien vers la page de l'activité : la photo du client en haut si elle
+ * existe, puis sur l'aplat le nom, la phrase, le prix s'il est donné, et la flèche.
+ *
+ * Une couleur par activité : celle que le client déclare (`services[].couleur`, hex ou oklch), posée en `--teinte`
+ * avec l'encre claire ou sombre choisie par contraste (src/lib/couleur.ts, jamais un texte illisible). Sans couleur
+ * déclarée, TOUTES les cartes prennent la même teinte douce de l'accent de la direction (rien n'est tiré au hasard :
+ * des teintes qui tournent d'une carte à l'autre faisaient six couleurs sur une rangée, garde de beauté B5 de
+ * scripts/ff/melanger.mjs). Signes de la source NON repris (GOUT § 2) : capitales partout, étiquettes en pastilles,
+ * photos qui glissent sous un masque au survol.
+ */
+import { site, metierEtVille } from '@/lib/site';
+import { styleTeinte } from '@/lib/couleur';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+const lien = site.servicePages;
+---
+
+<section id="services" class="section-y">
+  <div class="container-ff">
+    <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} />
+    <ul class="cc-rangee mt-12" data-stagger="80">
+      {site.services.map((s) => {
+        const teinte = styleTeinte(s.couleur);
+        const Tag = lien ? 'a' : 'div';
+        return (
+          <li class="min-w-0">
+            <Tag
+              href={lien ? `/services/${s.slug}` : undefined}
+              class:list={['cc-carte rounded-card', teinte ? 'cc-t-client' : 'cc-t-pale']}
+              style={teinte}
+              data-theme={teinte ? 'service' : undefined}
+            >
+              {s.image && (
+                <span class="cc-photo">
+                  <Img src={s.image.src} alt={s.image.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 50vw, 100vw" />
+                </span>
+              )}
+              <span class="cc-corps">
+                <h3 class="cc-nom font-display">{s.title}</h3>
+                <span class="cc-phrase">{s.short}</span>
+                {s.priceFrom && <span class="cc-prix tabular-nums">{s.priceFrom}</span>}
+                {lien && <span class="cc-fleche" aria-hidden="true"><Icon name="ArrowRight" size={20} /></span>}
+              </span>
+            </Tag>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cc-rangee { display: grid; gap: 1rem; }
+  .cc-carte { display: flex; flex-direction: column; block-size: 100%; overflow: hidden; transition: transform var(--motion-ui, 0.25s) var(--ease-out), box-shadow var(--motion-ui, 0.25s) var(--ease-out); }
+  a.cc-carte:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+  a.cc-carte:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; }
+  .cc-t-pale { background: color-mix(in oklab, var(--color-accent) 18%, var(--color-bg)); color: var(--color-fg); }
+  .cc-t-client { background: var(--teinte); color: var(--teinte-encre); }
+  .cc-photo { display: block; aspect-ratio: 4 / 3; overflow: hidden; }
+  .cc-corps { display: flex; flex-direction: column; align-items: flex-start; gap: 0.6rem; flex: 1; padding: 1.5rem 1.5rem 1.75rem; }
+  .cc-nom { font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.1; }
+  .cc-phrase { line-height: 1.5; max-inline-size: 36ch; }
+  .cc-prix { font-weight: 600; }
+  .cc-fleche { margin-block-start: auto; padding-block-start: 1rem; }
+  @media (min-width: 40rem) { .cc-rangee { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .cc-rangee { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; } }
+  @media (prefers-reduced-motion: reduce) { .cc-carte { transition: none; } a.cc-carte:hover { transform: none; } }
+</style>

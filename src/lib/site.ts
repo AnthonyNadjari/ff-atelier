@@ -10,6 +10,8 @@ export { conseilsTries, dateConseil, lienConseils } from './conseils';
 import { lienConseils } from './conseils';
 export { agendaAVenir, dateAgenda, categoriesAgenda, lienAgenda, isoDuJour } from './agenda';
 import { lienAgenda } from './agenda';
+export { categoriesProduits, autresProduits, lienProduits, prixEnOffre } from './produits';
+import { lienProduits } from './produits';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -104,9 +106,11 @@ export const photosDuSite = (s: Site = site) => {
   const out: { src: string; alt: string }[] = [];
   const candidates = [
     s.about.portrait,
+    ...s.about.espaces.map((e) => e.photo),
     ...s.proof.gallery,
     ...s.realisations.flatMap((r) => r.photos),
     ...s.services.flatMap((x) => [x.image, ...x.images]),
+    ...s.produits.flatMap((p) => [p.photo, ...p.photos]),
   ];
   for (const p of candidates) {
     if (!p || vues.has(p.src)) continue;
@@ -180,5 +184,8 @@ export const navLinks = (s: Site = site) => {
   if (COQUILLES_A_INDEX_REALISATIONS.includes(s.layout.shell) && s.realisations.length > 0) links.unshift({ href: '/realisations', label: 'Réalisations' });
   const agenda = lienAgenda(s.agenda ?? [], s.wording.agenda);
   if (agenda) links.unshift(agenda);
+  // Produits (src/lib/produits.ts, architecture gamme-vitrine) : la gamme est le site, son lien ouvre la nav.
+  const produits = lienProduits(s.produits ?? [], s.wording.produits);
+  if (produits) links.unshift(produits);
   return links;
 };

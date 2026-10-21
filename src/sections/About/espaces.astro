@@ -1,0 +1,102 @@
+---
+/**
+ * About "espaces" : architecture `scenes-epinglees` (src/lib/architectures.ts ; source TAB Kitchen & Bakery,
+ * docs/veille/architectures/tab-kitchen.md). On traverse le lieu pièce par pièce : un panneau par espace du lieu
+ * (`about.espaces[]` : nom, phrase, photo et couleur optionnelles) dans une SCÈNE ÉPINGLÉE À ÉTAPES du moteur
+ * (`data-pin` sur la section, `data-pin-step` sur chaque panneau, src/scripts/motion.ts) : la page reste en place et
+ * les panneaux se poussent, le précédent glisse à gauche, le suivant arrive de droite, en fondu croisé (transitions en
+ * temps sur transform et opacité, 0,5 s). Jamais de calage image par image : sur iPhone, Safari défile hors du fil
+ * principal et une animation calée sur la progression saccade (pièges de CLAUDE.md) ; ici seules les ÉTAPES changent.
+ * Longueur : un écran par espace au-delà du premier (data-pin explicite = 100 % par étape supplémentaire), pour tenir
+ * l'accueil sous 8 écrans ; le moteur répartit les étapes sur cette course.
+ *
+ * Sans le palier `rich` (motion subtle ou none, prefers-reduced-motion, sans script) : rien n'est épinglé, les
+ * panneaux sont empilés, un bloc chacun. Sans espace déclaré : rien (jamais un espace inventé).
+ *
+ * Couleur du panneau : celle du client (`couleur`, encre choisie par contraste dans src/lib/couleur.ts), sinon les
+ * teintes des tokens de la direction tournent (fond 2, teinte pâle de l'accent, encre, surface). Signes de la source
+ * NON repris (GOUT § 2) : script calligraphique mêlé au titre, quatre polices, photo en arche partout, curseur.
+ */
+import { site } from '@/lib/site';
+import { styleTeinte } from '@/lib/couleur';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const espaces = a.espaces;
+const n = espaces.length;
+const TEINTES = ['es-t-fond', 'es-t-pale', 'es-t-encre', 'es-t-surface'];
+---
+
+{n > 0 && (
+  <section id="about" class="es" aria-labelledby="es-titre">
+    <div class="es-tete container-ff">
+      <h2 id="es-titre" class="text-display-md" set:html={a.title ?? 'Le lieu'} />
+    </div>
+    {/* La scène (pas la section) est épinglée : le bloc de la page reste la section id="about" (ff ressemblance lit son
+        id ; un élément épinglé est enveloppé par le moteur dans un .pin-spacer sans id). */}
+    <div class="es-scene" data-pin={100 * Math.max(1, n - 1)}>
+      {espaces.map((e, i) => {
+        const teinte = styleTeinte(e.couleur);
+        return (
+          <article class:list={['es-panneau', teinte ? 'es-t-client' : TEINTES[i % TEINTES.length], e.photo && 'es-avec']} style={teinte} data-pin-step aria-label={e.nom}>
+            <div class="es-corps">
+              <h3 class="es-nom font-display">{e.nom}</h3>
+              <p class="es-phrase">{e.phrase}</p>
+            </div>
+            {e.photo && (
+              <figure class="es-photo">
+                <Img src={e.photo.src} alt={e.photo.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 64rem) 50vw, 100vw" />
+              </figure>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  </section>
+)}
+
+<style>
+  /* Repli (subtle, none, mouvement réduit, sans script) : les panneaux empilés, un bloc chacun. */
+  .es { padding-block: clamp(3rem, 8vh, 6rem) 0; }
+  .es-tete { margin-block-end: 1.5rem; }
+  .es-scene { display: grid; gap: 1rem; padding-inline: clamp(1rem, 3vw, 2rem); padding-block-end: clamp(1rem, 3vw, 2rem); }
+  .es-panneau { display: grid; grid-template-rows: auto 1fr; min-block-size: 70svh; overflow: hidden; border-radius: var(--radius-card, 14px); opacity: 1; }
+  .es-t-fond { background: var(--color-bg-2); color: var(--color-fg); }
+  .es-t-pale { background: color-mix(in oklab, var(--color-accent) 22%, var(--color-bg)); color: var(--color-fg); }
+  .es-t-encre { background: var(--color-ink); color: var(--color-on-ink); }
+  .es-t-surface { background: var(--color-surface); color: var(--color-fg); }
+  .es-t-client { background: var(--teinte); color: var(--teinte-encre); }
+  .es-corps { display: flex; flex-direction: column; justify-content: center; gap: 1rem; padding: clamp(1.5rem, 4vw, 3.5rem); }
+  .es-nom { font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; }
+  .es-phrase { font-size: clamp(1.05rem, 1.4vw, 1.35rem); line-height: 1.5; max-inline-size: 38ch; }
+  .es-photo { overflow: hidden; min-block-size: 40svh; }
+  @media (min-width: 64rem) {
+    .es-avec { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .es-avec .es-photo { min-block-size: 0; }
+  }
+
+  /* Scène épinglée (palier rich, mouvement non réduit) : un écran, les panneaux superposés, l'étape active seule
+     visible, celles d'avant parties à gauche, celles d'après en attente à droite. `data-pin-step` passe en `.is-active`
+     par le moteur ; sans script, le premier panneau reste visible (:has). */
+  @media (prefers-reduced-motion: no-preference) {
+    :global([data-motion='rich']) .es { padding-block: clamp(4rem, 10vh, 6rem) 0; }
+    :global([data-motion='rich']) .es-scene { position: relative; display: block; block-size: 100svh; }
+    :global([data-motion='rich']) .es-panneau {
+      position: absolute;
+      inset: 0.5rem clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
+      min-block-size: 0;
+      opacity: 0;
+      transform: translateX(-6%);
+      transition: opacity 0.5s var(--ease-in-out), transform 0.5s var(--ease-in-out);
+      will-change: transform, opacity;
+    }
+    :global([data-motion='rich']) .es-panneau.is-active { opacity: 1; transform: none; z-index: 1; }
+    :global([data-motion='rich']) .es-panneau.is-active ~ .es-panneau { transform: translateX(6%); }
+    :global([data-motion='rich']) .es-scene:not(:has(.is-active)) .es-panneau:first-child { opacity: 1; transform: none; }
+    :global([data-motion='rich']) .es-photo { min-block-size: 0; }
+    :global([data-motion='rich']) .es-avec { grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) {
+    :global([data-motion='rich']) .es-avec { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  }
+</style>

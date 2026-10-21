@@ -64,6 +64,9 @@ export const SHELLS = [
   'carnet', // carnet feuillete de gauche a droite : chapitres poses librement sur une bande, rail fixe a gauche ; vertical au telephone (architecture carnet-horizontal)
   'livre', // pages composees comme un livre : couverture photo, puis un ecran par idee (architecture livre-ecrans)
   'cartes-agenda', // en-tete a porte Agenda, cartes de couleur empilees par activite, puis prochains rendez-vous et nouvelles (architecture cartes-empilees-agenda)
+  'cadre', // tout le site dans un cadre de couleur fixe : premier ecran colle au fond, feuille qui monte dessus (architecture cadre-couleur)
+  'scenes', // slides + barre fine fixe (nom, metier a ville, telephone, menu) et scene d ouverture sur aplat d encre ; scene epinglee des espaces du lieu (architecture scenes-epinglees)
+  'vitrine', // accueil d un ecran = la gamme en piste horizontale manuelle, barre fixe a bouton Menu plein ecran, une page par produit (architecture gamme-vitrine)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -72,8 +75,8 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 export const VARIANTS = {
   nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
   hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets'],
-  about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur'],
+  about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes'],
   proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations'],
   zones: ['list', 'map', 'chips'],
   process: ['steps', 'timeline', 'numbered', 'horizon'],
@@ -122,6 +125,9 @@ const conseil = z.object({
   image: img.optional().describe("Photo du client (chantier, atelier) ; absente = pas d'image, jamais une photo de banque présentée comme la sienne"),
 });
 export type Conseil = z.infer<typeof conseil>;
+
+/** Couleur ecrite par le client : hex #rrggbb ou oklch(L C H) (meme expression que COULEUR_RE de src/lib/couleur.ts, qui en choisit l'encre). */
+const couleur = z.string().regex(/^(#[0-9a-f]{6}|oklch\(\s*\d*\.?\d+%?\s+\d*\.?\d+\s+\d*\.?\d+(?:deg)?\s*\))$/i, 'couleur : hex #rrggbb ou oklch(L C H)');
 
 const hsl = z.object({
   h: z.number().min(0).max(360),
@@ -323,6 +329,9 @@ export const siteSchema = z.object({
           .describe("Lignes a prix de cette rubrique (carte d'un cafe, tarifs d'un salon) : services/carte-prix les aligne avec des pointilles. Vide = la rubrique montre ses bullets. Jamais un prix invente."),
         featured: z.boolean().default(false),
         priceFrom: z.string().optional().describe('ex: "a partir de 90 EUR" — seulement si le client le veut'),
+        couleur: couleur
+          .optional()
+          .describe("Couleur de cette activite, donnee par le client (devanture, logo, emballage ; architecture cadre-couleur, docs/veille/architectures/meyers.md) : hex #rrggbb ou oklch(L C H). Posee sur sa carte (services/cartes-couleur) et sur l'en-tete de sa page, avec une encre choisie par contraste (src/lib/couleur.ts). Absente = tokens de la direction, rien ne change. Jamais devinee."),
       }),
     )
     .min(1),
@@ -332,6 +341,17 @@ export const siteSchema = z.object({
     story: md,
     portrait: img.optional(),
     team: z.array(z.object({ name: z.string(), role: z.string(), photo: img.optional() })).default([]),
+    espaces: z
+      .array(
+        z.object({
+          nom: z.string().describe('Nom de l’espace tel que le client le dit (« La terrasse », « Le fournil », « L’atelier de finition »)'),
+          phrase: z.string().describe('Une phrase sur cet espace, ecrite depuis le brief'),
+          photo: img.optional().describe('Photo de cet espace, celle du client ; absente = panneau de couleur seul, jamais une photo de banque'),
+          couleur: couleur.optional().describe('Couleur du panneau de cet espace (hex #rrggbb ou oklch(L C H)), si le client en a une ; absente = teintes des tokens de la direction'),
+        }),
+      )
+      .default([])
+      .describe("Espaces du lieu qu'on visite (salle, terrasse, fournil, atelier ; architecture scenes-epinglees, docs/veille/architectures/tab-kitchen.md) : un panneau de couleur par espace dans la scene epinglee about/espaces. Vide = pas de scene. Jamais un espace invente."),
     values: z.array(z.object({ title: z.string(), text: z.string() })).default([]),
     milestones: z.array(z.object({ year: z.string(), text: z.string() })).default([]),
   }),
@@ -422,6 +442,27 @@ export const siteSchema = z.object({
       "Rendez-vous dates du client (stages, marches, degustations, soirees ; architecture cartes-empilees-agenda, docs/veille/architectures/groene-afslag.md) : bloc « prochains rendez-vous » de l'accueil + page /agenda filtrable par categorie + lien « Agenda » dans la nav. Les dates passees sont retirees au build (src/lib/agenda.ts) : reconstruire le site quand l'agenda change. Vide (ou tout passe) = ni bloc, ni page, ni lien. Jamais un rendez-vous invente.",
     ),
 
+  produits: z
+    .array(
+      z.object({
+        slug: z.string().regex(/^[a-z0-9-]+$/),
+        nom: z.string().describe('Nom du produit tel que le client le vend (« Confiture d’abricot », « Savon au lait d’ânesse »)'),
+        photo: img.describe('Photo DETOUREE du produit (fond transparent ou uni), celle du client : la vitrine la pose sur le fond de la direction, la fiche sur les lettres du titre. Jamais une photo de banque.'),
+        categorie: z.string().optional().describe('Famille du produit (« Confitures », « Pestos ») : regroupe la liste /produits des deux familles distinctes. Absente = non affichee.'),
+        formats: z.array(z.string()).default([]).describe('Formats ou poids proposes (« 250 g », « 1 kg ») : pastilles rondes de la fiche. Vide = non affiches.'),
+        composition: z.string().optional().describe('Ingredients ou composition tels que le client les donne. Absente = non affichee, jamais devinee.'),
+        conservation: z.string().optional().describe('Conservation donnee par le client (« 36 mois a l’abri de la lumiere », « 5 jours au frais »). Absente = non affichee.'),
+        conseils: z.string().optional().describe('Conseils d’usage ou de degustation du client (« a tartiner sur du pain grille »). Absents = colonne absente de la fiche.'),
+        prix: z.string().optional().describe('Prix tel que le client le donne (« 6,50 € », « a partir de 4 € ») ; absent = fiche sans prix et JSON-LD Product sans offre, jamais devine.'),
+        description: z.string().optional().describe('Une ou deux phrases du client sur le produit. Absente = non affichee.'),
+        photos: z.array(img).default([]).describe('Photos d’ambiance du client (le produit en situation, l’atelier) : piste aimantee de la fiche. Vide = pas de piste.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Gamme du client (architecture gamme-vitrine, docs/veille/architectures/agrumea.md) : l'accueil de la coquille vitrine EST cette gamme en piste horizontale manuelle, chaque produit a sa page /produits/<slug> (JSON-LD Product), la liste /produits les regroupe par famille, lien « Produits » dans la nav. Vide = ni accueil-gamme (la coquille le dit au build), ni page, ni lien. Jamais un produit invente.",
+    ),
+
   partenaires: z
     .array(
       z.object({
@@ -482,6 +523,7 @@ export const siteSchema = z.object({
       logosTitle: z.string().default('Certifications et garanties').describe('Titre de la rangée de labels (proof/logos), ex. « Qualibat, RGE ». Défaut « Certifications et garanties ».'),
       contactTitle: z.string().default('Parlons de votre projet'),
       agenda: z.string().default('Agenda').describe('Libellé de la porte et de la page des rendez-vous (site.agenda) : « Agenda », « Les rendez-vous de l’atelier »'),
+      produits: z.string().default('Produits').describe('Libellé du lien de nav et titre de la page /produits (site.produits) : « Produits », « La gamme », « Nos confitures »'),
       conseils: z.string().default('Conseils').describe('Libellé de la rubrique articles dans la nav et titre de /conseils (« Conseils », « Le carnet de l’atelier »)'),
       contactText: z.string().default('Décrivez votre besoin, nous vous rappelons rapidement.'),
       actions: z

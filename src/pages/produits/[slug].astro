@@ -1,0 +1,159 @@
+---
+/**
+ * Page d'un produit (site.produits, src/lib/produits.ts) : architecture `gamme-vitrine` (Agrumea Farm,
+ * docs/veille/architectures/agrumea.md, fiche « caponata »). Le titre géant avec le produit détouré posé PAR-DESSUS
+ * les lettres (profondeur), la famille et le prix en marge, la phrase du client et la composition centrées, la fiche
+ * technique en colonnes à filets (conseils, formats en pastilles rondes, conservation ; une colonne absente n'existe
+ * pas), les photos d'ambiance en piste aimantée (scroll-snap, au doigt), « Les autres produits », le téléphone.
+ * JSON-LD Product sans offre quand le prix manque. Générée seulement pour les produits du client : aucun = aucune page.
+ * Signes IA de la source non repris : capitales espacées, pilules, chargeur, bannière plein écran.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, hasContactDoor, autresProduits, prixEnOffre } from '@/lib/site';
+import { produitLd } from '@/lib/jsonld';
+import { resolveSection } from '@/lib/sections';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+export function getStaticPaths() {
+  return site.produits.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const autres = autresProduits(site.produits, p.slug, 4);
+const colonnes = [
+  p.conseils ? { titre: 'Conseils', texte: p.conseils } : null,
+  p.formats.length > 0 ? { titre: 'Formats', formats: p.formats } : null,
+  p.conservation ? { titre: 'Conservation', texte: p.conservation } : null,
+].filter(Boolean) as ({ titre: string; texte: string } | { titre: string; formats: string[] })[];
+const description = p.description ?? `${p.nom}, un produit de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}.`;
+const pageUrl = new URL(`/produits/${p.slug}`, Astro.site).toString();
+const ld = produitLd(site, p, pageUrl, new URL(p.photo.src, Astro.site).toString(), prixEnOffre(p.prix));
+---
+
+<Base title={`${p.nom} | ${site.business.name}`} description={description} path={`/produits/${p.slug}`} jsonLd={[ld]}>
+  <Nav />
+  <main id="main" class="pf">
+    <article>
+      <div class="container-ff pf-retour"><a href="/produits" class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />{site.wording.produits}</a></div>
+
+      <header class="pf-tete">
+        <h1 class="pf-h1 font-display">{p.nom}</h1>
+        <div class="pf-photo"><Img src={p.photo.src} alt={p.photo.alt} priority class="pf-img" sizes="(min-width: 1024px) 40vw, 80vw" /></div>
+        {(p.categorie || p.prix) && (
+          <p class="pf-marges">
+            <span>{p.categorie}</span>
+            {p.prix && <span class="tabular-nums">{p.prix}</span>}
+          </p>
+        )}
+      </header>
+
+      {(p.description || p.composition) && (
+        <div class="container-ff pf-centre">
+          {p.description && <p class="pf-phrase">{p.description}</p>}
+          {p.composition && <p class="pf-compo"><span class="font-medium">Composition&nbsp;:</span> {p.composition}</p>}
+        </div>
+      )}
+
+      {colonnes.length > 0 && (
+        <dl class="container-ff pf-fiche" style={`--pf-colonnes:${colonnes.length}`}>
+          {colonnes.map((c) => (
+            <div class="pf-colonne">
+              <dt class="pf-colonne-titre font-display">{c.titre}</dt>
+              {'formats' in c ? (
+                <dd><ul class="pf-pastilles">{c.formats.map((f) => <li class="pf-pastille tabular-nums">{f}</li>)}</ul></dd>
+              ) : (
+                <dd class="pf-colonne-texte">{c.texte}</dd>
+              )}
+            </div>
+          ))}
+        </dl>
+      )}
+
+      {p.photos.length > 0 && (
+        <div class="pf-ambiance" role="region" aria-label={`${p.nom} en photos`} tabindex="0">
+          {p.photos.map((ph) => (
+            <figure class="pf-ambiance-item">
+              <Img src={ph.src} alt={ph.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 30vw, 72vw" />
+              {ph.caption && <figcaption class="mt-2 text-sm text-muted">{ph.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+      )}
+
+      <div class="container-ff pf-portes">
+        <Button href={tel()} size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+        {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
+      </div>
+
+      {autres.length > 0 && (
+        <section class="pf-autres bg-bg-2" aria-labelledby="pf-autres-titre">
+          <div class="container-ff">
+            <h2 id="pf-autres-titre" class="pf-autres-titre font-display">Les autres produits</h2>
+            <ul class="pf-autres-liste">
+              {autres.map((a) => (
+                <li>
+                  <a href={`/produits/${a.slug}`} class="pf-autre group">
+                    <span class="pf-autre-photo bg-surface shadow-card"><Img src={a.photo.src} alt={a.photo.alt} loading="lazy" class="pf-autre-img" sizes="(min-width: 1024px) 20vw, 45vw" /></span>
+                    <span class="mt-3 block font-display text-lg group-hover:underline">{a.nom}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p class="mt-8"><a href="/produits" class="inline-flex items-center gap-2 underline underline-offset-4">Toute la gamme<Icon name="ArrowRight" size={16} /></a></p>
+          </div>
+        </section>
+      )}
+    </article>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pf-retour { padding-block: clamp(5.5rem, 12vh, 8rem) 0; }
+  /* Le titre géant et le produit posé dessus : deux plans, le produit devant les lettres (Agrumea). */
+  .pf-tete { position: relative; display: grid; justify-items: center; padding: clamp(1.5rem, 5vh, 4rem) clamp(1.25rem, 4vw, 3rem) 0; }
+  .pf-h1 { grid-area: 1 / 1; font-size: clamp(3rem, 14vw, 13rem); line-height: 0.9; letter-spacing: -0.02em; text-align: center; max-inline-size: 7ch; color: var(--color-accent); text-wrap: balance; }
+  /* Le produit chevauche le bas du titre, jamais tout le titre : la première ligne reste lisible (photo non détourée comprise). */
+  .pf-photo { grid-area: 1 / 1; align-self: end; inline-size: min(60vw, 18rem); aspect-ratio: 4 / 5; translate: 0 36%; z-index: 1; }
+  .pf-photo > :global(picture), .pf-autre-photo > :global(picture) { display: block; block-size: 100%; }
+  .pf-img { inline-size: 100%; block-size: 100%; object-fit: contain; filter: drop-shadow(0 1.6rem 2rem color-mix(in oklch, var(--color-ink) 30%, transparent)); }
+  .pf-marges { grid-area: 2 / 1; inline-size: 100%; display: flex; justify-content: space-between; gap: 1rem; padding-block-start: clamp(6.5rem, 30vw, 9rem); font-size: 0.95rem; }
+  .pf-centre { display: grid; justify-items: center; gap: 1.25rem; text-align: center; padding-block: clamp(2rem, 6vh, 4rem) 0; }
+  .pf-phrase { font-size: clamp(1.2rem, 2.2vw, 1.6rem); line-height: 1.4; max-inline-size: 34ch; }
+  .pf-compo { max-inline-size: 60ch; line-height: 1.6; }
+  /* Fiche technique : colonnes séparées par des filets, jamais une carte. */
+  .pf-fiche { display: grid; gap: 0; margin-block-start: clamp(2.5rem, 8vh, 5rem); border-block: 1px solid var(--color-line); }
+  .pf-colonne { padding: 1.5rem 0; border-block-end: 1px solid var(--color-line); }
+  .pf-colonne:last-child { border-block-end: 0; }
+  .pf-colonne-titre { font-size: 1.25rem; margin-block-end: 0.75rem; }
+  .pf-colonne-texte { line-height: 1.6; }
+  /* Pastilles RONDES (un cercle, pas une pilule) : le format au centre, un filet autour. */
+  .pf-pastilles { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .pf-pastille { display: grid; place-items: center; inline-size: 4.5rem; block-size: 4.5rem; border: 1px solid currentColor; border-radius: 50%; font-size: 0.95rem; text-align: center; padding: 0.25rem; }
+  /* Photos d'ambiance : piste aimantée, au doigt ou aux flèches de la barre de défilement, jamais la molette. */
+  .pf-ambiance:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .pf-ambiance { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding: clamp(2.5rem, 8vh, 5rem) clamp(1.25rem, 4vw, 3rem) 1rem; scroll-padding-inline: clamp(1.25rem, 4vw, 3rem); scrollbar-width: thin; scrollbar-color: var(--color-line) transparent; }
+  .pf-ambiance-item { flex: none; inline-size: min(72vw, 24rem); scroll-snap-align: start; }
+  .pf-ambiance-item > :global(picture), .pf-ambiance-item > :global(img) { display: block; aspect-ratio: 4 / 5; inline-size: 100%; }
+  .pf-portes { display: flex; flex-wrap: wrap; gap: 1rem; padding-block: clamp(2.5rem, 8vh, 5rem); }
+  .pf-autres { padding-block: clamp(3rem, 8vh, 5rem); }
+  .pf-autres-titre { font-size: clamp(2rem, 7vw, 6rem); line-height: 1; letter-spacing: -0.02em; margin-block-end: 2rem; }
+  .pf-autres-liste { display: grid; gap: 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pf-autre { display: block; text-align: center; }
+  .pf-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+  .pf-autre-photo { display: block; aspect-ratio: 1; padding: 1rem; border-radius: var(--radius, 6px); }
+  .pf-autre-img { inline-size: 100%; block-size: 100%; object-fit: contain; filter: drop-shadow(0 0.8rem 1rem color-mix(in oklch, var(--color-ink) 22%, transparent)); }
+  @media (min-width: 48rem) {
+    .pf-fiche { grid-template-columns: repeat(var(--pf-colonnes, 3), minmax(0, 1fr)); }
+    .pf-colonne { padding: 2rem clamp(1.25rem, 3vw, 2.5rem); border-block-end: 0; border-inline-start: 1px solid var(--color-line); }
+    .pf-colonne:first-child { border-inline-start: 0; padding-inline-start: 0; }
+  }
+  @media (min-width: 64rem) {
+    .pf-photo { inline-size: min(28vw, 24rem); translate: 0 40%; }
+    .pf-marges { padding-block-start: clamp(10rem, 15vw, 14rem); }
+    .pf-autres-liste { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+</style>

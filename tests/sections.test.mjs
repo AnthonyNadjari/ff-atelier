@@ -104,9 +104,13 @@ for (const { folder, file, full } of allSectionFiles) {
     // pointe toujours vers #contact), donc les 3 variantes Cta/*.astro n'en portent pas. On suit la loi
     // documentee plutot que d'inventer une regle "cta doit avoir un id" que le code ne respecte pas.
     const excluded = ['hero', 'nav', 'footer', 'cta'];
+    // Variantes faites pour coexister avec une autre du meme type sur la meme page (architecture scenes-epinglees :
+    // about/espaces porte #about, l'equipe a son propre id) : un id a elles, documente dans docs/CONVENTIONS.md.
+    const idPropre = { 'About/equipe-cartes': 'equipe' };
+    const attendu = idPropre[`${folder}/${file.replace(/\.astro$/, '')}`] ?? folder.toLowerCase();
     if (!excluded.includes(folder.toLowerCase())) {
-      const idRe = new RegExp(`id=["']${folder.toLowerCase()}["']`);
-      assert.match(raw, idRe, `section racine doit porter id="${folder.toLowerCase()}"`);
+      const idRe = new RegExp(`id=["']${attendu}["']`);
+      assert.match(raw, idRe, `section racine doit porter id="${attendu}"`);
     }
   });
 }

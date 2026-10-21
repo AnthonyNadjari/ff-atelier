@@ -1,0 +1,117 @@
+---
+/**
+ * Coquille "cadre" : architecture `cadre-couleur` (src/lib/architectures.ts ; source Meyers,
+ * docs/veille/architectures/meyers.md). Dérivée de `sticky-hero` : tout le site est posé dans un CADRE de couleur
+ * fixe (une marge de 24 px tout autour, 16 px au téléphone, qui ne bouge pas : le fond du corps de page) ;
+ *   → la nav du site, rentrée dans le cadre, en bande de papier ;
+ *   → le premier écran collé au fond (`position: sticky`) : sur le papier, le h1 géant à gauche avec « métier à
+ *     ville » et l'ancienneté, le téléphone et la note Google à droite, puis la photo du client qui remplit le reste
+ *     de l'écran (pas le h1 posé au milieu de la photo avec le numéro dessous de tous les autres sites : ff
+ *     ressemblance) ;
+ *   → les sections du layout en FEUILLE qui monte par-dessus (une seule ombre, sous le premier bloc de la feuille) ;
+ *   → le pied, dans le cadre, qui ferme la page sous la dernière feuille.
+ * Trois plans (cadre fixe, premier écran collé, feuille qui monte) : la profondeur de docs/GOUT.md § 0 sans script.
+ * Les sections sont les enfants directs du corps (pas d'enveloppe) : `ff ressemblance` lit le déroulé bloc par bloc.
+ *
+ * La couleur du cadre : le fond 2 de la direction réchauffé d'un peu d'accent (color-mix), jamais un aplat vif pleine
+ * page (garde de beauté B1/B3 de scripts/ff/melanger.mjs : la couleur vive se garde aux petites surfaces). La couleur
+ * par activité est dans la section `services/cartes-couleur` (services[].couleur) et sur la page de chaque activité.
+ *
+ * Socle docs/GOUT.md § 0 : h1 + métier à ville, `tel:` visible sans défiler (premier écran et nav), note Google en
+ * haut, avis en section, photo du client, plusieurs pages (servicePages). `layout.hero` n'est pas rendu (la coquille
+ * fait le premier écran) ; `fullbleed` garde le préchargement de la photo à 100vw (Base.astro, heroSizesFor). Sans
+ * photo : un aplat d'encre, on demande la photo. Signes de la source NON repris (GOUT § 2) : capitales partout,
+ * pastilles, mots du h1 révélés un à un, bannière cookies plein écran.
+ */
+import Divider from '@/components/Divider.astro';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, metierEtVille } from '@/lib/site';
+import { heroSizesFor } from '@/lib/images';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const photo = site.images.hero;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+---
+
+<Nav />
+<main id="main" class="cadre-page">
+  {/* Le corps (premier écran collé + feuille) est un plan entier : le premier écran ne colle que dans le corps. */}
+  <div class="cadre-corps">
+    <section id="hero" class="cadre-fond bg-bg" aria-label="Accueil">
+      <div class="cadre-hero-haut" data-stagger="110">
+        <div>
+          <h1 class="cadre-h1 font-display" set:html={site.business.tagline} />
+          <p class="cadre-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+        </div>
+        <div class="cadre-hero-cote">
+          <a href={tel()} class="cadre-tel tabular-nums"><Icon name="Phone" size={20} />{site.contact.phoneDisplay}</a>
+          {google && <a href={google.url} target="_blank" rel="noopener" class="cadre-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google</a>}
+        </div>
+      </div>
+      <div class:list={['cadre-photo-cadre', !photo && 'bg-ink']}>
+        {photo && <Img src={photo.src} alt={photo.alt} priority sizes={heroSizesFor(site.layout.hero)} class="cadre-photo" />}
+      </div>
+    </section>
+    {sections.map(({ Component, type }, i) => (
+      <>
+        {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+        <Component />
+      </>
+    ))}
+  </div>
+  <div class="cadre-pied"><Footer /></div>
+</main>
+{/* Astuce de lecture : la coquille ne rend pas <Hero /> (premier écran ci-dessus). */}
+
+<style is:global>
+  /* Le cadre est le fond du corps de page, visible dans les marges de <main> : il ne défile pas, il n'est pas un
+     calque posé sur le contenu (rien n'est caché sous lui). */
+  [data-shell='cadre'] { --cadre: 1rem; --cadre-couleur: color-mix(in oklab, var(--color-accent) 12%, var(--color-bg-2)); }
+  [data-shell='cadre'] body { background: var(--cadre-couleur); }
+  /* Les pages intérieures (activités, mentions) gardent le cadre : leur main et leur pied en feuille dans la marge. */
+  [data-shell='cadre'] body > main { margin: var(--cadre); background: var(--color-bg); border-radius: var(--radius-card, 14px); overflow: clip; }
+  [data-shell='cadre'] body > footer { margin: 0 var(--cadre) var(--cadre); border-radius: var(--radius-card, 14px); overflow: clip; }
+  [data-shell='cadre'] .cadre-page { position: relative; margin: var(--cadre); background: transparent; border-radius: 0; overflow: visible; }
+  /* La nav du site (fixe, pleine largeur) rentre dans le cadre en bande de papier (la bande de nav de Meyers) : ses
+     liens gardent leur contraste au lieu de flotter sur la photo. Règle hors couche : elle bat `inset-x-0 top-0`. */
+  [data-shell='cadre'] header[data-nav] { inset-inline: var(--cadre); inset-block-start: var(--cadre); background: var(--color-bg); border-start-start-radius: var(--radius-card, 14px); border-start-end-radius: var(--radius-card, 14px); }
+  [data-shell='cadre'] .cadre-corps { position: relative; z-index: 10; }
+  /* Premier écran collé au fond du corps. */
+  /* Premier écran collé au fond : en haut, sur le papier, le h1 géant et le métier à gauche, le téléphone et la note
+     à droite ; en bas, la photo du client qui remplit le reste de l'écran (la feuille la recouvre en premier). */
+  [data-shell='cadre'] .cadre-fond { position: sticky; inset-block-start: var(--cadre); z-index: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); block-size: calc(100svh - 2 * var(--cadre)); overflow: hidden; border-radius: var(--radius-card, 14px); }
+  /* Au téléphone, la bande de nav est plus haute (le nom passe sur deux lignes à côté de la porte) : 6,5 rem de réserve. */
+  [data-shell='cadre'] .cadre-hero-haut { display: grid; gap: 1rem; padding: calc(var(--cadre) + 6.5rem) clamp(1.25rem, 4vw, 3rem) 1.5rem; }
+  [data-shell='cadre'] .cadre-h1 { font-size: clamp(2.2rem, 5.6vw, 5.5rem); line-height: 0.95; max-inline-size: 14ch; }
+  [data-shell='cadre'] .cadre-metier { margin-block-start: 1rem; font-size: clamp(1rem, 1.4vw, 1.25rem); max-inline-size: 40ch; }
+  [data-shell='cadre'] .cadre-hero-cote { display: flex; flex-direction: column; align-items: flex-start; gap: 0.35rem; }
+  [data-shell='cadre'] .cadre-tel { display: inline-flex; align-items: center; gap: 0.5rem; font-size: clamp(1.2rem, 2vw, 1.75rem); font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 2px; }
+  [data-shell='cadre'] .cadre-note { font-size: 0.95rem; text-decoration: underline; text-underline-offset: 0.2em; }
+  [data-shell='cadre'] .cadre-photo-cadre { position: relative; min-block-size: 0; }
+  [data-shell='cadre'] .cadre-photo { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; }
+  [data-shell='cadre'] .cadre-tel:focus-visible, [data-shell='cadre'] .cadre-note:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  /* La feuille : chaque section du layout monte par-dessus le premier écran ; la seule ombre est sous la première. */
+  [data-shell='cadre'] .cadre-corps > :not(.cadre-fond) { position: relative; z-index: 1; }
+  [data-shell='cadre'] .cadre-corps > :not(.cadre-fond):not([class*='bg-']) { background: var(--color-bg); }
+  [data-shell='cadre'] .cadre-corps > .cadre-fond + * { border-start-start-radius: var(--radius-card, 14px); border-start-end-radius: var(--radius-card, 14px); box-shadow: var(--shadow-lift); }
+  [data-shell='cadre'] .cadre-corps > :last-child { border-end-start-radius: var(--radius-card, 14px); border-end-end-radius: var(--radius-card, 14px); }
+  /* Le pied ferme la page dans le cadre, sous la dernière feuille (en flux : un pied collé en bas derrière le corps se
+     retrouvait déplacé en haut dans les captures pleine page et laissait une bande vide en fin de page, 21 oct 2026). */
+  [data-shell='cadre'] .cadre-pied { position: relative; z-index: 0; margin-block-start: var(--cadre); }
+  [data-shell='cadre'] .cadre-pied > footer { border-radius: var(--radius-card, 14px); overflow: clip; }
+  /* La nav minimale pose un espaceur de 76 px après elle (pour une page sans cadre) : inutile ici, le premier écran
+     réserve déjà la place de la bande. */
+  [data-shell='cadre'] header[data-nav] + div[aria-hidden='true'] { display: none; }
+  @media (min-width: 48rem) {
+    [data-shell='cadre'] { --cadre: 1.5rem; }
+    [data-shell='cadre'] .cadre-hero-haut { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: end; padding-block-start: calc(var(--cadre) + 5.5rem); padding-block-end: 2rem; }
+    [data-shell='cadre'] .cadre-hero-cote { align-items: flex-end; text-align: end; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* Rien ne glisse sur rien : le premier écran et le pied reprennent le flux, le cadre reste. */
+    [data-shell='cadre'] .cadre-fond, [data-shell='cadre'] .cadre-pied { position: static; }
+  }
+</style>

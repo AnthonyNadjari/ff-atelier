@@ -10,6 +10,21 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 - la collecte doit ramener des palettes sombre (5 tirables sur 64, 8 au moins)
 <!-- /ff melanger -->
 
+## 22 oct 2026, nuit (carte blanche du fondateur) : 3 architectures, hébergement Workers, pipeline
+
+**Fait**
+- Les trois architectures qui restaient (lignes ci-dessous, agents de nuit) : le registre compte 11 architectures codées sur 12
+  (reste `outil-calendrier`, qui demande un calendrier iCal : à ne faire que pour un client qui en a un).
+- `ff deploy` en Cloudflare Workers par défaut (config écrite par la commande, formulaire + binding e-mail déclarés, domaine
+  attaché par l'API : zéro clic dashboard par site, tenable à 200 sites), Pages sur `--pages`, mode mémorisé dans
+  `sites/<slug>/hebergement.json`. `ff tous --depuis` + CI partielle, `deploy.yml` limité aux sites livrés, Dependabot,
+  `npm audit fix` (restent Astro 7 et sharp : majeures, tour dédié).
+- Studio : guide domaine réécrit (F&F achète, 10 ans), mise en demeure, registre RGPD, fiche « reprendre son site ».
+- Build de référence : 41 sites verts avant les changements.
+
+- 22 oct 2026 : architecture `gamme-vitrine` (Agrumea Farm) codée : coquille `vitrine` (accueil d'un écran = la gamme en piste manuelle, menu plein écran), `produits[]`, pages `/produits` et `/produits/<slug>`, mesure `produits` ; preuve sur site jetable (`ff verifier` vert hors données de test, `ff ressemblance` 0,58 / 0,63). Restent 5, 6 et 9 (`docs/veille/architectures/INDEX.md`).
+- 22 oct 2026 : architectures `cadre-couleur` (Meyers) et `scenes-epinglees` (TAB Kitchen & Bakery) codées : coquille `cadre` (cadre de couleur fixe, premier écran collé, feuille à une ombre, nav rentrée dans le cadre), `services[].couleur` + `services/cartes-couleur` + page d'activité coiffée de sa couleur (`src/lib/couleur.ts` : encre par contraste, fond creusé jusqu'à 4,5:1) ; coquille `scenes` (barre fine fixe avec téléphone, ouverture sur aplat), `about.espaces[]` + `about/espaces` (scène épinglée à étapes, `data-pin` sur la scène) + `about/equipe-cartes`, mesure `espaces`. Preuves sur sites jetables : `ff verifier` vert hors données de test, `ff audit-motion` vert, `ff ressemblance` 0,66 au déroulé pour les deux (cadre reste proche du déroulé long, comme prévu), 0,72 au premier écran téléphone pour scenes (h1 en bas sur aplat, moteur-fils). `ff melanger` les tire dès que les données sont là (vérifié par les fonctions pures). Reste 5.
+
 ## 19 oct 2026, tour 4 (routine en ligne) : 5 styles, 2 architectures
 
 **Fait**

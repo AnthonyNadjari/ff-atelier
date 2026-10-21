@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { loadArchitecturesModule, loadSchemaModule, loadAgendaModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
+import { loadArchitecturesModule, loadSchemaModule, loadAgendaModule, loadProduitsModule, loadCouleurModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
 
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const tsImportable = await canImportTs();
@@ -706,3 +706,388 @@ for (const [id, shell] of Object.entries(NOUVELLES)) {
     }
   });
 }
+
+// ---- 22 oct 2026 : gamme-vitrine (Agrumea Farm) : catalogue d'abord, l'accueil d'un écran est la gamme. ----
+
+if (tsImportable) {
+  test('registre gamme-vitrine : coquille vitrine, aucune section, page À propos et tiroir, mesure « produits » 6 à 20', async () => {
+    const { ARCHITECTURES, ARCHITECTURE_IDS, completerLayout, donneesManquantes } = await loadArchitecturesModule();
+    assert.ok(ARCHITECTURE_IDS.includes('gamme-vitrine'));
+    const a = ARCHITECTURES['gamme-vitrine'];
+    assert.equal(a.layout.shell, 'vitrine');
+    assert.deepEqual(a.layout.sections, []);
+    assert.equal(a.layout.pageAPropos, true);
+    assert.equal(a.layout.contactDrawer, true);
+    assert.equal(completerLayout({ architecture: 'gamme-vitrine' }).shell, 'vitrine');
+    assert.deepEqual(a.requis.map((e) => e.mesure), ['produits', 'pasUrgence']);
+    const photo = { src: '/p.webp', alt: 'p' };
+    const six = Array.from({ length: 6 }, () => ({ photo }));
+    assert.deepEqual(donneesManquantes('gamme-vitrine', { produits: six }), []);
+    assert.match(donneesManquantes('gamme-vitrine', { produits: six.slice(0, 2) }).join(), /6 à 20 produits.*\(2 aujourd’hui\)/);
+    assert.match(donneesManquantes('gamme-vitrine', { produits: Array(21).fill({ photo }) }).join(), /\(21 aujourd’hui\)/);
+    assert.match(donneesManquantes('gamme-vitrine', {}).join(), /\(0 aujourd’hui\)/, 'sans produits[] : la coquille le dit, rien n’est inventé');
+    assert.match(donneesManquantes('gamme-vitrine', { produits: six, contact: { emergency24h: true } }).join(), /urgence/);
+  });
+
+  test('schema : produits[] (slug, nom, photo obligatoires ; le reste absent reste absent), wording.produits, coquille vitrine', async () => {
+    const { defineSite, SHELLS } = await loadSchemaModule();
+    assert.ok(SHELLS.includes('vitrine'));
+    const vide = defineSite(minimal);
+    assert.deepEqual(vide.produits, []);
+    assert.equal(vide.wording.produits, 'Produits');
+    const photo = { src: '/images/confiture.webp', alt: 'Pot de confiture d’abricot' };
+    const avec = defineSite({
+      ...minimal,
+      layout: { architecture: 'gamme-vitrine' },
+      produits: [{ slug: 'abricot', nom: 'Confiture d’abricot', photo, formats: ['250 g', '1 kg'], prix: '6,50 €' }, { slug: 'pesto', nom: 'Pesto', photo }],
+    });
+    assert.equal(avec.layout.shell, 'vitrine');
+    assert.equal(avec.produits[0].formats.length, 2);
+    assert.equal(avec.produits[1].prix, undefined, 'prix absent = absent');
+    assert.equal(avec.produits[1].composition, undefined);
+    assert.deepEqual(avec.produits[1].photos, []);
+    assert.throws(() => defineSite({ ...minimal, produits: [{ slug: 'x', nom: 'X' }] }), /produits/, 'la photo détourée est obligatoire');
+    assert.throws(() => defineSite({ ...minimal, produits: [{ slug: 'X Y', nom: 'X', photo }] }), /produits/, 'slug en minuscules');
+    const schema = read('src/lib/schema.ts');
+    assert.match(schema, /produits: z\s*\n\s*\.array\(/);
+    assert.match(schema, /Jamais un produit invente/);
+  });
+
+  test('produits (module pur) : familles dans l’ordre, les autres produits en boucle, lien de nav, prix en offre JSON-LD', async () => {
+    const { categoriesProduits, autresProduits, lienProduits, prixEnOffre } = await loadProduitsModule();
+    const ps = [{ slug: 'a', categorie: 'Confitures' }, { slug: 'b' }, { slug: 'c', categorie: 'Pestos' }, { slug: 'd', categorie: 'Confitures ' }, { slug: 'e' }];
+    assert.deepEqual(categoriesProduits(ps), ['Confitures', 'Pestos']);
+    assert.deepEqual(autresProduits(ps, 'c', 3).map((p) => p.slug), ['d', 'e', 'a'], 'les suivants d’abord, puis le début');
+    assert.deepEqual(autresProduits(ps, 'e', 10).map((p) => p.slug), ['a', 'b', 'c', 'd']);
+    assert.deepEqual(autresProduits([{ slug: 'seul' }], 'seul'), [], 'un seul produit : pas d’autres');
+    assert.deepEqual(lienProduits(ps, 'La gamme'), { href: '/produits', label: 'La gamme' });
+    assert.equal(lienProduits([], 'Produits'), null);
+    assert.deepEqual(prixEnOffre('6,50 €'), { '@type': 'Offer', price: '6.50', priceCurrency: 'EUR' });
+    assert.deepEqual(prixEnOffre('12 EUR'), { '@type': 'Offer', price: '12', priceCurrency: 'EUR' });
+    assert.deepEqual(prixEnOffre('à partir de 4 €'), { '@type': 'Offer', description: 'à partir de 4 €' }, 'un prix en texte reste une description');
+    assert.equal(prixEnOffre(undefined), undefined, 'sans prix : pas d’offre');
+    assert.equal(prixEnOffre('  '), undefined);
+    assert.doesNotMatch(read('src/lib/produits.ts'), /^import (?!type )/m, 'module pur');
+  });
+}
+
+test('coquille vitrine : piste manuelle (scroll-snap, jamais la molette), pivot piloté par la piste avec repli, menu <dialog>, socle, repli sans produit, tokens', () => {
+  const src = read('src/shells/vitrine.astro');
+  const code = codeDe(src);
+  assert.equal((code.match(/<h1[\s>]/g) || []).length, 2, 'un h1 dans chaque branche (gamme / sommaire), jamais les deux rendus');
+  assert.match(code, /produits\.length > 0 \? \(/);
+  assert.match(code, /ligneMetier\(\)/);
+  assert.match(code, /metierEtVille\(\)/);
+  assert.match(code, /href=\{tel\(\)\}/);
+  assert.match(code, /site\.proof\.google/);
+  assert.match(code, /href=\{`\/produits\/\$\{p\.slug\}`\}/, 'chaque produit mène à sa page');
+  assert.match(code, /href="\/produits"/);
+  assert.match(code, /scroll-snap-type: x mandatory/);
+  assert.match(code, /animation-timeline: view\(inline\)/, 'le pivot suit la piste');
+  assert.match(code, /@supports \(animation-timeline: view\(\)\)/, 'avec repli');
+  assert.match(code, /prefers-reduced-motion/);
+  assert.match(code, /<dialog id="vt-menu"/);
+  assert.match(code, /showModal\(\)/);
+  assert.match(code, /onPage\(/);
+  assert.match(code, /donneesManquantes\('gamme-vitrine', site\)/, 'sans produit : message au build');
+  assert.match(code, /vt-sommaire/);
+  assert.match(code, /sections\.map\(/);
+  assert.match(code, /<Footer \/>/);
+  assert.doesNotMatch(code, /<Hero\s*\/>|<Nav\s*\/>/, 'la vitrine remplace hero et nav');
+  assert.doesNotMatch(code, /addEventListener\('wheel'|'wheel'|scrollTo\(/, 'jamais la molette détournée ni de défilement simulé (le preventDefault du lien Contact vers le tiroir est permis)');
+  assert.doesNotMatch(code, /#[0-9a-fA-F]{3,8}\b/, 'tokens uniquement');
+  assert.doesNotMatch(code, /rounded-full|999px|radius-pill|uppercase|tracking-|[·—]|italic|data-marquee|eyebrow/, 'ni pilule, ni capitales espacées, ni eyebrow');
+  assert.match(read('scripts/ff/composer.mjs'), /COQUILLES_D_ARCHITECTURE = \[[^\]]*'vitrine'/);
+});
+
+test('pages /produits et /produits/<slug> : liste par famille, titre géant sous le produit, fiche à filets, pastilles rondes, piste aimantée, JSON-LD Product sans prix si absent, nav', () => {
+  const liste = read('src/pages/produits/[...index].astro');
+  assert.match(liste, /site\.produits\.length > 0 \? \[\{ params: \{ index: undefined \} \}\] : \[\]/);
+  assert.match(liste, /categoriesProduits\(produits\)/);
+  assert.match(liste, /familles\.length >= 2/);
+  assert.match(liste, /<h1[\s>]/);
+  const fiche = read('src/pages/produits/[slug].astro');
+  assert.match(fiche, /site\.produits\.map\(\(p\) => \(\{ params: \{ slug: p\.slug \}/);
+  assert.match(fiche, /<h1 class="pf-h1/);
+  assert.match(fiche, /grid-area: 1 \/ 1/, 'le produit et le titre sur la même cellule : le produit devant les lettres');
+  assert.match(fiche, /border-radius: 50%/, 'pastilles rondes');
+  assert.match(fiche, /scroll-snap-type: x mandatory/);
+  assert.match(fiche, /role="region" aria-label=\{`\$\{p\.nom\} en photos`\} tabindex="0"/, 'piste accessible au clavier');
+  assert.match(fiche, /produitLd\(site, p, pageUrl/);
+  assert.match(fiche, /prixEnOffre\(p\.prix\)/);
+  assert.match(fiche, /autresProduits\(site\.produits, p\.slug, 4\)/);
+  assert.match(fiche, /\]\.filter\(Boolean\)/, 'une colonne absente n’existe pas');
+  for (const f of [liste, fiche]) assert.doesNotMatch(codeDe(f), /#[0-9a-fA-F]{3,8}\b|rounded-full|999px|uppercase|tracking-|[·—]|italic|eyebrow/, 'signes IA de la source non repris');
+  const ld = read('src/lib/jsonld.ts');
+  assert.match(ld, /export function produitLd\(/);
+  assert.match(ld, /'@type': 'Product'/);
+  assert.match(ld, /\.\.\.\(offre \? \{ offers: offre \} : \{\}\)/, 'pas d’offre sans prix');
+  const s = read('src/lib/site.ts');
+  assert.match(s, /lienProduits\(s\.produits \?\? \[\], s\.wording\.produits\)/);
+  assert.match(s, /s\.produits\.flatMap\(\(p\) => \[p\.photo, \.\.\.p\.photos\]\)/, 'les photos des produits comptent parmi celles du site');
+  assert.match(read('scripts/ff/ts-loader.mjs'), /export async function loadProduitsModule\(\)/);
+  const d = read('docs/DIRECTIONS.md');
+  assert.match(d, /\| `vitrine` \| \*\*Architecture `gamme-vitrine`\*\*/);
+  assert.match(read('docs/veille/architectures/INDEX.md'), /^\| `gamme-vitrine` \|.*\| oui, coquille `vitrine`/m);
+  assert.match(read('docs/CONVENTIONS.md'), /\*\*Piste manuelle \(`vitrine`, fiche produit\)\.\*\*/);
+});
+
+// ---- 22 oct 2026 : cadre-couleur (Meyers) et scenes-epinglees (TAB Kitchen & Bakery) : le cadre de couleur fixe avec une
+// couleur par activité (services[].couleur, src/lib/couleur.ts), et la scène épinglée des espaces du lieu (about.espaces). ----
+
+if (tsImportable) {
+  test('registre cadre-couleur / scenes-epinglees : coquilles cadre et scenes, sections, variantes d’architecture, jamais l’urgence', async () => {
+    const { ARCHITECTURES, ARCHITECTURE_IDS, VARIANTES_D_ARCHITECTURE, completerLayout } = await loadArchitecturesModule();
+    for (const id of ['cadre-couleur', 'scenes-epinglees']) {
+      assert.ok(ARCHITECTURE_IDS.includes(id), id);
+      assert.equal(ARCHITECTURES[id].requis.at(-1).mesure, 'pasUrgence', `${id} : jamais l’urgence`);
+    }
+    const cadre = ARCHITECTURES['cadre-couleur'];
+    assert.equal(cadre.layout.shell, 'cadre');
+    assert.equal(completerLayout({ architecture: 'cadre-couleur' }).shell, 'cadre');
+    assert.deepEqual(cadre.layout.sections.map((s) => `${s.type}/${s.variant}`), ['about/story', 'services/cartes-couleur', 'proof/testimonials']);
+    assert.equal(cadre.layout.servicePage, 'porte', 'une page par activité, coiffée de sa couleur');
+    assert.equal(cadre.layout.contactDrawer, true, 'pas de section contact sur l’accueil : le tiroir');
+    assert.deepEqual(cadre.requis.map((r) => r.mesure), ['photos', 'services', 'pasUrgence']);
+    assert.equal(cadre.requis[1].min, 2);
+    assert.equal(cadre.requis[1].max, 6);
+    const scenes = ARCHITECTURES['scenes-epinglees'];
+    assert.equal(scenes.layout.shell, 'scenes');
+    assert.deepEqual(scenes.layout.sections.map((s) => `${s.type}/${s.variant}`), ['about/espaces', 'about/equipe-cartes', 'proof/testimonials', 'contact/simple']);
+    assert.deepEqual(scenes.requis.map((r) => `${r.mesure}:${r.min ?? ''}`), ['espaces:3', 'photos:3', 'pasUrgence:']);
+    for (const v of ['about/espaces', 'about/equipe-cartes', 'services/cartes-couleur']) assert.ok(VARIANTES_D_ARCHITECTURE.includes(v), v);
+    assert.match(read('scripts/ff/composer.mjs'), /case 'services\/cartes-couleur':\s*\n\s*return cfg\.layout\?\.architecture === 'cadre-couleur' \|\| services\.some/, 'composer : avec l’architecture, ou dès qu’une activité a sa couleur');
+  });
+
+  test('schema : services[].couleur et about.espaces[] (hex ou oklch validés, défaut absent / vide, décrits), coquilles et variantes', async () => {
+    const { defineSite, SHELLS, VARIANTS } = await loadSchemaModule();
+    assert.ok(SHELLS.includes('cadre') && SHELLS.includes('scenes'));
+    assert.ok(VARIANTS.services.includes('cartes-couleur'));
+    assert.ok(VARIANTS.about.includes('espaces') && VARIANTS.about.includes('equipe-cartes'));
+    const vide = defineSite(minimal);
+    assert.equal(vide.services[0].couleur, undefined, 'aucune couleur devinée');
+    assert.deepEqual(vide.about.espaces, []);
+    const photo = { src: '/images/a.webp', alt: 'A' };
+    const plein = defineSite({
+      ...minimal,
+      layout: { architecture: 'scenes-epinglees' },
+      services: [{ slug: 'a', title: 'A', short: 'S', couleur: '#7a4a3a' }, { slug: 'b', title: 'B', short: 'S', couleur: 'oklch(0.72 0.1 95)' }],
+      about: { story: 'S', espaces: [{ nom: 'La salle', phrase: 'P.', photo, couleur: 'oklch(80% 0.08 85)' }, { nom: 'La terrasse', phrase: 'P.' }] },
+    });
+    assert.equal(plein.layout.shell, 'scenes');
+    assert.equal(plein.services[1].couleur, 'oklch(0.72 0.1 95)');
+    assert.equal(plein.about.espaces[1].photo, undefined, 'un espace sans photo reste sans photo');
+    assert.throws(() => defineSite({ ...minimal, services: [{ slug: 'a', title: 'A', short: 'S', couleur: 'rouge' }] }), /couleur/);
+    assert.throws(() => defineSite({ ...minimal, services: [{ slug: 'a', title: 'A', short: 'S', couleur: '#abc' }] }), /couleur/, 'hex court refusé');
+    assert.throws(() => defineSite({ ...minimal, about: { story: 'S', espaces: [{ nom: 'X' }] } }), /espaces/, 'la phrase est obligatoire');
+    const schema = read('src/lib/schema.ts');
+    assert.match(schema, /Jamais un espace invente/);
+    assert.match(schema, /couleur: couleur\s*\n\s*\.optional\(\)/);
+  });
+
+  test('couleur (module pur) : hex et oklch lus, encre choisie par contraste, fond creusé jusqu’à 4,5:1, rien sans couleur', async () => {
+    const C = await loadCouleurModule();
+    const { ratio } = await import('../scripts/ff/couleur.mjs');
+    assert.deepEqual(C.parseCouleur('#ff0000'), [255, 0, 0]);
+    assert.deepEqual(C.parseCouleur('oklch(1 0 0)'), [255, 255, 255]);
+    assert.equal(C.parseCouleur('rouge'), null);
+    assert.equal(C.parseCouleur(undefined), null);
+    assert.equal(C.styleTeinte(undefined), undefined, 'sans couleur : les tokens de la direction');
+    const sombre = C.teinteLisible('#4b5a3f');
+    assert.equal(sombre.claire, true, 'encre claire sur un vert sombre');
+    assert.equal(sombre.ajuste, false);
+    assert.ok(sombre.contraste >= C.CONTRASTE_TEXTE);
+    const clair = C.teinteLisible('oklch(0.9 0.05 90)');
+    assert.equal(clair.claire, false, 'encre sombre sur un jaune pâle');
+    const moyen = C.teinteLisible('oklch(0.58 0.07 40)');
+    assert.equal(moyen.ajuste, true, 'un brun moyen ne porte ni le blanc ni le noir à 4,5:1 : le fond est creusé');
+    assert.match(moyen.fond, /^oklch\(0\.\d+ 0\.07\d* \d+\)$/, 'même teinte et même chroma, clarté creusée');
+    assert.ok(moyen.contraste >= C.CONTRASTE_TEXTE);
+    // contre-vérification avec les formules de scripts/ff/couleur.mjs
+    const fondRgb = C.parseCouleur(moyen.fond);
+    const encreRgb = C.parseCouleur(moyen.encre);
+    assert.ok(ratio(fondRgb, encreRgb) >= 4.5, `contraste mesuré ${ratio(fondRgb, encreRgb).toFixed(2)}`);
+    assert.match(C.styleTeinte('#4b5a3f'), /^--teinte: #4b5a3f; --teinte-encre: oklch\(0\.985 0\.008 \d+\);$/);
+    assert.doesNotMatch(read('src/lib/couleur.ts'), /^import /m, 'module pur');
+  });
+
+  test('donneesManquantes : mesure espaces (about.espaces), photos des espaces comptées, cadre-couleur 2 à 6 activités', async () => {
+    const { donneesManquantes, photosDuClient } = await loadArchitecturesModule();
+    const photo = { src: '/p.webp', alt: 'p' };
+    const espaces = [{ photo }, { photo }, { photo }];
+    assert.equal(photosDuClient({ about: { espaces } }), 3);
+    assert.deepEqual(donneesManquantes('scenes-epinglees', { about: { espaces }, contact: {} }), []);
+    const peu = donneesManquantes('scenes-epinglees', { about: { espaces: [{ photo }] } });
+    assert.equal(peu.length, 2, 'un espace, une photo');
+    assert.match(peu[0], /3 espaces du lieu au moins.*\(1 aujourd’hui\)/);
+    assert.deepEqual(donneesManquantes('cadre-couleur', { images: { hero: photo }, services: [{}, {}] }), []);
+    assert.match(donneesManquantes('cadre-couleur', { images: { hero: photo }, services: [{}] }).join(), /2 à 6 activités/);
+    assert.match(donneesManquantes('cadre-couleur', { images: { hero: photo }, services: [{}, {}], contact: { emergency24h: true } }).join(), /urgence/);
+  });
+}
+
+test('coquille cadre : cadre fixe (fond du body, marges, nav rentrée), premier écran collé, feuille à une ombre, pied en flux, socle, tokens', () => {
+  const src = read('src/shells/cadre.astro');
+  const code = codeDe(src);
+  assert.equal((code.match(/<h1[\s>]/g) || []).length, 1);
+  assert.match(code, /metierEtVille\(\)/);
+  assert.match(code, /href=\{tel\(\)\}/);
+  assert.match(code, /site\.proof\.google/);
+  assert.match(code, /sections\.map\(/);
+  assert.match(code, /<Footer \/>/);
+  assert.doesNotMatch(code, /<Hero\s*\/>/, 'la coquille fait son premier écran');
+  assert.match(src, /\[data-shell='cadre'\] body \{ background: var\(--cadre-couleur\); \}/, 'le cadre est le fond du corps de page');
+  assert.match(src, /--cadre-couleur: color-mix\(in oklab, var\(--color-accent\) 12%, var\(--color-bg-2\)\)/, 'fond 2 à peine teinté, jamais un aplat vif (B1)');
+  assert.match(src, /header\[data-nav\] \{ inset-inline: var\(--cadre\); inset-block-start: var\(--cadre\)/, 'la nav rentre dans le cadre');
+  assert.match(src, /\.cadre-fond \{ position: sticky; inset-block-start: var\(--cadre\)/);
+  assert.match(src, /\.cadre-corps > \.cadre-fond \+ \* \{[^}]*box-shadow: var\(--shadow-lift\)/, 'une seule ombre, sous la première feuille');
+  assert.match(src, /\.cadre-pied \{ position: relative/, 'pied en flux (un pied collé en bas se retrouvait en haut des captures)');
+  assert.match(src, /@media \(min-width: 48rem\) \{\s*\[data-shell='cadre'\] \{ --cadre: 1\.5rem; \}/, '24 px dès 48 rem, 16 px au téléphone');
+  assert.match(src, /prefers-reduced-motion/);
+  assert.doesNotMatch(code, /#[0-9a-fA-F]{3,8}\b|rounded-full|999px|radius-pill|uppercase|tracking-|[·—]|italic|data-marquee/);
+  assert.match(read('scripts/ff/composer.mjs'), /COQUILLES_D_ARCHITECTURE = \[[^\]]*'cadre', 'scenes'\]/);
+  assert.match(read('tests/shells.test.mjs'), /SANS_HERO = \[[^\]]*'cadre', 'scenes'\]/);
+});
+
+test('services/cartes-couleur : une couleur par activité (styleTeinte, data-theme), sinon la même teinte douce, toute la carte est le lien', () => {
+  const src = read('src/sections/Services/cartes-couleur.astro');
+  assert.match(src, /<section id="services"/);
+  assert.match(src, /import \{ styleTeinte \} from '@\/lib\/couleur'/);
+  assert.match(src, /const teinte = styleTeinte\(s\.couleur\)/);
+  assert.match(src, /teinte \? 'cc-t-client' : 'cc-t-pale'/, 'sans couleur : la même teinte pour toutes (B5)');
+  assert.match(src, /data-theme=\{teinte \? 'service' : undefined\}/);
+  assert.match(src, /\.cc-t-client \{ background: var\(--teinte\); color: var\(--teinte-encre\); \}/);
+  assert.match(src, /href=\{lien \? `\/services\/\$\{s\.slug\}` : undefined\}/);
+  assert.doesNotMatch(codeDe(src), /#[0-9a-fA-F]{3,8}\b|rounded-full|uppercase|tracking-|italic|<script/);
+  // la page de l'activité est coiffée de sa couleur (gabarits fiche et porte)
+  const page = read('src/pages/services/[slug].astro');
+  assert.match(page, /data-theme=\{teinte \? 'service' : undefined\} style=\{teinte\}/);
+  assert.match(page, /\.service-fiche\[data-theme='service'\] \{ border-block-start: 0\.75rem solid var\(--teinte\); \}/);
+  const porte = read('src/components/ServicePorte.astro');
+  assert.match(porte, /data-theme=\{teinte \? 'service' : undefined\} style=\{teinte\}/);
+  assert.match(porte, /\{teinte && <div class="porte-couleur" aria-hidden="true"><\/div>\}/);
+});
+
+test('coquille scenes : barre fine fixe (nom, métier à ville, tel:, menu), scène d’ouverture sur aplat d’encre, slides nommées, socle, tokens', () => {
+  const src = read('src/shells/scenes.astro');
+  const code = codeDe(src);
+  assert.equal((code.match(/<h1[\s>]/g) || []).length, 1);
+  assert.match(code, /metierEtVille\(\)/);
+  assert.match(code, /href=\{tel\(\)\}/);
+  assert.match(code, /site\.proof\.google/);
+  assert.match(code, /sections\.map\(/);
+  assert.match(code, /<Footer \/>/);
+  assert.doesNotMatch(code, /<Hero\s*\/>|<Nav\s*\/>/, 'barre et ouverture rendues par la coquille');
+  assert.match(code, /<header class="sc-barre/);
+  assert.match(code, /<details class="sc-menu">/);
+  assert.match(code, /<section id="hero" class="slide sc-ouverture bg-ink text-on-ink"/);
+  assert.match(code, /class:list=\{\['slide', `slide-\$\{type\}`\]\}/, 'ff ressemblance classe le bloc par le nom de l’enveloppe');
+  assert.match(src, /scroll-snap-type: y proximity/);
+  assert.match(src, /prefers-reduced-motion: reduce\) \{ \[data-shell='scenes'\] \{ scroll-snap-type: none; \}/);
+  assert.doesNotMatch(code, /#[0-9a-fA-F]{3,8}\b|rounded-full|999px|radius-pill|uppercase|tracking-|[·—]|italic|data-marquee/);
+});
+
+test('about/espaces : scène épinglée à ÉTAPES (data-pin sur la scène, data-pin-step par panneau), repli empilé, couleur par espace, rien sans espace', () => {
+  const src = read('src/sections/About/espaces.astro');
+  assert.match(src, /\{n > 0 && \(/, 'sans espace : rien');
+  assert.match(src, /<section id="about" class="es"/);
+  assert.match(src, /<div class="es-scene" data-pin=\{100 \* Math\.max\(1, n - 1\)\}>/, 'la scène est épinglée, pas la section (le bloc garde son id) ; un écran par espace au-delà du premier');
+  assert.match(src, /data-pin-step/);
+  assert.match(src, /const teinte = styleTeinte\(e\.couleur\)/);
+  assert.match(src, /\.es-t-client \{ background: var\(--teinte\); color: var\(--teinte-encre\); \}/);
+  assert.match(src, /transition: opacity 0\.5s var\(--ease-in-out\), transform 0\.5s var\(--ease-in-out\)/, 'transitions en temps, jamais un calage image par image');
+  assert.match(src, /\.es-panneau\.is-active ~ \.es-panneau \{ transform: translateX\(6%\); \}/, 'les panneaux se poussent');
+  assert.match(src, /\.es-scene:not\(:has\(\.is-active\)\) \.es-panneau:first-child \{ opacity: 1/, 'sans script : le premier panneau');
+  assert.match(src, /@media \(prefers-reduced-motion: no-preference\)/, 'épinglage seulement sans mouvement réduit : sinon panneaux empilés');
+  assert.doesNotMatch(src, /--p\b|data-scrub|data-frames/, 'étapes, pas de progression continue (iPhone)');
+  assert.doesNotMatch(codeDe(src), /#[0-9a-fA-F]{3,8}\b|rounded-full|uppercase|tracking-|italic|<script/);
+});
+
+test('about/equipe-cartes : id equipe (about est pris par les espaces), cartes de about.team qui arrivent de côté, file au doigt accessible, rien sans équipe', () => {
+  const src = read('src/sections/About/equipe-cartes.astro');
+  assert.match(src, /\{equipe\.length > 0 && \(/);
+  assert.match(src, /<section id="equipe"/);
+  assert.match(src, /<div class="eq-vue" tabindex="0" role="region"/, 'région défilable accessible au clavier (axe)');
+  assert.match(src, /<ul class="eq-file" data-stagger="110">/);
+  assert.match(src, /\.eq-file:not\(\.is-visible\) > \.eq-carte \{ transform: translateX\(48px\); \}/, 'entrée de côté');
+  assert.match(src, /scroll-snap-type: x proximity/);
+  assert.match(src, /prefers-reduced-motion/);
+  assert.doesNotMatch(codeDe(src), /#[0-9a-fA-F]{3,8}\b|rounded-full|uppercase|tracking-|italic|<script/, 'ni pilule, ni rond');
+  const c = read('scripts/ff/composer.mjs');
+  assert.match(c, /case 'about\/espaces':\s*\n\s*return cfg\.layout\?\.architecture === 'scenes-epinglees'/);
+  assert.match(c, /case 'about\/equipe-cartes':/);
+  assert.match(read('src/lib/site.ts'), /\.\.\.s\.about\.espaces\.map\(\(e\) => e\.photo\)/, 'les photos des espaces comptent parmi celles du site');
+});
+
+test('docs : DIRECTIONS (cadre, scenes, cartes-couleur, espaces, equipe-cartes), INDEX (Implémentée), CONVENTIONS, ANIMATIONS, journal', () => {
+  const d = read('docs/DIRECTIONS.md');
+  assert.match(d, /\| `cadre` \| \*\*Architecture `cadre-couleur`\*\*/);
+  assert.match(d, /\| `scenes` \| \*\*Architecture `scenes-epinglees`\*\*/);
+  for (const v of ['cartes-couleur', 'espaces', 'equipe-cartes']) assert.match(d, new RegExp(`\\| \`${v}\` \\| \\*\\*`));
+  const idx = read('docs/veille/architectures/INDEX.md');
+  assert.match(idx, /^\| `cadre-couleur` \|.*\| oui, coquille `cadre`/m);
+  assert.match(idx, /^\| `scenes-epinglees` \|.*\| oui, coquille `scenes`/m);
+  assert.match(read('docs/CONVENTIONS.md'), /`cartes-agenda`, `vitrine`, `cadre`, `scenes` ne se prennent qu'avec leur architecture/);
+  assert.match(read('docs/ANIMATIONS.md'), /about\/espaces/);
+  assert.match(read('docs/veille/journal.md'), /22 oct 2026 : architectures `cadre-couleur`/);
+});
+
+test('fumigène : architecture cadre-couleur (FF_LOOK) rend le cadre, le premier écran collé, les cartes de couleur, le tiroir, les pages porte', { timeout: 180_000 }, () => {
+  const f = fumigene({ layout: { architecture: 'cadre-couleur' } }, '_test-archi-cadre');
+  try {
+    const html = f.html();
+    assert.match(html, /data-shell="cadre"/);
+    assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
+    assert.match(html, /<section id="hero" class="cadre-fond/);
+    assert.match(html, /href="tel:\+33600000000"/);
+    assert.match(html, /4,9 sur 5, 37 avis Google/, 'note Google au premier écran (ff-typo rend l’insécable en caractère)');
+    assert.equal((html.match(/class="cc-carte rounded-card cc-t-pale"/g) || []).length, 3, '_exemple n’a pas de couleur : la même teinte douce sur les 3 cartes');
+    assert.doesNotMatch(html, /data-theme="service"/);
+    const [a, s, p] = ['id="about"', 'id="services"', 'id="proof"'].map((x) => html.indexOf(x));
+    assert.ok(a > 0 && a < s && s < p, 'ordre : histoire, activités, avis');
+    assert.match(html, /<dialog id="contact-tiroir"/);
+    assert.match(f.css, /\[data-shell=cadre\] body\{background:var\(--cadre-couleur\)\}/);
+    assert.match(f.html('services/cuisines.html'), /class="porte-page/, 'gabarit porte');
+  } finally {
+    f.rm();
+  }
+});
+
+test('fumigène : architecture scenes-epinglees (FF_LOOK) sur _exemple (sans espace ni équipe) rend la barre, l’ouverture, les slides nommées, pas de scène', { timeout: 180_000 }, () => {
+  const f = fumigene({ layout: { architecture: 'scenes-epinglees' } }, '_test-archi-scenes');
+  try {
+    const html = f.html();
+    assert.match(html, /data-shell="scenes"/);
+    assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
+    assert.match(html, /<header class="sc-barre[\s\S]*?href="tel:\+33600000000"/);
+    assert.match(html, /<section id="hero" class="slide sc-ouverture/);
+    assert.match(html, /class="slide slide-about"/);
+    assert.doesNotMatch(html, /data-pin=|id="equipe"/, '_exemple n’a ni espace ni équipe : rien n’est inventé');
+    assert.match(html, /<section id="proof"/);
+    assert.match(html, /<section id="contact"/);
+    assert.ok(f.existe('services/cuisines.html'));
+  } finally {
+    f.rm();
+  }
+});
+
+test('fumigène : architecture gamme-vitrine (FF_LOOK) sur _exemple (sans produit) rend le sommaire, pas de page produit, le menu plein écran', { timeout: 180_000 }, () => {
+  const f = fumigene({ layout: { architecture: 'gamme-vitrine' } }, '_test-archi-vitrine');
+  try {
+    const html = f.html();
+    assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
+    assert.match(html, /data-shell="vitrine"/);
+    assert.match(html, /class="vt vt-sommaire/, '_exemple n’a aucun produit : le sommaire, jamais une page vide');
+    assert.doesNotMatch(html, /class="vt-produit"/);
+    assert.match(html, /<header class="vt-barre[\s\S]*?href="tel:\+33600000000"/, 'téléphone dans la barre fixe');
+    assert.match(html, /<dialog id="vt-menu"[\s\S]*?Menuisier-ébéniste à Roubaix/, 'métier et ville dans le menu');
+    assert.match(html, /4,9[\s ]sur 5, 37[\s ]avis Google/, 'note Google en une ligne (ff-typo pose l’insécable)');
+    assert.match(html, /<dialog id="contact-tiroir"/, 'tiroir de contact');
+    assert.doesNotMatch(html, /href="\/produits"/, 'pas de lien Produits sans produit');
+    assert.ok(!f.existe('produits.html') && !f.existe('produits/index.html'), 'ni page /produits');
+    assert.ok(f.existe('a-propos.html') || f.existe('a-propos/index.html'), 'page À propos');
+    assert.ok(f.existe('services/cuisines.html'), 'pages des activités');
+  } finally {
+    f.rm();
+  }
+});

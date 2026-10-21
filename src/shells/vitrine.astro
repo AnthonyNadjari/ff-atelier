@@ -1,0 +1,247 @@
+---
+/**
+ * Coquille "vitrine" : architecture `gamme-vitrine` (src/lib/architectures.ts ; source Agrumea Farm,
+ * docs/veille/architectures/agrumea.md). Catalogue d'abord : l'accueil tient en UN écran et n'est rien d'autre que
+ * la gamme (site.produits) :
+ *   barre fixe en haut : le nom, le téléphone cliquable (toutes tailles), le bouton « Menu » ;
+ *   → la PISTE : les produits détourés côte à côte, qu'on fait glisser à la main (scroll-snap, jamais la molette
+ *     détournée, jamais de défilement simulé) ; chaque produit pivote un peu selon sa place dans la fenêtre
+ *     (animation pilotée par le défilement de la piste, `view(inline)` ; repli CSS : inclinaison alternée) et mène
+ *     à sa page /produits/<slug> ; deux boutons précédent / suivant pour la souris (un clic, pas la molette) ;
+ *   → en bas de l'écran, sous la gamme : le h1 (tagline), la ligne « métier à ville » (ligneMetier : absente si le h1
+ *     la dit déjà), la note Google, le nombre de produits et le lien vers la liste /produits.
+ *   Le bouton « Menu » ouvre un <dialog> plein écran : les pages (Produits, À propos, activités, Contact = tiroir),
+ *   l'identité (métier et ville, adresse), le téléphone, l'e-mail.
+ * Les sections écrites dans le layout du site (aucune par défaut) descendent sous la vitrine ; les pages intérieures
+ * (produits, activités, À propos) gardent la nav du site (`layout.nav`).
+ *
+ * Sans produit déclaré, la coquille ne rend pas une page vide : le build le dit (donneesManquantes) et l'accueil se
+ * rabat sur un sommaire (h1, métier à ville, téléphone, note, les pages du site en grand).
+ *
+ * Socle docs/GOUT.md § 0 : h1 + métier et ville au premier écran, téléphone cliquable dans la barre sans défiler,
+ * note Google en une ligne, photos du client (les produits), plusieurs pages (une par produit, une par activité).
+ * Signes de la source NON repris (GOUT § 2) : molette détournée pour tourner la roue, chargeur à l'arrivée, couche
+ * bloquante, boutons et étiquettes en pilule, capitales espacées, texte qui tourne en cercle.
+ *
+ * `layout.hero` n'est pas rendu (la gamme EST le premier écran) ; il sert au préchargement de images.hero.
+ */
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, mailto, fullAddress, ligneMetier, metierEtVille, navLinks, donneesManquantes, slugCourant } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Footer, sections } = Astro.props;
+
+const produits = site.produits;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const sousTitre = ligneMetier();
+const liens = navLinks();
+const pagesActivites = site.servicePages && site.layout.servicePage !== 'porte' ? site.services : [];
+const nom = site.business.name;
+
+if (produits.length === 0) {
+  // Le build le dit au studio (jamais une page vide ni une gamme inventée) : l'accueil se rabat sur le sommaire.
+  console.warn(`[vitrine] ${slugCourant} : ${donneesManquantes('gamme-vitrine', site).join(' ; ') || 'aucun produit (site.produits)'}`);
+}
+---
+
+<header class="vt-barre bg-bg text-fg">
+  <a href="/" class="vt-nom font-display">{site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-7 w-auto" sizes="200px" loading="eager" /> : nom}</a>
+  <div class="vt-barre-droite">
+    <a href={tel()} class="vt-tel tabular-nums"><Icon name="Phone" size={16} /><span class="vt-tel-num">{site.contact.phoneDisplay}</span><span class="vt-tel-court">Appeler</span></a>
+    <button type="button" class="vt-menu-bouton bg-ink text-on-ink" aria-haspopup="dialog" aria-controls="vt-menu" data-vt-menu-ouvrir>Menu</button>
+  </div>
+</header>
+
+<dialog id="vt-menu" class="vt-menu bg-ink text-on-ink" aria-labelledby="vt-menu-titre" data-vt-menu>
+  <div class="vt-menu-haut">
+    <p id="vt-menu-titre" class="font-display text-xl">{nom}</p>
+    <button type="button" class="vt-menu-fermer" aria-label="Fermer le menu" data-vt-menu-fermer><Icon name="X" size={22} /></button>
+  </div>
+  <nav class="vt-menu-nav" aria-label="Navigation principale">
+    <ul>
+      {liens.map((l) => <li><a href={l.href} class="vt-menu-lien font-display" data-vt-menu-lien>{l.label}</a></li>)}
+      {pagesActivites.map((s) => <li><a href={`/services/${s.slug}`} class="vt-menu-lien font-display" data-vt-menu-lien>{s.title}</a></li>)}
+    </ul>
+  </nav>
+  <div class="vt-menu-bas">
+    <p>{metierEtVille()}</p>
+    <p>{fullAddress()}</p>
+    <p><a href={tel()} class="vt-menu-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    {site.contact.email && <p><a href={mailto()} class="underline underline-offset-4">{site.contact.email}</a></p>}
+  </div>
+</dialog>
+
+<main id="main">
+  {produits.length > 0 ? (
+    <section id="hero" class="vt bg-bg text-fg">
+      <div class="vt-scene">
+        <ul class="vt-piste" aria-label={site.wording.produits} data-vt-piste>
+          {produits.map((p, i) => (
+            <li class="vt-produit">
+              <a href={`/produits/${p.slug}`} class="vt-produit-lien">
+                <span class="vt-photo-cadre"><Img src={p.photo.src} alt={p.photo.alt} loading={i < 3 ? 'eager' : 'lazy'} priority={i === 0} class="vt-photo" sizes="(min-width: 64rem) 20vw, 64vw" /></span>
+                <span class="vt-produit-nom font-display">{p.nom}</span>
+                {p.prix && <span class="vt-produit-prix tabular-nums">{p.prix}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Le h1 et le métier en bas de l'écran, sous la gamme (catalogue d'abord : les produits sont la première chose vue). */}
+      <div class="vt-intro">
+        <div>
+          <h1 class="vt-h1 font-display" set:html={site.business.tagline} />
+          {sousTitre && <p class="mt-2 text-lg">{sousTitre}</p>}
+        </div>
+        <div class="vt-intro-cote">
+          {google && <p class="text-sm"><a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google</a></p>}
+          <p class="vt-compte">{produits.length}&nbsp;produits. <a href="/produits" class="underline underline-offset-4">Toute la gamme</a></p>
+          <div class="vt-fleches" aria-label="Faire défiler la gamme">
+            <button type="button" class="vt-fleche" aria-label="Produits précédents" data-vt-prec><Icon name="ArrowLeft" size={20} /></button>
+            <button type="button" class="vt-fleche" aria-label="Produits suivants" data-vt-suiv><Icon name="ArrowRight" size={20} /></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section id="hero" class="vt vt-sommaire bg-bg text-fg">
+      <div class="vt-intro">
+        <h1 class="vt-h1 font-display" set:html={site.business.tagline} />
+        <div class="vt-intro-cote">
+          {sousTitre && <p class="text-lg">{sousTitre}</p>}
+          <p><a href={tel()} class="inline-flex items-center gap-2 text-lg tabular-nums underline underline-offset-4"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+          {google && <p class="text-sm"><a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google</a></p>}
+        </div>
+      </div>
+      <ul class="vt-sommaire-liste">
+        {liens.map((l) => <li><a href={l.href} class="vt-sommaire-lien font-display">{l.label}</a></li>)}
+        {pagesActivites.map((s) => <li><a href={`/services/${s.slug}`} class="vt-sommaire-lien font-display">{s.title}</a></li>)}
+      </ul>
+    </section>
+  )}
+  {sections.map(({ Component }) => <Component />)}
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  onPage(() => {
+    // Menu plein écran : <dialog> natif (focus retenu, Échap), page bloquée derrière (même classe que le tiroir de contact).
+    const menu = document.querySelector<HTMLDialogElement>('[data-vt-menu]');
+    const ouvrir = document.querySelector<HTMLButtonElement>('[data-vt-menu-ouvrir]');
+    if (menu && ouvrir) {
+      const tiroir = document.querySelector<HTMLDialogElement>('dialog[data-contact-drawer]');
+      const verrou = (on: boolean) => document.documentElement.classList.toggle('ff-drawer-open', on);
+      ouvrir.addEventListener('click', () => { menu.showModal(); verrou(true); });
+      // À la fermeture : la page se débloque, sauf si le tiroir de contact vient de prendre le relais.
+      menu.addEventListener('close', () => { verrou(Boolean(tiroir?.open)); ouvrir.focus(); });
+      menu.querySelector<HTMLButtonElement>('[data-vt-menu-fermer]')?.addEventListener('click', () => menu.close());
+      // Un lien du menu : le menu se ferme d'abord. « Contact » = le tiroir (ContactDrawer.astro ignore les liens
+      // posés dans un dialog) : on l'ouvre ici, après le menu.
+      menu.querySelectorAll<HTMLAnchorElement>('[data-vt-menu-lien]').forEach((a) => a.addEventListener('click', (e) => {
+        const versTiroir = tiroir && /^\/?#contact$/.test(a.getAttribute('href') ?? '');
+        if (versTiroir) e.preventDefault();
+        menu.close();
+        if (versTiroir && !tiroir.open) { tiroir.showModal(); verrou(true); }
+      }));
+      // Clic sur le fond (hors du contenu) : fermer.
+      menu.addEventListener('click', (e) => { if (e.target === menu) menu.close(); });
+    }
+
+    // Flèches : un clic fait glisser la piste d'un écran (jamais la molette). Le défilement reste celui du navigateur.
+    const piste = document.querySelector<HTMLElement>('[data-vt-piste]');
+    if (piste) {
+      const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const glisser = (sens: number) => piste.scrollBy({ left: sens * piste.clientWidth * 0.7, behavior: reduit ? 'auto' : 'smooth' });
+      document.querySelector('[data-vt-prec]')?.addEventListener('click', () => glisser(-1));
+      document.querySelector('[data-vt-suiv]')?.addEventListener('click', () => glisser(1));
+    }
+  });
+</script>
+
+<style>
+  /* Variables de scène préfixées (--vt-*), jamais un nom de token (CLAUDE.md § Pièges). */
+  .vt-barre { --vt-marge: clamp(1.25rem, 4vw, 3rem); position: fixed; inset-block-start: 0; inset-inline: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 1rem; block-size: 3.75rem; padding-inline: var(--vt-marge); border-block-end: 1px solid var(--color-line); }
+  .vt-nom { font-size: 1.1rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-inline-size: 0; }
+  .vt-barre-droite { display: flex; align-items: center; gap: 0.75rem; flex: none; }
+  .vt-tel { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 2.75rem; font-weight: 500; }
+  .vt-tel-num { display: none; }
+  .vt-menu-bouton { display: inline-flex; align-items: center; min-block-size: 2.75rem; padding-inline: 1rem; border-radius: var(--radius, 6px); font-weight: 600; cursor: pointer; transition: opacity var(--motion-ui) var(--ease-out); }
+  .vt-menu-bouton:hover { opacity: 0.85; }
+  .vt-menu-bouton:focus-visible, .vt-fleche:focus-visible, .vt-menu-fermer:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+  /* Menu plein écran : le dialog prend tout l'écran, les pages en grand, l'identité en bas. */
+  .vt-menu { position: fixed; inset: 0; inline-size: 100%; block-size: 100%; max-inline-size: none; max-block-size: none; margin: 0; border: 0; padding: 0; display: none; grid-template-rows: auto 1fr auto; }
+  .vt-menu[open] { display: grid; }
+  .vt-menu::backdrop { background: transparent; }
+  .vt-menu-haut { display: flex; align-items: center; justify-content: space-between; block-size: 3.75rem; padding-inline: clamp(1.25rem, 4vw, 3rem); border-block-end: 1px solid color-mix(in oklch, var(--color-on-ink) 20%, transparent); }
+  .vt-menu-fermer { display: inline-grid; place-items: center; inline-size: 2.75rem; block-size: 2.75rem; cursor: pointer; color: inherit; background: transparent; }
+  .vt-menu-nav { display: grid; align-content: center; padding: 2rem clamp(1.25rem, 4vw, 3rem); overflow-y: auto; }
+  .vt-menu-nav ul { display: flex; flex-direction: column; gap: 0.25rem; }
+  .vt-menu-lien { display: inline-block; font-size: clamp(2rem, 6vw, 4.5rem); line-height: 1.1; padding-block: 0.15em; transition: opacity var(--motion-ui) var(--ease-out); }
+  .vt-menu-lien:hover { opacity: 0.7; }
+  .vt-menu-bas { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; padding: 1.25rem clamp(1.25rem, 4vw, 3rem) 2rem; border-block-start: 1px solid color-mix(in oklch, var(--color-on-ink) 20%, transparent); font-size: 0.95rem; }
+  .vt-menu-tel { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1.15rem; }
+  @media (prefers-reduced-motion: no-preference) {
+    .vt-menu[open] { animation: vt-menu-entree var(--motion-ui) var(--ease-out); }
+    @keyframes vt-menu-entree { from { opacity: 0; transform: translateY(-0.5rem); } to { opacity: 1; transform: none; } }
+  }
+
+  /* L'écran-vitrine : barre, intro, piste, bas. Un écran de haut, au téléphone comme à l'ordinateur. */
+  .vt { --vt-marge: clamp(1.25rem, 4vw, 3rem); --vt-largeur: min(64vw, 22rem); min-block-size: 100svh; display: grid; grid-template-rows: 1fr auto; padding-block-start: 3.75rem; }
+  .vt-intro { display: grid; gap: 1rem; padding: 0.5rem var(--vt-marge) 1.25rem; align-items: end; }
+  .vt-h1 { font-size: clamp(1.6rem, 4.5vw, 3.2rem); line-height: 1.1; max-inline-size: 18ch; }
+  .vt-intro-cote { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .vt-scene { min-block-size: 0; display: grid; align-items: center; }
+  /* La piste : défilement natif, aimanté au centre de chaque produit, jamais la molette détournée. */
+  .vt-piste { display: flex; align-items: flex-end; gap: clamp(1rem, 3vw, 2.5rem); overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding: 1.5rem var(--vt-marge) 1rem; scroll-padding-inline: var(--vt-marge); scrollbar-width: thin; scrollbar-color: var(--color-line) transparent; }
+  .vt-produit { flex: none; inline-size: var(--vt-largeur); scroll-snap-align: center; }
+  .vt-produit-lien { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; text-align: center; }
+  .vt-produit-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 6px; }
+  .vt-photo-cadre { display: block; inline-size: 100%; aspect-ratio: 4 / 5; }
+  .vt-photo-cadre > :global(picture) { display: block; block-size: 100%; }
+  /* Le produit détouré, posé sur le fond avec une ombre portée réelle (profondeur, GOUT § 0). */
+  .vt-photo { inline-size: 100%; block-size: 100%; object-fit: contain; filter: drop-shadow(0 1.2rem 1.4rem color-mix(in oklch, var(--color-ink) 28%, transparent)); transition: scale var(--motion-ui) var(--ease-out); }
+  .vt-produit-lien:hover .vt-photo { scale: 1.03; }
+  .vt-produit-nom { font-size: 1.15rem; line-height: 1.2; }
+  .vt-produit-prix { font-size: 0.95rem; color: var(--color-muted); }
+  /* Repli : inclinaison alternée, fixe (navigateur sans animation au défilement, ou mouvement réduit). */
+  .vt-produit:nth-child(odd) .vt-photo { rotate: -3deg; }
+  .vt-produit:nth-child(even) .vt-photo { rotate: 3deg; }
+  /* Chaque produit pivote selon sa place dans la fenêtre de la piste : l'animation suit le doigt, rien ne tourne seul. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .vt-produit .vt-photo { rotate: 0deg; animation: vt-pivot linear both; animation-timeline: view(inline); }
+      @keyframes vt-pivot { from { rotate: -9deg; translate: 0 4%; } 50% { rotate: 0deg; translate: 0 0; } to { rotate: 9deg; translate: 0 4%; } }
+    }
+  }
+  .vt-compte { font-size: 0.95rem; }
+  .vt-fleches { display: flex; gap: 0.5rem; }
+  .vt-fleche { display: inline-grid; place-items: center; inline-size: 2.75rem; block-size: 2.75rem; border: 1px solid var(--color-line); border-radius: var(--radius, 6px); color: inherit; background: transparent; cursor: pointer; transition: border-color var(--motion-ui) var(--ease-out); }
+  .vt-fleche:hover { border-color: var(--color-fg); }
+
+  /* Sans produit : le sommaire des pages, en grand. */
+  .vt-sommaire { grid-template-rows: auto 1fr; }
+  .vt-sommaire .vt-intro { padding-block: 1.5rem 0.5rem; align-items: start; }
+  .vt-sommaire .vt-intro-cote { display: grid; justify-items: start; }
+  .vt-sommaire-liste { display: flex; flex-direction: column; justify-content: center; gap: 0.25rem; padding: 2rem var(--vt-marge) 3rem; }
+  .vt-sommaire-lien { display: inline-block; font-size: clamp(1.8rem, 5vw, 3.6rem); line-height: 1.15; border-block-end: 1px solid var(--color-line); padding-block: 0.3em; }
+
+  @media (min-width: 48rem) {
+    .vt-tel-num { display: inline; }
+    .vt-tel-court { display: none; }
+  }
+  @media (min-width: 64rem) {
+    .vt-barre, .vt-menu-haut { block-size: 4.5rem; }
+    .vt { --vt-largeur: min(clamp(14rem, 21vw, 19rem), 46svh); padding-block-start: 4.5rem; }
+    .vt-intro { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 3rem; padding-block: 0.5rem 2rem; }
+    .vt-intro-cote { justify-content: flex-end; }
+    .vt-sommaire .vt-intro { padding-block: 2.5rem 0; }
+    .vt-sommaire .vt-intro-cote { justify-items: end; text-align: right; }
+    .vt-sommaire-liste { padding-block: 3rem 4rem; }
+    .vt-sommaire-lien { font-size: clamp(2.2rem, 4.5vw, 4.5rem); }
+  }
+</style>
