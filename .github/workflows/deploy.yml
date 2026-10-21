@@ -21,7 +21,7 @@ jobs:
     outputs:
       sites: ${{ steps.liste.outputs.sites }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Liste les sites a deployer (un slug donne, sinon sites-en-ligne.json)
         id: liste
@@ -47,7 +47,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v4
         with:
