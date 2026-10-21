@@ -12,9 +12,9 @@ Un changement ici = une ligne datée en bas.
 | 2 | Devis | Appel de 15 min, puis devis + CGV + formulaire de rétractation si ≤ 5 salariés démarché (`studio/juridique/modeles/`). « Bon pour accord » par e-mail. | Devis |
 | 3 | Acompte | Facture d'acompte ([30] %). **Pas d'encaissement avant J+7** si le client est démarché et a ≤ 5 salariés (C. consom. L221-10). Rien ne se produit avant l'acompte reçu. | Acompte |
 | 4 | Production | Brief, photos, `/site-final`, 72 h ouvrées après réception complète des éléments. | Production |
-| 5 | Validation | Le client valide sur l'aperçu privé ; deux semaines de corrections incluses. PV de livraison. | Validation |
+| 5 | Validation | Le client valide sur l'aperçu privé ; deux semaines de corrections incluses. PV de livraison (`studio/juridique/modeles/contrat-modele.md`, annexe 2). | Validation |
 | 6 | Solde | Facture de solde. **Mise en ligne seulement quand le solde est payé.** | Validation |
-| 7 | Mise en ligne | Domaine 10 ans acheté chez OVH au nom du client, `ff deploy`, `ff domaine`, `ff sante` à J+1, clic du client sur le lien de vérification du formulaire. | En ligne |
+| 7 | Mise en ligne | Domaine 10 ans acheté chez OVH au nom du client, `ff deploy`, `ff domaine --email-vers`, `ff sante` à J+1, clic du client sur le lien de vérification du formulaire ; slug dans `sites-en-ligne.json` ; ligne dans `studio/juridique/registre-traitements.md`. | En ligne |
 | 8 | Google | `ff kit` : fiche Google Business Profile prête à recopier, QR, carte de visite. Search Console, IndexNow (automatique). Demande d'avis à J+30. | En ligne |
 | 9 | Après | Modifications à la demande : devis court au forfait, facture à la mise en ligne. Aucun abonnement. | En ligne |
 
@@ -44,7 +44,7 @@ suspend seulement les travaux en cours.
 | J+7 | Rappel courtois, facture jointe | automatique (outil de facturation) |
 | J+15 | Deuxième rappel, mention des pénalités et des 40 € | automatique |
 | J+30 | Appel téléphonique du président | à la main ; travaux en cours suspendus après 8 jours de préavis |
-| J+45 | **Mise en demeure** par lettre recommandée avec AR | modèle à écrire ; coût La Poste à relever |
+| J+45 | **Mise en demeure** par lettre recommandée avec AR, délai de 8 jours | modèle `studio/juridique/modeles/mise-en-demeure-modele.md` ; LRAR en ligne sur laposte.fr (prix à relever au premier envoi) |
 | ensuite | **Injonction de payer** | voir ci-dessous |
 
 **Injonction de payer** (entreprendre.service-public.gouv.fr, fiche F38156, vérifiée le 1er sept 2026,
@@ -108,5 +108,7 @@ le seul des quatre où elles sont confirmées sur la page de prix.
 
 ## Journal des changements
 
+- 22 oct 2026 : modèle de mise en demeure, registre des traitements (art. 30.2), fiche « reprendre son site »
+  (`studio/commercial/REPRENDRE-SON-SITE.md`) ; déploiement en Workers par défaut (`PROCESS-HEBERGEMENT.md`).
 - 20 oct 2026 : première version. Calendrier de facturation électronique, coûts de l'injonction de
   payer et prix des quatre outils vérifiés en ligne le même jour (sources ci-dessus).

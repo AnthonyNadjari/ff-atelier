@@ -39,16 +39,18 @@ Un changement ici = une ligne datée en bas.
 - **Compte Cloudflare de F&F, plan gratuit.** Usage commercial autorisé, requêtes vers les fichiers
   statiques « free and unlimited », HTTPS automatique. **0 € par site.** **[à confirmer : compte à créer
   par le fondateur]**
-- **Pages d'abord, Workers static assets ensuite.** Limites vérifiées le 20 oct 2026 :
+- **Workers static assets d'abord (22 oct 2026), Pages en réserve.** `ff deploy` déploie un site neuf en
+  Worker à fichiers statiques : le formulaire et son binding e-mail sont déclarés dans la config, aucun
+  clic dans le dashboard par site (en Pages, le binding e-mail se clique à la main : impossible à tenir à
+  200 sites). Un site déjà en Pages y reste (`ff deploy --pages`). Limites vérifiées le 20 oct 2026 :
   - Cloudflare Pages : **100 projets par compte**, limite « not routinely increased » (Cloudflare ne la
     relève pas en routine). 500 builds par mois en gratuit (nos builds se font hors Cloudflare).
   - Workers static assets : **100 Workers par compte en gratuit, 500 en Workers Paid**. Au-delà, ou
     pour relever une limite, Cloudflare propose un formulaire de demande de hausse (gratuit, sans
     garantie de réponse positive).
   - Workers Paid : **5 $ par mois minimum, pour tout le compte** (pas par site).
-  - Donc : Pages jusqu'à environ 90 sites. Ensuite, nouveaux sites en Workers static assets (100 de
-    plus en gratuit), puis Workers Paid à 5 $/mois pour monter à 500. Le passage de `ff deploy` en mode
-    Workers reste à écrire (aujourd'hui : `wrangler pages deploy`).
+  - Donc : Workers jusqu'à 100 sites gratuits, puis Workers Paid à 5 $/mois (tout le compte) jusqu'à
+    500 ; Pages (100 projets) reste une réserve. `ff deploy` fait les deux (`docs/DEPLOIEMENT.md` § 2.1).
   - Sources : https://developers.cloudflare.com/pages/platform/limits/ ·
     https://developers.cloudflare.com/workers/platform/limits/ ·
     https://developers.cloudflare.com/workers/platform/pricing/ (consultées le 20 oct 2026).
@@ -84,8 +86,8 @@ Un changement ici = une ligne datée en bas.
     (annexe 2 de `studio/juridique/cgv-projet.md`, une demi-page).
   - Sécurité raisonnable (HTTPS, double authentification sur le compte Cloudflare, anti-spam),
     alerte du client en cas d'incident, Cloudflare déclaré comme sous-traitant ultérieur.
-  - Une ligne par client dans un **registre** des traitements faits pour le compte des clients
-    (art. 30.2) : un tableau suffit.
+  - Une ligne par client dans le **registre** des traitements faits pour le compte des clients
+    (art. 30.2) : `studio/juridique/registre-traitements.md`, § 2.
   - Le client reste responsable du traitement : sa page `/confidentialite` le dit (déjà générée).
   - Sources : RGPD art. 4, 28, 30 (https://eur-lex.europa.eu/eli/reg/2016/679/oj) ·
     https://www.cnil.fr/fr/definition/sous-traitant.
@@ -109,7 +111,7 @@ coût inclus dans le prix du site.** Aucun appel avec le client pour le domaine,
   par site dans le prix, marge de sécurité comprise.
 - **Comment on l'achète** :
   1. Le brief (ff-brief) demande « Vous avez déjà un nom de domaine ? » : oui + lequel et chez qui /
-     non + deux ou trois noms souhaités. **[à ajouter au formulaire]**
+     non + deux ou trois noms souhaités (formulaire ff-brief, question « Votre adresse de site », depuis le 22 oct 2026).
   2. Après paiement du solde, F&F commande le .fr sur **son** compte OVH, **titulaire = le client**
      (raison sociale, SIREN, adresse, e-mail du client), durée 10 ans, **renouvellement automatique
      désactivé** (sinon la carte de F&F paierait dans 10 ans).
@@ -148,7 +150,8 @@ coût inclus dans le prix du site.** Aucun appel avec le client pour le domaine,
 
 1. E-mail à chaque client, **3 mois avant** la coupure.
 2. Envoi d'office à chacun : zip de `dist/<slug>`, dépôt `ff exporter`, export de sa zone DNS, fiche
-   « héberger son site gratuitement en 10 minutes », **code de transfert du domaine**.
+   `studio/commercial/REPRENDRE-SON-SITE.md` (héberger son site gratuitement en dix minutes), **code de
+   transfert du domaine**.
 3. Les sites restent en ligne pendant les 3 mois. Après la date annoncée, le compte Cloudflare est
    fermé. Plus aucune obligation ni frais pour personne.
 4. Les frais fixes de la SAS (banque pro, comptable, RC pro) s'arrêtent avec la dissolution.
@@ -185,15 +188,14 @@ annonces légales, fiche F31972, consultées le 20 oct 2026) :
   au panier.
 - **[à confirmer]** SAS : à créer par le cousin (président). Tant qu'elle n'existe pas : pas de devis,
   pas de facture, pas de domaine acheté.
-- `ff deploy` en mode Workers static assets : à écrire avant le 90e site.
-- Question `ff-brief` sur le domaine : à ajouter au formulaire.
-- `studio/commercial/guide-domaine.html` décrit l'ancien modèle (le client achète) : à réécrire ou
-  supprimer.
 
 ## Journal des changements
 
 - 17 oct 2026 : première version, trois points à confirmer (compte Cloudflare, qui achète le domaine,
   dépôt commun).
+- 22 oct 2026 : `ff deploy` en mode Workers static assets par défaut (config wrangler écrite par la commande,
+  binding e-mail déclaré, domaine attaché par l'API) ; Pages gardé sur `--pages`. Décision prise de nuit
+  en carte blanche, réversible par le drapeau.
 - 20 oct 2026 : modèle validé par le fondateur. Aucun abonnement ; modifications au forfait ;
   hébergement gratuit accessoire résiliable à 3 mois ; domaine au nom du client acheté par F&F chez
   OVH, payé 10 ans, inclus dans le prix ; formulaire Worker sans stockage ; un dépôt, une branche,

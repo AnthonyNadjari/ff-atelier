@@ -61,7 +61,7 @@ export function cmdNouveau(args) {
       const rel = path.relative(srcDir, src);
       if (rel === '') return true;
       if (rel === 'raw' || rel.startsWith(`raw${path.sep}`)) return false;
-      if (rel === 'domain.txt') return false;
+      if (rel === 'domain.txt' || rel === 'hebergement.json') return false;
       return true;
     },
   });

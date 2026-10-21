@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Historique complet : `ff tous --depuis` compare la revision d'avant le push a HEAD.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -25,8 +28,20 @@ jobs:
       - name: Tests unitaires (schema, sections, directions, fonts, CLI, headers/CSP, regression visuelle...)
         run: npm test
 
-      - name: Construit tous les sites (hors _test*)
-        run: node scripts/ff.mjs tous
+      # A 200 sites, tout reconstruire a chaque push coute une heure : sur un push ou une PR, seuls les sites
+      # touches (et _exemple) sont construits ; un changement de gabarit, de scripts ou de dependances reconstruit
+      # tout (scripts/ff/tous.mjs, sitesAReconstruire). Le lundi (schedule) et a la main : tout, toujours.
+      - name: Construit les sites (tous le lundi et a la main, les sites touches sur push/PR)
+        shell: bash
+        run: |
+          AVANT="${{ github.event.before }}"
+          if [ "${{ github.event_name }}" = "push" ] && [ -n "$AVANT" ] && [ "$AVANT" != "0000000000000000000000000000000000000000" ]; then
+            node scripts/ff.mjs tous --depuis "$AVANT"
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            node scripts/ff.mjs tous --depuis "origin/${{ github.base_ref }}"
+          else
+            node scripts/ff.mjs tous
+          fi
 
       # ubuntu-latest embarque Google Chrome (voir https://github.com/actions/runner-images —
       # images/ubuntu/*-Readme.md, section "Browsers") mais ne documente pas de chemin fixe pour
@@ -46,7 +61,7 @@ jobs:
           echo "CHROME_PATH=$CHROME_BIN" >> "$GITHUB_ENV"
           echo "Chrome trouve : $CHROME_BIN ($("$CHROME_BIN" --version))"
 
-      - name: Captures (desktop + mobile) — echoue sur erreur console ou debordement horizontal
+      - name: Captures (desktop + mobile) des sites construits — echoue sur erreur console ou debordement horizontal
         run: node scripts/ff.mjs captures
 
       - name: Audit du moteur d'animation (si livre)

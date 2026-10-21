@@ -44,12 +44,24 @@ Tout le contenu (textes, coordonnees, services, avis, horaires...) se trouve dan
 - \`sites/${slug}/domain.txt\` — le nom de domaine (une ligne, sans https), utilise pour
   les URLs canoniques et le plan du site.
 
-## Deploiement
+## Mettre le site en ligne
 
-Ce site est prevu pour Cloudflare Pages (hebergement statique, gratuit dans la
-grande majorite des cas). Voir la documentation fournie par votre prestataire
-d'origine (Finck & Fisch), ou tout developpeur habitue a Astro et Cloudflare Pages.
+Le dossier \`dist/${slug}/\` est un site statique : il se depose tel quel chez n'importe quel
+hebergeur (Cloudflare, Netlify, OVH...). La fiche \`REPRENDRE-SON-SITE.md\` (dans ce depot) explique
+les trois facons de le faire gratuitement en dix minutes. Sur Cloudflare Workers (l'hebergeur
+d'origine), un developpeur lance \`npx wrangler deploy\` avec une config dont le modele est dans
+\`scripts/ff/hebergement.mjs\` (\`configWrangler\`), ou \`node scripts/ff.mjs deploy ${slug}\`
+une fois connecte a son compte (\`npx wrangler login\`).
 `;
+}
+
+/** La fiche client « reprendre son site » (studio/commercial), avec le slug et le domaine remplis. */
+function buildReprendre(slug) {
+  const src = path.join(ROOT, 'studio', 'commercial', 'REPRENDRE-SON-SITE.md');
+  if (!fs.existsSync(src)) return null;
+  const domainFile = path.join(ROOT, 'sites', slug, 'domain.txt');
+  const domaine = fs.existsSync(domainFile) ? fs.readFileSync(domainFile, 'utf8').trim() : '{{domaine}}';
+  return fs.readFileSync(src, 'utf8').replaceAll('{{slug}}', slug).replaceAll('{{domaine}}', domaine);
 }
 
 export function cmdExporter(args) {
@@ -94,6 +106,8 @@ export function cmdExporter(args) {
 
   fs.writeFileSync(path.join(destDir, '.ff-current'), slug);
   fs.writeFileSync(path.join(destDir, 'README.md'), buildReadme(slug));
+  const reprendre = buildReprendre(slug);
+  if (reprendre) fs.writeFileSync(path.join(destDir, 'REPRENDRE-SON-SITE.md'), reprendre);
 
   const git = (a) => spawnSync('git', a, { cwd: destDir, stdio: 'inherit' });
   git(['init']);

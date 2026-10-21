@@ -6,6 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, SITES_DIR, DIST_DIR, resolveSlug, runAstro, warn, ok, info } from './util.mjs';
+import { hoteParDefaut } from './hebergement.mjs';
 
 function run(astroCmd, args) {
   const slug = resolveSlug(args[0]);
@@ -38,7 +39,7 @@ function copierWorkerCloudflareSiBesoin(slug) {
   const businessName = readConfigField(src, 'name') || slug;
 
   const domainFile = path.join(SITES_DIR, slug, 'domain.txt');
-  const domain = fs.existsSync(domainFile) ? fs.readFileSync(domainFile, 'utf8').trim() : `${slug}.pages.dev`;
+  const domain = fs.existsSync(domainFile) ? fs.readFileSync(domainFile, 'utf8').trim() : hoteParDefaut(slug);
   const fromEmail = `formulaire@${domain}`;
 
   const workerTemplatePath = path.join(ROOT, 'src', 'worker', 'contact.js');

@@ -23,33 +23,55 @@ Une page s'ouvre dans le navigateur pour autoriser l'acces. A faire une fois par
 de travail (le jeton est stocke localement). `ff deploy <slug>` verifie automatiquement
 que tu es connecte et te previent sinon.
 
-### 1.3 Secrets GitHub (pour le deploiement automatique par CI)
+### 1.3 Secrets GitHub (pour le deploiement par CI)
 
-Le workflow `.github/workflows/deploy.yml` deploie chaque site a chaque `push` sur
-`main`. Il a besoin de deux secrets, a ajouter dans **Settings -> Secrets and
-variables -> Actions** du depot GitHub :
+Le workflow `.github/workflows/deploy.yml` se lance a la main (`Actions -> Deploiement des sites ->
+Run workflow`) : un `slug`, ou vide pour redeployer tous les sites de `sites-en-ligne.json` (jamais une
+demo ni un prospect). Il appelle `node scripts/ff.mjs deploy <slug>`, exactement comme depuis le poste,
+puis renvoie `sites/<slug>/hebergement.json` dans le depot. Deux secrets, a ajouter dans **Settings ->
+Secrets and variables -> Actions** :
 
 | Secret | Ou le trouver |
 | --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Cloudflare dashboard -> My Profile -> API Tokens -> Create Token -> modele "Edit Cloudflare Workers" ou permission `Cloudflare Pages: Edit` |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare dashboard -> My Profile -> API Tokens -> Create Token -> Custom Token : `Account -> Workers Scripts -> Edit`, `Account -> Cloudflare Pages -> Edit`, `Zone -> Zone -> Read`, `Zone -> DNS -> Edit`, `Zone -> Email Routing Rules -> Edit` (le meme jeton sert a `ff domaine`) |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare dashboard, colonne de droite de n'importe quelle page de compte |
 
-Une fois les secrets en place, chaque push sur `main` construit et deploie tous les
-sites de `sites/` (hors ceux prefixes `_`). On peut aussi lancer le workflow
-manuellement (`Actions -> Deploiement des sites -> Run workflow`) en precisant un
-`slug` pour ne redeployer qu'un seul site.
+Les memes variables dans `.env` (voir `.env.example`) permettent a `ff deploy` de se passer de
+`wrangler login` sur le poste.
 
 ## 2. Par site
 
 ### 2.1 Premier deploiement
 
 ```
-node scripts/ff.mjs deploy <slug>
+node scripts/ff.mjs deploy <slug>              # Workers static assets (defaut depuis le 22 oct 2026)
+node scripts/ff.mjs deploy <slug> --pages      # Cloudflare Pages (ancien chemin, 100 projets par compte)
+node scripts/ff.mjs deploy <slug> --simuler    # affiche config et commande, ne lance rien
 ```
 
-Cela construit le site (`dist/<slug>`), passe la garde « donnees de test » (§ 2.6), puis le publie sur Cloudflare Pages sous un
-projet nomme `<slug>` (ou `--projet <nom>` pour choisir un autre nom). Le site est
-immediatement visible sur `https://<slug>.pages.dev`.
+Cela construit le site (`dist/<slug>`), passe la garde « donnees de test » (§ 2.6), puis le publie chez
+Cloudflare. **Deux modes**, memorises dans `sites/<slug>/hebergement.json` (`{ mode, projet, url, date }`,
+ecrit a chaque deploiement reussi, lu ensuite par `ff domaine`, `ff sante` et `ff build`) :
+
+- **`workers`** (defaut d'un site jamais deploye) : un Worker a fichiers statiques nomme `<slug>` (ou
+  `--projet <nom>`), deploye par `npx -y wrangler@4 deploy --config .ff-tmp/<slug>/wrangler.json`. La config
+  est ecrite par `ff deploy` (`scripts/ff/hebergement.mjs`, `configWrangler`) : dossier `dist/<slug>`,
+  `html_handling: auto-trailing-slash` (`/services/x` servi depuis `x.html`), `not_found_handling: 404-page`
+  (404.html avec un vrai 404), et, si `form.provider: 'cloudflare'`, le Worker du formulaire
+  (`dist/<slug>/_worker.js`, exclu des fichiers servis par `dist/<slug>/.assetsignore`) avec le binding
+  `send_email` nomme `EMAIL` **declare dans la config** : rien a cliquer dans le dashboard par site, c'est
+  ce qui permet de tenir des centaines de sites sans oublier une case. `_headers` et `_redirects` de
+  `dist/<slug>` sont lus par Workers comme par Pages. Le site est visible sur
+  `https://<slug>.<sous-domaine du compte>.workers.dev` (URL relevee dans la sortie de wrangler et
+  gardee dans `hebergement.json`). Limites : 100 Workers en gratuit, 500 avec Workers Paid (5 $/mois
+  pour tout le compte, `studio/decisions/PROCESS-HEBERGEMENT.md` § 2).
+- **`pages`** (`--pages`, ou site deja deploye ainsi : on ne change jamais d'hebergeur sans le demander) :
+  `wrangler pages deploy`, projet Pages `<slug>`, visible sur `https://<slug>.pages.dev` ; le binding
+  e-mail du formulaire se clique dans le dashboard (§ 2.5). 100 projets par compte, limite non relevee.
+
+Sources (22 oct 2026) : https://developers.cloudflare.com/workers/static-assets/ ·
+https://developers.cloudflare.com/workers/wrangler/configuration/ ·
+https://developers.cloudflare.com/workers/platform/limits/.
 
 ### 2.2 Domaine personnalise
 
@@ -87,10 +109,15 @@ de 5 minutes plutot qu'une suite d'ecrans du dashboard Cloudflare a ne pas oubli
    encore sur Cloudflare, la commande s'arrete (code 1) et affiche la procedure : ajouter le
    domaine dans Cloudflare, puis remplacer les serveurs de noms (nameservers) chez le registrar du
    client.
-4. Ajoute `<domaine>` (et `www.<domaine>` avec `--www`) comme domaine personnalise du projet Pages,
-   et pose/maintient l'enregistrement DNS `CNAME` correspondant vers `<slug>.pages.dev` (proxifie
-   par Cloudflare — orange cloud). **Idempotent** : si l'enregistrement existe deja, il est mis a
-   jour (`PUT`) plutot que duplique.
+4. Selon `sites/<slug>/hebergement.json` :
+   - **mode `workers`** : attache `<domaine>` (et `www.<domaine>` avec `--www`) au Worker par
+     `PUT /accounts/{id}/workers/domains` (`scripts/ff/hebergement.mjs`, `reqAttachWorkerDomain`) ;
+     Cloudflare pose lui-meme l'enregistrement DNS et le certificat. **Idempotent** (un domaine deja
+     attache est reconnu). Un enregistrement A/AAAA/CNAME deja pose sur ce nom fait echouer l'appel :
+     la commande les liste, on les supprime dans le dashboard (DNS) et on relance.
+   - **mode `pages`** : ajoute le domaine au projet Pages et pose/maintient l'enregistrement DNS `CNAME`
+     vers `<projet>.pages.dev` (proxifie par Cloudflare — orange cloud). **Idempotent** : si
+     l'enregistrement existe deja, il est mis a jour (`PUT`) plutot que duplique.
 5. Avec `--email-vers <adresse>` : active Email Routing sur la zone (pose les enregistrements MX
    automatiquement), enregistre `<adresse>` comme adresse de destination, cree la regle
    `contact@<domaine> -> <adresse>`, et rappelle que **le client doit valider l'e-mail de
@@ -174,7 +201,12 @@ recoit toutes les requetes, relaie les fichiers statiques via `env.ASSETS.fetch(
 traite lui-meme `POST /api/contact` (validation nom/telephone, honeypot, limite naive par IP via
 la Cache API). Aucune cle a mettre dans `site.config.ts`.
 
-**A configurer une fois par site, dans le dashboard Cloudflare** (apres le premier `ff deploy`) :
+**En mode `workers` (defaut), rien a configurer** : `ff deploy` declare le binding `EMAIL` (`send_email`)
+dans la config wrangler ; il reste a activer Email Routing sur le domaine et faire verifier l'adresse de
+destination par le client, ce que `ff domaine --email-vers` fait (§ 2.2bis). Le Worker envoie depuis
+`formulaire@<domaine>` : le domaine doit donc etre branche (`ff domaine`) pour que le formulaire parte.
+
+**En mode `pages`, a configurer une fois par site, dans le dashboard Cloudflare** (apres le premier `ff deploy`) :
 
 1. **Email Routing** (pour recevoir les messages du formulaire) :
    - Cloudflare dashboard -> le domaine du client -> **Email** -> **Email Routing** -> **Enable**.
@@ -244,18 +276,18 @@ Une fois le site valide (`node scripts/ff.mjs verifier <slug>` sans `✗`) :
    explicatif en francais et un premier commit git).
 2. Transfere ce depot au client ou a son futur developpeur (nouveau depot GitHub a
    son nom, ou simple archive).
-3. Si le domaine a ete achete par Finck & Fisch pour demarrer, transfere-le au nom du
-   client chez le registrar (ou donne-lui la procedure).
-4. Transfere la propriete du projet Cloudflare Pages si besoin, ou redeploie depuis
-   le nouveau depot avec le compte Cloudflare du client.
+3. Le domaine est deja au nom du client (achete par F&F chez OVH, paye 10 ans) : remets-lui le code de
+   transfert (authinfo) demande a OVH, gratuit.
+4. Le client, ou son developpeur, redeploie depuis le nouveau depot sur son propre compte Cloudflare
+   (`npx wrangler deploy` avec la config decrite § 2.1) ou n'importe quel hebergeur statique.
 
 ## 4. Couts
 
 | Poste | Cout |
 | --- | --- |
-| Hebergement (Cloudflare Pages) | Gratuit (plan Free, largement suffisant pour un site vitrine) |
-| Nom de domaine | Environ 10 €/an, chez le registrar de son choix |
-| Formulaire de contact (Web3Forms) | Gratuit jusqu'a 250 envois/mois |
+| Hebergement (Cloudflare Workers static assets ou Pages) | Gratuit (plan Free) ; Workers Paid 5 $/mois pour tout le compte au-dela de 100 Workers |
+| Nom de domaine | Environ 90 € TTC pour 10 ans (.fr chez OVH, au nom du client, compris dans le prix du site) |
+| Formulaire de contact (Worker + Email Routing) | Gratuit, rien n'est stocke |
 | Certificat HTTPS | Gratuit et automatique (Cloudflare) |
 
 ## 5. Sécurité

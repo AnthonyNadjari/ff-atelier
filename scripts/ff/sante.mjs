@@ -18,6 +18,7 @@ import tls from 'node:tls';
 import { resolve4, resolveCname, resolveMx } from 'node:dns/promises';
 import { ROOT, SITES_DIR, resolveSlug, slugify, ok, fail, warn, info, c, parseArgs } from './util.mjs';
 import { loadSchemaTypeModule, cleanTmp } from './ts-loader.mjs';
+import { hoteParDefaut } from './hebergement.mjs';
 
 const DELAI_REQUETE_MS = 10_000;
 
@@ -356,7 +357,7 @@ function resoudreCible(arg, domaineFlag) {
   }
   const slug = resolveSlug(arg);
   const domainFile = path.join(SITES_DIR, slug, 'domain.txt');
-  const domaine = domaineFlag || (fs.existsSync(domainFile) ? fs.readFileSync(domainFile, 'utf8').trim() : `${slug}.pages.dev`);
+  const domaine = domaineFlag || (fs.existsSync(domainFile) ? fs.readFileSync(domainFile, 'utf8').trim() : hoteParDefaut(slug));
   return { baseUrl: `https://${domaine}`, slug, domaine };
 }
 

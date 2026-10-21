@@ -11,6 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { SITES_DIR, resolveSlug, parseArgs, envKey, ok, fail, warn, info, c } from './util.mjs';
+import { lireHebergement, reqAttachWorkerDomain, reqListWorkerDomains } from './hebergement.mjs';
 
 export const API_BASE = 'https://api.cloudflare.com/client/v4';
 
@@ -126,7 +127,8 @@ const SCOPES_MESSAGE = [
   'Jeton API Cloudflare manquant ou incomplet (CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID).',
   '',
   'A creer une fois : Cloudflare dashboard -> My Profile -> API Tokens -> Create Token -> Custom Token, avec ces permissions :',
-  '  - Account -> Cloudflare Pages -> Edit    (creer/lister le projet Pages, ajouter le domaine)',
+  '  - Account -> Workers Scripts -> Edit     (deployer le Worker, lui attacher le domaine : mode workers)',
+  '  - Account -> Cloudflare Pages -> Edit    (creer/lister le projet Pages, ajouter le domaine : mode pages)',
   '  - Zone -> Zone -> Read                   (retrouver la zone du domaine)',
   '  - Zone -> DNS -> Edit                    (creer/mettre a jour les enregistrements CNAME)',
   '  - Zone -> Email Routing Rules -> Edit    (activer Email Routing, creer la regle de redirection)',
@@ -149,9 +151,14 @@ export async function cmdDomaine(args) {
     process.exit(1);
   }
 
-  const projet = slug;
+  // Mode d'hebergement memorise par `ff deploy` (sites/<slug>/hebergement.json) : workers ou pages. Jamais deploye :
+  // on suppose le defaut de ff deploy (workers) ; --pages force l'ancien chemin.
+  const hebergement = lireHebergement(slug);
+  const mode = flags.pages ? 'pages' : flags.workers ? 'workers' : (hebergement?.mode ?? 'workers');
+  const projet = hebergement?.projet ?? slug;
   const token = envKey('CLOUDFLARE_API_TOKEN');
   const accountId = envKey('CLOUDFLARE_ACCOUNT_ID');
+  if (!hebergement) warn(`Pas de sites/${slug}/hebergement.json : site jamais deploye par ff deploy ? Mode suppose : ${mode}.`);
 
   if (!simuler && (!token || !accountId)) {
     fail(SCOPES_MESSAGE.split('\n')[0]);
@@ -161,14 +168,18 @@ export async function cmdDomaine(args) {
   }
 
   if (simuler) {
-    info(c.bold(`Simulation — ff domaine ${slug} ${domaine}${avecWww ? ' --www' : ''}${emailVers ? ` --email-vers ${emailVers}` : ''}`));
+    info(c.bold(`Simulation — ff domaine ${slug} ${domaine}${avecWww ? ' --www' : ''}${emailVers ? ` --email-vers ${emailVers}` : ''} (mode ${mode})`));
     info("Aucune requete n'est envoyee. Les appels ci-dessous supposent que rien n'existe encore cote Cloudflare");
     info('(en reel, chaque etape verifie d\'abord l\'existant : idempotent, ne duplique rien).');
     info('');
 
-    info(c.bold('1. Projet Cloudflare Pages'));
-    printSimulation(reqGetProject(accountId || '<ACCOUNT_ID>', projet));
-    printSimulation(reqCreateProject(accountId || '<ACCOUNT_ID>', projet), 'si l\'etape precedente rend 404');
+    if (mode === 'pages') {
+      info(c.bold('1. Projet Cloudflare Pages'));
+      printSimulation(reqGetProject(accountId || '<ACCOUNT_ID>', projet));
+      printSimulation(reqCreateProject(accountId || '<ACCOUNT_ID>', projet), 'si l\'etape precedente rend 404');
+    } else {
+      info(c.bold(`1. Worker "${projet}" : deja deploye par ff deploy (aucun appel)`));
+    }
     info('');
 
     info(c.bold('2. Zone du domaine'));
@@ -177,11 +188,19 @@ export async function cmdDomaine(args) {
     info('');
 
     const domaines = avecWww ? [domaine, `www.${domaine}`] : [domaine];
-    info(c.bold('3. Domaine(s) personnalise(s) + DNS'));
-    for (const d of domaines) {
-      printSimulation(reqAddPagesDomain(accountId || '<ACCOUNT_ID>', projet, d));
-      printSimulation(reqListDnsRecords(zoneId, d), 'pour verifier si un CNAME existe deja');
-      printSimulation(reqCreateDnsRecord(zoneId, d, `${slug}.pages.dev`), "si aucun enregistrement trouve, sinon reqUpdateDnsRecord (PUT) sur l'id trouve");
+    if (mode === 'pages') {
+      info(c.bold('3. Domaine(s) personnalise(s) + DNS'));
+      for (const d of domaines) {
+        printSimulation(reqAddPagesDomain(accountId || '<ACCOUNT_ID>', projet, d));
+        printSimulation(reqListDnsRecords(zoneId, d), 'pour verifier si un CNAME existe deja');
+        printSimulation(reqCreateDnsRecord(zoneId, d, `${projet}.pages.dev`), "si aucun enregistrement trouve, sinon reqUpdateDnsRecord (PUT) sur l'id trouve");
+      }
+    } else {
+      info(c.bold('3. Domaine(s) personnalise(s) du Worker (DNS et certificat poses par Cloudflare)'));
+      for (const d of domaines) {
+        printSimulation(reqListWorkerDomains(accountId || '<ACCOUNT_ID>', { zoneId, hostname: d }), 'pour dire si le domaine est deja attache');
+        printSimulation(reqAttachWorkerDomain(accountId || '<ACCOUNT_ID>', { zoneId, hostname: d, service: projet }), 'PUT idempotent');
+      }
     }
     info('');
 
@@ -204,21 +223,25 @@ export async function cmdDomaine(args) {
 
   // ---- Mode reel ----
 
-  info(`Verification du projet Cloudflare Pages "${projet}"...`);
-  let getProject = await cfFetch(token, reqGetProject(accountId, projet));
-  if (getProject.status === 404) {
-    info(`Projet "${projet}" absent, creation...`);
-    const created = await cfFetch(token, reqCreateProject(accountId, projet));
-    if (!created.ok) {
-      fail(`Creation du projet Pages echouee : ${JSON.stringify(created.json?.errors ?? created.json)}`);
+  if (mode === 'pages') {
+    info(`Verification du projet Cloudflare Pages "${projet}"...`);
+    let getProject = await cfFetch(token, reqGetProject(accountId, projet));
+    if (getProject.status === 404) {
+      info(`Projet "${projet}" absent, creation...`);
+      const created = await cfFetch(token, reqCreateProject(accountId, projet));
+      if (!created.ok) {
+        fail(`Creation du projet Pages echouee : ${JSON.stringify(created.json?.errors ?? created.json)}`);
+        process.exit(1);
+      }
+      ok(`Projet "${projet}" cree.`);
+    } else if (!getProject.ok) {
+      fail(`Impossible de verifier le projet Pages "${projet}" : ${JSON.stringify(getProject.json?.errors ?? getProject.json)}`);
       process.exit(1);
+    } else {
+      ok(`Projet "${projet}" trouve.`);
     }
-    ok(`Projet "${projet}" cree.`);
-  } else if (!getProject.ok) {
-    fail(`Impossible de verifier le projet Pages "${projet}" : ${JSON.stringify(getProject.json?.errors ?? getProject.json)}`);
-    process.exit(1);
   } else {
-    ok(`Projet "${projet}" trouve.`);
+    info(`Worker "${projet}" : deploye par ff deploy (${hebergement?.date ?? 'date inconnue'}).`);
   }
 
   info(`Recherche de la zone Cloudflare pour "${domaine}"...`);
@@ -243,6 +266,28 @@ export async function cmdDomaine(args) {
 
   const domaines = avecWww ? [domaine, `www.${domaine}`] : [domaine];
   for (const d of domaines) {
+    if (mode === 'workers') {
+      // Domaine personnalise d'un Worker : Cloudflare cree lui-meme l'enregistrement DNS et le certificat ; un
+      // enregistrement A/AAAA/CNAME deja pose sur ce nom fait echouer l'appel, on le dit.
+      const deja = await cfFetch(token, reqListWorkerDomains(accountId, { zoneId, hostname: d }));
+      const attache = deja.json?.result?.find((x) => x.hostname === d && x.service === projet);
+      if (attache) {
+        ok(`Domaine "${d}" deja attache au Worker "${projet}".`);
+        continue;
+      }
+      info(`Attache de "${d}" au Worker "${projet}"...`);
+      const put = await cfFetch(token, reqAttachWorkerDomain(accountId, { zoneId, hostname: d, service: projet }));
+      if (!put.ok) {
+        const errs = JSON.stringify(put.json?.errors ?? put.json);
+        fail(`Attache du domaine "${d}" echouee : ${errs}`);
+        const dns = await cfFetch(token, { method: 'GET', url: `${API_BASE}/zones/${zoneId}/dns_records?${new URLSearchParams({ name: d })}` });
+        const conflits = (dns.json?.result ?? []).filter((r) => ['A', 'AAAA', 'CNAME'].includes(r.type));
+        if (conflits.length) info(`  ${conflits.length} enregistrement(s) DNS existent deja sur "${d}" (${conflits.map((r) => r.type).join(', ')}) : supprime-les dans le dashboard (DNS) puis relance, Cloudflare posera le sien.`);
+        process.exit(1);
+      }
+      ok(`Domaine "${d}" attache au Worker "${projet}" (DNS et certificat poses par Cloudflare).`);
+      continue;
+    }
     info(`Ajout du domaine personnalise "${d}" au projet Pages...`);
     const addRes = await cfFetch(token, reqAddPagesDomain(accountId, projet, d));
     if (!addRes.ok) {
@@ -261,7 +306,7 @@ export async function cmdDomaine(args) {
     info(`Verification du DNS pour "${d}"...`);
     const listRes = await cfFetch(token, reqListDnsRecords(zoneId, d));
     const existing = listRes.json?.result?.[0];
-    const target = `${slug}.pages.dev`;
+    const target = `${projet}.pages.dev`;
     if (existing && existing.content === target) {
       ok(`Enregistrement CNAME deja correct pour "${d}".`);
     } else if (existing) {

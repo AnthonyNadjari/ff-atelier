@@ -17,7 +17,9 @@ pas besoin d'y aller pour le quotidien.
 | `commercial/brief-client.html` | Le formulaire que le client remplit (ou qu'on remplit avec lui pendant l'appel). Mode d'emploi : `BRIEF-CLIENT.md`. |
 | `commercial/guide-photos.html` | Le guide photo à envoyer au client dès le premier appel : 12 photos au téléphone, comment les prendre, comment nous les envoyer. Remplacer [téléphone] et [e-mail] avant envoi. |
 | `commercial/apres-livraison.html` | Ce qu'on remet au client une fois son site en ligne. Mode d'emploi : `APRES-LIVRAISON.md`. |
-| `juridique/` | Structure de la société, CGV, et les modèles de devis, contrat, facture et CGV (`modeles/`). |
+| `commercial/guide-domaine.html` | La fiche « votre nom de domaine » à joindre au devis : nous l'achetons à son nom, payé dix ans, compris dans le prix ; il n'a rien à faire. |
+| `commercial/REPRENDRE-SON-SITE.md` | La fiche remise avec le site (et envoyée d'office si on arrête) : héberger son site ailleurs gratuitement en dix minutes. `ff exporter` la copie dans le dépôt remis au client. |
+| `juridique/` | Structure de la société, CGV, les modèles de devis, contrat, facture, CGV et mise en demeure (`modeles/`), et le registre des traitements RGPD (`registre-traitements.md`, une ligne par client livré). |
 | `decisions/` | Les décisions prises et leurs raisons. **La règle du jeu : `PROCESS-HEBERGEMENT.md`** (aucun abonnement, hébergement, domaine, 20 oct 2026) et **`PIPELINE.md`** (de la démo à la facture payée, relances, outils). Le résumé lisible : `decisions-octobre-2026.html`. |
 
 ## Liens utiles

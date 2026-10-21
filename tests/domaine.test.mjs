@@ -165,11 +165,21 @@ test('ff domaine --simuler : code 0, affiche les appels API sans les executer, e
   );
   assert.equal(res.status, 0, `stdout:\n${res.stdout}\nstderr:\n${res.stderr}`);
   assert.match(res.stdout, /simulation/i);
-  assert.match(res.stdout, /pages\/projects/);
+  // Site jamais deploye : mode workers suppose (scripts/ff/hebergement.mjs), le domaine s'attache au Worker.
+  assert.match(res.stdout, /mode workers/);
+  assert.match(res.stdout, /workers\/domains/);
   assert.match(res.stdout, /zones\?name=exemple\.fr/);
   assert.match(res.stdout, /email\/routing\/enable/);
   assert.match(res.stdout, /email\/routing\/rules/);
   // --simuler n'ecrit jamais domain.txt (aucune action reelle) : seul un lancement reel le fait.
   assert.ok(!fs.existsSync(path.join(SITE_DIR, 'domain.txt')));
+
+  // Site deploye en Pages (hebergement.json) : projet + CNAME, l'ancien chemin.
+  fs.writeFileSync(path.join(SITE_DIR, 'hebergement.json'), JSON.stringify({ mode: 'pages', projet: SLUG, url: `https://${SLUG}.pages.dev`, date: '2026-10-22' }));
+  const pages = spawnSync(process.execPath, [FF, 'domaine', SLUG, 'exemple.fr', '--simuler'], { cwd: ROOT, encoding: 'utf8', env });
+  assert.equal(pages.status, 0, pages.stderr);
+  assert.match(pages.stdout, /mode pages/);
+  assert.match(pages.stdout, /pages\/projects/);
+  assert.match(pages.stdout, /dns_records/);
   cleanup();
 });

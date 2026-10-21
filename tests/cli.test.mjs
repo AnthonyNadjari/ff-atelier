@@ -79,3 +79,15 @@ test('ff nouveau puis ff verifier : cycle complet sur un site jetable', { timeou
     );
   }
 });
+
+// `ff tous --depuis` (22 oct 2026) : selection pure des sites a reconstruire d'apres les fichiers modifies.
+test('sitesAReconstruire : fichier partage = tout, fichiers de site = ces slugs + _exemple, docs = rien', async () => {
+  const { sitesAReconstruire } = await import('../scripts/ff/tous.mjs');
+  const slugs = ['_exemple', 'chez-malo', 'dubois-plomberie'];
+  assert.deepEqual(sitesAReconstruire(['src/lib/site.ts'], slugs), { tous: true, cause: 'src/lib/site.ts' });
+  assert.deepEqual(sitesAReconstruire(['package-lock.json'], slugs), { tous: true, cause: 'package-lock.json' });
+  assert.deepEqual(sitesAReconstruire(['sites/chez-malo/site.config.ts', 'docs/GOUT.md'], slugs), { tous: false, slugs: ['_exemple', 'chez-malo'] });
+  assert.deepEqual(sitesAReconstruire(['sites/chez-malo/brief.md', 'studio/A-FAIRE.md', 'CLAUDE.md'], slugs), { tous: false, slugs: ['_exemple'] });
+  assert.deepEqual(sitesAReconstruire(['sites/inconnu/site.config.ts'], slugs), { tous: false, slugs: ['_exemple'] }, 'un site supprime ou _test n est pas construit');
+  assert.deepEqual(sitesAReconstruire([], slugs), { tous: false, slugs: ['_exemple'] });
+});

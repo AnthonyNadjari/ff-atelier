@@ -198,8 +198,9 @@ titre, date, deux phrases de résumé, le texte (ou un enregistrement à retrans
 
 - **Domaine : le client en a déjà un ?** [ ] oui, lequel et chez quel registrar (OVH, Ionos, Gandi…) :
   [ ] non → deux ou trois noms souhaités, dans l'ordre (ex. plomberie-martin.fr, sans https) :
-  Règle : le domaine est au nom du client, acheté par lui (`studio/decisions/PROCESS-HEBERGEMENT.md` § 3,
-  fiche `studio/commercial/guide-domaine.html`).
+  Règle (20 oct 2026) : le domaine est au nom du client ; s'il n'en a pas, F&F l'achète pour lui chez OVH,
+  payé 10 ans, compris dans le prix (`studio/decisions/PROCESS-HEBERGEMENT.md` § 4, fiche client
+  `studio/commercial/guide-domaine.html`). Il ne crée aucun compte, n'achète rien.
 - **Date limite / contrainte de délai** :
 
 ## 12. Ressenti du client — pour choisir la direction visuelle

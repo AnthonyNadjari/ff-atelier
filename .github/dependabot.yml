@@ -1,0 +1,29 @@
+# Mises à jour de dépendances : une PR groupée par semaine (le lundi, avant la CI de santé), jamais de
+# majeure automatique (Astro, Tailwind, zod : à faire dans un tour dédié, docs/DEPLOIEMENT.md § 5.3).
+# Les alertes de sécurité restent des PR séparées, immédiates.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Paris
+    open-pull-requests-limit: 3
+    groups:
+      mineures-et-correctifs:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    commit-message:
+      prefix: "deps"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"

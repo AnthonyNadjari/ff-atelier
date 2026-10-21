@@ -6,11 +6,11 @@
 <title>Votre nom de domaine | Finck &amp; Fisch</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..600&family=Hanken+Grotesk:wght@400;600&display=swap">
 <!--
-  Fiche à envoyer au client quand le site est validé (appel de restitution), ou à suivre ensemble en partage
-  d'écran (10 minutes). Règle du studio (studio/decisions/PROCESS-HEBERGEMENT.md § 3) : le domaine est au nom
-  du client, payé par lui, pour toujours ; nous n'achetons jamais un domaine à notre nom et nous ne demandons
-  jamais un mot de passe. Les écrans d'OVHcloud changent : les étapes sont écrites sans capture d'écran, à
-  relire une fois par an. Remplacer [téléphone] et [e-mail] par les coordonnées du studio avant envoi.
+  Fiche à joindre au devis et à remettre à la livraison. Modèle du 20 octobre 2026
+  (studio/decisions/PROCESS-HEBERGEMENT.md § 4) : le domaine est au nom du client, acheté pour lui par
+  Finck & Fisch chez OVHcloud, payé d'avance pour dix ans, compris dans le prix du site. Le client n'a rien
+  à acheter, rien à renouveler, aucun compte à créer. Réécrite le 22 octobre 2026 (l'ancienne version
+  faisait acheter le domaine par le client). Remplacer [téléphone] et [e-mail] avant envoi.
 -->
 <style>
   :root {
@@ -40,6 +40,7 @@
   dt { font-weight: 600; }
   dd { margin: 0; color: var(--gris); }
   .pied { border-top: 1px solid var(--filet); padding-top: 16px; color: var(--gris); font-size: 0.94rem; }
+  @media (max-width: 480px) { dl { grid-template-columns: 1fr; gap: 2px 0; } dd { margin-bottom: 8px; } }
   @media print { body { font-size: 11pt; } main { padding: 0; gap: 18px; } ol.etapes li { padding: 6px 0; break-inside: avoid; } }
 </style>
 </head>
@@ -47,37 +48,36 @@
 <main>
   <header>
     <h1>Votre nom de domaine</h1>
-    <p class="chapo">L'adresse de votre site (par exemple fromagerie-ravanel.fr) vous appartient. Vous l'achetez à votre nom, avec votre carte, chez OVHcloud. Nous nous occupons du reste. Comptez un quart d'heure et environ 15 à 20 € par an.</p>
+    <p class="chapo">L'adresse de votre site (par exemple fromagerie-ravanel.fr) est à vous. Nous l'achetons pour vous, à votre nom, et nous la payons d'avance pour dix ans : c'est compris dans le prix du site. Vous n'avez rien à acheter, rien à renouveler, aucun compte à créer.</p>
   </header>
 
   <section>
-    <h2>Pourquoi à votre nom</h2>
-    <p>Si nous l'achetions pour vous, l'adresse serait à nous : vous ne pourriez pas changer de prestataire sans notre accord, et un oubli de notre part la ferait expirer. À votre nom, elle reste à vous quoi qu'il arrive, et vous pouvez partir quand vous voulez. C'est écrit dans nos conditions.</p>
+    <h2>Ce que nous faisons</h2>
+    <ol class="etapes">
+      <li><strong>Vous choisissez l'adresse.</strong><span>Courte, sans accent, facile à dicter au téléphone : le nom de votre boutique, et la ville si le nom est commun. Le .fr suffit pour une clientèle française. Vous nous donnez deux ou trois formes dans l'ordre de préférence ; nous prenons la première libre.</span></li>
+      <li><strong>Nous l'enregistrons à votre nom chez OVHcloud,</strong><span>avec votre raison sociale, votre SIREN et votre adresse : vous en êtes le titulaire, pas nous. Dix ans payés d'avance, renouvellement automatique coupé : aucun prélèvement ne vous attend.</span></li>
+      <li><strong>Nous branchons le site dessus,</strong><span>le jour de la mise en ligne, une fois le solde réglé. Le certificat de sécurité (le cadenas) est automatique.</span></li>
+      <li><strong>Nous vous donnons la date d'expiration,</strong><span>dans dix ans, écrite sur la fiche « après la livraison ». Avant cette date, vous pourrez prolonger où vous voulez, ou nous demander de le faire au forfait.</span></li>
+    </ol>
   </section>
 
   <section>
-    <h2>Les six étapes</h2>
-    <ol class="etapes">
-      <li><strong>Choisissez l'adresse.</strong><span>Courte, sans accent, facile à dicter au téléphone : le nom de votre boutique, et la ville si le nom est commun. Le .fr suffit pour une clientèle française. Nous vous proposons deux ou trois formes si vous hésitez.</span></li>
-      <li><strong>Allez sur ovhcloud.com, rubrique « Noms de domaine ».</strong><span>Tapez l'adresse voulue. Si elle est prise, essayez la forme suivante de la liste.</span></li>
-      <li><strong>Créez votre compte OVHcloud</strong><span>avec votre adresse e-mail habituelle et vos coordonnées exactes (c'est le propriétaire du domaine). Gardez le mot de passe chez vous : nous ne le demanderons jamais.</span></li>
-      <li><strong>Payez le domaine seul.</strong><span>Refusez les options proposées en plus (hébergement, site, protection) : le site est déjà hébergé par nos soins. Une boîte e-mail de base est offerte avec le domaine ; vous pouvez l'activer plus tard.</span></li>
-      <li><strong>Ajoutez-nous comme contact technique.</strong><span>Dans votre espace client, sur le domaine : « Contacts » puis « Contact technique » : indiquez l'identifiant que nous vous donnerons. Cela nous permet de brancher le site sans toucher à votre compte. Vous restez propriétaire et administrateur.</span></li>
-      <li><strong>Dites-nous que c'est fait.</strong><span>Nous branchons le site sous 24 h ouvrées. Si vous avez déjà des adresses e-mail sur ce domaine, dites-le-nous avant : nous les préservons.</span></li>
-    </ol>
+    <h2>Vous avez déjà un nom de domaine</h2>
+    <p>Gardez-le, il reste chez votre fournisseur actuel et à votre nom. Dites-nous simplement lequel et chez qui (OVH, Ionos, Gandi…). Nous vous indiquerons la seule chose à modifier dans votre espace client, en deux clics et en partage d'écran si vous préférez. Si vous avez des adresses e-mail sur ce domaine, dites-le-nous avant : nous les préservons, rien ne s'arrête.</p>
   </section>
 
   <section>
     <h2>Ce qu'il faut savoir</h2>
     <dl>
-      <dt>Prix</dt><dd>Environ 5 € HT la première année puis environ 8 € HT par an, payés à OVHcloud. Aucun frais de notre côté.</dd>
-      <dt>Renouvellement</dt><dd>Chaque année, automatique si vous laissez l'option cochée. Nous vous le rappelons un mois avant.</dd>
-      <dt>Vous avez déjà un domaine</dt><dd>Gardez-le. Dites-nous chez qui il est : nous l'utilisons tel quel, sans rien racheter.</dd>
-      <dt>Changer de prestataire un jour</dt><dd>Vous demandez votre code de transfert à OVHcloud (gratuit, à tout moment) et remettez vos réglages d'origine en deux clics. Le site vous est remis en fichiers.</dd>
+      <dt>Prix</dt><dd>Compris dans le prix du site. Aucune facture annuelle, ni de nous, ni d'OVHcloud.</dd>
+      <dt>Propriété</dt><dd>Le domaine est enregistré à votre nom. Nous ne possédons rien de ce qui est à vous : c'est écrit dans nos conditions.</dd>
+      <dt>Changer de prestataire un jour</dt><dd>Vous nous demandez le code de transfert de votre domaine : nous vous le remettons sous quinze jours, gratuitement. Le site vous est remis en fichiers.</dd>
+      <dt>Si nous arrêtons notre activité</dt><dd>Vous êtes prévenu trois mois avant, et vous recevez votre site complet, le code de transfert et une fiche pour l'héberger ailleurs gratuitement.</dd>
+      <dt>Adresses e-mail</dt><dd>Nous ne gérons pas de boîte mail. Une boîte de base est offerte par OVHcloud avec le domaine ; nous vous expliquons comment l'activer à votre nom si vous le souhaitez.</dd>
     </dl>
   </section>
 
-  <p class="pied">Une question pendant l'achat : appelez-nous au [téléphone], nous le faisons ensemble en partage d'écran. Finck &amp; Fisch, [e-mail].</p>
+  <p class="pied">Une question : appelez-nous au [téléphone]. Finck &amp; Fisch, [e-mail].</p>
 </main>
 </body>
 </html>
