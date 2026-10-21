@@ -1,6 +1,6 @@
 ---
 /** Hero "typographic" : sans image, h1 geant plein largeur, numero de telephone enorme, filet fin, marquee des villes en option. */
-import { site, tel, yearsSince, paragraphs, hasContactDoor } from '@/lib/site';
+import { site, ligneMetier, tel, yearsSince, paragraphs, hasContactDoor } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 const years = yearsSince();
@@ -10,7 +10,7 @@ const cities = site.zones.cities;
 
 <section id="hero" class="relative section-y pt-40 md:pt-48 overflow-hidden">
   <div class="container-ff" data-stagger="120">
-    <p class="hero-metier text-base">{site.business.trade} à {site.contact.address.city}</p>
+    {ligneMetier() && <p class="hero-metier text-base">{ligneMetier()}</p>}
     <h1
       class="text-display-xl mt-6 w-full"
       style="font-size: clamp(3.5rem, 9vw, 8rem);"

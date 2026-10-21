@@ -6,7 +6,7 @@
  * d'energie bloque tout autoplay, le poster porte seul le premier ecran. Sans poster, la video n'est pas rendue.
  * Sans video, rendu fullbleed a l'identique. Profil « video-de-fond » de docs/veille/styles/MOUVEMENTS.md.
  */
-import { site, tel, yearsSince, paragraphs, hasContactDoor } from '@/lib/site';
+import { site, ligneMetier, tel, yearsSince, paragraphs, hasContactDoor } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
@@ -39,7 +39,7 @@ const video = poster ? site.images.heroVideo : undefined;
     </div>
   )}
   <div class="container-ff relative pb-16 pt-40 md:pb-24 text-on-ink" data-stagger="110">
-    <p class="hero-metier text-base">{site.business.trade} à {site.contact.address.city}</p>
+    {ligneMetier() && <p class="hero-metier text-base">{ligneMetier()}</p>}
     <h1 class="hero-titre text-display-xl mt-5 max-w-3xl" data-split set:html={site.business.tagline} />
     <p class="mt-6 text-lg md:text-xl text-on-ink/80 max-w-xl">{intro}</p>
     <div class="mt-9 flex flex-wrap items-center gap-4">

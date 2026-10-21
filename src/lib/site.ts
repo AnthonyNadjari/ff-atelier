@@ -67,6 +67,15 @@ export const mailto = (s: Site = site) => (s.contact.email ? `mailto:${s.contact
 export const whatsapp = (s: Site = site) => (s.contact.whatsapp ? `https://wa.me/${s.contact.whatsapp}` : undefined);
 export const fullAddress = (s: Site = site) =>
   [s.contact.address.street, `${s.contact.address.postalCode} ${s.contact.address.city}`].filter(Boolean).join(', ');
+/**
+ * Ligne « métier à ville » au-dessus du h1, sauf si le h1 (tagline) la dit déjà : sinon le premier écran répète
+ * deux fois « Boulangerie-pâtisserie à Orléans » (essai Épi d'Or, 21 oct 2026).
+ */
+export const ligneMetier = (s: Site = site) => {
+  const norm = (x: string) => x.replace(/<[^>]*>/g, ' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const l = `${s.business.trade} à ${s.contact.address.city}`;
+  return norm(s.business.tagline ?? '').includes(norm(s.business.trade)) ? '' : l;
+};
 export const yearsSince = (s: Site = site) => (s.business.since ? new Date().getFullYear() - s.business.since : undefined);
 export const featuredServices = (s: Site = site) => s.services.filter((x) => x.featured);
 /**
