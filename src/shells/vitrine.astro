@@ -78,7 +78,7 @@ if (produits.length === 0) {
       <div class="vt-scene">
         <ul class="vt-piste" aria-label={site.wording.produits} data-vt-piste>
           {produits.map((p, i) => (
-            <li class="vt-produit">
+            <li class="vt-produit" data-detoure={p.detoure ? '' : undefined}>
               <a href={`/produits/${p.slug}`} class="vt-produit-lien">
                 <span class="vt-photo-cadre"><Img src={p.photo.src} alt={p.photo.alt} loading={i < 3 ? 'eager' : 'lazy'} priority={i === 0} class="vt-photo" sizes="(min-width: 64rem) 20vw, 64vw" /></span>
                 <span class="vt-produit-nom font-display">{p.nom}</span>
@@ -203,18 +203,21 @@ if (produits.length === 0) {
   .vt-produit-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 6px; }
   .vt-photo-cadre { display: block; inline-size: 100%; aspect-ratio: 4 / 5; }
   .vt-photo-cadre > :global(picture) { display: block; block-size: 100%; }
-  /* Le produit détouré, posé sur le fond avec une ombre portée réelle (profondeur, GOUT § 0). */
-  .vt-photo { inline-size: 100%; block-size: 100%; object-fit: contain; filter: drop-shadow(0 1.2rem 1.4rem color-mix(in oklch, var(--color-ink) 28%, transparent)); transition: scale var(--motion-ui) var(--ease-out); }
+  /* Le produit détouré (produits[].detoure), posé sur le fond avec une ombre portée réelle (profondeur, GOUT § 0).
+     Photo rectangulaire : droite, sans ombre, coins du système ; une photo rectangulaire inclinée avec une ombre est
+     la vignette polaroid refusée (GOUT § 2). */
+  .vt-photo { inline-size: 100%; block-size: 100%; object-fit: cover; border-radius: var(--radius-card); transition: scale var(--motion-ui) var(--ease-out); }
+  [data-detoure] .vt-photo { object-fit: contain; border-radius: 0; filter: drop-shadow(0 1.2rem 1.4rem color-mix(in oklch, var(--color-ink) 28%, transparent)); }
   .vt-produit-lien:hover .vt-photo { scale: 1.03; }
   .vt-produit-nom { font-size: 1.15rem; line-height: 1.2; }
   .vt-produit-prix { font-size: 0.95rem; color: var(--color-muted); }
   /* Repli : inclinaison alternée, fixe (navigateur sans animation au défilement, ou mouvement réduit). */
-  .vt-produit:nth-child(odd) .vt-photo { rotate: -3deg; }
-  .vt-produit:nth-child(even) .vt-photo { rotate: 3deg; }
+  .vt-produit[data-detoure]:nth-child(odd) .vt-photo { rotate: -3deg; }
+  .vt-produit[data-detoure]:nth-child(even) .vt-photo { rotate: 3deg; }
   /* Chaque produit pivote selon sa place dans la fenêtre de la piste : l'animation suit le doigt, rien ne tourne seul. */
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
-      .vt-produit .vt-photo { rotate: 0deg; animation: vt-pivot linear both; animation-timeline: view(inline); }
+      .vt-produit[data-detoure] .vt-photo { rotate: 0deg; animation: vt-pivot linear both; animation-timeline: view(inline); }
       @keyframes vt-pivot { from { rotate: -9deg; translate: 0 4%; } 50% { rotate: 0deg; translate: 0 0; } to { rotate: 9deg; translate: 0 4%; } }
     }
   }

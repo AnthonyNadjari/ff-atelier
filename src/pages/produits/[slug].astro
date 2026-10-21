@@ -39,7 +39,7 @@ const ld = produitLd(site, p, pageUrl, new URL(p.photo.src, Astro.site).toString
     <article>
       <div class="container-ff pf-retour"><a href="/produits" class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />{site.wording.produits}</a></div>
 
-      <header class="pf-tete">
+      <header class="pf-tete" data-detoure={p.detoure ? '' : undefined}>
         <h1 class="pf-h1 font-display">{p.nom}</h1>
         <div class="pf-photo"><Img src={p.photo.src} alt={p.photo.alt} priority class="pf-img" sizes="(min-width: 1024px) 40vw, 80vw" /></div>
         {(p.categorie || p.prix) && (
@@ -95,7 +95,7 @@ const ld = produitLd(site, p, pageUrl, new URL(p.photo.src, Astro.site).toString
             <ul class="pf-autres-liste">
               {autres.map((a) => (
                 <li>
-                  <a href={`/produits/${a.slug}`} class="pf-autre group">
+                  <a href={`/produits/${a.slug}`} class="pf-autre group" data-detoure={a.detoure ? '' : undefined}>
                     <span class="pf-autre-photo bg-surface shadow-card"><Img src={a.photo.src} alt={a.photo.alt} loading="lazy" class="pf-autre-img" sizes="(min-width: 1024px) 20vw, 45vw" /></span>
                     <span class="mt-3 block font-display text-lg group-hover:underline">{a.nom}</span>
                   </a>
@@ -118,6 +118,10 @@ const ld = produitLd(site, p, pageUrl, new URL(p.photo.src, Astro.site).toString
   .pf-h1 { grid-area: 1 / 1; font-size: clamp(3rem, 14vw, 13rem); line-height: 0.9; letter-spacing: -0.02em; text-align: center; max-inline-size: 7ch; color: var(--color-accent); text-wrap: balance; }
   /* Le produit chevauche le bas du titre, jamais tout le titre : la première ligne reste lisible (photo non détourée comprise). */
   .pf-photo { grid-area: 1 / 1; align-self: end; inline-size: min(60vw, 18rem); aspect-ratio: 4 / 5; translate: 0 36%; z-index: 1; }
+  /* Photo rectangulaire (pas detoure) : sous le titre, droite, coins du systeme, pas devant les lettres. */
+  .pf-tete:not([data-detoure]) .pf-photo { grid-area: auto; align-self: auto; translate: 0 0; inline-size: min(80vw, 28rem); aspect-ratio: 4 / 3; margin-block-start: clamp(1rem, 3vh, 2rem); }
+  .pf-tete:not([data-detoure]) .pf-img { object-fit: cover; border-radius: var(--radius-card); filter: none; }
+  .pf-tete:not([data-detoure]) .pf-marges { grid-area: auto; padding-block-start: 1rem; }
   .pf-photo > :global(picture), .pf-autre-photo > :global(picture) { display: block; block-size: 100%; }
   .pf-img { inline-size: 100%; block-size: 100%; object-fit: contain; filter: drop-shadow(0 1.6rem 2rem color-mix(in oklch, var(--color-ink) 30%, transparent)); }
   .pf-marges { grid-area: 2 / 1; inline-size: 100%; display: flex; justify-content: space-between; gap: 1rem; padding-block-start: clamp(6.5rem, 30vw, 9rem); font-size: 0.95rem; }
@@ -145,7 +149,8 @@ const ld = produitLd(site, p, pageUrl, new URL(p.photo.src, Astro.site).toString
   .pf-autre { display: block; text-align: center; }
   .pf-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
   .pf-autre-photo { display: block; aspect-ratio: 1; padding: 1rem; border-radius: var(--radius, 6px); }
-  .pf-autre-img { inline-size: 100%; block-size: 100%; object-fit: contain; filter: drop-shadow(0 0.8rem 1rem color-mix(in oklch, var(--color-ink) 22%, transparent)); }
+  .pf-autre-img { inline-size: 100%; block-size: 100%; object-fit: cover; border-radius: var(--radius-card); }
+  [data-detoure] .pf-autre-img { object-fit: contain; border-radius: 0; filter: drop-shadow(0 0.8rem 1rem color-mix(in oklch, var(--color-ink) 22%, transparent)); }
   @media (min-width: 48rem) {
     .pf-fiche { grid-template-columns: repeat(var(--pf-colonnes, 3), minmax(0, 1fr)); }
     .pf-colonne { padding: 2rem clamp(1.25rem, 3vw, 2.5rem); border-block-end: 0; border-inline-start: 1px solid var(--color-line); }

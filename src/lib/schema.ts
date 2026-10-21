@@ -447,7 +447,8 @@ export const siteSchema = z.object({
       z.object({
         slug: z.string().regex(/^[a-z0-9-]+$/),
         nom: z.string().describe('Nom du produit tel que le client le vend (« Confiture d’abricot », « Savon au lait d’ânesse »)'),
-        photo: img.describe('Photo DETOUREE du produit (fond transparent ou uni), celle du client : la vitrine la pose sur le fond de la direction, la fiche sur les lettres du titre. Jamais une photo de banque.'),
+        photo: img.describe('Photo du produit, celle du client, detouree de preference (fond transparent ou uni) : la vitrine la pose sur le fond de la direction, la fiche sur les lettres du titre. Jamais une photo de banque.'),
+        detoure: z.boolean().default(false).describe("La photo est detouree (fond transparent) : la vitrine l'incline et lui donne une ombre portee, la fiche la pose devant les lettres. Faux (defaut) = photo rectangulaire : posee droite, sans ombre, sous le titre (une photo rectangulaire inclinee avec une ombre est la vignette polaroid refusee par docs/GOUT.md § 2)."),
         categorie: z.string().optional().describe('Famille du produit (« Confitures », « Pestos ») : regroupe la liste /produits des deux familles distinctes. Absente = non affichee.'),
         formats: z.array(z.string()).default([]).describe('Formats ou poids proposes (« 250 g », « 1 kg ») : pastilles rondes de la fiche. Vide = non affiches.'),
         composition: z.string().optional().describe('Ingredients ou composition tels que le client les donne. Absente = non affichee, jamais devinee.'),

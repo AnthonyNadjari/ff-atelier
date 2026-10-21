@@ -39,7 +39,7 @@ const titre = site.wording.produits;
           {g.titre && <h2 id={`pl-groupe-${gi}`} class="pl-famille font-display">{g.titre}</h2>}
           <ul class="pl-liste">
             {g.items.map((p, i) => (
-              <li class="pl-item">
+              <li class="pl-item" data-detoure={p.detoure ? '' : undefined}>
                 <a href={`/produits/${p.slug}`} class="pl-lien group">
                   <span class="pl-photo"><Img src={p.photo.src} alt={p.photo.alt} loading={gi === 0 && i < 3 ? 'eager' : 'lazy'} priority={gi === 0 && i === 0} class="pl-img" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 100vw" /></span>
                   <span class="mt-3 block font-display text-xl group-hover:underline">{p.nom}</span>
@@ -61,7 +61,8 @@ const titre = site.wording.produits;
   .pl-liste { display: grid; gap: 2.5rem 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pl-photo { display: block; aspect-ratio: 4 / 5; }
   .pl-photo > :global(picture) { display: block; block-size: 100%; }
-  .pl-img { inline-size: 100%; block-size: 100%; object-fit: contain; filter: drop-shadow(0 1rem 1.2rem color-mix(in oklch, var(--color-ink) 24%, transparent)); transition: scale var(--motion-ui) var(--ease-out); }
+  .pl-img { inline-size: 100%; block-size: 100%; object-fit: cover; border-radius: var(--radius-card); transition: scale var(--motion-ui) var(--ease-out); }
+  [data-detoure] .pl-img { object-fit: contain; border-radius: 0; filter: drop-shadow(0 1rem 1.2rem color-mix(in oklch, var(--color-ink) 24%, transparent)); }
   .pl-lien { display: block; text-align: center; }
   .pl-lien:hover .pl-img { scale: 1.03; }
   .pl-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
