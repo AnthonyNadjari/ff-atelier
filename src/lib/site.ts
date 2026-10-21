@@ -8,9 +8,11 @@ export { hasContactDoor, ACTION_LABELS, ACTION_ICONS } from './actions';
 export type { Action, ActionKind } from './actions';
 export { conseilsTries, dateConseil, lienConseils } from './conseils';
 import { lienConseils } from './conseils';
+export { agendaAVenir, dateAgenda, categoriesAgenda, lienAgenda, isoDuJour } from './agenda';
+import { lienAgenda } from './agenda';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
-import { completerLayout } from './architectures';
+import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
 
 import { config as siteConfig, lookFile, hasCredits } from 'virtual:ff-look';
 
@@ -82,6 +84,28 @@ export const metierEtVille = (s: Site = site) =>
  * téléphone, le reste dans le menu ; barre d'actions (layout.actionBar) : 2 à 4.
  */
 export const actions = (s: Site = site) => actionsFor(s);
+/**
+ * Photos du client déclarées par le site, sans doublon et sans la photo de couverture (images.hero) : portrait,
+ * réalisations (galerie puis séries), photos des services. Pour les architectures qui posent une photo par écran ou
+ * par panneau (livre-ecrans, panneaux-tranche, carnet-horizontal) : rien n'est inventé, une photo absente n'est pas
+ * remplacée.
+ */
+export const photosDuSite = (s: Site = site) => {
+  const vues = new Set<string>(s.images.hero ? [s.images.hero.src] : []);
+  const out: { src: string; alt: string }[] = [];
+  const candidates = [
+    s.about.portrait,
+    ...s.proof.gallery,
+    ...s.realisations.flatMap((r) => r.photos),
+    ...s.services.flatMap((x) => [x.image, ...x.images]),
+  ];
+  for (const p of candidates) {
+    if (!p || vues.has(p.src)) continue;
+    vues.add(p.src);
+    out.push({ src: p.src, alt: p.alt });
+  }
+  return out;
+};
 export const paragraphs = (text: string) =>
   text
     .split(/\n\s*\n/)
@@ -141,5 +165,11 @@ export const navLinks = (s: Site = site) => {
     const iContact = links.findIndex((l) => l.href === '/#contact');
     links.splice(iContact === -1 ? links.length : iContact, 0, conseils);
   }
+  // Agenda (src/lib/agenda.ts, architecture cartes-empilees-agenda) : une page, en tête de la nav (« Agenda » est la
+  // porte toujours en haut de De Groene Afslag) ; seulement s'il reste un rendez-vous à venir.
+  // Liste des réalisations (coquilles panneaux et carnet) : une page, en tête de la nav.
+  if (COQUILLES_A_INDEX_REALISATIONS.includes(s.layout.shell) && s.realisations.length > 0) links.unshift({ href: '/realisations', label: 'Réalisations' });
+  const agenda = lienAgenda(s.agenda ?? [], s.wording.agenda);
+  if (agenda) links.unshift(agenda);
   return links;
 };

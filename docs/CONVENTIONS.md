@@ -139,6 +139,25 @@ possible en plus (jamais retiree) ; sans section contact dans le layout, le tiro
 `navLinks()` ajoute `#contact` a la nav. `ff verifier` trouve le formulaire (honeypot) dans le dialog comme
 dans une section. Metiers d'urgence : `dubois-plomberie`, `toits-cie`. Tokens uniquement.
 
+**Coquilles d'architecture** (`src/lib/architectures.ts`, `docs/veille/architectures/INDEX.md`) : `carte`,
+`index-projets`, `lieu-fixe`, `panneaux`, `carnet`, `livre`, `cartes-agenda` ne se prennent qu'avec leur architecture
+(`layout.architecture`), jamais tirees par `ff composer` (`COQUILLES_D_ARCHITECTURE`). Elles rendent elles-memes leur
+premier ecran (h1 + metier a ville + `tel:` visible sans defiler, socle `docs/GOUT.md` § 0) et les sections du layout
+ensuite ; un bloc de la coquille qui porterait l'id d'une section du layout (`contact`, `about`, `proof`) le lui laisse.
+
+**Bande horizontale de page entiere (`panneaux`, `carnet`).** Structure `[data-bande] > [data-bande-vue] >
+[data-bande-piste]`, pilotee par `src/scripts/bande.ts` (`onPage(initBande)`) : le defilement VERTICAL natif fait glisser
+la piste en `translate3d` (une seule translation, jamais de defilement simule, jamais de calage image par image),
+seulement a partir de 64 rem et sans `prefers-reduced-motion` ; `.is-bande` posee par le script, vue collante en
+`overflow: clip` (pas `hidden` : une ancre ne doit pas pouvoir la faire defiler), le focus clavier et les ancres ramenent
+la page au bon panneau, `[data-bande-progres]` recoit le pourcentage. Sans bande (telephone, mouvement reduit, sans
+script), les enveloppes sont en `display: contents` : chaque panneau est un bloc ordinaire de la page.
+
+**Un ecran = un bloc.** Les sections faites d'ecrans ou de chapitres (`about/ecran-texte-photo`, `proof/citations`,
+`services/liste-a-filets`, `services/cartes-empilees`, le bloc agenda) ont pour racine une enveloppe `<div id="<type>">`
+dont chaque ecran ou carte est un `<section>`/`<article>` enfant direct : `ff ressemblance` (`scripts/ff/deroule.mjs`)
+ouvre ces enveloppes et lit le deroule ecran par ecran, comme le visiteur.
+
 ## Verification
 `SITE=_exemple node node_modules/astro/astro.js build` doit passer. Pour tester une variante, modifier temporairement `sites/_exemple/site.config.ts` (layout) puis remettre.
 

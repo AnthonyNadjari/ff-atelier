@@ -1,0 +1,93 @@
+---
+/**
+ * About "ecran-texte-photo" : architecture `livre-ecrans` (src/lib/architectures.ts ; source Du Pain et des Idées,
+ * docs/veille/architectures/du-pain-et-des-idees.md). L'histoire composée comme un livre : UN écran par paragraphe
+ * (100 svh au plus haut, grandes marges), un seul objet par écran : le paragraphe sur 50 signes de large d'un côté,
+ * une photo portrait du client de l'autre, décalée vers le bas ; le côté alterne d'un écran à l'autre. Le titre
+ * (`about.title`) ouvre le premier écran, le dernier mène aux pages des activités.
+ *
+ * Entre deux paragraphes, tant que le client a des photos, un écran de photo seule, sans texte (la photo très large
+ * de la source). Chaque écran est une <section> sous une enveloppe <div id="about"> : un écran = un bloc de la page (ff ressemblance
+ * lit le déroulé écran par écran, comme on le lit).
+ *
+ * Données : paragraphes de `about.story` (4 au plus, les suivants restent sur le dernier écran), photos du client
+ * (photosDuSite : portrait, réalisations, services). Un écran sans photo reste un paragraphe seul, centré (rien
+ * d'inventé). Signes de la source NON repris (GOUT § 2) : serif italique, capitales espacées au-dessus des blocs.
+ */
+import { site, paragraphs, photosDuSite } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story);
+const MAX = 6;
+const ecrans = paras.length > MAX ? [...paras.slice(0, MAX - 1), paras.slice(MAX - 1).join('\n\n')] : paras;
+const photos = photosDuSite();
+const lienPages = site.servicePages && site.layout.sections.some((s) => s.type === 'services');
+// Suite d'écrans : un écran par paragraphe (texte et photo), et entre deux, tant qu'il reste des photos, un écran de
+// photo seule, sans texte (la « photo très large pleine colonne » de la source).
+type Ecran = { kind: 'texte'; bloc: string; photo?: { src: string; alt: string }; rang: number } | { kind: 'planche'; photo: { src: string; alt: string } };
+const suite: Ecran[] = [];
+let n = 0;
+ecrans.forEach((bloc, i) => {
+  suite.push({ kind: 'texte', bloc, photo: photos[n++], rang: i });
+  if (i < ecrans.length - 1 && photos[n] && photos.length - n > 3) suite.push({ kind: 'planche', photo: photos[n++] });
+});
+---
+
+<div id="about" class="eb">
+  {suite.map((e) => {
+    if (e.kind === 'planche') {
+      return (
+        <section class="eb-planche" aria-label={e.photo.alt}>
+          <Img src={e.photo.src} alt={e.photo.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 84vw, 100vw" />
+        </section>
+      );
+    }
+    const i = e.rang;
+    const droite = i % 2 === 0;
+    return (
+      <section class:list={['eb-ecran container-ff', e.photo ? 'eb-avec' : 'eb-seul', !droite && 'eb-inverse']} aria-labelledby={i === 0 ? 'eb-titre' : undefined}>
+        <div class="eb-texte" data-reveal>
+          {i === 0 && <h2 id="eb-titre" class="text-display-md mb-8" set:html={a.title ?? 'L’histoire'} />}
+          {paragraphs(e.bloc).map((p) => <p class="eb-para">{p}</p>)}
+          {i === ecrans.length - 1 && lienPages && (
+            <a href="#services" class="eb-lien mt-8 inline-flex items-center gap-2">Découvrir nos activités<Icon name="ArrowDown" size={16} /></a>
+          )}
+        </div>
+        {e.photo && (
+          <figure class="eb-photo" data-reveal>
+            <Img src={e.photo.src} alt={e.photo.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 32vw, 90vw" />
+          </figure>
+        )}
+      </section>
+    );
+  })}
+</div>
+
+<style>
+  .eb-ecran {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+    padding-block: clamp(4rem, 12vh, 9rem);
+    min-block-size: 88svh; /* un écran par paragraphe, au téléphone aussi */
+  }
+  .eb-para { font-size: 1.25rem; line-height: 1.65; max-inline-size: 50ch; }
+  .eb-para + .eb-para { margin-block-start: 1.25rem; }
+  .eb-photo { aspect-ratio: 4 / 5; overflow: hidden; inline-size: min(92%, 30rem); justify-self: end; grid-row: 1; }
+  .eb-planche { block-size: 88svh; overflow: hidden; margin-inline: auto; inline-size: min(100%, 84rem); }
+  .eb-inverse .eb-photo { justify-self: start; }
+  .eb-seul { justify-items: center; text-align: start; }
+  .eb-lien { border-block-end: 1px solid currentColor; padding-block-end: 0.15rem; }
+  .eb-lien:hover { border-block-end-width: 3px; }
+  @media (min-width: 1024px) {
+    .eb-ecran { min-block-size: 100svh; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2rem; }
+    .eb-planche { block-size: 100svh; padding: 6svh 0; }
+    .eb-avec .eb-texte { grid-column: 2 / span 5; grid-row: 1; }
+    .eb-avec .eb-photo { grid-column: 8 / span 4; grid-row: 1; inline-size: 100%; transform: translateY(12%); }
+    .eb-inverse .eb-texte { grid-column: 7 / span 5; }
+    .eb-inverse .eb-photo { grid-column: 2 / span 4; transform: translateY(-8%); }
+    .eb-seul .eb-texte { grid-column: 3 / span 8; }
+  }
+</style>

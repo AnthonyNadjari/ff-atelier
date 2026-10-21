@@ -1,0 +1,316 @@
+---
+/**
+ * Coquille "carnet" : architecture `carnet-horizontal` (src/lib/architectures.ts ; source Gingko,
+ * docs/veille/architectures/gingko.md). L'accueil se feuillette de gauche à droite comme un carnet ouvert : à
+ * l'ordinateur, une bande de chapitres de LARGEURS INÉGALES, posés en couches (photo, texte et notes qui se
+ * chevauchent), glisse vers la gauche quand on descend (défilement vertical natif, src/scripts/bande.ts) ; un RAIL
+ * fixe à gauche porte le nom, le téléphone et le menu. Les chapitres, dans l'ordre de la source :
+ *   présentation (le métier et la ville en titre, la photo du client, des notes : ancienneté, note Google, un avis)
+ *   → une réalisation étiquetée (photo, type, lieu, « Voir », deux phrases, « Un projet ? »)
+ *   → une bande de photo étroite pleine hauteur (la place du dessin au trait, sans rien dessiner d'inventé)
+ *   → la liste des réalisations (noms et lieux, vers leurs pages ; le mot « Réalisations » à la verticale)
+ *   → la méthode (photo, un paragraphe de l'histoire, les étapes, les pages des activités)
+ *   → les avis, en notes
+ *   → « autour de moi » : les artisans partenaires (site.partenaires), s'il y en a
+ *   → le contact en bout de bande (zone, adresse, téléphone, e-mail, horaires).
+ *
+ * Téléphone, `prefers-reduced-motion` ou sans script : la bande devient une page verticale (nav du site en haut).
+ * Une seule translation, aucun calage image par image (piège iPhone de CLAUDE.md).
+ *
+ * Socle docs/GOUT.md § 0 : h1 = métier et ville, téléphone cliquable dans le premier chapitre (et dans le rail),
+ * note Google et un avis dans le premier chapitre, avis en chapitre, photos du client, plusieurs pages (réalisations,
+ * /realisations, services). Le chapitre contact porte id="contact" (le tiroir, s'il est actif, l'intercepte).
+ * Signes de la source NON repris (GOUT § 2) : numérotation 01 / 02, texte courant en italique, nom en contour
+ * géant, définition de dictionnaire, gravure botanique (on ne dessine pas à la place du client).
+ *
+ * `layout.hero` n'est pas rendu (préchargement de la photo à la demi-largeur) ; `layout.nav` seulement au
+ * téléphone. Les sections du layout descendent sous la bande.
+ */
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import Porte from '@/components/Porte.astro';
+import Horaires from '@/components/Horaires.astro';
+import { site, tel, mailto, fullAddress, paragraphs, photosDuSite, metaDeRealisation, SEPARATEUR_META, actions, navLinks, hasContactDoor } from '@/lib/site';
+import { heroSizesFor } from '@/lib/images';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+
+const toutes = photosDuSite();
+const ouverture = site.images.hero ?? toutes[0];
+type Projet = { titre: string; meta: string[]; kind?: string; place?: string; photo: { src: string; alt: string }; href?: string };
+const projets: Projet[] = site.realisations.length
+  ? site.realisations.map((r) => ({ titre: r.title, meta: metaDeRealisation(r), kind: r.kind, place: r.place, photo: r.photos[0], href: `/realisations/${r.slug}` }))
+  : site.proof.gallery.map((g) => ({ titre: g.kind ?? g.place ?? g.alt, meta: metaDeRealisation(g), kind: g.kind, place: g.place, photo: g }));
+const vedette = projets[0];
+const prises = new Set([ouverture?.src, vedette?.photo.src]);
+const libres = toutes.filter((p) => !prises.has(p.src));
+const etroite = libres[0];
+const methodePhoto = site.about.portrait && site.about.portrait.src !== etroite?.src ? site.about.portrait : libres[1];
+const titre = site.business.trade + ' à ' + site.contact.address.city;
+const histoire = paragraphs(site.about.story);
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const avisCourt = site.proof.testimonials.find((t) => t.text.length <= 140);
+const avis = site.proof.testimonials.slice(0, 4);
+const contactPorte = hasContactDoor(site) ? '/#contact' : undefined;
+const enLigne = actions().filter((a) => a.kind === 'booking' || a.kind === 'order' || a.kind === 'giftCard');
+const liens = [...navLinks(), ...(site.servicePages ? site.services.map((s) => ({ href: `/services/${s.slug}`, label: s.title })) : [])]
+  .filter((l, i, t) => t.findIndex((x) => x.href === l.href) === i && l.href !== '/#contact');
+const socials = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const noms: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', tiktok: 'TikTok' };
+// Une section du layout du même type garde son id (un seul id par page) ; sinon le chapitre le porte.
+const idSi = (type: string) => (site.layout.sections.some((x) => x.type === type) ? undefined : type);
+---
+
+<div class="lg:hidden"><Nav /></div>
+<main id="main" class="cn">
+  <aside class="cn-rail bg-bg" aria-label="Raccourcis">
+    <a href="/" class="cn-rail-nom font-display">{site.images.logo ? <img src={site.images.logo.src} alt={site.images.logo.alt} class="h-12 w-auto" /> : site.business.name}</a>
+    <a href={tel()} class="cn-rail-tel tabular-nums"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a>
+    <details class="cn-menu">
+      <summary class="cn-menu-bouton">Menu</summary>
+      <nav aria-label="Navigation principale" class="cn-menu-panneau bg-surface text-fg shadow-lift">
+        <ul class="flex flex-col gap-3">
+          {liens.map((l) => <li><a href={l.href} class="cn-menu-lien font-display">{l.label}</a></li>)}
+          {contactPorte && <li><a href={contactPorte} class="cn-menu-lien font-display">Contact</a></li>}
+        </ul>
+      </nav>
+    </details>
+  </aside>
+
+  <div class="cn-bande" data-bande>
+    <div class="cn-vue" data-bande-vue>
+      <div class="cn-piste" data-bande-piste>
+        <section id="hero" class="cn-chap cn-ouverture">
+          <div class="cn-ouv-texte">
+            <p class="cn-nom font-display">{site.business.name}</p>
+            <h1 class="cn-h1 font-display">{titre}</h1>
+            <p class="cn-accroche mt-4 text-lg" set:html={site.business.tagline} />
+            <p class="mt-5"><a href={tel()} class="cn-tel inline-flex items-center gap-2 tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+          </div>
+          {ouverture && (
+            <div class="cn-ouv-photo">
+              <Img src={ouverture.src} alt={ouverture.alt} priority sizes={heroSizesFor(site.layout.hero)} class="h-full w-full object-cover" />
+            </div>
+          )}
+          <div class="cn-notes">
+            {site.business.since && <p class="cn-note bg-surface text-fg shadow-card">Depuis {site.business.since}, {site.zones.label ?? site.contact.address.city}</p>}
+            {google && <p class="cn-note bg-surface text-fg shadow-card"><a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google</a></p>}
+            {avisCourt && <blockquote class="cn-note bg-surface text-fg shadow-card">« {avisCourt.text} » <span class="block text-sm">{avisCourt.author}, avis {avisCourt.source}</span></blockquote>}
+          </div>
+        </section>
+
+        {vedette && (
+          <section class="cn-chap cn-vedette" aria-labelledby="cn-vedette-titre">
+            <figure class="cn-vedette-photo">
+              <Img src={vedette.photo.src} alt={vedette.photo.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 42vw, 100vw" />
+              <figcaption class="cn-etiquette bg-bg text-fg">
+                {[vedette.kind, vedette.place].filter(Boolean).join(SEPARATEUR_META)}
+                {vedette.href && <a href={vedette.href} class="ml-2 underline underline-offset-4">Voir<span class="sr-only">&nbsp;: {vedette.titre}</span></a>}
+              </figcaption>
+            </figure>
+            <div class="cn-vedette-texte">
+              <h2 id="cn-vedette-titre" class="text-display-md">{vedette.titre}</h2>
+              <p class="mt-4 text-lg">{paragraphs(site.business.description)[0]}</p>
+              {contactPorte && <p class="mt-6"><a href={contactPorte} class="cn-lien">Un projet&nbsp;? Écrivez-nous<Icon name="ArrowRight" size={16} /></a></p>}
+            </div>
+          </section>
+        )}
+
+        {etroite && (
+          <div class="cn-chap cn-etroite"><Img src={etroite.src} alt={etroite.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 24vw, 100vw" /></div>
+        )}
+
+        {projets.length > 1 && (
+          <section class="cn-chap cn-liste" aria-labelledby="cn-liste-titre">
+            <h2 id="cn-liste-titre" class="cn-liste-mot font-display">Réalisations</h2>
+            <ul class="cn-liste-noms" role="list">
+              {projets.map((p) => (
+                <li class="cn-liste-item">
+                  <div class="cn-liste-vignette"><Img src={p.photo.src} alt="" loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 5rem, 70vw" /></div>
+                  <div>
+                    {p.href ? <a href={p.href} class="cn-liste-lien font-display">{p.titre}</a> : <span class="cn-liste-lien font-display">{p.titre}</span>}
+                    {p.meta.length > 0 && <span class="block text-sm">{p.meta.join(SEPARATEUR_META)}</span>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {site.realisations.length > 0 && <p class="cn-liste-tout"><a href="/realisations" class="cn-lien">Toutes, en photos<Icon name="ArrowRight" size={16} /></a></p>}
+          </section>
+        )}
+
+        <section id={idSi('about')} class="cn-chap cn-methode" aria-labelledby="cn-methode-titre">
+          {methodePhoto && <div class="cn-methode-photo"><Img src={methodePhoto.src} alt={methodePhoto.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 26vw, 80vw" /></div>}
+          <div class="cn-methode-texte">
+            <h2 id="cn-methode-titre" class="text-display-sm" set:html={site.about.title ?? 'La méthode'} />
+            {histoire[0] && <p class="mt-4 text-lg leading-relaxed">{histoire[0]}</p>}
+            {site.process.length > 0 && (
+              <ol class="cn-etapes mt-6">
+                {site.process.map((e) => <li><span class="font-display text-lg">{e.title}</span><span class="block text-sm">{e.text}</span></li>)}
+              </ol>
+            )}
+            <ul class="cn-activites mt-6">
+              {site.services.map((s) => (
+                <li>{site.servicePages ? <a href={`/services/${s.slug}`} class="cn-lien">{s.title}</a> : s.title}<span class="block text-sm">{s.short}</span></li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {avis.length > 0 && (
+          <section id={idSi('proof')} class="cn-chap cn-avis" aria-labelledby="cn-avis-titre">
+            <h2 id="cn-avis-titre" class="text-display-sm">Ils en parlent</h2>
+            <ul class="cn-avis-liste mt-6">
+              {avis.map((t, i) => (
+                <li class:list={['cn-avis-note bg-surface text-fg shadow-card', i % 2 === 1 && 'cn-avis-decale']}>
+                  <blockquote>« {t.text} »</blockquote>
+                  <p class="mt-2 text-sm">{t.author}{t.city ? `, ${t.city}` : ''}, avis {t.source}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {site.partenaires.length > 0 && (
+          <section class="cn-chap cn-autour" aria-labelledby="cn-autour-titre">
+            <h2 id="cn-autour-titre" class="text-display-sm">Autour de nous</h2>
+            <p class="mt-3">Les artisans avec qui nous travaillons.</p>
+            <ul class="cn-autour-liste mt-6">
+              {site.partenaires.map((p) => (
+                <li><span class="text-sm">{p.metier}</span><span class="block font-display text-xl">{p.lien ? <a href={p.lien} target="_blank" rel="noopener" class="underline underline-offset-4">{p.nom}</a> : p.nom}</span></li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        <section id={idSi('contact')} class="cn-chap cn-contact bg-ink text-on-ink" aria-labelledby="cn-contact-titre">
+          <h2 id="cn-contact-titre" class="text-display-sm">{site.business.name}</h2>
+          {site.zones.label && <p class="mt-2">{site.zones.label}</p>}
+          <p class="mt-6">{site.contact.mapsUrl ? <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="underline underline-offset-4">{fullAddress()}</a> : fullAddress()}</p>
+          <p class="mt-4"><a href={tel()} class="cn-tel inline-flex items-center gap-2 tabular-nums"><Icon name="Phone" size={20} />{site.contact.phoneDisplay}</a></p>
+          {site.contact.email && <p class="mt-2"><a href={mailto()} class="underline underline-offset-4 break-all">{site.contact.email}</a></p>}
+          {site.contact.hours.length > 0 && <Horaires class="mt-6 text-sm" />}
+          {enLigne.length > 0 && <ul class="mt-6 flex flex-wrap gap-3">{enLigne.map((a) => <li><Porte action={a} variant="primary" size="sm" /></li>)}</ul>}
+          {socials.length > 0 && <p class="mt-6 flex flex-wrap gap-x-5">{socials.map(([k, url]) => <a href={url} target="_blank" rel="noopener" class="underline underline-offset-4">{noms[k] ?? k}</a>)}</p>}
+        </section>
+      </div>
+    </div>
+  </div>
+
+  {sections.map(({ Component }) => <Component />)}
+</main>
+<div class="cn-pied"><Footer /></div>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initBande } from '@/scripts/bande';
+  onPage(initBande);
+</script>
+
+<style>
+  /* ---- Téléphone (et sans bande) : chapitres empilés ---- */
+  .cn-rail { display: none; }
+  /* Téléphone : les wrappers de la bande s'effacent, chaque chapitre est un bloc de la page. */
+  .cn-bande, .cn-vue, .cn-piste { display: contents; }
+  .cn-chap { position: relative; padding: 3rem 1.25rem; }
+  .cn-ouverture { display: grid; gap: 1.5rem; padding-block-start: 1.5rem; }
+  .cn-nom { font-size: 1.1rem; }
+  .cn-h1 { font-size: clamp(2.25rem, 7.5vw, 5.5rem); line-height: 1.02; letter-spacing: -0.02em; max-inline-size: 13ch; margin-block-start: 0.5rem; }
+  .cn-accroche { max-inline-size: 34ch; }
+  .cn-tel { font-size: 1.3rem; text-decoration: underline; text-underline-offset: 0.2em; }
+  .cn-ouv-photo { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-card, 14px); }
+  .cn-notes { display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+  .cn-note { padding: 0.75rem 1rem; border-radius: var(--radius, 6px); max-inline-size: 22rem; }
+  .cn-vedette { display: grid; gap: 1.5rem; }
+  .cn-vedette-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-card, 14px); }
+  .cn-etiquette { position: absolute; inset-inline-start: 0.75rem; inset-block-end: 0.75rem; padding: 0.5rem 0.75rem; border-radius: var(--radius, 6px); font-size: 0.9rem; }
+  .cn-lien { display: inline-flex; align-items: center; gap: 0.5rem; border-block-end: 1px solid currentColor; padding-block-end: 0.1rem; }
+  .cn-lien:hover { border-block-end-width: 2px; }
+  .cn-etroite { padding: 0; aspect-ratio: 3 / 2; overflow: hidden; }
+  .cn-liste { display: flex; align-items: stretch; gap: 1rem; min-block-size: 64svh; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scroll-padding-inline: 1.25rem; }
+  .cn-liste:focus-within { outline: none; }
+  .cn-liste-mot { flex: none; writing-mode: vertical-rl; transform: rotate(180deg); font-size: clamp(2.5rem, 9vw, 6rem); line-height: 1; }
+  .cn-liste-tout { flex: none; align-self: center; padding-inline-end: 1.25rem; }
+  /* Téléphone : les réalisations en file qu'on fait glisser au doigt (la bande de Gingko), défilement natif aimanté. */
+  .cn-liste-noms { display: contents; }
+  .cn-liste-item { flex: none; inline-size: 74vw; display: flex; flex-direction: column; gap: 0.6rem; scroll-snap-align: start; }
+  .cn-liste-vignette { aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-card, 14px); }
+  .cn-liste-lien { font-size: clamp(1.5rem, 2.4vw, 2.25rem); line-height: 1.1; }
+  .cn-liste-lien:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+  .cn-methode { display: grid; gap: 1.75rem; background: var(--color-bg-2); }
+  .cn-methode-photo { aspect-ratio: 4 / 5; overflow: hidden; inline-size: 70%; border-radius: var(--radius-card, 14px); }
+  .cn-etapes, .cn-activites { display: flex; flex-direction: column; gap: 0.8rem; }
+  .cn-avis-liste { display: flex; flex-direction: column; gap: 1rem; }
+  .cn-avis-note { padding: 1.1rem 1.25rem; border-radius: var(--radius, 6px); max-inline-size: 26rem; }
+  .cn-autour-liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.5rem; }
+  .cn-contact { padding-block: 4rem; }
+
+  /* ---- Ordinateur : rail fixe à gauche ---- */
+  @media (min-width: 64rem) {
+    .cn { padding-inline-start: 10rem; }
+    .cn-pied { padding-inline-start: 10rem; }
+    .cn-rail {
+      position: fixed;
+      inset-block: 0;
+      inset-inline-start: 0;
+      z-index: 40;
+      inline-size: 10rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1.75rem 1.25rem;
+      border-inline-end: 1px solid var(--color-line);
+    }
+    .cn-rail-nom { font-size: 1.3rem; line-height: 1.15; }
+    .cn-rail-tel { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.95rem; margin-block-start: auto; }
+    .cn-rail-tel:hover { text-decoration: underline; }
+    .cn-menu-bouton { cursor: pointer; list-style: none; font-weight: 600; }
+    .cn-menu-bouton::-webkit-details-marker { display: none; }
+    .cn-menu-panneau { position: fixed; inset-block: 0; inset-inline-start: 10rem; inline-size: min(26rem, 40vw); padding: 3rem 2.5rem; overflow-y: auto; }
+    .cn-menu-lien { font-size: 1.75rem; line-height: 1.2; }
+    .cn-menu-lien:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+
+    /* Sans bande (mouvement réduit) : chapitres empilés, plus larges. */
+    .cn-chap { padding: 5rem 4rem; }
+    .cn-ouverture { grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); align-items: start; }
+    .cn-ouv-photo { grid-column: 1; grid-row: 1 / span 2; }
+    .cn-ouv-texte { grid-column: 2; grid-row: 1; }
+    .cn-notes { grid-column: 2; grid-row: 2; align-self: end; }
+    .cn-vedette { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); align-items: center; gap: 3rem; }
+    .cn-liste { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: 3rem; min-block-size: 0; overflow: visible; }
+    .cn-liste-noms { display: flex; flex-direction: column; gap: 0.9rem; }
+    .cn-liste-mot { grid-row: 1 / span 2; }
+    .cn-liste-tout { padding: 0; }
+    .cn-liste-item { inline-size: auto; flex-direction: row; align-items: center; gap: 1rem; }
+    .cn-liste-vignette { inline-size: 4.5rem; flex: none; border-radius: var(--radius, 6px); }
+    .cn-liste-tout { grid-column: 2; }
+    .cn-methode { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr); align-items: center; gap: 3rem; }
+    .cn-methode-photo { inline-size: 100%; }
+    .cn-etroite { aspect-ratio: 21 / 9; }
+
+    /* Bande horizontale (src/scripts/bande.ts pose .is-bande) : chapitres de largeurs inégales, en couches. */
+    .cn-bande.is-bande { display: block; }
+    .cn-bande.is-bande .cn-vue { display: block; position: sticky; inset-block-start: 0; block-size: 100svh; overflow: clip; }
+    .cn-bande.is-bande .cn-piste { display: flex; align-items: stretch; block-size: 100%; will-change: transform; }
+    .is-bande .cn-chap { flex: none; block-size: 100%; padding: 3.5rem 3rem; }
+    .is-bande .cn-ouverture { inline-size: calc(100vw - 10rem); grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); grid-template-rows: auto 1fr; align-items: start; }
+    .is-bande .cn-ouv-photo { grid-row: 1 / span 2; grid-column: 1; block-size: 88%; aspect-ratio: auto; align-self: center; }
+    .is-bande .cn-ouv-texte { grid-row: 1; grid-column: 2; z-index: 1; margin-inline-start: -5vw; padding-block-start: 1rem; }
+    .is-bande .cn-notes { grid-row: 2; grid-column: 1 / span 2; flex-direction: row; align-items: flex-end; align-self: end; margin-inline-start: 3vw; z-index: 2; }
+    .is-bande .cn-vedette { inline-size: 72vw; grid-template-rows: 100%; }
+    .is-bande .cn-vedette-photo { block-size: 86%; aspect-ratio: auto; align-self: center; }
+    .is-bande .cn-vedette-texte { margin-inline-start: -4vw; z-index: 1; background: var(--color-bg); padding: 2rem; border-radius: var(--radius-card, 14px); box-shadow: var(--shadow-card); align-self: end; margin-block-end: 6svh; }
+    .is-bande .cn-etroite { inline-size: 22vw; aspect-ratio: auto; padding: 0; }
+    .is-bande .cn-liste { inline-size: 62vw; align-content: center; }
+    .is-bande .cn-liste-noms { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem 2rem; }
+    .is-bande .cn-liste-vignette { inline-size: 3.75rem; }
+    .is-bande .cn-liste-lien { font-size: clamp(1.15rem, 1.6vw, 1.6rem); }
+    .is-bande .cn-methode { inline-size: 70vw; }
+    .is-bande .cn-methode-photo { block-size: 70svh; inline-size: auto; aspect-ratio: 4 / 5; }
+    .is-bande .cn-avis { inline-size: 46vw; display: flex; flex-direction: column; justify-content: center; }
+    .is-bande .cn-avis-decale { margin-inline-start: 4rem; }
+    .is-bande .cn-autour { inline-size: 40vw; display: flex; flex-direction: column; justify-content: center; }
+    .is-bande .cn-contact { inline-size: 40vw; display: flex; flex-direction: column; justify-content: center; }
+  }
+</style>

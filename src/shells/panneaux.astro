@@ -1,0 +1,300 @@
+---
+/**
+ * Coquille "panneaux" : architecture `panneaux-tranche` (src/lib/architectures.ts ; source Studio RHE,
+ * docs/veille/architectures/studio-rhe.md). Le site se range comme des chemises : à l'ordinateur, des panneaux
+ * pleine hauteur posés côte à côte glissent vers la gauche quand on descend (défilement vertical NATIF qui pilote une
+ * piste collante, src/scripts/bande.ts ; jamais de défilement simulé). Chaque panneau a un seul rôle :
+ *   couverture (photo plein panneau, h1 en très grand en bas, présentation et téléphone en haut à droite)
+ *   → l'atelier (une petite photo, « Depuis 2009 », trois lignes, vers la page À propos ; il entre PAR-DESSUS la
+ *     couverture, plans glissants de la source)
+ *   → une réalisation par panneau (photo verticale pleine hauteur, nom, lieu, vers sa page)
+ *   → le métier (une phrase, les pages des activités, vers la liste des réalisations)
+ *   → une grande photo seule
+ *   → les avis sur l'aplat d'accent (le panneau orange du journal de la source)
+ *   → le journal (conseils), s'il y en a.
+ * Une TRANCHE fixe à droite porte le nom, vertical, et la progression en % (dos de la chemise) ; un RAIL fixe à
+ * gauche porte l'initiale, « Depuis », le téléphone et le menu.
+ *
+ * Téléphone, `prefers-reduced-motion` ou sans script : les panneaux s'empilent en une page verticale (la nav du site
+ * en haut, en-tête court qui se cache). Rien n'est calé image par image : une seule translation (piège iPhone).
+ *
+ * Socle docs/GOUT.md § 0, que la source n'a pas : h1 + « métier à ville » sur la couverture, téléphone cliquable sur
+ * la couverture (et dans le rail), note Google sur la couverture et avis en panneau, photos du client, plusieurs
+ * pages (réalisations, /realisations, /a-propos, services). Le bloc de présentation porte id="contact" ; avec le
+ * tiroir (`contactDrawer`), « /#contact » l'ouvre. Signes de la source NON repris (GOUT § 2) : liens en serif
+ * italique, slogan anglais creux, défilement simulé, numérotation décorative.
+ *
+ * `layout.hero` n'est pas rendu (la couverture le remplace ; il sert au préchargement de la photo) ; `layout.nav`
+ * seulement au téléphone. Les sections du layout descendent sous la bande, pleine largeur.
+ */
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import Porte from '@/components/Porte.astro';
+import { site, tel, metierEtVille, paragraphs, photosDuSite, metaDeRealisation, SEPARATEUR_META, actions, navLinks, conseilsTries, dateConseil } from '@/lib/site';
+import { heroSizesFor } from '@/lib/images';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+
+const toutes = photosDuSite();
+const couverture = site.images.hero ?? toutes[0];
+type Projet = { titre: string; meta: string[]; photo: { src: string; alt: string }; href?: string };
+const projets: Projet[] = (site.realisations.length
+  ? site.realisations.map((r) => ({ titre: r.title, meta: metaDeRealisation(r), photo: r.photos[0], href: `/realisations/${r.slug}` }))
+  : site.proof.gallery.map((g) => ({ titre: g.kind ?? g.place ?? g.alt, meta: metaDeRealisation(g), photo: g }))
+).slice(0, 5);
+const prises = new Set([couverture?.src, ...projets.map((p) => p.photo.src)]);
+const libres = toutes.filter((p) => !prises.has(p.src));
+const petite = site.about.portrait && !prises.has(site.about.portrait.src) ? site.about.portrait : libres[0];
+const grande = libres.find((p) => p.src !== petite?.src);
+const histoire = paragraphs(site.about.story)[0];
+const phrase = paragraphs(site.business.description)[0];
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const avis = site.proof.testimonials.slice(0, 3);
+const journal = conseilsTries(site.conseils).slice(0, 3);
+const premiere = actions()[0];
+const liens = [...navLinks(), ...(site.servicePages ? site.services.map((s) => ({ href: `/services/${s.slug}`, label: s.title })) : [])]
+  .filter((l, i, t) => t.findIndex((x) => x.href === l.href) === i);
+const initiale = site.business.name.trim().charAt(0);
+const listeRealisations = site.realisations.length > 0;
+---
+
+<div class="lg:hidden"><Nav /></div>
+<main id="main" class="pn">
+  <aside class="pn-rail bg-bg" aria-label="Raccourcis">
+    <a href="/" class="pn-initiale font-display" aria-label={`${site.business.name}, accueil`}>{initiale}</a>
+    {site.business.since && <p class="pn-vertical text-sm">Depuis {site.business.since}</p>}
+    <a href={tel()} class="pn-vertical pn-rail-tel tabular-nums"><Icon name="Phone" size={16} class="pn-icone" />{site.contact.phoneDisplay}</a>
+    <details class="pn-menu">
+      <summary class="pn-menu-bouton">Menu</summary>
+      <nav aria-label="Navigation principale" class="pn-menu-panneau bg-surface text-fg shadow-lift">
+        <ul class="flex flex-col gap-3">
+          {liens.map((l) => <li><a href={l.href} class="pn-menu-lien font-display">{l.label}</a></li>)}
+        </ul>
+      </nav>
+    </details>
+  </aside>
+  <div class="pn-tranche bg-bg" aria-hidden="true">
+    <p class="pn-vertical font-display pn-tranche-nom">{site.business.name}</p>
+    <p class="pn-progres text-sm tabular-nums" data-bande-progres></p>
+  </div>
+
+  <div class="pn-bande" data-bande>
+    <div class="pn-vue" data-bande-vue>
+      <div class="pn-piste" data-bande-piste>
+        <section id="hero" class="pn-panneau pn-couverture bg-bg text-fg">
+          <div id={site.layout.sections.some((x) => x.type === 'contact') ? undefined : 'contact'} class="pn-couv-info">
+            <p class="text-lg">{metierEtVille()}</p>
+            <p class="mt-2"><a href={tel()} class="pn-couv-tel inline-flex items-center gap-2 tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+            {google && <p class="mt-1 text-sm"><a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google</a></p>}
+            {phrase && <p class="pn-couv-phrase mt-3">{phrase}</p>}
+            {premiere && premiere.kind !== 'call' && <p class="mt-4"><Porte action={premiere} variant="primary" size="md" /></p>}
+          </div>
+          <h1 class="pn-h1 font-display" set:html={site.business.tagline} />
+          {couverture && (
+            <div class="pn-couv-photo">
+              <Img src={couverture.src} alt={couverture.alt} priority sizes={heroSizesFor(site.layout.hero)} class="h-full w-full object-cover" />
+            </div>
+          )}
+        </section>
+
+        <section class="pn-panneau pn-intro bg-bg text-fg" aria-labelledby="pn-intro-titre">
+          {petite && <div class="pn-intro-photo"><Img src={petite.src} alt={petite.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 22vw, 60vw" /></div>}
+          <div class="pn-intro-texte">
+            <h2 id="pn-intro-titre" class="text-display-sm">{site.business.since ? `Depuis ${site.business.since}` : site.about.title ?? site.business.name}</h2>
+            {histoire && <p class="mt-5 text-lg leading-relaxed">{histoire}</p>}
+            {site.layout.pageAPropos && <a href="/a-propos" class="pn-lien mt-6">{site.about.title ?? 'L’atelier'} en entier<Icon name="ArrowRight" size={16} /></a>}
+          </div>
+        </section>
+
+        <div class="pn-projets" role="region" aria-label="Réalisations" tabindex="0">
+        {projets.map((p, i) => (
+          <article class="pn-panneau pn-projet bg-bg text-fg" aria-labelledby={`pn-projet-${i}`}>
+            <div class="pn-projet-photo"><Img src={p.photo.src} alt={p.photo.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 40vw, 92vw" /></div>
+            <div class="pn-projet-legende">
+              <h2 id={`pn-projet-${i}`} class="font-display text-2xl">{p.titre}</h2>
+              {p.meta.length > 0 && <p class="text-sm">{p.meta.join(SEPARATEUR_META)}</p>}
+              {p.href && <a href={p.href} class="pn-lien mt-2">Voir la réalisation<span class="sr-only">&nbsp;: {p.titre}</span><Icon name="ArrowRight" size={16} /></a>}
+            </div>
+          </article>
+        ))}
+        </div>
+
+        <section class="pn-panneau pn-metier bg-bg-2 text-fg" aria-labelledby="pn-metier-titre">
+          <div class="pn-metier-texte">
+            <h2 id="pn-metier-titre" class="pn-metier-phrase font-display">{site.services.map((s) => s.title).join(', ')}.</h2>
+            <p class="mt-6 text-lg">{metierEtVille()}</p>
+            {site.servicePages && (
+              <ul class="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2">
+                {site.services.map((s) => <li><a href={`/services/${s.slug}`} class="pn-lien">{s.title}</a></li>)}
+              </ul>
+            )}
+            {listeRealisations && <p class="mt-8"><a href="/realisations" class="pn-lien">Toutes les réalisations<Icon name="ArrowRight" size={16} /></a></p>}
+          </div>
+        </section>
+
+        {grande && (
+          <div class="pn-panneau pn-grande"><Img src={grande.src} alt={grande.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 80vw, 100vw" /></div>
+        )}
+
+        {(avis.length > 0 || google) && (
+          <section class="pn-panneau pn-avis bg-accent text-on-accent" aria-labelledby="pn-avis-titre">
+            <h2 id="pn-avis-titre" class="text-display-sm">Ce qu’en disent nos clients</h2>
+            {avis.length > 0 && (
+              <ul class="pn-avis-liste mt-8">
+                {avis.map((t) => (
+                  <li>
+                    <blockquote class="text-lg">« {t.text} »</blockquote>
+                    <p class="mt-2 text-sm">{t.author}{t.city ? `, ${t.city}` : ''}, avis {t.source}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {google && <p class="mt-8"><a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google</a></p>}
+          </section>
+        )}
+
+        {journal.length > 0 && (
+          <section class="pn-panneau pn-journal bg-bg text-fg" aria-labelledby="pn-journal-titre">
+            <h2 id="pn-journal-titre" class="text-display-sm">{site.wording.conseils}</h2>
+            <ul class="mt-8 flex flex-col gap-6">
+              {journal.map((c) => (
+                <li class="border-t border-line pt-4">
+                  <time datetime={c.date} class="text-sm">{dateConseil(c.date)}</time>
+                  <a href={`/conseils/${c.slug}`} class="mt-1 block font-display text-xl hover:underline">{c.title}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
+  </div>
+
+  {sections.map(({ Component }) => <Component />)}
+</main>
+<div class="pn-pied"><Footer /></div>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initBande } from '@/scripts/bande';
+  onPage(initBande);
+</script>
+
+<style>
+  /* ---- Téléphone (et sans bande) : panneaux empilés ---- */
+  .pn-rail, .pn-tranche { display: none; }
+  .pn-panneau { position: relative; }
+  /* Téléphone : les wrappers de la bande s'effacent, chaque panneau est un bloc de la page. */
+  .pn-bande, .pn-vue, .pn-piste { display: contents; }
+  .pn-couverture { display: flex; flex-direction: column; gap: 1.25rem; padding: 0.5rem 1.25rem 2rem; }
+  .pn-h1 { font-size: clamp(2.6rem, 12vw, 9rem); line-height: 0.95; letter-spacing: -0.03em; font-weight: 300; max-inline-size: 12ch; }
+  .pn-couv-info { max-inline-size: 26rem; }
+  .pn-couv-phrase { max-inline-size: 40ch; }
+  .pn-couv-photo { aspect-ratio: 4 / 5; overflow: hidden; inline-size: 72%; align-self: flex-end; }
+  .pn-couv-tel { font-size: 1.35rem; text-decoration: underline; text-underline-offset: 0.2em; }
+  /* Un panneau, un écran (Studio RHE au téléphone : 7 écrans). */
+  .pn-intro { display: grid; gap: 2rem; align-content: center; min-block-size: 92svh; padding: 4rem 1.25rem; }
+  .pn-intro-photo { aspect-ratio: 4 / 5; overflow: hidden; inline-size: 62%; justify-self: end; }
+  .pn-intro-texte { max-inline-size: 34rem; }
+  .pn-lien { display: inline-flex; align-items: center; gap: 0.5rem; border-block-end: 1px solid currentColor; padding-block-end: 0.1rem; }
+  .pn-lien:hover { border-block-end-width: 2px; }
+  /* Téléphone : les réalisations glissent au doigt, côte à côte (défilement natif aimanté, aucun script). */
+  .pn-projets { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding: 2rem 1.25rem; scroll-padding-inline: 1.25rem; }
+  .pn-projets:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+  .pn-projet { flex: none; inline-size: 80vw; display: flex; flex-direction: column; gap: 0.75rem; scroll-snap-align: start; }
+  .pn-projet-photo { aspect-ratio: 3 / 4; overflow: hidden; }
+  .pn-projet-legende { display: flex; flex-direction: column; gap: 0.25rem; }
+  .pn-metier { display: grid; place-items: center; text-align: center; min-block-size: 92svh; padding: 5rem 1.25rem; }
+  .pn-metier-texte { max-inline-size: 46rem; }
+  .pn-metier-phrase { font-size: clamp(2rem, 4.4vw, 3.75rem); line-height: 1.1; font-weight: 300; }
+  .pn-grande { block-size: 88svh; overflow: hidden; }
+  .pn-avis { display: flex; flex-direction: column; justify-content: center; min-block-size: 92svh; padding: 4rem 1.25rem; }
+  .pn-avis-liste { display: flex; flex-direction: column; gap: 2rem; max-inline-size: 40rem; }
+  .pn-journal { padding: 4rem 1.25rem; }
+
+  /* ---- Ordinateur : rail, tranche, panneaux pleine hauteur ---- */
+  @media (min-width: 64rem) {
+    .pn { padding-inline: 4.5rem 3.5rem; }
+    .pn-pied { padding-inline: 4.5rem 3.5rem; }
+    .pn-rail {
+      position: fixed;
+      inset-block: 0;
+      inset-inline-start: 0;
+      z-index: 40;
+      inline-size: 4.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding-block: 1.5rem;
+      border-inline-end: 1px solid var(--color-line);
+    }
+    .pn-tranche {
+      position: fixed;
+      inset-block: 0;
+      inset-inline-end: 0;
+      z-index: 40;
+      inline-size: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: 1.5rem;
+      border-inline-start: 1px solid var(--color-line);
+    }
+    .pn-vertical { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+    .pn-initiale { font-size: 2rem; line-height: 1; }
+    .pn-rail-tel { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; }
+    .pn-rail-tel:hover { text-decoration: underline; }
+    .pn-tranche-nom { font-size: 1.35rem; }
+    .pn-progres { min-block-size: 1.5em; }
+    .pn-menu-bouton { cursor: pointer; list-style: none; font-weight: 600; padding: 0.5rem; }
+    .pn-menu-bouton::-webkit-details-marker { display: none; }
+    .pn-menu-panneau {
+      position: fixed;
+      inset-block: 0;
+      inset-inline-start: 4.5rem;
+      inline-size: min(26rem, 40vw);
+      padding: 3rem 2.5rem;
+      overflow-y: auto;
+    }
+    .pn-menu-lien { font-size: 1.75rem; line-height: 1.2; }
+    .pn-menu-lien:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+
+    /* Sans bande (mouvement réduit) : panneaux pleine hauteur empilés. */
+    .pn-panneau { min-block-size: 100svh; }
+    .pn-couverture { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 0 2.5rem; padding: 2.5rem 0 0 2.5rem; }
+    .pn-couv-info { grid-column: 1; grid-row: 1; }
+    .pn-h1 { grid-column: 1; grid-row: 2; align-self: end; padding-block-end: 2.5rem; font-size: clamp(3.5rem, 6.4vw, 8.5rem); }
+    .pn-couv-photo { grid-column: 2; grid-row: 1 / span 2; inline-size: 100%; aspect-ratio: auto; min-block-size: 100%; margin-block-start: -2.5rem; }
+    .pn-intro { grid-template-columns: minmax(0, 1fr) minmax(0, 0.6fr); align-items: end; padding: 4rem; }
+    .pn-intro-photo { grid-column: 2; grid-row: 1; align-self: start; inline-size: 100%; }
+    .pn-intro-texte { grid-column: 1; grid-row: 1; }
+    .pn-projets { padding: 3rem 4rem; gap: 2rem; }
+    .pn-projet { inline-size: min(36vw, 26rem); }
+
+    /* Bande horizontale (src/scripts/bande.ts pose .is-bande). */
+    .pn-bande.is-bande { display: block; }
+    .pn-bande.is-bande .pn-vue { display: block; position: sticky; inset-block-start: 0; block-size: 100svh; overflow: clip; }
+    .pn-bande.is-bande .pn-piste { display: flex; block-size: 100%; will-change: transform; }
+    .is-bande .pn-panneau { flex: none; block-size: 100%; min-block-size: 0; }
+    .is-bande .pn-couverture { inline-size: calc(100vw - 8rem); }
+    .is-bande .pn-intro {
+      inline-size: 58vw;
+      margin-inline-start: -9vw;
+      z-index: 1;
+      box-shadow: var(--shadow-lift);
+      align-content: center;
+    }
+    .is-bande .pn-projets { display: contents; }
+    .is-bande .pn-projet { inline-size: auto; padding: 2.5rem 2rem; align-items: flex-start; scroll-snap-align: none; }
+    .is-bande .pn-projet-photo { block-size: calc(100% - 7rem); inline-size: auto; aspect-ratio: 4 / 5; }
+    .is-bande .pn-projet-legende { inline-size: auto; max-inline-size: 22rem; }
+    .is-bande .pn-metier { inline-size: 62vw; }
+    .is-bande .pn-grande { inline-size: 78vw; }
+    .is-bande .pn-avis { inline-size: 54vw; display: flex; flex-direction: column; justify-content: center; padding: 4rem; }
+    .is-bande .pn-journal { inline-size: 44vw; display: flex; flex-direction: column; justify-content: center; padding: 4rem; }
+  }
+</style>

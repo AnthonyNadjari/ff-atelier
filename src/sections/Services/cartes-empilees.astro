@@ -1,0 +1,114 @@
+---
+/**
+ * Services "cartes-empilees" : architecture `cartes-empilees-agenda` (src/lib/architectures.ts ; source De Groene
+ * Afslag, docs/veille/architectures/groene-afslag.md). Les activités ne sont pas une grille : ce sont des chapitres
+ * de couleur pleine largeur qui se recouvrent au défilement. Chaque carte colle en haut (`position: sticky`, décalée
+ * de son rang pour laisser voir le bord des précédentes) pendant que la suivante monte dessus, avec l'ombre portée
+ * de la direction (`shadow-lift`). Dans la carte : le nom en étiquette, la phrase, quelques lignes, le lien vers la
+ * page de l'activité, la photo du client.
+ *
+ * Chaque carte est une <section> (un chapitre, un bloc de la page) sous l'enveloppe <div id="services">.
+ *
+ * Une couleur par activité, prise dans les tokens de la direction (surface, accent, teinte pâle de l'accent, encre,
+ * fond 2), jamais en dur. Téléphone (< 48 rem) ou écran bas : pas de collage (une carte plus haute que l'écran
+ * cacherait sa fin) ; les cartes se chevauchent d'un bord, en pile. Rien ne bouge image par image : le collage est
+ * natif (aucun script), donc fluide sur iPhone. Signes de la source NON repris (GOUT § 2) : mot en italique dans
+ * chaque accroche, étiquettes en pilules, objets détourés inventés.
+ */
+import { site, metierEtVille, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+
+const lien = site.servicePages;
+const TEINTES = ['ce-t-surface', 'ce-t-accent', 'ce-t-pale', 'ce-t-encre', 'ce-t-fond'];
+---
+
+<div id="services" class="ce-pile section-y">
+  <div class="container-ff">
+    <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} />
+  </div>
+  {/* Les cartes sont les enfants directs de l'enveloppe : un chapitre, un bloc de la page. */}
+    {site.services.map((s, i) => {
+      const texte = paragraphs(s.description ?? '')[0];
+      return (
+        <section class:list={['ce-carte rounded-card shadow-lift', TEINTES[i % TEINTES.length]]} style={`--ce-rang: ${i};`} aria-labelledby={`ce-${s.slug}`}>
+          <div class:list={['ce-corps', s.image && 'ce-avec']}>
+            <div class="ce-texte">
+              <h3 id={`ce-${s.slug}`} class="ce-etiquette font-display">{s.title}</h3>
+              <p class="ce-phrase font-display">{s.short}</p>
+              {texte && <p class="ce-long">{texte}</p>}
+              {s.bullets.length > 0 && <ul class="ce-puces">{s.bullets.slice(0, 4).map((b) => <li>{b}</li>)}</ul>}
+              {s.priceFrom && <p class="tabular-nums">{s.priceFrom}</p>}
+              {lien && (
+                <a href={`/services/${s.slug}`} class="ce-lien">
+                  {s.title} en détail<Icon name="ArrowRight" size={18} />
+                </a>
+              )}
+            </div>
+            {s.image && (
+              <div class="ce-photo">
+                <Img src={s.image.src} alt={s.image.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 40vw, 100vw" />
+              </div>
+            )}
+          </div>
+        </section>
+      );
+    })}
+</div>
+
+<style>
+  .ce-pile { display: flex; flex-direction: column; }
+  .ce-pile > .container-ff:first-child { margin-block-end: 2.5rem; }
+  .ce-carte { inline-size: calc(min(100%, var(--container)) - 2 * clamp(1.25rem, 4vw, 2.5rem)); margin-inline: auto; }
+  .ce-carte { position: relative; overflow: hidden; }
+  .ce-carte + .ce-carte { margin-block-start: -1.25rem; }
+  .ce-t-surface { background: var(--color-surface); color: var(--color-fg); }
+  .ce-t-accent { background: var(--color-accent); color: var(--color-on-accent); }
+  .ce-t-pale { background: color-mix(in oklab, var(--color-accent) 16%, var(--color-bg)); color: var(--color-fg); }
+  .ce-t-encre { background: var(--color-ink); color: var(--color-on-ink); }
+  .ce-t-fond { background: var(--color-bg-2); color: var(--color-fg); }
+  .ce-corps { display: grid; gap: 1.75rem; padding: 2rem 1.5rem 3rem; }
+  .ce-texte { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .ce-etiquette {
+    font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+    line-height: 1;
+    padding: 0.35em 0.5em 0.3em;
+    background: var(--color-ink);
+    color: var(--color-on-ink);
+    border-radius: var(--radius, 6px);
+  }
+  .ce-t-encre .ce-etiquette { background: var(--color-on-ink); color: var(--color-ink); }
+  .ce-phrase { font-size: clamp(1.35rem, 2.2vw, 1.85rem); line-height: 1.25; max-inline-size: 30ch; }
+  .ce-long { max-inline-size: 56ch; line-height: 1.6; }
+  .ce-puces { display: flex; flex-direction: column; gap: 0.25rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .ce-lien {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-block-start: 0.5rem;
+    font-weight: 600;
+    border-block-end: 2px solid currentColor;
+    padding-block-end: 0.15rem;
+  }
+  .ce-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+  /* Téléphone : la photo ouvre la carte, bord à bord, en portrait (un chapitre par écran). */
+  .ce-photo { aspect-ratio: 4 / 5; overflow: hidden; order: -1; margin: -2rem -1.5rem 0; }
+  @media (min-width: 48rem) {
+    .ce-corps { padding: 3rem; }
+    .ce-avec { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: 3rem; }
+    .ce-photo { order: 0; aspect-ratio: 4 / 3; margin: 0; border-radius: var(--radius-card, 14px); }
+  }
+  /* Collage en cascade : seulement quand une carte tient dans l'écran. */
+  @media (min-width: 48rem) and (min-height: 40rem) {
+    .ce-pile { padding-block-end: 4rem; }
+    .ce-carte {
+      position: sticky;
+      inset-block-start: calc(5.5rem + var(--ce-rang) * 1rem);
+      min-block-size: min(34rem, calc(100svh - 8rem));
+      display: grid;
+      align-items: center;
+    }
+    .ce-carte + .ce-carte { margin-block-start: 22svh; }
+  }
+</style>

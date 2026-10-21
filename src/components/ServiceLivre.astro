@@ -1,0 +1,131 @@
+---
+/**
+ * Page de service en gabarit "livre" (layout.servicePage: 'livre', architecture `livre-ecrans`,
+ * src/lib/architectures.ts ; source Du Pain et des Idées, page « La Boulangerie »,
+ * docs/veille/architectures/du-pain-et-des-idees.md). La page d'une activité est bâtie comme l'accueil, en écrans
+ * successifs, un objet chacun :
+ *  1. en-tête d'un écran sur l'encre, la photo du service en fond atténué : le nom (h1), « nom, métier à ville »,
+ *     le téléphone ;
+ *  2. le premier paragraphe à gauche, une photo du service décalée à droite ;
+ *  3. deux photos décalées sans texte (services[].images) ;
+ *  4. ce qu'on y fait (bullets) ou la carte à prix (lignes), et la suite du texte ;
+ *  5. les questions de la page (faq[].service) ;
+ *  6. le contact de la page (section contact/ecran, comme à l'accueil), puis les autres activités à filets.
+ * Un écran sans donnée n'est pas rendu (rien d'inventé).
+ */
+import { site, tel, paragraphs, metierEtVille } from '@/lib/site';
+import { getSection } from '@/lib/sections';
+import type { Site } from '@/lib/schema';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props { service: Site['services'][number] }
+const { service } = Astro.props;
+const paras = paragraphs(service.description ?? '');
+const [premier, ...suite] = paras;
+const [p1, p2, p3] = service.images;
+const decale = p1 ?? undefined;
+const paire = [p2, p3].filter(Boolean) as { src: string; alt: string }[];
+const questions = site.faq.filter((f) => f.service === service.slug);
+const autres = site.services.filter((s) => s.slug !== service.slug);
+const Contact = getSection('contact', 'ecran');
+---
+
+<article class="sl">
+  <header class="sl-tete bg-ink text-on-ink">
+    {service.image && <Img src={service.image.src} alt="" priority class="absolute inset-0 -z-10 h-full w-full object-cover opacity-40" sizes="100vw" />}
+    <div class="container-ff sl-tete-texte">
+      <a href="/#services" class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />Accueil</a>
+      <h1 class="text-display-xl mt-6">{service.title}</h1>
+      <p class="mt-4 text-lg">{site.business.name}, {metierEtVille()}</p>
+      <p class="mt-6"><a href={tel()} class="inline-flex items-center gap-2 text-lg tabular-nums underline underline-offset-4"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    </div>
+  </header>
+
+  <div class:list={['sl-ecran container-ff sl-duo', !decale && 'sl-seul']}>
+    <div data-reveal>
+      <p class="sl-phrase font-display">{service.short}</p>
+      {premier && <p class="sl-para mt-6">{premier}</p>}
+    </div>
+    {decale && <div class="sl-photo" data-reveal><Img src={decale.src} alt={decale.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 32vw, 80vw" /></div>}
+  </div>
+
+  {paire.length > 0 && (
+    <div class="sl-ecran container-ff sl-paire" aria-label={`${service.title} en photos`}>
+      {paire.map((p, i) => <div class:list={['sl-paire-photo', i === 1 && 'sl-paire-bas']} data-reveal><Img src={p.src} alt={p.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 40vw, 90vw" /></div>)}
+    </div>
+  )}
+
+  {(service.bullets.length > 0 || service.lignes.length > 0 || suite.length > 0 || service.priceFrom) && (
+    <div class="sl-ecran container-ff">
+      <div class="sl-colonne" data-reveal>
+        <h2 class="text-display-sm">Ce que nous y faisons</h2>
+        {suite.map((p) => <p class="sl-para mt-6">{p}</p>)}
+        {service.bullets.length > 0 && <ul class="sl-filets mt-8">{service.bullets.map((b) => <li>{b}</li>)}</ul>}
+        {service.lignes.length > 0 && (
+          <ul class="sl-filets mt-8">
+            {service.lignes.map((l) => (
+              <li class="flex items-baseline justify-between gap-4"><span>{l.nom}{l.detail && <span class="block text-sm">{l.detail}</span>}</span>{l.prix && <span class="tabular-nums whitespace-nowrap">{l.prix}</span>}</li>
+            ))}
+          </ul>
+        )}
+        {service.priceFrom && <p class="mt-6 tabular-nums">{service.priceFrom}</p>}
+      </div>
+    </div>
+  )}
+
+  {questions.length > 0 && (
+    <section class="sl-ecran container-ff" aria-labelledby="sl-questions">
+      <div class="sl-colonne">
+        <h2 id="sl-questions" class="text-display-sm">Vos questions</h2>
+        <div class="mt-8 border-t border-line">
+          {questions.map((f) => (
+            <details class="border-b border-line py-4">
+              <summary class="cursor-pointer text-lg">{f.q}</summary>
+              <div class="mt-3 space-y-3">{paragraphs(f.a).map((p) => <p>{p}</p>)}</div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Contact />
+
+  {autres.length > 0 && (
+    <nav aria-label="Les autres activités" class="container-ff sl-autres">
+      <ul>
+        {autres.map((o) => <li><a href={`/services/${o.slug}`} class="sl-autre font-display">{o.title}<Icon name="ArrowRight" size={24} /></a></li>)}
+      </ul>
+    </nav>
+  )}
+</article>
+
+<style>
+  .sl-tete { position: relative; isolation: isolate; overflow: hidden; display: grid; align-items: end; min-block-size: 88svh; padding-block: 7rem 3.5rem; }
+  .sl-ecran { padding-block: clamp(4rem, 12vh, 9rem); }
+  .sl-duo { display: grid; gap: 2.5rem; align-items: center; }
+  .sl-phrase { font-size: clamp(1.5rem, 2.6vw, 2.25rem); line-height: 1.25; max-inline-size: 26ch; }
+  .sl-para { font-size: 1.2rem; line-height: 1.65; max-inline-size: 50ch; }
+  .sl-photo { aspect-ratio: 4 / 5; overflow: hidden; inline-size: min(100%, 26rem); justify-self: end; }
+  .sl-paire { display: grid; gap: 1.5rem; }
+  .sl-paire-photo { aspect-ratio: 4 / 5; overflow: hidden; }
+  .sl-colonne { max-inline-size: 44rem; margin-inline: auto; }
+  .sl-filets { border-block-start: 1px solid var(--color-line); }
+  .sl-filets li { border-block-end: 1px solid var(--color-line); padding-block: 0.8rem; }
+  .sl-autres { padding-block: 4rem 6rem; }
+  .sl-autres ul { border-block-start: 1px solid var(--color-line); }
+  .sl-autres li { border-block-end: 1px solid var(--color-line); }
+  .sl-autre { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-block: 1rem; font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.1; }
+  .sl-autre:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.18em; }
+  @media (min-width: 1024px) {
+    .sl-ecran { min-block-size: 100svh; display: grid; align-content: center; }
+    .sl-duo { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2rem; }
+    .sl-duo > :first-child { grid-column: 2 / span 5; }
+    .sl-duo .sl-photo { grid-column: 8 / span 4; inline-size: 100%; transform: translateY(10%); }
+    .sl-seul > :first-child { grid-column: 3 / span 8; }
+    .sl-paire { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: start; }
+    .sl-paire-photo { grid-column: 1 / span 6; max-block-size: 80svh; }
+    .sl-paire-bas { grid-column: 8 / span 4; margin-block-start: 28svh; }
+  }
+</style>

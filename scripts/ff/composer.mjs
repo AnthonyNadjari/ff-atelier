@@ -47,7 +47,7 @@ const METIERS_INDEX = ['photograph', 'artiste', 'architect', 'tatou', 'illustrat
 
 // Coquilles d'ARCHITECTURE (src/lib/architectures.ts) : elles ne s'appliquent qu'avec leur architecture entiere
 // (layout.architecture), choisie sur les donnees du client — jamais tirees au hasard ici.
-export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe'];
+export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda'];
 
 function shellFits(shell, { sectionsCount, motion, nav, hero, scale, metier = '' }) {
   if (COQUILLES_D_ARCHITECTURE.includes(shell)) return false;
@@ -350,6 +350,17 @@ export function varianteCompatible(type, variant, cfg = {}) {
       return imagesServices;
     case 'services/carte-prix':
       return services.some((s) => s && Array.isArray(s.lignes) && s.lignes.length > 0);
+    // Sections « écran » et cartes empilées : composées pour leur architecture (src/lib/architectures.ts), jamais
+    // tirées dans un déroulé ordinaire ; seulement quand le site a choisi cette architecture ET a les données.
+    case 'services/cartes-empilees':
+      return cfg.layout?.architecture === 'cartes-empilees-agenda' && services.length >= 3 && services.length <= 6;
+    case 'services/liste-a-filets':
+    case 'contact/ecran':
+      return cfg.layout?.architecture === 'livre-ecrans';
+    case 'about/ecran-texte-photo':
+      return cfg.layout?.architecture === 'livre-ecrans' && String(cfg.about?.story ?? '').split(/\n\s*\n/).filter((x) => x.trim()).length >= 2;
+    case 'proof/citations':
+      return cfg.layout?.architecture === 'livre-ecrans' && Array.isArray(cfg.proof?.testimonials) && cfg.proof.testimonials.length > 0;
     case 'about/portrait':
     case 'about/overlap':
       return Boolean(cfg.about && cfg.about.portrait);

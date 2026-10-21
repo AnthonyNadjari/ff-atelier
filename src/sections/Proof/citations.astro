@@ -1,0 +1,88 @@
+---
+/**
+ * Proof "citations" : architecture `livre-ecrans` (src/lib/architectures.ts ; source Du Pain et des Idées,
+ * docs/veille/architectures/du-pain-et-des-idees.md). La preuve en trois écrans de livre, un objet chacun :
+ *  1. un avis du client en grande citation centrée sur un aplat (la note Google dessous, en lien) ;
+ *  2. deux photos du travail décalées, sans texte (une grande à gauche, une petite plus bas à droite) ;
+ *  3. un deuxième avis à gauche, une photo portrait à droite.
+ * Socle docs/GOUT.md § 0 : les avis du client, haut dans la page (la couverture porte déjà la note).
+ *
+ * Chaque écran est une <section> sous une enveloppe <div id="proof"> (un écran = un bloc de la page).
+ *
+ * Données : proof.testimonials (recopiés, avec leur source), proof.google, photos du client (photosDuSite, prises
+ * en fin de liste pour ne pas répéter celles de l'histoire). Sans avis ni note : la section ne rend rien. Sans photo :
+ * l'écran de photos disparaît (rien d'inventé). Aucune étoile dessinée, aucun avis tronqué.
+ */
+import { site, photosDuSite } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const [premier, second] = site.proof.testimonials;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const photos = photosDuSite();
+const fin = photos.slice(-3);
+const [grande, petite] = fin.length >= 2 ? fin : [fin[0], undefined];
+const portrait = fin.length >= 3 ? fin[2] : undefined;
+const rien = !premier && !google;
+---
+
+{!rien && (
+  <div id="proof" class="pc">
+    <h2 class="sr-only">Ce qu’en disent nos clients</h2>
+    <section class="pc-ecran pc-aplat" aria-label="Un avis">
+      <div class="container-ff pc-centre" data-reveal>
+        {premier && (
+          <figure>
+            <blockquote class="pc-citation font-display">« {premier.text} »</blockquote>
+            <figcaption class="mt-8">{premier.author}{premier.city ? `, ${premier.city}` : ''}, avis {premier.source}</figcaption>
+          </figure>
+        )}
+        {google && (
+          <p class:list={['text-sm', premier && 'mt-10']}>
+            <a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google</a>
+          </p>
+        )}
+      </div>
+    </section>
+
+    {grande && (
+      <section class="pc-ecran container-ff pc-photos" aria-label="Le travail en photos">
+        <div class="pc-grande" data-reveal><Img src={grande.src} alt={grande.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 50vw, 90vw" /></div>
+        {petite && <div class="pc-petite" data-reveal><Img src={petite.src} alt={petite.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 28vw, 60vw" /></div>}
+      </section>
+    )}
+
+    {second && (
+      <section class="pc-ecran container-ff pc-duo" aria-label="Un autre avis">
+        <figure class="pc-duo-texte" data-reveal>
+          <blockquote class="pc-citation-2 font-display">« {second.text} »</blockquote>
+          <figcaption class="mt-6">{second.author}{second.city ? `, ${second.city}` : ''}, avis {second.source}</figcaption>
+        </figure>
+        {portrait && <div class="pc-portrait" data-reveal><Img src={portrait.src} alt={portrait.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 30vw, 80vw" /></div>}
+      </section>
+    )}
+  </div>
+)}
+
+<style>
+  /* Un écran par objet, au téléphone aussi (la source garde la même suite d'écrans). */
+  .pc-ecran { padding-block: clamp(4rem, 12vh, 9rem); min-block-size: 88svh; display: grid; align-content: center; }
+  .pc-aplat { background: color-mix(in oklab, var(--color-accent) 14%, var(--color-bg)); color: var(--color-fg); }
+  .pc-centre { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .pc-citation { font-size: clamp(1.75rem, 3.6vw, 3rem); line-height: 1.25; max-inline-size: 28ch; margin-inline: auto; }
+  .pc-citation-2 { font-size: clamp(1.5rem, 2.6vw, 2.25rem); line-height: 1.3; max-inline-size: 26ch; }
+  .pc-photos { display: grid; gap: 1.5rem; }
+  .pc-grande { aspect-ratio: 4 / 5; overflow: hidden; }
+  .pc-petite { aspect-ratio: 4 / 5; overflow: hidden; inline-size: 62%; justify-self: end; }
+  .pc-duo { display: grid; gap: 2.5rem; align-items: center; }
+  .pc-portrait { aspect-ratio: 4 / 5; overflow: hidden; inline-size: min(100%, 24rem); justify-self: end; }
+  @media (min-width: 1024px) {
+    .pc-ecran { min-block-size: 100svh; display: grid; align-content: center; }
+    .pc-photos { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: start; }
+    .pc-grande { grid-column: 1 / span 6; aspect-ratio: 4 / 5; max-block-size: 80svh; }
+    .pc-petite { grid-column: 8 / span 4; inline-size: 100%; margin-block-start: 30svh; }
+    .pc-duo { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .pc-duo-texte { grid-column: 2 / span 5; }
+    .pc-portrait { grid-column: 8 / span 4; inline-size: 100%; }
+  }
+</style>

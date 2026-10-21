@@ -170,7 +170,9 @@ export function releverDeroule() {
     if (p) partOnglets = Math.max(partOnglets, abs(p)[3] / docH);
   }
   let horizontal = docW > vw * 1.3;
-  if (!horizontal) for (const e of document.querySelectorAll('main, main > *, body > *')) {
+  // Les blocs de premier niveau (els, enveloppes ouvertes) comptent aussi : une file qui défile en x sous une
+  // enveloppe display:contents (coquilles panneaux et carnet au téléphone) est bien une zone de la page.
+  if (!horizontal) for (const e of new Set([...document.querySelectorAll('main, main > *, body > *'), ...els])) {
     const s = getComputedStyle(e);
     if (/(auto|scroll)/.test(s.overflowX) && e.clientHeight >= vh * 0.6 && e.clientWidth >= vw * 0.8 && e.scrollWidth >= e.clientWidth * 2) { horizontal = true; break; }
   }

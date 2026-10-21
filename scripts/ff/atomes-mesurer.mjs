@@ -351,5 +351,10 @@ export async function cmdAtomes(args) {
   }
   for (const r of reg.rejets.filter((x) => !/: JSON|invalide/.test(x))) info(`  écarté : ${r}`);
   info(`${Object.keys(reg.parId).length} site(s) ; tirables : ${DIMENSIONS.map((d) => `${d} ${reg.reserves[d].length}`).join(', ')}.`);
+  // Régimes de palette (docs/veille/styles/ATOMES.md § Régimes de palette) : la collecte les équilibre (veille, 2a quater).
+  const { compterRegimes, besoinsRegimes, REGIMES_PALETTE } = await import('./melanger.mjs');
+  const comptes = compterRegimes(reg);
+  info(`Couleurs par régime : ${Object.entries(comptes).map(([r, n]) => `${REGIMES_PALETTE[r]} ${n}`).join(', ')}.`);
+  for (const b of besoinsRegimes(comptes)) warn(`  besoin : ${b.phrase}`);
   if (rouge) process.exitCode = 1;
 }

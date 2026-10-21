@@ -276,6 +276,7 @@ if (!tsImportable) {
     for (const type of ['proof', 'contact', 'cta', 'about']) {
       const counts = countSectionVariant(all, type);
       for (const v of VARIANTS[type]) {
+        if (VARIANTES_D_ARCHITECTURE.includes(`${type}/${v}`)) continue; // composées pour leur architecture, jamais tirées dans un modèle
         assert.ok((counts.get(v) || 0) >= 2, `${type} "${v}" utilise ${counts.get(v) || 0} fois, attendu >= 2`);
       }
     }

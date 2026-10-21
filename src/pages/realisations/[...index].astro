@@ -1,0 +1,87 @@
+---
+/**
+ * Page /realisations : toutes les réalisations du client (site.realisations) en file de photos portrait, filtrables
+ * par type (`kind`, radios + :has(), sans script, dès deux types, 8 au plus). Architectures `panneaux-tranche`
+ * (Studio RHE, « View All Projects » vers /projects) et `carnet-horizontal` (Gingko, /realisations.html) : leur accueil
+ * n'en montre qu'une partie et y renvoie. Chaque carte mène à la page de la réalisation (photo, nom, lieu, type).
+ * Générée seulement pour ces coquilles (COQUILLES_A_INDEX_REALISATIONS) et s'il y a au moins une réalisation.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, kindsDeGalerie, metaDeRealisation, SEPARATEUR_META } from '@/lib/site';
+import { COQUILLES_A_INDEX_REALISATIONS } from '@/lib/architectures';
+import { resolveSection } from '@/lib/sections';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  const ok = site.realisations.length > 0 && (COQUILLES_A_INDEX_REALISATIONS as readonly string[]).includes(site.layout.shell);
+  return ok ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const kinds = (kindsDeGalerie(site.realisations) ?? []).slice(0, 8);
+const rang = (k?: string) => (k ? kinds.indexOf(k.trim()) + 1 : 0);
+const n = site.realisations.length;
+---
+
+<Base title={`Réalisations | ${site.business.name}`} description={`${n} réalisations de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}.`} path="/realisations">
+  <Nav />
+  <main id="main" class="ri">
+    <div class="container-ff section-y">
+      <a href="/" class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />Accueil</a>
+      <h1 class="text-display-lg mt-6">Réalisations</h1>
+      <p class="mt-4 max-w-prose text-lg">{metierEtVille()} {n}&nbsp;réalisations, une page chacune.</p>
+      <p class="mt-3"><a href={tel()} class="inline-flex items-center gap-2 tabular-nums underline underline-offset-4"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a></p>
+      {kinds.length >= 2 && (
+        <fieldset class="ri-filtres mt-10">
+          <legend class="text-sm">Type de projet</legend>
+          <input class="sr-only" type="radio" name="ri-type" id="ri-0" checked />
+          <label for="ri-0">Tout</label>
+          {kinds.map((k, i) => (
+            <>
+              <input class="sr-only" type="radio" name="ri-type" id={`ri-${i + 1}`} />
+              <label for={`ri-${i + 1}`}>{k}</label>
+            </>
+          ))}
+        </fieldset>
+      )}
+      <ul class="ri-liste mt-10">
+        {site.realisations.map((r, i) => (
+          <li class="ri-item" data-k={rang(r.kind) > 0 ? String(rang(r.kind)) : undefined}>
+            <a href={`/realisations/${r.slug}`} class="ri-lien group">
+              <div class="ri-photo"><Img src={r.photos[0].src} alt={r.photos[0].alt} priority={i === 0} loading={i < 2 ? 'eager' : 'lazy'} class="h-full w-full object-cover" sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" /></div>
+              <h2 class="mt-3 font-display text-xl group-hover:underline">{r.title}</h2>
+              {metaDeRealisation(r).length > 0 && <p class="text-sm">{metaDeRealisation(r).join(SEPARATEUR_META)}</p>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ri-filtres { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; border: 0; padding: 0; }
+  .ri-filtres legend { float: left; margin-inline-end: 0.5rem; }
+  .ri-filtres label { cursor: pointer; padding-block: 0.35rem; border-block-end: 2px solid transparent; }
+  .ri-filtres input:checked + label { border-block-end-color: currentColor; font-weight: 600; }
+  .ri-filtres input:focus-visible + label { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .ri-liste { display: grid; gap: 2.5rem 1.5rem; }
+  .ri-photo { aspect-ratio: 4 / 5; overflow: hidden; }
+  .ri-lien { display: block; }
+  .ri-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+  @media (min-width: 640px) { .ri-liste { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) {
+    .ri-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .ri-item:nth-child(3n + 2) { margin-block-start: 4rem; }
+  }
+  .ri:has(#ri-1:checked) .ri-item:not([data-k="1"]) { display: none; }
+  .ri:has(#ri-2:checked) .ri-item:not([data-k="2"]) { display: none; }
+  .ri:has(#ri-3:checked) .ri-item:not([data-k="3"]) { display: none; }
+  .ri:has(#ri-4:checked) .ri-item:not([data-k="4"]) { display: none; }
+  .ri:has(#ri-5:checked) .ri-item:not([data-k="5"]) { display: none; }
+  .ri:has(#ri-6:checked) .ri-item:not([data-k="6"]) { display: none; }
+  .ri:has(#ri-7:checked) .ri-item:not([data-k="7"]) { display: none; }
+  .ri:has(#ri-8:checked) .ri-item:not([data-k="8"]) { display: none; }
+</style>

@@ -8,6 +8,7 @@
  */
 import Base from '@/layouts/Base.astro';
 import { site, tel, paragraphs, hasContactDoor, metaDeRealisation, SEPARATEUR_META } from '@/lib/site';
+import { COQUILLES_A_INDEX_REALISATIONS } from '@/lib/architectures';
 import { resolveSection } from '@/lib/sections';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
@@ -20,6 +21,8 @@ const { r, suivante } = Astro.props;
 const Nav = resolveSection('nav', site.layout.nav);
 const Footer = resolveSection('footer', site.layout.footer);
 const meta = [...metaDeRealisation(r), r.year].filter(Boolean) as string[];
+// Coquilles panneaux et carnet : la liste de toutes les réalisations a sa page (/realisations) ; ailleurs, l'accueil.
+const retour = (COQUILLES_A_INDEX_REALISATIONS as readonly string[]).includes(site.layout.shell) ? '/realisations' : '/';
 const description = `${r.title}${r.place ? `, ${r.place}` : ''} : une réalisation de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}.`;
 ---
 
@@ -28,7 +31,7 @@ const description = `${r.title}${r.place ? `, ${r.place}` : ''} : une réalisati
   <main id="main">
     <article class="section-y">
       <div class="container-ff max-w-4xl">
-        <a href="/" class="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"><Icon name="ArrowLeft" size={16} />Toutes les réalisations</a>
+        <a href={retour} class="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"><Icon name="ArrowLeft" size={16} />Toutes les réalisations</a>
         {meta.length > 0 && (
           <p class="mt-8 text-sm text-muted">
             {meta.map((m, j) => <>{j > 0 && <span aria-hidden="true">{SEPARATEUR_META}</span>}<span>{m}</span></>)}

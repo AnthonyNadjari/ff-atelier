@@ -103,15 +103,49 @@ Chaque atome peut valoir `"à juger"` en entier. Champs (requis pour être tirab
    l'ancien (sa direction est supprimée si aucun autre site ne la porte).
 
 `--n 3` : trois mélanges pour les trois pistes d'un client, qui ne partagent pas plus de 2 atomes deux à deux ni la
-même famille de premier écran ; la commande imprime les trois lignes à lancer (une par piste, tous les atomes
-imposés). `--essai` : les trois mélanges appliqués à des copies jetables `sites/_essai-melange-<k>`, construites
-(verrou `.ff-tmp/build.lock`), capturées côte à côte dans `captures/planches/<slug>-melanges.jpg`, puis copies et
-directions supprimées.
+même famille de premier écran ni la même architecture, et dont les palettes sont de **régimes différents** (§ Régimes
+de palette) ; la commande imprime les trois lignes à lancer (une par piste, tous les atomes imposés). `--essai` : les
+trois mélanges appliqués à des copies jetables `sites/_essai-melange-<k>` (direction, ET architecture : `layout` complet
+du registre dans le `look.json` de la copie, ET famille de premier écran quand une variante de hero partagée la rend :
+`typographique` → `typographic`, `diptyque` → `split`, `video-ou-sequence` → `video` avec une vraie vidéo), construites
+(verrou `.ff-tmp/build.lock`), contrôlées (le `<html>` construit porte la direction et la coquille voulues), capturées
+côte à côte dans `captures/planches/<slug>-melanges.jpg` (en-tête : régime, architecture, premier écran appliqué ou
+non), puis copies et directions supprimées.
+
+**Architectures** : seulement celles que l'usine sait construire, lues au moment du tirage dans
+`src/lib/architectures.ts` (entrée du registre ET coquille `src/shells/<shell>.astro` existante), pas prises par les 4
+derniers sites ni les pistes sœurs, et dont le client a les données (`donneesManquantes`). Les fiches de
+`docs/veille/architectures/INDEX.md` pas encore codées ne sont jamais tirées (la commande les liste) ;
+`--architecture <id>` non codée = erreur. Plus d'architecture libre pour une piste : « à choisir ».
 
 Ce que l'usine n'applique pas encore : la `gouttiere` (les sections posent leurs marges latérales en classes Tailwind,
-il n'y a pas de token) et l'`architecture` (ordre des blocs, coquille : registre `docs/veille/architectures/` en cours
-de remplissage ; le mélange la choisit et l'écrit au contrat, l'agent l'applique). Le traitement `duotone` passe par
-`ff nettoyer-photos --duotone` (la commande l'imprime) ; `detoure` se demande au client.
+il n'y a pas de token) ; hors `--essai`, l'architecture et la famille s'écrivent au contrat et l'agent les applique.
+Le traitement `duotone` passe par `ff nettoyer-photos --duotone` (la commande l'imprime) ; `detoure` se demande au
+client.
+
+## Régimes de palette (fonctions pures de `melanger.mjs`, testées)
+
+Né de l'essai du 21 oct 2026 (`ff melanger prospect-epi-dor --n 3 --essai`) : trois palettes blanc / gris / noir, trois
+pistes qui se ressemblaient. La garde de beauté écarte le vif en fond, et 43 des 64 palettes tirables étaient des
+neutres clairs. On ne relâche pas la garde : on cherche la couleur là où elle la permet, et on exige des régimes
+différents entre pistes sœurs. Mesures en OKLCH sur la palette principale (`regimePalette`, seuils `DIVERSITE`) :
+
+| Régime | Règle |
+|---|---|
+| sombre | Fond de clarté < 0,5. |
+| coloré doux | Fond clair de chroma ≥ 0,045 (sous B1 : < 0,08), ou surface de chroma ≥ 0,03, ou bloc d'encre (pied, bandeau) de chroma ≥ 0,04, ou deux accents vifs (≥ 0,12) de teintes à 30° ou plus. |
+| clair teinté doux | Fond clair de chroma ≥ 0,012 (crème, ivoire, kraft, sauge pâle). |
+| clair neutre | Le reste : fond blanc ou gris sans teinte perçue. |
+
+- **Pistes sœurs** (`refusDiversite`) : jamais deux fonds de clarté proche (ΔL ≥ 0,04, jamais relâché) ; régimes
+  différents ; teintes d'accent à 45° au moins (deux accents neutres sont trop proches). Si le registre ne le permet
+  pas, le tirage descend d'un niveau (`NIVEAUX_DIVERSITE` : accent, puis régime) et le dit.
+- **Tirage** : les régimes sont tirés à parts égales (sinon les neutres, majoritaires, sortent presque toujours).
+- **Besoins** (`besoinsRegimes`) : un régime sous la moitié de sa part égale des palettes tirables (et sous 3) est un
+  besoin de collecte ; `ff atomes` affiche le compte par régime et les besoins, `ff melanger` les écrit en tête de
+  `docs/veille/journal.md` (bloc réécrit à chaque tirage, retiré quand il n'y a plus de besoin).
+- Compte du 21 oct 2026 : clair neutre 43, clair teinté doux 7, sombre 5, coloré doux 9 ; besoins : palettes sombres
+  et teintées.
 
 ## Contraintes (fonctions pures de `melanger.mjs`, testées)
 
@@ -125,7 +159,8 @@ de remplissage ; le mélange la choisit et l'écrit au contrat, l'agent l'appliq
 | Mouvement | Aiguillage « calme » : régime calme, rien ne suit le défilement, profil marqué calme, `motion: 'subtle'`. Profil (`MOUVEMENTS.md`) : fond vidéo seulement avec une vraie vidéo ou `--video animer\|banque` prévu (jamais une vidéo de banque présentée comme celle du client ; poster obligatoire) ; séquence avec une vidéo ou une photo de 1 920 px ; compteur avec un vrai chiffre. Trois pistes : ni la même entrée ni la même apparition. Le profil donne `motion` du look et ses consignes sont imprimées avec le mélange. |
 | Beauté | Voir § Garde de beauté : fond vif, capitales condensées sur fond coloré, aplats vifs concurrents, vibration, trop de teintes, accord de polices en conflit, photos sombres nues sur blanc froid. |
 | Premier écran | Famille libre (ni pistes sœurs ni 4 derniers sites, comme `ff contrat`, registre des mélanges compris) et dont les données existent (`mosaique` : 8 photos ; `preuve-d-abord` : 50 avis ; `numero-geant` : urgence ; …). |
-| Architecture | Libre de la même façon, parmi `docs/veille/architectures/INDEX.md`. |
+| Architecture | Libre de la même façon, parmi celles que l'usine sait construire (`src/lib/architectures.ts` + coquille) et dont le client a les données. |
+| Palette des pistes sœurs | Régimes différents, fonds de clarté éloignée, accents éloignés (§ Régimes de palette). |
 | Unicité | Plus de 3 atomes partagés avec un site du registre = refusé ; trois pistes = 2 au plus deux à deux. |
 | Charte | Texte courant ≥ 16 px au téléphone (24 px au plus à l'ordinateur) ; mesure ramenée entre 45 et 75 caractères ; boutons pilule mesurés rendus à 6 px (signe IA, `docs/GOUT.md` § 2) ; emphase des titres sans italique ; ni grain ni halo. |
 

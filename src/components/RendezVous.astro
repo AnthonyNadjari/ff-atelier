@@ -1,0 +1,65 @@
+---
+/**
+ * Un rendez-vous daté (site.agenda) en carte : la date en gros chiffres dans un carré (jour, mois abrégé), la
+ * catégorie en texte, le titre, l'horaire, le lieu, une phrase, puis « Réserver » (le lien du client, sinon le
+ * contact). Rendu par ProchainsRendezVous.astro (accueil de la coquille cartes-agenda) et la page /agenda.
+ * Architecture `cartes-empilees-agenda` (docs/veille/architectures/groene-afslag.md). Tokens seulement ; étiquettes
+ * de catégorie en texte simple, jamais en pilule (GOUT § 2).
+ */
+import type { Site } from '@/lib/schema';
+import { dateAgenda, hasContactDoor, site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+interface Props { r: Site['agenda'][number]; niveau?: 'h2' | 'h3'; class?: string }
+const { r, niveau = 'h3', class: cls = '' } = Astro.props;
+const d = dateAgenda(r.date);
+const Titre = niveau;
+const reserver = r.lien ?? (hasContactDoor(site) ? '/#contact' : undefined);
+---
+
+<article class:list={['rv rounded-card bg-surface text-fg shadow-card', cls]} data-categorie={r.categorie ?? ''}>
+  {r.image && (
+    <div class="rv-photo">
+      <Img src={r.image.src} alt={r.image.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 100vw" />
+    </div>
+  )}
+  <div class="rv-corps">
+    <p class="rv-date bg-bg text-fg" aria-hidden="true"><span class="rv-jour font-display tabular-nums">{d.jour}</span><span class="rv-mois">{d.mois}</span></p>
+    <div class="rv-texte">
+      {r.categorie && <p class="rv-cat text-sm">{r.categorie}</p>}
+      <Titre class="rv-titre font-display">{r.titre}</Titre>
+      <p class="text-sm"><time datetime={r.date}>{d.long}</time>{r.heure && <>, {r.heure}</>}</p>
+      {r.lieu && <p class="text-sm">{r.lieu}</p>}
+      {r.texte && <p class="mt-2">{r.texte}</p>}
+      {reserver && (
+        <a href={reserver} class="rv-lien mt-3 inline-block" {...(r.lien ? { target: '_blank', rel: 'noopener' } : {})}>
+          {r.lien ? 'Réserver sa place' : 'Demander une place'}<span class="sr-only">&nbsp;: {r.titre}</span>
+        </a>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .rv { display: flex; flex-direction: column; overflow: hidden; block-size: 100%; }
+  .rv-photo { aspect-ratio: 4 / 3; overflow: hidden; }
+  .rv-corps { display: flex; gap: 1rem; padding: 1.25rem; }
+  .rv-date {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    inline-size: 4.25rem;
+    block-size: 4.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius, 6px);
+    line-height: 1;
+  }
+  .rv-jour { font-size: 1.85rem; }
+  .rv-mois { font-size: 0.875rem; margin-block-start: 0.2rem; }
+  .rv-texte { display: flex; flex-direction: column; gap: 0.25rem; min-inline-size: 0; }
+  .rv-cat { border-block-end: 1px solid var(--color-line); align-self: flex-start; padding-block-end: 0.1rem; }
+  .rv-titre { font-size: 1.3rem; line-height: 1.2; }
+  .rv-lien { font-weight: 600; border-block-end: 2px solid currentColor; padding-block-end: 0.1rem; }
+</style>

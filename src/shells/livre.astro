@@ -1,0 +1,74 @@
+---
+/**
+ * Coquille "livre" : architecture `livre-ecrans` (src/lib/architectures.ts ; source Du Pain et des Idées,
+ * docs/veille/architectures/du-pain-et-des-idees.md). Des pages longues composées comme un livre d'art : une
+ * COUVERTURE d'un écran en double page (à gauche la planche : la photo du client posée sur le papier avec ses
+ * marges ; à droite l'initiale, le h1, le métier, la rue et la ville, le téléphone, la note Google, « Ouvrir le livre »
+ * qui descend au premier écran ; au téléphone le titre d'abord, la planche dessous), puis les sections du layout,
+ * chacune faite d'écrans d'un seul objet (about/ecran-texte-photo, proof/citations, services/liste-a-filets,
+ * contact/ecran). Chaque page d'activité suit la même grammaire (layout.servicePage 'livre',
+ * src/components/ServiceLivre.astro) et se ferme sur le même écran de contact.
+ *
+ * La photo de couverture remplace la vidéo de la source (iPhone en économie d'énergie bloque l'autoplay, CLAUDE.md).
+ * Rien n'est piloté au défilement : les écrans sont des blocs de 100 svh, l'apparition vient de `data-reveal`.
+ *
+ * Socle docs/GOUT.md § 0 : h1 + métier et ville (et la rue) sur la couverture, téléphone cliquable sur la couverture,
+ * note Google sur la couverture, avis en citation au deuxième écran, photos du client à chaque écran, plusieurs pages
+ * (une par activité). Signes de la source NON repris (GOUT § 2) : h1 en serif italique, capitales espacées au-dessus
+ * des blocs, vidéo en premier écran, citation d'auteur célèbre.
+ *
+ * `layout.hero` n'est pas rendu (la couverture le remplace ; il sert au préchargement de la photo plein écran).
+ */
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, photosDuSite } from '@/lib/site';
+import { heroSizesFor } from '@/lib/images';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+
+const couverture = site.images.hero ?? photosDuSite()[0];
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const lieu = [site.contact.address.street, site.contact.address.city].filter(Boolean).join(', ');
+const premier = sections[0]?.type;
+const ancre = premier && premier !== 'custom' ? `#${premier}` : undefined;
+---
+
+<Nav />
+<main id="main">
+  <section id="hero" class="lv-couv bg-bg text-fg">
+    <div class="lv-couv-texte">
+      <p class="lv-initiale font-display" aria-hidden="true">{site.business.name.trim().charAt(0)}</p>
+      <h1 class="lv-h1 font-display" set:html={site.business.tagline} />
+      <p class="lv-metier mt-6 text-lg">{site.business.trade}, {lieu}</p>
+      <p class="mt-5"><a href={tel()} class="lv-tel inline-flex items-center gap-2 tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      {google && <p class="mt-2 text-sm"><a href={google.url} target="_blank" rel="noopener" class="underline underline-offset-4">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google</a></p>}
+      {ancre && <a href={ancre} class="lv-ouvrir mt-8 inline-flex items-center gap-2 text-sm">Ouvrir le livre<Icon name="ArrowDown" size={16} /></a>}
+    </div>
+    {couverture && (
+      <figure class="lv-planche">
+        <Img src={couverture.src} alt={couverture.alt} priority sizes={heroSizesFor(site.layout.hero)} class="h-full w-full object-cover" />
+      </figure>
+    )}
+  </section>
+  {sections.map(({ Component }) => <Component />)}
+</main>
+<Footer />
+
+<style>
+  /* Couverture en double page : à gauche la planche (la photo posée sur le papier, avec ses marges), à droite le
+     titre ; au téléphone, le titre d'abord, la planche dessous. */
+  .lv-couv { display: flex; flex-direction: column; gap: 2.5rem; padding: 6.5rem 1.25rem 3rem; }
+  .lv-couv-texte { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .lv-initiale { font-size: 2.25rem; line-height: 1; inline-size: 4rem; block-size: 4rem; display: grid; place-items: center; border: 1px solid currentColor; border-radius: var(--radius, 6px); margin-block-end: 2rem; }
+  .lv-h1 { font-size: clamp(2.1rem, 5vw, 4.5rem); line-height: 1.1; font-weight: 300; max-inline-size: 16ch; }
+  .lv-metier { max-inline-size: 40ch; }
+  .lv-tel { font-size: 1.25rem; text-decoration: underline; text-underline-offset: 0.2em; }
+  .lv-ouvrir { border-block-end: 1px solid currentColor; padding-block-end: 0.1rem; }
+  .lv-planche { aspect-ratio: 4 / 5; overflow: hidden; inline-size: min(78%, 26rem); align-self: center; }
+  @media (min-width: 1024px) {
+    .lv-couv { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 0; min-block-size: 100svh; padding: 0; }
+    .lv-planche { grid-column: 1; grid-row: 1; inline-size: auto; block-size: calc(100svh - 9rem); aspect-ratio: 4 / 5; justify-self: center; }
+    .lv-couv-texte { grid-column: 2; grid-row: 1; padding: 6rem 3rem; border-inline-start: 1px solid var(--color-line); min-block-size: 100svh; justify-content: center; }
+  }
+</style>

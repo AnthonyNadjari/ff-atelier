@@ -26,7 +26,7 @@ function fauxRegistre(n = 6) {
     entrees.push({ fichier: `s${i}.json`, atomes: {
       id: `s${i}`, version: 1, source: { url: `https://s${i}.fr/`, nom: `S${i}`, date: '2026-10-18' },
       typo: { titre: { famille: 'X', libre: libres[i % libres.length][0], graisse: 700, interlignage: 0.9, casse: 'uppercase', interlettrage: -0.02 }, texte: { famille: 'Y', libre: libres[i % libres.length][1], graisse: 400, interlignage: 1.5 }, mono: null, echelle: { h1: { telephone: 40, ordinateur: 96 }, h2: { telephone: 28, ordinateur: 48 }, texte: { telephone: 16, ordinateur: 18 } } },
-      couleurs: { principal: 'clair', clair: { fond: '#ffffff', surface: A_JUGER, texte: '#1a1a1a', texte2: A_JUGER, accent: ['#c72531', '#0f2c56', '#4d7566', '#8a6500', '#702b1d', '#232e51'][i % 6], accent2: A_JUGER, bordure: A_JUGER, encre: A_JUGER }, sombre: null },
+      couleurs: { principal: 'clair', clair: { fond: ['#ffffff', '#f0ece0', '#e4e4e4', '#f6efe4', '#dcdcdc', '#ebe6dd'][i % 6], surface: A_JUGER, texte: '#1a1a1a', texte2: A_JUGER, accent: ['#c72531', '#0f2c56', '#4d7566', '#8a6500', '#702b1d', '#232e51'][i % 6], accent2: A_JUGER, bordure: A_JUGER, encre: A_JUGER }, sombre: null },
       densite: { section: { telephone: 64, ordinateur: 120 }, gouttiere: { telephone: 20, ordinateur: 40 }, conteneur: 1280, mesure: 60, rythme: 'uni' },
       formes: { rayon: i, rayonCarte: 0, rayonImage: 0, bordure: 1, ombre: 'aucune', bouton: 'plein', pilule: false, lien: 'souligne' },
       photos: { traitement: traitements[i % traitements.length], superposition: 'aucune' },
@@ -376,4 +376,171 @@ test('client : origine de la vidéo (jamais une vidéo de banque comptée comme 
   assert.ok(Math.abs(t.clarte - 50) < 2 && t.chaleur === 49);
   assert.deepEqual(tonMedian([{ clarte: 40, chaleur: 10 }, { clarte: 50, chaleur: 30 }, { clarte: 60, chaleur: 20 }]), { clarte: 50, chaleur: 20 });
   assert.equal(tonMedian([]), null);
+});
+
+/* ---------- Diversité des pistes sœurs (essai du 21 oct 2026 : trois palettes blanc / gris / noir) ---------- */
+
+const palR = (p) => ({ principal: p.fond && /^#[0-3]/.test(p.fond) ? 'sombre' : 'clair', clair: p, sombre: p });
+
+test('régimes : neutre, teinté, sombre, coloré doux (fond modéré, surface, bloc d’encre, deux accents assumés)', async () => {
+  const { regimePalette } = await import('../scripts/ff/melanger.mjs');
+  assert.equal(regimePalette(palR({ fond: '#ffffff', accent: '#c72531' })).regime, 'clair-neutre');
+  assert.equal(regimePalette(palR({ fond: '#f4ecdc', accent: '#c72531' })).regime, 'clair-teinte');
+  assert.equal(regimePalette(palR({ fond: '#14161c', accent: '#d9a441' })).regime, 'sombre');
+  assert.equal(regimePalette(palR({ fond: '#dcecc8', accent: '#2f5d3a' })).regime, 'colore-doux', 'fond sauge, sous la garde B1');
+  assert.equal(regimePalette(palR({ fond: '#ffffff', surface: '#c0deee', accent: '#c72531' })).regime, 'colore-doux');
+  assert.equal(regimePalette(palR({ fond: '#ffffff', encre: '#1e305e', accent: '#c72531' })).regime, 'colore-doux');
+  assert.equal(regimePalette(palR({ fond: '#ffffff', accent: '#000aa0', accent2: '#ffc600' })).regime, 'colore-doux');
+  assert.equal(regimePalette(palR({ fond: '#ffffff', accent: '#000000' })).teinte, null, 'accent noir : pas de teinte');
+  // Registre réel.
+  const r = (id) => regimePalette(registreReel.parId[id].couleurs).regime;
+  assert.equal(r('bonpoint'), 'clair-neutre');
+  assert.equal(r('meyers'), 'clair-teinte');
+  assert.equal(r('standardhotels'), 'sombre');
+  assert.equal(r('pizza-amici'), 'colore-doux');
+});
+
+test('diversité : même régime, fond de clarté proche, accent proche refusés ; niveaux relâchés dans l’ordre', async () => {
+  const { refusDiversite, NIVEAUX_DIVERSITE } = await import('../scripts/ff/melanger.mjs');
+  const blanc = palR({ fond: '#ffffff', accent: '#c72531' });
+  assert.match(refusDiversite(palR({ fond: '#fdfdfd', accent: '#0f2c56' }), [blanc]), /clarté proche/);
+  assert.match(refusDiversite(palR({ fond: '#e8e8e8', accent: '#0f2c56' }), [blanc]), /même régime/);
+  assert.equal(refusDiversite(palR({ fond: '#e8e8e8', accent: '#0f2c56' }), [blanc], NIVEAUX_DIVERSITE[2]), null, 'régime répété permis au niveau 3');
+  assert.match(refusDiversite(palR({ fond: '#14161c', accent: '#d2362f' }), [blanc]), /accent proche/);
+  assert.equal(refusDiversite(palR({ fond: '#14161c', accent: '#d2362f' }), [blanc], NIVEAUX_DIVERSITE[1]), null);
+  assert.equal(refusDiversite(palR({ fond: '#14161c', accent: '#d9a441' }), [blanc]), null);
+  // La clarté des fonds ne se relâche à aucun niveau.
+  for (const n of NIVEAUX_DIVERSITE) assert.match(refusDiversite(palR({ fond: '#fefefe', accent: '#0f2c56' }), [blanc], n), /clarté proche/);
+  // Deux accents neutres (noirs) sont trop proches.
+  assert.match(refusDiversite(palR({ fond: '#14161c', accent: '#ffffff' }), [palR({ fond: '#ffffff', accent: '#000000' })]), /accent proche/);
+});
+
+test('registre réel : trois pistes sœurs = trois régimes, fonds éloignés, accents éloignés, garde de beauté intacte', async () => {
+  const { regimePalette, refusPalette, NIVEAUX_DIVERSITE, DIVERSITE } = await import('../scripts/ff/melanger.mjs');
+  const { ecartTeinte } = await import('../scripts/ff/atomes.mjs');
+  // Comme L'Épi d'Or : photos sombres et chaudes, assez larges, client « vivant ».
+  const client = profilClient({ photos: 10, largeurMax: 4000, avis: 162, tonPhotos: { clarte: 48, chaleur: 38 } });
+  for (const graine of [1, 7, 218700777]) {
+    const rng = mulberry32(graine);
+    const soeurs = [];
+    for (let k = 0; k < 3; k++) {
+      const r = tirerMelange({ registre: registreReel, soeurs, familles: ['typographique', 'objet-du-metier', 'carte-sur-photo', 'plan-et-lieu'], client, rng });
+      assert.equal(r.erreur, undefined, r.erreur);
+      if (k) assert.equal(r.diversite, NIVEAUX_DIVERSITE[0].nom, `graine ${graine}, piste ${k + 1}`);
+      soeurs.push(r.atomes);
+    }
+    const regs = soeurs.map((s) => regimePalette(registreReel.parId[s.couleurs].couleurs));
+    assert.equal(new Set(regs.map((x) => x.regime)).size, 3, `régimes ${regs.map((x) => x.regime)}`);
+    for (let i = 0; i < 3; i++) for (let j = i + 1; j < 3; j++) {
+      assert.ok(Math.abs(regs[i].fond.l - regs[j].fond.l) >= DIVERSITE.ECART_FOND_L);
+      if (regs[i].teinte != null && regs[j].teinte != null) assert.ok(ecartTeinte(regs[i].teinte, regs[j].teinte) >= DIVERSITE.ECART_ACCENT);
+    }
+    for (const s of soeurs) assert.deepEqual(refusPalette(registreReel.parId[s.couleurs].couleurs), []);
+  }
+});
+
+test('tirage : les régimes sont tirés à parts égales (les neutres clairs, majoritaires au registre, ne dominent plus)', async () => {
+  const { regimePalette } = await import('../scripts/ff/melanger.mjs');
+  const rng = mulberry32(5);
+  const n = {};
+  for (let k = 0; k < 120; k++) {
+    const r = tirerMelange({ registre: registreReel, familles: ['typographique'], client: profilClient({ photos: 10, largeurMax: 4000 }), rng });
+    assert.equal(r.erreur, undefined, r.erreur);
+    const g = regimePalette(registreReel.parId[r.atomes.couleurs].couleurs).regime;
+    n[g] = (n[g] || 0) + 1;
+  }
+  assert.ok((n['clair-neutre'] || 0) < 60, `neutres clairs : ${n['clair-neutre']} sur 120`);
+  assert.equal(Object.keys(n).length, 4, JSON.stringify(n));
+});
+
+test('registre pauvre (tout neutre clair) : le tirage relâche le régime sans échouer, et le dit', () => {
+  const reg = fauxRegistre(6);
+  // Fonds gris sans teinte, de clartés éloignées : un seul régime au registre.
+  ['#ffffff', '#ececec', '#dcdcdc', '#cfcfcf', '#f6f6f6', '#e4e4e4'].forEach((fond, i) => { reg.parId[`s${i}`].couleurs.clair.fond = fond; });
+  const rng = mulberry32(3);
+  const soeurs = [], niveaux = [];
+  for (let k = 0; k < 3; k++) {
+    const r = tirerMelange({ registre: reg, soeurs, familles: ['typographique', 'outil', 'editorial'], rng });
+    assert.equal(r.erreur, undefined, r.erreur);
+    soeurs.push(r.atomes); niveaux.push(r.diversite);
+  }
+  assert.equal(niveaux[0], null);
+  assert.match(niveaux[1], /régime répété/);
+});
+
+test('régimes : compte du registre, besoins de collecte, bloc du journal de veille idempotent', async () => {
+  const { compterRegimes, besoinsRegimes, noterBesoinsJournal } = await import('../scripts/ff/melanger.mjs');
+  const c = compterRegimes(registreReel);
+  assert.equal(Object.values(c).reduce((a, b) => a + b, 0), registreReel.reserves.couleurs.length);
+  const b = besoinsRegimes({ 'clair-neutre': 40, 'clair-teinte': 10, sombre: 0, 'colore-doux': 9 });
+  assert.deepEqual(b.map((x) => x.regime), ['sombre']);
+  assert.match(b[0].phrase, /la collecte doit ramener des palettes sombre/);
+  const journal = '# Journal de veille\n\nIntro.\n\n## 19 oct 2026, tour 4\n\nFait.\n';
+  const j1 = noterBesoinsJournal(journal, [b[0].phrase], '2026-10-21');
+  assert.ok(j1.indexOf('palettes sombre') < j1.indexOf('## 19 oct'));
+  assert.equal(noterBesoinsJournal(j1, [b[0].phrase], '2026-10-21'), j1, 'idempotent');
+  assert.equal(noterBesoinsJournal(j1, [], '2026-10-22'), journal, 'sans besoin, le bloc part');
+});
+
+test('architectures : seulement celles que l’usine sait construire ; --architecture non codée = erreur claire', async () => {
+  const { architecturesImplementees, architecturesTirables, refusArchitectureImposee } = await import('../scripts/ff/melanger.mjs');
+  const parId = { a: { layout: { shell: 'carte' } }, b: { layout: { shell: 'panneaux' } }, c: { layout: { shell: 'flow' } } };
+  const { implementees, incompletes } = architecturesImplementees({ ids: ['a', 'b', 'c'], parId, coquilles: ['carte', 'flow'] });
+  assert.deepEqual(implementees, ['a', 'c']);
+  assert.match(incompletes[0].raison, /panneaux absente/);
+  const t = architecturesTirables({ implementees, interdites: new Map([['a', 'piste sœur x-b']]), manquantes: (id) => (id === 'c' ? ['15 réalisations'] : []) });
+  assert.deepEqual(t.libres, []);
+  assert.deepEqual(t.ecartees.map((e) => e.id), ['a', 'c']);
+  assert.equal(refusArchitectureImposee('a', implementees), null);
+  assert.match(refusArchitectureImposee('panneaux-tranche', implementees, ['panneaux-tranche']), /non implémentée.*« à coder »/);
+  assert.match(refusArchitectureImposee('zzz', implementees, []), /id inconnu/);
+  // Registre réel de l'usine : chaque architecture implémentée a sa coquille.
+  const { loadArchitecturesModule, cleanTmp } = await import('../scripts/ff/ts-loader.mjs');
+  try {
+    const A = await loadArchitecturesModule();
+    const coquilles = fs.readdirSync(path.join(ROOT, 'src/shells')).map((f) => f.replace(/\.astro$/, ''));
+    const r = architecturesImplementees({ ids: [...A.ARCHITECTURE_IDS], parId: A.ARCHITECTURES, coquilles });
+    for (const id of r.implementees) assert.ok(fs.existsSync(path.join(ROOT, 'src/shells', `${A.ARCHITECTURES[id].layout.shell}.astro`)));
+    assert.ok(r.implementees.length >= 4);
+  } finally { cleanTmp(); }
+});
+
+test('tirage : l’architecture vient de la liste donnée, jamais deux fois entre pistes sœurs ; plus rien = « à choisir »', () => {
+  const reg = fauxRegistre(6);
+  const rng = mulberry32(3);
+  const soeurs = [];
+  for (let k = 0; k < 3; k++) {
+    const r = tirerMelange({ registre: reg, soeurs, familles: ['typographique', 'outil', 'editorial'], architectures: ['carte-de-visite', 'accueil-portes'], rng });
+    assert.equal(r.erreur, undefined, r.erreur);
+    soeurs.push(r.atomes);
+  }
+  assert.deepEqual(soeurs.slice(0, 2).map((s) => s.architecture).sort(), ['accueil-portes', 'carte-de-visite']);
+  assert.equal(soeurs[2].architecture, null);
+});
+
+test('essai : layout de la copie = architecture complète + hero de la famille si l’usine sait le rendre', async () => {
+  const { layoutEssai, verifierCopie } = await import('../scripts/ff/melanger.mjs');
+  const archi = { layout: { shell: 'flow', nav: 'split', hero: 'stacked', footer: 'columns', sections: [{ type: 'services', variant: 'portes' }], contactDrawer: true } };
+  const a = layoutEssai({ architecture: 'accueil-portes', archi, famille: 'typographique' });
+  assert.equal(a.layout.architecture, 'accueil-portes');
+  assert.equal(a.layout.shell, 'flow');
+  assert.deepEqual(a.layout.sections, [{ type: 'services', variant: 'portes' }]);
+  assert.equal(a.layout.hero, 'typographic', 'la famille prime sur le hero de l’architecture');
+  const carte = layoutEssai({ architecture: 'carte-de-visite', archi: { layout: { shell: 'carte', hero: 'fullbleed', sections: [] } }, famille: 'diptyque', heroRendu: (s) => s !== 'carte' });
+  assert.equal(carte.layout.hero, 'fullbleed');
+  assert.equal(carte.hero, null);
+  assert.match(carte.notes.join(' '), /dessine son propre premier écran/);
+  const sans = layoutEssai({ famille: 'mosaique', shellSite: 'flow' });
+  assert.deepEqual(sans.layout, {});
+  assert.match(sans.notes.join(' '), /déroulé du site gardé.*pas de hero partagé/);
+  assert.equal(layoutEssai({ famille: 'video-ou-sequence' }).hero, null, 'pas de hero vidéo sans vraie vidéo');
+  assert.equal(layoutEssai({ famille: 'video-ou-sequence', client: profilClient({ video: 'client' }) }).hero, 'video');
+  assert.deepEqual(verifierCopie('<html lang="fr" data-direction="m-1" data-shell="carte">', { direction: 'm-1', shell: 'carte' }), []);
+  assert.equal(verifierCopie('<html data-direction="atelier" data-shell="flow">', { direction: 'm-1', shell: 'carte' }).length, 2);
+});
+
+test('--n 3 refait toutes les pistes : les prises des anciennes pistes sœurs se libèrent, pas celles des sites récents', async () => {
+  const { retirerPistesSoeurs } = await import('../scripts/ff/melanger.mjs');
+  const m = new Map([['lieu-fixe', 'piste sœur prospect-epi-dor-b'], ['index-projets', 'site récent prospect-a-coeur-bois']]);
+  assert.deepEqual([...retirerPistesSoeurs(m).keys()], ['index-projets']);
 });

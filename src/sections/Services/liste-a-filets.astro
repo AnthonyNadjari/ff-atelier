@@ -1,0 +1,95 @@
+---
+/**
+ * Services "liste-a-filets" : architecture `livre-ecrans` (src/lib/architectures.ts ; source Du Pain et des Idées,
+ * docs/veille/architectures/du-pain-et-des-idees.md, écran « Nos établissements »). Un écran : une photo du client
+ * d'un côté, de l'autre le titre, la phrase métier + ville, puis les activités en TRÈS grands titres séparés par des
+ * filets, chacun un lien vers sa page (`/services/<slug>`, gabarit de layout.servicePage). Survol : le soulignement
+ * s'épaissit et s'écarte (la source), rien en mouvement réduit.
+ *
+ * Puis, s'il reste assez de photos du client, un écran de photo seule pleine largeur (la source enchaîne ainsi).
+ *
+ * Données : photo du premier service qui en a une, sinon la couverture ; sans photo, la liste prend tout l'écran.
+ * `servicePages: false` = titres sans lien, avec leur phrase. Signes NON repris (GOUT § 2) : capitales espacées.
+ */
+import { site, metierEtVille, photosDuSite } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const lien = site.servicePages;
+const photo = site.services.find((s) => s.image)?.image ?? site.images.hero;
+// Écran suivant (la « photo très large pleine colonne, sans texte » de la source) : une photo du client pas encore
+// montrée par les écrans voisins, prise au milieu de la liste ; aucune = pas d'écran.
+const libres = photosDuSite().filter((p) => p.src !== photo?.src);
+const large = libres.length >= 8 ? libres[Math.floor(libres.length / 2)] : undefined;
+---
+
+<div id="services">
+<section class="lf-ecran">
+  <div class:list={['container-ff lf-grille', photo ? 'lf-avec' : 'lf-seule']}>
+    {photo && (
+      <div class="lf-photo" data-reveal>
+        <Img src={photo.src} alt={photo.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 40vw, 100vw" />
+      </div>
+    )}
+    <div class="lf-texte">
+      <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} />
+      <ul class="lf-liste mt-10" data-stagger="100">
+        {site.services.map((s) => (
+          <li class="lf-item">
+            {lien ? (
+              <a href={`/services/${s.slug}`} class="lf-lien">
+                <span class="lf-titre font-display">{s.title}</span>
+                <Icon name="ArrowRight" size={28} class="lf-fleche" />
+              </a>
+            ) : (
+              <span class="lf-titre font-display">{s.title}</span>
+            )}
+            <p class="lf-court">{s.short}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+{large && (
+  <section class="lf-large" aria-label={large.alt}>
+    <Img src={large.src} alt={large.alt} loading="lazy" class="h-full w-full object-cover" sizes="100vw" />
+  </section>
+)}
+</div>
+
+<style>
+  .lf-ecran { padding-block: clamp(4rem, 12vh, 9rem); min-block-size: 88svh; }
+  .lf-grille { display: grid; gap: 2.5rem; }
+  .lf-large { block-size: 88svh; overflow: hidden; }
+  .lf-photo { aspect-ratio: 4 / 5; overflow: hidden; max-inline-size: 28rem; }
+  .lf-liste { border-block-start: 1px solid var(--color-line); }
+  .lf-item { border-block-end: 1px solid var(--color-line); padding-block: 1.1rem; }
+  .lf-lien { display: flex; align-items: center; justify-content: space-between; gap: 1rem; text-decoration: none; }
+  .lf-titre {
+    font-size: clamp(2rem, 4.6vw, 4rem);
+    line-height: 1.05;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.12em;
+    text-decoration-color: transparent;
+    transition: text-decoration-color var(--motion-ui, 0.22s) var(--ease-out-quart), text-underline-offset var(--motion-ui, 0.22s) var(--ease-out-quart);
+  }
+  .lf-court { margin-block-start: 0.35rem; max-inline-size: 52ch; }
+  .lf-lien:hover .lf-titre, .lf-lien:focus-visible .lf-titre {
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.2em;
+  }
+  .lf-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+  @media (min-width: 1024px) {
+    .lf-ecran { min-block-size: 100svh; display: grid; align-content: center; }
+    .lf-avec { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: center; gap: 2rem; }
+    .lf-avec .lf-photo { grid-column: 1 / span 5; max-inline-size: none; }
+    .lf-avec .lf-texte { grid-column: 7 / span 6; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lf-titre { transition: none; }
+  }
+</style>

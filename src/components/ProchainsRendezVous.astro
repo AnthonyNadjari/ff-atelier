@@ -1,0 +1,36 @@
+---
+/**
+ * Bloc « prochains rendez-vous » (site.agenda, src/lib/agenda.ts) : architecture `cartes-empilees-agenda`
+ * (docs/veille/architectures/groene-afslag.md). Les 3 ou 4 rendez-vous à venir les plus proches en cartes datées
+ * (RendezVous.astro), puis le lien vers la page /agenda. Rien à venir = rien (le bloc ne rend aucun titre vide).
+ * Rendu par la coquille cartes-agenda sous les cartes d'activités ; réutilisable par toute coquille.
+ */
+import { site, agendaAVenir } from '@/lib/site';
+import RendezVous from '@/components/RendezVous.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props { max?: number }
+const { max = 4 } = Astro.props;
+const aVenir = agendaAVenir(site.agenda);
+const prochains = aVenir.slice(0, max);
+---
+
+{prochains.length > 0 && (
+  <div id="agenda" class="pr section-y" role="region" aria-labelledby="agenda-titre">
+    <div class="container-ff flex flex-wrap items-end justify-between gap-4">
+      <h2 id="agenda-titre" class="text-display-md">{site.wording.agenda}</h2>
+      <a href="/agenda" class="inline-flex items-center gap-2 font-medium underline underline-offset-4">
+        Tous les rendez-vous{aVenir.length > prochains.length ? ` (${aVenir.length})` : ''}<Icon name="ArrowRight" size={16} />
+      </a>
+    </div>
+    {prochains.map((r) => <RendezVous r={r} />)}
+  </div>
+)}
+
+<style>
+  /* Chaque rendez-vous est un <article> enfant direct de l'enveloppe : une carte datée, un bloc de la page. */
+  .pr { display: grid; gap: 1.25rem; grid-template-columns: minmax(0, 1fr); padding-inline: clamp(1.25rem, 4vw, 2.5rem); max-inline-size: var(--container); margin-inline: auto; }
+  .pr > .container-ff { padding-inline: 0; margin-block-end: 1rem; }
+  @media (min-width: 40rem) { .pr { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pr > .container-ff { grid-column: 1 / -1; } }
+  @media (min-width: 64rem) { .pr { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+</style>

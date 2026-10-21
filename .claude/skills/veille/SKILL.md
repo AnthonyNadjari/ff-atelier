@@ -116,6 +116,15 @@ préférence, faits par des humains, qui donnent envie) :
 Ce volet passe AVANT tous les autres. Un tour qui n'ajoute pas au moins 5 styles gardés est un tour raté (le
 journal dit pourquoi).
 
+**Équilibrer les régimes de palette** (21 oct 2026 : trois pistes de L'Épi d'Or tiraient trois palettes blanc / gris /
+noir, parce que la plupart des palettes collectées étaient des neutres clairs). Chaque palette tombe dans un régime
+(`regimePalette`, ATOMES.md § Régimes de palette) : clair neutre, clair teinté doux, sombre, coloré doux. `ff atomes`
+affiche le compte par régime et les besoins (`besoin : la collecte doit ramener des palettes …`) ; `ff melanger` les
+écrit en tête de `docs/veille/journal.md`. La collecte du tour **commence par les régimes en besoin** : on cherche
+des sites sombres, teintés ou colorés DANS la garde de beauté (fond de chroma modérée, surface ou bloc d'encre
+colorés, deux accents assumés), jamais en relâchant la garde. Le journal du tour donne le compte par régime avant et
+après.
+
 **Mouvement, à chaque tour aussi** (18 oct 2026, fondateur : « plus de pluralité : animations, même des vidéos en
 fond » ; « le catalogue doit s'agrandir avec les veilles »). Parmi les sites étudiés, **au moins 2 profils de
 mouvement nouveaux** par tour (entrée du premier écran, apparition au défilement, survol, transitions de page, fond
@@ -137,6 +146,13 @@ fiche `docs/veille/architectures/<id>.md` (méthode et format : voir les fiches 
 l'usine (coquille `src/shells/`, sections manquantes, entrée dans le registre des architectures), preuve sur un
 site jetable comparé à la source en page entière, `ff ressemblance` vert contre tous les sites. Ce volet passe
 AVANT les compositions (2a bis) : des sections nouvelles dans un même déroulé ne rendent pas les sites différents.
+
+**Une fiche n'est « gardée » que codée dans l'usine le même tour** (21 oct 2026 : `ff melanger` tirait des
+architectures de la veille que l'usine ne savait pas construire, et l'essai gardait le déroulé du site) : entrée dans
+le registre `src/lib/architectures.ts` + coquille `src/shells/` qui existe + preuve (site jetable comparé à la source,
+`ff ressemblance` vert). Sinon elle reste « à coder » dans `INDEX.md` et le tour suivant **commence par elle**, avant
+toute fiche nouvelle. `ff melanger` ne tire que les architectures du registre dont la coquille existe et dont le client
+a les données ; il liste les autres (« au registre de veille, pas encore codées »).
 
 ### 2a bis. Les compositions, À CHAQUE TOUR (ce qui rend un site beau)
 

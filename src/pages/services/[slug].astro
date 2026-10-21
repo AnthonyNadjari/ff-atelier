@@ -1,7 +1,8 @@
 ---
 /**
  * Page service : une par service, SEO local (metier + ville). Gabarit selon layout.servicePage : 'fiche' (defaut,
- * ci-dessous) ou 'porte' (src/components/ServicePorte.astro, architecture accueil-portes).
+ * ci-dessous), 'porte' (src/components/ServicePorte.astro, architecture accueil-portes) ou 'livre'
+ * (src/components/ServiceLivre.astro, architecture livre-ecrans).
  */
 import Base from '@/layouts/Base.astro';
 import { site, tel, paragraphs, hasContactDoor } from '@/lib/site';
@@ -11,6 +12,7 @@ import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
 import ServicePorte from '@/components/ServicePorte.astro';
+import ServiceLivre from '@/components/ServiceLivre.astro';
 
 export function getStaticPaths() {
   // site.servicePages: false -> aucune page service (voir src/lib/schema.ts).
@@ -34,6 +36,8 @@ const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug
   <Nav />
   {site.layout.servicePage === 'porte' ? (
   <main id="main"><ServicePorte service={service} /></main>
+  ) : site.layout.servicePage === 'livre' ? (
+  <main id="main"><ServiceLivre service={service} /></main>
   ) : (
   <main id="main">
     <article class="section-y">

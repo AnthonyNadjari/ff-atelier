@@ -47,10 +47,12 @@ export interface LayoutArchi {
  *  - horaires        : lignes de contact.hours ;
  *  - rue             : contact.address.street (un lieu où l'on vient) ;
  *  - lignesPrix      : services qui ont des lignes à prix (services[].lignes) ;
- *  - pasUrgence      : contact.emergency24h faux (architecture où l'on n'appelle pas en urgence).
+ *  - pasUrgence      : contact.emergency24h faux (architecture où l'on n'appelle pas en urgence) ;
+ *  - histoire        : paragraphes de about.story (du vrai texte, un écran par paragraphe) ;
+ *  - agenda          : rendez-vous datés (agenda[]) ; les dates passées tombent au build (src/lib/agenda.ts).
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -69,7 +71,16 @@ export interface Architecture {
   convientA: string;
 }
 
-export const ARCHITECTURE_IDS = ['carte-de-visite', 'accueil-portes', 'index-projets', 'lieu-fixe'] as const;
+export const ARCHITECTURE_IDS = [
+  'carte-de-visite',
+  'accueil-portes',
+  'index-projets',
+  'lieu-fixe',
+  'panneaux-tranche',
+  'livre-ecrans',
+  'cartes-empilees-agenda',
+  'carnet-horizontal',
+] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
 export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
@@ -183,23 +194,146 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Commerce où l'on vient, avec une carte ou des tarifs détaillés et de bonnes photos du lieu : café, crêperie, boulangerie, salon de thé, coiffeur, barbier, institut, fromagerie, caviste. Pas pour un artisan qui se déplace chez le client.",
   },
+  'panneaux-tranche': {
+    id: 'panneaux-tranche',
+    modele:
+      "Le site se range comme des chemises : à l'ordinateur, des panneaux pleine hauteur posés côte à côte glissent vers la gauche quand on descend (couverture photo, l'atelier, une réalisation par panneau en photo verticale, le métier, une grande photo, les avis sur l'aplat d'accent), une tranche fixe à droite porte le nom et la progression, un rail à gauche le téléphone et le menu ; une page par réalisation, l'histoire et le contact sur la page À propos. Au téléphone, les panneaux s'empilent.",
+    sources: [{ fiche: 'docs/veille/architectures/studio-rhe.md', site: 'studiorhe.com' }],
+    layout: {
+      shell: 'panneaux',
+      // nav : seulement au téléphone (barre avec le menu des pages, le « Menu » du rail de la source) ; à
+      // l'ordinateur, le rail et la tranche la remplacent. hero : non rendu, préchargement de la photo de couverture
+      // à la demi-largeur (heroSizesFor('split')).
+      nav: 'bar',
+      hero: 'split',
+      footer: 'minimal',
+      // Aucune section empilée : chaque panneau a un rôle ; les sections écrites dans le layout descendent sous la bande.
+      sections: [],
+      contactDrawer: true,
+      actionBar: false,
+      pageAPropos: true,
+    },
+    requis: [
+      { mesure: 'realisations', min: 6, libelle: '6 réalisations au moins (realisations[], un panneau et une page chacune)' },
+      { mesure: 'photos', min: 8, libelle: 'des photos fortes, verticales de préférence (8 au moins) : chaque panneau est une photo' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on feuillette un dossier, on n'appelle pas vite" },
+    ],
+    convientA:
+      "Client avec peu de texte et des photos fortes en série (6 réalisations et plus) : architecte, constructeur de maisons, menuisier-agenceur, cuisiniste, tapissier, photographe. Pas pour l'urgence ni pour qui doit être appelé dès l'arrivée.",
+  },
+  'livre-ecrans': {
+    id: 'livre-ecrans',
+    modele:
+      "Des pages longues composées comme un livre : une couverture photo (h1, métier et ville, téléphone), puis un écran par idée (un paragraphe de 50 signes de large et une photo portrait décalée, un avis en citation sur un aplat, deux photos décalées sans texte, les activités en grands titres à filets vers leurs pages), et un écran de contact à la fin de chaque page ; chaque page d'activité est bâtie de la même façon.",
+    sources: [{ fiche: 'docs/veille/architectures/du-pain-et-des-idees.md', site: 'dupainetdesidees.com' }],
+    layout: {
+      shell: 'livre',
+      // nav burger : nom en haut, « Menu » qui ouvre un plein écran aux liens en grand (la nav de la source).
+      nav: 'burger',
+      hero: 'fullbleed',
+      footer: 'columns',
+      sections: [
+        { type: 'about', variant: 'ecran-texte-photo' },
+        { type: 'proof', variant: 'citations' },
+        { type: 'services', variant: 'liste-a-filets' },
+        { type: 'contact', variant: 'ecran' },
+      ],
+      contactDrawer: false,
+      actionBar: false,
+      servicePage: 'livre',
+    },
+    requis: [
+      { mesure: 'photos', min: 10, libelle: 'au moins 10 belles photos (portrait de préférence) : un écran sur deux est une photo' },
+      { mesure: 'histoire', min: 2, libelle: 'une histoire en vrai texte (about.story, 2 paragraphes au moins) : un écran par paragraphe' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : le site se lit lentement" },
+    ],
+    convientA:
+      "Artisan avec une histoire, un lieu, de belles photos verticales et du vrai texte : boulanger, pâtissier, chocolatier, maison ancienne, artisan d'art, restaurant d'auteur, client à plusieurs adresses ou activités (boutique, table, atelier). Pas pour l'urgence ni pour un client sans texte.",
+  },
+  'cartes-empilees-agenda': {
+    id: 'cartes-empilees-agenda',
+    modele:
+      "Le lieu qui publie : un en-tête où la porte « Agenda » reste toujours en haut, la photo du lieu avec le nom en étiquettes, puis les activités en cartes de couleur pleine largeur qui se recouvrent au défilement (une couleur par activité, chacune vers sa page), puis le site devient un journal : les prochains rendez-vous en cartes datées (page /agenda filtrable), les avis, les nouvelles.",
+    sources: [{ fiche: 'docs/veille/architectures/groene-afslag.md', site: 'degroeneafslag.nl' }],
+    layout: {
+      shell: 'cartes-agenda',
+      // nav : sert aux pages intérieures (services, agenda, conseils) ; l'accueil a son propre en-tête à porte Agenda.
+      nav: 'bar',
+      hero: 'fullbleed',
+      footer: 'columns',
+      sections: [
+        { type: 'services', variant: 'cartes-empilees' },
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+    },
+    requis: [
+      { mesure: 'services', min: 3, max: 6, libelle: '3 à 6 activités très différentes (services) : une carte de couleur chacune' },
+      { mesure: 'agenda', min: 3, libelle: 'des rendez-vous datés à venir (agenda[], 3 au moins) : stages, marchés, dégustations, soirées' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on vient pour un rendez-vous" },
+    ],
+    convientA:
+      "Client qui organise des choses datées et les met à jour : ferme avec marchés et visites, librairie, caviste avec dégustations, atelier avec stages et cours, salle de réception, restaurant avec soirées, tiers-lieu. Pas pour qui ne publiera rien.",
+  },
+  'carnet-horizontal': {
+    id: 'carnet-horizontal',
+    modele:
+      "L'accueil se feuillette de gauche à droite comme un carnet : à l'ordinateur, une bande de chapitres de largeurs inégales, posés en couches (présentation et photo, une réalisation étiquetée, la liste des réalisations, la méthode, les avis, les artisans partenaires, le contact en bout de bande) glisse quand on descend, un rail fixe à gauche porte le nom, le téléphone et le menu ; une page par réalisation et une page qui les liste. Au téléphone, la bande devient une page verticale.",
+    sources: [{ fiche: 'docs/veille/architectures/gingko.md', site: 'gingko.pro' }],
+    layout: {
+      shell: 'carnet',
+      // nav : seulement au téléphone (logo et menu) ; à l'ordinateur, le rail. hero : non rendu, préchargement de la
+      // photo de présentation à la demi-largeur (heroSizesFor('split')).
+      nav: 'bar',
+      hero: 'split',
+      footer: 'minimal',
+      sections: [],
+      contactDrawer: true,
+      actionBar: false,
+    },
+    requis: [
+      { mesure: 'realisations', min: 6, libelle: '6 réalisations nommées au moins (realisations[] avec lieu), une page chacune' },
+      { mesure: 'photos', min: 6, libelle: 'des photos de chantiers (6 au moins) : chaque chapitre en pose une' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on feuillette, on n'appelle pas vite" },
+    ],
+    convientA:
+      "Métier de conception avec des réalisations nommées (6 et plus, avec lieu) et, idéalement, des artisans partenaires à citer : paysagiste, architecte d'intérieur, menuisier-agenceur, ferronnier d'art, céramiste. Pas pour l'urgence ni pour qui n'a qu'une poignée de photos.",
+  },
 };
+
 
 /**
  * Variantes de section qui ne vont qu'avec les données de leur architecture (photos par porte, lignes à prix) : jamais
  * tirées dans un modèle (presets/, tests/presets.test.mjs) ; `ff composer` ne les prend que si les données sont là
  * (varianteCompatible).
  */
-export const VARIANTES_D_ARCHITECTURE = ['services/portes', 'services/carte-prix'] as const;
+export const VARIANTES_D_ARCHITECTURE = [
+  'services/portes',
+  'services/carte-prix',
+  'services/cartes-empilees',
+  'services/liste-a-filets',
+  'about/ecran-texte-photo',
+  'proof/citations',
+  'contact/ecran',
+] as const;
+
+/**
+ * Coquilles dont l'accueil renvoie à une page qui liste toutes les réalisations (/realisations, filtrable par type) :
+ * « View All Projects » de Studio RHE, « Réalisations » de Gingko. L'index-projets n'en a pas besoin (son accueil EST
+ * l'index) ; les autres coquilles n'y mènent pas, la page n'est donc pas construite pour elles.
+ */
+export const COQUILLES_A_INDEX_REALISATIONS: readonly string[] = ['panneaux', 'carnet'];
 
 /** Ce que donneesManquantes() lit d'un site : un sous-ensemble du Site, pour tester sans tout construire. */
 export interface SiteArchi {
   images?: { hero?: unknown };
   services?: { image?: unknown; lignes?: unknown[] }[];
-  about?: { portrait?: unknown };
+  about?: { portrait?: unknown; story?: string };
   proof?: { gallery?: { kind?: string }[] };
   realisations?: { kind?: string; photos?: unknown[] }[];
   contact?: { hours?: unknown[]; address?: { street?: string }; emergency24h?: boolean };
+  agenda?: { date: string }[];
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -264,6 +398,8 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
       case 'horaires': n = (s.contact?.hours ?? []).length; break;
       case 'rue': n = s.contact?.address?.street ? 1 : 0; break;
       case 'lignesPrix': n = (s.services ?? []).filter((x) => (x.lignes ?? []).length > 0).length; break;
+      case 'histoire': n = (s.about?.story ?? '').split(/\n\s*\n/).filter((p) => p.trim()).length; break;
+      case 'agenda': n = (s.agenda ?? []).length; break;
       case 'pasUrgence': if (s.contact?.emergency24h) out.push(e.libelle); continue;
     }
     if (compte(n, e)) out.push(`${e.libelle} (${n} aujourd’hui)`);

@@ -1,0 +1,65 @@
+---
+/**
+ * Contact "ecran" : architecture `livre-ecrans` (src/lib/architectures.ts ; source Du Pain et des Idées,
+ * docs/veille/architectures/du-pain-et-des-idees.md). Le dernier écran du livre, sur un aplat : où venir (adresse
+ * en lien vers la carte), le téléphone en grand, l'e-mail, les horaires, les portes d'action (réserver, commander…),
+ * et le formulaire replié dans un <details> pour qui préfère écrire (une porte par intention, pas un formulaire
+ * déplié en bas de page : docs/GOUT.md § 0). Le même écran ferme chaque page d'activité (ServiceLivre.astro).
+ *
+ * Données : site.contact uniquement ; un champ absent n'est pas affiché. Formulaire seulement si form.provider
+ * n'est pas 'none'.
+ */
+import { site, tel, mailto, fullAddress, actions } from '@/lib/site';
+import Horaires from '@/components/Horaires.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Porte from '@/components/Porte.astro';
+import Icon from '@/components/Icon.astro';
+
+const enLigne = actions().filter((a) => a.kind === 'booking' || a.kind === 'order' || a.kind === 'giftCard');
+const formulaire = site.form.provider !== 'none';
+---
+
+<section id="contact" class="ce-ecran">
+  <div class="container-ff ce-grille">
+    <div data-reveal>
+      <h2 class="text-display-md" set:html={site.wording.contactTitle} />
+      <p class="mt-6 text-lg">
+        {site.contact.mapsUrl ? <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="underline underline-offset-4">{fullAddress()}</a> : fullAddress()}
+      </p>
+      <p class="mt-6">
+        <a href={tel()} class="ce-tel font-display tabular-nums inline-flex items-center gap-3"><Icon name="Phone" size={26} />{site.contact.phoneDisplay}</a>
+      </p>
+      {site.contact.email && <p class="mt-3"><a href={mailto()} class="underline underline-offset-4 break-all">{site.contact.email}</a></p>}
+      {enLigne.length > 0 && (
+        <ul class="mt-8 flex flex-wrap gap-3">{enLigne.map((a) => <li><Porte action={a} variant="ink" size="md" /></li>)}</ul>
+      )}
+    </div>
+    <div class="ce-cote" data-reveal>
+      {site.contact.hours.length > 0 && <Horaires class="text-base" />}
+      {formulaire && (
+        <details class="ce-ecrire mt-8 border-t border-line pt-6">
+          <summary class="cursor-pointer font-display text-xl">{site.wording.devis}</summary>
+          <p class="mt-3 text-sm">{site.wording.contactText}</p>
+          <ContactForm class="mt-6" compact />
+        </details>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ce-ecran {
+    background: color-mix(in oklab, var(--color-accent) 10%, var(--color-bg-2));
+    color: var(--color-fg);
+    padding-block: clamp(4rem, 12vh, 9rem);
+  }
+  .ce-grille { display: grid; gap: 3rem; }
+  .ce-tel { font-size: clamp(1.75rem, 4vw, 3rem); line-height: 1.1; text-decoration: none; }
+  .ce-tel:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+  @media (min-width: 1024px) {
+    .ce-ecran { min-block-size: 100svh; display: grid; align-content: center; }
+    .ce-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2rem; align-items: start; }
+    .ce-grille > :first-child { grid-column: 2 / span 5; }
+    .ce-cote { grid-column: 8 / span 4; }
+  }
+</style>

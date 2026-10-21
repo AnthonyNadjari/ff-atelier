@@ -160,6 +160,14 @@ export async function loadArchitecturesModule() {
   return loadPureLibModule('architectures.ts');
 }
 
+/**
+ * Copie src/lib/agenda.ts (module pur : un seul `import type` du schema) dans TMP_DIR/lib/ et l'importe. Renvoie
+ * { isoDuJour, agendaAVenir, dateAgenda, categoriesAgenda, lienAgenda } (tests/architectures.test.mjs).
+ */
+export async function loadAgendaModule() {
+  return loadPureLibModule('agenda.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

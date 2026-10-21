@@ -60,6 +60,10 @@ export const SHELLS = [
   'carte', // carte de visite d un ecran : photo du client en carte, panneau utile pose dessus (architecture carte-de-visite)
   'index-projets', // l accueil EST l index des realisations : filtres par type, defile ou grille, reglages en marge (architecture index-projets)
   'lieu-fixe', // ecran partage : le lieu (photo, ouvert / ferme, adresse) reste fixe a droite, la carte et l histoire defilent a gauche (architecture lieu-fixe)
+  'panneaux', // panneaux pleine hauteur cote a cote qui glissent vers la gauche, tranche fixe (nom + progression) a droite ; vertical au telephone (architecture panneaux-tranche)
+  'carnet', // carnet feuillete de gauche a droite : chapitres poses librement sur une bande, rail fixe a gauche ; vertical au telephone (architecture carnet-horizontal)
+  'livre', // pages composees comme un livre : couverture photo, puis un ecran par idee (architecture livre-ecrans)
+  'cartes-agenda', // en-tete a porte Agenda, cartes de couleur empilees par activite, puis prochains rendez-vous et nouvelles (architecture cartes-empilees-agenda)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -68,14 +72,14 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 export const VARIANTS = {
   nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
   hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix'],
-  about: ['portrait', 'story', 'values', 'timeline', 'overlap'],
-  proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets'],
+  about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo'],
+  proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations'],
   zones: ['list', 'map', 'chips'],
   process: ['steps', 'timeline', 'numbered', 'horizon'],
   faq: ['accordion', 'two-columns'],
   cta: ['band', 'card', 'phone-giant', 'photo'],
-  contact: ['form-split', 'form-card', 'simple', 'full'],
+  contact: ['form-split', 'form-card', 'simple', 'full', 'ecran'],
   footer: ['columns', 'minimal', 'big-name'],
 } as const;
 export type SectionType = keyof typeof VARIANTS;
@@ -196,10 +200,10 @@ export const siteSchema = z.object({
         .default(false)
         .describe("Page /a-propos a deux colonnes (portrait + contact | nom, metier, histoire, valeurs ; src/pages/a-propos/[...index].astro), liee depuis la coquille index-projets : l'histoire et le contact sortent de l'accueil. false = pas de page."),
       servicePage: z
-        .enum(['fiche', 'porte'])
+        .enum(['fiche', 'porte', 'livre'])
         .default('fiche')
         .describe(
-          "Gabarit des pages /services/<slug>. 'fiche' (defaut) : texte et photo cote a cote, autres services en carte. 'porte' (architecture accueil-portes, src/components/ServicePorte.astro) : page courte a la meme grammaire pour chaque activite, grande photo, nom, labels (business.certifications), phrase, photos du service en grille (services[].images), bouton, questions de la page (faq[].service), adresse et horaires.",
+          "Gabarit des pages /services/<slug>. 'fiche' (defaut) : texte et photo cote a cote, autres services en carte. 'porte' (architecture accueil-portes, src/components/ServicePorte.astro) : page courte a la meme grammaire pour chaque activite, grande photo, nom, labels (business.certifications), phrase, photos du service en grille (services[].images), bouton, questions de la page (faq[].service), adresse et horaires. 'livre' (architecture livre-ecrans, src/components/ServiceLivre.astro) : la page en ecrans successifs, en-tete d'un ecran sur la photo, texte et photo decales, photos du service, lignes, questions, puis le contact de la page.",
         ),
       curtain: z.boolean().default(false).describe("Rideau plein écran à l'ouverture (motion 'rich'). Désactivé par défaut depuis le 16 oct 2026 : signe IA générique (docs/GOUT.md § 2) ; ff ia alerte quand il est actif."),
       contactDrawer: z
@@ -400,6 +404,37 @@ export const siteSchema = z.object({
       "Articles du client (conseils, actualités du métier) : page /conseils + une page par article + lien dans la nav, seulement s'il y en a. Vu sur 5 sites qui vendent sur 9 (docs/veille/marche/CE-QUI-VEND.md). Matière du client uniquement (écrite, dictée, réponse qu'il donne souvent au téléphone) : jamais un article rédigé sans elle.",
     ),
 
+  agenda: z
+    .array(
+      z.object({
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('Date du rendez-vous AAAA-MM-JJ, donnee par le client'),
+        heure: z.string().optional().describe('Horaire tel que le client le donne (« 18 h – 20 h », « à partir de 10 h »). Absent = non affiche.'),
+        titre: z.string().describe('Nom du rendez-vous donne par le client (« Atelier fabrication d’un tabouret », « Marché de Noël »)'),
+        categorie: z.string().optional().describe('Categorie du rendez-vous (« Stage », « Dégustation », « Marché ») : filtre de la page /agenda des deux categories distinctes. Absente = non affichee.'),
+        lieu: z.string().optional().describe('Lieu si ce n’est pas l’adresse du client. Absent = non affiche.'),
+        texte: z.string().optional().describe('Une ou deux phrases du client sur le rendez-vous. Absent = non affiche.'),
+        lien: z.string().url().optional().describe('Lien d’inscription ou de billetterie du client. Absent = « Réserver » mène au contact.'),
+        image: img.optional().describe('Photo du client pour ce rendez-vous ; absente = carte sans image.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Rendez-vous dates du client (stages, marches, degustations, soirees ; architecture cartes-empilees-agenda, docs/veille/architectures/groene-afslag.md) : bloc « prochains rendez-vous » de l'accueil + page /agenda filtrable par categorie + lien « Agenda » dans la nav. Les dates passees sont retirees au build (src/lib/agenda.ts) : reconstruire le site quand l'agenda change. Vide (ou tout passe) = ni bloc, ni page, ni lien. Jamais un rendez-vous invente.",
+    ),
+
+  partenaires: z
+    .array(
+      z.object({
+        metier: z.string().describe('Métier du partenaire (« Céramiste », « Ferronnier »)'),
+        nom: z.string().describe('Nom du partenaire tel que le client le donne'),
+        lien: z.string().url().optional().describe('Site du partenaire, avec son accord. Absent = nom sans lien.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Artisans avec qui le client travaille (« autour de moi », architecture carnet-horizontal, docs/veille/architectures/gingko.md) : chapitre de la coquille carnet. Vide = pas de chapitre. Noms donnes par le client, jamais devines.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -446,6 +481,7 @@ export const siteSchema = z.object({
       beforeAfterTitle: z.string().default('La transformation').describe('Titre de la section avant/après (proof/before-after), ex. « Salle de bains, rue Nationale ». Défaut générique « La transformation ».'),
       logosTitle: z.string().default('Certifications et garanties').describe('Titre de la rangée de labels (proof/logos), ex. « Qualibat, RGE ». Défaut « Certifications et garanties ».'),
       contactTitle: z.string().default('Parlons de votre projet'),
+      agenda: z.string().default('Agenda').describe('Libellé de la porte et de la page des rendez-vous (site.agenda) : « Agenda », « Les rendez-vous de l’atelier »'),
       conseils: z.string().default('Conseils').describe('Libellé de la rubrique articles dans la nav et titre de /conseils (« Conseils », « Le carnet de l’atelier »)'),
       contactText: z.string().default('Décrivez votre besoin, nous vous rappelons rapidement.'),
       actions: z

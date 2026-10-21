@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { loadArchitecturesModule, loadSchemaModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
+import { loadArchitecturesModule, loadSchemaModule, loadAgendaModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
 
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const tsImportable = await canImportTs();
@@ -466,3 +466,243 @@ test('fumigène : architecture lieu-fixe (FF_LOOK) rend l’accueil, le lieu fix
     f.rm();
   }
 });
+
+// ---- 21 oct 2026 : panneaux-tranche (Studio RHE), livre-ecrans (Du Pain et des Idées), cartes-empilees-agenda
+// (De Groene Afslag), carnet-horizontal (Gingko) : les quatre architectures les plus éloignées des quatre premières. ----
+
+const NOUVELLES = { 'panneaux-tranche': 'panneaux', 'livre-ecrans': 'livre', 'cartes-empilees-agenda': 'cartes-agenda', 'carnet-horizontal': 'carnet' };
+const codeDe = (src) => src.replace(/\{\/\*[\s\S]*?\*\/\}/g, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+
+if (tsImportable) {
+  test('registre : les quatre nouvelles architectures, leur coquille, leurs variantes d’architecture, l’index des réalisations', async () => {
+    const { ARCHITECTURES, ARCHITECTURE_IDS, VARIANTES_D_ARCHITECTURE, COQUILLES_A_INDEX_REALISATIONS, completerLayout } = await loadArchitecturesModule();
+    for (const [id, shell] of Object.entries(NOUVELLES)) {
+      assert.ok(ARCHITECTURE_IDS.includes(id), id);
+      assert.equal(ARCHITECTURES[id].layout.shell, shell);
+      assert.equal(completerLayout({ architecture: id }).shell, shell);
+      assert.equal(ARCHITECTURES[id].requis.at(-1).mesure, 'pasUrgence', `${id} : jamais l’urgence`);
+    }
+    assert.deepEqual(ARCHITECTURES['livre-ecrans'].layout.sections.map((s) => `${s.type}/${s.variant}`), ['about/ecran-texte-photo', 'proof/citations', 'services/liste-a-filets', 'contact/ecran']);
+    assert.equal(ARCHITECTURES['livre-ecrans'].layout.servicePage, 'livre');
+    assert.deepEqual(ARCHITECTURES['cartes-empilees-agenda'].layout.sections.map((s) => `${s.type}/${s.variant}`), ['services/cartes-empilees', 'proof/testimonials']);
+    assert.deepEqual(ARCHITECTURES['panneaux-tranche'].layout.sections, []);
+    assert.equal(ARCHITECTURES['panneaux-tranche'].layout.pageAPropos, true);
+    for (const v of ['services/cartes-empilees', 'services/liste-a-filets', 'about/ecran-texte-photo', 'proof/citations', 'contact/ecran']) assert.ok(VARIANTES_D_ARCHITECTURE.includes(v), v);
+    assert.deepEqual([...COQUILLES_A_INDEX_REALISATIONS], ['panneaux', 'carnet']);
+  });
+
+  test('schema : agenda[] et partenaires[] (défaut vide, décrits), wording.agenda, servicePage « livre », coquilles et variantes', async () => {
+    const { defineSite, SHELLS, VARIANTS } = await loadSchemaModule();
+    for (const shell of Object.values(NOUVELLES)) assert.ok(SHELLS.includes(shell), shell);
+    assert.ok(VARIANTS.services.includes('cartes-empilees') && VARIANTS.services.includes('liste-a-filets'));
+    assert.ok(VARIANTS.about.includes('ecran-texte-photo') && VARIANTS.proof.includes('citations') && VARIANTS.contact.includes('ecran'));
+    const vide = defineSite(minimal);
+    assert.deepEqual(vide.agenda, []);
+    assert.deepEqual(vide.partenaires, []);
+    assert.equal(vide.wording.agenda, 'Agenda');
+    const plein = defineSite({
+      ...minimal,
+      layout: { architecture: 'livre-ecrans' },
+      agenda: [{ date: '2030-05-02', titre: 'Stage', categorie: 'Stage', heure: '9 h – 12 h' }],
+      partenaires: [{ metier: 'Ferronnier', nom: 'Forges du Nord' }],
+    });
+    assert.equal(plein.layout.servicePage, 'livre');
+    assert.equal(plein.agenda[0].titre, 'Stage');
+    assert.throws(() => defineSite({ ...minimal, agenda: [{ date: '2 mai', titre: 'X' }] }), /agenda/);
+    assert.throws(() => defineSite({ ...minimal, partenaires: [{ nom: 'X' }] }), /partenaires/);
+    const schema = read('src/lib/schema.ts');
+    assert.match(schema, /agenda: z\s*\n\s*\.array\(/);
+    assert.match(schema, /Jamais un rendez-vous invente/);
+    assert.match(schema, /Noms donnes par le client, jamais devines/);
+  });
+
+  test('agenda (module pur) : à venir seulement, du plus proche au plus lointain ; date en carte ; catégories ; lien de nav', async () => {
+    const { agendaAVenir, dateAgenda, categoriesAgenda, lienAgenda, isoDuJour } = await loadAgendaModule();
+    const a = [{ date: '2026-12-05', categorie: 'Marché' }, { date: '2026-10-01' }, { date: '2026-11-07', categorie: 'Stage' }, { date: '2026-11-21', categorie: 'Stage ' }];
+    assert.deepEqual(agendaAVenir(a, '2026-10-21').map((r) => r.date), ['2026-11-07', '2026-11-21', '2026-12-05'], 'passé retiré, trié');
+    assert.equal(a[0].date, '2026-12-05', 'entrée non mutée');
+    assert.equal(agendaAVenir(a, '2026-11-07')[0].date, '2026-11-07', 'le jour même reste');
+    const d = dateAgenda('2026-11-07');
+    assert.equal(d.jour, '7');
+    assert.equal(d.mois, 'nov.');
+    assert.equal(d.long, 'samedi 7 novembre 2026');
+    assert.equal(dateAgenda('2026-12-01').long, 'mardi 1er décembre 2026');
+    assert.deepEqual(categoriesAgenda(a), ['Marché', 'Stage']);
+    assert.deepEqual(lienAgenda(a, 'Agenda', '2026-10-21'), { href: '/agenda', label: 'Agenda' });
+    assert.equal(lienAgenda(a, 'Agenda', '2027-01-01'), null, 'tout passé : ni page ni lien');
+    assert.equal(isoDuJour(new Date('2026-10-21T23:30:00Z')), '2026-10-22', 'fuseau de Paris');
+    assert.doesNotMatch(read('src/lib/agenda.ts'), /^import (?!type )/m, 'module pur');
+  });
+
+  test('donneesManquantes : nouvelles mesures (histoire, agenda) et exigences des quatre architectures', async () => {
+    const { donneesManquantes } = await loadArchitecturesModule();
+    const photo = { src: '/p.webp', alt: 'p' };
+    const reals = Array.from({ length: 7 }, () => ({ kind: 'Cuisine', photos: [photo, photo] }));
+    assert.deepEqual(donneesManquantes('panneaux-tranche', { realisations: reals, contact: {} }), []);
+    assert.equal(donneesManquantes('panneaux-tranche', { realisations: reals.slice(0, 3), contact: {} }).length, 2, '3 réalisations, 6 photos');
+    assert.deepEqual(donneesManquantes('carnet-horizontal', { realisations: reals }), []);
+    const histoire = 'Un.\n\nDeux.\n\nTrois.';
+    assert.deepEqual(donneesManquantes('livre-ecrans', { about: { story: histoire }, realisations: reals }), []);
+    assert.match(donneesManquantes('livre-ecrans', { about: { story: 'Un seul.' }, realisations: reals }).join(), /histoire.*\(1 aujourd’hui\)/);
+    const services = [{}, {}, {}];
+    const agenda = [{ date: '2030-01-01' }, { date: '2030-01-02' }, { date: '2030-01-03' }];
+    assert.deepEqual(donneesManquantes('cartes-empilees-agenda', { services, agenda }), []);
+    assert.match(donneesManquantes('cartes-empilees-agenda', { services, agenda: [] }).join(), /rendez-vous datés/);
+    for (const id of Object.keys(NOUVELLES)) {
+      const m = donneesManquantes(id, { services, agenda, realisations: reals, about: { story: histoire }, contact: { emergency24h: true } });
+      assert.ok(m.some((x) => /urgence/.test(x)), `${id} refuse l’urgence`);
+    }
+  });
+}
+
+test('bande horizontale (src/scripts/bande.ts) : défilement natif, une translation, 64 rem et mouvement non réduit, focus et ancres', () => {
+  const src = read('src/scripts/bande.ts');
+  assert.match(src, /export function initBande\(\)/);
+  assert.match(src, /matchMedia\('\(min-width: 64rem\) and \(prefers-reduced-motion: no-preference\)'\)/);
+  assert.match(src, /translate3d\(/);
+  assert.match(src, /requestAnimationFrame\(poser\)/, 'au plus une mise à jour par image');
+  assert.match(src, /vue\.clientHeight/, 'course mesurée sur l’enfant collant, pas innerHeight');
+  assert.doesNotMatch(codeDe(src), /innerHeight/);
+  assert.doesNotMatch(src, /addEventListener\('wheel'|preventDefault|overflow\s*=\s*'hidden'/, 'jamais de défilement simulé');
+  assert.match(src, /addEventListener\('focusin'/);
+  assert.match(src, /addEventListener\('hashchange'/);
+  assert.match(src, /\[data-bande-progres\]/);
+  for (const shell of ['panneaux', 'carnet']) {
+    const s = read(`src/shells/${shell}.astro`);
+    assert.match(s, /data-bande>/);
+    assert.match(s, /data-bande-vue/);
+    assert.match(s, /data-bande-piste/);
+    assert.match(s, /onPage\(initBande\)/);
+    assert.match(s, /overflow: clip/, `${shell} : vue en clip, pas hidden`);
+    assert.match(s, /display: contents/, `${shell} : sans bande, chaque panneau est un bloc de la page`);
+  }
+});
+
+test('coquilles panneaux, carnet, livre, cartes-agenda : socle (h1, métier à ville, tel:, avis), tokens seulement, sans signe IA', () => {
+  for (const shell of Object.values(NOUVELLES)) {
+    const code = codeDe(read(`src/shells/${shell}.astro`));
+    assert.equal((code.match(/<h1[\s>]/g) || []).length, 1, `${shell} : un h1`);
+    assert.match(code, /metierEtVille\(\)|site\.business\.trade/, `${shell} : métier et ville au premier écran`);
+    assert.match(code, /href=\{tel\(\)\}/, `${shell} : téléphone cliquable`);
+    assert.match(code, /site\.proof\.google/, `${shell} : note Google en haut`);
+    assert.match(code, /sections\.map\(/, `${shell} : sections du layout rendues`);
+    assert.match(code, /<Footer \/>/);
+    assert.doesNotMatch(code, /#[0-9a-fA-F]{3,8}\b/, `${shell} : tokens uniquement`);
+    assert.doesNotMatch(code, /rounded-full|999px|radius-pill|uppercase|tracking-|[·—]|italic|data-marquee/, `${shell} : ni pilule, ni capitales espacées, ni italique`);
+  }
+  const p = read('src/shells/panneaux.astro');
+  assert.match(p, /data-bande-progres/, 'tranche : progression');
+  assert.match(p, /pn-tranche/);
+  assert.match(p, /scroll-snap-type: x mandatory/, 'téléphone : les réalisations glissent au doigt');
+  assert.match(p, /href="\/realisations"/);
+  assert.match(p, /<div class="lg:hidden"><Nav \/><\/div>/);
+  const c = read('src/shells/carnet.astro');
+  assert.match(c, /site\.partenaires\.map/);
+  assert.match(c, /id=\{idSi\('contact'\)\}/, 'contact en bout de bande, sans doubler l’id d’une section');
+  assert.match(c, /<div class="lg:hidden"><Nav \/><\/div>/);
+  const l = read('src/shells/livre.astro');
+  assert.match(l, /lv-planche/);
+  assert.match(l, /<Nav \/>/);
+  const k = read('src/shells/cartes-agenda.astro');
+  assert.match(k, /<ProchainsRendezVous \/>/);
+  assert.match(k, /href="\/agenda"/);
+  assert.match(k, /\{i === iServices && <ProchainsRendezVous \/>\}/, 'les rendez-vous juste après les activités');
+  assert.match(read('scripts/ff/composer.mjs'), /COQUILLES_D_ARCHITECTURE = \[[^\]]*'panneaux', 'carnet', 'livre', 'cartes-agenda'/);
+});
+
+test('sections d’architecture : un écran = un bloc (enveloppe <div id> + <section>), collage natif, repli sans donnée, tokens', () => {
+  const cartes = read('src/sections/Services/cartes-empilees.astro');
+  assert.match(cartes, /<div id="services" class="ce-pile/);
+  assert.match(cartes, /<section class:list=\{\['ce-carte/);
+  assert.match(cartes, /position: sticky;/);
+  assert.match(cartes, /@media \(min-width: 48rem\) and \(min-height: 40rem\)/, 'collage seulement quand une carte tient dans l’écran');
+  assert.match(cartes, /var\(--color-accent\)/);
+  const eb = read('src/sections/About/ecran-texte-photo.astro');
+  assert.match(eb, /<div id="about" class="eb">/);
+  assert.match(eb, /kind: 'planche'/);
+  assert.match(eb, /photosDuSite\(\)/);
+  const pc = read('src/sections/Proof/citations.astro');
+  assert.match(pc, /\{!rien && \(/, 'sans avis ni note : rien');
+  assert.match(pc, /<blockquote/);
+  assert.match(read('src/sections/Services/liste-a-filets.astro'), /href=\{`\/services\/\$\{s\.slug\}`\}/);
+  const ce = read('src/sections/Contact/ecran.astro');
+  assert.match(ce, /<section id="contact"/);
+  assert.match(ce, /<details class="ce-ecrire/);
+  for (const f of ['Services/cartes-empilees', 'Services/liste-a-filets', 'About/ecran-texte-photo', 'Proof/citations', 'Contact/ecran']) {
+    assert.doesNotMatch(codeDe(read(`src/sections/${f}.astro`)), /#[0-9a-fA-F]{3,8}\b|rounded-full|uppercase|tracking-|italic|<script/, f);
+  }
+  const rv = read('src/components/ProchainsRendezVous.astro');
+  assert.match(rv, /agendaAVenir\(site\.agenda\)/);
+  assert.match(rv, /<RendezVous r=\{r\} \/>/);
+  assert.match(read('src/components/RendezVous.astro'), /<time datetime=\{r\.date\}>/);
+  assert.match(read('scripts/ff/composer.mjs'), /case 'services\/cartes-empilees':\s*\n\s*return cfg\.layout\?\.architecture === 'cartes-empilees-agenda'/);
+  assert.match(read('scripts/ff/deroule.mjs'), /\.\.\.els\]\)\)/, 'ff ressemblance voit une file horizontale sous une enveloppe ouverte');
+});
+
+test('pages : /agenda (à venir, filtres :has()), /realisations (coquilles panneaux et carnet), gabarit de service « livre », nav', () => {
+  const ag = read('src/pages/agenda/[...index].astro');
+  assert.match(ag, /agendaAVenir\(site\.agenda\)\.length > 0 \? \[\{ params: \{ index: undefined \} \}\] : \[\]/);
+  assert.match(ag, /\.ag:has\(#ag-1:checked\) \.ag-item:not\(\[data-cat="1"\]\)/);
+  assert.match(ag, /<RendezVous r=\{r\} niveau="h2" \/>/);
+  const ri = read('src/pages/realisations/[...index].astro');
+  assert.match(ri, /COQUILLES_A_INDEX_REALISATIONS/);
+  assert.match(ri, /\.ri:has\(#ri-1:checked\)/);
+  assert.match(read('src/pages/realisations/[slug].astro'), /href=\{retour\}/);
+  assert.match(read('src/pages/services/[slug].astro'), /site\.layout\.servicePage === 'livre' \? \(\s*\n\s*<main id="main"><ServiceLivre service=\{service\} \/><\/main>/);
+  const sl = read('src/components/ServiceLivre.astro');
+  assert.match(sl, /getSection\('contact', 'ecran'\)/, 'chaque page se ferme sur le même écran de contact');
+  assert.match(sl, /<h1 /);
+  const s = read('src/lib/site.ts');
+  assert.match(s, /lienAgenda\(s\.agenda \?\? \[\], s\.wording\.agenda\)/);
+  assert.match(s, /COQUILLES_A_INDEX_REALISATIONS\.includes\(s\.layout\.shell\)/);
+  assert.match(s, /export const photosDuSite =/);
+});
+
+test('docs : DIRECTIONS (4 coquilles, 5 variantes), INDEX (colonne Implémentée), CONVENTIONS (bande horizontale)', () => {
+  const d = read('docs/DIRECTIONS.md');
+  for (const [id, shell] of Object.entries(NOUVELLES)) assert.match(d, new RegExp(`\\| \`${shell}\` \\| \\*\\*Architecture \`${id}\`\\*\\*`));
+  for (const v of ['cartes-empilees', 'liste-a-filets', 'ecran-texte-photo', 'citations', 'ecran']) assert.match(d, new RegExp(`\\| \`${v}\` \\| \\*\\*Architecture`));
+  const idx = read('docs/veille/architectures/INDEX.md');
+  assert.match(idx, /\| Coût usine \| Implémentée \|/);
+  for (const id of Object.keys(NOUVELLES)) assert.match(idx, new RegExp(`^\\| \`${id}\` \\|.*\\| oui, coquille`, 'm'));
+  assert.match(read('docs/CONVENTIONS.md'), /\*\*Bande horizontale de page entiere \(`panneaux`, `carnet`\)\.\*\*/);
+});
+
+for (const [id, shell] of Object.entries(NOUVELLES)) {
+  test(`fumigène : architecture ${id} (FF_LOOK) rend la coquille ${shell}, un h1, le téléphone, les pages`, { timeout: 180_000 }, () => {
+    const f = fumigene({ layout: { architecture: id } }, `_test-archi-${shell}`);
+    try {
+      const html = f.html();
+      assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
+      assert.match(html, /Menuisier-ébéniste/);
+      assert.match(html, /href="tel:\+33600000000"/);
+      assert.match(html, new RegExp(`data-shell="${shell}"`));
+      assert.ok(f.existe('services/cuisines.html'), 'pages des activités');
+      if (shell === 'panneaux' || shell === 'carnet') {
+        assert.match(html, /data-bande-piste/);
+        assert.match(html, /<dialog id="contact-tiroir"/, 'tiroir de contact');
+      }
+      if (shell === 'panneaux') {
+        assert.match(html, /data-bande-progres/);
+        assert.ok(f.existe('a-propos.html') || f.existe('a-propos/index.html'), 'page À propos');
+      }
+      if (shell === 'carnet') assert.match(html, /id="contact" class="cn-chap cn-contact/);
+      if (shell === 'livre') {
+        const [a, p, s, c] = ['id="about"', 'id="proof"', 'id="services"', 'id="contact"'].map((x) => html.indexOf(x));
+        assert.ok(a > 0 && a < p && p < s && s < c, 'ordre du livre : histoire, avis, activités, contact');
+        assert.match(html, /class="eb-ecran/);
+        const page = f.html('services/cuisines.html');
+        assert.match(page, /class="sl"/, 'gabarit de page livre');
+        assert.match(page, /<section id="contact" class="ce-ecran/);
+      }
+      if (shell === 'cartes-agenda') {
+        assert.match(html, /class="ce-carte/);
+        assert.doesNotMatch(html, /id="agenda"/, '_exemple n’a aucun rendez-vous : pas de bloc');
+        assert.ok(!f.existe('agenda.html') && !f.existe('agenda/index.html'), 'ni page /agenda');
+        assert.match(f.css, /position:sticky/);
+      }
+    } finally {
+      f.rm();
+    }
+  });
+}

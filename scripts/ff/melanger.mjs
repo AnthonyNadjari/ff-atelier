@@ -17,9 +17,12 @@
 // Sortie (un mélange appliqué à <slug>) : une direction générée src/directions/m-<hash>/ (index.css : tous les tokens ;
 // meta.ts : les atomes et leurs sources), enregistrée dans DIRECTIONS (src/lib/schema.ts) ; sites/<slug>/look.json
 // (direction, polices, accent, motion, tone) ; la ligne « Style : mélange <…> » à recopier dans le contrat.
-// --n 3 : trois mélanges qui ne partagent pas plus de 2 atomes entre eux (les trois pistes d'un client) ; avec
-// --essai, appliqués à trois copies jetables sites/_essai-melange-<k> construites puis capturées côte à côte
-// (captures/planches/<slug>-melanges.jpg), copies et directions d'essai supprimées à la fin.
+// --n 3 : trois mélanges qui ne partagent pas plus de 2 atomes entre eux (les trois pistes d'un client), de régimes de
+// palette différents (RÉGIMES DE PALETTE ci-dessous) ; avec --essai, appliqués à trois copies jetables
+// sites/_essai-melange-<k> (direction, architecture et famille de premier écran quand l'usine sait les rendre)
+// construites, contrôlées puis capturées côte à côte (captures/planches/<slug>-melanges.jpg), copies et directions
+// d'essai supprimées à la fin. Architectures : seulement celles du registre de l'usine (src/lib/architectures.ts, lu au
+// tirage, jamais modifié ici) dont la coquille existe et dont le client a les données.
 //
 // Pourquoi (fondateur, 18 oct 2026) : « il en faut beaucoup plus. Et je veux pas qu'on se limite à ça, faut faire des
 // cross ».
@@ -209,6 +212,214 @@ export function refusCroises(atomes, client = profilClient()) {
   return r;
 }
 
+/* ---------- RÉGIMES DE PALETTE (pur ; docs/veille/styles/ATOMES.md § Régimes de palette) ----------
+   Né de l'essai du 21 oct 2026 (`ff melanger prospect-epi-dor --n 3 --essai`) : les trois pistes tiraient trois
+   palettes blanc / gris / noir. La garde de beauté écarte le vif en fond (à raison) et la plupart des palettes du
+   registre sont des neutres clairs : tirées au hasard, trois pistes sœurs se ressemblent. On ne relâche PAS la garde :
+   on cherche la couleur là où elle la permet (surface, bloc d'encre, accents, fond sombre, fond teinté) et on exige que
+   les pistes sœurs ne tombent pas dans le même RÉGIME. Mesures en OKLCH, comme la garde. */
+export const REGIMES_PALETTE = {
+  'clair-neutre': 'clair neutre', // fond blanc ou gris sans teinte perçue
+  'clair-teinte': 'clair teinté doux', // crème, ivoire, kraft, sauge pâle : le fond a une teinte, sous le seuil « coloré »
+  sombre: 'sombre', // fond sombre (noir, bleu nuit, brun)
+  'colore-doux': 'coloré doux', // la couleur tient une grande surface DANS les règles : fond modéré, surface ou bloc d'encre colorés, deux accents assumés
+};
+export const DIVERSITE = {
+  FOND_SOMBRE_L: 0.5, // clarté OKLCH du fond sous laquelle la page est sombre
+  FOND_TEINTE_MIN: 0.012, // chroma du fond à partir de laquelle sa teinte se voit (crème, kraft) ; en dessous : neutre
+  SURFACE_COLOREE: 0.03, // une surface (cartes, bandes) colorée à partir de cette chroma
+  ENCRE_COLOREE: 0.04, // un bloc d'encre (pied, bandeau) coloré à partir de cette chroma
+  ECART_FOND_L: 0.04, // pistes sœurs : clartés de fond à 0,04 au moins (jamais deux fonds de clarté proche)
+  ECART_ACCENT: 45, // pistes sœurs : teintes d'accent à 45° au moins (deux accents neutres sont trop proches)
+  BESOIN_PART: 0.5, // un régime sous la moitié de sa part égale des palettes tirables est un besoin de collecte
+  BESOIN_MIN: 3, // et jamais moins de 3 palettes par régime
+};
+
+/**
+ * Pure : le régime d'une palette (atome couleurs, palette principale) et ce qui le fixe. Renvoie
+ * { regime, fond: {l,c,h}, teinte (teinte d'accent en degrés, null = accents neutres), raison } ou null.
+ */
+export function regimePalette(couleurs) {
+  const p = couleurs?.[couleurs?.principal];
+  if (!p || !estHex(p.fond)) return null;
+  const fond = okl(p.fond);
+  const o = (v) => (estHex(v) ? okl(v) : null);
+  const accents = [p.accent, p.accent2].map(o).filter((x) => x && x.c >= BEAUTE.ACTIVE).sort((a, b) => b.c - a.c);
+  const autres = [p.surface, p.encre, p.fond].map(o).filter((x) => x && x.c >= BEAUTE.ACTIVE).sort((a, b) => b.c - a.c);
+  const teinte = accents[0]?.h ?? autres[0]?.h ?? null;
+  const out = (regime, raison) => ({ regime, fond, teinte, raison });
+  if (fond.l < DIVERSITE.FOND_SOMBRE_L) return out('sombre', `fond ${p.fond} de clarté ${fond.l.toFixed(2)}`);
+  const surf = o(p.surface), encre = o(p.encre);
+  const vives = [p.accent, p.accent2].map(o).filter((x) => x && x.c >= BEAUTE.VIF);
+  if (fond.c >= BEAUTE.FOND_TEINTE) return out('colore-doux', `fond ${p.fond} coloré (chroma ${fond.c.toFixed(3)}, sous la garde)`);
+  if (surf && surf.c >= DIVERSITE.SURFACE_COLOREE) return out('colore-doux', `surface ${p.surface} colorée (chroma ${surf.c.toFixed(3)})`);
+  if (encre && encre.c >= DIVERSITE.ENCRE_COLOREE) return out('colore-doux', `bloc d'encre ${p.encre} coloré (chroma ${encre.c.toFixed(3)})`);
+  if (vives.length === 2 && ecartTeinte(vives[0].h, vives[1].h) >= BEAUTE.GROUPE_TEINTE) return out('colore-doux', `deux accents vifs assumés ${p.accent} et ${p.accent2}`);
+  if (fond.c >= DIVERSITE.FOND_TEINTE_MIN) return out('clair-teinte', `fond ${p.fond} teinté (chroma ${fond.c.toFixed(3)})`);
+  return out('clair-neutre', `fond ${p.fond} neutre (chroma ${fond.c.toFixed(3)})`);
+}
+
+/** Pure : écart entre deux teintes d'accent (null = accents neutres : deux neutres sont à 0°, un neutre et une teinte à 180°). */
+export function ecartAccent(a, b) {
+  if (a == null && b == null) return 0;
+  if (a == null || b == null) return 180;
+  return ecartTeinte(a, b);
+}
+
+/**
+ * Niveaux d'exigence de la diversité entre pistes sœurs, du plus strict au plus lâche : le tirage ne descend d'un niveau
+ * que si le registre ne permet pas le précédent, et le dit. L'écart de clarté des fonds ne se relâche jamais.
+ */
+export const NIVEAUX_DIVERSITE = [
+  { regime: true, accent: true, nom: 'régimes différents, accents éloignés' },
+  { regime: true, accent: false, nom: 'régimes différents, accent proche d\'une piste sœur (registre trop pauvre)' },
+  { regime: false, accent: true, nom: 'régime répété (registre trop pauvre), accents éloignés' },
+  { regime: false, accent: false, nom: 'régime et accent répétés (registre trop pauvre)' },
+];
+
+/**
+ * Pure : la palette `couleurs` peut-elle être celle d'une piste dont les sœurs ont les palettes `soeurs` (atomes
+ * couleurs déjà tirés), au niveau `niveau` de NIVEAUX_DIVERSITE ? Renvoie la raison du refus, ou null.
+ */
+export function refusDiversite(couleurs, soeurs, niveau = NIVEAUX_DIVERSITE[0]) {
+  const a = regimePalette(couleurs);
+  if (!a) return null;
+  for (const s of soeurs) {
+    const b = regimePalette(s);
+    if (!b) continue;
+    const dl = Math.abs(a.fond.l - b.fond.l);
+    if (dl < DIVERSITE.ECART_FOND_L) return `fond de clarté proche d'une piste sœur (ΔL ${dl.toFixed(2)} < ${DIVERSITE.ECART_FOND_L})`;
+    if (niveau?.regime && a.regime === b.regime) return `même régime qu'une piste sœur (${REGIMES_PALETTE[a.regime]})`;
+    const da = ecartAccent(a.teinte, b.teinte);
+    if (niveau?.accent && da < DIVERSITE.ECART_ACCENT) return `accent proche d'une piste sœur (${Math.round(da)}° < ${DIVERSITE.ECART_ACCENT}°)`;
+  }
+  return null;
+}
+
+/** Pure : nombre de palettes tirables par régime (registre construit), chaque régime présent (0 compris). */
+export function compterRegimes(registre) {
+  const n = Object.fromEntries(Object.keys(REGIMES_PALETTE).map((r) => [r, 0]));
+  for (const id of registre.reserves.couleurs) {
+    const r = regimePalette(registre.parId[id].couleurs);
+    if (r) n[r.regime]++;
+  }
+  return n;
+}
+
+/**
+ * Pure : besoins de collecte d'après le compte par régime (un régime sous la moitié de sa part égale, et sous 3, est un
+ * besoin). Renvoie [{ regime, n, voulu, phrase }].
+ */
+export function besoinsRegimes(comptes) {
+  const total = Object.values(comptes).reduce((a, b) => a + b, 0);
+  const voulu = Math.max(DIVERSITE.BESOIN_MIN, Math.ceil((total / Object.keys(comptes).length) * DIVERSITE.BESOIN_PART));
+  return Object.entries(comptes).filter(([, n]) => n < voulu).map(([regime, n]) => ({
+    regime, n, voulu,
+    phrase: `la collecte doit ramener des palettes ${REGIMES_PALETTE[regime]} (${n} tirable${n > 1 ? 's' : ''} sur ${total}, ${voulu} au moins)`,
+  }));
+}
+
+const DEBUT_BESOINS = '<!-- ff melanger : besoins de collecte (bloc réécrit à chaque tirage, ne pas éditer) -->';
+const FIN_BESOINS = '<!-- /ff melanger -->';
+const echapper = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+/**
+ * Pure : le journal de veille avec le bloc « besoins de collecte » à jour, juste sous l'introduction (avant la première
+ * entrée datée). Sans besoin, le bloc est retiré. Idempotent.
+ */
+export function noterBesoinsJournal(texte, besoins, date) {
+  const t = texte.replace(new RegExp(`${echapper(DEBUT_BESOINS)}[\\s\\S]*?${echapper(FIN_BESOINS)}\\n*`), '');
+  if (!besoins.length) return t;
+  const bloc = `${DEBUT_BESOINS}\n**Besoins de collecte** (relevés par \`ff melanger\` le ${date} ; volet 2a quater de \`/veille\`) :\n${besoins.map((b) => `- ${b}`).join('\n')}\n${FIN_BESOINS}\n\n`;
+  const i = t.search(/^## /m);
+  return i < 0 ? `${t.trimEnd()}\n\n${bloc}` : t.slice(0, i) + bloc + t.slice(i);
+}
+
+/* ---------- ARCHITECTURES ET PREMIER ÉCRAN QUE L'USINE SAIT CONSTRUIRE (pur) ----------
+   Essai du 21 oct 2026 : le mélange tirait des architectures du registre de VEILLE (panneaux-tranche,
+   cartes-empilees-agenda, livre-ecrans…) que l'usine ne sait pas construire ; l'essai gardait alors le déroulé du site
+   et les trois pistes se ressemblaient. On ne tire plus que le registre de l'USINE (src/lib/architectures.ts : layout +
+   coquille), et l'essai applique l'architecture et la famille de premier écran sur les copies. */
+
+/** Pure : architectures du registre de l'usine dont la coquille existe (src/shells/<shell>.astro). */
+export function architecturesImplementees({ ids = [], parId = {}, coquilles = [] } = {}) {
+  const implementees = [], incompletes = [];
+  for (const id of ids) {
+    const shell = parId[id]?.layout?.shell;
+    if (shell && coquilles.includes(shell)) implementees.push(id);
+    else incompletes.push({ id, raison: `coquille ${shell ?? '?'} absente de src/shells/` });
+  }
+  return { implementees, incompletes };
+}
+
+/**
+ * Pure : architectures tirables pour un client : implémentées, pas prises (`interdites` : Map id → raison, 4 derniers
+ * sites et pistes du contrat) et dont il a les données (`manquantes(id)` : phrases de donneesManquantes).
+ */
+export function architecturesTirables({ implementees = [], interdites = new Map(), manquantes = () => [] } = {}) {
+  const libres = [], ecartees = [];
+  for (const id of implementees) {
+    if (interdites.has(id)) { ecartees.push({ id, raison: `prise (${interdites.get(id)})` }); continue; }
+    const m = manquantes(id);
+    if (m.length) { ecartees.push({ id, raison: `données absentes : ${m.join(' ; ')}` }); continue; }
+    libres.push(id);
+  }
+  return { libres, ecartees };
+}
+
+/** Pure : interdits (Map id → raison, famillesInterdites de contrat.mjs) sans ceux des pistes sœurs (qu'on retire). */
+export function retirerPistesSoeurs(interdites) {
+  return new Map([...interdites].filter(([, raison]) => !/^piste sœur /.test(raison)));
+}
+
+/** Pure : erreur claire pour une `--architecture` que l'usine ne sait pas construire, ou null. */
+export function refusArchitectureImposee(id, implementees = [], veille = []) {
+  if (implementees.includes(id)) return null;
+  const aVeille = veille.includes(id);
+  return `--architecture ${id} : architecture non implémentée dans l'usine (src/lib/architectures.ts sait construire : ${implementees.join(', ') || 'aucune'})${aVeille ? ` ; ${id} est au registre de veille (docs/veille/architectures/INDEX.md) mais reste « à coder » : registre, coquille et preuve d'abord` : ' ; id inconnu'}`;
+}
+
+/**
+ * Familles de premier écran que l'usine sait rendre avec une variante de hero partagée (src/sections/Hero/) ; les
+ * autres (carte-sur-photo, mosaique, editorial…) se font en section sur mesure par l'agent : l'essai garde alors le
+ * premier écran du site (ou celui de l'architecture) et le dit.
+ */
+export const HERO_DE_FAMILLE = {
+  typographique: () => 'typographic',
+  diptyque: () => 'split',
+  'video-ou-sequence': (c) => (c.video ? 'video' : null), // sans vraie vidéo, le hero video se rend en fullbleed
+};
+
+/**
+ * Pure : le `layout` à poser dans le look.json d'une copie d'essai. Avec une architecture : `architecture` et tous ses
+ * réglages (comme completerLayout de src/lib/architectures.ts : écrits en clair pour que le plugin virtual:ff-look
+ * charge les bonnes variantes) ; puis le hero de la famille si l'usine sait la rendre et que la coquille rend un hero
+ * (`heroRendu(shell)`). Renvoie { layout, shell, hero, notes }.
+ */
+export function layoutEssai({ architecture = null, archi = null, famille = null, client = profilClient(), shellSite = 'flow', heroRendu = () => true } = {}) {
+  const layout = {}, notes = [];
+  if (architecture && archi) {
+    for (const [k, v] of Object.entries(archi.layout)) layout[k] = Array.isArray(v) ? v.map((x) => ({ ...x })) : v;
+    layout.architecture = architecture;
+    notes.push(`architecture ${architecture} (coquille ${archi.layout.shell})`);
+  } else notes.push('architecture : aucune, déroulé du site gardé');
+  const shell = archi ? archi.layout.shell : shellSite;
+  const hero = famille ? HERO_DE_FAMILLE[famille]?.(client) ?? null : null;
+  let applique = null;
+  if (famille && !hero) notes.push(`premier écran ${famille} : pas de hero partagé pour cette famille, celui ${archi ? 'de l\'architecture' : 'du site'} est gardé`);
+  else if (famille && !heroRendu(shell)) notes.push(`premier écran ${famille} : la coquille ${shell} dessine son propre premier écran`);
+  else if (hero) { layout.hero = applique = hero; notes.push(`premier écran ${famille} (hero ${hero})`); }
+  return { layout, shell, hero: applique, notes };
+}
+
+/** Pure : la copie construite porte-t-elle le mélange (direction) et la coquille voulus ? Renvoie les écarts. */
+export function verifierCopie(html, { direction, shell }) {
+  const attr = (k) => new RegExp(`\\bdata-${k}="([^"]*)"`).exec(html || '')?.[1] ?? null;
+  const out = [];
+  if (attr('direction') !== direction) out.push(`direction ${attr('direction') ?? 'absente'} au lieu de ${direction} (look.json ignoré ?)`);
+  if (shell && attr('shell') !== shell) out.push(`coquille ${attr('shell') ?? 'absente'} au lieu de ${shell}`);
+  return out;
+}
+
 /* =====================================================================
    REGISTRE DES ATOMES (pur sur des entrées déjà lues)
    ===================================================================== */
@@ -247,9 +458,15 @@ export function construireRegistre(entrees, { polices = {}, clesIa = CLES_IA } =
    TIRAGE (pur, graine déterministe)
    ===================================================================== */
 
-/** Pure : tire un élément pondéré (poids = 1 / (1 + usages)) : les atomes peu utilisés sortent plus souvent. */
-function tirerPondere(candidats, usages, rng) {
-  const poids = candidats.map((c) => 1 / (1 + (usages.get(c) || 0)));
+/**
+ * Pure : tire un élément pondéré (poids = 1 / (1 + usages)) : les atomes peu utilisés sortent plus souvent. `groupe`
+ * (facultatif) range les candidats en groupes tirés à parts égales (régimes de palette : sinon les neutres clairs, les
+ * plus nombreux du registre, sortiraient presque toujours).
+ */
+function tirerPondere(candidats, usages, rng, groupe = null) {
+  const taille = new Map();
+  if (groupe) for (const c of candidats) taille.set(groupe(c), (taille.get(groupe(c)) || 0) + 1);
+  const poids = candidats.map((c) => (1 / (1 + (usages.get(c) || 0))) / (groupe ? taille.get(groupe(c)) : 1));
   let x = rng() * poids.reduce((a, b) => a + b, 0);
   for (let i = 0; i < candidats.length; i++) { x -= poids[i]; if (x <= 0) return candidats[i]; }
   return candidats[candidats.length - 1];
@@ -258,8 +475,11 @@ function tirerPondere(candidats, usages, rng) {
 /**
  * Pure : tire UN mélange. `imposes` = { dim: id } (pour architecture : l'id d'architecture ; premier_ecran : la
  * famille). `existants` = [{ slug, atomes }] (registre), `soeurs` = mélanges déjà tirés pour les pistes du même
- * client (≤ 2 atomes partagés), `familles` / `architectures` = ids libres (déjà filtrés des interdits).
- * Renvoie { atomes, essais } ou { erreur }.
+ * client (≤ 2 atomes partagés, palettes de régimes différents : refusDiversite), `familles` / `architectures` = ids
+ * libres (déjà filtrés des interdits ; architectures : seulement celles que l'usine sait construire et dont le client a
+ * les données). Une architecture déjà prise par une piste sœur n'est pas retirée : s'il n'en reste aucune, la piste
+ * n'en a pas (null, « à choisir »).
+ * Renvoie { atomes, essais, diversite (nom du niveau de NIVEAUX_DIVERSITE tenu, ou null sans sœur) } ou { erreur }.
  */
 export function tirerMelange({ registre, imposes = {}, client = profilClient(), existants = [], soeurs = [], familles = [], architectures = [], rng, essaisMax = 400 }) {
   const { parId, reserves } = registre;
@@ -283,29 +503,40 @@ export function tirerMelange({ registre, imposes = {}, client = profilClient(), 
   // Familles de premier écran : celles des atomes (sources) d'abord, puis le tableau ; toujours libres et compatibles.
   const famillesOk = (imposes.premier_ecran ? [imposes.premier_ecran] : familles).filter((f) => !refusFamille(f, client));
   if (imposes.premier_ecran && !famillesOk.length) return { erreur: `--premier-ecran ${imposes.premier_ecran} : ${refusFamille(imposes.premier_ecran, client) || 'déjà prise'}` };
-  const archisOk = imposes.architecture ? [imposes.architecture] : architectures;
+  const archisOk = imposes.architecture ? [imposes.architecture] : architectures.filter((a) => !soeurs.some((s) => s.architecture === a));
+  const regimeDe = (id) => regimePalette(parId[id].couleurs)?.regime ?? '?';
+  // Diversité de palette entre pistes sœurs (régime, clarté du fond, teinte d'accent), du niveau le plus strict au
+  // plus lâche. Couleurs imposées : rien à diversifier (le studio a choisi).
+  const palettesSoeurs = soeurs.map((s) => parId[s.couleurs]?.couleurs).filter(Boolean);
+  const niveaux = palettesSoeurs.length && !imposes.couleurs ? NIVEAUX_DIVERSITE : [null];
   const raisons = new Map(); // pourquoi les tirages échouent : dit à l'humain ce qui bloque
   const noter = (x) => raisons.set(x, (raisons.get(x) || 0) + 1);
-  for (let essai = 1; essai <= essaisMax; essai++) {
-    const m = {};
-    for (const dim of DIMENSIONS_VALEURS) m[dim] = tirerPondere(candidats[dim], usages, rng);
-    m.premier_ecran = famillesOk.length ? famillesOk[Math.floor(rng() * famillesOk.length)] : null;
-    m.architecture = archisOk.length ? archisOk[Math.floor(rng() * archisOk.length)] : null;
-    const croises = refusCroises(Object.fromEntries(DIMENSIONS_VALEURS.map((d) => [d, parId[m[d]][d]])), client);
-    if (croises.length) { noter(croises[0]); continue; }
-    // Polices : la paire (titre, texte) ne doit pas être celle d'une direction existante (tests/directions.test.mjs).
-    if (registre.pairesPrises?.has(`${parId[m.typo].typo.titre.libre}|${parId[m.typo].typo.texte.libre}`)) continue;
-    if (existants.some((e) => partages(m, e.atomes) > MAX_PARTAGES_SITE)) continue;
-    if (soeurs.some((s) => partages(m, s) > MAX_PARTAGES_PISTES || (s.premier_ecran && s.premier_ecran === m.premier_ecran) || (s.architecture && s.architecture === m.architecture))) continue;
-    // Deux pistes d'un client ne bougent jamais pareil (GOUT § 4) : ni même entrée du premier écran, ni même apparition
-    // au défilement (profils de docs/veille/styles/MOUVEMENTS.md).
-    const profil = parId[m.mouvement].mouvement.profil;
-    const proche = soeurs.map((s) => profilsTropProches(profil, parId[s.mouvement]?.mouvement?.profil)).find(Boolean);
-    if (proche) { noter(`piste sœur : ${proche}`); continue; }
-    return { atomes: m, essais: essai };
+  let tentes = 0;
+  for (const niveau of niveaux) {
+    const couleursOk = niveau ? candidats.couleurs.filter((id) => !refusDiversite(parId[id].couleurs, palettesSoeurs, niveau)) : candidats.couleurs;
+    if (!couleursOk.length) { noter(`palettes : aucune ne tient « ${niveau.nom} »`); continue; }
+    tentes++;
+    for (let essai = 1; essai <= essaisMax; essai++) {
+      const m = {};
+      for (const dim of DIMENSIONS_VALEURS) m[dim] = dim === 'couleurs' ? tirerPondere(couleursOk, usages, rng, regimeDe) : tirerPondere(candidats[dim], usages, rng);
+      m.premier_ecran = famillesOk.length ? famillesOk[Math.floor(rng() * famillesOk.length)] : null;
+      m.architecture = archisOk.length ? archisOk[Math.floor(rng() * archisOk.length)] : null;
+      const croises = refusCroises(Object.fromEntries(DIMENSIONS_VALEURS.map((d) => [d, parId[m[d]][d]])), client);
+      if (croises.length) { noter(croises[0]); continue; }
+      // Polices : la paire (titre, texte) ne doit pas être celle d'une direction existante (tests/directions.test.mjs).
+      if (registre.pairesPrises?.has(`${parId[m.typo].typo.titre.libre}|${parId[m.typo].typo.texte.libre}`)) continue;
+      if (existants.some((e) => partages(m, e.atomes) > MAX_PARTAGES_SITE)) continue;
+      if (soeurs.some((s) => partages(m, s) > MAX_PARTAGES_PISTES || (s.premier_ecran && s.premier_ecran === m.premier_ecran) || (s.architecture && s.architecture === m.architecture))) continue;
+      // Deux pistes d'un client ne bougent jamais pareil (GOUT § 4) : ni même entrée du premier écran, ni même apparition
+      // au défilement (profils de docs/veille/styles/MOUVEMENTS.md).
+      const profil = parId[m.mouvement].mouvement.profil;
+      const proche = soeurs.map((s) => profilsTropProches(profil, parId[s.mouvement]?.mouvement?.profil)).find(Boolean);
+      if (proche) { noter(`piste sœur : ${proche}`); continue; }
+      return { atomes: m, essais: essai, diversite: niveau?.nom ?? null };
+    }
   }
   const freq = [...raisons.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([x, n]) => `${x} (${n} fois)`);
-  return { erreur: `aucune combinaison neuve en ${essaisMax} tirages (imposés trop nombreux, ou registre trop petit : ${Object.entries(candidats).map(([d, c]) => `${d} ${c.length}`).join(', ')})${freq.length ? ` ; refus les plus fréquents : ${freq.join(' ; ')}` : ''}` };
+  return { erreur: `aucune combinaison neuve en ${essaisMax * Math.max(1, tentes)} tirages (imposés trop nombreux, ou registre trop petit : ${Object.entries(candidats).map(([d, c]) => `${d} ${c.length}`).join(', ')})${freq.length ? ` ; refus les plus fréquents : ${freq.join(' ; ')}` : ''}` };
 }
 
 /** Pure : identifiant stable d'un mélange (m- + 6 hex), à partir de ses atomes. */
@@ -316,7 +547,7 @@ export function hashMelange(m) {
 /** Pure : la ligne à recopier dans le contrat (direction.md). */
 export function ligneContrat(m) {
   const part = (d, lib) => `${lib}:${m[d] ?? 'à choisir'}`;
-  return `Style : mélange <${[part('typo', 'typo'), part('couleurs', 'couleurs'), part('densite', 'densite'), part('formes', 'formes'), part('photos', 'photos'), part('mouvement', 'mouvement'), part('matiere', 'matiere')].join(' · ')}> · Architecture : ${m.architecture ?? 'à choisir (registre vide)'} · PREMIER ÉCRAN — famille : ${m.premier_ecran ?? 'à choisir'}`;
+  return `Style : mélange <${[part('typo', 'typo'), part('couleurs', 'couleurs'), part('densite', 'densite'), part('formes', 'formes'), part('photos', 'photos'), part('mouvement', 'mouvement'), part('matiere', 'matiere')].join(' · ')}> · Architecture : ${m.architecture ?? 'à choisir (aucune de l’usine ne convient)'} · PREMIER ÉCRAN — famille : ${m.premier_ecran ?? 'à choisir'}`;
 }
 
 /* =====================================================================
@@ -666,24 +897,55 @@ function prisesDesSites(melanges) {
   return out;
 }
 
-function architecturesDuRegistre() {
+/** Ids du registre de VEILLE (docs/veille/architectures/INDEX.md) : fiches lues, codées dans l'usine ou non. */
+function architecturesDeVeille() {
   const idx = path.join(ROOT, 'docs', 'veille', 'architectures', 'INDEX.md');
   if (!fs.existsSync(idx)) return [];
   return [...fs.readFileSync(idx, 'utf8').matchAll(/^\| `([a-z0-9-]+)` \|/gm)].map((m) => m[1]);
 }
 
+/**
+ * Le registre de l'USINE (src/lib/architectures.ts), lu au moment du tirage (il grandit pendant que d'autres agents
+ * codent des architectures ; il n'est jamais modifié ici), et le site du client tel que defineSite le rend (pour
+ * donneesManquantes). Renvoie { ids, parId, implementees, incompletes, manquantes(id), site, erreur }.
+ */
+async function architecturesUsine(slug) {
+  const T = await import('./ts-loader.mjs');
+  const coquilles = fs.readdirSync(path.join(ROOT, 'src', 'shells')).filter((f) => f.endsWith('.astro')).map((f) => f.replace(/\.astro$/, ''));
+  try {
+    const A = await T.loadArchitecturesModule();
+    let site = null, erreur = null;
+    try { site = (await T.loadSiteConfigModule(slug)).default; } catch (err) { erreur = err.message.split('\n')[0]; }
+    const ids = [...A.ARCHITECTURE_IDS];
+    const { implementees, incompletes } = architecturesImplementees({ ids, parId: A.ARCHITECTURES, coquilles });
+    return { ids, parId: A.ARCHITECTURES, implementees, incompletes, site, erreur, manquantes: (id) => (site ? A.donneesManquantes(id, site) : []) };
+  } catch (err) {
+    return { ids: [], parId: {}, implementees: [], incompletes: [], site: null, erreur: `registre illisible : ${err.message.split('\n')[0]}`, manquantes: () => [] };
+  } finally { T.cleanTmp(); }
+}
+
 /** Libres pour `slug` : familles / architectures hors pistes sœurs et 4 derniers sites (même règle que ff contrat). */
-function libres(slug, melanges) {
+function libres(slug, melanges, usine, toutesLesPistes = false) {
   const prises = prisesDesSites(melanges);
   const famMd = path.join(ROOT, '.claude', 'skills', 'site-final', 'premiers-ecrans.md');
   const toutes = fs.existsSync(famMd) ? famillesConnues(fs.readFileSync(famMd, 'utf8')) : [];
-  const interditesF = famillesInterdites(slug, prises.map((p) => ({ slug: p.slug, famille: p.famille, date: p.date })));
-  const interditesA = famillesInterdites(slug, prises.map((p) => ({ slug: p.slug, famille: p.architecture, date: p.date })));
+  // --n 3 retire TOUTES les pistes du client : les anciennes pistes sœurs (<slug>-b, -c…) sont celles qu'on refait, leurs
+  // familles et architectures ne sont plus prises (la règle entre pistes sœurs s'applique aux nouveaux tirages).
+  const filtrer = (m) => (toutesLesPistes ? retirerPistesSoeurs(m) : m);
+  const interditesF = filtrer(famillesInterdites(slug, prises.map((p) => ({ slug: p.slug, famille: p.famille, date: p.date }))));
+  const interditesA = filtrer(famillesInterdites(slug, prises.map((p) => ({ slug: p.slug, famille: p.architecture, date: p.date }))));
+  const archis = architecturesTirables({ implementees: usine.implementees, interdites: interditesA, manquantes: usine.manquantes });
   return {
     familles: toutes.filter((f) => !interditesF.has(f)),
-    architectures: architecturesDuRegistre().filter((a) => !interditesA.has(a)),
+    architectures: archis.libres, archisEcartees: archis.ecartees,
     interditesF, interditesA,
   };
+}
+
+/** La coquille rend-elle `layout.hero` ? (Les coquilles d'architecture qui dessinent leur propre premier écran, non.) */
+function heroRendu(shell) {
+  const f = path.join(ROOT, 'src', 'shells', `${shell}.astro`);
+  return fs.existsSync(f) && /<Hero\b/.test(fs.readFileSync(f, 'utf8'));
 }
 
 function ecrireDirection(nom, gen, commentaire) {
@@ -701,7 +963,7 @@ function supprimerDirection(nom) {
 }
 
 /** look.json du site : direction, polices, accent, motion, tone ; le reste du look existant est gardé. */
-function ecrireLook(slug, nom, gen, typo, motion) {
+function ecrireLook(slug, nom, gen, typo, motion, layoutEnPlus = {}) {
   const p = path.join(SITES_DIR, slug, 'look.json');
   let look = {};
   try { look = JSON.parse(fs.readFileSync(p, 'utf8')); } catch { /* pas de look.json */ }
@@ -711,7 +973,7 @@ function ecrireLook(slug, nom, gen, typo, motion) {
   look.typography = { display: typo.titre.libre, body: typo.texte.libre };
   look.accent = { h: gen.accent.h, s: gen.accent.s, l: gen.accent.l };
   look.motion = motion;
-  look.layout = { ...(look.layout || {}), tone: gen.tone };
+  look.layout = { ...(look.layout || {}), ...layoutEnPlus, tone: gen.tone };
   fs.writeFileSync(p, JSON.stringify(look, null, 2) + '\n');
 }
 
@@ -733,10 +995,12 @@ function motionPour(atomes, client) {
   return atomes.mouvement.defilement === 'suit-le-defilement' ? 'rich' : 'subtle';
 }
 
-function decrire(m, prep, k, client = {}) {
+function decrire(m, prep, k, client = {}, diversite = null) {
   info(`${k ? `Mélange ${k}` : 'Mélange'} : ${prep.nom}`);
-  for (const d of DIMENSIONS_VALEURS) info(`  ${d.padEnd(10)} ${m[d]}`);
-  info(`  ${'1er écran'.padEnd(10)} ${m.premier_ecran ?? 'à choisir'}   architecture ${m.architecture ?? 'à choisir (registre vide)'}`);
+  const reg = regimePalette(prep.atomes.couleurs);
+  for (const d of DIMENSIONS_VALEURS) info(`  ${d.padEnd(10)} ${m[d]}${d === 'couleurs' && reg ? `   régime ${REGIMES_PALETTE[reg.regime]} (${reg.raison})` : ''}`);
+  if (diversite) info(`  ${'palette'.padEnd(10)} pistes sœurs : ${diversite}`);
+  info(`  ${'1er écran'.padEnd(10)} ${m.premier_ecran ?? 'à choisir'}   architecture ${m.architecture ?? 'à choisir (aucune architecture de l\'usine ne convient)'}`);
   for (const a of prep.gen.palette.ajustements) info(`  calculé : ${a}`);
   const ph = prep.atomes.photos;
   if (ph.traitement === 'duotone') info(`  à faire : ff nettoyer-photos <slug> --duotone ${prep.gen.palette.tokens.fg},${prep.gen.palette.tokens.bg}`);
@@ -793,7 +1057,7 @@ async function capturer(navigateur, slug) {
 
 async function planche(colonnes, sortie) {
   const sharp = (await import('sharp')).default;
-  const L = 640, marge = 16, entete = 70;
+  const L = 640, marge = 16, entete = 88;
   const parts = [];
   let hauteurMax = 0;
   for (const [i, col] of colonnes.entries()) {
@@ -803,7 +1067,7 @@ async function planche(colonnes, sortie) {
     const mm = await sharp(m).metadata();
     const x = i * (L + marge);
     const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-    const svg = Buffer.from(`<svg width="${L}" height="${entete}"><rect width="100%" height="100%" fill="#fff"/><text x="6" y="22" font-size="16" font-family="Arial" font-weight="bold">${esc(col.titre)}</text><text x="6" y="44" font-size="12" font-family="Arial">${esc(col.ligne1)}</text><text x="6" y="62" font-size="12" font-family="Arial">${esc(col.ligne2)}</text></svg>`);
+    const svg = Buffer.from(`<svg width="${L}" height="${entete}"><rect width="100%" height="100%" fill="#fff"/><text x="6" y="22" font-size="16" font-family="Arial" font-weight="bold">${esc(col.titre)}</text><text x="6" y="44" font-size="12" font-family="Arial">${esc(col.ligne1)}</text><text x="6" y="62" font-size="12" font-family="Arial">${esc(col.ligne2)}</text><text x="6" y="80" font-size="12" font-family="Arial">${esc(col.ligne3 ?? '')}</text></svg>`);
     parts.push({ input: svg, left: x, top: 0 });
     parts.push({ input: d, left: x, top: entete });
     parts.push({ input: m, left: x, top: entete + dm.height + 8 });
@@ -851,26 +1115,58 @@ export async function cmdMelanger(args) {
   for (const [fl, dim] of Object.entries(DRAPEAUX)) if (typeof flags[fl] === 'string') imposes[dim] = flags[fl];
   // --architecture <id de site> : l'architecture de l'atome de ce site.
   if (imposes.architecture && registre.parId[imposes.architecture]?.architecture) imposes.architecture = registre.parId[imposes.architecture].architecture;
+  // Architectures : seulement celles que l'usine sait construire (src/lib/architectures.ts, lu maintenant).
+  const usine = await architecturesUsine(slug);
+  if (usine.erreur) warn(`architectures : ${usine.erreur}${usine.site ? '' : ' (données du client non vérifiées)'}`);
+  if (imposes.architecture) {
+    const refus = refusArchitectureImposee(imposes.architecture, usine.implementees, architecturesDeVeille());
+    if (refus) { fail(refus); process.exit(1); }
+    const manque = usine.manquantes(imposes.architecture);
+    if (manque.length) warn(`--architecture ${imposes.architecture} : données du client absentes (${manque.join(' ; ')}) : elle tournera à vide`);
+  }
   const n = Math.max(1, Number(flags.n) || 1);
   const melanges = lireMelanges();
   const graine = flags.graine != null ? Number(flags.graine) : flags.hasard ? (Date.now() ^ (Math.random() * 2 ** 31)) >>> 0 : seedFromString(`${slug}|${Object.keys(melanges.sites).length}`);
   const rng = mulberry32(graine);
   if (flags.video && !['client', 'animer', 'banque'].includes(flags.video)) { fail('--video client|animer|banque'); process.exit(1); }
   const client = await lireClient(slug, typeof flags.video === 'string' ? flags.video : null);
-  const { familles, architectures, interditesF } = libres(slug, melanges);
+  const { familles, architectures, archisEcartees, interditesF } = libres(slug, melanges, usine, n > 1);
   const existants = Object.entries(melanges.sites).filter(([s]) => s !== slug).map(([s, v]) => ({ slug: s, atomes: v.atomes }));
   info(`Client ${slug} : ${client.photos} photo(s), la plus large ${client.largeurMax || 0} px${client.tonPhotos ? ` (L* ${Math.round(client.tonPhotos.clarte)}, chaleur ${Math.round(client.tonPhotos.chaleur)})` : ''}, vidéo ${client.video ?? 'aucune'}, mouvement ${client.mouvement ?? 'non tranché'}, ${client.avis} avis${client.urgence ? ', urgence' : ''}.`);
   info(`Registre : ${Object.keys(registre.parId).length} sites, tirables ${DIMENSIONS_VALEURS.map((d) => `${d} ${registre.reserves[d].length}`).join(', ')} ; graine ${graine}.`);
   if (interditesF.size) info(`Familles de premier écran prises : ${[...interditesF.entries()].map(([f, r]) => `${f} (${r})`).join(', ')}.`);
-  const tires = [];
+  const aCoder = architecturesDeVeille().filter((a) => !usine.ids.includes(a));
+  info(`Architectures de l'usine : ${usine.implementees.length} implémentée(s) (${usine.implementees.join(', ') || 'aucune'}) ; tirables pour ${slug} : ${architectures.join(', ') || 'aucune'}.`);
+  for (const e of archisEcartees) info(`  écartée : ${e.id}, ${e.raison}`);
+  for (const e of usine.incompletes) info(`  incomplète : ${e.id}, ${e.raison}`);
+  if (aCoder.length) info(`  au registre de veille, pas encore codées (jamais tirées) : ${aCoder.join(', ')}.`);
+  // Régimes de palette : compte du registre et besoins de collecte.
+  const comptes = compterRegimes(registre);
+  info(`Palettes tirables par régime : ${Object.entries(comptes).map(([r, c]) => `${REGIMES_PALETTE[r]} ${c}`).join(', ')}.`);
+  const besoins = besoinsRegimes(comptes).map((b) => b.phrase);
+  const tires = [], diversites = [];
   for (let k = 0; k < n; k++) {
     const r = tirerMelange({ registre, imposes, client, existants, soeurs: tires, familles, architectures, rng });
     if (r.erreur) { fail(r.erreur); process.exit(1); }
     tires.push(r.atomes);
+    diversites.push(r.diversite);
   }
   const preps = tires.map((m) => preparer(m, registre, polices));
-  tires.forEach((m, i) => decrire(m, preps[i], n > 1 ? i + 1 : 0, client));
+  tires.forEach((m, i) => decrire(m, preps[i], n > 1 ? i + 1 : 0, client, diversites[i]));
+  // Pistes sœurs qui n'ont pas pu tenir trois régimes différents : le registre manque de ce qu'il leur fallait.
+  const regimesTires = new Set(preps.map((p) => regimePalette(p.atomes.couleurs)?.regime));
+  if (diversites.some((d) => d && d !== NIVEAUX_DIVERSITE[0].nom)) {
+    const absents = Object.keys(REGIMES_PALETTE).filter((r) => !regimesTires.has(r));
+    besoins.push(`pistes de ${slug} (${n}) : diversité de palette relâchée (${diversites.filter(Boolean).filter((d) => d !== NIVEAUX_DIVERSITE[0].nom).join(' ; ')}) ; la collecte doit ramener des palettes ${absents.map((r) => REGIMES_PALETTE[r]).join(', ') || 'de régimes variés'} compatibles avec ce client`);
+  }
+  for (const b of besoins) warn(`besoin : ${b}`);
   if (flags.simuler) { info('--simuler : rien n\'est écrit.'); return; }
+  const journal = path.join(ROOT, 'docs', 'veille', 'journal.md');
+  if (fs.existsSync(journal)) {
+    const avant = fs.readFileSync(journal, 'utf8');
+    const apres = noterBesoinsJournal(avant, besoins, new Date().toISOString().slice(0, 10));
+    if (apres !== avant) { fs.writeFileSync(journal, apres); info(`besoins de collecte notés en tête de ${path.relative(ROOT, journal)}.`); }
+  }
 
   if (flags.essai) {
     const copies = tires.map((_, i) => `_essai-melange-${i + 1}`);
@@ -878,21 +1174,27 @@ export async function cmdMelanger(args) {
     const courant = fs.existsSync(FF_CURRENT) ? fs.readFileSync(FF_CURRENT, 'utf8') : null;
     const colonnes = [];
     const { lancerChrome } = await import('./atomes-mesurer.mjs');
+    // Architecture et famille de premier écran appliquées aux copies (layout du look.json), si l'usine sait les rendre.
+    const essais = tires.map((m) => layoutEssai({ architecture: m.architecture, archi: usine.parId[m.architecture], famille: m.premier_ecran, client, shellSite: usine.site?.layout?.shell ?? 'flow', heroRendu }));
     try {
       for (const [i, m] of tires.entries()) {
         const p = preps[i];
         copierSite(slug, copies[i]);
         ecrireDirection(p.nom, p.gen, `essai ${copies[i]}`);
-        ecrireLook(copies[i], p.nom, p.gen, p.atomes.typo, motionPour(p.atomes, client));
+        ecrireLook(copies[i], p.nom, p.gen, p.atomes.typo, motionPour(p.atomes, client), essais[i].layout);
         const st = await avecVerrou(async () => runAstro('build', copies[i], [], {}, { silencieux: true }));
-        if (st !== 0) throw new Error(`build de ${copies[i]} en échec`);
-        ok(`${copies[i]} construit (${p.nom})`);
+        if (st !== 0) throw new Error(`build de ${copies[i]} en échec (${essais[i].notes.join(' ; ')})`);
+        const html = path.join(DIST_DIR, copies[i], 'index.html');
+        const ecarts = verifierCopie(fs.existsSync(html) ? fs.readFileSync(html, 'utf8') : '', { direction: p.nom, shell: essais[i].shell });
+        if (ecarts.length) throw new Error(`${copies[i]} construit sans le mélange voulu : ${ecarts.join(' ; ')}`);
+        ok(`${copies[i]} construit (${p.nom} ; ${essais[i].notes.join(' ; ')})`);
       }
       const nav = await lancerChrome();
       try {
         for (const [i, m] of tires.entries()) {
           const shots = await capturer(nav, copies[i]);
-          colonnes.push({ ...shots, titre: `${i + 1}. ${preps[i].nom}  ·  1er écran ${m.premier_ecran ?? '?'}`, ligne1: `typo ${m.typo}, couleurs ${m.couleurs}, densité ${m.densite}, formes ${m.formes}`, ligne2: `photos ${m.photos}, mouvement ${m.mouvement}, matière ${m.matiere}` });
+          const reg = regimePalette(preps[i].atomes.couleurs);
+          colonnes.push({ ...shots, titre: `${i + 1}. ${preps[i].nom}  ·  1er écran ${m.premier_ecran ?? '?'}${essais[i].hero ? '' : ' (non appliqué)'}`, ligne1: `typo ${m.typo}, couleurs ${m.couleurs} (${reg ? REGIMES_PALETTE[reg.regime] : '?'}), densité ${m.densite}, formes ${m.formes}`, ligne2: `photos ${m.photos}, mouvement ${m.mouvement}, matière ${m.matiere}`, ligne3: `architecture ${m.architecture ?? 'aucune (déroulé du site)'}${m.architecture ? ` (coquille ${essais[i].shell})` : ''}` });
         }
       } finally { await nav.close(); }
       const sortie = path.join(ROOT, 'captures', 'planches', `${slug.replace(/^_/, '')}-melanges.jpg`);

@@ -1,0 +1,75 @@
+---
+/**
+ * Page /agenda (site.agenda, src/lib/agenda.ts) : architecture `cartes-empilees-agenda` (De Groene Afslag,
+ * docs/veille/architectures/groene-afslag.md, page « Agenda »). En-tête sur l'encre (titre + une phrase), filtres par
+ * catégorie dès deux catégories (radios + :has(), sans script, 8 au plus), puis tous les rendez-vous à venir en
+ * cartes datées (RendezVous.astro), du plus proche au plus lointain. Générée seulement s'il reste un rendez-vous à
+ * venir au moment du build ; une date passée disparaît au build suivant.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, agendaAVenir, categoriesAgenda, metierEtVille } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import RendezVous from '@/components/RendezVous.astro';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return agendaAVenir(site.agenda).length > 0 ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const aVenir = agendaAVenir(site.agenda);
+const MAX_FILTRES = 8;
+const cats = categoriesAgenda(aVenir).slice(0, MAX_FILTRES);
+const rang = (c?: string) => (c ? cats.indexOf(c.trim()) + 1 : 0);
+const titre = site.wording.agenda;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : les prochains rendez-vous.`} path="/agenda">
+  <Nav />
+  <main id="main" class="ag">
+    <header class="ag-tete bg-ink text-on-ink">
+      <div class="container-ff">
+        <h1 class="text-display-lg">{titre}</h1>
+        <p class="mt-4 max-w-prose text-lg">{metierEtVille()} {aVenir.length}&nbsp;rendez-vous à venir.</p>
+        <p class="mt-4"><a href={tel()} class="inline-flex items-center gap-2 tabular-nums underline underline-offset-4"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a></p>
+      </div>
+    </header>
+    <div class="container-ff section-y">
+      {cats.length >= 2 && (
+        <fieldset class="ag-filtres">
+          <legend class="text-sm">Catégorie</legend>
+          <input class="sr-only" type="radio" name="agenda-cat" id="ag-0" checked />
+          <label for="ag-0">Tout</label>
+          {cats.map((c, i) => (
+            <>
+              <input class="sr-only" type="radio" name="agenda-cat" id={`ag-${i + 1}`} />
+              <label for={`ag-${i + 1}`}>{c}</label>
+            </>
+          ))}
+        </fieldset>
+      )}
+      <ul class="ag-liste mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {aVenir.map((r) => <li class="ag-item" data-cat={rang(r.categorie) > 0 ? String(rang(r.categorie)) : undefined}><RendezVous r={r} niveau="h2" /></li>)}
+      </ul>
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ag-tete { padding-block: clamp(7rem, 16vh, 10rem) clamp(3rem, 8vh, 5rem); }
+  .ag-filtres { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; border: 0; padding: 0; }
+  .ag-filtres legend { float: left; margin-inline-end: 0.5rem; }
+  .ag-filtres label { cursor: pointer; padding-block: 0.35rem; border-block-end: 2px solid transparent; }
+  .ag-filtres input:checked + label { border-block-end-color: currentColor; font-weight: 600; }
+  .ag-filtres input:focus-visible + label { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  /* Filtres sans JS : la catégorie cochée masque les autres (8 règles statiques ; ag-0 = « Tout »). */
+  .ag:has(#ag-1:checked) .ag-item:not([data-cat="1"]) { display: none; }
+  .ag:has(#ag-2:checked) .ag-item:not([data-cat="2"]) { display: none; }
+  .ag:has(#ag-3:checked) .ag-item:not([data-cat="3"]) { display: none; }
+  .ag:has(#ag-4:checked) .ag-item:not([data-cat="4"]) { display: none; }
+  .ag:has(#ag-5:checked) .ag-item:not([data-cat="5"]) { display: none; }
+  .ag:has(#ag-6:checked) .ag-item:not([data-cat="6"]) { display: none; }
+  .ag:has(#ag-7:checked) .ag-item:not([data-cat="7"]) { display: none; }
+  .ag:has(#ag-8:checked) .ag-item:not([data-cat="8"]) { display: none; }
+</style>
