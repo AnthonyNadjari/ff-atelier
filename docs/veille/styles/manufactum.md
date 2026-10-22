@@ -1,0 +1,30 @@
+# manufactum — https://www.manufactum.com/
+Titre « Manufactum. Produits soigneusement sélectionnés », `lang="fr"`, description « Manufactum · Produits soigneusement sélectionnés · Materiaux classiques · Durable et réparable », technologie lue : aucune reconnue. Démontage automatique du 2026-10-22 (`ff demonter`, mesures brutes dans `manufactum.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Manufactum. Produits soigneusement sélectionnés » ; pas de média plein écran (106 image(s) dans l'écran) ; bouton principal « Sauter le curseur » en haut à gauche (-999979, 249 px) ; 399 mots visibles au-dessus du pli ; bannière cookies 36 % de l'écran, non bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « Manufactum. Produits soigneusement sélectionnés » ; pas de média plein écran (106 image(s) dans l'écran) ; bouton principal « Sauter le curseur » en haut à gauche (-999979, 138 px) ; 852 mots visibles au-dessus du pli ; bannière cookies 41 % de l'écran, non bloquante ; rien ne bouge tout seul.
+Nav : 20 lien(s) — Contact, Newsletter, Commande, service & conseil, [Français], [Rechercher], Mon compte, Liste de suivi, 0,00 €, [NOUVEAU], [Cadeaux], [Plus de pages sur Cadeaux], [Hommes] (+8) ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `header.mf-mslNP4J_` (0,3 écran, 51 mots, 0 img) → `div.mf-ssY_ApUE` « Manufactum. Produits soigneusement séle… » (3,3 écrans, 1035 mots, 178 img) → `footer.footer` « A propos de Manufactum » (1,4 écran, 332 mots, 4 img). Calques hors flux (fixes/absolus) : `div.smv-arrow-control` (absolute, 10 px), `div.smv-button-fullscreen-open` (absolute, 10 px), `div.smv-button-fullscreen-close` (absolute, 10 px), `div.smv-thumbnails` (absolute, 10 px), `div.visuallyHidden` (absolute, 1 px), `div.visuallyHidden` (absolute, 1 px), `a.mf-KbPy1lFw` (absolute, 1 px, 3 mots), `div.mf-vgadSsPS` (fixed, 323 px, collé en bas, 270 mots), `div.mf-niHIxrpo` (fixed, 36 px, 3 mots).
+Pied de page : 18 lien(s) — [International (Français)], informations sur la protection des donné, [S’abonner maintenant], info@manufactum.com, Contact et service client, Bons cadeaux, Newsletter, Signaler une barrière, Garantie légale et réparation, Frais d'expédition (+8). Téléphone cliquable : non. Formulaire : 2 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Commande, service & conseil » (/contact-c199446/), « Cadeaux » (/cadeaux-c199132/), « Bons cadeaux » (/bons-cadeau-c199524/), « Livraison » (/livraison-expedition-c199449/), « Commande spéciale Service sur les pièces » (/contact-c199446/).
+En 3 secondes : à juger sur `captures/manufactum-d.webp` (mesuré : fond du premier écran #ffffff, 106 image(s) et 399 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Copy**, 15 px / 15 px téléphone, graisse 400 ; h2 **Headline**, 70 px / 40 px téléphone, graisse 400 ; corps **Copy**, 18 px / 12 px téléphone, graisse 700, interlignage 1,33 ; boutons **Copy**, 13 px / 16 px téléphone, graisse 400 ; nav **Copy**, 17 px / 15 px téléphone, graisse 400, interlignage 1,10.
+Sources `@font-face` : auto-hébergée (HeadlineCritical, Headline, CopyCritical, Copy) ; fichiers chargés : https://fr.manufactum.com/sell/static/manufactum/font/mf-pt-serif-v19-latin_latin-ext-regular.woff2, https://fr.manufactum.com/sell/static/manufactum/font/mf-AtlasGrotesk-Regular.woff2, https://fr.manufactum.com/sell/static/manufactum/font/mf-AtlasGrotesk-Medium.woff2, https://fr.manufactum.com/sell/static/manufactum/font/mf-AtlasGrotesk-Bold.woff2. Familles en usage sur le texte visible : Copy ×380, Headline ×26. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #000000 (contraste 21,00:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (76 %), #005f35 (14 %), #f5f5f5 (10 %), #e1e1e1 (1 %), #efefef (0 %) ; textes par nombre de caractères : #222222 (66 %), #ffffff (13 %), #727476 (11 %), #000000 (6 %), #017447 (1 %). Images : 182 `<img>` visibles, 0 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 11 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : aucune détectée (window.* et noms de scripts). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `opacity 0.25s ease-in` ×16, `background-color 0.2s ease` ×2, `margin-bottom 0.3s linear` ×1, `max-height 0.5s ease-out` ×1, `animation mf-wDJyyhqa 0.5s ease` ×1, `box-shadow 0.2s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-test-sell-cookie-banner-scrollbox` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/manufactum-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.mf-ssY_ApUE` « Manufactum. Produits soigneusement séle… » (3,3 écrans, 1035 mots, 178 image(s)).
+2. L'élément le plus animé : `div.mf-vgadSsPS` (animation animation mf-wDJyyhqa 0.5s ease).
+3. Le bloc le plus singulier par sa structure : `footer.footer` « A propos de Manufactum » (seule à contenir <address>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« Commande, service & conseil », « Cadeaux », « Bons cadeaux », « Livraison », « Commande spéciale Service sur les pièces »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 18/64 ordinateur, 6/17 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

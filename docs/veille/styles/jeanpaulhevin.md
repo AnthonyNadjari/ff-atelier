@@ -1,0 +1,30 @@
+# Boutique en ligne chocolats et pâtisseries. Jean-Paul Hévin  — https://www.jeanpaulhevin.com/
+Titre « Boutique en ligne chocolats et pâtisseries. Jean-Paul Hévin Paris », `lang="fr"`, description « Vente en ligne de chocolats, pâtisseries et macarons. Artisan passionné, Jean-Paul Hévin propose ses produits d'exception. Livraison en France et à l'étranger. », technologie lue : jQuery. Démontage automatique du 2026-10-22 (`ff demonter`, mesures brutes dans `jeanpaulhevin.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « DISPONIBLE EN PRE-COMMANDE ! » ; pas de média plein écran (6 image(s) dans l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 125 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « DISPONIBLE EN PRE-COMMANDE ! » ; pas de média plein écran (6 image(s) dans l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 50 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 18 lien(s) — FR, EN, MON COMPTE, MON PANIER (0), LA MAISON HÉVIN, NOS BOUTIQUES, ACTUALITÉS, ESPACE ENTREPRISE, NOS ENGAGEMENTS, CONTACT, LIVRAISON 1H!, CHOCOLATS (+6) ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `section#wrapper` (1,9 écran, 112 mots, 50 img) → `footer#footer` « À PROPOS » (0,9 écran, 169 mots, 2 img). Calques hors flux (fixes/absolus) : `div.modal-backdrop` (fixed, 900 px), `header#header` (fixed, 140 px, 42 mots).
+Pied de page : 22 lien(s) — La livraison, Mentions légales, Conditions générales de vente, La Maison Hévin, La presse en parle, Plan de site, Demande de devis, Contact presse, Partenariat, Recrutement (+12). Téléphone cliquable : non. Formulaire : 1 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « LIVRAISON 1H! » (https://www.jeanpaulhevin.com/fr/26-livraison-1h), « CADEAUX » (https://www.jeanpaulhevin.com/fr/20-cadeaux), « La livraison » (https://www.jeanpaulhevin.com/fr/content/1-la-livraison), « Demande de devis » (https://www.jeanpaulhevin.com/fr/espaceentreprise), « idées cadeaux chocolat » (https://www.jeanpaulhevin.com/fr/content/37-idee-cadeau-chocolat), « livraison rapide de chocolats et de maca » (https://www.jeanpaulhevin.com/fr/content/46-livraison-de-chocolat-en-france-et-a-letranger).
+En 3 secondes : à juger sur `captures/jeanpaulhevin-d.webp` (mesuré : fond du premier écran #e5dad4, 6 image(s) et 125 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **FuturaTOTBook**, 28 px / 28 px téléphone, graisse 400, interlignage 1,07, capitales ; h2 **FuturaTOTBook**, 21 px / 21 px téléphone, graisse 400, interlignage 1,10, capitales ; corps **Arial**, 14 px / 14 px téléphone, graisse 400, interlignage 1,25 ; boutons **Arial**, 12 px / 0 px téléphone, graisse 400, interlignage 1,00 ; nav **FuturaTOTMedium**, 15 px / 14 px téléphone, graisse 400, interlignage 1,17, capitales.
+Sources `@font-face` : auto-hébergée (FontAwesome, Noto Sans, Material Icons, slick, FuturaTOTBook, FuturaTOTLight, FuturaTOTMedium) ; locale (Axeptio CJK Fallback) ; fichiers chargés : https://www.jeanpaulhevin.com/themes/classic/assets/fonts/futuratot-book-webfont.woff, https://www.jeanpaulhevin.com/themes/classic/assets/css/570eb83859dc23dd0eec423a49e147fe.woff2, https://www.jeanpaulhevin.com/themes/classic/assets/fonts/FuturaTOT-Med.woff2, https://www.jeanpaulhevin.com/themes/classic/assets/fonts/fontawesome-webfont.woff2?v=4.7.0, https://fonts.axept.io/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700&display=swap&ax-prefix=Axeptio%20. Familles en usage sur le texte visible : Arial ×55, FuturaTOTBook ×28, FuturaTOTMedium ×12, Material Icons ×3, Axeptio Rubik ×3. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #e6dbd5 (premier écran #e5dad4), texte #232323 (contraste 11,57:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #e6dbd5 (47 %), #ffffff (29 %), #000000 (16 %), #e5dad4 (6 %), #eee0d7 (1 %) ; textes par nombre de caractères : #071d5b (54 %), #573d32 (19 %), #232323 (13 %), #081d5c (5 %), #ffffff (4 %). Images : 52 `<img>` visibles, 6 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 1 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : jQuery (window.jQuery), Slick (script slick.min.js). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `opacity 0.15s linear` ×2, `all 0.3s ease` ×2, `right 0.3s ease` ×1, `transform 0.2s ease` ×1, `color 0.15s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/jeanpaulhevin-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `section#wrapper` (1,9 écran, 112 mots, 50 image(s)).
+2. L'élément le plus animé : `div#laberPopupnewsletter` (1 transition(s) : opacity 0.15s linear).
+3. Le bloc le plus singulier par sa structure : `section#wrapper` (seule à contenir <ol>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« LIVRAISON 1H! », « CADEAUX », « La livraison », « Demande de devis », « idées cadeaux chocolat », « livraison rapide de chocolats et de maca »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/3 ordinateur, 0/9 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

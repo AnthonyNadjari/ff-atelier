@@ -1,0 +1,30 @@
+# Smeg France — https://www.smeg.fr/
+Titre « Smeg France - Design & Technologie », `lang="fr"`, description « Alliance parfaite entre technologie, design et style, Smeg propose une large gamme d'appareils : réfrigérateurs, fours, pianos de cuisson, petits électroménage… », technologie lue : jQuery. Démontage automatique du 2026-10-22 (`ff demonter`, mesures brutes dans `smeg.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Produits reconditionnés » ; pas de média plein écran (20 image(s) dans l'écran) ; bouton principal « Prev » à mi-hauteur à gauche (25, 305 px) ; 422 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : calque couvrant 100 % de l'écran («  ») ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « Produits reconditionnés » ; image plein écran (66 % de l'écran) ; bouton principal « Prev » à mi-hauteur à gauche (25, 332 px) ; 791 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : calque couvrant 100 % de l'écran («  ») ; rien ne bouge tout seul.
+Nav : 3 lien(s) — Revendeurs, Nos magasins, Newsletter ; boutons entre crochets. Barre fixe en bas (ordinateur) : Politique de confidentialité, Accepter tout, Non, ajuster, Refuser.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `main` « Produits reconditionnés » (5,8 écrans, 1128 mots, 93 img) → `div.pre-footer` (0,4 écran, 39 mots, 0 img) → `div.container` (1,3 écran, 123 mots, 10 img). Calques hors flux (fixes/absolus) : `span.acsb-sr-alert` (absolute, 1 px, 8 mots), `a.acsb-sr-only` (absolute, 1 px, 10 mots), `div.modal-backdrop` (fixed, 900 px), `div#countryModal` (fixed, 900 px, 38 mots).
+Pied de page : aucun pied de page lu. Téléphone cliquable : oui (1, tel:+33(0)235121414). Formulaire : 2 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « E-CARTE CADEAU SMEG » (https://www.smeg.com/fr/produits/carte-cadeau), « JE DÉCOUVRE LES CARTES CADEAU » (https://www.smeg.com/fr/produits/carte-cadeau), « E-cartes cadeaux Smeg » (https://www.smeg.com/fr/produits/carte-cadeau), « Livraison, paiement et retours » (https://smegfrance.zendesk.com/hc/fr), « Facebook » (https://www.facebook.com/smegfranceofficiel).
+En 3 secondes : à juger sur `captures/smeg-d.webp` (mesuré : fond du premier écran #020202, 20 image(s) et 422 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **raleway**, 26 px / 32 px téléphone, graisse 400, interlignage 1,30, interlettrage 0.32px ; h2 **Raleway**, 32 px / 18 px téléphone, graisse 400, interlignage 1,30, interlettrage 0.32px ; corps **Mulish**, 16 px / 16 px téléphone, graisse 300, interlignage 2,13, interlettrage 0.32px ; boutons **Mulish**, 24 px / 24 px téléphone, graisse 700, interlignage 1,00 ; nav **Mulish**, 16 px / 16 px téléphone, graisse 400, interlignage 1,40, interlettrage 0.8px.
+Sources `@font-face` : auto-hébergée (slick, Font Awesome 5 Brands, Font Awesome 5 Free, Raleway, Mulish, Inter) ; tiers (consent.cookiefirst.com) (Muli) ; fichiers chargés : https://www.smeg.com/webfiles/1792403110350/fonts/Inter/Inter-VariableFont_opsz%2Cwght.ttf, https://www.smeg.com/webfiles/1792403110350/fonts/Mulish/Mulish-VariableFont_wght.ttf, https://www.smeg.com/webfiles/1792403110350/fonts/Raleway/Raleway-VariableFont_wght.ttf, https://consent.cookiefirst.com/fonts/muli/muli-400.woff, https://consent.cookiefirst.com/fonts/muli/muli-700.woff, https://www.smeg.com/webfiles/1792403110350/libs/slick/fonts/slick.woff. Familles en usage sur le texte visible : Mulish ×150, Raleway ×91, raleway ×9, Muli ×6. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff (premier écran #020202), texte #ffffff (contraste 1,00:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (67 %), #020202 (25 %), #000000 (6 %), #f3ece0 (2 %), #e6e6e6 (1 %) ; textes par nombre de caractères : #ffffff (52 %), #020202 (31 %), #161616 (8 %), #000000 (4 %), #9b9b9b (3 %). Images : 60 `<img>` visibles, 8 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : GSAP (window.TweenMax), jQuery (window.jQuery), Slick (script slick.js). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.2s ease-in` ×25, `opacity 0.2s ease-in` ×4, `all 0.2s ease` ×4, `all 0.2s ease-in-out` ×3, `opacity 0.15s linear` ×2, `all 0.4s ease-in-out` ×2, `max-height 0.5s ease-in-out` ×2, `all 0.1s ease` ×2, `transform 0.3s ease-out` ×1, `-webkit-transform 0.3s ease-out` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/smeg-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `main` « Produits reconditionnés » (5,8 écrans, 1128 mots, 93 image(s)).
+2. L'élément le plus animé : `div.modal-dialog` (2 transition(s) : transform 0.3s ease-out ; -webkit-transform 0.3s ease-out).
+3. Le bloc le plus singulier par sa structure : aucune section ne contient de balise rare (table, details, canvas, video, svg, form, dl…).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« E-CARTE CADEAU SMEG », « JE DÉCOUVRE LES CARTES CADEAU », « E-cartes cadeaux Smeg », « Livraison, paiement et retours », « Facebook »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/33 ordinateur, 0/37 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : oui (calque, 100 % de l'écran) ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

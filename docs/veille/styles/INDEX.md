@@ -124,3 +124,21 @@ mapfurniture (certificat expiré), oliverbrewingco.
 | perimeter | https://www.perimeterbooks.com | Perimeter-Books ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
 | rouje | https://www.rouje.com | Rouje ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
 | toast | https://www.toa.st | Toast ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| tekla | https://www.tekla.com | tekla ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| freitag | https://www.freitag.ch | freitag ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| manufactum | https://www.manufactum.com | manufactum ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| noma | https://www.noma.dk | noma ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| jeanpaulhevin | https://www.jeanpaulhevin.com | jeanpaulhevin ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| legrandvefour | https://www.legrandvefour.com | legrandvefour ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| malinandgoetz | https://www.malinandgoetz.com | malinandgoetz ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| fermob | https://www.fermob.com | fermob ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| carlhansen | https://www.carlhansen.com | carlhansen ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| cyrillignac | https://www.cyrillignac.com | cyrillignac ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| dedon | https://www.dedon.de | dedon ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| gubi | https://www.gubi.com | gubi ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| ligneroset | https://www.ligne-roset.com | ligneroset ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| louispoulsen | https://www.louispoulsen.com | louispoulsen ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| maisonlejaby | https://www.maisonlejaby.com | maisonlejaby ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| moooi | https://www.moooi.com | moooi ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| smeg | https://www.smeg.fr | smeg ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
+| vitsoe | https://www.vitsoe.com | vitsoe ; atomes mesurés au DOM, collecte du 22 oct 2026 (soir) | atomes seuls | à juger | atomes |
