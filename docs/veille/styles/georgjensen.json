@@ -1,0 +1,892 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.georgjensen.com/",
+  "nom": "georgjensen",
+  "date": "2026-10-22",
+  "identite": {
+    "title": "Georg Jensen | Official Online Shop | Free Gift Wrapping",
+    "siteName": "Georg Jensen",
+    "lang": "en-US",
+    "description": "Explore all products, collections and offers at the official Georg Jensen Online Shop. Free gift wrapping. Timeless Scandinavian design since 1904.",
+    "technologies": [
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Cannot read properties of undefined (reading 'type')"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#f7f7f5",
+      "h1": "Please select which site you wish to visit",
+      "h1Visible": false,
+      "mots": 279,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.landing-page-img"
+      },
+      "boutonPrincipal": {
+        "texte": "ACCEPT NECESSARY",
+        "x": 460,
+        "y": 759,
+        "cx": 0.3993055555555556,
+        "cy": 0.8716666666666667,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "We value your privacy This website, operated by Georg Jensen and its partners, uses cookies to enhance your user experience, customize content and advertisements across various channels, preserve your",
+        "selecteur": "div#coiOverlay",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 1,
+        "texte": "We value your privacy This website, operated by Georg Jensen and its partners, uses cookies to enhance your user experience, customize content and advertisements across various channels, preserve your",
+        "selecteur": "div#coiOverlay"
+      },
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2#coiBannerHeadline",
+        "famille": "futura-pt-regular, sans-serif",
+        "taille": 27,
+        "graisse": "500",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.5px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "source-sans-pro-regular, sans-serif",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#declineButton",
+        "famille": "source-sans-pro-regular, sans-serif",
+        "taille": 14,
+        "graisse": "700",
+        "interlignage": null,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.71px"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "icomoon",
+          "url": "../assets/fonts/icomoon/icomoon.ttf?htm5jq",
+          "feuille": "www.georgjensen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "futura-pt-medium",
+          "url": "https://use.typekit.net/af/2cd6bf/00000000000000000001008f/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "futura-pt-regular",
+          "url": "https://use.typekit.net/af/9b05f3/000000000000000000013365/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "futura-pt-light",
+          "url": "https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "futura-pt-bold",
+          "url": "https://use.typekit.net/af/c4c302/000000000000000000012192/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "source-sans-pro-regular",
+          "url": "https://use.typekit.net/af/be76d4/00000000000000003b9b3129/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "source-sans-pro-bold",
+          "url": "https://use.typekit.net/af/de34bd/00000000000000003b9b312d/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-bold",
+          "url": "https://use.typekit.net/af/868845/0000000000000000000132cb/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n9&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-semibold",
+          "url": "https://use.typekit.net/af/5b2861/000000000000000077359fad/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-medium",
+          "url": "https://use.typekit.net/af/702331/000000000000000077359fa7/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-regular",
+          "url": "https://use.typekit.net/af/f15774/0000000000000000000132cf/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-italic",
+          "url": "https://use.typekit.net/af/51f389/0000000000000000000132d0/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-light",
+          "url": "https://use.typekit.net/af/99ae27/0000000000000000000132d1/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "icomoon",
+          "url": "../assets/fonts/icomoon/icomoon.ttf?j85cj8",
+          "feuille": "www.georgjensen.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "maxcdn.bootstrapcdn.com",
+        "use.typekit.net",
+        "unpkg.com"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/anx2hej.css",
+        "https://use.typekit.net/af/be76d4/00000000000000003b9b3129/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+        "https://use.typekit.net/"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "source-sans-pro-regular",
+          "n": 16
+        },
+        {
+          "famille": "futura-pt-regular",
+          "n": 1
+        },
+        {
+          "famille": "futura-pt-bold",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 1908600
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#f7f7f5",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#f6f6f6",
+          "n": 2,
+          "poids": 796773.75
+        },
+        {
+          "hex": "#0080a4",
+          "n": 4,
+          "poids": 11256
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#222222",
+          "n": 12,
+          "poids": 1781
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 83
+        },
+        {
+          "hex": "#263040",
+          "n": 1,
+          "poids": 2
+        }
+      ],
+      "nbImages": 3,
+      "nbVideos": 0,
+      "nbFondsImage": 2,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 1908600,
+          "part": 0.36
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.244
+        },
+        {
+          "hex": "#f7f7f5",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.244
+        },
+        {
+          "hex": "#f6f6f6",
+          "n": 2,
+          "poids": 796773.75,
+          "part": 0.15
+        },
+        {
+          "hex": "#0080a4",
+          "n": 4,
+          "poids": 11256,
+          "part": 0.002
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#222222",
+          "n": 12,
+          "poids": 1781,
+          "part": 0.954
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 83,
+          "part": 0.044
+        },
+        {
+          "hex": "#263040",
+          "n": 1,
+          "poids": 2,
+          "part": 0.001
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.coi-banner__page-footer",
+          "ecrans": 1.5
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "all 0.3s ease",
+          "n": 6
+        },
+        {
+          "valeur": "left 0.2s ease-in",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.5s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button#declineButton",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "all 0.3s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.landing-page",
+      "sections": [],
+      "nav": {
+        "selecteur": "div#coiOverlay",
+        "hauteur": 900,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Cookie Policy",
+            "href": "https://www.georgjensen.com/cookies",
+            "bouton": false
+          },
+          {
+            "texte": "Personal Data Policy",
+            "href": "https://www.georgjensen.com/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "About cookies",
+            "href": "javascript:TogglePage(this, 'coiPage-3');",
+            "bouton": false
+          },
+          {
+            "texte": "Google privacy policy",
+            "href": "https://business.safety.google/privacy/",
+            "bouton": false
+          },
+          {
+            "texte": "ACCEPT NECESSARY",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "ACCEPT AND CONTINUE",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Show details",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "img.logo",
+          "position": "absolute",
+          "hauteur": 124,
+          "largeur": 240,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "img.landing-page-img",
+          "position": "absolute",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.site-selector-ctnr",
+          "position": "absolute",
+          "hauteur": 76,
+          "largeur": 721,
+          "enBas": false,
+          "mots": 14
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 4,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/georgjensen-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Cannot read properties of undefined (reading 'type')"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#f7f7f5",
+      "h1": "Please select which site you wish to visit",
+      "h1Visible": false,
+      "mots": 231,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.landing-page-img"
+      },
+      "boutonPrincipal": {
+        "texte": "ACCEPT NECESSARY",
+        "x": 35,
+        "y": 713,
+        "cx": 0.5,
+        "cy": 0.875,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "We value your privacy This website, operated by Georg Jensen and its partners, uses cookies to enhance your user experience, customize content and advertisements across various channels, preserve your",
+        "selecteur": "div#coiOverlay",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 1,
+        "texte": "We value your privacy This website, operated by Georg Jensen and its partners, uses cookies to enhance your user experience, customize content and advertisements across various channels, preserve your",
+        "selecteur": "div#coiOverlay"
+      },
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2#coiBannerHeadline",
+        "famille": "futura-pt-regular, sans-serif",
+        "taille": 18,
+        "graisse": "500",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.5px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "source-sans-pro-regular, sans-serif",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#declineButton",
+        "famille": "source-sans-pro-regular, sans-serif",
+        "taille": 14,
+        "graisse": "700",
+        "interlignage": null,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.71px"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "icomoon",
+          "url": "../assets/fonts/icomoon/icomoon.ttf?htm5jq",
+          "feuille": "www.georgjensen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "futura-pt-medium",
+          "url": "https://use.typekit.net/af/2cd6bf/00000000000000000001008f/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "futura-pt-regular",
+          "url": "https://use.typekit.net/af/9b05f3/000000000000000000013365/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "futura-pt-light",
+          "url": "https://use.typekit.net/af/ae4f6c/000000000000000000010096/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "futura-pt-bold",
+          "url": "https://use.typekit.net/af/c4c302/000000000000000000012192/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "source-sans-pro-regular",
+          "url": "https://use.typekit.net/af/be76d4/00000000000000003b9b3129/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "source-sans-pro-bold",
+          "url": "https://use.typekit.net/af/de34bd/00000000000000003b9b312d/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n7&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-bold",
+          "url": "https://use.typekit.net/af/868845/0000000000000000000132cb/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n9&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-semibold",
+          "url": "https://use.typekit.net/af/5b2861/000000000000000077359fad/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n6&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-medium",
+          "url": "https://use.typekit.net/af/702331/000000000000000077359fa7/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n5&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-regular",
+          "url": "https://use.typekit.net/af/f15774/0000000000000000000132cf/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-italic",
+          "url": "https://use.typekit.net/af/51f389/0000000000000000000132d0/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=i4&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "freight-display-pro-light",
+          "url": "https://use.typekit.net/af/99ae27/0000000000000000000132d1/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n3&v=3",
+          "feuille": "www.georgjensen.com",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "icomoon",
+          "url": "../assets/fonts/icomoon/icomoon.ttf?j85cj8",
+          "feuille": "www.georgjensen.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "maxcdn.bootstrapcdn.com",
+        "use.typekit.net",
+        "unpkg.com"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/anx2hej.css",
+        "https://use.typekit.net/af/be76d4/00000000000000003b9b3129/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3",
+        "https://use.typekit.net/"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "source-sans-pro-regular",
+          "n": 16
+        },
+        {
+          "famille": "futura-pt-regular",
+          "n": 1
+        },
+        {
+          "famille": "futura-pt-bold",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 694200
+        },
+        {
+          "hex": "#f6f6f6",
+          "n": 2,
+          "poids": 609093.75
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#f7f7f5",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#0080a4",
+          "n": 4,
+          "poids": 11256
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#222222",
+          "n": 12,
+          "poids": 1781
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 83
+        },
+        {
+          "hex": "#263040",
+          "n": 1,
+          "poids": 2
+        }
+      ],
+      "nbImages": 3,
+      "nbVideos": 0,
+      "nbFondsImage": 2,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 694200,
+          "part": 0.352
+        },
+        {
+          "hex": "#f6f6f6",
+          "n": 2,
+          "poids": 609093.75,
+          "part": 0.309
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.167
+        },
+        {
+          "hex": "#f7f7f5",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.167
+        },
+        {
+          "hex": "#0080a4",
+          "n": 4,
+          "poids": 11256,
+          "part": 0.006
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#222222",
+          "n": 12,
+          "poids": 1781,
+          "part": 0.954
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 83,
+          "part": 0.044
+        },
+        {
+          "hex": "#263040",
+          "n": 1,
+          "poids": 2,
+          "part": 0.001
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.coi-banner__page-footer",
+          "ecrans": 2
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "all 0.3s ease",
+          "n": 6
+        },
+        {
+          "valeur": "left 0.2s ease-in",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.5s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button#declineButton",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "all 0.3s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.landing-page",
+      "sections": [],
+      "nav": {
+        "selecteur": "div#coiOverlay",
+        "hauteur": 844,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Cookie Policy",
+            "href": "https://www.georgjensen.com/cookies",
+            "bouton": false
+          },
+          {
+            "texte": "Personal Data Policy",
+            "href": "https://www.georgjensen.com/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "About cookies",
+            "href": "javascript:TogglePage(this, 'coiPage-3');",
+            "bouton": false
+          },
+          {
+            "texte": "Google privacy policy",
+            "href": "https://business.safety.google/privacy/",
+            "bouton": false
+          },
+          {
+            "texte": "ACCEPT NECESSARY",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "ACCEPT AND CONTINUE",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Show details",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "img.logo",
+          "position": "absolute",
+          "hauteur": 239,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "img.landing-page-img",
+          "position": "absolute",
+          "hauteur": 844,
+          "largeur": 780,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.site-selector-ctnr",
+          "position": "absolute",
+          "hauteur": 173,
+          "largeur": 343,
+          "enBas": false,
+          "mots": 14
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 4,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Georg Jensen",
+  "dureeS": 20.6
+}

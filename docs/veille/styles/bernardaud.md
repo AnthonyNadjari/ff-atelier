@@ -1,0 +1,30 @@
+# Bernardaud official website — https://www.bernardaud.com/
+Titre « Bernardaud official website | Limoges porcelain since 1863 », `lang="en"`, description « Porcelaine de Limoges, Porcelain plates made in the Manufacture. Dinnerware, decorative objects and artists' editions, know-how and creativity. », technologie lue : aucune reconnue. Démontage automatique du 2026-10-22 (`ff demonter`, mesures brutes dans `bernardaud.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; image plein écran (90 % de l'écran) ; bouton principal « Accepter tout » à mi-hauteur au centre (485, 468 px, dans une barre fixe) ; 64 mots visibles au-dessus du pli ; bannière cookies 9 % de l'écran, non bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 absent ; pas de média plein écran (13 image(s) dans l'écran) ; bouton principal « Accepter tout » à mi-hauteur au centre (15, 450 px, dans une barre fixe) ; 102 mots visibles au-dessus du pli ; bannière cookies 30 % de l'écran, non bloquante ; rien ne bouge tout seul.
+Nav : 10 lien(s) — [DINNERWARE], [TEA · COFFEE], [HOME DECOR], [GIFTS], [ARTISTS], [THE MANUFACTURE], [THE CHEF'S TABLE], My account, [0], United states ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `main.home-layout-container` « BATHROOM ACCESSORIES » (5,1 écrans, 302 mots, 21 img) → `div.services-container` « E-BOUTIQUE SERVICES » (0,3 écran, 36 mots, 3 img) → `div.estampille-container` (0,2 écran, 0 mots, 1 img) → `footer.footer` (0,5 écran, 58 mots, 5 img). Calques hors flux (fixes/absolus) : `header#public-header` (sticky, 86 px, 16 mots), `div.overlay` (fixed, 900 px).
+Pied de page : 25 lien(s) — EXPLORE BERNARDAUD, DINNERWARE, TEA AND COFFEE, HOME DECOR, JEWELRY, GIFTS AND WEDDING, BERNARDAUD, BERNARDAUD STORY, TOURS AND CONFERENCES, ARTISTS (+15). Téléphone cliquable : non. Formulaire : 1 (17 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « GIFTS » (), « BROWSE OUR VARIOUS GIFTS' SELECTIONS » (https://www.bernardaud.com/en/us/collections/gifts/occasions), « FREE SHIPPING Free shipping on orders ov » (/en/us/general-conditions-of-sale), « THE ART OF OFFERING Your order sublimate » (/en/us/packaging-and-gift-wrapping), « GIFTS AND WEDDING » (/en/us/collections/gifts/occasions).
+En 3 secondes : à juger sur `captures/bernardaud-d.webp` (mesuré : fond du premier écran #e6e6e6, 5 image(s) et 64 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 : non mesuré ; h2 **BROWNSTD-REGULAR**, 30 px / 26 px téléphone, graisse 400, interlignage 1,10, capitales, interlettrage 5px ; corps **BROWNSTD-REGULAR**, 12 px / 12 px téléphone, graisse 400, interlignage 1,40 ; boutons **BROWNSTD-BOLD**, 14 px / 18 px téléphone, graisse 700, interlignage 1,43, capitales, interlettrage 1px ; nav **BROWNSTD-REGULAR**, 14 px / 18 px téléphone, graisse 400, interlignage 1,50.
+Sources `@font-face` : inline (data:) (RedactorFont) ; locale (Glyphicons Halflings) ; auto-hébergée (PlutoSans-Medium, PlutoSans-Regular, Font Awesome 5 Brands, Font Awesome 5 Duotone, Font Awesome 5 Pro, BROWNSTD-REGULAR, BROWNSTD-BOLD) ; fichiers chargés : https://www.bernardaud.com/assets/BROWNSTD-LIGHT_0-677fdcda229cce69e7480f8b60cc51ae635fb3cb9e41fe53659c5ce527e6bf83.OTF, https://www.bernardaud.com/assets/BROWNSTD-BOLD-f5d0621252a305e24bc32003de97493254da7574157b01071068c681e6cb8a14.OTF, https://www.bernardaud.com/fonts/fa-brands-400.woff2, https://www.bernardaud.com/fonts/fa-light-300.woff2, https://www.bernardaud.com/fonts/fa-regular-400.woff2. Familles en usage sur le texte visible : BROWNSTD-REGULAR ×65, BROWNSTD-BOLD ×46. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff (premier écran #e6e6e6), texte #444444 (contraste 9,74:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (85 %), #f2f2f4 (7 %), #f7f7f7 (7 %), #e6e6e6 (1 %), #323231 (0 %) ; textes par nombre de caractères : #323231 (37 %), #000000 (22 %), #373534 (17 %), #9b9a9a (16 %), #444444 (7 %). Images : 23 `<img>` visibles, 0 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : jQuery (window.jQuery), Locomotive Scroll (attribut data-scroll). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.3s ease` ×68, `background-size 0.22s ease` ×68, `all 0.2s ease-in-out` ×3, `top 0.3s ease` ×1, `all 0.1s linear` ×1, `all 0.4s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-scroll-target` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/bernardaud-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `main.home-layout-container` « BATHROOM ACCESSORIES » (5,1 écrans, 302 mots, 21 image(s)).
+2. L'élément le plus animé : `header#public-header` (1 transition(s) : top 0.3s ease ; attributs data-scroll-target).
+3. Le bloc le plus singulier par sa structure : `main.home-layout-container` « BATHROOM ACCESSORIES » (seule à contenir <iframe>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« GIFTS », « BROWSE OUR VARIOUS GIFTS' SELECTIONS », « FREE SHIPPING Free shipping on orders ov », « THE ART OF OFFERING Your order sublimate », « GIFTS AND WEDDING »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 2/12 ordinateur, 2/5 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

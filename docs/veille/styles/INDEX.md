@@ -100,3 +100,27 @@ mapfurniture (certificat expiré), oliverbrewingco.
 | lebernardin | https://le-bernardin.com | lebernardin (restaurant (fine dining)) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
 | fauchon | https://fauchon.com | fauchon (épicerie fine et pâtisserie) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
 | flos | https://flos.com | flos (luminaires) ; atomes mesurés au DOM, collecte du 21 oct 2026 | atomes seuls | à juger | atomes |
+| artek | https://www.artek.fi | Artek ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| astier | https://www.astierdevillatte.com | Astier-de-Villatte ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| bensimon | https://www.bensimon.com | Bensimon ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| bernardaud | https://www.bernardaud.com | Bernardaud ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| bolia | https://www.bolia.com | Bolia ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| caravane | https://www.caravane.fr | Caravane ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| debauve | https://www.debauve-et-gallais.com | Debauve-et-Gallais ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| ferm | https://fermliving.com | Ferm-Living ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| georgjensen | https://www.georgjensen.com | Georg-Jensen ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| hermanmiller | https://www.hermanmiller.com | Herman-Miller ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| hotelparticulier | https://www.lhotelparticulier.com | Hotel-Particulier ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| kusmi | https://www.kusmitea.com | Kusmi-Tea ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| labuvette | https://www.labuvette.fr | La-Buvette ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| ladoublej | https://www.ladoublej.com | La-DoubleJ ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| lemaire | https://www.lemaire.fr | Lemaire ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| lenotre | https://www.lenotre.com | Lenotre ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| lesnouvelles | https://www.merci-merci.com | Merci ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| loewe | https://www.loewe.com | Loewe ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| maisonsarah | https://www.maisonsarahlavoine.com | Sarah-Lavoine ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| nordicknots | https://www.nordicknots.com | Nordic-Knots ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| oliverbonas | https://www.oliverbonas.com | Oliver-Bonas ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| perimeter | https://www.perimeterbooks.com | Perimeter-Books ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| rouje | https://www.rouje.com | Rouje ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |
+| toast | https://www.toa.st | Toast ; atomes mesurés au DOM, collecte du 22 oct 2026 | atomes seuls | à juger | atomes |

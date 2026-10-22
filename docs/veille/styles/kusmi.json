@@ -1,0 +1,1544 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.kusmitea.com/",
+  "nom": "kusmi",
+  "date": "2026-10-22",
+  "identite": {
+    "title": "Kusmi Tea | Thés et Infusions Bio de qualité",
+    "siteName": "Kusmi Tea",
+    "lang": "fr",
+    "description": "Grande maison de thé premium depuis 1867, Kusmi Tea est une marque française, Made in Normandie. Découvrez les thés et infusions Bio : thé vert, maté, thé noir, matcha, thé blanc, rooibos, thés Detox…",
+    "technologies": [
+      "Shopify",
+      "Prismic",
+      "Tailwind",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fbfbf6",
+      "h1": "Kusmi Tea | Thés et Infusions Bio de qualité",
+      "h1Visible": true,
+      "mots": 95,
+      "images": 12,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Précédent",
+        "x": 389,
+        "y": 25.59375,
+        "cx": 0.27395833333333336,
+        "cy": 0.03232638888888889,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 4076,
+      "bougeSeul": {
+        "n": 2,
+        "exemples": [
+          "div.prose"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.header__logo",
+        "famille": "Sophillia, sans-serif",
+        "taille": 32,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2",
+        "famille": "Barlow, sans-serif",
+        "taille": 24,
+        "graisse": "500",
+        "interlignage": 0.93,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Barlow, sans-serif",
+        "taille": 14,
+        "graisse": "500",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.tap-area",
+        "famille": "Barlow, sans-serif",
+        "taille": 16,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.block",
+        "famille": "Barlow, sans-serif",
+        "taille": 15,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Sophillia",
+          "url": "//www.kusmitea.com/cdn/shop/files/Sophillia-regular.woff2?v=8865248068167224762",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Inter",
+          "url": "//www.kusmitea.com/cdn/fonts/inter/inter_n5.d7101d5e168594dd06f56f290dd759fba5431d97.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Inter",
+          "url": "//www.kusmitea.com/cdn/fonts/inter/inter_i5.4474f48e6ab2b1e01aa2b6d942dd27fa24f2d99f.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n5.a193a1990790eba0cc5cca569d23799830e90f07.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_i5.714d58286997b65cd479af615cfa9bb0a117a573.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n6.329f582a81f63f125e63c20a5a80ae9477df68e1.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_i4.8c59b6445f83f078b3520bad98b24d859431b377.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n5.a193a1990790eba0cc5cca569d23799830e90f07.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_i5.714d58286997b65cd479af615cfa9bb0a117a573.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n5.a193a1990790eba0cc5cca569d23799830e90f07.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n6.329f582a81f63f125e63c20a5a80ae9477df68e1.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_i6.5a22bd20fb27bad4d7674cc6e666fb9c77d813bb.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Barlow-Bold.ttf?v=1779193174",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "Barlow",
+          "url": "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Barlow-Regular.ttf?v=1779193146",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "Helvetica",
+          "url": "https://julbo.cdn.prismic.io/julbo/Z_PczHdAxsiBwaFF_93fd95fc-c11f-47be-bd25-5f5f54288ac5.woff",
+          "feuille": "inline",
+          "source": "tiers (julbo.cdn.prismic.io)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "d21m4dsqdd3b9h.cloudfront.net"
+      ],
+      "fichiersPolices": [
+        "https://www.kusmitea.com/cdn/shop/files/Sophillia-regular.woff2?v=8865248068167224762",
+        "https://www.kusmitea.com/cdn/fonts/barlow/barlow_n5.a193a1990790eba0cc5cca569d23799830e90f07.woff2",
+        "https://www.kusmitea.com/cdn/fonts/barlow/barlow_n6.329f582a81f63f125e63c20a5a80ae9477df68e1.woff2",
+        "https://www.kusmitea.com/cdn/fonts/inter/inter_n5.d7101d5e168594dd06f56f290dd759fba5431d97.woff2",
+        "https://use.typekit.net/vhp3alv.css",
+        "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Barlow-Bold.ttf?v=1779193174",
+        "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Barlow-Regular.ttf?v=1779193146"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Barlow",
+          "n": 240
+        },
+        {
+          "famille": "Inter",
+          "n": 10
+        },
+        {
+          "famille": "Sophillia",
+          "n": 4
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 11,
+          "poids": 5912800.625
+        },
+        {
+          "hex": "#fbfbf6",
+          "n": 8,
+          "poids": 5112135
+        },
+        {
+          "hex": "#f2f0e8",
+          "n": 9,
+          "poids": 1098690.5405273438
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 869741.875
+        },
+        {
+          "hex": "#303030",
+          "n": 10,
+          "poids": 43319.875
+        },
+        {
+          "hex": "#efede5",
+          "n": 6,
+          "poids": 6669.296875
+        },
+        {
+          "hex": "#d13a51",
+          "n": 4,
+          "poids": 1619.3125
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#303030",
+          "n": 200,
+          "poids": 6527
+        },
+        {
+          "hex": "#fbfbf6",
+          "n": 18,
+          "poids": 388
+        },
+        {
+          "hex": "#000000",
+          "n": 21,
+          "poids": 230
+        },
+        {
+          "hex": "#ffffff",
+          "n": 10,
+          "poids": 181
+        },
+        {
+          "hex": "#9132a0",
+          "n": 2,
+          "poids": 24
+        },
+        {
+          "hex": "#ed97cb",
+          "n": 1,
+          "poids": 14
+        },
+        {
+          "hex": "#93173b",
+          "n": 1,
+          "poids": 6
+        },
+        {
+          "hex": "#016a63",
+          "n": 1,
+          "poids": 3
+        }
+      ],
+      "nbImages": 34,
+      "nbVideos": 1,
+      "nbFondsImage": 5,
+      "masques": 8,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 11,
+          "poids": 5912800.625,
+          "part": 0.453
+        },
+        {
+          "hex": "#fbfbf6",
+          "n": 8,
+          "poids": 5112135,
+          "part": 0.392
+        },
+        {
+          "hex": "#f2f0e8",
+          "n": 9,
+          "poids": 1098690.5405273438,
+          "part": 0.084
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 869741.875,
+          "part": 0.067
+        },
+        {
+          "hex": "#303030",
+          "n": 10,
+          "poids": 43319.875,
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#303030",
+          "n": 200,
+          "poids": 6527,
+          "part": 0.885
+        },
+        {
+          "hex": "#fbfbf6",
+          "n": 18,
+          "poids": 388,
+          "part": 0.053
+        },
+        {
+          "hex": "#000000",
+          "n": 21,
+          "poids": 230,
+          "part": 0.031
+        },
+        {
+          "hex": "#ffffff",
+          "n": 10,
+          "poids": 181,
+          "part": 0.025
+        },
+        {
+          "hex": "#9132a0",
+          "n": 2,
+          "poids": 24,
+          "part": 0.003
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "header#shopify-section-sections--26884129784151__header",
+          "ecrans": 4.5
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.3s ease-in-out",
+          "n": 59
+        },
+        {
+          "valeur": "background-size 0.3s ease-in-out",
+          "n": 59
+        },
+        {
+          "valeur": "background-size 0.2s ease-in-out",
+          "n": 32
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 19
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 16
+        },
+        {
+          "valeur": "transform 0.4s ease",
+          "n": 13
+        },
+        {
+          "valeur": "transform 0.15s ease-in-out",
+          "n": 12
+        },
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 12
+        },
+        {
+          "valeur": "transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 12
+        },
+        {
+          "valeur": "top 0.2s ease-in-out",
+          "n": 10
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button.circle-button",
+        "score": 4,
+        "animations": [],
+        "transitions": [
+          "scale 0.2s ease",
+          "translate 0.2s ease",
+          "opacity 0.2s ease",
+          "visibility 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body.features--zoom-image",
+      "sections": [
+        {
+          "selecteur": "aside#shopify-section-sections--26884129784151__announcement-bar",
+          "titre": null,
+          "top": 0,
+          "hauteur": 54,
+          "ecrans": 0.1,
+          "mots": 18,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "main#main",
+          "titre": "Calendrier de l'Avent",
+          "top": 158,
+          "hauteur": 3262,
+          "ecrans": 3.6,
+          "mots": 989,
+          "images": 47,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg",
+            "form"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-sections--26884129751383__trust-icons",
+          "titre": null,
+          "top": 3421,
+          "hauteur": 148,
+          "ecrans": 0.2,
+          "mots": 49,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer#shopify-section-sections--26884129751383__footer",
+          "titre": null,
+          "top": 3569,
+          "hauteur": 508,
+          "ecrans": 0.6,
+          "mots": 153,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg",
+            "details"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#shopify-section-sections--26884129784151__header",
+        "hauteur": 105,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "Kusmi Tea | Thés et Infusions Bio de qua",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Calendrier de l'AventNew",
+            "href": "/products/calendrier-de-lavent",
+            "bouton": false
+          },
+          {
+            "texte": "Offres",
+            "href": "/pages/offre-du-moment",
+            "bouton": false
+          },
+          {
+            "texte": "Bien-être",
+            "href": "/collections/the-infusion-sante",
+            "bouton": false
+          },
+          {
+            "texte": "Thés & InfusionsBIO",
+            "href": "/collections/thes-infusions",
+            "bouton": false
+          },
+          {
+            "texte": "Coffrets & Cadeaux",
+            "href": "/collections/coffrets-cadeaux",
+            "bouton": false
+          },
+          {
+            "texte": "Accessoires",
+            "href": "/collections/accessoires",
+            "bouton": false
+          },
+          {
+            "texte": "La marque",
+            "href": "/pages/la-marque",
+            "bouton": false
+          },
+          {
+            "texte": "Conseils",
+            "href": "/blogs/the",
+            "bouton": false
+          },
+          {
+            "texte": "Rechercher",
+            "href": "/search",
+            "bouton": false
+          },
+          {
+            "texte": "Nos points de vente",
+            "href": "/pages/trouvez-votre-boutique",
+            "bouton": false
+          },
+          {
+            "texte": "Connexion",
+            "href": "/customer_authentication/login?return_to=%2Fpages%2Finscription-fidelite&locale=fr&region_country=FR",
+            "bouton": false
+          },
+          {
+            "texte": "Panier",
+            "href": "/cart",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#shopify-section-sections--26884129751383__footer",
+        "liens": [
+          {
+            "texte": "S'INSCRIRE",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Politique de Confidentialité.",
+            "href": "https://kusmi-tea-2025.myshopify.com/pages/politique-de-confidentialite",
+            "bouton": false
+          },
+          {
+            "texte": "Nous suivre sur Facebook",
+            "href": "https://www.facebook.com/KusmiTea.Paris",
+            "bouton": false
+          },
+          {
+            "texte": "Nous suivre sur Instagram",
+            "href": "https://www.instagram.com/kusmiteaparis",
+            "bouton": false
+          },
+          {
+            "texte": "Nous suivre sur YouTube",
+            "href": "https://www.youtube.com/user/KusmiTeaParis",
+            "bouton": false
+          },
+          {
+            "texte": "Nous suivre sur LinkedIn",
+            "href": "https://www.linkedin.com/company/kusmi-tea",
+            "bouton": false
+          },
+          {
+            "texte": "La Marque",
+            "href": "/pages/la-marque",
+            "bouton": false
+          },
+          {
+            "texte": "Programme de Fidélité",
+            "href": "/pages/kusmi-klub",
+            "bouton": false
+          },
+          {
+            "texte": "Notre raison d'être",
+            "href": "/pages/notre-raison-d-etre",
+            "bouton": false
+          },
+          {
+            "texte": "Nos engagements",
+            "href": "/pages/nos-engagements",
+            "bouton": false
+          },
+          {
+            "texte": "B Corp",
+            "href": "/pages/kusmi-tea-est-labellisee-b-corp",
+            "bouton": false
+          },
+          {
+            "texte": "Nous rejoindre",
+            "href": "https://www.linkedin.com/company/kusmi-tea",
+            "bouton": false
+          },
+          {
+            "texte": "Fiche QCE",
+            "href": "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Qualites_et_Caracteristiques_Environnementales_eb2bb5e3-a965-497b",
+            "bouton": false
+          },
+          {
+            "texte": "Consignes de tri",
+            "href": "/pages/consignes-de-tri",
+            "bouton": false
+          },
+          {
+            "texte": "Plan du site",
+            "href": "/pages/plan-du-site",
+            "bouton": false
+          },
+          {
+            "texte": "Cadeaux d’affaires",
+            "href": "/pages/cadeaux-daffaires",
+            "bouton": false
+          },
+          {
+            "texte": "Site Professionnel",
+            "href": "https://www.orientis-gourmet.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Devenir Client Professionnel",
+            "href": "/pages/client-professionnel",
+            "bouton": false
+          },
+          {
+            "texte": "Affiliation",
+            "href": "https://publisher.effinity.fr/publisher-center/sign/up/1?programId=315031866&lg=fr",
+            "bouton": false
+          },
+          {
+            "texte": "Aide et Contact",
+            "href": "https://help.kusmitea.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Trouver une boutique",
+            "href": "/pages/trouvez-votre-boutique",
+            "bouton": false
+          },
+          {
+            "texte": "Livraison et retours",
+            "href": "/pages/livraison",
+            "bouton": false
+          },
+          {
+            "texte": "Click & Collect",
+            "href": "/pages/click-collect",
+            "bouton": false
+          },
+          {
+            "texte": "Cartes Cadeaux",
+            "href": "/products/carte-cadeau",
+            "bouton": false
+          },
+          {
+            "texte": "Offres du moment",
+            "href": "/pages/offre-du-moment",
+            "bouton": false
+          },
+          {
+            "texte": "Conditions des offres",
+            "href": "/pages/conditions-des-offres",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de confidentialité",
+            "href": "/pages/politique-de-confidentialite",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de cookies",
+            "href": "/pages/politique-de-cookies",
+            "bouton": false
+          },
+          {
+            "texte": "Droits RGPD",
+            "href": "https://login.datacomplyone.app/moovapps/easysite/workplace/demande-droit?token=VDFKSlJVNVVTVk5IVDFWU1RVVlU%3D&lg=fr",
+            "bouton": false
+          },
+          {
+            "texte": "Gestion des cookies",
+            "href": "javascript:Didomi.preferences.show()",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 8,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Coffrets & Cadeaux",
+          "href": "/collections/coffrets-cadeaux"
+        },
+        {
+          "texte": "Cadeaux d’affaires",
+          "href": "/pages/cadeaux-daffaires"
+        },
+        {
+          "texte": "Livraison et retours",
+          "href": "/pages/livraison"
+        },
+        {
+          "texte": "Cartes Cadeaux",
+          "href": "/products/carte-cadeau"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-content",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "span#header-scroll-tracker",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "header#shopify-section-sections--26884129784151__header",
+          "position": "sticky",
+          "hauteur": 105,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 31
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 28,
+        "pilules": 10,
+        "exemples": [
+          "J'EN PROFITE",
+          "VOIR TOUS LES PRODUITS",
+          "JE DÉCOUVRE"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Inter"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/kusmi-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fbfbf6",
+      "h1": "Kusmi Tea | Thés et Infusions Bio de qualité",
+      "h1Visible": true,
+      "mots": 79,
+      "images": 16,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Précédent",
+        "x": 20,
+        "y": 33.390625,
+        "cx": 0.06538461538461539,
+        "cy": 0.043709271327014215,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 4546,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div.is-selected"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.header__logo",
+        "famille": "Sophillia, sans-serif",
+        "taille": 28,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2",
+        "famille": "Barlow, sans-serif",
+        "taille": 21,
+        "graisse": "500",
+        "interlignage": 1.07,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Barlow, sans-serif",
+        "taille": 14,
+        "graisse": "500",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.tap-area",
+        "famille": "Barlow, sans-serif",
+        "taille": 14,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.tap-area",
+        "famille": "Barlow, sans-serif",
+        "taille": 14,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Sophillia",
+          "url": "//www.kusmitea.com/cdn/shop/files/Sophillia-regular.woff2?v=8865248068167224762",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Inter",
+          "url": "//www.kusmitea.com/cdn/fonts/inter/inter_n5.d7101d5e168594dd06f56f290dd759fba5431d97.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Inter",
+          "url": "//www.kusmitea.com/cdn/fonts/inter/inter_i5.4474f48e6ab2b1e01aa2b6d942dd27fa24f2d99f.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n5.a193a1990790eba0cc5cca569d23799830e90f07.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_i5.714d58286997b65cd479af615cfa9bb0a117a573.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n6.329f582a81f63f125e63c20a5a80ae9477df68e1.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_i4.8c59b6445f83f078b3520bad98b24d859431b377.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n5.a193a1990790eba0cc5cca569d23799830e90f07.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_i5.714d58286997b65cd479af615cfa9bb0a117a573.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n5.a193a1990790eba0cc5cca569d23799830e90f07.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_n6.329f582a81f63f125e63c20a5a80ae9477df68e1.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "//www.kusmitea.com/cdn/fonts/barlow/barlow_i6.5a22bd20fb27bad4d7674cc6e666fb9c77d813bb.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Barlow",
+          "url": "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Barlow-Bold.ttf?v=1779193174",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "Barlow",
+          "url": "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Barlow-Regular.ttf?v=1779193146",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "Helvetica",
+          "url": "https://julbo.cdn.prismic.io/julbo/Z_PczHdAxsiBwaFF_93fd95fc-c11f-47be-bd25-5f5f54288ac5.woff",
+          "feuille": "inline",
+          "source": "tiers (julbo.cdn.prismic.io)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "d21m4dsqdd3b9h.cloudfront.net"
+      ],
+      "fichiersPolices": [
+        "https://www.kusmitea.com/cdn/shop/files/Sophillia-regular.woff2?v=8865248068167224762",
+        "https://www.kusmitea.com/cdn/fonts/barlow/barlow_n5.a193a1990790eba0cc5cca569d23799830e90f07.woff2",
+        "https://www.kusmitea.com/cdn/fonts/barlow/barlow_n6.329f582a81f63f125e63c20a5a80ae9477df68e1.woff2",
+        "https://www.kusmitea.com/cdn/fonts/inter/inter_n5.d7101d5e168594dd06f56f290dd759fba5431d97.woff2",
+        "https://use.typekit.net/vhp3alv.css",
+        "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Barlow-Bold.ttf?v=1779193174",
+        "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Barlow-Regular.ttf?v=1779193146"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Barlow",
+          "n": 224
+        },
+        {
+          "famille": "Inter",
+          "n": 10
+        },
+        {
+          "famille": "Sophillia",
+          "n": 4
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 1777023.193359375
+        },
+        {
+          "hex": "#fbfbf6",
+          "n": 9,
+          "poids": 1551346.875
+        },
+        {
+          "hex": "#f2f0e8",
+          "n": 9,
+          "poids": 532209.8452148438
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 153719.109375
+        },
+        {
+          "hex": "#303030",
+          "n": 13,
+          "poids": 45989.79052734375
+        },
+        {
+          "hex": "#efede5",
+          "n": 6,
+          "poids": 6669.296875
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#303030",
+          "n": 204,
+          "poids": 6550
+        },
+        {
+          "hex": "#fbfbf6",
+          "n": 18,
+          "poids": 388
+        },
+        {
+          "hex": "#ffffff",
+          "n": 6,
+          "poids": 165
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 125
+        },
+        {
+          "hex": "#ed97cb",
+          "n": 1,
+          "poids": 14
+        }
+      ],
+      "nbImages": 34,
+      "nbVideos": 0,
+      "nbFondsImage": 3,
+      "masques": 7,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 1777023.193359375,
+          "part": 0.437
+        },
+        {
+          "hex": "#fbfbf6",
+          "n": 9,
+          "poids": 1551346.875,
+          "part": 0.381
+        },
+        {
+          "hex": "#f2f0e8",
+          "n": 9,
+          "poids": 532209.8452148438,
+          "part": 0.131
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 153719.109375,
+          "part": 0.038
+        },
+        {
+          "hex": "#303030",
+          "n": 13,
+          "poids": 45989.79052734375,
+          "part": 0.011
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#303030",
+          "n": 204,
+          "poids": 6550,
+          "part": 0.904
+        },
+        {
+          "hex": "#fbfbf6",
+          "n": 18,
+          "poids": 388,
+          "part": 0.054
+        },
+        {
+          "hex": "#ffffff",
+          "n": 6,
+          "poids": 165,
+          "part": 0.023
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 125,
+          "part": 0.017
+        },
+        {
+          "hex": "#ed97cb",
+          "n": 1,
+          "poids": 14,
+          "part": 0.002
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "header#shopify-section-sections--26884129784151__header",
+          "ecrans": 5.4
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.3s ease-in-out",
+          "n": 59
+        },
+        {
+          "valeur": "background-size 0.3s ease-in-out",
+          "n": 59
+        },
+        {
+          "valeur": "background-size 0.2s ease-in-out",
+          "n": 24
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 20
+        },
+        {
+          "valeur": "transform 0.4s ease",
+          "n": 13
+        },
+        {
+          "valeur": "transform 0.15s ease-in-out",
+          "n": 12
+        },
+        {
+          "valeur": "top 0.2s ease-in-out",
+          "n": 11
+        },
+        {
+          "valeur": "all 0.3s ease-in-out",
+          "n": 10
+        },
+        {
+          "valeur": "stroke 0.15s ease-in-out",
+          "n": 10
+        },
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button.circle-button",
+        "score": 4,
+        "animations": [],
+        "transitions": [
+          "scale 0.2s ease",
+          "translate 0.2s ease",
+          "opacity 0.2s ease",
+          "visibility 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body.features--zoom-image",
+      "sections": [
+        {
+          "selecteur": "aside#shopify-section-sections--26884129784151__announcement-bar",
+          "titre": null,
+          "top": 0,
+          "hauteur": 70,
+          "ecrans": 0.1,
+          "mots": 10,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "main#main",
+          "titre": "Calendrier de l'Avent",
+          "top": 150,
+          "hauteur": 3167,
+          "ecrans": 3.8,
+          "mots": 972,
+          "images": 36,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-sections--26884129751383__trust-icons",
+          "titre": null,
+          "top": 3317,
+          "hauteur": 182,
+          "ecrans": 0.2,
+          "mots": 69,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer#shopify-section-sections--26884129751383__footer",
+          "titre": null,
+          "top": 3499,
+          "hauteur": 1047,
+          "ecrans": 1.2,
+          "mots": 92,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg",
+            "details"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#shopify-section-sections--26884129784151__header",
+        "hauteur": 80,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "Kusmi Tea | Thés et Infusions Bio de qua",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Rechercher",
+            "href": "/search",
+            "bouton": false
+          },
+          {
+            "texte": "Connexion",
+            "href": "/customer_authentication/login?return_to=%2Fpages%2Finscription-fidelite&locale=fr&region_country=FR",
+            "bouton": false
+          },
+          {
+            "texte": "Panier",
+            "href": "/cart",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#shopify-section-sections--26884129751383__footer",
+        "liens": [
+          {
+            "texte": "S'INSCRIRE",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Politique de Confidentialité.",
+            "href": "https://kusmi-tea-2025.myshopify.com/pages/politique-de-confidentialite",
+            "bouton": false
+          },
+          {
+            "texte": "Nous suivre sur Facebook",
+            "href": "https://www.facebook.com/KusmiTea.Paris",
+            "bouton": false
+          },
+          {
+            "texte": "Nous suivre sur Instagram",
+            "href": "https://www.instagram.com/kusmiteaparis",
+            "bouton": false
+          },
+          {
+            "texte": "Nous suivre sur YouTube",
+            "href": "https://www.youtube.com/user/KusmiTeaParis",
+            "bouton": false
+          },
+          {
+            "texte": "Nous suivre sur LinkedIn",
+            "href": "https://www.linkedin.com/company/kusmi-tea",
+            "bouton": false
+          },
+          {
+            "texte": "La Marque",
+            "href": "/pages/la-marque",
+            "bouton": false
+          },
+          {
+            "texte": "Programme de Fidélité",
+            "href": "/pages/kusmi-klub",
+            "bouton": false
+          },
+          {
+            "texte": "Notre raison d'être",
+            "href": "/pages/notre-raison-d-etre",
+            "bouton": false
+          },
+          {
+            "texte": "Nos engagements",
+            "href": "/pages/nos-engagements",
+            "bouton": false
+          },
+          {
+            "texte": "B Corp",
+            "href": "/pages/kusmi-tea-est-labellisee-b-corp",
+            "bouton": false
+          },
+          {
+            "texte": "Nous rejoindre",
+            "href": "https://www.linkedin.com/company/kusmi-tea",
+            "bouton": false
+          },
+          {
+            "texte": "Fiche QCE",
+            "href": "https://cdn.shopify.com/s/files/1/0943/6577/8263/files/Qualites_et_Caracteristiques_Environnementales_eb2bb5e3-a965-497b",
+            "bouton": false
+          },
+          {
+            "texte": "Consignes de tri",
+            "href": "/pages/consignes-de-tri",
+            "bouton": false
+          },
+          {
+            "texte": "Plan du site",
+            "href": "/pages/plan-du-site",
+            "bouton": false
+          },
+          {
+            "texte": "Cadeaux d’affaires",
+            "href": "/pages/cadeaux-daffaires",
+            "bouton": false
+          },
+          {
+            "texte": "Site Professionnel",
+            "href": "https://www.orientis-gourmet.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Devenir Client Professionnel",
+            "href": "/pages/client-professionnel",
+            "bouton": false
+          },
+          {
+            "texte": "Affiliation",
+            "href": "https://publisher.effinity.fr/publisher-center/sign/up/1?programId=315031866&lg=fr",
+            "bouton": false
+          },
+          {
+            "texte": "Aide et Contact",
+            "href": "https://help.kusmitea.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Trouver une boutique",
+            "href": "/pages/trouvez-votre-boutique",
+            "bouton": false
+          },
+          {
+            "texte": "Livraison et retours",
+            "href": "/pages/livraison",
+            "bouton": false
+          },
+          {
+            "texte": "Click & Collect",
+            "href": "/pages/click-collect",
+            "bouton": false
+          },
+          {
+            "texte": "Cartes Cadeaux",
+            "href": "/products/carte-cadeau",
+            "bouton": false
+          },
+          {
+            "texte": "Offres du moment",
+            "href": "/pages/offre-du-moment",
+            "bouton": false
+          },
+          {
+            "texte": "Conditions des offres",
+            "href": "/pages/conditions-des-offres",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de confidentialité",
+            "href": "/pages/politique-de-confidentialite",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de cookies",
+            "href": "/pages/politique-de-cookies",
+            "bouton": false
+          },
+          {
+            "texte": "Droits RGPD",
+            "href": "https://login.datacomplyone.app/moovapps/easysite/workplace/demande-droit?token=VDFKSlJVNVVTVk5IVDFWU1RVVlU%3D&lg=fr",
+            "bouton": false
+          },
+          {
+            "texte": "Gestion des cookies",
+            "href": "javascript:Didomi.preferences.show()",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 6,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Menu",
+          "href": ""
+        },
+        {
+          "texte": "Cadeaux d’affaires",
+          "href": "/pages/cadeaux-daffaires"
+        },
+        {
+          "texte": "Livraison et retours",
+          "href": "/pages/livraison"
+        },
+        {
+          "texte": "Cartes Cadeaux",
+          "href": "/products/carte-cadeau"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-content",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "span#header-scroll-tracker",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "header#shopify-section-sections--26884129784151__header",
+          "position": "sticky",
+          "hauteur": 80,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 13
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 18,
+        "pilules": 10,
+        "exemples": [
+          "J'EN PROFITE",
+          "VOIR TOUS LES PRODUITS",
+          "JE DÉCOUVRE"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Inter"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "Kusmi Tea",
+  "dureeS": 25.7
+}

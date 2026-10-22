@@ -1,0 +1,926 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.artek.fi/",
+  "nom": "artek",
+  "date": "2026-10-22",
+  "identite": {
+    "title": "Home - Artek",
+    "siteName": "Artek",
+    "lang": "en",
+    "description": "Art & Technology since 1935. The Artek collection consists of furniture, lighting, and accessories designed by Finnish masters and leading international designers. It stands for clarity, functionality, and poetic simplicity.",
+    "technologies": []
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 71,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Essential cookies only",
+        "x": 810,
+        "y": 765,
+        "cx": 0.6240397135416667,
+        "cy": 0.8777777777777778,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.13,
+        "texte": "We use cookies We use cookies to optimize our website, improve its performance and provide you with content that is tailored to your interest. All essential cookies are deleted after you leave our sit",
+        "selecteur": "div#cookiebanner"
+      },
+      "barreBas": null,
+      "scrollHeight": 8719,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.m-header-stage__headline",
+        "famille": "\"artek futura\", sans-serif",
+        "taille": 27,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"artek futura\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a#CybotCookiebotDialogBodyButtonDecline",
+        "famille": "\"artek futura\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.c-secondary-nav__link",
+        "famille": "\"artek futura\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "artek futura",
+          "url": "../fonts/artek-futura.woff2",
+          "feuille": "www.artek.fi",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.artek.fi/assets/fonts/artek-futura.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "artek futura",
+          "n": 78
+        },
+        {
+          "famille": "Arial",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 12555360
+        },
+        {
+          "hex": "#eaeaea",
+          "n": 1,
+          "poids": 252832.5
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 7,
+          "poids": 184370.3125
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 79,
+          "poids": 2509
+        },
+        {
+          "hex": "#919191",
+          "n": 1,
+          "poids": 22
+        }
+      ],
+      "nbImages": 13,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 12555360,
+          "part": 0.966
+        },
+        {
+          "hex": "#eaeaea",
+          "n": 1,
+          "poids": 252832.5,
+          "part": 0.019
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 7,
+          "poids": 184370.3125,
+          "part": 0.014
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 79,
+          "poids": 2509,
+          "part": 0.991
+        },
+        {
+          "hex": "#919191",
+          "n": 1,
+          "poids": 22,
+          "part": 0.009
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [],
+      "attributs": [],
+      "plusAnime": null
+    },
+    "structure": {
+      "conteneur": "main#main",
+      "sections": [
+        {
+          "selecteur": "div#art-technology-since-1935",
+          "titre": "Art & Technology since 1935",
+          "top": 50,
+          "hauteur": 810,
+          "ecrans": 0.9,
+          "mots": 9,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "article#artek-hender-scheme",
+          "titre": "Artek + Hender Scheme",
+          "top": 860,
+          "hauteur": 794,
+          "ecrans": 0.9,
+          "mots": 38,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "time"
+          ]
+        },
+        {
+          "selecteur": "article#zebra-collection",
+          "titre": "Zebra Collection",
+          "top": 1654,
+          "hauteur": 794,
+          "ecrans": 0.9,
+          "mots": 38,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "article#domus-means-home",
+          "titre": "Domus means home",
+          "top": 2448,
+          "hauteur": 794,
+          "ecrans": 0.9,
+          "mots": 39,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "article#artek-heath-2026-collection",
+          "titre": "Artek + Heath 2026 collection",
+          "top": 3242,
+          "hauteur": 794,
+          "ecrans": 0.9,
+          "mots": 39,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "time"
+          ]
+        },
+        {
+          "selecteur": "article#artek-and-the-forest",
+          "titre": "Artek and the Forest",
+          "top": 4036,
+          "hauteur": 794,
+          "ecrans": 0.9,
+          "mots": 42,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "time"
+          ]
+        },
+        {
+          "selecteur": "article#artek-marimekko",
+          "titre": "Artek + Marimekko",
+          "top": 4831,
+          "hauteur": 794,
+          "ecrans": 0.9,
+          "mots": 12,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "article#care-maintenance",
+          "titre": "Care & Maintenance",
+          "top": 5625,
+          "hauteur": 794,
+          "ecrans": 0.9,
+          "mots": 34,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "figure#video",
+          "titre": null,
+          "top": 6419,
+          "hauteur": 950,
+          "ecrans": 1.1,
+          "mots": 6,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "div#product-list",
+          "titre": "Discover Artek's most iconic products",
+          "top": 7369,
+          "hauteur": 1006,
+          "ecrans": 1.1,
+          "mots": 46,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.m-site-footer",
+          "titre": null,
+          "top": 8374,
+          "hauteur": 346,
+          "ecrans": 0.4,
+          "mots": 47,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.m-site-header",
+        "hauteur": 50,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Artek",
+            "href": "/en/",
+            "bouton": false
+          },
+          {
+            "texte": "Company",
+            "href": "https://www.artek.fi/en/company",
+            "bouton": false
+          },
+          {
+            "texte": "Products",
+            "href": "https://www.artek.fi/en/products",
+            "bouton": false
+          },
+          {
+            "texte": "Spaces",
+            "href": "https://www.artek.fi/en/spaces",
+            "bouton": false
+          },
+          {
+            "texte": "Reading Room",
+            "href": "https://www.artek.fi/en/reading-room",
+            "bouton": false
+          },
+          {
+            "texte": "Where to buy",
+            "href": "https://www.artek.fi/en/where-to-buy",
+            "bouton": false
+          },
+          {
+            "texte": "Artek Stores",
+            "href": "https://www.artek.fi/en/artek-stores",
+            "bouton": false
+          },
+          {
+            "texte": "Shop online",
+            "href": "https://shop.artek.fi/",
+            "bouton": false
+          },
+          {
+            "texte": "Language",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Search",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.m-site-footer",
+        "liens": [
+          {
+            "texte": "Artek Helsinki",
+            "href": "https://www.artek.fi/artekhelsinki/en/",
+            "bouton": false
+          },
+          {
+            "texte": "Artek Japan",
+            "href": "https://webstorejapan.artek.fi",
+            "bouton": false
+          },
+          {
+            "texte": "Artek 2nd Cycle",
+            "href": "https://www.artek.fi/2ndcycle/en/",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "https://www.artek.fi/en/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Careers",
+            "href": "https://careers.vitra.com/artek/go/artek/3500801/",
+            "bouton": false
+          },
+          {
+            "texte": "Downloads",
+            "href": "https://www.artek.fi/en/downloads",
+            "bouton": false
+          },
+          {
+            "texte": "Materialbank",
+            "href": "https://materialbank.artek.fi/#/login?nextPath=%2F",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://facebook.com/artekglobal/",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://instagram.com/artekglobal/",
+            "bouton": false
+          },
+          {
+            "texte": "Imprint",
+            "href": "https://www.artek.fi/en/imprint",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Statement",
+            "href": "https://www.artek.fi/en/privacy-statement",
+            "bouton": false
+          },
+          {
+            "texte": "Distribution Rights",
+            "href": "https://www.artek.fi/en/distribution-rights",
+            "bouton": false
+          },
+          {
+            "texte": "Accessibility Statement",
+            "href": "https://www.artek.fi/en/accessibility-statement",
+            "bouton": false
+          },
+          {
+            "texte": "Subscribe here",
+            "href": "https://www.artek.fi/en/newsletter",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Facebook",
+          "href": "https://facebook.com/artekglobal/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#cookiebanner",
+          "position": "fixed",
+          "hauteur": 268,
+          "largeur": 630,
+          "enBas": false,
+          "mots": 47
+        },
+        {
+          "selecteur": "a.c-skip-to-content",
+          "position": "absolute",
+          "hauteur": 50,
+          "largeur": 206,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "header.m-site-header",
+          "position": "fixed",
+          "hauteur": 50,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 15
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/artek-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 56,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Essential cookies only",
+        "x": 32.484375,
+        "y": 724,
+        "cx": 0.3105168269230769,
+        "cy": 0.8785545023696683,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.38,
+        "texte": "We use cookies We use cookies to optimize our website, improve its performance and provide you with content that is tailored to your interest. All essential cookies are deleted after you leave our sit",
+        "selecteur": "div#cookiebanner"
+      },
+      "barreBas": null,
+      "scrollHeight": 5508,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.m-header-stage__subline",
+        "famille": "\"artek futura\", sans-serif",
+        "taille": 36,
+        "graisse": "400",
+        "interlignage": 1.17,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"artek futura\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a#CybotCookiebotDialogBodyButtonDecline",
+        "famille": "\"artek futura\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.m-teaser-basic__link",
+        "famille": "\"artek futura\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "artek futura",
+          "url": "../fonts/artek-futura.woff2",
+          "feuille": "www.artek.fi",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.artek.fi/assets/fonts/artek-futura.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "artek futura",
+          "n": 61
+        },
+        {
+          "famille": "Arial",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2148120
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 6,
+          "poids": 88633.203125
+        },
+        {
+          "hex": "#eaeaea",
+          "n": 1,
+          "poids": 40395.46875
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 20
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 62,
+          "poids": 1132
+        },
+        {
+          "hex": "#919191",
+          "n": 1,
+          "poids": 22
+        }
+      ],
+      "nbImages": 13,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2148120,
+          "part": 0.943
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 6,
+          "poids": 88633.203125,
+          "part": 0.039
+        },
+        {
+          "hex": "#eaeaea",
+          "n": 1,
+          "poids": 40395.46875,
+          "part": 0.018
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 20,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 62,
+          "poids": 1132,
+          "part": 0.981
+        },
+        {
+          "hex": "#919191",
+          "n": 1,
+          "poids": 22,
+          "part": 0.019
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [],
+      "attributs": [],
+      "plusAnime": null
+    },
+    "structure": {
+      "conteneur": "body.has-normal-nav-site-header",
+      "sections": [
+        {
+          "selecteur": "main#main",
+          "titre": "Artek + Hender Scheme",
+          "top": 35,
+          "hauteur": 4557,
+          "ecrans": 5.4,
+          "mots": 96,
+          "images": 13,
+          "fixe": false,
+          "balisesRares": [
+            "iframe",
+            "svg",
+            "time"
+          ]
+        },
+        {
+          "selecteur": "footer.m-site-footer",
+          "titre": null,
+          "top": 4591,
+          "hauteur": 918,
+          "ecrans": 1.1,
+          "mots": 44,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.m-site-header",
+        "hauteur": 35,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Toggle menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Artek",
+            "href": "/en/",
+            "bouton": false
+          },
+          {
+            "texte": "Search",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.m-site-footer",
+        "liens": [
+          {
+            "texte": "Subscribe here",
+            "href": "https://www.artek.fi/en/newsletter",
+            "bouton": true
+          },
+          {
+            "texte": "Artek Helsinki",
+            "href": "https://www.artek.fi/artekhelsinki/en/",
+            "bouton": false
+          },
+          {
+            "texte": "Artek Japan",
+            "href": "https://webstorejapan.artek.fi",
+            "bouton": false
+          },
+          {
+            "texte": "Artek 2nd Cycle",
+            "href": "https://www.artek.fi/2ndcycle/en/",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "https://www.artek.fi/en/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Careers",
+            "href": "https://careers.vitra.com/artek/go/artek/3500801/",
+            "bouton": false
+          },
+          {
+            "texte": "Downloads",
+            "href": "https://www.artek.fi/en/downloads",
+            "bouton": false
+          },
+          {
+            "texte": "Materialbank",
+            "href": "https://materialbank.artek.fi/#/login?nextPath=%2F",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://facebook.com/artekglobal/",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://instagram.com/artekglobal/",
+            "bouton": false
+          },
+          {
+            "texte": "Imprint",
+            "href": "https://www.artek.fi/en/imprint",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Statement",
+            "href": "https://www.artek.fi/en/privacy-statement",
+            "bouton": false
+          },
+          {
+            "texte": "Distribution Rights",
+            "href": "https://www.artek.fi/en/distribution-rights",
+            "bouton": false
+          },
+          {
+            "texte": "Accessibility Statement",
+            "href": "https://www.artek.fi/en/accessibility-statement",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Toggle menu",
+          "href": ""
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://facebook.com/artekglobal/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#cookiebanner",
+          "position": "fixed",
+          "hauteur": 319,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 47
+        },
+        {
+          "selecteur": "a.c-skip-to-content",
+          "position": "absolute",
+          "hauteur": 35,
+          "largeur": 180,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "header.m-site-header",
+          "position": "fixed",
+          "hauteur": 35,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Artek",
+  "dureeS": 24.3
+}

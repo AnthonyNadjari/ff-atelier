@@ -1,0 +1,1458 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.merci-merci.com/",
+  "nom": "lesnouvelles",
+  "date": "2026-10-22",
+  "identite": {
+    "title": "111 bd Beaumarchais - Magasin Mode & Maison – Merci Paris",
+    "siteName": "Merci Paris",
+    "lang": "fr",
+    "description": "Découvrez la sélection de Merci et les produits exclusifs en ligne - Linge de Maison, Montre Merci, Objets et Mobilier.",
+    "technologies": [
+      "Shopify",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fffcf3",
+      "h1": "Merci Paris",
+      "h1Visible": true,
+      "mots": 29,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.merci-panel__image"
+      },
+      "boutonPrincipal": {
+        "texte": "Ignorer Et Passer Au Contenu",
+        "x": -99999,
+        "y": 0,
+        "cx": -69.36854926215278,
+        "cy": 0.025329861111111112,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.visually-hidden",
+        "famille": "\"Merci Condensed\", \"Helvetica Neue Condensed\", \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 120,
+        "graisse": "700",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-2.4px"
+      },
+      "h2": {
+        "selecteur": "h2.merci-section-header__heading",
+        "famille": "\"Merci Condensed\", \"Helvetica Neue Condensed\", \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 61,
+        "graisse": "700",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.22px"
+      },
+      "p": {
+        "selecteur": "p.merci-baseline__text",
+        "famille": "\"Merci Condensed\", \"Helvetica Neue Condensed\", \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 61,
+        "graisse": "700",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.22px"
+      },
+      "bouton": {
+        "selecteur": "a.skip-to-content-link",
+        "famille": "\"Merci Condensed\", \"Helvetica Neue Condensed\", \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "700",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "capitalize",
+        "interlettrage": "-0.32px"
+      },
+      "nav": {
+        "selecteur": "a.wkh-button",
+        "famille": "\"Merci Text\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.26px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Merci Text",
+          "url": "helvetica-neue-lt-pro-55-roman.woff2",
+          "feuille": "merci-merci.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merci Text",
+          "url": "helvetica-neue-lt-pro-65-medium.woff2",
+          "feuille": "merci-merci.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merci Condensed",
+          "url": "helvetica-neue-lt-pro-77-bold-condensed.woff2",
+          "feuille": "merci-merci.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-55-roman.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-65-medium.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-77-bold-condensed.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MMedium.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.doofinder.com",
+        "cdn.doofinder.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.appmate.io",
+        "cdn.appmate.io",
+        "searchanise-ef84.kxcdn.com",
+        "searchanise-ef84.kxcdn.com"
+      ],
+      "fichiersPolices": [
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-77-bold-condensed.woff2?v=147904216991269123111789631504",
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-55-roman.woff2?v=38998130240873616391789631503",
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-65-medium.woff2",
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-77-bold-condensed.woff2",
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-55-roman.woff2",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MMedium.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Merci Text",
+          "n": 79
+        },
+        {
+          "famille": "Merci Condensed",
+          "n": 24
+        },
+        {
+          "famille": "Helvetica Neue",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fffcf3",
+      "texte": "#bd0022",
+      "fondsBruts": [
+        {
+          "hex": "#fffcf3",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#bd0022",
+          "n": 2,
+          "poids": 736992
+        },
+        {
+          "hex": "#cf162d",
+          "n": 1,
+          "poids": 17400
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#bd0022",
+          "n": 76,
+          "poids": 1307
+        },
+        {
+          "hex": "#ffffff",
+          "n": 28,
+          "poids": 420
+        },
+        {
+          "hex": "#d0162d",
+          "n": 1,
+          "poids": 25
+        },
+        {
+          "hex": "#ce152e",
+          "n": 1,
+          "poids": 7
+        }
+      ],
+      "nbImages": 22,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#fffcf3",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.632
+        },
+        {
+          "hex": "#bd0022",
+          "n": 2,
+          "poids": 736992,
+          "part": 0.359
+        },
+        {
+          "hex": "#cf162d",
+          "n": 1,
+          "poids": 17400,
+          "part": 0.008
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#bd0022",
+          "n": 76,
+          "poids": 1307,
+          "part": 0.743
+        },
+        {
+          "hex": "#ffffff",
+          "n": 28,
+          "poids": 420,
+          "part": 0.239
+        },
+        {
+          "hex": "#d0162d",
+          "n": 1,
+          "poids": 25,
+          "part": 0.014
+        },
+        {
+          "hex": "#ce152e",
+          "n": 1,
+          "poids": 7,
+          "part": 0.004
+        }
+      ],
+      "contraste": 6.42
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        },
+        {
+          "nom": "Locomotive Scroll",
+          "preuve": "attribut data-scroll"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "text-decoration-color 0.125s ease-in-out",
+          "n": 69
+        },
+        {
+          "valeur": "color 0.125s ease-in-out",
+          "n": 40
+        },
+        {
+          "valeur": "transform 0.125s ease-in-out",
+          "n": 10
+        },
+        {
+          "valeur": "color 0.2975s cubic-bezier(0.33, 1, 0.68, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "border-color 0.2975s cubic-bezier(0.33, 1, 0.68, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "box-shadow 0.125s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "background-color 0.125s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "opacity 0.125s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "margin-right 0.125s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.5s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-scroll-direction",
+          "n": 1
+        },
+        {
+          "nom": "data-sticky-state",
+          "n": 1
+        },
+        {
+          "nom": "data-kl-scroll-locking-modal",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "header-component#header-component",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "opacity 0.125s ease-in-out"
+        ],
+        "attributs": [
+          "data-scroll-direction",
+          "data-sticky-state"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "main#MainContent",
+      "sections": [
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_QJDF4q",
+          "titre": null,
+          "top": 0,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 4,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_kYKy9g",
+          "titre": null,
+          "top": 900,
+          "hauteur": 1110,
+          "ecrans": 1.2,
+          "mots": 49,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_aDDAzq",
+          "titre": null,
+          "top": 2010,
+          "hauteur": 1410,
+          "ecrans": 1.6,
+          "mots": 60,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_Knx8pQ",
+          "titre": null,
+          "top": 3420,
+          "hauteur": 953,
+          "ecrans": 1.1,
+          "mots": 10,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_KWJJVa",
+          "titre": null,
+          "top": 4373,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 8,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_gnEgpN",
+          "titre": null,
+          "top": 5273,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 10,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_selection_8kFrYB",
+          "titre": "Nos Lieux",
+          "top": 6173,
+          "hauteur": 757,
+          "ecrans": 0.8,
+          "mots": 14,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_baseline_XhnrBD",
+          "titre": null,
+          "top": 6930,
+          "hauteur": 356,
+          "ecrans": 0.4,
+          "mots": 31,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer",
+          "titre": null,
+          "top": 7287,
+          "hauteur": 106,
+          "ecrans": 0.1,
+          "mots": 14,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg",
+            "details",
+            "select"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer",
+        "liens": [
+          {
+            "texte": "S'inscrire",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "politique de confidentialité",
+            "href": "/policies/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Livraison",
+            "href": "/pages/livraison",
+            "bouton": false
+          },
+          {
+            "texte": "Retours et remboursements",
+            "href": "/pages/politique-de-remboursement",
+            "bouton": false
+          },
+          {
+            "texte": "E-Carte Cadeau",
+            "href": "/products/carte-cadeau-merci-1",
+            "bouton": false
+          },
+          {
+            "texte": "Retourner votre commande",
+            "href": "https://merci-merci.com/a/return",
+            "bouton": false
+          },
+          {
+            "texte": "Nous contacter",
+            "href": "/pages/service-client",
+            "bouton": false
+          },
+          {
+            "texte": "Questions fréquentes",
+            "href": "/pages/foire-aux-questions",
+            "bouton": false
+          },
+          {
+            "texte": "Espace professionnel",
+            "href": "/pages/espace-professionnel",
+            "bouton": false
+          },
+          {
+            "texte": "Nous rejoindre",
+            "href": "/pages/recrutement-merci",
+            "bouton": false
+          },
+          {
+            "texte": "L'Expo du moment",
+            "href": "/pages/lieux/lexpo-111-demain",
+            "bouton": false
+          },
+          {
+            "texte": "Le Blog Merci",
+            "href": "/blogs/infos",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/merciparis",
+            "bouton": false
+          },
+          {
+            "texte": "TikTok",
+            "href": "https://www.tiktok.com/@mercistoreparis",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://www.pinterest.fr/mercishopparis/",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/MerciShopParis/",
+            "bouton": false
+          },
+          {
+            "texte": "Nos magasins",
+            "href": "/pages/nos-magasins",
+            "bouton": false
+          },
+          {
+            "texte": "La Civette",
+            "href": "/pages/lieux/la-civette",
+            "bouton": false
+          },
+          {
+            "texte": "Le Pied-à-Terre",
+            "href": "/pages/lieux/lappartement-merci-109",
+            "bouton": false
+          },
+          {
+            "texte": "Le Used Book Café",
+            "href": "/pages/lieux/le-used-book-cafe",
+            "bouton": false
+          },
+          {
+            "texte": "Le Café Merci x Noir",
+            "href": "/pages/lieux/le-cine-cafe",
+            "bouton": false
+          },
+          {
+            "texte": "Au Vieux Campeur - Congés Payés",
+            "href": "https://www.auvieuxcampeur-cp.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Conditions générales de vente",
+            "href": "/policies/terms-of-sale",
+            "bouton": false
+          },
+          {
+            "texte": "Conditions générales d'utilisation",
+            "href": "/pages/conditions-generales-dutilisation",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "/policies/legal-notice",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de confidentialité",
+            "href": "/policies/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Exercer mon droit de rétractation",
+            "href": "https://merci-merci.com/a/return",
+            "bouton": false
+          },
+          {
+            "texte": "Numbered",
+            "href": "https://numbered.com/",
+            "bouton": false
+          },
+          {
+            "texte": "E-LIXIR",
+            "href": "https://www.e-lixir.fr/",
+            "bouton": false
+          },
+          {
+            "texte": "EUR Sélecteur de région et de langue / F",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Livraison",
+          "href": "/pages/livraison"
+        },
+        {
+          "texte": "E-Carte Cadeau",
+          "href": "/products/carte-cadeau-merci-1"
+        },
+        {
+          "texte": "Retourner votre commande",
+          "href": "https://merci-merci.com/a/return"
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/MerciShopParis/"
+        },
+        {
+          "texte": "Le Used Book Café",
+          "href": "/pages/lieux/le-used-book-cafe"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-content-link",
+          "position": "absolute",
+          "hauteur": 46,
+          "largeur": 217,
+          "enBas": false,
+          "mots": 5
+        },
+        {
+          "selecteur": "div#a11y-status-message",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 9,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [
+        {
+          "texte": "Depuis 2009, Merci cultive un art de vivre résolument parisien. Guidés par l'exi",
+          "taille": 61,
+          "selecteur": "p.merci-baseline__text"
+        }
+      ],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/lesnouvelles-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fffcf3",
+      "h1": "Merci Paris",
+      "h1Visible": true,
+      "mots": 27,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.merci-panel__image"
+      },
+      "boutonPrincipal": {
+        "texte": "Ignorer Et Passer Au Contenu",
+        "x": -99999,
+        "y": 0,
+        "cx": -256.1300280448718,
+        "cy": 0.0270105154028436,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 7779,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.visually-hidden",
+        "famille": "\"Merci Condensed\", \"Helvetica Neue Condensed\", \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 61,
+        "graisse": "700",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.22px"
+      },
+      "h2": {
+        "selecteur": "h2.merci-section-header__heading",
+        "famille": "\"Merci Condensed\", \"Helvetica Neue Condensed\", \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 35,
+        "graisse": "700",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.7px"
+      },
+      "p": {
+        "selecteur": "p.merci-baseline__text",
+        "famille": "\"Merci Condensed\", \"Helvetica Neue Condensed\", \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 24,
+        "graisse": "700",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.48px"
+      },
+      "bouton": {
+        "selecteur": "a.skip-to-content-link",
+        "famille": "\"Merci Condensed\", \"Helvetica Neue Condensed\", \"Arial Narrow\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "700",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "capitalize",
+        "interlettrage": "-0.32px"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "\"Merci Text\", \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.26px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Merci Text",
+          "url": "helvetica-neue-lt-pro-55-roman.woff2",
+          "feuille": "merci-merci.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merci Text",
+          "url": "helvetica-neue-lt-pro-65-medium.woff2",
+          "feuille": "merci-merci.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Merci Condensed",
+          "url": "helvetica-neue-lt-pro-77-bold-condensed.woff2",
+          "feuille": "merci-merci.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-55-roman.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-65-medium.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Helvetica Neue",
+          "url": "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-77-bold-condensed.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MMedium.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.doofinder.com",
+        "cdn.doofinder.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.appmate.io",
+        "cdn.appmate.io",
+        "searchanise-ef84.kxcdn.com",
+        "searchanise-ef84.kxcdn.com",
+        "searchanise-ef84.kxcdn.com"
+      ],
+      "fichiersPolices": [
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-77-bold-condensed.woff2?v=147904216991269123111789631504",
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-55-roman.woff2?v=38998130240873616391789631503",
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-77-bold-condensed.woff2",
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-65-medium.woff2",
+        "https://merci-merci.com/cdn/shop/t/56/assets/helvetica-neue-lt-pro-55-roman.woff2",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MMedium.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Merci Text",
+          "n": 77
+        },
+        {
+          "famille": "Merci Condensed",
+          "n": 23
+        },
+        {
+          "famille": "Helvetica Neue",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fffcf3",
+      "texte": "#bd0022",
+      "fondsBruts": [
+        {
+          "hex": "#fffcf3",
+          "n": 1,
+          "poids": 3268590
+        },
+        {
+          "hex": "#bd0022",
+          "n": 3,
+          "poids": 62155.1875
+        },
+        {
+          "hex": "#cf162d",
+          "n": 1,
+          "poids": 3935.9605348077603
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#bd0022",
+          "n": 74,
+          "poids": 1306
+        },
+        {
+          "hex": "#ffffff",
+          "n": 27,
+          "poids": 410
+        },
+        {
+          "hex": "#d0162d",
+          "n": 1,
+          "poids": 25
+        },
+        {
+          "hex": "#ce152e",
+          "n": 1,
+          "poids": 7
+        }
+      ],
+      "nbImages": 22,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#fffcf3",
+          "n": 1,
+          "poids": 3268590,
+          "part": 0.98
+        },
+        {
+          "hex": "#bd0022",
+          "n": 3,
+          "poids": 62155.1875,
+          "part": 0.019
+        },
+        {
+          "hex": "#cf162d",
+          "n": 1,
+          "poids": 3935.9605348077603,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#bd0022",
+          "n": 74,
+          "poids": 1306,
+          "part": 0.747
+        },
+        {
+          "hex": "#ffffff",
+          "n": 27,
+          "poids": 410,
+          "part": 0.235
+        },
+        {
+          "hex": "#d0162d",
+          "n": 1,
+          "poids": 25,
+          "part": 0.014
+        },
+        {
+          "hex": "#ce152e",
+          "n": 1,
+          "poids": 7,
+          "part": 0.004
+        }
+      ],
+      "contraste": 6.42
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        },
+        {
+          "nom": "Locomotive Scroll",
+          "preuve": "attribut data-scroll"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "text-decoration-color 0.125s ease-in-out",
+          "n": 69
+        },
+        {
+          "valeur": "color 0.125s ease-in-out",
+          "n": 40
+        },
+        {
+          "valeur": "transform 0.125s ease-in-out",
+          "n": 10
+        },
+        {
+          "valeur": "background-color 0.125s ease-in-out",
+          "n": 6
+        },
+        {
+          "valeur": "color 0.2975s cubic-bezier(0.33, 1, 0.68, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "border-color 0.2975s cubic-bezier(0.33, 1, 0.68, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "box-shadow 0.125s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "opacity 0.125s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "margin-right 0.125s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.5s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-scroll-direction",
+          "n": 1
+        },
+        {
+          "nom": "data-sticky-state",
+          "n": 1
+        },
+        {
+          "nom": "data-kl-scroll-locking-modal",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "header-component#header-component",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "opacity 0.125s ease-in-out"
+        ],
+        "attributs": [
+          "data-scroll-direction",
+          "data-sticky-state"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "main#MainContent",
+      "sections": [
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_QJDF4q",
+          "titre": null,
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 4,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_kYKy9g",
+          "titre": null,
+          "top": 844,
+          "hauteur": 2006,
+          "ecrans": 2.4,
+          "mots": 49,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_aDDAzq",
+          "titre": null,
+          "top": 2850,
+          "hauteur": 1459,
+          "ecrans": 1.7,
+          "mots": 60,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_Knx8pQ",
+          "titre": null,
+          "top": 4309,
+          "hauteur": 1004,
+          "ecrans": 1.2,
+          "mots": 10,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_KWJJVa",
+          "titre": null,
+          "top": 5313,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 8,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_panels_gnEgpN",
+          "titre": null,
+          "top": 6157,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 10,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_selection_8kFrYB",
+          "titre": "Nos Lieux",
+          "top": 7001,
+          "hauteur": 510,
+          "ecrans": 0.6,
+          "mots": 14,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--27859601588609__merci_baseline_XhnrBD",
+          "titre": null,
+          "top": 7511,
+          "hauteur": 182,
+          "ecrans": 0.2,
+          "mots": 31,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer",
+          "titre": null,
+          "top": 7693,
+          "hauteur": 688,
+          "ecrans": 0.8,
+          "mots": 14,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg",
+            "details",
+            "select"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer",
+        "liens": [
+          {
+            "texte": "S'inscrire",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "politique de confidentialité",
+            "href": "/policies/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Livraison",
+            "href": "/pages/livraison",
+            "bouton": false
+          },
+          {
+            "texte": "Retours et remboursements",
+            "href": "/pages/politique-de-remboursement",
+            "bouton": false
+          },
+          {
+            "texte": "E-Carte Cadeau",
+            "href": "/products/carte-cadeau-merci-1",
+            "bouton": false
+          },
+          {
+            "texte": "Retourner votre commande",
+            "href": "https://merci-merci.com/a/return",
+            "bouton": false
+          },
+          {
+            "texte": "Nous contacter",
+            "href": "/pages/service-client",
+            "bouton": false
+          },
+          {
+            "texte": "Questions fréquentes",
+            "href": "/pages/foire-aux-questions",
+            "bouton": false
+          },
+          {
+            "texte": "Espace professionnel",
+            "href": "/pages/espace-professionnel",
+            "bouton": false
+          },
+          {
+            "texte": "Nous rejoindre",
+            "href": "/pages/recrutement-merci",
+            "bouton": false
+          },
+          {
+            "texte": "L'Expo du moment",
+            "href": "/pages/lieux/lexpo-111-demain",
+            "bouton": false
+          },
+          {
+            "texte": "Le Blog Merci",
+            "href": "/blogs/infos",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/merciparis",
+            "bouton": false
+          },
+          {
+            "texte": "TikTok",
+            "href": "https://www.tiktok.com/@mercistoreparis",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://www.pinterest.fr/mercishopparis/",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/MerciShopParis/",
+            "bouton": false
+          },
+          {
+            "texte": "Nos magasins",
+            "href": "/pages/nos-magasins",
+            "bouton": false
+          },
+          {
+            "texte": "La Civette",
+            "href": "/pages/lieux/la-civette",
+            "bouton": false
+          },
+          {
+            "texte": "Le Pied-à-Terre",
+            "href": "/pages/lieux/lappartement-merci-109",
+            "bouton": false
+          },
+          {
+            "texte": "Le Used Book Café",
+            "href": "/pages/lieux/le-used-book-cafe",
+            "bouton": false
+          },
+          {
+            "texte": "Le Café Merci x Noir",
+            "href": "/pages/lieux/le-cine-cafe",
+            "bouton": false
+          },
+          {
+            "texte": "Au Vieux Campeur - Congés Payés",
+            "href": "https://www.auvieuxcampeur-cp.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Conditions générales de vente",
+            "href": "/policies/terms-of-sale",
+            "bouton": false
+          },
+          {
+            "texte": "Conditions générales d'utilisation",
+            "href": "/pages/conditions-generales-dutilisation",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "/policies/legal-notice",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de confidentialité",
+            "href": "/policies/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Exercer mon droit de rétractation",
+            "href": "https://merci-merci.com/a/return",
+            "bouton": false
+          },
+          {
+            "texte": "Numbered",
+            "href": "https://numbered.com/",
+            "bouton": false
+          },
+          {
+            "texte": "E-LIXIR",
+            "href": "https://www.e-lixir.fr/",
+            "bouton": false
+          },
+          {
+            "texte": "EUR Sélecteur de région et de langue / F",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Livraison",
+          "href": "/pages/livraison"
+        },
+        {
+          "texte": "E-Carte Cadeau",
+          "href": "/products/carte-cadeau-merci-1"
+        },
+        {
+          "texte": "Retourner votre commande",
+          "href": "https://merci-merci.com/a/return"
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/MerciShopParis/"
+        },
+        {
+          "texte": "Le Used Book Café",
+          "href": "/pages/lieux/le-used-book-cafe"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-content-link",
+          "position": "absolute",
+          "hauteur": 46,
+          "largeur": 217,
+          "enBas": false,
+          "mots": 5
+        },
+        {
+          "selecteur": "div#a11y-status-message",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Merci Paris",
+  "dureeS": 29.6
+}
