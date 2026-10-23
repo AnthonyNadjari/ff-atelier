@@ -10,6 +10,72 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 - la collecte doit ramener des palettes sombre (11 tirables sur 107, 14 au moins)
 <!-- /ff melanger -->
 
+## 23 oct 2026, tour 5 (routine en ligne) : 9 styles, 2 architectures
+
+**Fait**
+- Santé : 66 fichiers de tests. Deux échecs DÉJÀ présents sur `main` corrigés : `tests/melanger.test.mjs` citait l'atome
+  `bonpoint`, retiré la veille (remplacé par `artek`) ; `tekla.json` portait `fiche: "à juger"` (fiche absente : `null`).
+  Après le tour (styles et architectures fusionnés), 1 063 tests verts (5 blocs). `ff signatures` vert (185 blocs, aucune copie). Chromium installé par
+  `playwright-core` dans un dossier à part, puis `FF_CHROMIUM=1` : tout a tourné avec navigateur.
+- **Styles (2a quater)** : la collecte a commencé par les régimes en besoin (sombre, clair teinté). 17 sites démontés
+  (`ff atomes mesurer`, pages intérieures en plus pour les accueils d'un seul écran), 10 jugés, chacun essayé sur une copie
+  de `demo-boulangerie` (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de la source. **9 gardés** :
+  `maaemo`, `kadeau`, `alchemist`, `her`, `hungrytiger` (sombres), `ekstedt` (ivoire, couleurs seulement : sa typo était
+  Playfair en capitales espacées), `lacolombe`, `mociun` (colorés doux), `septime` (machine à écrire). Fiches complètes
+  dans `docs/veille/styles/<id>.md`, lignes dans [styles/INDEX.md](styles/INDEX.md). Refusé à la comparaison : sonderdays
+  (sans ses photos, un blanc neutre de plus). Écartés : aesop (anti-robot), frantzen, audo (page vide), trudon, fornasetti,
+  dandelionchocolate (fenêtres qui couvrent la page), geranium (sans caractère).
+- Palettes par régime, avant → après : sombre 6 → 11, clair teinté 6 → 7, coloré doux 15 → 17, clair neutre 71 → 72.
+  Toujours en besoin : clair teinté (7 sur 14 voulus) et sombre (11 sur 14).
+- **Mouvement** : 2 profils nouveaux dans [MOUVEMENTS.md](styles/MOUVEMENTS.md) et `scripts/ff/mouvements.mjs`, filmés sur
+  la source : `sortie-du-noir` (Maaemo : la photo sort du noir en 1,5 s, le nom suit) et `portes-qui-s-eclairent` (Kadeau :
+  deux portes en photo voilée, celle qu'on survole se dévoile). 19 profils.
+- **Deux règles apprises en regardant les essais** (ATOMES.md § Règles de compatibilité, fonctions pures testées) :
+  en capitales, interlignage du titre au moins 1,1 (les accents de « DEUXIÈME » touchaient la ligne du dessus, style her) ;
+  un h1 doit faire au moins 1,2 fois le texte au téléphone (mélange au hasard avec la typo de Loewe : titre invisible).
+  14 typos du registre sortent du tirage, leurs autres atomes restent.
+- **Architectures (2a ter)** : les deux fiches restées « à coder » sont codées dans l'usine (détail dans l'entrée suivante) :
+  `pages-adresses` (Ten Belles : le premier écran est le carnet d'adresses, une page par lieu avec ses horaires et son
+  numéro, page pour les pros) et `saisons-sorties` (Guide La Grave : une entrée de nav par saison, une page par sortie,
+  filtre par niveau). Coquilles `adresses` et `saisons`. Ressemblance 0,62 / 0,65 et 0,43 / 0,65 (au seuil pour le déroulé).
+  Le registre compte 13 architectures codées ; reste `outil-calendrier`.
+- **Marché (2a)** : 9 sites de plus (agences d'Amiens, Montpellier, Marseille ; Google : avocat à Nîmes, auto-école à
+  Saint-Étienne, fleuriste au Mans ; modèles Framer Servora, ThemeForest Carpress, Wix Plumbing Blue).
+  [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) passe à 45 sites. Aucun levier à 40 % ou plus n'est absent de l'usine. En hausse :
+  téléphone en haut 58 %, conseils 47 %, labels 38 % (le prochain à passer 40 %, absent des premiers écrans), note Google
+  au premier écran 25 %, prix écrit 24 %. Les vraies photos retombent à 47 %.
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au
+déroulé, 21 les deux), aucun site n'ayant changé. Les pires : anna-vidal / borie-des-chenes (déroulé 1,00, accueil-menu
+d'un écran), chez-malo / studio-ambre (0,87 téléphone, 0,91 ordinateur), demo-informatique / fromagerie-ravanel-d (déroulé
+0,90), prospect-ballay-macon / prospect-epi-dor (déroulé 0,89), forge-delacroix / studio-ambre (0,88 ordinateur). Signalé,
+pas corrigé.
+
+**Proposé**
+- `ff melanger --essai` sur `demo-boulangerie` remplace encore les photos par des dégradés : un style qui vit de ses photos
+  (Ekstedt, HER, Kadeau) se juge mal. Copier les photos dans les copies d'essai.
+- `business.certifications` au premier écran avant que les labels passent 40 %.
+- Un champ « nouvelle du moment » daté (5 sites sur 18 du marché).
+
+**À décider** : les 9 styles (`ff melanger <slug> --style maaemo` les applique) ; la règle « h1 1,2 fois le texte » qui
+retire 14 typos du tirage (dont Loewe, Nomos, Georg Jensen) ; les paires trop proches autour de studio-ambre.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
+## 23 oct 2026, volet 2a ter : `pages-adresses` et `saisons-sorties` codées
+
+**Fait**
+- Les deux fiches du 19 oct restées « à coder » (`docs/veille/architectures/INDEX.md`, colonne « codée ») : coquille
+  `adresses` (le premier écran est le carnet d'adresses, `lieux[]`, `pros`, `/adresses`, `/adresses/<slug>` avec un
+  `LocalBusiness` par lieu, `/professionnels`) et coquille `saisons` (une colonne par saison, `services[].saison`, `sorties[]`,
+  `/sorties/<slug>`, sorties filtrables par niveau, `/pour/<public>`, nav d'une entrée par saison). Variantes `zones/adresses`
+  et `services/saisons` pour d'autres déroulés.
+- Preuve sur deux sites jetables (supprimés) : `ff verifier` et `ff a11y` verts hors données de test, `ff ressemblance` 0,62 /
+  0,65 et 0,43 / 0,65. Les premiers essais en `flow` étaient refusés (déroulé à plus de 0,65 de 7 à 22 sites).
+- Au passage : `tekla.json` (fiche « à juger » au lieu de null) et le test des régimes (bonpoint retiré du registre) cassaient la suite.
+
+**Prochain volet** : `outil-calendrier`, seulement avec un client qui a un calendrier iCal.
+
 ## 22 oct 2026, nuit (carte blanche du fondateur) : 3 architectures, hébergement Workers, pipeline
 
 **Fait**

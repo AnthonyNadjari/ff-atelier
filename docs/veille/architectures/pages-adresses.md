@@ -128,3 +128,27 @@ nombre d'adresses lui-même. Côté pros : livraison à vélo, café consigné, 
   chez nous, une phrase de faits par lieu (année, quartier, ce qu'on y trouve).
 - Le téléphone écrit sans lien `tel:` et l'absence d'avis : le socle les impose.
 - Le sous-domaine pros séparé : une page dans le même site, même build, même domaine.
+
+## Codée dans l'usine (23 oct 2026)
+
+`layout: { architecture: 'pages-adresses' }` (`src/lib/architectures.ts`). Ce qui a été fait des six manques :
+
+1. **Fait** : `lieux[]` (`slug`, `nom`, `address`, `phone`/`phoneDisplay` avec repli sur `contact.phone`, `hours[]` de même
+   forme que `contact.hours`, `since`, `texte`, `regles[]`, `photo`, `photos[]`, `mapsUrl`, `coordinates`), `src/lib/lieux.ts`
+   (module pur), mesure `lieux` de `donneesManquantes` (2 lieux avec rue et horaires).
+2. **Fait** : `/adresses/<slug>` (`src/pages/adresses/[slug].astro`) : photo, h1 du lieu, phrase et année, état du jour et
+   semaine (`Horaires` reçoit les horaires du lieu), adresse, `tel:` du lieu, itinéraire, règles, photos, « Ce qu'on y
+   trouve » (savoir-faire communs), les autres adresses ; `lieuLd()` (`src/lib/jsonld.ts`) émet un `LocalBusiness` par lieu
+   avec son `openingHoursSpecification`, sans données de test. Pas de carte par lieu (le lien d'itinéraire la remplace).
+3. **Fait** : section `zones/adresses` (bandeau, pour un autre déroulé) et, pour l'architecture, la coquille `adresses` dont
+   le premier écran EST le carnet (une section par lieu). Essai d'abord en `flow` + `hero/fullbleed` + bandeau : premier écran
+   à 0,76 de lemaire-avocats et déroulé à 0,67-0,71 de sept sites ; refusé.
+4. **Remplacé** : pas de sous-menu `<details>` (aucune nav n'en a) ; à deux adresses la nav nomme les deux, à trois et plus
+   « Nos adresses » mène à `/adresses` (toutes les adresses + le formulaire, la page Contact de la source).
+5. **Fait** : objet `pros` (titre, texte, offres, e-mail et téléphone dédiés) → `/professionnels`, lien discret en fin de nav,
+   bandeau sur l'accueil ; jamais un sous-domaine.
+6. **Fait** : le numéro principal reste dans la nav et le premier écran ; ceux des lieux sur leur rangée et leur page.
+
+Preuve : site jetable (boulangerie à trois adresses, copie de `_exemple`, supprimé), `ff verifier` vert hors données de test,
+`ff a11y` vert, `ff ressemblance` 0,62 au premier écran (téléphone, fromagerie-ravanel-d) et 0,65 au déroulé (dentaire-morvan) :
+héros, trois lieux, bandeau des pros, pied, sur 3,4 écrans.

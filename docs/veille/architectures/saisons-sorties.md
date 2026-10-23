@@ -144,3 +144,33 @@ requis, ce qui est inclus ou non, conditions de départ).
   « 3 jours »), pas une icône par donnée.
 - Une sortie sans prix ni période : on n'invente ni l'un ni l'autre, la ligne dit « sur demande » seulement si le
   client l'a dit.
+
+## Codée dans l'usine (23 oct 2026)
+
+`layout: { architecture: 'saisons-sorties' }` (`src/lib/architectures.ts`). Ce qui a été fait des sept manques :
+
+1. **Fait** : `services[].saison` (texte du client) ; `groupesParSaison()` (`src/lib/sorties.ts`) range dès deux saisons,
+   « Toute l'année » seulement pour des activités sans saison quand les autres en ont une ; la nav n'a plus qu'une entrée par
+   saison (`/#saison-<slug>`). Mesure `saisons` (2 saisons de 2 activités).
+2. **Fait** : `sorties[]` (`slug`, `service`, `titre`, `resume`, `periode` obligatoires ; `duree`, `niveau`, `prix`,
+   `condition`, `public[]`, `programme[]`, `inclus[]`, `aPrevoir[]`, `photo`, `enAvant`, `lien` optionnels), page
+   `/sorties/<slug>` (repères en mots, `<details>` natifs, prix et condition tels quels, Réserver), liste filtrable par niveau
+   sur la page de l'activité (`src/components/SortiesFiltrables.astro`, radios + `:has()`, sans script), carte commune
+   `src/components/CarteSortie.astro`. Mesure `sorties` (4 au moins).
+3. **Fait** : `/pour/<public>` dès trois sorties pour un même public, lié depuis l'accueil (« Par public »).
+4. **Remplacé** : pas de sous-menu ; la nav nomme les saisons, l'accueil les déplie.
+5. **Fait en partie** : les sorties sont proposées dans le choix du besoin du formulaire ; le champ « Dates souhaitées » est
+   derrière `form.dates: true` (un sixième champ, que `ff verifier` signale) ; sinon le message invite à donner la sortie et
+   les dates. Le Worker de formulaire transmet les dates.
+6. **Fait en partie** : `sorties[].lien` (réservation en ligne de la sortie) ; sans lien, Réserver ouvre le tiroir de contact,
+   pas encore pré-rempli avec la sortie.
+7. **Fait** : `enAvant` posé par le studio (« À la une cette saison »), changé avec `/retouche`.
+
+Coquille `saisons` : en tête h1, métier à ville, diplômes, téléphone, note Google, « Par public » ; au téléphone les saisons en
+diptyque de photos en tête d'écran ; une section par saison (photo, nom géant, activités), côte à côte à l'ordinateur ; puis
+« À la une ». La section `services/saisons` reste une variante pour un autre déroulé. Essais refusés : `flow` +
+`services/saisons` (premier écran à plus de 0,65 de trois démos, déroulé à plus de 0,65 de vingt-deux sites) ; file
+horizontale des saisons au téléphone (déroulé à 0,86 de prospect-epi-dor-c, déjà en défilement horizontal).
+
+Preuve : site jetable (accompagnateur en montagne, deux saisons, six sorties, supprimé), `ff verifier` vert hors données de
+test, `ff a11y` vert, `ff ressemblance` 0,43 au premier écran et 0,65 au déroulé (prospect-epi-dor-b).

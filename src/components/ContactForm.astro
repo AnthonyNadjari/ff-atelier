@@ -32,6 +32,14 @@ interface Props { class?: string; compact?: boolean; idPrefix?: string }
 const { class: cls = '', compact = false, idPrefix = 'contact' } = Astro.props;
 const f = site.form;
 const services = site.services.map((s) => s.title);
+// Demande qualifiée (architecture saisons-sorties) : les sorties du client dans le choix du besoin ; le champ « Dates
+// souhaitées » seulement si form.dates est vrai (un sixième champ : ff verifier avertit au-delà de cinq), sinon le
+// message demande les dates. Rien n'est ajouté sans sortie.
+const sorties = site.sorties.map((x) => x.titre);
+const avecDates = f.dates === true;
+const invite = sorties.length > 0 && !avecDates
+  ? 'Dites-nous la sortie, les dates qui vous conviennent et combien vous serez.'
+  : 'Décrivez votre besoin, votre adresse et le meilleur moment pour vous rappeler.';
 
 // Prefixe d'identifiants : DEUX formulaires coexistent sur la meme page des que
 // `layout.contactDrawer` est actif (la section contact + le tiroir, ex. dubois-plomberie).
@@ -106,14 +114,25 @@ const input =
       />
       <p class="ff-erreur" id={`${uid}-email-erreur`}><span class="sr-only">Erreur : </span><span data-erreur-texte set:html="Cette adresse e-mail n’a pas l’air valide (exemple : nom@domaine.fr)." /></p>
     </label>
-    {services.length > 1 && (
+    {(services.length > 1 || sorties.length > 0) && (
       <label class="grid gap-1.5 text-sm" for={`${uid}-besoin`}>
         <span>Besoin</span>
         <select class={input} id={`${uid}-besoin`} name="service">
           <option value="">Choisir…</option>
-          {services.map((s) => <option value={s}>{s}</option>)}
+          {sorties.length > 0 ? (
+            <>
+              <optgroup label="Sorties">{sorties.map((s) => <option value={s}>{s}</option>)}</optgroup>
+              <optgroup label="Activités">{services.map((s) => <option value={s}>{s}</option>)}</optgroup>
+            </>
+          ) : services.map((s) => <option value={s}>{s}</option>)}
           <option value="Autre">Autre</option>
         </select>
+      </label>
+    )}
+    {avecDates && (
+      <label class="grid gap-1.5 text-sm" for={`${uid}-dates`}>
+        <span>Dates souhaitées <span class="text-muted">(facultatif)</span></span>
+        <input class={input} id={`${uid}-dates`} name="dates" autocomplete="off" placeholder="La semaine du 14 juillet, un samedi en août…" />
       </label>
     )}
     <label class="grid gap-1.5 text-sm" for={`${uid}-message`}>
@@ -124,7 +143,7 @@ const input =
         name="message"
         rows={compact ? 3 : 5}
         required
-        placeholder="Décrivez votre besoin, votre adresse et le meilleur moment pour vous rappeler."
+        placeholder={invite}
         aria-describedby={`${uid}-message-erreur`}
         data-erreur-requis="Décrivez votre besoin en une phrase : c’est ce qui permet de vous répondre précisément."
       ></textarea>
@@ -250,7 +269,7 @@ const input =
         if (data.botcheck) return;
         const provider = form.dataset.form;
         if (provider === 'mailto') {
-          const body = [`Nom : ${data.name}`, `Téléphone : ${data.phone}`, data.email && `E-mail : ${data.email}`, data.service && `Besoin : ${data.service}`, '', data.message].filter(Boolean).join('\n');
+          const body = [`Nom : ${data.name}`, `Téléphone : ${data.phone}`, data.email && `E-mail : ${data.email}`, data.service && `Besoin : ${data.service}`, data.dates && `Dates souhaitées : ${data.dates}`, '', data.message].filter(Boolean).join('\n');
           window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(form.dataset.subject!)}&body=${encodeURIComponent(body)}`;
           show('Votre messagerie va s\'ouvrir avec la demande pré-remplie.', true);
           document.dispatchEvent(new CustomEvent('ff:form-success')); // data-confetti (motion.ts) ecoute cet evenement

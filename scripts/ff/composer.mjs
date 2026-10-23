@@ -47,7 +47,7 @@ const METIERS_INDEX = ['photograph', 'artiste', 'architect', 'tatou', 'illustrat
 
 // Coquilles d'ARCHITECTURE (src/lib/architectures.ts) : elles ne s'appliquent qu'avec leur architecture entiere
 // (layout.architecture), choisie sur les donnees du client — jamais tirees au hasard ici.
-export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda', 'vitrine', 'cadre', 'scenes'];
+export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda', 'vitrine', 'cadre', 'scenes', 'adresses', 'saisons'];
 
 function shellFits(shell, { sectionsCount, motion, nav, hero, scale, metier = '' }) {
   if (COQUILLES_D_ARCHITECTURE.includes(shell)) return false;
@@ -365,6 +365,14 @@ export function varianteCompatible(type, variant, cfg = {}) {
     // que le client a donné son équipe.
     case 'services/cartes-couleur':
       return cfg.layout?.architecture === 'cadre-couleur' || services.some((s) => s && s.couleur);
+    // Adresses (Ten Belles) : le bandeau dès deux lieux ; saisons (La Grave) : dès deux saisons d'au moins deux activités.
+    case 'zones/adresses':
+      return Array.isArray(cfg.lieux) && cfg.lieux.length >= 2;
+    case 'services/saisons': {
+      const parSaison = new Map();
+      for (const s of services) { const v = String(s?.saison ?? '').trim(); if (v) parSaison.set(v, (parSaison.get(v) ?? 0) + 1); }
+      return [...parSaison.values()].filter((k) => k >= 2).length >= 2;
+    }
     case 'about/espaces':
       return cfg.layout?.architecture === 'scenes-epinglees' && Array.isArray(cfg.about?.espaces) && cfg.about.espaces.length >= 3;
     case 'about/equipe-cartes':

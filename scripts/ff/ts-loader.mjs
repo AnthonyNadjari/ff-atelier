@@ -184,6 +184,23 @@ export async function loadProduitsModule() {
   return loadPureLibModule('produits.ts');
 }
 
+/**
+ * Copie src/lib/lieux.ts (module pur) dans TMP_DIR/lib/ et l'importe. Renvoie { telDuLieu, adresseDuLieu, autresLieux,
+ * liensLieux, lienPros, lieuxComplets } (architecture pages-adresses, tests/architectures.test.mjs).
+ */
+export async function loadLieuxModule() {
+  return loadPureLibModule('lieux.ts');
+}
+
+/**
+ * Copie src/lib/sorties.ts (module pur) dans TMP_DIR/lib/ et l'importe. Renvoie { slugTexte, saisonsDe, groupesParSaison,
+ * saisonsCompletes, sortiesDuService, niveauxDe, sortiesEnAvant, publicsDe, liensSaisons, TOUTE_L_ANNEE } (architecture
+ * saisons-sorties, tests/architectures.test.mjs).
+ */
+export async function loadSortiesModule() {
+  return loadPureLibModule('sorties.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

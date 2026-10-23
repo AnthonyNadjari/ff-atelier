@@ -12,6 +12,10 @@ export { agendaAVenir, dateAgenda, categoriesAgenda, lienAgenda, isoDuJour } fro
 import { lienAgenda } from './agenda';
 export { categoriesProduits, autresProduits, lienProduits, prixEnOffre } from './produits';
 import { lienProduits } from './produits';
+export { telDuLieu, adresseDuLieu, autresLieux, liensLieux, lienPros, lieuxComplets } from './lieux';
+import { liensLieux, lienPros } from './lieux';
+export { slugTexte, saisonsDe, groupesParSaison, saisonsCompletes, sortiesDuService, niveauxDe, sortiesEnAvant, publicsDe, liensSaisons, TOUTE_L_ANNEE } from './sorties';
+import { liensSaisons } from './sorties';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -111,6 +115,8 @@ export const photosDuSite = (s: Site = site) => {
     ...s.realisations.flatMap((r) => r.photos),
     ...s.services.flatMap((x) => [x.image, ...x.images]),
     ...s.produits.flatMap((p) => [p.photo, ...p.photos]),
+    ...s.lieux.flatMap((l) => [l.photo, ...l.photos]),
+    ...s.sorties.map((x) => x.photo),
   ];
   for (const p of candidates) {
     if (!p || vues.has(p.src)) continue;
@@ -172,6 +178,30 @@ export const navLinks = (s: Site = site) => {
     const pages = s.services.map((x) => ({ href: `/services/${x.slug}`, label: x.title }));
     if (i === -1) links.unshift(...pages); else links.splice(i, 1, ...pages);
   }
+  // Saisons (src/lib/sorties.ts, architecture saisons-sorties) : dès deux saisons et la section services/saisons sur
+  // l'accueil, l'ancre #services devient une entrée par saison (« Été », « Hiver » : les deux mots de la nav du Bureau
+  // des guides de La Grave), chacune vers son groupe.
+  // Coquille `saisons` : les saisons sont le premier écran, leurs entrées ouvrent la nav.
+  if (s.layout.shell === 'saisons' || s.layout.sections.some((x) => x.type === 'services' && x.variant === 'saisons')) {
+    const saisons = liensSaisons(s.services);
+    const i = links.findIndex((l) => l.href === '/#services');
+    if (saisons.length > 0) {
+      if (i !== -1) links.splice(i, 1, ...saisons);
+      else links.unshift(...saisons);
+    }
+  }
+  // Adresses (src/lib/lieux.ts, architecture pages-adresses) : des pages, pas une ancre. Une ou deux adresses : leur nom ;
+  // trois et plus : « Nos adresses » vers /adresses. Avant Contact.
+  const lieux = liensLieux(s.lieux ?? [], s.wording.lieux);
+  // Le bandeau zones/adresses n'est jamais une ancre de nav (sans lieu, il n'est pas rendu : l'ancre mènerait nulle part).
+  if (lieux.length > 0 || s.layout.sections.some((x) => x.type === 'zones' && x.variant === 'adresses')) {
+    const iZ = links.findIndex((l) => l.href === '/#zones');
+    if (iZ !== -1) links.splice(iZ, 1);
+  }
+  if (lieux.length > 0) {
+    const iC = links.findIndex((l) => l.href === '/#contact');
+    links.splice(iC === -1 ? links.length : iC, 0, ...lieux);
+  }
   // Rubrique conseils (src/lib/conseils.ts) : une page, pas une ancre ; seulement si le client a des articles.
   const conseils = lienConseils(s.conseils ?? [], s.wording.conseils);
   if (conseils) {
@@ -187,5 +217,8 @@ export const navLinks = (s: Site = site) => {
   // Produits (src/lib/produits.ts, architecture gamme-vitrine) : la gamme est le site, son lien ouvre la nav.
   const produits = lienProduits(s.produits ?? [], s.wording.produits);
   if (produits) links.unshift(produits);
+  // Professionnels (site.pros, architecture pages-adresses) : un lien discret, en dernier.
+  const pros = lienPros(s.pros, s.wording.pros);
+  if (pros) links.push(pros);
   return links;
 };

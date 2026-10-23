@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { loadArchitecturesModule, loadSchemaModule, loadAgendaModule, loadProduitsModule, loadCouleurModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
+import { loadArchitecturesModule, loadSchemaModule, loadAgendaModule, loadProduitsModule, loadCouleurModule, loadLieuxModule, loadSortiesModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
 
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const tsImportable = await canImportTs();
@@ -648,7 +648,7 @@ test('pages : /agenda (à venir, filtres :has()), /realisations (coquilles panne
   assert.match(ri, /COQUILLES_A_INDEX_REALISATIONS/);
   assert.match(ri, /\.ri:has\(#ri-1:checked\)/);
   assert.match(read('src/pages/realisations/[slug].astro'), /href=\{retour\}/);
-  assert.match(read('src/pages/services/[slug].astro'), /site\.layout\.servicePage === 'livre' \? \(\s*\n\s*<main id="main"><ServiceLivre service=\{service\} \/><\/main>/);
+  assert.match(read('src/pages/services/[slug].astro'), /site\.layout\.servicePage === 'livre' \? \(\s*\n\s*<main id="main"><ServiceLivre service=\{service\} \/>/);
   const sl = read('src/components/ServiceLivre.astro');
   assert.match(sl, /getSection\('contact', 'ecran'\)/, 'chaque page se ferme sur le même écran de contact');
   assert.match(sl, /<h1 /);
@@ -945,8 +945,8 @@ test('coquille cadre : cadre fixe (fond du body, marges, nav rentrée), premier 
   assert.match(src, /@media \(min-width: 48rem\) \{\s*\[data-shell='cadre'\] \{ --cadre: 1\.5rem; \}/, '24 px dès 48 rem, 16 px au téléphone');
   assert.match(src, /prefers-reduced-motion/);
   assert.doesNotMatch(code, /#[0-9a-fA-F]{3,8}\b|rounded-full|999px|radius-pill|uppercase|tracking-|[·—]|italic|data-marquee/);
-  assert.match(read('scripts/ff/composer.mjs'), /COQUILLES_D_ARCHITECTURE = \[[^\]]*'cadre', 'scenes'\]/);
-  assert.match(read('tests/shells.test.mjs'), /SANS_HERO = \[[^\]]*'cadre', 'scenes'\]/);
+  assert.match(read('scripts/ff/composer.mjs'), /COQUILLES_D_ARCHITECTURE = \[[^\]]*'cadre', 'scenes'/);
+  assert.match(read('tests/shells.test.mjs'), /SANS_HERO = \[[^\]]*'cadre', 'scenes'/);
 });
 
 test('services/cartes-couleur : une couleur par activité (styleTeinte, data-theme), sinon la même teinte douce, toute la carte est le lien', () => {
@@ -1087,6 +1087,279 @@ test('fumigène : architecture gamme-vitrine (FF_LOOK) sur _exemple (sans produi
     assert.ok(!f.existe('produits.html') && !f.existe('produits/index.html'), 'ni page /produits');
     assert.ok(f.existe('a-propos.html') || f.existe('a-propos/index.html'), 'page À propos');
     assert.ok(f.existe('services/cuisines.html'), 'pages des activités');
+  } finally {
+    f.rm();
+  }
+});
+
+// ---- 23 oct 2026 : pages-adresses (Ten Belles) et saisons-sorties (Bureau des guides de La Grave) : les deux fiches du
+// 19 oct restées « à coder ». Le site se range par adresse (lieux[], /adresses/<slug>, pros) ou par saison
+// (services[].saison, sorties[], /sorties/<slug>, /pour/<public>). ----
+
+if (tsImportable) {
+  test('registre pages-adresses / saisons-sorties : coquilles adresses et saisons, aucune section, À propos, tiroir, mesures lieux, saisons, sorties', async () => {
+    const { ARCHITECTURES, ARCHITECTURE_IDS, VARIANTES_D_ARCHITECTURE, completerLayout } = await loadArchitecturesModule();
+    for (const id of ['pages-adresses', 'saisons-sorties']) assert.ok(ARCHITECTURE_IDS.includes(id), id);
+    const a = ARCHITECTURES['pages-adresses'];
+    assert.equal(a.layout.shell, 'adresses');
+    assert.deepEqual(a.layout.sections, []);
+    assert.equal(a.layout.footer, 'columns', 'le pied répète les adresses');
+    assert.equal(a.layout.contactDrawer, true);
+    assert.equal(a.layout.pageAPropos, true);
+    assert.deepEqual(a.requis.map((e) => e.mesure), ['lieux', 'pasUrgence']);
+    const s = ARCHITECTURES['saisons-sorties'];
+    assert.equal(s.layout.shell, 'saisons');
+    assert.deepEqual(s.layout.sections, []);
+    assert.equal(s.layout.contactDrawer, true);
+    assert.equal(s.layout.pageAPropos, true);
+    assert.deepEqual(s.requis.map((e) => e.mesure), ['saisons', 'sorties', 'pasUrgence']);
+    assert.equal(completerLayout({ architecture: 'saisons-sorties' }).shell, 'saisons');
+    for (const v of ['zones/adresses', 'services/saisons']) assert.ok(VARIANTES_D_ARCHITECTURE.includes(v), v);
+  });
+
+  test('donneesManquantes : lieux (rue ET horaires), saisons (2 activités chacune), sorties (période), photos des lieux et des sorties', async () => {
+    const { donneesManquantes, photosDuClient } = await loadArchitecturesModule();
+    const h = [{ days: 'Lundi', hours: '8 h' }];
+    const lieu = (street) => ({ address: { street, postalCode: '69002', city: 'Lyon' }, hours: h });
+    assert.deepEqual(donneesManquantes('pages-adresses', { lieux: [lieu('1 rue A'), lieu('2 rue B')] }), []);
+    assert.match(donneesManquantes('pages-adresses', { lieux: [lieu('1 rue A'), lieu(undefined)] }).join(), /2 adresses.*\(1 aujourd’hui\)/, 'un lieu sans rue ne compte pas');
+    assert.match(donneesManquantes('pages-adresses', { lieux: [lieu('1 rue A'), { address: { street: '2 rue B' }, hours: [] }] }).join(), /\(1 aujourd’hui\)/, 'un lieu sans horaires ne compte pas');
+    assert.match(donneesManquantes('pages-adresses', {}).join(), /\(0 aujourd’hui\)/);
+    assert.match(donneesManquantes('pages-adresses', { lieux: [lieu('a'), lieu('b')], contact: { emergency24h: true } }).join(), /urgence/);
+    const services = [{ saison: 'Été' }, { saison: 'Été' }, { saison: 'Hiver' }, { saison: 'Hiver ' }];
+    const sorties = Array.from({ length: 4 }, () => ({ periode: 'De juin à septembre' }));
+    assert.deepEqual(donneesManquantes('saisons-sorties', { services, sorties }), []);
+    assert.match(donneesManquantes('saisons-sorties', { services: services.slice(0, 3), sorties }).join(), /2 saisons.*\(1 aujourd’hui\)/, 'une saison d’une seule activité ne compte pas');
+    assert.match(donneesManquantes('saisons-sorties', { services, sorties: sorties.slice(0, 2) }).join(), /4 sorties.*\(2 aujourd’hui\)/);
+    assert.match(donneesManquantes('saisons-sorties', { services: [{}, {}], sorties }).join(), /\(0 aujourd’hui\)/, 'sans saison : rien n’est deviné');
+    const p = { src: '/x.webp', alt: 'x' };
+    assert.equal(photosDuClient({ lieux: [{ photo: p, photos: [p, p] }], sorties: [{ photo: p }, {}] }), 4);
+  });
+
+  test('schema : lieux[], pros, sorties[], services[].saison (défauts vides ou absents, décrits), form.dates, wording.lieux et wording.pros, coquilles et variantes', async () => {
+    const { defineSite, SHELLS, VARIANTS } = await loadSchemaModule();
+    assert.ok(SHELLS.includes('adresses') && SHELLS.includes('saisons'));
+    assert.ok(VARIANTS.zones.includes('adresses'));
+    assert.ok(VARIANTS.services.includes('saisons'));
+    const vide = defineSite(minimal);
+    assert.deepEqual(vide.lieux, []);
+    assert.deepEqual(vide.sorties, []);
+    assert.equal(vide.pros, undefined);
+    assert.equal(vide.services[0].saison, undefined);
+    assert.equal(vide.form.dates, undefined);
+    assert.equal(vide.wording.lieux, 'Nos adresses');
+    assert.equal(vide.wording.pros, 'Professionnels');
+    const avec = defineSite({
+      ...minimal,
+      layout: { architecture: 'pages-adresses' },
+      lieux: [{ slug: 'gare', nom: 'La gare', address: { postalCode: '69002', city: 'Lyon' }, hours: [{ days: 'Lundi', hours: '8 h à 12 h', opens: '08:00', closes: '12:00' }] }],
+      pros: { titre: 'Restaurants', texte: 'Livraison le matin.' },
+      services: [{ slug: 's', title: 'T', short: 'S', saison: 'Été' }],
+      sorties: [{ slug: 'lac', service: 's', titre: 'Le lac', resume: 'Une journée.', periode: 'Juillet' }],
+    });
+    assert.equal(avec.layout.shell, 'adresses');
+    assert.equal(avec.lieux[0].phone, undefined, 'téléphone du lieu absent = absent (repli au rendu)');
+    assert.deepEqual(avec.lieux[0].regles, []);
+    assert.deepEqual(avec.pros.offres, []);
+    assert.equal(avec.services[0].saison, 'Été');
+    assert.equal(avec.sorties[0].prix, undefined, 'prix absent = absent');
+    assert.equal(avec.sorties[0].enAvant, false);
+    assert.deepEqual(avec.sorties[0].programme, []);
+    assert.throws(() => defineSite({ ...minimal, sorties: [{ slug: 'x', titre: 'X', resume: 'R' }] }), /sorties/, 'la période est obligatoire');
+    assert.throws(() => defineSite({ ...minimal, lieux: [{ slug: 'X Y', nom: 'X', address: { postalCode: '1', city: 'C' } }] }), /lieux/);
+    const schema = read('src/lib/schema.ts');
+    assert.match(schema, /Jamais une adresse inventee/);
+    assert.match(schema, /Jamais une sortie, une periode ou un prix inventes/);
+    assert.match(schema, /hours: z\.array\(ligneHoraire\)\.default\(\[\]\),/, 'contact.hours et lieux[].hours partagent la même ligne');
+  });
+
+  test('lieux (module pur) : téléphone du lieu avec repli, adresse, autres lieux, nav (deux noms ou « Nos adresses »), pros, lieux complets', async () => {
+    const { telDuLieu, adresseDuLieu, autresLieux, liensLieux, lienPros, lieuxComplets } = await loadLieuxModule();
+    const contact = { phone: '+33611111111', phoneDisplay: '06 11 11 11 11' };
+    assert.deepEqual(telDuLieu({ phone: '+33622222222', phoneDisplay: '06 22 22 22 22' }, contact), { href: 'tel:+33622222222', affiche: '06 22 22 22 22', propre: true });
+    assert.deepEqual(telDuLieu({}, contact), { href: 'tel:+33611111111', affiche: '06 11 11 11 11', propre: false }, 'jamais un numéro deviné');
+    assert.equal(telDuLieu({ phone: '+33622222222' }, contact).affiche, '+33622222222');
+    assert.equal(adresseDuLieu({ address: { street: '8 rue Mercière', postalCode: '69002', city: 'Lyon' } }), '8 rue Mercière, 69002 Lyon');
+    assert.equal(adresseDuLieu({ address: { postalCode: '69002', city: 'Lyon' } }), '69002 Lyon');
+    const ls = [{ slug: 'a', nom: 'A' }, { slug: 'b', nom: 'B' }, { slug: 'c', nom: 'C' }];
+    assert.deepEqual(autresLieux(ls, 'b').map((l) => l.slug), ['a', 'c']);
+    assert.deepEqual(liensLieux(ls.slice(0, 2), 'Nos adresses'), [{ href: '/adresses/a', label: 'A' }, { href: '/adresses/b', label: 'B' }]);
+    assert.deepEqual(liensLieux(ls, 'Nos boutiques'), [{ href: '/adresses', label: 'Nos boutiques' }]);
+    assert.deepEqual(liensLieux([], 'x'), []);
+    assert.deepEqual(lienPros({ titre: 't' }, 'Pros'), { href: '/professionnels', label: 'Pros' });
+    assert.equal(lienPros(undefined, 'Pros'), null);
+    assert.equal(lieuxComplets([{ address: { street: 'r' }, hours: [1] }, { address: {}, hours: [1] }, { address: { street: 'r' }, hours: [] }]), 1);
+    assert.doesNotMatch(read('src/lib/lieux.ts'), /^import (?!type )/m, 'module pur');
+  });
+
+  test('sorties (module pur) : saisons dans l’ordre, groupes dès deux saisons (Toute l’année seulement si besoin), sorties d’une activité, niveaux, en avant, publics, nav', async () => {
+    const { slugTexte, saisonsDe, groupesParSaison, saisonsCompletes, sortiesDuService, niveauxDe, sortiesEnAvant, publicsDe, liensSaisons, TOUTE_L_ANNEE } = await loadSortiesModule();
+    assert.equal(slugTexte('Été'), 'ete');
+    assert.equal(slugTexte('Scolaires et centres'), 'scolaires-et-centres');
+    const sv = [{ slug: 'rando', saison: 'Été' }, { slug: 'raq', saison: 'Hiver' }, { slug: 'via', saison: 'Été ' }, { slug: 'cours' }];
+    assert.deepEqual(saisonsDe(sv), ['Été', 'Hiver']);
+    const g = groupesParSaison(sv);
+    assert.deepEqual(g.map((x) => [x.saison, x.slug, x.services.map((s) => s.slug)]), [['Été', 'ete', ['rando', 'via']], ['Hiver', 'hiver', ['raq']], [TOUTE_L_ANNEE, 'toute-l-annee', ['cours']]]);
+    assert.deepEqual(groupesParSaison([{ slug: 'a', saison: 'Été' }, { slug: 'b' }]), [], 'une seule saison : rien ne change');
+    assert.deepEqual(groupesParSaison(sv.slice(0, 3)).map((x) => x.saison), ['Été', 'Hiver'], 'pas de « Toute l’année » sans activité sans saison');
+    assert.equal(saisonsCompletes(sv), 1);
+    assert.deepEqual(liensSaisons(sv), [{ href: '/#saison-ete', label: 'Été' }, { href: '/#saison-hiver', label: 'Hiver' }]);
+    const so = [
+      { slug: 'a', service: 'rando', niveau: 'Découverte', enAvant: true, public: ['Familles'] },
+      { slug: 'b', service: 'rando', niveau: 'Confirmé', public: ['Familles', 'Scolaires'] },
+      { slug: 'c', service: 'raq', niveau: 'Découverte ', enAvant: true, public: ['Familles '] },
+      { slug: 'd' },
+    ];
+    assert.deepEqual(sortiesDuService(so, 'rando').map((x) => x.slug), ['a', 'b']);
+    assert.deepEqual(niveauxDe(so), ['Découverte', 'Confirmé']);
+    assert.deepEqual(sortiesEnAvant(so).map((x) => x.slug), ['a', 'c']);
+    assert.deepEqual(sortiesEnAvant(so, 1).map((x) => x.slug), ['a']);
+    assert.deepEqual(publicsDe(so), [{ public: 'Familles', slug: 'familles', n: 3 }], 'une page par public de trois sorties ou plus');
+    assert.deepEqual(publicsDe(so, 1).map((p) => p.public), ['Familles', 'Scolaires']);
+    assert.doesNotMatch(read('src/lib/sorties.ts'), /^import (?!type )/m, 'module pur');
+  });
+}
+
+test('coquille adresses : intro (h1, métier à ville, tel:, note), une section par lieu (tel: du lieu, état du jour), bandeau pros, repli sans lieu, tokens', () => {
+  const code = codeDe(read('src/shells/adresses.astro'));
+  assert.equal((code.match(/<h1[\s>]/g) || []).length, 1);
+  assert.match(code, /metierEtVille\(\)/);
+  assert.match(code, /href=\{tel\(\)\}/);
+  assert.match(code, /site\.proof\.google/);
+  assert.match(code, /lieux\.map\(\(l, i\) => \{/);
+  assert.match(code, /<section id=\{i === 0 \? 'adresses' : undefined\} class:list=\{\['adr-lieu'/, 'une section par lieu');
+  assert.match(code, /telDuLieu\(l, site\.contact\)/);
+  assert.match(code, /<HorairesDuJour hours=\{l\.hours\}/);
+  assert.match(code, /href=\{`\/adresses\/\$\{l\.slug\}`\}/);
+  assert.match(code, /href="\/professionnels"/);
+  assert.match(code, /donneesManquantes\('pages-adresses', site\)/, 'sans lieu : message au build');
+  assert.match(code, /<Footer \/>/);
+  assert.doesNotMatch(code, /<Hero\s*\/>/);
+  assert.doesNotMatch(code, /#[0-9a-fA-F]{3,8}\b/, 'tokens uniquement');
+  assert.doesNotMatch(code, /font-family|rounded-full|999px|uppercase|tracking-|[·—]|italic|eyebrow/);
+  assert.match(read('scripts/ff/composer.mjs'), /COQUILLES_D_ARCHITECTURE = \[[^\]]*'adresses', 'saisons'/);
+});
+
+test('coquille saisons : en tête h1, métier à ville, diplômes, tel:, note, par public ; une section par saison (id saison-<slug>) ; à la une ; id contact ; repli ; tokens', () => {
+  const code = codeDe(read('src/shells/saisons.astro'));
+  assert.equal((code.match(/<h1[\s>]/g) || []).length, 1);
+  assert.match(code, /metierEtVille\(\)/);
+  assert.match(code, /business\.certifications/);
+  assert.match(code, /href=\{tel\(\)\}/);
+  assert.match(code, /site\.proof\.google/);
+  assert.match(code, /<div id="contact" class="ss-cote">/, 'sans section contact, /#contact a une cible sans script');
+  assert.match(code, /href=\{`\/pour\/\$\{p\.slug\}`\}/);
+  assert.match(code, /groupesParSaison\(site\.services\)/);
+  assert.match(code, /id=\{g\.saison \? `saison-\$\{g\.slug\}` : 'services'\}/);
+  assert.match(code, /<CarteSortie sortie=\{x\}/);
+  assert.match(code, /donneesManquantes\('saisons-sorties', site\)/);
+  assert.doesNotMatch(code, /overflow-x: auto/, 'jamais la file horizontale (essai refusé : déroulé à 0,86 de prospect-epi-dor-c)');
+  assert.doesNotMatch(code, /#[0-9a-fA-F]{3,8}\b/);
+  assert.doesNotMatch(code, /font-family|rounded-full|999px|uppercase|tracking-|[·—]|italic|eyebrow|text-shadow/);
+});
+
+test('sections zones/adresses et services/saisons : lisent site, rien sans donnée, tel: du lieu, ancres de saison, cartes de sortie, tokens', () => {
+  const ad = codeDe(read('src/sections/Zones/adresses.astro'));
+  assert.match(ad, /\{lieux\.length > 0 && \(/, 'aucun lieu = rien');
+  assert.match(ad, /<section id="zones"/);
+  assert.match(ad, /telDuLieu\(l, site\.contact\)/);
+  assert.match(ad, /<HorairesDuJour hours=\{l\.hours\}/);
+  const sa = codeDe(read('src/sections/Services/saisons.astro'));
+  assert.match(sa, /<section id="services"/);
+  assert.match(sa, /id=\{g\.slug \? `saison-\$\{g\.slug\}` : undefined\}/);
+  assert.match(sa, /sortiesEnAvant\(site\.sorties, 3\)/);
+  assert.match(sa, /publicsDe\(site\.sorties\)/);
+  for (const c of [ad, sa]) assert.doesNotMatch(c, /#[0-9a-fA-F]{3,8}\b|font-family|rounded-full|uppercase|tracking-|[·—]|italic|eyebrow/);
+  const carte = codeDe(read('src/components/CarteSortie.astro'));
+  assert.match(carte, /x\.duree \? \{ k: 'Durée'/, 'repères en mots, absents s’ils manquent');
+  assert.match(carte, /const reserver = x\.lien \?\? '\/#contact'/);
+  const filtre = codeDe(read('src/components/SortiesFiltrables.astro'));
+  assert.match(filtre, /niveaux\.length >= 2 && \(/);
+  assert.match(filtre, /\.sf:has\(\[data-sf="1"\]:checked\) \.sf-item:not\(\[data-niveau="1"\]\)/, 'filtre sans script');
+  assert.doesNotMatch(filtre, /<script/);
+  const comp = read('scripts/ff/composer.mjs');
+  assert.match(comp, /case 'zones\/adresses':/);
+  assert.match(comp, /case 'services\/saisons':/);
+});
+
+test('pages /adresses, /adresses/<slug>, /professionnels, /sorties/<slug>, /pour/<public> : générées seulement avec leurs données ; JSON-LD par lieu ; nav ; formulaire', () => {
+  const lieu = read('src/pages/adresses/[slug].astro');
+  assert.match(lieu, /site\.lieux\.map\(\(l\) => \(\{ params: \{ slug: l\.slug \}/);
+  assert.match(lieu, /lieuLd\(site, l, pageUrl/);
+  assert.match(lieu, /<Horaires hours=\{l\.hours\} \/>/);
+  assert.match(lieu, /telDuLieu\(l, site\.contact\)/);
+  assert.match(read('src/pages/adresses/[...index].astro'), /site\.lieux\.length > 0 \? \[\{ params: \{ index: undefined \} \}\] : \[\]/);
+  assert.match(read('src/pages/adresses/[...index].astro'), /<section id="ecrire"/);
+  assert.match(read('src/pages/professionnels/[...index].astro'), /site\.pros \? \[\{ params: \{ index: undefined \} \}\] : \[\]/);
+  const so = read('src/pages/sorties/[slug].astro');
+  assert.match(so, /site\.sorties\.map\(\(x\) => \(\{ params: \{ slug: x\.slug \}/);
+  assert.match(so, /<details class="so-bloc"/, 'programme, inclus, à prévoir en <details> natifs');
+  assert.match(so, /\]\.filter\(Boolean\)/, 'un bloc absent n’existe pas');
+  assert.match(read('src/pages/pour/[public].astro'), /publicsDe\(site\.sorties\)\.map/);
+  assert.match(read('src/pages/services/[slug].astro'), /sortiesDuService\(site\.sorties, service\.slug\)/);
+  const ld = read('src/lib/jsonld.ts');
+  assert.match(ld, /export function lieuLd\(/);
+  assert.match(ld, /openingHoursSpecification\(lieu\.hours\)/);
+  assert.match(ld, /\.\.\.\(!test\.tel \? \{ telephone/, 'jamais de téléphone de test envoyé');
+  const s = read('src/lib/site.ts');
+  assert.match(s, /liensLieux\(s\.lieux \?\? \[\], s\.wording\.lieux\)/);
+  assert.match(s, /lienPros\(s\.pros, s\.wording\.pros\)/);
+  assert.match(s, /s\.layout\.shell === 'saisons' \|\|/);
+  const form = read('src/components/ContactForm.astro');
+  assert.match(form, /const avecDates = f\.dates === true;/, 'sixième champ seulement sur demande');
+  assert.match(form, /<optgroup label="Sorties">/);
+  assert.match(read('src/worker/contact.js'), /Dates souhaitées : \$\{dates\}/);
+  for (const f of ['src/components/Horaires.astro', 'src/components/HorairesDuJour.astro']) assert.match(read(f), /const lignes = hours \?\? site\.contact\.hours;/, `${f} : horaires d’un lieu`);
+  assert.match(read('src/sections/Footer/columns.astro'), /site\.lieux\.length > 0 \? \(/, 'le pied répète les adresses');
+  assert.match(read('scripts/ff/ts-loader.mjs'), /export async function loadLieuxModule\(\)/);
+  assert.match(read('scripts/ff/ts-loader.mjs'), /export async function loadSortiesModule\(\)/);
+});
+
+test('docs : DIRECTIONS (coquilles adresses et saisons, zones/adresses, services/saisons), INDEX (colonne codée), fiches, CLAUDE.md', () => {
+  const d = read('docs/DIRECTIONS.md');
+  assert.match(d, /^\| `adresses` \| \*\*Architecture `pages-adresses`\*\*/m);
+  assert.match(d, /^\| `saisons` \| \*\*Architecture `saisons-sorties`\*\*/m);
+  assert.match(d, /^\| `adresses` \| \*\*Bandeau des adresses\*\*/m);
+  assert.match(d, /^\| `saisons` \| \*\*Les activités rangées par saison\*\*/m);
+  const idx = read('docs/veille/architectures/INDEX.md');
+  assert.match(idx, /\| codée \|/);
+  assert.match(idx, /^\| \[pages-adresses\]\(pages-adresses\.md\) \|.*\| oui \(23 oct\)/m);
+  assert.match(idx, /^\| \[saisons-sorties\]\(saisons-sorties\.md\) \|.*\| oui \(23 oct\)/m);
+  for (const f of ['pages-adresses', 'saisons-sorties']) assert.match(read(`docs/veille/architectures/${f}.md`), /## Codée dans l'usine \(23 oct 2026\)/);
+  assert.match(read('CLAUDE.md'), /`lieux` \(défaut `\[\]`\)/);
+});
+
+test('fumigène : architecture pages-adresses (FF_LOOK) sur _exemple (sans lieu) rend l’intro et la photo, ni page d’adresse ni page pros', { timeout: 180_000 }, () => {
+  const f = fumigene({ layout: { architecture: 'pages-adresses' } }, '_test-archi-adresses-fum');
+  try {
+    const html = f.html();
+    assert.match(html, /data-shell="adresses"/);
+    assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
+    assert.match(html, /class="adr-intro"[\s\S]*?href="tel:\+33600000000"/);
+    assert.match(html, /adr-photo-seule/, 'sans lieu : la photo seule, aucun lieu inventé');
+    assert.doesNotMatch(html, /href="\/adresses/);
+    assert.doesNotMatch(html, /href="\/professionnels"/);
+    assert.ok(!f.existe('adresses.html') && !f.existe('adresses/index.html'), 'ni page /adresses');
+    assert.ok(!f.existe('professionnels.html'), 'ni page pros');
+    assert.ok(f.existe('a-propos.html') || f.existe('a-propos/index.html'));
+    assert.ok(f.existe('services/cuisines.html'));
+  } finally {
+    f.rm();
+  }
+});
+
+test('fumigène : architecture saisons-sorties (FF_LOOK) sur _exemple (sans saison ni sortie) rend une colonne unique, ni page de sortie ni page par public', { timeout: 180_000 }, () => {
+  const f = fumigene({ layout: { architecture: 'saisons-sorties' } }, '_test-archi-saisons-fum');
+  try {
+    const html = f.html();
+    assert.match(html, /data-shell="saisons"/);
+    assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
+    assert.match(html, /<div id="contact" class="ss-cote[\s\S]*?href="tel:\+33600000000"/);
+    assert.match(html, /<section id="services" class="ss-saison/, 'sans saison : une seule colonne');
+    assert.doesNotMatch(html, /id="saison-|class="ss-portes"|class="container-ff ss-une"/, 'ni saison ni sortie inventée');
+    assert.doesNotMatch(html, /name="dates"/);
+    assert.ok(!f.existe('sorties') && !f.existe('pour'), 'ni page de sortie ni page par public');
+    assert.ok(f.existe('services/cuisines.html'));
   } finally {
     f.rm();
   }

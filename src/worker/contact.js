@@ -108,9 +108,10 @@ async function handleContact(request, env) {
 
   const email = String(data.email || '').trim();
   const service = String(data.service || '').trim();
+  const dates = String(data.dates || '').trim().slice(0, 200);
   const message = String(data.message || '').trim();
   const subject = String(data.subject || `Nouvelle demande de ${name}`).slice(0, 200);
-  const text = [`Nom : ${name}`, `Téléphone : ${phone}`, email && `E-mail : ${email}`, service && `Besoin : ${service}`, '', message]
+  const text = [`Nom : ${name}`, `Téléphone : ${phone}`, email && `E-mail : ${email}`, service && `Besoin : ${service}`, dates && `Dates souhaitées : ${dates}`, '', message]
     .filter(Boolean)
     .join('\n');
 

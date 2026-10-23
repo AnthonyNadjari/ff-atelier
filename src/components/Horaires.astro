@@ -13,9 +13,11 @@ import { semaine } from '@/lib/horaires';
 
 interface Props {
   class?: string;
+  /** Horaires d'un lieu (site.lieux[].hours, architecture pages-adresses) ; absent = site.contact.hours. */
+  hours?: typeof site.contact.hours;
 }
-const { class: cls = '' } = Astro.props;
-const lignes = site.contact.hours;
+const { class: cls = '', hours } = Astro.props;
+const lignes = hours ?? site.contact.hours;
 const sem = lignes.length > 0 ? semaine(lignes) : undefined;
 const data = sem ? JSON.stringify(sem.map((j) => ({ creneaux: j.creneaux, ferme: j.ferme }))) : undefined;
 ---

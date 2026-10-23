@@ -51,10 +51,13 @@ export interface LayoutArchi {
  *  - histoire        : paragraphes de about.story (du vrai texte, un écran par paragraphe) ;
  *  - agenda          : rendez-vous datés (agenda[]) ; les dates passées tombent au build (src/lib/agenda.ts) ;
  *  - produits        : produits de la gamme (produits[], chacun avec sa photo détourée ; src/lib/produits.ts) ;
- *  - espaces         : espaces du lieu qu'on visite (about.espaces[] : nom, phrase, photo et couleur optionnelles).
+ *  - espaces         : espaces du lieu qu'on visite (about.espaces[] : nom, phrase, photo et couleur optionnelles) ;
+ *  - lieux           : adresses complètes (lieux[] avec une rue ET des horaires ; src/lib/lieux.ts, lieuxComplets) ;
+ *  - saisons         : saisons qui ont au moins 2 activités (services[].saison ; src/lib/sorties.ts, saisonsCompletes) ;
+ *  - sorties         : sorties datées et cotées (sorties[] : période obligatoire, durée, niveau, prix si donnés).
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -85,6 +88,8 @@ export const ARCHITECTURE_IDS = [
   'gamme-vitrine',
   'cadre-couleur',
   'scenes-epinglees',
+  'pages-adresses',
+  'saisons-sorties',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -395,6 +400,70 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Lieu qu'on visite avec plusieurs espaces ou ateliers à montrer (3 au moins) et, idéalement, une équipe qui pose (about.team) : café, boulangerie avec salle, restaurant, tiers-lieu, atelier visitable, ferme. Client qui veut séduire plus qu'informer. Pas pour l'urgence ni les clients pressés.",
   },
+  'pages-adresses': {
+    id: 'pages-adresses',
+    modele:
+      "Le site se range par adresse : l'accueil est court (la photo, le h1, le métier à la ville et le téléphone principal, puis dès le deuxième bloc le bandeau des adresses, une rangée par lieu avec sa rue, l'état du jour, son numéro et l'itinéraire, puis l'histoire et les avis) ; chaque lieu a sa page, une fiche pratique qui répond en un écran (photo, horaires de CE lieu, adresse, téléphone, règles, ce qu'on y trouve, les autres adresses) ; les savoir-faire sont décrits une seule fois pour toutes les adresses ; les professionnels ont leur page à part.",
+    sources: [{ fiche: 'docs/veille/architectures/pages-adresses.md', site: 'tenbelles.com' }],
+    layout: {
+      // Coquille `adresses` : le premier écran EST le carnet d'adresses (h1, téléphone principal, note Google à gauche ;
+      // une colonne par lieu à droite). Essai du 23 oct 2026 en `flow` + bandeau zones/adresses sous une photo : déroulé
+      // à 0,67-0,71 de sept sites (héros, lieu, à propos, pied) et premier écran à 0,76 de lemaire-avocats (h1 sur la
+      // photo) ; le bandeau seul reste une variante pour d'autres déroulés.
+      shell: 'adresses',
+      // nav bar : à deux adresses, leurs deux noms ; à trois et plus, « Nos adresses » (navLinks, src/lib/lieux.ts) ; le
+      // numéro principal reste en haut (socle), ceux des lieux sur leurs pages, jamais une liste de numéros en en-tête.
+      nav: 'bar',
+      // hero : non rendu (la coquille fait le premier écran) ; fullbleed garde le préchargement de images.hero.
+      hero: 'fullbleed',
+      // Pied en colonnes : les adresses y reviennent, chacune vers sa page avec son numéro (la source les répète au pied).
+      footer: 'columns',
+      // Aucune section : les savoir-faire, communs à toutes les adresses, sont nommés dans l'intro (une page chacun) ;
+      // l'histoire (le manifeste de la source) sur /a-propos ; le formulaire sur /adresses et dans le tiroir ; les pros
+      // en bandeau vers /professionnels. Les sections écrites dans le layout du site descendent sous le carnet. Essais du
+      // 23 oct 2026 : avec les savoir-faire en liste et l'histoire sur l'accueil, déroulé à 0,65-0,71 de neuf sites
+      // (héros, services, à propos, pied) ; en un écran et demi, à 0,81 des accueils-menus (anna-vidal, borie-des-chenes).
+      sections: [],
+      contactDrawer: true,
+      actionBar: false,
+      pageAPropos: true,
+    },
+    requis: [
+      { mesure: 'lieux', min: 2, libelle: '2 adresses au moins, chacune avec sa rue et ses horaires (lieux[] : une page par lieu)' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : un seul numéro doit alors être partout" },
+    ],
+    convientA:
+      "Commerce à deux adresses ou plus, chacune avec ses horaires et, si possible, son numéro : boulangerie à deux boutiques, coiffeur ou barbier à deux salons, fromager avec boutique et marché, caviste à deux caves, garage à deux ateliers, institut à deux cabinets ; mieux encore avec une clientèle professionnelle séparable (site.pros, /professionnels). Pas pour une seule adresse, ni l'artisan qui se déplace (zones), ni l'urgence.",
+  },
+  'saisons-sorties': {
+    id: 'saisons-sorties',
+    modele:
+      "Le temps range le site : la nav n'a qu'une entrée par saison ; l'accueil est un diptyque (h1 métier et lieu, diplômes, téléphone, note en tête, puis une colonne par saison côte à côte : sa photo, son nom en très grand, ses activités vers leur page, ses sorties à la une) ; chaque activité liste ses sorties datées et cotées (période, durée, niveau, prix), filtrables par niveau sans script ; chaque sortie a sa page (programme, inclus, à prévoir en <details>, prix, condition, Réserver) ; une page par public ; le formulaire du tiroir demande la sortie et les dates ; l'histoire sur la page À propos.",
+    sources: [{ fiche: 'docs/veille/architectures/saisons-sorties.md', site: 'guidelagrave.com' }],
+    layout: {
+      // Coquille `saisons` : le diptyque des saisons EST l'accueil. Essai du 23 oct 2026 en `flow` + `hero/stacked` +
+      // services/saisons + avis + histoire + formulaire : premier écran à plus de 0,65 de trois démos et déroulé à plus
+      // de 0,65 de vingt-deux sites (le déroulé long) ; services/saisons reste une variante pour d'autres déroulés.
+      shell: 'saisons',
+      nav: 'bar',
+      // hero : non rendu (la coquille fait le premier écran) ; stacked garde le préchargement de images.hero.
+      hero: 'stacked',
+      footer: 'minimal',
+      // Aucune section : la note Google est en tête (socle), le formulaire qualifié (sortie + dates) dans le tiroir,
+      // l'histoire (diplômes, équipe) sur /a-propos. Les sections écrites dans le layout du site descendent sous les saisons.
+      sections: [],
+      contactDrawer: true,
+      actionBar: false,
+      pageAPropos: true,
+    },
+    requis: [
+      { mesure: 'saisons', min: 2, libelle: '2 saisons au moins avec 2 activités chacune (services[].saison)' },
+      { mesure: 'sorties', min: 4, libelle: '4 sorties au moins, chacune avec sa période (sorties[] : une page chacune)' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on choisit une sortie, on n'appelle pas vite" },
+    ],
+    convientA:
+      "Métier saisonnier dont l'offre change d'une saison à l'autre, avec des sorties ou prestations à période donnée : guide ou accompagnateur, moniteur, loueur de vélos ou de skis, base nautique, centre équestre (stages vacances, cours à l'année), paysagiste et pépiniériste (plantation, taille), apiculteur, ferme ou cueillette, traiteur (mariages l'été, fêtes l'hiver), ramoneur. Pas pour un métier sans saison, ni l'urgence, ni un client à une seule prestation (rester sur accueil-portes).",
+  },
 };
 
 
@@ -414,6 +483,8 @@ export const VARIANTES_D_ARCHITECTURE = [
   'about/espaces',
   'about/equipe-cartes',
   'services/cartes-couleur',
+  'zones/adresses',
+  'services/saisons',
 ] as const;
 
 /**
@@ -426,13 +497,15 @@ export const COQUILLES_A_INDEX_REALISATIONS: readonly string[] = ['panneaux', 'c
 /** Ce que donneesManquantes() lit d'un site : un sous-ensemble du Site, pour tester sans tout construire. */
 export interface SiteArchi {
   images?: { hero?: unknown };
-  services?: { image?: unknown; lignes?: unknown[] }[];
+  services?: { image?: unknown; lignes?: unknown[]; saison?: string }[];
   about?: { portrait?: unknown; story?: string; espaces?: { photo?: unknown }[] };
   proof?: { gallery?: { kind?: string }[] };
   realisations?: { kind?: string; photos?: unknown[] }[];
   contact?: { hours?: unknown[]; address?: { street?: string }; emergency24h?: boolean };
   agenda?: { date: string }[];
   produits?: { photo?: unknown }[];
+  lieux?: { address?: { street?: string }; hours?: unknown[]; photo?: unknown; photos?: unknown[] }[];
+  sorties?: { periode?: string; photo?: unknown }[];
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -466,6 +539,8 @@ export function photosDuClient(s: SiteArchi): number {
     (s.proof?.gallery ?? []).length +
     (s.about?.portrait ? 1 : 0) +
     (s.about?.espaces ?? []).filter((e) => e.photo).length +
+    (s.lieux ?? []).reduce((n, l) => n + (l.photo ? 1 : 0) + (l.photos?.length ?? 0), 0) +
+    (s.sorties ?? []).filter((x) => x.photo).length +
     (s.realisations ?? []).reduce((n, r) => n + (r.photos?.length ?? 0), 0)
   );
 }
@@ -502,6 +577,19 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
       case 'agenda': n = (s.agenda ?? []).length; break;
       case 'espaces': n = (s.about?.espaces ?? []).length; break;
       case 'produits': n = (s.produits ?? []).filter((p) => p.photo).length; break;
+      // Mêmes comptes que lieuxComplets (src/lib/lieux.ts) et saisonsCompletes (src/lib/sorties.ts), recopiés : ce module
+      // reste pur (aucun import d'exécution).
+      case 'lieux': n = (s.lieux ?? []).filter((l) => Boolean(l.address?.street) && (l.hours ?? []).length > 0).length; break;
+      case 'saisons': {
+        const parSaison = new Map<string, number>();
+        for (const x of s.services ?? []) {
+          const v = (x.saison ?? '').trim();
+          if (v) parSaison.set(v, (parSaison.get(v) ?? 0) + 1);
+        }
+        n = [...parSaison.values()].filter((k) => k >= 2).length;
+        break;
+      }
+      case 'sorties': n = (s.sorties ?? []).filter((x) => (x.periode ?? '').trim()).length; break;
       case 'pasUrgence': if (s.contact?.emergency24h) out.push(e.libelle); continue;
     }
     if (compte(n, e)) out.push(`${e.libelle} (${n} aujourd’hui)`);

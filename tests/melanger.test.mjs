@@ -394,7 +394,7 @@ test('régimes : neutre, teinté, sombre, coloré doux (fond modéré, surface, 
   assert.equal(regimePalette(palR({ fond: '#ffffff', accent: '#000000' })).teinte, null, 'accent noir : pas de teinte');
   // Registre réel.
   const r = (id) => regimePalette(registreReel.parId[id].couleurs).regime;
-  assert.equal(r('artek'), 'clair-neutre');
+  assert.equal(r('artek'), 'clair-neutre'); // bonpoint, l'exemple d'origine, a été retiré du registre le 22 oct au soir
   assert.equal(r('meyers'), 'clair-teinte');
   assert.equal(r('standardhotels'), 'sombre');
   assert.equal(r('pizza-amici'), 'colore-doux');

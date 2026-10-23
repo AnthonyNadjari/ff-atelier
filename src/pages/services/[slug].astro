@@ -14,6 +14,8 @@ import Img from '@/components/Img.astro';
 import ServicePorte from '@/components/ServicePorte.astro';
 import ServiceLivre from '@/components/ServiceLivre.astro';
 import { styleTeinte } from '@/lib/couleur';
+import SortiesFiltrables from '@/components/SortiesFiltrables.astro';
+import { sortiesDuService } from '@/lib/sorties';
 
 export function getStaticPaths() {
   // site.servicePages: false -> aucune page service (voir src/lib/schema.ts).
@@ -31,15 +33,17 @@ const teinte = styleTeinte(service.couleur);
 // 17 oct 2026 (relecture fromagerie) : un lien vers une ancre qui n'existe pas renvoie en haut de l'accueil.
 const aSectionServices = site.layout.sections.some((s) => s.type === 'services');
 const aPorteContact = hasContactDoor(site);
+// Sorties de cette activité (site.sorties, architecture saisons-sorties) : liste filtrable par niveau, quel que soit le gabarit.
+const sorties = sortiesDuService(site.sorties, service.slug);
 const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug}`, Astro.site).toString());
 ---
 
 <Base title={title} description={service.short} path={`/services/${service.slug}`} jsonLd={[serviceJsonLd]}>
   <Nav />
   {site.layout.servicePage === 'porte' ? (
-  <main id="main"><ServicePorte service={service} /></main>
+  <main id="main"><ServicePorte service={service} />{sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}</main>
   ) : site.layout.servicePage === 'livre' ? (
-  <main id="main"><ServiceLivre service={service} /></main>
+  <main id="main"><ServiceLivre service={service} />{sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}</main>
   ) : (
   <main id="main">
     {/* Couleur de l'activité (services[].couleur, architecture cadre-couleur) : bandeau en tête de la page et pastille
@@ -73,6 +77,7 @@ const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug
         </aside>
       </div>
     </article>
+    {sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}
     <Cta />
   </main>
   )}
