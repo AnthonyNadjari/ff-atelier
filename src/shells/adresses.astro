@@ -1,0 +1,158 @@
+---
+/**
+ * Coquille "adresses" : architecture `pages-adresses` (src/lib/architectures.ts ; source Ten Belles,
+ * docs/veille/architectures/pages-adresses.md). L'unité du site est le LIEU : on cherche « celui près de chez moi ».
+ * Le premier écran est donc le carnet d'adresses lui-même, pas une photo avec un titre dessus :
+ *   → à gauche (en tête au téléphone), le h1 sur le papier, le métier à la ville et l'ancienneté, le téléphone
+ *     principal, la note Google (socle docs/GOUT.md § 0) ;
+ *   → à droite, une colonne par adresse (deux à quatre côte à côte) : la photo du lieu en hauteur, son nom vers sa
+ *     page /adresses/<slug>, la rue, l'état du jour et la journée (HorairesDuJour, horaires de CE lieu), son
+ *     téléphone (repli : le numéro principal) et l'itinéraire ; au téléphone, une rangée par lieu, vignette carrée.
+ * Puis les sections du layout (ce qu'on fait, décrit une fois pour toutes les adresses), puis le pied, qui répète les
+ * adresses. L'histoire est sur la page /a-propos (layout.pageAPropos), les professionnels sur /professionnels.
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran) ; `fullbleed` garde le préchargement de la photo.
+ * Sans lieu (site.lieux vide) : un premier écran h1 + photo + téléphone, et le build dit ce qui manque
+ * (donneesManquantes). Rien n'est inventé : un lieu sans photo n'a pas de vignette, sans horaires pas d'état.
+ * Signes de la source NON repris : diaporama de produits, noms en capitales, téléphone sans lien.
+ */
+import Divider from '@/components/Divider.astro';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { site, tel, metierEtVille, telDuLieu, adresseDuLieu, donneesManquantes, paragraphs } from '@/lib/site';
+import { heroSizesFor } from '@/lib/images';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const lieux = site.lieux.slice(0, 4);
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const photo = site.images.hero;
+const pros = site.pros;
+// Le bandeau des pros reprend le premier paragraphe du client (pros.texte), tel quel.
+const premiere = pros ? paragraphs(pros.texte)[0] : '';
+if (site.lieux.length === 0) {
+  console.warn(`[coquille adresses] ${site.slug} : aucun lieu (site.lieux) ; ${donneesManquantes('pages-adresses', site).join(' ; ')}`);
+}
+---
+
+
+<Nav />
+<main id="main" class="adr-page">
+  {/* Le premier écran tient des blocs frères : l'intro, puis UNE section par lieu (une adresse = un bloc, avec son
+      propre titre) ; côte à côte à l'ordinateur, l'un sous l'autre au téléphone. */}
+  <div class:list={['container-ff adr-hero', lieux.length === 0 && 'adr-sans']} style={`--adr-n:${Math.max(lieux.length, 1)}`}>
+      <section id="hero" class="adr-intro" aria-label="Accueil" data-stagger="110">
+        <h1 class="adr-h1 font-display" set:html={site.business.tagline} />
+        <p class="adr-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}{site.lieux.length > 1 ? ` ${site.lieux.length} adresses.` : ''}</p>
+        <p class="adr-portes">
+          <a href={tel()} class="adr-tel tabular-nums"><Icon name="Phone" size={20} />{site.contact.phoneDisplay}</a>
+          {google && <a href={google.url} target="_blank" rel="noopener" class="adr-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+        </p>
+        {/* Les savoir-faire, communs à toutes les adresses (les pages Pain, Cuisine, Café de la source) : une page
+            chacun, nommés ici une seule fois au lieu d'une section de cartes. */}
+        {site.servicePages && site.services.length > 0 && (
+          <ul class="adr-savoir" aria-label={site.wording.servicesTitle}>
+            {site.services.map((s) => <li><a href={`/services/${s.slug}`} class="adr-savoir-lien">{s.title}</a></li>)}
+          </ul>
+        )}
+      </section>
+      {lieux.length > 0 ? lieux.map((l, i) => {
+        const t = telDuLieu(l, site.contact);
+        return (
+          <section id={i === 0 ? 'adresses' : undefined} class:list={['adr-lieu', l.photo && 'adr-avec-photo']} aria-labelledby={`adr-lieu-${l.slug}`}>
+            {l.photo && (
+              <a href={`/adresses/${l.slug}`} class="adr-photo" tabindex="-1" aria-hidden="true">
+                <Img src={l.photo.src} alt="" priority={i === 0} loading={i < 2 ? 'eager' : 'lazy'} class="h-full w-full object-cover" sizes="(min-width: 1024px) 22vw, 100vw" />
+              </a>
+            )}
+            <div class="adr-fiche">
+              <h2 id={`adr-lieu-${l.slug}`} class="adr-nom font-display"><a href={`/adresses/${l.slug}`} class="adr-lien">{l.nom}</a></h2>
+              <p class="adr-rue">{adresseDuLieu(l)}</p>
+              {l.hours.length > 0 && <HorairesDuJour hours={l.hours} class="adr-jour" />}
+              <p class="adr-actions">
+                <a href={t.href} class="adr-lieu-tel tabular-nums"><Icon name="Phone" size={15} />{t.affiche}</a>
+                {l.mapsUrl && <a href={l.mapsUrl} target="_blank" rel="noopener" class="adr-itin">Itinéraire<span class="sr-only"> vers {l.nom} (nouvel onglet)</span></a>}
+              </p>
+            </div>
+          </section>
+        );
+      }) : (
+        <div class:list={['adr-photo-seule', !photo && 'bg-ink']}>
+          {photo && <Img src={photo.src} alt={photo.alt} priority sizes={heroSizesFor(site.layout.hero)} class="h-full w-full object-cover" />}
+        </div>
+      )}
+  </div>
+  {/* Le chemin des professionnels (site.pros, la « Vente aux pros » de la source) : un bandeau court vers leur page, dans
+      le même site. Sans site.pros : rien. */}
+  {pros && (
+    <section class="adr-pros bg-bg-2" aria-labelledby="adr-pros-titre">
+      <div class="container-ff adr-pros-grille">
+        <h2 id="adr-pros-titre" class="text-display-sm">{pros.titre}</h2>
+        <p class="adr-pros-texte">{premiere}</p>
+        <a href="/professionnels" class="adr-pros-lien">{site.wording.pros}<Icon name="ArrowRight" size={18} /></a>
+      </div>
+    </section>
+  )}
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<style>
+  .adr-hero { display: grid; gap: 0; padding-block: 1.25rem clamp(2rem, 5vh, 3rem); }
+  .adr-intro { padding-block-end: 1.5rem; }
+  .adr-h1 { font-size: clamp(2.1rem, 8.5vw, 5.25rem); line-height: 0.98; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 14ch; }
+  .adr-metier { margin-block-start: 0.75rem; font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-inline-size: 34ch; }
+  .adr-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin-block-start: 1.1rem; }
+  .adr-tel { display: inline-flex; align-items: center; gap: 0.6rem; min-block-size: 48px; padding-inline: 1.25rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; font-size: 1.1rem; }
+  .adr-tel:hover { background: var(--color-accent-2); }
+  .adr-tel:focus-visible, .adr-lien:focus-visible, .adr-pros-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .adr-note { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .adr-savoir { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin-block-start: 1rem; padding-block-start: 0.5rem; border-block-start: 1px solid var(--color-line); max-inline-size: 30rem; }
+  .adr-savoir-lien { display: inline-flex; align-items: center; min-block-size: 36px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .adr-savoir-lien:hover { color: var(--color-accent); }
+  /* Téléphone : un lieu par bloc, la photo du lieu en bandeau large puis sa fiche, séparés par des filets. */
+  .adr-lieu { display: grid; gap: 1rem; padding-block: 0.8rem; border-block-start: 1px solid var(--color-line); }
+  .adr-lieu:last-child { border-block-end: 1px solid var(--color-line); }
+  .adr-avec-photo { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; }
+  .adr-photo { display: block; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-card); }
+  .adr-photo > :global(picture) { display: block; block-size: 100%; }
+  .adr-fiche { display: grid; gap: 0.2rem; align-content: start; }
+  .adr-nom { font-size: clamp(1.4rem, 2.4vw, 2rem); line-height: 1.05; }
+  .adr-lien { text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.14em; text-decoration-color: transparent; transition: text-decoration-color var(--motion-ui, 0.22s) var(--ease-out-quart); }
+  .adr-lien:hover { text-decoration-color: currentColor; }
+  .adr-rue { font-size: 0.95rem; }
+  .adr-fiche :global(.adr-jour) { font-size: 0.9rem; }
+  /* Au téléphone, l'état du moment suffit sur le carnet ; la journée complète est sur la page du lieu. */
+  .adr-fiche :global([data-hj-jour]) { display: none; }
+  .adr-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1.25rem; }
+  .adr-lieu-tel, .adr-itin { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 36px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .adr-lieu-tel { font-weight: 600; }
+  .adr-lieu-tel:hover, .adr-itin:hover { color: var(--color-accent); }
+  .adr-photo-seule { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-card); }
+  .adr-photo-seule > :global(picture) { display: block; block-size: 100%; }
+  .adr-pros { padding-block: clamp(2rem, 6vh, 3.5rem); }
+  .adr-pros-grille { display: grid; gap: 0.75rem; }
+  .adr-pros-texte { max-inline-size: 52ch; }
+  .adr-pros-lien { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 44px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .adr-pros-lien:hover { color: var(--color-accent); }
+  /* Ordinateur : l'intro à gauche, une colonne par lieu à droite, photo en hauteur, fiche dessous. */
+  @media (min-width: 64rem) {
+    .adr-hero { min-block-size: 100svh; grid-template-columns: minmax(0, 33%) repeat(var(--adr-n, 3), minmax(0, 1fr)); align-content: center; align-items: end; gap: 1.25rem; padding-block: clamp(5.5rem, 12vh, 7.5rem) clamp(2.5rem, 6vh, 4rem); }
+    .adr-intro { padding-block-end: 0; padding-inline-end: clamp(1rem, 3vw, 3rem); }
+    .adr-sans { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: center; }
+    .adr-lieu, .adr-avec-photo { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 1fr; padding: 0; border: 0; gap: 1rem; }
+    .adr-lieu:last-child { border: 0; }
+    .adr-photo { aspect-ratio: 3 / 4; }
+    .adr-fiche { padding-block-start: 0.75rem; border-block-start: 1px solid var(--color-line); gap: 0.3rem; }
+    .adr-fiche :global([data-hj-jour]:not([hidden])) { display: block; }
+    .adr-pros-grille { grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) auto; align-items: center; gap: 2rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .adr-lien { transition: none; } }
+</style>

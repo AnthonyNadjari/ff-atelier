@@ -1,0 +1,181 @@
+---
+/**
+ * Coquille "saisons" : architecture `saisons-sorties` (src/lib/architectures.ts ; source Bureau des guides de La Grave,
+ * docs/veille/architectures/saisons-sorties.md). Le TEMPS range le site : la nav n'a qu'une entrée par saison, et
+ * l'accueil est un diptyque (un triptyque à trois saisons) :
+ *   → en tête, sur le papier : le h1, le métier à la ville et l'ancienneté, les diplômes (business.certifications,
+ *     la preuve de la source), le téléphone, la note Google (socle docs/GOUT.md § 0), la porte « par public » ;
+ *   → puis UNE colonne par saison donnée par le client (services[].saison), côte à côte à l'ordinateur, l'une sous
+ *     l'autre au téléphone, chacune une section (id="saison-<slug>") : la photo de la saison (première activité qui
+ *     en a une), le nom de la saison en très grand, ses activités vers leur page (où les sorties se filtrent par
+ *     niveau), puis ses sorties « à la une » en cartes datées et cotées (CarteSortie : période, durée, niveau, prix).
+ * Le formulaire qualifié (sortie + dates) est dans le tiroir de contact ; l'histoire sur /a-propos ; le reste du
+ * layout descend sous les saisons.
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran) ; `stacked` garde le préchargement de la photo.
+ * Moins de deux saisons : une seule colonne des activités, sans nom de saison, et le build dit ce qui manque
+ * (donneesManquantes). Rien n'est inventé : une saison sans photo est un aplat, une activité sans sortie n'a pas de
+ * compte, une saison sans sortie n'a pas de cartes.
+ * Signes de la source NON repris : h1 de bienvenue en capitales, pictogrammes de difficulté, fil des réseaux sociaux,
+ * logos de marques, onglets à script.
+ */
+import Divider from '@/components/Divider.astro';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import CarteSortie from '@/components/CarteSortie.astro';
+import { site, tel, metierEtVille, groupesParSaison, sortiesDuService, publicsDe, donneesManquantes } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const groupes = groupesParSaison(site.services);
+const blocs = groupes.length > 0 ? groupes : [{ saison: '', slug: 'activites', services: site.services }];
+const publics = publicsDe(site.sorties);
+const lien = site.servicePages;
+// Sorties « à la une » : celles que le studio met en avant (enAvant), 3 au plus ; aucune choisie = les 3 premières.
+const enAvant = site.sorties.filter((x) => x.enAvant);
+const une = (enAvant.length > 0 ? enAvant : site.sorties).slice(0, 3);
+// Photo d'une entrée de saison (téléphone) : celle d'une de ses sorties si le client en a donné, sinon celle de sa
+// première activité illustrée (la tête de la saison prend la photo d'activité : deux photos différentes quand c'est possible).
+const photoDePorte = (services: typeof site.services) =>
+  services.flatMap((s) => sortiesDuService(site.sorties, s.slug)).find((x) => x.photo)?.photo ?? services.find((s) => s.image)?.image;
+if (groupes.length === 0) {
+  console.warn(`[coquille saisons] ${site.slug} : moins de deux saisons (services[].saison) ; ${donneesManquantes('saisons-sorties', site).join(' ; ')}`);
+}
+---
+
+<Nav />
+<main id="main" class="ss-page">
+  <section id="hero" class="container-ff ss-tete" aria-label="Accueil">
+    <div class="ss-intro" data-stagger="110">
+      <h1 class="ss-h1 font-display" set:html={site.business.tagline} />
+      <p class="ss-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {site.business.certifications.length > 0 && <p class="ss-diplomes text-muted">{site.business.certifications.join(', ')}</p>}
+    </div>
+    <div id="contact" class="ss-cote">
+      <a href={tel()} class="ss-tel tabular-nums"><Icon name="Phone" size={20} />{site.contact.phoneDisplay}</a>
+      {google && <a href={google.url} target="_blank" rel="noopener" class="ss-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      {publics.length > 0 && (
+        <p class="ss-publics"><span class="text-muted">Par public&nbsp;:</span>{publics.map((p) => <a href={`/pour/${p.slug}`} class="ss-public">{p.public}</a>)}</p>
+      )}
+    </div>
+    {/* Au téléphone, en tête de l'écran : les deux (ou trois) entrées de la source, ÉTÉ et HIVER, en diptyque de photos ;
+        chacune amène sa saison. À l'ordinateur, les colonnes des saisons sont déjà à l'écran : pas d'entrées. */}
+    {groupes.length > 0 && (
+      <ul class="ss-portes" aria-label="Saisons">
+        {groupes.map((g, gi) => {
+          const p = photoDePorte(g.services);
+          return (
+            <li>
+              <a href={`#saison-${g.slug}`} class="ss-porte">
+                <span class:list={['ss-porte-photo', !p && 'bg-bg-2']}>{p && <Img src={p.src} alt="" priority={gi === 0} class="h-full w-full object-cover" sizes="50vw" />}</span>
+                <span class="ss-porte-nom font-display">{g.saison}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+  </section>
+  {/* Une section par saison : sa photo en grand, son nom en très grand, ses activités vers leur page. À l'ordinateur,
+      côte à côte (le diptyque) ; au téléphone, l'une après l'autre. */}
+  <div class="ss-saisons" style={`--ss-n:${Math.min(blocs.length, 3)}`}>
+    {blocs.map((g) => {
+      const photo = g.services.find((s) => s.image)?.image;
+      return (
+          <section id={g.saison ? `saison-${g.slug}` : 'services'} class="ss-saison" aria-labelledby={`ss-titre-${g.slug}`}>
+            <div class:list={['ss-photo', !photo && 'bg-bg-2']}>
+              {photo && <Img src={photo.src} alt={photo.alt} loading="lazy" class="h-full w-full object-cover" sizes={`(min-width: 1024px) ${Math.round(100 / Math.min(blocs.length, 3))}vw, 100vw`} />}
+            </div>
+            <h2 id={`ss-titre-${g.slug}`} class="ss-nom font-display">{g.saison || site.wording.servicesTitle}</h2>
+            <ul class="ss-activites">
+              {g.services.map((s) => {
+                const n = sortiesDuService(site.sorties, s.slug).length;
+                return (
+                  <li>
+                    {lien ? (
+                      <a href={`/services/${s.slug}`} class="ss-activite"><span class="ss-activite-texte"><span class="ss-activite-nom font-display">{s.title}</span><span class="ss-court">{s.short}</span></span>{n > 0 && <span class="ss-compte tabular-nums">{n === 1 ? '1 sortie' : `${n} sorties`}</span>}<Icon name="ArrowRight" size={18} class="ss-fleche" /></a>
+                    ) : (
+                      <span class="ss-activite"><span class="ss-activite-nom font-display">{s.title}</span></span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+      );
+    })}
+  </div>
+  {/* « À la une » : les coups de cœur de la saison (un seul bloc, comme la source), toutes saisons confondues, la
+      période de chaque carte dit quand elle a lieu. */}
+  {une.length > 0 && (
+    <section class="container-ff ss-une" aria-labelledby="ss-une-titre">
+      <h2 id="ss-une-titre" class="text-display-sm">À la une cette saison</h2>
+      <ul class="ss-cartes">
+        {une.map((x) => <li><CarteSortie sortie={x} niveau="h3" /></li>)}
+      </ul>
+    </section>
+  )}
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<style>
+  /* Téléphone : le diptyque des saisons d'abord (ordre visuel), puis le h1, le téléphone, la note. */
+  .ss-tete { display: flex; flex-direction: column; gap: 1.25rem; padding-block: 1rem clamp(2rem, 5vh, 3rem); }
+  .ss-portes { order: -1; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0.6rem; }
+  .ss-porte { display: grid; gap: 0.35rem; }
+  .ss-porte-photo { display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-card); }
+  .ss-porte-photo > :global(picture) { display: block; block-size: 100%; }
+  .ss-porte-nom { font-size: clamp(2rem, 10vw, 3rem); line-height: 1; letter-spacing: -0.02em; color: var(--color-accent); text-decoration-line: underline; text-decoration-thickness: 2px; text-underline-offset: 0.12em; text-decoration-color: transparent; }
+  .ss-porte:hover .ss-porte-nom { text-decoration-color: currentColor; }
+  .ss-porte:focus-visible, .ss-tel:focus-visible, .ss-activite:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .ss-h1 { font-size: clamp(1.9rem, 6.5vw, 4.75rem); line-height: 1.02; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 18ch; }
+  .ss-metier { margin-block-start: 0.75rem; font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-inline-size: 40ch; }
+  .ss-diplomes { margin-block-start: 0.35rem; max-inline-size: 48ch; }
+  .ss-cote { display: grid; gap: 0.5rem; align-content: end; justify-items: start; }
+  .ss-tel { display: inline-flex; align-items: center; gap: 0.6rem; min-block-size: 48px; padding-inline: 1.25rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; font-size: 1.1rem; }
+  .ss-tel:hover { background: var(--color-accent-2); }
+  .ss-note, .ss-public { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ss-publics { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1rem; }
+  .ss-public { display: inline-flex; align-items: center; min-block-size: 44px; }
+  .ss-public:hover, .ss-note:hover { color: var(--color-accent); }
+  /* Les saisons : au téléphone l’une après l’autre, un filet épais entre deux saisons. */
+  .ss-saisons { display: grid; }
+  .ss-saison { display: grid; align-content: start; gap: 1.25rem; padding: 0 clamp(1rem, 4vw, 2rem) clamp(2rem, 5vh, 3rem); border-block-start: 2px solid var(--color-fg); scroll-margin-block-start: 5rem; }
+  /* Au téléphone, la photo de la saison en hauteur, sur toute la largeur : on entre dans la saison. */
+  .ss-photo { aspect-ratio: 2 / 3; max-block-size: 72svh; overflow: hidden; margin-inline: calc(-1 * clamp(1rem, 4vw, 2rem)); }
+  .ss-photo > :global(picture) { display: block; block-size: 100%; }
+  .ss-nom { font-size: clamp(3.5rem, 15vw, 8rem); line-height: 0.85; letter-spacing: -0.03em; color: var(--color-accent); }
+  .ss-activites { border-block-start: 1px solid var(--color-line); }
+  .ss-activites > li { border-block-end: 1px solid var(--color-line); }
+  .ss-activite { display: flex; align-items: center; gap: 0.75rem; padding-block: 0.85rem; }
+  .ss-activite-texte { flex: 1; display: grid; gap: 0.25rem; }
+  .ss-court { font-size: 0.95rem; }
+  .ss-activite-nom { font-size: clamp(1.3rem, 2.2vw, 1.75rem); line-height: 1.1; text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.14em; text-decoration-color: transparent; transition: text-decoration-color var(--motion-ui, 0.22s) var(--ease-out-quart); }
+  .ss-activite:hover .ss-activite-nom { text-decoration-color: currentColor; }
+  .ss-compte { font-weight: 600; white-space: nowrap; font-size: 0.95rem; }
+  .ss-activite :global(.ss-fleche) { flex: none; color: var(--color-accent); }
+  .ss-une { display: grid; gap: 1.5rem; padding-block: clamp(2.5rem, 7vh, 4.5rem); border-block-start: 2px solid var(--color-fg); }
+  .ss-cartes { display: grid; gap: 1.25rem; }
+  @media (min-width: 640px) { .ss-cartes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) {
+    .ss-tete { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); align-items: end; gap: 3rem; padding-block: clamp(5.5rem, 12vh, 7.5rem) clamp(2rem, 5vh, 3rem); }
+    .ss-portes { display: none; }
+    .ss-cote { justify-items: end; text-align: end; }
+    .ss-publics { justify-content: flex-end; }
+    /* Les saisons côte à côte : le diptyque, un filet vertical entre deux colonnes. */
+    .ss-saisons { grid-template-columns: repeat(var(--ss-n, 2), minmax(0, 1fr)); }
+    .ss-saison { border-block-start: 0; padding-block-start: 0; border-inline-start: 2px solid var(--color-fg); }
+    .ss-saison:first-child { border-inline-start: 0; }
+    .ss-photo { aspect-ratio: 16 / 10; max-block-size: none; }
+    .ss-cartes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (prefers-reduced-motion: reduce) { .ss-activite-nom { transition: none; } }
+</style>

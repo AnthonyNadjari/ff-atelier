@@ -134,6 +134,10 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `produits` (défaut `[]`) : la gamme du client (architecture `gamme-vitrine`, coquille `vitrine` ; `detoure: true` par produit pour l'inclinaison et l'ombre, sinon photo droite sans ombre) → `/produits` par famille,
   une page par produit (`Product`, sans offre si le prix manque), lien « Produits » en tête de nav ; aucun produit = aucune
   page (`src/lib/produits.ts`, `tests/architectures.test.mjs`).
+  `lieux` (défaut `[]`) : les adresses du client (architecture `pages-adresses`, coquille `adresses`) → `/adresses` et
+  `/adresses/<slug>` (horaires et téléphone par lieu, `LocalBusiness` par lieu), `pros` → `/professionnels` ; `sorties`
+  (défaut `[]`) et `services[].saison` (architecture `saisons-sorties`, coquille `saisons`) → `/sorties/<slug>`,
+  `/pour/<public>`, nav d'une entrée par saison ; aucune donnée = aucune page (`src/lib/lieux.ts`, `src/lib/sorties.ts`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

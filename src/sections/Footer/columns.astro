@@ -1,6 +1,6 @@
 ---
 /** Footer "columns" : nom + description, services, zones, coordonnees, mentions legales. */
-import { site, tel, mailto, fullAddress, navLinks, hasCredits } from '@/lib/site';
+import { site, tel, mailto, fullAddress, navLinks, hasCredits, telDuLieu, adresseDuLieu } from '@/lib/site';
 import Icon from '@/components/Icon.astro';
 import Horaires from '@/components/Horaires.astro';
 const year = new Date().getFullYear();
@@ -34,9 +34,17 @@ const sansSectionContact = !site.layout.sections.some((s) => s.type === 'contact
       <ul class="space-y-2 text-sm text-on-ink/80">
         <li><a href={tel()} class="hover:text-on-ink">{site.contact.phoneDisplay}</a></li>
         {site.contact.email && (<li><a href={mailto()} class="hover:text-on-ink break-all">{site.contact.email}</a></li>)}
-        <li class="text-on-ink/60">{fullAddress()}</li>
+        {site.lieux.length === 0 && <li class="text-on-ink/60">{fullAddress()}</li>}
       </ul>
-      {site.contact.hours.length > 0 && <Horaires class="mt-5 text-sm text-on-ink/80" />}
+      {/* Adresses (site.lieux, architecture pages-adresses) : répétées au pied, chacune vers sa page, avec son numéro. */}
+      {site.lieux.length > 0 ? (
+        <ul class="mt-5 space-y-3 text-sm text-on-ink/80">
+          {site.lieux.map((l) => {
+            const t = telDuLieu(l, site.contact);
+            return <li><a href={`/adresses/${l.slug}`} class="font-medium text-on-ink hover:underline">{l.nom}</a><br />{adresseDuLieu(l)}{t.propre && <><br /><a href={t.href} class="tabular-nums hover:text-on-ink">{t.affiche}</a></>}</li>;
+          })}
+        </ul>
+      ) : site.contact.hours.length > 0 && <Horaires class="mt-5 text-sm text-on-ink/80" />}
     </div>
   </div>
   <div class="border-t border-on-ink/10">

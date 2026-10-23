@@ -10,6 +10,20 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 - la collecte doit ramener des palettes sombre (5 tirables sur 64, 8 au moins)
 <!-- /ff melanger -->
 
+## 23 oct 2026, volet 2a ter : `pages-adresses` et `saisons-sorties` codées
+
+**Fait**
+- Les deux fiches du 19 oct restées « à coder » (`docs/veille/architectures/INDEX.md`, colonne « codée ») : coquille
+  `adresses` (le premier écran est le carnet d'adresses, `lieux[]`, `pros`, `/adresses`, `/adresses/<slug>` avec un
+  `LocalBusiness` par lieu, `/professionnels`) et coquille `saisons` (une colonne par saison, `services[].saison`, `sorties[]`,
+  `/sorties/<slug>`, sorties filtrables par niveau, `/pour/<public>`, nav d'une entrée par saison). Variantes `zones/adresses`
+  et `services/saisons` pour d'autres déroulés.
+- Preuve sur deux sites jetables (supprimés) : `ff verifier` et `ff a11y` verts hors données de test, `ff ressemblance` 0,62 /
+  0,65 et 0,43 / 0,65. Les premiers essais en `flow` étaient refusés (déroulé à plus de 0,65 de 7 à 22 sites).
+- Au passage : `tekla.json` (fiche « à juger » au lieu de null) et le test des régimes (bonpoint retiré du registre) cassaient la suite.
+
+**Prochain volet** : `outil-calendrier`, seulement avec un client qui a un calendrier iCal.
+
 ## 22 oct 2026, nuit (carte blanche du fondateur) : 3 architectures, hébergement Workers, pipeline
 
 **Fait**

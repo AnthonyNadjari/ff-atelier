@@ -1,0 +1,64 @@
+---
+/**
+ * Liste de sorties filtrable par niveau (architecture saisons-sorties ; source La Grave, page d'activité : « Tout,
+ * Découverte, Intermédiaire, Confirmé » sur la liste, sans recharger). Radios + `:has()`, SANS script (8 niveaux au
+ * plus, comme /agenda) ; le filtre n'apparaît que dès deux niveaux distincts. Cartes CarteSortie. Utilisée par la
+ * page d'une activité (src/pages/services/[slug].astro) et les pages par public (src/pages/pour/[public].astro).
+ */
+import { site, niveauxDe } from '@/lib/site';
+import CarteSortie from '@/components/CarteSortie.astro';
+
+interface Props {
+  sorties: (typeof site.sorties)[number][];
+  titre: string;
+  /** Préfixe des id des radios (deux listes sur une page ne se mélangent pas). */
+  id?: string;
+}
+const { sorties, titre, id = 'sf' } = Astro.props;
+const MAX_FILTRES = 8;
+const niveaux = niveauxDe(sorties).slice(0, MAX_FILTRES);
+const rang = (n?: string) => (n ? niveaux.indexOf(n.trim()) + 1 : 0);
+---
+
+{sorties.length > 0 && (
+  <section class="sf" aria-labelledby={`${id}-titre`}>
+    <h2 id={`${id}-titre`} class="text-display-md">{titre}</h2>
+    {niveaux.length >= 2 && (
+      <fieldset class="sf-filtres">
+        <legend class="text-sm">Niveau</legend>
+        <input class="sr-only" type="radio" name={`${id}-niveau`} id={`${id}-0`} data-sf="0" checked />
+        <label for={`${id}-0`}>Tout</label>
+        {niveaux.map((n, i) => (
+          <>
+            <input class="sr-only" type="radio" name={`${id}-niveau`} id={`${id}-${i + 1}`} data-sf={String(i + 1)} />
+            <label for={`${id}-${i + 1}`}>{n}</label>
+          </>
+        ))}
+      </fieldset>
+    )}
+    <ul class="sf-liste">
+      {sorties.map((x) => <li class="sf-item" data-niveau={rang(x.niveau) > 0 ? String(rang(x.niveau)) : undefined}><CarteSortie sortie={x} /></li>)}
+    </ul>
+  </section>
+)}
+
+<style>
+  .sf { padding-block: clamp(2.5rem, 7vh, 4.5rem); }
+  .sf-filtres { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; border: 0; padding: 0; margin-block-start: 1.5rem; }
+  .sf-filtres legend { float: left; margin-inline-end: 0.5rem; }
+  .sf-filtres label { cursor: pointer; padding-block: 0.6rem; border-block-end: 2px solid transparent; }
+  .sf-filtres input:checked + label { border-block-end-color: currentColor; font-weight: 600; }
+  .sf-filtres input:focus-visible + label { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .sf-liste { display: grid; gap: 1.5rem; margin-block-start: 2rem; }
+  @media (min-width: 640px) { .sf-liste { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .sf-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  /* Filtres sans JS : le niveau coché masque les autres (8 règles statiques ; 0 = « Tout »). */
+  .sf:has([data-sf="1"]:checked) .sf-item:not([data-niveau="1"]) { display: none; }
+  .sf:has([data-sf="2"]:checked) .sf-item:not([data-niveau="2"]) { display: none; }
+  .sf:has([data-sf="3"]:checked) .sf-item:not([data-niveau="3"]) { display: none; }
+  .sf:has([data-sf="4"]:checked) .sf-item:not([data-niveau="4"]) { display: none; }
+  .sf:has([data-sf="5"]:checked) .sf-item:not([data-niveau="5"]) { display: none; }
+  .sf:has([data-sf="6"]:checked) .sf-item:not([data-niveau="6"]) { display: none; }
+  .sf:has([data-sf="7"]:checked) .sf-item:not([data-niveau="7"]) { display: none; }
+  .sf:has([data-sf="8"]:checked) .sf-item:not([data-niveau="8"]) { display: none; }
+</style>

@@ -1,0 +1,121 @@
+---
+/**
+ * Page d'une sortie (site.sorties, src/lib/sorties.ts) : architecture `saisons-sorties` (Bureau des guides de La Grave,
+ * docs/veille/architectures/saisons-sorties.md, fiche de sortie). En tête les repères en mots (période, durée, niveau),
+ * le h1, la phrase du client ; la photo ; puis Programme, Inclus, À prévoir en `<details>` natifs (lisibles sans
+ * script et par les moteurs, jamais des onglets à script), le prix et la condition tels que le client les donne,
+ * « Réserver » (lien de la sortie, sinon le contact), le téléphone, l'activité parente et les autres sorties de cette
+ * activité. Générée seulement pour les sorties du client : aucune = aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, sortiesDuService, metierEtVille } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import CarteSortie from '@/components/CarteSortie.astro';
+
+export function getStaticPaths() {
+  return site.sorties.map((x) => ({ params: { slug: x.slug }, props: { x } }));
+}
+const { x } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const activite = x.service ? site.services.find((s) => s.slug === x.service) : undefined;
+const voisines = x.service ? sortiesDuService(site.sorties, x.service).filter((o) => o.slug !== x.slug).slice(0, 3) : [];
+const reperes = [
+  { k: 'Période', v: x.periode },
+  x.duree ? { k: 'Durée', v: x.duree } : null,
+  x.niveau ? { k: 'Niveau', v: x.niveau } : null,
+].filter(Boolean) as { k: string; v: string }[];
+const blocs = [
+  x.programme.length > 0 ? { titre: 'Programme', programme: x.programme } : null,
+  x.inclus.length > 0 ? { titre: 'Inclus', liste: x.inclus } : null,
+  x.aPrevoir.length > 0 ? { titre: 'À prévoir', liste: x.aPrevoir } : null,
+].filter(Boolean) as ({ titre: string; programme: { titre: string; texte: string }[] } | { titre: string; liste: string[] })[];
+const retour = activite && site.servicePages ? { href: `/services/${activite.slug}`, label: activite.title } : { href: '/', label: 'Accueil' };
+---
+
+<Base title={`${x.titre} | ${site.business.name}`} description={x.resume} path={`/sorties/${x.slug}`}>
+  <Nav />
+  <main id="main" class="so">
+    <article>
+      <div class="container-ff so-retour"><a href={retour.href} class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />{retour.label}</a></div>
+      <header class="container-ff so-tete">
+        <dl class="so-reperes">
+          {reperes.map((r) => <div><dt>{r.k}</dt><dd>{r.v}</dd></div>)}
+        </dl>
+        <h1 class="text-display-lg">{x.titre}</h1>
+        <p class="so-resume">{x.resume}</p>
+        <p class="text-muted">{site.business.name}, {metierEtVille()}</p>
+      </header>
+      {x.photo && (
+        <div class="container-ff so-photo">
+          <Img src={x.photo.src} alt={x.photo.alt} priority class="h-full w-full object-cover" sizes="(min-width: 1280px) 1200px, 100vw" />
+        </div>
+      )}
+      <div class="container-ff so-corps">
+        <div class="so-blocs">
+          {blocs.map((b, i) => (
+            <details class="so-bloc" open={i === 0}>
+              <summary class="font-display">{b.titre}</summary>
+              {'programme' in b ? (
+                <ol class="so-programme">{b.programme.map((p) => <li><p class="font-medium">{p.titre}</p><p class="mt-1">{p.texte}</p></li>)}</ol>
+              ) : (
+                <ul class="so-liste">{b.liste.map((l) => <li>{l}</li>)}</ul>
+              )}
+            </details>
+          ))}
+        </div>
+        <aside class="so-achat">
+          {x.prix && <p class="so-prix tabular-nums">{x.prix}</p>}
+          {x.condition && <p class="text-muted">{x.condition}</p>}
+          <div class="mt-5 grid gap-3">
+            <Button href={x.lien ?? '/#contact'} size="lg" target={x.lien ? '_blank' : undefined} rel={x.lien ? 'noopener' : undefined}>Réserver{x.lien && <span class="sr-only"> (nouvel onglet)</span>}</Button>
+            <Button href={tel()} variant="ghost" size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+          </div>
+          {x.public.length > 0 && <p class="mt-5 text-sm">Pour&nbsp;: {x.public.join(', ')}</p>}
+        </aside>
+      </div>
+      {voisines.length > 0 && (
+        <section class="so-voisines bg-bg-2" aria-labelledby="so-voisines-titre">
+          <div class="container-ff">
+            <h2 id="so-voisines-titre" class="text-display-sm">{activite?.title}&nbsp;: les autres sorties</h2>
+            <ul class="so-cartes">{voisines.map((o) => <li><CarteSortie sortie={o} /></li>)}</ul>
+          </div>
+        </section>
+      )}
+    </article>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .so-retour { padding-block: clamp(5.5rem, 12vh, 8rem) 0; }
+  .so-tete { display: grid; gap: 1rem; padding-block: 1.5rem clamp(2rem, 5vh, 3rem); max-inline-size: 60rem; margin-inline: auto; }
+  .so-reperes { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; font-size: 0.95rem; }
+  .so-reperes > div { display: flex; gap: 0.4rem; }
+  .so-reperes dt { color: var(--color-muted); }
+  .so-reperes dd { font-weight: 600; }
+  .so-resume { font-size: clamp(1.15rem, 1.9vw, 1.45rem); line-height: 1.45; max-inline-size: 46ch; }
+  .so-photo { aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius-card); padding: 0; max-inline-size: 75rem; }
+  .so-photo > :global(picture) { display: block; block-size: 100%; }
+  .so-corps { display: grid; gap: 2.5rem; padding-block: clamp(2.5rem, 7vh, 4.5rem); }
+  .so-blocs { border-block-start: 1px solid var(--color-line); }
+  .so-bloc { border-block-end: 1px solid var(--color-line); padding-block: 1.1rem; }
+  .so-bloc summary { cursor: pointer; font-size: clamp(1.4rem, 2.4vw, 1.9rem); list-style-position: inside; }
+  .so-bloc summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .so-programme { display: grid; gap: 1rem; margin-block-start: 1rem; counter-reset: etape; }
+  .so-programme > li { padding-inline-start: 1rem; border-inline-start: 2px solid var(--color-line); }
+  .so-liste { display: grid; gap: 0.35rem; margin-block-start: 1rem; list-style: disc; padding-inline-start: 1.25rem; }
+  .so-achat { align-self: start; padding: 1.5rem; border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface); }
+  .so-prix { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 600; }
+  .so-voisines { padding-block: clamp(3rem, 8vh, 5rem); }
+  .so-cartes { display: grid; gap: 1.5rem; margin-block-start: 1.75rem; }
+  @media (min-width: 640px) { .so-cartes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) {
+    .so-corps { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); }
+    .so-achat { position: sticky; top: 6rem; }
+    .so-cartes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+/**
+ * Carte d'une sortie (site.sorties, architecture saisons-sorties ; source Bureau des guides de La Grave,
+ * docs/veille/architectures/saisons-sorties.md, cartes « coups de cœur » et listes d'activité). Bâtie pareil partout :
+ * photo du client si elle existe, la période en premier (« de juin à septembre » : le temps range le site), le titre
+ * vers la page /sorties/<slug>, la phrase, les repères en mots (durée, niveau, prix tel que le client le donne), puis
+ * « Réserver » (lien de la sortie, sinon le contact). Rien n'est deviné : un repère absent n'est pas écrit.
+ * Signes de la source NON repris : pictogrammes de difficulté et de durée (du texte, pas une icône par donnée).
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props {
+  sortie: (typeof site.sorties)[number];
+  /** Niveau du titre de la carte dans la page. */
+  niveau?: 'h2' | 'h3';
+}
+const { sortie: x, niveau = 'h3' } = Astro.props;
+const Titre = niveau;
+const reperes = [
+  x.duree ? { k: 'Durée', v: x.duree } : null,
+  x.niveau ? { k: 'Niveau', v: x.niveau } : null,
+  x.prix ? { k: 'Prix', v: x.prix } : null,
+].filter(Boolean) as { k: string; v: string }[];
+const reserver = x.lien ?? '/#contact';
+---
+
+<article class="cs">
+  {x.photo && (
+    <div class="cs-photo">
+      <Img src={x.photo.src} alt={x.photo.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
+    </div>
+  )}
+  <div class="cs-corps">
+    <p class="cs-periode">{x.periode}</p>
+    <Titre class="cs-titre font-display"><a href={`/sorties/${x.slug}`} class="cs-lien">{x.titre}</a></Titre>
+    <p class="cs-resume">{x.resume}</p>
+    {reperes.length > 0 && (
+      <dl class="cs-reperes">
+        {reperes.map((r) => <div><dt>{r.k}</dt><dd class="tabular-nums">{r.v}</dd></div>)}
+      </dl>
+    )}
+    <p class="cs-portes">
+      <a href={`/sorties/${x.slug}`} class="cs-plus" aria-hidden="true" tabindex="-1">Le programme<Icon name="ArrowRight" size={16} /></a>
+      <a href={reserver} class="cs-reserver" target={x.lien ? '_blank' : undefined} rel={x.lien ? 'noopener' : undefined}>Réserver<span class="sr-only"> : {x.titre}{x.lien ? ' (nouvel onglet)' : ''}</span></a>
+    </p>
+  </div>
+</article>
+
+<style>
+  .cs { display: grid; grid-template-rows: auto 1fr; block-size: 100%; background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-card); overflow: hidden; }
+  .cs-photo { aspect-ratio: 3 / 2; overflow: hidden; }
+  .cs-photo > :global(picture) { display: block; block-size: 100%; }
+  .cs-corps { display: grid; align-content: start; gap: 0.6rem; padding: clamp(1.1rem, 2.5vw, 1.5rem); }
+  .cs-periode { font-weight: 600; padding-inline-start: 0.6rem; border-inline-start: 3px solid var(--color-accent); }
+  .cs-titre { font-size: clamp(1.35rem, 2.2vw, 1.75rem); line-height: 1.15; }
+  .cs-lien { text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.16em; text-decoration-color: transparent; }
+  .cs-lien:hover, .cs-lien:focus-visible { text-decoration-color: currentColor; }
+  .cs-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .cs-reperes { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; padding-block: 0.6rem; border-block: 1px solid var(--color-line); font-size: 0.95rem; }
+  .cs-reperes > div { display: flex; gap: 0.35rem; }
+  .cs-reperes dt { color: var(--color-muted); }
+  .cs-portes { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-block-start: 0.4rem; }
+  .cs-plus { display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  .cs-reserver { display: inline-flex; align-items: center; min-block-size: 44px; padding-inline: 1.1rem; border-radius: var(--radius-ui, var(--radius, 6px)); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .cs-reserver:hover { background: var(--color-accent-2); }
+  .cs-reserver:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+</style>

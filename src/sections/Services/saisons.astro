@@ -1,0 +1,97 @@
+---
+/**
+ * Services "saisons" : architecture `saisons-sorties` (src/lib/architectures.ts ; source Bureau des guides de La Grave,
+ * docs/veille/architectures/saisons-sorties.md). Le temps range l'offre : une colonne par saison donnée par le client
+ * (services[].saison), le nom de la saison en très grand, puis ses activités en lignes à filets, chacune vers sa page
+ * (où ses sorties se filtrent par niveau) avec le nombre réel de sorties ; un groupe « Toute l'année » seulement pour
+ * des activités sans saison quand les autres en ont une. Chaque groupe porte id="saison-<slug>" : la nav n'a plus
+ * qu'une entrée par saison (navLinks). Puis « À la une cette saison » : les sorties `enAvant` en cartes (CarteSortie).
+ *
+ * Moins de deux saisons = une seule liste des activités, sans titre de saison (rien d'inventé). Aucune sortie en
+ * avant = pas de rangée. `servicePages: false` = titres sans lien.
+ * Signes de la source NON repris : h1 de bienvenue en capitales, pictogrammes, fil des réseaux, logos de marques.
+ */
+import { site, groupesParSaison, sortiesDuService, sortiesEnAvant, publicsDe, metierEtVille } from '@/lib/site';
+import Icon from '@/components/Icon.astro';
+import CarteSortie from '@/components/CarteSortie.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const groupes = groupesParSaison(site.services);
+const blocs = groupes.length > 0 ? groupes : [{ saison: '', slug: '', services: site.services }];
+const enAvant = sortiesEnAvant(site.sorties, 3);
+const publics = publicsDe(site.sorties);
+const lien = site.servicePages;
+const nSorties = (slug: string) => sortiesDuService(site.sorties, slug).length;
+---
+
+<section id="services" class="section-y sa">
+  <div class="container-ff">
+    <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} class="sa-tete" />
+    <div class:list={['sa-saisons', `sa-n${Math.min(blocs.length, 3)}`]}>
+      {blocs.map((g) => (
+        <div class="sa-saison" id={g.slug ? `saison-${g.slug}` : undefined}>
+          {g.saison && <h3 class="sa-nom font-display">{g.saison}</h3>}
+          <ul class="sa-liste" data-stagger="80">
+            {g.services.map((s) => {
+              const n = nSorties(s.slug);
+              return (
+                <li class="sa-item">
+                  {lien ? (
+                    <a href={`/services/${s.slug}`} class="sa-lien">
+                      <span class="sa-activite font-display">{s.title}</span>
+                      <Icon name="ArrowRight" size={20} class="sa-fleche" />
+                    </a>
+                  ) : (
+                    <span class="sa-activite font-display">{s.title}</span>
+                  )}
+                  <p class="sa-court">{s.short}{n > 0 && <span class="sa-compte tabular-nums"> {n === 1 ? '1 sortie' : `${n} sorties`}</span>}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </div>
+    {/* La seconde porte, par public (La Grave : familles, scolaires…), à travers les saisons : /pour/<public>. */}
+    {publics.length > 0 && (
+      <p class="sa-publics"><span class="text-muted">Par public&nbsp;:</span>{publics.map((p) => <a href={`/pour/${p.slug}`} class="sa-public">{p.public}<span class="text-muted tabular-nums"> ({p.n})</span></a>)}</p>
+    )}
+    {enAvant.length > 0 && (
+      <div class="sa-une">
+        <h3 class="text-display-sm">À la une cette saison</h3>
+        <ul class="sa-cartes">
+          {enAvant.map((x) => <li><CarteSortie sortie={x} niveau="h3" /></li>)}
+        </ul>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .sa :global(.sa-tete) { margin-block-end: clamp(2rem, 6vh, 4rem); }
+  .sa-saisons { display: grid; gap: clamp(2.5rem, 6vh, 4rem); }
+  .sa-saison { scroll-margin-block-start: 6rem; }
+  .sa-nom { font-size: clamp(3.5rem, 11vw, 8.5rem); line-height: 0.9; letter-spacing: -0.02em; color: var(--color-accent); padding-block-end: 0.75rem; }
+  .sa-liste { border-block-start: 1px solid var(--color-line); }
+  .sa-item { padding-block: 1rem; border-block-end: 1px solid var(--color-line); }
+  .sa-lien { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .sa-activite { font-size: clamp(1.4rem, 2.6vw, 2.1rem); line-height: 1.1; text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.14em; text-decoration-color: transparent; transition: text-decoration-color var(--motion-ui, 0.22s) var(--ease-out-quart); }
+  .sa-lien:hover .sa-activite, .sa-lien:focus-visible .sa-activite { text-decoration-color: currentColor; }
+  .sa-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+  .sa-lien :global(.sa-fleche) { flex: none; color: var(--color-accent); }
+  .sa-court { margin-block-start: 0.3rem; max-inline-size: 52ch; }
+  .sa-compte { font-weight: 600; white-space: nowrap; }
+  .sa-publics { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1.25rem; margin-block-start: 2rem; }
+  .sa-public { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .sa-public:hover { color: var(--color-accent); }
+  .sa-une { margin-block-start: clamp(3.5rem, 9vh, 6rem); }
+  .sa-cartes { display: grid; gap: 1.5rem; margin-block-start: 1.75rem; }
+  @media (min-width: 640px) { .sa-cartes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) {
+
+    .sa-n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 5vw, 5rem); }
+    .sa-n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(2rem, 4vw, 3.5rem); }
+    .sa-cartes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (prefers-reduced-motion: reduce) { .sa-activite { transition: none; } }
+</style>

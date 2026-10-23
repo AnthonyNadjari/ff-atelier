@@ -1,0 +1,35 @@
+---
+/**
+ * Page par public (/pour/<public>) : architecture `saisons-sorties` (La Grave, pages « Familles », « Scolaires » :
+ * la seconde porte qui coupe à travers les saisons). Une page par public de site.sorties[].public qui a au moins trois
+ * sorties (publicsDe) ; la période de chaque carte dit quand elle a lieu. Liste filtrable par niveau
+ * (SortiesFiltrables). Aucun public assez fourni = aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, publicsDe, metierEtVille } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import SortiesFiltrables from '@/components/SortiesFiltrables.astro';
+
+export function getStaticPaths() {
+  return publicsDe(site.sorties).map((p) => ({ params: { public: p.slug }, props: { nom: p.public } }));
+}
+const { nom } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const sorties = site.sorties.filter((x) => x.public.some((p) => p.trim() === nom));
+---
+
+<Base title={`${nom} | ${site.business.name}`} description={`${nom} : ${sorties.length} sorties avec ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}.`} path={`/pour/${Astro.params.public}`}>
+  <Nav />
+  <main id="main">
+    <div class="container-ff section-y">
+      <a href="/" class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />Accueil</a>
+      <h1 class="text-display-lg mt-6">{nom}</h1>
+      <p class="mt-4 max-w-prose text-lg">{metierEtVille()} {sorties.length}&nbsp;sorties, toutes saisons.</p>
+      <p class="mt-3"><a href={tel()} class="inline-flex items-center gap-2 tabular-nums underline underline-offset-4"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a></p>
+      <SortiesFiltrables sorties={sorties} titre="Les sorties" id="pp" />
+    </div>
+  </main>
+  <Footer />
+</Base>

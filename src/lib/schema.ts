@@ -67,6 +67,8 @@ export const SHELLS = [
   'cadre', // tout le site dans un cadre de couleur fixe : premier ecran colle au fond, feuille qui monte dessus (architecture cadre-couleur)
   'scenes', // slides + barre fine fixe (nom, metier a ville, telephone, menu) et scene d ouverture sur aplat d encre ; scene epinglee des espaces du lieu (architecture scenes-epinglees)
   'vitrine', // accueil d un ecran = la gamme en piste horizontale manuelle, barre fixe a bouton Menu plein ecran, une page par produit (architecture gamme-vitrine)
+  'adresses', // premier ecran = le carnet d adresses : h1 et telephone a gauche, une colonne par lieu (photo, etat du jour, telephone) a droite ; une page par lieu (architecture pages-adresses)
+  'saisons', // le temps range l accueil : en tete h1, telephone, note ; puis une colonne par saison (photo, nom geant, activites, sorties a la une) cote a cote (architecture saisons-sorties)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -75,10 +77,10 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 export const VARIANTS = {
   nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
   hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons'],
   about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes'],
   proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations'],
-  zones: ['list', 'map', 'chips'],
+  zones: ['list', 'map', 'chips', 'adresses'],
   process: ['steps', 'timeline', 'numbered', 'horizon'],
   faq: ['accordion', 'two-columns'],
   cta: ['band', 'card', 'phone-giant', 'photo'],
@@ -133,6 +135,14 @@ const hsl = z.object({
   h: z.number().min(0).max(360),
   s: z.number().min(0).max(100),
   l: z.number().min(0).max(100),
+});
+
+/** Une ligne d'horaires (contact.hours, lieux[].hours) : jours et heures libres, opens/closes HH:MM optionnels. */
+const ligneHoraire = z.object({
+  days: z.string(),
+  hours: z.string(),
+  opens: z.string().regex(/^\d{2}:\d{2}$/).optional().describe("Heure d'ouverture HH:MM (ex: 08:00) — avec closes, le JSON-LD émet openingHoursSpecification structuré au lieu du texte libre (mieux lu par les moteurs IA)"),
+  closes: z.string().regex(/^\d{2}:\d{2}$/).optional().describe('Heure de fermeture HH:MM (ex: 18:00)'),
 });
 
 export const siteSchema = z.object({
@@ -282,16 +292,7 @@ export const siteSchema = z.object({
       .default('osm')
       .describe("Fournisseur de carte (src/components/Carte.astro). 'osm' = tuiles OpenStreetMap statiques sans traceur (besoin de coordinates). 'google' = facade cliquable qui charge mapsEmbed au clic. 'none' = bloc adresse seul."),
     coordinates: z.object({ lat: z.number(), lng: z.number() }).optional().describe('Latitude/longitude, necessaire pour mapsProvider "osm"'),
-    hours: z
-      .array(
-        z.object({
-          days: z.string(),
-          hours: z.string(),
-          opens: z.string().regex(/^\d{2}:\d{2}$/).optional().describe("Heure d'ouverture HH:MM (ex: 08:00) — avec closes, le JSON-LD émet openingHoursSpecification structuré au lieu du texte libre (mieux lu par les moteurs IA)"),
-          closes: z.string().regex(/^\d{2}:\d{2}$/).optional().describe('Heure de fermeture HH:MM (ex: 18:00)'),
-        }),
-      )
-      .default([]),
+    hours: z.array(ligneHoraire).default([]),
     emergency24h: z.boolean().default(false),
   }),
 
@@ -329,6 +330,10 @@ export const siteSchema = z.object({
           .describe("Lignes a prix de cette rubrique (carte d'un cafe, tarifs d'un salon) : services/carte-prix les aligne avec des pointilles. Vide = la rubrique montre ses bullets. Jamais un prix invente."),
         featured: z.boolean().default(false),
         priceFrom: z.string().optional().describe('ex: "a partir de 90 EUR" — seulement si le client le veut'),
+        saison: z
+          .string()
+          .optional()
+          .describe("Saison de cette activite, telle que le client la nomme (« Été », « Hiver », « Printemps ») : architecture saisons-sorties (docs/veille/architectures/saisons-sorties.md). Des deux saisons distinctes, services/saisons range les activites par saison et la nav n'a plus qu'une entree par saison. Absente = activite de toute l'annee ; aucune saison = rien ne change. Jamais devinee."),
         couleur: couleur
           .optional()
           .describe("Couleur de cette activite, donnee par le client (devanture, logo, emballage ; architecture cadre-couleur, docs/veille/architectures/meyers.md) : hex #rrggbb ou oklch(L C H). Posee sur sa carte (services/cartes-couleur) et sur l'en-tete de sa page, avec une encre choisie par contraste (src/lib/couleur.ts). Absente = tokens de la direction, rien ne change. Jamais devinee."),
@@ -477,6 +482,72 @@ export const siteSchema = z.object({
       "Artisans avec qui le client travaille (« autour de moi », architecture carnet-horizontal, docs/veille/architectures/gingko.md) : chapitre de la coquille carnet. Vide = pas de chapitre. Noms donnes par le client, jamais devines.",
     ),
 
+  lieux: z
+    .array(
+      z.object({
+        slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /adresses/<slug> (« rue-breguet », « gare »)'),
+        nom: z.string().describe('Nom court du lieu tel que le client le dit (« Rue Breguet », « La boutique de la gare »)'),
+        address: z.object({ street: z.string().optional(), postalCode: z.string(), city: z.string() }).describe('Adresse de ce lieu (meme forme que contact.address)'),
+        phone: z.string().optional().describe('Telephone propre a ce lieu, format international +33612345678 ; absent = contact.phone (jamais devine)'),
+        phoneDisplay: z.string().optional().describe('Format affiche de phone (06 12 34 56 78) ; absent avec phone = phone tel quel'),
+        hours: z.array(ligneHoraire).default([]).describe("Horaires de CE lieu (meme forme que contact.hours) : etat ouvert ou ferme de sa page et du bandeau des adresses (src/lib/horaires.ts). Vide = pas d'horaires affiches pour ce lieu."),
+        since: z.number().int().optional().describe("Annee d'ouverture de ce lieu, donnee par le client. Absente = non affichee."),
+        texte: z.string().optional().describe('Une ou deux phrases de faits propres au lieu (quartier, ce qu’on y trouve, terrasse, parking). Absent = non affiche, jamais invente.'),
+        regles: z.array(z.string()).default([]).describe('Regles pratiques du lieu (« Sans réservation », « Parking dans la cour ») donnees par le client. Vide = non affichees.'),
+        photo: img.optional().describe('Photo de ce lieu, celle du client ; absente = page sans photo, jamais une photo de banque'),
+        photos: z.array(img).default([]).describe('Photos supplementaires du lieu (salle, comptoir, facade) : grille de sa page. Vide = pas de grille.'),
+        mapsUrl: z.string().url().optional().describe('Lien Google Maps ou itineraire de ce lieu ; absent = pas de lien « Itinéraire »'),
+        coordinates: z.object({ lat: z.number(), lng: z.number() }).optional().describe('Latitude/longitude du lieu (JSON-LD geo). Absentes = non emises.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Adresses du client, une page chacune (/adresses/<slug>, src/pages/adresses/[slug].astro ; architecture pages-adresses, docs/veille/architectures/pages-adresses.md) : bandeau des adresses de l'accueil (zones/adresses), page /adresses qui les liste avec le formulaire, adresses au pied, nav (deux liens a deux adresses, « Nos adresses » au-dela), un LocalBusiness JSON-LD par lieu. Vide = ni page, ni bandeau, ni lien : le site garde contact.address. Jamais une adresse inventee.",
+    ),
+
+  pros: z
+    .object({
+      titre: z.string().describe('Titre de la page professionnels, dans les mots du client (« Restaurants et entreprises »)'),
+      texte: md.describe('Ce que le client propose aux professionnels, en 2 a 4 phrases de faits (livraison, volumes, facturation)'),
+      offres: z
+        .array(z.object({ nom: z.string(), detail: z.string().optional() }))
+        .default([])
+        .describe('Offres pro en lignes (« Pain livré avant 7 h », « Café en grain, sacs de 1 kg »). Vide = pas de liste.'),
+      email: z.string().email().optional().describe('E-mail dedie aux professionnels ; absent = contact.email'),
+      phone: z.string().optional().describe('Telephone dedie aux pros, format international ; absent = contact.phone'),
+      phoneDisplay: z.string().optional().describe('Format affiche de pros.phone'),
+    })
+    .optional()
+    .describe(
+      "Chemin des professionnels (architecture pages-adresses, la « vente aux pros » de Ten Belles) : page /professionnels et lien discret en fin de nav, dans le meme site (jamais un sous-domaine). Absent = ni page ni lien. Jamais rempli sans donnees du client.",
+    ),
+
+  sorties: z
+    .array(
+      z.object({
+        slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /sorties/<slug>'),
+        service: z.string().optional().describe("Slug du service (l'activite) auquel la sortie appartient : listee sur sa page, filtrable par niveau. Absent = sortie hors activite (accueil et pages par public seulement)."),
+        titre: z.string().describe('Nom de la sortie, du stage ou de la prestation datee, tel que le client le donne'),
+        resume: z.string().describe('Une phrase du client : pour qui, ce qu’on y fait'),
+        periode: z.string().describe('Periode telle que le client la donne (« de juin à septembre », « juillet et août », « avant l’hiver »)'),
+        duree: z.string().optional().describe('Duree donnee par le client (« 1 journée », « 3 jours », « 2 h »). Absente = non affichee.'),
+        niveau: z.string().optional().describe('Niveau ou difficulte en mots (« Découverte », « Confirmé ») : filtre de la page de l’activite des deux niveaux distincts. Absent = non affiche.'),
+        prix: z.string().optional().describe('Prix tel que le client le donne (« 65 € par personne », « à partir de 120 € ») ; absent = pas de prix affiche, jamais devine.'),
+        condition: z.string().optional().describe('Condition de depart donnee par le client (« 4 participants minimum »). Absente = non affichee.'),
+        public: z.array(z.string()).default([]).describe('Publics vises (« Familles », « Scolaires », « Entreprises ») : une page /pour/<public> des trois sorties pour un meme public. Vide = aucune.'),
+        programme: z.array(z.object({ titre: z.string(), texte: z.string() })).default([]).describe('Deroule jour par jour ou etape par etape, donne par le client. Vide = pas de bloc Programme.'),
+        inclus: z.array(z.string()).default([]).describe('Ce qui est compris (encadrement, materiel). Vide = pas de bloc.'),
+        aPrevoir: z.array(z.string()).default([]).describe('Ce que le client demande d’apporter ou de prevoir. Vide = pas de bloc.'),
+        photo: img.optional().describe('Photo de la sortie, celle du client ; absente = carte sans image'),
+        enAvant: z.boolean().default(false).describe("Mise en avant sur l'accueil (« à la une cette saison ») : posee par le studio, changee avec /retouche quand la saison tourne."),
+        lien: z.string().url().optional().describe('Lien de reservation en ligne de cette sortie ; absent = « Réserver » mene au formulaire de contact.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Sorties, stages ou prestations datees et cotees du client (architecture saisons-sorties, docs/veille/architectures/saisons-sorties.md) : une page chacune (/sorties/<slug>, <details> natifs Programme / Inclus / À prévoir), listees sur la page de leur activite avec un filtre par niveau en CSS (:has()), les sorties enAvant sur l'accueil, une page /pour/<public> par public de trois sorties ou plus, et le choix de la sortie dans le formulaire. Vide = ni page, ni liste. Jamais une sortie, une periode ou un prix inventes.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -492,6 +563,10 @@ export const siteSchema = z.object({
       accessKey: z.string().optional().describe('Cle Web3Forms (gratuit, 250 mails/mois)'),
       subject: z.string().optional(),
       successMessage: z.string().default('Merci, votre demande est bien envoyee. Nous vous rappelons rapidement.'),
+      dates: z
+        .boolean()
+        .optional()
+        .describe("Champ « Dates souhaitées » dans le formulaire (demande qualifiee, architecture saisons-sorties). true = affiche (sixieme champ : ff verifier avertit au-dela de cinq) ; absent ou false = pas de champ, et avec des sorties le message invite a donner la sortie et les dates."),
       turnstileSiteKey: z
         .string()
         .optional()
@@ -524,6 +599,8 @@ export const siteSchema = z.object({
       logosTitle: z.string().default('Certifications et garanties').describe('Titre de la rangée de labels (proof/logos), ex. « Qualibat, RGE ». Défaut « Certifications et garanties ».'),
       contactTitle: z.string().default('Parlons de votre projet'),
       agenda: z.string().default('Agenda').describe('Libellé de la porte et de la page des rendez-vous (site.agenda) : « Agenda », « Les rendez-vous de l’atelier »'),
+      lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),
+      pros: z.string().default('Professionnels').describe('Libellé du lien de nav vers /professionnels (site.pros) : « Professionnels », « Vente aux pros »'),
       produits: z.string().default('Produits').describe('Libellé du lien de nav et titre de la page /produits (site.produits) : « Produits », « La gamme », « Nos confitures »'),
       conseils: z.string().default('Conseils').describe('Libellé de la rubrique articles dans la nav et titre de /conseils (« Conseils », « Le carnet de l’atelier »)'),
       contactText: z.string().default('Décrivez votre besoin, nous vous rappelons rapidement.'),

@@ -1,0 +1,89 @@
+---
+/**
+ * Zones "adresses" : architecture `pages-adresses` (src/lib/architectures.ts ; source Ten Belles,
+ * docs/veille/architectures/pages-adresses.md, « bandeau des adresses », deuxième bloc de l'accueil). Une rangée par
+ * lieu (site.lieux), séparées par des filets : le nom du lieu en grand (lien vers sa page /adresses/<slug>), la rue,
+ * l'état du jour et la journée (HorairesDuJour, horaires de CE lieu), le téléphone du lieu en `tel:` (repli : le
+ * numéro principal, jamais un numéro deviné), l'itinéraire s'il est donné, la photo du lieu en vignette si le client
+ * l'a fournie. On cherche « celui près de chez moi » : tout ce qu'il faut pour y aller tient sur sa rangée.
+ *
+ * Aucun lieu = rien n'est rendu (le site garde contact.address ; navLinks ne pointe jamais vers #zones).
+ * Signes de la source NON repris : noms de lieu en capitales seules, téléphone sans lien.
+ */
+import { site, telDuLieu, adresseDuLieu } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+
+const lieux = site.lieux;
+const titre = site.wording.lieux;
+---
+
+{lieux.length > 0 && (
+  <section id="zones" class="section-y ad" aria-labelledby="ad-titre">
+    <div class="container-ff">
+      <div class="ad-tete">
+        <h2 id="ad-titre" class="text-display-md">{titre}</h2>
+        <p class="ad-compte text-muted">{lieux.length === 1 ? 'Une adresse' : `${lieux.length} adresses`}, une page chacune avec ses horaires et son numéro.</p>
+      </div>
+      <ul class="ad-liste" data-stagger="90">
+        {lieux.map((l) => {
+          const t = telDuLieu(l, site.contact);
+          return (
+            <li class:list={['ad-ligne', l.photo && 'ad-avec-photo']}>
+              {l.photo && (
+                <a href={`/adresses/${l.slug}`} class="ad-photo" tabindex="-1" aria-hidden="true">
+                  <Img src={l.photo.src} alt="" loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 1024px) 12rem, 30vw" />
+                </a>
+              )}
+              <div class="ad-nom-bloc">
+                <h3 class="ad-nom font-display"><a href={`/adresses/${l.slug}`} class="ad-lien">{l.nom}<Icon name="ArrowRight" size={22} class="ad-fleche" /></a></h3>
+                <p class="ad-rue">{adresseDuLieu(l)}</p>
+                {l.since && <p class="ad-depuis text-muted">Ouvert en {l.since}</p>}
+              </div>
+              <div class="ad-jour">
+                {l.hours.length > 0 ? <HorairesDuJour hours={l.hours} class="text-sm" /> : <p class="text-sm text-muted">Horaires sur demande</p>}
+              </div>
+              <div class="ad-portes">
+                <a href={t.href} class="ad-tel tabular-nums"><Icon name="Phone" size={16} />{t.affiche}</a>
+                {l.mapsUrl && <a href={l.mapsUrl} class="ad-itin" target="_blank" rel="noopener"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> vers {l.nom} (nouvel onglet)</span></a>}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+)}
+
+<style>
+  .ad-tete { display: grid; gap: 0.75rem; margin-block-end: clamp(2rem, 5vh, 3.5rem); }
+  .ad-compte { max-inline-size: 48ch; }
+  .ad-liste { border-block-start: 1px solid var(--color-line); }
+  .ad-ligne { display: grid; gap: 1rem; padding-block: clamp(1.25rem, 3vh, 2rem); border-block-end: 1px solid var(--color-line); grid-template-columns: minmax(0, 1fr); }
+  .ad-avec-photo { grid-template-columns: 6rem minmax(0, 1fr); }
+  .ad-avec-photo > :not(.ad-photo):not(.ad-nom-bloc) { grid-column: 1 / -1; }
+  .ad-photo { display: block; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-card); }
+  .ad-photo > :global(picture) { display: block; block-size: 100%; }
+  .ad-nom { font-size: clamp(1.75rem, 4vw, 3.25rem); line-height: 1.05; }
+  .ad-lien { display: inline-flex; align-items: baseline; gap: 0.6rem; text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.14em; text-decoration-color: transparent; transition: text-decoration-color var(--motion-ui, 0.22s) var(--ease-out-quart); }
+  .ad-lien:hover, .ad-lien:focus-visible { text-decoration-color: currentColor; }
+  .ad-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+  .ad-lien :global(.ad-fleche) { flex: none; color: var(--color-accent); align-self: center; }
+  .ad-rue { margin-block-start: 0.4rem; }
+  .ad-depuis { margin-block-start: 0.15rem; font-size: 0.95rem; }
+  .ad-portes { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; align-items: center; }
+  .ad-tel, .ad-itin { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 44px; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  .ad-tel { font-weight: 600; font-size: 1.1rem; }
+  .ad-tel:hover, .ad-itin:hover { color: var(--color-accent); }
+  @media (min-width: 64rem) {
+    .ad-tete { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; }
+    .ad-ligne, .ad-avec-photo { grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr); align-items: center; gap: 2rem; }
+    .ad-avec-photo { grid-template-columns: 9rem minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr); }
+    .ad-avec-photo > :not(.ad-photo):not(.ad-nom-bloc) { grid-column: auto; }
+    .ad-portes { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ad-lien { transition: none; }
+  }
+</style>

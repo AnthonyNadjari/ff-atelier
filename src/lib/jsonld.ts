@@ -122,3 +122,28 @@ export function produitLd(site: Site, produit: Site['produits'][number], pageUrl
     ...(offre ? { offers: offre } : {}),
   };
 }
+
+/**
+ * LocalBusiness d'une adresse (architecture pages-adresses, src/pages/adresses/[slug].astro) : le type du site, le nom
+ * « Maison, lieu », l'adresse, le téléphone et les horaires de CE lieu (openingHoursSpecification des lignes à
+ * opens/closes), geo si donné, rattaché à la maison (parentOrganization). Les données de test (06 00 00 00 00, 75000)
+ * ne partent jamais : l'appelant passe `test` (même règle que Base.astro).
+ */
+export function lieuLd(site: Site, lieu: Site['lieux'][number], pageUrl: string, imageUrl?: string, test: { tel?: boolean; adresse?: boolean } = {}): Json {
+  const type = site.business.schemaType || schemaTypeForTrade(site.business.trade);
+  const ohs = openingHoursSpecification(lieu.hours);
+  return {
+    '@type': type,
+    name: `${site.business.name}, ${lieu.nom}`,
+    url: pageUrl,
+    ...(imageUrl ? { image: imageUrl } : {}),
+    ...(!test.tel ? { telephone: lieu.phone ?? site.contact.phone } : {}),
+    ...(!test.adresse
+      ? { address: { '@type': 'PostalAddress', streetAddress: lieu.address.street, postalCode: lieu.address.postalCode, addressLocality: lieu.address.city, addressCountry: 'FR' } }
+      : {}),
+    ...(lieu.coordinates ? { geo: { '@type': 'GeoCoordinates', latitude: lieu.coordinates.lat, longitude: lieu.coordinates.lng } } : {}),
+    ...(ohs ? { openingHoursSpecification: ohs } : lieu.hours.length > 0 ? { openingHours: lieu.hours.map((h) => `${h.days} ${h.hours}`) } : {}),
+    ...(lieu.since ? { foundingDate: String(lieu.since) } : {}),
+    parentOrganization: { '@type': type, name: site.business.name },
+  };
+}
