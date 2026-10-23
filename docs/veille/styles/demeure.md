@@ -1,0 +1,30 @@
+# Demeure — https://demeure.framer.media/
+Titre « Demeure — Creative Studio for Brand, Film & Design », `lang="en"`, description « Demeure is an independent creative studio in Cannes building brand identities, films, and campaigns for the brands defining their moment. », technologie lue : generator « Framer 2b87f15 », Framer. Démontage automatique du 2026-10-23 (`ff demonter`, mesures brutes dans `demeure.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « We are an independent creative studio. We build brand identities, films, and campaigns for the brands defining their mo… » ; vidéo plein écran (100 % de l'écran) ; bouton principal « GET TEMPLATE GET TEMPLATE » en bas à droite (1280, 792 px, dans une barre fixe) ; 71 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 16 élément(s) (`span`, `div.framer-bqE9F`).
+Téléphone (390x844) : h1 « We are an independent creative studio. We build brand identities, films, and campaigns for the brands defining their mo… » ; vidéo plein écran (100 % de l'écran) ; bouton principal « GET TEMPLATE GET TEMPLATE » en bas à droite (230, 736 px, dans une barre fixe) ; 71 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 14 élément(s) (`span`, `div.framer-bqE9F`, `a.framer-6jWyo`).
+Nav : 3 lien(s) — DEMEURE, [CONTACT US CONTACT US], [Open navigation] ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `footer.framer-18ddfp5` (0,5 écran, 17 mots, 1 img). Calques hors flux (fixes/absolus) : `div#__framer-badge-container` (fixed, 78 px, collé en bas, 15 mots), `div.framer-1tuunpo-container` (fixed, 40 px, 4 mots), `div.framer-1qkdj1a-container` (fixed, 40 px, 4 mots).
+Pied de page : 6 lien(s) — TERMS OF USE, PRIVACY POLICY, COOKIES, WORK, ABOUT, JOURNAL. Téléphone cliquable : non. Formulaire : aucun. Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : aucune (réservation, commande, bon cadeau, devis, rendez-vous).
+En 3 secondes : à juger sur `captures/demeure-d.webp` (mesuré : fond du premier écran #f6f5f2, 0 image(s) et 71 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Instrument Serif**, 54 px / 35 px téléphone, graisse 400, interlignage 0,90 ; h2 **Sofia Sans Extra Condensed**, 32 px / 26 px téléphone, graisse 400, interlignage 0,90, capitales ; corps **Sofia Sans Extra Condensed**, 32 px / 28 px téléphone, graisse 400, interlignage 1,20 ; boutons **sans-serif**, 12 px / 12 px téléphone, graisse 400 ; nav **sans-serif**, 12 px / 12 px téléphone, graisse 400.
+Sources `@font-face` : Google Fonts (Fragment Mono, Sofia Sans Extra Condensed, Instrument Serif) ; tiers (framerusercontent.com) (Inter) ; locale (Sofia Sans Extra Condensed Placeholder, Instrument Serif Placeholder, Inter Placeholder) ; fichiers chargés : https://fonts.gstatic.com/s/sofiasansextracondensed/v6/raxdHjafvdAIOju4GcIfJH0i7zi50X3zRtuLNiMS0d6iDr-MD5Si9NGLqGiEejmM356GxA.woff2, https://fonts.gstatic.com/s/sofiasansextracondensed/v6/raxdHjafvdAIOju4GcIfJH0i7zi50X3zRtuLNiMS0d6iDr-MD5Si9NGLRG-EejmM356GxA.woff2, https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zATjnTNgNq55w.woff2, https://fonts.gstatic.com/s/sofiasansextracondensed/v6/raxdHjafvdAIOju4GcIfJH0i7zi50X3zRtuLNiMS0d6iDr-MD5Si9NGLmmiEejmM356GxA.woff2, https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-2zcZj1bIkNo.woff2. Familles en usage sur le texte visible : Sofia Sans Extra Condensed ×256, Instrument Serif ×214, sans-serif ×1. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #f6f5f2, texte #000000 (contraste 19,26:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #f6f5f2 (82 %), #1a1815 (10 %), #ffffff (8 %), #3f3c39 (0 %), #000000 (0 %) ; textes par nombre de caractères : #ffffff (64 %), #8a847b (16 %), #1a1815 (12 %), #0000ee (7 %), #c9c3b9 (2 %). Images : 13 `<img>` visibles, 1 fond(s) en image, 7 vidéo(s), `mask-image`/`clip-path` sur 17 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Framer Motion (window.__framer_importFromPackage). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)` ×186, `opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1)` ×186, `opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1)` ×6, `color 0.6s cubic-bezier(0.22, 1, 0.36, 1)` ×4, `transform 0.6s cubic-bezier(0.14, 1, 0.34, 1)` ×4, `width 6s linear` ×1, `animation tRlmtmlp-fill 5.6s ease infinite` ×1, `animation tRlmtmlp-wave 1.4s linear infinite` ×1, `animation tRlmtmlp-line 5.6s ease infinite` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 2 bloc(s) de plus d'un écran (`section#hero` 9,8 écrans, `div.framer-s7nlm7` 2,9 écrans). Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/demeure-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `footer.framer-18ddfp5` (0,5 écran, 17 mots, 1 image(s)).
+2. L'élément le plus animé : `g.fill` (animation animation tRlmtmlp-fill 5.6s ease infinite).
+3. Le bloc le plus singulier par sa structure : `footer.framer-18ddfp5` (seule à contenir <video>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : rien de mesurable.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : Instrument Serif ; boutons pilule : 0/5 ordinateur, 0/5 téléphone ; vidéo en premier écran : oui ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

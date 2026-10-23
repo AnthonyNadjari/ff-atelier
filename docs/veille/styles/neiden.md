@@ -1,0 +1,30 @@
+# Neiden® — https://neiden.framer.media/
+Titre « Neiden® — Design Studio & Explorations », `lang="en"`, description « Neiden is a Nordic design studio exploring identity, systems, and digital experiences through clarity and experimentation. », technologie lue : generator « Framer e19f2fb », Framer. Démontage automatique du 2026-10-23 (`ff demonter`, mesures brutes dans `neiden.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; fond en image plein écran (100 % de l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 125 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 42 élément(s) (`div`, `div#glitch-effect-content`, `div.framer-zd2brd`, `span`, `div.framer-1oed41j`, `div.framer-119kcst`).
+Téléphone (390x844) : h1 absent ; fond en image plein écran (100 % de l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 99 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 3 élément(s) (`div`, `span`, `ul`).
+Nav : 6 lien(s) — WHO WE ARE WHO WE ARE, PROJECTS PROJECTS, ARTICLES ARTICLES, JOIN US JOIN US, START A PROJECT START A PROJECT, ñeiden® Built With Purpose ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.framer-1mpzqvy-container` (0,4 écran, 46 mots, 1 img). Calques hors flux (fixes/absolus) : `div.framer-9876n` (fixed, 1 px), `div.framer-1a9wq7r-container` (fixed, 120 px, collé en bas), `div.framer-1gir7z1-container` (absolute, 44 px, 74 mots), `div.framer-a9b8zf-container` (fixed, 1 px, 49 mots), `div.framer-vwyx9i` (fixed, 40 px, collé en bas, 4 mots).
+Pied de page : 8 lien(s) — ABOUT STUDIO ABOUT STUDIO, PROJECTS PROJECTS 15, ARTICLES ARTICLES, CONTACT CONTACT, CAREER CAREER, 404 404, TERMS OF SERVICE, PRIVACY POLICY. Téléphone cliquable : oui (3, tel:+13125552468). Formulaire : 2 (12 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : aucune (réservation, commande, bon cadeau, devis, rendez-vous).
+En 3 secondes : à juger sur `captures/neiden-d.webp` (mesuré : fond du premier écran #ffffff, 5 image(s) et 125 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 : non mesuré ; h2 **DM Sans**, 100 px / 60 px téléphone, graisse 600, interlignage 0,80, interlettrage -8px ; corps **DM Sans**, 16 px / 15 px téléphone, graisse 400, interlignage 1,40, interlettrage -0.8px ; boutons **sans-serif**, 12 px / 12 px téléphone, graisse 400 ; nav **sans-serif**, 12 px / 12 px téléphone, graisse 400.
+Sources `@font-face` : Google Fonts (Cal Sans, DM Sans) ; tiers (framerusercontent.com) (Patung Regular, Inter, Inter Display) ; locale (Cal Sans Placeholder, DM Sans Placeholder, Patung Regular Placeholder, Inter Placeholder, Inter Display Placeholder) ; fichiers chargés : https://fonts.gstatic.com/s/dmsans/v17/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwARZthS2f3ZGMZpg.woff2, https://fonts.gstatic.com/s/dmsans/v17/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAfJthS2f3ZGMZpg.woff2, https://fonts.gstatic.com/s/dmsans/v17/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAkJxhS2f3ZGMZpg.woff2, https://fonts.gstatic.com/s/dmsans/v17/rP2tp2ywxg089UriI5-g4vlH9VoD8CmcqZG40F9JadbnoEwAopxhS2f3ZGMZpg.woff2, https://fonts.gstatic.com/s/calsans/v2/fdN99sWUv3gWqXxqqRBctFs.woff2, https://framerusercontent.com/assets/wANxq4ncIu35guzFWKF73Wj29k.woff2. Familles en usage sur le texte visible : DM Sans ×1211, Patung Regular ×50, Cal Sans ×6. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #000000 (contraste 21,00:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (56 %), #191919 (21 %), #000000 (18 %), #f2f2f2 (4 %), #f02b42 (1 %) ; textes par nombre de caractères : #000000 (71 %), #ffffff (28 %), #f02b42 (0 %). Images : 65 `<img>` visibles, 27 fond(s) en image, 10 vidéo(s), `mask-image`/`clip-path` sur 61 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Framer Motion (window.__framer_importFromPackage). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.4s cubic-bezier(0.44, 0, 0.56, 1)` ×6, `background 0.5s cubic-bezier(0.44, 0, 0.56, 1)` ×3, `opacity 0.4s ease` ×2, `transform 0.4s ease` ×2, `text-decoration-color 0.4s cubic-bezier(0.44, 0, 0.56, 1)` ×2, `text-decoration-thickness 0.4s cubic-bezier(0.44, 0, 0.56, 1)` ×2, `text-underline-offset 0.4s cubic-bezier(0.44, 0, 0.56, 1)` ×2, `background 0.3s cubic-bezier(0.44, 0, 0.56, 1)` ×1, `background 0.6s cubic-bezier(0.44, 0, 0.56, 1)` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 3 bloc(s) de plus d'un écran (`div.framer-56lvco` 2,8 écrans, `div.framer-yk5cfr` 3,1 écrans, `div.framer-gp1en6-container` 1,4 écran). Attributs de mouvement : `data-framer-cursor` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/neiden-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.framer-1mpzqvy-container` (0,4 écran, 46 mots, 1 image(s)).
+2. L'élément le plus animé : `a.framer-text` (4 transition(s) : color 0.4s cubic-bezier(0.44, 0, 0.56, 1) ; text-decoration-color 0.4s cubic-bezier(0.44, 0, 0.56, 1)).
+3. Le bloc le plus singulier par sa structure : `div.framer-1mpzqvy-container` (seule à contenir <svg>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : DM Sans ; boutons pilule : 0/2 ordinateur, 0/2 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

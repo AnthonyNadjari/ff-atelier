@@ -1,0 +1,30 @@
+# Kudos — https://kudos.framer.media/
+Titre « Kudos - Modern Design Agency Framer Template », `lang="en"`, description « Kudos is a premium Framer agency template for creative studios and professional services. 11 pages, 9 CMS collections, bold typography, and monochromatic desig… », technologie lue : generator « Framer af78293 », Framer. Démontage automatique du 2026-10-23 (`ff demonter`, mesures brutes dans `kudos.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « We design brands people remember » ; canvas plein écran (100 % de l'écran) ; bouton principal « Buy Template » en bas à droite (1281, 715 px, dans une barre fixe) ; 47 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 10 élément(s) (`div.framer-1w06kf0-container`, `div.framer-hGNQe`, `div.framer-1kcrjxh`, `div.framer-1g5agx0`, `div.framer-a7b8a4-container`, `div.framer-n31ish`).
+Téléphone (390x844) : h1 « We design brands people remember » ; fond en image plein écran (100 % de l'écran) ; bouton principal « Buy Template » en bas à droite (231, 641 px, dans une barre fixe) ; 68 mots visibles au-dessus du pli ; bannière cookies 24 % de l'écran, non bloquante ; bouge tout seul sans défilement : 3 élément(s) (`div#intro-logo`, `div.framer-1hi5ih0`, `button.framer-1btdh5w`).
+Nav : 1 lien(s) — KUDOS ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.framer-1aer1g-container` « Signals worth paying attention » (0,5 écran, 21 mots, 0 img). Calques hors flux (fixes/absolus) : `div#__framer-badge-container` (fixed, 40 px, collé en bas, 15 mots), `div#awwwards` (fixed, 174 px), `div.framer-1mbxgrg-container` (fixed, 96 px, 1 mots), `div.framer-tcv5nl` (absolute, 900 px, 1 mots), `div.framer-14yuw8x-container` (fixed, 900 px), `div.framer-1swg9it-container` (fixed, 146 px, 2 mots).
+Pied de page : 18 lien(s) — hi@kudos.agency, (+31) 987 654 321, Home, About, Projects, Articles, Careers, Contact, Framer, Twitter (+8). Téléphone cliquable : oui (1, tel: +1 000000000). Formulaire : 2 (30 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Book a call » (https://cal.com/).
+En 3 secondes : à juger sur `captures/kudos-d.webp` (mesuré : fond du premier écran #050505, 7 image(s) et 47 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Inter Display**, 84 px / 36 px téléphone, graisse 800, interlignage 0,90, interlettrage -1.68px ; h2 **Inter Display**, 64 px / 32 px téléphone, graisse 800, interlignage 0,90, interlettrage -1.28px ; corps **Inter Display**, 16 px / 16 px téléphone, graisse 500, interlignage 1,20, interlettrage -0.32px ; boutons **sans-serif**, 12 px / 12 px téléphone, graisse 400 ; nav **sans-serif**, 12 px / 12 px téléphone, graisse 400.
+Sources `@font-face` : Google Fonts (Intel One Mono) ; tiers (framerusercontent.com) (Inter, Inter Display, Syne) ; locale (Inter Placeholder, Inter Display Placeholder, Syne Placeholder) ; fichiers chargés : https://framerusercontent.com/third-party-assets/fontshare/wf/WMLFYK4WLAEGUZI75GLRKSJSV36DAKYG/7FN34JXVUK5CO2P2QCUTGI3KYPETO6GN/J3Z3UROQ6US22LVWHD2QJ5SGZQKV5FDW.woff2, https://framerusercontent.com/assets/9Nu9BRcGkRrLnJCGqVdSUXJt2Ig.woff2, https://framerusercontent.com/assets/PfdOpgzFf7N2Uye9JX7xRKYTgSc.woff2, https://fonts.gstatic.com/s/intelonemono/v2/P5sWzZuLY8Lb_G1RikFkwPjBvuM8LXucmoHDSAMgk_chmzVS.woff2, https://framerusercontent.com/assets/qITWJ2WdG0wrgQPDb8lvnYnTXDg.woff2, https://framerusercontent.com/assets/iwWTDc49ENF2tCHbqlNARXw6Ug.woff2. Familles en usage sur le texte visible : Inter Display ×323, Intel One Mono ×135, Syne ×13, Inter ×5, sans-serif ×1. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff (premier écran #050505), texte #000000 (contraste 21,00:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (35 %), #fafafa (27 %), #f5f5f5 (24 %), #050505 (12 %), #0a0a0a (1 %) ; textes par nombre de caractères : #666666 (59 %), #999999 (21 %), #050505 (11 %), #fafafa (5 %), #e0e0e0 (2 %). Images : 33 `<img>` visibles, 1 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 53 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Framer Motion (window.__framer_importFromPackage). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.3s ease` ×57, `color 1s cubic-bezier(0.44, 0, 0.56, 1)` ×14, `box-shadow 0.3s cubic-bezier(0.44, 0, 0.56, 1)` ×12, `background 1s cubic-bezier(0.44, 0, 0.56, 1)` ×8. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 4 bloc(s) de plus d'un écran (`section.framer-bqdhp3` 21,1 écrans, `header.framer-gmvvh7` 2,9 écrans, `div.framer-1elr6do` 3,4 écrans). Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/kudos-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.framer-1aer1g-container` « Signals worth paying attention » (0,5 écran, 21 mots, 0 image(s)).
+2. L'élément le plus animé : `span` (1 transition(s) : color 0.3s ease).
+3. Le bloc le plus singulier par sa structure : `div.framer-1aer1g-container` « Signals worth paying attention » (seule à contenir <form>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« Book a call »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : Inter Display, Syne, Inter ; boutons pilule : 0/5 ordinateur, 0/5 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
