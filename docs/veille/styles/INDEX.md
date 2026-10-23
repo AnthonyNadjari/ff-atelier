@@ -189,3 +189,4 @@ neutre : septime). Essais `ff melanger demo-boulangerie --style <id> --essai`, c
 Refusé à la comparaison : sonderdays (sonderdays.com : blanc et grotesque neutres, sans ses photos il ne reste rien).
 Écartés au démontage : aesop (vérification anti-robot), frantzen et audo (page vide sans navigateur réel), trudon, fornasetti
 et dandelionchocolate (fenêtres cookies ou inscription qui couvrent la page), geranium (blanc neutre sans caractère).
+- Collecte 2026-10-23 (deuxième) : 18 styles (Hodinkee, Il Volo, Alice Waters, Chez Panisse, Hotel Joe, Ace Hotel, The Witchery, Artemide, About Life, Arabia, Blackbird, Field Trip, Haymarket, Wildflour, Maison Balzac, Salt & Straw, Ethnicraft, Mokuba ; atomes mesurés, palette principale posée d'après le fond mesuré, photos/premier écran/profil de mouvement laissés « à juger » ; FF_CHROMIUM=1 ; environ 25 domaines refusés par le réseau ou les robots)

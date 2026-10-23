@@ -1,0 +1,1581 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://hodinkee.com/",
+  "nom": "hodinkee",
+  "date": "2026-10-23",
+  "identite": {
+    "title": "Hodinkee",
+    "siteName": "Hodinkee",
+    "lang": "en",
+    "description": "Wristwatch News, Reviews, & Original Stories",
+    "technologies": [
+      "Shopify",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 180,
+      "images": 3,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Manage preferences",
+        "x": 854.953125,
+        "y": 839.390625,
+        "cx": 0.6701226128472222,
+        "cy": 0.9546614583333334,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.25,
+        "texte": "We Value Your Privacy By clicking “Accept all,” you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. Some cookies are",
+        "selecteur": "div#onetrust-banner-sdk"
+      },
+      "barreBas": null,
+      "scrollHeight": 9003,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2",
+        "famille": "\"Portrait Inline\", sans-serif",
+        "taille": 51,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Portrait Text\", serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.desktop-search-toggle",
+        "famille": "\"Proxima Nova\", sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.nav-tab-link",
+        "famille": "\"Hodinkee Social\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "BrownPro Web Regular",
+          "url": "https://cdn.hodinkee.com/assets/BrownPro-Regular-e613fad6a4567d01d7b6903297eb147847d361984be0dc63d86b791c7d4e1431.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "DecimaMonoPro-Bold",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/DecimaMonoPro-Bold-c2c11877.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GT America",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/GT-America-Standard-Medium-b819b1c6.ttf",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hodinkee Social",
+          "url": "https://cdn.hodinkee.com/site/fonts/HodinkeeSocial-Medium.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hodinkee Social",
+          "url": "https://cdn.hodinkee.com/site/fonts/HodinkeeSocial-Regular.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hodinkee Social",
+          "url": "https://cdn.hodinkee.com/site/fonts/HodinkeeSocial-RegularItalic.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hodinkee Social Mono",
+          "url": "https://cdn.hodinkee.com/site/fonts/HodinkeeSocialMono-Regular.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Headline",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarHeadline-Italic.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Headline",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarHeadline-Regular.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Text",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarText-Italic.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Text",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarText-Regular.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Text",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarText-SemiBold.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Text",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarText-SemiBoldItalic.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Portrait Headline",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular-a770f1b0.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Portrait Headline Italics",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular2Italic-Web-b46112bb.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Portrait Text",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/PortraitTextRegular-Web-c0747cff.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Proxima Nova",
+          "url": "https://cdn.shopify.com/s/files/1/0146/0732/t/45/assets/proxima_nova-webfont.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "htlbid.com",
+        "cdn.hodinkee.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownPro-Bold-7e12df86.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownPro-Bold-04c24e3f.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownPro-Regular-d459912f.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownPro-Regular-250139ea.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownStd-Light-91ace493.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/DinNextMedium-66a7ad1f.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/G-SHOCK6900-544d31fe.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/G-SHOCK6900-dbfbe093.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Bold-Web-62567ab4.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Bold-Web-5207c669.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Light-f08c331e.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Medium-7853e7c7.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular2Italic-Web-5bf6ca99.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular-b4d01c02.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular2Italic-Web-30d2324e.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/PortraitInline-Sans-Web-e37128c1.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/PortraitInline-Sans-Web-d05e00b3.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/PortraitTextRegular-Web-c4cfa593.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaLight-818e6313.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaLight-6157376c.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaRegular-885f4085.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaRegular-c6d8dccd.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaSemibold-56ab9427.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaSemibold-4d6bd3ca.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/HodinkeeSocial-Regular-c49cb032.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/HodinkeeSocial-Regular-bee5fc28.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/IvarText-Regular-e3886dd4.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/IvarText-Regular-626f75de.woff2",
+        "https://use.typekit.net/ues3tha.css",
+        "https://cdn.shopify.com/s/files/1/0146/0732/t/45/assets/proxima_nova-webfont.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Brown",
+          "n": 88
+        },
+        {
+          "famille": "Portrait Inline",
+          "n": 78
+        },
+        {
+          "famille": "Portrait",
+          "n": 63
+        },
+        {
+          "famille": "Portrait Text",
+          "n": 28
+        },
+        {
+          "famille": "Hodinkee Social",
+          "n": 18
+        },
+        {
+          "famille": "Proxima Nova",
+          "n": 12
+        },
+        {
+          "famille": "Ivar Headline",
+          "n": 7
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 6,
+          "poids": 15188328
+        },
+        {
+          "hex": "#222222",
+          "n": 4,
+          "poids": 2130347.953125
+        },
+        {
+          "hex": "#f5f7f7",
+          "n": 6,
+          "poids": 436534.16015625
+        },
+        {
+          "hex": "#f5f5f5",
+          "n": 1,
+          "poids": 380160
+        },
+        {
+          "hex": "#0c0c0c",
+          "n": 2,
+          "poids": 19596.065185546875
+        },
+        {
+          "hex": "#292a2a",
+          "n": 1,
+          "poids": 3472.1640625
+        },
+        {
+          "hex": "#999999",
+          "n": 4,
+          "poids": 324
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 77,
+          "poids": 3251
+        },
+        {
+          "hex": "#ffffff",
+          "n": 70,
+          "poids": 2247
+        },
+        {
+          "hex": "#222222",
+          "n": 41,
+          "poids": 874
+        },
+        {
+          "hex": "#464848",
+          "n": 20,
+          "poids": 710
+        },
+        {
+          "hex": "#666666",
+          "n": 6,
+          "poids": 694
+        },
+        {
+          "hex": "#0c0c0c",
+          "n": 4,
+          "poids": 321
+        },
+        {
+          "hex": "#b1b5b5",
+          "n": 37,
+          "poids": 314
+        },
+        {
+          "hex": "#6c6c6c",
+          "n": 2,
+          "poids": 269
+        },
+        {
+          "hex": "#d8dada",
+          "n": 10,
+          "poids": 169
+        },
+        {
+          "hex": "#010101",
+          "n": 2,
+          "poids": 74
+        },
+        {
+          "hex": "#999999",
+          "n": 10,
+          "poids": 71
+        },
+        {
+          "hex": "#767a7a",
+          "n": 10,
+          "poids": 68
+        }
+      ],
+      "nbImages": 22,
+      "nbVideos": 0,
+      "nbFondsImage": 45,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 6,
+          "poids": 15188328,
+          "part": 0.836
+        },
+        {
+          "hex": "#222222",
+          "n": 4,
+          "poids": 2130347.953125,
+          "part": 0.117
+        },
+        {
+          "hex": "#f5f7f7",
+          "n": 6,
+          "poids": 436534.16015625,
+          "part": 0.024
+        },
+        {
+          "hex": "#f5f5f5",
+          "n": 1,
+          "poids": 380160,
+          "part": 0.021
+        },
+        {
+          "hex": "#0c0c0c",
+          "n": 2,
+          "poids": 19596.065185546875,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 77,
+          "poids": 3251,
+          "part": 0.359
+        },
+        {
+          "hex": "#ffffff",
+          "n": 70,
+          "poids": 2247,
+          "part": 0.248
+        },
+        {
+          "hex": "#222222",
+          "n": 41,
+          "poids": 874,
+          "part": 0.096
+        },
+        {
+          "hex": "#464848",
+          "n": 20,
+          "poids": 710,
+          "part": 0.078
+        },
+        {
+          "hex": "#666666",
+          "n": 6,
+          "poids": 694,
+          "part": 0.077
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 14
+        },
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 7
+        },
+        {
+          "valeur": "all 0.075s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 5
+        },
+        {
+          "valeur": "background-color 0.2s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "border-color 0.2s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.btn",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "background-color 0.2s ease-in-out",
+          "border-color 0.2s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div#maincontent",
+      "sections": [
+        {
+          "selecteur": "div.homepage-billboard-container",
+          "titre": null,
+          "top": 0,
+          "hauteur": 264,
+          "ecrans": 0.3,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe",
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "header#navigation",
+          "titre": null,
+          "top": 264,
+          "hauteur": 172,
+          "ecrans": 0.2,
+          "mots": 112,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        },
+        {
+          "selecteur": "div.homepage-modules",
+          "titre": "AuctionsMonaco Legend Group's Fall Auction Is A Return To Th",
+          "top": 436,
+          "hauteur": 1402,
+          "ecrans": 1.6,
+          "mots": 142,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div",
+          "titre": "Talking WatchesWith Pusha T – On Rolex, Rap, And The Luxury ",
+          "top": 1878,
+          "hauteur": 7550,
+          "ecrans": 8.4,
+          "mots": 970,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "ol"
+          ]
+        },
+        {
+          "selecteur": "div.footer__last-week-top-stories",
+          "titre": "LAST WEEK'S TOP STORIES",
+          "top": 9468,
+          "hauteur": 372,
+          "ecrans": 0.4,
+          "mots": 69,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.footer-light",
+          "titre": null,
+          "top": 9839,
+          "hauteur": 398,
+          "ecrans": 0.4,
+          "mots": 51,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#navigation",
+        "hauteur": 172,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "CANCEL",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Log In Sign Up",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Stories",
+            "href": "/latest",
+            "bouton": false
+          },
+          {
+            "texte": "What's New",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Videos",
+            "href": "/videos",
+            "bouton": false
+          },
+          {
+            "texte": "Videos",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Magazine",
+            "href": "/magazine",
+            "bouton": false
+          },
+          {
+            "texte": "Magazine",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Insurance",
+            "href": "https://insurance.hodinkee.com",
+            "bouton": false
+          },
+          {
+            "texte": "Insurance",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Shop",
+            "href": "https://www.watchesofswitzerland.com/collections/curated-by-hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "Shop",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer-light",
+        "liens": [
+          {
+            "texte": "Our Story",
+            "href": "/pages/our-story",
+            "bouton": false
+          },
+          {
+            "texte": "Press",
+            "href": "/pages/press",
+            "bouton": false
+          },
+          {
+            "texte": "Careers",
+            "href": "/careers",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms of Service",
+            "href": "/terms-of-service",
+            "bouton": false
+          },
+          {
+            "texte": "Contact Us",
+            "href": "/pages/contact#contact_us",
+            "bouton": false
+          },
+          {
+            "texte": "Advertise",
+            "href": "/pages/contact#advertise_with_us",
+            "bouton": false
+          },
+          {
+            "texte": "Press Releases",
+            "href": "/pages/contact#press_releases",
+            "bouton": false
+          },
+          {
+            "texte": "Image Licensing",
+            "href": "/pages/contact#image_licensing",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram, Opens a new window",
+            "href": "https://instagram.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "YouTube, Opens a new window",
+            "href": "https://youtube.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook, Opens a new window",
+            "href": "https://facebook.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "Twitter, Opens a new window",
+            "href": "https://twitter.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "SUBSCRIBE",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-link",
+          "position": "absolute",
+          "hauteur": 24,
+          "largeur": 195,
+          "enBas": false,
+          "mots": 5
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 13,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/hodinkee-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 184,
+      "images": 8,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Manage preferences",
+        "x": 20,
+        "y": 832.390625,
+        "cx": 0.5256410256410257,
+        "cy": 1.009710085900474,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.33,
+        "texte": "We Value Your Privacy By clicking “Accept all,” you agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and assist in our marketing efforts. Some cookies are",
+        "selecteur": "div#onetrust-banner-sdk"
+      },
+      "barreBas": {
+        "selecteur": "div#onetrust-button-group-parent",
+        "hauteur": 171,
+        "largeur": 370,
+        "liens": [
+          {
+            "texte": "Accept Essential Cookies",
+            "href": ""
+          },
+          {
+            "texte": "Accept All",
+            "href": ""
+          }
+        ]
+      },
+      "scrollHeight": 7701,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2",
+        "famille": "\"Portrait Inline\", sans-serif",
+        "taille": 32,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Portrait Text\", serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.hamburger",
+        "famille": "\"Proxima Nova\", sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.mobile-footer-link",
+        "famille": "Brown, sans-serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1px"
+      },
+      "fontFaces": [
+        {
+          "famille": "BrownPro Web Regular",
+          "url": "https://cdn.hodinkee.com/assets/BrownPro-Regular-e613fad6a4567d01d7b6903297eb147847d361984be0dc63d86b791c7d4e1431.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "DecimaMonoPro-Bold",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/DecimaMonoPro-Bold-c2c11877.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GT America",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/GT-America-Standard-Medium-b819b1c6.ttf",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hodinkee Social",
+          "url": "https://cdn.hodinkee.com/site/fonts/HodinkeeSocial-Medium.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hodinkee Social",
+          "url": "https://cdn.hodinkee.com/site/fonts/HodinkeeSocial-Regular.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hodinkee Social",
+          "url": "https://cdn.hodinkee.com/site/fonts/HodinkeeSocial-RegularItalic.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Hodinkee Social Mono",
+          "url": "https://cdn.hodinkee.com/site/fonts/HodinkeeSocialMono-Regular.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Headline",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarHeadline-Italic.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Headline",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarHeadline-Regular.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Text",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarText-Italic.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Text",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarText-Regular.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Text",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarText-SemiBold.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Ivar Text",
+          "url": "https://cdn.hodinkee.com/site/fonts/IvarText-SemiBoldItalic.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Portrait Headline",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular-a770f1b0.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Portrait Headline Italics",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular2Italic-Web-b46112bb.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Portrait Text",
+          "url": "https://cdn.hodinkee.com/packs/media/fonts/PortraitTextRegular-Web-c0747cff.woff",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Proxima Nova",
+          "url": "https://cdn.shopify.com/s/files/1/0146/0732/t/45/assets/proxima_nova-webfont.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "htlbid.com",
+        "cdn.hodinkee.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownPro-Bold-7e12df86.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownPro-Bold-04c24e3f.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownPro-Regular-250139ea.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownPro-Regular-d459912f.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/BrownStd-Light-91ace493.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/DinNextMedium-66a7ad1f.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/G-SHOCK6900-544d31fe.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/G-SHOCK6900-dbfbe093.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Bold-Web-62567ab4.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Bold-Web-5207c669.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Light-f08c331e.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular-b4d01c02.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Medium-7853e7c7.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular2Italic-Web-5bf6ca99.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/Portrait-Regular2Italic-Web-30d2324e.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/PortraitInline-Sans-Web-e37128c1.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/PortraitInline-Sans-Web-d05e00b3.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/PortraitTextRegular-Web-c4cfa593.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaLight-818e6313.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaLight-6157376c.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaRegular-885f4085.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaRegular-c6d8dccd.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaSemibold-56ab9427.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/ProximaNovaSemibold-4d6bd3ca.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/HodinkeeSocial-Regular-c49cb032.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/HodinkeeSocial-Regular-bee5fc28.woff2",
+        "https://cdn.hodinkee.com/packs/media/fonts/IvarText-Regular-e3886dd4.woff",
+        "https://cdn.hodinkee.com/packs/media/fonts/IvarText-Regular-626f75de.woff2",
+        "https://use.typekit.net/ues3tha.css",
+        "https://cdn.hodinkee.com/packs/media/fonts/PortraitTextRegular-Web-c0747cff.woff"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Brown",
+          "n": 73
+        },
+        {
+          "famille": "Portrait",
+          "n": 58
+        },
+        {
+          "famille": "Portrait Inline",
+          "n": 56
+        },
+        {
+          "famille": "Proxima Nova",
+          "n": 11
+        },
+        {
+          "famille": "Portrait Text",
+          "n": 10
+        },
+        {
+          "famille": "Hodinkee Social",
+          "n": 6
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 4906231
+        },
+        {
+          "hex": "#eeeeee",
+          "n": 1,
+          "poids": 844155
+        },
+        {
+          "hex": "#222222",
+          "n": 5,
+          "poids": 657753.359375
+        },
+        {
+          "hex": "#f5f7f7",
+          "n": 6,
+          "poids": 141920.4375
+        },
+        {
+          "hex": "#000000",
+          "n": 6,
+          "poids": 37410.75
+        },
+        {
+          "hex": "#0c0c0c",
+          "n": 2,
+          "poids": 30790.9375
+        },
+        {
+          "hex": "#292a2a",
+          "n": 1,
+          "poids": 3472.1640625
+        },
+        {
+          "hex": "#7d7d7d",
+          "n": 4,
+          "poids": 324
+        },
+        {
+          "hex": "#1a1b1b",
+          "n": 1,
+          "poids": 24
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 43,
+          "poids": 1738
+        },
+        {
+          "hex": "#ffffff",
+          "n": 51,
+          "poids": 1531
+        },
+        {
+          "hex": "#222222",
+          "n": 42,
+          "poids": 1169
+        },
+        {
+          "hex": "#666666",
+          "n": 5,
+          "poids": 543
+        },
+        {
+          "hex": "#0c0c0c",
+          "n": 4,
+          "poids": 321
+        },
+        {
+          "hex": "#6c6c6c",
+          "n": 2,
+          "poids": 269
+        },
+        {
+          "hex": "#b1b5b5",
+          "n": 25,
+          "poids": 222
+        },
+        {
+          "hex": "#d8dada",
+          "n": 10,
+          "poids": 169
+        },
+        {
+          "hex": "#777777",
+          "n": 1,
+          "poids": 151
+        },
+        {
+          "hex": "#464848",
+          "n": 14,
+          "poids": 133
+        },
+        {
+          "hex": "#999999",
+          "n": 10,
+          "poids": 71
+        },
+        {
+          "hex": "#cccccc",
+          "n": 4,
+          "poids": 52
+        }
+      ],
+      "nbImages": 19,
+      "nbVideos": 0,
+      "nbFondsImage": 39,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 4906231,
+          "part": 0.741
+        },
+        {
+          "hex": "#eeeeee",
+          "n": 1,
+          "poids": 844155,
+          "part": 0.127
+        },
+        {
+          "hex": "#222222",
+          "n": 5,
+          "poids": 657753.359375,
+          "part": 0.099
+        },
+        {
+          "hex": "#f5f7f7",
+          "n": 6,
+          "poids": 141920.4375,
+          "part": 0.021
+        },
+        {
+          "hex": "#000000",
+          "n": 6,
+          "poids": 37410.75,
+          "part": 0.006
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 43,
+          "poids": 1738,
+          "part": 0.273
+        },
+        {
+          "hex": "#ffffff",
+          "n": 51,
+          "poids": 1531,
+          "part": 0.24
+        },
+        {
+          "hex": "#222222",
+          "n": 42,
+          "poids": 1169,
+          "part": 0.184
+        },
+        {
+          "hex": "#666666",
+          "n": 5,
+          "poids": 543,
+          "part": 0.085
+        },
+        {
+          "hex": "#0c0c0c",
+          "n": 4,
+          "poids": 321,
+          "part": 0.05
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 14
+        },
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 5
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "background-color 0.2s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "border-color 0.2s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.1s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.btn",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "background-color 0.2s ease-in-out",
+          "border-color 0.2s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div#maincontent",
+      "sections": [
+        {
+          "selecteur": "div.homepage-modules",
+          "titre": "AuctionsMonaco Legend Group's Fall Auction Is A Return To Th",
+          "top": 56,
+          "hauteur": 958,
+          "ecrans": 1.1,
+          "mots": 142,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div",
+          "titre": "Talking WatchesWith Pusha T – On Rolex, Rap, And The Luxury ",
+          "top": 1054,
+          "hauteur": 7962,
+          "ecrans": 9.4,
+          "mots": 716,
+          "images": 11,
+          "fixe": false,
+          "balisesRares": [
+            "iframe",
+            "svg",
+            "ol"
+          ]
+        },
+        {
+          "selecteur": "footer.footer-light",
+          "titre": null,
+          "top": 9056,
+          "hauteur": 808,
+          "ecrans": 1,
+          "mots": 51,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#navigation",
+        "hauteur": 56,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Open menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "search, displays input field",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Log In Sign Up",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Stories",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Videos",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Magazine",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Insurance",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Shop",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "OUR STORY",
+            "href": "/pages/our-story",
+            "bouton": false
+          },
+          {
+            "texte": "PRESS",
+            "href": "/pages/press",
+            "bouton": false
+          },
+          {
+            "texte": "CAREERS",
+            "href": "/careers",
+            "bouton": false
+          },
+          {
+            "texte": "PRIVACY POLICY",
+            "href": "/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "TERMS OF SERVICE",
+            "href": "/terms-of-service",
+            "bouton": false
+          },
+          {
+            "texte": "ADVERTISE",
+            "href": "/pages/contact#advertise_with_us?_refresh=1",
+            "bouton": false
+          },
+          {
+            "texte": "PRESS RELEASES",
+            "href": "/pages/contact#press_releases?_refresh=1",
+            "bouton": false
+          },
+          {
+            "texte": "IMAGE LICENSING",
+            "href": "/pages/contact#image_licensing?_refresh=1",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT US",
+            "href": "/pages/contact#contact_us?_refresh=1",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram, Opens a new window",
+            "href": "https://instagram.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "YouTube, Opens a new window",
+            "href": "https://youtube.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook, Opens a new window",
+            "href": "https://facebook.com/hodinkee",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer-light",
+        "liens": [
+          {
+            "texte": "Our Story",
+            "href": "/pages/our-story",
+            "bouton": false
+          },
+          {
+            "texte": "Press",
+            "href": "/pages/press",
+            "bouton": false
+          },
+          {
+            "texte": "Careers",
+            "href": "/careers",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms of Service",
+            "href": "/terms-of-service",
+            "bouton": false
+          },
+          {
+            "texte": "Contact Us",
+            "href": "/pages/contact#contact_us",
+            "bouton": false
+          },
+          {
+            "texte": "Advertise",
+            "href": "/pages/contact#advertise_with_us",
+            "bouton": false
+          },
+          {
+            "texte": "Press Releases",
+            "href": "/pages/contact#press_releases",
+            "bouton": false
+          },
+          {
+            "texte": "Image Licensing",
+            "href": "/pages/contact#image_licensing",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram, Opens a new window",
+            "href": "https://instagram.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "YouTube, Opens a new window",
+            "href": "https://youtube.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook, Opens a new window",
+            "href": "https://facebook.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "Twitter, Opens a new window",
+            "href": "https://twitter.com/hodinkee",
+            "bouton": false
+          },
+          {
+            "texte": "SUBSCRIBE",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "header#navigation",
+          "position": "fixed",
+          "hauteur": 56,
+          "largeur": 410,
+          "enBas": false,
+          "mots": 26
+        }
+      ],
+      "barreBas": {
+        "selecteur": "div#onetrust-button-group-parent",
+        "hauteur": 171,
+        "largeur": 370,
+        "liens": [
+          {
+            "texte": "Accept Essential Cookies",
+            "href": ""
+          },
+          {
+            "texte": "Accept All",
+            "href": ""
+          }
+        ]
+      }
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 19,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Hodinkee",
+  "dureeS": 31.3
+}
