@@ -1,0 +1,158 @@
+{
+  "id": "hungrytiger",
+  "version": 1,
+  "source": {
+    "url": "https://www.eathungrytiger.com/",
+    "nom": "Hungry Tiger",
+    "metier": "sauces indiennes (Californie)",
+    "fiche": "docs/veille/styles/hungrytiger.md",
+    "mesures": "docs/veille/styles/atomes/mesures/hungrytiger.json",
+    "date": "2026-10-23"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Salmond",
+      "libre": "archivoBlack",
+      "graisse": 700,
+      "interlignage": 0.8,
+      "casse": "uppercase",
+      "interlettrage": -0.02,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Salmond",
+      "libre": "rubik",
+      "graisse": 500,
+      "interlignage": 1.3
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 55,
+        "ordinateur": 213.1
+      },
+      "h2": "à juger",
+      "texte": {
+        "telephone": 12.9,
+        "ordinateur": 11.5
+      }
+    },
+    "remarque": "Salmond (capitales très grasses aux angles adoucis) : Archivo Black pour les titres ; texte Salmond 500 : Rubik, dont les rondeurs rappellent Salmond (la paire Archivo Black + Archivo est déjà celle d'une direction de l'usine). Titre géant : 213 px à l'ordinateur. Le h2 relevé (51 px au téléphone, 130 px à l'ordinateur) est celui d'un bandeau promotionnel : appliqué aux titres de section, « LA BOULANGERIE » débordait du téléphone à l'essai du 23 oct ; remis à juger (ff melanger le dérive du h1)."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "releve": {
+      "fond": "#823513",
+      "texte": "#402011",
+      "fonds": [
+        {
+          "hex": "#823513",
+          "part": 0.515
+        },
+        {
+          "hex": "#faae33",
+          "part": 0.337
+        },
+        {
+          "hex": "#281006",
+          "part": 0.123
+        },
+        {
+          "hex": "#402011",
+          "part": 0.024
+        },
+        {
+          "hex": "#d1255c",
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#402011",
+          "part": 0.576
+        },
+        {
+          "hex": "#faae33",
+          "part": 0.424
+        }
+      ],
+      "proches": 4330754
+    },
+    "clair": null,
+    "sombre": {
+      "fond": "#823513",
+      "surface": "#402011",
+      "texte": "#faae33",
+      "texte2": "à juger",
+      "accent": "#faae33",
+      "accent2": "à juger",
+      "bordure": "à juger",
+      "encre": "#281006"
+    },
+    "_aide": "autres fonds mesurés : #faae33 (34 %), #281006 (12 %), #402011 (2 %), #d1255c (0 %)",
+    "remarque": "Rouille #823513 (52 % des fonds), jaune safran #faae33 pour les titres et boutons, brun #402011 et #281006 en bandes."
+  },
+  "densite": {
+    "section": {
+      "telephone": 116,
+      "ordinateur": 157
+    },
+    "gouttiere": {
+      "telephone": 14,
+      "ordinateur": 44
+    },
+    "conteneur": 1384,
+    "mesure": 49,
+    "rythme": "alterne"
+  },
+  "formes": {
+    "rayon": 1296,
+    "rayonCarte": 6,
+    "rayonImage": 5,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": true,
+    "casseBouton": "uppercase",
+    "lien": "à juger"
+  },
+  "photos": {
+    "traitement": "detoure",
+    "rapports": [
+      "4:3",
+      "4:5",
+      "1:1"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Le bocal détouré passe devant le titre et s'incline au défilement."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "ease"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis"
+    ],
+    "profil": "rebond-et-inclinaison",
+    "remarque": "Filmé le 23 oct : le bocal détouré s'incline et descend avec le défilement (GSAP, ScrollTrigger, Lenis) ; badge qui tourne (spin 15 s linear)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier"
+}

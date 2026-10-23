@@ -184,6 +184,26 @@ pointeur par une ombre qui s'élargit.
   Manque : la règle de la carte (section ou bloc), jamais `transition: all`.
 - Quand : catalogue de chambres, de réalisations, de produits en cartes ; client calme. Calme : oui. Poids : nul.
 
+### `sortie-du-noir`
+Maaemo (`maaemo.md`, [maaemo.no](https://maaemo.no/), veille du 23 oct 2026, filmé à 300, 900, 1 800 et 3 500 ms) : la
+page s'ouvre sur du noir, la photo (une pierre sombre) en sort lentement, le nom n'apparaît qu'ensuite, vers 3 s. Rien
+ne bouge au défilement.
+- Entrée sortie du noir · apparition aucune · survol couleur · fond aucun.
+- Moteur : rien à ajouter ; deux `@keyframes` du premier écran (photo `opacity` 0 → 1 en 1,5 s ease-out, texte à
+  +1,2 s en 0,8 s), coupés sous `prefers-reduced-motion`. Manque : ces règles dans la section ou le bloc. Jamais un
+  écran de chargement (GOUT § 2) : le texte reste dans le DOM et lisible dès que l'animation finit, 3 s au plus.
+- Quand : restaurant du soir, bar, cave, métier de nuit, client aux photos sombres ; palette sombre. Calme : oui. Poids : nul.
+
+### `portes-qui-s-eclairent`
+Kadeau (`kadeau.md`, [kadeau.dk](https://www.kadeau.dk/), veille du 23 oct 2026, filmé au survol) : l'accueil est deux
+portes, une par adresse, chacune une photo plein cadre voilée de flou ; la porte survolée se dévoile nette, l'autre
+reste voilée (scène relevée : 0,8 s cubic-bezier(0.61, 1, 0.88, 1)).
+- Entrée aucune · apparition aucune · survol dévoile · fond aucun.
+- Moteur : CSS seul (`filter: blur()` + voile de couleur sur chaque porte, levés sur `:hover`, `:focus-visible`,
+  `:active`). Manque : la règle des portes dans le bloc ou la variante ; au téléphone les portes s'empilent, nettes.
+- Quand : deux adresses, deux activités ou deux publics (architecture `accueil-portes`, `pages-adresses`) avec une bonne
+  photo par porte. Calme : oui. Poids : nul.
+
 ## Complément transversal : transitions de page
 
 Estudio Niksen (`view-transition` natives), Délice (Swup), Relais Rossàr (Barba). Pas un profil : il se combine avec

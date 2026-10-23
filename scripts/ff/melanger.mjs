@@ -259,6 +259,19 @@ export function regimePalette(couleurs) {
   return out('clair-neutre', `fond ${p.fond} neutre (chroma ${fond.c.toFixed(3)})`);
 }
 
+/**
+ * Pure : interlignage du titre d'un mélange, à partir de celui mesuré sur la source (nombre, sinon 1,05) et de sa casse.
+ * Règle apprise (essai du 18 oct 2026, mélange m-061ddd) : l'interlignage de 0,78 mesuré sur salo, appliqué à Oswald (la
+ * police libre qui la remplace), faisait se chevaucher les lignes du titre : la police de remplacement n'a pas les
+ * métriques de l'originale. Règle apprise (essai du 23 oct 2026, style her) : en capitales, 1,0 ne suffit pas non plus
+ * en français : les accents des capitales (È, À, É) touchent la ligne du dessus (« DEUXIÈME » sous « MATIN, ET UNE »).
+ * Plancher 1,1 en capitales, 1 sinon ; plafond 1,5.
+ */
+export function interlignageTitre(mesure, casse) {
+  const lh = typeof mesure === 'number' ? mesure : 1.05;
+  return casse === 'uppercase' ? borne(lh, 1.1, 1.5) : borne(lh, 1, 1.5);
+}
+
 /** Pure : écart entre deux teintes d'accent (null = accents neutres : deux neutres sont à 0°, un neutre et une teinte à 180°). */
 export function ecartAccent(a, b) {
   if (a == null && b == null) return 0;
@@ -635,11 +648,7 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
   const gTitre = graissePlusProche(t.titre.graisse ?? 400, metaPolices[t.titre.libre]);
   const gTexte = graissePlusProche(t.texte.graisse ?? 400, metaPolices[t.texte.libre]);
   const casse = t.titre.casse && t.titre.casse !== A_JUGER ? t.titre.casse : 'none';
-  const lhTitre0 = typeof t.titre.interlignage === 'number' ? t.titre.interlignage : 1.05;
-  // Règle apprise (essai du 18 oct 2026, mélange m-061ddd) : l'interlignage de 0,78 mesuré sur salo, appliqué à
-  // Oswald (la police libre qui la remplace), faisait se chevaucher les lignes du titre (accents et capitales plus
-  // hautes) : la police de remplacement n'a pas les métriques de l'originale. Plancher 0,9 en capitales, 1 sinon.
-  const lhTitre = casse === 'uppercase' ? borne(lhTitre0, 0.9, 1.5) : borne(lhTitre0, 1, 1.5);
+  const lhTitre = interlignageTitre(t.titre.interlignage, casse);
   const lhTexte = borne(typeof t.texte.interlignage === 'number' ? t.texte.interlignage : 1.55, 1.4, 1.8);
   const track = typeof t.titre.interlettrage === 'number' ? t.titre.interlettrage : -0.01;
   const e = t.echelle;

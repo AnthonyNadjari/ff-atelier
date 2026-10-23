@@ -204,13 +204,22 @@ Chaque ligne vient d'un essai regardé, avec le mélange qui l'a provoquée. Une
 - **18 oct 2026, `ff melanger _exemple --n 3 --hasard --essai` (graine 1602220151), mélange m-061ddd** (typo
   pizza-amici, couleurs latabledejoakim) : l'interlignage de 0,78 mesuré sur salo, appliqué à Oswald qui la remplace,
   faisait **se chevaucher les lignes du titre**. Une police libre de remplacement n'a pas les métriques de
-  l'originale : plancher d'interlignage 0,9 en capitales, 1 en casse normale.
+  l'originale : plancher d'interlignage 0,9 en capitales (1,1 depuis le 23 oct, ligne suivante), 1 en casse normale.
 - **Même essai, m-061ddd** : `--scale-sm` (titres des cartes de services, trois colonnes) dérivé d'un h2 de 96 px coupait
   « BIBLIOTHÈQ-UES » en plein mot. Plafonné à 24 px au téléphone, 30 px à l'ordinateur.
 - **Même essai, m-394c01** (couleurs pizza-amici) : l'emphase des titres dans l'accent assombri pour l'AA (or
   #E3AF04 → #745902) donnait un **olive boueux**. Un titre est du grand texte (3:1 suffit) : l'emphase prend la première
   couleur MESURÉE qui tient 3:1 sur les fonds (aplat, puis accent 2 : ici le rouge #C72531), l'accent lisible en
   dernier recours.
+- **23 oct 2026, `ff melanger demo-boulangerie --style her --essai`, mélange m-e1eaef** (typo her, Hanken Grotesk 500 en
+  capitales, interlignage 1,0 mesuré) : les **accents des capitales** (« DEUXIÈME », « À ») touchaient la ligne du
+  dessus. En français, le plancher en capitales passe de 0,9 à 1,1 (`interlignageTitre`, testé).
+- **23 oct 2026, `ff melanger demo-boulangerie --n 3 --hasard --essai` (graine 24531909), mélange m-c94c90** (typo loewe) :
+  h1 de 18 px pour un texte de 14 porté à 16 : le titre (métier et ville, GOUT § 0) se perd dans le texte au téléphone.
+  Une typo n'est tirable que si son h1 fait au moins **1,2 fois** le texte au téléphone (`controlerPolices`,
+  `TITRE_DOMINE`, testé) ; 14 typos du registre sortent du tirage (bensimon, cyrillignac, debauve, formafantasma,
+  georgjensen, kinto-usa, kvadrat, ladoublej, lobmeyr, loewe, mociun, monbazillac, nomos, perimeter), leurs autres
+  atomes restent.
 - A priori : titre en graisse ≤ 300 sur un contraste texte/fond < 7:1 refusé ; titre de 140 px et plus dans une page
   à marges de section < 64 px refusé. À confirmer ou retirer au premier essai qui les rencontre.
 

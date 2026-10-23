@@ -137,3 +137,13 @@ test('registre réel : chaque fichier de docs/veille/styles/atomes/ est valide e
     assert.ok(Object.values(utilisables(atomes)).some(Boolean), `${fichier} : rien de tirable`);
   }
 });
+
+test('typo : un titre qui ne domine pas le texte au téléphone est refusé (essai du 23 oct 2026, loewe)', async () => {
+  const { controlerPolices } = await import('../scripts/ff/atomes.mjs');
+  const typo = (h1, texte) => ({ titre: { libre: 'hanken' }, texte: { libre: 'hanken' }, echelle: { h1: { telephone: h1, ordinateur: 40 }, texte: { telephone: texte, ordinateur: 16 } } });
+  const polices = { hanken: { role: 'body' } };
+  assert.match(controlerPolices(typo(18, 14), { polices }).join(), /ne domine pas/, 'loewe : 18 px pour un texte porté à 16');
+  assert.match(controlerPolices(typo(30, 30), { polices }).join(), /ne domine pas/);
+  assert.equal(controlerPolices(typo(28, 20), { polices }).filter((x) => /domine/.test(x)).length, 0, 'maaemo : 28 pour 20');
+  assert.equal(controlerPolices(typo('à juger', 16), { polices }).filter((x) => /domine/.test(x)).length, 0);
+});

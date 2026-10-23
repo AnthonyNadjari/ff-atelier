@@ -288,8 +288,20 @@ export function controlerPolices(typo, { polices = {}, clesIa = [] } = {}) {
     const famille = (g) => (/^serif|^slab/.test(g) ? 'serif' : g === 'sans' ? 'sans' : g === 'mono' ? 'mono' : g);
     if (famille(gTitre) === famille(gTexte) && ['serif', 'sans', 'mono'].includes(famille(gTitre))) r.push(`accord en conflit : ${titre} et ${texte} sont deux ${famille(gTitre) === 'serif' ? 'serifs' : famille(gTitre) === 'sans' ? 'sans de texte' : 'chasses fixes'} différentes (une seule famille, ou deux genres nettement différents)`);
   }
+  // Règle apprise (essai du 23 oct 2026, `ff melanger demo-boulangerie --n 3 --hasard --essai`, mélange m-c94c90, typo
+  // loewe) : un h1 mesuré à peine plus grand que le texte (18 px pour 14, et le texte de l'usine ne descend jamais sous
+  // 16 px) donne un titre qui ne se voit plus au téléphone : le métier et la ville du h1 (GOUT § 0) disparaissent dans
+  // le texte. Le h1 doit faire au moins 1,2 fois le texte au téléphone.
+  const e = typo?.echelle;
+  if (typeof e?.h1?.telephone === 'number' && typeof e?.texte?.telephone === 'number') {
+    const corps = Math.max(16, e.texte.telephone);
+    if (e.h1.telephone < corps * TITRE_DOMINE) r.push(`titre qui ne domine pas : h1 ${e.h1.telephone} px pour un texte de ${corps} px au téléphone (${TITRE_DOMINE} fois au moins)`);
+  }
   return r;
 }
+
+/** Rapport minimal h1 / texte au téléphone (règle apprise du 23 oct 2026, voir controlerPolices). */
+export const TITRE_DOMINE = 1.2;
 
 /**
  * Palette complète des tokens de l'usine à partir d'une palette d'atome (fond, texte, accent mesurés ; le reste

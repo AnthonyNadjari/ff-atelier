@@ -394,7 +394,7 @@ test('régimes : neutre, teinté, sombre, coloré doux (fond modéré, surface, 
   assert.equal(regimePalette(palR({ fond: '#ffffff', accent: '#000000' })).teinte, null, 'accent noir : pas de teinte');
   // Registre réel.
   const r = (id) => regimePalette(registreReel.parId[id].couleurs).regime;
-  assert.equal(r('bonpoint'), 'clair-neutre');
+  assert.equal(r('artek'), 'clair-neutre');
   assert.equal(r('meyers'), 'clair-teinte');
   assert.equal(r('standardhotels'), 'sombre');
   assert.equal(r('pizza-amici'), 'colore-doux');
@@ -543,4 +543,14 @@ test('--n 3 refait toutes les pistes : les prises des anciennes pistes sœurs se
   const { retirerPistesSoeurs } = await import('../scripts/ff/melanger.mjs');
   const m = new Map([['lieu-fixe', 'piste sœur prospect-epi-dor-b'], ['index-projets', 'site récent prospect-a-coeur-bois']]);
   assert.deepEqual([...retirerPistesSoeurs(m).keys()], ['index-projets']);
+});
+
+test('interlignage du titre : plancher 1,1 en capitales (accents français), 1 sinon, plafond 1,5', async () => {
+  const { interlignageTitre } = await import('../scripts/ff/melanger.mjs');
+  assert.equal(interlignageTitre(1.0, 'uppercase'), 1.1, 'her, essai du 23 oct 2026 : « DEUXIÈME » touchait la ligne du dessus');
+  assert.equal(interlignageTitre(0.78, 'uppercase'), 1.1, 'salo, essai du 18 oct 2026');
+  assert.equal(interlignageTitre(0.89, 'none'), 1);
+  assert.equal(interlignageTitre(1.3, 'uppercase'), 1.3);
+  assert.equal(interlignageTitre(2, 'none'), 1.5);
+  assert.equal(interlignageTitre('à juger', 'none'), 1.05);
 });

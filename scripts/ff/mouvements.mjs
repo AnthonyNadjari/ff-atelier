@@ -143,6 +143,20 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['box-shadow 0,4-0,6 s ease sur les cartes (photo + aplat), dans @media (hover: hover) and (pointer: fine), :active au toucher'],
     manque: 'la règle :hover de la carte (CSS de la section ou du bloc), jamais transition: all', exige: {},
   },
+  'sortie-du-noir': {
+    nom: 'Sortie du noir', sources: ['maaemo'],
+    entree: 'sortie-du-noir', apparition: 'aucune', survol: 'couleur', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['animation CSS du premier écran : fond noir, la photo passe de opacity 0 à 1 en 1,5 s ease-out, le texte suit à +1,2 s en 0,8 s ; rien sous prefers-reduced-motion'],
+    manque: 'les deux @keyframes du premier écran (photo puis texte) dans la section ou le bloc ; pas d\'attribut du moteur, et jamais un écran de chargement', exige: {},
+  },
+  'portes-qui-s-eclairent': {
+    nom: 'Portes qui s\'éclairent', sources: ['kadeau'],
+    entree: 'aucune', apparition: 'aucune', survol: 'devoile', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['deux (ou trois) portes en photo plein cadre côte à côte, voilées (filter: blur + voile de couleur) ; la porte survolée ou touchée (:hover, :focus-visible, :active) se dévoile nette en 0,8 s cubic-bezier(0.61, 1, 0.88, 1)'],
+    manque: 'la règle de survol des portes (bloc sur mesure ou variante de portes) ; au téléphone, les portes s\'empilent et sont nettes d\'office', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);
