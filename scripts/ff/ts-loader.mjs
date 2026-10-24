@@ -201,6 +201,24 @@ export async function loadSortiesModule() {
   return loadPureLibModule('sorties.ts');
 }
 
+/**
+ * Copie src/lib/ardoise.ts (module pur) dans TMP_DIR/lib/ et l'importe. Renvoie { programmeDeLaSemaine, avecProgramme,
+ * joursCouverts, entreesDistinctes, exceptionsAVenir, dateLongue, lienProgramme, JOURS_ARDOISE } (architecture
+ * ardoise-du-jour, tests/architectures-jour.test.mjs).
+ */
+export async function loadArdoiseModule() {
+  return loadPureLibModule('ardoise.ts');
+}
+
+/**
+ * Copie src/lib/tournee.ts (module pur) dans TMP_DIR/lib/ et l'importe. Renvoie { slugCommune, etapesParJour, communesDe,
+ * telDeLEtape, etapeDuMoment, libelleDuMoment, lienTournee, etapesCompletes, JOURS_TOURNEE } (architecture
+ * tournee-semaine, tests/architectures-jour.test.mjs).
+ */
+export async function loadTourneeModule() {
+  return loadPureLibModule('tournee.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

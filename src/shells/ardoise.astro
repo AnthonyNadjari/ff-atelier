@@ -1,0 +1,158 @@
+---
+/**
+ * Coquille "ardoise" : architecture `ardoise-du-jour` (src/lib/architectures.ts ; source The Cheese Board Collective,
+ * docs/veille/architectures/ardoise-du-jour.md). L'accueil n'est pas une présentation, c'est le tableau du jour : on y
+ * vient chaque jour pour savoir ce qu'il y a, si c'est ouvert et à quelle heure.
+ *   → en tête, sur le papier : le h1, le métier à la ville et l'ancienneté, le téléphone, la note Google (socle
+ *     docs/GOUT.md § 0) ;
+ *   → la photo du lieu en bandeau (images.hero ; sans photo, un aplat de fond 2), et posée dessus, remontée d'un
+ *     cran (la profondeur de la source : l'ardoise est accrochée au décor), une rangée d'ardoises sur fond d'encre :
+ *     les horaires (état du jour, HorairesDuJour ; adresse et téléphone : id="contact"), le programme du jour
+ *     (ArdoiseDuJour, choisi DANS LE NAVIGATEUR, la semaine entière sans script), le prochain rendez-vous (agenda[]),
+ *     chacun seulement s'il a ses données ;
+ *   → les annonces datées (conseils, les 3 dernières), puis les sections du layout (les avis), puis le pied.
+ * Le programme de la semaine a sa page (/programme) ; l'histoire est sur /a-propos (layout.pageAPropos).
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran) ; `fullbleed` garde le préchargement de la photo.
+ * Sans programme : les horaires seuls sur l'ardoise, et le build dit ce qui manque (donneesManquantes).
+ * Signes de la source NON repris : eyebrow en capitales au-dessus du nom, liens en capitales, GIF qui bougent seuls,
+ * photo de tableau noir étirée en texture, fenêtres à script, téléphone sans lien.
+ */
+import Divider from '@/components/Divider.astro';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import ArdoiseDuJour from '@/components/ArdoiseDuJour.astro';
+import { site, tel, metierEtVille, fullAddress, donneesManquantes, avecProgramme, agendaAVenir, dateAgenda, conseilsTries, dateConseil } from '@/lib/site';
+import { heroSizesFor } from '@/lib/images';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const photo = site.images.hero;
+const programme = avecProgramme(site.services);
+const rdv = agendaAVenir(site.agenda)[0];
+const annonces = conseilsTries(site.conseils).slice(0, 3);
+const manque = donneesManquantes('ardoise-du-jour', site);
+const n = 1 + (programme.length > 0 ? 1 : 0) + (rdv ? 1 : 0);
+if (programme.length === 0) {
+  console.warn(`[coquille ardoise] ${site.slug} : aucun programme (services[].programme) ; ${manque.join(' ; ')}`);
+}
+---
+
+<Nav />
+<main id="main" class="ar-page">
+  <section id="hero" class="container-ff ar-tete" aria-label="Accueil">
+    <div class="ar-intro" data-stagger="110">
+      <h1 class="ar-h1 font-display" set:html={site.business.tagline} />
+      <p class="ar-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+    </div>
+    <p class="ar-portes">
+      <a href={tel()} class="ar-tel tabular-nums"><Icon name="Phone" size={20} />{site.contact.phoneDisplay}</a>
+      {google && <a href={google.url} target="_blank" rel="noopener" class="ar-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+    </p>
+  </section>
+  {/* Le bandeau et les ardoises sont des blocs frères : une ardoise = un bloc, avec son propre titre. */}
+  <div class:list={['container-ff ar-scene', `ar-n-${n}`]}>
+    <div class:list={['ar-bandeau', !photo && 'bg-bg-2']}>
+      {photo && <Img src={photo.src} alt={photo.alt} priority sizes={heroSizesFor(site.layout.hero)} class="h-full w-full object-cover" />}
+    </div>
+      <section id="contact" class="ar-tableau bg-ink text-on-ink" aria-labelledby="ar-horaires">
+        <h2 id="ar-horaires" class="ar-tableau-titre font-display">Horaires</h2>
+        {site.contact.hours.length > 0 ? <HorairesDuJour class="ar-hj" /> : <p>Horaires sur demande, par téléphone.</p>}
+        <p class="ar-adresse">{fullAddress()}</p>
+        <p class="ar-liens">
+          <a href={tel()} class="ar-lien tabular-nums"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a>
+          {site.contact.mapsUrl && <a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="ar-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a>}
+        </p>
+      </section>
+      {programme.length > 0 && (
+        <section id="programme" class="ar-tableau ar-tableau-large bg-ink text-on-ink" aria-labelledby="ar-programme">
+          <h2 id="ar-programme" class="ar-tableau-titre font-display">Au programme</h2>
+          <ArdoiseDuJour mode="jour" niveau="h3" />
+          <a href="/programme" class="ar-lien ar-suite">{site.wording.programme}, jour par jour<Icon name="ArrowRight" size={16} /></a>
+        </section>
+      )}
+      {rdv && (
+        <section class="ar-tableau bg-ink text-on-ink" aria-labelledby="ar-rdv">
+          <h2 id="ar-rdv" class="ar-tableau-titre font-display">Le prochain rendez-vous</h2>
+          <p class="ar-rdv-date">{dateAgenda(rdv.date).long}{rdv.heure && <>, {rdv.heure}</>}</p>
+          <p class="ar-rdv-titre">{rdv.titre}</p>
+          {rdv.lieu && <p>{rdv.lieu}</p>}
+          {rdv.texte && <p class="ar-rdv-texte">{rdv.texte}</p>}
+          <a href="/agenda" class="ar-lien ar-suite">{site.wording.agenda}<Icon name="ArrowRight" size={16} /></a>
+        </section>
+      )}
+  </div>
+  {annonces.length > 0 && (
+    <section class="container-ff ar-annonces" aria-labelledby="ar-annonces-titre">
+      <div class="ar-annonces-tete">
+        <h2 id="ar-annonces-titre" class="text-display-sm">{site.wording.conseils}</h2>
+        <a href="/conseils" class="ar-lien">Toutes les annonces<Icon name="ArrowRight" size={16} /></a>
+      </div>
+      <ul class="ar-annonces-liste">
+        {annonces.map((c) => (
+          <li class="ar-annonce">
+            <p class="ar-annonce-date text-muted">{dateConseil(c.date)}</p>
+            <h3 class="ar-annonce-titre font-display"><a href={`/conseils/${c.slug}`} class="ar-annonce-lien">{c.title}</a></h3>
+            <p>{c.summary}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<style>
+  .ar-tete { display: grid; gap: 1rem; padding-block: 1.25rem 1.5rem; }
+  .ar-h1 { font-size: clamp(2.1rem, 8vw, 4.75rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 16ch; }
+  .ar-metier { margin-block-start: 0.6rem; font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-inline-size: 36ch; }
+  .ar-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; }
+  .ar-tel { display: inline-flex; align-items: center; gap: 0.6rem; min-block-size: 48px; padding-inline: 1.25rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; font-size: 1.1rem; }
+  .ar-tel:hover { background: var(--color-accent-2); }
+  .ar-tel:focus-visible, .ar-lien:focus-visible, .ar-annonce-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ar-note { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ar-scene { display: grid; gap: 1rem; padding-block-end: clamp(2rem, 6vh, 3.5rem); }
+  .ar-bandeau { block-size: clamp(11rem, 34vh, 22rem); overflow: hidden; border-radius: var(--radius-card); }
+  .ar-bandeau > :global(picture) { display: block; block-size: 100%; }
+  /* Les ardoises remontent sur le bandeau : un seul plan devant la photo, une seule ombre. */
+  .ar-bandeau + .ar-tableau { margin-block-start: -3.5rem; }
+  .ar-tableau { position: relative; margin-inline: 0.75rem; }
+  .ar-tableau { display: grid; gap: 0.75rem; align-content: start; padding: clamp(1.25rem, 2.5vw, 1.75rem); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .ar-tableau-titre { font-size: clamp(1.6rem, 3vw, 2.1rem); line-height: 1.05; }
+  .ar-adresse { font-size: 0.95rem; }
+  .ar-liens { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+  .ar-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 40px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ar-suite { justify-self: start; }
+  .ar-rdv-date { font-weight: 600; }
+  .ar-rdv-titre { font-size: 1.2rem; }
+  .ar-annonces { padding-block: clamp(2rem, 6vh, 4rem); }
+  .ar-annonces-tete { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.5rem 1.5rem; margin-block-end: 1.5rem; }
+  .ar-annonces-liste { display: grid; gap: 1.5rem; }
+  .ar-annonce { display: grid; gap: 0.35rem; padding-block-start: 0.75rem; border-block-start: 1px solid var(--color-line); }
+  .ar-annonce-titre { font-size: 1.3rem; line-height: 1.15; }
+  .ar-annonce-lien { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .ar-annonce-lien:hover { color: var(--color-accent); }
+  @media (min-width: 48rem) {
+    .ar-annonces-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (min-width: 64rem) {
+    .ar-tete { grid-template-columns: minmax(0, 1fr) auto; align-items: end; padding-block: clamp(5rem, 11vh, 7rem) 2rem; }
+    .ar-bandeau { block-size: clamp(16rem, 38vh, 26rem); }
+    .ar-scene { column-gap: 1.5rem; row-gap: 0; }
+    .ar-n-1 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .ar-n-2 { grid-template-columns: minmax(0, 3fr) minmax(0, 4fr); }
+    .ar-n-3 { grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 3fr); }
+    .ar-bandeau { grid-column: 1 / -1; }
+    .ar-tableau, .ar-bandeau + .ar-tableau { grid-row: 2; margin-block-start: -6rem; margin-inline: 0; }
+    .ar-n-1 .ar-tableau { grid-column: 1; margin-inline-start: 1.5rem; }
+  }
+</style>

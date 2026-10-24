@@ -147,3 +147,30 @@ export function lieuLd(site: Site, lieu: Site['lieux'][number], pageUrl: string,
     parentOrganization: { '@type': type, name: site.business.name },
   };
 }
+
+/**
+ * Une étape de tournée (site.tournee, architecture tournee-semaine, src/pages/tournee/[commune].astro) : le commerce,
+ * sans adresse fixe, avec une `Place` par étape de CETTE commune (repère, commune, coordonnées) et ses horaires
+ * (openingHoursSpecification des étapes qui donnent opens/closes). Jamais d'aggregateRating ; jamais un téléphone de
+ * test (`test.tel`, mêmes repères que Base.astro).
+ */
+export function tourneeLd(site: Site, commune: string, etapes: Site['tournee'], pageUrl: string, test: { tel?: boolean } = {}): Json {
+  const type = site.business.schemaType || schemaTypeForTrade(site.business.trade);
+  const ohs = openingHoursSpecification(etapes.map((e) => ({ days: e.jour, hours: e.hours, opens: e.opens, closes: e.closes })));
+  const tel = etapes.find((e) => e.phone)?.phone ?? site.contact.phone;
+  return {
+    '@type': type,
+    name: `${site.business.name}, ${commune}`,
+    url: pageUrl,
+    ...(!test.tel ? { telephone: tel } : {}),
+    areaServed: { '@type': 'City', name: commune },
+    location: etapes.map((e) => ({
+      '@type': 'Place',
+      name: e.repere ? `${e.repere}, ${commune}` : commune,
+      address: { '@type': 'PostalAddress', addressLocality: commune, addressCountry: 'FR' },
+      ...(e.coordinates ? { geo: { '@type': 'GeoCoordinates', latitude: e.coordinates.lat, longitude: e.coordinates.lng } } : {}),
+    })),
+    ...(ohs ? { openingHoursSpecification: ohs } : { openingHours: etapes.map((e) => `${e.jour} ${e.hours}`) }),
+    parentOrganization: { '@type': type, name: site.business.name },
+  };
+}

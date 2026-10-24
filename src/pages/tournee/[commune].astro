@@ -1,0 +1,98 @@
+---
+/**
+ * Page d'une commune de la tournée (site.tournee, src/lib/tournee.ts) : architecture `tournee-semaine` (Pizza P'tit
+ * Louis, Le Camion à Pizzas ; docs/veille/architectures/tournee-semaine.md). Le levier de référencement local que les
+ * deux sources n'ont pas : « <métier> à <commune> ». Le h1 nomme la commune ; puis les jours de passage, et pour chaque
+ * étape le moment, les heures, le repère, le véhicule, son téléphone en `tel:` (repli : le numéro principal),
+ * l'itinéraire ; la carte (les activités, une page chacune) ; les autres communes. JSON-LD : tourneeLd (une Place par
+ * étape, sans adresse fixe). Générée seulement pour les communes de la tournée du client : aucune étape = aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, communesDe, telDeLEtape, JOURS_TOURNEE, tel } from '@/lib/site';
+import { joursDe } from '@/lib/horaires';
+import { tourneeLd } from '@/lib/jsonld';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return communesDe(site.tournee, joursDe).map((c) => ({ params: { commune: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const autres = communesDe(site.tournee, joursDe).filter((x) => x.slug !== c.slug);
+const enumerer = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} et ${xs[xs.length - 1]}`);
+const jours = c.jours.map((j: number) => JOURS_TOURNEE[j].toLowerCase());
+const pageUrl = new URL(`/tournee/${c.slug}`, Astro.site).toString();
+// Données de test (mêmes repères que Base.astro) : jamais envoyées à Google.
+const telTest = /^(\+33|0)6(0{8})$/.test((c.etapes.find((e: any) => e.phone)?.phone ?? site.contact.phone).replace(/\s/g, ''));
+const ld = tourneeLd(site, c.commune, c.etapes, pageUrl, { tel: telTest });
+const metier = site.business.trade;
+const description = `${metier} à ${c.commune}${jours.length > 0 ? ` le ${enumerer(jours)}` : ''} : ${site.business.name}, emplacement, heures et téléphone pour commander.`;
+---
+
+<Base title={`${metier} à ${c.commune} | ${site.business.name}`} description={description} path={`/tournee/${c.slug}`} jsonLd={[ld]}>
+  <Nav />
+  <main id="main" class="tc">
+    <div class="container-ff tc-retour">
+      <a href="/tournee" class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />{site.wording.tournee}</a>
+    </div>
+    <header class="container-ff tc-tete">
+      <h1 class="text-display-lg">{metier} à {c.commune}</h1>
+      <p class="mt-4 text-lg">{site.business.name}{jours.length > 0 ? `, le ${enumerer(jours)}` : ''}.</p>
+    </header>
+    <section class="container-ff tc-etapes" aria-label={`Passages à ${c.commune}`}>
+      <ul class="tc-liste">
+        {c.etapes.map((e: any) => {
+          const t = telDeLEtape(e, site.contact);
+          return (
+            <li class="tc-etape">
+              <p class="tc-jour font-display">{e.jour}{e.moment && <>, {e.moment.toLowerCase()}</>}</p>
+              <p class="tc-heures tabular-nums">{e.hours}</p>
+              {e.repere && <p>{e.repere}</p>}
+              {e.vehicule && <p class="text-muted">{e.vehicule}</p>}
+              <p class="tc-actions">
+                <a href={t.href} class="tc-appel tabular-nums"><Icon name="Phone" size={18} />{t.affiche}</a>
+                {e.mapsUrl && <a href={e.mapsUrl} target="_blank" rel="noopener" class="tc-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a>}
+              </p>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+    {site.servicePages && site.services.length > 0 && (
+      <section class="container-ff tc-carte" aria-labelledby="tc-carte-titre">
+        <h2 id="tc-carte-titre" class="text-display-sm">{site.wording.servicesTitle}</h2>
+        <ul class="tc-services">{site.services.map((s) => <li><a href={`/services/${s.slug}`} class="tc-lien">{s.title}</a></li>)}</ul>
+      </section>
+    )}
+    {autres.length > 0 && (
+      <nav class="container-ff tc-autres" aria-label="Les autres communes de la tournée">
+        <p class="font-semibold">Ailleurs dans la semaine</p>
+        <ul class="tc-services">{autres.map((x) => <li><a href={`/tournee/${x.slug}`} class="tc-lien">{x.commune}</a></li>)}</ul>
+      </nav>
+    )}
+    <p class="container-ff tc-pied"><a href={tel()} class="tc-lien tabular-nums"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a></p>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .tc-retour { padding-block-start: 1.5rem; }
+  .tc-tete { padding-block: clamp(1.5rem, 5vh, 3rem) 1.5rem; }
+  .tc-liste { display: grid; gap: 1.25rem; }
+  .tc-etape { display: grid; gap: 0.25rem; padding-block-start: 1rem; border-block-start: 1px solid var(--color-line); }
+  .tc-jour { font-size: 1.5rem; line-height: 1.1; }
+  .tc-heures { font-size: 1.15rem; font-weight: 500; }
+  .tc-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; margin-block-start: 0.5rem; }
+  .tc-appel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .tc-appel:hover { background: var(--color-accent-2); }
+  .tc-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tc-lien:hover { color: var(--color-accent); }
+  .tc-carte, .tc-autres { display: grid; gap: 0.75rem; padding-block: clamp(1.5rem, 5vh, 3rem) 0; }
+  .tc-services { display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+  .tc-pied { padding-block: 2rem clamp(2.5rem, 8vh, 4rem); }
+  @media (min-width: 48rem) {
+    .tc-liste { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1.5rem 2.5rem; }
+  }
+</style>

@@ -138,6 +138,10 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `/adresses/<slug>` (horaires et téléphone par lieu, `LocalBusiness` par lieu), `pros` → `/professionnels` ; `sorties`
   (défaut `[]`) et `services[].saison` (architecture `saisons-sorties`, coquille `saisons`) → `/sorties/<slug>`,
   `/pour/<public>`, nav d'une entrée par saison ; aucune donnée = aucune page (`src/lib/lieux.ts`, `src/lib/sorties.ts`).
+  `services[].programme` / `tousLesJours` et `ardoise` (défaut `[]`, architecture `ardoise-du-jour`, coquille `ardoise`) → l'ardoise du
+  jour de l'accueil (jour choisi dans le navigateur, semaine entière sans script), `/programme` ; `tournee` (défaut `[]`, architecture
+  `tournee-semaine`, coquille `tournee`) → l'étape du moment, `/tournee`, `/tournee/<commune>` ; aucune donnée = aucune page
+  (`src/lib/ardoise.ts`, `src/lib/tournee.ts`, `tests/architectures-jour.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

@@ -1,0 +1,38 @@
+---
+/**
+ * Services "programme" : architecture `ardoise-du-jour` (src/lib/architectures.ts, src/lib/ardoise.ts ; source The
+ * Cheese Board Collective, docs/veille/architectures/ardoise-du-jour.md, « Bakery Schedule »). Le programme de la
+ * semaine de toutes les activités qui en ont un (services[].programme), un bloc par jour, le jour courant marqué dans
+ * le navigateur (ArdoiseDuJour, mode « semaine ») ; les exceptions datées à venir et les produits de tous les jours
+ * dessous ; chaque activité vers sa page. La coquille `ardoise` montre le jour sur son ardoise ; cette variante sert
+ * dans un autre déroulé (sous un héros).
+ * Aucun programme = rien n'est rendu. Rien n'est inventé : un jour sans entrée le dit, sans rien y mettre.
+ */
+import { site, avecProgramme, metierEtVille } from '@/lib/site';
+import ArdoiseDuJour from '@/components/ArdoiseDuJour.astro';
+import Icon from '@/components/Icon.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const services = avecProgramme(site.services);
+---
+
+{services.length > 0 && (
+  <section id="services" class="section-y pg">
+    <div class="container-ff">
+      <SectionHeading title={site.wording.servicesTitle} text={`${metierEtVille()} ${site.wording.programme}, jour par jour.`} />
+      <ArdoiseDuJour mode="semaine" services={site.services} niveau="h3" class="pg-semaine" />
+      {site.servicePages && (
+        <ul class="pg-activites">
+          {services.map((s) => <li><a href={`/services/${s.slug}`} class="pg-lien">{s.title}<Icon name="ArrowRight" size={16} /></a></li>)}
+        </ul>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .pg :global(.pg-semaine) { margin-block-start: clamp(1.5rem, 4vh, 2.5rem); }
+  .pg-activites { display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin-block-start: 2rem; }
+  .pg-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pg-lien:hover { color: var(--color-accent); }
+</style>

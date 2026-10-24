@@ -54,10 +54,13 @@ export interface LayoutArchi {
  *  - espaces         : espaces du lieu qu'on visite (about.espaces[] : nom, phrase, photo et couleur optionnelles) ;
  *  - lieux           : adresses complètes (lieux[] avec une rue ET des horaires ; src/lib/lieux.ts, lieuxComplets) ;
  *  - saisons         : saisons qui ont au moins 2 activités (services[].saison ; src/lib/sorties.ts, saisonsCompletes) ;
- *  - sorties         : sorties datées et cotées (sorties[] : période obligatoire, durée, niveau, prix si donnés).
+ *  - sorties         : sorties datées et cotées (sorties[] : période obligatoire, durée, niveau, prix si donnés) ;
+ *  - programme       : entrées de programme aux jours distincts (services[].programme avec au moins une ligne ;
+ *                      src/lib/ardoise.ts, entreesDistinctes) ;
+ *  - etapes          : étapes de tournée complètes (tournee[] avec jour, commune et heures ; src/lib/tournee.ts).
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -90,6 +93,8 @@ export const ARCHITECTURE_IDS = [
   'scenes-epinglees',
   'pages-adresses',
   'saisons-sorties',
+  'ardoise-du-jour',
+  'tournee-semaine',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -464,6 +469,66 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Métier saisonnier dont l'offre change d'une saison à l'autre, avec des sorties ou prestations à période donnée : guide ou accompagnateur, moniteur, loueur de vélos ou de skis, base nautique, centre équestre (stages vacances, cours à l'année), paysagiste et pépiniériste (plantation, taille), apiculteur, ferme ou cueillette, traiteur (mariages l'été, fêtes l'hiver), ramoneur. Pas pour un métier sans saison, ni l'urgence, ni un client à une seule prestation (rester sur accueil-portes).",
   },
+  'ardoise-du-jour': {
+    id: 'ardoise-du-jour',
+    modele:
+      "L'accueil est l'ardoise d'aujourd'hui : en tête le h1, le métier à la ville, le téléphone et la note, puis une rangée d'ardoises posée sur la photo du lieu (les horaires d'aujourd'hui avec la date en toutes lettres, ce qui est au programme aujourd'hui, le rendez-vous du jour), choisies dans le navigateur, la semaine entière lisible sans script ; puis les annonces datées et les avis ; le programme de la semaine sur sa page (/programme) et sur la page de chaque activité ; l'histoire sur la page À propos.",
+    sources: [{ fiche: 'docs/veille/architectures/ardoise-du-jour.md', site: 'cheeseboardcollective.coop' }],
+    layout: {
+      // Coquille `ardoise` : l'ardoise du jour EST l'accueil (src/shells/ardoise.astro, src/components/ArdoiseDuJour.astro).
+      shell: 'ardoise',
+      nav: 'bar',
+      // hero : non rendu (la coquille fait le premier écran) ; fullbleed garde le préchargement de la photo du bandeau.
+      hero: 'fullbleed',
+      footer: 'columns',
+      // Les avis (socle) sous les ardoises ; la source n'en a pas.
+      sections: [{ type: 'proof', variant: 'testimonials' }],
+      contactDrawer: true,
+      actionBar: false,
+      pageAPropos: true,
+    },
+    requis: [
+      { mesure: 'programme', min: 3, libelle: 'un programme sur 3 jours au moins (services[].programme : 3 entrées aux jours distincts, chacune avec ses lignes)' },
+      { mesure: 'horaires', min: 1, libelle: "des horaires (contact.hours) : l'ardoise dit si c'est ouvert aujourd'hui" },
+      { mesure: 'rue', min: 1, libelle: "une adresse où l'on vient (contact.address.street)" },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on vient voir ce qu'il y a aujourd'hui" },
+    ],
+    convientA:
+      "Commerce de bouche dont l'offre tourne selon le jour de la semaine, et qui tiendra son programme à jour : boulangerie (pain du mardi, brioche du dimanche), traiteur ou boucher-traiteur (plat du jour), bistrot à menu du jour, fromager, poissonnier (arrivages), glacier (parfum du jour), pizzeria à pizza du jour. Pas pour une offre qui ne change jamais (lieu-fixe), ni l'itinérant (tournee-semaine), ni l'urgence.",
+  },
+  'tournee-semaine': {
+    id: 'tournee-semaine',
+    modele:
+      "L'accueil dit où est le camion : en tête le h1, le métier et la région, puis l'étape du moment en grand (aujourd'hui tant que le service n'est pas fini, sinon la prochaine : commune, repère, heures, véhicule, bouton d'appel du véhicule), choisie dans le navigateur, toute la semaine lisible sans script ; puis la semaine (un bloc par jour, une ligne par étape), les avis, la carte ; une page par commune (/tournee/<commune> : jours de passage, repère, itinéraire, heures, téléphone, JSON-LD par étape) et /tournee ; l'histoire sur la page À propos.",
+    sources: [
+      { fiche: 'docs/veille/architectures/tournee-semaine.md', site: 'pizzaptitlouis.fr' },
+      { fiche: 'docs/veille/architectures/tournee-semaine.md', site: 'lecamionapizzas.com' },
+    ],
+    layout: {
+      shell: 'tournee',
+      nav: 'bar',
+      hero: 'fullbleed',
+      footer: 'columns',
+      // L'étape du moment (bloc frère du héros, rendu par la coquille), la semaine, la carte, puis les avis (socle ; les
+      // sources n'en ont pas) : deux blocs « lieu » de suite, un déroulé qu'aucun site n'a. Essais du 24 oct 2026 :
+      // l'étape dans le bloc d'accueil puis semaine, avis, carte (héros, lieu, avis, services, pied) : 0,69 de
+      // forge-delacroix ; carte entre l'étape et la semaine : 0,68 de maison-roux.
+      sections: [
+        { type: 'zones', variant: 'tournee' },
+        { type: 'services', variant: 'carte-prix' },
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      pageAPropos: true,
+    },
+    requis: [
+      { mesure: 'etapes', min: 3, libelle: '3 étapes de tournée au moins (tournee[] : jour, commune et heures ; une page par commune)' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on vient au camion, on n'attend pas un dépannage" },
+    ],
+    convientA:
+      "Métier itinérant à tournée régulière (même commune, même jour, mêmes heures chaque semaine) : camion pizza, rôtisseur, food truck, poissonnier ou boucher ambulant, fromager ou maraîcher de marchés, boulanger en tournée rurale, épicerie itinérante ; mieux avec plusieurs véhicules (un numéro chacun) et une offre événementielle. Pas pour un commerce fixe (pages-adresses, lieu-fixe), ni une zone sans jour fixe (zones.cities), ni une tournée tenue seulement sur les réseaux.",
+  },
 };
 
 
@@ -485,6 +550,8 @@ export const VARIANTES_D_ARCHITECTURE = [
   'services/cartes-couleur',
   'zones/adresses',
   'services/saisons',
+  'services/programme',
+  'zones/tournee',
 ] as const;
 
 /**
@@ -497,7 +564,7 @@ export const COQUILLES_A_INDEX_REALISATIONS: readonly string[] = ['panneaux', 'c
 /** Ce que donneesManquantes() lit d'un site : un sous-ensemble du Site, pour tester sans tout construire. */
 export interface SiteArchi {
   images?: { hero?: unknown };
-  services?: { image?: unknown; lignes?: unknown[]; saison?: string }[];
+  services?: { image?: unknown; lignes?: unknown[]; saison?: string; programme?: { jours?: string; lignes?: unknown[] }[] }[];
   about?: { portrait?: unknown; story?: string; espaces?: { photo?: unknown }[] };
   proof?: { gallery?: { kind?: string }[] };
   realisations?: { kind?: string; photos?: unknown[] }[];
@@ -506,6 +573,7 @@ export interface SiteArchi {
   produits?: { photo?: unknown }[];
   lieux?: { address?: { street?: string }; hours?: unknown[]; photo?: unknown; photos?: unknown[] }[];
   sorties?: { periode?: string; photo?: unknown }[];
+  tournee?: { jour?: string; commune?: string; hours?: string }[];
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -590,6 +658,17 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
         break;
       }
       case 'sorties': n = (s.sorties ?? []).filter((x) => (x.periode ?? '').trim()).length; break;
+      // Mêmes comptes que entreesDistinctes (src/lib/ardoise.ts) et etapesCompletes (src/lib/tournee.ts), recopiés.
+      case 'programme': {
+        const vus = new Set<string>();
+        for (const x of s.services ?? []) for (const e of x.programme ?? []) {
+          const k = (e.jours ?? '').trim().toLowerCase();
+          if (k && (e.lignes ?? []).length > 0) vus.add(k);
+        }
+        n = vus.size;
+        break;
+      }
+      case 'etapes': n = (s.tournee ?? []).filter((e) => (e.jour ?? '').trim() && (e.commune ?? '').trim() && (e.hours ?? '').trim()).length; break;
       case 'pasUrgence': if (s.contact?.emergency24h) out.push(e.libelle); continue;
     }
     if (compte(n, e)) out.push(`${e.libelle} (${n} aujourd’hui)`);

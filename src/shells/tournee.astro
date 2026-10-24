@@ -1,0 +1,93 @@
+---
+/**
+ * Coquille "tournee" : architecture `tournee-semaine` (src/lib/architectures.ts ; sources Pizza P'tit Louis et Le
+ * Camion à Pizzas, docs/veille/architectures/tournee-semaine.md). Le client se déplace : la question n° 1 n'est pas
+ * « qui êtes-vous » mais « où êtes-vous ce soir ».
+ *   → à gauche (en tête au téléphone) : le h1, le métier à la ville et l'ancienneté, la note Google (socle docs/GOUT.md
+ *     § 0), le numéro principal, puis la photo du camion ou du stand (images.hero) ;
+ *   → à droite, sur l'encre, l'étape du moment (EtapeDuJour : commune vers sa page, heures, repère, véhicule, bouton
+ *     d'appel du véhicule), choisie DANS LE NAVIGATEUR ; sans script, toute la semaine ; id="contact" (le numéro est
+ *     la porte : on appelle le camion où l'on va) ;
+ *   → puis les sections du layout : la semaine (zones/tournee), les avis, la carte (services/carte-prix), le pied.
+ * Une page par commune (/tournee/<commune>) et /tournee ; l'histoire sur /a-propos (layout.pageAPropos).
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran) ; `fullbleed` garde le préchargement de la photo.
+ * Sans tournée : le numéro principal seul dans le panneau, et le build dit ce qui manque (donneesManquantes).
+ * Signes des sources NON repris : émojis en pictogrammes, police manuscrite pour la nav, boutons pilules, mots clés
+ * en gras, apparitions au défilement qui retardent l'étape du jour.
+ */
+import Divider from '@/components/Divider.astro';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import EtapeDuJour from '@/components/EtapeDuJour.astro';
+import { site, tel, metierEtVille, donneesManquantes, communesDe } from '@/lib/site';
+import { joursDe } from '@/lib/horaires';
+import { heroSizesFor } from '@/lib/images';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const photo = site.images.hero;
+const communes = communesDe(site.tournee, joursDe);
+if (site.tournee.length === 0) {
+  console.warn(`[coquille tournee] ${site.slug} : aucune étape (site.tournee) ; ${donneesManquantes('tournee-semaine', site).join(' ; ')}`);
+}
+---
+
+<Nav />
+<main id="main" class="tr-page">
+  {/* Blocs frères : l'accueil (h1, métier à ville, téléphone, note), l'étape du moment (id="contact"), la photo ;
+      l'étape à droite sur toute la hauteur à l'ordinateur. */}
+  <div class="container-ff tr-tete">
+  <section id="hero" class="tr-accueil" aria-label="Accueil">
+    <div class="tr-intro" data-stagger="110">
+      <h1 class="tr-h1 font-display" set:html={site.business.tagline} />
+      <p class="tr-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}{communes.length > 1 ? ` ${communes.length} communes chaque semaine.` : ''}</p>
+      <p class="tr-portes">
+        <a href={tel()} class="tr-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="tr-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+    </div>
+  </section>
+  <section id="contact" class="tr-panneau bg-ink text-on-ink" aria-label="Où nous trouver">
+      {site.tournee.length > 0 ? (
+        <EtapeDuJour />
+      ) : (
+        <p class="tr-sans">Appelez pour savoir où nous trouver&nbsp;: <a href={tel()} class="tabular-nums underline">{site.contact.phoneDisplay}</a></p>
+      )}
+  </section>
+  {/* La photo du camion ou du stand : sous l'étape au téléphone (l'étape d'abord), sous le h1 à l'ordinateur. */}
+  <div class:list={['tr-photo', !photo && 'bg-bg-2']}>
+    {photo && <Img src={photo.src} alt={photo.alt} priority sizes={heroSizesFor(site.layout.hero)} class="h-full w-full object-cover" />}
+  </div>
+  </div>
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<style>
+  .tr-tete { display: grid; gap: 1.25rem; padding-block: 1.25rem clamp(2rem, 6vh, 3.5rem); }
+  .tr-accueil { display: grid; gap: 1.25rem; }
+  .tr-h1 { font-size: clamp(2rem, 7.5vw, 4.5rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 15ch; }
+  .tr-metier { margin-block-start: 0.6rem; font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-inline-size: 36ch; }
+  .tr-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin-block-start: 0.9rem; }
+  .tr-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 44px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tr-tel:focus-visible, .tr-note:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .tr-note { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tr-panneau { padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-card); }
+  .tr-photo { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-card); }
+  .tr-photo > :global(picture) { display: block; block-size: 100%; }
+  @media (min-width: 64rem) {
+    .tr-tete { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); column-gap: clamp(2rem, 4vw, 4rem); padding-block: clamp(5rem, 11vh, 7rem) clamp(3rem, 8vh, 5rem); }
+    .tr-tete { grid-template-areas: 'accueil panneau' 'photo panneau'; row-gap: 2rem; }
+    .tr-accueil { grid-area: accueil; }
+    .tr-photo { grid-area: photo; aspect-ratio: 16 / 9; }
+    .tr-panneau { grid-area: panneau; align-self: stretch; }
+  }
+</style>

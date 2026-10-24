@@ -37,8 +37,28 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
   [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) passe à 54 sites. Aucun levier à 40 % ou plus n'est absent de l'usine. Contre-levier
   nouveau : un numéro écrit sans lien `tel:` sur 4 sites sur 9 (les sections partagées de l'usine en font toujours un lien).
 
+- **Architectures (2a ter)** : deux fiches nouvelles, codées dans l'usine le même tour. [ardoise-du-jour](architectures/ardoise-du-jour.md)
+  (Cheese Board Collective, Berkeley : le lieu est fixe, l'offre change chaque jour ; coquille `ardoise`, `services[].programme`,
+  `ardoise[]` pour les exceptions datées, page `/programme`) et [tournee-semaine](architectures/tournee-semaine.md) (camions à
+  pizza P'tit Louis, Dijon, et Le Camion à Pizzas : l'offre est fixe, le lieu change chaque jour ; coquille `tournee`, `tournee[]`,
+  `/tournee` et une page par commune). « Aujourd'hui » se choisit dans le navigateur, toute la semaine reste lisible sans script.
+  Preuves sur deux sites jetables (supprimés) : `ff verifier` et `ff a11y` verts hors données de test ; `ff ressemblance` ardoise
+  0,50 / 0,54 / 0,64, tournée 0,647 / 0,60 / 0,64 (téléphone / ordinateur / déroulé, seuil 0,65 : la tournée passe de justesse,
+  à relancer sur le premier vrai client). Les deux se ressemblent entre elles (déroulé 0,80) : jamais deux pistes d'un même client.
+  Le registre compte 15 architectures codées ; reste `outil-calendrier`.
+- Tests : 67 fichiers, tous verts après le tour.
+
 **Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé, 21
 les deux), aucun site n'ayant changé ; mêmes pires paires que la veille. Signalé, pas corrigé.
+
+**Proposé**
+- Collecte ciblée sur les crèmes de chroma ≥ 0,012 (papeteries, épiceries fines, boulangeries scandinaves) : la plupart des crèmes vues cette fois sont trop pâles pour compter.
+- Ardoise : gabarit de page d'activité en trois colonnes et filtre d'allergènes ; tournée : semaine répétée au pied.
+- Vérifier les sections sur mesure des sites : un numéro sans lien `tel:` est le contre-levier le plus fréquent du marché.
+
+**À décider** : les 12 styles (`ff melanger <slug> --style kricket` les applique) ; les deux architectures nouvelles, à proposer au premier traiteur, food truck, pizzeria ou boulangerie à programme du jour ; les paires trop proches (toujours autour de studio-ambre et de demo-coiffure).
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
 
 ## 23 oct 2026, tour 5 (routine en ligne) : 9 styles, 2 architectures
 

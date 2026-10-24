@@ -1,0 +1,63 @@
+---
+/**
+ * Page /programme (services[].programme, site.ardoise, src/lib/ardoise.ts) : architecture `ardoise-du-jour` (The
+ * Cheese Board Collective, docs/veille/architectures/ardoise-du-jour.md, « Bakery Schedule » et « Pizza Schedule »).
+ * En tête : le titre, le métier à la ville, le téléphone et les horaires de la semaine (HorairesDuJour) ; puis, pour
+ * chaque activité qui a un programme, sa semaine jour par jour (ArdoiseDuJour, mode « semaine » : le jour courant
+ * marqué dans le navigateur), ses exceptions datées à venir, ses produits de tous les jours, le lien vers sa page.
+ * Générée seulement si une activité a un programme ; aucune = aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, avecProgramme } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import ArdoiseDuJour from '@/components/ArdoiseDuJour.astro';
+import Horaires from '@/components/Horaires.astro';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return avecProgramme(site.services).length > 0 ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const services = avecProgramme(site.services);
+const titre = site.wording.programme;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : ce qui est proposé chaque jour de la semaine.`} path="/programme">
+  <Nav />
+  <main id="main" class="pr-page">
+    <header class="container-ff pr-tete">
+      <div>
+        <h1 class="text-display-lg">{titre}</h1>
+        <p class="mt-4 max-w-prose text-lg">{metierEtVille()} Ce qui est proposé chaque jour, sous réserve de disponibilité.</p>
+        <p class="mt-4"><a href={tel()} class="pr-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      </div>
+      {site.contact.hours.length > 0 && (
+        <aside class="pr-horaires" aria-label="Horaires de la semaine">
+          <p class="pr-rubrique">Horaires</p>
+          <Horaires />
+        </aside>
+      )}
+    </header>
+    {services.map((s) => (
+      <section class="container-ff pr-activite" aria-labelledby={`pr-${s.slug}`}>
+        <h2 id={`pr-${s.slug}`} class="text-display-md">{s.title}</h2>
+        <ArdoiseDuJour mode="semaine" services={[s]} niveau="h3" class="pr-semaine" />
+        {site.servicePages && <a href={`/services/${s.slug}`} class="pr-lien">{s.title}, la page<Icon name="ArrowRight" size={16} /></a>}
+      </section>
+    ))}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pr-tete { display: grid; gap: 2rem; padding-block: clamp(2.5rem, 8vh, 5rem) clamp(1.5rem, 4vh, 2.5rem); }
+  .pr-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 44px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pr-rubrique { font-weight: 600; margin-block-end: 0.5rem; }
+  .pr-activite { display: grid; gap: 1.5rem; padding-block: clamp(2rem, 6vh, 3.5rem); border-block-start: 1px solid var(--color-line); }
+  .pr-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; justify-self: start; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pr-lien:hover { color: var(--color-accent); }
+  @media (min-width: 64rem) {
+    .pr-tete { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: end; }
+  }
+</style>

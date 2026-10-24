@@ -1,0 +1,111 @@
+---
+/**
+ * Page /tournee (site.tournee, src/lib/tournee.ts) : architecture `tournee-semaine` (Pizza P'tit Louis, « Nos
+ * emplacements de la semaine » ; Le Camion à Pizzas, « Où nous trouver ? » ; docs/veille/architectures/tournee-semaine.md).
+ * En tête : le titre, le métier à la ville, le numéro principal ; puis la semaine jour par jour (EtapeDuJour n'est pas
+ * repris ici : toute la semaine reste visible, le jour courant marqué), puis les communes, chacune vers sa page avec
+ * ses jours de passage. Générée seulement s'il y a une étape ; aucune = aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, etapesParJour, communesDe, telDeLEtape, slugCommune, JOURS_TOURNEE } from '@/lib/site';
+import { joursDe } from '@/lib/horaires';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return site.tournee.length > 0 ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const { jours, illisibles } = etapesParJour(site.tournee, joursDe);
+const avec = jours.filter((j) => j.etapes.length > 0);
+const communes = communesDe(site.tournee, joursDe);
+const titre = site.wording.tournee;
+const enumerer = (xs: string[]) => (xs.length <= 1 ? xs.join('') : `${xs.slice(0, -1).join(', ')} et ${xs[xs.length - 1]}`);
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} : la tournée de ${site.business.name}, ${site.business.trade.toLowerCase()}, jour par jour et commune par commune.`} path="/tournee">
+  <Nav />
+  <main id="main" class="tv">
+    <header class="tv-tete bg-ink text-on-ink">
+      <div class="container-ff">
+        <h1 class="text-display-lg">{titre}</h1>
+        <p class="mt-4 max-w-prose text-lg">{metierEtVille()} {communes.length === 1 ? 'Une commune' : `${communes.length} communes`} chaque semaine.</p>
+        <p class="mt-4"><a href={tel()} class="inline-flex items-center gap-2 tabular-nums underline underline-offset-4"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a></p>
+      </div>
+    </header>
+    <section class="container-ff section-y" aria-labelledby="tv-semaine">
+      <h2 id="tv-semaine" class="text-display-md">La semaine</h2>
+      <ol class="tv-jours" data-tournee-semaine>
+        {avec.map((j) => (
+          <li class="tv-jour" data-tn-jour={String(j.index)}>
+            <p class="tv-jour-nom font-display">{j.jour}</p>
+            <ul class="tv-etapes">
+              {j.etapes.map((e) => {
+                const t = telDeLEtape(e, site.contact);
+                return (
+                  <li>
+                    <a href={`/tournee/${slugCommune(e.commune)}`} class="tv-lien">{e.commune}</a>
+                    <span class="tabular-nums">{e.moment ? `, ${e.moment.toLowerCase()}` : ''}, {e.hours}</span>
+                    {e.repere && <span>, {e.repere}</span>}
+                    <a href={t.href} class="tv-tel tabular-nums"><Icon name="Phone" size={14} />{t.affiche}</a>
+                  </li>
+                );
+              })}
+            </ul>
+          </li>
+        ))}
+        {illisibles.map((e) => (
+          <li class="tv-jour">
+            <p class="tv-jour-nom font-display">{e.jour}</p>
+            <ul class="tv-etapes"><li><a href={`/tournee/${slugCommune(e.commune)}`} class="tv-lien">{e.commune}</a>, <span class="tabular-nums">{e.hours}</span>{e.repere && <span>, {e.repere}</span>}</li></ul>
+          </li>
+        ))}
+      </ol>
+    </section>
+    <section class="container-ff tv-communes" aria-labelledby="tv-communes">
+      <h2 id="tv-communes" class="text-display-md">Commune par commune</h2>
+      <ul class="tv-grille">
+        {communes.map((c) => (
+          <li class="tv-commune">
+            <a href={`/tournee/${c.slug}`} class="tv-commune-lien font-display">{c.commune}<Icon name="ArrowRight" size={18} /></a>
+            {c.jours.length > 0 && <p>Le {enumerer(c.jours.map((j) => JOURS_TOURNEE[j].toLowerCase()))}</p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .tv-tete { padding-block: clamp(3rem, 10vh, 6rem) clamp(2rem, 6vh, 3.5rem); }
+  .tv-jours { display: grid; margin-block-start: 1.5rem; }
+  .tv-jour { display: grid; gap: 0.4rem; padding-block: 1rem; border-block-start: 1px solid var(--color-line); }
+  .tv-jour[aria-current='date'] { border-block-start: 3px solid var(--color-accent); }
+  .tv-jour-nom { font-size: 1.3rem; }
+  .tv-etapes { display: grid; gap: 0.4rem; }
+  .tv-lien, .tv-tel { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tv-lien { font-weight: 600; }
+  .tv-tel { display: inline-flex; align-items: center; gap: 0.3rem; margin-inline-start: 0.75rem; min-block-size: 32px; }
+  .tv-communes { padding-block: 0 clamp(3rem, 8vh, 5rem); }
+  .tv-grille { display: grid; gap: 1rem 2rem; margin-block-start: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+  .tv-commune { display: grid; gap: 0.2rem; padding-block-start: 0.75rem; border-block-start: 1px solid var(--color-line); }
+  .tv-commune-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; font-size: 1.35rem; }
+  .tv-commune-lien:hover, .tv-lien:hover, .tv-tel:hover { color: var(--color-accent); }
+  @media (min-width: 48rem) {
+    .tv-jour { grid-template-columns: minmax(8rem, 1fr) minmax(0, 4fr); align-items: baseline; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant } from '@/lib/horaires';
+
+  onPage(() => {
+    const { jour } = maintenant(new Date());
+    document.querySelectorAll<HTMLElement>('[data-tournee-semaine] [data-tn-jour]').forEach((el) => {
+      if (el.dataset.tnJour === String(jour)) el.setAttribute('aria-current', 'date');
+    });
+  });
+</script>

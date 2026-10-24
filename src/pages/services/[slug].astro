@@ -15,6 +15,7 @@ import ServicePorte from '@/components/ServicePorte.astro';
 import ServiceLivre from '@/components/ServiceLivre.astro';
 import { styleTeinte } from '@/lib/couleur';
 import SortiesFiltrables from '@/components/SortiesFiltrables.astro';
+import ArdoiseDuJour from '@/components/ArdoiseDuJour.astro';
 import { sortiesDuService } from '@/lib/sorties';
 
 export function getStaticPaths() {
@@ -41,9 +42,9 @@ const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug
 <Base title={title} description={service.short} path={`/services/${service.slug}`} jsonLd={[serviceJsonLd]}>
   <Nav />
   {site.layout.servicePage === 'porte' ? (
-  <main id="main"><ServicePorte service={service} />{sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}</main>
+  <main id="main"><ServicePorte service={service} />{sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}{service.programme.length > 0 && <section class="container-ff section-y" aria-labelledby="programme-titre"><h2 id="programme-titre" class="text-display-md">{service.title}\u00a0: le programme de la semaine</h2><ArdoiseDuJour mode="semaine" services={[service]} niveau="h3" class="mt-8" /></section>}</main>
   ) : site.layout.servicePage === 'livre' ? (
-  <main id="main"><ServiceLivre service={service} />{sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}</main>
+  <main id="main"><ServiceLivre service={service} />{sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}{service.programme.length > 0 && <section class="container-ff section-y" aria-labelledby="programme-titre"><h2 id="programme-titre" class="text-display-md">{service.title}\u00a0: le programme de la semaine</h2><ArdoiseDuJour mode="semaine" services={[service]} niveau="h3" class="mt-8" /></section>}</main>
   ) : (
   <main id="main">
     {/* Couleur de l'activité (services[].couleur, architecture cadre-couleur) : bandeau en tête de la page et pastille
@@ -77,7 +78,7 @@ const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug
         </aside>
       </div>
     </article>
-    {sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}
+    {sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}{service.programme.length > 0 && <section class="container-ff section-y" aria-labelledby="programme-titre"><h2 id="programme-titre" class="text-display-md">{service.title}\u00a0: le programme de la semaine</h2><ArdoiseDuJour mode="semaine" services={[service]} niveau="h3" class="mt-8" /></section>}
     <Cta />
   </main>
   )}

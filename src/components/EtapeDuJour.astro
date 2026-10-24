@@ -1,0 +1,89 @@
+---
+/**
+ * Étape du moment (site.tournee, src/lib/tournee.ts) : architecture `tournee-semaine` (sources Pizza P'tit Louis et Le
+ * Camion à Pizzas, docs/veille/architectures/tournee-semaine.md, « Emplacement du jour »). Toute la semaine est rendue
+ * au build, un bloc par jour qui a une étape (`data-ed-jour`, 0 = lundi). Dans le navigateur (fuseau Europe/Paris) :
+ * seul le jour à montrer reste (aujourd'hui tant qu'une étape n'est pas finie, sinon le prochain jour de tournée,
+ * etapeDuMoment), et le titre devient « Aujourd'hui », « Demain » ou le nom du jour. Sans script, en capture ou pour
+ * un moteur : la semaine entière. Aucune horloge visible (docs/GOUT.md § 5). Chaque étape : la commune (vers sa page),
+ * le moment, les heures, le repère, le véhicule, le téléphone du véhicule en `tel:` (repli : le numéro principal).
+ * Tokens uniquement ; hérite de la couleur du parent.
+ */
+import { site, etapesParJour, telDeLEtape, slugCommune } from '@/lib/site';
+import { joursDe } from '@/lib/horaires';
+import Icon from '@/components/Icon.astro';
+
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+const { jours } = etapesParJour(site.tournee, joursDe);
+const avec = jours.filter((j) => j.etapes.length > 0);
+const data = JSON.stringify(jours.map((j) => ({ etapes: j.etapes.map((e) => ({ closes: e.closes })) })));
+---
+
+{avec.length > 0 && (
+  <div class:list={['ed', cls]} data-etape-du-jour={data}>
+    <h2 class="ed-quand font-display" data-ed-titre>Cette semaine</h2>
+    {avec.map((j) => (
+      <div class="ed-jour" data-ed-jour={j.index}>
+        <p class="ed-jour-nom" data-ed-nom>{j.jour}</p>
+        <ul class="ed-etapes">
+          {j.etapes.map((e) => {
+            const t = telDeLEtape(e, site.contact);
+            return (
+              <li class="ed-etape">
+                <p class="ed-commune font-display"><a href={`/tournee/${slugCommune(e.commune)}`} class="ed-lien">{e.commune}</a></p>
+                <p class="ed-heures tabular-nums">{e.moment && <>{e.moment}, </>}{e.hours}</p>
+                {e.repere && <p class="ed-repere">{e.repere}</p>}
+                <p class="ed-actions">
+                  <a href={t.href} class="ed-appel tabular-nums"><Icon name="Phone" size={18} />{e.vehicule ? `${e.vehicule} : ${t.affiche}` : t.affiche}</a>
+                  {e.mapsUrl && <a href={e.mapsUrl} target="_blank" rel="noopener" class="ed-itin"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> vers {e.commune} (nouvel onglet)</span></a>}
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    ))}
+  </div>
+)}
+
+<style>
+  .ed { display: grid; gap: 1rem; }
+  .ed-quand { font-size: clamp(1.3rem, 2.4vw, 1.75rem); line-height: 1.1; }
+  .ed-jour { display: grid; gap: 0.5rem; }
+  .ed-jour + .ed-jour { padding-block-start: 0.75rem; border-block-start: 1px solid currentColor; }
+  .ed-jour-nom { font-weight: 600; }
+  .ed-etapes { display: grid; gap: 1rem; }
+  .ed-etape { display: grid; gap: 0.2rem; }
+  .ed-commune { font-size: clamp(1.6rem, 5vw, 2.6rem); line-height: 1.02; }
+  .ed-lien { text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 0.12em; }
+  .ed-heures { font-size: 1.1rem; font-weight: 500; }
+  .ed-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; margin-block-start: 0.5rem; }
+  .ed-appel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .ed-appel:hover { background: var(--color-accent-2); }
+  .ed-itin { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ed-appel:focus-visible, .ed-itin:focus-visible, .ed-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  /* Une fois le jour choisi, son nom est redit par le titre (« Aujourd'hui », « Samedi »). */
+  .ed-choisi .ed-jour-nom { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .ed-choisi .ed-jour + .ed-jour { border: 0; padding: 0; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant } from '@/lib/horaires';
+  import { etapeDuMoment, libelleDuMoment } from '@/lib/tournee';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-etape-du-jour]').forEach((bloc) => {
+      const jours = JSON.parse(bloc.dataset.etapeDuJour || '[]');
+      const { jour, minutes } = maintenant(new Date());
+      if (jour < 0) return;
+      const m = etapeDuMoment(jours, jour, minutes);
+      if (!m) return;
+      bloc.querySelectorAll<HTMLElement>('[data-ed-jour]').forEach((el) => { el.hidden = Number(el.dataset.edJour) !== m.index; });
+      const titre = bloc.querySelector<HTMLElement>('[data-ed-titre]');
+      if (titre) titre.textContent = libelleDuMoment(m.decalage, m.index);
+      bloc.classList.add('ed-choisi');
+    });
+  });
+</script>

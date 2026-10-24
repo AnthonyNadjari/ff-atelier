@@ -1,0 +1,88 @@
+---
+/**
+ * Zones "tournee" : architecture `tournee-semaine` (src/lib/architectures.ts, src/lib/tournee.ts ; sources Pizza
+ * P'tit Louis et Le Camion à Pizzas, docs/veille/architectures/tournee-semaine.md, « Nos emplacements de la semaine »,
+ * « Où nous trouver ? »). La semaine de tournée, un bloc par jour qui a une étape (lundi → dimanche), une ligne par
+ * étape : la commune vers sa page /tournee/<commune>, le moment et les heures, le repère, le véhicule, son téléphone en
+ * `tel:` (repli : le numéro principal), l'itinéraire. Le jour courant est marqué dans le navigateur (aria-current,
+ * fuseau Europe/Paris) ; sans script, la semaine telle quelle. Les étapes aux jours illisibles sont listées telles que
+ * le client les écrit, jamais placées sur un jour deviné.
+ * Aucune étape = rien n'est rendu (navLinks remplace alors l'ancre par rien : /tournee n'existe pas non plus).
+ * Signes de la source NON repris : émojis en pictogrammes, police manuscrite partout, noms en capitales.
+ */
+import { site, etapesParJour, telDeLEtape, slugCommune } from '@/lib/site';
+import { joursDe } from '@/lib/horaires';
+import Icon from '@/components/Icon.astro';
+
+const { jours, illisibles } = etapesParJour(site.tournee, joursDe);
+const avec = jours.filter((j) => j.etapes.length > 0);
+const lignes = [...avec.map((j) => ({ cle: String(j.index), jour: j.jour as string, etapes: j.etapes })), ...illisibles.map((e, i) => ({ cle: `x${i}`, jour: e.jour, etapes: [e] }))];
+---
+
+{lignes.length > 0 && (
+  <section id="zones" class="section-y tn" aria-labelledby="tn-titre">
+    <div class="container-ff">
+      <div class="tn-tete">
+        <h2 id="tn-titre" class="text-display-md">{site.wording.tournee}</h2>
+        <a href="/tournee" class="tn-tout">La tournée, commune par commune<Icon name="ArrowRight" size={16} /></a>
+      </div>
+      <ol class="tn-semaine" data-tournee-semaine>
+        {lignes.map((l) => (
+          <li class="tn-jour" data-tn-jour={l.cle}>
+            <p class="tn-jour-nom font-display">{l.jour}</p>
+            <ul class="tn-etapes">
+              {l.etapes.map((e) => {
+                const t = telDeLEtape(e, site.contact);
+                return (
+                  <li class="tn-etape">
+                    <p class="tn-commune"><a href={`/tournee/${slugCommune(e.commune)}`} class="tn-lien">{e.commune}</a><span class="tn-heures tabular-nums">{e.moment && <>{e.moment}, </>}{e.hours}</span></p>
+                    <p class="tn-actions">
+                      {e.repere && <span class="tn-repere">{e.repere}</span>}
+                      <a href={t.href} class="tn-tel tabular-nums"><Icon name="Phone" size={15} />{e.vehicule ? `${e.vehicule} : ${t.affiche}` : t.affiche}</a>
+                      {e.mapsUrl && <a href={e.mapsUrl} target="_blank" rel="noopener" class="tn-itin">Itinéraire<span class="sr-only"> vers {e.commune} (nouvel onglet)</span></a>}
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}
+
+<style>
+  .tn-tete { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.75rem 1.5rem; margin-block-end: clamp(1.5rem, 4vh, 2.5rem); }
+  .tn-tout { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tn-semaine { display: grid; }
+  .tn-jour { display: grid; gap: 0.35rem; padding-block: 0.75rem; border-block-start: 1px solid var(--color-line); }
+  .tn-jour:last-child { border-block-end: 1px solid var(--color-line); }
+  .tn-jour[aria-current='date'] { border-block-start: 3px solid var(--color-accent); }
+  .tn-jour-nom { font-size: 1.35rem; line-height: 1.1; }
+  .tn-etapes { display: grid; gap: 0.6rem; }
+  .tn-etape { display: grid; gap: 0.1rem; }
+  .tn-commune { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.75rem; font-size: 1.15rem; font-weight: 600; }
+  .tn-heures { font-size: 1rem; font-weight: 400; }
+  .tn-lien { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .tn-lien:hover, .tn-tel:hover, .tn-itin:hover, .tn-tout:hover { color: var(--color-accent); }
+  .tn-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1rem; }
+  .tn-tel, .tn-itin { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 32px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tn-tel { font-weight: 600; }
+  @media (min-width: 48rem) {
+    .tn-jour { grid-template-columns: minmax(8rem, 1fr) minmax(0, 4fr); align-items: start; }
+    .tn-etapes { grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1rem 2rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant } from '@/lib/horaires';
+
+  onPage(() => {
+    const { jour } = maintenant(new Date());
+    document.querySelectorAll<HTMLElement>('[data-tournee-semaine] [data-tn-jour]').forEach((el) => {
+      if (el.dataset.tnJour === String(jour)) el.setAttribute('aria-current', 'date');
+    });
+  });
+</script>

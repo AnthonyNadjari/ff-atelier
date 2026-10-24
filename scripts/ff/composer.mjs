@@ -47,7 +47,7 @@ const METIERS_INDEX = ['photograph', 'artiste', 'architect', 'tatou', 'illustrat
 
 // Coquilles d'ARCHITECTURE (src/lib/architectures.ts) : elles ne s'appliquent qu'avec leur architecture entiere
 // (layout.architecture), choisie sur les donnees du client — jamais tirees au hasard ici.
-export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda', 'vitrine', 'cadre', 'scenes', 'adresses', 'saisons'];
+export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda', 'vitrine', 'cadre', 'scenes', 'adresses', 'saisons', 'ardoise', 'tournee'];
 
 function shellFits(shell, { sectionsCount, motion, nav, hero, scale, metier = '' }) {
   if (COQUILLES_D_ARCHITECTURE.includes(shell)) return false;
@@ -366,6 +366,11 @@ export function varianteCompatible(type, variant, cfg = {}) {
     case 'services/cartes-couleur':
       return cfg.layout?.architecture === 'cadre-couleur' || services.some((s) => s && s.couleur);
     // Adresses (Ten Belles) : le bandeau dès deux lieux ; saisons (La Grave) : dès deux saisons d'au moins deux activités.
+    // Ardoise (Cheese Board) : dès qu'une activité a un programme de la semaine ; tournée (P'tit Louis) : dès une étape.
+    case 'services/programme':
+      return services.some((s) => Array.isArray(s?.programme) && s.programme.length > 0);
+    case 'zones/tournee':
+      return Array.isArray(cfg.tournee) && cfg.tournee.length > 0;
     case 'zones/adresses':
       return Array.isArray(cfg.lieux) && cfg.lieux.length >= 2;
     case 'services/saisons': {

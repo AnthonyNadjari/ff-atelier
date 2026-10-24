@@ -16,6 +16,10 @@ export { telDuLieu, adresseDuLieu, autresLieux, liensLieux, lienPros, lieuxCompl
 import { liensLieux, lienPros } from './lieux';
 export { slugTexte, saisonsDe, groupesParSaison, saisonsCompletes, sortiesDuService, niveauxDe, sortiesEnAvant, publicsDe, liensSaisons, TOUTE_L_ANNEE } from './sorties';
 import { liensSaisons } from './sorties';
+export { programmeDeLaSemaine, avecProgramme, joursCouverts, entreesDistinctes, exceptionsAVenir, dateLongue, lienProgramme, JOURS_ARDOISE } from './ardoise';
+import { lienProgramme } from './ardoise';
+export { slugCommune, etapesParJour, communesDe, telDeLEtape, etapeDuMoment, libelleDuMoment, lienTournee, etapesCompletes, JOURS_TOURNEE } from './tournee';
+import { lienTournee } from './tournee';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -217,6 +221,20 @@ export const navLinks = (s: Site = site) => {
   // Produits (src/lib/produits.ts, architecture gamme-vitrine) : la gamme est le site, son lien ouvre la nav.
   const produits = lienProduits(s.produits ?? [], s.wording.produits);
   if (produits) links.unshift(produits);
+  // Tournée (src/lib/tournee.ts, architecture tournee-semaine) : une page, pas une ancre ; l'ancre #zones de la semaine
+  // (zones/tournee) cède la place à /tournee, avant Contact.
+  const tournee = lienTournee(s.tournee ?? [], s.wording.tournee);
+  if (tournee) {
+    const iZ = links.findIndex((l) => l.href === '/#zones');
+    if (iZ !== -1) links.splice(iZ, 1, tournee);
+    else links.splice(0, 0, tournee);
+  }
+  // Programme de la semaine (src/lib/ardoise.ts, architecture ardoise-du-jour) : une page, avant Contact.
+  const programme = lienProgramme(s.services, s.wording.programme);
+  if (programme) {
+    const iC = links.findIndex((l) => l.href === '/#contact');
+    links.splice(iC === -1 ? links.length : iC, 0, programme);
+  }
   // Professionnels (site.pros, architecture pages-adresses) : un lien discret, en dernier.
   const pros = lienPros(s.pros, s.wording.pros);
   if (pros) links.push(pros);

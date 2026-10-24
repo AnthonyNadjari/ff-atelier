@@ -1,0 +1,160 @@
+---
+/**
+ * Programme du jour (services[].programme, services[].tousLesJours, site.ardoise) : architecture `ardoise-du-jour`
+ * (src/lib/ardoise.ts ; source The Cheese Board Collective, docs/veille/architectures/ardoise-du-jour.md).
+ *
+ * Toute la semaine est rendue au build, un bloc par jour (`data-ard-jour`, 0 = lundi). Dans le navigateur (fuseau
+ * Europe/Paris, `maintenant()` de src/lib/horaires.ts) :
+ *   - mode « jour » (l'ardoise de l'accueil) : seul le jour courant reste visible, le titre devient « Aujourd'hui,
+ *     vendredi 23 octobre » ; une exception datée du jour (site.ardoise) remplace le programme de son activité ;
+ *   - mode « semaine » (page /programme, section services/programme, page d'une activité) : tous les jours restent,
+ *     le jour courant est marqué (`aria-current="date"`).
+ * Sans script, en capture ou pour un moteur : la semaine entière, jour par jour. Jamais un « aujourd'hui » au build.
+ * Un jour sans entrée n'affiche rien d'inventé : « Pas de programme particulier » et les produits de tous les jours.
+ * Tokens uniquement ; hérite de la couleur du parent (l'ardoise sombre de la coquille, une section claire ailleurs).
+ */
+import { site, programmeDeLaSemaine, exceptionsAVenir, dateLongue, isoDuJour } from '@/lib/site';
+import { joursDe } from '@/lib/horaires';
+
+interface Props {
+  mode?: 'jour' | 'semaine';
+  /** Activités à montrer (défaut : toutes celles du site). */
+  services?: typeof site.services;
+  class?: string;
+  /** Niveau des titres de jour. */
+  niveau?: 'h3' | 'h4';
+}
+const { mode = 'jour', services = site.services, class: cls = '', niveau = 'h3' } = Astro.props;
+const Titre = niveau;
+const slugs = new Set(services.map((s) => s.slug));
+const { jours, illisibles } = programmeDeLaSemaine(services, joursDe);
+const permanents = services.filter((s) => s.tousLesJours.length > 0);
+const exceptions = exceptionsAVenir(site.ardoise, isoDuJour()).filter((x) => !x.service || slugs.has(x.service));
+const titreDe = (slug?: string) => (slug ? services.find((s) => s.slug === slug)?.title : undefined);
+const majuscule = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+const plusieurs = services.filter((s) => s.programme.length > 0).length > 1;
+const aDuProgramme = jours.some((j) => j.activites.length > 0) || illisibles.length > 0;
+---
+
+{aDuProgramme && (
+  <div class:list={['ard', `ard-${mode}`, cls]} data-ardoise={mode}>
+    {mode === 'jour' && <p class="ard-quand" data-ard-titre>Cette semaine</p>}
+    <div class="ard-jours">
+      {jours.map((j) => (
+        <div class="ard-jour" data-ard-jour={j.index}>
+          <Titre class="ard-jour-nom font-display">{j.jour}</Titre>
+          {j.activites.length > 0 ? (
+            j.activites.map((a) => (
+              <div class="ard-activite" data-ard-activite={a.slug}>
+                {plusieurs && <p class="ard-activite-nom">{a.title}</p>}
+                <ul class="ard-lignes">
+                  {a.lignes.map((l) => (
+                    <li class="ard-ligne"><span class="ard-nom">{l.nom}</span>{l.prix && <span class="ard-prix tabular-nums">{l.prix}</span>}{l.detail && <span class="ard-detail">{l.detail}</span>}</li>
+                  ))}
+                </ul>
+                {a.notes.map((n) => <p class="ard-note">{n}</p>)}
+              </div>
+            ))
+          ) : (
+            <p class="ard-vide">Pas de programme particulier ce jour-là.</p>
+          )}
+        </div>
+      ))}
+      {illisibles.length > 0 && (
+        <div class="ard-jour ard-autres">
+          {illisibles.map((x) => (
+            <div class="ard-activite">
+              <Titre class="ard-jour-nom font-display">{x.entree.jours}</Titre>
+              {plusieurs && <p class="ard-activite-nom">{x.title}</p>}
+              <ul class="ard-lignes">{x.entree.lignes.map((l) => <li class="ard-ligne"><span class="ard-nom">{l.nom}</span>{l.prix && <span class="ard-prix tabular-nums">{l.prix}</span>}{l.detail && <span class="ard-detail">{l.detail}</span>}</li>)}</ul>
+              {x.entree.note && <p class="ard-note">{x.entree.note}</p>}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+    {exceptions.length > 0 && (
+      <ul class="ard-exceptions" aria-label="À noter">
+        {exceptions.map((x) => (
+          <li class="ard-exception" data-ard-date={x.date} data-ard-service={x.service ?? ''} data-ard-ferme={x.ferme ? '1' : undefined}>
+            <p class="ard-exception-titre"><span class="ard-date">{majuscule(dateLongue(x.date))}</span>{x.titre && <>&nbsp;: {x.titre}</>}{titreDe(x.service) && <span class="ard-pour">, {titreDe(x.service)}</span>}</p>
+            {x.ferme && <p>Fermé ce jour-là.</p>}
+            {x.lignes.length > 0 && <ul class="ard-lignes">{x.lignes.map((l) => <li class="ard-ligne"><span class="ard-nom">{l.nom}</span>{l.prix && <span class="ard-prix tabular-nums">{l.prix}</span>}{l.detail && <span class="ard-detail">{l.detail}</span>}</li>)}</ul>}
+            {x.texte && <p class="ard-note">{x.texte}</p>}
+          </li>
+        ))}
+      </ul>
+    )}
+    {permanents.length > 0 && (
+      <div class="ard-permanents">
+        <p class="ard-permanents-titre">Tous les jours</p>
+        {permanents.map((s) => (
+          <p class="ard-permanents-liste">{plusieurs && <span class="ard-activite-nom">{s.title}&nbsp;: </span>}{s.tousLesJours.map((l) => l.nom).join(', ')}.</p>
+        ))}
+      </div>
+    )}
+  </div>
+)}
+
+<style>
+  .ard { display: grid; gap: 1rem; }
+  .ard-quand { font-weight: 600; }
+  .ard-jours { display: grid; gap: 1.25rem; }
+  .ard-semaine .ard-jours { grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: 1.5rem 2rem; }
+  .ard-jour { display: grid; gap: 0.5rem; align-content: start; }
+  .ard-semaine .ard-jour { padding-block-start: 0.75rem; border-block-start: 1px solid var(--color-line); }
+  .ard-semaine .ard-jour[aria-current='date'] { border-block-start-width: 3px; border-block-start-color: currentColor; }
+  .ard-jour-nom { font-size: 1.35rem; line-height: 1.1; }
+  .ard-jour .ard-activite + .ard-activite { margin-block-start: 0.5rem; }
+  .ard-activite-nom { font-weight: 600; }
+  .ard-lignes { display: grid; gap: 0.35rem; }
+  .ard-ligne { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 1rem; }
+  .ard-nom { font-weight: 500; }
+  .ard-detail { grid-column: 1 / -1; font-size: 0.92em; }
+  .ard-note, .ard-vide { font-size: 0.92em; }
+  .ard-exceptions { display: grid; gap: 0.75rem; padding-block-start: 0.75rem; border-block-start: 1px solid currentColor; }
+  .ard-exception-titre { font-weight: 600; }
+  .ard-pour { font-weight: 400; }
+  .ard-permanents { display: grid; gap: 0.25rem; padding-block-start: 0.75rem; border-block-start: 1px solid currentColor; font-size: 0.95em; }
+  .ard-permanents-titre { font-weight: 600; }
+  /* En mode « jour », le titre de jour est redit par le titre « Aujourd'hui, … » une fois le jour choisi. */
+  .ard-jour-choisi .ard-jour-nom { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant } from '@/lib/horaires';
+  import { isoDuJour } from '@/lib/agenda';
+  import { dateLongue } from '@/lib/ardoise';
+
+  onPage(() => {
+    const now = new Date();
+    const { jour } = maintenant(now);
+    const iso = isoDuJour(now);
+    if (jour < 0) return;
+    document.querySelectorAll<HTMLElement>('[data-ardoise]').forEach((bloc) => {
+      const mode = bloc.dataset.ardoise;
+      const duJour = bloc.querySelector<HTMLElement>(`[data-ard-jour="${jour}"]`);
+      if (mode === 'semaine') {
+        duJour?.setAttribute('aria-current', 'date');
+        return;
+      }
+      // Mode « jour » : seul le jour courant reste ; l'exception du jour remplace le programme de son activité.
+      bloc.querySelectorAll<HTMLElement>('[data-ard-jour]').forEach((el) => { el.hidden = el !== duJour; });
+      bloc.querySelector<HTMLElement>('.ard-autres')?.setAttribute('hidden', '');
+      bloc.querySelectorAll<HTMLElement>('[data-ard-date]').forEach((ex) => {
+        const aujourdhui = ex.dataset.ardDate === iso;
+        ex.hidden = !aujourdhui;
+        if (!aujourdhui || !duJour) return;
+        const svc = ex.dataset.ardService;
+        const cibles = svc ? duJour.querySelectorAll<HTMLElement>(`[data-ard-activite="${svc}"]`) : duJour.querySelectorAll<HTMLElement>('[data-ard-activite]');
+        cibles.forEach((c) => { c.hidden = true; });
+      });
+      const liste = bloc.querySelector<HTMLElement>('.ard-exceptions');
+      if (liste) liste.hidden = !liste.querySelector('[data-ard-date]:not([hidden])');
+      const titre = bloc.querySelector<HTMLElement>('[data-ard-titre]');
+      if (titre) titre.textContent = `Aujourd’hui, ${dateLongue(iso)}`;
+      bloc.classList.add('ard-jour-choisi');
+    });
+  });
+</script>

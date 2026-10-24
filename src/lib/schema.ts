@@ -69,6 +69,8 @@ export const SHELLS = [
   'vitrine', // accueil d un ecran = la gamme en piste horizontale manuelle, barre fixe a bouton Menu plein ecran, une page par produit (architecture gamme-vitrine)
   'adresses', // premier ecran = le carnet d adresses : h1 et telephone a gauche, une colonne par lieu (photo, etat du jour, telephone) a droite ; une page par lieu (architecture pages-adresses)
   'saisons', // le temps range l accueil : en tete h1, telephone, note ; puis une colonne par saison (photo, nom geant, activites, sorties a la une) cote a cote (architecture saisons-sorties)
+  'ardoise', // l accueil est l ardoise du jour : en tete h1, telephone, note ; une rangee d ardoises (horaires, programme, rendez-vous du jour, choisis dans le navigateur) posee sur la photo (architecture ardoise-du-jour)
+  'tournee', // l accueil dit ou est le camion : l etape du moment (commune, repere, heures, telephone du vehicule) en tete, puis la semaine ; une page par commune (architecture tournee-semaine)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -77,10 +79,10 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 export const VARIANTS = {
   nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
   hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme'],
   about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes'],
   proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations'],
-  zones: ['list', 'map', 'chips', 'adresses'],
+  zones: ['list', 'map', 'chips', 'adresses', 'tournee'],
   process: ['steps', 'timeline', 'numbered', 'horizon'],
   faq: ['accordion', 'two-columns'],
   cta: ['band', 'card', 'phone-giant', 'photo'],
@@ -143,6 +145,13 @@ const ligneHoraire = z.object({
   hours: z.string(),
   opens: z.string().regex(/^\d{2}:\d{2}$/).optional().describe("Heure d'ouverture HH:MM (ex: 08:00) — avec closes, le JSON-LD émet openingHoursSpecification structuré au lieu du texte libre (mieux lu par les moteurs IA)"),
   closes: z.string().regex(/^\d{2}:\d{2}$/).optional().describe('Heure de fermeture HH:MM (ex: 18:00)'),
+});
+
+/** Une ligne de carte (programme du jour, produits de tous les jours, exceptions datees ; architecture ardoise-du-jour). */
+const ligneCarte = z.object({
+  nom: z.string().describe('Intitule tel que le client le donne (« Pain de seigle », « Pizza du jour : poireau et chèvre »)'),
+  detail: z.string().optional().describe('Garniture, ingredients ou precision courte du client. Absent = non affiche.'),
+  prix: z.string().optional().describe('Prix tel que le client le donne ; absent = ligne sans prix, jamais devine'),
 });
 
 export const siteSchema = z.object({
@@ -337,6 +346,20 @@ export const siteSchema = z.object({
         couleur: couleur
           .optional()
           .describe("Couleur de cette activite, donnee par le client (devanture, logo, emballage ; architecture cadre-couleur, docs/veille/architectures/meyers.md) : hex #rrggbb ou oklch(L C H). Posee sur sa carte (services/cartes-couleur) et sur l'en-tete de sa page, avec une encre choisie par contraste (src/lib/couleur.ts). Absente = tokens de la direction, rien ne change. Jamais devinee."),
+        programme: z
+          .array(
+            z.object({
+              jours: z.string().describe("Jour(s) de la semaine, tels que le client les ecrit et lus comme contact.hours (« Mardi », « Mercredi et samedi », « Du mardi au vendredi ») ; des jours illisibles = entree affichee telle quelle dans la semaine, jamais placee sur un jour devine"),
+              lignes: z.array(ligneCarte).min(1).describe('Ce qui est propose ces jours-la (pains, plat du jour, pizza du jour)'),
+              note: z.string().optional().describe('Precision du client (« jusqu’à épuisement », « le midi seulement »). Absente = non affichee.'),
+            }),
+          )
+          .default([])
+          .describe("Programme de la semaine de cette activite (architecture ardoise-du-jour, docs/veille/architectures/ardoise-du-jour.md) : ce qui change selon le jour (pain du mardi, plat du jour, pizza du jour). L'ardoise de l'accueil montre celui du jour, choisi DANS LE NAVIGATEUR (fuseau Europe/Paris) ; sans script, toute la semaine se lit. Page /programme et bloc sur la page de l'activite. Vide = rien. Jamais un programme invente."),
+        tousLesJours: z
+          .array(ligneCarte)
+          .default([])
+          .describe("Ce qui est propose tous les jours d'ouverture, a cote du programme (« Baguette », « Croissant ») : liste sous le programme du jour. Vide = non affichee."),
       }),
     )
     .min(1),
@@ -548,6 +571,44 @@ export const siteSchema = z.object({
       "Sorties, stages ou prestations datees et cotees du client (architecture saisons-sorties, docs/veille/architectures/saisons-sorties.md) : une page chacune (/sorties/<slug>, <details> natifs Programme / Inclus / À prévoir), listees sur la page de leur activite avec un filtre par niveau en CSS (:has()), les sorties enAvant sur l'accueil, une page /pour/<public> par public de trois sorties ou plus, et le choix de la sortie dans le formulaire. Vide = ni page, ni liste. Jamais une sortie, une periode ou un prix inventes.",
     ),
 
+  ardoise: z
+    .array(
+      z.object({
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('Date AAAA-MM-JJ donnee par le client'),
+        service: z.string().optional().describe("Slug de l'activite concernee ; absent = toute la maison"),
+        titre: z.string().optional().describe('Titre court du client (« Fermeture exceptionnelle », « Pizza de la Saint-Martin »). Absent = la date seule.'),
+        lignes: z.array(ligneCarte).default([]).describe('Ce qui est propose ce jour-la, a la place du programme de la semaine. Vide = pas de liste.'),
+        texte: z.string().optional().describe('Une phrase du client. Absente = non affichee.'),
+        ferme: z.boolean().default(false).describe('Ferme ce jour-la (fermeture exceptionnelle) : dit sur l’ardoise du jour, a la place du programme.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Exceptions datees de l'ardoise (architecture ardoise-du-jour) : la pizza d'une date, un pain de fete, une fermeture exceptionnelle. Les dates passees tombent au build (src/lib/ardoise.ts) ; l'exception du jour remplace le programme de ce jour dans le navigateur. Vide = le programme de la semaine seul. Jamais une exception inventee.",
+    ),
+
+  tournee: z
+    .array(
+      z.object({
+        jour: z.string().describe("Jour(s) de passage tels que le client les ecrit, lus comme contact.hours (« Mardi », « Samedi et dimanche ») ; illisibles = etape listee telle quelle, jamais placee sur un jour devine"),
+        moment: z.string().optional().describe('« Midi », « Soir » quand le client fait deux etapes le meme jour. Absent = non affiche.'),
+        commune: z.string().describe('Commune de l’etape (« Genlis ») : une page /tournee/<commune> par commune'),
+        repere: z.string().optional().describe('Repere sur place donne par le client (« Parking du terrain de rugby », « Place de la mairie »). Absent = non affiche, jamais devine.'),
+        hours: z.string().describe('Heures telles que le client les donne (« 17 h – 21 h »)'),
+        opens: z.string().regex(/^\d{2}:\d{2}$/).optional().describe("Heure d'arrivee HH:MM : avec closes, l'etape du moment se choisit a l'heure pres (apres closes, la suivante) et le JSON-LD est structure"),
+        closes: z.string().regex(/^\d{2}:\d{2}$/).optional().describe('Heure de depart HH:MM'),
+        vehicule: z.string().optional().describe('Nom du camion ou du stand quand le client en a plusieurs (« Le camion de Louis »). Absent = non affiche.'),
+        phone: z.string().optional().describe("Telephone de ce vehicule, format international ; absent = contact.phone (jamais devine)"),
+        phoneDisplay: z.string().optional().describe('Format affiche de phone'),
+        mapsUrl: z.string().url().optional().describe('Lien d’itineraire vers l’emplacement ; absent = pas de lien'),
+        coordinates: z.object({ lat: z.number(), lng: z.number() }).optional().describe('Latitude/longitude de l’emplacement (JSON-LD geo). Absentes = non emises.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Tournee de la semaine d'un metier itinerant (camion pizza, rotisseur, marches ; architecture tournee-semaine, docs/veille/architectures/tournee-semaine.md) : l'etape du moment en tete de l'accueil (choisie DANS LE NAVIGATEUR, fuseau Europe/Paris ; sans script, toute la semaine se lit), la semaine (zones/tournee), une page par commune (/tournee/<commune>, JSON-LD par etape), /tournee, lien de nav. Vide = ni bloc, ni page, ni lien. Jamais une etape, un repere ou un jour inventes.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -599,6 +660,8 @@ export const siteSchema = z.object({
       logosTitle: z.string().default('Certifications et garanties').describe('Titre de la rangée de labels (proof/logos), ex. « Qualibat, RGE ». Défaut « Certifications et garanties ».'),
       contactTitle: z.string().default('Parlons de votre projet'),
       agenda: z.string().default('Agenda').describe('Libellé de la porte et de la page des rendez-vous (site.agenda) : « Agenda », « Les rendez-vous de l’atelier »'),
+      tournee: z.string().default('Où nous trouver').describe('Libellé du lien de nav et titre de la page /tournee (site.tournee) : « Où nous trouver », « La tournée », « Nos marchés »'),
+      programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),
       pros: z.string().default('Professionnels').describe('Libellé du lien de nav vers /professionnels (site.pros) : « Professionnels », « Vente aux pros »'),
       produits: z.string().default('Produits').describe('Libellé du lien de nav et titre de la page /produits (site.produits) : « Produits », « La gamme », « Nos confitures »'),
