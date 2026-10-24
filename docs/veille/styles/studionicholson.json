@@ -1,0 +1,1241 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.studionicholson.com/",
+  "nom": "studionicholson",
+  "date": "2026-10-24",
+  "identite": {
+    "title": "Studio Nicholson | Ready-to-wear, Shoes and Accessories",
+    "siteName": "Studio Nicholson",
+    "lang": "en",
+    "description": "Shop the latest men's and women's, ready-to-wear, shoes and accessories from the official Studio Nicholson website. Free worldwide shipping available.",
+    "technologies": [
+      "Shopify",
+      "Tailwind",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Identifier 'SlideOutPanel' has already been declared",
+      "Cannot destructure property 'name' of 'e' as it is undefined."
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 150,
+      "images": 10,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "SUBSCRIBE NOW",
+        "x": 768,
+        "y": 534,
+        "cx": 0.6444444444444445,
+        "cy": 0.6161111111111112,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "10% OFF YOUR FIRST ORDER Subscribe to the Studio Nicholson newsletter to be the first to know about new arrivals, promotions and content, and to receive 10% off your first online order Exclusions appl",
+        "selecteur": "sn-feature-popup#sn-feature-popup",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6299,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.tw-mx-0",
+        "famille": "neue-haas-grotesk-text, Helvetica, Arial, \"Lucida Grande\", sans-serif",
+        "taille": 64,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.96px"
+      },
+      "h2": {
+        "selecteur": "h2.font-utility",
+        "famille": "neue-haas-grotesk-text, Helvetica, Arial, \"Lucida Grande\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.88px"
+      },
+      "p": {
+        "selecteur": "p.article-card__excerpt",
+        "famille": "neue-haas-grotesk-text, Helvetica, Arial, \"Lucida Grande\", sans-serif",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.39px"
+      },
+      "bouton": {
+        "selecteur": "button.tw-absolute",
+        "famille": "Arial",
+        "taille": 13.3333,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.tw-px-4",
+        "famille": "neue-haas-grotesk-text, Helvetica, Arial, \"Lucida Grande\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.88px"
+      },
+      "fontFaces": [
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "www.studionicholson.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "www.studionicholson.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Libre Franklin",
+          "url": "https://fonts.gstatic.com/s/librefranklin/v14/jizBREVItHgc8qDIbSTKq4XkRiUa6zUTjnTLgNs.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Libre Franklin",
+          "url": "https://fonts.gstatic.com/s/librefranklin/v14/jizDREVItHgc8qDIbSTKq4XkRiUf2zcZiVbJ.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Austin",
+          "url": "https://uploads-ssl.webflow.com/6395b94bfb2951448b8cff15/6395b94bfb295184418cff91_AustinNewsHeadline-Roman-Web.woff",
+          "feuille": "inline",
+          "source": "tiers (uploads-ssl.webflow.com)"
+        },
+        {
+          "famille": "Austin",
+          "url": "https://uploads-ssl.webflow.com/6395b94bfb2951448b8cff15/6395b94bfb29512d918cff90_AustinNewsHeadline-Italic-Web.woff",
+          "feuille": "inline",
+          "source": "tiers (uploads-ssl.webflow.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "use.typekit.net",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.appmate.io",
+        "crossborder-integration.global-e.com"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/wwh1bnc.css"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "neue-haas-grotesk-text",
+          "n": 141
+        },
+        {
+          "famille": "Neue Haas Grotesk",
+          "n": 3
+        },
+        {
+          "famille": "Helvetica Neue",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 9073632
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 8,
+          "poids": 3472047.3125
+        },
+        {
+          "hex": "#000000",
+          "n": 12,
+          "poids": 576173.625
+        },
+        {
+          "hex": "#252525",
+          "n": 27,
+          "poids": 137160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 80,
+          "poids": 2177
+        },
+        {
+          "hex": "#666666",
+          "n": 22,
+          "poids": 1887
+        },
+        {
+          "hex": "#ffffff",
+          "n": 38,
+          "poids": 272
+        },
+        {
+          "hex": "#b0b0b0",
+          "n": 1,
+          "poids": 171
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 4,
+          "poids": 132
+        }
+      ],
+      "nbImages": 24,
+      "nbVideos": 2,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 9073632,
+          "part": 0.684
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 8,
+          "poids": 3472047.3125,
+          "part": 0.262
+        },
+        {
+          "hex": "#000000",
+          "n": 12,
+          "poids": 576173.625,
+          "part": 0.043
+        },
+        {
+          "hex": "#252525",
+          "n": 27,
+          "poids": 137160,
+          "part": 0.01
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 80,
+          "poids": 2177,
+          "part": 0.469
+        },
+        {
+          "hex": "#666666",
+          "n": 22,
+          "poids": 1887,
+          "part": 0.407
+        },
+        {
+          "hex": "#ffffff",
+          "n": 38,
+          "poids": 272,
+          "part": 0.059
+        },
+        {
+          "hex": "#b0b0b0",
+          "n": 1,
+          "poids": 171,
+          "part": 0.037
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 4,
+          "poids": 132,
+          "part": 0.028
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Swiper",
+          "preuve": "window.Swiper"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 1s ease",
+          "n": 27
+        },
+        {
+          "valeur": "opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 17
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 12
+        },
+        {
+          "valeur": "text-decoration 0.1s ease",
+          "n": 8
+        },
+        {
+          "valeur": "all 0.4s ease",
+          "n": 4
+        },
+        {
+          "valeur": "background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "box-shadow 0.1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "top 0.1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "font-size 0.1s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "label.field__label",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "top 0.1s ease",
+          "font-size 0.1s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#MainContent",
+      "sections": [
+        {
+          "selecteur": "div#shopify-section-announcement-bar",
+          "titre": null,
+          "top": 0,
+          "hauteur": 40,
+          "ecrans": 0,
+          "mots": 23,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-header",
+          "titre": "",
+          "top": 40,
+          "hauteur": 110,
+          "ecrans": 0.1,
+          "mots": 7,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "details",
+            "form"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__hero_two_image_WwGrWF",
+          "titre": null,
+          "top": 150,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__module_fxbEPb",
+          "titre": null,
+          "top": 1194,
+          "hauteur": 804,
+          "ecrans": 0.9,
+          "mots": 86,
+          "images": 11,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form",
+            "dl"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__hero_banner_4MRmBj",
+          "titre": null,
+          "top": 2142,
+          "hauteur": 810,
+          "ecrans": 0.9,
+          "mots": 3,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__module_wRrEwD",
+          "titre": null,
+          "top": 3096,
+          "hauteur": 804,
+          "ecrans": 0.9,
+          "mots": 97,
+          "images": 12,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg",
+            "form",
+            "dl"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__module_AcL9xY",
+          "titre": null,
+          "top": 4044,
+          "hauteur": 433,
+          "ecrans": 0.5,
+          "mots": 37,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__a1c0734c-8899-4128-8f2d-146a97e1822f",
+          "titre": "Explore the Journal",
+          "top": 4620,
+          "hauteur": 1019,
+          "ecrans": 1.1,
+          "mots": 291,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--16091966013593__17896524161ca73d83",
+          "titre": "Loyalty System",
+          "top": 5640,
+          "hauteur": 173,
+          "ecrans": 0.2,
+          "mots": 44,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-footer",
+          "titre": null,
+          "top": 5813,
+          "hauteur": 487,
+          "ecrans": 0.5,
+          "mots": 56,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header",
+        "hauteur": 110,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "JOURNAL",
+            "href": "https://www.studionicholson.com/blogs/features",
+            "bouton": false
+          },
+          {
+            "texte": "GB / £",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Login/Register",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "The Journal",
+            "href": "/blogs/features",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Stores",
+            "href": "/pages/stores",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/pages/about",
+            "bouton": false
+          },
+          {
+            "texte": "My Account",
+            "href": "/account",
+            "bouton": false
+          },
+          {
+            "texte": "Shipping",
+            "href": "/pages/shipping-returns",
+            "bouton": false
+          },
+          {
+            "texte": "Returns & Exchanges",
+            "href": "/pages/returns-exchanges",
+            "bouton": false
+          },
+          {
+            "texte": "The Loyalty System",
+            "href": "/pages/the-studio-nicholson-loyalty-system",
+            "bouton": false
+          },
+          {
+            "texte": "Harper Services",
+            "href": "/pages/harper-concierge-service",
+            "bouton": false
+          },
+          {
+            "texte": "Gift Card",
+            "href": "/products/gift-card",
+            "bouton": false
+          },
+          {
+            "texte": "The Fit Guide",
+            "href": "https://www.studionicholson.com/pages/studio-nicholson-fit-guide-womens",
+            "bouton": false
+          },
+          {
+            "texte": "The Care Guide",
+            "href": "/pages/the-care-guide",
+            "bouton": false
+          },
+          {
+            "texte": "FAQs",
+            "href": "/pages/faq",
+            "bouton": false
+          },
+          {
+            "texte": "Terms & Conditions",
+            "href": "/pages/terms-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "Cookies & Privacy",
+            "href": "/pages/privacy",
+            "bouton": false
+          },
+          {
+            "texte": "Sitemap",
+            "href": "/pages/sitemap",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/studionicholson/",
+            "bouton": false
+          },
+          {
+            "texte": "TikTok",
+            "href": "https://vm.tiktok.com/ZNR3PRC6n/",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://www.pinterest.co.uk/StudioNicholson/",
+            "bouton": false
+          },
+          {
+            "texte": "LinkedIn",
+            "href": "https://uk.linkedin.com/company/studio-nicholson-limited",
+            "bouton": false
+          },
+          {
+            "texte": "Youtube",
+            "href": "https://www.youtube.com/@studio_nicholson",
+            "bouton": false
+          },
+          {
+            "texte": "Spotify",
+            "href": "https://open.spotify.com/user/31cfe32kmzcetoifyhple5izvwz4?si=4015d87e156c4b87",
+            "bouton": false
+          },
+          {
+            "texte": "WeChat",
+            "href": "/pages/wechat-qr-code",
+            "bouton": false
+          },
+          {
+            "texte": "Red",
+            "href": "https://www.xiaohongshu.com/user/profile/633c35a0000000001901c935?xhsshare=CopyLink&appuid=6202932f0000000010004a25&appt",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 23,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Free delivery on all orders over £150",
+          "href": "/collections/new-arrivals"
+        },
+        {
+          "texte": "Gift Card",
+          "href": "/products/gift-card"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "sn-feature-popup#sn-feature-popup",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 41
+        },
+        {
+          "selecteur": "a.skip-to-content-link",
+          "position": "absolute",
+          "hauteur": 24,
+          "largeur": 40,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "slide-out-panel.slide-out-shell",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 63
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 41,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/studionicholson-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Identifier 'SlideOutPanel' has already been declared",
+      "Cannot destructure property 'name' of 'e' as it is undefined."
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 146,
+      "images": 9,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "SUBSCRIBE NOW",
+        "x": 48,
+        "y": 645.1484375,
+        "cx": 0.5,
+        "cy": 0.7886829828199052,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "10% OFF YOUR FIRST ORDER Subscribe to the Studio Nicholson newsletter to be the first to know about new arrivals, promotions and content, and to receive 10% off your first online order Exclusions appl",
+        "selecteur": "sn-feature-popup#sn-feature-popup",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6342,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.tw-mx-0",
+        "famille": "neue-haas-grotesk-text, Helvetica, Arial, \"Lucida Grande\", sans-serif",
+        "taille": 48,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.96px"
+      },
+      "h2": {
+        "selecteur": "h2.font-utility",
+        "famille": "neue-haas-grotesk-text, Helvetica, Arial, \"Lucida Grande\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.88px"
+      },
+      "p": {
+        "selecteur": "p.article-card__excerpt",
+        "famille": "neue-haas-grotesk-text, Helvetica, Arial, \"Lucida Grande\", sans-serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.36px"
+      },
+      "bouton": {
+        "selecteur": "button.tw-absolute",
+        "famille": "Arial",
+        "taille": 13.3333,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.tw-mx-0",
+        "famille": "neue-haas-grotesk-text, Helvetica, Arial, \"Lucida Grande\", sans-serif",
+        "taille": 1,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.08px"
+      },
+      "fontFaces": [
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "www.studionicholson.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "www.studionicholson.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Libre Franklin",
+          "url": "https://fonts.gstatic.com/s/librefranklin/v14/jizBREVItHgc8qDIbSTKq4XkRiUa6zUTjnTLgNs.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Libre Franklin",
+          "url": "https://fonts.gstatic.com/s/librefranklin/v14/jizDREVItHgc8qDIbSTKq4XkRiUf2zcZiVbJ.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Austin",
+          "url": "https://uploads-ssl.webflow.com/6395b94bfb2951448b8cff15/6395b94bfb295184418cff91_AustinNewsHeadline-Roman-Web.woff",
+          "feuille": "inline",
+          "source": "tiers (uploads-ssl.webflow.com)"
+        },
+        {
+          "famille": "Austin",
+          "url": "https://uploads-ssl.webflow.com/6395b94bfb2951448b8cff15/6395b94bfb29512d918cff90_AustinNewsHeadline-Italic-Web.woff",
+          "feuille": "inline",
+          "source": "tiers (uploads-ssl.webflow.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "use.typekit.net",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.appmate.io",
+        "crossborder-integration.global-e.com"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/wwh1bnc.css"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "neue-haas-grotesk-text",
+          "n": 115
+        },
+        {
+          "famille": "Neue Haas Grotesk",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 2476842
+        },
+        {
+          "hex": "#000000",
+          "n": 16,
+          "poids": 1904715.125
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 8,
+          "poids": 1088371.0625
+        },
+        {
+          "hex": "#252525",
+          "n": 27,
+          "poids": 182520
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#666666",
+          "n": 22,
+          "poids": 1887
+        },
+        {
+          "hex": "#000000",
+          "n": 49,
+          "poids": 1850
+        },
+        {
+          "hex": "#ffffff",
+          "n": 42,
+          "poids": 414
+        },
+        {
+          "hex": "#b0b0b0",
+          "n": 1,
+          "poids": 171
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 4,
+          "poids": 132
+        }
+      ],
+      "nbImages": 24,
+      "nbVideos": 2,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 2476842,
+          "part": 0.438
+        },
+        {
+          "hex": "#000000",
+          "n": 16,
+          "poids": 1904715.125,
+          "part": 0.337
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 8,
+          "poids": 1088371.0625,
+          "part": 0.193
+        },
+        {
+          "hex": "#252525",
+          "n": 27,
+          "poids": 182520,
+          "part": 0.032
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#666666",
+          "n": 22,
+          "poids": 1887,
+          "part": 0.424
+        },
+        {
+          "hex": "#000000",
+          "n": 49,
+          "poids": 1850,
+          "part": 0.415
+        },
+        {
+          "hex": "#ffffff",
+          "n": 42,
+          "poids": 414,
+          "part": 0.093
+        },
+        {
+          "hex": "#b0b0b0",
+          "n": 1,
+          "poids": 171,
+          "part": 0.038
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 4,
+          "poids": 132,
+          "part": 0.03
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Swiper",
+          "preuve": "window.Swiper"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 1s ease",
+          "n": 31
+        },
+        {
+          "valeur": "opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 17
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 16
+        },
+        {
+          "valeur": "all 0.4s ease",
+          "n": 4
+        },
+        {
+          "valeur": "background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "box-shadow 0.1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "top 0.1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "font-size 0.1s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "img.icon",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "transform 0.15s ease",
+          "opacity 0.15s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#MainContent",
+      "sections": [
+        {
+          "selecteur": "div#shopify-section-announcement-bar",
+          "titre": null,
+          "top": 0,
+          "hauteur": 40,
+          "ecrans": 0,
+          "mots": 23,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-header",
+          "titre": "",
+          "top": 40,
+          "hauteur": 53,
+          "ecrans": 0.1,
+          "mots": 512,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "details",
+            "form"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__hero_two_image_WwGrWF",
+          "titre": null,
+          "top": 93,
+          "hauteur": 975,
+          "ecrans": 1.2,
+          "mots": 8,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__module_fxbEPb",
+          "titre": null,
+          "top": 1140,
+          "hauteur": 1053,
+          "ecrans": 1.2,
+          "mots": 96,
+          "images": 11,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form",
+            "dl"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__hero_banner_4MRmBj",
+          "titre": null,
+          "top": 2273,
+          "hauteur": 791,
+          "ecrans": 0.9,
+          "mots": 3,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__module_wRrEwD",
+          "titre": null,
+          "top": 3136,
+          "hauteur": 1048,
+          "ecrans": 1.2,
+          "mots": 112,
+          "images": 12,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg",
+            "form",
+            "dl"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__module_AcL9xY",
+          "titre": null,
+          "top": 4257,
+          "hauteur": 512,
+          "ecrans": 0.6,
+          "mots": 37,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--16091966013593__a1c0734c-8899-4128-8f2d-146a97e1822f",
+          "titre": "Explore the Journal",
+          "top": 4848,
+          "hauteur": 765,
+          "ecrans": 0.9,
+          "mots": 291,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--16091966013593__17896524161ca73d83",
+          "titre": "Loyalty System",
+          "top": 5614,
+          "hauteur": 449,
+          "ecrans": 0.5,
+          "mots": 44,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-footer",
+          "titre": null,
+          "top": 6063,
+          "hauteur": 280,
+          "ecrans": 0.3,
+          "mots": 6,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header",
+        "hauteur": 53,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": []
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 21,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Free delivery on all orders over £150",
+          "href": "/collections/new-arrivals"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "sn-feature-popup#sn-feature-popup",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 41
+        },
+        {
+          "selecteur": "a.skip-to-content-link",
+          "position": "absolute",
+          "hauteur": 24,
+          "largeur": 40,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "slide-out-panel.slide-out-shell",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 63
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 43,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Studio Nicholson",
+  "dureeS": 45.6
+}

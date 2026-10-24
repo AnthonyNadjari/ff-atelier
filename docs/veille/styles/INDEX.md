@@ -202,6 +202,25 @@ et dandelionchocolate (fenêtres cookies ou inscription qui couvrent la page), g
 | ritual | https://www.ritualcoffee.com/ ([fiche](ritual.md)) | Crème beurre, brun café, rouge de sachet, capitales humanes grasses sur serif de livre, cartes crème posées sur les photos | boutique : photo + carte, cafés vedettes, abonnement sur terre cuite, portrait de la fondatrice, adresses | torréfacteur, café, boulangerie, épicerie : photos chaudes du lieu et des gens | atomes |
 | wendelboe | https://www.timwendelboe.no/ ([fiche](wendelboe.md)) | Papier rosé, cartes sable, une encre vert forêt, serif robuste, photos de caféiers et de gens | boutique : café vedette, abonnements en cartes, portrait du torréfacteur, fermes | torréfacteur, producteur, maraîcher : photos du produit à la source | atomes |
 | fuglen | https://www.fuglen.no/ ([fiche](fuglen.md)) | Crème grisée, noir et un rond vermillon, géométrique des années 1950, journal en mosaïque légendée | l'accueil est le journal ; deux entrées : cafés, bars | café, bar, commerce qui vit d'événements et d'ouvertures en photos | atomes |
+| angelinaparis | https://www.angelina-paris.fr | Salon de thé parisien historique (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| atelierdumeuble | https://www.atelierdumeuble.fr | Atelier de meuble français (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| bakerybrera | https://www.bakerybrera.com | Boulangerie (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| bistrotpierre | https://www.bistrotpierre.co.uk | Bistrot britannique (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| bloomingville | https://www.bloomingville.com | Maison et déco danoise (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| fiorista | https://www.fiorista.it | Fleuriste italien (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| geranium | https://www.geranium.dk | Restaurant gastronomique danois (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| hemsley | https://www.hemsley.dk | Marque danoise (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| holmegaard | https://www.holmegaard.com | Verrerie danoise (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| holzmanufaktur | https://www.holzmanufaktur.de | Manufacture de bois allemande (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| huckleberryroasters | https://www.huckleberryroasters.com | Torréfacteur de café (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| kaffebrenneriet | https://www.kaffebrenneriet.no | Torréfacteur norvégien (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| karimoku | https://www.karimoku.com | Mobilier japonais (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| kinfolk | https://www.kinfolk.com | Magazine de vie lente (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| merchantandmills | https://www.merchantandmills.com | Cuisine et ustensiles (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| mirazur | https://www.mirazur.fr | Restaurant gastronomique (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| nanushka | https://www.nanushka.com | Mode (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| studionicholson | https://www.studionicholson.com | Mode (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| takt | https://www.takt.com | Mobilier danois (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
 
 Collecte du 24 oct 2026 (routine, régimes en besoin : clair teinté et sombre) : 46 domaines essayés, 37 sites ouverts et regardés, 17
 relevés (`ff atomes mesurer`, titre affiché relevé à part), **12 gardés** (ci-dessus). Refusés à la comparaison : belleville

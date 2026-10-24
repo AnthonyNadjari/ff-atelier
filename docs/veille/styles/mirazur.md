@@ -1,0 +1,30 @@
+# Mirazur — https://www.mirazur.fr/
+Titre « Mirazur | SITE OFFICIEL | Restaurant trois étoiles Michelin à Menton », `lang="fr"`, description « Mirazur est un restaurant trois étoiles Michelin à Menton dirigé par Mauro Colagreco, avec vue sur la mer. Site officiel ! », technologie lue : aucune reconnue. Démontage automatique du 2026-10-24 (`ff demonter`, mesures brutes dans `mirazur.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; image plein écran (100 % de l'écran) ; bouton principal « RÉSERVER VOTRE TABLE » en haut à droite (1180, 80 px) ; 89 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 absent ; image plein écran (78 % de l'écran) ; bouton principal « RÉSERVER VOTRE TABLE » en haut au centre (65, 227 px) ; 104 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 0 lien(s) — aucun ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.container--slideshow` (1,0 écran, 14 mots, 2 img) → `div.container--collection` « DÉCOUVREZ L’EXPÉRIENCE GASTRONOMIQUE … » (2,1 écrans, 194 mots, 2 img) → `div.container--slider` « LES ACTUALITÉS DU MIRAZUR » (0,9 écran, 39 mots, 5 img) → `div.container--map` « NOS ADRESSES MENTONNAISES » (1,2 écran, 69 mots, 0 img) → `footer` (0,6 écran, 24 mots, 6 img). Calques hors flux (fixes/absolus) : `header#header` (fixed, 90 px, 3 mots), `div.book-menu` (fixed, 900 px), `div#booking-popup` (fixed, 900 px, 54 mots), `button#top-button` (fixed, 24 px, 3 mots), `div#newsletter-popup` (fixed, 900 px, 21 mots), `div#sidebar-navigation` (fixed, 900 px, 19 mots).
+Pied de page : 11 lien(s) — +33 (0)4 92 41 86 86, RESERVATION@MIRAZUR.FR, INSTAGRAM, FACEBOOK, LINKEDIN, [INSCRIPTION NEWSLETTER], PRESSE, RECRUTEMENT, CONTACT, MENTIONS LÉGALES (+1). Téléphone cliquable : oui (4, tel:+33492418686). Formulaire : 1 (7 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « RÉSERVER VOTRE TABLE » (/fr/reservation.html), « RESERVATION@MIRAZUR.FR » (Mailto:reservation@mirazur.fr), « FACEBOOK » (https://www.facebook.com/mirazur.fr), « RÉSERVATION » (/fr/reservation.html).
+En 3 secondes : à juger sur `captures/mirazur-d.webp` (mesuré : fond du premier écran #111111, 9 image(s) et 89 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 : non mesuré ; h2 **GoudyOldStyleBT**, 45 px / 25 px téléphone, graisse 400, interlignage 1,09, capitales ; corps **Saans**, 20 px / 17 px téléphone, graisse 380, interlignage 1,20, interlettrage 0.9px ; boutons **Saans Mono**, 16 px / 13 px téléphone, graisse 380, interlignage 1,00, capitales, interlettrage 3.2px ; nav **GoudyOldStyleBT**, 45 px / 25 px téléphone, graisse 400, interlignage 1,09, capitales.
+Sources `@font-face` : inline (data:) (swiper-icons) ; auto-hébergée (GoudyOldStyleBT, GoudyOldStyle-italic, ManuL Informal, Saans, Saans Mono) ; locale (Axeptio CJK Fallback) ; fichiers chargés : https://www.mirazur.fr/fonts/SaansMonoRegular.ttf, https://www.mirazur.fr/fonts/SaansRegular.ttf, https://www.mirazur.fr/fonts/GoudyOldStyleBT-Roman.ttf, https://fonts.googleapis.com/, https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap, https://fonts.axept.io/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700&display=swap&ax-prefix=Axeptio%20. Familles en usage sur le texte visible : Saans ×48, Saans Mono ×30, GoudyOldStyleBT ×13, SaansMono-Medium ×5, Arial ×2, Saans-Medium ×1. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff (premier écran #111111), texte #000000 (contraste 21,00:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (60 %), #f3eee3 (12 %), #111111 (10 %), #161616 (10 %), #f4df73 (6 %) ; textes par nombre de caractères : #000000 (96 %), #f3eee3 (4 %), #ffffff (0 %). Images : 18 `<img>` visibles, 4 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : GSAP (window.gsap), ScrollTrigger (window.ScrollTrigger), Swiper (window.Swiper), jQuery (window.jQuery). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.3s ease` ×15, `all 0.3s ease-in-out` ×6, `opacity 0.3s ease-in-out` ×5, `all 0.5s ease` ×4, `all 0.8s ease-in-out` ×2, `all 0.5s ease-in-out` ×1, `transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)` ×1, `opacity 0.8s ease-in-out` ×1, `all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1)` ×1, `transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)` ×1. Scroll lié : ScrollTrigger oui ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/mirazur-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.container--collection` « DÉCOUVREZ L’EXPÉRIENCE GASTRONOMIQUE … » (2,1 écrans, 194 mots, 2 image(s)).
+2. L'élément le plus animé : `div.wrapper` (1 transition(s) : all 0.5s ease-in-out).
+3. Le bloc le plus singulier par sa structure : `div.container--map` « NOS ADRESSES MENTONNAISES » (seule à contenir <svg>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« RÉSERVER VOTRE TABLE », « RESERVATION@MIRAZUR.FR », « FACEBOOK », « RÉSERVATION »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/16 ordinateur, 0/16 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
