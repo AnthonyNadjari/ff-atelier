@@ -1,0 +1,176 @@
+{
+  "id": "kricket",
+  "version": 1,
+  "source": {
+    "url": "https://www.kricket.co.uk/",
+    "nom": "Kricket",
+    "metier": "restaurant indien (Londres, plusieurs adresses)",
+    "fiche": "docs/veille/styles/kricket.md",
+    "mesures": "docs/veille/styles/atomes/mesures/kricket.json",
+    "date": "2026-10-24"
+  },
+  "typo": {
+    "titre": {
+      "famille": "HalTimezoneItalic",
+      "libre": "bitter",
+      "graisse": 400,
+      "interlignage": 1.08,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "HalTimezone",
+      "libre": "bitter",
+      "graisse": 400,
+      "interlignage": 1.47
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 26,
+        "ordinateur": 36
+      },
+      "h2": {
+        "telephone": 26,
+        "ordinateur": 36
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 17
+      }
+    },
+    "remarque": "Hal Timezone (serif à pieds carrés, presque machine à écrire, commerciale) : Bitter, la slab libre la plus proche, une seule famille. Titre affiché : les titres de section en casse de titre (26 / 36 px) ; le h1 du code est la phrase en italique sur la vidéo (16 / 22), non retenue (pas d'italique)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#a42900",
+      "fonds": [
+        {
+          "hex": "#fef6f4",
+          "part": 0.613
+        },
+        {
+          "hex": "#a42900",
+          "part": 0.186
+        },
+        {
+          "hex": "#2d1a10",
+          "part": 0.139
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.062
+        },
+        {
+          "hex": "#000000",
+          "part": 0
+        },
+        {
+          "hex": "#141414",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#a42900",
+          "part": 0.717
+        },
+        {
+          "hex": "#fef6f4",
+          "part": 0.116
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.092
+        },
+        {
+          "hex": "#141414",
+          "part": 0.073
+        },
+        {
+          "hex": "#ed1c24",
+          "part": 0.001
+        }
+      ],
+      "proches": 6018815
+    },
+    "clair": {
+      "fond": "#fef6f4",
+      "surface": "#ffffff",
+      "texte": "#141414",
+      "texte2": "à juger",
+      "accent": "#a42900",
+      "accent2": "à juger",
+      "bordure": "#a42900",
+      "encre": "#a42900"
+    },
+    "sombre": null,
+    "remarque": "Papier rosé #fef6f4 (61 % des fonds), une seule encre rouille #a42900 pour les titres, les boutons, la barre de nav et le cadre de la vidéo (19 % des fonds) ; brun #2d1a10 sous la vidéo. Le jaune souci des fleurs vient d'images, pas d'un token."
+  },
+  "densite": {
+    "section": {
+      "telephone": 96,
+      "ordinateur": 175
+    },
+    "gouttiere": {
+      "telephone": 25,
+      "ordinateur": 30
+    },
+    "conteneur": 1360,
+    "mesure": 70,
+    "rythme": "alterne",
+    "remarque": "Sections très aérées (96 / 175 px), texte centré dans une colonne étroite."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "detoure",
+    "rapports": [
+      "16:9+",
+      "4:5",
+      "4:3"
+    ],
+    "pleinCadre": 7,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Plats vus de dessus sur nappe, posés de biais et qui se recouvrent ; trois photos à des hauteurs différentes autour du texte d'accueil ; petites fleurs détourées en ornement. Premier écran : vidéo dans un cadre rouille."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "Lenis",
+      "Swiper"
+    ],
+    "profil": "assiettes-qui-se-posent",
+    "remarque": "Filmé le 24 oct (ordinateur) : vidéo dans un cadre rouille à l'ouverture, nav qui se pose, puis plats vus de dessus qui se posent l'un sur l'autre au défilement ; transitions relevées 0,3 s ease (interface) et 0,5 s ease (scène)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

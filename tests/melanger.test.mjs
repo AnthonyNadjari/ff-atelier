@@ -554,3 +554,21 @@ test('interlignage du titre : plancher 1,1 en capitales (accents français), 1 s
   assert.equal(interlignageTitre(2, 'none'), 1.5);
   assert.equal(interlignageTitre('à juger', 'none'), 1.05);
 });
+
+test('casse du titre : jamais la casse de titre anglaise en français (blenheim, essai du 24 oct 2026)', async () => {
+  const { casseTitre } = await import('../scripts/ff/melanger.mjs');
+  assert.equal(casseTitre('capitalize'), 'none', '« Le Pain Du Matin, Et Une Deuxième Fournée »');
+  assert.equal(casseTitre('uppercase'), 'uppercase');
+  assert.equal(casseTitre('à juger'), 'none');
+  assert.equal(casseTitre(undefined), 'none');
+});
+
+test('interlettrage du titre : capitales plafonnées à 0,06 em (hiut, lyles, wolseley, essais du 24 oct 2026)', async () => {
+  const { interlettrageTitre } = await import('../scripts/ff/melanger.mjs');
+  assert.equal(interlettrageTitre(0.15, 'uppercase'), 0.06, 'hiut : h1 cassé en six lignes');
+  assert.equal(interlettrageTitre(0.04, 'uppercase'), 0.04);
+  assert.equal(interlettrageTitre(-0.02, 'uppercase'), 0);
+  assert.equal(interlettrageTitre(-0.03, 'none'), -0.03);
+  assert.equal(interlettrageTitre(0.1, 'none'), 0.02);
+  assert.equal(interlettrageTitre('à juger', 'none'), -0.01);
+});

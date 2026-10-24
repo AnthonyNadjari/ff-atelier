@@ -1,0 +1,146 @@
+{
+  "id": "padella",
+  "version": 1,
+  "source": {
+    "url": "https://www.padella.co/",
+    "nom": "Padella",
+    "metier": "restaurant de pâtes fraîches (Londres, trois adresses)",
+    "fiche": "docs/veille/styles/padella.md",
+    "mesures": "docs/veille/styles/atomes/mesures/padella.json",
+    "date": "2026-10-24"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Oswald",
+      "libre": "oswald",
+      "graisse": 500,
+      "interlignage": 1.2,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Roboto Condensed",
+      "libre": "archivo",
+      "graisse": 300,
+      "interlignage": 1.28
+    },
+    "mono": null,
+    "echelle": {
+      "h1": "à juger",
+      "h2": {
+        "telephone": 24,
+        "ordinateur": 24
+      },
+      "texte": {
+        "telephone": 22,
+        "ordinateur": 22
+      }
+    },
+    "remarque": "Oswald est la police même du site (titres en capitales). Texte en Roboto Condensed 300 : une condensée ne peut pas porter le texte courant dans l'usine, Archivo (qui a une chasse étroite) la remplace. Titres de 24 px pour un texte relevé à 22 (lignes de carte) : rien ne domine, h1 à juger."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "releve": {
+      "fond": "#000000",
+      "texte": "#ffffff",
+      "fonds": [
+        {
+          "hex": "#000000",
+          "part": 0.964
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.036
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "part": 0.881
+        },
+        {
+          "hex": "#000000",
+          "part": 0.091
+        },
+        {
+          "hex": "#aaaaaa",
+          "part": 0.028
+        }
+      ],
+      "proches": 16777215
+    },
+    "clair": null,
+    "sombre": {
+      "fond": "#000000",
+      "surface": "#000000",
+      "texte": "#ffffff",
+      "texte2": "#aaaaaa",
+      "accent": "#ffffff",
+      "accent2": "à juger",
+      "bordure": "#ffffff",
+      "encre": "#ffffff"
+    },
+    "remarque": "Noir pur et blanc (88 % des caractères), gris #aaaaaa pour les notes de carte ; la carte du jour dans un cadre blanc de 3 px. La couleur vient des photos du lieu (bois, cuivre)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 100,
+      "ordinateur": 100
+    },
+    "gouttiere": {
+      "telephone": 36,
+      "ordinateur": 28
+    },
+    "conteneur": 1300,
+    "mesure": 76,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 4,
+    "rayonImage": 0,
+    "bordure": 3,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Cadre blanc épais autour de la carte du jour ; vignettes de lieux à 4 px de rayon (mesuré)."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Photo plein écran de la vitrine où l'on roule les pâtes, nom de chaque adresse en capitales sur sa photo."
+  },
+  "mouvement": {
+    "regime": "à juger",
+    "ui": {
+      "duree": 0.15,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.8,
+      "courbe": "ease"
+    },
+    "defilement": "à juger",
+    "bibliotheques": [
+      "Lenis"
+    ]
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

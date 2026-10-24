@@ -204,6 +204,34 @@ reste voilée (scène relevée : 0,8 s cubic-bezier(0.61, 1, 0.88, 1)).
 - Quand : deux adresses, deux activités ou deux publics (architecture `accueil-portes`, `pages-adresses`) avec une bonne
   photo par porte. Calme : oui. Poids : nul.
 
+### `assiettes-qui-se-posent`
+Kricket (`kricket.md`, [kricket.co.uk](https://www.kricket.co.uk/), veille du 24 oct 2026, filmé à la molette à
+l'ordinateur et au téléphone) : sous la vidéo d'ouverture, une scène où les plats, photographiés de dessus sur une nappe,
+se posent l'un sur l'autre à mesure qu'on défile, chacun un peu tourné, des fleurs de souci détourées autour ; puis trois
+photos à des hauteurs différentes encadrent le texte d'accueil. Transitions relevées : 0,5 s ease (14 éléments), 0,75 s
+ease (8).
+- Entrée aucune · apparition pose par étapes · survol couleur · fond aucun.
+- Moteur : `data-pin` sur la scène, `data-pin-step` par photo (étapes, GOUT § 4 : jamais un calage image par image sur
+  iPhone), transform + opacity 0,5 s ease. Manque : la scène elle-même (bloc sur mesure). Les photos sont des plats ou des
+  objets du métier vus de dessus, sans bord blanc ni ombre de tirage : jamais des polaroids inclinés (GOUT § 2). Au
+  téléphone étroit et en mouvement réduit, les photos s'empilent sans épinglage.
+- Quand : restaurant, traiteur, pâtissier, fromager : un client qui a au moins 4 belles photos de plats vues de dessus.
+  Pas un client calme. Calme : non. Poids : léger.
+
+### `nom-qui-s-efface`
+Ikoyi (`ikoyi.md`, [ikoyilondon.com](https://www.ikoyilondon.com/), veille du 24 oct 2026, filmé à 300, 900, 1 800 et
+3 500 ms puis à la molette) : la page s'ouvre sur un aplat brun tabac, le motif de traits fins apparaît en moins d'une
+seconde ; le nom reste au centre de l'écran et pâlit à mesure qu'on défile ; le texte puis les photos pleine largeur
+montent par-dessus le motif, qui ne bouge pas.
+- Entrée fond puis motif · apparition monte sur le motif · survol couleur · fond motif fixe.
+- Moteur : une couche `position: fixed` derrière le contenu porte le motif (jamais `background-attachment: fixed`,
+  ignoré par Safari iOS) ; l'opacité du nom suit le défilement par `animation-timeline: scroll()` (repli : le nom reste
+  immobile, rien ne casse). Manque : le motif (un SVG tiré du métier ou de la devanture, jamais un grain ni un halo,
+  GOUT § 2) et la règle du nom dans le premier écran.
+- Quand : restaurant du soir, cave, bar, artisan dont la devanture, le carrelage ou l'emballage ont un motif ; palette
+  sombre. Pas l'urgence (le premier écran ne montre que le nom : téléphone dans la barre). Calme : non (suit le
+  défilement), mais aucune animation qui part seule. Poids : nul.
+
 ## Complément transversal : transitions de page
 
 Estudio Niksen (`view-transition` natives), Délice (Swup), Relais Rossàr (Barba). Pas un profil : il se combine avec

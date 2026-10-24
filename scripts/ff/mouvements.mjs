@@ -157,6 +157,20 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['deux (ou trois) portes en photo plein cadre côte à côte, voilées (filter: blur + voile de couleur) ; la porte survolée ou touchée (:hover, :focus-visible, :active) se dévoile nette en 0,8 s cubic-bezier(0.61, 1, 0.88, 1)'],
     manque: 'la règle de survol des portes (bloc sur mesure ou variante de portes) ; au téléphone, les portes s\'empilent et sont nettes d\'office', exige: {},
   },
+  'assiettes-qui-se-posent': {
+    nom: 'Assiettes qui se posent', sources: ['kricket'],
+    entree: 'aucune', apparition: 'pose-par-etapes', survol: 'couleur', fond: 'aucun',
+    regime: 'vivant', defilement: 'suit-le-defilement', calme: false, poids: 'leger', motion: 'rich',
+    attributs: ['data-pin sur la scène et data-pin-step par photo (étapes, jamais de calage image par image) : à chaque étape, une photo du plat vue de dessus se pose sur la précédente, légèrement tournée (transform + opacity, 0,5 s ease)'],
+    manque: 'la scène des plats (bloc sur mesure) : photos vues de dessus, détourées ou sur nappe, sans bord blanc (pas de polaroid, GOUT § 2) ; empilées sans épinglage au téléphone étroit et en mouvement réduit', exige: {},
+  },
+  'nom-qui-s-efface': {
+    nom: 'Nom qui s\'efface sur le motif', sources: ['ikoyi'],
+    entree: 'fond-puis-motif', apparition: 'monte-sur-le-motif', survol: 'couleur', fond: 'motif-fixe',
+    regime: 'calme', defilement: 'suit-le-defilement', calme: false, poids: 'nul', motion: 'subtle',
+    attributs: ['couche position: fixed (jamais background-attachment: fixed, ignoré par Safari iOS) portant le motif de la direction ; le nom au centre du premier écran perd son opacité au défilement (animation-timeline: scroll(), repli : nom immobile) ; les photos pleine largeur montent par-dessus le motif'],
+    manque: 'le motif (SVG de la direction ou du client, jamais un grain) et la règle d\'opacité du nom dans le premier écran', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

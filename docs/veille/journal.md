@@ -5,10 +5,40 @@ fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou 
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
 <!-- ff melanger : besoins de collecte (bloc réécrit à chaque tirage, ne pas éditer) -->
-**Besoins de collecte** (relevés par `ff melanger` le 2026-10-23 ; volet 2a quater de `/veille`) :
-- la collecte doit ramener des palettes clair teinté doux (7 tirables sur 107, 14 au moins)
-- la collecte doit ramener des palettes sombre (11 tirables sur 107, 14 au moins)
+**Besoins de collecte** (relevés par `ff melanger` le 2026-10-24 ; volet 2a quater de `/veille`) :
+- la collecte doit ramener des palettes clair teinté doux (9 tirables sur 119, 15 au moins)
+- la collecte doit ramener des palettes sombre (13 tirables sur 119, 15 au moins)
 <!-- /ff melanger -->
+
+## 24 oct 2026, tour 6 (routine en ligne) : 12 styles, 2 architectures
+
+**Fait**
+- Santé : `tests/atomes.test.mjs` était rouge sur `main` (« registre réel ») : les 18 atomes de la collecte du 23 oct (Hodinkee …
+  Mokuba) portaient des valeurs non jugées hors format (palette « à juger » sous un `principal` posé, traitement des photos,
+  mesure de 218 caractères, scène de 3 s et plus). Repassés en « à juger » là où rien n'était jugé : valides, leurs atomes jugés
+  restent tirables. Chromium de Playwright, `FF_CHROMIUM=1` : tout a tourné avec navigateur.
+- **Styles (2a quater)** : collecte commencée par les régimes en besoin (crème et sombre). 46 domaines essayés, 37 ouverts et
+  regardés, 17 relevés (`ff atomes mesurer` + titre affiché relevé à part), chacun essayé sur une copie de `demo-boulangerie`
+  (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de la source. **12 gardés** : `kricket` (papier rosé, encre
+  rouille), `ikoyi` (brun tabac, motif), `padella` (noir, carte du jour), `ritual` (crème beurre, brun café), `wendelboe` (papier
+  rosé, vert forêt), `hiut`, `labourandwait`, `lyles` (site du groupe JKS), `pumpstreet`, `blenheim` (Lora, police IA, remplacée
+  par Spectral), `wolseley`, `fuglen`. Refusés à la comparaison : belleville, paxton, honeyandco. Fiches dans
+  `docs/veille/styles/<id>.md`, lignes et raisons dans [styles/INDEX.md](styles/INDEX.md).
+- Palettes par régime, avant → après : sombre 11 → 13, clair teinté 7 → 9, coloré doux 17 → 19, clair neutre 72 → 80. Toujours
+  en besoin : clair teinté (9 sur 16) et sombre (13 sur 16) : la plupart des crèmes vues sont sous 0,012 de chroma.
+- **Mouvement** : 2 profils nouveaux, filmés sur la source ([MOUVEMENTS.md](styles/MOUVEMENTS.md), `scripts/ff/mouvements.mjs`) :
+  `assiettes-qui-se-posent` (Kricket : plats vus de dessus qui se posent par étapes au défilement) et `nom-qui-s-efface` (Ikoyi :
+  motif fixe, le nom pâlit au défilement, les photos montent dessus). 21 profils.
+- **Deux règles apprises en regardant les essais** (ATOMES.md § Règles apprises, fonctions pures testées dans `melanger.mjs`) :
+  `casseTitre` (la casse de titre anglaise donnait « Le Pain Du Matin, Et Une Deuxième Fournée » : jamais en français) et
+  `interlettrageTitre` (capitales espacées à 0,15 em : h1 cassé en six lignes ; plafond 0,06 em). Vérifiées au second essai.
+- **Marché (2a)** : 9 sites de plus (agences de Nantes, Saint-Denis, Annecy ; Google : vétérinaire au Havre, institut à
+  Saint-Étienne, agence immobilière à Bordeaux ; modèles Framer Plumbzo, Wix Brightnest, Squarespace Selene).
+  [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) passe à 54 sites. Aucun levier à 40 % ou plus n'est absent de l'usine. Contre-levier
+  nouveau : un numéro écrit sans lien `tel:` sur 4 sites sur 9 (les sections partagées de l'usine en font toujours un lien).
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé, 21
+les deux), aucun site n'ayant changé ; mêmes pires paires que la veille. Signalé, pas corrigé.
 
 ## 23 oct 2026, tour 5 (routine en ligne) : 9 styles, 2 architectures
 

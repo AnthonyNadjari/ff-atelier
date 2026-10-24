@@ -220,6 +220,12 @@ Chaque ligne vient d'un essai regardé, avec le mélange qui l'a provoquée. Une
   `TITRE_DOMINE`, testé) ; 14 typos du registre sortent du tirage (bensimon, cyrillignac, debauve, formafantasma,
   georgjensen, kinto-usa, kvadrat, ladoublej, lobmeyr, loewe, mociun, monbazillac, nomos, perimeter), leurs autres
   atomes restent.
+- **24 oct 2026, `ff melanger demo-boulangerie --style blenheim --essai`, mélange m-198731** : la casse `capitalize`
+  mesurée sur un site anglais (« title case ») donnait « Le Pain Du Matin, Et Une Deuxième Fournée ». En français, un
+  titre ne prend la majuscule qu'au premier mot : `capitalize` devient `none` (`casseTitre`, testé).
+- **24 oct 2026, mêmes essais, styles hiut, lyles et wolseley (m-b9c2ba, m-a6a142, m-c479f2)** : des capitales espacées à
+  0,10-0,15 em, mesurées sur des titres de deux ou trois mots, cassaient le h1 français (une phrase : métier et ville) en
+  cinq ou six lignes. Plafond 0,06 em en capitales, -0,04 à 0,02 em en casse normale (`interlettrageTitre`, testé).
 - A priori : titre en graisse ≤ 300 sur un contraste texte/fond < 7:1 refusé ; titre de 140 px et plus dans une page
   à marges de section < 64 px refusé. À confirmer ou retirer au premier essai qui les rencontre.
 

@@ -272,6 +272,30 @@ export function interlignageTitre(mesure, casse) {
   return casse === 'uppercase' ? borne(lh, 1.1, 1.5) : borne(lh, 1, 1.5);
 }
 
+/**
+ * Pure : casse du titre d'un mélange. Règle apprise (essai du 24 oct 2026, `ff melanger demo-boulangerie --style blenheim
+ * --essai`, mélange m-198731) : la casse `capitalize` mesurée sur un site anglais (une majuscule à chaque mot, « title
+ * case ») donnait « Le Pain Du Matin, Et Une Deuxième Fournée » : en français, un titre ne prend la majuscule qu'au
+ * premier mot et aux noms propres. `capitalize` devient `none` ; les capitales (`uppercase`) restent.
+ */
+export function casseTitre(casse) {
+  if (!casse || casse === A_JUGER || casse === 'capitalize') return 'none';
+  return casse;
+}
+
+/**
+ * Pure : interlettrage du titre d'un mélange (em). Règle apprise (essais du 24 oct 2026, styles hiut, lyles et wolseley,
+ * mélanges m-b9c2ba, m-a6a142, m-c479f2) : des capitales espacées à 0,10-0,15 em, mesurées sur des titres de deux ou
+ * trois mots (un nom de produit, « RESTAURANTS »), appliquées à un h1 français d'une phrase (métier, ville, GOUT § 0),
+ * le cassaient en cinq ou six lignes et le rendaient illisible d'un coup d'œil. L'espacement des capitales se resserre
+ * quand le corps grandit (un titre se compose plus serré qu'une étiquette) : plafond 0,06 em en capitales. En casse
+ * normale, l'interlettrage mesuré est gardé entre -0,04 et 0,02 em.
+ */
+export function interlettrageTitre(mesure, casse) {
+  const t = typeof mesure === 'number' ? mesure : -0.01;
+  return casse === 'uppercase' ? borne(t, 0, 0.06) : borne(t, -0.04, 0.02);
+}
+
 /** Pure : écart entre deux teintes d'accent (null = accents neutres : deux neutres sont à 0°, un neutre et une teinte à 180°). */
 export function ecartAccent(a, b) {
   if (a == null && b == null) return 0;
@@ -647,10 +671,10 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
   // @font-face inutiles dans chaque page, et L'Épi d'Or B passait au-dessus du budget html de perf-budget.json.
   const gTitre = graissePlusProche(t.titre.graisse ?? 400, metaPolices[t.titre.libre]);
   const gTexte = graissePlusProche(t.texte.graisse ?? 400, metaPolices[t.texte.libre]);
-  const casse = t.titre.casse && t.titre.casse !== A_JUGER ? t.titre.casse : 'none';
+  const casse = casseTitre(t.titre.casse);
   const lhTitre = interlignageTitre(t.titre.interlignage, casse);
   const lhTexte = borne(typeof t.texte.interlignage === 'number' ? t.texte.interlignage : 1.55, 1.4, 1.8);
-  const track = typeof t.titre.interlettrage === 'number' ? t.titre.interlettrage : -0.01;
+  const track = interlettrageTitre(t.titre.interlettrage, casse);
   const e = t.echelle;
   const h1 = e.h1, h2 = e.h2 && e.h2 !== A_JUGER ? e.h2 : { telephone: h1.telephone * 0.6, ordinateur: h1.ordinateur * 0.5 };
   const corps = { telephone: Math.max(16, e.texte.telephone), ordinateur: borne(e.texte.ordinateur, 16, 24) };
