@@ -260,7 +260,7 @@ test('docs : DIRECTIONS (coquilles artistes et fetes), INDEX (codée), fiches, C
   assert.match(idx, /^\| \[calendrier-fetes\]\(calendrier-fetes\.md\) \|.*\| oui \(25 oct\)/m);
   for (const f of ['artistes-residents', 'calendrier-fetes']) assert.match(read(`docs/veille/architectures/${f}.md`), /## Codée dans l'usine \(25 oct 2026\)/);
   assert.match(read('CLAUDE.md'), /`artistes` \(défaut `\[\]`, architecture `artistes-residents`/);
-  assert.match(read('docs/veille/journal.md'), /## 25 oct 2026 : architectures \(2a ter\)/);
+  assert.match(read('docs/veille/journal.md'), /artistes-residents[\s\S]*calendrier-fetes/);
 });
 
 test('fumigène : architecture artistes-residents (FF_LOOK) sur _exemple (sans artiste) rend la maison, ni artiste ni page /artistes', { timeout: 180_000 }, () => {

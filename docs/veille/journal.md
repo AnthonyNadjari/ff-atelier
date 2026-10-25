@@ -10,25 +10,61 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 - la collecte doit ramener des palettes sombre (16 tirables sur 129, 17 au moins)
 <!-- /ff melanger -->
 
-## 25 oct 2026 : architectures (2a ter)
+## 25 oct 2026, tour 7 (routine en ligne) : 10 styles, 2 architectures
 
 **Fait**
-- Deux fiches nouvelles, codées dans l'usine le même tour. [artistes-residents](architectures/artistes-residents.md)
-  (Mystery Tattoo Club, Paris 10e : la maison se choisit par ses artistes, et l'artiste par son style ; coquille `artistes`,
-  `artistes[]`, `/artistes` et une page par artiste, son e-mail, son Instagram, son rendez-vous) et
-  [calendrier-fetes](architectures/calendrier-fetes.md) (Touchard Fleurs, Sarthe : la prochaine fête d'abord, sa date limite
-  de commande, la livraison « avant 13 h, livré aujourd'hui » ; coquille `fetes`, `fetes[]`, `livraison`, `/fetes` et une
-  page par fête). La fête du moment et l'heure limite se calculent dans le navigateur ; sans script, tout se lit.
-- Preuves sur deux sites jetables (sans photo, supprimés) : `ff verifier` vert hors données de test (`ff a11y`, `ff typo`,
-  `ff ia` compris) ; `ff ressemblance` artistes 0,63 / 0,54 / 0,59, fêtes 0,58 / 0,62 / 0,62 (téléphone / ordinateur /
-  déroulé, seuil 0,65). Mystery Tattoo Club refuse les navigateurs sans tête (403) : fiche relevée au `curl`.
-- Appris : contre le registre, la moitié « site » du déroulé pèse déjà 0,45 pour tout site « plusieurs pages » de 4 pages
-  et plus ; les premiers essais (un bloc par artiste, une fête en panneau puis en onglets) restaient à 0,66 à 0,87 quel
-  que soit l'ordre des blocs. Ce qui a fait passer : un modèle de navigation que le registre n'a pas (onglets de style ;
-  piste horizontale des fêtes). Le registre compte 17 architectures codées ; reste `outil-calendrier`.
+- Santé : tests verts avant le tour (1 082) ; Chromium de Playwright, `FF_CHROMIUM=1` : tout a tourné avec navigateur.
+- **Styles (2a quater)** : collecte commencée par les régimes en besoin (sombre, clair teinté). 67 domaines essayés, 45 relevés
+  (`ff atomes mesurer` + captures pleine page regardées), chacun des retenus essayé sur une copie de `demo-boulangerie`
+  (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de la source. **10 gardés** : `bruichladdich`,
+  `kilchoman` (bleu nuit), `francescana` (sombres), `coffeecollective` (crème teinté), `hisafranko`, `barrafina`, `androuet`
+  (fromager parisien, le plus proche d'un client de l'usine), `diaspora` (colorés doux), `eastfork`, `heckfield`. Fiches dans
+  `docs/veille/styles/<id>.md`, lignes et écartés dans [styles/INDEX.md](styles/INDEX.md).
+- Palettes par régime, avant → après : sombre 13 → 16, clair teinté 9 → 10, coloré doux 19 → 23, clair neutre 78 → 80. Toujours
+  en besoin, de justesse : sombre (16 sur 17) et clair teinté (10 sur 17) ; la plupart des crèmes vues restent sous 0,012.
+- **Mouvement** : 2 profils nouveaux, filmés sur la source ([MOUVEMENTS.md](styles/MOUVEMENTS.md), `scripts/ff/mouvements.mjs`) :
+  `soulignement-qui-se-dessine` (Hiša Franko : rien au défilement, le soulignement des liens se trace au survol) et
+  `fil-qui-mene` (Kilchoman : un trait or relie le premier écran au lieu sur la carte de l'île). 23 profils.
+- **Règle apprise en regardant les essais** (ATOMES.md § Règles apprises, `interlignageTitre` testé) : l'interlignage 1,5
+  relevé sur Androuet ouvrait un trou entre les lignes du h1 ; plafond 1,3, vérifié au second essai. Coffee Collective :
+  Work Sans en paire était déjà la paire d'une direction (tirage impossible), remplacée par Schibsted Grotesk.
+- Mélange au hasard sur `_exemple` (`--n 3 --hasard --essai`) regardé : trois sites nettement différents ; à revoir à part,
+  des boutons très arrondis et une grande carte noire vide (photo absente) dans le mélange m-9c64ac.
+- **Architectures (2a ter)** :
+  - Deux fiches nouvelles, codées dans l'usine le même tour. [artistes-residents](architectures/artistes-residents.md)
+    (Mystery Tattoo Club, Paris 10e : la maison se choisit par ses artistes, et l'artiste par son style ; coquille `artistes`,
+    `artistes[]`, `/artistes` et une page par artiste, son e-mail, son Instagram, son rendez-vous) et
+    [calendrier-fetes](architectures/calendrier-fetes.md) (Touchard Fleurs, Sarthe : la prochaine fête d'abord, sa date limite
+    de commande, la livraison « avant 13 h, livré aujourd'hui » ; coquille `fetes`, `fetes[]`, `livraison`, `/fetes` et une
+    page par fête). La fête du moment et l'heure limite se calculent dans le navigateur ; sans script, tout se lit.
+  - Preuves sur deux sites jetables (sans photo, supprimés) : `ff verifier` vert hors données de test (`ff a11y`, `ff typo`,
+    `ff ia` compris) ; `ff ressemblance` artistes 0,63 / 0,54 / 0,59, fêtes 0,58 / 0,62 / 0,62 (téléphone / ordinateur /
+    déroulé, seuil 0,65). Mystery Tattoo Club refuse les navigateurs sans tête (403) : fiche relevée au `curl`.
+  - Appris : contre le registre, la moitié « site » du déroulé pèse déjà 0,45 pour tout site « plusieurs pages » de 4 pages
+    et plus ; les premiers essais (un bloc par artiste, une fête en panneau puis en onglets) restaient à 0,66 à 0,87 quel
+    que soit l'ordre des blocs. Ce qui a fait passer : un modèle de navigation que le registre n'a pas (onglets de style ;
+    piste horizontale des fêtes). Le registre compte 17 architectures codées ; reste `outil-calendrier`.
+- **Marché (2a)** : 9 sites de plus, démontés avec navigateur (agences de Reims, Nice, Toulouse ; Google : garage à Amiens,
+  coach sportif à Nice, maçon à Annecy ; modèles Framer HomeMaster, Wix Roofing Clean, Squarespace Flor).
+  [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) passe à 63 sites. Aucun levier à 40 % ou plus n'est absent de l'usine. Le plus
+  vendeur du tour : All'Eau Plombier (numéro partout, 5,0 sur 31 avis au premier écran, délai d'arrivée par commune, barre
+  basse à trois portes). Un site de mise en relation déguisé en artisan écarté (maconnerie-annecy.fr).
+- Tests : 69 fichiers, 1 096 tests, tous verts après fusion (le test des docs des architectures cherchait un titre de journal exact : il cherche maintenant les deux fiches).
 
-**À décider** : les deux architectures, à proposer au premier salon à plusieurs artistes (tatouage, coiffure) et au premier
-fleuriste, chocolatier ou boucher-traiteur à commandes de fêtes.
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé, 21
+les deux), aucun site n'ayant changé ; pires paires inchangées (anna-vidal / borie-des-chenes, chez-malo / studio-ambre,
+lemaire-avocats / studio-ambre). Signalé, pas corrigé.
+
+**Proposé**
+- Collecte ciblée crèmes de chroma ≥ 0,012 et sombres (il manque 1 palette sombre et 7 teintées).
+- Nuancier en pastilles (East Fork) en bloc sur mesure pour un potier ou céramiste ; fil vers le lieu (Kilchoman) pour un domaine.
+- Fêtes : la fête du moment en tête de nav (aujourd'hui rendue au build) ; artistes : choix de l'artiste dans le formulaire.
+
+**À décider** : les 10 styles (`ff melanger <slug> --style androuet` les applique) ; les deux architectures, à proposer au premier
+salon à plusieurs artistes (tatouage, coiffure) et au premier fleuriste, chocolatier ou traiteur à commandes de fêtes ; les paires
+trop proches autour de studio-ambre.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
 
 ## 24 oct 2026, tour 6 (routine en ligne) : 12 styles, 2 architectures
 
