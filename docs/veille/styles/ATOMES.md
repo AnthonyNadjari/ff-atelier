@@ -214,6 +214,9 @@ Chaque ligne vient d'un essai regardé, avec le mélange qui l'a provoquée. Une
 - **23 oct 2026, `ff melanger demo-boulangerie --style her --essai`, mélange m-e1eaef** (typo her, Hanken Grotesk 500 en
   capitales, interlignage 1,0 mesuré) : les **accents des capitales** (« DEUXIÈME », « À ») touchaient la ligne du
   dessus. En français, le plancher en capitales passe de 0,9 à 1,1 (`interlignageTitre`, testé).
+- **Interlignage du titre plafonné à 1,3** (essai du 25 oct 2026, style androuet, m-f5804d) : 1,5 relevé sur Androuet
+  (h1 d'une ligne de 16 px, vrais titres en h2) ouvrait un trou entre les trois lignes d'un h1 de 40 px. Le plafond de
+  `interlignageTitre` passe de 1,5 à 1,3 (testé).
 - **23 oct 2026, `ff melanger demo-boulangerie --n 3 --hasard --essai` (graine 24531909), mélange m-c94c90** (typo loewe) :
   h1 de 18 px pour un texte de 14 porté à 16 : le titre (métier et ville, GOUT § 0) se perd dans le texte au téléphone.
   Une typo n'est tirable que si son h1 fait au moins **1,2 fois** le texte au téléphone (`controlerPolices`,

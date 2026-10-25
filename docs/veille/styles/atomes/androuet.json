@@ -1,0 +1,178 @@
+{
+  "id": "androuet",
+  "version": 1,
+  "source": {
+    "url": "https://www.androuet.com/",
+    "nom": "Androuet",
+    "metier": "fromager-affineur (Paris, douze boutiques)",
+    "fiche": "docs/veille/styles/androuet.md",
+    "mesures": "docs/veille/styles/atomes/mesures/androuet.json",
+    "date": "2026-10-25"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Inter Tight",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.5,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Inter Tight",
+      "libre": "hanken",
+      "graisse": 300,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 36,
+        "ordinateur": 16
+      },
+      "h2": {
+        "telephone": 36,
+        "ordinateur": 44
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Inter Tight (famille Inter, police IA) : Hanken Grotesk, grotesque libre la plus proche, une seule famille ; titres en graisse normale, texte en maigre."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fonds": [
+        {
+          "hex": "#f9f6f1",
+          "part": 0.524
+        },
+        {
+          "hex": "#f5f1e7",
+          "part": 0.227
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.179
+        },
+        {
+          "hex": "#a72e35",
+          "part": 0.032
+        },
+        {
+          "hex": "#58171e",
+          "part": 0.027
+        },
+        {
+          "hex": "#000000",
+          "part": 0.011
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "part": 0.481
+        },
+        {
+          "hex": "#141414",
+          "part": 0.217
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.135
+        },
+        {
+          "hex": "#222222",
+          "part": 0.083
+        },
+        {
+          "hex": "#58171e",
+          "part": 0.04
+        },
+        {
+          "hex": "#686561",
+          "part": 0.027
+        }
+      ],
+      "proches": 16777215
+    },
+    "clair": {
+      "fond": "#f5f1e7",
+      "surface": "#ffffff",
+      "texte": "#141414",
+      "texte2": "#686561",
+      "accent": "#a72e35",
+      "accent2": "à juger",
+      "bordure": "#a72e35",
+      "encre": "#58171e"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #f9f6f1 (52 %), #f5f1e7 (23 %), #a72e35 (3 %), #58171e (3 %), #000000 (1 %), #141414 (0 %)",
+    "remarque": "Crème #f9f6f1 et #f5f1e7 (le second gardé en fond : chroma 0,014, teinté), cartes blanches, rouge brique #a72e35 pour la carte posée sur la photo et les boutons, bordeaux #58171e en pied."
+  },
+  "densite": {
+    "section": {
+      "telephone": 82,
+      "ordinateur": 160
+    },
+    "gouttiere": {
+      "telephone": 48,
+      "ordinateur": 24
+    },
+    "conteneur": 1280,
+    "mesure": 66,
+    "rythme": "uni",
+    "remarque": "Cartes d'offres décalées en hauteur sur deux colonnes de part et d'autre du titre."
+  },
+  "formes": {
+    "rayon": 4,
+    "rayonCarte": 8,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "masque",
+    "rapports": [
+      "3:2",
+      "16:9+",
+      "4:3"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Plateau de fromages en plein cadre, carte rouge posée dessus en haut à gauche ; portraits d'équipe en arche ; brin d'herbe détouré en ornement."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.35,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "cubic-bezier(0.16, 1.08, 0.38, 0.98)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "ressort-au-survol",
+    "remarque": "Courbe de scène à léger dépassement cubic-bezier(.16,1.08,.38,.98) 0,5 s ; flèches qui bougent au survol des cartes."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

@@ -551,7 +551,8 @@ test('interlignage du titre : plancher 1,1 en capitales (accents français), 1 s
   assert.equal(interlignageTitre(0.78, 'uppercase'), 1.1, 'salo, essai du 18 oct 2026');
   assert.equal(interlignageTitre(0.89, 'none'), 1);
   assert.equal(interlignageTitre(1.3, 'uppercase'), 1.3);
-  assert.equal(interlignageTitre(2, 'none'), 1.5);
+  assert.equal(interlignageTitre(2, 'none'), 1.3);
+  assert.equal(interlignageTitre(1.5, 'none'), 1.3, 'androuet, essai du 25 oct 2026 : trou entre les lignes du h1');
   assert.equal(interlignageTitre('à juger', 'none'), 1.05);
 });
 

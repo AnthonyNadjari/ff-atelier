@@ -1,0 +1,181 @@
+{
+  "id": "diaspora",
+  "version": 1,
+  "source": {
+    "url": "https://www.diasporaco.com/",
+    "nom": "Diaspora Co.",
+    "metier": "épices en circuit direct (Oakland, Californie)",
+    "fiche": "docs/veille/styles/diaspora.md",
+    "mesures": "docs/veille/styles/atomes/mesures/diaspora.json",
+    "date": "2026-10-25"
+  },
+  "typo": {
+    "titre": {
+      "famille": "p22-mackinac-pro",
+      "libre": "domine",
+      "graisse": 700,
+      "interlignage": 1.1,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Fustat",
+      "libre": "figtree",
+      "graisse": 400,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 34,
+        "ordinateur": 56
+      },
+      "h2": {
+        "telephone": 26.9,
+        "ordinateur": 38.4
+      },
+      "texte": {
+        "telephone": 12,
+        "ordinateur": 14
+      }
+    },
+    "remarque": "P22 Mackinac (serif à l'ancienne, grasse) : Domine ; Fustat en texte : Figtree. Serif + sans, accord par contraste."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fonds": [
+        {
+          "hex": "#fffceb",
+          "part": 0.426
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.262
+        },
+        {
+          "hex": "#d5137b",
+          "part": 0.084
+        },
+        {
+          "hex": "#ffd000",
+          "part": 0.066
+        },
+        {
+          "hex": "#fffdf0",
+          "part": 0.045
+        },
+        {
+          "hex": "#ffde17",
+          "part": 0.025
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "part": 0.417
+        },
+        {
+          "hex": "#222222",
+          "part": 0.221
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.193
+        },
+        {
+          "hex": "#d5137b",
+          "part": 0.101
+        },
+        {
+          "hex": "#727272",
+          "part": 0.027
+        },
+        {
+          "hex": "#d6137c",
+          "part": 0.011
+        }
+      ],
+      "proches": 16777215
+    },
+    "clair": {
+      "fond": "#fffceb",
+      "surface": "#ffffff",
+      "texte": "#222222",
+      "texte2": "#727272",
+      "accent": "#d5137b",
+      "accent2": "#ffd000",
+      "bordure": "#000000",
+      "encre": "#d5137b"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #fffceb (43 %), #d5137b (8 %), #ffd000 (7 %), #fffdf0 (5 %), #ffde17 (3 %), #e4e9cd (2 %), #326539 (2 %)",
+    "remarque": "Crème jaune #fffceb (43 %, chroma 0,022 : teinté), magenta #d5137b pour boutons, cartes et un grand panneau de citation, jaune safran #ffd000 en bandeau. Deux vives assumées, de clartés éloignées (pas de vibration)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 77,
+      "ordinateur": 80
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 18
+    },
+    "conteneur": 2354,
+    "mesure": 38,
+    "rythme": "uni",
+    "remarque": "Rangées de cartes produits serrées en carrousel, citation sur panneau magenta à côté d'une grande photo."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "douce",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne"
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "1:1",
+      "16:9+",
+      "3:2"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Photos de cueillette chez les producteurs en grand, à côté d'un panneau de couleur pleine ; produits sur fonds colorés."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.35,
+      "courbe": "cubic-bezier(0.3, 1, 0.3, 1)"
+    },
+    "scene": {
+      "duree": 1.3,
+      "courbe": "cubic-bezier(0.16, 1, 0.3, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Lenis",
+      "Swiper"
+    ],
+    "profil": "glisse-a-la-main",
+    "remarque": "Lenis et carrousels Swiper à glisser ; scène 1,3 s cubic-bezier(.16,1,.3,1)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "diptyque"
+}

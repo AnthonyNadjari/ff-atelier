@@ -171,6 +171,20 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['couche position: fixed (jamais background-attachment: fixed, ignoré par Safari iOS) portant le motif de la direction ; le nom au centre du premier écran perd son opacité au défilement (animation-timeline: scroll(), repli : nom immobile) ; les photos pleine largeur montent par-dessus le motif'],
     manque: 'le motif (SVG de la direction ou du client, jamais un grain) et la règle d\'opacité du nom dans le premier écran', exige: {},
   },
+  'soulignement-qui-se-dessine': {
+    nom: 'Soulignement qui se dessine', sources: ['hisafranko'],
+    entree: 'aucune', apparition: 'aucune', survol: 'soulignement', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['liens et boutons-texte soulignés par un dégradé de currentColor dont background-size passe de 0 à 100 % en 0,5 s cubic-bezier(.455,.03,.515,.955), dans @media (hover: hover) and (pointer: fine) ; au toucher le soulignement est déjà tracé'],
+    manque: 'la règle CSS du lien (section ou direction), jamais transition: all', exige: {},
+  },
+  'fil-qui-mene': {
+    nom: 'Fil qui mène', sources: ['kilchoman'],
+    entree: 'aucune', apparition: 'fil', survol: 'couleur', fond: 'aucun',
+    regime: 'calme', defilement: 'apparitions', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['un trait fin (SVG, 1 px, couleur d\'accent) part du bouton du premier écran et serpente jusqu\'au lieu du client dans la section suivante (carte dessinée, adresse) ; sur la source il est fixe, il se lit au défilement ; en mouvement réduit il reste fixe'],
+    manque: 'le tracé SVG du fil et la carte ou le plan d\'arrivée (bloc sur mesure), jamais un tracé calé image par image sur iPhone', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

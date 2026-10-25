@@ -1,0 +1,178 @@
+{
+  "id": "francescana",
+  "version": 1,
+  "source": {
+    "url": "https://www.osteriafrancescana.it/",
+    "nom": "Francescana",
+    "metier": "restaurant gastronomique (Modène)",
+    "fiche": "docs/veille/styles/francescana.md",
+    "mesures": "docs/veille/styles/atomes/mesures/francescana.json",
+    "date": "2026-10-25"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Roboto",
+      "libre": "hanken",
+      "graisse": 700,
+      "interlignage": 1.13,
+      "casse": "none",
+      "interlettrage": 0.06,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Bodoni Moda",
+      "libre": "bodoni",
+      "graisse": 500,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 22,
+        "ordinateur": 30
+      },
+      "h2": {
+        "telephone": 22,
+        "ordinateur": 30
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Roboto gras en capitales très espacées (0,33 em relevé, noté 0,06 : plafond de la règle apprise du 24 oct) pour les titres, Bodoni Moda (libre, gardée) en texte : contraste sans / didone. Titre écrit en capitales dans le texte source."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "releve": {
+      "fond": "#f7f6f5",
+      "texte": "#bcb5b1",
+      "fonds": [
+        {
+          "hex": "#000000",
+          "part": 0.388
+        },
+        {
+          "hex": "#f7f6f5",
+          "part": 0.387
+        },
+        {
+          "hex": "#77726c",
+          "part": 0.123
+        },
+        {
+          "hex": "#202123",
+          "part": 0.056
+        },
+        {
+          "hex": "#202224",
+          "part": 0.039
+        },
+        {
+          "hex": "#1c1c1c",
+          "part": 0.005
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#bcb5b1",
+          "part": 0.561
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.209
+        },
+        {
+          "hex": "#f7f6f5",
+          "part": 0.132
+        },
+        {
+          "hex": "#77726c",
+          "part": 0.091
+        },
+        {
+          "hex": "#cb334f",
+          "part": 0.008
+        }
+      ],
+      "proches": 3883332
+    },
+    "clair": null,
+    "sombre": {
+      "fond": "#202123",
+      "surface": "#000000",
+      "texte": "#f7f6f5",
+      "texte2": "#bcb5b1",
+      "accent": "#cb334f",
+      "accent2": "à juger",
+      "bordure": "#77726c",
+      "encre": "#000000"
+    },
+    "_aide": "autres fonds mesurés : #000000 (39 %), #77726c (12 %), #202123 (6 %), #202224 (4 %), #1c1c1c (1 %), #cb334f (0 %), #ffffff (0 %)",
+    "remarque": "Anthracite #202123 et noir, texte grège #bcb5b1 (56 % des caractères), bouton framboise #cb334f (Réserver) ; une bande blanc cassé #f7f6f5 et un taupe #77726c entre les photos."
+  },
+  "densite": {
+    "section": {
+      "telephone": 76,
+      "ordinateur": 60
+    },
+    "gouttiere": {
+      "telephone": 30,
+      "ordinateur": 10
+    },
+    "conteneur": 900,
+    "mesure": 111,
+    "rythme": "alterne",
+    "remarque": "Photos jointives en damier, sans gouttière ; texte centré dans une colonne de 900 px."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9+",
+      "2:3-",
+      "3:2"
+    ],
+    "pleinCadre": 5,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Salle et portrait du chef en photo sombre, plats sur fond blanc, juxtaposés en damier sans marge."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Swiper"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "GSAP et ScrollTrigger chargés, mais à l'œil seuls des fondus ; transitions 0,3 / 0,6 s ease."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

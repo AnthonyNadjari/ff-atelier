@@ -221,6 +221,16 @@ et dandelionchocolate (fenêtres cookies ou inscription qui couvrent la page), g
 | nanushka | https://www.nanushka.com | Mode (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
 | studionicholson | https://www.studionicholson.com | Mode (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
 | takt | https://www.takt.com | Mobilier danois (collecte du 24 oct, atomes mesurés, jugement « à juger ») | atomes seuls | à juger | atomes |
+| bruichladdich | https://www.bruichladdich.com/ ([fiche](bruichladdich.md)) | Distillerie : anthracite et noir en bandes, serif tranchante en capitales pour tout, une touche cuivre, paysages en plein cadre | film plein cadre, gammes en colonnes, philosophie et portrait, pied noir ; une page par gamme | producteur ou artisan du soir avec un lieu à filmer : caviste, brasseur, distillateur, restaurant | atomes |
+| kilchoman | https://www.kilchomandistillery.com/ ([fiche](kilchoman.md)) | Distillerie-ferme : bleu nuit en grandes plages, crème pour une carte dessinée, un fil or du premier écran jusqu'au lieu | vidéo sous voile, fil vers la carte et la présentation, produits, visites | domaine, ferme, gîte, producteur dont le lieu compte et qui a une carte | atomes |
+| francescana | https://www.osteriafrancescana.it/ ([fiche](francescana.md)) | Restaurant : anthracite, texte grège, capitales espacées, un bouton framboise, photos en damier jointif | photo de salle, histoire centrée, damier de photos, réservation en bouton fixe | restaurant du soir, traiteur, cave avec de belles photos sombres | atomes |
+| hisafranko | https://www.hisafranko.com/ ([fiche](hisafranko.md)) | Restaurant de vallée : blanc, noir, rose bonbon en boutons, machine à écrire maigre, photos de gens et de cueillette en quinconce | fondu de deux photos, citation, texte et photos décalées, menus, chambres, pied lie-de-vin | restaurant, maraîcher, ferme-auberge, chambre d'hôtes avec des photos de gens | atomes |
+| barrafina | https://www.barrafina.co.uk/ ([fiche](barrafina.md)) | Bar à tapas : blanc, cartes crème, rouge sang-de-bœuf en titres soulignés d'un filet court, capitales Art déco fines | titre, plat vu de dessus avec deux portes collées, adresses en carrousel, portes « explorer » | restaurant, bar, traiteur, épicerie à plusieurs adresses | atomes |
+| eastfork | https://www.eastfork.com/ ([fiche](eastfork.md)) | Poterie : blanc, cartes lin, gros boutons-tuiles olive et terre cuite, géométrique ronde, pièces en usage | boutique : cuisine plein cadre, nouveautés, tuiles, nuancier des émaux, histoire | potier, céramiste, ébéniste, tout fabricant d'objets avec une gamme photographiée | atomes |
+| heckfield | https://www.heckfieldplace.com/ ([fiche](heckfield.md)) | Hôtel et ferme : grège, texte prune, rouge pour le nom et Réserver, photos de la maison et des bêtes en quinconce | film sombre, texte entre photos en quinconce, une entrée par univers | gîte, chambre d'hôtes, domaine, ferme avec beaucoup de photos du lieu | atomes |
+| coffeecollective | https://www.coffeecollective.dk/ ([fiche](coffeecollective.md)) | Torréfacteur : crème chaud, cartes à peine plus foncées, bandes vert sapin, grotesque en graisse normale, sachets détourés | plantation plein cadre, grille de produits, abonnement sur bande verte, cafés | torréfacteur, épicerie fine, boulangerie avec une gamme et des adresses | atomes |
+| androuet | https://www.androuet.com/ ([fiche](androuet.md)) | Fromager : crème, cartes blanches décalées, rouge brique pour la carte posée sur la photo, portraits d'équipe en arche | plateau plein cadre et carte rouge, offres en cartes décalées, équipe, boutiques | fromager, caviste, boucher, traiteur, commerce de bouche français avec une équipe | atomes |
+| diaspora | https://www.diasporaco.com/ ([fiche](diaspora.md)) | Épices : crème jaune, magenta en boutons et panneaux, safran en bandeau, serif grasse à l'ancienne, producteurs en grand | bandeau, produits en carrousel, citation sur panneau magenta, recettes | épicerie, producteur, traiteur joyeux et coloré (jamais un métier réglementé) | atomes |
 
 Collecte du 24 oct 2026 (routine, régimes en besoin : clair teinté et sombre) : 46 domaines essayés, 37 sites ouverts et regardés, 17
 relevés (`ff atomes mesurer`, titre affiché relevé à part), **12 gardés** (ci-dessus). Refusés à la comparaison : belleville
@@ -233,3 +243,14 @@ violetcakes (page vide sans navigateur réel), perceval, whitehousecox, oaxen (d
 d'autres refusés par le réseau. Le même jour, les 18 atomes de la collecte du 23 oct (Hodinkee … Mokuba) qui cassaient
 `tests/atomes.test.mjs` sont repassés en « à juger » là où une valeur n'était pas jugée (palette, traitement des photos,
 mesure hors bornes) : ils restent valides, leurs atomes jugés restent tirables.
+
+Collecte du 25 oct 2026 (routine, régimes en besoin : sombre et clair teinté) : 67 domaines essayés (hors déjà étudiés), 45 relevés
+(`ff atomes mesurer` + captures pleine page regardées), **10 gardés** (ci-dessus), chacun essayé sur une copie de
+`demo-boulangerie` (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de la source. Écartés au regard :
+alinea (Cormorant, police IA, sur blanc), onyx (blanc cassé, photos floues au chargement), schorem, rochelle, kiln, thepig
+(relevé vide ou une seule page d'accueil), toutain (gris sans titre), atomix (un seul écran de menu sur photo), canroca,
+carreducker, murdock, ruffians, hawksmoor, mud, mast, askinosie, smythson, squaremile, e5bakehouse, mamiche, jenis,
+brightland, burlap, postcard (blancs neutres sans caractère propre, pilules ou boutiques à promotions), palaisdesthes
+(boutique chargée), hide, lesamis, toklas (neutres pâles), monkey47, thebotanist, sipsmith (relevés mais pas jugés, faute de
+temps) ; dropcoffee et sushisaito (domaine à vendre), frenchie (429), mezcalvago (contrôle d'âge : relevé faux). Une
+dizaine d'autres injoignables depuis le réseau.

@@ -232,6 +232,31 @@ montent par-dessus le motif, qui ne bouge pas.
   sombre. Pas l'urgence (le premier écran ne montre que le nom : téléphone dans la barre). Calme : non (suit le
   défilement), mais aucune animation qui part seule. Poids : nul.
 
+### `soulignement-qui-se-dessine`
+Hiša Franko (`hisafranko.md`, [hisafranko.com](https://www.hisafranko.com/), veille du 25 oct 2026, filmé à 0, 400 et
+2 000 ms puis à la molette, transitions relevées dans le DOM) : rien n'apparaît au défilement, la page est posée ; la vie
+est dans le geste. Les liens et les boutons-texte portent un soulignement qui se trace de gauche à droite au survol
+(`background-size` 0,5 s `cubic-bezier(.455,.03,.515,.955)`, 14 éléments), les photos se voilent à peine (filtre et
+opacité 0,1 s ease-out, 20 éléments), les questions s'ouvrent en `grid-template-rows` 0,35 s.
+- Entrée aucune · apparition aucune · survol soulignement · fond aucun.
+- Moteur : CSS seul (dégradé de `currentColor` en `background-image`, `background-size` animé), dans
+  `@media (hover: hover) and (pointer: fine)` ; au téléphone le soulignement est déjà tracé (le lien se reconnaît sans
+  survol). Manque : la règle du lien dans la section ou la direction.
+- Quand : client calme, page dense en texte, métier réglementé, restaurant du soir ; avec une typo machine à écrire ou
+  une grotesque sobre. Calme : oui. Poids : nul.
+
+### `fil-qui-mene`
+Kilchoman (`kilchoman.md`, [kilchomandistillery.com](https://www.kilchomandistillery.com/), veille du 25 oct 2026, filmé
+à la molette à l'ordinateur) : un trait fin couleur or part du bouton du premier écran, descend sur la vidéo, serpente
+sur le bleu nuit et arrive au point de la distillerie sur la carte dessinée de l'île. Sur la source le fil est fixe ;
+c'est le défilement qui le fait suivre.
+- Entrée aucune · apparition fil · survol couleur · fond aucun.
+- Moteur : un SVG de 1 px en couleur d'accent dans un bloc sur mesure, du premier écran au lieu du client (carte, plan,
+  adresse) ; fixe en mouvement réduit. Manque : le tracé et la carte d'arrivée (bloc sur mesure) ; jamais un tracé calé
+  image par image sur `--p` (saccade sur iPhone, GOUT § 4).
+- Quand : un client dont le lieu compte (ferme, domaine, distillerie, gîte, producteur) et qui a une carte ou un plan à
+  montrer. Calme : oui. Poids : nul.
+
 ## Complément transversal : transitions de page
 
 Estudio Niksen (`view-transition` natives), Délice (Swup), Relais Rossàr (Barba). Pas un profil : il se combine avec

@@ -1,0 +1,159 @@
+{
+  "id": "hisafranko",
+  "version": 1,
+  "source": {
+    "url": "https://www.hisafranko.com/",
+    "nom": "Hisa Franko",
+    "metier": "restaurant gastronomique (vallée de la Soča, Slovénie)",
+    "fiche": "docs/veille/styles/hisafranko.md",
+    "mesures": "docs/veille/styles/atomes/mesures/hisafranko.json",
+    "date": "2026-10-25"
+  },
+  "typo": {
+    "titre": {
+      "famille": "ABC Gaisyr Mono",
+      "libre": "fragmentMono",
+      "graisse": 300,
+      "interlignage": 1.4,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "ABC Diatype",
+      "libre": "karla",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": {
+      "famille": "à juger",
+      "libre": "à juger"
+    },
+    "echelle": {
+      "h1": {
+        "telephone": 16.4,
+        "ordinateur": 20
+      },
+      "h2": {
+        "telephone": 16.4,
+        "ordinateur": 20
+      },
+      "texte": {
+        "telephone": 12.2,
+        "ordinateur": 14
+      }
+    },
+    "remarque": "ABC Gaisyr Mono (machine à écrire maigre, en capitales) pour titres et menus, ABC Diatype (grotesque) en texte : Fragment Mono et Karla, libres. Titres à 16-20 px, presque de la taille du texte : la typo sort du tirage (règle 1,2 fois), le reste du style reste."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "part": 0.701
+        },
+        {
+          "hex": "#ffaabb",
+          "part": 0.247
+        },
+        {
+          "hex": "#6d071a",
+          "part": 0.053
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "part": 0.907
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.076
+        },
+        {
+          "hex": "#333333",
+          "part": 0.017
+        }
+      ],
+      "proches": 16777215
+    },
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#ffaabb",
+      "texte": "#000000",
+      "texte2": "#333333",
+      "accent": "#ffaabb",
+      "accent2": "à juger",
+      "bordure": "#000000",
+      "encre": "#6d071a"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #ffaabb (25 %), #6d071a (5 %)",
+    "remarque": "Blanc, noir, un rose bonbon #ffaabb pour les boutons et les bandes (25 % des fonds), lie-de-vin #6d071a en pied. Le rose en bouton porte un texte noir (contraste AA)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 48,
+      "ordinateur": 64
+    },
+    "gouttiere": {
+      "telephone": 32,
+      "ordinateur": 88
+    },
+    "conteneur": 1376,
+    "mesure": 81,
+    "rythme": "uni",
+    "remarque": "Photos décalées en hauteur d'une colonne à l'autre, texte étroit à côté, beaucoup de blanc."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "lowercase",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "3:2",
+      "4:5",
+      "4:3"
+    ],
+    "pleinCadre": 18,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Photos de gens, de cueillette et d'assiettes, de formats différents, posées en quinconce sans cadre."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.1,
+      "courbe": "ease-out"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "cubic-bezier(0.455, 0.03, 0.515, 0.955)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "soulignement-qui-se-dessine",
+    "remarque": "Filmé le 25 oct : rien au défilement ; soulignement qui se trace au survol (background-size 0,5 s cubic-bezier(.455,.03,.515,.955)), photos voilées 0,1 s ; premier écran en fondu enchaîné de deux photos plein cadre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

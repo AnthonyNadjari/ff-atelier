@@ -265,11 +265,13 @@ export function regimePalette(couleurs) {
  * police libre qui la remplace), faisait se chevaucher les lignes du titre : la police de remplacement n'a pas les
  * métriques de l'originale. Règle apprise (essai du 23 oct 2026, style her) : en capitales, 1,0 ne suffit pas non plus
  * en français : les accents des capitales (È, À, É) touchent la ligne du dessus (« DEUXIÈME » sous « MATIN, ET UNE »).
- * Plancher 1,1 en capitales, 1 sinon ; plafond 1,5.
+ * Règle apprise (essai du 25 oct 2026, style androuet, m-f5804d) : 1,5 relevé sur la source (où le h1 est une ligne de
+ * 16 px et les vrais titres sont des h2) ouvrait un trou entre les trois lignes du h1 de 40 px : plafond 1,3.
+ * Plancher 1,1 en capitales, 1 sinon ; plafond 1,3.
  */
 export function interlignageTitre(mesure, casse) {
   const lh = typeof mesure === 'number' ? mesure : 1.05;
-  return casse === 'uppercase' ? borne(lh, 1.1, 1.5) : borne(lh, 1, 1.5);
+  return casse === 'uppercase' ? borne(lh, 1.1, 1.3) : borne(lh, 1, 1.3);
 }
 
 /**
