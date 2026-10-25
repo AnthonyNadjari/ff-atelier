@@ -1,0 +1,30 @@
+# A.P.C. Paris — https://apc.fr/
+Titre « A.P.C. Paris | Boutique officielle | A.P.C. », `lang="fr"`, description « Boutique en ligne A.P.C. : mode française pour femme et homme. Expédition le jour même pour toute commande passée avant 11h. Retours et échanges gratuits. », technologie lue : Shopify, Tailwind, jQuery. Démontage automatique du 2026-10-25 (`ff demonter`, mesures brutes dans `apc.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « A.P.C. Paris » ; pas de média plein écran (12 image(s) dans l'écran) ; bouton principal « paramètres des cookies » à mi-hauteur au centre (516, 465 px, dans une barre fixe) ; 415 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : calque couvrant 100 % de l'écran («  ») ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « A.P.C. Paris » ; pas de média plein écran (4 image(s) dans l'écran) ; bouton principal « paramètres des cookies » en bas au centre (32, 647 px, dans une barre fixe) ; 151 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : calque couvrant 100 % de l'écran («  ») ; rien ne bouge tout seul.
+Nav : 20 lien(s) — A.P.C. Paris, femme, homme, femme, homme, femme, tout le denim, tous les jeans, jeans bruts et selvedge, coupe bootcut, coupe droite, coupe large (+8) ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `section#shopify-section-template--25419118313859__collection_list_eCFLkq` (1,0 écran, 6 mots, 2 img) → `section#shopify-section-template--25419118313859__featured_collections_ViRqjd` « APC X BARBOUR DENIM TRUCKER JACKET » (0,6 écran, 66 mots, 6 img) → `section#shopify-section-template--25419118313859__slideshow_9kRC4Q` (0,7 écran, 5 mots, 1 img) → `section#shopify-section-template--25419118313859__media_grid_gceyEc` (1,0 écran, 16 mots, 9 img) → `section#shopify-section-sections--25419119722883__text-with-icons` (0,3 écran, 14 mots, 0 img) → `footer#shopify-section-sections--25419119722883__footer` (0,6 écran, 75 mots, 2 img). Calques hors flux (fixes/absolus) : `a.skip-to-content` (absolute, 1 px, 3 mots), `span#header-scroll-tracker` (absolute, 1 px), `header#shopify-section-sections--25419119821187__header` (sticky, 78 px, 15 mots).
+Pied de page : 28 lien(s) — [S'abonner], [S'abonner], [pays : France], [langue : Français], faq, livraison, retours, suivre votre colis, demander un retour, guide d'entretien (+18). Téléphone cliquable : non. Formulaire : 2 (3 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « livraison offerte dès 250€ » (/policies/shipping-policy), « livraison » (/policies/shipping-policy).
+En 3 secondes : à juger sur `captures/apc-d.webp` (mesuré : fond du premier écran #ffffff, 12 image(s) et 415 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **helvetica-neue-lt-pro**, 28 px / 28 px téléphone, graisse 700, interlignage 1,65 ; h2 **helvetica-neue-lt-pro**, 20 px / 14 px téléphone, graisse 600, interlignage 1,40 ; corps **helvetica-neue-lt-pro**, 14 px / 14 px téléphone, graisse 500, interlignage 1,00 ; boutons **helvetica-neue-lt-pro**, 12 px / 16 px téléphone, graisse 700, interlignage 1,63 ; nav **helvetica-neue-lt-pro**, 14 px / 14 px téléphone, graisse 500, interlignage 1,65.
+Sources `@font-face` : feuilles d'origine croisée non lisibles (use.typekit.net, cdn.shopify.com) ; fichiers chargés : https://use.typekit.net/imc6voj.css, https://use.typekit.net/. Familles en usage sur le texte visible : helvetica-neue-lt-pro ×222, ocr-b-std ×12. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #1c1c1c (contraste 17,04:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (81 %), #000000 (19 %) ; textes par nombre de caractères : #000000 (69 %), #1c1c1c (24 %), #ffffff (5 %), #97641a (1 %), #838383 (1 %). Images : 30 `<img>` visibles, 0 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 2 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Shopify (window.Shopify). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.2s ease-in-out` ×128, `transform 0.2s ease` ×12, `-webkit-transform 0.2s ease` ×12, `background-size 0.3s ease-in-out` ×10, `opacity 0.1s ease-in-out` ×6, `border-color 0.1s ease-in-out` ×2, `opacity 0.2s ease-in-out` ×2, `transform 0.2s ease-in-out` ×2, `-webkit-transform 0.2s ease-in-out` ×2, `transform 0.25s ease-in-out` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 1 bloc(s) de plus d'un écran (`header#shopify-section-sections--25419119821187__header` 4,2 écrans). Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/apc-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `section#shopify-section-template--25419118313859__collection_list_eCFLkq` (1,0 écran, 6 mots, 2 image(s)).
+2. L'élément le plus animé : `x-header.header` (5 transition(s) : background 0.2s ease ; color 0.2s ease).
+3. Le bloc le plus singulier par sa structure : `footer#shopify-section-sections--25419119722883__footer` (seule à contenir <form>, <details>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« livraison offerte dès 250€ », « livraison »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/9 ordinateur, 0/12 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : oui (calque, 100 % de l'écran) ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

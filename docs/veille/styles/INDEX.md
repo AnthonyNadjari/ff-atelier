@@ -254,3 +254,5 @@ brightland, burlap, postcard (blancs neutres sans caractère propre, pilules ou 
 (boutique chargée), hide, lesamis, toklas (neutres pâles), monkey47, thebotanist, sipsmith (relevés mais pas jugés, faute de
 temps) ; dropcoffee et sushisaito (domaine à vendre), frenchie (429), mezcalvago (contrôle d'âge : relevé faux). Une
 dizaine d'autres injoignables depuis le réseau.
+
+Collecte 2026-10-25 (23 styles, mesures seulement ; photos, mouvement, premier écran « à juger ») : gervasoni1882, bonnieandclyde, ateliermonet, serax, zangra, officinegenerale, sabon, bellroy, fleux, maisonbremond1830, veja-store, pierremarcolini, bonne-maman, caudalie, nicolas, thekooples, apc, laperla, duvel, staub-online, degrenne, emilehenryusa, pillivuyt.

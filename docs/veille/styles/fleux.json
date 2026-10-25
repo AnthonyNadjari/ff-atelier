@@ -1,0 +1,1630 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://fleux.com/",
+  "nom": "fleux",
+  "date": "2026-10-25",
+  "identite": {
+    "title": "Fleux - Décoration, lifestyle, mode, beauté",
+    "siteName": "Fleux",
+    "lang": "fr",
+    "description": "Fleux est le concept store parisien de référence ! Accordant une place privilégiée au lifestyle, au design et à la décoration, ses six boutiques dévoilent une sélection ouverte et pointue : mobilier, luminaires, art de la table (vaisselle), accessoires de mode ou encore high-tech…",
+    "technologies": [
+      "Shopify",
+      "Tailwind",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Cannot read properties of undefined (reading 'available_language')"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 141,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 0.61,
+        "selecteur": "div.Slideshow__ImageContainer"
+      },
+      "boutonPrincipal": {
+        "texte": "0",
+        "x": 10,
+        "y": 824,
+        "cx": 0.02638888888888889,
+        "cy": 0.9466666666666667,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6437,
+      "bougeSeul": {
+        "n": 2,
+        "exemples": [
+          "div#marquee-content"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.Header__Logo",
+        "famille": "futura-pt, Helvetica, Arial, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.65,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.ProductItem__Title",
+        "famille": "futura-pt, Helvetica, Arial, serif",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1.31,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p#main-dialog-aria-description-975074",
+        "famille": "\"Axeptio Rubik\", Rubik, \"Axeptio CJK Fallback\", sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button",
+        "famille": "\"Axeptio Rubik\", Rubik, \"Axeptio CJK Fallback\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.Heading",
+        "famille": "futura-pt, Helvetica, Arial, serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.28,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_n4.d47a1b6347ce4a4c9f437608011273009d91f2b7.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_n4.d47a1b6347ce4a4c9f437608011273009d91f2b7.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_n7.921dc18c13fa0b0c94c5e2517ffe06139c3615a3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_i4.b690098389649750ada222b9763d55796c5283a5.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_i7.d8201b854e41e19d7ed9b1a31fe4fe71deea6d3f.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Axeptio CJK Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.appmate.io",
+        "cdn.appmate.io",
+        "instafeed.nfcube.com",
+        "fonts.axept.io"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/jlu8avp.css",
+        "https://use.typekit.net/djg1pgn.css",
+        "https://fonts.axept.io/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700&display=swap&ax-prefix=Axeptio%20"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "futura-pt",
+          "n": 214
+        },
+        {
+          "famille": "Axeptio Rubik",
+          "n": 8
+        },
+        {
+          "famille": "grad",
+          "n": 3
+        },
+        {
+          "famille": "Axeptio Futura",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#1e1e1e",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 7,
+          "poids": 9275642.099252418
+        },
+        {
+          "hex": "#000000",
+          "n": 21,
+          "poids": 2503861.25
+        },
+        {
+          "hex": "#f2e8ce",
+          "n": 1,
+          "poids": 1158570
+        },
+        {
+          "hex": "#e25d56",
+          "n": 1,
+          "poids": 1036800
+        },
+        {
+          "hex": "#e4bc6d",
+          "n": 1,
+          "poids": 61920
+        },
+        {
+          "hex": "#9fbf67",
+          "n": 1,
+          "poids": 5790.546875
+        },
+        {
+          "hex": "#8c1818",
+          "n": 1,
+          "poids": 3136
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#1e1e1e",
+          "n": 156,
+          "poids": 2467
+        },
+        {
+          "hex": "#ffffff",
+          "n": 30,
+          "poids": 976
+        },
+        {
+          "hex": "#000000",
+          "n": 11,
+          "poids": 457
+        },
+        {
+          "hex": "#6a6a6a",
+          "n": 3,
+          "poids": 166
+        },
+        {
+          "hex": "#1c1b1b",
+          "n": 4,
+          "poids": 68
+        },
+        {
+          "hex": "#363636",
+          "n": 6,
+          "poids": 54
+        },
+        {
+          "hex": "#60533a",
+          "n": 2,
+          "poids": 18
+        },
+        {
+          "hex": "#91131c",
+          "n": 1,
+          "poids": 14
+        },
+        {
+          "hex": "#616278",
+          "n": 1,
+          "poids": 11
+        },
+        {
+          "hex": "#334f39",
+          "n": 1,
+          "poids": 5
+        }
+      ],
+      "nbImages": 73,
+      "nbVideos": 0,
+      "nbFondsImage": 79,
+      "masques": 2,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 7,
+          "poids": 9275642.099252418,
+          "part": 0.66
+        },
+        {
+          "hex": "#000000",
+          "n": 21,
+          "poids": 2503861.25,
+          "part": 0.178
+        },
+        {
+          "hex": "#f2e8ce",
+          "n": 1,
+          "poids": 1158570,
+          "part": 0.082
+        },
+        {
+          "hex": "#e25d56",
+          "n": 1,
+          "poids": 1036800,
+          "part": 0.074
+        },
+        {
+          "hex": "#e4bc6d",
+          "n": 1,
+          "poids": 61920,
+          "part": 0.004
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1e1e1e",
+          "n": 156,
+          "poids": 2467,
+          "part": 0.582
+        },
+        {
+          "hex": "#ffffff",
+          "n": 30,
+          "poids": 976,
+          "part": 0.23
+        },
+        {
+          "hex": "#000000",
+          "n": 11,
+          "poids": 457,
+          "part": 0.108
+        },
+        {
+          "hex": "#6a6a6a",
+          "n": 3,
+          "poids": 166,
+          "part": 0.039
+        },
+        {
+          "hex": "#1c1b1b",
+          "n": 4,
+          "poids": 68,
+          "part": 0.016
+        }
+      ],
+      "contraste": 16.67
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.TweenLite"
+        },
+        {
+          "nom": "Flickity",
+          "preuve": "window.Flickity"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div#shopify-section-header",
+          "ecrans": 7.2
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.2s ease-in-out",
+          "n": 114
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 72
+        },
+        {
+          "valeur": "opacity 0.2s ease-in-out",
+          "n": 26
+        },
+        {
+          "valeur": "all 0.35s ease-in-out",
+          "n": 20
+        },
+        {
+          "valeur": "width 0.5s ease-in-out",
+          "n": 20
+        },
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 20
+        },
+        {
+          "valeur": "color 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86)",
+          "n": 14
+        },
+        {
+          "valeur": "border 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86)",
+          "n": 14
+        },
+        {
+          "valeur": "opacity 0.3s ease-in-out",
+          "n": 10
+        },
+        {
+          "valeur": "transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1)",
+          "n": 7
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-lenis-prevent",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "button.flickity-prev-next-button",
+        "score": 4,
+        "animations": [],
+        "transitions": [
+          "background 0.15s ease-in-out",
+          "opacity 0.15s ease-in-out",
+          "transform 0.2s ease-in-out",
+          "color 0.2s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#main",
+      "sections": [
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__slideshow",
+          "titre": null,
+          "top": 136,
+          "hauteur": 545,
+          "ecrans": 0.6,
+          "mots": 79,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "ol"
+          ]
+        },
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__announcement_bar_XR3Ec9",
+          "titre": null,
+          "top": 681,
+          "hauteur": 43,
+          "ecrans": 0,
+          "mots": 46,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__featured-collections",
+          "titre": "LAMPE BIC LED NÉON - BLEU",
+          "top": 724,
+          "hauteur": 742,
+          "ecrans": 0.8,
+          "mots": 165,
+          "images": 22,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__shop_the_look_ixrxgi",
+          "titre": "LES COUPS DE COEUR",
+          "top": 1466,
+          "hauteur": 805,
+          "ecrans": 0.9,
+          "mots": 43,
+          "images": 12,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__timeline_wQYUUG",
+          "titre": "CARTE-CADEAU FLEUX",
+          "top": 2270,
+          "hauteur": 675,
+          "ecrans": 0.8,
+          "mots": 37,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__text_with_image_e8KVt3",
+          "titre": "NOS BOUTIQUES",
+          "top": 2945,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 97,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__featured_collections_H7RWjd",
+          "titre": "POUR ILLUMINER VOTRE INTERIEUR",
+          "top": 3665,
+          "hauteur": 772,
+          "ecrans": 0.9,
+          "mots": 138,
+          "images": 16,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__collection-list",
+          "titre": "DÉCORATION",
+          "top": 4437,
+          "hauteur": 1000,
+          "ecrans": 1.1,
+          "mots": 14,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__strate_title_text_KpMkgm",
+          "titre": "Suivez-nous sur Instagram",
+          "top": 5502,
+          "hauteur": 45,
+          "ecrans": 0.1,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--15184474177595__17321874785c6b3994",
+          "titre": null,
+          "top": 5627,
+          "hauteur": 246,
+          "ecrans": 0.3,
+          "mots": 2,
+          "images": 40,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-footer",
+          "titre": "SUIVEZ-NOUS",
+          "top": 5873,
+          "hauteur": 564,
+          "ecrans": 0.6,
+          "mots": 76,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#section-header",
+        "hauteur": 136,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "NEW NEW",
+            "href": "/collections/new",
+            "bouton": false
+          },
+          {
+            "texte": "MUST HAVE MUST HAVE",
+            "href": "/collections/must-have",
+            "bouton": false
+          },
+          {
+            "texte": "CARTES CADEAUX CARTES CADEAUX",
+            "href": "/collections/cartes-cadeaux",
+            "bouton": false
+          },
+          {
+            "texte": "DÉCORATION DÉCORATION",
+            "href": "/collections/decoration",
+            "bouton": false
+          },
+          {
+            "texte": "TABLE & CUISINE TABLE & CUISINE",
+            "href": "/collections/table-et-cuisine",
+            "bouton": false
+          },
+          {
+            "texte": "MOBILIER MOBILIER",
+            "href": "/collections/mobilier",
+            "bouton": false
+          },
+          {
+            "texte": "LUMINAIRE LUMINAIRE",
+            "href": "/collections/luminaire",
+            "bouton": false
+          },
+          {
+            "texte": "LIFESTYLE LIFESTYLE",
+            "href": "/collections/lifestyle",
+            "bouton": false
+          },
+          {
+            "texte": "KIDS KIDS",
+            "href": "/collections/kids",
+            "bouton": false
+          },
+          {
+            "texte": "IDÉES CADEAUX IDÉES CADEAUX",
+            "href": "/pages/idees-cadeaux",
+            "bouton": false
+          },
+          {
+            "texte": "GREEN GREEN",
+            "href": "/collections/green",
+            "bouton": false
+          },
+          {
+            "texte": "CRÉATEURS CRÉATEURS",
+            "href": "/pages/createurs",
+            "bouton": false
+          },
+          {
+            "texte": "FRANÇAIS",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Recherche",
+            "href": "/search",
+            "bouton": false
+          },
+          {
+            "texte": "Vos coups de coeur",
+            "href": "/account/login",
+            "bouton": true
+          },
+          {
+            "texte": "Ouvrir le panier",
+            "href": "/cart",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#section-footer",
+        "liens": [
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/fleux",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://www.pinterest.com/fleux",
+            "bouton": false
+          },
+          {
+            "texte": "Contactez-nous",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Espace Pro",
+            "href": "/pages/espace-pro",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ",
+            "href": "/pages/faq",
+            "bouton": false
+          },
+          {
+            "texte": "Livraisons & retours",
+            "href": "/pages/livraison-et-retours",
+            "bouton": false
+          },
+          {
+            "texte": "Notre histoire",
+            "href": "/pages/notre-histoire",
+            "bouton": false
+          },
+          {
+            "texte": "Créateurs",
+            "href": "/pages/createurs",
+            "bouton": false
+          },
+          {
+            "texte": "Nos boutiques",
+            "href": "/pages/nos-boutiques",
+            "bouton": false
+          },
+          {
+            "texte": "Journal",
+            "href": "/blogs/news",
+            "bouton": false
+          },
+          {
+            "texte": "CGV",
+            "href": "/pages/cgv",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de données personnelles",
+            "href": "/pages/politique-de-confidentialite",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "/pages/mentions-legales",
+            "bouton": false
+          },
+          {
+            "texte": "Livraisons et retours",
+            "href": "/pages/livraison-et-retours",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ",
+            "href": "/pages/faq",
+            "bouton": false
+          },
+          {
+            "texte": "HAY",
+            "href": "/collections/hay",
+            "bouton": false
+          },
+          {
+            "texte": "ETHNICRAFT",
+            "href": "/collections/ethnicraft",
+            "bouton": false
+          },
+          {
+            "texte": "JELLYCAT",
+            "href": "/collections/jellycat",
+            "bouton": false
+          },
+          {
+            "texte": "HK LIVING",
+            "href": "/collections/hk-living",
+            "bouton": false
+          },
+          {
+            "texte": "RICE",
+            "href": "/collections/rice",
+            "bouton": false
+          },
+          {
+            "texte": "HONORÉ",
+            "href": "/collections/honore",
+            "bouton": false
+          },
+          {
+            "texte": "CRÈME ATELIER",
+            "href": "/collections/creme-atelier",
+            "bouton": false
+          },
+          {
+            "texte": "S'INSCRIRE",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "FRANCE (EUR €)",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "FRANÇAIS",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 3,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 5,
+        "heures": 18,
+        "extrait": "LUNDI - VENDREDI : 10H45-20H30 / SAMEDI : 10H30 - 20H45 / D"
+      },
+      "portes": [
+        {
+          "texte": "CARTES CADEAUX CARTES CADEAUX",
+          "href": "/collections/cartes-cadeaux"
+        },
+        {
+          "texte": "IDÉES CADEAUX IDÉES CADEAUX",
+          "href": "/pages/idees-cadeaux"
+        },
+        {
+          "texte": "E-CARTE CADEAU",
+          "href": "/products/e-carte-cadeau"
+        },
+        {
+          "texte": "CARTE CADEAU BOUTIQUE",
+          "href": "/products/cartes-cadeaux-boutique"
+        },
+        {
+          "texte": "Livraisons & retours",
+          "href": "/pages/livraison-et-retours"
+        },
+        {
+          "texte": "Livraisons et retours",
+          "href": "/pages/livraison-et-retours"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "svg.u-visually-hidden",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "a.PageSkipLink",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "div#shopify-section-header",
+          "position": "sticky",
+          "hauteur": 136,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 36
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 50,
+        "pilules": 6,
+        "exemples": [
+          "",
+          "",
+          ""
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/fleux-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Cannot read properties of undefined (reading 'available_language')"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 65,
+      "images": 6,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Ajouter à vos coups de coeur",
+        "x": 256.09375,
+        "y": 737,
+        "cx": 0.7181891025641025,
+        "cy": 0.9016587677725119,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6319,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div#marquee-content"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.Header__Logo",
+        "famille": "futura-pt, Helvetica, Arial, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.65,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.ProductItem__Title",
+        "famille": "futura-pt, Helvetica, Arial, serif",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1.31,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p#main-dialog-aria-description-271467",
+        "famille": "\"Axeptio Rubik\", Rubik, \"Axeptio CJK Fallback\", sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button",
+        "famille": "\"Axeptio Rubik\", Rubik, \"Axeptio CJK Fallback\", sans-serif",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.Header__LogoLink",
+        "famille": "futura-pt, Helvetica, Arial, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.65,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_n4.d47a1b6347ce4a4c9f437608011273009d91f2b7.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_n4.d47a1b6347ce4a4c9f437608011273009d91f2b7.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_n7.921dc18c13fa0b0c94c5e2517ffe06139c3615a3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_i4.b690098389649750ada222b9763d55796c5283a5.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Jost",
+          "url": "//www.fleux.com/cdn/fonts/jost/jost_i7.d8201b854e41e19d7ed9b1a31fe4fe71deea6d3f.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Nunito-Sans-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Nunito-Sans/latin/nunito-sans_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_400.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_italic_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_400_2.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Poppins-Klaviyo-Hosted",
+          "url": "https://static.klaviyo.com/onsite/hosted-fonts/Poppins/latin/poppins_latin_regular_700.woff2",
+          "feuille": "inline",
+          "source": "tiers (static.klaviyo.com)"
+        },
+        {
+          "famille": "Axeptio CJK Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.shopify.com",
+        "cdn.appmate.io",
+        "cdn.appmate.io",
+        "instafeed.nfcube.com",
+        "fonts.axept.io"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/jlu8avp.css",
+        "https://use.typekit.net/djg1pgn.css",
+        "https://fonts.axept.io/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700&display=swap&ax-prefix=Axeptio%20"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "futura-pt",
+          "n": 137
+        },
+        {
+          "famille": "Axeptio Rubik",
+          "n": 8
+        },
+        {
+          "famille": "grad",
+          "n": 3
+        },
+        {
+          "famille": "Axeptio Futura",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#1e1e1e",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 2466714
+        },
+        {
+          "hex": "#e25d56",
+          "n": 1,
+          "poids": 402589.6875
+        },
+        {
+          "hex": "#f2e8ce",
+          "n": 1,
+          "poids": 225840.46875
+        },
+        {
+          "hex": "#000000",
+          "n": 20,
+          "poids": 86214.86328125
+        },
+        {
+          "hex": "#e4bc6d",
+          "n": 1,
+          "poids": 16770
+        },
+        {
+          "hex": "#9fbf67",
+          "n": 1,
+          "poids": 5375.546875
+        },
+        {
+          "hex": "#8c1818",
+          "n": 1,
+          "poids": 3136
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#1e1e1e",
+          "n": 95,
+          "poids": 1755
+        },
+        {
+          "hex": "#ffffff",
+          "n": 29,
+          "poids": 1127
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 263
+        },
+        {
+          "hex": "#6a6a6a",
+          "n": 3,
+          "poids": 166
+        },
+        {
+          "hex": "#1c1b1b",
+          "n": 4,
+          "poids": 68
+        },
+        {
+          "hex": "#363636",
+          "n": 6,
+          "poids": 54
+        },
+        {
+          "hex": "#60533a",
+          "n": 2,
+          "poids": 18
+        },
+        {
+          "hex": "#616278",
+          "n": 1,
+          "poids": 11
+        },
+        {
+          "hex": "#334f39",
+          "n": 1,
+          "poids": 5
+        }
+      ],
+      "nbImages": 47,
+      "nbVideos": 0,
+      "nbFondsImage": 14,
+      "masques": 2,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 2466714,
+          "part": 0.769
+        },
+        {
+          "hex": "#e25d56",
+          "n": 1,
+          "poids": 402589.6875,
+          "part": 0.126
+        },
+        {
+          "hex": "#f2e8ce",
+          "n": 1,
+          "poids": 225840.46875,
+          "part": 0.07
+        },
+        {
+          "hex": "#000000",
+          "n": 20,
+          "poids": 86214.86328125,
+          "part": 0.027
+        },
+        {
+          "hex": "#e4bc6d",
+          "n": 1,
+          "poids": 16770,
+          "part": 0.005
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1e1e1e",
+          "n": 95,
+          "poids": 1755,
+          "part": 0.506
+        },
+        {
+          "hex": "#ffffff",
+          "n": 29,
+          "poids": 1127,
+          "part": 0.325
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 263,
+          "part": 0.076
+        },
+        {
+          "hex": "#6a6a6a",
+          "n": 3,
+          "poids": 166,
+          "part": 0.048
+        },
+        {
+          "hex": "#1c1b1b",
+          "n": 4,
+          "poids": 68,
+          "part": 0.02
+        }
+      ],
+      "contraste": 16.67
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.TweenLite"
+        },
+        {
+          "nom": "Flickity",
+          "preuve": "window.Flickity"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div#shopify-section-header",
+          "ecrans": 7.5
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.2s ease-in-out",
+          "n": 78
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 46
+        },
+        {
+          "valeur": "opacity 0.2s ease-in-out",
+          "n": 25
+        },
+        {
+          "valeur": "width 0.5s ease-in-out",
+          "n": 20
+        },
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 20
+        },
+        {
+          "valeur": "color 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86)",
+          "n": 11
+        },
+        {
+          "valeur": "border 0.45s cubic-bezier(0.785, 0.135, 0.15, 0.86)",
+          "n": 11
+        },
+        {
+          "valeur": "background 0.2s ease-in-out",
+          "n": 10
+        },
+        {
+          "valeur": "transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "opacity 0.8s cubic-bezier(0.215, 0.61, 0.355, 1)",
+          "n": 7
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-lenis-prevent",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div#marquee-content",
+        "score": 3,
+        "animations": [
+          "animation marquee 20s linear infinite"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.PageContainer",
+      "sections": [
+        {
+          "selecteur": "main#main",
+          "titre": "LAMPE BIC LED NÉON - BLEU",
+          "top": 75,
+          "hauteur": 4639,
+          "ecrans": 5.5,
+          "mots": 417,
+          "images": 66,
+          "fixe": false,
+          "balisesRares": [
+            "ol",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#shopify-section-footer",
+          "titre": "SUIVEZ-NOUS",
+          "top": 4714,
+          "hauteur": 1604,
+          "ecrans": 1.9,
+          "mots": 76,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#section-header",
+        "hauteur": 75,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Ouvrir la navigation",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Recherche",
+            "href": "/search",
+            "bouton": false
+          },
+          {
+            "texte": "Vos coups de coeur",
+            "href": "/account/login",
+            "bouton": true
+          },
+          {
+            "texte": "Ouvrir le panier",
+            "href": "/cart",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#section-footer",
+        "liens": [
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/fleux",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://www.pinterest.com/fleux",
+            "bouton": false
+          },
+          {
+            "texte": "Contactez-nous",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Espace Pro",
+            "href": "/pages/espace-pro",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ",
+            "href": "/pages/faq",
+            "bouton": false
+          },
+          {
+            "texte": "Livraisons & retours",
+            "href": "/pages/livraison-et-retours",
+            "bouton": false
+          },
+          {
+            "texte": "Notre histoire",
+            "href": "/pages/notre-histoire",
+            "bouton": false
+          },
+          {
+            "texte": "Créateurs",
+            "href": "/pages/createurs",
+            "bouton": false
+          },
+          {
+            "texte": "Nos boutiques",
+            "href": "/pages/nos-boutiques",
+            "bouton": false
+          },
+          {
+            "texte": "Journal",
+            "href": "/blogs/news",
+            "bouton": false
+          },
+          {
+            "texte": "CGV",
+            "href": "/pages/cgv",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de données personnelles",
+            "href": "/pages/politique-de-confidentialite",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "/pages/mentions-legales",
+            "bouton": false
+          },
+          {
+            "texte": "Livraisons et retours",
+            "href": "/pages/livraison-et-retours",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ",
+            "href": "/pages/faq",
+            "bouton": false
+          },
+          {
+            "texte": "HAY",
+            "href": "/collections/hay",
+            "bouton": false
+          },
+          {
+            "texte": "ETHNICRAFT",
+            "href": "/collections/ethnicraft",
+            "bouton": false
+          },
+          {
+            "texte": "JELLYCAT",
+            "href": "/collections/jellycat",
+            "bouton": false
+          },
+          {
+            "texte": "HK LIVING",
+            "href": "/collections/hk-living",
+            "bouton": false
+          },
+          {
+            "texte": "RICE",
+            "href": "/collections/rice",
+            "bouton": false
+          },
+          {
+            "texte": "HONORÉ",
+            "href": "/collections/honore",
+            "bouton": false
+          },
+          {
+            "texte": "CRÈME ATELIER",
+            "href": "/collections/creme-atelier",
+            "bouton": false
+          },
+          {
+            "texte": "S'INSCRIRE",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "FRANCE (EUR €)",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "FRANÇAIS",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 5,
+        "heures": 18,
+        "extrait": "LUNDI - VENDREDI : 10H45-20H30 / SAMEDI : 10H30 - 20H45 / D"
+      },
+      "portes": [
+        {
+          "texte": "E-CARTE CADEAU",
+          "href": "/products/e-carte-cadeau"
+        },
+        {
+          "texte": "CARTE CADEAU BOUTIQUE",
+          "href": "/products/cartes-cadeaux-boutique"
+        },
+        {
+          "texte": "Livraisons & retours",
+          "href": "/pages/livraison-et-retours"
+        },
+        {
+          "texte": "Livraisons et retours",
+          "href": "/pages/livraison-et-retours"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "svg.u-visually-hidden",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "a.PageSkipLink",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "div#shopify-section-header",
+          "position": "sticky",
+          "hauteur": 75,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 429
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 36,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Fleux",
+  "dureeS": 25.9
+}
