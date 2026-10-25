@@ -1,0 +1,104 @@
+---
+/**
+ * Page d'une fête (site.fetes, src/lib/fetes.ts) : architecture `calendrier-fetes` (source Touchard Fleurs, catégorie
+ * « Toussaint », docs/veille/architectures/calendrier-fetes.md). h1 « <fête> chez <commerce> », la période, la date
+ * limite de commande, la phrase du client, la photo, les lignes à prix (rien si le prix manque), la porte Commander
+ * (contact.orderUrl) ou Appeler, l'occasion à laquelle la fête renvoie, la livraison, les autres fêtes à venir.
+ * JSON-LD : OfferCatalog des lignes, valable du début à la fin de la fête. Générée pour chaque fête du client (une fête
+ * passée garde sa page jusqu'au build suivant qui l'a retirée du calendrier) ; aucune fête = aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, periodeFete, dateFete, fetesAVenir, isoDuJour } from '@/lib/site';
+import { feteLd } from '@/lib/jsonld';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import Livraison from '@/components/Livraison.astro';
+
+export function getStaticPaths() {
+  return site.fetes.map((f) => ({ params: { slug: f.slug }, props: { f } }));
+}
+const { f } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const o = f.service ? site.services.find((s) => s.slug === f.service) : undefined;
+const autres = fetesAVenir(site.fetes, isoDuJour()).filter((x) => x.slug !== f.slug);
+const pageUrl = new URL(`/fetes/${f.slug}`, Astro.site).toString();
+const ld = feteLd(site, f, pageUrl);
+const description = f.texte ?? `${f.nom} chez ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}, ${periodeFete(f.du, f.au)}.`;
+const commander = site.contact.orderUrl;
+---
+
+<Base title={`${f.nom} | ${site.business.name}`} description={description} path={`/fetes/${f.slug}`} jsonLd={[ld]}>
+  <Nav />
+  <main id="main" class="ff">
+    <div class="container-ff ff-retour"><a href="/fetes" class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />{site.wording.fetes}</a></div>
+    <article class="container-ff ff-tete">
+      <div class="ff-fiche">
+        <p class="ff-quand">{periodeFete(f.du, f.au).replace(/^./, (c) => c.toUpperCase())}</p>
+        <h1 class="ff-nom font-display">{f.nom} chez {site.business.name}</h1>
+        <p class="ff-metier">{site.business.trade} à {site.contact.address.city}.</p>
+        {f.commanderAvant && <p class="ff-limite">Commandes jusqu’au {dateFete(f.commanderAvant)}.</p>}
+        {f.texte && <p class="ff-phrase">{f.texte}</p>}
+        {f.lignes.length > 0 && (
+          <ul class="ff-lignes">
+            {f.lignes.map((l) => (
+              <li class="ff-ligne">
+                <span class="ff-ligne-nom">{l.nom}{l.detail && <span class="text-muted">{l.detail}</span>}</span>
+                {l.prix && <span class="ff-prix tabular-nums">{l.prix}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+        <p class="ff-portes">
+          {commander ? (
+            <a href={commander} class="ff-porte" target="_blank" rel="noopener"><Icon name="ShoppingBag" size={18} />{site.wording.actions.order ?? 'Commander'}<span class="sr-only"> (nouvel onglet)</span></a>
+          ) : null}
+          <a href={tel()} class:list={[commander ? 'ff-lien' : 'ff-porte', 'tabular-nums']}><Icon name="Phone" size={18} />{commander ? site.contact.phoneDisplay : `Commander au ${site.contact.phoneDisplay}`}</a>
+          {o && site.servicePages && <a href={`/services/${o.slug}`} class="ff-lien">{o.title}<Icon name="ArrowRight" size={16} /></a>}
+        </p>
+        <Livraison class="ff-livraison" />
+      </div>
+      {f.photo && (
+        <div class="ff-photo"><Img src={f.photo.src} alt={f.photo.alt} priority sizes="(min-width: 1024px) 45vw, 100vw" class="h-full w-full object-cover" /></div>
+      )}
+    </article>
+    {autres.length > 0 && (
+      <nav class="container-ff ff-autres" aria-label="Les autres fêtes">
+        <p class="text-display-sm">Ensuite</p>
+        <ul class="ff-suite">
+          {autres.map((x) => <li><a href={`/fetes/${x.slug}`} class="ff-lien">{x.nom}</a><span class="text-muted">, {periodeFete(x.du, x.au)}</span></li>)}
+        </ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ff-retour { padding-block-start: 1.5rem; }
+  .ff-tete { display: grid; gap: 2rem; padding-block: 1.5rem clamp(2.5rem, 7vh, 4rem); }
+  .ff-fiche { display: grid; gap: 0.7rem; align-content: start; }
+  .ff-quand { font-weight: 600; }
+  .ff-nom { font-size: clamp(2.2rem, 7vw, 4.5rem); line-height: 1; text-wrap: balance; }
+  .ff-metier { font-size: 1.1rem; }
+  .ff-limite { font-size: 1.15rem; font-weight: 600; }
+  .ff-phrase { max-inline-size: 52ch; }
+  .ff-lignes { display: grid; }
+  .ff-ligne { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 0.6rem; border-block-end: 1px solid var(--color-line); }
+  .ff-ligne-nom { display: grid; }
+  .ff-prix { font-weight: 600; white-space: nowrap; }
+  .ff-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin-block: 0.5rem; }
+  .ff-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .ff-porte:hover { background: var(--color-accent-2); }
+  .ff-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ff-lien:hover { color: var(--color-accent); }
+  .ff-porte:focus-visible, .ff-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .ff-photo { aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-card); }
+  .ff-photo > :global(picture) { display: block; block-size: 100%; }
+  .ff-autres { display: grid; gap: 0.75rem; padding-block: clamp(2rem, 6vh, 3.5rem); border-block-start: 1px solid var(--color-line); }
+  .ff-suite { display: grid; gap: 0.25rem; }
+  @media (min-width: 64rem) {
+    .ff-tete { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); column-gap: clamp(2rem, 5vw, 5rem); }
+  }
+</style>

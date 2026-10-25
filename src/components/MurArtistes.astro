@@ -1,0 +1,121 @@
+---
+/**
+ * Le mur des artistes (site.artistes, src/lib/artistes.ts) : architecture `artistes-residents` (source Mystery Tattoo
+ * Club, « Trouvez votre tatoueur », « Trouvez votre style », docs/veille/architectures/artistes-residents.md). Un grand
+ * portrait par artiste (photo du client, sinon la première de ses travaux ; sans photo, une carte en texte seul), son
+ * nom en très grand, sa place dans la maison, ses styles en toutes lettres ; toute la carte mène à sa page. Au-dessus,
+ * le filtre par style : radios + `:has()`, SANS script (12 styles au plus), seulement dès deux styles distincts ; un
+ * style coché ne garde que les artistes qui le pratiquent. Les invités (période donnée) après les résidents, avec leur
+ * période. Utilisé par la coquille `artistes` (accueil) et la page /artistes. Tokens uniquement.
+ */
+import { site, stylesDe, slugStyle, residentsEtInvites } from '@/lib/site';
+import { enumerer } from '@/lib/artistes';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props {
+  /** Préfixe des id des radios (deux murs sur une page ne se mélangent pas). */
+  id?: string;
+  /** Niveau du nom de chaque artiste (h2 sur /artistes, h3 sous un titre de section). */
+  niveau?: 'h2' | 'h3';
+  /** Charge le premier portrait en priorité (premier écran de l'accueil). */
+  priorite?: boolean;
+  class?: string;
+}
+const { id = 'ma', niveau = 'h3', priorite = false, class: cls = '' } = Astro.props;
+const MAX_FILTRES = 12;
+const styles = stylesDe(site.artistes).slice(0, MAX_FILTRES);
+const rangs = (a: (typeof site.artistes)[number]) =>
+  a.styles.map((s) => styles.findIndex((x) => x.slug === slugStyle(s)) + 1).filter((n) => n > 0);
+const { residents, invites } = residentsEtInvites(site.artistes);
+const tous = [...residents, ...invites];
+const Nom = niveau;
+---
+
+{tous.length > 0 && (
+  <div class:list={['ma', cls]}>
+    {styles.length >= 2 && (
+      <fieldset class="ma-filtres">
+        <legend class="ma-legende">Par style</legend>
+        <input class="sr-only" type="radio" name={`${id}-style`} id={`${id}-0`} data-ma="0" checked />
+        <label for={`${id}-0`}>Tous</label>
+        {styles.map((s, i) => (
+          <>
+            <input class="sr-only" type="radio" name={`${id}-style`} id={`${id}-${i + 1}`} data-ma={String(i + 1)} />
+            <label for={`${id}-${i + 1}`}>{s.nom}</label>
+          </>
+        ))}
+      </fieldset>
+    )}
+    <ul class="ma-liste">
+      {tous.map((a, i) => {
+        const photo = a.photo ?? a.photos[0];
+        const r = rangs(a);
+        return (
+          <li class="ma-item" data-styles={r.length > 0 ? ` ${r.join(' ')} ` : undefined}>
+            <a href={`/artistes/${a.slug}`} class="ma-carte">
+              {photo ? (
+                <div class="ma-photo">
+                  <Img src={photo.src} alt={photo.alt} priority={priorite && i === 0} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" class="h-full w-full object-cover" />
+                </div>
+              ) : (
+                <div class="ma-photo ma-sans bg-bg-2" aria-hidden="true"></div>
+              )}
+              <div class="ma-texte">
+                <Nom class="ma-nom font-display">{a.nom}</Nom>
+                {(a.role || a.depuis) && <p class="ma-role">{a.role}{a.role && a.depuis ? ', ' : ''}{a.depuis ? `depuis ${a.depuis}` : ''}</p>}
+                {a.periode && <p class="ma-periode">De passage {a.periode}</p>}
+                {a.styles.length > 0 && <p class="ma-styles">{enumerer(a.styles)}</p>}
+                <span class="ma-voir">Voir son travail<Icon name="ArrowRight" size={16} /></span>
+              </div>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
+
+<style>
+  .ma { display: grid; gap: 1.5rem; }
+  .ma-filtres { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.1rem; border: 0; padding: 0; margin: 0; }
+  .ma-legende { float: left; margin-inline-end: 0.5rem; font-weight: 600; }
+  .ma-filtres label { cursor: pointer; padding-block: 0.6rem; border-block-end: 2px solid transparent; }
+  .ma-filtres input:checked + label { border-block-end-color: currentColor; font-weight: 600; }
+  .ma-filtres input:focus-visible + label { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .ma-liste { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.75rem); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ma-carte { display: grid; gap: 0.75rem; block-size: 100%; }
+  .ma-photo { position: relative; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius-card); }
+  .ma-photo > :global(picture) { display: block; block-size: 100%; }
+  .ma-photo :global(img) { transition: transform 0.6s ease; }
+  .ma-carte:hover .ma-photo :global(img) { transform: scale(1.04); }
+  .ma-texte { display: grid; gap: 0.2rem; align-content: start; }
+  .ma-nom { font-size: clamp(1.5rem, 4.5vw, 2.6rem); line-height: 1; overflow-wrap: anywhere; }
+  .ma-role, .ma-periode { font-size: 0.95rem; }
+  .ma-periode { font-weight: 600; }
+  .ma-styles { font-size: 0.95rem; color: var(--color-muted); }
+  .ma-voir { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ma-carte:hover .ma-voir { color: var(--color-accent); }
+  .ma-carte:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+  @media (min-width: 1024px) {
+    .ma-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    /* Rythme de la source (portraits de hauteurs inégales) : une colonne sur deux descend d'un cran. */
+    .ma-item:nth-child(3n + 2) { margin-block-start: clamp(2rem, 6vh, 4rem); }
+  }
+  @media (prefers-reduced-motion: reduce) { .ma-photo :global(img) { transition: none; } }
+  /* Filtres sans JS : le style coché masque les artistes qui ne le pratiquent pas (12 règles statiques ; 0 = « Tous »). */
+  .ma:has([data-ma="1"]:checked) .ma-item:not([data-styles~="1"]) { display: none; }
+  .ma:has([data-ma="2"]:checked) .ma-item:not([data-styles~="2"]) { display: none; }
+  .ma:has([data-ma="3"]:checked) .ma-item:not([data-styles~="3"]) { display: none; }
+  .ma:has([data-ma="4"]:checked) .ma-item:not([data-styles~="4"]) { display: none; }
+  .ma:has([data-ma="5"]:checked) .ma-item:not([data-styles~="5"]) { display: none; }
+  .ma:has([data-ma="6"]:checked) .ma-item:not([data-styles~="6"]) { display: none; }
+  .ma:has([data-ma="7"]:checked) .ma-item:not([data-styles~="7"]) { display: none; }
+  .ma:has([data-ma="8"]:checked) .ma-item:not([data-styles~="8"]) { display: none; }
+  .ma:has([data-ma="9"]:checked) .ma-item:not([data-styles~="9"]) { display: none; }
+  .ma:has([data-ma="10"]:checked) .ma-item:not([data-styles~="10"]) { display: none; }
+  .ma:has([data-ma="11"]:checked) .ma-item:not([data-styles~="11"]) { display: none; }
+  .ma:has([data-ma="12"]:checked) .ma-item:not([data-styles~="12"]) { display: none; }
+  /* Un style coché : plus de décalage (les colonnes se recomposent). */
+  .ma:has(.ma-filtres input:not([data-ma="0"]):checked) .ma-item { margin-block-start: 0; }
+</style>

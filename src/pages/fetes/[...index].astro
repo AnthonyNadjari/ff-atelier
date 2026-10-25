@@ -1,0 +1,85 @@
+---
+/**
+ * Page /fetes (site.fetes, src/lib/fetes.ts) : architecture `calendrier-fetes` (source Touchard Fleurs, docs/veille/
+ * architectures/calendrier-fetes.md). Le calendrier de l'année du commerce : le titre, le métier à la ville, le
+ * téléphone, la livraison ; puis les fêtes à venir dans l'ordre des dates, rangées par mois (le mois du début), chacune
+ * avec sa période, sa date limite de commande et le lien vers sa page ; la fête en cours marquée dans le navigateur
+ * (aria-current). Générée seulement s'il reste une fête à venir au build ; aucune = aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, fetesAVenir, periodeFete, dateFete, isoDuJour } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Livraison from '@/components/Livraison.astro';
+
+export function getStaticPaths() {
+  return fetesAVenir(site.fetes, isoDuJour()).length > 0 ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const titre = site.wording.fetes;
+const fetes = fetesAVenir(site.fetes, isoDuJour());
+const MOIS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+const groupes: { mois: string; fetes: typeof fetes }[] = [];
+for (const f of fetes) {
+  const mois = `${MOIS[Number(f.du.slice(5, 7)) - 1]} ${f.du.slice(0, 4)}`;
+  const g = groupes.find((x) => x.mois === mois);
+  if (g) g.fetes.push(f); else groupes.push({ mois, fetes: [f] });
+}
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : chaque fête, ses dates et jusqu’à quand commander.`} path="/fetes">
+  <Nav />
+  <main id="main" class="fc">
+    <header class="container-ff fc-tete">
+      <h1 class="text-display-lg">{titre}</h1>
+      <p class="mt-4 max-w-prose text-lg">{metierEtVille()}</p>
+      <p class="mt-4"><a href={tel()} class="inline-flex items-center gap-2 tabular-nums underline underline-offset-4"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a></p>
+      <Livraison class="mt-6" />
+    </header>
+    <section class="container-ff fc-calendrier" aria-label="Calendrier" data-fc-calendrier>
+      {groupes.map((g) => (
+        <div class="fc-mois">
+          <h2 class="fc-mois-nom font-display">{g.mois}</h2>
+          <ul class="fc-liste">
+            {g.fetes.map((f) => (
+              <li class="fc-fete" data-du={f.du} data-au={f.au}>
+                <a href={`/fetes/${f.slug}`} class="fc-lien font-display">{f.nom}<Icon name="ArrowRight" size={18} /></a>
+                <p>{periodeFete(f.du, f.au).replace(/^./, (c) => c.toUpperCase())}{f.commanderAvant ? `, commandes jusqu’au ${dateFete(f.commanderAvant)}` : ''}.</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .fc-tete { padding-block: clamp(2.5rem, 8vh, 5rem) clamp(1.5rem, 4vh, 2.5rem); }
+  .fc-calendrier { display: grid; gap: 2rem; padding-block: 0 clamp(3rem, 8vh, 5rem); }
+  .fc-mois { display: grid; gap: 0.5rem; }
+  .fc-mois-nom { font-size: 1.5rem; }
+  .fc-liste { display: grid; }
+  .fc-fete { display: grid; gap: 0.15rem; padding-block: 0.9rem; border-block-start: 1px solid var(--color-line); }
+  .fc-fete[aria-current='date'] { border-block-start: 3px solid var(--color-accent); }
+  .fc-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; font-size: clamp(1.4rem, 3.5vw, 2rem); }
+  .fc-lien:hover { color: var(--color-accent); }
+  .fc-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  @media (min-width: 48rem) {
+    .fc-mois { grid-template-columns: minmax(10rem, 1fr) minmax(0, 3fr); align-items: start; column-gap: 2rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { isoDuJour } from '@/lib/agenda';
+
+  onPage(() => {
+    const j = isoDuJour(new Date());
+    document.querySelectorAll<HTMLElement>('[data-fc-calendrier] [data-du]').forEach((el) => {
+      if ((el.dataset.du ?? '') <= j && j <= (el.dataset.au ?? '')) el.setAttribute('aria-current', 'date');
+    });
+  });
+</script>

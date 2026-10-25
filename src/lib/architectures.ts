@@ -57,10 +57,12 @@ export interface LayoutArchi {
  *  - sorties         : sorties datées et cotées (sorties[] : période obligatoire, durée, niveau, prix si donnés) ;
  *  - programme       : entrées de programme aux jours distincts (services[].programme avec au moins une ligne ;
  *                      src/lib/ardoise.ts, entreesDistinctes) ;
- *  - etapes          : étapes de tournée complètes (tournee[] avec jour, commune et heures ; src/lib/tournee.ts).
+ *  - etapes          : étapes de tournée complètes (tournee[] avec jour, commune et heures ; src/lib/tournee.ts) ;
+ *  - artistes        : artistes avec une photo et au moins un style (artistes[] ; src/lib/artistes.ts, artistesComplets) ;
+ *  - fetes           : fêtes datées avec au moins une ligne (fetes[] ; src/lib/fetes.ts, fetesCompletes).
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -95,6 +97,8 @@ export const ARCHITECTURE_IDS = [
   'saisons-sorties',
   'ardoise-du-jour',
   'tournee-semaine',
+  'artistes-residents',
+  'calendrier-fetes',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -529,6 +533,55 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Métier itinérant à tournée régulière (même commune, même jour, mêmes heures chaque semaine) : camion pizza, rôtisseur, food truck, poissonnier ou boucher ambulant, fromager ou maraîcher de marchés, boulanger en tournée rurale, épicerie itinérante ; mieux avec plusieurs véhicules (un numéro chacun) et une offre événementielle. Pas pour un commerce fixe (pages-adresses, lieu-fixe), ni une zone sans jour fixe (zones.cities), ni une tournée tenue seulement sur les réseaux.",
   },
+  'artistes-residents': {
+    id: 'artistes-residents',
+    modele:
+      "L'accueil est le mur des artistes de la maison : en tête le h1, le métier à la ville, l'ancienneté, le téléphone et la note, puis un grand portrait par artiste (son nom, ses styles), filtrable par style sans script ; chaque artiste a sa page (/artistes/<slug> : portrait, styles, présentation, travaux, son e-mail, son Instagram, son lien de rendez-vous) ; la maison (adresse, horaires, téléphone) et les avis ensuite ; l'histoire sur la page À propos.",
+    sources: [{ fiche: 'docs/veille/architectures/artistes-residents.md', site: 'mysterytattooclub.com' }],
+    layout: {
+      // Coquille `artistes` : le mur des artistes EST l'accueil (src/shells/artistes.astro, src/components/MurArtistes.astro).
+      shell: 'artistes',
+      nav: 'bar',
+      // hero : non rendu (la coquille fait le premier écran) ; fullbleed garde le préchargement de la photo.
+      hero: 'fullbleed',
+      footer: 'columns',
+      // Les avis (socle) après la maison ; la source n'a qu'un titre « Témoignages ».
+      sections: [{ type: 'proof', variant: 'testimonials' }],
+      contactDrawer: true,
+      actionBar: false,
+      pageAPropos: true,
+    },
+    requis: [
+      { mesure: 'artistes', min: 3, libelle: '3 artistes au moins avec une photo et un style (artistes[] : une page chacun)' },
+      { mesure: 'rue', min: 1, libelle: "une adresse où l'on vient (contact.address.street)" },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on choisit son artiste, on prend rendez-vous" },
+    ],
+    convientA:
+      "Maison de plusieurs artistes ou praticiens qu'on choisit par leur style : salon de tatouage (résidents et invités), salon de coiffure ou barbier à plusieurs fauteuils, atelier collectif (céramistes, bijoutiers), studio de photographes. Chacun avec une photo, des styles et de préférence ses propres contacts. Pas pour un artisan seul (index-projets), ni l'urgence.",
+  },
+  'calendrier-fetes': {
+    id: 'calendrier-fetes',
+    modele:
+      "L'accueil suit le calendrier des fêtes : en tête le h1, le métier à la ville, le téléphone et la note, puis la fête du moment en grand (en cours, sinon la prochaine, choisie dans le navigateur ; ses dates, la date limite de commande, ce qui est préparé avec les prix, la porte Commander ou Appeler), les occasions (une porte par occasion vers sa page), la livraison (zone, délai, « commandé avant 13 h, livré aujourd'hui » calculé dans le navigateur) ; le calendrier entier sur /fetes et une page par fête ; les avis ensuite.",
+    sources: [{ fiche: 'docs/veille/architectures/calendrier-fetes.md', site: 'fleuriste-lemans.fr' }],
+    layout: {
+      shell: 'fetes',
+      nav: 'bar',
+      hero: 'fullbleed',
+      footer: 'columns',
+      sections: [{ type: 'proof', variant: 'testimonials' }],
+      contactDrawer: true,
+      actionBar: false,
+      pageAPropos: true,
+    },
+    requis: [
+      { mesure: 'fetes', min: 2, libelle: '2 fêtes au moins avec leurs dates et ce qui est préparé (fetes[] : du, au, lignes)' },
+      { mesure: 'services', min: 2, libelle: '2 occasions au moins (services[] : naissance, mariage, deuil…), une page chacune' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h)" },
+    ],
+    convientA:
+      "Commerce dont l'année tourne autour des fêtes et qui prend des commandes avant une date : fleuriste (Toussaint, Saint-Valentin, fête des mères), chocolatier (Pâques, Noël), pâtissier (galettes, bûches), boucher-traiteur et poissonnier (fêtes de fin d'année), caviste, primeur ; mieux avec une livraison. Pas pour une offre sans temps forts (lieu-fixe), ni une offre qui change chaque jour (ardoise-du-jour), ni l'urgence.",
+  },
 };
 
 
@@ -574,6 +627,8 @@ export interface SiteArchi {
   lieux?: { address?: { street?: string }; hours?: unknown[]; photo?: unknown; photos?: unknown[] }[];
   sorties?: { periode?: string; photo?: unknown }[];
   tournee?: { jour?: string; commune?: string; hours?: string }[];
+  artistes?: { photo?: unknown; photos?: unknown[]; styles?: string[] }[];
+  fetes?: { du?: string; au?: string; lignes?: unknown[]; photo?: unknown }[];
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -609,6 +664,8 @@ export function photosDuClient(s: SiteArchi): number {
     (s.about?.espaces ?? []).filter((e) => e.photo).length +
     (s.lieux ?? []).reduce((n, l) => n + (l.photo ? 1 : 0) + (l.photos?.length ?? 0), 0) +
     (s.sorties ?? []).filter((x) => x.photo).length +
+    (s.artistes ?? []).reduce((n, a) => n + (a.photo ? 1 : 0) + (a.photos?.length ?? 0), 0) +
+    (s.fetes ?? []).filter((x) => x.photo).length +
     (s.realisations ?? []).reduce((n, r) => n + (r.photos?.length ?? 0), 0)
   );
 }
@@ -669,6 +726,13 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
         break;
       }
       case 'etapes': n = (s.tournee ?? []).filter((e) => (e.jour ?? '').trim() && (e.commune ?? '').trim() && (e.hours ?? '').trim()).length; break;
+      // Mêmes comptes que artistesComplets (src/lib/artistes.ts) et fetesCompletes (src/lib/fetes.ts), recopiés.
+      case 'artistes': n = (s.artistes ?? []).filter((a) => (a.photo || (a.photos ?? []).length > 0) && (a.styles ?? []).some((x) => x.trim())).length; break;
+      case 'fetes': {
+        const iso = /^\d{4}-\d{2}-\d{2}$/;
+        n = (s.fetes ?? []).filter((f) => iso.test(f.du ?? '') && iso.test(f.au ?? '') && (f.du ?? '') <= (f.au ?? '') && (f.lignes ?? []).length > 0).length;
+        break;
+      }
       case 'pasUrgence': if (s.contact?.emergency24h) out.push(e.libelle); continue;
     }
     if (compte(n, e)) out.push(`${e.libelle} (${n} aujourd’hui)`);

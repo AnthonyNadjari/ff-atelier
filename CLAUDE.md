@@ -142,6 +142,11 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   jour de l'accueil (jour choisi dans le navigateur, semaine entière sans script), `/programme` ; `tournee` (défaut `[]`, architecture
   `tournee-semaine`, coquille `tournee`) → l'étape du moment, `/tournee`, `/tournee/<commune>` ; aucune donnée = aucune page
   (`src/lib/ardoise.ts`, `src/lib/tournee.ts`, `tests/architectures-jour.test.mjs`).
+  `artistes` (défaut `[]`, architecture `artistes-residents`, coquille `artistes`) → un bloc par artiste sous des onglets de
+  style, `/artistes`, `/artistes/<slug>` (`Person` par artiste) ; `fetes` (défaut `[]`) et `livraison` (architecture
+  `calendrier-fetes`, coquille `fetes`) → la piste des fêtes ouverte sur celle du moment dans le navigateur, date limite de
+  commande, heure limite de livraison, `/fetes`, `/fetes/<slug>` ; aucune donnée = aucune page (`src/lib/artistes.ts`,
+  `src/lib/fetes.ts`, `tests/architectures-maison.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

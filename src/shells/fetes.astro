@@ -1,0 +1,194 @@
+---
+/**
+ * Coquille "fetes" : architecture `calendrier-fetes` (src/lib/architectures.ts ; source Touchard Fleurs, Sarthe,
+ * docs/veille/architectures/calendrier-fetes.md). Le commerce vit au rythme des fêtes : on vient savoir ce qui est
+ * préparé pour la prochaine, jusqu'à quand commander, et si c'est livré.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone, la note Google (socle docs/GOUT.md § 0) ;
+ *   → le calendrier des fêtes sur un fond creusé, id="fete" : une piste qui se feuillette de gauche à droite, une carte
+ *     par fête (FeteDuMoment : la date en grand, la date limite de commande, les lignes à prix, Commander ou Appeler),
+ *     ouverte sur la fête en cours, sinon la prochaine, choisie DANS LE NAVIGATEUR ; défilement manuel (doigt, clavier,
+ *     deux flèches posées par le script), jamais la molette verticale détournée ;
+ *   → la livraison sur l'encre, id="livraison" (les promesses de la source juste sous la fête : livraison en 4 h,
+ *     130 communes) : zone, délai, prix, « commandé avant 13 h, livré aujourd'hui » dans le navigateur, téléphone ;
+ *     seulement si le client livre (site.livraison) ;
+ *   → les sections du layout (les avis, haut dans la page : socle) ;
+ *   → les occasions, id="services" : une grande porte par occasion (services[] : photo, nom, phrase), vers sa page,
+ *     l'une sous l'autre au téléphone comme les tuiles de la source ;
+ *   → l'histoire en une phrase, id="about" (« Une entreprise familiale depuis 1986 » de la source) : le premier
+ *     paragraphe de about.story, vers /a-propos ; seulement si le client a une histoire ;
+ *   → la boutique, id="contact" (les boutiques de la source, en bas de l'accueil) : adresse, état du jour, téléphone ;
+ *     puis le pied.
+ * Le calendrier entier sur /fetes, une page par fête (/fetes/<slug>) ; l'histoire sur /a-propos (layout.pageAPropos).
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran) ; `fullbleed` garde le préchargement de la photo.
+ * Sans fête à venir : les occasions viennent en tête, et le build dit ce qui manque (donneesManquantes).
+ * Signes de la source NON repris : émojis dans la nav et les adresses, carrousel qui tourne seul, chiffres mis en scène
+ * (« 97 % clients satisfaits »), boutons pilules, lettrines décoratives géantes, bandeau de promesses à pictogrammes.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import FeteDuMoment from '@/components/FeteDuMoment.astro';
+import Livraison from '@/components/Livraison.astro';
+import { site, tel, metierEtVille, fullAddress, donneesManquantes, fetesAVenir, isoDuJour, paragraphs } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const aVenir = fetesAVenir(site.fetes, isoDuJour());
+const occasions = site.services;
+// L'histoire en une phrase (« Une entreprise familiale depuis 1986 » de la source) : le premier paragraphe du client.
+const histoire = site.about.story ? paragraphs(site.about.story)[0] : undefined;
+if (aVenir.length === 0) {
+  console.warn(`[coquille fetes] ${site.slug} : aucune fête à venir (site.fetes) ; ${donneesManquantes('calendrier-fetes', site).join(' ; ')}`);
+}
+---
+
+<Nav />
+<main id="main" class="fe-page">
+  <section id="hero" class="container-ff fe-tete" aria-label="Accueil">
+    <h1 class="fe-h1 font-display" set:html={site.business.tagline} />
+    <div class="fe-cote">
+      <p class="fe-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      <p class="fe-portes">
+        <a href={tel()} class="fe-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="fe-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+    </div>
+  </section>
+  {aVenir.length > 0 && (
+    <div class="container-ff fe-cal-tete">
+      <p class="fe-cal-titre font-display">{site.wording.fetes}</p>
+      {aVenir.length > 1 && (
+        <p class="fe-fleches" data-fe-fleches hidden>
+          <button type="button" class="fe-fleche" data-fe-pas="-1" aria-label="Fête précédente"><Icon name="ArrowLeft" size={20} /></button>
+          <button type="button" class="fe-fleche" data-fe-pas="1" aria-label="Fête suivante"><Icon name="ArrowRight" size={20} /></button>
+        </p>
+      )}
+    </div>
+    <section id="fete" class="fe-fete bg-bg-2" aria-label={site.wording.fetes} data-fm-defileur>
+      <FeteDuMoment priorite />
+    </section>
+  )}
+  {site.livraison && (
+    <section id="livraison" class="fe-livraison-bande bg-ink text-on-ink" aria-labelledby="fe-livraison-titre">
+      <div class="container-ff fe-livraison-grille">
+        <h2 id="fe-livraison-titre" class="fe-titre font-display">Livraison</h2>
+        <Livraison />
+        <p><a href={tel()} class="fe-appel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      </div>
+    </section>
+  )}
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+  {occasions.length > 0 && (
+    <section id="services" class="container-ff fe-occasions" aria-labelledby="fe-occasions-titre">
+      <h2 id="fe-occasions-titre" class="fe-titre font-display">{site.wording.servicesTitle}</h2>
+      <ul class="fe-portes-occasions">
+        {occasions.map((o) => {
+          const contenu = (
+            <>
+              {o.image ? (
+                <div class="fe-occ-photo"><Img src={o.image.src} alt={o.image.alt} sizes="(min-width: 1024px) 22vw, 70vw" class="h-full w-full object-cover" /></div>
+              ) : (
+                <div class="fe-occ-photo bg-bg-2" aria-hidden="true"></div>
+              )}
+              <h3 class="fe-occ-nom font-display">{o.title}</h3>
+              <p class="fe-occ-phrase">{o.short}</p>
+            </>
+          );
+          return <li class="fe-occ">{site.servicePages ? <a href={`/services/${o.slug}`} class="fe-occ-lien">{contenu}</a> : contenu}</li>;
+        })}
+      </ul>
+    </section>
+  )}
+  {histoire && (
+    <section id="about" class="container-ff fe-histoire" aria-labelledby="fe-histoire-titre">
+      <h2 id="fe-histoire-titre" class="fe-titre font-display">{site.about.title ?? 'Notre histoire'}</h2>
+      <p class="fe-histoire-texte">{histoire}</p>
+      {site.layout.pageAPropos && <p><a href="/a-propos" class="fe-lien">Toute l’histoire<Icon name="ArrowRight" size={16} /></a></p>}
+    </section>
+  )}
+  <section id="contact" class="fe-boutique" aria-labelledby="fe-boutique-titre">
+    <div class="container-ff fe-boutique-grille">
+      <div class="fe-boutique-lieu">
+        <h2 id="fe-boutique-titre" class="fe-titre font-display">{site.business.name}</h2>
+        <p>{fullAddress()}</p>
+        <HorairesDuJour />
+        <p><a href={tel()} class="fe-appel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+
+<style>
+  .fe-tete { display: grid; gap: 1rem; padding-block: clamp(1.5rem, 5vh, 3rem) clamp(1.5rem, 4vh, 2.5rem); }
+  .fe-h1 { font-size: clamp(2.1rem, 7vw, 4.75rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 16ch; }
+  .fe-cote { display: grid; gap: 0.75rem; align-content: end; }
+  .fe-metier { font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-inline-size: 38ch; }
+  .fe-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; }
+  .fe-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); border: 1px solid currentColor; font-weight: 600; }
+  .fe-tel:hover { color: var(--color-accent); }
+  .fe-note, .fe-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .fe-tel:focus-visible, .fe-note:focus-visible, .fe-lien:focus-visible, .fe-occ-lien:focus-visible, .fe-appel:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .fe-cal-tete { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding-block: 0 1rem; }
+  .fe-cal-titre { font-size: clamp(1.5rem, 4vw, 2.25rem); line-height: 1.05; }
+  .fe-fleches { display: flex; gap: 0.5rem; }
+  .fe-fleche { display: inline-grid; place-items: center; inline-size: 48px; block-size: 48px; border: 1px solid currentColor; border-radius: var(--radius-ui, 6px); cursor: pointer; }
+  .fe-fleche:hover { color: var(--color-accent); }
+  .fe-fleche:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  /* La piste : un bloc de la page qui défile en x (scroll-snap, manuel). */
+  .fe-fete { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 1rem; padding-block: clamp(1.5rem, 4vh, 2.5rem); }
+  @media (prefers-reduced-motion: no-preference) { .fe-fete { scroll-behavior: smooth; } }
+  .fe-occasions { display: grid; gap: 1.5rem; padding-block: clamp(3rem, 9vh, 5.5rem); }
+  .fe-titre { font-size: clamp(1.8rem, 4.5vw, 3rem); line-height: 1.05; }
+  /* Les occasions l'une sous l'autre au téléphone (les tuiles hautes de la source), en rangée à l'ordinateur. */
+  .fe-portes-occasions { display: grid; gap: 2rem; }
+  .fe-occ-lien { display: grid; gap: 0.5rem; }
+  .fe-occ-photo { aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius-card); }
+  .fe-occ-photo > :global(picture) { display: block; block-size: 100%; }
+  .fe-occ-photo :global(img) { transition: transform 0.6s ease; }
+  .fe-occ-lien:hover .fe-occ-photo :global(img) { transform: scale(1.04); }
+  .fe-occ-nom { font-size: 1.5rem; line-height: 1.1; margin-block-start: 0.4rem; }
+  .fe-occ-lien:hover .fe-occ-nom { color: var(--color-accent); }
+  .fe-occ-phrase { font-size: 0.95rem; color: var(--color-muted); }
+  .fe-livraison-bande { padding-block: clamp(2rem, 6vh, 3.5rem); }
+  .fe-livraison-grille { display: grid; gap: 0.75rem; }
+  .fe-histoire { display: grid; gap: 0.75rem; padding-block: 0 clamp(2.5rem, 7vh, 4rem); }
+  .fe-histoire-texte { font-size: clamp(1.25rem, 3vw, 1.75rem); line-height: 1.3; max-inline-size: 32ch; }
+  .fe-boutique { padding-block: clamp(2.5rem, 8vh, 5rem); border-block-start: 1px solid var(--color-line); }
+  .fe-boutique-grille { display: grid; gap: 2rem; }
+  .fe-boutique-lieu { display: grid; gap: 0.4rem; align-content: start; }
+  .fe-appel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: 1.2rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  @media (prefers-reduced-motion: reduce) { .fe-occ-photo :global(img) { transition: none; } }
+  @media (min-width: 64rem) {
+    .fe-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; padding-block: clamp(4rem, 10vh, 6rem) clamp(2rem, 5vh, 3rem); }
+    .fe-portes-occasions { grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.25rem; }
+    .fe-livraison-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) auto; align-items: center; column-gap: 3rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Deux flèches pour la souris (la piste se feuillette aussi au doigt et au clavier) : une carte à la fois.
+  onPage(() => {
+    const fleches = document.querySelector<HTMLElement>('[data-fe-fleches]');
+    const piste = document.querySelector<HTMLElement>('[data-fm-defileur]');
+    if (!fleches || !piste) return;
+    fleches.hidden = false;
+    fleches.querySelectorAll<HTMLButtonElement>('[data-fe-pas]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const carte = piste.querySelector<HTMLElement>('.fm-carte');
+        piste.scrollBy({ left: Number(b.dataset.fePas) * (carte ? carte.offsetWidth + 16 : piste.clientWidth * 0.8) });
+      });
+    });
+  });
+</script>

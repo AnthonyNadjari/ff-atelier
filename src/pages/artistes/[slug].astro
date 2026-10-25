@@ -1,0 +1,128 @@
+---
+/**
+ * Page d'un artiste (site.artistes, src/lib/artistes.ts) : architecture `artistes-residents` (source Mystery Tattoo Club,
+ * pages « Tatoueuse Manon », « Tatoueur Gary Burns », docs/veille/architectures/artistes-residents.md). En tête, le
+ * portrait à gauche et à droite le nom (h1), sa place dans la maison, « métier à ville », ses styles, ses jours, sa
+ * période s'il est invité, ses portes (son lien de rendez-vous, son e-mail, sinon celui de la maison, son Instagram) et
+ * le téléphone de la maison ; puis sa présentation, ses travaux en grille, « Les autres artistes ». JSON-LD : une Person
+ * qui travaille pour le commerce. Générée seulement pour les artistes du client : aucun = aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, paragraphs, autresArtistes, contactsDeLArtiste } from '@/lib/site';
+import { enumerer } from '@/lib/artistes';
+import { artisteLd } from '@/lib/jsonld';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+export function getStaticPaths() {
+  return site.artistes.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+}
+const { a } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const portrait = a.photo ?? a.photos[0];
+const travaux = a.photo ? a.photos : a.photos.slice(1);
+const portes = contactsDeLArtiste(a, site.contact);
+const autres = autresArtistes(site.artistes, a.slug);
+const metier = site.business.trade.toLowerCase();
+const ville = site.contact.address.city;
+const pageUrl = new URL(`/artistes/${a.slug}`, Astro.site).toString();
+const ld = artisteLd(site, a, pageUrl, portrait ? new URL(portrait.src, Astro.site).toString() : undefined);
+const description = `${a.nom}${a.role ? `, ${a.role.toLowerCase()}` : ''} chez ${site.business.name}, ${metier} à ${ville}${a.styles.length > 0 ? ` : ${enumerer(a.styles).toLowerCase()}` : ''}.`;
+const icone = { rdv: 'Calendar', email: 'Mail', instagram: 'Camera' } as const;
+---
+
+<Base title={`${a.nom} | ${site.business.name}`} description={description} path={`/artistes/${a.slug}`} jsonLd={[ld]}>
+  <Nav />
+  <main id="main" class="af">
+    <div class="container-ff af-retour"><a href="/artistes" class="inline-flex items-center gap-2 text-sm hover:underline"><Icon name="ArrowLeft" size={16} />{site.wording.artistes}</a></div>
+    <article class="container-ff af-tete">
+      {portrait && (
+        <div class="af-portrait">
+          <Img src={portrait.src} alt={portrait.alt} priority sizes="(min-width: 1024px) 40vw, 90vw" class="h-full w-full object-cover" />
+        </div>
+      )}
+      <div class="af-fiche">
+        <h1 class="af-nom font-display">{a.nom}</h1>
+        <p class="af-role">{a.role ? `${a.role}, ` : ''}{site.business.name}, {metier} à {ville}{a.depuis ? `. Depuis ${a.depuis}` : ''}.</p>
+        {a.periode && <p class="af-periode">De passage {a.periode}.</p>}
+        {a.styles.length > 0 && (
+          <ul class="af-styles" aria-label="Ses styles">
+            {a.styles.map((s) => <li>{s}</li>)}
+          </ul>
+        )}
+        {a.jours && <p>Au salon&nbsp;: {a.jours}.</p>}
+        <p class="af-portes">
+          {portes.map((p, i) => (
+            <a href={p.href} class:list={[i === 0 ? 'af-porte-1' : 'af-lien']} {...(p.type !== 'email' ? { target: '_blank', rel: 'noopener' } : {})}>
+              <Icon name={icone[p.type]} size={18} />{p.label}{p.type !== 'email' && <span class="sr-only"> (nouvel onglet)</span>}
+            </a>
+          ))}
+          <a href={tel()} class="af-lien tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        </p>
+        {a.texte && (
+          <div class="af-texte">
+            {paragraphs(a.texte).map((p) => <p>{p}</p>)}
+          </div>
+        )}
+      </div>
+    </article>
+    {travaux.length > 0 && (
+      <section class="container-ff af-travaux" aria-labelledby="af-travaux-titre">
+        <h2 id="af-travaux-titre" class="text-display-md">Son travail</h2>
+        <ul class="af-grille">
+          {travaux.map((x) => (
+            <li class="af-piece">
+              <Img src={x.src} alt={x.alt} sizes="(min-width: 1024px) 30vw, 45vw" class="h-full w-full object-cover" />
+              {x.caption && <p class="af-legende">{x.caption}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+    {autres.length > 0 && (
+      <nav class="container-ff af-autres" aria-label="Les autres artistes">
+        <p class="text-display-sm">Les autres artistes</p>
+        <ul class="af-noms">
+          {autres.map((x) => <li><a href={`/artistes/${x.slug}`} class="af-autre font-display">{x.nom}</a>{x.styles.length > 0 && <span class="text-muted">{enumerer(x.styles)}</span>}</li>)}
+        </ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .af-retour { padding-block-start: 1.5rem; }
+  .af-tete { display: grid; gap: 1.5rem; padding-block: 1.5rem clamp(2.5rem, 7vh, 4rem); }
+  .af-portrait { aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-card); }
+  .af-portrait > :global(picture) { display: block; block-size: 100%; }
+  .af-fiche { display: grid; gap: 0.75rem; align-content: start; }
+  .af-nom { font-size: clamp(2.6rem, 10vw, 6rem); line-height: 0.95; overflow-wrap: anywhere; }
+  .af-role { font-size: 1.1rem; max-inline-size: 42ch; }
+  .af-periode { font-weight: 600; }
+  .af-styles { display: flex; flex-wrap: wrap; gap: 0.4rem 0.6rem; }
+  .af-styles li { padding: 0.3rem 0.7rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); }
+  .af-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; margin-block-start: 0.5rem; }
+  .af-porte-1 { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .af-porte-1:hover { background: var(--color-accent-2); }
+  .af-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .af-lien:hover { color: var(--color-accent); }
+  .af-porte-1:focus-visible, .af-lien:focus-visible, .af-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .af-texte { display: grid; gap: 0.9rem; max-inline-size: 60ch; margin-block-start: 0.75rem; font-size: 1.05rem; }
+  .af-travaux { display: grid; gap: 1.5rem; padding-block: 0 clamp(2.5rem, 7vh, 4rem); }
+  .af-grille { display: grid; gap: 0.75rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .af-piece { display: grid; gap: 0.35rem; }
+  .af-piece > :global(picture) { display: block; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-card); }
+  .af-legende { font-size: 0.9rem; color: var(--color-muted); }
+  .af-autres { display: grid; gap: 1rem; padding-block: clamp(2rem, 6vh, 3.5rem); border-block-start: 1px solid var(--color-line); }
+  .af-noms { display: grid; gap: 0.5rem 2rem; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+  .af-noms li { display: grid; }
+  .af-autre { display: inline-flex; min-block-size: 44px; align-items: center; font-size: 1.5rem; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .af-autre:hover { color: var(--color-accent); }
+  @media (min-width: 64rem) {
+    .af-tete { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(2rem, 5vw, 5rem); }
+    .af-grille { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+</style>

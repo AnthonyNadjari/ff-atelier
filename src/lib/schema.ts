@@ -71,6 +71,8 @@ export const SHELLS = [
   'saisons', // le temps range l accueil : en tete h1, telephone, note ; puis une colonne par saison (photo, nom geant, activites, sorties a la une) cote a cote (architecture saisons-sorties)
   'ardoise', // l accueil est l ardoise du jour : en tete h1, telephone, note ; une rangee d ardoises (horaires, programme, rendez-vous du jour, choisis dans le navigateur) posee sur la photo (architecture ardoise-du-jour)
   'tournee', // l accueil dit ou est le camion : l etape du moment (commune, repere, heures, telephone du vehicule) en tete, puis la semaine ; une page par commune (architecture tournee-semaine)
+  'artistes', // l accueil est le mur des artistes du salon : en tete h1, telephone, note ; un grand portrait par artiste, filtre par style sans script ; une page par artiste (architecture artistes-residents)
+  'fetes', // l accueil suit le calendrier des fetes : en tete h1, telephone, note ; la fete du moment (choisie dans le navigateur, date limite de commande), les occasions, la livraison ; une page par fete (architecture calendrier-fetes)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -609,6 +611,59 @@ export const siteSchema = z.object({
       "Tournee de la semaine d'un metier itinerant (camion pizza, rotisseur, marches ; architecture tournee-semaine, docs/veille/architectures/tournee-semaine.md) : l'etape du moment en tete de l'accueil (choisie DANS LE NAVIGATEUR, fuseau Europe/Paris ; sans script, toute la semaine se lit), la semaine (zones/tournee), une page par commune (/tournee/<commune>, JSON-LD par etape), /tournee, lien de nav. Vide = ni bloc, ni page, ni lien. Jamais une etape, un repere ou un jour inventes.",
     ),
 
+  artistes: z
+    .array(
+      z.object({
+        slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /artistes/<slug> (« manon », « gary-burns »)'),
+        nom: z.string().describe('Nom ou nom d’artiste tel que la personne le signe (« Manon », « Gary Burns »)'),
+        role: z.string().optional().describe('Place dans la maison, dans les mots du client (« Tatoueuse résidente », « Coiffeuse », « Artiste invité »). Absent = non affiche.'),
+        depuis: z.number().int().optional().describe('Annee ou la personne a commence le metier (« tatoue depuis 2011 »), donnee par elle. Absente = non affichee.'),
+        styles: z.array(z.string()).default([]).describe('Styles ou specialites de la personne (« Japonais », « Blackwork », « Coupe homme ») : filtre par style de l’accueil et de /artistes (sans script) des deux styles distincts. Vide = non affiches.'),
+        texte: md.optional().describe('Presentation a la premiere personne ou dans les mots du client, paragraphes separes par une ligne vide. Absente = page sans texte, jamais inventee.'),
+        photo: img.optional().describe('Portrait ou piece signature de la personne (photo du client) : carte de l’accueil et tete de sa page. Absente = carte en texte seul, jamais une photo de banque.'),
+        photos: z.array(img).default([]).describe('Ses travaux (portfolio), photos du client : grille de sa page. Vide = pas de grille.'),
+        jours: z.string().optional().describe('Jours de presence au salon tels que le client les donne (« Du mardi au samedi », « Un samedi sur deux »). Absents = non affiches.'),
+        periode: z.string().optional().describe('Pour un artiste invite : periode de passage donnee par le client (« du 3 au 15 novembre »). Absente = artiste resident.'),
+        email: z.string().email().optional().describe('E-mail propre a la personne ; absent = contact.email (jamais devine)'),
+        instagram: z.string().url().optional().describe('Compte Instagram de la personne (son portfolio). Absent = pas de lien.'),
+        rdvUrl: z.string().url().optional().describe('Lien de prise de rendez-vous propre a la personne (Planity, agenda en ligne). Absent = pas de bouton, on ecrit ou on appelle.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Artistes ou praticiens du salon, une page chacun (architecture artistes-residents, docs/veille/architectures/artistes-residents.md : salon de tatouage, coiffeurs, barbiers, atelier collectif) : le mur des artistes en tete de l'accueil, filtre par style en CSS (:has()), page /artistes et /artistes/<slug> (portrait, styles, presentation, travaux, son e-mail, son Instagram, son lien de rendez-vous ; JSON-LD Person qui travaille pour le commerce), lien de nav. Vide = ni mur, ni page, ni lien. Jamais un artiste, un style ou une photo inventes.",
+    ),
+
+  fetes: z
+    .array(
+      z.object({
+        slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /fetes/<slug> (« toussaint-2026 », « noel-2026 »)'),
+        nom: z.string().describe('Nom du temps fort tel que le client le dit (« Toussaint », « Fête des mères », « Noël »)'),
+        du: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('Debut AAAA-MM-JJ : la fete devient « en ce moment » dans le navigateur a cette date'),
+        au: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('Fin AAAA-MM-JJ (le jour de la fete) : apres, elle tombe de l’accueil'),
+        commanderAvant: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe('Date limite de commande AAAA-MM-JJ donnee par le client. Absente = rien n’est dit, jamais devinee.'),
+        texte: z.string().optional().describe('Une ou deux phrases du client (ce qu’il prepare pour cette fete). Absente = non affichee.'),
+        lignes: z.array(ligneCarte).default([]).describe('Ce qui est propose pour cette fete, avec le prix si le client le donne (« Coupe de chrysanthèmes », « 25 € »). Vide = pas de liste.'),
+        photo: img.optional().describe('Photo du client pour cette fete. Absente = bloc sans photo, jamais une photo de banque.'),
+        service: z.string().optional().describe("Slug de l'occasion (services[]) a laquelle la fete renvoie (Toussaint → deuil). Absent = pas de renvoi."),
+      }),
+    )
+    .default([])
+    .describe(
+      "Calendrier des fetes du commerce (architecture calendrier-fetes, docs/veille/architectures/calendrier-fetes.md : fleuriste, chocolatier, patissier, boucher-traiteur, caviste) : la fete en cours ou la prochaine en tete de l'accueil, choisie DANS LE NAVIGATEUR (fuseau Europe/Paris ; sans script, toutes les fetes a venir se lisent), avec la date limite de commande ; page /fetes et /fetes/<slug> ; lien de nav. Les fetes passees tombent au build. Vide = ni bloc, ni page, ni lien. Jamais une fete, une date ou un prix inventes.",
+    ),
+
+  livraison: z
+    .object({
+      zone: z.string().optional().describe('Zone livree dans les mots du client (« 130 communes de Sarthe », « Le Mans et 15 km autour »). Absente = non affichee.'),
+      delai: z.string().optional().describe('Delai donne par le client (« en 4 h au plus »). Absent = non affiche.'),
+      prix: z.string().optional().describe('Prix de la livraison tel que le client le donne (« gratuite », « 8 € »). Absent = non affiche.'),
+      heureLimite: z.string().regex(/^\d{2}:\d{2}$/).optional().describe('Heure HH:MM avant laquelle une commande est livree le jour meme, donnee par le client : dans le navigateur, avant cette heure « livree aujourd’hui », apres « le prochain jour de livraison ». Absente = rien n’est dit.'),
+      jours: z.string().optional().describe('Jours de livraison tels que le client les donne (« Du mardi au dimanche matin »). Absents = non affiches.'),
+    })
+    .optional()
+    .describe("Livraison du client (architecture calendrier-fetes ; source Touchard Fleurs : « livraison en 4 h dans 130 communes », commande avant 13 h pour le jour meme) : bloc de l'accueil et des pages de fete. Absent = rien n’est dit sur la livraison, jamais devine."),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -661,6 +716,8 @@ export const siteSchema = z.object({
       contactTitle: z.string().default('Parlons de votre projet'),
       agenda: z.string().default('Agenda').describe('Libellé de la porte et de la page des rendez-vous (site.agenda) : « Agenda », « Les rendez-vous de l’atelier »'),
       tournee: z.string().default('Où nous trouver').describe('Libellé du lien de nav et titre de la page /tournee (site.tournee) : « Où nous trouver », « La tournée », « Nos marchés »'),
+      artistes: z.string().default('Les artistes').describe('Libellé du lien de nav et titre de la page /artistes (site.artistes) : « Les artistes », « L’équipe », « Les tatoueurs »'),
+      fetes: z.string().default('Les fêtes').describe('Libellé du lien de nav et titre de la page /fetes (site.fetes) : « Les fêtes », « Le calendrier », « Les temps forts »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),
       pros: z.string().default('Professionnels').describe('Libellé du lien de nav vers /professionnels (site.pros) : « Professionnels », « Vente aux pros »'),

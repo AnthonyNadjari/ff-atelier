@@ -174,3 +174,47 @@ export function tourneeLd(site: Site, commune: string, etapes: Site['tournee'], 
     parentOrganization: { '@type': type, name: site.business.name },
   };
 }
+
+/**
+ * Un artiste du salon (site.artistes, architecture artistes-residents, src/pages/artistes/[slug].astro) : une `Person`
+ * qui travaille pour le commerce (worksFor), ses styles en knowsAbout, son Instagram en sameAs, son portrait si donné.
+ * Rien qui ne soit sur la page ; jamais de note agrégée.
+ */
+export function artisteLd(site: Site, a: Site['artistes'][number], pageUrl: string, imageUrl?: string): Json {
+  const type = site.business.schemaType || schemaTypeForTrade(site.business.trade);
+  return {
+    '@type': 'Person',
+    name: a.nom,
+    url: pageUrl,
+    ...(a.role ? { jobTitle: a.role } : {}),
+    ...(imageUrl ? { image: imageUrl } : {}),
+    ...(a.styles.length > 0 ? { knowsAbout: a.styles } : {}),
+    ...(a.instagram ? { sameAs: [a.instagram] } : {}),
+    worksFor: { '@type': type, name: site.business.name },
+  };
+}
+
+/**
+ * Une fête du calendrier (site.fetes, architecture calendrier-fetes, src/pages/fetes/[slug].astro) : un `OfferCatalog`
+ * des lignes de la fête, chaque ligne une `Offer` (prix structuré seulement s'il est donné en euros, sinon en texte,
+ * jamais deviné), avec la période de validité (validFrom / validThrough) ; proposé par le commerce.
+ */
+export function feteLd(site: Site, f: Site['fetes'][number], pageUrl: string): Json {
+  const type = site.business.schemaType || schemaTypeForTrade(site.business.trade);
+  return {
+    '@type': 'OfferCatalog',
+    name: `${f.nom}, ${site.business.name}`,
+    url: pageUrl,
+    itemListElement: f.lignes.map((l) => {
+      const m = l.prix ? /^\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|EUR|euros?)\s*$/i.exec(l.prix) : null;
+      return {
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Product', name: l.nom, ...(l.detail ? { description: l.detail } : {}) },
+        ...(m ? { price: m[1].replace(',', '.'), priceCurrency: 'EUR' } : l.prix ? { description: l.prix } : {}),
+        validFrom: f.du,
+        validThrough: f.au,
+      };
+    }),
+    provider: { '@type': type, name: site.business.name },
+  };
+}

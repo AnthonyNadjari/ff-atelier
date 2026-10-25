@@ -9,7 +9,7 @@ export type { Action, ActionKind } from './actions';
 export { conseilsTries, dateConseil, lienConseils } from './conseils';
 import { lienConseils } from './conseils';
 export { agendaAVenir, dateAgenda, categoriesAgenda, lienAgenda, isoDuJour } from './agenda';
-import { lienAgenda } from './agenda';
+import { lienAgenda, isoDuJour } from './agenda';
 export { categoriesProduits, autresProduits, lienProduits, prixEnOffre } from './produits';
 import { lienProduits } from './produits';
 export { telDuLieu, adresseDuLieu, autresLieux, liensLieux, lienPros, lieuxComplets } from './lieux';
@@ -20,6 +20,10 @@ export { programmeDeLaSemaine, avecProgramme, joursCouverts, entreesDistinctes, 
 import { lienProgramme } from './ardoise';
 export { slugCommune, etapesParJour, communesDe, telDeLEtape, etapeDuMoment, libelleDuMoment, lienTournee, etapesCompletes, JOURS_TOURNEE } from './tournee';
 import { lienTournee } from './tournee';
+export { slugStyle, stylesDe, artistesDuStyle, autresArtistes, contactsDeLArtiste, residentsEtInvites, lienArtistes, artistesComplets } from './artistes';
+import { lienArtistes } from './artistes';
+export { fetesAVenir, feteDuMoment, etatCommande, joursEntre, dateFete, periodeFete, formatHeure, livraisonDuMoment, lienFetes, fetesCompletes } from './fetes';
+import { lienFetes } from './fetes';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -235,6 +239,14 @@ export const navLinks = (s: Site = site) => {
     const iC = links.findIndex((l) => l.href === '/#contact');
     links.splice(iC === -1 ? links.length : iC, 0, programme);
   }
+  // Artistes (src/lib/artistes.ts, architecture artistes-residents) : la maison se choisit par ses artistes, leur page
+  // ouvre la nav (« Artistes » est la deuxième entrée de Mystery Tattoo Club, après Accueil).
+  const artistes = lienArtistes(s.artistes ?? [], s.wording.artistes);
+  if (artistes) links.unshift(artistes);
+  // Fêtes (src/lib/fetes.ts, architecture calendrier-fetes) : le calendrier ouvre la nav (« Toussaint » est la première
+  // entrée de Touchard Fleurs) ; seulement s'il reste une fête à venir au build.
+  const fetes = lienFetes(s.fetes ?? [], s.wording.fetes, isoDuJour());
+  if (fetes) links.unshift(fetes);
   // Professionnels (site.pros, architecture pages-adresses) : un lien discret, en dernier.
   const pros = lienPros(s.pros, s.wording.pros);
   if (pros) links.push(pros);

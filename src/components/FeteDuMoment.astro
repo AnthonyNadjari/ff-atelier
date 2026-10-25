@@ -1,0 +1,136 @@
+---
+/**
+ * Le calendrier des fêtes, ouvert sur celle du moment (site.fetes, src/lib/fetes.ts) : architecture `calendrier-fetes`
+ * (source Touchard Fleurs, « C'est la Toussaint » en premier écran et premier lien de la nav, les fêtes de la saison en
+ * diapositives ; docs/veille/architectures/calendrier-fetes.md). Les fêtes à venir sont rendues au build, dans l'ordre
+ * des dates, une carte chacune sur une piste qui se feuillette de gauche à droite comme l'année (défilement MANUEL :
+ * `scroll-snap`, au doigt, à la molette horizontale, au clavier, et deux flèches posées par le script ; jamais la
+ * molette verticale détournée). Chaque carte : la date en grand, la photo du client, le nom, la période, la date
+ * limite de commande, la phrase, les lignes avec leur prix (rien si le prix manque), Commander ou Appeler, sa page,
+ * l'occasion à laquelle elle renvoie ; la dernière carte mène au calendrier entier (/fetes). Dans le navigateur
+ * (fuseau Europe/Paris) : la fête en cours, sinon la prochaine (feteDuMoment) est marquée « En ce moment », « Demain »
+ * ou « Dans 12 jours » et la piste s'ouvre sur elle ; une date limite passée se dit « Commandes closes ». Sans script,
+ * la piste commence à la première fête à venir au build. Aucune horloge visible (docs/GOUT.md § 5). Tokens uniquement.
+ *
+ * Le composant rend les cartes (`.fm-piste`) ; la coquille `fetes` en fait un bloc de premier niveau qui défile en x.
+ */
+import { site, tel, fetesAVenir, periodeFete, dateFete, isoDuJour } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props { priorite?: boolean }
+const { priorite = false } = Astro.props;
+const fetes = fetesAVenir(site.fetes, isoDuJour());
+const data = JSON.stringify(fetes.map((f) => ({ du: f.du, au: f.au, commanderAvant: f.commanderAvant })));
+const occasion = (slug?: string) => (slug ? site.services.find((s) => s.slug === slug) : undefined);
+const commander = site.contact.orderUrl;
+const majuscule = (s: string) => s.replace(/^./, (c) => c.toUpperCase());
+const MOIS_COURTS = ['janv.', 'févr.', 'mars', 'avril', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const jourDe = (iso: string) => { const j = Number(iso.slice(8, 10)); return j === 1 ? '1er' : String(j); };
+---
+
+{fetes.length > 0 && (
+  <ol class="fm-piste" data-fete-du-moment={data}>
+    {fetes.map((f, i) => {
+      const o = occasion(f.service);
+      return (
+        <li class="fm-carte" data-fm-fete={String(i)}>
+          <article class="fm-fete" aria-labelledby={`fm-nom-${f.slug}`}>
+            <p class="fm-date font-display" aria-hidden="true"><span class="fm-jour">{jourDe(f.au)}</span> <span class="fm-mois">{MOIS_COURTS[Number(f.au.slice(5, 7)) - 1]}</span></p>
+            {f.photo && (
+              <div class="fm-photo">
+                <Img src={f.photo.src} alt={f.photo.alt} priority={priorite && i === 0} sizes="(min-width: 1024px) 40vw, 85vw" class="h-full w-full object-cover" />
+              </div>
+            )}
+            <p class="fm-quand" data-fm-quand>{majuscule(periodeFete(f.du, f.au))}</p>
+            <h2 id={`fm-nom-${f.slug}`} class="fm-nom font-display">{f.nom}</h2>
+            {f.commanderAvant && (
+              <p class="fm-limite" data-fm-limite data-fm-close={`Commandes closes depuis le ${dateFete(f.commanderAvant)}.`}>Commandes jusqu’au {dateFete(f.commanderAvant)}.</p>
+            )}
+            {f.texte && <p class="fm-phrase">{f.texte}</p>}
+            {f.lignes.length > 0 && (
+              <ul class="fm-lignes">
+                {f.lignes.map((l) => (
+                  <li class="fm-ligne">
+                    <span class="fm-ligne-nom">{l.nom}{l.detail && <span class="fm-detail">{l.detail}</span>}</span>
+                    {l.prix && <span class="fm-prix tabular-nums">{l.prix}</span>}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p class="fm-portes">
+              {commander ? (
+                <a href={commander} class="fm-porte" target="_blank" rel="noopener"><Icon name="ShoppingBag" size={18} />{site.wording.actions.order ?? 'Commander'}<span class="sr-only"> (nouvel onglet)</span></a>
+              ) : (
+                <a href={tel()} class="fm-porte tabular-nums"><Icon name="Phone" size={18} />Commander au {site.contact.phoneDisplay}</a>
+              )}
+              <a href={`/fetes/${f.slug}`} class="fm-lien">Tout pour {f.nom}<Icon name="ArrowRight" size={16} /></a>
+              {o && site.servicePages && <a href={`/services/${o.slug}`} class="fm-lien">{o.title}</a>}
+            </p>
+          </article>
+        </li>
+      );
+    })}
+    {fetes.length > 1 && (
+      <li class="fm-carte fm-fin">
+        <a href="/fetes" class="fm-tout font-display">Tout le calendrier<Icon name="ArrowRight" size={28} /></a>
+      </li>
+    )}
+  </ol>
+)}
+
+<style>
+  .fm-piste { display: flex; gap: 1rem; inline-size: max-content; padding-inline: max(1rem, calc((100vw - 80rem) / 2)); }
+  .fm-carte { flex: 0 0 auto; inline-size: min(86vw, 30rem); scroll-snap-align: center; display: flex; }
+  .fm-fete { display: flex; flex-direction: column; gap: 0.55rem; inline-size: 100%; min-block-size: min(72svh, 46rem); padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-card); background: var(--color-bg); border: 1px solid var(--color-line); }
+  .fm-carte[aria-current='date'] .fm-fete { background: var(--color-ink); color: var(--color-on-ink); border-color: var(--color-ink); }
+  .fm-date { display: flex; align-items: baseline; gap: 0.4rem; line-height: 0.9; }
+  .fm-jour { font-size: clamp(3.5rem, 14vw, 6rem); letter-spacing: -0.03em; }
+  .fm-mois { font-size: clamp(1.4rem, 4vw, 2rem); }
+  .fm-photo { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-card); }
+  .fm-photo > :global(picture) { display: block; block-size: 100%; }
+  .fm-quand { font-weight: 600; margin-block-start: auto; }
+  .fm-nom { font-size: clamp(2rem, 7vw, 3.25rem); line-height: 0.95; letter-spacing: -0.015em; }
+  .fm-limite { font-size: 1.05rem; }
+  .fm-lignes { display: grid; }
+  .fm-ligne { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 0.5rem; border-block-end: 1px solid currentColor; }
+  .fm-ligne-nom { display: grid; }
+  .fm-detail { font-size: 0.9rem; }
+  .fm-prix { font-weight: 600; white-space: nowrap; }
+  .fm-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; margin-block-start: 0.4rem; }
+  .fm-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .fm-porte:hover { background: var(--color-accent-2); }
+  .fm-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .fm-fin { inline-size: min(60vw, 18rem); align-items: center; }
+  .fm-tout { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.05; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .fm-porte:focus-visible, .fm-lien:focus-visible, .fm-tout:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  @media (min-width: 64rem) { .fm-carte { inline-size: min(36vw, 30rem); } }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { isoDuJour } from '@/lib/agenda';
+  import { feteDuMoment, etatCommande, libelleDuMoment } from '@/lib/fetes';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-fete-du-moment]').forEach((piste) => {
+      const fetes = JSON.parse(piste.dataset.feteDuMoment || '[]');
+      const aujourdhui = isoDuJour(new Date());
+      const cartes = [...piste.querySelectorAll<HTMLElement>('[data-fm-fete]')];
+      cartes.forEach((c) => {
+        const limite = c.querySelector<HTMLElement>('[data-fm-limite]');
+        if (limite && etatCommande(fetes[Number(c.dataset.fmFete)], aujourdhui) === 'close') limite.textContent = limite.dataset.fmClose || '';
+      });
+      const m = feteDuMoment(fetes, aujourdhui);
+      if (!m) return;
+      const carte = cartes.find((c) => Number(c.dataset.fmFete) === m.index);
+      if (!carte) return;
+      carte.setAttribute('aria-current', 'date');
+      const quand = carte.querySelector<HTMLElement>('[data-fm-quand]');
+      if (quand) quand.textContent = `${libelleDuMoment(m)}, ${quand.textContent?.replace(/^./, (c) => c.toLowerCase())}`;
+      // La piste s'ouvre sur la fête du moment (sans animation : rien ne bouge seul).
+      const defileur = piste.closest<HTMLElement>('[data-fm-defileur]');
+      if (defileur && m.index > 0) defileur.scrollTo({ left: carte.offsetLeft - piste.offsetLeft - 16, behavior: 'instant' });
+    });
+  });
+</script>

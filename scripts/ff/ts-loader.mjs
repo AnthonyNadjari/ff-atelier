@@ -219,6 +219,24 @@ export async function loadTourneeModule() {
   return loadPureLibModule('tournee.ts');
 }
 
+/**
+ * Copie src/lib/artistes.ts (module pur) dans TMP_DIR/lib/ et l'importe. Renvoie { slugStyle, stylesDe, artistesDuStyle,
+ * autresArtistes, contactsDeLArtiste, residentsEtInvites, lienArtistes, artistesComplets, enumerer } (architecture
+ * artistes-residents, tests/architectures-maison.test.mjs).
+ */
+export async function loadArtistesModule() {
+  return loadPureLibModule('artistes.ts');
+}
+
+/**
+ * Copie src/lib/fetes.ts (module pur) dans TMP_DIR/lib/ et l'importe. Renvoie { fetesAVenir, feteDuMoment, etatCommande,
+ * joursEntre, dateFete, periodeFete, formatHeure, livraisonDuMoment, libelleDuMoment, lienFetes, fetesCompletes }
+ * (architecture calendrier-fetes, tests/architectures-maison.test.mjs).
+ */
+export async function loadFetesModule() {
+  return loadPureLibModule('fetes.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

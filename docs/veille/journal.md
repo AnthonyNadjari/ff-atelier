@@ -10,6 +10,26 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 - la collecte doit ramener des palettes sombre (16 tirables sur 129, 17 au moins)
 <!-- /ff melanger -->
 
+## 25 oct 2026 : architectures (2a ter)
+
+**Fait**
+- Deux fiches nouvelles, codées dans l'usine le même tour. [artistes-residents](architectures/artistes-residents.md)
+  (Mystery Tattoo Club, Paris 10e : la maison se choisit par ses artistes, et l'artiste par son style ; coquille `artistes`,
+  `artistes[]`, `/artistes` et une page par artiste, son e-mail, son Instagram, son rendez-vous) et
+  [calendrier-fetes](architectures/calendrier-fetes.md) (Touchard Fleurs, Sarthe : la prochaine fête d'abord, sa date limite
+  de commande, la livraison « avant 13 h, livré aujourd'hui » ; coquille `fetes`, `fetes[]`, `livraison`, `/fetes` et une
+  page par fête). La fête du moment et l'heure limite se calculent dans le navigateur ; sans script, tout se lit.
+- Preuves sur deux sites jetables (sans photo, supprimés) : `ff verifier` vert hors données de test (`ff a11y`, `ff typo`,
+  `ff ia` compris) ; `ff ressemblance` artistes 0,63 / 0,54 / 0,59, fêtes 0,58 / 0,62 / 0,62 (téléphone / ordinateur /
+  déroulé, seuil 0,65). Mystery Tattoo Club refuse les navigateurs sans tête (403) : fiche relevée au `curl`.
+- Appris : contre le registre, la moitié « site » du déroulé pèse déjà 0,45 pour tout site « plusieurs pages » de 4 pages
+  et plus ; les premiers essais (un bloc par artiste, une fête en panneau puis en onglets) restaient à 0,66 à 0,87 quel
+  que soit l'ordre des blocs. Ce qui a fait passer : un modèle de navigation que le registre n'a pas (onglets de style ;
+  piste horizontale des fêtes). Le registre compte 17 architectures codées ; reste `outil-calendrier`.
+
+**À décider** : les deux architectures, à proposer au premier salon à plusieurs artistes (tatouage, coiffure) et au premier
+fleuriste, chocolatier ou boucher-traiteur à commandes de fêtes.
+
 ## 24 oct 2026, tour 6 (routine en ligne) : 12 styles, 2 architectures
 
 **Fait**

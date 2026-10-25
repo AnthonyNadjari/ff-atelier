@@ -1,0 +1,53 @@
+---
+/**
+ * La livraison du client (site.livraison, src/lib/fetes.ts) : architecture `calendrier-fetes` (source Touchard Fleurs :
+ * « livraison en 4 h dans 130 communes de Sarthe », « avant 13 h pour une livraison le jour même »,
+ * docs/veille/architectures/calendrier-fetes.md). Chaque ligne seulement si le client l'a donnée : la zone, le délai,
+ * le prix, les jours, l'heure limite. Dans le navigateur (fuseau Europe/Paris), l'heure limite devient « Commandé
+ * avant 13 h : livré aujourd'hui » ou, passé l'heure, « Après 13 h : livré le prochain jour de livraison » ; sans
+ * script, la règle telle quelle. Rien n'est déduit (ni jour ouvré, ni délai). Aucune couleur : hérite du parent.
+ */
+import { site, formatHeure } from '@/lib/site';
+
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+const l = site.livraison;
+const lignes = l
+  ? ([l.zone && `Livraison : ${l.zone}`, l.delai && `Délai : ${l.delai}`, l.prix && `Prix de la livraison : ${l.prix}`, l.jours && `Jours de livraison : ${l.jours}`].filter(Boolean) as string[])
+  : [];
+const limite = l?.heureLimite;
+---
+
+{l && (lignes.length > 0 || limite) && (
+  <div class:list={['lv', cls]}>
+    {lignes.length > 0 && <ul class="lv-lignes">{lignes.map((x) => <li>{x}</li>)}</ul>}
+    {limite && (
+      <p class="lv-limite" data-livraison-limite={limite}
+        data-lv-avant={`Commandé avant ${formatHeure(limite)} : livré aujourd’hui.`}
+        data-lv-apres={`Après ${formatHeure(limite)} : livré le prochain jour de livraison.`}>
+        Commandé avant {formatHeure(limite)}, livré le jour même.
+      </p>
+    )}
+  </div>
+)}
+
+<style>
+  .lv { display: grid; gap: 0.5rem; }
+  .lv-lignes { display: grid; gap: 0.2rem; }
+  .lv-limite { font-weight: 600; font-size: 1.1rem; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant } from '@/lib/horaires';
+  import { livraisonDuMoment } from '@/lib/fetes';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-livraison-limite]').forEach((el) => {
+      const { minutes } = maintenant(new Date());
+      const m = livraisonDuMoment(el.dataset.livraisonLimite, minutes);
+      if (m === 'aujourdhui' && el.dataset.lvAvant) el.textContent = el.dataset.lvAvant;
+      if (m === 'suivant' && el.dataset.lvApres) el.textContent = el.dataset.lvApres;
+    });
+  });
+</script>

@@ -1,0 +1,206 @@
+---
+/**
+ * Coquille "artistes" : architecture `artistes-residents` (src/lib/architectures.ts ; source Mystery Tattoo Club, Paris
+ * 10e, docs/veille/architectures/artistes-residents.md). La maison n'est pas une personne : on vient pour un artiste,
+ * et on le choisit par son style.
+ *   → en tête, sur le papier : le h1, le métier à la ville, l'ancienneté et le nombre d'artistes, le téléphone et la
+ *     note Google (socle docs/GOUT.md § 0) ;
+ *   → le choix du style (dès deux styles) : une rangée d'onglets au-dessus des artistes, qui filtre le mur (un seul
+ *     panneau) ; posée par le script, sans script tous les artistes se lisent ;
+ *   → un bloc par artiste, comme l'accueil de la source (un h2 par tatoueur, ses styles, « Découvrir ») : son portrait
+ *     en grand (photo du client, sinon la première de ses travaux ; sans photo, un aplat), son nom, sa place, ses
+ *     styles, le début de sa présentation, ses portes (sa page, son rendez-vous, son e-mail) ; les blocs alternent
+ *     de côté à l'ordinateur ; un style choisi ne garde que les artistes qui le pratiquent ; invités après résidents ;
+ *   → puis les sections du layout (les avis), puis la maison sur l'encre, id="contact" : adresse, état du jour
+ *     (HorairesDuJour), téléphone, e-mail ; puis le pied.
+ * Une page par artiste (/artistes/<slug>) et /artistes ; l'histoire sur /a-propos (layout.pageAPropos).
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran) ; `fullbleed` garde le préchargement de la photo.
+ * Sans artiste : la maison seule, et le build dit ce qui manque (donneesManquantes).
+ * Signes de la source NON repris : fenêtres surgissantes par style, logos de réseaux en icônes seules, texte gonflé
+ * de mots clés (« tatoueur à Paris » répété), titres doublés en capitales au-dessus des titres.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { site, tel, mailto, metierEtVille, fullAddress, donneesManquantes, residentsEtInvites, stylesDe, slugStyle, contactsDeLArtiste, paragraphs } from '@/lib/site';
+import { enumerer } from '@/lib/artistes';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const { residents, invites } = residentsEtInvites(site.artistes);
+const tous = [...residents, ...invites];
+const n = residents.length;
+const nombres = ['', 'Une artiste', 'Deux artistes', 'Trois artistes', 'Quatre artistes', 'Cinq artistes', 'Six artistes', 'Sept artistes', 'Huit artistes', 'Neuf artistes', 'Dix artistes'];
+const compte = n >= 2 ? `${nombres[n] ?? `${n} artistes`} à demeure.` : '';
+const MAX_FILTRES = 12;
+const styles = stylesDe(site.artistes).slice(0, MAX_FILTRES);
+const rangs = (a: (typeof site.artistes)[number]) => a.styles.map((s) => styles.findIndex((x) => x.slug === slugStyle(s)) + 1).filter((k) => k > 0);
+if (site.artistes.length === 0) {
+  console.warn(`[coquille artistes] ${site.slug} : aucun artiste (site.artistes) ; ${donneesManquantes('artistes-residents', site).join(' ; ')}`);
+}
+---
+
+<Nav />
+<main id="main" class="as-page">
+  <section id="hero" class="container-ff as-tete" aria-label="Accueil">
+    <div class="as-intro" data-stagger="110">
+      <h1 class="as-h1 font-display" set:html={site.business.tagline} />
+      <p class="as-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}{compte ? ` ${compte}` : ''}</p>
+    </div>
+    <p class="as-portes">
+      <a href={tel()} class="as-tel tabular-nums"><Icon name="Phone" size={20} />{site.contact.phoneDisplay}</a>
+      {google && <a href={google.url} target="_blank" rel="noopener" class="as-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+    </p>
+  </section>
+  {tous.length > 0 && (
+  <div class="as-equipe-bloc">
+    {styles.length >= 2 && (
+      <div class="container-ff as-filtres" data-as-onglets hidden>
+        <p class="as-legende" aria-hidden="true">Par style</p>
+        <button type="button" class="as-onglet" data-as-style="" id="as-onglet-0">Tous</button>
+        {styles.map((st, k) => <button type="button" class="as-onglet" data-as-style={String(k + 1)} id={`as-onglet-${k + 1}`}>{st.nom}</button>)}
+      </div>
+    )}
+    <div id="as-equipe" class="as-equipe" data-as-panneau>
+  {tous.map((a, i) => {
+    const photo = a.photo ?? a.photos[0];
+    const r = rangs(a);
+    const debut = a.texte ? paragraphs(a.texte)[0] : undefined;
+    const portes = contactsDeLArtiste(a, site.contact).filter((p) => p.type !== 'instagram');
+    return (
+      <section id={`artiste-${a.slug}`} class:list={['as-membre equipe', i % 2 === 1 && 'as-inverse']} data-styles={r.length > 0 ? ` ${r.join(' ')} ` : undefined} aria-labelledby={`as-nom-${a.slug}`}>
+        <div class="container-ff as-membre-grille">
+          <a href={`/artistes/${a.slug}`} class:list={['as-portrait', !photo && 'bg-bg-2']} tabindex="-1" aria-hidden="true">
+            {photo && <Img src={photo.src} alt="" priority={i === 0} sizes="(min-width: 1024px) 45vw, 92vw" class="h-full w-full object-cover" />}
+          </a>
+          <div class="as-fiche">
+            <h2 id={`as-nom-${a.slug}`} class="as-nom font-display"><a href={`/artistes/${a.slug}`} class="as-nom-lien">{a.nom}</a></h2>
+            {(a.role || a.depuis) && <p class="as-role">{a.role}{a.role && a.depuis ? ', ' : ''}{a.depuis ? `depuis ${a.depuis}` : ''}</p>}
+            {a.periode && <p class="as-periode">De passage {a.periode}</p>}
+            {a.styles.length > 0 && <p class="as-styles">{enumerer(a.styles)}</p>}
+            {debut && <p class="as-debut">{debut}</p>}
+            <p class="as-actions">
+              <a href={`/artistes/${a.slug}`} class="as-voir">Voir son travail<Icon name="ArrowRight" size={16} /></a>
+              {portes.map((p) => (
+                <a href={p.href} class="as-lien" {...(p.type === 'rdv' ? { target: '_blank', rel: 'noopener' } : {})}>
+                  <Icon name={p.type === 'rdv' ? 'Calendar' : 'Mail'} size={16} />{p.label}{p.type === 'rdv' && <span class="sr-only"> (nouvel onglet)</span>}
+                </a>
+              ))}
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  })}
+    </div>
+  </div>
+  )}
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+  <section id="contact" class="as-maison bg-ink text-on-ink" aria-labelledby="as-maison-titre">
+    <div class="container-ff as-maison-grille">
+      <h2 id="as-maison-titre" class="as-maison-titre font-display">{site.business.name}</h2>
+      <div class="as-maison-infos">
+        <p>{fullAddress()}</p>
+        {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="as-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+        <HorairesDuJour />
+      </div>
+      <div class="as-maison-portes">
+        <a href={tel()} class="as-appel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {site.contact.email && <a href={mailto()} class="as-lien"><Icon name="Mail" size={16} />{site.contact.email}</a>}
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+
+<style>
+  .as-tete { display: grid; gap: 1.25rem; padding-block: clamp(1.5rem, 5vh, 3rem) clamp(2rem, 5vh, 3rem); }
+  .as-h1 { font-size: clamp(2.3rem, 9vw, 6rem); line-height: 0.95; letter-spacing: -0.02em; text-wrap: balance; max-inline-size: 14ch; }
+  .as-metier { margin-block-start: 0.75rem; font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 40ch; }
+  .as-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; }
+  .as-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .as-tel:hover { background: var(--color-accent-2); }
+  .as-note, .as-lien, .as-voir { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .as-voir { font-weight: 600; }
+  .as-tel:focus-visible, .as-note:focus-visible, .as-lien:focus-visible, .as-voir:focus-visible, .as-appel:focus-visible, .as-nom-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .as-filtres { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; padding-block: 0 1.25rem; }
+  .as-legende { margin-inline-end: 0.5rem; font-weight: 600; }
+  .as-onglet { min-block-size: 44px; padding-inline: 0.9rem; border: 1px solid currentColor; border-radius: var(--radius-ui, 6px); cursor: pointer; }
+  .as-onglet[aria-selected='true'] { background: var(--color-ink); color: var(--color-on-ink); border-color: var(--color-ink); }
+  .as-onglet:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  /* Un bloc par artiste : le portrait en grand, la fiche à côté (alternée à l'ordinateur). */
+  .as-membre { padding-block: clamp(1.5rem, 5vh, 3.5rem); border-block-start: 1px solid var(--color-line); }
+  .as-membre-grille { display: grid; gap: 1.25rem; align-items: center; }
+  .as-portrait { display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-card); }
+  .as-portrait > :global(picture) { display: block; block-size: 100%; }
+  .as-portrait :global(img) { transition: transform 0.6s ease; }
+  .as-membre:hover .as-portrait :global(img) { transform: scale(1.03); }
+  .as-fiche { display: grid; gap: 0.45rem; align-content: center; }
+  .as-nom { font-size: clamp(2.8rem, 12vw, 7rem); line-height: 0.9; letter-spacing: -0.02em; overflow-wrap: anywhere; }
+  .as-nom-lien:hover { color: var(--color-accent); }
+  .as-role { font-size: 1.1rem; }
+  .as-periode { font-weight: 600; }
+  .as-styles { font-size: 1.05rem; color: var(--color-muted); }
+  .as-debut { max-inline-size: 52ch; margin-block-start: 0.4rem; }
+  .as-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; margin-block-start: 0.4rem; }
+  .as-maison { padding-block: clamp(2.5rem, 8vh, 5rem); }
+  .as-maison-grille { display: grid; gap: 1.25rem; }
+  .as-maison-titre { font-size: clamp(1.8rem, 5vw, 3.2rem); line-height: 1; }
+  .as-maison-infos { display: grid; gap: 0.4rem; }
+  .as-maison-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; }
+  .as-appel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: 1.2rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  @media (prefers-reduced-motion: reduce) { .as-portrait :global(img) { transition: none; } }
+  @media (min-width: 64rem) {
+    .as-tete { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: end; padding-block: clamp(4rem, 10vh, 6.5rem) clamp(2rem, 5vh, 3rem); }
+    .as-portes { flex-direction: column; align-items: flex-start; justify-self: end; }
+    .as-membre-grille { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(2rem, 5vw, 5rem); }
+    .as-inverse .as-membre-grille { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+    .as-inverse .as-portrait { order: 2; }
+    .as-maison-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) minmax(0, 1.5fr); align-items: start; column-gap: 3rem; }
+    .as-maison-portes { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Choix du style (la question « qui fait du japonais ? » de la source) : la rangée de boutons devient des onglets qui
+  // filtrent le mur des artistes (un seul panneau). Sans script : pas de rangée, tous les artistes.
+  onPage(() => {
+    const rangee = document.querySelector<HTMLElement>('[data-as-onglets]');
+    const panneau = document.querySelector<HTMLElement>('[data-as-panneau]');
+    if (!rangee || !panneau) return;
+    const onglets = [...rangee.querySelectorAll<HTMLButtonElement>('[data-as-style]')];
+    const membres = [...panneau.querySelectorAll<HTMLElement>('.as-membre')];
+    rangee.setAttribute('role', 'tablist');
+    rangee.setAttribute('aria-label', 'Choisir par style');
+    panneau.setAttribute('role', 'tabpanel');
+    const choisir = (o: HTMLButtonElement, focus = false) => {
+      onglets.forEach((x) => { const sel = x === o; x.setAttribute('aria-selected', String(sel)); x.tabIndex = sel ? 0 : -1; });
+      panneau.setAttribute('aria-labelledby', o.id);
+      const st = o.dataset.asStyle;
+      membres.forEach((m) => { m.hidden = Boolean(st) && !(m.dataset.styles ?? '').includes(` ${st} `); });
+      if (focus) o.focus();
+    };
+    onglets.forEach((o, k) => {
+      o.setAttribute('role', 'tab');
+      o.setAttribute('aria-controls', panneau.id);
+      o.addEventListener('click', () => choisir(o));
+      o.addEventListener('keydown', (e) => {
+        const c = e.key === 'ArrowRight' ? onglets[(k + 1) % onglets.length] : e.key === 'ArrowLeft' ? onglets[(k - 1 + onglets.length) % onglets.length] : undefined;
+        if (c) { e.preventDefault(); choisir(c, true); }
+      });
+    });
+    rangee.hidden = false;
+    choisir(onglets[0]);
+  });
+</script>
