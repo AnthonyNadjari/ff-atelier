@@ -1,0 +1,151 @@
+{
+  "id": "here",
+  "version": 1,
+  "source": {
+    "url": "https://behere.co/",
+    "nom": "Here",
+    "metier": "cabinet de psychologues (Canberra)",
+    "fiche": "docs/veille/styles/here.md",
+    "mesures": "docs/veille/styles/atomes/mesures/here.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Graphik",
+      "libre": "hanken",
+      "graisse": 700,
+      "interlignage": 1.2,
+      "casse": "none",
+      "interlettrage": 0.004,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Graphik",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 50,
+        "ordinateur": 120
+      },
+      "h2": {
+        "telephone": 35,
+        "ordinateur": 35
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Graphik (grotesque neutre) seule : titre du premier écran en 700 à 120 px (50 au téléphone), blanc posé sur le portrait ; intertitres en 700 et en minuscules finies par un point (« things to know. ») ; texte en 400 à 15 px, espacé de 0,5 px. Hanken Grotesk, une seule famille."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#8d796f",
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "part": 0.499
+        },
+        {
+          "hex": "#f1dad0",
+          "part": 0.499
+        },
+        {
+          "hex": "#8d796f",
+          "part": 0.002
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#8d796f",
+          "part": 0.985
+        },
+        {
+          "hex": "#f1dad0",
+          "part": 0.01
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.005
+        }
+      ],
+      "proches": 7505552
+    },
+    "clair": {
+      "fond": "#f1dad0",
+      "surface": "#f1dad0",
+      "texte": "#212529",
+      "texte2": "#8d796f",
+      "accent": "#8d796f",
+      "bordure": "#8d796f",
+      "encre": "#8d796f"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #f1dad0 (50 %), #8d796f (0 %)",
+    "remarque": "Rose poudré #f1dad0 (chroma 0,029) sur toute la page, rien d'autre ; texte, nav et boutons taupe #8d796f (trop pâle pour le texte courant : l'usine prend l'encre du corps #212529, mesurée, et garde le taupe pour l'accent, assombri au besoin) ; titre blanc sur la photo."
+  },
+  "densite": {
+    "section": {
+      "telephone": 50,
+      "ordinateur": 321
+    },
+    "gouttiere": {
+      "telephone": 30,
+      "ordinateur": 231
+    },
+    "conteneur": 978,
+    "mesure": 69,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 40,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": true,
+    "casseBouton": "lowercase",
+    "lien": "souligne",
+    "remarque": "Boutons taupe pleins en pilule à la source (40 px) : rendus à 6 px par l'usine (signe IA). Liens soulignés."
+  },
+  "photos": {
+    "traitement": "detoure",
+    "rapports": [
+      "1:1"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Portrait détouré en noir et blanc fondu dans le rose, le titre en blanc posé en travers ; ensuite photos couleur du cabinet en vignettes qui débordent de la colonne."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease-out"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Mesuré : les photos arrivent en fondu (ease-in) au chargement ; survols de la nav 0,5 s ease-out ; sommaire fixe à droite, rien qui suit le défilement."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "à juger"
+}

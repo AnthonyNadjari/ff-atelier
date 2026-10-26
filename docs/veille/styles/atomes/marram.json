@@ -1,0 +1,182 @@
+{
+  "id": "marram",
+  "version": 1,
+  "source": {
+    "url": "https://marrammontauk.com/",
+    "nom": "Marram",
+    "metier": "hôtel de bord de mer (Montauk, 96 chambres)",
+    "fiche": "docs/veille/styles/marram.md",
+    "mesures": "docs/veille/styles/atomes/mesures/marram.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Styreneaweb",
+      "libre": "epilogue",
+      "graisse": 500,
+      "interlignage": 1,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Heldanetextweb",
+      "libre": "literata",
+      "graisse": 400,
+      "interlignage": 1.8
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 48,
+        "ordinateur": 190
+      },
+      "h2": {
+        "telephone": 24,
+        "ordinateur": 40
+      },
+      "texte": {
+        "telephone": 20,
+        "ordinateur": 22
+      }
+    },
+    "remarque": "Styrene A 500 (grotesque géométrique à caractère) en capitales, de 24 à 40 px pour les titres et jusqu'à 190 px pour les mots posés sur les photos (« PLEASURES », « SPACES ») : Epilogue. Heldane Text (serif de lecture vive) 20 à 22 px, interligné 1,8 : Literata. Contraste sans d'affichage / serif de texte."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#faf2ec",
+      "texte": "#faf2ec",
+      "fonds": [
+        {
+          "hex": "#faf2ec",
+          "part": 0.782
+        },
+        {
+          "hex": "#354341",
+          "part": 0.088
+        },
+        {
+          "hex": "#000000",
+          "part": 0.061
+        },
+        {
+          "hex": "#8a7c70",
+          "part": 0.052
+        },
+        {
+          "hex": "#d1765d",
+          "part": 0.009
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.008
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#faf2ec",
+          "part": 0.486
+        },
+        {
+          "hex": "#654b37",
+          "part": 0.367
+        },
+        {
+          "hex": "#d1765d",
+          "part": 0.089
+        },
+        {
+          "hex": "#ddcfc8",
+          "part": 0.049
+        },
+        {
+          "hex": "#000000",
+          "part": 0.007
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.002
+        }
+      ],
+      "proches": 0
+    },
+    "clair": {
+      "fond": "#faf2ec",
+      "surface": "#ffffff",
+      "texte": "#654b37",
+      "texte2": "#8a7c70",
+      "accent": "#d1765d",
+      "accent2": "#354341",
+      "bordure": "#ddcfc8",
+      "encre": "#d1765d"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #354341 (9 %), #000000 (6 %), #8a7c70 (5 %), #d1765d (1 %), #ffffff (1 %)",
+    "remarque": "Sable rosé #faf2ec (chroma 0,012) sur 86 % de la page, texte brun #654b37, terre cuite #d1765d en boutons, titres et larges bandes pleines (encre), vert-de-gris #354341 au pied, taupe #8a7c70 en texte secondaire."
+  },
+  "densite": {
+    "section": {
+      "telephone": 99,
+      "ordinateur": 264
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 20
+    },
+    "conteneur": 800,
+    "mesure": 50,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne"
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "1:1",
+      "3:2"
+    ],
+    "pleinCadre": 4,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Vidéos et photos plein cadre traversées par un mot géant en capitales crème ; ailleurs photos de chambres et de plage en quinconce, de formats mêlés, qui débordent des bandes terre cuite."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease-in-out"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis",
+      "Swiper"
+    ],
+    "profil": "photos-a-plusieurs-vitesses",
+    "remarque": "Mesuré : défilement amorti (Lenis) et photos en parallaxe à trois vitesses dans un même bloc (rapport 1 : 1,5 : 2, de -65 à -130 px), comme Brae ; survols 0,3 s ease-in-out (soulignés qui changent de couleur)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

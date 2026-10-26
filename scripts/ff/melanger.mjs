@@ -297,6 +297,26 @@ export function casseH1(casse) {
   return casse === 'uppercase' ? 'none' : casseTitre(casse);
 }
 
+/** Rapport minimal entre un h2 et le texte courant (quarte, 4:3) ; plafond du h2 par rapport au h1. */
+export const H2_SUR_TEXTE = 1.33;
+export const H2_SUR_H1 = 0.75;
+
+/**
+ * Pure : taille du h2 d'un mélange (px, par appareil), tenue entre le texte et le h1. Règle apprise (26 oct 2026, soir) :
+ * - `ff melanger demo-boulangerie --style handsomebrook --essai` (m-bc0514) : h2 mesuré égal au h1 (97 px, Krana Fat) ;
+ *   le h1 du premier écran, plafonné par la coquille (cadre : 5,5 rem), sortait plus PETIT que « LA BOULANGERIE » :
+ *   un h2 plus grand que le h1 est un signe IA (GOUT § 2) et la page n'a plus d'entrée.
+ * - `ff melanger _exemple --n 3 --hasard --essai` (m-cdbbd5 typo eastfork, m-d11c9b typo ennismore) : h2 mesurés à 16-18 px
+ *   (étiquettes de section sur la source) pour un texte de 16 : « L'atelier », « Nos services » se lisaient comme du texte,
+ *   les sections n'avaient plus de titre.
+ * Le h2 est borné entre 1,33 fois le texte et 0,75 fois le h1 (le plancher gagne si les deux se croisent).
+ */
+export function echelleH2(h1, h2, corps) {
+  const plancher = corps * H2_SUR_TEXTE;
+  const plafond = Math.max(h1 * H2_SUR_H1, plancher);
+  return Math.round(borne(h2, plancher, plafond) * 10) / 10;
+}
+
 /**
  * Pure : interlettrage du titre d'un mélange (em). Règle apprise (essais du 24 oct 2026, styles hiut, lyles et wolseley,
  * mélanges m-b9c2ba, m-a6a142, m-c479f2) : des capitales espacées à 0,10-0,15 em, mesurées sur des titres de deux ou
@@ -690,8 +710,10 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
   const lhTexte = borne(typeof t.texte.interlignage === 'number' ? t.texte.interlignage : 1.55, 1.4, 1.8);
   const track = interlettrageTitre(t.titre.interlettrage, casse);
   const e = t.echelle;
-  const h1 = e.h1, h2 = e.h2 && e.h2 !== A_JUGER ? e.h2 : { telephone: h1.telephone * 0.6, ordinateur: h1.ordinateur * 0.5 };
+  const h1 = e.h1, h2m = e.h2 && e.h2 !== A_JUGER ? e.h2 : { telephone: h1.telephone * 0.6, ordinateur: h1.ordinateur * 0.5 };
   const corps = { telephone: Math.max(16, e.texte.telephone), ordinateur: borne(e.texte.ordinateur, 16, 24) };
+  // Règle apprise (26 oct 2026, soir) : le h2 reste entre le texte et le h1 (echelleH2).
+  const h2 = { telephone: echelleH2(h1.telephone, h2m.telephone, corps.telephone), ordinateur: echelleH2(h1.ordinateur, h2m.ordinateur, corps.ordinateur) };
   const lg = { telephone: (h1.telephone + h2.telephone) / 2, ordinateur: Math.sqrt(h1.ordinateur * h2.ordinateur) };
   // Règle apprise (même essai) : --scale-sm sert aux titres des cartes (h3, trois colonnes). Dérivé d'un h2 de 96 px
   // (pizza-amici), il coupait « BIBLIOTHÈQ-UES » en plein mot : plafonné à 24 px au téléphone, 30 px à l'ordinateur.

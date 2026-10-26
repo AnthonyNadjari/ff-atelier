@@ -1,0 +1,158 @@
+{
+  "id": "handsomebrook",
+  "version": 1,
+  "source": {
+    "url": "https://handsomebrookfarms.com/",
+    "nom": "Handsome Brook Farms",
+    "metier": "œufs de poules élevées en plein air (réseau de petites fermes, États-Unis)",
+    "fiche": "docs/veille/styles/handsomebrook.md",
+    "mesures": "docs/veille/styles/atomes/mesures/handsomebrook.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "KranaFat-AB",
+      "libre": "archivoBlack",
+      "graisse": 400,
+      "interlignage": 0.86,
+      "casse": "uppercase",
+      "interlettrage": -0.01,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Graphik-Regular",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.33
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 48,
+        "ordinateur": 96.8
+      },
+      "h2": {
+        "telephone": 48,
+        "ordinateur": 96.8
+      },
+      "texte": {
+        "telephone": 18,
+        "ordinateur": 23.6
+      }
+    },
+    "remarque": "Krana Fat (grotesque très grasse et serrée) en capitales, interlignage 0,86, 45 à 97 px ; Graphik (grotesque neutre) 18 à 24 px pour le texte. Archivo Black, la grasse libre la plus proche (l'usine écarte l'interlignage sous 1,1 en capitales) ; Hanken Grotesk pour le texte."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#f6f4ea",
+      "texte": "#1e6f30",
+      "fonds": [
+        {
+          "hex": "#f6f4ea",
+          "part": 0.998
+        },
+        {
+          "hex": "#1e6f30",
+          "part": 0.001
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1e6f30",
+          "part": 0.566
+        },
+        {
+          "hex": "#f6f4ea",
+          "part": 0.355
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.05
+        },
+        {
+          "hex": "#000000",
+          "part": 0.029
+        }
+      ],
+      "proches": 14190010
+    },
+    "clair": {
+      "fond": "#f6f4ea",
+      "surface": "#ffffff",
+      "texte": "#1e6f30",
+      "texte2": "#000000",
+      "accent": "#1e6f30",
+      "bordure": "#1e6f30",
+      "encre": "#1e6f30"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #1e6f30 (0 %), #ffffff (0 %)",
+    "remarque": "Coquille d'œuf #f6f4ea (chroma 0,013) sur 99 % de la page, titres et texte vert pré #1e6f30 (5,7:1), boutons à contour vert, pied vert plein ; le reste vient des photos (poules, prés)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 135,
+      "ordinateur": 261
+    },
+    "gouttiere": {
+      "telephone": 16,
+      "ordinateur": 74
+    },
+    "conteneur": 1277,
+    "mesure": 56,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Boutons à contour vert de 2 px, angles droits, libellé en capitales grasses ; aucune carte."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9+"
+    ],
+    "pleinCadre": 9,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Poules et éleveurs en plein cadre, titre géant crème posé dessus au premier écran ; ensuite blocs texte en deux colonnes sur la coquille d'œuf, photos plein cadre entre deux."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.7,
+      "courbe": "cubic-bezier(0.45, 0.05, 0.55, 0.95)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Mesuré : les photos apparaissent en fondu 0,4 s cubic-bezier(.45,.05,.55,.95) au chargement ; liens 0,2 s ease ; data-parallax déclaré sur 5 éléments mais aucun déplacement relevé à la molette."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "à juger"
+}

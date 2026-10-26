@@ -199,6 +199,20 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['chaque section annonce sa teinte (data-teinte="#7fb89b", couleur prise dans la palette ou dans la photo de la section) ; quand elle passe au milieu de l\'écran, la couleur de fond du document glisse vers cette teinte en 1 s cubic-bezier(.25,1,.5,1) (IntersectionObserver, transition sur background-color, jamais calée image par image) ; en mouvement réduit, changement immédiat'],
     manque: 'le déclencheur data-teinte (petit script de section ou de direction) et la règle de contraste : le texte de chaque section doit tenir sur sa teinte (4,5) ; jamais plus de 4 teintes ni un aplat vif (garde de beauté)', exige: {},
   },
+  'photos-a-plusieurs-vitesses': {
+    nom: 'Photos à plusieurs vitesses', sources: ['brae'],
+    entree: 'aucune', apparition: 'parallaxe-decalee', survol: 'souligne', fond: 'aucun',
+    regime: 'vivant', defilement: 'suit-le-defilement', calme: false, poids: 'leger', motion: 'rich',
+    attributs: ['photos posées en quinconce dans une grille éditoriale, chacune avec sa propre data-parallax entre 0.09 et 0.12 à l\'ordinateur (0.07 à 0.09 au téléphone) : elles partent décalées de 110 à 180 px et rejoignent leur place chacune à son rythme (translation simple, tient sur iPhone) ; immobiles en mouvement réduit'],
+    manque: 'des vitesses différentes d\'une photo à l\'autre (une valeur par photo, jamais la même deux fois de suite) et le décalage de départ borné à la marge de la section, pour que la photo ne recouvre jamais le texte', exige: {},
+  },
+  'photos-qui-flottent': {
+    nom: 'Photos qui flottent', sources: ['nishiyama'],
+    entree: 'aucune', apparition: 'fondu', survol: 'couleur', fond: 'flottement',
+    regime: 'vivant', defilement: 'apparitions', calme: false, poids: 'nul', motion: 'rich',
+    attributs: ['photos détourées ou en masque souple (galets) qui flottent de 0 à 10 px en hauteur, animation CSS translateY en boucle, ease-out, durées décalées 1,5, 2,5 et 3 s pour que jamais deux ne bougent ensemble (transform seul : tient sur iPhone) ; titres de section en fondu 0,9 s (data-reveal opacité) ; arrêtées en mouvement réduit'],
+    manque: 'la règle de flottement (keyframes et trois durées) dans la direction ou le bloc ; seulement sur un objet du métier découpé (tissu, pièce, produit), jamais sur un portrait ni un cadre rectangulaire', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

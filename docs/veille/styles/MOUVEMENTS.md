@@ -284,6 +284,35 @@ de la salle qui change.
   Distinct de la bascule de thème noir → blanc refusée (GOUT § 3) : ici le noir revient entre deux teintes, rien ne
   s'inverse. Calme : non. Poids : nul.
 
+### `photos-a-plusieurs-vitesses`
+Brae (`brae.md`, [braerestaurant.com](https://braerestaurant.com/), veille du 26 oct 2026, soir ; `transform` de chaque photo
+relevé tous les 250 px de défilement, de 0 à 4 000 px, à 1 440 et 390 px de large) : après la vidéo du domaine, les photos sont
+posées en quinconce dans une grille éditoriale très aérée. Chaque photo arrive décalée de 116 à 177 px vers le haut et
+rejoint sa place à sa propre vitesse : 0,096, 0,115, 0,122 et 0,094 px par px défilé à l'ordinateur, 0,07 à 0,09 au
+téléphone (GSAP ScrollTrigger). Deux photos voisines ne glissent jamais ensemble : la page prend de l'épaisseur sans rien
+qui bouge tout seul. Survols de liens 0,3 s ease.
+- Entrée aucune · apparition parallaxe décalée · survol soulignement · fond aucun.
+- Moteur : `data-parallax` par photo (0,09 à 0,12 ; translation simple, tient sur iPhone), valeur différente d'une photo à
+  l'autre ; immobile en mouvement réduit. Manque : la règle qui varie les vitesses et borne le décalage à la marge de la
+  section (la photo ne recouvre jamais le texte).
+- Quand : un lieu qui a beaucoup de bonnes photos de formats mêlés (restaurant, ferme, gîte, domaine, architecte) ; pas
+  pour un client « calme » (aiguillage). Distinct de `parallaxe-et-aimant` (une couche, aimant au survol) et de
+  `nom-en-lettres-geantes` (une lettre derrière les photos). Calme : non. Poids : léger.
+
+### `photos-qui-flottent`
+Nishiyama Silk (`nishiyama.md`, [nishiyamasilk.com](https://nishiyamasilk.com/), veille du 26 oct 2026, soir ; état relevé
+à 0, 400, 1 500 et 3 000 ms puis après chaque cran) : les photos de soie, de cocons et d'artisans sont découpées en galets
+aux bords souples et **flottent** sur place : `translateY` de 0 à 10 px environ, animation `levitation` en boucle,
+`ease-out`, durées 1,5, 2,5 et 3 s selon le galet (jamais deux en phase). Les titres de section apparaissent en fondu en
+0,9 s environ quand ils entrent. Le tissu paraît léger, posé sur l'air ; rien ne suit le défilement.
+- Entrée aucune · apparition fondu · survol couleur · fond flottement.
+- Moteur : keyframes CSS sur `transform` seul (tient sur iPhone, rien sur le fil principal), trois durées décalées ;
+  `data-reveal` (opacité) pour les titres ; arrêt sous `prefers-reduced-motion`. Manque : la règle de flottement dans la
+  direction ou le bloc sur mesure.
+- Quand : un objet du métier découpé (tissu, céramique, fleur, pâtisserie, pièce d'horlogerie) ; jamais sur un portrait ni
+  sur une photo rectangulaire (l'effet devient un cadre qui tremble). Pas pour un client « calme » : ça bouge tout seul,
+  doucement. Calme : non. Poids : nul.
+
 ## Complément transversal : transitions de page
 
 Estudio Niksen (`view-transition` natives), Délice (Swup), Relais Rossàr (Barba). Pas un profil : il se combine avec

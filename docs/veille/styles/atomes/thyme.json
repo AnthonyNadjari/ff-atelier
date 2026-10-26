@@ -1,0 +1,162 @@
+{
+  "id": "thyme",
+  "version": 1,
+  "source": {
+    "url": "https://www.thyme.co.uk/",
+    "nom": "Thyme",
+    "metier": "hôtel de campagne, restaurant, école de cuisine (Cotswolds)",
+    "fiche": "docs/veille/styles/thyme.md",
+    "mesures": "docs/veille/styles/atomes/mesures/thyme.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "elgoc",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.2,
+      "casse": "none",
+      "interlettrage": 0.05,
+      "italique": false
+    },
+    "texte": {
+      "famille": "elgoc",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 36.3,
+        "ordinateur": 49.6
+      },
+      "h2": {
+        "telephone": 28.2,
+        "ordinateur": 26.1
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Elgoc (serif à fort contraste, largement espacée : 0,05 em) pour les titres et le texte ; Source Sans en capitales 12 à 13 px pour la nav et les boutons. Spectral, serif libre fine et lumineuse, une seule famille (une serif d'affichage plus une serif de texte serait un accord en conflit)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#212721",
+      "fonds": [
+        {
+          "hex": "#fcfaf1",
+          "part": 0.567
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.225
+        },
+        {
+          "hex": "#d0debb",
+          "part": 0.12
+        },
+        {
+          "hex": "#212721",
+          "part": 0.084
+        },
+        {
+          "hex": "#3b4a30",
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#212721",
+          "part": 0.822
+        },
+        {
+          "hex": "#3b4a30",
+          "part": 0.106
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.065
+        },
+        {
+          "hex": "#333333",
+          "part": 0.008
+        }
+      ],
+      "proches": 14604510
+    },
+    "clair": {
+      "fond": "#fcfaf1",
+      "surface": "#d0debb",
+      "texte": "#212721",
+      "texte2": "#3b4a30",
+      "accent": "#3b4a30",
+      "bordure": "#d0debb",
+      "encre": "#212721"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #fcfaf1 (57 %), #d0debb (12 %), #212721 (8 %), #3b4a30 (0 %)",
+    "remarque": "Crème #fcfaf1 (chroma 0,012) et blanc pour les blocs de texte, vert sauge #d0debb en grandes bandes (journal, citations), vert presque noir #212721 pour le texte et les bandes sombres, boutons vert mousse #3b4a30."
+  },
+  "densite": {
+    "section": "à juger",
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 20
+    },
+    "conteneur": 1779,
+    "mesure": 67,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Boutons pleins vert mousse à angles droits, libellés en petites capitales ; cartes d'agenda carrées, photo et titre dessus."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "2:3-",
+      "1:1"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Paysage brumeux plein cadre au premier écran avec le nom dessus ; portes en photos verticales (chambres, restaurant, spa, école) ; plan dessiné à la plume du domaine en fin de page."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "scene": {
+      "duree": 1.5,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Mesuré : titres, paragraphes et photos en fondu lent, 1,5 s ease, décalés de 4 à 5 ms l'un après l'autre ; survols 0,17 s ease-in-out. Deux régimes : lent pour les apparitions, sec pour les survols."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

@@ -1,0 +1,970 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://braerestaurant.com/",
+  "nom": "brae",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Brae",
+    "siteName": "Brae",
+    "lang": "en",
+    "description": "Led by chef Dan Hunter, Brae is a restaurant, organic farm and boutique accommodation nestled in a hillside in the Otways hinterland.",
+    "technologies": [
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fffef3",
+      "h1": "Brae",
+      "h1Visible": true,
+      "mots": 153,
+      "images": 0,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 0.89,
+        "selecteur": "video.lazy"
+      },
+      "boutonPrincipal": {
+        "texte": "Subscribe",
+        "x": 1180,
+        "y": 497.53125,
+        "cx": 0.8424045138888889,
+        "cy": 0.5705902777777778,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 5998,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.visually-hidden",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.font_20",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 20,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 20,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "input#mc-embedded-subscribe",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.font_b",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 15.008,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "braerestaurant.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Stanley",
+          "url": "../fonts/Stanley-Regular.woff2",
+          "feuille": "braerestaurant.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Apercu",
+          "url": "../fonts/Apercu.woff2",
+          "feuille": "braerestaurant.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.snipcart.com",
+        "cdn-images.mailchimp.com"
+      ],
+      "fichiersPolices": [
+        "https://braerestaurant.com/assets/fonts/Stanley-Regular.woff2",
+        "https://braerestaurant.com/assets/fonts/Apercu.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Stanley",
+          "n": 46
+        },
+        {
+          "famille": "Apercu",
+          "n": 5
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fffef3",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#fffef3",
+          "n": 1,
+          "poids": 9289440
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 2815200
+        },
+        {
+          "hex": "#68724d",
+          "n": 2,
+          "poids": 1113750
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 1840
+        },
+        {
+          "hex": "#ffffff",
+          "n": 38,
+          "poids": 1106
+        }
+      ],
+      "nbImages": 5,
+      "nbVideos": 2,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#fffef3",
+          "n": 1,
+          "poids": 9289440,
+          "part": 0.703
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 2815200,
+          "part": 0.213
+        },
+        {
+          "hex": "#68724d",
+          "n": 2,
+          "poids": 1113750,
+          "part": 0.084
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 1840,
+          "part": 0.625
+        },
+        {
+          "hex": "#ffffff",
+          "n": 38,
+          "poids": 1106,
+          "part": 0.375
+        }
+      ],
+      "contraste": 20.72
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Swiper",
+          "preuve": "window.Swiper"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.header__container",
+          "ecrans": 7.2
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "all 0.3s ease",
+          "n": 25
+        },
+        {
+          "valeur": "animation fadeIn 0.25s ease-in",
+          "n": 10
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.23s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.header__icon",
+        "score": 3,
+        "animations": [
+          "animation fadeIn 0.25s ease-in"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main",
+      "sections": [
+        {
+          "selecteur": "div#header-bar",
+          "titre": null,
+          "top": 0,
+          "hauteur": 48,
+          "ecrans": 0.1,
+          "mots": 10,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.stagger",
+          "titre": null,
+          "top": 48,
+          "hauteur": 800,
+          "ecrans": 0.9,
+          "mots": 8,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.padding-t_med",
+          "titre": "Brae \\’brā\\ n. — A hillside; a gentle slope.",
+          "top": 848,
+          "hauteur": 1106,
+          "ecrans": 1.2,
+          "mots": 123,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.layout_ti",
+          "titre": null,
+          "top": 1954,
+          "hauteur": 747,
+          "ecrans": 0.8,
+          "mots": 37,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.stagger",
+          "titre": "Brae encompasses 20 acres of productive farmland and conside",
+          "top": 2701,
+          "hauteur": 603,
+          "ecrans": 0.7,
+          "mots": 17,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section.padding-t_med",
+          "titre": null,
+          "top": 3304,
+          "hauteur": 1170,
+          "ecrans": 1.3,
+          "mots": 63,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.layout_ti",
+          "titre": null,
+          "top": 4474,
+          "hauteur": 700,
+          "ecrans": 0.8,
+          "mots": 83,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.stagger",
+          "titre": "Brae is located in Victoria’s Otways hinterland, two kilomet",
+          "top": 5174,
+          "hauteur": 552,
+          "ecrans": 0.6,
+          "mots": 19,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header_light",
+        "hauteur": 100,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "Dine",
+            "href": "https://braerestaurant.com/dine",
+            "bouton": false
+          },
+          {
+            "texte": "Stay",
+            "href": "https://braerestaurant.com/stay",
+            "bouton": false
+          },
+          {
+            "texte": "Farm",
+            "href": "https://braerestaurant.com/farm",
+            "bouton": false
+          },
+          {
+            "texte": "Shop",
+            "href": "https://braerestaurant.com/shop",
+            "bouton": false
+          },
+          {
+            "texte": "Home",
+            "href": "https://braerestaurant.com",
+            "bouton": false
+          },
+          {
+            "texte": "Seasonal Notes",
+            "href": "https://braerestaurant.com/journal",
+            "bouton": false
+          },
+          {
+            "texte": "Getting here",
+            "href": "https://braerestaurant.com/getting-here",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "https://braerestaurant.com/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Reservations",
+            "href": "https://braerestaurant.com/reservations",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "See map",
+            "href": "https://maps.app.goo.gl/s3NgXiLKLY8TVVWy8",
+            "bouton": false
+          },
+          {
+            "texte": "+61 3 5236 2226",
+            "href": "tel:+61 3 5236 2226",
+            "bouton": false
+          },
+          {
+            "texte": "Email",
+            "href": "mailto:enquire@braerestaurant.com",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "https://braerestaurant.com/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms & Conditions",
+            "href": "https://braerestaurant.com/terms-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "Sustainability Statement",
+            "href": "https://braerestaurant.com/sustainability-statement",
+            "bouton": false
+          },
+          {
+            "texte": "Join our team",
+            "href": "https://braerestaurant.com/join-our-team",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://instagram.com/braerestaurant",
+            "bouton": false
+          },
+          {
+            "texte": "Designed by Studio Round",
+            "href": "https://www.round.com.au/?ref=braerestaurant",
+            "bouton": false
+          },
+          {
+            "texte": "Built by New Territory",
+            "href": "https://newterritory.studio/?ref=braerestaurant",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+61 3 5236 2226"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 4,
+        "heures": 7,
+        "extrait": "a, Vic. See map +61 3 5236 2226 Email HOURS Dinner Thursday 17:00 – 22:00 Lunch Friday, Saturday, Su"
+      },
+      "portes": [
+        {
+          "texte": "Reservations",
+          "href": "https://braerestaurant.com/reservations"
+        },
+        {
+          "texte": "Learn about our menu",
+          "href": "/dine"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.header__container",
+          "position": "sticky",
+          "hauteur": 100,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 11
+        },
+        {
+          "selecteur": "footer.footer",
+          "position": "fixed",
+          "hauteur": 725,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 131
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/brae-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fffef3",
+      "h1": "Brae",
+      "h1Visible": true,
+      "mots": 83,
+      "images": 0,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 0.95,
+        "selecteur": "video.lazy"
+      },
+      "boutonPrincipal": {
+        "texte": "Reservations",
+        "x": 20,
+        "y": 788.984375,
+        "cx": 0.3141025641025641,
+        "cy": 0.956744297985782,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 5679,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.visually-hidden",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.font_20",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 20,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.header__menu-mobile_btn",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.font_b",
+        "famille": "Stanley, \"Times New Roman\", serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "swiper-icons",
+          "url": "data:application/font-woff;charset=utf-8;base64, d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAGRAAAABoAAAAci6qHkUdERUYAAAWgAAAAIwAAACQAYAB",
+          "feuille": "braerestaurant.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Stanley",
+          "url": "../fonts/Stanley-Regular.woff2",
+          "feuille": "braerestaurant.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Apercu",
+          "url": "../fonts/Apercu.woff2",
+          "feuille": "braerestaurant.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.snipcart.com",
+        "cdn-images.mailchimp.com"
+      ],
+      "fichiersPolices": [
+        "https://braerestaurant.com/assets/fonts/Stanley-Regular.woff2",
+        "https://braerestaurant.com/assets/fonts/Apercu.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Stanley",
+          "n": 40
+        },
+        {
+          "famille": "Apercu",
+          "n": 5
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fffef3",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#fffef3",
+          "n": 1,
+          "poids": 2384460
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 798330
+        },
+        {
+          "hex": "#68724d",
+          "n": 2,
+          "poids": 343980
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 1840
+        },
+        {
+          "hex": "#ffffff",
+          "n": 31,
+          "poids": 1049
+        },
+        {
+          "hex": "#fffef3",
+          "n": 1,
+          "poids": 12
+        }
+      ],
+      "nbImages": 5,
+      "nbVideos": 2,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#fffef3",
+          "n": 1,
+          "poids": 2384460,
+          "part": 0.676
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 798330,
+          "part": 0.226
+        },
+        {
+          "hex": "#68724d",
+          "n": 2,
+          "poids": 343980,
+          "part": 0.098
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 1840,
+          "part": 0.634
+        },
+        {
+          "hex": "#ffffff",
+          "n": 31,
+          "poids": 1049,
+          "part": 0.362
+        },
+        {
+          "hex": "#fffef3",
+          "n": 1,
+          "poids": 12,
+          "part": 0.004
+        }
+      ],
+      "contraste": 20.72
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Swiper",
+          "preuve": "window.Swiper"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.header__container",
+          "ecrans": 7.2
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "all 0.3s ease",
+          "n": 18
+        },
+        {
+          "valeur": "animation fadeIn 0.25s ease-in",
+          "n": 10
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "background-color 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.23s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.header__icon",
+        "score": 3,
+        "animations": [
+          "animation fadeIn 0.25s ease-in"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.page-content",
+      "sections": [
+        {
+          "selecteur": "div#header-bar",
+          "titre": null,
+          "top": 0,
+          "hauteur": 38,
+          "ecrans": 0,
+          "mots": 10,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "main",
+          "titre": "Brae \\’brā\\ n. — A hillside; a gentle slope.",
+          "top": 110,
+          "hauteur": 5160,
+          "ecrans": 6.1,
+          "mots": 343,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header_light",
+        "hauteur": 72,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "Home",
+            "href": "https://braerestaurant.com",
+            "bouton": false
+          },
+          {
+            "texte": "Menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "See map",
+            "href": "https://maps.app.goo.gl/s3NgXiLKLY8TVVWy8",
+            "bouton": false
+          },
+          {
+            "texte": "+61 3 5236 2226",
+            "href": "tel:+61 3 5236 2226",
+            "bouton": false
+          },
+          {
+            "texte": "Email",
+            "href": "mailto:enquire@braerestaurant.com",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "https://braerestaurant.com/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms & Conditions",
+            "href": "https://braerestaurant.com/terms-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "Sustainability Statement",
+            "href": "https://braerestaurant.com/sustainability-statement",
+            "bouton": false
+          },
+          {
+            "texte": "Join our team",
+            "href": "https://braerestaurant.com/join-our-team",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://instagram.com/braerestaurant",
+            "bouton": false
+          },
+          {
+            "texte": "Designed by Studio Round",
+            "href": "https://www.round.com.au/?ref=braerestaurant",
+            "bouton": false
+          },
+          {
+            "texte": "Built by New Territory",
+            "href": "https://newterritory.studio/?ref=braerestaurant",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+61 3 5236 2226"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 4,
+        "heures": 7,
+        "extrait": "a, Vic. See map +61 3 5236 2226 Email HOURS Dinner Thursday 17:00 – 22:00 Lunch Friday, Saturday, Su"
+      },
+      "portes": [
+        {
+          "texte": "Menu",
+          "href": ""
+        },
+        {
+          "texte": "Reservations",
+          "href": "/reservations"
+        },
+        {
+          "texte": "Learn about our menu",
+          "href": "/dine"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.header__container",
+          "position": "sticky",
+          "hauteur": 72,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 2
+        },
+        {
+          "selecteur": "footer.footer",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 131
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Brae",
+  "dureeS": 26.5
+}

@@ -1,0 +1,642 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "http://eraceramics.com/",
+  "nom": "eraceramics",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Era Ceramics",
+    "siteName": "Era Ceramics",
+    "lang": "",
+    "description": "Ceramics and dinnerware for the modern home and kitchen handmade in Austin, TX.",
+    "technologies": [
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": null,
+      "h1": null,
+      "h1Visible": false,
+      "mots": 0,
+      "images": 4,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6863,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Cormorant Garamond\", serif",
+        "taille": 60,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "input#mc-embedded-subscribe",
+        "famille": "ecsans-semi, \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 58,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "ecsans-semi, \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 23,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "1px"
+      },
+      "fontFaces": [
+        {
+          "famille": "ecsans-light",
+          "url": "../font/ecsans-light-webfont.woff2",
+          "feuille": "eraceramics.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "ecsans-semi",
+          "url": "../font/ecsans-semibold-webfont.woff2",
+          "feuille": "eraceramics.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://eraceramics.com/font/ecsans-semibold-webfont.woff2",
+        "https://eraceramics.com/font/ecsans-light-webfont.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Cormorant Garamond",
+          "n": 44
+        },
+        {
+          "famille": "ecsans-semi",
+          "n": 21
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9882720
+        },
+        {
+          "hex": "#f9f9ef",
+          "n": 2,
+          "poids": 9623317.5
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#1a1a1a",
+          "n": 39,
+          "poids": 793
+        },
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 280
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 14
+        }
+      ],
+      "nbImages": 6,
+      "nbVideos": 0,
+      "nbFondsImage": 2,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9882720,
+          "part": 0.507
+        },
+        {
+          "hex": "#f9f9ef",
+          "n": 2,
+          "poids": 9623317.5,
+          "part": 0.493
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1a1a1a",
+          "n": 39,
+          "poids": 793,
+          "part": 0.73
+        },
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 280,
+          "part": 0.258
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 14,
+          "part": 0.013
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.3s cubic-bezier(0.39, 0.575, 0.565, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "background-color 0.4s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+          "n": 1
+        },
+        {
+          "valeur": "bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-parallax",
+          "n": 2
+        },
+        {
+          "nom": "data-speed",
+          "n": 2
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "img.hero-logo",
+        "score": 4,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-parallax",
+          "data-speed"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div#main-wrap",
+      "sections": [
+        {
+          "selecteur": "div#push-cover",
+          "titre": null,
+          "top": 0,
+          "hauteur": 1080,
+          "ecrans": 1.2,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.content-wrap",
+          "titre": "CLIENTS & COLLABORATORS",
+          "top": 1080,
+          "hauteur": 5783,
+          "ecrans": 6.4,
+          "mots": 179,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.main-nav",
+        "hauteur": 147,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "Process",
+            "href": "/process",
+            "bouton": false
+          },
+          {
+            "texte": "Shop",
+            "href": "http://shop.eraceramics.com",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "#contact",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 3
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "nav#c-menu--slide-bottom",
+          "position": "fixed",
+          "hauteur": 620,
+          "largeur": 1440,
+          "enBas": true,
+          "mots": 13
+        },
+        {
+          "selecteur": "div#hero-wrap",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Cormorant Garamond"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/eraceramics-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": null,
+      "h1": null,
+      "h1Visible": false,
+      "mots": 0,
+      "images": 3,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 4807,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Cormorant Garamond\", serif",
+        "taille": 30,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "input#mc-embedded-subscribe",
+        "famille": "ecsans-semi, \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 32,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "ecsans-semi, \"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 23,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "ecsans-light",
+          "url": "../font/ecsans-light-webfont.woff2",
+          "feuille": "eraceramics.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "ecsans-semi",
+          "url": "../font/ecsans-semibold-webfont.woff2",
+          "feuille": "eraceramics.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://eraceramics.com/font/ecsans-semibold-webfont.woff2",
+        "https://eraceramics.com/font/ecsans-light-webfont.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Cormorant Garamond",
+          "n": 44
+        },
+        {
+          "famille": "ecsans-semi",
+          "n": 18
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1874730
+        },
+        {
+          "hex": "#f9f9ef",
+          "n": 2,
+          "poids": 1874656.875
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#1a1a1a",
+          "n": 36,
+          "poids": 756
+        },
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 280
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 14
+        }
+      ],
+      "nbImages": 4,
+      "nbVideos": 0,
+      "nbFondsImage": 2,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1874730,
+          "part": 0.5
+        },
+        {
+          "hex": "#f9f9ef",
+          "n": 2,
+          "poids": 1874656.875,
+          "part": 0.5
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1a1a1a",
+          "n": 36,
+          "poids": 756,
+          "part": 0.72
+        },
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 280,
+          "part": 0.267
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 14,
+          "part": 0.013
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.3s cubic-bezier(0.39, 0.575, 0.565, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "background-color 0.4s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+          "n": 1
+        },
+        {
+          "valeur": "bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-parallax",
+          "n": 2
+        },
+        {
+          "nom": "data-speed",
+          "n": 2
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "img.hero-logo",
+        "score": 4,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-parallax",
+          "data-speed"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div#main-wrap",
+      "sections": [
+        {
+          "selecteur": "div#push-cover",
+          "titre": null,
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.content-wrap",
+          "titre": "CLIENTS & COLLABORATORS",
+          "top": 844,
+          "hauteur": 3963,
+          "ecrans": 4.7,
+          "mots": 179,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.main-nav",
+        "hauteur": 147,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "Process",
+            "href": "/process",
+            "bouton": false
+          },
+          {
+            "texte": "Shop",
+            "href": "http://shop.eraceramics.com",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "#contact",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 3
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "nav#c-menu--slide-bottom",
+          "position": "fixed",
+          "hauteur": 380,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 5
+        },
+        {
+          "selecteur": "div#hero-wrap",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Cormorant Garamond"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "Era Ceramics",
+  "dureeS": 24.9
+}

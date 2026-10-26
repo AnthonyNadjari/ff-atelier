@@ -1,0 +1,146 @@
+{
+  "id": "paloroma",
+  "version": 1,
+  "source": {
+    "url": "https://paloroma.com/",
+    "nom": "Paloroma",
+    "metier": "soins pour bébés et enfants (Brooklyn, petite marque)",
+    "fiche": "docs/veille/styles/paloroma.md",
+    "mesures": "docs/veille/styles/atomes/mesures/paloroma.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Minotaur",
+      "libre": "gelasio",
+      "graisse": 400,
+      "interlignage": 2,
+      "casse": "none",
+      "interlettrage": 0.013,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Minotaur",
+      "libre": "gelasio",
+      "graisse": 400,
+      "interlignage": 1.75
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 22,
+        "ordinateur": 30
+      },
+      "h2": {
+        "telephone": 22,
+        "ordinateur": 30
+      },
+      "texte": {
+        "telephone": 12,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Minotaur (serif à empattements en coin, un peu naïve) pour tout : titres de 30 px, texte 16 px très interligné (1,75), espacé de 0,4 à 0,8 px, tout en orange ; GT Eesti en capitales espacées 10 px pour les boutons seulement. Gelasio, serif libre chaude à empattements marqués, une seule famille. Le logo et les photos font le premier écran : le plus gros texte est le titre de section."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#f8f5e9",
+      "texte": "#ff7e30",
+      "fonds": [
+        {
+          "hex": "#f8f5e9",
+          "part": 0.644
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.264
+        },
+        {
+          "hex": "#d9ebff",
+          "part": 0.092
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ff7e30",
+          "part": 1
+        }
+      ],
+      "proches": 428103
+    },
+    "clair": {
+      "fond": "#f8f5e9",
+      "surface": "#ffffff",
+      "texte": "#000000",
+      "texte2": "#000000",
+      "accent": "#ff7e30",
+      "accent2": "#d9ebff",
+      "bordure": "#ff7e30",
+      "encre": "#d9ebff"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #ffffff (26 %), #d9ebff (9 %)",
+    "remarque": "Crème #f8f5e9 (chroma 0,016) sur 70 % de la page, bandes blanches ; le texte de la source est orange #ff7e30 (2,3:1 sur la crème, illisible pour l'usine) : texte en noir #000000 (mesuré sur les boutons et la nav), l'orange garde les filets, le cadre de la page, les titres et l'aplat des boutons (assombri par l'usine quand il sert de texte) ; bleu layette #d9ebff en marge gauche, boutons et bandeau de citation."
+  },
+  "densite": {
+    "section": {
+      "telephone": 60,
+      "ordinateur": 115
+    },
+    "gouttiere": {
+      "telephone": 40,
+      "ordinateur": 83
+    },
+    "conteneur": 1290,
+    "mesure": "à juger",
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Angles droits partout, cadre d'un filet orange autour de toute la page, boutons pleins bleu layette à filet orange, capitales espacées."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "4:5",
+      "1:1",
+      "2:3-"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Portraits d'enfants sur fond uni et produits détourés posés sur la crème, en quinconce, petites illustrations au trait qui chevauchent les photos ; journal en vignettes empilées."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "cubic-bezier(0.39, 0.575, 0.565, 1)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.39, 0.575, 0.565, 1)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Mesuré : les photos du premier écran arrivent en fondu 0,6 s cubic-bezier(.39,.575,.565,1) ; survols de couleur 0,4 s ; rien ne bouge au défilement (relevé à 900, 1 800, 2 700 px)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "cadre-colore"
+}

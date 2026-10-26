@@ -6,8 +6,55 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 
 <!-- ff melanger : besoins de collecte (bloc réécrit à chaque tirage, ne pas éditer) -->
 **Besoins de collecte** (relevés par `ff melanger` le 2026-10-26 ; volet 2a quater de `/veille`) :
-- la collecte doit ramener des palettes clair teinté doux (10 tirables sur 137, 18 au moins)
+- la collecte doit ramener des palettes clair teinté doux (14 tirables sur 148, 19 au moins)
+- pistes de _exemple (3) : diversité de palette relâchée (régimes différents, accent proche d'une piste sœur (registre trop pauvre)) ; la collecte doit ramener des palettes clair teinté doux compatibles avec ce client
 <!-- /ff melanger -->
+
+## 26 oct 2026, tour 9 (routine en ligne, soir) : 11 styles, 2 architectures
+
+**Fait**
+- Santé : `ff atomes` était rouge sur `main` (10 brouillons de la collecte refusés par le validateur : `photos.traitement`
+  « à juger » sous un atome photos posé, densités à `null`, interlettrage hors bornes). Corrigé à la source : le validateur
+  accepte un traitement « à juger » (photos alors non tirables, comme le disait déjà `tirables`), `ff atomes mesurer` écrit
+  « à juger » au lieu de `null`. Les prochaines collectes ne casseront plus le registre. Chromium de Playwright, `FF_CHROMIUM=1`.
+- **Styles (2a quater)** : collecte commencée par le régime en besoin (clair teinté doux), ~90 domaines sondés (Awwwards
+  injoignable, siteinspire en 429, liste de httpster), 12 relevés, chacun essayé sur une copie de `demo-boulangerie` et posé à
+  côté de la source. **11 gardés** : `landrace`, `paloroma`, `loomrugs`, `here` (clair teinté doux) ; `brae`, `sebastiancox`,
+  `eraceramics`, `marram`, `handsomebrook`, `thyme` (coloré doux) ; `nishiyama` (clair neutre). Écarté : laylabakery (un écran
+  sous une fenêtre d'inscription). Fiches et écartés dans [styles/INDEX.md](styles/INDEX.md).
+- Palettes par régime, avant → après : clair neutre 81 → 82, clair teinté doux 10 → 14 (toujours en besoin : 6 crèmes de plus
+  sont rangées en « coloré doux » par leur pied ou bandeau coloré, relevés tels quels), sombre 20 → 20, coloré doux 26 → 32.
+- **Mouvement** : 2 profils nouveaux ([MOUVEMENTS.md](styles/MOUVEMENTS.md), 27 profils) : `photos-a-plusieurs-vitesses`
+  (Brae, Marram : chaque photo glisse à sa vitesse, 0,07 à 0,12 px par px défilé) et `photos-qui-flottent` (Nishiyama :
+  tissus détourés qui flottent de 10 px en boucle ; pas encore tirable, faute de survol mesuré).
+- Tests : 70 fichiers, 1 126 tests, tous verts.
+- **Règle apprise** (ATOMES.md § Règles apprises, `echelleH2` testée dans `melanger.mjs`) : h2 plus grand que le h1 (Handsome
+  Brook) ou de la taille du texte (deux mélanges au hasard sur `_exemple`) ; le h2 est tenu entre 1,33 × texte et 0,75 × h1.
+  Vérifié au second essai.
+- **Architectures (2a ter)**, codées et prouvées le même tour : [grille-urgence](architectures/grille-urgence.md) (serrurier,
+  Paris 16e : le site est sa grille de prix, une situation par onglet, prix par créneau avec « En ce moment », délais par secteur ;
+  coquille `grille`, `/tarifs` ; première architecture pour les métiers d'urgence) et [atelier-par-colis](architectures/atelier-par-colis.md)
+  (cordonnier d'Albertville : deux portes « Venir à l'atelier » / « Envoyer par colis », voyage du colis en piste horizontale ;
+  coquille `colis`, `/envoyer`). `ff ressemblance` : grille 0,60 / 0,49 / 0,62, colis 0,63 / 0,59 / 0,64 (téléphone / ordinateur /
+  déroulé, seuil 0,65 ; colis de justesse, à ne pas donner à un client sans photos). `ff verifier` vert sur les jetables, supprimés.
+- **Marché (2a)** : 9 sites de plus (agences de Lyon, Le Havre, Paris ; Google : menuisière à Échirolles, restaurant au Mans,
+  ostéopathe à Nîmes ; modèles Framer Solshine, Wix HandyPro, Squarespace Aurora). [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) : 81 sites.
+  Aucun levier à 40 % ou plus absent de l'usine. Le plus vendeur : l'ostéopathe de Nîmes (métier et ville, numéro, Doctolib, une
+  page par public, tarif écrit) mais son lien d'appel est `tel:O766…` (lettre O) : l'appel ne part pas.
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé,
+21 les deux), aucun site n'ayant changé ; pires : anna-vidal / borie-des-chenes (0,81 / 0,75 / 1,00), chez-malo / studio-ambre
+(0,87 / 0,91), demo-informatique / fromagerie-ravanel-d (déroulé 0,90). Signalé, pas corrigé.
+
+**Proposé**
+- Vérifier le format du téléphone (`contact.phone` est une chaîne libre : un `tel:O7…` passerait) dans `ff verifier`.
+- Collecte crèmes à pied clair (il manque 4 à 5 palettes clair teinté doux).
+- Un champ « financement » (3 fois sans frais, remboursement mutuelle) : 2 sites sur 9 ce tour.
+
+**À décider** : les 11 styles (`ff melanger <slug> --style landrace`) ; grille-urgence pour le premier serrurier, plombier ou
+dépanneur ; atelier-par-colis pour un cordonnier, horloger, rempailleur qui reçoit par la poste ; les paires trop proches.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
 
 ## 26 oct 2026, après-midi (fondateur absent, travail autonome) : défauts visuels corrigés
 

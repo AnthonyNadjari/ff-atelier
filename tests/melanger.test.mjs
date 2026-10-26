@@ -581,3 +581,16 @@ test('casse du h1 : un style en capitales garde ses h2 en capitales, le h1 d\'un
   assert.equal(casseH1('capitalize'), 'none');
   assert.equal(typeof genererDirection, 'function');
 });
+
+test('échelle du h2 : jamais plus grand que le h1 ni lu comme du texte (essais du 26 oct 2026, soir)', async () => {
+  const { echelleH2 } = await import('../scripts/ff/melanger.mjs');
+  // handsomebrook (m-bc0514) : h2 = h1 = 96,8 px à l'ordinateur, 48 au téléphone.
+  assert.equal(echelleH2(96.8, 96.8, 23.6), 72.6, 'handsomebrook ordinateur : ramené à 0,75 h1');
+  assert.equal(echelleH2(48, 48, 18), 36, 'handsomebrook téléphone');
+  // eastfork (m-cdbbd5) et ennismore (m-d11c9b) : h2 de 16 à 18 px pour un texte de 16.
+  assert.equal(echelleH2(38, 18, 16), 21.3, 'eastfork : relevé à 1,33 fois le texte');
+  assert.equal(echelleH2(120, 16, 16), 21.3, 'ennismore');
+  // Un h2 déjà dans la plage reste tel quel ; si h1 et texte se croisent, le plancher gagne.
+  assert.equal(echelleH2(96, 40, 16), 40);
+  assert.equal(echelleH2(22, 30, 18), 23.9);
+});

@@ -1,0 +1,165 @@
+{
+  "id": "sebastiancox",
+  "version": 1,
+  "source": {
+    "url": "https://www.sebastiancox.co.uk/",
+    "nom": "Sebastian Cox",
+    "metier": "ébéniste et designer de meubles (atelier, Margate, Kent)",
+    "fiche": "docs/veille/styles/sebastiancox.md",
+    "mesures": "docs/veille/styles/atomes/mesures/sebastiancox.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Cormorant Garamond",
+      "libre": "ebGaramond",
+      "graisse": 500,
+      "interlignage": 1.23,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "freight-sans-pro",
+      "libre": "cabin",
+      "graisse": 400,
+      "interlignage": 1.8
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 46.8,
+        "ordinateur": 108
+      },
+      "h2": {
+        "telephone": 32.2,
+        "ordinateur": 45.1
+      },
+      "texte": {
+        "telephone": 13,
+        "ordinateur": 12.3
+      }
+    },
+    "remarque": "Cormorant Garamond 500 (liste IA, refusée) en très grand (108 px) pour les trois portes du premier écran : EB Garamond, Garamond libre hors liste. Freight Sans (humaniste) en petit corps : Cabin, sans humaniste libre. Contraste serif d'affichage / sans de texte."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffe2cf",
+      "texte": "#aa1414",
+      "fonds": [
+        {
+          "hex": "#ffe2cf",
+          "part": 0.793
+        },
+        {
+          "hex": "#aa1414",
+          "part": 0.084
+        },
+        {
+          "hex": "#000000",
+          "part": 0.05
+        },
+        {
+          "hex": "#f5f3ee",
+          "part": 0.05
+        },
+        {
+          "hex": "#1e1d1c",
+          "part": 0.023
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#aa1414",
+          "part": 0.745
+        },
+        {
+          "hex": "#ffe2cf",
+          "part": 0.175
+        },
+        {
+          "hex": "#f5f3ee",
+          "part": 0.08
+        }
+      ],
+      "proches": 5623483
+    },
+    "clair": {
+      "fond": "#ffe2cf",
+      "surface": "#f5f3ee",
+      "texte": "#aa1414",
+      "texte2": "#1e1d1c",
+      "accent": "#aa1414",
+      "bordure": "#aa1414",
+      "encre": "#aa1414"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #aa1414 (8 %), #000000 (5 %), #f5f3ee (5 %), #1e1d1c (2 %), #ffffff (0 %)",
+    "remarque": "Pêche pâle #ffe2cf (chroma 0,041) sur toute la page, texte et liens rouge bordeaux #aa1414 (6:1), bandeau plein rouge avec titre pêche ; gris chaud #f5f3ee sous les photos."
+  },
+  "densite": {
+    "section": {
+      "telephone": 294,
+      "ordinateur": 208
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 34
+    },
+    "conteneur": 1325,
+    "mesure": "à juger",
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Angles droits, pas de bouton plein sur l'accueil : liens rouges soulignés (« Latest »), légendes sous les photos."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "2:3-",
+      "4:5",
+      "3:2"
+    ],
+    "pleinCadre": 3,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Forêt vue du ciel plein écran au premier écran, trois mots géants rouges dessus ; puis grille en trois colonnes de photos de meubles et d'intérieurs aux formats mêlés, légende rouge en dessous."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.17,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Mesuré : les vignettes de la grille montent en fondu (tmpl-anim-fade-up 0,8 s ease), le logo rétrécit à 0,7 en 1 s au premier cran ; survols 0,17 s ease-in-out."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

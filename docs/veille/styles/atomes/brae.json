@@ -1,0 +1,149 @@
+{
+  "id": "brae",
+  "version": 1,
+  "source": {
+    "url": "https://braerestaurant.com/",
+    "nom": "Brae",
+    "metier": "restaurant, ferme et chambres (Birregurra, Victoria)",
+    "fiche": "docs/veille/styles/brae.md",
+    "mesures": "docs/veille/styles/atomes/mesures/brae.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Stanley",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.4,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Stanley",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.4
+    },
+    "mono": null,
+    "echelle": {
+      "h1": "à juger",
+      "h2": {
+        "telephone": 15,
+        "ordinateur": 20
+      },
+      "texte": {
+        "telephone": 12,
+        "ordinateur": 20
+      }
+    },
+    "remarque": "Stanley (Optimo, serif de livre) partout, toujours petit (16 à 20 px), jamais en gras ; Apercu en capitales 10 px pour les mentions. Le seul grand texte est le logo dessiné sur la vidéo : h1 « à juger » (16 px mesuré, ce n'est pas ce que l'œil voit). Spectral, serif de lecture libre, sobre."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#fffef3",
+      "texte": "#000000",
+      "fonds": [
+        {
+          "hex": "#fffef3",
+          "part": 0.794
+        },
+        {
+          "hex": "#000000",
+          "part": 0.201
+        },
+        {
+          "hex": "#68724d",
+          "part": 0.005
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "part": 0.625
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.375
+        }
+      ],
+      "proches": 16776947
+    },
+    "clair": {
+      "fond": "#fffef3",
+      "surface": "#fffef3",
+      "texte": "#000000",
+      "texte2": "#000000",
+      "accent": "#68724d",
+      "bordure": "#000000",
+      "encre": "#68724d"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #000000 (20 %), #68724d (1 %)",
+    "remarque": "Blanc crème #fffef3 (chroma 0,014), texte noir ; vert olive #68724d en bandeau du haut et au pied plein ; noir sous les photos plein cadre, texte blanc dessus."
+  },
+  "densite": {
+    "section": {
+      "telephone": 258,
+      "ordinateur": 243
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 80
+    },
+    "conteneur": 1280,
+    "mesure": 45,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Pas de bouton : liens soulignés sous chaque bloc (« Learn about our farm »), angles droits."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "2:3-",
+      "16:9+"
+    ],
+    "pleinCadre": 3,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Vidéo du domaine plein écran au premier écran, logo dessus ; puis photos verticales et horizontales décalées dans une grille éditoriale avec beaucoup de vide, et deux bandes plein cadre sombres avec une phrase blanche."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Swiper"
+    ],
+    "profil": "photos-a-plusieurs-vitesses",
+    "remarque": "Mesuré à 17 hauteurs : chaque photo part décalée de 116 à 177 px vers le haut et rejoint sa place à sa propre vitesse (0,096 à 0,122 px par px défilé à l'ordinateur, 0,07 à 0,09 au téléphone) ; vidéo de fond au premier écran ; survols 0,3 s ease."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

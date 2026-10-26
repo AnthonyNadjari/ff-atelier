@@ -1,0 +1,150 @@
+{
+  "id": "nishiyama",
+  "version": 1,
+  "source": {
+    "url": "https://nishiyamasilk.com/",
+    "nom": "Nishiyama Silk",
+    "metier": "tissage de soie (atelier familial, Japon)",
+    "fiche": "docs/veille/styles/nishiyama.md",
+    "mesures": "docs/veille/styles/atomes/mesures/nishiyama.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Pathway Gothic One",
+      "libre": "oswald",
+      "graisse": 400,
+      "interlignage": 1.4,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Karla",
+      "libre": "karla",
+      "graisse": 400,
+      "interlignage": 1.29
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 42,
+        "ordinateur": 42
+      },
+      "h2": {
+        "telephone": 42,
+        "ordinateur": 42
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 14
+      }
+    },
+    "remarque": "Pathway Gothic One (grotesque très condensée, casse normale) pour les titres de section à 42 px, le plus gros texte affiché (le nom en tête est un logo) ; Karla 14 px pour le texte en colonne étroite centrée. Oswald, la condensée libre la plus proche ; Karla telle quelle."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#434242",
+      "fonds": [
+        {
+          "hex": "#f1ead8",
+          "part": 0.776
+        },
+        {
+          "hex": "#222222",
+          "part": 0.159
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.066
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#434242",
+          "part": 0.803
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.186
+        },
+        {
+          "hex": "#000000",
+          "part": 0.009
+        },
+        {
+          "hex": "#475885",
+          "part": 0.003
+        }
+      ],
+      "proches": 12369341
+    },
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f1ead8",
+      "texte": "#434242",
+      "texte2": "#222222",
+      "accent": "#475885",
+      "bordure": "#222222",
+      "encre": "#222222"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #f1ead8 (78 %), #222222 (16 %)",
+    "remarque": "Blanc pour le texte, écru #f1ead8 au premier écran, bandes noires #222222 entre les photos, texte gris anthracite #434242 ; bleu indigo #475885 rare (liens)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 37,
+      "ordinateur": 37
+    },
+    "gouttiere": "à juger",
+    "conteneur": 1440,
+    "mesure": 70,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne"
+  },
+  "photos": {
+    "traitement": "masque",
+    "rapports": [
+      "16:9+",
+      "3:2",
+      "2:3-"
+    ],
+    "pleinCadre": 4,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Photos de tissus, de cocons et d'artisans découpées en galets aux contours souples, qui débordent des marges et se chevauchent ; entre deux, des photos d'atelier et de village en plein cadre."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": "à juger",
+    "scene": {
+      "duree": 1,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "photos-qui-flottent",
+    "remarque": "Mesuré : chaque galet flotte de 0 à 10 px en hauteur (animation levitation 1,5, 2,5 et 3 s ease-out, en boucle, durées décalées) ; les titres apparaissent en fondu en 0,9 s environ."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier"
+}

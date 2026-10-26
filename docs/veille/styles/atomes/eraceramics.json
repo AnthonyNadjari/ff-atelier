@@ -1,0 +1,149 @@
+{
+  "id": "eraceramics",
+  "version": 1,
+  "source": {
+    "url": "http://eraceramics.com/",
+    "nom": "Era Ceramics",
+    "metier": "atelier de céramique, vaisselle de restaurant (Dallas, deux potiers)",
+    "fiche": "docs/veille/styles/eraceramics.md",
+    "mesures": "docs/veille/styles/atomes/mesures/eraceramics.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "ecsans-semi",
+      "libre": "urbanist",
+      "graisse": 600,
+      "interlignage": 1.0,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Cormorant Garamond",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.25
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 46,
+        "ordinateur": 92
+      },
+      "h2": {
+        "telephone": 19,
+        "ordinateur": 21
+      },
+      "texte": {
+        "telephone": 30,
+        "ordinateur": 60
+      }
+    },
+    "remarque": "EC Sans (géométrique maison, demi-gras dans le fichier même si le CSS dit 400) pour les titres et la nav : Urbanist 600. Le texte est un Garamond (Cormorant, liste IA) en corps énorme (60 px à l'ordinateur, 30 au téléphone ; l'usine le ramène à 24 au plus), clients en italique séparés par des barres obliques : EB Garamond, hors liste. Le plus gros texte affiché est le titre « Play & Process » (le nom du premier écran est un logo)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#1a1a1a",
+      "fonds": [
+        {
+          "hex": "#f9f9ef",
+          "part": 0.883
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.117
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#1a1a1a",
+          "part": 0.73
+        },
+        {
+          "hex": "#000000",
+          "part": 0.258
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.013
+        }
+      ],
+      "proches": 15066597
+    },
+    "clair": {
+      "fond": "#f9f9ef",
+      "surface": "#ffffff",
+      "texte": "#1a1a1a",
+      "texte2": "#000000",
+      "accent": "#d1830d",
+      "bordure": "#1a1a1a",
+      "encre": "#d1830d"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #f9f9ef (88 %)",
+    "remarque": "Blanc d'argile #f9f9ef (chroma 0,013) sur toutes les sections de texte, blanc pur dessous, texte presque noir ; ocre #d1830d en aplat plein pour l'aperçu de la page suivante (le fond y glisse en 0,7 s). Le reste de la couleur vient des photos (rouge oxyde, sauge, terre)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 129,
+      "ordinateur": 180
+    },
+    "gouttiere": {
+      "telephone": 26,
+      "ordinateur": 13
+    },
+    "conteneur": 1118,
+    "mesure": 40,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Aucun bouton : liens soulignés d'un filet ocre pâle sous les noms de clients ; angles droits ; logo monogramme fixe en haut à droite."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "16:9+",
+      "4:3",
+      "2:3-"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Premier écran : deux assiettes vues du dessus côte à côte, le nom en grand qui les chevauche ; ensuite portraits des deux potiers sur fonds unis sauge et grège, décalés et qui se chevauchent, au milieu d'un texte très grand."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "cubic-bezier(0.175, 0.885, 0.32, 1.275)"
+    },
+    "scene": {
+      "duree": 0.7,
+      "courbe": "ease-in-out"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [],
+    "profil": "fond-qui-change-de-teinte",
+    "remarque": "Mesuré tous les 400 px : le fond reste #f9f9ef jusqu'au bas de page puis glisse vers l'ocre #d1830d (transition background-color 0,7 s ease-in-out) quand arrive l'aperçu de la page suivante ; deux photos du premier écran en data-parallax ; survols à rebond 0,4 s cubic-bezier(.175,.885,.32,1.275)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier"
+}

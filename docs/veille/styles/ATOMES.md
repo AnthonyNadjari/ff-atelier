@@ -234,6 +234,14 @@ Chaque ligne vient d'un essai regardé, avec le mélange qui l'a provoquée. Une
   mots ; sur le h1 français d'une phrase (métier, ville), même resserrées à 0,06 em, elles le cassaient en quatre à six
   lignes à l'ordinateur. Règle `casseH1` (`melanger.mjs`, testée) : le h1 repasse en casse normale, les h2 et h3 gardent
   les capitales du style ; vérifié au second essai de thepalomar (quatre lignes au lieu de six).
+- **26 oct 2026, soir, `ff melanger demo-boulangerie --style handsomebrook --essai` (m-bc0514) et `ff melanger _exemple
+  --n 3 --hasard --essai` (m-cdbbd5 typo eastfork, m-d11c9b typo ennismore)** : le h2 était copié tel que mesuré, sans
+  lien avec le reste de l'échelle. Chez Handsome Brook (h2 = h1 = 97 px), le h1 du premier écran, plafonné par la coquille
+  (cadre : 5,5 rem), sortait plus PETIT que « LA BOULANGERIE » (un h2 plus grand que le h1 : signe IA, GOUT § 2). Chez
+  East Fork et Ennismore (h2 de 16 à 18 px, des étiquettes sur la source), « L'atelier » et « Nos services » se lisaient
+  comme du texte. Règle `echelleH2` (`melanger.mjs`, testée) : le h2 est tenu entre 1,33 fois le texte (`H2_SUR_TEXTE`)
+  et 0,75 fois le h1 (`H2_SUR_H1`), le plancher gagnant si les deux se croisent. Vérifié au second essai de handsomebrook
+  (titre de section sous le h1) et sur un nouveau tirage au hasard (graine 805782905 : trois h2 au-dessus du texte).
 - A priori : titre en graisse ≤ 300 sur un contraste texte/fond < 7:1 refusé ; titre de 140 px et plus dans une page
   à marges de section < 64 px refusé. À confirmer ou retirer au premier essai qui les rencontre.
 
