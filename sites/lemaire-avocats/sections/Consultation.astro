@@ -21,8 +21,9 @@ const steps = site.process;
       <span class="absolute left-[0.94rem] top-2 bottom-2 w-px bg-line" aria-hidden="true" data-draw></span>
       {steps.map((step, i) => (
         <li class="relative flex gap-6 pb-12 last:pb-0">
-          <span class="relative z-[1] flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-line bg-bg-2 font-mono text-xs text-accent">
-            {String(i + 1).padStart(2, '0')}
+          <span class="relative z-[1] mt-1 flex h-8 w-8 shrink-0 items-center justify-center" aria-hidden="true">
+            {/* Pas de « 01 02 » decoratif (docs/GOUT.md § 2, 26 oct 2026) : un point sur la ligne du temps. */}
+            <span class="h-2.5 w-2.5 bg-accent" />
           </span>
           <div class="pt-0.5">
             <h3 class="font-display text-display-sm">{step.title}</h3>

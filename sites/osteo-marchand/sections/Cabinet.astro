@@ -10,11 +10,12 @@
  * — sans filet local le fondu ne se révèle jamais ; on observe donc la section (jamais clippée) et
  * on pose `.is-visible` à la main sur la figure. Composition propre à ce site.
  */
-import { site, yearsSince } from '@/lib/site';
+import { site } from '@/lib/site';
 import Img from '@/components/Img.astro';
 
 const portrait = site.about.portrait;
-const years = yearsSince();
+// « Depuis 2016 » en texte, jamais « 10 ans » calculé (docs/GOUT.md § 2, 26 oct 2026).
+const years = site.business.since;
 ---
 
 <section id="cabinet" class="section-y">
@@ -33,7 +34,7 @@ const years = yearsSince();
 
       {years !== undefined && (
         <p class="mt-8 font-display leading-none text-accent" style="font-size: clamp(3rem, 7vw, 5rem);">
-          <span data-counter-flip={String(years)} data-suffix=" ans" /><span class="ml-3 align-middle text-base font-sans font-normal text-muted">de cabinet</span>
+          Depuis {site.business.since}<span class="ml-3 align-middle text-base font-sans font-normal text-muted">au cabinet</span>
         </p>
       )}
 

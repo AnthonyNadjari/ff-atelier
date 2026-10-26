@@ -84,9 +84,20 @@ export async function cmdPlanche(args) {
       for (let i = 0; i < debut; i++) await cran();
       const hv = Math.round(M.largeurVignette * M.vh / M.vw);
       const vignettes = [];
+      // Page aimantée (coquilles slides/scenes : scroll-snap mandatory) : trois crans de 100 px ne font pas basculer
+      // l'écran, la page revient au même endroit et la planche montrait 12 fois le premier écran (osteo-marchand,
+      // veto-du-drac, 22 oct 2026). Quand y n'a pas bougé après un cran, on passe à l'écran suivant comme le ferait un
+      // vrai défilement continu : scrollBy d'une hauteur d'écran.
+      let yPrecedent = -1;
       for (let i = 0; i < n; i++) {
         await page.waitForTimeout(250);
-        const y = await page.evaluate(() => Math.round(scrollY));
+        let y = await page.evaluate(() => Math.round(scrollY));
+        if (i > 0 && y === yPrecedent) {
+          await page.evaluate(() => scrollBy({ top: innerHeight, behavior: 'instant' }));
+          await page.waitForTimeout(400);
+          y = await page.evaluate(() => Math.round(scrollY));
+        }
+        yPrecedent = y;
         const buf = await page.screenshot();
         const etiquette = Buffer.from(`<svg width="${M.largeurVignette}" height="${hv}"><rect width="64" height="18" fill="#ff0"/><text x="4" y="14" font-size="13" font-family="Arial">${y}</text></svg>`);
         vignettes.push(await sharp(buf).resize(M.largeurVignette).composite([{ input: etiquette, top: 0, left: 0 }]).png().toBuffer());

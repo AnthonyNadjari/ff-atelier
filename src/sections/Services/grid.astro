@@ -11,7 +11,8 @@ import Icon from '@/components/Icon.astro';
     <ul class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5" data-stagger="80">
       {site.services.map((s) => (
         <li class="card group rounded-card bg-surface p-7 shadow-card transition-transform duration-500 ease-out-expo hover:-translate-y-1" data-tilt="6">
-          <div class="flex h-12 w-12 items-center justify-center rounded-ui bg-accent/10 text-accent"><Icon name={s.icon} size={24} /></div>
+          {/* Icone nue, en accent : pas de tuile teintee derriere (le « carre d'icone » des gabarits de logiciel, 26 oct 2026). */}
+          <div class="text-accent"><Icon name={s.icon} size={28} /></div>
           <h3 class="mt-6 text-display-sm">{s.title}</h3>
           <p class="mt-3 text-muted">{s.short}</p>
           {s.priceFrom && <p class="mt-3 text-sm font-medium tabular-nums">{s.priceFrom}</p>}

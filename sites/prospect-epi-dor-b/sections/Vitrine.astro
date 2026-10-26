@@ -50,7 +50,9 @@ const photos = [...premieres, ...toutes.filter((p) => !premieres.includes(p))].s
   }
   @media (min-width: 640px) { .vtr-mosaique { gap: 0.5rem; padding-bottom: 3rem; } }
   .vtr-arche { position: relative; }
-  .vtr-arche a { display: block; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 50% 50% var(--radius-card) var(--radius-card) / 38% 38% var(--radius-card) var(--radius-card); }
+  /* L'arche une seule fois (docs/GOUT.md § 2 : « une fois, pas partout », 26 oct 2026) : la premiere photo ; les autres droites. */
+  .vtr-arche a { display: block; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius-card); }
+  .vtr-arche:first-child a { border-radius: 50% 50% var(--radius-card) var(--radius-card) / 38% 38% var(--radius-card) var(--radius-card); }
   /* Une arche sur deux descend d'un quart et passe devant : la vitrine a deux plans. */
   .vtr-bas { top: 1.5rem; z-index: 1; }
   @media (min-width: 640px) { .vtr-bas { top: 3rem; } }

@@ -9,6 +9,18 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 - la collecte doit ramener des palettes clair teinté doux (10 tirables sur 137, 18 au moins)
 <!-- /ff melanger -->
 
+## 26 oct 2026, après-midi (fondateur absent, travail autonome) : défauts visuels corrigés
+
+**Fait**
+- Planches de 14 sites regardées à l'œil. Corrigé dans les démos : numérotation décorative « 01 02 03 » (dubois-plomberie,
+  toits-cie, osteo-marchand, lemaire-avocats, moteur-fils), « 18 ans » / « 10 ans » calculés remplacés par « Depuis 2008 /
+  2016 » (dubois, osteo), pilule en capitales espacées (moteur-fils), arche de vitrine répétée six fois réduite à une
+  (prospect-epi-dor-b). Dans le gabarit partagé : `services/grid` perd la tuile teintée derrière l'icône (le « carré d'icône »
+  des gabarits de logiciel).
+- `ff planche` : sur une page aimantée (coquilles slides/scenes), trois crans de molette ne basculaient pas l'écran et la planche
+  montrait douze fois le premier écran ; elle passe maintenant à l'écran suivant quand la page n'a pas bougé.
+- Veille passée à 3 tours par jour (4 h, 11 h, 22 h Paris), collecte à 3 par jour (7 h, 15 h, 19 h), décalées.
+
 ## 26 oct 2026, tour 8 (routine en ligne) : 8 styles, 2 architectures
 
 **Fait**

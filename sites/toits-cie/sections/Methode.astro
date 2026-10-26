@@ -26,15 +26,9 @@ const steps = [
       <li class="relative border-y-[3px] border-line">
         <div class:list={['relative -skew-y-2', i % 2 === 0 ? 'bg-accent' : 'bg-bg']}>
           <div class="container-ff relative flex skew-y-2 items-center gap-4 py-10 md:gap-8 md:py-14">
-            <span
-              class="-ml-2 shrink-0 select-none font-display leading-none text-ink sm:-ml-4 md:-ml-8"
-              style="font-size: clamp(3rem, 9vw, 7.5rem);"
-              aria-hidden="true"
-            >
-              {String(i + 1).padStart(2, '0')}
-            </span>
+            {/* Pas de gros chiffre decoratif (docs/GOUT.md § 2, 26 oct 2026) : le titre en grand porte la bande. */}
             <div class:list={[i % 2 === 0 && 'text-on-accent']}>
-              <h3 class="font-display text-2xl uppercase md:text-3xl">{step.title}</h3>
+              <h3 class="font-display uppercase leading-none" style="font-size: clamp(2rem, 5vw, 4rem);">{step.title}</h3>
               <p class:list={['mt-2 max-w-xl text-base md:text-lg', i % 2 !== 0 && 'text-muted']}>{step.text}</p>
             </div>
           </div>

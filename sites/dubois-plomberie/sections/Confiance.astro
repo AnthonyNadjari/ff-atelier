@@ -10,17 +10,18 @@
  * différent de sites/toits-cie/sections/Garanties.astro, pour rester dans le ton "signal, mais
  * feutré" de ce site). Composition propre à ce site.
  */
-import { site, yearsSince } from '@/lib/site';
+import { site } from '@/lib/site';
 
-const years = yearsSince();
+// « Depuis 2008 » en texte, jamais « 18 ans » calculé (docs/GOUT.md § 2, 26 oct 2026).
+const since = site.business.since;
 const mentions = [site.business.insurance, ...site.business.certifications].filter(Boolean) as string[];
 ---
 
 <section id="confiance" class="section-y bg-ink text-on-ink">
   <div class="container-ff flex flex-col items-start gap-10 sm:flex-row sm:items-center sm:justify-between">
-    {years !== undefined && (
+    {since !== undefined && (
       <p class="font-display leading-none" style="font-size: clamp(3rem, 7vw, 5.5rem);">
-        <span data-counter-flip={String(years)} data-suffix=" ans" />
+        Depuis {since}
         <span class="ml-3 block text-base font-sans font-normal text-on-ink/60 sm:inline sm:align-middle">à intervenir à Nantes</span>
       </p>
     )}

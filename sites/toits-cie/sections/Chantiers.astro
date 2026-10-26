@@ -16,7 +16,8 @@ const cells = pattern.map((isBlack) => {
   if (isBlack) {
     const s = featured[si];
     si += 1;
-    return { kind: 'number' as const, num: String(si).padStart(2, '0'), title: s?.title ?? '' };
+    // Pas de « 01 02 » decoratif (docs/GOUT.md § 2, 26 oct 2026) : la case noire porte le nom du chantier, en grand.
+    return { kind: 'number' as const, title: s?.title ?? '' };
   }
   const img = images[ii];
   ii += 1;
@@ -33,9 +34,8 @@ const cells = pattern.map((isBlack) => {
   <ul class="mt-12 grid grid-cols-2 md:grid-cols-4" data-stagger="70">
     {cells.map((cell) =>
       cell.kind === 'number' ? (
-        <li class="flex aspect-square flex-col justify-between border-[3px] border-line bg-ink p-6 text-on-ink md:p-8">
-          <span class="font-display text-display-lg leading-none text-accent">{cell.num}</span>
-          <span class="font-display text-lg uppercase leading-tight md:text-xl">{cell.title}</span>
+        <li class="flex aspect-square flex-col justify-end border-[3px] border-line bg-ink p-6 text-on-ink md:p-8">
+          <span class="font-display uppercase leading-none text-accent" style="font-size: clamp(1.1rem, 1.9vw, 1.7rem); overflow-wrap: normal; hyphens: none;">{cell.title}</span>
         </li>
       ) : (
         <li class="relative aspect-square overflow-hidden border-[3px] border-line">

@@ -17,7 +17,7 @@ const fiches = [
   { symptome: 'Ça crisse quand vous freinez', cause: 'Plaquettes usées jusqu’au témoin.', service: 'freinage' },
   { symptome: 'L’air reste chaud même en position froid', cause: 'Circuit de climatisation à recharger ou à contrôler.', service: 'climatisation' },
   { symptome: 'Une rayure ne part pas au lavage', cause: 'La peinture est entamée, pas juste sale.', service: 'carrosserie' },
-].map((f, i) => ({ ...f, n: String(i + 1).padStart(2, '0'), serviceTitle: site.services.find((s) => s.slug === f.service)?.title ?? '' }));
+].map((f) => ({ ...f, serviceTitle: site.services.find((s) => s.slug === f.service)?.title ?? '' }));
 ---
 
 <section id="symptomes" class="section-y bg-bg-2">
@@ -31,13 +31,12 @@ const fiches = [
         <li class="border-b-[3px] border-ink last:border-b-0">
           <details class="group">
             <summary class="flex cursor-pointer list-none items-center gap-4 px-6 py-5 sm:px-8">
-              <span class="font-display text-2xl leading-none text-accent/50 tabular-nums" aria-hidden="true">{f.n}</span>
               <span class="flex-1 font-display text-lg sm:text-xl">{f.symptome}</span>
               <span class="chevron shrink-0 text-muted transition-transform duration-300 group-open:rotate-180" aria-hidden="true">⌄</span>
             </summary>
-            <div class="border-t border-dashed border-ink/25 px-6 pb-6 pt-4 sm:px-8 sm:pl-[4.5rem]">
+            <div class="border-t border-dashed border-ink/25 px-6 pb-6 pt-4 sm:px-8 sm:pl-8">
               <p class="text-muted">{f.cause}</p>
-              {f.serviceTitle && <p class="mt-3 inline-block rounded-pill border-[3px] border-ink bg-bg px-3 py-1 text-xs uppercase tracking-wide">{f.serviceTitle}</p>}
+              {f.serviceTitle && <p class="mt-3 inline-block rounded-ui border-[3px] border-ink bg-bg px-3 py-1 text-sm">{f.serviceTitle}</p>}
             </div>
           </details>
         </li>
