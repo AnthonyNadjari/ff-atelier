@@ -75,6 +75,8 @@ export const SHELLS = [
   'fetes', // l accueil suit le calendrier des fetes : en tete h1, telephone, note ; la fete du moment (choisie dans le navigateur, date limite de commande), les occasions, la livraison ; une page par fete (architecture calendrier-fetes)
   'calendrier', // l accueil mene a l outil : en tete h1, telephone, note, photo ; les hotes, les avis, puis le calendrier des nuits libres lu au build (liste ou iCal) et la demande de dates (architecture outil-calendrier)
   'parcours', // l accueil est une echelle : en tete h1, telephone, note ; « ou en etes-vous ? » en onglets, un barreau par niveau (formules, compris, deroule, la suite) ; une page par barreau (architecture parcours-atelier)
+  'grille', // l accueil est la grille de prix publiee : en tete h1, telephone, delai ; « quelle est votre situation ? » en onglets, le prix du creneau de l heure (jour, soiree, nuit), la grille complete, les delais par secteur ; une page par situation et /tarifs (architecture grille-urgence)
+  'colis', // l accueil dit les deux chemins vers l atelier : venir ou envoyer ; le voyage du colis en piste horizontale (chez vous, la poste, l atelier, le retour), les prestations a prix, les avis ; /envoyer (architecture atelier-par-colis)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -714,6 +716,77 @@ export const siteSchema = z.object({
       "Calendrier des disponibilites d'un hebergement ou d'une salle (architecture outil-calendrier, docs/veille/architectures/coquelicots.md : gite, chambre d'hotes, salle de reception, location) : les nuits libres et prises, lues AU BUILD dans la liste `occupe` et l'iCal du client, rendues sans script (un tableau par mois) ; dans le navigateur, le choix de l'arrivee et du depart remplit la demande (formulaire existant, aucun paiement). Accueil (#disponibilites), page /disponibilites, porte « Réserver » vers l'outil. Absent = ni outil, ni page. Jamais une disponibilite inventee.",
     ),
 
+  tarifs: z
+    .object({
+      creneaux: z
+        .array(
+          z.object({
+            nom: z.string().describe('Nom du creneau dans les mots du client (« Journée », « Soirée », « Nuit, dimanche et férié »)'),
+            heures: z.string().describe('Heures affichees (« 8 h – 18 h »)'),
+            de: z.string().regex(/^\d{2}:\d{2}$/).describe('Debut HH:MM (fuseau Europe/Paris) : sert a marquer le creneau de l’heure dans le navigateur'),
+            a: z.string().regex(/^\d{2}:\d{2}$/).describe('Fin HH:MM (exclue) ; une fin avant le debut franchit minuit (« 22:00 » a « 02:00 »)'),
+            jours: z.enum(['tous', 'semaine', 'week-end']).default('tous').describe("Jours ou le creneau s'applique : 'semaine' (lundi a vendredi), 'week-end' (samedi, dimanche), 'tous'"),
+          }),
+        )
+        .default([])
+        .describe('Les creneaux du client, dans son ordre (colonnes de la grille). Vide = une seule colonne « Prix ».'),
+      situations: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /tarifs/<slug> (« porte-claquee », « fuite-sous-evier »)'),
+            nom: z.string().describe('La situation dans les mots du visiteur (« Porte claquée », « Porte fermée à clé », « Fuite sous l’évier ») : libellé de l’onglet'),
+            test: z.string().optional().describe('Comment savoir que c’est bien cette situation, dit par le client (« Vous avez seulement tiré la porte, sans tour de clé »). Absent = non affiché.'),
+            phrase: z.string().optional().describe('Une ou deux phrases du client sur cette intervention. Absente = non affichée.'),
+            prix: z.array(z.string()).default([]).describe('Prix de cette situation, un par creneau dans l’ordre de `creneaux` (« 100 € », « 165 € », « 230 € ») ; chaine vide = pas de prix pour ce creneau. Jamais un prix devine.'),
+            delai: z.string().optional().describe('Delai d’arrivee annonce par le client pour cette situation (« Sur place en 15 à 20 min »). Absent = celui de tarifs.delai.'),
+            compris: z.array(z.string()).default([]).describe('Ce que comprend le forfait (« Déplacement inclus », « Facture pour l’assurance »). Vide = non affiché.'),
+            deroule: z.array(z.string()).default([]).describe('Comment ça se passe, dans l’ordre (« Vous appelez, le prix est confirmé avant le départ »). Vide = non affiché.'),
+            conseil: z.string().optional().describe('Ce qu’il faut savoir avant d’appeler (« Ne forcez pas la porte »). Absent = non affiché.'),
+            questions: z.array(z.object({ q: z.string(), a: z.string() })).default([]).describe('Questions propres a cette situation (sa page). Vide = pas de bloc.'),
+          }),
+        )
+        .default([])
+        .describe('Les situations urgentes, dans l’ordre du client : un onglet chacune sur l’accueil, une page /tarifs/<slug>. Une situation sans aucun prix ne compte pas.'),
+      autres: z.array(ligneCarte).default([]).describe('Prestations a prix hors creneaux (« Changement de cylindre », « dès 200 € ») : bas de la grille complete. Vide = rien.'),
+      notes: z.array(z.string()).default([]).describe('Engagements dits par le client sous la grille (« Aucun déplacement facturé si vous refusez le devis »). Vide = rien.'),
+      delai: z.string().optional().describe('Delai d’arrivee general du client (« Sur place en 15 à 20 min dans l’arrondissement »). Absent = rien n’est promis.'),
+      secteurs: z
+        .array(z.object({ nom: z.string().describe('Quartier ou commune'), delai: z.string().optional().describe('Delai annonce pour ce secteur (« 10 min »). Absent = non affiché.'), rues: z.string().optional().describe('Rues ou reperes donnes par le client. Absent = non affiché.') }))
+        .default([])
+        .describe('Secteurs desservis avec leur delai, sous la grille. Vide = pas de bloc.'),
+    })
+    .optional()
+    .describe(
+      "Grille de prix publiee d'un metier d'urgence (architecture grille-urgence, docs/veille/architectures/grille-urgence.md, source Serrure Ouest : « douze prestations, douze prix », jour, soiree, nuit) : l'accueil demande « Quelle est votre situation ? » (un onglet par situation, sans script toutes les situations), le prix du creneau de l'heure marque dans le navigateur (fuseau Europe/Paris ; sans script, tous les creneaux), le delai, ce que comprend le forfait ; la grille complete et les secteurs ; une page par situation (/tarifs/<slug>) et /tarifs. Absent = ni grille, ni page. Jamais un prix, un delai ou un creneau inventes.",
+    ),
+
+  envoi: z
+    .object({
+      etat: z.string().optional().describe('Message du moment donne par le client (« En ce moment l’atelier limite les envois : écrivez avec des photos avant d’envoyer »). Absent = rien.'),
+      delai: z.string().optional().describe('Delai de reparation annonce par le client (« 10 à 15 jours »). Absent = rien n’est promis.'),
+      etapes: z
+        .array(
+          z.object({
+            ou: z.string().describe('Ou est l’objet a cette etape (« Chez vous », « À la poste », « À l’atelier », « De retour chez vous »)'),
+            titre: z.string().describe('Ce qui se passe (« Vous nous écrivez avec deux photos »)'),
+            texte: z.string().optional().describe('Precision du client. Absente = non affichée.'),
+          }),
+        )
+        .default([])
+        .describe('Le voyage de l’objet, dans l’ordre du client : une carte chacune sur la piste de l’accueil et sur /envoyer. Moins de 3 etapes = pas de piste.'),
+      retour: z.array(ligneCarte).default([]).describe('Frais de port retour donnes par le client (« 1 paire », « 10 € »). Vide = rien n’est dit.'),
+      conditions: z.array(z.string()).default([]).describe('A faire avant d’envoyer (« Joindre la fiche au colis », « Envoyer des photos d’abord »). Vide = rien.'),
+      fiche: z
+        .object({ href: z.string().describe('Fichier du client dans public/ (« /fiches/fiche-envoi.pdf »)'), label: z.string().describe('« La fiche à joindre au colis »') })
+        .optional()
+        .describe('Fiche a imprimer et joindre au colis, fournie par le client. Absente = pas de lien.'),
+      adresse: z.string().optional().describe('Adresse d’envoi si elle differe de contact.address (boite postale). Absente = l’adresse de l’atelier.'),
+    })
+    .optional()
+    .describe(
+      "Reparation par colis d'un atelier (architecture atelier-par-colis, docs/veille/architectures/atelier-par-colis.md, source La Cordonnerie Alpine : venir a l'atelier ou envoyer ; seconde source AGH, horloger) : l'accueil dit les deux chemins, le voyage du colis en piste horizontale manuelle (scroll-snap, jamais la molette detournee), le delai, l'etat du moment, les frais de retour ; page /envoyer. Absent = ni piste, ni page. Jamais un delai, un frais ou une etape inventes.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -770,6 +843,9 @@ export const siteSchema = z.object({
       fetes: z.string().default('Les fêtes').describe('Libellé du lien de nav et titre de la page /fetes (site.fetes) : « Les fêtes », « Le calendrier », « Les temps forts »'),
       disponibilites: z.string().default('Les dates libres').describe('Libellé du lien de nav et titre de l’outil et de la page /disponibilites (site.disponibilites) : « Les dates libres », « Disponibilités »'),
       parcours: z.string().default('Où en êtes-vous ?').describe('Question posée au-dessus des onglets du parcours (site.parcours) : « Où en êtes-vous ? », « Votre niveau »'),
+      tarifs: z.string().default('Les tarifs').describe('Libellé du lien de nav et titre de la page /tarifs (site.tarifs) : « Les tarifs », « Nos prix »'),
+      situation: z.string().default('Quelle est votre situation ?').describe('Question posée au-dessus des onglets de la grille (site.tarifs) : « Quelle est votre situation ? », « Que se passe-t-il ? »'),
+      envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),
       pros: z.string().default('Professionnels').describe('Libellé du lien de nav vers /professionnels (site.pros) : « Professionnels », « Vente aux pros »'),

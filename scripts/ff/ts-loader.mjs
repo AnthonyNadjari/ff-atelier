@@ -253,6 +253,22 @@ export async function loadParcoursModule() {
   return loadPureLibModule('parcours.ts');
 }
 
+/**
+ * Copie src/lib/tarifs.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture grille-urgence : situations, créneau
+ * de l'heure, prix ; tests/architectures-atelier.test.mjs).
+ */
+export async function loadTarifsModule() {
+  return loadPureLibModule('tarifs.ts');
+}
+
+/**
+ * Copie src/lib/colis.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture atelier-par-colis : étapes du voyage du
+ * colis, adresse d'envoi ; tests/architectures-atelier.test.mjs).
+ */
+export async function loadColisModule() {
+  return loadPureLibModule('colis.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

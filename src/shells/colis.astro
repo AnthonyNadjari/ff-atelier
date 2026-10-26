@@ -1,0 +1,215 @@
+---
+/**
+ * Coquille "colis" : architecture `atelier-par-colis` (src/lib/architectures.ts ; source La Cordonnerie Alpine,
+ * cordonnier à Albertville, seconde source AGH, horloger à Lectoure ; docs/veille/architectures/atelier-par-colis.md).
+ * Les clients d'un atelier de réparation viennent de loin : DEUX CHEMINS mènent à l'établi, venir ou envoyer (« Directement
+ * à l'atelier à Albertville ou par correspondance »), et l'objet voyage (« Faites réparer votre montre sans vous
+ * déplacer »).
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le message du moment (envoi.etat : « l'atelier limite les
+ *     envois, écrivez avec des photos avant d'envoyer »), le téléphone, la note Google (socle docs/GOUT.md § 0) ;
+ *   → les deux portes : Venir à l'atelier (adresse, horaires du jour, itinéraire) et Envoyer par colis (délai, le voyage) ;
+ *   → le voyage du colis, id="envoi" : une piste horizontale qu'on fait glisser à la main (scroll-snap, deux flèches
+ *     posées par le script, jamais la molette verticale détournée) ; une carte par étape (envoi.etapes[] : où est l'objet,
+ *     ce qui se passe), au bout le retour (frais par quantité, fiche à joindre, adresse d'envoi) ;
+ *   → les sections du layout : les prestations à prix (services/carte-prix : « 35 € / paire »), les avis ;
+ *   → l'atelier sur l'encre, id="contact" : adresse, horaires du jour, téléphone, e-mail ;
+ *   → un pied court.
+ * Pages : /envoyer (la marche à suivre entière, src/pages/envoyer/[...index].astro), une page par prestation
+ * (servicePage 'porte' : lignes à prix, photos avant et après), que la nav nomme.
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran). Sans voyage (moins de 3 étapes) : la porte Venir
+ * seule, et le build dit ce qui manque (donneesManquantes).
+ * Signes de la source NON repris : photo d'atelier en fond fixe derrière tout le site, titres en Russo One, plan d'accès
+ * en image, affiche du commerce en fin de page, avertissement en h1.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { site, tel, mailto, metierEtVille, fullAddress, donneesManquantes, etapesDEnvoi, pisteDEnvoi, adresseDEnvoi } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const e = site.envoi;
+const etapes = etapesDEnvoi(e);
+const piste = pisteDEnvoi(e);
+const adresse = adresseDEnvoi(e, site.business.name, fullAddress());
+const manque = donneesManquantes('atelier-par-colis', site);
+if (manque.length > 0) console.warn(`[coquille colis] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="co-page">
+  <section id="hero" class="container-ff co-tete" aria-label="Accueil">
+    <nav class="co-chemins" aria-label="Deux façons de faire réparer">
+      <a href="#atelier" class="co-chemin">
+        <span class="co-chemin-titre font-display">Venir à l’atelier</span>
+        <span class="co-chemin-ligne">{site.contact.address.street ?? site.contact.address.city}</span>
+      </a>
+      {piste && (
+        <a href="#envoi" class="co-chemin co-chemin-envoi">
+          <span class="co-chemin-titre font-display">{site.wording.envoi}</span>
+          <span class="co-chemin-ligne">{e?.delai ? `Retour en ${e.delai}` : 'Le voyage du colis'}</span>
+        </a>
+      )}
+    </nav>
+    <h1 class="co-h1 font-display" set:html={site.business.tagline} />
+    <p class="co-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+    {e?.etat && <p class="co-etat" role="note"><Icon name="Info" size={18} /><span>{e.etat}</span></p>}
+    <p class="co-contact">
+      <a href={tel()} class="co-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+      {google && <a href={google.url} target="_blank" rel="noopener" class="co-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      {piste && <a href="/envoyer" class="co-lien">La marche à suivre</a>}
+    </p>
+  </section>
+
+  {piste && (
+    <>
+      <div class="container-ff co-fleches" data-co-fleches hidden>
+        <button type="button" class="co-fleche" data-co-dir="-1" aria-controls="envoi"><Icon name="ArrowLeft" size={18} /><span class="sr-only">Étape précédente</span></button>
+        <button type="button" class="co-fleche" data-co-dir="1" aria-controls="envoi"><Icon name="ArrowRight" size={18} /><span class="sr-only">Étape suivante</span></button>
+      </div>
+      <section id="envoi" class="co-piste" aria-labelledby="co-voyage" tabindex="0" data-co-piste>
+        <ol class="co-cartes">
+          <li class="co-carte co-carte-intro">
+            <h2 id="co-voyage" class="co-voyage-titre font-display">Le voyage de votre colis</h2>
+            {e?.delai && <p class="co-delai">Délai à l’atelier : {e.delai}</p>}
+            {(e?.conditions ?? []).length > 0 && (
+              <div>
+                <h3 class="co-sous-titre">Avant d’envoyer</h3>
+                <ul class="co-liste">{e!.conditions.map((x) => <li>{x}</li>)}</ul>
+              </div>
+            )}
+          </li>
+          {etapes.map((x) => (
+            <li class="co-carte">
+              <p class="co-ou font-display">{x.ou}</p>
+              <h3 class="co-carte-titre">{x.titre}</h3>
+              {x.texte && <p>{x.texte}</p>}
+            </li>
+          ))}
+          <li class="co-carte co-carte-retour">
+            <h3 class="co-ou font-display">L’adresse du colis</h3>
+            <address class="co-adresse">{adresse.map((l) => <span>{l}</span>)}</address>
+            {(e?.retour ?? []).length > 0 && (
+              <div>
+                <h3 class="co-sous-titre">Frais de port retour</h3>
+                <ul class="co-frais">
+                  {e!.retour.map((l) => <li class="co-frais-ligne"><span>{l.nom}{l.detail && <span class="co-frais-detail">{l.detail}</span>}</span>{l.prix && <span class="tabular-nums">{l.prix}</span>}</li>)}
+                </ul>
+              </div>
+            )}
+            {e?.fiche && <a href={e.fiche.href} class="co-lien" download><Icon name="Download" size={16} />{e.fiche.label}</a>}
+          </li>
+        </ol>
+      </section>
+    </>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="co-atelier bg-ink text-on-ink" aria-labelledby="co-atelier-titre">
+    <div id="atelier" class="container-ff co-atelier-grille">
+      <h2 id="co-atelier-titre" class="co-atelier-titre font-display">Venir à l’atelier</h2>
+      <div class="co-atelier-infos">
+        <p>{site.business.name}, {fullAddress()}</p>
+        {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="co-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+        <HorairesDuJour />
+      </div>
+      <div class="co-atelier-portes">
+        <a href={tel()} class="co-appel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {site.contact.email && <a href={mailto()} class="co-lien"><Icon name="Mail" size={16} />{site.contact.email}</a>}
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+
+<style>
+  .co-tete { display: grid; gap: 1rem; padding-block: clamp(1.5rem, 5vh, 3rem) clamp(1.5rem, 4vh, 2.5rem); }
+  .co-h1 { font-size: clamp(2.2rem, 7.5vw, 5rem); line-height: 0.98; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 16ch; }
+  .co-metier { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 40ch; }
+  .co-etat { display: flex; gap: 0.6rem; align-items: flex-start; max-inline-size: 52ch; padding: 0.8rem 1rem; border-inline-start: 3px solid var(--color-accent); background: var(--color-bg-2); }
+  .co-etat :global(svg) { flex: none; margin-block-start: 0.2rem; }
+  .co-contact { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; }
+  .co-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); border: 1px solid currentColor; font-weight: 600; }
+  .co-tel:hover { color: var(--color-accent); }
+  .co-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .co-chemins { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  .co-chemin { display: grid; gap: 0.3rem; align-content: space-between; min-block-size: 6.5rem; padding: 0.85rem 0.9rem; border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface); }
+  .co-chemin:only-child { grid-column: 1 / -1; }
+  .co-chemin-envoi { background: var(--color-ink); color: var(--color-on-ink); border-color: var(--color-ink); }
+  .co-chemin-titre { font-size: clamp(1.15rem, 2.4vw, 1.6rem); line-height: 1.1; }
+  .co-chemin-ligne { font-size: 0.95rem; }
+  .co-chemin:hover .co-chemin-titre { text-decoration: underline; text-underline-offset: 0.2em; }
+  .co-chemin:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .co-delai { font-weight: 600; }
+  .co-tel:focus-visible, .co-lien:focus-visible, .co-porte:focus-visible, .co-fleche:focus-visible, .co-appel:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .co-fleches { display: flex; justify-content: flex-end; gap: 0.5rem; padding-block: 0.5rem; }
+  .co-fleches[hidden] { display: none; }
+  .co-fleche { display: inline-grid; place-items: center; inline-size: 48px; block-size: 48px; border: 1px solid currentColor; border-radius: var(--radius-ui, 6px); background: var(--color-bg); cursor: pointer; }
+  .co-fleche:hover { color: var(--color-accent); }
+  .co-fleche:disabled { opacity: 0.4; cursor: default; }
+  /* La piste : la section défile en x, chaque carte s'aimante ; le pas d'une carte laisse voir la suivante. */
+  .co-piste { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: clamp(1.25rem, 4vw, 2.5rem); padding-block: 0.5rem clamp(2rem, 6vh, 3.5rem); scrollbar-width: thin; }
+  .co-piste:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+  .co-cartes { display: flex; gap: 0.75rem; inline-size: max-content; padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+  .co-carte { display: grid; gap: 0.75rem; align-content: start; inline-size: min(82vw, 24rem); min-block-size: 70svh; padding: 1.4rem 1.3rem; border-radius: var(--radius-card); background: var(--color-bg-2); scroll-snap-align: start; }
+  .co-carte-intro { background: var(--color-ink); color: var(--color-on-ink); align-content: end; }
+  .co-carte-retour { background: var(--color-surface); border: 1px solid var(--color-line); }
+  .co-voyage-titre { font-size: clamp(2rem, 6vw, 3rem); line-height: 1; }
+  .co-ou { font-size: clamp(1.7rem, 5vw, 2.4rem); line-height: 1.05; padding-block-end: 0.75rem; border-block-end: 2px solid currentColor; }
+  .co-carte-titre { font-size: 1.2rem; font-weight: 600; line-height: 1.3; }
+  .co-sous-titre { font-weight: 600; margin-block-end: 0.35rem; }
+  .co-liste { display: grid; gap: 0.25rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .co-adresse { display: grid; font-style: normal; font-size: 1.1rem; line-height: 1.4; }
+  .co-frais { display: grid; }
+  .co-frais-ligne { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.45rem; border-block-end: 1px solid var(--color-line); }
+  .co-frais-detail { display: block; font-size: 0.9rem; color: var(--color-muted); }
+  .co-atelier { padding-block: clamp(2.5rem, 8vh, 5rem); }
+  .co-atelier-grille { display: grid; gap: 1.5rem; }
+  .co-atelier-titre { font-size: clamp(1.8rem, 4.5vw, 3rem); line-height: 1.05; }
+  .co-atelier-infos, .co-atelier-portes { display: grid; gap: 0.4rem; align-content: start; }
+  .co-appel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: 1.2rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  @media (min-width: 48rem) {
+    .co-chemins { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 64rem) {
+    .co-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: start; }
+    .co-chemins { grid-column: 2; grid-row: 1 / span 4; grid-template-columns: 1fr; align-self: stretch; }
+    .co-chemin { min-block-size: 9rem; padding: 1.3rem 1.4rem; }
+    .co-tete > :not(.co-chemins) { grid-column: 1; }
+    .co-carte { inline-size: 22rem; min-block-size: 30rem; }
+    .co-atelier-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) minmax(0, 1fr); column-gap: 3rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) { .co-piste { scroll-behavior: smooth; } }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Deux flèches pour faire glisser la piste d'une carte (la souris sans pavé tactile) ; la molette verticale n'est jamais
+  // détournée. Sans script : la piste se fait glisser au doigt, au pavé ou au clavier (la section prend le focus).
+  onPage(() => {
+    const piste = document.querySelector<HTMLElement>('[data-co-piste]');
+    const fleches = document.querySelector<HTMLElement>('[data-co-fleches]');
+    if (!piste || !fleches) return;
+    const boutons = [...fleches.querySelectorAll<HTMLButtonElement>('[data-co-dir]')];
+    const pas = () => (piste.querySelector<HTMLElement>('.co-carte')?.offsetWidth ?? piste.clientWidth) + 12;
+    const etat = () => {
+      const max = piste.scrollWidth - piste.clientWidth - 2;
+      boutons[0].disabled = piste.scrollLeft <= 2;
+      boutons[1].disabled = piste.scrollLeft >= max;
+    };
+    boutons.forEach((b) => b.addEventListener('click', () => piste.scrollBy({ left: Number(b.dataset.coDir) * pas() })));
+    piste.addEventListener('scroll', etat, { passive: true });
+    fleches.hidden = piste.scrollWidth <= piste.clientWidth + 2;
+    etat();
+  });
+</script>

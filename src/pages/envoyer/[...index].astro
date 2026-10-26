@@ -1,0 +1,113 @@
+---
+/**
+ * Page /envoyer (site.envoi, src/lib/colis.ts) : architecture `atelier-par-colis` (source La Cordonnerie Alpine,
+ * « Comment effectuer la réparation ? Directement à la cordonnerie ou par envoi de colis » : frais de port retour, fiche
+ * à joindre, délais ; seconde source AGH, « Faire réparer ma montre » ; docs/veille/architectures/atelier-par-colis.md).
+ * La marche à suivre entière : le message du moment, le délai, avant d'envoyer, les étapes dans l'ordre (où est l'objet,
+ * ce qui se passe), l'adresse du colis, les frais de retour, la fiche ; Appeler, Écrire ; les prestations à prix.
+ * Générée seulement avec un voyage (3 étapes au moins) ; sinon aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, mailto, metierEtVille, fullAddress, etapesDEnvoi, adresseDEnvoi, lienEnvoi } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return lienEnvoi(site.envoi, site.wording.envoi) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const e = site.envoi!;
+const etapes = etapesDEnvoi(e);
+const adresse = adresseDEnvoi(e, site.business.name, fullAddress());
+const titre = site.wording.envoi;
+const prestations = site.services.filter((s) => s.lignes.length > 0);
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} à ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : les étapes, l’adresse du colis${e.delai ? `, ${e.delai} à l’atelier` : ''}${e.retour.length > 0 ? ', les frais de retour' : ''}.`} path="/envoyer">
+  <Nav />
+  <main id="main" class="ev">
+    <div class="container-ff ev-grille">
+      <header class="ev-tete">
+        <h1 class="ev-titre font-display">{titre}</h1>
+        <p>{metierEtVille()}</p>
+        {e.etat && <p class="ev-etat" role="note"><Icon name="Info" size={18} /><span>{e.etat}</span></p>}
+        {e.delai && <p class="ev-delai">Délai à l’atelier : {e.delai}</p>}
+        <p class="ev-portes">
+          <a href={tel()} class="ev-porte tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+          {site.contact.email && <a href={mailto()} class="ev-lien"><Icon name="Mail" size={16} />Écrire avant d’envoyer</a>}
+        </p>
+        <div class="ev-adresse-bloc">
+          <h2 class="ev-h3">L’adresse du colis</h2>
+          <address class="ev-adresse">{adresse.map((l) => <span>{l}</span>)}</address>
+        </div>
+      </header>
+      <div class="ev-corps">
+        {e.conditions.length > 0 && (
+          <section aria-labelledby="ev-avant">
+            <h2 id="ev-avant" class="ev-h2 font-display">Avant d’envoyer</h2>
+            <ul class="ev-liste">{e.conditions.map((x) => <li>{x}</li>)}</ul>
+          </section>
+        )}
+        <section aria-labelledby="ev-etapes">
+          <h2 id="ev-etapes" class="ev-h2 font-display">Les étapes</h2>
+          <ol class="ev-etapes">
+            {etapes.map((x) => (
+              <li class="ev-etape">
+                <span class="ev-ou">{x.ou}</span>
+                <span class="ev-etape-titre">{x.titre}</span>
+                {x.texte && <span class="ev-etape-texte">{x.texte}</span>}
+              </li>
+            ))}
+          </ol>
+        </section>
+        {e.retour.length > 0 && (
+          <section aria-labelledby="ev-retour">
+            <h2 id="ev-retour" class="ev-h2 font-display">Frais de port retour</h2>
+            <ul class="ev-frais">{e.retour.map((l) => <li class="ev-frais-ligne"><span>{l.nom}{l.detail && <span class="ev-detail">{l.detail}</span>}</span>{l.prix && <span class="tabular-nums">{l.prix}</span>}</li>)}</ul>
+          </section>
+        )}
+        {e.fiche && <p><a href={e.fiche.href} class="ev-lien" download><Icon name="Download" size={16} />{e.fiche.label}</a></p>}
+        {site.servicePages && prestations.length > 0 && (
+          <nav aria-label="Les prestations">
+            <h2 class="ev-h3">Les prestations et leurs prix</h2>
+            <ul class="ev-prestations">
+              {prestations.map((s) => <li><a href={`/services/${s.slug}`} class="ev-prestation">{s.title}<Icon name="ArrowRight" size={16} /></a></li>)}
+            </ul>
+          </nav>
+        )}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ev-grille { display: grid; gap: 2.5rem; padding-block: clamp(2rem, 6vh, 4rem); }
+  .ev-tete { display: grid; gap: 0.85rem; align-content: start; }
+  .ev-titre { font-size: clamp(2.1rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; }
+  .ev-etat { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.8rem 1rem; border-inline-start: 3px solid var(--color-accent); background: var(--color-bg-2); }
+  .ev-etat :global(svg) { flex: none; margin-block-start: 0.2rem; }
+  .ev-delai { font-weight: 600; }
+  .ev-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .ev-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .ev-porte:hover { background: var(--color-accent-2); }
+  .ev-lien, .ev-prestation { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-underline-offset: 0.2em; }
+  .ev-porte:focus-visible, .ev-lien:focus-visible, .ev-prestation:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .ev-adresse-bloc { padding: 1rem 1.1rem; border-radius: var(--radius-card); background: var(--color-bg-2); }
+  .ev-adresse { display: grid; font-style: normal; font-size: 1.1rem; line-height: 1.4; }
+  .ev-corps { display: grid; gap: 2rem; align-content: start; }
+  .ev-h2 { font-size: clamp(1.45rem, 3.2vw, 2.1rem); line-height: 1.1; margin-block-end: 0.6rem; }
+  .ev-h3 { font-weight: 600; margin-block-end: 0.4rem; }
+  .ev-liste { display: grid; gap: 0.25rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .ev-etapes { display: grid; gap: 1rem; padding-inline-start: 1.3rem; list-style: decimal; }
+  .ev-etape { display: grid; gap: 0.15rem; }
+  .ev-ou { font-weight: 600; }
+  .ev-etape-titre { font-size: 1.1rem; }
+  .ev-etape-texte { color: var(--color-muted); }
+  .ev-frais { display: grid; max-inline-size: 32rem; }
+  .ev-frais-ligne { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.5rem; border-block-end: 1px solid var(--color-line); }
+  .ev-detail { display: block; font-size: 0.9rem; color: var(--color-muted); }
+  .ev-prestations { display: grid; }
+  @media (min-width: 64rem) { .ev-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 4rem; } .ev-tete { position: sticky; inset-block-start: 6rem; } }
+</style>

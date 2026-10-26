@@ -28,6 +28,10 @@ export { ajouterJours, nuitsEntre, nuitPrise, sejourLibre, departMax, fusionnerP
 import { lienDisponibilites } from './sejour';
 export { barreauxComplets, voisins, prixDepuis, liensParcours, avisDuBarreau, avisGeneraux } from './parcours';
 import { liensParcours } from './parcours';
+export { situationsCompletes, minutesDe, creneauDuMoment, prixDes, prixLePlusBas, lienTarifs } from './tarifs';
+import { lienTarifs } from './tarifs';
+export { etapesCompletes as etapesDEnvoi, pisteDEnvoi, adresseDEnvoi, lienEnvoi } from './colis';
+import { lienEnvoi } from './colis';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -259,6 +263,14 @@ export const navLinks = (s: Site = site) => {
   // (« Classes », « Membership » de Turning Earth).
   const parcours = liensParcours(s.parcours ?? []);
   if (parcours.length > 0) links.unshift(...parcours);
+  // Grille de prix (src/lib/tarifs.ts, architecture grille-urgence) : « Prestations » / « Tarifs » de Serrure Ouest, en
+  // tête de la nav, vers la grille complète (/tarifs).
+  const tarifs = lienTarifs(s.tarifs, s.wording.tarifs);
+  if (tarifs) links.unshift(tarifs);
+  // Réparation par colis (src/lib/colis.ts, architecture atelier-par-colis) : la marche à suivre entière (/envoyer), en
+  // tête de la nav (« Faire réparer ma montre » d'AGH, bouton à part de sa barre).
+  const envoi = lienEnvoi(s.envoi, s.wording.envoi);
+  if (envoi) links.unshift(envoi);
   // Professionnels (site.pros, architecture pages-adresses) : un lien discret, en dernier.
   const pros = lienPros(s.pros, s.wording.pros);
   if (pros) links.push(pros);

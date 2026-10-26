@@ -153,6 +153,11 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `proof.testimonials[].barreau` → « Où en êtes-vous ? » en marches (un onglet par barreau), `/parcours/<slug>` ; aucune
   donnée = aucune page (`src/lib/sejour.ts`, `src/lib/ics-build.ts`, `src/lib/parcours.ts`,
   `tests/architectures-sejour.test.mjs`).
+  `tarifs` (optionnel, architecture `grille-urgence`, coquille `grille`) → « Quelle est votre situation ? » en onglets, le prix
+  de chaque créneau (journée, soirée, nuit) et celui de l'heure marqué dans le navigateur, la grille complète, `/tarifs`,
+  `/tarifs/<slug>` ; `envoi` (optionnel, architecture `atelier-par-colis`, coquille `colis`) → les deux chemins Venir / Envoyer,
+  le voyage du colis en piste horizontale manuelle, `/envoyer` ; aucune donnée = aucune page (`src/lib/tarifs.ts`,
+  `src/lib/colis.ts`, `tests/architectures-atelier.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

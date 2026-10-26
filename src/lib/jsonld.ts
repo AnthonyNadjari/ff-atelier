@@ -251,3 +251,33 @@ export function barreauLd(site: Site, b: Site['parcours'][number], pageUrl: stri
       : {}),
   };
 }
+
+/**
+ * Une situation de la grille de prix (site.tarifs, architecture grille-urgence, src/pages/tarifs/[slug].astro) : un
+ * `Service` et une offre par créneau dont le client donne le prix (« Journée, 8 h – 18 h » : 100 €). Un prix qui ne se
+ * lit pas en euros (« dès 200 € », « sur devis ») reste en description, jamais converti.
+ */
+export function situationLd(site: Site, s: NonNullable<Site['tarifs']>['situations'][number], pageUrl: string): Json {
+  const type = site.business.schemaType || schemaTypeForTrade(site.business.trade);
+  const creneaux = site.tarifs?.creneaux ?? [];
+  const offres = s.prix
+    .map((p, i) => ({ p: p.trim(), c: creneaux[i] }))
+    .filter((x) => x.p)
+    .map(({ p, c }) => {
+      const m = /^\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|EUR|euros?)\s*$/i.exec(p);
+      return {
+        '@type': 'Offer',
+        name: c ? `${s.nom}, ${c.nom.toLowerCase()}${c.heures ? ` (${c.heures})` : ''}` : s.nom,
+        ...(m ? { price: m[1].replace(',', '.'), priceCurrency: 'EUR' } : { description: p }),
+      };
+    });
+  return {
+    '@type': 'Service',
+    name: s.nom,
+    url: pageUrl,
+    ...(s.phrase ? { description: s.phrase } : {}),
+    provider: { '@type': type, name: site.business.name, telephone: site.contact.phone },
+    areaServed: site.contact.address.city,
+    ...(offres.length > 0 ? { offers: offres } : {}),
+  };
+}

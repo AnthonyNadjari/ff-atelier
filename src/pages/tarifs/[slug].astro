@@ -1,0 +1,134 @@
+---
+/**
+ * Page d'une situation de la grille (site.tarifs, src/lib/tarifs.ts) : architecture `grille-urgence` (source Serrure
+ * Ouest, pages « Ouverture de porte claquée à Paris 16 : 100 € TTC » : dans quel cas, ce que comprend le forfait,
+ * comment nous procédons, à savoir avant d'appeler, la grille, les questions ; docs/veille/architectures/grille-urgence.md).
+ * h1 « <situation> à <ville> », le prix de chaque créneau, le délai, Appeler ; le test qui reconnaît la situation, ce que
+ * comprend le forfait, comment ça se passe, avant d'appeler, les questions en <details>, les autres situations.
+ * JSON-LD : Service et une offre par créneau. Aucune page sans prix.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, situationsCompletes, prixDes, prixLePlusBas } from '@/lib/site';
+import { situationLd } from '@/lib/jsonld';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return situationsCompletes(site.tarifs).map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const creneaux = site.tarifs?.creneaux ?? [];
+const colonnes = creneaux.length > 0 ? creneaux : [{ nom: 'Prix', heures: '' }];
+const prix = prixDes(s, creneaux);
+const des = prixLePlusBas(s.prix);
+const delai = s.delai ?? site.tarifs?.delai;
+const autres = situationsCompletes(site.tarifs).filter((x) => x.slug !== s.slug);
+const pageUrl = new URL(`/tarifs/${s.slug}`, Astro.site).toString();
+const ville = site.contact.address.city;
+const description = `${s.nom} à ${ville} : ${des ?? 'prix annoncé avant le déplacement'}${delai ? `, ${delai.replace(/^./, (c) => c.toLowerCase())}` : ''}. ${site.business.name}, ${site.business.trade.toLowerCase()}.`;
+---
+
+<Base title={`${s.nom} à ${ville} | ${site.business.name}`} description={description} path={`/tarifs/${s.slug}`} jsonLd={[situationLd(site, s, pageUrl)]}>
+  <Nav />
+  <main id="main" class="ts">
+    <article class="container-ff ts-grille">
+      <header class="ts-tete">
+        <p><a href="/tarifs" class="ts-lien"><Icon name="ArrowLeft" size={16} />{site.wording.tarifs}</a></p>
+        <h1 class="ts-titre font-display">{s.nom} à {ville}</h1>
+        <p>{site.business.trade} : {site.business.name}.</p>
+        {s.phrase && <p class="ts-phrase">{s.phrase}</p>}
+        <ul class="ts-creneaux" aria-label="Prix selon l’heure">
+          {colonnes.map((c, i) => (
+            <li class="ts-creneau">
+              <span class="ts-creneau-nom">{c.nom}{c.heures && <span class="ts-heures tabular-nums">{c.heures}</span>}</span>
+              <span class="ts-prix tabular-nums">{prix[i] || 'sur devis'}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="ts-portes">
+          <a href={tel()} class="ts-porte tabular-nums"><Icon name="Phone" size={18} />Appeler le {site.contact.phoneDisplay}</a>
+          {delai && <span class="ts-delai">{delai}</span>}
+        </p>
+        {(site.tarifs?.notes ?? []).length > 0 && <ul class="ts-notes">{site.tarifs!.notes.map((n) => <li>{n}</li>)}</ul>}
+      </header>
+      <div class="ts-corps">
+        {s.test && (
+          <section aria-labelledby="ts-test">
+            <h2 id="ts-test" class="ts-h2 font-display">Est-ce bien votre cas ?</h2>
+            <p class="ts-texte">{s.test}</p>
+          </section>
+        )}
+        {s.compris.length > 0 && (
+          <section aria-labelledby="ts-compris">
+            <h2 id="ts-compris" class="ts-h2 font-display">Ce que comprend le forfait</h2>
+            <ul class="ts-liste">{s.compris.map((x) => <li>{x}</li>)}</ul>
+          </section>
+        )}
+        {s.deroule.length > 0 && (
+          <section aria-labelledby="ts-deroule">
+            <h2 id="ts-deroule" class="ts-h2 font-display">Comment ça se passe</h2>
+            <ol class="ts-etapes">{s.deroule.map((x) => <li>{x}</li>)}</ol>
+          </section>
+        )}
+        {s.conseil && (
+          <section class="ts-conseil" aria-labelledby="ts-conseil">
+            <h2 id="ts-conseil" class="ts-h3">Avant d’appeler</h2>
+            <p>{s.conseil}</p>
+          </section>
+        )}
+        {s.questions.length > 0 && (
+          <section aria-labelledby="ts-questions">
+            <h2 id="ts-questions" class="ts-h2 font-display">Vos questions</h2>
+            {s.questions.map((q) => <details class="ts-question"><summary>{q.q}</summary><p>{q.a}</p></details>)}
+          </section>
+        )}
+        {autres.length > 0 && (
+          <nav class="ts-autres" aria-label="Les autres situations">
+            <h2 class="ts-h3">Ce n’est pas votre situation ?</h2>
+            <ul class="ts-autres-liste">
+              {autres.map((x) => {
+                const d = prixLePlusBas(x.prix);
+                return <li><a href={`/tarifs/${x.slug}`} class="ts-autre"><span>{x.nom}</span>{d && <span class="tabular-nums">{d}</span>}</a></li>;
+              })}
+            </ul>
+          </nav>
+        )}
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ts-grille { display: grid; gap: 2.5rem; padding-block: clamp(2rem, 6vh, 4rem); }
+  .ts-tete { display: grid; gap: 0.85rem; align-content: start; }
+  .ts-titre { font-size: clamp(2rem, 6vw, 3.75rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; }
+  .ts-phrase { font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-inline-size: 44ch; }
+  .ts-creneaux { display: grid; border-block-start: 2px solid currentColor; }
+  .ts-creneau { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 0.7rem; border-block-end: 1px solid var(--color-line); }
+  .ts-creneau-nom { display: grid; }
+  .ts-heures { font-size: 0.9rem; color: var(--color-muted); }
+  .ts-prix { font-size: 1.4rem; font-weight: 700; white-space: nowrap; }
+  .ts-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .ts-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 52px; padding-inline: 1.2rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; }
+  .ts-porte:hover { background: var(--color-accent-2); }
+  .ts-delai { font-weight: 600; }
+  .ts-notes { display: grid; gap: 0.25rem; padding-inline-start: 1.1rem; list-style: disc; font-size: 0.95rem; }
+  .ts-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-underline-offset: 0.2em; }
+  .ts-corps { display: grid; gap: 2rem; align-content: start; }
+  .ts-h2 { font-size: clamp(1.45rem, 3.2vw, 2.1rem); line-height: 1.1; margin-block-end: 0.6rem; }
+  .ts-h3 { font-weight: 600; margin-block-end: 0.4rem; }
+  .ts-texte { font-size: 1.1rem; max-inline-size: 50ch; }
+  .ts-liste { display: grid; gap: 0.25rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .ts-etapes { display: grid; gap: 0.4rem; padding-inline-start: 1.3rem; list-style: decimal; }
+  .ts-conseil { padding: 1rem 1.1rem; border-radius: var(--radius-card); background: var(--color-bg-2); }
+  .ts-question { padding-block: 0.6rem; border-block-end: 1px solid var(--color-line); }
+  .ts-question summary { cursor: pointer; font-weight: 600; min-block-size: 44px; display: flex; align-items: center; }
+  .ts-autres-liste { display: grid; border-block-start: 1px solid var(--color-line); }
+  .ts-autre { display: flex; justify-content: space-between; gap: 1rem; align-items: center; min-block-size: 48px; border-block-end: 1px solid var(--color-line); }
+  .ts-autre:hover { color: var(--color-accent); }
+  .ts-porte:focus-visible, .ts-lien:focus-visible, .ts-autre:focus-visible, .ts-question summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  @media (min-width: 64rem) { .ts-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 4rem; } .ts-tete { position: sticky; inset-block-start: 6rem; } }
+</style>

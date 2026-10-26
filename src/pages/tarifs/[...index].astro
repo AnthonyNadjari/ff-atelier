@@ -1,0 +1,99 @@
+---
+/**
+ * Page /tarifs (site.tarifs, src/lib/tarifs.ts) : architecture `grille-urgence` (source Serrure Ouest, « Grille tarifaire
+ * publique : douze prestations, douze prix » ; docs/veille/architectures/grille-urgence.md). Le titre, le métier à la
+ * ville, Appeler et le délai ; la grille complète (situations x créneaux, prestations hors créneaux), les engagements,
+ * les délais par secteur. Générée seulement s'il y a une situation à prix ; sinon aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, situationsCompletes, prixDes, lienTarifs } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return lienTarifs(site.tarifs, site.wording.tarifs) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const t = site.tarifs!;
+const creneaux = t.creneaux;
+const colonnes = creneaux.length > 0 ? creneaux : [{ nom: 'Prix', heures: '' }];
+const situations = situationsCompletes(t);
+const titre = site.wording.tarifs;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : ${situations.length} situations, le prix de chaque créneau, annoncé avant le déplacement.`} path="/tarifs">
+  <Nav />
+  <main id="main" class="tg">
+    <div class="container-ff tg-grille">
+      <header class="tg-tete">
+        <h1 class="tg-titre font-display">{titre}</h1>
+        <p>{metierEtVille()}</p>
+        <p class="tg-portes">
+          <a href={tel()} class="tg-porte tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+          {t.delai && <span class="tg-delai">{t.delai}</span>}
+        </p>
+      </header>
+      <table class="tg-table">
+        <caption class="sr-only">Prix par situation et par créneau</caption>
+        <thead>
+          <tr>
+            <th scope="col">Intervention</th>
+            {colonnes.map((c) => <th scope="col">{c.nom}{c.heures && <span class="tg-heures tabular-nums">{c.heures}</span>}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {situations.map((s) => (
+            <tr>
+              <th scope="row"><a href={`/tarifs/${s.slug}`} class="tg-lien">{s.nom}</a></th>
+              {prixDes(s, creneaux).map((p) => <td class="tabular-nums">{p || 'sur devis'}</td>)}
+            </tr>
+          ))}
+          {t.autres.map((l) => (
+            <tr>
+              <th scope="row">{l.nom}{l.detail && <span class="tg-heures">{l.detail}</span>}</th>
+              <td colspan={colonnes.length} class="tabular-nums">{l.prix ?? 'sur devis'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {t.notes.length > 0 && <ul class="tg-notes">{t.notes.map((n) => <li>{n}</li>)}</ul>}
+      {t.secteurs.length > 0 && (
+        <section aria-labelledby="tg-secteurs">
+          <h2 id="tg-secteurs" class="tg-h2 font-display">Où nous intervenons</h2>
+          <ul class="tg-secteurs">
+            {t.secteurs.map((x) => (
+              <li class="tg-secteur"><span class="tg-secteur-nom">{x.nom}</span>{x.delai && <span class="tabular-nums">{x.delai}</span>}{x.rues && <span class="tg-rues">{x.rues}</span>}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .tg-grille { display: grid; gap: 2rem; padding-block: clamp(2rem, 6vh, 4rem); }
+  .tg-tete { display: grid; gap: 0.75rem; }
+  .tg-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .tg-portes { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; align-items: center; }
+  .tg-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 52px; padding-inline: 1.2rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; }
+  .tg-porte:hover { background: var(--color-accent-2); }
+  .tg-porte:focus-visible, .tg-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .tg-delai { font-weight: 600; }
+  .tg-table { inline-size: 100%; border-collapse: collapse; }
+  .tg-table th, .tg-table td { padding: 0.65rem 0.4rem; border-block-end: 1px solid var(--color-line); text-align: start; vertical-align: top; }
+  .tg-table thead th { border-block-end: 2px solid currentColor; font-weight: 600; }
+  .tg-table tbody th { font-weight: 400; }
+  .tg-table td { font-weight: 600; white-space: nowrap; }
+  .tg-heures { display: block; font-size: 0.85rem; font-weight: 400; color: var(--color-muted); }
+  .tg-lien { display: inline-flex; min-block-size: 44px; align-items: center; text-decoration: underline; text-underline-offset: 0.2em; }
+  .tg-notes { display: grid; gap: 0.3rem; padding-inline-start: 1.1rem; list-style: disc; max-inline-size: 60ch; }
+  .tg-h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.1; margin-block-end: 0.6rem; }
+  .tg-secteurs { display: grid; }
+  .tg-secteur { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; padding-block: 0.55rem; border-block-end: 1px solid var(--color-line); }
+  .tg-secteur-nom { font-weight: 600; }
+  .tg-rues { grid-column: 1 / -1; font-size: 0.9rem; color: var(--color-muted); }
+  @media (min-width: 40rem) { .tg-secteurs { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; } }
+</style>

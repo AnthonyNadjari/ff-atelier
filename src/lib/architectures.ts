@@ -62,10 +62,16 @@ export interface LayoutArchi {
  *  - fetes           : fêtes datées avec au moins une ligne (fetes[] ; src/lib/fetes.ts, fetesCompletes) ;
  *  - calendrier      : un calendrier qui dit quelque chose (disponibilites.occupe non vide, ou disponibilites.ics) ;
  *                      rien n'est lu sur le réseau ici : l'iCal est lu au build (src/lib/ics-build.ts) ;
- *  - parcours        : barreaux du parcours qui ont au moins une formule (parcours[] ; src/lib/parcours.ts, barreauxComplets).
+ *  - parcours        : barreaux du parcours qui ont au moins une formule (parcours[] ; src/lib/parcours.ts, barreauxComplets) ;
+ *  - situations      : situations de la grille qui ont au moins un prix (tarifs.situations[] ; src/lib/tarifs.ts,
+ *                      situationsCompletes) ;
+ *  - envoi           : étapes du voyage du colis qui disent où est l'objet et ce qui se passe (envoi.etapes[] ;
+ *                      src/lib/colis.ts, etapesCompletes) ;
+ *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
+ *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -104,6 +110,8 @@ export const ARCHITECTURE_IDS = [
   'calendrier-fetes',
   'outil-calendrier',
   'parcours-atelier',
+  'grille-urgence',
+  'atelier-par-colis',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -637,6 +645,70 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Atelier qui transmet son métier par étapes et qu'on peut ensuite fréquenter librement : céramiste ou atelier de poterie (cours, stages, adhésion), école de cuisine ou de pâtisserie, atelier de couture, menuiserie ou bois partagée, caviste qui forme (dégustation, cours, club), école de musique ; 2 à 4 barreaux avec des formules et des prix. Pas pour un artisan qui vend ses pièces sans enseigner (index-projets, gamme-vitrine), ni des rendez-vous ponctuels sans suite (cartes-empilees-agenda), ni l'urgence.",
   },
+  'grille-urgence': {
+    id: 'grille-urgence',
+    modele:
+      "Le site d'un métier d'urgence est sa grille de prix publiée : en tête le h1, le métier à la ville, le téléphone en grand et le délai d'arrivée ; puis « Quelle est votre situation ? » en onglets (porte claquée, fermée à clé…), chaque situation avec le test qui la reconnaît, son prix pour chaque créneau (journée, soirée, nuit) et celui de l'heure marqué dans le navigateur, ce que comprend le forfait, comment ça se passe, ce qu'il faut savoir avant d'appeler ; sous les onglets la grille complète, les engagements et les délais par secteur ; les avis ; l'atelier ; une page par situation et /tarifs.",
+    sources: [{ fiche: 'docs/veille/architectures/grille-urgence.md', site: 'serrure-ouest.com' }],
+    layout: {
+      // Coquille `grille` (src/shells/grille.astro).
+      shell: 'grille',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'columns',
+      // Les avis viennent après l'outil (« 5,0 sur 5 » de la source est juste sous le premier écran : la note est dans
+      // l'en-tête de la coquille, les avis recopiés ensuite).
+      sections: [{ type: 'proof', variant: 'testimonials' }],
+      contactDrawer: true,
+      // Métier d'urgence : la barre d'appel en bas au téléphone (« Appeler », « Devis WhatsApp » de la source).
+      actionBar: true,
+    },
+    requis: [
+      { mesure: 'situations', min: 2, libelle: '2 situations au moins avec leurs prix (tarifs.situations[] : nom et prix par créneau), une page chacune' },
+      { mesure: 'urgence', min: 1, libelle: "un métier où l'on appelle vite : contact.emergency24h ou un délai d'arrivée donné (tarifs.delai)" },
+    ],
+    convientA:
+      "Métier d'urgence qui accepte de publier ses prix et dont le prix dépend de la situation et de l'heure : serrurier, plombier (fuite, débouchage), vitrier, dépanneur électricien, dépannage auto, garde d'animaux en urgence ; mieux avec un délai par secteur. Pas pour un artisan qui ne donne que des devis (index-projets, accueil-portes), ni pour un commerce où l'on vient (lieu-fixe).",
+  },
+  'atelier-par-colis': {
+    id: 'atelier-par-colis',
+    modele:
+      "Deux chemins vers l'atelier : en tête le h1, le métier à la ville, l'ancienneté, le téléphone, la note et le message du moment ; puis deux portes, Venir à l'atelier (adresse, horaires du jour) et Envoyer par colis (délai) ; le voyage du colis en piste horizontale qu'on fait glisser à la main (chez vous, la poste, l'atelier, le retour : une carte par étape, frais de retour et fiche à joindre au bout) ; les prestations et leurs prix, une page chacune ; les avis ; l'atelier ; la marche à suivre entière sur /envoyer.",
+    sources: [
+      { fiche: 'docs/veille/architectures/atelier-par-colis.md', site: 'lacordonneriealpine.fr' },
+      { fiche: 'docs/veille/architectures/atelier-par-colis.md', site: 'agh-atelier-horloger.com' },
+      { fiche: 'docs/veille/architectures/atelier-par-colis.md', site: 'eb-ressemelage.com' },
+    ],
+    layout: {
+      // Coquille `colis` (src/shells/colis.astro).
+      shell: 'colis',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Les prestations à prix (une rubrique par type d'objet, ses lignes « 35 € / paire » ; la page de chaque rubrique
+      // de la source), puis l'atelier et ceux qui y travaillent (« Robin, le fondateur… Noémie, apprentie », les
+      // machines), puis les avis : l'ordre de l'accueil de la source. Les questions d'avant l'envoi (« Avant de commander :
+      // ce qu'il faut savoir », « Conseil avant envoi » de la seconde lecture, EB Ressemelage) suivent les prix : faq[]
+      // du client, absente = rien.
+      sections: [
+        { type: 'services', variant: 'carte-prix' },
+        { type: 'faq', variant: 'accordion' },
+        { type: 'about', variant: 'story' },
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'porte',
+    },
+    requis: [
+      { mesure: 'envoi', min: 3, libelle: "3 étapes au moins du voyage du colis (envoi.etapes[] : où est l'objet, ce qui se passe)" },
+      { mesure: 'lignesPrix', min: 1, libelle: 'des prestations à prix (services[].lignes) : on envoie quand on connaît le prix' },
+      { mesure: 'rue', min: 1, libelle: "l'adresse de l'atelier (contact.address.street) : on y vient ou on y envoie" },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : un colis met des jours" },
+    ],
+    convientA:
+      "Atelier de réparation dont les clients viennent de loin et peuvent envoyer l'objet : cordonnier (ressemelage de chaussons d'escalade, de chaussures de montagne), horloger, luthier, réparateur de stylos, de poupées, d'appareils photo, affûteur, relieur, restaurateur de bijoux ; prix par pièce connus, délai donné. Pas pour l'urgence, ni pour un métier qui se déplace chez le client.",
+  },
 };
 
 
@@ -686,6 +758,8 @@ export interface SiteArchi {
   fetes?: { du?: string; au?: string; lignes?: unknown[]; photo?: unknown }[];
   disponibilites?: { occupe?: unknown[]; ics?: string };
   parcours?: { formules?: unknown[]; photo?: unknown }[];
+  tarifs?: { situations?: { prix?: string[] }[]; delai?: string };
+  envoi?: { etapes?: { ou?: string; titre?: string }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -795,6 +869,10 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
       case 'calendrier': n = s.disponibilites && ((s.disponibilites.occupe ?? []).length > 0 || s.disponibilites.ics) ? 1 : 0; break;
       // Même compte que barreauxComplets (src/lib/parcours.ts), recopié.
       case 'parcours': n = (s.parcours ?? []).filter((b) => (b.formules ?? []).length > 0).length; break;
+      // Mêmes comptes que situationsCompletes (src/lib/tarifs.ts) et etapesCompletes (src/lib/colis.ts), recopiés.
+      case 'situations': n = (s.tarifs?.situations ?? []).filter((x) => (x.prix ?? []).some((p) => p.trim())).length; break;
+      case 'envoi': n = (s.envoi?.etapes ?? []).filter((x) => (x.ou ?? '').trim() && (x.titre ?? '').trim()).length; break;
+      case 'urgence': n = s.contact?.emergency24h || (s.tarifs?.delai ?? '').trim() ? 1 : 0; break;
       case 'pasUrgence': if (s.contact?.emergency24h) out.push(e.libelle); continue;
     }
     if (compte(n, e)) out.push(`${e.libelle} (${n} aujourd’hui)`);

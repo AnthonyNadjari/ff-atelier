@@ -1,0 +1,327 @@
+---
+/**
+ * Coquille "grille" : architecture `grille-urgence` (src/lib/architectures.ts ; source Serrure Ouest, serrurier à Paris
+ * 16e, docs/veille/architectures/grille-urgence.md). Le site d'un métier d'urgence EST sa grille de prix publiée : le
+ * visiteur, souvent dehors et pressé, dit sa situation et lit le prix de l'heure avant d'appeler (« Douze prestations,
+ * douze prix. Les mêmes au téléphone, sur le devis et sur la facture » ; « Porte claquée ou fermée à clé ? », la
+ * question qui double le prix).
+ *   → en tête : le h1, le métier à la ville et l'ancienneté ; le téléphone en grand, le délai d'arrivée (tarifs.delai),
+ *     la note Google (socle docs/GOUT.md § 0) ;
+ *   → « Quelle est votre situation ? », id="situations", dès le premier écran : une tuile par situation (son nom, « dès
+ *     100 € ») qui devient un onglet par le script ; sous l'onglet, la situation entière (tarifs.situations[]) : le test
+ *     qui la reconnaît, sa phrase, son prix pour CHAQUE créneau (journée, soirée, nuit), celui de l'heure marqué « En ce
+ *     moment » dans le navigateur (fuseau Europe/Paris, creneauDuMoment), le délai, Appeler, ce que comprend le forfait,
+ *     comment ça se passe, ce qu'il faut savoir avant d'appeler, sa page. Sans script : toutes les situations, un bloc
+ *     sous l'autre, tous les créneaux ;
+ *     dans le même bloc, la grille complète (situations x créneaux, puis les prestations à prix hors créneaux), les
+ *     engagements du client (tarifs.notes) et les délais par secteur (tarifs.secteurs) : tout ce qui répond à
+ *     « combien, et en combien de temps » ;
+ *   → les sections du layout (les avis) ;
+ *   → l'atelier sur l'encre, id="contact" : adresse, horaires du jour, téléphone, e-mail ;
+ *   → le pied. Le tiroir de contact reste la porte « Écrire » ; la barre d'actions (layout.actionBar) garde Appeler.
+ * Pages : /tarifs (la grille complète, src/pages/tarifs/[...index].astro) et /tarifs/<slug> (une par situation, JSON-LD
+ * Service et une offre par créneau), que la nav nomme (« Les tarifs »).
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran). Sans situation à prix : l'en-tête et l'atelier seuls,
+ * et le build dit ce qui manque (donneesManquantes).
+ * Signes de la source NON repris : capitales condensées en gras sur fond noir, rouge vif en aplat, « 5,0 sur 5 » en
+ * bandeau, badges de confiance alignés, compte à rebours implicite (« 15–20 min » en chiffres géants).
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { site, tel, mailto, metierEtVille, fullAddress, donneesManquantes, situationsCompletes, prixDes, prixLePlusBas } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const t = site.tarifs;
+const creneaux = t?.creneaux ?? [];
+const situations = situationsCompletes(t);
+const colonnes = creneaux.length > 0 ? creneaux : [{ nom: 'Prix', heures: '' }];
+const majuscule = (x: string) => x.replace(/^./, (c) => c.toUpperCase());
+const manque = donneesManquantes('grille-urgence', site);
+if (manque.length > 0) console.warn(`[coquille grille] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="gr-page">
+  <section id="hero" class="container-ff gr-tete" aria-label="Accueil">
+    <div class="gr-tete-texte">
+      <h1 class="gr-h1 font-display" set:html={site.business.tagline} />
+      <p class="gr-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+    </div>
+    <div class="gr-appel-bloc">
+      <a href={tel()} class="gr-appel tabular-nums"><Icon name="Phone" size={22} />{site.contact.phoneDisplay}</a>
+      {t?.delai && <p class="gr-delai"><Icon name="Clock" size={16} />{t.delai}</p>}
+      {google && <a href={google.url} target="_blank" rel="noopener" class="gr-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+    </div>
+  </section>
+
+  {situations.length > 0 && (
+    <section id="situations" class="gr-outil" aria-labelledby="gr-question" data-gr-creneaux={JSON.stringify(creneaux.map((c) => ({ de: c.de, a: c.a, jours: c.jours })))}>
+      <div class="container-ff gr-outil-tete">
+        <h2 id="gr-question" class="gr-question font-display">{site.wording.situation}</h2>
+        <div class="gr-tuiles" data-gr-onglets>
+          {situations.map((s) => {
+            const des = prixLePlusBas(s.prix);
+            return (
+              <a href={`#situation-${s.slug}`} class="gr-tuile" id={`gr-onglet-${s.slug}`} data-gr-vers={s.slug}>
+                <span class="gr-tuile-nom">{s.nom}</span>
+                {des && <span class="gr-tuile-prix tabular-nums">{des}</span>}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+      {situations.map((s) => {
+        const prix = prixDes(s, creneaux);
+        const delai = s.delai ?? t?.delai;
+        return (
+          <article id={`situation-${s.slug}`} class="gr-situation" data-gr-situation={s.slug} aria-labelledby={`gr-titre-${s.slug}`}>
+            <div class="container-ff gr-situation-grille">
+              <div class="gr-situation-tete">
+                <h3 id={`gr-titre-${s.slug}`} class="gr-titre font-display">{s.nom}</h3>
+                {s.test && <p class="gr-test"><span class="gr-test-mot">Comment savoir :</span> {s.test}</p>}
+                {s.phrase && <p class="gr-phrase">{s.phrase}</p>}
+                <ul class="gr-creneaux" aria-label={`Prix de ${s.nom.replace(/^./, (c) => c.toLowerCase())}`}>
+                  {colonnes.map((c, i) => (
+                    <li class="gr-creneau" data-gr-creneau={creneaux.length > 0 ? i : undefined}>
+                      <span class="gr-creneau-nom">{c.nom}{c.heures && <span class="gr-creneau-heures tabular-nums">{c.heures}</span>}</span>
+                      <span class="gr-creneau-moment" data-gr-moment hidden>En ce moment</span>
+                      <span class="gr-creneau-prix tabular-nums">{prix[i] || 'sur devis'}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p class="gr-portes">
+                  <a href={tel()} class="gr-porte tabular-nums"><Icon name="Phone" size={18} />Appeler le {site.contact.phoneDisplay}</a>
+                  {delai && <span class="gr-delai-situation">{delai}</span>}
+                </p>
+              </div>
+              <div class="gr-situation-corps">
+                {s.compris.length > 0 && (
+                  <div>
+                    <h4 class="gr-sous-titre">Ce que comprend le forfait</h4>
+                    <ul class="gr-liste">{s.compris.map((x) => <li>{x}</li>)}</ul>
+                  </div>
+                )}
+                {s.deroule.length > 0 && (
+                  <div>
+                    <h4 class="gr-sous-titre">Comment ça se passe</h4>
+                    <ol class="gr-deroule">{s.deroule.map((x) => <li>{x}</li>)}</ol>
+                  </div>
+                )}
+                {s.conseil && (
+                  <div class="gr-conseil">
+                    <h4 class="gr-sous-titre">Avant d’appeler</h4>
+                    <p>{s.conseil}</p>
+                  </div>
+                )}
+                <p><a href={`/tarifs/${s.slug}`} class="gr-lien">Tout sur {s.nom.replace(/^./, (c) => c.toLowerCase())}<Icon name="ArrowRight" size={16} /></a></p>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+      <div class="container-ff gr-complet">
+        <table class="gr-table">
+          <caption class="gr-caption font-display">La grille complète</caption>
+          <thead>
+            <tr>
+              <th scope="col">Intervention</th>
+              {colonnes.map((c) => <th scope="col">{c.nom}{c.heures && <span class="gr-th-heures tabular-nums">{c.heures}</span>}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {situations.map((s) => {
+              const prix = prixDes(s, creneaux);
+              return (
+                <tr>
+                  <th scope="row"><a href={`/tarifs/${s.slug}`} class="gr-table-lien">{s.nom}</a></th>
+                  {prix.map((p) => <td class="tabular-nums">{p || 'sur devis'}</td>)}
+                </tr>
+              );
+            })}
+            {(t?.autres ?? []).map((l) => (
+              <tr>
+                <th scope="row">{l.nom}{l.detail && <span class="gr-th-heures">{l.detail}</span>}</th>
+                <td colspan={colonnes.length} class="tabular-nums">{l.prix ?? 'sur devis'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {(t?.notes ?? []).length > 0 && <ul class="gr-notes">{t!.notes.map((n) => <li>{n}</li>)}</ul>}
+        {(t?.secteurs ?? []).length > 0 && (
+          <div class="gr-secteurs">
+            <h3 class="gr-secteurs-titre font-display">Où nous intervenons</h3>
+            <ul class="gr-secteurs-liste">
+              {t!.secteurs.map((x) => (
+                <li class="gr-secteur">
+                  <span class="gr-secteur-nom">{x.nom}</span>
+                  {x.delai && <span class="gr-secteur-delai tabular-nums">{x.delai}</span>}
+                  {x.rues && <span class="gr-secteur-rues">{x.rues}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <p><a href="/tarifs" class="gr-lien">{majuscule(site.wording.tarifs)} sur une page<Icon name="ArrowRight" size={16} /></a></p>
+      </div>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="gr-atelier bg-ink text-on-ink" aria-labelledby="gr-atelier-titre">
+    <div class="container-ff gr-atelier-grille">
+      <h2 id="gr-atelier-titre" class="gr-atelier-titre font-display">{site.business.name}</h2>
+      <div class="gr-atelier-infos">
+        <p>{fullAddress()}</p>
+        {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="gr-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+        <HorairesDuJour />
+      </div>
+      <div class="gr-atelier-portes">
+        <a href={tel()} class="gr-appel-encre tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {site.contact.email && <a href={mailto()} class="gr-lien"><Icon name="Mail" size={16} />{site.contact.email}</a>}
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+
+<style>
+  .gr-tete { display: grid; gap: 1.25rem; padding-block: clamp(1.25rem, 4vh, 2.5rem) clamp(1rem, 3vh, 1.75rem); }
+  .gr-tete-texte { display: grid; gap: 0.75rem; }
+  .gr-h1 { font-size: clamp(2.1rem, 7vw, 4.5rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 18ch; }
+  .gr-metier { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 42ch; }
+  .gr-appel-bloc { display: grid; gap: 0.5rem; align-content: start; }
+  .gr-appel { display: flex; align-items: center; justify-content: center; gap: 0.6rem; min-block-size: 56px; padding-inline: 1.25rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-size: 1.35rem; font-weight: 700; }
+  .gr-appel:hover { background: var(--color-accent-2); }
+  .gr-delai { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; }
+  .gr-note, .gr-lien, .gr-table-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .gr-appel:focus-visible, .gr-note:focus-visible, .gr-lien:focus-visible, .gr-porte:focus-visible, .gr-tuile:focus-visible, .gr-table-lien:focus-visible, .gr-appel-encre:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .gr-outil { padding-block: 0 clamp(2.5rem, 7vh, 4rem); }
+  .gr-outil-tete { display: grid; gap: 1rem; padding-block-end: 1.25rem; }
+  .gr-question { font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.05; }
+  /* Les situations en tuiles de ticket : le nom et « dès … » ; l'onglet choisi passe à l'encre. */
+  .gr-tuiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  .gr-tuile { display: grid; gap: 0.2rem; align-content: space-between; min-block-size: 5.25rem; padding: 0.75rem 0.85rem; border: 1px solid var(--color-line); border-block-start: 4px solid var(--color-accent); border-radius: var(--radius-ui, 6px); background: var(--color-surface, var(--color-bg)); text-align: start; cursor: pointer; }
+  .gr-tuile[aria-selected='true'] { background: var(--color-ink); color: var(--color-on-ink); border-color: var(--color-ink); }
+  .gr-tuile:hover .gr-tuile-nom { text-decoration: underline; text-underline-offset: 0.2em; }
+  .gr-tuile-nom { font-weight: 600; font-size: 1rem; line-height: 1.2; }
+  .gr-tuile-prix { font-size: 0.95rem; }
+  .gr-situation { padding-block: clamp(1.25rem, 4vh, 2.25rem); }
+  .gr-situation + .gr-situation { border-block-start: 1px solid var(--color-line); }
+  .gr-situation-grille { display: grid; gap: 1.75rem; }
+  .gr-situation-tete { display: grid; gap: 0.75rem; align-content: start; }
+  .gr-titre { font-size: clamp(1.9rem, 5.5vw, 3.25rem); line-height: 1; letter-spacing: -0.015em; }
+  .gr-test { font-size: 1.1rem; max-inline-size: 44ch; }
+  .gr-test-mot { font-weight: 600; }
+  .gr-phrase { color: var(--color-muted); max-inline-size: 44ch; }
+  .gr-creneaux { display: grid; border-block-start: 2px solid currentColor; }
+  .gr-creneau { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 1rem; padding: 0.7rem 0.5rem; border-block-end: 1px solid var(--color-line); }
+  .gr-creneau[data-maintenant] { background: var(--color-bg-2); border-inline-start: 4px solid var(--color-accent); }
+  .gr-creneau-nom { display: grid; font-size: 1.05rem; }
+  .gr-creneau-heures { font-size: 0.9rem; color: var(--color-muted); }
+  .gr-creneau-moment { grid-column: 1; grid-row: 2; font-size: 0.9rem; font-weight: 600; }
+  .gr-creneau-prix { grid-column: 2; grid-row: 1 / span 2; font-size: 1.4rem; font-weight: 700; white-space: nowrap; }
+  .gr-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .gr-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); border: 1px solid currentColor; font-weight: 600; }
+  .gr-porte:hover { color: var(--color-accent); }
+  .gr-delai-situation { font-weight: 600; }
+  .gr-situation-corps { display: grid; gap: 1.5rem; align-content: start; }
+  .gr-sous-titre { font-weight: 600; margin-block-end: 0.35rem; }
+  .gr-liste { display: grid; gap: 0.25rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .gr-deroule { display: grid; gap: 0.4rem; padding-inline-start: 1.3rem; list-style: decimal; }
+  .gr-conseil { padding: 1rem 1.1rem; border-radius: var(--radius-card); background: var(--color-bg-2); }
+  .gr-complet { display: grid; gap: 1.25rem; padding-block-start: clamp(2rem, 6vh, 3.5rem); }
+  .gr-table { inline-size: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .gr-caption { text-align: start; font-size: clamp(1.5rem, 3.5vw, 2.2rem); line-height: 1.1; padding-block-end: 0.75rem; }
+  .gr-table th, .gr-table td { padding: 0.6rem 0.4rem; border-block-end: 1px solid var(--color-line); text-align: start; vertical-align: top; }
+  .gr-table thead th { border-block-end: 2px solid currentColor; font-weight: 600; }
+  .gr-table tbody th { font-weight: 400; }
+  .gr-table td { font-weight: 600; white-space: nowrap; }
+  .gr-th-heures { display: block; font-size: 0.85rem; font-weight: 400; color: var(--color-muted); }
+  .gr-notes { display: grid; gap: 0.3rem; padding-inline-start: 1.1rem; list-style: disc; max-inline-size: 60ch; }
+  .gr-secteurs { display: grid; gap: 0.75rem; padding-block-start: 1rem; }
+  .gr-secteurs-titre { font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.1; }
+  .gr-secteurs-liste { display: grid; }
+  .gr-secteur { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 1rem; padding-block: 0.55rem; border-block-end: 1px solid var(--color-line); }
+  .gr-secteur-nom { font-weight: 600; }
+  .gr-secteur-delai { font-weight: 600; }
+  .gr-secteur-rues { grid-column: 1 / -1; font-size: 0.9rem; color: var(--color-muted); }
+  .gr-atelier { padding-block: clamp(2.5rem, 8vh, 5rem); }
+  .gr-atelier-grille { display: grid; gap: 1.5rem; }
+  .gr-atelier-titre { font-size: clamp(1.8rem, 4.5vw, 3rem); line-height: 1.05; }
+  .gr-atelier-infos, .gr-atelier-portes { display: grid; gap: 0.4rem; align-content: start; }
+  .gr-appel-encre { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: 1.2rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  @media (min-width: 40rem) {
+    .gr-tuiles { grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+    .gr-secteurs-liste { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+  }
+  @media (min-width: 64rem) {
+    .gr-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; padding-block: clamp(2.5rem, 7vh, 4.5rem) clamp(1.5rem, 4vh, 2.5rem); }
+    .gr-appel { justify-content: flex-start; font-size: 1.6rem; min-block-size: 64px; }
+    .gr-situation-grille { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 4rem; }
+    .gr-atelier-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) minmax(0, 1fr); column-gap: 3rem; }
+    .gr-table { font-size: 1.05rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { creneauDuMoment } from '@/lib/tarifs';
+
+  // 1. Le créneau de l'heure (Europe/Paris) : chaque prix de ce créneau est marqué « En ce moment ». Sans script : tous
+  //    les créneaux, rien de marqué. 2. Les tuiles deviennent des onglets, une situation visible ; sans script, des
+  //    ancres vers chaque situation.
+  onPage(() => {
+    const creneaux = JSON.parse(document.querySelector<HTMLElement>('[data-gr-creneaux]')?.dataset.grCreneaux ?? '[]');
+    if (creneaux.length > 0) {
+      const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+      const get = (type: string) => parts.find((p) => p.type === type)?.value ?? '';
+      const jour = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(get('weekday'));
+      const i = creneauDuMoment(creneaux, { jour, minutes: Number(get('hour')) * 60 + Number(get('minute')) });
+      if (i !== -1) document.querySelectorAll<HTMLElement>(`[data-gr-creneau="${i}"]`).forEach((li) => {
+        li.setAttribute('data-maintenant', '');
+        li.querySelector<HTMLElement>('[data-gr-moment]')?.removeAttribute('hidden');
+      });
+    }
+    const rangee = document.querySelector<HTMLElement>('[data-gr-onglets]');
+    if (!rangee) return;
+    const tuiles = [...rangee.querySelectorAll<HTMLAnchorElement>('[data-gr-vers]')];
+    const blocs = [...document.querySelectorAll<HTMLElement>('[data-gr-situation]')];
+    if (tuiles.length < 2 || blocs.length !== tuiles.length) return;
+    rangee.setAttribute('role', 'tablist');
+    rangee.setAttribute('aria-labelledby', 'gr-question');
+    const choisir = (slug: string, focus = false) => {
+      tuiles.forEach((o) => { const sel = o.dataset.grVers === slug; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      blocs.forEach((b) => { b.hidden = b.dataset.grSituation !== slug; });
+    };
+    tuiles.forEach((o, k) => {
+      const b = blocs[k];
+      o.setAttribute('role', 'tab');
+      o.setAttribute('aria-controls', b.id);
+      o.removeAttribute('href');
+      b.setAttribute('role', 'tabpanel');
+      b.setAttribute('aria-labelledby', o.id);
+      b.tabIndex = 0;
+      o.addEventListener('click', (e) => { e.preventDefault(); choisir(o.dataset.grVers!); });
+      o.addEventListener('keydown', (e) => {
+        const apres = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+        const avant = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+        const c = apres ? tuiles[(k + 1) % tuiles.length] : avant ? tuiles[(k - 1 + tuiles.length) % tuiles.length] : undefined;
+        if (c) { e.preventDefault(); choisir(c.dataset.grVers!, true); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choisir(o.dataset.grVers!); }
+      });
+    });
+    const depuisAncre = location.hash.startsWith('#situation-') ? location.hash.slice(11) : '';
+    choisir(tuiles.some((o) => o.dataset.grVers === depuisAncre) ? depuisAncre : tuiles[0].dataset.grVers!);
+  });
+</script>
