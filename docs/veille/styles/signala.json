@@ -1,0 +1,822 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://signal-a.studio/",
+  "nom": "signala",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Signal-A Studio • Award–Winning Web Design & Product Design Studio",
+    "siteName": "",
+    "lang": "",
+    "description": "Meticulously crafted, award-winning Web Design and Product Design. Tailored to connect with your audience. Engineered for the lasting impact.",
+    "technologies": [
+      "Webflow",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Cannot set properties of null (setting 'oninput')"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 124,
+      "images": 4,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "HOME",
+        "x": 40,
+        "y": 0,
+        "cx": 0.10069444444444445,
+        "cy": 0.022222222222222223,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 5927,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "a#s-a-menu-home",
+        "famille": "\"Gt America Mono\", Arial, sans-serif",
+        "taille": 12,
+        "graisse": "300",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Gt America Mono",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67861e262170bcb8bb054418_GT-America-Mono-Light.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neue Haas Grotesk Text Pro",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67861e519defbf311ba039fa_font.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "PPEditorialNew",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67865a190e53853e62fa9794_PPEditorialNew-Ultralight.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "PPEditorialNew",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67865a1914387179695736ee_PPEditorialNew-Thin.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neue Haas Grotesk Text Pro",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/6945e1bcc8dd6ad7ea75f127_font.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neue Haas Grotesk Display Pro",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/6946c8aa27441b800c75131f_light.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neue Haas Grotesk Display Pro",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/6946c8aa73b78faada54ae09_regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "unpkg.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67861e262170bcb8bb054418_GT-America-Mono-Light.woff2",
+        "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67861e519defbf311ba039fa_font.woff2",
+        "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67865a1914387179695736ee_PPEditorialNew-Thin.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Gt America Mono",
+          "n": 111
+        },
+        {
+          "famille": "Neue Haas Grotesk Text Pro",
+          "n": 69
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9054720
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 9600
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 180,
+          "poids": 1594
+        }
+      ],
+      "nbImages": 10,
+      "nbVideos": 1,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9054720,
+          "part": 0.999
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 9600,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 180,
+          "poids": 1594,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Lenis",
+          "preuve": "window.Lenis"
+        },
+        {
+          "nom": "Swiper",
+          "preuve": "window.Swiper"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        },
+        {
+          "nom": "Locomotive Scroll",
+          "preuve": "attribut data-scroll"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "animation translateX 20.6364s linear infinite",
+          "n": 2
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-css-marquee-list",
+          "n": 2
+        },
+        {
+          "nom": "data-scroll-wrapper",
+          "n": 1
+        },
+        {
+          "nom": "data-css-marquee",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.s-a-footer-marquee-gsap",
+        "score": 5,
+        "animations": [
+          "animation translateX 20.6364s linear infinite"
+        ],
+        "transitions": [],
+        "attributs": [
+          "data-css-marquee-list"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div.locomotive-scroll",
+      "sections": [
+        {
+          "selecteur": "div.w-layout-vflex",
+          "titre": null,
+          "top": 0,
+          "hauteur": 855,
+          "ecrans": 1,
+          "mots": 60,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-video-wrapper-muted",
+          "titre": null,
+          "top": 855,
+          "hauteur": 538,
+          "ecrans": 0.6,
+          "mots": 4,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "div.s-a-spacer-250",
+          "titre": null,
+          "top": 1393,
+          "hauteur": 250,
+          "ecrans": 0.3,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-grid-1-row",
+          "titre": null,
+          "top": 1643,
+          "hauteur": 2151,
+          "ecrans": 2.4,
+          "mots": 139,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-spacer-320",
+          "titre": null,
+          "top": 3794,
+          "hauteur": 320,
+          "ecrans": 0.4,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-secondary-header",
+          "titre": null,
+          "top": 4114,
+          "hauteur": 373,
+          "ecrans": 0.4,
+          "mots": 0,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-spacer-320",
+          "titre": null,
+          "top": 4487,
+          "hauteur": 320,
+          "ecrans": 0.4,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-grid-1-row",
+          "titre": null,
+          "top": 4807,
+          "hauteur": 551,
+          "ecrans": 0.6,
+          "mots": 54,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-spacer-100",
+          "titre": null,
+          "top": 5358,
+          "hauteur": 100,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-grid-1-row",
+          "titre": null,
+          "top": 5458,
+          "hauteur": 55,
+          "ecrans": 0.1,
+          "mots": 3,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.s-a-footer",
+          "titre": null,
+          "top": 5763,
+          "hauteur": 524,
+          "ecrans": 0.6,
+          "mots": 52,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div.s-a-menu",
+          "position": "fixed",
+          "hauteur": 39,
+          "largeur": 1360,
+          "enBas": false,
+          "mots": 7
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 7,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/signala-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Cannot set properties of null (setting 'oninput')"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 25,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 2956,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "a#w-node-_80a58564-404e-0253-0cbe-f5f167e1194d-a169e80b",
+        "famille": "\"Gt America Mono\", Arial, sans-serif",
+        "taille": 10,
+        "graisse": "300",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Gt America Mono",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67861e262170bcb8bb054418_GT-America-Mono-Light.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neue Haas Grotesk Text Pro",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67861e519defbf311ba039fa_font.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "PPEditorialNew",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67865a190e53853e62fa9794_PPEditorialNew-Ultralight.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "PPEditorialNew",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67865a1914387179695736ee_PPEditorialNew-Thin.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neue Haas Grotesk Text Pro",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/6945e1bcc8dd6ad7ea75f127_font.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neue Haas Grotesk Display Pro",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/6946c8aa27441b800c75131f_light.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neue Haas Grotesk Display Pro",
+          "url": "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/6946c8aa73b78faada54ae09_regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "unpkg.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/6945e1bcc8dd6ad7ea75f127_font.woff2",
+        "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67861e262170bcb8bb054418_GT-America-Mono-Light.woff2",
+        "https://cdn.prod.website-files.com/678617fee0f8375ca169e7ae/67861e519defbf311ba039fa_font.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Gt America Mono",
+          "n": 40
+        },
+        {
+          "famille": "Neue Haas Grotesk Text Pro",
+          "n": 12
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1152840
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 3330
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 52,
+          "poids": 754
+        }
+      ],
+      "nbImages": 12,
+      "nbVideos": 1,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1152840,
+          "part": 0.997
+        },
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 3330,
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 52,
+          "poids": 754,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Lenis",
+          "preuve": "window.Lenis"
+        },
+        {
+          "nom": "Swiper",
+          "preuve": "window.Swiper"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        },
+        {
+          "nom": "Locomotive Scroll",
+          "preuve": "attribut data-scroll"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "animation translateX 16.9375s linear infinite",
+          "n": 2
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-css-marquee-list",
+          "n": 2
+        },
+        {
+          "nom": "data-scroll-wrapper",
+          "n": 1
+        },
+        {
+          "nom": "data-css-marquee",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.s-a-footer-marquee-gsap",
+        "score": 5,
+        "animations": [
+          "animation translateX 16.9375s linear infinite"
+        ],
+        "transitions": [],
+        "attributs": [
+          "data-css-marquee-list"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div.locomotive-scroll",
+      "sections": [
+        {
+          "selecteur": "div.w-layout-vflex",
+          "titre": null,
+          "top": 40,
+          "hauteur": 465,
+          "ecrans": 0.6,
+          "mots": 17,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-video-wrapper-muted",
+          "titre": null,
+          "top": 505,
+          "hauteur": 230,
+          "ecrans": 0.3,
+          "mots": 4,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "div.s-a-spacer-250",
+          "titre": null,
+          "top": 735,
+          "hauteur": 90,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.bottom-margin",
+          "titre": null,
+          "top": 825,
+          "hauteur": 12,
+          "ecrans": 0,
+          "mots": 2,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.w-layout-vflex",
+          "titre": null,
+          "top": 847,
+          "hauteur": 1014,
+          "ecrans": 1.2,
+          "mots": 37,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-spacer-320",
+          "titre": null,
+          "top": 1861,
+          "hauteur": 90,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-secondary-header",
+          "titre": null,
+          "top": 1951,
+          "hauteur": 102,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-spacer-320",
+          "titre": null,
+          "top": 2053,
+          "hauteur": 90,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-awards-section-home-mobile",
+          "titre": null,
+          "top": 2143,
+          "hauteur": 358,
+          "ecrans": 0.4,
+          "mots": 47,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-spacer-100",
+          "titre": null,
+          "top": 2501,
+          "hauteur": 50,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.s-a-grid-1-row",
+          "titre": null,
+          "top": 2551,
+          "hauteur": 55,
+          "ecrans": 0.1,
+          "mots": 3,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.s-a-footer",
+          "titre": null,
+          "top": 2716,
+          "hauteur": 240,
+          "ecrans": 0.3,
+          "mots": 28,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "[MENU]",
+          "href": "#"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Signal-A Studio • Award",
+  "dureeS": 20.8
+}

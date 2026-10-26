@@ -1,0 +1,492 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "http://jesperlandberg.com/",
+  "nom": "jesperlandberg",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Jesper Landberg",
+    "siteName": "Jesper Landberg",
+    "lang": "en",
+    "description": "Swedish design engineer building visually rich, motion-driven websites. Two-time Awwwards Independent of the Year (2022 & 2024).",
+    "technologies": [
+      "Nuxt"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#000000",
+      "h1": "Jesper Landberg — design engineer",
+      "h1Visible": true,
+      "mots": 324,
+      "images": 0,
+      "mediaPleinEcran": {
+        "type": "canvas",
+        "couverture": 1,
+        "selecteur": "canvas"
+      },
+      "boutonPrincipal": {
+        "texte": "PROFILE",
+        "x": 1320.9375,
+        "y": 38.390625,
+        "cx": 0.9319932725694444,
+        "cy": 0.05011284722222222,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "JESPER LANDBERG PROFILE FEATURED / FULL NEWSLETTER",
+        "selecteur": "div.pointer-events-none",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1",
+        "famille": "sans, sans-serif",
+        "taille": 26.88,
+        "graisse": "700",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2",
+        "famille": "sans, sans-serif",
+        "taille": 20.16,
+        "graisse": "700",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.text-14",
+        "famille": "sans, sans-serif",
+        "taille": 13.44,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.2688px"
+      },
+      "bouton": {
+        "selecteur": "button.label",
+        "famille": "sans, sans-serif",
+        "taille": 9.6,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.router-link-active",
+        "famille": "sans, sans-serif",
+        "taille": 9.6,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "sans",
+          "url": "/_nuxt/ABCDiatypePlusVariable.DURmIfav.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "http://jesperlandberg.com/_nuxt/ABCDiatypePlusVariable.DURmIfav.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "sans",
+          "n": 52
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#000000",
+      "texte": "#ffffff",
+      "fondsBruts": [
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 52,
+          "poids": 2628
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 52,
+          "poids": 2628,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0, 0, 0.2, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.5s cubic-bezier(0, 0, 0.2, 1)",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button.label",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "opacity 0.3s cubic-bezier(0, 0, 0.2, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [],
+      "nav": {
+        "selecteur": "nav.label",
+        "hauteur": 13,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "FEATURED",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "FULL",
+            "href": "/full",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Book of Happiness",
+          "href": "/projects/book-of-happiness"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/jesperlandberg-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#000000",
+      "h1": "Jesper Landberg — design engineer",
+      "h1Visible": true,
+      "mots": 318,
+      "images": 0,
+      "mediaPleinEcran": {
+        "type": "canvas",
+        "couverture": 1,
+        "selecteur": "canvas"
+      },
+      "boutonPrincipal": {
+        "texte": "PROFILE",
+        "x": 305.9375,
+        "y": 25,
+        "cx": 0.8409455128205128,
+        "cy": 0.037914691943127965,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "JESPER LANDBERG PROFILE FEATURED / FULL NEWSLETTER",
+        "selecteur": "div.pointer-events-none",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1",
+        "famille": "sans, sans-serif",
+        "taille": 28,
+        "graisse": "700",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2",
+        "famille": "sans, sans-serif",
+        "taille": 21,
+        "graisse": "700",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.text-14",
+        "famille": "sans, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.28px"
+      },
+      "bouton": {
+        "selecteur": "button.label",
+        "famille": "sans, sans-serif",
+        "taille": 10,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.router-link-active",
+        "famille": "sans, sans-serif",
+        "taille": 10,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "sans",
+          "url": "/_nuxt/ABCDiatypePlusVariable.DURmIfav.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "http://jesperlandberg.com/_nuxt/ABCDiatypePlusVariable.DURmIfav.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "sans",
+          "n": 52
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#000000",
+      "texte": "#ffffff",
+      "fondsBruts": [
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 52,
+          "poids": 2628
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 52,
+          "poids": 2628,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0, 0, 0.2, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.5s cubic-bezier(0, 0, 0.2, 1)",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button.label",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "opacity 0.3s cubic-bezier(0, 0, 0.2, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [],
+      "nav": {
+        "selecteur": "nav.label",
+        "hauteur": 14,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "FEATURED",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "FULL",
+            "href": "/full",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Book of Happiness",
+          "href": "/projects/book-of-happiness"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Jesper Landberg",
+  "dureeS": 45.3
+}

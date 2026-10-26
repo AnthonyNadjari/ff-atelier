@@ -1,0 +1,493 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://overworldaudio.com/",
+  "nom": "overworldaudio",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Overworld Audio",
+    "siteName": "Overworld Audio",
+    "lang": "en",
+    "description": "Audio co-development for games and interactive experiences, from prototype to final mix.",
+    "technologies": [
+      "Nuxt"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#13151f",
+      "h1": "Building unforgettable sonic experiences",
+      "h1Visible": false,
+      "mots": 5,
+      "images": 0,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div.loader-progress-fill"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "button.btn-link",
+        "famille": "PPFrama, -apple-system, system-ui, BlinkMacSystemFont, Helvetica, Arial, sans-serif",
+        "taille": 8,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "3.2px"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "IvarHeadline",
+          "url": "/fonts/IvarHeadline-Regular.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "PPFrama",
+          "url": "/fonts/PPFrama-Regular.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "PPFrama",
+          "url": "/fonts/PPFrama-Semibold.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "IvarHeadline",
+          "url": "../fonts/IvarHeadline-Regular.woff2",
+          "feuille": "overworldaudio.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "PPFrama",
+          "url": "../fonts/PPFrama-Regular.woff2",
+          "feuille": "overworldaudio.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "PPFrama",
+          "url": "../fonts/PPFrama-Semibold.woff2",
+          "feuille": "overworldaudio.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://overworldaudio.com/fonts/IvarHeadline-Regular.woff2",
+        "https://overworldaudio.com/fonts/PPFrama-Regular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "PPFrama",
+          "n": 5
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#13151f",
+      "texte": "#e9ecee",
+      "fondsBruts": [
+        {
+          "hex": "#13151f",
+          "n": 1,
+          "poids": 1296000
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#e9ecee",
+          "n": 4,
+          "poids": 56
+        },
+        {
+          "hex": "#6e8799",
+          "n": 1,
+          "poids": 5
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 2,
+      "fonds": [
+        {
+          "hex": "#13151f",
+          "n": 1,
+          "poids": 1296000,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#e9ecee",
+          "n": 4,
+          "poids": 56,
+          "part": 0.918
+        },
+        {
+          "hex": "#6e8799",
+          "n": 1,
+          "poids": 5,
+          "part": 0.082
+        }
+      ],
+      "contraste": 15.33
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.8s linear",
+          "n": 1
+        },
+        {
+          "valeur": "visibility 0.8s linear",
+          "n": 1
+        },
+        {
+          "valeur": "color 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.4s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.9s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.fade",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "opacity 0.8s linear",
+          "visibility 0.8s linear"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "div#__nuxt",
+          "titre": null,
+          "top": 0,
+          "hauteur": 96,
+          "ecrans": 0.1,
+          "mots": 10,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "canvas"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.nav-bar",
+        "hauteur": 91,
+        "position": "relative",
+        "liens": []
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/overworldaudio-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#13151f",
+      "h1": "Building unforgettable sonic experiences",
+      "h1Visible": false,
+      "mots": 5,
+      "images": 0,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 9,
+        "exemples": [
+          "div.loader-progress-fill",
+          "span",
+          "div.nav",
+          "span.c-logo",
+          "span.btn-link__text-line",
+          "div.page"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "button.btn-link",
+        "famille": "PPFrama, -apple-system, system-ui, BlinkMacSystemFont, Helvetica, Arial, sans-serif",
+        "taille": 8,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "3.2px"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "IvarHeadline",
+          "url": "/fonts/IvarHeadline-Regular.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "PPFrama",
+          "url": "/fonts/PPFrama-Regular.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "PPFrama",
+          "url": "/fonts/PPFrama-Semibold.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "IvarHeadline",
+          "url": "../fonts/IvarHeadline-Regular.woff2",
+          "feuille": "overworldaudio.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "PPFrama",
+          "url": "../fonts/PPFrama-Regular.woff2",
+          "feuille": "overworldaudio.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "PPFrama",
+          "url": "../fonts/PPFrama-Semibold.woff2",
+          "feuille": "overworldaudio.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://overworldaudio.com/fonts/IvarHeadline-Regular.woff2",
+        "https://overworldaudio.com/fonts/PPFrama-Regular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "PPFrama",
+          "n": 5
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#13151f",
+      "texte": "#e9ecee",
+      "fondsBruts": [
+        {
+          "hex": "#13151f",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#e9ecee",
+          "n": 4,
+          "poids": 56
+        },
+        {
+          "hex": "#6e8799",
+          "n": 1,
+          "poids": 5
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 2,
+      "fonds": [
+        {
+          "hex": "#13151f",
+          "n": 1,
+          "poids": 329160,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#e9ecee",
+          "n": 4,
+          "poids": 56,
+          "part": 0.918
+        },
+        {
+          "hex": "#6e8799",
+          "n": 1,
+          "poids": 5,
+          "part": 0.082
+        }
+      ],
+      "contraste": 15.33
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.8s linear",
+          "n": 1
+        },
+        {
+          "valeur": "visibility 0.8s linear",
+          "n": 1
+        },
+        {
+          "valeur": "color 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.4s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.9s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.fade",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "opacity 0.8s linear",
+          "visibility 0.8s linear"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "div#__nuxt",
+          "titre": null,
+          "top": 0,
+          "hauteur": 96,
+          "ecrans": 0.1,
+          "mots": 10,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "canvas"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.nav-bar",
+        "hauteur": 82,
+        "position": "relative",
+        "liens": []
+      },
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Overworld Audio",
+  "dureeS": 71
+}
