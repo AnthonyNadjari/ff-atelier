@@ -229,6 +229,11 @@ Chaque ligne vient d'un essai regardé, avec le mélange qui l'a provoquée. Une
 - **24 oct 2026, mêmes essais, styles hiut, lyles et wolseley (m-b9c2ba, m-a6a142, m-c479f2)** : des capitales espacées à
   0,10-0,15 em, mesurées sur des titres de deux ou trois mots, cassaient le h1 français (une phrase : métier et ville) en
   cinq ou six lignes. Plafond 0,06 em en capitales, -0,04 à 0,02 em en casse normale (`interlettrageTitre`, testé).
+- **26 oct 2026, `ff melanger demo-boulangerie --style <id> --essai`, styles thepalomar, cafedeflore, bobbobricard et
+  lesdeuxmagots (m-d5bbb3, m-92c906, m-317021, m-a76889)** : les capitales de ces sites habillent des titres de un à trois
+  mots ; sur le h1 français d'une phrase (métier, ville), même resserrées à 0,06 em, elles le cassaient en quatre à six
+  lignes à l'ordinateur. Règle `casseH1` (`melanger.mjs`, testée) : le h1 repasse en casse normale, les h2 et h3 gardent
+  les capitales du style ; vérifié au second essai de thepalomar (quatre lignes au lieu de six).
 - A priori : titre en graisse ≤ 300 sur un contraste texte/fond < 7:1 refusé ; titre de 140 px et plus dans une page
   à marges de section < 64 px refusé. À confirmer ou retirer au premier essai qui les rencontre.
 

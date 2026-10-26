@@ -1,0 +1,37 @@
+# Paysage de Francilie — https://www.paysagesdefrancilie.fr/
+Titre « Paysagiste | Entretien Jardin | Élagage | Seine-saint-denis (93) - », `lang="fr-FR"`, description « Paysagiste spécialisé dans la création, l'aménagement et l'entretien d'espaces verts dans le département de la Seine-Saint-Denis (93). », technologie lue : generator « Powered by LayerSlider 6.7.6 - Multi-Purpose, Responsive, Pa », WordPress, jQuery. Démontage automatique du 2026-10-26 (`ff demonter`, mesures brutes dans `paysages-francilie.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; fond en image plein écran (100 % de l'écran) ; bouton principal « EN SAVOIR PLUS » à mi-hauteur au centre (641, 414 px) ; 48 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 absent ; fond en image plein écran (100 % de l'écran) ; bouton principal « EN SAVOIR PLUS » à mi-hauteur au centre (132, 414 px) ; 13 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 5 lien(s) — [ACCUEIL], [QUI SOMMES-NOUS ?], [NOS SERVICES], [CONTACT], [DEMANDE DE DEVIS] ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `header.fusion-header-wrapper` (0,1 écran, 10 mots, 1 img) → `div#sliders-container` « LES PAYSAGES DE FRANCILIE » (0,6 écran, 10 mots, 1 img) → `main#main` « QUI SOMMES-NOUS ? » (3,1 écrans, 306 mots, 3 img) → `div.fusion-footer` (0,1 écran, 16 mots, 0 img). Calques hors flux (fixes/absolus) : `a.skip-link` (absolute, 1 px, 3 mots), `div.fusion-sides-frame` (fixed, 900 px).
+Pied de page : 2 lien(s) — Mentions légales, IRRIS. Téléphone cliquable : non. Formulaire : aucun. Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « DEMANDE DE DEVIS » (https://www.paysagesdefrancilie.fr/demande-de-devis/).
+En 3 secondes : à juger sur `captures/paysages-francilie-d.webp` (mesuré : fond du premier écran #599d97, 5 image(s) et 48 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 : non mesuré ; h2 **Raleway**, 26 px / 26 px téléphone, graisse 400, interlignage 1,10, capitales ; corps **Roboto**, 15 px / 15 px téléphone, graisse 400, interlignage 1,67 ; boutons **PT Sans**, 14 px / 12 px téléphone, graisse 700, interlignage 1,21, capitales ; nav **Raleway**, 15 px / 15 px téléphone, graisse 400, interlignage 6,60.
+Sources `@font-face` : auto-hébergée (revicons, icomoon, Font Awesome 5 Brands, Font Awesome 5 Free) ; Google Fonts (Abril Fatface, PT Sans, Raleway, Roboto) ; locale () ; fichiers chargés : https://fonts.gstatic.com/s/raleway/v37/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCIPrQ.ttf, https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWubEbVmUiA8.ttf, https://fonts.gstatic.com/s/ptsans/v18/jizfRExUiTo99u79B_mh0O6tKA.ttf, https://www.paysagesdefrancilie.fr/wp-content/themes/Avada/includes/lib/assets/fonts/fontawesome/webfonts/fa-brands-400.woff2, https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWuYjalmUiA8.ttf, https://fonts.gstatic.com/s/roboto/v51/KFOKCnqEu92Fr1Mu53ZEC9_Vu3r1gIhOszmOClHrs6ljXfMMLoHQuAj-lg.ttf. Familles en usage sur le texte visible : Roboto ×23, Raleway ×13, PT Sans ×5. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff (premier écran #599d97), texte #333333 (contraste 12,63:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (65 %), #121213 (29 %), #017b62 (3 %), #599d97 (2 %), #181819 (0 %) ; textes par nombre de caractères : #494949 (46 %), #ffffff (38 %), #0d7f68 (5 %), #333333 (5 %), #599d97 (3 %). Images : 5 `<img>` visibles, 5 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 2 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : GSAP (window.TweenMax), jQuery (window.jQuery). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.2s linear` ×13, `all 0.2s ease` ×10, `opacity 0.35s ease` ×6, `transform 0.35s ease` ×3, `background-color 0.25s ease-in-out` ×1, `all 0.2s ease-in-out` ×1, `right 0.3s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-parallax` ×1, `data-animation` ×1, `data-slideshow_speed` ×1, `data-animation_speed` ×1, `data-speed` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/paysages-francilie-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `main#main` « QUI SOMMES-NOUS ? » (3,1 écrans, 306 mots, 3 image(s)).
+2. L'élément le plus animé : `div.tfs-slider` (attributs data-parallax, data-animation, data-slideshow_speed).
+3. Le bloc le plus singulier par sa structure : `main#main` « QUI SOMMES-NOUS ? » (seule à contenir <blockquote>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« DEMANDE DE DEVIS »).
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/4 ordinateur, 0/4 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Verdict marché (veille du 26 oct 2026, tour 8)
+Source : recherche « paysagiste Saint-Denis » (métier : `$RANDOM` 19798 mod 5 = 3 → paysagiste ; ville : `$RANDOM` 8389 mod 30 = 19 → Saint-Denis). La recherche simple et la recherche étendue sur la même requête ne rendent qu'annuaires, plateformes et offres d'emploi (PagesJaunes, AlloVoisins, travaux.com, Mappy) ; une recherche étendue précisée (« paysagiste Saint-Denis 93 entretien création jardin entreprise ») sert de page suivante : rang 7, premier site d'entreprise indépendante (Coubron, Seine-Saint-Denis ; « créée en 1994, reprise en 2002 par la Société Osten »). URL lue : https://www.paysagesdefrancilie.fr/ (HTML 84 Ko, **premier octet 2,24 s**, indicatif). Captures regardées.
+
+**Un artisan paierait-il 1 200 € pour ça ?** Non. Site WordPress Avada d'environ 2018 : pas de h1, aucun numéro de téléphone sur l'accueil (ni lien, ni texte), un diaporama de fleurs génériques, des titres « Qui sommes-nous ? » et « Nos services » sur trois vignettes, et au téléphone une colonne de texte d'un mot par ligne (bloc mal réglé, capture `paysages-francilie-m.webp`). Il est classé par son ancienneté, pas par ce qu'il montre. Le seul vrai levier : le **certificat Bureau Veritas (agrément produits phytopharmaceutiques)** posé en haut à gauche du premier écran. Contre : « Forte de 24 ans d'expérience » à côté de « créée en 1994 » (le chiffre n'a pas bougé depuis l'écriture du site), Google Analytics.
+
+**Leviers vus** : Photos réelles : non lisibles comme telles (fleurs, gazon, allées génériques). Premier écran : nom, « Entretien d'espaces verts », « En savoir plus », agrément phyto. Preuves : certification, ancienneté (deux chiffres qui se contredisent). Structure : 11 pages (services sur une page à ancres, entretien d'espaces verts, devis, candidature). Appels : « Demande de devis » dans la nav, aucun `tel:`. Vitesse : premier octet lent. Mobile : cassé (texte en colonne étroite).

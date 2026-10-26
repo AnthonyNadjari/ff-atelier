@@ -231,6 +231,14 @@ et dandelionchocolate (fenêtres cookies ou inscription qui couvrent la page), g
 | coffeecollective | https://www.coffeecollective.dk/ ([fiche](coffeecollective.md)) | Torréfacteur : crème chaud, cartes à peine plus foncées, bandes vert sapin, grotesque en graisse normale, sachets détourés | plantation plein cadre, grille de produits, abonnement sur bande verte, cafés | torréfacteur, épicerie fine, boulangerie avec une gamme et des adresses | atomes |
 | androuet | https://www.androuet.com/ ([fiche](androuet.md)) | Fromager : crème, cartes blanches décalées, rouge brique pour la carte posée sur la photo, portraits d'équipe en arche | plateau plein cadre et carte rouge, offres en cartes décalées, équipe, boutiques | fromager, caviste, boucher, traiteur, commerce de bouche français avec une équipe | atomes |
 | diaspora | https://www.diasporaco.com/ ([fiche](diaspora.md)) | Épices : crème jaune, magenta en boutons et panneaux, safran en bandeau, serif grasse à l'ancienne, producteurs en grand | bandeau, produits en carrousel, citation sur panneau magenta, recettes | épicerie, producteur, traiteur joyeux et coloré (jamais un métier réglementé) | atomes |
+| lune | https://www.lunecroissanterie.com/ ([fiche](lune.md)) | Croissanterie : noir pur, grotesque industrielle grasse serrée, viennoiseries sur noir, une lettre géante du nom au trait par section | sections plein écran sur noir, menu vertical, boutiques en liste | boulanger, pâtissier, chocolatier, glacier, torréfacteur avec des produits photographiés sur fond uni | atomes |
+| kol | https://kolrestaurant.com/ ([fiche](kol.md)) | Restaurant : kaki pâle, serif chaude, bouton bleu canard, plats et salle dans des cadres en quinconce | plat plein cadre, blocs centrés, horaires salle et cuisine détaillés au pied | restaurant, traiteur, cave, épicerie fine calme et chaude | atomes |
+| bobbobricard | https://www.bobbobricard.com/ ([fiche](bobbobricard.md)) | Restaurant : rose poudré en bandes, petites capitales bronze, boutons à contour, salle sombre et dorée | une carte photo par adresse, contact des adresses en colonnes | restaurant, salon de thé, pâtissier, institut à une ou deux adresses | atomes |
+| attica | https://www.attica.com.au/ ([fiche](attica.md)) | Restaurant : noir, serif éditoriale fine, assiettes en grand, le fond prend la teinte de chaque assiette | une assiette par écran, chef, pied olive très complet | restaurant, pâtissier, fleuriste, glacier aux produits très colorés | atomes |
+| lesdeuxmagots | https://www.lesdeuxmagots.fr/ ([fiche](lesdeuxmagots.md)) | Café historique : crème rosé, vert bouteille, brique et or en panneaux qui mordent sur les photos, didone en capitales | diptyque, histoire en panneaux, actualité, articles | café, brasserie, salon de thé, commerce ancien avec une histoire | atomes |
+| cafedeflore | https://www.cafedeflore.fr/ ([fiche](cafedeflore.md)) | Café historique : noir et grège, géométrique en capitales espacées, sable doré, archives en noir et blanc dans un cadre | frise datée, carte en onglets, mosaïque d'archives, plan | café, bar, maison ancienne avec des photos d'archives | atomes |
+| terroirsavenir | https://www.terroirs-avenir.fr/ ([fiche](terroirsavenir.md)) | Réseau de producteurs : papier clair, géométrique douce, vert sauge, portraits en quinconce, citations signées | mission, producteurs, métiers, chefs, boutiques | épicerie, primeur, boucher, fromager qui montre ses producteurs | atomes |
+| thepalomar | https://www.thepalomar.co.uk/ ([fiche](thepalomar.md)) | Restaurant : bleu nuit et crème en damier, photos de nuit saturées, grotesque large en capitales | damier photo / panneau, carte en liste filetée, pied du groupe | restaurant, bar, traiteur du soir avec de belles photos de nuit | atomes |
 
 Collecte du 24 oct 2026 (routine, régimes en besoin : clair teinté et sombre) : 46 domaines essayés, 37 sites ouverts et regardés, 17
 relevés (`ff atomes mesurer`, titre affiché relevé à part), **12 gardés** (ci-dessus). Refusés à la comparaison : belleville
@@ -256,3 +264,18 @@ temps) ; dropcoffee et sushisaito (domaine à vendre), frenchie (429), mezcalvag
 dizaine d'autres injoignables depuis le réseau.
 
 Collecte 2026-10-25 (23 styles, mesures seulement ; photos, mouvement, premier écran « à juger ») : gervasoni1882, bonnieandclyde, ateliermonet, serax, zangra, officinegenerale, sabon, bellroy, fleux, maisonbremond1830, veja-store, pierremarcolini, bonne-maman, caudalie, nicolas, thekooples, apc, laperla, duvel, staub-online, degrenne, emilehenryusa, pillivuyt.
+
+Collecte du 26 oct 2026 (routine, régimes en besoin : sombre et clair teinté) : une soixantaine de domaines essayés, 10 relevés
+(`ff atomes mesurer` + planche de défilement ordinateur et téléphone regardée), **8 gardés** (ci-dessus), chacun essayé sur une
+copie de `demo-boulangerie` (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de la source. Refusé à la
+comparaison : [bancone](bancone.md) (essai plat sans ses photos, h2 plus petit que le texte, boutons qui lisent comme des
+pilules). Relevés puis écartés au regard : sessionsartsclub (page presque vide : dessins et pied), verve (fenêtre promotionnelle
+plein écran sur tout le défilement). Écartés à la reconnaissance : daroco (un seul écran vidéo), gailsbread (liste des
+boutiques), hedonism (fenêtre promotionnelle), mastbrothers, cafececilia, heartroasters, origincoffee, kbcoffeeroasters,
+seycoffee, prologcoffee, aprilcoffeeroasters, noblerot, trudon, fornasetti, dandelionchocolate, rococochocolates, patrickroger,
+maisonverot, quatrehomme, chambelland, kodawari-ramen, sabor, mikkeller, baolondon (blancs neutres sans caractère propre ou
+boutiques chargées), lecomptoirgeneral et krug (fenêtre bloquante, contrôle d'âge), gymkhanalondon (429 au relevé, à reprendre :
+vert bouteille, crème, bordeaux), lacabra (crème sous 0,012) ; une vingtaine d'autres injoignables depuis le réseau (502,
+tunnel refusé). Les 23 atomes de la collecte du 25 oct qui cassaient `tests/atomes.test.mjs` (photos.traitement « à juger »
+sous un atome photos posé, mesures hors bornes) sont repassés en « à juger » ; les fiches frama et pierrehermeparis, effacées
+par erreur le 25 oct, sont restaurées.

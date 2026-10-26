@@ -185,6 +185,20 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['un trait fin (SVG, 1 px, couleur d\'accent) part du bouton du premier écran et serpente jusqu\'au lieu du client dans la section suivante (carte dessinée, adresse) ; sur la source il est fixe, il se lit au défilement ; en mouvement réduit il reste fixe'],
     manque: 'le tracé SVG du fil et la carte ou le plan d\'arrivée (bloc sur mesure), jamais un tracé calé image par image sur iPhone', exige: {},
   },
+  'nom-en-lettres-geantes': {
+    nom: 'Nom en lettres géantes', sources: ['lune'],
+    entree: 'aucune', apparition: 'parallaxe-lettre', survol: 'couleur', fond: 'aucun',
+    regime: 'vivant', defilement: 'suit-le-defilement', calme: false, poids: 'leger', motion: 'rich',
+    attributs: ['une lettre du nom du client par section (L, U, N, E chez Lune), capitale géante au trait fin (SVG ou texte en -webkit-text-stroke, couleur de bordure) posée derrière les photos, avec data-parallax="0.12" (translation simple, jamais de calage image par image) ; immobile en mouvement réduit'],
+    manque: 'la lettre de fond par section (règle de la direction ou bloc sur mesure) : le nom doit avoir au moins autant de lettres que la page a de sections, sinon une lettre par grande section', exige: {},
+  },
+  'fond-qui-change-de-teinte': {
+    nom: 'Fond qui change de teinte', sources: ['attica'],
+    entree: 'aucune', apparition: 'teinte-du-fond', survol: 'souligne', fond: 'teinte-par-section',
+    regime: 'vivant', defilement: 'suit-le-defilement', calme: false, poids: 'nul', motion: 'rich',
+    attributs: ['chaque section annonce sa teinte (data-teinte="#7fb89b", couleur prise dans la palette ou dans la photo de la section) ; quand elle passe au milieu de l\'écran, la couleur de fond du document glisse vers cette teinte en 1 s cubic-bezier(.25,1,.5,1) (IntersectionObserver, transition sur background-color, jamais calée image par image) ; en mouvement réduit, changement immédiat'],
+    manque: 'le déclencheur data-teinte (petit script de section ou de direction) et la règle de contraste : le texte de chaque section doit tenir sur sa teinte (4,5) ; jamais plus de 4 teintes ni un aplat vif (garde de beauté)', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

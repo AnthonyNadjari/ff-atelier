@@ -1,0 +1,134 @@
+{
+  "id": "lune",
+  "version": 1,
+  "source": {
+    "url": "https://www.lunecroissanterie.com/",
+    "nom": "Lune",
+    "metier": "croissanterie (Melbourne, plusieurs boutiques)",
+    "fiche": "docs/veille/styles/lune.md",
+    "mesures": "docs/veille/styles/atomes/mesures/lune.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "DIN Next LT W01 Bold",
+      "libre": "chivo",
+      "graisse": 400,
+      "interlignage": 0.65,
+      "casse": "none",
+      "interlettrage": -0.05,
+      "italique": false
+    },
+    "texte": {
+      "famille": "DIN Next LT W01 Regular",
+      "libre": "publicSans",
+      "graisse": 400,
+      "interlignage": 1.93
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 64,
+        "ordinateur": 115.2
+      },
+      "h2": "à juger",
+      "texte": {
+        "telephone": 12,
+        "ordinateur": 14
+      }
+    },
+    "remarque": "DIN Next Bold et Regular (grotesque industrielle, payante) : Chivo pour les titres (grotesque robuste, serrée en gras) et Public Sans pour le texte, la plus proche de DIN en lecture ; titres très gras serrés, texte petit et espacé."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "releve": {
+      "fond": "#000000",
+      "texte": "#ffffff",
+      "fonds": [
+        {
+          "hex": "#000000",
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "part": 0.996
+        },
+        {
+          "hex": "#222222",
+          "part": 0.004
+        }
+      ],
+      "proches": 16777215
+    },
+    "clair": null,
+    "sombre": {
+      "fond": "#000000",
+      "surface": "#111111",
+      "texte": "#ffffff",
+      "texte2": "#9b9b9b",
+      "accent": "#ffffff",
+      "accent2": "à juger",
+      "bordure": "#333333",
+      "encre": "#000000"
+    },
+    "remarque": "Noir pur #000000 partout (100 % des fonds mesurés), texte blanc ; la seule couleur vient des viennoiseries photographiées sur noir. Gris #9b9b9b et #333333 relevés à l'œil sur les paragraphes et les lettres au trait (à re-mesurer)."
+  },
+  "densite": {
+    "section": "à juger",
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 254
+    },
+    "conteneur": "à juger",
+    "mesure": 47,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "aucun"
+  },
+  "photos": {
+    "traitement": "detoure",
+    "rapports": [
+      "1:1",
+      "4:5",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Croissants et feuilletés photographiés sur fond noir, sans bord, posés en biais à droite ; mains au travail en vignettes décalées qui se chevauchent ; une lettre géante du nom au trait passe derrière."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    },
+    "scene": {
+      "duree": 1.6,
+      "courbe": "cubic-bezier(0.215, 0.61, 0.355, 1)"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [],
+    "profil": "nom-en-lettres-geantes",
+    "remarque": "Mesuré le 26 oct à la molette : chaque section porte une lettre du nom (L, U, N, E) en capitale géante au trait fin (SVG), décalée en translateY d'environ 0,125 px par px défilé, donc plus lente que la page ; transitions du site 0,4 s cubic-bezier(.25,.46,.45,.94) et 1,6 s cubic-bezier(.215,.61,.355,1) relevées dans le CSS (aucune entrée visible au chargement)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier"
+}

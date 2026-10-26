@@ -5,9 +5,8 @@ fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou 
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
 <!-- ff melanger : besoins de collecte (bloc réécrit à chaque tirage, ne pas éditer) -->
-**Besoins de collecte** (relevés par `ff melanger` le 2026-10-25 ; volet 2a quater de `/veille`) :
-- la collecte doit ramener des palettes clair teinté doux (10 tirables sur 129, 17 au moins)
-- la collecte doit ramener des palettes sombre (16 tirables sur 129, 17 au moins)
+**Besoins de collecte** (relevés par `ff melanger` le 2026-10-26 ; volet 2a quater de `/veille`) :
+- la collecte doit ramener des palettes clair teinté doux (10 tirables sur 137, 18 au moins)
 <!-- /ff melanger -->
 
 ## 25 oct 2026, tour 7 (routine en ligne) : 10 styles, 2 architectures

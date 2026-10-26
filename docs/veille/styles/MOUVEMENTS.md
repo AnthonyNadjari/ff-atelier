@@ -257,6 +257,33 @@ c'est le défilement qui le fait suivre.
 - Quand : un client dont le lieu compte (ferme, domaine, distillerie, gîte, producteur) et qui a une carte ou un plan à
   montrer. Calme : oui. Poids : nul.
 
+### `nom-en-lettres-geantes`
+Lune (`lune.md`, [lunecroissanterie.com](https://www.lunecroissanterie.com/), veille du 26 oct 2026, mesuré à la molette à
+l'ordinateur, position des SVG relevée à 8 hauteurs de défilement) : tout est noir, les viennoiseries sont photographiées sur
+noir ; chaque section porte derrière ses photos une lettre du nom (L, U, N, E) en capitale géante dessinée au trait fin. La
+lettre glisse en `translateY` d'environ 0,125 px par px défilé : plus lente que la page, elle donne la profondeur sans rien
+qui bouge tout seul.
+- Entrée aucune · apparition parallaxe d'une lettre · survol couleur · fond aucun.
+- Moteur : `data-parallax="0.12"` sur la lettre (translation simple, tient sur iPhone) ; lettre en SVG ou en texte
+  `-webkit-text-stroke` couleur de bordure. Manque : la lettre de fond par section (règle de direction ou bloc sur mesure).
+- Quand : un nom court (3 à 6 lettres) et un produit photographié sur fond uni (boulangerie, chocolatier, glacier,
+  torréfacteur) ; sur fond sombre de préférence. Jamais sur un métier réglementé. Calme : non. Poids : léger.
+
+### `fond-qui-change-de-teinte`
+Attica (`attica.md`, [attica.com.au](https://www.attica.com.au/), veille du 26 oct 2026, couleur de fond du document relevée à
+14 hauteurs de défilement) : la page est noire au repos ; quand une assiette arrive, tout le fond prend la teinte de cette
+assiette (vert d'eau #7fb89b, rose très pâle #fff4f4, ardoise #3b4043, olive nuit #272b12 au pied) par une transition de
+`background-color` de 1 s `cubic-bezier(.25,1,.5,1)` sur l'élément `html`. Les photos ne bougent pas : c'est la lumière
+de la salle qui change.
+- Entrée aucune · apparition teinte du fond · survol soulignement · fond teinte par section.
+- Moteur : `data-teinte` par section + IntersectionObserver qui pose la teinte sur le document ; transition CSS en temps
+  (pas de calage sur `--p`, tient sur iPhone). Manque : le déclencheur (script court de direction) et le contrôle de
+  contraste du texte sur chaque teinte.
+- Quand : un client aux produits très colorés et bien photographiés (restaurant, pâtissier, fleuriste, glacier) ; teintes
+  prises dans la palette ou les photos, jamais vives (garde de beauté). Pas pour un client « calme » (aiguillage).
+  Distinct de la bascule de thème noir → blanc refusée (GOUT § 3) : ici le noir revient entre deux teintes, rien ne
+  s'inverse. Calme : non. Poids : nul.
+
 ## Complément transversal : transitions de page
 
 Estudio Niksen (`view-transition` natives), Délice (Swup), Relais Rossàr (Barba). Pas un profil : il se combine avec

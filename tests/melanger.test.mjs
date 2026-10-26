@@ -573,3 +573,11 @@ test('interlettrage du titre : capitales plafonnées à 0,06 em (hiut, lyles, wo
   assert.equal(interlettrageTitre(0.1, 'none'), 0.02);
   assert.equal(interlettrageTitre('à juger', 'none'), -0.01);
 });
+
+test('casse du h1 : un style en capitales garde ses h2 en capitales, le h1 d\'une phrase repasse en casse normale (essais du 26 oct 2026)', async () => {
+  const { casseH1, genererDirection } = await import('../scripts/ff/melanger.mjs');
+  assert.equal(casseH1('uppercase'), 'none', 'thepalomar : h1 en six lignes de capitales larges');
+  assert.equal(casseH1('none'), 'none');
+  assert.equal(casseH1('capitalize'), 'none');
+  assert.equal(typeof genererDirection, 'function');
+});

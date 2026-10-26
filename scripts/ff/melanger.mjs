@@ -286,6 +286,18 @@ export function casseTitre(casse) {
 }
 
 /**
+ * Pure : casse du h1 d'un mélange. Règle apprise (essais du 26 oct 2026, `ff melanger demo-boulangerie --style <id> --essai`,
+ * styles thepalomar m-d5bbb3, cafedeflore m-92c906, bobbobricard m-317021, lesdeuxmagots m-a76889) : les capitales mesurées
+ * sur ces sites habillent des titres de un à trois mots (« RESERVATIONS & WALK-INS », « LES DEUX MAGOTS ») ; posées sur le
+ * h1 français d'une phrase (métier, ville, GOUT § 0), elles le cassaient en quatre à six lignes à l'ordinateur (plafond :
+ * deux ou trois, GOUT § 8) même avec l'interlettrage resserré. Le h1 repasse en casse normale ; les h2 et h3, étiquettes
+ * courtes, gardent les capitales du style.
+ */
+export function casseH1(casse) {
+  return casse === 'uppercase' ? 'none' : casseTitre(casse);
+}
+
+/**
  * Pure : interlettrage du titre d'un mélange (em). Règle apprise (essais du 24 oct 2026, styles hiut, lyles et wolseley,
  * mélanges m-b9c2ba, m-a6a142, m-c479f2) : des capitales espacées à 0,10-0,15 em, mesurées sur des titres de deux ou
  * trois mots (un nom de produit, « RESTAURANTS »), appliquées à un h1 français d'une phrase (métier, ville, GOUT § 0),
@@ -729,6 +741,7 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
   L.push('}', '');
   L.push(`${sel} body { font-size: ${clampFluide(corps.telephone, corps.ordinateur)}; line-height: ${lhTexte}; }`);
   L.push(`${sel} :is(h1, .text-display-xl, .text-display-lg) { line-height: ${lhTitre}; }`);
+  if (casseH1(casse) !== casse) L.push(`${sel} :is(h1, .text-display-xl) { text-transform: ${casseH1(casse)}; letter-spacing: ${r1(interlettrageTitre(t.titre.interlettrage, casseH1(casse)))}em; }`);
   L.push(`${sel} :is(h2, .text-display-md) { line-height: ${r1(Math.max(lhTitre, casse === 'uppercase' ? 0.9 : 1.02))}; }`);
   L.push(`${sel} ::selection { background: var(--fill); color: var(--on-fill); }`);
   // Règle apprise (essai, m-394c01) : l'emphase des titres en accent ASSOMBRI pour l'AA (or #e3af04 → #745902) donnait

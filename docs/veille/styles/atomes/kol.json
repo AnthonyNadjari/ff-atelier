@@ -1,0 +1,175 @@
+{
+  "id": "kol",
+  "version": 1,
+  "source": {
+    "url": "https://kolrestaurant.com/",
+    "nom": "KOL",
+    "metier": "restaurant mexicain aux produits britanniques (Londres)",
+    "fiche": "docs/veille/styles/kol.md",
+    "mesures": "docs/veille/styles/atomes/mesures/kol.json",
+    "date": "2026-10-26"
+  },
+  "typo": {
+    "titre": {
+      "famille": "KOL Display",
+      "libre": "gelasio",
+      "graisse": 400,
+      "interlignage": 1.5,
+      "casse": "none",
+      "interlettrage": 0.02,
+      "italique": false
+    },
+    "texte": {
+      "famille": "clearface",
+      "libre": "gelasio",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 23.4,
+        "ordinateur": 28
+      },
+      "h2": {
+        "telephone": 16,
+        "ordinateur": 24
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "KOL Display (serif de titrage maison) et Clearface (serif ancienne à empattements doux) : Gelasio, serif libre chaude la plus proche, une seule famille ; titres en capitales espacées petites (boutons, intertitres), nom du restaurant seul en grand."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#e3dec2",
+      "texte": "#655f52",
+      "fonds": [
+        {
+          "hex": "#99481e",
+          "part": 0.44
+        },
+        {
+          "hex": "#e4dfc4",
+          "part": 0.22
+        },
+        {
+          "hex": "#ddd5b5",
+          "part": 0.214
+        },
+        {
+          "hex": "#e3dec2",
+          "part": 0.11
+        },
+        {
+          "hex": "#000000",
+          "part": 0.012
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#655f52",
+          "part": 0.886
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.08
+        },
+        {
+          "hex": "#e3dec2",
+          "part": 0.015
+        },
+        {
+          "hex": "#000000",
+          "part": 0.01
+        },
+        {
+          "hex": "#222222",
+          "part": 0.009
+        }
+      ],
+      "proches": 8290160
+    },
+    "clair": {
+      "fond": "#e4dfc4",
+      "surface": "#ddd5b5",
+      "texte": "#222222",
+      "texte2": "#655f52",
+      "accent": "#2c4d57",
+      "accent2": "#99481e",
+      "bordure": "#655f52",
+      "encre": "#4f302e"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #99481e (44 %), #e4dfc4 (22 %), #ddd5b5 (21 %), #000000 (1 %), #ffffff (0 %), #2c4d57 (0 %)",
+    "remarque": "Kaki pâle #e4dfc4 et #ddd5b5 (chroma 0,036 à 0,044) sur toute la page, texte brun-gris #655f52, bouton Réserver bleu canard #2c4d57, terre cuite #99481e et brun #4f302e en plages derrière les photos."
+  },
+  "densite": {
+    "section": {
+      "telephone": 71,
+      "ordinateur": 56
+    },
+    "gouttiere": {
+      "telephone": 30,
+      "ordinateur": 20
+    },
+    "conteneur": 1360,
+    "mesure": 68,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 5,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "douce",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "4:3",
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Plat vu de près en plein cadre au premier écran, nom au centre et un filet vertical qui descend ; ensuite photos de salle et de plats posées dans des cadres à ombre douce, en quinconce avec des blocs de texte centrés."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Regardé à la molette : les photos apparaissent en fondu quand elles entrent (cadres vides avant), 0,4 et 0,6 s ease ; rien d'autre ne bouge."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}
