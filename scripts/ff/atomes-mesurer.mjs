@@ -199,6 +199,8 @@ function releverDansLaPage() {
 
 /** Pure : arrondit un nombre (px) à l'entier, null si absent. */
 const ent = (x) => (Number.isFinite(x) ? Math.round(x) : null);
+/** Une mesure { telephone, ordinateur } entière, ou « à juger » si l'une des deux manque (le validateur refuse un null). */
+const paire = (telephone, ordinateur) => (telephone == null || ordinateur == null ? A_JUGER : { telephone, ordinateur });
 
 /** Pure : durée CSS (« 0.3s » / « 300ms ») -> secondes. */
 export function enSecondes(v) {
@@ -231,7 +233,7 @@ export function brouillonDepuisReleve({ id, url, nom, fiche = null, date, d, m }
     id, version: 1,
     source: { url, nom, metier: A_JUGER, fiche, mesures: `docs/veille/styles/atomes/mesures/${id}.json`, date },
     typo: {
-      titre: { ...role(h1), casse: h1?.casse ?? A_JUGER, interlettrage: h1?.interlettrage ?? A_JUGER, italique: h1?.italique ?? false },
+      titre: { ...role(h1), casse: h1?.casse ?? A_JUGER, interlettrage: Math.abs(h1?.interlettrage) < 0.3 ? h1.interlettrage : A_JUGER, italique: h1?.italique ?? false },
       texte: role(d?.typo?.texte),
       mono: d?.typo?.elementsMono > 5 ? { famille: A_JUGER, libre: A_JUGER } : null,
       echelle: { h1: echelle('h1'), h2: echelle('h2'), texte: echelle('texte') },
@@ -243,8 +245,8 @@ export function brouillonDepuisReleve({ id, url, nom, fiche = null, date, d, m }
       _aide: autresFonds.length ? `autres fonds mesurés : ${autresFonds.map((x) => `${x.hex} (${Math.round(x.part * 100)} %)`).join(', ')}` : undefined,
     },
     densite: {
-      section: { telephone: ent(m?.densite?.marges?.mediane), ordinateur: ent(d?.densite?.marges?.mediane) },
-      gouttiere: { telephone: ent(m?.densite?.gouttiereBord), ordinateur: ent(d?.densite?.ecartColonnes ?? d?.densite?.gouttiereBord) },
+      section: paire(ent(m?.densite?.marges?.mediane), ent(d?.densite?.marges?.mediane)),
+      gouttiere: paire(ent(m?.densite?.gouttiereBord), ent(d?.densite?.ecartColonnes ?? d?.densite?.gouttiereBord)),
       conteneur: ent(d?.densite?.conteneur) ?? A_JUGER,
       mesure: ent(d?.densite?.mesure) ?? A_JUGER,
       rythme: fondsSections.size >= 2 ? 'alterne' : 'uni',

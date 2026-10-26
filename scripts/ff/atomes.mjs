@@ -215,7 +215,7 @@ export function validerAtomes(atomes, opts = {}) {
   }
   const p = atomes.photos;
   if (!estAJuger(p)) {
-    champ(e, TRAITEMENTS_PHOTO.includes(p.traitement), `photos.traitement : ${TRAITEMENTS_PHOTO.join(' | ')}`);
+    if (!estAJuger(p.traitement)) champ(e, TRAITEMENTS_PHOTO.includes(p.traitement), `photos.traitement : ${TRAITEMENTS_PHOTO.join(' | ')}`);
     if (!estAJuger(p.superposition)) champ(e, SUPERPOSITIONS.includes(p.superposition), `photos.superposition : ${SUPERPOSITIONS.join(' | ')}`);
   }
   const m = atomes.mouvement;
