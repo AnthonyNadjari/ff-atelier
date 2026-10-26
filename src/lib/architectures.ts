@@ -59,10 +59,13 @@ export interface LayoutArchi {
  *                      src/lib/ardoise.ts, entreesDistinctes) ;
  *  - etapes          : étapes de tournée complètes (tournee[] avec jour, commune et heures ; src/lib/tournee.ts) ;
  *  - artistes        : artistes avec une photo et au moins un style (artistes[] ; src/lib/artistes.ts, artistesComplets) ;
- *  - fetes           : fêtes datées avec au moins une ligne (fetes[] ; src/lib/fetes.ts, fetesCompletes).
+ *  - fetes           : fêtes datées avec au moins une ligne (fetes[] ; src/lib/fetes.ts, fetesCompletes) ;
+ *  - calendrier      : un calendrier qui dit quelque chose (disponibilites.occupe non vide, ou disponibilites.ics) ;
+ *                      rien n'est lu sur le réseau ici : l'iCal est lu au build (src/lib/ics-build.ts) ;
+ *  - parcours        : barreaux du parcours qui ont au moins une formule (parcours[] ; src/lib/parcours.ts, barreauxComplets).
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -99,6 +102,8 @@ export const ARCHITECTURE_IDS = [
   'tournee-semaine',
   'artistes-residents',
   'calendrier-fetes',
+  'outil-calendrier',
+  'parcours-atelier',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -582,6 +587,56 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Commerce dont l'année tourne autour des fêtes et qui prend des commandes avant une date : fleuriste (Toussaint, Saint-Valentin, fête des mères), chocolatier (Pâques, Noël), pâtissier (galettes, bûches), boucher-traiteur et poissonnier (fêtes de fin d'année), caviste, primeur ; mieux avec une livraison. Pas pour une offre sans temps forts (lieu-fixe), ni une offre qui change chaque jour (ardoise-du-jour), ni l'urgence.",
   },
+  'outil-calendrier': {
+    id: 'outil-calendrier',
+    modele:
+      "Un site court dont l'accueil mène à un outil : en tête le h1, le métier à la ville, la capacité, le téléphone, la note et la porte « Voir les dates libres » ; la photo du lieu en grand ; les hôtes et leur histoire ; les avis ; puis l'outil, le calendrier des nuits libres et prises (lu au build dans la liste du client ou son iCal, lisible sans script) avec la sélection, les tarifs et la demande de dates par le formulaire existant, sans paiement ; les logements en pages ; le bouton Réserver de la nav saute à l'outil.",
+    sources: [{ fiche: 'docs/veille/architectures/coquelicots.md', site: 'coquelicots.nl' }],
+    layout: {
+      // Coquille `calendrier` (src/shells/calendrier.astro, src/components/Disponibilites.astro).
+      shell: 'calendrier',
+      nav: 'bar',
+      hero: 'fullbleed',
+      footer: 'columns',
+      // Les avis notés de la source viennent avant l'outil (« Ce qu'en ont pensé nos visiteurs »).
+      sections: [{ type: 'proof', variant: 'testimonials' }],
+      contactDrawer: false,
+      actionBar: false,
+    },
+    requis: [
+      { mesure: 'calendrier', min: 1, libelle: 'un calendrier : des périodes déjà réservées (disponibilites.occupe) ou l’adresse iCal du client (disponibilites.ics)' },
+      { mesure: 'services', min: 1, max: 4, libelle: '1 à 4 logements ou offres (services[] : la maison, la chambre, la salle), une page chacun' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on choisit des dates, on ne dépanne pas" },
+    ],
+    convientA:
+      "Qui vend des nuits, des jours ou des créneaux longs et tient un calendrier : gîte, chambre d'hôtes, cabane, salle de réception, location de matériel à la journée, atelier ou stage à dates fixes ; mieux avec l'iCal d'Airbnb, Booking ou Gîtes de France, des tarifs et une photo du lieu. Pas pour un commerce à horaires simples (lieu-fixe), ni un artisan qui se déplace, ni l'urgence.",
+  },
+  'parcours-atelier': {
+    id: 'parcours-atelier',
+    modele:
+      "Le site est une échelle, du premier essai à la pratique libre : en tête le h1, le métier à la ville, l'ancienneté, le téléphone et la note ; puis « Où en êtes-vous ? » en onglets, un barreau par niveau (sans script, l'échelle entière) qui dit ses formules et leurs prix, ce qui est compris ou non, comment ça se passe, les prochaines dates, les avis de ceux qui y sont passés et le barreau suivant ; les autres avis ; l'atelier (adresse, horaires du jour, téléphone) ; une page par barreau, que la nav nomme.",
+    sources: [{ fiche: 'docs/veille/architectures/parcours-atelier.md', site: 'turningearth.uk' }],
+    layout: {
+      // Coquille `parcours` (src/shells/parcours.astro).
+      shell: 'parcours',
+      nav: 'bar',
+      hero: 'fullbleed',
+      // Pied court : la nav nomme déjà chaque barreau et l'adresse de l'atelier est juste au-dessus (id="contact").
+      footer: 'minimal',
+      // Les avis sont rendus par la coquille : sous leur barreau (proof.testimonials[].barreau, « What our students say »
+      // sur la page des cours de la source, « What our members say » sur celle de l'adhésion), les autres après l'échelle.
+      sections: [],
+      contactDrawer: true,
+      actionBar: false,
+    },
+    requis: [
+      { mesure: 'parcours', min: 2, libelle: '2 barreaux au moins avec leurs formules (parcours[] : niveau, titre, formules), une page chacun' },
+      { mesure: 'rue', min: 1, libelle: "une adresse où l'on vient (contact.address.street) : l'atelier" },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on vient apprendre" },
+    ],
+    convientA:
+      "Atelier qui transmet son métier par étapes et qu'on peut ensuite fréquenter librement : céramiste ou atelier de poterie (cours, stages, adhésion), école de cuisine ou de pâtisserie, atelier de couture, menuiserie ou bois partagée, caviste qui forme (dégustation, cours, club), école de musique ; 2 à 4 barreaux avec des formules et des prix. Pas pour un artisan qui vend ses pièces sans enseigner (index-projets, gamme-vitrine), ni des rendez-vous ponctuels sans suite (cartes-empilees-agenda), ni l'urgence.",
+  },
 };
 
 
@@ -629,6 +684,8 @@ export interface SiteArchi {
   tournee?: { jour?: string; commune?: string; hours?: string }[];
   artistes?: { photo?: unknown; photos?: unknown[]; styles?: string[] }[];
   fetes?: { du?: string; au?: string; lignes?: unknown[]; photo?: unknown }[];
+  disponibilites?: { occupe?: unknown[]; ics?: string };
+  parcours?: { formules?: unknown[]; photo?: unknown }[];
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -666,6 +723,7 @@ export function photosDuClient(s: SiteArchi): number {
     (s.sorties ?? []).filter((x) => x.photo).length +
     (s.artistes ?? []).reduce((n, a) => n + (a.photo ? 1 : 0) + (a.photos?.length ?? 0), 0) +
     (s.fetes ?? []).filter((x) => x.photo).length +
+    (s.parcours ?? []).filter((x) => x.photo).length +
     (s.realisations ?? []).reduce((n, r) => n + (r.photos?.length ?? 0), 0)
   );
 }
@@ -733,6 +791,10 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
         n = (s.fetes ?? []).filter((f) => iso.test(f.du ?? '') && iso.test(f.au ?? '') && (f.du ?? '') <= (f.au ?? '') && (f.lignes ?? []).length > 0).length;
         break;
       }
+      // Même règle que lienDisponibilites (src/lib/sejour.ts), recopiée.
+      case 'calendrier': n = s.disponibilites && ((s.disponibilites.occupe ?? []).length > 0 || s.disponibilites.ics) ? 1 : 0; break;
+      // Même compte que barreauxComplets (src/lib/parcours.ts), recopié.
+      case 'parcours': n = (s.parcours ?? []).filter((b) => (b.formules ?? []).length > 0).length; break;
       case 'pasUrgence': if (s.contact?.emergency24h) out.push(e.libelle); continue;
     }
     if (compte(n, e)) out.push(`${e.libelle} (${n} aujourd’hui)`);

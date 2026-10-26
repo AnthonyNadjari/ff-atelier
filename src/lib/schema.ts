@@ -73,6 +73,8 @@ export const SHELLS = [
   'tournee', // l accueil dit ou est le camion : l etape du moment (commune, repere, heures, telephone du vehicule) en tete, puis la semaine ; une page par commune (architecture tournee-semaine)
   'artistes', // l accueil est le mur des artistes du salon : en tete h1, telephone, note ; un grand portrait par artiste, filtre par style sans script ; une page par artiste (architecture artistes-residents)
   'fetes', // l accueil suit le calendrier des fetes : en tete h1, telephone, note ; la fete du moment (choisie dans le navigateur, date limite de commande), les occasions, la livraison ; une page par fete (architecture calendrier-fetes)
+  'calendrier', // l accueil mene a l outil : en tete h1, telephone, note, photo ; les hotes, les avis, puis le calendrier des nuits libres lu au build (liste ou iCal) et la demande de dates (architecture outil-calendrier)
+  'parcours', // l accueil est une echelle : en tete h1, telephone, note ; « ou en etes-vous ? » en onglets, un barreau par niveau (formules, compris, deroule, la suite) ; une page par barreau (architecture parcours-atelier)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -397,6 +399,7 @@ export const siteSchema = z.object({
             source: z.string().describe('Google, Pages Jaunes, e-mail... obligatoire : un avis a une origine'),
             date: z.string().optional(),
             city: z.string().optional(),
+            barreau: z.string().optional().describe("Slug du barreau du parcours (parcours[]) dont parle l'avis, si le client le sait (« après l'initiation », « adhérente depuis trois ans ») : l'avis est montré sous ce barreau (architecture parcours-atelier). Absent = avis général."),
           }),
         )
         .default([]),
@@ -664,6 +667,53 @@ export const siteSchema = z.object({
     .optional()
     .describe("Livraison du client (architecture calendrier-fetes ; source Touchard Fleurs : « livraison en 4 h dans 130 communes », commande avant 13 h pour le jour meme) : bloc de l'accueil et des pages de fete. Absent = rien n’est dit sur la livraison, jamais devine."),
 
+  parcours: z
+    .array(
+      z.object({
+        slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /parcours/<slug> (« decouvrir », « cours-du-soir », « atelier-libre »)'),
+        niveau: z.string().describe('Le barreau dit par le visiteur, dans les mots du client (« Je découvre », « J’apprends », « Je pratique seul ») : libellé de l’onglet'),
+        titre: z.string().describe('Nom de la formule ou du groupe de formules (« Initiation au tour », « Cours de huit semaines », « Adhésion à l’atelier »)'),
+        phrase: z.string().optional().describe('Une ou deux phrases du client sur ce barreau. Absente = non affichée.'),
+        pour: z.string().optional().describe('À qui il s’adresse, dans les mots du client (« Sans jamais avoir touché la terre », « Après un cours complet »). Absent = non affiché.'),
+        formules: z.array(ligneCarte).default([]).describe('Les formules de ce barreau avec leur prix si le client le donne (« Atelier de trois heures », « 65 € »). Vide = barreau sans formule (il ne compte pas).'),
+        compris: z.array(z.string()).default([]).describe('Ce qui est compris (« La terre et deux cuissons », « Le tablier »). Vide = non affiché.'),
+        nonCompris: z.array(z.string()).default([]).describe('Ce qui ne l’est pas, dit franchement (« Les cuissons supplémentaires »). Vide = non affiché.'),
+        deroule: z.array(z.string()).default([]).describe('Comment ça se passe, dans l’ordre (« On réserve sa séance », « On vient avec des vêtements qui ne craignent rien »). Vide = non affiché.'),
+        dates: z.array(z.string()).default([]).describe('Prochaines dates ou rythme tels que le client les donne (« Mardis de 19 h à 21 h », « Session du 6 janvier »). Vide = non affichées.'),
+        questions: z.array(z.object({ q: z.string(), a: z.string() })).default([]).describe('Questions propres à ce barreau (sa page). Vide = pas de bloc.'),
+        photo: img.optional().describe('Photo du client pour ce barreau (les mains dans la terre, l’atelier). Absente = barreau sans photo, jamais une photo de banque.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Le parcours du client, du premier essai a la pratique libre (architecture parcours-atelier, docs/veille/architectures/parcours-atelier.md, source Turning Earth : cours puis adhesion a l'atelier) : poterie, cuisine, couture, menuiserie partagee, oenologie, musique. L'accueil demande « Où en êtes-vous ? » : un onglet par barreau (sans script, l'echelle entiere), chaque barreau dit ses formules, ce qui est compris ou non, le deroule, les dates, et le barreau suivant ; une page par barreau (/parcours/<slug>) ; la nav nomme les barreaux. Vide = ni echelle, ni page. Jamais une formule, un prix ou une date inventes.",
+    ),
+
+  disponibilites: z
+    .object({
+      occupe: z
+        .array(
+          z.object({
+            du: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('Arrivee AAAA-MM-JJ : premiere nuit prise'),
+            au: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('Depart AAAA-MM-JJ (exclu) : ce jour-la est libre pour une arrivee'),
+            libelle: z.string().optional().describe('Pour le studio seulement (« Fermeture annuelle », « Famille D. ») : jamais affiche sur le site.'),
+          }),
+        )
+        .default([])
+        .describe("Periodes deja reservees ou fermees, telles que le client les donne (nuits du `du` a la veille du `au`). Les periodes passees tombent au build. Vide et sans iCal = aucun calendrier affiche (jamais « tout est libre » par defaut)."),
+      ics: z.string().url().optional().describe("Adresse d'export iCal du client (Airbnb, Booking, Gites de France, Abritel, agenda partage), https seulement, lue AU BUILD (src/lib/ics-build.ts, 8 s au plus) et ajoutee aux periodes listees ; illisible = calendrier non affiche et avertissement au build. Reconstruire le site pour rafraichir."),
+      mois: z.number().int().min(2).max(18).default(12).describe('Nombre de mois montres sur la page /disponibilites (l’accueil en montre deux).'),
+      nuitsMin: z.number().int().min(1).optional().describe('Nombre minimal de nuits donne par le client (« 2 nuits minimum », « la semaine en juillet-août » = 7). Absent = rien n’est dit.'),
+      arrivee: z.string().optional().describe('Heure ou jour d’arrivee dans les mots du client (« à partir de 16 h », « le samedi en été »). Absent = non affiche.'),
+      depart: z.string().optional().describe('Heure ou jour de depart dans les mots du client (« avant 10 h »). Absent = non affiche.'),
+      capacite: z.string().optional().describe('Capacite dans les mots du client (« 8 personnes, 4 chambres »). Absente = non affichee.'),
+      tarifs: z.array(ligneCarte).default([]).describe('Tarifs donnes par le client (« Juillet-août, la semaine », « 1 450 € »). Vide = pas de tarifs affiches, jamais devines.'),
+    })
+    .optional()
+    .describe(
+      "Calendrier des disponibilites d'un hebergement ou d'une salle (architecture outil-calendrier, docs/veille/architectures/coquelicots.md : gite, chambre d'hotes, salle de reception, location) : les nuits libres et prises, lues AU BUILD dans la liste `occupe` et l'iCal du client, rendues sans script (un tableau par mois) ; dans le navigateur, le choix de l'arrivee et du depart remplit la demande (formulaire existant, aucun paiement). Accueil (#disponibilites), page /disponibilites, porte « Réserver » vers l'outil. Absent = ni outil, ni page. Jamais une disponibilite inventee.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -718,6 +768,8 @@ export const siteSchema = z.object({
       tournee: z.string().default('Où nous trouver').describe('Libellé du lien de nav et titre de la page /tournee (site.tournee) : « Où nous trouver », « La tournée », « Nos marchés »'),
       artistes: z.string().default('Les artistes').describe('Libellé du lien de nav et titre de la page /artistes (site.artistes) : « Les artistes », « L’équipe », « Les tatoueurs »'),
       fetes: z.string().default('Les fêtes').describe('Libellé du lien de nav et titre de la page /fetes (site.fetes) : « Les fêtes », « Le calendrier », « Les temps forts »'),
+      disponibilites: z.string().default('Les dates libres').describe('Libellé du lien de nav et titre de l’outil et de la page /disponibilites (site.disponibilites) : « Les dates libres », « Disponibilités »'),
+      parcours: z.string().default('Où en êtes-vous ?').describe('Question posée au-dessus des onglets du parcours (site.parcours) : « Où en êtes-vous ? », « Votre niveau »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),
       pros: z.string().default('Professionnels').describe('Libellé du lien de nav vers /professionnels (site.pros) : « Professionnels », « Vente aux pros »'),

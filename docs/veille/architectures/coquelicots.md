@@ -74,3 +74,24 @@ Tout client qui **vend des créneaux ou des nuits** et a un calendrier : gîte, 
 - Petites étiquettes jaunes au-dessus des titres (« Familie Noteboom », « Onze reviews ») : c'est l'eyebrow.
 - Police de secours « IA » chargée (Cormorant Garamond, Poppins) même si peu utilisée.
 - Formes organiques sur **toutes** les photos : en garder une (le portrait des propriétaires), pas toutes.
+
+## Codée dans l'usine (26 oct 2026)
+
+`layout: { architecture: 'outil-calendrier' }` (`src/lib/architectures.ts`, coquille `calendrier`). Fait : le champ
+`disponibilites` (au lieu de `contact.calendarIcs` prévu plus haut : les périodes occupées listées par le client
+`occupe[]`, l'adresse iCal `ics` lue AU BUILD par `src/lib/ics-build.ts` (https, 8 s, 2 Mo, illisible = pas de
+calendrier, jamais « tout est libre »), `mois`, `nuitsMin`, `arrivee`, `depart`, `capacite`, `tarifs`) ; le module pur
+`src/lib/sejour.ts` (nuits prises, séjour libre, mois du lundi au dimanche, lecture d'iCal) ; l'outil
+`src/components/Disponibilites.astro` (un tableau par mois lisible sans script, nuit prise barrée et dite ; dans le
+navigateur on touche l'arrivée puis le départ, la sélection se dit en mots, le séjour minimum est rappelé, et les champs
+Arrivée et Départ de la demande se remplissent : formulaire existant, `ContactForm sejour`, aucun paiement) ; la page
+`/disponibilites` (12 mois) ; la porte Réserver de la nav qui saute à l'outil sans `contact.bookingUrl`
+(`src/lib/actions.ts`) ; « les deux semaines qui viennent » en bande dès le premier écran (au-dessus du h1 au téléphone).
+Restent : la note sur 10 et la date du séjour dans les avis, le choix du logement dans le calendrier quand il y en a
+plusieurs (un calendrier par logement), les formes organiques (une seule : le portrait des hôtes en arche).
+
+Preuve : site jetable (gîte de démonstration, deux logements, quatre périodes occupées, copie de `_exemple` sans photo,
+supprimé), `ff verifier` vert hors données de test (`ff a11y`, `ff typo`, `ff ia` compris), clic réel vérifié (arrivée,
+départ, nuit prise refusée, champs remplis), `ff ressemblance` contre tous les sites du registre : 0,49 au premier écran
+téléphone (veto-du-drac), 0,59 ordinateur (cantine-roulante), 0,55 au déroulé (atelier-lecerf). Essai refusé : le h1 en
+tête sans la bande (0,67 au premier écran téléphone de cantine-roulante).

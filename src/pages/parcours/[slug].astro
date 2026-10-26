@@ -1,0 +1,132 @@
+---
+/**
+ * Page d'un barreau du parcours (site.parcours, src/lib/parcours.ts) : architecture `parcours-atelier` (source Turning
+ * Earth, pages « Membership » et « Open-Studio Pass » : à qui c'est destiné, ce qui est compris et ce qui ne l'est pas,
+ * comment ça se passe, les questions ; docs/veille/architectures/parcours-atelier.md). h1 « <titre> chez <commerce> »,
+ * le niveau, le métier à la ville, la phrase, la photo, les formules et leurs prix, compris / pas compris, le déroulé,
+ * les dates, les questions du barreau en <details>, les portes (Réserver si contact.bookingUrl, Appeler, Écrire), puis
+ * le barreau précédent et le suivant. JSON-LD : Service et ses offres. Aucune page sans barreau.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, mailto, voisins, prixDepuis } from '@/lib/site';
+import { barreauLd } from '@/lib/jsonld';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+export function getStaticPaths() {
+  return site.parcours.map((b) => ({ params: { slug: b.slug }, props: { b } }));
+}
+const { b } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const { precedent, suivant } = voisins(site.parcours, b.slug);
+const pageUrl = new URL(`/parcours/${b.slug}`, Astro.site).toString();
+const depuis = prixDepuis(b.formules);
+const description = b.phrase ?? `${b.titre} chez ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}.`;
+const reserver = site.contact.bookingUrl;
+const majuscule = (s: string) => s.replace(/^./, (c) => c.toUpperCase());
+---
+
+<Base title={`${b.titre} | ${site.business.name}`} description={description} path={`/parcours/${b.slug}`} jsonLd={[barreauLd(site, b, pageUrl)]}>
+  <Nav />
+  <main id="main" class="pb">
+    <article class="container-ff pb-grille">
+      <header class="pb-tete">
+        <p class="pb-niveau">{b.niveau}</p>
+        <h1 class="pb-titre font-display">{b.titre} chez {site.business.name}</h1>
+        <p>{site.business.trade} à {site.contact.address.city}.{depuis ? ` ${majuscule(depuis)}.` : ''}</p>
+        {b.phrase && <p class="pb-phrase">{b.phrase}</p>}
+        {b.pour && <p class="pb-pour">{b.pour}</p>}
+        <p class="pb-portes">
+          {reserver && <a href={reserver} class="pb-porte" target="_blank" rel="noopener"><Icon name="CalendarCheck" size={18} />{site.wording.actions.booking ?? 'Réserver'}<span class="sr-only"> (nouvel onglet)</span></a>}
+          <a href={tel()} class:list={[reserver ? 'pb-lien' : 'pb-porte', 'tabular-nums']}><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+          {site.contact.email && <a href={mailto()} class="pb-lien"><Icon name="Mail" size={16} />Écrire</a>}
+        </p>
+        {b.photo && <div class="pb-photo"><Img src={b.photo.src} alt={b.photo.alt} priority sizes="(min-width: 64rem) 40vw, 92vw" class="h-full w-full object-cover" /></div>}
+      </header>
+      <div class="pb-corps">
+        {b.formules.length > 0 && (
+          <section aria-labelledby="pb-formules">
+            <h2 id="pb-formules" class="pb-h2 font-display">Les formules</h2>
+            <ul class="pb-formules">
+              {b.formules.map((f) => (
+                <li class="pb-formule">
+                  <span class="pb-formule-nom">{f.nom}{f.detail && <span class="text-muted">{f.detail}</span>}</span>
+                  {f.prix && <span class="pb-prix tabular-nums">{f.prix}</span>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {(b.compris.length > 0 || b.nonCompris.length > 0) && (
+          <section class="pb-compris" aria-label="Ce qui est compris">
+            {b.compris.length > 0 && <div><h2 class="pb-h3">Compris</h2><ul class="pb-liste">{b.compris.map((x) => <li>{x}</li>)}</ul></div>}
+            {b.nonCompris.length > 0 && <div><h2 class="pb-h3">Pas compris</h2><ul class="pb-liste">{b.nonCompris.map((x) => <li>{x}</li>)}</ul></div>}
+          </section>
+        )}
+        {b.deroule.length > 0 && (
+          <section aria-labelledby="pb-deroule">
+            <h2 id="pb-deroule" class="pb-h2 font-display">Comment ça se passe</h2>
+            <ol class="pb-etapes">{b.deroule.map((x) => <li>{x}</li>)}</ol>
+          </section>
+        )}
+        {b.dates.length > 0 && (
+          <section aria-labelledby="pb-dates">
+            <h2 id="pb-dates" class="pb-h2 font-display">Prochaines dates</h2>
+            <ul class="pb-liste">{b.dates.map((x) => <li>{x}</li>)}</ul>
+          </section>
+        )}
+        {b.questions.length > 0 && (
+          <section aria-labelledby="pb-questions">
+            <h2 id="pb-questions" class="pb-h2 font-display">Vos questions</h2>
+            {b.questions.map((q) => (
+              <details class="pb-question"><summary>{q.q}</summary><p>{q.a}</p></details>
+            ))}
+          </section>
+        )}
+        <nav class="pb-voisins" aria-label="Le parcours">
+          {precedent && <a href={`/parcours/${precedent.slug}`} class="pb-voisin"><Icon name="ArrowLeft" size={16} /><span><span class="pb-voisin-niveau">{precedent.niveau}</span>{precedent.titre}</span></a>}
+          {suivant && <a href={`/parcours/${suivant.slug}`} class="pb-voisin pb-voisin-suivant"><span><span class="pb-voisin-niveau">Et après : {suivant.niveau.replace(/^./, (c) => c.toLowerCase())}</span>{suivant.titre}</span><Icon name="ArrowRight" size={16} /></a>}
+        </nav>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pb-grille { display: grid; gap: 2.5rem; padding-block: clamp(2.5rem, 7vh, 4.5rem); }
+  .pb-tete { display: grid; gap: 0.75rem; align-content: start; }
+  .pb-niveau { font-weight: 600; }
+  .pb-titre { font-size: clamp(2.1rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; }
+  .pb-phrase { font-size: clamp(1.1rem, 1.8vw, 1.3rem); max-inline-size: 40ch; }
+  .pb-pour { color: var(--color-muted); }
+  .pb-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .pb-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .pb-porte:hover { background: var(--color-accent-2); }
+  .pb-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-underline-offset: 0.2em; }
+  .pb-photo { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-card); }
+  .pb-photo > :global(picture) { display: block; block-size: 100%; }
+  .pb-corps { display: grid; gap: 2rem; align-content: start; }
+  .pb-h2 { font-size: clamp(1.5rem, 3.5vw, 2.2rem); line-height: 1.1; margin-block-end: 0.6rem; }
+  .pb-h3 { font-weight: 600; margin-block-end: 0.35rem; }
+  .pb-formules { display: grid; border-block-start: 2px solid currentColor; }
+  .pb-formule { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 0.7rem; border-block-end: 1px solid var(--color-line); }
+  .pb-formule-nom { display: grid; font-size: 1.1rem; }
+  .pb-prix { font-weight: 600; white-space: nowrap; }
+  .pb-compris { display: grid; gap: 1.25rem; }
+  .pb-liste { display: grid; gap: 0.25rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .pb-etapes { display: grid; gap: 0.4rem; padding-inline-start: 1.3rem; list-style: decimal; }
+  .pb-question { padding-block: 0.6rem; border-block-end: 1px solid var(--color-line); }
+  .pb-question summary { cursor: pointer; font-weight: 600; min-block-size: 44px; display: flex; align-items: center; }
+  .pb-voisins { display: grid; gap: 0.75rem; border-block-start: 1px solid var(--color-line); padding-block-start: 1.25rem; }
+  .pb-voisin { display: flex; align-items: center; gap: 0.6rem; min-block-size: 48px; }
+  .pb-voisin > span { display: grid; }
+  .pb-voisin-niveau { font-size: 0.9rem; color: var(--color-muted); }
+  .pb-voisin-suivant { justify-content: space-between; font-weight: 600; }
+  .pb-voisin:hover { color: var(--color-accent); }
+  .pb-porte:focus-visible, .pb-lien:focus-visible, .pb-voisin:focus-visible, .pb-question summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  @media (min-width: 40rem) { .pb-compris { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .pb-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 4rem; } .pb-tete { position: sticky; inset-block-start: 6rem; } }
+</style>

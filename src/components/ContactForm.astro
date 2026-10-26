@@ -28,16 +28,21 @@
  * l'interface, pas forcement en francais, et ne sont ni stylables ni lisibles au meme endroit.
  */
 import { site } from '@/lib/site';
-interface Props { class?: string; compact?: boolean; idPrefix?: string }
-const { class: cls = '', compact = false, idPrefix = 'contact' } = Astro.props;
+interface Props { class?: string; compact?: boolean; idPrefix?: string; sejour?: boolean }
+const { class: cls = '', compact = false, idPrefix = 'contact', sejour = false } = Astro.props;
 const f = site.form;
 const services = site.services.map((s) => s.title);
 // Demande qualifiée (architecture saisons-sorties) : les sorties du client dans le choix du besoin ; le champ « Dates
 // souhaitées » seulement si form.dates est vrai (un sixième champ : ff verifier avertit au-delà de cinq), sinon le
 // message demande les dates. Rien n'est ajouté sans sortie.
 const sorties = site.sorties.map((x) => x.titre);
+// Demande de séjour (architecture outil-calendrier, src/components/Disponibilites.astro) : arrivée et départ en champs
+// date natifs (choisis au doigt sans script ; remplis par le calendrier dans le navigateur), à la place du champ texte
+// « Dates souhaitées ». Aucune réservation ni paiement : une demande que le client confirme.
 const avecDates = f.dates === true;
-const invite = sorties.length > 0 && !avecDates
+const invite = sejour
+  ? 'Combien serez-vous ? Une question sur le lieu, une arrivée tardive ?'
+  : sorties.length > 0 && !avecDates
   ? 'Dites-nous la sortie, les dates qui vous conviennent et combien vous serez.'
   : 'Décrivez votre besoin, votre adresse et le meilleur moment pour vous rappeler.';
 
@@ -129,7 +134,20 @@ const input =
         </select>
       </label>
     )}
-    {avecDates && (
+    {sejour && (
+      <fieldset class="grid gap-4 sm:grid-cols-2" data-form-sejour>
+        <legend class="sr-only">Vos dates</legend>
+        <label class="grid gap-1.5 text-sm" for={`${uid}-arrivee`}>
+          <span>Arrivée</span>
+          <input class={input} id={`${uid}-arrivee`} name="arrivee" type="date" autocomplete="off" data-sejour-arrivee />
+        </label>
+        <label class="grid gap-1.5 text-sm" for={`${uid}-depart`}>
+          <span>Départ</span>
+          <input class={input} id={`${uid}-depart`} name="depart" type="date" autocomplete="off" data-sejour-depart />
+        </label>
+      </fieldset>
+    )}
+    {avecDates && !sejour && (
       <label class="grid gap-1.5 text-sm" for={`${uid}-dates`}>
         <span>Dates souhaitées <span class="text-muted">(facultatif)</span></span>
         <input class={input} id={`${uid}-dates`} name="dates" autocomplete="off" placeholder="La semaine du 14 juillet, un samedi en août…" />
@@ -269,7 +287,7 @@ const input =
         if (data.botcheck) return;
         const provider = form.dataset.form;
         if (provider === 'mailto') {
-          const body = [`Nom : ${data.name}`, `Téléphone : ${data.phone}`, data.email && `E-mail : ${data.email}`, data.service && `Besoin : ${data.service}`, data.dates && `Dates souhaitées : ${data.dates}`, '', data.message].filter(Boolean).join('\n');
+          const body = [`Nom : ${data.name}`, `Téléphone : ${data.phone}`, data.email && `E-mail : ${data.email}`, data.service && `Besoin : ${data.service}`, data.dates && `Dates souhaitées : ${data.dates}`, data.arrivee && `Arrivée : ${data.arrivee}`, data.depart && `Départ : ${data.depart}`, '', data.message].filter(Boolean).join('\n');
           window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(form.dataset.subject!)}&body=${encodeURIComponent(body)}`;
           show('Votre messagerie va s\'ouvrir avec la demande pré-remplie.', true);
           document.dispatchEvent(new CustomEvent('ff:form-success')); // data-confetti (motion.ts) ecoute cet evenement

@@ -1,0 +1,52 @@
+---
+/**
+ * Page /disponibilites (site.disponibilites, src/lib/sejour.ts) : architecture `outil-calendrier` (source Coquelicots,
+ * `/contact#book` qui reprend l'outil ; docs/veille/architectures/coquelicots.md). Le calendrier entier (disponibilites.mois,
+ * 12 mois par défaut, lus au build), la sélection, la capacité, les tarifs et la demande de dates ; le métier à la ville
+ * et le téléphone ; les logements en bas. Générée seulement si le client a un calendrier (périodes ou iCal) ; sinon
+ * aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, lienDisponibilites } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Disponibilites from '@/components/Disponibilites.astro';
+
+export function getStaticPaths() {
+  return lienDisponibilites(site.disponibilites, site.wording.disponibilites) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const titre = site.wording.disponibilites;
+const mois = site.disponibilites?.mois ?? 12;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : les nuits libres sur ${mois} mois et la demande de dates.`} path="/disponibilites">
+  <Nav />
+  <main id="main" class="dp">
+    <section class="container-ff dp-outil" aria-labelledby="page-dispo-titre">
+      <Disponibilites mois={mois} idPrefix="page-dispo" titreNiveau={1} />
+      <p class="dp-pied">{metierEtVille()} <a href={tel()} class="dp-tel tabular-nums"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a></p>
+    </section>
+    {site.servicePages && site.services.length > 0 && (
+      <nav class="container-ff dp-logements" aria-label={site.wording.servicesTitle}>
+        <ul class="dp-liste">
+          {site.services.map((o) => <li><a href={`/services/${o.slug}`} class="dp-lien font-display">{o.title}<Icon name="ArrowRight" size={18} /></a></li>)}
+        </ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .dp-outil { display: grid; gap: 1.5rem; padding-block: clamp(2.5rem, 7vh, 4.5rem); }
+  .dp-pied { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+  .dp-tel { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; }
+  .dp-logements { padding-block: 0 clamp(3rem, 8vh, 5rem); }
+  .dp-liste { display: grid; border-block-start: 1px solid var(--color-line); }
+  .dp-liste li { border-block-end: 1px solid var(--color-line); }
+  .dp-lien { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-block-size: 56px; font-size: clamp(1.3rem, 3vw, 1.8rem); }
+  .dp-lien:hover { color: var(--color-accent); }
+  .dp-lien:focus-visible, .dp-tel:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+</style>

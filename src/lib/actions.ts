@@ -5,7 +5,8 @@
  * sur téléphone, dans la barre d'actions (src/components/BarreActions.astro, layout.actionBar).
  *
  * Ordre fixe, du plus engageant au plus générique :
- *   1. Réserver   — contact.bookingUrl
+ *   1. Réserver   — contact.bookingUrl ; sans lui, l'outil de disponibilités de l'accueil (/#disponibilites,
+ *                   site.disponibilites, architecture outil-calendrier : « Boeken » de Coquelicots saute à l'outil)
  *   2. Commander  — contact.orderUrl
  *   3. Bon cadeau — contact.giftCardUrl
  *   4. Appeler    — tel:contact.phone (toujours présent : le téléphone est obligatoire). Avant le devis :
@@ -57,6 +58,8 @@ export type ActionsInput = {
   contact: Pick<Site['contact'], 'phone'> & Partial<Pick<Site['contact'], 'bookingUrl' | 'orderUrl' | 'giftCardUrl'>>;
   layout: { contactDrawer?: boolean; sections: { type: string }[] };
   wording: { devis?: string; actions?: Partial<Record<Exclude<ActionKind, 'call'>, string | undefined>> };
+  /** Calendrier des disponibilités (architecture outil-calendrier) : la porte Réserver y mène sans bookingUrl. */
+  disponibilites?: unknown;
 };
 
 /** Y a-t-il une porte #contact sur la page (tiroir ou section contact) ? */
@@ -71,7 +74,8 @@ export function actions(s: ActionsInput): Action[] {
     if (!href) return;
     out.push({ kind, href, label: label || ACTION_LABELS[kind], external, icon: ACTION_ICONS[kind] });
   };
-  push('booking', s.contact.bookingUrl, w.booking, true);
+  if (s.contact.bookingUrl) push('booking', s.contact.bookingUrl, w.booking, true);
+  else if (s.disponibilites) push('booking', '/#disponibilites', w.booking, false);
   push('order', s.contact.orderUrl, w.order, true);
   push('giftCard', s.contact.giftCardUrl, w.giftCard, true);
   push('call', `tel:${s.contact.phone}`, undefined, false);

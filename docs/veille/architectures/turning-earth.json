@@ -1,0 +1,1549 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.turningearth.uk/",
+  "nom": "turning-earth",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Pottery Classes & Studios in London | Turning Earth Ceramics",
+    "siteName": "",
+    "lang": "en",
+    "description": "Book pottery classes in London at Turning Earth. Explore pottery courses for beginners to intermediates, or join our pottery studio with memberships across Hoxton, Leyton & Highgate",
+    "technologies": [
+      "Webflow",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Turning Earth Pottery Classes & Studios in London",
+      "h1Visible": true,
+      "mots": 71,
+      "images": 6,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.69,
+        "selecteur": "img.desktop"
+      },
+      "boutonPrincipal": {
+        "texte": "BOOK A CLASS",
+        "x": 1267.484375,
+        "y": 37.03125,
+        "cx": 0.933154296875,
+        "cy": 0.06114583333333334,
+        "fixe": false,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 9086,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.rl-heading-style-h1",
+        "famille": "\"Lora Variable\", Georgia, sans-serif",
+        "taille": 56,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "6px"
+      },
+      "h2": {
+        "selecteur": "h2.te-offer-title",
+        "famille": "\"Lora Variable\", Georgia, sans-serif",
+        "taille": 27.36,
+        "graisse": "700",
+        "interlignage": 1.12,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "3px"
+      },
+      "p": {
+        "selecteur": "p.efi-big-paragraph-whypractice",
+        "famille": "\"Sourcesans 3 Variable\", Arial, sans-serif",
+        "taille": 17.6,
+        "graisse": "400",
+        "interlignage": 1.36,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "2px"
+      },
+      "bouton": {
+        "selecteur": "a.bookaclass",
+        "famille": "\"Rubik Normal\", Arial, sans-serif",
+        "taille": 12.8,
+        "graisse": "400",
+        "interlignage": 1.56,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "2px"
+      },
+      "nav": {
+        "selecteur": "a.te-classes-link",
+        "famille": "\"Sourcesans 3 Variable\", Arial, sans-serif",
+        "taille": 17.6,
+        "graisse": "500",
+        "interlignage": 1.75,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "1px"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Inter Normal",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbc14a5238d937943079d_inter-v18-latin-regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Inter 300 Light",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd1728e7e5a445b777fe_inter-v18-latin-300.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Inter 500 Medium",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd2d7b0be189ed3a7fc6_inter-v18-latin-500.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Inter 600 Semi Bold",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd5d92c8850c1a65fe84_inter-v18-latin-600.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Rubik Normal",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd892824e9d508356814_rubik-v28-latin-regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Rubik 500 Medium",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbda2fe23c830ef52f20d_rubik-v28-latin-500.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Rubik 600 Semi Bold",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcc732b8276db2d7dc7c9d_rubik-v28-latin-600.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Lora Variable",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eeb85d67022deafda5931_Lora-Italic-Variable.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Lora Variable",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebd4af51afd4a3ef7465_Lora-Variable.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Sourcesans 3 Variable",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebdcfcb0e21be67248ed_SourceSans3-Italic-Variable.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Sourcesans 3 Variable",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebf46ca6fd0de711f6a5_SourceSans3-Variable.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebf46ca6fd0de711f6a5_SourceSans3-Variable.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd5d92c8850c1a65fe84_inter-v18-latin-600.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd892824e9d508356814_rubik-v28-latin-regular.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebd4af51afd4a3ef7465_Lora-Variable.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eeb85d67022deafda5931_Lora-Italic-Variable.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbc14a5238d937943079d_inter-v18-latin-regular.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd2d7b0be189ed3a7fc6_inter-v18-latin-500.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Sourcesans 3 Variable",
+          "n": 51
+        },
+        {
+          "famille": "Inter 600 Semi Bold",
+          "n": 25
+        },
+        {
+          "famille": "Lora Variable",
+          "n": 24
+        },
+        {
+          "famille": "Rubik Normal",
+          "n": 4
+        },
+        {
+          "famille": "Inter Normal",
+          "n": 4
+        },
+        {
+          "famille": "Inter 500 Medium",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#333333",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 13171432.650390625
+        },
+        {
+          "hex": "#3a3330",
+          "n": 4,
+          "poids": 569184
+        },
+        {
+          "hex": "#d18822",
+          "n": 1,
+          "poids": 278380
+        },
+        {
+          "hex": "#6b4c3b",
+          "n": 5,
+          "poids": 45560.170654296875
+        },
+        {
+          "hex": "#8e6145",
+          "n": 1,
+          "poids": 5022.875
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3f3f3f",
+          "n": 23,
+          "poids": 2431
+        },
+        {
+          "hex": "#000000",
+          "n": 8,
+          "poids": 1594
+        },
+        {
+          "hex": "#ffffff",
+          "n": 27,
+          "poids": 1558
+        },
+        {
+          "hex": "#222222",
+          "n": 13,
+          "poids": 320
+        },
+        {
+          "hex": "#475467",
+          "n": 18,
+          "poids": 298
+        },
+        {
+          "hex": "#667085",
+          "n": 7,
+          "poids": 118
+        },
+        {
+          "hex": "#333333",
+          "n": 4,
+          "poids": 103
+        },
+        {
+          "hex": "#f1ecea",
+          "n": 1,
+          "poids": 48
+        },
+        {
+          "hex": "#344054",
+          "n": 6,
+          "poids": 43
+        },
+        {
+          "hex": "#6b4c3b",
+          "n": 1,
+          "poids": 14
+        },
+        {
+          "hex": "#e3c19a",
+          "n": 2,
+          "poids": 8
+        },
+        {
+          "hex": "#e27d66",
+          "n": 1,
+          "poids": 5
+        }
+      ],
+      "nbImages": 19,
+      "nbVideos": 0,
+      "nbFondsImage": 6,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 13171432.650390625,
+          "part": 0.936
+        },
+        {
+          "hex": "#3a3330",
+          "n": 4,
+          "poids": 569184,
+          "part": 0.04
+        },
+        {
+          "hex": "#d18822",
+          "n": 1,
+          "poids": 278380,
+          "part": 0.02
+        },
+        {
+          "hex": "#6b4c3b",
+          "n": 5,
+          "poids": 45560.170654296875,
+          "part": 0.003
+        },
+        {
+          "hex": "#8e6145",
+          "n": 1,
+          "poids": 5022.875,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3f3f3f",
+          "n": 23,
+          "poids": 2431,
+          "part": 0.372
+        },
+        {
+          "hex": "#000000",
+          "n": 8,
+          "poids": 1594,
+          "part": 0.244
+        },
+        {
+          "hex": "#ffffff",
+          "n": 27,
+          "poids": 1558,
+          "part": 0.238
+        },
+        {
+          "hex": "#222222",
+          "n": 13,
+          "poids": 320,
+          "part": 0.049
+        },
+        {
+          "hex": "#475467",
+          "n": 18,
+          "poids": 298,
+          "part": 0.046
+        }
+      ],
+      "contraste": 12.63
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.3s ease",
+          "n": 28
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 7
+        },
+        {
+          "valeur": "color 0.15s ease",
+          "n": 7
+        },
+        {
+          "valeur": "transform 0.25s ease",
+          "n": 4
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animation",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.navigation",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-animation"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "nav.te_navbar_2024_v1",
+          "titre": null,
+          "top": 0,
+          "hauteur": 110,
+          "ecrans": 0.1,
+          "mots": 10,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te_homesection-1",
+          "titre": "Turning Earth Pottery Classes & Studios in London",
+          "top": 110,
+          "hauteur": 700,
+          "ecrans": 0.8,
+          "mots": 60,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te-offers",
+          "titre": "CLASSES",
+          "top": 810,
+          "hauteur": 510,
+          "ecrans": 0.6,
+          "mots": 59,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te_homesection_generic",
+          "titre": null,
+          "top": 1320,
+          "hauteur": 158,
+          "ecrans": 0.2,
+          "mots": 36,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te_homesection_our-studios",
+          "titre": "Our locations",
+          "top": 1498,
+          "hauteur": 56,
+          "ecrans": 0.1,
+          "mots": 2,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.rl-container-large-6-studios",
+          "titre": "HOXTON E2",
+          "top": 1564,
+          "hauteur": 712,
+          "ecrans": 0.8,
+          "mots": 8,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#open-studio-pass",
+          "titre": "No commitment, no extras, just studio time",
+          "top": 2276,
+          "hauteur": 409,
+          "ecrans": 0.5,
+          "mots": 33,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.tebundle-section",
+          "titre": "Student Membership Upgrade",
+          "top": 2685,
+          "hauteur": 780,
+          "ecrans": 0.9,
+          "mots": 47,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#class-section",
+          "titre": "Explore our pottery classes in London",
+          "top": 3465,
+          "hauteur": 968,
+          "ecrans": 1.1,
+          "mots": 180,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-70",
+          "titre": "Reinventing the maker-space",
+          "top": 4464,
+          "hauteur": 365,
+          "ecrans": 0.4,
+          "mots": 175,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#mem-section",
+          "titre": "Join our studio community",
+          "top": 4893,
+          "hauteur": 540,
+          "ecrans": 0.6,
+          "mots": 115,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te_homesection_whypractice",
+          "titre": "Why practice ceramics?",
+          "top": 5433,
+          "hauteur": 718,
+          "ecrans": 0.8,
+          "mots": 187,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te_homesection_news",
+          "titre": "News & Events",
+          "top": 6151,
+          "hauteur": 828,
+          "ecrans": 0.9,
+          "mots": 96,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-73",
+          "titre": null,
+          "top": 6979,
+          "hauteur": 605,
+          "ecrans": 0.7,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "section.rl_section_contact1",
+          "titre": "Contact us",
+          "top": 7584,
+          "hauteur": 961,
+          "ecrans": 1.1,
+          "mots": 33,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "section.rl_section_logo1",
+          "titre": null,
+          "top": 8545,
+          "hauteur": 136,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.te_footer",
+          "titre": null,
+          "top": 8681,
+          "hauteur": 465,
+          "ecrans": 0.5,
+          "mots": 75,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.te_navbar_2024_v1",
+        "hauteur": 110,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "Landing Page",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "CLASSES",
+            "href": "/classes",
+            "bouton": false
+          },
+          {
+            "texte": "MEMBERSHIP",
+            "href": "/membership",
+            "bouton": false
+          },
+          {
+            "texte": "BOOK A CLASS",
+            "href": "/classes",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.te_footer",
+        "liens": [
+          {
+            "texte": "Book a class",
+            "href": "/classes",
+            "bouton": false
+          },
+          {
+            "texte": "Membership",
+            "href": "/membership",
+            "bouton": false
+          },
+          {
+            "texte": "Gift vouchers",
+            "href": "/giftvouchers",
+            "bouton": false
+          },
+          {
+            "texte": "Venue hire",
+            "href": "/venue-hire",
+            "bouton": false
+          },
+          {
+            "texte": "Private lessons",
+            "href": "/private-lessons",
+            "bouton": false
+          },
+          {
+            "texte": "About us",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "Work for us",
+            "href": "/work-for-us",
+            "bouton": false
+          },
+          {
+            "texte": "News",
+            "href": "/blog",
+            "bouton": false
+          },
+          {
+            "texte": "Media enquiries",
+            "href": "/media-enquiries",
+            "bouton": false
+          },
+          {
+            "texte": "The environment",
+            "href": "/the-environment",
+            "bouton": false
+          },
+          {
+            "texte": "Student FAQ",
+            "href": "/student-faq",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ",
+            "href": "/faq",
+            "bouton": false
+          },
+          {
+            "texte": "Contracts",
+            "href": "/contracts",
+            "bouton": false
+          },
+          {
+            "texte": "Cancellation policy",
+            "href": "/refund-cancellation-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Contact us",
+            "href": "/contact-us",
+            "bouton": false
+          },
+          {
+            "texte": "Terms",
+            "href": "/terms",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/turning_earth",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/TurningEarthceramics/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "BOOK A CLASS",
+          "href": "/classes"
+        },
+        {
+          "texte": "BOOK A POTTERY CLASS",
+          "href": "/classes"
+        },
+        {
+          "texte": "Gift vouchers",
+          "href": "/giftvouchers"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 11,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Lora Variable",
+        "Inter 600 Semi Bold",
+        "Inter Normal",
+        "Inter 500 Medium"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/.claude/worktrees/agent-a290e0ecfe3e84c89/docs/veille/architectures/captures/turning-earth-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Turning Earth Pottery Classes & Studios in London",
+      "h1Visible": true,
+      "mots": 60,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.69,
+        "selecteur": "img.mobile"
+      },
+      "boutonPrincipal": {
+        "texte": "Hoxton E2",
+        "x": 135.546875,
+        "y": 469.8125,
+        "cx": 0.49997996794871796,
+        "cy": 0.5831883145734598,
+        "fixe": false,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 14333,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.rl-heading-style-h1",
+        "famille": "\"Lora Variable\", Georgia, sans-serif",
+        "taille": 25.6,
+        "graisse": "500",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "3px"
+      },
+      "h2": {
+        "selecteur": "h2.te-offer-title",
+        "famille": "\"Lora Variable\", Georgia, sans-serif",
+        "taille": 24,
+        "graisse": "700",
+        "interlignage": 1.12,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "3px"
+      },
+      "p": {
+        "selecteur": "p.efi-big-paragraph-whypractice",
+        "famille": "\"Sourcesans 3 Variable\", Arial, sans-serif",
+        "taille": 16.8,
+        "graisse": "400",
+        "interlignage": 1.43,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "2px"
+      },
+      "bouton": {
+        "selecteur": "a.uui-button",
+        "famille": "\"Sourcesans 3 Variable\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "600",
+        "interlignage": 1.8,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "1.92px"
+      },
+      "nav": {
+        "selecteur": "a.uui-button",
+        "famille": "\"Sourcesans 3 Variable\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "600",
+        "interlignage": 1.8,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "1.92px"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Inter Normal",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbc14a5238d937943079d_inter-v18-latin-regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Inter 300 Light",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd1728e7e5a445b777fe_inter-v18-latin-300.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Inter 500 Medium",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd2d7b0be189ed3a7fc6_inter-v18-latin-500.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Inter 600 Semi Bold",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd5d92c8850c1a65fe84_inter-v18-latin-600.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Rubik Normal",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd892824e9d508356814_rubik-v28-latin-regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Rubik 500 Medium",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbda2fe23c830ef52f20d_rubik-v28-latin-500.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Rubik 600 Semi Bold",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcc732b8276db2d7dc7c9d_rubik-v28-latin-600.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Lora Variable",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eeb85d67022deafda5931_Lora-Italic-Variable.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Lora Variable",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebd4af51afd4a3ef7465_Lora-Variable.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Sourcesans 3 Variable",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebdcfcb0e21be67248ed_SourceSans3-Italic-Variable.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Sourcesans 3 Variable",
+          "url": "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebf46ca6fd0de711f6a5_SourceSans3-Variable.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebd4af51afd4a3ef7465_Lora-Variable.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eebf46ca6fd0de711f6a5_SourceSans3-Variable.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/699eeb85d67022deafda5931_Lora-Italic-Variable.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbc14a5238d937943079d_inter-v18-latin-regular.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd892824e9d508356814_rubik-v28-latin-regular.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd5d92c8850c1a65fe84_inter-v18-latin-600.woff2",
+        "https://cdn.prod.website-files.com/66b217726b81e238b8309760/67bcbd2d7b0be189ed3a7fc6_inter-v18-latin-500.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Sourcesans 3 Variable",
+          "n": 51
+        },
+        {
+          "famille": "Lora Variable",
+          "n": 24
+        },
+        {
+          "famille": "Inter 600 Semi Bold",
+          "n": 19
+        },
+        {
+          "famille": "Inter Normal",
+          "n": 4
+        },
+        {
+          "famille": "Rubik Normal",
+          "n": 3
+        },
+        {
+          "famille": "Inter 500 Medium",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#333333",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 5948302.650390625
+        },
+        {
+          "hex": "#3a3330",
+          "n": 4,
+          "poids": 369603
+        },
+        {
+          "hex": "#d18822",
+          "n": 1,
+          "poids": 79766.234375
+        },
+        {
+          "hex": "#6b4c3b",
+          "n": 4,
+          "poids": 48857.8662109375
+        },
+        {
+          "hex": "#8e6145",
+          "n": 1,
+          "poids": 16754.03125
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 240
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3f3f3f",
+          "n": 23,
+          "poids": 2431
+        },
+        {
+          "hex": "#ffffff",
+          "n": 27,
+          "poids": 1594
+        },
+        {
+          "hex": "#000000",
+          "n": 8,
+          "poids": 1594
+        },
+        {
+          "hex": "#475467",
+          "n": 19,
+          "poids": 448
+        },
+        {
+          "hex": "#222222",
+          "n": 12,
+          "poids": 170
+        },
+        {
+          "hex": "#667085",
+          "n": 7,
+          "poids": 118
+        },
+        {
+          "hex": "#333333",
+          "n": 4,
+          "poids": 103
+        },
+        {
+          "hex": "#6b4c3b",
+          "n": 1,
+          "poids": 14
+        },
+        {
+          "hex": "#e3c19a",
+          "n": 2,
+          "poids": 8
+        },
+        {
+          "hex": "#e27d66",
+          "n": 1,
+          "poids": 5
+        }
+      ],
+      "nbImages": 18,
+      "nbVideos": 0,
+      "nbFondsImage": 7,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 5948302.650390625,
+          "part": 0.92
+        },
+        {
+          "hex": "#3a3330",
+          "n": 4,
+          "poids": 369603,
+          "part": 0.057
+        },
+        {
+          "hex": "#d18822",
+          "n": 1,
+          "poids": 79766.234375,
+          "part": 0.012
+        },
+        {
+          "hex": "#6b4c3b",
+          "n": 4,
+          "poids": 48857.8662109375,
+          "part": 0.008
+        },
+        {
+          "hex": "#8e6145",
+          "n": 1,
+          "poids": 16754.03125,
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3f3f3f",
+          "n": 23,
+          "poids": 2431,
+          "part": 0.375
+        },
+        {
+          "hex": "#ffffff",
+          "n": 27,
+          "poids": 1594,
+          "part": 0.246
+        },
+        {
+          "hex": "#000000",
+          "n": 8,
+          "poids": 1594,
+          "part": 0.246
+        },
+        {
+          "hex": "#475467",
+          "n": 19,
+          "poids": 448,
+          "part": 0.069
+        },
+        {
+          "hex": "#222222",
+          "n": 12,
+          "poids": 170,
+          "part": 0.026
+        }
+      ],
+      "contraste": 12.63
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.3s ease",
+          "n": 28
+        },
+        {
+          "valeur": "color 0.15s ease",
+          "n": 7
+        },
+        {
+          "valeur": "transform 0.25s ease",
+          "n": 4
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.uui-button",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "all 0.3s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "section.te_homesection-1",
+          "titre": "Turning Earth Pottery Classes & Studios in London",
+          "top": 80,
+          "hauteur": 650,
+          "ecrans": 0.8,
+          "mots": 60,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te-offers",
+          "titre": "CLASSES",
+          "top": 730,
+          "hauteur": 1121,
+          "ecrans": 1.3,
+          "mots": 59,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te_homesection_generic",
+          "titre": null,
+          "top": 1851,
+          "hauteur": 296,
+          "ecrans": 0.4,
+          "mots": 36,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te_homesection_our-studios",
+          "titre": "Our locations",
+          "top": 2167,
+          "hauteur": 56,
+          "ecrans": 0.1,
+          "mots": 2,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.rl-container-large-6-studios",
+          "titre": "HOXTON E2",
+          "top": 2233,
+          "hauteur": 1472,
+          "ecrans": 1.7,
+          "mots": 8,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#open-studio-pass",
+          "titre": "No commitment, no extras, just studio time",
+          "top": 3705,
+          "hauteur": 399,
+          "ecrans": 0.5,
+          "mots": 33,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.tebundle-section",
+          "titre": "Student Membership Upgrade",
+          "top": 4104,
+          "hauteur": 1278,
+          "ecrans": 1.5,
+          "mots": 47,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#class-section",
+          "titre": "Explore our pottery classes in London",
+          "top": 5382,
+          "hauteur": 1743,
+          "ecrans": 2.1,
+          "mots": 180,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-70",
+          "titre": "Reinventing the maker-space",
+          "top": 7157,
+          "hauteur": 999,
+          "ecrans": 1.2,
+          "mots": 175,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#mem-section",
+          "titre": "Join our studio community",
+          "top": 8220,
+          "hauteur": 883,
+          "ecrans": 1,
+          "mots": 115,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te_homesection_whypractice",
+          "titre": "Why practice ceramics?",
+          "top": 9103,
+          "hauteur": 1340,
+          "ecrans": 1.6,
+          "mots": 187,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.te_homesection_news",
+          "titre": "News & Events",
+          "top": 10443,
+          "hauteur": 1907,
+          "ecrans": 2.3,
+          "mots": 96,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-73",
+          "titre": null,
+          "top": 12350,
+          "hauteur": 605,
+          "ecrans": 0.7,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "section.rl_section_contact1",
+          "titre": "Contact us",
+          "top": 12955,
+          "hauteur": 983,
+          "ecrans": 1.2,
+          "mots": 33,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "section.rl_section_logo1",
+          "titre": null,
+          "top": 13938,
+          "hauteur": 296,
+          "ecrans": 0.4,
+          "mots": 0,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.te_footer",
+          "titre": null,
+          "top": 14234,
+          "hauteur": 1015,
+          "ecrans": 1.2,
+          "mots": 75,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#top",
+        "hauteur": 650,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Hoxton E2",
+            "href": "/hoxton",
+            "bouton": true
+          },
+          {
+            "texte": "Leyton E10",
+            "href": "/leyton",
+            "bouton": true
+          },
+          {
+            "texte": "Highgate N6",
+            "href": "/highgate",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.te_footer",
+        "liens": [
+          {
+            "texte": "Book a class",
+            "href": "/classes",
+            "bouton": false
+          },
+          {
+            "texte": "Membership",
+            "href": "/membership",
+            "bouton": false
+          },
+          {
+            "texte": "Gift vouchers",
+            "href": "/giftvouchers",
+            "bouton": false
+          },
+          {
+            "texte": "Venue hire",
+            "href": "/venue-hire",
+            "bouton": false
+          },
+          {
+            "texte": "Private lessons",
+            "href": "/private-lessons",
+            "bouton": false
+          },
+          {
+            "texte": "About us",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "Work for us",
+            "href": "/work-for-us",
+            "bouton": false
+          },
+          {
+            "texte": "News",
+            "href": "/blog",
+            "bouton": false
+          },
+          {
+            "texte": "Media enquiries",
+            "href": "/media-enquiries",
+            "bouton": false
+          },
+          {
+            "texte": "The environment",
+            "href": "/the-environment",
+            "bouton": false
+          },
+          {
+            "texte": "Student FAQ",
+            "href": "/student-faq",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ",
+            "href": "/faq",
+            "bouton": false
+          },
+          {
+            "texte": "Contracts",
+            "href": "/contracts",
+            "bouton": false
+          },
+          {
+            "texte": "Cancellation policy",
+            "href": "/refund-cancellation-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Contact us",
+            "href": "/contact-us",
+            "bouton": false
+          },
+          {
+            "texte": "Terms",
+            "href": "/terms",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/turning_earth",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/TurningEarthceramics/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "BOOK A POTTERY CLASS",
+          "href": "/classes"
+        },
+        {
+          "texte": "Book a class",
+          "href": "/classes"
+        },
+        {
+          "texte": "Gift vouchers",
+          "href": "/giftvouchers"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 10,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Lora Variable",
+        "Inter 600 Semi Bold",
+        "Inter Normal",
+        "Inter 500 Medium"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "Turning Earth Ceramics",
+  "dureeS": 26.7
+}

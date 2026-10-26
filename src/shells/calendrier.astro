@@ -1,0 +1,198 @@
+---
+/**
+ * Coquille "calendrier" : architecture `outil-calendrier` (src/lib/architectures.ts ; source Coquelicots, gîte en
+ * Dordogne, docs/veille/architectures/coquelicots.md). Un site court dont l'accueil est un chemin vers un OUTIL :
+ *   → en tête : les deux semaines qui viennent (nuits libres et prises, au-dessus du h1 au téléphone), le h1, le métier à
+ *     la ville et la capacité, le téléphone, la note Google, la porte « Voir les dates
+ *     libres » (ancre de l'outil ; la porte Réserver de la nav y saute aussi, src/lib/actions.ts) (socle docs/GOUT.md § 0) ;
+ *   → la photo du lieu en grand, dans une marge (la piscine au coucher du soleil de la source), seulement si le client
+ *     en a une (images.hero) ;
+ *   → les hôtes, id="about" : leur portrait (about.portrait), le titre, leur histoire (« Nous sommes tombés amoureux de
+ *     la Dordogne ») ; puis trois photos du lieu (proof.gallery) s'il y en a ;
+ *   → les sections du layout (les avis, « Ce qu'en ont pensé nos visiteurs », avant l'outil comme dans la source) ;
+ *   → L'OUTIL, id="disponibilites" : le calendrier des nuits libres et prises (deux mois, lus au build), la sélection,
+ *     la capacité, les tarifs, la demande de dates (src/components/Disponibilites.astro) ; lien vers les 12 mois ;
+ *   → les logements, id="services" : une porte par logement ou offre vers sa page (la page « Informatie » de la source) ;
+ *   → le pied.
+ * Pages : /disponibilites (le calendrier entier et la demande), /services/<slug>. Pas de page À propos : les hôtes sont
+ * sur l'accueil, comme dans la source.
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran) ; `fullbleed` garde le préchargement de la photo.
+ * Sans calendrier : la demande de dates seule, et le build dit ce qui manque (donneesManquantes).
+ * Signes de la source NON repris : formes organiques sur toutes les photos (une seule forme, le portrait des hôtes, en
+ * arche douce par le rayon des tokens), boutons pilules, curseur personnalisé, lettres animées, étiquettes au-dessus des
+ * titres.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import Disponibilites from '@/components/Disponibilites.astro';
+import { site, tel, metierEtVille, donneesManquantes, paragraphs, isoDuJour, ajouterJours, fusionnerPeriodes, periodesAVenir, nuitPrise, calendrierConnu, JOURS_COURTS } from '@/lib/site';
+import { periodesIcs } from '@/lib/ics-build';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const d = site.disponibilites;
+const hero = site.images.hero;
+const histoire = site.about.story ? paragraphs(site.about.story).slice(0, 3) : [];
+const photosLieu = site.proof.gallery.slice(0, 3);
+// Les quatorze prochaines nuits en bande sous le h1 (l'outil dès le premier écran : « tout mène à l'outil »), lues au build
+// comme le calendrier ; le navigateur grise les nuits déjà passées depuis le build.
+const aujourdhui = isoDuJour();
+const ics = d ? await periodesIcs(d.ics) : null;
+const periodes = d && calendrierConnu(d, ics !== null) ? periodesAVenir(fusionnerPeriodes([...d.occupe, ...(ics ?? [])]), aujourdhui) : null;
+const bande = periodes ? Array.from({ length: 14 }, (_, k) => ajouterJours(aujourdhui, k)) : [];
+const jourCourt = (iso: string) => JOURS_COURTS[(new Date(`${iso}T12:00:00Z`).getUTCDay() + 6) % 7];
+const manque = donneesManquantes('outil-calendrier', site);
+if (manque.length > 0) console.warn(`[coquille calendrier] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="ca-page">
+  <section id="hero" class="container-ff ca-tete" aria-label="Accueil">
+    <h1 class="ca-h1 font-display" set:html={site.business.tagline} />
+    <div class="ca-cote">
+      <p class="ca-metier">{metierEtVille()}{d?.capacite ? ` ${d.capacite.replace(/^./, (c) => c.toUpperCase())}.` : ''}</p>
+      {periodes && (
+        <a href="#disponibilites" class="ca-bande" aria-label="Les deux semaines qui viennent : voir le calendrier">
+          <span class="ca-bande-titre">Les deux semaines qui viennent</span>
+          <ol class="ca-bande-jours" aria-hidden="true">
+            {bande.map((j) => (
+              <li class:list={['ca-bande-jour', nuitPrise(periodes, j) && 'ca-bande-pris']} data-ca-jour={j}>
+                <span class="ca-bande-sem">{jourCourt(j).court}</span><span class="ca-bande-n tabular-nums">{Number(j.slice(8, 10))}</span>
+              </li>
+            ))}
+          </ol>
+        </a>
+      )}
+      <p class="ca-portes">
+        {d && <a href="#disponibilites" class="ca-porte"><Icon name="CalendarCheck" size={18} />Voir les dates libres</a>}
+        <a href={tel()} class="ca-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="ca-note">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+    </div>
+  </section>
+  {hero && (
+    <div class="container-ff ca-photo-cadre">
+      <div class="ca-photo"><Img src={hero.src} alt={hero.alt} priority sizes="(min-width: 80rem) 78rem, 94vw" class="h-full w-full object-cover" /></div>
+    </div>
+  )}
+  {histoire.length > 0 && (
+    <section id="about" class="container-ff ca-hotes" aria-labelledby="ca-hotes-titre">
+      {site.about.portrait && (
+        <div class="ca-portrait"><Img src={site.about.portrait.src} alt={site.about.portrait.alt} sizes="(min-width: 64rem) 30vw, 70vw" class="h-full w-full object-cover" /></div>
+      )}
+      <div class="ca-hotes-texte">
+        <h2 id="ca-hotes-titre" class="ca-titre font-display">{site.about.title ?? 'Qui vous accueille'}</h2>
+        {histoire.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+  )}
+  {photosLieu.length > 0 && (
+    <ul class="container-ff ca-lieu" aria-label="Le lieu en photos">
+      {photosLieu.map((p) => <li class="ca-lieu-photo"><Img src={p.src} alt={p.alt} sizes="(min-width: 64rem) 30vw, 90vw" class="h-full w-full object-cover" /></li>)}
+    </ul>
+  )}
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+  {d && (
+    <section id="disponibilites" class="ca-outil bg-bg-2" aria-labelledby="dispo-titre">
+      <div class="container-ff">
+        <Disponibilites mois={2} idPrefix="dispo" lienPage />
+      </div>
+    </section>
+  )}
+  {site.services.length > 0 && (
+    <section id="services" class="container-ff ca-logements" aria-labelledby="ca-logements-titre">
+      <h2 id="ca-logements-titre" class="ca-titre font-display">{site.wording.servicesTitle}</h2>
+      <ul class="ca-logements-liste">
+        {site.services.map((o) => {
+          const contenu = (
+            <>
+              {o.image && <div class="ca-logement-photo"><Img src={o.image.src} alt={o.image.alt} sizes="(min-width: 64rem) 30vw, 90vw" class="h-full w-full object-cover" /></div>}
+              <h3 class="ca-logement-nom font-display">{o.title}</h3>
+              <p>{o.short}</p>
+            </>
+          );
+          return <li class="ca-logement">{site.servicePages ? <a href={`/services/${o.slug}`} class="ca-logement-lien">{contenu}<span class="ca-voir">Le détail<Icon name="ArrowRight" size={16} /></span></a> : contenu}</li>;
+        })}
+      </ul>
+    </section>
+  )}
+</main>
+<Footer />
+
+<style>
+  .ca-tete { display: grid; gap: 1rem; padding-block: clamp(1.5rem, 5vh, 3rem) clamp(1.25rem, 4vh, 2rem); }
+  .ca-h1 { font-size: clamp(2.2rem, 7.5vw, 5rem); line-height: 0.98; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 15ch; }
+  .ca-cote { display: grid; gap: 0.9rem; align-content: end; }
+  .ca-metier { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 40ch; }
+  .ca-bande { display: grid; gap: 0.4rem; }
+  .ca-bande-titre { font-size: 0.95rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ca-bande-jours { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+  .ca-bande-jour { display: grid; justify-items: center; padding-block: 0.3rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 4px); background: var(--color-surface, var(--color-bg)); line-height: 1.15; }
+  .ca-bande-sem { font-size: 0.75rem; }
+  .ca-bande-n { font-weight: 600; }
+  .ca-bande-pris { background: var(--color-bg-2); text-decoration: line-through; text-decoration-thickness: 2px; }
+  .ca-bande-jour:global(.ca-bande-passe) { color: var(--color-muted); }
+  /* Au téléphone, l'outil d'abord : les deux semaines qui viennent ouvrent l'écran, au-dessus du h1 (« tout mène à
+     l'outil » ; la source montre sa photo d'abord, l'outil vient ici avant elle tant qu'elle manque ou qu'on défile). */
+  @media (max-width: 63.99rem) {
+    .ca-cote { display: contents; }
+    .ca-bande { order: -1; margin-block-end: 0.5rem; }
+    .ca-bande-jour { padding-block: 0.55rem; }
+    .ca-bande-n { font-size: 1.15rem; }
+  }
+  .ca-bande:hover .ca-bande-titre { color: var(--color-accent); }
+  .ca-bande:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ca-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.25rem; }
+  .ca-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.2rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .ca-porte:hover { background: var(--color-accent-2); }
+  .ca-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ca-note, .ca-voir { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ca-porte:focus-visible, .ca-tel:focus-visible, .ca-note:focus-visible, .ca-logement-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ca-photo-cadre { padding-block-end: clamp(2rem, 6vh, 4rem); }
+  .ca-photo { block-size: min(72svh, 44rem); overflow: hidden; border-radius: var(--radius-card); }
+  .ca-photo > :global(picture) { display: block; block-size: 100%; }
+  .ca-hotes { display: grid; gap: 1.5rem; padding-block: clamp(2.5rem, 8vh, 5rem); }
+  .ca-portrait { aspect-ratio: 4 / 5; max-inline-size: 22rem; overflow: hidden; border-start-start-radius: 50% 30%; border-start-end-radius: 50% 30%; border-end-start-radius: var(--radius-card); border-end-end-radius: var(--radius-card); }
+  .ca-portrait > :global(picture) { display: block; block-size: 100%; }
+  .ca-hotes-texte { display: grid; gap: 1rem; align-content: center; max-inline-size: 38rem; font-size: clamp(1.1rem, 1.8vw, 1.35rem); line-height: 1.5; }
+  .ca-titre { font-size: clamp(1.8rem, 4.5vw, 3rem); line-height: 1.05; }
+  .ca-lieu { display: grid; gap: 1rem; padding-block-end: clamp(2.5rem, 8vh, 5rem); }
+  .ca-lieu-photo { aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-card); }
+  .ca-lieu-photo > :global(picture) { display: block; block-size: 100%; }
+  .ca-outil { padding-block: clamp(3rem, 9vh, 6rem); }
+  .ca-logements { display: grid; gap: 1.5rem; padding-block: clamp(3rem, 9vh, 5.5rem); }
+  .ca-logements-liste { display: grid; gap: 1.5rem; }
+  .ca-logement-lien { display: grid; gap: 0.5rem; }
+  .ca-logement-photo { aspect-ratio: 3 / 2; overflow: hidden; border-radius: var(--radius-card); }
+  .ca-logement-photo > :global(picture) { display: block; block-size: 100%; }
+  .ca-logement-nom { font-size: 1.6rem; line-height: 1.1; }
+  .ca-logement-lien:hover .ca-logement-nom { color: var(--color-accent); }
+  @media (min-width: 48rem) {
+    .ca-lieu { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .ca-logements-liste { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  }
+  @media (min-width: 64rem) {
+    .ca-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; padding-block: clamp(3.5rem, 9vh, 5.5rem) clamp(2rem, 5vh, 3rem); }
+    .ca-hotes:has(.ca-portrait) { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 4rem; align-items: center; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { isoDuJour } from '@/lib/agenda';
+
+  // Une nuit passée depuis le build n'est plus à prendre : grisée (la bande garde sa place, rien ne bouge).
+  onPage(() => {
+    const j = isoDuJour(new Date());
+    document.querySelectorAll<HTMLElement>('[data-ca-jour]').forEach((el) => el.classList.toggle('ca-bande-passe', (el.dataset.caJour ?? '') < j));
+  });
+</script>

@@ -147,6 +147,12 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `calendrier-fetes`, coquille `fetes`) → la piste des fêtes ouverte sur celle du moment dans le navigateur, date limite de
   commande, heure limite de livraison, `/fetes`, `/fetes/<slug>` ; aucune donnée = aucune page (`src/lib/artistes.ts`,
   `src/lib/fetes.ts`, `tests/architectures-maison.test.mjs`).
+  `disponibilites` (optionnel, architecture `outil-calendrier`, coquille `calendrier`) → l'outil des nuits libres et prises
+  (liste `occupe` ou iCal lu au build, lisible sans script ; arrivée et départ remplissent la demande, aucun paiement),
+  `/disponibilites` ; `parcours` (défaut `[]`, architecture `parcours-atelier`, coquille `parcours`) et
+  `proof.testimonials[].barreau` → « Où en êtes-vous ? » en marches (un onglet par barreau), `/parcours/<slug>` ; aucune
+  donnée = aucune page (`src/lib/sejour.ts`, `src/lib/ics-build.ts`, `src/lib/parcours.ts`,
+  `tests/architectures-sejour.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

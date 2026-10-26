@@ -1,0 +1,223 @@
+---
+/**
+ * L'OUTIL de l'architecture `outil-calendrier` (source Coquelicots, gîte en Dordogne, « Réservez directement vos
+ * vacances » : deux mois côte à côte, jours libres et pris, « Votre sélection » à côté ; docs/veille/architectures/
+ * coquelicots.md). Les nuits prises sont lues AU BUILD (site.disponibilites.occupe + l'iCal du client, src/lib/ics-build.ts),
+ * fusionnées, les passées retirées, et rendues SANS SCRIPT : un tableau par mois (jours de la semaine en en-tête, nuit
+ * prise barrée et dite « prise » aux lecteurs d'écran). Dans le navigateur : chaque jour devient un bouton, on touche
+ * l'arrivée puis le départ (un départ peut tomber sur une nuit prise : c'est l'arrivée des suivants), la sélection se
+ * dit en mots (« du samedi 4 au samedi 11 juillet, 7 nuits »), le séjour minimum est rappelé, et les champs Arrivée et
+ * Départ de la demande se remplissent (formulaire existant, src/components/ContactForm.astro, aucun paiement). Saisir les
+ * dates à la main dans la demande dit aussi si elles sont libres.
+ *
+ * Si le client n'a ni période ni iCal lisible, AUCUN tableau n'est montré (jamais « tout est libre » par défaut) : la
+ * demande de dates reste seule. La date de mise à jour du calendrier (le build) est écrite sous les mois.
+ * Signes de la source NON repris : boutons pilules, curseur qui suit la souris, lettres animées, étiquettes au-dessus des
+ * titres, étapes numérotées. Tokens uniquement.
+ */
+import { site, isoDuJour, fusionnerPeriodes, periodesAVenir, moisDuCalendrier, JOURS_COURTS, nuitPrise, dateSejour, calendrierConnu } from '@/lib/site';
+import { periodesIcs } from '@/lib/ics-build';
+import ContactForm from '@/components/ContactForm.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props { mois?: number; idPrefix?: string; titreNiveau?: 1 | 2; lienPage?: boolean }
+const { mois = 2, idPrefix = 'dispo', titreNiveau = 2, lienPage = false } = Astro.props;
+const d = site.disponibilites;
+const aujourdhui = isoDuJour();
+const ics = d ? await periodesIcs(d.ics) : null;
+const connu = calendrierConnu(d, ics !== null);
+const periodes = d ? periodesAVenir(fusionnerPeriodes([...d.occupe, ...(ics ?? [])]), aujourdhui).map(({ du, au }) => ({ du, au })) : [];
+const lesMois = connu ? moisDuCalendrier(aujourdhui, mois) : [];
+const majuscule = (s: string) => s.replace(/^./, (c) => c.toUpperCase());
+const Titre = titreNiveau === 1 ? 'h1' : 'h2';
+if (d && !connu) console.warn(`[disponibilites] ${site.slug} : ni période (disponibilites.occupe) ni iCal lisible : la demande de dates sans calendrier.`);
+---
+
+{d && (
+  <div class="dc" data-dispo={JSON.stringify({ periodes, nuitsMin: d.nuitsMin ?? 0 })}>
+    <div class="dc-tete">
+      <Titre id={`${idPrefix}-titre`} class="dc-titre font-display">{site.wording.disponibilites}</Titre>
+      <p class="dc-consigne" data-dc-consigne>
+        {connu ? 'Les nuits barrées sont prises. Indiquez vos dates dans la demande : nous vous répondons pour confirmer.' : 'Dites-nous vos dates dans la demande : nous vous répondons avec les disponibilités.'}
+      </p>
+    </div>
+    <div class="dc-grille">
+      {connu && (
+        <div class="dc-calendrier">
+          <div class="dc-mois-liste">
+            {lesMois.map((m) => (
+              <table class="dc-mois" data-dc-mois={m.cle}>
+                <caption class="dc-mois-nom font-display">{m.nom}</caption>
+                <thead>
+                  <tr>{JOURS_COURTS.map((j) => <th scope="col"><abbr title={j.long}>{j.court}</abbr></th>)}</tr>
+                </thead>
+                <tbody>
+                  {m.semaines.map((s) => (
+                    <tr>
+                      {s.map((jour) => {
+                        if (!jour) return <td class="dc-vide"></td>;
+                        const prise = nuitPrise(periodes, jour);
+                        const passe = jour < aujourdhui;
+                        return (
+                          <td class:list={['dc-jour', prise && 'dc-pris', passe && 'dc-passe']} data-jour={jour} data-libelle={dateSejour(jour)}>
+                            <span class="dc-n">{Number(jour.slice(8, 10))}</span>{prise && <span class="sr-only">, nuit prise</span>}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ))}
+          </div>
+          <p class="dc-legende"><span class="dc-pastille dc-pastille-libre" aria-hidden="true"></span>Nuit libre <span class="dc-pastille dc-pastille-pris" aria-hidden="true"></span>Nuit prise</p>
+          <p class="dc-maj">{`Calendrier mis à jour le ${dateSejour(aujourdhui)} ${aujourdhui.slice(0, 4)}.`}</p>
+          {lienPage && <p><a href="/disponibilites" class="dc-lien">Voir les {d.mois} prochains mois<Icon name="ArrowRight" size={16} /></a></p>}
+        </div>
+      )}
+      <div class="dc-cote">
+        {connu && (
+          <div class="dc-selection" aria-live="polite" data-dc-selection hidden>
+            <p class="dc-selection-titre font-display">Votre sélection</p>
+            <p data-dc-selection-texte>Touchez votre jour d’arrivée, puis votre jour de départ.</p>
+          </div>
+        )}
+        {(d.capacite || d.nuitsMin || d.arrivee || d.depart) && (
+          <ul class="dc-infos">
+            {d.capacite && <li>{majuscule(d.capacite)}</li>}
+            {d.nuitsMin && <li>{d.nuitsMin} nuit{d.nuitsMin > 1 ? 's' : ''} minimum</li>}
+            {d.arrivee && <li>Arrivée {d.arrivee}</li>}
+            {d.depart && <li>Départ {d.depart}</li>}
+          </ul>
+        )}
+        {d.tarifs.length > 0 && (
+          <ul class="dc-tarifs">
+            {d.tarifs.map((l) => (
+              <li class="dc-tarif">
+                <span class="dc-tarif-nom">{l.nom}{l.detail && <span class="text-muted">{l.detail}</span>}</span>
+                {l.prix && <span class="dc-prix tabular-nums">{l.prix}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+        <ContactForm compact sejour idPrefix={idPrefix} />
+      </div>
+    </div>
+  </div>
+)}
+
+<style>
+  .dc { display: grid; gap: clamp(1.25rem, 3vw, 2rem); }
+  .dc-tete { display: grid; gap: 0.5rem; }
+  .dc-titre { font-size: clamp(2rem, 5.5vw, 3.75rem); line-height: 1; letter-spacing: -0.015em; }
+  .dc-consigne { max-inline-size: 46ch; font-size: 1.05rem; }
+  .dc-grille { display: grid; gap: 2rem; }
+  .dc-calendrier { display: grid; gap: 0.75rem; align-content: start; }
+  .dc-mois-liste { display: grid; gap: 1.5rem; }
+  .dc-mois { inline-size: 100%; border-collapse: separate; border-spacing: 3px; table-layout: fixed; }
+  .dc-mois-nom { text-align: start; font-size: 1.35rem; padding-block-end: 0.4rem; }
+  .dc-mois th { font-size: 0.8rem; font-weight: 600; padding-block: 0.25rem; }
+  .dc-mois abbr { text-decoration: none; }
+  .dc-jour { block-size: 2.75rem; padding: 0; text-align: center; vertical-align: middle; background: var(--color-surface, var(--color-bg)); border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); font-variant-numeric: tabular-nums; }
+  .dc-pris { background: var(--color-bg-2); text-decoration: line-through; text-decoration-thickness: 2px; }
+  .dc-passe { color: var(--color-muted); }
+  .dc-jour :global(button) { inline-size: 100%; block-size: 100%; min-block-size: 44px; cursor: pointer; border-radius: inherit; font: inherit; color: inherit; text-decoration: inherit; }
+  .dc-jour :global(button:hover) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+  .dc-jour :global(button:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 1px; }
+  .dc-jour:global(.dc-dans) { background: color-mix(in oklab, var(--color-accent) 16%, var(--color-bg)); }
+  .dc-jour:global(.dc-choisi) { background: var(--color-accent); color: var(--color-on-accent); border-color: var(--color-accent); text-decoration: none; }
+  .dc-legende { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; font-size: 0.9rem; }
+  .dc-pastille { display: inline-block; inline-size: 1rem; block-size: 1rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 4px); }
+  .dc-pastille-pris { background: var(--color-bg-2); }
+  .dc-pastille-libre { background: var(--color-surface, var(--color-bg)); }
+  .dc-maj { font-size: 0.9rem; color: var(--color-muted); }
+  .dc-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .dc-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .dc-cote { display: grid; gap: 1.25rem; align-content: start; }
+  .dc-selection { padding: 1.1rem 1.25rem; border-radius: var(--radius-card); background: var(--color-ink); color: var(--color-on-ink); }
+  .dc-selection-titre { font-size: 1.3rem; margin-block-end: 0.25rem; }
+  .dc-infos { display: grid; gap: 0.2rem; }
+  .dc-tarifs { display: grid; }
+  .dc-tarif { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 0.5rem; border-block-end: 1px solid var(--color-line); }
+  .dc-tarif-nom { display: grid; }
+  .dc-prix { font-weight: 600; white-space: nowrap; }
+  @media (min-width: 48rem) { .dc-mois-liste { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; } }
+  @media (min-width: 64rem) { .dc-grille { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; } }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { isoDuJour } from '@/lib/agenda';
+  import { nuitPrise, sejourLibre, libelleSejour, nuitsEntre, dateSejour, type Periode } from '@/lib/sejour';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-dispo]').forEach((racine) => {
+      if (racine.dataset.pret) return;
+      racine.dataset.pret = '1';
+      const { periodes, nuitsMin } = JSON.parse(racine.dataset.dispo || '{}') as { periodes: Periode[]; nuitsMin: number };
+      const aujourdhui = isoDuJour(new Date());
+      const arriveeChamp = racine.querySelector<HTMLInputElement>('[data-sejour-arrivee]');
+      const departChamp = racine.querySelector<HTMLInputElement>('[data-sejour-depart]');
+      const selection = racine.querySelector<HTMLElement>('[data-dc-selection]');
+      const texte = racine.querySelector<HTMLElement>('[data-dc-selection-texte]');
+      const consigne = racine.querySelector<HTMLElement>('[data-dc-consigne]');
+      const cases = [...racine.querySelectorAll<HTMLElement>('td[data-jour]')];
+      if (arriveeChamp) arriveeChamp.min = aujourdhui;
+      if (departChamp) departChamp.min = aujourdhui;
+      let arr: string | null = null;
+      let dep: string | null = null;
+
+      const dire = (msg: string) => { if (texte) texte.textContent = msg; };
+      const peindre = () => {
+        cases.forEach((c) => {
+          const j = c.dataset.jour!;
+          const b = c.querySelector('button');
+          const choisi = j === arr || j === dep;
+          c.classList.toggle('dc-choisi', choisi);
+          c.classList.toggle('dc-dans', Boolean(arr && dep && j > arr && j < dep));
+          b?.setAttribute('aria-pressed', String(choisi));
+        });
+      };
+      const juger = () => {
+        if (arr && dep) {
+          const n = nuitsEntre(arr, dep);
+          if (!sejourLibre(periodes, arr, dep)) dire('Une nuit est déjà prise entre ces dates : choisissez d’autres dates.');
+          else dire(`${libelleSejour(arr, dep).replace(/^./, (c) => c.toUpperCase())} : ces nuits sont libres.${nuitsMin && n < nuitsMin ? ` Le séjour est de ${nuitsMin} nuits au moins.` : ''} Complétez la demande pour les réserver.`);
+        } else if (arr) dire(`Arrivée le ${dateSejour(arr)} : touchez maintenant le jour du départ.`);
+        else dire('Touchez votre jour d’arrivée, puis votre jour de départ.');
+      };
+
+      cases.forEach((c) => {
+        const j = c.dataset.jour!;
+        if (j < aujourdhui) { c.classList.add('dc-passe'); return; }
+        const n = c.querySelector('.dc-n');
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-pressed', 'false');
+        b.setAttribute('aria-label', `${c.dataset.libelle}, nuit ${nuitPrise(periodes, j) ? 'prise' : 'libre'}`);
+        b.textContent = n?.textContent ?? '';
+        c.replaceChildren(b);
+        b.addEventListener('click', () => {
+          if (arr && !dep && j > arr && sejourLibre(periodes, arr, j)) dep = j;
+          else if (!nuitPrise(periodes, j)) { arr = j; dep = null; }
+          else { dire('Cette nuit est déjà prise : choisissez un autre jour d’arrivée.'); return; }
+          if (arriveeChamp) arriveeChamp.value = arr ?? '';
+          if (departChamp) departChamp.value = dep ?? '';
+          peindre();
+          juger();
+        });
+      });
+      const depuisChamps = () => {
+        arr = arriveeChamp?.value || null;
+        dep = departChamp?.value || null;
+        if (arr && dep && dep <= arr) dep = null;
+        peindre();
+        juger();
+      };
+      arriveeChamp?.addEventListener('change', depuisChamps);
+      departChamp?.addEventListener('change', depuisChamps);
+      if (selection) selection.hidden = false;
+      if (consigne && cases.length) consigne.textContent = 'Les nuits barrées sont prises. Touchez votre arrivée puis votre départ : la demande se remplit, nous vous répondons pour confirmer.';
+    });
+  });
+</script>

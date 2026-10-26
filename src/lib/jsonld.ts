@@ -218,3 +218,36 @@ export function feteLd(site: Site, f: Site['fetes'][number], pageUrl: string): J
     provider: { '@type': type, name: site.business.name },
   };
 }
+
+/**
+ * Un barreau du parcours (site.parcours, architecture parcours-atelier, src/pages/parcours/[slug].astro) : un `Service`
+ * proposé par le commerce, ses formules en `OfferCatalog` (prix structuré seulement s'il est donné en euros, sinon en
+ * texte, jamais deviné). Rien qui ne soit sur la page ; jamais de note agrégée.
+ */
+export function barreauLd(site: Site, b: Site['parcours'][number], pageUrl: string): Json {
+  const type = site.business.schemaType || schemaTypeForTrade(site.business.trade);
+  return {
+    '@type': 'Service',
+    name: b.titre,
+    url: pageUrl,
+    ...(b.phrase ? { description: b.phrase } : {}),
+    provider: { '@type': type, name: site.business.name },
+    areaServed: site.contact.address.city,
+    ...(b.formules.length > 0
+      ? {
+          hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: b.titre,
+            itemListElement: b.formules.map((f) => {
+              const m = f.prix ? /^\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|EUR|euros?)\s*$/i.exec(f.prix) : null;
+              return {
+                '@type': 'Offer',
+                itemOffered: { '@type': 'Service', name: f.nom, ...(f.detail ? { description: f.detail } : {}) },
+                ...(m ? { price: m[1].replace(',', '.'), priceCurrency: 'EUR' } : f.prix ? { description: f.prix } : {}),
+              };
+            }),
+          },
+        }
+      : {}),
+  };
+}

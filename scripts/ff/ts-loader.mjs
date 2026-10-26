@@ -237,6 +237,22 @@ export async function loadFetesModule() {
   return loadPureLibModule('fetes.ts');
 }
 
+/**
+ * Copie src/lib/sejour.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture outil-calendrier :
+ * nuits prises, séjour libre, mois du calendrier, lecture d'iCal ; tests/architectures-sejour.test.mjs).
+ */
+export async function loadSejourModule() {
+  return loadPureLibModule('sejour.ts');
+}
+
+/**
+ * Copie src/lib/parcours.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture parcours-atelier :
+ * barreaux de l'échelle, suivant, formules ; tests/architectures-sejour.test.mjs).
+ */
+export async function loadParcoursModule() {
+  return loadPureLibModule('parcours.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

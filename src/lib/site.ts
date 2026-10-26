@@ -24,6 +24,10 @@ export { slugStyle, stylesDe, artistesDuStyle, autresArtistes, contactsDeLArtist
 import { lienArtistes } from './artistes';
 export { fetesAVenir, feteDuMoment, etatCommande, joursEntre, dateFete, periodeFete, formatHeure, livraisonDuMoment, lienFetes, fetesCompletes } from './fetes';
 import { lienFetes } from './fetes';
+export { ajouterJours, nuitsEntre, nuitPrise, sejourLibre, departMax, fusionnerPeriodes, periodesAVenir, moisDuCalendrier, lireIcs, dateSejour, libelleSejour, nuitsLibres, calendrierConnu, lienDisponibilites, JOURS_COURTS } from './sejour';
+import { lienDisponibilites } from './sejour';
+export { barreauxComplets, voisins, prixDepuis, liensParcours, avisDuBarreau, avisGeneraux } from './parcours';
+import { liensParcours } from './parcours';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -247,6 +251,14 @@ export const navLinks = (s: Site = site) => {
   // entrée de Touchard Fleurs) ; seulement s'il reste une fête à venir au build.
   const fetes = lienFetes(s.fetes ?? [], s.wording.fetes, isoDuJour());
   if (fetes) links.unshift(fetes);
+  // Disponibilités (src/lib/sejour.ts, architecture outil-calendrier) : la page du calendrier entier, en tête de la nav
+  // (« Boeken » est le bouton toujours visible de Coquelicots ; la porte Réserver saute à l'outil de l'accueil).
+  const dispo = lienDisponibilites(s.disponibilites, s.wording.disponibilites);
+  if (dispo) links.unshift(dispo);
+  // Parcours (src/lib/parcours.ts, architecture parcours-atelier) : chaque barreau est une page, la nav les nomme en tête
+  // (« Classes », « Membership » de Turning Earth).
+  const parcours = liensParcours(s.parcours ?? []);
+  if (parcours.length > 0) links.unshift(...parcours);
   // Professionnels (site.pros, architecture pages-adresses) : un lien discret, en dernier.
   const pros = lienPros(s.pros, s.wording.pros);
   if (pros) links.push(pros);
