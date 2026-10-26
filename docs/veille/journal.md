@@ -9,6 +9,60 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 - la collecte doit ramener des palettes clair teinté doux (10 tirables sur 137, 18 au moins)
 <!-- /ff melanger -->
 
+## 26 oct 2026, tour 8 (routine en ligne) : 8 styles, 2 architectures
+
+**Fait**
+- Santé : `tests/atomes.test.mjs` était rouge sur `main` après la collecte du 25 oct (23 atomes avec `photos.traitement`
+  « à juger » sous un atome photos posé, mesures hors bornes ; fiches frama, pierrehermeparis et maisonkitsune effacées par
+  erreur). Atomes repassés en « à juger » là où rien n'était jugé, fiches restaurées. Chromium de Playwright, `FF_CHROMIUM=1` :
+  tout a tourné avec navigateur.
+- **Styles (2a quater)** : collecte commencée par les régimes en besoin (sombre, clair teinté). Une soixantaine de domaines
+  essayés (beaucoup injoignables : 502, tunnel refusé), planche de défilement regardée pour chaque candidat, 10 relevés,
+  chacun essayé sur une copie de `demo-boulangerie` (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de
+  la source. **8 gardés** : `lune` (croissanterie, noir), `attica` (noir, fond qui change de teinte), `thepalomar` (bleu
+  nuit et crème), `cafedeflore` (noir et grège) en sombres ; `kol` (kaki), `bobbobricard` (rose poudré), `lesdeuxmagots`
+  (vert bouteille, brique, or) en colorés doux ; `terroirsavenir` (producteurs, papier clair). Refusé à la comparaison :
+  bancone ; écartés au regard : sessionsartsclub, verve. Fiches `docs/veille/styles/<id>.md`, lignes et écartés dans
+  [styles/INDEX.md](styles/INDEX.md).
+- Palettes par régime, avant → après : sombre 16 → 20 (besoin comblé), coloré doux 23 → 26, clair neutre 80 → 81, clair
+  teinté 10 → 10 (toujours en besoin : les crèmes vues restent sous 0,012 ou sont sur des sites à fenêtres bloquantes).
+- **Mouvement** : 2 profils nouveaux, mesurés sur la source ([MOUVEMENTS.md](styles/MOUVEMENTS.md), `scripts/ff/mouvements.mjs`) :
+  `nom-en-lettres-geantes` (Lune : une lettre du nom au trait par section, parallaxe de 0,125, relevée à 8 hauteurs) et
+  `fond-qui-change-de-teinte` (Attica : le fond du document prend la teinte de chaque assiette, 1 s, relevé à 14 hauteurs). 25 profils.
+- **Règle apprise en regardant les essais** (ATOMES.md § Règles apprises, `casseH1` testée dans `melanger.mjs`) : les capitales
+  de Palomar, Flore, Bob Bob Ricard et Deux Magots cassaient le h1 d'une phrase en 4 à 6 lignes à l'ordinateur ; le h1 repasse
+  en casse normale, les h2 gardent les capitales. Vérifié au second essai de Palomar (4 lignes au lieu de 6).
+- Mélange au hasard sur `_exemple` (`--n 3 --hasard --essai`) regardé : trois sites nettement différents (crème et machine à
+  écrire ; noir, Josefin et vert d'eau ; rose grège et bleu marine).
+- **Architectures (2a ter)** : [outil-calendrier](architectures/coquelicots.md) enfin codée (coquille `calendrier`,
+  `disponibilites` : périodes prises ou iCal lu au build, calendrier lisible sans script, la demande remplit Arrivée et Départ,
+  aucun paiement) et une nouvelle, [parcours-atelier](architectures/parcours-atelier.md) (Turning Earth, ateliers de céramique,
+  Londres : le site est une échelle, du premier essai à la pratique libre ; coquille `parcours`, `parcours[]`, une page par
+  barreau). Les 12 architectures de l'étude du 17 oct sont toutes codées. `ff ressemblance` : calendrier 0,49 / 0,59 / 0,55,
+  parcours 0,54 / 0,64 / 0,59 (téléphone / ordinateur / déroulé, seuil 0,65 ; le parcours passe de justesse à l'ordinateur).
+  `ff verifier` vert sur les deux sites jetables (hors données de test), supprimés ensuite. Tests `tests/architectures-sejour.test.mjs`.
+- **Marché (2a)** : 9 sites de plus (agences de Toulon, Lille, Rennes ; Google : serrurier à Nîmes, paysagiste en Seine-Saint-Denis,
+  tatoueur à Annecy ; modèles Framer GreenCraft, Wix SnapX, Squarespace Kinsley). [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) passe à
+  72 sites. Aucun levier à 40 % ou plus n'est absent de l'usine. Le plus vendeur : le serrurier de Nîmes (gérant en photo devant
+  sa boutique au premier écran, 14 liens d'appel et bouton « Appel 24/7 », « moins de 30 min », prix écrits, mise en garde contre
+  les plateformes d'urgence). À surveiller : la date des réalisations, le choix guidé de la prestation, les forfaits d'entretien.
+- Tests : 69 fichiers, 1 113 tests, tous verts après fusion.
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé, 21
+les deux), aucun site n'ayant changé ; pires paires inchangées : anna-vidal / borie-des-chenes (0,81 / 0,75 / 1,00), chez-malo /
+studio-ambre (0,87 / 0,91), demo-informatique / fromagerie-ravanel-d (déroulé 0,90). Signalé, pas corrigé.
+
+**Proposé**
+- Collecte ciblée crèmes de chroma ≥ 0,012 (il manque 8 palettes teintées) ; reprendre Gymkhana (vert bouteille, crème, bordeaux : 429 au relevé).
+- Coder le déclencheur `data-teinte` du profil d'Attica dans le moteur (petit, iPhone sans risque : transition en temps).
+- Réalisations datées et situées dans `proof/gallery` (vu sur le marché, une variante de plus).
+
+**À décider** : les 8 styles (`ff melanger <slug> --style terroirsavenir` les applique) ; les deux architectures, à proposer au premier
+gîte ou chambre d'hôtes avec un calendrier (outil-calendrier) et au premier atelier qui donne des cours (céramique, cuisine, couture :
+parcours-atelier) ; les paires trop proches (anna-vidal / borie-des-chenes, autour de studio-ambre).
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
 ## 25 oct 2026, tour 7 (routine en ligne) : 10 styles, 2 architectures
 
 **Fait**
