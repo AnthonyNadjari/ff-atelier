@@ -1,0 +1,834 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.jackywinter.gallery/",
+  "nom": "jackywinter",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Jacky Winter Gallery | Collingwood arts space showcasing design-led creative talent",
+    "siteName": "",
+    "lang": "en",
+    "description": "Jacky Winter Gallery is where art and design converge to uplift their creators. Established by The Jacky Winter Group in 2008, the gallery hosts monthly exhibitions showcasing design-led creative talent from their roster of represented artists and broader friends and collaborators.",
+    "technologies": [
+      "Next.js",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#000000",
+      "h1": "We are currently open",
+      "h1Visible": true,
+      "mots": 16,
+      "images": 6,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 11796,
+      "bougeSeul": {
+        "n": 2,
+        "exemples": [
+          "div.home-carousel",
+          "div.w-full"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.text-center",
+        "famille": "MessinaModern, \"MessinaModern Fallback\", sans-serif",
+        "taille": 100,
+        "graisse": "400",
+        "interlignage": 0.9,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-4px"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "MessinaSans, \"MessinaSans Fallback\", sans-serif",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.4px"
+      },
+      "bouton": {
+        "selecteur": "button.text-white",
+        "famille": "MessinaSans, \"MessinaSans Fallback\", sans-serif",
+        "taille": 20,
+        "graisse": "400",
+        "interlignage": 1.75,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-0.4px"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "MessinaSans, \"MessinaSans Fallback\", sans-serif",
+        "taille": 20,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.4px"
+      },
+      "fontFaces": [
+        {
+          "famille": "MessinaModern",
+          "url": "/_next/static/media/e131cc7aff595bb6-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaModern",
+          "url": "/_next/static/media/6f175ab1b9aec877-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaModern",
+          "url": "/_next/static/media/06072b7f583007ca-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaModern",
+          "url": "/_next/static/media/7babbed2afa66862-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaModern Fallback",
+          "url": "",
+          "feuille": "www.jackywinter.gallery",
+          "source": "locale"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/2194d4095337e532-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/9642aef14a6d4f98-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/17f398189d723a3c-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/c3aa355979abe68b-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/3d660e1dc7b780d4-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/cc0eb2a7cc0b26e8-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans Fallback",
+          "url": "",
+          "feuille": "www.jackywinter.gallery",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.jackywinter.gallery/_next/static/media/06072b7f583007ca-s.p.woff2",
+        "https://www.jackywinter.gallery/_next/static/media/17f398189d723a3c-s.p.woff2",
+        "https://www.jackywinter.gallery/_next/static/media/6f175ab1b9aec877-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/2194d4095337e532-s.p.woff2",
+        "https://www.jackywinter.gallery/_next/static/media/3d660e1dc7b780d4-s.p.woff2",
+        "https://www.jackywinter.gallery/_next/static/media/9642aef14a6d4f98-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/c3aa355979abe68b-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/7babbed2afa66862-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/cc0eb2a7cc0b26e8-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/e131cc7aff595bb6-s.p.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "MessinaSans",
+          "n": 63
+        },
+        {
+          "famille": "MessinaModern",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#000000",
+      "texte": "#ffffff",
+      "fondsBruts": [
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 16986240
+        },
+        {
+          "hex": "#2740bf",
+          "n": 2,
+          "poids": 9856.40625
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 65,
+          "poids": 1098
+        }
+      ],
+      "nbImages": 16,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 16986240,
+          "part": 0.999
+        },
+        {
+          "hex": "#2740bf",
+          "n": 2,
+          "poids": 9856.40625,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 65,
+          "poids": 1098,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "border-radius 0.2s ease-out",
+          "n": 34
+        },
+        {
+          "valeur": "background-color 0.1s ease-out",
+          "n": 34
+        },
+        {
+          "valeur": "color 0.1s ease-out",
+          "n": 34
+        },
+        {
+          "valeur": "fill 0.1s ease-out",
+          "n": 30
+        },
+        {
+          "valeur": "transform 0.4s ease-in-out",
+          "n": 15
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "transform 1.5s cubic-bezier(0.19, 1, 0.22, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "width 1.5s cubic-bezier(0.19, 1, 0.22, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "all 0.5s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.button-group__label",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "border-radius 0.2s ease-out",
+          "background-color 0.1s ease-out",
+          "color 0.1s ease-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main.page-container-home",
+      "sections": [
+        {
+          "selecteur": "div.items-start",
+          "titre": null,
+          "top": 139,
+          "hauteur": 978,
+          "ecrans": 1.1,
+          "mots": 23,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.pt-90",
+          "titre": "We are currently open",
+          "top": 1117,
+          "hauteur": 679,
+          "ecrans": 0.8,
+          "mots": 22,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "div.lg:px-outer",
+          "titre": "View More",
+          "top": 1796,
+          "hauteur": 9786,
+          "ecrans": 10.9,
+          "mots": 114,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer.flex",
+          "titre": null,
+          "top": 11582,
+          "hauteur": 214,
+          "ecrans": 0.2,
+          "mots": 56,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.w-full",
+        "hauteur": 43,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Exhibitions",
+            "href": "/exhibitions",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "Jacky Winter Gallery",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.flex",
+        "liens": [
+          {
+            "texte": "Accessibility Info",
+            "href": "https://indd.adobe.com/view/0143ae70-fe8c-4bfb-8736-261ea7cd411e",
+            "bouton": false
+          },
+          {
+            "texte": "Email",
+            "href": "mailto:gallery@jackywinter.com",
+            "bouton": false
+          },
+          {
+            "texte": "Call",
+            "href": "tel:+613.8060.9745",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/jackywinter.gallery",
+            "bouton": false
+          },
+          {
+            "texte": "SUBSCRIBE",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+613.8060.9745"
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div",
+          "position": "absolute",
+          "hauteur": 99,
+          "largeur": 99,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "header.w-full",
+          "position": "fixed",
+          "hauteur": 43,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 6
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 2,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/jackywinter-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#000000",
+      "h1": "We are currently open",
+      "h1Visible": true,
+      "mots": 14,
+      "images": 2,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6318,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.text-center",
+        "famille": "MessinaModern, \"MessinaModern Fallback\", sans-serif",
+        "taille": 35,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.4px"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "MessinaSans, \"MessinaSans Fallback\", sans-serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.36px"
+      },
+      "bouton": {
+        "selecteur": "button.px-3",
+        "famille": "MessinaSans, \"MessinaSans Fallback\", sans-serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.36px"
+      },
+      "nav": {
+        "selecteur": "a.px-3",
+        "famille": "MessinaSans, \"MessinaSans Fallback\", sans-serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.36px"
+      },
+      "fontFaces": [
+        {
+          "famille": "MessinaModern",
+          "url": "/_next/static/media/e131cc7aff595bb6-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaModern",
+          "url": "/_next/static/media/6f175ab1b9aec877-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaModern",
+          "url": "/_next/static/media/06072b7f583007ca-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaModern",
+          "url": "/_next/static/media/7babbed2afa66862-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaModern Fallback",
+          "url": "",
+          "feuille": "www.jackywinter.gallery",
+          "source": "locale"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/2194d4095337e532-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/9642aef14a6d4f98-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/17f398189d723a3c-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/c3aa355979abe68b-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/3d660e1dc7b780d4-s.p.woff2",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans",
+          "url": "/_next/static/media/cc0eb2a7cc0b26e8-s.p.woff",
+          "feuille": "www.jackywinter.gallery",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MessinaSans Fallback",
+          "url": "",
+          "feuille": "www.jackywinter.gallery",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.jackywinter.gallery/_next/static/media/06072b7f583007ca-s.p.woff2",
+        "https://www.jackywinter.gallery/_next/static/media/17f398189d723a3c-s.p.woff2",
+        "https://www.jackywinter.gallery/_next/static/media/2194d4095337e532-s.p.woff2",
+        "https://www.jackywinter.gallery/_next/static/media/3d660e1dc7b780d4-s.p.woff2",
+        "https://www.jackywinter.gallery/_next/static/media/6f175ab1b9aec877-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/7babbed2afa66862-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/9642aef14a6d4f98-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/c3aa355979abe68b-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/cc0eb2a7cc0b26e8-s.p.woff",
+        "https://www.jackywinter.gallery/_next/static/media/e131cc7aff595bb6-s.p.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "MessinaSans",
+          "n": 63
+        },
+        {
+          "famille": "MessinaModern",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#000000",
+      "texte": "#ffffff",
+      "fondsBruts": [
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 2494050
+        },
+        {
+          "hex": "#2740bf",
+          "n": 2,
+          "poids": 7763.4375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 65,
+          "poids": 1133
+        }
+      ],
+      "nbImages": 13,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 2494050,
+          "part": 0.997
+        },
+        {
+          "hex": "#2740bf",
+          "n": 2,
+          "poids": 7763.4375,
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 65,
+          "poids": 1133,
+          "part": 1
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 5
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.transition-opacity",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main.page-container-home",
+      "sections": [
+        {
+          "selecteur": "div.w-full",
+          "titre": null,
+          "top": 83,
+          "hauteur": 1540,
+          "ecrans": 1.8,
+          "mots": 37,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.pt-90",
+          "titre": "We are currently open",
+          "top": 1623,
+          "hauteur": 427,
+          "ecrans": 0.5,
+          "mots": 22,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "div.lg:px-outer",
+          "titre": "View More",
+          "top": 2050,
+          "hauteur": 3736,
+          "ecrans": 4.4,
+          "mots": 114,
+          "images": 9,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer.flex",
+          "titre": null,
+          "top": 5786,
+          "hauteur": 610,
+          "ecrans": 0.7,
+          "mots": 56,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.w-full",
+        "hauteur": 39,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Jacky Winter Gallery",
+            "href": "/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.flex",
+        "liens": [
+          {
+            "texte": "Accessibility Info",
+            "href": "https://indd.adobe.com/view/0143ae70-fe8c-4bfb-8736-261ea7cd411e",
+            "bouton": false
+          },
+          {
+            "texte": "Email",
+            "href": "mailto:gallery@jackywinter.com",
+            "bouton": false
+          },
+          {
+            "texte": "Call",
+            "href": "tel:+613.8060.9745",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/jackywinter.gallery",
+            "bouton": false
+          },
+          {
+            "texte": "SUBSCRIBE",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+613.8060.9745"
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div",
+          "position": "absolute",
+          "hauteur": 99,
+          "largeur": 99,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "header.w-full",
+          "position": "fixed",
+          "hauteur": 39,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Jacky Winter Gallery",
+  "dureeS": 21.7
+}

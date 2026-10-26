@@ -1,0 +1,1336 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://kizupi.com/",
+  "nom": "kizupi",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Kizupi · The math tutor that asks why",
+    "siteName": "Kizupi",
+    "lang": "en",
+    "description": "Kizupi is a pixel owl who tutors kids in Grades 1–6 in math. It listens, asks “how do you know?”, and never rushes to the answer. Try it free for 7 days. No ads.",
+    "technologies": []
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#bfe3f2",
+      "h1": "The math tutor that asks why.",
+      "h1Visible": true,
+      "mots": 65,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "canvas",
+        "couverture": 0.93,
+        "selecteur": "canvas"
+      },
+      "boutonPrincipal": {
+        "texte": "Try Kizupi FREE for 7 days",
+        "x": 481.859375,
+        "y": 472.15625,
+        "cx": 0.43133680555555554,
+        "cy": 0.5523958333333333,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 5801,
+      "bougeSeul": {
+        "n": 2,
+        "exemples": [
+          "p.owl-bubble"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1#hero-title",
+        "famille": "\"Bricolage Grotesque\", \"Atkinson Hyperlegible\", system-ui, sans-serif",
+        "taille": 96,
+        "graisse": "700",
+        "interlignage": 0.98,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-3.36px"
+      },
+      "h2": {
+        "selecteur": "h2#ladder-title",
+        "famille": "\"Bricolage Grotesque\", \"Atkinson Hyperlegible\", system-ui, sans-serif",
+        "taille": 60,
+        "graisse": "700",
+        "interlignage": 1.02,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-2.1px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Atkinson Hyperlegible\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.55,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.try-cta",
+        "famille": "\"Atkinson Hyperlegible\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.55,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.signin-link",
+        "famille": "\"Atkinson Hyperlegible\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "taille": 16,
+        "graisse": "800",
+        "interlignage": 1.55,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-400-italic-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-400-italic-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-400-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-400-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-700-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-700-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Patrick Hand",
+          "url": "/fonts/patrick-hand-400-vietnamese.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Patrick Hand",
+          "url": "/fonts/patrick-hand-400-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Patrick Hand",
+          "url": "/fonts/patrick-hand-400-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Bricolage Grotesque",
+          "url": "/fonts/bricolage-grotesque-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Bricolage Grotesque",
+          "url": "/fonts/bricolage-grotesque-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://kizupi.com/fonts/bricolage-grotesque-latin.woff2",
+        "https://kizupi.com/fonts/atkinson-hyperlegible-400-latin.woff2",
+        "https://kizupi.com/fonts/atkinson-hyperlegible-700-latin.woff2",
+        "https://kizupi.com/fonts/atkinson-hyperlegible-400-italic-latin.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Atkinson Hyperlegible",
+          "n": 91
+        },
+        {
+          "famille": "Bricolage Grotesque",
+          "n": 36
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f6f4ec",
+      "texte": "#14201a",
+      "fondsBruts": [
+        {
+          "hex": "#f6f4ec",
+          "n": 2,
+          "poids": 8380272
+        },
+        {
+          "hex": "#111914",
+          "n": 3,
+          "poids": 1669365
+        },
+        {
+          "hex": "#bfe3f2",
+          "n": 1,
+          "poids": 1354185
+        },
+        {
+          "hex": "#f4f6f9",
+          "n": 1,
+          "poids": 1354185
+        },
+        {
+          "hex": "#c6f36b",
+          "n": 4,
+          "poids": 1025468.34375
+        },
+        {
+          "hex": "#eeebe0",
+          "n": 1,
+          "poids": 975127.5
+        },
+        {
+          "hex": "#0e4d2a",
+          "n": 1,
+          "poids": 903712.5
+        },
+        {
+          "hex": "#ffffff",
+          "n": 18,
+          "poids": 822196.6401367188
+        },
+        {
+          "hex": "#177a43",
+          "n": 7,
+          "poids": 33039.9375
+        },
+        {
+          "hex": "#ffb930",
+          "n": 4,
+          "poids": 22374.217041015625
+        },
+        {
+          "hex": "#14201a",
+          "n": 3,
+          "poids": 21895.061279296875
+        },
+        {
+          "hex": "#dcefd8",
+          "n": 2,
+          "poids": 9874.993896484375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3d4a42",
+          "n": 28,
+          "poids": 2386
+        },
+        {
+          "hex": "#14201a",
+          "n": 38,
+          "poids": 823
+        },
+        {
+          "hex": "#a5b5ab",
+          "n": 8,
+          "poids": 397
+        },
+        {
+          "hex": "#ffffff",
+          "n": 18,
+          "poids": 345
+        },
+        {
+          "hex": "#b9d6c2",
+          "n": 5,
+          "poids": 334
+        },
+        {
+          "hex": "#2c3a31",
+          "n": 4,
+          "poids": 104
+        },
+        {
+          "hex": "#5f6b64",
+          "n": 10,
+          "poids": 57
+        },
+        {
+          "hex": "#e7eee9",
+          "n": 7,
+          "poids": 53
+        },
+        {
+          "hex": "#177a43",
+          "n": 3,
+          "poids": 44
+        },
+        {
+          "hex": "#93a399",
+          "n": 1,
+          "poids": 33
+        },
+        {
+          "hex": "#c6f36b",
+          "n": 3,
+          "poids": 32
+        },
+        {
+          "hex": "#0f5e32",
+          "n": 2,
+          "poids": 25
+        }
+      ],
+      "nbImages": 2,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 8,
+      "fonds": [
+        {
+          "hex": "#f6f4ec",
+          "n": 2,
+          "poids": 8380272,
+          "part": 0.506
+        },
+        {
+          "hex": "#111914",
+          "n": 3,
+          "poids": 1669365,
+          "part": 0.101
+        },
+        {
+          "hex": "#bfe3f2",
+          "n": 1,
+          "poids": 1354185,
+          "part": 0.082
+        },
+        {
+          "hex": "#f4f6f9",
+          "n": 1,
+          "poids": 1354185,
+          "part": 0.082
+        },
+        {
+          "hex": "#c6f36b",
+          "n": 4,
+          "poids": 1025468.34375,
+          "part": 0.062
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3d4a42",
+          "n": 28,
+          "poids": 2386,
+          "part": 0.515
+        },
+        {
+          "hex": "#14201a",
+          "n": 38,
+          "poids": 823,
+          "part": 0.178
+        },
+        {
+          "hex": "#a5b5ab",
+          "n": 8,
+          "poids": 397,
+          "part": 0.086
+        },
+        {
+          "hex": "#ffffff",
+          "n": 18,
+          "poids": 345,
+          "part": 0.074
+        },
+        {
+          "hex": "#b9d6c2",
+          "n": 5,
+          "poids": 334,
+          "part": 0.072
+        }
+      ],
+      "contraste": 15.24
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "header.site-header",
+          "ecrans": 6.4
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "transform 0.08s ease",
+          "n": 9
+        },
+        {
+          "valeur": "box-shadow 0.08s ease",
+          "n": 9
+        },
+        {
+          "valeur": "background-color 0.12s ease",
+          "n": 9
+        },
+        {
+          "valeur": "background-color 0.16s ease",
+          "n": 7
+        },
+        {
+          "valeur": "animation bubble-bob 2.4s ease-in-out infinite",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "background 0.12s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.12s ease",
+          "n": 1
+        },
+        {
+          "valeur": "animation pop 0.22s ease-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.btn",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "transform 0.08s ease",
+          "box-shadow 0.08s ease",
+          "background-color 0.12s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#main",
+      "sections": [
+        {
+          "selecteur": "section.hero",
+          "titre": "The math tutor that asks why.",
+          "top": 65,
+          "hauteur": 1054,
+          "ecrans": 1.2,
+          "mots": 82,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "section#ladder",
+          "titre": "It doesn’t give the answer. It asks.",
+          "top": 1119,
+          "hauteur": 782,
+          "ecrans": 0.9,
+          "mots": 124,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "ol",
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "section#parents",
+          "titre": "You’re in charge. Without hovering.",
+          "top": 1901,
+          "hauteur": 628,
+          "ecrans": 0.7,
+          "mots": 87,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#teachers",
+          "titre": "Practice at home that sounds like your classroom.",
+          "top": 2529,
+          "hauteur": 775,
+          "ecrans": 0.9,
+          "mots": 114,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#schools",
+          "titre": "Ready for your families. Private by design.",
+          "top": 3304,
+          "hauteur": 677,
+          "ecrans": 0.8,
+          "mots": 107,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#faq",
+          "titre": "The things parents ask first.",
+          "top": 3981,
+          "hauteur": 869,
+          "ecrans": 1,
+          "mots": 65,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "details"
+          ]
+        },
+        {
+          "selecteur": "section.final",
+          "titre": "Say hello to Kizupi.",
+          "top": 4849,
+          "hauteur": 688,
+          "ecrans": 0.8,
+          "mots": 42,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "footer.site-footer",
+          "titre": null,
+          "top": 5537,
+          "hauteur": 264,
+          "ecrans": 0.3,
+          "mots": 15,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "canvas"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.site-header",
+        "hauteur": 65,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "Kizupi home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Parents",
+            "href": "#parents",
+            "bouton": false
+          },
+          {
+            "texte": "Teachers",
+            "href": "#teachers",
+            "bouton": false
+          },
+          {
+            "texte": "Schools",
+            "href": "#schools",
+            "bouton": false
+          },
+          {
+            "texte": "Help",
+            "href": "/help",
+            "bouton": false
+          },
+          {
+            "texte": "Sign in",
+            "href": "/app/signin",
+            "bouton": false
+          },
+          {
+            "texte": "Try Kizupi FREE for 7 days!",
+            "href": "/app",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.site-footer",
+        "liens": [
+          {
+            "texte": "Kizupi home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "Chrome extension",
+            "href": "/chrome",
+            "bouton": false
+          },
+          {
+            "texte": "Help",
+            "href": "/help",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy",
+            "href": "/privacy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms",
+            "href": "/terms",
+            "bouton": false
+          },
+          {
+            "texte": "Changelog",
+            "href": "/changelog",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip",
+          "position": "absolute",
+          "hauteur": 48,
+          "largeur": 162,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "header.site-header",
+          "position": "sticky",
+          "hauteur": 65,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 12
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 16,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/kizupi-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#bfe3f2",
+      "h1": "The math tutor that asks why.",
+      "h1Visible": true,
+      "mots": 59,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "canvas",
+        "couverture": 0.92,
+        "selecteur": "canvas"
+      },
+      "boutonPrincipal": {
+        "texte": "Try Kizupi FREE for 7 days",
+        "x": 55.734375,
+        "y": 344.15625,
+        "cx": 0.5,
+        "cy": 0.43738892180094785,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 7771,
+      "bougeSeul": {
+        "n": 2,
+        "exemples": [
+          "p.owl-bubble"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1#hero-title",
+        "famille": "\"Bricolage Grotesque\", \"Atkinson Hyperlegible\", system-ui, sans-serif",
+        "taille": 46,
+        "graisse": "700",
+        "interlignage": 0.98,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.61px"
+      },
+      "h2": {
+        "selecteur": "h2#ladder-title",
+        "famille": "\"Bricolage Grotesque\", \"Atkinson Hyperlegible\", system-ui, sans-serif",
+        "taille": 36,
+        "graisse": "700",
+        "interlignage": 1.02,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.26px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Atkinson Hyperlegible\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.55,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.try-cta",
+        "famille": "\"Atkinson Hyperlegible\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.55,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "\"Atkinson Hyperlegible\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "taille": 16,
+        "graisse": "700",
+        "interlignage": 1.55,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-400-italic-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-400-italic-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-400-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-400-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-700-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Atkinson Hyperlegible",
+          "url": "/fonts/atkinson-hyperlegible-700-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Patrick Hand",
+          "url": "/fonts/patrick-hand-400-vietnamese.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Patrick Hand",
+          "url": "/fonts/patrick-hand-400-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Patrick Hand",
+          "url": "/fonts/patrick-hand-400-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Bricolage Grotesque",
+          "url": "/fonts/bricolage-grotesque-latin-ext.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Bricolage Grotesque",
+          "url": "/fonts/bricolage-grotesque-latin.woff2",
+          "feuille": "kizupi.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://kizupi.com/fonts/bricolage-grotesque-latin.woff2",
+        "https://kizupi.com/fonts/atkinson-hyperlegible-400-latin.woff2",
+        "https://kizupi.com/fonts/atkinson-hyperlegible-700-latin.woff2",
+        "https://kizupi.com/fonts/atkinson-hyperlegible-400-italic-latin.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Atkinson Hyperlegible",
+          "n": 86
+        },
+        {
+          "famille": "Bricolage Grotesque",
+          "n": 36
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f6f4ec",
+      "texte": "#14201a",
+      "fondsBruts": [
+        {
+          "hex": "#f6f4ec",
+          "n": 2,
+          "poids": 3048908.0625
+        },
+        {
+          "hex": "#ffffff",
+          "n": 19,
+          "poids": 708923.609375
+        },
+        {
+          "hex": "#111914",
+          "n": 3,
+          "poids": 681732.1875
+        },
+        {
+          "hex": "#eeebe0",
+          "n": 1,
+          "poids": 487573.125
+        },
+        {
+          "hex": "#0e4d2a",
+          "n": 1,
+          "poids": 442522.03125
+        },
+        {
+          "hex": "#bfe3f2",
+          "n": 1,
+          "poids": 302847.1875
+        },
+        {
+          "hex": "#f4f6f9",
+          "n": 1,
+          "poids": 302847.1875
+        },
+        {
+          "hex": "#c6f36b",
+          "n": 4,
+          "poids": 295953.1875
+        },
+        {
+          "hex": "#177a43",
+          "n": 7,
+          "poids": 33039.9375
+        },
+        {
+          "hex": "#14201a",
+          "n": 3,
+          "poids": 21895.061279296875
+        },
+        {
+          "hex": "#ffb930",
+          "n": 4,
+          "poids": 16285.81201171875
+        },
+        {
+          "hex": "#dcefd8",
+          "n": 2,
+          "poids": 10006.38818359375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3d4a42",
+          "n": 23,
+          "poids": 2353
+        },
+        {
+          "hex": "#14201a",
+          "n": 38,
+          "poids": 833
+        },
+        {
+          "hex": "#a5b5ab",
+          "n": 8,
+          "poids": 397
+        },
+        {
+          "hex": "#ffffff",
+          "n": 18,
+          "poids": 345
+        },
+        {
+          "hex": "#b9d6c2",
+          "n": 5,
+          "poids": 334
+        },
+        {
+          "hex": "#2c3a31",
+          "n": 4,
+          "poids": 104
+        },
+        {
+          "hex": "#5f6b64",
+          "n": 10,
+          "poids": 57
+        },
+        {
+          "hex": "#e7eee9",
+          "n": 7,
+          "poids": 53
+        },
+        {
+          "hex": "#177a43",
+          "n": 3,
+          "poids": 44
+        },
+        {
+          "hex": "#93a399",
+          "n": 1,
+          "poids": 33
+        },
+        {
+          "hex": "#c6f36b",
+          "n": 3,
+          "poids": 32
+        },
+        {
+          "hex": "#0f5e32",
+          "n": 2,
+          "poids": 25
+        }
+      ],
+      "nbImages": 2,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 8,
+      "fonds": [
+        {
+          "hex": "#f6f4ec",
+          "n": 2,
+          "poids": 3048908.0625,
+          "part": 0.48
+        },
+        {
+          "hex": "#ffffff",
+          "n": 19,
+          "poids": 708923.609375,
+          "part": 0.112
+        },
+        {
+          "hex": "#111914",
+          "n": 3,
+          "poids": 681732.1875,
+          "part": 0.107
+        },
+        {
+          "hex": "#eeebe0",
+          "n": 1,
+          "poids": 487573.125,
+          "part": 0.077
+        },
+        {
+          "hex": "#0e4d2a",
+          "n": 1,
+          "poids": 442522.03125,
+          "part": 0.07
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3d4a42",
+          "n": 23,
+          "poids": 2353,
+          "part": 0.51
+        },
+        {
+          "hex": "#14201a",
+          "n": 38,
+          "poids": 833,
+          "part": 0.181
+        },
+        {
+          "hex": "#a5b5ab",
+          "n": 8,
+          "poids": 397,
+          "part": 0.086
+        },
+        {
+          "hex": "#ffffff",
+          "n": 18,
+          "poids": 345,
+          "part": 0.075
+        },
+        {
+          "hex": "#b9d6c2",
+          "n": 5,
+          "poids": 334,
+          "part": 0.072
+        }
+      ],
+      "contraste": 15.24
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "header.site-header",
+          "ecrans": 9.2
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "transform 0.08s ease",
+          "n": 9
+        },
+        {
+          "valeur": "box-shadow 0.08s ease",
+          "n": 9
+        },
+        {
+          "valeur": "background-color 0.12s ease",
+          "n": 9
+        },
+        {
+          "valeur": "background-color 0.16s ease",
+          "n": 7
+        },
+        {
+          "valeur": "animation bubble-bob 2.4s ease-in-out infinite",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "background 0.12s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.12s ease",
+          "n": 1
+        },
+        {
+          "valeur": "animation pop 0.22s ease-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.btn",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "transform 0.08s ease",
+          "box-shadow 0.08s ease",
+          "background-color 0.12s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#main",
+      "sections": [
+        {
+          "selecteur": "section.hero",
+          "titre": "The math tutor that asks why.",
+          "top": 65,
+          "hauteur": 1030,
+          "ecrans": 1.2,
+          "mots": 82,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "section#ladder",
+          "titre": "It doesn’t give the answer. It asks.",
+          "top": 1095,
+          "hauteur": 1185,
+          "ecrans": 1.4,
+          "mots": 126,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "ol",
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "section#parents",
+          "titre": "You’re in charge. Without hovering.",
+          "top": 2280,
+          "hauteur": 1135,
+          "ecrans": 1.3,
+          "mots": 87,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#teachers",
+          "titre": "Practice at home that sounds like your classroom.",
+          "top": 3415,
+          "hauteur": 1093,
+          "ecrans": 1.3,
+          "mots": 114,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#schools",
+          "titre": "Ready for your families. Private by design.",
+          "top": 4508,
+          "hauteur": 1250,
+          "ecrans": 1.5,
+          "mots": 107,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#faq",
+          "titre": "The things parents ask first.",
+          "top": 5758,
+          "hauteur": 991,
+          "ecrans": 1.2,
+          "mots": 65,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "details"
+          ]
+        },
+        {
+          "selecteur": "section.final",
+          "titre": "Say hello to Kizupi.",
+          "top": 6749,
+          "hauteur": 712,
+          "ecrans": 0.8,
+          "mots": 42,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "footer.site-footer",
+          "titre": null,
+          "top": 7462,
+          "hauteur": 309,
+          "ecrans": 0.4,
+          "mots": 15,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "canvas"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.site-header",
+        "hauteur": 65,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "Kizupi home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Try Kizupi FREE for 7 days!",
+            "href": "/app",
+            "bouton": true
+          },
+          {
+            "texte": "Menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.site-footer",
+        "liens": [
+          {
+            "texte": "Kizupi home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "Chrome extension",
+            "href": "/chrome",
+            "bouton": false
+          },
+          {
+            "texte": "Help",
+            "href": "/help",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy",
+            "href": "/privacy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms",
+            "href": "/terms",
+            "bouton": false
+          },
+          {
+            "texte": "Changelog",
+            "href": "/changelog",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip",
+          "position": "absolute",
+          "hauteur": 48,
+          "largeur": 162,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "header.site-header",
+          "position": "sticky",
+          "hauteur": 65,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 6
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 17,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Kizupi",
+  "dureeS": 43.7
+}

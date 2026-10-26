@@ -1,0 +1,1502 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.melius.com/",
+  "nom": "melius",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Melius – the AI-native operating system for creatives",
+    "siteName": "Melius",
+    "lang": "en",
+    "description": "The AI-native operating system for creatives. Describe what you want; Mel routes the right model, runs the workflow, and shows you every prompt — so you can steer until it lands.",
+    "technologies": [
+      "Next.js",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fafafa",
+      "h1": "Create anything you imagine",
+      "h1Visible": true,
+      "mots": 64,
+      "images": 4,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 1,
+        "selecteur": "div.relative"
+      },
+      "boutonPrincipal": {
+        "texte": "Get started for free",
+        "x": 503.640625,
+        "y": 682,
+        "cx": 0.413916015625,
+        "cy": 0.7844444444444445,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 8336,
+      "bougeSeul": {
+        "n": 2,
+        "exemples": [
+          "span.animate-mark-cycle"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.t-h-1",
+        "famille": "recklessStandard, \"recklessStandard Fallback\"",
+        "taille": 56,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.12px"
+      },
+      "h2": {
+        "selecteur": "h2.t-h-4",
+        "famille": "recklessStandard, \"recklessStandard Fallback\"",
+        "taille": 27.2,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.t-b-2",
+        "famille": "easeStandard, \"easeStandard Fallback\"",
+        "taille": 13.6,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.408px"
+      },
+      "nav": {
+        "selecteur": "a.group/banner",
+        "famille": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "easeStandard",
+          "url": "../media/ease_standard_regular-s.p.0ba1_8dt5_40n.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "easeStandard Fallback",
+          "url": "",
+          "feuille": "www.melius.com",
+          "source": "locale"
+        },
+        {
+          "famille": "recklessStandard",
+          "url": "../media/reckless_standard_regular-s.p.397mtn8fd2-62.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "recklessStandard Fallback",
+          "url": "",
+          "feuille": "www.melius.com",
+          "source": "locale"
+        },
+        {
+          "famille": "futurist",
+          "url": "../media/fg_futurist_regular-s.p.14siog211ev1s.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "futurist Fallback",
+          "url": "",
+          "feuille": "www.melius.com",
+          "source": "locale"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/5ce348bf30bf5439-s.27spqqad3wyeo.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/4fa387ec64143e14-s.3f4zuumv8svu0.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/6306c77e7c8268e4-s.34r5yzckw0h2s.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/7d817b4c03b0c5f1-s.2jyz_zw3a8jit.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/bbc41e54d2fcbd21-s.30bdpjkrtcces.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/797e433ab948586e-s.p.1v5bejj26fx9h.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono Fallback",
+          "url": "",
+          "feuille": "www.melius.com",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.melius.com/_next/static/immutable/media/797e433ab948586e-s.p.1v5bejj26fx9h.woff2",
+        "https://www.melius.com/_next/static/immutable/media/fg_futurist_regular-s.p.14siog211ev1s.woff2",
+        "https://www.melius.com/_next/static/immutable/media/ease_standard_regular-s.p.0ba1_8dt5_40n.woff2",
+        "https://www.melius.com/_next/static/immutable/media/reckless_standard_regular-s.p.397mtn8fd2-62.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "easeStandard",
+          "n": 188
+        },
+        {
+          "famille": "futurist",
+          "n": 41
+        },
+        {
+          "famille": "ui-sans-serif",
+          "n": 39
+        },
+        {
+          "famille": "recklessStandard",
+          "n": 11
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fafafa",
+      "texte": "#0e0e0e",
+      "fondsBruts": [
+        {
+          "hex": "#fafafa",
+          "n": 4,
+          "poids": 12034616.125
+        },
+        {
+          "hex": "#1a1616",
+          "n": 32,
+          "poids": 7740808.6884765625
+        },
+        {
+          "hex": "#0e0e0e",
+          "n": 1,
+          "poids": 4923360
+        },
+        {
+          "hex": "#e3e3e3",
+          "n": 3,
+          "poids": 3372367.5
+        },
+        {
+          "hex": "#000000",
+          "n": 22,
+          "poids": 1219675.3447265625
+        },
+        {
+          "hex": "#f04e23",
+          "n": 33,
+          "poids": 1006088.5178529322
+        },
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 572494.625
+        },
+        {
+          "hex": "#2a2a2a",
+          "n": 1,
+          "poids": 480640
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 9,
+          "poids": 127192.8818359375
+        },
+        {
+          "hex": "#202020",
+          "n": 4,
+          "poids": 124010.46484375
+        },
+        {
+          "hex": "#fff78b",
+          "n": 13,
+          "poids": 81251.34375
+        },
+        {
+          "hex": "#676767",
+          "n": 1,
+          "poids": 1024
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#fafafa",
+          "n": 47,
+          "poids": 3706
+        },
+        {
+          "hex": "#0e0e0e",
+          "n": 105,
+          "poids": 2171
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 48,
+          "poids": 548
+        },
+        {
+          "hex": "#676767",
+          "n": 39,
+          "poids": 355
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 313
+        },
+        {
+          "hex": "#100e0d",
+          "n": 22,
+          "poids": 110
+        },
+        {
+          "hex": "#1a1616",
+          "n": 1,
+          "poids": 38
+        },
+        {
+          "hex": "#e3e3e3",
+          "n": 5,
+          "poids": 37
+        },
+        {
+          "hex": "#b9b9b9",
+          "n": 2,
+          "poids": 8
+        },
+        {
+          "hex": "#9c9996",
+          "n": 1,
+          "poids": 4
+        }
+      ],
+      "nbImages": 48,
+      "nbVideos": 10,
+      "nbFondsImage": 14,
+      "masques": 13,
+      "fonds": [
+        {
+          "hex": "#fafafa",
+          "n": 4,
+          "poids": 12034616.125,
+          "part": 0.38
+        },
+        {
+          "hex": "#1a1616",
+          "n": 32,
+          "poids": 7740808.6884765625,
+          "part": 0.244
+        },
+        {
+          "hex": "#0e0e0e",
+          "n": 1,
+          "poids": 4923360,
+          "part": 0.155
+        },
+        {
+          "hex": "#e3e3e3",
+          "n": 3,
+          "poids": 3372367.5,
+          "part": 0.106
+        },
+        {
+          "hex": "#000000",
+          "n": 22,
+          "poids": 1219675.3447265625,
+          "part": 0.038
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#fafafa",
+          "n": 47,
+          "poids": 3706,
+          "part": 0.508
+        },
+        {
+          "hex": "#0e0e0e",
+          "n": 105,
+          "poids": 2171,
+          "part": 0.298
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 48,
+          "poids": 548,
+          "part": 0.075
+        },
+        {
+          "hex": "#676767",
+          "n": 39,
+          "poids": 355,
+          "part": 0.049
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 313,
+          "part": 0.043
+        }
+      ],
+      "contraste": 18.5
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Lenis",
+          "preuve": "window.lenis"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.sticky",
+          "ecrans": 3.8
+        },
+        {
+          "selecteur": "div.sticky",
+          "ecrans": 3.8
+        },
+        {
+          "selecteur": "canvas.pointer-events-none",
+          "ecrans": 1.3
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "opacity 1s ease",
+          "n": 34
+        },
+        {
+          "valeur": "background-color 0.2s cubic-bezier(0.37, 0, 0.63, 1)",
+          "n": 30
+        },
+        {
+          "valeur": "color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 18
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "animation noise 3s steps(5) infinite",
+          "n": 3
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 3
+        },
+        {
+          "valeur": "animation mark-cycle 4s cubic-bezier(0.45, 0, 0.55, 1) infinite",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-footer-scroll-target",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.c-pricing-card",
+        "score": 4,
+        "animations": [
+          "animation pricing-card-glow-breathe 3.5s cubic-bezier(0.37, 0, 0.63, 1) infinite"
+        ],
+        "transitions": [
+          "all 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main",
+      "sections": [
+        {
+          "selecteur": "section#hero",
+          "titre": "Create anything you imagine",
+          "top": 0,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 36,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "canvas",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#customers",
+          "titre": "Trusted by creative teams of all sizes",
+          "top": 820,
+          "hauteur": 503,
+          "ecrans": 0.6,
+          "mots": 75,
+          "images": 13,
+          "fixe": false,
+          "balisesRares": [
+            "canvas",
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section#canvas",
+          "titre": null,
+          "top": 1323,
+          "hauteur": 3419,
+          "ecrans": 3.8,
+          "mots": 129,
+          "images": 27,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg",
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "section#solutions",
+          "titre": "Solutions",
+          "top": 4742,
+          "hauteur": 933,
+          "ecrans": 1,
+          "mots": 190,
+          "images": 13,
+          "fixe": false,
+          "balisesRares": [
+            "canvas",
+            "video",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#pricing",
+          "titre": "Our Pricing",
+          "top": 5675,
+          "hauteur": 1193,
+          "ecrans": 1.3,
+          "mots": 120,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "canvas",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#faq",
+          "titre": "Frequently asked questions",
+          "top": 6868,
+          "hauteur": 821,
+          "ecrans": 0.9,
+          "mots": 60,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "canvas",
+            "details"
+          ]
+        },
+        {
+          "selecteur": "footer.overflow-clip",
+          "titre": "Don't miss out",
+          "top": 7689,
+          "hauteur": 648,
+          "ecrans": 0.7,
+          "mots": 59,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "canvas",
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.pointer-events-none",
+        "hauteur": 56,
+        "position": "absolute",
+        "liens": [
+          {
+            "texte": "Announcement: Melius raises $25M in fund",
+            "href": "/blog/melius-seed-and-series-a",
+            "bouton": false
+          },
+          {
+            "texte": "Try Melius",
+            "href": "https://app.melius.com/signup",
+            "bouton": false
+          },
+          {
+            "texte": "Melius home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Product",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Solutions",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Resources",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Company",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Enterprise",
+            "href": "/enterprise",
+            "bouton": false
+          },
+          {
+            "texte": "Pricing",
+            "href": "/pricing",
+            "bouton": false
+          },
+          {
+            "texte": "Sign In",
+            "href": "https://app.melius.com/login",
+            "bouton": true
+          },
+          {
+            "texte": "Start for Free",
+            "href": "https://app.melius.com/signup",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.relative",
+        "liens": [
+          {
+            "texte": "Subscribe",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Web app",
+            "href": "https://app.melius.com/",
+            "bouton": true
+          },
+          {
+            "texte": "Desktop app",
+            "href": "/desktop-app",
+            "bouton": true
+          },
+          {
+            "texte": "Models",
+            "href": "/models",
+            "bouton": true
+          },
+          {
+            "texte": "Docs",
+            "href": "https://docs.melius.com/",
+            "bouton": true
+          },
+          {
+            "texte": "MCP, API, and CLI",
+            "href": "/api-cli",
+            "bouton": true
+          },
+          {
+            "texte": "Marketers",
+            "href": "/solutions/marketers",
+            "bouton": true
+          },
+          {
+            "texte": "E-commerce",
+            "href": "/solutions/ecommerce",
+            "bouton": true
+          },
+          {
+            "texte": "Filmmakers",
+            "href": "/solutions/filmmakers",
+            "bouton": true
+          },
+          {
+            "texte": "Branding",
+            "href": "/solutions/branding",
+            "bouton": true
+          },
+          {
+            "texte": "Pricing",
+            "href": "/pricing",
+            "bouton": true
+          },
+          {
+            "texte": "Enterprise",
+            "href": "/enterprise",
+            "bouton": true
+          },
+          {
+            "texte": "About",
+            "href": "/about",
+            "bouton": true
+          },
+          {
+            "texte": "Blog",
+            "href": "/blog",
+            "bouton": true
+          },
+          {
+            "texte": "Manifesto",
+            "href": "/manifesto",
+            "bouton": true
+          },
+          {
+            "texte": "Brand",
+            "href": "/brand",
+            "bouton": true
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": true
+          },
+          {
+            "texte": "Careers",
+            "href": "https://jobs.ashbyhq.com/melius",
+            "bouton": true
+          },
+          {
+            "texte": "X",
+            "href": "https://x.com/trymelius",
+            "bouton": true
+          },
+          {
+            "texte": "LinkedIn",
+            "href": "https://www.linkedin.com/company/meliusai/",
+            "bouton": true
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/trymelius",
+            "bouton": true
+          },
+          {
+            "texte": "Discord",
+            "href": "https://discord.gg/hkvwjteArP",
+            "bouton": true
+          },
+          {
+            "texte": "Terms of Service",
+            "href": "/terms",
+            "bouton": true
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "/privacy",
+            "bouton": true
+          },
+          {
+            "texte": "Cookie Preferences",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Sign up for free",
+            "href": "https://app.melius.com/signup",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 26,
+        "pilules": 2,
+        "exemples": [
+          "Individual",
+          "Team"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/melius-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fafafa",
+      "h1": "Create anything you imagine",
+      "h1Visible": true,
+      "mots": 46,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 1,
+        "selecteur": "div.relative"
+      },
+      "boutonPrincipal": {
+        "texte": "Get started for free",
+        "x": 102.3475341796875,
+        "y": 658.0159912109375,
+        "cx": 0.49997988969851764,
+        "cy": 0.8081515705415988,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 8508,
+      "bougeSeul": {
+        "n": 3,
+        "exemples": [
+          "h1.t-h-1",
+          "div.mt-60",
+          "a.[--pixel-size:2px]"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.t-h-1",
+        "famille": "recklessStandard, \"recklessStandard Fallback\"",
+        "taille": 56,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.12px"
+      },
+      "h2": {
+        "selecteur": "h2.t-h-4",
+        "famille": "recklessStandard, \"recklessStandard Fallback\"",
+        "taille": 27.2,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#radix-_R_19cf5ftdb_",
+        "famille": "easeStandard, \"easeStandard Fallback\"",
+        "taille": 13.6,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.408px"
+      },
+      "nav": {
+        "selecteur": "a.group/banner",
+        "famille": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "easeStandard",
+          "url": "../media/ease_standard_regular-s.p.0ba1_8dt5_40n.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "easeStandard Fallback",
+          "url": "",
+          "feuille": "www.melius.com",
+          "source": "locale"
+        },
+        {
+          "famille": "recklessStandard",
+          "url": "../media/reckless_standard_regular-s.p.397mtn8fd2-62.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "recklessStandard Fallback",
+          "url": "",
+          "feuille": "www.melius.com",
+          "source": "locale"
+        },
+        {
+          "famille": "futurist",
+          "url": "../media/fg_futurist_regular-s.p.14siog211ev1s.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "futurist Fallback",
+          "url": "",
+          "feuille": "www.melius.com",
+          "source": "locale"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/5ce348bf30bf5439-s.27spqqad3wyeo.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/4fa387ec64143e14-s.3f4zuumv8svu0.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/6306c77e7c8268e4-s.34r5yzckw0h2s.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/7d817b4c03b0c5f1-s.2jyz_zw3a8jit.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/bbc41e54d2fcbd21-s.30bdpjkrtcces.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono",
+          "url": "../media/797e433ab948586e-s.p.1v5bejj26fx9h.woff2",
+          "feuille": "www.melius.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Geist Mono Fallback",
+          "url": "",
+          "feuille": "www.melius.com",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.melius.com/_next/static/immutable/media/797e433ab948586e-s.p.1v5bejj26fx9h.woff2",
+        "https://www.melius.com/_next/static/immutable/media/ease_standard_regular-s.p.0ba1_8dt5_40n.woff2",
+        "https://www.melius.com/_next/static/immutable/media/fg_futurist_regular-s.p.14siog211ev1s.woff2",
+        "https://www.melius.com/_next/static/immutable/media/reckless_standard_regular-s.p.397mtn8fd2-62.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "easeStandard",
+          "n": 160
+        },
+        {
+          "famille": "futurist",
+          "n": 49
+        },
+        {
+          "famille": "ui-sans-serif",
+          "n": 39
+        },
+        {
+          "famille": "recklessStandard",
+          "n": 11
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fafafa",
+      "texte": "#0e0e0e",
+      "fondsBruts": [
+        {
+          "hex": "#fafafa",
+          "n": 4,
+          "poids": 3346650.6875
+        },
+        {
+          "hex": "#1a1616",
+          "n": 32,
+          "poids": 2762538.731154565
+        },
+        {
+          "hex": "#e3e3e3",
+          "n": 3,
+          "poids": 1035364.6875
+        },
+        {
+          "hex": "#0e0e0e",
+          "n": 1,
+          "poids": 921582.1875
+        },
+        {
+          "hex": "#f04e23",
+          "n": 33,
+          "poids": 646440.7119487226
+        },
+        {
+          "hex": "#000000",
+          "n": 22,
+          "poids": 498464.5983184576
+        },
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 299742.75
+        },
+        {
+          "hex": "#2a2a2a",
+          "n": 1,
+          "poids": 231978.09375
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 9,
+          "poids": 117932.625
+        },
+        {
+          "hex": "#202020",
+          "n": 4,
+          "poids": 53503.46484375
+        },
+        {
+          "hex": "#fff78b",
+          "n": 24,
+          "poids": 38277.40632515401
+        },
+        {
+          "hex": "#676767",
+          "n": 1,
+          "poids": 1024
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#fafafa",
+          "n": 37,
+          "poids": 3622
+        },
+        {
+          "hex": "#0e0e0e",
+          "n": 116,
+          "poids": 2313
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 48,
+          "poids": 548
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 313
+        },
+        {
+          "hex": "#676767",
+          "n": 18,
+          "poids": 194
+        },
+        {
+          "hex": "#100e0d",
+          "n": 22,
+          "poids": 110
+        },
+        {
+          "hex": "#1a1616",
+          "n": 1,
+          "poids": 38
+        },
+        {
+          "hex": "#e3e3e3",
+          "n": 5,
+          "poids": 37
+        },
+        {
+          "hex": "#b9b9b9",
+          "n": 2,
+          "poids": 15
+        },
+        {
+          "hex": "#9c9996",
+          "n": 1,
+          "poids": 4
+        }
+      ],
+      "nbImages": 36,
+      "nbVideos": 8,
+      "nbFondsImage": 14,
+      "masques": 14,
+      "fonds": [
+        {
+          "hex": "#fafafa",
+          "n": 4,
+          "poids": 3346650.6875,
+          "part": 0.336
+        },
+        {
+          "hex": "#1a1616",
+          "n": 32,
+          "poids": 2762538.731154565,
+          "part": 0.278
+        },
+        {
+          "hex": "#e3e3e3",
+          "n": 3,
+          "poids": 1035364.6875,
+          "part": 0.104
+        },
+        {
+          "hex": "#0e0e0e",
+          "n": 1,
+          "poids": 921582.1875,
+          "part": 0.093
+        },
+        {
+          "hex": "#f04e23",
+          "n": 33,
+          "poids": 646440.7119487226,
+          "part": 0.065
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#fafafa",
+          "n": 37,
+          "poids": 3622,
+          "part": 0.503
+        },
+        {
+          "hex": "#0e0e0e",
+          "n": 116,
+          "poids": 2313,
+          "part": 0.322
+        },
+        {
+          "hex": "#d9d9d9",
+          "n": 48,
+          "poids": 548,
+          "part": 0.076
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 313,
+          "part": 0.044
+        },
+        {
+          "hex": "#676767",
+          "n": 18,
+          "poids": 194,
+          "part": 0.027
+        }
+      ],
+      "contraste": 18.5
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Lenis",
+          "preuve": "window.lenis"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.sticky",
+          "ecrans": 2.8
+        },
+        {
+          "selecteur": "div.sticky",
+          "ecrans": 2.8
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "opacity 1s ease",
+          "n": 28
+        },
+        {
+          "valeur": "color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 12
+        },
+        {
+          "valeur": "background-color 0.2s cubic-bezier(0.37, 0, 0.63, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "animation noise 3s steps(5) infinite",
+          "n": 3
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 3
+        },
+        {
+          "valeur": "animation mark-cycle 4s cubic-bezier(0.45, 0, 0.55, 1) infinite",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-footer-scroll-target",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.c-pricing-card",
+        "score": 4,
+        "animations": [
+          "animation pricing-card-glow-breathe 3.5s cubic-bezier(0.37, 0, 0.63, 1) infinite"
+        ],
+        "transitions": [
+          "all 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main",
+      "sections": [
+        {
+          "selecteur": "section#hero",
+          "titre": "Create anything you imagine",
+          "top": 0,
+          "hauteur": 878,
+          "ecrans": 1,
+          "mots": 36,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "section#customers",
+          "titre": "Trusted by creative teams of all sizes",
+          "top": 878,
+          "hauteur": 872,
+          "ecrans": 1,
+          "mots": 75,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section#canvas",
+          "titre": null,
+          "top": 1750,
+          "hauteur": 2363,
+          "ecrans": 2.8,
+          "mots": 130,
+          "images": 27,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#solutions",
+          "titre": "Solutions",
+          "top": 4113,
+          "hauteur": 899,
+          "ecrans": 1.1,
+          "mots": 207,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#pricing",
+          "titre": "Our Pricing",
+          "top": 5012,
+          "hauteur": 1999,
+          "ecrans": 2.4,
+          "mots": 120,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#faq",
+          "titre": "Frequently asked questions",
+          "top": 7011,
+          "hauteur": 717,
+          "ecrans": 0.8,
+          "mots": 60,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "details"
+          ]
+        },
+        {
+          "selecteur": "footer.overflow-clip",
+          "titre": "Don't miss out",
+          "top": 7728,
+          "hauteur": 780,
+          "ecrans": 0.9,
+          "mots": 33,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form",
+            "canvas"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.pointer-events-none",
+        "hauteur": 66,
+        "position": "absolute",
+        "liens": [
+          {
+            "texte": "Melius raises $25M Read blog",
+            "href": "/blog/melius-seed-and-series-a",
+            "bouton": false
+          },
+          {
+            "texte": "Try Melius",
+            "href": "https://app.melius.com/signup",
+            "bouton": false
+          },
+          {
+            "texte": "Melius home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Start for Free",
+            "href": "https://app.melius.com/signup",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.relative",
+        "liens": [
+          {
+            "texte": "Subscribe",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "PRODUCT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "SOLUTIONS",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "PLANS",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "COMPANY",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "COMMUNITY",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Terms of Service",
+            "href": "/terms",
+            "bouton": true
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "/privacy",
+            "bouton": true
+          },
+          {
+            "texte": "Cookie Preferences",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Sign up for free",
+            "href": "https://app.melius.com/signup",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 27,
+        "pilules": 2,
+        "exemples": [
+          "Individual",
+          "Team"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Melius",
+  "dureeS": 67.6
+}

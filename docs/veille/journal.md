@@ -554,3 +554,4 @@ Collecte 2026-10-19 : 10 styles (16 démontés sur 31 essayés ; Awwwards/land-b
 - Collecte 2026-10-23 (deuxième) : 18 styles
 - Collecte 2026-10-24 : 19 styles (siteinspire, minimal.gallery et petits commerces européens ; atomes mesurés, photos, mouvement et premier écran laissés « à juger » ; Chrome système relié par `FF_CHROMIUM=1` ; ~38 domaines refusés par le réseau ; toast et manufactum déjà étudiés, restaurés ; fiorista et holzmanufaktur : densité « à juger »).
 - Collecte 2026-10-25 : 23 styles (petits commerces, maisons d'art de la table et d'objets ; atomes mesurés, photos, mouvement et premier écran laissés « à juger » ; `FF_CHROMIUM=1` ; ~30 domaines refusés ou injoignables).
+Collecte 2026-10-26 : 22 styles (relevé mesuré, jugements photos/couleurs/mouvement restent « à juger »).

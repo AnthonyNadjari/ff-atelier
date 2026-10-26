@@ -1,0 +1,960 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.snohetta.com/",
+  "nom": "snohetta",
+  "date": "2026-10-26",
+  "identite": {
+    "title": "Snøhetta",
+    "siteName": "",
+    "lang": "en",
+    "description": "Snøhetta is a global transdisciplinary practice. Creating places for societies to connect with each other and with the world around them is a primary motivation in our work. Dialogue and diversity empower this approach.",
+    "technologies": []
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Snøhetta is a global transdisciplinary practice, working on projects of all scales.",
+      "h1Visible": true,
+      "mots": 199,
+      "images": 8,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Open preferences",
+        "x": 24,
+        "y": 828,
+        "cx": 0.03333333333333333,
+        "cy": 0.9466666666666667,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 5694,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.wrapper",
+        "famille": "Dovre, sans-serif",
+        "taille": 60,
+        "graisse": "300",
+        "interlignage": 1.03,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.col-span-full",
+        "famille": "Dovre, sans-serif",
+        "taille": 22,
+        "graisse": "300",
+        "interlignage": 1.45,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.text-grey-1",
+        "famille": "Dovre, sans-serif",
+        "taille": 22,
+        "graisse": "300",
+        "interlignage": 1.45,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.relative",
+        "famille": "Dovre, sans-serif",
+        "taille": 22,
+        "graisse": "300",
+        "interlignage": 1.45,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.relative",
+        "famille": "Dovre, sans-serif",
+        "taille": 22,
+        "graisse": "300",
+        "interlignage": 1.45,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Dovre",
+          "url": "/assets/fonts/DovreSocial-Light.woff2",
+          "feuille": "www.snohetta.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Dovre",
+          "url": "/assets/fonts/DovreSocial-LightItalic.woff2",
+          "feuille": "www.snohetta.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.snohetta.com/assets/fonts/DovreSocial-Light.woff2",
+        "https://www.snohetta.com/assets/fonts/DovreSocial-LightItalic.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Dovre",
+          "n": 138
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 8199360
+        },
+        {
+          "hex": "#f2f2f2",
+          "n": 1,
+          "poids": 2304
+        },
+        {
+          "hex": "#757575",
+          "n": 2,
+          "poids": 26
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 57,
+          "poids": 1625
+        },
+        {
+          "hex": "#949494",
+          "n": 35,
+          "poids": 1184
+        },
+        {
+          "hex": "#757575",
+          "n": 43,
+          "poids": 958
+        },
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 13
+        }
+      ],
+      "nbImages": 17,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 8,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 8199360,
+          "part": 1
+        },
+        {
+          "hex": "#f2f2f2",
+          "n": 1,
+          "poids": 2304,
+          "part": 0
+        },
+        {
+          "hex": "#757575",
+          "n": 2,
+          "poids": 26,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 57,
+          "poids": 1625,
+          "part": 0.43
+        },
+        {
+          "hex": "#949494",
+          "n": 35,
+          "poids": 1184,
+          "part": 0.313
+        },
+        {
+          "hex": "#757575",
+          "n": 43,
+          "poids": 958,
+          "part": 0.253
+        },
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 13,
+          "part": 0.003
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "script gsap.d02a9084c5cc0c27efee.js"
+        },
+        {
+          "nom": "Flickity",
+          "preuve": "script flickity.806ca2e293f90449929a.js"
+        },
+        {
+          "nom": "Lottie",
+          "preuve": "script lottie.c1f06cec457e8962e72c.js"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease",
+          "n": 26
+        },
+        {
+          "valeur": "color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 21
+        },
+        {
+          "valeur": "background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 18
+        },
+        {
+          "valeur": "opacity 0.6s cubic-bezier(0.39, 0.575, 0.565, 1)",
+          "n": 17
+        },
+        {
+          "valeur": "transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "n": 9
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "all 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 2
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animator",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "main#main",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-animator"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "body.body",
+      "sections": [
+        {
+          "selecteur": "main#main",
+          "titre": "Snøhetta is a global transdisciplinary practice, working on ",
+          "top": 0,
+          "hauteur": 4734,
+          "ecrans": 5.3,
+          "mots": 528,
+          "images": 17,
+          "fixe": false,
+          "balisesRares": [
+            "time"
+          ]
+        },
+        {
+          "selecteur": "footer#bottom",
+          "titre": "General",
+          "top": 4734,
+          "hauteur": 960,
+          "ecrans": 1.1,
+          "mots": 41,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer#bottom",
+        "liens": [
+          {
+            "texte": "Search",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "People",
+            "href": "https://www.snohetta.com/people",
+            "bouton": false
+          },
+          {
+            "texte": "Process",
+            "href": "https://www.snohetta.com/process",
+            "bouton": false
+          },
+          {
+            "texte": "Projects",
+            "href": "https://www.snohetta.com/projects",
+            "bouton": false
+          },
+          {
+            "texte": "News",
+            "href": "https://www.snohetta.com/news",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "https://www.snohetta.com/about",
+            "bouton": false
+          },
+          {
+            "texte": "Sustainability",
+            "href": "https://www.snohetta.com/sustainability",
+            "bouton": false
+          },
+          {
+            "texte": "Perspectives",
+            "href": "https://www.snohetta.com/perspectives",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "https://www.snohetta.com/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Studios",
+            "href": "https://www.snohetta.com/studios",
+            "bouton": false
+          },
+          {
+            "texte": "Architecture",
+            "href": "https://www.snohetta.com/disciplines/architecture",
+            "bouton": false
+          },
+          {
+            "texte": "Landscape",
+            "href": "https://www.snohetta.com/disciplines/landscape",
+            "bouton": false
+          },
+          {
+            "texte": "Interior",
+            "href": "https://www.snohetta.com/disciplines/interior",
+            "bouton": false
+          },
+          {
+            "texte": "Product",
+            "href": "https://www.snohetta.com/disciplines/product",
+            "bouton": false
+          },
+          {
+            "texte": "Calendar",
+            "href": "https://www.snohetta.com/calendar",
+            "bouton": false
+          },
+          {
+            "texte": "Awards",
+            "href": "https://www.snohetta.com/awards",
+            "bouton": false
+          },
+          {
+            "texte": "Snøhetta Books",
+            "href": "https://www.snohetta.com/books",
+            "bouton": false
+          },
+          {
+            "texte": "↗ Snøhetta Foundation",
+            "href": "https://snohetta.foundation",
+            "bouton": false
+          },
+          {
+            "texte": "Transparency Act",
+            "href": "https://www.snohetta.com/legal/norwegian-transparency-act",
+            "bouton": false
+          },
+          {
+            "texte": "Cookies & Tracking",
+            "href": "https://www.snohetta.com/legal/privacy",
+            "bouton": false
+          },
+          {
+            "texte": "-> Legal Documents",
+            "href": "https://www.snohetta.com/legal",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/snohetta/",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/snohetta/",
+            "bouton": false
+          },
+          {
+            "texte": "LinkedIn",
+            "href": "https://www.linkedin.com/company/snohetta/",
+            "bouton": false
+          },
+          {
+            "texte": "↗ Current Openings",
+            "href": "https://web106.reachmee.com/ext/I020/762/main?site=6&validator=83f187b6a1fc05eedd0e6135a310a4c1&lang=UK",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Snøhetta Books",
+          "href": "https://www.snohetta.com/books"
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/snohetta/"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 5,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/snohetta-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Snøhetta is a global transdisciplinary practice, working on projects of all scales.",
+      "h1Visible": true,
+      "mots": 208,
+      "images": 12,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Open preferences",
+        "x": 16,
+        "y": 800,
+        "cx": 0.07692307692307693,
+        "cy": 0.9644549763033176,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 4965,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.wrapper",
+        "famille": "Dovre, sans-serif",
+        "taille": 24,
+        "graisse": "300",
+        "interlignage": 1.13,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.col-span-full",
+        "famille": "Dovre, sans-serif",
+        "taille": 18,
+        "graisse": "300",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.text-grey-1",
+        "famille": "Dovre, sans-serif",
+        "taille": 18,
+        "graisse": "300",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.relative",
+        "famille": "Dovre, sans-serif",
+        "taille": 18,
+        "graisse": "300",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.relative",
+        "famille": "Dovre, sans-serif",
+        "taille": 18,
+        "graisse": "300",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Dovre",
+          "url": "/assets/fonts/DovreSocial-Light.woff2",
+          "feuille": "www.snohetta.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Dovre",
+          "url": "/assets/fonts/DovreSocial-LightItalic.woff2",
+          "feuille": "www.snohetta.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.snohetta.com/assets/fonts/DovreSocial-Light.woff2",
+        "https://www.snohetta.com/assets/fonts/DovreSocial-LightItalic.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Dovre",
+          "n": 125
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1936350
+        },
+        {
+          "hex": "#f2f2f2",
+          "n": 1,
+          "poids": 784
+        },
+        {
+          "hex": "#757575",
+          "n": 2,
+          "poids": 26
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 47,
+          "poids": 1473
+        },
+        {
+          "hex": "#949494",
+          "n": 32,
+          "poids": 1167
+        },
+        {
+          "hex": "#757575",
+          "n": 43,
+          "poids": 958
+        },
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 13
+        }
+      ],
+      "nbImages": 17,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 8,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1936350,
+          "part": 1
+        },
+        {
+          "hex": "#f2f2f2",
+          "n": 1,
+          "poids": 784,
+          "part": 0
+        },
+        {
+          "hex": "#757575",
+          "n": 2,
+          "poids": 26,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 47,
+          "poids": 1473,
+          "part": 0.408
+        },
+        {
+          "hex": "#949494",
+          "n": 32,
+          "poids": 1167,
+          "part": 0.323
+        },
+        {
+          "hex": "#757575",
+          "n": 43,
+          "poids": 958,
+          "part": 0.265
+        },
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 13,
+          "part": 0.004
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "script gsap.d02a9084c5cc0c27efee.js"
+        },
+        {
+          "nom": "Flickity",
+          "preuve": "script flickity.806ca2e293f90449929a.js"
+        },
+        {
+          "nom": "Lottie",
+          "preuve": "script lottie.c1f06cec457e8962e72c.js"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease",
+          "n": 26
+        },
+        {
+          "valeur": "color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 21
+        },
+        {
+          "valeur": "background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 18
+        },
+        {
+          "valeur": "opacity 0.6s cubic-bezier(0.39, 0.575, 0.565, 1)",
+          "n": 16
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "all 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "all 1s cubic-bezier(0.77, 0, 0.175, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animator",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "main#main",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-animator"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "body.body",
+      "sections": [
+        {
+          "selecteur": "main#main",
+          "titre": "Snøhetta is a global transdisciplinary practice, working on ",
+          "top": 0,
+          "hauteur": 4083,
+          "ecrans": 4.8,
+          "mots": 498,
+          "images": 17,
+          "fixe": false,
+          "balisesRares": [
+            "time"
+          ]
+        },
+        {
+          "selecteur": "footer#bottom",
+          "titre": "General",
+          "top": 4083,
+          "hauteur": 882,
+          "ecrans": 1,
+          "mots": 41,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer#bottom",
+        "liens": [
+          {
+            "texte": "Search",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "People",
+            "href": "https://www.snohetta.com/people",
+            "bouton": false
+          },
+          {
+            "texte": "Process",
+            "href": "https://www.snohetta.com/process",
+            "bouton": false
+          },
+          {
+            "texte": "Projects",
+            "href": "https://www.snohetta.com/projects",
+            "bouton": false
+          },
+          {
+            "texte": "News",
+            "href": "https://www.snohetta.com/news",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "https://www.snohetta.com/about",
+            "bouton": false
+          },
+          {
+            "texte": "Sustainability",
+            "href": "https://www.snohetta.com/sustainability",
+            "bouton": false
+          },
+          {
+            "texte": "Perspectives",
+            "href": "https://www.snohetta.com/perspectives",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "https://www.snohetta.com/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Studios",
+            "href": "https://www.snohetta.com/studios",
+            "bouton": false
+          },
+          {
+            "texte": "Architecture",
+            "href": "https://www.snohetta.com/disciplines/architecture",
+            "bouton": false
+          },
+          {
+            "texte": "Landscape",
+            "href": "https://www.snohetta.com/disciplines/landscape",
+            "bouton": false
+          },
+          {
+            "texte": "Interior",
+            "href": "https://www.snohetta.com/disciplines/interior",
+            "bouton": false
+          },
+          {
+            "texte": "Product",
+            "href": "https://www.snohetta.com/disciplines/product",
+            "bouton": false
+          },
+          {
+            "texte": "Calendar",
+            "href": "https://www.snohetta.com/calendar",
+            "bouton": false
+          },
+          {
+            "texte": "Awards",
+            "href": "https://www.snohetta.com/awards",
+            "bouton": false
+          },
+          {
+            "texte": "Snøhetta Books",
+            "href": "https://www.snohetta.com/books",
+            "bouton": false
+          },
+          {
+            "texte": "↗ Snøhetta Foundation",
+            "href": "https://snohetta.foundation",
+            "bouton": false
+          },
+          {
+            "texte": "Transparency Act",
+            "href": "https://www.snohetta.com/legal/norwegian-transparency-act",
+            "bouton": false
+          },
+          {
+            "texte": "Cookies & Tracking",
+            "href": "https://www.snohetta.com/legal/privacy",
+            "bouton": false
+          },
+          {
+            "texte": "-> Legal Documents",
+            "href": "https://www.snohetta.com/legal",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/snohetta/",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/snohetta/",
+            "bouton": false
+          },
+          {
+            "texte": "LinkedIn",
+            "href": "https://www.linkedin.com/company/snohetta/",
+            "bouton": false
+          },
+          {
+            "texte": "↗ Current Openings",
+            "href": "https://web106.reachmee.com/ext/I020/762/main?site=6&validator=83f187b6a1fc05eedd0e6135a310a4c1&lang=UK",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Snøhetta Books",
+          "href": "https://www.snohetta.com/books"
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/snohetta/"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 5,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Snøhetta",
+  "dureeS": 23.6
+}

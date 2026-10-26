@@ -279,3 +279,27 @@ vert bouteille, crème, bordeaux), lacabra (crème sous 0,012) ; une vingtaine d
 tunnel refusé). Les 23 atomes de la collecte du 25 oct qui cassaient `tests/atomes.test.mjs` (photos.traitement « à juger »
 sous un atome photos posé, mesures hors bornes) sont repassés en « à juger » ; les fiches frama et pierrehermeparis, effacées
 par erreur le 25 oct, sont restaurées.
+
+Collecte du 26 oct 2026 (Godly, One Page Love ; Awwwards et land-book injoignables depuis le réseau) : atomes de typo, densité, formes, matière relevés ; couleurs, photos, mouvement, premier écran « à juger ».
+| delparco | https://www.delparcohotel.eu ([fiche](delparco.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| ossa | https://ossa.wine ([fiche](ossa.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| davesocozy | https://davesocozy.com ([fiche](davesocozy.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| vienslaa | https://viens-la.com ([fiche](vienslaa.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| visualjournal | https://visualjournal.it ([fiche](visualjournal.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| patrickmason | https://patrickmason.studio ([fiche](patrickmason.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| jackywinter | https://www.jackywinter.gallery ([fiche](jackywinter.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| snohetta | https://www.snohetta.com ([fiche](snohetta.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| middlename | https://middlename.co.uk ([fiche](middlename.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| bauhausclock | https://bauhausclock.com ([fiche](bauhausclock.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| eaglesnest | https://eaglesnest.webflow.io ([fiche](eaglesnest.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| kizupi | https://kizupi.com ([fiche](kizupi.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| benvenusa | https://benvenusa.com ([fiche](benvenusa.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| elihorn | https://elihorn.ca ([fiche](elihorn.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| grafiknz | https://grafik.nz ([fiche](grafiknz.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| fayemi | https://fayemi.design ([fiche](fayemi.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| wamstudio | https://wam.studio ([fiche](wamstudio.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| vivienscreative | https://vivienscreative.com.au ([fiche](vivienscreative.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| atomicdust | https://atomicdust.com ([fiche](atomicdust.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| melius | https://www.melius.com ([fiche](melius.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| davidfiz | https://www.davidfiz.com ([fiche](davidfiz.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| flowlife | https://www.flowlife.com ([fiche](flowlife.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
