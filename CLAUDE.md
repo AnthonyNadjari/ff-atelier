@@ -237,6 +237,11 @@ Liste complète : `docs/HANDOVER.md` § 5. Leçons d'octobre 2026 (site du studi
 - Vercel sans `cleanUrls: true` = 404 sur `/audit`, `/mentions-legales` : passer par `ff vercel`.
 - Pages légales sur mesure : `sites/<slug>/legal/MentionsLegales.astro` / `Confidentialite.astro`
   (modèle `outils/legal/`), voir `docs/CONVENTIONS.md` § Pages légales.
+- Astro met dans la feuille de chaque page le CSS de **tout module atteignable**, même par `import.meta.glob`
+  paresseux ou dans une branche jamais exécutée : un glob de `src/sections` ou `src/shells` livrait le style des
+  ~75 variantes et 25 coquilles sur chaque page (243 Ko pour l'accueil de `_exemple` le 26 oct 2026, 113 Ko après).
+  Les composants du site sont importés un par un par `scripts/vite-ff-look.mjs` (`composantsDuSite`) ; jamais de
+  glob de sections ou de coquilles côté `src/`. Une page qui demande une variante par son nom l'ajoute là.
 
 ## Ne pas toucher sans raison
 

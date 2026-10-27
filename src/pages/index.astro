@@ -7,11 +7,11 @@ import Base from '@/layouts/Base.astro';
 import { site } from '@/lib/site';
 import { getSection, resolveSection } from '@/lib/sections';
 import { faqPageLd } from '@/lib/jsonld';
+import { Shell as ShellDuSite } from 'virtual:ff-look';
 
-const shells = import.meta.glob<{ default: any }>('/src/shells/*.astro', { eager: true });
-const shellKey = `/src/shells/${site.layout.shell}.astro`;
-if (!shells[shellKey]) throw new Error(`Coquille inconnue : ${site.layout.shell}`);
-const Shell = shells[shellKey].default;
+// La coquille du site est importee seule par scripts/vite-ff-look.mjs (le CSS des 24 autres ne part plus dans la
+// page). Aucun import.meta.glob ici : meme non execute, il mettrait toutes les coquilles dans le graphe.
+const Shell = ShellDuSite;
 
 const Nav = resolveSection('nav', site.layout.nav);
 const Hero = resolveSection('hero', site.layout.hero);

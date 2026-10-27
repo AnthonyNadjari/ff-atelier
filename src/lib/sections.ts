@@ -4,9 +4,16 @@
  */
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 
-import { customSections } from 'virtual:ff-look';
+import { customSections, sectionModules } from 'virtual:ff-look';
 
-const files = import.meta.glob<{ default: AstroComponentFactory }>('/src/sections/*/*.astro', { eager: true });
+// Seules les variantes que CE site rend sont importees (scripts/vite-ff-look.mjs, composantsDuSite) : Astro met dans
+// la feuille de chaque page le CSS de tout module atteignable, meme par un glob paresseux ; globber tout src/sections
+// livrait ~50 Ko de styles de sections jamais rendues sur chaque page de chaque site (26 oct 2026). Repli (layout
+// illisible) : tout src/sections, comme avant.
+// Aucun import.meta.glob ici : meme dans une branche morte, il mettrait tout src/sections dans le graphe.
+const files: Record<string, { default: AstroComponentFactory }> = Object.fromEntries(
+  Object.entries(sectionModules as Record<string, AstroComponentFactory>).map(([k, c]) => [`/src/sections/${k}.astro`, { default: c }]),
+);
 
 const registry = new Map<string, AstroComponentFactory>();
 for (const [path, mod] of Object.entries(files)) {
@@ -24,7 +31,7 @@ export function getSection(type: string, variant: string): AstroComponentFactory
   const c = registry.get(`${type.toLowerCase()}/${variant.toLowerCase()}`);
   if (!c) {
     const available = [...registry.keys()].filter((k) => k.startsWith(type.toLowerCase() + '/')).join(', ');
-    throw new Error(`Section ${type}/${variant} introuvable. Disponibles : ${available || '(aucune)'}`);
+    throw new Error(`Section ${type}/${variant} introuvable. Disponibles : ${available || '(aucune)'} (seules les variantes du layout de ce site sont compilees : scripts/vite-ff-look.mjs, composantsDuSite ; une variante demandee par une page doit y etre ajoutee)`);
   }
   return c;
 }

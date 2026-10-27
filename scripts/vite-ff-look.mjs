@@ -16,11 +16,14 @@ import { directionBg, iconesDisponibles } from './ff/icones.mjs';
 const VIRTUAL = 'virtual:ff-look';
 const RESOLVED = '\0' + VIRTUAL;
 
-/** Variantes de layout lues dans le texte du config (nav/hero/footer + sections[]). */
-function parseLayoutVariants(text) {
-  const out = { nav: null, hero: null, footer: null, sections: [] };
+/** Variantes de layout lues dans le texte du config (coquille, architecture, nav/hero/footer + sections[]). */
+export function parseLayoutVariants(text) {
+  const out = { shell: null, architecture: null, servicePage: null, nav: null, hero: null, footer: null, sections: [] };
   const block = text.match(/\blayout:\s*\{([\s\S]*?)\n\s{2}\},/);
   const src = block ? block[1] : text;
+  const shell = src.match(/\bshell:\s*'([^']+)'/); if (shell) out.shell = shell[1];
+  const archi = src.match(/\barchitecture:\s*'([^']+)'/); if (archi) out.architecture = archi[1];
+  const sp = src.match(/\bservicePage:\s*'([^']+)'/); if (sp) out.servicePage = sp[1];
   const nav = src.match(/\bnav:\s*'([^']+)'/); if (nav) out.nav = nav[1];
   const hero = src.match(/\bhero:\s*'([^']+)'/); if (hero) out.hero = hero[1];
   const footer = src.match(/\bfooter:\s*'([^']+)'/); if (footer) out.footer = footer[1];
@@ -105,46 +108,118 @@ export function resolveLook({ root, slug, ffLook }) {
   }
   look.direction ||= 'atelier';
   // Layout : config puis overlays (look.json / FF_LOOK) ; null si introuvable => on scanne tout src/sections.
-  let layout = existsSync(cfg) ? parseLayoutVariants(readFileSync(cfg, 'utf8')) : null;
+  // Memes regles que src/lib/site.ts (applyLook + completerLayout) : a chaque niveau, l'architecture remplit les
+  // reglages que CE niveau ne precise pas, puis un overlay remplace ce qu'il precise (y compris ce que son
+  // architecture lui a donne : FF_LOOK { layout: { architecture } } change donc coquille ET sections).
+  let layout = existsSync(cfg) ? completerParArchitecture(root, parseLayoutVariants(readFileSync(cfg, 'utf8'))) : null;
   for (const o of overlays) {
     if (!o.layout) continue;
-    layout ||= { nav: null, hero: null, footer: null, sections: [] };
-    if (o.layout.nav) layout.nav = o.layout.nav;
-    if (o.layout.hero) layout.hero = o.layout.hero;
-    if (o.layout.footer) layout.footer = o.layout.footer;
-    if (Array.isArray(o.layout.sections)) layout.sections = o.layout.sections.map((x) => ({ type: x.type, variant: x.variant }));
+    layout ||= { shell: null, architecture: null, servicePage: null, nav: null, hero: null, footer: null, sections: [] };
+    const ov = completerParArchitecture(root, {
+      shell: o.layout.shell ?? null, architecture: o.layout.architecture ?? null, servicePage: o.layout.servicePage ?? null,
+      nav: o.layout.nav ?? null, hero: o.layout.hero ?? null, footer: o.layout.footer ?? null,
+      sections: Array.isArray(o.layout.sections) ? o.layout.sections.map((x) => ({ type: x.type, variant: x.variant })) : null,
+    });
+    for (const k of ['shell', 'architecture', 'servicePage', 'nav', 'hero', 'footer']) if (ov[k]) layout[k] = ov[k];
+    if (Array.isArray(ov.sections)) layout.sections = ov.sections;
   }
   look.layout = layout;
   return look;
 }
 
+/** completerLayout du plugin : les reglages absents (null) prennent ceux de l'architecture du meme niveau. */
+export function completerParArchitecture(root, layout) {
+  const a = architectureLayout(root, layout.architecture);
+  if (!a) return layout;
+  const out = { ...layout };
+  for (const k of ['shell', 'servicePage', 'nav', 'hero', 'footer']) if (!out[k] && a[k]) out[k] = a[k];
+  if (!Array.isArray(out.sections) || (out.sections.length === 0 && layout.architecture)) out.sections = a.sections;
+  return out;
+}
+
+/**
+ * Reglages de layout poses par une architecture (src/lib/architectures.ts, lu en texte : le plugin tourne hors
+ * Vite, sans TS). Memes regles que completerLayout : un reglage ecrit dans le config gagne toujours.
+ */
+export function architectureLayout(root, id) {
+  if (!id) return null;
+  const text = readFileSync(resolve(root, 'src/lib/architectures.ts'), 'utf8');
+  const start = text.indexOf(`'${id}': {`);
+  if (start === -1) return null;
+  const from = text.indexOf('layout: {', start);
+  const end = text.indexOf('\n    },', from);
+  if (from === -1 || end === -1) return null;
+  const src = text.slice(from, end);
+  const pick = (k) => { const m = src.match(new RegExp(`\\b${k}:\\s*'([^']+)'`)); return m ? m[1] : null; };
+  const sections = [];
+  const re = /\{\s*type:\s*'([a-z]+)'\s*,\s*variant:\s*'([^']+)'/g;
+  let m;
+  while ((m = re.exec(src))) sections.push({ type: m[1], variant: m[2] });
+  return { shell: pick('shell'), nav: pick('nav'), hero: pick('hero'), footer: pick('footer'), servicePage: pick('servicePage'), sections };
+}
+
+/**
+ * Les composants que CE site rend : sa coquille et ses variantes de sections (config, puis architecture, puis defauts
+ * du schema), plus celles que des pages demandent par leur nom (cta `band` en repli sur les pages service et conseils,
+ * contact `ecran` du gabarit livre). Astro met dans la feuille de chaque page le CSS de TOUT module atteignable, meme
+ * par un glob paresseux : ne pas importer les autres variantes est la seule facon de ne pas livrer leur style
+ * (26 oct 2026 : 50 Ko de sections jamais rendues sur chaque page de _exemple). `null` (pas de layout lisible) =
+ * tout src/sections et toutes les coquilles, comme avant.
+ */
+export function composantsDuSite(root, look) {
+  const l = look.layout;
+  if (!l) return null;
+  // L'architecture est deja appliquee par niveau dans resolveLook (completerParArchitecture) ; ici, les defauts du schema.
+  const defaults = { shell: 'flow', nav: 'bar', hero: 'split', footer: 'columns' };
+  const defaultSections = [['services', 'grid'], ['about', 'portrait'], ['proof', 'google'], ['zones', 'list'], ['faq', 'accordion'], ['cta', 'band'], ['contact', 'form-split']]
+    .map(([type, variant]) => ({ type, variant }));
+  const shell = l.shell || defaults.shell;
+  const servicePage = l.servicePage || null;
+  const sections = Array.isArray(l.sections) && (l.sections.length || l.architecture) ? l.sections : defaultSections;
+  const variants = new Map();
+  const add = (type, variant) => {
+    if (!variant || variant.startsWith('custom/')) return;
+    const dir = type.charAt(0).toUpperCase() + type.slice(1);
+    if (existsSync(resolve(root, 'src/sections', dir, `${variant}.astro`))) variants.set(`${type}/${variant}`.toLowerCase(), { dir, variant });
+  };
+  add('nav', l.nav || defaults.nav);
+  add('hero', l.hero || defaults.hero);
+  add('footer', l.footer || defaults.footer);
+  for (const s of sections) add(s.type, s.variant);
+  if (!sections.some((x) => x.type === 'cta')) add('cta', 'band');
+  if (shell === 'livre' || servicePage === 'livre') add('contact', 'ecran');
+  return { shell, variants };
+}
+
+/** Repli sans layout lisible : la coquille flow et TOUTES les variantes de src/sections (l'ancien comportement). */
+export function tousLesComposants(root) {
+  const variants = new Map();
+  const base = resolve(root, 'src/sections');
+  for (const dir of readdirSync(base)) {
+    const abs = resolve(base, dir);
+    let files = [];
+    try { files = readdirSync(abs).filter((f) => f.endsWith('.astro')); } catch { continue; }
+    for (const f of files) {
+      const variant = f.replace(/\.astro$/, '');
+      variants.set(`${dir}/${variant}`.toLowerCase(), { dir, variant });
+    }
+  }
+  return { shell: 'flow', variants };
+}
+
 /**
  * Lignes `@source` Tailwind pour ce site : src/ sauf src/sections, puis seulement les variantes de
- * sections utilisees (defauts du schema si le config n'en declare pas). Repli : tout src/sections.
+ * sections utilisees (composantsDuSite). Repli : tout src/sections.
  */
 function tailwindSources(root, slug, look) {
   const lines = [
     "@source '../components';", "@source '../layouts';", "@source '../pages';", "@source '../shells';",
     "@source '../scripts';", `@source '../directions/${look.direction}';`, `@source '../../sites/${slug}';`,
   ];
-  const l = look.layout;
-  if (!l) { lines.push("@source '../sections';"); return lines.join('\n'); }
-  const defaults = { nav: 'bar', hero: 'split', footer: 'columns' };
-  const defaultSections = [['services', 'grid'], ['about', 'portrait'], ['proof', 'google'], ['zones', 'list'], ['faq', 'accordion'], ['cta', 'band'], ['contact', 'form-split']];
-  const wanted = new Set();
-  const add = (type, variant) => {
-    if (!variant) return;
-    if (variant.startsWith('custom/')) return; // sites/<slug>/sections deja scanne
-    const dir = type.charAt(0).toUpperCase() + type.slice(1);
-    const file = resolve(root, 'src/sections', dir, `${variant}.astro`);
-    if (existsSync(file)) wanted.add(`@source '../sections/${dir}/${variant}.astro';`);
-  };
-  add('nav', l.nav || defaults.nav); add('hero', l.hero || defaults.hero); add('footer', l.footer || defaults.footer);
-  const secs = l.sections.length ? l.sections : defaultSections.map(([type, variant]) => ({ type, variant }));
-  for (const sct of secs) add(sct.type, sct.variant);
-  // Pages secondaires : services/[slug] reutilise la variante cta du layout ; 404 et mentions n'ont que nav/footer.
-  if (!secs.some((x) => x.type === 'cta')) add('cta', 'band');
-  return [...lines, ...wanted].join('\n');
+  const c = composantsDuSite(root, look);
+  if (!c) { lines.push("@source '../sections';"); return lines.join('\n'); }
+  for (const { dir, variant } of c.variants.values()) lines.push(`@source '../sections/${dir}/${variant}.astro';`);
+  return lines.join('\n');
 }
 
 export function ffLookPlugin({ root, slug, ffLook }) {
@@ -254,6 +329,23 @@ export function ffLookPlugin({ root, slug, ffLook }) {
         entries.push(`${JSON.stringify(name.toLowerCase())}: Custom${i}`);
       });
       lines.push(`export const customSections = { ${entries.join(', ')} };`);
+
+      // Coquille et variantes de sections de CE site seulement (composantsDuSite) : src/lib/sections.ts et
+      // src/pages/index.astro les lisent ici au lieu de globber tout src/sections et src/shells.
+      // Un `import.meta.glob` cote src, meme dans une branche jamais prise, met tout le dossier dans le graphe : le
+      // repli (layout illisible) est donc enumere ICI, sur disque, et src/ n'a plus aucun glob de sections ni de coquilles.
+      const comp = composantsDuSite(root, look) ?? tousLesComposants(root);
+      lines.push(`import ShellCourante from '/src/shells/${comp.shell}.astro';`);
+      lines.push(`export const Shell = ShellCourante;`);
+      const secEntries = [];
+      let k = 0;
+      for (const [key, { dir, variant }] of comp.variants) {
+        lines.push(`import Sec${k} from '/src/sections/${dir}/${variant}.astro';`);
+        secEntries.push(`${JSON.stringify(key)}: Sec${k}`);
+        k++;
+      }
+      lines.push(`export const sectionModules = { ${secEntries.join(', ')} };`);
+      lines.push(`export const sectionsCompilees = ${JSON.stringify(Boolean(composantsDuSite(root, look)))};`);
 
       // Credits photos (scripts/astro-credits-integration.mjs) : les pieds de page partages
       // (src/sections/Footer/*.astro) n'affichent le lien "Credits photos" que si la route /credits

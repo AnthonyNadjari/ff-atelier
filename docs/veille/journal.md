@@ -125,6 +125,11 @@ Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session
 - `ff planche` : sur une page aimantée (coquilles slides/scenes), trois crans de molette ne basculaient pas l'écran et la planche
   montrait douze fois le premier écran ; elle passe maintenant à l'écran suivant quand la page n'a pas bougé.
 - Veille passée à 3 tours par jour (4 h, 11 h, 22 h Paris), collecte à 3 par jour (7 h, 15 h, 19 h), décalées.
+- **Poids des pages divisé par deux** : Astro mettait dans chaque page le CSS de toutes les variantes de sections et de
+  toutes les coquilles (globs) ; chaque moule ajouté par la veille alourdissait tous les sites (accueil de `_exemple` :
+  164 Ko le 22 oct, 243 Ko le 26). `scripts/vite-ff-look.mjs` n'importe plus que la coquille et les variantes du site
+  (`composantsDuSite`, architecture comprise) : 113 Ko pour `_exemple`, 125 Ko pour Épi d'Or B (254 avant). Les 41 sites
+  reconstruits, tests verts. Règle dans CLAUDE.md § Pièges.
 
 ## 26 oct 2026, tour 8 (routine en ligne) : 8 styles, 2 architectures
 
