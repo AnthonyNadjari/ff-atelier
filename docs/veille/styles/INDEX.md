@@ -339,6 +339,23 @@ Collecte du 26 oct 2026 (Godly, One Page Love ; Awwwards et land-book injoignabl
 | santionispirits | https://santionispirits.com ([fiche](santionispirits.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
 | signala | https://signal-a.studio ([fiche](signala.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
 | tengilemalamala | https://tengilemalamala.com ([fiche](tengilemalamala.md)) | Relevé automatique du 26 oct, jugements à faire sur les captures | atomes partiels |
+| onacoffee | https://onacoffee.com.au ([fiche](onacoffee.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| menuspace | https://menuspace.com ([fiche](menuspace.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| gailsbread | https://gailsbread.co.uk ([fiche](gailsbread.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| hummingbirdbakery | https://hummingbirdbakery.com ([fiche](hummingbirdbakery.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| e5bakehouse | https://e5bakehouse.com ([fiche](e5bakehouse.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| sullivanstreetbakery | https://sullivanstreetbakery.com ([fiche](sullivanstreetbakery.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| hawksmoor | https://hawksmoor.co.uk ([fiche](hawksmoor.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| bistrotvivienne | https://bistrotvivienne.com ([fiche](bistrotvivienne.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| frenchierestaurant | https://frenchie-restaurant.com ([fiche](frenchierestaurant.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| wastberg | https://wastberg.com ([fiche](wastberg.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| mjolk | https://mjolk.ca ([fiche](mjolk.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| madamstoltz | https://madamstoltz.com ([fiche](madamstoltz.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| hkliving | https://hkliving.com ([fiche](hkliving.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| balthazarny | https://balthazarny.com ([fiche](balthazarny.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| lecomptoirgeneral | https://lecomptoirgeneral.com ([fiche](lecomptoirgeneral.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| intelligentsia | https://intelligentsia.com ([fiche](intelligentsia.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
+| hotelamigo | https://hotelamigo.com ([fiche](hotelamigo.md)) | Relevé automatique du 27 oct, jugements à faire sur les captures | atomes partiels |
 
 Collecte du 27 oct 2026 (routine, régime en besoin : clair teinté doux) : deux agents en parallèle (domaines a à l, m à z), plus de 150 domaines sondés (Awwwards injoignable, siteinspire en 429, une vingtaine au-delà des 120 s de `ff demonter`), **7 gardés**, chacun essayé sur une copie de `demo-boulangerie` ou `demo-electricien` (`ff melanger <démo> --style <id> --essai`) et posé à côté de la source : `rosslyn`, `poterieravel`, `antoinettepoisson` (clair teinté doux), `shiptonmill` (coloré doux : pied vert sapin), `morito`, `thenewcraftmaker`, `hotellesrochesrouges` (clair neutre : crèmes sous 0,012 ou voile sur blanc). Écartés : fenêtres bloquantes (montecafe, petershamnurseries, violetcakes, maxrollitt, mollymahon, zanat, monsfromages, capitolium, devonshire, audocph), un seul écran (springrestaurant, thecloveclub, orasay, westernslaundry, hartbageri, fernverrow), polices IA en vedette (rococo, scarletandviolet, pinch, volgalinen, breadfurst), pilules (madie, worm), fonds vifs (wildfarmed, kismet, claud, flybyjing, counterculture), rendu maladroit (bonnat : menu translucide posé sur la page), kaikado (`ff demonter` plante : le site redéfinit `scrollTo`), une cinquantaine de crèmes sous 0,012 ou de blancs neutres, une trentaine injoignables.
 

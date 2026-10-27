@@ -673,3 +673,4 @@ Collecte 2026-10-19 : 10 styles (16 démontés sur 31 essayés ; Awwwards/land-b
 - Collecte 2026-10-25 : 23 styles (petits commerces, maisons d'art de la table et d'objets ; atomes mesurés, photos, mouvement et premier écran laissés « à juger » ; `FF_CHROMIUM=1` ; ~30 domaines refusés ou injoignables).
 Collecte 2026-10-26 : 22 styles (relevé mesuré, jugements photos/couleurs/mouvement restent « à juger »).
 Collecte 2026-10-26 (soir) : 16 styles (Awwwards sites du jour ; relevé mesuré, jugements « à juger » ; edolus et meermohsin refusés par le réseau).
+Collecte 2026-10-27 (mardi, Framer/Webflow/ThemeForest injoignables, remplacés par commerces et marques d'objets) : 17 styles (relevé mesuré, jugements « à juger » ; une vingtaine de sites refusés par blocage navigateur ou réseau).

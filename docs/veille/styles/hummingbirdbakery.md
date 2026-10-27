@@ -1,0 +1,30 @@
+# Authentic American-style Bakery — https://hummingbirdbakery.com/
+Titre « Welcome to The Hummingbird Bakery | Authentic American-style Bakery », `lang="en"`, description « Hummingbird bakery is the home of authentic American-style cakes, cupcakes, cheesecakes and baked goods. Now available for London delivery, in-store pick-up an… », technologie lue : Tailwind, jQuery. Démontage automatique du 2026-10-27 (`ff demonter`, mesures brutes dans `hummingbirdbakery.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Celebrating Every Occasion With You » ; image plein écran (77 % de l'écran) ; bouton principal « Allow all cookies » en bas à droite (1079, 685 px, dans une barre fixe) ; 125 mots visibles au-dessus du pli ; bannière cookies 27 % de l'écran, non bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « Celebrating Every Occasion With You » ; image plein écran (82 % de l'écran) ; bouton principal « Close banner » en haut à droite (353, 180 px, dans une barre fixe) ; 100 mots visibles au-dessus du pli ; couche bloquante à l'arrivée : bannière cookies couvrant 60 % de l'écran (« This website uses cookies We use cookies to personalise con… ») ; rien ne bouge tout seul.
+Nav : 20 lien(s) — Skip to Content, [Delivery], [Our Stores], [Contact Us], [Blog], Go to Home page, [Search], [My Account], [Cart Toggle minicart, Cart is empty], Halloween, What's New, Birthday Cakes (+8) ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `header.relative` (0,2 écran, 43 mots, 1 img) → `main#maincontent` « Celebrating Every Occasion With You » (3,8 écrans, 67 mots, 40 img) → `footer.page-footer` (1,0 écran, 115 mots, 11 img). Calques hors flux (fixes/absolus) : `div#CybotCookiebotDialog` (fixed, 239 px, collé en bas, 71 mots), `iframe.CybotCookiebotOffscreenIframe` (absolute, 1 px).
+Pied de page : 22 lien(s) — [Subscribe], Contact Us, About Us, FAQ’s, Corporate, E-Gift Cards, Careers, Charity, Delivery, Blog (+12). Téléphone cliquable : non. Formulaire : 8 (0 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Delivery » (#), « Corporate Gifting » (https://www.hummingbirdbakery.com/corporate-gifting), « Preorder » (https://www.hummingbirdbakery.com/cakes/), « E-Gift Cards » (/product/e-gift), « Cook Books » (/nationwide/cook-books).
+En 3 secondes : à juger sur `captures/hummingbirdbakery-d.webp` (mesuré : fond du premier écran #ffffff, 4 image(s) et 125 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Korolev**, 56 px / 28 px téléphone, graisse 700, interlignage 1,14, interlettrage -0.8px ; h2 **Korolev**, 48 px / 24 px téléphone, graisse 700, interlignage 1,17, interlettrage -0.64px ; corps **Jost**, 18 px / 18 px téléphone, graisse 400, interlignage 1,56, interlettrage -0.36px ; boutons **Jost**, 15 px / 15 px téléphone, graisse 600, interlignage 1,60 ; nav **Jost**, 18 px / 18 px téléphone, graisse 400, interlignage 1,56, interlettrage -0.36px.
+Sources `@font-face` : auto-hébergée (Korolev, Jost) ; fichiers chargés : https://www.hummingbirdbakery.com/static/version1792497988/frontend/Magebit/hummingbird/en_GB/fonts/Korolev/Korolev-Bold.woff, https://www.hummingbirdbakery.com/static/version1792497988/frontend/Magebit/hummingbird/en_GB/fonts/Jost/Jost-Regular.woff, https://www.hummingbirdbakery.com/static/version1792497988/frontend/Magebit/hummingbird/en_GB/fonts/Jost/Jost-Medium.woff, https://www.hummingbirdbakery.com/static/version1792497988/frontend/Magebit/hummingbird/en_GB/fonts/Jost/Jost-Bold.woff. Familles en usage sur le texte visible : Jost ×75, Korolev ×15. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #623b3b (contraste 9,51:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (68 %), #4d1a1a (18 %), #441111 (10 %), #ffdef2 (4 %), #ffd5ec (1 %) ; textes par nombre de caractères : #623b3b (23 %), #141414 (21 %), #fffdf6 (15 %), #441111 (13 %), #ffffff (12 %). Images : 22 `<img>` visibles, 0 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 4 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Alpine (window.Alpine). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.1s cubic-bezier(0.4, 0, 0.2, 1)` ×29, `color 0.15s cubic-bezier(0.4, 0, 0.2, 1)` ×23, `transform 0.5s ease` ×1, `opacity 0.3s ease` ×1, `opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)` ×1, `opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1)` ×1, `transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-enable-parallax` ×9, `data-parallax-speed` ×9. Ce qui bouge réellement à l'écran : à juger sur `captures/hummingbirdbakery-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `main#maincontent` « Celebrating Every Occasion With You » (3,8 écrans, 67 mots, 40 image(s)).
+2. L'élément le plus animé : `div` (attributs data-enable-parallax, data-parallax-speed).
+3. Le bloc le plus singulier par sa structure : `main#maincontent` « Celebrating Every Occasion With You » (seule à contenir <details>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« Delivery », « Corporate Gifting », « Preorder », « E-Gift Cards », « Cook Books »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/16 ordinateur, 0/16 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

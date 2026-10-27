@@ -1,0 +1,839 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://mjolk.ca/",
+  "nom": "mjolk",
+  "date": "2026-10-27",
+  "identite": {
+    "title": "Mjolk - Mjölk",
+    "siteName": "Mjölk",
+    "lang": "en",
+    "description": "Started in 2009 by husband-and-wife team John and Juli Baker, Mjölk is a lifestyle shop and gallery, representing work with an emphasis on functionality, crafts",
+    "technologies": [
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#eae7e2",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 21,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 1,
+        "selecteur": "div.hero-image"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 3810,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "Overpass, Helvetica, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.button",
+        "famille": "Overpass, Helvetica, sans-serif",
+        "taille": 20,
+        "graisse": "600",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.logo",
+        "famille": "Overpass, Helvetica, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com",
+        "cdn.shoplightspeed.com",
+        "cdn.shoplightspeed.com",
+        "cdn.shoplightspeed.com",
+        "cdn.shoplightspeed.com",
+        "cdn.shoplightspeed.com"
+      ],
+      "fichiersPolices": [
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Overpass:400,400i,300,500,600,700,700i,800,900|Cardo:400,400i,300,500,600,700,700i,800,900"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Overpass",
+          "n": 72
+        },
+        {
+          "famille": "Cardo",
+          "n": 7
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#eae7e2",
+      "texte": "#3c3c3c",
+      "fondsBruts": [
+        {
+          "hex": "#eae7e2",
+          "n": 1,
+          "poids": 6197760
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3c3c3c",
+          "n": 75,
+          "poids": 1415
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 76
+        }
+      ],
+      "nbImages": 13,
+      "nbVideos": 0,
+      "nbFondsImage": 3,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#eae7e2",
+          "n": 1,
+          "poids": 6197760,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3c3c3c",
+          "n": 75,
+          "poids": 1415,
+          "part": 0.949
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 76,
+          "part": 0.051
+        }
+      ],
+      "contraste": 8.94
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.15s ease-in-out",
+          "n": 27
+        },
+        {
+          "valeur": "color 0.3s ease",
+          "n": 13
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 10
+        },
+        {
+          "valeur": "all 0.4s ease-out",
+          "n": 2
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.2s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "header.site-header",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "all 0.4s ease-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.page-content",
+      "sections": [
+        {
+          "selecteur": "header.site-header",
+          "titre": null,
+          "top": 0,
+          "hauteur": 70,
+          "ecrans": 0.1,
+          "mots": 21,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "main.main-content",
+          "titre": "Featured products",
+          "top": 900,
+          "hauteur": 2813,
+          "ecrans": 3.1,
+          "mots": 149,
+          "images": 12,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "footer",
+          "titre": null,
+          "top": 3753,
+          "hauteur": 452,
+          "ecrans": 0.5,
+          "mots": 70,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.site-header",
+        "hauteur": 70,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "T&O 10 year anniversary collection",
+            "href": "https://www.mjolk.ca/t-o-10-year-anniversary-collection/",
+            "bouton": false
+          },
+          {
+            "texte": "Furniture",
+            "href": "https://www.mjolk.ca/furniture/",
+            "bouton": false
+          },
+          {
+            "texte": "Lighting",
+            "href": "https://www.mjolk.ca/lighting/",
+            "bouton": false
+          },
+          {
+            "texte": "Objects & Accessories",
+            "href": "https://www.mjolk.ca/objects-accessories/",
+            "bouton": false
+          },
+          {
+            "texte": "Mjölk Made",
+            "href": "https://www.mjolk.ca/mjoelk-made/",
+            "bouton": false
+          },
+          {
+            "texte": "Exhibitions",
+            "href": "https://www.mjolk.ca/exhibitions/",
+            "bouton": false
+          },
+          {
+            "texte": "Sale",
+            "href": "https://www.mjolk.ca/sale/",
+            "bouton": false
+          },
+          {
+            "texte": "Blog",
+            "href": "https://www.mjolk.ca/blogs/mjolk/",
+            "bouton": false
+          },
+          {
+            "texte": "Login / Register",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "C$ CAD",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "0",
+            "href": "#",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer",
+        "liens": [
+          {
+            "texte": "T&O 10 year anniversary collection",
+            "href": "https://www.mjolk.ca/t-o-10-year-anniversary-collection/",
+            "bouton": false
+          },
+          {
+            "texte": "Furniture",
+            "href": "https://www.mjolk.ca/furniture/",
+            "bouton": false
+          },
+          {
+            "texte": "Lighting",
+            "href": "https://www.mjolk.ca/lighting/",
+            "bouton": false
+          },
+          {
+            "texte": "Objects & Accessories",
+            "href": "https://www.mjolk.ca/objects-accessories/",
+            "bouton": false
+          },
+          {
+            "texte": "Mjölk Made",
+            "href": "https://www.mjolk.ca/mjoelk-made/",
+            "bouton": false
+          },
+          {
+            "texte": "Exhibitions",
+            "href": "https://www.mjolk.ca/exhibitions/",
+            "bouton": false
+          },
+          {
+            "texte": "Sale",
+            "href": "https://www.mjolk.ca/sale/",
+            "bouton": false
+          },
+          {
+            "texte": "About Us",
+            "href": "https://www.mjolk.ca/service/about/",
+            "bouton": false
+          },
+          {
+            "texte": "Hours & Location",
+            "href": "https://www.mjolk.ca/service/hours-and-location/",
+            "bouton": false
+          },
+          {
+            "texte": "Returns & Exchanges",
+            "href": "https://www.mjolk.ca/service/general-terms-conditions/",
+            "bouton": false
+          },
+          {
+            "texte": "Shipping Information",
+            "href": "https://www.mjolk.ca/service/shipping-returns/",
+            "bouton": false
+          },
+          {
+            "texte": "Made To Order Furniture",
+            "href": "https://www.mjolk.ca/service/disclaimer/",
+            "bouton": false
+          },
+          {
+            "texte": "Payment Methods",
+            "href": "https://www.mjolk.ca/service/payment-methods/",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "https://www.mjolk.ca/service/privacy-policy/",
+            "bouton": false
+          },
+          {
+            "texte": "Code of Ethics",
+            "href": "https://www.mjolk.ca/service/code-of-ethics/",
+            "bouton": false
+          },
+          {
+            "texte": "Terms & Conditions",
+            "href": "https://www.mjolk.ca/service/terms-and-conditions/",
+            "bouton": false
+          },
+          {
+            "texte": "Telephone: +1-416-551-9853",
+            "href": "tel:+1-416-551-9853",
+            "bouton": false
+          },
+          {
+            "texte": "Email: info@mjolk.ca",
+            "href": "mailto:info@mjolk.ca",
+            "bouton": false
+          },
+          {
+            "texte": "Lightspeed",
+            "href": "http://www.lightspeedhq.com",
+            "bouton": false
+          },
+          {
+            "texte": "Huysmans.me",
+            "href": "https://huysmans.me",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+1-416-551-9853"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Made To Order Furniture",
+          "href": "https://www.mjolk.ca/service/disclaimer/"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/mjolk-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#eae7e2",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 12,
+      "images": 6,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 3782,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "Overpass, Helvetica, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.button",
+        "famille": "Overpass, Helvetica, sans-serif",
+        "taille": 20,
+        "graisse": "600",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "Overpass, Helvetica, sans-serif",
+        "taille": 14,
+        "graisse": "600",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com",
+        "cdn.shoplightspeed.com",
+        "cdn.shoplightspeed.com",
+        "cdn.shoplightspeed.com",
+        "cdn.shoplightspeed.com",
+        "cdn.shoplightspeed.com"
+      ],
+      "fichiersPolices": [
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Overpass:400,400i,300,500,600,700,700i,800,900|Cardo:400,400i,300,500,600,700,700i,800,900"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Overpass",
+          "n": 59
+        },
+        {
+          "famille": "Cardo",
+          "n": 7
+        },
+        {
+          "famille": "Arial",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#eae7e2",
+      "texte": "#3c3c3c",
+      "fondsBruts": [
+        {
+          "hex": "#eae7e2",
+          "n": 1,
+          "poids": 1650090
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3c3c3c",
+          "n": 62,
+          "poids": 1246
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 76
+        }
+      ],
+      "nbImages": 12,
+      "nbVideos": 0,
+      "nbFondsImage": 3,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#eae7e2",
+          "n": 1,
+          "poids": 1650090,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3c3c3c",
+          "n": 62,
+          "poids": 1246,
+          "part": 0.943
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 76,
+          "part": 0.057
+        }
+      ],
+      "contraste": 8.94
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.15s ease-in-out",
+          "n": 24
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 9
+        },
+        {
+          "valeur": "color 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.4s ease-out",
+          "n": 2
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.2s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "-webkit-transform 3s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "span",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "transform 3s ease",
+          "-webkit-transform 3s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.page-content",
+      "sections": [
+        {
+          "selecteur": "header.site-header",
+          "titre": null,
+          "top": 0,
+          "hauteur": 70,
+          "ecrans": 0.1,
+          "mots": 1,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "main.main-content",
+          "titre": "Featured products",
+          "top": 70,
+          "hauteur": 2988,
+          "ecrans": 3.5,
+          "mots": 145,
+          "images": 11,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "footer",
+          "titre": null,
+          "top": 3098,
+          "hauteur": 1033,
+          "ecrans": 1.2,
+          "mots": 70,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.site-header",
+        "hauteur": 70,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "0",
+            "href": "#",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer",
+        "liens": [
+          {
+            "texte": "T&O 10 year anniversary collection",
+            "href": "https://www.mjolk.ca/t-o-10-year-anniversary-collection/",
+            "bouton": false
+          },
+          {
+            "texte": "Furniture",
+            "href": "https://www.mjolk.ca/furniture/",
+            "bouton": false
+          },
+          {
+            "texte": "Lighting",
+            "href": "https://www.mjolk.ca/lighting/",
+            "bouton": false
+          },
+          {
+            "texte": "Objects & Accessories",
+            "href": "https://www.mjolk.ca/objects-accessories/",
+            "bouton": false
+          },
+          {
+            "texte": "Mjölk Made",
+            "href": "https://www.mjolk.ca/mjoelk-made/",
+            "bouton": false
+          },
+          {
+            "texte": "Exhibitions",
+            "href": "https://www.mjolk.ca/exhibitions/",
+            "bouton": false
+          },
+          {
+            "texte": "Sale",
+            "href": "https://www.mjolk.ca/sale/",
+            "bouton": false
+          },
+          {
+            "texte": "About Us",
+            "href": "https://www.mjolk.ca/service/about/",
+            "bouton": false
+          },
+          {
+            "texte": "Hours & Location",
+            "href": "https://www.mjolk.ca/service/hours-and-location/",
+            "bouton": false
+          },
+          {
+            "texte": "Returns & Exchanges",
+            "href": "https://www.mjolk.ca/service/general-terms-conditions/",
+            "bouton": false
+          },
+          {
+            "texte": "Shipping Information",
+            "href": "https://www.mjolk.ca/service/shipping-returns/",
+            "bouton": false
+          },
+          {
+            "texte": "Made To Order Furniture",
+            "href": "https://www.mjolk.ca/service/disclaimer/",
+            "bouton": false
+          },
+          {
+            "texte": "Payment Methods",
+            "href": "https://www.mjolk.ca/service/payment-methods/",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "https://www.mjolk.ca/service/privacy-policy/",
+            "bouton": false
+          },
+          {
+            "texte": "Code of Ethics",
+            "href": "https://www.mjolk.ca/service/code-of-ethics/",
+            "bouton": false
+          },
+          {
+            "texte": "Terms & Conditions",
+            "href": "https://www.mjolk.ca/service/terms-and-conditions/",
+            "bouton": false
+          },
+          {
+            "texte": "Telephone: +1-416-551-9853",
+            "href": "tel:+1-416-551-9853",
+            "bouton": false
+          },
+          {
+            "texte": "Email: info@mjolk.ca",
+            "href": "mailto:info@mjolk.ca",
+            "bouton": false
+          },
+          {
+            "texte": "Lightspeed",
+            "href": "http://www.lightspeedhq.com",
+            "bouton": false
+          },
+          {
+            "texte": "Huysmans.me",
+            "href": "https://huysmans.me",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+1-416-551-9853"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Made To Order Furniture",
+          "href": "https://www.mjolk.ca/service/disclaimer/"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Mjölk",
+  "dureeS": 20.6
+}

@@ -1,0 +1,838 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://sullivanstreetbakery.com/",
+  "nom": "sullivanstreetbakery",
+  "date": "2026-10-27",
+  "identite": {
+    "title": "Sullivan Street Bakery | Artisan Bread in New York City",
+    "siteName": "Sullivan Street Bakery | Italian Bakery in NY & FL",
+    "lang": "en-US",
+    "description": "Handcrafted bread, pizza, and pastries in Hell’s Kitchen, Chelsea, and Miami. Daily baked goods from Sullivan Street Bakery.",
+    "technologies": []
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Home",
+      "h1Visible": true,
+      "mots": 199,
+      "images": 9,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 1,
+        "selecteur": "div.gallery__item"
+      },
+      "boutonPrincipal": {
+        "texte": "×",
+        "x": 990,
+        "y": 32,
+        "cx": 0.7048611111111112,
+        "cy": 0.06333333333333334,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div.mfp-bg",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 984,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.sr-only",
+        "famille": "Oswald",
+        "taille": 52,
+        "graisse": "600",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.5px"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "Oswald",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.5px"
+      },
+      "bouton": {
+        "selecteur": "button.mfp-close",
+        "famille": "\"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 40,
+        "graisse": "300",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.skip",
+        "famille": "Oswald",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.5px"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com",
+        "cdnjs.cloudflare.com",
+        "assets-cdn-refresh.getbento.com",
+        "wsv3cdn.audioeye.com",
+        "wsv3cdn.audioeye.com"
+      ],
+      "fichiersPolices": [
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Oswald:300,400,500,600&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Oswald",
+          "n": 40
+        },
+        {
+          "famille": "Helvetica Neue",
+          "n": 1
+        },
+        {
+          "famille": "FontAwesome",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1416960
+        },
+        {
+          "hex": "#000000",
+          "n": 4,
+          "poids": 1343432
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 32,
+          "poids": 830
+        },
+        {
+          "hex": "#000000",
+          "n": 7,
+          "poids": 402
+        },
+        {
+          "hex": "#41a85f",
+          "n": 2,
+          "poids": 32
+        },
+        {
+          "hex": "#6a8139",
+          "n": 1,
+          "poids": 1
+        }
+      ],
+      "nbImages": 2,
+      "nbVideos": 0,
+      "nbFondsImage": 7,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1416960,
+          "part": 0.513
+        },
+        {
+          "hex": "#000000",
+          "n": 4,
+          "poids": 1343432,
+          "part": 0.487
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 32,
+          "poids": 830,
+          "part": 0.656
+        },
+        {
+          "hex": "#000000",
+          "n": 7,
+          "poids": 402,
+          "part": 0.318
+        },
+        {
+          "hex": "#41a85f",
+          "n": 2,
+          "poids": 32,
+          "part": 0.025
+        },
+        {
+          "hex": "#6a8139",
+          "n": 1,
+          "poids": 1,
+          "part": 0.001
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 19
+        },
+        {
+          "valeur": "color 0.2s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "all 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.5s linear",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-modulename",
+          "n": 1
+        },
+        {
+          "nom": "data-header-sticky",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.site-header-desktop-primary",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "all 0.5s ease"
+        ],
+        "attributs": [
+          "data-header-sticky"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "section#hero",
+      "sections": [
+        {
+          "selecteur": "footer",
+          "titre": null,
+          "top": 900,
+          "hauteur": 84,
+          "ecrans": 0.1,
+          "mots": 8,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.site-nav",
+        "hauteur": 60,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "ABOUT US",
+            "href": "/about/",
+            "bouton": false
+          },
+          {
+            "texte": "LOCATIONS SUB-MENU LOCATIONS",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "CATERING",
+            "href": "/catering/",
+            "bouton": false
+          },
+          {
+            "texte": "ONLINE STORE",
+            "href": "/store/",
+            "bouton": false
+          },
+          {
+            "texte": "GALLERY",
+            "href": "/gallery/",
+            "bouton": false
+          },
+          {
+            "texte": "PRESS",
+            "href": "/press/",
+            "bouton": false
+          },
+          {
+            "texte": "JOBS",
+            "href": "/careers/",
+            "bouton": false
+          },
+          {
+            "texte": "WHOLESALE PRODUCTS SUB-MENU WHOLESALE PR",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "WHOLESALE LOGIN",
+            "href": "https://sullivanstreetbakery.flexibakeonline.com/",
+            "bouton": false
+          },
+          {
+            "texte": "EMAIL SIGNUP",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer",
+        "liens": [
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/sullivanstbakery/",
+            "bouton": true
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/sullivanstreetbakery/?hl=en",
+            "bouton": true
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/contact/",
+            "bouton": false
+          },
+          {
+            "texte": "GIFT CARDS",
+            "href": "https://www.toasttab.com/sullivan-street-bakery-hells-kitchen-533-w-47th-street/giftcards",
+            "bouton": false
+          },
+          {
+            "texte": "powered by BentoBox",
+            "href": "https://getbento.com/?utm_source=footer&utm_campaign=sullivanstreetbakery.com",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "LOCATIONS SUB-MENU LOCATIONS",
+          "href": ""
+        },
+        {
+          "texte": "WHOLESALE PRODUCTS SUB-MENU WHOLESALE PR",
+          "href": ""
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/sullivanstbakery/"
+        },
+        {
+          "texte": "GIFT CARDS",
+          "href": "https://www.toasttab.com/sullivan-street-bakery-hells-kitchen-533-w-47th-street/giftcards"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.mfp-bg",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.mfp-wrap",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 7
+        },
+        {
+          "selecteur": "div#ae_enabled_site",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 45
+        },
+        {
+          "selecteur": "h1.sr-only",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 1
+        },
+        {
+          "selecteur": "span#main-content",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 8
+        },
+        {
+          "selecteur": "div.gallery",
+          "position": "absolute",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 109
+        },
+        {
+          "selecteur": "div#motion-elements-control-section",
+          "position": "absolute",
+          "hauteur": 41,
+          "largeur": 40,
+          "enBas": false,
+          "mots": 8
+        },
+        {
+          "selecteur": "div#audioeye_live_message",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 9,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/sullivanstreetbakery-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Home",
+      "h1Visible": true,
+      "mots": 183,
+      "images": 9,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 0.95,
+        "selecteur": "div.gallery__item"
+      },
+      "boutonPrincipal": {
+        "texte": "×",
+        "x": 334,
+        "y": 121.5,
+        "cx": 0.9205128205128205,
+        "cy": 0.1735781990521327,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div.mfp-bg",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 856,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.sr-only",
+        "famille": "Oswald",
+        "taille": 48,
+        "graisse": "600",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.5px"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "Oswald",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.5px"
+      },
+      "bouton": {
+        "selecteur": "button.mfp-close",
+        "famille": "\"Helvetica Neue\", Helvetica, Arial, sans-serif",
+        "taille": 40,
+        "graisse": "300",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.skip",
+        "famille": "Oswald",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.5px"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com",
+        "cdnjs.cloudflare.com",
+        "assets-cdn-refresh.getbento.com",
+        "wsv3cdn.audioeye.com",
+        "wsv3cdn.audioeye.com"
+      ],
+      "fichiersPolices": [
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Oswald:300,400,500,600&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Oswald",
+          "n": 25
+        },
+        {
+          "famille": "Helvetica Neue",
+          "n": 1
+        },
+        {
+          "famille": "FontAwesome",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 333840
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 333840
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 18,
+          "poids": 663
+        },
+        {
+          "hex": "#000000",
+          "n": 6,
+          "poids": 402
+        },
+        {
+          "hex": "#41a85f",
+          "n": 2,
+          "poids": 32
+        },
+        {
+          "hex": "#6a8139",
+          "n": 1,
+          "poids": 1
+        }
+      ],
+      "nbImages": 2,
+      "nbVideos": 0,
+      "nbFondsImage": 7,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 333840,
+          "part": 0.5
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 333840,
+          "part": 0.5
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 18,
+          "poids": 663,
+          "part": 0.604
+        },
+        {
+          "hex": "#000000",
+          "n": 6,
+          "poids": 402,
+          "part": 0.366
+        },
+        {
+          "hex": "#41a85f",
+          "n": 2,
+          "poids": 32,
+          "part": 0.029
+        },
+        {
+          "hex": "#6a8139",
+          "n": 1,
+          "poids": 1,
+          "part": 0.001
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 10
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "color 0.2s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "all 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 1s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-modulename",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "p",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-modulename"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "section#hero",
+      "sections": [],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div#ae_enabled_site",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 45
+        },
+        {
+          "selecteur": "div.mfp-bg",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.mfp-wrap",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 7
+        },
+        {
+          "selecteur": "aside.mobi-footer",
+          "position": "fixed",
+          "hauteur": 52,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 2
+        },
+        {
+          "selecteur": "h1.sr-only",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 1
+        },
+        {
+          "selecteur": "span#main-content",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 8
+        },
+        {
+          "selecteur": "div.gallery",
+          "position": "absolute",
+          "hauteur": 804,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 109
+        },
+        {
+          "selecteur": "div#motion-elements-control-section",
+          "position": "absolute",
+          "hauteur": 41,
+          "largeur": 40,
+          "enBas": false,
+          "mots": 8
+        },
+        {
+          "selecteur": "div#audioeye_live_message",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 8,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Sullivan Street Bakery | Italian Bakery in NY & FL",
+  "dureeS": 20.8
+}
