@@ -202,7 +202,7 @@ test('Comparer : curseur natif accessible, tiré au doigt, rien d’automatique 
   assert.match(read('src/components/ServicePorte.astro'), /\{l\.duree && /);
   assert.match(read('scripts/ff/ts-loader.mjs'), /export async function loadSoinsModule\(\)/);
   assert.match(read('scripts/ff/ts-loader.mjs'), /export async function loadAvantApresModule\(\)/);
-  assert.match(read('scripts/ff/composer.mjs'), /'soins', 'avant-apres'\]/);
+  assert.match(read('scripts/ff/composer.mjs'), /'soins', 'avant-apres'[,\]]/);
 });
 
 test('docs : DIRECTIONS (coquilles soins et avant-apres), INDEX (codées), fiches, CLAUDE.md', () => {

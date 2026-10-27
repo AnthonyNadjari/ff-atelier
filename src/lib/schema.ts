@@ -79,6 +79,8 @@ export const SHELLS = [
   'colis', // l accueil dit les deux chemins vers l atelier : venir ou envoyer ; le voyage du colis en piste horizontale (chez vous, la poste, l atelier, le retour), les prestations a prix, les avis ; /envoyer (architecture atelier-par-colis)
   'soins', // l accueil est la carte des soins : en tete h1, telephone, Reserver, bon cadeau ; « combien de temps avez-vous ? » en onglets de duree (sans script : tous les soins), chaque soin avec sa duree, son prix et sa porte ; la carte par famille, une page par famille (architecture carte-des-soins)
   'avant-apres', // l accueil est le mur des pieces restaurees : en tete h1, telephone, « envoyez une photo » ; chaque piece en curseur avant / apres qu on tire a la main, filtre par type sans script ; les niveaux de travaux a prix ; une page par piece et /realisations (architecture avant-apres)
+  'planning', // l accueil est le planning de la semaine : en tete h1, telephone, cours d essai ; un onglet par jour (celui du jour ouvert dans le navigateur, sans script toute la semaine ; a l ordinateur les jours en colonnes), filtre par discipline ; le premier cours ; une page par discipline avec ses creneaux et /planning (architecture planning-semaine)
+  'location', // l accueil est le catalogue de location : en tete h1, telephone, « chercher un outil » ; un onglet par categorie, chaque materiel avec ses prix par duree (particulier TTC ou pro HT au choix, sans script) et sa caution ; les creneaux qui comptent une journee ; le magasin ; une page par materiel et /materiel (architecture catalogue-location)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -797,6 +799,78 @@ export const siteSchema = z.object({
       "Reparation par colis d'un atelier (architecture atelier-par-colis, docs/veille/architectures/atelier-par-colis.md, source La Cordonnerie Alpine : venir a l'atelier ou envoyer ; seconde source AGH, horloger) : l'accueil dit les deux chemins, le voyage du colis en piste horizontale manuelle (scroll-snap, jamais la molette detournee), le delai, l'etat du moment, les frais de retour ; page /envoyer. Absent = ni piste, ni page. Jamais un delai, un frais ou une etape inventes.",
     ),
 
+  planning: z
+    .object({
+      saison: z.string().optional().describe('Periode des cours donnee par le client (« Du lundi 7 septembre 2026 au samedi 26 juin 2027 »). Absente = non affichee.'),
+      pause: z.string().optional().describe('Periodes sans cours dites par le client (« Pas de cours du 19 décembre au 4 janvier, ni les jours fériés »). Absente = rien.'),
+      essai: z
+        .object({
+          texte: z.string().describe('Comment se passe le premier cours, dit par le client (« Un cours d’essai avant toute inscription, sans engagement »)'),
+          prix: z.string().optional().describe('Prix du cours d’essai tel que le client le donne (« 10 € », « Gratuit »). Absent = non affiché, jamais devine.'),
+        })
+        .optional()
+        .describe("Le cours d'essai (« Cours d'essai » de la barre de la source) : bloc « Le premier cours » et porte en tete. Absent = ni bloc ni porte."),
+      cours: z
+        .array(
+          z.object({
+            jour: z.enum(['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche']).describe('Jour du cours'),
+            debut: z.string().regex(/^\d{2}:\d{2}$/).describe('Heure de debut HH:MM'),
+            fin: z.string().regex(/^\d{2}:\d{2}$/).describe('Heure de fin HH:MM (apres le debut) : la duree en est tiree, jamais devinee'),
+            nom: z.string().describe('Nom du cours tel que le client l’ecrit (« Salsa cubaine », « Éveil 4 ans », « Vinyasa »)'),
+            service: z.string().regex(/^[a-z0-9-]+$/).optional().describe('Slug du service (la discipline) : le cours mene a sa page et sert au filtre. Absent = cours sans page.'),
+            niveau: z.string().optional().describe('Niveau ou public donne par le client (« Débutants », « Niveau 2 », « 8-10 ans »). Absent = non affiché.'),
+            salle: z.string().optional().describe('Salle (« Grande salle »). Absente = non affichée.'),
+            lieu: z.string().optional().describe('Site de l’ecole quand il y en a plusieurs (« Rive droite »). Absent = non affiché.'),
+            prof: z.string().optional().describe('Prenom du professeur donne par le client. Absent = non affiché.'),
+            note: z.string().optional().describe('Precision du client (« À partir du 11 janvier »). Absente = non affichée.'),
+          }),
+        )
+        .default([])
+        .describe('Les cours reguliers de la semaine, dans n’importe quel ordre (ranges par jour puis par heure au build). Un cours dont la fin ne suit pas le debut ne compte pas.'),
+    })
+    .optional()
+    .describe(
+      "Planning hebdomadaire d'une ecole ou d'un studio (architecture planning-semaine, docs/veille/architectures/planning-semaine.md, sources Danse Germain Blanchet, Rouen, et Ell'Zi-Danse, Saintes) : l'accueil est la semaine, un onglet par jour (le jour meme ouvert dans le navigateur, fuseau Europe/Paris ; sans script, toute la semaine ; a l'ordinateur, les jours en colonnes), un filtre par discipline, chaque cours avec heures, duree, niveau, salle, professeur ; le cours d'essai ; les creneaux de chaque discipline sur sa page ; /planning. Absent = ni planning ni page. Jamais un cours, une heure ou un prix inventes.",
+    ),
+
+  location: z
+    .object({
+      durees: z.array(z.string()).default([]).describe('Les durees de location du client, dans son ordre (colonnes de prix : « Demi-journée », « Journée », « Week-end », « Semaine »). Vide = pas de catalogue.'),
+      materiels: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /materiel/<slug> (« betonniere-134-l »)'),
+            nom: z.string().describe('Nom du materiel tel que le client l’ecrit (« Bétonnière électrique 134 litres »)'),
+            categorie: z.string().optional().describe('Categorie du client (« Gros œuvre et béton », « Jardin ») : un onglet par categorie. Absente = « Autres matériels ».'),
+            detail: z.string().optional().describe('Caracteristiques courtes donnees par le client (« 230 V, cuve 134 l, roues »). Absent = non affiché.'),
+            photo: img.optional().describe('Photo du materiel du client (parc de location). Absente = pas d’image, jamais une photo de catalogue de marque presentee comme la sienne.'),
+            prix: z.array(z.string()).default([]).describe('Prix particulier TTC, un par duree dans l’ordre de `durees` (« 29 € », « 145 € ») ; chaine vide = duree non proposee. Jamais un prix devine.'),
+            prixPro: z.array(z.string()).default([]).describe('Prix professionnel HT, un par duree dans l’ordre de `durees`. Vide = pas de prix pro pour ce materiel.'),
+            caution: z.string().optional().describe('Caution demandee par le client (« 200 € par chèque ou espèces »). Absente = non affichée.'),
+            note: z.string().optional().describe('Precision du client (« Permis B suffit », « Rendue nettoyée »). Absente = non affichée.'),
+          }),
+        )
+        .default([])
+        .describe('Le parc de location, dans l’ordre du client. Un materiel sans aucun prix ne compte pas.'),
+      creneaux: z
+        .array(
+          z.object({
+            nom: z.string().describe('Nom du creneau (« En semaine », « Le week-end »)'),
+            retrait: z.string().describe('Quand on prend le materiel (« Mardi dès 14 h »)'),
+            retour: z.string().describe('Quand on le rapporte (« Jeudi entre 7 h 30 et 8 h 30 »)'),
+            compte: z.string().describe('Ce qui est facture (« Une seule journée »)'),
+          }),
+        )
+        .default([])
+        .describe("Les creneaux de retrait et de retour qui comptent moins cher (« Louer plus longtemps pour le même prix » de la source), dits par le client. Vide = pas de bloc."),
+      conditions: z.array(z.string()).default([]).describe('A apporter ou a savoir pour louer (« Pièce d’identité », « Caution par chèque », « Matériel rendu propre »). Vide = rien.'),
+      livraison: z.string().optional().describe('Livraison sur chantier si le client la propose (« Livraison dans un rayon de 30 km, 40 € »). Absente = rien n’est promis.'),
+    })
+    .optional()
+    .describe(
+      "Catalogue d'un loueur de materiel (architecture catalogue-location, docs/veille/architectures/catalogue-location.md, source Location Service, Mulhouse : chaque machine avec son prix particulier TTC et pro HT par jour et par semaine, sa caution ; seconde source Deslandes Motoculture, Sarthe : demi-journee, journee, week-end) : l'accueil est le parc range par categorie (un onglet chacune), la recherche d'un outil, la bascule particulier / professionnel sans script, les creneaux qui comptent une journee ; une page par materiel (/materiel/<slug>) et /materiel. Absent = ni catalogue ni page. Jamais un prix, une caution ou une disponibilite inventes.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -859,6 +933,10 @@ export const siteSchema = z.object({
       situation: z.string().default('Quelle est votre situation ?').describe('Question posée au-dessus des onglets de la grille (site.tarifs) : « Quelle est votre situation ? », « Que se passe-t-il ? »'),
       temps: z.string().default('Combien de temps avez-vous ?').describe('Question posée au-dessus des onglets de durée (architecture carte-des-soins) : « Combien de temps avez-vous ? », « Le temps d’un soin »'),
       photoDevis: z.string().default('Envoyez une photo de votre pièce, avec ses mesures.').describe('Phrase de la porte « devis sur photo » (architecture avant-apres) : « Envoyez une photo de votre fauteuil »'),
+      planning: z.string().default('Le planning').describe('Libellé du lien de nav, titre du planning de l’accueil et de la page /planning (site.planning) : « Le planning », « Les cours de la semaine »'),
+      essai: z.string().default('Cours d’essai').describe('Libellé de la porte vers le cours d’essai (site.planning.essai) : « Cours d’essai », « Venir essayer »'),
+      materiel: z.string().default('Le matériel').describe('Libellé du lien de nav et titre de la page /materiel (site.location) : « Le matériel », « Nos machines »'),
+      chercher: z.string().default('Chercher un outil').describe('Libellé du champ de recherche du catalogue (architecture catalogue-location) : « Chercher un outil », « Quelle machine ? »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),

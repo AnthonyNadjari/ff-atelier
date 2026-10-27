@@ -1,0 +1,110 @@
+{
+  "id": "studiomondine",
+  "version": 1,
+  "source": {
+    "url": "https://www.studiomondine.com/",
+    "nom": "Studio Mondine",
+    "metier": "fleuriste événementiel (Houston, Texas)",
+    "fiche": "docs/veille/styles/studiomondine.md",
+    "mesures": "docs/veille/styles/atomes/mesures/studiomondine.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Fautive-Roman",
+      "libre": "spectral",
+      "graisse": 300,
+      "interlignage": 1.2,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "rationaltext-book",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.3
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 21.9,
+        "ordinateur": 42
+      },
+      "h2": "à juger",
+      "texte": {
+        "telephone": 14.6,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Fautive 300, serif de texte contemporaine aux empattements fins, en casse normale pour tous les titres (titre de projet 42 px à l ordinateur, 21,9 px au téléphone ; phrase de réservation 28 px) ; le nom au premier écran est une image (logo de 544 px), pas un texte. Rational Text, grotesque sobre, pour la nav du pied, l en-tête et les légendes (16 px, 14,6 au téléphone). Libres : Spectral 300 (serif de texte fine, même voix calme, pas d italique) et Hanken Grotesk pour Rational."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#26290a",
+      "surface": "#372c04",
+      "texte": "#fdfcf8",
+      "texte2": "#fdfcf8",
+      "accent": "#fdfcf8",
+      "accent2": null,
+      "bordure": "#fdfcf8",
+      "encre": "#372c04"
+    },
+    "_aide": "autres fonds mesurés : #372c04 (12 %), #ffffff (1 %)",
+    "remarque": "Vert olive nuit #26290a sous toute la page (L 0,27, chroma 0,049 : sombre, sous B1) ; bloc final brun d olive #372c04 (réservation et pied) ; tout le texte en blanc cassé #fdfcf8, liens soulignés de la même couleur : la seule couleur vive vient des photos (fleurs roses, jaunes). Voile de chargement des photos rgba(253,252,248,0,2). Sombre."
+  },
+  "densite": "à juger",
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 3,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Aucun bouton plein : liens en texte souligné (« reach out ») ou en petites capitales Rational (« ACCEPT AND CLOSE », « SCROLL TO BEGIN ») ; champ d inscription à filet bas de 1 px ; angles droits sur les photos ; rayon de carte de 3 px relevé sur la fenêtre d inscription, seul cadre du site ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "3:2",
+      "4:5",
+      "16:9+"
+    ],
+    "pleinCadre": 8,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Tout le site est fait de photos bord à bord : premier écran plein cadre (une photo différente à chaque visite) avec le logo blanc au centre, puis des diptyques de deux photos 4:5 côte à côte (un projet par diptyque), le nom du projet en blanc posé au milieu, à cheval sur les deux photos. Au téléphone, une photo par écran."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+    },
+    "scene": {
+      "duree": 1.4,
+      "courbe": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Swiper"
+    ],
+    "profil": "legende-fixe-qui-change",
+    "remarque": "Mesuré à la molette (cran de 450 px, état relevé à 100, 300 et 700 ms) à 1 440 px : le nom du projet est posé au centre de l écran en position fixe (titre Fautive 42 px blanc) et change d un coup quand le diptyque suivant arrive (opacité 0 → 1 sans transition, une seule légende visible à la fois ; aucune légende sur le premier écran ni sur le pied). Les photos entrent sous un voile blanc cassé à 20 % qui s efface en 1,4 s cubic-bezier(.25,.1,.25,1) ; liens 0,25 s. Rien ne glisse, rien n est épinglé : profil nouveau legende-fixe-qui-change."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

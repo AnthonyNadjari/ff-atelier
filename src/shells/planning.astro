@@ -1,0 +1,278 @@
+---
+/**
+ * Coquille "planning" : architecture `planning-semaine` (src/lib/architectures.ts ; source Danse Germain Blanchet, Rouen,
+ * seconde source Ell'Zi-Danse, Saintes ; docs/veille/architectures/planning-semaine.md). Une école se choisit sur le
+ * créneau qu'on peut tenir : sur la source, chaque jour est un titre (« Lundi ») suivi de ses cours, « 18:10 – 19:10,
+ * Barre au sol, Niveau Tous niveaux, Salle Grande salle, Prof Catherine, Cours 1h » ; chez Ell'Zi-Danse la semaine tient
+ * en colonnes, filtrée par cours. Le planning devient l'accueil.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone, la porte « Cours d'essai » (planning.essai,
+ *     entrée à part de la barre de la source), la note Google (socle docs/GOUT.md § 0) ;
+ *   → la semaine, id="planning" : un onglet par jour qui a des cours (posés par le script, le jour même ouvert, fuseau
+ *     Europe/Paris ; sans script : toute la semaine, un titre par jour ; à l'ordinateur, les jours côte à côte en
+ *     colonnes, sans onglets), un filtre par discipline (posé par le script : sans script, rien n'est caché), chaque
+ *     cours avec ses heures, sa durée, son niveau, sa salle, son professeur, menant à la page de sa discipline ;
+ *   → dans le même bloc, sous la semaine (deux colonnes à l'ordinateur) : le premier cours sur l'encre, id="essai"
+ *     (comment ça se passe, le prix, Appeler, Écrire) et l'école, id="ecole" (l'adresse, les périodes sans cours, les
+ *     disciplines et leurs pages) : une fois le créneau trouvé, c'est ce qu'on regarde ; le planning reste le site ;
+ *   → les sections du layout (les avis) ;
+ *   → un pied d'une ligne.
+ * Pages : une page par discipline avec ses créneaux (servicePage 'porte', src/components/CreneauxDuCours.astro), /planning.
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran). Sans cours valide : pas de semaine, et le build dit
+ * ce qui manque (donneesManquantes). Signes de la source NON repris : planning en PDF à télécharger, émojis devant chaque
+ * danse, texte de référencement répété (« planning cours de danse Rouen » cinq fois), bandeau d'événements qui s'ouvre
+ * seul, tableau à cases vides pour les heures sans cours.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, mailto, metierEtVille, fullAddress, donneesManquantes, joursDuPlanning, disciplinesDuPlanning, cleDiscipline, dureeDuCours, heureLisible, coursValides } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const p = site.planning;
+const jours = joursDuPlanning(p);
+const titres = Object.fromEntries(site.services.map((s) => [s.slug, s.title]));
+const pages = new Set(site.servicePages ? site.services.map((s) => s.slug) : []);
+const filtre = disciplinesDuPlanning(coursValides(p), titres);
+const essai = p?.essai;
+const disciplines = site.servicePages ? site.services.filter((s) => coursValides(p).some((c) => c.service === s.slug)) : [];
+const meta = (c: { niveau?: string; salle?: string; prof?: string; lieu?: string }) =>
+  [c.niveau, c.lieu, c.salle, c.prof ? `avec ${c.prof}` : undefined].filter(Boolean).join(', ');
+const manque = donneesManquantes('planning-semaine', site);
+if (manque.length > 0) console.warn(`[coquille planning] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="pl-page">
+  <section id="hero" class="container-ff pl-tete" aria-label="Accueil">
+    <h1 class="pl-h1 font-display" set:html={site.business.tagline} />
+    <p class="pl-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+    <p class="pl-portes">
+      <a href={tel()} class="pl-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+      {essai && <a href="#essai" class="pl-essai-porte"><span>{site.wording.essai}{essai.prix && `, ${essai.prix}`}</span></a>}
+      {google && <a href={google.url} target="_blank" rel="noopener" class="pl-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+    </p>
+  </section>
+
+  {jours.length > 0 && (
+    <section id="planning" class="pl-semaine" aria-labelledby="pl-titre" data-pl>
+      <div class="container-ff">
+        <div class="pl-col">
+          <div class="pl-entete">
+            <h2 id="pl-titre" class="pl-titre font-display">{site.wording.planning}</h2>
+            {p?.saison && <p class="pl-saison">{p.saison}</p>}
+          </div>
+          {filtre.length >= 2 && (
+            <div class="pl-filtre" data-pl-filtre hidden role="group" aria-label="Filtrer par discipline">
+              <button type="button" class="pl-choix" data-pl-cle="" aria-pressed="true">Tous les cours</button>
+              {filtre.map((d) => <button type="button" class="pl-choix" data-pl-cle={d.cle} aria-pressed="false">{d.label}</button>)}
+            </div>
+          )}
+          <nav class="pl-onglets" data-pl-onglets aria-label="Jours de la semaine">
+            {jours.map((j) => <a id={`pl-o-${j.jour}`} href={`#pl-j-${j.jour}`} class="pl-onglet" data-pl-vers={j.jour} data-pl-index={String(j.index)}><span aria-hidden="true">{j.label.slice(0, 3)}</span><span class="sr-only">{j.label}</span></a>)}
+          </nav>
+          <div class="pl-jours" style={`--pl-n: ${jours.length}`}>
+            {jours.map((j) => (
+              <div id={`pl-j-${j.jour}`} class="pl-jour" data-pl-jour={j.jour}>
+                <h3 class="pl-jour-titre"><span>{j.label}</span><span class="pl-auj" data-pl-auj hidden>aujourd’hui</span></h3>
+                <ol class="pl-cours">
+                  {j.cours.map((c) => (
+                    <li class="pl-un" data-pl-d={cleDiscipline(c)}>
+                      <p class="pl-heures tabular-nums"><span>{heureLisible(c.debut)}</span><span class="pl-fin">{heureLisible(c.fin)}</span></p>
+                      <div class="pl-quoi">
+                        {c.service && pages.has(c.service)
+                          ? <a href={`/services/${c.service}`} class="pl-nom">{c.nom}</a>
+                          : <span class="pl-nom">{c.nom}</span>}
+                        <span class="pl-duree tabular-nums">{dureeDuCours(c)}</span>
+                        {meta(c) && <span class="pl-meta">{meta(c)}</span>}
+                        {c.note && <span class="pl-note">{c.note}</span>}
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+                <p class="pl-vide" data-pl-vide hidden>Pas de cours de cette discipline ce jour-là.</p>
+              </div>
+            ))}
+          </div>
+          <p class="pl-suite"><a href="/planning" class="pl-lien">Toute la semaine sur une page<Icon name="ArrowRight" size={16} /></a></p>
+
+        {/* À côté de la semaine (dessous au téléphone) : le premier cours et l'école, ce qu'on regarde une fois le
+            créneau trouvé. Même bloc que la semaine : le planning reste le site. */}
+        <div class="pl-cote">
+          {essai && (
+            <section id="essai" class="pl-essai bg-ink text-on-ink" aria-labelledby="pl-essai-titre">
+              <h3 id="pl-essai-titre" class="pl-essai-titre font-display">Le premier cours</h3>
+              <p>{essai.texte}</p>
+              {essai.prix && <p class="pl-essai-prix tabular-nums">{site.wording.essai}&nbsp;: {essai.prix}</p>}
+              <p class="pl-essai-portes">
+                <a href={tel()} class="pl-appel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+                {site.contact.email && <a href={mailto()} class="pl-lien"><Icon name="Mail" size={16} />Écrire pour réserver sa place</a>}
+              </p>
+            </section>
+          )}
+          <section id="ecole" class="pl-ecole" aria-labelledby="pl-ecole-titre">
+            <h3 id="pl-ecole-titre" class="pl-ecole-titre font-display">Venir au cours</h3>
+            <p>{site.business.name}, {fullAddress()}</p>
+            {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="pl-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+            {p?.pause && <p>{p.pause}</p>}
+            {disciplines.length > 0 && (
+              <nav class="pl-disciplines" aria-label="Les disciplines">
+                <ul>{disciplines.map((s) => <li><a href={`/services/${s.slug}`} class="pl-discipline">{s.title}<Icon name="ArrowRight" size={16} /></a></li>)}</ul>
+              </nav>
+            )}
+          </section>
+        </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  {jours.length === 0 && (
+    <section id="ecole" class="container-ff pl-ecole pl-ecole-seule" aria-labelledby="pl-ecole-titre">
+      <h2 id="pl-ecole-titre" class="pl-ecole-titre font-display">Venir au cours</h2>
+      <p>{site.business.name}, {fullAddress()}</p>
+      <p><a href={tel()} class="pl-lien tabular-nums"><Icon name="Phone" size={16} />{site.contact.phoneDisplay}</a></p>
+    </section>
+  )}
+</main>
+<Footer />
+
+<style>
+  .pl-tete { display: grid; gap: 0.9rem; padding-block: clamp(1.5rem, 5vh, 3rem) clamp(1.25rem, 3vh, 2rem); }
+  .pl-h1 { font-size: clamp(2.1rem, 7vw, 4.6rem); line-height: 1; letter-spacing: -0.01em; text-wrap: balance; max-inline-size: 18ch; }
+  .pl-metier { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 42ch; }
+  .pl-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .pl-tel, .pl-essai-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); font-weight: 600; }
+  .pl-tel { background: var(--color-accent); color: var(--color-on-accent); }
+  .pl-essai-porte { border: 1px solid currentColor; }
+  .pl-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pl-tel:focus-visible, .pl-essai-porte:focus-visible, .pl-lien:focus-visible, .pl-nom:focus-visible, .pl-appel:focus-visible, .pl-choix:focus-visible, .pl-discipline:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .pl-semaine { background: var(--color-bg-2); padding-block: clamp(1.5rem, 5vh, 3.5rem); border-block: 1px solid var(--color-line); }
+  .pl-entete { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1.5rem; }
+  .pl-titre { font-size: clamp(1.7rem, 4.5vw, 3rem); line-height: 1.05; }
+  .pl-saison { color: var(--color-muted); }
+  .pl-filtre { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .pl-choix { min-block-size: 44px; padding-inline: 0.85rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); background: var(--color-bg); color: var(--color-fg); font: inherit; cursor: pointer; }
+  .pl-choix[aria-pressed='true'] { border-color: var(--color-fg); background: var(--color-fg); color: var(--color-bg); }
+  .pl-onglets { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); border-block-end: 1px solid var(--color-line); }
+  .pl-onglet { display: grid; place-items: center; min-block-size: 48px; border-block-end: 3px solid transparent; margin-block-end: -1px; font-weight: 600; cursor: pointer; }
+  .pl-onglet[aria-selected='true'] { border-block-end-color: var(--color-accent); color: var(--color-fg); background: var(--color-bg); }
+  .pl-onglet:focus-visible, .pl-jour:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .pl-jours { display: grid; gap: 1.75rem; }
+  .pl-jour-titre { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; font-weight: 600; font-size: 1.15rem; padding-block-end: 0.4rem; border-block-end: 2px solid currentColor; }
+  .pl-auj { font-size: 0.9rem; font-weight: 400; color: var(--color-muted); }
+  .pl-cours { display: grid; }
+  .pl-un { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr); gap: 0.75rem; padding-block: 0.8rem; border-block-end: 1px solid var(--color-line); }
+  .pl-un[hidden] { display: none; }
+  .pl-heures { display: grid; align-content: start; font-weight: 600; line-height: 1.25; }
+  .pl-fin { font-weight: 400; color: var(--color-muted); }
+  .pl-quoi { display: grid; gap: 0.15rem; min-inline-size: 0; }
+  .pl-nom { font-size: 1.1rem; font-weight: 600; inline-size: fit-content; }
+  a.pl-nom { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pl-duree, .pl-meta, .pl-note { font-size: 0.95rem; color: var(--color-muted); }
+  .pl-note { font-style: normal; }
+  .pl-vide { padding-block: 0.8rem; color: var(--color-muted); }
+  .pl-suite { margin-block-end: 0.5rem; }
+    .pl-col { display: grid; gap: 1rem; min-inline-size: 0; }
+  .pl-cote { display: grid; gap: 1rem; align-content: start; margin-block-start: 0.5rem; }
+  .pl-essai, .pl-ecole { display: grid; gap: 0.6rem; padding: 1.25rem; border-radius: var(--radius-card); }
+  .pl-ecole { background: var(--color-bg); border: 1px solid var(--color-line); }
+  .pl-ecole-seule { margin-block: 2rem; }
+  .pl-essai-titre, .pl-ecole-titre { font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.1; }
+  .pl-essai-prix { font-weight: 600; }
+  .pl-essai-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; }
+  .pl-appel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: 1.2rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pl-disciplines ul { display: grid; }
+  .pl-discipline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-block-size: 44px; border-block-end: 1px solid var(--color-line); font-weight: 600; }
+  @media (min-width: 64rem) {
+    .pl-onglets { display: none; }
+    .pl-jours { grid-template-columns: repeat(var(--pl-n), minmax(0, 1fr)); gap: 0 1rem; }
+    .pl-un { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+    .pl-heures { display: flex; gap: 0.4rem; }
+    .pl-fin::before { content: 'à '; }
+    .pl-cote { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant } from '@/lib/horaires';
+
+  // Au téléphone, les ancres des jours deviennent des onglets, le jour même ouvert (sinon le prochain jour qui a des cours,
+  // fuseau Europe/Paris) ; à l'ordinateur, les jours restent côte à côte. Le filtre par discipline cache les autres cours.
+  // Sans script : toute la semaine, un titre par jour, rien de caché.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-pl]');
+    if (!bloc) return;
+    const rangee = bloc.querySelector<HTMLElement>('[data-pl-onglets]');
+    const onglets = [...bloc.querySelectorAll<HTMLAnchorElement>('[data-pl-vers]')];
+    const jours = [...bloc.querySelectorAll<HTMLElement>('[data-pl-jour]')];
+    if (!rangee || onglets.length !== jours.length || jours.length === 0) return;
+    const { jour } = maintenant(new Date());
+    const index = onglets.map((o) => Number(o.dataset.plIndex));
+    const k = index.findIndex((x) => x === jour);
+    const ouvert = k !== -1 ? k : Math.max(0, index.findIndex((x) => x > jour));
+    if (k !== -1) jours[k].querySelector<HTMLElement>('[data-pl-auj]')?.removeAttribute('hidden');
+    const large = matchMedia('(min-width: 64rem)');
+    let choisi = ouvert;
+    const choisir = (n: number, focus = false) => {
+      choisi = n;
+      onglets.forEach((o, i) => { const sel = i === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      jours.forEach((b, i) => { b.hidden = i !== n; });
+    };
+    const poser = () => {
+      if (large.matches) {
+        rangee.removeAttribute('role');
+        onglets.forEach((o, i) => { o.removeAttribute('role'); o.removeAttribute('aria-selected'); o.removeAttribute('aria-controls'); o.setAttribute('href', `#${jours[i].id}`); o.removeAttribute('tabindex'); });
+        jours.forEach((b) => { b.hidden = false; b.removeAttribute('role'); b.removeAttribute('aria-labelledby'); b.removeAttribute('tabindex'); });
+        return;
+      }
+      rangee.setAttribute('role', 'tablist');
+      onglets.forEach((o, i) => {
+        o.setAttribute('role', 'tab');
+        o.setAttribute('aria-controls', jours[i].id);
+        o.removeAttribute('href');
+        jours[i].setAttribute('role', 'tabpanel');
+        jours[i].setAttribute('aria-labelledby', o.id);
+        jours[i].tabIndex = 0;
+      });
+      choisir(choisi);
+    };
+    onglets.forEach((o, i) => {
+      o.addEventListener('click', (e) => { if (large.matches) return; e.preventDefault(); choisir(i); });
+      o.addEventListener('keydown', (e) => {
+        if (large.matches) return;
+        const suiv = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+        const prec = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+        if (suiv || prec) { e.preventDefault(); choisir((i + (suiv ? 1 : onglets.length - 1)) % onglets.length, true); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choisir(i); }
+      });
+    });
+    large.addEventListener('change', poser);
+    poser();
+
+    const filtre = bloc.querySelector<HTMLElement>('[data-pl-filtre]');
+    if (!filtre) return;
+    const boutons = [...filtre.querySelectorAll<HTMLButtonElement>('[data-pl-cle]')];
+    filtre.hidden = false;
+    boutons.forEach((b) => b.addEventListener('click', () => {
+      const cle = b.dataset.plCle ?? '';
+      boutons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      jours.forEach((j) => {
+        const lignes = [...j.querySelectorAll<HTMLElement>('[data-pl-d]')];
+        lignes.forEach((l) => { l.hidden = cle !== '' && l.dataset.plD !== cle; });
+        const vide = j.querySelector<HTMLElement>('[data-pl-vide]');
+        if (vide) vide.hidden = lignes.some((l) => !l.hidden);
+      });
+    }));
+  });
+</script>

@@ -1,0 +1,121 @@
+{
+  "id": "feldspar",
+  "version": 1,
+  "source": {
+    "url": "https://feldspar.studio/",
+    "nom": "Feldspar",
+    "metier": "porcelaine fine et luminaires faits main (atelier du Devon)",
+    "fiche": "docs/veille/styles/feldspar.md",
+    "mesures": "docs/veille/styles/atomes/mesures/feldspar.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Louize (205TF)",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.4,
+      "casse": "none",
+      "interlettrage": 0.06,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Louize (205TF)",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.65
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 24.1,
+        "ordinateur": 33.6
+      },
+      "h2": {
+        "telephone": 24,
+        "ordinateur": 30
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Louize (205TF), serif contemporaine à faible contraste, en 400 partout, jamais en gras : titres de section et citations de presse 33,6 px à l ordinateur, 24,1 px au téléphone, interlignage 1,4 et interlettrage ouvert (0,06 em) ; grands paragraphes « Objects for life » 30 / 24 px ; texte 15 / 14 px, interlignage 1,65 (la charte le remonte à 16) ; étiquettes en capitales 16 à 20 px. Le h1 du DOM (graisse 700) est caché : le titre vu est le h2. Le premier écran n a aucun titre : la photo seule. Spectral 400, serif libre légère et fine la plus proche, en concordance (une seule famille)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f9f6e7",
+      "surface": "#c9c4aa",
+      "texte": "#303030",
+      "texte2": "#303030",
+      "accent": "#303030",
+      "bordure": "#dbd8cc"
+    },
+    "sombre": null,
+    "_aide": "fonds mesurés : #f9f6e7 (89 %), #c9c4aa (6 %), #000000 (5 %, derrière les photos)",
+    "remarque": "Ivoire #f9f6e7 (chroma 0,020) sur presque toute la page, pied compris ; un seul bandeau sauge grisée #c9c4aa (chroma 0,036) pour les citations de presse, qui classe la palette en coloré doux ; texte et bouton plein gris charbon #303030 ; filets #dbd8cc. Aucune couleur vive : la couleur vient des photos (rideaux bordeaux, toile peinte verte, fruits)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 103,
+      "ordinateur": 132
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 40
+    },
+    "conteneur": 1344,
+    "mesure": 86,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Bouton « Add to basket » plein charbon à angles droits, filet 1 px, libellé en casse normale espacé (0,12 em) ; liens « Shop Here » soulignés (background-size 0,3 s) ; aucune ombre, aucun rayon."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "16:9+",
+      "2:3-"
+    ],
+    "pleinCadre": 5,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Photo de mise en scène plein cadre au premier écran, sans aucun texte (lampes en porcelaine devant une toile peinte et des rideaux de théâtre) ; puis diptyques bord à bord sans marge (deux photos 4:5 côte à côte : nature morte, fruits, confiture), produits détourés sur l ivoire dans un carrousel, grandes vignettes de mise en scène à légende courte. Lumière chaude, couleurs sourdes."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "glisse-a-la-main",
+    "remarque": "Mesuré avec document.getAnimations() à la molette : rien n apparaît au défilement ; le carrousel des produits glisse (transform 0,5 s ease) avec une barre de progression, flèches en fondu 0,3 s ; les citations de presse s échangent en 0,4 s (sortie ease-in, entrée ease-out). Sur la source le carrousel tourne seul : repris à la main (GOUT § 4). glisse-a-la-main."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Ivoire uni coupé d un bandeau sauge ; filets fins sous les onglets et la barre de progression."
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier",
+  "premier_ecran_remarque": "Le premier écran est une seule photo plein cadre des objets de l atelier (lampes en porcelaine posées comme sur une scène), sans titre ni bouton ; le texte arrive dessous. Aucune famille « photo seule » au registre : objet-du-metier, la plus proche (l objet au centre, le texte autour)."
+}

@@ -1,0 +1,122 @@
+{
+  "id": "couteauxdeva",
+  "version": 1,
+  "source": {
+    "url": "https://couteauxdeva.com/",
+    "nom": "Couteaux Deva",
+    "metier": "coutelier et affûteur (atelier de la ville de Québec)",
+    "fiche": "docs/veille/styles/couteauxdeva.md",
+    "mesures": "docs/veille/styles/atomes/mesures/couteauxdeva.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Inknut Antiqua",
+      "libre": "gelasio",
+      "graisse": 400,
+      "interlignage": 1.25,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Sailec",
+      "libre": "figtree",
+      "graisse": 400,
+      "interlignage": 1.71
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 18,
+        "ordinateur": 23
+      },
+      "h2": {
+        "telephone": 14.4,
+        "ordinateur": 20
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 14
+      }
+    },
+    "remarque": "Inknut Antiqua 400 (serif à fort œil, empattements épais) pour la légende du premier écran (23 px à l ordinateur, 18 px au téléphone) et les noms des couteaux posés sur les photos (20 / 14,4 px) ; Sailec 400 (géométrique) pour la nav, les liens (« Voir nos produits », précédés d un tiret) et le pied (14 à 20 px, interlignage 1,71). Le titre est volontairement petit : ce sont les photos qui parlent ; le h1 ne fait pas 1,2 fois le texte porté à 16 px, la typo sort donc du tirage (TITRE_DOMINE), ses autres atomes restent. Libres : Gelasio (serif robuste de texte, la plus proche d Inknut au registre) et Figtree (géométrique douce)."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#222222",
+      "surface": "#000000",
+      "texte": "#f6e9c2",
+      "texte2": "#f6e9c2",
+      "accent": "#f6e9c2",
+      "accent2": "#074f51",
+      "bordure": "#f6e9c2",
+      "encre": "#f6e9c2"
+    },
+    "_aide": "fonds mesurés : #222222 (87 %), #f6e9c2 (11 %, pied), #000000 (2 %), #074f51 (0,4 %)",
+    "remarque": "Anthracite #222222 sur toute la page, les photos sur pierre grise bord à bord ; texte et logo crème beurre #f6e9c2 ; le pied est un grand aplat crème #f6e9c2 à texte anthracite (le bloc contrasté) ; un vert canard profond #074f51 pour les boutons pleins (bandeau des témoins, compteur du panier). Sombre."
+  },
+  "densite": {
+    "section": {
+      "telephone": 182,
+      "ordinateur": 87
+    },
+    "gouttiere": {
+      "telephone": 1,
+      "ordinateur": 100
+    },
+    "conteneur": 1440,
+    "mesure": "à juger",
+    "rythme": "uni",
+    "remarque": "Mesure de 141 caractères relevée sur une ligne de pied, pas sur un texte courant ; gouttière de 1 px au téléphone : les tuiles vont bord à bord."
+  },
+  "formes": {
+    "rayon": 2,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Boutons pleins vert canard à filet 2 px et rayon 2 px, en casse normale ; boutons secondaires à filet seul ; photos et tuiles à angles droits sans marge entre elles ; liens en crème précédés d un tiret."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "3:2"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : l artisan à l établi, photo plein cadre en clair-obscur (lampe d atelier), logo centré dessus, une légende en bas ; puis le mur des couteaux : tuiles 3:2 bord à bord, deux par rangée, chaque couteau photographié sur la même pierre grise, son nom en bas à gauche sur la photo ; portrait au chalumeau, enclume plein cadre en fin de page. Photos sombres et chaudes, mêmes fonds d une photo à l autre."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "legende-qui-se-leve",
+    "remarque": "Mesuré au survol (transitions lues à 150 et 650 ms) : la tuile survolée perd son contraste renforcé (filter contrast(1.15) vers 1) pendant que le nom du couteau passe de 70 % à 100 % d opacité et monte de 7 px, 0,3 s ease ; menu qui glisse (transform 0,5 s ease). Rien n apparaît au défilement, rien ne tourne seul. Profil `legende-qui-se-leve` (MOUVEMENTS.md, veille du 27 oct 2026, tour 11)."
+  },
+  "matiere": {
+    "fond": "aplats-francs",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Anthracite uni, pied en aplat crème franc ; la matière vient de la pierre et de l acier photographiés."
+  },
+  "architecture": null,
+  "premier_ecran": "plan-et-lieu",
+  "premier_ecran_remarque": "L atelier d abord : l artisan à son établi, lampes allumées, couteaux au premier plan ; le nom sur la photo, la phrase « fabriqué à la main » en bas : plan-et-lieu."
+}

@@ -1,0 +1,324 @@
+---
+/**
+ * Coquille "location" : architecture `catalogue-location` (src/lib/architectures.ts ; source Location Service, Mulhouse,
+ * seconde source Deslandes Motoculture, Sarthe ; docs/veille/architectures/catalogue-location.md). Un loueur se choisit
+ * sur la machine, son prix pour la durée qu'on veut et sa caution : sur la source, sous « Chercher un outil », chaque
+ * machine dit « Particuliers 29,00 € TTC / jour, 145,00 € TTC / sem ; Professionnels 24,17 € HT / jour ; Caution :
+ * 200 € », rangée en dix catégories, et l'accueil donne l'astuce « Louer plus longtemps pour le même prix ». Le parc
+ * devient l'accueil.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone en grand, la note Google (socle docs/GOUT.md
+ *     § 0), « Chercher un outil » (un formulaire vers /materiel sans script ; avec script, le parc se filtre sur place) ;
+ *   → le parc, id="parc" : la bascule particulier TTC / professionnel HT (deux boutons radio, CSS seul, dès qu'un
+ *     matériel a un prix pro), un onglet par catégorie (posé par le script ; sans script : toutes les catégories l'une
+ *     sous l'autre), chaque matériel avec ses prix par durée et sa caution, menant à sa page ;
+ *   → dans le même bloc, sous le parc : le bon créneau sur l'encre, id="creneaux" (retrait, retour, ce qui est compté)
+ *     et le magasin, id="magasin" (l'adresse, les horaires : le retrait et le retour en dépendent ; ce qu'il faut
+ *     apporter, la livraison si le client la propose, les autres services et leurs pages) ;
+ *   → les sections du layout (les avis) ;
+ *   → un pied d'une ligne.
+ * Pages : /materiel (le parc entier) et une page par matériel (/materiel/<slug>).
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran). Sans matériel à prix : pas de parc, et le build dit
+ * ce qui manque (donneesManquantes). Signes de la source NON repris : formulaire de contact caché dans une fenêtre
+ * surgissante, horodatage « 1 hour ago » sous chaque produit, sélection « du mois » en carrousel, texte légal du
+ * formulaire en tête de chaque page.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { site, tel, metierEtVille, fullAddress, donneesManquantes, materielsComplets, categoriesDeMateriel, prixDuMateriel, aPrixPro } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const l = site.location;
+const durees = l?.durees ?? [];
+const materiels = materielsComplets(l);
+const categories = categoriesDeMateriel(materiels);
+const pro = aPrixPro(l);
+const creneaux = l?.creneaux ?? [];
+const conditions = l?.conditions ?? [];
+const autres = site.servicePages ? site.services : [];
+const nomCherche = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const manque = donneesManquantes('catalogue-location', site);
+if (manque.length > 0) console.warn(`[coquille location] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="lo-page">
+  <section id="hero" class="container-ff lo-tete" aria-label="Accueil">
+    <div class="lo-tete-texte">
+      <h1 class="lo-h1 font-display" set:html={site.business.tagline} />
+      <p class="lo-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+    </div>
+    <p class="lo-portes">
+        <a href={tel()} class="lo-tel tabular-nums"><Icon name="Phone" size={20} />{site.contact.phoneDisplay}</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="lo-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+    </p>
+    {materiels.length > 0 && (
+      <form class="lo-cherche" role="search" action="/materiel" method="get" data-lo-cherche>
+        <label for="lo-q" class="lo-cherche-label">{site.wording.chercher}</label>
+        <div class="lo-cherche-champ">
+          <input id="lo-q" name="q" type="search" autocomplete="off" class="lo-input" />
+          <button type="submit" class="lo-ok"><Icon name="Search" size={18} /><span class="sr-only">Chercher</span></button>
+        </div>
+      </form>
+    )}
+  </section>
+
+  {materiels.length > 0 && (
+    <section id="parc" class="lo-parc" aria-labelledby="lo-parc-titre" data-lo-parc>
+      <div class="container-ff">
+        <div class="lo-parc-entete">
+          <h2 id="lo-parc-titre" class="lo-parc-titre font-display">{site.wording.materiel}</h2>
+          {pro && (
+            <fieldset class="lo-bascule">
+              <legend class="sr-only">Afficher les prix</legend>
+              <label class="lo-radio"><input type="radio" name="lo-client" id="lo-part" checked /> Particulier, TTC</label>
+              <label class="lo-radio"><input type="radio" name="lo-client" id="lo-pro" /> Professionnel, HT</label>
+            </fieldset>
+          )}
+        </div>
+        {categories.length >= 2 && (
+          <nav class="lo-onglets" data-lo-onglets aria-label="Catégories de matériel">
+            {categories.map((c, i) => <a id={`lo-o-${i + 1}`} href={`#lo-c-${i + 1}`} class="lo-onglet" data-lo-vers={String(i + 1)}>{c.nom}<span class="lo-compte tabular-nums">{c.materiels.length}</span></a>)}
+          </nav>
+        )}
+        <div class="lo-categories">
+          {categories.map((c, i) => (
+            <div id={`lo-c-${i + 1}`} class="lo-categorie" data-lo-categorie={String(i + 1)}>
+              <h3 class="lo-cat-titre">{c.nom}</h3>
+              <ul class="lo-materiels">
+                {c.materiels.map((m) => (
+                  <li class="lo-materiel" data-lo-nom={nomCherche(`${m.nom} ${m.detail ?? ''} ${c.nom}`)}>
+                    <div class="lo-quoi">
+                      <a href={`/materiel/${m.slug}`} class="lo-nom">{m.nom}</a>
+                      {m.detail && <span class="lo-detail">{m.detail}</span>}
+                      {m.caution && <span class="lo-caution">Caution&nbsp;: {m.caution}</span>}
+                    </div>
+                    <dl class="lo-prix">
+                      {prixDuMateriel(m, durees).map((x) => (
+                        <div class="lo-prix-ligne">
+                          <dt>{x.duree}</dt>
+                          <dd class="tabular-nums"><span class="lo-ttc">{x.prix}{pro && ' TTC'}</span>{x.pro && <span class="lo-ht">{x.pro} HT</span>}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p class="lo-aucun" data-lo-aucun hidden>Aucun matériel ne porte ce nom : appelez, nous avons peut-être l’équivalent.</p>
+        <p class="lo-suite"><a href="/materiel" class="lo-lien">Tout le parc sur une page<Icon name="ArrowRight" size={16} /></a></p>
+        {/* Sous le parc, dans le même bloc : le bon créneau (« Louer plus longtemps pour le même prix » de la source) et le
+            magasin où l'on prend et rend la machine. Le parc reste le site. */}
+        <div class="lo-cote">
+          {creneaux.length > 0 && (
+            <section id="creneaux" class="lo-creneaux bg-ink text-on-ink" aria-labelledby="lo-creneaux-titre">
+              <h3 id="lo-creneaux-titre" class="lo-creneaux-titre font-display">Le bon créneau</h3>
+              <ul class="lo-cr-liste">
+                {creneaux.map((c) => (
+                  <li class="lo-cr">
+                    <h4 class="lo-cr-nom">{c.nom}</h4>
+                    <p><span class="lo-cr-quand">Vous le prenez</span> {c.retrait}</p>
+                    <p><span class="lo-cr-quand">Vous le rendez</span> {c.retour}</p>
+                    <p class="lo-cr-compte">{c.compte}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+          <section id="magasin" class="lo-magasin" aria-labelledby="lo-magasin-titre">
+            <h3 id="lo-magasin-titre" class="lo-magasin-titre font-display">Prendre et rendre le matériel</h3>
+            <div class="lo-magasin-grille">
+              <div class="lo-magasin-infos">
+                <p>{site.business.name}, {fullAddress()}</p>
+                {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="lo-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+                <HorairesDuJour />
+              </div>
+              {(conditions.length > 0 || l?.livraison) && (
+                <div class="lo-magasin-conditions">
+                  {conditions.length > 0 && (
+                    <>
+                      <h4 class="lo-h3">Pour louer</h4>
+                      <ul class="lo-conditions">{conditions.map((x) => <li>{x}</li>)}</ul>
+                    </>
+                  )}
+                  {l?.livraison && <p class="lo-livraison"><Icon name="Truck" size={18} /><span>{l.livraison}</span></p>}
+                </div>
+              )}
+              {autres.length > 0 && (
+                <nav class="lo-services" aria-label="Aussi au magasin">
+                  <h4 class="lo-h3">Aussi au magasin</h4>
+                  <ul>{autres.map((x) => <li><a href={`/services/${x.slug}`} class="lo-service">{x.title}<Icon name="ArrowRight" size={16} /></a></li>)}</ul>
+                </nav>
+              )}
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {materiels.length === 0 && (
+    <section id="magasin" class="container-ff lo-magasin lo-magasin-seul" aria-labelledby="lo-magasin-titre">
+      <h2 id="lo-magasin-titre" class="lo-magasin-titre font-display">Prendre et rendre le matériel</h2>
+      <p>{site.business.name}, {fullAddress()}</p>
+      <HorairesDuJour />
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+</main>
+<Footer />
+
+<style>
+  .lo-tete { display: grid; gap: 1.5rem; padding-block: clamp(1.5rem, 5vh, 3rem) clamp(1.5rem, 4vh, 2.5rem); }
+  .lo-tete-texte { display: grid; gap: 0.9rem; }
+  .lo-h1 { font-size: clamp(2.1rem, 7vw, 4.4rem); line-height: 1; letter-spacing: -0.01em; text-wrap: balance; max-inline-size: 17ch; }
+  .lo-metier { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 42ch; }
+  .lo-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .lo-tel { display: inline-flex; align-items: center; gap: 0.55rem; min-block-size: 52px; padding-inline: 1.2rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-size: 1.2rem; font-weight: 700; }
+  .lo-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .lo-tel:focus-visible, .lo-lien:focus-visible, .lo-nom:focus-visible, .lo-ok:focus-visible, .lo-service:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .lo-cherche { display: grid; gap: 0.4rem; padding: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-card); background: var(--color-surface, var(--color-bg)); }
+  .lo-cherche-label { font-weight: 600; font-size: 1.1rem; }
+  .lo-cherche-champ { display: flex; gap: 0.5rem; }
+  .lo-input { flex: 1; min-inline-size: 0; min-block-size: 48px; padding-inline: 0.8rem; font-size: 1rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); background: var(--color-bg); color: var(--color-fg); }
+  .lo-input:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .lo-ok { display: grid; place-items: center; inline-size: 48px; min-block-size: 48px; border-radius: var(--radius-ui, 6px); background: var(--color-fg); color: var(--color-bg); cursor: pointer; }
+  .lo-parc { padding-block: clamp(1.75rem, 6vh, 4rem); background: var(--color-bg-2); border-block-start: 1px solid var(--color-line); }
+  .lo-parc-entete { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 0.75rem 2rem; }
+  .lo-parc-titre { font-size: clamp(1.7rem, 4.5vw, 3rem); line-height: 1.05; }
+  .lo-bascule { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.25rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); background: var(--color-bg); }
+  .lo-radio { display: inline-flex; align-items: center; gap: 0.45rem; min-block-size: 44px; padding-inline: 0.75rem; border-radius: var(--radius-ui, 6px); cursor: pointer; }
+  .lo-radio:has(input:checked) { background: var(--color-fg); color: var(--color-bg); font-weight: 600; }
+  .lo-radio input { accent-color: var(--color-accent); }
+  .lo-radio:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .lo-onglets { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin-block-start: 1rem; border-block-end: 1px solid var(--color-line); }
+  .lo-onglet { display: inline-flex; align-items: baseline; gap: 0.4rem; min-block-size: 44px; padding-block: 0.6rem; border-block-end: 3px solid transparent; margin-block-end: -1px; cursor: pointer; }
+  .lo-onglet[aria-selected='true'] { border-block-end-color: var(--color-accent); font-weight: 600; }
+  .lo-onglet:focus-visible, .lo-categorie:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .lo-compte { font-size: 0.85rem; color: var(--color-muted); }
+  .lo-categories { display: grid; gap: 2rem; margin-block-start: 1.25rem; }
+  .lo-cat-titre { font-weight: 600; font-size: 1.15rem; padding-block-end: 0.4rem; border-block-end: 2px solid currentColor; }
+  .lo-materiels { display: grid; }
+  .lo-materiel { display: grid; gap: 0.6rem; padding-block: 1rem; border-block-end: 1px solid var(--color-line); }
+  .lo-materiel[hidden] { display: none; }
+  .lo-quoi { display: grid; gap: 0.15rem; min-inline-size: 0; }
+  .lo-nom { font-size: 1.1rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; inline-size: fit-content; }
+  .lo-detail, .lo-caution { font-size: 0.95rem; color: var(--color-muted); }
+  .lo-prix { display: grid; grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr)); gap: 0.4rem; }
+  .lo-prix-ligne { display: grid; gap: 0.1rem; padding: 0.5rem 0.65rem; border-radius: var(--radius-ui, 6px); background: var(--color-bg); }
+  .lo-prix-ligne dt { font-size: 0.9rem; color: var(--color-muted); }
+  .lo-prix-ligne dd { font-weight: 700; font-size: 1.05rem; }
+  .lo-ht { display: none; }
+  .lo-parc:has(#lo-pro:checked) .lo-prix-ligne dd:has(.lo-ht) .lo-ttc { display: none; }
+  .lo-parc:has(#lo-pro:checked) .lo-ht { display: inline; }
+  .lo-aucun { padding-block: 1rem; font-weight: 600; }
+  .lo-suite { margin-block-start: 1.25rem; }
+  .lo-cote { display: grid; gap: 1rem; margin-block-start: 1.75rem; }
+  .lo-creneaux, .lo-magasin { display: grid; gap: 0.75rem; padding: 1.25rem; border-radius: var(--radius-card); }
+  .lo-magasin { background: var(--color-bg); border: 1px solid var(--color-line); }
+  .lo-magasin-seul { margin-block: 2rem; }
+  .lo-creneaux-titre, .lo-magasin-titre { font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.1; }
+  .lo-cr-liste { display: grid; gap: 0.75rem; }
+  .lo-cr { display: grid; gap: 0.2rem; padding-block-start: 0.75rem; border-block-start: 1px solid currentColor; }
+  .lo-cr-nom { font-weight: 600; font-size: 1.1rem; }
+  .lo-cr-quand { display: inline-block; min-inline-size: 8rem; }
+  .lo-cr-compte { font-weight: 700; }
+  .lo-magasin-grille { display: grid; gap: 1.25rem; }
+  .lo-magasin-infos, .lo-magasin-conditions { display: grid; gap: 0.35rem; align-content: start; }
+  .lo-h3 { font-weight: 600; margin-block-end: 0.25rem; }
+  .lo-conditions { display: grid; gap: 0.2rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .lo-livraison { display: flex; gap: 0.5rem; align-items: flex-start; margin-block-start: 0.75rem; }
+  .lo-livraison :global(svg) { flex: none; margin-block-start: 0.2rem; }
+  .lo-services ul { display: grid; }
+  .lo-service { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-block-size: 44px; border-block-end: 1px solid var(--color-line); font-weight: 600; }
+  @media (min-width: 48rem) {
+    .lo-materiel { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; column-gap: 2rem; }
+  }
+  @media (min-width: 64rem) {
+    .lo-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 4rem; align-items: end; padding-block-end: 1.25rem; }
+    .lo-h1 { font-size: clamp(2.4rem, 4.2vw, 3.6rem); max-inline-size: 22ch; }
+    .lo-portes { flex-direction: column; align-items: flex-end; }
+    .lo-cherche { grid-column: 1 / -1; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 1.25rem; }
+    .lo-cote { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 1.5rem; align-items: start; }
+    .lo-magasin-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Les ancres des catégories deviennent des onglets (flèches du clavier, Entrée) ; une recherche montre toutes les
+  // catégories et cache ce qui ne correspond pas, sans quitter la page. Sans script : tout le parc, et la recherche mène
+  // à /materiel.
+  onPage(() => {
+    const parc = document.querySelector<HTMLElement>('[data-lo-parc]');
+    if (!parc) return;
+    const rangee = parc.querySelector<HTMLElement>('[data-lo-onglets]');
+    const onglets = rangee ? [...rangee.querySelectorAll<HTMLAnchorElement>('[data-lo-vers]')] : [];
+    const blocs = [...parc.querySelectorAll<HTMLElement>('[data-lo-categorie]')];
+    const avecOnglets = rangee && onglets.length >= 2 && onglets.length === blocs.length;
+    let choisi = '1';
+    const choisir = (n: string, focus = false) => {
+      choisi = n;
+      onglets.forEach((o) => { const sel = o.dataset.loVers === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      blocs.forEach((b) => { b.hidden = b.dataset.loCategorie !== n; });
+    };
+    if (avecOnglets) {
+      rangee!.setAttribute('role', 'tablist');
+      rangee!.setAttribute('aria-labelledby', 'lo-parc-titre');
+      onglets.forEach((o, k) => {
+        const b = blocs[k];
+        o.setAttribute('role', 'tab');
+        o.setAttribute('aria-controls', b.id);
+        o.removeAttribute('href');
+        b.setAttribute('role', 'tabpanel');
+        b.setAttribute('aria-labelledby', o.id);
+        b.tabIndex = 0;
+        o.addEventListener('click', (e) => { e.preventDefault(); choisir(o.dataset.loVers!); });
+        o.addEventListener('keydown', (e) => {
+          const suiv = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+          const prec = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+          const c = suiv ? onglets[(k + 1) % onglets.length] : prec ? onglets[(k - 1 + onglets.length) % onglets.length] : undefined;
+          if (c) { e.preventDefault(); choisir(c.dataset.loVers!, true); }
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choisir(o.dataset.loVers!); }
+        });
+      });
+      choisir('1');
+    }
+    const form = document.querySelector<HTMLFormElement>('[data-lo-cherche]');
+    const champ = form?.querySelector<HTMLInputElement>('input[type="search"]');
+    const aucun = parc.querySelector<HTMLElement>('[data-lo-aucun]');
+    if (!form || !champ) return;
+    const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+    const filtrer = () => {
+      const q = norm(champ.value);
+      const lignes = [...parc.querySelectorAll<HTMLElement>('[data-lo-nom]')];
+      if (!q) {
+        lignes.forEach((x) => { x.hidden = false; });
+        if (rangee) rangee.hidden = false;
+        if (avecOnglets) choisir(choisi); else blocs.forEach((b) => { b.hidden = false; });
+        if (aucun) aucun.hidden = true;
+        return;
+      }
+      if (rangee) rangee.hidden = true;
+      lignes.forEach((x) => { x.hidden = !q.split(/\s+/).every((m) => (x.dataset.loNom ?? '').includes(m)); });
+      blocs.forEach((b) => { b.hidden = ![...b.querySelectorAll<HTMLElement>('[data-lo-nom]')].some((x) => !x.hidden); });
+      if (aucun) aucun.hidden = lignes.some((x) => !x.hidden);
+    };
+    champ.addEventListener('input', filtrer);
+    form.addEventListener('submit', (e) => { e.preventDefault(); filtrer(); parc.scrollIntoView({ block: 'start' }); });
+  });
+</script>

@@ -1,0 +1,109 @@
+{
+  "id": "pistils",
+  "version": 1,
+  "source": {
+    "url": "https://pistilsnursery.com/",
+    "nom": "Pistils Nursery",
+    "metier": "pépinière et boutique de plantes (deux adresses à Portland), aménagement de jardins, ateliers",
+    "fiche": "docs/veille/styles/pistils.md",
+    "mesures": "docs/veille/styles/atomes/mesures/pistils.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Palatino",
+      "libre": "gelasio",
+      "graisse": 400,
+      "interlignage": 1.2,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Palatino",
+      "libre": "gelasio",
+      "graisse": 400,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 25,
+        "ordinateur": 25
+      },
+      "h2": {
+        "telephone": 25,
+        "ordinateur": 25
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Une seule famille, Palatino 400 (police du système, pile serif), en casse normale pour tout : titres de porte et d article 25 px (aucun h1 visible : le premier écran est un diaporama de photos), texte 15 px, interlignage 1,6 ; seul le logo rouge est dessiné. Libre : Gelasio, serif de texte à empattements nets du registre, la plus proche de Palatino (aucune Palatino libre au registre), utilisée en titre et en texte (concordance)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#9eaf92",
+      "texte": "#171717",
+      "texte2": "#454564",
+      "accent": "#9eaf92",
+      "accent2": null,
+      "bordure": null,
+      "encre": "#9eaf92"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #9eaf92 (44 %)",
+    "remarque": "Blanc #ffffff en alternance avec des bandes vert sauge #9eaf92 (44 % des fonds : portes vers les deux boutiques, blog, pied), titres et texte en blanc sur la sauge, noir #171717 sur le blanc ; bouton noir #232323. La sauge (chroma 0,045) est la couleur de marque : surface, aplat et pied. Le blanc sur la sauge ne tient pas l AA sur la source (2,2:1) : ff melanger assombrit le texte. Coloré doux."
+  },
+  "densite": "à juger",
+  "formes": {
+    "rayon": 3,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Bouton plein noir #232323, rayon 3 px, filet 1 px, libellé en capitales ; photos à angles droits sans cadre ni ombre ; titres de porte sous la photo, en blanc sur la sauge ; liens qui changent de couleur en 0,1 s."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "16:9+",
+      "1:1",
+      "4:3"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Premier écran : diaporama large d une fleur en gros plan (fondu enchaîné de 1 s toutes les 4 s) ; puis vignettes : les deux devantures (maison verte et rouge, vitrine bois), trois services en carré, articles de blog, mosaïque Instagram ; titres sous la photo, jamais dessus."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.1,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.36,
+      "courbe": "cubic-bezier(0.39, 0.575, 0.565, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé à la molette (1 440 px) : les colonnes de texte montent de 20 px en apparaissant, opacité et transform 0,36 s cubic-bezier(.39,.575,.565,1) ; les articles en fondu 0,48 s avec 0,3 s de retard ; le diaporama du haut change de photo seul, fondu enchaîné 1 s toutes les 4 s (non repris : rien ne part seul) ; liens 0,1 s. Profil le plus proche : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "bande-defilante"
+}

@@ -1,0 +1,121 @@
+{
+  "id": "sarahraven",
+  "version": 1,
+  "source": {
+    "url": "https://www.sarahraven.com/",
+    "nom": "Sarah Raven",
+    "metier": "jardinière, graines, bulbes et plantes (Perch Hill, Sussex), cours et conseils",
+    "fiche": "docs/veille/styles/sarahraven.md",
+    "mesures": "docs/veille/styles/atomes/mesures/sarahraven.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Otto",
+      "libre": "literata",
+      "graisse": 300,
+      "interlignage": 1.1,
+      "casse": "none",
+      "interlettrage": -0.03,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Apercu",
+      "libre": "workSans",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 26.1,
+        "ordinateur": 32
+      },
+      "h2": {
+        "telephone": 26.1,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 14.1,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Otto 300, serif de texte contemporaine aux empattements doux, en casse normale et légèrement serrée (-0,03 em) pour tous les titres (32 px à l ordinateur, 26 px au téléphone ; aucun h1 dans la page, le plus gros texte affiché est celui des titres de bloc ; nom géant « SARAH RAVEN » dessiné en pied) ; Apercu 400, grotesque géométrique sobre, pour le texte (16 px, 14 au téléphone, interlignage 1,5). Libres : Literata 300 (serif de texte à graisse fine, même voix calme) et Work Sans pour Apercu."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f7f5ec",
+      "surface": null,
+      "texte": "#443025",
+      "texte2": "#69644e",
+      "accent": "#af5218",
+      "accent2": null,
+      "bordure": "#cfcabb",
+      "encre": "#393929"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #af5218 (9 %), #393929 (6 %), #916c3d (0 %), #67614c (0 %), #cfcabb (0 %), #443025 (0 %)",
+    "remarque": "Ivoire #f7f5ec sous presque toute la page (chroma 0,012, teinte jaune) ; texte brun terre #443025, secondaire gris olive #69644e ; accent rouille #af5218 (bandeau d annonce, étiquettes de prix, bandeau des soldes) ; filets #cfcabb ; pied vert-noir olive #393929 (chroma 0,027) avec le nom en ivoire géant. Le bandeau rouille du premier écran est la vente de fin de saison (temporaire), relevé comme accent, pas comme fond. Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 48,
+      "ordinateur": 42
+    },
+    "gouttiere": {
+      "telephone": 16,
+      "ordinateur": 16
+    },
+    "conteneur": 1328,
+    "mesure": 70,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 2,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Boutons pleins à angles presque droits (2 px), casse normale, olive grisé #67614c ou ivoire ; liens « Shop & save » soulignés ; vignettes produit carrées sans cadre ni ombre ; filets fins pleine largeur entre les blocs ; pastilles rondes « Up to 60 % off » des soldes relevées, non reprises (pastilles promotionnelles)."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "1:1",
+      "16:9+",
+      "3:2"
+    ],
+    "pleinCadre": 3,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Photos de fleurs très saturées en vignettes carrées dans des rangées défilantes de produits (nom en serif, prix dessous) ; une vidéo plein cadre saisonnière avec titre posé dessus ; une mosaïque de quatre portes (événements, semis, podcast, conseils) avec titre blanc sur la photo ; portraits de la jardinière dans son jardin. Une seconde photo du produit apparaît au survol."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "scene": {
+      "duree": 0.75,
+      "courbe": "cubic-bezier(0.22, 1, 0.36, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "deuxieme-vue-au-survol",
+    "remarque": "Relevé à la molette et au pointeur à 1 440 px : chaque carte produit porte deux photos superposées, la seconde passe de l opacité 0 à 1 en 0,5 s cubic-bezier(.4,0,.2,1) au survol (même mécanisme que Poterie Ravel) ; les quatre portes de la mosaïque entrent en fondu et glissement 0,75 s cubic-bezier(.22,1,.36,1), décalées de 0,12 s ; liens 0,15 à 0,3 s. Rien n est épinglé : deuxieme-vue-au-survol, avec des apparitions en plus."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "typographique"
+}

@@ -164,6 +164,12 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `avant-apres`) → le mur des pièces en curseurs avant / après qu'on tire à la main, rangées par type en onglets, le curseur en
   tête de `/realisations/<slug>` ; aucune durée ou photo avant = rien (`src/lib/soins.ts`, `src/lib/avantapres.ts`,
   `src/components/Comparer.astro`, `tests/architectures-soins.test.mjs`).
+  `planning` (optionnel, architecture `planning-semaine`, coquille `planning`) → la semaine en onglets par jour (le jour même ouvert
+  dans le navigateur, les jours en colonnes à l'ordinateur), un filtre par discipline, le cours d'essai, `/planning`, les créneaux sur
+  la page de chaque discipline ; `location` (optionnel, architecture `catalogue-location`, coquille `location`) → le parc en onglets
+  par catégorie, prix par durée, bascule particulier TTC / pro HT sans script, caution, « Chercher un outil », les créneaux qui
+  comptent moins, `/materiel`, `/materiel/<slug>` ; aucune donnée = aucune page (`src/lib/planning.ts`, `src/lib/location.ts`,
+  `src/components/CreneauxDuCours.astro`, `tests/architectures-semaine.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

@@ -1,0 +1,64 @@
+---
+/**
+ * Les créneaux d'une discipline (site.planning, architecture planning-semaine ; src/lib/planning.ts, coursDuService) : sur
+ * la page de la discipline, chaque jour qui a ce cours, ses heures, sa durée, son niveau, sa salle, son professeur. Sur
+ * /planning, la semaine entière (mode « semaine »). Rien si aucun cours valide : la page ne s'invente pas d'horaire.
+ */
+import { site, joursDuPlanning, coursDuService, dureeDuCours, heureLisible } from '@/lib/site';
+
+interface Props {
+  /** Slug du service : ses créneaux seulement ; absent = toute la semaine. */
+  service?: string;
+  titre?: string;
+  niveau?: 'h2' | 'h3';
+}
+const { service, titre, niveau = 'h2' } = Astro.props;
+const jours = service ? coursDuService(site.planning, service) : joursDuPlanning(site.planning);
+const pages = new Set(site.servicePages ? site.services.map((s) => s.slug) : []);
+const Titre = niveau;
+const Jour = niveau === 'h2' ? 'h3' : 'h4';
+const meta = (c: { niveau?: string; salle?: string; prof?: string; lieu?: string }) =>
+  [c.niveau, c.lieu, c.salle, c.prof ? `avec ${c.prof}` : undefined].filter(Boolean).join(', ');
+const idTitre = `cr-${service ?? 'semaine'}`;
+---
+
+{jours.length > 0 && (
+  <section class="cr" aria-labelledby={titre ? idTitre : undefined}>
+    {titre && <Titre id={idTitre} class="cr-titre font-display">{titre}</Titre>}
+    <div class="cr-jours">
+      {jours.map((j) => (
+        <div class="cr-jour">
+          <Jour class="cr-jour-titre">{j.label}</Jour>
+          <ul class="cr-liste">
+            {j.cours.map((c) => (
+              <li class="cr-un">
+                <span class="cr-heures tabular-nums">{heureLisible(c.debut)} à {heureLisible(c.fin)}</span>
+                <span class="cr-quoi">
+                  {!service && c.service && pages.has(c.service) ? <a href={`/services/${c.service}`} class="cr-nom">{c.nom}</a> : <span class="cr-nom">{c.nom}</span>}
+                  <span class="cr-detail">{[dureeDuCours(c), meta(c), c.note].filter(Boolean).join(', ')}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .cr { display: grid; gap: 1rem; }
+  .cr-titre { font-size: clamp(1.5rem, 3.5vw, 2.4rem); line-height: 1.1; }
+  .cr-jours { display: grid; gap: 1.5rem; }
+  .cr-jour-titre { font-weight: 600; font-size: 1.1rem; padding-block-end: 0.35rem; border-block-end: 2px solid currentColor; }
+  .cr-liste { display: grid; }
+  .cr-un { display: grid; grid-template-columns: minmax(7.5rem, auto) minmax(0, 1fr); gap: 0.25rem 1rem; padding-block: 0.7rem; border-block-end: 1px solid var(--color-line); }
+  .cr-heures { font-weight: 600; }
+  .cr-quoi { display: grid; gap: 0.1rem; min-inline-size: 0; }
+  .cr-nom { font-weight: 600; }
+  a.cr-nom { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; inline-size: fit-content; }
+  a.cr-nom:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .cr-detail { color: var(--color-muted); font-size: 0.95rem; }
+  @media (max-width: 30rem) { .cr-un { grid-template-columns: minmax(0, 1fr); } }
+  @media (min-width: 64rem) { .cr-jours { grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); column-gap: 2rem; } }
+</style>

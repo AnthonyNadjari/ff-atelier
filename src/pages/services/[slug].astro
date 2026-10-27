@@ -17,6 +17,8 @@ import { styleTeinte } from '@/lib/couleur';
 import SortiesFiltrables from '@/components/SortiesFiltrables.astro';
 import ArdoiseDuJour from '@/components/ArdoiseDuJour.astro';
 import { sortiesDuService } from '@/lib/sorties';
+import CreneauxDuCours from '@/components/CreneauxDuCours.astro';
+import { coursDuService } from '@/lib/planning';
 
 export function getStaticPaths() {
   // site.servicePages: false -> aucune page service (voir src/lib/schema.ts).
@@ -36,13 +38,16 @@ const aSectionServices = site.layout.sections.some((s) => s.type === 'services')
 const aPorteContact = hasContactDoor(site);
 // Sorties de cette activité (site.sorties, architecture saisons-sorties) : liste filtrable par niveau, quel que soit le gabarit.
 const sorties = sortiesDuService(site.sorties, service.slug);
+// Créneaux de cette discipline (site.planning, architecture planning-semaine) : ses jours et heures, quel que soit le gabarit.
+const creneaux = coursDuService(site.planning, service.slug).length > 0;
+const blocCreneaux = `${service.title}\u00a0: les créneaux de la semaine`;
 const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug}`, Astro.site).toString());
 ---
 
 <Base title={title} description={service.short} path={`/services/${service.slug}`} jsonLd={[serviceJsonLd]}>
   <Nav />
   {site.layout.servicePage === 'porte' ? (
-  <main id="main"><ServicePorte service={service} />{sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}{service.programme.length > 0 && <section class="container-ff section-y" aria-labelledby="programme-titre"><h2 id="programme-titre" class="text-display-md">{service.title}\u00a0: le programme de la semaine</h2><ArdoiseDuJour mode="semaine" services={[service]} niveau="h3" class="mt-8" /></section>}</main>
+  <main id="main"><ServicePorte service={service} />{creneaux && <div class="container-ff section-y"><CreneauxDuCours service={service.slug} titre={blocCreneaux} /></div>}{sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}{service.programme.length > 0 && <section class="container-ff section-y" aria-labelledby="programme-titre"><h2 id="programme-titre" class="text-display-md">{service.title}\u00a0: le programme de la semaine</h2><ArdoiseDuJour mode="semaine" services={[service]} niveau="h3" class="mt-8" /></section>}</main>
   ) : site.layout.servicePage === 'livre' ? (
   <main id="main"><ServiceLivre service={service} />{sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}{service.programme.length > 0 && <section class="container-ff section-y" aria-labelledby="programme-titre"><h2 id="programme-titre" class="text-display-md">{service.title}\u00a0: le programme de la semaine</h2><ArdoiseDuJour mode="semaine" services={[service]} niveau="h3" class="mt-8" /></section>}</main>
   ) : (
@@ -78,6 +83,7 @@ const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug
         </aside>
       </div>
     </article>
+    {creneaux && <div class="container-ff section-y"><CreneauxDuCours service={service.slug} titre={blocCreneaux} /></div>}
     {sorties.length > 0 && <div class="container-ff"><SortiesFiltrables sorties={sorties} titre={`${service.title}\u00a0: les sorties`} /></div>}{service.programme.length > 0 && <section class="container-ff section-y" aria-labelledby="programme-titre"><h2 id="programme-titre" class="text-display-md">{service.title}\u00a0: le programme de la semaine</h2><ArdoiseDuJour mode="semaine" services={[service]} niveau="h3" class="mt-8" /></section>}
     <Cta />
   </main>

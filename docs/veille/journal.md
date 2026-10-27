@@ -4,10 +4,66 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
-<!-- ff melanger : besoins de collecte (bloc réécrit à chaque tirage, ne pas éditer) -->
-**Besoins de collecte** (relevés par `ff melanger` le 2026-10-27 ; volet 2a quater de `/veille`) :
-- la collecte doit ramener des palettes clair teinté doux (17 tirables sur 155, 20 au moins)
-<!-- /ff melanger -->
+## 27 oct 2026, tour 11 (routine en ligne, matin) : 10 styles, 2 architectures
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-27-b.jpg)) : l'architecture `planning-semaine`, un site d'école dont
+l'accueil est le planning de la semaine (le jour même ouvert, un filtre par discipline, l'appel et le cours d'essai en haut).
+Pourquoi elle : ce que cherche le client d'une école de danse, de yoga ou de sport, c'est « quel cours, quel soir », et la
+source (Ell'Zi-Danse) le cache sous un texte et une bannière de cookies.
+
+**Fait**
+- Santé : `npm ci`, Chromium de Playwright (`FF_CHROMIUM=1`), tout a tourné avec navigateur. `ff atomes` était rouge au départ
+  (quatre brouillons de la collecte automatique du 27 oct : `balthazarny`, `bistrotvivienne`, `hkliving`, `wastberg`, mesures
+  de largeur, d'interlignage et de courbe aberrantes) : remis à « à juger », registre vert. Le défaut vient de
+  `ff atomes mesurer` (mesure relevée sur des noms de produits, conteneur relevé sur une piste de carrousel) : proposé ci-dessous.
+- **Styles (2a quater)** : deux agents en parallèle, environ 260 domaines sondés (httpster par sa liste JSON filtrée sur la
+  couleur, minimal.gallery, onepagelove ; Awwwards injoignable, siteinspire et Framer en 429). **10 gardés**, chacun essayé
+  (`ff melanger <démo> --style <id> --essai`) et posé à côté de la source : `choosingkeeping` (papeterie), `archivistgallery`
+  (papeterie typographique), `bourkestreet` (boulangerie), `sarahraven` (grainetière), `mariongraux` (potière) en clair teinté
+  doux ; `feldspar` (porcelaine), `saipua` (fleuriste et savonnerie), `pistils` (pépinière) en coloré doux ; `couteauxdeva`
+  (coutelier), `studiomondine` (fleuriste événementiel) en sombre. Fiches, lignes et écartés : [styles/INDEX.md](styles/INDEX.md).
+- Palettes par régime, avant → après : clair neutre 85 → 85, clair teinté doux 17 → 22 (**plus de besoin**), sombre 20 → 22,
+  coloré doux 33 → 36.
+- **Mouvement** : 4 profils nouveaux ([MOUVEMENTS.md](styles/MOUVEMENTS.md), 32 profils, `scripts/ff/mouvements.mjs`) :
+  `legende-fixe-qui-change` (Studio Mondine), `photo-qui-s-approche` (Marion Graux), `legende-qui-se-leve` (Couteaux Deva),
+  `volet-a-l-entree` (Bourke Street, deux photos au plus, jamais suivi d'un zoom). Vu et refusé : le préchargeur animé
+  d'Archivist (rideau d'ouverture, GOUT § 2).
+- **Architectures (2a ter)**, codées et prouvées le même tour : [planning-semaine](architectures/planning-semaine.md) (Danse
+  Germain Blanchet à Rouen, Ell'Zi-Danse à Saintes ; coquille `planning`, champ `planning`, `/planning`, créneaux sur la page
+  de chaque discipline, `src/lib/planning.ts`) et [catalogue-location](architectures/catalogue-location.md) (Location Service à
+  Mulhouse, Deslandes Motoculture ; coquille `location`, champ `location`, `/materiel`, `/materiel/<slug>`, prix par durée,
+  caution, bascule particulier TTC / pro HT en CSS seul, recherche d'outil). `ff ressemblance` contre tous les sites : planning
+  0,59 / 0,54 / 0,55, location 0,61 / 0,62 / 0,56 (téléphone / ordinateur / déroulé, seuil 0,65). Entre elles 0,73 au
+  déroulé : jamais deux pistes d'un même client. Deux corrections au passage : la page 404 ne pointe plus vers `/#contact`
+  sans porte de contact ; `ff verifier` n'exige plus d'anti-robots sur un formulaire de recherche. `ff verifier`, `ff a11y`,
+  `ff ia` verts sur les jetables, supprimés.
+- **Marché (2a)** : 9 sites de plus (menuisier-agenceur en Savoie, déménageur dans le Gard, fromagerie en Haute-Vienne via
+  des agences ; coach sportif à Rennes, avocat à Amiens, photographe au Mans classés sur Google ; modèles Framer Movers, Wix
+  couvreur, ThemeForest barbier). [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) : 99 sites. Aucun levier à 40 % absent de l'usine.
+  Le plus vendeur : le coach Marius Aholou (lui en photo sous « Coach sportif à Rennes », le crédit d'impôt avec un exemple
+  chiffré, 54 pages dont 19 communes). Nouveau : formulaire d'estimation en étapes au premier écran (Movers), témoignages vidéo.
+- Tests : 73 fichiers, tous verts.
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé,
+21 les deux), aucun site n'ayant changé ; pires : anna-vidal / borie-des-chenes (0,81 / 0,75 / 1,00), chez-malo / studio-ambre
+(0,87 / 0,91), demo-informatique / fromagerie-ravanel-d (déroulé 0,90), prospect-ballay-macon / prospect-epi-dor (déroulé
+0,89). Signalé, pas corrigé.
+
+**Proposé**
+- `ff atomes mesurer` : refuser lui-même une mesure hors bornes et écrire « à juger » (quatre brouillons cassaient le registre).
+- `ff melanger --essai` : nommer la copie et la planche d'après le style (`_essai-<id>`), pour que deux essais puissent tourner
+  ensemble sans s'écraser.
+- `ff demonter` : fermer ou masquer la bannière de cookies sur la planche (Archivist, Deva), défiler à la molette quand la page
+  défile dans un conteneur (Deva, Saipua).
+- Une famille de premier écran « titre posé sur photo plein cadre » : quatre styles du tour sont rangés en `carte-sur-photo`
+  faute de mieux, et 16 anciens atomes citent un id `plein-cadre` qui n'existe pas dans `premiers-ecrans.md`.
+- Le déclencheur `data-legende` dans le moteur pour `legende-fixe-qui-change`.
+- Un formulaire d'estimation en deux étapes au premier écran pour les déménageurs, couvreurs, paysagistes (Movers).
+
+**À décider** : les 10 styles (`ff melanger <slug> --style couteauxdeva`) ; planning-semaine pour la première école de danse,
+yoga, arts martiaux, salle ; catalogue-location pour un loueur de matériel ou de motoculture ; les paires trop proches.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
 
 ## 27 oct 2026, tour 10 (routine en ligne, nuit) : 7 styles, 2 architectures
 

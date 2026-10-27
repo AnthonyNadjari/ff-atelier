@@ -1,0 +1,100 @@
+---
+/**
+ * Page /materiel (site.location, src/lib/location.ts) : architecture `catalogue-location` (source Location Service,
+ * Mulhouse : « Voici la liste des produits de la catégorie », chaque machine, ses prix particulier et pro, sa caution ;
+ * docs/veille/architectures/catalogue-location.md). Le parc entier sur une page, une table par catégorie, lisible sans
+ * script et imprimable ; la recherche de l'accueil y mène sans script (?q=, filtrée ici dans le navigateur). Générée
+ * seulement avec un catalogue (4 matériels à prix au moins, lienMateriel) ; sinon aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, materielsComplets, categoriesDeMateriel, prixDuMateriel, aPrixPro, lienMateriel } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return lienMateriel(site.location, site.wording.materiel) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const l = site.location!;
+const durees = l.durees;
+const categories = categoriesDeMateriel(materielsComplets(l));
+const pro = aPrixPro(l);
+const titre = site.wording.materiel;
+const nomCherche = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} à louer chez ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : chaque machine, son prix par durée${pro ? ' (particulier et professionnel)' : ''} et sa caution.`} path="/materiel">
+  <Nav />
+  <main id="main" class="container-ff ma">
+    <header class="ma-tete">
+      <h1 class="ma-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      <p class="ma-portes"><a href={tel()} class="ma-porte tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      <p class="ma-recherche" data-ma-recherche hidden></p>
+    </header>
+    {categories.map((c, i) => (
+      <section class="ma-cat" aria-labelledby={`ma-c-${i + 1}`} data-ma-cat>
+        <h2 id={`ma-c-${i + 1}`} class="ma-h2 font-display">{c.nom}</h2>
+        <div class="ma-table-bord">
+          <table class="ma-table">
+            <thead>
+              <tr><th scope="col">Matériel</th>{durees.map((d) => <th scope="col">{d}{pro && ' TTC'}</th>)}<th scope="col">Caution</th></tr>
+            </thead>
+            <tbody>
+              {c.materiels.map((m) => {
+                const prix = prixDuMateriel(m, durees);
+                return (
+                  <tr data-ma-nom={nomCherche(`${m.nom} ${m.detail ?? ''} ${c.nom}`)}>
+                    <th scope="row"><a href={`/materiel/${m.slug}`} class="ma-nom">{m.nom}</a>{m.detail && <span class="ma-detail">{m.detail}</span>}</th>
+                    {durees.map((d) => { const x = prix.find((p) => p.duree === d); return <td class="tabular-nums">{x ? x.prix : ''}{x?.pro && <span class="ma-pro">{x.pro} HT</span>}</td>; })}
+                    <td>{m.caution ?? ''}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    ))}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ma { display: grid; gap: 2.5rem; padding-block: clamp(2rem, 6vh, 4rem); }
+  .ma-tete { display: grid; gap: 0.8rem; }
+  .ma-titre { font-size: clamp(2.1rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .ma-portes { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
+  .ma-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .ma-porte:focus-visible, .ma-nom:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .ma-recherche { font-weight: 600; }
+  .ma-h2 { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.1; margin-block-end: 0.75rem; }
+  .ma-table-bord { overflow-x: auto; }
+  .ma-table { inline-size: 100%; border-collapse: collapse; min-inline-size: 36rem; }
+  .ma-table th, .ma-table td { padding: 0.6rem 0.75rem 0.6rem 0; text-align: start; vertical-align: top; border-block-end: 1px solid var(--color-line); }
+  .ma-table thead th { font-size: 0.9rem; color: var(--color-muted); font-weight: 600; }
+  .ma-table tbody th { font-weight: 400; }
+  .ma-nom { font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ma-detail, .ma-pro { display: block; font-size: 0.9rem; color: var(--color-muted); }
+  tr[hidden] { display: none; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // La recherche de l'accueil sans script arrive ici avec ?q= : on montre ce qui correspond, la page entière reste
+  // lisible sans script.
+  onPage(() => {
+    const q = (new URLSearchParams(location.search).get('q') ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+    if (!q) return;
+    const mots = q.split(/\s+/);
+    let n = 0;
+    document.querySelectorAll<HTMLElement>('[data-ma-cat]').forEach((cat) => {
+      const lignes = [...cat.querySelectorAll<HTMLElement>('[data-ma-nom]')];
+      lignes.forEach((r) => { r.hidden = !mots.every((m) => (r.dataset.maNom ?? '').includes(m)); if (!r.hidden) n += 1; });
+      cat.hidden = lignes.every((r) => r.hidden);
+    });
+    const dit = document.querySelector<HTMLElement>('[data-ma-recherche]');
+    if (dit) { dit.textContent = n > 0 ? `${n} matériel${n > 1 ? 's' : ''} pour « ${q} ».` : `Aucun matériel pour « ${q} » : appelez, nous avons peut-être l’équivalent.`; dit.hidden = false; }
+  });
+</script>

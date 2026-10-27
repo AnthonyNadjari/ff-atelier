@@ -1,0 +1,61 @@
+---
+/**
+ * Page /planning (site.planning, src/lib/planning.ts) : architecture `planning-semaine` (sources Danse Germain Blanchet,
+ * « Découvrez nos horaires de cours », la saison, les périodes sans cours, chaque jour et ses cours ; Ell'Zi-Danse,
+ * « Planning Saison 2026-2027 » ; docs/veille/architectures/planning-semaine.md). La semaine entière sur une page, lisible
+ * sans script et imprimable : la saison, les périodes sans cours, chaque jour, le cours d'essai, Appeler. Générée
+ * seulement avec un planning (6 cours sur 2 jours au moins, lienPlanning) ; sinon aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, mailto, metierEtVille, lienPlanning } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import CreneauxDuCours from '@/components/CreneauxDuCours.astro';
+
+export function getStaticPaths() {
+  return lienPlanning(site.planning, site.wording.planning) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const p = site.planning!;
+const titre = site.wording.planning;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : chaque jour, ses cours, leurs heures et leur niveau${p.essai ? ', le cours d’essai' : ''}.`} path="/planning">
+  <Nav />
+  <main id="main" class="container-ff pp">
+    <header class="pp-tete">
+      <h1 class="pp-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      {p.saison && <p class="pp-saison">{p.saison}</p>}
+      {p.pause && <p class="pp-pause" role="note"><Icon name="Info" size={18} /><span>{p.pause}</span></p>}
+      <p class="pp-portes">
+        <a href={tel()} class="pp-porte tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {site.contact.email && <a href={mailto()} class="pp-lien"><Icon name="Mail" size={16} />Écrire</a>}
+      </p>
+    </header>
+    <CreneauxDuCours />
+    {p.essai && (
+      <section class="pp-essai" aria-labelledby="pp-essai-titre">
+        <h2 id="pp-essai-titre" class="pp-h2 font-display">{site.wording.essai}{p.essai.prix && <span class="tabular-nums">&nbsp;: {p.essai.prix}</span>}</h2>
+        <p>{p.essai.texte}</p>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pp { display: grid; gap: 2.5rem; padding-block: clamp(2rem, 6vh, 4rem); }
+  .pp-tete { display: grid; gap: 0.8rem; }
+  .pp-titre { font-size: clamp(2.1rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .pp-saison { font-weight: 600; }
+  .pp-pause { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.8rem 1rem; border-inline-start: 3px solid var(--color-accent); background: var(--color-bg-2); max-inline-size: 60ch; }
+  .pp-pause :global(svg) { flex: none; margin-block-start: 0.2rem; }
+  .pp-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .pp-porte { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .pp-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-underline-offset: 0.2em; }
+  .pp-porte:focus-visible, .pp-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pp-essai { display: grid; gap: 0.5rem; max-inline-size: 60ch; padding: 1.25rem; border-radius: var(--radius-card); background: var(--color-bg-2); }
+  .pp-h2 { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.1; }
+</style>

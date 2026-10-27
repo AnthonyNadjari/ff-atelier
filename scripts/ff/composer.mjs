@@ -47,7 +47,7 @@ const METIERS_INDEX = ['photograph', 'artiste', 'architect', 'tatou', 'illustrat
 
 // Coquilles d'ARCHITECTURE (src/lib/architectures.ts) : elles ne s'appliquent qu'avec leur architecture entiere
 // (layout.architecture), choisie sur les donnees du client — jamais tirees au hasard ici.
-export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda', 'vitrine', 'cadre', 'scenes', 'adresses', 'saisons', 'ardoise', 'tournee', 'artistes', 'fetes', 'calendrier', 'parcours', 'grille', 'colis', 'soins', 'avant-apres'];
+export const COQUILLES_D_ARCHITECTURE = ['carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda', 'vitrine', 'cadre', 'scenes', 'adresses', 'saisons', 'ardoise', 'tournee', 'artistes', 'fetes', 'calendrier', 'parcours', 'grille', 'colis', 'soins', 'avant-apres', 'planning', 'location'];
 
 function shellFits(shell, { sectionsCount, motion, nav, hero, scale, metier = '' }) {
   if (COQUILLES_D_ARCHITECTURE.includes(shell)) return false;

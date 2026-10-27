@@ -285,6 +285,22 @@ export async function loadAvantApresModule() {
   return loadPureLibModule('avantapres.ts');
 }
 
+/**
+ * Copie src/lib/planning.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture planning-semaine : cours valides,
+ * jours, disciplines, durées ; tests/architectures-semaine.test.mjs).
+ */
+export async function loadPlanningModule() {
+  return loadPureLibModule('planning.ts');
+}
+
+/**
+ * Copie src/lib/location.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture catalogue-location : matériels à
+ * prix, catégories, prix par durée ; tests/architectures-semaine.test.mjs).
+ */
+export async function loadLocationModule() {
+  return loadPureLibModule('location.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

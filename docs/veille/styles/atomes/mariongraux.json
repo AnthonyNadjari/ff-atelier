@@ -1,0 +1,121 @@
+{
+  "id": "mariongraux",
+  "version": 1,
+  "source": {
+    "url": "https://www.mariongraux.com/",
+    "nom": "Marion Graux",
+    "metier": "potière (vaisselle en grès, Paris et Bretagne)",
+    "fiche": "docs/veille/styles/mariongraux.md",
+    "mesures": "docs/veille/styles/atomes/mesures/mariongraux.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Gopher",
+      "libre": "urbanist",
+      "graisse": 700,
+      "interlignage": 1.2,
+      "casse": "uppercase",
+      "interlettrage": 0.033,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Cormorant",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.4
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 60,
+        "ordinateur": 60
+      },
+      "h2": {
+        "telephone": 32,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Titre du premier écran en Gopher 700, géométrique grasse, saisi en capitales (« NOUVELLE POTERIE », 60 px au téléphone comme à l ordinateur, sur deux lignes au téléphone, interlettrage 2 px), en jaune pâle sur la photo ; titres de collection en Cormorant Garamond italique 32 px, centrés (italique relevé, non repris : GOUT § 2) ; texte et légendes en Cormorant 14 à 18 px. Le relevé avait pris le logo « MARION GRAUX » (20 px) pour le h1 : corrigé. Libres : Urbanist 700 (géométrique) pour Gopher ; EB Garamond pour Cormorant, police de la liste IA, jamais reprise."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#e0bdb5",
+      "surface": null,
+      "texte": "#352828",
+      "texte2": "#352828",
+      "accent": "#352828",
+      "accent2": "#fff8b8",
+      "bordure": null,
+      "encre": null
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #e6e2e2 (0 %), #efefef (0 %), #2a2a2a (0 %)",
+    "remarque": "Rose poudré #e0bdb5 sous 99,8 % de la page, en-tête et pied compris (L 0,83, chroma 0,042 : teinté, sous le seuil du coloré) ; texte brun prune #352828 partout, boutons de la même encre ; jaune pâle #fff8b8 seulement pour le titre posé sur la photo du premier écran. Aucune autre couleur : la vaisselle (vert céladon, sable, rose, bleu) fait la palette. Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 40,
+      "ordinateur": 36
+    },
+    "gouttiere": {
+      "telephone": 35,
+      "ordinateur": 24
+    },
+    "conteneur": 1360,
+    "mesure": "à juger",
+    "rythme": "uni",
+    "remarque": "Sections de 36 à 40 px de marge : chaque collection est un titre centré puis un diptyque de photos carrées ; conteneur 1 360 px avec 24 px entre les colonnes ; peu de texte courant (mesure « à juger »)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits partout, aucune ombre ; photos carrées sans cadre, légende en petit sous la photo ; boutons pleins en capitales ; liens soulignés (couleur du soulignement 0,125 s)."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "1:1",
+      "3:2"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : portrait de la potière en plein cadre, titre jaune pâle posé dessus ; ensuite uniquement des diptyques de photos carrées bord à bord du conteneur : une pièce seule sur toile de lin ou fond clair, l autre mise en table (nappe vert sapin, bois) ; la photo s approche légèrement au survol."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.125,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "photo-qui-s-approche",
+    "remarque": "Mesuré au pointeur sur une carte (1 440 px) : la photo grandit de 1 à 1,03 en 0,3 s ease dans son cadre à overflow hidden (1,007 à 50 ms, 1,022 à 150 ms, 1,03 à 300 ms), retour identique à la sortie ; seulement sous (any-pointer: fine) et sans « réduire les animations ». Rien au défilement (sonde à la molette, 14 crans de 500 px). Profil nouveau : photo-qui-s-approche."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

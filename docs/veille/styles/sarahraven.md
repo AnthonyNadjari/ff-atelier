@@ -1,0 +1,41 @@
+# Sarah Raven — https://www.sarahraven.com/
+Titre « Sarah Raven - All you need for a beautiful & productive garden », `lang="en"`, description « Grow the good life with our range of seeds, bulbs, plants and gardening kit. », technologie lue : Shopify, jQuery. Démontage automatique du 2026-10-27 (`ff demonter`, mesures brutes dans `sarahraven.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; image plein écran (73 % de l'écran) ; bouton principal « Garden Guides » en haut à droite (1301, 10 px) ; 96 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 absent ; image plein écran (68 % de l'écran) ; bouton principal « Save on Bulbs » en bas au centre (124, 596 px) ; 74 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 12 lien(s) — Sarah Raven, tulips, tulip collections, narcissi, salvias, perennials, hydrangeas, Instagram, Facebook, Youtube, Pinterest, Account ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div#shopify-section-sections--28892944761215__announcement_banner_9bp3ED` (0,0 écran, 31 mots, 0 img) → `main#Content` « Save on Bulbs » (5,8 écrans, 761 mots, 79 img) → `div#shopify-section-sections--29039726363007__newsletter_JVWgQb` (0,4 écran, 27 mots, 0 img) → `footer#shopify-section-sections--29039726363007__footer` (0,7 écran, 56 mots, 0 img). Calques hors flux (fixes/absolus) : `a.sr-only` (absolute, 1 px, 3 mots), `header#shopify-section-sections--28892944761215__header` (sticky, 76 px, 16 mots), `div.locker-base-underlay` (fixed, 900 px).
+Pied de page : 24 lien(s) — Instagram, Facebook, Youtube, Pinterest, Our story, Podcast, Jobs, Contact us, Delivery, Track my order (+14). Téléphone cliquable : non. Formulaire : 2 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Facebook » (https://www.facebook.com/sarahravensgarden), « Lonicera periclymenum 'Chic et Choc' Up » (/products/lonicera-periclymenum-chic-et-choc), « Delivery » (/pages/delivery), « Track my order » (https://shopify.com/96146194815/account/orders?locale=en&region_country=GB&buyer_flags=eyJhbGciOiJIU).
+En 3 secondes : à juger sur `captures/sarahraven-d.webp` (mesuré : fond du premier écran #af5218, 1 image(s) et 96 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 : non mesuré ; h2 **Otto**, 32 px / 26 px téléphone, graisse 300, interlignage 1,10, interlettrage -0.96px ; corps **Apercu**, 16 px / 14 px téléphone, graisse 400, interlignage 1,50 ; boutons **Apercu**, 14 px / 16 px téléphone, graisse 400, interlignage 1,00 ; nav **Apercu**, 16 px / 14 px téléphone, graisse 400, interlignage 1,50.
+Sources `@font-face` : auto-hébergée (Otto, Apercu) ; fichiers chargés : https://www.sarahraven.com/cdn/shop/t/2/assets/apercu-regular-trial.woff2, https://www.sarahraven.com/cdn/shop/t/2/assets/otto-light-trial.woff2, https://www.sarahraven.com/cdn/shop/t/2/assets/otto-regular-trial.woff2, https://www.sarahraven.com/cdn/shop/t/2/assets/apercu-bold-trial.woff2, https://fonts.googleapis.com/, https://fonts.googleapis.com/css2?family=GFS+Didot&family=Lato&family=Open+Sans&family=Roboto&family=Libre+Baskerville&family=Montserrat&display=swap. Familles en usage sur le texte visible : Apercu ×215, Otto ×80. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #f7f5ec (premier écran #af5218), texte #69644e (contraste 5,44:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #f7f5ec (81 %), #af5218 (11 %), #393929 (8 %), #916c3d (0 %), #67614c (0 %) ; textes par nombre de caractères : #443025 (44 %), #69644e (27 %), #f7f5ec (14 %), #ffffff (8 %), #cfcabb (6 %). Images : 78 `<img>` visibles, 0 fond(s) en image, 1 vidéo(s), `mask-image`/`clip-path` sur 2 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Shopify (window.Shopify), Locomotive Scroll (attribut data-scroll). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)` ×58, `animation jingle 3s linear infinite` ×35, `opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)` ×30, `transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)` ×8, `opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)` ×7, `color 0.15s cubic-bezier(0.4, 0, 0.2, 1)` ×6, `opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1)` ×4, `color 0.4s cubic-bezier(0.4, 0, 0.2, 1)` ×3, `color 0.3s cubic-bezier(0.4, 0, 0.2, 1)` ×3, `all 0.5s cubic-bezier(0.4, 0, 0.2, 1)` ×3. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 1 bloc(s) de plus d'un écran (`header#shopify-section-sections--28892944761215__header` 7,1 écrans). Attributs de mouvement : `data-reveal-item` ×39, `data-typing-primary-heading` ×1, `data-typing-secondary-heading` ×1, `data-scroll-lock` ×1, `data-reveal` ×1, `data-revealed` ×1, `data-cart-shipping-indicator` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/sarahraven-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `main#Content` « Save on Bulbs » (5,8 écrans, 761 mots, 79 image(s)).
+2. L'élément le plus animé : `tagalys-predictive-search#header-desktop-predictive-search` (attributs data-typing-primary-heading, data-typing-secondary-heading).
+3. Le bloc le plus singulier par sa structure : `main#Content` « Save on Bulbs » (seule à contenir <video>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« Facebook », « Lonicera periclymenum 'Chic et Choc' Up », « Delivery », « Track my order »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/13 ordinateur, 0/9 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Style retenu (jugé sur les captures, veille du 27 oct 2026)
+
+- **Polices** : Otto 300 (serif de texte aux empattements doux) en casse normale, légèrement serrée (-0,03 em), pour tous les titres (32 px à l'ordinateur, 26 px au téléphone) ; Apercu 400 pour le texte (16 px, 14 au téléphone, interlignage 1,5) ; nom « SARAH RAVEN » géant en ivoire dans le pied. Libres : Literata 300 et Work Sans.
+- **Couleurs** : ivoire #f7f5ec (chroma 0,012) ; texte brun terre #443025, secondaire #69644e ; accent rouille #af5218 (bandeau d'annonce, étiquettes de prix ; le grand bandeau « Sale » du premier écran est la vente de fin de saison, temporaire) ; filets #cfcabb ; pied vert-noir olive #393929. Régime : clair teinté doux.
+- **Espacements** : sections serrées (42 à 48 px), conteneur 1 328 px, filets fins pleine largeur entre les blocs.
+- **Formes** : boutons pleins à 2 px de rayon, casse normale ; liens « Shop & save » soulignés ; vignettes carrées sans cadre ni ombre ; pastilles rondes des soldes non reprises.
+- **Photos** : fleurs très saturées en vignettes carrées (rangées de produits, nom en serif, prix dessous) ; vidéo saisonnière plein cadre avec titre posé dessus ; mosaïque de quatre portes (événements, semis, podcast, conseils) avec titre blanc sur photo ; portraits de la jardinière dans son jardin.
+- **Mouvement** : seconde photo du produit au survol (0,5 s cubic-bezier(.4,0,.2,1)) ; portes de la mosaïque en fondu et glissement 0,75 s cubic-bezier(.22,1,.36,1), décalées de 0,12 s. Profil : `deuxieme-vue-au-survol`.
+- **Architecture** : boutique de jardin et école : bandeau d'annonce, premier écran saisonnier, rangées de produits, collections, vidéo saisonnière, conseils de saison en onglets (Growing tulips, narcissi…), mosaïque de portes, quatre engagements avec pictos au trait, lettre d'information, pied olive avec le nom géant.
+- **Geste signature** : les conseils de saison en onglets à côté d'une grande photo, et le nom géant qui ferme la page.

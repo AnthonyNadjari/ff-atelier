@@ -1,0 +1,2429 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://movers.framer.media/",
+  "nom": "framer-movers",
+  "date": "2026-10-27",
+  "identite": {
+    "title": "Movers - Moving Services",
+    "siteName": "",
+    "lang": "en",
+    "description": "Modern Framer template for moving and relocation companies. Designed to showcase services, locations, pricing, and customer trust with a conversion-focused layout.",
+    "technologies": [
+      "generator « Framer a7e392f »",
+      "Framer"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Let’s make your next",
+      "h1Visible": true,
+      "mots": 132,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.86,
+        "selecteur": "img"
+      },
+      "boutonPrincipal": {
+        "texte": "(403) 555-3425",
+        "x": 1086.84375,
+        "y": 66,
+        "cx": 0.7983289930555556,
+        "cy": 0.08444444444444445,
+        "fixe": false,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 10773,
+      "bougeSeul": {
+        "n": 3,
+        "exemples": [
+          "div.framer-1v5akkn-container",
+          "span",
+          "a.framer-6jWyo"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.framer-text",
+        "famille": "Geist, \"Geist Placeholder\", sans-serif",
+        "taille": 64,
+        "graisse": "500",
+        "interlignage": 1.04,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-3.2px"
+      },
+      "h2": {
+        "selecteur": "h2.framer-text",
+        "famille": "Geist, \"Geist Placeholder\", sans-serif",
+        "taille": 48,
+        "graisse": "500",
+        "interlignage": 1.12,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-2.88px"
+      },
+      "p": {
+        "selecteur": "p.framer-text",
+        "famille": "\"Inter Display\", \"Inter Display Placeholder\", sans-serif",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.18px"
+      },
+      "bouton": {
+        "selecteur": "button.framer-6hxph0",
+        "famille": "sans-serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.framer-1qwkxvk",
+        "famille": "sans-serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Geist",
+          "url": "https://fonts.gstatic.com/s/geist/v5/gyBhhwUxId8gMGYQMKR3pzfaWI_RruM4mJPby1QNtA.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Geist",
+          "url": "https://fonts.gstatic.com/s/geist/v5/gyBhhwUxId8gMGYQMKR3pzfaWI_Re-Q4mJPby1QNtA.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Geist",
+          "url": "https://fonts.gstatic.com/s/geist/v5/gyBjhwUxId8gMEwZAluvzlxA9ojEVKA32Zna6VEdtKCL.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Geist",
+          "url": "https://fonts.gstatic.com/s/geist/v5/gyBjhwUxId8gMEwZAluvzlxA9ojEVKDi3pna6VEdtKCL.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/5vvr9Vy74if2I6bQbJvbw7SY1pQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/EOr0mi4hNtlgWNn9if640EZzXCo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/Y9k9QrlZAqio88Klkmbd8VoMQc.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/OYrD2tBIBPvoJXiIHnLoOXnY9M.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/JeYwfuaPfZHQhEG8U5gtPDZ7WQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/b6Y37FthZeALduNqHicBT6FutY.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/2uIBiALfCHVpWbHqRMZutfT7giU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/Zwfz6xbVe5pmcWRJRgBDHnMkOkI.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/U9LaDDmbRhzX3sB8g8glTy5feTE.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/tVew2LzXJ1t7QfxP1gdTIdj2o0g.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/DF7bjCRmStYPqSb945lAlMfCCVQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/bHYNJqzTyl2lqvmMiRRS6Y16Es.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/vebZUMjGyKkYsfcY73iwWTzLNag.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/DpPBYI0sL4fYLgAkX8KXOPVt7c.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/4RAEQdEOrcnDkhHiiCbJOw92Lk.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/1K3W8DizY3v4emK8Mb08YHxTbs.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/tUSCtfYVM1I1IchuyCwz9gDdQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/VgYFWiwsAC5OYxAycRXXvhze58.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/syRNPWzAMIrcJ3wIlPIP43KjQs.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/GIryZETIX4IFypco5pYZONKhJIo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/I11LrmuBDQZweplJ62KkVsklU5Y.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/UjFZPDy3qGuDktQM4q9CxhKfIa8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/8exwVHJy2DhJ4N5prYlVMrEKmQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/UTeedEK21hO5jDxEUldzdScUqpg.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/Ig8B8nzy11hzIWEIYnkg91sofjo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/qITWJ2WdG0wrgQPDb8lvnYnTXDg.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/qctQFoJqJ9aIbRSIp0AhCQpFxn8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/ePuN3mCjzajIHnyCdvKBFiZkyY0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/V3j1L0o5vPFKe26Sw4HcpXCfHo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/F3kdpd2N0cToWV5huaZjjgM.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/0iDmxkizU9goZoclqIqsV5rvETU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/r0mv3NegmA0akcQsNFotG32Las.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/iwWTDc49ENF2tCHbqlNARXw6Ug.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/Ii21jnSJkulBKsHHXKlapi7fv9w.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/fXvVh2JeZlehNcEhKHpHH0frSl0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/7pScaNeb6M7n2HF2jKemDqzCIr4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/qS4UjQYyATcVV9rODk0Zx9KhkY8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/VfD2n20yM7v0hrUEBHEyafsmMBY.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/4oIO9fB59bn3cKFWz7piCj28z9s.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/MzumQQZJQBC6KM1omtmwOtsogtI.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/F5Lmfd3fCAu7TwiYbI4DLWw4ks.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/THWAFHoAcmqLMy81E8hCSdziVKA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/sQxGYWDlRkDr0eOKqiNRl6g5rs.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/NNTAT1XAm8ZRkr824inYPkjNeL4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/P2qr9PAWBt905929rHfxmneMUG0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/2BmSa4TZZvFKAZg2DydxTbvKlTU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/P0JCAnd2N1Q6qwTQohre3XmQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/KMFW46iYsEZaUBwXbwPc9nQm71o.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/gazZKZuUEtvr9ULhdA4SprP0AZ0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/pe8RoujoPxuTZhqoNzYqHX2MXA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/teGhWnhH3bCqefKGsIsqFy3hK8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/qQHxgTnEk6Czu1yW4xS82HQWFOk.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/MJ3N6lfN4iP5Um8rJGqLYl03tE.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/PfdOpgzFf7N2Uye9JX7xRKYTgSc.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/0SEEmmWc3vovhaai4RlRQSWRrz0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/A5P4nkYCJlLQxGxaS1lzG8PNSc.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/vuPfygr1n1zYxscvWgGI8hRf3LE.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/jplzYzqFHXreyADwk9yrkQlWQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/sSIKP2TfVPvfK7YVENPE5H87A.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/gawbeo7iEJSRZ4kcrh6YRrU8o.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/RkMAGv2iAm3rw7tZzs7FaZf0rM.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/8E92vrr3j1gDqzepmeSbD2u0JxA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/hyOgCu0Xnghbimh0pE8QTvtt2AU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/NeGmSOXrPBfEFIy5YZeHq17LEDA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/oYaAX5himiTPYuN8vLWnqBbfD2s.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/lEJLP4R0yuCaMCjSXYHtJw72M.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/cRJyLNuTJR5jbyKzGi33wU9cqIQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/yDtI2UI8XcEg1W2je9XPN3Noo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/A0Wcc7NgXMjUuFdquHDrIZpzZw0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/H89BbHkbHDzlxZzxi8uPzTsp90.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/u6gJwDuwB143kpNK1T1MDKDWkMc.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/43sJ6MfOPh1LCJt46OvyDuSbA6o.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/wccHG0r4gBDAIRhfHiOlq6oEkqw.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/WZ367JPwf9bRW6LdTHN8rXgSjw.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/ia3uin3hQWqDrVloC1zEtYHWw.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/2A4Xx7CngadFGlVV4xrO06OBHY.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/CfMzU8w2e7tHgF4T4rATMPuWosA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/867QObYax8ANsfX4TGEVU9YiCM.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/Oyn2ZbENFdnW7mt2Lzjk1h9Zb9k.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/cdAe8hgZ1cMyLu9g005pAW3xMo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/DOfvtmE1UplCq161m6Hj8CSQYg.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/pKRFNWFoZl77qYCAIp84lN1h944.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/tKtBcDnBMevsEEJKdNGhhkLzYo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/5A3Ce6C9YYmCjpQx9M4inSaKU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/Qx95Xyt0Ka3SGhinnbXIGpEIyP4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/6mJuEAguuIuMog10gGvH5d3cl8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/xYYWaj7wCU5zSQH0eXvSaS19wo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/otTaNuNpVK4RbdlT7zDDdKvQBA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/UjlFhCnUjxhNfep4oYBPqnEssyo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/DolVirEGb34pEXEp8t8FQBSK4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/khkJkwSL66WFg8SX6Wa726c.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/0E7IMbDzcGABpBwwqNEt60wU0w.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/NTJ0nQgIF0gcDelS14zQ9NR9Q.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/QrcNhgEPfRl0LS8qz5Ln8olanl8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/JEXmejW8mXOYMtt0hyRg811kHac.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/Bo5CNzBv77CafbxOtKIkpw9egw.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/uy9s0iWuxiNnVt8EpTI3gzohpwo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Switzer",
+          "url": "https://framerusercontent.com/third-party-assets/fontshare/wf/OYB4CXKJQXKTNSLJMTDQOIVUL2V5EL7S/WYO2P7DQVV5RNXGMCUO2HL4RJP4VFUAS/6XPIMU23OJVRY676OG5YVJMWEHWICATX",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Geist Placeholder",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Inter Placeholder",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Inter Display Placeholder",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Switzer Placeholder",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "unpkg.com"
+      ],
+      "fichiersPolices": [
+        "https://framerusercontent.com/assets/iwWTDc49ENF2tCHbqlNARXw6Ug.woff2",
+        "https://framerusercontent.com/assets/PfdOpgzFf7N2Uye9JX7xRKYTgSc.woff2",
+        "https://framerusercontent.com/assets/bHYNJqzTyl2lqvmMiRRS6Y16Es.woff2",
+        "https://fonts.gstatic.com/s/geist/v5/gyBhhwUxId8gMGYQMKR3pzfaWI_RruM4mJPby1QNtA.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Geist",
+          "n": 381
+        },
+        {
+          "famille": "Inter Display",
+          "n": 204
+        },
+        {
+          "famille": "sans-serif",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 19,
+          "poids": 15740701.5
+        },
+        {
+          "hex": "#f9f9f9",
+          "n": 22,
+          "poids": 3123642.2836914062
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 7,
+          "poids": 1270767.0786132812
+        },
+        {
+          "hex": "#23132e",
+          "n": 1,
+          "poids": 787039.1245117188
+        },
+        {
+          "hex": "#f5f5f5",
+          "n": 35,
+          "poids": 503509.34228515625
+        },
+        {
+          "hex": "#fafafa",
+          "n": 3,
+          "poids": 496208.0861816406
+        },
+        {
+          "hex": "#ff6019",
+          "n": 77,
+          "poids": 135549.9736328125
+        },
+        {
+          "hex": "#000000",
+          "n": 17,
+          "poids": 56894
+        },
+        {
+          "hex": "#e1e1e1",
+          "n": 3,
+          "poids": 27648
+        },
+        {
+          "hex": "#757575",
+          "n": 7,
+          "poids": 12864
+        },
+        {
+          "hex": "#009e47",
+          "n": 1,
+          "poids": 576
+        },
+        {
+          "hex": "#6f6f6f",
+          "n": 1,
+          "poids": 256
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#757575",
+          "n": 88,
+          "poids": 3162
+        },
+        {
+          "hex": "#000000",
+          "n": 377,
+          "poids": 3049
+        },
+        {
+          "hex": "#ffffff",
+          "n": 65,
+          "poids": 956
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 32,
+          "poids": 247
+        },
+        {
+          "hex": "#979797",
+          "n": 10,
+          "poids": 172
+        },
+        {
+          "hex": "#0000ee",
+          "n": 1,
+          "poids": 97
+        },
+        {
+          "hex": "#6f6f6f",
+          "n": 8,
+          "poids": 87
+        },
+        {
+          "hex": "#6c6c6c",
+          "n": 1,
+          "poids": 17
+        },
+        {
+          "hex": "#c2c6cf",
+          "n": 1,
+          "poids": 5
+        },
+        {
+          "hex": "#373737",
+          "n": 3,
+          "poids": 3
+        }
+      ],
+      "nbImages": 33,
+      "nbVideos": 5,
+      "nbFondsImage": 0,
+      "masques": 110,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 19,
+          "poids": 15740701.5,
+          "part": 0.71
+        },
+        {
+          "hex": "#f9f9f9",
+          "n": 22,
+          "poids": 3123642.2836914062,
+          "part": 0.141
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 7,
+          "poids": 1270767.0786132812,
+          "part": 0.057
+        },
+        {
+          "hex": "#23132e",
+          "n": 1,
+          "poids": 787039.1245117188,
+          "part": 0.036
+        },
+        {
+          "hex": "#f5f5f5",
+          "n": 35,
+          "poids": 503509.34228515625,
+          "part": 0.023
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#757575",
+          "n": 88,
+          "poids": 3162,
+          "part": 0.406
+        },
+        {
+          "hex": "#000000",
+          "n": 377,
+          "poids": 3049,
+          "part": 0.391
+        },
+        {
+          "hex": "#ffffff",
+          "n": 65,
+          "poids": 956,
+          "part": 0.123
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 32,
+          "poids": 247,
+          "part": 0.032
+        },
+        {
+          "hex": "#979797",
+          "n": 10,
+          "poids": 172,
+          "part": 0.022
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Lenis",
+          "preuve": "window.lenis"
+        },
+        {
+          "nom": "Framer Motion",
+          "preuve": "window.__framer_importFromPackage"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 13
+        },
+        {
+          "valeur": "background 0.3s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "box-shadow 0.3s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "opacity 0.25s ease",
+          "n": 1
+        },
+        {
+          "valeur": "height 0.35s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "text-decoration-color 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "text-decoration-thickness 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "text-underline-offset 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.framer-text",
+        "score": 4,
+        "animations": [],
+        "transitions": [
+          "color 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "text-decoration-color 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "text-decoration-thickness 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "text-underline-offset 0.4s cubic-bezier(0.44, 0, 0.56, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.framer-C8XXI",
+      "sections": [],
+      "nav": {
+        "selecteur": "nav.framer-OBKby",
+        "hauteur": 122,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "See our reviews now!",
+            "href": "./#review",
+            "bouton": false
+          },
+          {
+            "texte": "About Us",
+            "href": "./about-us",
+            "bouton": false
+          },
+          {
+            "texte": "Pricing",
+            "href": "./pricing",
+            "bouton": false
+          },
+          {
+            "texte": "Locations",
+            "href": "./locations/manitoba",
+            "bouton": false
+          },
+          {
+            "texte": "Blog",
+            "href": "./blog",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "./contact",
+            "bouton": false
+          },
+          {
+            "texte": "(403) 555-3425",
+            "href": "tel:(403) 555-3425",
+            "bouton": false
+          },
+          {
+            "texte": "(403) 555-3425",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Get Fee Quote",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.framer-uf11c",
+        "liens": [
+          {
+            "texte": "Long Distance Movers",
+            "href": "./services/long-distance-movers",
+            "bouton": false
+          },
+          {
+            "texte": "White Glove Movers",
+            "href": "./services/white-glove-movers",
+            "bouton": false
+          },
+          {
+            "texte": "Commercial Movers",
+            "href": "./services/commercial-movers",
+            "bouton": false
+          },
+          {
+            "texte": "Storage Services",
+            "href": "./services/storage-services",
+            "bouton": false
+          },
+          {
+            "texte": "Packing Services",
+            "href": "./services/packing-services",
+            "bouton": false
+          },
+          {
+            "texte": "Manitoba",
+            "href": "./services/manitoba",
+            "bouton": false
+          },
+          {
+            "texte": "Alberta",
+            "href": "./services/alberta",
+            "bouton": false
+          },
+          {
+            "texte": "British Columbia",
+            "href": "./services/british-columbia",
+            "bouton": false
+          },
+          {
+            "texte": "Quebec",
+            "href": "./services/quebec",
+            "bouton": false
+          },
+          {
+            "texte": "Ontario",
+            "href": "./services/ontario",
+            "bouton": false
+          },
+          {
+            "texte": "About Us",
+            "href": "./about-us",
+            "bouton": false
+          },
+          {
+            "texte": "Contact Us",
+            "href": "./contact",
+            "bouton": false
+          },
+          {
+            "texte": "(403) 555-3425",
+            "href": "tel:(403) 555-3425",
+            "bouton": false
+          },
+          {
+            "texte": "Info@movers.com",
+            "href": "mailto:Info@movers.com",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "./legals/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms of Service",
+            "href": "./legals/terms-of-service",
+            "bouton": false
+          },
+          {
+            "texte": "Built in Framer",
+            "href": "https://framer.link/aureusdesign",
+            "bouton": false
+          },
+          {
+            "texte": "Created by Aures.Design",
+            "href": "https://aureus.design",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 2,
+        "href": "tel:(403) 555-3425"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 23
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Get Fee Quote",
+          "href": ""
+        },
+        {
+          "texte": "Book Your Move",
+          "href": "./contact"
+        },
+        {
+          "texte": "Get My Free Quote",
+          "href": ""
+        },
+        {
+          "texte": "Request A Quote",
+          "href": "./get-quote"
+        },
+        {
+          "texte": "Get Free Quote in 30s Tell us about your",
+          "href": "./get-quote"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#__framer-badge-container",
+          "position": "fixed",
+          "hauteur": 78,
+          "largeur": 1440,
+          "enBas": true,
+          "mots": 15
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 24,
+        "pilules": 8,
+        "exemples": [
+          "Get Fee Quote",
+          "Book Your Move",
+          "Get Started"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Geist",
+        "Inter Display"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/marche/captures/framer-movers-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Let’s make your next",
+      "h1Visible": true,
+      "mots": 89,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.91,
+        "selecteur": "img"
+      },
+      "boutonPrincipal": {
+        "texte": "Book Your Move",
+        "x": 21.25,
+        "y": 383,
+        "cx": 0.49997996794871796,
+        "cy": 0.48459715639810425,
+        "fixe": false,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 15109,
+      "bougeSeul": {
+        "n": 3,
+        "exemples": [
+          "div.framer-1v5akkn-container",
+          "span",
+          "a.framer-6jWyo"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.framer-text",
+        "famille": "Geist, \"Geist Placeholder\", sans-serif",
+        "taille": 35,
+        "graisse": "500",
+        "interlignage": 1.12,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.75px"
+      },
+      "h2": {
+        "selecteur": "h2.framer-text",
+        "famille": "Geist, \"Geist Placeholder\", sans-serif",
+        "taille": 28,
+        "graisse": "500",
+        "interlignage": 1.12,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-1.68px"
+      },
+      "p": {
+        "selecteur": "p.framer-text",
+        "famille": "\"Inter Display\", \"Inter Display Placeholder\", sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.14px"
+      },
+      "bouton": {
+        "selecteur": "button.framer-6hxph0",
+        "famille": "sans-serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.framer-1qwkxvk",
+        "famille": "sans-serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Geist",
+          "url": "https://fonts.gstatic.com/s/geist/v5/gyBhhwUxId8gMGYQMKR3pzfaWI_RruM4mJPby1QNtA.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Geist",
+          "url": "https://fonts.gstatic.com/s/geist/v5/gyBhhwUxId8gMGYQMKR3pzfaWI_Re-Q4mJPby1QNtA.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Geist",
+          "url": "https://fonts.gstatic.com/s/geist/v5/gyBjhwUxId8gMEwZAluvzlxA9ojEVKA32Zna6VEdtKCL.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Geist",
+          "url": "https://fonts.gstatic.com/s/geist/v5/gyBjhwUxId8gMEwZAluvzlxA9ojEVKDi3pna6VEdtKCL.woff2",
+          "feuille": "inline",
+          "source": "Google Fonts"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/5vvr9Vy74if2I6bQbJvbw7SY1pQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/EOr0mi4hNtlgWNn9if640EZzXCo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/Y9k9QrlZAqio88Klkmbd8VoMQc.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/OYrD2tBIBPvoJXiIHnLoOXnY9M.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/JeYwfuaPfZHQhEG8U5gtPDZ7WQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/b6Y37FthZeALduNqHicBT6FutY.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/2uIBiALfCHVpWbHqRMZutfT7giU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/Zwfz6xbVe5pmcWRJRgBDHnMkOkI.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/U9LaDDmbRhzX3sB8g8glTy5feTE.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/tVew2LzXJ1t7QfxP1gdTIdj2o0g.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/DF7bjCRmStYPqSb945lAlMfCCVQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/bHYNJqzTyl2lqvmMiRRS6Y16Es.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/vebZUMjGyKkYsfcY73iwWTzLNag.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/DpPBYI0sL4fYLgAkX8KXOPVt7c.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/4RAEQdEOrcnDkhHiiCbJOw92Lk.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/1K3W8DizY3v4emK8Mb08YHxTbs.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/tUSCtfYVM1I1IchuyCwz9gDdQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/VgYFWiwsAC5OYxAycRXXvhze58.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/syRNPWzAMIrcJ3wIlPIP43KjQs.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/GIryZETIX4IFypco5pYZONKhJIo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/I11LrmuBDQZweplJ62KkVsklU5Y.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/UjFZPDy3qGuDktQM4q9CxhKfIa8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/8exwVHJy2DhJ4N5prYlVMrEKmQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/UTeedEK21hO5jDxEUldzdScUqpg.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/Ig8B8nzy11hzIWEIYnkg91sofjo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/qITWJ2WdG0wrgQPDb8lvnYnTXDg.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/qctQFoJqJ9aIbRSIp0AhCQpFxn8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/ePuN3mCjzajIHnyCdvKBFiZkyY0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/V3j1L0o5vPFKe26Sw4HcpXCfHo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/F3kdpd2N0cToWV5huaZjjgM.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/0iDmxkizU9goZoclqIqsV5rvETU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/r0mv3NegmA0akcQsNFotG32Las.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/iwWTDc49ENF2tCHbqlNARXw6Ug.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/Ii21jnSJkulBKsHHXKlapi7fv9w.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/fXvVh2JeZlehNcEhKHpHH0frSl0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/7pScaNeb6M7n2HF2jKemDqzCIr4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/qS4UjQYyATcVV9rODk0Zx9KhkY8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/VfD2n20yM7v0hrUEBHEyafsmMBY.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/4oIO9fB59bn3cKFWz7piCj28z9s.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/MzumQQZJQBC6KM1omtmwOtsogtI.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/F5Lmfd3fCAu7TwiYbI4DLWw4ks.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/THWAFHoAcmqLMy81E8hCSdziVKA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/sQxGYWDlRkDr0eOKqiNRl6g5rs.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/NNTAT1XAm8ZRkr824inYPkjNeL4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/P2qr9PAWBt905929rHfxmneMUG0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/2BmSa4TZZvFKAZg2DydxTbvKlTU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/P0JCAnd2N1Q6qwTQohre3XmQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/KMFW46iYsEZaUBwXbwPc9nQm71o.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/gazZKZuUEtvr9ULhdA4SprP0AZ0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/pe8RoujoPxuTZhqoNzYqHX2MXA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/teGhWnhH3bCqefKGsIsqFy3hK8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/qQHxgTnEk6Czu1yW4xS82HQWFOk.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/MJ3N6lfN4iP5Um8rJGqLYl03tE.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/PfdOpgzFf7N2Uye9JX7xRKYTgSc.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/0SEEmmWc3vovhaai4RlRQSWRrz0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/A5P4nkYCJlLQxGxaS1lzG8PNSc.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/vuPfygr1n1zYxscvWgGI8hRf3LE.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/jplzYzqFHXreyADwk9yrkQlWQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/sSIKP2TfVPvfK7YVENPE5H87A.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/gawbeo7iEJSRZ4kcrh6YRrU8o.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/RkMAGv2iAm3rw7tZzs7FaZf0rM.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter Display",
+          "url": "https://framerusercontent.com/assets/8E92vrr3j1gDqzepmeSbD2u0JxA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/hyOgCu0Xnghbimh0pE8QTvtt2AU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/NeGmSOXrPBfEFIy5YZeHq17LEDA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/oYaAX5himiTPYuN8vLWnqBbfD2s.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/lEJLP4R0yuCaMCjSXYHtJw72M.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/cRJyLNuTJR5jbyKzGi33wU9cqIQ.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/yDtI2UI8XcEg1W2je9XPN3Noo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/A0Wcc7NgXMjUuFdquHDrIZpzZw0.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/H89BbHkbHDzlxZzxi8uPzTsp90.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/u6gJwDuwB143kpNK1T1MDKDWkMc.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/43sJ6MfOPh1LCJt46OvyDuSbA6o.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/wccHG0r4gBDAIRhfHiOlq6oEkqw.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/WZ367JPwf9bRW6LdTHN8rXgSjw.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/ia3uin3hQWqDrVloC1zEtYHWw.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/2A4Xx7CngadFGlVV4xrO06OBHY.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/CfMzU8w2e7tHgF4T4rATMPuWosA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/867QObYax8ANsfX4TGEVU9YiCM.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/Oyn2ZbENFdnW7mt2Lzjk1h9Zb9k.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/cdAe8hgZ1cMyLu9g005pAW3xMo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/DOfvtmE1UplCq161m6Hj8CSQYg.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/pKRFNWFoZl77qYCAIp84lN1h944.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/tKtBcDnBMevsEEJKdNGhhkLzYo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/5A3Ce6C9YYmCjpQx9M4inSaKU.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/Qx95Xyt0Ka3SGhinnbXIGpEIyP4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/6mJuEAguuIuMog10gGvH5d3cl8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/xYYWaj7wCU5zSQH0eXvSaS19wo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/otTaNuNpVK4RbdlT7zDDdKvQBA.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/UjlFhCnUjxhNfep4oYBPqnEssyo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/DolVirEGb34pEXEp8t8FQBSK4.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/khkJkwSL66WFg8SX6Wa726c.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/0E7IMbDzcGABpBwwqNEt60wU0w.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/NTJ0nQgIF0gcDelS14zQ9NR9Q.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/QrcNhgEPfRl0LS8qz5Ln8olanl8.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/JEXmejW8mXOYMtt0hyRg811kHac.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/Bo5CNzBv77CafbxOtKIkpw9egw.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Inter",
+          "url": "https://framerusercontent.com/assets/uy9s0iWuxiNnVt8EpTI3gzohpwo.woff2",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Switzer",
+          "url": "https://framerusercontent.com/third-party-assets/fontshare/wf/OYB4CXKJQXKTNSLJMTDQOIVUL2V5EL7S/WYO2P7DQVV5RNXGMCUO2HL4RJP4VFUAS/6XPIMU23OJVRY676OG5YVJMWEHWICATX",
+          "feuille": "inline",
+          "source": "tiers (framerusercontent.com)"
+        },
+        {
+          "famille": "Geist Placeholder",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Inter Placeholder",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Inter Display Placeholder",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Switzer Placeholder",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "unpkg.com"
+      ],
+      "fichiersPolices": [
+        "https://framerusercontent.com/assets/iwWTDc49ENF2tCHbqlNARXw6Ug.woff2",
+        "https://framerusercontent.com/assets/PfdOpgzFf7N2Uye9JX7xRKYTgSc.woff2",
+        "https://framerusercontent.com/assets/bHYNJqzTyl2lqvmMiRRS6Y16Es.woff2",
+        "https://framerusercontent.com/assets/qITWJ2WdG0wrgQPDb8lvnYnTXDg.woff2",
+        "https://fonts.gstatic.com/s/geist/v5/gyBhhwUxId8gMGYQMKR3pzfaWI_RruM4mJPby1QNtA.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Geist",
+          "n": 375
+        },
+        {
+          "famille": "Inter Display",
+          "n": 182
+        },
+        {
+          "famille": "sans-serif",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 19,
+          "poids": 6122451.652587891
+        },
+        {
+          "hex": "#f9f9f9",
+          "n": 22,
+          "poids": 1761270.8251953125
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 7,
+          "poids": 489958.2822265625
+        },
+        {
+          "hex": "#23132e",
+          "n": 1,
+          "poids": 349469.13818359375
+        },
+        {
+          "hex": "#fafafa",
+          "n": 3,
+          "poids": 322793.859375
+        },
+        {
+          "hex": "#f5f5f5",
+          "n": 30,
+          "poids": 265347.76171875
+        },
+        {
+          "hex": "#ff6019",
+          "n": 53,
+          "poids": 100077.01831054688
+        },
+        {
+          "hex": "#000000",
+          "n": 18,
+          "poids": 40974
+        },
+        {
+          "hex": "#e1e1e1",
+          "n": 2,
+          "poids": 32344
+        },
+        {
+          "hex": "#757575",
+          "n": 7,
+          "poids": 12864
+        },
+        {
+          "hex": "#009e47",
+          "n": 1,
+          "poids": 256
+        },
+        {
+          "hex": "#6f6f6f",
+          "n": 1,
+          "poids": 256
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#757575",
+          "n": 83,
+          "poids": 3070
+        },
+        {
+          "hex": "#000000",
+          "n": 366,
+          "poids": 2111
+        },
+        {
+          "hex": "#ffffff",
+          "n": 65,
+          "poids": 956
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 21,
+          "poids": 180
+        },
+        {
+          "hex": "#979797",
+          "n": 10,
+          "poids": 172
+        },
+        {
+          "hex": "#0000ee",
+          "n": 1,
+          "poids": 97
+        },
+        {
+          "hex": "#6f6f6f",
+          "n": 8,
+          "poids": 87
+        },
+        {
+          "hex": "#6c6c6c",
+          "n": 1,
+          "poids": 17
+        },
+        {
+          "hex": "#373737",
+          "n": 3,
+          "poids": 3
+        }
+      ],
+      "nbImages": 28,
+      "nbVideos": 5,
+      "nbFondsImage": 0,
+      "masques": 87,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 19,
+          "poids": 6122451.652587891,
+          "part": 0.645
+        },
+        {
+          "hex": "#f9f9f9",
+          "n": 22,
+          "poids": 1761270.8251953125,
+          "part": 0.185
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 7,
+          "poids": 489958.2822265625,
+          "part": 0.052
+        },
+        {
+          "hex": "#23132e",
+          "n": 1,
+          "poids": 349469.13818359375,
+          "part": 0.037
+        },
+        {
+          "hex": "#fafafa",
+          "n": 3,
+          "poids": 322793.859375,
+          "part": 0.034
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#757575",
+          "n": 83,
+          "poids": 3070,
+          "part": 0.459
+        },
+        {
+          "hex": "#000000",
+          "n": 366,
+          "poids": 2111,
+          "part": 0.315
+        },
+        {
+          "hex": "#ffffff",
+          "n": 65,
+          "poids": 956,
+          "part": 0.143
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 21,
+          "poids": 180,
+          "part": 0.027
+        },
+        {
+          "hex": "#979797",
+          "n": 10,
+          "poids": 172,
+          "part": 0.026
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Lenis",
+          "preuve": "window.lenis"
+        },
+        {
+          "nom": "Framer Motion",
+          "preuve": "window.__framer_importFromPackage"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "background 0.3s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "box-shadow 0.3s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 5
+        },
+        {
+          "valeur": "opacity 0.25s ease",
+          "n": 1
+        },
+        {
+          "valeur": "height 0.35s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.1s ease",
+          "n": 1
+        },
+        {
+          "valeur": "text-decoration-color 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "text-decoration-thickness 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "text-underline-offset 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.framer-text",
+        "score": 4,
+        "animations": [],
+        "transitions": [
+          "color 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "text-decoration-color 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "text-decoration-thickness 0.4s cubic-bezier(0.44, 0, 0.56, 1)",
+          "text-underline-offset 0.4s cubic-bezier(0.44, 0, 0.56, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.framer-C8XXI",
+      "sections": [],
+      "nav": {
+        "selecteur": "nav.framer-OBKby",
+        "hauteur": 116,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "See our reviews now!",
+            "href": "./#review",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.framer-uf11c",
+        "liens": [
+          {
+            "texte": "Long Distance Movers",
+            "href": "./services/long-distance-movers",
+            "bouton": false
+          },
+          {
+            "texte": "White Glove Movers",
+            "href": "./services/white-glove-movers",
+            "bouton": false
+          },
+          {
+            "texte": "Commercial Movers",
+            "href": "./services/commercial-movers",
+            "bouton": false
+          },
+          {
+            "texte": "Storage Services",
+            "href": "./services/storage-services",
+            "bouton": false
+          },
+          {
+            "texte": "Packing Services",
+            "href": "./services/packing-services",
+            "bouton": false
+          },
+          {
+            "texte": "Manitoba",
+            "href": "./services/manitoba",
+            "bouton": false
+          },
+          {
+            "texte": "Alberta",
+            "href": "./services/alberta",
+            "bouton": false
+          },
+          {
+            "texte": "British Columbia",
+            "href": "./services/british-columbia",
+            "bouton": false
+          },
+          {
+            "texte": "Quebec",
+            "href": "./services/quebec",
+            "bouton": false
+          },
+          {
+            "texte": "Ontario",
+            "href": "./services/ontario",
+            "bouton": false
+          },
+          {
+            "texte": "About Us",
+            "href": "./about-us",
+            "bouton": false
+          },
+          {
+            "texte": "Contact Us",
+            "href": "./contact",
+            "bouton": false
+          },
+          {
+            "texte": "(403) 555-3425",
+            "href": "tel:(403) 555-3425",
+            "bouton": false
+          },
+          {
+            "texte": "Info@movers.com",
+            "href": "mailto:Info@movers.com",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "./legals/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Terms of Service",
+            "href": "./legals/terms-of-service",
+            "bouton": false
+          },
+          {
+            "texte": "Built in Framer",
+            "href": "https://framer.link/aureusdesign",
+            "bouton": false
+          },
+          {
+            "texte": "Created by Aures.Design",
+            "href": "https://aureus.design",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:(403) 555-3425"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 23
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Book Your Move",
+          "href": "./contact"
+        },
+        {
+          "texte": "Get My Free Quote",
+          "href": ""
+        },
+        {
+          "texte": "Request A Quote",
+          "href": "./get-quote"
+        },
+        {
+          "texte": "Get Free Quote in 30s Tell us about your",
+          "href": "./get-quote"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#__framer-badge-container",
+          "position": "fixed",
+          "hauteur": 78,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 15
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 21,
+        "pilules": 6,
+        "exemples": [
+          "Book Your Move",
+          "Get Started",
+          "Get Started"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Geist",
+        "Inter Display"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "Movers",
+  "dureeS": 24.2
+}

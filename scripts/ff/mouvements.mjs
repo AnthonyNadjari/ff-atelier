@@ -220,6 +220,34 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['carte produit ou service à deux photos superposées du même objet : au survol ou au focus (:hover dans @media (hover: hover) and (pointer: fine), :focus-visible), la première passe de opacity 1 à 0 et la seconde de 0 à 1 en fondu enchaîné de 0,5 s ease-in-out ; retour identique à la sortie ; au toucher la première vue reste'],
     manque: 'la variante de carte à deux photos (un champ « seconde photo » par service ou produit) ; aucune information ne dépend de la seconde vue', exige: {},
   },
+  'legende-fixe-qui-change': {
+    nom: 'Légende fixe qui change', sources: ['studiomondine'],
+    entree: 'aucune', apparition: 'legende-fixe', survol: 'souligne', fond: 'aucun',
+    regime: 'calme', defilement: 'apparitions', calme: true, poids: 'leger', motion: 'subtle',
+    attributs: ['photos bord à bord rangées par projet (diptyques ou une photo par écran) ; le nom du projet en cours est posé au centre de l\'écran en position fixe, en blanc sur les photos, et change d\'un coup quand le projet suivant passe le milieu de l\'écran (IntersectionObserver, une seule légende visible à la fois, opacité seule, rien ne glisse : tient sur iPhone) ; aucune légende sur le premier écran ni sur le pied ; en mouvement réduit, même chose (aucun mouvement)'],
+    manque: 'le déclencheur (une légende par groupe de photos, data-legende sur le groupe, petit script de bloc) et la garde de lisibilité : la légende est blanche sur photo, seulement sur des photos assez sombres au centre (contraste mesuré), sinon un voile sous la légende', exige: {},
+  },
+  'photo-qui-s-approche': {
+    nom: 'Photo qui s\'approche', sources: ['mariongraux'],
+    entree: 'aucune', apparition: 'aucune', survol: 'approche', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['photos carrées dans un cadre à overflow: hidden ; au survol de la carte, la photo grandit de 1 à 1,03 en 0,3 s ease (transform seul), retour identique à la sortie ; seulement sous @media (any-pointer: fine) and (prefers-reduced-motion: no-preference) : au toucher et en mouvement réduit, rien ne bouge'],
+    manque: 'la règle de survol des cartes dans la direction (jamais plus de 1,05 : au-delà la pièce est rognée ; le cadre garde ses angles et sa taille)', exige: {},
+  },
+  'legende-qui-se-leve': {
+    nom: 'Légende qui se lève', sources: ['couteauxdeva'],
+    entree: 'aucune', apparition: 'aucune', survol: 'legende', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['tuiles photo bord à bord, le nom de la pièce posé sur la photo ; au survol (:hover dans @media (hover: hover) and (pointer: fine), et :focus-visible), la photo perd son contraste renforcé (filter: contrast(1.15) vers 1) pendant que le nom passe de 70 % à 100 % d\'opacité et monte de 7 px, 0,3 s ease, retour identique ; au toucher et en mouvement réduit, le nom est déjà à 100 % et rien ne bouge'],
+    manque: 'la règle de survol des tuiles dans la direction ou le bloc ; le nom reste lisible sans survol (contraste mesuré à 70 % compris, sinon il part de 100 %)', exige: {},
+  },
+  'volet-a-l-entree': {
+    nom: 'Volet à l\'entrée', sources: ['bourkestreet'],
+    entree: 'aucune', apparition: 'volet', survol: 'couleur', fond: 'aucun',
+    regime: 'calme', defilement: 'apparitions', calme: true, poids: 'leger', motion: 'subtle',
+    attributs: ['une ou deux photos de la page (jamais toutes) se dévoilent une seule fois par un volet clip-path de 1 s, cubic-bezier(0.57, 0.18, 0, 0.92), à leur entrée à l\'écran : data-reveal="clip" ou "wipe" du moteur ; aucun zoom ensuite ; visibles d\'emblée en mouvement réduit'],
+    manque: 'rien dans le moteur ; la garde : deux photos au plus par page, jamais sur un titre, jamais suivi d\'un zoom (GOUT § 2 refuse « volet puis zoom à chaque section »)', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

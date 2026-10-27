@@ -10,7 +10,7 @@
  * d'alerte — on n'a rien fait de mal, on s'est juste trompé d'adresse.
  */
 import Base from '@/layouts/Base.astro';
-import { site, tel, mailto } from '@/lib/site';
+import { site, tel, mailto, hasContactDoor } from '@/lib/site';
 import { resolveSection } from '@/lib/sections';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
@@ -72,7 +72,7 @@ const telTest = /^(\+33|0)6(0{8})$/.test(site.contact.phone.replace(/\s/g, ''));
               </li>
             ))}
           </ul>
-          <p class="mt-6"><a href="/#contact" class="underline hover:text-accent">Demander un devis</a></p>
+          {hasContactDoor(site) && <p class="mt-6"><a href="/#contact" class="underline hover:text-accent">Demander un devis</a></p>}
         </div>
       )}
     </div>

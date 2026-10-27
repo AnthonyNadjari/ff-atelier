@@ -1,0 +1,41 @@
+# Sydney's OG Bakery — https://bourkestreetbakery.com.au/
+Titre « Bourke Street Bakery – Sydney's OG Bakery », `lang="en-US"`, technologie lue : generator « WordPress 7.1.3 », WordPress, jQuery. Démontage automatique du 2026-10-27 (`ff demonter`, mesures brutes dans `bourkestreet.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « 22 YEARS OF PERFECTION » ; fond en image plein écran (66 % de l'écran) ; bouton principal « LOCATIONS » en haut à droite (1076, 32 px, dans la nav) ; 67 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « 22 YEARS OF PERFECTION » ; pas de média plein écran (4 image(s) dans l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 27 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 6 lien(s) — .st0{fill:#5B4226;}, BAKERIES, CATERING, JOURNAL, [LOCATIONS], [ORDER ONLINE] ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `header#qodef-page-header` (0,1 écran, 8 mots, 0 img) → `section.elementor-element-8cba998` « 22 YEARS OF PERFECTION » (0,7 écran, 27 mots, 0 img) → `section.elementor-element-17886ba` « BAKED DAILY, SERVED FRESH » (0,9 écran, 42 mots, 0 img) → `section.elementor-element-a3d1e91` « BOURKE ST. CATERING » (1,6 écran, 118 mots, 5 img) → `section.elementor-element-502eea4` « RECIPES » (0,7 écran, 111 mots, 16 img) → `section.elementor-element-27088fc` « BOURKE ST. AT HOME » (0,6 écran, 145 mots, 17 img) → `section.elementor-element-3962f2f` « SUPPLIERS » (1,6 écran, 98 mots, 1 img) → `section.elementor-element-262799a` « JOURNAL » (0,7 écran, 134 mots, 15 img) → `section.elementor-element-9a558c2` « BAKING CLASSES » (0,7 écran, 41 mots, 2 img) → `section.elementor-element-3125f7d` « SYDNEY’S O.G BAKERY » (0,8 écran, 37 mots, 1 img) → `section.elementor-element-05204c3` « CHARITY AND PARTNERS » (0,5 écran, 83 mots, 16 img) → `section.elementor-element-f0750c0` « LOCATIONS » (1,7 écran, 192 mots, 0 img) → `footer#qodef-page-footer` (0,5 écran, 95 mots, 1 img). Calques hors flux (fixes/absolus) : `a.skip-link` (absolute, 1 px, 4 mots), `span#elementor-device-mode` (absolute, 1 px).
+Pied de page : 22 lien(s) — IN-STORE MENU, COFFEE, LOCATIONS, BAKING CLASSES, SAVOURY, SWEET, SLIDERS & TOASTIES, CAKES, FROZEN MEALS, SAUCES & CONDIMENTS (+12). Téléphone cliquable : non. Formulaire : aucun. Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « ORDER ONLINE » (https://bourkestreetbakery.flexcateringhq.com/), « BOOK A CLASS » (/cooking-classes), « IN-STORE MENU » (https://www.bourkestreetbakery.com.au/menu/).
+En 3 secondes : à juger sur `captures/bourkestreet-d.webp` (mesuré : fond du premier écran #faf4e6, 4 image(s) et 67 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **apotek-comp**, 53 px / 50 px téléphone, graisse 600, interlignage 1,13, capitales ; h2 **apotek-comp**, 38 px / 38 px téléphone, graisse 600, interlignage 0,90, capitales ; corps **neue-haas-grotesk-display**, 16 px / 16 px téléphone, graisse 600, interlignage 1,69 ; boutons **Nunito Sans**, 16 px / 16 px téléphone, graisse 600, interlignage 1,69, lowercase ; nav **Nunito Sans**, 16 px / 16 px téléphone, graisse 600, interlignage 1,28, lowercase.
+Sources `@font-face` : auto-hébergée (ElegantIcons, Font Awesome 6 Brands, Font Awesome 6 Free, Font Awesome 5 Brands, Font Awesome 5 Free, FontAwesome, simple-line-icons) ; inline (data:) (swiper-icons) ; fichiers chargés : https://use.typekit.net/zjx4bog.css, https://www.bourkestreetbakery.com.au/wp-content/plugins/hiroshi-core/inc/icons/font-awesome/assets/webfonts/fa-brands-400.woff2, https://fonts.googleapis.com/, https://fonts.googleapis.com/css?family=Nunito+Sans%3A300%2C400%2C500%2C600%2C700%7CDM+Sans%3A300%2C400%2C500%2C600%2C700&subset=latin-ext&display=swap&ver=1.0.0. Familles en usage sur le texte visible : neue-haas-grotesk-display ×162, DM Sans ×129, apotek-comp ×11. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #faf4e6, texte #5b4126 (contraste 8,59:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #faf4e6 (89 %), #ffffff (6 %), #000000 (5 %) ; textes par nombre de caractères : #5b4126 (97 %), #ffffff (3 %). Images : 74 `<img>` visibles, 4 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 6 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : GSAP (window.gsap), Swiper (window.Swiper), jQuery (window.jQuery). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.2s ease-out` ×246, `background 0.3s ease` ×225, `border-radius 0.3s ease` ×225, `border 0.3s ease` ×224, `box-shadow 0.3s ease` ×224, `transform 0.4s ease` ×221, `background-color 0.2s ease-out` ×129, `border-color 0.2s ease-out` ×33, `background-size 0.5s cubic-bezier(0.25, 0.46, 0.35, 0.94)` ×22, `all 0.3s ease` ×17. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/bourkestreet-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `section.elementor-element-f0750c0` « LOCATIONS » (1,7 écran, 192 mots, 0 image(s)).
+2. L'élément le plus animé : `div.elementor-column` (5 transition(s) : background 0.3s ease ; border 0.3s ease).
+3. Le bloc le plus singulier par sa structure : `header#qodef-page-header` (contient <svg>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« ORDER ONLINE », « BOOK A CLASS », « IN-STORE MENU »).
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : DM Sans ; boutons pilule : 0/50 ordinateur, 0/42 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : « 22 YEARS OF PERFECTION » à 53 px. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Style retenu (jugé sur les captures, veille du 27 oct 2026, tour 11)
+
+- **Polices** : Apotek Compressed 600 en capitales, brun, pour le h1 posé sur la photo (53 px à l'ordinateur, 50 px au téléphone) et les titres de chapitre (38 px) ; Neue Haas Grotesk Display 600 pour le texte (16 px, interlignage 1,69), la nav et les boutons en capitales. Noms de produits en DM Sans : non repris (police IA, GOUT § 2). Libres : Oswald 600 et Schibsted Grotesk 600.
+- **Couleurs** : crème #faf4e6 (fond de toute la page, pied compris ; chroma 0,020) ; une seule encre brun pain grillé #5b4126 (titres, texte, filets, boutons à contour). Régime : clair teinté doux.
+- **Espacements** : sections de 151 px (téléphone) à 333 px (ordinateur), page presque bord à bord (marges de 40 à 50 px) ; conteneur laissé à juger (relevé sur une piste de carrousel).
+- **Formes** : boutons à contour 1 px, angles droits, capitales ; liens soulignés ; produits rangés entre filets bruns (nom, prix, lien à droite) ; aucune ombre.
+- **Photos** : la boutique de la rue (fresque, terrasse) en premier écran, titre posé dessus sans voile ; vignettes nettes en lumière chaude (tartes, boîtes de feuilletés, mains dans la pâte, logo en ombre sur un mur au soleil) ; carrousels de vignettes 2:3.
+- **Mouvement** : quelques photos se dévoilent une fois par un volet (clip-path 1 s, cubic-bezier(0.57, 0.18, 0, 0.92)) ; titres de produits qui glissent au survol (0,5 s) ; soulignements tracés. Profil nouveau proposé, atome « à juger ».
+- **Architecture** : boulangerie à plusieurs boutiques : boutique en premier écran, les trois activités (boulangerie, traiteur, à la maison), « Baked daily », traiteur et commande, produits en filets, recettes, produits d'épicerie, fournisseurs en liste (nom, rôle, produit), journal, cours, histoire.
+- **Geste signature** : la liste des fournisseurs rangée comme un registre (nom à gauche, « supplier » au milieu, ce qu'il fournit à droite, entre filets).

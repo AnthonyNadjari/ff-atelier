@@ -1,0 +1,122 @@
+{
+  "id": "saipua",
+  "version": 1,
+  "source": {
+    "url": "https://saipua.com/",
+    "nom": "Saipua",
+    "metier": "fleuriste, savonnerie et ferme (Worlds End Farm, État de New York)",
+    "fiche": "docs/veille/styles/saipua.md",
+    "mesures": "docs/veille/styles/atomes/mesures/saipua.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "EB Garamond",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.2,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "EB Garamond",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.4
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 32,
+        "ordinateur": 32
+      },
+      "h2": {
+        "telephone": 32,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Une seule famille, EB Garamond 400 en casse normale, pour tout ce qui se lit : la phrase d accueil (« Nestled on a working farm… », 32 px, centrée, le plus gros texte de la page : le nom du premier écran est un logo dessiné), les titres de section (32 px) et le texte (16 px, interlignage 1,4) ; Jost en petites capitales espacées pour la nav et les liens-boutons (12 à 16 px), relevé, non repris (capitales espacées : GOUT § 2). Le relevé automatique avait pris le lien d évitement « Skip to content » pour le h1 : corrigé. EB Garamond est au registre (ebGaramond)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#eedcc4",
+      "surface": null,
+      "texte": "#000000",
+      "texte2": "#000000",
+      "accent": "#826717",
+      "accent2": "#a77148",
+      "bordure": "#000000",
+      "encre": "#826717"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #826717 (7 %), #b3d5bf (2 %), #ffffff (1 %), #a77148 (0 %)",
+    "remarque": "Sable #eedcc4 sous toute la page (L 0,90, chroma 0,038 : teinté, sous B1) ; texte noir #000000 ; bloc d histoire en ocre olive #826717 (texte blanc, moitié de l écran à côté d une photo), qui sert aussi d accent ; frise grecque terre cuite #a77148 entre le bloc ocre et le pied ; pied vert d eau #b3d5bf (relevé, non repris : une troisième teinte ferait trop). Le bloc ocre (chroma 0,099) classe la palette en coloré doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 70,
+      "ordinateur": 100
+    },
+    "gouttiere": {
+      "telephone": 28,
+      "ordinateur": 20
+    },
+    "conteneur": "à juger",
+    "mesure": 84,
+    "rythme": "uni",
+    "remarque": "Marges de section relevées 70 px (téléphone) et 100 px (ordinateur) ; conteneur relevé à 1 719 px : c est la piste du carrousel de collections (« à juger ») ; le contenu va de bord à bord avec 40 px de marge à l ordinateur ; mesure de 84 caractères relevée sur la phrase d accueil en 32 px."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Aucun bouton plein ni à contour : des liens soulignés, en EB Garamond (« Soaps », « Contact ») ou en capitales Jost (« THE SAIPUA HISTORIES ») ; angles droits partout, aucune ombre, aucune carte."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "16:9+",
+      "3:2"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : une photo plein cadre (évier de ferme, savons, iris), le logo blanc posé en haut au centre, sans autre texte ; puis deux photos 4:5 côte à côte avec légende en italique dessous, une rangée de collections en vignettes 3:4 (savon, huiles, céramique, linge photographiés à plat sur fond de plâtre rose ou de carreaux verts), et un diptyque bloc ocre de texte / photo de la ferme bord à bord."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.125,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.3,
+      "courbe": "cubic-bezier(0.33, 1, 0.68, 1)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "soulignement-qui-se-dessine",
+    "remarque": "Relevé au pointeur et à la molette (la page défile dans un conteneur interne, .page-wrapper) : rien n apparaît au défilement, rien ne part seul ; les liens sont soulignés et changent de couleur de soulignement en 0,125 s ease-in-out, ceux de la nav en 0,3 s cubic-bezier(.33,1,.68,1) avec 0,06 s de retard. Profil le plus proche : soulignement-qui-se-dessine (page posée, la vie dans le lien souligné)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

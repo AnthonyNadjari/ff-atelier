@@ -115,7 +115,7 @@ function checkNoEmptyAnchor(files, distDir, checks) {
   checkOffenders(files, distDir, /<a\b[^>]*\bhref=(["'])#\1[^>]*>/i, '<a href="#"> vide', checks);
 }
 
-/** Honeypot : un <form> present doit contenir un champ piege a bots (input cache, tabindex="-1"). */
+/** Honeypot : un <form> present doit contenir un champ piege a bots (input cache, tabindex="-1") ; sauf role="search". */
 function checkHoneypot(files, distDir, checks) {
   const offenders = [];
   const formRe = /<form\b[^>]*>[\s\S]*?<\/form>/gi;
@@ -124,6 +124,9 @@ function checkHoneypot(files, distDir, checks) {
     const html = fs.readFileSync(file, 'utf8');
     const forms = html.match(formRe) || [];
     for (const form of forms) {
+      // Un formulaire de recherche (role="search", « Chercher un outil » de la coquille location) n'envoie rien à
+      // personne : pas de piège à bots à poser.
+      if (/^<form\b[^>]*\brole=["']search["']/i.test(form)) continue;
       if (!honeypotRe.test(form)) {
         offenders.push(path.relative(distDir, file));
         break;

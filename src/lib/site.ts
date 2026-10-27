@@ -34,6 +34,10 @@ export { etapesCompletes as etapesDEnvoi, pisteDEnvoi, adresseDEnvoi, lienEnvoi 
 import { lienEnvoi } from './colis';
 export { minutesDeDuree, soinsDates, tranches as tranchesDeSoins } from './soins';
 export { piecesAvantApres, paireDe, typesDePieces, groupesDePieces } from './avantapres';
+export { JOURS_PLANNING, coursValides, joursDuPlanning, disciplines as disciplinesDuPlanning, cleDiscipline, dureeDuCours, heureLisible, coursDuService, indexDuJour, lienPlanning } from './planning';
+import { lienPlanning } from './planning';
+export { materielsComplets, categoriesDe as categoriesDeMateriel, prixDuMateriel, aPrixPro, premierPrix, lienMateriel, SANS_CATEGORIE } from './location';
+import { lienMateriel } from './location';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -191,7 +195,9 @@ export const navLinks = (s: Site = site) => {
   }
   // Gabarit de page « porte » (architecture accueil-portes) : chaque activité est une page, la nav les nomme une à une
   // (les rubriques de Maisons de Bricourt) au lieu de l'ancre #services.
-  if (s.layout.servicePage === 'porte' && s.servicePages) {
+  // Coquille `planning` (architecture planning-semaine) : les disciplines se trouvent par le planning (son filtre, ses
+  // cours, le bloc « Venir au cours ») ; la nav garde « Le planning » seul, comme la barre de la source garde « Cours ».
+  if (s.layout.servicePage === 'porte' && s.servicePages && s.layout.shell !== 'planning') {
     const i = links.findIndex((l) => l.href === '/#services');
     const pages = s.services.map((x) => ({ href: `/services/${x.slug}`, label: x.title }));
     if (i === -1) links.unshift(...pages); else links.splice(i, 1, ...pages);
@@ -273,6 +279,14 @@ export const navLinks = (s: Site = site) => {
   // tête de la nav (« Faire réparer ma montre » d'AGH, bouton à part de sa barre).
   const envoi = lienEnvoi(s.envoi, s.wording.envoi);
   if (envoi) links.unshift(envoi);
+  // Planning de la semaine (src/lib/planning.ts, architecture planning-semaine) : « Planning » de la barre de Germain
+  // Blanchet, en tête de la nav, vers la semaine entière (/planning).
+  const planning = lienPlanning(s.planning, s.wording.planning);
+  if (planning) links.unshift(planning);
+  // Catalogue de location (src/lib/location.ts, architecture catalogue-location) : « Nos outils » de Location Service, en
+  // tête de la nav, vers le parc entier (/materiel).
+  const materiel = lienMateriel(s.location, s.wording.materiel);
+  if (materiel) links.unshift(materiel);
   // Professionnels (site.pros, architecture pages-adresses) : un lien discret, en dernier.
   const pros = lienPros(s.pros, s.wording.pros);
   if (pros) links.push(pros);

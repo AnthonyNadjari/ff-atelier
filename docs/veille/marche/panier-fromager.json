@@ -1,0 +1,947 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://lepanierfromager.fr/",
+  "nom": "panier-fromager",
+  "date": "2026-10-27",
+  "identite": {
+    "title": "Le Panier Fromager | Fromagerie & Épicerie Fine à Compreignac",
+    "siteName": "",
+    "lang": "fr",
+    "description": "Découvrez notre sélection de fromages artisanaux, produits fermiers et spécialités locales à Compreignac (87140).",
+    "technologies": [
+      "generator « Astro v5.16.4 »",
+      "Astro",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fffaf7",
+      "h1": "Fromagerie, crèmerie, épicerie au cœur de Compreignac",
+      "h1Visible": true,
+      "mots": 25,
+      "images": 2,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Aller au contenu principal",
+        "x": -9999,
+        "y": 96,
+        "cx": -6.862711588541667,
+        "cy": 0.13866319444444444,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6119,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.font-abhaya",
+        "famille": "\"Abhaya Libre\", serif",
+        "taille": 54,
+        "graisse": "800",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.heading-2",
+        "famille": "\"Noto Serif\", serif",
+        "taille": 45.008,
+        "graisse": "700",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.font-medium",
+        "famille": "Manrope, system-ui, -apple-system, sans-serif",
+        "taille": 16,
+        "graisse": "500",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#hero-cta",
+        "famille": "Manrope, sans-serif",
+        "taille": 16,
+        "graisse": "600",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.text-[#376397]",
+        "famille": "Manrope, system-ui, -apple-system, sans-serif",
+        "taille": 14,
+        "graisse": "700",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com"
+      ],
+      "fichiersPolices": [
+        "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Noto+Serif:wght@700&family=Abhaya+Libre:wght@800&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Manrope",
+          "n": 61
+        },
+        {
+          "famille": "Abhaya Libre",
+          "n": 5
+        },
+        {
+          "famille": "Noto Serif",
+          "n": 4
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#1e1e1e",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 9003552
+        },
+        {
+          "hex": "#376397",
+          "n": 6,
+          "poids": 4232844.341308594
+        },
+        {
+          "hex": "#fffaf7",
+          "n": 2,
+          "poids": 2558362.5
+        },
+        {
+          "hex": "#ebf5ff",
+          "n": 1,
+          "poids": 126600.71044921875
+        },
+        {
+          "hex": "#3d7ba8",
+          "n": 5,
+          "poids": 46080
+        },
+        {
+          "hex": "#5ba0d1",
+          "n": 2,
+          "poids": 20923.0625
+        },
+        {
+          "hex": "#ffc107",
+          "n": 1,
+          "poids": 6243.1875
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 33,
+          "poids": 807
+        },
+        {
+          "hex": "#376397",
+          "n": 21,
+          "poids": 468
+        },
+        {
+          "hex": "#1e1e1e",
+          "n": 6,
+          "poids": 331
+        },
+        {
+          "hex": "#5ba0d1",
+          "n": 7,
+          "poids": 41
+        }
+      ],
+      "nbImages": 20,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 9003552,
+          "part": 0.563
+        },
+        {
+          "hex": "#376397",
+          "n": 6,
+          "poids": 4232844.341308594,
+          "part": 0.265
+        },
+        {
+          "hex": "#fffaf7",
+          "n": 2,
+          "poids": 2558362.5,
+          "part": 0.16
+        },
+        {
+          "hex": "#ebf5ff",
+          "n": 1,
+          "poids": 126600.71044921875,
+          "part": 0.008
+        },
+        {
+          "hex": "#3d7ba8",
+          "n": 5,
+          "poids": 46080,
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 33,
+          "poids": 807,
+          "part": 0.49
+        },
+        {
+          "hex": "#376397",
+          "n": 21,
+          "poids": 468,
+          "part": 0.284
+        },
+        {
+          "hex": "#1e1e1e",
+          "n": 6,
+          "poids": 331,
+          "part": 0.201
+        },
+        {
+          "hex": "#5ba0d1",
+          "n": 7,
+          "poids": 41,
+          "part": 0.025
+        }
+      ],
+      "contraste": 16.67
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 4
+        },
+        {
+          "valeur": "border-color 0.2s ease",
+          "n": 4
+        },
+        {
+          "valeur": "box-shadow 0.2s ease",
+          "n": 4
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "input#lastName",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "border-color 0.2s ease",
+          "box-shadow 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#main-content",
+      "sections": [
+        {
+          "selecteur": "section#hero",
+          "titre": "Fromagerie, crèmerie, épicerie au cœur de Compreignac",
+          "top": 96,
+          "hauteur": 885,
+          "ecrans": 1,
+          "mots": 10,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#magasin",
+          "titre": "Le magasin",
+          "top": 981,
+          "hauteur": 826,
+          "ecrans": 0.9,
+          "mots": 38,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#produits",
+          "titre": "Les produits",
+          "top": 1807,
+          "hauteur": 1318,
+          "ecrans": 1.5,
+          "mots": 58,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#restauration",
+          "titre": "Restauration & Traiteur",
+          "top": 3125,
+          "hauteur": 892,
+          "ecrans": 1,
+          "mots": 70,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#infos",
+          "titre": "Infos pratiques",
+          "top": 4016,
+          "hauteur": 817,
+          "ecrans": 0.9,
+          "mots": 35,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "address"
+          ]
+        },
+        {
+          "selecteur": "footer.text-white",
+          "titre": "Retrouvez-nous",
+          "top": 5676,
+          "hauteur": 443,
+          "ecrans": 0.5,
+          "mots": 30,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.fixed",
+        "hauteur": 96,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Le Panier Fromager - Retour à l'accueil",
+            "href": "#hero",
+            "bouton": false
+          },
+          {
+            "texte": "Accueil",
+            "href": "#hero",
+            "bouton": false
+          },
+          {
+            "texte": "Le magasin",
+            "href": "#magasin",
+            "bouton": false
+          },
+          {
+            "texte": "Les produits",
+            "href": "#produits",
+            "bouton": false
+          },
+          {
+            "texte": "Restauration",
+            "href": "#restauration",
+            "bouton": false
+          },
+          {
+            "texte": "Infos pratiques",
+            "href": "#infos",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "#contact",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.bg-[#376397]",
+        "liens": [
+          {
+            "texte": "Visitez notre page Facebook",
+            "href": "https://facebook.com/lepanierfromager",
+            "bouton": false
+          },
+          {
+            "texte": "Visitez notre page Instagram",
+            "href": "https://www.instagram.com/lepanierfromager/",
+            "bouton": false
+          },
+          {
+            "texte": "Trouvez-nous sur Google Maps",
+            "href": "https://google.com/maps/place/le-panier-fromager",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions Légales",
+            "href": "/mentions-legales",
+            "bouton": false
+          },
+          {
+            "texte": "Développé par Loup Aubour",
+            "href": "https://loupaubour.fr",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+33555505112"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 3,
+        "heures": 6,
+        "extrait": "Mardi au Vendredi de 9h à 13h30 et 16h à 19h et le Samedi de "
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-main",
+          "position": "absolute",
+          "hauteur": 58,
+          "largeur": 233,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "button#back-to-top",
+          "position": "fixed",
+          "hauteur": 60,
+          "largeur": 60,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Manrope"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/marche/captures/panier-fromager-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fffaf7",
+      "h1": "Fromagerie, crèmerie, épicerie au cœur de Compreignac",
+      "h1Visible": true,
+      "mots": 54,
+      "images": 3,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Aller au contenu principal",
+        "x": -9999,
+        "y": 72,
+        "cx": -25.33924278846154,
+        "cy": 0.11942757701421801,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 7458,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.font-abhaya",
+        "famille": "\"Abhaya Libre\", serif",
+        "taille": 30,
+        "graisse": "800",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.heading-2",
+        "famille": "\"Noto Serif\", serif",
+        "taille": 28,
+        "graisse": "700",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.font-medium",
+        "famille": "Manrope, system-ui, -apple-system, sans-serif",
+        "taille": 16,
+        "graisse": "500",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.xl:hidden",
+        "famille": "Manrope, system-ui, -apple-system, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.shrink-0",
+        "famille": "Manrope, system-ui, -apple-system, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com"
+      ],
+      "fichiersPolices": [
+        "https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2",
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Noto+Serif:wght@700&family=Abhaya+Libre:wght@800&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Manrope",
+          "n": 48
+        },
+        {
+          "famille": "Abhaya Libre",
+          "n": 5
+        },
+        {
+          "famille": "Noto Serif",
+          "n": 4
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#1e1e1e",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 3026268
+        },
+        {
+          "hex": "#376397",
+          "n": 6,
+          "poids": 1272470.1225585938
+        },
+        {
+          "hex": "#fffaf7",
+          "n": 2,
+          "poids": 700756.875
+        },
+        {
+          "hex": "#ebf5ff",
+          "n": 1,
+          "poids": 99864
+        },
+        {
+          "hex": "#3d7ba8",
+          "n": 5,
+          "poids": 46080
+        },
+        {
+          "hex": "#5ba0d1",
+          "n": 2,
+          "poids": 32832
+        },
+        {
+          "hex": "#ffc107",
+          "n": 1,
+          "poids": 6243.1875
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 33,
+          "poids": 807
+        },
+        {
+          "hex": "#376397",
+          "n": 15,
+          "poids": 405
+        },
+        {
+          "hex": "#5ba0d1",
+          "n": 7,
+          "poids": 41
+        },
+        {
+          "hex": "#1e1e1e",
+          "n": 1,
+          "poids": 18
+        }
+      ],
+      "nbImages": 20,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 3026268,
+          "part": 0.584
+        },
+        {
+          "hex": "#376397",
+          "n": 6,
+          "poids": 1272470.1225585938,
+          "part": 0.245
+        },
+        {
+          "hex": "#fffaf7",
+          "n": 2,
+          "poids": 700756.875,
+          "part": 0.135
+        },
+        {
+          "hex": "#ebf5ff",
+          "n": 1,
+          "poids": 99864,
+          "part": 0.019
+        },
+        {
+          "hex": "#3d7ba8",
+          "n": 5,
+          "poids": 46080,
+          "part": 0.009
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 33,
+          "poids": 807,
+          "part": 0.635
+        },
+        {
+          "hex": "#376397",
+          "n": 15,
+          "poids": 405,
+          "part": 0.319
+        },
+        {
+          "hex": "#5ba0d1",
+          "n": 7,
+          "poids": 41,
+          "part": 0.032
+        },
+        {
+          "hex": "#1e1e1e",
+          "n": 1,
+          "poids": 18,
+          "part": 0.014
+        }
+      ],
+      "contraste": 16.67
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 4
+        },
+        {
+          "valeur": "border-color 0.2s ease",
+          "n": 4
+        },
+        {
+          "valeur": "box-shadow 0.2s ease",
+          "n": 4
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "input#lastName",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "border-color 0.2s ease",
+          "box-shadow 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#main-content",
+      "sections": [
+        {
+          "selecteur": "section#hero",
+          "titre": "Fromagerie, crèmerie, épicerie au cœur de Compreignac",
+          "top": 72,
+          "hauteur": 498,
+          "ecrans": 0.6,
+          "mots": 10,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#magasin",
+          "titre": "Le magasin",
+          "top": 570,
+          "hauteur": 794,
+          "ecrans": 0.9,
+          "mots": 38,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#produits",
+          "titre": "Les produits",
+          "top": 1364,
+          "hauteur": 2370,
+          "ecrans": 2.8,
+          "mots": 8,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#restauration",
+          "titre": "Restauration & Traiteur",
+          "top": 3735,
+          "hauteur": 1299,
+          "ecrans": 1.5,
+          "mots": 70,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#infos",
+          "titre": "Infos pratiques",
+          "top": 5033,
+          "hauteur": 956,
+          "ecrans": 1.1,
+          "mots": 35,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "address"
+          ]
+        },
+        {
+          "selecteur": "footer.text-white",
+          "titre": "Retrouvez-nous",
+          "top": 6874,
+          "hauteur": 584,
+          "ecrans": 0.7,
+          "mots": 28,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.fixed",
+        "hauteur": 72,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Le Panier Fromager - Retour à l'accueil",
+            "href": "#hero",
+            "bouton": false
+          },
+          {
+            "texte": "Ouvrir le menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.bg-[#376397]",
+        "liens": [
+          {
+            "texte": "Visitez notre page Facebook",
+            "href": "https://facebook.com/lepanierfromager",
+            "bouton": false
+          },
+          {
+            "texte": "Visitez notre page Instagram",
+            "href": "https://www.instagram.com/lepanierfromager/",
+            "bouton": false
+          },
+          {
+            "texte": "Trouvez-nous sur Google Maps",
+            "href": "https://google.com/maps/place/le-panier-fromager",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions Légales",
+            "href": "/mentions-legales",
+            "bouton": false
+          },
+          {
+            "texte": "Développé par Loup Aubour",
+            "href": "https://loupaubour.fr",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+33555505112"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 3,
+        "heures": 6,
+        "extrait": "Mardi au Vendredi de 9h à 13h30 et 16h à 19h et le Samedi de "
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-main",
+          "position": "absolute",
+          "hauteur": 58,
+          "largeur": 233,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "button#back-to-top",
+          "position": "fixed",
+          "hauteur": 60,
+          "largeur": 60,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 7,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Manrope"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "Le Panier Fromager",
+  "dureeS": 35.5
+}

@@ -1,4 +1,4 @@
-# Profils de mouvement : dix-sept façons de faire bouger une page, relevées sur de vrais sites
+# Profils de mouvement : trente-deux façons de faire bouger une page, relevées sur de vrais sites
 
 Le fondateur, 18 oct 2026, sur L'Épi d'Or b, c, d : « beaucoup plus de pluralité : animations, même des vidéos en
 fond ». L'atome `mouvement` (ATOMES.md) ne portait que des durées et une courbe : trois mélanges différents bougeaient
@@ -327,6 +327,64 @@ puis l'objet sous un autre angle, sans clic ni carrousel.
 - Quand : un artisan à catalogue qui a deux bonnes photos par pièce (potier, céramiste, ébéniste, sellier) ; compatible avec
   un client « calme » (rien ne bouge sans geste). Distinct de `ombre-au-survol` (la carte se soulève) et de
   `portes-qui-s-eclairent` (flou qui se lève). Calme : oui. Poids : une image de plus par carte.
+
+### `legende-fixe-qui-change`
+Studio Mondine (`studiomondine.md`, [studiomondine.com](https://www.studiomondine.com/), veille du 27 oct 2026 ; état des
+légendes relevé à la molette, cran de 450 px, à 100, 300 et 700 ms après chaque cran, à 1 440 et 390 px de large) : la page
+n'est faite que de photos bord à bord, un projet par diptyque. Le nom du projet en cours (Fautive 300, 42 px, blanc) est
+posé au centre de l'écran en position fixe ; quand le diptyque suivant passe le milieu de l'écran, la légende change
+d'un coup (opacité 0 → 1, durée de transition 0 s, une seule légende visible à la fois), et disparaît sur le premier écran
+et sur le bloc final. Les photos, elles, ne bougent pas : elles entrent sous un voile blanc cassé à 20 % qui s'efface en
+1,4 s `cubic-bezier(.25,.1,.25,1)` ; liens 0,25 s.
+- Entrée aucune · apparition légende fixe · survol soulignement · fond aucun.
+- Moteur : une légende par groupe de photos, IntersectionObserver sur le groupe (seuil au milieu de l'écran), bascule
+  d'opacité sans transition ; rien ne glisse, rien n'est calé sur `--p` (tient sur iPhone) ; identique en mouvement
+  réduit. Manque : le déclencheur (`data-legende` sur le groupe, script court de bloc sur mesure) et la garde de
+  lisibilité (légende blanche seulement sur une photo assez sombre au centre, contraste mesuré ; sinon un voile).
+- Quand : un client qui montre ses réalisations par projet ou par événement avec beaucoup de bonnes photos (fleuriste
+  événementiel, décorateur, paysagiste, menuisier, traiteur de mariage) ; le nom du projet et le lieu suffisent, aucun
+  texte long. Compatible avec un client « calme » (rien ne glisse, rien ne part seul). Distinct de `chapitres-epingles`
+  (des étapes épinglées) et de `nom-qui-s-efface` (le nom du client pâlit au défilement). Calme : oui. Poids : léger.
+
+### `photo-qui-s-approche`
+Marion Graux (`mariongraux.md`, [mariongraux.com](https://www.mariongraux.com/), veille du 27 oct 2026 ; `transform` de la
+photo relevé à 50, 150, 300 et 600 ms après l'entrée du pointeur sur une carte, puis à 400 ms après la sortie, à 1 440 px de
+large ; règle CSS lue dans la feuille du thème) : la page est posée, rien n'apparaît au défilement. Les pièces sont en photos
+carrées, deux par rangée, dans un cadre qui rogne (`overflow: hidden`) ; au survol, la photo s'approche d'un rien dans son
+cadre : `scale` de 1 à 1,03 en 0,3 s `ease` (1,007 à 50 ms, 1,022 à 150 ms, 1,03 à 300 ms), retour identique à la sortie.
+Le cadre ne bouge pas, ni ombre ni soulèvement : c'est l'œil qui se penche sur l'assiette.
+- Entrée aucune · apparition aucune · survol approche · fond aucun.
+- Moteur : CSS seul (transition de `transform` sur l'image, cadre en `overflow: hidden`), uniquement sous
+  `@media (any-pointer: fine) and (prefers-reduced-motion: no-preference)` comme la source : au toucher et en mouvement
+  réduit, rien ne bouge (tient sur iPhone, rien sur le fil principal). Manque : la règle de survol des cartes dans la
+  direction ; jamais plus de 1,05 (au-delà la pièce est rognée).
+- Quand : un artisan qui vend des pièces photographiées une à une (potier, céramiste, ébéniste, maroquinier, fleuriste,
+  pâtissier) avec des photos nettes d'au moins 1,5 fois la taille affichée ; compatible avec un client « calme ». Distinct
+  de `ombre-au-survol` (la carte se soulève), de `deuxieme-vue-au-survol` (une autre photo) et de `photo-qui-respire`
+  (zoom lent qui part seul). Calme : oui. Poids : nul.
+
+### `legende-qui-se-leve`
+Couteaux Deva (`couteauxdeva.md`, [couteauxdeva.com](https://couteauxdeva.com/), veille du 27 oct 2026, tour 11 ; transitions
+lues à 150 et 650 ms après l'entrée du pointeur sur une tuile, à 1 440 px de large) : rien n'apparaît au défilement, rien ne
+tourne seul. Les pièces sont en tuiles photo bord à bord, le nom posé sur la photo à 70 % d'opacité ; au survol, la photo perd
+son contraste renforcé (`filter: contrast(1.15)` vers 1) pendant que le nom passe à 100 % et monte de 7 px, 0,3 s `ease`.
+- Entrée aucune · apparition aucune · survol légende · fond aucun.
+- Moteur : CSS seul, dans `@media (hover: hover) and (pointer: fine)` (et `:focus-visible`) ; au toucher le nom est déjà à
+  100 %. Manque : la règle de survol des tuiles dans la direction ou le bloc.
+- Quand : pièces uniques bien photographiées sur un même fond (coutelier, forgeron, ébéniste, maroquinier) ; compatible
+  avec un client « calme ». Distinct de `photo-qui-s-approche` (la photo grandit) et de `deuxieme-vue-au-survol` (une autre
+  photo). Calme : oui. Poids : nul.
+
+### `volet-a-l-entree`
+Bourke Street Bakery (`bourkestreet.md`, [bourkestreetbakery.com.au](https://bourkestreetbakery.com.au/), veille du 27 oct
+2026, tour 11 ; `document.getAnimations()` relevé à la molette) : quelques photos seulement se dévoilent une fois par un volet
+`clip-path` de 1 s, `cubic-bezier(0.57, 0.18, 0, 0.92)`, au chargement et à l'entrée de l'image. Le reste est posé.
+- Entrée aucune · apparition volet · survol couleur · fond aucun.
+- Moteur : `data-reveal="clip"` ou `wipe` existe déjà ; visibles d'emblée en mouvement réduit (tient sur iPhone).
+- Garde : deux photos au plus par page, jamais un titre, jamais suivi d'un zoom (GOUT § 2 refuse « photo qui se découvre
+  par volet puis zoome au défilement, à chaque section »).
+- Quand : boulangerie, épicerie, traiteur avec deux ou trois belles photos de la boutique ; client « calme » permis. Calme :
+  oui. Poids : léger.
 
 ## Complément transversal : transitions de page
 

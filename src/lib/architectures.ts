@@ -71,11 +71,15 @@ export interface LayoutArchi {
  *                      soinsDates) ;
  *  - avantApres      : réalisations qui ont une photo avant ET une photo après (realisations[].avant et photos ;
  *                      src/lib/avantapres.ts, piecesAvantApres) ;
+ *  - planning        : cours réguliers dont le jour, les heures et le nom se lisent (planning.cours[] ; src/lib/planning.ts,
+ *                      coursValides) ;
+ *  - materiels       : matériels de location qui ont au moins un prix (location.materiels[] ; src/lib/location.ts,
+ *                      materielsComplets) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -118,6 +122,8 @@ export const ARCHITECTURE_IDS = [
   'atelier-par-colis',
   'carte-des-soins',
   'avant-apres',
+  'planning-semaine',
+  'catalogue-location',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -784,6 +790,68 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Atelier dont le travail se voit à la transformation d'une pièce : tapissier, ébéniste restaurateur, rempailleur, doreur, carrossier, cordonnier, relieur, restaurateur de luminaires ou de vélos anciens, nettoyage de façade ou de toiture ; 3 pièces au moins photographiées avant et après. Pas pour un métier sans objet à montrer (carte-des-soins, grille-urgence), ni pour des chantiers photographiés seulement à la fin (index-projets).",
   },
+  'planning-semaine': {
+    id: 'planning-semaine',
+    modele:
+      "Le site d'une école ou d'un studio est son planning de la semaine : en tête le h1, le métier à la ville, l'ancienneté, le téléphone et la porte « Cours d'essai » ; puis la semaine, un onglet par jour (le jour même ouvert dans le navigateur ; à l'ordinateur, les jours côte à côte en colonnes), un filtre par discipline, chaque cours avec ses heures, sa durée, son niveau, sa salle et son professeur ; le premier cours (essai, prix) ; les avis ; l'école (adresse, saison, périodes sans cours) ; une page par discipline avec ses créneaux et /planning.",
+    sources: [
+      { fiche: 'docs/veille/architectures/planning-semaine.md', site: 'centre-danse-rouen.com' },
+      { fiche: 'docs/veille/architectures/planning-semaine.md', site: 'ellzidanse.fr' },
+    ],
+    layout: {
+      // Coquille `planning` (src/shells/planning.astro).
+      shell: 'planning',
+      nav: 'bar',
+      hero: 'typographic',
+      // Un pied d'une ligne : l'adresse, le premier cours et les disciplines sont dans le bloc de la semaine.
+      footer: 'minimal',
+      // Les avis juste après le premier cours : ceux qui sont venus essayer. Les disciplines sont des pages (« Cours » de
+      // la barre de Germain Blanchet : Salsa cubaine, West Coast Swing, Rock…), nommées dans le planning et par le filtre :
+      // pas de grille de services sur l'accueil.
+      sections: [{ type: 'proof', variant: 'testimonials' }],
+      contactDrawer: false,
+      actionBar: false,
+      servicePage: 'porte',
+    },
+    requis: [
+      { mesure: 'planning', min: 6, libelle: '6 cours réguliers au moins avec jour, heures et nom (planning.cours[])' },
+      { mesure: 'rue', min: 1, libelle: "l'adresse de l'école ou du studio (contact.address.street) : on y vient chaque semaine" },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on vient à heure fixe" },
+    ],
+    convientA:
+      "École ou studio à cours réguliers dont on choisit le créneau : école de danse, studio de yoga ou de pilates, salle de boxe ou d'arts martiaux, école de musique, piscine à leçons, atelier de dessin ou de poterie à séances fixes, club d'escalade ; 6 cours au moins sur 2 jours, idéalement un cours d'essai. Pas pour des stages datés seulement (cartes-empilees-agenda), ni pour une progression par niveaux sans horaire fixe (parcours-atelier).",
+  },
+  'catalogue-location': {
+    id: 'catalogue-location',
+    modele:
+      "Le site d'un loueur est son parc : en tête le h1, le métier à la ville, l'ancienneté, le téléphone en grand et « Chercher un outil » ; puis le catalogue, un onglet par catégorie, chaque matériel avec ses prix par durée (demi-journée, journée, week-end, semaine), la bascule particulier TTC / professionnel HT sans script et la caution, chacun menant à sa page ; les créneaux de retrait et de retour qui ne comptent qu'une journée ; les avis ; le magasin (adresse, horaires, ce qu'il faut apporter) ; une page par matériel et /materiel.",
+    sources: [
+      { fiche: 'docs/veille/architectures/catalogue-location.md', site: 'locationservice.fr' },
+      { fiche: 'docs/veille/architectures/catalogue-location.md', site: 'deslandes-motoculture.com' },
+    ],
+    layout: {
+      // Coquille `location` (src/shells/location.astro).
+      shell: 'location',
+      nav: 'bar',
+      hero: 'typographic',
+      // Un pied d'une ligne : le magasin, ses horaires et ses autres services sont dans le bloc du parc.
+      footer: 'minimal',
+      // Les avis après les créneaux (« Astuce : louer plus longtemps pour le même prix ») : la machine, son prix, la façon
+      // de payer moins, puis ceux qui ont loué. Les services du client (vente, réparation, affûtage : « Nos services » de
+      // la source) restent des pages, nommées dans le pied du magasin.
+      sections: [{ type: 'proof', variant: 'testimonials' }],
+      contactDrawer: false,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'materiels', min: 6, libelle: '6 matériels au moins avec un prix (location.durees et location.materiels[].prix)' },
+      { mesure: 'rue', min: 1, libelle: "l'adresse du magasin (contact.address.street) : on y prend et on y rend le matériel" },
+      { mesure: 'horaires', min: 1, libelle: 'les horaires du magasin (contact.hours) : le retrait et le retour en dépendent' },
+    ],
+    convientA:
+      "Loueur dont on choisit une machine, sa durée et son prix : location d'outillage et de matériel BTP, motoculture qui loue tondeuses et broyeurs, location de remorques, de vélos ou de kayaks, de matériel de réception ou de sonorisation, de costumes ; 6 matériels à prix au moins, des horaires de retrait. Pas pour une vente sans location (gamme-vitrine), ni pour un logement à la nuit (outil-calendrier).",
+  },
 };
 
 
@@ -835,6 +903,8 @@ export interface SiteArchi {
   parcours?: { formules?: unknown[]; photo?: unknown }[];
   tarifs?: { situations?: { prix?: string[] }[]; delai?: string };
   envoi?: { etapes?: { ou?: string; titre?: string }[] };
+  planning?: { cours?: { jour?: string; debut?: string; fin?: string; nom?: string }[] };
+  location?: { durees?: string[]; materiels?: { slug?: string; nom?: string; prix?: string[] }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -961,6 +1031,18 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
         break;
       }
       case 'avantApres': n = (s.realisations ?? []).filter((r) => (r.avant ?? []).length > 0 && (r.photos ?? []).length > 0).length; break;
+      // Mêmes comptes que coursValides (src/lib/planning.ts) et materielsComplets (src/lib/location.ts), recopiés.
+      case 'planning': {
+        const jours = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+        const mn = (h = '') => { const m = /^(\d{2}):(\d{2})$/.exec(h); return m && Number(m[1]) < 24 && Number(m[2]) < 60 ? Number(m[1]) * 60 + Number(m[2]) : NaN; };
+        n = (s.planning?.cours ?? []).filter((c) => jours.includes((c.jour ?? '').trim().toLowerCase()) && (c.nom ?? '').trim() && mn(c.fin) > mn(c.debut)).length;
+        break;
+      }
+      case 'materiels': {
+        const k = (s.location?.durees ?? []).length;
+        n = k === 0 ? 0 : (s.location?.materiels ?? []).filter((m) => (m.nom ?? '').trim() && (m.slug ?? '').trim() && (m.prix ?? []).slice(0, k).some((p) => (p ?? '').trim())).length;
+        break;
+      }
       case 'urgence': n = s.contact?.emergency24h || (s.tarifs?.delai ?? '').trim() ? 1 : 0; break;
       case 'pasUrgence': if (s.contact?.emergency24h) out.push(e.libelle); continue;
     }

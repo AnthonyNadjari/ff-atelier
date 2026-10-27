@@ -1,0 +1,121 @@
+{
+  "id": "archivistgallery",
+  "version": 1,
+  "source": {
+    "url": "https://archivistgallery.com/",
+    "nom": "Archivist",
+    "metier": "papeterie typographique (cartes en typographie, allumettes de luxe, atelier de presses, Royaume-Uni)",
+    "fiche": "docs/veille/styles/archivistgallery.md",
+    "mesures": "docs/veille/styles/atomes/mesures/archivistgallery.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Tautz",
+      "libre": "marcellus",
+      "graisse": 500,
+      "interlignage": 0.95,
+      "casse": "none",
+      "interlettrage": -0.05,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Gill Sans Nova",
+      "libre": "cabin",
+      "graisse": 500,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 48.8,
+        "ordinateur": 104
+      },
+      "h2": {
+        "telephone": 30.4,
+        "ordinateur": 55
+      },
+      "texte": {
+        "telephone": 17,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Tautz (serif glyphique à empattements évasés, contraste doux) en 500 pour le h1 « Welcome to Archivist US » (104 px à l ordinateur, 48,8 px au téléphone, interlignage 0,95, interlettrage -0,05 em), les h2 (55 px / 30,4 px) et les grands paragraphes d introduction (55 px, 40 px pour les citations) ; Gill Sans Nova 500 pour le texte (18 px / 17 px, interlignage 1,6), étiquettes et boutons en capitales 12 à 14 px. Libres : Marcellus, glyphique évasée la plus proche de Tautz (une seule graisse, 400) ; Cabin, humaniste dessinée d après Johnston et Gill, pour Gill Sans Nova."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#dbedf0",
+      "surface": "#dbedf0",
+      "texte": "#125443",
+      "texte2": "#125443",
+      "accent": "#125443",
+      "bordure": "#125443"
+    },
+    "sombre": null,
+    "_aide": "fonds mesurés : #dbedf0 (100 %) ; textes : #125443 (99 %), #ffffff (1 %)",
+    "remarque": "Bleu d eau pâle #dbedf0 (chroma 0,020) sur toute la page, pied compris ; une seule encre vert sapin #125443 pour le texte, les filets, les cadres et les boutons pleins ; blanc seulement sur les boutons pleins et les légendes posées sur photo. Les seules couleurs vives sont celles des cartes et boîtes d allumettes photographiées. Clair teinté doux, teinte froide (rare dans le registre)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 106,
+      "ordinateur": 192
+    },
+    "gouttiere": {
+      "telephone": 38,
+      "ordinateur": 32
+    },
+    "conteneur": 1168,
+    "mesure": 43,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 9999,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": true,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Boutons en pilule (fond dessiné par un pseudo-élément, 48 px de haut) : un plein vert sapin, un à filet 1 px ; ff melanger les rend à 6 px. Cadres de filet 1 px vert sapin autour de la nav, des blocs d artiste et du « Up next » ; photos à angles droits ; aucune ombre ; liens soulignés d un trait qui se trace (background-size 0,6 s)."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "1:1"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Produits photographiés dans un jardin ou un intérieur, en grandes vignettes ; portraits d artistes dans un cadre de filet vert sapin qui déborde de la photo ; vignettes qui se chevauchent légèrement décalées à côté des titres de collection ; rangées de boîtes d allumettes détourées sous le bandeau défilant. Pas de plein cadre."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "cubic-bezier(0.165, 0.84, 0.44, 1)"
+    },
+    "scene": {
+      "duree": 0.45,
+      "courbe": "cubic-bezier(0.165, 0.84, 0.44, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "bandes-croisees",
+    "remarque": "Mesuré avec document.getAnimations() en défilant à la molette : deux bandeaux « NEW ☼ NEW » en Tautz géant qui défilent seuls en sens contraires (animations ticker et ticker-reverse, 48 s linéaires, à l infini), les images grandissent à peine en entrant (scale 0,45 s quart-out cubic-bezier(0.165, 0.84, 0.44, 1)), soulignements tracés en background-size 0,6 s. Non repris : le préchargeur (logo image par image puis page qui se lève à 2,2 s), rideau d ouverture refusé par GOUT § 2. bandes-croisees, sans l inclinaison."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Fond bleu pâle uni sous une fine trame de papier moucheté (image de motif) : non reprise (grain refusé, GOUT § 2) ; filets et cadres de 1 px vert sapin."
+  },
+  "architecture": null,
+  "premier_ecran": "typographique",
+  "premier_ecran_remarque": "Le titre en Tautz géant centré entre deux mentions « ARCHIVIST », deux boutons, la photo produit seulement sous le pli : typographique."
+}

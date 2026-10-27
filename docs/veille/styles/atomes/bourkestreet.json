@@ -1,0 +1,124 @@
+{
+  "id": "bourkestreet",
+  "version": 1,
+  "source": {
+    "url": "https://bourkestreetbakery.com.au/",
+    "nom": "Bourke Street Bakery",
+    "metier": "boulangerie-pâtisserie de quartier (Surry Hills, Sydney, depuis 2004 ; plusieurs boutiques, traiteur)",
+    "fiche": "docs/veille/styles/bourkestreet.md",
+    "mesures": "docs/veille/styles/atomes/mesures/bourkestreet.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Apotek Compressed (apotek-comp)",
+      "libre": "oswald",
+      "graisse": 600,
+      "interlignage": 1.1,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Neue Haas Grotesk Display",
+      "libre": "schibsted",
+      "graisse": 600,
+      "interlignage": 1.69
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 50,
+        "ordinateur": 53
+      },
+      "h2": {
+        "telephone": 38,
+        "ordinateur": 38
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Apotek Compressed 600 en capitales, brun, pour le h1 posé sur la photo (53 px à l ordinateur, 50 px au téléphone) et les titres de chapitre (« BAKED DAILY, SERVED FRESH », 38 px, interlignage 0,9 relevé, porté à 1,1 par la règle des capitales accentuées) ; Neue Haas Grotesk Display 600 pour le texte (16 px, interlignage 1,69), la nav et les boutons en capitales. Noms de produits et de fournisseurs en DM Sans 600 capitales 18 à 24 px : non repris (police IA, GOUT § 2). Libres : Oswald 600, condensée la plus proche d Apotek Compressed ; Schibsted Grotesk 600, grotesque la plus proche de Neue Haas. Capitales condensées sur fond crème (chroma 0,020), sous le seuil de B2."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#faf4e6",
+      "texte": "#5b4126",
+      "texte2": "#5b4126",
+      "accent": "#5b4126",
+      "bordure": "#5b4126"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #ffffff (10 %), #000000 (9 %, sous les photos)",
+    "remarque": "Crème #faf4e6 (chroma 0,020) sur toute la page, pied compris ; une seule encre brun pain grillé #5b4126 pour les titres, le texte, les filets et les boutons à contour ; aucune couleur d accent : la chaleur vient des photos (croûtes, lumière rasante sur le mur). Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 151,
+      "ordinateur": 333
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 40
+    },
+    "conteneur": "à juger",
+    "mesure": 81,
+    "rythme": "uni",
+    "remarque": "Conteneur relevé à 4 735 px : c est la piste d un carrousel, pas la colonne ; sur les captures la page court presque bord à bord (marges de 50 px à l ordinateur). Laissé à juger."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Boutons à contour 1 px, angles droits, libellé en capitales (« ORDER ONLINE », « VIEW ALL RECIPES ») ; liens « ORDER ONLINE » et « LOCATIONS » soulignés ; produits séparés par des filets bruns 1 px (nom en capitales, prix en dessous, lien à droite) ; flèches rondes blanches sur les carrousels (le rayon de 10 px relevé vient d elles, pas des cartes) ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "2:3-",
+      "1:1",
+      "3:2"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 3,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : la boutique photographiée de la rue (fresque du boulanger, terrasse, passants) avec le titre et une phrase en capitales posés dessus, sans voile ; puis vignettes nettes à angles droits : produits en lumière chaude (tartes, boîtes de feuilletés), le logo en ombre portée sur un mur au soleil, mains dans la pâte. Rangées de vignettes 2:3 en carrousel pour les recettes et le journal."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease-out"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "cubic-bezier(0.57, 0.18, 0, 0.92)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "Swiper"
+    ],
+    "profil": "volet-a-l-entree",
+    "remarque": "Mesuré avec document.getAnimations() à la molette : quelques photos se dévoilent une fois par un volet (clip-path 1 s, cubic-bezier(0.57, 0.18, 0, 0.92), au chargement et à l entrée d une image), les titres de produits glissent au survol (transform 0,5 s), soulignements tracés (background-size 0,5 s) ; carrousels Swiper à flèches. Profil `volet-a-l-entree` (MOUVEMENTS.md, veille du 27 oct 2026, tour 11)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Crème uni ; listes de produits et de fournisseurs rangées entre filets bruns, comme une ardoise de boutique."
+  },
+  "architecture": null,
+  "premier_ecran": "plan-et-lieu",
+  "premier_ecran_remarque": "La boutique vue de la rue, fresque et terrasse, avant tout le reste ; le titre posé sur la photo : plan-et-lieu (le lieu d abord)."
+}

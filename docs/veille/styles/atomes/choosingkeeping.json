@@ -1,0 +1,119 @@
+{
+  "id": "choosingkeeping",
+  "version": 1,
+  "source": {
+    "url": "https://choosingkeeping.com/",
+    "nom": "Choosing Keeping",
+    "metier": "papeterie (boutique de Seven Dials, Londres)",
+    "fiche": "docs/veille/styles/choosingkeeping.md",
+    "mesures": "docs/veille/styles/atomes/mesures/choosingkeeping.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Trinité No 4 (trinite-4)",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.15,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Trinité (trinite)",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.4
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 42.4,
+        "ordinateur": 53
+      },
+      "h2": "à juger",
+      "texte": {
+        "telephone": 18,
+        "ordinateur": 21
+      }
+    },
+    "remarque": "Trinité de Bram de Does partout : la coupe n° 4, cursive, pour les noms des fournisseurs en grand (« Martina Calvi », 53 px à l ordinateur, 42,4 px au téléphone, casse normale), le romain pour le texte et les fiches produit (21 px / 18 px, interlignage 1,4) ; « Find me anything in any style » 32 px. Le h1 du DOM (« CHOOSING KEEPING ») est le logo en capitales espacées, pas le titre vu. Spot (grotesque) en capitales espacées pour la nav et les onglets : non repris (capitales espacées, GOUT § 2). EB Garamond, garalde libre la plus proche du romain de Trinité, en concordance (une seule famille) ; la cursive n° 4 n est pas reprise en italique (emphase italique refusée, GOUT § 2)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f8f3ea",
+      "surface": "#ece9dd",
+      "texte": "#3c4539",
+      "texte2": "#8b8d81",
+      "accent": "#3c4539"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #ece9dd (23 %), #f7f7f7 (1 %), #fbf9f5 (0 %), #ffffff (0 %), #f33a3a (0 %), #ffa500 (0 %), #000000 (0 %)",
+    "remarque": "Crème #f8f3ea (chroma 0,013) sur les trois quarts de la page, pied compris ; bandeau d annonce et bande des onglets en grège #ece9dd (23 %) ; texte vert-de-gris très sombre #3c4539, prix et légendes en gris olive #8b8d81 (assombri par ff melanger pour l AA) ; aucune couleur vive hors des objets photographiés. Clair teinté doux."
+  },
+  "densite": {
+    "section": "à juger",
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 41
+    },
+    "conteneur": 1309,
+    "mesure": "à juger",
+    "rythme": "uni",
+    "remarque": "Marges de section relevées sur un ou deux blocs seulement (290 et 324 px, le bloc « Find me anything ») alors que le reste de la page est une grille serrée sans marge : non représentatif, laissé à juger. Mesure de 21 caractères relevée sur les noms de produits, pas sur un texte courant."
+  },
+  "formes": {
+    "rayon": 9999,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "douce",
+    "bouton": "plein",
+    "pilule": true,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Puces de filtre (« Historical », « Modern ») et boutons ronds en pilule mesurés (16 sur 18) : ff melanger les rend à 6 px. Cartes produit à angles droits séparées par des filets fins ; ombre douce seulement sous les petits boutons ronds (favori, panier)."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "4:3",
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Deux familles : les objets détourés sur le crème, en grille de cartes séparées par des filets (crayons, cartes, ornements), et des photos d atelier ou de bureau en grandes vignettes 4:3 à côté d une rangée de produits (« Shop the desk of … »). Au premier écran, un dessin à la plume aquarellé de la boutique, pas une photo."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Lenis",
+      "Swup",
+      "AOS"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Les images entrent en fondu (animation fadeIn 0,5 s ease, ×28) ; survols de couleur 0,25 s ease ; défilement adouci par Lenis et transitions de page Swup (fondu), rien d épinglé, rien qui suive le défilement. fondu-sobre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "grille",
+    "texture": "aucune",
+    "remarque": "Fond crème uni ; la grille des produits est tracée en filets fins (une case par objet), comme les casiers d une papeterie."
+  },
+  "architecture": null,
+  "premier_ecran": "bande-defilante",
+  "premier_ecran_remarque": "Le dessin de la boutique, puis la bande des catégories en vignettes détourées qu on fait glisser (Halloween, agendas, cartes de Noël…), puis la grille des produits : bande-defilante."
+}
