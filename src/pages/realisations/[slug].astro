@@ -7,12 +7,13 @@
  * Générée seulement pour les réalisations du client : aucune réalisation = aucune page.
  */
 import Base from '@/layouts/Base.astro';
-import { site, tel, paragraphs, hasContactDoor, metaDeRealisation, SEPARATEUR_META } from '@/lib/site';
+import { site, tel, paragraphs, hasContactDoor, metaDeRealisation, SEPARATEUR_META, paireDe } from '@/lib/site';
 import { COQUILLES_A_INDEX_REALISATIONS } from '@/lib/architectures';
 import { resolveSection } from '@/lib/sections';
 import Button from '@/components/Button.astro';
 import Icon from '@/components/Icon.astro';
 import Img from '@/components/Img.astro';
+import Comparer from '@/components/Comparer.astro';
 
 export function getStaticPaths() {
   return site.realisations.map((r, i) => ({ params: { slug: r.slug }, props: { r, suivante: site.realisations[(i + 1) % site.realisations.length] } }));
@@ -21,6 +22,10 @@ const { r, suivante } = Astro.props;
 const Nav = resolveSection('nav', site.layout.nav);
 const Footer = resolveSection('footer', site.layout.footer);
 const meta = [...metaDeRealisation(r), r.year].filter(Boolean) as string[];
+// Architecture avant-apres : la pièce photographiée avant les travaux (realisations[].avant) ouvre la page en curseur,
+// les autres photos « avant » suivent la série. Sans photo avant : la page d'origine.
+const paire = paireDe(r);
+const avantEnPlus = paire ? r.avant.slice(1) : [];
 // Coquilles panneaux et carnet : la liste de toutes les réalisations a sa page (/realisations) ; ailleurs, l'accueil.
 const retour = (COQUILLES_A_INDEX_REALISATIONS as readonly string[]).includes(site.layout.shell) ? '/realisations' : '/';
 const description = `${r.title}${r.place ? `, ${r.place}` : ''} : une réalisation de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}.`;
@@ -40,10 +45,21 @@ const description = `${r.title}${r.place ? `, ${r.place}` : ''} : une réalisati
         <h1 class="text-display-lg mt-3">{r.title}</h1>
         {r.text && <div class="mt-8 space-y-5 text-lg leading-relaxed max-w-prose">{paragraphs(r.text).map((p) => <p>{p}</p>)}</div>}
         {r.credit && <p class="mt-4 text-sm text-muted">Photos : {r.credit}</p>}
+        {paire && (
+          <div class="mt-12">
+            <Comparer avant={paire.avant} apres={paire.apres} nom={r.title} priority sizes="(min-width: 1024px) 896px, 100vw" />
+          </div>
+        )}
         <div class="mt-12 flex flex-col gap-6 md:gap-10">
-          {r.photos.map((p, i) => (
-            <figure id={`photo-${i + 1}`}>
-              <Img src={p.src} alt={p.alt} priority={i === 0} loading={i === 0 ? 'eager' : 'lazy'} class="w-full rounded-card object-cover" sizes="(min-width: 1024px) 896px, 100vw" />
+          {avantEnPlus.map((p) => (
+            <figure>
+              <Img src={p.src} alt={p.alt} loading="lazy" class="w-full rounded-card object-cover" sizes="(min-width: 1024px) 896px, 100vw" />
+              <figcaption class="mt-2 text-sm text-muted">Avant{p.caption ? ` : ${p.caption}` : ''}</figcaption>
+            </figure>
+          ))}
+          {(paire ? r.photos.slice(1) : r.photos).map((p, i) => (
+            <figure id={`photo-${i + 1 + (paire ? 1 : 0)}`}>
+              <Img src={p.src} alt={p.alt} priority={!paire && i === 0} loading={!paire && i === 0 ? 'eager' : 'lazy'} class="w-full rounded-card object-cover" sizes="(min-width: 1024px) 896px, 100vw" />
               {p.caption && <figcaption class="mt-2 text-sm text-muted">{p.caption}</figcaption>}
             </figure>
           ))}

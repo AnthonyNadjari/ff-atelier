@@ -1,0 +1,204 @@
+---
+/**
+ * Coquille "avant-apres" : architecture `avant-apres` (src/lib/architectures.ts ; source Assise Autrement, tapissière à
+ * Joinville-le-Pont, secondes sources La Petite Remise, Cabasse, et atelier.b, Saint-Amand-les-Eaux ;
+ * docs/veille/architectures/avant-apres.md). Un atelier de restauration se vend par la transformation : « Retrouvez en
+ * images à quoi ressemblaient les chaises, fauteuils et autres sièges avant leur restauration » ; « Ce que j'aime dans
+ * mon métier ? Vous émouvoir avec les avant / après ».
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone, la note Google (socle docs/GOUT.md § 0), et la
+ *     porte « envoyez une photo de votre pièce » (WhatsApp ou e-mail du client ; « elle propose d'envoyer des photos pour
+ *     recevoir un devis », atelier.b et l'ébéniste du 17e) ;
+ *   → le mur des pièces, id="avant-apres" : chaque pièce en curseur avant / après qu'on tire à la main (Comparer.astro), son
+ *     nom, son type, sa ville, la première phrase de ce qui a été fait, un lien vers sa page ; un onglet par type dès
+ *     deux types (posés par le script ; sans script, les groupes l'un sous l'autre, ancres en tête) ; une pièce sur deux décalée à l'ordinateur (les photos en quinconce
+ *     de la source, sans ses colonnes de largeurs inégales) ;
+ *   → les sections du layout : les avis (les niveaux de travaux à prix ont leur page, nommée par la nav) ;
+ *   → venir à l'atelier, sur l'encre, id="atelier" : adresse, horaires du jour, téléphone, la photo à envoyer ;
+ *   → un pied à colonnes.
+ * Pages : /a-propos (l'histoire, « Mon Histoire » de la source, layout.pageAPropos), /realisations (toutes les pièces,
+ * COQUILLES_A_INDEX_REALISATIONS) et /realisations/<slug> (le curseur en
+ * tête, puis la série de photos), une page par niveau de travaux (servicePage 'porte').
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran). Sans pièce à deux photos : l'en-tête et l'atelier
+ * seuls, et le build dit ce qui manque (donneesManquantes). Rien ne bouge tout seul ; seul le doigt tire la ligne.
+ * Signes de la source NON repris : carrousel de trois h1 au premier écran, logos des éditeurs de tissus, texte de
+ * référencement en long paragraphe, photos avant / pendant / après posées côte à côte en vignettes.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Comparer from '@/components/Comparer.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { site, tel, mailto, whatsapp, metierEtVille, fullAddress, paragraphs, donneesManquantes, piecesAvantApres, paireDe, groupesDePieces, metaDeRealisation, SEPARATEUR_META } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const pieces = piecesAvantApres(site.realisations);
+// Un onglet par type de pièce (« Fauteuils », « Chaises », « Banquettes ») : la source range ses pièces par type
+// (atelier.b : « fauteuils Louis XVI », « banquette restaurant » ; La Petite Remise : « Et puis, il y a tous les autres »).
+const groupes = groupesDePieces(pieces);
+// La porte « photo » : WhatsApp d'abord (on y envoie une photo d'un geste), sinon l'e-mail ; ni l'un ni l'autre = pas de porte.
+const photoHref = whatsapp() ?? mailto();
+const premiere = (t?: string) => (t ? paragraphs(t)[0] : undefined);
+const manque = donneesManquantes('avant-apres', site);
+if (manque.length > 0) console.warn(`[coquille avant-apres] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="aa-page">
+  <section id="hero" class="container-ff aa-tete" aria-label="Accueil">
+    <h1 class="aa-h1 font-display" set:html={site.business.tagline} />
+    <p class="aa-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+    <p class="aa-contact">
+      <a href={tel()} class="aa-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+      {google && <a href={google.url} target="_blank" rel="noopener" class="aa-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+    </p>
+    {photoHref && (
+      <a href={photoHref} class="aa-photo" target={photoHref.startsWith('http') ? '_blank' : undefined} rel={photoHref.startsWith('http') ? 'noopener' : undefined}>
+        <Icon name="Camera" size={20} />
+        <span>{site.wording.photoDevis}</span>
+        {photoHref.startsWith('http') && <span class="sr-only"> (WhatsApp, nouvel onglet)</span>}
+      </a>
+    )}
+  </section>
+
+  {pieces.length > 0 && (
+    <section id="avant-apres" class="aa-mur container-ff" aria-labelledby="aa-mur-titre">
+      <div class="aa-mur-tete">
+        <h2 id="aa-mur-titre" class="aa-mur-titre font-display">Avant, après</h2>
+        <p class="aa-consigne">Tirez la ligne sur chaque photo.</p>
+      </div>
+      {groupes.length >= 2 && (
+        <nav class="aa-onglets" data-aa-onglets aria-label="Type de pièce">
+          {groupes.map((g, k) => <a id={`aa-o-${k + 1}`} href={`#aa-g-${k + 1}`} class="aa-onglet" data-aa-vers={String(k + 1)}>{g.type}<span class="aa-compte tabular-nums">{g.pieces.length}</span></a>)}
+        </nav>
+      )}
+      {groupes.map((g, k) => (
+        <div id={`aa-g-${k + 1}`} class="aa-groupe" data-aa-groupe={String(k + 1)}>
+          {g.type && <h3 class="aa-groupe-titre font-display">{g.type}</h3>}
+          <ul class="aa-pieces">
+            {g.pieces.map((r, i) => {
+              const paire = paireDe(r)!;
+              const meta = metaDeRealisation(r);
+              const texte = premiere(r.text);
+              return (
+                <li class="aa-piece">
+                  <Comparer avant={paire.avant} apres={paire.apres} nom={r.title} priority={k === 0 && i === 0} sizes="(min-width: 1024px) 40vw, 100vw" />
+                  <h4 class="aa-piece-titre font-display"><a href={`/realisations/${r.slug}`}>{r.title}</a></h4>
+                  {meta.length > 0 && <p class="aa-meta">{meta.join(SEPARATEUR_META)}</p>}
+                  {texte && <p class="aa-texte">{texte}</p>}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+      {site.realisations.length > pieces.length && <p><a href="/realisations" class="aa-lien">Toutes les pièces de l’atelier</a></p>}
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="atelier" class="aa-atelier bg-ink text-on-ink" aria-labelledby="aa-atelier-titre">
+    <div class="container-ff aa-atelier-grille">
+      <h2 id="aa-atelier-titre" class="aa-atelier-titre font-display">Venir à l’atelier</h2>
+      <div class="aa-atelier-infos">
+        <p>{site.business.name}, {fullAddress()}</p>
+        {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="aa-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+        <HorairesDuJour />
+      </div>
+      <div class="aa-atelier-portes">
+        <a href={tel()} class="aa-appel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {photoHref && <a href={photoHref} class="aa-lien" target={photoHref.startsWith('http') ? '_blank' : undefined} rel={photoHref.startsWith('http') ? 'noopener' : undefined}><Icon name="Camera" size={16} />{site.wording.photoDevis}</a>}
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+
+<style>
+  .aa-tete { display: grid; gap: 1rem; padding-block: clamp(1.75rem, 6vh, 3.5rem) clamp(1.5rem, 4vh, 2.5rem); }
+  .aa-h1 { font-size: clamp(2.2rem, 7.5vw, 5.2rem); line-height: 0.98; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 15ch; }
+  .aa-metier { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 40ch; }
+  .aa-contact { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; }
+  .aa-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-ink); color: var(--color-on-ink); font-weight: 600; }
+  .aa-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .aa-photo { display: flex; align-items: center; gap: 0.75rem; max-inline-size: 34rem; min-block-size: 56px; padding: 0.8rem 1rem; border: 1px dashed currentColor; border-radius: var(--radius-card); }
+  .aa-photo:hover span { text-decoration: underline; text-underline-offset: 0.2em; }
+  .aa-tel:focus-visible, .aa-lien:focus-visible, .aa-photo:focus-visible, .aa-appel:focus-visible, .aa-piece-titre a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .aa-mur { display: grid; gap: 1.5rem; padding-block: clamp(1rem, 3vh, 2rem) clamp(3rem, 9vh, 6rem); }
+  .aa-mur-tete { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; }
+  .aa-mur-titre { font-size: clamp(1.9rem, 5vw, 3.4rem); line-height: 1; }
+  .aa-consigne { color: var(--color-muted); }
+  .aa-onglets { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; border-block-end: 1px solid var(--color-line); }
+  .aa-onglet { display: inline-flex; align-items: baseline; gap: 0.4rem; min-block-size: 44px; padding-block: 0.6rem; border-block-end: 2px solid transparent; margin-block-end: -1px; font-size: 1.05rem; cursor: pointer; }
+  .aa-onglet[aria-selected='true'] { border-block-end-color: currentColor; font-weight: 600; }
+  .aa-onglet:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .aa-compte { font-size: 0.85rem; color: var(--color-muted); }
+  .aa-groupe { display: grid; gap: 1.25rem; }
+  .aa-groupe:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 6px; }
+  .aa-groupe-titre { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.1; padding-block-start: 1rem; }
+  [data-aa-onglets][role='tablist'] ~ .aa-groupe .aa-groupe-titre { display: none; }
+  .aa-pieces { display: grid; gap: 3rem 2rem; }
+  .aa-piece { display: grid; gap: 0.5rem; align-content: start; min-inline-size: 0; }
+  .aa-piece-titre { margin-block-start: 0.5rem; font-size: clamp(1.3rem, 2.6vw, 1.8rem); line-height: 1.1; }
+  .aa-piece-titre a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+  .aa-meta { font-size: 0.95rem; color: var(--color-muted); }
+  .aa-texte { max-inline-size: 48ch; }
+  .aa-atelier { padding-block: clamp(2.5rem, 8vh, 5rem); }
+  .aa-atelier-grille { display: grid; gap: 1.5rem; }
+  .aa-atelier-titre { font-size: clamp(1.8rem, 4.5vw, 3rem); line-height: 1.05; }
+  .aa-atelier-infos, .aa-atelier-portes { display: grid; gap: 0.4rem; align-content: start; }
+  .aa-appel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: 1.2rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  @media (min-width: 64rem) {
+    .aa-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; }
+    .aa-tete > :not(.aa-photo) { grid-column: 1; }
+    .aa-photo { grid-column: 2; grid-row: 1 / span 3; align-self: end; }
+    .aa-pieces { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 5vw, 5rem); }
+    .aa-piece:nth-child(2n) { margin-block-start: 6rem; }
+    .aa-atelier-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) minmax(0, 1fr); column-gap: 3rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Les ancres des types deviennent des onglets : un type visible à la fois (flèches du clavier, Entrée). Sans script :
+  // tous les groupes l'un sous l'autre, chacun avec son titre, les ancres y mènent.
+  onPage(() => {
+    const rangee = document.querySelector<HTMLElement>('[data-aa-onglets]');
+    if (!rangee) return;
+    const onglets = [...rangee.querySelectorAll<HTMLAnchorElement>('[data-aa-vers]')];
+    const groupes = [...document.querySelectorAll<HTMLElement>('[data-aa-groupe]')];
+    if (onglets.length < 2 || groupes.length !== onglets.length) return;
+    rangee.setAttribute('role', 'tablist');
+    const choisir = (n: string, focus = false) => {
+      onglets.forEach((o) => { const sel = o.dataset.aaVers === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      groupes.forEach((g) => { g.hidden = g.dataset.aaGroupe !== n; });
+    };
+    onglets.forEach((o, k) => {
+      const g = groupes[k];
+      o.setAttribute('role', 'tab');
+      o.setAttribute('aria-controls', g.id);
+      o.removeAttribute('href');
+      g.setAttribute('role', 'tabpanel');
+      g.setAttribute('aria-labelledby', o.id);
+      g.tabIndex = 0;
+      o.addEventListener('click', (e) => { e.preventDefault(); choisir(o.dataset.aaVers!); });
+      o.addEventListener('keydown', (e) => {
+        const suiv = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+        const prec = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+        const c = suiv ? onglets[(k + 1) % onglets.length] : prec ? onglets[(k - 1 + onglets.length) % onglets.length] : undefined;
+        if (c) { e.preventDefault(); choisir(c.dataset.aaVers!, true); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choisir(o.dataset.aaVers!); }
+      });
+    });
+    choisir(onglets[0].dataset.aaVers!);
+  });
+</script>

@@ -1,0 +1,201 @@
+---
+/**
+ * Coquille "soins" : architecture `carte-des-soins` (src/lib/architectures.ts ; source Institut La Douce Heure,
+ * Saint-Sébastien-sur-Loire, seconde source Beauty Elite, Nantes ; docs/veille/architectures/carte-des-soins.md). Le site
+ * d'un institut est sa carte : sur la source, chaque soin tient en une ligne « 40min | 45€ » suivie de « C'est parti »
+ * (le lien de réservation), rangée par famille (« Les Essentiels », « Les Experts », « Les Instants Particuliers », de
+ * 15 min). On y choisit autant par le temps qu'on a que par la famille : l'accueil demande donc d'abord le temps.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone, la note Google (socle docs/GOUT.md § 0), la
+ *     porte Réserver (contact.bookingUrl, « Réserver » de la barre de la source) et le bon cadeau (contact.giftCardUrl,
+ *     « Chèque Cadeau ») ;
+ *   → « Combien de temps avez-vous ? », id="choisir" : un onglet par tranche de durée (moins de 30 min, de 30 min à 1 h,
+ *     plus d'une heure ; posés par le script ; sans script : les tranches l'une sous l'autre, ancres en tête), chaque soin avec sa
+ *     famille, sa durée, son prix et sa porte (le lien de réservation, sinon le téléphone) ;
+ *   → les sections du layout : la carte entière par famille (services/carte-prix), les avis ;
+ *   → l'institut sur l'encre, id="institut" : adresse, horaires du jour, téléphone, Réserver ;
+ *   → un pied à colonnes.
+ * Pages : une page par famille (servicePage 'porte' : ses lignes à prix et leur durée).
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran). Moins de deux tranches de durée : pas d'onglets,
+ * la carte par famille suffit, et le build dit ce qui manque (donneesManquantes).
+ * Signes de la source NON repris : lien publicitaire caché dans le texte d'accueil, plaquette PDF à télécharger pour
+ * lire les prix, titres en capitales, carrousel de partenaires, inscription à la lettre au milieu de la page.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { site, tel, metierEtVille, fullAddress, paragraphs, donneesManquantes, soinsDates, tranchesDeSoins } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const tranches = tranchesDeSoins(soinsDates(site.services));
+const reserver = site.contact.bookingUrl;
+const libReserver = site.wording.actions?.booking ?? 'Réserver';
+const cadeau = site.contact.giftCardUrl;
+const libCadeau = site.wording.actions?.giftCard ?? 'Offrir un soin';
+// La personne et l'atelier en un paragraphe (about.story, le premier), dans le bloc de fin : pas de section à part.
+const histoire = site.about.story ? paragraphs(site.about.story)[0] : undefined;
+const manque = donneesManquantes('carte-des-soins', site);
+if (manque.length > 0) console.warn(`[coquille soins] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="so-page">
+  <section id="hero" class="container-ff so-tete" aria-label="Accueil">
+    <h1 class="so-h1 font-display" set:html={site.business.tagline} />
+    <p class="so-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+    <p class="so-portes">
+      {reserver && <a href={reserver} target="_blank" rel="noopener" class="so-reserver"><Icon name="CalendarCheck" size={18} />{libReserver}<span class="sr-only"> (nouvel onglet)</span></a>}
+      <a href={tel()} class="so-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+    </p>
+    <p class="so-liens">
+      {google && <a href={google.url} target="_blank" rel="noopener" class="so-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      {cadeau && <a href={cadeau} target="_blank" rel="noopener" class="so-lien"><Icon name="Gift" size={16} />{libCadeau}<span class="sr-only"> (nouvel onglet)</span></a>}
+    </p>
+  </section>
+
+  {tranches.length > 0 && (
+    <section id="choisir" class="so-temps" aria-labelledby="so-question">
+      <div class="container-ff so-temps-grille">
+        <div class="so-question-bloc">
+          <h2 id="so-question" class="so-question font-display">{site.wording.temps}</h2>
+          <nav class="so-onglets" data-so-onglets aria-label="Durée du soin">
+            {tranches.map((t, i) => <a id={`so-o-${i + 1}`} href={`#so-t-${i + 1}`} class="so-onglet" data-so-vers={String(i + 1)}>{t.label}<span class="so-compte tabular-nums">{t.soins.length}</span></a>)}
+          </nav>
+        </div>
+        <div class="so-tranches">
+          {tranches.map((t, i) => (
+            <div id={`so-t-${i + 1}`} class="so-tranche" data-so-tranche={String(i + 1)}>
+              <h3 class="so-tranche-titre">{t.label}</h3>
+              <ul class="so-soins">
+                {t.soins.map((x) => (
+                  <li class="so-soin">
+                    <div class="so-soin-nom">
+                      <span class="so-soin-titre">{x.nom}</span>
+                      <a href={`/services/${x.slug}`} class="so-famille">{x.famille}</a>
+                      {x.detail && <span class="so-detail">{x.detail}</span>}
+                    </div>
+                    <p class="so-chiffres tabular-nums"><span>{x.duree}</span>{x.prix && <span class="so-prix">{x.prix}</span>}</p>
+                    {reserver
+                      ? <a href={reserver} target="_blank" rel="noopener" class="so-porte">{libReserver}<span class="sr-only"> {x.nom} (nouvel onglet)</span></a>
+                      : <a href={tel()} class="so-porte">Appeler<span class="sr-only"> pour {x.nom}</span></a>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="institut" class="so-institut bg-ink text-on-ink" aria-labelledby="so-institut-titre">
+    <div class="container-ff so-institut-grille">
+      <h2 id="so-institut-titre" class="so-institut-titre font-display">Venir à l’institut</h2>
+      {histoire && <p class="so-histoire">{histoire}</p>}
+      <div class="so-institut-infos">
+        <p>{site.business.name}, {fullAddress()}</p>
+        {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="so-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+        <HorairesDuJour />
+      </div>
+      <div class="so-institut-portes">
+        <a href={tel()} class="so-appel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {reserver && <a href={reserver} target="_blank" rel="noopener" class="so-lien"><Icon name="CalendarCheck" size={16} />{libReserver}<span class="sr-only"> (nouvel onglet)</span></a>}
+      </div>
+    </div>
+  </section>
+</main>
+<Footer />
+
+<style>
+  .so-tete { display: grid; gap: 1rem; padding-block: clamp(1.75rem, 6vh, 3.5rem) clamp(1.5rem, 4vh, 2.5rem); }
+  .so-h1 { font-size: clamp(2.2rem, 7.5vw, 5rem); line-height: 1; letter-spacing: -0.01em; text-wrap: balance; max-inline-size: 16ch; }
+  .so-metier { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 40ch; }
+  .so-portes, .so-liens { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .so-reserver, .so-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); font-weight: 600; }
+  .so-reserver { background: var(--color-ink); color: var(--color-on-ink); }
+  .so-tel { border: 1px solid currentColor; }
+  .so-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .so-reserver:focus-visible, .so-tel:focus-visible, .so-lien:focus-visible, .so-porte:focus-visible, .so-famille:focus-visible, .so-appel:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .so-temps { background: var(--color-bg-2); padding-block: clamp(2rem, 7vh, 4.5rem); }
+  .so-temps-grille { display: grid; gap: 1.5rem; }
+  .so-question-bloc { display: grid; gap: 1rem; }
+  .so-question { font-size: clamp(1.7rem, 4.5vw, 3rem); line-height: 1.05; }
+  .so-onglets { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; border-block-end: 1px solid var(--color-line); }
+  .so-onglet { display: inline-flex; align-items: baseline; gap: 0.4rem; min-block-size: 44px; padding-block: 0.6rem; border-block-end: 2px solid transparent; margin-block-end: -1px; cursor: pointer; }
+  .so-onglet[aria-selected='true'] { border-block-end-color: currentColor; font-weight: 600; }
+  .so-onglet:focus-visible, .so-tranche:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .so-compte { font-size: 0.85rem; color: var(--color-muted); }
+  .so-tranches { display: grid; gap: 2rem; }
+  .so-tranche-titre { font-weight: 600; padding-block-end: 0.4rem; border-block-end: 2px solid currentColor; }
+  .so-soins { display: grid; }
+  .so-soin { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.25rem 1rem; align-items: center; padding-block: 0.85rem; border-block-end: 1px solid var(--color-line); }
+  .so-soin-nom { display: grid; gap: 0.1rem; min-inline-size: 0; }
+  .so-soin-titre { font-size: 1.1rem; font-weight: 600; }
+  .so-famille { font-size: 0.95rem; color: var(--color-muted); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; inline-size: fit-content; }
+  .so-detail { font-size: 0.95rem; color: var(--color-muted); }
+  .so-chiffres { display: flex; gap: 0.75rem; justify-content: flex-end; white-space: nowrap; }
+  .so-prix { font-weight: 600; }
+  .so-porte { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .so-institut { padding-block: clamp(2.5rem, 8vh, 5rem); }
+  .so-institut-grille { display: grid; gap: 1.5rem; }
+  .so-histoire { grid-column: 1 / -1; max-inline-size: 60ch; font-size: clamp(1.05rem, 1.5vw, 1.25rem); }
+  .so-institut-titre { font-size: clamp(1.8rem, 4.5vw, 3rem); line-height: 1.05; }
+  .so-institut-infos, .so-institut-portes { display: grid; gap: 0.4rem; align-content: start; }
+  .so-appel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: 1.2rem; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  @media (min-width: 48rem) {
+    .so-soin { grid-template-columns: minmax(0, 1fr) auto auto; }
+    .so-porte { grid-column: auto; justify-self: end; }
+  }
+  @media (min-width: 64rem) {
+    .so-temps-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 4rem; align-items: start; }
+      .so-institut-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) minmax(0, 1fr); column-gap: 3rem; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Les ancres des tranches deviennent des onglets : une durée visible à la fois (flèches du clavier, Entrée). Sans
+  // script : toutes les tranches, chacune avec son titre.
+  onPage(() => {
+    const rangee = document.querySelector<HTMLElement>('[data-so-onglets]');
+    if (!rangee) return;
+    const onglets = [...rangee.querySelectorAll<HTMLAnchorElement>('[data-so-vers]')];
+    const blocs = [...document.querySelectorAll<HTMLElement>('[data-so-tranche]')];
+    if (onglets.length < 2 || blocs.length !== onglets.length) return;
+    rangee.setAttribute('role', 'tablist');
+    rangee.setAttribute('aria-labelledby', 'so-question');
+    const choisir = (n: string, focus = false) => {
+      onglets.forEach((o) => { const sel = o.dataset.soVers === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      blocs.forEach((b) => { b.hidden = b.dataset.soTranche !== n; });
+    };
+    onglets.forEach((o, k) => {
+      const b = blocs[k];
+      o.setAttribute('role', 'tab');
+      o.setAttribute('aria-controls', b.id);
+      o.removeAttribute('href');
+      b.setAttribute('role', 'tabpanel');
+      b.setAttribute('aria-labelledby', o.id);
+      b.tabIndex = 0;
+      o.addEventListener('click', (e) => { e.preventDefault(); choisir(o.dataset.soVers!); });
+      o.addEventListener('keydown', (e) => {
+        const suiv = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+        const prec = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+        const c = suiv ? onglets[(k + 1) % onglets.length] : prec ? onglets[(k - 1 + onglets.length) % onglets.length] : undefined;
+        if (c) { e.preventDefault(); choisir(c.dataset.soVers!, true); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choisir(o.dataset.soVers!); }
+      });
+    });
+    choisir(onglets[0].dataset.soVers!);
+  });
+</script>

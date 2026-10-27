@@ -30,7 +30,8 @@ import Icon from '@/components/Icon.astro';
                   <li>
                     <div class="flex items-baseline gap-3">
                       <span>{l.nom}</span>
-                      {l.prix && <span class="carte-points flex-1" aria-hidden="true"></span>}
+                      {(l.prix || l.duree) && <span class="carte-points flex-1" aria-hidden="true"></span>}
+                      {l.duree && <span class="tabular-nums whitespace-nowrap text-muted">{l.duree}</span>}
                       {l.prix && <span class="tabular-nums whitespace-nowrap">{l.prix}</span>}
                     </div>
                     {l.detail && <p class="mt-1 text-sm text-muted">{l.detail}</p>}

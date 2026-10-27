@@ -32,6 +32,8 @@ export { situationsCompletes, minutesDe, creneauDuMoment, prixDes, prixLePlusBas
 import { lienTarifs } from './tarifs';
 export { etapesCompletes as etapesDEnvoi, pisteDEnvoi, adresseDEnvoi, lienEnvoi } from './colis';
 import { lienEnvoi } from './colis';
+export { minutesDeDuree, soinsDates, tranches as tranchesDeSoins } from './soins';
+export { piecesAvantApres, paireDe, typesDePieces, groupesDePieces } from './avantapres';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';

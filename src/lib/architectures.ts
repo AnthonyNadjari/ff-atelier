@@ -67,11 +67,15 @@ export interface LayoutArchi {
  *                      situationsCompletes) ;
  *  - envoi           : étapes du voyage du colis qui disent où est l'objet et ce qui se passe (envoi.etapes[] ;
  *                      src/lib/colis.ts, etapesCompletes) ;
+ *  - soins           : soins dont la durée se lit (services[].lignes[].duree : « 1 h 15 », « 40 min » ; src/lib/soins.ts,
+ *                      soinsDates) ;
+ *  - avantApres      : réalisations qui ont une photo avant ET une photo après (realisations[].avant et photos ;
+ *                      src/lib/avantapres.ts, piecesAvantApres) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -112,6 +116,8 @@ export const ARCHITECTURE_IDS = [
   'parcours-atelier',
   'grille-urgence',
   'atelier-par-colis',
+  'carte-des-soins',
+  'avant-apres',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -709,6 +715,75 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Atelier de réparation dont les clients viennent de loin et peuvent envoyer l'objet : cordonnier (ressemelage de chaussons d'escalade, de chaussures de montagne), horloger, luthier, réparateur de stylos, de poupées, d'appareils photo, affûteur, relieur, restaurateur de bijoux ; prix par pièce connus, délai donné. Pas pour l'urgence, ni pour un métier qui se déplace chez le client.",
   },
+  'carte-des-soins': {
+    id: 'carte-des-soins',
+    modele:
+      "Le site d'un institut est sa carte des soins : en tête le h1, le métier à la ville, l'ancienneté, le téléphone, la porte Réserver (le lien du client) et le bon cadeau ; puis « Combien de temps avez-vous ? » en onglets de durée (moins de 30 min, de 30 min à 1 h, plus d'une heure ; sans script, tous les soins), chaque soin avec sa famille, sa durée, son prix et sa porte ; la carte entière par famille, une page par famille ; les avis ; l'institut et ses horaires.",
+    sources: [
+      { fiche: 'docs/veille/architectures/carte-des-soins.md', site: 'institutladouceheure.fr' },
+      { fiche: 'docs/veille/architectures/carte-des-soins.md', site: 'beauty-elite.fr' },
+    ],
+    layout: {
+      // Coquille `soins` (src/shells/soins.astro).
+      shell: 'soins',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'columns',
+      // La carte entière par famille (« Soins visage », « Épilation », « Beauté des mains et des pieds » : une page par
+      // famille sur la source, « Soins et tarifs » sur la seconde), puis les avis (« Voir ou laisser un témoignage »).
+      // L'équipe (« Céline, Emeline, Aurélie et Emmy, esthéticiennes diplômées ») est dite dans le bloc de l'institut,
+      // avec l'adresse et les horaires : pas de section « à propos » à part (le déroulé long de l'usine, GOUT § 0).
+      sections: [
+        { type: 'services', variant: 'carte-prix' },
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: false,
+      // « Réserver » et « Chèque cadeau » dans la barre de la source : au téléphone, la barre d'actions en bas.
+      actionBar: true,
+      servicePage: 'porte',
+    },
+    requis: [
+      { mesure: 'soins', min: 4, libelle: '4 soins au moins avec leur durée (services[].lignes[].duree : « 1 h 15 », « 40 min »)' },
+      { mesure: 'rue', min: 1, libelle: "l'adresse de l'institut (contact.address.street) : on y vient" },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on réserve un moment" },
+    ],
+    convientA:
+      "Commerce de soin où l'on choisit une prestation par sa durée et son prix : institut de beauté, spa de quartier, masseur, prothésiste ongulaire, barbier ou coiffeur à prestations minutées, sophrologue ou réflexologue à séances ; 4 soins datés au moins, idéalement 2 familles et un lien de réservation. Pas pour un artisan sur devis (index-projets, avant-apres), ni l'urgence (grille-urgence).",
+  },
+  'avant-apres': {
+    id: 'avant-apres',
+    modele:
+      "Le site d'un atelier de restauration est le mur de ses pièces transformées : en tête le h1, le métier à la ville, l'ancienneté, le téléphone et « envoyez une photo de votre pièce » ; puis chaque pièce en curseur avant / après qu'on tire à la main (son nom, son type, ce qui a été fait), un filtre par type sans script dès deux types, chaque pièce menant à sa page ; les niveaux de travaux et leurs prix ; l'atelier ; les avis ; /realisations.",
+    sources: [
+      { fiche: 'docs/veille/architectures/avant-apres.md', site: 'assiseautrement.fr' },
+      { fiche: 'docs/veille/architectures/avant-apres.md', site: 'lapetiteremise.fr' },
+      { fiche: 'docs/veille/architectures/avant-apres.md', site: 'atelier-b-tapissier.fr' },
+    ],
+    layout: {
+      // Coquille `avant-apres` (src/shells/avant-apres.astro).
+      shell: 'avant-apres',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'columns',
+      // Les avis juste sous le mur (la transformation, puis ceux qui l'ont reçue). Les niveaux de travaux (« réfection
+      // légère, rénovation ou restauration totale de votre fauteuil », Assise Autrement ; « Le tarif d'une réfection
+      // légère sera aussi plus doux ») ont chacun leur page, nommée par la nav ; l'accueil ne les répète pas. La personne (« Je m'appelle Julie Maurin… CAP Tapissier », La Petite
+      // Remise) a sa page (/a-propos) : pas de section « à propos » sur l'accueil.
+      sections: [{ type: 'proof', variant: 'testimonials' }],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'porte',
+      // « Mon Histoire » est une page de la source (Assise Autrement), comme « Une créatrice diplômée » chez La Petite
+      // Remise : l'histoire de l'atelier sur /a-propos, l'accueil reste au mur.
+      pageAPropos: true,
+    },
+    requis: [
+      { mesure: 'avantApres', min: 3, libelle: '3 pièces au moins avec une photo avant et une photo après (realisations[].avant et photos)' },
+      { mesure: 'rue', min: 1, libelle: "l'adresse de l'atelier (contact.address.street) : on y dépose la pièce" },
+    ],
+    convientA:
+      "Atelier dont le travail se voit à la transformation d'une pièce : tapissier, ébéniste restaurateur, rempailleur, doreur, carrossier, cordonnier, relieur, restaurateur de luminaires ou de vélos anciens, nettoyage de façade ou de toiture ; 3 pièces au moins photographiées avant et après. Pas pour un métier sans objet à montrer (carte-des-soins, grille-urgence), ni pour des chantiers photographiés seulement à la fin (index-projets).",
+  },
 };
 
 
@@ -739,15 +814,15 @@ export const VARIANTES_D_ARCHITECTURE = [
  * « View All Projects » de Studio RHE, « Réalisations » de Gingko. L'index-projets n'en a pas besoin (son accueil EST
  * l'index) ; les autres coquilles n'y mènent pas, la page n'est donc pas construite pour elles.
  */
-export const COQUILLES_A_INDEX_REALISATIONS: readonly string[] = ['panneaux', 'carnet'];
+export const COQUILLES_A_INDEX_REALISATIONS: readonly string[] = ['panneaux', 'carnet', 'avant-apres'];
 
 /** Ce que donneesManquantes() lit d'un site : un sous-ensemble du Site, pour tester sans tout construire. */
 export interface SiteArchi {
   images?: { hero?: unknown };
-  services?: { image?: unknown; lignes?: unknown[]; saison?: string; programme?: { jours?: string; lignes?: unknown[] }[] }[];
+  services?: { image?: unknown; lignes?: { duree?: string }[]; saison?: string; programme?: { jours?: string; lignes?: unknown[] }[] }[];
   about?: { portrait?: unknown; story?: string; espaces?: { photo?: unknown }[] };
   proof?: { gallery?: { kind?: string }[] };
-  realisations?: { kind?: string; photos?: unknown[] }[];
+  realisations?: { kind?: string; photos?: unknown[]; avant?: unknown[] }[];
   contact?: { hours?: unknown[]; address?: { street?: string }; emergency24h?: boolean };
   agenda?: { date: string }[];
   produits?: { photo?: unknown }[];
@@ -872,6 +947,20 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
       // Mêmes comptes que situationsCompletes (src/lib/tarifs.ts) et etapesCompletes (src/lib/colis.ts), recopiés.
       case 'situations': n = (s.tarifs?.situations ?? []).filter((x) => (x.prix ?? []).some((p) => p.trim())).length; break;
       case 'envoi': n = (s.envoi?.etapes ?? []).filter((x) => (x.ou ?? '').trim() && (x.titre ?? '').trim()).length; break;
+      // Mêmes comptes que soinsDates (src/lib/soins.ts, minutesDeDuree) et piecesAvantApres (src/lib/avantapres.ts), recopiés.
+      case 'soins': {
+        const minutes = (d = '') => {
+          const t = d.toLowerCase().replace(/\s+/g, '');
+          const h = /^(\d{1,2})h(\d{1,2})?(?:min)?$/.exec(t);
+          if (h) return Number(h[1]) * 60 + Number(h[2] ?? 0);
+          const m = /^(\d{1,3})(?:min|mn|minutes?)$/.exec(t);
+          return m ? Number(m[1]) : 0;
+        };
+        const lisible = (d?: string) => minutes(d) > 0;
+        n = (s.services ?? []).reduce((k, x) => k + (x.lignes ?? []).filter((l) => lisible(l.duree)).length, 0);
+        break;
+      }
+      case 'avantApres': n = (s.realisations ?? []).filter((r) => (r.avant ?? []).length > 0 && (r.photos ?? []).length > 0).length; break;
       case 'urgence': n = s.contact?.emergency24h || (s.tarifs?.delai ?? '').trim() ? 1 : 0; break;
       case 'pasUrgence': if (s.contact?.emergency24h) out.push(e.libelle); continue;
     }

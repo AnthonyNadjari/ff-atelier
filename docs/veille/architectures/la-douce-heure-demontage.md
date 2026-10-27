@@ -1,0 +1,30 @@
+# Institut La Douce Heure — https://www.institutladouceheure.fr/
+Titre « Institut La Douce Heure - Institut de beauté à Nantes », `lang="fr-FR"`, description « Bienvenue dans votre institut de beauté à Nantes, votre centre de bien être de Nantes vous accueille dans une ambiance chaleureuse pour passer un bon moment. », technologie lue : generator « DIVIZI v. », WordPress, jQuery. Démontage automatique du 2026-10-27 (`ff demonter`, mesures brutes dans `la-douce-heure.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « La Douce Heure » ; pas de média plein écran (3 image(s) dans l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 18 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « La Douce Heure » ; pas de média plein écran (3 image(s) dans l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 6 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 8 lien(s) — ACCUEIL, SOINS ESTHÉTIQUES, FLOTTAISON NANTES, SOINS SPÉCIFIQUES, BEAUTÉ MAINS ET PIEDS, RÉSERVER, CHÈQUE CADEAU, CONTACT ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.et_pb_section_1` (0,4 écran, 1 mots, 0 img) → `div.et_pb_section_3` « La Douce Heure » (1,6 écran, 144 mots, 2 img) → `div.et_pb_section_4` « Nos Services » (1,0 écran, 114 mots, 3 img) → `div.et_pb_section_5` « Des soins esthétiques et conseils d’exp… » (1,2 écran, 134 mots, 2 img) → `div.et_pb_section_6` « Bien plus qu’un salon de beauté, découv… » (1,3 écran, 137 mots, 0 img) → `div.et_pb_section_8` « Recevoir notre Newsletter » (0,7 écran, 75 mots, 0 img) → `footer#main-footer` (0,2 écran, 19 mots, 0 img). Calques hors flux (fixes/absolus) : `header#main-header` (fixed, 172 px, 15 mots), `span.et_pb_scroll_top` (fixed, 40 px).
+Pied de page : 3 lien(s) — Facebook, mentions légales, CGV. Téléphone cliquable : non. Formulaire : 1 (1 champ(s) dans le premier). Horaires : oui (7 jours nommés, 11 heures, ex. « Lundi : 14h - 19h Mardi & Mercredi : 10h - 19h J »). Portes d'action : « RÉSERVER » (https://www.planity.com/institut-la-douce-heure-44230-saint-sebastien-sur-loire), « CHÈQUE CADEAU » (https://www.planity.com/institut-la-douce-heure-44230-saint-sebastien-sur-loire), « Facebook » (https://www.facebook.com/Institut-La-douce-heure-182295235206760/).
+En 3 secondes : à juger sur `captures/la-douce-heure-d.webp` (mesuré : fond du premier écran #ffffff, 3 image(s) et 18 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Montserrat**, 90 px / 50 px téléphone, graisse 400, interlignage 1,20, interlettrage 1px ; h2 **Montserrat**, 22 px / 22 px téléphone, graisse 400, interlignage 1,20, interlettrage 1px ; corps **Montserrat**, 18 px / 18 px téléphone, graisse 400, interlignage 1,90 ; boutons **Montserrat**, 14 px / 14 px téléphone, graisse 400, interlignage 1,70, capitales, interlettrage 1px ; nav **Montserrat**, 15 px / 18 px téléphone, graisse 400, interlignage 0,93, capitales.
+Sources `@font-face` : Google Fonts (Montserrat, Oswald, Poppins) ; auto-hébergée (ETmodules) ; fichiers chargés : https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw3aXo.woff2, https://www.institutladouceheure.fr/wp-content/themes/Divi/core/admin/fonts/modules/all/modules.woff, https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCuM73w3aXo.woff2, https://fonts.gstatic.com/s/montserrat/v31/JTUFjIg1_i6t8kCHKm459Wx7xQYXK0vOoz6jq6R9WXZ0pg.woff2, https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtZ6Hw3aXo.woff2, https://fonts.gstatic.com/s/montserrat/v31/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCu173w3aXo.woff2. Familles en usage sur le texte visible : Montserrat ×73, Poppins ×2. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte non mesuré. Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (82 %), #edebe8 (10 %), #db8469 (5 %), #222222 (2 %), #cb9274 (1 %) ; textes par nombre de caractères : #cb9274 (33 %), #db8469 (29 %), #000000 (17 %), #fcfcfc (9 %), #3d3d3d (8 %). Images : 8 `<img>` visibles, 3 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : jQuery (window.jQuery). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.3s ease` ×29, `opacity 0.4s ease-in-out` ×9, `background-color 0.4s ease-in-out` ×8, `all 0.4s ease-in-out` ×7, `all 0.2s ease-in-out` ×2, `margin-top 0.4s ease-in-out` ×1, `background-color 0.4s ease` ×1, `color 0.4s ease` ×1, `transform 0.4s ease` ×1, `-webkit-transform 0.4s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/la-douce-heure-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.et_pb_section_3` « La Douce Heure » (1,6 écran, 144 mots, 2 image(s)).
+2. L'élément le plus animé : `a.et_pb_button` (6 transition(s) : all 0.3s ease ; all 0.3s ease).
+3. Le bloc le plus singulier par sa structure : `div.et_pb_section_8` « Recevoir notre Newsletter » (seule à contenir <form>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : horaires sur l'accueil, portes d'action nommées (« RÉSERVER », « CHÈQUE CADEAU », « Facebook »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 5/8 ordinateur, 5/8 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

@@ -349,7 +349,7 @@ test('coquille index-projets : h1, métier à ville, tel:, réglages en radios +
 test('pages : /realisations/<slug> (série de photos à ancres, une page par réalisation) et /a-propos (si pageAPropos), navLinks', () => {
   const r = read('src/pages/realisations/[slug].astro');
   assert.match(r, /site\.realisations\.map\(\(r, i\) => \(\{ params: \{ slug: r\.slug \}/);
-  assert.match(r, /id=\{`photo-\$\{i \+ 1\}`\}/);
+  assert.match(r, /id=\{`photo-\$\{i \+ 1 \+ \(paire \? 1 : 0\)\}`\}/, 'ancres #photo-1… ; avec un curseur avant / après (architecture avant-apres), il prend la première');
   assert.match(r, /<h1[\s>]/);
   assert.match(r, /href=\{tel\(\)\}/);
   const a = read('src/pages/a-propos/[...index].astro');
@@ -434,7 +434,7 @@ test('services/carte-prix : <details> natifs, lignes à pointillés, repli sur l
   assert.match(src, /<section id="services"/);
   assert.match(src, /<details class="carte-rubrique[^"]*" open=\{i === 0\}>/);
   assert.match(src, /s\.lignes\.length > 0 \?/);
-  assert.match(src, /\{l\.prix && <span class="carte-points/);
+  assert.match(src, /\{\(l\.prix \|\| l\.duree\) && <span class="carte-points/);
   assert.match(src, /s\.bullets\.length > 0/);
   assert.match(src, /border-bottom: 2px dotted var\(--color-line\)/);
   const code = src.replace(/\/\*[\s\S]*?\*\//g, '');
@@ -488,7 +488,7 @@ if (tsImportable) {
     assert.deepEqual(ARCHITECTURES['panneaux-tranche'].layout.sections, []);
     assert.equal(ARCHITECTURES['panneaux-tranche'].layout.pageAPropos, true);
     for (const v of ['services/cartes-empilees', 'services/liste-a-filets', 'about/ecran-texte-photo', 'proof/citations', 'contact/ecran']) assert.ok(VARIANTES_D_ARCHITECTURE.includes(v), v);
-    assert.deepEqual([...COQUILLES_A_INDEX_REALISATIONS], ['panneaux', 'carnet']);
+    assert.deepEqual([...COQUILLES_A_INDEX_REALISATIONS], ['panneaux', 'carnet', 'avant-apres']);
   });
 
   test('schema : agenda[] et partenaires[] (défaut vide, décrits), wording.agenda, servicePage « livre », coquilles et variantes', async () => {

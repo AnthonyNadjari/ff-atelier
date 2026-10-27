@@ -77,6 +77,8 @@ export const SHELLS = [
   'parcours', // l accueil est une echelle : en tete h1, telephone, note ; « ou en etes-vous ? » en onglets, un barreau par niveau (formules, compris, deroule, la suite) ; une page par barreau (architecture parcours-atelier)
   'grille', // l accueil est la grille de prix publiee : en tete h1, telephone, delai ; « quelle est votre situation ? » en onglets, le prix du creneau de l heure (jour, soiree, nuit), la grille complete, les delais par secteur ; une page par situation et /tarifs (architecture grille-urgence)
   'colis', // l accueil dit les deux chemins vers l atelier : venir ou envoyer ; le voyage du colis en piste horizontale (chez vous, la poste, l atelier, le retour), les prestations a prix, les avis ; /envoyer (architecture atelier-par-colis)
+  'soins', // l accueil est la carte des soins : en tete h1, telephone, Reserver, bon cadeau ; « combien de temps avez-vous ? » en onglets de duree (sans script : tous les soins), chaque soin avec sa duree, son prix et sa porte ; la carte par famille, une page par famille (architecture carte-des-soins)
+  'avant-apres', // l accueil est le mur des pieces restaurees : en tete h1, telephone, « envoyez une photo » ; chaque piece en curseur avant / apres qu on tire a la main, filtre par type sans script ; les niveaux de travaux a prix ; une page par piece et /realisations (architecture avant-apres)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -339,6 +341,10 @@ export const siteSchema = z.object({
               nom: z.string().describe('Intitule de la ligne de carte ou de tarif (« Crepe beurre sucre », « Coupe homme »)'),
               prix: z.string().optional().describe('Prix tel que le client le donne (« 6,50 € », « a partir de 25 € ») ; absent = ligne sans prix, jamais devine'),
               detail: z.string().optional().describe('Ingredients, duree ou precision courte donnee par le client'),
+              duree: z
+                .string()
+                .optional()
+                .describe("Duree du soin ou de la prestation telle que le client la donne (« 1 h 15 », « 40 min ») : l'architecture carte-des-soins range les soins par temps (src/lib/soins.ts). Absente = soin hors des onglets de duree, jamais devinee."),
             }),
           )
           .default([])
@@ -444,6 +450,10 @@ export const siteSchema = z.object({
         year: z.string().optional().describe('Annee du chantier, donnee par le client. Absent = non affichee.'),
         text: md.optional().describe('Quelques lignes du client : la demande, ce qui a ete fait. Absent = page sans texte, jamais un texte invente.'),
         photos: z.array(img).min(1).describe('Serie de photos du chantier, celles du client ; la premiere sert de vignette dans l index.'),
+        avant: z
+          .array(img)
+          .default([])
+          .describe("Photos de la piece AVANT les travaux, celles du client (architecture avant-apres, src/lib/avantapres.ts) : la premiere fait le curseur avant / apres avec photos[0], les autres ouvrent la page de la piece. Vide = pas de curseur, jamais une photo d'une autre piece."),
         credit: z.string().optional().describe('Photographe a crediter si le client le demande. Absent = non affiche.'),
       }),
     )
@@ -845,6 +855,8 @@ export const siteSchema = z.object({
       parcours: z.string().default('Où en êtes-vous ?').describe('Question posée au-dessus des onglets du parcours (site.parcours) : « Où en êtes-vous ? », « Votre niveau »'),
       tarifs: z.string().default('Les tarifs').describe('Libellé du lien de nav et titre de la page /tarifs (site.tarifs) : « Les tarifs », « Nos prix »'),
       situation: z.string().default('Quelle est votre situation ?').describe('Question posée au-dessus des onglets de la grille (site.tarifs) : « Quelle est votre situation ? », « Que se passe-t-il ? »'),
+      temps: z.string().default('Combien de temps avez-vous ?').describe('Question posée au-dessus des onglets de durée (architecture carte-des-soins) : « Combien de temps avez-vous ? », « Le temps d’un soin »'),
+      photoDevis: z.string().default('Envoyez une photo de votre pièce, avec ses mesures.').describe('Phrase de la porte « devis sur photo » (architecture avant-apres) : « Envoyez une photo de votre fauteuil »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),

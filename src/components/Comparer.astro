@@ -1,0 +1,63 @@
+---
+/**
+ * Curseur avant / après d'UNE pièce (architecture avant-apres : coquille `avant-apres`, page /realisations/<slug>).
+ * Les deux photos du client l'une sur l'autre ; un <input type="range"> natif tire la ligne à la main (doigt, souris,
+ * flèches du clavier). Sans script : le curseur reste à mi-chemin, les deux moitiés se voient. Le geste suit le doigt,
+ * rien ne bouge tout seul (docs/GOUT.md § 4). Même mécanisme que proof/before-after, sans coins arrondis imposés.
+ */
+import Img from '@/components/Img.astro';
+interface Props { avant: { src: string; alt: string }; apres: { src: string; alt: string }; nom: string; priority?: boolean; sizes?: string }
+const { avant, apres, nom, priority = false, sizes = '(min-width: 1024px) 50vw, 100vw' } = Astro.props;
+---
+
+<div class="cmp" data-cmp>
+  <Img src={avant.src} alt={avant.alt} priority={priority} loading={priority ? 'eager' : 'lazy'} sizes={sizes} class="cmp-img" />
+  <div class="cmp-apres" data-cmp-apres>
+    <Img src={apres.src} alt={apres.alt} loading={priority ? 'eager' : 'lazy'} sizes={sizes} class="cmp-img" />
+  </div>
+  <span class="cmp-ligne" data-cmp-ligne aria-hidden="true"></span>
+  <span class="cmp-mot cmp-mot-avant" aria-hidden="true">Avant</span>
+  <span class="cmp-mot cmp-mot-apres" aria-hidden="true">Après</span>
+  <input type="range" min="0" max="100" value="50" class="cmp-range" aria-label={`${nom} : comparer avant et après`} data-cmp-range />
+</div>
+
+<style>
+  .cmp { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--color-bg-2); user-select: none; touch-action: pan-y; --cmp: 50%; }
+  .cmp :global(.cmp-img) { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; }
+  /* L'après couvre la partie gauche jusqu'à la ligne : on « découvre » le travail en tirant vers la droite. */
+  .cmp-apres { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--cmp)) 0 0); }
+  .cmp-ligne { position: absolute; inset-block: 0; inset-inline-start: var(--cmp); inline-size: 2px; margin-inline-start: -1px; background: var(--color-surface); pointer-events: none; }
+  .cmp-mot { position: absolute; inset-block-start: 0.75rem; padding: 0.2rem 0.55rem; border-radius: var(--radius-ui, 4px); background: var(--color-ink); color: var(--color-on-ink); font-size: 0.85rem; pointer-events: none; }
+  .cmp-mot-apres { inset-inline-start: 0.75rem; }
+  .cmp-mot-avant { inset-inline-end: 0.75rem; }
+  /* Le curseur couvre toute l'image : on tire n'importe où. La poignée native reste visible au clavier. */
+  .cmp-range { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+  .cmp-range:focus-visible { opacity: 1; background: transparent; accent-color: var(--color-accent); }
+  .cmp:has(.cmp-range:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Réarmé à chaque navigation (src/scripts/page.ts). La variable --cmp suit la valeur du curseur.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-cmp]').forEach((root) => {
+      const range = root.querySelector<HTMLInputElement>('[data-cmp-range]');
+      if (!range) return;
+      const maj = () => root.style.setProperty('--cmp', `${range.value}%`);
+      range.addEventListener('input', maj);
+      // iOS ne déplace un curseur natif que par sa poignée : le doigt tire la ligne d'où qu'il parte (geste horizontal ;
+      // le vertical reste au défilement, touch-action: pan-y).
+      let tire = false;
+      const suivre = (e: PointerEvent) => {
+        const r = root.getBoundingClientRect();
+        range.value = String(Math.round(Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100))));
+        maj();
+      };
+      root.addEventListener('pointerdown', (e) => { tire = true; suivre(e); });
+      root.addEventListener('pointermove', (e) => { if (tire) suivre(e); });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach((t) => root.addEventListener(t, () => { tire = false; }));
+      maj();
+    });
+  });
+</script>

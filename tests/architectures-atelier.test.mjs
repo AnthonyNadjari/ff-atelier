@@ -218,7 +218,7 @@ test('pages /tarifs, /tarifs/<slug>, /envoyer : générées seulement avec leurs
   assert.match(s, /lienEnvoi\(s\.envoi, s\.wording\.envoi\)/);
   assert.match(read('scripts/ff/ts-loader.mjs'), /export async function loadTarifsModule\(\)/);
   assert.match(read('scripts/ff/ts-loader.mjs'), /export async function loadColisModule\(\)/);
-  assert.match(read('scripts/ff/composer.mjs'), /'grille', 'colis'\]/);
+  assert.match(read('scripts/ff/composer.mjs'), /'grille', 'colis'[,\]]/);
 });
 
 test('docs : DIRECTIONS (coquilles grille et colis), INDEX (codées), fiches, CLAUDE.md', () => {

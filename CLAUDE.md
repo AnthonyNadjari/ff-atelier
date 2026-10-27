@@ -158,6 +158,11 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `/tarifs/<slug>` ; `envoi` (optionnel, architecture `atelier-par-colis`, coquille `colis`) → les deux chemins Venir / Envoyer,
   le voyage du colis en piste horizontale manuelle, `/envoyer` ; aucune donnée = aucune page (`src/lib/tarifs.ts`,
   `src/lib/colis.ts`, `tests/architectures-atelier.test.mjs`).
+  `services[].lignes[].duree` (architecture `carte-des-soins`, coquille `soins`) → « Combien de temps avez-vous ? » en onglets de
+  durée, chaque soin avec sa famille, sa durée, son prix et Réserver ; `realisations[].avant` (architecture `avant-apres`, coquille
+  `avant-apres`) → le mur des pièces en curseurs avant / après qu'on tire à la main, rangées par type en onglets, le curseur en
+  tête de `/realisations/<slug>` ; aucune durée ou photo avant = rien (`src/lib/soins.ts`, `src/lib/avantapres.ts`,
+  `src/components/Comparer.astro`, `tests/architectures-soins.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

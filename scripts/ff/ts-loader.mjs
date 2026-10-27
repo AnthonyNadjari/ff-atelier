@@ -269,6 +269,22 @@ export async function loadColisModule() {
   return loadPureLibModule('colis.ts');
 }
 
+/**
+ * Copie src/lib/soins.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture carte-des-soins : durées lues,
+ * tranches de temps ; tests/architectures-soins.test.mjs).
+ */
+export async function loadSoinsModule() {
+  return loadPureLibModule('soins.ts');
+}
+
+/**
+ * Copie src/lib/avantapres.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture avant-apres : pièces avec photo
+ * avant et après, types ; tests/architectures-soins.test.mjs).
+ */
+export async function loadAvantApresModule() {
+  return loadPureLibModule('avantapres.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');
