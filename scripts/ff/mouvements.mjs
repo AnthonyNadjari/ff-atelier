@@ -213,6 +213,13 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['photos détourées ou en masque souple (galets) qui flottent de 0 à 10 px en hauteur, animation CSS translateY en boucle, ease-out, durées décalées 1,5, 2,5 et 3 s pour que jamais deux ne bougent ensemble (transform seul : tient sur iPhone) ; titres de section en fondu 0,9 s (data-reveal opacité) ; arrêtées en mouvement réduit'],
     manque: 'la règle de flottement (keyframes et trois durées) dans la direction ou le bloc ; seulement sur un objet du métier découpé (tissu, pièce, produit), jamais sur un portrait ni un cadre rectangulaire', exige: {},
   },
+  'deuxieme-vue-au-survol': {
+    nom: 'Deuxième vue au survol', sources: ['poterieravel'],
+    entree: 'aucune', apparition: 'aucune', survol: 'seconde-vue', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'leger', motion: 'subtle',
+    attributs: ['carte produit ou service à deux photos superposées du même objet : au survol ou au focus (:hover dans @media (hover: hover) and (pointer: fine), :focus-visible), la première passe de opacity 1 à 0 et la seconde de 0 à 1 en fondu enchaîné de 0,5 s ease-in-out ; retour identique à la sortie ; au toucher la première vue reste'],
+    manque: 'la variante de carte à deux photos (un champ « seconde photo » par service ou produit) ; aucune information ne dépend de la seconde vue', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

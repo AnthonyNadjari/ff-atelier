@@ -1,0 +1,123 @@
+{
+  "id": "shiptonmill",
+  "version": 1,
+  "source": {
+    "url": "https://www.shipton-mill.com/",
+    "nom": "Shipton Mill",
+    "metier": "moulin à farine biologique et boutique (Tetbury, Gloucestershire)",
+    "fiche": "docs/veille/styles/shiptonmill.md",
+    "mesures": "docs/veille/styles/atomes/mesures/shiptonmill.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Averta",
+      "libre": "figtree",
+      "graisse": 400,
+      "interlignage": 1.2,
+      "casse": "none",
+      "interlettrage": 0.025,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Averta",
+      "libre": "figtree",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 28,
+        "ordinateur": 32
+      },
+      "h2": {
+        "telephone": 24,
+        "ordinateur": 24
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Averta (géométrique aux formes douces) partout, 400, titres en casse normale de 24 à 32 px, menu en capitales espacées 14 px. Figtree, géométrique douce libre, la plus proche ; une seule famille (concordance)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#fcf8ec",
+      "surface": "#ffffff",
+      "texte": "#27432f",
+      "texte2": "#5c6f5c",
+      "accent": "#27432f",
+      "accent2": "#598baf",
+      "bordure": "#27432f",
+      "encre": "#27432f"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #ffffff (18 %), #fdfbf5 (5 %), #27432f (5 %), #1c1b1b (4 %), #f8efd8 (0 %), #598baf (0 %)",
+    "remarque": "Crème farine #fcf8ec (chroma 0,016) ; tout le texte en vert sapin #27432f (61 % des caractères), gris-vert #5c6f5c en second ; boutons pleins vert sapin ; bandeau d annonce bleu ciel #598baf ; pied plein vert sapin, donc palette en coloré doux par son encre."
+  },
+  "densite": {
+    "section": {
+      "telephone": 117,
+      "ordinateur": 132
+    },
+    "gouttiere": {
+      "telephone": 45,
+      "ordinateur": 35
+    },
+    "conteneur": "à juger",
+    "mesure": 48,
+    "rythme": "uni",
+    "remarque": "Conteneur relevé à 2 164 px : c est la piste du carrousel de farines, pas la largeur du texte ; « à juger ». Sections de 117 à 132 px."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "douce",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Boutons pleins vert sapin à angles droits, libellé court en casse normale ; cartes sans cadre, photo puis légende ; liens en couleur."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "2:3-",
+      "1:1",
+      "4:5"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Vidéo du moulin plein cadre au premier écran, le titre DESSOUS sur le crème ; puis vignettes de produits et de recettes en rangées de quatre à angles droits, et diptyques photo du meunier / texte."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease-in"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "cubic-bezier(0.645, 0.045, 0.355, 1)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Rien n apparaît ni ne glisse au défilement (planche à la molette : blocs déjà posés) ; seuls les survols bougent : opacité 0,3 s ease-in, couleur 0,5 s cubic-bezier(0.645, 0.045, 0.355, 1). En-tête qui se replie (transform 0,5 s ease). Profil fondu-sobre, le plus proche d un site posé."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Fond crème uni, pas de filet ; des gravures de céréales au trait vert au-dessus du pied."
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

@@ -1,0 +1,905 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://thenewcraftmaker.com/",
+  "nom": "thenewcraftmaker",
+  "date": "2026-10-27",
+  "identite": {
+    "title": "The New Craftmaker",
+    "siteName": "The New Craftmaker",
+    "lang": "en",
+    "description": "The New Craftmaker curates, commissions and sells unique contemporary objects that are rooted in craftsmanship and narrative. Spanning furniture, lighting, textiles, gifts, ceramics and artworks, our range is made by a growing network of makers from across the British Isles.",
+    "technologies": [
+      "Shopify",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#f3f4f1",
+      "h1": "THE NEW CRAFTMAKER",
+      "h1Visible": true,
+      "mots": 29,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.hero__image"
+      },
+      "boutonPrincipal": {
+        "texte": "VIEW THE WORK",
+        "x": 616.015625,
+        "y": 482.296875,
+        "cx": 0.4982638888888889,
+        "cy": 0.5605815972222222,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 3530,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.site-header__logo",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 30,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.5px"
+      },
+      "h2": {
+        "selecteur": "h2.h1",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 40,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "2px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 15.6,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "1.8px"
+      },
+      "bouton": {
+        "selecteur": "a.btn",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 13,
+        "graisse": "700",
+        "interlignage": 1.42,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "3.9px"
+      },
+      "nav": {
+        "selecteur": "a.site-nav__link",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "3px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_n4.cefc6494a78f87584a6f312fea532919154f66fe.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_n4.cefc6494a78f87584a6f312fea532919154f66fe.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_n6.c6b1e64927bbec1c65aab7077888fb033480c4f7.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_i4.d89c1b32b09ecbc46c12781fcf7b2085f17c0be9.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_i6.f09e39e860dd73a664673caf87e5a0b93b584340.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "a.mailmunch.co"
+      ],
+      "fichiersPolices": [
+        "https://thenewcraftmaker.com/cdn/fonts/cabin/cabin_n4.cefc6494a78f87584a6f312fea532919154f66fe.woff2",
+        "https://thenewcraftmaker.com/cdn/fonts/cabin/cabin_n6.c6b1e64927bbec1c65aab7077888fb033480c4f7.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Gill Sans MT",
+          "n": 64
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f3f4f1",
+      "texte": "#a44633",
+      "fondsBruts": [
+        {
+          "hex": "#f3f4f1",
+          "n": 1,
+          "poids": 5083200
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 1,
+          "poids": 1296000
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#a44633",
+          "n": 38,
+          "poids": 906
+        },
+        {
+          "hex": "#f3f4f1",
+          "n": 8,
+          "poids": 163
+        },
+        {
+          "hex": "#ffffff",
+          "n": 18,
+          "poids": 155
+        }
+      ],
+      "nbImages": 15,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f3f4f1",
+          "n": 1,
+          "poids": 5083200,
+          "part": 0.797
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.203
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#a44633",
+          "n": 38,
+          "poids": 906,
+          "part": 0.74
+        },
+        {
+          "hex": "#f3f4f1",
+          "n": 8,
+          "poids": 163,
+          "part": 0.133
+        },
+        {
+          "hex": "#ffffff",
+          "n": 18,
+          "poids": 155,
+          "part": 0.127
+        }
+      ],
+      "contraste": 5.43
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Flickity",
+          "preuve": "window.Flickity"
+        },
+        {
+          "nom": "AOS",
+          "preuve": "window.AOS"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "animation fade-in 0.5s cubic-bezier(0.29, 0.65, 0.58, 1)",
+          "n": 13
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 12
+        },
+        {
+          "valeur": "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 3
+        },
+        {
+          "valeur": "animation rise-up 1s cubic-bezier(0.26, 0.54, 0.32, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 2
+        },
+        {
+          "valeur": "height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 2
+        },
+        {
+          "valeur": "height 0.35s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.7s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.7s ease",
+          "n": 1
+        },
+        {
+          "valeur": "animation rise-up 0.8s cubic-bezier(0.26, 0.54, 0.32, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-aos",
+          "n": 26
+        },
+        {
+          "nom": "data-aos-offset",
+          "n": 14
+        },
+        {
+          "nom": "data-sticky",
+          "n": 1
+        },
+        {
+          "nom": "data-speed",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "image-element.aos-init",
+        "score": 4,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-aos",
+          "data-aos-offset"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div.transition-body",
+      "sections": [
+        {
+          "selecteur": "main#MainContent",
+          "titre": "CERAMICS BY ADAM BUICK",
+          "top": 0,
+          "hauteur": 2918,
+          "ecrans": 3.2,
+          "mots": 98,
+          "images": 14,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-sections--23057743642905__footer",
+          "titre": "GET IN TOUCH",
+          "top": 2928,
+          "hauteur": 602,
+          "ecrans": 0.7,
+          "mots": 88,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#SiteHeader",
+        "hauteur": 167,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "SEARCH",
+            "href": "/search",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.site-footer",
+        "liens": [
+          {
+            "texte": "CONTACT",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "DELIVERY & RETURNS",
+            "href": "/pages/deliveries-returns",
+            "bouton": false
+          },
+          {
+            "texte": "YOUR PRIVACY",
+            "href": "/pages/your-privacy",
+            "bouton": false
+          },
+          {
+            "texte": "TERMS & CONDITIONS",
+            "href": "/pages/terms-and-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "Subscribe",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://instagram.com/thenewcraftmaker",
+            "bouton": false
+          },
+          {
+            "texte": "Powered by Shopify",
+            "href": "https://www.shopify.com?utm_campaign=poweredby&utm_medium=shopify&utm_source=onlinestore",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 9
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "DELIVERY & RETURNS",
+          "href": "/pages/deliveries-returns"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.in-page-link",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/thenewcraftmaker-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#f3f4f1",
+      "h1": "THE NEW CRAFTMAKER",
+      "h1Visible": true,
+      "mots": 24,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.hero__image"
+      },
+      "boutonPrincipal": {
+        "texte": "VIEW THE WORK",
+        "x": 107.234375,
+        "y": 444.140625,
+        "cx": 0.49613381410256413,
+        "cy": 0.548513403436019,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 3187,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.site-header__logo",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 30,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.5px"
+      },
+      "h2": {
+        "selecteur": "h2.h1",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 20,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 14.352,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "1.656px"
+      },
+      "bouton": {
+        "selecteur": "button.site-nav__link",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "3px"
+      },
+      "nav": {
+        "selecteur": "a.site-header__logo-link",
+        "famille": "\"Gill Sans MT\", \"Gill Sans\", \"Gill Sans Nova\", GillSans, \"Gill Sans Std\", \"Helvetica Neue\", Arial, sans-serif",
+        "taille": 30,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.5px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_n4.cefc6494a78f87584a6f312fea532919154f66fe.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_n4.cefc6494a78f87584a6f312fea532919154f66fe.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_n6.c6b1e64927bbec1c65aab7077888fb033480c4f7.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_i4.d89c1b32b09ecbc46c12781fcf7b2085f17c0be9.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cabin",
+          "url": "//thenewcraftmaker.com/cdn/fonts/cabin/cabin_i6.f09e39e860dd73a664673caf87e5a0b93b584340.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "a.mailmunch.co"
+      ],
+      "fichiersPolices": [
+        "https://thenewcraftmaker.com/cdn/fonts/cabin/cabin_n4.cefc6494a78f87584a6f312fea532919154f66fe.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Gill Sans MT",
+          "n": 36
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f3f4f1",
+      "texte": "#a44633",
+      "fondsBruts": [
+        {
+          "hex": "#f3f4f1",
+          "n": 1,
+          "poids": 1242930
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#a44633",
+          "n": 14,
+          "poids": 498
+        },
+        {
+          "hex": "#f3f4f1",
+          "n": 8,
+          "poids": 163
+        },
+        {
+          "hex": "#ffffff",
+          "n": 14,
+          "poids": 119
+        }
+      ],
+      "nbImages": 15,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f3f4f1",
+          "n": 1,
+          "poids": 1242930,
+          "part": 0.791
+        },
+        {
+          "hex": "#0f0f0f",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.209
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#a44633",
+          "n": 14,
+          "poids": 498,
+          "part": 0.638
+        },
+        {
+          "hex": "#f3f4f1",
+          "n": 8,
+          "poids": 163,
+          "part": 0.209
+        },
+        {
+          "hex": "#ffffff",
+          "n": 14,
+          "poids": 119,
+          "part": 0.153
+        }
+      ],
+      "contraste": 5.43
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Flickity",
+          "preuve": "window.Flickity"
+        },
+        {
+          "nom": "AOS",
+          "preuve": "window.AOS"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "animation fade-in 0.5s cubic-bezier(0.29, 0.65, 0.58, 1)",
+          "n": 13
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 12
+        },
+        {
+          "valeur": "animation rise-up 1s cubic-bezier(0.26, 0.54, 0.32, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "all 0.1s ease-in",
+          "n": 2
+        },
+        {
+          "valeur": "height 0.35s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.7s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.7s ease",
+          "n": 1
+        },
+        {
+          "valeur": "animation rise-up 0.8s cubic-bezier(0.26, 0.54, 0.32, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "animation fade-in 2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-aos",
+          "n": 26
+        },
+        {
+          "nom": "data-aos-offset",
+          "n": 14
+        },
+        {
+          "nom": "data-sticky",
+          "n": 1
+        },
+        {
+          "nom": "data-speed",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "image-element.aos-init",
+        "score": 4,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-aos",
+          "data-aos-offset"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "main#MainContent",
+      "sections": [
+        {
+          "selecteur": "div#shopify-section-template--23057742528793__slideshow",
+          "titre": "CERAMICS BY ADAM BUICK",
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 30,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--23057742528793__rich_text_mjgQFr",
+          "titre": null,
+          "top": 854,
+          "hauteur": 219,
+          "ecrans": 0.3,
+          "mots": 47,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--23057742528793__featured-collections",
+          "titre": "FURNITURE",
+          "top": 1083,
+          "hauteur": 599,
+          "ecrans": 0.7,
+          "mots": 5,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--23057742528793__featured_collections_HH6UCq",
+          "titre": "LIGHTING",
+          "top": 1692,
+          "hauteur": 599,
+          "ecrans": 0.7,
+          "mots": 9,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--23057742528793__featured_collections_wNYz4w",
+          "titre": "OBJECTS & TEXTILES",
+          "top": 2301,
+          "hauteur": 599,
+          "ecrans": 0.7,
+          "mots": 7,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-sections--23057743642905__footer",
+          "titre": null,
+          "top": 2910,
+          "hauteur": 277,
+          "ecrans": 0.3,
+          "mots": 20,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#SiteHeader",
+        "hauteur": 81,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "SITE NAVIGATION",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "SEARCH",
+            "href": "/search",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.site-footer",
+        "liens": [
+          {
+            "texte": "GET IN TOUCH",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "DELIVERY & RETURNS",
+            "href": "/pages/deliveries-returns",
+            "bouton": false
+          },
+          {
+            "texte": "YOUR PRIVACY",
+            "href": "/pages/your-privacy",
+            "bouton": false
+          },
+          {
+            "texte": "TERMS & CONDITIONS",
+            "href": "/pages/terms-and-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "SIGN UP TO OUR NEWSLETTER",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Powered by Shopify",
+            "href": "https://www.shopify.com?utm_campaign=poweredby&utm_medium=shopify&utm_source=onlinestore",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "DELIVERY & RETURNS",
+          "href": "/pages/deliveries-returns"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.in-page-link",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 5,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "The New Craftmaker",
+  "dureeS": 19.6
+}

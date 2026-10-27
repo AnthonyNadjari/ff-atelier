@@ -313,6 +313,21 @@ aux bords souples et **flottent** sur place : `translateY` de 0 à 10 px environ
   sur une photo rectangulaire (l'effet devient un cadre qui tremble). Pas pour un client « calme » : ça bouge tout seul,
   doucement. Calme : non. Poids : nul.
 
+### `deuxieme-vue-au-survol`
+Poterie Ravel (`poterieravel.md`, [poterie-ravel.com](https://www.poterie-ravel.com/), veille du 27 oct 2026 ; opacité des
+deux images relevée à 50, 100, 250, 500 et 800 ms après l'entrée puis la sortie du pointeur sur une carte produit, à 1 440 et
+390 px de large) : chaque carte produit (photo 4:5, nom en capitales, prix) porte deux photos du même produit superposées.
+Au survol, la première s'efface pendant que la seconde apparaît, en fondu enchaîné de 0,5 s `ease-in-out` (opacités 0,44 /
+0,56 à 250 ms, échange complet à 500 ms) ; à la sortie, retour identique. Rien ne bouge au défilement. On voit l'objet seul,
+puis l'objet sous un autre angle, sans clic ni carrousel.
+- Entrée aucune · apparition aucune · survol seconde vue · fond aucun.
+- Moteur : CSS seul (deux `<img>` superposées dans la carte, `opacity` en transition 0,5 s ease-in-out sur `:hover` et
+  `:focus-visible`) ; tient sur iPhone (opacité seulement). Au toucher, la première vue reste : aucune information ne doit
+  dépendre de la seconde. Manque : la variante de carte à deux photos (un champ « seconde photo » par service ou produit).
+- Quand : un artisan à catalogue qui a deux bonnes photos par pièce (potier, céramiste, ébéniste, sellier) ; compatible avec
+  un client « calme » (rien ne bouge sans geste). Distinct de `ombre-au-survol` (la carte se soulève) et de
+  `portes-qui-s-eclairent` (flou qui se lève). Calme : oui. Poids : une image de plus par carte.
+
 ## Complément transversal : transitions de page
 
 Estudio Niksen (`view-transition` natives), Délice (Swup), Relais Rossàr (Barba). Pas un profil : il se combine avec

@@ -1,0 +1,124 @@
+{
+  "id": "poterieravel",
+  "version": 1,
+  "source": {
+    "url": "https://www.poterie-ravel.com/",
+    "nom": "Poterie Ravel",
+    "metier": "poterie de terre cuite (manufacture, Aubagne, depuis 1837)",
+    "fiche": "docs/veille/styles/poterieravel.md",
+    "mesures": "docs/veille/styles/atomes/mesures/poterieravel.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Bodoni Moda",
+      "libre": "bodoni",
+      "graisse": 400,
+      "interlignage": 1,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Geologica",
+      "libre": "figtree",
+      "graisse": 300,
+      "interlignage": 1.25
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 22.7,
+        "ordinateur": 65.2
+      },
+      "h2": {
+        "telephone": 20,
+        "ordinateur": 41.3
+      },
+      "texte": {
+        "telephone": 11,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Bodoni Moda 400 en titres, saisis en capitales dans le texte (h1 « JARDIN D’ARGILE » 65 px à l ordinateur, 22,7 px au téléphone ; h2 41 px sur trois lignes courtes, interlignage 1,0), alignés à gauche ou à droite en bas des blocs ; Geologica 300, grotesque géométrique légère, pour le texte (16 px à l ordinateur, 11 px au téléphone, relevé tel quel : la charte le remonte à 16). Bodoni Moda est au registre (bodoni) ; Figtree, géométrique douce libre, pour Geologica."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#fafaf0",
+      "surface": "#ffffff",
+      "texte": "#182005",
+      "texte2": "#484848",
+      "accent": "#182005",
+      "accent2": "#cfa587",
+      "bordure": "#182005",
+      "encre": "#000000"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #ffffff (1 %), #cfa587 (0 %), #182005 (0 %)",
+    "remarque": "Ivoire #fafaf0 (chroma 0,013) sur 99 % de la page, pied compris ; texte vert-noir olive #182005 ; boutons pleins de la même encre ; pastille terre cuite #cfa587 (nuancier des produits) ; seul bloc sombre : le diaporama noir #000000 du premier écran. Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 64,
+      "ordinateur": 108
+    },
+    "gouttiere": {
+      "telephone": 25,
+      "ordinateur": 30
+    },
+    "conteneur": "à juger",
+    "mesure": 52,
+    "rythme": "uni",
+    "remarque": "Conteneur relevé à 7 397 px : c est la piste du carrousel de produits ; « à juger »."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Angles droits partout ; boutons pleins ou à filet 1 px, libellé en capitales ; cartes produit sans cadre : photo 4:5, nom en capitales, prix à droite, pastille de couleur."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "1:1"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : diaporama plein cadre sur fond noir, titre Bodoni blanc et bouton posés en bas à gauche ; puis compositions éditoriales de vignettes (atelier, jarres, portrait ancien en noir et blanc), photos de produits 4:5 en rangée, et une deuxième photo de chaque produit qui apparaît au survol."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.5,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease-in-out"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "deuxieme-vue-au-survol",
+    "remarque": "Mesuré au pointeur sur une carte produit (1 440 et 390 px) : la photo du produit s efface et la seconde vue apparaît en fondu enchaîné, 0,5 s ease-in-out (opacités 0,44 / 0,56 à 250 ms, échange complet à 500 ms), retour identique à la sortie. Rien ne bouge au défilement (sonde à la molette tous les 300 px). Profil nouveau proposé : deuxieme-vue-au-survol ; « à juger » ici tant qu il n est pas dans MOUVEMENTS.md (le validateur refuse un id inconnu), à poser alors."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}
