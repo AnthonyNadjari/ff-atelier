@@ -1,0 +1,30 @@
+# Boulangerie Landemaine — https://www.maisonlandemaine.com/
+Titre « Boulangerie Landemaine - Artisan Boulanger Pâtissier », `lang="fr-FR"`, description « Boulangerie Landemaine est une enseigne de boulangerie-pâtisserie artisanale, contemporaine et responsable, établie à Paris depuis 2007 et à Tokyo depuis 2015.… », technologie lue : generator « Maison_landemaine v.1.0 », WordPress, jQuery. Démontage automatique du 2026-10-27 (`ff demonter`, mesures brutes dans `maisonlandemaine.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « ARTISAN DE CONVICTION » ; vidéo plein écran (100 % de l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 21 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « Artisan de Conviction » ; fond en image plein écran (71 % de l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 6 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 8 lien(s) — ACCUEIL, PRODUITS, SAVOIR-FAIRE, ACTUALITÉS, ADRESSES, PRO & EVENT, CARRIÈRE, CONTACT ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.et_pb_section_0` « ARTISAN DE CONVICTION » (1,0 écran, 9 mots, 1 img) → `div#incontournables` « NOS INCONTOURNABLES » (0,8 écran, 200 mots, 14 img) → `div.et_pb_section_3` « Des pains raisonnés » (0,7 écran, 38 mots, 1 img) → `div.et_pb_section_4` « Un savoir-faire engagé » (0,7 écran, 54 mots, 1 img) → `div.et_pb_section_5` « Trouvez votre boulangerie » (0,6 écran, 58 mots, 1 img) → `div.et_pb_section_6` « Professionnels & événements » (0,7 écran, 49 mots, 1 img) → `footer.et-l` « PRODUITS FAITS MAISON » (0,7 écran, 53 mots, 3 img). Calques hors flux (fixes/absolus) : `span.et_pb_scroll_top` (fixed, 40 px), `header#main-header` (fixed, 142 px, 10 mots).
+Pied de page : 18 lien(s) — Boulangerie, Viennoiseries, Patisseries, Offre salée, Épicerie, Traiteur / Réception, Paris (17), Tokyo (3), Savoir-faire, Actualités (+8). Téléphone cliquable : non. Formulaire : 1 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : aucune (réservation, commande, bon cadeau, devis, rendez-vous).
+En 3 secondes : à juger sur `captures/maisonlandemaine-d.webp` (mesuré : fond du premier écran #2f4b6d, 1 image(s) et 21 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Krona One**, 58 px, graisse 300, interlignage 1,30, capitales, interlettrage 1px ; h2 **Krona One**, 23 px / 23 px téléphone, graisse 500, interlignage 1,00, capitales ; corps **Commuters Sans Rgular**, 16 px / 16 px téléphone, graisse 500, interlignage 1,70 ; boutons **Commuters Sans Rgular**, 46 px / 36 px téléphone, graisse 500, interlignage 0,59 ; nav **Krona One**, 12 px / 16 px téléphone, graisse 700, interlignage 1,17, capitales, interlettrage 3px.
+Sources `@font-face` : tiers (boulangerielandemaine.com) (Krona One, Commuters Sans Rgular, ABC synt, ABC Synt Unlicensed Trial, Commuters Sans) ; auto-hébergée (Gill sans nova-light, Krona One, Commuters Sans Rgular, ABC synt, ETmodules, FontAwesome, Mermaid) ; inline (data:) (dashicons) ; fichiers chargés : https://boulangerielandemaine.com/wp-content/themes/Divi/core/admin/fonts/modules.ttf, https://boulangerielandemaine.com/wp-content/Fonts/CommutersSans-Regular.ttf, https://boulangerielandemaine.com/wp-content/uploads/fonts/KronaOne-Regular.ttf, https://maisonlandemaine.com/wp-content/uploads/et-fonts/3.-Gill-Sans-Nova-Light.otf, https://boulangerielandemaine.com/wp-content/uploads/et-fonts/KronaOne-Regular.ttf, https://boulangerielandemaine.com/wp-content/uploads/et-fonts/ABCSynt-Regular-Trial.otf. Familles en usage sur le texte visible : Commuters Sans Rgular ×45, Krona One ×32, ABC synt ×4, Gill sans nova-light ×1. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #2f4b6d, texte #666666 (contraste 1,56:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #2f4b6d (54 %), #ffffff (37 %), #222222 (8 %), #eeebe1 (0 %) ; textes par nombre de caractères : #ffffff (33 %), #666666 (30 %), #eeebe1 (28 %), #333333 (9 %), #000000 (1 %). Images : 22 `<img>` visibles, 3 fond(s) en image, 1 vidéo(s), `mask-image`/`clip-path` sur 1 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : jQuery (window.jQuery). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.8s ease-in-out` ×28, `all 0.4s ease-in-out` ×13, `transform 0.2s linear` ×5, `color 0.3s ease` ×4, `background-color 0.3s ease` ×4, `opacity 0.2s linear` ×4, `border 0.3s ease` ×3, `all 0.2s ease-in-out` ×2, `background-color 0.4s ease` ×1, `color 0.4s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/maisonlandemaine-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.et_pb_section_0` « ARTISAN DE CONVICTION » (1,0 écran, 9 mots, 1 image(s)).
+2. L'élément le plus animé : `header#main-header` (5 transition(s) : background-color 0.4s ease ; color 0.4s ease).
+3. Le bloc le plus singulier par sa structure : `div.et_pb_section_0` « ARTISAN DE CONVICTION » (seule à contenir <video>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/7 ordinateur, 0/7 téléphone ; vidéo en premier écran : oui ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

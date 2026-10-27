@@ -1,0 +1,165 @@
+{
+  "id": "maisonlandemaine",
+  "version": 1,
+  "source": {
+    "url": "https://www.maisonlandemaine.com",
+    "nom": "Maison Landemaine",
+    "metier": "boulangerie et pâtisserie artisanale à plusieurs adresses (Paris, Tokyo)",
+    "fiche": "docs/veille/styles/maisonlandemaine.md",
+    "mesures": "docs/veille/styles/atomes/mesures/maisonlandemaine.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Krona One",
+      "libre": "sora",
+      "graisse": 300,
+      "interlignage": 1.3,
+      "casse": "uppercase",
+      "interlettrage": 0.017,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Commuters Sans Rgular",
+      "libre": "hanken",
+      "graisse": 500,
+      "interlignage": 1.2
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 28,
+        "ordinateur": 57.6
+      },
+      "h2": {
+        "telephone": 35,
+        "ordinateur": 35
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Krona One (géométrique large, capitales, 300) pour les titres, 57 px puis 35 px, et Commuters Sans pour le texte 16 px ; Sora, la géométrique large libre la plus proche, et Hanken Grotesk pour le texte."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#2f4b6d",
+      "texte": "#ffffff",
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "part": 0.497
+        },
+        {
+          "hex": "#2f4b6d",
+          "part": 0.436
+        },
+        {
+          "hex": "#222222",
+          "part": 0.067
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "part": 0.33
+        },
+        {
+          "hex": "#666666",
+          "part": 0.301
+        },
+        {
+          "hex": "#eeebe1",
+          "part": 0.276
+        },
+        {
+          "hex": "#333333",
+          "part": 0.085
+        },
+        {
+          "hex": "#000000",
+          "part": 0.007
+        },
+        {
+          "hex": "#212930",
+          "part": 0.001
+        }
+      ],
+      "proches": 13677714
+    },
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#eeebe1",
+      "texte": "#333333",
+      "texte2": "#666666",
+      "accent": "#2f4b6d",
+      "accent2": null,
+      "bordure": "#2f4b6d",
+      "encre": "#2f4b6d"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #ffffff (50 %), #222222 (7 %)",
+    "remarque": "Blanc sur la moitié de la page, bleu de four #2f4b6d en grands blocs qui chevauchent les photos (pains raisonnés) et en pied avec trois pictos ; crème #eeebe1 pour le texte sur bleu ; boutons pleins bleus. Coloré doux par le bloc d'encre."
+  },
+  "densite": {
+    "section": {
+      "telephone": 167,
+      "ordinateur": 128
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 62
+    },
+    "conteneur": 4045,
+    "mesure": 54,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "1:1",
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Diaporama de pâte en plein cadre au premier écran, puis photos de fournil en cadre droit avec un bloc bleu qui les chevauche, croquis à main levée de pains en filigrane sur le blanc."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.8,
+      "courbe": "ease-in-out"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Aucun effet au défilement (pas de sticky, pas d'animation-timeline) ; fondu de l'en-tête 0,4 s, flèches du carrousel de produits."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

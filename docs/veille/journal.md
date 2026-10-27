@@ -767,3 +767,5 @@ Collecte 2026-10-19 : 10 styles (16 démontés sur 31 essayés ; Awwwards/land-b
 Collecte 2026-10-26 : 22 styles (relevé mesuré, jugements photos/couleurs/mouvement restent « à juger »).
 Collecte 2026-10-26 (soir) : 16 styles (Awwwards sites du jour ; relevé mesuré, jugements « à juger » ; edolus et meermohsin refusés par le réseau).
 Collecte 2026-10-27 (mardi, Framer/Webflow/ThemeForest injoignables, remplacés par commerces et marques d'objets) : 17 styles (relevé mesuré, jugements « à juger » ; une vingtaine de sites refusés par blocage navigateur ou réseau).
+
+Collecte 2026-10-27 (mardi : Framer, Webflow, Squarespace, ThemeForest) : 2 styles. Framer en 429, ThemeForest en 403, Webflow ne liste que des modèles ; 59 domaines de commerces sondés, 2 gardés (gjelina, maisonlandemaine), le reste écarté (polices IA, blancs neutres, bannière ou fenêtre bloquante, domaine parqué, boutique « bientôt », mauvais domaine), sous les 20 visés : le vivier de ce régime est épuisé par les deux collectes du matin.
