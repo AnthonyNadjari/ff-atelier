@@ -1,0 +1,124 @@
+{
+  "id": "wingonwoand",
+  "version": 1,
+  "source": {
+    "url": "https://wingonwoand.co/",
+    "nom": "Wing On Wo & Co.",
+    "metier": "porcelaine et art de la table, boutique de Chinatown (New York) depuis 1925",
+    "fiche": "docs/veille/styles/wingonwoand.md",
+    "mesures": "docs/veille/styles/atomes/mesures/wingonwoand.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "gitan-latin",
+      "libre": "cabin",
+      "graisse": 500,
+      "interlignage": 1.25,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Cambon",
+      "libre": "literata",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 30.4,
+        "ordinateur": 60
+      },
+      "h2": {
+        "telephone": 30.4,
+        "ordinateur": 60
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en gitan-latin 500 (sans humaniste aux fûts évasés, presque calligraphique), casse normale, 30 px au téléphone et 60 px à l ordinateur sur la photo du premier écran, 29 px pour les titres de bloc ; nav et boutons dans la même police en capitales 14 à 16 px ; texte en Cambon 400 (serif de lecture robuste) 16 à 18 px, interlignage 1,5. Libres : Cabin (humaniste du registre, fûts ouverts) pour les titres, Literata (serif de texte solide) pour le texte : accord sans + serif, comme la source."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#fff2ea",
+      "surface": "#fcc2a2",
+      "texte": "#3d2819",
+      "texte2": "#423f3f",
+      "accent": "#b75e2d",
+      "accent2": null,
+      "bordure": "#3d2819",
+      "encre": "#b75e2d"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #fcc2a2 (41 %), #000000 (4 %), #ffffff (2 %), #b75e2d (2 %)",
+    "remarque": "Pêche très pâle #fff2ea sous la page (51 % des fonds), bloc « Our Origins » et bandeaux en pêche franche #fcc2a2 (41 %), texte brun thé #3d2819, texte secondaire #423f3f, boutons pleins rouille #b75e2d (texte blanc), bandeau d annonce rouille en haut de page. Surface pêche (chroma au-dessus de 0,03) : coloré doux ; une seule vive (la rouille)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 72,
+      "ordinateur": 117
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 20
+    },
+    "conteneur": 1160,
+    "mesure": 83,
+    "rythme": "uni",
+    "remarque": "Marges relevées du bord de la section au premier texte : 48, 72 et 116 px au téléphone, 93, 117 et 166 px à l ordinateur (médianes 72 et 117) ; le relevé automatique (115 et 190 px) comptait le premier écran. Conteneur 1 160 px, gouttière 20 px."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Angles droits partout ; boutons pleins rouille, texte blanc en capitales gitan-latin ; tuiles de collection carrées sans bordure ni ombre (l ombre « douce » relevée est celle de la boîte d inscription posée en coin, non reprise) ; liens par la couleur."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : diaporama de photos de mise en scène très colorées (porcelaine, jade, agrumes sur fond rouge sang) bord à bord, titre et bouton centrés dessus ; puis collections en vignettes carrées 1:1, trois par rangée, nom en capitales dessous ; la devanture de la boutique en diptyque contre le bloc pêche ; une illustration peinte en bande pleine largeur avant le pied."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.15,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 1.2,
+      "courbe": "cubic-bezier(0.13, 0.88, 0.62, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "filet-qui-se-trace",
+    "remarque": "Relevé à la molette (document.getAnimations et ::after mesuré à 100, 400, 900, 1 600 et 2 500 ms) : sous chaque titre de bloc, un filet noir de 3 px se trace de 0 à 36 px de large en 1,2 s cubic-bezier(.13,.88,.62,1) après 0,7 s, une fois, à l entrée du titre ; les photos entrent en fondu 0,8 s ease au chargement ; liens 0,15 s ease. Le diaporama du premier écran ne part pas seul à l essai (flèches et points). Profil nouveau : filet-qui-se-trace."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Bandes pêche franche entre des fonds pêche pâle ; le seul filet est le trait court sous les titres."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

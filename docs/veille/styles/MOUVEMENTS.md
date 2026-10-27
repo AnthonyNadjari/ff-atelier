@@ -1,4 +1,4 @@
-# Profils de mouvement : trente-deux façons de faire bouger une page, relevées sur de vrais sites
+# Profils de mouvement : trente-quatre façons de faire bouger une page, relevées sur de vrais sites
 
 Le fondateur, 18 oct 2026, sur L'Épi d'Or b, c, d : « beaucoup plus de pluralité : animations, même des vidéos en
 fond ». L'atome `mouvement` (ATOMES.md) ne portait que des durées et une courbe : trois mélanges différents bougeaient
@@ -385,6 +385,44 @@ Bourke Street Bakery (`bourkestreet.md`, [bourkestreetbakery.com.au](https://bou
   par volet puis zoome au défilement, à chaque section »).
 - Quand : boulangerie, épicerie, traiteur avec deux ou trois belles photos de la boutique ; client « calme » permis. Calme :
   oui. Poids : léger.
+
+### `filet-qui-se-trace`
+Wing On Wo & Co. (`wingonwoand.md`, [wingonwoand.co](https://wingonwoand.co/), veille du 27 oct 2026, soir ; pseudo-élément
+`::after` du titre relevé à 100, 400, 900, 1 600 et 2 500 ms après l'entrée du titre à l'écran, à 390 et 1 440 px de large) :
+la page est posée, les titres de bloc (« Our Origins », 29 px) ne bougent pas. Sous chacun, un filet noir de 3 px, 7 px sous
+la ligne, se trace de gauche à droite de 0 à 36 px en 1,2 s `cubic-bezier(.13,.88,.62,1)` après 0,7 s (0 px à 400 ms,
+20 px à 900 ms, 35 px à 1 600 ms), une seule fois. Les photos entrent en fondu 0,8 s `ease` à leur chargement ; liens 0,15 s.
+- Entrée aucune · apparition filet · survol couleur · fond aucun.
+- Moteur : `data-draw` existe (trait qui se trace au défilement, subtle) ; le poser sur un `<span>` court sous le h2.
+  Manque : le filet dans la section ou la direction ; en mouvement réduit il est déjà tracé (tient sur iPhone : une largeur
+  sur un trait de 3 px, rien de calé sur `--p`).
+- Garde : un trait court (la longueur du premier mot au plus), jamais sous le h1, jamais une ligne pleine largeur qui
+  souligne toute la page ; pas un titre révélé (GOUT § 2 : le titre est là d'emblée, seul le trait arrive).
+- Quand : boutique ou artisan à la page posée qui veut une ponctuation discrète à chaque bloc (porcelaine, épicerie,
+  librairie, mercerie) ; compatible avec un client « calme ». Distinct de `fil-qui-mene` (un fil qui traverse la page) et de
+  `soulignement-qui-se-dessine` (au survol d'un lien). Calme : oui. Poids : léger.
+
+### `citation-en-fondu`
+Cora Pearl (`corapearl.md`, [corapearl.co.uk](https://www.corapearl.co.uk/), veille du 27 oct 2026, soir, moitié A ; opacité
+des diapositives relevée toutes les 500 ms pendant 12 s à 1 440 px de large, captures à 0,5, 2,5, 5, 8 et 12 s) : le premier
+écran est un diptyque bord à bord, une photo à gauche (l'enseigne, un plat, un dessin à l'encre), une citation de presse à
+droite en capitales (« 'THE NEW DARLING OF COVENT GARDEN' », sa source dessous). Le couple photo + citation passe au suivant
+en **fondu enchaîné** : opacités 1 → 0,74 → 0,27 → 0,07 → 0 d'une relève à l'autre, soit 1,5 à 2 s (`opacity 2s ease`,
+Slick en mode fondu), la photo et la citation ensemble ; rien ne glisse. La source tourne seule toutes les 5 s environ ;
+flèches et glisser au doigt existent aussi. Les blocs suivants apparaissent une fois (`all 1s ease`).
+- Entrée aucune · apparition fondu · survol fondu enchaîné (au geste) · fond aucun.
+- Moteur : `data-reveal` (opacité seule) pour les blocs suivants ; le diptyque lui-même manque : une pile de couples photo /
+  citation, deux boutons étiquetés « Citation précédente / suivante » et le glisser au doigt (`touch-action: pan-y`), fondu
+  d'opacité 1,5 s `ease` sur le couple entier, script court de bloc. **Sans rotation automatique** (GOUT § 4 : rien ne tourne
+  tout seul quand on peut le faire à la main ; WCAG 2.2.2) ; en mouvement réduit, bascule sans fondu. Tient sur iPhone
+  (opacité seule, rien de calé sur `--p`).
+- Garde : au moins deux vraies citations du brief (avis Google recopiés, ligne de presse), chacune avec sa source et une
+  photo du client ; jamais une citation inventée ni un avis sans auteur (GOUT § 0, `docs/BRIEF.md`) ; sinon ce profil ne se
+  tire pas.
+- Quand : restaurant, hôtel, traiteur, artisan cité par la presse ou aux avis forts, qui veut la preuve haut dans la page
+  (GOUT § 0, point 4) sans bandeau d'étoiles ; compatible avec un client « calme ». Distinct de `legende-fixe-qui-change`
+  (le nom du projet bascule sans fondu au défilement) et de `glisse-a-la-main` (une piste de cartes qui glisse). Calme : oui.
+  Poids : léger.
 
 ## Complément transversal : transitions de page
 

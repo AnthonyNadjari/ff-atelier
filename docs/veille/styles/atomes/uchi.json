@@ -1,0 +1,126 @@
+{
+  "id": "uchi",
+  "version": 1,
+  "source": {
+    "url": "https://uchirestaurants.com/",
+    "nom": "Uchi",
+    "metier": "restaurants japonais (Austin et sept autres villes), page d accueil de la maison",
+    "fiche": "docs/veille/styles/uchi.md",
+    "mesures": "docs/veille/styles/atomes/mesures/uchi.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Mark",
+      "libre": "urbanist",
+      "graisse": 300,
+      "interlignage": 1.2,
+      "casse": "lowercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Mark",
+      "libre": "urbanist",
+      "graisse": 400,
+      "interlignage": 1.43
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 28,
+        "ordinateur": 32
+      },
+      "h2": {
+        "telephone": 18,
+        "ordinateur": 18
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Une seule famille, Mark (géométrique de FontFont) : titres en Light 300 et en bas de casse (« a family of extraordinary dining experiences », 28 px au téléphone, 32 px à l ordinateur), titres de bloc en Bold 700 18 px bas de casse, texte Light 300 14 à 16 px, interlignage 1,43, boutons et villes 500. Les grands noms du premier écran (uchi, uchiko, uchibā, oheya, environ 120 px) sont des logos en SVG brun, pas du texte : le h1 retenu est le texte mesuré. Urbanist est la géométrique du registre la plus proche de Mark ; texte porté de 300 à 400 (Urbanist 300 trop pâle sous 18 px). Les titres découpés en lignes qui montent (div.line, GSAP) ne sont pas repris (GOUT § 2)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f2e8de",
+      "surface": null,
+      "texte": "#4e4b48",
+      "texte2": "#4e4b48",
+      "accent": "#7d623f",
+      "accent2": null,
+      "bordure": "#7d623f",
+      "encre": "#7d623f"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #7d623f (4 %), #ffffff (3 %)",
+    "remarque": "Sable rosé #f2e8de sous toute la page (93 % des fonds, chroma 0,017), texte gris taupe #4e4b48 (7,2:1), toute la marque en brun tabac #7d623f : logos, villes, filets des cadres, gravure de pieuvre en filigrane, bandeau d inscription plein (texte sable). Le bandeau brun (chroma au-dessus de 0,04) classe la palette en coloré doux, de justesse."
+  },
+  "densite": {
+    "section": {
+      "telephone": 114,
+      "ordinateur": 91
+    },
+    "gouttiere": {
+      "telephone": 51,
+      "ordinateur": 38
+    },
+    "conteneur": 1238,
+    "mesure": 45,
+    "rythme": "uni",
+    "remarque": "Marges relevées du bord de la section au premier texte : 114 px (premier bloc) à 229 px au téléphone, 83 à 213 px à l ordinateur ; retenu le premier bloc au téléphone (114) et la médiane à l ordinateur (91). Le relevé automatique (190 et 155 px) comptait les cadres. Conteneur 1 238 px, gouttière de 51 px au téléphone."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Angles droits ; blocs posés dans des cadres d un filet brun de 1 px (les adresses, l histoire), boutons à contour fin, villes en onglets soulignés ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "1:1",
+      "16:9+",
+      "4:3"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Peu de photos : le premier écran est fait des noms des quatre maisons en très grand et d une gravure de pieuvre en filigrane brun ; plus bas, une vidéo et le portrait du chef dans des cadres à filet, un motif d écailles gravé en bande, des photos 1:1 et 4:3. Les photos entrent en fondu 0,8 s."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "cubic-bezier(0.355, 0.82, 0.335, 1)"
+    },
+    "scene": {
+      "duree": 0.8,
+      "courbe": "cubic-bezier(0.355, 0.82, 0.335, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé à la molette : les images entrent en fondu (opacity 0,8 s cubic-bezier(.355,.82,.335,1)) ; GSAP découpe les titres en lignes qui montent de 27 px (non repris : titres révélés ligne par ligne, GOUT § 2). Profil retenu : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "gravure en filigrane",
+    "remarque": "Gravures au trait brun (pieuvre, écailles) posées en filigrane sur le sable : un dessin du métier, pas un grain ; cadres de filet fin."
+  },
+  "architecture": null,
+  "premier_ecran": "typographique"
+}

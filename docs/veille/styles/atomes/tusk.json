@@ -1,0 +1,123 @@
+{
+  "id": "tusk",
+  "version": 1,
+  "source": {
+    "url": "https://tuskpdx.com/",
+    "nom": "Tusk",
+    "metier": "restaurant méditerranéen de saison (Portland, Oregon)",
+    "fiche": "docs/veille/styles/tusk.md",
+    "mesures": "docs/veille/styles/atomes/mesures/tusk.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "__akkuratBold_b86f47",
+      "libre": "publicSans",
+      "graisse": 700,
+      "interlignage": 1.2,
+      "casse": "uppercase",
+      "interlettrage": 0.044,
+      "italique": false
+    },
+    "texte": {
+      "famille": "__akkuratNormal_c85066",
+      "libre": "publicSans",
+      "graisse": 400,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 32,
+        "ordinateur": 65
+      },
+      "h2": {
+        "telephone": 28,
+        "ordinateur": 33
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en Akkurat Bold (grotesque suisse) en capitales légèrement espacées (0,044 em), 32 px au téléphone et 65 px à l ordinateur pour la phrase du premier écran, 28 à 33 px pour les titres de bloc ; texte en Akkurat Normal 16 px, interlignage 1,6, interlettrage 0,045 em ; boutons en capitales serif (Lora, police IA : non reprise). Public Sans est la grotesque du registre la plus proche d Akkurat (dessin neutre, capitales larges) ; une seule famille, comme la source."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f9f2e5",
+      "surface": null,
+      "texte": "#4e453b",
+      "texte2": "#4e453b",
+      "accent": "#4e453b",
+      "accent2": "#ddb676",
+      "bordure": "#4e453b",
+      "encre": "#ddb676"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #ddb676 (4 %)",
+    "remarque": "Crème chaude #f9f2e5 sous toute la page (96 % des fonds, chroma 0,019), texte brun noisette #4e453b (8,4:1), boutons à contour brun de 2 px, pied en aplat moutarde #ddb676 (texte brun) et ligne de croix brunes entre les blocs. Pas d autre couleur : la couleur vient des photos de plats. Le pied moutarde (chroma 0,093) classe la palette en coloré doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 88,
+      "ordinateur": 120
+    },
+    "gouttiere": {
+      "telephone": 24,
+      "ordinateur": 16
+    },
+    "conteneur": 1131,
+    "mesure": 56,
+    "rythme": "alterne",
+    "remarque": "La page est un seul conteneur où photos et textes se décalent : pas de marge de section lisible au relevé (254 et 215 px relevés : décalage des photos). Écarts jugés sur les captures entre la ligne de croix et le premier titre : environ 88 px au téléphone, 120 px à l ordinateur. Conteneur 1 131 px, colonnes de texte étroites (mesure 56)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits ; boutons à contour brun de 2 px ou sans contour, en capitales (« RESERVATIONS », « ORDER ONLINE », 16 px) ; liens-flèches « ORDER ONLINE → » ; aucune carte ni ombre."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Premier écran : une table de plats vue de dessus plein cadre sous un voile sombre, phrase en capitales blanches centrée. Ensuite, chaque bloc pose une photo 4:5 ou 3:2 décalée d un côté et le texte de l autre, en escalier ; deux photos se chevauchent à moitié (terrasse, burger) : plats, cuisine, salle, sans légende."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.08,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé à la molette (document.getAnimations, cran de 400 px) : rien n apparaît au défilement ; seuls le menu (transform 0,3 s ease) et les boutons (couleur 0,08 s) bougent. Page posée ; profil le plus proche et le plus calme du catalogue : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Entre les blocs, une ligne de petites croix (+ + + +) tient lieu de filet ; le pied est un aplat moutarde."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

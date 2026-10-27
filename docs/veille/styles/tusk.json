@@ -1,0 +1,937 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://tuskpdx.com/",
+  "nom": "tusk",
+  "date": "2026-10-27",
+  "identite": {
+    "title": "Tusk | Tusk",
+    "siteName": "Tusk",
+    "lang": "en",
+    "description": "Middle Eastern and Mediterranean-inspired cuisine highlighting seasonal produce of the Pacific Northwest. Open for dinner 5pm–9pm Wednesday–Sunday.",
+    "technologies": [
+      "Next.js",
+      "Sanity"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#f9f2e5",
+      "h1": "TUSK",
+      "h1Visible": true,
+      "mots": 24,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.9,
+        "selecteur": "img.Hero_heroImage__ra72J"
+      },
+      "boutonPrincipal": {
+        "texte": "SEE MENU",
+        "x": 650.40625,
+        "y": 649.90625,
+        "cx": 0.4999945746527778,
+        "cy": 0.7461111111111111,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6054,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.visually-hidden",
+        "famille": "__akkuratBold_b86f47, __akkuratBold_Fallback_b86f47",
+        "taille": 40,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "2.88px"
+      },
+      "h2": {
+        "selecteur": "h2.h2",
+        "famille": "__akkuratBold_b86f47, __akkuratBold_Fallback_b86f47",
+        "taille": 65,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "2.88px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "__akkuratNormal_c85066, __akkuratNormal_Fallback_c85066",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.72px"
+      },
+      "bouton": {
+        "selecteur": "a.button",
+        "famille": "__Lora_c19f6d, __Lora_Fallback_c19f6d",
+        "taille": 16,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.92px"
+      },
+      "nav": {
+        "selecteur": "a.Header_logoLink__9DIMM",
+        "famille": "__akkuratNormal_c85066, __akkuratNormal_Fallback_c85066",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "__akkuratNormal_c85066",
+          "url": "/_next/static/media/8da69899b243e1db-s.p.otf",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__akkuratNormal_Fallback_c85066",
+          "url": "",
+          "feuille": "tuskpdx.com",
+          "source": "locale"
+        },
+        {
+          "famille": "__akkuratBold_b86f47",
+          "url": "/_next/static/media/9370745d1316cef2-s.p.ttf",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__akkuratBold_Fallback_b86f47",
+          "url": "",
+          "feuille": "tuskpdx.com",
+          "source": "locale"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/03b436aa846269de-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/0086f8992871c45b-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/ab00a911ac2adf48-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/36008747766f78c6-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/6d38f9d4e0f4772b-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/08aedeceaf1dcd57-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/5c0c2bcbaa4149ca-s.p.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_Fallback_c19f6d",
+          "url": "",
+          "feuille": "tuskpdx.com",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "use.typekit.net",
+        "a.omappapi.com"
+      ],
+      "fichiersPolices": [
+        "https://tuskpdx.com/_next/static/media/5c0c2bcbaa4149ca-s.p.woff2",
+        "https://tuskpdx.com/_next/static/media/8da69899b243e1db-s.p.otf",
+        "https://tuskpdx.com/_next/static/media/9370745d1316cef2-s.p.ttf",
+        "https://use.typekit.net/vbj7yym.css"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "__akkuratNormal_c85066",
+          "n": 28
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "n": 13
+        },
+        {
+          "famille": "__akkuratBold_b86f47",
+          "n": 12
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f9f2e5",
+      "texte": "#4e453b",
+      "fondsBruts": [
+        {
+          "hex": "#f9f2e5",
+          "n": 1,
+          "poids": 9767520
+        },
+        {
+          "hex": "#ddb676",
+          "n": 1,
+          "poids": 724252.5
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#4e453b",
+          "n": 49,
+          "poids": 1869
+        },
+        {
+          "hex": "#fcfaf9",
+          "n": 4,
+          "poids": 103
+        }
+      ],
+      "nbImages": 7,
+      "nbVideos": 0,
+      "nbFondsImage": 2,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f9f2e5",
+          "n": 1,
+          "poids": 9767520,
+          "part": 0.931
+        },
+        {
+          "hex": "#ddb676",
+          "n": 1,
+          "poids": 724252.5,
+          "part": 0.069
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#4e453b",
+          "n": 49,
+          "poids": 1869,
+          "part": 0.948
+        },
+        {
+          "hex": "#fcfaf9",
+          "n": 4,
+          "poids": 103,
+          "part": 0.052
+        }
+      ],
+      "contraste": 8.43
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.StickyBlock_stickyBlockSection__mltJk",
+          "ecrans": 3
+        },
+        {
+          "selecteur": "div.StickyBlock_stickyBlockSection__mltJk",
+          "ecrans": 3
+        },
+        {
+          "selecteur": "div.StickyBlock_stickyBlockSection__mltJk",
+          "ecrans": 3
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.08s ease",
+          "n": 17
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.06s ease",
+          "n": 2
+        },
+        {
+          "valeur": "background-color 0.06s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.08s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.jsx-1832478112",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "background-color 0.06s ease",
+          "opacity 0.06s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.container",
+      "sections": [
+        {
+          "selecteur": "div.hero-wrapper",
+          "titre": "INSPIRED BY MEDITERRANEAN CUISINE. LOCALLY SOURCED AND SEASO",
+          "top": 90,
+          "hauteur": 810,
+          "ecrans": 0.9,
+          "mots": 20,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.Block_blocks__ydjA6",
+          "titre": "TAKE TUSK TO-GO",
+          "top": 900,
+          "hauteur": 5380,
+          "ecrans": 6,
+          "mots": 196,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer#footer",
+          "titre": "FOOTER",
+          "top": 6280,
+          "hauteur": 503,
+          "ecrans": 0.6,
+          "mots": 97,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.jsx-1832478112",
+        "hauteur": 43,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "RESERVATIONS",
+            "href": "https://resy.com/cities/portland-or/venues/tusk",
+            "bouton": true
+          },
+          {
+            "texte": "ORDER ONLINE",
+            "href": "https://order.toasttab.com/online/tusk",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#footer",
+        "liens": [
+          {
+            "texte": "SUBMIT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Get Directions",
+            "href": "https://www.google.com/maps/place/Tusk/@45.5226369,-122.6404936,15z/data=!4m2!3m1!1s0x0:0x3def7f68b0306cac?sa=X&ved=1t:2",
+            "bouton": false
+          },
+          {
+            "texte": "(503) 894-8082",
+            "href": "tel:(503) 894-8082",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/tuskpdx/",
+            "bouton": false
+          },
+          {
+            "texte": "Terms and Conditions",
+            "href": "terms-and-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "Accessibility Statement",
+            "href": "accessibility",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Website by WLCR.io",
+            "href": "https://wlcr.io?utm_source=tusk&utm_medium=nextjs&utm_campaign=attribution_link",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:(503) 894-8082"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 4,
+        "heures": 10,
+        "extrait": "97214 Get Directions HOURS OPEN FOR DINNER Sunday–Thursday: 5pm - 9pm Friday and Saturday: 5pm - 10p"
+      },
+      "portes": [
+        {
+          "texte": "RESERVATIONS",
+          "href": "https://resy.com/cities/portland-or/venues/tusk"
+        },
+        {
+          "texte": "ORDER ONLINE",
+          "href": "https://order.toasttab.com/online/tusk"
+        },
+        {
+          "texte": "SEE MENU",
+          "href": "/menus"
+        },
+        {
+          "texte": "BOOK YOUR EVENT",
+          "href": "/events"
+        },
+        {
+          "texte": "PURCHASE A GIFT CARD",
+          "href": "https://avagenessubmarine.digitalgiftcardmanager.com/gift"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a#skip-nav",
+          "position": "fixed",
+          "hauteur": 66,
+          "largeur": 152,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "h1.visually-hidden",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 1
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 11,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/tusk-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#f9f2e5",
+      "h1": "TUSK",
+      "h1Visible": true,
+      "mots": 24,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.89,
+        "selecteur": "img.Hero_heroImage__ra72J"
+      },
+      "boutonPrincipal": {
+        "texte": "SEE MENU",
+        "x": 145.828125,
+        "y": 560.015625,
+        "cx": 0.5,
+        "cy": 0.6798726303317536,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6243,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.visually-hidden",
+        "famille": "__akkuratBold_b86f47, __akkuratBold_Fallback_b86f47",
+        "taille": 33,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "2.88px"
+      },
+      "h2": {
+        "selecteur": "h2.h2",
+        "famille": "__akkuratBold_b86f47, __akkuratBold_Fallback_b86f47",
+        "taille": 32,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "2.88px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "__akkuratNormal_c85066, __akkuratNormal_Fallback_c85066",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.72px"
+      },
+      "bouton": {
+        "selecteur": "a.button",
+        "famille": "__Lora_c19f6d, __Lora_Fallback_c19f6d",
+        "taille": 13,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.78px"
+      },
+      "nav": {
+        "selecteur": "a.Header_logoLink__9DIMM",
+        "famille": "__akkuratNormal_c85066, __akkuratNormal_Fallback_c85066",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "__akkuratNormal_c85066",
+          "url": "/_next/static/media/8da69899b243e1db-s.p.otf",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__akkuratNormal_Fallback_c85066",
+          "url": "",
+          "feuille": "tuskpdx.com",
+          "source": "locale"
+        },
+        {
+          "famille": "__akkuratBold_b86f47",
+          "url": "/_next/static/media/9370745d1316cef2-s.p.ttf",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__akkuratBold_Fallback_b86f47",
+          "url": "",
+          "feuille": "tuskpdx.com",
+          "source": "locale"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/03b436aa846269de-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/0086f8992871c45b-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/ab00a911ac2adf48-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/36008747766f78c6-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/6d38f9d4e0f4772b-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/08aedeceaf1dcd57-s.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "url": "/_next/static/media/5c0c2bcbaa4149ca-s.p.woff2",
+          "feuille": "tuskpdx.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Lora_Fallback_c19f6d",
+          "url": "",
+          "feuille": "tuskpdx.com",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "use.typekit.net",
+        "a.omappapi.com"
+      ],
+      "fichiersPolices": [
+        "https://tuskpdx.com/_next/static/media/5c0c2bcbaa4149ca-s.p.woff2",
+        "https://tuskpdx.com/_next/static/media/8da69899b243e1db-s.p.otf",
+        "https://tuskpdx.com/_next/static/media/9370745d1316cef2-s.p.ttf",
+        "https://use.typekit.net/vbj7yym.css"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "__akkuratNormal_c85066",
+          "n": 28
+        },
+        {
+          "famille": "__Lora_c19f6d",
+          "n": 13
+        },
+        {
+          "famille": "__akkuratBold_b86f47",
+          "n": 12
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f9f2e5",
+      "texte": "#4e453b",
+      "fondsBruts": [
+        {
+          "hex": "#f9f2e5",
+          "n": 1,
+          "poids": 2749110
+        },
+        {
+          "hex": "#ddb676",
+          "n": 1,
+          "poids": 484008.28125
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#4e453b",
+          "n": 49,
+          "poids": 1869
+        },
+        {
+          "hex": "#fcfaf9",
+          "n": 4,
+          "poids": 103
+        }
+      ],
+      "nbImages": 7,
+      "nbVideos": 0,
+      "nbFondsImage": 2,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f9f2e5",
+          "n": 1,
+          "poids": 2749110,
+          "part": 0.85
+        },
+        {
+          "hex": "#ddb676",
+          "n": 1,
+          "poids": 484008.28125,
+          "part": 0.15
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#4e453b",
+          "n": 49,
+          "poids": 1869,
+          "part": 0.948
+        },
+        {
+          "hex": "#fcfaf9",
+          "n": 4,
+          "poids": 103,
+          "part": 0.052
+        }
+      ],
+      "contraste": 8.43
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.08s ease",
+          "n": 17
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.06s ease",
+          "n": 2
+        },
+        {
+          "valeur": "background-color 0.06s ease",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.08s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.jsx-1832478112",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "background-color 0.06s ease",
+          "opacity 0.06s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "main#main",
+          "titre": "TUSK",
+          "top": 0,
+          "hauteur": 5808,
+          "ecrans": 6.9,
+          "mots": 217,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer#footer",
+          "titre": "FOOTER",
+          "top": 5808,
+          "hauteur": 1241,
+          "ecrans": 1.5,
+          "mots": 97,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.jsx-1832478112",
+        "hauteur": 71,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "RESERVATIONS",
+            "href": "https://resy.com/cities/portland-or/venues/tusk",
+            "bouton": true
+          },
+          {
+            "texte": "ORDER ONLINE",
+            "href": "https://order.toasttab.com/online/tusk",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#footer",
+        "liens": [
+          {
+            "texte": "SUBMIT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Get Directions",
+            "href": "https://www.google.com/maps/place/Tusk/@45.5226369,-122.6404936,15z/data=!4m2!3m1!1s0x0:0x3def7f68b0306cac?sa=X&ved=1t:2",
+            "bouton": false
+          },
+          {
+            "texte": "(503) 894-8082",
+            "href": "tel:(503) 894-8082",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/tuskpdx/",
+            "bouton": false
+          },
+          {
+            "texte": "Terms and Conditions",
+            "href": "terms-and-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "Accessibility Statement",
+            "href": "accessibility",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Website by WLCR.io",
+            "href": "https://wlcr.io?utm_source=tusk&utm_medium=nextjs&utm_campaign=attribution_link",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:(503) 894-8082"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 4,
+        "heures": 10,
+        "extrait": "97214 Get Directions HOURS OPEN FOR DINNER Sunday–Thursday: 5pm - 9pm Friday and Saturday: 5pm - 10p"
+      },
+      "portes": [
+        {
+          "texte": "RESERVATIONS",
+          "href": "https://resy.com/cities/portland-or/venues/tusk"
+        },
+        {
+          "texte": "ORDER ONLINE",
+          "href": "https://order.toasttab.com/online/tusk"
+        },
+        {
+          "texte": "SEE MENU",
+          "href": "/menus"
+        },
+        {
+          "texte": "BOOK YOUR EVENT",
+          "href": "/events"
+        },
+        {
+          "texte": "PURCHASE A GIFT CARD",
+          "href": "https://avagenessubmarine.digitalgiftcardmanager.com/gift"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a#skip-nav",
+          "position": "fixed",
+          "hauteur": 66,
+          "largeur": 152,
+          "enBas": false,
+          "mots": 3
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 11,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Tusk",
+  "dureeS": 21.3
+}

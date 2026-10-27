@@ -1,0 +1,123 @@
+{
+  "id": "tipo00",
+  "version": 1,
+  "source": {
+    "url": "https://tipo00.com.au/",
+    "nom": "Tipo 00",
+    "metier": "bar à pâtes, restaurant italien (Melbourne, Little Bourke Street)",
+    "fiche": "docs/veille/styles/tipo00.md",
+    "mesures": "docs/veille/styles/atomes/mesures/tipo00.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "karol",
+      "libre": "gelasio",
+      "graisse": 700,
+      "interlignage": 1.35,
+      "casse": "uppercase",
+      "interlettrage": 0.02,
+      "italique": false
+    },
+    "texte": {
+      "famille": "karol",
+      "libre": "gelasio",
+      "graisse": 500,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 25.1,
+        "ordinateur": 31.6
+      },
+      "h2": {
+        "telephone": 25.1,
+        "ordinateur": 31.6
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 14
+      }
+    },
+    "remarque": "Une seule famille, Karol (serif calligraphique d Adobe Fonts), pour tout : titres de bloc en capitales légèrement espacées (0,02 em), 25 px au téléphone, 32 px à l ordinateur (« FOOD », « DRINK », « AWARDS & PRESS ») ; texte et carte 14 à 15 px, interlignage 1,5 ; boutons 21 px en casse normale. Le nom du premier écran est le logo (« tipo 00 » en italique, « pasta bar » manuscrit) : le h1 retenu est la taille des titres de bloc, le plus gros texte lu (aucun h1 dans la page). Le relevé automatique (texte 20 à 23 px) lisait le menu ouvert : corrigé sur la fiche (corps 15 / 14 px). Graisse 700 déclarée par Karol, rendue comme un régulier soutenu : 500 en libre. Gelasio (serif de lecture, angles calligraphiques) au registre, une seule famille comme la source."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#17181e",
+      "surface": null,
+      "texte": "#f1ede2",
+      "texte2": "#f1ede2",
+      "accent": "#a4654b",
+      "accent2": null,
+      "bordure": "#a4654b",
+      "encre": "#000000"
+    },
+    "_aide": "autres fonds mesurés : #a4654b (63 %), #fafafa (37 %)",
+    "remarque": "Ardoise bleu nuit #17181e sous toute la page (une photo de pierre sombre en fond fixe, rendue en aplat : grain refusé, GOUT § 2) ; sur la source presque tout le texte est en cuivre #a4654b (87 % des caractères, la couleur de la fourchette du premier écran) et quelques lignes en crème #f1ede2. Le cuivre ne fait que 3,8:1 sur l ardoise : le texte courant passe au crème mesuré, le cuivre reste l accent (titres, liens, boutons à contour de 2 px), éclairci par ff melanger là où il sert de texte. Encre : le noir #000000 du premier écran. Sombre."
+  },
+  "densite": {
+    "section": {
+      "telephone": 117,
+      "ordinateur": 148
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 23
+    },
+    "conteneur": 672,
+    "mesure": 52,
+    "rythme": "uni",
+    "remarque": "Marges relevées du bord de la section au premier texte (bloc « Gift vouchers ») : 117 px au téléphone, 148 px à l ordinateur (de 95 à 201 px selon les blocs). Une seule colonne centrée de 672 px à l ordinateur (384 px de marge de chaque côté, mesurés) : pas d écart entre colonnes, la gouttière reprend le bord du téléphone (23 px). Page de 12 à 13 écrans : la carte entière est sur l accueil."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Angles droits ; boutons à contour cuivre de 2 px, texte cuivre en casse normale (« Reservations », « Purchase a gift ») ; aucune carte ni ombre ; liens soulignés."
+  },
+  "photos": {
+    "traitement": "detoure",
+    "rapports": [
+      "4:5",
+      "1:1",
+      "3:2"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Premier écran : un objet du métier photographié détouré au centre de l ardoise (une fourchette de cuivre enroulée de pâtes à l encre), sans autre image ; plus bas, une photo carrée du cuisinier, la couverture du livre, puis une bande de photos de plats et de salle en piste (4:5, 1:1, 3:2) qu on fait glisser avec des flèches, à angles droits, sans légende."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.17,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé à la molette (document.getAnimations, cran de 400 px) : rien ne bouge au défilement sauf les photos de la piste, qui entrent en fondu (image-fade-in 0,6 s) ; liens et boutons changent en 0,1 à 0,17 s. La page est une longue carte posée. Profil le plus proche : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "La source pose une photo d ardoise tachée sous toute la page ; reprise en aplat bleu nuit (grain et texture de fond refusés, GOUT § 2)."
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier"
+}

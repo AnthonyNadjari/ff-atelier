@@ -1,0 +1,123 @@
+{
+  "id": "nopa",
+  "version": 1,
+  "source": {
+    "url": "https://nopasf.com/",
+    "nom": "Nopa",
+    "metier": "restaurant au feu de bois (San Francisco, Divisadero Street)",
+    "fiche": "docs/veille/styles/nopa.md",
+    "mesures": "docs/veille/styles/atomes/mesures/nopa.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "BALMAT",
+      "libre": "josefin",
+      "graisse": 500,
+      "interlignage": 1.23,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "OdudoSoft-Light",
+      "libre": "josefin",
+      "graisse": 400,
+      "interlignage": 1.8
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 46.4,
+        "ordinateur": 67.8
+      },
+      "h2": {
+        "telephone": 18.5,
+        "ordinateur": 20.3
+      },
+      "texte": {
+        "telephone": 18,
+        "ordinateur": 19.5
+      }
+    },
+    "remarque": "Titre BALMAT 500 (géométrique à la Futura, dessin du logo NOPA) en casse normale, 46 px au téléphone, 68 px à l ordinateur, centré blanc sur la photo ; nav en BALMAT capitales 16 px sans interlettrage ajouté ; texte OdudoSoft Light 300 (sans arrondie fine) 18 à 19,5 px, interlignage 1,8. Josefin Sans est la géométrique du registre la plus proche de BALMAT (capitales de Futura, o ronds) ; une seule famille pour titre et texte (concordance), plutôt que deux sans qui se ressembleraient (B6). Le h2 mesuré (« Let s Keep in Touch! », 18,5 px) est un titre de pied : l échelle h2 sera tenue par echelleH2. Graisse du texte portée de 300 (mesurée sur OdudoSoft Light, au dessin épais) à 400 : Josefin 300 sort trop fin et pâle en 16-18 px (vu au premier essai, demo-boulangerie m-62a932)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f7f4eb",
+      "surface": null,
+      "texte": "#36563d",
+      "texte2": "#36563d",
+      "accent": "#00263e",
+      "accent2": "#fdcf85",
+      "bordure": "#36563d",
+      "encre": "#36563d"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #f7f4eb (47 %), #00263e (22 %)",
+    "remarque": "Crème #f7f4eb sous le contenu (47 % des fonds), texte vert sapin #36563d (celui du dessin de la façade), nav et logo bleu nuit #00263e, bandeau de phrase d accueil en bleu nuit #00263e (texte crème #efe9d9), pied vert sapin #36563d avec titres or pâle #fdcf85. Le fond de corps relevé #36563d est celui du pied et de la page sous les sections Squarespace : ce n est pas le fond lu. Bloc d encre vert (chroma 0,056) : coloré doux. L or pâle ne sert que sur le vert et le bleu nuit."
+  },
+  "densite": {
+    "section": {
+      "telephone": 44,
+      "ordinateur": 102
+    },
+    "gouttiere": {
+      "telephone": 27,
+      "ordinateur": 36
+    },
+    "conteneur": 1100,
+    "mesure": 62,
+    "rythme": "uni",
+    "remarque": "Marges relevées sur la bande de phrase d accueil (texte à 44 px du bord haut au téléphone, 102 px à l ordinateur) ; conteneur relevé à 536 px (colonne de l adresse) : la phrase d accueil et la galerie tiennent dans environ 1 100 px à l ordinateur, gouttière de 104 px au bord ; mesure jugée sur la phrase d accueil (une soixantaine de caractères par ligne)."
+  },
+  "formes": {
+    "rayon": 6,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 3,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Boutons du pied à contour crème de 3 px, rayon 6 px, texte en casse normale (« Join Our Team », « Sign Me Up ») ; aucune carte, aucune ombre, photos à angles droits ; liens soulignés (adresse, téléphone)."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "16:9+",
+      "3:2"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : une photo de table vue de dessus (plats, verres, mains) plein cadre sous un léger voile, titre centré blanc dessus ; puis le dessin au trait de la façade à côté de l adresse et des horaires ; puis une galerie de 20 photos 4:5 en trois colonnes serrées (plats, salle, four, équipe, rue), sans légende."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.17,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé à la molette (document.getAnimations, cran de 400 px) : aucune animation au défilement ; seules les photos de la galerie entrent en fondu à leur chargement (opacity 0,6 s cubic-bezier(.4,0,.2,1)), liens et boutons changent de couleur en 0,1 à 0,17 s. Profil le plus proche : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Bandes franches : crème, bleu nuit (phrase d accueil), crème (façade dessinée), galerie, pied vert ; le dessin au trait de la façade est la seule matière."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

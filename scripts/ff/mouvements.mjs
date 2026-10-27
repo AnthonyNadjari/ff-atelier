@@ -248,6 +248,20 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['une ou deux photos de la page (jamais toutes) se dévoilent une seule fois par un volet clip-path de 1 s, cubic-bezier(0.57, 0.18, 0, 0.92), à leur entrée à l\'écran : data-reveal="clip" ou "wipe" du moteur ; aucun zoom ensuite ; visibles d\'emblée en mouvement réduit'],
     manque: 'rien dans le moteur ; la garde : deux photos au plus par page, jamais sur un titre, jamais suivi d\'un zoom (GOUT § 2 refuse « volet puis zoom à chaque section »)', exige: {},
   },
+  'filet-qui-se-trace': {
+    nom: 'Filet qui se trace', sources: ['wingonwoand'],
+    entree: 'aucune', apparition: 'filet', survol: 'couleur', fond: 'aucun',
+    regime: 'calme', defilement: 'apparitions', calme: true, poids: 'leger', motion: 'subtle',
+    attributs: ['sous chaque titre de bloc, un filet court (3 px, couleur du texte, 36 px de long, 7 px sous le titre) se trace de gauche à droite de 0 à sa longueur en 1,2 s cubic-bezier(0.13, 0.88, 0.62, 1) après 0,7 s, une seule fois, quand le titre entre à l\'écran : data-draw du moteur sur un <span> sous le h2 ; le titre lui-même ne bouge pas ; en mouvement réduit, le filet est déjà tracé'],
+    manque: 'le filet sous le h2 dans la section ou la direction (un élément, pas un ::after, pour que data-draw le prenne) ; jamais plus long que le premier mot du titre, jamais sur le h1', exige: {},
+  },
+  'citation-en-fondu': {
+    nom: 'Citation en fondu', sources: ['corapearl'],
+    entree: 'aucune', apparition: 'fondu', survol: 'fondu-enchaine', fond: 'aucun',
+    regime: 'calme', defilement: 'apparitions', calme: true, poids: 'leger', motion: 'subtle',
+    attributs: ['premier écran (ou bloc des avis) en diptyque bord à bord : une photo d\'un côté, une citation de l\'autre (un avis recopié ou une ligne de presse, avec sa source), empilés en couches ; flèches Précédent / Suivant (boutons, étiquetés) et glisser au doigt (touch-action: pan-y) font passer au couple suivant : la photo ET la citation se fondent ensemble, opacité seule, 1,5 s ease (la source : opacity 2s ease, Slick fade) ; jamais de rotation automatique (GOUT § 4) ; les blocs suivants apparaissent une fois en fondu (data-reveal, opacité seule) ; en mouvement réduit, bascule sans fondu'],
+    manque: 'la pile des couples photo / citation et ses deux boutons (bloc sur mesure ou variante, script court) ; au moins deux vraies citations du brief (avis recopiés ou presse, jamais inventées) et une photo par citation, sinon ne pas tirer ce profil', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);
