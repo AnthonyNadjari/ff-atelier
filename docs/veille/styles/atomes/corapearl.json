@@ -1,0 +1,121 @@
+{
+  "id": "corapearl",
+  "version": 1,
+  "source": {
+    "url": "https://www.corapearl.co.uk/",
+    "nom": "Cora Pearl",
+    "metier": "restaurant de quartier des théâtres (Covent Garden, Londres)",
+    "fiche": "docs/veille/styles/corapearl.md",
+    "mesures": "docs/veille/styles/atomes/mesures/corapearl.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Kantumruy Pro",
+      "libre": "josefin",
+      "graisse": 400,
+      "interlignage": 1.1,
+      "casse": "uppercase",
+      "interlettrage": 0.025,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Kantumruy Pro",
+      "libre": "josefin",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 32,
+        "ordinateur": 40
+      },
+      "h2": {
+        "telephone": 32,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Une seule famille, Kantumruy Pro 400 : sans géométrique fine, en capitales espacées de 1 px pour les titres (citations de presse 32 px, titres de bloc 40 px à l'ordinateur, 32 px au téléphone ; interlignage 1,1 à 1,4) et en casse normale pour le texte (16 px, interlignage 1,5, centré). Le nom est un logo à empattements. Libre : Josefin Sans (géométrique fine aux capitales art déco, au registre) pour tout ; concordance d'une seule famille. Aucune police IA."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#e3c7b9",
+      "surface": "#ffffff",
+      "texte": "#110f0f",
+      "texte2": "#110f0f",
+      "accent": "#110f0f",
+      "accent2": null,
+      "bordure": "#110f0f",
+      "encre": "#110f0f"
+    },
+    "sombre": null,
+    "_aide": "fonds mesurés : #e3c7b9 (93 %), #ffffff (6 %, pied et bandeau de cookies), #110f0f (1 %)",
+    "remarque": "Rose poudré #e3c7b9 continu sous toute la page (L 0,85, chroma 0,037) ; tout le texte en presque-noir #110f0f, y compris les liens « READ MORE » ; pied blanc #ffffff. La couleur vient des images : dessins à l'encre noire façon fin de siècle, rideaux rouges, banquettes vertes. Régime clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 128,
+      "ordinateur": 166
+    },
+    "gouttiere": {
+      "telephone": 33,
+      "ordinateur": 129
+    },
+    "conteneur": 1440,
+    "mesure": 62,
+    "rythme": "uni",
+    "remarque": "Sections d'un écran et demi environ en diptyques image / texte alternés, bord à bord ; texte centré dans sa moitié avec 129 px de marge (ordinateur), 33 px au téléphone ; 166 px jusqu'au premier texte du bloc (ordinateur), 128 px au téléphone."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Aucun bouton dessiné : « READ MORE », « BOOK A TABLE » en capitales 17,6 px espacées, noir sur le rose ; angles droits, aucune ombre, aucune carte."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9+",
+      "4:3"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Diptyques bord à bord : une moitié d'écran en image (photos de salle et de plats aux couleurs profondes, dessins noir et blanc à l'encre façon Beardsley, plan ancien de Covent Garden), l'autre moitié en texte centré sur le rose ; au premier écran, la photo et une citation de presse changent ensemble en fondu."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "citation-en-fondu",
+    "remarque": "Premier écran : un diptyque photo / citation de presse (« 'THE NEW DARLING OF COVENT GARDEN' », Eater London) qui passe au suivant en fondu enchaîné (opacités relevées toutes les 500 ms : 0,74 / 0,27 / 0,07, donc environ 1,5 à 2 s, transition « opacity 2s ease ») ; la source le fait tourner seul toutes les 5 s environ (Slick, fade), flèches et glisser au doigt aussi : repris sans rotation automatique (GOUT § 4). Les blocs suivants apparaissent une fois (classe revealable, transition « all 1s ease ») ; un bandeau de texte défile en 30 s linéaire sous le premier écran (non repris). Liens 0,2 s ease-in-out."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "diptyque"
+}

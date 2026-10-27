@@ -1,0 +1,131 @@
+{
+  "id": "bubala",
+  "version": 1,
+  "source": {
+    "url": "https://bubala.co.uk/",
+    "nom": "Bubala",
+    "metier": "restaurant végétarien du Moyen-Orient à quatre adresses (Londres)",
+    "fiche": "docs/veille/styles/bubala.md",
+    "mesures": "docs/veille/styles/atomes/mesures/bubala.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "sifonn",
+      "libre": "sora",
+      "graisse": 700,
+      "interlignage": 1,
+      "casse": "uppercase",
+      "interlettrage": 0.05,
+      "italique": false
+    },
+    "texte": {
+      "famille": "raleway",
+      "libre": "urbanist",
+      "graisse": 500,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 62.8,
+        "ordinateur": 100
+      },
+      "h2": {
+        "telephone": 20,
+        "ordinateur": 28
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en Sifonn Pro 700 en capitales espacées (0,05 em) : géométrique large, le nom « BUBALA » à 100 px (63 px au téléphone) sur la photo du premier écran, les titres de bloc à 20-28 px. Texte en Raleway 500 (14 px au téléphone, 16 px à l'ordinateur, interlignage 1,5). Libres les plus proches au registre : Sora (géométrique large, affichage) pour Sifonn, Urbanist (géométrique élégante, texte) pour Raleway ; accord sans d'affichage / sans de texte. Aucune police de la liste IA."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": {
+      "fond": "#e6d8bc",
+      "surface": null,
+      "texte": "#262626",
+      "texte2": "#394a23",
+      "accent": "#394a23",
+      "accent2": "#3b6873",
+      "bordure": "#394a23",
+      "encre": "#394a23"
+    },
+    "sombre": {
+      "fond": "#394a23",
+      "surface": "#3b6873",
+      "texte": "#e6d8bc",
+      "texte2": "#d9cdb0",
+      "accent": "#e6d8bc",
+      "accent2": "#3b6873",
+      "bordure": "#e6d8bc",
+      "encre": "#262626"
+    },
+    "_aide": "fonds mesurés : #394a23 (44 %, vert olive : pied, Instagram, bouton plein), #e6d8bc (32 %, crème : bloc des adresses), #262626 (16 %, premier écran), #3b6873 (7 %, bleu canard : bloc d'accueil)",
+    "remarque": "Trois aplats de couleur sourde qui se relaient d'un bloc à l'autre : vert olive #394a23 (L 0,38, chroma 0,065) pour le pied, la mosaïque Instagram et le bouton plein ; bleu canard #3b6873 pour le bloc d'accueil ; crème #e6d8bc pour la liste des quatre restaurants (texte #262626) ; texte crème sur les fonds sombres, boutons à contour crème. Palette principale sombre (fond olive), palette claire pour les blocs crème. Régime sombre."
+  },
+  "densite": {
+    "section": {
+      "telephone": 40,
+      "ordinateur": 84
+    },
+    "gouttiere": {
+      "telephone": 43,
+      "ordinateur": 30
+    },
+    "conteneur": 1140,
+    "mesure": 58,
+    "rythme": "uni",
+    "remarque": "Marges de section relevées à la main sur le bloc crème des adresses (84 px à l'ordinateur, 40 px au téléphone ; le relevé automatique avait pris le premier écran, 249 et 380 px) ; conteneur 1 140 px ; texte d'accueil en colonne de 58 caractères."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Angles droits partout ; boutons « BOOK A TABLE » en Sifonn 14 px capitales, contour crème de 1 px sur photo et fonds sombres, plein olive sur le premier écran, contour olive sur la crème ; liens en couleur, sans soulignement ; aucune ombre ni carte."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "1:1",
+      "4:3"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "voile",
+    "remarque": "Premier écran : une photo de table vue de dessus (plats, mains, pain) en plein cadre sous un voile sombre, le nom et le bouton centrés dessus ; puis des photos de plats carrées ou 4:5 en vignettes à côté du texte sur les aplats, et une mosaïque de six plats vus de dessus sur le vert olive. Façades des restaurants en dessins au trait sur la crème."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "sortie-du-noir",
+    "remarque": "Filmé à 100, 600, 1 200, 2 000 et 3 500 ms : la page s'ouvre sur l'aplat #262626, la photo en sort en 1,6 s (après 0,2 s), le nom et le bouton arrivent ensuite (1,2 s après 0,7 s), le reste à 1,2 s. Rien n'apparaît au défilement ; survols 0,6 s ease. Profil sortie-du-noir (Maaemo) : même entrée, rien ensuite."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

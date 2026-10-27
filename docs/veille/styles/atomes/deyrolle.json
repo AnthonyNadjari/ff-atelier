@@ -1,0 +1,122 @@
+{
+  "id": "deyrolle",
+  "version": 1,
+  "source": {
+    "url": "https://www.deyrolle.com/",
+    "nom": "Deyrolle",
+    "metier": "naturaliste, taxidermiste et cabinet de curiosités (Paris, depuis 1831)",
+    "fiche": "docs/veille/styles/deyrolle.md",
+    "mesures": "docs/veille/styles/atomes/mesures/deyrolle.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Deyrolle",
+      "libre": "libreCaslonCondensed",
+      "graisse": 700,
+      "interlignage": 1.3,
+      "casse": "uppercase",
+      "interlettrage": 0.012,
+      "italique": false
+    },
+    "texte": {
+      "famille": "VenturisADF",
+      "libre": "cabin",
+      "graisse": 400,
+      "interlignage": 1.8
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 30,
+        "ordinateur": 50
+      },
+      "h2": {
+        "telephone": 30,
+        "ordinateur": 40
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Titres dans la police maison « Deyrolle » : une serif à empattements carrés, grasse et serrée, en capitales blanches ombrées sur les photos (« CABINET DE CURIOSITÉS », 50 px à l'ordinateur, 30 px au téléphone), en casse normale noire ailleurs (« Charlotte Mollet », 40 px) ; Superclarendon pour les titres d'articles. Texte en Venturis ADF (une serif de lecture, 18 px / 15 px, interlignage 1,8, interlettrage 0,6 px). Libres : Libre Caslon Condensed 700 pour la serif serrée d'enseigne ; en texte, une serif ferait deux serifs voisines (B6) : Cabin, humaniste douce, pour la lecture. Aucune police IA."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f4f1eb",
+      "surface": "#b8e2dc",
+      "texte": "#121212",
+      "texte2": "#4a4a48",
+      "accent": "#182438",
+      "accent2": "#564987",
+      "bordure": null,
+      "encre": "#182438"
+    },
+    "sombre": null,
+    "_aide": "fonds mesurés : #f4f1eb (33 %), #ffffff (32 %), #000000 (28 %, fonds des photos d'entomologie), #182438 (6 %, bandeau, boutons, pied), #b8e2dc (1 %, en-tête vert d'eau), #564987 (bouton « Acheter l'œuvre »)",
+    "remarque": "Papier #f4f1eb sous la page, texte #121212 ; en-tête vert d'eau #b8e2dc (le nom et « Paris 1831 » en noir) ; bleu nuit #182438 pour le bandeau de devise sous l'en-tête, les boutons pleins et tout le pied ; violet #564987 pour le bouton d'achat d'une œuvre ; texte secondaire noir à 75 % (#4a4a48 sur le papier). Régime coloré doux : bloc d'encre bleu nuit et en-tête teinté."
+  },
+  "densite": {
+    "section": {
+      "telephone": 106,
+      "ordinateur": 121
+    },
+    "gouttiere": {
+      "telephone": 55,
+      "ordinateur": 43
+    },
+    "conteneur": 1260,
+    "mesure": 48,
+    "rythme": "uni",
+    "remarque": "Sections de 121 px (ordinateur) et 106 px (téléphone) jusqu'au premier texte ; la mosaïque d'ouverture est bord à bord, sans marge ; conteneur 1 260 px, texte en colonne de 48 caractères."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Angles droits partout ; boutons pleins bleu nuit (texte blanc, Venturis 15 px, casse normale, 47 px de haut, 30 px de marge latérale) ; aucune ombre sur les blocs, une ombre portée douce sur les titres posés sur photo seulement."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "La page s'ouvre sur une mosaïque de grandes tuiles photo bord à bord, deux par rangée (cabinet de curiosités, entomologie, planches pédagogiques, taxidermie, coquillages, minéraux, globes, librairie), chacune nommée au centre en capitales blanches ; photos très chargées, saturées, sur fond noir ou mur peint ; puis une œuvre d'artiste en diptyque texte / image et les actualités en vignettes."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.1,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Page posée : rien n'apparaît au défilement, aucun survol sur les tuiles (relevé : transform et filtre inchangés à 150 et 600 ms) ; les images entrent en fondu à leur chargement (opacité 0,4 s cubic-bezier(.25,.46,.45,.94)), l'en-tête se réduit (largeur du logo 0,3 s). Profil le plus proche : fondu-sobre (opacité seule)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "mosaique"
+}

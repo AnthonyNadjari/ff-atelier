@@ -1,0 +1,124 @@
+{
+  "id": "hotelpeterandpaul",
+  "version": 1,
+  "source": {
+    "url": "https://hotelpeterandpaul.com/",
+    "nom": "Hotel Peter & Paul",
+    "metier": "hôtel dans une ancienne école, un presbytère et un couvent (La Nouvelle-Orléans)",
+    "fiche": "docs/veille/styles/hotelpeterandpaul.md",
+    "mesures": "docs/veille/styles/atomes/mesures/hotelpeterandpaul.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Atari",
+      "libre": "marcellus",
+      "graisse": 400,
+      "interlignage": 1.25,
+      "casse": "uppercase",
+      "interlettrage": 0.075,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Feijoa-Medium",
+      "libre": "cabin",
+      "graisse": 500,
+      "interlignage": 1.38
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 25,
+        "ordinateur": 40
+      },
+      "h2": {
+        "telephone": 25,
+        "ordinateur": 40
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en Atari 400 : une serif lapidaire aux empattements évasés, dessinée en petites capitales, très espacée (3 à 8 px, 0,075 à 0,2 em ; « ROOMS & SUITES », 40 px à l'ordinateur, 25 px au téléphone) ; texte en Feijoa Medium 500, serif douce (16 px, interlignage 1,38, centré). Libres : Marcellus (capitales fines lapidaires, au registre) pour Atari ; en texte, une serif ferait deux serifs voisines (B6), d'où Cabin, humaniste douce. Le relevé automatique avait pris la casse « none » : les glyphes d'Atari sont des capitales, d'où uppercase. Aucune police IA."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f8f6d6",
+      "surface": "#fdf8ef",
+      "texte": "#2c5234",
+      "texte2": "#1a1a1a",
+      "accent": "#2c5234",
+      "accent2": null,
+      "bordure": "#2c5234",
+      "encre": "#2c5234"
+    },
+    "sombre": null,
+    "_aide": "fonds mesurés : #f8f6d6 (50 %, jaune paille), #fdf8ef (46 %, ivoire), #ffffff (3 %), #2c5234 (bandeau d'annonce vert) ; textes : #2c5234 (86 %), #1a1a1a (8 %), #f8f6d6 (6 %, sur les photos)",
+    "remarque": "Jaune paille #f8f6d6 (L 0,97, chroma 0,04) et ivoire #fdf8ef en fonds ; tout le texte, les filets et les cadres en vert bouteille #2c5234 (8,7:1 sur la paille) ; bandeau d'annonce plein vert, texte paille ; noir #1a1a1a pour quelques textes secondaires. Une seule encre colorée, partout. Régime coloré doux (bloc d'encre vert)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 56,
+      "ordinateur": 104
+    },
+    "gouttiere": {
+      "telephone": 32,
+      "ordinateur": 29
+    },
+    "conteneur": 1432,
+    "mesure": 49,
+    "rythme": "uni",
+    "remarque": "Marges relevées à la main (le relevé automatique avait lu 21 px, l'écart d'un en-tête) : 104 px jusqu'au titre d'un bloc à l'ordinateur, 56 px au téléphone ; cadres de texte de 600 px environ à côté d'une photo de 760 px ; texte en colonne de 49 caractères, centré."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 12,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Photos aux coins légèrement arrondis (10 à 16 px) ; les blocs de texte sont posés dans un cadre de filet vert de 1 px aux quatre coins creusés en quart de cercle (« border-notched ») ; boutons « LEARN MORE », « BOOK A ROOM » en capitales espacées entre deux filets pointillés terminés par un point, sans fond (contour) ; aucune ombre portée réelle (le relevé « douce » vient du bandeau de cookies)."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Premier écran : vidéo plein cadre de l'escalier, le nom en serif lapidaire crème au centre ; ensuite photos d'intérieurs chargés (rideaux, ciels de lit, carreaux) en vignettes 3:2 ou 4:5 aux coins arrondis, à côté du cadre de texte, alternées gauche / droite ; carrousel des chambres en cartes photo avec le nom posé dessus ; petits dessins au trait vert (homard, lys) en tête de bloc."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease-in-out"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "glisse-a-la-main",
+    "remarque": "Rien n'apparaît au défilement ; la vie est dans le carrousel des chambres (Swiper) qu'on fait passer à la main, flèches 0,2 s ease-in-out, et dans les survols (couleur 0,15 s ease-in-out, fonds 0,5 s). Profil glisse-a-la-main."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

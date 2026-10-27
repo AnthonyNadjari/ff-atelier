@@ -1,0 +1,118 @@
+{
+  "id": "hotelducouvent",
+  "version": 1,
+  "source": {
+    "url": "https://www.hotelducouvent.com/",
+    "nom": "Hôtel du Couvent",
+    "metier": "hôtel dans un ancien couvent (Nice), bains, restaurants",
+    "fiche": "docs/veille/styles/hotelducouvent.md",
+    "mesures": "docs/veille/styles/atomes/mesures/hotelducouvent.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "JJannon",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.2,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Basel Grotesk",
+      "libre": "hanken",
+      "graisse": 430,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 24,
+        "ordinateur": 38
+      },
+      "h2": "à juger",
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Deux voix : une garalde de Jannon (JJannon 400) en capitales pour ce qui se lit en grand sur les vidéos (« 88 ROOMS AND SUITES… », 38 px à l'ordinateur, 24 px au téléphone, interlignage 1,2-1,33) et pour le nom en jaune du premier écran (logo dessiné dans cette serif, casse normale avec italique pour « Nice, France », non repris : emphase italique) ; une grotesque néo-suisse, Basel Grotesk 430, pour les titres de chapitre en capitales (42 px / 32 px, relevés, non repris comme h1 : le relevé prend la garalde, plus grande que le texte et plus propre à la maison), la nav, le pied et le texte (16 px, interlignage 1,5). Libres : EB Garamond (de la lignée Garamond/Jannon) en titre, Hanken Grotesk en texte ; accord serif / sans. Aucune police IA."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#000000",
+      "surface": null,
+      "texte": "#ffffff",
+      "texte2": "#ffffff",
+      "accent": "#fccd30",
+      "accent2": "#597aa5",
+      "bordure": "#ffffff",
+      "encre": "#597aa5"
+    },
+    "_aide": "fonds mesurés : #ffffff (54 %, sous les vidéos), #000000 (38 %), #597aa5 (9 %, panneau bleu du pied) ; jaune du soleil et du nom relevé sur la capture (#fccd30 à ±3, image)",
+    "remarque": "Noir #000000 sous les vidéos, tout le texte en blanc #ffffff posé sur l'image ; le jaune soleil #fccd30 (logo, nom du premier écran : relevé en pixels sur la capture, le logo est une image) comme seul accent ; le pied coupe l'écran en deux : menu sur photo à gauche, panneau bleu lavande #597aa5 à droite (adresse, lettre, Instagram). Régime sombre (fond noir), deux accents de clartés éloignées (jaune L 0,87, bleu L 0,57)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 128,
+      "ordinateur": 176
+    },
+    "gouttiere": {
+      "telephone": 24,
+      "ordinateur": 112
+    },
+    "conteneur": 650,
+    "mesure": "à juger",
+    "rythme": "uni",
+    "remarque": "Marges relevées de la légende de chapitre au bord haut de la section (128 px téléphone, 176 px ordinateur) ; légendes alignées à 112 px du bord gauche à l'ordinateur, 24 px au téléphone ; conteneur du texte 650 px."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Aucun bouton dessiné : « DISCOVER », « BOOK », « MENU » sont des mots en capitales Basel Grotesk, les liens de chapitre soulignés d'un filet fin ; angles droits, aucune ombre."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9+",
+      "1:1"
+    ],
+    "pleinCadre": 7,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Sept vidéos en boucle bord à bord, une par chapitre (le couvent vu de la fenêtre, la salle, le bar, les bains romains, la Côte d'Azur), chacune d'un écran de haut, légende en blanc posée en bas à gauche ; lumière chaude et sombre, jamais de voile coloré. Le pied reprend une photo plein cadre sous le menu."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "video-de-fond",
+    "remarque": "Rien n'apparaît au défilement, rien n'est épinglé : la vie vient des vidéos en boucle de chaque chapitre (7 vidéos relevées). Survol des liens : le filet souligné est traversé par une fente qui le parcourt de gauche à droite (clip-path, 1 s, ease-in puis ease-out, @keyframes shine-in), couleurs 0,3 s cubic-bezier(.25,.46,.45,.94) ; le menu plein écran fait glisser ses entrées de 300 px en cascade (0,75 à 1,5 s). Profil video-de-fond : à ne tirer qu'avec une vraie vidéo du client."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}
