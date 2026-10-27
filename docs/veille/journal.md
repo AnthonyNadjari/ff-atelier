@@ -11,6 +11,11 @@ partagé) pour savoir où en est l'usine sans relire une conversation.
 
 ## 27 oct 2026, tour 10 (routine en ligne, nuit) : 7 styles, 2 architectures
 
+**Le meilleur du tour** ([aperçu](apercus/2026-10-27.jpg)) : l'architecture `avant-apres`, un site d'atelier fait de ses
+pièces restaurées, chacune en curseur avant / après qu'on tire au doigt. Pourquoi elle : la transformation est ce qui fait
+signer un tapissier, un ébéniste ou un carrossier, et aucun site de l'usine ne la montrait. Depuis ce jour, chaque tour
+finit par cette image (`ff apercu`, `/veille` § 4 bis, demande du fondateur).
+
 **Fait**
 - Santé : `npm ci`, Chromium de Playwright (`FF_CHROMIUM=1`), tout a tourné avec navigateur. Tests : 71 fichiers, tous verts
   (trois tests anciens réalignés sur le nouveau comportement : durée dans la carte, ancres de la page d'une pièce, index des

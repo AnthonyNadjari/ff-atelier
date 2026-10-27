@@ -45,6 +45,7 @@ import { cmdKit } from './ff/kit.mjs';
 import { cmdVercel } from './ff/vercel.mjs';
 import { cmdTuiles } from './ff/tuiles.mjs';
 import { cmdPlanche } from './ff/planche.mjs';
+import { cmdApercu } from './ff/apercu.mjs';
 import { cmdRelecture } from './ff/relecture.mjs';
 import { cmdBrief } from './ff/brief.mjs';
 import { cmdAiguillage } from './ff/aiguillage.mjs';
@@ -121,6 +122,7 @@ const commands = {
   vercel: cmdVercel,
   tuiles: cmdTuiles,
   planche: cmdPlanche,
+  apercu: cmdApercu,
   relecture: cmdRelecture,
   brief: cmdBrief,
   aiguillage: cmdAiguillage,

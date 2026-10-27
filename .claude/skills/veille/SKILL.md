@@ -220,10 +220,31 @@ Prouver : build d'un site jetable (`ff nouveau _test-veille-<x>` ou `ff matrice 
 Fusionner un doublon trouvé en 2 (direction ou variante), retirer un preset jamais utilisé, mettre
 une doc à jour, un commentaire périmé. Petits commits.
 
+## 4 bis. L'aperçu du meilleur (À CHAQUE TOUR, avant le journal)
+
+Le fondateur, 27 oct 2026 : « avoir un aperçu du meilleur truc de la veille à chaque fois ». Le journal dit tout en mots ;
+lui juge en voyant. Chaque tour se termine donc par **une image** : la trouvaille du tour qu'on lui montrerait s'il n'en
+voyait qu'une.
+
+1. **Choisir UNE chose**, la plus utile à un futur client parmi ce qui a été gardé ce tour (une architecture codée, un style
+   gardé, un profil de mouvement, un levier du marché implémenté). Critère : « laquelle ferait signer un artisan ? », pas
+   la plus originale. Dire en une phrase pourquoi elle, dans le journal.
+2. **Assembler l'image** à partir des captures déjà faites dans le tour (aucune capture nouvelle n'est obligatoire, rien
+   n'est inventé) : la source, puis ce que l'usine en fait au téléphone (et à l'ordinateur si ça aide) :
+   `node scripts/ff.mjs apercu --date <AAAA-MM-JJ> --titre "<la chose en mots simples>" --phrase "<ce qu'elle fait, pour
+   quel client, la source>" "Source : <domaine>=<capture source>" "Dans l'usine=<capture de l'essai>" [...]`.
+   Sortie `docs/veille/apercus/<date>.jpg` (versionnée). Les captures des sites jetables se prennent AVANT de les supprimer.
+   Un style se montre avec la planche `ff melanger … --style <id> --essai` à côté de la capture de la source.
+3. **La regarder** (outil Read) : lisible sur un téléphone, rien de coupé au mauvais endroit, aucune donnée de test mise en
+   avant comme vraie (sinon le libellé dit « essai »). Sinon la refaire.
+4. **L'envoyer** au fondateur en fin de tour : `SendUserFile` (status `proactive`, display `render`) avec une légende d'une
+   ligne, et la même phrase en tête de la notification (`PushNotification`) ; lien vers l'image dans l'entrée du journal
+   et dans les Notes du doc partagé.
+
 ## 5. Journal et sauvegarde
 
-- `docs/veille/journal.md` : en tête, une entrée datée de 10-20 lignes : fait / proposé / à décider /
-  prochain volet. Toujours un lien vers les fichiers modifiés.
+- `docs/veille/journal.md` : en tête, une entrée datée de 10-20 lignes : **le meilleur du tour** (une phrase et le lien
+  vers `apercus/<date>.jpg`), fait / proposé / à décider / prochain volet. Toujours un lien vers les fichiers modifiés.
 - Le doc partagé « Finck & Fisch » (Claude Docs, id `f663772e-bd93-4326-b5e6-ca4f48fdb44f`), onglet
   Notes : les 5 lignes qui comptent pour les fondateurs (ce qui a changé, ce qu'ils doivent décider).
 - Mémoire de session (`ff-atelier-repo.md`) : une ligne.
