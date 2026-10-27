@@ -1239,7 +1239,9 @@ export async function cmdMelanger(args) {
   }
 
   if (flags.essai) {
-    const copies = tires.map((_, i) => `_essai-melange-${i + 1}`);
+    // Nommées d'après le style essayé (27 oct 2026) : deux essais lancés ensemble ne s'écrasent plus.
+    const etiquette = typeof flags.style === 'string' ? String(flags.style).replace(/[^a-z0-9-]/gi, '').toLowerCase() : '';
+    const copies = tires.map((_, i) => `_essai-${etiquette || 'melange'}-${i + 1}`);
     // runAstro écrit .ff-current : on rend le site courant d'avant (il ne doit pas pointer vers une copie supprimée).
     const courant = fs.existsSync(FF_CURRENT) ? fs.readFileSync(FF_CURRENT, 'utf8') : null;
     const colonnes = [];
@@ -1267,7 +1269,7 @@ export async function cmdMelanger(args) {
           colonnes.push({ ...shots, titre: `${i + 1}. ${preps[i].nom}  ·  1er écran ${m.premier_ecran ?? '?'}${essais[i].hero ? '' : ' (non appliqué)'}`, ligne1: `typo ${m.typo}, couleurs ${m.couleurs} (${reg ? REGIMES_PALETTE[reg.regime] : '?'}), densité ${m.densite}, formes ${m.formes}`, ligne2: `photos ${m.photos}, mouvement ${m.mouvement}, matière ${m.matiere}`, ligne3: `architecture ${m.architecture ?? 'aucune (déroulé du site)'}${m.architecture ? ` (coquille ${essais[i].shell})` : ''}` });
         }
       } finally { await nav.close(); }
-      const sortie = path.join(ROOT, 'captures', 'planches', `${slug.replace(/^_/, '')}-melanges.jpg`);
+      const sortie = path.join(ROOT, 'captures', 'planches', `${slug.replace(/^_/, '')}${etiquette ? `-${etiquette}` : ''}-melanges.jpg`);
       await planche(colonnes, sortie);
       ok(`planche : ${path.relative(ROOT, sortie)} (à regarder)`);
     } finally {
@@ -1278,7 +1280,7 @@ export async function cmdMelanger(args) {
         fs.rmSync(path.join(DIST_DIR, copies[i]), { recursive: true, force: true });
       }
       if (courant != null) fs.writeFileSync(FF_CURRENT, courant); else fs.rmSync(FF_CURRENT, { force: true });
-      info('copies _essai-melange-* et directions d\'essai supprimées.');
+      info(`copies ${copies.join(', ')} et directions d'essai supprimées.`);
     }
     return;
   }

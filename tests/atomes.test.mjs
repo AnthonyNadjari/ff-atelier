@@ -126,6 +126,14 @@ test('brouillon depuis un relevé : seules les valeurs mesurées sont remplies',
   assert.equal(enSecondes('300ms'), 0.3);
 });
 
+test('brouillon depuis un relevé : une mesure hors des bornes du registre reste « à juger »', () => {
+  const rel = { typo: {}, couleurs: {}, densite: { marges: { mediane: 80 }, conteneur: 580, gouttiereBord: 20, mesure: 174, fondsSections: [] }, formes: {}, photos: {}, mouvement: {}, matiere: {} };
+  const b = brouillonDepuisReleve({ id: 'x', url: 'https://x.fr', nom: 'X', date: '2026-10-27', d: rel, m: rel });
+  assert.equal(b.densite.mesure, A_JUGER, '174 caractères : relevé sur des noms de produits');
+  assert.equal(b.densite.conteneur, A_JUGER, '580 px : relevé sur une piste de carrousel');
+  assert.deepEqual(validerAtomes(b, opts).erreurs, []);
+});
+
 test('registre réel : chaque fichier de docs/veille/styles/atomes/ est valide et sourcé', () => {
   const entrees = lireAtomes(path.join(ROOT, 'docs/veille/styles/atomes'));
   assert.ok(entrees.length >= 8, `${entrees.length} fichiers d'atomes (amorce : 8 à 10 au moins)`);

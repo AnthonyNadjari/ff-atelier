@@ -201,6 +201,12 @@ function releverDansLaPage() {
 const ent = (x) => (Number.isFinite(x) ? Math.round(x) : null);
 /** Une mesure { telephone, ordinateur } entière, ou « à juger » si l'une des deux manque (le validateur refuse un null). */
 const paire = (telephone, ordinateur) => (telephone == null || ordinateur == null ? A_JUGER : { telephone, ordinateur });
+/**
+ * Pure : garde une mesure dans les bornes que `ff atomes` accepte, sinon « à juger » (27 oct 2026 : la collecte
+ * automatique écrivait des mesures de 147 à 174 caractères relevées sur des noms de produits, et un conteneur de
+ * 580 px relevé sur une piste de carrousel ; chacune rendait le registre rouge).
+ */
+export const borne = (x, min, max = Infinity) => (x != null && x >= min && x <= max ? x : A_JUGER);
 
 /** Pure : durée CSS (« 0.3s » / « 300ms ») -> secondes. */
 export function enSecondes(v) {
@@ -247,8 +253,8 @@ export function brouillonDepuisReleve({ id, url, nom, fiche = null, date, d, m }
     densite: {
       section: paire(ent(m?.densite?.marges?.mediane), ent(d?.densite?.marges?.mediane)),
       gouttiere: paire(ent(m?.densite?.gouttiereBord), ent(d?.densite?.ecartColonnes ?? d?.densite?.gouttiereBord)),
-      conteneur: ent(d?.densite?.conteneur) ?? A_JUGER,
-      mesure: ent(d?.densite?.mesure) ?? A_JUGER,
+      conteneur: borne(ent(d?.densite?.conteneur), 600),
+      mesure: borne(ent(d?.densite?.mesure), 25, 140),
       rythme: fondsSections.size >= 2 ? 'alterne' : 'uni',
     },
     formes: {
