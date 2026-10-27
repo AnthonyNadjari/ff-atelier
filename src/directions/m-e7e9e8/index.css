@@ -52,12 +52,19 @@
 }
 
 /* Échelle typographique mesurée sur relaisrossar (h1, h2, texte ; téléphone 390 px → ordinateur 1 440 px) et marge de section de coutumes. */
+[data-direction='m-e7e9e8'] :is(h3, .cpt-nom, .carte-rubrique summary .font-display, .lf-trouver .font-display) {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
 [data-direction='m-e7e9e8'][data-scale] {
   --scale-xl: clamp(3.125rem, 2.111rem + 4.162vw, 5.856rem);
   --scale-lg: clamp(2.647rem, 1.846rem + 3.284vw, 4.802rem);
   --scale-md: clamp(2.169rem, 1.512rem + 2.695vw, 3.938rem);
   --scale-sm: clamp(1.345rem, 1.148rem + 0.808vw, 1.875rem);
-  --section-y: clamp(2.875rem, 1.529rem + 5.524vw, 6.5rem);
+  --section-y: clamp(2.5rem, 1.2rem + 3vw, 4.25rem); /* 27 oct 2026 : colonne du lieu-fixe, deux écrans presque vides à 1 400 px */
 }
 
 [data-direction='m-e7e9e8'] body { font-size: clamp(1rem, 0.954rem + 0.19vw, 1.125rem); line-height: 1.44; }

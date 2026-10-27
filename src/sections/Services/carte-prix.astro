@@ -14,7 +14,7 @@ import Icon from '@/components/Icon.astro';
 
 <section id="services" class="section-y">
   <div class="container-ff">
-    <SectionHeading class="carte-entete" title={site.wording.servicesTitle} text={metierEtVille()} />
+    <SectionHeading class="carte-entete" title={site.wording.servicesTitle} text={site.wording.servicesIntro ?? metierEtVille()} />
     <div class="mt-8 border-t border-line">
       {site.services.map((s, i) => (
         <details class="carte-rubrique border-b border-line" open={i === 0}>
@@ -46,7 +46,7 @@ import Icon from '@/components/Icon.astro';
             {s.priceFrom && <p class="mt-5 font-medium tabular-nums">{s.priceFrom}</p>}
             {site.servicePages && (
               <a href={`/services/${s.slug}`} class="mt-6 inline-flex items-center gap-2 text-sm font-medium underline-offset-4 hover:underline">
-                Voir la page<span class="sr-only"> {s.title}</span><Icon name="ArrowRight" size={16} />
+                Voir la page<span class="sr-only"> {s.title}</span>
               </a>
             )}
           </div>

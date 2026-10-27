@@ -33,7 +33,7 @@ export default defineSite({
   business: {
     name: 'L’Épi d’Or',
     trade: 'Boulangerie-pâtisserie',
-    tagline: 'L’Épi d’Or',
+    tagline: 'L’Épi d’Or, le pain de Xavier et les gâteaux de Miroslava',
     description:
       'Au 59 rue Maurice Dubois, Xavier fait le pain et Miroslava les douceurs. Baguettes, entremets, bûches de Noël, et 36 pièces montées pour toutes les occasions.',
     legalForm: 'Entreprise individuelle',
@@ -63,9 +63,9 @@ export default defineSite({
     {
       slug: 'pains',
       title: 'Le pain',
-      short: 'La baguette, et celles qu’on ne trouve pas partout : la 4 Saisons le week-end, l’épi sur commande.',
+      short: 'La baguette, le Blédélice, la Fleurisette ; la 4 Saisons le week-end, l’épi sur commande.',
       description:
-        'Le pain de L’Épi d’Or, c’est Xavier. Il a appris le métier à Blois, à Souillac, et jusqu’en Russie.\n\nAu catalogue de la boutique : la baguette, la baguette aux céréales, la baguette aux noix et raisins, le Blédélice, la Fleurisette. La Baguette 4 Saisons ne se fait que le week-end ; la Baguette Épi, sur commande.',
+        'Le pain de L’Épi d’Or, c’est Xavier. Il a appris le métier à Blois, à Souillac, et jusqu’en Russie.',
       bullets: ['Baguette', 'Baguette 4 Saisons', 'Baguette aux céréales', 'Baguette noix et raisins', 'Baguette Épi', 'Blédélice', 'Fleurisette'],
       lignes: [
         { nom: 'Baguette' },
@@ -82,12 +82,12 @@ export default defineSite({
     {
       slug: 'patisseries',
       title: 'Pâtisseries et entremets',
-      short: 'Le fraisier au muguet, la tarte meringuée, l’entremets décor chocolat : la vitrine de pâtisserie de la rue Maurice Dubois.',
+      short: 'L’entremets aux fraises au décor de muguet, la tarte meringuée, l’entremets décor chocolat : la vitrine de pâtisserie de la rue Maurice Dubois.',
       description:
-        'La galerie de la boutique est faite presque entièrement de gâteaux : le fraisier au muguet, la tarte meringuée, l’entremets décor chocolat.\n\nAu catalogue, à côté de la pâtisserie : la viennoiserie, la chocolaterie et la sucrerie. Pour un gâteau à une date précise, appelez la boutique.',
-      bullets: ['Fraisier', 'Tarte meringuée', 'Entremets', 'Viennoiserie', 'Chocolaterie', 'Sucrerie'],
+        'À côté de la pâtisserie : la viennoiserie, la chocolaterie et la sucrerie. Pour un gâteau à une date précise, appelez la boutique.',
+      bullets: ['Entremets aux fraises', 'Tarte meringuée', 'Entremets', 'Viennoiserie', 'Chocolaterie', 'Sucrerie'],
       lignes: [
-        { nom: 'Fraisier', detail: 'Décor de muguet' },
+        { nom: 'Entremets aux fraises', detail: 'Décor de muguet' },
         { nom: 'Tarte meringuée' },
         { nom: 'Entremets', detail: 'Décor chocolat' },
         { nom: 'Viennoiserie' },
@@ -122,7 +122,7 @@ export default defineSite({
       title: 'Sandwichs',
       short: 'La Baguette aux Lardons, la Baguette Poulet Crème, et le sandwich fait à la commande.',
       description:
-        'Au rayon snackerie : la Baguette aux Lardons, fourrée aux lardons et aux fromages, et la Baguette Poulet Crème, fourrée au poulet et à la crème, couverte d’une fine couche d’emmental.\n\nLe catalogue a aussi un rayon traiteur et un rayon boissons.',
+        'Au rayon snackerie, deux baguettes garnies.\n\nIl y a aussi du traiteur et des boissons.',
       bullets: ['Baguette aux Lardons', 'Baguette Poulet Crème', 'Traiteur', 'Boissons'],
       lignes: [
         { nom: 'Baguette aux Lardons', detail: 'Fourrée aux lardons et aux fromages' },
@@ -135,9 +135,9 @@ export default defineSite({
     {
       slug: 'fetes',
       title: 'Les fêtes de l’année',
-      short: 'Galettes en janvier, cœurs de la Saint-Valentin, œuf de Pâques, bûches de Noël : à commander au plus tôt.',
+      short: 'Les galettes, les cœurs de la Saint-Valentin, l’œuf de Pâques et les bûches de Noël, au fil de l’année.',
       description:
-        'La vitrine suit le calendrier : les galettes en janvier, les cœurs de la Saint-Valentin, l’œuf de Pâques, puis les bûches de Noël.\n\nPour les bûches, la boutique le dit elle-même : « Commandez au plus tôt pour vous assurer un Noël gourmand. »',
+        'La vitrine suit le calendrier : les galettes, les cœurs de la Saint-Valentin, l’œuf de Pâques, puis les bûches de Noël.\n\nPour les bûches de Noël, commandez au plus tôt pour vous assurer un Noël gourmand.',
       bullets: ['Galettes', 'Saint-Valentin', 'Pâques', 'Bûches de Noël'],
       lignes: [
         { nom: 'Galettes' },
@@ -150,7 +150,7 @@ export default defineSite({
       images: [
         { src: '/images/galerie-09.webp', alt: 'Bûche de Noël violette' },
         { src: '/images/galerie-10.webp', alt: 'Bûche de Noël jaune' },
-        { src: '/images/galerie-03.webp', alt: 'Œuf en chocolat « Joyeuses Pâques »' },
+        { src: '/images/galerie-03.webp', alt: 'Œuf « Joyeuses Pâques » dans son emballage, nœud rose et vert' },
         { src: '/images/galerie-06.webp', alt: 'Cœurs de la Saint-Valentin' },
       ],
     },
@@ -189,6 +189,8 @@ export default defineSite({
   wording: {
     devis: 'Commander un gâteau',
     servicesTitle: 'La carte',
+    servicesNav: 'La carte',
+    servicesIntro: 'Cinq rayons, de la baguette aux pièces montées.',
     contactTitle: 'Une commande ? Appelez la boutique.',
     contactText: 'Les gâteaux et les pièces montées se commandent au téléphone. Fermé les après-midi des jours fériés.',
     ctaTitle: 'Une commande ? Appelez la boutique.',

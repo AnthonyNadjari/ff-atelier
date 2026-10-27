@@ -114,6 +114,19 @@ dépanneur ; atelier-par-colis pour un cordonnier, horloger, rempailleur qui re�
 
 Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
 
+## 27 oct 2026, matin (fondateur absent) : Épi d'Or B relu jusqu'à 7,2
+
+**Fait**
+- Passe `/site-final --relecture` sur `prospect-epi-dor-b` : contrôles verts, planches et film, deux relecteurs
+  (DA, rédacteur), deux lots de corrections notés par les mêmes relecteurs. 5,75 → 6,4 → **7,2** (seuil « montrer » :
+  7,5). Textes 3 → 7,5 : trois détails inventés retirés (« fraisier », « œuf en chocolat », « en janvier »). Composition
+  6,5 → 7 : étiquette du jour entière, vitrine en deux colonnes d'arches, seconde voix typographique. Un lot 3 de trois
+  lignes (étiquette sous l'enseigne au téléphone, recul abandonné, une répétition) vérifié à l'œil, non renoté.
+- Deux champs de l'usine nés de la relecture : `wording.servicesNav` (libellé de nav de la section services) et
+  `wording.servicesIntro` (phrase sous le titre de carte-prix, sinon « métier à ville » répété). Flèche « → » retirée du
+  lien « Voir la page » de carte-prix.
+- Aperçu privé : https://prospect-epi-dor-b.vercel.app
+
 ## 26 oct 2026, après-midi (fondateur absent, travail autonome) : défauts visuels corrigés
 
 **Fait**

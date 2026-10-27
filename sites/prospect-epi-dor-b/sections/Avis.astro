@@ -49,17 +49,37 @@ const note = g ? g.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) 
      rectangle avec une carte posée dessus rappelait la version A). Classes doublées : plus fortes que le style limité
      de la coquille. */
   .lf-cadre.lf-cadre { border-radius: 50% 50% var(--radius-card) var(--radius-card) / 16% 16% var(--radius-card) var(--radius-card); }
-  .lf-etiquette.lf-etiquette { inset-block-start: 18%; }
+  /* Trois classes : au-dessus du style limité de la coquille (tour 2, 27 oct 2026 : l'étiquette restait au sommet, « Ouvert » coupé par l'arche). */
+  .lf-cadre .lf-etiquette.lf-etiquette { inset-block-start: 30%; } /* sous l'enseigne, sur la vitrine éclairée (verdict du 27 oct) */
   .lf-accueil.lf-accueil { text-align: start; background: transparent; padding: 3rem 0.75rem 1.5rem; }
   .lf-accueil .lf-titre.lf-titre { font-size: clamp(3.4rem, 13vw, 6rem); line-height: 0.95; }
   .lf-accueil.lf-accueil ul { margin-inline: 0; }
   @media (min-width: 1024px) {
     .lf-cadre.lf-cadre { border-radius: 50% 50% var(--radius-card) var(--radius-card) / 24% 24% var(--radius-card) var(--radius-card); }
-    .lf-etiquette.lf-etiquette { inset-block-start: 26%; }
+    .lf-cadre .lf-etiquette.lf-etiquette { inset-block-start: 26%; }
     .lf-accueil.lf-accueil { padding: 5rem 2.5rem 3rem; }
   }
+  /* Cadrage sur le haut de la façade (enseigne, faïence) : la version A montre la même photo pleine largeur, B ne doit
+     pas ouvrir sur le même cadrage (relecture du 27 oct 2026). */
+  .lf-cadre > img, .lf-cadre picture img { object-position: 50% 12%; }
   @media (prefers-reduced-motion: no-preference) {
-    .lf-cadre > img, .lf-cadre picture img { animation: bav-recule 1.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    /* MOUVEMENT 1 du contrat : on s'écarte de la vitrine pour la voir entière (lent, 1,4 s), puis l'étiquette du jour
+       se pose dans l'arche. Déclenchée à l'ARRIVÉE (classe bav-arrive posée par le script après `load`), pas au parse :
+       au téléphone, l'animation était finie avant la première vue du film (tour 2, 27 oct 2026). Avant la classe, la
+       devanture attend en recul, l'étiquette est invisible : rien ne saute. */
+    /* Le recul de la devanture est abandonné (verdict du 27 oct 2026 : fini en moins de 150 ms au film, un saut, pas
+       le « lent » promis ; une entrée honnête vaut mieux qu'une promesse) : l'entrée, c'est l'étiquette du jour qui se
+       pose dans l'arche. Contrat MOUVEMENT 1 mis à jour. */
+    .lf-cadre .lf-etiquette.lf-etiquette { opacity: 0; }
+    .bav-arrive .lf-cadre .lf-etiquette.lf-etiquette { animation: bav-pose 0.25s ease-out 0.3s both; }
   }
-  @keyframes bav-recule { from { transform: scale(1.08); } to { transform: scale(1); } }
+  @keyframes bav-recule { from { transform: scale(1.18); } to { transform: scale(1); } }
+  @keyframes bav-pose { from { transform: translateY(0.5rem); opacity: 0; } to { transform: none; opacity: 1; } }
 </style>
+
+<script>
+  // L'entrée part quand la page est affichée (deux images après `load`), jamais pendant le chargement.
+  const arriver = () => requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('bav-arrive')));
+  if (document.readyState === 'complete') arriver();
+  else window.addEventListener('load', arriver, { once: true });
+</script>

@@ -24,12 +24,12 @@ const photos = [...premieres, ...toutes.filter((p) => !premieres.includes(p))].s
   <section id="vitrine" class="vtr section-y" aria-labelledby="vtr-titre">
     <div class="container-ff">
       <h2 id="vtr-titre" class="vtr-titre">La vitrine</h2>
-      <p class="vtr-sous">Les gâteaux de la galerie de la boutique. Touchez-en un : sa page s’ouvre.</p>
+      <p class="vtr-sous">Les gâteaux de la boutique. Touchez-en un : sa page s’ouvre.</p>
       <ul class="vtr-mosaique" data-stagger="60">
         {photos.map((p, i) => (
           <li class:list={['vtr-arche', i % 2 === 1 && 'vtr-bas']} data-reveal>
             <a href={`/services/${p.slug}`}>
-              <Img src={p.src} alt={p.alt} sizes="(min-width: 1024px) 15rem, 32vw" class="vtr-img object-cover" />
+              <Img src={p.src} alt={p.alt} sizes="(min-width: 1024px) 20rem, 32vw" class="vtr-img object-cover" />
             </a>
           </li>
         ))}
@@ -49,10 +49,13 @@ const photos = [...premieres, ...toutes.filter((p) => !premieres.includes(p))].s
     padding-bottom: 1.5rem;
   }
   @media (min-width: 640px) { .vtr-mosaique { gap: 0.5rem; padding-bottom: 3rem; } }
+  /* À l'ordinateur, deux colonnes : les gâteaux, ce que la boutique vend, ne sont plus les plus petites images de la page
+     (tour 2, 27 oct 2026 ; GOUT § 0 « l'image en grand quand le client a de bonnes photos »). */
+  @media (min-width: 1024px) { .vtr-mosaique { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; } }
   .vtr-arche { position: relative; }
-  /* L'arche une seule fois (docs/GOUT.md § 2 : « une fois, pas partout », 26 oct 2026) : la premiere photo ; les autres droites. */
-  .vtr-arche a { display: block; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius-card); }
-  .vtr-arche:first-child a { border-radius: 50% 50% var(--radius-card) var(--radius-card) / 38% 38% var(--radius-card) var(--radius-card); }
+  /* Chaque gâteau dans une arche de vitrine : c'est la signature du contrat (la devanture en arche, la vitrine en arches),
+     pas une photo encadrée partout (relecture du 27 oct 2026, décision notée dans relecture.md). */
+  .vtr-arche a { display: block; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 50% 50% var(--radius-card) var(--radius-card) / 38% 38% var(--radius-card) var(--radius-card); }
   /* Une arche sur deux descend d'un quart et passe devant : la vitrine a deux plans. */
   .vtr-bas { top: 1.5rem; z-index: 1; }
   @media (min-width: 640px) { .vtr-bas { top: 3rem; } }

@@ -841,6 +841,8 @@ export const siteSchema = z.object({
       ctaTitle: z.string().default('Un projet, une urgence ? <em>Parlons-en.</em>').describe('Titre du bandeau CTA (HTML autorise)'),
       ctaText: z.string().optional().describe('Phrase sous le titre du CTA. Par défaut, une phrase sans donnée (le téléphone seulement) : le « intervention sous 48 h » d’avant le 17 oct 2026 était un délai que le brief ne donnait pas. Écrire la vraie phrase du client.'),
       faqTitle: z.string().optional().describe('Titre de la section FAQ, propre au client (ex. « Avant de passer à la boutique »). Absent = titre par défaut de la variante, générique : à éviter (docs/GOUT.md § 5).'),
+      servicesNav: z.string().optional().describe('Libellé du lien de nav vers la section services quand « Services » ne parle pas du client (« La carte », « Les rayons ») ; absent = « Services ».'),
+      servicesIntro: z.string().optional().describe('Phrase sous le titre de la section services (carte-prix), tirée du brief ; absente = « métier à ville », qui répète alors la ligne du premier écran (relecture Épi d’Or B, 27 oct 2026).'),
       servicesTitle: z.string().default('Nos services').describe('Titre de la section services (src/sections/Services/*), propre au client (ex. « Au comptoir », « Ce qu’on répare »). Le défaut « Nos services » est générique : à remplacer (docs/GOUT.md § 5).'),
       processTitle: z.string().default('Notre méthode').describe('Titre de la section process (src/sections/Process/*), propre au client (ex. « Du devis au chantier »). Défaut générique « Notre méthode » : à remplacer.'),
       galleryTitle: z.string().default('En images').describe('Titre de la galerie (proof/gallery), ex. « L’atelier, la cave ». Défaut générique « En images ».'),

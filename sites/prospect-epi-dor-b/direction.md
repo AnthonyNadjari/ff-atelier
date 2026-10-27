@@ -75,9 +75,9 @@ calendrier. Résultat : l'idée tient, à condition que le comptoir ne dise rien
   17 oct 2026 : la devanture en rectangle sous une carte d'accueil centrée rappelait trop la version A ; l'arche et
   l'accueil sans carte sont la correction.)
 - MOUVEMENT :
-  1. Entrée : la devanture recule doucement dans son cadre à l'ouverture, comme quand on s'écarte de la vitrine pour la
-     voir entière (lent, 1,4 s, une fois). Raison : arriver. On transpose Relais Rossàr (`relaisrossar.md`) : le lieu
-     d'abord, posé, sans effet sur le texte.
+  1. Entrée : l'étiquette du jour (« Ouvert · aujourd'hui… ») se pose dans l'arche de la devanture à l'arrivée (sec,
+     0,25 s, après 0,3 s, une fois). Raison : arriver, et savoir tout de suite si c'est ouvert. (27 oct 2026 : le recul
+     de la devanture prévu d'abord, « lent, 1,4 s », était un saut au film ; abandonné sur verdict du relecteur.)
   2. Rythme : en arrivant à la vitrine, les arches de gâteaux se posent l'une après l'autre (sec, 0,2 s, 60 ms d'écart,
      une fois). Raison : regarder.
   3. Geste (le feu d'artifice) : on touche un jour de la semaine, le comptoir de ce jour se pose dessous (sec, 0,15 s) :

@@ -162,7 +162,7 @@ export const citySlug = (city: string) =>
 /** Ancres de navigation : seulement les sections presentes dans le layout. */
 export const navLinks = (s: Site = site) => {
   const labels: Record<string, string> = {
-    services: 'Services',
+    services: s.wording.servicesNav ?? 'Services',
     about: 'À propos',
     proof: 'Avis',
     zones: 'Zones',
