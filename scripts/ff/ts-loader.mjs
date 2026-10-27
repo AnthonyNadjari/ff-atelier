@@ -306,6 +306,22 @@ export async function loadLocationModule() {
   return loadPureLibModule('location.ts');
 }
 
+/**
+ * Copie src/lib/estimation.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture estimation-etapes : questions
+ * valides, étapes, lien de nav ; tests/architectures-devis.test.mjs).
+ */
+export async function loadEstimationModule() {
+  return loadPureLibModule('estimation.ts');
+}
+
+/**
+ * Copie src/lib/formules.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture formules-comparees : formules à
+ * prix, reprises, comparaison ; tests/architectures-devis.test.mjs).
+ */
+export async function loadFormulesModule() {
+  return loadPureLibModule('formules.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

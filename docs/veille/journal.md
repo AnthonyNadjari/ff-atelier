@@ -4,6 +4,60 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 27 oct 2026, tour 12 (routine en ligne, soir) : 10 styles, 2 architectures
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-27-c.jpg)) : l'architecture `estimation-etapes`, la demande d'estimation
+en trois étapes (le projet, les questions, les coordonnées) juste sous le titre, le téléphone toujours en haut. Pourquoi elle :
+c'est ce qu'un déménageur, un couvreur ou un paysagiste veut recevoir, et le levier revenait sur le marché (Movers, Rigoulet).
+
+**Fait**
+- Santé : `npm ci`, Chromium de Playwright (`FF_CHROMIUM=1`), tout a tourné avec navigateur. `ff atomes` rouge au départ (quatre
+  mesures aberrantes de la collecte automatique : `dominiqueansel`, `maisonbertaux`, `squaremilecoffee` mesure > 140 caractères,
+  `sadelle` conteneur 580 px) : remises à « à juger », et corrigé à la source : `ff atomes mesurer` laisse lui-même « à juger » une
+  mesure hors des bornes du registre (`borne`, test dans `tests/atomes.test.mjs`). `ff melanger --essai --style <id>` nomme ses
+  copies et sa planche d'après le style (`_essai-<id>-1`, `<slug>-<id>-melanges.jpg`) : deux essais ne s'écrasent plus.
+  Tests : 75 fichiers, tous verts (le dernier paquet de 40 manque de mémoire : passé par paquets de 5).
+- **Styles (2a quater)** : deux agents (domaines a à l, m à z), plus de 400 domaines sondés, une soixantaine démontés. **10 gardés**,
+  chacun essayé (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de la source : sombre `bubala` (restaurant,
+  olive, bleu canard, crème), `hotelducouvent` (noir, vidéo par chapitre, jaune soleil), `tipo00` (ardoise et cuivre, une serif) ;
+  coloré doux `deyrolle` (papier, vert d'eau, bleu nuit), `hotelpeterandpaul` (jaune paille, vert bouteille, filets aux coins
+  creusés), `wingonwoand` (porcelaine, pêche, rouille), `nopa`, `tusk`, `uchi` ; clair teinté doux `corapearl` (rose poudré).
+  Aucun clair neutre. Fiches, lignes et écartés : [styles/INDEX.md](styles/INDEX.md).
+- Palettes par régime, avant → après : clair neutre 85 → 85, clair teinté doux 22 → 23, sombre 22 → 25, coloré doux 38 → 44.
+- **Mouvement** : 2 profils nouveaux ([MOUVEMENTS.md](styles/MOUVEMENTS.md), 34 profils) : `citation-en-fondu` (Cora Pearl, photo
+  et citation de presse en fondu de 1,5 à 2 s, sans rotation automatique, deux vraies citations avec photo exigées) et
+  `filet-qui-se-trace` (Wing On Wo, filet de 3 px tracé sous chaque titre en 1,2 s).
+- **Architectures (2a ter)**, codées et prouvées le même tour : [estimation-etapes](architectures/estimation-etapes.md) (modèle
+  Framer Movers, Déménagements Rigoulet, Les Artisans du Bâtiment ; coquille `estimation`, champ `estimation`, `/estimation`,
+  `?projet=<slug>` depuis chaque prestation, `ContactForm` en étapes, tout visible sans script) et
+  [formules-comparees](architectures/formules-comparees.md) (Micka photographe, modèle Framer Greencraft ; coquille `formules`,
+  champ `formules`, piste au doigt au téléphone, `/formules` comparé en mots jamais en coches, `/formules/<slug>` avec la demande
+  réglée). `ff ressemblance` contre tous les sites : estimation 0,50 / 0,62 / 0,64, formules 0,59 / 0,49 / 0,64 (téléphone /
+  ordinateur / déroulé, seuil 0,65 : de justesse au déroulé). `ff verifier`, `ff a11y`, `ff ia` verts sur les jetables, supprimés.
+- **Marché (2a)** : 9 sites de plus (agences d'Angers, Strasbourg, Paris : dépôt-vente auto, clés auto, rénovation ; Google :
+  institut à Nice, fleuriste à Angers, boulangerie à Metz ; modèles Framer plombier, Wix paysagiste, Squarespace colonie).
+  [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) : 108 sites. Aucun levier à 40 % absent de l'usine (formulaire sur l'accueil 39,8 %,
+  labels 38,9 %). Le plus vendeur : Point Auto (métier et ville dans le h1, « Estimer ma voiture gratuitement », réassurance sous
+  les boutons, ses vraies voitures, depuis 2019).
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé,
+21 les deux), aucun site n'ayant changé. Signalé, pas corrigé.
+
+**Proposé**
+- `ff demonter` : attendre le chargement complet (Opa Clé Auto, Institut Paradiso capturés avant dessin), ne pas compter un menu
+  caché comme couche bloquante (Bubala), défiler une page qui défile dans un conteneur (ahotels).
+- `ff atomes mesurer` : marges de section faussées par le premier écran ou un menu ouvert (Bubala, Tipo 00, Tusk, Uchi), corrigées
+  à la main.
+- `ff melanger --style` : appliquer la famille de premier écran de l'atome (tirée « objet-du-metier, non appliqué » sur les dix).
+- Direction `huile` : contraste insuffisant sur le pied `big-name` et le bandeau d'appel des pages service (`text-on-ink/70`).
+- `ff ressemblance` : les deux nouvelles architectures passent de justesse au déroulé ; à revoir avec de vraies photos.
+
+**À décider** : les 10 styles (`ff melanger <slug> --style tipo00`) ; `estimation-etapes` pour le premier déménageur, couvreur
+ou paysagiste ; `formules-comparees` pour un photographe, jardinier d'entretien, auto-école (jamais avec `atelier-par-colis` en
+pistes sœurs : même défilement horizontal) ; les paires trop proches.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
 ## 27 oct 2026, tour 11 (routine en ligne, matin) : 10 styles, 2 architectures
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-27-b.jpg)) : l'architecture `planning-semaine`, un site d'école dont

@@ -252,6 +252,9 @@ function warnFormulaireTropLong(files, distDir, warnings) {
     const html = fs.readFileSync(file, 'utf8');
     const forms = html.match(formRe) || [];
     for (const form of forms) {
+      // Demande en étapes (data-etapes, architecture estimation-etapes) : une étape à la fois, les cases d'un même choix
+      // comptent pour une ; le formulaire entier n'est jamais montré d'un bloc quand le script tourne.
+      if (/^<form\b[^>]*\bdata-etapes=/i.test(form)) continue;
       const fields = (form.match(fieldRe) || []).filter((f) => !honeypotRe.test(f));
       if (fields.length > 5) {
         offenders.push(`${path.relative(distDir, file)} (${fields.length} champs)`);

@@ -173,6 +173,12 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   par catégorie, prix par durée, bascule particulier TTC / pro HT sans script, caution, « Chercher un outil », les créneaux qui
   comptent moins, `/materiel`, `/materiel/<slug>` ; aucune donnée = aucune page (`src/lib/planning.ts`, `src/lib/location.ts`,
   `src/components/CreneauxDuCours.astro`, `tests/architectures-semaine.test.mjs`).
+  `estimation` (optionnel, architecture `estimation-etapes`, coquille `estimation`) → la demande d'estimation en étapes sous l'en-tête
+  (le projet parmi les services, les questions du client, les coordonnées ; `ContactForm` prop `etapes`, tout visible sans script),
+  ce qui se passe après, `/estimation` (`?projet=<slug>` depuis chaque page de prestation) ; `formules` (optionnel, architecture
+  `formules-comparees`, coquille `formules`) → les formules nommées à prix côte à côte (piste au téléphone), chacune avec sa porte,
+  `/formules` (comparaison en mots, jamais de coches), `/formules/<slug>` avec la demande réglée sur elle ; aucune donnée = aucune
+  page (`src/lib/estimation.ts`, `src/lib/formules.ts`, `tests/architectures-devis.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

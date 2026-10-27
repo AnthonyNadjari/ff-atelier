@@ -75,11 +75,14 @@ export interface LayoutArchi {
  *                      coursValides) ;
  *  - materiels       : matériels de location qui ont au moins un prix (location.materiels[] ; src/lib/location.ts,
  *                      materielsComplets) ;
+ *  - estimation      : questions de la demande d'estimation qui se posent (estimation.questions[] : nom, libellé ; un
+ *                      choix a deux réponses au moins ; src/lib/estimation.ts, questionsValides) ;
+ *  - formules        : formules nommées à prix (formules.liste[] : slug, nom et prix ; src/lib/formules.ts, formulesCompletes) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -124,6 +127,8 @@ export const ARCHITECTURE_IDS = [
   'avant-apres',
   'planning-semaine',
   'catalogue-location',
+  'estimation-etapes',
+  'formules-comparees',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -852,6 +857,74 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Loueur dont on choisit une machine, sa durée et son prix : location d'outillage et de matériel BTP, motoculture qui loue tondeuses et broyeurs, location de remorques, de vélos ou de kayaks, de matériel de réception ou de sonorisation, de costumes ; 6 matériels à prix au moins, des horaires de retrait. Pas pour une vente sans location (gamme-vitrine), ni pour un logement à la nuit (outil-calendrier).",
   },
+  'estimation-etapes': {
+    id: 'estimation-etapes',
+    modele:
+      "Le site d'un déménageur ou d'un artisan sur devis commence par la demande : en tête le h1, le métier à la ville, l'ancienneté, le téléphone et la note, et juste dessous (sa première étape visible sans défiler) la demande d'estimation en bande sur toute la largeur : le projet (les prestations du client en grandes cases), les questions qu'il pose au téléphone (départ, arrivée, date, volume, surface), les coordonnées, « Étape 1 sur 3 », et ce qui se passe après ; puis le dépôt et les communes desservies, les avis, les prestations (une page chacune, qui rouvre la demande réglée sur elle) ; /estimation.",
+    sources: [
+      { fiche: 'docs/veille/architectures/estimation-etapes.md', site: 'movers.framer.media' },
+      { fiche: 'docs/veille/architectures/estimation-etapes.md', site: 'demenagement-rigoulet.com' },
+      { fiche: 'docs/veille/architectures/estimation-etapes.md', site: 'les-artisans-du-batiment.com' },
+    ],
+    layout: {
+      // Coquille `estimation` (src/shells/estimation.astro).
+      shell: 'estimation',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'columns',
+      // Movers : les prestations en vignettes, les témoignages, les régions ; Rigoulet : les prestations, les avis Google
+      // recopiés. Ici la coquille pose la demande (sa propre section, sous l'en-tête), puis le dépôt et les communes ; les
+      // sections suivent : les avis (la note est déjà en tête, à côté du numéro), puis les prestations en liste pour finir
+      // (elles sont déjà la première étape de la demande, la barre, la ligne de liens sous le formulaire ; chaque page
+      // rouvre la demande réglée sur elle). Pas de section contact en bas : la demande est en haut.
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+        { type: 'services', variant: 'liste-a-filets' },
+      ],
+      contactDrawer: false,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'estimation', min: 2, libelle: "2 questions au moins pour la demande (estimation.questions[] : celles que le client pose au téléphone)" },
+      { mesure: 'services', min: 2, libelle: '2 prestations au moins (services[]) : la première étape est le choix du projet' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : en urgence on appelle, on ne remplit pas trois étapes" },
+    ],
+    convientA:
+      "Métier où l'on demande un prix avant tout et où quelques réponses suffisent à le chiffrer : déménageur, couvreur, paysagiste (création), poseur de clôtures, de fenêtres ou de cuisines, ravalement, élagage, débarras, nettoyage de fin de chantier ; 2 prestations au moins et 2 questions que le client pose déjà au téléphone. Pas pour l'urgence (grille-urgence), ni pour un prix connu d'avance (formules-comparees, carte-des-soins).",
+  },
+  'formules-comparees': {
+    id: 'formules-comparees',
+    modele:
+      "Le site d'un prestataire à forfaits est le choix de sa formule : en tête le h1, le métier à la ville, l'ancienneté, le téléphone et la note ; juste dessous les formules nommées côte à côte (en piste au téléphone), chacune avec son prix (et le prix en semaine), à qui elle s'adresse, sa durée, ce qu'elle comprend (« tout ce que comprend Souvenir, plus : ») et sa porte « Vérifier la disponibilité » ; ce qui est commun à toutes et les conditions ; puis les avis, l'histoire, les questions ; une page par formule avec la demande réglée sur elle, /formules en tableau.",
+    sources: [
+      { fiche: 'docs/veille/architectures/formules-comparees.md', site: 'micka-photographe.fr' },
+      { fiche: 'docs/veille/architectures/formules-comparees.md', site: 'greencraft.framer.website' },
+    ],
+    layout: {
+      // Coquille `formules` (src/shells/formules.astro).
+      shell: 'formules',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Micka : sous les forfaits, la galerie, un texte long (« Vivre pleinement votre journée »), la FAQ ; GreenCraft : les
+      // réalisations, les questions de facturation. Les avis d'abord (socle GOUT § 0), puis l'histoire, puis les questions.
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+        { type: 'about', variant: 'story' },
+        { type: 'faq', variant: 'accordion' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'formules', min: 2, libelle: '2 formules au moins avec un nom et un prix (formules.liste[])' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on choisit une formule à l'avance" },
+    ],
+    convientA:
+      "Prestataire qui vend des forfaits nommés à prix fixes : photographe (mariage, séances), paysagiste ou jardinier d'entretien, pisciniste, laveur de vitres, nettoyage, ramoneur, entretien de chaudière ou de climatisation, auto-école, toiletteur, traiteur à menus, DJ ; 2 formules à prix au moins. Pas pour un chantier sur devis (estimation-etapes), ni pour une carte de soins à la minute (carte-des-soins), ni pour des cours en barreaux (parcours-atelier).",
+  },
 };
 
 
@@ -905,6 +978,8 @@ export interface SiteArchi {
   envoi?: { etapes?: { ou?: string; titre?: string }[] };
   planning?: { cours?: { jour?: string; debut?: string; fin?: string; nom?: string }[] };
   location?: { durees?: string[]; materiels?: { slug?: string; nom?: string; prix?: string[] }[] };
+  estimation?: { questions?: { nom?: string; libelle?: string; type?: string; choix?: string[] }[] };
+  formules?: { liste?: { slug?: string; nom?: string; prix?: string }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -1041,6 +1116,28 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
       case 'materiels': {
         const k = (s.location?.durees ?? []).length;
         n = k === 0 ? 0 : (s.location?.materiels ?? []).filter((m) => (m.nom ?? '').trim() && (m.slug ?? '').trim() && (m.prix ?? []).slice(0, k).some((p) => (p ?? '').trim())).length;
+        break;
+      }
+      // Mêmes comptes que questionsValides (src/lib/estimation.ts) et formulesCompletes (src/lib/formules.ts), recopiés.
+      case 'estimation': {
+        const vus = new Set<string>();
+        n = (s.estimation?.questions ?? []).filter((q) => {
+          const nom = (q.nom ?? '').trim();
+          if (!nom || !(q.libelle ?? '').trim() || vus.has(nom)) return false;
+          if ((q.type ?? 'texte') === 'choix' && (q.choix ?? []).filter((c) => c.trim()).length < 2) return false;
+          vus.add(nom);
+          return true;
+        }).length;
+        break;
+      }
+      case 'formules': {
+        const vus = new Set<string>();
+        n = (s.formules?.liste ?? []).filter((x) => {
+          const slug = (x.slug ?? '').trim();
+          if (!slug || !(x.nom ?? '').trim() || !(x.prix ?? '').trim() || vus.has(slug)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
         break;
       }
       case 'urgence': n = s.contact?.emergency24h || (s.tarifs?.delai ?? '').trim() ? 1 : 0; break;

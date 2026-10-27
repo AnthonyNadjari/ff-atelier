@@ -37,7 +37,7 @@ test('chaque fichier src/shells/*.astro correspond a une entree de SHELLS (pas d
 
 // La coquille "index" (site-index, le menu EST la page) est la seule qui ne rend pas <Hero /> : le
 // hero y est reduit a une ligne d'identite rendue par la coquille elle-meme (voir son en-tete).
-const SANS_HERO = ['index', 'carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda', 'vitrine', 'cadre', 'scenes', 'adresses', 'saisons', 'ardoise', 'tournee', 'artistes', 'fetes', 'calendrier', 'parcours', 'grille', 'colis', 'soins', 'avant-apres', 'planning', 'location'];
+const SANS_HERO = ['index', 'carte', 'index-projets', 'lieu-fixe', 'panneaux', 'carnet', 'livre', 'cartes-agenda', 'vitrine', 'cadre', 'scenes', 'adresses', 'saisons', 'ardoise', 'tournee', 'artistes', 'fetes', 'calendrier', 'parcours', 'grille', 'colis', 'soins', 'avant-apres', 'planning', 'location', 'estimation', 'formules'];
 
 test('chaque coquille rend <Hero />, <Footer /> et mappe sections', () => {
   for (const name of SHELLS) {

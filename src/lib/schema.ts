@@ -81,6 +81,8 @@ export const SHELLS = [
   'avant-apres', // l accueil est le mur des pieces restaurees : en tete h1, telephone, « envoyez une photo » ; chaque piece en curseur avant / apres qu on tire a la main, filtre par type sans script ; les niveaux de travaux a prix ; une page par piece et /realisations (architecture avant-apres)
   'planning', // l accueil est le planning de la semaine : en tete h1, telephone, cours d essai ; un onglet par jour (celui du jour ouvert dans le navigateur, sans script toute la semaine ; a l ordinateur les jours en colonnes), filtre par discipline ; le premier cours ; une page par discipline avec ses creneaux et /planning (architecture planning-semaine)
   'location', // l accueil est le catalogue de location : en tete h1, telephone, « chercher un outil » ; un onglet par categorie, chaque materiel avec ses prix par duree (particulier TTC ou pro HT au choix, sans script) et sa caution ; les creneaux qui comptent une journee ; le magasin ; une page par materiel et /materiel (architecture catalogue-location)
+  'estimation', // l accueil est la demande d estimation : en tete h1, telephone, note, et le formulaire en etapes (le projet, les questions du client, les coordonnees) visible sans defiler ; ce qui se passe apres ; les prestations, les avis, les communes ; /estimation (architecture estimation-etapes)
+  'formules', // l accueil est le choix d une formule : en tete h1, telephone, note ; les formules nommees a prix cote a cote (piste au telephone), chacune avec ce qu elle comprend et sa porte ; ce qui est commun a toutes ; une page par formule et /formules (architecture formules-comparees)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -884,6 +886,59 @@ export const siteSchema = z.object({
       "Catalogue d'un loueur de materiel (architecture catalogue-location, docs/veille/architectures/catalogue-location.md, source Location Service, Mulhouse : chaque machine avec son prix particulier TTC et pro HT par jour et par semaine, sa caution ; seconde source Deslandes Motoculture, Sarthe : demi-journee, journee, week-end) : l'accueil est le parc range par categorie (un onglet chacune), la recherche d'un outil, la bascule particulier / professionnel sans script, les creneaux qui comptent une journee ; une page par materiel (/materiel/<slug>) et /materiel. Absent = ni catalogue ni page. Jamais un prix, une caution ou une disponibilite inventes.",
     ),
 
+  estimation: z
+    .object({
+      promesse: z.string().optional().describe('Ce que le client promet sur la demande, dit par lui (« Réponse sous 24 h, sans engagement »). Absente = rien n’est promis, jamais « gratuit » ou un délai devinés.'),
+      questions: z
+        .array(
+          z.object({
+            nom: z.string().regex(/^[a-z0-9-]+$/).describe('Clé du champ (« depart », « volume ») : le champ envoyé s’appelle q-<nom>'),
+            libelle: z.string().describe('La question telle que le client la pose au téléphone (« Ville de départ », « Volume estimé »)'),
+            type: z.enum(['choix', 'texte', 'date', 'nombre']).default('texte').describe('choix = cases à cocher en grand (au moins deux réponses) ; texte ; date ; nombre (avec son unité)'),
+            choix: z.array(z.string()).default([]).describe('Les réponses d’une question à choix, dans l’ordre du client (« Studio », « 2 pièces », « Maison »)'),
+            unite: z.string().optional().describe('Unité d’un nombre (« m³ », « m² », « étages »). Absente = aucune.'),
+            aide: z.string().optional().describe('Aide sous le champ, dite par le client (« Une estimation suffit, nous passons voir »). Absente = rien.'),
+            obligatoire: z.boolean().default(false).describe('Vrai = la demande ne part pas sans cette réponse. Faux par défaut : chaque question de plus coûte des demandes.'),
+          }),
+        )
+        .default([])
+        .describe('Les questions du client, dans son ordre : la deuxième étape du formulaire (la première est le choix de la prestation parmi services[], la dernière les coordonnées). Une question à choix sans deux réponses ne compte pas.'),
+      apres: z.array(z.string()).default([]).describe('Ce qui se passe après la demande, dans l’ordre, dit par le client (« Nous vous rappelons pour préciser », « Visite gratuite si besoin », « Devis écrit sous 48 h »). Vide = pas de bloc.'),
+    })
+    .optional()
+    .describe(
+      "Demande d'estimation en étapes (architecture estimation-etapes, docs/veille/architectures/estimation-etapes.md, sources Movers, modèle de déménageur : le formulaire en deux étapes à droite du h1 ; Déménagements Rigoulet, Gard : « Devis en ligne » à côté du numéro ; Les Artisans du Bâtiment : le devis commence dans le premier écran du téléphone) : l'accueil porte la demande (le projet, les questions du client, les coordonnées ; sans script toutes les étapes l'une sous l'autre), chaque page de prestation l'ouvre réglée sur elle, page /estimation. Absent = formulaire de contact ordinaire. Jamais une question, une promesse ou un délai inventés.",
+    ),
+
+  formules: z
+    .object({
+      liste: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /formules/<slug> (« souvenir »)'),
+            nom: z.string().describe('Nom de la formule tel que le client l’écrit (« Souvenir », « Entretien mensuel »)'),
+            prix: z.string().describe('Prix tel que le client le donne (« 290 € », « à partir de 89 € »). Jamais deviné.'),
+            prixAutre: z.string().optional().describe('Second prix dit par le client (« 390 € en semaine », « 79 € la visite au-delà de 10 »). Absent = rien.'),
+            rythme: z.string().optional().describe('Ce que couvre le prix (« par mois », « la visite », « la séance »). Absent = non affiché.'),
+            pour: z.string().optional().describe('À qui elle s’adresse, dit par le client (« Uniquement en semaine », « Jardins de moins de 500 m² »). Absent = rien.'),
+            duree: z.string().optional().describe('Durée ou fréquence (« 2 h à 2 h 30 de présence », « Une visite tous les 15 jours »). Absente = non affichée.'),
+            inclus: z.array(z.string()).default([]).describe('Ce que la formule comprend, ligne par ligne, mots du client (« Plus de 200 photos retouchées »)'),
+            reprend: z.string().regex(/^[a-z0-9-]+$/).optional().describe('Slug d’une autre formule dont elle comprend tout (« Tout ce que comprend Souvenir, plus : »). Absent = liste seule.'),
+            note: z.string().optional().describe('Précision du client (« Tirages 10 x 15 de 10 photos au choix »). Absente = rien.'),
+            conseillee: z.boolean().default(false).describe('Vrai seulement si le client dit que c’est la plus demandée : une ligne « La plus demandée » sur la formule. Jamais posé d’office.'),
+            photo: img.optional().describe('Photo du client pour cette formule (un vrai mariage, un vrai jardin). Absente = pas d’image.'),
+          }),
+        )
+        .default([])
+        .describe('Les formules, dans l’ordre du client (souvent du plus léger au plus complet). Une formule sans slug, nom ou prix ne compte pas.'),
+      communs: z.array(z.string()).default([]).describe('Ce qui est compris dans toutes les formules (« Déplacement compris en Sarthe », « Même équipe à chaque visite »). Vide = rien.'),
+      conditions: z.array(z.string()).default([]).describe('Conditions dites par le client (« Sans engagement », « Acompte de 30 % à la réservation »). Vide = rien.'),
+    })
+    .optional()
+    .describe(
+      "Formules nommées à prix écrits (architecture formules-comparees, docs/veille/architectures/formules-comparees.md, source Micka photographe, Le Mans : quatre forfaits côte à côte, prix en semaine, « Vérifiez la disponibilité » sous chacun ; seconde source GreenCraft, modèle de paysagiste : « Everything in Essential » puis ce qui s'ajoute) : l'accueil est le choix d'une formule, chacune avec sa porte ; une page par formule (/formules/<slug>) avec la demande réglée sur elle, /formules en tableau. Absent = ni formules ni pages. Jamais un prix, un contenu ou une « plus demandée » inventés.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -950,6 +1005,9 @@ export const siteSchema = z.object({
       essai: z.string().default('Cours d’essai').describe('Libellé de la porte vers le cours d’essai (site.planning.essai) : « Cours d’essai », « Venir essayer »'),
       materiel: z.string().default('Le matériel').describe('Libellé du lien de nav et titre de la page /materiel (site.location) : « Le matériel », « Nos machines »'),
       chercher: z.string().default('Chercher un outil').describe('Libellé du champ de recherche du catalogue (architecture catalogue-location) : « Chercher un outil », « Quelle machine ? »'),
+      estimation: z.string().default('Demander une estimation').describe('Libellé du lien de nav, de la porte des pages de prestation et titre de la page /estimation (site.estimation) : « Demander une estimation », « Estimer mon déménagement »'),
+      formules: z.string().default('Les formules').describe('Libellé du lien de nav et titre de la page /formules (site.formules) : « Les formules », « Les forfaits »'),
+      disponibilite: z.string().default('Vérifier la disponibilité').describe('Libellé de la porte de chaque formule (architecture formules-comparees) : « Vérifier la disponibilité », « Choisir cette formule »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),

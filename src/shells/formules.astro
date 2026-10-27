@@ -1,0 +1,174 @@
+---
+/**
+ * Coquille "formules" : architecture `formules-comparees` (src/lib/architectures.ts ; source Micka photographe, Le Mans :
+ * quatre forfaits nommés côte à côte, prix et prix en semaine, ce qu'ils couvrent, « Chaque forfait inclut mon
+ * déplacement » au-dessus, « Vérifiez la disponibilité » sous chacun ; seconde source GreenCraft, modèle de paysagiste :
+ * « Everything in Essential » puis ce qui s'ajoute ; docs/veille/architectures/formules-comparees.md). Le visiteur
+ * compare quelques forfaits et en choisit un : le choix devient l'accueil.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone, la note Google (socle docs/GOUT.md § 0) ;
+ *   → les formules, id="formules" : côte à côte à l'ordinateur, en piste au téléphone (scroll-snap, défilement natif,
+ *     jamais la molette détournée ; la section s'y ouvre en display: contents, la piste haute de deux tiers d'écran), chacune avec sa photo s'il y en a une, son nom (vers sa page), son prix et le second
+ *     prix, ce qu'elle couvre, à qui elle s'adresse, « tout ce que comprend X, plus : » et sa liste en mots, sa porte
+ *     « Vérifier la disponibilité » vers sa page (la demande réglée sur elle) ; « La plus demandée » seulement si le
+ *     client l'a dit ; dessous ce qui est commun à toutes, les conditions, le lien vers la comparaison en tableau ;
+ *   → les sections du layout (avis, histoire, questions) ;
+ *   → « Vous hésitez entre deux formules ? », id="contact" : le téléphone et le tiroir pour écrire ;
+ *   → le pied.
+ * Pages : /formules (tableau) et une page par formule (/formules/<slug>).
+ *
+ * `layout.hero` n'est pas rendu. Sans formule à prix : pas de bloc, et le build dit ce qui manque (donneesManquantes).
+ * Signes des sources NON repris : coches devant chaque ligne (GOUT § 2), « Most Popular » posé d'office, boutons pilule,
+ * numéro sans lien tel:.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, metierEtVille, donneesManquantes, formulesCompletes, repriseDeFormule } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const f = site.formules;
+const formules = formulesCompletes(f);
+const communs = f?.communs ?? [];
+const conditions = f?.conditions ?? [];
+const manque = donneesManquantes('formules-comparees', site);
+if (manque.length > 0) console.warn(`[coquille formules] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="fo-page">
+  {/* L'ouverture : à l'ordinateur, l'en-tête en colonne à gauche et les formules à droite, ensemble au premier écran ;
+      au téléphone l'enveloppe s'ouvre (display: contents), l'en-tête puis la piste. */}
+  <div class="fo-ouverture">
+  <section id="hero" class="container-ff fo-tete" aria-label="Accueil">
+    <h1 class="fo-h1 font-display" set:html={site.business.tagline} />
+    <div class="fo-sous">
+      <p class="fo-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      <p class="fo-portes">
+        <a href={tel()} class="fo-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="fo-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+    </div>
+  </section>
+
+  {formules.length > 0 && (
+    <section id="formules" class="fo-bloc" aria-labelledby="fo-titre">
+      <div class="container-ff fo-entete">
+        <h2 id="fo-titre" class="fo-titre font-display">{site.wording.formules}</h2>
+        {communs.length > 0 && <p class="fo-communs">{communs.join('. ')}.</p>}
+      </div>
+      <ol class="fo-piste" style={`--fo-n: ${formules.length}`}>
+        {formules.map((x) => {
+          const base = repriseDeFormule(x, formules);
+          return (
+            <li class:list={['fo-carte', x.conseillee && 'fo-conseillee']}>
+              {x.conseillee && <p class="fo-mention">La plus demandée</p>}
+              {x.photo && <Img src={x.photo.src} alt={x.photo.alt} class="fo-photo" sizes="(min-width: 1024px) 26vw, 80vw" />}
+              <h3 class="fo-nom font-display"><a href={`/formules/${x.slug}`}>{x.nom}</a></h3>
+              {x.pour && <p class="fo-pour">{x.pour}</p>}
+              <p class="fo-prix tabular-nums"><span class="fo-montant">{x.prix}</span>{x.rythme && <span class="fo-rythme"> {x.rythme}</span>}</p>
+              {x.prixAutre && <p class="fo-autre tabular-nums">{x.prixAutre}</p>}
+              {x.duree && <p class="fo-duree">{x.duree}</p>}
+              {(base || x.inclus.length > 0) && (
+                <div class="fo-inclus">
+                  {base && <p class="fo-base">Tout ce que comprend {base.nom}{x.inclus.length > 0 ? ', plus :' : '.'}</p>}
+                  {x.inclus.length > 0 && <ul>{x.inclus.map((i) => <li>{i}</li>)}</ul>}
+                </div>
+              )}
+              {x.note && <p class="fo-note">{x.note}</p>}
+              <a href={`/formules/${x.slug}#demande`} class="fo-porte">{site.wording.disponibilite}<span class="sr-only"> : {x.nom}</span><Icon name="ArrowRight" size={17} /></a>
+            </li>
+          );
+        })}
+      </ol>
+      <div class="container-ff fo-suite">
+        {conditions.length > 0 && <ul class="fo-conditions">{conditions.map((c) => <li>{c}</li>)}</ul>}
+        {formules.length >= 2 && <p><a href="/formules" class="fo-lien">Comparer les formules ligne à ligne<Icon name="ArrowRight" size={16} /></a></p>}
+      </div>
+    </section>
+  )}
+  </div>
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  {/* Pour finir, la question qu'on se pose devant des formules (« Contactez-moi » de Micka, « Get a Quote » de
+      GreenCraft) : on hésite entre deux, on appelle ; le tiroir de contact pour écrire. id="contact" : sans script, les
+      liens « Contact » de la nav et des pages y mènent (le tiroir les intercepte quand le script tourne). */}
+  {(
+    <section id="contact" class="container-ff fo-appel" aria-labelledby="fo-appel-t">
+      <h2 id="fo-appel-t" class="fo-appel-titre font-display">{formules.length >= 2 ? 'Vous hésitez entre deux formules ?' : 'Une question ?'}</h2>
+      {formules.length >= 2 && <p class="fo-appel-texte">Dites-nous la date, le lieu et ce qui compte pour vous&nbsp;: nous vous dirons laquelle vous va.</p>}
+      <p class="fo-portes">
+        <a href={tel()} class="fo-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        {site.layout.contactDrawer && <a href="/#contact" class="fo-lien">Écrire</a>}
+      </p>
+    </section>
+  )}
+</main>
+<Footer />
+
+<style>
+  .fo-tete { display: grid; gap: 1rem; padding-block: clamp(1.25rem, 4vh, 3rem) clamp(1rem, 3vh, 2rem); }
+  .fo-h1 { font-size: clamp(2rem, 7vw, 5rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 18ch; }
+  .fo-sous { display: grid; gap: 0.6rem; }
+  .fo-metier { font-size: clamp(1.02rem, 1.5vw, 1.25rem); max-inline-size: 44ch; }
+  .fo-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; }
+  .fo-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.05rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-size: 1.12rem; font-weight: 700; }
+  .fo-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .fo-tel:focus-visible, .fo-lien:focus-visible, .fo-nom a:focus-visible, .fo-porte:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  /* Au téléphone, la section s'ouvre (display: contents) : son en-tête, la piste et son pied sont trois plans de la page,
+     et la piste, haute d'au moins deux tiers d'écran, se feuillette au doigt comme des feuilles qu'on compare. */
+  .fo-bloc { display: contents; }
+  .fo-entete, .fo-piste, .fo-suite { background: var(--color-bg-2); }
+  .fo-entete { display: grid; gap: 0.5rem; padding-block-start: clamp(1.5rem, 5vh, 3.5rem); padding-block-end: 0.75rem; }
+  .fo-suite { padding-block-end: clamp(1.5rem, 5vh, 3.5rem); }
+  .fo-titre { font-size: clamp(1.6rem, 4vw, 2.8rem); line-height: 1.05; }
+  .fo-communs { max-inline-size: 60ch; color: var(--color-muted); }
+  /* La piste : défilement horizontal natif au téléphone (la carte suivante dépasse), grille à l'ordinateur. */
+  .fo-piste { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(16.5rem, 84%); gap: 0.85rem; min-block-size: 66svh; overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: clamp(1.25rem, 4vw, 2.5rem); padding-block: 0.5rem 1rem; scroll-padding-inline: clamp(1.25rem, 4vw, 2.5rem); overscroll-behavior-x: contain; }
+  .fo-carte { position: relative; display: flex; flex-direction: column; gap: 0.55rem; padding: 1.25rem; scroll-snap-align: start; border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface, var(--color-bg)); box-shadow: var(--shadow-card); }
+  .fo-conseillee { border-color: var(--color-fg); box-shadow: inset 0 0 0 1px var(--color-fg), var(--shadow-lift); }
+  .fo-mention { font-weight: 600; font-size: 0.95rem; padding-block-end: 0.45rem; border-block-end: 1px solid currentColor; }
+  .fo-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-ui, 6px); }
+  .fo-nom { font-size: clamp(1.4rem, 2.4vw, 1.9rem); line-height: 1.05; }
+  .fo-nom a { text-decoration: none; }
+  .fo-nom a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .fo-pour, .fo-duree, .fo-note { color: var(--color-muted); }
+  .fo-prix { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.3rem; padding-block: 0.5rem; border-block: 1px solid var(--color-line); }
+  .fo-montant { font-size: clamp(1.9rem, 3.4vw, 2.6rem); font-weight: 700; line-height: 1; }
+  .fo-rythme { color: var(--color-muted); }
+  .fo-autre { font-weight: 600; }
+  .fo-inclus { display: grid; gap: 0.35rem; }
+  .fo-base { font-weight: 600; }
+  .fo-inclus ul { display: grid; gap: 0.3rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .fo-inclus li::marker { color: var(--color-accent); }
+  .fo-porte { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; min-block-size: 48px; margin-block-start: auto; padding-inline: 1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 600; }
+  .fo-porte:hover { background: var(--color-accent-2); }
+  .fo-suite { display: grid; gap: 0.5rem; }
+  .fo-conditions { display: flex; flex-wrap: wrap; gap: 0.35rem 1.5rem; }
+  .fo-conditions li { padding-inline-start: 0.85rem; border-inline-start: 2px solid var(--color-accent); }
+  .fo-appel { display: grid; gap: 0.75rem; padding-block: clamp(2rem, 7vh, 4.5rem); border-block-start: 1px solid var(--color-line); }
+  .fo-appel-titre { font-size: clamp(1.6rem, 4.5vw, 3rem); line-height: 1.05; max-inline-size: 20ch; }
+  .fo-appel-texte { max-inline-size: 52ch; }
+  .fo-ouverture { display: contents; }
+  @media (min-width: 64rem) {
+    .fo-ouverture { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.7fr); max-inline-size: var(--container); margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 2.5rem); column-gap: clamp(1.5rem, 3vw, 3rem); align-items: start; }
+    .fo-ouverture > .fo-tete { position: sticky; inset-block-start: 5.5rem; padding-inline: 0; padding-block: clamp(2rem, 6vh, 4rem) 1rem; }
+    .fo-ouverture .fo-h1 { font-size: clamp(2.2rem, 3.2vw, 3.4rem); }
+    .fo-bloc { display: grid; gap: 1.25rem; padding: clamp(2rem, 6vh, 4rem) clamp(1rem, 2vw, 1.75rem) clamp(1.5rem, 5vh, 3rem); background: var(--color-bg-2); border-radius: 0 0 var(--radius-card) var(--radius-card); }
+    .fo-bloc > .container-ff { padding-inline: 0; }
+    .fo-entete, .fo-piste, .fo-suite { background: none; padding-block: 0; }
+    .fo-piste { min-block-size: 0; padding-inline: 0; }
+    .fo-piste { grid-auto-flow: row; grid-template-columns: repeat(min(var(--fo-n), 3), minmax(0, 1fr)); overflow: visible; inline-size: 100%; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .fo-piste { scroll-behavior: smooth; }
+  }
+</style>

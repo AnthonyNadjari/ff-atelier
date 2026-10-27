@@ -1,0 +1,62 @@
+---
+/**
+ * Page /estimation (site.estimation, src/lib/estimation.ts) : architecture `estimation-etapes` (« Devis en ligne » de
+ * Déménagements Rigoulet, une page à part toujours dans la barre ; « Request A Quote » de Movers ;
+ * docs/veille/architectures/estimation-etapes.md). La demande seule, en étapes (le projet, les questions du client, les
+ * coordonnées ; sans script tout l'une sous l'autre), la prestation déjà choisie quand on arrive d'une page de prestation
+ * (?projet=<slug>, lu dans le navigateur) ; le téléphone pour qui préfère appeler ; ce qui se passe après. Générée
+ * seulement avec 2 questions valides (lienEstimation) ; sinon aucune page.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, lienEstimation } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import ContactForm from '@/components/ContactForm.astro';
+
+export function getStaticPaths() {
+  return lienEstimation(site.estimation, site.wording.estimation) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const e = site.estimation!;
+const titre = site.wording.estimation;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} à ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : votre projet en quelques réponses, ou par téléphone au ${site.contact.phoneDisplay}.`} path="/estimation">
+  <Nav />
+  <main id="main" class="container-ff ep">
+    <header class="ep-tete">
+      <h1 class="ep-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      {e.promesse && <p class="ep-promesse">{e.promesse}</p>}
+      <p class="ep-portes"><span>Vous préférez appeler&nbsp;?</span><a href={tel()} class="ep-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      {e.apres.length > 0 && (
+        <div class="ep-apres">
+          <h2 class="ep-h2">Après votre demande</h2>
+          <ol>{e.apres.map((x) => <li>{x}</li>)}</ol>
+        </div>
+      )}
+    </header>
+    <div class="ep-carte">
+      <ContactForm etapes idPrefix="estimation-page" />
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ep { display: grid; gap: 2rem; padding-block: clamp(1.5rem, 5vh, 4rem); }
+  .ep-tete { display: grid; gap: 0.75rem; align-content: start; }
+  .ep-titre { font-size: clamp(2rem, 5.5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .ep-promesse { font-weight: 600; }
+  .ep-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+  .ep-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border-radius: var(--radius-ui, 6px); background: var(--color-fg); color: var(--color-bg); font-weight: 700; }
+  .ep-tel:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .ep-apres { display: grid; gap: 0.5rem; margin-block-start: 0.75rem; }
+  .ep-h2 { font-weight: 600; font-size: 1.1rem; }
+  .ep-apres ol { display: grid; gap: 0.4rem; padding-inline-start: 1.25rem; list-style: decimal; }
+  .ep-carte { padding: clamp(1rem, 3vw, 2rem); border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-card); }
+  @media (min-width: 64rem) {
+    .ep { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 4rem; align-items: start; }
+  }
+</style>

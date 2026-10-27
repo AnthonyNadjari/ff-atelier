@@ -19,6 +19,7 @@ import ArdoiseDuJour from '@/components/ArdoiseDuJour.astro';
 import { sortiesDuService } from '@/lib/sorties';
 import CreneauxDuCours from '@/components/CreneauxDuCours.astro';
 import { coursDuService } from '@/lib/planning';
+import { lienEstimation } from '@/lib/estimation';
 
 export function getStaticPaths() {
   // site.servicePages: false -> aucune page service (voir src/lib/schema.ts).
@@ -41,6 +42,9 @@ const sorties = sortiesDuService(site.sorties, service.slug);
 // Créneaux de cette discipline (site.planning, architecture planning-semaine) : ses jours et heures, quel que soit le gabarit.
 const creneaux = coursDuService(site.planning, service.slug).length > 0;
 const blocCreneaux = `${service.title}\u00a0: les créneaux de la semaine`;
+// Demande d'estimation (site.estimation, architecture estimation-etapes) : la porte de la page ouvre la demande réglée sur
+// cette prestation (« Devis en ligne » de Rigoulet sur chaque page).
+const estimation = lienEstimation(site.estimation, site.wording.estimation);
 const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug}`, Astro.site).toString());
 ---
 
@@ -68,7 +72,7 @@ const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug
           {service.priceFrom && <p class="service-prix mt-8 inline-block rounded-ui border border-line px-4 py-2 font-medium tabular-nums">{service.priceFrom}</p>}
           <div class="mt-10 flex flex-wrap gap-4">
             <Button href={tel()} size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
-            {aPorteContact && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
+            {estimation ? <Button href={`/estimation?projet=${service.slug}`} variant="ghost" size="lg">{site.wording.estimation}</Button> : aPorteContact && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
           </div>
         </div>
         <aside class="lg:col-span-5" data-reveal="right">

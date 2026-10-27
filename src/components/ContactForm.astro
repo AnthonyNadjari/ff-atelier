@@ -27,11 +27,24 @@
  * Le formulaire reste en `novalidate` : les bulles natives du navigateur sont dans la langue de
  * l'interface, pas forcement en francais, et ne sont ni stylables ni lisibles au meme endroit.
  */
-import { site } from '@/lib/site';
-interface Props { class?: string; compact?: boolean; idPrefix?: string; sejour?: boolean }
-const { class: cls = '', compact = false, idPrefix = 'contact', sejour = false } = Astro.props;
+import { site, questionsValides, etapesDEstimation, formulesCompletes } from '@/lib/site';
+interface Props { class?: string; compact?: boolean; idPrefix?: string; sejour?: boolean; etapes?: boolean; projet?: string; formule?: string }
+const { class: cls = '', compact = false, idPrefix = 'contact', sejour = false, etapes: enEtapes = false, projet, formule } = Astro.props;
 const f = site.form;
 const services = site.services.map((s) => s.title);
+// Demande d'estimation en étapes (architecture estimation-etapes, src/lib/estimation.ts ; source Movers : « Get Your Free
+// Estimate » en deux étapes à droite du h1) : 1 le projet (les prestations du client en grandes cases), 2 les questions
+// qu'il pose au téléphone, 3 les coordonnées. Sans script, toutes les étapes l'une sous l'autre et le même envoi ; avec
+// script, une étape à la fois, vérifiée avant la suivante. Les réponses rejoignent le message envoyé (tous les fournisseurs).
+const questions = enEtapes ? questionsValides(site.estimation) : [];
+const etapes = enEtapes ? etapesDEstimation(site.estimation, site.services.length) : [];
+const numero = (cle: string) => etapes.find((e) => e.cle === cle)?.n;
+const titresEtapes: Record<string, string> = { projet: 'Votre projet', questions: 'Quelques précisions', coordonnees: 'Où vous répondre' };
+// Formules à prix (architecture formules-comparees, src/lib/formules.ts) : le choix du besoin propose les formules, celle
+// de la page déjà choisie (« Vérifiez la disponibilité » sous chaque forfait de Micka).
+const formules = formulesCompletes(site.formules);
+const formuleChoisie = formules.find((x) => x.slug === formule)?.nom;
+const Coord = enEtapes ? 'fieldset' : 'div';
 // Demande qualifiée (architecture saisons-sorties) : les sorties du client dans le choix du besoin ; le champ « Dates
 // souhaitées » seulement si form.dates est vrai (un sixième champ : ff verifier avertit au-delà de cinq), sinon le
 // message demande les dates. Rien n'est ajouté sans sortie.
@@ -64,6 +77,7 @@ const input =
     data-to={site.contact.email}
     data-subject={f.subject ?? `Demande via ${site.business.name}`}
     data-success={f.successMessage}
+    data-etapes={enEtapes ? String(etapes.length) : undefined}
     novalidate
   >
     {/* Resume d'erreurs : masque tant que rien n'a echoue, rempli et focalise par le script. */}
@@ -72,6 +86,59 @@ const input =
       <ul class="mt-2 grid gap-1 text-sm" data-form-erreurs-liste></ul>
     </div>
 
+    {enEtapes && <p class="ff-etape-compteur text-sm" data-etape-compteur aria-live="polite" hidden></p>}
+    {numero('projet') && (
+      <fieldset class="ff-etape grid gap-3" data-etape={String(numero('projet'))} data-obligatoire-groupe="service">
+        <legend class="ff-etape-titre">{titresEtapes.projet}</legend>
+        <div class="ff-cases">
+          {site.services.map((sv) => (
+            <label class="ff-case">
+              <input type="radio" name="service" value={sv.title} checked={sv.slug === projet} data-projet={sv.slug} data-libelle={titresEtapes.projet} />
+              <span>{sv.title}</span>
+            </label>
+          ))}
+        </div>
+        <p class="ff-erreur-groupe text-sm" data-erreur-groupe role="alert" hidden>Choisissez votre projet pour passer à la suite.</p>
+      </fieldset>
+    )}
+    {numero('questions') && (
+      <fieldset class="ff-etape grid gap-4" data-etape={String(numero('questions'))}>
+        <legend class="ff-etape-titre">{titresEtapes.questions}</legend>
+        {questions.map((q) => (q.type === 'choix' ? (
+          <fieldset class="grid gap-2" data-obligatoire-groupe={q.obligatoire ? `q-${q.nom}` : undefined}>
+            <legend class="text-sm">{q.libelle}{!q.obligatoire && <span class="text-muted"> (facultatif)</span>}</legend>
+            <div class="ff-cases">
+              {q.choix.filter((c) => c.trim()).map((c) => (
+                <label class="ff-case"><input type="radio" name={`q-${q.nom}`} value={c} data-libelle={q.libelle} /><span>{c}</span></label>
+              ))}
+            </div>
+            {q.aide && <p class="text-xs text-muted">{q.aide}</p>}
+            {q.obligatoire && <p class="ff-erreur-groupe text-sm" data-erreur-groupe role="alert" hidden>Choisissez une réponse : {q.libelle.toLowerCase()}.</p>}
+          </fieldset>
+        ) : (
+          <label class="grid gap-1.5 text-sm" for={`${uid}-q-${q.nom}`}>
+            <span>{q.libelle}{q.unite && ` (${q.unite})`}{!q.obligatoire && <span class="text-muted"> (facultatif)</span>}</span>
+            <input
+              class={input}
+              id={`${uid}-q-${q.nom}`}
+              name={`q-${q.nom}`}
+              type={q.type === 'date' ? 'date' : 'text'}
+              inputmode={q.type === 'nombre' ? 'decimal' : undefined}
+              autocomplete="off"
+              required={q.obligatoire}
+              data-libelle={q.libelle}
+              data-unite={q.type === 'nombre' ? q.unite : undefined}
+              aria-describedby={`${uid}-q-${q.nom}-erreur${q.aide ? ` ${uid}-q-${q.nom}-aide` : ''}`}
+              data-erreur-requis={`Répondez à cette question : ${q.libelle.toLowerCase()}.`}
+            />
+            {q.aide && <p class="text-xs text-muted" id={`${uid}-q-${q.nom}-aide`}>{q.aide}</p>}
+            <p class="ff-erreur" id={`${uid}-q-${q.nom}-erreur`}><span class="sr-only">Erreur : </span><span data-erreur-texte>{`Répondez à cette question : ${q.libelle.toLowerCase()}.`}</span></p>
+          </label>
+        )))}
+      </fieldset>
+    )}
+    <Coord class={enEtapes ? 'ff-etape grid gap-4' : 'contents'} data-etape={enEtapes ? String(numero('coordonnees')) : undefined}>
+    {enEtapes && <legend class="ff-etape-titre">{titresEtapes.coordonnees}</legend>}
     <div class:list={['grid gap-4', !compact && 'sm:grid-cols-2']}>
       <label class="grid gap-1.5 text-sm" for={`${uid}-nom`}>
         <span>Nom</span>
@@ -119,12 +186,17 @@ const input =
       />
       <p class="ff-erreur" id={`${uid}-email-erreur`}><span class="sr-only">Erreur : </span><span data-erreur-texte set:html="Cette adresse e-mail n’a pas l’air valide (exemple : nom@domaine.fr)." /></p>
     </label>
-    {(services.length > 1 || sorties.length > 0) && (
+    {!numero('projet') && (services.length > 1 || sorties.length > 0 || formules.length >= 2) && (
       <label class="grid gap-1.5 text-sm" for={`${uid}-besoin`}>
-        <span>Besoin</span>
+        <span>{formules.length >= 2 ? 'Formule' : 'Besoin'}</span>
         <select class={input} id={`${uid}-besoin`} name="service">
           <option value="">Choisir…</option>
-          {sorties.length > 0 ? (
+          {formules.length >= 2 ? (
+            <>
+              {formules.map((x) => <option value={x.nom} selected={x.nom === formuleChoisie}>{x.nom}, {x.prix}{x.rythme ? ` ${x.rythme}` : ''}</option>)}
+              {services.length > 1 && <optgroup label="Autres demandes">{services.map((s) => <option value={s}>{s}</option>)}</optgroup>}
+            </>
+          ) : sorties.length > 0 ? (
             <>
               <optgroup label="Sorties">{sorties.map((s) => <option value={s}>{s}</option>)}</optgroup>
               <optgroup label="Activités">{services.map((s) => <option value={s}>{s}</option>)}</optgroup>
@@ -154,14 +226,14 @@ const input =
       </label>
     )}
     <label class="grid gap-1.5 text-sm" for={`${uid}-message`}>
-      <span>Votre message</span>
+      <span>{enEtapes ? 'Autre chose à savoir' : 'Votre message'}{enEtapes && <span class="text-muted"> (facultatif)</span>}</span>
       <textarea
         class={input}
         id={`${uid}-message`}
         name="message"
-        rows={compact ? 3 : 5}
-        required
-        placeholder={invite}
+        rows={compact || enEtapes ? 3 : 5}
+        required={!enEtapes}
+        placeholder={enEtapes ? 'Un accès difficile, un objet fragile, une contrainte de date ?' : invite}
         aria-describedby={`${uid}-message-erreur`}
         data-erreur-requis="Décrivez votre besoin en une phrase : c’est ce qui permet de vous répondre précisément."
       ></textarea>
@@ -174,6 +246,13 @@ const input =
       <span data-spinner aria-hidden="true"></span>
       <span data-label>Envoyer ma demande</span>
     </button>
+    </Coord>
+    {enEtapes && (
+      <div class="ff-etape-nav" data-etape-nav hidden>
+        <button type="button" class="ff-etape-retour inline-flex items-center justify-center rounded-ui border border-line px-5 py-3 font-medium" data-etape-retour>Retour</button>
+        <button type="button" class="ff-etape-suivant inline-flex items-center justify-center rounded-ui bg-accent px-6 py-3.5 font-medium text-on-accent hover:bg-accent-2" data-etape-suivant>Suivant</button>
+      </div>
+    )}
     <p class="hidden rounded-ui border border-line bg-bg-2 px-4 py-3 text-sm" data-status role="status" aria-live="polite"></p>
   </form>
 )}
@@ -271,6 +350,54 @@ const input =
         resume.focus();
       };
 
+      // Demande d'estimation en étapes (data-etapes) : une étape à la fois, « Étape 1 sur 3 », Suivant vérifie l'étape
+      // (champs et choix obligatoires) avant d'avancer, Retour revient. Sans ce script, tout reste visible.
+      const etapes = [...form.querySelectorAll<HTMLElement>(':scope > .ff-etape, :scope > fieldset.ff-etape')];
+      if (form.dataset.etapes && etapes.length > 1) {
+        const compteur = form.querySelector<HTMLElement>('[data-etape-compteur]');
+        const nav = form.querySelector<HTMLElement>('[data-etape-nav]');
+        const retour = form.querySelector<HTMLButtonElement>('[data-etape-retour]');
+        const suivant = form.querySelector<HTMLButtonElement>('[data-etape-suivant]');
+        let ici = 0;
+        const montrer = (k: number, focus = false) => {
+          ici = k;
+          etapes.forEach((fs, j) => { fs.hidden = j !== k; });
+          if (compteur) { compteur.hidden = false; compteur.textContent = `Étape ${k + 1} sur ${etapes.length}`; }
+          if (nav) nav.hidden = false;
+          if (retour) retour.hidden = k === 0;
+          if (suivant) suivant.hidden = k === etapes.length - 1;
+          if (focus) etapes[k].querySelector<HTMLElement>('input, select, textarea')?.focus();
+        };
+        const etapeValide = (fs: HTMLElement) => {
+          let ok = true;
+          fs.querySelectorAll<Champ>('.ff-champ').forEach((c) => { if (majChamp(c)) ok = false; });
+          const groupes = [fs, ...fs.querySelectorAll<HTMLElement>('[data-obligatoire-groupe]')].filter((g) => g.dataset.obligatoireGroupe);
+          groupes.forEach((g) => {
+            const nom = g.dataset.obligatoireGroupe!;
+            const choisi = Boolean(form.querySelector(`input[name="${CSS.escape(nom)}"]:checked`));
+            const err = g.querySelector<HTMLElement>(':scope > [data-erreur-groupe]');
+            if (err) err.hidden = choisi;
+            if (!choisi) ok = false;
+          });
+          return ok;
+        };
+        form.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((r) => r.addEventListener('change', () => {
+          const g = r.closest<HTMLElement>('[data-obligatoire-groupe]');
+          const err = g?.querySelector<HTMLElement>(':scope > [data-erreur-groupe]');
+          if (err) err.hidden = true;
+        }));
+        suivant?.addEventListener('click', () => {
+          if (!etapeValide(etapes[ici])) { etapes[ici].querySelector<HTMLElement>('[aria-invalid="true"], [data-erreur-groupe]:not([hidden])')?.scrollIntoView({ block: 'nearest' }); return; }
+          montrer(Math.min(ici + 1, etapes.length - 1), true);
+        });
+        retour?.addEventListener('click', () => montrer(Math.max(ici - 1, 0), true));
+        // Le projet choisi sur une page de prestation (/estimation?projet=<slug>) : coché, et l'étape suivante ouverte.
+        const projet = new URLSearchParams(location.search).get('projet');
+        const caseProjet = projet ? form.querySelector<HTMLInputElement>(`input[name="service"][data-projet="${CSS.escape(projet)}"]`) : null;
+        if (caseProjet) caseProjet.checked = true;
+        montrer(caseProjet && etapes[0].querySelector('[data-projet]') ? 1 : 0);
+      }
+
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         // Arme les styles d'erreur meme sur un champ jamais touche (`:user-invalid` ne s'applique
@@ -285,6 +412,18 @@ const input =
 
         const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
         if (data.botcheck) return;
+        // Demande en étapes : les réponses aux questions du client (champs q-<nom>, data-libelle) rejoignent le message,
+        // pour que chaque fournisseur (mailto, web3forms, Worker) les transmette telles quelles.
+        const reponses: string[] = [];
+        const vus = new Set<string>();
+        form.querySelectorAll<HTMLInputElement>('[name^="q-"][data-libelle]').forEach((el) => {
+          if (vus.has(el.name)) return;
+          vus.add(el.name);
+          const v = (data[el.name] ?? '').trim();
+          if (v) reponses.push(`${el.dataset.libelle} : ${v}${el.dataset.unite ? ` ${el.dataset.unite}` : ''}`);
+          delete data[el.name];
+        });
+        if (reponses.length) data.message = [...reponses, '', data.message ?? ''].join('\n').trim();
         const provider = form.dataset.form;
         if (provider === 'mailto') {
           const body = [`Nom : ${data.name}`, `Téléphone : ${data.phone}`, data.email && `E-mail : ${data.email}`, data.service && `Besoin : ${data.service}`, data.dates && `Dates souhaitées : ${data.dates}`, data.arrivee && `Arrivée : ${data.arrivee}`, data.depart && `Départ : ${data.depart}`, '', data.message].filter(Boolean).join('\n');
@@ -326,3 +465,22 @@ const input =
     });
   });
 </script>
+
+<style>
+  /* Demande en étapes (architecture estimation-etapes) : grandes cases à cocher, compteur, Suivant / Retour. Tokens seuls. */
+  .ff-etape { border: 0; padding: 0; margin: 0; min-inline-size: 0; }
+  .ff-etape[hidden] { display: none; }
+  .ff-etape-titre { font-weight: 600; font-size: 1.15rem; margin-block-end: 0.25rem; }
+  .ff-etape-compteur { color: var(--color-muted); }
+  .ff-cases { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: 0.5rem; }
+  .ff-case { position: relative; display: flex; align-items: center; gap: 0.6rem; min-block-size: 52px; padding: 0.6rem 0.85rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); background: var(--color-surface, var(--color-bg)); cursor: pointer; font-weight: 500; }
+  .ff-case input { accent-color: var(--color-accent); inline-size: 1.1rem; block-size: 1.1rem; flex: none; }
+  .ff-case:has(input:checked) { border-color: var(--color-fg); box-shadow: inset 0 0 0 1px var(--color-fg); }
+  .ff-case:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .ff-erreur-groupe { color: var(--ff-danger); font-weight: 600; }
+  .ff-etape-nav { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: space-between; }
+  .ff-etape-nav[hidden] { display: none; }
+  .ff-etape-suivant { margin-inline-start: auto; min-block-size: 48px; }
+  .ff-etape-retour { min-block-size: 48px; }
+  .ff-etape-retour[hidden], .ff-etape-suivant[hidden] { display: none; }
+</style>

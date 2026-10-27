@@ -38,6 +38,10 @@ export { JOURS_PLANNING, coursValides, joursDuPlanning, disciplines as disciplin
 import { lienPlanning } from './planning';
 export { materielsComplets, categoriesDe as categoriesDeMateriel, prixDuMateriel, aPrixPro, premierPrix, lienMateriel, SANS_CATEGORIE } from './location';
 import { lienMateriel } from './location';
+export { questionsValides, etapesDe as etapesDEstimation, lienEstimation, projetDe, lignesDeDemande } from './estimation';
+import { lienEstimation } from './estimation';
+export { formulesCompletes, reprise as repriseDeFormule, inclusDeplies, lignesComparees, lienFormules, formuleDe } from './formules';
+import { lienFormules } from './formules';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -287,6 +291,21 @@ export const navLinks = (s: Site = site) => {
   // tête de la nav, vers le parc entier (/materiel).
   const materiel = lienMateriel(s.location, s.wording.materiel);
   if (materiel) links.unshift(materiel);
+  // Formules à prix (src/lib/formules.ts, architecture formules-comparees) : « Pricing » de GreenCraft, en tête de la nav,
+  // vers la comparaison entière (/formules).
+  const formules = lienFormules(s.formules, s.wording.formules);
+  if (formules) links.unshift(formules);
+  // Demande d'estimation (src/lib/estimation.ts, architecture estimation-etapes) : « Devis en ligne » de Rigoulet, toujours
+  // dans la barre ; en dernier, à la place d'une porte Contact (la demande EST le contact).
+  const estimation = lienEstimation(s.estimation, s.wording.estimation);
+  if (estimation) links.push(estimation);
+  // Coquille `estimation` : la barre de Rigoulet nomme les prestations (une page chacune) et « Devis en ligne », pas des
+  // ancres de l'accueil ; les avis et les communes se lisent en descendant sous la demande.
+  if (s.layout.shell === 'estimation' && s.servicePages) {
+    const pages = s.services.map((x) => ({ href: `/services/${x.slug}`, label: x.title }));
+    const garde = links.filter((l) => !['/#services', '/#proof', '/#zones', '/#about'].includes(l.href));
+    links.splice(0, links.length, ...pages, ...garde);
+  }
   // Professionnels (site.pros, architecture pages-adresses) : un lien discret, en dernier.
   const pros = lienPros(s.pros, s.wording.pros);
   if (pros) links.push(pros);

@@ -1,0 +1,95 @@
+---
+/**
+ * Page d'une formule (/formules/<slug>, site.formules, src/lib/formules.ts) : architecture `formules-comparees`
+ * (docs/veille/architectures/formules-comparees.md). Ni Micka ni GreenCraft n'en ont (le bouton ouvre un formulaire
+ * générique) : l'usine l'ajoute pour le socle « une page par offre » (docs/GOUT.md § 0). Le nom, le prix et le second
+ * prix, à qui elle s'adresse, sa durée, la photo du client, ce qu'elle comprend (« tout ce que comprend X, plus : »), ce
+ * qui est commun à toutes, les conditions ; puis la demande, id="demande", la formule déjà choisie ; le téléphone ; les
+ * autres formules. Une page par formule à prix ; sinon aucune.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, formulesCompletes, repriseDeFormule } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import ContactForm from '@/components/ContactForm.astro';
+
+export function getStaticPaths() {
+  return formulesCompletes(site.formules).map((x) => ({ params: { slug: x.slug }, props: { x } }));
+}
+const { x } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const f = site.formules!;
+const toutes = formulesCompletes(f);
+const base = repriseDeFormule(x, toutes);
+const autres = toutes.filter((y) => y.slug !== x.slug);
+const avecFormulaire = site.form.provider !== 'none';
+---
+
+<Base title={`${x.nom}, ${x.prix} | ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}`} description={`${x.nom} : ${x.prix}${x.rythme ? ` ${x.rythme}` : ''}${x.inclus.length ? `, ${x.inclus.slice(0, 3).join(', ').toLowerCase()}` : ''}. ${site.business.name}, ${site.contact.address.city}.`} path={`/formules/${x.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff ff1">
+    <p><a href={toutes.length >= 2 ? '/formules' : '/'} class="ff1-lien"><Icon name="ArrowLeft" size={16} />{toutes.length >= 2 ? site.wording.formules : 'Accueil'}</a></p>
+    <div class="ff1-grille">
+      <div class="ff1-texte">
+        <h1 class="ff1-titre font-display">{x.nom}</h1>
+        {x.pour && <p class="ff1-pour">{x.pour}</p>}
+        <p class="ff1-prix tabular-nums"><span class="ff1-montant">{x.prix}</span>{x.rythme && <span class="ff1-rythme"> {x.rythme}</span>}</p>
+        {x.prixAutre && <p class="ff1-autre tabular-nums">{x.prixAutre}</p>}
+        {x.duree && <p>{x.duree}</p>}
+        {(base || x.inclus.length > 0) && (
+          <div class="ff1-inclus">
+            <h2 class="ff1-h2">Ce qu’elle comprend</h2>
+            {base && <p>Tout ce que comprend <a href={`/formules/${base.slug}`} class="ff1-lien-texte">{base.nom}</a>{x.inclus.length > 0 ? ', plus :' : '.'}</p>}
+            {x.inclus.length > 0 && <ul>{x.inclus.map((i) => <li>{i}</li>)}</ul>}
+          </div>
+        )}
+        {x.note && <p class="ff1-note">{x.note}</p>}
+        {f.communs.length > 0 && <div class="ff1-inclus"><h2 class="ff1-h2">Dans toutes les formules</h2><ul>{f.communs.map((c) => <li>{c}</li>)}</ul></div>}
+        {f.conditions.length > 0 && <div class="ff1-inclus"><h2 class="ff1-h2">Conditions</h2><ul>{f.conditions.map((c) => <li>{c}</li>)}</ul></div>}
+      </div>
+      <div class="ff1-cote">
+        {x.photo && <Img src={x.photo.src} alt={x.photo.alt} class="ff1-photo" sizes="(min-width: 1024px) 40vw, 100vw" />}
+        <section id="demande" class="ff1-demande" aria-labelledby="ff1-demande-t">
+          <h2 id="ff1-demande-t" class="ff1-h2 font-display">{site.wording.disponibilite}</h2>
+          <p><a href={tel()} class="ff1-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+          {avecFormulaire && <ContactForm compact formule={x.slug} idPrefix="formule" />}
+        </section>
+      </div>
+    </div>
+    {autres.length > 0 && (
+      <nav class="ff1-autres" aria-label="Les autres formules">
+        <h2 class="ff1-h2">Les autres formules</h2>
+        <ul>{autres.map((y) => <li><a href={`/formules/${y.slug}`} class="ff1-autre-lien"><span>{y.nom}</span><span class="tabular-nums">{y.prix}{y.rythme && ` ${y.rythme}`}</span></a></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ff1 { display: grid; gap: 2rem; padding-block: clamp(1.25rem, 4vh, 3.5rem); }
+  .ff1-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; }
+  .ff1-grille { display: grid; gap: 2rem; }
+  .ff1-texte, .ff1-cote { display: grid; gap: 0.85rem; align-content: start; }
+  .ff1-titre { font-size: clamp(2.2rem, 6vw, 4.2rem); line-height: 1; letter-spacing: -0.015em; }
+  .ff1-pour { font-size: 1.15rem; }
+  .ff1-prix { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.35rem; }
+  .ff1-montant { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1; }
+  .ff1-rythme, .ff1-note { color: var(--color-muted); }
+  .ff1-autre { font-weight: 600; }
+  .ff1-h2 { font-weight: 600; font-size: 1.2rem; }
+  .ff1-inclus { display: grid; gap: 0.4rem; }
+  .ff1-inclus ul { display: grid; gap: 0.3rem; padding-inline-start: 1.1rem; list-style: disc; }
+  .ff1-lien-texte { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ff1-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
+  .ff1-demande { display: grid; gap: 0.75rem; padding: clamp(1rem, 3vw, 1.75rem); border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-card); }
+  .ff1-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .ff1-tel:focus-visible, .ff1-lien:focus-visible, .ff1-autre-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .ff1-autres ul { display: grid; margin-block-start: 0.5rem; }
+  .ff1-autre-lien { display: flex; justify-content: space-between; gap: 1rem; min-block-size: 48px; align-items: center; border-block-end: 1px solid var(--color-line); font-weight: 600; }
+  @media (min-width: 64rem) {
+    .ff1-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 4rem; }
+  }
+</style>

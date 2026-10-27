@@ -1,0 +1,163 @@
+---
+/**
+ * Coquille "estimation" : architecture `estimation-etapes` (src/lib/architectures.ts ; source Movers, modèle de
+ * déménageur : « Get Your Free Estimate » en deux étapes à droite du h1 ; Déménagements Rigoulet, Gard : « Devis en ligne »
+ * à côté du numéro dans la barre, une page par prestation ; Les Artisans du Bâtiment : le devis commence dans le premier
+ * écran du téléphone ; docs/veille/architectures/estimation-etapes.md). Le premier geste du visiteur est de dire son
+ * projet : la demande devient l'accueil.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone en grand, la note Google (socle docs/GOUT.md
+ *     § 0) ; à côté (ordinateur) ou juste dessous (téléphone, sa première étape visible sans défiler), la demande
+ *     id="estimation" : ContactForm en étapes (le projet, les questions du client, les coordonnées ; sans script, tout
+ *     l'une sous l'autre), la promesse du client s'il en a fait une ;
+ *     la demande est sa propre section, id="estimation", collée sous l'en-tête ; ce qui se passe après la demande
+ *     (estimation.apres), dans l'ordre du client, à côté (ordinateur) ou dessous (téléphone) ;
+ *   → le dépôt et les communes, id="depot" (adresse, horaires, communes desservies) ;
+ *   → les sections du layout (les avis ; les prestations, chacune vers sa page qui rouvre la demande réglée sur elle) ;
+ *   → le pied.
+ * Pages : /estimation (la demande seule) et une page par prestation.
+ *
+ * `layout.hero` n'est pas rendu (la coquille fait le premier écran). Sans questions : le formulaire ordinaire, et le build
+ * dit ce qui manque (donneesManquantes). Signes des sources NON repris : « Takes 15 seconds, 100 % free » (promesse que le
+ * client n'a pas faite), mots révélés lettre par lettre, bandeau de milliers d'avis, assistant qui s'ouvre seul.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Horaires from '@/components/Horaires.astro';
+import { site, tel, metierEtVille, fullAddress, donneesManquantes, questionsValides } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const e = site.estimation;
+const enEtapes = questionsValides(e).length >= 2;
+const apres = e?.apres ?? [];
+const pages = site.servicePages ? site.services : [];
+const communes = site.zones.cities;
+const avecDepot = Boolean(site.contact.address.street) || site.contact.hours.length > 0 || communes.length > 0;
+const manque = donneesManquantes('estimation-etapes', site);
+if (manque.length > 0) console.warn(`[coquille estimation] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="es-page">
+  <section id="hero" class="es-tete" aria-label="Accueil">
+    <div class="container-ff es-haut">
+      <h1 class="es-h1 font-display" set:html={site.business.tagline} />
+      <div class="es-cote">
+        <p class="es-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+        <p class="es-portes">
+          <a href={tel()} class="es-tel tabular-nums"><Icon name="Phone" size={20} />{site.contact.phoneDisplay}</a>
+          {google && <a href={google.url} target="_blank" rel="noopener" class="es-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* La demande en bande sur toute la largeur, collée sous l'en-tête (le premier écran montre sa première étape) : à
+      l'ordinateur la première étape s'étale en une rangée de cases (le projet d'un coup d'œil), à gauche le titre, la
+      promesse et ce qui se passe après. */}
+  <section id="estimation" class="es-bande" aria-labelledby="es-bande-titre">
+      <div class="container-ff es-bande-grille">
+        <div class="es-bande-tete">
+          <h2 id="es-bande-titre" class="es-bande-titre font-display">{site.wording.estimation}</h2>
+          {e?.promesse && <p class="es-promesse">{e.promesse}</p>}
+          {apres.length > 0 && (
+            <div class="es-apres es-apres-large">
+              <h3 class="es-apres-titre">Après votre demande</h3>
+              <ol class="es-apres-liste">{apres.map((x) => <li>{x}</li>)}</ol>
+            </div>
+          )}
+        </div>
+        <div class="es-form">
+          <ContactForm compact etapes={enEtapes} idPrefix="estimation" />
+          {pages.length > 0 && (
+            <p class="es-pages">Le détail de chaque prestation&nbsp;: {pages.map((x, i) => <><a href={`/services/${x.slug}`}>{x.title}</a>{i < pages.length - 1 ? ', ' : '.'}</>)}</p>
+          )}
+        </div>
+      </div>
+    {apres.length > 0 && (
+      <div class="container-ff es-apres es-apres-etroit">
+        <h3 class="es-apres-titre">Après votre demande</h3>
+        <ol class="es-apres-liste">{apres.map((x) => <li>{x}</li>)}</ol>
+      </div>
+    )}
+  </section>
+
+
+  {/* Le dépôt et les communes (Rigoulet : l'adresse du dépôt en tête de chaque page ; Movers : les régions desservies) :
+      d'où partent les camions, quand on répond, où l'on va. Puis les sections du layout : les avis, et les prestations en
+      liste pour finir (elles sont déjà la première étape de la demande, la barre et la ligne de liens sous le formulaire). */}
+  {avecDepot && (
+    <section id="depot" class="container-ff es-depot" aria-labelledby="es-depot-t">
+      <h2 id="es-depot-t" class="es-depot-titre font-display">D’où nous partons, où nous allons</h2>
+      <div class="es-depot-grille">
+        <div class="es-depot-lieu">
+          {site.contact.address.street && <p class="es-adresse">{site.business.name}<br />{fullAddress()}</p>}
+          {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="es-lien"><Icon name="MapPin" size={16} />Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+          {site.contact.hours.length > 0 && <Horaires />}
+        </div>
+        {communes.length > 0 && (
+          <div class="es-communes">
+            <h3 class="es-apres-titre">{site.zones.label ? `${site.zones.label} : les communes` : 'Les communes'}</h3>
+            <ul class="es-communes-liste">{communes.map((c) => <li>{c}</li>)}</ul>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, n) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={n} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<style>
+  .es-tete { display: grid; }
+  .es-haut { display: grid; gap: 0.75rem; padding-block: clamp(1rem, 3vh, 2.5rem) 1.1rem; }
+  .es-cote { display: grid; gap: 0.6rem; align-content: end; }
+  .es-h1 { font-size: clamp(1.9rem, 6.4vw, 4.6rem); line-height: 1.02; letter-spacing: -0.01em; text-wrap: balance; max-inline-size: 17ch; }
+  .es-metier { font-size: clamp(1.02rem, 1.5vw, 1.25rem); max-inline-size: 40ch; }
+  .es-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; }
+  .es-tel { display: inline-flex; align-items: center; gap: 0.55rem; min-block-size: 50px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-fg); color: var(--color-bg); font-size: 1.15rem; font-weight: 700; }
+  .es-lien { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .es-tel:focus-visible, .es-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  /* La bande de la demande : un plan clair posé sur le fond de l'en-tête, filet d'accent en haut, ombre portée vers le
+     bas (profondeur, GOUT § 0) ; sur toute la largeur, jamais une carte isolée. */
+  .es-bande { position: relative; background: var(--color-bg-2); border-block-start: 3px solid var(--color-accent); box-shadow: var(--shadow-lift); }
+  .es-bande-grille { display: grid; gap: 0.85rem; padding-block: 1.1rem clamp(1.5rem, 4vh, 2.5rem); }
+  .es-bande-tete { display: grid; gap: 0.35rem; align-content: start; }
+  .es-bande-titre { font-size: clamp(1.35rem, 3vw, 2.1rem); line-height: 1.08; }
+  .es-promesse { font-weight: 600; }
+  .es-apres { display: grid; gap: 0.6rem; }
+  .es-apres-etroit { padding-block: 0.5rem clamp(1.5rem, 4vh, 2.5rem); }
+  .es-apres-large { display: none; margin-block-start: 1rem; }
+  .es-apres-titre { font-weight: 600; font-size: 1.1rem; }
+  .es-apres-liste { display: grid; gap: 0.5rem; padding-inline-start: 1.25rem; list-style: decimal; }
+  .es-apres-liste li { padding-inline-start: 0.25rem; max-inline-size: 46ch; }
+  .es-apres-liste li::marker { font-weight: 700; color: var(--color-accent); }
+  .es-pages { margin-block-start: 0.85rem; font-size: 0.95rem; }
+  .es-pages a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .es-pages a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .es-depot { display: grid; gap: 1.25rem; padding-block: clamp(2rem, 7vh, 4.5rem); }
+  .es-depot-titre { font-size: clamp(1.5rem, 4vw, 2.6rem); line-height: 1.05; max-inline-size: 22ch; }
+  .es-depot-grille { display: grid; gap: 1.5rem; }
+  .es-depot-lieu { display: grid; gap: 0.6rem; align-content: start; }
+  .es-adresse { font-weight: 600; }
+  .es-communes { display: grid; gap: 0.6rem; align-content: start; }
+  .es-communes-liste { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 10rem), 1fr)); gap: 0; border-block-start: 1px solid var(--color-line); }
+  .es-communes-liste li { padding-block: 0.6rem; border-block-end: 1px solid var(--color-line); }
+  @media (min-width: 64rem) {
+    .es-depot-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 4rem; }
+    .es-haut { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: clamp(2rem, 5vw, 5rem); align-items: end; padding-block: clamp(2rem, 6vh, 4rem) 2rem; }
+    .es-h1 { font-size: clamp(2.8rem, 5vw, 5rem); }
+    .es-bande-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); column-gap: clamp(2rem, 5vw, 5rem); padding-block: 2rem 2.5rem; }
+    .es-apres-large { display: grid; }
+    .es-apres-etroit { display: none; }
+  }
+</style>
