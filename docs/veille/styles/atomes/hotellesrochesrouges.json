@@ -1,0 +1,125 @@
+{
+  "id": "hotellesrochesrouges",
+  "version": 1,
+  "source": {
+    "url": "https://www.hotellesrochesrouges.com/",
+    "nom": "Les Roches Rouges",
+    "metier": "hôtel de bord de mer (Saint-Raphaël), restaurant et plage",
+    "fiche": "docs/veille/styles/hotellesrochesrouges.md",
+    "mesures": "docs/veille/styles/atomes/mesures/hotellesrochesrouges.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "FuturaLTPro-BoldCond",
+      "libre": "oswald",
+      "graisse": 500,
+      "interlignage": 0.9,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Adobe Caslon Regular",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.25
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 44,
+        "ordinateur": 80
+      },
+      "h2": {
+        "telephone": 34,
+        "ordinateur": 60
+      },
+      "texte": {
+        "telephone": 19,
+        "ordinateur": 22
+      }
+    },
+    "remarque": "Futura Condensed grasse (FuturaLTPro-BoldCond) en capitales pour le titre du premier écran (80 / 44 px, interlignage 0,9) et en casse normale pour les h2 (60 / 34 px) ; texte en Adobe Caslon 22 / 19 px, interlignage 1,25 (mesuré sur « Along the Golden Corniche », le relevé automatique avait lu le bandeau d'annonce). Oswald, condensée libre la plus proche de Futura Condensed ; EB Garamond pour Caslon (deux garaldes de livre). Le h1 du DOM (« LUXURY HOTEL IN SAINT-RAPHAËL », 20 px) est un surtitre : ce n'est pas ce que l'œil voit."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#faf6ee",
+      "surface": "#ffffff",
+      "texte": "#212529",
+      "texte2": "#212529",
+      "accent": "#000000",
+      "accent2": "#0f3956",
+      "bordure": "#000000",
+      "encre": "#000000"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #000000 (16 %), #ffffff (2 %), #0f3956 (1 %)",
+    "remarque": "Sable très clair #faf6ee (chroma 0,011) sur toute la page, pied compris ; texte #212529 ; boutons et liens noirs, bouton BOOK blanc sur la vidéo ; bleu marine #0f3956 pour le logo et le bandeau d'annonce saisonnier (0,9 %), en second accent. Encre noire (barre de réservation, bouton). Couleur ailleurs : seulement les photos (parasols jaunes, mer)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 231,
+      "ordinateur": 266
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 135
+    },
+    "conteneur": "à juger",
+    "mesure": 75,
+    "rythme": "uni",
+    "remarque": "Marges de section 266 / 231 px, gouttière 135 px à l'ordinateur, texte centré à 75 caractères ; le conteneur relevé (5 970 px) est la piste d'un carrousel : à juger."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits partout, bouton plein (noir, ou blanc sur la vidéo) en capitales condensées, filet de 1 px ; liens « EXPLORE OUR ESCAPES » en capitales condensées soulignés d'un trait court."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9+",
+      "4:5",
+      "2:3-"
+    ],
+    "pleinCadre": 5,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Vidéo plein écran au premier écran (titre et barre de réservation dessus) ; puis, par section, deux photos de formats différents (paysage et portrait) qui se chevauchent à côté d'un texte centré ; une rangée de portraits d'artisans en carrousel. Photos de lumière méditerranéenne, jamais retouchées en couleur."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "ease"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "Vue",
+      "Rellax"
+    ],
+    "profil": "photos-a-plusieurs-vitesses",
+    "remarque": "Relevé à la molette tous les 150 px de 0 à 4 050 px : une photo par chapitre (data-rellax-speed -1,25, -0,5 au téléphone) glisse à 0,092 px par px défilé par rapport à la page (transform de -370 à -9 px) et chevauche sa voisine fixe ; tout le reste est posé (transitions 0,3 s ease-in-out au survol, 1 s ease). Profil photos-a-plusieurs-vitesses (une photo sur deux glisse)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

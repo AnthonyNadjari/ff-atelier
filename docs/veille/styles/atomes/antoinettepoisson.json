@@ -1,0 +1,122 @@
+{
+  "id": "antoinettepoisson",
+  "version": 1,
+  "source": {
+    "url": "https://www.antoinettepoisson.com/en-int",
+    "nom": "Antoinette Poisson",
+    "metier": "papiers peints et papiers dominotés imprimés à la planche (atelier, Paris)",
+    "fiche": "docs/veille/styles/antoinettepoisson.md",
+    "mesures": "docs/veille/styles/atomes/mesures/antoinettepoisson.json",
+    "date": "2026-10-27"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Adobe Garamond Pro",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.04,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Theinhardt",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.65
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 32,
+        "ordinateur": 48
+      },
+      "h2": {
+        "telephone": 24,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Mesuré au DOM (relevé complété par une requête sur les textes visibles) : les titres visibles sont en Adobe Garamond Pro 400 (h1 affiché « Arte Povera collection » 48 / 32 px, interlignage 1,04 ; titres de bloc 32 / 24 px), le texte courant en Theinhardt (grotesque) 15 / 14 px, interlignage 1,65 ; étiquettes en capitales Theinhardt 13 px. Le relevé automatique avait pris le h1 caché (30 px). EB Garamond est le Garamond libre le plus proche ; Hanken Grotesk, grotesque sobre, pour Theinhardt. Le site met en italique les noms de collection : non repris (GOUT § 2)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f8f5ea",
+      "surface": "#fdfcf7",
+      "texte": "#1b1b1b",
+      "texte2": "#41505e",
+      "accent": "#000000",
+      "accent2": "#ba9238",
+      "bordure": "#1b1b1b",
+      "encre": "#41505e"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #fdfcf7 (17 %), #000000 (4 %), #fdfdfd (4 %), #41505e (4 %), #ba9238 (3 %), #1c1c1c (1 %)",
+    "remarque": "Papier crème #f8f5ea (chroma 0,015) sur 69 % des surfaces, cartes produits sur un blanc cassé #fdfcf7 ; texte presque noir ; bouton plein noir ; bloc ardoise #41505e (« À Paris chez Antoinette Poisson », 3,5 %) ; ocre #ba9238 (2,7 %) pour le bandeau d'annonce et la bande au-dessus du pied, en second accent. Pied crème."
+  },
+  "densite": {
+    "section": {
+      "telephone": 139,
+      "ordinateur": 152
+    },
+    "gouttiere": {
+      "telephone": 12,
+      "ordinateur": 116
+    },
+    "conteneur": 1319,
+    "mesure": 61,
+    "rythme": "uni",
+    "remarque": "Marges de section 152 / 139 px, conteneur 1 319 px, texte à 61 caractères."
+  },
+  "formes": {
+    "rayon": 4,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Boutons à 4 px (contour fin, ou plein noir), cartes produits sans rayon ni ombre sur blanc cassé, liens en capitales soulignés (« DISCOVER THE PRODUCTS »), soulignement qui s'épaissit au survol (background-size 0,3 s)."
+  },
+  "photos": {
+    "traitement": "masque",
+    "rapports": [
+      "4:5",
+      "16:9+",
+      "3:2"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 4,
+    "superposition": "texte-sur-photo",
+    "remarque": "Diaporama plein cadre au premier écran, titre blanc posé dessus ; puis photos de pièces tapissées en grand, frises et papiers en vignettes droites sur blanc cassé ; « Our universe » en médaillons ovales (4 masques mesurés) : c'est le traitement qui la distingue."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 1.2,
+      "courbe": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "plans-au-chargement",
+    "remarque": "Relevé à la molette (animations Web interceptées) : au premier écran, la photo se resserre de scale 1,2 à 1 en 0,8 s (cubic-bezier(.25,.46,.45,.94)) en apparaissant, le texte monte de 30 px entre 0,4 et 1 s (cubic-bezier(.215,.61,.355,1)), les boutons ensuite ; au défilement, chaque bloc monte de 10 px en fondu (1 s ease), les grandes photos passent de 1,1 à 1. Rien ne suit le défilement. Profil plans-au-chargement (image qui se resserre, texte ensuite)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

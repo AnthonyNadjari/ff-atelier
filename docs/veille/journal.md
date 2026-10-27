@@ -5,10 +5,63 @@ fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou 
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
 <!-- ff melanger : besoins de collecte (bloc réécrit à chaque tirage, ne pas éditer) -->
-**Besoins de collecte** (relevés par `ff melanger` le 2026-10-26 ; volet 2a quater de `/veille`) :
-- la collecte doit ramener des palettes clair teinté doux (14 tirables sur 148, 19 au moins)
-- pistes de _exemple (3) : diversité de palette relâchée (régimes différents, accent proche d'une piste sœur (registre trop pauvre)) ; la collecte doit ramener des palettes clair teinté doux compatibles avec ce client
+**Besoins de collecte** (relevés par `ff melanger` le 2026-10-27 ; volet 2a quater de `/veille`) :
+- la collecte doit ramener des palettes clair teinté doux (17 tirables sur 155, 20 au moins)
 <!-- /ff melanger -->
+
+## 27 oct 2026, tour 10 (routine en ligne, nuit) : 7 styles, 2 architectures
+
+**Fait**
+- Santé : `npm ci`, Chromium de Playwright (`FF_CHROMIUM=1`), tout a tourné avec navigateur. Tests : 71 fichiers, tous verts
+  (trois tests anciens réalignés sur le nouveau comportement : durée dans la carte, ancres de la page d'une pièce, index des
+  réalisations).
+- **Styles (2a quater)** : collecte commencée par le régime en besoin (clair teinté doux), deux agents en parallèle, plus de
+  150 domaines sondés. **7 gardés sur 10 visés** : `rosslyn`, `poterieravel`, `antoinettepoisson` (clair teinté doux),
+  `shiptonmill` (coloré doux), `morito`, `thenewcraftmaker`, `hotellesrochesrouges` (clair neutre). Chacun essayé sur une
+  démo (`ff melanger <démo> --style <id> --essai`) et posé à côté de la source. Il en manque 3 : une cinquantaine de crèmes
+  vues tombent sous le seuil de chroma (0,012) ou sont des voiles sur blanc, une dizaine de sites ont une fenêtre bloquante,
+  Awwwards est injoignable et siteinspire refuse (429). Fiches, lignes et écartés : [styles/INDEX.md](styles/INDEX.md).
+- Palettes par régime, avant → après : clair neutre 82 → 85, clair teinté doux 14 → 17 (toujours en besoin : 20 au moins),
+  sombre 20 → 20, coloré doux 32 → 33.
+- **Mouvement** : 1 profil nouveau sur 2 visés, `deuxieme-vue-au-survol` (Poterie Ravel : la photo du produit cède la place
+  à une seconde vue en fondu de 0,5 s au survol ; calme, tirable ; [MOUVEMENTS.md](styles/MOUVEMENTS.md), 28 profils). Vu et
+  refusé : la photo qui pivote de 3° à l'apparition (Antoinette Poisson), c'est la vignette inclinée de GOUT § 2.
+- **Essai de mélanges** (`ff melanger _exemple --n 3 --hasard --essai`, planche regardée) : aucun mélange laid, pas de règle
+  nouvelle. Un défaut vu : au téléphone, coquille `cadre`, le nom en capitales serif passe sous le bouton « Prendre
+  rendez-vous » de la barre (essai m-d7d0e7). À corriger dans la nav (proposé ci-dessous).
+- **Architectures (2a ter)**, codées et prouvées le même tour : [carte-des-soins](architectures/carte-des-soins.md) (Institut
+  La Douce Heure, Saint-Sébastien-sur-Loire : le site d'un institut est sa carte ; l'usine la range par le temps qu'on a,
+  « Combien de temps avez-vous ? » en onglets de durée, chaque soin avec sa famille, sa durée, son prix et Réserver ; coquille
+  `soins`, `services[].lignes[].duree`) et [avant-apres](architectures/avant-apres.md) (Assise Autrement, tapissière à
+  Joinville-le-Pont, + La Petite Remise, atelier.b : l'accueil est le mur des pièces transformées, un curseur avant / après
+  par pièce qu'on tire au doigt, rangées par type en onglets ; coquille `avant-apres`, `realisations[].avant`,
+  `src/components/Comparer.astro`, curseur aussi en tête de `/realisations/<slug>`). `ff ressemblance` contre tous les sites :
+  soins 0,50 / 0,57 / 0,61, avant-apres 0,58 / 0,38 / 0,62 (téléphone / ordinateur / déroulé, seuil 0,65). Deux essais
+  refusés au déroulé avant de passer (voir les fiches). `ff a11y`, `ff ia` verts ; jetables supprimés.
+- **Marché (2a)** : 9 sites de plus (agences de Lille, Nantes, Montpellier ; menuisier à Rennes, ferronnier près du Mans,
+  garage à Aix ; modèles Framer, Wix, Squarespace). [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) : 90 sites. Aucun levier à 40 %
+  absent de l'usine (« labels et certifications » atteint 40 %, mais l'usine les a). Le plus vendeur : Colson Elec
+  (électricien en Vendée : métier et villages dans le h1, depuis 1998, note AlloVoisins au-dessus du titre, barre Devis /
+  Appeler, 38 pages). Nouveau : la note vient souvent d'ailleurs que de Google (AlloVoisins, mestravaux), et l'usine ne sait
+  afficher qu'une note Google.
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé,
+21 les deux), aucun site n'ayant changé ; pires : anna-vidal / borie-des-chenes (0,81 / 0,75 / 1,00), chez-malo / studio-ambre
+(0,87 / 0,91), demo-informatique / fromagerie-ravanel-d (déroulé 0,90), prospect-ballay-macon / prospect-epi-dor (déroulé
+0,89). Signalé, pas corrigé.
+
+**Proposé**
+- Une note d'avis d'une autre plateforme que Google (`proof.note` : plateforme, note, nombre, lien), vue sur les deux sites
+  les plus vendeurs du tour.
+- La nav au téléphone : réduire le nom ou passer le bouton sous le menu quand ils se chevauchent (coquille `cadre`).
+- Un champ « seconde photo » par service ou produit pour rendre `deuxieme-vue-au-survol` réalisable.
+- Collecte : chercher les crèmes à pied clair dans les boutiques de papeterie, céramique, café (les trois gardés du tour).
+
+**À décider** : les 7 styles (`ff melanger <slug> --style rosslyn`) ; carte-des-soins pour le premier institut, masseur ou
+barbier à prestations minutées ; avant-apres pour un tapissier, ébéniste restaurateur, carrossier, rempailleur ; les paires
+trop proches.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
 
 ## 26 oct 2026, tour 9 (routine en ligne, soir) : 11 styles, 2 architectures
 

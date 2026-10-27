@@ -1,0 +1,42 @@
+# Les Roches Rouges — https://www.hotellesrochesrouges.com/
+Titre « Les Roches Rouges | 5-Star Beachfront Hotel in Saint-Raphaël », `lang="en"`, description « A luxury beachfront hotel in Saint-Raphaël on the Côte d'Azur, Les Roches Rouges sits above the sea on the Corniche de l'Estérel. Private beach, seawater pools… », technologie lue : aucune reconnue. Démontage automatique du 2026-10-27 (`ff demonter`, mesures brutes dans `hotellesrochesrouges.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « LUXURY HOTEL IN SAINT-RAPHAËL » ; vidéo plein écran (90 % de l'écran) ; bouton principal « Menu » en haut à gauche (47, 70 px, dans une barre fixe) ; 59 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « LUXURY HOTEL IN SAINT-RAPHAËL » ; pas de média plein écran (1 image(s) dans l'écran) ; bouton principal « Menu » en haut à gauche (15, 111 px, dans une barre fixe) ; 131 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : non mesuré. Barre fixe en bas (ordinateur) : ROOMS & SUITES, FOOD & DRINK, WELLNESS, EXPERIENCES, EVENTS & CELEBRATIONS, VOUCHERS (+1).
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.banner` « LUXURY HOTEL IN SAINT-RAPHAËL » (0,9 écran, 24 mots, 1 img) → `div.text-panel` (0,5 écran, 100 mots, 0 img) → `div.component` « BEACHFRONT HOTEL IN SAINT-RAPHAËL » (0,9 écran, 90 mots, 2 img) → `div.component` (1,3 écran, 0 mots, 2 img) → `div.reverse` « MODERN & INTIMATE DESIGN » (1,1 écran, 77 mots, 2 img) → `div.component` « A TASTE OF THE MEDITERRANEAN » (1,0 écran, 81 mots, 4 img) → `div.reverse` « EVENTS BY THE WATER » (1,0 écran, 60 mots, 2 img) → `div.component` « RELAXATION, À LA MEDITERRANEAN » (1,1 écran, 109 mots, 2 img) → `div.text-panel` « MEET OUR CREATIVES » (0,5 écran, 85 mots, 0 img) → `div.generic-carousel` « Guy Bareff » (0,9 écran, 843 mots, 0 img) → `div.component` (0,8 écran, 0 mots, 2 img) → `div.generic-carousel` « OUR DESTINATIONS » (0,9 écran, 486 mots, 0 img) → `div.centered-media` (0,5 écran, 0 mots, 1 img) → `div.footer-wrapper` (1,0 écran, 136 mots, 7 img). Calques hors flux (fixes/absolus) : `div#information-bar` (fixed, 48 px, 16 mots), `iframe.CybotCookiebotOffscreenIframe` (absolute, 1 px), `div.sub-navigation-wrapper` (sticky, 72 px, collé en bas, 14 mots).
+Pied de page : aucun pied de page lu. Téléphone cliquable : oui (1, tel:+334 89 81 40 78). Formulaire : 1 (6 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « BOOK » ().
+En 3 secondes : à juger sur `captures/hotellesrochesrouges-d.webp` (mesuré : fond du premier écran #faf6ee, 2 image(s) et 59 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Baton Turbo Regular**, 20 px / 16 px téléphone, graisse 500, interlignage 1,10, capitales ; h2 **FuturaLTPro-BoldCond**, 80 px / 44 px téléphone, graisse 500, interlignage 0,90, capitales ; corps **Adobe Caslon Regular**, 22 px / 19 px téléphone, graisse 400, interlignage 1,25 ; boutons **FuturaLTPro-BoldCond**, 25 px / 25 px téléphone, graisse 700, interlignage 1,25, capitales ; nav : non mesuré.
+Sources `@font-face` : auto-hébergée (FuturaLTPro-LightCond, FuturaLTPro-MediumCond, FuturaLTPro-BoldCond, FuturaLTPro-BoldCondObl, FuturaLTPro-ExtraBoldCond, FuturaLTPro-ExtraBoldCondObl, Baton Turbo Bold, Baton Turbo Book, Baton Turbo Heavy, Baton Turbo Medium, Baton Turbo Regular, Adobe Caslon Semibold Italic, Adobe Caslon Bold, Adobe Caslon Regular, Adobe Caslon Italic, Adobe Caslon Bold Italic, slick, Font Awesome 6 Free, Font Awesome 6 Brands) ; fichiers chargés : https://www.beaumier.com/assets/fonts/caslon/ACaslonPro-Regular.woff, https://www.beaumier.com/assets/fonts/futuracondensed_lt_new/woff2/FuturaLTPro-BoldCond.woff2, https://www.beaumier.com/assets/fonts/batonturbo/BatonTurboWeb-Bold.woff2, https://www.beaumier.com/assets/fonts/batonturbo/BatonTurboWeb-Regular.woff2, https://www.beaumier.com/assets/fonts/batonturbo/BatonTurboWeb-Book.woff2. Familles en usage sur le texte visible : Adobe Caslon Regular ×84, FuturaLTPro-BoldCond ×40, Baton Turbo Bold ×39, Baton Turbo Regular ×27, system-ui ×5, Baton Turbo Book ×2. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #faf6ee, texte #212529 (contraste 14,31:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #faf6ee (92 %), #000000 (7 %), #ffffff (1 %), #0f3956 (0 %) ; textes par nombre de caractères : #000000 (68 %), #212529 (30 %), #ffffff (2 %), #181d27 (1 %), #bcc4c7 (0 %). Images : 15 `<img>` visibles, 35 fond(s) en image, 1 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Vue (window.Vue). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.3s ease-in-out` ×51, `all 1s ease` ×34, `transform 0.2s ease` ×17, `all 0.5s ease-in-out` ×4, `opacity 0.3s ease-in-out` ×3, `opacity 0.35s ease` ×1, `all 0.325s ease-in-out` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 1 bloc(s) de plus d'un écran (`div.sub-navigation-wrapper` 11,6 écrans). Attributs de mouvement : `data-rellax-speed` ×1, `data-rellax-mobile-speed` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/hotellesrochesrouges-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.component` (1,3 écran, 0 mots, 2 image(s)).
+2. L'élément le plus animé : `div.rellax` (attributs data-rellax-speed, data-rellax-mobile-speed).
+3. Le bloc le plus singulier par sa structure : `div.banner` « LUXURY HOTEL IN SAINT-RAPHAËL » (seule à contenir <video>, <svg>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« BOOK »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/30 ordinateur, 0/22 téléphone ; vidéo en premier écran : oui ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Style retenu (jugé sur les captures, veille du 27 oct 2026)
+
+- **Polices** : Futura Condensed grasse (FuturaLTPro-BoldCond) : titre du premier écran en capitales 80 px ordinateur / 44 px téléphone, interlignage 0,9 ; h2 en casse normale 60 / 34 px ; menus et boutons en capitales 16 à 21 px. Texte en Adobe Caslon 22 / 19 px, interlignage 1,25. Libres : Oswald et EB Garamond.
+- **Couleurs** : sable très clair #faf6ee (toute la page, pied compris, chroma 0,011), texte #212529, noir #000000 (boutons, liens, barre de réservation), blanc #ffffff (bouton sur la vidéo), bleu marine #0f3956 (logo, bandeau d'annonce saisonnier). La couleur vient des photos (parasols jaunes, mer).
+- **Espacements** : très aéré : sections de 266 px (231 au téléphone), texte centré à 75 caractères, gouttière 135 px à l'ordinateur.
+- **Formes** : angles droits, filets de 1 px, bouton plein en capitales condensées, liens soulignés d'un trait court.
+- **Photos** : vidéo plein écran au premier écran ; par chapitre, deux photos de formats différents qui se chevauchent à côté d'un texte centré ; carrousel de portraits d'artisans.
+- **Mouvement** : une photo par chapitre glisse plus lentement que la page (0,092 px par px défilé, relevé tous les 150 px de 0 à 4 050 px ; data-rellax-speed -1,25, -0,5 au téléphone) et passe sur sa voisine fixe ; transitions 0,3 s ease-in-out au survol, 1 s ease. Profil `photos-a-plusieurs-vitesses`.
+- **Architecture** : vidéo et réservation, présentation, chapitres (chambres, table, événements, bien-être) chacun titre condensé + texte + deux photos, rencontres d'artisans en carrousel, autres adresses du groupe, pied ; barre des chapitres collée en bas à l'ordinateur.
+- **Geste signature** : le titre condensé très grand sur un texte de livre, et les deux photos de chaque chapitre qui ne bougent pas ensemble.
+- **Garde / refuse** : garde le sable, le contraste condensée / Caslon, les chevauchements ; refuse le moteur de réservation au premier écran (un artisan n'en a pas), le bandeau saisonnier.
