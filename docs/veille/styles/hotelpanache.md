@@ -1,0 +1,30 @@
+# Hôtel Panache Paris — https://www.hotelpanache.com/
+Titre « Hôtel tendance à Paris Grands Boulevards | Hôtel Panache Paris », `lang="fr"`, description « Bienvenue à l'Hôtel Panache Paris, un hôtel élégant situé au cœur de Paris, à proximité des Grands Boulevards et des Galeries Lafayette. Meilleurs tarifs dispo… », technologie lue : aucune reconnue. Démontage automatique du 2026-10-27 (`ff demonter`, mesures brutes dans `hotelpanache.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « PANACHE, L’HÔTEL DES FAUBOURGS PARISIENS » ; image plein écran (100 % de l'écran) ; bouton principal « FR » en haut à droite (1177, 57 px, dans la nav) ; 20 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 1 élément(s) (`img`).
+Téléphone (390x844) : h1 « PANACHE, L’HÔTEL DES FAUBOURGS PARISIENS » ; image plein écran (100 % de l'écran) ; bouton principal « RÉSERVEZ » en bas au centre (10, 782 px, dans une barre fixe) ; 12 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 9 lien(s) — CHAMBRES, HÔTEL, RESTAURANT, SÉMINAIRES, OFFRES, PHOTOS, ACCÈS & CONTACT, [FR], [RÉSERVEZ] ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `section.page-banner` (1,0 écran, 8 mots, 7 img) → `section.intro` « PANACHE, L’HÔTEL DES FAUBOURGS PARISIENS » (0,5 écran, 60 mots, 1 img) → `section.carousel` « CHAMBRE CLASSIQUE DOUBLE/TWIN » (0,8 écran, 18 mots, 6 img) → `section.experience` « POUR UN SPECTACULAIRE SÉJOUR » (1,0 écran, 97 mots, 3 img) → `section.spotlight` « AU CŒUR DE PARIS, POUR UNE EXPÉRIENCE A… » (1,1 écran, 122 mots, 1 img) → `section.cta` « RESTONS EN CONTACT ! NOS NEWS & OFFRES » (0,3 écran, 14 mots, 1 img) → `section.social-media` « SUIVEZ NOUS » (0,5 écran, 3 mots, 4 img) → `footer` (0,8 écran, 34 mots, 9 img). Calques hors flux (fixes/absolus) : `header.primary-header` (absolute, 123 px, 11 mots), `div#global-overlay` (fixed, 900 px), `div#sidebar-navigation` (fixed, 900 px, 9 mots).
+Pied de page : 8 lien(s) — hotel@hotelpanache.com, [VOIR LA COLLECTION], [SHOP], Presse, Politique de confidentialité, Mentions Légales, Site par Cendyn, [FR]. Téléphone cliquable : oui (1, tel:+33147708587). Formulaire : 1 (1 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « RÉSERVEZ » (javascript:;).
+En 3 secondes : à juger sur `captures/hotelpanache-d.webp` (mesuré : fond du premier écran #fbf6ed, 8 image(s) et 20 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Barlow Semi Condensed**, 38 px / 31 px téléphone, graisse 600, capitales ; h2 **Barlow Semi Condensed**, 34 px / 27 px téléphone, graisse 600, capitales ; corps **Futura**, 16 px / 16 px téléphone, graisse 400, interlignage 2,00 ; boutons **Futura**, 14 px / 13 px téléphone, graisse 500, interlignage 2,00, capitales, interlettrage 0.8px ; nav **Futura**, 14 px / 24 px téléphone, graisse 500, interlignage 2,00, capitales, interlettrage 0.8px.
+Sources `@font-face` : inline (data:) (swiper-icons) ; auto-hébergée (fontello, Futura) ; locale (Axeptio CJK Fallback) ; tiers (applepay.cdn-apple.com) (apple-wallet-btn-en-US) ; fichiers chargés : https://hotelpanache.com/fonts/Futura-Medium.woff2, https://hotelpanache.com/fonts/fontello.woff2, https://fonts.googleapis.com/, https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600&display=swap, https://fonts.axept.io/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700|Fustat:200&display=swap&ax-prefix=Axeptio%20. Familles en usage sur le texte visible : Futura ×39, Barlow Semi Condensed ×20. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #fbf6ed, texte #717171 (contraste 4,53:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #fbf6ed (69 %), #000000 (11 %), #ffffff (11 %), #f3ece0 (9 %), #19445f (0 %) ; textes par nombre de caractères : #717171 (73 %), #19445f (15 %), #ffffff (10 %), #747474 (3 %), #e4284b (0 %). Images : 33 `<img>` visibles, 3 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Swiper (window.Swiper), jQuery (window.jQuery), AOS (window.AOS). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.2s ease` ×15, `opacity 0.3s ease` ×14, `transform 0.5s ease` ×4, `transform 0.3s ease` ×2, `opacity 0.5s ease` ×2, `all 0.5s ease` ×2, `transform 6s ease` ×1, `color 0.15s ease-in-out` ×1, `background-color 0.15s ease-in-out` ×1, `border-color 0.15s ease-in-out` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-aos` ×2. Ce qui bouge réellement à l'écran : à juger sur `captures/hotelpanache-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `section.spotlight` « AU CŒUR DE PARIS, POUR UNE EXPÉRIENCE A… » (1,1 écran, 122 mots, 1 image(s)).
+2. L'élément le plus animé : `button.form-submit` (4 transition(s) : color 0.15s ease-in-out ; background-color 0.15s ease-in-out).
+3. Le bloc le plus singulier par sa structure : `section.cta` « RESTONS EN CONTACT ! NOS NEWS & OFFRES » (seule à contenir <form>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« RÉSERVEZ »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/7 ordinateur, 0/10 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.

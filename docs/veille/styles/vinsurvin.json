@@ -1,0 +1,702 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.vinsurvin.com/",
+  "nom": "vinsurvin",
+  "date": "2026-10-27",
+  "identite": {
+    "title": "Home",
+    "siteName": "",
+    "lang": "fr",
+    "description": "",
+    "technologies": [
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "DOMAINE A VENDRE",
+      "h1Visible": true,
+      "mots": 6,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 0.84,
+        "selecteur": "section#1664976740"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 979,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.text-align-center",
+        "famille": "\"Libre Baskerville\", \"Libre Baskerville Fallback\"",
+        "taille": 60,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": true,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": null,
+      "p": null,
+      "bouton": null,
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "Libre Baskerville",
+          "url": "https://irp.cdn-website.com/fonts/s/librebaskerville/v14/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNZaxM.woff2",
+          "feuille": "inline",
+          "source": "tiers (irp.cdn-website.com)"
+        },
+        {
+          "famille": "Josefin Slab Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Roboto Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Libre Baskerville Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Josefin Sans Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Oswald Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "irp.cdn-website.com",
+        "static.cdn-website.com",
+        "irp.cdn-website.com",
+        "irp.cdn-website.com",
+        "irp.cdn-website.com"
+      ],
+      "fichiersPolices": [
+        "https://irp.cdn-website.com/fonts/s/librebaskerville/v14/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNZaxM.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Libre Baskerville",
+          "n": 2
+        },
+        {
+          "famille": "Helvetica",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#eeeeee",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#eeeeee",
+          "n": 1,
+          "poids": 1409760
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1409737.5
+        },
+        {
+          "hex": "#f5f5f5",
+          "n": 1,
+          "poids": 1205268.75
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 38
+        },
+        {
+          "hex": "#999999",
+          "n": 1,
+          "poids": 9
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 1,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#eeeeee",
+          "n": 1,
+          "poids": 1409760,
+          "part": 0.35
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1409737.5,
+          "part": 0.35
+        },
+        {
+          "hex": "#f5f5f5",
+          "n": 1,
+          "poids": 1205268.75,
+          "part": 0.299
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 38,
+          "part": 0.809
+        },
+        {
+          "hex": "#999999",
+          "n": 1,
+          "poids": 9,
+          "part": 0.191
+        }
+      ],
+      "contraste": 18.1
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Locomotive Scroll",
+          "preuve": "attribut data-scroll"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "height 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "padding 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "width 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "margin 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "top 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 2
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-background-parallax-selector",
+          "n": 1
+        },
+        {
+          "nom": "data-scrollable-target",
+          "n": 1
+        },
+        {
+          "nom": "data-scrollable-target-threshold",
+          "n": 1
+        },
+        {
+          "nom": "data-scroll-responder-id",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div#hcontainer",
+        "score": 13,
+        "animations": [],
+        "transitions": [
+          "height 0.2s ease",
+          "background-color 0.2s ease",
+          "padding 0.2s ease",
+          "width 0.2s ease",
+          "margin 0.2s ease",
+          "top 0.2s ease",
+          "transform 0.2s ease"
+        ],
+        "attributs": [
+          "data-scrollable-target",
+          "data-scrollable-target-threshold",
+          "data-scroll-responder-id"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div#site_content",
+      "sections": [
+        {
+          "selecteur": "div#stickyHeaderSpacer",
+          "titre": null,
+          "top": 0,
+          "hauteur": 124,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#dmFirstContainer",
+          "titre": "DOMAINE A VENDRE",
+          "top": 124,
+          "hauteur": 755,
+          "ecrans": 0.8,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.dmFooterContainer",
+          "titre": null,
+          "top": 879,
+          "hauteur": 100,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div#dmPopup",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1339,
+          "enBas": false,
+          "mots": 2
+        },
+        {
+          "selecteur": "div.dmHeaderContainer",
+          "position": "fixed",
+          "hauteur": 124,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/vinsurvin-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "DOMAINE A VENDRE",
+      "h1Visible": true,
+      "mots": 6,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "fond en image",
+        "couverture": 0.85,
+        "selecteur": "section#1664976740"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 1249,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.text-align-center",
+        "famille": "\"Libre Baskerville\", \"Libre Baskerville Fallback\"",
+        "taille": 60,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": true,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": null,
+      "p": null,
+      "bouton": null,
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "Libre Baskerville",
+          "url": "https://irp.cdn-website.com/fonts/s/librebaskerville/v14/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNZaxM.woff2",
+          "feuille": "inline",
+          "source": "tiers (irp.cdn-website.com)"
+        },
+        {
+          "famille": "Josefin Slab Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Roboto Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Libre Baskerville Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Josefin Sans Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "Oswald Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "irp.cdn-website.com",
+        "static.cdn-website.com",
+        "irp.cdn-website.com",
+        "irp.cdn-website.com",
+        "irp.cdn-website.com"
+      ],
+      "fichiersPolices": [
+        "https://irp.cdn-website.com/fonts/s/librebaskerville/v14/kmKnZrc3Hgbbcjq75U4uslyuy4kn0qNZaxM.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Libre Baskerville",
+          "n": 2
+        },
+        {
+          "famille": "Helvetica",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#eeeeee",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#eeeeee",
+          "n": 1,
+          "poids": 959232
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 959220
+        },
+        {
+          "hex": "#f5f5f5",
+          "n": 1,
+          "poids": 306108.25
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 38
+        },
+        {
+          "hex": "#999999",
+          "n": 1,
+          "poids": 9
+        }
+      ],
+      "nbImages": 0,
+      "nbVideos": 0,
+      "nbFondsImage": 1,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#eeeeee",
+          "n": 1,
+          "poids": 959232,
+          "part": 0.431
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 959220,
+          "part": 0.431
+        },
+        {
+          "hex": "#f5f5f5",
+          "n": 1,
+          "poids": 306108.25,
+          "part": 0.138
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 38,
+          "part": 0.809
+        },
+        {
+          "hex": "#999999",
+          "n": 1,
+          "poids": 9,
+          "part": 0.191
+        }
+      ],
+      "contraste": 18.1
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Locomotive Scroll",
+          "preuve": "attribut data-scroll"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "height 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "padding 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "width 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "margin 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "top 0.2s ease",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 2
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-background-parallax-selector",
+          "n": 1
+        },
+        {
+          "nom": "data-scrollable-target",
+          "n": 1
+        },
+        {
+          "nom": "data-scrollable-target-threshold",
+          "n": 1
+        },
+        {
+          "nom": "data-scroll-responder-id",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div#hcontainer",
+        "score": 13,
+        "animations": [],
+        "transitions": [
+          "height 0.2s ease",
+          "background-color 0.2s ease",
+          "padding 0.2s ease",
+          "width 0.2s ease",
+          "margin 0.2s ease",
+          "top 0.2s ease",
+          "transform 0.2s ease"
+        ],
+        "attributs": [
+          "data-scrollable-target",
+          "data-scrollable-target-threshold",
+          "data-scroll-responder-id"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div#site_content",
+      "sections": [
+        {
+          "selecteur": "div#stickyHeaderSpacer",
+          "titre": null,
+          "top": 0,
+          "hauteur": 124,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#dmFirstContainer",
+          "titre": "DOMAINE A VENDRE",
+          "top": 124,
+          "hauteur": 1025,
+          "ecrans": 1.2,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.dmFooterContainer",
+          "titre": null,
+          "top": 1149,
+          "hauteur": 100,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div#dmPopup",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 363,
+          "enBas": false,
+          "mots": 2
+        },
+        {
+          "selecteur": "div.dmHeaderContainer",
+          "position": "fixed",
+          "hauteur": 124,
+          "largeur": 768,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "vinsurvin",
+  "dureeS": 21.6
+}
