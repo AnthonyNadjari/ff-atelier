@@ -489,6 +489,19 @@ export const siteSchema = z.object({
       "Rendez-vous dates du client (stages, marches, degustations, soirees ; architecture cartes-empilees-agenda, docs/veille/architectures/groene-afslag.md) : bloc « prochains rendez-vous » de l'accueil + page /agenda filtrable par categorie + lien « Agenda » dans la nav. Les dates passees sont retirees au build (src/lib/agenda.ts) : reconstruire le site quand l'agenda change. Vide (ou tout passe) = ni bloc, ni page, ni lien. Jamais un rendez-vous invente.",
     ),
 
+  annonce: z
+    .object({
+      texte: z.string().min(1).describe('La nouvelle du moment, dans les mots du client : « Fermé du 3 au 18 août », « Les galettes sont là », « Marché de Noël le 13 décembre ». Un fait, jamais une promotion inventée.'),
+      lien: z.string().optional().describe('Lien de la nouvelle (page du site « /conseils/… », ou lien extérieur https://…). Absent = texte seul.'),
+      lienTexte: z.string().optional().describe('Libellé du lien ; absent = « En savoir plus ».'),
+      du: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe('Premier jour d’affichage AAAA-MM-JJ (jour civil Europe/Paris). Absent = tout de suite.'),
+      au: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().describe('Dernier jour d’affichage AAAA-MM-JJ, inclus. Absent = jusqu’à ce que le client la retire. Passé ce jour, la ligne disparaît (au build et dans le navigateur).'),
+    })
+    .optional()
+    .describe(
+      "Nouvelle du moment : une ligne sous le premier écran de l'accueil (src/components/Annonce.astro, src/lib/annonce.ts), levier du marché « nouvelle en tête de page » (docs/veille/marche/CE-QUI-VEND.md). Absente = rien. Pas rendue dans les coquilles à défilement par crans (carnet, panneaux, scenes, slides, vitrine).",
+    ),
+
   produits: z
     .array(
       z.object({

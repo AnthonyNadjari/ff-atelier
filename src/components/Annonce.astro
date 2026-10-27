@@ -1,0 +1,78 @@
+---
+/**
+ * Nouvelle du moment (site.annonce, src/lib/annonce.ts) : une ligne sous le premier écran de l'accueil,
+ * dans les mots du client (« Fermé du 3 au 18 août », « Les galettes sont là »), avec un lien si le brief
+ * en donne un. Rendue par src/pages/index.astro comme première « section », donc dans le rythme de la coquille
+ * (filets, marges), jamais par-dessus la nav (toutes les navs sont fixes) ni collée en bas (ce serait pris
+ * pour une bannière de cookies).
+ *
+ * - Au build : rien dans le HTML si la fenêtre du/au est passée ou pas encore venue (annonceVisible) ;
+ * - dans le navigateur : la même règle rejouée au jour civil Europe/Paris (un site n'est pas reconstruit
+ *   chaque jour), via onPage (site.transitions) ; sans JS, la ligne reste telle que construite ;
+ * - tokens uniquement, pas de pilule, pas d'icône : un filet d'accent à gauche du texte, c'est tout ;
+ * - pas de bouton de fermeture : une ligne, pas une fenêtre (docs/GOUT.md § 2 : rien ne couvre la page).
+ */
+import { site } from '@/lib/site';
+import { annonceVisible } from '@/lib/annonce';
+const a = site.annonce;
+const visible = !!a && annonceVisible(a, new Date());
+const externe = !!a?.lien && /^https?:\/\//i.test(a.lien);
+---
+
+{visible && a && (
+  <aside class="ff-annonce" data-annonce data-du={a.du} data-au={a.au} aria-label="Nouvelle du moment">
+    <div class="container-ff">
+      <p class="ff-annonce-ligne">
+        <span>{a.texte}</span>
+        {a.lien && (
+          <a href={a.lien} target={externe ? '_blank' : undefined} rel={externe ? 'noopener' : undefined}>
+            {a.lienTexte ?? 'En savoir plus'}
+          </a>
+        )}
+      </p>
+    </div>
+  </aside>
+)}
+
+<style>
+  .ff-annonce {
+    background: var(--surface);
+    color: var(--fg);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .ff-annonce-ligne {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    align-items: baseline;
+    padding-block: 0.75rem;
+    padding-inline-start: 0.875rem;
+    border-inline-start: 3px solid var(--accent);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+  .ff-annonce-ligne a {
+    color: inherit;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+  @media print { .ff-annonce { display: none; } }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // La fenêtre du/au rejouée au jour civil Europe/Paris : un site construit en juin cache en septembre
+  // l'annonce « jusqu'au 31 août », et montre en décembre celle « à partir du 1er décembre ».
+  onPage(() => {
+    const jour = new Intl.DateTimeFormat('fr-CA', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+    for (const el of document.querySelectorAll<HTMLElement>('[data-annonce]')) {
+      const { du, au } = el.dataset;
+      el.hidden = Boolean((du && jour < du) || (au && jour > au));
+    }
+  });
+</script>

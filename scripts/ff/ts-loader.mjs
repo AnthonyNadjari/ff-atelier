@@ -134,6 +134,11 @@ export async function loadHorairesModule() {
   return loadPureLibModule('horaires.ts');
 }
 
+/** Copie src/lib/annonce.ts (module pur) et l'importe : { annonceVisible, jourCivil, coquilleAcceptAnnonce, COQUILLES_SANS_ANNONCE } (tests/annonce.test.mjs). */
+export async function loadAnnonceModule() {
+  return loadPureLibModule('annonce.ts');
+}
+
 /**
  * Copie src/lib/galerie.ts (module pur : un seul `import type` du schema) dans TMP_DIR/lib/ et l'importe.
  * Renvoie { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META }

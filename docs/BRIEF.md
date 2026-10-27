@@ -194,6 +194,13 @@ titre, date, deux phrases de résumé, le texte (ou un enregistrement à retrans
 
 > Dans `site.config.ts` : `conseils`. Rien de sa part = pas de rubrique ; on n'écrit jamais un article à sa place.
 
+**Une nouvelle en ce moment ?** Fermeture pour congés, produit de saison, marché ou salon, nouvel horaire : une phrase,
+avec sa date de fin (« jusqu'au 18 août »), et un lien s'il y en a un. Elle s'affiche sous le premier écran et disparaît
+toute seule à la date dite.
+
+> Dans `site.config.ts` : `annonce` { texte, lien, du, au }. Rien de sa part = rien d'affiché ; jamais une promotion
+> inventée (`docs/veille/fonctionnalites-2026-10.md` § 4).
+
 ## 11. Domaine et mise en ligne
 
 - **Domaine : le client en a déjà un ?** [ ] oui, lequel et chez quel registrar (OVH, Ionos, Gandi…) :

@@ -8,6 +8,8 @@ import { site } from '@/lib/site';
 import { getSection, resolveSection } from '@/lib/sections';
 import { faqPageLd } from '@/lib/jsonld';
 import { Shell as ShellDuSite } from 'virtual:ff-look';
+import Annonce from '@/components/Annonce.astro';
+import { annonceVisible, coquilleAcceptAnnonce } from '@/lib/annonce';
 
 // La coquille du site est importee seule par scripts/vite-ff-look.mjs (le CSS des 24 autres ne part plus dans la
 // page). Aucun import.meta.glob ici : meme non execute, il mettrait toutes les coquilles dans le graphe.
@@ -17,6 +19,11 @@ const Nav = resolveSection('nav', site.layout.nav);
 const Hero = resolveSection('hero', site.layout.hero);
 const Footer = resolveSection('footer', site.layout.footer);
 const sections = site.layout.sections.map((s) => ({ ...s, Component: getSection(s.type, s.variant) }));
+// Nouvelle du moment (site.annonce) : premiere « section » de l'accueil, donc juste sous le premier ecran de la coquille,
+// dans son rythme ; jamais dans une coquille a crans (une ligne n'est pas un ecran : src/lib/annonce.ts).
+if (annonceVisible(site.annonce, new Date()) && coquilleAcceptAnnonce(site.layout.shell)) {
+  sections.unshift({ type: 'annonce', variant: 'ligne', Component: Annonce } as (typeof sections)[number]);
+}
 
 // FAQPage JSON-LD : seulement si une section faq est affichee sur la page (jamais de schema
 // pour du contenu invisible). Aide les moteurs de reponse IA a citer les vraies Q/R du site.

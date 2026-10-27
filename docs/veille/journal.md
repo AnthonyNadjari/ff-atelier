@@ -170,6 +170,25 @@ dépanneur ; atelier-par-colis pour un cordonnier, horloger, rempailleur qui re�
 
 Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
 
+## 27 oct 2026, après-midi (à la main, Fable) : veille courte « fonctionnalités », la nouvelle du moment
+
+**Fait**
+- Volet « fonctionnalités » : ce que les fabricants de sites vendent (Wix, Squarespace, SiteW, pages lues le jour même)
+  croisé avec ce que les 90 sites réels de `marche/` font : `docs/veille/fonctionnalites-2026-10.md`. Treize familles
+  déjà dans l'usine, treize manques jugés un par un ; un seul retenu.
+- **`annonce`** : la nouvelle du moment (fermeture, saison, offre datée ; 10 sites sur 63, premier levier absent de
+  l'usine) → une ligne sous le premier écran de l'accueil, dans le rythme de la coquille, fenêtre `du`/`au` lue au build
+  et rejouée au jour civil Europe/Paris dans le navigateur ; pas de bouton de fermeture, jamais collée en bas (bannière de
+  cookies) ni par-dessus la nav (toutes fixes) ; pas rendue dans `scenes`, `slides`, `carnet`, `panneaux`, `vitrine`.
+  Schéma, composant, module pur, test (`tests/annonce.test.mjs`), brief (`docs/BRIEF.md`), `CLAUDE.md`. Essai sur une
+  copie de `_exemple` construite et regardée (ordinateur et téléphone), copie supprimée.
+
+**Refusé (avec la raison dans la fiche)** : chat et assistant IA, newsletter, boutique et paiement, espace membres,
+fidélité, flux Instagram incrusté (traceur), calculateur d'estimation (prix inventés), pages prestation × commune
+(contenu dupliqué), devis avec photo jointe (service tiers ; à revoir si un client le demande).
+
+**À décider (fondateurs)** : rien. Le champ est facultatif ; il n'apparaît que si le brief donne une nouvelle.
+
 ## 27 oct 2026, matin (fondateur absent) : Épi d'Or B relu jusqu'à 7,2
 
 **Fait**

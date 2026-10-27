@@ -132,6 +132,9 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `conseils` (défaut `[]`) : articles fournis par le client (brief § 10bis) → `/conseils`, une page par article
   (`BlogPosting`), lien de nav avant Contact ; aucun article = aucune page (`src/lib/conseils.ts`,
   `tests/conseils.test.mjs`, levier du marché `docs/veille/marche/CE-QUI-VEND.md`).
+  `annonce` (optionnel) : la nouvelle du moment du client (fermeture, saison, offre datée) → une ligne sous le premier
+  écran de l'accueil, fenêtre `du`/`au` lue au build et rejouée dans le navigateur ; pas dans les coquilles à crans
+  (`src/lib/annonce.ts`, `src/components/Annonce.astro`, `tests/annonce.test.mjs`).
   `produits` (défaut `[]`) : la gamme du client (architecture `gamme-vitrine`, coquille `vitrine` ; `detoure: true` par produit pour l'inclinaison et l'ombre, sinon photo droite sans ombre) → `/produits` par famille,
   une page par produit (`Product`, sans offre si le prix manque), lien « Produits » en tête de nav ; aucun produit = aucune
   page (`src/lib/produits.ts`, `tests/architectures.test.mjs`).
