@@ -4,6 +4,59 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 28 oct 2026, tour 13 (routine en ligne) : 11 styles, 2 architectures
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-28.jpg)) : l'architecture `appareils-pannes`, le site d'un réparateur à
+domicile qui part de l'appareil en panne (un onglet par famille avec son forfait, les pannes dites comme au téléphone, le numéro
+en haut). Pourquoi elle : c'est exactement la question du client au téléphone (« ma machine ne vidange plus »), et ni la
+bibliothèque ni les 17 architectures ne savaient y répondre.
+
+**Fait**
+- Santé : `npm ci`, Chromium de Playwright, tout a tourné avec navigateur. Tests : 76 fichiers, tous verts, avant et après le tour.
+  `ff atomes` vert, `_exemple` construit.
+- **Styles (2a quater)** : deux agents (domaines a à l, m à z), environ 280 domaines sondés. **11 gardés**, chacun essayé
+  (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de la source : sombre `boccadilupo` (trattoria, bordeaux et
+  crème), `hotelsanders` (vert bouteille et or, vidéo exigée) ; clair teinté doux `chateauvoltaire` (crème et encre noire, photos en
+  arche), `pastamansi` (farine, une seule mono, silhouettes de pâtes), `outofthevalley` (lichen et charbon, une phrase par écran) ;
+  coloré doux `linastores` (menthe et store rayé), `fogoislandinn` (brume et marine), `rebeccaatwood` (blocs bleu, pêche, sauge),
+  `thecuppingroom` (crème et rouille) ; clair neutre `barkumiko`, `redclay`. Fiches et écartés (orrisparis : fenêtre bloquante,
+  mosshotel : signes IA, ynyshir : écran de chargement…) : [styles/INDEX.md](styles/INDEX.md).
+- Palettes par régime, avant → après : clair neutre 85 → 87, clair teinté doux 23 → 26, sombre 25 → 27, coloré doux 44 → 48.
+- **Mouvement** : 3 profils nouveaux ([MOUVEMENTS.md](styles/MOUVEMENTS.md), 37 profils) : `silhouettes-en-fond` (Pasta Mansi),
+  `bandeau-des-adresses` (Red Clay, quatre vrais lieux de vente exigés), `bloc-qui-s-avance` (Bar Kumiko, déclenché par classe,
+  tient sur iPhone ; attribut `data-avance` à écrire dans le moteur).
+- **Architectures (2a ter)**, codées et prouvées le même tour : [appareils-pannes](architectures/appareils-pannes.md) (satisfix.fr,
+  lavoiserie.fr ; coquille `appareils`, champ `appareils`, `/appareils`, `/appareils/<slug>`) et
+  [commande-retrait](architectures/commande-retrait.md) (riedoasis.fr, autempsdelasource.fr ; coquille `retrait`, champ `retrait`,
+  « commandez avant mardi 12 h, retirez jeudi » avec la prochaine clôture calculée dans le navigateur, points de retrait par jour,
+  `/retrait`, `/retrait/<slug>`). `ff ressemblance` contre tous les sites : appareils 0,60 / 0,54 / 0,55, retrait 0,57 / 0,55 /
+  0,63 (téléphone / ordinateur / déroulé, seuil 0,65). Jetables vérifiés (`verifier` hors données de test, `a11y`, `ia`) et supprimés.
+- **Marché (2a)** : 9 sites de plus (agences d'Amiens, Clermont-Ferrand, Le Mans : constructeur bois, rénovation, fromagerie ;
+  Google : tatoueur à Nice, garage au Mans, électricien près de Strasbourg ; modèles Framer plombier, Squarespace restaurant,
+  ThemeForest cabinet médical). [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) : 117 sites. Le formulaire sur l'accueil passe 40 % (40,2 %),
+  déjà fait par l'usine : aucun levier à 40 % absent. Le plus vendeur : L'Atelier du Fromage au Mans (la gérante et deux employés
+  nommés et racontés, photos d'un photographe, 4,9 sur 124 avis, appel toujours à portée).
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé,
+21 les deux), aucun site n'ayant changé ; pires : anna-vidal / borie-des-chenes (0,81 / 0,75 / 1,00), chez-malo / studio-ambre
+(0,87 / 0,91). Signalé, pas corrigé.
+
+**Proposé**
+- `ff demonter` et `ff atomes mesurer` : fermer les fenêtres d'inscription (`--fermer`), remonter en haut avant la capture
+  (outofthevalley capturé en pied), attendre la fin d'un écran de chargement (Electribel), agent utilisateur récent (hotelsanders).
+- `ff atomes mesurer` : ignorer le premier écran pour la taille du texte et les marges, les pistes de carrousel pour le conteneur,
+  la bannière cookies pour les rayons ; refuser une lecture sans couleurs (« relancer »).
+- Une commande `ff sonder <url…>` (fond dominant, polices, pilules, couches fixes) : les deux agents ont réécrit la même sonde.
+- Une démo avec de vraies photos pour les essais de style (demo-boulangerie n'en a pas : arches et mosaïques invisibles), et
+  `--essai` qui applique la famille de premier écran du style.
+- WhatsApp au premier écran avec message prérempli, une phrase par personne de l'équipe (vus une fois chacun au marché).
+
+**À décider** : les 11 styles (`ff melanger <slug> --style chateauvoltaire`) ; `appareils-pannes` pour un réparateur
+d'électroménager, de chaudière ou de vélo ; `commande-retrait` pour un maraîcher, éleveur ou fromager en vente directe ; les paires
+trop proches.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
 ## 27 oct 2026, tour 12 (routine en ligne, soir) : 10 styles, 2 architectures
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-27-c.jpg)) : l'architecture `estimation-etapes`, la demande d'estimation

@@ -1,0 +1,37 @@
+# Plumup — https://plumup.framer.website/
+Titre « Plumup – Trusted 24/7 Plumbing Services », `lang="en"`, description « Licensed local plumbers for leak repairs, drain cleaning, water heaters and installations. Fast 24/7 emergency service with honest pricing. », technologie lue : generator « Framer 6d5a0f2 », Framer. Démontage automatique du 2026-10-28 (`ff demonter`, mesures brutes dans `framer-plumup.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Quality plumbing you can count on » ; image plein écran (100 % de l'écran) ; bouton principal « Emergency Service » en bas à gauche (120, 653 px) ; 56 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « Quality plumbing you can count on » ; image plein écran (67 % de l'écran) ; bouton principal « Emergency Service » à mi-hauteur au centre (20, 452 px) ; 47 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 6 lien(s) — Home, About, Services, Blog, Contact, [Get A Free Quote] ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.framer-1p82oye-container` (0,8 écran, 55 mots, 2 img). Calques hors flux (fixes/absolus) : `div#__framer-badge-container` (fixed, 78 px, collé en bas, 15 mots), `div.framer-15znnbw-container` (absolute, 98 px, 9 mots).
+Pied de page : 14 lien(s) — Home, About Us, Services, Blog, Contact, Drain Cleaning, Pipe Repair, Fixture Installation, Emergency Plumbing, Leak Detection (+4). Téléphone cliquable : oui (1, tel:+1 (212) 555-0187). Formulaire : 1 (17 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Get A Free Quote » (./contact), « Get A Quote » (./contact).
+En 3 secondes : à juger sur `captures/framer-plumup-d.webp` (mesuré : fond du premier écran #ffffff, 3 image(s) et 56 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Plus Jakarta Sans**, 80 px / 36 px téléphone, graisse 800, interlignage 1,10, interlettrage -1.6px ; h2 **Plus Jakarta Sans**, 48 px / 30 px téléphone, graisse 700, interlignage 1,10, interlettrage -0.96px ; corps **Plus Jakarta Sans**, 16 px / 16 px téléphone, graisse 400, interlignage 1,60 ; boutons **sans-serif**, 12 px / 12 px téléphone, graisse 400 ; nav **sans-serif**, 12 px / 12 px téléphone, graisse 400.
+Sources `@font-face` : Google Fonts (Plus Jakarta Sans, Rethink Sans) ; tiers (framerusercontent.com) (Plus Jakarta Sans, Inter) ; locale (Plus Jakarta Sans Placeholder, Rethink Sans Placeholder, Inter Placeholder) ; fichiers chargés : https://framerusercontent.com/third-party-assets/fontshare/wf/TX2N2Q6ZO2LBO34H72H5RVJTBQFGU4GV/ZICVNTLTT4V7CCIJPWNY363N6LIP2AET/OUUAK2X2MEGEKC6ULA4CFSBY4PE5EGPV.woff2, https://fonts.gstatic.com/s/plusjakartasans/v12/LDIoaomQNQcsA88c7O9yZ4KMCoOg4Ko20yw.woff2, https://framerusercontent.com/third-party-assets/fontshare/wf/AJVGEOXGB2ALQKAZEK2LDOLCVBCMCOIT/LDEP4R7SNNABDEG433DCQGM2A7YCBHLU/OWABOLGBAKFVLPZ756IYS6EKYKU54K3I.woff2, https://framerusercontent.com/assets/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2, https://fonts.gstatic.com/s/rethinksans/v7/AMODz4SDuXOMCPfdoglY9JQuWHBGG0X45DmqkoZWOEnsmA.woff2. Familles en usage sur le texte visible : Plus Jakarta Sans ×145, sans-serif ×3, Rethink Sans ×2. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #000000 (contraste 21,00:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (75 %), #f6f6f6 (17 %), #102a43 (5 %), #fc7046 (4 %), #fb7045 (0 %) ; textes par nombre de caractères : #102a43 (43 %), #ffffff (40 %), #555555 (13 %), #0000ee (3 %), #fc7046 (0 %). Images : 42 `<img>` visibles, 2 fond(s) en image, 1 vidéo(s), `mask-image`/`clip-path` sur 16 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Framer Motion (window.__framer_importFromPackage). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.4s cubic-bezier(0.44, 0, 0.56, 1)` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/framer-plumup-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.framer-1p82oye-container` (0,8 écran, 55 mots, 2 image(s)).
+2. L'élément le plus animé : `a.framer-text` (1 transition(s) : color 0.4s cubic-bezier(0.44, 0, 0.56, 1)).
+3. Le bloc le plus singulier par sa structure : aucune section ne contient de balise rare (table, details, canvas, video, svg, form, dl…).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« Get A Free Quote », « Get A Quote »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : Plus Jakarta Sans ; boutons pilule : 6/6 ordinateur, 5/5 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Verdict marché (veille du 28 oct 2026, tour 13)
+Source : Framer Marketplace, catégorie Home Services (https://www.framer.com/marketplace/templates/category/home-services/), ordre affiché ce jour (l'ordre a changé depuis le tour 12 : aucun des modèles fichés n'est dans les premiers rangs), **rang 1 Plumup** ([page du modèle](https://www.framer.com/marketplace/templates/plumup/), gratuit, auteur Tempbix). URL lue : https://plumup.framer.website/ (HTML 40 Ko, premier octet 0,16 s, indicatif). Captures et planche regardées.
+
+**Un artisan paierait-il 1 200 € pour ça ?** Pour le plan oui, c'est le déroulé complet du plombier américain ; tel quel non. Premier écran : un plombier souriant bras croisés en plein cadre, une vignette ronde + « Available 24/7 for Plumbing Emergencies » au-dessus du h1 « Quality plumbing you can count on » (« plumbing » en couleur), une phrase, « Emergency Service » ; « Get A Free Quote » dans la nav. Puis compteurs (années, projets, 24/7), six services avec photo et « Get a Quote » chacun, quatre raisons, « 1,500+ Happy Customers », le parcours en 4 étapes, un avant / après, trois témoignages, **six plombiers nommés en portraits**, un formulaire de devis à 17 champs avec la date, les horaires, une FAQ de 6 questions, un blog. Défauts : toutes les images sont générées (mêmes visages lisses, même uniforme), **compteurs à 0 sans JavaScript**, notes cassées dans les témoignages (« 7.5/9 », « 5.4/7 »), étapes numérotées dans le désordre (01, 03, 02, 04), un seul `tel:` en pied, ville factice (New York), Plus Jakarta Sans et boutons pilule (signes « IA »).
+
+**Leviers vus** : Photos réelles : non (générées). Premier écran : urgence 24/7 au-dessus du h1, la personne en grand, porte « urgence » et porte « devis ». Preuves : compteurs, témoignages, équipe nommée (factices). Structure : 5 pages + 3 articles. Appels : devis (nav et chaque service), urgence, formulaire avec date. Vitesse : HTML 40 Ko, Framer. Mobile : badge « Made in Framer » collé en bas.
