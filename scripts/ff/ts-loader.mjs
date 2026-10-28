@@ -322,6 +322,22 @@ export async function loadFormulesModule() {
   return loadPureLibModule('formules.ts');
 }
 
+/**
+ * Copie src/lib/appareils.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture appareils-pannes : appareils
+ * complets, familles, prix, marques ; tests/architectures-pannes.test.mjs).
+ */
+export async function loadAppareilsModule() {
+  return loadPureLibModule('appareils.ts');
+}
+
+/**
+ * Copie src/lib/retrait.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture commande-retrait : points, jours,
+ * prochaine clôture ; tests/architectures-pannes.test.mjs).
+ */
+export async function loadRetraitModule() {
+  return loadPureLibModule('retrait.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

@@ -83,6 +83,8 @@ export const SHELLS = [
   'location', // l accueil est le catalogue de location : en tete h1, telephone, « chercher un outil » ; un onglet par categorie, chaque materiel avec ses prix par duree (particulier TTC ou pro HT au choix, sans script) et sa caution ; les creneaux qui comptent une journee ; le magasin ; une page par materiel et /materiel (architecture catalogue-location)
   'estimation', // l accueil est la demande d estimation : en tete h1, telephone, note, et le formulaire en etapes (le projet, les questions du client, les coordonnees) visible sans defiler ; ce qui se passe apres ; les prestations, les avis, les communes ; /estimation (architecture estimation-etapes)
   'formules', // l accueil est le choix d une formule : en tete h1, telephone, note ; les formules nommees a prix cote a cote (piste au telephone), chacune avec ce qu elle comprend et sa porte ; ce qui est commun a toutes ; une page par formule et /formules (architecture formules-comparees)
+  'appareils', // l accueil est le choix de l appareil en panne : en tete h1, telephone, note, forfait ; les appareils ranges par famille (un onglet chacune, sans script toutes l une sous l autre), chacun avec ses pannes vers leur ancre ; les marques de A a Z et comment ca se passe dans le meme bloc ; une page par appareil et /appareils (architecture appareils-pannes)
+  'retrait', // l accueil est le rythme de la commande : en tete h1, telephone, note ; la cloture et les jours de retrait (la prochaine calculee dans le navigateur) ; les facons d acheter ; les points de retrait par jour (un onglet chacun, sans script toute la semaine) ; une page par point et /retrait (architecture commande-retrait)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -939,6 +941,94 @@ export const siteSchema = z.object({
       "Formules nommées à prix écrits (architecture formules-comparees, docs/veille/architectures/formules-comparees.md, source Micka photographe, Le Mans : quatre forfaits côte à côte, prix en semaine, « Vérifiez la disponibilité » sous chacun ; seconde source GreenCraft, modèle de paysagiste : « Everything in Essential » puis ce qui s'ajoute) : l'accueil est le choix d'une formule, chacune avec sa porte ; une page par formule (/formules/<slug>) avec la demande réglée sur elle, /formules en tableau. Absent = ni formules ni pages. Jamais un prix, un contenu ou une « plus demandée » inventés.",
     ),
 
+  appareils: z
+    .object({
+      forfait: z.string().optional().describe('Ce que comprend le prix, dit par le client (« Déplacement, diagnostic et main-d’œuvre compris, pièces en sus »). Absent = rien, jamais « tout compris » deviné.'),
+      garantie: z.string().optional().describe('La garantie donnée par le client (« Réparation garantie 6 mois »). Absente = rien.'),
+      familles: z
+        .array(
+          z.object({
+            nom: z.string().describe('Famille d’appareils (« Lavage », « Cuisson », « Froid »)'),
+            prix: z.string().optional().describe('Forfait de la famille, dit par le client (« 75 € »). Absent = pas de prix de famille.'),
+            note: z.string().optional().describe('Ce que couvre la famille, mots du client (« Lave-linge, sèche-linge, lave-vaisselle »). Absente = rien.'),
+          }),
+        )
+        .default([])
+        .describe('Les familles d’appareils dans l’ordre du client : un onglet chacune sur l’accueil. Vide = les familles lues sur les appareils.'),
+      liste: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /appareils/<slug> (« lave-linge »)'),
+            nom: z.string().describe('Nom de l’appareil tel que le client le dit (« Lave-linge », « Four et cuisinière »)'),
+            famille: z.string().optional().describe('Nom de sa famille (familles[].nom). Absent = « Autres appareils ».'),
+            prix: z.string().optional().describe('Prix propre à l’appareil (« à partir de 65 € »). Absent = celui de sa famille, sinon rien.'),
+            pannes: z
+              .array(
+                z.object({
+                  nom: z.string().describe('La panne telle que le client la décrit au téléphone (« Ne vidange plus »)'),
+                  causes: z.string().optional().describe('Les causes que le client vérifie (« Pompe bouchée, filtre encrassé »). Absentes = rien.'),
+                }),
+              )
+              .default([])
+              .describe('Les pannes que le client prend en charge, dans son ordre. Un appareil sans panne ne compte pas.'),
+            marques: z.array(z.string()).default([]).describe('Marques propres à cet appareil (« Miele », « Bosch »). Vide = la liste commune (appareils.marques).'),
+            photo: img.optional().describe('Photo du client sur cet appareil (une vraie intervention). Absente = pas d’image.'),
+          }),
+        )
+        .default([])
+        .describe('Les appareils réparés, dans l’ordre du client. Un appareil sans slug, nom ou panne ne compte pas.'),
+      marques: z.array(z.string()).default([]).describe('Les marques que le client répare (« AEG », « Bosch », « Brandt »…), rangées de A à Z sur l’accueil et /appareils. Vide = pas de bloc des marques.'),
+      etapes: z.array(z.string()).default([]).describe('Comment se passe une intervention, dans l’ordre, mots du client (« Vous appelez ou écrivez », « Nous venons sous 48 h », « Devis avant réparation »). Vide = pas de bloc.'),
+    })
+    .optional()
+    .describe(
+      "Appareils réparés et leurs pannes (architecture appareils-pannes, docs/veille/architectures/appareils-pannes.md, sources Satisfix et Lavoiserie, réparateurs d'électroménager à Lyon : les appareils par famille, lavage, cuisson, froid, un forfait par famille, une page par appareil avec les pannes prises en charge et les marques) : l'accueil part de l'appareil en panne (un onglet par famille), chaque panne mène à son ancre sur la page de l'appareil (/appareils/<slug>), /appareils liste tout. Absent = ni appareils ni pages. Jamais une panne, une marque, un prix ou une garantie inventés.",
+    ),
+
+  retrait: z
+    .object({
+      cloture: z
+        .object({
+          jour: z.enum(['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']).describe('Jour de clôture des commandes (« Mardi »)'),
+          heure: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/).describe('Heure de clôture, « HH:MM » (« 12:00 »)'),
+        })
+        .optional()
+        .describe('Jusqu’à quand on commande pour la semaine, dit par le client (« avant mardi midi »). Absente = pas de bandeau du rythme.'),
+      report: z.string().optional().describe('Ce qui arrive à une commande passée trop tard, mots du client (« Elle part la semaine suivante »). Absent = rien.'),
+      facons: z
+        .array(
+          z.object({
+            nom: z.string().describe('Une façon d’acheter (« Le panier de la semaine », « La commande sur mesure », « Le marché à la ferme »)'),
+            texte: z.string().optional().describe('Une phrase du client sur cette façon (« Sans engagement, à la fréquence de votre choix »). Absente = rien.'),
+            lien: z.string().optional().describe('Où elle se fait : l’adresse de la boutique en ligne du client, un « tel: », une ancre. Absent = pas de lien.'),
+          }),
+        )
+        .default([])
+        .describe('Les façons d’acheter du client, dans son ordre (« 3 façons d’acheter » de Riedoasis). Vide = pas de bloc.'),
+      points: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /retrait/<slug> (« benfeld-boucherie »)'),
+            nom: z.string().describe('Le lieu de retrait (« Boucherie du Centre », « À la ferme »)'),
+            commune: z.string().describe('Sa commune (« Benfeld »)'),
+            adresse: z.string().optional().describe('Adresse du point (« 5 rue Clemenceau »). Absente = non affichée.'),
+            jour: z.enum(['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']).describe('Jour de retrait'),
+            debut: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/).describe('Début du retrait, « HH:MM »'),
+            fin: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/).describe('Fin du retrait, « HH:MM »'),
+            vente: z.boolean().default(false).describe('Vrai si l’on peut aussi acheter sur place sans commande (vente directe), dit par le client. Faux par défaut.'),
+            reserve: z.string().optional().describe('À qui le point est réservé, mots du client (« Réservé aux parents de la crèche »). Absent = ouvert à tous.'),
+            note: z.string().optional().describe('Précision du client (« Apportez votre cabas », « Paiement avant le retrait »). Absente = rien.'),
+            photo: img.optional().describe('Photo du lieu, du client. Absente = pas d’image.'),
+          }),
+        )
+        .default([])
+        .describe('Les points de retrait, dans l’ordre du client : rangés par jour sur l’accueil (un onglet par jour), une page chacun. Un point sans jour ou heures lisibles ne compte pas.'),
+    })
+    .optional()
+    .describe(
+      "Commande de la semaine et points de retrait (architecture commande-retrait, docs/veille/architectures/commande-retrait.md, sources Riedoasis, maraîchage bio près de Strasbourg : « 3 façons d'acheter », commande avant mardi midi, une vingtaine de points chez des commerçants filtrés par jour, une page par point ; Au temps de la source, Vosges : jour de retrait et vente directe par point) : l'accueil est le rythme (clôture, retraits, la prochaine fois calculée dans le navigateur), les façons d'acheter, les points par jour ; une page par point (/retrait/<slug>) et /retrait. Absent = ni rythme ni pages. Jamais une heure, un point ou une vente sur place inventés.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -1008,6 +1098,9 @@ export const siteSchema = z.object({
       estimation: z.string().default('Demander une estimation').describe('Libellé du lien de nav, de la porte des pages de prestation et titre de la page /estimation (site.estimation) : « Demander une estimation », « Estimer mon déménagement »'),
       formules: z.string().default('Les formules').describe('Libellé du lien de nav et titre de la page /formules (site.formules) : « Les formules », « Les forfaits »'),
       disponibilite: z.string().default('Vérifier la disponibilité').describe('Libellé de la porte de chaque formule (architecture formules-comparees) : « Vérifier la disponibilité », « Choisir cette formule »'),
+      appareils: z.string().default('Les appareils').describe('Libellé du lien de nav et titre de la page /appareils (site.appareils) : « Les appareils », « Ce que nous réparons »'),
+      panne: z.string().default('Quel appareil est en panne\u202f?').describe('Titre du bloc des appareils sur l’accueil (architecture appareils-pannes) : « Quel appareil est en panne ? », « Votre appareil »'),
+      retrait: z.string().default('Points de retrait').describe('Libellé du lien de nav et titre de la page /retrait (site.retrait) : « Points de retrait », « Où retirer »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),

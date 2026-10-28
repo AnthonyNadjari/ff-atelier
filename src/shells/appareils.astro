@@ -1,0 +1,247 @@
+---
+/**
+ * Coquille "appareils" : architecture `appareils-pannes` (src/lib/architectures.ts ; sources Satisfix et Lavoiserie,
+ * réparateurs d'électroménager à Lyon : les appareils rangés par famille, lavage, cuisson, froid, un forfait par famille,
+ * une page par appareil avec les pannes prises en charge et les marques ; docs/veille/architectures/appareils-pannes.md).
+ * Le visiteur a un lave-linge qui ne vidange plus : le site part de l'appareil, puis de la panne.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone, la note Google (socle docs/GOUT.md § 0), ce
+ *     que comprend le forfait et la garantie, dits par le client ;
+ *   → « Quel appareil est en panne ? », id="appareils" : un onglet par famille (posés par le script ; sans script toutes
+ *     les familles l'une sous l'autre ; à l'ordinateur les onglets en colonne à gauche), la famille avec son forfait,
+ *     chaque appareil vers sa page, ses pannes nommées comme au téléphone vers leur ancre de la page de l'appareil ;
+ *     dans le même bloc, comment se passe une intervention, les communes desservies (site.zones) et les marques de A à
+ *     Z (on les lit une fois l'appareil trouvé : le bloc tient la moitié de la page, modèle « onglets ») ; enfin,
+ *     toujours dans le bloc, « Votre appareil n'est pas dans la liste ? », id="contact" : le téléphone et le tiroir ;
+ *   → les sections du layout (les avis ; les questions sont sur /appareils) ;
+ *   → le pied.
+ * Pages : une page par appareil (/appareils/<slug>) et /appareils.
+ *
+ * `layout.hero` n'est pas rendu. Sans appareil complet : pas de bloc, et le build dit ce qui manque (donneesManquantes).
+ * Signes des sources NON repris : émojis en pictogrammes, coches devant chaque avantage, « +3000 avis » et logos de
+ * télévision en bandeau, statistiques de résolution, texte de référencement répété sous chaque bloc, tarifs barrés.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, metierEtVille, donneesManquantes, famillesDAppareils, prixDAppareil, slugPanne, marquesParLettre, toutesLesMarques } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const a = site.appareils;
+const groupes = famillesDAppareils(a);
+const lettres = marquesParLettre(toutesLesMarques(a));
+const etapes = a?.etapes ?? [];
+const communes = site.zones.cities;
+const manque = donneesManquantes('appareils-pannes', site);
+if (manque.length > 0) console.warn(`[coquille appareils] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="ap-page">
+  <section id="hero" class="container-ff ap-tete" aria-label="Accueil">
+    <h1 class="ap-h1 font-display" set:html={site.business.tagline} />
+    <div class="ap-sous">
+      <p class="ap-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      <p class="ap-portes">
+        <a href={tel()} class="ap-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="ap-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+      {(a?.forfait || a?.garantie) && <p class="ap-forfait">{[a?.forfait, a?.garantie].filter(Boolean).join('. ')}.</p>}
+    </div>
+  </section>
+
+  {groupes.length > 0 && (
+    <section id="appareils" class="ap-bloc" aria-labelledby="ap-titre" data-ap>
+      <div class="container-ff ap-grille">
+        <div class="ap-gauche">
+          <h2 id="ap-titre" class="ap-titre font-display">{site.wording.panne}</h2>
+          {groupes.length >= 2 && (
+            <div class="ap-onglets" role="tablist" aria-label="Familles d’appareils" data-ap-onglets hidden>
+              {groupes.map((g, i) => (
+                <button type="button" role="tab" id={`ap-onglet-${g.cle}`} aria-controls={`ap-famille-${g.cle}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class="ap-onglet" data-ap-onglet>
+                  <span class="ap-onglet-nom">{g.nom}</span>
+                  {g.prix && <span class="ap-onglet-prix tabular-nums">{g.prix}</span>}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <div class="ap-familles">
+          {groupes.map((g) => (
+            <div id={`ap-famille-${g.cle}`} class="ap-famille" role={groupes.length >= 2 ? 'tabpanel' : undefined} aria-labelledby={groupes.length >= 2 ? `ap-onglet-${g.cle}` : undefined} data-ap-famille>
+              <div class="ap-famille-tete">
+                <h3 class="ap-famille-nom font-display">{g.nom}</h3>
+                {g.prix && <p class="ap-famille-prix tabular-nums">Forfait {g.prix}</p>}
+                {g.note && <p class="ap-famille-note">{g.note}</p>}
+              </div>
+              <ul class="ap-liste">
+                {g.appareils.map((x) => {
+                  const propre = (x.prix ?? '').trim();
+                  return (
+                    <li class="ap-appareil">
+                      <p class="ap-appareil-tete">
+                        <a href={`/appareils/${x.slug}`} class="ap-nom font-display">{x.nom}<Icon name="ArrowRight" size={18} /></a>
+                        {propre && <span class="ap-prix tabular-nums">{propre}</span>}
+                        {!propre && !g.prix && prixDAppareil(x, a) && <span class="ap-prix tabular-nums">{prixDAppareil(x, a)}</span>}
+                      </p>
+                      <ul class="ap-pannes" aria-label={`Pannes de ${x.nom} prises en charge`}>
+                        {x.pannes.filter((p) => p.nom.trim()).map((p) => <li><a href={`/appareils/${x.slug}#${slugPanne(p.nom)}`} class="ap-panne">{p.nom}</a></li>)}
+                      </ul>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
+        </div>
+        {(lettres.length > 0 || etapes.length > 0 || communes.length > 0) && (
+          <div class="ap-pied-bloc">
+            {etapes.length > 0 && (
+              <div class="ap-etapes">
+                <h3 class="ap-h3">Comment se passe une intervention</h3>
+                <ol>{etapes.map((e) => <li>{e}</li>)}</ol>
+              </div>
+            )}
+            {communes.length > 0 && (
+              <div class="ap-communes" id="zones">
+                <h3 class="ap-h3">Où nous intervenons</h3>
+                <p>{communes.join(', ')}{site.zones.radiusKm != null ? `, et dans un rayon de ${site.zones.radiusKm}\u00a0km` : ''}.</p>
+              </div>
+            )}
+            {lettres.length > 0 && (
+              <div class="ap-marques" id="marques">
+                <h3 class="ap-h3">Les marques que nous réparons</h3>
+                <dl class="ap-lettres">
+                  {lettres.map((l) => (
+                    <div class="ap-lettre"><dt class="font-display">{l.lettre}</dt><dd>{l.marques.join(', ')}</dd></div>
+                  ))}
+                </dl>
+              </div>
+            )}
+          </div>
+        )}
+        {/* La question du visiteur dont l'appareil n'est pas listé (« Votre panne n'est pas listée ? » de Satisfix), juste
+            sous la liste : on appelle. id="contact" : sans script, les liens « Contact » y mènent (le tiroir les intercepte). */}
+        <div id="contact" class="ap-appel">
+          <h3 class="ap-appel-titre font-display">Votre appareil ou votre panne n’est pas dans la liste ?</h3>
+          <p class="ap-portes">
+            <a href={tel()} class="ap-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+            {site.layout.contactDrawer && <a href="/#contact" class="ap-lien">Écrire</a>}
+          </p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  {/* Sans appareil complet, l'appel seul (id="contact"). */}
+  {groupes.length === 0 && (
+    <section id="contact" class="container-ff ap-appel ap-appel-seul" aria-labelledby="ap-appel-t">
+      <h2 id="ap-appel-t" class="ap-appel-titre font-display">Un appareil en panne ?</h2>
+      <p class="ap-portes">
+        <a href={tel()} class="ap-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        {site.layout.contactDrawer && <a href="/#contact" class="ap-lien">Écrire</a>}
+      </p>
+    </section>
+  )}
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Les familles deviennent des onglets (flèches gauche / droite, Début, Fin) ; sans script, toutes se lisent l'une sous
+  // l'autre et la rangée d'onglets reste cachée.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-ap]');
+    const rangee = bloc?.querySelector<HTMLElement>('[data-ap-onglets]');
+    if (!bloc || !rangee) return;
+    const onglets = [...rangee.querySelectorAll<HTMLButtonElement>('[data-ap-onglet]')];
+    const familles = [...bloc.querySelectorAll<HTMLElement>('[data-ap-famille]')];
+    if (onglets.length < 2 || onglets.length !== familles.length) return;
+    const choisir = (n: number, focus = false) => {
+      onglets.forEach((o, i) => { const sel = i === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      familles.forEach((f, i) => { f.hidden = i !== n; });
+    };
+    // Une ancre vers un appareil d'une autre famille (#ap-famille-froid) ouvre la sienne.
+    const depuis = familles.findIndex((f) => location.hash && f.id === location.hash.slice(1));
+    rangee.hidden = false;
+    bloc.classList.add('ap-a-onglets');
+    choisir(Math.max(0, depuis));
+    onglets.forEach((o, i) => {
+      o.addEventListener('click', () => choisir(i));
+      o.addEventListener('keydown', (e) => {
+        const k = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: onglets.length - 1 }[e.key];
+        if (k === undefined) return;
+        e.preventDefault();
+        choisir((k + onglets.length) % onglets.length, true);
+      });
+    });
+  });
+</script>
+
+<style>
+  .ap-tete { display: grid; gap: 1rem; padding-block: clamp(1.25rem, 4vh, 3rem) clamp(1.25rem, 4vh, 2.5rem); }
+  .ap-h1 { font-size: clamp(2rem, 7vw, 4.8rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 17ch; }
+  .ap-sous { display: grid; gap: 0.6rem; }
+  .ap-metier { font-size: clamp(1.02rem, 1.5vw, 1.25rem); max-inline-size: 46ch; }
+  .ap-forfait { max-inline-size: 60ch; color: var(--color-muted); }
+  .ap-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; }
+  .ap-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.05rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-size: 1.12rem; font-weight: 700; }
+  .ap-tel:hover { background: var(--color-accent-2); }
+  .ap-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ap-tel:focus-visible, .ap-lien:focus-visible, .ap-nom:focus-visible, .ap-panne:focus-visible, .ap-onglet:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .ap-bloc { padding-block: clamp(1.75rem, 6vh, 4rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .ap-grille { display: grid; gap: 1.25rem; }
+  .ap-gauche { display: grid; gap: 1rem; align-content: start; }
+  .ap-titre { font-size: clamp(1.7rem, 4.4vw, 3rem); line-height: 1.04; max-inline-size: 14ch; }
+  /* Onglets : une rangée qui défile au doigt au téléphone, une colonne à l'ordinateur. */
+  .ap-onglets { display: flex; gap: 0.5rem; overflow-x: auto; padding-block-end: 0.25rem; scroll-snap-type: x proximity; }
+  .ap-onglets[hidden] { display: none; }
+  .ap-onglet { display: grid; gap: 0.1rem; flex: 0 0 auto; min-block-size: 48px; padding: 0.55rem 0.9rem; text-align: start; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); background: var(--color-bg); scroll-snap-align: start; cursor: pointer; }
+  .ap-onglet[aria-selected='true'] { border-color: var(--color-fg); box-shadow: inset 0 0 0 1px var(--color-fg); }
+  .ap-onglet-nom { font-weight: 700; font-size: 1.05rem; }
+  .ap-onglet-prix { color: var(--color-muted); font-size: 0.95rem; }
+  .ap-familles { display: grid; gap: 2rem; }
+  .ap-famille { display: grid; gap: 0.75rem; }
+  .ap-famille[hidden] { display: none; }
+  .ap-famille-tete { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; padding-block-end: 0.5rem; border-block-end: 2px solid var(--color-fg); }
+  .ap-famille-nom { font-size: clamp(1.35rem, 2.6vw, 1.9rem); line-height: 1.1; }
+  .ap-famille-prix { font-weight: 700; font-size: 1.1rem; }
+  .ap-famille-note { flex-basis: 100%; color: var(--color-muted); }
+  .ap-liste { display: grid; }
+  .ap-appareil { display: grid; gap: 0.5rem; padding-block: 1rem; border-block-end: 1px solid var(--color-line); }
+  .ap-appareil-tete { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1rem; }
+  .ap-nom { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; font-size: clamp(1.25rem, 2.2vw, 1.6rem); line-height: 1.1; text-decoration: none; }
+  .ap-nom:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .ap-prix { font-weight: 600; }
+  .ap-pannes { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .ap-panne { display: inline-flex; align-items: center; min-block-size: 40px; padding: 0.3rem 0.7rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); background: var(--color-bg); font-size: 0.98rem; }
+  .ap-panne:hover { border-color: var(--color-fg); }
+  .ap-pied-bloc { display: grid; gap: 1.75rem; margin-block-start: 0.75rem; padding-block-start: 1.5rem; border-block-start: 1px solid var(--color-line); }
+  .ap-h3 { font-weight: 700; font-size: 1.15rem; margin-block-end: 0.6rem; }
+  .ap-etapes ol { display: grid; gap: 0.5rem; padding-inline-start: 1.25rem; list-style: decimal; }
+  .ap-etapes li::marker { color: var(--color-muted); }
+  .ap-lettres { display: grid; gap: 0.35rem; }
+  .ap-lettre { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.75rem; align-items: baseline; }
+  .ap-lettre dt { font-size: 1.2rem; font-weight: 700; }
+  .ap-appel { display: grid; gap: 0.75rem; padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-card); background: var(--color-bg); border: 1px solid var(--color-line); }
+  .ap-appel-seul { margin-block: clamp(2rem, 7vh, 4.5rem); }
+  .ap-appel-titre { font-size: clamp(1.35rem, 3.2vw, 2.1rem); line-height: 1.08; max-inline-size: 26ch; }
+  @media (min-width: 64rem) {
+    .ap-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; }
+    .ap-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); column-gap: clamp(2rem, 4vw, 4rem); }
+    .ap-gauche { position: sticky; inset-block-start: 5.5rem; align-self: start; }
+    .ap-onglets { flex-direction: column; overflow: visible; }
+    .ap-onglet { inline-size: 100%; }
+    .ap-familles, .ap-pied-bloc, .ap-appel { grid-column: 2; }
+    .ap-pied-bloc { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+  }
+</style>

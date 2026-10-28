@@ -179,6 +179,12 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `formules-comparees`, coquille `formules`) → les formules nommées à prix côte à côte (piste au téléphone), chacune avec sa porte,
   `/formules` (comparaison en mots, jamais de coches), `/formules/<slug>` avec la demande réglée sur elle ; aucune donnée = aucune
   page (`src/lib/estimation.ts`, `src/lib/formules.ts`, `tests/architectures-devis.test.mjs`).
+  `appareils` (optionnel, architecture `appareils-pannes`, coquille `appareils`) → « Quel appareil est en panne ? » en onglets par
+  famille avec son forfait, chaque appareil vers sa page et ses pannes vers leur ancre, les étapes, les communes et les marques de A à Z
+  dans le même bloc, `/appareils` (avec les questions), `/appareils/<slug>` ; `retrait` (optionnel, architecture `commande-retrait`,
+  coquille `retrait`) → la règle « Commandez avant le mardi à 12 h, retirez le jeudi » et la prochaine clôture calculée dans le
+  navigateur, les façons d'acheter, les points de retrait en onglets par jour, `/retrait` (avec les questions), `/retrait/<slug>` ;
+  aucune donnée = aucune page (`src/lib/appareils.ts`, `src/lib/retrait.ts`, `tests/architectures-pannes.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

@@ -1,0 +1,83 @@
+---
+/**
+ * Page /retrait (site.retrait, src/lib/retrait.ts) : architecture `commande-retrait` (« Les points de retrait » de
+ * Riedoasis ; docs/veille/architectures/commande-retrait.md). La règle de la semaine (clôture, jours de retrait), ce
+ * qui arrive à une commande trop tardive, puis tous les points jour par jour, chacun vers sa page, avec ses heures, son
+ * adresse, à qui il est réservé, la vente sur place ; puis les questions du client (site.faq). Lisible sans script,
+ * sans onglets. Générée seulement avec 2 points lisibles (lienRetrait).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, pointsParJour, phraseDuCycle, heureDeRetrait, lienRetrait } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return lienRetrait(site.retrait, site.wording.retrait) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const r = site.retrait!;
+const jours = pointsParJour(r);
+const phrase = phraseDuCycle(r);
+const titre = site.wording.retrait;
+const faqLd = site.faq.length > 0 ? faqPageLd(site.faq) : undefined;
+const communes = [...new Set(jours.flatMap((d) => d.points.map((p) => p.commune)))];
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : ${communes.join(', ')}.${phrase ? ` ${phrase}` : ''}`} path="/retrait" jsonLd={faqLd ? [faqLd] : []}>
+  <Nav />
+  <main id="main" class="container-ff prs">
+    <header class="prs-tete">
+      <h1 class="prs-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      {phrase && <p class="prs-regle">{phrase}</p>}
+      {r.report && <p class="prs-muted">{r.report}</p>}
+      <p><a href={tel()} class="prs-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    </header>
+    {jours.map((d) => (
+      <section aria-labelledby={`prs-${d.index}`} class="prs-jour">
+        <h2 id={`prs-${d.index}`} class="prs-h2 font-display">{d.jour}</h2>
+        <ul class="prs-liste">
+          {d.points.map((p) => (
+            <li class="prs-point">
+              <a href={`/retrait/${p.slug}`} class="prs-nom">{p.commune}, {p.nom}</a>
+              <span class="prs-heures tabular-nums">De {heureDeRetrait(p.debut)} à {heureDeRetrait(p.fin)}</span>
+              {p.adresse && <span class="prs-muted">{p.adresse}</span>}
+              {p.reserve && <span class="prs-reserve">{p.reserve}</span>}
+              {p.vente && <span>Vente sur place, sans commande</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    {site.faq.length > 0 && (
+      <section id="questions" aria-labelledby="prs-questions">
+        <h2 id="prs-questions" class="prs-h2 font-display">Vos questions</h2>
+        <div class="prs-faq">{site.faq.map((x) => <details><summary>{x.q}</summary><p>{x.a}</p></details>)}</div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .prs { display: grid; gap: 2rem; padding-block: clamp(1.5rem, 5vh, 4rem); }
+  .prs-tete { display: grid; gap: 0.6rem; }
+  .prs-titre { font-size: clamp(2rem, 5.5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .prs-regle { font-weight: 600; font-size: 1.15rem; }
+  .prs-muted { color: var(--color-muted); }
+  .prs-reserve { font-weight: 600; }
+  .prs-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .prs-tel:focus-visible, .prs-nom:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .prs-jour { display: grid; gap: 0.5rem; }
+  .prs-h2 { font-size: clamp(1.4rem, 3vw, 2rem); padding-block-end: 0.4rem; border-block-end: 2px solid var(--color-fg); }
+  .prs-liste { display: grid; }
+  .prs-point { display: grid; gap: 0.15rem; padding-block: 0.85rem; border-block-end: 1px solid var(--color-line); }
+  .prs-nom { display: inline-flex; align-items: center; min-block-size: 44px; font-weight: 700; font-size: 1.15rem; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .prs-heures { font-weight: 600; }
+  .prs-faq details { border-block-end: 1px solid var(--color-line); }
+  .prs-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .prs-faq summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .prs-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+</style>

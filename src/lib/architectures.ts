@@ -78,11 +78,16 @@ export interface LayoutArchi {
  *  - estimation      : questions de la demande d'estimation qui se posent (estimation.questions[] : nom, libellé ; un
  *                      choix a deux réponses au moins ; src/lib/estimation.ts, questionsValides) ;
  *  - formules        : formules nommées à prix (formules.liste[] : slug, nom et prix ; src/lib/formules.ts, formulesCompletes) ;
+ *  - appareils       : appareils réparés qui ont au moins une panne nommée (appareils.liste[] : slug, nom, pannes ;
+ *                      src/lib/appareils.ts, appareilsComplets) ;
+ *  - retraits        : points de retrait lisibles (retrait.points[] : slug, nom, commune, jour, heures « HH:MM » ;
+ *                      src/lib/retrait.ts, pointsComplets) ;
+ *  - cloture         : une clôture des commandes qui se lit (retrait.cloture : jour et heure « HH:MM ») ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -129,6 +134,8 @@ export const ARCHITECTURE_IDS = [
   'catalogue-location',
   'estimation-etapes',
   'formules-comparees',
+  'appareils-pannes',
+  'commande-retrait',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -925,6 +932,72 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Prestataire qui vend des forfaits nommés à prix fixes : photographe (mariage, séances), paysagiste ou jardinier d'entretien, pisciniste, laveur de vitres, nettoyage, ramoneur, entretien de chaudière ou de climatisation, auto-école, toiletteur, traiteur à menus, DJ ; 2 formules à prix au moins. Pas pour un chantier sur devis (estimation-etapes), ni pour une carte de soins à la minute (carte-des-soins), ni pour des cours en barreaux (parcours-atelier).",
   },
+  'appareils-pannes': {
+    id: 'appareils-pannes',
+    modele:
+      "Le site d'un réparateur part de l'appareil en panne : en tête le h1, le métier à la ville, l'ancienneté, le téléphone, la note et ce que comprend le forfait ; juste dessous « Quel appareil est en panne ? », un onglet par famille (lavage, cuisson, froid) avec son forfait, chaque appareil vers sa page et ses pannes nommées comme au téléphone (« Ne vidange plus ») vers leur ancre ; dans le même bloc, comment se passe une intervention, les communes, les marques de A à Z et « votre appareil n'est pas dans la liste ? » ; puis les avis ; une page par appareil (ses pannes et leurs causes, ses marques, le prix, Appeler), /appareils avec les questions.",
+    sources: [
+      { fiche: 'docs/veille/architectures/appareils-pannes.md', site: 'satisfix.fr' },
+      { fiche: 'docs/veille/architectures/appareils-pannes.md', site: 'lavoiserie.fr' },
+    ],
+    layout: {
+      // Coquille `appareils` (src/shells/appareils.astro).
+      shell: 'appareils',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Satisfix : sous les appareils et les forfaits, les quatre étapes, les avis Google, les zones (Lyon, Saint-Étienne,
+      // Ain), la FAQ. Les étapes, les communes et les marques sont DANS le bloc des appareils (on les lit une fois
+      // l'appareil trouvé ; le bloc à onglets tient la moitié de la page, modèle « onglets » de ff ressemblance), le
+      // contact aussi, sous la liste ; suivent les avis. Les questions passent sur /appareils (la FAQ de chaque page
+      // d'appareil chez Satisfix) : à 0,46 de la page avec elles, le bloc ne tenait plus la moitié.
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'appareils', min: 3, libelle: '3 appareils au moins avec leurs pannes (appareils.liste[] : les pannes que le client prend en charge)' },
+    ],
+    convientA:
+      "Réparateur qu'on appelle pour un objet en panne, dont le client nomme les pannes : électroménager, chaudières et pompes à chaleur par appareil, vélos et trottinettes électriques, téléphones et ordinateurs, machines à café, motoculture, volets roulants et portails ; 3 appareils avec leurs pannes. Pas pour un chantier sur devis (estimation-etapes), ni pour l'envoi par colis sans déplacement (atelier-par-colis), ni pour la seule urgence à toute heure (grille-urgence).",
+  },
+  'commande-retrait': {
+    id: 'commande-retrait',
+    modele:
+      "Le site d'un producteur en vente directe est le rythme de sa semaine : en tête le h1, le métier à la ville, l'ancienneté, le téléphone et la note ; juste dessous, sur l'encre, « Commandez avant le mardi à 12 h, retirez le jeudi ou le vendredi », la prochaine clôture et le prochain retrait calculés dans le navigateur ; les façons d'acheter (panier, commande sur mesure, vente à la ferme) ; l'histoire de la ferme ; puis les points de retrait, un onglet par jour, chacun avec sa commune, ses heures, à qui il est réservé et la vente sur place, et l'appel sous la liste ; puis les avis ; une page par point, /retrait avec les questions.",
+    sources: [
+      { fiche: 'docs/veille/architectures/commande-retrait.md', site: 'riedoasis.fr' },
+      { fiche: 'docs/veille/architectures/commande-retrait.md', site: 'autempsdelasource.fr' },
+    ],
+    layout: {
+      // Coquille `retrait` (src/shells/retrait.astro).
+      shell: 'retrait',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Riedoasis : « 3 façons d'acheter », puis « Pourquoi choisir RiedOasis ? » (l'équipe, les sols), puis la liste des
+      // points. La coquille rend les sections « about » à cette place (entre les façons et les points), les autres après
+      // les points : les avis (socle GOUT § 0). Les questions sont sur /retrait : avec elles sur l'accueil, le déroulé
+      // finissait comme celui d'une longue page à ancres (« à propos, questions, appel, pied », 0,67 de demo-architecte).
+      // L'appel est dans le bloc des points, sous la liste.
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+        { type: 'about', variant: 'story' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'retraits', min: 2, libelle: '2 points de retrait au moins avec leur jour et leurs heures (retrait.points[])' },
+      { mesure: 'cloture', min: 1, libelle: 'la clôture des commandes (retrait.cloture : jour et heure, « avant mardi 12 h »)' },
+    ],
+    convientA:
+      "Producteur ou artisan qui vend sur commande et fait retirer à jour fixe, à la ferme ou chez des partenaires : maraîcher, éleveur en colis de viande, apiculteur, fromager fermier, boulanger au levain sur commande, boucher ou traiteur à la commande, AMAP ; 2 points de retrait et une heure de clôture. Pas pour une boutique ouverte tous les jours (lieu-fixe, pages-adresses), ni pour un camion qui vend à chaque étape (tournee-semaine).",
+  },
 };
 
 
@@ -980,6 +1053,8 @@ export interface SiteArchi {
   location?: { durees?: string[]; materiels?: { slug?: string; nom?: string; prix?: string[] }[] };
   estimation?: { questions?: { nom?: string; libelle?: string; type?: string; choix?: string[] }[] };
   formules?: { liste?: { slug?: string; nom?: string; prix?: string }[] };
+  appareils?: { liste?: { slug?: string; nom?: string; pannes?: { nom?: string }[] }[] };
+  retrait?: { cloture?: { jour?: string; heure?: string }; points?: { slug?: string; nom?: string; commune?: string; jour?: string; debut?: string; fin?: string }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -1002,6 +1077,11 @@ export function completerLayout<T extends Record<string, unknown> | undefined>(l
   }
   return out as T;
 }
+
+// Lecture des jours et heures de site.retrait (mêmes règles que src/lib/retrait.ts, recopiées : module pur).
+const HHMM = /^([01]\d|2[0-3]):[0-5]\d$/;
+const JOURS_MIN = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+const sansAccent = (t: string) => t.normalize('NFD').replace(/[̀-ͯ]/g, '');
 
 const compte = (n: number, e: Exigence) => (e.min !== undefined && n < e.min) || (e.max !== undefined && n > e.max);
 
@@ -1138,6 +1218,33 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
           vus.add(slug);
           return true;
         }).length;
+        break;
+      }
+      // Mêmes comptes que appareilsComplets (src/lib/appareils.ts), pointsComplets et clotureValide (src/lib/retrait.ts), recopiés.
+      case 'appareils': {
+        const vus = new Set<string>();
+        n = (s.appareils?.liste ?? []).filter((a) => {
+          const slug = (a.slug ?? '').trim();
+          if (!slug || !(a.nom ?? '').trim() || !(a.pannes ?? []).some((p) => (p.nom ?? '').trim()) || vus.has(slug)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
+        break;
+      }
+      case 'retraits': {
+        const vus = new Set<string>();
+        n = (s.retrait?.points ?? []).filter((p) => {
+          const slug = (p.slug ?? '').trim();
+          if (!slug || !(p.nom ?? '').trim() || !(p.commune ?? '').trim() || vus.has(slug)) return false;
+          if (!JOURS_MIN.includes(sansAccent((p.jour ?? '').trim().toLowerCase())) || !HHMM.test(p.debut ?? '') || !HHMM.test(p.fin ?? '')) return false;
+          vus.add(slug);
+          return true;
+        }).length;
+        break;
+      }
+      case 'cloture': {
+        const c = s.retrait?.cloture;
+        n = c && JOURS_MIN.includes(sansAccent((c.jour ?? '').trim().toLowerCase())) && HHMM.test(c.heure ?? '') ? 1 : 0;
         break;
       }
       case 'urgence': n = s.contact?.emergency24h || (s.tarifs?.delai ?? '').trim() ? 1 : 0; break;

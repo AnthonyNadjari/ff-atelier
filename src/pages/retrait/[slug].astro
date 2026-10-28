@@ -1,0 +1,79 @@
+---
+/**
+ * Page d'un point de retrait (/retrait/<slug>, site.retrait, src/lib/retrait.ts) : architecture `commande-retrait`
+ * (docs/veille/architectures/commande-retrait.md ; une page par point chez Riedoasis, « Benfeld, Boucherie Fretz »). Le
+ * point, sa commune, son jour et ses heures, son adresse, à qui il est réservé, la vente sur place, la précision du
+ * client, la photo ; la règle de la semaine (clôture, jours de retrait) ; Appeler ; les autres points du même jour puis
+ * des autres jours. Une page par point lisible ; sinon aucune.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, pointsComplets, pointsParJour, phraseDuCycle, heureDeRetrait } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+export function getStaticPaths() {
+  return pointsComplets(site.retrait).map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const r = site.retrait!;
+const tous = pointsComplets(r);
+const phrase = phraseDuCycle(r);
+const memeJour = tous.filter((y) => y.slug !== p.slug && y.jour === p.jour);
+const autresJours = pointsParJour(r).filter((d) => d.jour !== p.jour);
+const heures = `${p.jour}, de ${heureDeRetrait(p.debut)} à ${heureDeRetrait(p.fin)}`;
+---
+
+<Base title={`Retrait à ${p.commune}, ${p.nom} | ${site.business.name}`} description={`Retirer sa commande ${site.business.name} à ${p.commune} (${p.nom}) : ${heures.toLowerCase()}.${phrase ? ` ${phrase}` : ''}`} path={`/retrait/${p.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff pr">
+    <p><a href={tous.length >= 2 ? '/retrait' : '/'} class="pr-lien"><Icon name="ArrowLeft" size={16} />{tous.length >= 2 ? site.wording.retrait : 'Accueil'}</a></p>
+    <div class="pr-grille">
+      <div class="pr-texte">
+        <p class="pr-commune">{p.commune}</p>
+        <h1 class="pr-titre font-display">{p.nom}</h1>
+        <p class="pr-heures tabular-nums">{heures}</p>
+        {p.adresse && <p>{p.adresse}, {p.commune}</p>}
+        {p.reserve && <p class="pr-reserve">{p.reserve}</p>}
+        {p.vente && <p class="pr-vente">Vente sur place, sans commande</p>}
+        {p.note && <p class="pr-muted">{p.note}</p>}
+        {phrase && <p class="pr-regle">{phrase}</p>}
+        {r.report && <p class="pr-muted">{r.report}</p>}
+        <p><a href={tel()} class="pr-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      </div>
+      {p.photo && <Img src={p.photo.src} alt={p.photo.alt} class="pr-photo" sizes="(min-width: 1024px) 40vw, 100vw" priority />}
+    </div>
+    {(memeJour.length > 0 || autresJours.length > 0) && (
+      <nav class="pr-autres" aria-label="Les autres points de retrait">
+        {memeJour.length > 0 && (<><h2 class="pr-h2">Le {p.jour.toLowerCase()}, aussi</h2><ul>{memeJour.map((y) => <li><a href={`/retrait/${y.slug}`} class="pr-autre"><span>{y.commune}, {y.nom}</span><span class="tabular-nums">{heureDeRetrait(y.debut)} à {heureDeRetrait(y.fin)}</span></a></li>)}</ul></>)}
+        {autresJours.map((d) => (<><h2 class="pr-h2">Le {d.jour.toLowerCase()}</h2><ul>{d.points.map((y) => <li><a href={`/retrait/${y.slug}`} class="pr-autre"><span>{y.commune}, {y.nom}</span><span class="tabular-nums">{heureDeRetrait(y.debut)} à {heureDeRetrait(y.fin)}</span></a></li>)}</ul></>))}
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pr { display: grid; gap: 2rem; padding-block: clamp(1.25rem, 4vh, 3.5rem); }
+  .pr-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; }
+  .pr-grille { display: grid; gap: 2rem; }
+  .pr-texte { display: grid; gap: 0.6rem; align-content: start; }
+  .pr-commune { font-size: 1.15rem; color: var(--color-muted); }
+  .pr-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .pr-heures { font-size: clamp(1.3rem, 2.6vw, 1.7rem); font-weight: 700; }
+  .pr-reserve { font-weight: 600; }
+  .pr-vente { padding-inline-start: 0.7rem; border-inline-start: 2px solid var(--color-accent); }
+  .pr-muted { color: var(--color-muted); }
+  .pr-regle { padding: 0.85rem 1rem; border-radius: var(--radius-card); background: var(--color-bg-2); font-weight: 600; }
+  .pr-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .pr-tel:focus-visible, .pr-lien:focus-visible, .pr-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pr-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
+  .pr-h2 { font-weight: 700; font-size: 1.2rem; margin-block: 1rem 0.25rem; }
+  .pr-autres ul { display: grid; }
+  .pr-autre { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; min-block-size: 48px; align-items: center; border-block-end: 1px solid var(--color-line); }
+  @media (min-width: 64rem) {
+    .pr-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 4rem; }
+  }
+</style>

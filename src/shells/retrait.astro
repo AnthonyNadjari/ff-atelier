@@ -1,0 +1,253 @@
+---
+/**
+ * Coquille "retrait" : architecture `commande-retrait` (src/lib/architectures.ts ; sources Riedoasis, maraîchage bio près
+ * de Strasbourg : « 3 façons d'acheter », « commande AVANT MARDI MIDI », une vingtaine de points de retrait chez des
+ * commerçants filtrés par jour, une page par point ; Au temps de la source, Vosges : un onglet par point, jour de retrait,
+ * vente directe oui / non ; docs/veille/architectures/commande-retrait.md). Le producteur ne tient pas boutique : on
+ * commande avant une heure fixe, on retire chez un partenaire un jour fixe. Le site est ce rythme et cette liste.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone, la note Google (socle docs/GOUT.md § 0) ;
+ *   → la semaine, id="semaine", sur l'encre : la règle « Commandez avant le mardi à 12 h, retirez le jeudi ou le
+ *     vendredi » (lisible sans script), la prochaine clôture et le premier retrait qui la suit, calculés DANS LE
+ *     NAVIGATEUR (fuseau Europe/Paris), ce qui arrive à une commande trop tardive, dit par le client ;
+ *   → les façons d'acheter, id="acheter" (panier, commande sur mesure, vente à la ferme), chacune vers où elle se fait ;
+ *   → l'histoire (les sections « about » du layout), là où Riedoasis pose « Pourquoi choisir RiedOasis ? » : entre les
+ *     façons d'acheter et la liste des points ;
+ *   → les points de retrait, id="points", sur le fond second : un onglet par jour (posés par le script, le jour du
+ *     prochain retrait ouvert ; sans script toute la semaine), chaque point avec sa commune, son nom vers sa page, ses
+ *     heures, son adresse, à qui il est réservé, la vente sur place, la précision du client ; sous la liste, « Une
+ *     question sur votre commande ? », id="contact" : le téléphone et le tiroir pour écrire ;
+ *   → les autres sections du layout (les avis ; les questions sont sur /retrait) ;
+ *   → le pied.
+ * Pages : une page par point (/retrait/<slug>), /retrait (avec les questions).
+ *
+ * `layout.hero` n'est pas rendu. Sans point lisible ni clôture : la règle et les onglets disparaissent, et le build dit
+ * ce qui manque (donneesManquantes). Signes des sources NON repris : majuscules criées (« AVANT LE MARDI MIDI »), carte à
+ * épingles seule porteuse de l'information, émojis, formulaire de connexion dans la page d'accueil, « /!\ » dans le texte.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, metierEtVille, donneesManquantes, pointsParJour, phraseDuCycle, heureDeRetrait, clotureValide } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const r = site.retrait;
+const jours = pointsParJour(r);
+const phrase = phraseDuCycle(r);
+const cloture = clotureValide(r?.cloture);
+const facons = r?.facons ?? [];
+const avant = sections.filter((x) => x.type === 'about');
+// Ce que le script lit pour calculer la prochaine clôture (rien d'autre ne part dans la page).
+const donnees = cloture ? JSON.stringify({ cloture: r!.cloture, points: jours.flatMap((d) => d.points.map((p) => ({ slug: p.slug, nom: p.nom, commune: p.commune, jour: p.jour, debut: p.debut, fin: p.fin }))) }) : undefined;
+const manque = donneesManquantes('commande-retrait', site);
+if (manque.length > 0) console.warn(`[coquille retrait] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="rt-page">
+  <section id="hero" class="container-ff rt-tete" aria-label="Accueil">
+    <h1 class="rt-h1 font-display" set:html={site.business.tagline} />
+    <div class="rt-sous">
+      <p class="rt-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      <p class="rt-portes">
+        <a href={tel()} class="rt-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="rt-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+    </div>
+  </section>
+
+  {phrase && (
+    <section id="semaine" class="rt-semaine bg-ink text-on-ink" aria-labelledby="rt-semaine-t" data-rt-cycle={donnees}>
+      <div class="container-ff rt-semaine-in">
+        <h2 id="rt-semaine-t" class="rt-semaine-titre">La semaine</h2>
+        <p class="rt-regle font-display">{phrase}</p>
+        <p class="rt-prochain" data-rt-prochain hidden></p>
+        {r?.report && <p class="rt-report">{r.report}</p>}
+      </div>
+    </section>
+  )}
+
+  {facons.length > 0 && (
+    <section id="acheter" class="container-ff rt-facons" aria-labelledby="rt-facons-t">
+      <h2 id="rt-facons-t" class="rt-h2 font-display">{facons.length === 1 ? 'Comment acheter' : `${facons.length} façons d’acheter`}</h2>
+      <ul class="rt-facons-liste">
+        {facons.map((x) => (
+          <li class="rt-facon">
+            <h3 class="rt-facon-nom font-display">{x.lien ? <a href={x.lien} class="rt-facon-lien">{x.nom}<Icon name="ArrowRight" size={18} /></a> : x.nom}</h3>
+            {x.texte && <p>{x.texte}</p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {/* L'histoire (sections « about » du layout) entre la semaine et les points : « Pourquoi choisir RiedOasis ? » est
+      entre les façons d'acheter et la liste des points chez Riedoasis. */}
+  {avant.map(({ Component }) => <Component />)}
+
+  <section id="points" class="rt-points" aria-labelledby="rt-points-t" data-rt-points>
+    {jours.length > 0 && (
+      <>
+        <div class="container-ff rt-points-tete">
+          <h2 id="rt-points-t" class="rt-h2 font-display">{site.wording.retrait}</h2>
+          {jours.length >= 2 && (
+            <div class="rt-onglets" role="tablist" aria-label="Jours de retrait" data-rt-onglets hidden>
+              {jours.map((d, i) => (
+                <button type="button" role="tab" id={`rt-onglet-${d.index}`} aria-controls={`rt-jour-${d.index}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class="rt-onglet" data-rt-onglet data-rt-index={d.index}>
+                  {d.jour}<span class="rt-onglet-n">{d.points.length}&nbsp;{d.points.length > 1 ? 'points' : 'point'}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <div class="container-ff rt-jours">
+          {jours.map((d) => (
+            <div id={`rt-jour-${d.index}`} class="rt-jour" role={jours.length >= 2 ? 'tabpanel' : undefined} aria-labelledby={jours.length >= 2 ? `rt-onglet-${d.index}` : undefined} data-rt-jour>
+              <h3 class="rt-jour-nom font-display">{d.jour}</h3>
+              <ul class="rt-liste">
+                {d.points.map((p) => (
+                  <li class="rt-point">
+                    <p class="rt-commune">{p.commune}</p>
+                    <p class="rt-nom"><a href={`/retrait/${p.slug}`} class="rt-nom-lien">{p.nom}</a></p>
+                    <p class="rt-heures tabular-nums">De {heureDeRetrait(p.debut)} à {heureDeRetrait(p.fin)}</p>
+                    {p.adresse && <p class="rt-adresse">{p.adresse}, {p.commune}</p>}
+                    {p.reserve && <p class="rt-reserve">{p.reserve}</p>}
+                    {p.vente && <p class="rt-vente">Vente sur place, sans commande</p>}
+                    {p.note && <p class="rt-note">{p.note}</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </>
+    )}
+
+    {/* La question qu'on se pose sur une commande (« Contact » de Riedoasis, le numéro dans l'en-tête d'Au temps de la
+        source) : on appelle. id="contact" : sans script, les liens « Contact » y mènent. */}
+    <div id="contact" class="container-ff rt-appel">
+      <h2 class="rt-appel-titre font-display">Une question sur votre commande ?</h2>
+      <p class="rt-portes">
+        <a href={tel()} class="rt-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        {site.layout.contactDrawer && <a href="/#contact" class="rt-lien">Écrire</a>}
+      </p>
+    </div>
+  </section>
+
+  {sections.map(({ Component, type }, i) => type !== 'about' && (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { maintenant } from '@/lib/horaires';
+  import { prochainCycle, libelleDecalage, heureLisible } from '@/lib/retrait';
+
+  // La prochaine clôture et le premier retrait qui la suit (fuseau Europe/Paris), puis les jours en onglets, celui du
+  // prochain retrait ouvert. Sans script : la règle de la semaine et tous les jours, rien de caché.
+  onPage(() => {
+    const cycle = document.querySelector<HTMLElement>('[data-rt-cycle]');
+    let ouvrir: number | undefined;
+    if (cycle?.dataset.rtCycle) {
+      try {
+        const c = prochainCycle(maintenant(new Date()), JSON.parse(cycle.dataset.rtCycle));
+        const ligne = cycle.querySelector<HTMLElement>('[data-rt-prochain]');
+        if (c && ligne && c.retraits.length > 0) {
+          const r0 = c.retraits[0];
+          ligne.textContent = `Prochaine clôture ${libelleDecalage(c.cloture.decalage, c.cloture.jour)} à ${heureLisible(c.cloture.heure)}, premier retrait ensuite ${libelleDecalage(r0.decalage, r0.jour)}.`;
+          ligne.hidden = false;
+          ouvrir = r0.jour;
+        }
+      } catch {
+        /* données illisibles : la règle écrite suffit */
+      }
+    }
+    const bloc = document.querySelector<HTMLElement>('[data-rt-points]');
+    const rangee = bloc?.querySelector<HTMLElement>('[data-rt-onglets]');
+    if (!bloc || !rangee) return;
+    const onglets = [...rangee.querySelectorAll<HTMLButtonElement>('[data-rt-onglet]')];
+    const jours = [...bloc.querySelectorAll<HTMLElement>('[data-rt-jour]')];
+    if (onglets.length < 2 || onglets.length !== jours.length) return;
+    const choisir = (n: number, focus = false) => {
+      onglets.forEach((o, i) => { const sel = i === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      jours.forEach((j, i) => { j.hidden = i !== n; });
+    };
+    rangee.hidden = false;
+    bloc.classList.add('rt-a-onglets');
+    choisir(Math.max(0, onglets.findIndex((o) => Number(o.dataset.rtIndex) === ouvrir)));
+    onglets.forEach((o, i) => {
+      o.addEventListener('click', () => choisir(i));
+      o.addEventListener('keydown', (e) => {
+        const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: onglets.length - 1 }[e.key];
+        if (k === undefined) return;
+        e.preventDefault();
+        choisir((k + onglets.length) % onglets.length, true);
+      });
+    });
+  });
+</script>
+
+<style>
+  .rt-tete { display: grid; gap: 1rem; padding-block: clamp(1.25rem, 4vh, 3rem) clamp(1.25rem, 4vh, 2.5rem); }
+  .rt-h1 { font-size: clamp(2rem, 7vw, 4.6rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 16ch; }
+  .rt-sous { display: grid; gap: 0.6rem; }
+  .rt-metier { font-size: clamp(1.02rem, 1.5vw, 1.25rem); max-inline-size: 44ch; }
+  .rt-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; }
+  .rt-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.05rem; border: 2px solid currentColor; border-radius: var(--radius-ui, 6px); font-size: 1.12rem; font-weight: 700; }
+  .rt-lien { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .rt-tel:focus-visible, .rt-lien:focus-visible, .rt-nom-lien:focus-visible, .rt-facon-lien:focus-visible, .rt-onglet:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  /* La semaine : un seul bloc, la règle sur l'encre, puis les façons, les points et l'appel sur le fond second. */
+  .rt-points { display: grid; gap: clamp(1.75rem, 5vh, 3rem); padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .rt-semaine { padding-block: clamp(1.75rem, 6vh, 4rem); }
+  .rt-semaine-in { display: grid; gap: 0.85rem; }
+  .rt-semaine-titre { font-weight: 600; font-size: 1.05rem; opacity: 0.85; }
+  .rt-regle { font-size: clamp(1.6rem, 4.6vw, 3.2rem); line-height: 1.08; max-inline-size: 26ch; text-wrap: balance; }
+  .rt-prochain { font-size: clamp(1.05rem, 1.6vw, 1.25rem); font-weight: 600; padding-inline-start: 0.85rem; border-inline-start: 3px solid currentColor; }
+  .rt-prochain[hidden] { display: none; }
+  .rt-report { max-inline-size: 60ch; opacity: 0.85; }
+  .rt-facons { display: grid; gap: 1.25rem; padding-block: clamp(2rem, 6vh, 4rem); }
+  .rt-h2 { font-size: clamp(1.6rem, 4vw, 2.8rem); line-height: 1.05; }
+  .rt-facons-liste { display: grid; gap: 1rem; }
+  .rt-facon { display: grid; gap: 0.4rem; padding-block-start: 0.85rem; border-block-start: 2px solid var(--color-fg); }
+  .rt-facon-nom { font-size: clamp(1.25rem, 2.2vw, 1.6rem); line-height: 1.1; }
+  .rt-facon-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .rt-points-tete { display: grid; gap: 0.85rem; scroll-margin-block-start: 5rem; }
+  .rt-onglets { display: flex; gap: 0.5rem; overflow-x: auto; padding-block-end: 0.25rem; }
+  .rt-onglets[hidden] { display: none; }
+  .rt-onglet { display: grid; flex: 0 0 auto; min-block-size: 48px; padding: 0.5rem 1rem; text-align: start; font-weight: 700; font-size: 1.05rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); background: var(--color-bg); cursor: pointer; }
+  .rt-onglet[aria-selected='true'] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .rt-onglet-n { font-weight: 400; font-size: 0.92rem; }
+  .rt-jours { display: grid; gap: 2rem; margin-block-start: calc(-1 * clamp(0.75rem, 2.5vh, 1.5rem)); }
+  .rt-jour { display: grid; gap: 0.75rem; }
+  .rt-jour[hidden] { display: none; }
+  .rt-a-onglets .rt-jour-nom { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .rt-jour-nom { font-size: clamp(1.35rem, 2.6vw, 1.9rem); padding-block-end: 0.4rem; border-block-end: 2px solid var(--color-fg); }
+  .rt-liste { display: grid; gap: 0.85rem; }
+  .rt-point { display: grid; gap: 0.2rem; padding: 1rem 1.1rem; border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface, var(--color-bg)); box-shadow: var(--shadow-card); }
+  .rt-commune { font-size: 0.98rem; color: var(--color-muted); }
+  .rt-nom { font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 700; line-height: 1.15; }
+  .rt-nom-lien { text-decoration: none; }
+  .rt-nom-lien:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .rt-heures { font-weight: 600; font-size: 1.08rem; }
+  .rt-adresse, .rt-note { color: var(--color-muted); }
+  .rt-reserve { font-weight: 600; }
+  .rt-vente { padding-inline-start: 0.7rem; border-inline-start: 2px solid var(--color-accent); }
+  .rt-appel { display: grid; gap: 0.75rem; padding-block-start: clamp(1.25rem, 4vh, 2.5rem); border-block-start: 1px solid var(--color-line); }
+  .rt-appel-titre { font-size: clamp(1.4rem, 3.4vw, 2.2rem); line-height: 1.06; }
+  @media (min-width: 48rem) {
+    .rt-facons-liste { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); column-gap: 2rem; }
+    .rt-liste { grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); }
+  }
+  @media (min-width: 64rem) {
+    .rt-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; }
+    .rt-semaine-in { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); column-gap: 3rem; }
+    .rt-semaine-in > :not(.rt-semaine-titre) { grid-column: 2; }
+    .rt-points-tete { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+  }
+</style>

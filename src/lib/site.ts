@@ -42,6 +42,10 @@ export { questionsValides, etapesDe as etapesDEstimation, lienEstimation, projet
 import { lienEstimation } from './estimation';
 export { formulesCompletes, reprise as repriseDeFormule, inclusDeplies, lignesComparees, lienFormules, formuleDe } from './formules';
 import { lienFormules } from './formules';
+export { appareilsComplets, famillesDe as famillesDAppareils, prixDe as prixDAppareil, marquesDe as marquesDAppareil, slugPanne, marquesParLettre, toutesLesMarques, lienAppareils, SANS_FAMILLE } from './appareils';
+import { lienAppareils } from './appareils';
+export { JOURS_RETRAIT, indexJour as indexJourRetrait, heureLisible as heureDeRetrait, pointsComplets, pointsParJour, clotureValide, phraseDuCycle, prochainCycle, libelleDecalage, lienRetrait } from './retrait';
+import { lienRetrait } from './retrait';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -295,6 +299,14 @@ export const navLinks = (s: Site = site) => {
   // vers la comparaison entière (/formules).
   const formules = lienFormules(s.formules, s.wording.formules);
   if (formules) links.unshift(formules);
+  // Appareils réparés (src/lib/appareils.ts, architecture appareils-pannes) : « Réparer » de Satisfix, en tête de la nav,
+  // vers tous les appareils et leurs pannes (/appareils).
+  const appareils = lienAppareils(s.appareils, s.wording.appareils);
+  if (appareils) links.unshift(appareils);
+  // Points de retrait (src/lib/retrait.ts, architecture commande-retrait) : « Lieux de livraison » de Riedoasis, en tête de
+  // la nav, vers tous les points par jour (/retrait).
+  const retrait = lienRetrait(s.retrait, s.wording.retrait);
+  if (retrait) links.unshift(retrait);
   // Demande d'estimation (src/lib/estimation.ts, architecture estimation-etapes) : « Devis en ligne » de Rigoulet, toujours
   // dans la barre ; en dernier, à la place d'une porte Contact (la demande EST le contact).
   const estimation = lienEstimation(s.estimation, s.wording.estimation);

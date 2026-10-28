@@ -1,0 +1,122 @@
+---
+/**
+ * Page d'un appareil (/appareils/<slug>, site.appareils, src/lib/appareils.ts) : architecture `appareils-pannes`
+ * (docs/veille/architectures/appareils-pannes.md ; « Réparation de lave-linge » de Satisfix et Lavoiserie). Le nom de
+ * l'appareil, le métier à la ville, le prix (le sien, sinon celui de sa famille) et ce que comprend le forfait, la photo
+ * du client ; puis les pannes prises en charge, une ancre chacune (les liens de l'accueil y mènent), avec leurs causes ;
+ * les marques ; comment se passe une intervention ; Appeler et la demande ; les autres appareils. Une page par appareil
+ * complet ; sinon aucune.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, appareilsComplets, prixDAppareil, marquesDAppareil, slugPanne } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import ContactForm from '@/components/ContactForm.astro';
+
+export function getStaticPaths() {
+  return appareilsComplets(site.appareils).map((x) => ({ params: { slug: x.slug }, props: { x } }));
+}
+const { x } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const a = site.appareils!;
+const tous = appareilsComplets(a);
+const prix = prixDAppareil(x, a);
+const marques = marquesDAppareil(x, a);
+const pannes = x.pannes.filter((p) => p.nom.trim());
+const autres = tous.filter((y) => y.slug !== x.slug);
+const ville = site.contact.address.city;
+const avecFormulaire = site.form.provider !== 'none';
+---
+
+<Base title={`${x.nom} : pannes et réparation | ${site.business.name}, ${site.business.trade.toLowerCase()} à ${ville}`} description={`${x.nom} à ${ville} : ${pannes.slice(0, 4).map((p) => p.nom.toLowerCase()).join(', ')}${prix ? `. ${prix}` : ''}. ${site.business.name}.`} path={`/appareils/${x.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff pa">
+    <p><a href={tous.length >= 2 ? '/appareils' : '/'} class="pa-lien"><Icon name="ArrowLeft" size={16} />{tous.length >= 2 ? site.wording.appareils : 'Accueil'}</a></p>
+    <header class="pa-tete">
+      <div class="pa-texte">
+        <h1 class="pa-titre font-display">{x.nom}</h1>
+        <p class="pa-metier">{site.business.trade} à {ville}{x.famille ? `, ${x.famille.toLowerCase()}` : ''}.</p>
+        {prix && <p class="pa-prix tabular-nums">{x.prix ? prix : `Forfait ${prix}`}</p>}
+        {(a.forfait || a.garantie) && <p class="pa-forfait">{[a.forfait, a.garantie].filter(Boolean).join('. ')}.</p>}
+        <p><a href={tel()} class="pa-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      </div>
+      {x.photo && <Img src={x.photo.src} alt={x.photo.alt} class="pa-photo" sizes="(min-width: 1024px) 40vw, 100vw" priority />}
+    </header>
+
+    <section class="pa-pannes" aria-labelledby="pa-pannes-t">
+      <h2 id="pa-pannes-t" class="pa-h2 font-display">Les pannes que nous prenons en charge</h2>
+      <ul class="pa-liste">
+        {pannes.map((p) => (
+          <li id={slugPanne(p.nom)} class="pa-panne">
+            <h3 class="pa-panne-nom">{p.nom}</h3>
+            {p.causes && <p class="pa-causes">{p.causes}</p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {(marques.length > 0 || a.etapes.length > 0) && (
+      <div class="pa-duo">
+        {marques.length > 0 && (
+          <section aria-labelledby="pa-marques-t">
+            <h2 id="pa-marques-t" class="pa-h2b">Les marques</h2>
+            <p class="pa-marques">{marques.join(', ')}.</p>
+          </section>
+        )}
+        {a.etapes.length > 0 && (
+          <section aria-labelledby="pa-etapes-t">
+            <h2 id="pa-etapes-t" class="pa-h2b">Comment se passe une intervention</h2>
+            <ol class="pa-etapes">{a.etapes.map((e) => <li>{e}</li>)}</ol>
+          </section>
+        )}
+      </div>
+    )}
+
+    <section id="demande" class="pa-demande" aria-labelledby="pa-demande-t">
+      <h2 id="pa-demande-t" class="pa-h2 font-display">Votre {x.nom.toLowerCase()} est en panne ?</h2>
+      <p><a href={tel()} class="pa-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      {avecFormulaire && <ContactForm compact idPrefix="appareil" />}
+    </section>
+
+    {autres.length > 0 && (
+      <nav class="pa-autres" aria-label="Les autres appareils">
+        <h2 class="pa-h2b">Les autres appareils</h2>
+        <ul>{autres.map((y) => <li><a href={`/appareils/${y.slug}`} class="pa-autre">{y.nom}<Icon name="ArrowRight" size={16} /></a></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pa { display: grid; gap: clamp(1.75rem, 5vh, 3rem); padding-block: clamp(1.25rem, 4vh, 3.5rem); }
+  .pa-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; }
+  .pa-tete { display: grid; gap: 1.5rem; }
+  .pa-texte { display: grid; gap: 0.7rem; align-content: start; }
+  .pa-titre { font-size: clamp(2.2rem, 6vw, 4.2rem); line-height: 1; letter-spacing: -0.015em; }
+  .pa-metier { font-size: 1.15rem; }
+  .pa-prix { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; }
+  .pa-forfait, .pa-causes { color: var(--color-muted); }
+  .pa-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; }
+  .pa-tel:hover { background: var(--color-accent-2); }
+  .pa-tel:focus-visible, .pa-lien:focus-visible, .pa-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pa-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
+  .pa-h2 { font-size: clamp(1.5rem, 3.6vw, 2.4rem); line-height: 1.06; margin-block-end: 0.75rem; }
+  .pa-h2b { font-weight: 700; font-size: 1.2rem; margin-block-end: 0.5rem; }
+  .pa-liste { display: grid; gap: 0; }
+  .pa-panne { display: grid; gap: 0.25rem; padding-block: 0.9rem; border-block-end: 1px solid var(--color-line); scroll-margin-block-start: 6rem; }
+  .pa-panne:target { padding-inline-start: 0.85rem; border-inline-start: 3px solid var(--color-accent); }
+  .pa-panne-nom { font-weight: 700; font-size: 1.15rem; }
+  .pa-duo { display: grid; gap: 1.75rem; }
+  .pa-etapes { display: grid; gap: 0.4rem; padding-inline-start: 1.25rem; list-style: decimal; }
+  .pa-demande { display: grid; gap: 0.75rem; padding: clamp(1rem, 3vw, 1.75rem); border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface, var(--color-bg)); box-shadow: var(--shadow-card); }
+  .pa-autres ul { display: grid; }
+  .pa-autre { display: flex; justify-content: space-between; align-items: center; gap: 1rem; min-block-size: 48px; border-block-end: 1px solid var(--color-line); font-weight: 600; }
+  @media (min-width: 64rem) {
+    .pa-tete { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 4rem; align-items: center; }
+    .pa-liste { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+    .pa-duo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+  }
+</style>

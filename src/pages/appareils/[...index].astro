@@ -1,0 +1,89 @@
+---
+/**
+ * Page /appareils (site.appareils, src/lib/appareils.ts) : architecture `appareils-pannes` (« Réparer » de Satisfix ;
+ * docs/veille/architectures/appareils-pannes.md). Tout ce que le client répare sur une page : chaque famille avec son
+ * forfait, chaque appareil vers sa page avec toutes ses pannes vers leur ancre, puis les marques de A à Z, puis les
+ * questions du client (site.faq : sur l'accueil, le bloc des appareils tient la moitié de la page). Lisible sans
+ * script, sans onglets. Générée seulement avec 2 appareils complets (lienAppareils).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, famillesDAppareils, prixDAppareil, slugPanne, marquesParLettre, toutesLesMarques, lienAppareils } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return lienAppareils(site.appareils, site.wording.appareils) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const a = site.appareils!;
+const groupes = famillesDAppareils(a);
+const lettres = marquesParLettre(toutesLesMarques(a));
+const titre = site.wording.appareils;
+const faqLd = site.faq.length > 0 ? faqPageLd(site.faq) : undefined;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : ${groupes.flatMap((g) => g.appareils.map((x) => x.nom)).join(', ')}.`} path="/appareils" jsonLd={faqLd ? [faqLd] : []}>
+  <Nav />
+  <main id="main" class="container-ff pas">
+    <header class="pas-tete">
+      <h1 class="pas-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      {(a.forfait || a.garantie) && <p class="pas-muted">{[a.forfait, a.garantie].filter(Boolean).join('. ')}.</p>}
+      <p><a href={tel()} class="pas-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    </header>
+    {groupes.map((g) => (
+      <section class="pas-famille" aria-labelledby={`pas-${g.cle}`}>
+        <h2 id={`pas-${g.cle}`} class="pas-h2 font-display">{g.nom}{g.prix && <span class="pas-prix tabular-nums">Forfait {g.prix}</span>}</h2>
+        {g.note && <p class="pas-muted">{g.note}</p>}
+        <ul class="pas-liste">
+          {g.appareils.map((x) => (
+            <li class="pas-appareil">
+              <h3 class="pas-nom"><a href={`/appareils/${x.slug}`}>{x.nom}</a>{x.prix && <span class="pas-prix tabular-nums">{prixDAppareil(x, a)}</span>}</h3>
+              <ul class="pas-pannes">{x.pannes.filter((p) => p.nom.trim()).map((p) => <li><a href={`/appareils/${x.slug}#${slugPanne(p.nom)}`}>{p.nom}</a></li>)}</ul>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    {lettres.length > 0 && (
+      <section aria-labelledby="pas-marques">
+        <h2 id="pas-marques" class="pas-h2 font-display">Les marques que nous réparons</h2>
+        <dl class="pas-lettres">{lettres.map((l) => <div><dt>{l.lettre}</dt><dd>{l.marques.join(', ')}</dd></div>)}</dl>
+      </section>
+    )}
+    {site.faq.length > 0 && (
+      <section id="questions" aria-labelledby="pas-questions">
+        <h2 id="pas-questions" class="pas-h2 font-display">Vos questions</h2>
+        <div class="pas-faq">{site.faq.map((x) => <details><summary>{x.q}</summary><p>{x.a}</p></details>)}</div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pas { display: grid; gap: 2rem; padding-block: clamp(1.5rem, 5vh, 4rem); }
+  .pas-tete { display: grid; gap: 0.6rem; }
+  .pas-titre { font-size: clamp(2rem, 5.5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .pas-muted { color: var(--color-muted); }
+  .pas-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .pas-tel:focus-visible, .pas-nom a:focus-visible, .pas-pannes a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pas-famille { display: grid; gap: 0.5rem; }
+  .pas-h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; font-size: clamp(1.4rem, 3vw, 2rem); padding-block-end: 0.4rem; border-block-end: 2px solid var(--color-fg); }
+  .pas-prix { font-size: 1rem; font-weight: 600; }
+  .pas-liste { display: grid; }
+  .pas-appareil { display: grid; gap: 0.35rem; padding-block: 0.85rem; border-block-end: 1px solid var(--color-line); }
+  .pas-nom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; font-size: 1.2rem; font-weight: 700; }
+  .pas-nom a { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pas-pannes { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+  .pas-pannes a { display: inline-flex; align-items: center; min-block-size: 40px; }
+  .pas-lettres { display: grid; gap: 0.35rem; margin-block-start: 0.5rem; }
+  .pas-lettres > div { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.75rem; }
+  .pas-lettres dt { font-weight: 700; }
+  .pas-faq details { border-block-end: 1px solid var(--color-line); }
+  .pas-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .pas-faq summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pas-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+</style>
