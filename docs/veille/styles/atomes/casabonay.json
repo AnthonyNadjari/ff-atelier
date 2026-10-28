@@ -1,0 +1,117 @@
+{
+  "id": "casabonay",
+  "version": 1,
+  "source": {
+    "url": "https://casabonay.com/",
+    "nom": "Casa Bonay",
+    "metier": "hôtel de quartier avec bars et restaurants (Barcelone)",
+    "fiche": "docs/veille/styles/casabonay.md",
+    "mesures": "docs/veille/styles/atomes/mesures/casabonay.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Brown",
+      "libre": "urbanist",
+      "graisse": 400,
+      "interlignage": 1.43,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Brown",
+      "libre": "urbanist",
+      "graisse": 400,
+      "interlignage": 1.43
+    },
+    "mono": null,
+    "echelle": {
+      "h1": "à juger",
+      "h2": "à juger",
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Une seule famille, Brown (géométrique de Lineto), 16 px partout : les liens de la colonne de gauche, « Book Now! », le calendrier ; le nom est une image où deux lettres sont remplacées par des photos. L'accueil n'a aucun titre : l'échelle n'est pas tirable (h1 à juger). Libre la plus proche : Urbanist."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f3e2ca",
+      "surface": "#ffffff",
+      "texte": "#000000",
+      "texte2": "#000000",
+      "accent": "#0000b2",
+      "accent2": "#ff0000",
+      "bordure": "#ffffff",
+      "encre": null
+    },
+    "sombre": null,
+    "remarque": "Sable #f3e2ca sur toute la page ; liens de la colonne en bleu outremer #0000b2 séparés par des filets blancs d'un pixel, le bouton « Book Now! » en aplat rouge pur #ff0000 texte blanc, « What's on at Bonay » en aplat bleu #0000b2 ; la langue active en rouge. Deux couleurs franches en petites surfaces sur un sable : le reste est photo. Aucun bloc d'encre (le bleu n'est qu'un bouton). Accent : le bleu (62 % du texte coloré, tous les liens) ; second accent : le rouge (le seul bouton « Book Now! » et la langue active)."
+  },
+  "densite": {
+    "section": "à juger",
+    "gouttiere": {
+      "telephone": 5,
+      "ordinateur": 7
+    },
+    "conteneur": 1140,
+    "mesure": "à juger",
+    "rythme": "uni",
+    "remarque": "L'accueil n'a pas de section de texte : une colonne de navigation fixe de 280 px à gauche, puis un mur de photos de 1 140 px en deux colonnes de 563 px séparées par 7 px de sable (5 px au téléphone, où les photos sont empilées). Marge de section non mesurable : densité non tirable."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Boutons pleins à angles droits (rouge « Book Now! », bleu « What's on »), en casse normale ; liens de la colonne en couleur sans soulignement, petits liens du bas soulignés ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "3:2",
+      "3:4",
+      "16:9+"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Mur de photos en deux colonnes séparées par 7 px de sable : verticales 3:4 et horizontales 3:2 qui se répondent, une très grande de temps en temps sur les deux colonnes ; lumière du Sud, plantes, bois, piscine, tables servies ; aucun texte dessus. Traitement : vignette (aucune n'est en plein écran)."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.25,
+      "courbe": "ease-in-out"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "jQuery",
+      "Slick"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Rien n'entre, rien n'apparaît au défilement : seules les couleurs des liens changent en 0,25 s ease-in-out ; la colonne de gauche reste fixe pendant que le mur de photos défile. Profil : fondu-sobre (le calme du registre ; la colonne fixe relève de la coquille)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Sable uni ; filets blancs d'un pixel entre les liens de la colonne de navigation."
+  },
+  "architecture": null,
+  "premier_ecran": "mosaique",
+  "premier_ecran_remarque": "Le mur de photos occupe l'écran dès l'arrivée, la navigation et « Book Now! » dans la colonne de gauche."
+}

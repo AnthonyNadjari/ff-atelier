@@ -1,0 +1,125 @@
+{
+  "id": "statebird",
+  "version": 1,
+  "source": {
+    "url": "https://statebirdsf.com/",
+    "nom": "State Bird Provisions",
+    "metier": "restaurant (San Francisco)",
+    "fiche": "docs/veille/styles/statebird.md",
+    "mesures": "docs/veille/styles/atomes/mesures/statebird.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Space Mono Regular",
+      "libre": "à juger",
+      "graisse": 500,
+      "interlignage": 1.4,
+      "casse": "none",
+      "interlettrage": 0.02,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Space Mono Regular",
+      "libre": "spaceMono",
+      "graisse": 300,
+      "interlignage": 1.8
+    },
+    "mono": {
+      "famille": "à juger",
+      "libre": "à juger"
+    },
+    "echelle": {
+      "h1": {
+        "telephone": 15,
+        "ordinateur": 14.3
+      },
+      "h2": {
+        "telephone": 18,
+        "ordinateur": 19.5
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 12.5
+      }
+    },
+    "remarque": "Tout en Space Mono (titres de 15 à 19 px en capitales espacées de 0,25 em, texte 12,5 à 14 px, interlignage 1,8) ; le vrai titre est le logo manuscrit « state bird » en image. Titre non tirable : le h1 mesuré (15 px) ne domine pas le texte, et les capitales espacées sont un signe IA (GOUT § 2)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#faf5e2",
+      "surface": "#c5b7dc",
+      "texte": "#3e413d",
+      "texte2": "#3e413d",
+      "accent": "#55704e",
+      "accent2": null,
+      "bordure": "#3e413d",
+      "encre": "#55704e"
+    },
+    "sombre": null,
+    "remarque": "Crème beurre #faf5e2 sur 71 % des fonds, bandes vert sauge foncé #55704e (22 %, texte blanc ou crème) pour les intitulés et le bloc des salles, cartes lavande #c5b7dc (7 %) qui portent les photos des salles ; texte gris-vert #3e413d. Les cailles en silhouettes (vert, lavande, ocre, gris) ne sont pas reprises. Coloré doux (surface lavande, encre sauge)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 64,
+      "ordinateur": 72
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 79
+    },
+    "conteneur": 1274,
+    "mesure": 132,
+    "rythme": "uni",
+    "remarque": "Relevé 96 / 48 px ; jugé sur la planche : environ 64 px au téléphone, 72 à l'ordinateur ; bord de 23 px ; cartes lavande en trois colonnes ; mesure relevée de 132 caractères (pied), ramenée par l'usine."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Boutons pleins gris-vert ou lavande à angles droits, liens soulignés ; cartes lavande à angles droits, photo carrée dedans avec une marge ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Photos de salles et de tables chaudes (orange, bois, mosaïque de carreaux) posées dans des cartes lavande avec une marge tout autour, le nom de la salle et la jauge dessous ; pas de photo au premier écran (logo manuscrit et cailles dessinées)."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "glisse-a-la-main",
+    "remarque": "Relevé (getAnimations à la molette, 1 440 px) : rien n'entre ni n'apparaît au défilement ; les cartes des salles forment une piste à flèches (carrousel, fondu 0,3 s) qu'on fait avancer à la main ; menu en panneau 0,6 s cubic-bezier(0.4, 0, 0.2, 1). Profil : glisse-a-la-main."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Crème, bandes sauge, cartes lavande ; aucune texture (les silhouettes de cailles sont des illustrations du client, non reprises)."
+  },
+  "architecture": null,
+  "premier_ecran": "typographique",
+  "premier_ecran_remarque": "Pas de photo au premier écran : le nom manuscrit en grand et une ligne en chasse fixe sur le crème, les cailles dessinées à droite : typographique."
+}

@@ -1,0 +1,134 @@
+{
+  "id": "wiltons",
+  "version": 1,
+  "source": {
+    "url": "https://www.wiltons.co.uk/",
+    "nom": "Wiltons",
+    "metier": "restaurant de poissons et de gibier (Londres, depuis 1742)",
+    "fiche": "docs/veille/styles/wiltons.md",
+    "mesures": "docs/veille/styles/atomes/mesures/wiltons.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "orpheus-pro",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.23,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "adobe-garamond-pro",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 46.4,
+        "ordinateur": 67.8
+      },
+      "h2": {
+        "telephone": 34.2,
+        "ordinateur": 47.1
+      },
+      "texte": {
+        "telephone": 18,
+        "ordinateur": 19.5
+      }
+    },
+    "remarque": "Titres en Orpheus Pro (garalde d'affichage fine, à fort contraste, 400, h1 68 px à l'ordinateur, 46 px au téléphone, interlignage 1,23, casse normale), texte en Adobe Garamond Pro 19,5 px (18 au téléphone), interlignage 1,6 ; menu en petites capitales Garamond. Libre : EB Garamond pour les deux (concordance : une seule famille de garalde, comme la source qui accorde deux Garamond ; deux serifs différentes seraient un accord en conflit)."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": {
+      "fond": "#edede1",
+      "surface": "#f5f5f5",
+      "texte": "#121212",
+      "texte2": "#121212",
+      "accent": "#ac4d3a",
+      "accent2": null,
+      "bordure": "#121212",
+      "encre": "#0e2308"
+    },
+    "sombre": {
+      "fond": "#0e2308",
+      "surface": "#0e2308",
+      "texte": "#dbccab",
+      "texte2": "#dbcdb5",
+      "accent": "#ac4d3a",
+      "accent2": null,
+      "bordure": "#dbccab",
+      "encre": "#edede1"
+    },
+    "remarque": "Vert anglais très sombre #0e2308 sur 47 % des fonds (en-tête, cadre du premier écran, sections de photos, contact, pied), texte crème #dbccab ; sections de papier crème #edede1 (28 %, un motif de damas ton sur ton qu'on ne reprend pas : fond uni) avec texte noir #121212 ; une seule couleur, le rouge homard #ac4d3a du logo, des titres de contact et du bouton « Learn More ». Sombre (fond de clarté 0,23)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 64,
+      "ordinateur": 96
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 122
+    },
+    "conteneur": 1325,
+    "mesure": 70,
+    "rythme": "uni",
+    "remarque": "Relevé 161 / 338 px faussé par l'écran de chargement et les grandes photos : jugé sur la planche, environ 64 px au téléphone et 96 px à l'ordinateur entre deux blocs ; photo du premier écran posée avec 58 px de vert autour à l'ordinateur, 32 px au téléphone ; conteneur 1 325 px."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 3,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Boutons à angles droits : plein crème #f3f2e7 à bordure noire de 3 px sur la photo (« Make a Reservation »), plein vert bordé de crème dans l'en-tête, plein rouge homard dans les sections claires ; liens soulignés au contact ; aucune ombre ; photos à angles droits, légèrement arrondies (4 px) dans la grille Instagram."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "1:1",
+      "4:5",
+      "2:3-"
+    ],
+    "pleinCadre": 6,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Photos de salle, de plats et de service, chaudes et franches, posées dans un cadre de vert (le premier écran ne touche pas les bords) ; titres blancs posés sur les photos des portes (Menus, Oyster Bar, Food, Drink) ; deux photos portrait côte à côte, grille de photos carrées au pied."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.17,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.8,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "soulignement-qui-se-dessine",
+    "remarque": "Relevé (getAnimations, 1 440 px) : un écran de chargement (logo et trait qui se remplit, 1,5 s, refusé, GOUT § 2), puis l'en-tête, le titre et le bouton montent de 30 % de leur hauteur en fondu, 0,8 s ease, décalés de 10 à 170 ms ; au défilement, chaque bloc fait de même (Squarespace) ; au survol des liens du menu, un trait se trace de 0 à 100 % de largeur en 1,7 s ease ; boutons 0,17 s. Profil : soulignement-qui-se-dessine (le seul geste propre), apparitions sobres."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Aplats alternés vert et crème ; le damas ton sur ton des sections crème n'est pas repris (texture refusée) : fond uni ; aucun filet."
+  },
+  "architecture": null,
+  "premier_ecran": "cadre-colore",
+  "premier_ecran_remarque": "La photo du premier écran (un plat découpé à table) est posée dans un cadre de vert anglais de 58 px, le titre crème centré dessus avec le bouton et l'adresse : cadre-colore."
+}

@@ -191,6 +191,14 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   → la vitrine Acheter / Louer en onglets, « Faire estimer votre bien », `/biens`, `/biens/<slug>` (DPE et GES en échelle, honoraires),
   `/honoraires` ; une mention d'annonce absente est signalée au build ; aucune donnée = aucune page (`src/lib/salles.ts`,
   `src/lib/biens.ts`, `tests/architectures-reception.test.mjs`).
+  `revendeurs` (optionnel, architecture `revendeurs-secteurs`, coquille `revendeurs`) → « Où trouver nos bières ? » : les secteurs
+  en boutons dès l'en-tête, les communes de A à Z, le genre de chaque revendeur et un filtre « Chez qui ? » dans le navigateur, la
+  vente sur place et la porte des pros dans le même bloc, la gamme, `/ou-trouver`, `/ou-trouver/<secteur>` ;
+  `profils` (optionnel, architecture `profils-patients`, coquille `profils`) → « Vous consultez pour » en onglets (motifs, durée,
+  prix, praticien, rendez-vous), la séance, la prise en charge et les praticiens dans le même bloc, l'accès, `/consulter`,
+  `/consulter/<slug>` ;
+  aucune donnée = aucune page ; une section `proof` sans preuve n'a pas de lien de nav (`src/lib/revendeurs.ts`,
+  `src/lib/profils.ts`, `tests/architectures-producteurs.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

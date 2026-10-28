@@ -1,0 +1,38 @@
+# L Atelier de la Pierre — https://latelierdelapierre.fr/
+Titre « L' Atelier de la Pierre | Frederic Patte | Tailleurs de pierres Figeac | Lot | », `lang="fr-FR"`, description « L' Atelier de la Pierre | Mr Frédéric Patte | Tailleurs de Pierres à Figeac | Lot | Tout types de constructions en pierre », technologie lue : generator « Divi v.4.27.9 », WordPress, jQuery. Démontage automatique du 2026-10-28 (`ff demonter`, mesures brutes dans `atelier-de-la-pierre.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « L’ATELIER DE LA PIERRE » ; fond en image plein écran (75 % de l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 162 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 1 élément(s) (`div.et_pb_column`).
+Téléphone (390x844) : h1 « L’ATELIER DE LA PIERRE » ; fond en image plein écran (63 % de l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 79 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 1 élément(s) (`div.et_pb_column`).
+Nav : 10 lien(s) — L’Atelier de la Pierre, Cheminées, Cuisines, Escaliers, Patrimoine, Piscines, Terrasses, Sculptures, Formation, Autres ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `header.et-l--header` (0,2 écran, 24 mots, 2 img) → `div#main-content` « L’ATELIER DE LA PIERRE » (2,3 écrans, 184 mots, 10 img) → `footer.et-l--footer` (0,6 écran, 52 mots, 2 img).
+Pied de page : 8 lien(s) — [Envoi], [GPS], [06 18 25 25 77], [fmazierespatte@gmail.com], [Plan du site], [Mentions légales], Occi Web, Création site internet Toulouse. Téléphone cliquable : oui (1, tel:+33618252577). Formulaire : 1 (5 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : aucune (réservation, commande, bon cadeau, devis, rendez-vous).
+En 3 secondes : à juger sur `captures/atelier-de-la-pierre-d.webp` (mesuré : fond du premier écran #ffffff, 7 image(s) et 162 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Alike Angular**, 28 px / 28 px téléphone, graisse 500, interlignage 1,00, capitales ; h2 **Abhaya Libre**, 35 px / 35 px téléphone, graisse 400, interlignage 1,00, capitales ; corps **Alike Angular**, 14 px / 14 px téléphone, graisse 500, interlignage 1,70 ; boutons **Alike Angular**, 20 px / 20 px téléphone, graisse 500, interlignage 1,70 ; nav **Alike Angular**, 18 px, graisse 500, interlignage 0,78.
+Sources `@font-face` : auto-hébergée (ETmodules) ; fichiers chargés : https://latelierdelapierre.fr/wp-content/themes/Divi/core/admin/fonts/modules/all/modules.woff, https://fonts.googleapis.com/, https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,latin-ext&display=swap, https://fonts.googleapis.com/css?family=Alike+Angular:regular|Almendra+SC:regular|Alex+Brush:regular|Abhaya+Libre:regular,500,600,700,800&subset=latin,latin-ext&display=swap. Familles en usage sur le texte visible : Alike Angular ×30, Alex Brush ×11, Open Sans ×10, Abhaya Libre ×2. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #666666 (contraste 5,74:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (97 %), #f9f9f9 (3 %) ; textes par nombre de caractères : #000000 (79 %), #ffffff (7 %), #545454 (5 %), #474747 (3 %), #ffcc99 (3 %). Images : 14 `<img>` visibles, 10 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Swiper (window.Swiper), jQuery (window.jQuery). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `color 0.3s ease` ×10, `font-size 0.3s ease` ×10, `all 0.3s ease` ×5, `all 0.2s ease-in-out` ×2, `animation fadeBottom 0.7s ease-in-out` ×1, `all 0.2s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/atelier-de-la-pierre-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div#main-content` « L’ATELIER DE LA PIERRE » (2,3 écrans, 184 mots, 10 image(s)).
+2. L'élément le plus animé : `div.et_pb_slide_description` (animation animation fadeBottom 0.7s ease-in-out).
+3. Le bloc le plus singulier par sa structure : `footer.et-l--footer` (seule à contenir <form>, <select>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/6 ordinateur, 0/6 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Verdict marché (veille du 28 oct 2026, tour 15)
+Source : agences, ville tirée **Toulouse**. Recherche « création site internet artisan Toulouse » : annuaires (La Fabrique du Net, Aladom, 118712, tool-advisor), Strive (aucune réalisation nommée), Horizon (51 à 200 salariés, pas une petite agence) écartées ; **Occi Web** retenue (agence de Toulouse, trois personnes selon tool-advisor, [réalisations](https://www.occi-web.fr/) par secteur, visuels téléversés en août 2026). Réalisation d'artisan retenue : **L'Atelier de la Pierre** (crédit « Occi Web, Création site internet Toulouse » en pied), tailleurs de pierre à Figeac (Lot). URL lue : https://latelierdelapierre.fr/ (WordPress, Divi, images de 2022 : refonte ou reprise probable, HTML 171 Ko, premier octet 1,4 s, indicatif). Captures et planche regardées.
+
+**Un artisan paierait-il 1 200 € pour ça ?** De justesse, pour le métier et la matière ; non pour les appels. Premier écran : un bandeau d'enduit à la chaux avec **deux mascarons de lion sculptés**, « L'Atelier de la Pierre », en cursive **« Tailleur de pierres à Figeac depuis 1985 »**, une nav d'un mot par ouvrage (cheminées, cuisines, escaliers, patrimoine, piscines, terrasses, sculptures, formation) ; dessous, le gérant nommé (« Monsieur Patte Frédéric », deux tailleurs) et un diaporama de vraies photos (façade restaurée, piscine en pierre). Puis neuf vignettes vers une page par ouvrage, un bandeau « Formez-vous à la taille de pierre » sur une cathédrale, un formulaire de cinq champs et, en pied, les logos « garantie décennale » et « Maître artisan ». Ce qui manque : **aucun numéro avant le pied** (un seul `tel:`), aucun bouton au premier écran, aucun avis, aucun devis nommé ; le premier écran du téléphone n'est que le nom et le menu.
+
+**Leviers vus** : Photos réelles : une quinzaine (ouvrages finis, chantiers de patrimoine, l'atelier). Premier écran : métier + ville + année dans la phrase sous le nom, gérant nommé. Preuves : depuis 1985, Maître artisan, décennale (logos), chantiers « châteaux, domaines privés et cathédrales ». Structure : une page par ouvrage (9) et une page formation ; contact en formulaire en bas. Appels : 1 lien `tel:`, au pied. Vitesse : premier octet 1,4 s. Mobile : faible (texte justifié, rien d'actionnable au premier écran).
+Traceurs (requêtes de Chromium pendant 6 s après `load`, sans cliquer) : aucun.

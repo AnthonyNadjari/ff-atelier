@@ -1,0 +1,127 @@
+{
+  "id": "experimentalcc",
+  "version": 1,
+  "source": {
+    "url": "https://www.experimentalcocktailclub.com/",
+    "nom": "Experimental Cocktail Club",
+    "metier": "bar à cocktails (Paris, Londres, New York…)",
+    "fiche": "docs/veille/styles/experimentalcc.md",
+    "mesures": "docs/veille/styles/atomes/mesures/experimentalcc.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Nantes",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.2,
+      "casse": "none",
+      "interlettrage": 0.005,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Nantes",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.3
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 32,
+        "ordinateur": 64
+      },
+      "h2": {
+        "telephone": 24,
+        "ordinateur": 48
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Nantes (serif contemporaine fine) pour les titres et le texte : « LOCATIONS », « Stay in touch » à 64 px (32 au téléphone), « Nights tucked away… » à 48 px (24), chapô d'ouverture à 36 px, texte à 18 px (14 au téléphone, remonté à 16 par la charte) ; interface (menu, « Book now », adresses) en Linux Biolinum. Le nom du premier écran est une image (capitales romaines et anglaise) ; l'emphase en italique (« From the beginning ») n'est pas reprise (GOUT § 2). Libre : Spectral (serif fine et tranchante), une seule famille ; interlignage du texte remonté de 1,2 à 1,3 pour le français."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#000000",
+      "surface": "#000000",
+      "texte": "#ffffff",
+      "texte2": "#dedede",
+      "accent": "#ffffff",
+      "accent2": "#954935",
+      "bordure": "#ffffff",
+      "encre": "#954935"
+    },
+    "remarque": "Noir #000000 sur presque toute la page, texte et filets blancs ; une bande pleine largeur terre cuite #954935 (relevée, 3 % des fonds) avant le pied ; la carte du monde sur un gris clair #dedede et le pied en blanc restent hors palette (une seule section chacun). Le blanc sert d'accent : boutons à contour blanc, la couleur vient des photos (laiton, bois, lumières)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 48,
+      "ordinateur": 68
+    },
+    "gouttiere": {
+      "telephone": 16,
+      "ordinateur": 20
+    },
+    "conteneur": 1380,
+    "mesure": 50,
+    "rythme": "uni",
+    "remarque": "Relevé à la sonde : 68 px du haut de section au premier contenu à l'ordinateur (48 au téléphone) ; bord de 30 px à l'ordinateur et 16 au téléphone ; adresses en trois colonnes de 447 px écartées de 20 px dans 1 380 px ; environ 50 caractères par ligne."
+  },
+  "formes": {
+    "rayon": 15984,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": true,
+    "casseBouton": "uppercase",
+    "lien": "aucun",
+    "remarque": "« Book now » est une pilule à contour blanc d'un pixel en capitales (rendue à 6 px par la charte : pilule = signe IA) ; « Discover » et les liens en capitales sans soulignement ; photos à angles droits, filet blanc d'un pixel au-dessus des fiches d'adresse ; ombre négligeable (noir à 5 % sur noir)."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "4:5",
+      "3:4"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : un portrait vertical étroit (446 x 610 px, 256 x 500 au téléphone), une vidéo du barman, centré sur le noir, le nom posé dessus en exclusion ; ensuite des photos verticales 3:4 des bars en trois colonnes, lumières chaudes sur noir, sans cadre."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.8,
+      "courbe": "ease"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Webflow",
+      "Splide"
+    ],
+    "profil": "nom-en-exclusion",
+    "remarque": "Relevé à 100, 600, 1 500 et 3 000 ms puis à 200, 450 et 900 px de défilement, à 1 440 et 390 px : rien n'entre au chargement ; le nom (image fixe, mix-blend-mode: exclusion) descend au tiers de la vitesse du défilement (translateY 84, 160, 305 px pour 200, 450, 900 px à l'ordinateur ; 104, 157, 175 px au téléphone, puis s'arrête) et s'inverse sur le portrait vidéo puis sur ce qui passe dessous ; la barre de navigation est aussi en exclusion ; un intitulé arrive en opacité 0,8 s ease ; survols 0,2 s ease. Profil : nom-en-exclusion (nouveau, tour 15)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Noir uni, une bande terre cuite, une section grise pour la carte, pied blanc ; filets blancs fins au-dessus des fiches d'adresse."
+  },
+  "architecture": null,
+  "premier_ecran": "editorial",
+  "premier_ecran_remarque": "Mise en page de couverture : un chapô court en haut, un portrait vertical étroit au centre, le nom en très grand en travers, puis un long paragraphe d'ouverture en 36 px qui file sur toute la largeur."
+}

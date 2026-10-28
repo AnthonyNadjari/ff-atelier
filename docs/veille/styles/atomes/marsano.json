@@ -1,0 +1,122 @@
+{
+  "id": "marsano",
+  "version": 1,
+  "source": {
+    "url": "https://www.marsano-berlin.de/",
+    "nom": "Marsano",
+    "metier": "fleuriste et boutique d'objets (Berlin)",
+    "fiche": "docs/veille/styles/marsano.md",
+    "mesures": "docs/veille/styles/atomes/mesures/marsano.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Merriweather",
+      "libre": "domine",
+      "graisse": 400,
+      "interlignage": 1.1,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "-apple-system",
+      "libre": "domine",
+      "graisse": 400,
+      "interlignage": 1.4
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 32,
+        "ordinateur": 55
+      },
+      "h2": {
+        "telephone": 45,
+        "ordinateur": 60
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 14
+      }
+    },
+    "remarque": "Merriweather partout où l'on lit (bandeau de livraison, menu, noms des bouquets et prix : 18 px, h1 55 px à l'ordinateur, 32 px au téléphone, h2 60 px) ; le nom MARSANO est une image en capitales géométriques espacées. Le texte courant relevé (-apple-system 300, 14 px) ne sert qu'aux fiches produit. Libre : Domine pour tout (serif de lecture robuste à gros œil, la plus proche de Merriweather) ; corps porté à 16 px."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#000000",
+      "surface": "#000000",
+      "texte": "#ffffff",
+      "texte2": "#ffffff",
+      "accent": "#ffffff",
+      "accent2": null,
+      "bordure": "#ffffff",
+      "encre": "#ffffff"
+    },
+    "remarque": "Noir pur #000000 sur 97 % des fonds et une seule encre blanche pour le texte, le nom, les filets entre les photos et les liens soulignés ; aucune couleur d'interface : le rose des murs et les couleurs des fleurs viennent toutes des photos (bouquets sur noir, vases sur mur rose poudré). Sombre (fond de clarté 0)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 48,
+      "ordinateur": 64
+    },
+    "gouttiere": {
+      "telephone": 78,
+      "ordinateur": 208
+    },
+    "conteneur": 1024,
+    "mesure": 75,
+    "rythme": "uni",
+    "remarque": "Pas de marge de section : la page est une mosaïque de photos bord à bord séparées par des filets blancs de 1 px, avec un nom et un prix sous chaque photo (environ 48 px de noir sous la photo au téléphone, 64 à l'ordinateur, jugé sur la planche) ; gouttière relevée 78 / 208 px (texte centré du pied), conteneur 1 024."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 4,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Aucun bouton plein : « Gutschein », « Shop » en liens soulignés blancs ; filets blancs de 1 px sous l'en-tête et entre les cases ; angles droits ; l'ombre relevée vient du bandeau de cookies (écartée)."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Photos de bouquets sur fond noir ou sur mur rose poudré, cadrées bord à bord en mosaïque (1:1, 4:5, plein écran), le nom de la maison en capitales blanches géantes posé sur le bouquet du premier écran ; chaque case porte un nom et un prix dessous, jamais sur la photo."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.15,
+      "courbe": "linear"
+    },
+    "scene": {
+      "duree": 0.15,
+      "courbe": "linear"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé (getAnimations à la molette, 1 440 px) : rien n'entre, rien n'apparaît au défilement ; les photos chargées à la demande apparaissent en fondu 0,15 s linéaire, les liens se soulignent en 0,15 s (background-size), sous-menus en 0,1 s. Profil : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Noir uni, filets blancs de 1 px entre les cases de la mosaïque et sous l'en-tête ; aucune texture."
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier",
+  "premier_ecran_remarque": "Un bouquet photographié sur noir occupe l'écran, le nom en capitales blanches géantes posé en travers ; au-dessus, la ligne de livraison du jour (« avant 14 h, livré avant 18 h ») : l'objet du métier au centre (objet-du-metier)."
+}

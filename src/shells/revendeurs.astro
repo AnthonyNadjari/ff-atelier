@@ -1,0 +1,317 @@
+---
+/**
+ * Coquille "revendeurs" : architecture `revendeurs-secteurs` (src/lib/architectures.ts ; sources Brasserie des Garrigues,
+ * Sommières : « Trouvez la boutique la plus proche de chez vous », Gard / Hérault puis autres départements, chaque point
+ * de vente avec son genre, la vente sur place et la visite à l'accueil ; Brasserie Bendorf, Strasbourg : les revendeurs de
+ * Strasbourg et de l'Eurométropole puis hors Eurométropole, où rapporter les bouteilles ;
+ * docs/veille/architectures/revendeurs-secteurs.md). On cherche les bières (le vin, le cidre, le café) près de chez soi :
+ * le site part de là.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, les secteurs en boutons (posés par le script, ils ouvrent le
+ *     secteur dans le bloc), le téléphone, « Venir sur place », la note Google (socle docs/GOUT.md § 0) ;
+ *   → un seul bloc, id="revendeurs" (il tient la moitié de la page, modèle « onglets » de ff ressemblance) : sur l'encre
+ *     le titre, le compte et le filtre par genre (posés par le script ; sans script tous les
+ *     secteurs l'un sous l'autre, rien de caché) ; chaque secteur, ses communes de A à Z, chaque revendeur avec son genre,
+ *     « À la pression », « Reprend la consigne », vers la page du secteur ; puis, dans le même bloc, chez le producteur
+ *     (id="sur-place" : la vente sur place, l'adresse, les horaires, la consigne, la photo du lieu) et la porte des pros,
+ *     id="contact" ;
+ *   → la gamme (les services, une page chacun), id="gamme" ;
+ *   → l'histoire (sections « about »), puis les autres sections du layout (les avis) ;
+ *   → le pied.
+ * Pages : /ou-trouver (tous les secteurs) et /ou-trouver/<secteur>.
+ *
+ * `layout.hero` n'est pas rendu. Sans revendeurs lisibles : le bloc garde sur place et l'appel, et le build dit ce qui
+ * manque (donneesManquantes). Signes des sources NON repris : titres en capitales de machine à écrire, carte Google
+ * chargée d'office (traceur), bannière de cookies plein écran, émoji dans les noms.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, fullAddress, metierEtVille, donneesManquantes, secteursDe, typesDeRevendeurs, phraseSecteur, revendeursComplets } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const x = site.revendeurs;
+const secteurs = secteursDe(x);
+const types = typesDeRevendeurs(x);
+const tous = revendeursComplets(x);
+const communes = new Set(tous.map((r) => r.commune.trim().toLowerCase())).size;
+const gamme = site.services;
+const avant = sections.filter((s) => s.type === 'about');
+const heures = site.contact.hours;
+const manque = donneesManquantes('revendeurs-secteurs', site);
+if (manque.length > 0) console.warn(`[coquille revendeurs] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="rv-page">
+  <section id="hero" class="container-ff rv-tete" aria-label="Accueil">
+    <h1 class="rv-h1 font-display" set:html={site.business.tagline} />
+    <div class="rv-sous">
+      <p class="rv-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {/* « Trouvez la boutique la plus proche de chez vous » : Gard / Hérault, Autres départements, en boutons dès le premier
+          écran de la Brasserie des Garrigues. Les onglets des secteurs sont posés ici par le script ; ils ouvrent le secteur
+          dans le bloc des revendeurs. Sans script : rien ici, tous les secteurs dans le bloc. */}
+      {secteurs.length >= 2 && (
+        <div class="rv-onglets" role="tablist" aria-label="Votre secteur" data-rv-onglets hidden>
+          {secteurs.map((s, i) => (
+            <button type="button" role="tab" id={`rv-onglet-${s.slug}`} aria-controls={`rv-secteur-${s.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class="rv-onglet" data-rv-onglet>
+              {s.nom}<span class="rv-onglet-n tabular-nums">{s.revendeurs.length}&nbsp;adresses</span>
+            </button>
+          ))}
+        </div>
+      )}
+      <p class="rv-portes">
+        <a href={tel()} class="rv-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        <a href="#sur-place" class="rv-lien">Venir sur place</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="rv-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+    </div>
+  </section>
+
+  <section id="revendeurs" class="rv-bloc rv-outil-trouver" aria-labelledby={secteurs.length > 0 ? 'rv-trouver-t' : undefined} aria-label={secteurs.length > 0 ? undefined : 'Sur place'} data-rv-outil={secteurs.length > 0 ? '' : undefined}>
+    {secteurs.length > 0 && (
+      <>
+        <div class="rv-outil bg-ink text-on-ink">
+          <div class="container-ff rv-outil-in">
+            <h2 id="rv-trouver-t" class="rv-h2 font-display">{site.wording.trouver}</h2>
+            <p class="rv-compte tabular-nums">{tous.length} adresses dans {communes} communes</p>
+            {types.length >= 2 && (
+              <div class="rv-types" role="group" aria-labelledby="rv-types-t" data-rv-types hidden>
+                <p id="rv-types-t" class="rv-types-t">Chez qui&nbsp;?</p>
+                <button type="button" class="rv-type" aria-pressed="true" data-rv-type="">Tous</button>
+                {types.map((t) => <button type="button" class="rv-type" aria-pressed="false" data-rv-type={t}>{t}</button>)}
+              </div>
+            )}
+            <p class="rv-reponse" data-rv-reponse aria-live="polite"></p>
+          </div>
+        </div>
+        <div class="container-ff rv-secteurs">
+          {secteurs.map((s) => (
+            <div id={`rv-secteur-${s.slug}`} class="rv-secteur" role={secteurs.length >= 2 ? 'tabpanel' : undefined} aria-labelledby={secteurs.length >= 2 ? `rv-onglet-${s.slug}` : undefined} data-rv-panneau>
+              <div class="rv-secteur-tete">
+                <h3 class="rv-secteur-nom font-display">{s.nom}</h3>
+                <p class="rv-secteur-n tabular-nums">{phraseSecteur(s)}</p>
+                {secteurs.length >= 2 && <a href={`/ou-trouver/${s.slug}`} class="rv-lien">Tout le secteur sur une page<Icon name="ArrowRight" size={16} /></a>}
+              </div>
+              <ul class="rv-communes">
+                {s.communes.map((c) => (
+                  <li class="rv-commune" data-rv-commune>
+                    <h4 class="rv-commune-nom">{c.nom}</h4>
+                    <ul class="rv-liste">
+                      {c.revendeurs.map((r) => (
+                        <li class="rv-revendeur" data-rv-genre={(r.type ?? '').trim().toLowerCase()}>
+                          {r.lien ? <a href={r.lien} target="_blank" rel="noopener" class="rv-nom rv-lien-nom">{r.nom}<span class="sr-only"> (nouvel onglet)</span></a> : <span class="rv-nom">{r.nom}</span>}
+                          {r.type && <span class="rv-genre">{r.type}</span>}
+                          {r.adresse && <span class="rv-adresse">{r.adresse}</span>}
+                          {(r.pression || r.consigne) && (
+                            <span class="rv-marques">
+                              {r.pression && <span class="rv-marque">À la pression</span>}
+                              {r.consigne && <span class="rv-marque">Reprend la consigne</span>}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </>
+    )}
+    {/* Chez le producteur DANS le bloc des revendeurs (« Vente sur place, accueil et visite de la brasserie pendant les heures
+        d'ouverture » de la Brasserie des Garrigues, les growlers remplis à la brasserie de Bendorf) : l'autre réponse à
+        « où en trouver ? ». Puis la porte des pros. */}
+    <div id="sur-place" class="rv-place">
+      <div class="container-ff rv-place-in">
+        <div class="rv-place-texte">
+          <h2 class="rv-h2b font-display">Chez {site.business.name}</h2>
+          {x?.surPlace && <p class="rv-fort">{x.surPlace}</p>}
+          <p>{fullAddress()}</p>
+          {heures.length > 0 && <ul class="rv-heures tabular-nums">{heures.map((h) => <li><span>{h.days}</span><span>{h.hours}</span></li>)}</ul>}
+          {x?.consigne && <p class="rv-consigne">{x.consigne}</p>}
+        </div>
+        {site.images.hero && <Img src={site.images.hero.src} alt={site.images.hero.alt} class="rv-photo" sizes="(min-width: 1024px) 45vw, 100vw" />}
+      </div>
+    </div>
+    <div class="rv-pros">
+      <div id="contact" class="container-ff rv-appel">
+        <h2 class="rv-appel-titre font-display">{x?.pros ? 'Vous tenez un commerce ?' : 'Une question ?'}</h2>
+        {x?.pros && <p>{x.pros}</p>}
+        <p class="rv-portes">
+          <a href={tel()} class="rv-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+          {site.layout.contactDrawer && <a href="/#contact" class="rv-lien">Écrire</a>}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {gamme.length > 0 && (
+    <section id="gamme" class="container-ff rv-gamme" aria-labelledby="rv-gamme-t">
+      <h2 id="rv-gamme-t" class="rv-h2b font-display">{site.wording.servicesNav ?? 'La gamme'}</h2>
+      <ul class="rv-gamme-liste">
+        {gamme.map((s) => (
+          <li class="rv-produit">
+            {s.image && <Img src={s.image.src} alt={s.image.alt} class="rv-produit-photo" sizes="(min-width: 1024px) 30vw, 100vw" />}
+            <h3 class="rv-produit-nom font-display">{site.servicePages ? <a href={`/services/${s.slug}`} class="rv-lien-nom">{s.title}</a> : s.title}</h3>
+            <p>{s.short}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {avant.map(({ Component }) => <Component />)}
+
+  {sections.map(({ Component, type }, i) => type !== 'about' && (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Les secteurs en onglets (le premier ouvert) et le filtre par genre, posés ici. Sans script : tous les secteurs, tous
+  // les revendeurs, rien de caché.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-rv-outil]');
+    if (!bloc) return;
+    const rangee = document.querySelector<HTMLElement>('[data-rv-onglets]');
+    const onglets = rangee ? [...rangee.querySelectorAll<HTMLButtonElement>('[data-rv-onglet]')] : [];
+    const panneaux = [...bloc.querySelectorAll<HTMLElement>('[data-rv-panneau]')];
+    const reponse = bloc.querySelector<HTMLElement>('[data-rv-reponse]');
+    let ouvert = 0;
+    const ouvrir = (n: number, focus = false) => {
+      ouvert = n;
+      onglets.forEach((o, i) => { const sel = i === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      panneaux.forEach((p, i) => { p.hidden = i !== n; });
+      compter();
+    };
+    const types = bloc.querySelector<HTMLElement>('[data-rv-types]');
+    const boutons = types ? [...types.querySelectorAll<HTMLButtonElement>('[data-rv-type]')] : [];
+    let genre = '';
+    const compter = () => {
+      if (!reponse || !genre) { if (reponse) reponse.textContent = ''; return; }
+      const p = panneaux[onglets.length >= 2 ? ouvert : 0];
+      const n = p ? p.querySelectorAll('[data-rv-genre]:not([hidden])').length : 0;
+      const libelle = boutons.find((b) => b.dataset.rvType === genre)?.textContent ?? genre;
+      reponse.textContent = n === 0 ? `Aucune adresse « ${libelle} » ici.` : `${n} adresse${n > 1 ? 's' : ''} « ${libelle} » ici.`;
+    };
+    const filtrer = () => {
+      bloc.querySelectorAll<HTMLElement>('[data-rv-genre]').forEach((li) => { li.hidden = genre !== '' && li.dataset.rvGenre !== genre; });
+      bloc.querySelectorAll<HTMLElement>('[data-rv-commune]').forEach((c) => { c.hidden = !c.querySelector('[data-rv-genre]:not([hidden])'); });
+      compter();
+    };
+    if (types && boutons.length >= 3) {
+      types.hidden = false;
+      boutons.forEach((b) => b.addEventListener('click', () => {
+        boutons.forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+        genre = (b.dataset.rvType ?? '').trim().toLowerCase();
+        filtrer();
+      }));
+    }
+    if (rangee && onglets.length >= 2 && onglets.length === panneaux.length) {
+      rangee.hidden = false;
+      ouvrir(0);
+      onglets.forEach((o, i) => {
+        // Les boutons sont dans l'en-tête, le secteur dans le bloc : un clic ouvre le secteur et y mène (comme les liens
+        // « Gard / Hérault » de la Brasserie des Garrigues).
+        o.addEventListener('click', () => {
+          ouvrir(i);
+          const doux = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+          panneaux[i]?.scrollIntoView({ block: 'start', behavior: doux ? 'smooth' : 'auto' });
+        });
+        o.addEventListener('keydown', (e) => {
+          const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: onglets.length - 1 }[e.key];
+          if (k === undefined) return;
+          e.preventDefault();
+          ouvrir((k + onglets.length) % onglets.length, true);
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  .rv-tete { display: grid; gap: 1rem; padding-block: clamp(1.25rem, 4vh, 3rem) clamp(1.25rem, 4vh, 2.5rem); }
+  .rv-h1 { font-size: clamp(2rem, 7vw, 4.6rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 15ch; }
+  .rv-sous { display: grid; gap: 0.6rem; }
+  .rv-metier { font-size: clamp(1.02rem, 1.5vw, 1.25rem); max-inline-size: 44ch; }
+  .rv-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; }
+  .rv-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.05rem; border: 2px solid currentColor; border-radius: var(--radius-ui, 6px); font-size: 1.12rem; font-weight: 700; }
+  .rv-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .rv-lien-nom { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .rv-tel:focus-visible, .rv-lien:focus-visible, .rv-lien-nom:focus-visible, .rv-onglet:focus-visible, .rv-type:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .rv-h2 { font-size: clamp(1.8rem, 5vw, 3.2rem); line-height: 1.02; }
+  .rv-h2b { font-size: clamp(1.5rem, 3.6vw, 2.5rem); line-height: 1.05; }
+  .rv-outil { padding-block: clamp(1.75rem, 6vh, 3.75rem); }
+  .rv-outil-in { display: grid; gap: 1rem; }
+  .rv-compte { font-size: clamp(1.05rem, 1.8vw, 1.3rem); }
+  .rv-onglets { display: flex; gap: 0.5rem; overflow-x: auto; padding-block-end: 0.25rem; }
+  .rv-onglets[hidden], .rv-types[hidden] { display: none; }
+  .rv-onglet { display: grid; flex: 0 0 auto; min-block-size: 52px; padding: 0.5rem 1.1rem; text-align: start; font-weight: 700; font-size: 1.08rem; color: var(--color-fg); background: var(--color-bg); border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); cursor: pointer; }
+  .rv-onglet[aria-selected='true'] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .rv-onglet-n { font-weight: 400; font-size: 0.92rem; }
+  .rv-types { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.55rem; }
+  .rv-types-t { flex-basis: 100%; font-weight: 600; }
+  .rv-type { display: inline-flex; align-items: center; min-block-size: 44px; padding-inline: 0.85rem; font-size: 1rem; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: var(--radius-ui, 6px); cursor: pointer; }
+  .rv-type[aria-pressed='true'] { background: var(--color-bg); color: var(--color-fg); font-weight: 700; }
+  .rv-reponse { font-weight: 700; min-block-size: 1.5em; }
+  .rv-reponse:empty { display: none; }
+  /* Les secteurs : chaque commune un petit bloc à filet, les revendeurs en lignes. */
+  .rv-secteurs { padding-block: clamp(1.75rem, 5vh, 3.5rem); }
+  .rv-secteur { display: grid; gap: 1.5rem; }
+  .rv-secteur + .rv-secteur { margin-block-start: clamp(2.5rem, 7vh, 4.5rem); }
+  .rv-secteur[hidden] { display: none; }
+  .rv-secteur { scroll-margin-block-start: 5rem; }
+  .rv-secteur-tete { display: grid; gap: 0.25rem; }
+  .rv-secteur-nom { font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.02; }
+  .rv-secteur-n { color: var(--color-muted); font-size: 1.05rem; }
+  .rv-communes { display: grid; gap: 1.5rem 2.5rem; }
+  .rv-commune[hidden], .rv-revendeur[hidden] { display: none; }
+  .rv-commune { display: grid; gap: 0.5rem; padding-block-start: 0.75rem; border-block-start: 2px solid var(--color-fg); }
+  .rv-commune-nom { font-weight: 700; font-size: 1.15rem; }
+  .rv-liste { display: grid; gap: 0.6rem; }
+  .rv-revendeur { display: grid; gap: 0.1rem; }
+  .rv-nom { font-weight: 600; font-size: 1.05rem; }
+  .rv-genre, .rv-adresse { color: var(--color-muted); font-size: 0.98rem; }
+  .rv-marques { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; font-size: 0.95rem; }
+  .rv-marque { padding-inline-start: 0.6rem; border-inline-start: 2px solid var(--color-accent); }
+  /* Sur place : la photo du client à côté, en grand ; puis la porte des pros. */
+  .rv-place { display: grid; gap: clamp(1.75rem, 5vh, 3rem); padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .rv-place-in { display: grid; gap: 1.5rem; }
+  .rv-place-texte { display: grid; gap: 0.6rem; align-content: start; }
+  .rv-fort { font-weight: 600; font-size: 1.1rem; max-inline-size: 48ch; }
+  .rv-heures { display: grid; gap: 0.2rem; max-inline-size: 26rem; }
+  .rv-heures li { display: flex; justify-content: space-between; gap: 1rem; border-block-end: 1px solid var(--color-line); padding-block: 0.3rem; }
+  .rv-consigne { max-inline-size: 52ch; padding-inline-start: 0.8rem; border-inline-start: 2px solid var(--color-accent); }
+  .rv-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .rv-pros { padding-block: clamp(1.75rem, 5vh, 3rem); }
+  .rv-appel { display: grid; gap: 0.6rem; }
+  .rv-appel p { max-inline-size: 56ch; }
+  .rv-appel-titre { font-size: clamp(1.35rem, 3.2vw, 2.1rem); line-height: 1.06; }
+  .rv-gamme { display: grid; gap: 1.5rem; padding-block: clamp(2.5rem, 7vh, 5rem); }
+  .rv-gamme-liste { display: grid; gap: 1.75rem; }
+  .rv-produit { display: grid; gap: 0.4rem; align-content: start; }
+  .rv-produit-photo { inline-size: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-card); }
+  .rv-produit-nom { font-size: clamp(1.25rem, 2.4vw, 1.6rem); line-height: 1.1; }
+  @media (min-width: 48rem) {
+    .rv-communes { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+    .rv-gamme-liste { grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); column-gap: 2rem; }
+  }
+  @media (min-width: 64rem) {
+    .rv-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; }
+    .rv-outil-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; align-items: end; }
+    .rv-outil-in > :is(.rv-types, .rv-reponse) { grid-column: 1 / -1; }
+    .rv-secteur { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); column-gap: 3rem; align-items: start; }
+    .rv-secteur-tete { position: sticky; inset-block-start: 6rem; }
+    .rv-place-in { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 3rem; align-items: center; }
+  }
+</style>

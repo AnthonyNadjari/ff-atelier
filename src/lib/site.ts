@@ -50,6 +50,10 @@ export { CONFIGURATIONS, sallesCompletes, configurationsDe, capaciteMax, capacit
 import { lienSalles } from './salles';
 export { CLASSES as CLASSES_DPE, PROJETS as PROJETS_BIENS, biensComplets, projetsDe as projetsDeBiens, typesDe as typesDeBiens, prixLisible as prixDuBien, resume as resumeDuBien, surface as surfaceLisible, echelle as echelleDpe, mentionsManquantes, lienBiens } from './biens';
 import { lienBiens } from './biens';
+export { REVENDEURS_MIN, revendeursComplets, slugSecteur, secteursDe, typesDe as typesDeRevendeurs, phraseSecteur, pourType, lienRevendeurs } from './revendeurs';
+import { lienRevendeurs } from './revendeurs';
+export { profilsComplets, praticiensComplets, praticiensDe, resumeProfil, lienProfils } from './profils';
+import { lienProfils } from './profils';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -193,6 +197,13 @@ export const navLinks = (s: Site = site) => {
     .map((x) => x.type === 'custom'
       ? { href: `/#${x.variant.toLowerCase()}`, label: x.label as string }
       : { href: `/#${x.type}`, label: labels[x.type] ?? x.type });
+  // Section « proof » sans aucune preuve (ni note Google, ni avis, ni logos, ni photos) : elle ne rend rien, la nav ne
+  // pointe pas vers elle (« ancre interne sans cible » de ff verifier ; client sans avis encore, 28 oct 2026).
+  const pr = s.proof;
+  if (!pr.google && pr.testimonials.length === 0 && pr.logos.length === 0 && pr.gallery.length === 0 && pr.beforeAfter.length === 0) {
+    const iP = links.findIndex((l) => l.href === '/#proof');
+    if (iP !== -1) links.splice(iP, 1);
+  }
   // Contact en tiroir (layout.contactDrawer) sans section contact dans le layout : le tiroir est la
   // seule porte, la nav recoit donc une ancre #contact que ContactDrawer.astro intercepte.
   // Ancres absolues (« /#contact ») : depuis la 404, la confidentialité ou une page service, « #contact » ne mène
@@ -319,6 +330,14 @@ export const navLinks = (s: Site = site) => {
   // nav, vers toute la vitrine (/biens).
   const biens = lienBiens(s.biens, s.wording.biens);
   if (biens) links.unshift(biens);
+  // Revendeurs d'un producteur (src/lib/revendeurs.ts, architecture revendeurs-secteurs) : « Points de vente » de la
+  // Brasserie des Garrigues, en tête de la nav, vers tous les secteurs (/ou-trouver).
+  const revendeurs = lienRevendeurs(s.revendeurs, s.wording.revendeurs);
+  if (revendeurs) links.unshift(revendeurs);
+  // Profils de patients (src/lib/profils.ts, architecture profils-patients) : « Pour qui ? » des Ostéopathes à Lyon
+  // Préfecture, en tête de la nav, vers tous les profils (/consulter).
+  const profils = lienProfils(s.profils, s.wording.profils);
+  if (profils) links.unshift(profils);
   // Demande d'estimation (src/lib/estimation.ts, architecture estimation-etapes) : « Devis en ligne » de Rigoulet, toujours
   // dans la barre ; en dernier, à la place d'une porte Contact (la demande EST le contact).
   const estimation = lienEstimation(s.estimation, s.wording.estimation);

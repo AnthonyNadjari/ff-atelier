@@ -1,0 +1,83 @@
+---
+/**
+ * Page /consulter (site.profils, src/lib/profils.ts) : architecture `profils-patients` (« Pour qui ? » des Ostéopathes à
+ * Lyon Préfecture, « Mes domaines » de Margot Debayle ; docs/veille/architectures/profils-patients.md). Chaque profil avec
+ * ses motifs, sa durée et son prix, vers sa page ; la séance, le tarif, la prise en charge ; puis les questions du cabinet
+ * (site.faq). Lisible sans script. Générée seulement avec 2 profils lisibles (lienProfils).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, profilsComplets, resumeProfil, lienProfils } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return lienProfils(site.profils, site.wording.profils) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const x = site.profils!;
+const profils = profilsComplets(x);
+const titre = site.wording.profils;
+const faqLd = site.faq.length > 0 ? faqPageLd(site.faq) : undefined;
+const rdv = site.contact.bookingUrl;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${site.business.trade} à ${site.contact.address.city} : ${profils.map((p) => p.nom.toLowerCase()).join(', ')}.`} path="/consulter" jsonLd={faqLd ? [faqLd] : []}>
+  <Nav />
+  <main id="main" class="container-ff pcs">
+    <header class="pcs-tete">
+      <h1 class="pcs-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      <p class="pcs-portes">
+        <a href={tel()} class="pcs-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {rdv && <a href={rdv} target="_blank" rel="noopener" class="pcs-lien">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+    </header>
+    <ul class="pcs-liste">
+      {profils.map((p) => (
+        <li class="pcs-profil">
+          <h2 class="pcs-h2 font-display"><a href={`/consulter/${p.slug}`} class="pcs-lien">{p.nom}</a></h2>
+          {p.pour && <p class="pcs-muted">{p.pour}</p>}
+          <p>{(p.motifs ?? []).filter((m) => m.trim()).join(', ')}.</p>
+          {resumeProfil(p, x) && <p class="pcs-fort tabular-nums">{resumeProfil(p, x)}</p>}
+        </li>
+      ))}
+    </ul>
+    {(x.remboursement || x.paiements) && (
+      <section aria-labelledby="pcs-prise" class="pcs-prise">
+        <h2 id="pcs-prise" class="pcs-h2 font-display">Prise en charge</h2>
+        {x.remboursement && <p>{x.remboursement}</p>}
+        {x.paiements && <p class="pcs-muted">{x.paiements}</p>}
+      </section>
+    )}
+    {site.faq.length > 0 && (
+      <section id="questions" aria-labelledby="pcs-questions">
+        <h2 id="pcs-questions" class="pcs-h2 font-display">Vos questions</h2>
+        <div class="pcs-faq">{site.faq.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}</div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pcs { display: grid; gap: 2rem; padding-block: clamp(1.5rem, 5vh, 4rem); }
+  .pcs-tete { display: grid; gap: 0.6rem; }
+  .pcs-titre { font-size: clamp(2rem, 5.5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .pcs-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .pcs-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .pcs-lien { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pcs-tel:focus-visible, .pcs-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pcs-muted { color: var(--color-muted); }
+  .pcs-fort { font-weight: 600; }
+  .pcs-liste { display: grid; gap: 1.25rem; }
+  .pcs-profil { display: grid; gap: 0.3rem; padding-block-start: 1rem; border-block-start: 2px solid var(--color-fg); }
+  .pcs-h2 { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.08; }
+  .pcs-prise { display: grid; gap: 0.5rem; }
+  .pcs-faq details { border-block-end: 1px solid var(--color-line); }
+  .pcs-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .pcs-faq summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pcs-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+  @media (min-width: 48rem) { .pcs-liste { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); column-gap: 2rem; } }
+</style>

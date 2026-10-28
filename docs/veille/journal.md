@@ -4,6 +4,63 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 28 oct 2026, tour 15 (routine en ligne, soir) : 11 styles, 2 architectures
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-28-c.jpg)) : l'architecture `profils-patients`, le site d'un cabinet de santé
+qui part du patient (« Vous consultez pour » : un onglet par profil, nourrisson, femme enceinte, sportif, avec motifs, durée,
+prix, praticien et rendez-vous, puis la séance en étapes, le remboursement, les praticiens). Pourquoi elle : c'est la question
+que se pose un parent ou une femme enceinte avant d'appeler un ostéopathe, et l'usine n'avait aucune architecture de soin.
+
+**Fait**
+- Santé : `npm ci`, Chromium de Playwright (`FF_CHROMIUM=1`), tout a tourné avec navigateur. Tests : 78 fichiers, tous verts
+  en fin de tour. `ff atomes` vert.
+- **Styles (2a quater)** : deux agents (a à l, m à z), environ 110 domaines sondés. **11 gardés**, chacun essayé
+  (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de la source : sombre `experimentalcc` (noir, serif fine,
+  nom en exclusion), `wiltons` (vert anglais et crème, Garamond), `marsano` (fleuriste noir, mosaïque bord à bord) ; clair teinté
+  doux `esters` (feuille rosée sur sable), `ducksoup` (pêche et bleu pétrole), `pellicano` (rose poudré, machine à écrire) ;
+  coloré doux `fabrique` (crème et chocolat, tout en chasse fixe), `casabonay` (sable, outremer, mur de photos), `frenchette`
+  (crème et menthe Art déco), `paradero` (sable, brique, pied bordeaux), `statebird` (crème, sauge, lavande). Lignes et écartés :
+  [styles/INDEX.md](styles/INDEX.md) et les fiches.
+- Palettes par régime, avant → après : clair neutre 102 → 102, clair teinté doux 28 → 31, sombre 33 → 36, coloré doux 54 → 59.
+- **Mouvement** : 2 profils nouveaux ([MOUVEMENTS.md](styles/MOUVEMENTS.md), 41 profils, aussi dans `scripts/ff/mouvements.mjs`) :
+  `nom-en-exclusion` (Experimental Cocktail Club : le nom géant en `mix-blend-mode: exclusion` glisse au tiers de la vitesse sur
+  le portrait vertical) et `photo-qui-se-pose` (Paradero : la photo d'un grand panneau entre à 1,04 et se pose à 1 au défilement,
+  le texte monte de 24 px ; deux panneaux par page au plus).
+- **Architectures (2a ter)**, codées et prouvées le même tour : [revendeurs-secteurs](architectures/revendeurs-secteurs.md)
+  (brasseriedesgarrigues.fr, brasserie-bendorf.fr ; coquille `revendeurs`, champ `revendeurs`, « où trouver nos produits » par
+  secteur et commune, filtre « Chez qui ? », vente sur place, consigne, `/ou-trouver`, `/ou-trouver/<secteur>`) et
+  [profils-patients](architectures/profils-patients.md) (osteopathe-lyon.fr, osteopathe-annecy.fr ; coquille `profils`, champ
+  `profils`, `/consulter`, `/consulter/<slug>`). `ff ressemblance` contre tous les sites : revendeurs au plus 0,56 / 0,56 / 0,60,
+  profils au plus 0,64 / 0,54 / 0,58 (téléphone / ordinateur / déroulé, seuil 0,65) ; entre elles 0,79 au déroulé (métiers sans
+  recoupement : jamais en pistes sœurs). Jetables vérifiés (`verifier` hors données de test, `a11y`, `typo`, `ia`) et supprimés.
+  Tests : `tests/architectures-producteurs.test.mjs`. Au passage, `navLinks` ne met plus de lien « Avis » vers une section de
+  preuves vide (ancre `/#proof` sans cible sur un site sans avis).
+- **Marché (2a)** : 9 sites de plus (agences de Perpignan, Toulouse, Toulon : béton imprimé, tailleur de pierre, menuisier ;
+  Google : couvreur à Paris, ferronnier près d'Annecy, électricien à Besançon ; modèles Framer électricien, Wix forestier,
+  ThemeForest domaine viticole). [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) : 135 sites. Aucun levier à 40 % absent de l'usine ;
+  les labels atteignent 40,0 % (l'usine les a, jamais au premier écran : 11 % des sites les y mettent, à surveiller). Le plus
+  vendeur : Menuisia à La Crau (barre haute adresse, numéro, horaires et note Google ; métier et villes dans le h1 ; « depuis
+  1955 », garantie, gérant nommé, avis datés). Nouveaux contre-leviers : premier écran réduit au logo ; 3 avis inventés affichés
+  quand 32 vrais existent sur Google (RMS) ; traceurs Google avant consentement sur 4 des 6 sites réels.
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé,
+21 les deux), aucun site n'ayant changé ; pires : anna-vidal / borie-des-chenes, chez-malo / studio-ambre. Signalé, pas corrigé.
+
+**Proposé**
+- `ff demonter` / `ff atomes mesurer` : refuser les cookies et fermer les fenêtres (choix de ville, inscription) avant capture et
+  mesure (les deux agents ont encore refait 6 captures à la main) ; attendre la fin d'un écran de chargement (wiltons) ; nom en
+  image : ne pas prendre un texte de 14 px pour le h1 ; ignorer la bannière cookies pour les ombres.
+- `ff melanger --essai` : appliquer la famille de premier écran tirée (jamais appliquée sur les 11 essais), accepter un style à
+  fond vidéo sans `--video` pour l'essai, une démo avec de vraies photos ; amplitude réglable de `data-reveal="up"` (24 px).
+- Un champ pour le titre de métier du gérant (Maître artisan, Meilleur ouvrier, WorldSkills : 3 sites sur 9 ce tour).
+- Architectures encore absentes : vétérinaire (urgences, par espèce), avocat (domaines, honoraires), garage (forfaits, atelier).
+
+**À décider** : les 11 styles (`ff melanger <slug> --style wiltons`) ; `revendeurs-secteurs` pour un brasseur, vigneron, cidrier
+ou fromager vendu en dépôts ; `profils-patients` pour un ostéopathe, kiné ou sage-femme (osteo-marchand pourrait en profiter) ;
+les paires trop proches.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
 ## 28 oct 2026, tour 14 (routine en ligne, matin) : 12 styles, 2 architectures
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-28-b.jpg)) : l'architecture `salles-capacites`, le site d'un lieu de réception

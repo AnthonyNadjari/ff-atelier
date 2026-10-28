@@ -1,0 +1,95 @@
+---
+/**
+ * Page d'un profil (/consulter/<slug>, site.profils, src/lib/profils.ts) : architecture `profils-patients`
+ * (docs/veille/architectures/profils-patients.md ; « Ostéopathe pour les bébés à Lyon » : pourquoi consulter, ce qui se
+ * passe pendant la séance, les questions des parents, Prendre rendez-vous). Le profil, ses motifs, la séance pour lui, sa
+ * durée et son prix, la prise en charge, le praticien qui le suit, ses questions (FAQPage), Prendre rendez-vous ; les
+ * autres profils. Une page par profil lisible ; sinon aucune.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, profilsComplets, praticiensDe, resumeProfil } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return profilsComplets(site.profils).map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const x = site.profils!;
+const tous = profilsComplets(x);
+const autres = tous.filter((y) => y.slug !== p.slug);
+const qui = praticiensDe(p, x);
+const resume = resumeProfil(p, x);
+const rdv = qui.find((q) => q.rdv)?.rdv ?? site.contact.bookingUrl;
+const motifs = p.motifs.filter((m) => m.trim());
+const faqLd = p.questions.length > 0 ? faqPageLd(p.questions) : undefined;
+---
+
+<Base title={`${p.nom} | ${site.business.name}`} description={`${site.business.trade} à ${site.contact.address.city}, ${p.nom.toLowerCase()} : ${motifs.join(', ')}.`} path={`/consulter/${p.slug}`} jsonLd={faqLd ? [faqLd] : []}>
+  <Nav />
+  <main id="main" class="container-ff pcp">
+    <p><a href={tous.length >= 2 ? '/consulter' : '/'} class="pcp-lien"><Icon name="ArrowLeft" size={16} />{tous.length >= 2 ? site.wording.profils : 'Accueil'}</a></p>
+    <div class="pcp-grille">
+      <div class="pcp-texte">
+        <h1 class="pcp-titre font-display">{p.nom}</h1>
+        <p class="pcp-metier">{site.business.trade} à {site.contact.address.city}{p.pour ? `, ${p.pour.replace(/^./, (c) => c.toLowerCase())}` : ''}</p>
+        {p.phrase && <p>{p.phrase}</p>}
+        <h2 class="pcp-h2">On vient pour</h2>
+        <ul class="pcp-motifs">{motifs.map((m) => <li>{m}</li>)}</ul>
+        {p.seance && (<><h2 class="pcp-h2">La séance</h2><p>{p.seance}</p></>)}
+        {resume && <p class="pcp-resume tabular-nums">{resume}</p>}
+        {x.remboursement && <p class="pcp-muted">{x.remboursement}</p>}
+        {qui.length > 0 && <p class="pcp-fort">Avec {qui.map((q) => q.specialites.length > 0 ? `${q.nom} (${q.specialites.join(', ')})` : q.nom).join(' ; ')}</p>}
+        <p class="pcp-portes">
+          {rdv && <a href={rdv} target="_blank" rel="noopener" class="pcp-rdv">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a>}
+          <a href={tel()} class="pcp-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        </p>
+      </div>
+      {p.photo && <Img src={p.photo.src} alt={p.photo.alt} class="pcp-photo" sizes="(min-width: 1024px) 45vw, 100vw" priority />}
+    </div>
+    {p.questions.length > 0 && (
+      <section aria-labelledby="pcp-questions">
+        <h2 id="pcp-questions" class="pcp-h2">Vos questions</h2>
+        <div class="pcp-faq">{p.questions.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}</div>
+      </section>
+    )}
+    {autres.length > 0 && (
+      <nav class="pcp-autres" aria-label="Les autres profils">
+        <h2 class="pcp-h2">Vous consultez pour quelqu’un d’autre ?</h2>
+        <ul>{autres.map((y) => <li><a href={`/consulter/${y.slug}`} class="pcp-autre"><span>{y.nom}</span>{y.pour && <span class="pcp-muted">{y.pour}</span>}</a></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pcp { display: grid; gap: 2rem; padding-block: clamp(1.25rem, 4vh, 3.5rem); }
+  .pcp-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; }
+  .pcp-grille { display: grid; gap: 2rem; }
+  .pcp-texte { display: grid; gap: 0.7rem; align-content: start; max-inline-size: 60ch; }
+  .pcp-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .pcp-metier { font-size: 1.15rem; color: var(--color-muted); }
+  .pcp-h2 { font-weight: 700; font-size: 1.2rem; margin-block-start: 0.5rem; }
+  .pcp-motifs { display: grid; gap: 0.3rem; }
+  .pcp-motifs li { padding-block: 0.35rem; border-block-end: 1px solid var(--color-line); }
+  .pcp-resume { font-weight: 700; font-size: 1.25rem; }
+  .pcp-muted { color: var(--color-muted); }
+  .pcp-fort { font-weight: 600; }
+  .pcp-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+  .pcp-rdv { display: inline-flex; align-items: center; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; }
+  .pcp-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .pcp-rdv:focus-visible, .pcp-tel:focus-visible, .pcp-lien:focus-visible, .pcp-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pcp-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
+  .pcp-faq details { border-block-end: 1px solid var(--color-line); }
+  .pcp-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .pcp-faq summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pcp-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+  .pcp-autres ul { display: grid; }
+  .pcp-autre { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; min-block-size: 48px; align-items: center; border-block-end: 1px solid var(--color-line); }
+  @media (min-width: 64rem) { .pcp-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 4rem; } }
+</style>

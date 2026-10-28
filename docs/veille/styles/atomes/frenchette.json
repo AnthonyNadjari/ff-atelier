@@ -1,0 +1,124 @@
+{
+  "id": "frenchette",
+  "version": 1,
+  "source": {
+    "url": "https://www.frenchettenyc.com/",
+    "nom": "Frenchette",
+    "metier": "brasserie française (New York)",
+    "fiche": "docs/veille/styles/frenchette.md",
+    "mesures": "docs/veille/styles/atomes/mesures/frenchette.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Semplicita Medium",
+      "libre": "josefin",
+      "graisse": 500,
+      "interlignage": 1.1,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Semplicita Light",
+      "libre": "josefin",
+      "graisse": 300,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 48,
+        "ordinateur": 56
+      },
+      "h2": {
+        "telephone": 32,
+        "ordinateur": 40
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Semplicita (géométrique années 1930) partout : titres en Medium capitales, interlignage 1,1, « RESERVATIONS » à 56 px (48 au téléphone), « MENU », « PRIVATE EVENTS » à 40 px (32) ; texte en Light 16 px, interlignage 1,5 ; boutons en Medium capitales 14,4 px. Le nom est une enseigne manuscrite en image, le plus gros texte réel est « RESERVATIONS ». Libre : Josefin Sans (géométrique Art déco), une seule famille en deux graisses."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f0ead6",
+      "surface": "#acdab8",
+      "texte": "#000000",
+      "texte2": "#000000",
+      "accent": "#acdab8",
+      "accent2": null,
+      "bordure": "#000000",
+      "encre": "#000000"
+    },
+    "sombre": null,
+    "remarque": "Crème de nappe #f0ead6 en fond, vert menthe #acdab8 (l'enseigne, la bande d'adresse, les panneaux à pan coupé « MENU », « PRIVATE EVENTS », « HOURS ») en grande surface, texte et boutons à contour noirs ; le bandeau « Reservations » et le pied en noir #000000."
+  },
+  "densite": {
+    "section": {
+      "telephone": 80,
+      "ordinateur": 88
+    },
+    "gouttiere": {
+      "telephone": 15,
+      "ordinateur": 245
+    },
+    "conteneur": 950,
+    "mesure": 60,
+    "rythme": "alterne",
+    "remarque": "80 px au téléphone et environ 88 px à l'ordinateur du bord de section au titre (lu sur la position de « WELCOME TO FRENCHETTE ») ; les panneaux menthe centrent leur titre dans 585 px de haut ; bord de 15 px au téléphone, texte dans 950 px centrés à l'ordinateur ; panneaux photo / menthe alternés gauche-droite."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Boutons à contour de 2 px, angles droits, capitales (« RESERVATIONS », « VIEW MENUS », « INQUIRE NOW », « CALL 212… » et « EMAIL SIGNUP » en barre basse au téléphone) ; aucun arrondi sinon les pastilles d'icônes ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "masque",
+    "rapports": [
+      "16:9+",
+      "3:2"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 3,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : diaporama plein cadre (la salle, le zinc, la porte vitrée) avec l'enseigne dessus ; plus bas, chaque photo rencontre un panneau menthe par une coupe en biais (pan coupé) qui alterne de côté ; couleurs chaudes, bois et laiton. Traitement : masque (la coupe en biais)."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "jQuery"
+    ],
+    "profil": "citation-en-fondu",
+    "remarque": "Le diaporama du premier écran passe d'une photo à l'autre en fondu (opacity 2 s ease) avec un bouton pause ; les blocs suivants apparaissent une fois (all 1 s ease) ; survols 0,2 s ease-in-out. Profil le plus proche : citation-en-fondu (fondu enchaîné d'un couple, sans rotation automatique chez nous)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Crème, panneaux menthe et bandeau noir ; ni filet ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence",
+  "premier_ecran_remarque": "Une suite de photos de la salle en fondu enchaîné occupe le premier écran, l'enseigne posée dessus, le bouton « Reservations » au-dessus dans une barre crème."
+}

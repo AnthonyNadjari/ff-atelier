@@ -1,0 +1,126 @@
+{
+  "id": "paradero",
+  "version": 1,
+  "source": {
+    "url": "https://www.paraderohotels.com/",
+    "nom": "Paradero",
+    "metier": "hôtel dans le désert (Todos Santos, Basse-Californie)",
+    "fiche": "docs/veille/styles/paradero.md",
+    "mesures": "docs/veille/styles/atomes/mesures/paradero.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Averia Serif Libre",
+      "libre": "spectral",
+      "graisse": 300,
+      "interlignage": 1.2,
+      "casse": "uppercase",
+      "interlettrage": 0.02,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Futuraptbook",
+      "libre": "josefin",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 32,
+        "ordinateur": 48
+      },
+      "h2": {
+        "telephone": 24,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 18,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Titres en Averia Serif Libre 300 en capitales (48 px à l'ordinateur, 32 au téléphone ; boutons et menu dans la même police en capitales), texte en Futura PT Book 18 px, interlignage 1,5. Libre : Spectral léger pour les titres (serif douce, Averia n'est pas au registre) et Josefin Sans pour le texte (géométrique à la Futura) ; accord par contraste serif / sans."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f8f3e9",
+      "surface": "#fffbf4",
+      "texte": "#1c1814",
+      "texte2": "#1c1814",
+      "accent": "#991e12",
+      "accent2": null,
+      "bordure": "#991e12",
+      "encre": "#610011"
+    },
+    "sombre": null,
+    "remarque": "Sable #f8f3e9 et ivoire #fffbf4 pour les blocs de texte (titres et liens rouge brique #991e12, texte brun-noir #1c1814) ; le reste de la page est fait de grands panneaux photo voilés de noir (30 à 45 %) avec texte blanc ; un bloc bleu outremer #13317a (non repris : deuxième vive de même clarté que la brique) ; pied bordeaux profond #610011. Coloré doux (fond sable teinté, encre bordeaux)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 80,
+      "ordinateur": 120
+    },
+    "gouttiere": {
+      "telephone": 40,
+      "ordinateur": 276
+    },
+    "conteneur": 1232,
+    "mesure": 75,
+    "rythme": "alterne",
+    "remarque": "Relevé 153 / 134 px (panneaux photo pleine hauteur compris) ; jugé sur la planche : environ 80 px au téléphone, 120 à l'ordinateur autour des blocs de texte centrés ; gouttière relevée 40 / 276 (texte en colonne étroite centrée) ; conteneur 1 232 ; rythme alterné texte / panneau photo."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Boutons à contour fin de 1 px, angles droits, en capitales serif (« EXPLORE SUITES », « RESERVE ») : brique sur le sable, ivoire sur les photos ; liens en couleur ; aucune ombre ; aucune carte."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "16:9+"
+    ],
+    "pleinCadre": 5,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Architecture de béton, paysages de cactus et plats en grands panneaux pleine largeur (ou deux par écran à l'ordinateur), voilés de noir 30 à 45 %, le titre, la phrase et le bouton posés dessus en blanc ; premier écran : deux photos côte à côte, sans texte."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.8,
+      "courbe": "ease-out"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Swiper"
+    ],
+    "profil": "photo-qui-se-pose",
+    "remarque": "Relevé (transform calculé de la photo et du texte d'un panneau tous les 100 px de défilement, puis texte toutes les 45 ms après un saut, à 1 440 et 390 px) : la photo entre agrandie à 1,04 et se pose à 1 pendant les 600 premiers pixels où le panneau monte (1,04 ; 1,024 ; 1,013 ; 1,006 ; 1,002 : décélération), avec une dérive de 2,5 à 3 px par 100 px ; quand le panneau atteint le bas de l'écran, surtitre, titre, phrase et bouton montent de 24 px en fondu, 0,8 s ease-out, une ligne toutes les 0,1 s ; la barre de navigation prend le sable en 0,4 s ease. GSAP et ScrollTrigger. Profil : photo-qui-se-pose (nouveau, tour 15)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Sections sable, ivoire, panneaux photo, un bloc bleu, pied bordeaux ; une carte dessinée au trait fin dans le bloc d'accès (non reprise) ; aucun filet."
+  },
+  "architecture": null,
+  "premier_ecran": "diptyque",
+  "premier_ecran_remarque": "L'écran coupé en deux à l'ordinateur : l'entrée de béton à gauche, le paysage et les toits à droite, le nom au centre de l'en-tête ; au téléphone les deux photos s'empilent. Diptyque d'images (sans texte) : famille diptyque, le texte du client se met dans l'une des deux moitiés."
+}

@@ -1,0 +1,125 @@
+{
+  "id": "fabrique",
+  "version": 1,
+  "source": {
+    "url": "https://www.fabrique.co.uk/",
+    "nom": "Fabrique",
+    "metier": "boulangerie suédoise (Stockholm, Londres, New York)",
+    "fiche": "docs/veille/styles/fabrique.md",
+    "mesures": "docs/veille/styles/atomes/mesures/fabrique.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Messina Sans",
+      "libre": "hanken",
+      "graisse": 700,
+      "interlignage": 1.25,
+      "casse": "uppercase",
+      "interlettrage": 0.12,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Courier",
+      "libre": "spaceMono",
+      "graisse": 400,
+      "interlignage": 1.55
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 22,
+        "ordinateur": 22
+      },
+      "h2": {
+        "telephone": 16,
+        "ordinateur": 16
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Intitulés en Messina Sans Bold (grotesque) en capitales espacées de 0,12 em : 22 px aux deux largeurs (« BREAD AND BUTTER IS FOREVER », « WHERE TO FIND US »), 16 px pour ceux du pied ; tout le texte courant, la navigation et les liens en Courier, une chasse fixe de machine à écrire, 16 px, interlignage 1,55. Le nom est une image (logo manuscrit) et la phrase géante en courbe du bas de page aussi : le plus gros texte réel est l'intitulé de 22 px. Mesuré après avoir retiré la fenêtre « choisir sa ville » qui couvrait la page (les 29 px de « STOCKHOLM » du brouillon venaient d'elle). Libre : Hanken Grotesk pour les intitulés (grotesque neutre, graisse 700 disponible) et Space Mono pour le texte (aucune machine à écrire libre au registre ; Space Mono garde la chasse fixe et le ton rétro, en plus géométrique que Courier)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#fff4e0",
+      "surface": "#fff4e0",
+      "texte": "#141414",
+      "texte2": "#444444",
+      "accent": "#5b3e36",
+      "accent2": null,
+      "bordure": "#141414",
+      "encre": "#5b3e36"
+    },
+    "sombre": null,
+    "remarque": "Crème beurre #fff4e0 sur toute la page (73 % des fonds), texte presque noir #141414 ; le pied entier en brun chocolat #5b3e36 (13 %) où tout passe en crème (texte, liens soulignés, blason) ; la couleur des photos (bois, pâte, carrelage) fait le reste. Le noir mesuré (14 %) est la vidéo du premier écran, pas un aplat."
+  },
+  "densite": {
+    "section": {
+      "telephone": 52,
+      "ordinateur": 120
+    },
+    "gouttiere": {
+      "telephone": 26,
+      "ordinateur": 122
+    },
+    "conteneur": 1260,
+    "mesure": 60,
+    "rythme": "uni",
+    "remarque": "Relevé après la fenêtre retirée : 120 px du haut de la section au premier intitulé à l'ordinateur (125 px dans le pied), 52 px au téléphone ; bord de 26 px au téléphone (39 px dans le pied) ; à l'ordinateur, texte et photo en deux colonnes entre 122 et 1 383 px (conteneur 1 260 px), texte d'accueil sur 864 px centré ; mesure de la colonne de texte environ 60 caractères (42 au téléphone)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Aucun bouton plein : les portes (« ORDER », « FIND LOCATION ») sont des mots en capitales soulignés sous le texte, les courriels du pied sont soulignés en Courier ; photos et vidéo à angles droits, sans ombre ni filet."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9+",
+      "4:5",
+      "1:1"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : la vidéo du fournil (mains qui roulent la pâte) en pleine largeur, 1 440 x 810, le logo et la navigation posés dessus en crème ; plus bas, une grande photo verticale 4:5 (la boutique, carrelage blanc et vitrine) à côté du texte, sans cadre. Photos chaudes, prises sur le vif, jamais de produit détouré."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.7,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "jQuery"
+    ],
+    "profil": "video-de-fond",
+    "remarque": "Relevé (document.getAnimations, transforms, à 200 et 1 500 ms puis à chaque cran de 700 px) : rien n'entre, rien n'apparaît au défilement ; la seule chose qui bouge est la vidéo du premier écran (autoplay, muette, en boucle, avec poster) ; liens et boutons changent de couleur en 0,4 s ease-in-out. La phrase en courbe du bas de page est une image fixe, pas un mouvement. Locomotive Scroll est déclaré (data-scroll) sans effet mesuré. Profil : video-de-fond (exige une vraie vidéo du client)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Crème uni, puis le pied entier en brun chocolat ; ni filet ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence",
+  "premier_ecran_remarque": "La vidéo du geste (le boulanger qui roule la pâte) occupe le premier écran, le nom et la navigation dessus ; le texte vient dessous."
+}

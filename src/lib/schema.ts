@@ -87,6 +87,8 @@ export const SHELLS = [
   'retrait', // l accueil est le rythme de la commande : en tete h1, telephone, note ; la cloture et les jours de retrait (la prochaine calculee dans le navigateur) ; les facons d acheter ; les points de retrait par jour (un onglet chacun, sans script toute la semaine) ; une page par point et /retrait (architecture commande-retrait)
   'salles', // l accueil part du nombre d invites : en tete h1, telephone, note, « Réserver une visite » ; « Combien serez-vous ? » (le tableau des salles et de leurs capacites par configuration, lisible sans script, les salles qui conviennent marquees dans le navigateur) ; les salles en photos ; couchages et equipements ; une page par salle et /salles (architecture salles-capacites)
   'biens', // l accueil est la vitrine des biens : en tete h1, telephone, note ; Acheter / Louer en onglets (sans script l un sous l autre), chaque bien avec photo, commune, surface, prix et classe energie vers sa page ; « Faire estimer votre bien » ; une page par bien, /biens et /honoraires (architecture annonces-biens)
+  'revendeurs', // l accueil repond a « ou en trouver pres de chez moi ? » : en tete h1, telephone, note, « Venir a la brasserie » ; les revendeurs par secteur (un onglet chacun, sans script l un sous l autre), par commune de A a Z, filtres par genre dans le navigateur ; la vente sur place, la consigne, les pros dans le meme bloc ; la gamme ; une page par secteur et /ou-trouver (architecture revendeurs-secteurs)
+  'profils', // l accueil part du patient : en tete h1, telephone, note, « Prendre rendez-vous » ; « Vous consultez pour » (un onglet par profil, sans script l un sous l autre) avec ses motifs, sa duree, son prix et le praticien qui le suit ; la seance, le tarif, le remboursement, l acces dans le meme bloc ; une page par profil et /consulter (architecture profils-patients)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -1115,6 +1117,78 @@ export const siteSchema = z.object({
       "Biens à vendre et à louer d'une agence immobilière de quartier (architecture annonces-biens, docs/veille/architectures/annonces-biens.md, sources Royal Immo, Toulon : Acheter et Louer par type de bien, « Faites estimer votre bien » sous la recherche, une page par bien avec ses caractéristiques, le prix, qui paie les honoraires, le négociateur ; Giboire, Rennes : « Votre projet commence ici », Acheter, Louer, Estimer) : l'accueil est la vitrine (Acheter / Louer en onglets), la porte de l'estimation ; une page par bien (/biens/<slug>), /biens et /honoraires. Absent = ni vitrine ni pages. Jamais un prix, une surface, une classe énergie ou une exclusivité inventés.",
     ),
 
+  revendeurs: z
+    .object({
+      liste: z
+        .array(
+          z.object({
+            nom: z.string().describe('Nom du revendeur tel que le client le donne (« La Cave de la Sommelière », « Biocoop Anduze »)'),
+            type: z.string().optional().describe('Genre du revendeur, mots du client (« Caviste », « Bar », « Épicerie bio », « Restaurant ») : sert au filtre. Absent = rangé sans genre.'),
+            commune: z.string().describe('Commune du revendeur (« Sommières »)'),
+            secteur: z.string().describe('Secteur où le client le range (« Gard », « Hérault », « Strasbourg et Eurométropole ») : un onglet et une page /ou-trouver/<secteur> chacun'),
+            adresse: z.string().optional().describe('Rue du revendeur, si le client la donne (« 12 place du Marché »). Absente = la commune seule.'),
+            lien: z.string().url().optional().describe('Site ou fiche du revendeur, avec son accord. Absent = nom sans lien.'),
+            pression: z.boolean().default(false).describe('Vrai si le revendeur sert à la pression, dit par le client. Faux par défaut.'),
+            consigne: z.boolean().default(false).describe('Vrai si le revendeur reprend les bouteilles consignées, dit par le client. Faux par défaut.'),
+          }),
+        )
+        .default([])
+        .describe('Les revendeurs, dans l’ordre du client : bars, caves, épiceries, restaurants qui vendent ses produits. Un revendeur sans commune ou sans secteur ne compte pas.'),
+      surPlace: z.string().optional().describe('Ce qu’on trouve chez le producteur lui-même, mots du client (« Vente sur place et visite de la brasserie pendant les heures d’ouverture », « Growlers remplis à la brasserie »). Absent = rien.'),
+      consigne: z.string().optional().describe('La règle de la consigne, mots du client (« Toutes nos bouteilles sont consignées : 0,10 € la 75 cl »). Absente = rien.'),
+      pros: z.string().optional().describe('Ce que le client propose aux bars, caves et épiceries qui voudraient le vendre, mots du client. Absent = pas de porte « Vous tenez un commerce ? ».'),
+    })
+    .optional()
+    .describe(
+      "Revendeurs d'un producteur rangés par secteur (architecture revendeurs-secteurs, docs/veille/architectures/revendeurs-secteurs.md, sources Brasserie des Garrigues, Sommières : « Trouvez la boutique la plus proche de chez vous », Gard / Hérault puis autres départements, chaque point de vente avec son genre ; Brasserie Bendorf, Strasbourg : les revendeurs de Strasbourg et hors Eurométropole, où rapporter les bouteilles) : l'accueil répond à « où en trouver près de chez moi ? » (secteurs en onglets, communes de A à Z, filtre par genre dans le navigateur), puis la vente sur place et la gamme ; /ou-trouver et une page par secteur (/ou-trouver/<secteur>). Absent = ni liste ni pages. Jamais un revendeur, une pression ou une consigne inventés.",
+    ),
+
+  profils: z
+    .object({
+      liste: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /consulter/<slug> (« nourrisson », « femme-enceinte »)'),
+            nom: z.string().describe('Le profil tel que le cabinet le dit (« Nourrisson », « Femme enceinte », « Sportif »)'),
+            pour: z.string().optional().describe('Qui il couvre, mots du cabinet (« De la naissance à 2 ans »). Absent = rien.'),
+            phrase: z.string().optional().describe('Une ou deux phrases du cabinet pour ce profil. Absente = rien.'),
+            motifs: z.array(z.string()).default([]).describe('Les motifs de consultation de ce profil, mots du cabinet (« Coliques et régurgitations », « Difficultés de succion »). Un profil sans motif ne compte pas.'),
+            seance: z.string().optional().describe('Comment se passe la séance pour ce profil, mots du cabinet. Absente = rien.'),
+            duree: z.string().optional().describe('Durée de la séance pour ce profil (« 30 à 45 min »). Absente = celle du cabinet, sinon rien.'),
+            prix: z.string().optional().describe('Prix de la séance pour ce profil (« 55 € »). Absent = celui du cabinet, sinon rien.'),
+            praticiens: z.array(z.string()).default([]).describe('Slugs des praticiens qui suivent ce profil (profils.praticiens[].slug). Vide = aucun nom affiché.'),
+            questions: z.array(z.object({ q: z.string(), a: z.string() })).default([]).describe('Les questions propres à ce profil et leurs réponses, mots du cabinet. Vide = rien.'),
+            photo: img.optional().describe('Photo du cabinet pour ce profil. Absente = pas d’image, jamais une photo de banque.'),
+          }),
+        )
+        .default([])
+        .describe('Les profils de patients, dans l’ordre du cabinet : un onglet de l’accueil et une page chacun.'),
+      praticiens: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Identifiant du praticien (« emeline »), repris par profils.liste[].praticiens'),
+            nom: z.string().describe('Nom du praticien'),
+            titre: z.string().optional().describe('Titre ou diplôme tel que le praticien l’écrit (« Ostéopathe D.O. »). Absent = rien.'),
+            specialites: z.array(z.string()).default([]).describe('Ses spécialités, mots du praticien (« Périnatalité et allaitement »). Vide = rien.'),
+            texte: z.string().optional().describe('Une ou deux phrases du praticien. Absent = rien.'),
+            photo: img.optional().describe('Portrait du praticien. Absent = pas d’image.'),
+            rdv: z.string().url().optional().describe('Son lien de prise de rendez-vous (Doctolib, Maiia…). Absent = celui du cabinet (contact.bookingUrl).'),
+          }),
+        )
+        .default([])
+        .describe('Les praticiens du cabinet. Vide = aucun nom.'),
+      duree: z.string().optional().describe('Durée d’une séance au cabinet (« 45 à 60 minutes »). Absente = rien.'),
+      prix: z.string().optional().describe('Prix d’une séance au cabinet (« 60 € »). Absent = rien, jamais deviné.'),
+      remboursement: z.string().optional().describe('La prise en charge, mots du cabinet (« Non remboursée par la Sécurité sociale ; la plupart des mutuelles en prennent une partie, sur facture »). Absente = rien.'),
+      paiements: z.string().optional().describe('Moyens de paiement acceptés (« Carte, espèces, chèque »). Absents = rien.'),
+      deroule: z.array(z.object({ titre: z.string(), texte: z.string().optional() })).default([]).describe('Les temps de la séance, mots du cabinet (« Temps d’échange », « Traitement », « Bilan et conseils »). Vide = rien.'),
+      acces: z.array(z.object({ mode: z.string().describe('« Bus », « Tramway », « Vélo », « Parking »'), detail: z.string() })).default([]).describe('Comment venir au cabinet, mots du cabinet. Vide = l’adresse seule.'),
+    })
+    .optional()
+    .describe(
+      "Profils de patients d'un cabinet de santé (architecture profils-patients, docs/veille/architectures/profils-patients.md, sources Ostéopathes à Lyon Préfecture : « Je suis à la recherche d'un ostéopathe pour » femme enceinte, nourrisson, enfant, sportif…, une page par profil, les praticiens et leur spécialité, l'accès ; Margot Debayle, Annecy : « Mes domaines », le tableau prestation, durée, tarif, remboursement) : l'accueil part du patient (« Vous consultez pour », un onglet par profil), puis la séance, le tarif, le remboursement et l'accès ; une page par profil (/consulter/<slug>) et /consulter. Absent = ni profils ni pages. Jamais un motif, un prix, une durée, une spécialité ou un remboursement inventés.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -1191,6 +1265,10 @@ export const siteSchema = z.object({
       invites: z.string().default('Combien serez-vous\u202f?').describe('Titre du bloc des capacités sur l’accueil (architecture salles-capacites) : « Combien serez-vous ? », « Votre réception »'),
       biens: z.string().default('Nos biens').describe('Libellé du lien de nav et titre de la page /biens (site.biens) : « Nos biens », « Nos annonces »'),
       estimer: z.string().default('Faire estimer votre bien').describe('Titre de la porte de l’estimation (architecture annonces-biens) : « Faire estimer votre bien », « Vendre avec nous »'),
+      revendeurs: z.string().default('Points de vente').describe('Libellé du lien de nav et titre de la page /ou-trouver (site.revendeurs) : « Points de vente », « Où nous trouver »'),
+      trouver: z.string().default('Où nous trouver\u202f?').describe('Titre du bloc des revendeurs sur l’accueil (architecture revendeurs-secteurs) : « Où trouver nos bières ? », « Près de chez vous »'),
+      profils: z.string().default('Pour qui\u202f?').describe('Libellé du lien de nav et titre de la page /consulter (site.profils) : « Pour qui ? », « Les consultations »'),
+      consulter: z.string().default('Vous consultez pour').describe('Titre du bloc des profils sur l’accueil (architecture profils-patients) : « Vous consultez pour », « Je cherche un ostéopathe pour »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),

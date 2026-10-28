@@ -87,11 +87,15 @@ export interface LayoutArchi {
  *                      src/lib/salles.ts, sallesCompletes) ;
  *  - biens           : biens à vendre ou à louer lisibles (biens.liste[] : slug, titre, projet, commune, prix ;
  *                      src/lib/biens.ts, biensComplets) ;
+ *  - revendeurs      : revendeurs d'un producteur lisibles (revendeurs.liste[] : nom, commune, secteur ; src/lib/revendeurs.ts,
+ *                      revendeursComplets) ;
+ *  - profils         : profils de patients qui ont au moins un motif (profils.liste[] : slug, nom, motifs ;
+ *                      src/lib/profils.ts, profilsComplets) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -142,6 +146,8 @@ export const ARCHITECTURE_IDS = [
   'commande-retrait',
   'salles-capacites',
   'annonces-biens',
+  'revendeurs-secteurs',
+  'profils-patients',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -1067,6 +1073,72 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Agence immobilière indépendante ou mandataire de quartier qui tient elle-même une vingtaine d'annonces : transaction, location, terrains, garages, immobilier de loisir ; 3 biens avec leur prix. Au-delà d'une trentaine de biens, les annonces viennent du logiciel de l'agence (flux à brancher, pas encore fait). Pas pour un promoteur de programmes neufs, ni pour un loueur de matériel (catalogue-location).",
   },
+  'revendeurs-secteurs': {
+    id: 'revendeurs-secteurs',
+    modele:
+      "Le site d'un producteur vendu chez d'autres répond à « où en trouver près de chez moi ? » : en tête le h1, le métier à la ville, l'ancienneté, le téléphone, la note et « Venir à la brasserie » ; juste dessous les revendeurs, un onglet par secteur (département, agglomération), rangés par commune de A à Z, chacun avec son genre (caviste, bar, épicerie), « À la pression », « Reprend la consigne », un filtre par genre dans le navigateur ; dans le même bloc la vente sur place (adresse, horaires), la règle de la consigne et la porte des pros ; puis la gamme (les services, une page chacun), l'histoire et les avis ; /ou-trouver et une page par secteur.",
+    sources: [
+      { fiche: 'docs/veille/architectures/revendeurs-secteurs.md', site: 'brasseriedesgarrigues.fr' },
+      { fiche: 'docs/veille/architectures/revendeurs-secteurs.md', site: 'brasserie-bendorf.fr' },
+    ],
+    layout: {
+      // Coquille `revendeurs` (src/shells/revendeurs.astro).
+      shell: 'revendeurs',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Brasserie des Garrigues : « Points de vente » dans la barre, la page part de « Trouvez la boutique la plus proche de
+      // chez vous », Gard / Hérault puis autres départements, chaque point avec son genre ; la gamme a ses pages (Bières,
+      // Sans alcool, Barrique), la vente sur place et la visite sont à l'accueil. Bendorf : les revendeurs de Strasbourg puis
+      // hors Eurométropole. La coquille rend la gamme sous les revendeurs, l'histoire puis les avis.
+      sections: [
+        { type: 'about', variant: 'story' },
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'revendeurs', min: 6, libelle: '6 revendeurs au moins avec leur commune et leur secteur (revendeurs.liste[])' },
+    ],
+    convientA:
+      "Producteur dont les clients achètent chez d'autres : brasserie artisanale, vigneron, cidrerie, distillerie, torréfacteur, chocolatier ou biscuiterie en dépôts, fromager fermier en crèmeries, savonnier en boutiques, maraîcher en épiceries ; 6 revendeurs sur un ou plusieurs secteurs. Pas pour des points de retrait à jour fixe (commande-retrait), ni pour les boutiques du client lui-même (pages-adresses).",
+  },
+  'profils-patients': {
+    id: 'profils-patients',
+    modele:
+      "Le site d'un cabinet de santé part du patient : en tête le h1, le métier à la ville, l'ancienneté, le téléphone, la note et « Prendre rendez-vous » ; juste dessous « Vous consultez pour », un onglet par profil (nourrisson, femme enceinte, sportif, adulte, sénior), chacun avec ses motifs de consultation, sa durée et son prix, le praticien qui le suit et sa porte vers sa page ; dans le même bloc les temps de la séance, le tarif, la prise en charge par les mutuelles, les praticiens et leurs spécialités, l'appel ; puis l'accès au cabinet et les horaires, les avis et les questions ; une page par profil (motifs, séance, questions, rendez-vous) et /consulter.",
+    sources: [
+      { fiche: 'docs/veille/architectures/profils-patients.md', site: 'osteopathe-lyon.fr' },
+      { fiche: 'docs/veille/architectures/profils-patients.md', site: 'osteopathe-annecy.fr' },
+    ],
+    layout: {
+      // Coquille `profils` (src/shells/profils.astro).
+      shell: 'profils',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Ostéopathes à Lyon Préfecture : sous le h1, « Je suis à la recherche d'un ostéopathe pour » et six profils, puis
+      // les praticiens, l'accès, les avis, les questions ; une page par profil, « Infos pratiques » (tarif, déroulé,
+      // accès). Margot Debayle : le tableau prestation, durée, tarif, remboursement juste sous le premier écran. La
+      // coquille rend la séance et les praticiens dans le bloc des profils, puis l'accès ; ensuite les avis et les
+      // questions, comme à Lyon (pas d'histoire : un cabinet se présente par ses praticiens).
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+        { type: 'faq', variant: 'accordion' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'profils', min: 3, libelle: '3 profils de patients au moins, chacun avec ses motifs de consultation (profils.liste[])' },
+      { mesure: 'pasUrgence', libelle: 'pas l’urgence 24 h (contact.emergency24h) : un cabinet sur rendez-vous' },
+    ],
+    convientA:
+      "Cabinet de santé ou de soin sur rendez-vous dont les patients se reconnaissent à un profil : ostéopathe, kinésithérapeute, sage-femme, psychomotricien, podologue, diététicien, orthophoniste, sophrologue ; 3 profils avec leurs motifs. Pas pour un soin minuté à la carte (carte-des-soins), ni pour des cours collectifs (planning-semaine).",
+  },
 };
 
 
@@ -1126,6 +1198,8 @@ export interface SiteArchi {
   retrait?: { cloture?: { jour?: string; heure?: string }; points?: { slug?: string; nom?: string; commune?: string; jour?: string; debut?: string; fin?: string }[] };
   salles?: { liste?: { slug?: string; nom?: string; capacites?: Record<string, number | undefined> }[] };
   biens?: { liste?: { slug?: string; titre?: string; projet?: string; commune?: string; prix?: number }[] };
+  revendeurs?: { liste?: { nom?: string; commune?: string; secteur?: string }[] };
+  profils?: { liste?: { slug?: string; nom?: string; motifs?: string[] }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -1336,6 +1410,29 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
           const slug = (b.slug ?? '').trim();
           if (!slug || !(b.titre ?? '').trim() || !(b.commune ?? '').trim() || vus.has(slug)) return false;
           if ((b.projet !== 'vente' && b.projet !== 'location') || !(typeof b.prix === 'number' && b.prix > 0)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
+        break;
+      }
+      // Mêmes comptes que revendeursComplets (src/lib/revendeurs.ts) et profilsComplets (src/lib/profils.ts), recopiés.
+      case 'revendeurs': {
+        const vus = new Set<string>();
+        const k = (x?: string) => (x ?? '').trim().replace(/\s+/g, ' ').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        n = (s.revendeurs?.liste ?? []).filter((r) => {
+          if (!k(r.nom) || !k(r.commune) || !k(r.secteur).replace(/[^a-z0-9]+/g, '')) return false;
+          const c = `${k(r.nom)}|${k(r.commune)}`;
+          if (vus.has(c)) return false;
+          vus.add(c);
+          return true;
+        }).length;
+        break;
+      }
+      case 'profils': {
+        const vus = new Set<string>();
+        n = (s.profils?.liste ?? []).filter((p) => {
+          const slug = (p.slug ?? '').trim();
+          if (!slug || !(p.nom ?? '').trim() || vus.has(slug) || !(p.motifs ?? []).some((m) => m.trim())) return false;
           vus.add(slug);
           return true;
         }).length;

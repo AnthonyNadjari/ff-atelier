@@ -1,0 +1,264 @@
+---
+/**
+ * Coquille "profils" : architecture `profils-patients` (src/lib/architectures.ts ; sources Ostéopathes à Lyon Préfecture :
+ * sous le h1, « Je suis à la recherche d'un ostéopathe pour » et six profils, une page par profil, les deux praticiens et
+ * leur spécialité, l'accès en bus, tram, métro, vélo, le tarif et la prise en charge ; Margot Debayle, Annecy : « Mes
+ * domaines » et le tableau prestation, durée, tarif, remboursement ; docs/veille/architectures/profils-patients.md).
+ * Le patient se demande « est-ce pour moi, pour mon bébé ? » : le site part de là.
+ *   → en tête : en bande au-dessus du titre le téléphone, « Prendre rendez-vous » (contact.bookingUrl, sinon le contact)
+ *     et la note Google ; puis le h1, le métier à la ville et l'ancienneté (socle docs/GOUT.md § 0) ;
+ *   → un seul bloc, id="profils" (il tient la moitié de la page, modèle « onglets » de ff ressemblance) : sur l'encre
+ *     « Vous consultez pour » et un onglet par profil (posés par le script ; sans script tous les profils l'un sous
+ *     l'autre) ; chaque profil avec qui il couvre, sa phrase, ses motifs, sa durée et son prix, le praticien qui le suit,
+ *     sa porte de rendez-vous et sa page ; puis, dans le même bloc, la séance (id="seance" : ses temps, le tarif, la prise
+ *     en charge, les paiements), les praticiens (id="praticiens") et l'appel, id="contact" ;
+ *   → venir au cabinet, id="venir" (adresse, accès, horaires) ;
+ *   → l'histoire si le site en met une (sections « about »), puis les autres sections du layout (les avis, les questions,
+ *     comme à Lyon) ;
+ *   → le pied.
+ * Pages : une page par profil (/consulter/<slug>), /consulter (avec les questions).
+ *
+ * `layout.hero` n'est pas rendu. Sans profil lisible : le bloc garde la séance et l'appel, et le build dit ce qui manque
+ * (donneesManquantes). Signes des sources NON repris : surtitre en capitales (« EMELINE FANTINI & RÉMI BORNE »), photo de
+ * banque au premier écran, promesses de soin (« soulagement immédiat »), mots en gras semés dans chaque phrase.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, fullAddress, metierEtVille, donneesManquantes, profilsComplets, praticiensComplets, praticiensDe, resumeProfil } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const x = site.profils;
+const profils = profilsComplets(x);
+const praticiens = praticiensComplets(x);
+const rdv = site.contact.bookingUrl;
+const deroule = x?.deroule ?? [];
+const acces = x?.acces ?? [];
+const heures = site.contact.hours;
+const tarif = [x?.duree, x?.prix].filter(Boolean).join(', ');
+const avant = sections.filter((s) => s.type === 'about');
+const manque = donneesManquantes('profils-patients', site);
+if (manque.length > 0) console.warn(`[coquille profils] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="pf-page">
+  <section id="hero" class="container-ff pf-tete" aria-label="Accueil">
+    {/* Le téléphone et le rendez-vous en bande au-dessus du titre : c'est ce que le patient cherche en arrivant (le
+        « Prendre rendez-vous » toujours dans la barre des Ostéopathes à Lyon Préfecture, le téléphone d'Annecy). */}
+    <p class="pf-portes pf-bande">
+      <a href={tel()} class="pf-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+      {rdv ? <a href={rdv} target="_blank" rel="noopener" class="pf-rdv">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a> : <a href="#contact" class="pf-rdv">Prendre rendez-vous</a>}
+      {google && <a href={google.url} target="_blank" rel="noopener" class="pf-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+    </p>
+    <h1 class="pf-h1 font-display" set:html={site.business.tagline} />
+    <p class="pf-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+  </section>
+
+  <section id="profils" class="pf-bloc pf-outil" aria-labelledby={profils.length > 0 ? 'pf-consulter-t' : undefined} aria-label={profils.length > 0 ? undefined : 'La séance'} data-pf-outil={profils.length > 0 ? '' : undefined}>
+    {profils.length > 0 && (
+      <>
+        <div class="pf-choix bg-ink text-on-ink">
+          <div class="container-ff pf-choix-in">
+            <h2 id="pf-consulter-t" class="pf-h2 font-display">{site.wording.consulter}</h2>
+            {profils.length >= 2 && (
+              <div class="pf-onglets" role="tablist" aria-label="Les profils" data-pf-onglets hidden>
+                {profils.map((p, i) => (
+                  <button type="button" role="tab" id={`pf-onglet-${p.slug}`} aria-controls={`pf-profil-${p.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class="pf-onglet" data-pf-onglet>
+                    {p.nom}{p.pour && <span class="pf-onglet-n">{p.pour}</span>}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        <div class="container-ff pf-liste">
+          {profils.map((p) => {
+            const qui = praticiensDe(p, x);
+            const resume = resumeProfil(p, x);
+            const lien = qui.find((q) => q.rdv)?.rdv ?? rdv;
+            return (
+              <div id={`pf-profil-${p.slug}`} class:list={['pf-profil', p.photo && 'pf-profil-photo']} role={profils.length >= 2 ? 'tabpanel' : undefined} aria-labelledby={profils.length >= 2 ? `pf-onglet-${p.slug}` : undefined} data-pf-panneau>
+                {p.photo && <Img src={p.photo.src} alt={p.photo.alt} class="pf-photo" sizes="(min-width: 1024px) 45vw, 100vw" />}
+                <div class="pf-profil-texte">
+                  <h3 class="pf-profil-nom font-display"><a href={`/consulter/${p.slug}`} class="pf-nom-lien">{p.nom}</a></h3>
+                  {p.pour && <p class="pf-pour">{p.pour}</p>}
+                  {p.phrase && <p>{p.phrase}</p>}
+                  <h4 class="pf-h4">On vient pour</h4>
+                  <ul class="pf-motifs">{(p.motifs ?? []).filter((m) => m.trim()).map((m) => <li>{m}</li>)}</ul>
+                  {resume && <p class="pf-resume tabular-nums">{resume}</p>}
+                  {qui.length > 0 && <p class="pf-qui">Avec {qui.map((q) => q.specialites.length > 0 ? `${q.nom} (${q.specialites[0]})` : q.nom).join(', ')}</p>}
+                  <p class="pf-portes">
+                    {lien ? <a href={lien} target="_blank" rel="noopener" class="pf-rdv">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a> : <a href={tel()} class="pf-rdv tabular-nums">Appeler le {site.contact.phoneDisplay}</a>}
+                    <a href={`/consulter/${p.slug}`} class="pf-lien">La consultation {p.nom.toLowerCase()}<Icon name="ArrowRight" size={16} /></a>
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </>
+    )}
+    {/* La séance, le tarif et les praticiens DANS le bloc des profils (« Infos pratiques » et « Les praticiens du cabinet »
+        de Lyon, juste sous « Pour qui ? » ; le tableau d'Annecy) : on les lit une fois qu'on sait que le cabinet nous reçoit. */}
+    <div id="seance" class="pf-seance">
+      <div class="container-ff pf-seance-in">
+        {(deroule.length > 0 || tarif || x?.remboursement) && (
+          <div class="pf-col">
+            <h2 class="pf-h2b font-display">La séance</h2>
+            {deroule.length > 0 && <ol class="pf-temps">{deroule.map((d) => <li><span class="pf-temps-t">{d.titre}</span>{d.texte && <span>{d.texte}</span>}</li>)}</ol>}
+            {tarif && <p class="pf-tarif tabular-nums">{tarif}</p>}
+            {x?.remboursement && <p>{x.remboursement}</p>}
+            {x?.paiements && <p class="pf-muted">{x.paiements}</p>}
+          </div>
+        )}
+        {praticiens.length > 0 && (
+          <div id="praticiens" class="pf-col">
+            <h2 class="pf-h2b font-display">{praticiens.length > 1 ? 'Les praticiens' : 'Votre praticien'}</h2>
+            <ul class="pf-praticiens-liste">
+              {praticiens.map((q) => (
+                <li class="pf-praticien">
+                  {q.photo && <Img src={q.photo.src} alt={q.photo.alt} class="pf-portrait" sizes="(min-width: 1024px) 20vw, 40vw" />}
+                  <div>
+                    <h3 class="pf-praticien-nom font-display">{q.nom}</h3>
+                    {q.titre && <p class="pf-muted">{q.titre}</p>}
+                    {q.specialites.length > 0 && <p class="pf-fort">{q.specialites.join(', ')}</p>}
+                    {q.texte && <p>{q.texte}</p>}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+      <div id="contact" class="container-ff pf-appel">
+        <h2 class="pf-appel-titre font-display">Une question avant de venir ?</h2>
+        <p class="pf-portes">
+          <a href={tel()} class="pf-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+          {site.layout.contactDrawer && <a href="/#contact" class="pf-lien">Écrire</a>}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* Venir au cabinet sous le bloc (« Comment accéder au cabinet ? » des Ostéopathes à Lyon Préfecture, sous les
+      praticiens) : l'adresse, l'accès en transports, les horaires. */}
+  <section id="venir" class="container-ff pf-venir" aria-labelledby="pf-venir-t">
+    <h2 id="pf-venir-t" class="pf-h2b font-display">Venir au cabinet</h2>
+    <p class="pf-adresse">{fullAddress()}</p>
+    {acces.length > 0 && <dl class="pf-acces">{acces.map((a) => <div><dt>{a.mode}</dt><dd>{a.detail}</dd></div>)}</dl>}
+    {heures.length > 0 && <ul class="pf-heures tabular-nums">{heures.map((h) => <li><span>{h.days}</span><span>{h.hours}</span></li>)}</ul>}
+  </section>
+
+  {avant.map(({ Component }) => <Component />)}
+
+  {sections.map(({ Component, type }, i) => type !== 'about' && (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Un onglet par profil, le premier ouvert ; un lien vers #pf-profil-<slug> ouvre le sien. Sans script : tous les profils.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-pf-outil]');
+    const rangee = bloc?.querySelector<HTMLElement>('[data-pf-onglets]');
+    if (!bloc || !rangee) return;
+    const onglets = [...rangee.querySelectorAll<HTMLButtonElement>('[data-pf-onglet]')];
+    const panneaux = [...bloc.querySelectorAll<HTMLElement>('[data-pf-panneau]')];
+    if (onglets.length < 2 || onglets.length !== panneaux.length) return;
+    const ouvrir = (n: number, focus = false) => {
+      onglets.forEach((o, i) => { const sel = i === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      panneaux.forEach((p, i) => { p.hidden = i !== n; });
+    };
+    rangee.hidden = false;
+    const voulu = panneaux.findIndex((p) => `#${p.id}` === location.hash);
+    ouvrir(voulu >= 0 ? voulu : 0);
+    onglets.forEach((o, i) => {
+      o.addEventListener('click', () => ouvrir(i));
+      o.addEventListener('keydown', (e) => {
+        const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: onglets.length - 1 }[e.key];
+        if (k === undefined) return;
+        e.preventDefault();
+        ouvrir((k + onglets.length) % onglets.length, true);
+      });
+    });
+  });
+</script>
+
+<style>
+  .pf-tete { display: grid; gap: 0.9rem; padding-block: clamp(0.75rem, 2vh, 1.5rem) clamp(1.25rem, 4vh, 2.5rem); }
+  .pf-bande { padding-block-end: 0.85rem; border-block-end: 1px solid var(--color-line); }
+  .pf-h1 { font-size: clamp(1.8rem, 6vw, 4.6rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 15ch; }
+  .pf-metier { font-size: clamp(1.02rem, 1.5vw, 1.25rem); max-inline-size: 44ch; }
+  .pf-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .pf-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.05rem; border: 2px solid currentColor; border-radius: var(--radius-ui, 6px); font-size: 1.12rem; font-weight: 700; }
+  .pf-rdv { display: inline-flex; align-items: center; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; }
+  .pf-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pf-nom-lien { text-decoration: none; }
+  .pf-tel:focus-visible, .pf-rdv:focus-visible, .pf-lien:focus-visible, .pf-nom-lien:focus-visible, .pf-onglet:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pf-h2 { font-size: clamp(1.8rem, 5vw, 3.2rem); line-height: 1.02; }
+  .pf-h2b { font-size: clamp(1.45rem, 3.4vw, 2.3rem); line-height: 1.06; }
+  .pf-choix { padding-block: clamp(1.75rem, 6vh, 3.5rem); }
+  .pf-choix-in { display: grid; gap: 1.1rem; }
+  /* Les profils : de grands boutons sur l'encre, qui retiennent qui ils couvrent. */
+  .pf-onglets { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 0.5rem; }
+  .pf-onglets[hidden] { display: none; }
+  .pf-onglet { display: grid; gap: 0.15rem; align-content: start; min-block-size: 56px; padding: 0.7rem 0.9rem; text-align: start; font-weight: 700; font-size: 1.1rem; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: var(--radius-ui, 6px); cursor: pointer; }
+  .pf-onglet[aria-selected='true'] { background: var(--color-bg); color: var(--color-fg); }
+  .pf-onglet-n { font-weight: 400; font-size: 0.92rem; }
+  .pf-liste { display: grid; gap: clamp(2rem, 6vh, 3.5rem); padding-block: clamp(1.75rem, 5vh, 3.5rem); }
+  .pf-profil { display: grid; gap: 1.25rem; }
+  .pf-profil[hidden] { display: none; }
+  .pf-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .pf-profil-texte { display: grid; gap: 0.55rem; align-content: start; max-inline-size: 58ch; }
+  .pf-profil-nom { font-size: clamp(1.7rem, 4.4vw, 2.8rem); line-height: 1.02; }
+  .pf-pour { font-size: 1.12rem; color: var(--color-muted); }
+  .pf-h4 { font-weight: 700; margin-block-start: 0.4rem; }
+  .pf-motifs { display: grid; gap: 0.35rem; }
+  .pf-motifs li { padding-block: 0.35rem; border-block-end: 1px solid var(--color-line); font-size: 1.05rem; }
+  .pf-resume { font-weight: 700; font-size: 1.15rem; }
+  .pf-qui { font-weight: 600; }
+  .pf-muted { color: var(--color-muted); }
+  .pf-fort { font-weight: 600; }
+  .pf-seance { display: grid; gap: clamp(1.75rem, 5vh, 3rem); padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .pf-seance-in { display: grid; gap: 2rem; }
+  .pf-col { display: grid; gap: 0.7rem; align-content: start; }
+  .pf-temps { display: grid; gap: 0.6rem; counter-reset: temps; }
+  .pf-temps li { display: grid; gap: 0.15rem; padding-inline-start: 2.4rem; position: relative; counter-increment: temps; }
+  .pf-temps li::before { content: counter(temps); position: absolute; inset-inline-start: 0; inset-block-start: 0; inline-size: 1.8rem; block-size: 1.8rem; display: grid; place-items: center; border: 1px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .pf-temps-t { font-weight: 700; }
+  .pf-tarif { font-size: clamp(1.3rem, 2.6vw, 1.7rem); font-weight: 700; }
+  .pf-venir { display: grid; gap: 0.75rem; padding-block: clamp(2rem, 6vh, 4rem); }
+  .pf-adresse { font-size: clamp(1.15rem, 2.2vw, 1.45rem); font-weight: 600; }
+  .pf-acces { display: grid; gap: 0.4rem; }
+  .pf-acces dt { font-weight: 700; }
+  .pf-heures { display: grid; gap: 0.2rem; max-inline-size: 26rem; }
+  .pf-heures li { display: flex; justify-content: space-between; gap: 1rem; border-block-end: 1px solid var(--color-line); padding-block: 0.3rem; }
+  .pf-appel { display: grid; gap: 0.6rem; }
+  .pf-appel-titre { font-size: clamp(1.35rem, 3.2vw, 2.1rem); line-height: 1.06; }
+  .pf-praticiens-liste { display: grid; gap: 1.25rem; }
+  .pf-praticien { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.35rem 1rem; align-items: start; max-inline-size: 52ch; }
+  .pf-praticien > div { display: grid; gap: 0.2rem; }
+  .pf-portrait { inline-size: 6.5rem; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-card); }
+  .pf-praticien-nom { font-size: clamp(1.3rem, 2.6vw, 1.8rem); line-height: 1.08; }
+  @media (min-width: 48rem) {
+    .pf-seance-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+    .pf-venir { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+    .pf-venir > h2, .pf-venir > .pf-adresse { grid-column: 1 / -1; }
+  }
+  @media (min-width: 64rem) {
+    .pf-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; }
+    .pf-bande { grid-column: 1 / -1; }
+    .pf-choix-in { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 3rem; align-items: end; }
+    .pf-profil-photo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; align-items: start; }
+  }
+</style>

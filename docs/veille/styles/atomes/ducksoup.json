@@ -1,0 +1,118 @@
+{
+  "id": "ducksoup",
+  "version": 1,
+  "source": {
+    "url": "https://www.ducksoupsoho.co.uk/",
+    "nom": "Ducksoup",
+    "metier": "restaurant et bar à vin (Londres)",
+    "fiche": "docs/veille/styles/ducksoup.md",
+    "mesures": "docs/veille/styles/atomes/mesures/ducksoup.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Poppins",
+      "libre": "figtree",
+      "graisse": 500,
+      "interlignage": 1.33,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Poppins",
+      "libre": "figtree",
+      "graisse": 300,
+      "interlignage": 1.8
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 28,
+        "ordinateur": 38
+      },
+      "h2": "à juger",
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 17
+      }
+    },
+    "remarque": "Une seule famille, Poppins : le titre « A Soho restaurant and wine bar » en 500 à 37,7 px (28,2 au téléphone), aligné à droite ; le texte en 300 (léger) à 17 px (16), interlignage très ouvert 1,8, aussi aligné à droite ; nom en 500 à 34 px. Libre : Figtree (géométrique de texte, graisses 300 et 500), même famille en deux graisses."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#fcf2e8",
+      "surface": "#fcf2e8",
+      "texte": "#2d5b76",
+      "texte2": "#2d5b76",
+      "accent": "#2d5b76",
+      "accent2": null,
+      "bordure": "#2d5b76",
+      "encre": null
+    },
+    "sombre": null,
+    "remarque": "Pêche très pâle #fcf2e8 sur toute la page et une seule encre, bleu pétrole #2d5b76, pour le nom, le titre, le texte, les liens et les boutons ; aucun bloc d'encre. La photo (bouteille, verre, assiette) donne le reste."
+  },
+  "densite": {
+    "section": {
+      "telephone": 112,
+      "ordinateur": 182
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 58
+    },
+    "conteneur": 1324,
+    "mesure": 51,
+    "rythme": "uni",
+    "remarque": "182 px du haut de la page au titre à l'ordinateur, 112 au téléphone ; bord de 58 px (23 au téléphone) ; contenu entre 58 et 1 382 px ; texte en colonne de 434 px (environ 51 caractères), la photo dans la colonne voisine."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Aucun bouton dans la page : la navigation est en mots (« Reservations », « Menu », « Wines »…), les coordonnées du pied en liens soulignés ; angles droits, aucune ombre."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "2:3"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Une seule grande photo verticale (657 x 1 015 px à l'ordinateur) dans la colonne de droite, à côté du texte : une bouteille et un plat sur la table, lumière de fenêtre ; sans cadre, sans texte dessus."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "cubic-bezier(0.2, 0.6, 0.3, 1)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "La photo et les blocs arrivent en fondu au chargement (opacity 0,4 à 0,6 s, cubic-bezier(0.4, 0, 0.2, 1)) ; menu à trois traits qui s'ouvre en 0,14 s ; rien ne suit le défilement. Profil : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Pêche pâle uni ; ni filet ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "diptyque",
+  "premier_ecran_remarque": "Le texte à gauche aligné à droite, la grande photo verticale à droite ; au téléphone la photo passe sous le texte."
+}

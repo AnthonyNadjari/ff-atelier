@@ -1,4 +1,4 @@
-# Profils de mouvement : trente-neuf façons de faire bouger une page, relevées sur de vrais sites
+# Profils de mouvement : quarante et une façons de faire bouger une page, relevées sur de vrais sites
 
 Le fondateur, 18 oct 2026, sur L'Épi d'Or b, c, d : « beaucoup plus de pluralité : animations, même des vidéos en
 fond ». L'atome `mouvement` (ATOMES.md) ne portait que des durées et une courbe : trois mélanges différents bougeaient
@@ -526,6 +526,47 @@ sans déclencheur actif. Le mouvement est celui de la page contre un nom immobil
   des pages courtes) ; compatible avec un client « calme » (rien ne bouge seul). Distinct de `nom-qui-s-efface` (le nom
   au centre pâlit au défilement), de `nom-en-lettres-geantes` (une lettre géante par section, qui glisse plus lentement que la page) et de `legende-fixe-qui-change`
   (une légende fixe qui change par projet). Calme : oui. Poids : nul.
+### `nom-en-exclusion`
+Experimental Cocktail Club (`experimentalcc.md`, [experimentalcocktailclub.com](https://www.experimentalcocktailclub.com/), veille du
+28 oct 2026, tour 15, moitié A ; `getComputedStyle` (mix-blend-mode, transform, opacité) relevé à 100, 600, 1 500 et 3 000 ms puis à
+200, 450 et 900 px de défilement, à 1 440 et 390 px de large) : le premier écran est un **portrait vertical étroit** (une vidéo du
+barman, 446 x 610 px centré sur le noir, 256 x 500 au téléphone) et le **nom en très grand** posé en travers, en position fixe, avec
+`mix-blend-mode: exclusion` : blanc sur le noir, il s'inverse là où il passe sur le portrait. Rien n'entre au chargement. Au
+défilement, le nom **descend au tiers de la vitesse de la page** (translateY 84, 160, 305 px pour 200, 450, 900 px à l'ordinateur ;
+104, 157, 175 px au téléphone, puis il s'arrête) : la page glisse dessous et il s'inverse sur chaque photo qui passe. La barre de
+navigation est aussi en exclusion. Un intitulé arrive en opacité 0,8 s `ease` ; survols 0,2 s `ease`.
+- Entrée aucune · apparition aucune · survol couleur · fond nom en exclusion.
+- Moteur : `data-parallax` (environ 0,35) sur le nom pour la descente lente ; le reste est du CSS (`mix-blend-mode: exclusion`,
+  `position: fixed`). Manque : le nom en texte réel (jamais une image) posé sur la photo verticale du premier écran, dans une coquille
+  ou une section sur mesure ; en mouvement réduit, nom fixe sans parallaxe.
+- Garde : seulement sur un fond noir ou blanc pur (sur un fond teinté, l'exclusion donne une couleur au hasard) ; une seule chose en
+  exclusion avec la barre de navigation ; le métier et la ville restent en texte normal dans le h1 ou juste dessous (GOUT § 0) ;
+  contraste vérifié sur la photo et sur le fond ; la photo verticale est une vraie photo ou vidéo du client (pas d'exigence de vidéo).
+- Quand : bar à cocktails, caviste, restaurant du soir, barbier, tatoueur, au nom court qui sonne, avec un portrait vertical fort
+  (le geste, la personne). Distinct de `nom-en-marge` (le nom vertical immobile dans une colonne de marge), de `nom-qui-s-efface` (le
+  nom pâlit au défilement) et de `nom-en-lettres-geantes` (une lettre par section derrière les photos). Calme : non (suit le
+  défilement). Poids : léger.
+### `photo-qui-se-pose`
+Paradero (`paradero.md`, [paraderohotels.com](https://www.paraderohotels.com/), veille du 28 oct 2026, tour 15, moitié B ;
+`transform` calculé de la photo d'un panneau relevé tous les 100 px de défilement, puis celui du texte toutes les 45 ms après
+un saut de défilement, à 1 440 et 390 px de large ; GSAP et ScrollTrigger) : la page alterne des blocs de texte sur le sable
+et de grands panneaux photo voilés de noir (30 à 45 %) portant un surtitre, un titre, une phrase et un bouton. Quand un panneau
+monte du bas de l'écran, sa photo entre **agrandie à 1,04 et se pose à 1** pendant les 600 premiers pixels (1,04 ; 1,024 ;
+1,013 ; 1,006 ; 1,002 ; 1 : une décélération liée au défilement, mêmes valeurs au téléphone), avec une dérive verticale de 2,5
+à 3 px par 100 px (30 à 48 px sur tout le passage). Au moment où le panneau atteint le bas de l'écran, les lignes de texte
+posées dessus **montent de 24 px en fondu**, 0,8 s ease-out, une ligne toutes les 0,1 s. Rien n'entre au chargement ; la barre
+de navigation prend le sable en 0,4 s ease au premier cran.
+- Entrée aucune · apparition photo qui se pose · survol couleur · fond aucun.
+- Moteur : `data-scrub="scale=1.04"` sur la photo dans un cadre à `overflow: hidden`, `data-parallax="0.03"` pour la dérive ;
+  `data-reveal="up"` + `data-stagger="100"` sur le bloc de texte du panneau. Manque : une amplitude réglable pour
+  `data-reveal="up"` (le moteur monte de 12 px, la source de 24).
+- Garde : deux grands panneaux photo par page au plus, jamais à chaque section (une photo qui zoome au défilement partout est un
+  signe IA, GOUT § 2) ; jamais avec un volet ni un masque ; échelle de départ 1,06 au plus ; texte sur la photo seulement sur un
+  voile dont le contraste est mesuré (AA) ; en mouvement réduit, la photo est posée à 1 et le texte visible d'emblée.
+- Quand : gîte, hôtel, domaine, restaurant ou artisan avec deux ou trois très bonnes photos de lieu en grand format, qui veut
+  de la profondeur sans effet voyant. Distinct de `plans-au-chargement` (le premier écran se resserre au chargement), de
+  `photo-qui-s-approche` (zoom au survol d'une carte), de `photos-a-plusieurs-vitesses` (décalages de vitesse entre photos en
+  quinconce) et de `bloc-qui-s-avance` (un bloc qui grandit puis revient). Calme : non (suit le défilement). Poids : léger.
 
 ## Complément transversal : transitions de page
 

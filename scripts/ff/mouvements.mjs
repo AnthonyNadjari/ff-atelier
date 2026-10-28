@@ -297,6 +297,20 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['le nom du client, en très grand et à la verticale (writing-mode: vertical-rl ou rotation de 90°, encre du texte, toute la hauteur de l\'écran moins l\'en-tête), posé en position fixe dans une colonne de marge à droite (143 px à l\'ordinateur, environ 75 px au téléphone) ; toute la page défile à sa gauche, rien d\'autre ne bouge (aucune entrée, aucune apparition) ; menu en panneau qui arrive de la gauche (transform 0,4 s ease) ; liens soulignés 0,1 s ; identique en mouvement réduit (rien n\'est animé)'],
     manque: 'la colonne de marge et le nom vertical en texte réel (jamais une image : lisible, traduisible), dans un bloc de coquille ou une section sur mesure ; garde : un nom court (12 lettres au plus) qui tient sur la hauteur d\'un téléphone sans descendre sous 56 px de corps, jamais une phrase ni le métier ; la colonne du nom est retirée de la largeur du conteneur (aucun texte dessous) ; au téléphone, le nom peut être coupé en bas de l\'écran, jamais le texte de la page', exige: {},
   },
+  'nom-en-exclusion': {
+    nom: 'Nom en exclusion', sources: ['experimentalcc'],
+    entree: 'aucune', apparition: 'aucune', survol: 'couleur', fond: 'nom-en-exclusion',
+    regime: 'vivant', defilement: 'suit-le-defilement', calme: false, poids: 'leger', motion: 'subtle',
+    attributs: ['data-parallax (0,35 environ) sur le nom pour qu\'il descende au tiers de la vitesse du défilement, sur environ 450 px à l\'ordinateur et 175 px au téléphone, puis s\'arrête ; un mix-blend-mode: exclusion (ou difference) sur le nom et sur le fond de la barre de navigation, encre blanche sur fond noir : le nom s\'inverse là où il passe sur la photo verticale du premier écran (portrait 446 x 610 px centré, 256 x 500 au téléphone) puis sur les blocs qui défilent dessous ; rien n\'entre au chargement ; un deuxième intitulé arrive en opacité 0,8 s ease au premier cran'],
+    manque: 'le nom du client en texte réel (jamais une image) posé en position fixe par-dessus la photo verticale du premier écran, avec mix-blend-mode: exclusion, dans un bloc de coquille ou une section sur mesure ; garde : seulement sur un fond noir ou blanc pur (sur un fond teinté, l\'exclusion donne une couleur au hasard), une seule chose en exclusion avec la barre de navigation, le métier et la ville restent lisibles en texte normal dans le h1 ou juste dessous (GOUT § 0) ; en mouvement réduit le nom reste fixe à sa place, sans parallaxe ; contraste vérifié sur la photo et sur le fond', exige: {},
+  },
+  'photo-qui-se-pose': {
+    nom: 'Photo qui se pose', sources: ['paradero'],
+    entree: 'aucune', apparition: 'photo-qui-se-pose', survol: 'couleur', fond: 'aucun',
+    regime: 'vivant', defilement: 'suit-le-defilement', calme: false, poids: 'leger', motion: 'rich',
+    attributs: ['data-scrub="scale=1.04" sur la photo d\'un grand panneau (cadre à overflow: hidden) : elle entre agrandie à 1,04 et se pose à 1 pendant que le haut du panneau monte du bas de l\'écran à son tiers haut (environ 600 px de défilement, décélération), avec data-parallax très faible (0,03 : 30 à 48 px de dérive sur tout le passage) ; le texte posé sur la photo (surtitre, titre, phrase, bouton) arrive en data-reveal="up" + data-stagger="100" quand le panneau atteint le bas de l\'écran : montée de 24 px et fondu en 0,8 s ease-out, une ligne toutes les 0,1 s ; rien n\'entre au chargement'],
+    manque: 'une amplitude de data-reveal="up" réglable (le moteur monte de 12 px, la source de 24) ; garde : deux grands panneaux photo par page au plus (jamais à chaque section : photo qui zoome au défilement partout = signe IA, GOUT § 2), jamais avec un volet ni un masque, échelle de départ 1,06 au plus ; texte sur la photo seulement sur un voile mesuré (contraste AA) ; en mouvement réduit la photo est posée à 1 et le texte visible d\'emblée', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

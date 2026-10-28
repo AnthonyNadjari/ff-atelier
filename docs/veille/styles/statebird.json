@@ -1,0 +1,1383 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://statebirdsf.com/",
+  "nom": "statebird",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "State Bird Provisions",
+    "siteName": "State Bird Provisions",
+    "lang": "en-US",
+    "description": "State Bird Provisions is a James Beard award winning and Michelin rated restaurant in San Francisco, California. It is an adventurous, inventive, and delicious contemporary American restaurant that started as a recipe for serving quail. It has slowly evolved into a restaurant without any programmed elements.",
+    "technologies": [
+      "Squarespace",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#3e413d",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 48,
+      "images": 4,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Manage cookies",
+        "x": 1051.890625,
+        "y": 843.921875,
+        "cx": 0.7692111545138889,
+        "cy": 0.9593576388888889,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.08,
+        "texte": "Select “Accept all” to agree to our use of cookies and similar technologies to enhance your browsing experience, security, analytics and customization. Select ”Manage cookies” to make more choices or ",
+        "selecteur": "section.gdpr-cookie-banner"
+      },
+      "barreBas": {
+        "selecteur": "section.gdpr-cookie-banner",
+        "hauteur": 73,
+        "largeur": 1440,
+        "liens": [
+          {
+            "texte": "Manage cookies",
+            "href": ""
+          },
+          {
+            "texte": "DECLINE ALL",
+            "href": ""
+          },
+          {
+            "texte": "Accept all",
+            "href": ""
+          }
+        ]
+      },
+      "scrollHeight": 2251,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.list-item-content__title",
+        "famille": "\"Space Mono Regular\"",
+        "taille": 19.456,
+        "graisse": "500",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "4.864px"
+      },
+      "p": {
+        "selecteur": "p.disclaimer-text",
+        "famille": "\"Space Mono Regular\"",
+        "taille": 12.544,
+        "graisse": "300",
+        "interlignage": 1.8,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.manage",
+        "famille": "adobe-garamond-pro",
+        "taille": 12,
+        "graisse": "500",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.24px"
+      },
+      "nav": {
+        "selecteur": "a.cart-style-icon",
+        "famille": "adobe-garamond-pro",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/e5441b3f-475c-4dd0-815e-d1493a6eef24/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/e364ec28-4783-442b-b46f-59d33a99dd2c/devanagari.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/67451c8f-d5ad-40d0-a48b-1e842ade5679/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/d03c0883-8248-47bf-9fa3-437f8474b0b7/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/da0c3c0d-458f-46e2-9c64-bac004d4e8c1/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/7050a57e-968a-4317-a487-11e4374878d9/devanagari.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/4bbf7666-37bc-41b4-88a3-dd3413efcc09/vietnamese.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/a1849ad2-8ff1-4968-a3ec-03a91c9b98dc/cyrillic-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/c52f2669-b960-4385-86d9-a0529f366f01/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/37b5ce86-992e-41c5-8d17-01d3b8cc913b/cyrillic.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/4f3c9c63-637c-426b-ad69-48b3338fda09/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/28866714-3a03-4fde-b82e-bcffd944752e/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/ab6b1da4-72e3-4abf-a176-e7a8a24b53d1/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/7d30df3b-ed0a-4cdd-824a-b3c7e5e49f0d/devanagari.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/95402d3d-cf4f-4ff3-b652-fa1bddbe79de/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/31f2dfaf-de1e-40ab-ac18-8641e6ac98d0/devanagari.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/ab5cf469-e78c-4791-92a2-a2e360e24c1d/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/f24a6964-2318-44e7-b59a-7568c4bdd9a4/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/44fc5f49-6c7c-4573-9c8a-8505d259f08b/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/75c8587e-754e-4033-ba11-213965d735ab/cyrillic-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/62905415-467c-47b5-a5c1-a1abf0e8075b/cyrillic.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/cb16a8a3-ae0f-4e95-b8db-8b336f60db27/vietnamese.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/f4d62e0a-584e-4d91-8817-ce3b29bb2a6a/cyrillic-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/c2e23074-2298-442a-b42b-ced48e6f606b/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/28615878-88b1-45a6-a8fd-0d8cc156b15c/vietnamese.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/f07d9199-79ba-44f5-8bdd-faa96d3597be/cyrillic.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/7361fee5-f301-4fb3-8b7e-ef656606a470/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/ef5ce46d-507d-4342-81f0-663db2bb3860/cyrillic-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/666a8a87-bc6c-49b8-b5b0-f5d77d8b57b4/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/a7bafd12-eaea-45d1-98c6-cf42067bb07e/vietnamese.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/ae1c8cd6-b614-4918-a32d-c198597f97d1/cyrillic.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/1811ec83-ae16-4315-97be-d1d5822751fa/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "adobe-garamond-pro",
+          "url": "https://use.typekit.net/af/a4e080/00000000000000007735d91e/31/l?subset_id=2&fvd=n7&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "adobe-garamond-pro",
+          "url": "https://use.typekit.net/af/7b6e7b/00000000000000007735d921/31/l?subset_id=2&fvd=i7&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "assets.squarespace.com",
+        "definitions.sqspcdn.com",
+        "definitions.sqspcdn.com",
+        "definitions.sqspcdn.com",
+        "definitions.sqspcdn.com",
+        "static1.squarespace.com",
+        "static1.squarespace.com",
+        "static1.squarespace.com",
+        "www.statebirdsf.com",
+        "assets.squarespace.com",
+        "assets.squarespace.com",
+        "assets.squarespace.com",
+        "www.statebirdsf.com"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/ik/uGAc9gcNlZidJ-nFK6mAHS7WXjOpXKjhQxHwBYagAltfe86JXnX1IyvhF2jtFRZLFR93weI352BKFe9uw2JUZewXZRwa5eJUe6MKIcBqdh48OAiyScBldhoqOWgkdkG4fVMXIMMjgkMfH6qJvQbbMg6sJMHbMia4tv9e.js",
+        "https://use.typekit.net/af/a4e080/00000000000000007735d91e/31/l?subset_id=2&fvd=n7&v=3",
+        "https://use.typekit.net/af/7b6e7b/00000000000000007735d921/31/l?subset_id=2&fvd=i7&v=3",
+        "https://use.typekit.net/",
+        "https://p.typekit.net/"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Space Mono Regular",
+          "n": 25
+        },
+        {
+          "famille": "adobe-garamond-pro",
+          "n": 5
+        },
+        {
+          "famille": "Space Mono Bold",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#faf5e2",
+      "texte": "#3e413d",
+      "fondsBruts": [
+        {
+          "hex": "#faf5e2",
+          "n": 1,
+          "poids": 3241440
+        },
+        {
+          "hex": "#55704e",
+          "n": 8,
+          "poids": 1209592.828125
+        },
+        {
+          "hex": "#c5b7dc",
+          "n": 4,
+          "poids": 735697.0185546875
+        },
+        {
+          "hex": "#3e413d",
+          "n": 12,
+          "poids": 708566.4621582031
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3e413d",
+          "n": 19,
+          "poids": 555
+        },
+        {
+          "hex": "#faf5e2",
+          "n": 3,
+          "poids": 81
+        },
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 61
+        },
+        {
+          "hex": "#55704e",
+          "n": 3,
+          "poids": 30
+        }
+      ],
+      "nbImages": 13,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 10,
+      "fonds": [
+        {
+          "hex": "#faf5e2",
+          "n": 1,
+          "poids": 3241440,
+          "part": 0.55
+        },
+        {
+          "hex": "#55704e",
+          "n": 8,
+          "poids": 1209592.828125,
+          "part": 0.205
+        },
+        {
+          "hex": "#c5b7dc",
+          "n": 4,
+          "poids": 735697.0185546875,
+          "part": 0.125
+        },
+        {
+          "hex": "#3e413d",
+          "n": 12,
+          "poids": 708566.4621582031,
+          "part": 0.12
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3e413d",
+          "n": 19,
+          "poids": 555,
+          "part": 0.763
+        },
+        {
+          "hex": "#faf5e2",
+          "n": 3,
+          "poids": 81,
+          "part": 0.111
+        },
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 61,
+          "part": 0.084
+        },
+        {
+          "hex": "#55704e",
+          "n": 3,
+          "poids": 30,
+          "part": 0.041
+        }
+      ],
+      "contraste": 9.48
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.1s linear",
+          "n": 8
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 5
+        },
+        {
+          "valeur": "fill 0.17s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "transform 0.25s cubic-bezier(0.2, 0.6, 0.3, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "width 0.25s cubic-bezier(0.2, 0.6, 0.3, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "background-color 0.17s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.17s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "background 0.14s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.14s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "padding 0.14s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animation-role",
+          "n": 18
+        },
+        {
+          "nom": "data-animation",
+          "n": 7
+        },
+        {
+          "nom": "data-override-initial-global-animation",
+          "n": 2
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "button.user-items-list-carousel__arrow-button",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "opacity 0.3s ease"
+        ],
+        "attributs": [
+          "data-animation-role",
+          "data-override-initial-global-animation"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div#siteWrapper",
+      "sections": [
+        {
+          "selecteur": "main#page",
+          "titre": "DINING ROOM & CHEF'S COUNTER",
+          "top": 0,
+          "hauteur": 1583,
+          "ecrans": 1.8,
+          "mots": 35,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer#footer-sections",
+          "titre": null,
+          "top": 1583,
+          "hauteur": 668,
+          "ecrans": 0.7,
+          "mots": 56,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#header",
+        "hauteur": 92,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Skip to Content",
+            "href": "#page",
+            "bouton": true
+          },
+          {
+            "texte": "0",
+            "href": "/cart",
+            "bouton": false
+          },
+          {
+            "texte": "Open Menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#footer-sections",
+        "liens": [
+          {
+            "texte": "1529 Fillmore Street San Francisco CA 94",
+            "href": "https://goo.gl/maps/y3zeXvgpLMs",
+            "bouton": false
+          },
+          {
+            "texte": "(415) 795-1272",
+            "href": "tel:4157951272",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "mailto:info@statebirdsf.com?subject=State%20Bird%20Provisions%3A%20Website%20Inquiry",
+            "bouton": false
+          },
+          {
+            "texte": "Reservations‍",
+            "href": "#l-reservations-sbp",
+            "bouton": false
+          },
+          {
+            "texte": "Gift Cards",
+            "href": "https://www.toasttab.com/state-bird-provisions/giftcards",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "http://instagram.com/statebirdprovisions",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/statebirdsf/",
+            "bouton": false
+          },
+          {
+            "texte": "Stay updated!",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "brand and site by ray studio",
+            "href": "https://ray.studio/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:4157951272"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Open Menu",
+          "href": ""
+        },
+        {
+          "texte": "reservations",
+          "href": "#l-null"
+        },
+        {
+          "texte": "Reservations‍",
+          "href": "#l-reservations-sbp"
+        },
+        {
+          "texte": "Gift Cards",
+          "href": "https://www.toasttab.com/state-bird-provisions/giftcards"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "header#header",
+          "position": "fixed",
+          "hauteur": 92,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 6
+        }
+      ],
+      "barreBas": {
+        "selecteur": "section.gdpr-cookie-banner",
+        "hauteur": 73,
+        "largeur": 1440,
+        "liens": [
+          {
+            "texte": "Manage cookies",
+            "href": ""
+          },
+          {
+            "texte": "DECLINE ALL",
+            "href": ""
+          },
+          {
+            "texte": "Accept all",
+            "href": ""
+          }
+        ]
+      }
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 8,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Space Mono Regular",
+        "Space Mono Bold"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/statebird-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#3e413d",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 44,
+      "images": 4,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Accept all",
+        "x": 20,
+        "y": 791,
+        "cx": 0.18697916666666667,
+        "cy": 0.9603080568720379,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.28,
+        "texte": "Select “Accept all” to agree to our use of cookies and similar technologies to enhance your browsing experience, security, analytics and customization. Select ”Manage cookies” to make more choices or ",
+        "selecteur": "section.gdpr-cookie-banner"
+      },
+      "barreBas": null,
+      "scrollHeight": 2941,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.list-item-content__title",
+        "famille": "\"Space Mono Regular\"",
+        "taille": 18.0256,
+        "graisse": "500",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "4.5064px"
+      },
+      "p": {
+        "selecteur": "p.disclaimer-text",
+        "famille": "\"Space Mono Regular\"",
+        "taille": 13.9744,
+        "graisse": "300",
+        "interlignage": 1.8,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.accept",
+        "famille": "\"Space Mono Regular\"",
+        "taille": 12,
+        "graisse": "500",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.24px"
+      },
+      "nav": {
+        "selecteur": "a.cart-style-icon",
+        "famille": "adobe-garamond-pro",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/e5441b3f-475c-4dd0-815e-d1493a6eef24/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/e364ec28-4783-442b-b46f-59d33a99dd2c/devanagari.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/67451c8f-d5ad-40d0-a48b-1e842ade5679/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/d03c0883-8248-47bf-9fa3-437f8474b0b7/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/da0c3c0d-458f-46e2-9c64-bac004d4e8c1/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/7050a57e-968a-4317-a487-11e4374878d9/devanagari.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/4bbf7666-37bc-41b4-88a3-dd3413efcc09/vietnamese.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/a1849ad2-8ff1-4968-a3ec-03a91c9b98dc/cyrillic-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/c52f2669-b960-4385-86d9-a0529f366f01/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/37b5ce86-992e-41c5-8d17-01d3b8cc913b/cyrillic.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/4f3c9c63-637c-426b-ad69-48b3338fda09/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/28866714-3a03-4fde-b82e-bcffd944752e/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/ab6b1da4-72e3-4abf-a176-e7a8a24b53d1/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/7d30df3b-ed0a-4cdd-824a-b3c7e5e49f0d/devanagari.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/95402d3d-cf4f-4ff3-b652-fa1bddbe79de/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/31f2dfaf-de1e-40ab-ac18-8641e6ac98d0/devanagari.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Poppins",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/ab5cf469-e78c-4791-92a2-a2e360e24c1d/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/f24a6964-2318-44e7-b59a-7568c4bdd9a4/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/44fc5f49-6c7c-4573-9c8a-8505d259f08b/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/75c8587e-754e-4033-ba11-213965d735ab/cyrillic-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/62905415-467c-47b5-a5c1-a1abf0e8075b/cyrillic.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/cb16a8a3-ae0f-4e95-b8db-8b336f60db27/vietnamese.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/f4d62e0a-584e-4d91-8817-ce3b29bb2a6a/cyrillic-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/c2e23074-2298-442a-b42b-ced48e6f606b/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/28615878-88b1-45a6-a8fd-0d8cc156b15c/vietnamese.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/f07d9199-79ba-44f5-8bdd-faa96d3597be/cyrillic.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/7361fee5-f301-4fb3-8b7e-ef656606a470/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/ef5ce46d-507d-4342-81f0-663db2bb3860/cyrillic-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/666a8a87-bc6c-49b8-b5b0-f5d77d8b57b4/latin-ext.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/a7bafd12-eaea-45d1-98c6-cf42067bb07e/vietnamese.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/ae1c8cd6-b614-4918-a32d-c198597f97d1/cyrillic.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "Cormorant Garamond",
+          "url": "https://file.squarespace-cdn.com/content/v2/namespaces/fonts/libraries/sqsp/assets/1811ec83-ae16-4315-97be-d1d5822751fa/latin.woff2",
+          "feuille": "inline",
+          "source": "tiers (file.squarespace-cdn.com)"
+        },
+        {
+          "famille": "adobe-garamond-pro",
+          "url": "https://use.typekit.net/af/a4e080/00000000000000007735d91e/31/l?subset_id=2&fvd=n7&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "adobe-garamond-pro",
+          "url": "https://use.typekit.net/af/7b6e7b/00000000000000007735d921/31/l?subset_id=2&fvd=i7&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "assets.squarespace.com",
+        "definitions.sqspcdn.com",
+        "definitions.sqspcdn.com",
+        "definitions.sqspcdn.com",
+        "definitions.sqspcdn.com",
+        "static1.squarespace.com",
+        "static1.squarespace.com",
+        "static1.squarespace.com",
+        "www.statebirdsf.com",
+        "assets.squarespace.com",
+        "assets.squarespace.com",
+        "assets.squarespace.com",
+        "www.statebirdsf.com"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/ik/uGAc9gcNlZidJ-nFK6mAHS7WXjOpXKjhQxHwBYagAltfe86JXnX1IyvhF2jtFRZLFR93weI352BKFe9uw2JUZewXZRwa5eJUe6MKIcBqdh48OAiyScBldhoqOWgkdkG4fVMXIMMjgkMfH6qJvQbbMg6sJMHbMia4tv9e.js",
+        "https://use.typekit.net/af/a4e080/00000000000000007735d91e/31/l?subset_id=2&fvd=n7&v=3",
+        "https://use.typekit.net/af/7b6e7b/00000000000000007735d921/31/l?subset_id=2&fvd=i7&v=3",
+        "https://use.typekit.net/",
+        "https://p.typekit.net/"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Space Mono Regular",
+          "n": 25
+        },
+        {
+          "famille": "adobe-garamond-pro",
+          "n": 5
+        },
+        {
+          "famille": "Space Mono Bold",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#faf5e2",
+      "texte": "#3e413d",
+      "fondsBruts": [
+        {
+          "hex": "#faf5e2",
+          "n": 1,
+          "poids": 1146990
+        },
+        {
+          "hex": "#c5b7dc",
+          "n": 4,
+          "poids": 543530.2841796875
+        },
+        {
+          "hex": "#55704e",
+          "n": 8,
+          "poids": 337114.546875
+        },
+        {
+          "hex": "#3e413d",
+          "n": 12,
+          "poids": 306155.08251953125
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3e413d",
+          "n": 19,
+          "poids": 555
+        },
+        {
+          "hex": "#faf5e2",
+          "n": 3,
+          "poids": 81
+        },
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 61
+        },
+        {
+          "hex": "#55704e",
+          "n": 3,
+          "poids": 30
+        }
+      ],
+      "nbImages": 11,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 10,
+      "fonds": [
+        {
+          "hex": "#faf5e2",
+          "n": 1,
+          "poids": 1146990,
+          "part": 0.491
+        },
+        {
+          "hex": "#c5b7dc",
+          "n": 4,
+          "poids": 543530.2841796875,
+          "part": 0.233
+        },
+        {
+          "hex": "#55704e",
+          "n": 8,
+          "poids": 337114.546875,
+          "part": 0.144
+        },
+        {
+          "hex": "#3e413d",
+          "n": 12,
+          "poids": 306155.08251953125,
+          "part": 0.131
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3e413d",
+          "n": 19,
+          "poids": 555,
+          "part": 0.763
+        },
+        {
+          "hex": "#faf5e2",
+          "n": 3,
+          "poids": 81,
+          "part": 0.111
+        },
+        {
+          "hex": "#ffffff",
+          "n": 5,
+          "poids": 61,
+          "part": 0.084
+        },
+        {
+          "hex": "#55704e",
+          "n": 3,
+          "poids": 30,
+          "part": 0.041
+        }
+      ],
+      "contraste": 9.48
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.1s linear",
+          "n": 8
+        },
+        {
+          "valeur": "fill 0.17s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "transform 0.25s cubic-bezier(0.2, 0.6, 0.3, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "width 0.25s cubic-bezier(0.2, 0.6, 0.3, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "background-color 0.17s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.17s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "background 0.14s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.14s ease-in-out",
+          "n": 1
+        },
+        {
+          "valeur": "padding 0.14s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animation-role",
+          "n": 18
+        },
+        {
+          "nom": "data-animation",
+          "n": 7
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "header#header",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "background 0.14s ease-in-out",
+          "transform 0.14s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div#siteWrapper",
+      "sections": [
+        {
+          "selecteur": "main#page",
+          "titre": "DINING ROOM & CHEF'S COUNTER",
+          "top": 0,
+          "hauteur": 1532,
+          "ecrans": 1.8,
+          "mots": 35,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer#footer-sections",
+          "titre": null,
+          "top": 1532,
+          "hauteur": 1409,
+          "ecrans": 1.7,
+          "mots": 56,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#header",
+        "hauteur": 77,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Skip to Content",
+            "href": "#page",
+            "bouton": true
+          },
+          {
+            "texte": "0",
+            "href": "/cart",
+            "bouton": false
+          },
+          {
+            "texte": "Open Menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#footer-sections",
+        "liens": [
+          {
+            "texte": "1529 Fillmore Street San Francisco CA 94",
+            "href": "https://goo.gl/maps/y3zeXvgpLMs",
+            "bouton": false
+          },
+          {
+            "texte": "(415) 795-1272",
+            "href": "tel:4157951272",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "mailto:info@statebirdsf.com?subject=State%20Bird%20Provisions%3A%20Website%20Inquiry",
+            "bouton": false
+          },
+          {
+            "texte": "Reservations‍",
+            "href": "#l-reservations-sbp",
+            "bouton": false
+          },
+          {
+            "texte": "Gift Cards",
+            "href": "https://www.toasttab.com/state-bird-provisions/giftcards",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "http://instagram.com/statebirdprovisions",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/statebirdsf/",
+            "bouton": false
+          },
+          {
+            "texte": "Stay updated!",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "brand and site by ray studio",
+            "href": "https://ray.studio/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:4157951272"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Open Menu",
+          "href": ""
+        },
+        {
+          "texte": "reservations",
+          "href": "#l-null"
+        },
+        {
+          "texte": "Reservations‍",
+          "href": "#l-reservations-sbp"
+        },
+        {
+          "texte": "Gift Cards",
+          "href": "https://www.toasttab.com/state-bird-provisions/giftcards"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "header#header",
+          "position": "fixed",
+          "hauteur": 77,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 6
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 8,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Space Mono Regular",
+        "Space Mono Bold"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "State Bird Provisions",
+  "dureeS": 28.4
+}

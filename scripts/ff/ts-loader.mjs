@@ -354,6 +354,22 @@ export async function loadBiensModule() {
   return loadPureLibModule('biens.ts');
 }
 
+/**
+ * Copie src/lib/revendeurs.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture revendeurs-secteurs : revendeurs,
+ * secteurs, communes, genres ; tests/architectures-producteurs.test.mjs).
+ */
+export async function loadRevendeursModule() {
+  return loadPureLibModule('revendeurs.ts');
+}
+
+/**
+ * Copie src/lib/profils.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture profils-patients : profils, praticiens,
+ * résumé ; tests/architectures-producteurs.test.mjs).
+ */
+export async function loadProfilsModule() {
+  return loadPureLibModule('profils.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

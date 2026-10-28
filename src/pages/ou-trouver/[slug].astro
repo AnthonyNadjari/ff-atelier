@@ -1,0 +1,84 @@
+---
+/**
+ * Page d'un secteur (/ou-trouver/<secteur>, site.revendeurs, src/lib/revendeurs.ts) : architecture `revendeurs-secteurs`
+ * (docs/veille/architectures/revendeurs-secteurs.md ; « Liste des points de vente de l'Hérault » puis « du Gard » de la
+ * Brasserie des Garrigues). Le secteur, ses communes de A à Z et leurs revendeurs, la vente sur place, Appeler, les autres
+ * secteurs. Une page par secteur, seulement quand il y en a deux ou plus (sinon /ou-trouver suffit).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, fullAddress, secteursDe, phraseSecteur, lienRevendeurs } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  if (!lienRevendeurs(site.revendeurs, site.wording.revendeurs)) return [];
+  const secteurs = secteursDe(site.revendeurs);
+  return secteurs.length >= 2 ? secteurs.map((s) => ({ params: { slug: s.slug }, props: { s } })) : [];
+}
+const { s } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const x = site.revendeurs!;
+const autres = secteursDe(x).filter((y) => y.slug !== s.slug);
+---
+
+<Base title={`${site.wording.revendeurs}, ${s.nom} | ${site.business.name}`} description={`Où trouver ${site.business.name} : ${s.nom}, ${phraseSecteur(s)} (${s.communes.map((c) => c.nom).join(', ')}).`} path={`/ou-trouver/${s.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff pos">
+    <p><a href="/ou-trouver" class="pos-lien"><Icon name="ArrowLeft" size={16} />{site.wording.revendeurs}</a></p>
+    <header class="pos-tete">
+      <h1 class="pos-titre font-display">{s.nom}</h1>
+      <p class="pos-n tabular-nums">{phraseSecteur(s)}</p>
+      <p><a href={tel()} class="pos-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    </header>
+    <div class="pos-communes">
+      {s.communes.map((c) => (
+        <section class="pos-commune" aria-labelledby={`pos-${c.nom.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+          <h2 id={`pos-${c.nom.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} class="pos-h2">{c.nom}</h2>
+          <ul>
+            {c.revendeurs.map((r) => (
+              <li>
+                {r.lien ? <a href={r.lien} target="_blank" rel="noopener" class="pos-nom pos-lien-nom">{r.nom}<span class="sr-only"> (nouvel onglet)</span></a> : <span class="pos-nom">{r.nom}</span>}
+                {[r.type, r.adresse, r.pression ? 'à la pression' : '', r.consigne ? 'reprend la consigne' : ''].filter(Boolean).length > 0 && <span class="pos-muted">{[r.type, r.adresse, r.pression ? 'à la pression' : '', r.consigne ? 'reprend la consigne' : ''].filter(Boolean).join(', ')}</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+    <section class="pos-place" aria-labelledby="pos-place">
+      <h2 id="pos-place" class="pos-h2">Chez {site.business.name}</h2>
+      {x.surPlace && <p>{x.surPlace}</p>}
+      <p>{fullAddress()}</p>
+    </section>
+    {autres.length > 0 && (
+      <nav class="pos-autres" aria-label="Les autres secteurs">
+        <h2 class="pos-h2">Ailleurs</h2>
+        <ul>{autres.map((y) => <li><a href={`/ou-trouver/${y.slug}`} class="pos-autre"><span>{y.nom}</span><span class="tabular-nums">{phraseSecteur(y)}</span></a></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pos { display: grid; gap: 2rem; padding-block: clamp(1.25rem, 4vh, 3.5rem); }
+  .pos-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; }
+  .pos-tete { display: grid; gap: 0.5rem; }
+  .pos-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .pos-n { font-size: 1.15rem; color: var(--color-muted); }
+  .pos-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .pos-lien-nom { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pos-tel:focus-visible, .pos-lien:focus-visible, .pos-lien-nom:focus-visible, .pos-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pos-communes { display: grid; gap: 1.5rem 2.5rem; }
+  .pos-commune { display: grid; gap: 0.4rem; padding-block-start: 0.6rem; border-block-start: 2px solid var(--color-fg); }
+  .pos-commune ul { display: grid; gap: 0.5rem; }
+  .pos-commune li { display: grid; }
+  .pos-nom { font-weight: 600; }
+  .pos-muted { color: var(--color-muted); }
+  .pos-h2 { font-weight: 700; font-size: 1.2rem; }
+  .pos-place { display: grid; gap: 0.4rem; padding: 1.1rem 1.25rem; border-radius: var(--radius-card); background: var(--color-bg-2); }
+  .pos-autres ul { display: grid; }
+  .pos-autre { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; min-block-size: 48px; align-items: center; border-block-end: 1px solid var(--color-line); }
+  @media (min-width: 48rem) { .pos-communes { grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); } }
+</style>
