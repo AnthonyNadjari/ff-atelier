@@ -1,0 +1,1380 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://barkumiko.com/",
+  "nom": "barkumiko",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Bar Kumiko — Japanese Dining Bar in Chicago's West Loop",
+    "siteName": "",
+    "lang": "en",
+    "description": "Kumiko is a Japanese dining bar in Chicago's West Loop where food, drink, and hospitality are treated with equal reverence. Open Wednesday–Sunday, 5:30pm–12am.",
+    "technologies": [
+      "generator « Webflow »",
+      "Webflow",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#142d38",
+      "h1": "kumiko",
+      "h1Visible": true,
+      "mots": 25,
+      "images": 8,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.9,
+        "selecteur": "img.hero-slide-img"
+      },
+      "boutonPrincipal": {
+        "texte": "Show photo 1",
+        "x": 618,
+        "y": 852,
+        "cx": 0.43472222222222223,
+        "cy": 0.9555555555555556,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 3234,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "section#welcome"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.kumiko-hero-title",
+        "famille": "Vinter, Arial, sans-serif",
+        "taille": 112,
+        "graisse": "300",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "lowercase",
+        "interlettrage": "6.72px"
+      },
+      "h2": {
+        "selecteur": "h2.heading-section",
+        "famille": "Vinter, Arial, sans-serif",
+        "taille": 36,
+        "graisse": "300",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.body-text",
+        "famille": "Vinter, Arial, sans-serif",
+        "taille": 24,
+        "graisse": "300",
+        "interlignage": 1.8,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a#nav-book-table",
+        "famille": "Vinter, Arial, sans-serif",
+        "taille": 16,
+        "graisse": "800",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "3.84px"
+      },
+      "nav": {
+        "selecteur": "a.nav-link",
+        "famille": "Vinter, Arial, sans-serif",
+        "taille": 16,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "2.24px"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Baskervville",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/6a5400499a490ec7481ba4a6_Baskervville-Regular.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e250420ba257a7dbbc3_Vinter-Regular.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e255c3e2061d65a19d7_Vinter-Medium.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e2597ba26354bdf6d9b_Vinter-Thin.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e259e6e4324385fdb46_Vinter-Light.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e25cc5cd9f226cce014_Vinter-Extralight.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e25c969938b18db139d_Vinter-LightItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/6a540004850ce655edecb7ae_Vinter-ExtralightItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e2548fe9267a789149e_Vinter-RegularItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/6a540021b469b1673445bf79_Vinter-MediumItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-400-normal.804378952da8a10faae2.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-400-normal.71a33b6b50457b2c903a.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-400-normal.169619821ea93019d1bb.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-400-normal.c35e4c3958e209d17b31.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-400-normal.3230f9b040f3c630e0c3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-400-normal.861b791f9de857a6e7bc.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-400-normal.b009a76ad6afe4ebd301.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-500-normal.62ced72e5832f02c2796.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-500-normal.cad7d3d9cb265e334e58.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-500-normal.6fb9cffb1d3e72bf9293.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-500-normal.9ac81fefbe6c319ea40b.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-500-normal.d8642a3d1d4ef6179644.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-500-normal.9165081d10e1ba601384.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-700-normal.be4d02458ce53887dc37.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-700-normal.d010f1f324e111a22e53.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-700-normal.50e795c1345353b0e996.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-700-normal.3425a701027d0699e369.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-700-normal.ed67ad54b1a8f5d21150.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-700-normal.227c93190fe7f82de3f8.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e255c3e2061d65a19d7_Vinter-Medium.otf",
+        "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e259e6e4324385fdb46_Vinter-Light.otf",
+        "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e250420ba257a7dbbc3_Vinter-Regular.otf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Vinter",
+          "n": 35
+        },
+        {
+          "famille": "Arial",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f7f4ee",
+      "texte": "#333333",
+      "fondsBruts": [
+        {
+          "hex": "#f7f4ee",
+          "n": 2,
+          "poids": 4660450
+        },
+        {
+          "hex": "#142d38",
+          "n": 3,
+          "poids": 1820417.875
+        },
+        {
+          "hex": "#ede7d9",
+          "n": 1,
+          "poids": 783423.4321289062
+        },
+        {
+          "hex": "#d4a882",
+          "n": 3,
+          "poids": 28194.04256862402
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#f7f4ee",
+          "n": 15,
+          "poids": 310
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 254
+        },
+        {
+          "hex": "#3a3a36",
+          "n": 1,
+          "poids": 107
+        },
+        {
+          "hex": "#18181a",
+          "n": 9,
+          "poids": 68
+        },
+        {
+          "hex": "#b98f6b",
+          "n": 4,
+          "poids": 54
+        },
+        {
+          "hex": "#d4a882",
+          "n": 3,
+          "poids": 18
+        },
+        {
+          "hex": "#c8d8e0",
+          "n": 1,
+          "poids": 17
+        },
+        {
+          "hex": "#8b5a3a",
+          "n": 1,
+          "poids": 8
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 6
+        }
+      ],
+      "nbImages": 9,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f7f4ee",
+          "n": 2,
+          "poids": 4660450,
+          "part": 0.639
+        },
+        {
+          "hex": "#142d38",
+          "n": 3,
+          "poids": 1820417.875,
+          "part": 0.25
+        },
+        {
+          "hex": "#ede7d9",
+          "n": 1,
+          "poids": 783423.4321289062,
+          "part": 0.107
+        },
+        {
+          "hex": "#d4a882",
+          "n": 3,
+          "poids": 28194.04256862402,
+          "part": 0.004
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#f7f4ee",
+          "n": 15,
+          "poids": 310,
+          "part": 0.368
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 254,
+          "part": 0.302
+        },
+        {
+          "hex": "#3a3a36",
+          "n": 1,
+          "poids": 107,
+          "part": 0.127
+        },
+        {
+          "hex": "#18181a",
+          "n": 9,
+          "poids": 68,
+          "part": 0.081
+        },
+        {
+          "hex": "#b98f6b",
+          "n": 4,
+          "poids": 54,
+          "part": 0.064
+        }
+      ],
+      "contraste": 11.51
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "nav.nav-bar",
+          "ecrans": 3.6
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 18
+        },
+        {
+          "valeur": "opacity 1.2s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "background-color 0.2s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "background-color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "border-color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "transform 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "box-shadow 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "animation kRiseHero 0.9s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "background-color 0.25s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div#w-dropdown-toggle-0",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "background-color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "border-color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "transform 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "box-shadow 0.12s cubic-bezier(0.22, 1, 0.36, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "main#main",
+          "titre": "kumiko",
+          "top": 88,
+          "hauteur": 2701,
+          "ecrans": 3,
+          "mots": 86,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.footer-bar",
+          "titre": null,
+          "top": 2789,
+          "hauteur": 445,
+          "ecrans": 0.5,
+          "mots": 57,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.nav-bar",
+        "hauteur": 88,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "SKIP TO MAIN CONTENT",
+            "href": "#main",
+            "bouton": true
+          },
+          {
+            "texte": "Kumiko home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "SHOP",
+            "href": "/shop",
+            "bouton": false
+          },
+          {
+            "texte": "ABOUT",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "CAFÉ",
+            "href": "/cafe",
+            "bouton": false
+          },
+          {
+            "texte": "RESERVE",
+            "href": "/reserve",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer-bar",
+        "liens": [
+          {
+            "texte": "Menu",
+            "href": "/dining-room-and-bar",
+            "bouton": false
+          },
+          {
+            "texte": "Reserve",
+            "href": "/reserve",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "Our Story",
+            "href": "/our-story",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Café",
+            "href": "/cafe",
+            "bouton": false
+          },
+          {
+            "texte": "Bottled Cocktails",
+            "href": "/shop#shop-sec-bottled-cocktails",
+            "bouton": false
+          },
+          {
+            "texte": "For the Home",
+            "href": "/shop#shop-sec-for-the-home",
+            "bouton": false
+          },
+          {
+            "texte": "Gift Cards",
+            "href": "/shop#shop-sec-gift-cards",
+            "bouton": false
+          },
+          {
+            "texte": "hospitality@barkumiko.com",
+            "href": "mailto:hospitality@barkumiko.com",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "RESERVE",
+          "href": "/reserve"
+        },
+        {
+          "texte": "Menu",
+          "href": "/dining-room-and-bar"
+        },
+        {
+          "texte": "Gift Cards",
+          "href": "/shop#shop-sec-gift-cards"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "nav.nav-bar",
+          "position": "sticky",
+          "hauteur": 88,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 10
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 4,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/barkumiko-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#142d38",
+      "h1": "kumiko",
+      "h1Visible": true,
+      "mots": 19,
+      "images": 8,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.91,
+        "selecteur": "img.hero-slide-img"
+      },
+      "boutonPrincipal": {
+        "texte": "Show photo 1",
+        "x": 93,
+        "y": 796,
+        "cx": 0.258974358974359,
+        "cy": 0.95260663507109,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 4394,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "section#welcome"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.kumiko-hero-title",
+        "famille": "Vinter, Arial, sans-serif",
+        "taille": 56,
+        "graisse": "300",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "lowercase",
+        "interlettrage": "3.36px"
+      },
+      "h2": {
+        "selecteur": "h2.heading-section",
+        "famille": "Vinter, Arial, sans-serif",
+        "taille": 36,
+        "graisse": "300",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.body-text",
+        "famille": "Vinter, Arial, sans-serif",
+        "taille": 24,
+        "graisse": "300",
+        "interlignage": 1.8,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.nav-burger",
+        "famille": "Arial, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.43,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.skip-link",
+        "famille": "Arial, sans-serif",
+        "taille": 14,
+        "graisse": "500",
+        "interlignage": 1.43,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.68px"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Baskervville",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/6a5400499a490ec7481ba4a6_Baskervville-Regular.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e250420ba257a7dbbc3_Vinter-Regular.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e255c3e2061d65a19d7_Vinter-Medium.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e2597ba26354bdf6d9b_Vinter-Thin.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e259e6e4324385fdb46_Vinter-Light.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e25cc5cd9f226cce014_Vinter-Extralight.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e25c969938b18db139d_Vinter-LightItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/6a540004850ce655edecb7ae_Vinter-ExtralightItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e2548fe9267a789149e_Vinter-RegularItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Vinter",
+          "url": "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/6a540021b469b1673445bf79_Vinter-MediumItalic.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-400-normal.804378952da8a10faae2.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-400-normal.71a33b6b50457b2c903a.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-400-normal.169619821ea93019d1bb.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-400-normal.c35e4c3958e209d17b31.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-400-normal.3230f9b040f3c630e0c3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-400-normal.861b791f9de857a6e7bc.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-400-normal.b009a76ad6afe4ebd301.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-500-normal.62ced72e5832f02c2796.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-500-normal.cad7d3d9cb265e334e58.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-500-normal.6fb9cffb1d3e72bf9293.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-500-normal.9ac81fefbe6c319ea40b.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-500-normal.d8642a3d1d4ef6179644.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-500-normal.9165081d10e1ba601384.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-700-normal.be4d02458ce53887dc37.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-700-normal.d010f1f324e111a22e53.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-700-normal.50e795c1345353b0e996.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-700-normal.3425a701027d0699e369.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-700-normal.ed67ad54b1a8f5d21150.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-700-normal.227c93190fe7f82de3f8.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e255c3e2061d65a19d7_Vinter-Medium.otf",
+        "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e259e6e4324385fdb46_Vinter-Light.otf",
+        "https://cdn.prod.website-files.com/69f3d799bbc59d8dea247a53/69f45e250420ba257a7dbbc3_Vinter-Regular.otf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Vinter",
+          "n": 29
+        },
+        {
+          "famille": "Arial",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f7f4ee",
+      "texte": "#333333",
+      "fondsBruts": [
+        {
+          "hex": "#f7f4ee",
+          "n": 2,
+          "poids": 1713916
+        },
+        {
+          "hex": "#142d38",
+          "n": 3,
+          "poids": 600492.25
+        },
+        {
+          "hex": "#ede7d9",
+          "n": 1,
+          "poids": 224438.90625
+        },
+        {
+          "hex": "#d4a882",
+          "n": 2,
+          "poids": 21425
+        },
+        {
+          "hex": "#18181a",
+          "n": 3,
+          "poids": 78
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#f7f4ee",
+          "n": 15,
+          "poids": 310
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 254
+        },
+        {
+          "hex": "#3a3a36",
+          "n": 1,
+          "poids": 107
+        },
+        {
+          "hex": "#b98f6b",
+          "n": 4,
+          "poids": 54
+        },
+        {
+          "hex": "#18181a",
+          "n": 3,
+          "poids": 36
+        },
+        {
+          "hex": "#d4a882",
+          "n": 3,
+          "poids": 18
+        },
+        {
+          "hex": "#c8d8e0",
+          "n": 1,
+          "poids": 17
+        },
+        {
+          "hex": "#8b5a3a",
+          "n": 1,
+          "poids": 8
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 6
+        }
+      ],
+      "nbImages": 9,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#f7f4ee",
+          "n": 2,
+          "poids": 1713916,
+          "part": 0.669
+        },
+        {
+          "hex": "#142d38",
+          "n": 3,
+          "poids": 600492.25,
+          "part": 0.235
+        },
+        {
+          "hex": "#ede7d9",
+          "n": 1,
+          "poids": 224438.90625,
+          "part": 0.088
+        },
+        {
+          "hex": "#d4a882",
+          "n": 2,
+          "poids": 21425,
+          "part": 0.008
+        },
+        {
+          "hex": "#18181a",
+          "n": 3,
+          "poids": 78,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#f7f4ee",
+          "n": 15,
+          "poids": 310,
+          "part": 0.383
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 254,
+          "part": 0.314
+        },
+        {
+          "hex": "#3a3a36",
+          "n": 1,
+          "poids": 107,
+          "part": 0.132
+        },
+        {
+          "hex": "#b98f6b",
+          "n": 4,
+          "poids": 54,
+          "part": 0.067
+        },
+        {
+          "hex": "#18181a",
+          "n": 3,
+          "poids": 36,
+          "part": 0.044
+        }
+      ],
+      "contraste": 11.51
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 12
+        },
+        {
+          "valeur": "opacity 1.2s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "background-color 0.2s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "transform 0.25s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "opacity 0.25s cubic-bezier(0.65, 0, 0.35, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "animation kRiseHero 0.9s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "background-color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "border-color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.btn",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "background-color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "border-color 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "transform 0.12s cubic-bezier(0.22, 1, 0.36, 1)",
+          "box-shadow 0.12s cubic-bezier(0.22, 1, 0.36, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "main#main",
+          "titre": "kumiko",
+          "top": 72,
+          "hauteur": 3581,
+          "ecrans": 4.2,
+          "mots": 86,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.footer-bar",
+          "titre": null,
+          "top": 3653,
+          "hauteur": 741,
+          "ecrans": 0.9,
+          "mots": 57,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.nav-bar",
+        "hauteur": 72,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "SKIP TO MAIN CONTENT",
+            "href": "#main",
+            "bouton": true
+          },
+          {
+            "texte": "Kumiko home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Menu",
+            "href": "#",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer-bar",
+        "liens": [
+          {
+            "texte": "Menu",
+            "href": "/dining-room-and-bar",
+            "bouton": false
+          },
+          {
+            "texte": "Reserve",
+            "href": "/reserve",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "Our Story",
+            "href": "/our-story",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Café",
+            "href": "/cafe",
+            "bouton": false
+          },
+          {
+            "texte": "Bottled Cocktails",
+            "href": "/shop#shop-sec-bottled-cocktails",
+            "bouton": false
+          },
+          {
+            "texte": "For the Home",
+            "href": "/shop#shop-sec-for-the-home",
+            "bouton": false
+          },
+          {
+            "texte": "Gift Cards",
+            "href": "/shop#shop-sec-gift-cards",
+            "bouton": false
+          },
+          {
+            "texte": "hospitality@barkumiko.com",
+            "href": "mailto:hospitality@barkumiko.com",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Menu",
+          "href": "/dining-room-and-bar"
+        },
+        {
+          "texte": "Reserve",
+          "href": "/reserve"
+        },
+        {
+          "texte": "Gift Cards",
+          "href": "/shop#shop-sec-gift-cards"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "nav.nav-bar",
+          "position": "fixed",
+          "hauteur": 72,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 4
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 4,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Bar Kumiko",
+  "dureeS": 19.5
+}

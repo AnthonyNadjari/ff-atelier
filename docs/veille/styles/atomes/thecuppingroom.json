@@ -1,0 +1,121 @@
+{
+  "id": "thecuppingroom",
+  "version": 1,
+  "source": {
+    "url": "http://www.thecuppingroom.com.au/",
+    "nom": "The Cupping Room",
+    "metier": "café et brunch de quartier, torréfaction partenaire (Canberra)",
+    "fiche": "docs/veille/styles/thecuppingroom.md",
+    "mesures": "docs/veille/styles/atomes/mesures/thecuppingroom.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Quincy",
+      "libre": "gelasio",
+      "graisse": 400,
+      "interlignage": 1.0,
+      "casse": "none",
+      "interlettrage": 0.02,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Epilogue",
+      "libre": "epilogue",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 34.2,
+        "ordinateur": 45.2
+      },
+      "h2": {
+        "telephone": 34.2,
+        "ordinateur": 45.2
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en Quincy (serif chaleureuse aux empattements doux et aux courbes appuyées, Village Type), 34 px au téléphone, 45 px à l'ordinateur, interlignage 1,0, à peine espacée (0,02 em), casse normale ; le menu aussi en Quincy (24 px). Le relevé lisait « Alice » sur le titre de la fenêtre d'inscription : corrigé d'après la fiche. Le h1 relevé (le nom sous la tasse, 24 / 38 px) est plus petit que les h2 : on retient la taille des titres de bloc comme titre affiché, sinon h2 plus grand que h1 (GOUT § 2). Quelques titres de bloc en Epilogue capitales (« OUR COFFEE », « OUR MENU »). Texte en Epilogue 16 px (géométrique de texte). Libres : Gelasio (serif de lecture au dessin chaud) en titre, Epilogue (déjà au registre, la même) en texte ; aucune police de la liste IA."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f5f1e9",
+      "surface": "#fffbf0",
+      "texte": "#000000",
+      "texte2": "#4f3824",
+      "accent": "#954020",
+      "accent2": null,
+      "bordure": "#954020",
+      "encre": "#954020"
+    },
+    "sombre": null,
+    "remarque": "Crème de lait #f5f1e9 (69 % des fonds), surface plus claire #fffbf0, texte noir ; la couleur est une seule : rouille de café torréfié #954020 (28 % des fonds : blocs pleins « Welcome », « Our coffee », pied rond du logo ; aussi les titres, les liens et les cadres). Texte blanc sur la rouille (7:1). Brun tabac #4f3824 retenu en texte secondaire. Coloré doux (bloc d'encre rouille)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 80,
+      "ordinateur": 104
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 336
+    },
+    "conteneur": 1213,
+    "mesure": 69,
+    "rythme": "alterne",
+    "remarque": "Le relevé automatique (371 / 318 px) comptait le premier écran. Relevé au DOM par section : du haut de la section au premier texte 73 à 127 px au téléphone (médiane des sections qui commencent par du texte, environ 80), 103 à 172 px à l'ordinateur ; du dernier élément au bas de la section 61 à 147 px (téléphone) et 62 à 140 px (ordinateur). Retenu 80 et 104. Bord 23 px au téléphone ; à l'ordinateur le contenu tient dans 1 213 px, gouttière relevée au bord (336 px, texte centré étroit). Blocs crème et blocs rouille alternés."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Boutons d'action rectangulaires à double filet (un cadre de 1 px doublé à 4 px, « LEARN MORE », « VIEW MENU »), capitales en Epilogue, rouille sur crème ou crème sur rouille. Seul « Reservations » dans l'en-tête est une pilule à contour (rayon 300 px) : non retenu (signe IA, GOUT § 2), le rayon des boutons reste 0. Cartes sans rayon ni ombre ; liens du pied soulignés."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "4:5",
+      "1:1"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Photos portrait (4:5) et carrées de la devanture, des cafés et des assiettes, chacune dans un double cadre de filet rouille (ou crème sur la rouille) posé à 10 px de l'image, avec une petite fleur de caféier dessinée à chaque coin sur la photo d'accueil. Le premier écran n'a pas de photo : une tasse dessinée dont la vapeur s'élève, le nom dessous. Un grand caféier dessiné au trait au centre de « Connecting Communities »."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé au DOM : blocs qui entrent en fondu et montent un peu (opacity et transform 0,6 s ease, 42 éléments, data-animation de Squarespace), liens et boutons 0,1 à 0,17 s ; la vapeur de la tasse du premier écran monte en boucle (dessin animé, pas de défilement lié). Rien n'est épinglé. Profil le plus proche : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Blocs crème et blocs rouille pleine largeur en alternance ; filets doubles des cadres et des boutons ; dessins au trait (caféier, fleurs, tasse) dans la seule couleur rouille. Ni grain ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier"
+}

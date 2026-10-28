@@ -1,0 +1,1378 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://linastores.co.uk/",
+  "nom": "linastores",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Lina Stores – Italian Delicatessens & Restaurants in London",
+    "siteName": "",
+    "lang": "en",
+    "description": "Italian Delicatessen and Italian Restaurant in London. Since 1944, we have been selling authentic Italian products and fresh, handmade pasta, panini and dolci.",
+    "technologies": [
+      "Next.js",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#a7d9c7",
+      "h1": "",
+      "h1Visible": false,
+      "mots": 54,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.75,
+        "selecteur": "img.lazyload-fade"
+      },
+      "boutonPrincipal": {
+        "texte": "CUSTOMISE",
+        "x": 977,
+        "y": 803,
+        "cx": 0.722802734375,
+        "cy": 0.9144444444444444,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.06,
+        "texte": "We use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic. By clicking \"Accept All\", you consent to our use of cookies. Cookie Policy CUSTOMISE REJ",
+        "selecteur": "div.cky-consent-container"
+      },
+      "barreBas": null,
+      "scrollHeight": 6747,
+      "bougeSeul": {
+        "n": 2,
+        "exemples": [
+          "main.content",
+          "div.pageHeader-module___wAHsa__inner"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.t-h1",
+        "famille": "\"Lina Sans\", sans-serif",
+        "taille": 32,
+        "graisse": "700",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.6px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Lina Sans\", sans-serif",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.75px"
+      },
+      "bouton": {
+        "selecteur": "button.cky-btn",
+        "famille": "\"Lina Sans\", sans-serif",
+        "taille": 12,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.2px"
+      },
+      "nav": {
+        "selecteur": "a.header-module__-0iXdW__link",
+        "famille": "\"Lina Sans\", sans-serif",
+        "taille": 12,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1.2px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Lina Sans",
+          "url": "/fonts/LinaStoresBetaV07-Light.woff2",
+          "feuille": "www.linastores.co.uk",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Lina Sans",
+          "url": "/fonts/LinaStoresBetaV07-Bold.woff2",
+          "feuille": "www.linastores.co.uk",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-400-normal.804378952da8a10faae2.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-400-normal.71a33b6b50457b2c903a.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-400-normal.169619821ea93019d1bb.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-400-normal.c35e4c3958e209d17b31.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-400-normal.3230f9b040f3c630e0c3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-400-normal.861b791f9de857a6e7bc.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-400-normal.b009a76ad6afe4ebd301.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-500-normal.62ced72e5832f02c2796.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-500-normal.cad7d3d9cb265e334e58.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-500-normal.6fb9cffb1d3e72bf9293.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-500-normal.9ac81fefbe6c319ea40b.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-500-normal.d8642a3d1d4ef6179644.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-500-normal.9165081d10e1ba601384.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-700-normal.be4d02458ce53887dc37.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-700-normal.d010f1f324e111a22e53.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-700-normal.50e795c1345353b0e996.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-700-normal.3425a701027d0699e369.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-700-normal.ed67ad54b1a8f5d21150.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-700-normal.227c93190fe7f82de3f8.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.linastores.co.uk/fonts/LinaStoresBetaV07-Bold.woff2",
+        "https://www.linastores.co.uk/fonts/LinaStoresBetaV07-Light.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Lina Sans",
+          "n": 98
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 9,
+          "poids": 9796379.21875
+        },
+        {
+          "hex": "#d0e7dc",
+          "n": 5,
+          "poids": 3407219.53125
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 972000
+        },
+        {
+          "hex": "#a7d9c7",
+          "n": 4,
+          "poids": 886305.625
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 96,
+          "poids": 3699
+        },
+        {
+          "hex": "#212121",
+          "n": 1,
+          "poids": 172
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 9
+        }
+      ],
+      "nbImages": 16,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 9,
+          "poids": 9796379.21875,
+          "part": 0.65
+        },
+        {
+          "hex": "#d0e7dc",
+          "n": 5,
+          "poids": 3407219.53125,
+          "part": 0.226
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 972000,
+          "part": 0.065
+        },
+        {
+          "hex": "#a7d9c7",
+          "n": 4,
+          "poids": 886305.625,
+          "part": 0.059
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 96,
+          "poids": 3699,
+          "part": 0.953
+        },
+        {
+          "hex": "#212121",
+          "n": 1,
+          "poids": 172,
+          "part": 0.044
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 9,
+          "part": 0.002
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "React",
+          "preuve": "window.__NEXT_DATA__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.35s ease",
+          "n": 19
+        },
+        {
+          "valeur": "color 0.35s ease",
+          "n": 18
+        },
+        {
+          "valeur": "opacity 0.5s ease",
+          "n": 16
+        },
+        {
+          "valeur": "background-color 0.35s ease",
+          "n": 8
+        },
+        {
+          "valeur": "transform 0.35s ease",
+          "n": 3
+        },
+        {
+          "valeur": "opacity 0.25s ease",
+          "n": 3
+        },
+        {
+          "valeur": "fill 0.35s ease",
+          "n": 2
+        },
+        {
+          "valeur": "padding 0.35s ease",
+          "n": 1
+        },
+        {
+          "valeur": "height 0.35s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "header.header-module__-0iXdW__header",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "padding 0.35s ease",
+          "height 0.35s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main.content",
+      "sections": [
+        {
+          "selecteur": "header.pageHeader-module___wAHsa__header",
+          "titre": "CONTINENTAL PRODUCE IMPORTERS.",
+          "top": 60,
+          "hauteur": 1209,
+          "ecrans": 1.3,
+          "mots": 86,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "OUR LOCATIONS",
+          "top": 1344,
+          "hauteur": 1998,
+          "ecrans": 2.2,
+          "mots": 62,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "CHRISTMAS AT LINA STORES",
+          "top": 3392,
+          "hauteur": 476,
+          "ecrans": 0.5,
+          "mots": 42,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "OUR RESTAURANTS",
+          "top": 3931,
+          "hauteur": 675,
+          "ecrans": 0.7,
+          "mots": 98,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "OUR DELICATESSENS",
+          "top": 4668,
+          "hauteur": 702,
+          "ecrans": 0.8,
+          "mots": 118,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "BAR LINA",
+          "top": 5433,
+          "hauteur": 702,
+          "ecrans": 0.8,
+          "mots": 85,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.footer-module___Egpma__footer",
+          "titre": "SIGN UP FOR ALL THE LATEST NEWS & EVENTS AT LINA STORES",
+          "top": 6198,
+          "hauteur": 548,
+          "ecrans": 0.6,
+          "mots": 73,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header-module__-0iXdW__header",
+        "hauteur": 60,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "LOCATIONS",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "BOOK A TABLE",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "ONLINE SHOP",
+            "href": "https://shop.linastores.co.uk",
+            "bouton": false
+          },
+          {
+            "texte": "GIFT CARDS",
+            "href": "https://lina-stores.mytoggle.io/shop/lina-stores-gift-card",
+            "bouton": false
+          },
+          {
+            "texte": "CHRISTMAS",
+            "href": "/christmas-2026",
+            "bouton": false
+          },
+          {
+            "texte": "PRIVATE DINING & EVENTS",
+            "href": "/private-dining-and-events",
+            "bouton": false
+          },
+          {
+            "texte": "BAR LINA",
+            "href": "https://www.barlina.co.uk",
+            "bouton": false
+          },
+          {
+            "texte": "ABOUT",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer-module___Egpma__footer",
+        "liens": [
+          {
+            "texte": "SUBSCRIBE TO OUR NEWSLETTER HERE",
+            "href": "https://forms.airship.co.uk/forms/1279/website-main-sign-up-form",
+            "bouton": true
+          },
+          {
+            "texte": "BREWER STREET - DELI SOHO, LONDON",
+            "href": "/locations/brewer-street-soho-london",
+            "bouton": false
+          },
+          {
+            "texte": "GREEK STREET SOHO, LONDON",
+            "href": "/locations/greek-street-restaurant",
+            "bouton": false
+          },
+          {
+            "texte": "KINGS'S CROSS STABLE STREET, LONDON",
+            "href": "/locations/stable-street-restaurant-delicatessen",
+            "bouton": false
+          },
+          {
+            "texte": "BLOOMBERG ARCADE THE CITY, LONDON",
+            "href": "/locations/bloomberg-arcade",
+            "bouton": false
+          },
+          {
+            "texte": "MARYLEBONE LANE MARYLEBONE, LONDON",
+            "href": "/locations/marylebone-lane",
+            "bouton": false
+          },
+          {
+            "texte": "CLAPHAM CLAPHAM, LONDON",
+            "href": "/locations/clapham",
+            "bouton": false
+          },
+          {
+            "texte": "SOUTH KENSINGTON KENSINGTON, LONDON",
+            "href": "/locations/south-kensington",
+            "bouton": false
+          },
+          {
+            "texte": "SHOREDITCH SHOREDITCH, LONDON",
+            "href": "/locations/shoreditch",
+            "bouton": false
+          },
+          {
+            "texte": "BROADGATE CIRCLE BROADGATE CIRCLE, LONDO",
+            "href": "/locations/broadgate-circle",
+            "bouton": false
+          },
+          {
+            "texte": "MANCHESTER MANCHESTER",
+            "href": "/locations/manchester",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "ONLINE SHOP",
+            "href": "https://shop.linastores.co.uk",
+            "bouton": false
+          },
+          {
+            "texte": "CAREERS",
+            "href": "/careers",
+            "bouton": false
+          },
+          {
+            "texte": "GIFT CARDS",
+            "href": "https://lina-stores.mytoggle.io/shop/lina-stores-gift-card",
+            "bouton": false
+          },
+          {
+            "texte": "ABOUT",
+            "href": "/history",
+            "bouton": false
+          },
+          {
+            "texte": "JOURNAL",
+            "href": "/news-events",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ & HELP",
+            "href": "https://linastores.freshdesk.com/support/home",
+            "bouton": false
+          },
+          {
+            "texte": "PRIVATE DINING",
+            "href": "/private-dining-and-events",
+            "bouton": false
+          },
+          {
+            "texte": "PRIVACY POLICY",
+            "href": "/privacy-policy",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "BOOK A TABLE",
+          "href": ""
+        },
+        {
+          "texte": "GIFT CARDS",
+          "href": "https://lina-stores.mytoggle.io/shop/lina-stores-gift-card"
+        },
+        {
+          "texte": "BOOK NOW",
+          "href": ""
+        },
+        {
+          "texte": "BOOK YOUR TABLE",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.cky-consent-container",
+          "position": "fixed",
+          "hauteur": 168,
+          "largeur": 440,
+          "enBas": false,
+          "mots": 35
+        },
+        {
+          "selecteur": "header.header-module__-0iXdW__header",
+          "position": "fixed",
+          "hauteur": 60,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 16
+        },
+        {
+          "selecteur": "div.modal-module__gnJtVG__notification",
+          "position": "fixed",
+          "hauteur": 160,
+          "largeur": 447,
+          "enBas": true,
+          "mots": 7
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 15,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/linastores-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#a7d9c7",
+      "h1": "",
+      "h1Visible": false,
+      "mots": 124,
+      "images": 3,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "CUSTOMISE",
+        "x": 56,
+        "y": 722,
+        "cx": 0.5,
+        "cy": 0.8791469194312796,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 0.6,
+        "texte": "",
+        "selecteur": "div.landing-module__Mhrhkq__landing",
+        "cookie": false
+      },
+      "cookie": {
+        "couverture": 0.31,
+        "texte": "We use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic. By clicking \"Accept All\", you consent to our use of cookies. Cookie Policy CUSTOMISE REJ",
+        "selecteur": "div.cky-consent-container"
+      },
+      "barreBas": null,
+      "scrollHeight": 5412,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div.landing-module__Mhrhkq__landing"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2.t-h1",
+        "famille": "\"Lina Sans\", sans-serif",
+        "taille": 19,
+        "graisse": "700",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.95px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Lina Sans\", sans-serif",
+        "taille": 12,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.6px"
+      },
+      "bouton": {
+        "selecteur": "button.cky-btn",
+        "famille": "\"Lina Sans\", sans-serif",
+        "taille": 10,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1px"
+      },
+      "nav": {
+        "selecteur": "a.button",
+        "famille": "\"Lina Sans\", sans-serif",
+        "taille": 10,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Lina Sans",
+          "url": "/fonts/LinaStoresBetaV07-Light.woff2",
+          "feuille": "www.linastores.co.uk",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Lina Sans",
+          "url": "/fonts/LinaStoresBetaV07-Bold.woff2",
+          "feuille": "www.linastores.co.uk",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-400-normal.804378952da8a10faae2.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-400-normal.71a33b6b50457b2c903a.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-400-normal.169619821ea93019d1bb.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-400-normal.c35e4c3958e209d17b31.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-400-normal.3230f9b040f3c630e0c3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-400-normal.861b791f9de857a6e7bc.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-400-normal.b009a76ad6afe4ebd301.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-500-normal.62ced72e5832f02c2796.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-500-normal.cad7d3d9cb265e334e58.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-500-normal.6fb9cffb1d3e72bf9293.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-500-normal.9ac81fefbe6c319ea40b.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-500-normal.d8642a3d1d4ef6179644.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-500-normal.9165081d10e1ba601384.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-ext-700-normal.be4d02458ce53887dc37.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-cyrillic-700-normal.d010f1f324e111a22e53.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-greek-700-normal.50e795c1345353b0e996.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-vietnamese-700-normal.3425a701027d0699e369.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-ext-700-normal.ed67ad54b1a8f5d21150.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Roboto",
+          "url": "/static/1aa89f9104af1924a7185d7a9c00e2ecf5225c27/cdn/assets/roboto-latin-700-normal.227c93190fe7f82de3f8.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://www.linastores.co.uk/fonts/LinaStoresBetaV07-Bold.woff2",
+        "https://www.linastores.co.uk/fonts/LinaStoresBetaV07-Light.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Lina Sans",
+          "n": 91
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 9,
+          "poids": 2162905.625
+        },
+        {
+          "hex": "#d0e7dc",
+          "n": 5,
+          "poids": 738559.375
+        },
+        {
+          "hex": "#a7d9c7",
+          "n": 4,
+          "poids": 291138.90625
+        },
+        {
+          "hex": "#000000",
+          "n": 4,
+          "poids": 85688.25
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 89,
+          "poids": 3616
+        },
+        {
+          "hex": "#212121",
+          "n": 1,
+          "poids": 172
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 9
+        }
+      ],
+      "nbImages": 16,
+      "nbVideos": 0,
+      "nbFondsImage": 1,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 9,
+          "poids": 2162905.625,
+          "part": 0.66
+        },
+        {
+          "hex": "#d0e7dc",
+          "n": 5,
+          "poids": 738559.375,
+          "part": 0.225
+        },
+        {
+          "hex": "#a7d9c7",
+          "n": 4,
+          "poids": 291138.90625,
+          "part": 0.089
+        },
+        {
+          "hex": "#000000",
+          "n": 4,
+          "poids": 85688.25,
+          "part": 0.026
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 89,
+          "poids": 3616,
+          "part": 0.952
+        },
+        {
+          "hex": "#212121",
+          "n": 1,
+          "poids": 172,
+          "part": 0.045
+        },
+        {
+          "hex": "#333333",
+          "n": 1,
+          "poids": 9,
+          "part": 0.002
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "React",
+          "preuve": "window.__NEXT_DATA__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.5s ease",
+          "n": 16
+        },
+        {
+          "valeur": "background-color 0.35s ease",
+          "n": 8
+        },
+        {
+          "valeur": "all 0.35s ease",
+          "n": 3
+        },
+        {
+          "valeur": "padding 0.35s ease",
+          "n": 1
+        },
+        {
+          "valeur": "height 0.35s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.35s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "header.header-module__-0iXdW__header",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "padding 0.35s ease",
+          "height 0.35s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main.content",
+      "sections": [
+        {
+          "selecteur": "header.pageHeader-module___wAHsa__header",
+          "titre": "CONTINENTAL PRODUCE IMPORTERS.",
+          "top": 50,
+          "hauteur": 628,
+          "ecrans": 0.7,
+          "mots": 86,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "OUR LOCATIONS",
+          "top": 718,
+          "hauteur": 1213,
+          "ecrans": 1.4,
+          "mots": 62,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "CHRISTMAS AT LINA STORES",
+          "top": 1955,
+          "hauteur": 485,
+          "ecrans": 0.6,
+          "mots": 42,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "OUR RESTAURANTS",
+          "top": 2481,
+          "hauteur": 684,
+          "ecrans": 0.8,
+          "mots": 98,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "OUR DELICATESSENS",
+          "top": 3205,
+          "hauteur": 796,
+          "ecrans": 0.9,
+          "mots": 118,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.pageSection-module__UiTolq__section",
+          "titre": "BAR LINA",
+          "top": 4041,
+          "hauteur": 692,
+          "ecrans": 0.8,
+          "mots": 85,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.footer-module___Egpma__footer",
+          "titre": "SIGN UP FOR ALL THE LATEST NEWS & EVENTS AT LINA STORES",
+          "top": 4773,
+          "hauteur": 639,
+          "ecrans": 0.8,
+          "mots": 73,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header-module__-0iXdW__header",
+        "hauteur": 50,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "BOOK",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer-module___Egpma__footer",
+        "liens": [
+          {
+            "texte": "SUBSCRIBE TO OUR NEWSLETTER HERE",
+            "href": "https://forms.airship.co.uk/forms/1279/website-main-sign-up-form",
+            "bouton": true
+          },
+          {
+            "texte": "BREWER STREET - DELI SOHO, LONDON",
+            "href": "/locations/brewer-street-soho-london",
+            "bouton": false
+          },
+          {
+            "texte": "GREEK STREET SOHO, LONDON",
+            "href": "/locations/greek-street-restaurant",
+            "bouton": false
+          },
+          {
+            "texte": "KINGS'S CROSS STABLE STREET, LONDON",
+            "href": "/locations/stable-street-restaurant-delicatessen",
+            "bouton": false
+          },
+          {
+            "texte": "BLOOMBERG ARCADE THE CITY, LONDON",
+            "href": "/locations/bloomberg-arcade",
+            "bouton": false
+          },
+          {
+            "texte": "MARYLEBONE LANE MARYLEBONE, LONDON",
+            "href": "/locations/marylebone-lane",
+            "bouton": false
+          },
+          {
+            "texte": "CLAPHAM CLAPHAM, LONDON",
+            "href": "/locations/clapham",
+            "bouton": false
+          },
+          {
+            "texte": "SOUTH KENSINGTON KENSINGTON, LONDON",
+            "href": "/locations/south-kensington",
+            "bouton": false
+          },
+          {
+            "texte": "SHOREDITCH SHOREDITCH, LONDON",
+            "href": "/locations/shoreditch",
+            "bouton": false
+          },
+          {
+            "texte": "BROADGATE CIRCLE BROADGATE CIRCLE, LONDO",
+            "href": "/locations/broadgate-circle",
+            "bouton": false
+          },
+          {
+            "texte": "MANCHESTER MANCHESTER",
+            "href": "/locations/manchester",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "ONLINE SHOP",
+            "href": "https://shop.linastores.co.uk",
+            "bouton": false
+          },
+          {
+            "texte": "CAREERS",
+            "href": "/careers",
+            "bouton": false
+          },
+          {
+            "texte": "GIFT CARDS",
+            "href": "https://lina-stores.mytoggle.io/shop/lina-stores-gift-card",
+            "bouton": false
+          },
+          {
+            "texte": "ABOUT",
+            "href": "/history",
+            "bouton": false
+          },
+          {
+            "texte": "JOURNAL",
+            "href": "/news-events",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ & HELP",
+            "href": "https://linastores.freshdesk.com/support/home",
+            "bouton": false
+          },
+          {
+            "texte": "PRIVATE DINING",
+            "href": "/private-dining-and-events",
+            "bouton": false
+          },
+          {
+            "texte": "PRIVACY POLICY",
+            "href": "/privacy-policy",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Menu",
+          "href": ""
+        },
+        {
+          "texte": "BOOK",
+          "href": ""
+        },
+        {
+          "texte": "BOOK NOW",
+          "href": ""
+        },
+        {
+          "texte": "BOOK YOUR TABLE",
+          "href": ""
+        },
+        {
+          "texte": "GIFT CARDS",
+          "href": "https://lina-stores.mytoggle.io/shop/lina-stores-gift-card"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.cky-consent-container",
+          "position": "fixed",
+          "hauteur": 288,
+          "largeur": 360,
+          "enBas": false,
+          "mots": 35
+        },
+        {
+          "selecteur": "header.header-module__-0iXdW__header",
+          "position": "fixed",
+          "hauteur": 50,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 1
+        },
+        {
+          "selecteur": "div.modal-module__gnJtVG__notification",
+          "position": "fixed",
+          "hauteur": 92,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 7
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 14,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Lina Stores",
+  "dureeS": 21.1
+}

@@ -1,0 +1,125 @@
+{
+  "id": "fogoislandinn",
+  "version": 1,
+  "source": {
+    "url": "https://fogoislandinn.ca/",
+    "nom": "Fogo Island Inn",
+    "metier": "auberge de 29 chambres sur une île de Terre-Neuve, tenue par une fondation locale",
+    "fiche": "docs/veille/styles/fogoislandinn.md",
+    "mesures": "docs/veille/styles/atomes/mesures/fogoislandinn.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Franie",
+      "libre": "urbanist",
+      "graisse": 300,
+      "interlignage": 1.1,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Metrisch",
+      "libre": "urbanist",
+      "graisse": 500,
+      "interlignage": 1.3
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 30,
+        "ordinateur": 32
+      },
+      "h2": {
+        "telephone": 23.8,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Titres en Franie maigre (300), une géométrique ronde en casse normale : « Entangled with nature, rooted in community » à 32 px (30 px au téléphone), interlignage 1,1 ; texte en Metrisch 500, une grotesque à angles ronds, 18 px (16 px au téléphone), interlignage 1,3 ; boutons en Franie 14 px. Libre : Urbanist pour les deux, maigre (300) en titre et 500 en texte : la source accorde deux sans voisines (une géométrique ronde et une grotesque à angles ronds), ce qui se lit comme une seule voix ; une seule famille la rend sans quasi-ressemblance (règle B6). Le relevé lisait le logo et une ligne de 18 px comme h1 : corrigé sur les captures."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#efeee6",
+      "surface": "#e8e5d8",
+      "texte": "#142e53",
+      "texte2": "#142e53",
+      "accent": "#142e53",
+      "accent2": null,
+      "bordure": "#142e53",
+      "encre": "#142e53"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #142e53 (43 %), #0a212d (30 %), #ffffff (9 %), #9e9c91 (2 %), #000000 (0 %)",
+    "remarque": "Gris de brume #efeee6 sous les blocs de texte, bleu marine #142e53 pour TOUT le texte (57 % des caractères), le bouton Reserve plein, les contours et les grands bandeaux (en-tête et pied marine, 43 % des surfaces) ; nuit #0a212d derrière la vidéo. Coloré doux (bloc d’encre marine de chroma 0,074)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 100,
+      "ordinateur": 100
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 14
+    },
+    "conteneur": 815,
+    "mesure": 62,
+    "rythme": "uni",
+    "remarque": "Marges relevées : 100 px au téléphone et à l’ordinateur ; texte dans une colonne de 815 px ; 23 px de bord au téléphone, 14 px entre les vignettes à l’ordinateur."
+  },
+  "formes": {
+    "rayon": 7,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Boutons à rayon de 7 px : plein marine pour Reserve, contour marine de 1 px pour le reste, casse normale ; vignettes à angles droits avec le titre en blanc dessus ; flèches rondes des carrousels ; aucune ombre ; liens en couleur."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "2:3-",
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Vidéo de la côte au premier écran, puis grandes photos bord à bord (le bâtiment sur pilotis, la mer) et des carrousels de vignettes verticales 2:3 (activités, plats, saisons) avec leur titre blanc posé en bas de l’image."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "glisse-a-la-main",
+    "remarque": "Relevé à la molette : rien ne suit le défilement ; les carrousels de vignettes (Swiper) glissent à la main avec des flèches rondes, 0,3 s ease sur les boutons. La vidéo du premier écran tourne seule (refusée sans vraie vidéo). Profil : glisse-a-la-main. Durée de scène : 0,6 s ease, transition des cartes relevée sur la fiche."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Brume et marine en bandes, aucun filet ; la matière vient des photos de mer et de roche."
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

@@ -1,0 +1,122 @@
+{
+  "id": "rebeccaatwood",
+  "version": 1,
+  "source": {
+    "url": "https://rebeccaatwood.com/",
+    "nom": "Rebecca Atwood",
+    "metier": "dessinatrice de tissus et papiers peints, atelier de Brooklyn (boutique en ligne et professionnels)",
+    "fiche": "docs/veille/styles/rebeccaatwood.md",
+    "mesures": "docs/veille/styles/atomes/mesures/rebeccaatwood.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Chap",
+      "libre": "bodoni",
+      "graisse": 400,
+      "interlignage": 0.97,
+      "casse": "uppercase",
+      "interlettrage": -0.067,
+      "italique": false
+    },
+    "texte": {
+      "famille": "SohneMono",
+      "libre": "fragmentMono",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 39,
+        "ordinateur": 104
+      },
+      "h2": {
+        "telephone": 39,
+        "ordinateur": 80
+      },
+      "texte": {
+        "telephone": 12,
+        "ordinateur": 12
+      }
+    },
+    "remarque": "Titres en Chap (serif d'affichage à fort contraste, capitales serrées à -0,067 em, ligatures CC, AA, OO qui se chevauchent dans le nom) : le nom géant du premier écran à 104 px à l'ordinateur, 39 px au téléphone ; h2 80 / 39 px. Tout le reste, menu, liens, descriptions, prix, est en Söhne Mono 12 px (relevé au DOM sur les paragraphes de plus de 120 caractères) ; Signifier, la serif de lecture du site, ne sert qu'aux longues citations : la retenir ferait deux serifs (accord en conflit, B6). Libres : Bodoni Moda (contraste fort, capitales) en titre, Fragment Mono (chasse fixe dessinée d'après une grotesque, la plus proche de Söhne Mono) en texte, portée à 16 px par l'usine. Jamais IBM Plex Mono ni DM Mono (liste IA)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f0d8c3",
+      "texte": "#000000",
+      "texte2": "#7a7a77",
+      "accent": "#6084b5",
+      "accent2": "#bf8c9e",
+      "bordure": "#d1d1cc",
+      "encre": "#6084b5"
+    },
+    "sombre": null,
+    "remarque": "Page blanche #ffffff, texte noir ; la couleur vient de grands aplats posés à côté des photos, relevés par surface : bleu de lin #6084b5 (25 % des fonds colorés : « Into the Fold », citations), pêche #f0d8c3 (en-tête et premier écran au téléphone, 17 %), sauge #d4d5c0, mauve #bf8c9e (« A note from Rebecca »). Retenus : pêche en surface, bleu en accent et en bloc d'encre (texte noir dessus, 5:1), mauve en second accent. L'orange #f5a73c de la lettre d'information (1 %) n'est pas retenu. Coloré doux (surface pêche de chroma 0,039)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 60,
+      "ordinateur": 120
+    },
+    "gouttiere": {
+      "telephone": 30,
+      "ordinateur": 30
+    },
+    "conteneur": 1280,
+    "mesure": 40,
+    "rythme": "alterne",
+    "remarque": "Relevé au DOM (haut de la section au premier texte, page défilée) : 41 à 170 px au téléphone, médiane 60 ; 100 à 170 px à l'ordinateur, médiane 120. Bord 20 px (pistes) à 30 px (texte) au téléphone, 80 px à l'ordinateur ; colonnes et vignettes séparées de 30 px ; paragraphes de 166 à 300 px de large en mono 12 px, environ 40 caractères. Blocs blancs et blocs de couleur alternés."
+  },
+  "formes": {
+    "rayon": 5,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits sur les photos et les blocs ; le rayon de 5 px relevé est celui des rares boutons pleins (Submit, Apply for a trade account). Les actions du site sont des liens en mono capitales suivis d'une flèche (« EXPLORE OUR NEW COLLECTION → », « SHOP NOW → »), soulignés dans la lettre d'information. Aucune ombre, aucune carte."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "1:1",
+      "4:3",
+      "4:5"
+    ],
+    "pleinCadre": 3,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : la vidéo d'un fauteuil tapissé de son tissu, plein cadre, le nom en lettres noires géantes posé dessus. Ensuite des diptyques bord à bord (scènes de salon avec ses papiers et tissus), des photos posées dans un bloc de couleur, et des pistes de vignettes carrées des motifs (grasscloths, murals) sans cadre."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "photo-qui-s-approche",
+    "remarque": "Relevé au DOM : les photos dans un lien ont transform 7 s cubic-bezier(0.26, 0.45, 0.46, 0.95) (approche très lente au survol), les images chargées entrent en fondu 0,5 s ease (260 éléments) ; rien ne suit le défilement, aucun ScrollTrigger ; la vidéo du premier écran tourne seule. Profil le plus proche : photo-qui-s-approche (la source le fait plus lentement, 7 s au lieu de 0,3 s)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Fond blanc coupé de blocs de couleur pleine largeur ou à moitié (bleu, pêche, sauge, mauve), une couleur par bloc ; une ligne manuscrite scannée (le credo de l'atelier) en grand sur la sauge. Ni filet ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

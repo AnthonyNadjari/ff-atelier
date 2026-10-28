@@ -1,0 +1,123 @@
+{
+  "id": "linastores",
+  "version": 1,
+  "source": {
+    "url": "https://linastores.co.uk/",
+    "nom": "Lina Stores",
+    "metier": "épicerie italienne et restaurants de pâtes fraîches (Londres, depuis 1944)",
+    "fiche": "docs/veille/styles/linastores.md",
+    "mesures": "docs/veille/styles/atomes/mesures/linastores.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Lina Sans",
+      "libre": "à juger",
+      "graisse": 700,
+      "interlignage": 1.25,
+      "casse": "uppercase",
+      "interlettrage": 0.05,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Lina Sans",
+      "libre": "à juger",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 19,
+        "ordinateur": 32
+      },
+      "h2": {
+        "telephone": 16,
+        "ordinateur": 24
+      },
+      "texte": {
+        "telephone": 12,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Une seule famille dessinée pour la maison, Lina Sans : une géométrique large à la Futura, titres en capitales grasses à 0,05 em (« CONTINENTAL PRODUCE IMPORTERS. », 32 px à l’ordinateur, 19 px au téléphone), texte en casse normale 15 px (12 px au téléphone), boutons et menu en capitales de 12 px espacées. Le titre ne fait que 19 px au téléphone : porté à 16 px, le texte l’égale presque (contrôle TITRE_DOMINE) ; le nom de la maison est un logo dessiné, pas un texte. La typo n’est donc pas tirable (libre laissé à juger) : le titre ne domine pas, et une géométrique large unique (Josefin Sans en capitales pour tout) serait la police libre la plus proche le jour où un client a un titre qui la porte."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#d0e7dc",
+      "texte": "#000000",
+      "texte2": "#212121",
+      "accent": "#a7d9c7",
+      "accent2": null,
+      "bordure": "#000000",
+      "encre": "#a7d9c7"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #d0e7dc (31 %), #000000 (9 %), #a7d9c7 (8 %)",
+    "remarque": "Blanc pur en fond, vert menthe pâle #d0e7dc en grands blocs de texte (la moitié des sections, 31 % des surfaces) et menthe franche #a7d9c7 pour l’en-tête, le store rayé et les boutons pleins, texte noir partout (95 % des caractères). La menthe franche ne fait pas 4,5:1 sur blanc : elle reste l’aplat des boutons et des bandeaux (texte noir dessus, 13:1), ff melanger l’assombrit là où elle servirait de texte. Coloré doux (bloc menthe de chroma 0,058)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 100,
+      "ordinateur": 206
+    },
+    "gouttiere": {
+      "telephone": 40,
+      "ordinateur": 24
+    },
+    "conteneur": 1380,
+    "mesure": 90,
+    "rythme": "uni",
+    "remarque": "Marges relevées du bord de la section au premier texte : 100 px au téléphone, 206 px à l’ordinateur (médiane de 10 blocs) ; page large (1 380 px) pour la grille des adresses dessinées, texte centré en colonne étroite dans les blocs menthe ; 40 px de bord au téléphone."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits partout, boutons pleins menthe ou blancs à filet noir de 1 px, texte en capitales de 12 px espacées ; aucune ombre ; liens soulignés."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:3",
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Premier écran : une photo bord à bord du geste (des mains qui ferment des ravioles sur la planche, tablier rayé vert) ; plus bas, diptyques photo / bloc menthe alternés (plats vus de dessus, salle, comptoir de l’épicerie) et la grille des devantures DESSINÉES à l’aquarelle, une par adresse. Aucun texte sur les photos."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.35,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé à la molette (document.getAnimations, crans de 400 à 3 000 px) : rien ne bouge au défilement sauf les photos qui apparaissent en fondu à leur chargement (opacity 0,5 s ease) ; liens, couleurs et en-tête en 0,35 s ease. Profil : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Bandes blanches et menthe en alternance, un filet noir sous l’en-tête menthe, le store rayé vert et blanc en haut de l’écran au téléphone ; les devantures dessinées à l’aquarelle font la matière."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

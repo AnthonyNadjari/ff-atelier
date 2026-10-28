@@ -1,0 +1,121 @@
+{
+  "id": "barkumiko",
+  "version": 1,
+  "source": {
+    "url": "https://barkumiko.com/",
+    "nom": "Kumiko",
+    "metier": "bar à cocktails et salle à manger japonaise (Chicago), café le jour",
+    "fiche": "docs/veille/styles/barkumiko.md",
+    "mesures": "docs/veille/styles/atomes/mesures/barkumiko.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Vinter",
+      "libre": "marcellus",
+      "graisse": 300,
+      "interlignage": 1,
+      "casse": "none",
+      "interlettrage": 0.06,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Vinter",
+      "libre": "josefin",
+      "graisse": 300,
+      "interlignage": 1.7
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 56,
+        "ordinateur": 112
+      },
+      "h2": {
+        "telephone": 36,
+        "ordinateur": 36
+      },
+      "texte": {
+        "telephone": 19,
+        "ordinateur": 19
+      }
+    },
+    "remarque": "Une seule famille, Vinter (sans à empattements évasés, à la Optima), en maigre 300 pour tout : le nom « kumiko » en bas de casse espacé (0,06 em) à 112 px à l’ordinateur et 56 px au téléphone, posé sur la photo ; titres de bloc en casse normale à 36 px ; chapô à 24 px (interlignage 1,8) et texte à 19 px (1,7) ; boutons et menu en capitales de 16 px très espacées (0,24 em, graisse 500 à 800). Libre : Marcellus pour les titres (capitales et bas de casse évasés, la même main que Vinter) et Josefin Sans en maigre pour le texte (même légèreté, géométrique), une serif évasée d’affichage contre une sans de lecture. Casse : le bas de casse forcé (text-transform: lowercase) ne vaut que pour le nom « kumiko » du premier écran ; les titres de bloc sont saisis en bas de casse mais en casse CSS normale. Appliqué à un h1 français (essai du 28 oct 2026 sur demo-boulangerie), le lowercase mettait le nom propre et la phrase en minuscules : casse retenue « none »."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f7f4ee",
+      "surface": "#ede7d9",
+      "texte": "#333333",
+      "texte2": "#3a3a36",
+      "accent": "#d4a882",
+      "accent2": "#b98f6b",
+      "bordure": "#ede7d9",
+      "encre": "#142d38"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #142d38 (14 %), #ede7d9 (6 %), #d4a882 (0 %)",
+    "remarque": "Papier de riz #f7f4ee sous toute la page, bloc lin #ede7d9 pour le café, pied bleu d’encre #142d38 (25 % des surfaces avec l’en-tête de la photo) ; texte gris charbon #333333 ; boutons pleins cuivre clair #d4a882 à texte noir, petits sur-titres en cuivre #b98f6b. Le cuivre ne tient pas 4,5:1 sur le papier : il reste l’aplat des boutons, ff melanger l’assombrit là où il sert de texte. Clair neutre (fond de chroma 0,009, bleu d’encre sous 0,04)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 196,
+      "ordinateur": 218
+    },
+    "gouttiere": {
+      "telephone": 24,
+      "ordinateur": 400
+    },
+    "conteneur": 760,
+    "mesure": 62,
+    "rythme": "alterne",
+    "remarque": "Marges relevées : 196 px au téléphone, 218 px à l’ordinateur, du bord du bloc au premier texte ; texte centré dans une colonne de 760 px (400 px de marge de chaque côté à l’ordinateur), 24 px de bord au téléphone ; blocs papier et lin alternés."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Angles droits ; boutons pleins cuivre sans bordure, texte en capitales espacées ; photos carrées bord à bord dans une grille de 3 sans gouttière apparente ; aucune ombre ni carte ; liens en couleur."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9+"
+    ],
+    "pleinCadre": 7,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : un diaporama de photos de salle et de bar en lumière basse, bord à bord sous l’en-tête, voilées de sombre, le nom et la phrase posés dessus en blanc ; plus bas, une grille de 6 photos carrées (cocktails, plats vus de dessus, salle) en deux rangées, sans légende."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.12,
+      "courbe": "cubic-bezier(0.22, 1, 0.36, 1)"
+    },
+    "scene": {
+      "duree": 1.2,
+      "courbe": "cubic-bezier(0.65, 0, 0.35, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "bloc-qui-s-avance",
+    "remarque": "Relevé à la molette et dans les feuilles de style (classes k-pre, k-in, k-focus) : le nom et la phrase du premier écran montent en 0,9 s (kRiseHero, décalage 150 ms) ; chaque bloc de texte monte de 26 px et apparaît (opacité 1,2 s cubic-bezier(.22,1,.36,1), transform 2 s cubic-bezier(.18,.6,.18,1)) ; à l’ordinateur, le bloc qui arrive au milieu de l’écran s’avance (scale 1 → 1,06 en 0,6 s cubic-bezier(.22,1,.36,1)) et revient quand on le quitte ; au téléphone la source garde seulement la montée. Le diaporama passe en fondu 1,2 s cubic-bezier(.65,0,.35,1) avec un bouton pause. Profil nouveau : bloc-qui-s-avance."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Papier, lin et bleu d’encre en aplats, aucun filet ; le logo est une grille kumiko (marqueterie japonaise) tracée au trait."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

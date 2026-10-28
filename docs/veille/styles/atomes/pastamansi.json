@@ -1,0 +1,122 @@
+{
+  "id": "pastamansi",
+  "version": 1,
+  "source": {
+    "url": "http://pastamansi.com/",
+    "nom": "Pastificio Mansi",
+    "metier": "fabrique de pâtes fraîches (Londres, marchés et restaurants)",
+    "fiche": "docs/veille/styles/pastamansi.md",
+    "mesures": "docs/veille/styles/atomes/mesures/pastamansi.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "gt_pressura_monolight",
+      "libre": "jetbrains",
+      "graisse": 300,
+      "interlignage": 1.21,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "gt_pressura_monolight",
+      "libre": "jetbrains",
+      "graisse": 400,
+      "interlignage": 1.9
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 38,
+        "ordinateur": 76
+      },
+      "h2": {
+        "telephone": 28.7,
+        "ordinateur": 40
+      },
+      "texte": {
+        "telephone": 16.5,
+        "ordinateur": 20
+      }
+    },
+    "remarque": "Une seule chasse fixe pour tout, GT Pressura Mono en version Light (le relevé dit 400 : c'est la graisse déclarée du fichier « monolight », le trait rendu est fin) : h1 « Fresh pasta every day » centré, 38 px au téléphone, 76 px à l'ordinateur, interlignage 1,2 ; h2 29 / 40 px ; texte 16,5 / 20 px, interlignage 1,9 ; liens d'action en Mono Regular 14 px capitales. Libre la plus proche : JetBrains Mono (variable, a une Light 300 pour le titre, 400 pour le texte), une seule famille comme la source ; jamais IBM Plex Mono ni DM Mono (liste IA)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f8f2e8",
+      "surface": null,
+      "texte": "#252525",
+      "texte2": "#252525",
+      "accent": "#dc991a",
+      "accent2": "#fbcd37",
+      "bordure": "#252525",
+      "encre": "#252525"
+    },
+    "sombre": null,
+    "remarque": "Farine crème #f8f2e8 (chroma 0,015) sous toute la page, texte presque noir #252525 (13,8:1), pied en aplat #252525. Deux jaunes de pâte de même famille de teinte (76° et 91°) : l'ocre #dc991a (point sous le lien actif du menu, fond d'attente des photos) sert d'accent, le jaune d'œuf #fbcd37 (remplissage des silhouettes de pâtes, mesuré dans le SVG) d'accent 2. Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 64,
+      "ordinateur": 96
+    },
+    "gouttiere": {
+      "telephone": 32,
+      "ordinateur": 147
+    },
+    "conteneur": 1000,
+    "mesure": 39,
+    "rythme": "alterne",
+    "remarque": "Écart entre deux blocs relevé au DOM (bas d'un bloc au haut du suivant) : 64 px au téléphone, 96 px à l'ordinateur ; les 247 px du relevé automatique au téléphone étaient le blanc du premier écran. Bord du téléphone 32 px ; à l'ordinateur deux colonnes de 426 px (163 à 589 et 736 à 1 163 px) séparées de 147 px, photos larges jusqu'au bord du conteneur de 1 344 px ; texte en colonne étroite (39 caractères). Photo et texte changent de côté d'un bloc à l'autre."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits partout. Aucun bouton dessiné : les actions (« Buy our pasta », « Learn about us », « Our markets ») sont des liens en Mono Regular 14 px suivis d'une flèche, posés sur un filet de 1 px qui les souligne sur toute la longueur ; liens du menu gris à 50 %, l'actif noir avec un point ocre dessous. Aucune carte, aucune ombre."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "16:9+",
+      "1:1",
+      "4:5"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Photos du produit et des mains en grands rectangles à angles droits (16:9 en tête, puis 1:1, 4:5, 3:2), posées en quinconce avec le texte de l'autre côté ; certaines sur fond noir (les mains qui tiennent les pâtes). Le cadre de la photo est d'abord un aplat ocre #dc991a qui s'ouvre (comeIn 1,4 s) avant l'image. Derrière, dans les marges, une silhouette de pâte jaune géante par écran."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    },
+    "scene": {
+      "duree": 0.62,
+      "courbe": "cubic-bezier(0.86, 0, 0.07, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "silhouettes-en-fond",
+    "remarque": "Relevé au DOM (getComputedStyle des .pasta, 1 440 px) : une silhouette de pâte (gnocco, raviolo, maccheroni, agnolo) de 440 à 460 px par tranche de 766 px de page, en SVG jaune #fbcd37, posée à demi hors du bord gauche ou au milieu, qui tourne sur elle-même en 85 à 115 s par tour, linear, une sur deux dans l'autre sens ; la forme change à chaque visite. Le cadre de la première photo s'ouvre en 1,4 s cubic-bezier(0.23, 1, 0.32, 1) après 1,2 s ; liens 0,2 s, menu 0,62 s cubic-bezier(0.86, 0, 0.07, 1). Profil nouveau : silhouettes-en-fond."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Fond uni crème ; la matière vient des silhouettes de pâtes en aplat jaune (dessinées, pas de grain), d'un pied en aplat presque noir et des filets de 1 px sous les liens d'action."
+  },
+  "architecture": null,
+  "premier_ecran": "typographique"
+}

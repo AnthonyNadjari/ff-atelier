@@ -1,0 +1,120 @@
+{
+  "id": "outofthevalley",
+  "version": 1,
+  "source": {
+    "url": "https://outofthevalley.co.uk/",
+    "nom": "Out of the Valley",
+    "metier": "fabricant de saunas d'extérieur en bois sur commande (Devon)",
+    "fiche": "docs/veille/styles/outofthevalley.md",
+    "mesures": "docs/veille/styles/atomes/mesures/outofthevalley.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Graebenbach",
+      "libre": "familjenGrotesk",
+      "graisse": 400,
+      "interlignage": 1.42,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Graebenbach",
+      "libre": "familjenGrotesk",
+      "graisse": 400,
+      "interlignage": 1.43
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 28,
+        "ordinateur": 32
+      },
+      "h2": {
+        "telephone": 28,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 14.4,
+        "ordinateur": 17.6
+      }
+    },
+    "remarque": "Une seule grotesque à caractère, Graebenbach (Dinamo), en 400 pour tout : h1 « British-made outdoor saunas, by commission. » posé en bas à gauche de la photo, 28 px au téléphone, 32 px à l'ordinateur, interlignage 1,42 ; h2 à la même taille (« Wood. Heat. Weather. ») ; texte 14 à 18 px. Le contraste entre titre et texte vient de la taille seule, jamais du gras. Libre : Familjen Grotesk (grotesque aux terminaisons un peu rustiques, une seule famille comme la source), pas une police de la liste IA."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#dad9ce",
+      "surface": "#e4e1dc",
+      "texte": "#141414",
+      "texte2": "#5e6266",
+      "accent": "#a69779",
+      "accent2": null,
+      "bordure": "#141414",
+      "encre": "#141414"
+    },
+    "sombre": null,
+    "remarque": "Gris lichen #dad9ce (chroma 0,015, teinte vert-jaune) sous presque toute la page, une surface pierre plus claire #e4e1dc (lettre, presse), texte charbon #141414, secondaire gris ardoise #5e6266 ; le pied et le premier écran en charbon #141414 (42 % des fonds). Seule couleur : un sable de bois #a69779 relevé sur les citations (3 % des caractères), retenu comme accent (assombri par l'usine pour l'AA). Boutons à contour charbon. Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 188,
+      "ordinateur": 309
+    },
+    "gouttiere": {
+      "telephone": 31,
+      "ordinateur": 193
+    },
+    "conteneur": 920,
+    "mesure": 55,
+    "rythme": "alterne",
+    "remarque": "Marges relevées du bord de section au premier texte : 188 px au téléphone, 309 px à l'ordinateur (des sections d'un écran et demi pour 50 à 70 mots : la page respire). Bord 31 px au téléphone ; à l'ordinateur le texte tient dans une colonne de 920 px à 193 px du bord, la photo occupe l'autre moitié jusqu'au bord. Mesure de 55 caractères. Blocs texte / photo alternés."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Angles droits ; boutons à contour charbon de 1 px, texte en casse normale (« Our saunas », « Our process »), fond qui se remplit au survol (0,15 s). Le rayon de 8 px et l'ombre douce du relevé sont ceux de la bannière de cookies : corrigés à 0 et aucune. Fiches des saunas sans cadre ni ombre, séparées par des filets fins."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "3:2"
+    ],
+    "pleinCadre": 5,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : un sauna dans un paysage de montagne, plein cadre, le titre en blanc posé en bas à gauche. Ensuite des moitiés d'écran bord à bord (l'intérieur en bois, le poêle, un sauna sous la pluie la nuit, un jardin), en 3:2, sans cadre ni légende ; fiches des modèles en vignettes 4:3 sur fond blanc."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "cubic-bezier(0.33, 1, 0.68, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé au DOM : les blocs entrent en fondu (opacity 1 s cubic-bezier(0.33, 1, 0.68, 1), 19 éléments, classe pre-fade), trois montent légèrement (transform 1 s même courbe) ; boutons et liens 0,15 à 0,25 s ease. Rien n'est épinglé ni lié au défilement. Profil : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Lichen uni, coupé de blocs charbon (premier écran, pied) ; filets fins entre les fiches des modèles et autour des logos de presse. Ni grain ni texture : la matière vient du bois des photos."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

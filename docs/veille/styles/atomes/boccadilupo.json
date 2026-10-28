@@ -1,0 +1,125 @@
+{
+  "id": "boccadilupo",
+  "version": 1,
+  "source": {
+    "url": "https://www.boccadilupo.com/",
+    "nom": "Bocca di Lupo",
+    "metier": "trattoria italienne de Soho (Londres)",
+    "fiche": "docs/veille/styles/boccadilupo.md",
+    "mesures": "docs/veille/styles/atomes/mesures/boccadilupo.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Mostra Nuova",
+      "libre": "sora",
+      "graisse": 700,
+      "interlignage": 1.4,
+      "casse": "uppercase",
+      "interlettrage": 0.06,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Century Gothic",
+      "libre": "urbanist",
+      "graisse": 400,
+      "interlignage": 1.4
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 42.2,
+        "ordinateur": 45
+      },
+      "h2": {
+        "telephone": 21.1,
+        "ordinateur": 30
+      },
+      "texte": {
+        "telephone": 17.6,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Titres en Mostra Nuova Bold (géométrique Art déco à capitales larges) espacées de 0,06 em : le nom à 45 px (42 px au téléphone), titres de bloc à 30 px (21 px au téléphone), boutons-liens en capitales de 22 px soulignés ; tout le texte en Century Gothic à 18 px, interlignage 1,4, gras et italique pour les liens et les horaires. Libre : Sora en capitales pour les titres (géométrique large d’affichage) et Urbanist pour le texte (géométrique de lecture, le dessin de Century Gothic). Graisse 400 relevée sur un fichier nommé « Bold » : 700 en libre."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#642a2f",
+      "surface": null,
+      "texte": "#e8e6df",
+      "texte2": "#e8e6df",
+      "accent": "#e8e6df",
+      "accent2": null,
+      "bordure": "#e8e6df",
+      "encre": null
+    },
+    "_aide": "autres fonds mesurés : #642a2f (100 %)",
+    "remarque": "Bordeaux #642a2f sur toute la page (99,9 % des surfaces), un seul ton de texte, crème os #e8e6df (100 % des caractères), boutons en contour crème et liens soulignés en crème : la page n’a pas d’autre couleur que celles des photos. Sombre (fond de clarté 0,37, chroma 0,084 : sous le seuil de B1 pour un fond sombre)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 48,
+      "ordinateur": 96
+    },
+    "gouttiere": {
+      "telephone": 56,
+      "ordinateur": 105
+    },
+    "conteneur": 1200,
+    "mesure": 57,
+    "rythme": "uni",
+    "remarque": "Une colonne de texte centrée à 57 caractères à côté de photos en vis-à-vis ; 56 px de bord au téléphone, 105 px d’écart à l’ordinateur ; marges de 48 px (téléphone) et 96 px (ordinateur) jugées sur la planche, le relevé ne les lit pas (conteneur relevé à 6 125 px : une piste de diaporama, ramené à 1 200 px lu sur les captures)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Boutons en contour crème de 1 px, angles droits, capitales larges ; dans le texte, les liens sont soulignés en gras ; aucune carte ni ombre."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9+",
+      "3:2",
+      "4:3"
+    ],
+    "pleinCadre": 8,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Diaporama de photos bord à bord sous le bandeau d’annonces (la ferme en Toscane, des plats tenus à la main) ; plus bas, photos de plats et de salle en vis-à-vis du texte, sans cadre ; un plan de Soho dessiné au trait crème sur le bordeaux pour venir ; le pied est une composition typographique de mots italiens en bordeaux sur papier."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé (document.getAnimations, 9 s puis crans de 400 à 3 000 px) : le diaporama passe en fondu enchaîné (cycle) et les blocs apparaissent en fondu 1 s linéaire à leur arrivée ; un écran de chargement au logo (splash, 1,3 s) et une flèche qui rebondit en boucle sont refusés (GOUT § 2 et § 4). Profil : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Bordeaux uni ; un filet crème sous les menus ; le plan au trait et la composition de mots du pied sont la matière (pas de grain)."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

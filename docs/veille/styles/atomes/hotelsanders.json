@@ -1,0 +1,123 @@
+{
+  "id": "hotelsanders",
+  "version": 1,
+  "source": {
+    "url": "https://hotelsanders.com/",
+    "nom": "Hotel Sanders",
+    "metier": "hôtel de 54 chambres, restaurant et bar (Copenhague)",
+    "fiche": "docs/veille/styles/hotelsanders.md",
+    "mesures": "docs/veille/styles/atomes/mesures/hotelsanders.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Darby Sans Poster",
+      "libre": "marcellus",
+      "graisse": 400,
+      "interlignage": 1.2,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Kohinoor Bangla",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 26,
+        "ordinateur": 25
+      },
+      "h2": {
+        "telephone": 20,
+        "ordinateur": 25
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en Darby Sans Poster, une sans fine à fûts contrastés, en capitales : 25 à 26 px (les intitulés dorés des portes et les titres de formulaire) ; le reste en Kohinoor Bangla, une humaniste de lecture à 16 px, capitales de 16 px pour les boutons dorés. Libre : Marcellus pour les titres (capitales évasées à pleins et déliés, ce que fait Darby Sans Poster) et Hanken Grotesk pour le texte : un titre à contraste contre une grotesque de lecture. Il n’y a pas de h1 : le plus gros texte lu est l’intitulé doré de 26 px au téléphone ; interlignage du titre relevé à 2,4 sur une ligne seule, 1,2 sur deux lignes (retenu)."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#011a11",
+      "surface": "#001d13",
+      "texte": "#eeebe3",
+      "texte2": "#d3bb7b",
+      "accent": "#d3bb7b",
+      "accent2": null,
+      "bordure": "#d3bb7b",
+      "encre": "#eeebe3"
+    },
+    "_aide": "autres fonds mesurés : #d3bb7b (0 %)",
+    "remarque": "Vert bouteille presque noir #011a11 pour l’en-tête et le bandeau de réservation, sous les photos bord à bord ; or pâle #d3bb7b pour les boutons pleins (texte vert dessus), les filets et les intitulés à contour posés sur les photos ; pied et pages en lin #eeebe3 avec le texte vert #001d13 : le bloc contrasté de la page est ce lin. Sombre (fond de clarté 0,19)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 40,
+      "ordinateur": 64
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 310
+    },
+    "conteneur": 1440,
+    "mesure": 60,
+    "rythme": "uni",
+    "remarque": "Page faite de photos bord à bord sans marge (conteneur = l’écran, 1 440 px) ; seuls l’en-tête, le bandeau de réservation et le pied ont des marges : 40 px au téléphone et 64 px à l’ordinateur relevés sur la planche (jugé, le relevé ne trouve pas de section à texte) ; pied en quatre colonnes de 60 caractères au plus."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Angles droits ; boutons pleins or à texte vert, intitulés des portes en contour or de 1 px posés au bas de chaque photo ; filet or sous l’en-tête ; aucune ombre ; liens en couleur."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "3:2"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Une vidéo plein cadre au premier écran (la main sur un robinet de laiton) avec le formulaire de réservation dessus, puis une mosaïque de photos bord à bord en rangées de 2 et 3 (chambres, cour, bar, salle), chacune avec son intitulé doré à contour en bas, lumière chaude et basse ; photos de nature morte en noir et blanc par endroits."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.1,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "video-de-fond",
+    "remarque": "Relevé à la molette (document.getAnimations) : la vidéo du premier écran entre en fondu et glisse (opacity et transform 0,6 s ease-out) ; à chaque cran, les photos de la mosaïque apparaissent en fondu et se posent (opacity et transform 1 s ease) ; les colonnes du pied montent en 1 s ease-out. Profil : video-de-fond (la vidéo du premier écran fait le mouvement principal ; sans vidéo du client, ce profil ne se tire pas)."
+  },
+  "matiere": {
+    "fond": "aplats-francs",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Vert bouteille et lin en aplats francs, filets or de 1 px ; la matière vient des photos (laiton, bois, velours) en lumière basse."
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

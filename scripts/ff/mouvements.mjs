@@ -262,6 +262,27 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['premier écran (ou bloc des avis) en diptyque bord à bord : une photo d\'un côté, une citation de l\'autre (un avis recopié ou une ligne de presse, avec sa source), empilés en couches ; flèches Précédent / Suivant (boutons, étiquetés) et glisser au doigt (touch-action: pan-y) font passer au couple suivant : la photo ET la citation se fondent ensemble, opacité seule, 1,5 s ease (la source : opacity 2s ease, Slick fade) ; jamais de rotation automatique (GOUT § 4) ; les blocs suivants apparaissent une fois en fondu (data-reveal, opacité seule) ; en mouvement réduit, bascule sans fondu'],
     manque: 'la pile des couples photo / citation et ses deux boutons (bloc sur mesure ou variante, script court) ; au moins deux vraies citations du brief (avis recopiés ou presse, jamais inventées) et une photo par citation, sinon ne pas tirer ce profil', exige: {},
   },
+  'silhouettes-en-fond': {
+    nom: 'Silhouettes en fond', sources: ['pastamansi'],
+    entree: 'photo-qui-monte', apparition: 'aucune', survol: 'couleur', fond: 'silhouettes-qui-tournent',
+    regime: 'vivant', defilement: 'aucun', calme: false, poids: 'nul', motion: 'subtle',
+    attributs: ['derrière le contenu, une silhouette géante d\'une chose du métier (une pâte, un pain, une feuille, une clé ; SVG en aplat de l\'accent 2, 440 à 460 px, jamais une photo) par hauteur d\'écran, à demi hors du bord ou dans la marge, alternée gauche / droite, qui tourne sur elle-même en 85 à 115 s par tour, linear, une sur deux dans l\'autre sens (@keyframes rotate, transform seul : tient sur iPhone) ; la première photo du premier écran monte de 60 px en fondu, 1,4 s cubic-bezier(0.23, 1, 0.32, 1) après 1,2 s ; arrêtées et posées en mouvement réduit'],
+    manque: 'les silhouettes SVG dessinées d\'après le métier du client (deux à quatre formes, jamais le logo ni un titre) et leur règle de rotation dans la direction ou le bloc ; toujours derrière le texte (z-index), jamais sous une ligne de texte courant (contraste mesuré sur l\'aplat), pause hors écran (animation-play-state par IntersectionObserver)', exige: {},
+  },
+  'bloc-qui-s-avance': {
+    nom: 'Bloc qui s\'avance', sources: ['barkumiko'],
+    entree: 'montee', apparition: 'avancee', survol: 'couleur', fond: 'aucun',
+    regime: 'vivant', defilement: 'apparitions', calme: false, poids: 'leger', motion: 'rich',
+    attributs: ['le h1 et sa phrase montent de 26 px en apparaissant, 0,9 s, la phrase 150 ms après (data-stagger sur le bloc du premier écran) ; chaque bloc de texte monte en apparaissant (opacité 1,2 s cubic-bezier(0.22, 1, 0.36, 1), transform 2 s cubic-bezier(0.18, 0.6, 0.18, 1) : data-reveal="up") ; à l\'ordinateur seulement, le bloc de texte qui arrive au milieu de l\'écran s\'avance (scale 1 → 1,06 en 0,6 s cubic-bezier(0.22, 1, 0.36, 1), origine au centre) et revient à 1 quand il quitte cette zone : une classe posée par un IntersectionObserver (rootMargin -40 % en haut et en bas), une transition en temps, rien de calé sur --p ; au téléphone et en mouvement réduit, la montée seule (la source ne fait pas s\'avancer au téléphone)'],
+    manque: 'l\'avancée du bloc au centre de l\'écran (attribut à écrire dans le moteur, ex. data-avance, ou script court de bloc) ; deux ou trois blocs de texte courts par page au plus (une phrase d\'accueil, une adresse), jamais une photo ni une grille, jamais au-delà de 1,06', exige: {},
+  },
+  'bandeau-des-adresses': {
+    nom: 'Bandeau des adresses', sources: ['redclay'],
+    entree: 'aucune', apparition: 'aucune', survol: 'couleur', fond: 'bandeau-lent',
+    regime: 'vivant', defilement: 'aucun', calme: false, poids: 'leger', motion: 'subtle',
+    attributs: ['une seule bande pleine largeur, sur l\'aplat de l\'accent, entre deux traits épais ondulés (SVG, couleur du texte) : les vrais noms des lieux où l\'on trouve le client (restaurants, épiceries, marchés, communes de la tournée), chacun suivi de sa ville, en capitales condensées 64 à 110 px, défilent très lentement de droite à gauche (data-marquee="100s", linear, une boucle sur toute la longueur) ; pause au survol et au focus ; arrêtée en mouvement réduit (la bande devient une liste qu\'on fait glisser) ; le reste de la page change en 0,3 s ease'],
+    manque: 'les deux traits ondulés au-dessus et au-dessous de la bande (SVG du bloc) ; au moins quatre vrais lieux du brief (revendeurs, tables qui servent le produit, marchés, communes desservies), jamais inventés ni des logos de presse ; une seule bande par page', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

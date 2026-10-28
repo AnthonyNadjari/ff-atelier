@@ -1,0 +1,124 @@
+{
+  "id": "redclay",
+  "version": 1,
+  "source": {
+    "url": "https://redclayhotsauce.com/",
+    "nom": "Red Clay",
+    "metier": "sauces piquantes et miel pimenté de chef (Charleston), vendus en ligne et servis en restaurant",
+    "fiche": "docs/veille/styles/redclay.md",
+    "mesures": "docs/veille/styles/atomes/mesures/redclay.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Windsor-Elongated",
+      "libre": "libreCaslonCondensed",
+      "graisse": 400,
+      "interlignage": 0.87,
+      "casse": "uppercase",
+      "interlettrage": 0.003,
+      "italique": false
+    },
+    "texte": {
+      "famille": "PIXymbolsHGF2002 W05 Regular",
+      "libre": "publicSans",
+      "graisse": 400,
+      "interlignage": "à juger"
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 64,
+        "ordinateur": 110
+      },
+      "h2": {
+        "telephone": 30,
+        "ordinateur": 40.3
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en Windsor Elongated (serif condensée et douce, capitales, interlignage 0,87) : « A CHEF'S ESSENTIAL FOR EVERYONE. » 64 px au téléphone, 110 px à l'ordinateur ; h2 en Windsor Roman 30 / 40 px casse normale. La lecture courte (citations, noms de produits) est en Windsor Light Condensed 22 à 27 px, une police d'affichage que l'usine ne prend jamais en texte courant ; la seconde voix du site, celle du menu, des boutons et des étiquettes, est une grotesque large en capitales de 16 px (relevé : la famille déclarée est une police de symboles de Hoefler, le texte s'affiche dans sa grotesque) : retenue en texte. Libres : Libre Caslon Condensed (serif condensée d'enseigne) en titre, Public Sans en texte ; l'interlignage du texte n'est pas mesuré sur un paragraphe de cette grotesque : à juger. Aucune police de la liste IA."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f8f8f1",
+      "texte": "#33302d",
+      "texte2": "#33302d",
+      "accent": "#e35d45",
+      "accent2": "#7c7447",
+      "bordure": "#33302d",
+      "encre": "#33302d"
+    },
+    "sombre": null,
+    "remarque": "Blanc #ffffff sous la page, un blanc cassé #f8f8f1 pour la presse, charbon chaud #33302d pour le texte et pour de grands blocs (citation de chef, pied, 35 % des fonds colorés), corail de piment #e35d45 en aplats (bande des adresses, « The Lineup », boutons) et vert olive #7c7447 pour le bandeau d'annonce. Le rouge #ff0000 relevé est celui des étiquettes sur les photos : non retenu. Clair neutre (fond blanc, encre charbon sans teinte) : la couleur est dans les aplats corail, que l'usine pose au bouton et à la sélection."
+  },
+  "densite": {
+    "section": {
+      "telephone": 72,
+      "ordinateur": 88
+    },
+    "gouttiere": {
+      "telephone": 25,
+      "ordinateur": 32
+    },
+    "conteneur": 1390,
+    "mesure": "à juger",
+    "rythme": "alterne",
+    "remarque": "Marges relevées du bord de section au premier texte : 72 px au téléphone, 88 px à l'ordinateur ; bord 25 px au téléphone, 32 px entre colonnes à l'ordinateur ; contenu presque pleine largeur (1 390 px). Blocs blancs, charbon et corail alternés. La mesure n'est pas lue sur un vrai paragraphe (le site n'a que des phrases courtes)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits partout ; boutons à contour de 1 px en capitales larges (« GO BACK OF HOUSE ») ou pleins corail texte blanc (« SHOP SOUTHERN CHILI CRISP », « ADD TO CART »), jamais arrondis ; étiquettes « RECIPES » encadrées d'un filet corail ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "1:1",
+      "4:5",
+      "3:2"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Premier écran : la vidéo plein cadre d'une main qui sert la sauce sur un œuf, le titre en blanc dessus. Ensuite les bouteilles détourées sur blanc cassé (carrés), des photos carrées et 4:5 de plats, de chefs et de tables qui débordent sur les bandes ondulées et sur les blocs corail (une photo à cheval sur deux fonds), une recette par carré dans une piste."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "bandeau-des-adresses",
+    "remarque": "Relevé au DOM (page défilée) : une seule chose bouge seule, la bande des restaurants qui servent la sauce (.marquee__content, animation scroll 100 s linear infinite, 11 000 px de piste, noms en capitales condensées) entre deux traits épais ondulés ; tout le reste change en 0,3 s ease, transitions de 0,5 s sur les cartes ; carrousels Slick et Swiper à flèches. Profil nouveau : bandeau-des-adresses."
+  },
+  "matiere": {
+    "fond": "aplats-francs",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Aplats francs pleine largeur (blanc, charbon, corail), traits noirs épais et ondulés autour de la bande des adresses, filets fins sous la nav et autour des étiquettes ; un tampon rond « Southern roots » dessiné au trait. Ni grain ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

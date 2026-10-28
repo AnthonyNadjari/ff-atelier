@@ -1,4 +1,4 @@
-# Profils de mouvement : trente-quatre façons de faire bouger une page, relevées sur de vrais sites
+# Profils de mouvement : trente-sept façons de faire bouger une page, relevées sur de vrais sites
 
 Le fondateur, 18 oct 2026, sur L'Épi d'Or b, c, d : « beaucoup plus de pluralité : animations, même des vidéos en
 fond ». L'atome `mouvement` (ATOMES.md) ne portait que des durées et une courbe : trois mélanges différents bougeaient
@@ -423,6 +423,65 @@ flèches et glisser au doigt existent aussi. Les blocs suivants apparaissent une
   (GOUT § 0, point 4) sans bandeau d'étoiles ; compatible avec un client « calme ». Distinct de `legende-fixe-qui-change`
   (le nom du projet bascule sans fondu au défilement) et de `glisse-a-la-main` (une piste de cartes qui glisse). Calme : oui.
   Poids : léger.
+
+### `silhouettes-en-fond`
+Pastificio Mansi (`pastamansi.md`, [pastamansi.com](http://pastamansi.com/), veille du 28 oct 2026, moitié B ;
+`getComputedStyle` des `.pasta` et `@keyframes` relevés à 1 440 px, captures à deux visites) : derrière le texte et les
+photos, une **silhouette de pâte** géante (gnocco, raviolo, maccheroni, agnolo ; SVG en aplat jaune d'œuf #fbcd37, 440 à
+460 px, `scale(0.8)`) par tranche de 766 px de page, à demi hors du bord gauche ou au milieu, qui **tourne sur elle-même**
+en 85 à 115 s par tour, `linear infinite`, une sur deux dans l'autre sens : on ne la voit pas tourner, on la retrouve
+autrement posée. La forme change d'une visite à l'autre. À l'entrée, le cadre de la première photo monte de 60 px en
+fondu (`comeIn` 1,4 s `cubic-bezier(0.23, 1, 0.32, 1)` après 1,2 s) ; liens 0,2 s, menu 0,62 s `cubic-bezier(0.86, 0, 0.07, 1)`.
+- Entrée photo qui monte · apparition aucune · survol couleur · fond silhouettes qui tournent.
+- Moteur : rien d'existant (le sceau d'`objet-qui-tourne` est un objet au premier plan, 30 s). Manque : deux à quatre
+  silhouettes SVG dessinées d'après le métier du client (pâte, pain, feuille, clé, bobine), un `@keyframes` de rotation
+  (transform seul, tient sur iPhone), arrêté en mouvement réduit et mis en pause hors écran ; `data-reveal="up"` pour la
+  première photo.
+- Garde : une chose du métier, jamais le logo ni un titre (GOUT § 4) ; derrière le texte, jamais sous une ligne de texte
+  courant ; aplat de l'accent 2, pas de dégradé ni de grain ; une silhouette par écran au plus.
+- Quand : fabricant ou commerce de bouche à la page posée et typographique (pâtes fraîches, boulangerie, biscuiterie,
+  confiserie, fleuriste, pépinière) dont le produit a une forme reconnaissable. Distinct d'`objet-qui-tourne` (un objet au
+  premier plan qui tourne en 30 s) et de `photos-qui-flottent` (des photos détourées qui montent et descendent). Calme :
+  non (ça bouge seul, même lentement). Poids : nul.
+
+### `bloc-qui-s-avance`
+Kumiko (`barkumiko.md`, [barkumiko.com](https://barkumiko.com/), veille du 28 oct 2026, moitié A ; `document.getAnimations()`
+et classes `k-pre`, `k-in`, `k-focus` relevées à chaque cran de 250 px à 1 440 et 390 px de large, règles lues dans la
+feuille de style) : le nom et la phrase du premier écran **montent** en apparaissant (`kRiseHero` 0,9 s, la phrase 150 ms
+après). Chaque bloc de texte entre en montant de 26 px (opacité 1,2 s `cubic-bezier(.22,1,.36,1)`, transform 2 s
+`cubic-bezier(.18,.6,.18,1)`). À l'ordinateur, le bloc qui arrive **au milieu de l'écran s'avance** : `scale(1.06)` en
+0,6 s `cubic-bezier(.22,1,.36,1)`, origine au centre (1,04 pour un titre de section), et revient à 1 quand on le quitte ;
+on lit une page dont le paragraphe en cours vient à soi. Au téléphone, la source garde la montée seule. Diaporama du
+premier écran en fondu 1,2 s `cubic-bezier(.65,0,.35,1)`, avec un bouton pause et des points.
+- Entrée montée · apparition avancée · survol couleur · fond aucun.
+- Moteur : `data-stagger` (premier écran) et `data-reveal="up"` (montée) existent. Manque : l'avancée au centre de
+  l'écran, une classe posée par un `IntersectionObserver` (`rootMargin` -40 % en haut et en bas) et une transition en
+  temps sur `transform` ; rien de calé sur `--p` (tient sur iPhone, GOUT § 4) ; ordinateur seulement, comme la source ;
+  rien en mouvement réduit.
+- Garde : deux ou trois blocs de texte courts par page (la phrase d'accueil, l'adresse et les horaires), jamais une photo,
+  une grille ou un titre seul ; jamais au-delà de 1,06 (au-delà le texte se floute et déborde) ; un seul bloc avancé à la
+  fois.
+- Quand : bar, restaurant du soir, salon de thé, hôtel, artisan à la page posée et aérée (texte centré, grandes marges)
+  qui veut un mouvement de lecture sans effet de scène. Distinct de `photo-qui-s-approche` (une photo grandit au survol
+  dans son cadre) et de `parallaxe-et-aimant` (des plans qui glissent avec le défilement). Calme : non (le bloc réagit à
+  la position). Poids : léger.
+
+### `bandeau-des-adresses`
+Red Clay (`redclay.md`, [redclayhotsauce.com](https://redclayhotsauce.com/), veille du 28 oct 2026, moitié B ;
+`getComputedStyle` des `.marquee__content` relevé à 1 440 px, page défilée) : la page est posée (tout change en 0,3 s
+`ease`), sauf **une bande** pleine largeur sur l'aplat corail, tenue entre deux traits noirs épais et ondulés : les noms des
+restaurants qui servent la sauce, chacun suivi de sa ville (« Babas, Charleston, SC », « Queen Street, Los Angeles,
+CA »…), en capitales serif condensées, défilent de droite à gauche en **100 s** par boucle, `linear infinite` (11 000 px de
+piste) : on lit un nom, il est encore là. C'est la preuve du produit, posée en mouvement.
+- Entrée aucune · apparition aucune · survol couleur · fond bandeau lent.
+- Moteur : `data-marquee="100s"` existe (une bande, sens normal). Manque : les deux traits ondulés (SVG du bloc), la pause
+  au survol et au focus si le moteur ne l'a pas (WCAG 2.2.2) ; en mouvement réduit, la bande s'arrête et devient une liste
+  qu'on fait glisser à la main (GOUT § 4).
+- Garde : au moins quatre vrais lieux du brief (revendeurs, tables qui servent le produit, marchés, communes desservies),
+  jamais inventés, jamais des logos de presse ; une seule bande par page.
+- Quand : producteur ou artisan de bouche vendu ailleurs que chez lui (sauces, confitures, fromages, bières, cafés,
+  boulangerie qui livre des restaurants), artisan qui tourne sur des communes. Distinct de `bandes-croisees` (deux bandes
+  inclinées en sens contraires, une devise). Calme : non (bouge seul). Poids : léger.
 
 ## Complément transversal : transitions de page
 

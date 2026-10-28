@@ -1,0 +1,125 @@
+{
+  "id": "chateauvoltaire",
+  "version": 1,
+  "source": {
+    "url": "https://chateauvoltaire.com/",
+    "nom": "Château Voltaire",
+    "metier": "hôtel de 32 chambres, brasserie et bar (Paris, rue Saint-Roch)",
+    "fiche": "docs/veille/styles/chateauvoltaire.md",
+    "mesures": "docs/veille/styles/atomes/mesures/chateauvoltaire.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Sanzettica Ultra",
+      "libre": "archivoBlack",
+      "graisse": 900,
+      "interlignage": 1,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Bradfort",
+      "libre": "literata",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 27.2,
+        "ordinateur": 40
+      },
+      "h2": {
+        "telephone": 20,
+        "ordinateur": 20
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 13
+      }
+    },
+    "remarque": "Une grotesque très large et très noire, Sanzettica Ultra, pour le nom, les titres et les boutons, écrits en capitales dans le texte même (casse CSS « none ») : « CHÂTEAU VOLTAIRE » à 40 px, titres de bloc à 20 px, boutons à 12 px ; tout le texte courant dans une serif de livre, Bradfort, 16 px au téléphone, 13 px à l’ordinateur. Libre : Archivo Black (grotesque large et noire) et Literata (serif de lecture contemporaine), le contraste d’une affiche et d’un livre. Le relevé lit graisse 400 sur Sanzettica Ultra, une coupe unique dessinée en noir : 900 en libre."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#fff4dd",
+      "surface": "#ffffff",
+      "texte": "#000000",
+      "texte2": "#333333",
+      "accent": "#000000",
+      "accent2": "#ff7634",
+      "bordure": "#000000",
+      "encre": "#000000"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #fef4de (2 %), #ffffff (0 %), #000000 (0 %)",
+    "remarque": "Crème beurre #fff4dd sur toute la page (98 % des surfaces), texte et filets noirs, une seule encre ; le texte crème sur les photos (24 % des caractères) ; un orange #ff7634 rare sur un lien de menu. Les boutons sont des contours noirs de 1 px : l’accent est le noir. Clair teinté doux (fond de chroma 0,032)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 84,
+      "ordinateur": 213
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 40
+    },
+    "conteneur": 1240,
+    "mesure": 67,
+    "rythme": "uni",
+    "remarque": "Marges relevées : 84 px au téléphone, 213 px à l’ordinateur ; page de 1 240 px, texte en colonnes de 67 caractères à côté des photos ; 20 px de bord au téléphone ; une barre « Réserver » fixe en bas au téléphone."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 8,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "douce",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Boutons à contour noir de 1 px, angles droits, capitales noires de 12 px ; cartes de chambres sans cadre, une ombre douce relevée sur la bannière des cookies seulement ; liens soulignés ; sélecteur de langue rond (seul élément rond, une pastille de 44 px)."
+  },
+  "photos": {
+    "traitement": "masque",
+    "rapports": [
+      "1:1",
+      "3:2",
+      "4:5"
+    ],
+    "pleinCadre": 14,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Premier écran : un diaporama de salons et de chambres bord à bord, le dessin de la façade au trait et le nom en crème dessus ; plus bas, pour la brasserie et le bar, une grande photo rectangulaire chevauchée par une seconde photo découpée en ARCHE (haut en plein cintre), et le dessin de l’immeuble au trait noir à côté du texte ; rangée de vignettes 3:2 pour les chambres."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé à la molette (document.getAnimations, 9 s puis crans de 400 à 3 000 px) : rien n’apparaît au défilement ; le diaporama du premier écran glisse seul (Swiper, transform), une flèche rebondit en boucle (bounce 1 s, refusée : rien ne bouge en boucle) ; liens et menu en 0,3 s cubic-bezier(.4,0,.2,1). Profil le plus proche : fondu-sobre, sans la rotation automatique."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Crème uni ; filets noirs de 1 px sous l’en-tête et dans le pied ; le dessin au trait de l’immeuble (façade de la rue Saint-Roch) revient comme un tampon."
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}
