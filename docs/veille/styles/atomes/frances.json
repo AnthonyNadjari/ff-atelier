@@ -1,0 +1,123 @@
+{
+  "id": "frances",
+  "version": 1,
+  "source": {
+    "url": "https://www.frances-sf.com/",
+    "nom": "Frances",
+    "metier": "restaurant de quartier (San Francisco)",
+    "fiche": "docs/veille/styles/frances.md",
+    "mesures": "docs/veille/styles/atomes/mesures/frances.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "IM Fell English",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.3,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "IM Fell English",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 26.7,
+        "ordinateur": 35
+      },
+      "h2": {
+        "telephone": 17.8,
+        "ordinateur": 20
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 17
+      }
+    },
+    "remarque": "Tout en IM Fell English, une garalde d'imprimerie ancienne aux contours irréguliers : phrase d'accueil (le plus gros texte après le nom) à 27 px au téléphone et 35 px à l'ordinateur, interlignage 1,34 ; intertitres 18 à 20 px ; texte 16 à 17 px, interlignage 1,6, interlettrage 0,5 px. Nav en Libre Baskerville grasse 13 px en capitales espacées, boutons en Futura 500 13 px capitales ; le nom « FRANCES » est une image (capitales Art déco à contour). Libre : EB Garamond pour titre et texte (garalde, même famille d'origine, concordance)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#cfc9b0",
+      "surface": null,
+      "texte": "#24221e",
+      "texte2": "#24221e",
+      "accent": "#24221e",
+      "accent2": null,
+      "bordure": "#24221e",
+      "encre": "#24221e"
+    },
+    "sombre": null,
+    "remarque": "Un seul fond sur toute la page, papier kraft vert-de-gris #cfc9b0 (99,7 % des fonds) ; texte brun-noir #24221e ; boutons pleins de la même encre avec le texte crème #ebe5db ; filet de 1 px de la même encre entre les blocs. Aucune autre couleur (le bleu #2d68ff relevé est le bouton du widget d'accessibilité, écarté). Clair teinté doux (fond de clarté 0,83, chroma 0,034). Pas de surface distincte : la page n'a qu'un fond (surface laissée vide, sinon le même kraft compté comme surface colorée la classait en coloré doux)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 56,
+      "ordinateur": 96
+    },
+    "gouttiere": {
+      "telephone": 23,
+      "ordinateur": 26
+    },
+    "conteneur": 1020,
+    "mesure": 60,
+    "rythme": "uni",
+    "remarque": "Relevé 250 et 282 px : faussé (la marge comptée inclut la photo du premier écran) ; jugé sur la planche : 56 px au téléphone, 96 px à l'ordinateur entre les blocs ; bord de 23 px au téléphone, colonnes écartées de 26 px ; conteneur 1 020 px ; texte de présentation en colonne d'environ 60 caractères (justifié sur la source : on ne reprend pas la justification)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 2,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Boutons pleins brun-noir rectangulaires, petits (13 px, capitales espacées de 2 px), bordure de 2 px sur le bouton de la lettre ; angles droits partout ; aucune ombre ; liens en couleur."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "2:3-",
+      "16:9+",
+      "4:5"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Une photo pleine largeur au premier écran (huîtres, gros plan) puis une grille de photos à deux colonnes serrées (8 px), verticales et carrées mêlées, sans cadre ni ombre : mains en cuisine, assiettes vues d'en haut, salle, façade. Lumière naturelle chaude, couleurs franches qui ressortent sur le kraft."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.1,
+      "courbe": "linear"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "ease"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé (CSS calculé, data-animation-role de Squarespace) : les photos apparaissent en fondu d'opacité 1 s ease au chargement ; survols en 0,1 s linear ; menu du téléphone 0,4 s. Rien ne glisse. Profil : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Kraft vert-de-gris uni ; un filet fin brun-noir sépare la présentation de la grille ; aucune texture dessinée."
+  },
+  "architecture": null,
+  "premier_ecran": "à juger",
+  "premier_ecran_remarque": "Nom en image en haut à gauche, photo pleine largeur, présentation dessous : aucune famille de premiers-ecrans.md ne le décrit exactement (laissé à juger)."
+}

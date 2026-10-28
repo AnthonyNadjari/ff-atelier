@@ -1,0 +1,122 @@
+{
+  "id": "marou",
+  "version": 1,
+  "source": {
+    "url": "https://marouchocolate.com/",
+    "nom": "Marou",
+    "metier": "chocolatier de la fève à la tablette (Vietnam), boutique en ligne",
+    "fiche": "docs/veille/styles/marou.md",
+    "mesures": "docs/veille/styles/atomes/mesures/marou.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Tungsten",
+      "libre": "oswald",
+      "graisse": 700,
+      "interlignage": 1.1,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Gotham Narrow",
+      "libre": "archivo",
+      "graisse": 400,
+      "interlignage": 1.56
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 68,
+        "ordinateur": 100
+      },
+      "h2": {
+        "telephone": 44,
+        "ordinateur": 48
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en Tungsten 700, une grotesque très condensée et lourde (h1 « 24 DOORS, 24 DELIGHTS » 68 px au téléphone, 100 px à l'ordinateur, interlignage 1,1 ; noms des collections 44 / 48 px en casse normale sur charbon ; menu en Tungsten capitales espacées de 1,6 px) ; texte en Gotham Narrow 300 à 500, 14 px au téléphone, 16 px à l'ordinateur, interlignage 1,56 ; étiquettes et boutons en Gotham Narrow capitales 12 px. Libres : Oswald (condensée grasse la plus proche de Tungsten au registre) et Archivo (grotesque à chasse étroite possible, la plus proche de Gotham Narrow) en 400, la graisse 300 de la source étant trop maigre pour 16 px. Aucune police IA."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f2ede5",
+      "texte": "#292929",
+      "texte2": "#6e6e6e",
+      "accent": "#7a682e",
+      "accent2": "#aa452f",
+      "bordure": "#7a682e",
+      "encre": "#7a682e"
+    },
+    "sombre": null,
+    "remarque": "Blanc #ffffff sous la page (62 % des fonds), sable #f2ede5 pour la presse et les fonds de produits, charbon #292929 pour le texte et le grand bloc des collections (18 %), or olive #7a682e (16 % des fonds) pour le bloc « De la fève à la tablette », les filets qui encadrent les titres et les liens ; un rouge brique #aa452f pour le bouton du premier écran et les étiquettes de remise. Les couleurs vives (rouge, bleu, vert des tablettes) viennent des emballages photographiés, pas de la feuille. Coloré doux : fond blanc, bloc d'encre olive."
+  },
+  "densite": {
+    "section": {
+      "telephone": 50,
+      "ordinateur": 80
+    },
+    "gouttiere": {
+      "telephone": 36,
+      "ordinateur": 20
+    },
+    "conteneur": 1240,
+    "mesure": 66,
+    "rythme": "uni",
+    "remarque": "Relevé : 50 px du bord de section au premier texte au téléphone, 80 px à l'ordinateur ; 36 px de bord au téléphone, 20 px entre colonnes à l'ordinateur ; conteneur de 1 240 px ; mesure 66 caractères. Page dense de boutique, blocs pleine largeur collés."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits partout ; boutons à contour de 1 px en capitales Gotham 12 px (« DISCOVER THEM », « OUR STORY », blancs sur les photos), un seul bouton plein rouge brique au premier écran ; filets olive de 1 px qui cadrent les titres de section en cartouche et séparent les colonnes ; liens soulignés ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 2,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : la photo du produit du moment en plein cadre sous le titre condensé blanc. Ensuite les tablettes droites sur fond sable (carrés 4:5 en piste), quatre grandes photos de terrain (planteurs, cabosses, la route) bord à bord en 2 x 2, chacune avec son titre condensé blanc et son bouton à contour posés dessus, et un bloc moitié photo moitié aplat. Lumière chaude, sombre et contrastée."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "cubic-bezier(0.104, 0.204, 0.492, 1)"
+    },
+    "scene": {
+      "duree": 1.2,
+      "courbe": "cubic-bezier(0, 0, 0.44, 1.18)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "bandeau-des-adresses",
+    "remarque": "Sonde du 28 oct 2026 : deux bandes défilent seules (animation marquee-left 30 s linear infinite) : les noms des provinces d'où vient le cacao (Dong Nai, Lam Dong, Ba Ria, Dak Lak, Ben Tre, Tien Giang) en capitales condensées entre deux filets olive, et « Vietnam single origin » sous le premier écran. Les photos se posent en 0,2 s (opacité et flou) au chargement ; survols en 0,25 s cubic-bezier(0.104, 0.204, 0.492, 1) ; carrousels Flickity à flèches. Profil : bandeau-des-adresses (une bande de vrais lieux qui défile lentement), ici plus rapide (30 s) et plus petite."
+  },
+  "matiere": {
+    "fond": "aplats-francs",
+    "filets": "grille",
+    "texture": "aucune",
+    "remarque": "Blocs pleine largeur en aplats francs (blanc, olive, charbon, sable) tenus par une grille de filets olive de 1 px (cartouches de titres, colonnes du bloc fabrication, bandes) ; pictogrammes gravés au trait blanc. Ni grain ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

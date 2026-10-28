@@ -1,0 +1,128 @@
+{
+  "id": "cosme",
+  "version": 1,
+  "source": {
+    "url": "https://www.cosmenyc.com/",
+    "nom": "Cosme",
+    "metier": "restaurant mexicain contemporain (New York)",
+    "fiche": "docs/veille/styles/cosme.md",
+    "mesures": "docs/veille/styles/atomes/mesures/cosme.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "CoFoMedium",
+      "libre": "fragmentMono",
+      "graisse": 400,
+      "interlignage": 1.3,
+      "casse": "uppercase",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "CrimisonProRegular",
+      "libre": "spectral",
+      "graisse": 400,
+      "interlignage": 1.3
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 25,
+        "ordinateur": 25
+      },
+      "h2": {
+        "telephone": 25,
+        "ordinateur": 25
+      },
+      "texte": {
+        "telephone": 18,
+        "ordinateur": 21
+      }
+    },
+    "remarque": "Titres de section (ABOUT, MENU, GALLERY, EVENTS, CONTACT) et lignes de la carte en CoFo Sans Mono Medium, une chasse fixe grotesque, en capitales : 25 px aux deux largeurs pour les titres, 15 à 16 px pour les plats ; texte en Crimson Pro (garalde de lecture, 21 px à l'ordinateur, 18 px au téléphone, interlignage 1,2). Le nom est une image vectorielle géante posée à la verticale. Libre : Fragment Mono pour les titres (grotesque à chasse fixe, même voix de machine) et Spectral pour le texte (garalde de lecture : Crimson est une police « IA », écartée) ; interlignage du texte remonté de 1,2 à 1,3 pour le français."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#6b190f",
+      "surface": "#6b190f",
+      "texte": "#dbdbdb",
+      "texte2": "#dbdbdb",
+      "accent": "#dbdbdb",
+      "accent2": null,
+      "bordure": "#dbdbdb",
+      "encre": "#dbdbdb"
+    },
+    "remarque": "Rouge sang-de-bœuf #6b190f sur toute la page (96 % des fonds) et une seule encre, gris clair #dbdbdb, pour le texte, le nom vertical, les filets et les liens soulignés. Les photos font le reste : noir et blanc pour la salle et le chef, couleur pour les assiettes et le bar. Sombre (fond de clarté 0,35, chroma 0,117 : sous le seuil de 0,13 des fonds sombres de la garde de beauté)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 75,
+      "ordinateur": 64
+    },
+    "gouttiere": {
+      "telephone": 15,
+      "ordinateur": 45
+    },
+    "conteneur": 1144,
+    "mesure": 44,
+    "rythme": "uni",
+    "remarque": "Marge de section 75 px au téléphone (relevée) ; 30 px relevés à l'ordinateur sous-estiment l'écart entre filet et titre, jugé 64 px sur la planche ; bord de 15 px au téléphone, colonnes écartées de 45 px ; conteneur 1 144 px (la colonne de droite, 143 px, est prise par le nom vertical) ; texte en trois colonnes courtes d'environ 44 caractères."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Aucun bouton : « RESERVATIONS » en haut à gauche, « ACCEPT COOKIES », « CHECK E-GIFT CARD BALANCE » en liens soulignés ; filets fins gris entre les sections ; angles droits ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "noir-et-blanc",
+    "rapports": [
+      "3:2",
+      "4:5",
+      "4:3"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 4,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Premier écran : une grande photo de la salle en noir et blanc, sans cadre, collée à gauche du nom vertical ; la salle et le chef en noir et blanc, les assiettes et le bar en couleur, en vignettes de tailles différentes posées à côté de la carte ; aucun texte sur les photos. Relevé : 0 photo en noir et blanc (filtre absent, les fichiers sont déjà en noir et blanc) : jugé sur la planche."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.1,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "jQuery",
+      "Slick"
+    ],
+    "profil": "nom-en-marge",
+    "remarque": "Relevé à la molette (getAnimations, transforms) et à 0, 400, 1 000, 2 000 et 3 500 ms après le chargement : rien n'entre, rien n'apparaît au défilement ; le nom vertical (svg#hero_logo.is-fixed, 143 x 820 px) reste fixe dans la marge droite pendant que toute la page défile à sa gauche ; le menu arrive de la gauche (panneau de 420 px, transform 0,4 s ease) ; liens 0,1 s. GSAP et ScrollTrigger sont chargés sans déclencheur actif. Profil : nom-en-marge (nouveau, tour 14)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Sang-de-bœuf uni, filets fins gris clair entre les sections ; aucune texture."
+  },
+  "architecture": null,
+  "premier_ecran": "editorial",
+  "premier_ecran_remarque": "Premier écran : une grande photo en noir et blanc à gauche, le nom géant à la verticale dans la marge droite, rien d'autre : une mise en page d'affiche ou de couverture (editorial), sans carte ni texte sur la photo."
+}

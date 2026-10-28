@@ -1,4 +1,4 @@
-# Profils de mouvement : trente-sept façons de faire bouger une page, relevées sur de vrais sites
+# Profils de mouvement : trente-neuf façons de faire bouger une page, relevées sur de vrais sites
 
 Le fondateur, 18 oct 2026, sur L'Épi d'Or b, c, d : « beaucoup plus de pluralité : animations, même des vidéos en
 fond ». L'atome `mouvement` (ATOMES.md) ne portait que des durées et une courbe : trois mélanges différents bougeaient
@@ -482,6 +482,50 @@ piste) : on lit un nom, il est encore là. C'est la preuve du produit, posée en
 - Quand : producteur ou artisan de bouche vendu ailleurs que chez lui (sauces, confitures, fromages, bières, cafés,
   boulangerie qui livre des restaurants), artisan qui tourne sur des communes. Distinct de `bandes-croisees` (deux bandes
   inclinées en sens contraires, une devise). Calme : non (bouge seul). Poids : léger.
+
+### `annonce-qui-defile`
+Hôtel Rochechouart (`rochechouart.md`, [hotelrochechouart.com](https://www.hotelrochechouart.com/), veille du 28 oct 2026,
+moitié B ; sonde `document.getAnimations()` et styles en ligne à 0, 200, 700 et 1 500 ms puis à chaque cran de 700 px, à
+1 440 et 390 px de large) : une page d'hôtel posée, où **rien n'entre et rien n'apparaît**. Deux choses seulement bougent :
+juste sous le premier écran, une **bande fine** (une ligne de texte de 14 px, sur l'ivoire, entre deux filets) répète
+l'annonce du moment (« Réservez en direct pour bénéficier de -10 % sur votre réservation ») et défile de droite à gauche,
+animation `scroll` **20 s `linear` infinite** ; et la barre de navigation, transparente sur la photo, prend l'aplat
+bordeaux dès qu'on défile (`background-color` 0,3 s `ease`). C'est l'annonce du commerçant, dite une fois, qui passe
+sans crier ; le reste de la page ne bouge pas.
+- Entrée aucune · apparition aucune · survol couleur · fond annonce qui défile.
+- Moteur : `data-marquee="20s"` existe (contenu dupliqué, `linear`) ; `.is-scrolled` posé sur la nav après 40 px existe
+  (`motion.ts`), la direction lui donne l'aplat de l'encre en 0,3 s ; le texte vient du champ `annonce` du site
+  (`src/components/Annonce.astro`, fenêtre `du` / `au`) : l'annonce existante devient une bande qui défile. Manque : la
+  variante défilante d'`Annonce.astro` (une ligne en petites capitales ou en texte courant, entre deux filets de
+  `--line`), pause au survol et au focus (WCAG 2.2.2), arrêtée et lisible d'un bloc en mouvement réduit.
+- Garde : une seule phrase vraie du brief (fermeture, saison, offre datée, « Réservez en direct »), jamais un slogan ni
+  une liste de mots-clés ; une seule bande, fine (une ligne de texte courant, jamais des capitales géantes) ; absente si
+  le client n'a pas d'annonce.
+- Quand : hôtel, restaurant, salon, boutique qui a une nouvelle du moment et une page calme par ailleurs. Distinct de
+  `bandeau-des-adresses` (une bande géante de vrais lieux entre deux vagues, preuve du produit) et de `bandes-croisees`
+  (deux bandes inclinées, une devise). Calme : non (la bande bouge seule, lentement). Poids : nul (CSS seul).
+
+### `nom-en-marge`
+Cosme (`cosme.md`, [cosmenyc.com](https://www.cosmenyc.com/), veille du 28 oct 2026, tour 14, moitié A ; position, classes
+et `transform` relevés à la molette par crans de 400 px et à 0, 400, 1 000, 2 000 et 3 500 ms après le chargement, à 1 440 et
+390 px de large) : le **nom du restaurant**, en capitales géantes posées **à la verticale** (`svg#hero_logo.is-fixed`, 143 x
+820 px, gris clair #dbdbdb sur le sang-de-bœuf), tient toute la hauteur de l'écran dans une colonne de marge à droite, en
+position fixe : la page entière (photo de la salle en noir et blanc, carte, galerie, événements, contact) défile à sa
+gauche et il ne bouge jamais. Rien n'entre, rien n'apparaît au défilement ; la seule chose animée est le menu, un panneau
+de 420 px qui arrive de la gauche (`transform` 0,4 s `ease`) ; liens soulignés 0,1 s. GSAP et ScrollTrigger sont chargés
+sans déclencheur actif. Le mouvement est celui de la page contre un nom immobile : deux plans, sans rien d'animé.
+- Entrée aucune · apparition aucune · survol soulignement · fond nom fixe.
+- Moteur : rien à ajouter dans `motion.ts` (rien n'est animé). Manque : la colonne de marge et le nom vertical en texte
+  réel (`writing-mode: vertical-rl` ou rotation, jamais une image), retirée de la largeur du conteneur, dans une coquille
+  ou une section sur mesure ; identique en mouvement réduit.
+- Garde : un nom court (12 lettres au plus) qui tient sur la hauteur d'un téléphone sans descendre sous 56 px, jamais une
+  phrase ni le métier (le métier et la ville restent dans le h1, GOUT § 0) ; aucun texte sous la colonne ; au téléphone,
+  le nom peut être coupé en bas de l'écran, jamais le texte de la page ; contraste du nom sur le fond mesuré (grand texte,
+  3:1).
+- Quand : restaurant, bar, caviste, boutique au nom court qui sonne, à la page longue et posée (une seule page à ancres ou
+  des pages courtes) ; compatible avec un client « calme » (rien ne bouge seul). Distinct de `nom-qui-s-efface` (le nom
+  au centre pâlit au défilement), de `nom-en-lettres-geantes` (une lettre géante par section, qui glisse plus lentement que la page) et de `legende-fixe-qui-change`
+  (une légende fixe qui change par projet). Calme : oui. Poids : nul.
 
 ## Complément transversal : transitions de page
 

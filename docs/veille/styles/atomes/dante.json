@@ -1,0 +1,124 @@
+{
+  "id": "dante",
+  "version": 1,
+  "source": {
+    "url": "https://www.dante-nyc.com/",
+    "nom": "Dante",
+    "metier": "bar à cocktails et café historique (New York, depuis 1915)",
+    "fiche": "docs/veille/styles/dante.md",
+    "mesures": "docs/veille/styles/atomes/mesures/dante.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Catorze 27 Medium",
+      "libre": "josefin",
+      "graisse": 300,
+      "interlignage": 1.1,
+      "casse": "uppercase",
+      "interlettrage": 0.03,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Resamitz",
+      "libre": "josefin",
+      "graisse": 300,
+      "interlignage": 1.4
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 30,
+        "ordinateur": 38
+      },
+      "h2": {
+        "telephone": 23,
+        "ordinateur": 30
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Titres, nav et boutons en Catorze 27 (géométrique Art déco aux capitales étroites, graisse 300 à 500, interlettrage 1 px) en capitales : le titre lu du premier écran fait 30 px au téléphone et 38 px à l'ordinateur (« NUMBER 1, WORLDS 50 BEST BARS 2019 »), les titres des cadres 23 à 30 px ; le nom « DANTE » est une image. Texte en Resamitz, une géométrique très fine (200) à 15 px. Libre : Josefin Sans pour les deux (concordance : une géométrique vintage aux capitales de la même époque, 300 en titre et en texte, le texte remonté de 200 à 300 pour se lire sur le noir). Relevé du h1 à 16,5 et 22,5 px corrigé : c'était une ligne de récompense, pas le plus gros texte."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#000000",
+      "surface": "#000000",
+      "texte": "#f4eadb",
+      "texte2": "#f4eadb",
+      "accent": "#f4eadb",
+      "accent2": null,
+      "bordure": "#f4eadb",
+      "encre": "#f4eadb"
+    },
+    "remarque": "Noir pur #000000 partout et une seule encre, crème de menu #f4eadb, pour tout le texte, les filets des cadres et les boutons à contour (100 % des caractères). Pas de couleur : l'or et le rouge viennent des cocktails photographiés d'en haut. Sombre (fond de clarté 0)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 79,
+      "ordinateur": 120
+    },
+    "gouttiere": {
+      "telephone": 14,
+      "ordinateur": 64
+    },
+    "conteneur": 1084,
+    "mesure": 55,
+    "rythme": "uni",
+    "remarque": "Marge de 79 px au téléphone relevée ; 188 px à l'ordinateur faussé par le premier écran plein, jugé 120 px sur la planche ; gouttière relevée 178 px (bord du conteneur centré), jugée 64 px entre le cadre et la photo ; conteneur 1 084 px ; textes courts centrés dans leurs cadres, environ 55 caractères."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "couleur",
+    "remarque": "Cadres de texte à double filet crème de 1 px (un trait, un vide, un trait), posés à cheval sur les photos ; boutons à contour fin crème en capitales (« RESERVATIONS », « VIEW PRODUCTS ») ; angles droits ; aucune ombre ; liens en couleur."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "3:2",
+      "16:9+"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Premier écran : photo plein cadre assombrie (un verre sur la carte des cocktails) avec le nom par-dessus ; ensuite des photos de verres prises d'en haut, posées en quinconce gauche, droite, et un cadre noir à double filet qui chevauche chaque photo ; une photo du bar plein cadre voilée en bas. Le noir du fond se confond avec le fond des photos."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.75,
+      "courbe": "linear"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "jQuery"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé à la molette et par scrollTo : chaque section (.revealable) passe de l'opacité 0 à 1 en 0,75 s linear quand elle arrive (.revealed), rien ne glisse ; survols 0,2 s ease-in-out. Profil : fondu-sobre."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Noir uni, doubles filets crème autour des cadres ; aucune texture."
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo",
+  "premier_ecran_remarque": "Premier écran : photo plein cadre, nom et ancienneté centrés dessus ; puis les cadres à double filet posés sur les photos."
+}

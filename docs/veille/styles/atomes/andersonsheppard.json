@@ -1,0 +1,93 @@
+{
+  "id": "andersonsheppard",
+  "version": 1,
+  "source": {
+    "url": "https://www.anderson-sheppard.co.uk/",
+    "nom": "Anderson & Sheppard",
+    "metier": "tailleur sur mesure de Savile Row et chemiserie-mercerie (Londres, depuis 1906)",
+    "fiche": "docs/veille/styles/andersonsheppard.md",
+    "mesures": "docs/veille/styles/atomes/mesures/andersonsheppard.json",
+    "date": "2026-10-28"
+  },
+  "typo": "à juger",
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#210a0a",
+      "surface": "#180000",
+      "texte": "#ffffff",
+      "texte2": "#e6e6e6",
+      "accent": "#e6e6e6",
+      "accent2": null,
+      "bordure": "#e6e6e6",
+      "encre": "#180000"
+    },
+    "remarque": "Brun bordeaux presque noir sur toute la page : #210a0a pour le bloc de texte sous les photos, #180000 pour le bandeau du haut (courriel, « EST 1906 », téléphone) et le pied ; tout le texte en blanc #ffffff, un gris clair #e6e6e6 pour les liens « ENTER » soulignés et le filet double autour du nom. Aucune couleur vive : la couleur vient des photos (laque orange, laiton, tissus). Sombre (fond de clarté 0,18, chroma 0,04 : un bordeaux, pas un noir)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 64,
+      "ordinateur": 96
+    },
+    "gouttiere": {
+      "telephone": 30,
+      "ordinateur": 48
+    },
+    "conteneur": 1312,
+    "mesure": 70,
+    "rythme": "uni",
+    "remarque": "Relevé : 148 et 128 px, faussés par le pied ; jugé sur la planche : 64 px au téléphone, 96 px à l'ordinateur entre le bas des photos et le texte. Deux colonnes de texte de 14 px séparées de 48 px dans un conteneur de 1 312 px, environ 70 caractères par ligne ; bord de 30 px au téléphone."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Aucun bouton plein : les portes sont des mots « ENTER » en capitales soulignés d'un filet ; le nom est posé dans un double filet blanc de 1 px sur un voile bordeaux ; angles droits partout, aucune ombre."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "16:9+",
+      "4:5"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "voile",
+    "remarque": "Deux photos du lieu bord à bord, chacune une moitié de l'écran (salon du tailleur, boutique de mercerie) ; un bandeau de voile bordeaux translucide en bas porte le nom de la porte et « ENTER ». Lumière chaude, intérieurs riches : la photo fait toute la couleur."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.5,
+      "courbe": "ease-out"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease-out"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "jQuery"
+    ],
+    "profil": "photo-qui-s-approche",
+    "remarque": "Relevé au survol (getComputedStyle avant et après) : la moitié de photo survolée grandit de 1 à 1,01 en 0,5 s ease-out (.bgZoom), rien d'autre ne bouge, rien au défilement. Profil : photo-qui-s-approche (la photo grandit dans son cadre au survol, rien au toucher)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Fond bordeaux uni, filets fins blancs (double cadre du nom, soulignés) ; aucune texture."
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo",
+  "_remarque_typo": "Typo laissée à juger, non tirable : les titres sont en LifeBT Italic, une serif italique en capitales espacées (signe IA, GOUT § 2), le texte en Century Gothic 14 px ; le plus gros titre lu fait 20 px à l'ordinateur et le nom est une image. Rien de réutilisable sans trahir la source ou la charte.",
+  "premier_ecran_remarque": "Deux photos plein cadre côte à côte (une par activité) ; le nom posé sur une plaque à double filet sur voile bordeaux, chaque porte sur un bandeau voilé en bas : le texte est sur un support posé sur la photo (carte-sur-photo, en deux portes)."
+}

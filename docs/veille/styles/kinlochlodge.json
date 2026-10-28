@@ -1,0 +1,729 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.kinloch-lodge.co.uk/",
+  "nom": "kinlochlodge",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Luxury Hotel on Skye Kinloch Lodge and a world renowned restaurant",
+    "siteName": "",
+    "lang": "",
+    "description": "Charming and cosy Kinloch Lodge is a hotel and restaurant like no other. Kinloch is a truly unique place in a magical setting, nestled at the foot of Kinloch Hill on the tranquil shoreline of the sea-loch Na Dal in Sleat on the wildly romantic Isle of Skye",
+    "technologies": []
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#202723",
+      "h1": "Stay",
+      "h1Visible": true,
+      "mots": 52,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 1,
+        "selecteur": "video#homeVid"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 5111,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1",
+        "famille": "latoregular, arial",
+        "taille": 22,
+        "graisse": "400",
+        "interlignage": 1.18,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "latoregular, arial",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": null,
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "latoregular",
+          "url": "../fonts/lato-regular-webfont.woff2",
+          "feuille": "kinloch-lodge.co.uk",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://kinloch-lodge.co.uk/assets/fonts/lato-regular-webfont.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "latoregular",
+          "n": 29
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#2b342f",
+      "texte": "#ffffff",
+      "fondsBruts": [
+        {
+          "hex": "#2b342f",
+          "n": 1,
+          "poids": 7138080
+        },
+        {
+          "hex": "#202723",
+          "n": 2,
+          "poids": 2173477.5
+        },
+        {
+          "hex": "#e4e5e5",
+          "n": 1,
+          "poids": 673917.1875
+        },
+        {
+          "hex": "#ad976e",
+          "n": 1,
+          "poids": 144000
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 10,
+          "poids": 938
+        },
+        {
+          "hex": "#2c352f",
+          "n": 2,
+          "poids": 165
+        },
+        {
+          "hex": "#808482",
+          "n": 9,
+          "poids": 71
+        },
+        {
+          "hex": "#202723",
+          "n": 4,
+          "poids": 47
+        },
+        {
+          "hex": "#959a97",
+          "n": 4,
+          "poids": 16
+        }
+      ],
+      "nbImages": 8,
+      "nbVideos": 1,
+      "nbFondsImage": 8,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#2b342f",
+          "n": 1,
+          "poids": 7138080,
+          "part": 0.705
+        },
+        {
+          "hex": "#202723",
+          "n": 2,
+          "poids": 2173477.5,
+          "part": 0.215
+        },
+        {
+          "hex": "#e4e5e5",
+          "n": 1,
+          "poids": 673917.1875,
+          "part": 0.067
+        },
+        {
+          "hex": "#ad976e",
+          "n": 1,
+          "poids": 144000,
+          "part": 0.014
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 10,
+          "poids": 938,
+          "part": 0.758
+        },
+        {
+          "hex": "#2c352f",
+          "n": 2,
+          "poids": 165,
+          "part": 0.133
+        },
+        {
+          "hex": "#808482",
+          "n": 9,
+          "poids": 71,
+          "part": 0.057
+        },
+        {
+          "hex": "#202723",
+          "n": 4,
+          "poids": 47,
+          "part": 0.038
+        },
+        {
+          "hex": "#959a97",
+          "n": 4,
+          "poids": 16,
+          "part": 0.013
+        }
+      ],
+      "contraste": 12.84
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.TweenLite"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.3s ease-in-out",
+          "n": 27
+        },
+        {
+          "valeur": "opacity 0.3s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "right 0.2s ease-in-out",
+          "n": 4
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a#bannerBtn",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "color 0.3s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div#pushFooter",
+      "sections": [
+        {
+          "selecteur": "div#intro",
+          "titre": null,
+          "top": 0,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "div.topMargin",
+          "titre": null,
+          "top": 900,
+          "hauteur": 1178,
+          "ecrans": 1.3,
+          "mots": 56,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.darkGreen",
+          "titre": "Stay",
+          "top": 2078,
+          "hauteur": 1193,
+          "ecrans": 1.3,
+          "mots": 38,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.row",
+          "titre": "Dine",
+          "top": 3272,
+          "hauteur": 1369,
+          "ecrans": 1.5,
+          "mots": 68,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#footer",
+          "titre": null,
+          "top": 4641,
+          "hauteur": 316,
+          "ecrans": 0.4,
+          "mots": 8,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Menu",
+          "href": "#"
+        },
+        {
+          "texte": "Gift Vouchers",
+          "href": "giftvouchers"
+        },
+        {
+          "texte": "Reserve a table",
+          "href": "reserve-table"
+        },
+        {
+          "texte": "Book a room",
+          "href": "https://kinlochios.dbm.guestline.net/availability?hotel=KINLOCHIOS"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#header",
+          "position": "fixed",
+          "hauteur": 50,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 38
+        },
+        {
+          "selecteur": "div#menu",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 749,
+          "enBas": false,
+          "mots": 12
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/kinlochlodge-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#202723",
+      "h1": "Stay",
+      "h1Visible": true,
+      "mots": 49,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 1,
+        "selecteur": "video#homeVid"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 4347,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1",
+        "famille": "latoregular, arial",
+        "taille": 22,
+        "graisse": "400",
+        "interlignage": 1.18,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "latoregular, arial",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": null,
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "latoregular",
+          "url": "../fonts/lato-regular-webfont.woff2",
+          "feuille": "kinloch-lodge.co.uk",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://kinloch-lodge.co.uk/assets/fonts/lato-regular-webfont.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "latoregular",
+          "n": 27
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#2b342f",
+      "texte": "#ffffff",
+      "fondsBruts": [
+        {
+          "hex": "#2b342f",
+          "n": 1,
+          "poids": 1786980
+        },
+        {
+          "hex": "#202723",
+          "n": 2,
+          "poids": 373906.40625
+        },
+        {
+          "hex": "#e4e5e5",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#ad976e",
+          "n": 1,
+          "poids": 62400
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 19500
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 10,
+          "poids": 938
+        },
+        {
+          "hex": "#2c352f",
+          "n": 2,
+          "poids": 165
+        },
+        {
+          "hex": "#808482",
+          "n": 9,
+          "poids": 71
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 26
+        },
+        {
+          "hex": "#959a97",
+          "n": 4,
+          "poids": 16
+        }
+      ],
+      "nbImages": 8,
+      "nbVideos": 1,
+      "nbFondsImage": 8,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#2b342f",
+          "n": 1,
+          "poids": 1786980,
+          "part": 0.695
+        },
+        {
+          "hex": "#202723",
+          "n": 2,
+          "poids": 373906.40625,
+          "part": 0.145
+        },
+        {
+          "hex": "#e4e5e5",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.128
+        },
+        {
+          "hex": "#ad976e",
+          "n": 1,
+          "poids": 62400,
+          "part": 0.024
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 19500,
+          "part": 0.008
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 10,
+          "poids": 938,
+          "part": 0.771
+        },
+        {
+          "hex": "#2c352f",
+          "n": 2,
+          "poids": 165,
+          "part": 0.136
+        },
+        {
+          "hex": "#808482",
+          "n": 9,
+          "poids": 71,
+          "part": 0.058
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 26,
+          "part": 0.021
+        },
+        {
+          "hex": "#959a97",
+          "n": 4,
+          "poids": 16,
+          "part": 0.013
+        }
+      ],
+      "contraste": 12.84
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.TweenLite"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.3s ease-in-out",
+          "n": 25
+        },
+        {
+          "valeur": "opacity 0.3s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "right 0.2s ease-in-out",
+          "n": 4
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "color 0.3s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div#pushFooter",
+      "sections": [
+        {
+          "selecteur": "div#intro",
+          "titre": null,
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "div.topMargin",
+          "titre": null,
+          "top": 844,
+          "hauteur": 979,
+          "ecrans": 1.2,
+          "mots": 56,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.darkGreen",
+          "titre": "Stay",
+          "top": 1823,
+          "hauteur": 643,
+          "ecrans": 0.8,
+          "mots": 38,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.row",
+          "titre": "Dine",
+          "top": 2466,
+          "hauteur": 1800,
+          "ecrans": 2.1,
+          "mots": 68,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#footer",
+          "titre": null,
+          "top": 4266,
+          "hauteur": 316,
+          "ecrans": 0.4,
+          "mots": 8,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Reserve a table",
+          "href": "reserve-table"
+        },
+        {
+          "texte": "Book a room",
+          "href": "https://kinlochios.dbm.guestline.net/availability?hotel=KINLOCHIOS"
+        },
+        {
+          "texte": "Menu",
+          "href": "#"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.homepage",
+          "position": "absolute",
+          "hauteur": 20,
+          "largeur": 228,
+          "enBas": false,
+          "mots": 6
+        },
+        {
+          "selecteur": "div#header",
+          "position": "fixed",
+          "hauteur": 50,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 30
+        },
+        {
+          "selecteur": "div#menu",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 12
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 0,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Luxury Hotel on Skye Kinloch Lodge and a world renowned rest",
+  "dureeS": 25.5
+}

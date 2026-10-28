@@ -283,6 +283,20 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['une seule bande pleine largeur, sur l\'aplat de l\'accent, entre deux traits épais ondulés (SVG, couleur du texte) : les vrais noms des lieux où l\'on trouve le client (restaurants, épiceries, marchés, communes de la tournée), chacun suivi de sa ville, en capitales condensées 64 à 110 px, défilent très lentement de droite à gauche (data-marquee="100s", linear, une boucle sur toute la longueur) ; pause au survol et au focus ; arrêtée en mouvement réduit (la bande devient une liste qu\'on fait glisser) ; le reste de la page change en 0,3 s ease'],
     manque: 'les deux traits ondulés au-dessus et au-dessous de la bande (SVG du bloc) ; au moins quatre vrais lieux du brief (revendeurs, tables qui servent le produit, marchés, communes desservies), jamais inventés ni des logos de presse ; une seule bande par page', exige: {},
   },
+  'annonce-qui-defile': {
+    nom: 'Annonce qui défile', sources: ['rochechouart'],
+    entree: 'aucune', apparition: 'aucune', survol: 'couleur', fond: 'annonce-qui-defile',
+    regime: 'vivant', defilement: 'aucun', calme: false, poids: 'nul', motion: 'subtle',
+    attributs: ['juste sous le premier écran, une bande fine (une ligne de texte courant ou de petites capitales, entre deux filets de --line) : l\'annonce du client (champ annonce, Annonce.astro, fenêtre du / au) défile de droite à gauche, data-marquee="20s" (linear, contenu dupliqué) ; la nav transparente sur la photo prend l\'aplat de l\'encre dès qu\'on défile (.is-scrolled après 40 px, background-color 0,3 s ease) ; rien d\'autre n\'entre ni n\'apparaît'],
+    manque: 'la variante défilante d\'Annonce.astro (bande fine entre deux filets), pause au survol et au focus (WCAG 2.2.2), arrêtée et lisible d\'un bloc en mouvement réduit ; une seule phrase vraie du brief (fermeture, saison, offre datée), jamais un slogan ni des mots-clés ; aucune bande si le client n\'a pas d\'annonce', exige: {},
+  },
+  'nom-en-marge': {
+    nom: 'Nom en marge', sources: ['cosme'],
+    entree: 'aucune', apparition: 'aucune', survol: 'souligne', fond: 'nom-fixe',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['le nom du client, en très grand et à la verticale (writing-mode: vertical-rl ou rotation de 90°, encre du texte, toute la hauteur de l\'écran moins l\'en-tête), posé en position fixe dans une colonne de marge à droite (143 px à l\'ordinateur, environ 75 px au téléphone) ; toute la page défile à sa gauche, rien d\'autre ne bouge (aucune entrée, aucune apparition) ; menu en panneau qui arrive de la gauche (transform 0,4 s ease) ; liens soulignés 0,1 s ; identique en mouvement réduit (rien n\'est animé)'],
+    manque: 'la colonne de marge et le nom vertical en texte réel (jamais une image : lisible, traduisible), dans un bloc de coquille ou une section sur mesure ; garde : un nom court (12 lettres au plus) qui tient sur la hauteur d\'un téléphone sans descendre sous 56 px de corps, jamais une phrase ni le métier ; la colonne du nom est retirée de la largeur du conteneur (aucun texte dessous) ; au téléphone, le nom peut être coupé en bas de l\'écran, jamais le texte de la page', exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

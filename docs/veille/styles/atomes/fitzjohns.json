@@ -1,0 +1,125 @@
+{
+  "id": "fitzjohns",
+  "version": 1,
+  "source": {
+    "url": "https://fitzjohnsnw3.com/",
+    "nom": "Fitzjohn's",
+    "metier": "résidence de 29 appartements à vendre (Hampstead, Londres)",
+    "fiche": "docs/veille/styles/fitzjohns.md",
+    "mesures": "docs/veille/styles/atomes/mesures/fitzjohns.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Canela Light",
+      "libre": "gildaDisplay",
+      "graisse": 400,
+      "interlignage": 1.15,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "-apple-system (police système)",
+      "libre": "hanken",
+      "graisse": 400,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 50,
+        "ordinateur": 90
+      },
+      "h2": {
+        "telephone": 22.8,
+        "ordinateur": 30
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 14
+      }
+    },
+    "remarque": "Titres en Canela Light (serif contemporaine fine aux empattements évasés, graisse 100) : h1 de 90 px à l'ordinateur et 50 px au téléphone, blanc sur la photo, casse normale ; intertitres 30 / 23 px en or #ba996e ; texte en police système 14 px, interlignage 1,71 ; nav en Montserrat 600 capitales. Libre : Gilda Display (serif de salon à contraste, une seule graisse 400 : pas de 100 synthétisé, la règle a priori « titre maigre » écartée d'office) et Hanken Grotesk pour le texte (sans neutre, à la place de la police système). Interlignage du titre relevé à 1,4 sur un titre d'une ligne, ramené à 1,15 pour un h1 de deux lignes. Le petit « Welcome to » en italique au-dessus du h1 n'est pas repris (surtitre, GOUT § 2)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f4e8dc",
+      "surface": "#f8f0ec",
+      "texte": "#54595f",
+      "texte2": "#706f6f",
+      "accent": "#7c2629",
+      "accent2": "#ba996e",
+      "bordure": "#ba996e",
+      "encre": "#7c2629"
+    },
+    "remarque": "Le fond de toute la page est une image de rayures verticales de store, sable rosé #f4e8dc et blanc rosé #f8f0ec en bandes égales d'environ 40 px (relevé en pixels sur une capture, le DOM ne voit que #ffffff sous l'image) : on garde les deux teintes en fond et surface. Texte gris ardoise #54595f ; intertitres et liens « View floorplan » en or mat #ba996e ; étiquettes « EXCEPTIONAL HOMES », « NO.12 » et pied de page en bordeaux #7c2629. Clair teinté doux (fond de clarté 0,94, chroma 0,02)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 64,
+      "ordinateur": 96
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 40
+    },
+    "conteneur": 1320,
+    "mesure": 58,
+    "rythme": "uni",
+    "remarque": "Relevés aberrants : 282 et 394 px (marges comptées depuis le premier écran plein), gouttière de 1 px et conteneur de 6 200 px (la piste du carrousel). Jugés sur la planche : 64 px au téléphone, 96 px à l'ordinateur ; bord de 20 px, cartes écartées de 40 px ; conteneur d'environ 1 320 px ; texte d'accueil centré d'environ 58 caractères (relevé)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Les rayons de 2 et 6 px et l'ombre douce relevés sont ceux du bandeau de cookies (prestataire), écartés. Le site n'a pas de bouton : « EXPLORE HOMES », « VIEW FLOORPLAN », « VIEW VIDEO TOUR » sont des liens en petites capitales or, soulignés ; photos et cartes à angles droits, sans ombre ni filet."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "4:5",
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : la façade de briques en photo plein écran avec le h1 blanc centré dessus ; ensuite des vignettes verticales 4:5 des intérieurs, sans cadre, en piste de trois (carrousel à flèches), chacune avec son numéro, son titre, son prix et ses liens dessous. Lumière douce, tons bois et sable qui répondent au fond rayé."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "jQuery",
+      "Slick"
+    ],
+    "profil": "glisse-a-la-main",
+    "remarque": "Relevé à la molette (getAnimations par crans de 450 px) et au survol des cartes : rien n'entre, rien n'apparaît, rien ne change au survol ; la seule chose qui bouge est la piste des appartements, qu'on fait avancer à la main par les flèches (Slick, transform 0,4 s ease). Profil : glisse-a-la-main."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "rayures de store verticales (deux teintes de sable rosé, bandes d'environ 40 px) en fond de page",
+    "remarque": "Le geste matière du site : un fond rayé comme une toile de store ; pied plein bordeaux. Hors de l'usine aujourd'hui (pas de token de motif) : les deux teintes servent en fond et surface ; un bloc sur mesure peut poser les rayures (repeating-linear-gradient, pas d'image)."
+  },
+  "architecture": null,
+  "premier_ecran": "à juger",
+  "premier_ecran_remarque": "Photo plein écran de la façade, h1 blanc centré dessus sans support : aucune famille de premiers-ecrans.md ne le décrit (carte-sur-photo demande un support) ; laissé à juger."
+}

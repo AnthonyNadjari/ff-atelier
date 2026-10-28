@@ -1,0 +1,983 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.cosmenyc.com/",
+  "nom": "cosme",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Cosme",
+    "siteName": "Cosme",
+    "lang": "en-US",
+    "description": "",
+    "technologies": [
+      "WordPress",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#6b190f",
+      "h1": "ABOUT",
+      "h1Visible": true,
+      "mots": 33,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.74,
+        "selecteur": "img.image"
+      },
+      "boutonPrincipal": {
+        "texte": "Accessibility Widget, click to open",
+        "x": 1380,
+        "y": 840,
+        "cx": 0.9722222222222222,
+        "cy": 0.9555555555555556,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.04,
+        "texte": "We use cookies to ensure you have the best experience on our website. If you continue browsing, we assume you accept their use. ACCEPT COOKIES",
+        "selecteur": "aside#cookie_cosme"
+      },
+      "barreBas": null,
+      "scrollHeight": 5811,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.ttl-25",
+        "famille": "CoFoMedium",
+        "taille": 25,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.ttl-25",
+        "famille": "CoFoMedium",
+        "taille": 25,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "CrimisonProRegular",
+        "taille": 21,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#accessiblyAppDialogButton",
+        "famille": "accessibly",
+        "taille": 10,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "CoFoMedium",
+          "url": "fonts/CoFoSansMonoMedium_b034f789cad921ba742332dc75a24a83.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CoFoRegular",
+          "url": "fonts/CoFoSansMonoRegular.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CrimisonProLight",
+          "url": "fonts/CrimsonProLight_1027.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CrimisonProMedium",
+          "url": "fonts/CrimsonProMedium_1029.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CrimisonProRegular",
+          "url": "fonts/CrimsonProRegular_1028.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "accessibly",
+          "url": "https://cdn.accessibly.app/accessibly/2.0.3/f8cef3fb44145ec4.woff",
+          "feuille": "inline",
+          "source": "tiers (cdn.accessibly.app)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdnjs.cloudflare.com",
+        "fonts.googleapis.com"
+      ],
+      "fichiersPolices": [
+        "https://cosmenyc.com/wp-content/themes/cosme-theme/fonts/CoFoSansMonoMedium_b034f789cad921ba742332dc75a24a83.ttf",
+        "https://cosmenyc.com/wp-content/themes/cosme-theme/fonts/CrimsonProRegular_1028.ttf",
+        "https://cosmenyc.com/wp-content/themes/cosme-theme/fonts/CrimsonProMedium_1029.ttf",
+        "https://cosmenyc.com/wp-content/themes/cosme-theme/fonts/CrimsonProLight_1027.ttf",
+        "https://cdn.accessibly.app/accessibly/2.0.3/f8cef3fb44145ec4.woff",
+        "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "CrimisonProRegular",
+          "n": 77
+        },
+        {
+          "famille": "CoFoMedium",
+          "n": 54
+        },
+        {
+          "famille": "CrimisonProMedium",
+          "n": 7
+        },
+        {
+          "famille": "CrimisonProLight",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#6b190f",
+      "texte": "#dbdbdb",
+      "fondsBruts": [
+        {
+          "hex": "#6b190f",
+          "n": 1,
+          "poids": 8105760
+        },
+        {
+          "hex": "#dbdbdb",
+          "n": 1,
+          "poids": 378000
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#dbdbdb",
+          "n": 133,
+          "poids": 3958
+        },
+        {
+          "hex": "#6b190f",
+          "n": 7,
+          "poids": 50
+        }
+      ],
+      "nbImages": 18,
+      "nbVideos": 0,
+      "nbFondsImage": 5,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#6b190f",
+          "n": 1,
+          "poids": 8105760,
+          "part": 0.955
+        },
+        {
+          "hex": "#dbdbdb",
+          "n": 1,
+          "poids": 378000,
+          "part": 0.045
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#dbdbdb",
+          "n": 133,
+          "poids": 3958,
+          "part": 0.988
+        },
+        {
+          "hex": "#6b190f",
+          "n": 7,
+          "poids": 50,
+          "part": 0.012
+        }
+      ],
+      "contraste": 8.56
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Slick",
+          "preuve": "script slick.min.js"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "transform 0.4s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.25s linear",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.3s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "aside#header_aside",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "transform 0.4s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div#hero_home",
+      "sections": [
+        {
+          "selecteur": "section.home__hero",
+          "titre": null,
+          "top": 0,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#about",
+          "titre": "ABOUT",
+          "top": 950,
+          "hauteur": 614,
+          "ecrans": 0.7,
+          "mots": 52,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#menu",
+          "titre": "MENU",
+          "top": 1619,
+          "hauteur": 1443,
+          "ecrans": 1.6,
+          "mots": 243,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#gallery",
+          "titre": "GALLERY",
+          "top": 3117,
+          "hauteur": 1070,
+          "ecrans": 1.2,
+          "mots": 45,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#events",
+          "titre": "EVENTS",
+          "top": 4242,
+          "hauteur": 275,
+          "ecrans": 0.3,
+          "mots": 84,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "table",
+            "select",
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "section#contact",
+          "titre": "CONTACT",
+          "top": 4572,
+          "hauteur": 249,
+          "ecrans": 0.3,
+          "mots": 34,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#gift_card",
+          "titre": "DIGITAL GIFT CARD",
+          "top": 4875,
+          "hauteur": 396,
+          "ecrans": 0.4,
+          "mots": 178,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#locations",
+          "titre": null,
+          "top": 5326,
+          "hauteur": 198,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": null,
+          "top": 5589,
+          "hauteur": 40,
+          "ecrans": 0,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header#header",
+        "hauteur": 22,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "INSTAGRAM",
+            "href": "https://www.instagram.com/cosmenyc/",
+            "bouton": false
+          },
+          {
+            "texte": "ACCESSABILITY STATEMENT",
+            "href": "https://cosmenyc.com/accessability-statement/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+1 315-512-4131  "
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 4,
+        "heures": 4,
+        "extrait": "SUNDAY TO WEDNESDAY 5:00 PM TO 9:30PM THURSDAY TO SATURDAY 5"
+      },
+      "portes": [
+        {
+          "texte": "Menu",
+          "href": ""
+        },
+        {
+          "texte": "GIFT CARD",
+          "href": "https://cosmenyc.com/#gift_card"
+        },
+        {
+          "texte": "RESERVATIONS",
+          "href": "https://resy.com/cities/new-york-ny/venues/cosme?seats=2&date=2025-07-15"
+        },
+        {
+          "texte": "CHECK E-GIFT CARD BALANCE",
+          "href": "https://www.toasttab.com/cosme-ny-35-e-21st-st/findcard"
+        },
+        {
+          "texte": "BUY E-GIFT CARD",
+          "href": "https://www.toasttab.com/cosme-ny-35-e-21st-st/giftcards"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "aside#cookie_cosme",
+          "position": "fixed",
+          "hauteur": 142,
+          "largeur": 320,
+          "enBas": false,
+          "mots": 25
+        },
+        {
+          "selecteur": "header#header",
+          "position": "fixed",
+          "hauteur": 22,
+          "largeur": 40,
+          "enBas": false,
+          "mots": 2
+        },
+        {
+          "selecteur": "aside#header_aside",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 420,
+          "enBas": false,
+          "mots": 8
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 4,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/cosme-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#6b190f",
+      "h1": "ABOUT",
+      "h1Visible": true,
+      "mots": 34,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.63,
+        "selecteur": "img.image"
+      },
+      "boutonPrincipal": {
+        "texte": "Accessibility Widget, click to open",
+        "x": 330,
+        "y": 784,
+        "cx": 0.8974358974358975,
+        "cy": 0.95260663507109,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.16,
+        "texte": "We use cookies to ensure you have the best experience on our website. If you continue browsing, we assume you accept their use. ACCEPT COOKIES",
+        "selecteur": "aside#cookie_cosme"
+      },
+      "barreBas": null,
+      "scrollHeight": 8003,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.ttl-25",
+        "famille": "CoFoMedium",
+        "taille": 25,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.ttl-25",
+        "famille": "CoFoMedium",
+        "taille": 25,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "CrimisonProRegular",
+        "taille": 18,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#accessiblyAppDialogButton",
+        "famille": "accessibly",
+        "taille": 10,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.txt-reservation",
+        "famille": "CoFoMedium",
+        "taille": 15,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "CoFoMedium",
+          "url": "fonts/CoFoSansMonoMedium_b034f789cad921ba742332dc75a24a83.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CoFoRegular",
+          "url": "fonts/CoFoSansMonoRegular.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CrimisonProLight",
+          "url": "fonts/CrimsonProLight_1027.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CrimisonProMedium",
+          "url": "fonts/CrimsonProMedium_1029.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CrimisonProRegular",
+          "url": "fonts/CrimsonProRegular_1028.ttf",
+          "feuille": "cosmenyc.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "accessibly",
+          "url": "https://cdn.accessibly.app/accessibly/2.0.3/f8cef3fb44145ec4.woff",
+          "feuille": "inline",
+          "source": "tiers (cdn.accessibly.app)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdnjs.cloudflare.com",
+        "fonts.googleapis.com"
+      ],
+      "fichiersPolices": [
+        "https://cosmenyc.com/wp-content/themes/cosme-theme/fonts/CoFoSansMonoMedium_b034f789cad921ba742332dc75a24a83.ttf",
+        "https://cosmenyc.com/wp-content/themes/cosme-theme/fonts/CrimsonProMedium_1029.ttf",
+        "https://cosmenyc.com/wp-content/themes/cosme-theme/fonts/CrimsonProRegular_1028.ttf",
+        "https://cosmenyc.com/wp-content/themes/cosme-theme/fonts/CrimsonProLight_1027.ttf",
+        "https://cdn.accessibly.app/accessibly/2.0.3/f8cef3fb44145ec4.woff",
+        "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "CrimisonProRegular",
+          "n": 77
+        },
+        {
+          "famille": "CoFoMedium",
+          "n": 55
+        },
+        {
+          "famille": "CrimisonProMedium",
+          "n": 7
+        },
+        {
+          "famille": "CrimisonProLight",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#6b190f",
+      "texte": "#dbdbdb",
+      "fondsBruts": [
+        {
+          "hex": "#6b190f",
+          "n": 1,
+          "poids": 2904720
+        },
+        {
+          "hex": "#dbdbdb",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#dbdbdb",
+          "n": 134,
+          "poids": 3970
+        },
+        {
+          "hex": "#6b190f",
+          "n": 7,
+          "poids": 50
+        }
+      ],
+      "nbImages": 18,
+      "nbVideos": 0,
+      "nbFondsImage": 5,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#6b190f",
+          "n": 1,
+          "poids": 2904720,
+          "part": 0.898
+        },
+        {
+          "hex": "#dbdbdb",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.102
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#dbdbdb",
+          "n": 134,
+          "poids": 3970,
+          "part": 0.988
+        },
+        {
+          "hex": "#6b190f",
+          "n": 7,
+          "poids": 50,
+          "part": 0.012
+        }
+      ],
+      "contraste": 8.56
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Slick",
+          "preuve": "script slick.min.js"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "transform 0.4s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.25s linear",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.3s ease-in-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "aside#header_aside",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "transform 0.4s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div#hero_home",
+      "sections": [
+        {
+          "selecteur": "section.home__hero",
+          "titre": null,
+          "top": 0,
+          "hauteur": 829,
+          "ecrans": 1,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#about",
+          "titre": "ABOUT",
+          "top": 854,
+          "hauteur": 733,
+          "ecrans": 0.9,
+          "mots": 52,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#menu",
+          "titre": "MENU",
+          "top": 1637,
+          "hauteur": 2397,
+          "ecrans": 2.8,
+          "mots": 243,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#gallery",
+          "titre": "GALLERY",
+          "top": 4099,
+          "hauteur": 653,
+          "ecrans": 0.8,
+          "mots": 45,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#events",
+          "titre": "EVENTS",
+          "top": 4816,
+          "hauteur": 496,
+          "ecrans": 0.6,
+          "mots": 84,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "table",
+            "select",
+            "iframe"
+          ]
+        },
+        {
+          "selecteur": "section#contact",
+          "titre": "CONTACT",
+          "top": 5377,
+          "hauteur": 460,
+          "ecrans": 0.5,
+          "mots": 34,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#gift_card",
+          "titre": "DIGITAL GIFT CARD",
+          "top": 5902,
+          "hauteur": 722,
+          "ecrans": 0.9,
+          "mots": 178,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#locations",
+          "titre": null,
+          "top": 6724,
+          "hauteur": 561,
+          "ecrans": 0.7,
+          "mots": 0,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": null,
+          "top": 7350,
+          "hauteur": 98,
+          "ecrans": 0.1,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header#header",
+        "hauteur": 50,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "RESERVATIONS",
+            "href": "https://resy.com/cities/new-york-ny/venues/cosme?seats=2&date=2025-07-15",
+            "bouton": true
+          },
+          {
+            "texte": "Menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "INSTAGRAM",
+            "href": "https://www.instagram.com/cosmenyc/",
+            "bouton": false
+          },
+          {
+            "texte": "ACCESSABILITY STATEMENT",
+            "href": "https://cosmenyc.com/accessability-statement/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:+1 315-512-4131  "
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 4,
+        "heures": 4,
+        "extrait": "SUNDAY TO WEDNESDAY 5:00 PM TO 9:30PM THURSDAY TO SATURDAY 5"
+      },
+      "portes": [
+        {
+          "texte": "RESERVATIONS",
+          "href": "https://resy.com/cities/new-york-ny/venues/cosme?seats=2&date=2025-07-15"
+        },
+        {
+          "texte": "Menu",
+          "href": ""
+        },
+        {
+          "texte": "GIFT CARD",
+          "href": "https://cosmenyc.com/#gift_card"
+        },
+        {
+          "texte": "CHECK E-GIFT CARD BALANCE",
+          "href": "https://www.toasttab.com/cosme-ny-35-e-21st-st/findcard"
+        },
+        {
+          "texte": "BUY E-GIFT CARD",
+          "href": "https://www.toasttab.com/cosme-ny-35-e-21st-st/giftcards"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "aside#cookie_cosme",
+          "position": "fixed",
+          "hauteur": 142,
+          "largeur": 360,
+          "enBas": false,
+          "mots": 25
+        },
+        {
+          "selecteur": "header#header",
+          "position": "fixed",
+          "hauteur": 50,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 1
+        },
+        {
+          "selecteur": "aside#header_aside",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 8
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Cosme",
+  "dureeS": 26.1
+}

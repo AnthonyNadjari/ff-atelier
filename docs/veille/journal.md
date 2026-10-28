@@ -4,6 +4,62 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 28 oct 2026, tour 14 (routine en ligne, matin) : 12 styles, 2 architectures
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-28-b.jpg)) : l'architecture `salles-capacites`, le site d'un lieu de réception
+qui part du nombre d'invités (« Combien serez-vous ? » : le tableau des salles et de leurs capacités assis, cocktail, théâtre,
+les salles qui conviennent marquées en mots, puis chaque salle en photo, les couchages, le traiteur, l'option sur la date).
+Pourquoi elle : c'est la première question d'un couple ou d'une entreprise, et la source (Domaine de la Touche) la noie dans
+des phrases.
+
+**Fait**
+- Santé : `npm ci`, Chromium de Playwright (`FF_CHROMIUM=1`), tout a tourné avec navigateur. Tests : 77 fichiers, tous verts
+  (un fumigène tombé pendant un build simultané d'un agent, repassé seul). `ff atomes` vert.
+- **Styles (2a quater)** : deux agents (domaines a à l, m à z), plus de 350 domaines sondés. **12 gardés**, chacun essayé
+  (`ff melanger demo-boulangerie --style <id> --essai`) et posé à côté de la source : sombre `andersonsheppard` (tailleur,
+  bordeaux noir), `kinlochlodge` (verts de tourbe), `dante` (noir et crème, cadres à double filet), `cosme` (sang-de-bœuf, nom
+  vertical en marge), `schofields` (pétrole et turquoise) ; clair teinté doux `frances` (kraft et Garamond) ; coloré doux
+  `fitzjohns` (store rayé sable rosé), `tubaclub` (sable et jaune), `rochechouart` (ivoire et bordeaux Art déco), `marou`
+  (olive et brique), `sebastiengaudard` (or gravé), `rowenandwren` (brun rosé). Lignes et écartés : [styles/INDEX.md](styles/INDEX.md).
+- Palettes par régime, avant → après : clair neutre 102 → 102, clair teinté doux 27 → 28, sombre 28 → 33, coloré doux 48 → 54.
+- **Mouvement** : 2 profils nouveaux ([MOUVEMENTS.md](styles/MOUVEMENTS.md), 39 profils) : `annonce-qui-defile` (Hôtel
+  Rochechouart : rien n'entre, une bande sous le premier écran fait défiler l'annonce du moment, champ `annonce` ; manque la
+  variante défilante d'`Annonce.astro`) et `nom-en-marge` (Cosme : le nom géant vertical fixe en marge, calme, poids nul).
+- **Architectures (2a ter)**, codées et prouvées le même tour : [salles-capacites](architectures/salles-capacites.md)
+  (domainedelatouche.fr, domainedelachanterelle.fr ; coquille `salles`, champ `salles`, `/salles`, `/salles/<slug>`) et
+  [annonces-biens](architectures/annonces-biens.md) (royal-immo.fr, giboire.com ; coquille `biens`, champ `biens`, vitrine
+  Acheter / Louer, « Faire estimer votre bien », `/biens/<slug>` avec DPE et GES en échelle et qui paie les honoraires,
+  `/honoraires` ; une mention d'annonce obligatoire absente est signalée au build, jamais remplie). `ff ressemblance` contre tous
+  les sites : salles au plus 0,56 / 0,56 / 0,44, biens au plus 0,46 / 0,44 / 0,62 (téléphone / ordinateur / déroulé, seuil
+  0,65) ; entre elles 0,73 au déroulé (métiers sans recoupement : jamais en pistes sœurs). Jetables vérifiés (`verifier` hors
+  données de test, `a11y`, `ia`) et supprimés. Tests : `tests/architectures-reception.test.mjs`.
+- **Marché (2a)** : 9 sites de plus (agences de Marseille, Nice, Reims : miroitier, élagueur, restaurant ; Google : architecte
+  d'intérieur à Amiens, serrurier au Mans, brasserie près de Toulouse ; modèles Framer lavage auto, Squarespace camp d'enfants,
+  ThemeForest restaurant). [CE-QUI-VEND.md](marche/CE-QUI-VEND.md) : 126 sites. Aucun levier à 40 % absent de l'usine (le
+  formulaire sur l'accueil repasse à 38,9 %). Le plus vendeur : Speed'Depan, serrurier au Mans (« 7j/7, 8 h à 23 h, devis
+  gratuit » en barre haute, métier et ville dans le h1, le numéro écrit sur le bouton, 120 avis). Nouveau contre-levier : des avis
+  aux prénoms génériques identiques d'un site à l'autre (3 sites réels sur 6), invérifiables.
+
+**Ressemblance** (`ff ressemblance --registre --tous`) : toujours 263 paires trop proches (46 au premier écran, 238 au déroulé,
+21 les deux), aucun site n'ayant changé ; pires : anna-vidal / borie-des-chenes (0,81 / 0,75 / 1,00), chez-malo / studio-ambre
+(0,87 / 0,91). Signalé, pas corrigé.
+
+**Proposé**
+- `ff demonter` / `ff atomes mesurer` : refuser d'un clic les cookies (Axeptio) et fermer les fenêtres d'inscription avant la
+  capture (les deux agents ont refait leurs captures à la main) ; cliquer une porte d'âge nommée sans accepter de traceurs ;
+  ignorer le premier écran pour les marges, les pistes de carrousel pour le conteneur, la bannière cookies pour les rayons ;
+  prendre le vrai titre affiché plutôt qu'un « MENU » ou « ENTER » ; plantage sur mobhotel (« .for is not iterable »).
+- `ff melanger --essai` : montrer le mouvement, appliquer la famille de premier écran, refuser `plein-cadre` sans photo de
+  1 600 px, vérifier lui-même qu'il ne laisse aucune copie ; une démo avec de vraies photos pour les essais.
+- Un token de motif (rayures de store de fitzjohns) ; la variante défilante d'`Annonce.astro` ; le flux du logiciel d'agence
+  pour `annonces-biens` au-delà de trente biens.
+
+**À décider** : les 12 styles (`ff melanger <slug> --style cosme`) ; `salles-capacites` pour un domaine, une grange ou une salle
+de réception ; `annonces-biens` pour l'agence immobilière de quartier (métier 26 de `OBJECTIF.md`, Toulon) ; les paires trop
+proches.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
 ## 28 oct 2026, tour 13 (routine en ligne) : 11 styles, 2 architectures
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-28.jpg)) : l'architecture `appareils-pannes`, le site d'un réparateur à

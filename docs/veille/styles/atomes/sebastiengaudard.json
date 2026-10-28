@@ -1,0 +1,124 @@
+{
+  "id": "sebastiengaudard",
+  "version": 1,
+  "source": {
+    "url": "https://www.sebastiengaudard.com/",
+    "nom": "Sébastien Gaudard",
+    "metier": "pâtissier, confiseur, chocolatier et salon de thé (Paris, deux boutiques)",
+    "fiche": "docs/veille/styles/sebastiengaudard.md",
+    "mesures": "docs/veille/styles/atomes/mesures/sebastiengaudard.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Prata",
+      "libre": "gildaDisplay",
+      "graisse": 400,
+      "interlignage": 1.3,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Crimson Text",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 30,
+        "ordinateur": 48
+      },
+      "h2": {
+        "telephone": 22.1,
+        "ordinateur": 33.6
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en Prata (didone d'affichage à fort contraste) graisse 500 : h1 30 px au téléphone, 48 px à l'ordinateur (« NOS BOUTIQUES », en capitales tapées), h2 22 / 34 px (« Click & Collect disponible à la boutique des Martyrs », « Nos délices éternels » en or) ; menu et boutons en Prata 700 capitales 12 px espacées de 1,6 px. Texte en Crimson Text 16 px, interlignage 1,5 (police de la liste IA : jamais reprise). Libres : Gilda Display (didone d'affichage douce, la plus proche de Prata ; graisse 400, seule disponible) et EB Garamond en texte. Interlignage 1,38 ramené à 1,3. L'accord de la source est deux serifs ; l'usine le refuse (B6) : la typo reste au registre pour mémoire, ses autres atomes servent."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f4f4f2",
+      "texte": "#323232",
+      "texte2": "#5f5f5f",
+      "accent": "#a58540",
+      "accent2": "#323232",
+      "bordure": "#323232",
+      "encre": "#a58540"
+    },
+    "sombre": null,
+    "remarque": "Blanc #ffffff (relevé #fffefe, 85 % des fonds), gris perle #f4f4f2 pour le fond de l'enseigne gravée du premier écran, texte anthracite #323232 ; un seul or, #a58540 (8 % des fonds) : grands blocs pleine largeur (Click & Collect, lettre d'information), bouton « Découvrir nos produits », titres « Nos délices éternels », liens. L'or comme couleur de texte est assombri par l'usine pour l'AA (la couleur mesurée reste l'aplat). Texte secondaire non relevé à part : #5f5f5f, mélange du texte au fond. Coloré doux : fond blanc, bloc d'encre or."
+  },
+  "densite": {
+    "section": {
+      "telephone": 144,
+      "ordinateur": 152
+    },
+    "gouttiere": {
+      "telephone": 32,
+      "ordinateur": 48
+    },
+    "conteneur": 992,
+    "mesure": 88,
+    "rythme": "uni",
+    "remarque": "Relevé : 144 px du bord de section au premier texte au téléphone, 152 px à l'ordinateur ; bord 32 px au téléphone, 48 px entre colonnes ; conteneur étroit de 992 px ; mesure 88 caractères à l'ordinateur (l'usine la ramène à 75). Beaucoup d'air."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Angles droits ; boutons pleins or texte blanc ou blancs texte or (« Commandez en ligne »), en casse normale Prata ; premier écran tenu dans un **double filet** noir (un épais, un fin) comme une étiquette de boîte ; liens « Découvrir mon histoire → » en or avec une flèche ; aucune ombre, aucune bordure de carte."
+  },
+  "photos": {
+    "traitement": "cadre",
+    "rapports": [
+      "16:9+",
+      "3:2",
+      "4:3"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Le premier écran est l'enseigne gravée de la maison (anges, plateaux), tenue dans un double filet : un cadre. Ensuite des gravures de gâteaux en noir sur blanc (un dessin du client, pas une photo), deux photos des boutiques 16:9 avec leur nom en capitales blanches dessus, et la devanture en noir et blanc pleine largeur sous une carte de texte blanche qui la chevauche (« L'histoire derrière l'art »)."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.15,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Planche et captures : rien ne bouge seul, rien ne suit le défilement ; en-tête collant (logo, menu en capitales) ; survols en 0,15 s, transitions de 0,5 s cubic-bezier(0.4, 0, 0.2, 1) sur les cartes, carrousel Swiper des boutiques. Profil : fondu-sobre, régime calme."
+  },
+  "matiere": {
+    "fond": "aplats-francs",
+    "filets": "fins",
+    "texture": "aucune",
+    "remarque": "Blanc, et deux grands aplats or pleine largeur ; double filet autour du premier écran ; ornements gravés (fleurons) aux angles des titres de section. Ni grain ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier"
+}

@@ -1,0 +1,124 @@
+{
+  "id": "tubaclub",
+  "version": 1,
+  "source": {
+    "url": "https://www.tuba-club.com/",
+    "nom": "Tuba Club",
+    "metier": "restaurant, bar et cabanons au bord de l'eau (Les Goudes, Marseille)",
+    "fiche": "docs/veille/styles/tubaclub.md",
+    "mesures": "docs/veille/styles/atomes/mesures/tubaclub.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Lato",
+      "libre": "publicSans",
+      "graisse": 700,
+      "interlignage": 1.1,
+      "casse": "uppercase",
+      "interlettrage": 0.035,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Georgia",
+      "libre": "gelasio",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 20,
+        "ordinateur": 22
+      },
+      "h2": {
+        "telephone": 20,
+        "ordinateur": 22
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Les grands titres de Tuba (« PLANQUE DE COPAINS DEPUIS 4 SAISONS », « LE CABANON & SA VILLA ») sont des SVG dessinés à la main, posés de biais : on ne reprend pas ce dessin. Le texte affiché de la page, ce sont les intitulés de section en Lato 700 capitales espacées de 0,7 px (« LES CABANONS », « BIKINI », « ACTIVITÉS », 20 px au téléphone, 22 px à l'ordinateur) au-dessus d'un texte courant en Georgia italique 16 px, interlignage 1,5. Libres : Public Sans (grotesque humaniste proche de Lato) pour les titres, Gelasio (dessinée aux métriques de Georgia) pour le texte. Le logo manuscrit est une image. Aucune police de la liste IA (la feuille charge Playfair Display, mais aucun texte visible ne l'emploie)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#f9f1e1",
+      "surface": "#ffffff",
+      "texte": "#1c1c1c",
+      "texte2": "#7a7a7a",
+      "accent": "#1c1c1c",
+      "accent2": "#f6c040",
+      "bordure": "#1c1c1c",
+      "encre": "#f6c040"
+    },
+    "sombre": null,
+    "remarque": "Crème de sable #f9f1e1 sous toute la page (87 % des fonds), une bande blanche #ffffff pour les activités, texte presque noir #1c1c1c, gris #7a7a7a pour les légendes. Une seule couleur vive : le jaune soleil #f6c040 du pied de page (6 % des fonds), en grand aplat sous la dernière mosaïque de photos ; c'est l'encre du site. Boutons à contour noir ou blanc, pas d'aplat d'accent : l'accent est l'encre du texte. Le turquoise vient des photos (chaises, tables), pas de la feuille."
+  },
+  "densite": {
+    "section": {
+      "telephone": 78,
+      "ordinateur": 124
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 10
+    },
+    "conteneur": 1120,
+    "mesure": 74,
+    "rythme": "uni",
+    "remarque": "Relevé : 124 px du bord de section au premier texte à l'ordinateur, 78 px au téléphone (bande des activités, la seule section qui commence par un titre ; les autres commencent par une photo à 18 px). Photos à 20 px du bord au téléphone, colonnes serrées à 10 px à l'ordinateur dans un conteneur de 1 120 px, centré avec 160 px de marge. Mesure 74 caractères à l'ordinateur, 47 au téléphone."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "aucun",
+    "remarque": "Angles droits partout (photos, boutons) ; un seul bouton, « RESERVATION », à contour de 1 px en capitales Poppins espacées de 2 px, 41 px de haut ; aucune ombre, aucune carte. Liens sans soulignement."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "1:1",
+      "4:3",
+      "3:2"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Premier écran : une photo plein cadre (la terrasse vue d'en haut) avec le logo manuscrit blanc posé dessus. Ensuite des photos carrées, 4:3 et 3:2 à angles droits, posées en quinconce de part et d'autre des textes, deux photos qui se touchent, une grande photo qui déborde la colonne ; une mosaïque serrée de photos carrées (Instagram) au-dessus du pied jaune. Lumière du Sud, couleurs franches, jamais de filtre."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease-in-out"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Rien ne bouge seul et rien ne suit le défilement (planche : la page défile à plat). Survols en 0,3 s ease sur fonds et bordures, carrousels Swiper en 0,5 s ease-in-out. Profil le plus proche : fondu-sobre (aucune entrée, couleur au survol) ; régime calme."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Fond crème uni d'un bout à l'autre, une bande blanche, le pied en aplat jaune ; ni filet ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

@@ -1,0 +1,122 @@
+{
+  "id": "rowenandwren",
+  "version": 1,
+  "source": {
+    "url": "https://www.rowenandwren.co.uk/",
+    "nom": "Rowen & Wren",
+    "metier": "boutique de mobilier et d'objets pour la maison faits par des artisans (Royaume-Uni)",
+    "fiche": "docs/veille/styles/rowenandwren.md",
+    "mesures": "docs/veille/styles/atomes/mesures/rowenandwren.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "minion-pro",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.2,
+      "casse": "none",
+      "interlettrage": 0.031,
+      "italique": false
+    },
+    "texte": {
+      "famille": "gill-sans-nova",
+      "libre": "cabin",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 22,
+        "ordinateur": 30
+      },
+      "h2": {
+        "telephone": 22,
+        "ordinateur": 28.8
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Titres en Minion Pro (garalde humaniste) graisse 400, casse normale, espacés de 0,6 à 1,25 px : « Our Autumn Collection » 22 px au téléphone, 30 px à l'ordinateur, blanc sur la vidéo ; titres éditoriaux en italique de la même famille (« The Lewin Oak Desk »), que l'usine ne reprend pas (emphase italique interdite). Texte en Gill Sans Nova 300, 16 px, interlignage 1,31 relevé (1,5 sur les paragraphes), espacé de 0,6 px ; boutons et surtitres en Gill Sans capitales 11 px espacées de 1 px. Libres : EB Garamond (garalde, la plus proche de Minion) et Cabin (humaniste d'esprit Gill / Johnston) en 400, le 300 de la source étant trop maigre à 16 px pour l'AA en gris. Aucune police IA."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f0f0f0",
+      "texte": "#717171",
+      "texte2": "#717171",
+      "accent": "#856757",
+      "accent2": "#a98b7b",
+      "bordure": "#717171",
+      "encre": "#856757"
+    },
+    "sombre": null,
+    "remarque": "Blanc #ffffff sous la page (86 % des fonds), gris clair #f0f0f0 pour les boutons secondaires, tout le texte en gris doux #717171 (4,9:1 sur blanc : pas de noir sur la page). La couleur est un brun rosé de terre : #a98b7b pour la bande de la lettre d'information, #856757 (plus profond) pour le pied de page, texte blanc dessus ; ce brun reprend les murs et les bois des photos. Coloré doux : fond blanc, bloc d'encre brun rosé."
+  },
+  "densite": {
+    "section": {
+      "telephone": 152,
+      "ordinateur": 348
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 10
+    },
+    "conteneur": 828,
+    "mesure": 62,
+    "rythme": "uni",
+    "remarque": "Relevé : 152 px du bord de section au premier texte au téléphone, 348 px à l'ordinateur (les sections éditoriales posent un texte court au milieu d'un grand blanc) ; bord 20 px au téléphone ; colonnes de photos serrées à 10 px ; conteneur de texte étroit de 828 px ; mesure 62 caractères."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits ; boutons pleins gris #717171 ou gris clair, capitales Gill 11 px espacées, filet de 1 px pour les boutons à contour (« SUBSCRIBE » sur le brun) ; liens « PERUSE » soulignés d'un filet fin ; aucune ombre, aucune carte."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "1:1",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran : une vidéo lente et floue de bougies sur une cheminée, plein cadre, titre et lien blancs centrés dessus. Ensuite deux grandes photos d'intérieur côte à côte, bord à bord, chacune avec son titre blanc centré (« The Bedroom Edit »), une piste de quatre photos 4:5 d'objets, un portrait du dessinateur en grand à côté d'un texte court, une photo de croquis. Lumière d'automne, tons bruns et miel, aucune retouche voyante."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [],
+    "profil": "fondu-sobre",
+    "remarque": "Sonde du 28 oct 2026 : les photos se posent en fondu à leur chargement (opacité 0,5 s ease), la piste d'objets glisse à la main ; survols en 0,4 s ease ; la vidéo du premier écran tourne en boucle, muette. Rien ne suit le défilement. Profil : fondu-sobre, régime calme (la vidéo n'est retenue que dans la famille de premier écran)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Blanc uni, une bande et un pied en aplat brun rosé ; filets fins sous les liens. Ni texture ni grain."
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

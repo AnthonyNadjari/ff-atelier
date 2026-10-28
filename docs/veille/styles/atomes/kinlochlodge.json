@@ -1,0 +1,124 @@
+{
+  "id": "kinlochlodge",
+  "version": 1,
+  "source": {
+    "url": "https://www.kinloch-lodge.co.uk/",
+    "nom": "Kinloch Lodge",
+    "metier": "hôtel et restaurant de bord de loch (île de Skye)",
+    "fiche": "docs/veille/styles/kinlochlodge.md",
+    "mesures": "docs/veille/styles/atomes/mesures/kinlochlodge.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "latoregular",
+      "libre": "cabin",
+      "graisse": 400,
+      "interlignage": 1.18,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "latoregular",
+      "libre": "cabin",
+      "graisse": 400,
+      "interlignage": 1.25
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 22,
+        "ordinateur": 22
+      },
+      "h2": {
+        "telephone": 22,
+        "ordinateur": 22
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Une seule famille, Lato Regular 400, pour tout : intitulés « Stay », « Dine », « Experience » à 22 px, texte à 16 px (interlignage 1,25), nav en 13 px ; le nom est un monogramme en image. Lato n'est pas au registre : Cabin, humaniste aux formes ouvertes et à la même voix calme, en concordance (une seule famille, titre et texte). Le titre domine à peine (1,4 fois le texte) : c'est le ton de la maison, la photo parle."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "clair": null,
+    "sombre": {
+      "fond": "#2b342f",
+      "surface": "#202723",
+      "texte": "#ffffff",
+      "texte2": "#959a97",
+      "accent": "#ad976e",
+      "accent2": null,
+      "bordure": "#959a97",
+      "encre": "#ad976e"
+    },
+    "remarque": "Vert de tourbe presque gris #2b342f sur toute la page (68 % des fonds), sections plus sombres #202723 en alternance ; texte blanc, gris lichen #959a97 pour les liens « More » et les légendes ; ocre de varech #ad976e pour le bandeau d'annonce du bas (texte sombre dessus), seule couleur de la page. En-tête blanc cassé #e4e5e5 à l'ordinateur. Sombre (fond de clarté 0,31, chroma 0,015)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 80,
+      "ordinateur": 80
+    },
+    "gouttiere": {
+      "telephone": 14,
+      "ordinateur": 50
+    },
+    "conteneur": 1307,
+    "mesure": 70,
+    "rythme": "alterne",
+    "remarque": "Marges de section 80 px relevées aux deux largeurs ; bord de 14 px au téléphone (photos presque bord à bord), colonnes écartées de 50 px à l'ordinateur ; conteneur 1 307 px ; mesure relevée 93 caractères (paragraphes courts posés à droite), ramenée à 70 ; rythme alterné : deux verts qui se relaient."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Aucun bouton : des liens texte « More → » en gris lichen, « Reserve a table », « Book a room » en casse normale dans l'en-tête ; angles droits, ni filet ni ombre."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "2:3-",
+      "16:9+",
+      "3:2"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Vidéo plein écran du loch au premier écran avec le monogramme blanc dessus ; puis grandes photos sans cadre posées en décalé, l'une débordant d'une section verte sur la suivante, un portrait vertical à côté d'un paysage : on lit le lieu (maison blanche, loch, bois de cerf, nappe blanche, pêcheur dans l'eau). Lumière froide et nette de l'île."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease-in-out"
+    },
+    "scene": {
+      "duree": 0.3,
+      "courbe": "ease-in-out"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP (TweenLite)"
+    ],
+    "profil": "fondu-sobre",
+    "remarque": "Relevé à la molette (getAnimations, crans de 450 px) : les photos chargées en différé apparaissent en fondu d'opacité 0,3 s ease-in-out, rien ne glisse ; liens en couleur 0,3 s ; menu qui coulisse (right 0,2 s). Profil : fondu-sobre (opacité seule, rien qui suit le défilement)."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Deux verts de tourbe qui se relaient par section, aucun filet ni texture ; la matière vient des photos."
+  },
+  "architecture": null,
+  "premier_ecran": "video-ou-sequence"
+}

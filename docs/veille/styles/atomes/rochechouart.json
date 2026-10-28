@@ -1,0 +1,126 @@
+{
+  "id": "rochechouart",
+  "version": 1,
+  "source": {
+    "url": "https://www.hotelrochechouart.com/",
+    "nom": "Hôtel Rochechouart",
+    "metier": "hôtel de quartier Art déco avec restaurant, bars et rooftop (Paris 9e, Pigalle)",
+    "fiche": "docs/veille/styles/rochechouart.md",
+    "mesures": "docs/veille/styles/atomes/mesures/rochechouart.json",
+    "date": "2026-10-28"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Sweet Sans Pro",
+      "libre": "josefin",
+      "graisse": 400,
+      "interlignage": 1.3,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Acaslonpro",
+      "libre": "ebGaramond",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 32,
+        "ordinateur": 32
+      },
+      "h2": {
+        "telephone": 24,
+        "ordinateur": 24
+      },
+      "texte": {
+        "telephone": 18,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Titres en Sweet Sans Pro, une sans géométrique d'esprit Art déco (h1 32 px casse normale, graisse 400 ; h2 24 px en capitales, graisse 500 : « L'HÔTEL », « NOS CHAMBRES ») ; texte courant en Adobe Caslon Pro 18 px, interlignage 1,5 ; boutons et nav en Sweet Sans 700 capitales 14 px. L'interlignage de 1,9 relevé sur le h1 (une ligne de référencement étirée) est ramené au plafond de l'usine, 1,3. Le grand nom du premier écran (« HÔTEL ROCHECHOUART » en didone condensée) est le logo, une image. Libres : Josefin Sans (géométrique à capitales Art déco) en titre, EB Garamond (garalde de lecture, la plus proche de Caslon au registre) en texte. Aucune police IA."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "clair": {
+      "fond": "#fbf8ee",
+      "surface": "#ffffff",
+      "texte": "#20221d",
+      "texte2": "#5c5a52",
+      "accent": "#984647",
+      "accent2": "#efe5e1",
+      "bordure": "#20221d",
+      "encre": "#8f3e3e"
+    },
+    "sombre": null,
+    "remarque": "Ivoire #fbf8ee sous la page (63 % des fonds), cartes de texte blanches #ffffff posées à cheval sur les photos, encre presque noire #20221d. Le bordeaux de la devanture (#8f3e3e en barre de navigation, pied et boutons ; #984647 pour les titres de section et les liens) est la couleur du site ; un rose poudré #efe5e1 fait le bouton « Réserver » de l'en-tête. Texte secondaire : non relevé à part, #5c5a52 est le texte mélangé au fond par l'usine (à 30 %), noté ici pour l'AA. Coloré doux : fond ivoire, bloc d'encre bordeaux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 100,
+      "ordinateur": 148
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 20
+    },
+    "conteneur": 1070,
+    "mesure": 68,
+    "rythme": "uni",
+    "remarque": "Relevé : 148 px du bord de section au premier texte à l'ordinateur, 100 px au téléphone ; bord de 20 px au téléphone ; conteneur de 1 070 px ; mesure 68 caractères. Rythme uni (ivoire partout), les cartes blanches font la respiration."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Angles droits partout ; boutons pleins bordeaux texte blanc en capitales Sweet Sans 700 espacées de 0,04 em, 50 px de haut (60 au téléphone, « RÉSERVER » en barre fixe en bas) ; liens soulignés d'un filet (« DÉCOUVRIR NOS CHAMBRES », « EN SAVOIR PLUS ») ; cartes blanches sans ombre ni bordure."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "4:5",
+      "16:9+",
+      "1:1"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Premier écran : la façade (ordinateur) ou la vue sur le Sacré-Cœur (téléphone) en plein cadre, logo blanc dessus et le module de réservation posé en bas. Ensuite des photos 4:5 et carrées à angles droits que chevauchent les cartes de texte blanches ; un collage de photos et de cartes postales anciennes qui se recouvrent (droites, jamais inclinées) ; une citation posée sur une photo assombrie. Couleurs chaudes, lumière de lampe."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Swiper"
+    ],
+    "profil": "annonce-qui-defile",
+    "remarque": "Sonde du 28 oct 2026 (getAnimations et styles en ligne, à 0, 200, 700, 1 500 ms puis à chaque cran de 700 px) : rien n'entre au chargement, rien n'apparaît au défilement ; la barre de navigation passe de transparente à bordeaux en 0,3 s ease ; une seule chose bouge seule, la bande de texte sous le premier écran (« Réservez en direct pour bénéficier de -10 % », animation scroll 20 s linear infinite). Profil nouveau : annonce-qui-defile (la bande fine de l'annonce du moment, MOUVEMENTS.md). GSAP est chargé mais ne pilote rien de visible."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune",
+    "remarque": "Ivoire uni, cartes blanches, barre et pied en aplat bordeaux ; ni filet décoratif ni texture."
+  },
+  "architecture": null,
+  "premier_ecran": "carte-sur-photo"
+}

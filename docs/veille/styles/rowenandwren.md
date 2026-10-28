@@ -1,0 +1,45 @@
+# Rowen & Wren — https://www.rowenandwren.co.uk/
+Titre « Timeless Furniture, Lighting & Homeware | Rowen & Wren », `lang="en"`, description « A thoughtful collection of furniture, lighting and homeware, beautifully made. Discover solid oak furniture, upholstered sofas and armchairs, aged brass hardwa… », technologie lue : Shopify, Locomotive (data-module), jQuery. Démontage automatique du 2026-10-28 (`ff demonter`, mesures brutes dans `rowenandwren.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 absent ; vidéo plein écran (90 % de l'écran) ; bouton principal « ACCEPT ALL COOKIES » en bas à droite (1114, 845 px, dans une barre fixe) ; 49 mots visibles au-dessus du pli ; bannière cookies 8 % de l'écran, non bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 absent ; vidéo plein écran (72 % de l'écran) ; bouton principal « ACCEPT ALL COOKIES » en bas à gauche (27, 777 px, dans une barre fixe) ; 53 mots visibles au-dessus du pli ; bannière cookies 24 % de l'écran, non bloquante ; bouge tout seul sans défilement : 3 élément(s) (`div.cta-ImageCard_Content`, `a.util-FauxLink_Link`, `div.drw-Drawer_Inner`).
+Nav : 14 lien(s) — [Menu], NEW & FEATURED, FURNITURE, ACCESSORIES, KITCHEN & DINING, BEDROOM, BATHROOM, HARDWARE, GARDEN, LAST CHANCE, Rowen & Wren, Search (+2) ; boutons entre crochets. **Barre fixe en bas de l'écran (téléphone)** : ACCEPT ALL COOKIES, COOKIE SETTINGS. Barre fixe en bas (ordinateur) : ACCEPT ALL COOKIES, COOKIE SETTINGS.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div#shopify-section-162937961406cd4458` « Our Autumn Collection » (0,9 écran, 8 mots, 1 img) → `div#shopify-section-162392446785ba377b` « The Bedroom Edit » (0,9 écran, 8 mots, 2 img) → `div#shopify-section-homepage_call_to_action_image_cards_EUz9iR` « Autumn Accessories » (0,7 écran, 19 mots, 12 img) → `div#shopify-section-homepage_image_text_split_alternate_qTngmt` « Meet The Designer: The Lewin Oak Desk » (1,1 écran, 55 mots, 1 img) → `div#shopify-section-162437861767c3e6df` « Never miss out... » (0,3 écran, 17 mots, 0 img) → `div#shopify-section-footer` « THE WORLD OF R&W » (0,4 écran, 35 mots, 0 img). Calques hors flux (fixes/absolus) : `div#CybotCookiebotDialog` (fixed, 70 px, collé en bas, 33 mots), `a.util-ScreenReaderOnly` (absolute, 1 px, 3 mots), `iframe.CybotCookiebotOffscreenIframe` (absolute, 1 px), `input` (absolute, 6 px, collé en bas).
+Pied de page : 17 lien(s) — [THE WORLD OF R&W], Our Story, Editorial, Consciousness, Community, Join the team, [NEED-TO-KNOWS], Legal, Delivery, Returns (+7). Téléphone cliquable : non. Formulaire : 2 (2 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Menu » (), « Delivery » (/pages/delivery), « Facebook » (https://www.facebook.com/rowenandwren).
+En 3 secondes : à juger sur `captures/rowenandwren-d.webp` (mesuré : fond du premier écran #ffffff, 2 image(s) et 49 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **minion-pro**, 26 px / 26 px téléphone, graisse 700, interlignage 0,81, interlettrage 0.6px ; h2 **minion-pro**, 29 px / 22 px téléphone, graisse 400, interlignage 1,11, interlettrage 1.25008px ; corps **gill-sans-nova**, 16 px / 16 px téléphone, graisse 300, interlignage 1,31, interlettrage 0.6px ; boutons **gill-sans-nova**, 11 px / 11 px téléphone, graisse 400, interlignage 1,27, capitales, interlettrage 1px ; nav **gill-sans-nova**, 13 px / 13 px téléphone, graisse 300, interlignage 1,62, interlettrage 0.6px.
+Sources `@font-face` : tiers (d3hw6dc1ow8pp2.cloudfront.net) (oke-widget-icons) ; tiers (cdn.shopify.com) (Gill Sans Light, Gill Sans Semi Bold, Minion Pro Regular) ; tiers (static.klaviyo.com) (Poppins-Klaviyo-Hosted) ; fichiers chargés : https://use.typekit.net/xgu8sll.css, https://use.typekit.net/nro3hgh.css. Familles en usage sur le texte visible : gill-sans-nova ×50, minion-pro ×7. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #717171 (contraste 4,88:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (80 %), #f0f0f0 (7 %), #856757 (7 %), #a98b7b (6 %), #717171 (0 %) ; textes par nombre de caractères : #717171 (58 %), #ffffff (42 %). Images : 14 `<img>` visibles, 1 fond(s) en image, 2 vidéo(s), `mask-image`/`clip-path` sur 3 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : jQuery (window.jQuery), Shopify (window.Shopify). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `opacity 0.5s ease` ×17, `all 0.4s ease` ×10, `transform 0.5s ease` ×9, `opacity 1s ease` ×6, `background-color 0.4s ease` ×5, `border 0.4s ease` ×5, `color 0.4s ease` ×5, `color 0.2s ease` ×3, `opacity 0.3s ease` ×2, `background-color 0.3s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-module` ×3, `data-module-drawers-trigger` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/rowenandwren-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div#shopify-section-homepage_image_text_split_alternate_qTngmt` « Meet The Designer: The Lewin Oak Desk » (1,1 écran, 55 mots, 1 image(s)).
+2. L'élément le plus animé : `a.sec-FullWidthMedia_Link` (3 transition(s) : background-color 0.4s ease ; border 0.4s ease).
+3. Le bloc le plus singulier par sa structure : `div#shopify-section-footer` « THE WORLD OF R&W » (seule à contenir <svg>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« Menu », « Delivery », « Facebook »), barre d'actions fixe en bas sur téléphone, formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/10 ordinateur, 0/13 téléphone ; vidéo en premier écran : oui ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Style retenu (jugé sur les captures, veille du 28 oct 2026, moitié B)
+
+Source : [rowenandwren.co.uk](https://www.rowenandwren.co.uk/) (mobilier et objets pour la maison faits par des artisans ; Shopify). Captures : `captures/rowenandwren-propre-d.jpg` (1 440 px, huit vues), `captures/rowenandwren-d.webp`, `-m.webp`, `-planche.jpg`. Atomes : `atomes/rowenandwren.json`.
+
+- **Polices** : Minion Pro 400 en casse normale, espacée de 0,6 à 1,25 px : titre du premier écran 22 px au téléphone, 30 px à l'ordinateur ; titres éditoriaux en italique (non repris : emphase italique interdite). Texte en Gill Sans Nova 300, 16 px, espacé de 0,6 px ; boutons et surtitres Gill capitales 11 px espacées de 1 px. Libres : EB Garamond, Cabin (400).
+- **Couleurs** : blanc #ffffff (86 %), gris clair #f0f0f0, texte gris doux #717171 partout (aucun noir), brun rosé #a98b7b (bande de la lettre d'information) et #856757 (pied, accent), texte blanc dessus. Régime : coloré doux.
+- **Espacements** : 152 px (téléphone) et 348 px (ordinateur) du bord de section au texte : un texte court posé au milieu d'un grand blanc ; bord 20 px ; photos à 10 px les unes des autres ; conteneur de texte de 828 px ; mesure 62 caractères.
+- **Formes** : angles droits ; boutons pleins gris ou à contour de 1 px, capitales Gill 11 px ; liens soulignés d'un filet fin (« PERUSE ») ; aucune ombre, aucune carte.
+- **Photos** : vidéo lente et floue de bougies en plein cadre au premier écran, titre et lien blancs centrés ; deux grandes photos d'intérieur bord à bord avec leur titre blanc ; une piste de quatre objets 4:5 ; un portrait du dessinateur à côté d'un texte court ; un croquis. Tons bruns, miel et lin d'automne.
+- **Mouvement** : les photos se posent en fondu à leur chargement (opacité 0,5 s ease) ; survols en 0,4 s ease ; la piste glisse à la main ; vidéo muette en boucle. Profil : `fondu-sobre`, régime calme.
+- **Texture** : aucune ; blanc, bande et pied brun rosé.
+- **Architecture** : boutique à plusieurs pages (Nouveautés, Mobilier, Accessoires, Cuisine, Chambre, Salle de bains, Quincaillerie, Jardin). Accueil : vidéo de la collection du moment, deux portes photo (« The Bedroom Edit », « Crafted to last »), accessoires de saison en piste, « Meet The Designer » (portrait et texte), lettre d'information sur bande brun rosé, pied brun. Pas de téléphone en tête.
+- **Geste signature** : un texte court, gris et centré, au milieu de beaucoup de blanc, entre deux photos d'intérieur en grand.
+- **Convient** : ébéniste, céramiste, tapissier, décorateur, fleuriste, boutique d'objets qui a de belles photos d'intérieur et une vidéo d'ambiance (ou `ff sequence-photo`) ; client calme.

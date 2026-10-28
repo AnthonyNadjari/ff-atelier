@@ -1,0 +1,1369 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.sinnerparis.com/",
+  "nom": "sinnerparis",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Experimental Marais | 5-Star Boutique Hotel in Le Marais",
+    "siteName": "",
+    "lang": "en",
+    "description": "A 5-star boutique hotel in the heart of Le Marais, Paris — spa, heated indoor pool, cocktail bar and a signature restaurant. Parisian elegance reimagined.",
+    "technologies": [
+      "Webflow",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#877869",
+      "h1": "A 5-star boutique hotel in the heart of Paris' Le Marais",
+      "h1Visible": true,
+      "mots": 55,
+      "images": 6,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.background-image-full"
+      },
+      "boutonPrincipal": {
+        "texte": "BOOK NOW",
+        "x": 1290.296875,
+        "y": 17.5,
+        "cx": 0.9376030815972223,
+        "cy": 0.04,
+        "fixe": true,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 20799,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1",
+        "famille": "Nantes, Arial, sans-serif",
+        "taille": 60,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.18px"
+      },
+      "h2": {
+        "selecteur": "h2.text-wrap-balance",
+        "famille": "\"Linux Biolinum\", Arial, sans-serif",
+        "taille": 48,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.18px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Nantes, Arial, sans-serif",
+        "taille": 24,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.18px"
+      },
+      "bouton": {
+        "selecteur": "a.button-book",
+        "famille": "\"Linux Biolinum\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.48px"
+      },
+      "nav": {
+        "selecteur": "a.button",
+        "famille": "\"Linux Biolinum\", Arial, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.07,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Nantes",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236f8223aac2cd25cc3_NantesWeb-Light.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Nantes",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236769cb384d03da148_NantesWeb-Book.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Nantes",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236a947dd2183d3e886_NantesWeb-BookItalic.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Nantes",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236faf83686b47908c8_NantesWeb-LightItalic.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Linux Biolinum",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/6a3d51583d68eab8a8df5e44_693352cc5577295b3d2a096b_LinBiolinum_R.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Axeptio CJK Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "apple-wallet-btn-en-US",
+          "url": "https://applepay.cdn-apple.com/jsapi/1.latest/assets/1.2.0/fonts/en-US.woff2",
+          "feuille": "inline",
+          "source": "tiers (applepay.cdn-apple.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.jsdelivr.net",
+        "fonts.axept.io",
+        "cdn.plyr.io",
+        "api.mapbox.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/6a3d51583d68eab8a8df5e44_693352cc5577295b3d2a096b_LinBiolinum_R.woff2",
+        "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236769cb384d03da148_NantesWeb-Book.woff2",
+        "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236a947dd2183d3e886_NantesWeb-BookItalic.woff2",
+        "https://fonts.axept.io/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700&display=swap&ax-prefix=Axeptio%20"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Linux Biolinum",
+          "n": 116
+        },
+        {
+          "famille": "Nantes",
+          "n": 63
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#877869",
+      "texte": "#ffffff",
+      "fondsBruts": [
+        {
+          "hex": "#877869",
+          "n": 1,
+          "poids": 35328960
+        },
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 12387573.21875
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 2106765.482421875
+        },
+        {
+          "hex": "#dedede",
+          "n": 1,
+          "poids": 1370880
+        },
+        {
+          "hex": "#954935",
+          "n": 2,
+          "poids": 816250
+        },
+        {
+          "hex": "#645342",
+          "n": 1,
+          "poids": 634972.5
+        },
+        {
+          "hex": "#8a816e",
+          "n": 1,
+          "poids": 400
+        },
+        {
+          "hex": "#314d21",
+          "n": 1,
+          "poids": 400
+        },
+        {
+          "hex": "#00639a",
+          "n": 1,
+          "poids": 400
+        },
+        {
+          "hex": "#546a79",
+          "n": 1,
+          "poids": 400
+        },
+        {
+          "hex": "#b1beb7",
+          "n": 1,
+          "poids": 400
+        },
+        {
+          "hex": "#9e7a70",
+          "n": 1,
+          "poids": 400
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 120,
+          "poids": 7245
+        },
+        {
+          "hex": "#000000",
+          "n": 59,
+          "poids": 604
+        }
+      ],
+      "nbImages": 43,
+      "nbVideos": 1,
+      "nbFondsImage": 2,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#877869",
+          "n": 1,
+          "poids": 35328960,
+          "part": 0.671
+        },
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 12387573.21875,
+          "part": 0.235
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 2106765.482421875,
+          "part": 0.04
+        },
+        {
+          "hex": "#dedede",
+          "n": 1,
+          "poids": 1370880,
+          "part": 0.026
+        },
+        {
+          "hex": "#954935",
+          "n": 2,
+          "poids": 816250,
+          "part": 0.016
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 120,
+          "poids": 7245,
+          "part": 0.923
+        },
+        {
+          "hex": "#000000",
+          "n": 59,
+          "poids": 604,
+          "part": 0.077
+        }
+      ],
+      "contraste": 4.27
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        },
+        {
+          "nom": "Splide",
+          "preuve": "window.Splide"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease",
+          "n": 24
+        },
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 20
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 13
+        },
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 13
+        },
+        {
+          "valeur": "all 0.4s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "section.section-template",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "color 0.2s ease",
+          "background-color 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.main-wrapper",
+      "sections": [
+        {
+          "selecteur": "section.section_location-header",
+          "titre": null,
+          "top": 0,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 5,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section-template",
+          "titre": "A 5-star boutique hotel in the heart of Paris' Le Marais",
+          "top": 899,
+          "hauteur": 304,
+          "ecrans": 0.3,
+          "mots": 11,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-template",
+          "titre": null,
+          "top": 1202,
+          "hauteur": 1066,
+          "ecrans": 1.2,
+          "mots": 42,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.z-index-1",
+          "titre": null,
+          "top": 2267,
+          "hauteur": 964,
+          "ecrans": 1.1,
+          "mots": 150,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.z-index-1",
+          "titre": "ROOMS & SUITES",
+          "top": 3681,
+          "hauteur": 2506,
+          "ecrans": 2.8,
+          "mots": 248,
+          "images": 14,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#restaurants-and-bars",
+          "titre": "RESTAURANT & BAR",
+          "top": 6637,
+          "hauteur": 1854,
+          "ecrans": 2.1,
+          "mots": 126,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.z-index-1",
+          "titre": "WELLNESS",
+          "top": 8941,
+          "hauteur": 1923,
+          "ecrans": 2.1,
+          "mots": 80,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#whats-on",
+          "titre": "WHAT'S ON",
+          "top": 11314,
+          "hauteur": 1809,
+          "ecrans": 2,
+          "mots": 109,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#events",
+          "titre": "PRIVATE EVENTS",
+          "top": 13573,
+          "hauteur": 1923,
+          "ecrans": 2.1,
+          "mots": 75,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#about",
+          "titre": "ABOUT",
+          "top": 15946,
+          "hauteur": 3397,
+          "ecrans": 3.8,
+          "mots": 241,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#contact-and-access",
+          "titre": "CONTACT & ACCESS",
+          "top": 19793,
+          "hauteur": 1340,
+          "ecrans": 1.5,
+          "mots": 34,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div",
+          "titre": null,
+          "top": 21582,
+          "hauteur": 952,
+          "ecrans": 1.1,
+          "mots": 17,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg",
+            "select"
+          ]
+        },
+        {
+          "selecteur": "section.section-template",
+          "titre": "LOCATIONS",
+          "top": 22533,
+          "hauteur": 916,
+          "ecrans": 1,
+          "mots": 91,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-template",
+          "titre": null,
+          "top": 23448,
+          "hauteur": 567,
+          "ecrans": 0.6,
+          "mots": 22,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": null,
+          "top": 24014,
+          "hauteur": 520,
+          "ecrans": 0.6,
+          "mots": 37,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav#w-dropdown-list-9",
+        "hauteur": 55,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "TEMPLE & CHAPON",
+            "href": "/paris/experimental-marais/temple-chapon",
+            "bouton": false
+          },
+          {
+            "texte": "AMERICAN BAR",
+            "href": "/paris/experimental-marais/american-bar",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "About",
+            "href": "/paris/experimental-marais/about",
+            "bouton": true
+          },
+          {
+            "texte": "Contact",
+            "href": "/paris/experimental-marais/access-contact",
+            "bouton": true
+          },
+          {
+            "texte": "Follow @experimentalmarais",
+            "href": "https://www.instagram.com/experimentalmarais",
+            "bouton": true
+          },
+          {
+            "texte": "Offers",
+            "href": "/paris/experimental-marais/offers",
+            "bouton": true
+          },
+          {
+            "texte": "Terms & Conditions",
+            "href": "/paris/experimental-marais/terms-conditions",
+            "bouton": true
+          },
+          {
+            "texte": "Experimental Group on Instagram",
+            "href": "https://www.instagram.com/experimentalgroup/",
+            "bouton": false
+          },
+          {
+            "texte": "Experimental Group on LinkedIn",
+            "href": "https://www.linkedin.com/company/experimentalgroup/",
+            "bouton": false
+          },
+          {
+            "texte": "About",
+            "href": "/manifesto",
+            "bouton": true
+          },
+          {
+            "texte": "Map",
+            "href": "/explore",
+            "bouton": true
+          },
+          {
+            "texte": "Terms of Use",
+            "href": "/terms-use",
+            "bouton": true
+          },
+          {
+            "texte": "Work with us",
+            "href": "/careers",
+            "bouton": true
+          },
+          {
+            "texte": "Cookies",
+            "href": "javascript:openAxeptioCookies()",
+            "bouton": true
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": true
+          },
+          {
+            "texte": "Legal Notice",
+            "href": "/legal-notice",
+            "bouton": true
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "/privacy-policy",
+            "bouton": true
+          },
+          {
+            "texte": "Blog",
+            "href": "/blog",
+            "bouton": true
+          },
+          {
+            "texte": "Experimental Group home",
+            "href": "/?r=0",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "BOOK NOW",
+          "href": "#"
+        },
+        {
+          "texte": "BOUTIQUE & GIFTS",
+          "href": "/paris/experimental-marais/boutique-gifts"
+        },
+        {
+          "texte": "BOOK A TABLE",
+          "href": "#booktable-templeandchapon?venues=frenchiepigalle--comma--grandsboulevardsexperimental--comma--templ"
+        },
+        {
+          "texte": "BOOK YOUR EVENT",
+          "href": "#bookevent-event@experimentalmarais.com"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 11,
+        "pilules": 5,
+        "exemples": [
+          "BOOK NOW",
+          "BOOK NOW",
+          "BOOK NOW"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/tmp/claude-0/-home-user-ff-atelier/3c1271f6-8504-5347-b7c0-1f61f3bf1c95/scratchpad/dem/captures/sinnerparis-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#877869",
+      "h1": "A 5-star boutique hotel in the heart of Paris' Le Marais",
+      "h1Visible": true,
+      "mots": 35,
+      "images": 5,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.background-image-full"
+      },
+      "boutonPrincipal": {
+        "texte": "BOOK NOW",
+        "x": 16,
+        "y": 793,
+        "cx": 0.5,
+        "cy": 0.9614928909952607,
+        "fixe": true,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 16011,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1",
+        "famille": "Nantes, Arial, sans-serif",
+        "taille": 30,
+        "graisse": "400",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.18px"
+      },
+      "h2": {
+        "selecteur": "h2.text-wrap-balance",
+        "famille": "\"Linux Biolinum\", Arial, sans-serif",
+        "taille": 32,
+        "graisse": "400",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.18px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Nantes, Arial, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.18px"
+      },
+      "bouton": {
+        "selecteur": "a.button-book",
+        "famille": "\"Linux Biolinum\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.48px"
+      },
+      "nav": {
+        "selecteur": "a.navbar_social-link",
+        "famille": "\"Linux Biolinum\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 0.94,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.48px"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Nantes",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236f8223aac2cd25cc3_NantesWeb-Light.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Nantes",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236769cb384d03da148_NantesWeb-Book.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Nantes",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236a947dd2183d3e886_NantesWeb-BookItalic.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Nantes",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236faf83686b47908c8_NantesWeb-LightItalic.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Linux Biolinum",
+          "url": "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/6a3d51583d68eab8a8df5e44_693352cc5577295b3d2a096b_LinBiolinum_R.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Axeptio CJK Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        },
+        {
+          "famille": "apple-wallet-btn-en-US",
+          "url": "https://applepay.cdn-apple.com/jsapi/1.latest/assets/1.2.0/fonts/en-US.woff2",
+          "feuille": "inline",
+          "source": "tiers (applepay.cdn-apple.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.jsdelivr.net",
+        "cdn.plyr.io",
+        "fonts.axept.io",
+        "api.mapbox.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/6a3d51583d68eab8a8df5e44_693352cc5577295b3d2a096b_LinBiolinum_R.woff2",
+        "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236769cb384d03da148_NantesWeb-Book.woff2",
+        "https://cdn.prod.website-files.com/6932dc91bcf2019d2c1c5686/69335236a947dd2183d3e886_NantesWeb-BookItalic.woff2",
+        "https://fonts.axept.io/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700&display=swap&ax-prefix=Axeptio%20"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Linux Biolinum",
+          "n": 98
+        },
+        {
+          "famille": "Nantes",
+          "n": 61
+        },
+        {
+          "famille": "-apple-system",
+          "n": 2
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#877869",
+      "texte": "#ffffff",
+      "fondsBruts": [
+        {
+          "hex": "#877869",
+          "n": 1,
+          "poids": 7246980
+        },
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 2316354.9375
+        },
+        {
+          "hex": "#ffffff",
+          "n": 7,
+          "poids": 484944.185546875
+        },
+        {
+          "hex": "#dedede",
+          "n": 1,
+          "poids": 307862.34375
+        },
+        {
+          "hex": "#645342",
+          "n": 1,
+          "poids": 237729.375
+        },
+        {
+          "hex": "#954935",
+          "n": 1,
+          "poids": 210648.75
+        },
+        {
+          "hex": "#f5f4f2",
+          "n": 1,
+          "poids": 25350
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 124,
+          "poids": 5241
+        },
+        {
+          "hex": "#000000",
+          "n": 37,
+          "poids": 397
+        }
+      ],
+      "nbImages": 42,
+      "nbVideos": 0,
+      "nbFondsImage": 4,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#877869",
+          "n": 1,
+          "poids": 7246980,
+          "part": 0.669
+        },
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 2316354.9375,
+          "part": 0.214
+        },
+        {
+          "hex": "#ffffff",
+          "n": 7,
+          "poids": 484944.185546875,
+          "part": 0.045
+        },
+        {
+          "hex": "#dedede",
+          "n": 1,
+          "poids": 307862.34375,
+          "part": 0.028
+        },
+        {
+          "hex": "#645342",
+          "n": 1,
+          "poids": 237729.375,
+          "part": 0.022
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "n": 124,
+          "poids": 5241,
+          "part": 0.93
+        },
+        {
+          "hex": "#000000",
+          "n": 37,
+          "poids": 397,
+          "part": 0.07
+        }
+      ],
+      "contraste": 4.27
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        },
+        {
+          "nom": "Splide",
+          "preuve": "window.Splide"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 15
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 13
+        },
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 13
+        },
+        {
+          "valeur": "all 0.2s ease",
+          "n": 9
+        },
+        {
+          "valeur": "opacity 0.75s ease-in-out",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "section.section-template",
+        "score": 2,
+        "animations": [],
+        "transitions": [
+          "color 0.2s ease",
+          "background-color 0.2s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.main-wrapper",
+      "sections": [
+        {
+          "selecteur": "section.section_location-header",
+          "titre": null,
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 5,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section-template",
+          "titre": "A 5-star boutique hotel in the heart of Paris' Le Marais",
+          "top": 844,
+          "hauteur": 179,
+          "ecrans": 0.2,
+          "mots": 11,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-template",
+          "titre": null,
+          "top": 1023,
+          "hauteur": 419,
+          "ecrans": 0.5,
+          "mots": 42,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.z-index-1",
+          "titre": null,
+          "top": 1442,
+          "hauteur": 828,
+          "ecrans": 1,
+          "mots": 35,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.z-index-1",
+          "titre": "ROOMS & SUITES",
+          "top": 2692,
+          "hauteur": 1391,
+          "ecrans": 1.6,
+          "mots": 248,
+          "images": 14,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#restaurants-and-bars",
+          "titre": "RESTAURANT & BAR",
+          "top": 4505,
+          "hauteur": 1213,
+          "ecrans": 1.4,
+          "mots": 126,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.z-index-1",
+          "titre": "WELLNESS",
+          "top": 6140,
+          "hauteur": 1399,
+          "ecrans": 1.7,
+          "mots": 49,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#whats-on",
+          "titre": "WHAT'S ON",
+          "top": 7961,
+          "hauteur": 1184,
+          "ecrans": 1.4,
+          "mots": 109,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#events",
+          "titre": "PRIVATE EVENTS",
+          "top": 9567,
+          "hauteur": 1399,
+          "ecrans": 1.7,
+          "mots": 50,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#about",
+          "titre": "ABOUT",
+          "top": 11388,
+          "hauteur": 2696,
+          "ecrans": 3.2,
+          "mots": 144,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#contact-and-access",
+          "titre": "CONTACT & ACCESS",
+          "top": 14506,
+          "hauteur": 1093,
+          "ecrans": 1.3,
+          "mots": 34,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div",
+          "titre": null,
+          "top": 16021,
+          "hauteur": 789,
+          "ecrans": 0.9,
+          "mots": 17,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg",
+            "select",
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "section.section-template",
+          "titre": "LOCATIONS",
+          "top": 16810,
+          "hauteur": 579,
+          "ecrans": 0.7,
+          "mots": 22,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-template",
+          "titre": null,
+          "top": 17389,
+          "hauteur": 540,
+          "ecrans": 0.6,
+          "mots": 22,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": null,
+          "top": 17930,
+          "hauteur": 652,
+          "ecrans": 0.8,
+          "mots": 37,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": [
+          {
+            "texte": "About",
+            "href": "/paris/experimental-marais/about",
+            "bouton": true
+          },
+          {
+            "texte": "Contact",
+            "href": "/paris/experimental-marais/access-contact",
+            "bouton": true
+          },
+          {
+            "texte": "Follow @experimentalmarais",
+            "href": "https://www.instagram.com/experimentalmarais",
+            "bouton": true
+          },
+          {
+            "texte": "Offers",
+            "href": "/paris/experimental-marais/offers",
+            "bouton": true
+          },
+          {
+            "texte": "Terms & Conditions",
+            "href": "/paris/experimental-marais/terms-conditions",
+            "bouton": true
+          },
+          {
+            "texte": "About",
+            "href": "/manifesto",
+            "bouton": true
+          },
+          {
+            "texte": "Map",
+            "href": "/explore",
+            "bouton": true
+          },
+          {
+            "texte": "Terms of Use",
+            "href": "/terms-use",
+            "bouton": true
+          },
+          {
+            "texte": "Work with us",
+            "href": "/careers",
+            "bouton": true
+          },
+          {
+            "texte": "Cookies",
+            "href": "javascript:openAxeptioCookies()",
+            "bouton": true
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": true
+          },
+          {
+            "texte": "Legal Notice",
+            "href": "/legal-notice",
+            "bouton": true
+          },
+          {
+            "texte": "Privacy Policy",
+            "href": "/privacy-policy",
+            "bouton": true
+          },
+          {
+            "texte": "Experimental Group on Instagram",
+            "href": "https://www.instagram.com/experimentalgroup/",
+            "bouton": false
+          },
+          {
+            "texte": "Experimental Group on LinkedIn",
+            "href": "https://www.linkedin.com/company/experimentalgroup/",
+            "bouton": false
+          },
+          {
+            "texte": "Blog",
+            "href": "/blog",
+            "bouton": true
+          },
+          {
+            "texte": "Experimental Group home",
+            "href": "/?r=0",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 5
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "BOUTIQUE & GIFTS",
+          "href": "/paris/experimental-marais/boutique-gifts"
+        },
+        {
+          "texte": "BOOK NOW",
+          "href": "#"
+        },
+        {
+          "texte": "BOOK A TABLE",
+          "href": "#booktable-templeandchapon?venues=frenchiepigalle--comma--grandsboulevardsexperimental--comma--templ"
+        },
+        {
+          "texte": "BOOK YOUR EVENT",
+          "href": "#bookevent-event@experimentalmarais.com"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 6,
+        "pilules": 5,
+        "exemples": [
+          "BOOK NOW",
+          "BOOK NOW",
+          "BOOK NOW"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Experimental Marais",
+  "dureeS": 47.6
+}
