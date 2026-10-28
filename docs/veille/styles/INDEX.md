@@ -463,3 +463,5 @@ non versionnée) et posé à côté de la capture de la source. Régimes avant �
 pilules (grangerandco, annajona, edwart) ; un seul écran (hotelamourparis, hopperslondon, sagerandwilde, qualitywines) ;
 polaroids (satanswhiskers) ; une quinzaine de sites qui refusent les navigateurs sans tête ; une quinzaine de clairs neutres.
 En réserve : raasay (sections mauves, boutons or), démonté sans atome.
+
+Collecte 2026-10-28 (après-midi) : daylesford, buvette, nobleandstone, ateliermunro, holmes, fermedesaintemarthe (relevé mesuré, atomes « à juger » hors palette/densité/formes/matière).
