@@ -1,0 +1,828 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://mikkeller.com/",
+  "nom": "mikkeller",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Mikkeller Beer | Founded in Copenhagen in 2006",
+    "siteName": "",
+    "lang": "en",
+    "description": "Mikkeller is a Danish world-renowned Copenhagen based craft brewery founded by school teacher Mikkel Borg Bjergsø. It is first and foremost about beer; showcasing all possible styles and ingredients, but the company also operate bars and restaurants around the world, host beer festivals and have a huge running club.",
+    "technologies": [
+      "Shopify",
+      "Webflow",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Mikkeller",
+      "h1Visible": false,
+      "mots": 107,
+      "images": 10,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Customize",
+        "x": 528,
+        "y": 473,
+        "cx": 0.4104546440972222,
+        "cy": 0.55,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "Are you 18 years or older? NOT YET YES Remember me on this device (don't tap if this is a shared computer)",
+        "selecteur": "div#age-verification",
+        "cookie": false
+      },
+      "cookie": {
+        "couverture": 0.14,
+        "texte": "You control your data We and our business partners use technologies, including cookies, to collect information about you for various purposes, including: Functional Statistical Marketing By clicking ‘",
+        "selecteur": "div.cky-consent-container"
+      },
+      "barreBas": null,
+      "scrollHeight": 2380,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "gotham, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.71,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.cky-btn",
+        "famille": "Gothamhtf, sans-serif",
+        "taille": 14,
+        "graisse": "600",
+        "interlignage": 1.71,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Mikkelwind",
+          "url": "https://cdn.prod.website-files.com/64ad1f9e95d96a6e7e92a42a/64ad24bfd4f75b8d294f4800_Mikkelwind.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Windsor",
+          "url": "https://webflow-files-prod.global.ssl.fastly.net/64ad1f9e95d96a6e7e92a42a/fonts/6ad63143eaa23347aa874202-Windsor-Bold.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (webflow-files-prod.global.ssl.fastly.net)"
+        },
+        {
+          "famille": "Mbcc 2022 Final",
+          "url": "https://cdn.prod.website-files.com/64ad1f9e95d96a6e7e92a42a/6572d9f9d2f6a1076adbb40b_Mbcc2022-final.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Mbcc 2022",
+          "url": "https://cdn.prod.website-files.com/64ad1f9e95d96a6e7e92a42a/662634359bc133bbabf63e54_Mbcc2022-Regular.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "gotham",
+          "url": "https://use.typekit.net/af/4f91c5/0000000000000000775aa92f/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n5&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "gotham",
+          "url": "https://use.typekit.net/af/e0cede/0000000000000000775aa930/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n4&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "gotham",
+          "url": "https://use.typekit.net/af/aaa6a3/0000000000000000775aa938/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n7&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "gotham",
+          "url": "https://use.typekit.net/af/f34e19/0000000000000000775aa92e/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n3&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://use.typekit.net/cpi6krr.js",
+        "https://cdn.prod.website-files.com/64ad1f9e95d96a6e7e92a42a/64ad24bfd4f75b8d294f4800_Mikkelwind.woff2",
+        "https://use.typekit.net/af/e0cede/0000000000000000775aa930/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n4&v=3",
+        "https://use.typekit.net/af/aaa6a3/0000000000000000775aa938/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n7&v=3",
+        "https://use.typekit.net/af/4f91c5/0000000000000000775aa92f/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n5&v=3",
+        "https://use.typekit.net/af/f34e19/0000000000000000775aa92e/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n3&v=3"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "gotham",
+          "n": 40
+        },
+        {
+          "famille": "Mikkelwind",
+          "n": 7
+        },
+        {
+          "famille": "Gothamhtf",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 3442080
+        },
+        {
+          "hex": "#f6f2e8",
+          "n": 1,
+          "poids": 1472895
+        },
+        {
+          "hex": "#f5f2e9",
+          "n": 1,
+          "poids": 177760
+        },
+        {
+          "hex": "#357c4f",
+          "n": 1,
+          "poids": 6880.25
+        },
+        {
+          "hex": "#487a53",
+          "n": 1,
+          "poids": 5424.375
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1440
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 21,
+          "poids": 818
+        },
+        {
+          "hex": "#414040",
+          "n": 3,
+          "poids": 475
+        },
+        {
+          "hex": "#357c4f",
+          "n": 21,
+          "poids": 285
+        },
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 38
+        },
+        {
+          "hex": "#487a53",
+          "n": 2,
+          "poids": 30
+        }
+      ],
+      "nbImages": 6,
+      "nbVideos": 3,
+      "nbFondsImage": 7,
+      "masques": 2,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 3442080,
+          "part": 0.674
+        },
+        {
+          "hex": "#f6f2e8",
+          "n": 1,
+          "poids": 1472895,
+          "part": 0.288
+        },
+        {
+          "hex": "#f5f2e9",
+          "n": 1,
+          "poids": 177760,
+          "part": 0.035
+        },
+        {
+          "hex": "#357c4f",
+          "n": 1,
+          "poids": 6880.25,
+          "part": 0.001
+        },
+        {
+          "hex": "#487a53",
+          "n": 1,
+          "poids": 5424.375,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 21,
+          "poids": 818,
+          "part": 0.497
+        },
+        {
+          "hex": "#414040",
+          "n": 3,
+          "poids": 475,
+          "part": 0.289
+        },
+        {
+          "hex": "#357c4f",
+          "n": 21,
+          "poids": 285,
+          "part": 0.173
+        },
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 38,
+          "part": 0.023
+        },
+        {
+          "hex": "#487a53",
+          "n": 2,
+          "poids": 30,
+          "part": 0.018
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 2
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animation-type",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.henry-animation",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-animation-type"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "div.page-wrapper",
+          "titre": null,
+          "top": 0,
+          "hauteur": 1261,
+          "ecrans": 1.4,
+          "mots": 28,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.footer",
+          "titre": null,
+          "top": 1261,
+          "hauteur": 1119,
+          "ecrans": 1.2,
+          "mots": 140,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 1,
+        "href": "tel:+4533227997"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 3
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Brand Book",
+          "href": "/brand-book-external"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.cky-consent-container",
+          "position": "fixed",
+          "hauteur": 410,
+          "largeur": 440,
+          "enBas": false,
+          "mots": 82
+        },
+        {
+          "selecteur": "div#age-verification",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 22
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 11,
+        "pilules": 1,
+        "exemples": [
+          "Become a mikkeller Bar partner"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/mikkeller-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Mikkeller",
+      "h1Visible": false,
+      "mots": 107,
+      "images": 8,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Customize",
+        "x": 24,
+        "y": 379.1875,
+        "cx": 0.5,
+        "cy": 0.4753406398104265,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "You control your data We and our business partners use technologies, including cookies, to collect information about you for various purposes, including: Functional Statistical Marketing By clicking ‘",
+        "selecteur": "div.cky-consent-container",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 1,
+        "texte": "You control your data We and our business partners use technologies, including cookies, to collect information about you for various purposes, including: Functional Statistical Marketing By clicking ‘",
+        "selecteur": "div.cky-consent-container"
+      },
+      "barreBas": null,
+      "scrollHeight": 3453,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p",
+        "famille": "gotham, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.71,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.cky-btn",
+        "famille": "Gothamhtf, sans-serif",
+        "taille": 14,
+        "graisse": "600",
+        "interlignage": 1.71,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Mikkelwind",
+          "url": "https://cdn.prod.website-files.com/64ad1f9e95d96a6e7e92a42a/64ad24bfd4f75b8d294f4800_Mikkelwind.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Windsor",
+          "url": "https://webflow-files-prod.global.ssl.fastly.net/64ad1f9e95d96a6e7e92a42a/fonts/6ad63143eaa23347aa874202-Windsor-Bold.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (webflow-files-prod.global.ssl.fastly.net)"
+        },
+        {
+          "famille": "Mbcc 2022 Final",
+          "url": "https://cdn.prod.website-files.com/64ad1f9e95d96a6e7e92a42a/6572d9f9d2f6a1076adbb40b_Mbcc2022-final.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Mbcc 2022",
+          "url": "https://cdn.prod.website-files.com/64ad1f9e95d96a6e7e92a42a/662634359bc133bbabf63e54_Mbcc2022-Regular.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "gotham",
+          "url": "https://use.typekit.net/af/4f91c5/0000000000000000775aa92f/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n5&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "gotham",
+          "url": "https://use.typekit.net/af/e0cede/0000000000000000775aa930/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n4&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "gotham",
+          "url": "https://use.typekit.net/af/aaa6a3/0000000000000000775aa938/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n7&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        },
+        {
+          "famille": "gotham",
+          "url": "https://use.typekit.net/af/f34e19/0000000000000000775aa92e/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n3&v=3",
+          "feuille": "inline",
+          "source": "Adobe Fonts"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://use.typekit.net/cpi6krr.js",
+        "https://cdn.prod.website-files.com/64ad1f9e95d96a6e7e92a42a/64ad24bfd4f75b8d294f4800_Mikkelwind.woff2",
+        "https://use.typekit.net/af/e0cede/0000000000000000775aa930/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n4&v=3",
+        "https://use.typekit.net/af/aaa6a3/0000000000000000775aa938/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n7&v=3",
+        "https://use.typekit.net/af/4f91c5/0000000000000000775aa92f/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n5&v=3",
+        "https://use.typekit.net/af/f34e19/0000000000000000775aa92e/31/l?primer=7fa3915bdafdf03041871920a205bef951d72bf64dd4c4460fb992e3ecc3a862&fvd=n3&v=3"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "gotham",
+          "n": 40
+        },
+        {
+          "famille": "Mikkelwind",
+          "n": 7
+        },
+        {
+          "famille": "Gothamhtf",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 1362318
+        },
+        {
+          "hex": "#f6f2e8",
+          "n": 1,
+          "poids": 802205.625
+        },
+        {
+          "hex": "#f5f2e9",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#487a53",
+          "n": 1,
+          "poids": 15048
+        },
+        {
+          "hex": "#357c4f",
+          "n": 1,
+          "poids": 6880.25
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 652
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 21,
+          "poids": 818
+        },
+        {
+          "hex": "#414040",
+          "n": 3,
+          "poids": 475
+        },
+        {
+          "hex": "#357c4f",
+          "n": 21,
+          "poids": 285
+        },
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 38
+        },
+        {
+          "hex": "#487a53",
+          "n": 2,
+          "poids": 30
+        }
+      ],
+      "nbImages": 6,
+      "nbVideos": 3,
+      "nbFondsImage": 7,
+      "masques": 2,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 1362318,
+          "part": 0.541
+        },
+        {
+          "hex": "#f6f2e8",
+          "n": 1,
+          "poids": 802205.625,
+          "part": 0.319
+        },
+        {
+          "hex": "#f5f2e9",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.131
+        },
+        {
+          "hex": "#487a53",
+          "n": 1,
+          "poids": 15048,
+          "part": 0.006
+        },
+        {
+          "hex": "#357c4f",
+          "n": 1,
+          "poids": 6880.25,
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 21,
+          "poids": 818,
+          "part": 0.497
+        },
+        {
+          "hex": "#414040",
+          "n": 3,
+          "poids": 475,
+          "part": 0.289
+        },
+        {
+          "hex": "#357c4f",
+          "n": 21,
+          "poids": 285,
+          "part": 0.173
+        },
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 38,
+          "part": 0.023
+        },
+        {
+          "hex": "#487a53",
+          "n": 2,
+          "poids": 30,
+          "part": 0.018
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease",
+          "n": 4
+        },
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 2
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-animation-type",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.henry-animation",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-animation-type"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "div.page-wrapper",
+          "titre": null,
+          "top": 0,
+          "hauteur": 1348,
+          "ecrans": 1.6,
+          "mots": 28,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "video",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.footer",
+          "titre": null,
+          "top": 1348,
+          "hauteur": 2105,
+          "ecrans": 2.5,
+          "mots": 140,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 1,
+        "href": "tel:+4533227997"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 3
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Brand Book",
+          "href": "/brand-book-external"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.cky-consent-container",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 82
+        },
+        {
+          "selecteur": "div#age-verification",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 22
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 11,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Mikkeller Beer",
+  "dureeS": 18.2
+}

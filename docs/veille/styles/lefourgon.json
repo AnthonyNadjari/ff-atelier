@@ -1,0 +1,1341 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://lefourgon.fr/",
+  "nom": "lefourgon",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Vos produits consignés livrés chez vous | Le Fourgon",
+    "siteName": "Le Fourgon",
+    "lang": "fr-FR",
+    "description": "Le Fourgon, tournée de produits consignés. Eaux, lait, bières, sodas, vins, spiritueux, cidres, huiles, liquide vaisselle, vinaigre, thés, cafés.",
+    "technologies": [
+      "Nuxt",
+      "Swup",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#000000",
+      "h1": "Livraison de produits consignés",
+      "h1Visible": true,
+      "mots": 115,
+      "images": 27,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.97,
+        "selecteur": "img.absolute"
+      },
+      "boutonPrincipal": {
+        "texte": "Voir le catalogue",
+        "x": 604.65625,
+        "y": 771.828125,
+        "cx": 0.5,
+        "cy": 0.8886979166666666,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 11093,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.mb-10",
+        "famille": "azo-sans-uber, Arial, sans-serif",
+        "taille": 64,
+        "graisse": "400",
+        "interlignage": 0.9,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.text-center",
+        "famille": "\"Bookman Old Style\", Georgia, serif",
+        "taille": 24,
+        "graisse": "300",
+        "interlignage": 1.1,
+        "italique": true,
+        "transform": "none",
+        "interlettrage": "-0.72px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Inter, system-ui, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.3,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.sc-hjWSTT",
+        "famille": "\"Axeptio Rubik\", Rubik, \"Axeptio CJK Fallback\", sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.font-semibold",
+        "famille": "Inter, system-ui, sans-serif",
+        "taille": 14,
+        "graisse": "600",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Inter",
+          "url": "/fonts/Inter-VariableFont_slnt,wght.ttf",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Bookman Old Style",
+          "url": "/fonts/bookman-old-style.ttf",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Axeptio CJK Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "use.typekit.net",
+        "emma.lefourgon.com"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/sxs5ykv.css",
+        "https://www.lefourgon.com/fonts/Inter-VariableFont_slnt,wght.ttf",
+        "https://www.lefourgon.com/fonts/bookman-old-style.ttf",
+        "https://use.typekit.net/",
+        "https://p.typekit.net/",
+        "https://emma.lefourgon.com/axeptio/fonts/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700|Lato:regular,700|Inter:600,700,regular,500&display=swap&ax-prefix=Axeptio%20"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Inter",
+          "n": 120
+        },
+        {
+          "famille": "azo-sans-uber",
+          "n": 60
+        },
+        {
+          "famille": "Axeptio Inter",
+          "n": 7
+        },
+        {
+          "famille": "Bookman Old Style",
+          "n": 4
+        },
+        {
+          "famille": "Axeptio Source Sans 3",
+          "n": 3
+        },
+        {
+          "famille": "Axeptio Rubik",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 12,
+          "poids": 17500139.0390625
+        },
+        {
+          "hex": "#ffe981",
+          "n": 32,
+          "poids": 3763381.1403963408
+        },
+        {
+          "hex": "#000000",
+          "n": 26,
+          "poids": 2022853.0625
+        },
+        {
+          "hex": "#fff7d2",
+          "n": 1,
+          "poids": 608548.9323730469
+        },
+        {
+          "hex": "#f9fbff",
+          "n": 2,
+          "poids": 250425
+        },
+        {
+          "hex": "#e8f7ef",
+          "n": 1,
+          "poids": 7829.375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#43464c",
+          "n": 14,
+          "poids": 5349
+        },
+        {
+          "hex": "#000000",
+          "n": 147,
+          "poids": 4197
+        },
+        {
+          "hex": "#d4d6d9",
+          "n": 1,
+          "poids": 253
+        },
+        {
+          "hex": "#ffffff",
+          "n": 15,
+          "poids": 238
+        },
+        {
+          "hex": "#52555a",
+          "n": 2,
+          "poids": 223
+        },
+        {
+          "hex": "#212121",
+          "n": 7,
+          "poids": 151
+        },
+        {
+          "hex": "#ffe981",
+          "n": 5,
+          "poids": 65
+        },
+        {
+          "hex": "#292b2e",
+          "n": 2,
+          "poids": 31
+        },
+        {
+          "hex": "#a3a8ae",
+          "n": 1,
+          "poids": 20
+        },
+        {
+          "hex": "#027a48",
+          "n": 1,
+          "poids": 18
+        }
+      ],
+      "nbImages": 105,
+      "nbVideos": 1,
+      "nbFondsImage": 7,
+      "masques": 6,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 12,
+          "poids": 17500139.0390625,
+          "part": 0.725
+        },
+        {
+          "hex": "#ffe981",
+          "n": 32,
+          "poids": 3763381.1403963408,
+          "part": 0.156
+        },
+        {
+          "hex": "#000000",
+          "n": 26,
+          "poids": 2022853.0625,
+          "part": 0.084
+        },
+        {
+          "hex": "#fff7d2",
+          "n": 1,
+          "poids": 608548.9323730469,
+          "part": 0.025
+        },
+        {
+          "hex": "#f9fbff",
+          "n": 2,
+          "poids": 250425,
+          "part": 0.01
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#43464c",
+          "n": 14,
+          "poids": 5349,
+          "part": 0.507
+        },
+        {
+          "hex": "#000000",
+          "n": 147,
+          "poids": 4197,
+          "part": 0.398
+        },
+        {
+          "hex": "#d4d6d9",
+          "n": 1,
+          "poids": 253,
+          "part": 0.024
+        },
+        {
+          "hex": "#ffffff",
+          "n": 15,
+          "poids": 238,
+          "part": 0.023
+        },
+        {
+          "hex": "#52555a",
+          "n": 2,
+          "poids": 223,
+          "part": 0.021
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "div.text-center",
+          "ecrans": 1.7
+        },
+        {
+          "selecteur": "div.2xl:w-1/3",
+          "ecrans": 1.3
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 27
+        },
+        {
+          "valeur": "transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 26
+        },
+        {
+          "valeur": "opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 19
+        },
+        {
+          "valeur": "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 18
+        },
+        {
+          "valeur": "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "opacity 0.3s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "color 0.15s ease",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 3
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-lenis-prevent",
+          "n": 1
+        },
+        {
+          "nom": "data-enter-animation-done",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.sc-bSFUlv",
+        "score": 7,
+        "animations": [
+          "animation iNqBts 0.4s ease-in-out"
+        ],
+        "transitions": [
+          "height 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "box-shadow 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)"
+        ],
+        "attributs": [
+          "data-enter-animation-done"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div",
+      "sections": [
+        {
+          "selecteur": "main",
+          "titre": "Livraison de produits consignés",
+          "top": 0,
+          "hauteur": 9444,
+          "ecrans": 10.5,
+          "mots": 647,
+          "images": 96,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "iframe",
+            "ol"
+          ]
+        },
+        {
+          "selecteur": "div.container",
+          "titre": "BONNES QUESTIONS !",
+          "top": 9508,
+          "hauteur": 724,
+          "ecrans": 0.8,
+          "mots": 818,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.relative",
+          "titre": "TÉLÉCHARGEZ L'APP LE FOURGON",
+          "top": 10296,
+          "hauteur": 519,
+          "ecrans": 0.6,
+          "mots": 4,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.bg-white",
+          "titre": null,
+          "top": 10815,
+          "hauteur": 717,
+          "ecrans": 0.8,
+          "mots": 149,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.w-full",
+        "hauteur": 79,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Accéder à la page d'accueil",
+            "href": "/fr-FR",
+            "bouton": false
+          },
+          {
+            "texte": "À propos",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Le blog",
+            "href": "/fr-FR/blog",
+            "bouton": false
+          },
+          {
+            "texte": "Pour les pros",
+            "href": "/fr-FR/page/boissons-produits-consignes-pour-professionnels",
+            "bouton": false
+          },
+          {
+            "texte": "FR",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Aide",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Me connecter",
+            "href": "/fr-FR/login",
+            "bouton": false
+          },
+          {
+            "texte": "Inscription",
+            "href": "/fr-FR/register/step1",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.bg-white",
+        "liens": [
+          {
+            "texte": "Chattez avec nous",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "03 52 80 03 30",
+            "href": "tel:03 52 80 03 30",
+            "bouton": true
+          },
+          {
+            "texte": "Questions fréquentes",
+            "href": "/fr-FR/faq",
+            "bouton": false
+          },
+          {
+            "texte": "Comment ça marche ?",
+            "href": "/fr-FR/page/notre-concept",
+            "bouton": false
+          },
+          {
+            "texte": "Nos engagements",
+            "href": "/fr-FR/page/nos-engagements",
+            "bouton": false
+          },
+          {
+            "texte": "Location de tireuse à bières",
+            "href": "/fr-FR/page/location-tireuse-biere",
+            "bouton": false
+          },
+          {
+            "texte": "La consigne pour les pros",
+            "href": "/fr-FR/page/boissons-produits-consignes-pour-professionnels",
+            "bouton": false
+          },
+          {
+            "texte": "L'humain au cœur du concept",
+            "href": "/fr-FR/page/qui-se-cache-derriere-le-fourgon",
+            "bouton": false
+          },
+          {
+            "texte": "Vos produits au bon prix",
+            "href": "/fr-FR/page/vos-produits-au-bon-prix",
+            "bouton": false
+          },
+          {
+            "texte": "Le blog du fourgon",
+            "href": "/fr-FR/blog",
+            "bouton": false
+          },
+          {
+            "texte": "Notre espace presse",
+            "href": "/fr-FR/page/notre-espace-presse",
+            "bouton": false
+          },
+          {
+            "texte": "Nous rejoindre",
+            "href": "https://jobs.lefourgon.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Conditions générales",
+            "href": "/fr-FR/page/conditions-generales-de-vente-du-fourgon",
+            "bouton": false
+          },
+          {
+            "texte": "Confidentialité des données",
+            "href": "/fr-FR/page/politique-protection-donnees",
+            "bouton": false
+          },
+          {
+            "texte": "Cookies",
+            "href": "/fr-FR/page/politique-cookies",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "/fr-FR/page/mentions-legales",
+            "bouton": false
+          },
+          {
+            "texte": "Modifier mes préférences des cookies",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:03 52 80 03 30"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Voir nos zones de livraison",
+          "href": "/fr-FR/our-delivery-areas"
+        },
+        {
+          "texte": "Quel est le montant de la livraison à do",
+          "href": ""
+        },
+        {
+          "texte": "Lors de ma commande, est-ce que je peux ",
+          "href": ""
+        },
+        {
+          "texte": "Puis-je repasser commande même si je n’a",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.fixed",
+          "position": "fixed",
+          "hauteur": 118,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 26
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 27,
+        "pilules": 1,
+        "exemples": [
+          "Cookies"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Inter"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/lefourgon-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#000000",
+      "h1": "Livraison de produits consignés",
+      "h1Visible": true,
+      "mots": 33,
+      "images": 8,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.absolute"
+      },
+      "boutonPrincipal": {
+        "texte": "Cookies",
+        "x": 18,
+        "y": 774,
+        "cx": 0.1930088141025641,
+        "cy": 0.95260663507109,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.02,
+        "texte": "Cookies",
+        "selecteur": "button#axeptio_main_button"
+      },
+      "barreBas": {
+        "selecteur": "nav.fixed",
+        "hauteur": 62,
+        "largeur": 390,
+        "liens": [
+          {
+            "texte": "Accueil",
+            "href": ""
+          },
+          {
+            "texte": "Favoris",
+            "href": ""
+          },
+          {
+            "texte": "Rayons",
+            "href": ""
+          },
+          {
+            "texte": "Impact",
+            "href": ""
+          },
+          {
+            "texte": "Panier",
+            "href": ""
+          }
+        ]
+      },
+      "scrollHeight": 12841,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.mb-10",
+        "famille": "azo-sans-uber, Arial, sans-serif",
+        "taille": 32,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.text-center",
+        "famille": "\"Bookman Old Style\", Georgia, serif",
+        "taille": 20,
+        "graisse": "300",
+        "interlignage": 1.1,
+        "italique": true,
+        "transform": "none",
+        "interlettrage": "-0.72px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Inter, system-ui, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.63,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.sc-hjWSTT",
+        "famille": "\"Axeptio Rubik\", Rubik, \"Axeptio CJK Fallback\", sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "Inter, system-ui, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Inter",
+          "url": "/fonts/Inter-VariableFont_slnt,wght.ttf",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Bookman Old Style",
+          "url": "/fonts/bookman-old-style.ttf",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Axeptio CJK Fallback",
+          "url": "",
+          "feuille": "inline",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "use.typekit.net",
+        "emma.lefourgon.com"
+      ],
+      "fichiersPolices": [
+        "https://use.typekit.net/sxs5ykv.css",
+        "https://www.lefourgon.com/fonts/Inter-VariableFont_slnt,wght.ttf",
+        "https://www.lefourgon.com/fonts/bookman-old-style.ttf",
+        "https://use.typekit.net/",
+        "https://p.typekit.net/",
+        "https://emma.lefourgon.com/axeptio/fonts/fonts.googleapis.com/css?family=Source%20Sans%203:regular,500,600,700|Lato:regular,700|Inter:600,700,regular,500&display=swap&ax-prefix=Axeptio%20"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Inter",
+          "n": 112
+        },
+        {
+          "famille": "azo-sans-uber",
+          "n": 56
+        },
+        {
+          "famille": "Axeptio Inter",
+          "n": 7
+        },
+        {
+          "famille": "Bookman Old Style",
+          "n": 4
+        },
+        {
+          "famille": "Axeptio Source Sans 3",
+          "n": 2
+        },
+        {
+          "famille": "Axeptio Rubik",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 10,
+          "poids": 5673417.03125
+        },
+        {
+          "hex": "#ffe981",
+          "n": 31,
+          "poids": 1843044.4665682158
+        },
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 627833.28125
+        },
+        {
+          "hex": "#fff7d2",
+          "n": 1,
+          "poids": 247212.890625
+        },
+        {
+          "hex": "#f9fbff",
+          "n": 2,
+          "poids": 220739.6875
+        },
+        {
+          "hex": "#e8f7ef",
+          "n": 1,
+          "poids": 7829.375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#43464c",
+          "n": 12,
+          "poids": 5023
+        },
+        {
+          "hex": "#000000",
+          "n": 144,
+          "poids": 4129
+        },
+        {
+          "hex": "#d4d6d9",
+          "n": 1,
+          "poids": 253
+        },
+        {
+          "hex": "#52555a",
+          "n": 2,
+          "poids": 223
+        },
+        {
+          "hex": "#ffffff",
+          "n": 9,
+          "poids": 154
+        },
+        {
+          "hex": "#212121",
+          "n": 6,
+          "poids": 122
+        },
+        {
+          "hex": "#ffe981",
+          "n": 2,
+          "poids": 47
+        },
+        {
+          "hex": "#6e737c",
+          "n": 4,
+          "poids": 25
+        },
+        {
+          "hex": "#292b2e",
+          "n": 1,
+          "poids": 20
+        },
+        {
+          "hex": "#027a48",
+          "n": 1,
+          "poids": 18
+        }
+      ],
+      "nbImages": 110,
+      "nbVideos": 1,
+      "nbFondsImage": 7,
+      "masques": 6,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 10,
+          "poids": 5673417.03125,
+          "part": 0.658
+        },
+        {
+          "hex": "#ffe981",
+          "n": 31,
+          "poids": 1843044.4665682158,
+          "part": 0.214
+        },
+        {
+          "hex": "#000000",
+          "n": 25,
+          "poids": 627833.28125,
+          "part": 0.073
+        },
+        {
+          "hex": "#fff7d2",
+          "n": 1,
+          "poids": 247212.890625,
+          "part": 0.029
+        },
+        {
+          "hex": "#f9fbff",
+          "n": 2,
+          "poids": 220739.6875,
+          "part": 0.026
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#43464c",
+          "n": 12,
+          "poids": 5023,
+          "part": 0.502
+        },
+        {
+          "hex": "#000000",
+          "n": 144,
+          "poids": 4129,
+          "part": 0.412
+        },
+        {
+          "hex": "#d4d6d9",
+          "n": 1,
+          "poids": 253,
+          "part": 0.025
+        },
+        {
+          "hex": "#52555a",
+          "n": 2,
+          "poids": 223,
+          "part": 0.022
+        },
+        {
+          "hex": "#ffffff",
+          "n": 9,
+          "poids": 154,
+          "part": 0.015
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Vue",
+          "preuve": "window.__NUXT__"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 27
+        },
+        {
+          "valeur": "transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 26
+        },
+        {
+          "valeur": "opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 19
+        },
+        {
+          "valeur": "all 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 18
+        },
+        {
+          "valeur": "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "color 0.15s ease",
+          "n": 5
+        },
+        {
+          "valeur": "background-size 0.3s ease",
+          "n": 5
+        },
+        {
+          "valeur": "opacity 0.3s ease-in-out",
+          "n": 4
+        },
+        {
+          "valeur": "transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 4
+        },
+        {
+          "valeur": "height 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "n": 2
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-lenis-prevent",
+          "n": 1
+        },
+        {
+          "nom": "data-enter-animation-done",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.sc-bSFUlv",
+        "score": 7,
+        "animations": [
+          "animation iNqBts 0.4s ease-in-out"
+        ],
+        "transitions": [
+          "height 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)",
+          "box-shadow 0.3s cubic-bezier(0.165, 0.84, 0.44, 1)"
+        ],
+        "attributs": [
+          "data-enter-animation-done"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div",
+      "sections": [
+        {
+          "selecteur": "main",
+          "titre": "Livraison de produits consignés",
+          "top": 0,
+          "hauteur": 10362,
+          "ecrans": 12.3,
+          "mots": 583,
+          "images": 110,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "iframe",
+            "ol"
+          ]
+        },
+        {
+          "selecteur": "div.container",
+          "titre": "BONNES QUESTIONS !",
+          "top": 10426,
+          "hauteur": 859,
+          "ecrans": 1,
+          "mots": 818,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.relative",
+          "titre": "TÉLÉCHARGEZ L'APP LE FOURGON",
+          "top": 11348,
+          "hauteur": 573,
+          "ecrans": 0.7,
+          "mots": 4,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.bg-white",
+          "titre": null,
+          "top": 11921,
+          "hauteur": 1448,
+          "ecrans": 1.7,
+          "mots": 149,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.h-[65px]",
+          "titre": null,
+          "top": 13369,
+          "hauteur": 65,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.w-full",
+        "hauteur": 72,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Accéder à la page d'accueil",
+            "href": "/fr-FR",
+            "bouton": false
+          },
+          {
+            "texte": "FR",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Se connecter ou s'inscrire",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.bg-white",
+        "liens": [
+          {
+            "texte": "Chattez avec nous",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "03 52 80 03 30",
+            "href": "tel:03 52 80 03 30",
+            "bouton": true
+          },
+          {
+            "texte": "Questions fréquentes",
+            "href": "/fr-FR/faq",
+            "bouton": false
+          },
+          {
+            "texte": "Comment ça marche ?",
+            "href": "/fr-FR/page/notre-concept",
+            "bouton": false
+          },
+          {
+            "texte": "Nos engagements",
+            "href": "/fr-FR/page/nos-engagements",
+            "bouton": false
+          },
+          {
+            "texte": "Location de tireuse à bières",
+            "href": "/fr-FR/page/location-tireuse-biere",
+            "bouton": false
+          },
+          {
+            "texte": "La consigne pour les pros",
+            "href": "/fr-FR/page/boissons-produits-consignes-pour-professionnels",
+            "bouton": false
+          },
+          {
+            "texte": "L'humain au cœur du concept",
+            "href": "/fr-FR/page/qui-se-cache-derriere-le-fourgon",
+            "bouton": false
+          },
+          {
+            "texte": "Vos produits au bon prix",
+            "href": "/fr-FR/page/vos-produits-au-bon-prix",
+            "bouton": false
+          },
+          {
+            "texte": "Le blog du fourgon",
+            "href": "/fr-FR/blog",
+            "bouton": false
+          },
+          {
+            "texte": "Notre espace presse",
+            "href": "/fr-FR/page/notre-espace-presse",
+            "bouton": false
+          },
+          {
+            "texte": "Nous rejoindre",
+            "href": "https://jobs.lefourgon.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Conditions générales",
+            "href": "/fr-FR/page/conditions-generales-de-vente-du-fourgon",
+            "bouton": false
+          },
+          {
+            "texte": "Confidentialité des données",
+            "href": "/fr-FR/page/politique-protection-donnees",
+            "bouton": false
+          },
+          {
+            "texte": "Cookies",
+            "href": "/fr-FR/page/politique-cookies",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "/fr-FR/page/mentions-legales",
+            "bouton": false
+          },
+          {
+            "texte": "Modifier mes préférences des cookies",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:03 52 80 03 30"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Voir nos zones de livraison",
+          "href": "/fr-FR/our-delivery-areas"
+        },
+        {
+          "texte": "Quel est le montant de la livraison à do",
+          "href": ""
+        },
+        {
+          "texte": "Lors de ma commande, est-ce que je peux ",
+          "href": ""
+        },
+        {
+          "texte": "Puis-je repasser commande même si je n’a",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.fixed",
+          "position": "fixed",
+          "hauteur": 72,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 1
+        },
+        {
+          "selecteur": "nav.2xl:hidden",
+          "position": "fixed",
+          "hauteur": 62,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 5
+        }
+      ],
+      "barreBas": {
+        "selecteur": "nav.fixed",
+        "hauteur": 62,
+        "largeur": 390,
+        "liens": [
+          {
+            "texte": "Accueil",
+            "href": ""
+          },
+          {
+            "texte": "Favoris",
+            "href": ""
+          },
+          {
+            "texte": "Rayons",
+            "href": ""
+          },
+          {
+            "texte": "Impact",
+            "href": ""
+          },
+          {
+            "texte": "Panier",
+            "href": ""
+          }
+        ]
+      }
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 30,
+        "pilules": 1,
+        "exemples": [
+          "Cookies"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Inter"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "Le Fourgon",
+  "dureeS": 62.3
+}

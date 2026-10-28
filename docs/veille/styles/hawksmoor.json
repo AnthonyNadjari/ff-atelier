@@ -1,15 +1,19 @@
 {
   "outil": "ff demonter",
   "version": 1,
-  "url": "https://hawksmoor.co.uk/",
+  "url": "https://hawksmoor.com/",
   "nom": "hawksmoor",
-  "date": "2026-10-27",
+  "date": "2026-10-28",
   "identite": {
-    "title": "",
+    "title": "Hawksmoor Lakeland Guest House Windermere",
     "siteName": "",
-    "lang": "fr-FR",
+    "lang": "en-US",
     "description": "",
-    "technologies": []
+    "technologies": [
+      "generator « WordPress 7.1.3 »",
+      "WordPress",
+      "jQuery"
+    ]
   },
   "d": {
     "vue": {
@@ -20,430 +24,519 @@
     "statut": 200,
     "erreursJs": [],
     "premierEcran": {
-      "fondPremierEcran": "#f6f7f8",
-      "h1": "Ce domaine est déjà enregistré",
-      "h1Visible": true,
-      "mots": 58,
-      "images": 4,
-      "mediaPleinEcran": null,
+      "fondPremierEcran": "#6286aa",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 88,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "canvas",
+        "couverture": 0.8,
+        "selecteur": "canvas"
+      },
       "boutonPrincipal": {
-        "texte": "Administrer ce domaine",
-        "x": 144,
-        "y": 234,
-        "cx": 0.19444444444444445,
-        "cy": 0.28444444444444444,
+        "texte": "READ THE MENU",
+        "x": 633,
+        "y": 423,
+        "cx": 0.49957682291666666,
+        "cy": 0.49777777777777776,
         "fixe": false,
         "dansNav": false
       },
       "coucheBloquante": null,
       "cookie": null,
       "barreBas": null,
-      "scrollHeight": 2540,
+      "scrollHeight": 3217,
       "bougeSeul": {
-        "n": 0,
-        "exemples": []
+        "n": 18,
+        "exemples": [
+          "rs-progress-bar",
+          "div.rs_splitted_chars"
+        ]
       }
     },
     "typographie": {
-      "h1": {
-        "selecteur": "h1.heading-3",
-        "famille": "\"Overpass Bold\", Arial, sans-serif",
-        "taille": 28,
-        "graisse": "400",
-        "interlignage": 1.14,
-        "italique": false,
-        "transform": "none",
-        "interlettrage": "normal"
-      },
+      "h1": null,
       "h2": {
-        "selecteur": "h2.heading-2",
-        "famille": "\"Overpass Regular\", Arial, sans-serif",
-        "taille": 44,
-        "graisse": "400",
-        "interlignage": 1.09,
+        "selecteur": "h2.vc_custom_heading",
+        "famille": "Raleway",
+        "taille": 22,
+        "graisse": "600",
+        "interlignage": 1.36,
         "italique": false,
         "transform": "none",
-        "interlettrage": "normal"
+        "interlettrage": "0.25px"
       },
-      "p": null,
-      "bouton": {
-        "selecteur": "a.btn",
-        "famille": "\"Open Sans Bold\", Arial, sans-serif",
-        "taille": 16,
+      "p": {
+        "selecteur": "p",
+        "famille": "Poppins",
+        "taille": 13,
         "graisse": "400",
-        "interlignage": 1.5,
+        "interlignage": 2,
         "italique": false,
         "transform": "none",
-        "interlettrage": "normal"
+        "interlettrage": "0.25px"
+      },
+      "bouton": {
+        "selecteur": "a#slider-1-slide-1-layer-1",
+        "famille": "Roboto",
+        "taille": 15,
+        "graisse": "500",
+        "interlignage": 2.4,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "0.9px"
       },
       "nav": {
-        "selecteur": "a#button-hd-log-home",
-        "famille": "\"Open Sans Regular\", Arial, sans-serif",
-        "taille": 16,
-        "graisse": "400",
-        "interlignage": 1,
+        "selecteur": "a",
+        "famille": "Poppins",
+        "taille": 14,
+        "graisse": "500",
+        "interlignage": 1.57,
         "italique": false,
         "transform": "none",
-        "interlettrage": "normal"
+        "interlettrage": "0.25px"
       },
       "fontFaces": [
         {
-          "famille": "icon-font-next",
-          "url": "/modules/frontend-skin-thunder/font/icon-font-next.woff2",
-          "feuille": "inline",
+          "famille": "vcpb-plugin-icons",
+          "url": "../fonts/vc_icons_v2/fonts/vcpb-plugin-icons.ttf?f6ud62",
+          "feuille": "hawksmoor.com",
           "source": "auto-hébergée"
         },
         {
-          "famille": "icon-font-linear",
-          "url": "/modules/frontend-skin-thunder/font/icon-font-linear.woff2",
-          "feuille": "inline",
+          "famille": "vc_grid_v1",
+          "url": "../fonts/vc_grid/vc_grid_v1.woff?-9hbgac",
+          "feuille": "hawksmoor.com",
           "source": "auto-hébergée"
         },
         {
-          "famille": "Open Sans Regular",
-          "url": "//cors.uicdn.net/fonts/opensans-regular-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
+          "famille": "FontAwesome",
+          "url": "fonts/Fontawesome/fontawesome-webfont.woff2?v=4.7.0",
+          "feuille": "hawksmoor.com",
+          "source": "auto-hébergée"
         },
         {
-          "famille": "Open Sans Light",
-          "url": "//cors.uicdn.net/fonts/opensans-light.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Open Sans Semi Bold",
-          "url": "//cors.uicdn.net/fonts/opensans-semibold-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Open Sans Extra Bold",
-          "url": "//cors.uicdn.net/fonts/opensans-extrabold.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Open Sans Bold",
-          "url": "//cors.uicdn.net/fonts/opensans-bold-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Overpass Extra Bold",
-          "url": "//cors.uicdn.net/fonts/overpass-extrabold.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Overpass Light",
-          "url": "//cors.uicdn.net/fonts/overpass-light.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Overpass Bold",
-          "url": "//cors.uicdn.net/fonts/overpass-bold-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Overpass Regular",
-          "url": "//cors.uicdn.net/fonts/overpass-regular-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Beon",
-          "url": "//cors.uicdn.net/fonts/beon-webfont.woff",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
+          "famille": "revicons",
+          "url": "../fonts/revicons/revicons.woff?5510888",
+          "feuille": "hawksmoor.com",
+          "source": "auto-hébergée"
         }
       ],
-      "fontFacesNonLisibles": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com",
+        "fonts.googleapis.com",
+        "fonts.googleapis.com"
+      ],
       "fichiersPolices": [
-        "https://cors.uicdn.net/fonts/overpass-bold-subset.woff2",
-        "https://cors.uicdn.net/fonts/opensans-regular-subset.woff2",
-        "https://cors.uicdn.net/fonts/opensans-bold-subset.woff2",
-        "https://cors.uicdn.net/fonts/overpass-regular-subset.woff2",
-        "https://cors.uicdn.net/fonts/opensans-semibold-subset.woff2"
+        "https://hawksmoor.com/wp-content/plugins/revslider/public/assets/fonts/revicons/revicons.woff?5510888",
+        "https://hawksmoor.com/wp-content/themes/upstore/css/fonts/Fontawesome/fontawesome-webfont.woff2?v=4.7.0",
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Poppins:400,600,500%7CDamion:400&subset=latin&display=swap&ver=1657988889",
+        "https://fonts.googleapis.com/css?family=Raleway:100,200,300,regular,500,600,700,800,900&ver=6.9.0",
+        "https://fonts.googleapis.com/css?family=Roboto:500%2C400&display=swap"
       ],
       "famillesVisibles": [
         {
-          "famille": "Open Sans Regular",
-          "n": 14
+          "famille": "Poppins",
+          "n": 70
         },
         {
-          "famille": "Open Sans Bold",
-          "n": 7
+          "famille": "Arial",
+          "n": 21
         },
         {
-          "famille": "Overpass Bold",
-          "n": 6
+          "famille": "Raleway",
+          "n": 8
         },
         {
-          "famille": "Open Sans Semi Bold",
-          "n": 4
-        },
-        {
-          "famille": "Overpass Regular",
-          "n": 3
+          "famille": "Roboto",
+          "n": 1
         }
       ]
     },
     "couleurs": {
       "fond": "#ffffff",
-      "texte": "#465a75",
+      "texte": "#555555",
       "fondsBruts": [
         {
           "hex": "#ffffff",
-          "n": 5,
-          "poids": 3830976
+          "n": 1,
+          "poids": 4632480
         },
         {
-          "hex": "#f6f7f8",
+          "hex": "#ebebeb",
           "n": 2,
-          "poids": 1065600
+          "poids": 1285920
         },
         {
-          "hex": "#003d8f",
-          "n": 1,
-          "poids": 95040
+          "hex": "#000000",
+          "n": 6,
+          "poids": 863353.125
         },
         {
-          "hex": "#0b9dcc",
+          "hex": "#333333",
           "n": 1,
-          "poids": 5585.25
+          "poids": 162720
+        },
+        {
+          "hex": "#6286aa",
+          "n": 5,
+          "poids": 110835.0625
         }
       ],
       "textesBruts": [
         {
-          "hex": "#465a75",
-          "n": 9,
-          "poids": 1086
-        },
-        {
-          "hex": "#001b41",
-          "n": 13,
-          "poids": 312
-        },
-        {
-          "hex": "#0b9dcc",
-          "n": 5,
-          "poids": 120
-        },
-        {
-          "hex": "#718095",
-          "n": 1,
-          "poids": 66
-        },
-        {
-          "hex": "#003d8f",
-          "n": 5,
-          "poids": 45
-        },
-        {
           "hex": "#ffffff",
-          "n": 1,
-          "poids": 10
+          "n": 31,
+          "poids": 1628
+        },
+        {
+          "hex": "#555555",
+          "n": 6,
+          "poids": 1547
+        },
+        {
+          "hex": "#000000",
+          "n": 52,
+          "poids": 333
+        },
+        {
+          "hex": "#181818",
+          "n": 5,
+          "poids": 220
+        },
+        {
+          "hex": "#222222",
+          "n": 3,
+          "poids": 74
+        },
+        {
+          "hex": "#6286aa",
+          "n": 3,
+          "poids": 18
         }
       ],
-      "nbImages": 4,
+      "nbImages": 9,
       "nbVideos": 0,
-      "nbFondsImage": 1,
+      "nbFondsImage": 3,
       "masques": 0,
       "fonds": [
         {
           "hex": "#ffffff",
-          "n": 5,
-          "poids": 3830976,
-          "part": 0.767
+          "n": 1,
+          "poids": 4632480,
+          "part": 0.657
         },
         {
-          "hex": "#f6f7f8",
+          "hex": "#ebebeb",
           "n": 2,
-          "poids": 1065600,
-          "part": 0.213
+          "poids": 1285920,
+          "part": 0.182
         },
         {
-          "hex": "#003d8f",
-          "n": 1,
-          "poids": 95040,
-          "part": 0.019
+          "hex": "#000000",
+          "n": 6,
+          "poids": 863353.125,
+          "part": 0.122
         },
         {
-          "hex": "#0b9dcc",
+          "hex": "#333333",
           "n": 1,
-          "poids": 5585.25,
-          "part": 0.001
+          "poids": 162720,
+          "part": 0.023
+        },
+        {
+          "hex": "#6286aa",
+          "n": 5,
+          "poids": 110835.0625,
+          "part": 0.016
         }
       ],
       "textes": [
         {
-          "hex": "#465a75",
-          "n": 9,
-          "poids": 1086,
-          "part": 0.663
+          "hex": "#ffffff",
+          "n": 31,
+          "poids": 1628,
+          "part": 0.426
         },
         {
-          "hex": "#001b41",
-          "n": 13,
-          "poids": 312,
-          "part": 0.19
+          "hex": "#555555",
+          "n": 6,
+          "poids": 1547,
+          "part": 0.405
         },
         {
-          "hex": "#0b9dcc",
+          "hex": "#000000",
+          "n": 52,
+          "poids": 333,
+          "part": 0.087
+        },
+        {
+          "hex": "#181818",
           "n": 5,
-          "poids": 120,
-          "part": 0.073
+          "poids": 220,
+          "part": 0.058
         },
         {
-          "hex": "#718095",
-          "n": 1,
-          "poids": 66,
-          "part": 0.04
-        },
-        {
-          "hex": "#003d8f",
-          "n": 5,
-          "poids": 45,
-          "part": 0.027
+          "hex": "#222222",
+          "n": 3,
+          "poids": 74,
+          "part": 0.019
         }
       ],
-      "contraste": 7.05
+      "contraste": 7.46
     },
     "mouvement": {
-      "bibliotheques": [],
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Locomotive Scroll",
+          "preuve": "attribut data-scroll"
+        }
+      ],
       "scrollTrigger": false,
       "animationTimeline": 0,
       "stickyLongs": [],
       "courbes": [
         {
-          "valeur": "color 0.1s ease-out",
-          "n": 7
+          "valeur": "all 0.2s ease",
+          "n": 50
         },
         {
-          "valeur": "background-color 0.1s ease-out",
-          "n": 7
+          "valeur": "all 0.25s ease",
+          "n": 12
         },
         {
-          "valeur": "border-color 0.1s ease-out",
-          "n": 7
+          "valeur": "all 0.5s ease",
+          "n": 6
         },
         {
-          "valeur": "all 0.6s cubic-bezier(0.87, -0.41, 0.19, 1.44)",
+          "valeur": "opacity 0.5s ease",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.4s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.4s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.1s ease",
           "n": 1
         }
       ],
       "attributs": [
         {
-          "nom": "data-animate",
-          "n": 1
-        },
-        {
-          "nom": "data-cursor",
+          "nom": "data-scroll-based",
           "n": 1
         }
       ],
       "plusAnime": {
-        "selecteur": "label.form-label",
-        "score": 5,
+        "selecteur": "rs-slide",
+        "score": 2,
         "animations": [],
-        "transitions": [
-          "all 0.6s cubic-bezier(0.87, -0.41, 0.19, 1.44)"
-        ],
+        "transitions": [],
         "attributs": [
-          "data-animate",
-          "data-cursor"
+          "data-scroll-based"
         ]
       }
     },
     "structure": {
-      "conteneur": "div#content",
+      "conteneur": "div#page",
       "sections": [
         {
-          "selecteur": "div.header-wrapper",
+          "selecteur": "div.top-slideshow",
           "titre": null,
           "top": 0,
-          "hauteur": 66,
-          "ecrans": 0.1,
-          "mots": 0,
-          "images": 1,
-          "fixe": false,
-          "balisesRares": []
-        },
-        {
-          "selecteur": "div.bg-g6",
-          "titre": "Ce domaine est déjà enregistré",
-          "top": 66,
-          "hauteur": 252,
-          "ecrans": 0.3,
-          "mots": 29,
-          "images": 0,
-          "fixe": false,
-          "balisesRares": []
-        },
-        {
-          "selecteur": "div",
-          "titre": null,
-          "top": 318,
-          "hauteur": 76,
-          "ecrans": 0.1,
-          "mots": 5,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 6,
           "images": 0,
           "fixe": false,
           "balisesRares": [
-            "form"
+            "canvas"
           ]
         },
         {
-          "selecteur": "div.content-cards-container",
-          "titre": "Votre projet entre de bonnes mains avec IONOS",
-          "top": 394,
-          "hauteur": 812,
-          "ecrans": 0.9,
-          "mots": 80,
-          "images": 3,
+          "selecteur": "div#main",
+          "titre": "Your Premier Windermere B&B",
+          "top": 720,
+          "hauteur": 2129,
+          "ecrans": 2.4,
+          "mots": 585,
+          "images": 8,
           "fixe": false,
-          "balisesRares": []
+          "balisesRares": [
+            "ol"
+          ]
         },
         {
-          "selecteur": "div.content-cards-container",
-          "titre": "Trouvez le domaine parfait pour votre projet",
-          "top": 1206,
-          "hauteur": 846,
-          "ecrans": 0.9,
-          "mots": 63,
-          "images": 0,
-          "fixe": false,
-          "balisesRares": []
-        },
-        {
-          "selecteur": "div.advice-container",
-          "titre": "Administrez votre domaine avec IONOS",
-          "top": 2052,
-          "hauteur": 488,
-          "ecrans": 0.5,
-          "mots": 40,
+          "selecteur": "footer#colophon",
+          "titre": "Contact Info",
+          "top": 2849,
+          "hauteur": 368,
+          "ecrans": 0.4,
+          "mots": 18,
           "images": 0,
           "fixe": false,
           "balisesRares": []
         }
       ],
       "nav": {
-        "selecteur": "header.header",
-        "hauteur": 66,
-        "position": "relative",
-        "liens": []
+        "selecteur": "nav.mobile-menu",
+        "hauteur": 1166,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "Home",
+            "href": "https://hawksmoor.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Bedrooms",
+            "href": "https://hawksmoor.com/bedrooms/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 1",
+            "href": "https://hawksmoor.com/rooms/room1/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 2",
+            "href": "https://hawksmoor.com/rooms/room2/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 4",
+            "href": "https://hawksmoor.com/rooms/room4/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 5",
+            "href": "https://hawksmoor.com/rooms/room5/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 6",
+            "href": "https://hawksmoor.com/rooms/room6/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 7",
+            "href": "https://hawksmoor.com/rooms/room7/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 8",
+            "href": "https://hawksmoor.com/rooms/room8/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 9",
+            "href": "https://hawksmoor.com/rooms/room9/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 10",
+            "href": "https://hawksmoor.com/rooms/room10/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 11",
+            "href": "https://hawksmoor.com/rooms/room11/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 12",
+            "href": "https://hawksmoor.com/rooms/room12/",
+            "bouton": false
+          },
+          {
+            "texte": "Room 14",
+            "href": "https://hawksmoor.com/rooms/room14/",
+            "bouton": false
+          },
+          {
+            "texte": "Breakfast",
+            "href": "https://hawksmoor.com/menu/",
+            "bouton": false
+          },
+          {
+            "texte": "Facilities",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "Car Park",
+            "href": "https://hawksmoor.com/car-park/",
+            "bouton": false
+          },
+          {
+            "texte": "Conservatory",
+            "href": "https://hawksmoor.com/conservatory/",
+            "bouton": false
+          },
+          {
+            "texte": "Outdoor seating",
+            "href": "https://hawksmoor.com/outdoor-seating/",
+            "bouton": false
+          },
+          {
+            "texte": "Off-site spa",
+            "href": "https://hawksmoor.com/spa/",
+            "bouton": false
+          }
+        ]
       },
-      "pied": null,
+      "pied": {
+        "selecteur": "footer#colophon",
+        "liens": [
+          {
+            "texte": "015394 42110",
+            "href": "tel:015394 42110",
+            "bouton": false
+          },
+          {
+            "texte": "enquiries@hawksmoor.com",
+            "href": "mailto:enquiries@hawksmoor.com",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://web.facebook.com/hawksmoorbb?_rdc=1&_rdr",
+            "bouton": false
+          },
+          {
+            "texte": "Twitter",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "#",
+            "bouton": false
+          }
+        ]
+      },
       "telephone": {
-        "n": 0,
-        "href": null
+        "n": 1,
+        "href": "tel:015394 42110"
       },
       "formulaires": {
-        "n": 1,
-        "champs": 1
+        "n": 0,
+        "champs": 0
       },
       "horaires": {
         "trouve": false,
@@ -451,13 +544,35 @@
         "heures": 0,
         "extrait": null
       },
-      "portes": [],
-      "calquesFixes": [],
+      "portes": [
+        {
+          "texte": "READ THE MENU",
+          "href": "https://hawksmoor.com/menu/"
+        },
+        {
+          "texte": "Booking T&C",
+          "href": "https://hawksmoor.com/booking-terms-and-conditions/"
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://web.facebook.com/hawksmoorbb?_rdc=1&_rdr"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.mobile-menu-wrapper",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 330,
+          "enBas": false,
+          "mots": 52
+        }
+      ],
       "barreBas": null
     },
     "signes": {
       "pilules": {
-        "boutons": 2,
+        "boutons": 5,
         "pilules": 0,
         "exemples": []
       },
@@ -475,430 +590,471 @@
     "statut": 200,
     "erreursJs": [],
     "premierEcran": {
-      "fondPremierEcran": "#f6f7f8",
-      "h1": "Ce domaine est déjà enregistré",
-      "h1Visible": true,
-      "mots": 53,
-      "images": 2,
+      "fondPremierEcran": "#1f1f1f",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 57,
+      "images": 1,
       "mediaPleinEcran": null,
       "boutonPrincipal": {
-        "texte": "Administrer ce domaine",
-        "x": 24,
-        "y": 256,
-        "cx": 0.5,
-        "cy": 0.3293838862559242,
+        "texte": "READ THE MENU",
+        "x": 145,
+        "y": 146,
+        "cx": 0.4987780448717949,
+        "cy": 0.19194312796208532,
         "fixe": false,
         "dansNav": false
       },
       "coucheBloquante": null,
       "cookie": null,
       "barreBas": null,
-      "scrollHeight": 4363,
+      "scrollHeight": 4424,
       "bougeSeul": {
-        "n": 0,
-        "exemples": []
+        "n": 7,
+        "exemples": [
+          "rs-progress-bar",
+          "div.rs_splitted_chars"
+        ]
       }
     },
     "typographie": {
-      "h1": {
-        "selecteur": "h1.heading-3",
-        "famille": "\"Overpass Bold\", Arial, sans-serif",
-        "taille": 24,
-        "graisse": "400",
-        "interlignage": 1.17,
-        "italique": false,
-        "transform": "none",
-        "interlettrage": "normal"
-      },
+      "h1": null,
       "h2": {
-        "selecteur": "h2.heading-2",
-        "famille": "\"Overpass Regular\", Arial, sans-serif",
-        "taille": 36,
-        "graisse": "400",
-        "interlignage": 1.11,
+        "selecteur": "h2.vc_custom_heading",
+        "famille": "Raleway",
+        "taille": 22,
+        "graisse": "600",
+        "interlignage": 1.36,
         "italique": false,
         "transform": "none",
-        "interlettrage": "normal"
+        "interlettrage": "0.25px"
       },
-      "p": null,
-      "bouton": {
-        "selecteur": "a.btn",
-        "famille": "\"Open Sans Bold\", Arial, sans-serif",
-        "taille": 16,
+      "p": {
+        "selecteur": "p",
+        "famille": "Poppins",
+        "taille": 13,
         "graisse": "400",
-        "interlignage": 1.5,
+        "interlignage": 2,
         "italique": false,
         "transform": "none",
+        "interlettrage": "0.25px"
+      },
+      "bouton": {
+        "selecteur": "a#slider-1-slide-1-layer-1",
+        "famille": "Roboto",
+        "taille": 9,
+        "graisse": "500",
+        "interlignage": 2.67,
+        "italique": false,
+        "transform": "uppercase",
         "interlettrage": "normal"
       },
       "nav": {
-        "selecteur": "a#button-hd-log-home",
-        "famille": "\"Open Sans Regular\", Arial, sans-serif",
-        "taille": 16,
-        "graisse": "400",
-        "interlignage": 1,
+        "selecteur": "a",
+        "famille": "Poppins",
+        "taille": 14,
+        "graisse": "500",
+        "interlignage": 1.57,
         "italique": false,
-        "transform": "none",
-        "interlettrage": "normal"
+        "transform": "uppercase",
+        "interlettrage": "0.25px"
       },
       "fontFaces": [
         {
-          "famille": "icon-font-next",
-          "url": "/modules/frontend-skin-thunder/font/icon-font-next.woff2",
-          "feuille": "inline",
+          "famille": "vcpb-plugin-icons",
+          "url": "../fonts/vc_icons_v2/fonts/vcpb-plugin-icons.ttf?f6ud62",
+          "feuille": "hawksmoor.com",
           "source": "auto-hébergée"
         },
         {
-          "famille": "icon-font-linear",
-          "url": "/modules/frontend-skin-thunder/font/icon-font-linear.woff2",
-          "feuille": "inline",
+          "famille": "vc_grid_v1",
+          "url": "../fonts/vc_grid/vc_grid_v1.woff?-9hbgac",
+          "feuille": "hawksmoor.com",
           "source": "auto-hébergée"
         },
         {
-          "famille": "Open Sans Regular",
-          "url": "//cors.uicdn.net/fonts/opensans-regular-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
+          "famille": "FontAwesome",
+          "url": "fonts/Fontawesome/fontawesome-webfont.woff2?v=4.7.0",
+          "feuille": "hawksmoor.com",
+          "source": "auto-hébergée"
         },
         {
-          "famille": "Open Sans Light",
-          "url": "//cors.uicdn.net/fonts/opensans-light.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Open Sans Semi Bold",
-          "url": "//cors.uicdn.net/fonts/opensans-semibold-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Open Sans Extra Bold",
-          "url": "//cors.uicdn.net/fonts/opensans-extrabold.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Open Sans Bold",
-          "url": "//cors.uicdn.net/fonts/opensans-bold-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Overpass Extra Bold",
-          "url": "//cors.uicdn.net/fonts/overpass-extrabold.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Overpass Light",
-          "url": "//cors.uicdn.net/fonts/overpass-light.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Overpass Bold",
-          "url": "//cors.uicdn.net/fonts/overpass-bold-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Overpass Regular",
-          "url": "//cors.uicdn.net/fonts/overpass-regular-subset.woff2",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
-        },
-        {
-          "famille": "Beon",
-          "url": "//cors.uicdn.net/fonts/beon-webfont.woff",
-          "feuille": "inline",
-          "source": "tiers (cors.uicdn.net)"
+          "famille": "revicons",
+          "url": "../fonts/revicons/revicons.woff?5510888",
+          "feuille": "hawksmoor.com",
+          "source": "auto-hébergée"
         }
       ],
-      "fontFacesNonLisibles": [],
+      "fontFacesNonLisibles": [
+        "fonts.googleapis.com",
+        "fonts.googleapis.com",
+        "fonts.googleapis.com"
+      ],
       "fichiersPolices": [
-        "https://cors.uicdn.net/fonts/overpass-bold-subset.woff2",
-        "https://cors.uicdn.net/fonts/opensans-regular-subset.woff2",
-        "https://cors.uicdn.net/fonts/opensans-bold-subset.woff2",
-        "https://cors.uicdn.net/fonts/overpass-regular-subset.woff2",
-        "https://cors.uicdn.net/fonts/opensans-semibold-subset.woff2"
+        "https://hawksmoor.com/wp-content/plugins/revslider/public/assets/fonts/revicons/revicons.woff?5510888",
+        "https://hawksmoor.com/wp-content/themes/upstore/css/fonts/Fontawesome/fontawesome-webfont.woff2?v=4.7.0",
+        "https://fonts.googleapis.com/",
+        "https://fonts.googleapis.com/css?family=Poppins:400,600,500%7CDamion:400&subset=latin&display=swap&ver=1657988889",
+        "https://fonts.googleapis.com/css?family=Raleway:100,200,300,regular,500,600,700,800,900&ver=6.9.0",
+        "https://fonts.googleapis.com/css?family=Roboto:500%2C400&display=swap"
       ],
       "famillesVisibles": [
         {
-          "famille": "Open Sans Regular",
-          "n": 14
+          "famille": "Poppins",
+          "n": 42
         },
         {
-          "famille": "Open Sans Bold",
-          "n": 7
+          "famille": "Arial",
+          "n": 21
         },
         {
-          "famille": "Overpass Bold",
-          "n": 6
+          "famille": "Raleway",
+          "n": 8
         },
         {
-          "famille": "Open Sans Semi Bold",
-          "n": 4
-        },
-        {
-          "famille": "Overpass Regular",
-          "n": 3
+          "famille": "Roboto",
+          "n": 1
         }
       ]
     },
     "couleurs": {
       "fond": "#ffffff",
-      "texte": "#465a75",
+      "texte": "#555555",
       "fondsBruts": [
         {
           "hex": "#ffffff",
-          "n": 5,
-          "poids": 1865730
+          "n": 1,
+          "poids": 1725360
         },
         {
-          "hex": "#f6f7f8",
+          "hex": "#ebebeb",
           "n": 2,
-          "poids": 457080
+          "poids": 643890
         },
         {
-          "hex": "#003d8f",
-          "n": 1,
-          "poids": 23400
+          "hex": "#000000",
+          "n": 5,
+          "poids": 619230
         },
         {
-          "hex": "#0b9dcc",
+          "hex": "#6286aa",
+          "n": 5,
+          "poids": 102365.5
+        },
+        {
+          "hex": "#333333",
           "n": 1,
-          "poids": 5585.25
+          "poids": 62010
+        },
+        {
+          "hex": "#1f1f1f",
+          "n": 2,
+          "poids": 59400
         }
       ],
       "textesBruts": [
         {
-          "hex": "#465a75",
-          "n": 9,
-          "poids": 1086
-        },
-        {
-          "hex": "#001b41",
-          "n": 13,
-          "poids": 312
-        },
-        {
-          "hex": "#0b9dcc",
-          "n": 5,
-          "poids": 120
-        },
-        {
-          "hex": "#718095",
-          "n": 1,
-          "poids": 66
-        },
-        {
-          "hex": "#003d8f",
-          "n": 5,
-          "poids": 45
-        },
-        {
           "hex": "#ffffff",
-          "n": 1,
-          "poids": 10
+          "n": 24,
+          "poids": 1547
+        },
+        {
+          "hex": "#555555",
+          "n": 6,
+          "poids": 1547
+        },
+        {
+          "hex": "#181818",
+          "n": 5,
+          "poids": 220
+        },
+        {
+          "hex": "#000000",
+          "n": 32,
+          "poids": 164
+        },
+        {
+          "hex": "#222222",
+          "n": 3,
+          "poids": 74
+        },
+        {
+          "hex": "#6286aa",
+          "n": 2,
+          "poids": 14
         }
       ],
-      "nbImages": 4,
+      "nbImages": 9,
       "nbVideos": 0,
-      "nbFondsImage": 1,
+      "nbFondsImage": 3,
       "masques": 0,
       "fonds": [
         {
           "hex": "#ffffff",
-          "n": 5,
-          "poids": 1865730,
-          "part": 0.793
+          "n": 1,
+          "poids": 1725360,
+          "part": 0.537
         },
         {
-          "hex": "#f6f7f8",
+          "hex": "#ebebeb",
           "n": 2,
-          "poids": 457080,
-          "part": 0.194
+          "poids": 643890,
+          "part": 0.2
         },
         {
-          "hex": "#003d8f",
-          "n": 1,
-          "poids": 23400,
-          "part": 0.01
+          "hex": "#000000",
+          "n": 5,
+          "poids": 619230,
+          "part": 0.193
         },
         {
-          "hex": "#0b9dcc",
+          "hex": "#6286aa",
+          "n": 5,
+          "poids": 102365.5,
+          "part": 0.032
+        },
+        {
+          "hex": "#333333",
           "n": 1,
-          "poids": 5585.25,
-          "part": 0.002
+          "poids": 62010,
+          "part": 0.019
         }
       ],
       "textes": [
         {
-          "hex": "#465a75",
-          "n": 9,
-          "poids": 1086,
-          "part": 0.663
+          "hex": "#ffffff",
+          "n": 24,
+          "poids": 1547,
+          "part": 0.434
         },
         {
-          "hex": "#001b41",
-          "n": 13,
-          "poids": 312,
-          "part": 0.19
+          "hex": "#555555",
+          "n": 6,
+          "poids": 1547,
+          "part": 0.434
         },
         {
-          "hex": "#0b9dcc",
+          "hex": "#181818",
           "n": 5,
-          "poids": 120,
-          "part": 0.073
+          "poids": 220,
+          "part": 0.062
         },
         {
-          "hex": "#718095",
-          "n": 1,
-          "poids": 66,
-          "part": 0.04
+          "hex": "#000000",
+          "n": 32,
+          "poids": 164,
+          "part": 0.046
         },
         {
-          "hex": "#003d8f",
-          "n": 5,
-          "poids": 45,
-          "part": 0.027
+          "hex": "#222222",
+          "n": 3,
+          "poids": 74,
+          "part": 0.021
         }
       ],
-      "contraste": 7.05
+      "contraste": 7.46
     },
     "mouvement": {
-      "bibliotheques": [],
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Locomotive Scroll",
+          "preuve": "attribut data-scroll"
+        }
+      ],
       "scrollTrigger": false,
       "animationTimeline": 0,
       "stickyLongs": [],
       "courbes": [
         {
-          "valeur": "color 0.1s ease-out",
-          "n": 7
+          "valeur": "all 0.2s ease",
+          "n": 22
         },
         {
-          "valeur": "background-color 0.1s ease-out",
-          "n": 7
+          "valeur": "all 0.25s ease",
+          "n": 12
         },
         {
-          "valeur": "border-color 0.1s ease-out",
-          "n": 7
+          "valeur": "all 0.5s ease",
+          "n": 6
         },
         {
-          "valeur": "all 0.6s cubic-bezier(0.87, -0.41, 0.19, 1.44)",
+          "valeur": "opacity 0.5s ease",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.4s ease",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.4s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.1s ease",
           "n": 1
         }
       ],
       "attributs": [
         {
-          "nom": "data-animate",
-          "n": 1
-        },
-        {
-          "nom": "data-cursor",
+          "nom": "data-scroll-based",
           "n": 1
         }
       ],
       "plusAnime": {
-        "selecteur": "label.form-label",
-        "score": 5,
+        "selecteur": "rs-slide",
+        "score": 2,
         "animations": [],
-        "transitions": [
-          "all 0.6s cubic-bezier(0.87, -0.41, 0.19, 1.44)"
-        ],
+        "transitions": [],
         "attributs": [
-          "data-animate",
-          "data-cursor"
+          "data-scroll-based"
         ]
       }
     },
     "structure": {
-      "conteneur": "div#content",
+      "conteneur": "div#page",
       "sections": [
         {
-          "selecteur": "div.header-wrapper",
+          "selecteur": "div.top-slideshow",
           "titre": null,
           "top": 0,
-          "hauteur": 60,
-          "ecrans": 0.1,
-          "mots": 0,
+          "hauteur": 244,
+          "ecrans": 0.3,
+          "mots": 6,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "header.ts-header",
+          "titre": null,
+          "top": 244,
+          "hauteur": 179,
+          "ecrans": 0.2,
+          "mots": 3,
           "images": 1,
           "fixe": false,
           "balisesRares": []
         },
         {
-          "selecteur": "div.bg-g6",
-          "titre": "Ce domaine est déjà enregistré",
-          "top": 60,
-          "hauteur": 264,
-          "ecrans": 0.3,
-          "mots": 29,
-          "images": 0,
-          "fixe": false,
-          "balisesRares": []
-        },
-        {
-          "selecteur": "div",
-          "titre": null,
-          "top": 324,
-          "hauteur": 88,
-          "ecrans": 0.1,
-          "mots": 5,
-          "images": 0,
+          "selecteur": "div#main",
+          "titre": "Your Premier Windermere B&B",
+          "top": 423,
+          "hauteur": 3535,
+          "ecrans": 4.2,
+          "mots": 585,
+          "images": 8,
           "fixe": false,
           "balisesRares": [
-            "form"
+            "ol"
           ]
         },
         {
-          "selecteur": "div.content-cards-container",
-          "titre": "Votre projet entre de bonnes mains avec IONOS",
-          "top": 412,
-          "hauteur": 1731,
-          "ecrans": 2.1,
-          "mots": 80,
-          "images": 3,
-          "fixe": false,
-          "balisesRares": []
-        },
-        {
-          "selecteur": "div.content-cards-container",
-          "titre": "Trouvez le domaine parfait pour votre projet",
-          "top": 2143,
-          "hauteur": 1312,
-          "ecrans": 1.6,
-          "mots": 63,
-          "images": 0,
-          "fixe": false,
-          "balisesRares": []
-        },
-        {
-          "selecteur": "div.advice-container",
-          "titre": "Administrez votre domaine avec IONOS",
-          "top": 3455,
-          "hauteur": 908,
-          "ecrans": 1.1,
-          "mots": 40,
+          "selecteur": "footer#colophon",
+          "titre": "Contact Info",
+          "top": 3958,
+          "hauteur": 466,
+          "ecrans": 0.6,
+          "mots": 18,
           "images": 0,
           "fixe": false,
           "balisesRares": []
         }
       ],
       "nav": {
-        "selecteur": "header.header",
-        "hauteur": 60,
-        "position": "relative",
-        "liens": []
+        "selecteur": "nav.mobile-menu",
+        "hauteur": 375,
+        "position": "static",
+        "liens": [
+          {
+            "texte": "HOME",
+            "href": "https://hawksmoor.com/",
+            "bouton": false
+          },
+          {
+            "texte": "BEDROOMS",
+            "href": "https://hawksmoor.com/bedrooms/",
+            "bouton": false
+          },
+          {
+            "texte": "BREAKFAST",
+            "href": "https://hawksmoor.com/menu/",
+            "bouton": false
+          },
+          {
+            "texte": "FACILITIES",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "ABOUT",
+            "href": "https://hawksmoor.com/about/",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "https://hawksmoor.com/contact/",
+            "bouton": false
+          },
+          {
+            "texte": "PLACES TO EAT",
+            "href": "https://hawksmoor.com/about/places-to-at/",
+            "bouton": false
+          },
+          {
+            "texte": "CHECK PRICES AND AVAILABILITY",
+            "href": "https://hawksmoor.com/booking/",
+            "bouton": false
+          }
+        ]
       },
-      "pied": null,
+      "pied": {
+        "selecteur": "footer#colophon",
+        "liens": [
+          {
+            "texte": "015394 42110",
+            "href": "tel:015394 42110",
+            "bouton": false
+          },
+          {
+            "texte": "enquiries@hawksmoor.com",
+            "href": "mailto:enquiries@hawksmoor.com",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://web.facebook.com/hawksmoorbb?_rdc=1&_rdr",
+            "bouton": false
+          },
+          {
+            "texte": "Twitter",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "#",
+            "bouton": false
+          }
+        ]
+      },
       "telephone": {
-        "n": 0,
-        "href": null
+        "n": 1,
+        "href": "tel:015394 42110"
       },
       "formulaires": {
-        "n": 1,
-        "champs": 1
+        "n": 0,
+        "champs": 0
       },
       "horaires": {
         "trouve": false,
@@ -906,13 +1062,31 @@
         "heures": 0,
         "extrait": null
       },
-      "portes": [],
-      "calquesFixes": [],
+      "portes": [
+        {
+          "texte": "READ THE MENU",
+          "href": "https://hawksmoor.com/menu/"
+        },
+        {
+          "texte": "Facebook",
+          "href": "https://web.facebook.com/hawksmoorbb?_rdc=1&_rdr"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.mobile-menu-wrapper",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 330,
+          "enBas": false,
+          "mots": 13
+        }
+      ],
       "barreBas": null
     },
     "signes": {
       "pilules": {
-        "boutons": 2,
+        "boutons": 5,
         "pilules": 0,
         "exemples": []
       },
@@ -921,6 +1095,6 @@
     },
     "planche": null
   },
-  "nomAffiche": "hawksmoor",
-  "dureeS": 18.9
+  "nomAffiche": "Hawksmoor Lakeland Guest House Windermere",
+  "dureeS": 25.5
 }

@@ -1,0 +1,667 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://hart-bageri.dk/",
+  "nom": "hartbageri",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Hart Bageri",
+    "siteName": "Hart Bageri",
+    "lang": "en-US",
+    "description": "Bread and pastries, baked daily in our Copenhagen shops. Order ahead and pick up.",
+    "technologies": [
+      "WordPress",
+      "Tailwind",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#0b0b0b",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 75,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 1,
+        "selecteur": "video.absolute"
+      },
+      "boutonPrincipal": {
+        "texte": "Fresh Out The Oven ApS",
+        "x": 66.34375,
+        "y": 871.59375,
+        "cx": 0.09648980034722222,
+        "cy": 0.9764409722222223,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": {
+        "couverture": 0.03,
+        "texte": "© 2025 Fresh Out The Oven ApS PRIVACY POLICY TERMS & CONDITIONS SITE CREDITS COOKIES SMILEY REPORT",
+        "selecteur": "footer.fixed"
+      },
+      "barreBas": null,
+      "scrollHeight": 1170,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": {
+        "selecteur": "p.mt-[10px]",
+        "famille": "Graphik, sans-serif",
+        "taille": 14,
+        "graisse": "535",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.flex",
+        "famille": "\"Basel Grotesk Mono\", monospace",
+        "taille": 14,
+        "graisse": "535",
+        "interlignage": null,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.text-cream",
+        "famille": "\"Basel Grotesk Mono\", monospace",
+        "taille": 14,
+        "graisse": "535",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "star",
+          "url": "../fonts/star.woff",
+          "feuille": "hartbageri.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "WooCommerce",
+          "url": "../fonts/WooCommerce.woff",
+          "feuille": "hartbageri.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Basel Grotesk Mono",
+          "url": "../fonts/Basel-Grotesk-Mono/Basel-Grotesk-Mono-Medium/Basel-Grotesk-Mono-Medium.woff2",
+          "feuille": "hartbageri.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Graphik",
+          "url": "../fonts/Graphik/Graphik-Regular.ttf",
+          "feuille": "hartbageri.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://hartbageri.com/wp-content/themes/hartbageri-2.0/react-app/dist/fonts/Basel-Grotesk-Mono/Basel-Grotesk-Mono-Medium/Basel-Grotesk-Mono-Medium.woff2",
+        "https://hartbageri.com/wp-content/themes/hartbageri-2.0/react-app/dist/fonts/Graphik/Graphik-Regular.ttf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Basel Grotesk Mono",
+          "n": 17
+        },
+        {
+          "famille": "Graphik",
+          "n": 8
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#0b0b0b",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#0b0b0b",
+          "n": 1,
+          "poids": 1684800
+        }
+      ],
+      "textesBruts": [],
+      "nbImages": 0,
+      "nbVideos": 1,
+      "nbFondsImage": 0,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#0b0b0b",
+          "n": 1,
+          "poids": 1684800,
+          "part": 1
+        }
+      ],
+      "textes": [],
+      "contraste": 1.07
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "background-color 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "color 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.relative",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "background-color 0.3s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main.hero-bleed-host",
+      "sections": [],
+      "nav": {
+        "selecteur": "header.fixed",
+        "hauteur": 72,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Go home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "LOCATIONS",
+            "href": "/locations",
+            "bouton": false
+          },
+          {
+            "texte": "ABOUT",
+            "href": "/about",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "PRE-ORDER",
+            "href": "/pre-order",
+            "bouton": false
+          },
+          {
+            "texte": "GIFT CARDS",
+            "href": "https://order.lifepeaks.dk/en/hart-bageri",
+            "bouton": false
+          },
+          {
+            "texte": "View cart, 0 items",
+            "href": "/checkout",
+            "bouton": false
+          },
+          {
+            "texte": "info@hartbageri.com",
+            "href": "mailto:info@hartbageri.com",
+            "bouton": false
+          },
+          {
+            "texte": "Copy info@hartbageri.com to clipboard",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "here",
+            "href": "https://hartbageri.teamtailor.com/",
+            "bouton": false
+          },
+          {
+            "texte": "wholesale@hartbageri.com",
+            "href": "mailto:wholesale@hartbageri.com",
+            "bouton": false
+          },
+          {
+            "texte": "Copy wholesale@hartbageri.com to clipboa",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "here",
+            "href": "/faq",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.fixed",
+        "liens": [
+          {
+            "texte": "Fresh Out The Oven ApS",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "PRIVACY POLICY",
+            "href": "/privacy-policy",
+            "bouton": false
+          },
+          {
+            "texte": "TERMS & CONDITIONS",
+            "href": "/terms-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "SITE CREDITS",
+            "href": "/site-credits",
+            "bouton": false
+          },
+          {
+            "texte": "COOKIES",
+            "href": "/cookies",
+            "bouton": false
+          },
+          {
+            "texte": "SMILEY REPORT",
+            "href": "https://www.findsmiley.dk/app/search?gruppe=8wAUEcaq2tpj",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "PRE-ORDER",
+          "href": "/pre-order"
+        },
+        {
+          "texte": "GIFT CARDS",
+          "href": "https://order.lifepeaks.dk/en/hart-bageri"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "header.fixed",
+          "position": "fixed",
+          "hauteur": 72,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 58
+        },
+        {
+          "selecteur": "div.absolute",
+          "position": "absolute",
+          "hauteur": 1170,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.fixed",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "footer.fixed",
+          "position": "fixed",
+          "hauteur": 29,
+          "largeur": 1412,
+          "enBas": false,
+          "mots": 17
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/hartbageri-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#0b0b0b",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 6,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 1,
+        "selecteur": "video.absolute"
+      },
+      "boutonPrincipal": {
+        "texte": "Open every day",
+        "x": 14,
+        "y": 788,
+        "cx": 0.17055288461538462,
+        "cy": 0.9419431279620853,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "button.z-50",
+        "famille": "\"Basel Grotesk Mono\", monospace",
+        "taille": 14,
+        "graisse": "535",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.z-50",
+        "famille": "\"Basel Grotesk Mono\", monospace",
+        "taille": 14,
+        "graisse": "535",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "star",
+          "url": "../fonts/star.woff",
+          "feuille": "hartbageri.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "WooCommerce",
+          "url": "../fonts/WooCommerce.woff",
+          "feuille": "hartbageri.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Basel Grotesk Mono",
+          "url": "../fonts/Basel-Grotesk-Mono/Basel-Grotesk-Mono-Medium/Basel-Grotesk-Mono-Medium.woff2",
+          "feuille": "hartbageri.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Graphik",
+          "url": "../fonts/Graphik/Graphik-Regular.ttf",
+          "feuille": "hartbageri.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://hartbageri.com/wp-content/themes/hartbageri-2.0/react-app/dist/fonts/Basel-Grotesk-Mono/Basel-Grotesk-Mono-Medium/Basel-Grotesk-Mono-Medium.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Basel Grotesk Mono",
+          "n": 3
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#0b0b0b",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#0b0b0b",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#4d4d4d",
+          "n": 1,
+          "poids": 21840
+        }
+      ],
+      "textesBruts": [],
+      "nbImages": 0,
+      "nbVideos": 1,
+      "nbFondsImage": 0,
+      "masques": 3,
+      "fonds": [
+        {
+          "hex": "#0b0b0b",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.938
+        },
+        {
+          "hex": "#4d4d4d",
+          "n": 1,
+          "poids": 21840,
+          "part": 0.062
+        }
+      ],
+      "textes": [],
+      "contraste": 1.07
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "filter 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "background-color 0.3s ease",
+          "n": 2
+        },
+        {
+          "valeur": "color 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "backdrop-filter 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.relative",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "background-color 0.3s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main.hero-bleed-host",
+      "sections": [],
+      "nav": {
+        "selecteur": "header.fixed",
+        "hauteur": 56,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "Open menu",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Go home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "View cart, 0 items",
+            "href": "/checkout",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.fixed",
+        "liens": [
+          {
+            "texte": "Open every day",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "@hartbageri",
+            "href": "https://www.instagram.com/hartbageri/",
+            "bouton": false
+          },
+          {
+            "texte": "smiley report",
+            "href": "https://www.findsmiley.dk/app/search?gruppe=8wAUEcaq2tpj",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "header.fixed",
+          "position": "fixed",
+          "hauteur": 56,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 43
+        },
+        {
+          "selecteur": "div.absolute",
+          "position": "absolute",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.hero-bleed-layer",
+          "position": "absolute",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "footer.fixed",
+          "position": "fixed",
+          "hauteur": 38,
+          "largeur": 362,
+          "enBas": false,
+          "mots": 6
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Hart Bageri",
+  "dureeS": 24
+}

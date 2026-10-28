@@ -1,0 +1,1080 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://felixhaas.io/",
+  "nom": "felixhaas",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Felix Haas | Designer",
+    "siteName": "Felix Haas",
+    "lang": "en",
+    "description": "Felix Haas is a German designer at Lovable. First designer at Gorillas and co-founder of Blossom, he advises a small circle of companies on design.",
+    "technologies": []
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "A letter from Felix Haas",
+      "h1Visible": true,
+      "mots": 5,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 15664,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.letter-lead",
+        "famille": "Geist, sans-serif",
+        "taille": 24,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.36px"
+      },
+      "h2": {
+        "selecteur": "h2#the-beginning",
+        "famille": "Geist, sans-serif",
+        "taille": 15,
+        "graisse": "500",
+        "interlignage": 1.07,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.15px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Geist, sans-serif",
+        "taille": 24,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.36px"
+      },
+      "bouton": {
+        "selecteur": "button.island",
+        "famille": "Geist, sans-serif",
+        "taille": 15,
+        "graisse": "500",
+        "interlignage": 1.47,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.15px"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "Geist",
+          "url": "data:font/woff2;base64,d09GMgABAAAAAHLYABQAAAABAQgAAHJiAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoYFG4GfHhyHTD9IVkFSh1s/TVZBUjwGYD9TVEFUgTgAhRAvfhEICvZo3iMLhEIAMIGoaAE2A",
+          "feuille": "inline",
+          "source": "inline (data:)"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [],
+      "famillesVisibles": [
+        {
+          "famille": "Geist",
+          "n": 125
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#1d1d1f",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 22533120
+        },
+        {
+          "hex": "#1d1d1f",
+          "n": 1,
+          "poids": 4137.5
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#86868b",
+          "n": 99,
+          "poids": 13321
+        },
+        {
+          "hex": "#737373",
+          "n": 21,
+          "poids": 710
+        },
+        {
+          "hex": "#1d1d1f",
+          "n": 4,
+          "poids": 29
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 15
+        }
+      ],
+      "nbImages": 1,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 8,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 22533120,
+          "part": 1
+        },
+        {
+          "hex": "#1d1d1f",
+          "n": 1,
+          "poids": 4137.5,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#86868b",
+          "n": 99,
+          "poids": 13321,
+          "part": 0.946
+        },
+        {
+          "hex": "#737373",
+          "n": 21,
+          "poids": 710,
+          "part": 0.05
+        },
+        {
+          "hex": "#1d1d1f",
+          "n": 4,
+          "poids": 29,
+          "part": 0.002
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 15,
+          "part": 0.001
+        }
+      ],
+      "contraste": 16.83
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "h1.letter-lead",
+          "ecrans": 17.4
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.3s ease",
+          "n": 88
+        },
+        {
+          "valeur": "animation letter-word-fade 1.3s cubic-bezier(0.5, 0, 0.25, 1)",
+          "n": 20
+        },
+        {
+          "valeur": "animation letter-word-focus 1s cubic-bezier(0.215, 0.61, 0.355, 1)",
+          "n": 20
+        },
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "text-decoration-color 0.15s ease",
+          "n": 2
+        },
+        {
+          "valeur": "margin 1.2s linear(0 0%, 0.0297 1.66667%, 0.1082 3.33333%, 0.2208 5%, 0.3536 6.66667%, 0.4947 8.33333%, 0.6343 10%, 0.7648 11.6667%, 0.8806 13.3333%, 0.9784 15%, 1.0564 16.6667%, 1.1144 18.3333%, 1.1535 20%, 1.1754 21.6667%, 1.1826 23.3333%, 1.1778 25%, 1.164 26.6667%, 1.1437 28.3333%, 1.1197 30%, 1.0939 31.6667%, 1.0684 33.3333%, 1.0444 35%, 1.0231 36.6667%, 1.005 38.3333%, 0.9905 40%, 0.9797 41.6667%, 0.9723 43.3333%, 0.9681 45%, 0.9667 46.6667%, 0.9674 48.3333%, 0.9699 50%, 0.9735 51.6667%, 0.9779 53.3333%, 0.9825 55%, 0.9872 56.6667%, 0.9916 58.3333%, 0.9956 60%, 0.9989 61.6667%, 1.0016 63.3333%, 1.0036 65%, 1.005 66.6667%, 1.0058 68.3333%, 1.0061 70%, 1.006 71.6667%, 1.0055 73.3333%, 1.0049 75%, 1.0041 76.6667%, 1.0032 78.3333%, 1.0024 80%, 1.0016 81.6667%, 1.0009 83.3333%, 1.0002 85%, 0.9997 86.6667%, 0.9994 88.3333%, 0.9991 90%, 0.999 91.6667%, 0.9989 93.3333%, 0.9989 95%, 0.999 96.6667%, 0.9991 98.3333%, 1 100%)",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "background-color 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "color 0.15s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "span.letter-word",
+        "score": 6,
+        "animations": [
+          "animation letter-word-fade 1.3s cubic-bezier(0.5, 0, 0.25, 1)",
+          "animation letter-word-focus 1s cubic-bezier(0.215, 0.61, 0.355, 1)"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.letter-body",
+      "sections": [
+        {
+          "selecteur": "div.letter-rail",
+          "titre": null,
+          "top": 0,
+          "hauteur": 15648,
+          "ecrans": 17.4,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.letter-copy",
+          "titre": "A letter from Felix Haas",
+          "top": 0,
+          "hauteur": 15648,
+          "ecrans": 17.4,
+          "mots": 2438,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div.letter-spacer",
+          "titre": null,
+          "top": 0,
+          "hauteur": 15648,
+          "ecrans": 17.4,
+          "mots": 0,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip",
+          "position": "absolute",
+          "hauteur": 32,
+          "largeur": 129,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "div.edge-blur",
+          "position": "fixed",
+          "hauteur": 126,
+          "largeur": 1440,
+          "enBas": true,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.island-dock",
+          "position": "fixed",
+          "hauteur": 44,
+          "largeur": 117,
+          "enBas": false,
+          "mots": 2
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 2,
+        "exemples": [
+          "Skip to content",
+          "Early life"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Geist"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/felixhaas-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "A letter from Felix Haas",
+      "h1Visible": true,
+      "mots": 5,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 18976,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.letter-lead",
+        "famille": "Geist, sans-serif",
+        "taille": 21,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.32px"
+      },
+      "h2": {
+        "selecteur": "h2#the-beginning",
+        "famille": "Geist, sans-serif",
+        "taille": 15,
+        "graisse": "500",
+        "interlignage": 1.07,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.15px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Geist, sans-serif",
+        "taille": 21,
+        "graisse": "500",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.32px"
+      },
+      "bouton": {
+        "selecteur": "button.island",
+        "famille": "Geist, sans-serif",
+        "taille": 15,
+        "graisse": "500",
+        "interlignage": 1.47,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.15px"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "Geist",
+          "url": "data:font/woff2;base64,d09GMgABAAAAAHLYABQAAAABAQgAAHJiAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoYFG4GfHhyHTD9IVkFSh1s/TVZBUjwGYD9TVEFUgTgAhRAvfhEICvZo3iMLhEIAMIGoaAE2A",
+          "feuille": "inline",
+          "source": "inline (data:)"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [],
+      "famillesVisibles": [
+        {
+          "famille": "Geist",
+          "n": 125
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#1d1d1f",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 7394400
+        },
+        {
+          "hex": "#1d1d1f",
+          "n": 1,
+          "poids": 4137.5
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#737373",
+          "n": 120,
+          "poids": 14031
+        },
+        {
+          "hex": "#1d1d1f",
+          "n": 4,
+          "poids": 29
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 15
+        }
+      ],
+      "nbImages": 1,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 8,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 7394400,
+          "part": 0.999
+        },
+        {
+          "hex": "#1d1d1f",
+          "n": 1,
+          "poids": 4137.5,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#737373",
+          "n": 120,
+          "poids": 14031,
+          "part": 0.997
+        },
+        {
+          "hex": "#1d1d1f",
+          "n": 4,
+          "poids": 29,
+          "part": 0.002
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 15,
+          "part": 0.001
+        }
+      ],
+      "contraste": 16.83
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "h1.letter-lead",
+          "ecrans": 22.5
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.3s ease",
+          "n": 88
+        },
+        {
+          "valeur": "animation letter-word-fade 1.3s cubic-bezier(0.5, 0, 0.25, 1)",
+          "n": 20
+        },
+        {
+          "valeur": "animation letter-word-focus 1s cubic-bezier(0.215, 0.61, 0.355, 1)",
+          "n": 20
+        },
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1)",
+          "n": 3
+        },
+        {
+          "valeur": "text-decoration-color 0.15s ease",
+          "n": 2
+        },
+        {
+          "valeur": "margin 1.2s linear(0 0%, 0.0297 1.66667%, 0.1082 3.33333%, 0.2208 5%, 0.3536 6.66667%, 0.4947 8.33333%, 0.6343 10%, 0.7648 11.6667%, 0.8806 13.3333%, 0.9784 15%, 1.0564 16.6667%, 1.1144 18.3333%, 1.1535 20%, 1.1754 21.6667%, 1.1826 23.3333%, 1.1778 25%, 1.164 26.6667%, 1.1437 28.3333%, 1.1197 30%, 1.0939 31.6667%, 1.0684 33.3333%, 1.0444 35%, 1.0231 36.6667%, 1.005 38.3333%, 0.9905 40%, 0.9797 41.6667%, 0.9723 43.3333%, 0.9681 45%, 0.9667 46.6667%, 0.9674 48.3333%, 0.9699 50%, 0.9735 51.6667%, 0.9779 53.3333%, 0.9825 55%, 0.9872 56.6667%, 0.9916 58.3333%, 0.9956 60%, 0.9989 61.6667%, 1.0016 63.3333%, 1.0036 65%, 1.005 66.6667%, 1.0058 68.3333%, 1.0061 70%, 1.006 71.6667%, 1.0055 73.3333%, 1.0049 75%, 1.0041 76.6667%, 1.0032 78.3333%, 1.0024 80%, 1.0016 81.6667%, 1.0009 83.3333%, 1.0002 85%, 0.9997 86.6667%, 0.9994 88.3333%, 0.9991 90%, 0.999 91.6667%, 0.9989 93.3333%, 0.9989 95%, 0.999 96.6667%, 0.9991 98.3333%, 1 100%)",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "background-color 0.15s ease",
+          "n": 1
+        },
+        {
+          "valeur": "color 0.15s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "span.letter-word",
+        "score": 6,
+        "animations": [
+          "animation letter-word-fade 1.3s cubic-bezier(0.5, 0, 0.25, 1)",
+          "animation letter-word-focus 1s cubic-bezier(0.215, 0.61, 0.355, 1)"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.letter-rest",
+      "sections": [
+        {
+          "selecteur": "figure.letter-photo",
+          "titre": null,
+          "top": 731,
+          "hauteur": 236,
+          "ecrans": 0.3,
+          "mots": 5,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 1041,
+          "hauteur": 88,
+          "ecrans": 0.1,
+          "mots": 14,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 1153,
+          "hauteur": 235,
+          "ecrans": 0.3,
+          "mots": 40,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 1412,
+          "hauteur": 412,
+          "ecrans": 0.5,
+          "mots": 67,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 1848,
+          "hauteur": 147,
+          "ecrans": 0.2,
+          "mots": 25,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 2019,
+          "hauteur": 235,
+          "ecrans": 0.3,
+          "mots": 36,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 2278,
+          "hauteur": 176,
+          "ecrans": 0.2,
+          "mots": 33,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 2479,
+          "hauteur": 88,
+          "ecrans": 0.1,
+          "mots": 15,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "h2#the-beginning",
+          "titre": null,
+          "top": 2639,
+          "hauteur": 16,
+          "ecrans": 0,
+          "mots": 2,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 2667,
+          "hauteur": 59,
+          "ecrans": 0.1,
+          "mots": 10,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 2750,
+          "hauteur": 235,
+          "ecrans": 0.3,
+          "mots": 40,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 3009,
+          "hauteur": 235,
+          "ecrans": 0.3,
+          "mots": 43,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 3268,
+          "hauteur": 235,
+          "ecrans": 0.3,
+          "mots": 40,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 3527,
+          "hauteur": 176,
+          "ecrans": 0.2,
+          "mots": 32,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 3728,
+          "hauteur": 382,
+          "ecrans": 0.5,
+          "mots": 66,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "h2#finding-my-place-in-design",
+          "titre": null,
+          "top": 4182,
+          "hauteur": 16,
+          "ecrans": 0,
+          "mots": 5,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 4210,
+          "hauteur": 88,
+          "ecrans": 0.1,
+          "mots": 15,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 4322,
+          "hauteur": 235,
+          "ecrans": 0.3,
+          "mots": 36,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 4582,
+          "hauteur": 265,
+          "ecrans": 0.3,
+          "mots": 41,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 4870,
+          "hauteur": 206,
+          "ecrans": 0.2,
+          "mots": 35,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 5100,
+          "hauteur": 206,
+          "ecrans": 0.2,
+          "mots": 33,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 5330,
+          "hauteur": 176,
+          "ecrans": 0.2,
+          "mots": 26,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 5530,
+          "hauteur": 176,
+          "ecrans": 0.2,
+          "mots": 27,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "h2#building-at-scale",
+          "titre": null,
+          "top": 5779,
+          "hauteur": 16,
+          "ecrans": 0,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 5807,
+          "hauteur": 88,
+          "ecrans": 0.1,
+          "mots": 16,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 5919,
+          "hauteur": 147,
+          "ecrans": 0.2,
+          "mots": 27,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 6090,
+          "hauteur": 176,
+          "ecrans": 0.2,
+          "mots": 28,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 6291,
+          "hauteur": 265,
+          "ecrans": 0.3,
+          "mots": 41,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 6579,
+          "hauteur": 176,
+          "ecrans": 0.2,
+          "mots": 27,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "h2#creating-blossom",
+          "titre": null,
+          "top": 6828,
+          "hauteur": 16,
+          "ecrans": 0,
+          "mots": 2,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 6856,
+          "hauteur": 118,
+          "ecrans": 0.1,
+          "mots": 17,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 6997,
+          "hauteur": 206,
+          "ecrans": 0.2,
+          "mots": 31,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 7227,
+          "hauteur": 176,
+          "ecrans": 0.2,
+          "mots": 27,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 7428,
+          "hauteur": 206,
+          "ecrans": 0.2,
+          "mots": 35,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 7657,
+          "hauteur": 235,
+          "ecrans": 0.3,
+          "mots": 36,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 7917,
+          "hauteur": 206,
+          "ecrans": 0.2,
+          "mots": 36,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 8147,
+          "hauteur": 147,
+          "ecrans": 0.2,
+          "mots": 24,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "h2#investing-in-people",
+          "titre": null,
+          "top": 8366,
+          "hauteur": 16,
+          "ecrans": 0,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 8394,
+          "hauteur": 118,
+          "ecrans": 0.1,
+          "mots": 20,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p",
+          "titre": null,
+          "top": 8535,
+          "hauteur": 206,
+          "ecrans": 0.2,
+          "mots": 27,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip",
+          "position": "absolute",
+          "hauteur": 32,
+          "largeur": 129,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "div.edge-blur",
+          "position": "fixed",
+          "hauteur": 118,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.island-dock",
+          "position": "fixed",
+          "hauteur": 44,
+          "largeur": 117,
+          "enBas": false,
+          "mots": 2
+        },
+        {
+          "selecteur": "h1.letter-lead",
+          "position": "sticky",
+          "hauteur": 844,
+          "largeur": 358,
+          "enBas": false,
+          "mots": 5
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 2,
+        "exemples": [
+          "Skip to content",
+          "Early life"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Geist"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "Felix Haas",
+  "dureeS": 67.1
+}

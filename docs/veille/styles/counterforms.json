@@ -1,0 +1,933 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://counter-forms.com/",
+  "nom": "counterforms",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Counter Forms",
+    "siteName": "",
+    "lang": "en",
+    "description": "Counter Forms is a new typographic venture that seeks to champion young, discursive, Antipodean type designers.",
+    "technologies": [
+      "Next.js",
+      "Sanity",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#efefef",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 219,
+      "images": 3,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 3438,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "button.link",
+        "famille": "Cassette, ui-monospace, Menlo, Monaco, monospace",
+        "taille": 14.08,
+        "graisse": "400",
+        "interlignage": 1.35,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "Cassette",
+          "url": "/fonts/Cassette-Light.woff2",
+          "feuille": "counter-forms.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Icons",
+          "url": "/fonts/RJIcons.woff2",
+          "feuille": "counter-forms.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CounterFormsLoading",
+          "url": "/fonts/CounterFormsLoading-Regular.woff2",
+          "feuille": "counter-forms.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://counter-forms.com/fonts/Cassette-Light.woff2",
+        "https://counter-forms.com/fonts/CounterFormsLoading-Regular.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/403293f5a104dfaeb9df568b1b71289d9784b463.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/ca706dab623ca622ab2c614b1e49021ed3c237c6.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/817e99c1d9c56bf825dc47fd66b37abb7d6c754c.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/13cd6ece9c64da55d376dcff1c01b91039f385c7.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/2a97940885e5a42b7bf9a4049c30d11cd168fbf1.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/b8ba365396108d96f7eb98e024f3ea056f808ac8.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/1bd51f25d0e2e48839c35d0a5a4c652a7e5c1d2e.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/603ab1e41ea9d8ffa8755a1acb341310f9b9f5f3.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/a2a5591f6279f27b5aebd3e86f0963a5dbc8a779.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/7fe98a66c9e2f28b13cfef84aee01234456e0aac.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/6b02149837253c3c578fd456e151a65c6ee8919f.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Cassette",
+          "n": 71
+        },
+        {
+          "famille": "Eyja Regular",
+          "n": 1
+        },
+        {
+          "famille": "Eyja Regular Italic",
+          "n": 1
+        },
+        {
+          "famille": "Hexa Regular",
+          "n": 1
+        },
+        {
+          "famille": "Pantasia Regular",
+          "n": 1
+        },
+        {
+          "famille": "Telas Regular",
+          "n": 1
+        },
+        {
+          "famille": "Herbik Regular",
+          "n": 1
+        },
+        {
+          "famille": "Fugit Bold",
+          "n": 1
+        },
+        {
+          "famille": "Originale Book",
+          "n": 1
+        },
+        {
+          "famille": "Originale Book Italic",
+          "n": 1
+        },
+        {
+          "famille": "Fugit Regular",
+          "n": 1
+        },
+        {
+          "famille": "Herbik Black",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 4950720
+        },
+        {
+          "hex": "#efefef",
+          "n": 19,
+          "poids": 2619966.2583007812
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 64246.5
+        },
+        {
+          "hex": "#ff6500",
+          "n": 1,
+          "poids": 43264
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 78,
+          "poids": 2529
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 368
+        }
+      ],
+      "nbImages": 8,
+      "nbVideos": 3,
+      "nbFondsImage": 0,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 4950720,
+          "part": 0.645
+        },
+        {
+          "hex": "#efefef",
+          "n": 19,
+          "poids": 2619966.2583007812,
+          "part": 0.341
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 64246.5,
+          "part": 0.008
+        },
+        {
+          "hex": "#ff6500",
+          "n": 1,
+          "poids": 43264,
+          "part": 0.006
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 78,
+          "poids": 2529,
+          "part": 0.873
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 368,
+          "part": 0.127
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "all 0.1s ease",
+          "n": 4
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "line.hand",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "all 0.1s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.CardGroupInner",
+      "sections": [
+        {
+          "selecteur": "section",
+          "titre": null,
+          "top": 3211,
+          "hauteur": 227,
+          "ecrans": 0.3,
+          "mots": 22,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div.Menu",
+          "position": "fixed",
+          "hauteur": 46,
+          "largeur": 1294,
+          "enBas": false,
+          "mots": 6
+        },
+        {
+          "selecteur": "div.MenuClock",
+          "position": "fixed",
+          "hauteur": 130,
+          "largeur": 130,
+          "enBas": false,
+          "mots": 12
+        },
+        {
+          "selecteur": "a.group",
+          "position": "fixed",
+          "hauteur": 120,
+          "largeur": 120,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "position": "absolute",
+          "hauteur": 165,
+          "largeur": 448,
+          "enBas": false,
+          "mots": 45
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "position": "absolute",
+          "hauteur": 283,
+          "largeur": 339,
+          "enBas": false,
+          "mots": 6
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "position": "absolute",
+          "hauteur": 258,
+          "largeur": 382,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "position": "absolute",
+          "hauteur": 299,
+          "largeur": 433,
+          "enBas": false,
+          "mots": 5
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "position": "absolute",
+          "hauteur": 414,
+          "largeur": 301,
+          "enBas": false,
+          "mots": 8
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "position": "absolute",
+          "hauteur": 435,
+          "largeur": 324,
+          "enBas": false,
+          "mots": 4
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "position": "absolute",
+          "hauteur": 224,
+          "largeur": 224,
+          "enBas": false,
+          "mots": 8
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/counterforms-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Minified React error #418; visit https://react.dev/errors/418?args[]=HTML&args[]= for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#efefef",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 73,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": null,
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6781,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "button.link",
+        "famille": "Cassette, ui-monospace, Menlo, Monaco, monospace",
+        "taille": 15.2,
+        "graisse": "400",
+        "interlignage": 1.35,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "Cassette",
+          "url": "/fonts/Cassette-Light.woff2",
+          "feuille": "counter-forms.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Icons",
+          "url": "/fonts/RJIcons.woff2",
+          "feuille": "counter-forms.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "CounterFormsLoading",
+          "url": "/fonts/CounterFormsLoading-Regular.woff2",
+          "feuille": "counter-forms.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://counter-forms.com/fonts/Cassette-Light.woff2",
+        "https://counter-forms.com/fonts/CounterFormsLoading-Regular.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/403293f5a104dfaeb9df568b1b71289d9784b463.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/15a7c6b5974660989511be4291a9209ebecce865.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/0d292160a71b5f5c8f4535af75d8e3c918e0de87.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/b8ba365396108d96f7eb98e024f3ea056f808ac8.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/7fe98a66c9e2f28b13cfef84aee01234456e0aac.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/6d234b515367322d268f04dcee859bdeea37d4cf.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/ef6f07fc230d01db43d038f94f501fb08a1f87b0.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/13cd6ece9c64da55d376dcff1c01b91039f385c7.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/b5ea2252416e84e3d9a967011b15fe22016bb162.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/817e99c1d9c56bf825dc47fd66b37abb7d6c754c.woff2",
+        "https://cdn.sanity.io/files/4iqputah/production/b56b0a330e37a1a73a8dc6af48e91d8fa5015371.ttf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Cassette",
+          "n": 66
+        },
+        {
+          "famille": "Eyja Regular",
+          "n": 1
+        },
+        {
+          "famille": "Fugit SemiBold",
+          "n": 1
+        },
+        {
+          "famille": "Fugit SemiBold Italic",
+          "n": 1
+        },
+        {
+          "famille": "Herbik Regular",
+          "n": 1
+        },
+        {
+          "famille": "Fugit Regular",
+          "n": 1
+        },
+        {
+          "famille": "Telas Medium",
+          "n": 1
+        },
+        {
+          "famille": "Telas Medium Italic",
+          "n": 1
+        },
+        {
+          "famille": "Pantasia Regular",
+          "n": 1
+        },
+        {
+          "famille": "Originale Regular",
+          "n": 1
+        },
+        {
+          "famille": "Hexa Regular",
+          "n": 1
+        },
+        {
+          "famille": "Ibarra Real Nova Regular",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2713620
+        },
+        {
+          "hex": "#efefef",
+          "n": 19,
+          "poids": 2051750.5151367188
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 76318.09375
+        },
+        {
+          "hex": "#ff6500",
+          "n": 1,
+          "poids": 43264
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 73,
+          "poids": 2393
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 368
+        }
+      ],
+      "nbImages": 8,
+      "nbVideos": 3,
+      "nbFondsImage": 0,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2713620,
+          "part": 0.556
+        },
+        {
+          "hex": "#efefef",
+          "n": 19,
+          "poids": 2051750.5151367188,
+          "part": 0.42
+        },
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 76318.09375,
+          "part": 0.016
+        },
+        {
+          "hex": "#ff6500",
+          "n": 1,
+          "poids": 43264,
+          "part": 0.009
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 73,
+          "poids": 2393,
+          "part": 0.867
+        },
+        {
+          "hex": "#ffffff",
+          "n": 4,
+          "poids": 368,
+          "part": 0.133
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 7
+        },
+        {
+          "valeur": "all 0.1s ease",
+          "n": 4
+        },
+        {
+          "valeur": "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div.MenuClock",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.CardGroupInner",
+      "sections": [
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 12,
+          "hauteur": 197,
+          "ecrans": 0.2,
+          "mots": 45,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 221,
+          "hauteur": 493,
+          "ecrans": 0.6,
+          "mots": 4,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 727,
+          "hauteur": 234,
+          "ecrans": 0.3,
+          "mots": 11,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 973,
+          "hauteur": 152,
+          "ecrans": 0.2,
+          "mots": 5,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 1137,
+          "hauteur": 269,
+          "ecrans": 0.3,
+          "mots": 3,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 1418,
+          "hauteur": 188,
+          "ecrans": 0.2,
+          "mots": 12,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 1618,
+          "hauteur": 268,
+          "ecrans": 0.3,
+          "mots": 9,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 1898,
+          "hauteur": 366,
+          "ecrans": 0.4,
+          "mots": 66,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 2276,
+          "hauteur": 170,
+          "ecrans": 0.2,
+          "mots": 5,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 2457,
+          "hauteur": 481,
+          "ecrans": 0.6,
+          "mots": 8,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 2951,
+          "hauteur": 99,
+          "ecrans": 0.1,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 3061,
+          "hauteur": 314,
+          "ecrans": 0.4,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 3387,
+          "hauteur": 242,
+          "ecrans": 0.3,
+          "mots": 4,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 3641,
+          "hauteur": 294,
+          "ecrans": 0.3,
+          "mots": 8,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 3947,
+          "hauteur": 461,
+          "ecrans": 0.5,
+          "mots": 103,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 4420,
+          "hauteur": 208,
+          "ecrans": 0.2,
+          "mots": 8,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 4640,
+          "hauteur": 297,
+          "ecrans": 0.4,
+          "mots": 6,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 4949,
+          "hauteur": 435,
+          "ecrans": 0.5,
+          "mots": 88,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 5397,
+          "hauteur": 286,
+          "ecrans": 0.3,
+          "mots": 7,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 5695,
+          "hauteur": 284,
+          "ecrans": 0.3,
+          "mots": 3,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.CardWrapper",
+          "titre": null,
+          "top": 5991,
+          "hauteur": 493,
+          "ecrans": 0.6,
+          "mots": 4,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section",
+          "titre": null,
+          "top": 6645,
+          "hauteur": 314,
+          "ecrans": 0.4,
+          "mots": 22,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "div.fixed",
+          "position": "fixed",
+          "hauteur": 64,
+          "largeur": 64,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div.MenuClock",
+          "position": "fixed",
+          "hauteur": 94,
+          "largeur": 94,
+          "enBas": false,
+          "mots": 12
+        },
+        {
+          "selecteur": "a.group",
+          "position": "fixed",
+          "hauteur": 64,
+          "largeur": 64,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Counter Forms",
+  "dureeS": 24
+}
