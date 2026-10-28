@@ -1,0 +1,54 @@
+---
+/**
+ * Page /honoraires (site.biens.honoraires) : architecture `annonces-biens` (« Nos honoraires » de Royal Immo, en pied de
+ * page ; l'affichage du barème est obligatoire sur le site d'une agence, docs/veille/architectures/annonces-biens.md). Le
+ * barème tel que l'agence l'affiche en vitrine, ligne par ligne, et sa précision. Générée seulement quand l'agence a donné
+ * son barème ; sinon aucune page, et la coquille le signale au build.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  const h = site.biens?.honoraires;
+  return h && (h.lignes.length > 0 || h.note) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const h = site.biens!.honoraires!;
+---
+
+<Base title={`Nos honoraires | ${site.business.name}`} description={`Barème des honoraires de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}.`} path="/honoraires">
+  <Nav />
+  <main id="main" class="container-ff ph">
+    <header class="ph-tete">
+      <h1 class="ph-titre font-display">Nos honoraires</h1>
+      <p>{metierEtVille()}</p>
+    </header>
+    {h.lignes.length > 0 && (
+      <table class="ph-tableau tabular-nums">
+        <caption class="sr-only">Barème des honoraires</caption>
+        <thead><tr><th scope="col">Pour</th><th scope="col">Honoraires</th></tr></thead>
+        <tbody>{h.lignes.map((l) => <tr><th scope="row">{l.tranche}</th><td>{l.taux}</td></tr>)}</tbody>
+      </table>
+    )}
+    {h.note && <p class="ph-note">{h.note}</p>}
+    <p><a href={tel()} class="ph-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ph { display: grid; gap: 1.75rem; padding-block: clamp(1.5rem, 5vh, 4rem); }
+  .ph-tete { display: grid; gap: 0.5rem; }
+  .ph-titre { font-size: clamp(2rem, 5.5vw, 3.4rem); line-height: 1.02; }
+  .ph-tableau { inline-size: 100%; max-inline-size: 44rem; border-collapse: collapse; }
+  .ph-tableau th, .ph-tableau td { padding: 0.75rem 0.6rem; text-align: start; border-block-end: 1px solid var(--color-line); }
+  .ph-tableau thead th { color: var(--color-muted); font-weight: 600; }
+  .ph-tableau tbody th { font-weight: 600; }
+  .ph-tableau td { font-weight: 700; }
+  .ph-note { max-inline-size: 60ch; color: var(--color-muted); }
+  .ph-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .ph-tel:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+</style>

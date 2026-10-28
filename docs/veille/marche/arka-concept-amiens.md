@@ -1,0 +1,37 @@
+# ARKA Concept — https://arkaconcept-amiens.fr/
+Titre « Agence d'Architecture d'intérieur basée à Amiens | ARKA Concept », `lang="fr"`, description « Architecte d'intérieur à Amiens, l'agence ARKA Concept conçoit des espaces de vie fonctionnels. Nous vous accompagnerons de A à Z dans votre projet. », technologie lue : WordPress. Démontage automatique du 2026-10-28 (`ff demonter`, mesures brutes dans `arka-concept-amiens.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « ARKA Concept Amiens, Architecte d'intérieur » ; image plein écran (68 % de l'écran) ; bouton principal « Prendre RDV » en haut à droite (1237, 11 px, dans une barre fixe, dans la nav) ; 19 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « ARKA Concept Amiens, Architecte d'intérieur » ; image plein écran (68 % de l'écran) ; bouton principal : aucun bouton lu dans le premier écran ; 12 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 5 lien(s) — SERVICES, RÉALISATIONS, A PROPOS, CONTACTEZ-NOUS, [Prendre RDV] ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.container` « ARKA Concept Amiens, Architecte d'intér… » (0,3 écran, 5 mots, 1 img) → `div.hero` (0,8 écran, 7 mots, 1 img) → `section#services` « Nos Services » (1,1 écran, 133 mots, 0 img) → `section#realisations` « Quelques une de nos réalisations à Amie… » (0,9 écran, 10 mots, 5 img) → `section#a-propos` « A propos » (1,0 écran, 130 mots, 2 img) → `div.partenaires-wrapper` (0,3 écran, 0 mots, 19 img) → `footer` « Services » (0,8 écran, 21 mots, 1 img). Calques hors flux (fixes/absolus) : `nav.navbar` (fixed, 30 px, 7 mots).
+Pied de page : 4 lien(s) — Mentions légales, Politique de confidentialité, Demande de devis, ARKA Le mag. Téléphone cliquable : non. Formulaire : aucun. Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Prendre RDV » (https://calendly.com/arkaconcept/30min), « Demande de devis » (https://arkaconcept.com/architecte-interieur-devis/).
+En 3 secondes : à juger sur `captures/arka-concept-amiens-d.webp` (mesuré : fond du premier écran #f1f1f1, 3 image(s) et 19 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Poppins**, 48 px / 20 px téléphone, graisse 700, interlettrage -0.9664px ; h2 **Poppins**, 29 px / 20 px téléphone, graisse 600 ; corps **Poppins**, 16 px / 15 px téléphone, graisse 400 ; boutons **Poppins**, 14 px / 18 px téléphone, graisse 400 ; nav **Poppins**, 14 px / 16 px téléphone, graisse 400, capitales.
+Sources `@font-face` : auto-hébergée (Font Awesome 6 Brands, Font Awesome 6 Free, Font Awesome 5 Brands, Font Awesome 5 Free, FontAwesome) ; fichiers chargés : https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/webfonts/fa-brands-400.woff2, https://fonts.googleapis.com/, https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap. Familles en usage sur le texte visible : Poppins ×37. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #f1f1f1, texte #000000 (contraste 18,59:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #f1f1f1 (74 %), #b7bbba (16 %), #929292 (8 %), #7b7b7b (2 %), #ececec (0 %) ; textes par nombre de caractères : #f1f1f1 (47 %), #242424 (34 %), #832525 (19 %). Images : 30 `<img>` visibles, 0 fond(s) en image, 0 vidéo(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : aucune détectée (window.* et noms de scripts). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `transform 0.3s ease` ×17, `color 0.3s ease` ×5, `background-color 0.3s ease` ×5, `filter 0.3s ease` ×5, `opacity 0.3s ease` ×1, `all 0.2s ease-in-out` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/arka-concept-amiens-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `section#services` « Nos Services » (1,1 écran, 133 mots, 0 image(s)).
+2. L'élément le plus animé : `nav.navbar` (2 transition(s) : transform 0.3s ease ; opacity 0.3s ease).
+3. Le bloc le plus singulier par sa structure : aucune section ne contient de balise rare (table, details, canvas, video, svg, form, dl…).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : portes d'action nommées (« Prendre RDV », « Demande de devis »).
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 2/2 ordinateur, 1/1 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Verdict marché (veille du 28 oct 2026, tour 14)
+Source : recherche Google, métier tiré **architecte d'intérieur** (`Math.random()` sur les 27 de `docs/OBJECTIF.md`), ville tirée **Amiens** (sur les 30). Recherche étendue « architecte d'intérieur Amiens » ; écartés : Houzz, PagesJaunes (annuaires), la page Facebook d'ARKA (réseau social), MH Interior (réseau MH Deco, franchise), Architéa (réseau national de contractants) ; premier artisan indépendant : **ARKA Concept, rang 7** (le rang 8 est la page Amiens de son site principal, arkaconcept.com). URL lue : https://arkaconcept-amiens.fr/ (WordPress, HTML 5 Ko transférés, premier octet 0,71 s, indicatif). Captures et planche regardées.
+
+**Un artisan paierait-il 1 200 € pour ça ?** Non, c'est une page satellite faite pour Google, pas pour le visiteur. Premier écran : le logo, h1 « ARKA Concept Amiens, Architecte d'intérieur », une cuisine en bois en photo, « Concevoir des lieux uniques, c'est notre métier » ; **aucun numéro de téléphone sur toute la page**, seulement « Prendre RDV » (Calendly, 30 min) en nav à l'ordinateur, rien dans le premier écran du téléphone. Puis quatre services en cartes (aménagement, particulier et professionnel, permis de construire, mises aux normes PMR et incendie), cinq photos de réalisations à Amiens sans légende, **le gérant en portrait noir et blanc avec sa signature** (« Christophe Dupont, Architecte et Designer d'Intérieur à Amiens… plus de 21 ans d'expérience… j'ai fondé en 2021 ARKA Concept »), un mur de dix-neuf logos de fabricants (Kartell, Hay, Bolon, Moooi…). Les liens « En savoir plus », « Demande de devis » et « ARKA Le mag » renvoient au site principal. Fautes dans le texte (« aménageru un espace commercial », « qui conforme à vos attentes »). Aucun avis.
+
+**Leviers vus** : Photos réelles : 5 réalisations (cuisines, salles de bain, rangements) et le portrait du gérant. Premier écran : nom + métier + ville dans le h1, aucun appel au téléphone. Preuves : 21 ans d'expérience et 2021, logos de marques, aucun avis. Structure : une page à ancres, le reste sur un autre domaine ; contact par Calendly et formulaire du site principal. Appels : 0 lien `tel:`, 2 portes (RDV, devis). Vitesse : 5 Ko. Mobile : rien à toucher dans le premier écran.

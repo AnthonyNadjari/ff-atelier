@@ -1,0 +1,205 @@
+---
+/**
+ * Coquille "biens" : architecture `annonces-biens` (src/lib/architectures.ts ; sources Royal Immo, Toulon, agence
+ * familiale depuis 2005 : Acheter et Louer par type, « Faites estimer votre bien par un professionnel » sous la
+ * recherche, une page par bien avec ses caractéristiques, le prix, qui paie les honoraires, le négociateur ; Giboire,
+ * Rennes : « Votre projet commence ici », Acheter, Louer, Estimer ; docs/veille/architectures/annonces-biens.md). Ce qu'on
+ * vient voir chez une agence, ce sont ses biens : l'accueil est la vitrine.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone, la note Google (socle docs/GOUT.md § 0) ;
+ *   → la vitrine, id="biens" : Acheter et Louer en onglets (posés par le script ; sans script l'un sous l'autre), chaque
+ *     bien en photo avec sa commune, son titre, sa surface et ses pièces, son prix, sa classe énergie, « Exclusivité »
+ *     quand l'agence l'a, vers sa page ; « Tous nos biens » vers /biens ;
+ *   → « Faire estimer votre bien », id="estimer" sur l'encre : ce que l'agence propose au vendeur, dit par elle, le
+ *     téléphone et la demande ; id="contact" ; le lien vers le barème des honoraires ;
+ *   → les sections du layout (l'agence, les avis) ;
+ *   → le pied.
+ * Pages : une page par bien (/biens/<slug>), /biens (par projet et par type), /honoraires (le barème).
+ *
+ * `layout.hero` n'est pas rendu. Sans bien lisible : la vitrine disparaît, et le build dit ce qui manque
+ * (donneesManquantes) ; une mention que la loi demande dans une annonce (classe énergie, honoraires d'une vente, surface
+ * d'une location) et que l'agence n'a pas donnée est dite au build, jamais remplie. Signes des sources NON repris :
+ * capitales criées dans les titres d'annonces, calculatrice de crédit, « coup de cœur » sans critère, fenêtre de
+ * connexion dans l'en-tête, recherche à douze filtres pour vingt biens.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, metierEtVille, donneesManquantes, projetsDeBiens, prixDuBien, resumeDuBien, mentionsManquantes } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const b = site.biens;
+const projets = projetsDeBiens(b);
+const total = projets.reduce((n, p) => n + p.biens.length, 0);
+const honoraires = Boolean(b?.honoraires && (b.honoraires.lignes.length > 0 || b.honoraires.note));
+const manque = donneesManquantes('annonces-biens', site);
+if (manque.length > 0) console.warn(`[coquille biens] ${site.slug} : ${manque.join(' ; ')}`);
+if (b && !honoraires) console.warn(`[coquille biens] ${site.slug} : le barème des honoraires manque (biens.honoraires), obligatoire sur le site d’une agence`);
+for (const p of projets) for (const x of p.biens) {
+  const m = mentionsManquantes(x);
+  if (m.length > 0) console.warn(`[coquille biens] ${site.slug} : ${x.slug} sans ${m.join(', ')} (mention d’annonce obligatoire)`);
+}
+---
+
+<Nav />
+<main id="main" class="bn-page">
+  <section id="hero" class="container-ff bn-tete" aria-label="Accueil">
+    <h1 class="bn-h1 font-display" set:html={site.business.tagline} />
+    <div class="bn-sous">
+      <p class="bn-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      <p class="bn-portes">
+        <a href={tel()} class="bn-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="bn-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+    </div>
+  </section>
+
+  {projets.length > 0 && (
+    <section id="biens" class="bn-vitrine" aria-labelledby="bn-vitrine-t" data-bn-vitrine>
+      <div class="container-ff bn-vitrine-tete">
+        <h2 id="bn-vitrine-t" class="bn-h2 font-display">{site.wording.biens}</h2>
+        {projets.length >= 2 && (
+          <div class="bn-onglets" role="tablist" aria-label="Votre projet" data-bn-onglets hidden>
+            {projets.map((p, i) => (
+              <button type="button" role="tab" id={`bn-onglet-${p.cle}`} aria-controls={`bn-projet-${p.cle}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class="bn-onglet" data-bn-onglet>
+                {p.titre}<span class="bn-onglet-n">{p.biens.length}&nbsp;{p.biens.length > 1 ? 'biens' : 'bien'}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <div class="container-ff bn-projets">
+        {projets.map((p) => (
+          <div id={`bn-projet-${p.cle}`} class="bn-projet" role={projets.length >= 2 ? 'tabpanel' : undefined} aria-labelledby={projets.length >= 2 ? `bn-onglet-${p.cle}` : undefined} data-bn-projet>
+            <h3 class="bn-projet-nom font-display">{p.titre}</h3>
+            <ul class="bn-liste">
+              {p.biens.map((x) => (
+                <li class="bn-bien">
+                  {x.photos[0] && <Img src={x.photos[0].src} alt={x.photos[0].alt} class="bn-photo" sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw" />}
+                  <div class="bn-bien-texte">
+                    <p class="bn-commune">{x.commune}{x.codePostal ? ` (${x.codePostal})` : ''}{x.type ? `, ${x.type.toLowerCase()}` : ''}</p>
+                    <p class="bn-titre"><a href={`/biens/${x.slug}`} class="bn-titre-lien">{x.titre}</a></p>
+                    {resumeDuBien(x) && <p class="bn-resume tabular-nums">{resumeDuBien(x)}</p>}
+                    <p class="bn-prix tabular-nums">{prixDuBien(x)}</p>
+                    <p class="bn-marques">
+                      {x.dpe && <span class="bn-dpe">Classe énergie {x.dpe}</span>}
+                      {x.exclusivite && <span class="bn-exclu">Exclusivité</span>}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        {total >= 3 && <p><a href="/biens" class="bn-lien">Tous nos biens, par type<Icon name="ArrowRight" size={16} /></a></p>}
+      </div>
+    </section>
+  )}
+
+  {/* « Faites estimer votre bien par un professionnel » de Royal Immo, « Estimer » de Giboire : la porte du vendeur.
+      id="contact" : sans script, les liens « Contact » y mènent. */}
+  <section id="estimer" class="bn-estimer bg-ink text-on-ink" aria-labelledby="bn-estimer-t">
+    <div id="contact" class="container-ff bn-estimer-in">
+      <h2 id="bn-estimer-t" class="bn-estimer-titre font-display">{site.wording.estimer}</h2>
+      {b?.estimer && <p class="bn-estimer-phrase">{b.estimer}</p>}
+      <p class="bn-portes">
+        <a href={tel()} class="bn-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        {site.layout.contactDrawer && <a href="/#contact" class="bn-lien">Demander une estimation</a>}
+        {honoraires && <a href="/honoraires" class="bn-lien">Nos honoraires</a>}
+      </p>
+    </div>
+  </section>
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Acheter / Louer en onglets. Sans script : les deux listes l'une sous l'autre, rien de caché.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-bn-vitrine]');
+    const rangee = bloc?.querySelector<HTMLElement>('[data-bn-onglets]');
+    if (!bloc || !rangee) return;
+    const onglets = [...rangee.querySelectorAll<HTMLButtonElement>('[data-bn-onglet]')];
+    const projets = [...bloc.querySelectorAll<HTMLElement>('[data-bn-projet]')];
+    if (onglets.length < 2 || onglets.length !== projets.length) return;
+    const choisir = (n: number, focus = false) => {
+      onglets.forEach((o, i) => { const sel = i === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      projets.forEach((p, i) => { p.hidden = i !== n; });
+    };
+    rangee.hidden = false;
+    bloc.classList.add('bn-a-onglets');
+    choisir(0);
+    onglets.forEach((o, i) => {
+      o.addEventListener('click', () => choisir(i));
+      o.addEventListener('keydown', (e) => {
+        const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: onglets.length - 1 }[e.key];
+        if (k === undefined) return;
+        e.preventDefault();
+        choisir((k + onglets.length) % onglets.length, true);
+      });
+    });
+  });
+</script>
+
+<style>
+  .bn-tete { display: grid; gap: 1rem; padding-block: clamp(1.25rem, 4vh, 3rem) clamp(1rem, 3vh, 2rem); }
+  .bn-h1 { font-size: clamp(2rem, 7vw, 4.6rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 16ch; }
+  .bn-sous { display: grid; gap: 0.6rem; }
+  .bn-metier { font-size: clamp(1.02rem, 1.5vw, 1.25rem); max-inline-size: 44ch; }
+  .bn-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; }
+  .bn-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.05rem; border: 2px solid currentColor; border-radius: var(--radius-ui, 6px); font-size: 1.12rem; font-weight: 700; }
+  .bn-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .bn-tel:focus-visible, .bn-lien:focus-visible, .bn-titre-lien:focus-visible, .bn-onglet:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .bn-h2 { font-size: clamp(1.6rem, 4vw, 2.8rem); line-height: 1.05; }
+  /* La vitrine : les biens en photo, prix et classe énergie lisibles d'un coup d'œil. */
+  .bn-vitrine { display: grid; gap: 1.1rem; padding-block: clamp(1.5rem, 5vh, 3.5rem) clamp(2rem, 6vh, 4rem); }
+  .bn-vitrine-tete { display: grid; gap: 0.85rem; }
+  .bn-onglets { display: flex; gap: 0.5rem; overflow-x: auto; padding-block-end: 0.25rem; }
+  .bn-onglets[hidden] { display: none; }
+  .bn-onglet { display: grid; flex: 0 0 auto; min-block-size: 48px; padding: 0.5rem 1.1rem; text-align: start; font-weight: 700; font-size: 1.05rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); background: var(--color-bg); cursor: pointer; }
+  .bn-onglet[aria-selected='true'] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .bn-onglet-n { font-weight: 400; font-size: 0.92rem; }
+  .bn-projets { display: grid; gap: 2rem; }
+  .bn-projet { display: grid; gap: 0.85rem; }
+  .bn-projet[hidden] { display: none; }
+  .bn-a-onglets .bn-projet-nom { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .bn-projet-nom { font-size: clamp(1.35rem, 2.6vw, 1.9rem); padding-block-end: 0.4rem; border-block-end: 2px solid var(--color-fg); }
+  .bn-liste { display: grid; gap: 1.5rem; }
+  .bn-bien { position: relative; display: grid; gap: 0.75rem; align-content: start; }
+  .bn-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .bn-bien-texte { display: grid; gap: 0.2rem; }
+  .bn-commune { color: var(--color-muted); }
+  .bn-titre { font-size: clamp(1.1rem, 1.8vw, 1.3rem); font-weight: 700; line-height: 1.2; }
+  .bn-titre-lien { text-decoration: none; }
+  .bn-titre-lien::after { content: ''; position: absolute; inset: 0; }
+  .bn-bien:hover .bn-titre-lien { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .bn-prix { font-size: clamp(1.3rem, 2.4vw, 1.6rem); font-weight: 700; }
+  .bn-marques { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-size: 0.98rem; }
+  .bn-marques:empty { display: none; }
+  .bn-dpe { padding-inline-start: 0.6rem; border-inline-start: 3px solid var(--color-fg); font-weight: 600; }
+  .bn-exclu { padding-inline-start: 0.6rem; border-inline-start: 3px solid var(--color-accent); font-weight: 600; }
+  .bn-estimer { padding-block: clamp(2rem, 7vh, 4.5rem); }
+  .bn-estimer-in { display: grid; gap: 0.85rem; }
+  .bn-estimer-titre { font-size: clamp(1.7rem, 4.6vw, 3.2rem); line-height: 1.04; max-inline-size: 20ch; }
+  .bn-estimer-phrase { font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-inline-size: 52ch; }
+  @media (min-width: 48rem) {
+    .bn-liste { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.75rem; }
+  }
+  @media (min-width: 64rem) {
+    .bn-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; }
+    .bn-vitrine-tete { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+    .bn-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .bn-estimer-in { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; }
+    .bn-estimer-in > .bn-portes { grid-column: 1 / -1; }
+  }
+</style>

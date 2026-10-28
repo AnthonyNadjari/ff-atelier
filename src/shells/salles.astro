@@ -1,0 +1,327 @@
+---
+/**
+ * Coquille "salles" : architecture `salles-capacites` (src/lib/architectures.ts ; sources Domaine de la Touche, Orne :
+ * « Découvrez nos différents espaces », chaque salle avec sa surface et ses personnes assises ou en cocktail, 53
+ * couchages, la cuisine pour le traiteur, une page par occasion, la FAQ ; Domaine de la Chanterelle, Lille : la demande
+ * de devis toujours dans la barre ; docs/veille/architectures/salles-capacites.md). On loue un lieu avec un nombre
+ * d'invités en tête : le site part de là.
+ *   → en tête : le h1, le métier à la ville et l'ancienneté, le téléphone, la note Google, « Réserver une visite »
+ *     (socle docs/GOUT.md § 0) ;
+ *   → un seul bloc, id="salles" (il tient la moitié de la page, modèle « onglets » de ff ressemblance) :
+ *     « Combien serez-vous ? », id="invites" sur l'encre : le tableau des salles et de leurs capacités par
+ *     configuration, lisible sans script ; le nombre d'invités et la configuration (posés par le script) marquent DANS
+ *     LE NAVIGATEUR les salles qui conviennent, en mots (« Oui », « Trop petite »), et le disent dans une phrase lue par
+ *     les lecteurs d'écran ; puis les salles, une par onglet (posés par le script ; sans script l'une sous l'autre), en
+ *     grande photo : surface, capacités, phrase du client, équipements, vers leur page ;
+ *   → l'histoire (les sections « about » du layout), sous les salles ;
+ *   → le lieu, id="lieu" : couchages, ce que le lieu met à disposition, la règle du traiteur, l'option sur la date, les
+ *     occasions (les services, une page chacune) ; puis « Une date en tête ? », id="contact" : téléphone et tiroir ;
+ *   → les autres sections du layout (les avis ; les questions sont sur /salles) ;
+ *   → le pied.
+ * Pages : une page par salle (/salles/<slug>), /salles (avec les questions).
+ *
+ * `layout.hero` n'est pas rendu. Sans salle lisible : le tableau et les salles disparaissent, et le build dit ce qui
+ * manque (donneesManquantes). Signes des sources NON repris : capitales criées en surtitre (« PROFITEZ DES »), citations
+ * d'auteurs célèbres entre les blocs, émoji dans les horaires, carrousel automatique.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, metierEtVille, donneesManquantes, sallesCompletes, configurationsDe, capaciteDeSalle, capaciteMax, phraseCapacites, surfaceLisible } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const x = site.salles;
+const salles = sallesCompletes(x);
+const configs = configurationsDe(x);
+const equipements = x?.equipements ?? [];
+const occasions = site.servicePages ? site.services : [];
+const avant = sections.filter((s) => s.type === 'about');
+const lieu = Boolean(x?.couchages || equipements.length > 0 || x?.traiteur || x?.option || occasions.length > 0);
+const nombre = (n: number) => n.toLocaleString('fr-FR').replace(/\s/g, ' ');
+// Ce que le script lit pour marquer les salles qui conviennent (rien d'autre ne part dans la page).
+const donnees = JSON.stringify({ liste: salles.map((s) => ({ slug: s.slug, nom: s.nom, capacites: s.capacites })) });
+const manque = donneesManquantes('salles-capacites', site);
+if (manque.length > 0) console.warn(`[coquille salles] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="sl-page">
+  <section id="hero" class="container-ff sl-tete" aria-label="Accueil">
+    <h1 class="sl-h1 font-display" set:html={site.business.tagline} />
+    <div class="sl-sous">
+      <p class="sl-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      <p class="sl-portes">
+        <a href={tel()} class="sl-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+        <a href="#contact" class="sl-lien">Réserver une visite</a>
+        {google && <a href={google.url} target="_blank" rel="noopener" class="sl-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a>}
+      </p>
+    </div>
+  </section>
+
+  <section id="salles" class="sl-bloc" aria-labelledby={salles.length > 0 ? 'sl-invites-t' : undefined} aria-label={salles.length > 0 ? undefined : 'Le lieu'} data-sl-outil={salles.length > 0 ? donnees : undefined} data-sl-defaut={configs[0]?.cle}>
+    {salles.length > 0 && (
+      <>
+        <div id="invites" class="sl-invites bg-ink text-on-ink">
+        <div class="container-ff sl-invites-in">
+          <h2 id="sl-invites-t" class="sl-h2 font-display">{site.wording.invites}</h2>
+          <div class="sl-choix" data-sl-choix hidden>
+            <label class="sl-champ">
+              <span>Nombre d’invités</span>
+              <input type="number" inputmode="numeric" min="1" step="1" class="sl-nombre tabular-nums" data-sl-nombre />
+            </label>
+            {configs.length >= 2 && (
+              <div class="sl-confs" role="group" aria-labelledby="sl-confs-t">
+                <p id="sl-confs-t" class="sl-confs-t">Comment&nbsp;?</p>
+                {configs.map((c, i) => (
+                  <button type="button" class="sl-conf" aria-pressed={i === 0 ? 'true' : 'false'} data-sl-conf={c.cle}>{c.titre}</button>
+                ))}
+              </div>
+            )}
+            <p class="sl-reponse" data-sl-reponse aria-live="polite"></p>
+          </div>
+          <div class="sl-tableau-cadre">
+            <table class="sl-tableau tabular-nums" data-sl-tableau>
+              <caption class="sr-only">Capacité de chaque salle selon la configuration</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Salle</th>
+                  <th scope="col">Surface</th>
+                  {configs.map((c) => <th scope="col">{c.titre}</th>)}
+                  <th scope="col" data-sl-col hidden>Pour vous</th>
+                </tr>
+              </thead>
+              <tbody>
+                {salles.map((s) => (
+                  <tr data-sl-ligne={s.slug}>
+                    <th scope="row"><a href={`/salles/${s.slug}`} class="sl-salle-lien">{s.nom}</a></th>
+                    <td>{s.surface ? surfaceLisible(s.surface) : ''}</td>
+                    {configs.map((c) => <td>{capaciteDeSalle(s, c.cle) > 0 ? nombre(capaciteDeSalle(s, c.cle)) : ''}</td>)}
+                    <td data-sl-col data-sl-verdict hidden></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+        <div class="container-ff sl-salles">
+          <div class="sl-salles-tete">
+            <h2 id="sl-salles-t" class="sl-h2 font-display">{site.wording.salles}</h2>
+            {salles.length >= 2 && (
+              <div class="sl-onglets" role="tablist" aria-label="Les salles" data-sl-onglets hidden>
+                {salles.map((s, i) => (
+                  <button type="button" role="tab" id={`sl-onglet-${s.slug}`} aria-controls={`sl-salle-${s.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class="sl-onglet" data-sl-onglet>
+                    {s.nom}<span class="sl-onglet-n tabular-nums">{nombre(capaciteMax(s))}&nbsp;personnes</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        {/* La liste hors du conteneur du titre : le bloc des panneaux est la section entière (outil compris). */}
+        <ul class="container-ff sl-liste">
+          {salles.map((s) => (
+            <li id={`sl-salle-${s.slug}`} class:list={['sl-salle', s.photo && 'sl-salle-photo']} role={salles.length >= 2 ? 'tabpanel' : undefined} aria-labelledby={salles.length >= 2 ? `sl-onglet-${s.slug}` : undefined} data-sl-panneau>
+              {s.photo && <Img src={s.photo.src} alt={s.photo.alt} class="sl-photo" sizes="(min-width: 1024px) 55vw, 100vw" />}
+              <div class="sl-salle-texte">
+                <h3 class="sl-salle-nom font-display"><a href={`/salles/${s.slug}`} class="sl-salle-lien">{s.nom}</a></h3>
+                <p class="sl-capa tabular-nums">{[s.surface ? surfaceLisible(s.surface) : '', phraseCapacites(s)].filter(Boolean).join(' ; ')}</p>
+                {s.texte && <p>{s.texte}</p>}
+                {s.equipements.length > 0 && <ul class="sl-equip">{s.equipements.map((e) => <li>{e}</li>)}</ul>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+      {/* Sur place et l'appel DANS le bloc des salles (on les lit une fois la salle trouvée ; le bloc à onglets tient la
+          moitié de la page, modèle « onglets » de ff ressemblance). Sans salle, ils restent seuls. */}
+      <div id="lieu" class="sl-lieu">
+        {lieu && (
+        <div class="container-ff sl-lieu-in">
+          {x?.couchages && <p class="sl-couchages font-display tabular-nums">{nombre(x.couchages)} couchages sur place</p>}
+          {equipements.length > 0 && <ul class="sl-dispo">{equipements.map((e) => <li>{e}</li>)}</ul>}
+          {x?.traiteur && <p class="sl-regle">{x.traiteur}</p>}
+          {x?.option && <p class="sl-regle">{x.option}</p>}
+          {occasions.length > 0 && (
+            <nav class="sl-occasions" aria-label="Les occasions">
+              <h2 class="sl-occ-titre">Pour</h2>
+              <ul>{occasions.map((s) => <li><a href={`/services/${s.slug}`} class="sl-occ-lien font-display">{s.title}<Icon name="ArrowRight" size={18} /></a></li>)}</ul>
+            </nav>
+          )}
+        </div>
+      )}
+      {/* « Contactez-nous » et « Réserver une visite » du Domaine de la Touche : on appelle ou on écrit pour une date.
+          id="contact" : sans script, les liens « Contact » y mènent. */}
+      <div id="contact" class="container-ff sl-appel">
+        <h2 class="sl-appel-titre font-display">Une date en tête ?</h2>
+        <p class="sl-portes">
+          <a href={tel()} class="sl-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a>
+          {site.layout.contactDrawer && <a href="/#contact" class="sl-lien">Écrire</a>}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* L'histoire (sections « about » du layout) sous les salles : « Un ancien corps de ferme » du Domaine de la Touche,
+      lu une fois qu'on sait que le lieu convient. */}
+  {avant.map(({ Component }) => <Component />)}
+
+
+  {sections.map(({ Component, type }, i) => type !== 'about' && (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { sallesPour, phraseReponse, type Configuration } from '@/lib/salles';
+
+  // Le nombre d'invités et la configuration marquent les salles qui conviennent, en mots, dans une colonne posée ici.
+  // Sans script : le tableau entier, rien de caché.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-sl-outil]');
+    const choix = bloc?.querySelector<HTMLElement>('[data-sl-choix]');
+    const champ = bloc?.querySelector<HTMLInputElement>('[data-sl-nombre]');
+    if (!bloc || !choix || !champ || !bloc.dataset.slOutil) return;
+    let donnees: { liste: { slug: string; nom: string; capacites?: Partial<Record<Configuration, number>> }[] };
+    try {
+      donnees = JSON.parse(bloc.dataset.slOutil);
+    } catch {
+      return;
+    }
+    const confs = [...bloc.querySelectorAll<HTMLButtonElement>('[data-sl-conf]')];
+    const conf = () => (confs.find((c) => c.getAttribute('aria-pressed') === 'true')?.dataset.slConf ?? bloc.dataset.slDefaut) as Configuration;
+    const reponse = bloc.querySelector<HTMLElement>('[data-sl-reponse]');
+    const cols = [...bloc.querySelectorAll<HTMLElement>('[data-sl-col]')];
+    const lignes = [...bloc.querySelectorAll<HTMLTableRowElement>('[data-sl-ligne]')];
+    const maj = () => {
+      const n = Number(champ.value);
+      const c = conf();
+      const vide = !(n > 0);
+      cols.forEach((x) => { x.hidden = vide; });
+      if (vide) {
+        if (reponse) reponse.textContent = '';
+        lignes.forEach((l) => l.removeAttribute('data-convient'));
+        return;
+      }
+      const ok = new Set(sallesPour(n, c, donnees).map((s) => s.slug));
+      lignes.forEach((l) => {
+        const oui = ok.has(l.dataset.slLigne ?? '');
+        l.dataset.convient = String(oui);
+        const v = l.querySelector<HTMLElement>('[data-sl-verdict]');
+        if (v) v.textContent = oui ? 'Oui' : 'Trop petite';
+      });
+      if (reponse) reponse.textContent = phraseReponse(n, c, donnees);
+    };
+    // Les salles en onglets, la première ouverte ; un clic sur une salle du tableau ouvre la sienne.
+    const rangee = bloc.querySelector<HTMLElement>('[data-sl-onglets]');
+    const onglets = rangee ? [...rangee.querySelectorAll<HTMLButtonElement>('[data-sl-onglet]')] : [];
+    const panneaux = [...bloc.querySelectorAll<HTMLElement>('[data-sl-panneau]')];
+    const ouvrir = (n: number, focus = false) => {
+      onglets.forEach((o, i) => { const sel = i === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      panneaux.forEach((p, i) => { p.hidden = i !== n; });
+    };
+    if (rangee && onglets.length >= 2 && onglets.length === panneaux.length) {
+      rangee.hidden = false;
+      bloc.classList.add('sl-a-onglets');
+      ouvrir(0);
+      onglets.forEach((o, i) => {
+        o.addEventListener('click', () => ouvrir(i));
+        o.addEventListener('keydown', (e) => {
+          const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: onglets.length - 1 }[e.key];
+          if (k === undefined) return;
+          e.preventDefault();
+          ouvrir((k + onglets.length) % onglets.length, true);
+        });
+      });
+    }
+    choix.hidden = false;
+    champ.addEventListener('input', maj);
+    confs.forEach((c) => c.addEventListener('click', () => {
+      confs.forEach((o) => o.setAttribute('aria-pressed', String(o === c)));
+      maj();
+    }));
+  });
+</script>
+
+<style>
+  .sl-tete { display: grid; gap: 1rem; padding-block: clamp(1.25rem, 4vh, 3rem) clamp(1.25rem, 4vh, 2.5rem); }
+  .sl-h1 { font-size: clamp(2rem, 7vw, 4.6rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 16ch; }
+  .sl-sous { display: grid; gap: 0.6rem; }
+  .sl-metier { font-size: clamp(1.02rem, 1.5vw, 1.25rem); max-inline-size: 44ch; }
+  .sl-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; }
+  .sl-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1.05rem; border: 2px solid currentColor; border-radius: var(--radius-ui, 6px); font-size: 1.12rem; font-weight: 700; }
+  .sl-lien { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .sl-tel:focus-visible, .sl-lien:focus-visible, .sl-salle-lien:focus-visible, .sl-occ-lien:focus-visible, .sl-nombre:focus-visible, .sl-conf:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .sl-h2 { font-size: clamp(1.6rem, 4vw, 2.8rem); line-height: 1.05; }
+  /* Combien serez-vous : sur l'encre, le tableau entier lisible sans script. */
+  .sl-invites { padding-block: clamp(1.75rem, 6vh, 4rem); }
+  .sl-invites-in { display: grid; gap: 1.1rem; }
+  .sl-choix { display: flex; flex-wrap: wrap; align-items: end; gap: 0.85rem 1.5rem; }
+  .sl-choix[hidden] { display: none; }
+  .sl-champ { display: grid; gap: 0.3rem; font-weight: 600; }
+  .sl-nombre { inline-size: 9rem; min-block-size: 48px; padding-inline: 0.85rem; font-size: 1.25rem; font-weight: 700; color: var(--color-fg); background: var(--color-bg); border: 2px solid currentColor; border-radius: var(--radius-ui, 6px); }
+  .sl-confs { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; }
+  .sl-confs-t { flex-basis: 100%; font-weight: 600; }
+  .sl-conf { display: inline-flex; align-items: center; min-block-size: 48px; padding-inline: 0.9rem; font-size: 1rem; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: var(--radius-ui, 6px); cursor: pointer; }
+  .sl-conf[aria-pressed='true'] { background: var(--color-bg); color: var(--color-fg); font-weight: 700; }
+  .sl-reponse { flex-basis: 100%; font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 700; min-block-size: 1.5em; }
+  .sl-tableau-cadre { overflow-x: auto; }
+  .sl-tableau { inline-size: 100%; min-inline-size: 30rem; border-collapse: collapse; font-size: 1.05rem; }
+  .sl-tableau th, .sl-tableau td { padding: 0.75rem 0.6rem; text-align: start; border-block-end: 1px solid currentColor; }
+  .sl-tableau thead th { font-weight: 600; font-size: 0.95rem; }
+  .sl-tableau tbody th { font-weight: 700; }
+  .sl-tableau [hidden] { display: none; }
+  .sl-tableau tr[data-convient='true'] th, .sl-tableau tr[data-convient='true'] td { background: var(--color-bg); color: var(--color-fg); }
+  .sl-tableau tr[data-convient='false'] [data-sl-verdict] { font-weight: 400; }
+  .sl-tableau [data-sl-verdict] { font-weight: 700; }
+  .sl-salle-lien { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  /* Les salles en grandes photos : l'image d'abord, la phrase des capacités ensuite. */
+  .sl-salles { display: grid; gap: 1.5rem; padding-block: clamp(2rem, 6vh, 4.5rem) 1.5rem; }
+  .sl-bloc { padding-block-end: clamp(2rem, 6vh, 4.5rem); }
+  .sl-salles-tete { display: grid; gap: 0.85rem; }
+  .sl-onglets { display: flex; gap: 0.5rem; overflow-x: auto; padding-block-end: 0.25rem; }
+  .sl-onglets[hidden] { display: none; }
+  .sl-onglet { display: grid; flex: 0 0 auto; min-block-size: 48px; padding: 0.5rem 1rem; text-align: start; font-weight: 700; font-size: 1.05rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); background: var(--color-bg); cursor: pointer; }
+  .sl-onglet[aria-selected='true'] { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+  .sl-onglet-n { font-weight: 400; font-size: 0.92rem; }
+  .sl-onglet:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .sl-salle[hidden] { display: none; }
+  .sl-liste { display: grid; gap: clamp(2rem, 6vh, 4rem); }
+  .sl-salle { display: grid; gap: 1rem; }
+  .sl-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .sl-salle-texte { display: grid; gap: 0.45rem; align-content: start; max-inline-size: 52ch; }
+  .sl-salle-nom { font-size: clamp(1.45rem, 3vw, 2.2rem); line-height: 1.05; }
+  .sl-salle-nom .sl-salle-lien { text-decoration: none; }
+  .sl-capa { font-weight: 700; font-size: 1.1rem; }
+  .sl-equip { display: grid; gap: 0.2rem; color: var(--color-muted); }
+  .sl-lieu { display: grid; gap: clamp(1.75rem, 5vh, 3rem); padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .sl-lieu-in { display: grid; gap: 1rem; }
+  .sl-couchages { font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.05; }
+  .sl-dispo { display: grid; gap: 0.35rem; }
+  .sl-dispo li { padding-inline-start: 0.8rem; border-inline-start: 2px solid var(--color-accent); }
+  .sl-regle { font-weight: 600; max-inline-size: 60ch; }
+  .sl-occasions { display: grid; gap: 0.4rem; }
+  .sl-occ-titre { font-weight: 600; }
+  .sl-occasions ul { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
+  .sl-occ-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; font-size: clamp(1.2rem, 2.2vw, 1.5rem); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .sl-appel { display: grid; gap: 0.75rem; }
+  .sl-appel-titre { font-size: clamp(1.4rem, 3.4vw, 2.2rem); line-height: 1.06; }
+  @media (min-width: 64rem) {
+    .sl-tete { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 3rem; align-items: end; }
+    .sl-invites-in { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: 3rem; align-items: start; }
+    .sl-invites-in > .sl-tableau-cadre { grid-column: 1 / -1; }
+    .sl-salle-photo { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 2.5rem; align-items: end; }
+    .sl-salle-photo:nth-child(even) .sl-photo { order: 2; }
+    .sl-lieu-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+    .sl-occasions { grid-column: 1 / -1; }
+  }
+</style>

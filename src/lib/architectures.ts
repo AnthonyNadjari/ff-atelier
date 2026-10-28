@@ -83,11 +83,15 @@ export interface LayoutArchi {
  *  - retraits        : points de retrait lisibles (retrait.points[] : slug, nom, commune, jour, heures « HH:MM » ;
  *                      src/lib/retrait.ts, pointsComplets) ;
  *  - cloture         : une clôture des commandes qui se lit (retrait.cloture : jour et heure « HH:MM ») ;
+ *  - salles          : salles d'un lieu de réception avec au moins une capacité (salles.liste[] : slug, nom, capacites ;
+ *                      src/lib/salles.ts, sallesCompletes) ;
+ *  - biens           : biens à vendre ou à louer lisibles (biens.liste[] : slug, titre, projet, commune, prix ;
+ *                      src/lib/biens.ts, biensComplets) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -136,6 +140,8 @@ export const ARCHITECTURE_IDS = [
   'formules-comparees',
   'appareils-pannes',
   'commande-retrait',
+  'salles-capacites',
+  'annonces-biens',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -998,6 +1004,69 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Producteur ou artisan qui vend sur commande et fait retirer à jour fixe, à la ferme ou chez des partenaires : maraîcher, éleveur en colis de viande, apiculteur, fromager fermier, boulanger au levain sur commande, boucher ou traiteur à la commande, AMAP ; 2 points de retrait et une heure de clôture. Pas pour une boutique ouverte tous les jours (lieu-fixe, pages-adresses), ni pour un camion qui vend à chaque étape (tournee-semaine).",
   },
+  'salles-capacites': {
+    id: 'salles-capacites',
+    modele:
+      "Le site d'un lieu de réception part du nombre d'invités : en tête le h1, le métier à la ville, l'ancienneté, le téléphone, la note et « Réserver une visite » ; juste dessous « Combien serez-vous ? », le tableau des salles et de leurs capacités par configuration (assis, cocktail, théâtre), lisible sans script, un nombre d'invités et une configuration qui marquent dans le navigateur les salles qui conviennent ; puis les salles en grandes photos, chacune avec sa surface, ses capacités, ses équipements, vers sa page ; puis ce que le lieu met à disposition (couchages, cuisine, parking, mobilier), la règle du traiteur et l'option sur la date, et l'appel ; puis l'histoire et les avis ; une page par salle, /salles avec les questions, une page par occasion (les services).",
+    sources: [
+      { fiche: 'docs/veille/architectures/salles-capacites.md', site: 'domainedelatouche.fr' },
+      { fiche: 'docs/veille/architectures/salles-capacites.md', site: 'domainedelachanterelle.fr' },
+    ],
+    layout: {
+      // Coquille `salles` (src/shells/salles.astro).
+      shell: 'salles',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Domaine de la Touche : sous le premier écran, « Découvrez nos différents espaces » (chaque salle, sa surface, ses
+      // personnes assises ou en cocktail), puis les produits de la ferme, puis l'accès et le contact ; les occasions
+      // (Réceptions, Séminaires) ont chacune leur page, les questions aussi (FAQ). La coquille rend l'histoire sous les
+      // salles (« Un ancien corps de ferme »), les avis après le lieu ; les questions sont sur /salles.
+      sections: [
+        { type: 'about', variant: 'story' },
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'salles', min: 2, libelle: '2 salles ou espaces au moins avec leurs capacités (salles.liste[] : personnes assises, en cocktail…)' },
+    ],
+    convientA:
+      "Lieu qu'on loue pour un événement et dont le client compte les invités : domaine ou salle de réception, salle des fêtes privée, grange aménagée, château, restaurant qui privatise ses salles, traiteur avec lieu, gîte de groupe pour séminaires et retraites ; 2 espaces avec leurs capacités. Pas pour une chambre d'hôtes à la nuit (outil-calendrier), ni pour un café qui montre ses espaces sans les louer (panneaux-tranche).",
+  },
+  'annonces-biens': {
+    id: 'annonces-biens',
+    modele:
+      "Le site d'une agence immobilière de quartier est sa vitrine : en tête le h1, le métier à la ville, l'ancienneté, le téléphone et la note ; juste dessous les biens, Acheter et Louer en onglets (sans script l'un sous l'autre), chaque bien en photo avec sa commune, son type, sa surface, ses pièces, son prix et sa classe énergie, « Exclusivité » quand l'agence l'a, vers sa page ; puis « Faire estimer votre bien », la porte du vendeur, avec le téléphone et la demande ; puis l'agence (l'histoire) et les avis ; une page par bien (photos, prix, qui paie les honoraires, caractéristiques, DPE et GES en échelle, charges, le négociateur à appeler), /biens rangé par projet et par type, /honoraires (le barème, obligatoire).",
+    sources: [
+      { fiche: 'docs/veille/architectures/annonces-biens.md', site: 'royal-immo.fr' },
+      { fiche: 'docs/veille/architectures/annonces-biens.md', site: 'giboire.com' },
+    ],
+    layout: {
+      // Coquille `biens` (src/shells/biens.astro).
+      shell: 'biens',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Royal Immo : la recherche, « Faites estimer votre bien par un professionnel », puis la présentation de l'agence
+      // familiale (« depuis 2005 »), puis les biens « coup de cœur » ; Giboire : Acheter, Louer, Estimer, Faire gérer en
+      // tête. Ici la vitrine vient d'abord (c'est ce qu'on vient voir), l'estimation ensuite, l'agence et les avis après.
+      sections: [
+        { type: 'about', variant: 'story' },
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'biens', min: 3, libelle: '3 biens au moins à vendre ou à louer (biens.liste[] : titre, projet, commune, prix)' },
+    ],
+    convientA:
+      "Agence immobilière indépendante ou mandataire de quartier qui tient elle-même une vingtaine d'annonces : transaction, location, terrains, garages, immobilier de loisir ; 3 biens avec leur prix. Au-delà d'une trentaine de biens, les annonces viennent du logiciel de l'agence (flux à brancher, pas encore fait). Pas pour un promoteur de programmes neufs, ni pour un loueur de matériel (catalogue-location).",
+  },
 };
 
 
@@ -1055,6 +1124,8 @@ export interface SiteArchi {
   formules?: { liste?: { slug?: string; nom?: string; prix?: string }[] };
   appareils?: { liste?: { slug?: string; nom?: string; pannes?: { nom?: string }[] }[] };
   retrait?: { cloture?: { jour?: string; heure?: string }; points?: { slug?: string; nom?: string; commune?: string; jour?: string; debut?: string; fin?: string }[] };
+  salles?: { liste?: { slug?: string; nom?: string; capacites?: Record<string, number | undefined> }[] };
+  biens?: { liste?: { slug?: string; titre?: string; projet?: string; commune?: string; prix?: number }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -1245,6 +1316,29 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
       case 'cloture': {
         const c = s.retrait?.cloture;
         n = c && JOURS_MIN.includes(sansAccent((c.jour ?? '').trim().toLowerCase())) && HHMM.test(c.heure ?? '') ? 1 : 0;
+        break;
+      }
+      // Mêmes comptes que sallesCompletes (src/lib/salles.ts) et biensComplets (src/lib/biens.ts), recopiés.
+      case 'salles': {
+        const vus = new Set<string>();
+        n = (s.salles?.liste ?? []).filter((x) => {
+          const slug = (x.slug ?? '').trim();
+          if (!slug || !(x.nom ?? '').trim() || vus.has(slug)) return false;
+          if (!Object.values(x.capacites ?? {}).some((c) => typeof c === 'number' && c > 0)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
+        break;
+      }
+      case 'biens': {
+        const vus = new Set<string>();
+        n = (s.biens?.liste ?? []).filter((b) => {
+          const slug = (b.slug ?? '').trim();
+          if (!slug || !(b.titre ?? '').trim() || !(b.commune ?? '').trim() || vus.has(slug)) return false;
+          if ((b.projet !== 'vente' && b.projet !== 'location') || !(typeof b.prix === 'number' && b.prix > 0)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
         break;
       }
       case 'urgence': n = s.contact?.emergency24h || (s.tarifs?.delai ?? '').trim() ? 1 : 0; break;

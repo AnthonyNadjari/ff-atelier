@@ -338,6 +338,22 @@ export async function loadRetraitModule() {
   return loadPureLibModule('retrait.ts');
 }
 
+/**
+ * Copie src/lib/salles.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture salles-capacites : salles, capacités,
+ * salles qui conviennent ; tests/architectures-reception.test.mjs).
+ */
+export async function loadSallesModule() {
+  return loadPureLibModule('salles.ts');
+}
+
+/**
+ * Copie src/lib/biens.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture annonces-biens : biens, projets, prix,
+ * DPE, mentions manquantes ; tests/architectures-reception.test.mjs).
+ */
+export async function loadBiensModule() {
+  return loadPureLibModule('biens.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

@@ -85,6 +85,8 @@ export const SHELLS = [
   'formules', // l accueil est le choix d une formule : en tete h1, telephone, note ; les formules nommees a prix cote a cote (piste au telephone), chacune avec ce qu elle comprend et sa porte ; ce qui est commun a toutes ; une page par formule et /formules (architecture formules-comparees)
   'appareils', // l accueil est le choix de l appareil en panne : en tete h1, telephone, note, forfait ; les appareils ranges par famille (un onglet chacune, sans script toutes l une sous l autre), chacun avec ses pannes vers leur ancre ; les marques de A a Z et comment ca se passe dans le meme bloc ; une page par appareil et /appareils (architecture appareils-pannes)
   'retrait', // l accueil est le rythme de la commande : en tete h1, telephone, note ; la cloture et les jours de retrait (la prochaine calculee dans le navigateur) ; les facons d acheter ; les points de retrait par jour (un onglet chacun, sans script toute la semaine) ; une page par point et /retrait (architecture commande-retrait)
+  'salles', // l accueil part du nombre d invites : en tete h1, telephone, note, « Réserver une visite » ; « Combien serez-vous ? » (le tableau des salles et de leurs capacites par configuration, lisible sans script, les salles qui conviennent marquees dans le navigateur) ; les salles en photos ; couchages et equipements ; une page par salle et /salles (architecture salles-capacites)
+  'biens', // l accueil est la vitrine des biens : en tete h1, telephone, note ; Acheter / Louer en onglets (sans script l un sous l autre), chaque bien avec photo, commune, surface, prix et classe energie vers sa page ; « Faire estimer votre bien » ; une page par bien, /biens et /honoraires (architecture annonces-biens)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -1029,6 +1031,90 @@ export const siteSchema = z.object({
       "Commande de la semaine et points de retrait (architecture commande-retrait, docs/veille/architectures/commande-retrait.md, sources Riedoasis, maraîchage bio près de Strasbourg : « 3 façons d'acheter », commande avant mardi midi, une vingtaine de points chez des commerçants filtrés par jour, une page par point ; Au temps de la source, Vosges : jour de retrait et vente directe par point) : l'accueil est le rythme (clôture, retraits, la prochaine fois calculée dans le navigateur), les façons d'acheter, les points par jour ; une page par point (/retrait/<slug>) et /retrait. Absent = ni rythme ni pages. Jamais une heure, un point ou une vente sur place inventés.",
     ),
 
+  salles: z
+    .object({
+      liste: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /salles/<slug> (« grande-salle »)'),
+            nom: z.string().describe('Nom de la salle ou de l’espace tel que le client le dit (« La Grande Salle », « La Grange », « La cour fermée »)'),
+            surface: z.number().positive().optional().describe('Surface en m² donnée par le client (140). Absente = non affichée.'),
+            capacites: z
+              .object({
+                assis: z.number().int().positive().optional().describe('Personnes assises à table (repas, banquet)'),
+                cocktail: z.number().int().positive().optional().describe('Personnes debout en cocktail'),
+                theatre: z.number().int().positive().optional().describe('Personnes assises en rangs (conférence, cérémonie)'),
+                classe: z.number().int().positive().optional().describe('Personnes en classe (tables face à l’écran)'),
+                u: z.number().int().positive().optional().describe('Personnes en U (réunion)'),
+              })
+              .default({})
+              .describe('Capacités par configuration, chiffres du client. Une salle sans capacité ne compte pas ; une configuration absente reste vide, jamais estimée.'),
+            exterieur: z.boolean().default(false).describe('Vrai pour un espace en plein air ou couvert sans murs (cour, parc, préau), dit par le client. Faux par défaut.'),
+            texte: z.string().optional().describe('Une ou deux phrases du client sur la salle (charpente, cheminée, lumière). Absente = rien.'),
+            equipements: z.array(z.string()).default([]).describe('Équipements propres à la salle, mots du client (« Sonorisation et micro », « Cheminée »). Vide = rien.'),
+            photo: img.optional().describe('Photo de la salle, du client. Absente = pas d’image.'),
+          }),
+        )
+        .default([])
+        .describe('Les salles et espaces, dans l’ordre du client : une ligne du tableau des capacités et une page chacun.'),
+      couchages: z.number().int().positive().optional().describe('Nombre de couchages sur place, dit par le client (53). Absent = non affiché.'),
+      equipements: z.array(z.string()).default([]).describe('Ce que le lieu met à disposition, mots du client (« Parking de 70 places », « Cuisine professionnelle à accès traiteur », « Location de tables et de chaises »). Vide = pas de bloc.'),
+      option: z.string().optional().describe('Comment on réserve une date, mots du client (« Option gratuite et sans engagement pendant 10 jours »). Absente = rien.'),
+      traiteur: z.string().optional().describe('La règle du traiteur, mots du client (« Traiteur libre, pas de droit de bouchon »). Absente = rien, jamais « traiteur libre » deviné.'),
+    })
+    .optional()
+    .describe(
+      "Salles et capacités d'un lieu de réception (architecture salles-capacites, docs/veille/architectures/salles-capacites.md, sources Domaine de la Touche, Orne : chaque espace avec sa surface et ses personnes assises ou en cocktail, 53 couchages, une page par occasion ; Domaine de la Chanterelle, Lille : la demande de devis toujours dans la barre) : l'accueil part du nombre d'invités (« Combien serez-vous ? », le tableau des capacités, les salles qui conviennent marquées dans le navigateur), puis les salles en photos ; une page par salle (/salles/<slug>) et /salles. Absent = ni tableau ni pages. Jamais une capacité, une surface ou un équipement inventés.",
+    ),
+
+  biens: z
+    .object({
+      estimer: z.string().optional().describe('Ce que l’agence propose au vendeur, mots du client (« Avis de valeur gratuit, sous 48 h »). Absent = la porte « Faire estimer votre bien » sans promesse.'),
+      honoraires: z
+        .object({
+          lignes: z
+            .array(z.object({ tranche: z.string().describe('« Jusqu’à 100 000 € », « Location : par m² habitable »'), taux: z.string().describe('« 6 % TTC », « 8 € TTC par m² »') }))
+            .default([])
+            .describe('Le barème des honoraires de l’agence, tel qu’affiché en vitrine (obligatoire sur le site d’une agence). Vide = pas de page /honoraires.'),
+          note: z.string().optional().describe('Précision du barème (« Honoraires à la charge de l’acquéreur sauf mention contraire »). Absente = rien.'),
+        })
+        .optional()
+        .describe('Barème des honoraires (page /honoraires, lien en pied de page). Absent = pas de page et le build le signale.'),
+      liste: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /biens/<slug> (« hyeres-t2-terrasse »)'),
+            titre: z.string().describe('Titre de l’annonce tel que l’agence l’écrit (« T2 en rez-de-jardin avec terrasse »)'),
+            projet: z.enum(['vente', 'location']).describe('À vendre ou à louer'),
+            type: z.string().optional().describe('Type de bien (« Appartement », « Maison », « Terrain », « Garage »). Absent = rangé sans type.'),
+            commune: z.string().describe('Commune du bien (« Hyères »)'),
+            codePostal: z.string().optional().describe('Code postal (« 83400 »). Absent = non affiché.'),
+            prix: z.number().positive().describe('Vente : prix honoraires inclus, en euros ; location : loyer mensuel charges comprises, en euros. Chiffre du client.'),
+            honoraires: z.string().optional().describe('Qui paie les honoraires et combien, mots de l’annonce (« Honoraires à la charge du vendeur », « 5 % TTC à la charge de l’acquéreur, soit 223 810 € hors honoraires »). Absent = rien, et le build le signale pour une vente.'),
+            surface: z.number().positive().optional().describe('Surface habitable en m² (49). Absente = non affichée.'),
+            pieces: z.number().int().positive().optional().describe('Nombre de pièces'),
+            chambres: z.number().int().positive().optional().describe('Nombre de chambres'),
+            terrain: z.number().positive().optional().describe('Surface du terrain en m²'),
+            dpe: z.enum(['A', 'B', 'C', 'D', 'E', 'F', 'G']).optional().describe('Classe énergie du DPE, celle du diagnostic. Absente = pas d’échelle, et le build le signale (mention obligatoire).'),
+            ges: z.enum(['A', 'B', 'C', 'D', 'E', 'F', 'G']).optional().describe('Classe climat (GES) du DPE. Absente = pas d’échelle.'),
+            energie: z.string().optional().describe('Dépenses annuelles d’énergie estimées, mots du diagnostic (« Entre 760 € et 1 080 € par an, prix de 2023 »). Absentes = rien.'),
+            charges: z.string().optional().describe('Charges, provisions, copropriété, taxe foncière, dépôt de garantie, mots de l’annonce (« Charges : 92 € par mois ; taxe foncière : 1 149 € »). Absentes = rien.'),
+            exclusivite: z.boolean().default(false).describe('Vrai si l’agence a le bien en exclusivité, dit par elle. Faux par défaut.'),
+            reference: z.string().optional().describe('Référence de l’annonce (« HB3500 »). Absente = non affichée.'),
+            texte: z.string().optional().describe('Le descriptif de l’annonce, mots de l’agence. Absent = rien.'),
+            caracteristiques: z.array(z.object({ nom: z.string(), valeur: z.string() })).default([]).describe('Le tableau des caractéristiques de l’annonce (« Chauffage » : « Électrique individuel », « Exposition » : « Sud »). Vide = pas de tableau.'),
+            photos: z.array(img).default([]).describe('Photos du bien, de l’agence. Vide = pas d’image, jamais une photo de banque.'),
+            negociateur: z.object({ nom: z.string(), telephone: z.string().optional().describe('Numéro tel qu’affiché (« 06 20 72 41 32 »)') }).optional().describe('Le négociateur qui suit le bien. Absent = le téléphone de l’agence.'),
+          }),
+        )
+        .default([])
+        .describe('Les biens à vendre et à louer, dans l’ordre de l’agence (le plus récent d’abord). Un bien sans projet, commune ou prix ne compte pas.'),
+    })
+    .optional()
+    .describe(
+      "Biens à vendre et à louer d'une agence immobilière de quartier (architecture annonces-biens, docs/veille/architectures/annonces-biens.md, sources Royal Immo, Toulon : Acheter et Louer par type de bien, « Faites estimer votre bien » sous la recherche, une page par bien avec ses caractéristiques, le prix, qui paie les honoraires, le négociateur ; Giboire, Rennes : « Votre projet commence ici », Acheter, Louer, Estimer) : l'accueil est la vitrine (Acheter / Louer en onglets), la porte de l'estimation ; une page par bien (/biens/<slug>), /biens et /honoraires. Absent = ni vitrine ni pages. Jamais un prix, une surface, une classe énergie ou une exclusivité inventés.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -1101,6 +1187,10 @@ export const siteSchema = z.object({
       appareils: z.string().default('Les appareils').describe('Libellé du lien de nav et titre de la page /appareils (site.appareils) : « Les appareils », « Ce que nous réparons »'),
       panne: z.string().default('Quel appareil est en panne\u202f?').describe('Titre du bloc des appareils sur l’accueil (architecture appareils-pannes) : « Quel appareil est en panne ? », « Votre appareil »'),
       retrait: z.string().default('Points de retrait').describe('Libellé du lien de nav et titre de la page /retrait (site.retrait) : « Points de retrait », « Où retirer »'),
+      salles: z.string().default('Les salles').describe('Libellé du lien de nav et titre de la page /salles (site.salles) : « Les salles », « Nos espaces »'),
+      invites: z.string().default('Combien serez-vous\u202f?').describe('Titre du bloc des capacités sur l’accueil (architecture salles-capacites) : « Combien serez-vous ? », « Votre réception »'),
+      biens: z.string().default('Nos biens').describe('Libellé du lien de nav et titre de la page /biens (site.biens) : « Nos biens », « Nos annonces »'),
+      estimer: z.string().default('Faire estimer votre bien').describe('Titre de la porte de l’estimation (architecture annonces-biens) : « Faire estimer votre bien », « Vendre avec nous »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),

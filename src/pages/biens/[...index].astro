@@ -1,0 +1,91 @@
+---
+/**
+ * Page /biens (site.biens, src/lib/biens.ts) : architecture `annonces-biens` (« Tous nos biens » de Royal Immo, Acheter /
+ * Louer rangés par type de bien ; docs/veille/architectures/annonces-biens.md). Les biens par projet puis par type,
+ * chacun avec sa commune, sa surface, son prix et sa classe énergie, vers sa page ; le lien vers les honoraires ; puis les
+ * questions du client (site.faq). Lisible sans script, sans onglets. Générée seulement avec 3 biens lisibles (lienBiens).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, projetsDeBiens, typesDeBiens, prixDuBien, resumeDuBien, lienBiens } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return lienBiens(site.biens, site.wording.biens) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const b = site.biens!;
+const projets = projetsDeBiens(b).map((p) => {
+  const types = typesDeBiens(p.biens);
+  const groupes = types.map((t) => ({ type: t, biens: p.biens.filter((x) => (x.type ?? '').trim().toLowerCase() === t.toLowerCase()) }));
+  const sans = p.biens.filter((x) => !(x.type ?? '').trim());
+  return { ...p, groupes: sans.length > 0 ? [...groupes, { type: 'Autres biens', biens: sans }] : groupes };
+});
+const titre = site.wording.biens;
+const honoraires = Boolean(b.honoraires && (b.honoraires.lignes.length > 0 || b.honoraires.note));
+const faqLd = site.faq.length > 0 ? faqPageLd(site.faq) : undefined;
+const communes = [...new Set(projets.flatMap((p) => p.biens.map((x) => x.commune)))];
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} : ${projets.map((p) => `${p.biens.length} ${p.cle === 'vente' ? 'à vendre' : 'à louer'}`).join(', ')}, à ${communes.join(', ')}. ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city}.`} path="/biens" jsonLd={faqLd ? [faqLd] : []}>
+  <Nav />
+  <main id="main" class="container-ff pbs">
+    <header class="pbs-tete">
+      <h1 class="pbs-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      <p class="pbs-portes">
+        <a href={tel()} class="pbs-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {honoraires && <a href="/honoraires" class="pbs-lien">Nos honoraires</a>}
+      </p>
+    </header>
+    {projets.map((p) => (
+      <section aria-labelledby={`pbs-${p.cle}`} class="pbs-projet">
+        <h2 id={`pbs-${p.cle}`} class="pbs-h2 font-display">{p.titre}</h2>
+        {p.groupes.map((g) => (
+          <div class="pbs-groupe">
+            <h3 class="pbs-h3">{g.type}</h3>
+            <ul class="pbs-liste">
+              {g.biens.map((x) => (
+                <li class="pbs-bien">
+                  <a href={`/biens/${x.slug}`} class="pbs-nom">{x.commune}, {x.titre}</a>
+                  <span class="tabular-nums">{[resumeDuBien(x), prixDuBien(x)].filter(Boolean).join(' ; ')}</span>
+                  {(x.dpe || x.exclusivite) && <span class="pbs-muted">{[x.dpe ? `Classe énergie ${x.dpe}` : '', x.exclusivite ? 'Exclusivité' : ''].filter(Boolean).join(', ')}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+    ))}
+    {site.faq.length > 0 && (
+      <section id="questions" aria-labelledby="pbs-questions">
+        <h2 id="pbs-questions" class="pbs-h2 font-display">Vos questions</h2>
+        <div class="pbs-faq">{site.faq.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}</div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pbs { display: grid; gap: 2rem; padding-block: clamp(1.5rem, 5vh, 4rem); }
+  .pbs-tete { display: grid; gap: 0.6rem; }
+  .pbs-titre { font-size: clamp(2rem, 5.5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .pbs-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; }
+  .pbs-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .pbs-lien { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pbs-tel:focus-visible, .pbs-nom:focus-visible, .pbs-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pbs-projet { display: grid; gap: 1rem; }
+  .pbs-h2 { font-size: clamp(1.4rem, 3vw, 2rem); padding-block-end: 0.4rem; border-block-end: 2px solid var(--color-fg); }
+  .pbs-h3 { font-weight: 700; font-size: 1.1rem; }
+  .pbs-liste { display: grid; }
+  .pbs-bien { display: grid; gap: 0.15rem; padding-block: 0.85rem; border-block-end: 1px solid var(--color-line); }
+  .pbs-nom { display: inline-flex; align-items: center; min-block-size: 44px; font-weight: 700; font-size: 1.12rem; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pbs-muted { color: var(--color-muted); }
+  .pbs-faq details { border-block-end: 1px solid var(--color-line); }
+  .pbs-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .pbs-faq summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pbs-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+</style>

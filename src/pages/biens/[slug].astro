@@ -1,0 +1,126 @@
+---
+/**
+ * Page d'un bien (/biens/<slug>, site.biens, src/lib/biens.ts) : architecture `annonces-biens`
+ * (docs/veille/architectures/annonces-biens.md ; la page d'annonce de Royal Immo : titre, commune, prix, descriptif,
+ * tableau des caractéristiques, qui paie les honoraires, charges et taxe foncière, le négociateur et son téléphone). Les
+ * photos du bien, le prix, les honoraires, la surface et les pièces, le DPE et le GES en échelle de A à G, les dépenses
+ * d'énergie, les charges, le descriptif, les caractéristiques ; Appeler (le négociateur ou l'agence) ; les autres biens
+ * du même projet. Une page par bien lisible ; sinon aucune. Rien n'est complété : une mention absente reste absente.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, biensComplets, prixDuBien, resumeDuBien, surfaceLisible, echelleDpe, paragraphs } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+export function getStaticPaths() {
+  return biensComplets(site.biens).map((x) => ({ params: { slug: x.slug }, props: { x } }));
+}
+const { x } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const b = site.biens!;
+const tous = biensComplets(b);
+const autres = tous.filter((y) => y.slug !== x.slug && y.projet === x.projet).slice(0, 4);
+const honoraires = Boolean(b.honoraires && (b.honoraires.lignes.length > 0 || b.honoraires.note));
+const neg = x.negociateur;
+const telNeg = neg?.telephone ? `tel:${neg.telephone.replace(/[^+\d]/g, '')}` : undefined;
+const echelles = [
+  x.dpe ? { titre: 'Classe énergie (DPE)', lettres: echelleDpe(x.dpe), classe: x.dpe } : undefined,
+  x.ges ? { titre: 'Classe climat (GES)', lettres: echelleDpe(x.ges), classe: x.ges } : undefined,
+].filter((e): e is NonNullable<typeof e> => Boolean(e));
+const [photo, ...photos] = x.photos;
+const resume = resumeDuBien(x);
+---
+
+<Base title={`${x.titre}, ${x.commune} | ${site.business.name}`} description={`${x.projet === 'vente' ? 'À vendre' : 'À louer'} à ${x.commune} : ${x.titre}${resume ? `, ${resume}` : ''}, ${prixDuBien(x)}. ${site.business.name}.`} path={`/biens/${x.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff pb">
+    <p><a href={tous.length >= 3 ? '/biens' : '/'} class="pb-lien"><Icon name="ArrowLeft" size={16} />{tous.length >= 3 ? site.wording.biens : 'Accueil'}</a></p>
+    <div class="pb-grille">
+      <div class="pb-texte">
+        <p class="pb-commune">{x.projet === 'vente' ? 'À vendre' : 'À louer'}, {x.commune}{x.codePostal ? ` (${x.codePostal})` : ''}{x.reference ? `, réf. ${x.reference}` : ''}</p>
+        <h1 class="pb-titre font-display">{x.titre}</h1>
+        {resume && <p class="pb-resume tabular-nums">{resume}{x.terrain ? `, terrain de ${surfaceLisible(x.terrain)}` : ''}</p>}
+        <p class="pb-prix tabular-nums">{prixDuBien(x)}</p>
+        {x.honoraires && <p class="pb-muted">{x.honoraires}</p>}
+        {x.exclusivite && <p class="pb-exclu">Exclusivité de l’agence</p>}
+        <p class="pb-portes">
+          <a href={telNeg ?? tel()} class="pb-tel tabular-nums"><Icon name="Phone" size={18} />{neg?.telephone ?? site.contact.phoneDisplay}</a>
+          {neg && <span>{neg.nom} suit ce bien</span>}
+        </p>
+      </div>
+      {photo && <Img src={photo.src} alt={photo.alt} class="pb-photo" sizes="(min-width: 1024px) 55vw, 100vw" priority />}
+    </div>
+    {photos.length > 0 && (
+      <ul class="pb-photos" aria-label="Autres photos du bien">
+        {photos.map((p) => <li><Img src={p.src} alt={p.alt} class="pb-vignette" sizes="(min-width: 1024px) 25vw, 50vw" /></li>)}
+      </ul>
+    )}
+    {echelles.length > 0 && (
+      <section class="pb-energie" aria-label="Diagnostic de performance énergétique">
+        {echelles.map((e) => (
+          <div class="pb-echelle">
+            <h2 class="pb-h2">{e.titre} : {e.classe}</h2>
+            <ol class="pb-lettres" aria-hidden="true">
+              {e.lettres.map((l, i) => <li class:list={['pb-lettre', l.actif && 'pb-lettre-actif']} style={`--l:${i}`}>{l.lettre}</li>)}
+            </ol>
+          </div>
+        ))}
+        {x.energie && <p class="pb-muted">{x.energie}</p>}
+      </section>
+    )}
+    {x.texte && <div class="pb-desc">{paragraphs(x.texte).map((p) => <p>{p}</p>)}</div>}
+    {(x.caracteristiques.length > 0 || x.charges) && (
+      <section aria-labelledby="pb-carac" class="pb-carac">
+        <h2 id="pb-carac" class="pb-h2">Caractéristiques</h2>
+        {x.caracteristiques.length > 0 && <dl>{x.caracteristiques.map((c) => <div><dt>{c.nom}</dt><dd>{c.valeur}</dd></div>)}</dl>}
+        {x.charges && <p>{x.charges}</p>}
+      </section>
+    )}
+    {honoraires && <p><a href="/honoraires" class="pb-lien">Nos honoraires</a></p>}
+    {autres.length > 0 && (
+      <nav class="pb-autres" aria-label="D’autres biens">
+        <h2 class="pb-h2">{x.projet === 'vente' ? 'D’autres biens à vendre' : 'D’autres biens à louer'}</h2>
+        <ul>{autres.map((y) => <li><a href={`/biens/${y.slug}`} class="pb-autre"><span>{y.commune}, {y.titre}</span><span class="tabular-nums">{prixDuBien(y)}</span></a></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pb { display: grid; gap: 2rem; padding-block: clamp(1.25rem, 4vh, 3.5rem); }
+  .pb-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pb-grille { display: grid; gap: 2rem; }
+  .pb-texte { display: grid; gap: 0.55rem; align-content: start; }
+  .pb-commune { font-size: 1.05rem; color: var(--color-muted); }
+  .pb-titre { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.02; letter-spacing: -0.012em; }
+  .pb-resume { font-size: 1.15rem; font-weight: 600; }
+  .pb-prix { font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 700; }
+  .pb-muted { color: var(--color-muted); }
+  .pb-exclu { padding-inline-start: 0.7rem; border-inline-start: 3px solid var(--color-accent); font-weight: 600; }
+  .pb-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.25rem; }
+  .pb-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .pb-tel:focus-visible, .pb-lien:focus-visible, .pb-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pb-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .pb-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+  .pb-vignette { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
+  .pb-energie { display: grid; gap: 1.25rem; }
+  .pb-echelle { display: grid; gap: 0.5rem; }
+  .pb-h2 { font-weight: 700; font-size: 1.2rem; }
+  /* L'échelle de A à G : des barres de plus en plus longues, la classe du bien pleine. */
+  .pb-lettres { display: grid; gap: 0.2rem; max-inline-size: 22rem; }
+  .pb-lettre { inline-size: calc(30% + var(--l) * 10%); padding: 0.1rem 0.6rem; font-weight: 600; font-size: 0.95rem; border: 1px solid var(--color-line); border-radius: var(--radius-ui, 4px); }
+  .pb-lettre-actif { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); font-weight: 700; }
+  .pb-desc { display: grid; gap: 0.85rem; max-inline-size: 65ch; }
+  .pb-carac { display: grid; gap: 0.6rem; }
+  .pb-carac dl { display: grid; }
+  .pb-carac dl > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; padding-block: 0.6rem; border-block-end: 1px solid var(--color-line); max-inline-size: 40rem; }
+  .pb-carac dt { color: var(--color-muted); }
+  .pb-carac dd { font-weight: 600; }
+  .pb-autres ul { display: grid; }
+  .pb-autre { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; min-block-size: 48px; align-items: center; border-block-end: 1px solid var(--color-line); }
+  @media (min-width: 48rem) { .pb-photos { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .pb-grille { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 3.5rem; align-items: start; } }
+</style>

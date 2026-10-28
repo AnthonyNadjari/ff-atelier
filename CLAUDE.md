@@ -185,6 +185,12 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   coquille `retrait`) → la règle « Commandez avant le mardi à 12 h, retirez le jeudi » et la prochaine clôture calculée dans le
   navigateur, les façons d'acheter, les points de retrait en onglets par jour, `/retrait` (avec les questions), `/retrait/<slug>` ;
   aucune donnée = aucune page (`src/lib/appareils.ts`, `src/lib/retrait.ts`, `tests/architectures-pannes.test.mjs`).
+  `salles` (optionnel, architecture `salles-capacites`, coquille `salles`) → « Combien serez-vous ? » : le tableau des capacités par
+  configuration (lisible sans script) et les salles qui conviennent marquées dans le navigateur, les salles en onglets, couchages et
+  équipements, `/salles` (avec les questions), `/salles/<slug>` ; `biens` (optionnel, architecture `annonces-biens`, coquille `biens`)
+  → la vitrine Acheter / Louer en onglets, « Faire estimer votre bien », `/biens`, `/biens/<slug>` (DPE et GES en échelle, honoraires),
+  `/honoraires` ; une mention d'annonce absente est signalée au build ; aucune donnée = aucune page (`src/lib/salles.ts`,
+  `src/lib/biens.ts`, `tests/architectures-reception.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

@@ -46,6 +46,10 @@ export { appareilsComplets, famillesDe as famillesDAppareils, prixDe as prixDApp
 import { lienAppareils } from './appareils';
 export { JOURS_RETRAIT, indexJour as indexJourRetrait, heureLisible as heureDeRetrait, pointsComplets, pointsParJour, clotureValide, phraseDuCycle, prochainCycle, libelleDecalage, lienRetrait } from './retrait';
 import { lienRetrait } from './retrait';
+export { CONFIGURATIONS, sallesCompletes, configurationsDe, capaciteMax, capacite as capaciteDeSalle, phraseCapacites, sallesPour, phraseReponse, lienSalles } from './salles';
+import { lienSalles } from './salles';
+export { CLASSES as CLASSES_DPE, PROJETS as PROJETS_BIENS, biensComplets, projetsDe as projetsDeBiens, typesDe as typesDeBiens, prixLisible as prixDuBien, resume as resumeDuBien, surface as surfaceLisible, echelle as echelleDpe, mentionsManquantes, lienBiens } from './biens';
+import { lienBiens } from './biens';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -307,6 +311,14 @@ export const navLinks = (s: Site = site) => {
   // la nav, vers tous les points par jour (/retrait).
   const retrait = lienRetrait(s.retrait, s.wording.retrait);
   if (retrait) links.unshift(retrait);
+  // Salles d'un lieu de réception (src/lib/salles.ts, architecture salles-capacites) : « Nos espaces » du Domaine de la
+  // Touche, en tête de la nav, vers le tableau des capacités et toutes les salles (/salles).
+  const salles = lienSalles(s.salles, s.wording.salles);
+  if (salles) links.unshift(salles);
+  // Biens d'une agence (src/lib/biens.ts, architecture annonces-biens) : « Acheter / Louer » de Royal Immo, en tête de la
+  // nav, vers toute la vitrine (/biens).
+  const biens = lienBiens(s.biens, s.wording.biens);
+  if (biens) links.unshift(biens);
   // Demande d'estimation (src/lib/estimation.ts, architecture estimation-etapes) : « Devis en ligne » de Rigoulet, toujours
   // dans la barre ; en dernier, à la place d'une porte Contact (la demande EST le contact).
   const estimation = lienEstimation(s.estimation, s.wording.estimation);

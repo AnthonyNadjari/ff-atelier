@@ -1,0 +1,77 @@
+---
+/**
+ * Page d'une salle (/salles/<slug>, site.salles, src/lib/salles.ts) : architecture `salles-capacites`
+ * (docs/veille/architectures/salles-capacites.md ; « La Grande Salle » du Domaine de la Touche : la photo, la surface,
+ * les personnes assises ou en cocktail, ce qui l'équipe). La salle, ses capacités configuration par configuration, la
+ * phrase du client, ses équipements, la photo ; la règle du traiteur et l'option sur la date ; Appeler ; les autres
+ * salles. Une page par salle lisible ; sinon aucune.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, sallesCompletes, CONFIGURATIONS, capaciteDeSalle, phraseCapacites, surfaceLisible } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+export function getStaticPaths() {
+  return sallesCompletes(site.salles).map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+const { s } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const x = site.salles!;
+const toutes = sallesCompletes(x);
+const autres = toutes.filter((y) => y.slug !== s.slug);
+const confs = CONFIGURATIONS.filter((c) => capaciteDeSalle(s, c.cle) > 0);
+const nombre = (n: number) => n.toLocaleString('fr-FR').replace(/\s/g, ' ');
+---
+
+<Base title={`${s.nom} | ${site.business.name}`} description={`${s.nom} au ${site.business.name}, ${site.contact.address.city} : ${[s.surface ? surfaceLisible(s.surface) : '', phraseCapacites(s)].filter(Boolean).join(', ')}.`} path={`/salles/${s.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff ps">
+    <p><a href={toutes.length >= 2 ? '/salles' : '/'} class="ps-lien"><Icon name="ArrowLeft" size={16} />{toutes.length >= 2 ? site.wording.salles : 'Accueil'}</a></p>
+    <div class="ps-grille">
+      <div class="ps-texte">
+        <h1 class="ps-titre font-display">{s.nom}</h1>
+        {s.surface && <p class="ps-surface tabular-nums">{surfaceLisible(s.surface)}{s.exterieur ? ', en plein air' : ''}</p>}
+        <dl class="ps-capas tabular-nums">
+          {confs.map((c) => (<div><dt>{c.titre}</dt><dd>{nombre(capaciteDeSalle(s, c.cle))}&nbsp;personnes</dd></div>))}
+        </dl>
+        {s.texte && <p>{s.texte}</p>}
+        {s.equipements.length > 0 && <ul class="ps-equip">{s.equipements.map((e) => <li>{e}</li>)}</ul>}
+        {x.traiteur && <p class="ps-regle">{x.traiteur}</p>}
+        {x.option && <p class="ps-regle">{x.option}</p>}
+        <p><a href={tel()} class="ps-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+      </div>
+      {s.photo && <Img src={s.photo.src} alt={s.photo.alt} class="ps-photo" sizes="(min-width: 1024px) 50vw, 100vw" priority />}
+    </div>
+    {autres.length > 0 && (
+      <nav class="ps-autres" aria-label="Les autres salles">
+        <h2 class="ps-h2">Les autres salles</h2>
+        <ul>{autres.map((y) => <li><a href={`/salles/${y.slug}`} class="ps-autre"><span>{y.nom}</span><span class="tabular-nums">{phraseCapacites(y)}</span></a></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ps { display: grid; gap: 2rem; padding-block: clamp(1.25rem, 4vh, 3.5rem); }
+  .ps-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; }
+  .ps-grille { display: grid; gap: 2rem; }
+  .ps-texte { display: grid; gap: 0.7rem; align-content: start; }
+  .ps-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .ps-surface { font-size: 1.2rem; color: var(--color-muted); }
+  .ps-capas { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; }
+  .ps-capas dt { font-size: 0.98rem; color: var(--color-muted); }
+  .ps-capas dd { font-size: clamp(1.3rem, 2.6vw, 1.7rem); font-weight: 700; }
+  .ps-equip { display: grid; gap: 0.25rem; }
+  .ps-equip li { padding-inline-start: 0.7rem; border-inline-start: 2px solid var(--color-accent); }
+  .ps-regle { padding: 0.85rem 1rem; border-radius: var(--radius-card); background: var(--color-bg-2); font-weight: 600; }
+  .ps-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .ps-tel:focus-visible, .ps-lien:focus-visible, .ps-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .ps-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
+  .ps-h2 { font-weight: 700; font-size: 1.2rem; margin-block-end: 0.25rem; }
+  .ps-autres ul { display: grid; }
+  .ps-autre { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; min-block-size: 48px; align-items: center; border-block-end: 1px solid var(--color-line); }
+  @media (min-width: 64rem) { .ps-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 4rem; } }
+</style>

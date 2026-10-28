@@ -1,0 +1,100 @@
+---
+/**
+ * Page /salles (site.salles, src/lib/salles.ts) : architecture `salles-capacites` (« Découvrez nos différents espaces »
+ * du Domaine de la Touche ; docs/veille/architectures/salles-capacites.md). Le tableau des capacités par configuration,
+ * puis chaque salle (surface, capacités, phrase, équipements) vers sa page, ce que le lieu met à disposition, puis les
+ * questions du client (site.faq). Lisible sans script. Générée seulement avec 2 salles lisibles (lienSalles).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, sallesCompletes, configurationsDe, capaciteDeSalle, phraseCapacites, surfaceLisible, lienSalles } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return lienSalles(site.salles, site.wording.salles) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const x = site.salles!;
+const salles = sallesCompletes(x);
+const configs = configurationsDe(x);
+const titre = site.wording.salles;
+const faqLd = site.faq.length > 0 ? faqPageLd(site.faq) : undefined;
+const nombre = (n: number) => n.toLocaleString('fr-FR').replace(/\s/g, ' ');
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${titre} de ${site.business.name}, ${site.business.trade.toLowerCase()} à ${site.contact.address.city} : ${salles.map((s) => `${s.nom} (${phraseCapacites(s)})`).join(', ')}.`} path="/salles" jsonLd={faqLd ? [faqLd] : []}>
+  <Nav />
+  <main id="main" class="container-ff pss">
+    <header class="pss-tete">
+      <h1 class="pss-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      {x.couchages && <p class="pss-fort tabular-nums">{nombre(x.couchages)} couchages sur place</p>}
+      <p><a href={tel()} class="pss-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    </header>
+    <div class="pss-cadre">
+      <table class="pss-tableau tabular-nums">
+        <caption class="sr-only">Capacité de chaque salle selon la configuration</caption>
+        <thead><tr><th scope="col">Salle</th><th scope="col">Surface</th>{configs.map((c) => <th scope="col">{c.titre}</th>)}</tr></thead>
+        <tbody>
+          {salles.map((s) => (
+            <tr>
+              <th scope="row"><a href={`/salles/${s.slug}`} class="pss-lien">{s.nom}</a></th>
+              <td>{s.surface ? surfaceLisible(s.surface) : ''}</td>
+              {configs.map((c) => <td>{capaciteDeSalle(s, c.cle) > 0 ? nombre(capaciteDeSalle(s, c.cle)) : ''}</td>)}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <ul class="pss-liste">
+      {salles.map((s) => (
+        <li class="pss-salle">
+          <h2 class="pss-h2 font-display"><a href={`/salles/${s.slug}`} class="pss-lien">{s.nom}</a></h2>
+          <p class="pss-fort tabular-nums">{[s.surface ? surfaceLisible(s.surface) : '', phraseCapacites(s)].filter(Boolean).join(' ; ')}</p>
+          {s.texte && <p>{s.texte}</p>}
+        </li>
+      ))}
+    </ul>
+    {(x.equipements.length > 0 || x.traiteur || x.option) && (
+      <section aria-labelledby="pss-dispo" class="pss-dispo">
+        <h2 id="pss-dispo" class="pss-h2 font-display">Sur place</h2>
+        {x.equipements.length > 0 && <ul>{x.equipements.map((e) => <li>{e}</li>)}</ul>}
+        {x.traiteur && <p class="pss-fort">{x.traiteur}</p>}
+        {x.option && <p class="pss-fort">{x.option}</p>}
+      </section>
+    )}
+    {site.faq.length > 0 && (
+      <section id="questions" aria-labelledby="pss-questions">
+        <h2 id="pss-questions" class="pss-h2 font-display">Vos questions</h2>
+        <div class="pss-faq">{site.faq.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}</div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pss { display: grid; gap: 2rem; padding-block: clamp(1.5rem, 5vh, 4rem); }
+  .pss-tete { display: grid; gap: 0.6rem; }
+  .pss-titre { font-size: clamp(2rem, 5.5vw, 3.6rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .pss-fort { font-weight: 600; }
+  .pss-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .pss-tel:focus-visible, .pss-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pss-cadre { overflow-x: auto; }
+  .pss-tableau { inline-size: 100%; min-inline-size: 28rem; border-collapse: collapse; }
+  .pss-tableau th, .pss-tableau td { padding: 0.7rem 0.6rem; text-align: start; border-block-end: 1px solid var(--color-line); }
+  .pss-tableau thead th { font-weight: 600; color: var(--color-muted); }
+  .pss-lien { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pss-liste { display: grid; gap: 1.25rem; }
+  .pss-salle { display: grid; gap: 0.3rem; padding-block-start: 1rem; border-block-start: 2px solid var(--color-fg); }
+  .pss-h2 { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.08; }
+  .pss-dispo { display: grid; gap: 0.6rem; }
+  .pss-dispo ul { display: grid; gap: 0.3rem; }
+  .pss-faq details { border-block-end: 1px solid var(--color-line); }
+  .pss-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .pss-faq summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .pss-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+  @media (min-width: 48rem) { .pss-liste { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); column-gap: 2rem; } }
+</style>
