@@ -1,0 +1,580 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://labomatic.fr/",
+  "nom": "labomatic",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "Labomatic Studios · Trouville-sur-Mer",
+    "siteName": "",
+    "lang": "fr",
+    "description": "Studios d’enregistrement à Trouville-sur-Mer. Contactez Labomatic Studios pour votre prochaine session.",
+    "technologies": []
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fffefa",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 13,
+      "images": 3,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Programmer une session",
+        "x": 625.546875,
+        "y": 833.6875,
+        "cx": 0.4999945746527778,
+        "cy": 0.9507638888888889,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 1018,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.logo",
+        "famille": "LaboGothic, \"Century Gothic\", sans-serif",
+        "taille": 16,
+        "graisse": "700",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p.location",
+        "famille": "LaboGothic, \"Century Gothic\", sans-serif",
+        "taille": 17,
+        "graisse": "400",
+        "interlignage": 1.9,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.85px"
+      },
+      "bouton": {
+        "selecteur": "button#open-contact",
+        "famille": "LaboGothic, \"Century Gothic\", sans-serif",
+        "taille": 15,
+        "graisse": "600",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.525px"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "LaboGothic",
+          "url": "./fonts/gothic-book.otf",
+          "feuille": "labomaticstudios.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "LaboGothic",
+          "url": "./fonts/gothic-demi.otf",
+          "feuille": "labomaticstudios.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://labomaticstudios.com/fonts/gothic-book.otf",
+        "https://labomaticstudios.com/fonts/gothic-demi.otf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "LaboGothic",
+          "n": 7
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fffefa",
+      "texte": "#181818",
+      "fondsBruts": [
+        {
+          "hex": "#fffefa",
+          "n": 1,
+          "poids": 1465920
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#595959",
+          "n": 5,
+          "poids": 85
+        },
+        {
+          "hex": "#181818",
+          "n": 2,
+          "poids": 31
+        }
+      ],
+      "nbImages": 4,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#fffefa",
+          "n": 1,
+          "poids": 1465920,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#595959",
+          "n": 5,
+          "poids": 85,
+          "part": 0.733
+        },
+        {
+          "hex": "#181818",
+          "n": 2,
+          "poids": 31,
+          "part": 0.267
+        }
+      ],
+      "contraste": 17.59
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Motion One",
+          "preuve": "script logo-motion.js"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "animation entrance 0.5s ease-out",
+          "n": 5
+        },
+        {
+          "valeur": "transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "animation entrance 0.58s ease-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "span.logo-art",
+        "score": 3,
+        "animations": [
+          "animation entrance 0.58s ease-out"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.identity",
+      "sections": [
+        {
+          "selecteur": "h1.logo",
+          "titre": null,
+          "top": 88,
+          "hauteur": 451,
+          "ecrans": 0.5,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "p.location",
+          "titre": null,
+          "top": 573,
+          "hauteur": 32,
+          "ecrans": 0,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.portraits",
+          "titre": null,
+          "top": 625,
+          "hauteur": 88,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p.people",
+          "titre": null,
+          "top": 723,
+          "hauteur": 30,
+          "ecrans": 0,
+          "mots": 5,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "picture.sea-mark",
+          "titre": null,
+          "top": 768,
+          "hauteur": 56,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.actions",
+          "titre": null,
+          "top": 834,
+          "hauteur": 96,
+          "ecrans": 0.1,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/labomatic-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#fffefa",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 12,
+      "images": 3,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Programmer une session",
+        "x": 106.84375,
+        "y": 610.125,
+        "cx": 0.49997996794871796,
+        "cy": 0.7489632701421801,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.logo",
+        "famille": "LaboGothic, \"Century Gothic\", sans-serif",
+        "taille": 16,
+        "graisse": "700",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p.people",
+        "famille": "LaboGothic, \"Century Gothic\", sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.9,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.4px"
+      },
+      "bouton": {
+        "selecteur": "button#open-contact",
+        "famille": "LaboGothic, \"Century Gothic\", sans-serif",
+        "taille": 14,
+        "graisse": "600",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.49px"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "LaboGothic",
+          "url": "./fonts/gothic-book.otf",
+          "feuille": "labomaticstudios.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "LaboGothic",
+          "url": "./fonts/gothic-demi.otf",
+          "feuille": "labomaticstudios.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://labomaticstudios.com/fonts/gothic-book.otf",
+        "https://labomaticstudios.com/fonts/gothic-demi.otf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "LaboGothic",
+          "n": 6
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fffefa",
+      "texte": "#181818",
+      "fondsBruts": [
+        {
+          "hex": "#fffefa",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#595959",
+          "n": 4,
+          "poids": 84
+        },
+        {
+          "hex": "#181818",
+          "n": 2,
+          "poids": 31
+        }
+      ],
+      "nbImages": 4,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#fffefa",
+          "n": 1,
+          "poids": 329160,
+          "part": 1
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#595959",
+          "n": 4,
+          "poids": 84,
+          "part": 0.73
+        },
+        {
+          "hex": "#181818",
+          "n": 2,
+          "poids": 31,
+          "part": 0.27
+        }
+      ],
+      "contraste": 17.59
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Motion One",
+          "preuve": "script logo-motion.js"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "animation entrance 0.5s ease-out",
+          "n": 5
+        },
+        {
+          "valeur": "transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "animation entrance 0.58s ease-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "span.logo-art",
+        "score": 3,
+        "animations": [
+          "animation entrance 0.58s ease-out"
+        ],
+        "transitions": [],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "div.identity",
+      "sections": [
+        {
+          "selecteur": "h1.logo",
+          "titre": null,
+          "top": 138,
+          "hauteur": 143,
+          "ecrans": 0.2,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "canvas"
+          ]
+        },
+        {
+          "selecteur": "p.location",
+          "titre": null,
+          "top": 309,
+          "hauteur": 61,
+          "ecrans": 0.1,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.portraits",
+          "titre": null,
+          "top": 388,
+          "hauteur": 72,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "p.people",
+          "titre": null,
+          "top": 470,
+          "hauteur": 61,
+          "ecrans": 0.1,
+          "mots": 5,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "picture.sea-mark",
+          "titre": null,
+          "top": 544,
+          "hauteur": 56,
+          "ecrans": 0.1,
+          "mots": 0,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.actions",
+          "titre": null,
+          "top": 610,
+          "hauteur": 96,
+          "ecrans": 0.1,
+          "mots": 4,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Labomatic Studios · Trouville-sur-Mer",
+  "dureeS": 24.9
+}

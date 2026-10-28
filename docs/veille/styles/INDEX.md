@@ -465,3 +465,16 @@ polaroids (satanswhiskers) ; une quinzaine de sites qui refusent les navigateurs
 En réserve : raasay (sections mauves, boutons or), démonté sans atome.
 
 Collecte 2026-10-28 (après-midi) : daylesford, buvette, nobleandstone, ateliermunro, holmes, fermedesaintemarthe (relevé mesuré, atomes « à juger » hors palette/densité/formes/matière).
+
+| labomatic | https://labomatic.fr ([fiche](labomatic.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| tartine | https://tartine.com ([fiche](tartine.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| sketchlondon | https://sketch.london ([fiche](sketchlondon.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| dandelion | https://www.dandelionchocolate.com ([fiche](dandelion.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| verve | https://www.vervecoffee.com ([fiche](verve.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| cereal | https://readcereal.com ([fiche](cereal.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| lecomptoirdumalt | https://www.lecomptoirdumalt.fr ([fiche](lecomptoirdumalt.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| hermeshotel | https://www.thehoxton.com ([fiche](hermeshotel.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| bonpoint | https://www.bonpoint.com ([fiche](bonpoint.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| laboutiquedujardin | https://www.truffaut.com ([fiche](laboutiquedujardin.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| wiener | https://www.wienerwerkstaette.at ([fiche](wiener.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| hotelbristol | https://www.rosewoodhotels.com ([fiche](hotelbristol.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger

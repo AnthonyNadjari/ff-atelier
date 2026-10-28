@@ -1,0 +1,598 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://sketch.london/",
+  "nom": "sketchlondon",
+  "date": "2026-10-28",
+  "identite": {
+    "title": "sketch London",
+    "siteName": "sketch",
+    "lang": "",
+    "description": "Discover sketch, an iconic London restaurant and bar destination in Mayfair, where Michelin-starred dining, contemporary art and imaginative design come together under one historic roof.",
+    "technologies": []
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 116,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "canvas",
+        "couverture": 1,
+        "selecteur": "canvas"
+      },
+      "boutonPrincipal": {
+        "texte": "Customize",
+        "x": 575.71875,
+        "y": 562.9375,
+        "cx": 0.49777018229166664,
+        "cy": 0.6538194444444444,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#CybotCookiebotDialogBodyUnderlay",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#CybotCookiebotDialogBodyUnderlay"
+      },
+      "barreBas": null,
+      "scrollHeight": 900,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "button#CybotCookiebotDialogBodyLevelButtonCustomize",
+        "famille": "sans-serif",
+        "taille": 15,
+        "graisse": "600",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "MAD Serif Fill",
+          "url": "../../static/fonts/MADSerifFill-Regular.b932e6f.woff",
+          "feuille": "sketch.london",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MAD Sans Fill",
+          "url": "../../static/fonts/MADSansFill-Bold.0f3134b.woff",
+          "feuille": "sketch.london",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MAD Sans Fill",
+          "url": "../../static/fonts/MADSansFill-Italic.e72715a.woff",
+          "feuille": "sketch.london",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MAD Sans Fill",
+          "url": "../../static/fonts/MADSansFill-Regular.67785e2.woff",
+          "feuille": "sketch.london",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://sketch.london/static/fonts/MADSerifFill-Regular.b932e6f.woff",
+        "https://sketch.london/static/fonts/MADSansFill-Regular.67785e2.woff",
+        "https://sketch.london/static/fonts/MADSansFill-Bold.0f3134b.woff"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "MAD Sans Fill",
+          "n": 8
+        },
+        {
+          "famille": "sans-serif",
+          "n": 7
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 1310389.171875
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#fffafa",
+          "n": 1,
+          "poids": 392872.5
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 14,
+          "poids": 690
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9
+        }
+      ],
+      "nbImages": 3,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 1310389.171875,
+          "part": 0.437
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.432
+        },
+        {
+          "hex": "#fffafa",
+          "n": 1,
+          "poids": 392872.5,
+          "part": 0.131
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 14,
+          "poids": 690,
+          "part": 0.987
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9,
+          "part": 0.013
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.TweenMax"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "width 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.5s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div#CybotCookiebotDialog",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "width 0.5s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 2,
+        "href": "tel:+44-20-7659-4500"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "RESERVATIONS & MENUS",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#CybotCookiebotDialog",
+          "position": "fixed",
+          "hauteur": 375,
+          "largeur": 900,
+          "enBas": false,
+          "mots": 68
+        },
+        {
+          "selecteur": "div#CybotCookiebotDialogBodyUnderlay",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div#app",
+          "position": "absolute",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 48
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 8,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/sketchlondon-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": null,
+      "h1Visible": false,
+      "mots": 116,
+      "images": 3,
+      "mediaPleinEcran": {
+        "type": "canvas",
+        "couverture": 1,
+        "selecteur": "canvas"
+      },
+      "boutonPrincipal": {
+        "texte": "Allow all",
+        "x": 23,
+        "y": 556.5,
+        "cx": 0.5,
+        "cy": 0.6895734597156398,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#CybotCookiebotDialogBodyUnderlay",
+        "cookie": true
+      },
+      "cookie": {
+        "couverture": 1,
+        "texte": "",
+        "selecteur": "div#CybotCookiebotDialogBodyUnderlay"
+      },
+      "barreBas": null,
+      "scrollHeight": 844,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": null,
+      "p": null,
+      "bouton": {
+        "selecteur": "button#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll",
+        "famille": "sans-serif",
+        "taille": 15,
+        "graisse": "600",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": null,
+      "fontFaces": [
+        {
+          "famille": "MAD Serif Fill",
+          "url": "../../static/fonts/MADSerifFill-Regular.b932e6f.woff",
+          "feuille": "sketch.london",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MAD Sans Fill",
+          "url": "../../static/fonts/MADSansFill-Bold.0f3134b.woff",
+          "feuille": "sketch.london",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MAD Sans Fill",
+          "url": "../../static/fonts/MADSansFill-Italic.e72715a.woff",
+          "feuille": "sketch.london",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "MAD Sans Fill",
+          "url": "../../static/fonts/MADSansFill-Regular.67785e2.woff",
+          "feuille": "sketch.london",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://sketch.london/static/fonts/MADSerifFill-Regular.b932e6f.woff",
+        "https://sketch.london/static/fonts/MADSansFill-Regular.67785e2.woff",
+        "https://sketch.london/static/fonts/MADSansFill-Bold.0f3134b.woff"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "MAD Sans Fill",
+          "n": 8
+        },
+        {
+          "famille": "sans-serif",
+          "n": 7
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 346704
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#fffafa",
+          "n": 1,
+          "poids": 159109.25
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 14,
+          "poids": 690
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9
+        }
+      ],
+      "nbImages": 3,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#000000",
+          "n": 2,
+          "poids": 346704,
+          "part": 0.415
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.394
+        },
+        {
+          "hex": "#fffafa",
+          "n": 1,
+          "poids": 159109.25,
+          "part": 0.191
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 14,
+          "poids": 690,
+          "part": 0.987
+        },
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 9,
+          "part": 0.013
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.TweenMax"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 3
+        },
+        {
+          "valeur": "width 0.5s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.5s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "div#CybotCookiebotDialog",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "width 0.5s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [],
+      "nav": null,
+      "pied": null,
+      "telephone": {
+        "n": 2,
+        "href": "tel:+44-20-7659-4500"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "RESERVATIONS & MENUS",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div#CybotCookiebotDialog",
+          "position": "fixed",
+          "hauteur": 520,
+          "largeur": 374,
+          "enBas": false,
+          "mots": 68
+        },
+        {
+          "selecteur": "div#CybotCookiebotDialogBodyUnderlay",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "div#app",
+          "position": "absolute",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 48
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "iframe.CybotCookiebotOffscreenIframe",
+          "position": "absolute",
+          "hauteur": 4,
+          "largeur": 4,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 8,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "sketch",
+  "dureeS": 55.3
+}
