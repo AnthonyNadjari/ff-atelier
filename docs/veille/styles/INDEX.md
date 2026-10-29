@@ -498,3 +498,21 @@ Collecte 2026-10-28 (après-midi) : daylesford, buvette, nobleandstone, atelierm
 | laboutiquedujardin | https://www.truffaut.com ([fiche](laboutiquedujardin.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
 | wiener | https://www.wienerwerkstaette.at ([fiche](wiener.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
 | hotelbristol | https://www.rosewoodhotels.com ([fiche](hotelbristol.md)) | Collecte 2026-10-28 (mercredi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| aesop | https://www.aesop.com (relevé [mesures](atomes/mesures/aesop.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| normann | https://www.normann-copenhagen.com (relevé [mesures](atomes/mesures/normann.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| laguiole | https://www.forge-de-laguiole.com (relevé [mesures](atomes/mesures/laguiole.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| hedleybennett | https://www.hedleyandbennett.com (relevé [mesures](atomes/mesures/hedleybennett.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| workstead | https://workstead.com (relevé [mesures](atomes/mesures/workstead.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| stampd | https://stampd.com (relevé [mesures](atomes/mesures/stampd.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| rhodes | https://www.rhodesbakery.com (relevé [mesures](atomes/mesures/rhodes.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| brompton | https://www.brompton.com (relevé [mesures](atomes/mesures/brompton.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| maisonmargiela | https://www.maisonmargiela.com (relevé [mesures](atomes/mesures/maisonmargiela.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| lelabo | https://www.le-labo.com (relevé [mesures](atomes/mesures/lelabo.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| mastered | https://www.mastered.com (relevé [mesures](atomes/mesures/mastered.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| grovemade | https://grovemade.com (relevé [mesures](atomes/mesures/grovemade.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| mast | https://mastbrothers.com (relevé [mesures](atomes/mesures/mast.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| fellow | https://fellowproducts.com (relevé [mesures](atomes/mesures/fellow.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| bluebottle | https://bluebottlecoffee.com (relevé [mesures](atomes/mesures/bluebottle.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| olivergal | https://www.olivergal.com (relevé [mesures](atomes/mesures/olivergal.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| hastens | https://www.hastens.com (relevé [mesures](atomes/mesures/hastens.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
+| romanee | https://www.domainedelaromaneeconti.com (relevé [mesures](atomes/mesures/romanee.json)) | Collecte 2026-10-29 (jeudi) : relevé mesuré, atomes « à juger » hors mesures | à juger
