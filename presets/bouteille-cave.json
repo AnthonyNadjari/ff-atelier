@@ -1,0 +1,27 @@
+{
+  "nom": "bouteille-cave",
+  "titre": "Bouteille cave",
+  "description": "La direction bouteille en version plus simple : photo plein écran, carte des prestations en liste filetée, avis puis questions, pied à colonnes.",
+  "metiers": ["caviste", "bar à vin", "chocolatier", "traiteur"],
+  "look": {
+    "direction": "bouteille",
+    "motion": "subtle",
+    "scale": "display",
+    "layout": {
+      "nav": "bar",
+      "hero": "fullbleed",
+      "sections": [
+        { "type": "proof", "variant": "testimonials" },
+        { "type": "services", "variant": "liste-a-filets" },
+        { "type": "about", "variant": "story" },
+        { "type": "cta", "variant": "band" },
+        { "type": "faq", "variant": "accordion" },
+        { "type": "zones", "variant": "chips" },
+        { "type": "contact", "variant": "form-split" }
+      ],
+      "footer": "big-name",
+      "divider": "none",
+      "tone": "flat"
+    }
+  }
+}

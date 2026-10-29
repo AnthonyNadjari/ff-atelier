@@ -1,0 +1,76 @@
+---
+/**
+ * Page /urgences (site.garde, src/lib/garde.ts) : architecture `garde-especes` (la page Urgence de la Clinique vétérinaire
+ * Saint-Max : le numéro, la garde en rotation, la régulation ; « Que faire en cas d'urgence vétérinaire ? » des Quais ;
+ * docs/veille/architectures/garde-especes.md). Le numéro du moment (la clinique ouverte, la garde fermée), la conduite à
+ * tenir, les signes, l'organisation, ce que la garde prend en charge, puis les horaires et l'adresse. Lisible sans script.
+ * Générée seulement quand la garde se lit (lienUrgences).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, fullAddress, metierEtVille, etapesGarde, signesGarde, lienUrgences } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import NumeroDuMoment from '@/components/NumeroDuMoment.astro';
+import Horaires from '@/components/Horaires.astro';
+
+export function getStaticPaths() {
+  return lienUrgences(site.garde, site.wording.urgences) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const g = site.garde!;
+const etapes = etapesGarde(g);
+const signes = signesGarde(g);
+const titre = site.wording.urgences;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${site.business.trade} à ${site.contact.address.city} : que faire en cas d’urgence, qui appeler la nuit et le week-end.`} path="/urgences">
+  <Nav />
+  <main id="main" class="container-ff urg">
+    <header class="urg-tete">
+      <h1 class="urg-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+    </header>
+    <div class="urg-numero bg-ink text-on-ink">
+      <NumeroDuMoment />
+      {g.quand && <p>{g.quand}</p>}
+    </div>
+    {etapes.length > 0 && (
+      <section aria-labelledby="urg-temps" class="urg-bloc">
+        <h2 id="urg-temps" class="urg-h2 font-display">Que faire en attendant</h2>
+        <ol class="urg-temps">{etapes.map((e) => <li><span class="urg-fort">{e.titre}</span>{e.texte && <span>{e.texte}</span>}</li>)}</ol>
+      </section>
+    )}
+    {signes.length > 0 && (
+      <section aria-labelledby="urg-signes" class="urg-bloc">
+        <h2 id="urg-signes" class="urg-h2 font-display">Ces signes n’attendent pas</h2>
+        <ul class="urg-signes">{signes.map((x) => <li>{x}</li>)}</ul>
+      </section>
+    )}
+    {(g.organisation || g.especes) && (
+      <section aria-labelledby="urg-orga" class="urg-bloc">
+        <h2 id="urg-orga" class="urg-h2 font-display">Comment la garde est organisée</h2>
+        {g.organisation && <p>{g.organisation}</p>}
+        {g.especes && <p>{g.especes}</p>}
+      </section>
+    )}
+    <section aria-labelledby="urg-venir" class="urg-bloc">
+      <h2 id="urg-venir" class="urg-h2 font-display">Aux heures d’ouverture</h2>
+      <p class="urg-fort">{fullAddress()}</p>
+      <Horaires class="tabular-nums" />
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .urg { display: grid; gap: 2rem; padding-block: clamp(1.5rem, 5vh, 4rem); max-inline-size: 60rem; }
+  .urg-tete { display: grid; gap: 0.5rem; }
+  .urg-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .urg-numero { display: grid; gap: 0.75rem; padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-card); }
+  .urg-bloc { display: grid; gap: 0.75rem; }
+  .urg-h2 { font-size: clamp(1.45rem, 3.2vw, 2.1rem); line-height: 1.06; }
+  .urg-temps { display: grid; gap: 0.75rem; list-style: decimal; padding-inline-start: 1.5rem; }
+  .urg-temps li { display: grid; gap: 0.2rem; }
+  .urg-fort { font-weight: 700; }
+  .urg-signes li { padding-block: 0.45rem; border-block-end: 1px solid var(--color-line); font-weight: 600; }
+</style>

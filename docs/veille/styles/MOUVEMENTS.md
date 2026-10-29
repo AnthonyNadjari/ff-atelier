@@ -1,4 +1,4 @@
-# Profils de mouvement : quarante et une façons de faire bouger une page, relevées sur de vrais sites
+# Profils de mouvement : quarante-quatre façons de faire bouger une page, relevées sur de vrais sites
 
 Le fondateur, 18 oct 2026, sur L'Épi d'Or b, c, d : « beaucoup plus de pluralité : animations, même des vidéos en
 fond ». L'atome `mouvement` (ATOMES.md) ne portait que des durées et une courbe : trois mélanges différents bougeaient
@@ -569,6 +569,65 @@ de navigation prend le sable en 0,4 s ease au premier cran.
   de la profondeur sans effet voyant. Distinct de `plans-au-chargement` (le premier écran se resserre au chargement), de
   `photo-qui-s-approche` (zoom au survol d'une carte), de `photos-a-plusieurs-vitesses` (décalages de vitesse entre photos en
   quinconce) et de `bloc-qui-s-avance` (un bloc qui grandit puis revient). Calme : non (suit le défilement). Poids : léger.
+
+### `enseigne-qui-se-resserre`
+Zimmerl (`bouteille.md`, [restaurantzimmerl.at](https://www.restaurantzimmerl.at/), veille du 29 oct 2026, style construit
+`bouteille` ; animations calculées relevées par `ff demonter` : `kenburnsDown 1s ease-out` sur le diaporama de la salle,
+transitions d'interface `0.25s cubic-bezier(.25,.1,.25,1)`, GSAP et ScrollTrigger sur les blocs « 23 Gänge » et « 5 Tische »
+vus en défilant à la molette tous les 800 px). Le premier écran est la salle en plein cadre avec le nom du restaurant en très
+grandes capitales cuivre ; la photo descend et se pose (Ken Burns vers le bas). Plus bas, chaque grand chiffre (« 23 GÄNGE »,
+« 5 TISCHE ») surplombe le coin d'une grande photo et se décale par rapport à elle pendant le défilement. Ce qu'on code (le
+diaporama automatique de la source ne l'est pas : rien ne tourne tout seul, GOUT § 4) :
+- Entrée enseigne · apparition titre en surplomb · survol couleur · fond aucun.
+- Moteur : CSS du hero `bouteille` (le nom resserre son interlettrage 0,34 em -> 0,08 em en 1,6 s, la photo se pose de 1,06 à
+  1 en 2,4 s, une fois, rien sous « réduire les animations ») ; `data-parallax="0.5"` sur le titre géant de chaque scène de
+  `services/bouteille` (translation seule : tenable sur iPhone, GOUT § 4) ; `data-reveal` (opacité) sur la photo ; boutons
+  0,25 s (régime sec). Deux régimes : lent à l'entrée, sec au geste.
+- Garde : le nom en texte réel (jamais une image), le h1 et « métier à ville » juste sous la photo en texte normal (GOUT § 0) ;
+  un titre géant par scène, jamais sur tous les titres de la page ; en mouvement réduit, nom et photo immobiles.
+- Quand : restaurant, bar à vin, caviste, chambre d'hôtes, chocolatier au nom court qui sonne, avec une belle photo de salle et
+  une photo par prestation. Distinct de `plans-au-chargement` (photo qui se resserre sans enseigne), de `nom-en-exclusion` (nom
+  fixe en exclusion) et de `photo-qui-se-pose` (zoom lié au défilement sur de grands panneaux). Calme : non (suit le
+  défilement). Poids : moyen (GSAP pour la parallaxe, chargé à la demande en rich).
+
+### `film-au-clic`
+Fraher (`lin.md`, [fraher.co](http://fraher.co/), veille du 29 oct 2026, style construit `lin` ; opacité et `transform` des
+11 blocs `data-animation` relevés tous les 100 px de défilement à 1 440 px de large, puis tous les 60 ms après un saut :
+1 et `none` partout, aucune apparition ; boutons `background-color 0.1s linear, color 0.1s linear` ; en-tête qui passe en
+`shrink` au premier cran, `padding 0.14s ease-in-out`). La page ne bouge pas : c'est le choix. Le seul mouvement est un film
+que le visiteur lance lui-même (« Click for FRAHER Film » sur une bande pleine largeur, lecture avec commandes natives).
+- Entrée aucune · apparition aucune · survol filets qui s'emplissent · fond film au clic.
+- Moteur : hero `lin` : bande photo pleine largeur ; avec `images.heroVideo` et un poster, lien « Voir le film » posé en bas
+  de la bande, vidéo `preload="none"` cachée qui ne se charge et ne joue qu'au toucher (`data-film`, `data-film-lancer`,
+  script `onPage`), commandes natives, aucun autoplay ; `.btn-ghost` de la direction `lin` (texte entre deux filets) qui
+  s'emplit d'encre en 0,1 s linéaire ; nav `minimal` qui se resserre au premier cran (`.is-scrolled`). Aucun `data-reveal`
+  posé par le hero ni par `services/lin`.
+- Garde : jamais d'autoplay (lecture au geste seulement : tient sur iPhone en économie d'énergie, où tout autoplay est
+  bloqué) ; poster obligatoire, sinon pas de film ; le film est celui du client (son chantier, son atelier), jamais une
+  vidéo de banque présentée comme la sienne ; sans vidéo, la bande reste une photo immobile.
+- Quand : architecte, constructeur, menuisier, cabinet de soin, gîte : un client « calme » (aiguillage) qui veut une page
+  sérieuse et lisible, avec de grandes photos et éventuellement un film de chantier. Distinct de `fondu-sobre` (apparitions
+  en fondu), de `video-de-fond` (vidéo muette qui joue seule derrière le texte) et de `photo-qui-respire` (photo qui dérive).
+  Calme : oui. Poids : nul (la vidéo n'est téléchargée qu'au clic).
+
+### `bandes-au-pinceau`
+Coyot Bar (`pinceau.md`, [pickyjoe.com](https://pickyjoe.com/), veille du 29 oct 2026, style construit `pinceau` ; réglages
+Elementor lus dans le HTML : `fadeIn` sur l'enseigne du premier écran, 1,25 s ; `fadeInUp` ×12 avec 200 ms de retard sur
+les blocs ; un `motion_fx` d'échelle au défilement ; transitions de boutons 0,3 s ease ; séparateurs de bande en forme de
+coup de brosse, immobiles). On garde l'enseigne qui s'allume et le bord brossé ; on refuse la montée de tous les blocs
+(GOUT § 4 : « tout se lève ») et l'échelle au défilement.
+- Entrée enseigne qui s'allume · apparition bord qui se brosse · survol aplat qui change · fond aucun.
+- Moteur : hero `pinceau` : h1 et ligne métier à ville en fondu lent (opacité, 1,2 s ease, la ligne 0,2 s après), CSS
+  seul, jamais avec `motion: none` ni `prefers-reduced-motion` ; `src/components/BordPinceau.astro` (hero et
+  `services/pinceau`) : les éclats et traits détachés du bord se brossent de gauche à droite à l'entrée
+  (`data-reveal="wipe"`, 0,6 s, une fois) ; plaque des horaires en `data-reveal="up"` ; `.btn` de la direction `pinceau`
+  qui change d'aplat en 0,15 s linéaire. Deux régimes : sec (boutons) et lent (enseigne, brossé).
+- Garde : rien ne suit le défilement (tient sur iPhone : transitions en temps, une fois) ; le bord lui-même ne bouge
+  jamais, seuls ses éclats ; les titres de section ne s'animent pas ; en mouvement réduit tout est posé d'emblée.
+- Quand : bar, restaurant, food truck, brasserie, pizzeria, guinguette : un lieu joyeux avec une carte et des horaires du
+  soir. Distinct de `fondu-sobre` (fondu de blocs entiers), de `filet-qui-se-trace` (un filet droit qui se dessine) et de
+  `enseigne-qui-se-resserre` (interlettrage sur photo, parallaxe).
+  Calme : oui. Poids : léger (CSS et moteur sans dépendance).
 
 ## Complément transversal : transitions de page
 

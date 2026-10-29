@@ -1,0 +1,94 @@
+---
+/**
+ * Page /nos-honoraires (site.honoraires, src/lib/honoraires.ts) : architecture `honoraires-domaines` (la page Honoraires du
+ * Cabinet Marilyne Faltot : taux, forfait, convention, résultat, première consultation, appel découverte, protection
+ * juridique, aide juridictionnelle, médiateur ; les « à partir de » par procédure de Judisis ;
+ * docs/veille/architectures/honoraires-domaines.md). Le premier échange, les façons de fixer l'honoraire, la convention,
+ * toutes les procédures à prix par domaine, la prise en charge, où consulter, le médiateur. La route /honoraires est celle
+ * des agences immobilières (annonces-biens). Générée seulement quand le cabinet dit un prix (lienHonoraires).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, premiersPas, modesComplets, domainesAPrix, resumePas, lienHonoraires } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+
+export function getStaticPaths() {
+  return lienHonoraires(site.honoraires, site.wording.honoraires) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const h = site.honoraires!;
+const pas = premiersPas(h);
+const modes = modesComplets(h);
+const domaines = domainesAPrix(site.services);
+const titre = site.wording.honoraires;
+const rdv = site.contact.bookingUrl;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${site.business.trade} à ${site.contact.address.city} : première consultation, forfaits par procédure, prise en charge.`} path="/nos-honoraires">
+  <Nav />
+  <main id="main" class="container-ff noh">
+    <header class="noh-tete">
+      <h1 class="noh-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      <p class="noh-portes">
+        {rdv && <a href={rdv} target="_blank" rel="noopener" class="noh-rdv">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a>}
+        <a href={tel()} class="noh-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+      </p>
+    </header>
+    {pas.length > 0 && (
+      <section aria-labelledby="noh-pas" class="noh-bloc">
+        <h2 id="noh-pas" class="noh-h2 font-display">Le premier échange</h2>
+        <dl class="noh-lignes">{pas.map((p) => <div class="noh-ligne"><dt>{p.titre}{p.texte && <span class="noh-muted"> {p.texte}</span>}</dt><dd class="tabular-nums">{resumePas(p)}</dd></div>)}</dl>
+      </section>
+    )}
+    {modes.length > 0 && (
+      <section aria-labelledby="noh-modes" class="noh-bloc">
+        <h2 id="noh-modes" class="noh-h2 font-display">Comment sont fixés les honoraires</h2>
+        <ul class="noh-modes">{modes.map((m) => <li><h3 class="noh-fort">{m.nom}{m.prix && <span class="tabular-nums">, {m.prix}</span>}</h3>{m.texte && <p>{m.texte}</p>}</li>)}</ul>
+        {h.convention && <p>{h.convention}</p>}
+      </section>
+    )}
+    {domaines.length > 0 && (
+      <section aria-labelledby="noh-forfaits" class="noh-bloc">
+        <h2 id="noh-forfaits" class="noh-h2 font-display">Par procédure</h2>
+        {domaines.map((d) => (
+          <div class="noh-domaine">
+            <h3 class="noh-fort">{site.servicePages ? <a href={`/services/${d.slug}`} class="noh-lien">{d.title}</a> : d.title}</h3>
+            <dl class="noh-lignes">{d.lignes.filter((l) => l.nom.trim()).map((l) => <div class="noh-ligne"><dt>{l.nom}{l.detail && <span class="noh-muted"> {l.detail}</span>}</dt><dd class="tabular-nums">{l.prix ?? 'sur devis'}</dd></div>)}</dl>
+          </div>
+        ))}
+      </section>
+    )}
+    {h.priseEnCharge.length > 0 && (
+      <section aria-labelledby="noh-prise" class="noh-bloc">
+        <h2 id="noh-prise" class="noh-h2 font-display">Prise en charge</h2>
+        <dl class="noh-prise">{h.priseEnCharge.map((x) => <div><dt class="noh-fort">{x.nom}</dt><dd>{x.texte}</dd></div>)}</dl>
+      </section>
+    )}
+    {h.modalites.length > 0 && <p class="noh-muted">Consultations {h.modalites.map((m) => m.toLowerCase()).join(', ')}.</p>}
+    {h.mediateur && <p class="noh-muted">{h.mediateur}</p>}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .noh { display: grid; gap: 2.25rem; padding-block: clamp(1.5rem, 5vh, 4rem); max-inline-size: 60rem; }
+  .noh-tete { display: grid; gap: 0.6rem; }
+  .noh-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .noh-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .noh-rdv { display: inline-flex; align-items: center; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; }
+  .noh-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .noh-lien { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .noh-rdv:focus-visible, .noh-tel:focus-visible, .noh-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .noh-bloc { display: grid; gap: 0.9rem; }
+  .noh-h2 { font-size: clamp(1.45rem, 3.2vw, 2.1rem); line-height: 1.06; }
+  .noh-fort { font-weight: 700; }
+  .noh-muted { color: var(--color-muted); }
+  .noh-lignes { display: grid; }
+  .noh-ligne { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.5rem; border-block-end: 1px solid var(--color-line); }
+  .noh-ligne dd { font-weight: 700; text-align: end; white-space: nowrap; }
+  .noh-modes { display: grid; gap: 1rem; }
+  .noh-domaine { display: grid; gap: 0.3rem; }
+  .noh-prise { display: grid; gap: 0.9rem; }
+</style>

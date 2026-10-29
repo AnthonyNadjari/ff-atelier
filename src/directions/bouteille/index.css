@@ -1,0 +1,73 @@
+/* Direction BOUTEILLE : style réel relevé sur https://www.restaurantzimmerl.at/ (veille du 29 oct 2026, fiche
+   docs/veille/styles/bouteille.md). On reprend le style et la construction (couleurs, rapports de taille, casse,
+   rayons, boutons, place des photos), jamais les textes, images, logos ni le code de la source.
+   Table du soir feutrée : un seul vert bouteille très sombre partout (93 % des fonds), cuivre pour les titres et
+   les filets, blanc chaud pour le texte, capitales lapidaires évasées, texte de livre, petits intitulés très larges.
+   Polices : Valky (titres, capitales évasées) -> Marcellus ; Judson (texte, libre) -> Judson ; Nord Light (intitulés
+   et boutons, grotesque très large) -> Lexend Zetta.
+   Couleurs relevées : #1f2d2d fond 93 %, #223b3b plaque du contact 7 %, #3b5843 bouton vert, #d39969 cuivre 17 % des
+   textes, #ffffff texte 83 % (adouci en blanc chaud). Halo vert qui dérive au fond de la source : refusé (GOUT § 2). */
+@import '@fontsource/marcellus/latin-400.css';
+@import '@fontsource/judson/latin-400.css';
+@import '@fontsource/judson/latin-700.css';
+@import '@fontsource-variable/lexend-zetta';
+
+[data-direction='bouteille'] {
+  --accent-h: 27;
+  --accent-s: 55%;
+  --accent-l: 62%;
+
+  --bg: #1f2d2d;
+  --bg-2: #223b3b;
+  --surface: #263d3c;
+  --fg: #f1ebe2;
+  --muted: #bcc4bd;
+  --line: rgb(211 153 105 / 0.32);
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #233a2c;
+  --on-accent: #172222;
+  --ink: #172222;
+  --on-ink: #f1ebe2;
+
+  --font-display: 'Marcellus', 'Trajan Pro', Georgia, serif;
+  --font-body: 'Judson', Georgia, serif;
+  --font-mono: 'Lexend Zetta Variable', system-ui, sans-serif;
+  --display-weight: 400;
+  --display-tracking: 0.04em;
+  --heading-transform: uppercase;
+  --radius: 4px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: 0 40px 80px -40px rgb(0 0 0 / 0.75);
+  --section-y: clamp(5rem, 12vw, 10rem);
+  --motion-duration: 0.9s;
+  --motion-ui: 0.25s;
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+  color-scheme: dark;
+}
+
+[data-direction='bouteille'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='bouteille'] body { font-size: 1.08rem; line-height: 1.45; }
+/* Titres en cuivre, comme la source ; l'emphase reste droite (jamais d'italique, GOUT § 2). */
+[data-direction='bouteille'] :is(h1, h2) { color: var(--accent); line-height: 1.05; }
+[data-direction='bouteille'] h1 em,
+[data-direction='bouteille'] h2 em { font-style: normal; color: var(--fg); }
+
+/* Bouton de la source : plaque verte, texte cuivre en capitales très larges, angles à 4 px. */
+[data-direction='bouteille'] .btn {
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+}
+[data-direction='bouteille'] .btn-primary { background: var(--accent-2); color: var(--accent); border: 1px solid transparent; }
+[data-direction='bouteille'] .btn-primary:hover { background: var(--accent); color: var(--on-accent); }
+[data-direction='bouteille'] .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+[data-direction='bouteille'] .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+[data-direction='bouteille'] .card { background: var(--bg-2); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+[data-direction='bouteille'] .rule { border-top: 1px solid var(--accent); }
+[data-direction='bouteille'] .eyebrow { color: var(--accent); font-family: var(--font-mono); font-weight: 300; letter-spacing: 0.02em; }
+[data-direction='bouteille'] a:not(.btn) { text-underline-offset: 0.2em; }

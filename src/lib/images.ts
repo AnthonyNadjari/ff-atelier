@@ -39,6 +39,8 @@ export const HERO_SIZES: Record<string, string> = {
   'panneaux-biais': '100vw',
   // Style casabonay : mur de photos en deux colonnes à côté de la colonne fixe (coquille split), une colonne au téléphone.
   'mur-de-photos': '(min-width: 64rem) 38vw, 100vw',
+  lin: '100vw', // bande pleine largeur sous la phrase (style lin)
+  pinceau: '(min-width: 64rem) 560px, 92vw', // photo de la bande terracotta sous l'enseigne (style pinceau, Services/pinceau)
 };
 
 /** `sizes` d'un hero selon sa variante (`site.layout.hero`) ; toute variante inconnue = pleine largeur. */

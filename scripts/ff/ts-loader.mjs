@@ -370,6 +370,22 @@ export async function loadProfilsModule() {
   return loadPureLibModule('profils.ts');
 }
 
+/**
+ * Copie src/lib/garde.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture garde-especes : espèces, garde, numéro du
+ * moment ; tests/architectures-garde.test.mjs).
+ */
+export async function loadGardeModule() {
+  return loadPureLibModule('garde.ts');
+}
+
+/**
+ * Copie src/lib/honoraires.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture honoraires-domaines : premier
+ * échange, modes, domaines à prix ; tests/architectures-garde.test.mjs).
+ */
+export async function loadHonorairesModule() {
+  return loadPureLibModule('honoraires.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

@@ -1,0 +1,72 @@
+---
+/**
+ * Bord brossé (style pinceau, relevé sur pickyjoe.com le 29 oct 2026, fiche docs/veille/styles/pinceau.md § Construction) :
+ * la frontière entre deux bandes de couleur n'est pas une ligne droite mais un coup de pinceau large, légèrement
+ * ondulé, plus haut au milieu qu'aux bords, avec quelques traits secs détachés : des éclats de la nouvelle couleur
+ * au-dessus du bord, et des traits de la couleur d'avant qui mordent dans la nouvelle (la brosse a laissé passer le
+ * fond). Dessin propre à l'usine (trois tracés, `forme` 0 à 2, pour que deux bords voisins ne se répètent pas).
+ * Posé en haut d'une bande (`position: absolute`, il déborde vers le haut de sa hauteur) ; décoratif (aria-hidden).
+ * Mouvement (profil `bandes-au-pinceau`, docs/veille/styles/MOUVEMENTS.md) : les traits détachés se brossent de gauche
+ * à droite à leur entrée à l'écran (data-reveal="wipe" du moteur, une fois, 0,6 s) ; le bord lui-même ne bouge pas.
+ * Props : `couleur` (la bande qui commence, une expression CSS de tokens), `avant` (la bande qui finit), `forme`.
+ */
+interface Props {
+  couleur: string;
+  avant: string;
+  forme?: number;
+  class?: string;
+}
+const { couleur, avant, forme = 0, class: cls = '' } = Astro.props;
+
+// viewBox 1440 x 96 ; le bord plein descend jusqu'en bas (y = 96) pour se souder à la bande.
+const TRACES = [
+  {
+    bord: 'M0 96V70C120 64 236 60 360 54C560 44 760 36 960 38C1120 40 1260 50 1440 58V96Z',
+    eclats: ['M560 28C690 20 820 18 930 22C820 25 690 28 560 31Z', 'M1260 38C1330 38 1390 42 1438 47C1388 45 1330 43 1260 41Z', 'M40 62C90 58 140 56 190 56C140 59 90 61 40 64Z'],
+    traits: ['M520 60C660 54 800 52 900 54C800 57 660 59 520 63Z', 'M1010 66C1110 64 1210 66 1300 70C1210 69 1110 68 1010 69Z'],
+  },
+  {
+    bord: 'M0 96V52C160 48 300 50 480 58C700 68 900 66 1100 54C1240 46 1350 44 1440 46V96Z',
+    eclats: ['M150 40C260 34 360 34 450 40C360 38 260 39 150 43Z', 'M1000 40C1100 32 1200 30 1300 32C1200 35 1100 38 1000 43Z'],
+    traits: ['M60 70C180 66 300 68 400 74C300 72 180 71 60 73Z', 'M1120 66C1220 60 1320 58 1420 60C1320 62 1220 65 1120 69Z'],
+  },
+  {
+    bord: 'M0 96V44C200 40 380 46 600 56C820 66 1000 62 1200 50C1300 44 1380 40 1440 40V96Z',
+    eclats: ['M700 46C800 50 900 52 990 50C900 48 800 46 700 43Z', 'M20 32C100 28 180 28 250 31C180 32 100 34 20 36Z'],
+    traits: ['M240 62C360 60 470 64 560 70C470 68 360 66 240 66Z', 'M1240 62C1310 58 1370 56 1430 56C1370 58 1310 61 1240 65Z'],
+  },
+];
+const t = TRACES[((forme % TRACES.length) + TRACES.length) % TRACES.length];
+---
+
+<svg
+  class:list={['bord-pinceau', cls]}
+  viewBox="0 0 1440 96"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+  style={`--bp-couleur: ${couleur}; --bp-avant: ${avant};`}
+>
+  <path class="bp-bord" d={t.bord} />
+  <g data-reveal="wipe">
+    {t.eclats.map((d) => <path class="bp-bord" d={d} />)}
+    {t.traits.map((d) => <path class="bp-trait" d={d} />)}
+  </g>
+</svg>
+
+<style>
+  .bord-pinceau {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(100% - 1px);
+    display: block;
+    width: 100%;
+    height: clamp(2.25rem, 5vw, 4.5rem);
+    pointer-events: none;
+  }
+  .bp-bord { fill: var(--bp-couleur); }
+  .bp-trait { fill: var(--bp-avant); }
+  /* Le brossé dure plus longtemps que le fondu du moteur : c'est le régime lent du profil (le sec : les boutons). */
+  .bord-pinceau :global([data-reveal='wipe']) { transition-duration: 0.6s; }
+</style>

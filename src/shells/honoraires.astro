@@ -1,0 +1,283 @@
+---
+/**
+ * Coquille "honoraires" : architecture `honoraires-domaines` (src/lib/architectures.ts ; sources Cabinet Marilyne Faltot,
+ * Forbach : sous le nom, les domaines vers « Nos activités », le numéro, la page Honoraires (taux horaire, forfait,
+ * convention signée pour chaque dossier, honoraire de résultat jamais seul, première consultation à prix et durée, appel
+ * découverte gratuit, protection juridique, aide juridictionnelle, médiateur) ; Judisis, Pontoise : domaines dépliés en
+ * procédures, « Honoraires » et « Consultation en ligne » dans la barre, un « à partir de » par procédure ;
+ * docs/veille/architectures/honoraires-domaines.md).
+ * Le client d'un avocat se demande « combien ça va me coûter, et comment ça commence ? » : le site part de là.
+ *   → en tête, à gauche le h1, le métier à la ville, l'ancienneté, la note, où consulter (au cabinet, en visio…) ; à droite
+ *     le premier échange en temps (appel découverte, première consultation : durée et prix), « Prendre rendez-vous » et le
+ *     téléphone, id="premier-echange" ; la photo du cabinet ou de l'avocat dessous, en grand ;
+ *   → UN bloc, id="domaines" (plus de la moitié de la page, modèle « onglets » de ff ressemblance) : un onglet par domaine
+ *     (sans script, le sommaire entier), chacun avec sa phrase, ses procédures et leur « à partir de », sa page ; puis
+ *     dans le même bloc les honoraires (id="honoraires" : façons de les fixer, convention, prise en charge), le cabinet
+ *     (id="contact") et les questions (id="faq") ;
+ *   → les sections du layout (l'avocat) ;
+ *   → le pied.
+ * Pages : /nos-honoraires (src/pages/nos-honoraires/), une page par domaine (/services/<slug>, procédures à prix).
+ *
+ * `layout.hero` n'est pas rendu. Sans honoraires ni procédures : le h1, l'appel et le cabinet restent, et le build dit ce
+ * qui manque (donneesManquantes). Signes des sources NON repris : h1 en capitales espacées, statue de Thémis, pictogrammes
+ * dans des ronds de couleur, aplats lilas, « Contactez-nous » en pilule, articles de blog au milieu de l'accueil.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import Horaires from '@/components/Horaires.astro';
+import { site, tel, fullAddress, metierEtVille, paragraphs, donneesManquantes, premiersPas, modesComplets, resumePas } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const h = site.honoraires;
+const pas = premiersPas(h);
+const modes = modesComplets(h);
+const prise = h?.priseEnCharge ?? [];
+const modalites = h?.modalites ?? [];
+const domaines = site.services;
+const rdv = site.contact.bookingUrl;
+const photo = site.images.hero ?? site.about.portrait;
+const manque = donneesManquantes('honoraires-domaines', site);
+if (manque.length > 0) console.warn(`[coquille honoraires] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="ho-page">
+  <section id="hero" class:list={['container-ff ho-tete', photo && 'ho-avec-photo']} aria-labelledby="ho-h1">
+    <div class="ho-texte">
+      <h1 id="ho-h1" class="ho-h1 font-display" set:html={site.business.tagline} />
+      <p class="ho-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {modalites.length > 0 && <p class="ho-modalites">{modalites.join(', ')}.</p>}
+      {google && <p><a href={google.url} target="_blank" rel="noopener" class="ho-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+    </div>
+    {/* Le premier échange à côté du titre : ce que Faltot met sur sa page Honoraires (appel découverte gratuit, première
+        consultation à prix et durée) est la première chose qu'on vient chercher. */}
+    <div id="premier-echange" class="ho-carte">
+      <h2 class="ho-carte-t font-display">Comment ça commence</h2>
+      {pas.length > 0 && (
+        <ol class="ho-pas">
+          {pas.map((p) => (
+            <li class="ho-pas-li">
+              <span class="ho-pas-t">{p.titre}</span>
+              <span class="ho-pas-prix tabular-nums">{resumePas(p)}</span>
+              {p.texte && <span class="ho-muted">{p.texte}</span>}
+            </li>
+          ))}
+        </ol>
+      )}
+      <p class="ho-actions">
+        {rdv ? <a href={rdv} target="_blank" rel="noopener" class="ho-bouton">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a> : <a href="#contact" class="ho-bouton">Prendre rendez-vous</a>}
+        <a href={tel()} class="ho-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+      </p>
+    </div>
+    {photo && <div class="ho-photo-cadre"><Img src={photo.src} alt={photo.alt} class="ho-photo" sizes="(min-width: 1024px) 90vw, 100vw" priority /></div>}
+  </section>
+
+  {/* UN bloc, id="domaines" (plus de la moitié de la page, modèle « onglets » de ff ressemblance) : « Quel est votre
+      dossier ? », un onglet par domaine posé par le script (sans script, le sommaire entier, domaine après domaine) ;
+      chaque domaine avec ses procédures et leur « à partir de » (Judisis), sa page ; puis, DANS le même bloc, comment
+      sont fixés les honoraires (Faltot : temps passé, forfait, résultat, convention, prise en charge) et le cabinet. */}
+  <section id="domaines" class="ho-outil" aria-labelledby="ho-domaines-t" data-ho-outil>
+    <div class="ho-choix bg-ink text-on-ink">
+      <div class="container-ff ho-choix-in">
+        <h2 id="ho-domaines-t" class="ho-h2 font-display">{site.wording.domaines}</h2>
+        {domaines.length >= 2 && (
+          <div class="ho-onglets" role="tablist" aria-label={site.wording.domaines} data-ho-onglets hidden>
+            {domaines.map((d, i) => (
+              <button type="button" role="tab" id={`ho-onglet-${d.slug}`} aria-controls={`domaine-${d.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class="ho-onglet" data-ho-onglet>{d.title}</button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+    <div class="container-ff ho-panneaux">
+      {domaines.map((d) => {
+        const lignes = d.lignes.filter((l) => l.nom.trim());
+        const texte = paragraphs(d.description ?? '')[0];
+        return (
+          <div id={`domaine-${d.slug}`} class="ho-domaine" role={domaines.length >= 2 ? 'tabpanel' : undefined} aria-labelledby={domaines.length >= 2 ? `ho-onglet-${d.slug}` : undefined} data-ho-panneau>
+            <div class="ho-domaine-in">
+              <h3 class="ho-domaine-t font-display">{site.servicePages ? <a href={`/services/${d.slug}`} class="ho-domaine-lien">{d.title}</a> : d.title}</h3>
+              <p class="ho-chapo">{d.short}</p>
+              {texte && <p>{texte}</p>}
+              {lignes.length > 0 && (
+                <ul class="ho-lignes">
+                  {lignes.map((l) => <li class="ho-ligne"><span>{l.nom}</span><span class="ho-filet" aria-hidden="true"></span><span class="ho-prix tabular-nums">{l.prix ?? 'sur devis'}</span></li>)}
+                </ul>
+              )}
+              <p class="ho-actions">
+                {rdv ? <a href={rdv} target="_blank" rel="noopener" class="ho-bouton">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a> : <a href={tel()} class="ho-bouton tabular-nums">Appeler le {site.contact.phoneDisplay}</a>}
+                {site.servicePages && <a href={`/services/${d.slug}`} class="ho-lien">{d.title} en détail<Icon name="ArrowRight" size={16} /></a>}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    {(modes.length > 0 || h?.convention || prise.length > 0) && (
+      <div id="honoraires" class="ho-honoraires">
+        <div class="container-ff ho-honoraires-in">
+          <h3 class="ho-h2 font-display">Comment sont fixés les honoraires</h3>
+          {modes.length > 0 && (
+            <ul class="ho-modes">
+              {modes.map((m) => (
+                <li class="ho-mode">
+                  <h4 class="ho-mode-t font-display">{m.nom}</h4>
+                  {m.prix && <p class="ho-mode-prix tabular-nums">{m.prix}</p>}
+                  {m.texte && <p>{m.texte}</p>}
+                </li>
+              ))}
+            </ul>
+          )}
+          {h?.convention && <p class="ho-convention">{h.convention}</p>}
+          {prise.length > 0 && (
+            <dl class="ho-prise">
+              {prise.map((x) => <div><dt class="ho-prise-t">{x.nom}</dt><dd>{x.texte}</dd></div>)}
+            </dl>
+          )}
+          <p><a href="/nos-honoraires" class="ho-lien">Tous les honoraires du cabinet<Icon name="ArrowRight" size={16} /></a></p>
+        </div>
+      </div>
+    )}
+
+    <div id="contact" class="container-ff ho-cabinet">
+      <h3 class="ho-h2 font-display">Le cabinet</h3>
+      <div class="ho-cabinet-in">
+        <div class="ho-col">
+          <p class="ho-adresse">{fullAddress()}</p>
+          {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="ho-lien">Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+          <p class="ho-actions">
+            <a href={tel()} class="ho-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+            {rdv && <a href={rdv} target="_blank" rel="noopener" class="ho-lien">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a>}
+            {site.layout.contactDrawer && <a href="/#contact" class="ho-lien">Écrire au cabinet</a>}
+          </p>
+        </div>
+        <Horaires class="ho-semaine tabular-nums" />
+      </div>
+    </div>
+    {/* Les questions DANS le bloc (la FAQ de Faltot, « les réponses de votre avocat ») : on les lit le domaine choisi. */}
+    {site.faq.length > 0 && (
+      <div id="faq" class="container-ff ho-faq">
+        <h3 class="ho-h2 font-display">{site.wording.faqTitle ?? 'Vos questions'}</h3>
+        <div class="ho-questions">{site.faq.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}</div>
+      </div>
+    )}
+  </section>
+
+  {sections.map(({ Component, type }, i) => type !== 'faq' && (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Un onglet par domaine, le premier ouvert ; un lien vers #domaine-<slug> ouvre le sien. Sans script : le sommaire entier.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-ho-outil]');
+    const rangee = bloc?.querySelector<HTMLElement>('[data-ho-onglets]');
+    if (!bloc || !rangee) return;
+    const onglets = [...rangee.querySelectorAll<HTMLButtonElement>('[data-ho-onglet]')];
+    const panneaux = [...bloc.querySelectorAll<HTMLElement>('[data-ho-panneau]')];
+    if (onglets.length < 2 || onglets.length !== panneaux.length) return;
+    const ouvrir = (n: number, focus = false) => {
+      onglets.forEach((o, i) => { const sel = i === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      panneaux.forEach((p, i) => { p.hidden = i !== n; });
+    };
+    rangee.hidden = false;
+    const parHash = () => panneaux.findIndex((p) => `#${p.id}` === location.hash);
+    ouvrir(Math.max(0, parHash()));
+    window.addEventListener('hashchange', () => { const n = parHash(); if (n >= 0) ouvrir(n); });
+    onglets.forEach((o, i) => {
+      o.addEventListener('click', () => ouvrir(i));
+      o.addEventListener('keydown', (e) => {
+        const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: onglets.length - 1 }[e.key];
+        if (k === undefined) return;
+        e.preventDefault();
+        ouvrir((k + onglets.length) % onglets.length, true);
+      });
+    });
+  });
+</script>
+
+<style>
+  .ho-tete { display: grid; gap: clamp(1.25rem, 4vh, 2.25rem); padding-block: clamp(1.25rem, 4vh, 3rem) clamp(2rem, 6vh, 4rem); }
+  .ho-texte { display: grid; gap: 0.85rem; align-content: end; }
+  .ho-h1 { font-size: clamp(2rem, 6.2vw, 4.6rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 15ch; }
+  .ho-metier { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 44ch; }
+  .ho-modalites { color: var(--color-muted); }
+  .ho-carte { display: grid; gap: 0.9rem; align-content: start; padding: clamp(1.2rem, 2.6vw, 2rem); border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-lift, var(--shadow-card)); position: relative; z-index: 1; }
+  .ho-carte-t { font-size: clamp(1.35rem, 2.8vw, 1.9rem); line-height: 1.05; }
+  .ho-pas { display: grid; gap: 0.2rem; counter-reset: pas; }
+  .ho-pas-li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.15rem 1rem; padding-block: 0.7rem; border-block-end: 1px solid var(--color-line); }
+  .ho-pas-t { font-weight: 700; font-size: 1.08rem; }
+  .ho-pas-prix { font-weight: 700; font-size: 1.08rem; text-align: end; }
+  .ho-pas-li .ho-muted { flex-basis: 100%; }
+  .ho-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .ho-bouton { display: inline-flex; align-items: center; min-block-size: 48px; padding-inline: 1.15rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; }
+  .ho-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: 1.15rem; font-weight: 700; }
+  .ho-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ho-bouton:focus-visible, .ho-tel:focus-visible, .ho-lien:focus-visible, .ho-domaine-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ho-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); }
+  .ho-muted { color: var(--color-muted); }
+  .ho-h2 { font-size: clamp(1.7rem, 4.6vw, 3rem); line-height: 1.04; }
+  .ho-choix { padding-block: clamp(1.5rem, 5vh, 3rem); }
+  .ho-choix-in { display: grid; gap: 1rem; }
+  .ho-onglets { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .ho-onglets[hidden] { display: none; }
+  .ho-onglet { min-block-size: 52px; padding: 0.6rem 1.1rem; font-weight: 700; font-size: 1.05rem; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: var(--radius-ui, 6px); cursor: pointer; text-align: start; }
+  .ho-onglet[aria-selected='true'] { background: var(--color-bg); color: var(--color-fg); }
+  .ho-onglet:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ho-panneaux { display: grid; padding-block: clamp(1.5rem, 5vh, 3rem); }
+  .ho-domaine[hidden] { display: none; }
+  .ho-chapo { font-size: clamp(1.1rem, 1.8vw, 1.3rem); }
+  /* Un domaine : le nom, la phrase, puis les procédures à filets pointillés et leur prix (« à partir de » de Judisis). */
+  .ho-domaine { display: grid; gap: 0.75rem; padding-block: 1.25rem; border-block-start: 1px solid var(--color-fg); }
+  .ho-domaine-in { display: grid; gap: 0.6rem; }
+  .ho-domaine-in { display: grid; gap: 0.45rem; }
+  .ho-domaine-t { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.06; }
+  .ho-domaine-lien { text-decoration: none; }
+  .ho-domaine-lien:hover { text-decoration: underline; text-underline-offset: 0.18em; }
+  .ho-lignes { display: grid; gap: 0.15rem; margin-block-start: 0.3rem; }
+  .ho-ligne { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.5rem; padding-block: 0.3rem; }
+  .ho-filet { flex: 1 1 1.5rem; border-block-end: 1px dotted var(--color-muted); transform: translateY(-0.25em); }
+  .ho-prix { flex: none; font-weight: 700; text-align: end; white-space: nowrap; margin-inline-start: auto; }
+  .ho-honoraires { padding-block: clamp(2.5rem, 8vh, 5rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .ho-honoraires-in { display: grid; gap: clamp(1.5rem, 4vh, 2.5rem); }
+  .ho-modes { display: grid; gap: 1.5rem; }
+  .ho-mode { display: grid; gap: 0.4rem; align-content: start; padding-block-start: 1rem; border-block-start: 1px solid currentColor; }
+  .ho-mode-t { font-size: clamp(1.3rem, 2.6vw, 1.75rem); line-height: 1.08; }
+  .ho-mode-prix { font-weight: 700; font-size: 1.15rem; }
+  .ho-convention { font-size: clamp(1.1rem, 2vw, 1.35rem); max-inline-size: 52ch; }
+  .ho-prise { display: grid; gap: 1rem; }
+  .ho-prise-t { font-weight: 700; }
+  .ho-faq { display: grid; gap: 0.75rem; padding-block: clamp(2rem, 6vh, 3.5rem); max-inline-size: 60rem; }
+  .ho-questions details { border-block-end: 1px solid var(--color-line); }
+  .ho-questions summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .ho-questions summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ho-questions p { padding-block-end: 0.85rem; color: var(--color-muted); }
+  .ho-cabinet { display: grid; gap: 1.25rem; padding-block: clamp(2.25rem, 7vh, 4.5rem); }
+  .ho-cabinet-in { display: grid; gap: 2rem; }
+  .ho-col { display: grid; gap: 0.5rem; align-content: start; }
+  .ho-adresse { font-size: clamp(1.15rem, 2.2vw, 1.45rem); font-weight: 600; }
+  @media (min-width: 48rem) {
+    .ho-modes { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); column-gap: 2rem; }
+    .ho-prise, .ho-cabinet-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+    .ho-domaine-in { max-inline-size: 62ch; }
+  }
+  @media (min-width: 64rem) {
+    .ho-tete { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 3rem; }
+    .ho-photo-cadre { grid-column: 1 / -1; margin-block-start: -6rem; }
+    .ho-photo { aspect-ratio: 21 / 8; }
+    .ho-carte { align-self: start; }
+    .ho-avec-photo .ho-texte { padding-block-end: 6.5rem; }
+  }
+</style>

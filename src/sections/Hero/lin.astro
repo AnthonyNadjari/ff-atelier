@@ -1,0 +1,86 @@
+---
+/**
+ * Hero "lin" (style réel lin, relevé sur fraher.co le 29 oct 2026, fiche docs/veille/styles/lin.md § Construction) :
+ * une seule phrase, centrée, en serif de livre de taille modeste (33 px au téléphone, 45 px à l'ordinateur), posée seule
+ * dans un grand vide de papier ; dessous, en petite grotesque, le métier et la ville (la place du nom de la source),
+ * l'ancienneté et la note Google quand le client les a, puis un lien entre deux filets (Appeler) et la porte Devis.
+ * La photo du client vient ensuite en BANDE PLEINE LARGEUR, sans marge, sans voile, qui monte du bas du premier écran :
+ * on n'en voit que le haut au chargement (le vide occupe les trois quarts de l'écran), elle se découvre en défilant.
+ * Film au clic (profil de mouvement « film-au-clic », docs/veille/styles/MOUVEMENTS.md) : si le client a une vidéo
+ * (images.heroVideo), la bande montre son poster et un lien « Voir le film » ; la vidéo ne se charge et ne joue qu'au
+ * toucher (lecture déclenchée par le geste : permise même en économie d'énergie sur iPhone), avec les commandes natives.
+ * Données : aucune exigence. Sans images.hero ni poster, pas de bande : la phrase reste seule (composition typographique).
+ */
+import { site, tel, metierEtVille, hasContactDoor } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const poster = site.images.heroVideoPoster ?? hero?.src;
+const film = poster ? site.images.heroVideo : undefined;
+const google = site.proof.google;
+const faits = [
+  site.business.since && `Depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+  site.contact.emergency24h && 'Urgences 24 h/24',
+].filter(Boolean) as string[];
+---
+
+<section id="hero" class="hero-lin">
+  <div class:list={['lin-tete container-ff flex flex-col items-center justify-center text-center', !poster && 'lin-tete-seule']}>
+    <h1 class="lin-phrase hero-titre font-display" set:html={site.business.tagline} />
+    <p class="lin-signe mt-6 font-mono text-base md:text-lg">{metierEtVille()}</p>
+    {faits.length > 0 && <p class="mt-2 font-mono text-sm text-muted">{faits.join(', ')}</p>}
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+      <Button href={tel()} variant="ghost" size="sm">Appeler le {site.contact.phoneDisplay}</Button>
+      {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="sm">{site.wording.devis}</Button>}
+    </div>
+  </div>
+
+  {poster && (
+    <figure class="lin-bande relative w-full overflow-hidden bg-ink" data-film={film ? '' : undefined}>
+      <Img src={poster} alt={hero && poster === hero.src ? hero.alt : ''} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.lin} priority />
+      {film && (
+        <>
+          <video class="lin-film absolute inset-0 h-full w-full object-cover" preload="none" playsinline controls poster={poster} hidden>
+            <source src={film} type="video/mp4" />
+          </video>
+          <button type="button" class="lin-lancer absolute inset-x-0 bottom-8 mx-auto w-fit font-display text-xl text-on-ink underline underline-offset-4 md:bottom-14 md:text-2xl" data-film-lancer>
+            Voir le film
+          </button>
+        </>
+      )}
+    </figure>
+  )}
+</section>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Film au clic : la vidéo ne se charge qu'au geste, joue avec ses commandes natives, le lien disparaît.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-film]').forEach((cadre) => {
+      const bouton = cadre.querySelector<HTMLButtonElement>('[data-film-lancer]');
+      const video = cadre.querySelector<HTMLVideoElement>('video');
+      if (!bouton || !video) return;
+      bouton.addEventListener('click', () => {
+        video.hidden = false;
+        bouton.hidden = true;
+        video.play().catch(() => {});
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Le vide : la phrase occupe le haut du premier écran (environ 70 % de sa hauteur, la barre de nav comprise) ; la
+     bande photo commence dessous et dépasse le pli. */
+  .lin-tete { min-height: calc(72svh - 76px); padding-block: 3rem; }
+  .lin-tete-seule { min-height: calc(86svh - 76px); }
+  .lin-phrase { font-size: clamp(2.05rem, 1.55rem + 1.6vw, 2.85rem); line-height: 1.26; max-width: 21ch; text-wrap: balance; }
+  .lin-signe { letter-spacing: 0.01em; }
+  /* Bande : 4:3 au téléphone (la source y garde 16:9, trop mince pour une photo de chantier), 16:9 dès 48rem. */
+  .lin-bande { aspect-ratio: 4 / 3; }
+  @media (min-width: 48rem) { .lin-bande { aspect-ratio: 16 / 9; max-height: 92svh; } }
+  .lin-lancer { text-shadow: 0 1px 12px color-mix(in oklab, var(--ink) 70%, transparent); }
+</style>

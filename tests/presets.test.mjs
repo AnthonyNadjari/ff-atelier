@@ -253,6 +253,7 @@ if (!tsImportable) {
       // Heros d'un style entier (veille 2a quater : portrait-exclusion, panneaux-biais…) qui exigent une photo ou une vidéo du
       // client (varianteCompatible refuse un site sans donnée) : posés par leur modèle, jamais comptés comme hero « sûr ».
       if (!varianteCompatible('hero', v, {})) continue;
+      if (variantesDeStyle('hero').has(v)) continue;
       assert.ok((counts.get(v) || 0) >= 4, `hero "${v}" utilise ${counts.get(v) || 0} fois, attendu >= 4`);
     }
   });
@@ -269,9 +270,14 @@ if (!tsImportable) {
     const deStyle = new Set(all.filter(estModeleDeStyle).map((d) => d.look.layout.sections.find((x) => x.type === 'services')?.variant));
     for (const v of VARIANTS.services) {
       if (VARIANTES_D_ARCHITECTURE.includes(`services/${v}`) || deStyle.has(v)) continue;
+      if (variantesDeStyle('services').has(v)) continue;
       assert.ok((counts.get(v) || 0) >= 4, `services "${v}" utilise ${counts.get(v) || 0} fois, attendu >= 4`);
     }
   });
+
+  // Variantes d'un STYLE CONSTRUIT (veille 2a quater, 29 oct 2026) : le hero et le geste signature d'un style <id> portent
+  // le nom du style et ne servent qu'à son modèle presets/<id>.json (et à ff melanger --style <id>) : jamais tirés ailleurs.
+  const variantesDeStyle = (type) => new Set(loadAll().filter((d) => d.nom && (type === 'hero' ? d.look.layout.hero === d.nom : d.look.layout.sections.some((x) => x.type === type && x.variant === d.nom))).map((d) => d.nom));
 
   function countSectionVariant(all, type) {
     const counts = new Map();

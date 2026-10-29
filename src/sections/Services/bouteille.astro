@@ -1,0 +1,133 @@
+---
+/**
+ * Services "bouteille" : le geste signature du style construit `bouteille` (relevé sur restaurantzimmerl.at le 29 oct
+ * 2026, fiche docs/veille/styles/bouteille.md § Construction, blocs « 23 GÄNGE » et « 5 TISCHE »).
+ * Chaque prestation est une SCÈNE de photos décalées, et son nom en très grand surplombe le coin haut gauche de la
+ * photo : le premier mot en capitales géantes (8 à 10 rem à l'ordinateur), la suite du titre en petit, posée sur la
+ * ligne de base (la source fait « 23 » + « GÄNGE »). Grille de 14 colonnes sur toute la largeur (les colonnes 1 et 14
+ * sont les marges) :
+ * - scène A (impaire) : photo principale 3:2 en colonnes 3 à 10 ; deuxième photo du service (services[].images[0]),
+ *   verticale 3:4, plus haute et plus tôt, colonnes 11 à 14 : elle sort de l'écran à droite ; texte sous la photo.
+ * - scène B (paire) : une seule grande photo 16:9 de la colonne 3 jusqu'au bord droit, et dans la marge gauche un rail
+ *   vertical accent ponctué de points (filet + 3 points), le texte décalé dessous.
+ * Au téléphone : le titre puis la photo qui déborde à droite (le titre la chevauche de 0,35 em), la deuxième photo
+ * plus petite remonte sur le bas de la première (ombre réelle : deux plans).
+ * Mouvement (profil `enseigne-qui-se-resserre`) : le titre géant glisse plus lentement que la page (data-parallax,
+ * rich) et descend sur le coin de la photo ; la photo apparaît en fondu (un groupe par scène). Rien d'autre.
+ * Données : services[].image (sinon la prestation passe en liste de texte sous les scènes), services[].images[0]
+ * (sinon pas de deuxième photo), short, priceFrom. Rien n'est inventé.
+ */
+import { site, paragraphs, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const avecPhoto = site.services.filter((s) => s.image);
+const sansPhoto = site.services.filter((s) => !s.image);
+/** « Cuisines sur mesure » -> [« Cuisines », « sur mesure »] ; un premier mot de 1-2 lettres emmène le suivant. */
+const decouper = (titre: string): [string, string] => {
+  const mots = titre.trim().split(/\s+/);
+  const n = mots[0].length <= 2 && mots.length > 2 ? 2 : 1;
+  return [mots.slice(0, n).join(' '), mots.slice(n).join(' ')];
+};
+const premierPara = (s: (typeof site.services)[number]) => paragraphs(s.description ?? '')[0];
+---
+
+<section id="services" class="section-y bt-services overflow-hidden">
+  <div class="container-ff">
+    <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} align="center" />
+  </div>
+
+  {avecPhoto.map((s, i) => {
+    const [grand, suite] = decouper(s.title);
+    const seconde = s.images?.[0];
+    const b = i % 2 === 1;
+    return (
+      <article class:list={['bt-scene', b ? 'bt-scene-b' : 'bt-scene-a', seconde && !b && 'bt-a-deux']}>
+        <h3 class="bt-titre-geant font-display" data-parallax="0.5">
+          <a href={`/services/${s.slug}`} class="bt-titre-lien">
+            <span class="bt-grand" style={`--n:${Math.max(grand.length, 6)}`}>{grand}</span>{suite && <span class="bt-suite"> {suite}</span>}
+          </a>
+        </h3>
+        {b && (
+          <div class="bt-rail" aria-hidden="true"><span></span><span></span><span></span></div>
+        )}
+        <figure class="bt-photo-1 relative overflow-hidden bg-ink" data-reveal>
+          <Img src={s.image!.src} alt={s.image!.alt} class="h-full w-full object-cover" sizes={b ? '(min-width: 64rem) 85vw, 100vw' : '(min-width: 64rem) 58vw, 100vw'} loading="lazy" />
+        </figure>
+        {seconde && !b && (
+          <figure class="bt-photo-2 relative overflow-hidden bg-ink shadow-lift">
+            <Img src={seconde.src} alt={seconde.alt} class="h-full w-full object-cover" sizes="(min-width: 64rem) 30vw, 60vw" loading="lazy" />
+          </figure>
+        )}
+        <div class="bt-texte">
+          <p class="text-lg">{s.short}</p>
+          {premierPara(s) && <p class="mt-4 text-muted">{premierPara(s)}</p>}
+          {s.priceFrom && <p class="mt-4 font-mono text-sm text-accent">{s.priceFrom}</p>}
+          <a href={`/services/${s.slug}`} class="btn btn-primary mt-7 inline-flex items-center gap-3 px-5 py-3">
+            Découvrir<span class="sr-only"> : {s.title}</span><span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </article>
+    );
+  })}
+
+  {sansPhoto.length > 0 && (
+    <div class="container-ff">
+      <ul class="bt-liste mx-auto max-w-4xl border-t border-line">
+        {sansPhoto.map((s) => {
+          const [grand, suite] = decouper(s.title);
+          return (
+            <li class="border-b border-line py-8 md:grid md:grid-cols-[1fr_1.2fr] md:gap-10 md:items-baseline">
+              <h3 class="bt-titre-liste font-display"><a href={`/services/${s.slug}`}><span class="text-accent">{grand}</span>{suite && <span class="bt-suite"> {suite}</span>}</a></h3>
+              <p class="mt-3 text-muted md:mt-0">{s.short}</p>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  )}
+</section>
+
+<style>
+  .bt-scene { position: relative; margin-top: clamp(4.5rem, 12vw, 11rem); padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+  .bt-titre-geant { position: relative; z-index: 2; color: var(--accent); text-transform: uppercase; line-height: 0.82; letter-spacing: 0.01em; text-shadow: 0 2px 28px color-mix(in srgb, var(--ink) 55%, transparent); }
+  .bt-titre-lien { display: inline; color: inherit; text-decoration: none; }
+  .bt-titre-lien:hover .bt-suite, .bt-titre-lien:focus-visible .bt-suite { color: var(--fg); }
+  .bt-grand { font-size: min(clamp(3.1rem, 13vw, 10rem), calc(88vw / (var(--n) * 0.74))); }
+  @media (min-width: 64rem) { .bt-grand { font-size: min(10rem, calc(66vw / (var(--n) * 0.74))); } }
+  .bt-suite { font-size: clamp(1.25rem, 3.4vw, 3rem); letter-spacing: 0.04em; transition: color var(--motion-ui) ease; }
+  /* Téléphone : la photo déborde à droite, le titre la chevauche. */
+  .bt-photo-1 { margin-top: -0.35em; margin-right: calc(-1 * clamp(1.25rem, 4vw, 2.5rem)); aspect-ratio: 3 / 2; font-size: clamp(3.1rem, 13vw, 10rem); }
+  .bt-photo-1 :global(img) { font-size: 1rem; }
+  .bt-photo-2 { width: 58%; margin-left: auto; margin-top: -3rem; aspect-ratio: 3 / 4; z-index: 1; margin-right: calc(-1 * clamp(1.25rem, 4vw, 2.5rem)); }
+  .bt-texte { margin-top: 2rem; max-width: 34rem; }
+  .bt-rail { display: none; }
+  .bt-titre-liste { font-size: clamp(1.6rem, 4vw, 2.4rem); text-transform: uppercase; line-height: 1.05; }
+  .bt-titre-liste .bt-suite { font-size: 0.6em; }
+  .bt-liste { margin-top: clamp(4rem, 9vw, 7rem); }
+
+  @media (min-width: 64rem) {
+    .bt-scene {
+      display: grid;
+      grid-template-columns: repeat(14, minmax(0, 1fr));
+      column-gap: 1.25rem;
+      padding-inline: 0;
+      align-items: start;
+    }
+    .bt-titre-geant { grid-row: 1; grid-column: 2 / span 10; align-self: end; }
+    .bt-photo-1 { grid-row: 2; margin: 0; }
+    .bt-photo-1 { margin-top: -0.42em; }
+    .bt-scene-a .bt-photo-1 { grid-column: 3 / 11; }
+    .bt-scene-a .bt-photo-2 { grid-row: 1 / span 2; grid-column: 11 / 15; width: auto; margin: 0; margin-top: 4rem; align-self: start; aspect-ratio: 3 / 4.4; }
+    .bt-scene-a:not(.bt-a-deux) .bt-photo-1 { grid-column: 3 / 12; }
+    .bt-scene-a .bt-texte { grid-row: 3; grid-column: 3 / 8; margin-top: 3.5rem; }
+    .bt-scene-b .bt-titre-geant { grid-column: 3 / span 10; }
+    .bt-scene-b .bt-photo-1 { grid-column: 3 / 15; aspect-ratio: 16 / 8; }
+    .bt-scene-b .bt-texte { grid-row: 3; grid-column: 5 / 10; margin-top: 3.5rem; }
+    /* Rail de la source : filet accent vertical dans la marge, trois points. */
+    .bt-rail { display: flex; grid-row: 2 / span 2; grid-column: 2 / 3; justify-self: end; margin-right: 1.25rem; flex-direction: column; justify-content: space-between; align-items: center; width: 0.75rem; padding-block: 0.5rem 4rem; background: linear-gradient(var(--accent), var(--accent)) center / 1px 100% no-repeat; }
+    .bt-rail span { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--accent); }
+    .bt-rail span:first-child { width: 0.85rem; height: 0.85rem; }
+  }
+  .bt-photo-1 :global(.ff-illustration), .bt-photo-2 :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
+</style>

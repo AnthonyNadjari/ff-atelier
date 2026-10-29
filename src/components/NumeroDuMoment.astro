@@ -1,0 +1,60 @@
+---
+/**
+ * Le numéro à appeler maintenant (architecture garde-especes, src/lib/garde.ts) : la clinique quand elle est ouverte,
+ * la garde sinon. Sans script : les deux numéros, chacun avec sa phrase (rien n'est caché). Avec script et des horaires
+ * lisibles (semaine() de src/lib/horaires.ts) : l'état du moment (« La clinique est ouverte », fuseau Europe/Paris) et
+ * le seul numéro qui sert. Sans numéro de garde propre, la clinique seule (son répondeur renvoie vers la garde, comme aux
+ * Quais et à Saint-Max). Aucune horloge visible, aucune couleur : hérite du parent.
+ */
+import { site, numeroDeGarde } from '@/lib/site';
+import { semaine } from '@/lib/horaires';
+import Icon from '@/components/Icon.astro';
+
+interface Props { class?: string }
+const { class: cls = '' } = Astro.props;
+const clinique = { href: `tel:${site.contact.phone.replace(/[^+\d]/g, '')}`, affiche: site.contact.phoneDisplay };
+const garde = numeroDeGarde(site.garde, site.contact);
+const sem = site.contact.hours.length > 0 ? semaine(site.contact.hours) : undefined;
+const data = garde.garde && sem ? JSON.stringify(sem.map((j) => ({ creneaux: j.creneaux, ferme: j.ferme }))) : undefined;
+---
+
+<div class:list={['ndm', cls]} data-ndm={data}>
+  {garde.garde ? (
+    <>
+      <p class="ndm-ligne" data-ndm-clinique><span class="ndm-quoi" data-ndm-etat>Aux heures d’ouverture, la clinique</span><a href={clinique.href} class="ndm-tel tabular-nums"><Icon name="Phone" size={20} />{clinique.affiche}</a></p>
+      <p class="ndm-ligne" data-ndm-garde><span class="ndm-quoi" data-ndm-etat>{site.garde?.quand ?? 'En dehors, la garde'}</span><a href={garde.href} class="ndm-tel tabular-nums"><Icon name="Phone" size={20} />{garde.affiche}</a></p>
+    </>
+  ) : (
+    <p class="ndm-ligne"><span class="ndm-quoi">Jour et nuit, la clinique</span><a href={clinique.href} class="ndm-tel tabular-nums"><Icon name="Phone" size={20} />{clinique.affiche}</a></p>
+  )}
+</div>
+
+<style>
+  .ndm { display: grid; gap: 0.75rem; }
+  .ndm-ligne { display: grid; gap: 0.3rem; }
+  .ndm-ligne[hidden] { display: none; }
+  .ndm-quoi { font-size: 1rem; }
+  .ndm-tel { display: inline-flex; align-items: center; gap: 0.6rem; min-block-size: 52px; font-size: clamp(1.6rem, 6vw, 2.4rem); font-weight: 700; line-height: 1.05; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.18em; }
+  .ndm-tel:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { etatDuJour } from '@/lib/horaires';
+
+  // Ouvert : le numéro de la clinique ; fermé : celui de la garde. Sans horaires lisibles, les deux restent.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-ndm]').forEach((bloc) => {
+      if (!bloc.dataset.ndm) return;
+      const etat = etatDuJour(JSON.parse(bloc.dataset.ndm), new Date());
+      const c = bloc.querySelector<HTMLElement>('[data-ndm-clinique]');
+      const g = bloc.querySelector<HTMLElement>('[data-ndm-garde]');
+      if (!c || !g) return;
+      const garde = !etat.ouvert;
+      c.hidden = garde;
+      g.hidden = !garde;
+      const t = (garde ? g : c).querySelector<HTMLElement>('[data-ndm-etat]');
+      if (t) t.textContent = garde ? 'La clinique est fermée, appelez la garde' : 'La clinique est ouverte, appelez-la';
+    });
+  });
+</script>

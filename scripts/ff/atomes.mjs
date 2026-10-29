@@ -44,7 +44,8 @@ export const GENRES = {
   josefin: 'sans', archivoBlack: 'sans-affichage', bebas: 'condensee', delaGothic: 'sans-affichage',
   oswald: 'condensee', cabin: 'sans', karla: 'sans', rubik: 'sans', urbanist: 'sans', chivo: 'sans-affichage',
   familjenGrotesk: 'sans', lexend: 'sans', publicSans: 'sans', alfaSlabOne: 'slab-affichage', bungee: 'sans-affichage',
-  intelOneMono: 'mono', jetbrains: 'mono', spaceMono: 'mono', dmMono: 'mono', fragmentMono: 'mono',
+  judson: 'serif', lexendZetta: 'sans-affichage', intelOneMono: 'mono', jetbrains: 'mono', spaceMono: 'mono', dmMono: 'mono', fragmentMono: 'mono',
+  bigShoulders: 'condensee', azeretMono: 'mono',
 };
 const AFFICHAGE = new Set(['serif-affichage', 'sans-affichage', 'condensee', 'manuscrite', 'slab-affichage']);
 

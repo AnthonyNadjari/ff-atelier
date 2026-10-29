@@ -20,6 +20,7 @@ import { sortiesDuService } from '@/lib/sorties';
 import CreneauxDuCours from '@/components/CreneauxDuCours.astro';
 import { coursDuService } from '@/lib/planning';
 import { lienEstimation } from '@/lib/estimation';
+import { lienHonoraires } from '@/lib/honoraires';
 
 export function getStaticPaths() {
   // site.servicePages: false -> aucune page service (voir src/lib/schema.ts).
@@ -45,6 +46,8 @@ const blocCreneaux = `${service.title}\u00a0: les créneaux de la semaine`;
 // Demande d'estimation (site.estimation, architecture estimation-etapes) : la porte de la page ouvre la demande réglée sur
 // cette prestation (« Devis en ligne » de Rigoulet sur chaque page).
 const estimation = lienEstimation(site.estimation, site.wording.estimation);
+// Procédures à prix (architecture honoraires-domaines) : lues seulement quand le site déclare ses honoraires.
+const procedures = site.honoraires ? service.lignes.filter((l) => l.nom.trim()) : [];
 const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug}`, Astro.site).toString());
 ---
 
@@ -70,6 +73,15 @@ const serviceJsonLd = serviceLd(site, service, new URL(`/services/${service.slug
             <ul class="mt-8 grid sm:grid-cols-2 gap-x-6 gap-y-2 list-disc pl-5 marker:text-accent">{service.bullets.map((b) => <li>{b}</li>)}</ul>
           )}
           {service.priceFrom && <p class="service-prix mt-8 inline-block rounded-ui border border-line px-4 py-2 font-medium tabular-nums">{service.priceFrom}</p>}
+          {/* Procédures à prix d'un domaine (architecture honoraires-domaines : les « à partir de » de Judisis) et le lien vers
+              tous les honoraires ; seulement pour un site qui déclare ses honoraires (site.honoraires). */}
+          {site.honoraires && procedures.length > 0 && (
+            <section class="mt-10" aria-labelledby="procedures-titre">
+              <h2 id="procedures-titre" class="text-xl font-semibold">Procédures et honoraires</h2>
+              <dl class="mt-4 max-w-prose">{procedures.map((l) => <div class="flex justify-between gap-4 border-b border-line py-2"><dt>{l.nom}{l.detail && <span class="text-muted"> {l.detail}</span>}</dt><dd class="font-semibold tabular-nums text-right">{l.prix ?? 'sur devis'}</dd></div>)}</dl>
+              {lienHonoraires(site.honoraires, site.wording.honoraires) && <p class="mt-4"><a href="/nos-honoraires" class="underline underline-offset-4">{site.wording.honoraires} du cabinet</a></p>}
+            </section>
+          )}
           <div class="mt-10 flex flex-wrap gap-4">
             <Button href={tel()} size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
             {estimation ? <Button href={`/estimation?projet=${service.slug}`} variant="ghost" size="lg">{site.wording.estimation}</Button> : aPorteContact && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}

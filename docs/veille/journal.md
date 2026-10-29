@@ -4,6 +4,70 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 29 oct 2026, tour 17 (routine en ligne, en même temps que le tour 16 à la main) : 3 styles construits, 2 architectures
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-29.jpg)) : le style `pinceau`, repris du Coyot Bar à Montpellier (pickyjoe.com) :
+enseigne empilée en capitales condensées, la page en bandes de couleur (bleu nuit, terracotta, sable, moutarde) aux bords
+brossés, horaires sur une plaque posée sur la photo, la carte à prix sur bleu nuit. Pourquoi lui : c'est le seul des trois que
+le juge neuf trouve presque à la hauteur de la source, et rien dans l'usine ne ressemblait à ça pour un bar ou un restaurant.
+
+**Fait**
+- `ff melanger --style <id>` qui lit `presets/<id>.json` : fait aussi ce matin par le tour 16 (session à la main, poussée
+  pendant ce tour) ; sa version (`modeleEntier`, `appliquerModele`) est gardée, la mienne (`lookDuModele`) retirée à la fusion.
+  Les deux tours ont tourné en parallèle sans se voir : 6 styles construits ce jour au total (3 par tour, sources différentes).
+- **Styles (2a quater, nouvelle règle : un style = un site entier construit)** : 3 sites, chacun codé de bout en bout
+  (direction, hero, section signature, modèle `presets/<id>.json`, test `tests/style-<id>.test.mjs`, fiche avec « Construction ») :
+  - `lin` (fraher.co, constructeurs à Londres, clair teinté) : phrase seule dans le vide, bandeau photo, un panneau par service
+    papier / sable / sauge, lien entre deux filets ; profil de mouvement `film-au-clic`.
+  - `bouteille` (restaurantzimmerl.at, sombre) : le nom seul en capitales sur la photo de salle, titres géants à cheval sur des
+    photos décalées, rail cuivre à points ; profil `enseigne-qui-se-resserre`.
+  - `pinceau` (pickyjoe.com, coloré doux) : voir plus haut ; profil `bandes-au-pinceau`. Nouveau composant `BordPinceau.astro`.
+  Polices ajoutées (libres, hors liste IA) : Judson, Lexend Zetta, Big Shoulders Display, Azeret Mono. Les trois essais :
+  `verifier` vert hors données de test, `ia` vert, `ressemblance` au plus 0,63.
+- **Juge neuf** (agent en lecture seule, captures + GOUT) : **aucun des trois ne tient tout à fait la comparaison**. `pinceau`
+  presque (manque la photo plein cadre au premier écran) ; `lin` et `bouteille` fidèles en haut de page seulement. Reproche
+  commun : sous la moitié de la page, les trois retombent sur la même fin d'usine (communes, bandeau d'appel, questions,
+  formulaire, pied sombre, barre basse à 3 boutons). Marqués « à reprendre » dans [styles/INDEX.md](styles/INDEX.md). Au sens
+  strict de la règle (2 styles gardés), **le volet styles est raté ce tour** : construits, pas encore gardés.
+- Palettes par régime, avant → après : clair neutre 93 → 93, clair teinté doux 31 → 32, sombre 34 → 35, coloré doux 56 → 57.
+- **Architectures (2a ter)**, codées et prouvées : [garde-especes](architectures/garde-especes.md) (clinique-les-quais.fr,
+  vetosaintmax.fr ; coquille `garde` : deux portes « Prendre rendez-vous » / « Une urgence ? » avec le numéro du moment, clinique
+  ou garde, calculé dans le navigateur ; un bloc à onglets Urgences puis une espèce par onglet ; `/urgences`, `/animaux/<slug>`)
+  et [honoraires-domaines](architectures/honoraires-domaines.md) (faltot-avocat.fr, judisis.fr ; coquille `honoraires` :
+  « Comment ça commence » à côté du h1, un onglet par domaine avec ses procédures « à partir de », convention, aide
+  juridictionnelle ; `/nos-honoraires`). Ressemblance au plus 0,58 ; entre elles 0,87 au déroulé (jamais en pistes sœurs).
+  Tests `tests/architectures-garde.test.mjs`.
+- **Marché (2a)** : 9 sites de plus ([CE-QUI-VEND.md](marche/CE-QUI-VEND.md), 144 sites). Aucun levier à 40 % absent de
+  l'usine (formulaire sur l'accueil à 39,6 %, à recompter). Le plus vendeur : ALB'ELEC à Montpellier (« Urgence < 2 h » avec
+  Appeler et WhatsApp, 24 avis Google datés, chantiers situés, Qualifelec, 11 pages de communes). Nouveaux contre-leviers :
+  publicité AdSense, page réalisations vide, actualité vieille d'un an en tête, photo de banque au premier écran alors que les
+  vraies sont plus bas.
+- **Paire trop proche corrigée** : `demo-informatique` (pire 0,90 au déroulé, 0,86 à l'ordinateur) refaite sur l'architecture
+  `appareils-pannes` (« Quel appareil est en panne ? »), premier écran typographique, section sur mesure « Sur l'établi », vraies
+  photos d'illustration au lieu de dégradés ; faux logos partenaires et faux portrait retirés. Pire paire après : 0,64 / 0,41 /
+  0,61. `verifier` et `ia` verts. Paires trop proches : 268 → 245 (`ff ressemblance --registre --tous`).
+- Santé : `npm ci`, Chromium de Playwright, tout a tourné avec navigateur. Tests : 84 fichiers, tous verts (un rouge corrigé :
+  `--ease-brand` de `lin` en `linear` au lieu d'une courbe).
+
+**Proposé**
+- Modèles de style : laisser le modèle retirer ou déplacer la fin de page (communes, bandeau d'appel, questions) quand la
+  source ne l'a pas, et l'essai `--style` ne pas garder les sections de `_exemple` absentes de la source ; c'est le reproche
+  commun du juge.
+- `ff apercu-rapide` : charger les images paresseuses avant la capture pleine page (photos floues à l'ordinateur sur les trois
+  essais : aperçu de chargement capturé, `ff nettete` vert).
+- `ff ressemblance` : le poids « site » (plusieurs pages, 4 pages ou plus) pèse ~0,49 à lui seul ; un client à 4 services peut
+  être refusé quoi que fasse le style (relevé par l'agent `pinceau`).
+- `ff photos-demo` : une entrée de `CREDITS.md` décrivait un routeur pour une photo de condensateur (attribution à vérifier) ;
+  « rooftop » ramène des gratte-ciel.
+- `navLinks` : lien « Avis » vers `/#proof` quand la section de preuve ne rend rien (vu deux fois ce tour).
+
+**À décider** : reprendre `pinceau` d'abord (photo sous l'enseigne) ; `garde-especes` pour veto-du-drac et
+`honoraires-domaines` pour lemaire-avocats (sur leurs propres données) ; la nouvelle tête de `demo-informatique`.
+
+**Prochain tour commence par** : reprendre les trois styles jusqu'à ce que le juge neuf dise « tient ».
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
 ## 29 oct 2026, tour 16 (à la main, carte blanche du fondateur) : la veille réécrite, 3 styles construits en entier
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-29-experimentalcc.jpg)) : la brasserie de démo reconstruite d'après Experimental

@@ -201,6 +201,13 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `/consulter/<slug>` ;
   aucune donnée = aucune page ; une section `proof` sans preuve n'a pas de lien de nav (`src/lib/revendeurs.ts`,
   `src/lib/profils.ts`, `tests/architectures-producteurs.test.mjs`).
+  `garde` et `especes` (optionnels, architecture `garde-especes`, coquille `garde`) → le bandeau urgence, les portes « Prendre
+  rendez-vous » et « Une urgence ? » avec le numéro du moment (la clinique ouverte, la garde fermée, dans le navigateur), un bloc à
+  onglets « Urgences » puis une espèce par onglet, ouvert sur l'urgence quand la clinique est fermée, `/urgences`, `/animaux`,
+  `/animaux/<slug>` ; `honoraires` (optionnel, architecture `honoraires-domaines`, coquille `honoraires`) → « Comment ça commence »
+  à côté du h1 (appel découverte, première consultation, durée et prix), les domaines (services) en onglets avec leurs procédures
+  « à partir de », les façons de fixer l'honoraire, la prise en charge, `/nos-honoraires` ; aucune donnée = aucune page
+  (`src/lib/garde.ts`, `src/lib/honoraires.ts`, `tests/architectures-garde.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

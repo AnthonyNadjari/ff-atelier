@@ -1,0 +1,82 @@
+---
+/**
+ * Page d'une espèce (/animaux/<slug>, site.especes, src/lib/garde.ts) : architecture `garde-especes`
+ * (docs/veille/architectures/garde-especes.md ; les pages « Chiens », « Chats », « NACs » des Quais, la page NAC). L'espèce,
+ * ce qu'elle couvre, les soins de la clinique pour elle, ses conseils (FAQPage), Prendre rendez-vous et l'urgence ; les
+ * autres espèces. Une page par espèce lisible ; sinon aucune.
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, especesCompletes, gardeLisible, numeroDeGarde } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return especesCompletes(site.especes).map((e) => ({ params: { slug: e.slug }, props: { e } }));
+}
+const { e } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const tous = especesCompletes(site.especes);
+const autres = tous.filter((y) => y.slug !== e.slug);
+const rdv = site.contact.bookingUrl;
+const garde = numeroDeGarde(site.garde, site.contact);
+const faqLd = e.conseils.length > 0 ? faqPageLd(e.conseils) : undefined;
+---
+
+<Base title={`${e.nom} | ${site.business.name}`} description={`${site.business.trade} à ${site.contact.address.city}, ${e.nom.toLowerCase()}${e.soins.length > 0 ? ` : ${e.soins.join(', ').toLowerCase()}` : ''}.`} path={`/animaux/${e.slug}`} jsonLd={faqLd ? [faqLd] : []}>
+  <Nav />
+  <main id="main" class="container-ff esp">
+    <p><a href={tous.length >= 2 ? '/animaux' : '/'} class="esp-lien"><Icon name="ArrowLeft" size={16} />{tous.length >= 2 ? site.wording.especes : 'Accueil'}</a></p>
+    <div class="esp-grille">
+      <div class="esp-texte">
+        <h1 class="esp-titre font-display">{e.nom}</h1>
+        <p class="esp-metier">{site.business.trade} à {site.contact.address.city}{e.detail ? `, ${e.detail.replace(/^./, (c) => c.toLowerCase())}` : ''}</p>
+        {e.phrase && <p>{e.phrase}</p>}
+        {e.soins.length > 0 && (<><h2 class="esp-h2">À la clinique</h2><ul class="esp-soins">{e.soins.map((x) => <li>{x}</li>)}</ul></>)}
+        <p class="esp-portes">
+          {rdv ? <a href={rdv} target="_blank" rel="noopener" class="esp-rdv">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a> : <a href={tel()} class="esp-rdv tabular-nums">Appeler le {site.contact.phoneDisplay}</a>}
+          {gardeLisible(site.garde) ? <a href="/urgences" class="esp-lien">Une urgence ? {garde.affiche}</a> : <a href={tel()} class="esp-lien tabular-nums">{site.contact.phoneDisplay}</a>}
+        </p>
+      </div>
+      {e.photo && <Img src={e.photo.src} alt={e.photo.alt} class="esp-photo" sizes="(min-width: 1024px) 45vw, 100vw" priority />}
+    </div>
+    {e.conseils.length > 0 && (
+      <section aria-labelledby="esp-conseils">
+        <h2 id="esp-conseils" class="esp-h2">Nos conseils</h2>
+        <div class="esp-faq">{e.conseils.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}</div>
+      </section>
+    )}
+    {autres.length > 0 && (
+      <nav class="esp-autres" aria-label="Les autres animaux">
+        <h2 class="esp-h2">Les autres animaux soignés à la clinique</h2>
+        <ul>{autres.map((y) => <li><a href={`/animaux/${y.slug}`} class="esp-autre"><span>{y.nom}</span>{y.detail && <span class="esp-muted">{y.detail}</span>}</a></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .esp { display: grid; gap: 2rem; padding-block: clamp(1.25rem, 4vh, 3.5rem); }
+  .esp-lien { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .esp-grille { display: grid; gap: 2rem; }
+  .esp-texte { display: grid; gap: 0.7rem; align-content: start; max-inline-size: 60ch; }
+  .esp-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .esp-metier { font-size: 1.15rem; color: var(--color-muted); }
+  .esp-h2 { font-weight: 700; font-size: 1.2rem; margin-block-start: 0.5rem; }
+  .esp-soins li { padding-block: 0.35rem; border-block-end: 1px solid var(--color-line); }
+  .esp-muted { color: var(--color-muted); }
+  .esp-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+  .esp-rdv { display: inline-flex; align-items: center; min-block-size: 48px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; }
+  .esp-rdv:focus-visible, .esp-lien:focus-visible, .esp-autre:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .esp-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
+  .esp-faq details { border-block-end: 1px solid var(--color-line); }
+  .esp-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .esp-faq summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .esp-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+  .esp-autres ul { display: grid; }
+  .esp-autre { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; min-block-size: 48px; align-items: center; border-block-end: 1px solid var(--color-line); }
+  @media (min-width: 64rem) { .esp-grille { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 4rem; } }
+</style>

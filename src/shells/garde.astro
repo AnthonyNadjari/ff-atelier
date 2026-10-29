@@ -1,0 +1,313 @@
+---
+/**
+ * Coquille "garde" : architecture `garde-especes` (src/lib/architectures.ts ; sources Clinique vétérinaire Les Quais,
+ * Saumur et Bourgueil : « URGENCES » dans la barre et au pied, « Que faire en cas d'urgence vétérinaire ? » en trois temps,
+ * les conseils par espèce ; Clinique vétérinaire Saint-Max : sous le h1 qui nomme les espèces, « Prendre RDV en ligne » et
+ * « En cas d'urgence » côte à côte, une page Urgence ; docs/veille/architectures/garde-especes.md).
+ * Le maître se demande d'abord « est-ce une urgence, qui appeler maintenant ? » : le site part de là.
+ *   → sous la barre, le bandeau urgence (le numéro de garde, sinon celui de la clinique ; « Que faire ») ;
+ *   → en tête le h1, le métier à la ville, l'ancienneté et la note (socle docs/GOUT.md § 0) ; puis deux portes côte à
+ *     côte, id="rendez-vous" (« Prendre rendez-vous », les horaires du jour) et id="une-urgence" (le numéro du moment :
+ *     la clinique ouverte, la garde fermée, src/components/NumeroDuMoment.astro) ; la photo du lieu en grand à côté ;
+ *   → UN bloc à onglets, id="clinique" (plus de la moitié de la page, modèle « onglets » de ff ressemblance) : l'onglet
+ *     « Urgences » (id="urgence" : la conduite à tenir en temps numérotés, les signes qui n'attendent pas, la garde) puis
+ *     un par espèce (id="animal-<slug>" : photo, soins, conseils, rendez-vous, vers /animaux/<slug>) ; ouvert d'office sur
+ *     l'urgence quand la clinique est fermée, sur la première espèce quand elle est ouverte (dans le navigateur) ;
+ *   → venir à la clinique, id="contact" (adresse, horaires, téléphone) et les services, DANS le bloc ; puis les sections du
+ *     layout (avis ; les questions sont rendues DANS le bloc, id="faq") et le dernier appel (rendez-vous ou garde, comme Saint-Max) ;
+ *   → le pied.
+ * Pages : /urgences, /animaux, /animaux/<slug>.
+ *
+ * `layout.hero` n'est pas rendu. Sans garde lisible ni espèce : les portes, l'adresse et l'appel restent, et le build dit
+ * ce qui manque (donneesManquantes). Signes des sources NON repris : h1 en capitales (« BIENVENUE À LA CLINIQUE… »),
+ * « URGENCES » en capitales sur un aplat magenta, fenêtre surgissante pour la conduite à tenir (ici elle est dans la
+ * page), pictogrammes dans des ronds, « Pourquoi nous choisir ? ».
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import Horaires from '@/components/Horaires.astro';
+import NumeroDuMoment from '@/components/NumeroDuMoment.astro';
+import { semaine } from '@/lib/horaires';
+import { site, tel, fullAddress, metierEtVille, donneesManquantes, especesCompletes, etapesGarde, signesGarde, numeroDeGarde, gardeLisible } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const g = site.garde;
+const especes = especesCompletes(site.especes);
+const etapes = etapesGarde(g);
+const signes = signesGarde(g);
+const garde = numeroDeGarde(g, site.contact);
+const lisible = gardeLisible(g);
+const rdv = site.contact.bookingUrl;
+const photo = site.images.hero;
+const onglets = [...(lisible ? [{ id: 'urgence', nom: site.wording.urgences }] : []), ...especes.map((e) => ({ id: `animal-${e.slug}`, nom: e.nom }))];
+const sem = site.contact.hours.length > 0 ? semaine(site.contact.hours) : undefined;
+const semaineJson = sem ? JSON.stringify(sem.map((j) => ({ creneaux: j.creneaux, ferme: j.ferme }))) : undefined;
+const manque = donneesManquantes('garde-especes', site);
+if (manque.length > 0) console.warn(`[coquille garde] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="gd-page">
+  <section id="hero" class="gd-hero" aria-labelledby="gd-h1">
+    {/* Le bandeau urgence en tête (« URGENCES » des Quais, toujours dans la barre et au pied) : le numéro à appeler,
+        lisible avant même le titre. */}
+    <p class="gd-alerte bg-ink text-on-ink">
+      <span class="container-ff gd-alerte-in">
+        <span class="gd-alerte-t">{site.wording.urgences}{g?.quand ? `, ${g.quand.replace(/^./, (c) => c.toLowerCase())}` : ''}</span>
+        <a href={garde.href} class="gd-alerte-tel tabular-nums"><Icon name="Phone" size={17} />{garde.affiche}</a>
+        {lisible && <a href="#urgence" class="gd-alerte-lien" data-gd-vers="urgence">Que faire en attendant</a>}
+      </span>
+    </p>
+    <div class="container-ff gd-tete">
+      <div class="gd-texte">
+        <h1 id="gd-h1" class="gd-h1 font-display" set:html={site.business.tagline} />
+        <p class="gd-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+        {google && <p><a href={google.url} target="_blank" rel="noopener" class="gd-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+        {/* Deux portes côte à côte, comme « Prendre RDV en ligne » et « En cas d'urgence » sous le h1 de Saint-Max. */}
+        <div class="gd-portes">
+          <div id="rendez-vous" class="gd-porte">
+            <h2 class="gd-porte-t font-display">Prendre rendez-vous</h2>
+            <HorairesDuJour class="gd-jour" />
+            <p class="gd-actions">
+              {rdv ? <a href={rdv} target="_blank" rel="noopener" class="gd-bouton">Réserver en ligne<span class="sr-only"> (nouvel onglet)</span></a> : <a href={tel()} class="gd-bouton tabular-nums">Appeler le {site.contact.phoneDisplay}</a>}
+              {rdv && <a href={tel()} class="gd-lien tabular-nums">{site.contact.phoneDisplay}</a>}
+            </p>
+          </div>
+          <div id="une-urgence" class="gd-porte gd-porte-urgence">
+            <h2 class="gd-porte-t font-display">Une urgence ?</h2>
+            <NumeroDuMoment />
+            {lisible && <a href="#urgence" class="gd-lien" data-gd-vers="urgence">Que faire en attendant<Icon name="ArrowDown" size={16} /></a>}
+          </div>
+        </div>
+      </div>
+      {photo && <Img src={photo.src} alt={photo.alt} class="gd-photo" sizes="(min-width: 1024px) 40vw, 100vw" priority />}
+    </div>
+  </section>
+
+  {/* UN bloc, id="clinique" (il tient plus de la moitié de la page, modèle « onglets » de ff ressemblance) : un onglet
+      « Urgence » puis un par espèce, posés par le script ; sans script tout se lit l'un sous l'autre. Ouvert d'office
+      sur l'urgence quand la clinique est fermée (la nuit, le week-end), sur la première espèce quand elle est ouverte ;
+      dans le même bloc, venir à la clinique et ce qu'on y fait (les pages de services). */}
+  <section id="clinique" class="gd-outil" aria-labelledby="gd-outil-t" data-gd-outil data-gd-semaine={semaineJson}>
+    <div class="gd-choix bg-ink text-on-ink">
+      <div class="container-ff gd-choix-in">
+        <h2 id="gd-outil-t" class="gd-h2 font-display">{site.wording.especes}</h2>
+        {onglets.length >= 2 && (
+          <div class="gd-onglets" role="tablist" aria-label="Urgence ou animal" data-gd-onglets hidden>
+            {onglets.map((o, i) => (
+              <button type="button" role="tab" id={`gd-onglet-${o.id}`} aria-controls={o.id} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} class:list={['gd-onglet', o.id === 'urgence' && 'gd-onglet-urgence']} data-gd-onglet>{o.nom}</button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+    <div class="container-ff gd-panneaux">
+      {lisible && (
+        <div id="urgence" class="gd-panneau" role={onglets.length >= 2 ? 'tabpanel' : undefined} aria-labelledby={onglets.length >= 2 ? 'gd-onglet-urgence' : undefined} data-gd-panneau>
+          <h3 class="gd-h3b font-display">Que faire en cas d’urgence ?</h3>
+          {etapes.length > 0 && (
+            <ol class="gd-temps">
+              {etapes.map((e) => <li class="gd-temps-li"><span class="gd-temps-t font-display">{e.titre}</span>{e.texte && <span>{e.texte}</span>}</li>)}
+            </ol>
+          )}
+          <div class="gd-deux">
+            {signes.length > 0 && (
+              <div class="gd-col">
+                <h4 class="gd-h4">Ces signes n’attendent pas</h4>
+                <ul class="gd-signes">{signes.map((x) => <li>{x}</li>)}</ul>
+              </div>
+            )}
+            <div class="gd-col">
+              <h4 class="gd-h4">La garde</h4>
+              {g?.organisation && <p>{g.organisation}</p>}
+              {g?.especes && <p>{g.especes}</p>}
+              <p><a href={garde.href} class="gd-tel tabular-nums"><Icon name="Phone" size={19} />{garde.affiche}</a></p>
+              <p><a href="/urgences" class="gd-lien">Tout sur la garde<Icon name="ArrowRight" size={16} /></a></p>
+            </div>
+          </div>
+        </div>
+      )}
+      {especes.map((e) => (
+        <div id={`animal-${e.slug}`} class:list={['gd-panneau', e.photo && 'gd-panneau-photo']} role={onglets.length >= 2 ? 'tabpanel' : undefined} aria-labelledby={onglets.length >= 2 ? `gd-onglet-animal-${e.slug}` : undefined} data-gd-panneau>
+          {e.photo && <Img src={e.photo.src} alt={e.photo.alt} class="gd-espece-photo" sizes="(min-width: 1024px) 45vw, 100vw" />}
+          <div class="gd-col">
+            <h3 class="gd-h3b font-display"><a href={`/animaux/${e.slug}`} class="gd-espece-lien">{e.nom}</a></h3>
+            {e.detail && <p class="gd-muted">{e.detail}</p>}
+            {e.phrase && <p>{e.phrase}</p>}
+            {e.soins.length > 0 && (<><h4 class="gd-h4">À la clinique</h4><ul class="gd-signes">{e.soins.map((x) => <li>{x}</li>)}</ul></>)}
+            {e.conseils.length > 0 && <div class="gd-conseils">{e.conseils.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}</div>}
+            <p class="gd-actions">
+              {rdv ? <a href={rdv} target="_blank" rel="noopener" class="gd-bouton">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a> : <a href={tel()} class="gd-bouton tabular-nums">Appeler le {site.contact.phoneDisplay}</a>}
+              <a href={`/animaux/${e.slug}`} class="gd-lien">Tout pour les {e.nom.toLowerCase()}<Icon name="ArrowRight" size={16} /></a>
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+    {/* Venir à la clinique DANS le bloc (« Où nous trouver à Saint-Max ? ») : l'adresse, la semaine, le téléphone, et ce
+        qu'on fait à la clinique, une page chacun. */}
+    <div id="contact" class="gd-venir">
+      <div class="container-ff gd-venir-in">
+        <div class="gd-col">
+          <h3 class="gd-h3b font-display">Venir à la clinique</h3>
+          <p class="gd-adresse">{fullAddress()}</p>
+          {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="gd-lien">Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+          <p><a href={tel()} class="gd-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a></p>
+          {site.layout.contactDrawer && <p><a href="/#contact" class="gd-lien">Écrire à la clinique</a></p>}
+        </div>
+        <Horaires class="gd-semaine tabular-nums" />
+        {site.servicePages && site.services.length > 0 && (
+          <nav class="gd-col" aria-label="À la clinique">
+            <h4 class="gd-h4">À la clinique</h4>
+            <ul class="gd-services">{site.services.map((x) => <li><a href={`/services/${x.slug}`} class="gd-lien">{x.title}</a></li>)}</ul>
+          </nav>
+        )}
+      </div>
+    </div>
+    {/* Les questions de la clinique DANS le bloc (la « FAQ » de Saint-Max) : on les lit une fois l'animal choisi. */}
+    {site.faq.length > 0 && (
+      <div id="faq" class="container-ff gd-faq">
+        <h3 class="gd-h3b font-display">{site.wording.faqTitle ?? 'Vos questions'}</h3>
+        <div class="gd-conseils">{site.faq.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}</div>
+      </div>
+    )}
+  </section>
+
+  {sections.map(({ Component, type }, i) => type !== 'faq' && (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  {/* Le dernier appel, comme « Prenez soin de votre animal dès aujourd'hui » de Saint-Max : les deux portes une dernière
+      fois, le rendez-vous et l'urgence, avant le pied. */}
+  <section class="gd-appel bg-ink text-on-ink" aria-labelledby="gd-appel-t">
+    <div class="container-ff gd-appel-in">
+      <h2 id="gd-appel-t" class="gd-h2 font-display">Rendez-vous ou urgence, un seul geste</h2>
+      <p class="gd-actions">
+        {rdv ? <a href={rdv} target="_blank" rel="noopener" class="gd-bouton">Prendre rendez-vous<span class="sr-only"> (nouvel onglet)</span></a> : <a href={tel()} class="gd-bouton tabular-nums">Appeler le {site.contact.phoneDisplay}</a>}
+        <a href={garde.href} class="gd-tel tabular-nums"><Icon name="Phone" size={19} />{garde.garde ? `Garde : ${garde.affiche}` : garde.affiche}</a>
+      </p>
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { etatDuJour } from '@/lib/horaires';
+
+  // Un onglet « Urgence » puis un par espèce. Ouvert d'office : l'urgence quand la clinique est fermée, la première espèce
+  // quand elle est ouverte ; un lien vers #urgence ou #animal-<slug> ouvre le sien. Sans script : tout se lit.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-gd-outil]');
+    const rangee = bloc?.querySelector<HTMLElement>('[data-gd-onglets]');
+    if (!bloc || !rangee) return;
+    const onglets = [...rangee.querySelectorAll<HTMLButtonElement>('[data-gd-onglet]')];
+    const panneaux = [...bloc.querySelectorAll<HTMLElement>('[data-gd-panneau]')];
+    if (onglets.length < 2 || onglets.length !== panneaux.length) return;
+    const ouvrir = (n: number, focus = false) => {
+      onglets.forEach((o, i) => { const sel = i === n; o.setAttribute('aria-selected', String(sel)); o.tabIndex = sel ? 0 : -1; if (sel && focus) o.focus(); });
+      panneaux.forEach((p, i) => { p.hidden = i !== n; });
+    };
+    rangee.hidden = false;
+    const iUrgence = panneaux.findIndex((p) => p.id === 'urgence');
+    const premiereEspece = panneaux.findIndex((p) => p.id !== 'urgence');
+    let defaut = 0;
+    if (bloc.dataset.gdSemaine && iUrgence >= 0) defaut = etatDuJour(JSON.parse(bloc.dataset.gdSemaine), new Date()).ouvert ? premiereEspece : iUrgence;
+    const parHash = () => panneaux.findIndex((p) => `#${p.id}` === location.hash);
+    ouvrir(parHash() >= 0 ? parHash() : defaut);
+    window.addEventListener('hashchange', () => { const n = parHash(); if (n >= 0) ouvrir(n); });
+    document.querySelectorAll<HTMLAnchorElement>('[data-gd-vers]').forEach((a) => a.addEventListener('click', () => {
+      const n = panneaux.findIndex((p) => p.id === a.dataset.gdVers);
+      if (n >= 0) ouvrir(n);
+    }));
+    onglets.forEach((o, i) => {
+      o.addEventListener('click', () => ouvrir(i));
+      o.addEventListener('keydown', (e) => {
+        const k = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: onglets.length - 1 }[e.key];
+        if (k === undefined) return;
+        e.preventDefault();
+        ouvrir((k + onglets.length) % onglets.length, true);
+      });
+    });
+  });
+</script>
+
+<style>
+  .gd-alerte { font-weight: 600; }
+  .gd-alerte-in { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; padding-block: 0.55rem; }
+  .gd-alerte-tel { display: inline-flex; align-items: center; gap: 0.4rem; min-block-size: 44px; font-size: 1.15rem; font-weight: 700; text-decoration: underline; text-underline-offset: 0.18em; }
+  .gd-alerte-lien { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; font-weight: 400; }
+  .gd-tete { display: grid; gap: clamp(1.25rem, 4vh, 2.5rem); padding-block: clamp(1.25rem, 4vh, 3rem) clamp(2rem, 6vh, 4rem); }
+  .gd-texte { display: grid; gap: 0.9rem; align-content: start; }
+  .gd-h1 { font-size: clamp(2rem, 6.4vw, 4.4rem); line-height: 1; letter-spacing: -0.015em; text-wrap: balance; max-inline-size: 16ch; }
+  .gd-metier { font-size: clamp(1.05rem, 1.6vw, 1.3rem); max-inline-size: 44ch; }
+  .gd-portes { display: grid; gap: 0.9rem; margin-block-start: 0.6rem; }
+  .gd-porte { display: grid; gap: 0.75rem; align-content: start; padding: clamp(1.1rem, 2.4vw, 1.75rem); border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-card); }
+  .gd-porte-urgence { background: var(--color-ink); color: var(--color-on-ink); border-color: transparent; }
+  .gd-porte-t { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.05; }
+  .gd-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .gd-bouton { display: inline-flex; align-items: center; min-block-size: 48px; padding-inline: 1.15rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; }
+  .gd-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .gd-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; font-size: 1.25rem; font-weight: 700; }
+  .gd-bouton:focus-visible, .gd-lien:focus-visible, .gd-tel:focus-visible, .gd-alerte-tel:focus-visible, .gd-alerte-lien:focus-visible, .gd-espece-lien:focus-visible, .gd-onglet:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .gd-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .gd-h2 { font-size: clamp(1.7rem, 4.6vw, 3rem); line-height: 1.04; }
+  .gd-h3b { font-size: clamp(1.5rem, 3.4vw, 2.3rem); line-height: 1.05; }
+  .gd-h4 { font-weight: 700; font-size: 1.12rem; }
+  .gd-choix { padding-block: clamp(1.5rem, 5vh, 3rem); }
+  .gd-choix-in { display: grid; gap: 1rem; }
+  /* Les onglets : « Urgence » d'abord, puis les animaux, en grands boutons sur l'encre. */
+  .gd-onglets { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .gd-onglets[hidden] { display: none; }
+  .gd-onglet { min-block-size: 52px; padding: 0.6rem 1.1rem; font-weight: 700; font-size: 1.1rem; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: var(--radius-ui, 6px); cursor: pointer; }
+  .gd-onglet[aria-selected='true'] { background: var(--color-bg); color: var(--color-fg); }
+  .gd-onglet-urgence { border-width: 2px; }
+  .gd-panneaux { display: grid; gap: clamp(2rem, 6vh, 3.5rem); padding-block: clamp(1.75rem, 5vh, 3.5rem); }
+  .gd-panneau { display: grid; gap: 1.25rem; align-content: start; }
+  .gd-panneau[hidden] { display: none; }
+  /* Les temps de la conduite à tenir : de grands chiffres posés à gauche, à lire d'une traite. */
+  .gd-temps { display: grid; gap: 1.25rem; counter-reset: temps; }
+  .gd-temps-li { display: grid; gap: 0.3rem; padding-inline-start: clamp(3.2rem, 7vw, 4.6rem); position: relative; counter-increment: temps; max-inline-size: 60ch; }
+  .gd-temps-li::before { content: counter(temps); position: absolute; inset-inline-start: 0; inset-block-start: -0.15em; font-size: clamp(2.6rem, 6vw, 3.8rem); line-height: 1; font-weight: 700; color: var(--color-fg); }
+  .gd-temps-t { font-size: clamp(1.25rem, 2.6vw, 1.7rem); line-height: 1.1; }
+  .gd-deux { display: grid; gap: 2rem; }
+  .gd-col { display: grid; gap: 0.6rem; align-content: start; }
+  .gd-signes { display: grid; gap: 0.2rem; }
+  .gd-signes li { padding-block: 0.45rem; border-block-end: 1px solid var(--color-line); font-weight: 600; }
+  .gd-espece-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .gd-espece-lien { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .gd-conseils details { border-block-end: 1px solid var(--color-line); }
+  .gd-conseils summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .gd-conseils summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .gd-conseils p { padding-block-end: 0.85rem; color: var(--color-muted); }
+  .gd-muted { color: var(--color-muted); }
+  .gd-venir { background: var(--color-bg-2); border-block: 1px solid var(--color-line); padding-block: clamp(2rem, 6vh, 4rem); }
+  .gd-venir-in { display: grid; gap: 2rem; }
+  .gd-adresse { font-size: clamp(1.15rem, 2.2vw, 1.45rem); font-weight: 600; }
+  .gd-services { display: grid; }
+  .gd-faq { display: grid; gap: 0.75rem; padding-block: clamp(2rem, 6vh, 3.5rem); max-inline-size: 60rem; }
+  .gd-appel { padding-block: clamp(2rem, 6vh, 3.5rem); }
+  .gd-appel-in { display: grid; gap: 1.1rem; }
+  @media (min-width: 40rem) {
+    .gd-portes { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  }
+  @media (min-width: 48rem) {
+    .gd-deux { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+    .gd-venir-in { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 3rem; }
+    .gd-temps { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); column-gap: 2rem; }
+  }
+  @media (min-width: 64rem) {
+    .gd-tete { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 3rem; align-items: start; }
+    .gd-photo { aspect-ratio: 4 / 5; }
+    .gd-choix-in { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: 3rem; align-items: end; }
+    .gd-panneau-photo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+  }
+</style>

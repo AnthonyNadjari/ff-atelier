@@ -40,6 +40,9 @@ export const DIRECTIONS = [
   'experimentalcc', // bar du soir : noir, serif fine en tres grand, portrait vertical et nom en exclusion, fiches par adresse, bande terre cuite (experimentalcocktailclub.com, style entier)
   'frenchette', // creme de nappe, panneaux menthe coupes en biais contre les photos, geometrique Art deco en capitales, contours noirs (brasserie)
   'casabonay', // sable, liens outremer a filets blancs, bouton rouge, mur de photos a cote d'une colonne fixe (casabonay.com, site entier : hotel, photographe)
+  'lin', // papier creme, panneaux sable et sauge pleine largeur, serif de livre en grand corps (architectes-constructeurs, menuisiers)
+  'bouteille', // vert bouteille sombre, cuivre, capitales evasees, photos decalees qui debordent (table du soir, 29 oct 2026)
+  'pinceau', // bandes terracotta, sable, moutarde et bleu nuit aux bords brosses, enseigne condensee, carte en mono (bar, restaurant, food truck ; 29 oct 2026)
   // ff melanger : directions générées (src/directions/m-<hash>/), une par site ; écrites et retirées par la commande.
   'm-e7e9e8', // mélange de prospect-epi-dor-b
   'm-751d7c', // mélange de prospect-epi-dor-c
@@ -94,6 +97,8 @@ export const SHELLS = [
   'biens', // l accueil est la vitrine des biens : en tete h1, telephone, note ; Acheter / Louer en onglets (sans script l un sous l autre), chaque bien avec photo, commune, surface, prix et classe energie vers sa page ; « Faire estimer votre bien » ; une page par bien, /biens et /honoraires (architecture annonces-biens)
   'revendeurs', // l accueil repond a « ou en trouver pres de chez moi ? » : en tete h1, telephone, note, « Venir a la brasserie » ; les revendeurs par secteur (un onglet chacun, sans script l un sous l autre), par commune de A a Z, filtres par genre dans le navigateur ; la vente sur place, la consigne, les pros dans le meme bloc ; la gamme ; une page par secteur et /ou-trouver (architecture revendeurs-secteurs)
   'profils', // l accueil part du patient : en tete h1, telephone, note, « Prendre rendez-vous » ; « Vous consultez pour » (un onglet par profil, sans script l un sous l autre) avec ses motifs, sa duree, son prix et le praticien qui le suit ; la seance, le tarif, le remboursement, l acces dans le meme bloc ; une page par profil et /consulter (architecture profils-patients)
+  'garde', // l accueil part de « qui appeler maintenant ? » : bandeau urgence au-dessus de la nav ; en tete h1, metier a la ville ; deux portes cote a cote, Prendre rendez-vous (horaires du jour) et Une urgence ? (le numero du moment : la clinique ouverte, la garde fermee, calcule dans le navigateur) ; la conduite a tenir en temps numerotes, les signes qui n attendent pas, l organisation de la garde ; les especes soignees, une page chacune ; /urgences et /animaux (architecture garde-especes)
+  'honoraires', // l accueil dit combien et comment ca commence : en tete h1, metier a la ville, barreau ; a cote le premier echange en temps (appel decouverte, premiere consultation : duree et prix) et Prendre rendez-vous ; les domaines en sommaire, chacun avec ses procedures « a partir de » ; les facons de fixer l honoraire, la convention, la prise en charge (protection juridique, aide juridictionnelle) ; /nos-honoraires (architecture honoraires-domaines)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
@@ -101,8 +106,8 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 // src/sections/<Type>/<variante>.astro ET l'entree ici.
 export const VARIANTS = {
   nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
-  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'portrait-exclusion', 'mur-de-photos'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme', 'panneaux-biais'],
+  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'portrait-exclusion', 'mur-de-photos', 'bouteille', 'lin', 'pinceau'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme', 'panneaux-biais', 'bouteille', 'lin', 'pinceau'],
   about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes'],
   proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations'],
   zones: ['list', 'map', 'chips', 'adresses', 'tournee', 'fiches'],
@@ -1209,6 +1214,69 @@ export const siteSchema = z.object({
       "Profils de patients d'un cabinet de santé (architecture profils-patients, docs/veille/architectures/profils-patients.md, sources Ostéopathes à Lyon Préfecture : « Je suis à la recherche d'un ostéopathe pour » femme enceinte, nourrisson, enfant, sportif…, une page par profil, les praticiens et leur spécialité, l'accès ; Margot Debayle, Annecy : « Mes domaines », le tableau prestation, durée, tarif, remboursement) : l'accueil part du patient (« Vous consultez pour », un onglet par profil), puis la séance, le tarif, le remboursement et l'accès ; une page par profil (/consulter/<slug>) et /consulter. Absent = ni profils ni pages. Jamais un motif, un prix, une durée, une spécialité ou un remboursement inventés.",
     ),
 
+
+  garde: z
+    .object({
+      telephone: z.string().optional().describe('Numéro de la garde au format international (« +33241000000 »), seulement s’il diffère de celui de la clinique. Absent = le numéro de la clinique, dont le répondeur renvoie vers la garde.'),
+      telephoneAffiche: z.string().optional().describe('Le même numéro tel qu’il s’affiche (« 02 41 00 00 00 »). Absent avec telephone = pas de numéro de garde propre.'),
+      quand: z.string().optional().describe('Quand la garde prend le relais, mots du vétérinaire (« La nuit, le week-end et les jours fériés »). Absent = rien.'),
+      organisation: z.string().optional().describe('Comment la garde est organisée, mots du vétérinaire (« En rotation avec deux cliniques du secteur : le répondeur vous indique celle de garde »). Absente = rien.'),
+      etapes: z
+        .array(z.object({ titre: z.string().describe('« Gardez votre calme », « Appelez avant de venir »'), texte: z.string().optional() }))
+        .default([])
+        .describe('La conduite à tenir en cas d’urgence, en temps numérotés, mots du vétérinaire. Vide = rien.'),
+      signes: z.array(z.string()).default([]).describe('Les signes qui n’attendent pas, mots du vétérinaire (« Difficultés à respirer », « Ventre gonflé et tentatives de vomir »). Vide = rien.'),
+      especes: z.string().optional().describe('Ce que la garde prend en charge, mots du vétérinaire (« Chiens, chats et NAC ; les chevaux sont orientés vers un confrère »). Absent = rien.'),
+    })
+    .optional()
+    .describe(
+      "La garde d'une clinique vétérinaire (architecture garde-especes, docs/veille/architectures/garde-especes.md, sources Clinique vétérinaire Les Quais, Saumur : « URGENCES » dans la barre et « Que faire en cas d'urgence vétérinaire ? » en trois temps ; Clinique vétérinaire Saint-Max : « Prendre RDV en ligne » et « En cas d'urgence » côte à côte sous le h1, une page Urgence, garde en rotation et régulation) : bandeau urgence au-dessus de la nav, la porte « Une urgence ? » avec le numéro du moment (la clinique ouverte, la garde fermée, dans le navigateur), la conduite à tenir, les signes, l'organisation ; page /urgences. Absent = ni bandeau ni page. Jamais un numéro, un signe ou une organisation inventés.",
+    ),
+
+  especes: z
+    .array(
+      z.object({
+        slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /animaux/<slug> (« chiens », « nac »)'),
+        nom: z.string().describe('L’espèce telle que la clinique la nomme (« Chiens », « Chats », « NAC », « Chevaux »)'),
+        detail: z.string().optional().describe('Qui elle couvre, mots de la clinique (« Lapins, rongeurs, furets, oiseaux, tortues »). Absent = rien.'),
+        phrase: z.string().optional().describe('Une ou deux phrases de la clinique sur cette espèce. Absente = rien.'),
+        soins: z.array(z.string()).default([]).describe('Ce que la clinique fait pour cette espèce, mots de la clinique (« Vaccins et rappels », « Stérilisation »). Vide = rien.'),
+        conseils: z.array(z.object({ q: z.string(), a: z.string() })).default([]).describe('Les conseils et questions propres à cette espèce, mots de la clinique. Vide = rien.'),
+        photo: img.optional().describe('Photo de la clinique pour cette espèce. Absente = pas d’image, jamais une photo de banque présentée comme la sienne.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Les espèces soignées par une clinique vétérinaire, dans son ordre (architecture garde-especes ; Les Quais range ses conseils par chiens, chats, NAC ; Saint-Max nomme les espèces dans le h1) : la rangée des espèces de l'accueil, /animaux et une page par espèce (/animaux/<slug>). Vide = ni rangée ni pages. Jamais une espèce, un soin ou un conseil inventés.",
+    ),
+
+  honoraires: z
+    .object({
+      decouverte: z
+        .object({ titre: z.string().optional().describe('« Appel découverte »'), duree: z.string().optional().describe('« 15 min »'), prix: z.string().optional().describe('« Gratuit »'), texte: z.string().optional() })
+        .optional()
+        .describe('Le premier contact, s’il existe (rendez-vous découverte par téléphone). Sans durée ni prix = absent.'),
+      consultation: z
+        .object({ titre: z.string().optional().describe('« Première consultation »'), duree: z.string().optional().describe('« 40 min au plus »'), prix: z.string().optional().describe('« 255 € TTC »'), texte: z.string().optional() })
+        .optional()
+        .describe('La première consultation, à prix et durée annoncés par le cabinet. Sans durée ni prix = absente.'),
+      modes: z
+        .array(z.object({ nom: z.string().describe('« Au temps passé », « Au forfait », « Au résultat »'), prix: z.string().optional().describe('« 305 € HT de l’heure »'), texte: z.string().optional() }))
+        .default([])
+        .describe('Les façons de fixer l’honoraire, mots du cabinet. Vide = rien.'),
+      convention: z.string().optional().describe('La phrase du cabinet sur la convention d’honoraires (« Une convention d’honoraires est signée pour chaque dossier »). Absente = rien.'),
+      priseEnCharge: z
+        .array(z.object({ nom: z.string().describe('« Protection juridique », « Aide juridictionnelle »'), texte: z.string() }))
+        .default([])
+        .describe('Ce qui peut payer tout ou partie des honoraires, mots du cabinet (et seulement ce qu’il accepte). Vide = rien.'),
+      modalites: z.array(z.string()).default([]).describe('Où et comment consulter, mots du cabinet (« Au cabinet », « En visio », « Par téléphone »). Vide = rien.'),
+      mediateur: z.string().optional().describe('Le médiateur de la consommation de la profession, tel que le cabinet le cite. Absent = rien sur le site, et le build ne le devine pas.'),
+    })
+    .optional()
+    .describe(
+      "Les honoraires d'un cabinet d'avocat (architecture honoraires-domaines, docs/veille/architectures/honoraires-domaines.md, sources Cabinet Marilyne Faltot, Forbach : page Honoraires avec taux horaire, forfait, convention, résultat, première consultation à prix et durée, appel découverte gratuit, protection juridique, aide juridictionnelle, médiateur ; Judisis, Pontoise : les trois façons de fixer l'honoraire et un « à partir de » par procédure) : le premier échange en temps à côté du h1, les domaines (services) en sommaire avec leurs procédures à prix (services[].lignes), les façons de fixer l'honoraire et la prise en charge ; page /nos-honoraires. Absent = ni bloc ni page. Jamais un prix, un taux, une durée ou une prise en charge inventés.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -1289,6 +1357,10 @@ export const siteSchema = z.object({
       trouver: z.string().default('Où nous trouver\u202f?').describe('Titre du bloc des revendeurs sur l’accueil (architecture revendeurs-secteurs) : « Où trouver nos bières ? », « Près de chez vous »'),
       profils: z.string().default('Pour qui\u202f?').describe('Libellé du lien de nav et titre de la page /consulter (site.profils) : « Pour qui ? », « Les consultations »'),
       consulter: z.string().default('Vous consultez pour').describe('Titre du bloc des profils sur l’accueil (architecture profils-patients) : « Vous consultez pour », « Je cherche un ostéopathe pour »'),
+      urgences: z.string().default('Urgences').describe('Libellé du lien de nav, du bandeau et titre de la page /urgences (site.garde) : « Urgences », « Garde et urgences »'),
+      especes: z.string().default('Les animaux').describe('Libellé du lien de nav et titre de la rangée des espèces et de la page /animaux (site.especes) : « Les animaux », « Nos patients »'),
+      honoraires: z.string().default('Honoraires').describe('Libellé du lien de nav et titre de la page /nos-honoraires (site.honoraires) : « Honoraires », « Combien ça coûte ? »'),
+      domaines: z.string().default('Domaines d’intervention').describe('Titre du sommaire des domaines sur l’accueil (architecture honoraires-domaines) : « Domaines d’intervention », « Ce que nous plaidons »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),
       lieux: z.string().default('Nos adresses').describe('Libellé du lien de nav (trois adresses et plus), du bandeau des adresses et titre de la page /adresses (site.lieux) : « Nos adresses », « Nos boutiques »'),

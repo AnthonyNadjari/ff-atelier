@@ -1,0 +1,83 @@
+/* Direction LIN : style réel relevé sur http://fraher.co/ (Fraher, architectes, dessinateurs et constructeurs à Londres ;
+   veille du 29 oct 2026, fiche docs/veille/styles/lin.md, atomes docs/veille/styles/atomes/lin.json). On reprend le style
+   et la construction (rapports de taille, panneaux de couleur pleine largeur, liens entre deux filets), jamais les
+   textes, images, logos ni le code de la source.
+   Une page posée et calme : papier crème, panneaux sable et sauge pleine largeur, serif de livre en grand corps pour
+   les titres ET le texte (la phrase est le titre), petite grotesque pour les étiquettes et les liens, rayon 0, aucune
+   ombre : la profondeur vient des grandes photos.
+   Polices : Lekiskal (titres) et Bolton (texte), deux serifs de lecture -> Literata (une seule famille, graisses
+   différentes) ; Clarkson (étiquettes, liens) -> Hanken Grotesk, porté par --font-mono (troisième voix).
+   Couleurs relevées : #f4f4ee papier 56 %, #3d3d3f texte (foncé en #2a2a2c : les horaires à 72 % d'opacité sur le sable tombaient sous AA) et bande sombre, #e8dbc0 sable 9 %, #a9c2bb sauge 9 % des
+   fonds. Le papier est réchauffé d'un cheveu (#f3f1e7, chroma OKLCH 0,013 au lieu de 0,008) pour que le crème se lise
+   sur les écrans froids ; la sauge des panneaux est tirée de l'accent (color-mix), pour suivre l'accent d'un client. */
+@import '@fontsource-variable/literata';
+@import '@fontsource-variable/literata';
+@import '@fontsource-variable/hanken-grotesk';
+
+[data-direction='lin'] {
+  --accent-h: 165;
+  --accent-s: 17%;
+  --accent-l: 30%;
+  --bg: #f3f1e7;
+  --bg-2: #e8dbc0;
+  --surface: #f9f8f3;
+  --fg: #2a2a2c;
+  --muted: #57564f;
+  --line: #cfcabb;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 7%));
+  --on-accent: #f3f1e7;
+  --ink: #242426;
+  --on-ink: #f4f4ee;
+  --font-display: 'Literata Variable', Georgia, serif;
+  --font-body: 'Literata Variable', Georgia, serif;
+  --font-mono: 'Hanken Grotesk Variable', system-ui, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.005em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4.5rem, 9vw, 8rem);
+  --motion-duration: 0.4s;
+  --motion-ui: 0.1s;
+  --ease-brand: cubic-bezier(0, 0, 1, 1); /* linéaire : les liens se remplissent d’encre en 0,1 s, rien d’autre ne bouge */
+}
+
+[data-direction='lin'] ::selection { background: var(--bg-2); color: var(--fg); }
+/* La source compose ses titres en serif de livre, graisse normale, interlignage 1,26 ; l'emphase n'est jamais en
+   italique (GOUT § 2) : le mot garde sa forme et prend l'encre pleine. */
+[data-direction='lin'] :is(h1, h2) { line-height: 1.26; font-weight: 400; }
+[data-direction='lin'] h1 { font-weight: 360; }
+[data-direction='lin'] h3 { font-weight: 500; line-height: 1.3; }
+[data-direction='lin'] :is(h1, h2, h3) em { font-style: normal; color: var(--fg); }
+
+/* Le lien de la source : texte court entre deux filets, sans bords de côté ; il s'emplit d'encre au survol en 0,1 s
+   linéaire (profil de mouvement « film-au-clic », survol « filets qui s'emplissent »). */
+[data-direction='lin'] .btn {
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 450;
+  letter-spacing: 0.01em;
+  transition: background var(--motion-ui) linear, color var(--motion-ui) linear, border-color var(--motion-ui) linear;
+}
+[data-direction='lin'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='lin'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='lin'] .btn-ghost {
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: var(--fg);
+  background: transparent;
+  color: var(--fg);
+}
+[data-direction='lin'] .btn-ghost:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+[data-direction='lin'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='lin'] .rule { border-top: 1px solid var(--line); }
+[data-direction='lin'] .eyebrow { color: var(--fg); font-family: var(--font-mono); font-size: 0.875rem; letter-spacing: 0; text-transform: none; }

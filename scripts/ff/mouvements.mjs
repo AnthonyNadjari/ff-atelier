@@ -311,6 +311,27 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['data-scrub="scale=1.04" sur la photo d\'un grand panneau (cadre à overflow: hidden) : elle entre agrandie à 1,04 et se pose à 1 pendant que le haut du panneau monte du bas de l\'écran à son tiers haut (environ 600 px de défilement, décélération), avec data-parallax très faible (0,03 : 30 à 48 px de dérive sur tout le passage) ; le texte posé sur la photo (surtitre, titre, phrase, bouton) arrive en data-reveal="up" + data-stagger="100" quand le panneau atteint le bas de l\'écran : montée de 24 px et fondu en 0,8 s ease-out, une ligne toutes les 0,1 s ; rien n\'entre au chargement'],
     manque: 'une amplitude de data-reveal="up" réglable (le moteur monte de 12 px, la source de 24) ; garde : deux grands panneaux photo par page au plus (jamais à chaque section : photo qui zoome au défilement partout = signe IA, GOUT § 2), jamais avec un volet ni un masque, échelle de départ 1,06 au plus ; texte sur la photo seulement sur un voile mesuré (contraste AA) ; en mouvement réduit la photo est posée à 1 et le texte visible d\'emblée', exige: {},
   },
+  'enseigne-qui-se-resserre': {
+    nom: 'Enseigne qui se resserre', sources: ['bouteille'],
+    entree: 'enseigne', apparition: 'titre-en-surplomb', survol: 'couleur', fond: 'aucun',
+    regime: 'vivant', defilement: 'suit-le-defilement', calme: false, poids: 'moyen', motion: 'rich',
+    attributs: ['Hero bouteille : au chargement, le NOM du commerce posé sur la photo de salle resserre son interlettrage de 0,34 em à 0,08 em en 1,6 s cubic-bezier(.25,.1,.25,1) (opacité 0 -> 1 au premier tiers) pendant que la photo se pose (scale 1,06 et -1,5 % -> 1, 2,4 s cubic-bezier(.2,.6,.2,1)), CSS seul, une fois (data-entree-jouee) ; Services bouteille : le titre géant de chaque prestation porte data-parallax="0.5" et glisse plus lentement que la page sur le coin haut gauche de sa photo (translation seule, tenable sur iPhone), la photo arrive en data-reveal (opacité seule) ; boutons 0,25 s ease (régime sec)'],
+    manque: null, exige: {},
+  },
+  'film-au-clic': {
+    nom: 'Page posée, film au clic', sources: ['lin'],
+    entree: 'aucune', apparition: 'aucune', survol: 'filets-qui-s-emplissent', fond: 'film-au-clic',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['Hero lin : rien n\'entre au chargement ni au défilement (la source, fraher.co, ne bouge pas : opacité 1 et transform none mesurés tous les 100 px) ; si le client a une vidéo (images.heroVideo + poster), la bande photo pleine largeur montre le poster et un lien « Voir le film » : la vidéo (preload="none") ne se charge et ne joue qu\'au toucher, avec ses commandes natives (data-film, data-film-lancer ; lecture déclenchée par le geste, permise sur iPhone même en économie d\'énergie) ; Services lin et direction lin : les liens entre deux filets (.btn-ghost) s\'emplissent d\'encre au survol en 0,1 s linéaire (mesuré sur la source : background-color 0,1 s linear) ; la barre de nav se resserre au premier cran (nav minimal, .is-scrolled)'],
+    manque: null, exige: {},
+  },
+  'bandes-au-pinceau': {
+    nom: 'Bandes au pinceau', sources: ['pinceau'],
+    entree: 'enseigne-qui-s-allume', apparition: 'bord-qui-se-brosse', survol: 'aplat-qui-change', fond: 'aucun',
+    regime: 'calme', defilement: 'apparitions', calme: true, poids: 'leger', motion: 'subtle',
+    attributs: ['Hero pinceau : l\'enseigne (h1 puis la ligne métier à ville, 0,2 s plus tard) s\'allume en fondu lent, opacité seule, 1,2 s ease, CSS seul (mesuré sur la source : fadeIn 1,25 s) ; BordPinceau (Hero et Services pinceau) : la frontière entre deux bandes de couleur est un coup de pinceau dessiné, immobile, dont les éclats et traits détachés se brossent de gauche à droite à leur entrée à l\'écran (data-reveal="wipe" du moteur, clip-path, 0,6 s, une fois) ; la plaque des horaires se pose sur la bande terracotta (data-reveal="up") ; boutons qui changent d\'aplat en 0,15 s linéaire (régime sec) ; les titres ne bougent pas'],
+    manque: null, exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

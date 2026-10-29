@@ -54,6 +54,10 @@ export { REVENDEURS_MIN, revendeursComplets, slugSecteur, secteursDe, typesDe as
 import { lienRevendeurs } from './revendeurs';
 export { profilsComplets, praticiensComplets, praticiensDe, resumeProfil, lienProfils } from './profils';
 import { lienProfils } from './profils';
+export { especesCompletes, etapesGarde, signesGarde, numeroDeGarde, numeroDuMoment, gardeLisible, lienEspeces, lienUrgences } from './garde';
+import { lienEspeces, lienUrgences } from './garde';
+export { premiersPas, modesComplets, domainesAPrix, resumePas, honorairesLisibles, lienHonoraires } from './honoraires';
+import { lienHonoraires } from './honoraires';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -345,6 +349,16 @@ export const navLinks = (s: Site = site) => {
   // Préfecture, en tête de la nav, vers tous les profils (/consulter).
   const profils = lienProfils(s.profils, s.wording.profils);
   if (profils) links.unshift(profils);
+  // Espèces d'une clinique vétérinaire (src/lib/garde.ts, architecture garde-especes) : les conseils « Chiens, Chats, NACs »
+  // des Quais, en tête de la nav, vers toutes les espèces (/animaux) ; « URGENCES » en dernier, comme aux Quais.
+  const especes = lienEspeces(s.especes, s.wording.especes);
+  if (especes) links.unshift(especes);
+  const urgences = lienUrgences(s.garde, s.wording.urgences);
+  if (urgences) links.push(urgences);
+  // Honoraires d'un cabinet d'avocat (src/lib/honoraires.ts, architecture honoraires-domaines) : « Honoraires » dans la barre
+  // de Faltot et de Judisis, vers /nos-honoraires (/honoraires est le barème des agences immobilières).
+  const honoraires = lienHonoraires(s.honoraires, s.wording.honoraires);
+  if (honoraires) links.push(honoraires);
   // Demande d'estimation (src/lib/estimation.ts, architecture estimation-etapes) : « Devis en ligne » de Rigoulet, toujours
   // dans la barre ; en dernier, à la place d'une porte Contact (la demande EST le contact).
   const estimation = lienEstimation(s.estimation, s.wording.estimation);

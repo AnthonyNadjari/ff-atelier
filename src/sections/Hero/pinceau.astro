@@ -1,0 +1,80 @@
+---
+/**
+ * Hero "pinceau" (style réel pinceau, relevé sur pickyjoe.com, Coyot Bar à Montpellier, le 29 oct 2026 ; fiche
+ * docs/veille/styles/pinceau.md § Construction) : une ENSEIGNE EMPILÉE au centre d'une bande bleu nuit (--ink) qui tient
+ * le premier écran. En haut, une ligne mince en chasse fixe : les premiers horaires et le téléphone (la barre haute de la
+ * source). Puis, centrées, des lignes en capitales condensées couleur moutarde séparées par un tilde dessiné : l'accroche
+ * (business.tagline, le h1, la plus grande : 2,7 rem au téléphone, 5,6 rem à l'ordinateur), le métier à la ville,
+ * l'ancienneté et la note Google quand le client les a. Sous l'enseigne, deux portes : le bouton clair (Appeler) et le
+ * bouton terracotta (la porte du site : Réserver, Devis…). En bas, la bande suivante (terracotta) monte avec un BORD
+ * BROSSÉ (BordPinceau) : la frontière est un coup de pinceau, pas une ligne.
+ * Photo : jamais derrière l'enseigne (la source, à l'ordinateur, n'a que l'aplat bleu ; une photo plein cadre sous le h1
+ * est le premier écran de la moitié des sites de l'usine, ff ressemblance). images.hero descend dans la première bande
+ * de Services/pinceau, à côté de la plaque des horaires.
+ * Mouvement (profil `bandes-au-pinceau`) : l'enseigne s'allume en fondu lent (1,2 s, ease, mesuré : fadeIn 1,25 s sur la
+ * source), rien d'autre au chargement ; jamais avec motion « none » ni prefers-reduced-motion.
+ * Données : aucune exigence ; chaque ligne de l'enseigne disparaît sans sa donnée.
+ */
+import { site, tel, metierEtVille, actions } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import BordPinceau from '@/components/BordPinceau.astro';
+
+const google = site.proof.google;
+const faits = [
+  site.business.since && `Depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+  site.contact.emergency24h && 'Urgences 24 h/24',
+].filter(Boolean) as string[];
+const premiereHeure = site.contact.hours[0];
+// La porte principale du site (Réserver, Commander, Devis…), sauf l'appel qui a déjà son bouton.
+const porte = actions().find((a) => a.kind !== 'call');
+const metier = metierEtVille().replace(/\.$/, '');
+---
+
+<section id="hero" class="hero-pinceau relative isolate overflow-hidden bg-ink text-on-ink">
+  <div class="pinceau-haut container-ff flex flex-wrap items-center justify-center gap-x-8 gap-y-1 pt-4 font-mono text-sm">
+    {premiereHeure && <span>{premiereHeure.days} {premiereHeure.hours}</span>}
+    <a href={tel()} class="underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
+  </div>
+
+  <div class="pinceau-enseigne container-ff flex flex-col items-center justify-center text-center">
+    <h1 class="pinceau-h1 hero-titre font-display text-fill" set:html={site.business.tagline} />
+    <svg class="pinceau-tilde" viewBox="0 0 40 12" aria-hidden="true" focusable="false"><path d="M2 8C8 1 14 1 20 6S32 11 38 4" /></svg>
+    <p class="pinceau-ligne font-display text-fill">{metier}</p>
+    {faits.length > 0 && (
+      <>
+        <svg class="pinceau-tilde" viewBox="0 0 40 12" aria-hidden="true" focusable="false"><path d="M2 8C8 1 14 1 20 6S32 11 38 4" /></svg>
+        <p class="pinceau-faits font-display text-fill">{faits.join(', ')}</p>
+      </>
+    )}
+    <div class="mt-9 flex flex-wrap items-center justify-center gap-4 md:mt-11">
+      <Button href={tel()} variant="ghost">Appeler le {site.contact.phoneDisplay}</Button>
+      {porte && <Button href={porte.href} variant="primary">{porte.label}</Button>}
+    </div>
+  </div>
+
+  <div class="pinceau-pied relative" aria-hidden="true">
+    <BordPinceau couleur="var(--accent)" avant="var(--ink)" forme={0} />
+  </div>
+</section>
+
+<style>
+  .hero-pinceau { --text-fill: var(--fill, var(--on-ink)); }
+  .text-fill { color: var(--text-fill); }
+  .pinceau-haut { color: color-mix(in oklab, var(--on-ink) 88%, transparent); }
+  /* La bande tient le premier écran moins la barre de nav ; l'enseigne est centrée dans le vide bleu. */
+  .pinceau-enseigne { min-height: calc(100svh - 9.5rem); padding-block: 3rem 5.5rem; }
+  .pinceau-h1 { font-size: clamp(2.7rem, 1.6rem + 4.6vw, 5.6rem); line-height: 0.95; max-width: 15ch; text-wrap: balance; }
+  .pinceau-ligne { font-size: clamp(1.6rem, 1.15rem + 2.1vw, 3.1rem); line-height: 1; font-weight: 700; max-width: 22ch; text-wrap: balance; text-transform: uppercase; }
+  .pinceau-faits { font-size: clamp(1.15rem, 0.95rem + 0.9vw, 1.7rem); line-height: 1.1; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; }
+  .pinceau-tilde { width: 2.4rem; height: 0.8rem; margin-block: 0.9rem; fill: none; stroke: var(--text-fill); stroke-width: 3; stroke-linecap: round; }
+  .pinceau-pied { height: 1.25rem; background: var(--accent); }
+  /* L'enseigne s'allume (fondu lent, régime lent du profil) ; le bouton change de fond en 0,15 s (régime sec). */
+  @keyframes pinceau-allume { from { opacity: 0; } to { opacity: 1; } }
+  :global([data-motion]:not([data-motion='none'])) .pinceau-h1,
+  :global([data-motion]:not([data-motion='none'])) .pinceau-ligne { animation: pinceau-allume 1.2s ease both; }
+  :global([data-motion]:not([data-motion='none'])) .pinceau-ligne { animation-delay: 0.2s; }
+  @media (prefers-reduced-motion: reduce) {
+    .pinceau-h1, .pinceau-ligne { animation: none !important; }
+  }
+</style>

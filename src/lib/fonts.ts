@@ -24,6 +24,8 @@ export const FONTS = {
   abrilFatface: { family: "'Abril Fatface', Georgia, serif", pkg: '@fontsource/abril-fatface/latin.css', role: 'display', mood: 'editorial gras, mode' },
   gildaDisplay: { family: "'Gilda Display', Georgia, serif", pkg: '@fontsource/gilda-display/latin-400.css', role: 'display', mood: 'serif contraste, salon' },
   marcellus: { family: "'Marcellus', Georgia, serif", pkg: '@fontsource/marcellus/latin-400.css', role: 'display', mood: 'capitales fines, lapidaire' },
+  // 29 oct 2026 (style bouteille, restaurantzimmerl.at) : Judson, serif de lecture de la source, libre (OFL).
+  judson: { family: "'Judson', Georgia, serif", pkg: '@fontsource/judson/latin-400.css', role: 'body', mood: 'livre ancien, chaleureux' },
   yesevaOne: { family: "'Yeseva One', Georgia, serif", pkg: '@fontsource/yeseva-one/latin.css', role: 'display', mood: 'feminin, decoratif' },
   // Sans
   savate: { family: "'Savate Variable', system-ui, sans-serif", pkg: '@fontsource-variable/savate', role: 'display', mood: 'grotesque vive, dessinee a la main' },
@@ -54,8 +56,14 @@ export const FONTS = {
   lexend: { family: "'Lexend Variable', system-ui, sans-serif", pkg: '@fontsource-variable/lexend', role: 'body', mood: 'lisibilite, accessible' },
   publicSans: { family: "'Public Sans Variable', system-ui, sans-serif", pkg: '@fontsource-variable/public-sans', role: 'body', mood: 'institutionnel, neutre' },
   alfaSlabOne: { family: "'Alfa Slab One', Impact, sans-serif", pkg: '@fontsource/alfa-slab-one/latin.css', role: 'display', mood: 'slab massif, affiche' },
+  // 29 oct 2026 (style pinceau, pickyjoe.com / Coyot Bar) : Bernier (enseigne western condensée, non libre) -> Big Shoulders Display.
+  bigShoulders: { family: "'Big Shoulders Display Variable', Impact, sans-serif", pkg: '@fontsource-variable/big-shoulders-display', role: 'display', mood: 'enseigne condensee, saloon, affiche de ville' },
   bungee: { family: "'Bungee', Impact, sans-serif", pkg: '@fontsource/bungee/latin.css', role: 'display', mood: 'urbain, signaletique' },
   // Mono
+  // Large et fine (Nord de la source, remplacee) : petits intitules et boutons en capitales tres larges.
+  lexendZetta: { family: "'Lexend Zetta Variable', system-ui, sans-serif", pkg: '@fontsource-variable/lexend-zetta', role: 'mono', mood: 'tres large, fin, enseigne' },
+  // 29 oct 2026 (style pinceau) : Space Mono de la source (liste IA) -> Azeret Mono, chasse fixe de ticket et de carte.
+  azeretMono: { family: "'Azeret Mono Variable', ui-monospace, monospace", pkg: '@fontsource-variable/azeret-mono', role: 'mono', mood: 'ticket de caisse, carte de bar' },
   intelOneMono: { family: "'Intel One Mono Variable', ui-monospace, monospace", pkg: '@fontsource-variable/intel-one-mono', role: 'mono', mood: 'lisible, technique' },
   jetbrains: { family: "'JetBrains Mono Variable', ui-monospace, monospace", pkg: '@fontsource-variable/jetbrains-mono', role: 'mono', mood: 'technique' },
   spaceMono: { family: "'Space Mono', ui-monospace, monospace", pkg: '@fontsource/space-mono/latin.css', role: 'mono', mood: 'retro tech' },

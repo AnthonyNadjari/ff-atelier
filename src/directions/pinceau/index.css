@@ -1,0 +1,85 @@
+/* Direction PINCEAU : style réel relevé sur https://pickyjoe.com/ (Coyot Bar, rooftop à Montpellier ; veille du 29 oct
+   2026, fiche docs/veille/styles/pinceau.md, atomes docs/veille/styles/atomes/pinceau.json). On reprend le style et la
+   construction (bandes de couleur pleine largeur aux bords brossés, enseigne empilée, carte à points de conduite, plaque
+   d'horaires posée sur la couleur), jamais les textes, images, logos ni le code de la source.
+   Polices : Bernier (enseigne western condensée, non libre) -> Big Shoulders Display, capitales, graisse 700 ;
+   Space Mono (liste IA, GOUT § 2) -> Azeret Mono, texte ET étiquettes (la source compose tout son texte en chasse fixe).
+   Couleurs relevées (fonds) : #143450 bleu nuit 36 %, #ffffff 28 %, #cf5c36 terracotta 13 %, #fcc669 moutarde 8 %,
+   #f7f7f7 8 %, #e5cfbd sable 4 %. Ajustées : fond blanc réchauffé d'un cheveu (#faf8f4), sable éclairci (#ebd8c6) pour
+   que l'accent s'y lise, terracotta assombrie (#b04e2b) pour porter le texte crème en AA (#cf5c36 : 3,9:1), moutarde
+   gardée en aplat (--fill) avec l'encre bleu nuit dessus (8:1). Régime coloré doux : l'encre bleu nuit (chroma 0,063),
+   le sable (0,035), deux vives seulement (terracotta 0,14, moutarde 0,13 ; ΔL 0,30 : pas de vibration). */
+@import '@fontsource-variable/big-shoulders-display';
+@import '@fontsource-variable/azeret-mono';
+
+[data-direction='pinceau'] {
+  --accent-h: 16;
+  --accent-s: 61%;
+  --accent-l: 43%;
+  --bg: #faf8f4;
+  --bg-2: #ebd8c6;
+  --surface: #fffdf9;
+  --fg: #143450;
+  --muted: #475668;
+  --line: #d8c3ae;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 7%));
+  --on-accent: #fffaf3;
+  --fill: #f9c56b;
+  --on-fill: #143450;
+  --ink: #143450;
+  --on-ink: #f6efe6;
+  --font-display: 'Big Shoulders Display Variable', Impact, sans-serif;
+  --font-body: 'Azeret Mono Variable', ui-monospace, monospace;
+  --font-mono: 'Azeret Mono Variable', ui-monospace, monospace;
+  --display-weight: 700;
+  --display-tracking: 0.01em;
+  --heading-transform: uppercase;
+  --body-weight: 400;
+  --radius: 8px;
+  --radius-card: 10px;
+  --shadow-card: 0 2px 0 color-mix(in oklab, var(--ink) 18%, transparent);
+  --shadow-lift: 0 14px 28px -14px color-mix(in oklab, var(--ink) 45%, transparent);
+  --section-y: clamp(4rem, 8vw, 7rem);
+  --motion-duration: 0.6s;
+  --motion-ui: 0.15s;
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-direction='pinceau'] ::selection { background: var(--fill); color: var(--on-fill); }
+/* Enseigne : capitales condensées serrées, interlignage court comme la source (0,8 au h1, 1,1 aux h2) ; h3 plus légers,
+   pour que la hiérarchie ne tienne pas qu'à la taille (GOUT § 2 : jamais une seule graisse pour h1, h2, h3). */
+[data-direction='pinceau'] h1 { line-height: 0.92; font-weight: 800; }
+[data-direction='pinceau'] h2 { line-height: 1.02; font-weight: 700; }
+[data-direction='pinceau'] h3 { line-height: 1.1; font-weight: 600; letter-spacing: 0.02em; }
+[data-direction='pinceau'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+/* Texte en chasse fixe : la mono est large, on l'aère (16 px au téléphone, jamais moins). */
+[data-direction='pinceau'] body { line-height: 1.6; }
+
+/* Boutons de la source : capitales condensées sur aplat, rayon 8 px ; ils changent de fond en 0,15 s (régime sec). */
+[data-direction='pinceau'] .btn {
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: background var(--motion-ui) linear, color var(--motion-ui) linear, border-color var(--motion-ui) linear;
+}
+[data-direction='pinceau'] .btn-primary { background: var(--accent); color: var(--on-accent); border: 2px solid var(--accent); }
+[data-direction='pinceau'] .btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); }
+[data-direction='pinceau'] .btn-ghost { background: var(--surface); color: var(--accent); border: 2px solid var(--accent); }
+[data-direction='pinceau'] .btn-ghost:hover { background: var(--fill); color: var(--on-fill); border-color: var(--fill); }
+[data-direction='pinceau'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+/* Le filet de la carte : une bande hachurée terracotta (la source souligne chaque rubrique de sa carte ainsi). */
+[data-direction='pinceau'] .rule {
+  border: 0;
+  height: 6px;
+  background: repeating-linear-gradient(-55deg, var(--accent) 0 2px, transparent 2px 6px);
+}
+[data-direction='pinceau'] .eyebrow { color: var(--accent); font-family: var(--font-mono); font-size: 0.875rem; letter-spacing: 0; text-transform: none; }

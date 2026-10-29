@@ -1,0 +1,32 @@
+{
+  "nom": "pinceau-comptoir",
+  "titre": "Pinceau comptoir",
+  "description": "La direction pinceau en plus serré : photo et enseigne côte à côte, la carte à prix d'abord, avis, l'équipe en portrait, les étapes d'une commande, questions et un bandeau d'appel : un food truck ou un comptoir qui vend à emporter.",
+  "metiers": [
+    "food truck",
+    "burger",
+    "rôtisserie",
+    "glacier"
+  ],
+  "look": {
+    "direction": "pinceau",
+    "motion": "subtle",
+    "scale": "compact",
+    "layout": {
+      "nav": "floating",
+      "hero": "split",
+      "sections": [
+        { "type": "services", "variant": "carte-prix" },
+        { "type": "proof", "variant": "testimonials" },
+        { "type": "about", "variant": "portrait" },
+        { "type": "process", "variant": "steps" },
+        { "type": "faq", "variant": "two-columns" },
+        { "type": "cta", "variant": "band" },
+        { "type": "contact", "variant": "simple" }
+      ],
+      "footer": "big-name",
+      "divider": "none",
+      "tone": "flat"
+    }
+  }
+}

@@ -1,0 +1,93 @@
+---
+/**
+ * Hero "bouteille" (style construit `bouteille`, relevé sur restaurantzimmerl.at le 29 oct 2026, fiche
+ * docs/veille/styles/bouteille.md § Construction). Deux temps, comme la source :
+ * 1. la salle : la photo du client sur toute la largeur (88 % de l'écran à l'ordinateur, 62 % au téléphone), le NOM du
+ *    commerce posé au centre en très grandes capitales évasées couleur accent, rien d'autre sur la photo ;
+ * 2. sous la photo, sur le fond : les distinctions du client en une ligne (certifications, note Google), puis le h1
+ *    centré en capitales accent, le métier et la ville en petites capitales très larges, une phrase de présentation
+ *    centrée, et les portes (première porte en plaque, téléphone en lien).
+ * Entrée (profil `enseigne-qui-se-resserre`, MOUVEMENTS.md) : le nom arrive en resserrant son interlettrage (0,34 em ->
+ * 0,08 em, 1,6 s, courbe douce) pendant que la photo descend et se pose (1,06 -> 1, 2,4 s) ; régime sec sur les
+ * portes (0,25 s). Rien sous « réduire les animations » ni en motion "none".
+ * Sans photo : le nom seul sur un bandeau encre de 46 % d'écran, même entrée. Rien n'est inventé : la ligne des
+ * distinctions disparaît sans certification ni note Google.
+ */
+import { site, tel, paragraphs, ligneMetier, metierEtVille, actions } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Porte from '@/components/Porte.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const intro = paragraphs(site.business.description)[0];
+const google = site.proof.google;
+const distinctions = [
+  ...site.business.certifications,
+  ...(google ? [`${google.rating.toFixed(1).replace('.', ',')}/5 sur Google, ${google.count} avis`] : []),
+  ...(site.business.since ? [`Depuis ${site.business.since}`] : []),
+];
+const metier = ligneMetier() || metierEtVille();
+const [premiere] = actions().filter((a) => a.kind !== 'call');
+---
+
+<section id="hero" class:list={['bt-hero relative', hero ? 'bt-avec-photo' : 'bt-sans-photo']}>
+  <div class="bt-salle relative overflow-hidden bg-ink" data-entree-bt>
+    {hero && (
+      <div class="bt-photo absolute inset-0">
+        <Img src={hero.src} alt={hero.alt} class="absolute inset-x-0 -top-[6%] h-[112%] w-full object-cover" sizes={HERO_SIZES.bouteille ?? '100vw'} data-parallax="0.12" priority />
+        <div class="bt-voile absolute inset-0" aria-hidden="true"></div>
+      </div>
+    )}
+    <p class="bt-nom relative z-10 font-display text-accent" aria-hidden="true">{site.business.name}</p>
+  </div>
+
+  <div class="bt-tete container-ff text-center">
+    {distinctions.length > 0 && (
+      <ul class="bt-distinctions mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-10 gap-y-4 font-mono text-accent">
+        {distinctions.map((d) => <li>{d}</li>)}
+      </ul>
+    )}
+    <h1 class="hero-titre bt-titre mx-auto max-w-4xl text-display-lg" set:html={site.business.tagline} />
+    {metier && <p class="bt-metier mt-5 font-mono text-accent">{metier}</p>}
+    {intro && <p class="mx-auto mt-7 max-w-2xl text-lg text-muted">{intro}</p>}
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+      {premiere && <Porte action={premiere} variant="primary" size="lg" />}
+      <a href={tel()} class="bt-tel font-mono text-fg underline decoration-[var(--line)] underline-offset-[0.4em] hover:text-accent">{site.contact.phoneDisplay}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bt-salle { display: grid; place-items: center; min-height: 62svh; }
+  .bt-sans-photo .bt-salle { min-height: 46svh; }
+  @media (min-width: 64rem) {
+    .bt-salle { min-height: 88svh; }
+    .bt-sans-photo .bt-salle { min-height: 56svh; }
+  }
+  /* Voile léger : la photo de salle reste la lumière de la page, le nom tient dessus. */
+  .bt-voile { background: linear-gradient(to bottom, color-mix(in srgb, var(--ink) 55%, transparent), color-mix(in srgb, var(--ink) 20%, transparent) 45%, color-mix(in srgb, var(--ink) 60%, transparent)); }
+  .bt-nom {
+    font-size: clamp(2.2rem, 9.5vw, 8.5rem);
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    padding-inline: 1rem;
+    text-shadow: 0 2px 30px color-mix(in srgb, var(--ink) 70%, transparent);
+    overflow-wrap: anywhere;
+  }
+  .bt-tete { padding-block: clamp(3.5rem, 9vw, 7rem) clamp(2rem, 6vw, 4rem); }
+  .bt-distinctions { font-size: 0.75rem; font-weight: 300; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: clamp(3rem, 8vw, 6.5rem); }
+  .bt-titre { letter-spacing: 0.05em; }
+  .bt-metier, .bt-tel { font-size: 0.8rem; font-weight: 300; text-transform: uppercase; letter-spacing: 0.02em; }
+  .bt-tel { font-size: 0.95rem; transition: color var(--motion-ui) ease; }
+
+  /* Entrée : l'enseigne se resserre, la salle se pose. Une fois, au chargement. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html[data-motion]:not([data-motion='none']):not([data-entree-jouee])) .bt-nom { animation: bt-enseigne 1.6s cubic-bezier(0.25, 0.1, 0.25, 1) both; }
+    :global(html[data-motion]:not([data-motion='none']):not([data-entree-jouee])) .bt-photo { animation: bt-salle 2.4s cubic-bezier(0.2, 0.6, 0.2, 1) both; transform-origin: 50% 30%; }
+  }
+  @keyframes bt-enseigne { from { letter-spacing: 0.34em; opacity: 0; } 35% { opacity: 1; } to { letter-spacing: 0.08em; opacity: 1; } }
+  @keyframes bt-salle { from { transform: scale(1.06) translateY(-1.5%); } to { transform: none; } }
+  .bt-photo :global(.ff-illustration) { top: auto; bottom: 0.75rem; }
+</style>

@@ -1,0 +1,61 @@
+---
+/**
+ * Page /animaux (site.especes, src/lib/garde.ts) : architecture `garde-especes` (les conseils « Chiens, Chats, NACs » des
+ * Quais ; docs/veille/architectures/garde-especes.md). Chaque espèce avec ce qu'elle couvre et ses soins, vers sa page ;
+ * la porte des urgences. Générée seulement avec 2 espèces lisibles (lienEspeces).
+ */
+import Base from '@/layouts/Base.astro';
+import { site, tel, metierEtVille, especesCompletes, lienEspeces, gardeLisible } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+export function getStaticPaths() {
+  return lienEspeces(site.especes, site.wording.especes) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const especes = especesCompletes(site.especes);
+const titre = site.wording.especes;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${site.business.trade} à ${site.contact.address.city} : ${especes.map((e) => e.nom.toLowerCase()).join(', ')}.`} path="/animaux">
+  <Nav />
+  <main id="main" class="container-ff ani">
+    <header class="ani-tete">
+      <h1 class="ani-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}</p>
+      <p class="ani-portes">
+        <a href={tel()} class="ani-tel tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a>
+        {gardeLisible(site.garde) && <a href="/urgences" class="ani-lien">{site.wording.urgences}</a>}
+      </p>
+    </header>
+    <ul class="ani-liste">
+      {especes.map((e) => (
+        <li class="ani-espece">
+          {e.photo && <Img src={e.photo.src} alt={e.photo.alt} class="ani-photo" sizes="(min-width: 768px) 30vw, 90vw" />}
+          <h2 class="ani-h2 font-display"><a href={`/animaux/${e.slug}`} class="ani-lien">{e.nom}</a></h2>
+          {e.detail && <p class="ani-muted">{e.detail}</p>}
+          {e.soins.length > 0 && <p>{e.soins.join(', ')}.</p>}
+        </li>
+      ))}
+    </ul>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .ani { display: grid; gap: 2rem; padding-block: clamp(1.5rem, 5vh, 4rem); }
+  .ani-tete { display: grid; gap: 0.6rem; }
+  .ani-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .ani-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .ani-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 48px; padding-inline: 1rem; border: 2px solid var(--color-fg); border-radius: var(--radius-ui, 6px); font-weight: 700; }
+  .ani-lien { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .ani-tel:focus-visible, .ani-lien:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .ani-liste { display: grid; gap: 1.5rem; }
+  .ani-espece { display: grid; gap: 0.4rem; padding-block-start: 1rem; border-block-start: 2px solid var(--color-fg); }
+  .ani-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
+  .ani-h2 { font-size: clamp(1.5rem, 3.2vw, 2.2rem); line-height: 1.05; }
+  .ani-muted { color: var(--color-muted); }
+  @media (min-width: 48rem) { .ani-liste { grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); column-gap: 2rem; } }
+</style>

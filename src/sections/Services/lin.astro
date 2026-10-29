@@ -1,0 +1,67 @@
+---
+/**
+ * Services "lin" (geste signature du style lin, relevé sur fraher.co le 29 oct 2026, fiche docs/veille/styles/lin.md
+ * § Construction) : UN PANNEAU PLEINE LARGEUR PAR SERVICE, de bord à bord, dont le fond tourne entre le papier, le sable
+ * (bg-2) et la sauge (l'accent fondu dans le papier : il suit l'accent d'un client). Dans chaque panneau, deux colonnes
+ * sur douze : à gauche (5/12), l'étiquette en petite grotesque sur deux lignes (le service, puis son prix « à partir
+ * de » s'il est donné), un long vide, la phrase du service en serif de livre de grand corps (22 à 26 px : c'est elle le
+ * titre), puis le lien entre deux filets vers sa page ; à droite (6/12, collée au bord droit du cadre), SA photo :
+ * verticale 2:3 sur le papier et le sable, paysage 16:9 posée dans la sauge, comme la source. Au téléphone, tout
+ * s'empile : étiquette, phrase, photo à pleine largeur du cadre, lien centré sous la photo.
+ * Un service sans photo garde son panneau, texte seul (le panneau sable de la source n'a pas d'image) : jamais d'icône
+ * ni de placeholder. Le titre de section (wording.servicesTitle) et le métier à ville ouvrent la suite, petits.
+ * Mouvement : aucun à l'apparition (la source est immobile) ; seul le lien s'emplit au survol (.btn-ghost de la
+ * direction). Profil « film-au-clic » (docs/veille/styles/MOUVEMENTS.md).
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Img from '@/components/Img.astro';
+
+const tons = ['papier', 'sable', 'sauge'] as const;
+---
+
+<section id="services" class="lin-services">
+  <div class="container-ff pt-[var(--section-y)] pb-12 md:pb-16">
+    <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} class="[&_h2]:font-mono [&_h2]:text-base md:[&_h2]:text-lg [&_h2]:font-medium [&_p]:mt-0 [&_p]:font-mono [&_p]:text-base md:[&_p]:text-lg" />
+  </div>
+  {site.services.map((s, i) => {
+    const ton = tons[i % tons.length];
+    const paysage = ton === 'sauge';
+    const phrase = s.short;
+    return (
+      <article class:list={['lin-panneau', `lin-${ton}`]} aria-labelledby={`lin-${s.slug}`}>
+        <div class="container-ff grid gap-10 py-[var(--section-y)] md:grid-cols-12 md:gap-8">
+          <div class:list={['flex flex-col md:col-span-5', paysage ? 'md:justify-center' : 'md:pt-[6%]']}>
+            <h3 id={`lin-${s.slug}`} class="lin-etiquette font-mono text-base font-normal leading-snug">
+              <a href={`/services/${s.slug}`} class="hover:underline underline-offset-4">{s.title}</a>
+              {s.priceFrom && <span class="block">{s.priceFrom}</span>}
+            </h3>
+            <p class="lin-phrase-service mt-10 font-display md:mt-16">{phrase}</p>
+            <div class={s.image ? 'mt-10 hidden md:block' : 'mt-10'}>
+              <Button href={`/services/${s.slug}`} variant="ghost" size="sm">Voir la prestation</Button>
+            </div>
+          </div>
+          {s.image && (
+            <figure class:list={['lin-photo relative overflow-hidden md:col-span-6 md:col-start-7', paysage ? 'aspect-video md:self-center' : 'aspect-[4/5] md:aspect-[2/3]']}>
+              <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 76rem) 600px, (min-width: 48rem) 50vw, 100vw" loading="lazy" />
+            </figure>
+          )}
+          {s.image && (
+            <div class="flex justify-center md:hidden">
+              <Button href={`/services/${s.slug}`} variant="ghost" size="sm">Voir la prestation</Button>
+            </div>
+          )}
+        </div>
+      </article>
+    );
+  })}
+</section>
+
+<style>
+  .lin-sable { background: var(--bg-2); }
+  /* La sauge : l'accent fondu dans le papier (tokens seuls), assez clair pour garder le texte --fg en AA. */
+  .lin-sauge { background: color-mix(in oklab, var(--accent) 38%, var(--bg)); }
+  .lin-phrase-service { font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.6rem); line-height: 1.32; max-width: 26ch; }
+  .lin-photo :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

@@ -1,0 +1,154 @@
+{
+  "id": "bouteille",
+  "version": 1,
+  "source": {
+    "url": "https://www.restaurantzimmerl.at/",
+    "nom": "Restaurant Zimmerl",
+    "metier": "restaurant gastronomique (5 tables, Waidhofen an der Thaya)",
+    "fiche": "docs/veille/styles/bouteille.md",
+    "mesures": "docs/veille/styles/atomes/mesures/bouteille.json",
+    "date": "2026-10-29"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Valky",
+      "libre": "marcellus",
+      "graisse": 400,
+      "interlignage": 1.05,
+      "casse": "uppercase",
+      "interlettrage": 0.04,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Judson",
+      "libre": "judson",
+      "graisse": 400,
+      "interlignage": 1.2
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 40,
+        "ordinateur": 110
+      },
+      "h2": {
+        "telephone": 30,
+        "ordinateur": 47
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "Valky (capitales évasées, payante) -> Marcellus, la lapidaire évasée libre la plus proche ; Judson est libre (OFL) ; Nord Light (grotesque très large des intitulés et boutons) -> Lexend Zetta. Lexend Zetta n'est pas une chasse fixe : elle vit dans la direction (--font-mono) mais pas dans l'atome. Atome typo non tirable par ff melanger (deux serifs : capitales évasées + serif de livre, l'accord réel de la source) ; la direction bouteille le porte tel quel."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "releve": {
+      "fond": "#1f2d2d",
+      "texte": "#ffffff",
+      "fonds": [
+        {
+          "hex": "#1f2d2d",
+          "part": 0.932
+        },
+        {
+          "hex": "#223b3b",
+          "part": 0.066
+        },
+        {
+          "hex": "#3b5843",
+          "part": 0.002
+        },
+        {
+          "hex": "#d39969",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ffffff",
+          "part": 0.833
+        },
+        {
+          "hex": "#d39969",
+          "part": 0.167
+        }
+      ],
+      "proches": 14734034
+    },
+    "clair": null,
+    "sombre": {
+      "fond": "#1f2d2d",
+      "surface": "#263d3c",
+      "texte": "#f1ebe2",
+      "texte2": "#bcc4bd",
+      "accent": "#d39969",
+      "accent2": "#233a2c",
+      "bordure": "#5b5a4a",
+      "encre": "#172222"
+    }
+  },
+  "densite": {
+    "section": {
+      "telephone": 132,
+      "ordinateur": 242
+    },
+    "gouttiere": {
+      "telephone": 15,
+      "ordinateur": 20
+    },
+    "conteneur": 1070,
+    "mesure": 60,
+    "rythme": "uni"
+  },
+  "formes": {
+    "rayon": 4,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur"
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "3:2",
+      "2:3-",
+      "1:1"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Salle en plein cadre au premier écran ; plus bas, photos décalées qui débordent de l'écran, grands chiffres posés à cheval sur leur coin ; portraits de la brigade en noir et blanc."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.25,
+      "courbe": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "ease"
+    },
+    "defilement": "suit-le-defilement",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger"
+    ],
+    "profil": "enseigne-qui-se-resserre",
+    "remarque": "Ken Burns de la salle et grands chiffres qui se décalent au défilement (GSAP) ; le diaporama automatique n'est pas repris (GOUT § 4)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

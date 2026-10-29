@@ -91,11 +91,16 @@ export interface LayoutArchi {
  *                      revendeursComplets) ;
  *  - profils         : profils de patients qui ont au moins un motif (profils.liste[] : slug, nom, motifs ;
  *                      src/lib/profils.ts, profilsComplets) ;
+ *  - especes         : espèces soignées par une clinique vétérinaire (especes[] : slug, nom ; src/lib/garde.ts, especesCompletes) ;
+ *  - garde           : une garde qui se lit (garde.etapes[] avec un titre, ou un numéro de garde propre ; src/lib/garde.ts,
+ *                      gardeLisible) ;
+ *  - honoraires      : des honoraires qui disent un prix (honoraires.consultation, .decouverte ou .modes[] ; src/lib/honoraires.ts,
+ *                      honorairesLisibles) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils' | 'especes' | 'garde' | 'honoraires';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -148,6 +153,8 @@ export const ARCHITECTURE_IDS = [
   'annonces-biens',
   'revendeurs-secteurs',
   'profils-patients',
+  'garde-especes',
+  'honoraires-domaines',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -1139,6 +1146,73 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Cabinet de santé ou de soin sur rendez-vous dont les patients se reconnaissent à un profil : ostéopathe, kinésithérapeute, sage-femme, psychomotricien, podologue, diététicien, orthophoniste, sophrologue ; 3 profils avec leurs motifs. Pas pour un soin minuté à la carte (carte-des-soins), ni pour des cours collectifs (planning-semaine).",
   },
+  'garde-especes': {
+    id: 'garde-especes',
+    modele:
+      "Le site d'une clinique vétérinaire part de « qui appeler maintenant ? » : en tête le bandeau Urgences, le h1, le métier à la ville, l'ancienneté, la note ; deux portes côte à côte, « Prendre rendez-vous » avec les horaires du jour et « Une urgence ? » avec le numéro du moment (la clinique ouverte, la garde fermée, calculé dans le navigateur) ; puis UN bloc à onglets, « Urgences » (la conduite à tenir en temps numérotés, les signes qui n'attendent pas, la garde) et une espèce par onglet (soins, conseils, rendez-vous), ouvert d'office sur l'urgence quand la clinique est fermée ; venir, les services et les questions dans le même bloc ; les avis, le dernier appel ; /urgences, /animaux et une page par espèce.",
+    sources: [
+      { fiche: 'docs/veille/architectures/garde-especes.md', site: 'clinique-les-quais.fr' },
+      { fiche: 'docs/veille/architectures/garde-especes.md', site: 'vetosaintmax.fr' },
+    ],
+    layout: {
+      // Coquille `garde` (src/shells/garde.astro).
+      shell: 'garde',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Les Quais : « URGENCES » en dernier lien de la barre et au pied, « Que faire en cas d'urgence vétérinaire ? » en
+      // trois temps, les conseils par espèce. Saint-Max : sous le h1, « Prendre RDV en ligne » et « En cas d'urgence » côte
+      // à côte ; la page Urgence. La coquille rend un bloc à onglets (l'urgence, puis une espèce par onglet ; venir et les
+      // services dans le même bloc) ; ensuite les avis et les questions (« FAQ » de Saint-Max).
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+        { type: 'faq', variant: 'accordion' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'garde', min: 1, libelle: 'la conduite à tenir en cas d’urgence (garde.etapes[]) ou un numéro de garde propre' },
+      { mesure: 'especes', min: 2, libelle: '2 espèces soignées au moins (especes[] : slug, nom)' },
+    ],
+    convientA:
+      "Clinique ou cabinet vétérinaire de quartier ou de campagne qui reçoit sur rendez-vous et assure (ou organise) une garde : canine, mixte, NAC, équine ; 2 espèces et la conduite à tenir en urgence dans ses mots. Aussi un maréchal-ferrant ou un ostéopathe animalier avec une permanence. Pas pour un cabinet de santé humaine (profils-patients), ni pour un dépanneur à l'heure (grille-urgence).",
+  },
+  'honoraires-domaines': {
+    id: 'honoraires-domaines',
+    modele:
+      "Le site d'un cabinet d'avocat dit combien et comment ça commence : en tête le h1, le métier à la ville, l'ancienneté, où consulter ; à côté le premier échange en temps (l'appel découverte, la première consultation avec sa durée et son prix), « Prendre rendez-vous » et le téléphone ; puis UN bloc à onglets, un domaine par onglet avec ses procédures et leur « à partir de » et sa page ; dans le même bloc les façons de fixer l'honoraire (forfait, temps passé, résultat), la convention, la prise en charge (protection juridique, aide juridictionnelle), le cabinet et les questions ; l'avocat ensuite ; /nos-honoraires.",
+    sources: [
+      { fiche: 'docs/veille/architectures/honoraires-domaines.md', site: 'faltot-avocat.fr' },
+      { fiche: 'docs/veille/architectures/honoraires-domaines.md', site: 'judisis.fr' },
+    ],
+    layout: {
+      // Coquille `honoraires` (src/shells/honoraires.astro).
+      shell: 'honoraires',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'minimal',
+      // Faltot : sous le nom, les six domaines en pictogrammes vers « Nos activités », « Contactez-nous » et le numéro, les
+      // actualités ; la page Honoraires (taux, forfait, convention, résultat, première consultation, appel découverte,
+      // protection juridique, aide juridictionnelle, médiateur). Judisis : domaines dépliés en procédures, « à partir de »
+      // par procédure, « Consultation en ligne ». La coquille rend les domaines en onglets, les honoraires, le cabinet et
+      // les questions dans un seul bloc ; ensuite l'avocat.
+      sections: [
+        { type: 'about', variant: 'story' },
+        { type: 'faq', variant: 'accordion' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'honoraires', min: 1, libelle: 'un prix dit par le cabinet (honoraires.consultation, .decouverte ou .modes[] avec prix)' },
+      { mesure: 'lignesPrix', min: 2, libelle: '2 domaines au moins avec leurs procédures (services[].lignes, prix « à partir de » si le cabinet les donne)' },
+    ],
+    convientA:
+      "Avocat ou petit cabinet (deux à cinq avocats) qui travaille pour des particuliers et annonce ses prix : famille et divorce, travail, pénal routier, baux, consommation ; aussi un notaire qui publie ses émoluments, un médiateur familial, un commissaire de justice. 2 domaines avec leurs procédures et un prix de première consultation. Pas pour un cabinet d'affaires sans prix publics, ni pour des formules de prestations comparées (formules-comparees).",
+  },
 };
 
 
@@ -1200,6 +1274,9 @@ export interface SiteArchi {
   biens?: { liste?: { slug?: string; titre?: string; projet?: string; commune?: string; prix?: number }[] };
   revendeurs?: { liste?: { nom?: string; commune?: string; secteur?: string }[] };
   profils?: { liste?: { slug?: string; nom?: string; motifs?: string[] }[] };
+  especes?: { slug?: string; nom?: string }[];
+  garde?: { telephone?: string; telephoneAffiche?: string; etapes?: { titre?: string }[] };
+  honoraires?: { decouverte?: { prix?: string; duree?: string }; consultation?: { prix?: string; duree?: string }; modes?: { nom?: string; prix?: string }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -1436,6 +1513,28 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
           vus.add(slug);
           return true;
         }).length;
+        break;
+      }
+      // Mêmes comptes que especesCompletes, gardeLisible (src/lib/garde.ts) et honorairesLisibles (src/lib/honoraires.ts), recopiés.
+      case 'especes': {
+        const vus = new Set<string>();
+        n = (s.especes ?? []).filter((x) => {
+          const slug = (x.slug ?? '').trim();
+          if (!slug || !(x.nom ?? '').trim() || vus.has(slug)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
+        break;
+      }
+      case 'garde': {
+        const g = s.garde;
+        n = g && ((g.etapes ?? []).some((x) => (x.titre ?? '').trim()) || ((g.telephone ?? '').trim() && (g.telephoneAffiche ?? '').trim())) ? 1 : 0;
+        break;
+      }
+      case 'honoraires': {
+        const h = s.honoraires;
+        const pas = [h?.decouverte, h?.consultation].some((p) => (p?.prix ?? '').trim());
+        n = h && (pas || (h.modes ?? []).some((m) => (m.nom ?? '').trim() && (m.prix ?? '').trim())) ? 1 : 0;
         break;
       }
       case 'urgence': n = s.contact?.emergency24h || (s.tarifs?.delai ?? '').trim() ? 1 : 0; break;
