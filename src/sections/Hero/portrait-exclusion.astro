@@ -1,0 +1,98 @@
+---
+/**
+ * Hero "portrait-exclusion" : premier écran du style `experimentalcc` (site entier, docs/veille/styles/experimentalcc.md
+ * § Construction, source experimentalcocktailclub.com, veille du 28 oct 2026). Une seule colonne centrée sur le noir :
+ *   1. le chapô = le h1 (business.tagline), le métier et la ville en texte normal dessous, le téléphone cliquable et la porte
+ *      de devis (socle docs/GOUT.md § 0 : visibles sans défiler, téléphone comme ordinateur) ;
+ *   2. un PORTRAIT VERTICAL ÉTROIT (images.hero recadré 446:610, 446 px au plus à l'ordinateur, 66 % de la largeur au
+ *      téléphone), rien d'autre que du noir de chaque côté ;
+ *   3. le NOM en très grand, en texte réel (jamais une image), posé en travers du portrait aux 55 % de sa hauteur et plus large
+ *      que lui, en `mix-blend-mode: exclusion` : blanc sur le noir, inversé sur la photo et sur tout ce qui passe dessous ;
+ *   4. l'ouverture : le premier paragraphe de business.description en grand (36 px), toute la largeur, première ligne renfoncée.
+ * Geste signature (profil `nom-en-exclusion`, docs/veille/styles/MOUVEMENTS.md) : le nom colle dans l'écran (position sticky
+ * dans un rail qui va du portrait à la fin de l'ouverture) et dérive vers le bas au tiers de la vitesse (`data-parallax`), la
+ * page glisse dessous. Rien n'entre au chargement. Mouvement réduit : nom posé sur le portrait, sans dérive ni collage.
+ * Données : `images.hero` (sans photo, le nom seul entre le chapô et l'ouverture, pas de collage). Garde du profil : seulement
+ * sur un fond noir ou blanc pur (la direction experimentalcc) ; aucune autre chose en exclusion sur la page.
+ * Signes de la source NON repris : nom en image, emphase en italique, pilule « Book now », vidéo en autoplay.
+ */
+import { site, tel, paragraphs, hasContactDoor, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const ouverture = paragraphs(site.business.description)[0];
+---
+
+<section id="hero" class:list={['hero-pe pt-8 md:pt-12 pb-[var(--section-y)]', hero && 'pe-avec-portrait']}>
+  <div class="container-ff pe-scene">
+    <h1 class="hero-titre pe-chapo text-display-lg mx-auto max-w-[24ch] text-center" set:html={site.business.tagline} />
+    <p class="pe-metier mt-3 text-center text-muted">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+    <div class="pe-portes mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+      <a href={tel()} class="pe-tel inline-flex min-h-11 items-center gap-2 tabular-nums"><Icon name="Phone" size={17} />{site.contact.phoneDisplay}</a>
+      {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="sm">{site.wording.devis}</Button>}
+    </div>
+
+    {hero && (
+      <figure class="pe-portrait mx-auto mt-8 md:mt-10 overflow-hidden bg-bg-2">
+        <Img src={hero.src} alt={hero.alt} class="h-full w-full object-cover" sizes={HERO_SIZES['portrait-exclusion']} priority />
+      </figure>
+    )}
+
+    {/* Le nom en exclusion. Dans un rail qui couvre le portrait et l'ouverture : il colle (sticky) et dérive (data-parallax). */}
+    <div class="pe-rail" aria-hidden="true">
+      <p class="pe-nom font-display" data-parallax="0.6">{site.business.name}</p>
+    </div>
+
+    {ouverture && <p class="pe-ouverture mx-auto mt-8 md:mt-10 font-display">{ouverture}</p>}
+  </div>
+</section>
+
+<style>
+  /* Portrait relevé : 446 x 610 px à l'ordinateur (3:4,1), 256 x 500 au téléphone (66 % de la largeur, plus haut). */
+  .hero-pe { --pe-w: min(27.875rem, 66vw); --pe-h: calc(var(--pe-w) * 1.95); }
+  @media (min-width: 44rem) { .hero-pe { --pe-h: calc(var(--pe-w) * 1.368); } }
+  /* Une grille d'une colonne, rangées nommées : le rail du nom chevauche le portrait et l'ouverture sans prendre de place. */
+  .pe-scene { display: grid; grid-template-columns: minmax(0, 1fr); position: relative; }
+  .pe-scene > * { grid-column: 1; }
+  .pe-chapo { grid-row: 1; }
+  .pe-metier { grid-row: 2; }
+  .pe-portes { grid-row: 3; }
+  .pe-portrait { grid-row: 4; }
+  .pe-rail { grid-row: 4 / 6; position: relative; pointer-events: none; }
+  .pe-ouverture { grid-row: 5; }
+  .pe-tel { font-weight: 500; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  .pe-tel:hover { text-decoration-color: transparent; }
+  .pe-portrait { inline-size: var(--pe-w); block-size: var(--pe-h); }
+  .pe-portrait > :global(picture) { display: block; block-size: 100%; }
+  /* L'ouverture : 36 px sur toute la largeur, première ligne renfoncée (la source), 18 px au téléphone. */
+  .pe-ouverture { font-size: clamp(1.125rem, 0.6rem + 2.1vw, 2.25rem); line-height: 1.25; font-weight: 300; text-indent: 3em; max-inline-size: none; text-wrap: pretty; }
+
+  /* Le nom : 45 % de la largeur à l'ordinateur, 92 % au téléphone, centré sur le portrait aux 55 % de sa hauteur ; il colle
+     un peu sous la mi-hauteur de l'écran tant que le rail (portrait + ouverture) passe, et dérive par data-parallax. */
+  .pe-nom {
+    position: sticky;
+    top: calc(var(--pe-h) * 0.55 + 7rem);
+    margin-block-start: calc(var(--pe-h) * 0.55 - 0.5em);
+    margin-inline: auto;
+    inline-size: min(92vw, 64rem);
+    font-size: clamp(3.25rem, 0.75rem + 13vw, 8.25rem);
+    font-weight: 300;
+    line-height: 0.95;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--color-fg);
+    mix-blend-mode: exclusion;
+    will-change: transform;
+  }
+  /* Sans portrait : le nom seul, posé entre les portes et l'ouverture, sans exclusion ni collage. */
+  .hero-pe:not(.pe-avec-portrait) .pe-rail { grid-row: 4; margin-block: clamp(1rem, 4vw, 2.5rem); }
+  .hero-pe:not(.pe-avec-portrait) .pe-nom { position: static; margin-block-start: 0; mix-blend-mode: normal; }
+  @media (prefers-reduced-motion: reduce) {
+    .pe-avec-portrait .pe-nom { position: absolute; inset-inline: 0; top: calc(var(--pe-h) * 0.55 - 0.5em); margin-block-start: 0; transform: none !important; }
+  }
+  /* Démo à photos de banque : la mention « Photo d’illustration » (Img) en haut du portrait, le nom passe en bas. */
+  .pe-portrait :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

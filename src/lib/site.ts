@@ -184,7 +184,8 @@ export const navLinks = (s: Site = site) => {
   const labels: Record<string, string> = {
     services: s.wording.servicesNav ?? 'Services',
     about: 'À propos',
-    proof: 'Avis',
+    // Une galerie seule (ni note, ni avis recopiés) n'est pas un bloc d'avis : l'ancre dit « En images » (titre de proof/gallery).
+    proof: !s.proof.google && s.proof.testimonials.length === 0 && s.proof.gallery.length > 0 ? 'En images' : 'Avis',
     zones: 'Zones',
     process: 'Méthode',
     faq: 'FAQ',
@@ -334,6 +335,12 @@ export const navLinks = (s: Site = site) => {
   // Brasserie des Garrigues, en tête de la nav, vers tous les secteurs (/ou-trouver).
   const revendeurs = lienRevendeurs(s.revendeurs, s.wording.revendeurs);
   if (revendeurs) links.unshift(revendeurs);
+  // Fiches par adresse (zones/fiches, style experimentalcc) avec des revendeurs : la page /ou-trouver est déjà en tête de la nav,
+  // l'ancre « Zones » vers le même bloc ferait doublon (la fiche pointe elle-même vers les pages de secteur).
+  if (revendeurs && s.layout.sections.some((x) => x.type === 'zones' && x.variant === 'fiches')) {
+    const iZ = links.findIndex((l) => l.href === '/#zones');
+    if (iZ !== -1) links.splice(iZ, 1);
+  }
   // Profils de patients (src/lib/profils.ts, architecture profils-patients) : « Pour qui ? » des Ostéopathes à Lyon
   // Préfecture, en tête de la nav, vers tous les profils (/consulter).
   const profils = lienProfils(s.profils, s.wording.profils);

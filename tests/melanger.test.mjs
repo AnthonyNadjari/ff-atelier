@@ -7,8 +7,9 @@ import path from 'node:path';
 import {
   profilClient, refusPhotos, refusMouvement, refusFamille, partages, tirerMelange, construireRegistre, hashMelange,
   ligneContrat, genererDirection, insererDirection, retirerDirection, clampFluide, graissePlusProche, accentHsl,
-  MAX_PARTAGES_SITE, MAX_PARTAGES_PISTES,
+  MAX_PARTAGES_SITE, MAX_PARTAGES_PISTES, modeleEntier, appliquerModele, modeDeMelange, stylesAvecModele, phraseModele,
 } from '../scripts/ff/melanger.mjs';
+import { readPreset } from '../scripts/ff/modele.mjs';
 import { policesDuRegistre, lireAtomes, contraste, A_JUGER } from '../scripts/ff/atomes.mjs';
 import { mulberry32 } from '../scripts/ff/look-data.mjs';
 import { CLES_IA } from '../scripts/ff/ia.mjs';
@@ -613,15 +614,55 @@ test('familles rendues (29 oct 2026) : chaque famille dont le client a les donn�
   }
 });
 
-test('lookDuModele : un style construit remplace tout le look, garde architecture et coquille du site', async () => {
-  const { lookDuModele } = await import('../scripts/ff/melanger.mjs');
-  const modele = { look: { direction: 'x', motion: 'subtle', layout: { hero: 'h', sections: [{ type: 'about', variant: 'story' }] } } };
-  const avant = { direction: 'm-abc', accent: { h: 1, s: 2, l: 3 }, typography: { display: 'a', body: 'b' }, layout: { architecture: 'profils-patients', shell: 'profils', hero: 'split' } };
-  const l = lookDuModele(modele, avant);
-  assert.equal(l.direction, 'x');
-  assert.equal(l.accent, undefined);
-  assert.equal(l.typography, undefined);
-  assert.deepEqual(l.layout, { architecture: 'profils-patients', shell: 'profils', hero: 'h', sections: [{ type: 'about', variant: 'story' }] });
-  assert.equal(modele.look.layout.architecture, undefined, 'le modèle lui-même n\'est pas modifié');
-  assert.deepEqual(lookDuModele(modele).layout.hero, 'h');
+/* ---------- Modèle de site entier (29 oct 2026 : un style = un site entier, le croisement jamais par défaut) ---------- */
+
+/** Un modèle fictif, nommé comme sa direction : ce que presets/<id>.json d'un style construit contient. */
+const MODELE_FICTIF = {
+  nom: 'essai-style', titre: 'Essai', description: 'x', metiers: ['a', 'b', 'c'],
+  look: { direction: 'essai-style', motion: 'subtle', layout: { shell: 'split', nav: 'bar', hero: 'mur-de-photos', sections: [{ type: 'custom', variant: 'manifeste', label: 'Manifeste' }, { type: 'faq', variant: 'two-columns' }], footer: 'minimal', tone: 'flat' } },
+};
+
+test('modeleEntier : presets/<id>.json lu quand il existe (un modèle de la bibliothèque aussi), null sinon ou si illisible', () => {
+  assert.equal(modeleEntier('essai-style', (id) => (id === 'essai-style' ? MODELE_FICTIF : null)), MODELE_FICTIF);
+  assert.equal(modeleEntier('inconnu', (id) => (id === 'essai-style' ? MODELE_FICTIF : null)), null);
+  assert.equal(modeleEntier('essai-style', () => { throw new Error('illisible'); }), null);
+  assert.equal(modeleEntier('essai-style', () => ({ nom: 'x', look: {} })), null, 'sans look.direction, pas un modèle entier');
+  assert.equal(modeleEntier('', readPreset), null);
+  const reel = modeleEntier('atelier-bois', readPreset);
+  assert.equal(reel?.look?.direction, 'atelier', 'un preset existant se lit par readPreset');
+  assert.equal(modeleEntier('zzz-inexistant', readPreset), null);
+});
+
+test('appliquerModele : direction, layout entier (hero, sections, coquille), mouvement et tone du modèle par-dessus les atomes ; polices et accent des atomes retirés', () => {
+  const desAtomes = { direction: 'm-abc123', typography: { display: 'bebas', body: 'karla' }, accent: { h: 1, s: 2, l: 3 }, motion: 'rich', layout: { hero: 'mosaique', tone: 'alternate', contactDrawer: true } };
+  const apres = appliquerModele(desAtomes, MODELE_FICTIF);
+  assert.equal(apres.direction, 'essai-style');
+  assert.equal(apres.layout.hero, 'mur-de-photos', 'le hero du modèle remplace le hero de famille');
+  assert.equal(apres.layout.sections.length, 2, 'l’ordre des sections du modèle');
+  assert.equal(apres.layout.shell, 'split');
+  assert.equal(apres.layout.tone, 'flat');
+  assert.equal(apres.layout.contactDrawer, true, 'une clé de layout que le modèle ne pose pas est gardée');
+  assert.equal(apres.motion, 'subtle');
+  assert.equal(apres.typography, undefined, 'les polices des atomes ne défont pas la direction du modèle');
+  assert.equal(apres.accent, undefined);
+  assert.deepEqual(desAtomes.layout.hero, 'mosaique', 'pure : l’entrée n’est pas modifiée');
+  assert.deepEqual(appliquerModele({ direction: 'x' }, null), { direction: 'x' }, 'sans modèle, rien ne change');
+  const avecTypo = appliquerModele({}, { ...MODELE_FICTIF, look: { ...MODELE_FICTIF.look, typography: { display: 'urbanist', body: 'urbanist' } } });
+  assert.deepEqual(avecTypo.typography, { display: 'urbanist', body: 'urbanist' });
+});
+
+test('modeDeMelange : --style = modèle entier ; un atome imposé ou --hasard = croisement explicite ; rien = aucun (jamais de croisement par défaut)', () => {
+  assert.equal(modeDeMelange({ style: 'casabonay' }), 'style');
+  assert.equal(modeDeMelange({ typo: 'wiltons' }), 'croisement');
+  assert.equal(modeDeMelange({ hasard: true }), 'croisement');
+  assert.equal(modeDeMelange({ 'premier-ecran': 'mosaique' }), 'croisement');
+  assert.equal(modeDeMelange({}), 'aucun');
+  assert.equal(modeDeMelange({ n: 3, essai: true }), 'aucun', '--n 3 --essai sans style ni --hasard : rien n’est tiré');
+  assert.equal(modeDeMelange({ style: true }), 'aucun', '--style sans id');
+});
+
+test('stylesAvecModele / phraseModele : seuls les presets nommés comme leur direction sont des modèles entiers', () => {
+  assert.deepEqual(stylesAvecModele([{ nom: 'atelier-bois', look: { direction: 'atelier' } }, MODELE_FICTIF, { nom: 'b', look: { direction: 'b' } }, null]), ['b', 'essai-style']);
+  assert.equal(phraseModele('essai-style', MODELE_FICTIF), 'modèle de site entier presets/essai-style.json appliqué : hero mur-de-photos, 2 sections, coquille split');
+  assert.equal(phraseModele('wiltons', null), 'pas de modèle entier pour wiltons : atomes seuls');
 });

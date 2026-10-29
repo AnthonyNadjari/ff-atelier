@@ -112,10 +112,10 @@ vaut rien au client.
    `docs/DIRECTIONS.md`, testés ; la direction entière `src/directions/<id>/` (polices libres, jamais de la liste IA) ;
    et un **modèle de site entier** `presets/<id>.json` qui pose tout d'un coup (direction, hero, ordre des sections,
    mouvement), appliqué par `ff modele <slug> <id>` (il existe déjà : il copie le modèle dans `look.json`). Le croisement
-   d'atomes (`ff melanger`) ne se fait plus que sur demande explicite (`--typo`, `--couleurs`…), jamais par défaut. Depuis le
-   29 oct 2026 (tour 16), `ff melanger <slug> --style <id>` lit `presets/<id>.json` quand il existe et pose le site entier
-   (`lookDuModele` : direction, premier écran, ordre des sections, mouvement ; l'architecture du site est gardée), `--essai`
-   compris ; sans modèle, il retombe sur les atomes.
+   d'atomes (`ff melanger`) ne se fait plus que sur demande explicite (`--typo`, `--couleurs`… ou `--hasard`), jamais par
+   défaut : sans rien, la commande liste les styles qui ont un modèle entier. Depuis le 29 oct 2026 (soir), `--style <id>`
+   lit `presets/<id>.json` quand il existe et l'applique en entier (direction, coquille, hero, sections, mouvement) ;
+   sans modèle, atomes seuls et hero de famille, en le disant.
 4. **Prouver avec des photos**, côte à côte avec la source : site jetable (copie de `_exemple`), `ff photos-demo` pour
    avoir de vraies photos d'illustration (jamais une démo sans photo : « ce qui fait vraiment la différence, c'est les
    photos », GOUT § 0), `ff melanger … --style <id>`, `ff apercu-rapide`, et l'image source à côté. Un agent neuf (lecture

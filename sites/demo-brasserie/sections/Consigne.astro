@@ -4,7 +4,8 @@
  * de 75 cl part du moulin, passe chez les revendeurs qui la reprennent (comptés dans site.revendeurs), arrive chez
  * vous et revient. Elle glisse sur son rail au défilement (régime lent) ; les étapes s'allument sèchement à son
  * passage. Mouvement réduit : la bouteille posée, toutes les étapes visibles. Rien n'est inventé : la règle de la
- * consigne est la phrase du client, les noms viennent de la liste des revendeurs.
+ * consigne est la phrase du client, les noms viennent de la liste des revendeurs. Sur le fond alterné (bg-2) : la seule
+ * bande encre de la page (terre cuite du style experimentalcc) reste la bande d'appel avant le contact.
  */
 import { site, tel } from '@/lib/site';
 
@@ -48,13 +49,13 @@ const etapes = [
 )}
 
 <style>
-  .cs { padding-block: clamp(3rem, 9vw, 6.5rem); background: var(--color-ink); color: var(--color-on-ink); }
+  .cs { padding-block: clamp(3rem, 9vw, 6.5rem); background: var(--color-bg-2); color: var(--color-fg); border-block: 1px solid var(--color-line); }
   .cs-titre { font-size: clamp(2rem, 6vw, 4rem); line-height: 1; }
   .cs-regle { margin-top: 1rem; max-width: 40rem; font-size: clamp(1.05rem, 2.2vw, 1.3rem); line-height: 1.45; }
   .cs-piste { position: relative; margin-block: clamp(2rem, 6vw, 3.5rem) 1.5rem; height: 72px; }
   .cs-rail { position: absolute; inset-inline: 0; bottom: 6px; height: 2px; background: currentColor; opacity: 0.5; transform-origin: left; }
   .cs-bouteille { position: absolute; bottom: 8px; left: 50%; width: 22px; height: 62px; fill: var(--color-accent-2, var(--color-accent)); }
-  .cs-etiquette { fill: var(--color-ink); opacity: 0.35; }
+  .cs-etiquette { fill: var(--color-ink); opacity: 0.85; }
   .cs-etapes { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
   .cs-etape { border-top: 1px solid currentColor; padding-top: 0.9rem; }
   .cs-nom { font-size: 1.25rem; font-weight: 700; }

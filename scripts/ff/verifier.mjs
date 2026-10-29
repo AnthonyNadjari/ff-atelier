@@ -412,6 +412,10 @@ export function ancresCassees(pages) {
         cible = candidats.map((x) => x.split('/').join(path.sep)).find((x) => pages[x]);
         if (!cible) continue; // page non générée : pas ce contrôle
       }
+      // Contact en tiroir (layout.contactDrawer) : le dialog data-contact-drawer intercepte tout lien #contact de la
+      // page, c'est sa cible (anna-vidal d'après Casa Bonay, 29 oct 2026 : la porte « Raconter votre journée » sans
+      // section contact sous le mur de photos).
+      if (id === 'contact' && /data-contact-drawer/.test(pages[cible])) continue;
       if (!ids.get(cible)?.has(id)) cassees.push({ page, href: `${chemin}#${id}` });
     }
   }

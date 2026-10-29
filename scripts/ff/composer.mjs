@@ -344,7 +344,10 @@ export function varianteCompatible(type, variant, cfg = {}) {
       return Boolean(cfg.images && (cfg.images.video || cfg.images.heroVideo));
     // Heros de famille (premiers-ecrans.md) : mêmes conditions que HERO_DE_FAMILLE (scripts/ff/melanger.mjs).
     case 'hero/carte-sur-photo':
+    case 'hero/panneaux-biais': // style frenchette : la photo plein cadre sous le panneau coupé en biais
+    case 'hero/portrait-exclusion': // style experimentalcc : le portrait vertical etroit est la photo du client
       return heroImage;
+    case 'hero/mur-de-photos': // style casabonay : le mur demande 4 photos, comme la mosaïque
     case 'hero/mosaique': {
       const vues = new Set([cfg.images?.hero?.src, cfg.about?.portrait?.src, ...(cfg.proof?.gallery ?? []).map((g) => g?.src), ...services.map((x) => x?.image?.src)].filter(Boolean));
       return vues.size >= 4;
@@ -360,6 +363,7 @@ export function varianteCompatible(type, variant, cfg = {}) {
     case 'services/cards-hover':
     case 'services/photo-cards':
     case 'services/portes':
+    case 'services/panneaux-biais':
       return imagesServices;
     case 'services/carte-prix':
       return services.some((s) => s && Array.isArray(s.lignes) && s.lignes.length > 0);

@@ -1,35 +1,31 @@
 // DEMO : cliente inventée
-// Hero, nav et blocs principaux dessinés à la main pour ce site : sites/anna-vidal/sections/.
-//
-// Squelette (21 sept 2026) : coquille `index` — le menu EST la page. Ses quatre séries (mariage,
-// élopement, famille, portrait = services, chacune avec sa photo) sont les quatre premières entrées,
-// en liens réels vers /services/<slug>, photo révélée au survol ; galerie, manifeste, FAQ et contact
-// se déroulent sous leur entrée. Un seul geste riche : l'image de survol. Le hero sur mesure
-// (sections/Hero.astro, data-pin) n'est plus rendu par cette coquille ; Instants et Formules sortent du
-// layout (les séries en liens et les pages de prestation portent déjà photos et contenus) ; Series
-// perd son data-horizontal et Manifeste son data-text-fill (effets pilotés par le scroll, incompatibles
-// avec un panneau <details> fermé).
+// Accueil refait le 29 oct 2026 d'après UN site de référence entier, Casa Bonay (docs/veille/styles/casabonay.md,
+// modèle presets/casabonay.json) : la paire anna-vidal / borie-des-chenes était trop proche (ff ressemblance : 0,81 au
+// téléphone, 0,75 à l'ordinateur, déroulé 1,00 ; deux accueils-menus sans photo). Désormais la coquille `split` rend la
+// colonne fixe de la source (nom, les quatre séries en liens, téléphone, porte rouge « Raconter votre journée » qui ouvre
+// le contact en tiroir) et le hero `mur-de-photos` pose huit des onze photos du dossier bord à bord, une haute pour deux
+// larges ; sous le mur, le manifeste (bloc propre à ce site, sites/anna-vidal/sections/Manifeste.astro), puis le pied.
+// Les séries (mariage, élopement, famille, portrait) ont chacune leur page en gabarit « porte ». Les anciens blocs sur
+// mesure de l'accueil-menu (hero épinglé, nav, séries, instants, formules) sont retirés.
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
   slug: 'anna-vidal',
-  direction: 'nuit',
-  typography: { display: 'libreBodoni', body: 'hanken' },
-  motion: 'rich',
-  scale: 'display',
+  direction: 'casabonay',
+  motion: 'subtle',
+  scale: 'normal',
   layout: {
-    shell: 'index',
-    nav: 'custom/nav',
-    hero: 'custom/hero',
+    shell: 'split',
+    nav: 'bar',
+    hero: 'mur-de-photos',
     sections: [
-      { type: 'custom', variant: 'series', label: 'Galerie' },
       { type: 'custom', variant: 'manifeste', label: 'Manifeste' },
-      { type: 'faq', variant: 'accordion' },
-      { type: 'contact', variant: 'form-card' },
     ],
     footer: 'minimal',
     divider: 'none',
     tone: 'flat',
+    contactDrawer: true,
+    servicePage: 'porte',
   },
 
   business: {
@@ -65,6 +61,11 @@ export default defineSite({
         'Galerie numérique privée sous 6 semaines',
       ],
       image: { src: '/images/service-1.webp', alt: 'Préparatifs de mariée, lumière du matin' },
+      images: [
+        { src: '/images/galerie-2.webp', alt: 'La robe dans l’escalier' },
+        { src: '/images/galerie-3.webp', alt: 'Le cortège, à pied' },
+        { src: '/images/galerie-6.webp', alt: 'La nuit, sur la piste' },
+      ],
     },
     {
       slug: 'elopement',
@@ -109,6 +110,16 @@ export default defineSite({
     },
   ],
 
+  // Le mur de l'accueil : couverture, ces trois photos, puis une par série (8 photos, budget images-home tenu) ; les
+  // trois autres photos de mariage sont sur la page Mariage (services[0].images).
+  proof: {
+    gallery: [
+      { src: '/images/galerie-1.webp', alt: 'Les mains, avant la cérémonie' },
+      { src: '/images/galerie-5.webp', alt: 'Le premier regard' },
+      { src: '/images/galerie-4.webp', alt: 'La table, au soleil couchant' },
+    ],
+  },
+
   about: {
     story:
       'Je photographie des mariages et des familles depuis 2013, à Bordeaux. L’argentique pour la cérémonie, le numérique pour le reste de la journée.\n\nJe reste en retrait et je ne fais rien rejouer. Une sortie d’église se passe une fois ; si je l’ai manquée, je l’ai manquée.',
@@ -142,6 +153,8 @@ export default defineSite({
   form: { provider: 'mailto' },
   images: {
     hero: { src: '/images/hero.webp', alt: 'Mariés au lever du jour, campagne bordelaise' },
+    // Démo : photos libres (CREDITS.md), chacune porte la mention « Photo d’illustration ».
+    illustration: true,
   },
   seo: {
     keywords: ['photographe de mariage Bordeaux', 'photographe élopement Nouvelle-Aquitaine', 'photographe famille Bordeaux'],

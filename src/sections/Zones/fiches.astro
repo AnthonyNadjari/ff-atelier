@@ -1,0 +1,132 @@
+---
+/**
+ * Zones "fiches" : les fiches par adresse du style `experimentalcc` (site entier, docs/veille/styles/experimentalcc.md
+ * § Construction, bloc 5 : le corps du site de la source, une fiche par bar en trois colonnes de 447 px écartées de 20 px, un
+ * filet blanc d'un pixel au-dessus de chaque fiche, et dedans, à plat, de haut en bas : la photo verticale 3:4 sans cadre, le
+ * nom, l'adresse, le téléphone et le courriel en liens, quelques lignes, la porte).
+ *
+ * Données, dans l'ordre : `site.revendeurs.liste` (un producteur vendu chez d'autres, src/lib/revendeurs.ts) groupés par
+ * secteur, un intertitre par secteur avec son compte et le lien vers sa page (/ou-trouver/<secteur>, quand elle existe) ;
+ * sinon `site.lieux` (les adresses du client, src/lib/lieux.ts) ; sinon rien. Chaque fiche ne montre que ce que le client a
+ * donné : la photo si elle existe, le téléphone en `tel:` s'il existe (pour un lieu : le numéro principal en repli, jamais un
+ * numéro deviné), la rue si elle est donnée, « À la pression » et « Reprend la consigne » seulement quand le client l'a dit ;
+ * la porte est le site du revendeur (lien donné), sinon la page du secteur, sinon rien ; pour un lieu, sa page /adresses/<slug>.
+ * Au téléphone, une colonne ; à l'ordinateur, trois.
+ * Signes de la source NON repris : noms en capitales seules, « DISCOVER » en capitales espacées, pilule « Book now ».
+ */
+import { site, telDuLieu, adresseDuLieu, secteursDe, phraseSecteur, lienRevendeurs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Icon from '@/components/Icon.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+
+const secteurs = secteursDe(site.revendeurs);
+const pageSecteurs = Boolean(lienRevendeurs(site.revendeurs, site.wording.revendeurs)) && secteurs.length >= 2;
+const lieux = secteurs.length > 0 ? [] : site.lieux;
+const titre = secteurs.length > 0 ? site.wording.trouver : site.wording.lieux;
+const total = secteurs.reduce((n, s) => n + s.revendeurs.length, 0);
+const telHref = (t: string) => `tel:${t.replace(/[\s.]/g, '')}`;
+---
+
+{(secteurs.length > 0 || lieux.length > 0) && (
+  <section id="zones" class="section-y fi fi-adresses" aria-labelledby="fi-titre">
+    <div class="container-ff">
+      <div class="fi-tete">
+        <h2 id="fi-titre" class="text-display-lg">{titre}</h2>
+        {secteurs.length > 0 ? (
+          <p class="fi-compte text-muted tabular-nums">{total} adresse{total > 1 ? 's' : ''}{secteurs.length > 1 ? `, ${secteurs.length} secteurs` : ''}.{pageSecteurs && <>{' '}<a href="/ou-trouver" class="fi-lien">Tout sur une page</a></>}</p>
+        ) : (
+          <p class="fi-compte text-muted">{lieux.length === 1 ? 'Une adresse' : `${lieux.length} adresses`}, une page chacune.</p>
+        )}
+      </div>
+
+      {secteurs.map((s) => (
+        <div class="fi-secteur">
+          {secteurs.length > 1 && (
+            <div class="fi-secteur-tete">
+              <h3 class="fi-secteur-nom text-display-sm">{s.nom}</h3>
+              <p class="fi-secteur-n text-muted tabular-nums">{phraseSecteur(s)}{pageSecteurs && <>{' '}<a href={`/ou-trouver/${s.slug}`} class="fi-lien">Le secteur sur une page</a></>}</p>
+            </div>
+          )}
+          <ul class="fi-grille" data-stagger="80">
+            {s.revendeurs.map((r) => (
+              <li class="fi-fiche">
+                {r.photo && (
+                  <figure class="fi-photo">
+                    <Img src={r.photo.src} alt={r.photo.alt} loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 64rem) 30vw, 100vw" />
+                  </figure>
+                )}
+                <h4 class="fi-nom font-display">{r.nom}</h4>
+                <p class="fi-ou"><Icon name="MapPin" size={15} />{[r.type, r.adresse, r.commune].filter(Boolean).join(', ')}</p>
+                {r.telephone && <p class="fi-ligne"><a href={telHref(r.telephone)} class="fi-tel tabular-nums"><Icon name="Phone" size={15} />{r.telephone}</a></p>}
+                {(r.pression || r.consigne) && (
+                  <p class="fi-marques">
+                    {r.pression && <span class="fi-marque">À la pression</span>}
+                    {r.consigne && <span class="fi-marque">Reprend la consigne</span>}
+                  </p>
+                )}
+                {r.lien ? (
+                  <a href={r.lien} class="fi-porte" target="_blank" rel="noopener">Le site de {r.nom}<span class="sr-only"> (nouvel onglet)</span><Icon name="ArrowUpRight" size={15} /></a>
+                ) : pageSecteurs ? (
+                  <a href={`/ou-trouver/${s.slug}`} class="fi-porte">Les adresses du secteur<Icon name="ArrowRight" size={15} /></a>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      {lieux.length > 0 && (
+        <ul class="fi-grille" data-stagger="80">
+          {lieux.map((l) => {
+            const t = telDuLieu(l, site.contact);
+            return (
+              <li class="fi-fiche">
+                {l.photo && (
+                  <a href={`/adresses/${l.slug}`} class="fi-photo" tabindex="-1" aria-hidden="true">
+                    <Img src={l.photo.src} alt="" loading="lazy" class="h-full w-full object-cover" sizes="(min-width: 64rem) 30vw, 100vw" />
+                  </a>
+                )}
+                <h3 class="fi-nom font-display"><a href={`/adresses/${l.slug}`} class="fi-nom-lien">{l.nom}</a></h3>
+                <p class="fi-ou"><Icon name="MapPin" size={15} />{adresseDuLieu(l)}</p>
+                <p class="fi-ligne"><a href={t.href} class="fi-tel tabular-nums"><Icon name="Phone" size={15} />{t.affiche}</a></p>
+                {l.hours.length > 0 && <HorairesDuJour hours={l.hours} class="fi-ligne text-sm" />}
+                {l.texte && <p class="fi-texte">{l.texte}</p>}
+                <a href={`/adresses/${l.slug}`} class="fi-porte">La page de {l.nom}<Icon name="ArrowRight" size={15} /></a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .fi-tete { display: grid; gap: 0.5rem; margin-block-end: clamp(1.5rem, 4vw, 2.5rem); }
+  .fi-lien { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; color: var(--color-fg); }
+  .fi-lien:hover { text-decoration-color: transparent; }
+  .fi-secteur + .fi-secteur { margin-block-start: clamp(2rem, 5vw, 3.5rem); }
+  .fi-secteur-tete { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1.5rem; margin-block-end: 1rem; }
+  /* Trois colonnes égales écartées de 20 px (447 px dans 1 380), une au téléphone ; un filet au-dessus de chaque fiche. */
+  .fi-grille { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.5rem, 3vw, 2.5rem) 1.25rem; }
+  .fi-fiche { display: flex; flex-direction: column; gap: 0.5rem; padding-block-start: 1rem; border-block-start: 1px solid var(--color-line); }
+  .fi-photo { display: block; aspect-ratio: 3 / 4; overflow: hidden; margin-block-end: 0.5rem; background: var(--color-bg-2); }
+  .fi-photo > :global(picture) { display: block; block-size: 100%; }
+  .fi-nom { font-size: clamp(1.375rem, 1rem + 1.2vw, 1.75rem); line-height: 1.2; }
+  .fi-nom-lien { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.14em; text-decoration-thickness: 1px; transition: text-decoration-color var(--motion-ui, 0.2s) ease; }
+  .fi-nom-lien:hover, .fi-nom-lien:focus-visible { text-decoration-color: currentColor; }
+  .fi-ou, .fi-tel { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .fi-ou { color: var(--color-muted); font-size: 0.95rem; }
+  .fi-ou :global(svg), .fi-tel :global(svg) { flex: none; }
+  .fi-tel { min-block-size: 44px; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  .fi-tel:hover { text-decoration-color: transparent; }
+  .fi-marques { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; font-size: 0.9rem; color: var(--color-muted); }
+  .fi-texte { color: var(--color-muted); }
+  .fi-porte { display: inline-flex; align-items: center; gap: 0.4rem; margin-block-start: auto; padding-block-start: 0.5rem; min-block-size: 44px; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  .fi-porte:hover { text-decoration-color: transparent; }
+  .fi-porte :global(svg) { flex: none; transition: transform var(--motion-ui, 0.2s) ease; }
+  .fi-porte:hover :global(svg) { transform: translateX(3px); }
+  @media (min-width: 40rem) { .fi-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .fi-grille { grid-template-columns: repeat(3, minmax(0, 1fr)); } .fi-tete { grid-template-columns: minmax(0, 1fr) auto; align-items: end; } }
+  @media (prefers-reduced-motion: reduce) { .fi-porte :global(svg), .fi-nom-lien { transition: none; } }
+</style>

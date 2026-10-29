@@ -4,6 +4,45 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 29 oct 2026, tour 16 (à la main, carte blanche du fondateur) : la veille réécrite, 3 styles construits en entier
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-29-experimentalcc.jpg)) : la brasserie de démo reconstruite d'après Experimental
+Cocktail Club en entier (portrait vertical, nom en exclusion qui glisse, une fiche par revendeur). Pourquoi : c'est la première
+fois qu'un site de référence est appliqué avec sa construction et pas seulement ses couleurs.
+
+**Le diagnostic du fondateur** (« c'est normal que ça soit si monotone ? », « on a encore des sites si génériques alors qu'on
+scrape les meilleurs sites ») et sa cause, mesurée : 425 sites relevés en onze jours, seule la peinture appliquée (polices,
+couleurs, marges), la construction jamais codée (« architecture 0 » dans `ff atomes`), les atomes de sept sites mélangés en une
+moyenne, posés sur toujours les mêmes sections, et des démos sans photo. Écrit dans `docs/GOUT.md` § 0 et dans
+`.claude/skills/veille/SKILL.md` § 2a quater (réécrit : 3 sites entiers construits par tour, preuve avec photos, compositions
+obligatoires, une paire trop proche corrigée par tour, croisement sur demande seulement).
+
+**Fait**
+- **Usine** : `ff photos-demo` (photos d'illustration libres, marquées « Photo d'illustration », démos seulement, refusées sur un
+  site client) ; `ff apercu-rapide` (une image en ~20 s au lieu d'une heure) ; 6 premiers écrans par famille
+  (`carte-sur-photo`, `mosaique`, `editorial`, `numero-geant`, `preuve-d-abord`, `plan-et-lieu`) enfin appliqués par
+  `ff melanger` ; `ff melanger --style <id>` applique le modèle de site entier `presets/<id>.json` quand il existe, et sans
+  `--style` liste les styles à modèle entier ; `ff modele` vérifie les données du hero ; `paletteComplete` refuse un texte
+  illisible sur la surface (16 palettes écartées) ; `vite-ff-look` lisait mal une direction de mélange figée (chiffres dans le nom).
+- **Styles construits en entier (3)** : [experimentalcc](styles/experimentalcc.md) (direction, hero `portrait-exclusion`, section
+  `zones/fiches`, modèle ; brasserie : premier écran ≤ 0,47, déroulé 0,78 contre 9 sites, voir ci-dessous) ;
+  [frenchette](styles/frenchette.md) (direction, hero `panneaux-biais`, section `services/panneaux-biais`, modèle ; essai avec
+  photos ≤ 0,57 partout, [aperçu](apercus/2026-10-29-frenchette.jpg)) ; [casabonay](styles/casabonay.md) (direction, hero
+  `mur-de-photos`, modèle), appliqué à anna-vidal.
+- **Paire corrigée** : anna-vidal / borie-des-chenes 0,81 / 0,75 / 1,00 → 0,22 / 0,21 / 0,52 ([aperçu](apercus/2026-10-29-paire.jpg)).
+- Démos : demo-osteopathe (profils-patients, style ducksoup), demo-brasserie (revendeurs-secteurs puis experimentalcc).
+
+**Ressemblance** : 263 → **277 paires** (45 premier écran, 252 déroulé). Le compte monte parce que le score de déroulé compte pour
+moitié le modèle de site (« longue page à ancres, 4 pages et plus, même longueur »), que presque tous les sites partagent : la
+brasserie, au premier écran unique, reste à 0,78 de 9 sites par ce seul critère. **Le score de déroulé ne mesure plus ce qu'on
+veut** : à recalibrer (prochain tour, avant toute nouvelle paire).
+
+**Proposé** : recalibrer le déroulé de `ff ressemblance` ; `ff photos-demo` relancé efface `raw/` (à corriger) ; les architectures
+récentes (revendeurs, profils, salles…) ont toutes la même grammaire (onglets, listes) : leur donner une construction propre, comme
+les styles ; mettre à jour le texte de la routine (encore « 10 sites, 5 gardés »).
+
+**À décider** : la brasserie (Experimental) et anna-vidal (Casa Bonay) tiennent-elles la comparaison à vos yeux ?
+
 ## 28 oct 2026, tour 15 (routine en ligne, soir) : 11 styles, 2 architectures
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-28-c.jpg)) : l'architecture `profils-patients`, le site d'un cabinet de santé

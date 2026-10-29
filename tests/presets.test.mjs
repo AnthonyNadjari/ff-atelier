@@ -9,6 +9,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadSchemaModule, loadSiteConfigModule, loadArchitecturesModule, cleanTmp, ROOT, canImportTs } from '../scripts/ff/ts-loader.mjs';
+import { varianteCompatible } from '../scripts/ff/composer.mjs';
 
 const PRESETS_DIR = path.join(ROOT, 'presets');
 const LOOK_KEYS = ['direction', 'motion', 'scale', 'accent', 'typography', 'layout', 'wording'];
@@ -98,15 +99,23 @@ test('look.* : uniquement les cles autorisees (direction, motion, scale, accent,
   }
 });
 
-test('exactement 2 presets par direction', () => {
+// Modèle de site ENTIER d'un style réel (veille § 2a quater, 29 oct 2026) : `presets/<direction>.json`, nommé comme sa
+// direction, pose tout d'un coup (direction, hero, ordre des sections, mouvement). Il peut être seul pour sa direction : la
+// construction d'un vrai site n'a qu'un déroulé, on n'invente pas un second modèle pour faire nombre (un second reste permis).
+const estModeleDeStyle = (d) => d.nom === d.look.direction;
+
+test('exactement 2 presets par direction (1 seul pour un modèle de style entier nommé comme sa direction)', () => {
   const counts = new Map();
+  const styles = new Set();
   for (const file of presetFiles) {
     const data = JSON.parse(fs.readFileSync(path.join(PRESETS_DIR, file), 'utf8'));
     const d = data.look.direction;
     counts.set(d, (counts.get(d) || 0) + 1);
+    if (estModeleDeStyle(data)) styles.add(d);
   }
   for (const [direction, count] of counts) {
-    assert.equal(count, 2, `direction "${direction}" a ${count} preset(s), attendu 2`);
+    if (styles.has(direction)) assert.ok(count >= 1 && count <= 2, `direction "${direction}" a un modèle de style entier : ${count} preset(s), attendu 1 ou 2`);
+    else assert.equal(count, 2, `direction "${direction}" a ${count} preset(s), attendu 2`);
   }
 });
 
@@ -241,6 +250,9 @@ if (!tsImportable) {
       // Heros de famille (HEROS_DE_FAMILLE, src/lib/schema.ts) : choisis par le contrat et ff melanger selon les
       // données du client, jamais posés d'office dans un modèle construit sur _exemple (sans photo).
       if (HEROS_DE_FAMILLE.includes(v)) continue;
+      // Heros d'un style entier (veille 2a quater : portrait-exclusion, panneaux-biais…) qui exigent une photo ou une vidéo du
+      // client (varianteCompatible refuse un site sans donnée) : posés par leur modèle, jamais comptés comme hero « sûr ».
+      if (!varianteCompatible('hero', v, {})) continue;
       assert.ok((counts.get(v) || 0) >= 4, `hero "${v}" utilise ${counts.get(v) || 0} fois, attendu >= 4`);
     }
   });
@@ -252,8 +264,11 @@ if (!tsImportable) {
       const s = d.look.layout.sections.find((x) => x.type === 'services');
       if (s) counts.set(s.variant, (counts.get(s.variant) || 0) + 1);
     }
+    // Variante construite pour un style réel (posée par son modèle de site entier, demande les photos du client) : jamais
+    // répétée dans d'autres modèles pour faire nombre.
+    const deStyle = new Set(all.filter(estModeleDeStyle).map((d) => d.look.layout.sections.find((x) => x.type === 'services')?.variant));
     for (const v of VARIANTS.services) {
-      if (VARIANTES_D_ARCHITECTURE.includes(`services/${v}`)) continue;
+      if (VARIANTES_D_ARCHITECTURE.includes(`services/${v}`) || deStyle.has(v)) continue;
       assert.ok((counts.get(v) || 0) >= 4, `services "${v}" utilise ${counts.get(v) || 0} fois, attendu >= 4`);
     }
   });
@@ -336,6 +351,7 @@ if (!tsImportable) {
       byDirection.get(dir).push(d);
     }
     for (const [dir, pair] of byDirection) {
+      if (pair.length === 1 && estModeleDeStyle(pair[0])) continue; // modèle de style entier : seul pour sa direction
       assert.equal(pair.length, 2, `direction ${dir} : ${pair.length} presets`);
       const [a, b] = pair;
       assert.notEqual(a.look.layout.hero, b.look.layout.hero, `${dir} : meme hero entre ${a.nom} et ${b.nom}`);
@@ -373,9 +389,16 @@ if (!tsImportable) {
   test('chaque preset couvre services + about + proof + au moins deux de zones/process/faq + cta + contact, en 6 a 8 sections', () => {
     for (const file of presetFiles) {
       const data = JSON.parse(fs.readFileSync(path.join(PRESETS_DIR, file), 'utf8'));
+      // Modèle de site entier : il suit le déroulé de SA source (Casa Bonay : le mur de photos et la colonne, aucune
+      // section sous le premier écran), pas la couverture des modèles de bibliothèque ; le socle (GOUT § 0) vit dans
+      // son hero et sa coquille, et une section que le site n'a pas la donnée disparaît de toute façon au build.
+      if (estModeleDeStyle(data)) continue;
       const types = data.look.layout.sections.map((s) => s.type);
       assert.ok(types.length >= 6 && types.length <= 8, `${file} : ${types.length} sections, attendu 6-8`);
       for (const must of ['services', 'about', 'proof', 'cta', 'contact']) {
+        // Contact en tiroir (layout.contactDrawer) : la demande s'ouvre depuis chaque porte « Écrire », l'accueil n'a pas
+        // de bloc contact (modèle frenchette, 29 oct 2026 : l'accueil de la source est une page de portes).
+        if (must === 'contact' && data.look.layout.contactDrawer === true) continue;
         assert.ok(types.includes(must), `${file} : section "${must}" manquante`);
       }
       const optionalCount = ['zones', 'process', 'faq'].filter((t) => types.includes(t)).length;

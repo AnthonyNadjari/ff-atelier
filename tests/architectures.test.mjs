@@ -233,7 +233,8 @@ test('services/portes : toute la tuile est un lien, photo alternée, aplat bg-2,
   assert.match(src, /prefers-reduced-motion/);
   const code = src.replace(/\/\*[\s\S]*?\*\//g, '');
   assert.doesNotMatch(code, /#[0-9a-fA-F]{3,8}\b|rounded-full|uppercase|tracking-|[·—]/);
-  assert.match(read('scripts/ff/composer.mjs'), /case 'services\/portes':\n\s*return imagesServices;/);
+  // D'autres variantes à photos (services/panneaux-biais…) partagent ce `return` : des `case` peuvent s'intercaler.
+  assert.match(read('scripts/ff/composer.mjs'), /case 'services\/portes':\n(\s*case '[^']+':\n)*\s*return imagesServices;/);
 });
 
 test('page service « porte » : ServicePorte (photo, h1, labels, grilles de photos, questions de la page, adresse) choisie par layout.servicePage', () => {

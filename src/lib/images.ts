@@ -33,6 +33,12 @@ export const HERO_SIZES: Record<string, string> = {
   'numero-geant': '(min-width: 1280px) 720px, (min-width: 1024px) 58vw, 100vw',
   'preuve-d-abord': '(min-width: 1280px) 1216px, 100vw',
   'plan-et-lieu': '(min-width: 1280px) 700px, (min-width: 1024px) 58vw, 100vw',
+  // Style experimentalcc (docs/veille/styles/experimentalcc.md) : portrait vertical etroit centre, 446 px au plus, 66vw au telephone.
+  'portrait-exclusion': '(min-width: 44rem) 446px, 66vw',
+  // Style frenchette : photo bord à bord sous un panneau coupé en biais.
+  'panneaux-biais': '100vw',
+  // Style casabonay : mur de photos en deux colonnes à côté de la colonne fixe (coquille split), une colonne au téléphone.
+  'mur-de-photos': '(min-width: 64rem) 38vw, 100vw',
 };
 
 /** `sizes` d'un hero selon sa variante (`site.layout.hero`) ; toute variante inconnue = pleine largeur. */

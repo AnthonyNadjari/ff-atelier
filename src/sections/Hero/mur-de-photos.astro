@@ -1,0 +1,93 @@
+---
+/**
+ * Hero "mur-de-photos" (style casabonay, docs/veille/styles/casabonay.md § Construction) : le premier écran EST un mur
+ * de photos bord à bord, sans texte dessus, en deux colonnes séparées de 7 px de fond (5 px au téléphone, où les photos
+ * s'empilent pleine largeur) ; le rythme de la source : une photo haute (deux rangées) pour deux larges 3:2, la haute
+ * changeant de côté à chaque groupe. La seule case sans photo est la première à droite : le h1 (accroche), le métier
+ * à ville, l'ancienneté, la phrase d'accueil, au téléphone les activités en liste à filets (la colonne de la source,
+ * que la coquille `split` rend sur ordinateur), le numéro et la porte. Photos : images.hero d'abord, puis la galerie
+ * (proof.gallery), le portrait et une photo par activité (services[].image), 8 au plus, sans doublon ; il en faut 4 au
+ * moins (HERO_DE_FAMILLE, EXIGENCES_HERO : en dessous, les photos qu'il y a en une colonne, rien d'inventé).
+ * Téléphone : comme la source, la couverture vient tout de suite sous l'en-tête (en 3:2, un tiers de l'écran : le h1
+ * reste visible sans défiler), la case du titre après elle.
+ * Rien n'entre ni n'apparaît (profil fondu-sobre) : aucun data-reveal. Toutes les photos se chargent (eager) : le mur EST
+ * la page, 8 au plus ; en lazy, les captures et les planches montraient des LQIP flous sous le pli.
+ */
+import { site, tel, paragraphs, hasContactDoor, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+
+const intro = paragraphs(site.business.description)[0];
+const google = site.proof.google;
+// Le mur : la couverture, la galerie, le portrait, puis UNE photo par activité (services[].image) ; jamais la grille
+// propre d'une page (services[].images, réalisations), qui reste sur sa page. 8 au plus : au téléphone chaque photo se
+// charge en 1 200 px, le budget images-home (perf-budget.json, 600 Ko) tient à 8 et pas à 11 (anna-vidal, 29 oct 2026).
+const vues = new Set<string>();
+const photos = [site.images.hero, ...site.proof.gallery, site.about.portrait, ...site.services.map((x) => x.image)]
+  .filter((p): p is { src: string; alt: string } => Boolean(p && !vues.has(p.src) && vues.add(p.src)))
+  .slice(0, 8);
+const n = photos.length;
+const mur = n >= 4; // 4 photos et plus : le mur à deux colonnes ; moins : une colonne de photos larges
+// Une haute (deux rangées) pour deux larges ; la haute à gauche puis à droite, un groupe sur deux.
+const forme = (i: number) => (i % 3 === 0 ? (Math.floor(i / 3) % 2 ? 'mur-haute mur-droite' : 'mur-haute') : 'mur-large');
+const activites = site.servicePages ? site.services : [];
+---
+
+<section id="hero" class="hero-mur">
+  <div class:list={['mur-grille', mur ? 'mur-deux' : 'mur-une']} data-photos={n}>
+    <div class="mur-titre">
+      <h1 class="text-display-md" set:html={site.business.tagline} />
+      <p class="mt-3 text-lg">{metierEtVille()}</p>
+      {(site.business.since || google) && (
+        <p class="mt-1 text-sm text-muted">
+          {site.business.since && <span>Depuis {site.business.since}</span>}
+          {site.business.since && google && <span aria-hidden="true"> / </span>}
+          {google && <span>{google.rating.toFixed(1).replace('.', ',')}/5 sur Google ({google.count} avis)</span>}
+        </p>
+      )}
+      {intro && <p class="mt-4 hidden max-w-md sm:block">{intro}</p>}
+      {activites.length > 0 && (
+        <ul class="mt-6 border-t border-line lg:hidden">
+          {activites.map((s) => (
+            <li class="border-b border-line">
+              <a href={`/services/${s.slug}`} class="block py-1.5 text-muted transition-colors hover:text-fg">{s.title}</a>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <Button href={tel()}><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+        {hasContactDoor(site) && <Button href="/#contact" variant="ghost">{site.wording.devis}</Button>}
+      </div>
+    </div>
+    {photos.map((p, i) => (
+      <figure class:list={['mur-photo relative overflow-hidden bg-surface', mur ? forme(i) : 'mur-large']}>
+        <Img src={p.src} alt={p.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 64rem) 38vw, 100vw" priority={i === 0} loading="eager" />
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+  /* Téléphone : une colonne ; comme la source, la photo de couverture vient tout de suite sous l'en-tête, puis la case
+     du titre, puis le reste du mur pleine largeur ; 5 px de fond entre les photos. */
+  .mur-grille { display: grid; grid-template-columns: minmax(0, 1fr); gap: 5px; }
+  .mur-photo:first-of-type { order: -1; aspect-ratio: 3 / 2; }
+  .mur-titre { padding: 1.25rem 1rem 1.5rem; }
+  .mur-photo { aspect-ratio: 3 / 2; }
+  .mur-haute { aspect-ratio: 3 / 4; }
+
+  @media (min-width: 64rem) {
+    .mur-grille { gap: 7px; }
+    .mur-photo:first-of-type { order: 0; aspect-ratio: auto; }
+    .mur-deux { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: dense; }
+    /* La case du titre : en haut à droite, la photo de couverture (haute) prend les deux premières rangées à gauche. */
+    .mur-deux .mur-titre { grid-column: 2; grid-row: 1; padding: 2.5rem 2.5rem 3rem; }
+    .mur-deux .mur-haute { aspect-ratio: auto; grid-row: span 2; min-height: 24rem; }
+    .mur-deux .mur-droite { grid-column: 2; }
+    .mur-une { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mur-une .mur-titre { grid-column: 1 / -1; padding: 2.5rem 2.5rem 3rem; }
+  }
+  /* Démo à photos de banque : la mention « Photo d’illustration » (Img) reste en bas à droite de chaque photo. */
+</style>

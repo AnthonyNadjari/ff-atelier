@@ -1,0 +1,68 @@
+---
+/**
+ * Services "panneaux-biais" (style frenchette, docs/veille/styles/frenchette.md § Construction, bloc 5) : une rangée de
+ * panneaux pleine largeur, un par activité, chacun de 0,7 écran : la photo de l'activité d'un côté, un panneau de couleur
+ * (bg-2) de l'autre dont le bord vers la photo est coupé en biais (clip-path penché de 8 % de sa largeur) ; le côté et le
+ * sens de la coupe alternent d'un panneau au suivant. Dans le panneau, centré : le nom en capitales de titre, la phrase
+ * courte, le prix s'il est donné, le bouton à contour vers la page de l'activité. Téléphone : la photo au-dessus (4:3, bord
+ * à bord), le panneau dessous dont le haut penché mord sur la photo. Une activité sans photo = un aplat seul, sans
+ * photo inventée. En tête, le titre de la section seul, centré, dans la page (« Welcome to … » de la source).
+ */
+import { site, metierEtVille } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+---
+
+<section id="services" class="sv-pb pt-[var(--section-y)]">
+  <div class="container-ff">
+    <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} align="center" />
+  </div>
+  <div class="mt-12 md:mt-16" data-stagger="120">
+    {site.services.map((s, i) => (
+      <article class:list={['sv-pb-bloc relative overflow-hidden bg-bg-2', i % 2 === 1 && 'sv-pb-droite', !s.image && 'sv-pb-sans']}>
+        {s.image && (
+          <figure class="sv-pb-photo relative md:absolute md:inset-0">
+            <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 60vw, 100vw" loading="lazy" />
+          </figure>
+        )}
+        <div class="sv-pb-panneau relative bg-bg-2 text-fg">
+          <div class="sv-pb-contenu text-center">
+            <h3 class="text-display-md">{s.title}</h3>
+            <p class="mt-4 text-muted">{s.short}</p>
+            {s.priceFrom && <p class="mt-3 text-sm font-medium tabular-nums">{s.priceFrom}</p>}
+            <Button href={`/services/${s.slug}`} variant="ghost" class="mt-6">En savoir plus</Button>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .sv-pb-photo { aspect-ratio: 4 / 3; max-height: 50svh; }
+  .sv-pb-panneau { margin-top: -2.5rem; padding: 3.75rem 1rem 3rem; clip-path: polygon(0 0, 100% 2.5rem, 100% 100%, 0 100%); }
+  .sv-pb-contenu { max-width: 34rem; margin-inline: auto; }
+  .sv-pb-sans .sv-pb-panneau { margin-top: 0; clip-path: none; padding-top: 3rem; }
+  @media (min-width: 48rem) {
+    .sv-pb-bloc { min-height: 32rem; height: 70svh; max-height: 44rem; }
+    .sv-pb-photo { aspect-ratio: auto; max-height: none; }
+    /* Le panneau à gauche, bord droit en biais, plus large en haut ; le suivant à droite, bord gauche en biais, plus large
+       en bas : le côté et le sens de la coupe alternent, comme Menu / Private events / Hours de la source. */
+    .sv-pb-panneau {
+      position: absolute; inset-block: 0; left: 0;
+      width: 48%;
+      margin-top: 0;
+      /* grid, pas flex : en flex, Chrome donnait 0 px de large au contenu d'un panneau absolu (29 oct 2026). */
+      display: grid; align-content: center;
+      padding: 3rem 12% 3rem 6%;
+      clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+    }
+    .sv-pb-droite .sv-pb-panneau { left: auto; right: 0; padding: 3rem 6% 3rem 12%; clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%); }
+    .sv-pb-sans { height: auto; min-height: 0; }
+    .sv-pb-sans .sv-pb-panneau { position: relative; width: 100%; clip-path: none; padding: 4rem 6%; }
+  }
+  /* Démo à photos de banque : la mention (Img) reste sur la photo, hors du panneau. */
+  .sv-pb-photo :global(.ff-illustration) { bottom: 3rem; }
+  @media (min-width: 48rem) { .sv-pb-photo :global(.ff-illustration) { bottom: 0.5rem; } }
+</style>

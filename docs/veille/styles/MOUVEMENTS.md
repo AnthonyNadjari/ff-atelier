@@ -536,9 +536,11 @@ défilement, le nom **descend au tiers de la vitesse de la page** (translateY 84
 104, 157, 175 px au téléphone, puis il s'arrête) : la page glisse dessous et il s'inverse sur chaque photo qui passe. La barre de
 navigation est aussi en exclusion. Un intitulé arrive en opacité 0,8 s `ease` ; survols 0,2 s `ease`.
 - Entrée aucune · apparition aucune · survol couleur · fond nom en exclusion.
-- Moteur : `data-parallax` (environ 0,35) sur le nom pour la descente lente ; le reste est du CSS (`mix-blend-mode: exclusion`,
-  `position: fixed`). Manque : le nom en texte réel (jamais une image) posé sur la photo verticale du premier écran, dans une coquille
-  ou une section sur mesure ; en mouvement réduit, nom fixe sans parallaxe.
+- Moteur : `data-parallax` (0,6 : la dérive de ±24 % de sa hauteur) sur le nom pour la descente lente ; le reste est du CSS
+  (`mix-blend-mode: exclusion`, `position: sticky` dans un rail qui couvre le portrait et l'ouverture, à la place du `fixed` de la
+  source : le nom quitte l'écran avec le premier écran, il n'a pas à passer sur toute la page). **Codé** le 29 oct 2026 dans
+  `src/sections/Hero/portrait-exclusion.astro` (style entier `experimentalcc`, `presets/experimentalcc.json`) : le nom en texte réel
+  (jamais une image) posé sur le portrait vertical du premier écran ; en mouvement réduit, nom posé sans parallaxe ni collage.
 - Garde : seulement sur un fond noir ou blanc pur (sur un fond teinté, l'exclusion donne une couleur au hasard) ; une seule chose en
   exclusion avec la barre de navigation ; le métier et la ville restent en texte normal dans le h1 ou juste dessous (GOUT § 0) ;
   contraste vérifié sur la photo et sur le fond ; la photo verticale est une vraie photo ou vidéo du client (pas d'exigence de vidéo).

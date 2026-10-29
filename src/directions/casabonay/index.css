@@ -1,0 +1,69 @@
+/* Direction CASABONAY : style réel relevé sur https://casabonay.com/ (veille du 28 oct 2026, tour 15, fiche
+   docs/veille/styles/casabonay.md ; construction codée le 29 oct 2026). On reprend le style (couleurs, casse, rayons,
+   boutons, rythme du mur de photos), jamais les textes, images, logos ni le code de la source.
+   Hôtel de quartier : sable sur toute la page, liens outremer séparés de filets blancs d'un pixel, un bouton rouge pur
+   pour la porte principale, angles droits, aucune ombre, rien qui entre ni n'apparaît (couleurs en 0,25 s).
+   Polices : Brown (Lineto, titres, menu et texte, graisse 400) -> Urbanist (titres 500, texte 400) ; pas de mono propre.
+   Couleurs relevées : #f3e2ca sable 98 % des fonds ; textes #0000b2 outremer 62 %, #000000 31 % ; #ff0000 rouge en aplat
+   de bouton (ici #d40000 : blanc dessus à 5,5:1, le rouge pur ne passait pas AA).
+   Construction (hero/mur-de-photos + coquille split, modèle presets/casabonay.json) : colonne fixe de sable à gauche
+   (nom, liens, téléphone, porte), mur de photos bord à bord à droite, une haute pour deux larges. */
+@import '@fontsource-variable/urbanist';
+
+[data-direction='casabonay'] {
+  --accent-h: 240;
+  --accent-s: 100%;
+  --accent-l: 35%;
+  --bg: #f3e2ca;
+  --bg-2: #f3e2ca;
+  --surface: #ffffff;
+  --fg: #000000;
+  --muted: #0000b2;
+  --line: #ffffff;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #d40000;
+  --on-accent: #ffffff;
+  --ink: #0000b2;
+  --on-ink: #f3e2ca;
+  --font-display: 'Urbanist Variable', system-ui, sans-serif;
+  --font-body: 'Urbanist Variable', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(3rem, 7vw, 5.5rem);
+  --motion-duration: 0.25s;
+  --motion-ui: 0.25s;
+  --ease-brand: cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+[data-direction='casabonay'] ::selection { background: var(--accent); color: var(--on-accent); }
+[data-direction='casabonay'] h1 em,
+[data-direction='casabonay'] h2 em { font-style: normal; color: var(--accent); }
+[data-direction='casabonay'] :is(h1, h2) { line-height: 1.1; }
+[data-direction='casabonay'] h3 { font-weight: 500; }
+/* Les liens du corps prennent l'outremer de la source, sans soulignement ; les petits liens du pied restent soulignés. */
+[data-direction='casabonay'] main a:not(.btn):not([class*='text-']) { color: var(--accent); }
+
+[data-direction='casabonay'] .btn {
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: background var(--motion-ui) ease-in-out, color var(--motion-ui) ease-in-out, border-color var(--motion-ui) ease-in-out;
+}
+/* Deux aplats pleins, comme « Book Now! » (rouge) et « What's on » (outremer) : le téléphone en outremer, la porte en rouge. */
+[data-direction='casabonay'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='casabonay'] .btn-primary:hover { background: #000080; color: var(--on-accent); }
+[data-direction='casabonay'] .btn-ghost { border: 1px solid var(--accent-2); background: var(--accent-2); color: #ffffff; }
+[data-direction='casabonay'] .btn-ghost:hover { background: #b00000; border-color: #b00000; color: #ffffff; }
+[data-direction='casabonay'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 0;
+  box-shadow: var(--shadow-card);
+}
+[data-direction='casabonay'] .rule { border-top: 1px solid var(--line); }
+[data-direction='casabonay'] .eyebrow { color: var(--muted); font-family: var(--font-body); font-size: 0.875rem; letter-spacing: 0; text-transform: none; }

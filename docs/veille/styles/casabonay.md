@@ -63,3 +63,36 @@ couleur franche ; la colonne fixe garde le téléphone et la réservation toujou
 
 **Garde / refuse** : garde le sable, l'outremer et le rouge en petites surfaces, la colonne fixe, le mur de photos ; refuse l'accueil
 sans titre (le métier et la ville doivent y être, GOUT § 0) et le nom en image.
+
+## Construction (relevée sur les captures, 29 oct 2026 ; codée le même jour)
+
+Lu sur `captures/casabonay-d.webp` (1440 px), `-m.webp` (390 px) et `-planche.jpg`. L'accueil n'a que deux blocs, dans
+l'ordre, avec ce qu'il faut pour les coder.
+
+1. **La colonne fixe** (ordinateur) : 280 px de sable à gauche, sur toute la hauteur, qui ne défile pas. De haut en bas :
+   le nom (image, 40 px de haut), huit liens en outremer 16 px à casse normale, chacun sur sa ligne de 37 px, **séparés
+   par un filet blanc d'un pixel** (le seul dessin de la page) ; un grand vide ; « Book Now! » en aplat rouge pur pleine
+   largeur de la colonne (40 px de haut, texte blanc 16 px), le champ de la lettre, les langues (l'active en rouge),
+   deux réseaux, trois petits liens soulignés. Marges : 20 px à gauche, 36 px en haut.
+2. **Le mur de photos** (tout le reste, 1 140 px de large) : deux colonnes égales séparées de **7 px de sable**, les
+   photos bord à bord, aucune légende, aucun texte dessus, aucun titre. Rythme : une photo **haute** (3:4, qui prend la
+   hauteur de deux larges) pour deux **larges** (3:2) empilées à côté ; au groupe suivant la haute change de côté. La
+   première haute commence à 15 px du haut, à la hauteur du nom. Le mur défile pendant que la colonne reste fixe.
+   Au téléphone (390 px) : en-tête de sable (nom à gauche, burger outremer à droite), puis les photos **une par une sur
+   toute la largeur**, 5 px de sable entre elles, la haute en 3:4 et les larges en 3:2 ; deux boutons fixes en bas à
+   droite (« Book Now! » rouge, « What's on at Bonay » outremer, 56 px de haut) posés sur le mur.
+
+Échelle : aucun titre, tout le texte à 16 px ; la hiérarchie vient de la couleur (outremer pour les liens, rouge pour
+l'action) et du filet. Vide : la colonne est aux deux tiers vide ; le mur, lui, n'a pas un pixel de vide.
+
+**Geste signature, pour le coder** : le mur de photos bord à bord (grille à deux colonnes, `grid-auto-flow: dense`, une
+cellule `grid-row: span 2` pour deux cellules 3:2, le côté de la haute qui alterne) à côté d'une colonne de sable fixe aux
+liens outremer séparés de filets blancs. Transposé dans l'usine en `hero/mur-de-photos` (le mur, dont la seule case sans
+photo, en haut à droite, porte le h1, le métier à ville, l'ancienneté, le numéro et la porte, parce qu'un artisan a besoin
+de son nom et de son numéro là où Casa Bonay n'a que des photos ; au téléphone la case liste aussi les activités à filets)
+et la coquille `split` existante pour la colonne (nom, liens, téléphone en outremer, porte en rouge ; `layout.contactDrawer`
+ouvre le contact en tiroir comme « Book Now! » ouvre la réservation). Direction `src/directions/casabonay/` (Urbanist pour
+Brown, rouge #d40000 pour que le blanc passe AA, outremer en `--muted` : la majorité du texte de la source est outremer).
+Modèle entier : `presets/casabonay.json` (coquille split, hero mur-de-photos, à propos, questions, tiroir, pages « porte »).
+Première application : `sites/anna-vidal` (photographe, onze photos), paire anna-vidal / borie-des-chenes corrigée.
+

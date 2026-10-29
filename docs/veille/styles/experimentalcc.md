@@ -67,3 +67,46 @@ avec des photos sombres et chaudes ; un portrait vertical ou une vidéo du geste
 
 **Garde / refuse** : garde le noir, la serif fine en très grand, le portrait vertical, les fiches d'adresse ; refuse la pilule, l'emphase
 en italique, le nom en image (à faire en texte réel).
+
+## Construction (jugée sur les captures `captures/experimentalcc-d.webp`, `-m.webp`, `-planche.jpg`, 29 oct 2026)
+
+Un style = un site entier (`/veille` § 2a quater). Blocs de l'accueil dans l'ordre, avec ce qu'il faut pour les coder.
+
+1. **Barre** (72 px, noire, fixe) : burger à gauche, le nom en petites capitales au centre, « EN » et « BOOK NOW » (contour
+   blanc) à droite ; au téléphone le burger et le nom seuls, « BOOK NOW » devient une barre basse pleine largeur. Chez nous :
+   nav `split` (nom centré, portes de part et d'autre), rien à coder.
+2. **Premier écran** (0,9 écran) : une seule colonne centrée. Le chapô (« From the beginning », serif 36 px) à 115 px du haut ;
+   sous lui, à 178 px, un **portrait vertical étroit de 446 x 610 px** (31 % de la largeur, 68 % de la hauteur de l'écran ; 256 x
+   500 au téléphone, 66 % de la largeur), rien d'autre que du noir de chaque côté (497 px de vide à gauche et à droite). Par-dessus,
+   **le nom en très grand** (environ 650 x 170 px à l'ordinateur, 360 x 90 au téléphone : 45 % puis 92 % de la largeur de l'écran),
+   centré sur le portrait à 55 % de sa hauteur, débordant du portrait de 100 px de chaque côté, en `mix-blend-mode: exclusion` :
+   blanc sur le noir, inversé sur la photo. Échelle du nom / chapô : 4,5 pour 1. Aucun bouton dans ce bloc. Geste signature : le
+   nom est fixe et descend au tiers de la vitesse du défilement (translateY 84, 160, 305 px pour 200, 450, 900 px ; 104, 157, 175 au
+   téléphone puis s'arrête) ; la page glisse dessous et il s'inverse sur tout ce qui passe. À coder : `src/sections/Hero/portrait-exclusion.astro`
+   (chapô = h1, métier et ville en texte normal dessous, téléphone cliquable, portrait `images.hero` recadré 446:610, le nom en
+   texte réel, collant dans le premier écran, `data-parallax` pour la dérive ; posé en mouvement réduit).
+3. **Ouverture** (0,2 écran, 58 mots) : un seul paragraphe en serif **36 px** (18 px au téléphone, justifié) sur toute la largeur
+   du conteneur (1 380 px), première ligne renfoncée d'environ six cadratins. Échelle ouverture / texte courant : 2 pour 1. À coder
+   dans le hero (premier paragraphe de `business.description`).
+4. **Carte du monde** (1 écran) : la seule section claire (#dedede), une carte avec des points et une liste de villes à gauche. Pas
+   repris (une carte avec traceur ; et un artisan a une ou deux adresses, pas douze).
+5. **Les fiches** (8,3 écrans, 49 photos : le corps du site) : grille de **trois colonnes de 447 px écartées de 20 px**, une par
+   adresse, un filet blanc d'un pixel au-dessus de chaque fiche. Dans une fiche, de haut en bas : la photo verticale **3:4** sans
+   cadre (447 x 596), le nom en serif 28 px avec une épingle, l'adresse en petites capitales, le téléphone et le courriel en liens,
+   quatre lignes de texte, « DISCOVER » en capitales, « BOOK NOW » à contour. Au téléphone, une colonne, photo pleine largeur.
+   Rien n'est posé sur rien : chaque fiche est un empilement à plat, la profondeur vient des photos sombres et chaudes. À coder :
+   `src/sections/Zones/fiches.astro` (une fiche par revendeur groupée par secteur, sinon par lieu ; photo, téléphone et porte
+   seulement s'ils existent).
+6. **« Nights tucked away behind hidden doors »** (0,8 écran) : une photo sombre sur la moitié gauche, le titre serif 48 px en bas
+   à droite, deux lignes de texte. **« Behind the cocktail bar »** (1,1 écran) : l'inverse, photo à droite, 77 mots à gauche. Chez
+   nous : la galerie des photos puis l'histoire (`about/story`), pas de bloc nouveau.
+7. **« LOCATIONS »** (1 écran) : titre 64 px, les adresses en trois colonnes de texte (nom, rue, ville, téléphone). Même grille
+   que les fiches, sans photo : la variante fiches s'en charge quand il n'y a pas de photo.
+8. **Bande terre cuite** (#954935, 0,1 écran, pleine largeur) juste avant la lettre d'information : la seule couleur du site. Chez
+   nous : `--ink` = terre cuite, la bande d'appel (`cta/band`) la porte, et un seul bloc encre par page.
+9. **« Stay in touch »** (0,6 écran) : titre 64 px centré, formulaire en champs filetés. Chez nous : `contact/simple`.
+10. **Pied blanc** : colonnes de liens, puis le nom en lettres géantes qui ferme la page (`footer/big-name`).
+
+Vide : 68 px entre la fin d'un bloc et le contenu du suivant (48 au téléphone), 30 px de bord. Rythme : noir, noir, gris (carte),
+noir sur huit écrans, terre cuite, noir, blanc. Ce qui fait le style : le portrait étroit entouré de noir, le nom en exclusion qui
+glisse, les fiches à filets en trois colonnes, un seul accent terre cuite avant la fin.

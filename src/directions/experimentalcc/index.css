@@ -1,0 +1,93 @@
+/* Direction EXPERIMENTALCC : style réel relevé sur https://www.experimentalcocktailclub.com/ (veille du 28 oct 2026, tour 15,
+   fiche docs/veille/styles/experimentalcc.md, atome docs/veille/styles/atomes/experimentalcc.json, construction codée le
+   29 oct 2026). On reprend la construction et le style (noir, serif fine en très grand, filets blancs, une bande terre cuite,
+   boutons à contour en capitales), jamais les textes, images, logos ni le code de la source.
+   Bar du soir, caviste, brasserie, barbier : noir #000000 presque partout, texte et filets blancs, la couleur vient des photos ;
+   une seule bande terre cuite #954935 (--ink) avant le pied.
+   Polices : Nantes (titres et texte) -> Spectral 300/400 ; Linux Biolinum (interface, capitales) -> Karla.
+   Mesures : h1 64 px (32 au téléphone), h2 48 (24), texte 18 (16 chez nous), interlignage 1,2 ; sections 68 px (48) ; bord 30 px. */
+@import '@fontsource/spectral/latin.css';
+@import '@fontsource-variable/karla';
+@import '@fontsource-variable/intel-one-mono';
+
+[data-direction='experimentalcc'] {
+  --accent-h: 0;
+  --accent-s: 0%;
+  --accent-l: 100%;
+  --bg: #000000;
+  --bg-2: #0b0b0b;
+  --surface: #111111;
+  --fg: #ffffff;
+  --muted: #c6c6c6;
+  --line: rgba(255, 255, 255, 0.32);
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #dedede;
+  --on-accent: #000000;
+  --ink: #7d3c2c; /* terre cuite de la source (#954935) assombrie d un ton : le texte blanc a 70 % des pieds tient 4,5:1 (axe) */
+  --on-ink: #ffffff;
+  --font-display: 'Spectral', Georgia, serif;
+  --font-body: 'Karla Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'Intel One Mono Variable', ui-monospace, monospace;
+  --display-weight: 300;
+  --display-tracking: 0.005em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(3rem, 6vw, 4.25rem);
+  --motion-duration: 0.8s;
+  --motion-ui: 0.2s;
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+  color-scheme: dark;
+}
+
+/* Échelle relevée : 64 / 48 / 36 px à l'ordinateur, 32 / 24 / 20 au téléphone, interlignage 1,2. */
+[data-direction='experimentalcc'] .text-display-xl { font-size: clamp(2rem, 1.2rem + 3.4vw, 4rem); line-height: 1.15; }
+[data-direction='experimentalcc'] .text-display-lg { font-size: clamp(1.75rem, 1.1rem + 2.6vw, 3rem); line-height: 1.15; }
+[data-direction='experimentalcc'] .text-display-md { font-size: clamp(1.5rem, 1rem + 2vw, 2.5rem); line-height: 1.2; }
+[data-direction='experimentalcc'] .text-display-sm { font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem); line-height: 1.25; }
+[data-direction='experimentalcc'] :is(h1, h2, h3) { line-height: 1.2; }
+[data-direction='experimentalcc'] h1 em,
+[data-direction='experimentalcc'] h2 em { font-style: normal; font-weight: 400; }
+
+[data-direction='experimentalcc'] ::selection { background: var(--fg); color: var(--bg); }
+
+/* Boutons : contour blanc d'un pixel, capitales en Karla, angles droits (la pilule de la source est un signe IA). */
+[data-direction='experimentalcc'] .btn {
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+}
+[data-direction='experimentalcc'] .btn-primary {
+  background: transparent;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+}
+[data-direction='experimentalcc'] .btn-primary:hover { background: var(--fg); color: var(--bg); }
+[data-direction='experimentalcc'] .btn-ghost {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--fg);
+}
+[data-direction='experimentalcc'] .btn-ghost:hover { border-color: var(--fg); }
+[data-direction='experimentalcc'] .btn-ink {
+  background: var(--fg);
+  color: var(--bg);
+  border: 1px solid var(--fg);
+}
+
+/* Cartes : rien d'autre qu'un filet au-dessus, comme les fiches d'adresse de la source. */
+[data-direction='experimentalcc'] .card {
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+}
+[data-direction='experimentalcc'] .rule { border-top: 1px solid var(--line); }
+[data-direction='experimentalcc'] .eyebrow { color: var(--muted); font-family: var(--font-body); letter-spacing: 0.06em; }

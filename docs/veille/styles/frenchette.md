@@ -63,3 +63,42 @@ horaires) et a des photos de salle ; une identité de couleur claire (devanture,
 
 **Garde / refuse** : garde la crème et la menthe, les contours noirs, le pan coupé, le téléphone en barre basse ; refuse la fenêtre de
 précommande à l'arrivée et la rotation automatique du diaporama.
+
+## Construction (relevée sur les captures, 29 oct 2026 ; codée le même jour)
+
+Lu sur `captures/frenchette-m.webp` (390 px), `-d.webp` (1440 px) et `-planche.jpg` (8 vues du défilement). Les blocs de
+l'accueil, dans l'ordre, avec ce qu'il faut pour les coder.
+
+1. **Barre haute** (crème, 75 px au téléphone comme à l'ordinateur) : un seul bouton « RESERVATIONS » centré, contour noir
+   2 px, capitales 14 px, aucun logo dans la barre. Dessous, **une bande menthe de 32 px** pleine largeur : l'adresse et le
+   téléphone en une ligne de texte noir centrée (13 px). Le menu est un burger blanc posé en haut à droite DE LA PHOTO,
+   pas dans la barre.
+2. **Premier écran** : la photo plein cadre, bord à bord, 637 px sur 844 au téléphone (75 % de l'écran), 88 % de l'écran à
+   l'ordinateur ; aucune grille, aucune carte. Posé dessus, centré : l'enseigne manuscrite menthe (image, 320 px de large au
+   téléphone, soit 82 % de la largeur ; 560 px à l'ordinateur), rien d'autre. Pas de titre texte, pas de bouton sur la
+   photo ; le bouton de pause du diaporama en bas au centre. Le h1 réel est en `sr-only`. Vide : la photo est le vide.
+3. **« WELCOME TO FRENCHETTE »** : 0,2 écran de crème, le titre seul centré en capitales 40 px (32 au téléphone), 88 px
+   de marge au-dessus et en dessous, dans 950 px. Un titre, zéro paragraphe.
+4. **Bandeau noir « RESERVATIONS »** : 0,7 écran de noir pur, le mot en capitales 56 px (48) centré en crème et, sous lui, le
+   bouton « RESERVE NOW » à contour crème 2 px. Deux éléments centrés dans 630 px de haut : le temps fort de la page.
+5. **Trois panneaux à pan coupé** (Menu, Private events, Hours and location), chacun 0,7 écran (585 px de haut à
+   l'ordinateur) : deux colonnes, photo d'un côté (55 % de la largeur), **panneau menthe de l'autre, dont le bord vers la
+   photo est coupé en biais** : la ligne de coupe penche d'environ 8 % de la largeur du panneau entre le haut et le bas
+   (haut plus large que bas pour le premier, l'inverse pour le suivant), la photo passe sous le panneau. Le côté alterne
+   (menthe à gauche / photo à droite, puis photo à gauche / menthe à droite, puis menthe à gauche). Dans le panneau, centré
+   verticalement et horizontalement : le titre en capitales 40 px (32), 24 px de vide, le bouton à contour noir 2 px
+   (« VIEW MENUS », « INQUIRE NOW », « GET DIRECTIONS »). Rien d'autre : ni phrase, ni prix. Au téléphone, la photo
+   passe au-dessus (bord à bord, 4:3) et le panneau menthe dessous, la coupe en biais devient horizontale (le haut du
+   panneau mord sur le bas de la photo). Échelle : titre 2,5 fois le corps de texte ; le bouton 0,9 fois.
+6. **Pied noir** : 0,1 écran, liens en capitales 13 px (JOBS, CONTACT, GIFT CARDS, PRESS), réseaux, « powered by ».
+7. **Au téléphone, barre basse fixe** sur toute la page : deux lignes crème à contour noir, « CALL 212.334.3883 » puis
+   « EMAIL SIGNUP », 50 px chacune, capitales 14 px ; la photo du premier écran s'arrête au-dessus.
+
+**Geste signature, pour le coder** : un panneau de couleur (surface menthe) dont le bord intérieur est un `clip-path:
+polygon()` penché d'environ 8 % de sa largeur, posé contre une photo qui le déborde ; le penchant s'inverse à chaque
+panneau avec le côté. Transposé dans l'usine en `hero/panneaux-biais` (la photo plein cadre et le panneau de couleur coupé
+en biais qui porte le h1, le métier à ville, le téléphone et la porte, parce qu'un artisan a besoin de son nom et de son
+numéro là où Frenchette met une enseigne) et `services/panneaux-biais` (un panneau par activité à photo, titre en capitales
+et bouton à contour, côté et biais alternés). Au téléphone le hero garde l'ordre de la source (les bandes de couleur en haut,
+la photo dessous) : le panneau d'abord, son bas penché qui mord sur la photo ; ce n'est pas une carte posée sur la photo. La bande d'adresse de la barre haute n'est pas reprise (la nav de l'usine
+porte déjà les portes) ; le téléphone en barre basse vient de `layout.actionBar`. Modèle entier : `presets/frenchette.json`.

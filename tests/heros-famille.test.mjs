@@ -21,7 +21,8 @@ const lire = (v) => fs.readFileSync(path.join(ROOT, 'src', 'sections', 'Hero', `
 const code = (v) => lire(v).replace(/\/\*[\s\S]*?\*\//g, '').replace(/<!--[\s\S]*?-->/g, '').replace(/^\s*\/\/.*$/gm, '');
 
 test('les six heros de famille sont enregistrés (VARIANTS.hero, HEROS_DE_FAMILLE, HERO_SIZES, docs/DIRECTIONS.md)', () => {
-  assert.deepEqual([...HEROS_DE_FAMILLE].sort(), ['carte-sur-photo', 'editorial', 'mosaique', 'numero-geant', 'plan-et-lieu', 'preuve-d-abord']);
+  // Les six familles de premiers-ecrans.md ; les styles entiers (frenchette, casabonay…) y ajoutent leur hero à données.
+  for (const v of ['carte-sur-photo', 'editorial', 'mosaique', 'numero-geant', 'plan-et-lieu', 'preuve-d-abord']) assert.ok(HEROS_DE_FAMILLE.includes(v), `${v} dans HEROS_DE_FAMILLE`);
   const images = fs.readFileSync(path.join(ROOT, 'src', 'lib', 'images.ts'), 'utf8');
   const doc = fs.readFileSync(path.join(ROOT, 'docs', 'DIRECTIONS.md'), 'utf8');
   for (const v of HEROS_DE_FAMILLE) {

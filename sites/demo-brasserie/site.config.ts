@@ -1,10 +1,12 @@
 // DEMO : client fictif (Brasserie de la Cluse, Oyonnax), brief sites/demo-brasserie/brief.md. Téléphone dans la
 // plage fictive de l'ARCEP ; revendeurs, personnes et histoire inventés pour la démonstration, et le site le dit
-// (legal.demo). Aucun avis, aucune note. Architecture revendeurs-secteurs (veille du 28 oct 2026).
+// (legal.demo). Aucun avis, aucune note. Style experimentalcc en entier (docs/veille/styles/experimentalcc.md, 29 oct 2026) :
+// portrait vertical et nom en exclusion, une fiche par revendeur, bande terre cuite ; photos d'illustration (CREDITS.md).
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
   slug: 'demo-brasserie',
+  scale: 'display',
   images: {
     hero: {
       src: '/images/hero.webp',
@@ -12,21 +14,25 @@ export default defineSite({
     },
     illustration: true,
   },
-  direction: 'atelier',
+  direction: 'experimentalcc',
   motion: 'rich',
   layout: {
     nav: 'bar',
-    hero: 'carte-sur-photo',
+    hero: 'portrait-exclusion',
     sections: [
-      { type: 'proof', variant: 'gallery' },
-      { type: 'services', variant: 'list' },
+      { type: 'zones', variant: 'fiches' },
       { type: 'custom', variant: 'consigne', label: 'La consigne' },
+      { type: 'proof', variant: 'gallery' },
       { type: 'about', variant: 'story' },
-      { type: 'zones', variant: 'list' },
+      { type: 'services', variant: 'list' },
       { type: 'faq', variant: 'accordion' },
+      { type: 'cta', variant: 'band' },
       { type: 'contact', variant: 'simple' },
     ],
-    footer: 'columns',
+    footer: 'minimal',
+    divider: 'none',
+    tone: 'flat',
+    headings: 'center',
   },
 
   business: {
@@ -114,8 +120,12 @@ export default defineSite({
 
   wording: {
     revendeurs: 'Où trouver nos bières',
-    trouver: 'Où trouver nos bières\u202f?',
+    trouver: 'Où trouver nos bières ?',
     servicesNav: 'Nos bières',
+    devis: 'Nous écrire',
+    ctaTitle: 'Une question, une commande&nbsp;?',
+    ctaText: 'Un appel suffit, on vous répond dans la journée.',
+    contactTitle: 'Nous joindre',
   },
   form: { provider: 'mailto' },
   seo: { keywords: ['brasserie artisanale Oyonnax', 'bière bio Haut-Bugey', 'où acheter bière Oyonnax'] },

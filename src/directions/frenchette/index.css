@@ -1,0 +1,84 @@
+/* Direction FRENCHETTE : style réel relevé sur https://www.frenchettenyc.com/ (veille du 28-29 oct 2026, fiche
+   docs/veille/styles/frenchette.md, construction § Construction). On reprend le style (couleurs, rapports de taille,
+   casse, contours, pan coupé), jamais les textes, images, enseigne ni le code de la source.
+   Brasserie : crème de nappe en fond, panneaux vert menthe coupés en biais contre les photos (hero/panneaux-biais,
+   services/panneaux-biais), bandeau et pied noirs, boutons à contour noir de 2 px en capitales, angles droits, aucune
+   ombre. Géométrique des années 1930 en capitales pour les titres.
+   Polices : Semplicita Medium (titres, 500) et Semplicita Light (texte) -> Josefin Sans Variable (géométrique Art déco,
+   OFL, hors liste IA), une seule famille en deux graisses (500 / 400 : la 300 de la source est trop fine à 16 px).
+   Couleurs relevées : #f0ead6 crème 67 %, #acdab8 menthe 17 %, #000000 noir 15 % des fonds ; texte noir. */
+@import '@fontsource-variable/josefin-sans';
+
+[data-direction='frenchette'] {
+  /* Menthe #acdab8 en HSL (surchargeable par accent: {h,s,l} du site). */
+  --accent-h: 136;
+  --accent-s: 38%;
+  --accent-l: 76%;
+  --bg: #f0ead6;
+  --bg-2: #acdab8;
+  --surface: #faf7ee;
+  --fg: #000000;
+  --muted: #3f3b33;
+  --line: #1a1a1a;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 12%));
+  --on-accent: #000000;
+  --ink: #000000;
+  --on-ink: #f0ead6;
+  --font-display: 'Josefin Sans Variable', 'Futura', 'Century Gothic', sans-serif;
+  --font-body: 'Josefin Sans Variable', 'Futura', 'Century Gothic', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --display-weight: 500;
+  --display-tracking: 0.01em;
+  --heading-transform: uppercase;
+  --body-weight: 400;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(5rem, 8vw, 5.5rem);
+  --motion-duration: 1s;
+  --motion-ui: 0.2s;
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+[data-direction='frenchette'] ::selection { background: var(--accent); color: var(--on-accent); }
+/* Pas d'italique d'emphase (GOUT § 2) : l'accent du titre est la graisse Light de la source, même couleur (un titre posé
+   sur le panneau menthe garderait sinon un mot menthe sur menthe). */
+[data-direction='frenchette'] h1 em,
+[data-direction='frenchette'] h2 em { font-style: normal; font-weight: 300; color: inherit; }
+[data-direction='frenchette'] :is(h1, h2) { line-height: 1.1; }
+[data-direction='frenchette'] h3 { font-weight: 500; }
+/* Josefin Sans est posée haut sur sa ligne : un peu plus d'interlignage pour le texte courant. */
+[data-direction='frenchette'] body { line-height: 1.65; }
+
+/* Boutons de la source : contour noir de 2 px, capitales, angles droits ; au survol le contour se remplit. */
+[data-direction='frenchette'] .btn {
+  border-radius: 0;
+  border: 2px solid var(--fg);
+  font-family: var(--font-display);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: background var(--motion-ui) ease-in-out, color var(--motion-ui) ease-in-out, border-color var(--motion-ui) ease-in-out;
+}
+[data-direction='frenchette'] .btn-primary { background: transparent; color: var(--fg); }
+[data-direction='frenchette'] .btn-primary:hover { background: var(--fg); color: var(--bg); }
+[data-direction='frenchette'] .btn-ghost { background: transparent; color: var(--fg); border-color: var(--fg); }
+[data-direction='frenchette'] .btn-ghost:hover { background: var(--fg); color: var(--bg); }
+[data-direction='frenchette'] .btn-ink { background: var(--ink); color: var(--on-ink); border-color: var(--on-ink); }
+/* Sur un bloc encre (bandeau Réserver, pied) : contour crème, comme « RESERVE NOW » dans le bandeau noir de la source. */
+[data-direction='frenchette'] :is(.bg-ink, .text-on-ink) .btn-primary,
+[data-direction='frenchette'] :is(.bg-ink, .text-on-ink) .btn-ghost { color: var(--on-ink); border-color: var(--on-ink); background: transparent; }
+[data-direction='frenchette'] :is(.bg-ink, .text-on-ink) .btn-primary:hover,
+[data-direction='frenchette'] :is(.bg-ink, .text-on-ink) .btn-ghost:hover { background: var(--on-ink); color: var(--ink); }
+[data-direction='frenchette'] .btn-link { border: 0; text-transform: none; font-family: var(--font-body); letter-spacing: 0; }
+
+[data-direction='frenchette'] .card {
+  background: var(--surface);
+  border-radius: 0;
+  border: 2px solid var(--fg);
+  box-shadow: none;
+}
+[data-direction='frenchette'] .rule { border-top: 2px solid var(--fg); }
+[data-direction='frenchette'] .eyebrow { color: var(--muted); font-family: var(--font-display); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.02em; text-transform: uppercase; }

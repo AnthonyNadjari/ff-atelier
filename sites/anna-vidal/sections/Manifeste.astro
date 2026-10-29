@@ -1,10 +1,9 @@
 ---
 /**
  * « Manifeste » — propre à ce site. Un texte plein cadre en text-display-lg (data-reveal, seul
- * élément animé de la section), un filet, puis les quatre services en une ligne simple, sans prix.
- * Le data-text-fill d'origine a été retiré le 21 sept 2026 : le bloc vit sous une entrée <details>
- * de la coquille `index`, et un effet piloté par le scroll se calcule sur un panneau fermé.
- * Aucune réutilisation ailleurs.
+ * élément animé de la section), un filet, puis les quatre séries en une ligne simple, sans prix.
+ * Depuis le 29 oct 2026 (accueil refait d'après Casa Bonay) : le seul bloc sous le mur de photos, dans la
+ * coquille `split` ; chaque série est un lien vers sa page. Aucune réutilisation ailleurs.
  */
 import { site } from '@/lib/site';
 
@@ -21,7 +20,7 @@ const manifeste =
     <p class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted">
       {site.services.map((s, i) => (
         <>
-          <span>{s.title}</span>
+          <a href={`/services/${s.slug}`} class="transition-colors hover:text-fg">{s.title}</a>
           {i < site.services.length - 1 && <span class="text-accent" aria-hidden="true">/</span>}
         </>
       ))}

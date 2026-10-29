@@ -26,6 +26,13 @@
 //
 // Pourquoi (fondateur, 18 oct 2026) : « il en faut beaucoup plus. Et je veux pas qu'on se limite à ça, faut faire des
 // cross ».
+//
+// DEPUIS LE 29 OCT 2026 (« c'est monotone, toujours la même disposition » : le mélange de sept sites donnait une moyenne) :
+// un style = un site ENTIER. `--style <id>` applique le modèle de site entier `presets/<id>.json` quand il existe
+// (direction du style, hero, ordre des sections, coquille, mouvement, tone, typographie) par-dessus les atomes, sans
+// direction générée ; sans modèle, les atomes seuls et le hero de famille. Le croisement n'est jamais le défaut : sans
+// `--style`, sans atome imposé ni `--hasard`, la commande liste les styles qui ont un modèle entier et s'arrête
+// (modeDeMelange, stylesAvecModele, appliquerModele : pures, tests/melanger.test.mjs).
 import fs from 'node:fs';
 import path from 'node:path';
 import { createServer } from 'node:http';
@@ -37,7 +44,7 @@ import {
 } from './atomes.mjs';
 import { PROFILS_MOUVEMENT, refusProfil, profilsTropProches, consignesProfil } from './mouvements.mjs';
 import { CLES_IA } from './ia.mjs';
-import { readPreset } from './modele.mjs';
+import { readPreset, listPresets } from './modele.mjs';
 import { famillesConnues, familleDuContrat, famillesInterdites } from './contrat.mjs';
 
 export const REGISTRE_MELANGES = path.join(ROOT, 'docs', 'empreintes', 'melanges.json');
@@ -1102,6 +1109,14 @@ function ecrireLook(slug, nom, gen, typo, motion, layoutEnPlus = {}) {
   fs.writeFileSync(p, JSON.stringify(look, null, 2) + '\n');
 }
 
+/** Modèle de site entier posé par-dessus le look.json écrit par les atomes (appliquerModele, pure). */
+function poserModele(slug, preset) {
+  const p = path.join(SITES_DIR, slug, 'look.json');
+  let look = {};
+  try { look = JSON.parse(fs.readFileSync(p, 'utf8')); } catch { /* pas de look.json */ }
+  fs.writeFileSync(p, JSON.stringify(appliquerModele(look, preset), null, 2) + '\n');
+}
+
 /** Prépare un mélange tiré : contenus, sources, direction générée. */
 function preparer(m, registre, polices) {
   const { parId } = registre;
@@ -1210,50 +1225,69 @@ function copierSite(source, copie) {
   fs.writeFileSync(cfg, fs.readFileSync(cfg, 'utf8').replace(/slug:\s*'[^']*'/, `slug: '${copie}'`));
 }
 
+/* =====================================================================
+   MODÈLE DE SITE ENTIER (veille § 2a quater, réécrit le 29 oct 2026)
+   Un style = un site entier : `presets/<id>.json`, nommé comme sa direction, pose tout d'un coup (direction, hero,
+   ordre des sections, coquille, mouvement, tone, typographie). `--style <id>` l'applique EN ENTIER quand il existe ;
+   sans lui, les atomes seuls et le hero de famille (comportement d'avant). Le croisement n'est jamais le défaut :
+   sans `--style` ni atome imposé ni `--hasard`, la commande liste les styles qui ont un modèle entier et s'arrête.
+   ===================================================================== */
+
+/** Clés de look qu'un modèle entier pose ou retire (les mêmes que LOOK_KEYS de src/lib/site.ts, hors direction/layout). */
+const CLES_MODELE = ['motion', 'scale', 'typography', 'accent', 'wording'];
+
 /**
- * Pure : look.json d'un site après application d'un modèle de style construit. Le modèle remplace tout le look (direction,
- * polices, accent, mouvement, premier écran, sections) ; seules l'architecture et la coquille propres au site restent,
- * quand le modèle n'en impose pas (un site à architecture garde ses pages).
+ * Pure : le modèle de site entier d'un style, ou null. `lire(id)` rend l'objet de `presets/<id>.json` (readPreset de
+ * modele.mjs) ou null ; un fichier sans `look.direction` n'est pas un modèle entier.
  */
-export function lookDuModele(modele, lookAvant = {}) {
-  const look = structuredClone(modele.look);
-  const garde = Object.fromEntries(['architecture', 'shell'].filter((k) => lookAvant.layout?.[k] != null).map((k) => [k, lookAvant.layout[k]]));
-  look.layout = { ...garde, ...(look.layout || {}) };
-  return look;
+export function modeleEntier(id, lire) {
+  if (!id || typeof lire !== 'function') return null;
+  let p = null;
+  try { p = lire(id); } catch { return null; }
+  return p?.look?.direction ? p : null;
 }
 
-async function appliquerModele(slug, id, modele, flags) {
-  const lire = (s) => { try { return JSON.parse(fs.readFileSync(path.join(SITES_DIR, s, 'look.json'), 'utf8')); } catch { return {}; } };
-  const ecrire = (s) => fs.writeFileSync(path.join(SITES_DIR, s, 'look.json'), JSON.stringify(lookDuModele(modele, lire(s)), null, 2) + '\n');
-  info(`--style ${id} : modèle construit presets/${id}.json (${modele.titre || id}) : direction ${modele.look.direction}, premier écran ${modele.look.layout?.hero ?? 'du site'}, ${modele.look.layout?.sections?.length ?? 0} sections.`);
-  if (flags.simuler) { info('--simuler : rien n\'est écrit.'); return; }
-  if (!flags.essai) { ecrire(slug); ok(`sites/${slug}/look.json <- presets/${id}.json (site entier ; \`ff figer ${slug}\` pour le rendre définitif).`); return; }
-  const copie = `_essai-${String(id).replace(/[^a-z0-9-]/gi, '').toLowerCase()}-1`;
-  const courant = fs.existsSync(FF_CURRENT) ? fs.readFileSync(FF_CURRENT, 'utf8') : null;
-  try {
-    copierSite(slug, copie);
-    ecrire(copie);
-    const st = await avecVerrou(async () => runAstro('build', copie, [], {}, { silencieux: true }));
-    if (st !== 0) throw new Error(`build de ${copie} en échec`);
-    const html = fs.readFileSync(path.join(DIST_DIR, copie, 'index.html'), 'utf8');
-    const ecarts = verifierCopie(html, { direction: modele.look.direction, shell: lookDuModele(modele, lire(copie)).layout.shell });
-    if (ecarts.length) throw new Error(`${copie} construit sans le modèle : ${ecarts.join(' ; ')}`);
-    const { lancerChrome } = await import('./atomes-mesurer.mjs');
-    const nav = await lancerChrome();
-    let shots;
-    try { shots = await capturer(nav, copie); } finally { await nav.close(); }
-    const sortie = path.join(ROOT, 'captures', 'planches', `${slug.replace(/^_/, '')}-${id}-melanges.jpg`);
-    await planche([{ ...shots, titre: `${id} (modèle construit)`, ligne1: `direction ${modele.look.direction}, premier écran ${modele.look.layout?.hero ?? '?'}`, ligne2: `sections ${(modele.look.layout?.sections ?? []).map((x) => `${x.type}/${x.variant}`).join(', ')}`, ligne3: `mouvement ${modele.look.motion ?? '?'}` }], sortie);
-    ok(`planche : ${path.relative(ROOT, sortie)} (à regarder)`);
-  } finally {
-    fs.rmSync(path.join(SITES_DIR, copie), { recursive: true, force: true });
-    fs.rmSync(path.join(DIST_DIR, copie), { recursive: true, force: true });
-    if (courant != null) fs.writeFileSync(FF_CURRENT, courant); else fs.rmSync(FF_CURRENT, { force: true });
+/**
+ * Pure : le look.json après application du modèle ENTIER par-dessus ce que les atomes ont écrit : direction du modèle,
+ * tout son layout (hero, sections, coquille, nav, pied, tone…) fusionné sur celui du site, motion/scale/typography/
+ * accent/wording du modèle ; une clé que le modèle ne pose pas est RETIRÉE du look (les polices et l'accent des atomes
+ * ne doivent pas défaire la direction du modèle), sauf `layout`, gardé.
+ */
+export function appliquerModele(look = {}, preset) {
+  if (!preset?.look?.direction) return { ...look };
+  const p = preset.look;
+  const out = { ...look, direction: p.direction, layout: { ...(look.layout || {}), ...(p.layout || {}) } };
+  for (const k of CLES_MODELE) {
+    if (p[k] !== undefined) out[k] = p[k];
+    else delete out[k];
   }
+  return out;
 }
 
-/* ---------- commande ---------- */
+/**
+ * Pure : ce que `ff melanger` fait selon ses drapeaux. 'style' : `--style <id>` ; 'croisement' : un atome imposé
+ * (`--typo`, `--couleurs`…) ou `--hasard` ; 'aucun' : rien de demandé, le croisement ne se fait pas par défaut.
+ */
+export function modeDeMelange(flags = {}) {
+  if (typeof flags.style === 'string' && flags.style) return 'style';
+  if (flags.hasard || Object.keys(DRAPEAUX).some((f) => typeof flags[f] === 'string' && flags[f])) return 'croisement';
+  return 'aucun';
+}
 
+/** Pure : les styles qui ont un modèle de site entier (preset nommé comme sa direction), triés. */
+export function stylesAvecModele(presets = []) {
+  return presets.filter((p) => p?.nom && p.look?.direction === p.nom).map((p) => p.nom).sort();
+}
+
+/** Pure : la ligne imprimée pour `--style <id>` : le modèle appliqué (hero, nombre de sections) ou son absence. */
+export function phraseModele(id, preset) {
+  if (!preset) return `pas de modèle entier pour ${id} : atomes seuls`;
+  const l = preset.look.layout || {};
+  const n = Array.isArray(l.sections) ? l.sections.length : 0;
+  return `modèle de site entier presets/${id}.json appliqué : hero ${l.hero ?? 'du site'}, ${n} section${n > 1 ? 's' : ''}${l.shell ? `, coquille ${l.shell}` : ''}`;
+}
+
+/** Les drapeaux qui imposent un atome (nom du drapeau → dimension). */
 const DRAPEAUX = { typo: 'typo', couleurs: 'couleurs', densite: 'densite', formes: 'formes', photos: 'photos', mouvement: 'mouvement', matiere: 'matiere', architecture: 'architecture', 'premier-ecran': 'premier_ecran' };
 
 /**
@@ -1274,11 +1308,20 @@ export function normaliserArgs(args) {
 export async function cmdMelanger(args) {
   const { positional, flags } = parseArgs(normaliserArgs(args));
   const slug = positional[0];
-  if (!slug || !siteExists(slug)) { fail('ff melanger <slug> [--typo id] [--couleurs id] … [--hasard] [--n 3] [--essai]'); process.exit(1); }
-  // Style construit (veille du 29 oct 2026, GOUT § 0 « un style, c'est une construction ») : un modèle presets/<id>.json
-  // pose le site ENTIER (direction codée, premier écran, ordre des sections, mouvement), pas seulement les atomes.
-  const modele = typeof flags.style === 'string' && !Object.keys(DRAPEAUX).some((f) => typeof flags[f] === 'string') ? readPreset(flags.style) : null;
-  if (modele?.look) return appliquerModele(slug, flags.style, modele, flags);
+  if (!slug || !siteExists(slug)) { fail('ff melanger <slug> --style <id> | [--typo id] [--couleurs id] … [--hasard] [--n 3] [--essai]'); process.exit(1); }
+  // Le croisement d'atomes n'est jamais le défaut (29 oct 2026) : sans style ni atome imposé ni --hasard, on liste les
+  // modèles de site entier et on s'arrête.
+  const mode = modeDeMelange(flags);
+  if (mode === 'aucun') {
+    const styles = stylesAvecModele(listPresets());
+    info('Un style = un site entier (docs/GOUT.md § 0, veille § 2a quater). Styles avec un modèle entier (presets/<id>.json) :');
+    for (const s of styles) info(`  --style ${s}`);
+    if (!styles.length) info('  (aucun pour l\'instant : `ff modeles` liste les modèles de look)');
+    fail(`ff melanger ${slug} --style <id> applique un modèle entier ; --hasard ou --typo/--couleurs/… demande le croisement d'atomes explicitement.`);
+    process.exit(1);
+  }
+  const modele = mode === 'style' ? modeleEntier(flags.style, readPreset) : null;
+  if (mode === 'style') info(phraseModele(flags.style, modele));
   const { registre, polices } = chargerRegistre();
   for (const r of registre.rejets) warn(`registre : ${r}`);
   const imposes = {};
@@ -1355,10 +1398,12 @@ export async function cmdMelanger(args) {
         copierSite(slug, copies[i]);
         ecrireDirection(p.nom, p.gen, `essai ${copies[i]}`);
         ecrireLook(copies[i], p.nom, p.gen, p.atomes.typo, motionPour(p.atomes, client), essais[i].layout);
+        // Modèle de site entier : il passe par-dessus les atomes et le hero de famille (direction, coquille, sections).
+        if (modele) poserModele(copies[i], modele);
         const st = await avecVerrou(async () => runAstro('build', copies[i], [], {}, { silencieux: true }));
         if (st !== 0) throw new Error(`build de ${copies[i]} en échec (${essais[i].notes.join(' ; ')})`);
         const html = path.join(DIST_DIR, copies[i], 'index.html');
-        const ecarts = verifierCopie(fs.existsSync(html) ? fs.readFileSync(html, 'utf8') : '', { direction: p.nom, shell: essais[i].shell });
+        const ecarts = verifierCopie(fs.existsSync(html) ? fs.readFileSync(html, 'utf8') : '', { direction: modele ? modele.look.direction : p.nom, shell: modele?.look.layout?.shell ?? essais[i].shell });
         if (ecarts.length) throw new Error(`${copies[i]} construit sans le mélange voulu : ${ecarts.join(' ; ')}`);
         ok(`${copies[i]} construit (${p.nom} ; ${essais[i].notes.join(' ; ')})`);
       }
@@ -1392,9 +1437,11 @@ export async function cmdMelanger(args) {
   }
   // Application à <slug> : direction générée + look.json + registre.
   const m = tires[0], p = preps[0];
+  // Avec un modèle de site entier, la direction est celle du modèle (src/directions/<id>/) : aucune direction générée.
+  const direction = modele ? modele.look.direction : p.nom;
   const ancien = melanges.sites[slug]?.direction;
-  if (ancien && ancien !== p.nom && !Object.entries(melanges.sites).some(([s, v]) => s !== slug && v.direction === ancien)) supprimerDirection(ancien);
-  ecrireDirection(p.nom, p.gen, `mélange de ${slug}`);
+  if (ancien && ancien !== direction && ancien.startsWith('m-') && !Object.entries(melanges.sites).some(([s, v]) => s !== slug && v.direction === ancien)) supprimerDirection(ancien);
+  if (!modele) ecrireDirection(p.nom, p.gen, `mélange de ${slug}`);
   // Famille de premier écran : le hero partagé qui la rend est écrit dans look.json quand le client en a les données
   // et que la coquille rend un hero ; jamais par-dessus un hero dessiné pour ce site (custom/…).
   const lookAvant = (() => { try { return JSON.parse(fs.readFileSync(path.join(SITES_DIR, slug, 'look.json'), 'utf8')); } catch { return {}; } })();
@@ -1403,12 +1450,15 @@ export async function cmdMelanger(args) {
   const shellSite = lookAvant.layout?.shell ?? (archiSite ? usine.parId[archiSite]?.layout?.shell : null) ?? usine.site?.layout?.shell ?? 'flow';
   const famille = String(heroSite ?? '').startsWith('custom/') ? { hero: null, note: `premier écran ${m.premier_ecran} : hero dessiné pour le site (${heroSite}) gardé` } : heroDeFamille({ famille: m.premier_ecran, client, shell: shellSite, heroRendu, archi: Boolean(archiSite) });
   ecrireLook(slug, p.nom, p.gen, p.atomes.typo, motionPour(p.atomes, client), famille.hero ? { hero: famille.hero } : {});
-  if (famille.note) info(famille.note);
+  if (modele) {
+    poserModele(slug, modele);
+    info(`modèle entier : direction ${direction}, hero ${modele.look.layout?.hero ?? 'du site'}, ${(modele.look.layout?.sections ?? []).length} sections, mouvement ${modele.look.motion ?? 'de la direction'}, tone ${modele.look.layout?.tone ?? 'du site'}, typographie ${modele.look.typography ? `${modele.look.typography.display}/${modele.look.typography.body}` : 'de la direction'} (par-dessus les atomes${famille.hero ? ` et le hero de famille ${famille.hero}` : ''}).`);
+  } else if (famille.note) info(famille.note);
   if (!slug.startsWith('_')) {
-    melanges.sites[slug] = { direction: p.nom, atomes: m, date: new Date().toISOString().slice(0, 10) };
+    melanges.sites[slug] = { direction, atomes: m, ...(modele ? { modele: modele.nom } : {}), date: new Date().toISOString().slice(0, 10) };
     fs.mkdirSync(path.dirname(REGISTRE_MELANGES), { recursive: true });
     fs.writeFileSync(REGISTRE_MELANGES, JSON.stringify(melanges, null, 1) + '\n');
   }
-  ok(`src/directions/${p.nom}/ écrite et enregistrée dans DIRECTIONS ; sites/${slug}/look.json mis à jour${slug.startsWith('_') ? '' : ' ; docs/empreintes/melanges.json'}.`);
+  ok(`${modele ? `direction ${direction} (modèle entier, rien de généré)` : `src/directions/${p.nom}/ écrite et enregistrée dans DIRECTIONS`} ; sites/${slug}/look.json mis à jour${slug.startsWith('_') ? '' : ' ; docs/empreintes/melanges.json'}.`);
   info(`À recopier dans sites/${slug}/direction.md :\n  ${ligneContrat(m)}`);
 }

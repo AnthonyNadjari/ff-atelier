@@ -1,0 +1,77 @@
+---
+/**
+ * Hero "panneaux-biais" (style frenchette, docs/veille/styles/frenchette.md § Construction) : la photo du client plein
+ * cadre, bord à bord, et un panneau de couleur (bg-2 : la menthe de la direction frenchette) posé dessus, dont le bord
+ * vers la photo est coupé en biais (clip-path penché de 8 % de sa largeur) : la photo passe sous le panneau, deux plans,
+ * aucune ombre, aucun texte nu sur l'image. Le panneau porte ce que la source confie à une enseigne : le h1, le métier à
+ * ville, l'ancienneté, le numéro cliquable et la porte, le tout visible sans défiler sur téléphone et ordinateur.
+ * Téléphone : comme la source (bandes crème et menthe en haut, la photo dessous), le panneau d'abord, puis la photo en
+ * bandeau 4:3 bord à bord ; le bas penché du panneau mord sur le haut de la photo. Ordinateur : panneau à droite sur 46 %
+ * de la largeur, pleine hauteur, bord gauche en biais ; la photo à gauche s'arrête à la coupe (elle ne passe sous le
+ * panneau que dans la bande du biais). Ce n'est pas une carte posée sur la photo (famille carte-sur-photo) : deux pans côte à côte.
+ * Données : images.hero (HERO_DE_FAMILLE/composer ne la proposent pas sans). Sans photo, le panneau se pose sur un fond
+ * encre plein : rien n'est inventé. Mouvement : rien ne bouge tout seul (la source est calme) ; le h1 entre en data-split.
+ */
+import { site, tel, hasContactDoor, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const since = site.business.since;
+---
+
+<section id="hero" class="hero-pb relative">
+  <div class:list={['pb-scene relative overflow-hidden', hero ? 'bg-bg-2' : 'bg-ink']}>
+    <div class:list={['pb-panneau relative z-10 text-fg', hero ? 'bg-bg-2' : 'bg-ink text-on-ink']}>
+      <div class="pb-contenu">
+        <h1 class="hero-titre text-display-md" data-split set:html={site.business.tagline} />
+        <p class:list={['mt-4 text-lg', hero ? 'text-muted' : 'text-on-ink/80']}>{metierEtVille()}</p>
+        {since && <p class:list={['mt-2 text-base', hero ? 'text-muted' : 'text-on-ink/80']}>Depuis {since}</p>}
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <Button href={tel()} size="lg"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+          {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
+        </div>
+      </div>
+    </div>
+    {hero && (
+      <figure class="pb-photo relative md:absolute md:inset-y-0">
+        <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES['panneaux-biais']} priority />
+      </figure>
+    )}
+  </div>
+</section>
+
+<style>
+  /* Téléphone : le panneau d'abord, son bas penché (2,75 rem) mord sur la photo en bandeau 4:3 qui suit. */
+  .pb-scene { --pb-panneau: min(46%, 40rem); }
+  .pb-panneau { padding: 2.5rem 1rem 4rem; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2.75rem), 0 100%); }
+  .pb-photo { aspect-ratio: 4 / 3; max-height: 44svh; margin-top: -2.75rem; }
+  .pb-photo :global(img) { position: absolute; }
+  .pb-contenu { max-width: 36rem; }
+  .bg-ink .pb-panneau { clip-path: none; padding-bottom: 3rem; }
+  @media (min-width: 48rem) {
+    .pb-scene { min-height: 34rem; height: 82svh; max-height: 56rem; }
+    /* Ordinateur : la photo s'arrête à la coupe (92 % de la largeur du panneau) et ne passe sous le panneau que dans le biais. */
+    .pb-photo { aspect-ratio: auto; max-height: none; margin-top: 0; left: 0; right: calc(var(--pb-panneau) * 0.92); }
+    /* Le panneau sur toute la hauteur, à droite, bord gauche coupé en biais (8 % de sa largeur, plus large en bas qu'en
+       haut) ; le premier panneau de services/panneaux-biais répond à gauche, et l'alternance continue. */
+    .pb-panneau {
+      position: absolute; inset-block: 0; right: 0;
+      width: var(--pb-panneau);
+      /* grid, pas flex : en flex, Chrome donnait 0 px de large au contenu de ce panneau absolu (29 oct 2026). */
+      display: grid; align-content: center;
+      padding: 3rem clamp(1.5rem, 5vw, 5rem) 3rem 12%;
+      clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .bg-ink .pb-panneau { position: relative; width: 100%; min-height: 60svh; clip-path: none; padding-top: 3rem; }
+    .bg-ink .pb-contenu { max-width: 44rem; }
+    /* Le titre suit la largeur du panneau (46 % de l'écran), pas celle de l'écran : 2,75 rem à 1 280 px, 3,25 rem au-delà. */
+    .pb-contenu h1 { font-size: clamp(1.75rem, 2.4vw + 0.25rem, 3.25rem); }
+  }
+  /* Démo à photos de banque : la mention « Photo d’illustration » (Img) reste sur la photo, hors du panneau (à l'ordinateur le
+     panneau couvre le bord droit de la photo : la mention passe à gauche). */
+  .pb-photo :global(.ff-illustration) { bottom: 0.5rem; }
+  @media (min-width: 48rem) { .pb-photo :global(.ff-illustration) { right: auto; left: 0.5rem; } }
+</style>

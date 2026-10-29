@@ -37,6 +37,9 @@ export const DIRECTIONS = [
   'arche', // blanc et pierre, grille de quatre colonnes au filet, serif condense fin (studio d'interieur)
   'labo', // blanc et bleu roi, cases filetees, capitales legeres, boutons mono (fermentation)
   'citron', // jaune citron pale en damier avec les photos, serif fin, etiquettes mono (atelier de cuisine)
+  'experimentalcc', // bar du soir : noir, serif fine en tres grand, portrait vertical et nom en exclusion, fiches par adresse, bande terre cuite (experimentalcocktailclub.com, style entier)
+  'frenchette', // creme de nappe, panneaux menthe coupes en biais contre les photos, geometrique Art deco en capitales, contours noirs (brasserie)
+  'casabonay', // sable, liens outremer a filets blancs, bouton rouge, mur de photos a cote d'une colonne fixe (casabonay.com, site entier : hotel, photographe)
   // ff melanger : directions générées (src/directions/m-<hash>/), une par site ; écrites et retirées par la commande.
   'm-e7e9e8', // mélange de prospect-epi-dor-b
   'm-751d7c', // mélange de prospect-epi-dor-c
@@ -98,11 +101,11 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 // src/sections/<Type>/<variante>.astro ET l'entree ici.
 export const VARIANTS = {
   nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
-  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme'],
+  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'portrait-exclusion', 'mur-de-photos'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme', 'panneaux-biais'],
   about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes'],
   proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations'],
-  zones: ['list', 'map', 'chips', 'adresses', 'tournee'],
+  zones: ['list', 'map', 'chips', 'adresses', 'tournee', 'fiches'],
   process: ['steps', 'timeline', 'numbered', 'horizon'],
   faq: ['accordion', 'two-columns'],
   cta: ['band', 'card', 'phone-giant', 'photo'],
@@ -114,8 +117,11 @@ export type SectionType = keyof typeof VARIANTS;
  * Heros d'une famille de premier ecran (.claude/skills/site-final/premiers-ecrans.md) qui ne vont qu'avec leurs
  * donnees (photos, avis, horaires, urgence) : tires par `ff melanger` (HERO_DE_FAMILLE, scripts/ff/melanger.mjs) quand
  * le client les a, jamais poses d'office dans un modele (presets/, construits sur _exemple sans photo).
+ * `panneaux-biais` (style frenchette, photo plein cadre sous un panneau coupe en biais) demande images.hero de la meme
+ * facon ; il est pose par le modele de site entier presets/frenchette.json. `mur-de-photos` (style casabonay) demande
+ * 4 photos comme `mosaique` ; pose par presets/casabonay.json.
  */
-export const HEROS_DE_FAMILLE = ['carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu'] as const;
+export const HEROS_DE_FAMILLE = ['carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'mur-de-photos'] as const;
 
 const img = z.object({
   src: z.string().describe('Chemin public, ex: /images/hero.webp'),
@@ -1142,6 +1148,8 @@ export const siteSchema = z.object({
             lien: z.string().url().optional().describe('Site ou fiche du revendeur, avec son accord. Absent = nom sans lien.'),
             pression: z.boolean().default(false).describe('Vrai si le revendeur sert à la pression, dit par le client. Faux par défaut.'),
             consigne: z.boolean().default(false).describe('Vrai si le revendeur reprend les bouteilles consignées, dit par le client. Faux par défaut.'),
+            telephone: z.string().optional().describe('Téléphone du revendeur, si le client le donne (« 04 74 00 00 00 ») : lien tel: sur sa fiche (zones/fiches). Absent = pas de téléphone, jamais le numéro du client.'),
+            photo: img.optional().describe('Photo du revendeur (sa devanture, son comptoir), si le client la fournit avec son accord : en tête de sa fiche (zones/fiches). Absente = fiche sans image, jamais une photo de banque.'),
           }),
         )
         .default([])
