@@ -71,6 +71,15 @@ condensée ne suffit pas à faire un style : il faut que le mélange reste beau,
 depuis le 18 oct 2026 : `ff melanger` refuse fond vif, capitales condensées sur fond coloré, aplats vifs concurrents
 (`docs/veille/styles/ATOMES.md` § Garde de beauté), et tire un profil de mouvement parmi quinze (`MOUVEMENTS.md`).
 
+**Un style, c'est une construction, pas une peinture** (29 oct 2026, démo brasserie : « C'est normal que ça soit si
+monotone ? Sans photo ? Toujours la même disposition ? », « on a encore des sites si génériques alors qu'on scrape les
+meilleurs sites »). Onze jours de veille avaient relevé 425 sites et n'en appliquaient que les polices et les couleurs sur des
+sections toujours pareilles ; le mélange de sept sites donnait une moyenne. Règles : un site de référence s'applique **en
+entier** (sa mise en page, son premier écran, son geste signature, codés dans l'usine), le croisement d'atomes ne se fait que
+sur demande ; un style qui n'a pas sa construction codée n'est pas un style ; une démo sans photo n'est pas une démo
+(`ff photos-demo`, mention « Photo d'illustration ») ; et une paire de sites trop proches (`ff ressemblance`) se corrige, elle
+ne se signale pas pendant des jours. C'est un studio qui vend : ce qui ne change que la peinture ne vaut rien au client.
+
 ## 1. Ce qui fait qu'un site est « à nous »
 
 - **La différence vient du squelette, pas des couleurs.** Coquille, place de la nav, où vit le contact,
@@ -212,6 +221,9 @@ les autres servent à la relecture adverse et à `ff verifier` (bloc « règles 
 - **Livraison** : un fichier livré est complet, jamais `// ...`.
 
 ## Journal des ajouts
+
+- 29 oct 2026 : § 0 « un style, c'est une construction, pas une peinture » (démo brasserie monotone ; veille réécrite en
+  conséquence : `.claude/skills/veille/SKILL.md` § 2a quater, 3 sites entiers construits par tour, paire trop proche corrigée).
 
 - 15 oct 2026 : création, compilation des retours du 6 au 14 oct 2026 (mémoires de session, PRODUCT.md,
   signes-ia.md, commentaires de code du site du studio).

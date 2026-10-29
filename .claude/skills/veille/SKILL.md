@@ -43,10 +43,13 @@ npm outdated   # lecture seule : on note, on ne met pas à jour sans tour dédi�
 ```
 `ff ressemblance --tous` recalcule l'empreinte du premier écran (téléphone et ordinateur) de chaque site construit,
 met à jour `docs/empreintes/` et liste les paires de sites trop proches par la mise en page, avec ce qui est pareil.
-La veille ne touche à aucun site : chaque paire trop proche se **signale** (journal du tour et Notes du doc
-partagé : les deux sites, le score, la phrase « ce qui est pareil »), elle ne se corrige pas ici.
+Chaque paire trop proche se signale (journal du tour : les deux sites, le score, la phrase « ce qui est pareil »), et **une
+paire par tour se corrige** quand l'un des deux est une démo (`demo-*`, `// DEMO`) : on reconstruit sa page d'accueil d'après
+un site de référence entier (§ 2a quater, même méthode), jusqu'à passer sous 0,65 ; `ff verifier` et `ff ia` verts. Un site
+client ou prospect ne se touche jamais ici : on écrit au journal ce qu'il faudrait refaire. Le 29 oct 2026, 263 paires étaient
+signalées depuis des jours sans qu'aucune ne soit corrigée : signaler sans corriger ne sert à rien.
 Puis un site d'exemple au hasard (pas finck-fisch) : build, `verifier`, `ia`, `planche` regardée.
-Tout rouge se corrige dans ce tour (c'est prioritaire sur le reste), sauf `ressemblance` qui se signale.
+Tout rouge se corrige dans ce tour (c'est prioritaire sur le reste).
 
 ## 2. Apprendre (agents de lecture seule, 2 en parallèle au plus)
 
@@ -79,62 +82,62 @@ du gérant au premier écran : 7 sites sur 27 »), les sites qui l'illustrent, e
 encore. Un levier vu sur au moins 40 % des sites et absent de l'usine devient le premier point « à implémenter »
 du tour (étape 3), avant tout autre volet. On ne copie jamais une maquette : on transpose un levier.
 
-### 2a quater. Les STYLES, À CHAQUE TOUR, en volume (le volet qui compte le plus)
+### 2a quater. Les STYLES : des sites ENTIERS, construits, pas des polices (réécrit le 29 oct 2026)
 
-Le fondateur, 18 oct 2026 : « ce n'est pas juste une question de disposition, mais de design. Pourquoi tu ne
-scrapes pas des dizaines et des centaines de sites pour connaître les techniques, les styles, et qu'on les applique
-juste à des clients ? ». Jusque-là l'usine étudiait peu de sites (une cinquantaine) et INVENTAIT le design de chaque
-client : le goût de la machine revenait partout. Désormais on **applique** des styles réels, on n'en invente plus.
+Le fondateur, 18 oct 2026 : « pourquoi tu ne scrapes pas des centaines de sites pour connaître les styles, et qu'on les
+applique juste aux clients ? ». Puis, 29 oct 2026, devant la démo brasserie : « C'est normal que ça soit si monotone ? Toujours
+la même disposition ? », « on a encore des sites si génériques alors qu'on scrape les meilleurs sites ». Diagnostic, mesuré ce
+jour-là : en onze jours l'usine a relevé 425 sites et n'en a appliqué que la **peinture** (polices, couleurs, marges, rayons) ;
+la **construction** (où est la photo, à quelle taille, ce qui chevauche quoi, le rythme des blocs, le geste signature) restait
+une phrase dans une fiche, « à faire dans une section sur mesure », jamais faite. `ff atomes` : « architecture 0 » tirable.
+Mélangés sept par sept, les atomes donnaient une moyenne ; posés sur toujours les mêmes sections (listes, grilles), ils
+donnaient le même squelette repeint. C'est un studio qui vend des sites à 1 200 € : un style qui ne change que les couleurs ne
+vaut rien au client.
 
-Par tour, **10 styles nouveaux** tirés de 10 vrais sites jamais étudiés (galeries : Awwwards, godly.website,
-siteinspire, minimal.gallery, onepagelove, Framer Marketplace, Webflow showcase ; tous métiers, petites structures de
-préférence, faits par des humains, qui donnent envie) :
-1. `node scripts/ff.mjs demonter <url> --dossier docs/veille/styles --nom <id>` (ou sur le code si pas de navigateur).
-2. Fiche `docs/veille/styles/<id>.md` : le STYLE COMPLET, assez précis pour le réappliquer : polices (familles,
-   graisses, tailles h1/h2/texte au téléphone et à l'ordinateur, interlignage, casse), couleurs en hex avec leur rôle,
-   espacements, rayons, bordures, ombres, traitement des photos, boutons et liens, icônes, animations (quoi, durées,
-   courbes), textures ; plus son architecture (pages, navigation, ordre des blocs, contact). Captures à côté.
-3. Le site devient des **ATOMES** (18 oct 2026, fondateur : « faut faire des cross ») :
-   `node scripts/ff.mjs atomes mesurer <url> --id <id> --fiche docs/veille/styles/<id>.md --nom "<Nom>"` relève
-   typo, couleurs, marges, rayons, boutons, photos, transitions et écrit le brouillon `docs/veille/styles/atomes/<id>.json` ;
-   on remplit ses « à juger » en regardant les captures (police libre la plus proche, jamais IA ; palette ; traitement
-   des photos ; régime du mouvement ; famille de premier écran ; une `remarque` par choix), puis `ff atomes` vert.
-   Format et règles : `docs/veille/styles/ATOMES.md`. C'est ce qui sert le plus : chaque site ajouté multiplie les
-   croisements de `ff melanger`. Une **direction entière** reste possible quand le style tient d'un bloc
-   (`/nouvelle-direction` : `src/directions/<id>/`, polices libres les plus proches, jamais IA ; `meta.ts` avec la
-   source) ; `ff melanger <slug> --style <id>` applique déjà tous les atomes d'un site sans direction écrite à la main.
-   Son architecture devient une entrée de `docs/veille/architectures/` si elle est nouvelle.
-3 bis. Après 5 sites ajoutés : `node scripts/ff.mjs melanger _exemple --n 3 --hasard --essai` et regarder la planche ;
-   un mélange laid devient une **règle de compatibilité apprise** (ATOMES.md § Règles apprises, et la fonction pure de
-   `scripts/ff/melanger.mjs` avec son test), jamais un atome retiré en silence.
-4. Preuve : `_exemple` habillé du style (FF_LOOK), capture posée à côté de la source ; on ne garde que ce qui tient
-   la comparaison.
-5. Une ligne dans `docs/veille/styles/INDEX.md` : id, source, style en une phrase, architecture, convient à quels
-   clients (selon leurs données : photos, produits, lieu, urgence) ; la colonne « Direction » dit `atomes` quand le
-   site n'existe qu'en atomes.
+**Un style = un site entier, et il n'est « gardé » que construit.** Par tour, **3 sites** (pas dix), chacun poussé jusqu'au bout :
 
-Ce volet passe AVANT tous les autres. Un tour qui n'ajoute pas au moins 5 styles gardés est un tour raté (le
-journal dit pourquoi).
+1. **Choisir** : galeries (Awwwards, godly.website, siteinspire, minimal.gallery, onepagelove, Framer et Webflow showcase)
+   ET les sites qui vendent du marché (§ 2a) ; petites structures, faits par des humains ; jamais déjà dans
+   `docs/veille/styles/INDEX.md`. Priorité aux régimes de palette en besoin (`ff atomes`) et aux métiers de
+   `docs/OBJECTIF.md`. Question de tri : « un artisan paierait-il 1 200 € pour ÇA ? » ; sinon on passe.
+2. **Relever la construction, pas seulement la peinture** : `ff demonter` + `ff atomes mesurer` comme avant, PUIS, en
+   regardant les captures (outil Read, obligatoire), une section « ## Construction » dans la fiche `<id>.md` : pour chaque
+   bloc de l'accueil, dans l'ordre, sa grille (colonnes, part de l'écran), la part et la place de l'image (plein cadre,
+   décalée, qui chevauche, verticale), ce qui est posé sur quoi (carte, plaque, voile, ombre réelle), l'échelle du titre
+   par rapport au texte, le vide autour, et le geste signature décrit assez précisément pour être codé. Une fiche sans
+   « Construction » n'est pas une fiche.
+3. **Construire dans l'usine** ce que le relevé décrit : le premier écran (variante `src/sections/Hero/<id>.astro` ou
+   famille de `premiers-ecrans.md` existante quand elle correspond vraiment) et le geste signature (section partagée
+   `src/sections/<Type>/<id>.astro` ou coquille), enregistrés dans `VARIANTS`/`SHELLS`, documentés dans
+   `docs/DIRECTIONS.md`, testés ; la direction entière `src/directions/<id>/` (polices libres, jamais de la liste IA) ;
+   et un **modèle de site entier** `presets/<id>.json` qui pose tout d'un coup (direction, hero, ordre des sections,
+   mouvement), appliqué par `ff modele <slug> <id>` (il existe déjà : il copie le modèle dans `look.json`). Le croisement
+   d'atomes (`ff melanger`) ne se fait plus que sur demande explicite (`--typo`, `--couleurs`…), jamais par défaut ; au
+   29 oct 2026, `--style <id>` n'applique que les atomes et le hero de famille, pas l'ordre des sections : le premier tour
+   qui suit commence par lui faire lire `presets/<id>.json` quand il existe.
+4. **Prouver avec des photos**, côte à côte avec la source : site jetable (copie de `_exemple`), `ff photos-demo` pour
+   avoir de vraies photos d'illustration (jamais une démo sans photo : « ce qui fait vraiment la différence, c'est les
+   photos », GOUT § 0), `ff melanger … --style <id>`, `ff apercu-rapide`, et l'image source à côté. Un agent neuf (lecture
+   seule, captures + GOUT § 0) répond en une ligne : « tient la comparaison / ne la tient pas, parce que ». Ne tient pas =
+   on reprend ou on ne garde pas. Puis `ff verifier`, `ff ia`, `ff ressemblance <jetable>` < 0,65 contre tous les sites.
+   Les captures de l'essai se prennent avant de supprimer le jetable.
+5. **Une ligne dans `docs/veille/styles/INDEX.md`** : id, source, construction en une phrase (pas la palette), ce qui est
+   codé (hero, section, coquille, modèle), convient à quels clients. La colonne « Direction » dit `atomes` seulement pour
+   un relevé partiel, qui ne compte pas comme style gardé.
+
+**Un tour qui ne garde pas au moins 2 styles construits est un tour raté** (le journal dit pourquoi). Dix fiches de polices
+ne valent pas un style construit. Le journal donne, par style : la source, ce qui a été codé, l'image de comparaison.
 
 **Équilibrer les régimes de palette** (21 oct 2026 : trois pistes de L'Épi d'Or tiraient trois palettes blanc / gris /
-noir, parce que la plupart des palettes collectées étaient des neutres clairs). Chaque palette tombe dans un régime
-(`regimePalette`, ATOMES.md § Régimes de palette) : clair neutre, clair teinté doux, sombre, coloré doux. `ff atomes`
-affiche le compte par régime et les besoins (`besoin : la collecte doit ramener des palettes …`) ; `ff melanger` les
-écrit en tête de `docs/veille/journal.md`. La collecte du tour **commence par les régimes en besoin** : on cherche
-des sites sombres, teintés ou colorés DANS la garde de beauté (fond de chroma modérée, surface ou bloc d'encre
-colorés, deux accents assumés), jamais en relâchant la garde. Le journal du tour donne le compte par régime avant et
-après.
+noir). Chaque palette tombe dans un régime (`regimePalette`, ATOMES.md § Régimes de palette) : clair neutre, clair teinté
+doux, sombre, coloré doux. `ff atomes` affiche le compte et les besoins ; la collecte commence par les régimes en besoin,
+dans la garde de beauté. Le journal donne le compte avant et après.
 
-**Mouvement, à chaque tour aussi** (18 oct 2026, fondateur : « plus de pluralité : animations, même des vidéos en
-fond » ; « le catalogue doit s'agrandir avec les veilles »). Parmi les sites étudiés, **au moins 2 profils de
-mouvement nouveaux** par tour (entrée du premier écran, apparition au défilement, survol, transitions de page, fond
-vidéo ou séquence d'images, défilement horizontal, texte qui se remplit…) : une entrée dans
-`docs/veille/styles/MOUVEMENTS.md` (ce qu'il fait, durées et courbes mesurées, attributs du moteur qui le réalisent
-ou ce qui manque, quand il convient selon l'aiguillage, poids) et l'atome `mouvement` correspondant pour
-`ff melanger`. Si le moteur ne sait pas le faire et que c'est simple : l'ajouter à `src/scripts/motion.ts` avec son
-test et sa ligne dans `docs/ANIMATIONS.md`, preuve sur `sites/_effets/`. Un profil qui ne tient pas sur iPhone
-(autoplay bloqué en économie d'énergie, saccades) n'entre pas. Fond vidéo : seulement avec la vraie vidéo du client
-ou `ff animer`/`ff sequence-photo` sur ses photos, poster obligatoire.
+**Mouvement, à chaque tour aussi** (18 oct 2026 : « plus de pluralité : animations, même des vidéos en fond »). Parmi les
+sites construits, **au moins 1 profil de mouvement nouveau** par tour, dans `docs/veille/styles/MOUVEMENTS.md` (durées,
+courbes, attributs du moteur ou ce qui manque, quand il convient, poids) et **codé** dans la section ou le hero du style
+(un profil « manque : à faire dans une section sur mesure » n'est pas un profil). Un profil qui ne tient pas sur iPhone
+n'entre pas. Fond vidéo : seulement avec la vraie vidéo du client ou `ff animer`/`ff sequence-photo`, poster obligatoire.
 
 ### 2a ter. Les architectures, À CHAQUE TOUR (ce qui rend les sites différents)
 
@@ -154,33 +157,12 @@ le registre `src/lib/architectures.ts` + coquille `src/shells/` qui existe + pre
 toute fiche nouvelle. `ff melanger` ne tire que les architectures du registre dont la coquille existe et dont le client
 a les données ; il liste les autres (« au registre de veille, pas encore codées »).
 
-### 2a bis. Les compositions, À CHAQUE TOUR (ce qui rend un site beau)
+### 2a bis. Les compositions (fusionné dans 2a quater le 29 oct 2026)
 
-Le fondateur, 17 oct 2026, sur une démo juste mais plate : « trop 2D, pas beau » ; et : « je vois pas pourquoi
-on peut pas faire pareil [que les modèles Framer] si tu scrapes des centaines de sites ». Mesurer des sites
-(polices, couleurs, leviers) ne rend pas beau : la beauté est dans la composition. Ce volet **recrée des
-compositions** de ce qui se fait de mieux, section par section, à partir de captures, dans la bibliothèque.
-
-Par tour, **3 sections nouvelles** :
-1. Sources, en tournant : les modèles les plus vendus ou les mieux notés (Framer Marketplace trié par popularité,
-   puis Webflow, puis Squarespace, puis les sites primés de petits commerces) ; jamais une source déjà dans
-   `docs/veille/compositions/INDEX.md`. Les sites que le fondateur dit aimer passent en premier.
-2. Capturer la page (`node scripts/ff.mjs demonter <url> --dossier docs/veille/compositions`), choisir les sections
-   qui ont de la profondeur (image en grand, plans superposés, rythme), de préférence d'un type où la bibliothèque est
-   pauvre (`docs/DIRECTIONS.md`, `ff variete`).
-3. Recréer chaque section comme **variante partagée** (`/nouvelle-variante` : fichier dans `src/sections/<Type>/`,
-   `VARIANTS`, ligne de `docs/DIRECTIONS.md`, test) : même construction, mêmes proportions, même profondeur, mêmes
-   rapports de taille ; contenu tiré de `site` (rien d'inventé, la section disparaît si la donnée manque), tokens
-   seulement, aucune police de la liste IA, aucun signe de GOUT § 2. **On reprend une construction, jamais les
-   textes, les images, le code, le nom ou l'identité visuelle de la source.**
-4. Prouver : site jetable (copie de `_exemple`) qui utilise les 3 variantes, `ff prevol`, captures téléphone et
-   ordinateur posées À CÔTÉ de la capture de la source (`docs/veille/compositions/<nom>-comparaison.jpg`), regardées :
-   la recréation tient-elle la comparaison ? Sinon on la reprend ou on ne la garde pas.
-5. Une ligne par variante dans `docs/veille/compositions/INDEX.md` : source (URL), section, variante créée, ce qui
-   a été gardé, ce qui s'est perdu.
-
-Ces variantes deviennent le choix par défaut de `ff composer` quand elles conviennent aux données du site (photos
-présentes, nombre de services…) : la bibliothèque se remplit de compositions éprouvées au lieu de dessins de l'usine.
+Ce volet recréait des sections entières d'après les meilleurs sites ; il était « si le temps le permet » et n'a jamais tourné
+(tours 13 à 15). Il est désormais l'étape 3 de 2a quater, obligatoire : un style n'est gardé que si sa construction est codée.
+`docs/veille/compositions/INDEX.md` reste le registre des sections recréées (source, section, variante, ce qui est gardé et
+perdu) : une ligne par section construite au titre d'un style.
 
 ### 2b. Un autre volet, si le temps le permet
 
@@ -203,7 +185,7 @@ Format des fiches : voir en tête de chaque fichier. Sources citées en lien. Ve
 
 ## 3. Améliorer (une par tour, testée)
 
-Les styles (2a quater) sont l'amélioration du tour ; puis les architectures (2a ter) ; les compositions (2a bis) si le temps le permet. En plus, si le temps le permet : le levier du marché (2a)
+Les styles construits (2a quater) sont l'amélioration du tour ; puis les architectures (2a ter) ; puis la paire de démos trop proches (§ 1). En plus, si le temps le permet : le levier du marché (2a)
 s'il y en a un au-dessus de 40 % et absent de l'usine. Sinon, le premier point
 de « à implémenter en premier » du volet du jour qui n'est pas encore fait :
 - nouvelle variante → `/nouvelle-variante` (fichier + `VARIANTS` + `docs/DIRECTIONS.md` + test) ;
