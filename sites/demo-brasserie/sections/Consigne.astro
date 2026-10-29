@@ -1,0 +1,65 @@
+---
+/**
+ * Le tour de la bouteille (bloc sur mesure, demo-brasserie) : la consigne du brief devient un trajet. La bouteille
+ * de 75 cl part du moulin, passe chez les revendeurs qui la reprennent (comptés dans site.revendeurs), arrive chez
+ * vous et revient. Elle glisse sur son rail au défilement (régime lent) ; les étapes s'allument sèchement à son
+ * passage. Mouvement réduit : la bouteille posée, toutes les étapes visibles. Rien n'est inventé : la règle de la
+ * consigne est la phrase du client, les noms viennent de la liste des revendeurs.
+ */
+import { site, tel } from '@/lib/site';
+
+const r = site.revendeurs;
+const reprennent = (r?.liste ?? []).filter((x) => x.consigne);
+const etapes = [
+  { titre: 'Au moulin', texte: `Brassée et embouteillée chemin du Moulin, à ${site.contact.address.city}.` },
+  reprennent.length
+    ? { titre: 'Chez un revendeur', texte: reprennent.map((x) => `${x.nom} (${x.commune})`).join(', ') + '.' }
+    : null,
+  { titre: 'Chez vous', texte: 'Le temps de la boire.' },
+  { titre: 'Retour', texte: 'Rapportez-la vide : elle repart au lavage, puis au soutirage.' },
+].filter(Boolean) as { titre: string; texte: string }[];
+---
+
+{r?.consigne && (
+  <section id="consigne" class="cs" aria-labelledby="cs-t">
+    <div class="container-ff">
+      <h2 id="cs-t" class="cs-titre font-display">Le tour de la bouteille</h2>
+      <p class="cs-regle">{r.consigne}</p>
+
+      <div class="cs-piste" aria-hidden="true">
+        <span class="cs-rail" data-draw></span>
+        <svg class="cs-bouteille" viewBox="0 0 24 64" data-scrub="x=-60,rotate=-10" data-scrub-lag="0.6">
+          <path d="M9 2h6v12c0 3 5 6 5 12v34a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V26c0-6 5-9 5-12z" />
+          <rect x="4" y="32" width="16" height="14" class="cs-etiquette" />
+        </svg>
+      </div>
+
+      <ol class="cs-etapes" data-stagger="120">
+        {etapes.map((e) => (
+          <li class="cs-etape" data-reveal>
+            <h3 class="cs-nom">{e.titre}</h3>
+            <p class="cs-texte">{e.texte}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="cs-appel"><a href={tel()} class="cs-lien tabular-nums">Une question sur la consigne : {site.contact.phoneDisplay}</a></p>
+    </div>
+  </section>
+)}
+
+<style>
+  .cs { padding-block: clamp(3rem, 9vw, 6.5rem); background: var(--color-ink); color: var(--color-on-ink); }
+  .cs-titre { font-size: clamp(2rem, 6vw, 4rem); line-height: 1; }
+  .cs-regle { margin-top: 1rem; max-width: 40rem; font-size: clamp(1.05rem, 2.2vw, 1.3rem); line-height: 1.45; }
+  .cs-piste { position: relative; margin-block: clamp(2rem, 6vw, 3.5rem) 1.5rem; height: 72px; }
+  .cs-rail { position: absolute; inset-inline: 0; bottom: 6px; height: 2px; background: currentColor; opacity: 0.5; transform-origin: left; }
+  .cs-bouteille { position: absolute; bottom: 8px; left: 50%; width: 22px; height: 62px; fill: var(--color-accent-2, var(--color-accent)); }
+  .cs-etiquette { fill: var(--color-ink); opacity: 0.35; }
+  .cs-etapes { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+  .cs-etape { border-top: 1px solid currentColor; padding-top: 0.9rem; }
+  .cs-nom { font-size: 1.25rem; font-weight: 700; }
+  .cs-texte { margin-top: 0.35rem; line-height: 1.5; }
+  .cs-appel { margin-top: 2.5rem; }
+  .cs-lien { display: inline-flex; min-block-size: 44px; align-items: center; text-decoration: underline; text-underline-offset: 0.2em; }
+  .cs-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+</style>

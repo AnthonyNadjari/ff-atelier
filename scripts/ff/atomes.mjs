@@ -317,6 +317,9 @@ export function paletteComplete(p) {
   const sombre = estSombre(fond);
   const surface = HEX.test(p.surface || '') ? p.surface : melangerCouleurs(fond, sombre ? texte : '#ffffff', sombre ? 0.05 : 0.5);
   const bg2 = surface.toLowerCase() !== fond.toLowerCase() ? surface : melangerCouleurs(fond, texte, 0.04);
+  // Le texte principal se pose aussi sur la surface (cartes, bandes) : une palette sombre relevée avec une surface blanche
+  // et un texte blanc donnait des sections entières invisibles (cafeomnia, demo-brasserie, 29 oct 2026).
+  if (contraste(texte, surface) < 4.5) refus.push(`texte ${texte} sur surface ${surface} : ${contraste(texte, surface).toFixed(2)}:1 < 4,5`);
   // Chaque couleur de texte doit tenir sur les trois fonds où les sections la posent (fond, fond alterné, surface).
   const fonds = [fond, bg2, surface];
   const tenir = (couleur, nom) => {

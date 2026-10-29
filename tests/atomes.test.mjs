@@ -155,3 +155,10 @@ test('typo : un titre qui ne domine pas le texte au téléphone est refusé (ess
   assert.equal(controlerPolices(typo(28, 20), { polices }).filter((x) => /domine/.test(x)).length, 0, 'maaemo : 28 pour 20');
   assert.equal(controlerPolices(typo('à juger', 16), { polices }).filter((x) => /domine/.test(x)).length, 0);
 });
+
+test('paletteComplete : un texte illisible sur la surface est refusé (cafeomnia sombre, 29 oct 2026)', () => {
+  const p = paletteComplete({ fond: '#1d2a33', surface: '#ffffff', texte: '#ffffff', accent: '#b8e4fc' });
+  assert.ok(p.refus.some((r) => /surface #ffffff/.test(r)), p.refus.join(' ; '));
+  const q = paletteComplete({ fond: '#1d2a33', texte: '#ffffff', accent: '#b8e4fc' });
+  assert.deepEqual(q.refus, []);
+});
