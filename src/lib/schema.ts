@@ -43,6 +43,10 @@ export const DIRECTIONS = [
   'lin', // papier creme, panneaux sable et sauge pleine largeur, serif de livre en grand corps (architectes-constructeurs, menuisiers)
   'bouteille', // vert bouteille sombre, cuivre, capitales evasees, photos decalees qui debordent (table du soir, 29 oct 2026)
   'pinceau', // bandes terracotta, sable, moutarde et bleu nuit aux bords brosses, enseigne condensee, carte en mono (bar, restaurant, food truck ; 29 oct 2026)
+  'chapitre', // livre de nuit : bleu nuit, creme, cuivre, nom geant en capitales fines, chasse fixe, chapitres numerotes, produit pose sur son nom (torrefacteur, caviste ; 23gradicoffee.com, 29 oct 2026)
+  'calque', // calque d'architecte : bleu-gris pale, brun fonce, grotesque en graisse normale, cellules filetees a reperes d'angle sur photos plein cadre (constructeur, menuisier ; tekt.com.au, 29 oct 2026)
+  'enduit', // maison a la chaux : creme et un seul brun terre, grotesque moyenne, photo plein ecran, nom geant sur bande brune, index dont la ligne survolee montre sa photo (macon, constructeur ; bcgbuildingdesign.com.au, 29 oct 2026)
+  'ocre', // atelier de terre et de sable : sable, un seul rouille, filets fins, photos en diptyques, lettre en serif de grand corps, nom qui defile sur une bande rouille (potier, ceramiste, fleuriste ; lrnce.com, 29 oct 2026)
   // ff melanger : directions générées (src/directions/m-<hash>/), une par site ; écrites et retirées par la commande.
   'm-e7e9e8', // mélange de prospect-epi-dor-b
   'm-751d7c', // mélange de prospect-epi-dor-c
@@ -99,23 +103,25 @@ export const SHELLS = [
   'profils', // l accueil part du patient : en tete h1, telephone, note, « Prendre rendez-vous » ; « Vous consultez pour » (un onglet par profil, sans script l un sous l autre) avec ses motifs, sa duree, son prix et le praticien qui le suit ; la seance, le tarif, le remboursement, l acces dans le meme bloc ; une page par profil et /consulter (architecture profils-patients)
   'garde', // l accueil part de « qui appeler maintenant ? » : bandeau urgence au-dessus de la nav ; en tete h1, metier a la ville ; deux portes cote a cote, Prendre rendez-vous (horaires du jour) et Une urgence ? (le numero du moment : la clinique ouverte, la garde fermee, calcule dans le navigateur) ; la conduite a tenir en temps numerotes, les signes qui n attendent pas, l organisation de la garde ; les especes soignees, une page chacune ; /urgences et /animaux (architecture garde-especes)
   'honoraires', // l accueil dit combien et comment ca commence : en tete h1, metier a la ville, barreau ; a cote le premier echange en temps (appel decouverte, premiere consultation : duree et prix) et Prendre rendez-vous ; les domaines en sommaire, chacun avec ses procedures « a partir de » ; les facons de fixer l honoraire, la convention, la prise en charge (protection juridique, aide juridictionnelle) ; /nos-honoraires (architecture honoraires-domaines)
+  'interventions', // l accueil est le carnet de bord date de l artisan : en tete h1, metier a la ville, telephone et la derniere intervention (date, lieu, « il y a N jours » dans le navigateur) ; puis le carnet, les interventions du plus recent au plus ancien rangees par mois (le mois colle en marge), chacune datee, situee, racontee en temps ; les lieux du carnet du plus frequent au moins frequent ; /carnet et une page par intervention avec la plus recente et la plus ancienne (architecture carnet-interventions)
+  'trajet', // l accueil est le territoire vu de l atelier : en tete h1, metier a la ville, telephone et « Combien de temps pour venir chez vous ? » (la commune tapee, la reponse dans le navigateur) ; puis le schema des temps de trajet (la base au centre, des cercles de 15, 30, 60 min, les communes placees seulement par la direction donnee) et le tableau des communes de la plus proche a la plus loin ; une page par commune ; /trajet (architecture rayon-trajet)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
 // Variantes disponibles par section. Ajouter une variante = ajouter un fichier
 // src/sections/<Type>/<variante>.astro ET l'entree ici.
 export const VARIANTS = {
-  nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
-  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'portrait-exclusion', 'mur-de-photos', 'bouteille', 'lin', 'pinceau'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme', 'panneaux-biais', 'bouteille', 'lin', 'pinceau'],
-  about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes'],
-  proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations'],
+  nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock', 'calque', 'chapitre'],
+  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'portrait-exclusion', 'mur-de-photos', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme', 'panneaux-biais', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre'],
+  about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre'],
+  proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations', 'pinceau', 'lin', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre'],
   zones: ['list', 'map', 'chips', 'adresses', 'tournee', 'fiches'],
   process: ['steps', 'timeline', 'numbered', 'horizon'],
-  faq: ['accordion', 'two-columns'],
+  faq: ['accordion', 'two-columns', 'chapitre'],
   cta: ['band', 'card', 'phone-giant', 'photo'],
-  contact: ['form-split', 'form-card', 'simple', 'full', 'ecran'],
-  footer: ['columns', 'minimal', 'big-name'],
+  contact: ['form-split', 'form-card', 'simple', 'full', 'ecran', 'pinceau', 'lin', 'bouteille', 'calque', 'enduit', 'ocre'],
+  footer: ['columns', 'minimal', 'big-name', 'liens', 'chapitre', 'ocre'],
 } as const;
 export type SectionType = keyof typeof VARIANTS;
 /**
@@ -1277,6 +1283,51 @@ export const siteSchema = z.object({
       "Les honoraires d'un cabinet d'avocat (architecture honoraires-domaines, docs/veille/architectures/honoraires-domaines.md, sources Cabinet Marilyne Faltot, Forbach : page Honoraires avec taux horaire, forfait, convention, résultat, première consultation à prix et durée, appel découverte gratuit, protection juridique, aide juridictionnelle, médiateur ; Judisis, Pontoise : les trois façons de fixer l'honoraire et un « à partir de » par procédure) : le premier échange en temps à côté du h1, les domaines (services) en sommaire avec leurs procédures à prix (services[].lignes), les façons de fixer l'honoraire et la prise en charge ; page /nos-honoraires. Absent = ni bloc ni page. Jamais un prix, un taux, une durée ou une prise en charge inventés.",
     ),
 
+  interventions: z
+    .array(
+      z.object({
+        slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /carnet/<slug> (« portail-vandalise-castanet »)'),
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).describe('Le jour de l’intervention, AAAA-MM-JJ (« 2026-10-24 »), tel que l’artisan le donne'),
+        lieu: z.string().describe('Le quartier ou la commune, mots de l’artisan (« Castanet », « Vacquerolles », « Milhaud »)'),
+        titre: z.string().describe('Ce qui s’est passé, en une ligne de l’artisan (« Portail vandalisé : serrures renforcées et motorisation neuve »)'),
+        situation: z.string().optional().describe('L’appel ou la demande du client, mots de l’artisan (« Clé cassée dans le cylindre d’un bureau de tabac, en plein service »). Absente = rien.'),
+        etapes: z.array(z.string()).default([]).describe('Les temps de l’intervention, dans l’ordre (« Extraction de la clé », « Reproduction à l’atelier », « Remontage et essais »). Vide = rien.'),
+        duree: z.string().optional().describe('Combien de temps (« 45 min », « dans l’heure », « moins de 24 h »). Absente = rien, jamais devinée.'),
+        prix: z.string().optional().describe('Le prix si l’artisan le publie (« 90 € TTC »). Absent = rien, jamais deviné.'),
+        service: z.string().optional().describe('Slug du service (services[].slug) dont l’intervention relève : lien vers sa page. Absent = pas de lien.'),
+        photo: img.optional().describe('Photo prise sur l’intervention. Absente = pas d’image, jamais une photo de banque présentée comme la sienne.'),
+      }),
+    )
+    .default([])
+    .describe(
+      "Le carnet d'interventions d'un artisan, daté et situé (architecture carnet-interventions, docs/veille/architectures/carnet-interventions.md, sources Monsieur Boris, serrurier à Nîmes : 25 récits d'intervention datés et situés par quartier, chacun raconté en temps ; L'Atelier Bois Acier, Amiens : « En direct de l'atelier », les réalisations racontées comme de courtes histoires localisées) : l'accueil est le carnet, du plus récent au plus ancien, rangé par mois, la dernière intervention à côté du h1 ; /carnet et une page par intervention (/carnet/<slug>). Vide = ni carnet ni pages. Jamais une intervention, une date, un lieu, une durée ou un prix inventés.",
+    ),
+
+  trajet: z
+    .object({
+      base: z.string().optional().describe('D’où part l’artisan (« Suèvres », « l’atelier de Bellevigny »). Absente = la ville de contact.address.'),
+      conditions: z.string().optional().describe('Comment les temps sont comptés, mots de l’artisan (« en conditions normales, hors heures de pointe »). Absentes = rien.'),
+      rayonKm: z.number().int().positive().optional().describe('Le rayon d’intervention annoncé, en km (« 40 »). Absent = rien.'),
+      ailleurs: z.string().optional().describe('La phrase pour une commune absente, mots de l’artisan (« Votre commune n’est pas citée ? Appelez quand même. »). Absente = « Appelez-nous : nous vous dirons si nous venons. »'),
+      communes: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /trajet/<slug> (« blois »)'),
+            nom: z.string().describe('La commune (« Blois », « Le Poiré-sur-Vie »)'),
+            minutes: z.number().positive().describe('Le temps de trajet depuis la base, en minutes, tel que l’artisan le donne (25, 60, 90)'),
+            km: z.number().positive().optional().describe('La distance en km, si l’artisan la donne. Absente = rien.'),
+            direction: z.enum(['nord', 'nord-est', 'est', 'sud-est', 'sud', 'sud-ouest', 'ouest', 'nord-ouest']).optional().describe('La direction depuis la base. Absente = la commune est dans le tableau mais PAS sur le schéma (jamais placée au hasard).'),
+            texte: z.string().optional().describe('Une ou deux phrases de l’artisan sur cette commune (« Nous y entretenons les chambres froides de trois boulangeries »). Absent = rien.'),
+          }),
+        )
+        .default([])
+        .describe('Les communes desservies avec leur temps de trajet, dans l’ordre du client (triées par le site du plus proche au plus loin).'),
+    })
+    .optional()
+    .describe(
+      "Les temps de trajet d'un artisan qui se déplace (architecture rayon-trajet, docs/veille/architectures/rayon-trajet.md, sources Colson Elec, Bellevigny : l'atelier au centre, les communes autour en km et en minutes, « Votre commune n'est pas citée ? Appelez quand même » ; Concept Froid Centre, Suèvres : temps de trajet depuis la base par pôle, une page par pôle) : « Combien de temps pour venir chez vous ? » à côté du h1, le schéma des temps (la base au centre, les communes placées par leur direction), le tableau des communes ; /trajet et une page par commune (/trajet/<slug>). Absent = ni schéma ni pages. Jamais un temps, une distance ou une direction inventés.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -1360,6 +1411,8 @@ export const siteSchema = z.object({
       urgences: z.string().default('Urgences').describe('Libellé du lien de nav, du bandeau et titre de la page /urgences (site.garde) : « Urgences », « Garde et urgences »'),
       especes: z.string().default('Les animaux').describe('Libellé du lien de nav et titre de la rangée des espèces et de la page /animaux (site.especes) : « Les animaux », « Nos patients »'),
       honoraires: z.string().default('Honoraires').describe('Libellé du lien de nav et titre de la page /nos-honoraires (site.honoraires) : « Honoraires », « Combien ça coûte ? »'),
+      carnet: z.string().default('Le carnet').describe('Libellé du lien de nav et titre de la page /carnet (site.interventions, architecture carnet-interventions) : « Le carnet », « Nos interventions »'),
+      trajet: z.string().default('Temps de trajet').describe('Libellé du lien de nav et titre de la page /trajet (site.trajet, architecture rayon-trajet) : « Temps de trajet », « Jusqu’où nous venons »'),
       domaines: z.string().default('Domaines d’intervention').describe('Titre du sommaire des domaines sur l’accueil (architecture honoraires-domaines) : « Domaines d’intervention », « Ce que nous plaidons »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),

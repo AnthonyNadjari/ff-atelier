@@ -1,8 +1,13 @@
 {
   "nom": "bouteille-cave",
   "titre": "Bouteille cave",
-  "description": "La direction bouteille en version plus simple : photo plein écran, carte des prestations en liste filetée, avis puis questions, pied à colonnes.",
-  "metiers": ["caviste", "bar à vin", "chocolatier", "traiteur"],
+  "description": "La direction bouteille en version plus simple : photo plein écran, les avis et la bande de photos qui sort des deux bords, carte des prestations en liste filetée, le chef en portrait, questions, pied à colonnes.",
+  "metiers": [
+    "caviste",
+    "bar à vin",
+    "chocolatier",
+    "traiteur"
+  ],
   "look": {
     "direction": "bouteille",
     "motion": "subtle",
@@ -11,13 +16,34 @@
       "nav": "bar",
       "hero": "fullbleed",
       "sections": [
-        { "type": "proof", "variant": "testimonials" },
-        { "type": "services", "variant": "liste-a-filets" },
-        { "type": "about", "variant": "story" },
-        { "type": "cta", "variant": "band" },
-        { "type": "faq", "variant": "accordion" },
-        { "type": "zones", "variant": "chips" },
-        { "type": "contact", "variant": "form-split" }
+        {
+          "type": "proof",
+          "variant": "bouteille"
+        },
+        {
+          "type": "services",
+          "variant": "liste-a-filets"
+        },
+        {
+          "type": "about",
+          "variant": "bouteille"
+        },
+        {
+          "type": "cta",
+          "variant": "band"
+        },
+        {
+          "type": "faq",
+          "variant": "accordion"
+        },
+        {
+          "type": "zones",
+          "variant": "chips"
+        },
+        {
+          "type": "contact",
+          "variant": "bouteille"
+        }
       ],
       "footer": "big-name",
       "divider": "none",

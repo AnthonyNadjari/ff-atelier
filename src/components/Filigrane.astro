@@ -1,0 +1,66 @@
+---
+/**
+ * Filigrane au trait (style chapitre, reprise du 29 oct 2026, fiche docs/veille/styles/chapitre.md § Reprise) : la source
+ * pose une gravure à ~8 % sur son bleu nuit (les motifs du paquet) ; sans elle, les grandes surfaces bleu nuit sont des
+ * aplats nus (GOUT § 0, « trop 2D »). On ne copie pas la gravure (un dessin de la marque) : on trace une CARTE EN COURBES
+ * DE NIVEAU, au trait fin, comme une gravure de terroir. Ni grain ni halo (GOUT § 1) : des lignes, rien d'autre.
+ * SVG inline, couleur = token (currentColor sur var(--fg)), opacité basse et réglable par la direction
+ * (--filigrane, défaut 0.09) ; décoratif (aria-hidden), derrière le contenu (la section porte `isolate`).
+ * Le dessin est déterministe : la graine vient du nom du client (deux sites ont deux cartes différentes) et de `graine`
+ * (deux sections d'un même site aussi).
+ */
+import { site } from '@/lib/site';
+
+interface Props { graine?: number; class?: string }
+const { graine = 0, class: cls = '' } = Astro.props;
+
+// Graine : somme pondérée des codes du nom + numéro de section. Générateur simple (mulberry32), pur.
+let h = graine * 977;
+for (const c of site.business.name) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+const alea = () => {
+  h = (h + 0x6d2b79f5) >>> 0;
+  let t = h;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+
+const L = 1200;
+const H = 1600;
+// Deux ou trois sommets ; autour de chacun, des courbes fermées irrégulières de plus en plus larges (courbes de niveau).
+const sommets = Array.from({ length: 2 + Math.floor(alea() * 2) }, () => ({ x: 150 + alea() * (L - 300), y: 200 + alea() * (H - 400) }));
+const chemins: string[] = [];
+for (const s of sommets) {
+  const phases = [alea() * 6.28, alea() * 6.28, alea() * 6.28];
+  const niveaux = 9 + Math.floor(alea() * 5);
+  for (let n = 1; n <= niveaux; n++) {
+    const r0 = n * (38 + alea() * 6);
+    const pts: [number, number][] = [];
+    const N = 36;
+    for (let k = 0; k < N; k++) {
+      const a = (k / N) * Math.PI * 2;
+      const r = r0 * (1 + 0.16 * Math.sin(2 * a + phases[0]) + 0.09 * Math.sin(3 * a + phases[1] + n * 0.12) + 0.05 * Math.sin(5 * a + phases[2]));
+      pts.push([s.x + Math.cos(a) * r * 1.25, s.y + Math.sin(a) * r]);
+    }
+    // Catmull-Rom fermée → courbes de Bézier cubiques (trait lisse).
+    let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+    for (let k = 0; k < N; k++) {
+      const p0 = pts[(k - 1 + N) % N], p1 = pts[k], p2 = pts[(k + 1) % N], p3 = pts[(k + 2) % N];
+      const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+      const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+      d += `C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+    }
+    chemins.push(`${d}Z`);
+  }
+}
+---
+
+<svg class:list={['ch-filigrane pointer-events-none absolute inset-0 -z-10 h-full w-full', cls]} viewBox={`0 0 ${L} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <g fill="none" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke">
+    {chemins.map((d) => <path d={d} vector-effect="non-scaling-stroke" />)}
+  </g>
+</svg>
+
+<style>
+  .ch-filigrane { color: var(--fg); opacity: var(--filigrane, 0.09); }
+</style>

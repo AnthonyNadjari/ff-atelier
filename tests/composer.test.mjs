@@ -40,10 +40,14 @@ test('directionTier : une direction adaptee au metier reste palier 0 quel que so
 
 test('pickLook : "fleuriste" ne tombe jamais dans industriel/neon/signal, quelle que soit la graine', () => {
   const exclues = ['industriel', 'neon', 'signal'];
+  const pourFleuriste = listDirectionMetas().filter((d) => (d.metiers || d.meta?.metiers || []).includes('fleuriste')).map((d) => d.nom ?? d.name ?? d.id);
+  assert.ok(pourFleuriste.includes('atelier'), `atelier doit lister fleuriste (${pourFleuriste.join(', ')})`);
   for (let graine = 1; graine <= 25; graine++) {
     const result = pickLook(SLUG, { metier: 'fleuriste', graine });
     assert.ok(!exclues.includes(result.direction), `graine ${graine} : direction "${result.direction}" hors sujet pour une fleuriste`);
-    assert.equal(result.direction, 'atelier', `graine ${graine} : "atelier" est la seule direction qui liste "fleuriste" dans meta.metiers, attendu comme choix (obtenu "${result.direction}")`);
+    // Depuis le 29 oct 2026, « ocre » (atelier de terre, veille tour 18) liste aussi fleuriste : le choix doit tomber
+    // sur une direction qui le liste, plus seulement « atelier ».
+    assert.ok(pourFleuriste.includes(result.direction), `graine ${graine} : attendu une direction qui liste "fleuriste" dans meta.metiers (${pourFleuriste.join(', ')}), obtenu "${result.direction}"`);
     assert.equal(result.metierAdapte, true, `graine ${graine} : metierAdapte devrait etre vrai pour une direction adaptee`);
   }
 });

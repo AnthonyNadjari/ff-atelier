@@ -1,0 +1,85 @@
+---
+/**
+ * Contact "pinceau" (style pinceau, reprise du 29 oct 2026, tour 18 ; source pickyjoe.com, fiche
+ * docs/veille/styles/pinceau.md § Construction, bloc 8 : le pied bleu nuit avec l'adresse et le plan) : la page finit
+ * comme elle a commencé, sur UNE BANDE BLEU NUIT pleine largeur ouverte par un bord brossé (BordPinceau). Pas de
+ * formulaire en tête, pas de cartes : à gauche (7/12), le nom du lieu en capitales condensées moutarde (l'enseigne
+ * qui revient), l'adresse en chasse fixe et le lien vers le plan, le téléphone en très grand (lien tel:), puis les
+ * portes du site (Réserver, Commander… : actions() hors appel) et l'e-mail ; à droite (4/12), les horaires en
+ * colonnes, les jours en capitales condensées, les heures en moutarde, et, replié dessous, « Écrire un message »
+ * (le formulaire du site, quand il en a un) : la porte « Devis » de la nav (/#contact) arrive ici.
+ * Remplace la fin de page générique de l'usine (communes, bandeau d'appel, questions, formulaire, pied sombre) dans le
+ * modèle presets/pinceau.json.
+ * Rien d'inventé : chaque ligne disparaît sans sa donnée (adresse, plan, horaires, e-mail, portes).
+ * Mouvement : les éclats du bord se brossent (data-reveal="wipe" de BordPinceau) ; boutons en 0,15 s (régime sec).
+ */
+import { site, tel, mailto, fullAddress, actions } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import BordPinceau from '@/components/BordPinceau.astro';
+import ContactForm from '@/components/ContactForm.astro';
+
+const portes = actions().filter((a) => a.kind !== 'call' && a.kind !== 'quote');
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+---
+
+<section id="contact" class="pc-bande relative bg-ink text-on-ink" aria-labelledby="pc-nom">
+  <BordPinceau couleur="var(--ink)" avant="var(--bg)" forme={0} />
+  <div class="container-ff grid gap-12 py-[var(--section-y)] md:grid-cols-12 md:gap-8">
+    <div class="md:col-span-7">
+      <h2 id="pc-nom" class="pc-nom font-display">{site.business.name}</h2>
+      {adresse && (
+        <p class="mt-6 font-mono">
+          {adresse}
+          {site.contact.mapsUrl && (
+            <>
+              <br />
+              <a href={site.contact.mapsUrl} class="underline underline-offset-4 hover:no-underline" rel="noopener" target="_blank">Voir le plan</a>
+            </>
+          )}
+        </p>
+      )}
+      <p class="mt-10">
+        <a href={tel()} class="pc-tel font-display hover:underline underline-offset-8">{site.contact.phoneDisplay}</a>
+      </p>
+      {(portes.length > 0 || site.contact.email) && (
+        <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+          {portes.map((p) => <Button href={p.href} variant="primary">{p.label}</Button>)}
+          {site.contact.email && <a href={mailto()} class="font-mono underline underline-offset-4 hover:no-underline break-all">{site.contact.email}</a>}
+        </div>
+      )}
+    </div>
+
+    <div class="md:col-span-4 md:col-start-9">
+      {horaires.length > 0 && (
+        <>
+          <h3 class="font-display text-2xl">Horaires d’ouverture</h3>
+          <dl class="mt-5 space-y-3">
+            {horaires.map((h) => (
+              <div>
+                <dt class="font-display text-xl uppercase tracking-wide">{h.days}</dt>
+                <dd class="pc-heures font-mono">{h.hours}</dd>
+              </div>
+            ))}
+          </dl>
+        </>
+      )}
+      {site.form.provider !== 'none' && (
+        <details class:list={['pc-message', horaires.length > 0 && 'mt-10']}>
+          <summary class="font-display text-xl uppercase tracking-wide underline underline-offset-4">Écrire un message</summary>
+          <div class="pc-form mt-6 rounded-card bg-bg p-5 text-fg">
+            <ContactForm compact idPrefix="pinceau" />
+          </div>
+        </details>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pc-nom { font-size: clamp(2.4rem, 1.5rem + 3.6vw, 4.6rem); line-height: 0.95; color: var(--fill, var(--on-ink)); }
+  .pc-tel { font-size: clamp(2.6rem, 1.6rem + 4vw, 5rem); line-height: 1; font-weight: 800; white-space: nowrap; }
+  .pc-heures { color: var(--fill, var(--on-ink)); font-weight: 600; }
+  .pc-message summary { cursor: pointer; list-style: none; }
+  .pc-message summary::-webkit-details-marker { display: none; }
+</style>

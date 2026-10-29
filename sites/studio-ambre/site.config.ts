@@ -10,30 +10,64 @@
 // trois photos ; « Méthode » devient quatre phases en texte, avec leur durée écrite, à la place d’un
 // accordéon à barres de progression ; les trois cartes de valeurs, la liste de zones en pastilles, la
 // carte d’appel finale, le halo et le filet lumineux du contact sont partis. Contact partagé.
+//
+// 29 oct 2026 (veille, paire trop proche : chez-malo 0,87 / 0,91, encre-noire, forge-delacroix, maison-aurore… « h1 sur
+// l'image au milieu, numéro sous le h1 ») : accueil refait sur l'architecture `estimation-etapes` (la demande de première
+// visite en étapes sous l'en-tête, questions reprises de wording.contactText) peinte avec le style `lin` (fraher.co :
+// direction, panneaux de services, photo en bande pleine largeur sans texte dessus, section `bande`). Rien de retiré.
 import { defineSite } from '@/lib/schema';
 
 export default defineSite({
   slug: 'studio-ambre',
-  direction: 'pierre',
-  motion: 'rich',
+  direction: 'lin',
+  motion: 'subtle',
   accent: { h: 28, s: 55, l: 36 },
-  scale: 'display',
+  scale: 'normal',
   layout: {
-    shell: 'flow',
-    nav: 'custom/nav',
-    hero: 'custom/hero',
+    shell: 'estimation',
+    nav: 'bar',
+    hero: 'lin',
     sections: [
-      { type: 'custom', variant: 'projet', label: 'Un projet' },
-      { type: 'custom', variant: 'methode', label: 'Méthode' },
-      { type: 'custom', variant: 'materiaux', label: 'Matières' },
-      { type: 'custom', variant: 'studio', label: 'Le studio' },
-      { type: 'faq', variant: 'two-columns' },
-      { type: 'contact', variant: 'form-split' },
+      {
+        type: 'custom',
+        variant: 'bande',
+      },
+      {
+        type: 'custom',
+        variant: 'projet',
+        label: 'Un projet',
+      },
+      {
+        type: 'faq',
+        variant: 'two-columns',
+      },
+      {
+        type: 'services',
+        variant: 'lin',
+      },
+      {
+        type: 'custom',
+        variant: 'methode',
+        label: 'Méthode',
+      },
+      {
+        type: 'custom',
+        variant: 'materiaux',
+        label: 'Matières',
+      },
+      {
+        type: 'custom',
+        variant: 'studio',
+        label: 'Le studio',
+      },
     ],
-    footer: 'columns',
+    footer: 'liens',
     divider: 'none',
-    tone: 'flat',
+    tone: 'alternate',
     headings: 'left',
+    actionBar: false,
+    contactDrawer: false,
+    servicePage: 'fiche',
   },
 
   business: {
@@ -123,13 +157,31 @@ export default defineSite({
     { q: 'Le studio s’occupe-t-il aussi de boutiques ?', a: 'Oui, des boutiques et des cabinets, en plus des appartements. Et la méthode ne change pas.' },
   ],
 
+  // Architecture estimation-etapes (29 oct 2026) : les questions sont celles que le studio pose déjà (wording.contactText :
+  // « Dites-nous le lieu, ce qui ne va plus, et quand vous aimeriez commencer ») ; les genres de lieux viennent de
+  // business.description ; « après » reprend la FAQ et le service Conseil, sans promesse ajoutée.
+  estimation: {
+    questions: [
+      { nom: 'lieu', libelle: 'Le lieu', type: 'choix', choix: ['Un appartement', 'Une boutique', 'Un cabinet'] },
+      { nom: 'probleme', libelle: 'Ce qui ne va plus', type: 'texte' },
+      { nom: 'debut', libelle: 'Quand aimeriez-vous commencer ?', type: 'texte' },
+    ],
+    apres: [
+      'On rappelle pour fixer la première visite.',
+      'Deux heures sur place, chez vous : on regarde, on écoute, on esquisse des pistes.',
+      'Rien n’est engagé à ce stade : la conception se décide après, ou pas du tout.',
+    ],
+  },
+
   form: { provider: 'mailto' },
   images: {
     hero: { src: '/images/hero.webp', alt: 'Séjour vitré toute hauteur, mur de rangements en bois clair, banquette de cuir face au jardin' },
+    illustration: true,
   },
   seo: { keywords: ["architecte d'intérieur Paris 10e", 'aménagement appartement haussmannien', 'aménagement boutique Paris'] },
   wording: {
     devis: 'Prendre rendez-vous',
+    estimation: 'Demander une première visite',
     ctaTitle: 'Un lieu à repenser ? <em>Commençons par une visite.</em>',
     contactTitle: 'Prendre rendez-vous',
     contactText: 'Dites-nous le lieu, ce qui ne va plus, et quand vous aimeriez commencer. On rappelle pour fixer la première visite.',

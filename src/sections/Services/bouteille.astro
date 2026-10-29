@@ -14,10 +14,25 @@
  * plus petite remonte sur le bas de la première (ombre réelle : deux plans).
  * Mouvement (profil `enseigne-qui-se-resserre`) : le titre géant glisse plus lentement que la page (data-parallax,
  * rich) et descend sur le coin de la photo ; la photo apparaît en fondu (un groupe par scène). Rien d'autre.
+ * LE CHIFFRE GÉANT (seconde reprise du 29 oct 2026 ; la source fait « 23 GÄNGE », « 5 TISCHE », des chiffres du lieu) :
+ * après la première scène, une scène au même dessin que la scène B (rail cuivre à points dans la marge, photo jusqu'au
+ * bord droit) dont le titre géant est l'ANNÉE D'OUVERTURE du client (business.since, « ouverture » en petit sur la ligne
+ * de base). Une statistique (nombre d'avis, note) n'est jamais mise en scène comme un geste du lieu : les avis vivent dans
+ * proof/bouteille. Photo : la première de proof.gallery, sinon aucune ; texte : le second paragraphe de la présentation
+ * et la première porte. Sans année d'ouverture, pas de scène : jamais un chiffre inventé, calculé ni arrondi.
+ * PROFONDEUR (seconde reprise) : à l'ordinateur, la photo verticale de la scène A chevauche le bord droit de la photo
+ * principale (un plan au-dessus de l'autre, ombre portée réelle) et sort de l'écran à droite ; le titre géant mord le
+ * coin haut gauche de la photo principale. Deuxième photo : services[].images[0], sinon une photo de proof.gallery qui
+ * n'est montrée nulle part ailleurs dans les scènes (une vraie photo du client, jamais inventée).
+ * Chaque scène est une <section> sœur dans l'enveloppe #services (reprise tour 18) : la source empile des blocs, le
+ * déroulé de l'usine (ff ressemblance) les lit un par un, la scène du chiffre comme une preuve.
+ * Vides (reprise tour 18) : 15 rem entre scènes à l'ordinateur, 8 au téléphone (la source : 240 et 130 px) ; le rail
+ * reste visible au téléphone, dans la marge gauche de la scène.
  * Données : services[].image (sinon la prestation passe en liste de texte sous les scènes), services[].images[0]
- * (sinon pas de deuxième photo), short, priceFrom. Rien n'est inventé.
+ * (sinon une photo libre de proof.gallery, sinon pas de deuxième photo), short, priceFrom. Rien n'est inventé.
  */
-import { site, paragraphs, metierEtVille } from '@/lib/site';
+import { site, paragraphs, metierEtVille, actions } from '@/lib/site';
+import Porte from '@/components/Porte.astro';
 import Img from '@/components/Img.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 
@@ -30,19 +45,29 @@ const decouper = (titre: string): [string, string] => {
   return [mots.slice(0, n).join(' '), mots.slice(n).join(' ')];
 };
 const premierPara = (s: (typeof site.services)[number]) => paragraphs(s.description ?? '')[0];
+
+// Le chiffre géant : l'année d'ouverture, telle que le client l'a donnée (jamais une statistique, jamais calculée).
+const chiffre = site.business.since ? { grand: String(site.business.since), suite: 'ouverture' } : undefined;
+const photoChiffre = chiffre ? site.proof.gallery[0] : undefined;
+const texteChiffre = paragraphs(site.business.description)[1];
+const [porteChiffre] = actions().filter((a) => a.kind !== 'call');
+// Deuxième photo des scènes A : celle du service, sinon une photo de la galerie que les scènes ne montrent pas déjà.
+const dejaVues = new Set([...site.services.flatMap((s) => [s.image?.src, ...(s.images ?? []).map((x) => x.src)]), photoChiffre?.src]);
+const libres = site.proof.gallery.filter((g) => !dejaVues.has(g.src));
+const secondes = avecPhoto.map((s, i) => s.images?.[0] ?? (i % 2 === 0 ? libres.shift() : undefined));
 ---
 
-<section id="services" class="section-y bt-services overflow-hidden">
+<div id="services" class="section-y bt-services overflow-hidden">
   <div class="container-ff">
     <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} align="center" />
   </div>
 
   {avecPhoto.map((s, i) => {
     const [grand, suite] = decouper(s.title);
-    const seconde = s.images?.[0];
+    const seconde = secondes[i];
     const b = i % 2 === 1;
     return (
-      <article class:list={['bt-scene', b ? 'bt-scene-b' : 'bt-scene-a', seconde && !b && 'bt-a-deux']}>
+      <section class:list={['bt-scene', b ? 'bt-scene-b' : 'bt-scene-a', seconde && !b && 'bt-a-deux']}>
         <h3 class="bt-titre-geant font-display" data-parallax="0.5">
           <a href={`/services/${s.slug}`} class="bt-titre-lien">
             <span class="bt-grand" style={`--n:${Math.max(grand.length, 6)}`}>{grand}</span>{suite && <span class="bt-suite"> {suite}</span>}
@@ -67,9 +92,26 @@ const premierPara = (s: (typeof site.services)[number]) => paragraphs(s.descript
             Découvrir<span class="sr-only"> : {s.title}</span><span aria-hidden="true">&rarr;</span>
           </a>
         </div>
-      </article>
+      </section>
     );
-  })}
+  }).flatMap((scene, i) => (i === 0 && chiffre ? [scene, 'chiffre'] : [scene]))
+    .map((x) => x !== 'chiffre' ? x : (
+      <section class:list={['bt-scene bt-scene-b bt-chiffre', !photoChiffre && 'bt-sans-photo']} aria-label={`Ouverture en ${chiffre!.grand}`}>
+        <p class="bt-titre-geant font-display" data-parallax="0.5">
+          <span class="bt-grand bt-nombre" style={`--n:${Math.max(chiffre!.grand.length, 3)}`}>{chiffre!.grand}</span><span class="bt-suite"> {chiffre!.suite}</span>
+        </p>
+        <div class="bt-rail" aria-hidden="true"><span></span><span></span><span></span></div>
+        {photoChiffre && (
+          <figure class="bt-photo-1 relative overflow-hidden bg-ink" data-reveal>
+            <Img src={photoChiffre.src} alt={photoChiffre.alt} class="h-full w-full object-cover" sizes="(min-width: 64rem) 85vw, 100vw" loading="lazy" />
+          </figure>
+        )}
+        <div class="bt-texte">
+          {texteChiffre && <p class="text-lg">{texteChiffre}</p>}
+          {porteChiffre && <div class="mt-7"><Porte action={porteChiffre} variant="primary" /></div>}
+        </div>
+      </section>
+    ))}
 
   {sansPhoto.length > 0 && (
     <div class="container-ff">
@@ -86,10 +128,10 @@ const premierPara = (s: (typeof site.services)[number]) => paragraphs(s.descript
       </ul>
     </div>
   )}
-</section>
+</div>
 
 <style>
-  .bt-scene { position: relative; margin-top: clamp(4.5rem, 12vw, 11rem); padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+  .bt-scene { position: relative; margin-top: clamp(8rem, 16vw, 15rem); padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
   .bt-titre-geant { position: relative; z-index: 2; color: var(--accent); text-transform: uppercase; line-height: 0.82; letter-spacing: 0.01em; text-shadow: 0 2px 28px color-mix(in srgb, var(--ink) 55%, transparent); }
   .bt-titre-lien { display: inline; color: inherit; text-decoration: none; }
   .bt-titre-lien:hover .bt-suite, .bt-titre-lien:focus-visible .bt-suite { color: var(--fg); }
@@ -101,7 +143,14 @@ const premierPara = (s: (typeof site.services)[number]) => paragraphs(s.descript
   .bt-photo-1 :global(img) { font-size: 1rem; }
   .bt-photo-2 { width: 58%; margin-left: auto; margin-top: -3rem; aspect-ratio: 3 / 4; z-index: 1; margin-right: calc(-1 * clamp(1.25rem, 4vw, 2.5rem)); }
   .bt-texte { margin-top: 2rem; max-width: 34rem; }
-  .bt-rail { display: none; }
+  /* Rail de la source : filet accent vertical dans la marge, trois points (visible aussi au téléphone, tour 18). */
+  .bt-rail { position: absolute; left: 0.55rem; top: 0.9em; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; align-items: center; width: 0.85rem; padding-block: 0.25rem 2rem; background: linear-gradient(var(--accent), var(--accent)) center / 1.5px 100% no-repeat; font-size: clamp(3.1rem, 13vw, 10rem); }
+  .bt-rail span { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--accent); }
+  .bt-rail span:first-child { width: 0.85rem; height: 0.85rem; }
+  .bt-scene-b { padding-left: calc(clamp(1.25rem, 4vw, 2.5rem) + 1rem); }
+  .bt-sans-photo .bt-texte { margin-top: 2.5rem; }
+  /* Le chiffre est plus grand que les noms (la source : 8 fois le texte courant). */
+  .bt-nombre { letter-spacing: -0.01em; font-size: clamp(5.5rem, 30vw, 15rem); }
   .bt-titre-liste { font-size: clamp(1.6rem, 4vw, 2.4rem); text-transform: uppercase; line-height: 1.05; }
   .bt-titre-liste .bt-suite { font-size: 0.6em; }
   .bt-liste { margin-top: clamp(4rem, 9vw, 7rem); }
@@ -114,20 +163,22 @@ const premierPara = (s: (typeof site.services)[number]) => paragraphs(s.descript
       padding-inline: 0;
       align-items: start;
     }
-    .bt-titre-geant { grid-row: 1; grid-column: 2 / span 10; align-self: end; }
+    .bt-titre-geant { grid-row: 1; grid-column: 2 / span 10; align-self: end; z-index: 4; }
     .bt-photo-1 { grid-row: 2; margin: 0; }
     .bt-photo-1 { margin-top: -0.42em; }
-    .bt-scene-a .bt-photo-1 { grid-column: 3 / 11; }
-    .bt-scene-a .bt-photo-2 { grid-row: 1 / span 2; grid-column: 11 / 15; width: auto; margin: 0; margin-top: 4rem; align-self: start; aspect-ratio: 3 / 4.4; }
+    .bt-scene-a .bt-photo-1 { grid-column: 3 / 12; }
+    /* Deux plans : la verticale part plus haut, chevauche le bord droit de la photo principale et sort de l'écran. */
+    .bt-scene-a .bt-photo-2 { grid-row: 1 / span 3; grid-column: 11 / 15; width: auto; margin: 0; margin-top: 1rem; margin-right: -6vw; align-self: start; aspect-ratio: 3 / 4.4; z-index: 3; }
     .bt-scene-a:not(.bt-a-deux) .bt-photo-1 { grid-column: 3 / 12; }
     .bt-scene-a .bt-texte { grid-row: 3; grid-column: 3 / 8; margin-top: 3.5rem; }
     .bt-scene-b .bt-titre-geant { grid-column: 3 / span 10; }
     .bt-scene-b .bt-photo-1 { grid-column: 3 / 15; aspect-ratio: 16 / 8; }
     .bt-scene-b .bt-texte { grid-row: 3; grid-column: 5 / 10; margin-top: 3.5rem; }
-    /* Rail de la source : filet accent vertical dans la marge, trois points. */
-    .bt-rail { display: flex; grid-row: 2 / span 2; grid-column: 2 / 3; justify-self: end; margin-right: 1.25rem; flex-direction: column; justify-content: space-between; align-items: center; width: 0.75rem; padding-block: 0.5rem 4rem; background: linear-gradient(var(--accent), var(--accent)) center / 1px 100% no-repeat; }
-    .bt-rail span { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--accent); }
-    .bt-rail span:first-child { width: 0.85rem; height: 0.85rem; }
+    .bt-scene-b { padding-left: 0; }
+    .bt-rail { position: static; grid-row: 2 / span 2; grid-column: 2 / 3; justify-self: end; margin-right: 1.25rem; width: 1rem; padding-block: 0.5rem 4rem; font-size: 1rem; }
+    .bt-rail span { width: 0.65rem; height: 0.65rem; }
+    .bt-rail span:first-child { width: 1rem; height: 1rem; }
+    .bt-sans-photo .bt-texte { grid-row: 2; }
   }
   .bt-photo-1 :global(.ff-illustration), .bt-photo-2 :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
 </style>

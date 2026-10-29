@@ -1,0 +1,108 @@
+---
+/**
+ * About "enduit" (style enduit, relevé sur bcgbuildingdesign.com.au le 29 oct 2026, fiche docs/veille/styles/enduit.md
+ * § Construction, blocs 2 et 3) : deux sections sœurs, comme la source.
+ * 1. LA PHRASE À CÔTÉ DE SA PHOTO : sur le crème, une ligne d'étiquettes en petit (le titre de la section à gauche, le
+ *    nom à droite), puis deux moitiés d'écran : à gauche la phrase de l'entreprise (about.title), centrée dans sa moitié,
+ *    en grotesque de graisse moyenne (34 px à l'ordinateur) ; à droite, bord à bord jusqu'au bord droit de l'écran, la
+ *    photo du lieu ou du travail (about.portrait, sinon la première photo de la galerie), sur toute la hauteur du bloc.
+ *    Au téléphone : la phrase centrée puis la photo pleine largeur.
+ * 2. LA BANDE BRUNE AU NOM GÉANT : sur le brun (--ink), une petite photo en haut à gauche (3/12, la photo suivante de la
+ *    galerie), le texte de présentation (about.story) dans la colonne de droite (de 8 à 11 sur 12) en petit corps, et le
+ *    lien « Voir les prestations » sur son filet ; en bas, le NOM du client en lettres géantes crème (jusqu'à 20vw), qui
+ *    monte lettre par lettre de sous sa ligne quand la bande arrive à l'écran (profil « index-qui-change-la-photo »,
+ *    apparition « nom-en-tranches » : chaque lettre translateY(105 %) -> 0 dans un cadre overflow hidden, 0,8 s, courbe
+ *    de la source, 40 ms entre deux lettres ; une fois ; posé d'emblée en mouvement réduit ou sans script).
+ * Rien d'inventé : sans photo, la phrase prend toute la largeur ; sans histoire, la bande garde le nom seul.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story);
+const galerie = site.proof.gallery;
+const photo = a.portrait ?? galerie[0];
+const petite = galerie.find((g) => g.src !== photo?.src && g.src !== site.images.hero?.src);
+const nom = site.business.name;
+// Taille du nom : chaque ligne tient dans la largeur au téléphone comme à l'ordinateur (lettres géantes, jamais coupé).
+// Un nom de plusieurs mots passe à une ligne par mot (le plus long fixe la taille) : les lettres restent géantes.
+const mots = nom.length > 9 ? nom.split(/\s+/) : [nom];
+const taille = Math.min(20, 118 / Math.max(...mots.map((m) => m.length), 4)).toFixed(1);
+let rang = 0;
+const lignes = mots.map((m) => [...m].map((l) => ({ l, i: rang++ })));
+---
+
+<section id="about" class="enduit-studio" aria-labelledby="enduit-phrase">
+  <div class="enduit-large flex justify-between pt-6 text-sm font-medium">
+    <span>À propos</span>
+    <span>{nom}</span>
+  </div>
+  <div class:list={['grid md:grid-cols-2', photo ? 'md:min-h-[100svh]' : '']}>
+    <div class="flex items-center justify-center px-6 py-20 md:px-12">
+      <h2 id="enduit-phrase" class="enduit-phrase-studio text-center" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
+    </div>
+    {photo && (
+      <figure class="relative aspect-[0.8] overflow-hidden md:aspect-auto">
+        <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 50vw, 100vw" loading="lazy" />
+      </figure>
+    )}
+  </div>
+</section>
+
+<section class="enduit-bande overflow-hidden bg-ink text-on-ink" aria-label={`${nom}, présentation`}>
+  <div class="enduit-large grid gap-10 pt-[var(--section-y)] md:grid-cols-12 md:gap-6">
+    {petite && (
+      <figure class="relative aspect-[0.8] w-2/3 overflow-hidden md:col-span-3 md:w-auto">
+        <Img src={petite.src} alt={petite.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 22vw, 66vw" loading="lazy" />
+      </figure>
+    )}
+    <div class="text-sm leading-relaxed md:col-span-4 md:col-start-8 md:self-end md:text-base">
+      {paras.map((p, i) => <p class={i > 0 ? 'mt-4' : ''}>{p}</p>)}
+      <div class="mt-8">
+        <Button href="/#services" variant="ghost" size="sm" class="enduit-lien-bande">Voir les prestations</Button>
+      </div>
+    </div>
+  </div>
+  <p class="enduit-nom font-display enduit-large pb-4 pt-16 md:pt-24" style={`font-size: ${taille}vw;`} data-nom-tranches>
+    <span class="sr-only">{nom}</span>
+    {lignes.map((ligne) => (
+      <span class="block" aria-hidden="true">
+        {ligne.map(({ l, i }) => (
+          <span class="enduit-tranche"><span style={`transition-delay: ${i * 40}ms`}>{l}</span></span>
+        ))}
+      </span>
+    ))}
+  </p>
+</section>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Nom en tranches : les lettres montent une fois, quand la bande arrive à l'écran. Sans script ou en mouvement réduit,
+  // la classe n'est jamais posée et le nom est en place (voir le CSS : l'état caché n'existe que sous .enduit-pret).
+  onPage(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'none') return;
+    document.querySelectorAll<HTMLElement>('[data-nom-tranches]').forEach((nom) => {
+      nom.classList.add('enduit-pret');
+      const io = new IntersectionObserver((entrees) => {
+        if (entrees.some((e) => e.isIntersecting)) {
+          nom.classList.add('enduit-monte');
+          io.disconnect();
+        }
+      }, { threshold: 0.3 });
+      io.observe(nom);
+    });
+  });
+</script>
+
+<style>
+  /* Cadre de la source : toute la largeur de l'écran, marge de 16 à 28 px (gouttière mesurée 22 px à 1 440 px). */
+  .enduit-large { width: 100%; padding-inline: clamp(1rem, 1.6vw, 1.75rem); }
+  .enduit-phrase-studio { font-size: clamp(1.45rem, 1.05rem + 1.4vw, 2.15rem); line-height: 1.08; max-width: 17ch; font-weight: 500; text-wrap: balance; }
+  .enduit-nom { font-weight: 600; line-height: 0.8; letter-spacing: -0.045em; white-space: nowrap; }
+  .enduit-tranche { display: inline-block; overflow: hidden; padding-bottom: 0.04em; vertical-align: bottom; }
+  .enduit-tranche > span { display: inline-block; }
+  .enduit-pret .enduit-tranche > span { transform: translateY(105%); transition: transform 0.8s var(--ease-brand); }
+  .enduit-pret.enduit-monte .enduit-tranche > span { transform: none; }
+  .enduit-bande :global(.enduit-lien-bande) { color: var(--on-ink); border-color: var(--on-ink); width: 100%; }
+</style>

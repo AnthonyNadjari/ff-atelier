@@ -41,6 +41,10 @@ export const HERO_SIZES: Record<string, string> = {
   'mur-de-photos': '(min-width: 64rem) 38vw, 100vw',
   lin: '100vw', // bande pleine largeur sous la phrase (style lin)
   pinceau: '(min-width: 64rem) 560px, 92vw', // photo de la bande terracotta sous l'enseigne (style pinceau, Services/pinceau)
+  calque: '100vw', // photo plein écran sous la barre de cellules (style calque)
+  enduit: '100vw', // photo plein écran, phrase en bas à gauche (style enduit)
+  ocre: '(min-width: 48rem) 50vw, 100vw', // diptyque bord à bord sous la ligne du titre (style ocre)
+  chapitre: '100vw', // photo du lieu en plein cadre sous le nom de bord à bord (style chapitre)
 };
 
 /** `sizes` d'un hero selon sa variante (`site.layout.hero`) ; toute variante inconnue = pleine largeur. */

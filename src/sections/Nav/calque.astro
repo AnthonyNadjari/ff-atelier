@@ -1,0 +1,65 @@
+---
+/**
+ * Nav "calque" (style calque, relevé sur tekt.com.au le 29 oct 2026, fiche docs/veille/styles/calque.md § Construction) :
+ * la barre EST une rangée de cellules de plan posée sur la photo du premier écran, à 12 px du bord : à gauche une grande
+ * cellule (la moitié de la largeur, 70 px de haut) avec le nom ; à droite des cellules plus basses (45 px), une par
+ * ancre, le libellé en haut à gauche ; chaque cellule a son filet et ses quatre petits carrés d'angle
+ * (src/styles/cellules.css). Socle (GOUT § 0) : la dernière cellule est le téléphone, cliquable, visible sur téléphone
+ * ET ordinateur sans défiler. Au téléphone : le nom, le téléphone et une cellule Menu qui déplie les ancres en cellules
+ * empilées. La barre reste fixe (la source ne la cache jamais) ; aucune ombre.
+ * Sans premier écran calque (photo sous la barre), un espace de la hauteur de la barre la précède.
+ */
+import '@/styles/cellules.css';
+import { site, navLinks, tel } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const liens = navLinks().filter((l) => l.href !== '/#contact').slice(0, 4);
+const contact = navLinks().find((l) => l.href === '/#contact');
+const sousLaPhoto = site.layout.hero === 'calque';
+---
+
+<header data-nav class="calque-nav fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-[2.5rem] md:pt-3">
+  <div class="flex items-start">
+    <a href="/" class="ff-cellule calque-nom flex flex-1 items-center px-3 md:w-1/2 md:flex-none md:px-4">
+      {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-9 w-auto" sizes="200px" loading="eager" /> : <span class="font-display">{site.business.name}</span>}
+    </a>
+    <nav class="ff-cellules-ligne hidden flex-1 md:flex" aria-label="Navigation principale">
+      {liens.map((l) => <a href={l.href} class="ff-cellule calque-lien flex-1 px-3 pt-2 text-sm font-medium">{l.label}</a>)}
+      {contact && <a href={contact.href} class="ff-cellule calque-lien flex-1 px-3 pt-2 text-sm font-medium">{contact.label}</a>}
+      <a href={tel()} class="ff-cellule calque-lien flex-1 px-3 pt-2 text-sm font-medium" data-porte="call">{site.contact.phoneDisplay}</a>
+    </nav>
+    <div class="ff-cellules-ligne flex md:hidden">
+      <a href={tel()} class="ff-cellule calque-lien px-3 pt-2 text-sm font-medium" data-porte="call">Appeler</a>
+      <button type="button" class="ff-cellule calque-lien px-3 pt-2 text-left text-sm font-medium" aria-expanded="false" aria-controls="calque-menu" data-menu-toggle>Menu</button>
+    </div>
+  </div>
+  <nav id="calque-menu" class="ff-cellules mt-[-1px] ml-auto hidden w-2/3 md:hidden" aria-label="Navigation mobile" data-menu>
+    {[...liens, ...(contact ? [contact] : [])].map((l) => <a href={l.href} class="ff-cellule block px-3 py-3 text-base">{l.label}</a>)}
+    <a href={tel()} class="ff-cellule block px-3 py-3 text-base">{site.contact.phoneDisplay}</a>
+  </nav>
+</header>
+{!sousLaPhoto && <div class="h-[84px]" aria-hidden="true"></div>}
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  onPage(() => {
+    const btn = document.querySelector<HTMLButtonElement>('.calque-nav [data-menu-toggle]');
+    const menu = document.querySelector<HTMLElement>('.calque-nav [data-menu]');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+      const ouvert = menu.classList.toggle('hidden') === false;
+      btn.setAttribute('aria-expanded', String(ouvert));
+    });
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.classList.add('hidden')));
+  });
+</script>
+
+<style>
+  .calque-nom { min-height: 3.25rem; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+  .calque-lien { min-height: 2.5rem; min-width: 5.5rem; }
+  @media (min-width: 48rem) {
+    .calque-nom { min-height: 4.4rem; font-size: 2.6rem; }
+    .calque-lien { min-height: 2.85rem; }
+  }
+</style>

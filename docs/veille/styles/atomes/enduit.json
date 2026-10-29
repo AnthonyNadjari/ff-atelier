@@ -1,0 +1,150 @@
+{
+  "id": "enduit",
+  "version": 1,
+  "source": {
+    "url": "https://bcgbuildingdesign.com.au/",
+    "nom": "BCG Building Design",
+    "metier": "studio de conception de maisons sur la Gold Coast (une dessinatrice et son équipe : maisons neuves sur mesure, grosses rénovations)",
+    "fiche": "docs/veille/styles/enduit.md",
+    "mesures": "docs/veille/styles/atomes/mesures/enduit.json",
+    "date": "2026-10-29"
+  },
+  "typo": {
+    "titre": {
+      "famille": "NeueHaasDisplay Pro",
+      "libre": "hostGrotesk",
+      "graisse": 500,
+      "interlignage": 1.05,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "NeueHaasDisplay Pro",
+      "libre": "hostGrotesk",
+      "graisse": 450,
+      "interlignage": 1.2
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 26,
+        "ordinateur": 40
+      },
+      "h2": {
+        "telephone": 20.5,
+        "ordinateur": 34
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Neue Haas Display (non libre, graisses 500 et 600) partout, une seule famille : Host Grotesk (grotesque néo-suisse libre), titres en 500, texte en 450. Le h1 mesuré (16 px) est le texte de référencement caché ; le vrai titre visible est la phrase posée sur la photo (40 px, h2 de la source)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#f3efe8",
+      "texte": "#3a3028",
+      "fonds": [
+        {
+          "hex": "#f3efe8",
+          "part": 0.761
+        },
+        {
+          "hex": "#3a3028",
+          "part": 0.239
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3a3028",
+          "part": 0.754
+        },
+        {
+          "hex": "#fffdf8",
+          "part": 0.246
+        }
+      ],
+      "proches": 12173248
+    },
+    "clair": {
+      "fond": "#f3ede4",
+      "surface": "#fffdf8",
+      "texte": "#3a3028",
+      "texte2": "#6b6157",
+      "accent": "#3a3028",
+      "accent2": "#e9e3d8",
+      "bordure": "#d3cbbf",
+      "encre": "#3a3028"
+    },
+    "sombre": null,
+    "remarque": "Crème #f3efe8 mesuré (54 % des fonds, chroma OKLCH 0,010, au bord du neutre) réchauffé d'un cheveu en fond (#f3ede4, 0,014) ; un seul brun terre #3a3028 (25 % des fonds : la bande du nom ; 74 % des textes, boutons pleins) et le crème clair #fffdf8 sur le brun et en surface ; aucune autre couleur que celle des photos. Clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 85,
+      "ordinateur": 160
+    },
+    "gouttiere": {
+      "telephone": 10,
+      "ordinateur": 22
+    },
+    "conteneur": 1440,
+    "mesure": 50,
+    "rythme": "uni",
+    "remarque": "Pas de conteneur : toute la largeur, gouttière de 22 px à l'ordinateur (16 px reprise dans l'usine) ; texte en colonnes étroites (4/12) ; blocs d'environ un écran."
+  },
+  "formes": {
+    "rayon": 3,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Bouton plein brun à peine arrondi (« Menu ») ; le lien « Learn More » est un texte posé sur un filet pleine colonne, flèche à droite ; aucune carte, aucune ombre, photos nues."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "3:2",
+      "4:3"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "chevauchement",
+    "remarque": "Photo plein écran au premier écran ; photo bord à bord sur la moitié droite à côté de la phrase ; photo verticale posée PAR-DESSUS la liste des réalisations ; petites photos verticales à côté du texte ; photos de maisons et d'intérieurs claires, jamais voilées."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.4,
+      "courbe": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    },
+    "scene": {
+      "duree": 0.8,
+      "courbe": "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis"
+    ],
+    "profil": "index-qui-change-la-photo",
+    "remarque": "GSAP, ScrollTrigger, Lenis et Barba sur la source : préchargement plein écran (refusé), section qui glisse à l'horizontale au défilement (refusée, déjà piste-horizontale), titres découpés. Gardé : l'index dont la ligne survolée montre sa photo (opacité, filet qui se trace) et le nom géant qui monte lettre par lettre."
+  },
+  "matiere": {
+    "fond": "sections-colorees",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

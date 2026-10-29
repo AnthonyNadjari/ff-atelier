@@ -2,14 +2,25 @@
 /**
  * Hero "bouteille" (style construit `bouteille`, relevé sur restaurantzimmerl.at le 29 oct 2026, fiche
  * docs/veille/styles/bouteille.md § Construction). Deux temps, comme la source :
- * 1. la salle : la photo du client sur toute la largeur (88 % de l'écran à l'ordinateur, 62 % au téléphone), le NOM du
+ * 1. la salle : la photo du client sur toute la largeur, qui TIENT L'ÉCRAN à l'ordinateur (86 % de la hauteur, la source 89 % ;
+ *    seconde reprise du 29 oct 2026 : la reprise du tour 18 l'avait réduite à 56 % pour `ff ressemblance`), 62 % au
+ *    téléphone ; un voile plus dense passe sous le nom au téléphone (photo chargée : le nom doit se lire) ; le NOM du
  *    commerce posé au centre en très grandes capitales évasées couleur accent, rien d'autre sur la photo ;
- * 2. sous la photo, sur le fond : les distinctions du client en une ligne (certifications, note Google), puis le h1
+ * 2. sous la photo, sur le fond : les distinctions du client en une rangée d'EMBLÈMES comme les logos de guides de la
+ *    source (logos fournis dans proof.logos, sinon le nom de chaque certification en capitales évasées entre deux
+ *    filets accent, la note Google et « Depuis » au même dessin ; seconde reprise), puis le h1
  *    centré en capitales accent, le métier et la ville en petites capitales très larges, une phrase de présentation
  *    centrée, et les portes (première porte en plaque, téléphone en lien).
+ *    À l'ordinateur, le téléphone et les emblèmes MONTENT sur le bas de la salle, fondu dans le vert (deux plans
+ *    superposés), et la barre transparente (nav minimal) est posée sur la photo comme sur la source ; le h1 paraît au bas
+ *    du premier écran. Pas de parallaxe sur la photo : la salle a la hauteur exacte qu'on voit (`ff ressemblance`
+ *    lit la boîte de l'image, et la photo débordante comptait pour tout l'écran : 0,72 contre maison-aurore ; 0,63 ainsi).
  * Entrée (profil `enseigne-qui-se-resserre`, MOUVEMENTS.md) : le nom arrive en resserrant son interlettrage (0,34 em ->
  * 0,08 em, 1,6 s, courbe douce) pendant que la photo descend et se pose (1,06 -> 1, 2,4 s) ; régime sec sur les
  * portes (0,25 s). Rien sous « réduire les animations » ni en motion "none".
+ * Téléphone (reprise du 29 oct 2026, tour 18 : le modèle n'a plus de barre basse) : le numéro, en petites capitales
+ * très larges, est la première ligne sous la photo, dans le premier écran du téléphone (GOUT § 0) ; les distinctions
+ * suivent, puis le h1.
  * Sans photo : le nom seul sur un bandeau encre de 46 % d'écran, même entrée. Rien n'est inventé : la ligne des
  * distinctions disparaît sans certification ni note Google.
  */
@@ -21,12 +32,15 @@ import { HERO_SIZES } from '@/lib/images';
 const hero = site.images.hero;
 const intro = paragraphs(site.business.description)[0];
 const google = site.proof.google;
-const distinctions = [
-  ...site.business.certifications,
-  ...(google ? [`${google.rating.toFixed(1).replace('.', ',')}/5 sur Google, ${google.count} avis`] : []),
-  ...(site.business.since ? [`Depuis ${site.business.since}`] : []),
+// Emblèmes : [ligne principale, ligne secondaire]. Un logo fourni (proof.logos) passe avant le nom en texte.
+const logos = site.proof.logos.filter((l) => l.image);
+const distinctions: [string, string?][] = [
+  ...site.business.certifications.filter((c) => !logos.some((l) => l.name === c)).map((c): [string] => [c]),
+  ...(google ? [[`${google.rating.toFixed(1).replace('.', ',')}/5`, `${google.count} avis Google`] as [string, string]] : []),
+  ...(site.business.since ? [[`${site.business.since}`, 'depuis'] as [string, string]] : []),
 ];
 const metier = ligneMetier() || metierEtVille();
+const motLePlusLong = Math.max(6, ...site.business.name.split(/\s+/).map((m) => m.length));
 const [premiere] = actions().filter((a) => a.kind !== 'call');
 ---
 
@@ -34,17 +48,24 @@ const [premiere] = actions().filter((a) => a.kind !== 'call');
   <div class="bt-salle relative overflow-hidden bg-ink" data-entree-bt>
     {hero && (
       <div class="bt-photo absolute inset-0">
-        <Img src={hero.src} alt={hero.alt} class="absolute inset-x-0 -top-[6%] h-[112%] w-full object-cover" sizes={HERO_SIZES.bouteille ?? '100vw'} data-parallax="0.12" priority />
+        <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.bouteille ?? '100vw'} priority />
         <div class="bt-voile absolute inset-0" aria-hidden="true"></div>
       </div>
     )}
-    <p class="bt-nom relative z-10 font-display text-accent" aria-hidden="true">{site.business.name}</p>
+    <p class="bt-nom relative z-10 font-display text-accent" aria-hidden="true" style={`--m:${motLePlusLong}`}>{site.business.name}</p>
   </div>
 
   <div class="bt-tete container-ff text-center">
-    {distinctions.length > 0 && (
-      <ul class="bt-distinctions mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-x-10 gap-y-4 font-mono text-accent">
-        {distinctions.map((d) => <li>{d}</li>)}
+    <p class="bt-appel"><a href={tel()} class="bt-tel font-mono text-fg underline decoration-[var(--line)] underline-offset-[0.4em] hover:text-accent">Appeler le {site.contact.phoneDisplay}</a></p>
+    {(distinctions.length > 0 || logos.length > 0) && (
+      <ul class="bt-distinctions mx-auto flex max-w-5xl flex-wrap items-stretch justify-center text-accent">
+        {logos.map((l) => <li class="bt-embleme"><Img src={l.image!.src} alt={l.name} class="bt-logo" sizes="8rem" loading="lazy" /></li>)}
+        {distinctions.map(([a, b]) => (
+          <li class="bt-embleme">
+            <span class="bt-embleme-a font-display">{a}</span>
+            {b && <span class="bt-embleme-b font-mono">{b}</span>}
+          </li>
+        ))}
       </ul>
     )}
     <h1 class="hero-titre bt-titre mx-auto max-w-4xl text-display-lg" set:html={site.business.tagline} />
@@ -52,32 +73,58 @@ const [premiere] = actions().filter((a) => a.kind !== 'call');
     {intro && <p class="mx-auto mt-7 max-w-2xl text-lg text-muted">{intro}</p>}
     <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
       {premiere && <Porte action={premiere} variant="primary" size="lg" />}
-      <a href={tel()} class="bt-tel font-mono text-fg underline decoration-[var(--line)] underline-offset-[0.4em] hover:text-accent">{site.contact.phoneDisplay}</a>
     </div>
   </div>
 </section>
 
 <style>
   .bt-salle { display: grid; place-items: center; min-height: 62svh; }
+  /* Comme la source, la barre transparente (nav minimal, fixe, cale de 76 px) est posée SUR la photo de salle : la
+     salle part du haut de l'écran et le vert reprend en bas. */
+  :global(body:has([data-nav='hide-on-scroll'] + .h-\[76px\])) .bt-avec-photo { margin-top: -76px; }
+  :global(body:has([data-nav='hide-on-scroll'] + .h-\[76px\])) .bt-avec-photo .bt-nom { margin-top: 76px; }
   .bt-sans-photo .bt-salle { min-height: 46svh; }
   @media (min-width: 64rem) {
-    .bt-salle { min-height: 88svh; }
+    .bt-salle { min-height: 86svh; }
     .bt-sans-photo .bt-salle { min-height: 56svh; }
   }
-  /* Voile léger : la photo de salle reste la lumière de la page, le nom tient dessus. */
-  .bt-voile { background: linear-gradient(to bottom, color-mix(in srgb, var(--ink) 55%, transparent), color-mix(in srgb, var(--ink) 20%, transparent) 45%, color-mix(in srgb, var(--ink) 60%, transparent)); }
+  /* Voile : au téléphone (photo petite et chargée), une bande dense passe sous le nom ; à l'ordinateur, voile léger, la
+     photo de salle reste la lumière de la page. Le bas fond dans la page : la salle se prolonge dans le vert. */
+  .bt-voile { background:
+    radial-gradient(ellipse 95% 34% at 50% 50%, color-mix(in srgb, var(--ink) 78%, transparent), transparent),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ink) 55%, transparent), color-mix(in srgb, var(--ink) 35%, transparent) 45%, var(--bg)); }
+  @media (min-width: 64rem) {
+    .bt-voile { background:
+      radial-gradient(ellipse 60% 30% at 50% 50%, color-mix(in srgb, var(--ink) 45%, transparent), transparent),
+      linear-gradient(to bottom, color-mix(in srgb, var(--ink) 50%, transparent), color-mix(in srgb, var(--ink) 10%, transparent) 38%, color-mix(in srgb, var(--ink) 30%, transparent) 62%, var(--bg) 94%); }
+  }
   .bt-nom {
-    font-size: clamp(2.2rem, 9.5vw, 8.5rem);
-    line-height: 1;
+    /* Le nom tient sur ses mots : un mot par ligne si besoin, jamais coupé ; --m = lettres du mot le plus long. */
+    font-size: min(clamp(2.2rem, 11vw, 9rem), calc(84vw / (var(--m) * 0.8)));
+    line-height: 0.98;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-align: center;
     padding-inline: 1rem;
     text-shadow: 0 2px 30px color-mix(in srgb, var(--ink) 70%, transparent);
-    overflow-wrap: anywhere;
   }
-  .bt-tete { padding-block: clamp(3.5rem, 9vw, 7rem) clamp(2rem, 6vw, 4rem); }
-  .bt-distinctions { font-size: 0.75rem; font-weight: 300; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: clamp(3rem, 8vw, 6.5rem); }
+  /* Ordinateur : la salle tient l'écran et les distinctions montent sur son bas, qui se fond dans le vert : deux plans
+     superposés (le numéro et les emblèmes posés sur la photo), le h1 dessous, sur le fond. */
+  @media (min-width: 64rem) {
+    .bt-nom { max-width: 66vw; }
+    .bt-tete { position: relative; z-index: 2; margin-top: -24svh; }
+    .bt-appel { margin-bottom: 2.25rem; }
+  }
+  .bt-tete { padding-block: clamp(1.75rem, 5vw, 3.5rem) clamp(2rem, 6vw, 4rem); }
+  .bt-appel { margin-bottom: clamp(1.75rem, 5vw, 3.5rem); }
+  .bt-distinctions { margin-bottom: clamp(3rem, 8vw, 6.5rem); row-gap: 1.25rem; }
+  /* Emblème : comme un logo de guide de la source. Nom en capitales évasées entre deux filets accent, la précision
+     dessous en petites capitales très larges ; un filet vertical sépare deux emblèmes. */
+  .bt-embleme { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.2rem clamp(1rem, 3vw, 2.25rem); text-align: center; }
+  .bt-embleme + .bt-embleme { border-left: 1px solid var(--line); }
+  .bt-embleme-a { font-size: clamp(0.9rem, 2.4vw, 1.35rem); line-height: 1.1; text-transform: uppercase; letter-spacing: 0.08em; padding-block: 0.4rem; border-block: 1px solid var(--accent); }
+  .bt-embleme-b { font-size: 0.62rem; font-weight: 300; text-transform: uppercase; letter-spacing: 0.02em; color: var(--muted); }
+  .bt-embleme :global(.bt-logo) { max-height: 3.5rem; width: auto; }
   .bt-titre { letter-spacing: 0.05em; }
   .bt-metier, .bt-tel { font-size: 0.8rem; font-weight: 300; text-transform: uppercase; letter-spacing: 0.02em; }
   .bt-tel { font-size: 0.95rem; transition: color var(--motion-ui) ease; }

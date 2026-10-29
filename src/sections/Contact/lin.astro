@@ -1,0 +1,66 @@
+---
+/**
+ * Contact "lin" (style lin, reprise du 29 oct 2026, tour 18 ; source fraher.co, fiche docs/veille/styles/lin.md
+ * § Construction) : le contact prend LA GRAMMAIRE DES PANNEAUX DE SERVICE au lieu de la fin de page de l'usine
+ * (communes, bandeau d'appel, questions, formulaire en carte, pied sombre). Un panneau pleine largeur sur le sable
+ * (bg-2, le panneau du manifeste de la source), deux colonnes sur douze, aucune carte,
+ * aucune ombre, aucune icône :
+ * - à gauche (5/12) : l'étiquette en petite grotesque sur deux lignes (« Contact », puis le métier à la ville), un long
+ *   vide, la phrase en serif de livre de grand corps (wording.contactTitle), puis les liens entre deux filets (Appeler
+ *   le numéro, Écrire), et, en petite grotesque, l'adresse et les horaires ;
+ * - à droite (6/12) : le formulaire du site posé à plat sur le panneau (la porte « Demander un devis » du premier
+ *   écran y arrive) ; sans formulaire, la colonne reste vide, comme la moitié droite du panneau sable de la source.
+ * Au téléphone : tout s'empile, les liens pleine largeur.
+ * Rien d'inventé : chaque ligne disparaît sans sa donnée. Mouvement : aucun (la source est immobile) ; le lien
+ * s'emplit au survol (.btn-ghost de la direction).
+ */
+import { site, tel, mailto, fullAddress, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import ContactForm from '@/components/ContactForm.astro';
+
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+const formulaire = site.form.provider !== 'none';
+---
+
+<section id="contact" class="lc-panneau" aria-labelledby="lc-phrase">
+  <div class="container-ff grid gap-12 py-[var(--section-y)] md:grid-cols-12 md:gap-8">
+    <div class="flex flex-col md:col-span-5">
+      <p class="font-mono text-base leading-snug">Contact<span class="block">{metierEtVille().replace(/\.$/, '')}</span></p>
+      <h2 id="lc-phrase" class="lc-phrase mt-10 font-display md:mt-16" set:html={site.wording.contactTitle} />
+      {site.wording.contactText && <p class="mt-5 max-w-[34ch]">{site.wording.contactText}</p>}
+      <div class="mt-10 flex flex-wrap gap-4">
+        <Button href={tel()} variant="ghost" size="sm">Appeler le {site.contact.phoneDisplay}</Button>
+        {site.contact.email && <Button href={mailto()} variant="ghost" size="sm">Écrire</Button>}
+      </div>
+      {(adresse || horaires.length > 0) && (
+        <div class="mt-12 space-y-4 font-mono text-sm leading-relaxed">
+          {adresse && <p>{adresse}</p>}
+          {horaires.length > 0 && (
+            <dl class="grid grid-cols-[auto_1fr] gap-x-6 gap-y-1">
+              {horaires.map((h) => (
+                <>
+                  <dt>{h.days}</dt>
+                  <dd>{h.hours}</dd>
+                </>
+              ))}
+            </dl>
+          )}
+        </div>
+      )}
+    </div>
+    {formulaire && (
+      <div class="lc-form md:col-span-6 md:col-start-7 md:pt-[6%]">
+        <ContactForm compact idPrefix="lin" />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  /* Le sable du manifeste (bg-2), comme le panneau de présentation de la source. */
+  .lc-panneau { background: var(--bg-2); }
+  .lc-phrase { font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem); line-height: 1.26; max-width: 18ch; font-weight: 400; }
+  /* Le formulaire posé à plat : champs sur le papier, filet fin, sans carte. */
+  .lc-form :global(input), .lc-form :global(select), .lc-form :global(textarea) { background: var(--bg); border-radius: 0; }
+</style>

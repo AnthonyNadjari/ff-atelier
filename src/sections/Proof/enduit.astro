@@ -1,0 +1,107 @@
+---
+/**
+ * Proof "enduit" (style enduit, relevé sur bcgbuildingdesign.com.au le 29 oct 2026, fiche docs/veille/styles/enduit.md
+ * § Construction, bloc 6 « Client Words ») : UN AVIS ENTRE DEUX PHOTOS. Sur le crème, trois colonnes sur douze : à gauche
+ * une petite photo verticale (3/12, posée en bas), au milieu (4/12) l'étiquette « Avis » et la note Google en petit, puis
+ * l'avis recopié du client en corps de lecture et son auteur (nom en encre, ville en second plan), un lien sur filet vers
+ * la fiche Google, et dessous le compteur « 01 / 03 » avec Précédent / Suivant ; à droite (5/12) une grande photo
+ * verticale qui monte plus haut que le texte. Les avis sont dans une piste horizontale à défilement aimanté natif (au
+ * doigt sur téléphone, flèches à l'ordinateur ; sans script, la piste se fait glisser) : un avis à la fois, comme la source.
+ * Au téléphone : petite photo, avis, compteur, grande photo, empilés.
+ * Rien d'inventé : avis recopiés seulement (trois au plus) ; sans avis ni note, pas de section (et pas de lien de nav) ;
+ * photos de la galerie du client seulement, celles que le premier écran et la présentation n'ont pas déjà montrées ;
+ * aucune étoile, aucune carte.
+ */
+import { site } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 3);
+// Photos déjà montrées plus haut : le premier écran, et les deux de la présentation (About/enduit : le portrait ou la
+// première photo de la galerie, puis la suivante). On prend les suivantes de la galerie du client.
+const tout = site.proof.gallery;
+const photoAbout = site.about.portrait ?? tout[0];
+const petiteAbout = tout.find((g) => g.src !== photoAbout?.src && g.src !== site.images.hero?.src);
+const dejaVues = new Set([site.images.hero?.src, photoAbout?.src, petiteAbout?.src].filter(Boolean));
+const libres = tout.filter((g) => !dejaVues.has(g.src));
+const [petite, grande] = libres;
+const deux = (n: number) => String(n).padStart(2, '0');
+---
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class="enduit-avis section-y" aria-labelledby="enduit-avis-titre" data-avis-piste>
+    <div class="enduit-large grid gap-10 md:grid-cols-12 md:gap-6">
+      {petite && (
+        <figure class="relative aspect-[3/4] w-1/2 overflow-hidden md:col-span-3 md:w-auto md:self-end">
+          <Img src={petite.src} alt={petite.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 22vw, 50vw" loading="lazy" />
+        </figure>
+      )}
+      <div class:list={['flex min-w-0 flex-col md:col-span-4', petite ? 'md:col-start-4' : 'md:col-start-1']}>
+        <h2 id="enduit-avis-titre" class="text-sm font-medium">
+          Avis{google && <span class="ml-4 text-muted">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</span>}
+        </h2>
+        {avis.length > 0 && (
+          <ul class="enduit-piste mt-8 flex snap-x snap-mandatory overflow-x-auto" data-piste tabindex="0" aria-label="Avis des clients, un à la fois">
+            {avis.map((t) => (
+              <li class="w-full shrink-0 snap-start pr-6">
+                <blockquote class="text-base leading-relaxed md:text-lg">«&nbsp;{t.text}&nbsp;»</blockquote>
+                <p class="mt-6 text-sm"><span class="font-medium">{t.author}</span>{t.city && <span class="ml-4 text-muted">{t.city}</span>}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {google && (
+          <div class="mt-8">
+            <Button href={google.url} variant="ghost" size="sm" target="_blank" rel="noopener">Lire les avis sur Google</Button>
+          </div>
+        )}
+        {avis.length > 1 && (
+          <div class="mt-10 flex items-center justify-between text-sm">
+            <p><span data-compteur>01</span><span class="text-muted"> / {deux(avis.length)}</span></p>
+            <p class="flex gap-6">
+              <button type="button" class="hover:underline underline-offset-4" data-avis-pas="-1">Précédent</button>
+              <button type="button" class="hover:underline underline-offset-4" data-avis-pas="1">Suivant</button>
+            </p>
+          </div>
+        )}
+      </div>
+      {grande && (
+        <figure class="relative aspect-[0.8] overflow-hidden md:col-span-5 md:col-start-8">
+          <Img src={grande.src} alt={grande.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 40vw, 92vw" loading="lazy" />
+        </figure>
+      )}
+    </div>
+  </section>
+)}
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Précédent / Suivant : la piste défile d'un avis (défilement natif, aimanté) ; le compteur suit la piste.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-avis-piste]').forEach((bloc) => {
+      const piste = bloc.querySelector<HTMLElement>('[data-piste]');
+      const compteur = bloc.querySelector<HTMLElement>('[data-compteur]');
+      if (!piste) return;
+      const n = piste.children.length;
+      const courant = () => Math.round(piste.scrollLeft / Math.max(1, piste.clientWidth));
+      const doux = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      bloc.querySelectorAll<HTMLButtonElement>('[data-avis-pas]').forEach((b) => {
+        b.addEventListener('click', () => {
+          const i = (courant() + Number(b.dataset.avisPas) + n) % n;
+          piste.scrollTo({ left: i * piste.clientWidth, behavior: doux as ScrollBehavior });
+        });
+      });
+      piste.addEventListener('scroll', () => {
+        if (compteur) compteur.textContent = String(courant() + 1).padStart(2, '0');
+      }, { passive: true });
+    });
+  });
+</script>
+
+<style>
+  /* Cadre de la source : toute la largeur de l'écran, marge de 16 à 28 px (gouttière mesurée 22 px à 1 440 px). */
+  .enduit-large { width: 100%; padding-inline: clamp(1rem, 1.6vw, 1.75rem); }
+  .enduit-piste { scrollbar-width: none; overscroll-behavior-x: contain; }
+  .enduit-piste::-webkit-scrollbar { display: none; }
+</style>

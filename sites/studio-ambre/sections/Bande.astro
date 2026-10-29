@@ -1,0 +1,25 @@
+---
+/**
+ * « Bande » (29 oct 2026) : la photo du dossier en bande pleine largeur, sans marge, sans voile, sans texte posé dessus,
+ * comme la bande du style lin (fraher.co, docs/veille/styles/lin.md § Construction) qui suit la phrase d'accueil. Ici
+ * l'accueil est la demande de première visite (architecture estimation-etapes) : la bande vient juste après, avant le
+ * projet raconté. Haute au téléphone (le lieu se lit en hauteur), 16:9 à l'ordinateur. Sans images.hero : rien.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const photo = site.images.hero;
+---
+
+{photo && (
+  <section id="bande" class="bande-ambre">
+    <figure class="bande-cadre relative w-full overflow-hidden bg-ink">
+      <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />
+    </figure>
+  </section>
+)}
+
+<style>
+  .bande-cadre { block-size: 72svh; }
+  @media (min-width: 48rem) { .bande-cadre { block-size: auto; aspect-ratio: 16 / 9; max-block-size: 92svh; } }
+</style>

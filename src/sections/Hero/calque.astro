@@ -1,0 +1,79 @@
+---
+/**
+ * Hero "calque" (style calque, relevé sur tekt.com.au le 29 oct 2026, fiche docs/veille/styles/calque.md § Construction) :
+ * la grammaire de la source (grand corps à gauche, colonne de cellules de plan à droite, photo du client de bord à bord)
+ * remontée dans le premier écran, sous la barre de cellules Nav/calque :
+ * - en haut, sur le fond de plan, le h1 (business.tagline) en grotesque de graisse normale (42 px à l'ordinateur : un
+ *   grand corps, pas un titre géant) dans les deux tiers gauches, le métier à la ville dessous (GOUT § 0), l'ancienneté
+ *   et la note Google quand le client les a ; dans le tiers droit, les prestations en cellules numérotées
+ *   (CellulesPrestations), chacune vers sa page ;
+ * - dessous, la photo du client pleine largeur, nue, jusqu'au bas de l'écran (42 % de l'écran au moins) ; au
+ *   téléphone, les cellules des prestations sont POSÉES SUR la photo en haut (comme les séries de la source, posées sur
+ *   sa photo pleine largeur).
+ * Écart à la source, voulu : Tekt pose son h1 blanc à mi-hauteur sur une photo plein écran ; c'est la « photo plein
+ * écran, h1 blanc dessus » de sept sites de l'usine (ff ressemblance 0,85) : le h1 passe au-dessus de la photo.
+ * La porte de la source (« Get in Touch → », une cellule pleine fixée en bas à gauche de l'écran sur toute la page)
+ * devient « Demander un devis → » vers /#contact, au-dessus de la barre de Safari (safe-area). Le téléphone est dans la
+ * barre de cellules. Sans photo : texte et cellules seuls (rien n'est inventé à la place de l'image).
+ * Mouvement : aucun à l'entrée (profil « cellules-qui-s-ouvrent », docs/veille/styles/MOUVEMENTS.md) ; les cellules
+ * s'éclairent au survol.
+ */
+import '@/styles/cellules.css';
+import { site, metierEtVille, hasContactDoor } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+import Prestations from '@/components/CellulesPrestations.astro';
+
+const hero = site.images.hero;
+const google = site.proof.google;
+const faits = [
+  site.business.since && `Depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+  site.contact.emergency24h && 'Urgences 24 h/24',
+].filter(Boolean) as string[];
+---
+
+<section id="hero" class="calque-hero flex flex-col">
+  <div class="grid gap-8 px-5 pt-24 pb-8 md:grid-cols-3 md:gap-0 md:px-[2.5rem] md:pt-32 md:pb-10">
+    <div class="md:col-span-2 md:pr-8">
+      <h1 class="calque-titre font-display" set:html={site.business.tagline} />
+      <p class="mt-4 text-base md:text-lg">{metierEtVille()}</p>
+      {faits.length > 0 && <p class="mt-1 text-sm text-muted">{faits.join(', ')}</p>}
+    </div>
+    {site.services.length > 0 && (
+      <div class={hero ? 'hidden md:block' : undefined}>
+        <Prestations />
+      </div>
+    )}
+  </div>
+  {hero && (
+    <figure class="calque-photo relative flex-1 overflow-hidden">
+      <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.calque} priority />
+      {site.services.length > 0 && (
+        <div class="absolute top-3 right-3 left-3 md:hidden">
+          <Prestations />
+        </div>
+      )}
+    </figure>
+  )}
+</section>
+
+{hasContactDoor(site) && (
+  <a href="/#contact" class="ff-cellule calque-porte fixed z-40 flex items-center gap-2 px-3 text-sm font-medium" data-porte="quote">
+    {site.wording.devis} <span aria-hidden="true">→</span>
+  </a>
+)}
+
+<style>
+  .calque-hero { min-height: 100svh; }
+  .calque-photo { min-height: 42svh; }
+  .calque-titre { font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.65rem); line-height: 1.1; font-weight: 480; max-width: 22ch; text-wrap: balance; }
+  .calque-porte {
+    left: 0.75rem;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    min-height: 2.4rem;
+    background-color: var(--bg-2);
+    color: var(--fg);
+  }
+  @media (min-width: 48rem) { .calque-porte { left: 2.5rem; bottom: 1.25rem; min-width: 11rem; } }
+</style>

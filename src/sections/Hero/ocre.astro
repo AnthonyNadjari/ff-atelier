@@ -1,0 +1,68 @@
+---
+/**
+ * Hero "ocre" (style réel ocre, relevé sur lrnce.com le 29 oct 2026, fiche docs/veille/styles/ocre.md § Construction) :
+ * LE DIPTYQUE BORD À BORD. Sous la barre, deux photos côte à côte, sans marge ni espace entre elles, sur la plus grande part
+ * de l'écran à l'ordinateur (la photo du premier écran et la première photo de la galerie : le travail, l'atelier) ; au
+ * téléphone, la première seule. Rien n'est posé dessus. Dessous, entre deux filets fins
+ * brun sombre (la page de la source est découpée par des filets de 1 px), la ligne du titre : à gauche la phrase
+ * (business.tagline) en serif de lecture (28 à 40 px), à droite en petite géométrique le métier à la ville, l'ancienneté
+ * et la note Google quand le client les a, puis Appeler le numéro (lien souligné) et la porte Devis (rectangle rouille) :
+ * le socle (GOUT § 0) tient dans le premier écran, sous les photos (qui en prennent la moitié au téléphone,
+ * plus de la moitié à l'ordinateur).
+ * Mouvement : aucun (profil « nom-qui-defile-au-pied », docs/veille/styles/MOUVEMENTS.md : le seul mouvement de la page est
+ * la bande du nom, au pied).
+ * Données : sans photo, la ligne du titre seule, plus grande, sur le sable ; une seule photo : pleine largeur.
+ */
+import { site, tel, metierEtVille, hasContactDoor } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const seconde = site.proof.gallery.find((g) => g.src !== hero?.src);
+const photos = [hero, hero ? seconde : undefined].filter(Boolean) as { src: string; alt: string }[];
+const google = site.proof.google;
+const faits = [
+  metierEtVille().replace(/\.$/, ''),
+  site.business.since && `depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+  site.contact.emergency24h && 'urgences 24 h/24',
+].filter(Boolean) as string[];
+---
+
+<section id="hero" class="hero-ocre pt-[68px]">
+  {photos.length > 0 && (
+    <div class:list={['ocre-diptyque grid', photos.length > 1 && 'md:grid-cols-2']}>
+      {photos.map((p, i) => (
+        <figure class:list={['relative overflow-hidden', i > 0 && 'hidden md:block']}>
+          <Img src={p.src} alt={p.alt} class="absolute inset-0 h-full w-full object-cover" sizes={photos.length > 1 ? HERO_SIZES.ocre : '100vw'} priority={i === 0} loading={i === 0 ? undefined : 'eager'} />
+        </figure>
+      ))}
+    </div>
+  )}
+  <div class="ocre-ligne border-y border-line">
+    <div class:list={['container-ff grid gap-5 py-6 md:grid-cols-12 md:items-end md:gap-8 md:py-8', photos.length === 0 && 'md:py-24']}>
+      <h1 class:list={['ocre-titre hero-titre font-display md:col-span-7', photos.length === 0 && 'ocre-titre-seul']} set:html={site.business.tagline} />
+      <div class="text-sm md:col-span-5 md:text-right">
+        <p>{faits.join(', ')}</p>
+        <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3 md:justify-end">
+          <a href={tel()} class="ocre-lien font-semibold">Appeler le {site.contact.phoneDisplay}</a>
+          {hasContactDoor(site) && <Button href="/#contact" size="sm">{site.wording.devis}</Button>}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Photos : la moitié de l'écran au téléphone, plus de la moitié à l'ordinateur, sous la barre (68 px) ; la
+     ligne du titre se lit dessous dès l'arrivée. Écart voulu : la source donne l'écran entier aux photos ; tout en photo,
+     le premier écran était à 0,69 à 0,71 de forge-delacroix et maison-aurore (ff ressemblance, essai du 29 oct 2026). */
+  .ocre-diptyque { height: max(16rem, calc(48svh - 68px)); }
+  @media (min-width: 48rem) { .ocre-diptyque { height: max(22rem, calc(60svh - 68px)); } }
+  .ocre-titre { font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.5rem); line-height: 1.15; max-width: 24ch; text-wrap: balance; }
+  .ocre-titre-seul { font-size: clamp(2.2rem, 1.4rem + 3vw, 4rem); }
+  .ocre-lien { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .ocre-lien:hover { color: var(--accent); }
+  .hero-ocre :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

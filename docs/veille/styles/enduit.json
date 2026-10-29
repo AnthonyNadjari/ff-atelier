@@ -1,0 +1,1120 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://bcgbuildingdesign.com.au/",
+  "nom": "enduit",
+  "date": "2026-10-29",
+  "identite": {
+    "title": "Building Designer Gold Coast | BCG Building Design",
+    "siteName": "",
+    "lang": "en",
+    "description": "Boutique building design studio in Gold Coast crafting high-end custom homes and major renovations, personally led from concept to construction.",
+    "technologies": [
+      "generator « Webflow »",
+      "Webflow",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#f3efe8",
+      "h1": "Building Designer Gold Coast",
+      "h1Visible": true,
+      "mots": 23,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.image-cover"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": {
+        "couverture": 0.98,
+        "texte": "",
+        "selecteur": "div.preloader",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 7420,
+      "bougeSeul": {
+        "n": 6,
+        "exemples": [
+          "div.nav-logo-el",
+          "div.text-size-tiny",
+          "div.preloader",
+          "div.line"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.p-16-2",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "500",
+        "interlignage": 0.9,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.heading-style-h3",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 40,
+        "graisse": "600",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "600",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.button-link",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 16,
+        "graisse": "600",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.nav-link-el",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 14.4,
+        "graisse": "600",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "NeueHaasDisplay Pro",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661ad134627fc9c80ef_NeueHaasDisplayBold.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "NeueHaasDisplay Pro",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661fa9b2e29fc329308_NeueHaasDisplayMediu.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "NeueHaasDisplay Pro",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661fa9b2e29fc329308_NeueHaasDisplayMediu.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neuehaasgrottext 65 Trial",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a79601644d33de72ee6cbb1_NeueHaasGrotText-65Medium-Trial.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neuehaasgrottext 75 Trial",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a796460aed742455a692a90_NeueHaasGrotText-75Bold-Trial.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neuehaasgrottext 55 Roman Trial",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7964a9aed742455a692e8c_NeueHaasGrotText-55Roman-Trial.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "unpkg.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661fa9b2e29fc329308_NeueHaasDisplayMediu.ttf",
+        "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661ad134627fc9c80ef_NeueHaasDisplayBold.ttf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "NeueHaasDisplay Pro",
+          "n": 97
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f3efe8",
+      "texte": "#3a3028",
+      "fondsBruts": [
+        {
+          "hex": "#f3efe8",
+          "n": 1,
+          "poids": 11407680
+        },
+        {
+          "hex": "#3a3028",
+          "n": 21,
+          "poids": 5172054.8427734375
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 3240000
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 2,
+          "poids": 700.15625
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3a3028",
+          "n": 77,
+          "poids": 1674
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 20,
+          "poids": 575
+        }
+      ],
+      "nbImages": 7,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 3,
+      "fonds": [
+        {
+          "hex": "#f3efe8",
+          "n": 1,
+          "poids": 11407680,
+          "part": 0.54
+        },
+        {
+          "hex": "#3a3028",
+          "n": 21,
+          "poids": 5172054.8427734375,
+          "part": 0.245
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 3240000,
+          "part": 0.153
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.061
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 2,
+          "poids": 700.15625,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3a3028",
+          "n": 77,
+          "poids": 1674,
+          "part": 0.744
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 20,
+          "poids": 575,
+          "part": 0.256
+        }
+      ],
+      "contraste": 11.22
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Lenis",
+          "preuve": "window.Lenis"
+        },
+        {
+          "nom": "Barba",
+          "preuve": "window.barba"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "section.section",
+          "ecrans": 8.8
+        },
+        {
+          "selecteur": "div.horiz_sticky",
+          "ecrans": 2.5
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 32
+        },
+        {
+          "valeur": "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 20
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 17
+        },
+        {
+          "valeur": "transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 8
+        },
+        {
+          "valeur": "transform 0.3s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-split",
+          "n": 4
+        },
+        {
+          "nom": "data-hero-split",
+          "n": 1
+        },
+        {
+          "nom": "data-horiz-split",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "h2.heading-style-h3",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-hero-split"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "main.main-wrapper",
+      "sections": [
+        {
+          "selecteur": "section.section",
+          "titre": "Building Designer Gold Coast",
+          "top": 0,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 14,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-brown",
+          "titre": null,
+          "top": 3150,
+          "hauteur": 991,
+          "ecrans": 1.1,
+          "mots": 70,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section-beidge",
+          "titre": "Featured Works",
+          "top": 4141,
+          "hauteur": 1145,
+          "ecrans": 1.3,
+          "mots": 30,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_approach",
+          "titre": "Thoughtful home design requires everyone working from the sa",
+          "top": 5286,
+          "hauteur": 1027,
+          "ecrans": 1.1,
+          "mots": 66,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section_words",
+          "titre": "Client Words",
+          "top": 6313,
+          "hauteur": 1034,
+          "ecrans": 1.1,
+          "mots": 88,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer#w-node-cd50c325-c607-fb29-48f4-1b9a966a37a0-966a37a0",
+          "titre": "Tell us about your project",
+          "top": 7347,
+          "hauteur": 575,
+          "ecrans": 0.6,
+          "mots": 43,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.navbar",
+        "hauteur": 40,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "go to home page ",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Studio",
+            "href": "/studio",
+            "bouton": false
+          },
+          {
+            "texte": "Process",
+            "href": "/process",
+            "bouton": false
+          },
+          {
+            "texte": "Projects",
+            "href": "/project",
+            "bouton": false
+          },
+          {
+            "texte": "Project Enquiry",
+            "href": "/project-enquiry",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#w-node-cd50c325-c607-fb29-48f4-1b9a966a37a0-966a37a0",
+        "liens": [
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/bcgbuildingdesign",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/BCGBuildingDesign",
+            "bouton": false
+          },
+          {
+            "texte": "Linkedin",
+            "href": "https://www.linkedin.com/in/bianca-gemmill-a8aa90253/",
+            "bouton": false
+          },
+          {
+            "texte": "ArchiPro",
+            "href": "https://archipro.com.au/professional/bcg-building-design",
+            "bouton": false
+          },
+          {
+            "texte": "0409 970 841",
+            "href": "tel:0409970841",
+            "bouton": false
+          },
+          {
+            "texte": "enquiries@bcgbuildingdesign.com.au",
+            "href": "mailto:enquiries@bcgbuildingdesign.com.au",
+            "bouton": false
+          },
+          {
+            "texte": "Enquire about your project here Enquire ",
+            "href": "/project-enquiry",
+            "bouton": true
+          },
+          {
+            "texte": "Home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Studio",
+            "href": "/studio",
+            "bouton": false
+          },
+          {
+            "texte": "Projects",
+            "href": "/project",
+            "bouton": false
+          },
+          {
+            "texte": "Process",
+            "href": "/process",
+            "bouton": false
+          },
+          {
+            "texte": "Project Enquiry",
+            "href": "/project-enquiry",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Website by uBloom",
+            "href": "https://www.ubloomdigital.com.au/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:0409970841"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/BCGBuildingDesign"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.page-transition-overlay",
+          "position": "fixed",
+          "hauteur": 900,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "nav.navbar",
+          "position": "fixed",
+          "hauteur": 40,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 9
+        },
+        {
+          "selecteur": "section.section",
+          "position": "sticky",
+          "hauteur": 2250,
+          "largeur": 1440,
+          "enBas": true,
+          "mots": 53
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 4,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/enduit-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#f3efe8",
+      "h1": "Building Designer Gold Coast",
+      "h1Visible": true,
+      "mots": 23,
+      "images": 1,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 1,
+        "selecteur": "img.image-cover"
+      },
+      "boutonPrincipal": null,
+      "coucheBloquante": {
+        "couverture": 0.56,
+        "texte": "",
+        "selecteur": "div.preloader",
+        "cookie": false
+      },
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6849,
+      "bougeSeul": {
+        "n": 4,
+        "exemples": [
+          "div.nav-logo-el",
+          "div.preloader",
+          "div.line"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.p-16-2",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 13.649,
+        "graisse": "500",
+        "interlignage": 0.9,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.heading-style-h3",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 20.4736,
+        "graisse": "600",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 13.649,
+        "graisse": "600",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.button-link",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 13.649,
+        "graisse": "600",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a#w-node-b1c66881-d48d-0bc3-9724-d9edc5424dc6-c5424dc1",
+        "famille": "\"NeueHaasDisplay Pro\", Arial, sans-serif",
+        "taille": 13.649,
+        "graisse": "600",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "NeueHaasDisplay Pro",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661ad134627fc9c80ef_NeueHaasDisplayBold.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "NeueHaasDisplay Pro",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661fa9b2e29fc329308_NeueHaasDisplayMediu.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "NeueHaasDisplay Pro",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661fa9b2e29fc329308_NeueHaasDisplayMediu.ttf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neuehaasgrottext 65 Trial",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a79601644d33de72ee6cbb1_NeueHaasGrotText-65Medium-Trial.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neuehaasgrottext 75 Trial",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a796460aed742455a692a90_NeueHaasGrotText-75Bold-Trial.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Neuehaasgrottext 55 Roman Trial",
+          "url": "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7964a9aed742455a692e8c_NeueHaasGrotText-55Roman-Trial.otf",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "unpkg.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661fa9b2e29fc329308_NeueHaasDisplayMediu.ttf",
+        "https://cdn.prod.website-files.com/6a794e5aeebba97e3ac774ae/6a7ab661ad134627fc9c80ef_NeueHaasDisplayBold.ttf"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "NeueHaasDisplay Pro",
+          "n": 98
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#f3efe8",
+      "texte": "#3a3028",
+      "fondsBruts": [
+        {
+          "hex": "#f3efe8",
+          "n": 1,
+          "poids": 2772900
+        },
+        {
+          "hex": "#3a3028",
+          "n": 26,
+          "poids": 2087380.181640625
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 2,
+          "poids": 739.96875
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#3a3028",
+          "n": 76,
+          "poids": 1675
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 22,
+          "poids": 527
+        }
+      ],
+      "nbImages": 11,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 4,
+      "fonds": [
+        {
+          "hex": "#f3efe8",
+          "n": 1,
+          "poids": 2772900,
+          "part": 0.534
+        },
+        {
+          "hex": "#3a3028",
+          "n": 26,
+          "poids": 2087380.181640625,
+          "part": 0.402
+        },
+        {
+          "hex": "#0a0a0a",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.063
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 2,
+          "poids": 739.96875,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#3a3028",
+          "n": 76,
+          "poids": 1675,
+          "part": 0.761
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 22,
+          "poids": 527,
+          "part": 0.239
+        }
+      ],
+      "contraste": 11.22
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "GSAP",
+          "preuve": "window.gsap"
+        },
+        {
+          "nom": "ScrollTrigger",
+          "preuve": "window.ScrollTrigger"
+        },
+        {
+          "nom": "Lenis",
+          "preuve": "window.Lenis"
+        },
+        {
+          "nom": "Barba",
+          "preuve": "window.barba"
+        },
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        }
+      ],
+      "scrollTrigger": true,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 43
+        },
+        {
+          "valeur": "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 20
+        },
+        {
+          "valeur": "transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          "n": 8
+        },
+        {
+          "valeur": "opacity 0.3s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-split",
+          "n": 4
+        },
+        {
+          "nom": "data-hero-split",
+          "n": 1
+        },
+        {
+          "nom": "data-horiz-split",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "h2.heading-style-h3",
+        "score": 2,
+        "animations": [],
+        "transitions": [],
+        "attributs": [
+          "data-hero-split"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "main.main-wrapper",
+      "sections": [
+        {
+          "selecteur": "section.section",
+          "titre": "Building Designer Gold Coast",
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 14,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section",
+          "titre": "Our Studio",
+          "top": 844,
+          "hauteur": 641,
+          "ecrans": 0.8,
+          "mots": 53,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section-brown",
+          "titre": null,
+          "top": 1485,
+          "hauteur": 797,
+          "ecrans": 0.9,
+          "mots": 70,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section-beidge",
+          "titre": "Featured Works",
+          "top": 2282,
+          "hauteur": 2831,
+          "ecrans": 3.4,
+          "mots": 30,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.section_approach",
+          "titre": "Thoughtful home design requires everyone working from the sa",
+          "top": 5113,
+          "hauteur": 619,
+          "ecrans": 0.7,
+          "mots": 66,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.section_words",
+          "titre": "Client Words",
+          "top": 5732,
+          "hauteur": 773,
+          "ecrans": 0.9,
+          "mots": 88,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer#w-node-cd50c325-c607-fb29-48f4-1b9a966a37a0-966a37a0",
+          "titre": "Tell us about your project",
+          "top": 6505,
+          "hauteur": 604,
+          "ecrans": 0.7,
+          "mots": 43,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.navbar",
+        "hauteur": 39,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "go to home page ",
+            "href": "/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#w-node-cd50c325-c607-fb29-48f4-1b9a966a37a0-966a37a0",
+        "liens": [
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/bcgbuildingdesign",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/BCGBuildingDesign",
+            "bouton": false
+          },
+          {
+            "texte": "Linkedin",
+            "href": "https://www.linkedin.com/in/bianca-gemmill-a8aa90253/",
+            "bouton": false
+          },
+          {
+            "texte": "ArchiPro",
+            "href": "https://archipro.com.au/professional/bcg-building-design",
+            "bouton": false
+          },
+          {
+            "texte": "0409 970 841",
+            "href": "tel:0409970841",
+            "bouton": false
+          },
+          {
+            "texte": "enquiries@bcgbuildingdesign.com.au",
+            "href": "mailto:enquiries@bcgbuildingdesign.com.au",
+            "bouton": false
+          },
+          {
+            "texte": "Enquire about your project here Enquire ",
+            "href": "/project-enquiry",
+            "bouton": true
+          },
+          {
+            "texte": "Home",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Studio",
+            "href": "/studio",
+            "bouton": false
+          },
+          {
+            "texte": "Projects",
+            "href": "/project",
+            "bouton": false
+          },
+          {
+            "texte": "Process",
+            "href": "/process",
+            "bouton": false
+          },
+          {
+            "texte": "Project Enquiry",
+            "href": "/project-enquiry",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Website by uBloom",
+            "href": "https://www.ubloomdigital.com.au/",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 1,
+        "href": "tel:0409970841"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Facebook",
+          "href": "https://www.facebook.com/BCGBuildingDesign"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.page-transition-overlay",
+          "position": "fixed",
+          "hauteur": 844,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        },
+        {
+          "selecteur": "nav.navbar",
+          "position": "fixed",
+          "hauteur": 39,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 2
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 4,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "BCG Building Design",
+  "dureeS": 25.4
+}

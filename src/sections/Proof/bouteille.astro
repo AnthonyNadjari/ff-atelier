@@ -1,0 +1,77 @@
+---
+/**
+ * Proof "bouteille" (style bouteille, seconde reprise du 29 oct 2026 ; source restaurantzimmerl.at, fiche
+ * docs/veille/styles/bouteille.md § Construction, bloc 9 « Chef's room ») : la preuve dans la mise en page de la source.
+ * Tout centré : le titre (wording.galleryTitle) en capitales accent, la note Google en petites capitales très larges
+ * (lien vers la fiche), deux avis recopiés au plus en texte de livre ; puis LA BANDE DE PHOTOS QUI SORT DES DEUX BORDS :
+ * jusqu'à six photos de proof.gallery côte à côte, hauteurs alternées (comme 330 et 420 px), plus larges que l'écran et
+ * centrées, coupées des deux côtés à l'ordinateur. Au téléphone, la bande se fait défiler au doigt (elle sort à droite).
+ * Pas de photo = pas de bande ; ni avis ni note ni photo = pas de section. Rien n'est inventé. Mouvement : le texte en
+ * cascade (data-stagger) ; la bande ne bouge pas toute seule.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 2);
+const bande = site.proof.gallery.slice(0, 6);
+const aDuContenu = bande.length > 0 || avis.length > 0 || !!google;
+---
+
+{aDuContenu && (
+  <section id="proof" class="bp-section" aria-labelledby="bp-titre">
+    <div class="container-ff text-center" data-stagger="110">
+      <h2 id="bp-titre" class="text-display-lg">{site.wording.galleryTitle}</h2>
+      {google && (
+        <p class="bp-note mt-6 font-mono text-accent">
+          {google.url ? (
+            <a href={google.url} rel="noopener" target="_blank" class="underline decoration-[var(--line)] underline-offset-[0.4em] hover:text-fg">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</a>
+          ) : (
+            <>{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</>
+          )}
+        </p>
+      )}
+      {avis.length > 0 && (
+        <div class="mx-auto mt-10 grid max-w-4xl gap-10 md:grid-cols-2">
+          {avis.map((t) => (
+            <blockquote>
+              <p class="text-lg">«&nbsp;{t.text}&nbsp;»</p>
+              <footer class="mt-3 font-mono text-xs text-muted">{t.author}{t.source && `, ${t.source}`}</footer>
+            </blockquote>
+          ))}
+        </div>
+      )}
+    </div>
+    {bande.length > 0 && (
+      <div class="bp-cadre" tabindex="0" role="region" aria-label="Photos, à faire défiler">
+        <ul class="bp-bande">
+          {bande.map((g, i) => (
+            <li class:list={['bp-photo relative overflow-hidden bg-ink', i % 2 === 1 ? 'bp-haute' : 'bp-basse']}>
+              <Img src={g.src} alt={g.alt} class="h-full w-full object-cover" sizes="(min-width: 64rem) 22vw, 62vw" loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </section>
+)}
+
+<style>
+  .bp-section { padding-block: clamp(8rem, 16vw, 15rem) 0; }
+  .bp-note { font-size: 0.75rem; font-weight: 300; text-transform: uppercase; letter-spacing: 0.02em; }
+  .bp-cadre { margin-top: clamp(3.5rem, 8vw, 6rem); overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; scroll-snap-type: x proximity; }
+  .bp-cadre::-webkit-scrollbar { display: none; }
+  .bp-bande { display: flex; align-items: center; gap: 1rem; padding-inline: 1.25rem; width: max-content; }
+  .bp-photo { flex: none; width: 62vw; scroll-snap-align: center; }
+  .bp-basse { aspect-ratio: 4 / 5; height: auto; }
+  .bp-haute { aspect-ratio: 3 / 5; width: 52vw; }
+  @media (min-width: 64rem) {
+    /* La bande est plus large que l'écran et centrée : elle sort des deux bords. */
+    .bp-cadre { overflow: hidden; scroll-snap-type: none; display: flex; justify-content: center; }
+    .bp-bande { gap: 1.5rem; padding-inline: 0; }
+    .bp-photo { width: 22vw; }
+    .bp-basse { aspect-ratio: auto; height: 23vw; }
+    .bp-haute { aspect-ratio: auto; height: 29vw; width: 20vw; }
+  }
+  .bp-photo :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
+</style>

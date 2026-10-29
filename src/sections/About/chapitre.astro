@@ -1,0 +1,92 @@
+---
+/**
+ * About "chapitre" (style chapitre, relevé sur 23gradicoffee.com le 29 oct 2026, fiche docs/veille/styles/chapitre.md
+ * § Construction, blocs 2 à 4) : le premier chapitre, sur le bleu nuit.
+ * 1. La règle de chapitre (Chapitre : intitulé = about.title, numéro 001…).
+ * 2. Une PHOTO ÉTROITE posée à gauche (3/12, verticale, le portrait du client sinon sa première photo), centrée sur la
+ *    hauteur du texte, et à droite (7/12) LE GRAND PARAGRAPHE EN CAPITALES FINES (premier paragraphe de l'histoire, 32 à
+ *    52 px, interlignage serré), suivi du reste de l'histoire en chasse fixe, petit.
+ * 3. UN MOT GÉANT coupé par les deux bords de l'écran (le métier du client, en capitales fines, ~19 vw), immobile.
+ * 4. Les engagements du client (about.values) au centre, l'un sous l'autre, séparés par un filet court : le texte en
+ *    chasse fixe, le numéro géant 01, 02, 03 en didone, le titre en capitales dessous.
+ * 5. Une RANGÉE DE TROIS PHOTOS du client (ses réalisations), celle du milieu plus basse, qui ferme le chapitre ; au
+ *    téléphone, une piste au doigt de photos à 80 % de l'écran (reprise du 29 oct 2026 : elles étaient minuscules).
+ * Derrière, le filigrane au trait (Filigrane : courbes de niveau, token --fg à 9 %), la matière du bleu nuit.
+ * Rien d'inventé : sans photo, le paragraphe prend la largeur ; sans engagement, pas de colonne numérotée.
+ */
+import { site, paragraphs, photosDuSite } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Chapitre from '@/components/Chapitre.astro';
+import Filigrane from '@/components/Filigrane.astro';
+
+const histoire = paragraphs(site.about.story);
+const grand = histoire[0] ?? paragraphs(site.business.description)[0];
+const suite = histoire.slice(1);
+const photo = site.about.portrait ?? photosDuSite()[0];
+const valeurs = site.about.values.slice(0, 4);
+// La rangée de photos décalées qui ferme le chapitre (source : trois photos d'ambiance, celle du milieu plus basse).
+const rangee = site.proof.gallery.filter((g) => g.src !== photo?.src).slice(0, 3);
+---
+
+<section id="about" class="chapitre-about relative isolate overflow-hidden px-4 pt-10 pb-[var(--section-y)] md:px-5" aria-labelledby="ch-about-titre">
+  <Filigrane graine={1} />
+  <Chapitre type="about" intitule={site.about.title ?? 'À propos'} />
+  <h2 id="ch-about-titre" class="sr-only">{site.about.title ?? 'À propos'}</h2>
+
+  <div class="mt-16 grid items-center gap-10 md:mt-28 md:grid-cols-12 md:gap-6">
+    {photo && (
+      <figure class="ch-photo relative overflow-hidden md:col-span-3 md:col-start-2">
+        <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 22vw, 70vw" loading="lazy" />
+      </figure>
+    )}
+    <div class:list={[photo ? 'md:col-span-7 md:col-start-6' : 'md:col-span-10 md:col-start-2']}>
+      <p class="ch-grand font-display uppercase">{grand}</p>
+      {suite.length > 0 && (
+        <div class="mt-8 max-w-[46ch] space-y-4 text-sm">
+          {suite.map((p) => <p>{p}</p>)}
+        </div>
+      )}
+    </div>
+  </div>
+
+  <p class="ch-mot font-display uppercase" aria-hidden="true">{site.business.trade}</p>
+
+  {valeurs.length > 0 && (
+    <ol class="mx-auto mt-8 max-w-sm text-center" role="list">
+      {valeurs.map((v, i) => (
+        <li class="ch-valeur border-t border-line pt-6 pb-10">
+          <p class="mx-auto max-w-[30ch] text-xs uppercase leading-relaxed">{v.text}</p>
+          <p class="ch-numero mt-4 font-display" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+          <h3 class="mt-3 font-display text-base uppercase">{v.title}</h3>
+        </li>
+      ))}
+    </ol>
+  )}
+
+  {rangee.length >= 2 && (
+    <ul class="ch-rangee -mx-4 mt-16 flex snap-x snap-mandatory items-start gap-4 overflow-x-auto px-4 md:mx-0 md:mt-24 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0" role="list" aria-label="Photos" tabindex="0">
+      {rangee.map((g, i) => (
+        <li class:list={['ch-rangee-case relative shrink-0 snap-center', i === 1 && 'ch-rangee-bas']}>
+          <figure class="ch-rangee-photo relative overflow-hidden">
+            <Img src={g.src} alt={g.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 30vw, 80vw" loading="lazy" />
+          </figure>
+        </li>
+      ))}
+    </ul>
+  )}
+</section>
+
+<style>
+  .ch-photo { aspect-ratio: 3 / 4; max-width: 22rem; }
+  .ch-grand { font-size: clamp(1.7rem, 1.1rem + 2.1vw, 3.1rem); line-height: 1.04; letter-spacing: -0.01em; max-width: 24ch; text-wrap: pretty; }
+  .ch-mot { margin: clamp(4rem, 9vw, 9rem) -10vw 0; font-size: clamp(4.5rem, 19vw, 18rem); line-height: 0.85; white-space: nowrap; text-align: center; letter-spacing: -0.04em; }
+  /* Au téléphone, la rangée devient une piste au doigt : chaque photo à 80 % de l'écran, celle du milieu plus basse ;
+     à l'ordinateur, les trois côte à côte (source). */
+  .ch-rangee { scrollbar-width: none; scroll-padding-inline: 1rem; }
+  .ch-rangee::-webkit-scrollbar { display: none; }
+  .ch-rangee-case { width: 80vw; }
+  @media (min-width: 48rem) { .ch-rangee-case { width: auto; } }
+  .ch-rangee-photo { aspect-ratio: 4 / 5; box-shadow: 0 2rem 3.5rem -1.5rem color-mix(in oklab, var(--ink) 90%, transparent); }
+  .ch-rangee-bas { margin-top: clamp(3rem, 8vw, 7rem); }
+  .ch-numero { font-size: clamp(3.5rem, 2.5rem + 3vw, 5.5rem); line-height: 1; }
+</style>

@@ -1,0 +1,72 @@
+---
+/**
+ * About "calque" (style calque, relevé sur tekt.com.au le 29 oct 2026, fiche docs/veille/styles/calque.md § Construction,
+ * blocs 2 et 3) : deux temps sur le fond de plan, aucun décor.
+ * 1. Le PARAGRAPHE DE GRAND CORPS (premier paragraphe de l'histoire, sinon de la description ; 27 px à l'ordinateur,
+ *    interlignage 1,1, la même grotesque que le titre) dans les deux tiers gauches ; dans le tiers droit, collée en haut,
+ *    une COLONNE DE CELLULES : la première plus haute porte le titre de la section, les suivantes les engagements du
+ *    client (about.values), chacune s'ouvre au toucher sur son texte (details natif). Puis, après un grand vide, UNE
+ *    photo paysage aux deux tiers de la largeur, à gauche, nue (le portrait du client, sinon sa première photo).
+ * 2. Le bloc « pour qui, où » : l'étiquette en petit dans le tiers gauche, une phrase de grand corps dans les deux tiers
+ *    droits (zones.label et les communes, sinon le métier à la ville), puis une RANGÉE DE CELLULES, une par commune desservie (zones.cities).
+ * Rien d'inventé : sans engagement, pas de colonne ; sans commune, pas de rangée ; sans photo, pas de photo.
+ * Mouvement : aucun (profil « cellules-qui-s-ouvrent ») ; une cellule s'éclaire au survol.
+ */
+import '@/styles/cellules.css';
+import { site, paragraphs, photosDuSite, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const texte = paragraphs(site.about.story)[0] ?? paragraphs(site.business.description)[0];
+const suite = paragraphs(site.about.story).slice(1, 2)[0];
+const valeurs = site.about.values;
+const photo = site.about.portrait ?? photosDuSite()[0];
+const villes = site.zones.cities;
+const titre = site.about.title ?? 'À propos';
+const liste = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} et ${xs.at(-1)}` : xs[0]);
+---
+
+<section id="about" class="calque-about px-5 py-[var(--section-y)] md:px-[2.5rem]" aria-labelledby="calque-about-titre">
+  <div class="grid gap-10 md:grid-cols-3 md:gap-0">
+    <div class="md:col-span-2 md:pr-6">
+      <p class="calque-grand">{texte}</p>
+      {suite && <p class="calque-suite mt-6 max-w-[52ch] text-muted">{suite}</p>}
+    </div>
+    <div class="ff-cellules">
+      <h2 id="calque-about-titre" class="ff-cellule calque-tete px-3 py-2 text-lg">{titre}</h2>
+      {valeurs.map((v) => (
+        <details class="ff-cellule calque-valeur" name="calque-valeurs">
+          <summary class="cursor-pointer list-none px-3 py-2 text-sm font-medium">{v.title}</summary>
+          <p class="px-3 pb-3 text-sm text-muted">{v.text}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  {photo && (
+    <figure class="calque-photo relative mt-20 overflow-hidden md:mt-[clamp(8rem,14vw,13rem)] md:w-2/3">
+      <Img src={photo.src} alt={photo.alt} class="h-full w-full object-cover" sizes="(min-width: 48rem) 66vw, 100vw" loading="lazy" />
+    </figure>
+  )}
+
+  {villes.length > 0 && (
+    <div class="mt-24 grid gap-6 md:mt-[clamp(8rem,14vw,13rem)] md:grid-cols-3 md:gap-0">
+      <h3 class="text-sm font-medium">Où nous intervenons</h3>
+      <div class="md:col-span-2">
+        <p class="calque-grand">{site.zones.label ? `${site.zones.label}, ${liste(villes)}.` : metierEtVille()}</p>
+        <ul class="ff-cellules-ligne mt-6 flex flex-wrap" role="list">
+          {villes.map((v) => <li class="ff-cellule calque-ville -mt-px px-3 py-2 text-sm font-medium">{v}</li>)}
+        </ul>
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  .calque-grand { font-size: clamp(1.3rem, 1rem + 1vw, 1.7rem); line-height: 1.12; font-weight: 480; letter-spacing: -0.01em; max-width: 46ch; }
+  .calque-tete { font-weight: 480; min-height: 2.6rem; }
+  .calque-valeur summary::-webkit-details-marker { display: none; }
+  .calque-valeur summary { min-height: 2.4rem; display: flex; align-items: center; }
+  .calque-valeur[open] summary { padding-bottom: 0.25rem; }
+  .calque-photo { aspect-ratio: 3 / 2; }
+  .calque-ville { flex: 1 1 9rem; }
+</style>

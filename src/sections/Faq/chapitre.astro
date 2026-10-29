@@ -1,0 +1,44 @@
+---
+/**
+ * FAQ "chapitre" (style chapitre, relevé sur 23gradicoffee.com le 29 oct 2026, fiche docs/veille/styles/chapitre.md
+ * § Construction, bloc 6 « Cosa ci guida ») : un chapitre de questions, toutes ouvertes (rien à déplier).
+ * La règle de chapitre (Chapitre), puis LE TITRE CENTRÉ EN CAPITALES FINES TRÈS GRANDES (wording.faqTitle), puis une
+ * RANGÉE PAR QUESTION entre deux filets pleine largeur, en trois colonnes à l'ordinateur : le numéro 01, 02… en didone à
+ * gauche (1/12), la question en didone (5/12), la réponse en chasse fixe et petit (6/12). Au téléphone : numéro, question,
+ * réponse l'un sous l'autre. Derrière, le filigrane au trait (Filigrane). JSON-LD FAQPage comme les autres variantes. Sans question : rien.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Chapitre from '@/components/Chapitre.astro';
+import Filigrane from '@/components/Filigrane.astro';
+
+const titre = site.wording.faqTitle ?? 'Vos questions';
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: site.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: paragraphs(f.a).join(' ') } })),
+};
+---
+
+{site.faq.length > 0 && (
+  <section id="faq" class="relative isolate overflow-hidden px-4 pt-10 pb-[var(--section-y)] md:px-5" aria-labelledby="ch-faq-titre">
+    <Filigrane graine={3} />
+    <Chapitre type="faq" intitule={titre} />
+    <h2 id="ch-faq-titre" class="ch-faq-titre mt-16 text-center font-display uppercase md:mt-24" set:html={titre} />
+    <ol class="mt-16 border-b border-line md:mt-24" role="list">
+      {site.faq.map((f, i) => (
+        <li class="grid gap-4 border-t border-line py-8 md:grid-cols-12 md:gap-6 md:py-12">
+          <p class="font-display text-3xl md:col-span-1" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+          <h3 class="font-display text-xl leading-tight md:col-span-5 md:text-2xl">{f.q}</h3>
+          <div class="space-y-3 text-xs uppercase leading-relaxed md:col-span-6">
+            {paragraphs(f.a).map((p) => <p>{p}</p>)}
+          </div>
+        </li>
+      ))}
+    </ol>
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </section>
+)}
+
+<style>
+  .ch-faq-titre { font-size: clamp(2.6rem, 1.5rem + 5vw, 7rem); line-height: 0.95; letter-spacing: -0.03em; }
+</style>

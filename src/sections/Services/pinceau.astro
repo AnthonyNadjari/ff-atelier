@@ -5,8 +5,9 @@
  * dont chaque frontière est un BORD BROSSÉ (BordPinceau : coup de pinceau ondulé, éclats et traits secs).
  * 1. Bande terracotta (--accent, celle qui monte du premier écran) : à gauche (6/12) le titre de la section, la phrase
  *    du client (wording.servicesIntro, sinon métier à ville) et sa présentation (business.description) ; à droite (5/12),
- *    avec le hero pinceau, la PHOTO DU LIEU (images.hero, 4:5, ombre portée) qui chevauche le bord brossé, moitié sur le
- *    bleu du premier écran, et POSÉE SUR SON COIN bas gauche, la plaque des horaires : carte sable à filet moutarde épais et ombre portée, « Horaires d'ouverture », puis chaque ligne de
+ *    avec le hero pinceau, à l'ordinateur seulement (au téléphone elle est déjà derrière l'enseigne), la PHOTO DU LIEU
+ *    (images.hero, 4:5, ombre portée) qui chevauche le bord brossé, moitié sur le bleu du premier écran, et POSÉE SUR
+ *    SON COIN bas gauche, la plaque des horaires : carte sable à filet moutarde épais et ombre portée, « Horaires d'ouverture », puis chaque ligne de
  *    contact.hours (les jours en capitales condensées, les heures en terracotta). Sans horaires, pas de plaque.
  * 2. Une bande par prestation, couleurs en rotation sable (--bg-2), moutarde (--fill), clair (--bg) ; une prestation
  *    qui a des lignes à prix (services[].lignes) prend la bande bleu nuit (--ink) et devient une CARTE : rubrique en
@@ -57,15 +58,15 @@ const cote = Boolean(photoLieu) || horaires.length > 0;
 
 <div id="services" class="pinceau-services relative">
   <section class="pb-bande pb-terre relative" aria-label={site.wording.servicesTitle.replace(/<[^>]+>/g, '')}>
-    <div class:list={['container-ff grid gap-10 pb-[var(--section-y)] md:grid-cols-12 md:gap-8', cote ? 'pt-4 md:pt-0' : 'pt-[var(--section-y)]', !cote && 'text-center']}>
+    <div class:list={['container-ff grid gap-10 pb-[var(--section-y)] md:grid-cols-12 md:gap-8', cote ? 'pt-[var(--section-y)] md:pt-0' : 'pt-[var(--section-y)]', !cote && 'text-center']}>
       <div class:list={['md:self-center', cote ? 'md:col-span-6 md:pt-[var(--section-y)]' : 'md:col-span-12 mx-auto max-w-3xl']}>
         <SectionHeading title={site.wording.servicesTitle} text={site.wording.servicesIntro ?? metierEtVille()} align={cote ? 'left' : 'center'} class="pb-tete [&_p]:font-mono [&_p]:text-base [&_p]:text-on-accent" />
         {intro.map((p) => <p class="mt-4 max-w-[62ch] font-mono">{p}</p>)}
       </div>
       {cote && (
-        <div class:list={['pb-scene relative md:col-span-5 md:col-start-8', photoLieu && 'pb-scene-photo order-first md:order-none']}>
+        <div class:list={['pb-scene relative md:col-span-5 md:col-start-8', photoLieu && 'pb-scene-photo']}>
           {photoLieu && (
-            <figure class="pb-lieu relative aspect-[4/5] overflow-hidden rounded-card">
+            <figure class="pb-lieu relative hidden aspect-[4/5] overflow-hidden rounded-card md:block">
               <Img src={photoLieu.src} alt={photoLieu.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.pinceau} loading="eager" />
             </figure>
           )}
@@ -153,10 +154,8 @@ const cote = Boolean(photoLieu) || horaires.length > 0;
   .pb-nom { font-size: clamp(2.1rem, 1.4rem + 2.9vw, 3.9rem); line-height: 1; font-weight: 700; letter-spacing: 0.01em; }
   /* La plaque : posée sur la terracotta, sable cerné de moutarde, vraie ombre portée (deux plans). */
   /* La photo du lieu chevauche le bord brossé (moitié sur le bleu du premier écran) ; la plaque chevauche la photo. */
-  .pb-scene-photo { margin-top: -3rem; }
   @media (min-width: 48rem) { .pb-scene-photo { margin-top: calc(-1 * clamp(5rem, 10vw, 10rem)); } }
   .pb-lieu { box-shadow: 0 26px 48px -22px color-mix(in oklab, var(--ink) 75%, transparent); }
-  .pb-scene-photo .pb-plaque { position: relative; margin: -4.5rem 1rem 0 -0.5rem; }
   @media (min-width: 48rem) { .pb-scene-photo .pb-plaque { position: absolute; left: -3.5rem; bottom: -2.5rem; margin: 0; width: min(19rem, 80%); } }
   .pb-plaque {
     background: var(--bg-2);

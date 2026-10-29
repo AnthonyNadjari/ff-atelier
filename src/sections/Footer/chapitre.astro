@@ -1,0 +1,62 @@
+---
+/**
+ * Footer "chapitre" (style chapitre, relevé sur 23gradicoffee.com le 29 oct 2026, fiche docs/veille/styles/chapitre.md
+ * § Construction, bloc 8) : la page finit comme elle a commencé, et LE PIED EST LE CONTACT (la source n'a pas de section
+ * contact : son pied est une photo plein écran avec le nom et les coordonnées). UNE PHOTO PLEIN ÉCRAN sous le voile bleu
+ * nuit (la dernière réalisation du client, sinon sa photo de couverture) ; dessus, centrés : un filet, le métier en
+ * chasse fixe, LE NOM EN CAPITALES FINES (120 px à l'ordinateur), un filet, les coordonnées en chasse fixe et capitales
+ * (le téléphone cliquable, l'e-mail, l'adresse, les horaires), la porte Devis (« Écrire un message » : /#contact, qui
+ * ouvre le formulaire en tiroir, layout.contactDrawer du modèle) et les pages des prestations ; en bas, sur une ligne,
+ * l'année, les mentions légales, la confidentialité, les crédits photos et la signature du studio.
+ * Sans photo : l'aplat d'encre. Rien d'inventé : chaque ligne disparaît sans sa donnée.
+ */
+import { site, tel, mailto, fullAddress, hasCredits, hasContactDoor } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const g = site.proof.gallery;
+const photo = g.length > 1 ? g[g.length - 1] : site.images.hero;
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+const year = new Date().getFullYear();
+---
+
+<footer class="ch-pied relative flex flex-col overflow-hidden bg-ink text-on-ink" aria-labelledby="ch-pied-nom">
+  {photo && (
+    <div class="absolute inset-0">
+      <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />
+      <div class="ch-pied-voile absolute inset-0" aria-hidden="true"></div>
+    </div>
+  )}
+  <div class="relative mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-4 py-24 text-center">
+    <p class="w-full max-w-md border-b border-on-ink/30 pb-4 font-mono text-xs uppercase">{site.business.trade}</p>
+    <p id="ch-pied-nom" class="ch-pied-nom mt-8 font-display uppercase">{site.business.name}</p>
+    <div class="mt-8 w-full max-w-md space-y-1 border-t border-on-ink/30 pt-6 font-mono text-xs uppercase leading-relaxed">
+      <p><a href={tel()} class="underline-offset-4 hover:underline">Tél. {site.contact.phoneDisplay}</a></p>
+      {site.contact.email && <p><a href={mailto()} class="underline-offset-4 hover:underline">{site.contact.email}</a></p>}
+      {adresse && <p>{adresse}</p>}
+      {horaires.map((h) => <p>{h.days} : {h.hours}</p>)}
+    </div>
+    {hasContactDoor(site) && <a href="/#contact" class="mt-8 font-mono text-xs uppercase underline underline-offset-4" data-porte="quote">{site.wording.devis}</a>}
+    {site.services.length > 0 && (
+      <ul class="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-2 font-mono text-[0.7rem] uppercase" role="list">
+        {site.services.map((s) => <li><a href={`/services/${s.slug}`} class="underline-offset-4 hover:underline">{s.title}</a></li>)}
+      </ul>
+    )}
+  </div>
+  <div class="relative flex flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 pb-5 font-mono text-[0.68rem] uppercase md:px-5">
+    <p>© {year} {site.business.name}</p>
+    <p class="flex flex-wrap gap-x-5 gap-y-1">
+      <a href="/mentions-legales" class="hover:underline">Mentions légales</a>
+      <a href="/confidentialite" class="hover:underline">Confidentialité</a>
+      {hasCredits && <a href="/credits" class="hover:underline">Crédits photos</a>}
+      <span>Site réalisé par <a href="https://finckfisch.fr" class="underline-offset-4 hover:underline" rel="noopener" target="_blank">Finck &amp; Fisch</a></span>
+    </p>
+    {site.legal.demo && <p class="w-full normal-case">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
+  </div>
+</footer>
+
+<style>
+  .ch-pied { min-height: 100svh; }
+  .ch-pied-voile { background: color-mix(in oklab, var(--ink) 62%, transparent); }
+  .ch-pied-nom { font-size: clamp(2.6rem, 1.4rem + 5vw, 7.5rem); line-height: 0.92; letter-spacing: -0.03em; }
+</style>

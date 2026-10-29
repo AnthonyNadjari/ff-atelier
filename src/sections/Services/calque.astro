@@ -1,0 +1,65 @@
+---
+/**
+ * Services "calque" (geste signature du style calque, relevé sur tekt.com.au le 29 oct 2026, fiche
+ * docs/veille/styles/calque.md § Construction, bloc 4 « Our Process ») : les prestations du client en CELLULES DE PLAN
+ * NUMÉROTÉES, empilées, filet commun et petits carrés à chaque angle (src/styles/cellules.css).
+ * Grille trois tiers : l'étiquette (wording.servicesTitle) en petit dans le tiers gauche ; dans les deux tiers droits,
+ * une phrase de grand corps (wording.servicesIntro, sinon le premier paragraphe de la description), puis la pile de cellules. Une seule
+ * cellule ouverte à la fois (<details name> natif : accordéon exclusif sans script, tient sur iPhone), la première
+ * ouverte comme sur la source ; la cellule ouverte est plus haute, son numéro et son nom plus grands, et SA photo
+ * (services[].image) occupe sa moitié droite, qui entre en fondu (opacité 0,5 s linéaire, profil
+ * « cellules-qui-s-ouvrent », docs/veille/styles/MOUVEMENTS.md) ; à gauche la phrase du service, son prix « à partir
+ * de » s'il est donné et le lien vers sa page. Au téléphone, la photo passe sous le texte.
+ * Rien d'inventé : sans photo, la cellule ouverte garde son texte seul ; jamais d'icône à la place.
+ */
+import '@/styles/cellules.css';
+import { site, metierEtVille, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const phrase = site.wording.servicesIntro ?? paragraphs(site.business.description)[0] ?? metierEtVille();
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<section id="services" class="calque-services px-5 py-[var(--section-y)] md:px-[2.5rem]">
+  <div class="grid gap-6 md:grid-cols-3 md:gap-0">
+    <SectionHeading title={site.wording.servicesTitle} class="calque-etiquette" />
+    <div class="md:col-span-2">
+      <p class="calque-grand">{phrase}</p>
+      <div class="ff-cellules mt-8">
+        {site.services.map((s, i) => (
+          <details class="ff-cellule calque-etape" name="calque-services" open={i === 0}>
+            <summary class="calque-resume flex cursor-pointer list-none items-center gap-2 px-3">
+              <span class="tabular-nums">{num(i)}</span>
+              <span>{s.title}</span>
+            </summary>
+            <div class:list={['grid gap-4 px-3 pb-3', s.image && 'md:grid-cols-2']}>
+              <div class="flex flex-col gap-3 pt-1">
+                <p class="max-w-[42ch]">{s.short}</p>
+                {s.priceFrom && <p class="text-sm text-muted">{s.priceFrom}</p>}
+                <a href={`/services/${s.slug}`} class="mt-auto font-mono text-sm underline-offset-4 hover:underline">Voir la prestation <span aria-hidden="true">→</span></a>
+              </div>
+              {s.image && (
+                <figure class="calque-photo-etape relative overflow-hidden">
+                  <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 30vw, 100vw" loading="lazy" />
+                </figure>
+              )}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .calque-grand { font-size: clamp(1.3rem, 1rem + 1vw, 1.7rem); line-height: 1.12; font-weight: 480; letter-spacing: -0.01em; max-width: 46ch; }
+  :global(.calque-etiquette h2) { font-size: 0.875rem; line-height: 1.3; font-weight: 500; }
+  .calque-resume { min-height: 2.6rem; font-size: 0.95rem; font-weight: 500; }
+  .calque-resume::-webkit-details-marker { display: none; }
+  .calque-etape[open] > .calque-resume { min-height: 3.2rem; font-size: 1.15rem; font-weight: 480; }
+  .calque-photo-etape { aspect-ratio: 16 / 9; }
+  .calque-etape[open] .calque-photo-etape { animation: calque-fondu 0.5s linear both; }
+  @keyframes calque-fondu { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .calque-etape[open] .calque-photo-etape { animation: none; } }
+</style>

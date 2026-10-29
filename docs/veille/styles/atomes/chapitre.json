@@ -1,0 +1,173 @@
+{
+  "id": "chapitre",
+  "version": 1,
+  "source": {
+    "url": "https://www.23gradicoffee.com/",
+    "nom": "23° Monorigine (Caffè Cartapani)",
+    "metier": "torréfacteur familial (depuis 1951), cafés d'origine en petits lots",
+    "fiche": "docs/veille/styles/chapitre.md",
+    "mesures": "docs/veille/styles/atomes/mesures/chapitre.json",
+    "date": "2026-10-29"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Cormorant SC",
+      "libre": "gildaDisplay",
+      "graisse": 400,
+      "interlignage": 1.1,
+      "casse": "uppercase",
+      "interlettrage": -0.02,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Space Mono",
+      "libre": "fragmentMono",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": {
+      "famille": "Space Mono",
+      "libre": "fragmentMono"
+    },
+    "echelle": {
+      "h1": {
+        "telephone": 64,
+        "ordinateur": 128
+      },
+      "h2": {
+        "telephone": 40,
+        "ordinateur": 72
+      },
+      "texte": {
+        "telephone": 13,
+        "ordinateur": 13
+      }
+    },
+    "remarque": "Cormorant SC (capitales fines à fort contraste) et Space Mono (texte en chasse fixe, capitales) sont deux polices de la liste IA (scripts/ff/ia.mjs) : Gilda Display (didone fine, capitales) et Fragment Mono (chasse fixe plus douce). Le nom de la marque est composé à 288 px sur toute la largeur (128 px plafonné dans la direction) ; les titres de section à 56-72 px ; le texte reste à 13 px en chasse fixe."
+  },
+  "couleurs": {
+    "principal": "sombre",
+    "releve": {
+      "fond": "#133250",
+      "texte": "#ead8c9",
+      "fonds": [
+        {
+          "hex": "#133250",
+          "part": 0.949
+        },
+        {
+          "hex": "#ead8c9",
+          "part": 0.039
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.011
+        },
+        {
+          "hex": "#55a7a3",
+          "part": 0
+        },
+        {
+          "hex": "#218fc0",
+          "part": 0
+        },
+        {
+          "hex": "#da9ca3",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#ead8c9",
+          "part": 0.959
+        },
+        {
+          "hex": "#133250",
+          "part": 0.039
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.002
+        }
+      ],
+      "proches": 14132857
+    },
+    "clair": null,
+    "sombre": {
+      "fond": "#133250",
+      "surface": "#1a3a5c",
+      "texte": "#ead8c9",
+      "texte2": "#b9ab9f",
+      "accent": "#c88a5e",
+      "accent2": "#55a7a3",
+      "bordure": "#3b5878",
+      "encre": "#0d243b"
+    },
+    "remarque": "Bleu nuit #133250 sur 95 % des surfaces, texte crème #ead8c9 (96 % des caractères, 10,5:1), cuivre de l'emblème « 23° » en accent (#c88a5e, relevé à l'œil sur la capture : dégradé cuivré du logo), pastilles d'origine en couleurs douces (#55a7a3…). Sombre."
+  },
+  "densite": {
+    "section": {
+      "telephone": 96,
+      "ordinateur": 184
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 20
+    },
+    "conteneur": 1400,
+    "mesure": 45,
+    "rythme": "uni",
+    "remarque": "Gouttière étroite (20 px) et pleine largeur : le nom géant touche presque les bords ; règle de chapitre pleine largeur avec deux traits verticaux au quart et aux trois quarts ; texte mono en colonnes étroites (45 caractères)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "texte",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Boutons ronds de 3 boutons cookies écartés (bandeau tiers) ; dans la page, liens soulignés en mono capitales, flèches dans des cercles de filet fin (le seul rond de la page), règles fines partout ; aucune ombre."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "2:3-",
+      "3:2"
+    ],
+    "pleinCadre": 7,
+    "noirEtBlanc": 0,
+    "masques": 4,
+    "superposition": "voile",
+    "remarque": "Vidéo puis photo plein écran sous un voile bleu nuit au premier écran et au pied ; produit détouré posé sur son nom géant ; photos d'ambiance en piste décalée ; portrait du fondateur à gauche de l'histoire."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 1,
+      "courbe": "cubic-bezier(0.25, 1, 0.5, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "GSAP",
+      "Lenis",
+      "Swiper"
+    ],
+    "profil": "chapitre-qui-s-ouvre",
+    "remarque": "Transitions transform 1 s cubic-bezier(0.25, 1, 0.5, 1) partout (GSAP, Lenis) : le nom qui monte, la piste des produits ; on garde la montée du nom (une fois) et la règle qui se trace, on refuse le défilement lissé (Lenis) et le mot géant piloté au défilement."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "gravure en filigrane (motifs dessinés du paquet, à 8 % sur le bleu)"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

@@ -58,6 +58,10 @@ export { especesCompletes, etapesGarde, signesGarde, numeroDeGarde, numeroDuMome
 import { lienEspeces, lienUrgences } from './garde';
 export { premiersPas, modesComplets, domainesAPrix, resumePas, honorairesLisibles, lienHonoraires } from './honoraires';
 import { lienHonoraires } from './honoraires';
+export { CARNET_MIN, dateValide, interventionsCompletes, dateLongue as dateDuCarnet, moisDe, parMois, slugLieu, lieuxDuCarnet, ilYA, voisines as voisinesDuCarnet, lienCarnet } from './journal';
+import { lienCarnet } from './journal';
+export { DIRECTIONS_TRAJET, TRAJET_MIN, communesCompletes, dureeLisible, anneaux as anneauxDeTrajet, placer as placerCommunes, rayonSchema, cleCommune, chercher as chercherCommune, voisinesDe as communesVoisines, lienTrajet } from './trajet';
+import { lienTrajet } from './trajet';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -359,6 +363,14 @@ export const navLinks = (s: Site = site) => {
   // de Faltot et de Judisis, vers /nos-honoraires (/honoraires est le barème des agences immobilières).
   const honoraires = lienHonoraires(s.honoraires, s.wording.honoraires);
   if (honoraires) links.push(honoraires);
+  // Carnet d'interventions (src/lib/journal.ts, architecture carnet-interventions) : le « Blog » de Monsieur Boris, ici en
+  // tête de la nav, vers tout le carnet (/carnet) ; c'est la preuve que l'artisan est du coin.
+  const carnet = lienCarnet(s.interventions, s.wording.carnet);
+  if (carnet) links.unshift(carnet);
+  // Temps de trajet (src/lib/trajet.ts, architecture rayon-trajet) : la « Zone d'intervention » de Concept Froid Centre, en
+  // tête de la nav, vers toutes les communes (/trajet).
+  const trajet = lienTrajet(s.trajet?.communes, s.wording.trajet);
+  if (trajet) links.unshift(trajet);
   // Demande d'estimation (src/lib/estimation.ts, architecture estimation-etapes) : « Devis en ligne » de Rigoulet, toujours
   // dans la barre ; en dernier, à la place d'une porte Contact (la demande EST le contact).
   const estimation = lienEstimation(s.estimation, s.wording.estimation);
@@ -369,6 +381,14 @@ export const navLinks = (s: Site = site) => {
     const pages = s.services.map((x) => ({ href: `/services/${x.slug}`, label: x.title }));
     const garde = links.filter((l) => !['/#services', '/#proof', '/#zones', '/#about'].includes(l.href));
     links.splice(0, links.length, ...pages, ...garde);
+  }
+  // Coquilles `interventions` et `trajet` : l'accueil n'a ni bloc services ni questions (les services sont des pages, liées
+  // par le pied `columns` et par chaque intervention ou commune ; les questions sont sur /carnet ou /trajet) : la barre ne
+  // garde que le carnet (ou les temps de trajet) et le contact, sans ancre vers un bloc absent.
+  if (s.layout.shell === 'interventions' || s.layout.shell === 'trajet') {
+    const absents = ['/#services', '/#zones', '/#about', '/#faq', ...(s.proof.testimonials.length || s.proof.google ? [] : ['/#proof'])];
+    const garde = links.filter((l) => !absents.includes(l.href));
+    links.splice(0, links.length, ...garde);
   }
   // Professionnels (site.pros, architecture pages-adresses) : un lien discret, en dernier.
   const pros = lienPros(s.pros, s.wording.pros);

@@ -1,0 +1,91 @@
+/* Direction ENDUIT : style réel relevé sur https://bcgbuildingdesign.com.au/ (BCG Building Design, studio de conception de
+   maisons sur la Gold Coast, une dessinatrice et son équipe ; veille du 29 oct 2026, fiche docs/veille/styles/enduit.md,
+   atomes docs/veille/styles/atomes/enduit.json). On reprend le style et la construction (photo plein écran à phrase posée
+   en bas à gauche, bande brune au nom géant, index des réalisations dont la ligne survolée montre sa photo), jamais les
+   textes, images, logos ni le code de la source.
+   Une page d'enduit à la chaux : crème #f3efe8 sur toute la page, un seul brun terre #3a3028 pour le texte, la bande du
+   nom et les boutons pleins, aucune autre couleur que celle des photos ; une seule grotesque en graisse moyenne pour
+   tout (titres, texte, étiquettes), rayon presque nul, aucune ombre, aucun cadre : la profondeur vient des photos
+   plein cadre et du nom géant.
+   Polices : Neue Haas Display (non libre, graisses 500 et 600) -> Host Grotesk (grotesque néo-suisse libre, OFL), une
+   seule famille comme la source.
+   Couleurs relevées : fond #f3efe8 (54 % des fonds), brun #3a3028 (25 % des fonds, 74 % des textes), crème clair
+   #fffdf8 sur le brun. Le crème est réchauffé d'un cheveu (#f3ede4, chroma OKLCH 0,014 au lieu de 0,010) pour que la
+   chaux se lise sur les écrans froids. Le gris de second plan est un brun éclairci (#6b6157, 5,2:1 sur le crème). */
+@import '@fontsource-variable/host-grotesk';
+
+[data-direction='enduit'] {
+  --accent-h: 27;
+  --accent-s: 18%;
+  --accent-l: 19%;
+  --bg: #f3ede4;
+  --bg-2: #e9e3d8;
+  --surface: #fffdf8;
+  --fg: #3a3028;
+  --muted: #6b6157;
+  --line: #d3cbbf;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) + 8%));
+  --on-accent: #fffdf8;
+  --ink: #3a3028;
+  --on-ink: #fffdf8;
+  --font-display: 'Host Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Host Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Host Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 500;
+  --display-tracking: -0.02em;
+  --heading-transform: none;
+  --radius: 3px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(4rem, 8vw, 7.5rem);
+  --motion-duration: 0.8s;
+  --motion-ui: 0.4s;
+  /* Courbe mesurée sur la source (transform 0,4 s et 0,8 s) : cubic-bezier(0.25, 0.46, 0.45, 0.94). */
+  --ease-brand: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+[data-direction='enduit'] body { font-weight: 450; }
+[data-direction='enduit'] ::selection { background: var(--fg); color: var(--bg); }
+/* Titres en graisse moyenne, interlignage serré, comme la source (1,0 à 1,05) ; jamais d'italique (GOUT § 2). */
+[data-direction='enduit'] :is(h1, h2) { font-weight: 500; line-height: 1.05; letter-spacing: -0.02em; }
+[data-direction='enduit'] h3 { font-weight: 550; line-height: 1.2; }
+[data-direction='enduit'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons de la source : le plein est une petite plaque brune à peine arrondie (« Menu ») ; le lien « Learn More » est
+   un texte posé sur un filet pleine largeur, flèche à droite, qui s'avance de 4 px au survol (0,4 s, courbe de la source). */
+[data-direction='enduit'] .btn {
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 550;
+  letter-spacing: 0;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand), border-color var(--motion-ui) var(--ease-brand);
+}
+[data-direction='enduit'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='enduit'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='enduit'] .btn-ghost {
+  justify-content: space-between;
+  min-width: 13rem;
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-color: currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg);
+  padding-inline: 0;
+}
+[data-direction='enduit'] .btn-ghost::after {
+  content: '→';
+  margin-left: 1.5rem;
+  transition: transform var(--motion-ui) var(--ease-brand);
+}
+[data-direction='enduit'] .btn-ghost:hover::after { transform: translateX(4px); }
+[data-direction='enduit'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='enduit'] .rule { border-top: 1px solid var(--line); }
+[data-direction='enduit'] .eyebrow { color: var(--fg); font-family: var(--font-body); font-size: 0.875rem; font-weight: 550; letter-spacing: 0; text-transform: none; }

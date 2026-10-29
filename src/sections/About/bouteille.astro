@@ -1,0 +1,59 @@
+---
+/**
+ * About "bouteille" (style bouteille, seconde reprise du 29 oct 2026 ; source restaurantzimmerl.at, fiche
+ * docs/veille/styles/bouteille.md § Construction, bloc 4 « le chef ») : LE CHEF EN PORTRAIT. Grille de 12 colonnes à
+ * l'ordinateur : le portrait du client (about.portrait) en noir et blanc, vertical 2:3, colonnes 2 à 5, et derrière lui,
+ * décalé vers le bas et la gauche, un cadre au filet accent (deux plans) ; le texte en colonnes 7 à 11 : le titre
+ * (about.title) en capitales accent, le premier paragraphe en petites capitales très larges accent (la phrase d'ouverture
+ * de la source), la suite en texte courant. La photo apparaît en fondu, le texte en cascade.
+ * Sans portrait : le texte seul, centré sur six colonnes, la phrase d'ouverture en tête (jamais une photo d'ailleurs à
+ * la place du chef). Rien n'est inventé : chaque ligne disparaît sans sa donnée.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const [ouverture, ...suite] = paragraphs(a.story);
+const portrait = a.portrait;
+---
+
+{ouverture && (
+  <section id="about" class:list={['ba-section', portrait ? 'ba-avec-portrait' : 'ba-sans-portrait']}>
+    <div class="container-ff ba-grille">
+      {portrait && (
+        <div class="ba-portrait-boite">
+          <span class="ba-cadre" aria-hidden="true"></span>
+          <figure class="ba-portrait relative overflow-hidden bg-ink shadow-lift" data-reveal>
+            <Img src={portrait.src} alt={portrait.alt} class="h-full w-full object-cover" sizes="(min-width: 64rem) 26vw, 70vw" loading="lazy" />
+          </figure>
+        </div>
+      )}
+      <div class="ba-texte" data-stagger="110">
+        <h2 class="ba-titre text-display-md" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
+        <p class="ba-ouverture mt-7 font-mono text-accent">{ouverture}</p>
+        {suite.map((p) => <p class="mt-5 text-lg text-muted">{p}</p>)}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .ba-section { padding-block: clamp(7rem, 15vw, 15rem) 0; }
+  .ba-grille { display: grid; gap: 3.5rem; }
+  .ba-portrait-boite { position: relative; width: min(78%, 22rem); }
+  .ba-cadre { position: absolute; inset: 1.5rem 1.5rem -1.5rem -1.5rem; border: 1px solid var(--accent); }
+  .ba-portrait { aspect-ratio: 2 / 3; }
+  .ba-portrait :global(img) { filter: grayscale(1) contrast(1.05); }
+  .ba-ouverture { font-size: 0.85rem; font-weight: 300; line-height: 1.7; text-transform: uppercase; letter-spacing: 0.02em; max-width: 32rem; }
+  .ba-texte :global(p.text-lg) { max-width: 34rem; }
+  .ba-sans-portrait .ba-texte { text-align: center; margin-inline: auto; max-width: 40rem; }
+  .ba-sans-portrait .ba-ouverture { margin-inline: auto; }
+  @media (min-width: 64rem) {
+    .ba-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 1.25rem; align-items: center; }
+    .ba-portrait-boite { grid-column: 2 / 6; width: auto; }
+    .ba-texte { grid-column: 7 / 12; }
+    .ba-cadre { inset: 2.5rem 2.5rem -2.5rem -2.5rem; }
+    .ba-sans-portrait .ba-texte { grid-column: 4 / 10; }
+  }
+  .ba-portrait :global(.ff-illustration) { top: auto; bottom: 0.5rem; }
+</style>

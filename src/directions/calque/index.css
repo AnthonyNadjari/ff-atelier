@@ -1,0 +1,71 @@
+/* Direction CALQUE : style réel relevé sur https://tekt.com.au/ (Tekt, constructeurs de maisons à ossature préfabriquée,
+   Brisbane ; veille du 29 oct 2026, fiche docs/veille/styles/calque.md, atomes docs/veille/styles/atomes/calque.json).
+   On reprend le style et la construction (grille, cellules de plan à repères d'angle, rapports de taille), jamais les
+   textes, images, logos ni le code de la source.
+   Un calque d'architecte : fond de plan bleu-gris pâle, un seul brun très foncé pour le texte et les filets, une
+   grotesque néo-suisse en graisse normale pour TOUT (le titre n'est qu'un grand corps), des cellules filetées à petits
+   carrés d'angle pour les listes, les menus et le formulaire, rayon 0, aucune ombre : la profondeur vient des photos
+   plein cadre et des cellules posées dessus.
+   Polices : af Another Sans (non libre) -> Schibsted Grotesk (une seule famille) ; Herbik (petit serif des liens de
+   second rang) -> Gelasio, porté par --font-mono (troisième voix, comme lin).
+   Couleurs relevées : #ecf1f4 fond 81 % (bleui d'un cheveu en #e3ecf2 : chroma OKLCH 0,013 au lieu de 0,007, pour
+   que le bleu de plan se lise), #d0dbe4 panneau du formulaire 20 %, #2d2012 texte 99 % des caractères. */
+@import '@fontsource-variable/schibsted-grotesk';
+@import '@fontsource-variable/gelasio';
+
+[data-direction='calque'] {
+  --accent-h: 33;
+  --accent-s: 43%;
+  --accent-l: 12%;
+
+  --bg: #e3ecf2;
+  --bg-2: #d0dbe4;
+  --surface: #edf3f7;
+  --fg: #2d2012;
+  --muted: #5b5247;
+  --line: #2d2012;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) + 14%));
+  --on-accent: #e3ecf2;
+  --ink: #2d2012;
+  --on-ink: #edf3f7;
+
+  --font-display: 'Schibsted Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Schibsted Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Gelasio Variable', Georgia, serif;
+  --display-weight: 480;
+  --display-tracking: -0.012em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(5rem, 12vw, 11rem);
+  --motion-duration: 0.5s;
+  --motion-ui: 0.5s;
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1); /* = ease, la courbe mesurée sur la source */
+}
+
+[data-direction='calque'] ::selection { background: var(--bg-2); color: var(--fg); }
+/* La source compose titres ET texte dans la même grotesque, graisse normale, interlignage serré (1,1) : le titre n'est
+   qu'un grand corps. L'emphase reste droite (GOUT § 2). */
+[data-direction='calque'] :is(h1, h2, h3) { font-weight: 480; line-height: 1.1; letter-spacing: -0.012em; }
+[data-direction='calque'] :is(h1, h2, h3) em { font-style: normal; }
+
+/* Bouton de la source : une cellule pleine bleu-gris, texte brun, flèche ; aucun arrondi ; le fond s'assombrit au
+   survol en 0,5 s ease (mesuré : all 0.5s ease). */
+[data-direction='calque'] .btn {
+  border-radius: 0;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+}
+[data-direction='calque'] .btn-primary { background: var(--bg-2); color: var(--fg); border: 1px solid var(--line); }
+[data-direction='calque'] .btn-primary:hover { background: var(--fg); color: var(--bg); }
+[data-direction='calque'] .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+[data-direction='calque'] .btn-ghost:hover { background: var(--bg-2); }
+[data-direction='calque'] .card { background: var(--surface); border: 1px solid var(--line); border-radius: 0; box-shadow: none; }
+[data-direction='calque'] .rule { border-top: 1px solid var(--line); }
+[data-direction='calque'] .eyebrow { color: var(--fg); font-size: 0.875rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+[data-direction='calque'] a:not(.btn) { text-underline-offset: 0.2em; }

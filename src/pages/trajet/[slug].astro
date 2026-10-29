@@ -1,0 +1,74 @@
+---
+/**
+ * Page d'une commune (/trajet/<slug>, site.trajet, src/lib/trajet.ts) : architecture `rayon-trajet` (une page de pôle de Concept
+ * Froid Centre : le métier à la commune, le temps de trajet depuis la base ; docs/veille/architectures/rayon-trajet.md). Le
+ * métier à la commune, le temps et la distance depuis la base sur une ligne de trajet, la phrase de l'artisan, ce qu'il vient
+ * faire, l'appel ; les communes à un temps proche. Une page par commune complète.
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, communesCompletes, dureeLisible, communesVoisines, lienTrajet } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+
+export function getStaticPaths() {
+  return communesCompletes(site.trajet?.communes).map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+const { c } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const t = site.trajet!;
+const base = t.base ?? site.contact.address.city;
+const voisines = communesVoisines(t.communes, c.slug);
+const max = Math.max(...communesCompletes(t.communes).map((x) => x.minutes));
+const part = Math.max(8, Math.round((c.minutes / max) * 100));
+const page = lienTrajet(t.communes, site.wording.trajet);
+const ld = { '@type': 'Service', serviceType: site.business.trade, areaServed: { '@type': 'City', name: c.nom }, provider: { '@type': 'LocalBusiness', name: site.business.name } };
+---
+
+<Base title={`${site.business.trade} à ${c.nom} | ${site.business.name}`} description={`${site.business.trade} à ${c.nom} : environ ${dureeLisible(c.minutes)} depuis ${base}${c.km ? `, ${c.km} km` : ''}.`} path={`/trajet/${c.slug}`} jsonLd={[ld]}>
+  <Nav />
+  <main id="main" class="container-ff tc">
+    <p><a href={page ? '/trajet' : '/'} class="tc-lien"><Icon name="ArrowLeft" size={16} />{page ? site.wording.trajet : 'Accueil'}</a></p>
+    <header class="tc-tete">
+      <h1 class="tc-titre font-display">{site.business.trade} à {c.nom}</h1>
+      <p class="tc-temps tabular-nums">Environ {dureeLisible(c.minutes)} depuis {base}{c.km ? `, ${c.km} km` : ''}{t.conditions ? `, ${t.conditions}` : ''}.</p>
+    </header>
+    {/* La ligne de trajet : la base à gauche, la commune à sa part du temps le plus long. */}
+    <div class="tc-ligne" aria-hidden="true">
+      <span class="tc-ligne-base">{base}</span>
+      <span class="tc-ligne-trait"><span class="tc-ligne-fait" style={`inline-size: ${part}%`}></span></span>
+      <span class="tc-ligne-nom">{c.nom}</span>
+    </div>
+    {c.texte && <p class="tc-texte">{c.texte}</p>}
+    {site.services.length > 0 && (
+      <section aria-labelledby="tc-services">
+        <h2 id="tc-services" class="tc-h2 font-display">Ce que nous venons faire à {c.nom}</h2>
+        <ul>{site.services.map((s) => <li>{site.servicePages ? <a href={`/services/${s.slug}`} class="tc-lien">{s.title}</a> : <span>{s.title}</span>}</li>)}</ul>
+      </section>
+    )}
+    <p><a href={tel()} class="tc-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a></p>
+    {voisines.length > 0 && (
+      <nav aria-label="Communes à un temps proche">
+        <h2 class="tc-h2 font-display">À un temps proche</h2>
+        <ul class="tc-voisines">{voisines.map((v) => <li><a href={`/trajet/${v.slug}`} class="tc-lien">{v.nom}</a> <span class="tabular-nums">{dureeLisible(v.minutes)}</span></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .tc { display: grid; gap: clamp(1.5rem, 4vh, 2.5rem); padding-block: clamp(1.25rem, 4vh, 3rem); max-inline-size: 60rem; }
+  .tc-tete { display: grid; gap: 0.6rem; }
+  .tc-titre { font-size: clamp(2rem, 5.6vw, 3.6rem); line-height: 1.02; letter-spacing: -0.015em; text-wrap: balance; }
+  .tc-temps { font-size: clamp(1.15rem, 2.2vw, 1.45rem); font-weight: 700; }
+  .tc-ligne { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; font-weight: 700; }
+  .tc-ligne-trait { position: relative; block-size: 0.35rem; background: var(--color-line); border-radius: var(--radius-ui, 6px); }
+  .tc-ligne-fait { position: absolute; inset-block: 0; inset-inline-start: 0; background: var(--color-accent); border-radius: inherit; }
+  .tc-texte { max-inline-size: 60ch; font-size: 1.1rem; }
+  .tc-h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); line-height: 1.08; }
+  .tc-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 52px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; font-size: 1.2rem; }
+  .tc-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tc-tel:focus-visible, .tc-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .tc-voisines { display: flex; flex-wrap: wrap; gap: 0 1.75rem; }
+</style>

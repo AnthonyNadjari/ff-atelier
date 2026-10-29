@@ -9,6 +9,8 @@
  * Film au clic (profil de mouvement « film-au-clic », docs/veille/styles/MOUVEMENTS.md) : si le client a une vidéo
  * (images.heroVideo), la bande montre son poster et un lien « Voir le film » ; la vidéo ne se charge et ne joue qu'au
  * toucher (lecture déclenchée par le geste : permise même en économie d'énergie sur iPhone), avec les commandes natives.
+ * La bande est une section SŒUR du premier écran (reprise du 29 oct 2026, tour 18), comme le bloc « film » de la source
+ * qui suit le bloc de la phrase : le déroulé lit phrase, puis bande, puis la suite.
  * Données : aucune exigence. Sans images.hero ni poster, pas de bande : la phrase reste seule (composition typographique).
  */
 import { site, tel, metierEtVille, hasContactDoor } from '@/lib/site';
@@ -37,8 +39,10 @@ const faits = [
       {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="sm">{site.wording.devis}</Button>}
     </div>
   </div>
+</section>
 
-  {poster && (
+{poster && (
+  <section class="lin-film-section" aria-label={film ? 'Le film' : undefined}>
     <figure class="lin-bande relative w-full overflow-hidden bg-ink" data-film={film ? '' : undefined}>
       <Img src={poster} alt={hero && poster === hero.src ? hero.alt : ''} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.lin} priority />
       {film && (
@@ -52,8 +56,8 @@ const faits = [
         </>
       )}
     </figure>
-  )}
-</section>
+  </section>
+)}
 
 <script>
   import { onPage } from '@/scripts/page';

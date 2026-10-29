@@ -1,0 +1,35 @@
+---
+/**
+ * Contact "ocre" (style ocre, relevé sur lrnce.com le 29 oct 2026, fiche docs/veille/styles/ocre.md § Construction, bloc 8)
+ * : LA DEMANDE CENTRÉE, sans bandeau d'appel ni carte. La phrase de contact (wording.contactTitle) en serif de grand
+ * corps, centrée comme la phrase d'invitation de la source, la phrase d'accompagnement, « Appeler le … » souligné, puis le
+ * formulaire du site, étroit et centré (la porte Devis du premier écran y arrive). Le bloc est tenu par un filet fin en
+ * dessous ; la bande rouille au nom qui défile et les colonnes des coordonnées sont le pied `footer/ocre`, comme sur la source.
+ * Rien d'inventé : pas de formulaire si le site n'en a pas. Mouvement : aucun.
+ */
+import { site, tel } from '@/lib/site';
+import ContactForm from '@/components/ContactForm.astro';
+
+const formulaire = site.form.provider !== 'none';
+---
+
+<section id="contact" class="ocre-contact" aria-labelledby="ocre-contact-titre">
+  <div class="container-ff border-b border-line py-[var(--section-y)] text-center">
+    <h2 id="ocre-contact-titre" class="ocre-invite font-display" set:html={site.wording.contactTitle} />
+    {site.wording.contactText && <p class="mx-auto mt-3 max-w-[48ch]">{site.wording.contactText}</p>}
+    <p class="mt-4"><a href={tel()} class="ocre-lien font-semibold">Appeler le {site.contact.phoneDisplay}</a></p>
+    {formulaire && (
+      <div class="ocre-form mx-auto mt-8 max-w-xl text-left">
+        <ContactForm compact idPrefix="ocre" />
+      </div>
+    )}
+  </div>
+
+</section>
+
+<style>
+  .ocre-invite { font-size: clamp(1.45rem, 1.1rem + 1.3vw, 2.2rem); line-height: 1.25; text-wrap: balance; }
+  .ocre-lien { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .ocre-lien:hover { color: var(--accent); }
+  .ocre-form :global(input), .ocre-form :global(select), .ocre-form :global(textarea) { background: var(--surface); border-radius: 0; border-color: var(--line); }
+</style>

@@ -96,11 +96,16 @@ export interface LayoutArchi {
  *                      gardeLisible) ;
  *  - honoraires      : des honoraires qui disent un prix (honoraires.consultation, .decouverte ou .modes[] ; src/lib/honoraires.ts,
  *                      honorairesLisibles) ;
+ *  - interventions   : interventions datées et situées (interventions[] : slug, date AAAA-MM-JJ réelle, lieu, titre ;
+ *                      src/lib/journal.ts, interventionsCompletes) ;
+ *  - trajet          : communes desservies avec un temps de trajet (trajet.communes[] : slug, nom, minutes > 0 ;
+ *                      src/lib/trajet.ts, communesCompletes) ;
+ *  - directionsTrajet: les mêmes communes dont la direction depuis la base est donnée (placées sur le schéma) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils' | 'especes' | 'garde' | 'honoraires';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils' | 'especes' | 'garde' | 'honoraires' | 'interventions' | 'trajet' | 'directionsTrajet';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -155,6 +160,8 @@ export const ARCHITECTURE_IDS = [
   'profils-patients',
   'garde-especes',
   'honoraires-domaines',
+  'carnet-interventions',
+  'rayon-trajet',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -1213,6 +1220,71 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Avocat ou petit cabinet (deux à cinq avocats) qui travaille pour des particuliers et annonce ses prix : famille et divorce, travail, pénal routier, baux, consommation ; aussi un notaire qui publie ses émoluments, un médiateur familial, un commissaire de justice. 2 domaines avec leurs procédures et un prix de première consultation. Pas pour un cabinet d'affaires sans prix publics, ni pour des formules de prestations comparées (formules-comparees).",
   },
+  'carnet-interventions': {
+    id: 'carnet-interventions',
+    modele:
+      "Le site d'un artisan qui intervient chez les gens est son carnet de bord : en tête le h1, le métier à la ville, l'ancienneté, le téléphone en grand, et à côté la dernière intervention (le jour, le lieu, « il y a 3 jours » calculé dans le navigateur, ce qui s'est passé) ; puis le carnet lui-même, les interventions du plus récent au plus ancien rangées par mois, le mois collé en marge pendant qu'on descend, chacune datée, située (quartier ou commune), racontée en temps (l'appel, ce qui a été fait, la durée) avec sa photo ; les lieux du carnet, du plus fréquent au moins fréquent ; les avis, venir ou appeler ; les services en pages (la barre y mène) ; /carnet (avec les questions) et une page par intervention, avec la plus récente et la plus ancienne pour se promener dans le temps.",
+    sources: [
+      { fiche: 'docs/veille/architectures/carnet-interventions.md', site: 'serrurier-nimes30.fr' },
+      { fiche: 'docs/veille/architectures/carnet-interventions.md', site: 'atelier-bois-acier.fr' },
+    ],
+    layout: {
+      // Coquille `interventions` (src/shells/interventions.astro).
+      shell: 'interventions',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'liens',
+      // Monsieur Boris : le h1 et le gérant devant sa boutique, le numéro partout, puis services, tarifs, avis, questions ;
+      // le blog = 25 récits datés et situés (« Castanet », « Vacquerolles »), chacun en temps et suivi de ses questions.
+      // L'Atelier Bois Acier : « En direct de l'atelier », trois réalisations racontées, sur l'accueil. La coquille met le
+      // carnet en tête (c'est la preuve que l'artisan est du coin et travaille), puis les lieux et les avis ; les services sont
+      // des pages (la barre y mène), les questions sont sur /carnet : pas de fin de page d'usine (communes, bandeau, questions).
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: true,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'interventions', min: 4, libelle: '4 interventions datées et situées au moins (interventions[] : slug, date, lieu, titre)' },
+    ],
+    convientA:
+      "Artisan qui intervient chez les gens et peut raconter ses interventions : serrurier, plombier, électricien, vitrier, ramoneur, élagueur, dératiseur, chauffagiste, maçon de petite rénovation ; aussi un ébéniste ou un ferronnier qui publie ses pièces au fil de l'atelier. 4 interventions datées et situées, idéalement une par semaine. Pas pour un artisan qui ne montre que de grands chantiers finis (index-projets, avant-apres), ni pour un commerce à adresse fixe.",
+  },
+  'rayon-trajet': {
+    id: 'rayon-trajet',
+    modele:
+      "Le site d'un artisan qui se déplace part de « est-ce qu'il vient jusque chez moi, et en combien de temps ? » : en tête le h1, le métier à la ville, le téléphone, et à côté « Combien de temps pour venir chez vous ? » (on tape sa commune, la réponse vient dans le navigateur ; sans script, le tableau) ; puis le territoire vu de l'atelier : la base au centre, des cercles de 15, 30, 60 minutes, les communes posées sur le cercle de leur temps dans leur direction, chacune vers sa page ; à côté, le tableau des communes de la plus proche à la plus loin (minutes, kilomètres) et la phrase pour une commune absente ; les avis, la base ; les services en pages (la barre y mène) ; /trajet (avec les questions) et une page par commune avec son temps et ses voisines.",
+    sources: [
+      { fiche: 'docs/veille/architectures/rayon-trajet.md', site: 'colson-elec.fr' },
+      { fiche: 'docs/veille/architectures/rayon-trajet.md', site: 'conceptfroid.fr' },
+    ],
+    layout: {
+      // Coquille `trajet` (src/shells/trajet.astro).
+      shell: 'trajet',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'liens',
+      // Colson Elec : « Je ne suis jamais loin », l'atelier au centre et cinq communes autour (km, minutes), « Votre commune
+      // n'est pas citée ? Appelez quand même ». Concept Froid Centre : « Zone d'intervention, 200 km autour de Suèvres »,
+      // huit pôles en temps de trajet juste sous les métiers, une page par pôle. La coquille met le territoire en tête, puis
+      // les avis et la base ; les services sont des pages (la barre y mène, comme les métiers de Concept Froid), les questions
+      // sont sur /trajet : pas de fin de page d'usine.
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'trajet', min: 4, libelle: '4 communes au moins avec leur temps de trajet (trajet.communes[] : slug, nom, minutes)' },
+      { mesure: 'directionsTrajet', min: 3, libelle: '3 communes au moins avec leur direction depuis la base (trajet.communes[].direction), pour le schéma' },
+    ],
+    convientA:
+      "Artisan ou dépanneur qui se déplace depuis une base et dont le client demande d'abord « vous venez jusqu'ici ? » : électricien, frigoriste, chauffagiste, plombier de campagne, ramoneur, élagueur, piscinier, réparateur à domicile, laveur de vitres ; 4 communes avec leur temps de trajet, dont 3 avec leur direction. Pas pour une tournée à jours fixes (tournee-semaine), ni pour un commerce où l'on vient (pages-adresses).",
+  },
 };
 
 
@@ -1277,6 +1349,8 @@ export interface SiteArchi {
   especes?: { slug?: string; nom?: string }[];
   garde?: { telephone?: string; telephoneAffiche?: string; etapes?: { titre?: string }[] };
   honoraires?: { decouverte?: { prix?: string; duree?: string }; consultation?: { prix?: string; duree?: string }; modes?: { nom?: string; prix?: string }[] };
+  interventions?: { slug?: string; date?: string; lieu?: string; titre?: string; photo?: unknown }[];
+  trajet?: { communes?: { slug?: string; nom?: string; minutes?: number; direction?: string }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -1320,7 +1394,8 @@ export function photosDuClient(s: SiteArchi): number {
     (s.artistes ?? []).reduce((n, a) => n + (a.photo ? 1 : 0) + (a.photos?.length ?? 0), 0) +
     (s.fetes ?? []).filter((x) => x.photo).length +
     (s.parcours ?? []).filter((x) => x.photo).length +
-    (s.realisations ?? []).reduce((n, r) => n + (r.photos?.length ?? 0), 0)
+    (s.realisations ?? []).reduce((n, r) => n + (r.photos?.length ?? 0), 0) +
+    (s.interventions ?? []).filter((x) => x.photo).length
   );
 }
 
@@ -1535,6 +1610,34 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
         const h = s.honoraires;
         const pas = [h?.decouverte, h?.consultation].some((p) => (p?.prix ?? '').trim());
         n = h && (pas || (h.modes ?? []).some((m) => (m.nom ?? '').trim() && (m.prix ?? '').trim())) ? 1 : 0;
+        break;
+      }
+      // Mêmes comptes que interventionsCompletes (src/lib/journal.ts) et communesCompletes (src/lib/trajet.ts), recopiés.
+      case 'interventions': {
+        const vus = new Set<string>();
+        const iso = (d = '') => {
+          const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d.trim());
+          if (!m) return false;
+          const x = new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])));
+          return x.getUTCMonth() === Number(m[2]) - 1 && x.getUTCDate() === Number(m[3]);
+        };
+        n = (s.interventions ?? []).filter((x) => {
+          const slug = (x.slug ?? '').trim();
+          if (!slug || !iso(x.date) || !(x.lieu ?? '').trim() || !(x.titre ?? '').trim() || vus.has(slug)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
+        break;
+      }
+      case 'trajet':
+      case 'directionsTrajet': {
+        const vus = new Set<string>();
+        n = (s.trajet?.communes ?? []).filter((c) => {
+          const slug = (c.slug ?? '').trim();
+          if (!slug || !(c.nom ?? '').trim() || !(typeof c.minutes === 'number' && c.minutes > 0) || vus.has(slug)) return false;
+          vus.add(slug);
+          return e.mesure === 'trajet' || Boolean(c.direction);
+        }).length;
         break;
       }
       case 'urgence': n = s.contact?.emergency24h || (s.tarifs?.delai ?? '').trim() ? 1 : 0; break;

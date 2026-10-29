@@ -96,3 +96,29 @@ au plus (dentaire-morvan). Ajustements faits à l'essai : la photo plein cadre s
 `<section>` sœurs (le déroulé les lit comme la source, bande par bande) ; la carte est portée par le service qui a les
 lignes (trois services, comme un bar : la cuisine, le bar, les soirées) ; `proof/gallery` au lieu de `proof/google` dans
 le modèle (la nav gardait « Avis » vers une section vide quand le client n'a que des photos).
+
+## Reprise du 29 oct, tour 18
+
+Reproches du juge neuf (tour 17) : la photo plein cadre manquait au premier écran ; sous la moitié de la page, la fin
+d'usine (communes, bandeau d'appel, questions, formulaire, pied sombre, barre basse à trois boutons) que la source n'a pas.
+Ce qui a changé :
+- **Premier écran** (`Hero/pinceau`) : au téléphone, la photo du lieu (`images.hero`) revient en **bande plein cadre sous
+  l'enseigne**, tenue entre deux bords brossés bleu nuit qui mordent dessus, puis l'ancienneté et la note, les deux portes ;
+  à l'ordinateur, l'aplat bleu seul comme la source (la photo descend sur le bord brossé de `services/pinceau`, qui ne la
+  montre plus au téléphone : pas de doublon). La photo DERRIÈRE l'enseigne (comme la vidéo de la source) donnait 0,81 au
+  téléphone contre lemaire-avocats (« h1 sur l'image au milieu ») : essayée, mesurée, écartée.
+- **Fin de page d'après la source** (`presets/pinceau.json`) : `services/pinceau` → `proof/pinceau` (nouveau : la bande
+  moutarde aux bords brossés, titre, note Google en une ligne, mosaïque carrée des photos, avis recopiés en chasse fixe :
+  le bloc 5 « Fun, sun and music ») → `about/portrait` (la bande claire à photo verticale, bloc 6) → `contact/pinceau`
+  (nouveau : la page finit sur une bande bleu nuit au bord brossé, le nom en enseigne moutarde, adresse et plan, téléphone
+  en très grand, Réserver, horaires, « Écrire un message » replié : le pied bleu nuit de la source, bloc 8) ; pied
+  `minimal`. Plus de communes, de bandeau d'appel, de questions ni de formulaire en tête ; `actionBar: false` (le téléphone
+  est dans la ligne du haut, cliquable) ; `servicePage: 'porte'` : la nav nomme chaque offre et mène à sa page, comme la
+  barre de la source (Restaurant, Bar, Groupes).
+- `ff melanger --style` : la garde des paires de polices ne refuse plus le style dont la direction existe déjà (elle
+  refusait `--style pinceau` en 400 tirages).
+Preuve : jetable `_essai-reprise-pinceau` (bar-restaurant inventé, `// DEMO`, 8 photos `ff photos-demo`), comparaison
+[source + nouvel essai](captures/pinceau-essai.jpg) (la source à gauche). `ff verifier` vert hors données de test,
+a11y sans violation, `ff ia` sans signe bloquant ; `ff ressemblance` : téléphone 0,59 au plus (atelier-lecerf), ordinateur
+0,58 (demo-boulangerie), déroulé 0,63 (prospect-a-coeur-bois), sous 0,65 partout.
+Reste : la page d'offre (gabarit `porte`) est propre mais générique ; les photos d'illustration de soirée sont pauvres.

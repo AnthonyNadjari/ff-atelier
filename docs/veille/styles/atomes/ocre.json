@@ -1,0 +1,176 @@
+{
+  "id": "ocre",
+  "version": 1,
+  "source": {
+    "url": "https://lrnce.com/",
+    "nom": "LRNCE",
+    "metier": "atelier de céramique, de tissage et de peinture (Laurence Leenaert, Marrakech), boutique en ligne et atelier ouvert",
+    "fiche": "docs/veille/styles/ocre.md",
+    "mesures": "docs/veille/styles/atomes/mesures/ocre.json",
+    "date": "2026-10-29"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Georgia",
+      "libre": "gelasio",
+      "graisse": 500,
+      "interlignage": 1.2,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Georgia",
+      "libre": "mulish",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 26,
+        "ordinateur": 40
+      },
+      "h2": {
+        "telephone": 22,
+        "ordinateur": 26
+      },
+      "texte": {
+        "telephone": 16,
+        "ordinateur": 16
+      }
+    },
+    "remarque": "Georgia (titres et lettre de grand corps, 26 à 42 px) -> Gelasio (métriques de Georgia, libre) ; Harmonia Sans (nav, étiquettes en capitales, colonnes du pied) -> Mulish. Accord par contraste : serif de lecture / géométrique douce. Le texte de grand corps de la lettre (26 px) est en serif, porté par --font-display dans la direction construite."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#eee3d4",
+      "texte": "#000000",
+      "fonds": [
+        {
+          "hex": "#eee3d4",
+          "part": 0.986
+        },
+        {
+          "hex": "#924b27",
+          "part": 0.012
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.001
+        },
+        {
+          "hex": "#945738",
+          "part": 0.001
+        },
+        {
+          "hex": "#924727",
+          "part": 0.001
+        },
+        {
+          "hex": "#934b2d",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "part": 0.92
+        },
+        {
+          "hex": "#1f2124",
+          "part": 0.031
+        },
+        {
+          "hex": "#40291f",
+          "part": 0.024
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.015
+        },
+        {
+          "hex": "#924727",
+          "part": 0.009
+        }
+      ],
+      "proches": 15655892
+    },
+    "clair": {
+      "fond": "#eee3d4",
+      "surface": "#f6efe4",
+      "texte": "#2b211c",
+      "texte2": "#6a5a4c",
+      "accent": "#8f4524",
+      "accent2": "#e6d8c5",
+      "bordure": "#2b211c",
+      "encre": "#843f1f"
+    },
+    "sombre": null,
+    "remarque": "Sable #eee3d4 sur 98 % des fonds (chroma OKLCH 0,023), un seul rouille #924b27 (bande du nom qui défile, bouton plein, étiquette de la nav) foncé en #8f4524 pour l'accent et #843f1f pour l'encre des bandes (texte crème à 80 % en AA) ; texte noir adouci en brun #2b211c ; filets de 1 px du même brun. Coloré doux (bloc d'encre rouille)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 40,
+      "ordinateur": 80
+    },
+    "gouttiere": {
+      "telephone": 10,
+      "ordinateur": 40
+    },
+    "conteneur": 1440,
+    "mesure": 33,
+    "rythme": "uni",
+    "remarque": "Pas de conteneur : blocs pleine largeur tenus par des filets ; marge de sable de 40 px autour des diptyques (20 px entre les deux photos) ; la lettre en colonne de ~33 caractères à 26 px."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "contour",
+    "pilule": false,
+    "casseBouton": "uppercase",
+    "lien": "souligne",
+    "remarque": "Rectangles à filet fin et plein rouille (le bouton « Subscribe » en pilule est refusé : signe IA) ; liens soulignés ; filets de 1 px brun sombre qui découpent la page en blocs, horizontaux et verticaux."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "3:4",
+      "4:5",
+      "16:9+"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Photos argentiques chaudes (terre, tissus, peintures) : diptyque bord à bord au premier écran, diptyques verticaux sur marge de sable, photo collée au bord à côté de la lettre, photo seule à côté d'une moitié vide, grande photo paysage ; jamais de texte posé dessus."
+  },
+  "mouvement": {
+    "regime": "vivant",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "nom-qui-defile-au-pied",
+    "remarque": "Une seule animation sur toute la page : la bande rouille du pied où le logotype répété défile en 40 s linéaire ; transitions de couleur 0,3 s ease ; rien n'apparaît au défilement."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "filets de 1 px qui découpent la page en blocs (horizontaux et verticaux), comme une planche de contact"
+  },
+  "architecture": null,
+  "premier_ecran": "diptyque"
+}

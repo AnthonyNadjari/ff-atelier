@@ -1,0 +1,114 @@
+---
+/**
+ * Proof "calque" (style calque, relevé sur tekt.com.au le 29 oct 2026, fiche docs/veille/styles/calque.md § Construction,
+ * blocs 5 et 6) :
+ * 1. Les réalisations : l'étiquette (wording.galleryTitle) en petit dans le tiers gauche, une phrase de grand corps dans
+ *    les deux tiers droits (les lieux des réalisations, lus dans proof.gallery), puis UNE PHOTO PLEINE LARGEUR, de bord
+ *    à bord, avec, POSÉE DESSUS en haut à gauche, la liste des réalisations en cellules de plan (la première plus
+ *    haute) ; la cellule touchée change la photo en fondu croisé de 0,5 s (script onPage ; sans script, la première
+ *    photo et la liste). Au téléphone, la liste passe sous la photo.
+ * 2. Les avis du client, dans la même grammaire : l'étiquette à gauche, la note Google en grand corps et les avis
+ *    recopiés à droite, l'auteur en petit serif.
+ * Rien d'inventé : sans photo ni avis, pas de section ; la photo déjà montrée par About/calque n'est pas répétée.
+ */
+import '@/styles/cellules.css';
+import { site, photosDuSite, metaDeRealisation } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const dejaVue = (site.about.portrait ?? photosDuSite()[0])?.src;
+const toutes = site.proof.gallery;
+const photos = (toutes.length > 1 ? toutes.filter((g) => g.src !== dejaVue) : toutes).slice(0, 6);
+const nom = (g: (typeof photos)[number]) => g.caption ?? ([g.kind, g.place].filter(Boolean).join(', ') || metaDeRealisation(g)[0] || g.alt);
+const lieux = [...new Set(photos.map((g) => g.place).filter(Boolean))] as string[];
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 3);
+const rien = photos.length === 0 && !google && avis.length === 0;
+const liste = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} et ${xs.at(-1)}` : xs[0]);
+---
+
+{!rien && (
+  <section id="proof" class="calque-proof py-[var(--section-y)]" aria-labelledby="calque-proof-titre">
+    {photos.length > 0 && (
+      <>
+        <div class="grid gap-6 px-5 md:grid-cols-3 md:gap-0 md:px-[2.5rem]">
+          <h2 id="calque-proof-titre" class="text-sm font-medium">{site.wording.galleryTitle}</h2>
+          {lieux.length > 0 && <p class="calque-grand md:col-span-2">{`Réalisations à ${liste(lieux)}.`}</p>}
+        </div>
+        <div class="calque-serie relative mt-10 md:mt-12" data-calque-serie>
+          <div class="calque-cadre relative overflow-hidden">
+            {photos.map((g, i) => (
+              <figure class:list={['calque-vue absolute inset-0', i === 0 && 'is-active']} data-vue={i}>
+                <Img src={g.src} alt={g.alt} class="h-full w-full object-cover" sizes="100vw" loading="lazy" />
+              </figure>
+            ))}
+          </div>
+          {photos.length > 1 && (
+            <ul class="ff-cellules calque-liste mx-5 mt-4 md:absolute md:left-[2.5rem] md:top-5 md:mx-0 md:mt-0 md:w-[min(30%,22rem)]" role="list">
+              {photos.map((g, i) => (
+                <li class="contents">
+                  <button type="button" class:list={['ff-cellule calque-choix w-full px-3 text-left', i === 0 ? 'calque-choix-tete' : 'text-sm font-medium']} aria-pressed={i === 0 ? 'true' : 'false'} data-choix={i}>
+                    {nom(g)}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </>
+    )}
+
+    {(google || avis.length > 0) && (
+      <div class="mt-24 grid gap-6 px-5 md:mt-[clamp(8rem,14vw,13rem)] md:grid-cols-3 md:gap-0 md:px-[2.5rem]">
+        {photos.length > 0 ? <h3 class="text-sm font-medium">Avis</h3> : <h2 id="calque-proof-titre" class="text-sm font-medium">Avis</h2>}
+        <div class="md:col-span-2">
+          {google && (
+            <p class="calque-grand">
+              <a href={google.url} class="underline-offset-4 hover:underline" target="_blank" rel="noopener">{`${google.rating.toFixed(1).replace('.', ',')}/5 sur Google, ${google.count} avis.`}</a>
+            </p>
+          )}
+          {avis.length > 0 && (
+            <ul class="mt-8 grid gap-8 md:grid-cols-2" role="list">
+              {avis.map((a) => (
+                <li>
+                  <blockquote class="text-lg leading-snug">« {a.text} »</blockquote>
+                  <p class="mt-2 font-mono text-sm text-muted">{a.author}{a.city && `, ${a.city}`}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    )}
+  </section>
+)}
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // La cellule touchée change la photo (fondu croisé 0,5 s en CSS) ; sans script, la première photo reste.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-calque-serie]').forEach((serie) => {
+      const vues = [...serie.querySelectorAll<HTMLElement>('[data-vue]')];
+      const choix = [...serie.querySelectorAll<HTMLButtonElement>('[data-choix]')];
+      choix.forEach((b) =>
+        b.addEventListener('click', () => {
+          const n = b.dataset.choix;
+          vues.forEach((v) => v.classList.toggle('is-active', v.dataset.vue === n));
+          choix.forEach((c) => c.setAttribute('aria-pressed', String(c === b)));
+        }),
+      );
+    });
+  });
+</script>
+
+<style>
+  .calque-grand { font-size: clamp(1.3rem, 1rem + 1vw, 1.7rem); line-height: 1.12; font-weight: 480; letter-spacing: -0.01em; max-width: 46ch; }
+  .calque-cadre { aspect-ratio: 4 / 3; }
+  @media (min-width: 48rem) { .calque-cadre { aspect-ratio: auto; height: min(90svh, 56vw); } }
+  .calque-vue { opacity: 0; transition: opacity 0.5s linear; }
+  .calque-vue.is-active { opacity: 1; }
+  .calque-choix { min-height: 2.4rem; }
+  .calque-choix-tete { min-height: 2.9rem; font-size: 1.1rem; font-weight: 480; }
+  .calque-choix[aria-pressed='true'] { background-color: var(--bg-2); }
+  @media (prefers-reduced-motion: reduce) { .calque-vue { transition: none; } }
+</style>

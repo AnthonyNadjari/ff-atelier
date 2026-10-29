@@ -1,0 +1,101 @@
+---
+/**
+ * Contact "bouteille" (style bouteille, reprise du 29 oct 2026, tour 18 ; source restaurantzimmerl.at, fiche
+ * docs/veille/styles/bouteille.md § Construction, bloc 10) : LA PLAQUE DU CONTACT. Un panneau un ton plus clair que la
+ * page (--bg-2), de la largeur du conteneur, centré dans un grand vide ; le MONOGRAMME (l'initiale du commerce dans un
+ * cercle à filet accent) est posé À CHEVAL sur son bord haut. Dedans, tout centré : le nom en capitales accent,
+ * l'adresse et le lien vers le plan, puis deux colonnes en petites capitales très larges accent (les horaires ; le
+ * téléphone et l'e-mail), la porte du site (Réserver, Commander… : actions() hors appel) en plaque, et, replié dessous,
+ * « Écrire un message » (le formulaire du site s'il en a un : la porte « Devis » de la nav y arrive).
+ * Remplace la fin de page générique de l'usine (communes, bandeau d'appel, questions, formulaire, pied en colonnes)
+ * dans le modèle presets/bouteille.json ; le pied qui suit (footer minimal) est sur le même fond que la page.
+ * Rien d'inventé : chaque ligne disparaît sans sa donnée. Mouvement : la plaque apparaît en fondu (data-reveal).
+ */
+import { site, tel, mailto, fullAddress, actions } from '@/lib/site';
+import Porte from '@/components/Porte.astro';
+import ContactForm from '@/components/ContactForm.astro';
+
+const portes = actions().filter((a) => a.kind !== 'call' && a.kind !== 'quote');
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+const initiale = site.business.name.trim().replace(/^(la|le|les|l’|l')\s*/i, '').charAt(0).toUpperCase();
+---
+
+<section id="contact" class="bc-section" aria-labelledby="bc-nom">
+  <div class="container-ff">
+    <div class="bc-plaque relative mx-auto max-w-5xl text-center" data-reveal>
+      <span class="bc-monogramme font-display" aria-hidden="true">{initiale}</span>
+      <h2 id="bc-nom" class="bc-nom">{site.business.name}</h2>
+      {adresse && (
+        <p class="mt-5 text-lg">
+          {adresse}
+          {site.contact.mapsUrl && (
+            <>
+              <br />
+              <a href={site.contact.mapsUrl} class="text-muted underline hover:text-accent" rel="noopener" target="_blank">Voir le plan</a>
+            </>
+          )}
+        </p>
+      )}
+
+      <div class:list={['bc-colonnes mx-auto mt-12 grid max-w-3xl gap-10 font-mono text-accent', horaires.length > 0 && 'md:grid-cols-2']}>
+        {horaires.length > 0 && (
+          <dl class="space-y-3">
+            {horaires.map((h) => (
+              <div>
+                <dt>{h.days}</dt>
+                <dd class="text-fg">{h.hours}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        <div class="space-y-3">
+          <p><a href={tel()} class="bc-tel text-fg underline decoration-[var(--line)] underline-offset-[0.4em] hover:text-accent">{site.contact.phoneDisplay}</a></p>
+          {site.contact.email && <p><a href={mailto()} class="break-all text-fg underline decoration-[var(--line)] underline-offset-[0.4em] hover:text-accent">{site.contact.email}</a></p>}
+        </div>
+      </div>
+
+      {portes.length > 0 && (
+        <div class="mt-12 flex flex-wrap justify-center gap-4">
+          {portes.map((p) => <Porte action={p} variant="primary" size="lg" />)}
+        </div>
+      )}
+
+      {site.form.provider !== 'none' && (
+        <details class="bc-message mx-auto mt-12 max-w-2xl text-left">
+          <summary class="text-center font-mono text-sm uppercase text-muted underline underline-offset-4 hover:text-accent">Écrire un message</summary>
+          <div class="mt-8">
+            <ContactForm compact idPrefix="bouteille" />
+          </div>
+        </details>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .bc-section { padding-block: clamp(9rem, 18vw, 16rem) clamp(5rem, 10vw, 9rem); }
+  .bc-plaque { background: var(--bg-2); padding: clamp(4rem, 8vw, 6.5rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem); }
+  /* Le monogramme à cheval sur le bord haut de la plaque. */
+  .bc-monogramme {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    background: var(--bg);
+    color: var(--accent);
+    font-size: 2.4rem;
+    line-height: 1;
+  }
+  .bc-nom { font-size: clamp(1.9rem, 1.4rem + 2vw, 3rem); letter-spacing: 0.05em; }
+  .bc-colonnes { font-size: 0.78rem; font-weight: 300; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.7; }
+  .bc-tel { font-size: 0.95rem; }
+  .bc-message summary { cursor: pointer; list-style: none; }
+  .bc-message summary::-webkit-details-marker { display: none; }
+</style>

@@ -1,0 +1,58 @@
+---
+/**
+ * Proof "lin" (style lin, reprise du 29 oct 2026, tour 18 ; source fraher.co, fiche docs/veille/styles/lin.md
+ * § Construction) : les avis du client dans LA GRAMMAIRE DES PANNEAUX de la source (le manifeste et les blocs métier),
+ * pas en cartes à étoiles. Un panneau pleine largeur sur le papier, deux colonnes sur douze, aucune carte, aucune
+ * ombre, aucune icône, aucune étoile dessinée :
+ * - à gauche (5/12) : l'étiquette en petite grotesque sur deux lignes (« Avis », puis la note Google en mots et le
+ *   nombre d'avis), et le lien entre deux filets vers la fiche Google ;
+ * - à droite (6/12) : les avis recopiés du client (trois au plus), chacun en serif de livre de grand corps comme la
+ *   phrase d'un bloc métier, l'auteur et la source en petite grotesque dessous.
+ * Au téléphone : tout s'empile, le lien sous les avis.
+ * Socle (GOUT § 0) : les avis haut dans la page ; le modèle presets/lin.json la pose juste après la bande photo.
+ * Rien d'inventé : sans avis recopié ni note, pas de panneau (et la nav n'y pointe pas, src/lib/site.ts navLinks) ;
+ * sans note, pas de ligne ni de lien. Mouvement : aucun (la source est immobile).
+ */
+import { site } from '@/lib/site';
+import Button from '@/components/Button.astro';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 3);
+---
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class="lp-panneau" aria-labelledby="lp-etiquette">
+    <div class="container-ff grid gap-10 py-[var(--section-y)] md:grid-cols-12 md:gap-8">
+      <div class="flex flex-col md:col-span-5">
+        <h2 id="lp-etiquette" class="font-mono text-base font-normal leading-snug">
+          Avis
+          {google && <span class="block">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</span>}
+        </h2>
+        {google && (
+          <div class="mt-10 hidden md:block">
+            <Button href={google.url} variant="ghost" size="sm" target="_blank" rel="noopener">Lire les avis</Button>
+          </div>
+        )}
+      </div>
+      {avis.length > 0 && (
+        <ul class="space-y-12 md:col-span-6 md:col-start-7">
+          {avis.map((t) => (
+            <li>
+              <blockquote class="lp-avis font-display">«&nbsp;{t.text}&nbsp;»</blockquote>
+              <p class="mt-4 font-mono text-sm">{t.author}{t.city && `, ${t.city}`}{t.source && `, ${t.source}`}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+      {google && (
+        <div class="flex justify-center md:hidden">
+          <Button href={google.url} variant="ghost" size="sm" target="_blank" rel="noopener">Lire les avis</Button>
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .lp-avis { font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.6rem); line-height: 1.32; max-width: 28ch; }
+</style>

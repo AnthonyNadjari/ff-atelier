@@ -1,0 +1,290 @@
+---
+/**
+ * Coquille "trajet" : architecture `rayon-trajet` (src/lib/architectures.ts ; sources Colson Elec, électricien à Bellevigny :
+ * « Je ne suis jamais loin », l'atelier au centre, cinq communes autour avec leurs kilomètres et leurs minutes, « Votre
+ * commune n'est pas citée ? Appelez quand même » ; Concept Froid Centre, frigoriste à Suèvres : « Temps de trajet depuis notre
+ * base de Suèvres, en conditions normales », huit pôles de ~25 min à ~1 h 30, une page par pôle ;
+ * docs/veille/architectures/rayon-trajet.md).
+ * Le client se demande « vient-il jusque chez moi, et en combien de temps ? » : l'accueil est le territoire vu de l'atelier.
+ *   → en tête le h1, le métier à la ville, l'ancienneté, la note, le téléphone (socle docs/GOUT.md § 0) ; à côté,
+ *     id="votre-commune" : « Combien de temps pour venir chez vous ? », la commune tapée et la réponse dans le navigateur
+ *     (src/lib/trajet.ts, chercher ; sans script : le tableau) ;
+ *   → id="territoire" (le bloc le plus haut) : le schéma des temps (la base au centre, des cercles de 15, 30, 60 min ; chaque
+ *     commune posée sur son temps dans SA direction, donnée par l'artisan, vers sa page ; une commune sans direction n'est
+ *     que dans le tableau) et le tableau des communes de la plus proche à la plus loin (minutes, km), la phrase pour une
+ *     commune absente ;
+ *   → les sections du layout (les avis s'il y en a) ; les services sont des pages (la barre y mène), les questions sont sur
+ *     /trajet : pas de fin de page d'usine ;
+ *   → id="contact" : l'atelier (adresse, horaires, téléphone) ; le pied.
+ * Pages : /trajet (avec les questions), /trajet/<slug>.
+ *
+ * `layout.hero` n'est pas rendu. Sans communes : le h1, l'appel et le contact restent, le schéma disparaît et le build dit ce
+ * qui manque (donneesManquantes). Signes des sources NON repris : carte Google en iframe (traceur), Inter, tirets cadratins,
+ * « 200 km » en chiffre géant de tableau de bord.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, fullAddress, metierEtVille, donneesManquantes, communesCompletes, dureeLisible, anneauxDeTrajet, placerCommunes, rayonSchema } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const t = site.trajet;
+const photo = site.images.hero;
+const communes = communesCompletes(t?.communes);
+const base = t?.base ?? site.contact.address.city;
+const cercles = anneauxDeTrajet(communes);
+const bord = cercles.at(-1) ?? 60;
+const places = placerCommunes(communes);
+// Les étiquettes des cercles (« 30 min ») vont sur l'angle le plus éloigné des communes (entre deux directions d'abord).
+const DIAGONALES = [157.5, 112.5, 202.5, 247.5, 67.5, 22.5, 292.5, 337.5, 135, 45, 225, 315];
+const ecartMin = (a: number) => Math.min(...places.map((p) => { const d = Math.abs(((p.angle - a) % 360 + 540) % 360 - 180); return d; }), 360);
+const diag = DIAGONALES.reduce((m, a) => (ecartMin(a) > ecartMin(m) ? a : m), DIAGONALES[0]);
+const repere = (c: number) => { const r = rayonSchema(c, bord); const rad = (diag * Math.PI) / 180; return { x: 50 + r * Math.sin(rad), y: 50 - r * Math.cos(rad) }; };
+// Au téléphone, le schéma porte des numéros (ceux du tableau) : onze noms ne tiennent pas dans 320 px sans se chevaucher.
+const numero = (slug: string) => communes.findIndex((c) => c.slug === slug) + 1;
+const ailleurs = t?.ailleurs ?? 'Appelez-nous : nous vous dirons si nous venons.';
+const donnees = JSON.stringify(communes.map((c) => ({ slug: c.slug, nom: c.nom, minutes: c.minutes, km: c.km })));
+const manque = donneesManquantes('rayon-trajet', site);
+if (manque.length > 0) console.warn(`[coquille trajet] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="tj-page">
+  <section id="hero" class="container-ff tj-hero" aria-labelledby="tj-h1">
+    <div class="tj-texte">
+      <h1 id="tj-h1" class="tj-h1 font-display" set:html={site.business.tagline} />
+      <p class="tj-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {google && <p><a href={google.url} target="_blank" rel="noopener" class="tj-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+      <p><a href={tel()} class="tj-tel tabular-nums"><Icon name="Phone" size={21} />{site.contact.phoneDisplay}</a></p>
+    </div>
+    {communes.length > 0 && (
+      <div id="votre-commune" class="tj-question bg-ink text-on-ink" data-tj-question data-tj-communes={donnees} data-tj-base={base}>
+        <h2 class="tj-question-t font-display">Combien de temps pour venir chez vous ?</h2>
+        <div class="tj-form" role="search" aria-label="Temps de trajet jusqu’à votre commune" data-tj-form hidden>
+          <label for="tj-saisie" class="tj-label">Votre commune</label>
+          <div class="tj-champ">
+            <input id="tj-saisie" name="commune" list="tj-liste" autocomplete="address-level2" class="tj-input" data-tj-saisie />
+            <button type="button" class="tj-bouton" data-tj-voir>Voir</button>
+          </div>
+          <datalist id="tj-liste">{communes.map((c) => <option value={c.nom} />)}</datalist>
+        </div>
+        <p class="tj-reponse" data-tj-reponse aria-live="polite">Depuis {base}{t?.rayonKm ? `, dans un rayon de ${t.rayonKm} km` : ''} : de {dureeLisible(communes[0].minutes)} pour {communes[0].nom} à {dureeLisible(communes.at(-1)!.minutes)} pour {communes.at(-1)!.nom}.</p>
+        <p class="tj-muted"><a href="#communes" class="tj-lien">Toutes les communes et leur temps</a></p>
+      </div>
+    )}
+  </section>
+
+  {/* La photo du client en bande pleine largeur entre la question et le territoire : le camion, l'atelier, le métier. */}
+  {photo && <div class="tj-bande"><Img src={photo.src} alt={photo.alt} class="tj-bande-img" sizes="100vw" priority /></div>}
+
+  {communes.length > 0 && (
+    <section id="territoire" class="tj-territoire" aria-labelledby="tj-territoire-t">
+      <div class="container-ff tj-territoire-in">
+        <div class="tj-territoire-tete">
+          <h2 id="tj-territoire-t" class="tj-h2 font-display">Depuis {base}</h2>
+          <p class="tj-muted">Temps de trajet{t?.conditions ? `, ${t.conditions}` : ''}. Chaque commune est posée sur le cercle de son temps, dans sa direction.</p>
+        </div>
+        {places.length > 0 && (
+          <figure class="tj-schema" aria-label={`Schéma des temps de trajet depuis ${base}`}>
+            <div class="tj-plan">
+              <svg viewBox="0 0 100 100" class="tj-svg" aria-hidden="true" focusable="false">
+                {cercles.map((c) => <circle cx="50" cy="50" r={rayonSchema(c, bord)} class="tj-cercle" />)}
+                <line x1="50" y1="2" x2="50" y2="98" class="tj-axe" />
+                <line x1="2" y1="50" x2="98" y2="50" class="tj-axe" />
+              </svg>
+              {cercles.map((c) => <span class:list={['tj-cercle-l', 'tabular-nums', c !== bord && 'tj-cercle-petit']} style={`left: ${repere(c).x}%; top: ${repere(c).y}%`} aria-hidden="true">{dureeLisible(c)}</span>)}
+              <span class="tj-nord" aria-hidden="true">N</span>
+              <span class="tj-base"><span class="tj-base-point" aria-hidden="true"></span><span class="tj-base-nom font-display">{base}</span></span>
+              <ul class="tj-points">
+                {places.map((p) => (
+                  <li class:list={['tj-point', p.cote === 'droite' ? 'tj-droite' : 'tj-gauche']} style={`left: ${p.x}%; top: ${p.y}%`} data-tj-point={p.commune.slug}>
+                    <a href={`/trajet/${p.commune.slug}`} class="tj-point-lien" aria-label={`${p.commune.nom}, ${dureeLisible(p.commune.minutes)}`}><span class="tj-point-num tabular-nums" aria-hidden="true">{numero(p.commune.slug)}</span><span class="tj-point-nom">{p.commune.nom}</span><span class="tj-point-min tabular-nums">{dureeLisible(p.commune.minutes)}</span></a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <figcaption class="tj-muted">Schéma des temps, pas une carte : les distances à vol d’oiseau ne sont pas à l’échelle.</figcaption>
+          </figure>
+        )}
+        <div id="communes" class="tj-tableau">
+          <table class="tj-table">
+            <caption class="tj-caption font-display">Les communes, de la plus proche à la plus loin</caption>
+            <thead><tr><th scope="col" class="tj-num-col"><span class="sr-only">Numéro sur le schéma</span></th><th scope="col">Commune</th><th scope="col">Trajet</th>{communes.some((c) => c.km) && <th scope="col">Distance</th>}</tr></thead>
+            <tbody>
+              {communes.map((c) => (
+                <tr data-tj-ligne={c.slug}>
+                  <td class="tj-num-col tabular-nums">{places.some((p) => p.commune.slug === c.slug) ? numero(c.slug) : ''}</td>
+                  <th scope="row"><a href={`/trajet/${c.slug}`} class="tj-lien">{c.nom}</a></th>
+                  <td class="tabular-nums">{dureeLisible(c.minutes)}</td>
+                  {communes.some((x) => x.km) && <td class="tabular-nums">{c.km ? `${c.km} km` : ''}</td>}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="tj-ailleurs">{ailleurs} <a href={tel()} class="tj-lien tabular-nums">{site.contact.phoneDisplay}</a></p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="tj-contact" aria-labelledby="tj-contact-t">
+    <div class="container-ff tj-contact-in">
+      <div class="tj-col">
+        <h2 id="tj-contact-t" class="tj-h2 font-display">La base, {base}</h2>
+        <p class="tj-adresse">{fullAddress()}</p>
+        <p><a href={tel()} class="tj-tel tabular-nums"><Icon name="Phone" size={21} />{site.contact.phoneDisplay}</a></p>
+      </div>
+      <Horaires class="tj-semaine tabular-nums" />
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { chercher, dureeLisible } from '@/lib/trajet';
+
+  // « Combien de temps pour venir chez vous ? » : la commune tapée, sa réponse, son point marqué sur le schéma et sa ligne
+  // dans le tableau. Sans script : le formulaire reste caché, le tableau répond.
+  onPage(() => {
+    const bloc = document.querySelector<HTMLElement>('[data-tj-question]');
+    const form = bloc?.querySelector<HTMLElement>('[data-tj-form]');
+    const saisie = bloc?.querySelector<HTMLInputElement>('[data-tj-saisie]');
+    const reponse = bloc?.querySelector<HTMLElement>('[data-tj-reponse]');
+    if (!bloc || !form || !saisie || !reponse) return;
+    const communes = JSON.parse(bloc.dataset.tjCommunes ?? '[]');
+    const base = bloc.dataset.tjBase ?? '';
+    form.hidden = false;
+    const marquer = (slug?: string) => {
+      document.querySelectorAll<HTMLElement>('[data-tj-point], [data-tj-ligne]').forEach((el) => {
+        el.classList.toggle('tj-choisie', Boolean(slug) && (el.dataset.tjPoint === slug || el.dataset.tjLigne === slug));
+      });
+    };
+    // Pas de <form> : rien n'est envoyé, la réponse est calculée ici (et ff verifier exige un piège à robots sur tout formulaire).
+    const voir = () => {
+      const c = chercher(communes, saisie.value);
+      reponse.textContent = '';
+      if (!c) {
+        reponse.textContent = saisie.value.trim() ? `${saisie.value.trim()} n’est pas dans la liste. ` : '';
+        const a = document.querySelector<HTMLAnchorElement>('.tj-ailleurs');
+        if (a) reponse.append(a.textContent ?? '');
+        marquer();
+        return;
+      }
+      reponse.append(`${c.nom} : environ ${dureeLisible(c.minutes)} depuis ${base}${c.km ? `, ${c.km} km` : ''}. `);
+      const lien = document.createElement('a');
+      lien.href = `/trajet/${c.slug}`;
+      lien.className = 'tj-lien';
+      lien.textContent = `Voir ${c.nom}`;
+      reponse.append(lien);
+      marquer(c.slug);
+    };
+    form.querySelector('[data-tj-voir]')?.addEventListener('click', voir);
+    saisie.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); voir(); } });
+    saisie.addEventListener('change', voir);
+  });
+</script>
+
+<style>
+  .tj-hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.5rem, 4vh, 3rem); padding-block: clamp(1.5rem, 5vh, 4rem) clamp(2rem, 6vh, 4rem); }
+  .tj-texte { display: grid; gap: 1rem; align-content: start; }
+  .tj-h1 { font-size: clamp(2.2rem, 7vw, 5rem); line-height: 0.98; letter-spacing: -0.02em; text-wrap: balance; max-inline-size: 14ch; }
+  .tj-metier { font-size: clamp(1.1rem, 1.8vw, 1.35rem); max-inline-size: 42ch; }
+  .tj-tel { display: inline-flex; align-items: center; gap: 0.55rem; min-block-size: 52px; font-size: clamp(1.3rem, 2.4vw, 1.7rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .tj-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tj-tel:focus-visible, .tj-lien:focus-visible, .tj-point-lien:focus-visible, .tj-bouton:focus-visible, .tj-input:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .tj-muted { color: var(--color-muted); }
+  /* La question posée à côté du titre, comme une borne : la commune, le temps. */
+  .tj-question { min-inline-size: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; align-content: start; padding: clamp(1.25rem, 3vw, 2rem); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .tj-question .tj-muted { color: inherit; }
+  .tj-question-t { font-size: clamp(1.45rem, 3vw, 2.1rem); line-height: 1.06; }
+  .tj-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.4rem; }
+  .tj-form[hidden] { display: none; }
+  .tj-label { font-weight: 700; }
+  .tj-champ { display: flex; gap: 0.5rem; }
+  .tj-input { flex: 1; min-inline-size: 0; min-block-size: 50px; padding-inline: 0.9rem; border: 1px solid currentColor; border-radius: var(--radius-ui, 6px); background: var(--color-bg); color: var(--color-fg); font-size: 1.1rem; }
+  .tj-bouton { min-block-size: 50px; padding-inline: 1.2rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; cursor: pointer; }
+  .tj-reponse { font-size: clamp(1.1rem, 2vw, 1.3rem); font-weight: 600; min-block-size: 3em; }
+  .tj-bande-img { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .tj-h2 { font-size: clamp(1.8rem, 4.8vw, 3.2rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .tj-territoire { padding-block: clamp(2rem, 6vh, 4.5rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .tj-territoire-in { display: grid; gap: clamp(1.5rem, 4vh, 2.5rem); }
+  .tj-territoire-tete { display: grid; gap: 0.5rem; max-inline-size: 60ch; }
+  /* Le schéma : cercles en SVG (décor), communes en HTML posées en pourcentage pour rester lisibles à toutes les tailles. */
+  .tj-schema { display: grid; gap: 0.75rem; padding-inline: clamp(0.25rem, 9vw, 5rem); padding-block-start: 1.75rem; }
+  .tj-plan { position: relative; aspect-ratio: 1; inline-size: 100%; max-inline-size: 40rem; margin-inline: auto; }
+  .tj-svg { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; }
+  .tj-cercle { fill: none; stroke: var(--color-line); stroke-width: 0.35; }
+  .tj-cercle:last-child { stroke: var(--color-fg); stroke-width: 0.5; }
+  .tj-axe { stroke: var(--color-line); stroke-width: 0.2; stroke-dasharray: 1 1.4; }
+  .tj-cercle-l { position: absolute; transform: translate(-50%, -50%); padding: 0 0.2rem; background: var(--color-bg-2); font-size: 0.75rem; font-weight: 600; color: var(--color-muted); }
+  /* Au téléphone, seul le dernier cercle porte son temps (les autres se chevauchent près de la base). */
+  .tj-cercle-petit { display: none; }
+  .tj-nord { position: absolute; inset-block-start: -1.6rem; inset-inline-start: 50%; transform: translateX(-50%); font-weight: 700; }
+  .tj-base { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 0.3rem; pointer-events: none; }
+  .tj-base-point { inline-size: 1.1rem; block-size: 1.1rem; border-radius: 50%; background: var(--color-accent); box-shadow: 0 0 0 0.35rem var(--color-bg-2), var(--shadow-card); }
+  .tj-base-nom { display: none; font-size: clamp(0.95rem, 2vw, 1.2rem); padding: 0.1rem 0.4rem; background: var(--color-bg-2); }
+  .tj-points { position: absolute; inset: 0; }
+  .tj-point { position: absolute; }
+  .tj-point::before { content: ''; position: absolute; inline-size: 0.7rem; block-size: 0.7rem; border-radius: 50%; background: var(--color-fg); transform: translate(-50%, -50%); }
+  .tj-point-lien { position: absolute; display: grid; inline-size: max-content; max-inline-size: 7rem; padding: 0.1rem 0.25rem; line-height: 1.1; font-size: 0.85rem; background: var(--color-bg-2); transform: translateY(-50%); }
+  .tj-droite .tj-point-lien { inset-inline-start: 0.55rem; }
+  .tj-gauche .tj-point-lien { inset-inline-end: 0.55rem; text-align: end; }
+  .tj-milieu .tj-point-lien { inset-inline-start: 0.55rem; }
+  .tj-point-num { display: grid; place-items: center; inline-size: 1.75rem; block-size: 1.75rem; border-radius: 50%; background: var(--color-fg); color: var(--color-bg); font-size: 0.8rem; font-weight: 700; }
+  .tj-point-nom, .tj-point-min { display: none; }
+  .tj-point::before { display: none; }
+  .tj-point .tj-point-lien { inset-inline-start: 0; inset-inline-end: auto; transform: translate(-50%, -50%); padding: 0; background: none; }
+  .tj-num-col { inline-size: 2rem; font-weight: 700; color: var(--color-muted); }
+  .tj-point-nom { font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+  .tj-point-min { font-size: 0.8rem; color: var(--color-muted); }
+  .tj-choisie::before { background: var(--color-accent); box-shadow: 0 0 0 0.3rem var(--color-bg-2), 0 0 0 0.45rem var(--color-accent); }
+  .tj-choisie .tj-point-lien { outline: 2px solid var(--color-accent); }
+  .tj-choisie .tj-point-num { background: var(--color-accent); color: var(--color-on-accent); }
+  tr.tj-choisie { background: var(--color-surface); }
+  .tj-tableau { display: grid; gap: 1rem; align-content: start; }
+  .tj-table { inline-size: 100%; border-collapse: collapse; }
+  .tj-caption { text-align: start; font-size: clamp(1.25rem, 2.4vw, 1.6rem); padding-block-end: 0.75rem; }
+  .tj-table td { white-space: nowrap; }
+  .tj-table th, .tj-table td { text-align: start; padding: 0.35rem 0.75rem 0.35rem 0; border-block-end: 1px solid var(--color-line); }
+  .tj-table thead th { font-weight: 600; color: var(--color-muted); }
+  .tj-table tbody th { font-weight: 700; }
+  .tj-ailleurs { font-weight: 600; }
+  .tj-contact { padding-block: clamp(2rem, 6vh, 4rem); border-block-start: 4px solid var(--color-ink); }
+  /* Les jours en pleine encre : à 72 % (Horaires.astro), certaines directions claires passent sous 4,5:1. */
+  .tj-contact :global(.horaires-jour) { opacity: 1; }
+  .tj-contact-in { display: grid; gap: 2rem; }
+  .tj-col { display: grid; gap: 0.75rem; align-content: start; }
+  .tj-adresse { font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 600; }
+  @media (min-width: 48rem) {
+    .tj-point-num { display: none; }
+    .tj-point-nom, .tj-point-min { display: block; }
+    .tj-point-lien { max-inline-size: 10rem; font-size: 1rem; }
+    .tj-point::before { display: block; }
+    .tj-point .tj-point-lien { transform: translateY(-50%); padding: 0.1rem 0.25rem; background: var(--color-bg-2); }
+    .tj-droite .tj-point-lien, .tj-milieu .tj-point-lien { inset-inline-start: 0.55rem; }
+    .tj-gauche .tj-point-lien { inset-inline-start: auto; inset-inline-end: 0.55rem; }
+    .tj-num-col { display: none; }
+    .tj-base-nom { display: block; }
+    .tj-cercle-petit { display: inline; }
+    .tj-point-min { font-size: 0.9rem; }
+    .tj-bande-img { aspect-ratio: 21 / 8; }
+    .tj-contact-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+    }
+  @media (min-width: 64rem) {
+    .tj-hero { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 3.5rem; align-items: start; }
+    .tj-territoire-in { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); column-gap: 3rem; align-items: start; }
+    .tj-territoire-tete { grid-column: 1 / -1; }
+  }
+</style>

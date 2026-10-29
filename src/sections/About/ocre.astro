@@ -1,0 +1,42 @@
+---
+/**
+ * About "ocre" (style ocre, relevé sur lrnce.com le 29 oct 2026, fiche docs/veille/styles/ocre.md § Construction, bloc 3
+ * « Under the Sun ») : LA LETTRE. Un bloc tenu entre deux filets fins, coupé en deux moitiés par un troisième filet
+ * vertical : à gauche, la photo (about.portrait, sinon une photo de la galerie) collée au bord gauche de l'écran, sur toute
+ * la hauteur du bloc ; à droite, le titre (about.title) en serif gras de 22 à 26 px, puis l'histoire du client
+ * (about.story) en serif de lecture de GRAND corps (20 px au téléphone, 26 px à l'ordinateur, interlignage 1,5), comme
+ * une lettre. Au téléphone, comme la source : la lettre d'abord, sa photo pleine largeur dessous.
+ * Rien d'inventé : sans photo, la lettre prend la largeur (colonne de lecture centrée) ; aucune donnée = aucun texte ajouté.
+ * Mouvement : aucun.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const paras = paragraphs(a.story);
+const hero = site.images.hero?.src;
+const galerie = site.proof.gallery.filter((g) => g.src !== hero);
+// Le premier écran prend la première photo de la galerie (diptyque) : la lettre prend la suivante.
+const photo = a.portrait ?? galerie[1] ?? galerie[0];
+---
+
+<section id="about" class="ocre-lettre border-b border-line" aria-labelledby="ocre-lettre-titre">
+  <div class:list={['grid', photo && 'md:grid-cols-2']}>
+    {photo && (
+      <figure class="relative order-2 aspect-[4/3] overflow-hidden md:order-1 md:aspect-auto md:min-h-[36rem] md:border-r md:border-line">
+        <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 50vw, 100vw" loading="lazy" />
+      </figure>
+    )}
+    <div class:list={['order-1 px-5 py-10 md:order-2 md:px-14 md:py-16', !photo && 'mx-auto max-w-3xl']}>
+      <h2 id="ocre-lettre-titre" class="ocre-lettre-titre font-display" set:html={a.title ?? 'Qui sommes-nous&nbsp;?'} />
+      <div class="ocre-lettre-texte mt-3 font-display">
+        {paras.map((p, i) => <p class={i > 0 ? 'mt-3' : ''}>{p}</p>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ocre-lettre-titre { font-size: clamp(1.3rem, 1.15rem + 0.5vw, 1.6rem); font-weight: 650; line-height: 1.25; }
+  .ocre-lettre-texte { font-size: clamp(1.2rem, 0.95rem + 1vw, 1.8rem); line-height: 1.5; max-width: 32ch; }
+</style>

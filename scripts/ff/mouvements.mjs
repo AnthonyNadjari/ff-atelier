@@ -332,6 +332,34 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['Hero pinceau : l\'enseigne (h1 puis la ligne métier à ville, 0,2 s plus tard) s\'allume en fondu lent, opacité seule, 1,2 s ease, CSS seul (mesuré sur la source : fadeIn 1,25 s) ; BordPinceau (Hero et Services pinceau) : la frontière entre deux bandes de couleur est un coup de pinceau dessiné, immobile, dont les éclats et traits détachés se brossent de gauche à droite à leur entrée à l\'écran (data-reveal="wipe" du moteur, clip-path, 0,6 s, une fois) ; la plaque des horaires se pose sur la bande terracotta (data-reveal="up") ; boutons qui changent d\'aplat en 0,15 s linéaire (régime sec) ; les titres ne bougent pas'],
     manque: null, exige: {},
   },
+  'cellules-qui-s-ouvrent': {
+    nom: 'Cellules qui s\'ouvrent', sources: ['calque'],
+    entree: 'aucune', apparition: 'aucune', survol: 'cellule-qui-s-eclaire', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['Services calque : les étapes ou prestations sont des cellules de plan empilées (filet 1 px, carré plein de 5 px à chaque angle) ; un seul <details name> ouvert à la fois, natif (accordéon exclusif sans script, tient sur iPhone), la première ouverte ; la cellule ouverte montre SA photo dans sa moitié droite, qui entre en fondu (opacité 0 → 1, 0,5 s linéaire, mesuré sur tekt.com.au : opacity 0.5s linear), le texte reste immobile ; Proof calque : la liste des réalisations en cellules posée sur la photo pleine largeur, la cellule touchée change la photo en fondu croisé 0,5 s (script onPage, sans script la première photo) ; au survol une cellule s\'éclaire (fond qui passe à la surface en 0,5 s ease) ; rien n\'apparaît ni ne bouge au défilement ; en mouvement réduit, aucun fondu'],
+    manque: null, exige: {},
+  },
+  'chapitre-qui-s-ouvre': {
+    nom: 'Chapitre qui s\'ouvre', sources: ['chapitre'],
+    entree: 'nom-qui-monte', apparition: 'regle-de-chapitre', survol: 'couleur', fond: 'aucun',
+    regime: 'calme', defilement: 'apparitions', calme: true, poids: 'leger', motion: 'subtle',
+    attributs: ['Hero chapitre : le nom géant en capitales fines monte de sous sa ligne au chargement (translateY 100 % → 0 dans un cadre overflow hidden, 1 s cubic-bezier(0.25, 1, 0.5, 1), mesuré sur 23gradicoffee.com : transform 1s cubic-bezier(0.25, 1, 0.5, 1) ×44), CSS seul, une fois ; Chapitre (composant de chaque section) : la règle de chapitre (étiquette à gauche, numéro 001 à droite, deux traits verticaux au quart et aux trois quarts) se trace de gauche à droite à son entrée à l\'écran (data-reveal="wipe" du moteur sur la règle : clip-path, une fois) ; Services chapitre : le produit posé sur son nom géant, un à la fois, dans une piste scroll-snap native (flèches qui font défiler d\'une case, smooth natif ; au doigt sur iPhone), liste à points de tous les services dessous ; liens et flèches qui changent de couleur en 0,3 s ; en mouvement réduit, le nom est déjà en place'],
+    manque: null, exige: {},
+  },
+  'index-qui-change-la-photo': {
+    nom: 'Index qui change la photo', sources: ['enduit'],
+    entree: 'aucune', apparition: 'nom-en-tranches', survol: 'ligne-qui-montre-sa-photo', fond: 'aucun',
+    regime: 'calme', defilement: 'apparitions', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['Services enduit : l\'index des prestations (une ligne par service sur un filet, numéro, nom, prix) avec, au milieu de la liste et par-dessus, une photo verticale 4:5 ; au survol ou au focus clavier d\'une ligne, sa photo remplace la précédente en fondu (opacité 0,4 s cubic-bezier(0.25, 0.46, 0.45, 0.94), mesuré sur bcgbuildingdesign.com.au : transform 0.4s et opacity 0.2-0.3s), la ligne passe à l\'encre pleine et son filet se trace de gauche à droite (scaleX 0 -> 1, 0,8 s) ; au téléphone rien ne se survole : chaque ligne sous sa photo, aucun script ; About enduit : le nom du client en lettres géantes sur la bande brune monte lettre par lettre de sous sa ligne quand la bande arrive à l\'écran (translateY 105 % -> 0 dans un cadre overflow hidden, 0,8 s, 40 ms entre deux lettres, une fois, IntersectionObserver) ; liens sur filet dont la flèche avance de 4 px en 0,4 s ; rien ne suit le défilement ; en mouvement réduit, la photo change sans fondu et le nom est en place'],
+    manque: null, exige: {},
+  },
+  'nom-qui-defile-au-pied': {
+    nom: 'Nom qui défile au pied', sources: ['ocre'],
+    entree: 'aucune', apparition: 'aucune', survol: 'souligne-qui-se-colore', fond: 'nom-qui-defile',
+    regime: 'vivant', defilement: 'aucun', calme: false, poids: 'nul', motion: 'subtle',
+    attributs: ['Contact ocre : au pied de la page, une seule bande pleine largeur sur l\'encre rouille (--ink) où le NOM du client, en capitales géométriques géantes (9vw, 8,5rem au plus) répété, défile lentement de droite à gauche (data-marquee="40s" du moteur, linéaire, contenu dupliqué ; mesuré sur lrnce.com : animation move-background 40s linear infinite), arrêtée au survol (règle [data-marquee]:hover du moteur) et posée en mouvement réduit ; décorative (aria-hidden), le nom est lu ailleurs ; tout le reste de la page est immobile : photos en diptyques, lettre, colonnes ; les liens soulignés et les boutons prennent le rouille en 0,3 s ease (mesuré : color, background, border 0,3 s ease)'],
+    manque: null, exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

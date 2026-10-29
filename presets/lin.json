@@ -1,7 +1,7 @@
 {
   "nom": "lin",
   "titre": "Lin (site entier, fraher.co)",
-  "description": "Style construit d'après fraher.co : phrase centrée seule dans un grand vide de papier crème, bande photo pleine largeur qui monte du bas du premier écran (film au clic si le client a une vidéo), présentation sur sable, un panneau pleine largeur par service (papier, sable, sauge) avec sa photo verticale ou paysage, réalisations en photos, liens entre deux filets.",
+  "description": "Style construit d'après fraher.co, page entière : phrase centrée seule dans un grand vide de papier crème, bande photo pleine largeur qui monte du bas du premier écran (film au clic si le client a une vidéo), les avis du client dans un panneau de la même grammaire (étiquette, phrases serif), présentation, un panneau pleine largeur par service (papier, sable, sauge) avec sa photo verticale ou paysage et son lien entre deux filets, puis le contact dans un dernier panneau sauge de la même grammaire et un pied de trois colonnes de liens sur le papier. Ni communes, ni bandeau d'appel, ni questions, ni barre basse.",
   "metiers": [
     "menuisier-ébéniste",
     "architecte et constructeur",
@@ -18,6 +18,10 @@
       "hero": "lin",
       "sections": [
         {
+          "type": "proof",
+          "variant": "lin"
+        },
+        {
           "type": "about",
           "variant": "story"
         },
@@ -30,25 +34,14 @@
           "variant": "gallery"
         },
         {
-          "type": "zones",
-          "variant": "list"
-        },
-        {
-          "type": "cta",
-          "variant": "photo"
-        },
-        {
           "type": "contact",
-          "variant": "form-split"
-        },
-        {
-          "type": "faq",
-          "variant": "accordion"
+          "variant": "lin"
         }
       ],
-      "footer": "columns",
+      "footer": "liens",
       "divider": "none",
-      "tone": "alternate"
+      "tone": "alternate",
+      "actionBar": false
     }
   }
 }

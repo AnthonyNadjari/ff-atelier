@@ -1,4 +1,4 @@
-# Profils de mouvement : quarante-quatre façons de faire bouger une page, relevées sur de vrais sites
+# Profils de mouvement : quarante-huit façons de faire bouger une page, relevées sur de vrais sites
 
 Le fondateur, 18 oct 2026, sur L'Épi d'Or b, c, d : « beaucoup plus de pluralité : animations, même des vidéos en
 fond ». L'atome `mouvement` (ATOMES.md) ne portait que des durées et une courbe : trois mélanges différents bougeaient
@@ -628,6 +628,83 @@ coup de brosse, immobiles). On garde l'enseigne qui s'allume et le bord brossé 
   soir. Distinct de `fondu-sobre` (fondu de blocs entiers), de `filet-qui-se-trace` (un filet droit qui se dessine) et de
   `enseigne-qui-se-resserre` (interlettrage sur photo, parallaxe).
   Calme : oui. Poids : léger (CSS et moteur sans dépendance).
+
+### `index-qui-change-la-photo`
+BCG Building Design (`enduit.md`, [bcgbuildingdesign.com.au](https://bcgbuildingdesign.com.au/), veille du 29 oct 2026, style
+construit `enduit` ; DOM du bloc « Featured Works » lu à 1 440 px : chaque ligne porte sa photo cachée
+(`.featured-image`, `display: none`) et deux filets, `featured-divider` et `featured-divider-active` ; transitions relevées
+`opacity 0.2s ease` ×32, `transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)` ×20, `transform 0.8s` même courbe ×8 ; au
+téléphone, une photo par ligne, pile sans survol, 390 px). La page ne bouge presque pas ; le mouvement est dans la liste des
+réalisations : survoler une ligne montre sa photo au milieu de l'index, la ligne passe à l'encre et son filet se trace. On
+garde l'index et le nom géant qui monte ; on refuse le préchargement plein écran (calque à 98 % de l'écran à l'arrivée) et la
+section qui glisse à l'horizontale au défilement (piste épinglée de 2,5 écrans : déjà `piste-horizontale`).
+- Entrée aucune · apparition nom en tranches · survol ligne qui montre sa photo · fond aucun.
+- Moteur : `services/enduit` : photos des services superposées dans un cadre 4:5 posé au milieu de la liste (ordinateur),
+  `pointerenter` et `focusin` sur la ligne (script `onPage`) : la photo de la ligne passe à l'opacité 1 en 0,4 s
+  `--ease-brand` (courbe de la source), la ligne passe de `--muted` à `--fg`, son filet brun `scaleX(0)` → `scaleX(1)` en
+  0,8 s ; au téléphone la photo du milieu est cachée, chaque ligne a la sienne au-dessus d'elle (aucun script). `about/enduit` :
+  le nom en lettres géantes sur la bande brune, une lettre par cadre `overflow: hidden`, `translateY(105 %)` → 0 en 0,8 s,
+  40 ms de décalage par lettre, déclenché une fois par `IntersectionObserver` (seuil 0,3) ; l'état caché n'existe que sous la
+  classe posée par le script (sans script, le nom est en place). `.btn-ghost` de la direction `enduit` : texte sur un filet,
+  flèche qui avance de 4 px en 0,4 s.
+- Garde : rien n'est calé sur le défilement (transform et opacité en temps, une fois : tient sur iPhone) ; au toucher, aucune
+  information ne dépend du survol (chaque service a sa photo et sa page) ; un seul nom géant animé par page (celui du pied ne
+  bouge pas) ; en mouvement réduit, la photo change sans fondu et le nom est posé d'emblée.
+- Quand : maçon, façadier, constructeur de maisons, paysagiste, piscinier, architecte : un client calme qui a une belle photo
+  par prestation ou par réalisation. Distinct de `deuxieme-vue-au-survol` (deux vues d'une même carte), de
+  `legende-fixe-qui-change` (légende fixe au défilement) et de `cellules-qui-s-ouvrent` (accordéon de cellules sur une photo
+  pleine largeur). Calme : oui. Poids : nul (CSS et un script de quelques lignes).
+
+### `cellules-qui-s-ouvrent`
+Tekt (`calque.md`, [tekt.com.au](https://tekt.com.au/), veille du 29 oct 2026, style construit `calque` ; transitions relevées
+dans le CSS calculé : `opacity 0.5s linear` ×29, `opacity 0.25s linear` ×29, `all 0.5s ease` ×33 ; aucune apparition au
+défilement). La page ne bouge pas en défilant : ce sont les listes qui répondent. Les étapes, les engagements, les séries sont
+des cellules de plan empilées ; on en touche une, elle s'ouvre (la première l'est déjà) et sa photo entre en fondu.
+- Entrée aucune · apparition aucune · survol cellule qui s'éclaire · fond aucun.
+- Moteur : rien du moteur ; `Services/calque` et `About/calque` en `<details name>` natif (accordéon exclusif sans script,
+  Safari 17.2+, ailleurs plusieurs restent ouvertes), photo de la cellule ouverte en `@keyframes` opacité 0 → 1, 0,5 s
+  linéaire ; `Proof/calque` : la cellule touchée change la photo pleine largeur (fondu croisé 0,5 s linéaire, script `onPage`,
+  sans script la première photo) ; fond de cellule `--bg` → `--bg-2` au survol en 0,5 s ease (`src/styles/cellules.css`).
+  Mouvement réduit : aucun fondu. Tient sur iPhone (aucun calage sur le défilement).
+- Quand : constructeur, menuisier, agenceur, architecte : un client « calme » qui a des étapes ou des prestations à dérouler
+  et une photo par étape. Distinct de `index-qui-change-la-photo` (liste fixe, photo qui change au survol) et de
+  `legende-fixe-qui-change`. Calme : oui. Poids : nul.
+
+### `chapitre-qui-s-ouvre`
+23° Monorigine (`chapitre.md`, [23gradicoffee.com](https://www.23gradicoffee.com/), veille du 29 oct 2026, style construit
+`chapitre` ; transitions relevées : `transform 1s cubic-bezier(0.25, 1, 0.5, 1)` ×44 ; GSAP, Lenis et Swiper chargés). Le
+nom de la marque monte de sous sa ligne à l'arrivée ; chaque chapitre s'ouvre sur une règle fine numérotée ; les produits
+défilent un à un, chacun posé sur son nom géant.
+- Entrée nom qui monte · apparition règle de chapitre · survol couleur · fond aucun.
+- Moteur : `Hero/chapitre` : le nom (h1) dans un cadre `overflow: hidden`, `@keyframes` translateY 100 % → 0, 1 s
+  cubic-bezier(0.25, 1, 0.5, 1), une fois, CSS seul ; `Chapitre.astro` : la règle (filet, deux traits au quart et aux trois
+  quarts, intitulé et numéro 001) en `data-reveal="wipe"` du moteur (clip-path de gauche à droite, une fois) ;
+  `Services/chapitre` : piste scroll-snap native, flèches qui avancent d'une case (`scrollTo` smooth, saut en mouvement
+  réduit), liste à points qui suit. On refuse le défilement lissé (Lenis) et le mot géant piloté au défilement.
+- Quand : torréfacteur, caviste, chocolatier, épicerie fine : un produit qu'on raconte en chapitres, avec des photos d'objets.
+  Distinct de `filet-qui-se-trace` (trait court sous un titre), de `nom-en-lettres-geantes` (lettre en parallaxe) et de
+  `mots-qui-glissent` (mots pilotés au défilement). Calme : oui. Poids : léger.
+
+### `nom-qui-defile-au-pied`
+LRNCE (`ocre.md`, [lrnce.com](https://lrnce.com/), veille du 29 oct 2026, style construit `ocre` ; animations du DOM calculé
+relevées à 1 440 px, puis captures du premier écran à 0, 5 et 10 s : une seule animation sur toute la page,
+`move-background 40s linear infinite`, sur la bande rouille du pied qui porte le logotype « LRNCE » répété ; transitions de
+`background`, `border`, `color` 0,3 s ease ×77 sur les cartes et les liens ; rien n'apparaît au défilement, le premier
+écran est immobile). La page entière se tient tranquille, faite de photos posées et de filets ; seul le nom glisse, tout en
+bas, comme une enseigne peinte sur un auvent.
+- Entrée aucune · apparition aucune · survol souligné qui prend le rouille · fond nom qui défile.
+- Moteur : `contact/ocre` : bande pleine largeur `bg-ink`, `data-marquee="40s"` du moteur sur une `.marquee-track` qui porte
+  deux fois le nom du client (dupliquée par le moteur : enroulement sans couture), capitales géométriques en graisse 800,
+  `clamp(3.2rem, 9vw, 8.5rem)`, interlettrage 0,06 em ; pause au survol (règle `[data-marquee]:hover` de `global.css`) ;
+  `aria-hidden` (le nom est déjà dans la barre, le titre et le pied). Direction `ocre` : liens soulignés et boutons qui
+  passent au rouille en 0,3 s ease.
+- Garde : une seule bande par page, au pied, jamais au premier écran ; le nom du client seulement (jamais un slogan, des
+  mots-clés ou des villes : c'est `bandeau-des-adresses` ou `annonce-qui-defile`) ; translation seule, en temps (tient sur
+  iPhone, piste courte : deux occurrences du nom) ; arrêtée en mouvement réduit ; rien d'essentiel dedans.
+- Quand : potier, céramiste, tisserand, fleuriste, tapissier, créateur : un atelier au nom court (4 à 14 lettres) qui
+  montre ses pièces en grandes photos. Distinct de `nom-en-lettres-geantes` (lettre de fond en parallaxe par section), de
+  `bandeau-des-adresses` (les lieux de vente) et de `annonce-qui-defile` (la nouvelle du moment sous le premier écran).
+  Calme : non (une chose bouge seule). Poids : nul (CSS du moteur).
 
 ## Complément transversal : transitions de page
 

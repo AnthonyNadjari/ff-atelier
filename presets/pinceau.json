@@ -1,7 +1,7 @@
 {
   "nom": "pinceau",
   "titre": "Pinceau (site entier, pickyjoe.com)",
-  "description": "Style construit d'après le Coyot Bar (pickyjoe.com) : enseigne empilée en capitales condensées sur une bande bleu nuit, lignes séparées par des tildes, puis des bandes de couleur pleine largeur aux bords brossés (terracotta avec la plaque des horaires posée dessus, sable, moutarde, clair) et la carte à points de conduite sur bleu nuit ; la mosaïque des photos, histoire, questions, appel au téléphone, contact.",
+  "description": "Style construit d'après le Coyot Bar (pickyjoe.com), page entière : enseigne empilée en capitales condensées sur une bande bleu nuit (photo du lieu derrière au téléphone), lignes séparées par des tildes, puis des bandes de couleur pleine largeur aux bords brossés : terracotta avec la plaque des horaires, une bande par offre (sable, moutarde, clair), la carte à points de conduite sur bleu nuit, la mosaïque des photos et les avis sur moutarde, l'histoire avec sa photo sur le clair, et la page finit sur une bande bleu nuit avec l'enseigne, l'adresse, le téléphone en grand et les horaires. Ni communes, ni bandeau d'appel, ni questions, ni barre basse.",
   "metiers": [
     "bar",
     "restaurant",
@@ -17,17 +17,28 @@
       "nav": "bar",
       "hero": "pinceau",
       "sections": [
-        { "type": "services", "variant": "pinceau" },
-        { "type": "proof", "variant": "gallery" },
-        { "type": "about", "variant": "overlap" },
-        { "type": "zones", "variant": "list" },
-        { "type": "faq", "variant": "accordion" },
-        { "type": "cta", "variant": "phone-giant" },
-        { "type": "contact", "variant": "full" }
+        {
+          "type": "services",
+          "variant": "pinceau"
+        },
+        {
+          "type": "proof",
+          "variant": "pinceau"
+        },
+        {
+          "type": "about",
+          "variant": "portrait"
+        },
+        {
+          "type": "contact",
+          "variant": "pinceau"
+        }
       ],
-      "footer": "columns",
+      "footer": "minimal",
       "divider": "none",
-      "tone": "flat"
+      "tone": "flat",
+      "actionBar": false,
+      "servicePage": "porte"
     }
   }
 }

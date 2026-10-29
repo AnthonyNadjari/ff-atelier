@@ -1360,7 +1360,10 @@ export async function cmdMelanger(args) {
   const besoins = besoinsRegimes(comptes).map((b) => b.phrase);
   const tires = [], diversites = [];
   for (let k = 0; k < n; k++) {
-    const r = tirerMelange({ registre, imposes, client, existants, soeurs: tires, familles, architectures, rng });
+    // Modèle de site entier : sa direction existe déjà (src/directions/<id>/) et aucune n'est générée ; la paire de
+    // polices du style est donc « prise » par lui-même, la garde des paires ne doit pas refuser son propre style
+    // (29 oct 2026, tour 18 : `--style pinceau` refusé en 400 tirages après la création de la direction pinceau).
+    const r = tirerMelange({ registre: modele ? { ...registre, pairesPrises: undefined } : registre, imposes, client, existants, soeurs: tires, familles, architectures, rng });
     if (r.erreur) { fail(r.erreur); process.exit(1); }
     tires.push(r.atomes);
     diversites.push(r.diversite);

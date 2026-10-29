@@ -1,0 +1,25 @@
+---
+/**
+ * Les prestations du client en cellules de plan numérotées (style calque, src/styles/cellules.css) : une cellule de tête
+ * (wording.servicesTitle, vers /#services), puis une cellule par service (cinq au plus) vers sa page. Utilisé par
+ * Hero/calque (colonne de droite à l'ordinateur, posée sur la photo au téléphone). Rien d'inventé : sans service, rien.
+ */
+import '@/styles/cellules.css';
+import { site } from '@/lib/site';
+---
+
+{site.services.length > 0 && (
+  <div class="ff-cellules calque-prestations text-fg">
+    <a href="/#services" class="ff-cellule calque-prestation-tete flex items-center px-3">{site.wording.servicesTitle}</a>
+    {site.services.slice(0, 5).map((s, i) => (
+      <a href={`/services/${s.slug}`} class="ff-cellule calque-prestation flex items-center gap-2 px-3 text-sm font-medium">
+        <span class="tabular-nums">{String(i + 1).padStart(2, '0')}</span>{s.title}
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .calque-prestation { min-height: 2.6rem; }
+  .calque-prestation-tete { min-height: 3rem; font-size: 1.1rem; font-weight: 480; }
+</style>

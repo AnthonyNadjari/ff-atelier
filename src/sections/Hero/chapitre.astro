@@ -1,0 +1,144 @@
+---
+/**
+ * Hero "chapitre" (style chapitre, relevé sur 23gradicoffee.com le 29 oct 2026, fiche docs/veille/styles/chapitre.md
+ * § Construction, bloc 2, et § Reprise) : la source passe une vidéo plein écran sous un voile, le nom en capitales fines de
+ * bord à bord en haut, l'emblème au centre, la phrase centrée en bas. Reprise, construite en deux plans :
+ * 1. En haut, sur le bleu nuit, LE NOM DU CLIENT EN CAPITALES FINES DE BORD À BORD (h1) : la taille est calculée pour
+ *    remplir TOUTE la largeur (ordinateur : une ligne ; téléphone : un mot par ligne, chacun à la largeur de l'écran,
+ *    comme le nom de la source au téléphone). Estimation au build (vw), puis ajustée au pixel dans le navigateur une fois
+ *    les polices chargées (data-ch-ajuste). Il monte de sous sa ligne au chargement (translateY 100 % → 0, 1 s
+ *    cubic-bezier(0.25, 1, 0.5, 1), CSS seul, une fois ; profil « chapitre-qui-s-ouvre »). Dessous, TROIS FAITS en chasse
+ *    fixe (métier, ville, ancienneté ou note Google : seulement ceux que le client a), à gauche, au centre, à droite.
+ * 2. Dessous, LA PHOTO DU LIEU EN PLEIN CADRE, de bord à bord jusqu'au bas de l'écran, sous un voile bleu nuit, qui
+ *    dérive très lentement (zoom 1,08 → 1 en 20 s, CSS, une fois ; rien en mouvement réduit). Dessus, au centre,
+ *    L'EMBLÈME (l'initiale du nom en cuivre entre deux filets, la place du « 23° » de la source) ; en bas à droite, le
+ *    cercle de filet qui descend.
+ * 3. Sous la photo, sur le bleu, LA PHRASE centrée en chasse fixe et capitales, puis le téléphone et la porte Devis.
+ * Écart de construction voulu : nom AU-DESSUS de la photo et phrase EN DESSOUS, sur le bleu, et non posés dessus ; c'est
+ * ce qui sépare ce premier écran des « photo plein écran, titre dessus » de l'usine (ff ressemblance 0,79 avec le nom sur la
+ * photo, 0,69 avec la phrase sur la photo, 0,64 ainsi). Jamais de vidéo de fond (iPhone en économie d'énergie). Sans photo : le bleu nuit seul, l'emblème et la phrase.
+ */
+import { site, tel, hasContactDoor } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const google = site.proof.google;
+const faits = [
+  site.business.trade,
+  site.contact.address.city,
+  site.business.since ? `Depuis ${site.business.since}` : google ? `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google` : undefined,
+].filter(Boolean) as string[];
+const nom = site.business.name;
+const mots = nom.split(/\s+/).filter(Boolean);
+// Estimation de départ (avant l'ajustement au pixel) : capitales fines, chasse moyenne ~0,68 em ; 92 % de la largeur.
+const vw = (n: number) => Math.min(30, 92 / Math.max(3, n * 0.68)).toFixed(2);
+const initiale = nom.trim().charAt(0).toUpperCase();
+const premier = site.layout.sections.find((s) => s.variant === 'chapitre');
+---
+
+<section id="hero" class="chapitre-hero relative flex flex-col overflow-hidden bg-bg text-fg">
+  <div class="relative px-4 pt-16 pb-4 md:px-5 md:pt-14 md:pb-5">
+    <h1 class="chapitre-nom-cadre overflow-hidden">
+      <span class="chapitre-nom block font-display uppercase">
+        <span class="ch-ligne" data-ch-ligne style={`font-size: ${vw(nom.length)}vw`}>
+          {mots.map((m, i) => <><span class="ch-mot" data-ch-mot style={`--ch-mot: ${vw(m.length)}vw`}>{m}</span>{i < mots.length - 1 && ' '}</>)}
+        </span>
+      </span>
+    </h1>
+    {faits.length > 0 && (
+      <ul class="mt-3 grid grid-cols-3 gap-2 border-t border-line pt-3 font-mono text-[0.7rem] uppercase leading-snug md:text-xs" role="list">
+        {faits.map((f, i) => <li class:list={[i === 1 && 'text-center', i === 2 && 'text-right']}>{f}</li>)}
+      </ul>
+    )}
+  </div>
+
+  <div class="ch-cadre relative isolate flex flex-1 items-center justify-center overflow-hidden bg-ink text-on-ink">
+    {hero && (
+      <div class="absolute inset-0 -z-10">
+        <Img src={hero.src} alt={hero.alt} class="ch-lieu absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.chapitre} priority />
+        <div class="ch-voile absolute inset-0" aria-hidden="true"></div>
+      </div>
+    )}
+    <div class="ch-embleme flex items-center gap-4 font-display text-accent" aria-hidden="true">
+      <span class="ch-filet"></span><span class="ch-initiale">{initiale}</span><span class="ch-filet"></span>
+    </div>
+    {premier && (
+      <a href={`/#${premier.type}`} class="chapitre-descendre absolute right-4 bottom-14 hidden h-12 w-12 items-center justify-center rounded-full border md:flex md:right-5" aria-label="Descendre au premier chapitre">
+        <span aria-hidden="true">↓</span>
+      </a>
+    )}
+  </div>
+
+  <div class="flex flex-col items-center px-6 pt-6 pb-8 text-center md:pt-7 md:pb-9">
+    <p class="chapitre-h1 font-mono uppercase" set:html={site.business.tagline} />
+    <div class="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-xs uppercase">
+      <a href={tel()} class="underline underline-offset-4" data-porte="call">Appeler le {site.contact.phoneDisplay}</a>
+      {hasContactDoor(site) && <a href="/#contact" class="underline underline-offset-4" data-porte="quote">{site.wording.devis}</a>}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Le nom tient toute la largeur : chaque ligne visible est mise à la taille qui remplit son cadre, au pixel, une fois
+  // les polices chargées, puis à chaque changement de largeur. Sans script : l'estimation en vw du build.
+  onPage(() => {
+    const ligne = document.querySelector<HTMLElement>('[data-ch-ligne]');
+    if (!ligne) return;
+    const mots = [...ligne.querySelectorAll<HTMLElement>('[data-ch-mot]')];
+    const telephone = matchMedia('(max-width: 47.99rem)');
+    // Met `el` à la taille qui remplit `largeur` (mesure à la taille courante, règle de trois).
+    const remplir = (el: HTMLElement, largeur: number) => {
+      const taille = parseFloat(getComputedStyle(el).fontSize);
+      const w = el.getBoundingClientRect().width;
+      if (w > 0) el.style.fontSize = `${((taille * largeur * 0.995) / w).toFixed(2)}px`;
+    };
+    const ajuster = () => {
+      const largeur = ligne.parentElement?.clientWidth ?? 0;
+      if (!largeur) return;
+      if (telephone.matches) {
+        // Téléphone : un mot par ligne, chacun à la largeur de l'écran.
+        mots.forEach((m) => remplir(m, largeur));
+      } else {
+        // Ordinateur : le nom sur une ligne, de bord à bord.
+        mots.forEach((m) => m.style.removeProperty('font-size'));
+        remplir(ligne, largeur);
+      }
+    };
+    (document.fonts?.ready ?? Promise.resolve()).then(ajuster);
+    let attente = 0;
+    addEventListener('resize', () => { cancelAnimationFrame(attente); attente = requestAnimationFrame(ajuster); }, { passive: true });
+  });
+</script>
+
+<style>
+  .chapitre-hero { min-height: 100svh; }
+  .ch-cadre { min-height: 44svh; }
+  /* Le nom : capitales fines, de bord à bord ; un peu d'air en haut pour les accents (Û, É) dans le cadre qui masque. */
+  .chapitre-nom-cadre { padding-top: 0.12em; }
+  .chapitre-nom { line-height: 0.92; letter-spacing: -0.03em; font-weight: 400; }
+  .ch-ligne { display: inline-block; white-space: nowrap; }
+  .ch-mot { display: inline; }
+  /* Téléphone : un mot par ligne, chacun de bord à bord (estimation au build, ajustée au pixel par le script). */
+  @media (max-width: 47.99rem) {
+    .ch-ligne { display: block; }
+    .ch-mot { display: table; font-size: var(--ch-mot); }
+  }
+  /* Le nom monte de sous sa ligne, une fois (mesuré sur la source : transform 1s cubic-bezier(0.25, 1, 0.5, 1)). */
+  .chapitre-nom { animation: chapitre-monte 1s cubic-bezier(0.25, 1, 0.5, 1) both; }
+  @keyframes chapitre-monte { from { transform: translateY(100%); } to { transform: none; } }
+  /* La photo du lieu dérive lentement (zoom qui se pose), une fois. */
+  .ch-lieu { animation: chapitre-pose 20s cubic-bezier(0.25, 1, 0.5, 1) both; }
+  @keyframes chapitre-pose { from { transform: scale(1.08); } to { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .chapitre-nom, .ch-lieu { animation: none; } }
+  /* Voile bleu nuit (tokens) : plus dense en bas, sous la phrase. */
+  .ch-voile { background: linear-gradient(to bottom, color-mix(in oklab, var(--ink) 35%, transparent), color-mix(in oklab, var(--ink) 55%, transparent)); }
+  .ch-filet { display: block; width: clamp(2.5rem, 8vw, 6rem); height: 1px; background: currentColor; }
+  .ch-initiale { font-size: clamp(3.5rem, 2.5rem + 4vw, 6.5rem); line-height: 1; }
+  .chapitre-h1 :global(em) { font-style: normal; }
+  .chapitre-h1 { font-size: clamp(0.74rem, 0.68rem + 0.2vw, 0.84rem); line-height: 1.5; font-weight: 500; max-width: 46ch; letter-spacing: 0.02em; }
+  .chapitre-descendre { border-color: color-mix(in oklab, var(--on-ink) 40%, transparent); transition: border-color var(--motion-ui) ease; }
+  .chapitre-descendre:hover { border-color: var(--on-ink); }
+</style>

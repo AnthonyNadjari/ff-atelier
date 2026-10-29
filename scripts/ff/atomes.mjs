@@ -46,6 +46,7 @@ export const GENRES = {
   familjenGrotesk: 'sans', lexend: 'sans', publicSans: 'sans', alfaSlabOne: 'slab-affichage', bungee: 'sans-affichage',
   judson: 'serif', lexendZetta: 'sans-affichage', intelOneMono: 'mono', jetbrains: 'mono', spaceMono: 'mono', dmMono: 'mono', fragmentMono: 'mono',
   bigShoulders: 'condensee', azeretMono: 'mono',
+  hostGrotesk: 'sans', mulish: 'sans', // 29 oct 2026, styles enduit et ocre
 };
 const AFFICHAGE = new Set(['serif-affichage', 'sans-affichage', 'condensee', 'manuscrite', 'slab-affichage']);
 

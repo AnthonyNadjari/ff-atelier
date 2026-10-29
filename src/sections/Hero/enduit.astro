@@ -1,0 +1,64 @@
+---
+/**
+ * Hero "enduit" (style réel enduit, relevé sur bcgbuildingdesign.com.au le 29 oct 2026, fiche docs/veille/styles/enduit.md
+ * § Construction) : LA PHOTO PLEIN ÉCRAN, de bord à bord, sous une barre fine ; rien dessus sauf, en bas à gauche, la
+ * phrase (business.tagline) en grotesque de graisse moyenne, blanche, sur deux ou trois lignes (40 px à l'ordinateur,
+ * 26 px au téléphone, interlignage 1,05), et dessous, en petit, le métier et la ville, l'ancienneté et la note Google
+ * quand le client les a. En bas à droite (sous la phrase au téléphone), les deux liens de la direction (texte sur un
+ * filet, flèche) : Appeler le numéro, et la porte Devis. Un voile brun monte du bas sur le tiers de la photo, juste ce
+ * qu'il faut pour que le blanc reste lisible (la source s'appuie sur une pelouse sombre ; on ne compte pas sur la photo
+ * du client).
+ * Mouvement : aucun à l'entrée ni au défilement (profil « index-qui-change-la-photo », docs/veille/styles/MOUVEMENTS.md :
+ * le seul mouvement de la page est dans l'index des prestations et la montée du nom géant).
+ * Données : sans images.hero, la phrase reste en bas d'un aplat brun de la même hauteur (jamais une photo de banque
+ * présentée comme celle du client).
+ */
+import { site, tel, metierEtVille, hasContactDoor } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const google = site.proof.google;
+const faits = [
+  metierEtVille().replace(/\.$/, ''),
+  site.business.since && `Depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+  site.contact.emergency24h && 'Urgences 24 h/24',
+].filter(Boolean) as string[];
+---
+
+<section id="hero" class="hero-enduit relative flex items-end overflow-hidden bg-ink text-on-ink">
+  {hero && (
+    <div class="absolute inset-0">
+      <Img src={hero.src} alt={hero.alt} class="absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.enduit} priority />
+      <div class="enduit-voile absolute inset-x-0 bottom-0 h-1/2" aria-hidden="true"></div>
+    </div>
+  )}
+  <div class="enduit-large relative grid w-full gap-8 pb-8 pt-40 md:grid-cols-12 md:items-end md:pb-10">
+    <div class="md:col-span-7">
+      <h1 class="enduit-phrase hero-titre" set:html={site.business.tagline} />
+      <p class="mt-4 text-sm md:text-base">{faits.join(', ')}</p>
+    </div>
+    <div class="flex flex-col gap-3 md:col-span-4 md:col-start-9 md:items-end">
+      <Button href={tel()} variant="ghost" size="sm" class="enduit-lien">Appeler le {site.contact.phoneDisplay}</Button>
+      {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="sm" class="enduit-lien">{site.wording.devis}</Button>}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Cadre de la source : toute la largeur de l'écran, marge de 16 à 28 px (gouttière mesurée 22 px à 1 440 px). */
+  .enduit-large { width: 100%; padding-inline: clamp(1rem, 1.6vw, 1.75rem); }
+  /* La photo tient les trois quarts du premier écran au téléphone et les deux tiers à l'ordinateur (la source : l'écran
+     entier) : la ligne d'étiquettes et le haut de la présentation (phrase et photo côte à côte) se lisent dessous dès
+     l'arrivée. Écart voulu : un premier écran tout en photo avec la phrase en bas est déjà celui de plusieurs sites de
+     l'usine (ff ressemblance 0,73 à 0,89 à l'essai du 29 oct 2026). */
+  .hero-enduit { min-height: max(28rem, calc(76svh - 76px)); }
+  @media (min-width: 48rem) { .hero-enduit { min-height: max(26rem, calc(66svh - 76px)); } }
+  .enduit-voile { background: linear-gradient(to top, color-mix(in oklab, var(--ink) 72%, transparent), transparent); }
+  .enduit-phrase { font-size: clamp(1.65rem, 1.1rem + 1.9vw, 2.6rem); line-height: 1.05; max-width: 19ch; font-weight: 500; text-wrap: balance; }
+  /* Les liens de la direction (texte sur filet) passent au crème sur la photo. */
+  .hero-enduit :global(.enduit-lien) { color: var(--on-ink); border-color: var(--on-ink); width: 100%; max-width: 20rem; }
+  .hero-enduit :global(.ff-illustration) { top: 5.5rem; bottom: auto; }
+</style>

@@ -58,6 +58,10 @@ export const FONTS = {
   alfaSlabOne: { family: "'Alfa Slab One', Impact, sans-serif", pkg: '@fontsource/alfa-slab-one/latin.css', role: 'display', mood: 'slab massif, affiche' },
   // 29 oct 2026 (style pinceau, pickyjoe.com / Coyot Bar) : Bernier (enseigne western condensée, non libre) -> Big Shoulders Display.
   bigShoulders: { family: "'Big Shoulders Display Variable', Impact, sans-serif", pkg: '@fontsource-variable/big-shoulders-display', role: 'display', mood: 'enseigne condensee, saloon, affiche de ville' },
+  // 29 oct 2026 (style enduit, bcgbuildingdesign.com.au) : Neue Haas Display (non libre) -> Host Grotesk, grotesque néo-suisse.
+  hostGrotesk: { family: "'Host Grotesk Variable', 'Helvetica Neue', Arial, sans-serif", pkg: '@fontsource-variable/host-grotesk', role: 'both', mood: 'neo-suisse, sobre, architecture' },
+  // 29 oct 2026 (style ocre, lrnce.com) : Harmonia Sans (non libre) -> Mulish, géométrique humaniste des étiquettes en capitales.
+  mulish: { family: "'Mulish Variable', system-ui, sans-serif", pkg: '@fontsource-variable/mulish', role: 'body', mood: 'geometrique doux, etiquettes' },
   bungee: { family: "'Bungee', Impact, sans-serif", pkg: '@fontsource/bungee/latin.css', role: 'display', mood: 'urbain, signaletique' },
   // Mono
   // Large et fine (Nord de la source, remplacee) : petits intitules et boutons en capitales tres larges.

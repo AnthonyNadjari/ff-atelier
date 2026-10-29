@@ -1,0 +1,83 @@
+---
+/**
+ * Services "ocre" (geste signature du style ocre, relevé sur lrnce.com le 29 oct 2026, fiche docs/veille/styles/ocre.md
+ * § Construction, blocs 2, 4 et 5) : LES PRESTATIONS EN DIPTYQUES. Sous une ligne d'étiquettes (le titre de section en
+ * petite géométrique grasse, le métier à la ville), les services vont deux par deux : deux grandes photos verticales 3:4
+ * côte à côte, posées sur le sable avec une marge de 24 à 40 px et 16 px entre elles, chacune avec sa légende dessous (le
+ * nom en serif, la phrase courte, le prix « à partir de » s'il est donné, « Voir la prestation » souligné). Chaque paire est
+ * tenue par un filet fin en dessous. Un service seul en fin de liste prend le bloc « moitié vide » de la source : la moitié
+ * gauche reste du sable, avec seulement son nom, sa phrase et le lien souligné posés en bas à gauche ; sa photo occupe la
+ * moitié droite, collée au bord de l'écran, séparée par un filet vertical.
+ * Au téléphone : une photo par service, pleine largeur du cadre, légende dessous (la source empile ses diptyques).
+ * Rien d'inventé : un service sans photo garde sa place, son nom et sa phrase sur un panneau sable plus foncé (bg-2) ;
+ * jamais d'icône ni de photo de banque présentée comme la sienne. Mouvement : aucun (le lien change de couleur en 0,3 s).
+ */
+import { site, metierEtVille } from '@/lib/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Img from '@/components/Img.astro';
+
+type Service = (typeof site.services)[number];
+const services = site.services;
+const paires: Service[][] = [];
+for (let i = 0; i < services.length; i += 2) paires.push(services.slice(i, i + 2));
+const derniere = paires.at(-1);
+const seul = derniere && derniere.length === 1 && paires.length > 1 ? derniere[0] : undefined;
+if (seul) paires.pop();
+---
+
+<div id="services" class="ocre-services">
+  <div class="border-b border-line">
+    <div class="container-ff py-6">
+    <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} class="[&_h2]:font-body [&_h2]:text-sm [&_h2]:font-bold [&_h2]:tracking-normal md:[&_h2]:text-base [&_p]:mt-1 [&_p]:text-sm" />
+    </div>
+  </div>
+  {paires.map((paire) => (
+    <section class="ocre-paire border-b border-line">
+      <ul class:list={['ocre-cadre grid gap-10 md:gap-4', paire.length > 1 && 'md:grid-cols-2']}>
+        {paire.map((s) => (
+          <li>
+            <a href={`/services/${s.slug}`} class="group block">
+              {s.image ? (
+                <figure class="relative aspect-[3/4] overflow-hidden">
+                  <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 46vw, 92vw" loading="lazy" />
+                </figure>
+              ) : (
+                <div class="ocre-sans-photo flex aspect-[3/4] items-end bg-bg-2 p-6"><span class="font-display text-2xl">{s.title}</span></div>
+              )}
+              <h3 class="mt-5 text-xl md:text-2xl">{s.title}</h3>
+            </a>
+            <p class="mt-2 max-w-[44ch] text-base">{s.short}</p>
+            {s.priceFrom && <p class="mt-1 text-sm text-muted">{s.priceFrom}</p>}
+            <a href={`/services/${s.slug}`} class="ocre-lien mt-3 inline-block text-sm font-semibold">Voir la prestation</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+  {seul && (
+    <section class="ocre-moitie border-b border-line" aria-labelledby={`ocre-${seul.slug}`}>
+      <div class="grid md:grid-cols-2">
+        <div class="order-2 flex flex-col justify-end px-5 py-10 md:order-1 md:px-10 md:py-10">
+          <h3 id={`ocre-${seul.slug}`} class="text-xl md:text-2xl"><a href={`/services/${seul.slug}`}>{seul.title}</a></h3>
+          <p class="mt-2 max-w-[44ch] text-base">{seul.short}</p>
+          {seul.priceFrom && <p class="mt-1 text-sm text-muted">{seul.priceFrom}</p>}
+          <a href={`/services/${seul.slug}`} class="ocre-lien mt-3 inline-block text-sm font-semibold">Voir la prestation</a>
+        </div>
+        {seul.image ? (
+          <figure class="relative order-1 aspect-[0.8] overflow-hidden md:order-2 md:border-l md:border-line">
+            <Img src={seul.image.src} alt={seul.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 50vw, 100vw" loading="lazy" />
+          </figure>
+        ) : (
+          <div class="order-1 bg-bg-2 md:order-2 md:min-h-[24rem] md:border-l md:border-line" aria-hidden="true"></div>
+        )}
+      </div>
+    </section>
+  )}
+</div>
+
+<style>
+  .ocre-cadre { padding: clamp(1.25rem, 2.8vw, 2.5rem); }
+  .ocre-lien { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: color 0.3s ease; }
+  .ocre-lien:hover, .group:hover h3 { color: var(--accent); }
+  .ocre-services :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

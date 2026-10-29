@@ -39,7 +39,8 @@
 // DISTANCE : ressemblance de déroulé = 0,5 x accord des suites de rôles (1 − distance d'édition / longueur de la
 // plus longue ; contact et lieu, services et réalisations comptent 0,5 l'un pour l'autre) + 0,5 x accord du site
 // (modèle de navigation 1, tranche de pages de contenu 0 / 1-3 / 4+ 1, longueur en écrans 0,5, part d'image 0,5 ;
-// sur 3). Modèle : défilement horizontal > onglets (>= 50 % de la page) > accueil-menu (<= 1,5 écran et >= 2 pages
+// sur 3). Modèle : défilement horizontal > onglets (>= 50 % de la page) > journal daté (bloc d'au moins 4 dates du plus
+// récent au plus ancien, >= 35 % de la page) > plan ou schéma (au moins 4 liens posés en absolu sur un plan) > accueil-menu (<= 1,5 écran et >= 2 pages
 // liées du menu, du pied ou du corps de l'accueil) > plusieurs pages (>= 2 pages liées du menu ou du pied ET >= 2 pages de contenu dans dist/) > longue page
 // à ancres.
 import fs from 'node:fs';
@@ -50,7 +51,7 @@ export const MOTS_ROLE = {
   heros: 'héros', preuve: 'avis', offres: 'services', realisations: 'réalisations', apropos: 'à propos', questions: 'questions',
   contact: 'contact', lieu: 'lieu/horaires', outil: 'outil', texte: 'texte long', appel: "bandeau d'appel", pied: 'pied de page', autre: 'autre',
 };
-export const MODELES = ['longue page à ancres', 'plusieurs pages', 'accueil-menu sans défilement', 'défilement horizontal', 'onglets'];
+export const MODELES = ['longue page à ancres', 'plusieurs pages', 'accueil-menu sans défilement', 'défilement horizontal', 'onglets', 'journal daté', 'plan ou schéma'];
 export const POIDS_SUITE = 0.5;
 /** Pages qui ne comptent pas comme contenu (légal, erreur, remerciement). */
 export const PAGES_HORS_CONTENU = /(^|\/)(404|mentions-legales|confidentialite|politique-de-confidentialite|credits|cgv|cgu|merci|plan-du-site)(\.html|\/index\.html|\/)?$/i;
@@ -169,6 +170,32 @@ export function releverDeroule() {
     while (p && !p.querySelector('[role="tabpanel"]')) p = p.parentElement;
     if (p) partOnglets = Math.max(partOnglets, abs(p)[3] / docH);
   }
+  // Journal daté (29 oct 2026, architecture carnet-interventions) : la part de la page tenue par le bloc qui porte au moins
+  // quatre <time datetime="AAAA-MM-JJ"> du plus récent au plus ancien (un carnet, pas un agenda qui va vers l'avenir).
+  let partJournal = 0;
+  const dates = [...main.querySelectorAll('time[datetime]')].filter((t) => /^\d{4}-\d{2}-\d{2}$/.test(t.getAttribute('datetime')));
+  if (dates.length >= 4) {
+    for (const e of new Set(dates.map((t) => t.closest('section, article, div[id]')).filter(Boolean))) {
+      let p = e;
+      while (p && p !== main && p.querySelectorAll('time[datetime]').length < 4) p = p.parentElement;
+      if (!p || p === main) continue;
+      const ds = [...p.querySelectorAll('time[datetime]')].map((t) => t.getAttribute('datetime')).filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d));
+      const desc = ds.length >= 4 && ds.every((d, i) => i === 0 || d <= ds[i - 1]);
+      if (desc) partJournal = Math.max(partJournal, abs(p)[3] / docH);
+    }
+  }
+  // Plan ou schéma (29 oct 2026, architecture rayon-trajet) : un plan dessiné (figure ou bloc en position relative, au moins
+  // la moitié de l'écran en largeur) sur lequel au moins quatre liens sont posés en position absolue.
+  let plan = false;
+  for (const a of main.querySelectorAll('a[href]')) {
+    if (plan) break;
+    let q = a.parentElement, posees = 0;
+    if (!q || getComputedStyle(q).position !== 'absolute') continue;
+    while (q && q !== main && getComputedStyle(q).position !== 'relative') q = q.parentElement;
+    if (!q || q === main || abs(q)[2] < vw * 0.5) continue;
+    for (const b of q.querySelectorAll('a[href]')) if (b.parentElement && getComputedStyle(b.parentElement).position === 'absolute') posees += 1;
+    plan = posees >= 4;
+  }
   let horizontal = docW > vw * 1.3;
   // Les blocs de premier niveau (els, enveloppes ouvertes) comptent aussi : une file qui défile en x sous une
   // enveloppe display:contents (coquilles panneaux et carnet au téléphone) est bien une zone de la page.
@@ -177,7 +204,7 @@ export function releverDeroule() {
     if (/(auto|scroll)/.test(s.overflowX) && e.clientHeight >= vh * 0.6 && e.clientWidth >= vw * 0.8 && e.scrollWidth >= e.clientWidth * 2) { horizontal = true; break; }
   }
 
-  return { vw, vh, docH: Math.round(docH), docW: Math.round(docW), blocs, nav: liens(navs), pied: liens(pieds), corps: liens([main]), partOnglets: Math.round(partOnglets * 100) / 100, horizontal };
+  return { vw, vh, docH: Math.round(docH), docW: Math.round(docW), blocs, nav: liens(navs), pied: liens(pieds), corps: liens([main]), partOnglets: Math.round(partOnglets * 100) / 100, partJournal: Math.round(partJournal * 100) / 100, plan, horizontal };
 }
 
 /* ---------- fonctions pures ---------- */
@@ -312,6 +339,8 @@ export function suiteDeRoles(blocs) {
 export function modeleNavigation(s) {
   if (s.horizontal) return 'défilement horizontal';
   if ((s.partOnglets ?? 0) >= 0.5) return 'onglets';
+  if ((s.partJournal ?? 0) >= 0.35) return 'journal daté';
+  if (s.plan) return 'plan ou schéma';
   const pages = s.pagesLiees ?? s.navPages ?? 0;
   if (Math.max(pages, s.pagesCorps ?? 0) >= 2 && (s.ecrans ?? 99) <= 1.5) return 'accueil-menu sans défilement';
   if (pages >= 2 && (s.pagesContenu ?? 0) >= 2) return 'plusieurs pages';
@@ -337,7 +366,7 @@ export function empreinteDeroule(rel, pages = { html: 1, contenu: 0 }) {
     pagesCorps: (rel.corps?.pages || []).length,
     ecrans: Math.round(docH / vh * 10) / 10,
     partImage: Math.round(blocs.reduce((s, b) => s + b.partImage * b.hEcrans, 0) / somme * 100) / 100,
-    partOnglets: rel.partOnglets, horizontal: rel.horizontal,
+    partOnglets: rel.partOnglets, partJournal: rel.partJournal, plan: rel.plan, horizontal: rel.horizontal,
   };
   site.modele = modeleNavigation(site);
   return { vw, vh, roles: suiteDeRoles(blocs), blocs, site };

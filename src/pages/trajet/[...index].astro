@@ -1,0 +1,72 @@
+---
+/**
+ * Page /trajet (site.trajet, src/lib/trajet.ts) : architecture `rayon-trajet` (la page « Zone d'intervention » de Concept Froid
+ * Centre : les pôles en temps de trajet depuis Suèvres, une page par pôle ; docs/veille/architectures/rayon-trajet.md). Toutes
+ * les communes par cercle de temps (moins de 15 min, moins de 30 min…), chacune vers sa page, la phrase pour une commune absente.
+ * Lisible sans script. Générée seulement dès 3 communes (lienTrajet).
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, metierEtVille, communesCompletes, dureeLisible, anneauxDeTrajet, lienTrajet } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return lienTrajet(site.trajet?.communes, site.wording.trajet) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const t = site.trajet!;
+const communes = communesCompletes(t.communes);
+const base = t.base ?? site.contact.address.city;
+const cercles = anneauxDeTrajet(communes);
+const groupes = cercles.map((c, i) => ({ max: c, communes: communes.filter((x) => x.minutes <= c && x.minutes > (cercles[i - 1] ?? 0)) })).filter((g) => g.communes.length > 0);
+const titre = site.wording.trajet;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${site.business.trade} : temps de trajet depuis ${base} vers ${communes.length} communes, de ${communes[0].nom} à ${communes.at(-1)!.nom}.`} path="/trajet" jsonLd={site.faq.length > 0 ? [faqPageLd(site.faq)!] : []}>
+  <Nav />
+  <main id="main" class="container-ff tt">
+    <header class="tt-tete">
+      <h1 class="tt-titre font-display">{titre}</h1>
+      <p>{metierEtVille()} Depuis {base}{t.conditions ? `, ${t.conditions}` : ''}{t.rayonKm ? ` ; rayon de ${t.rayonKm} km` : ''}.</p>
+    </header>
+    {groupes.map((g) => (
+      <section class="tt-groupe" aria-labelledby={`tt-${g.max}`}>
+        <h2 id={`tt-${g.max}`} class="tt-h2 font-display">Jusqu’à {dureeLisible(g.max)}</h2>
+        <ul class="tt-liste">
+          {g.communes.map((c) => (
+            <li class="tt-li"><a href={`/trajet/${c.slug}`} class="tt-lien">{c.nom}</a><span class="tabular-nums">{dureeLisible(c.minutes)}{c.km ? `, ${c.km} km` : ''}</span></li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    <p class="tt-ailleurs">{t.ailleurs ?? 'Appelez-nous : nous vous dirons si nous venons.'} <a href={tel()} class="tt-lien tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    {site.faq.length > 0 && (
+      <section id="faq" aria-labelledby="tt-faq" class="tt-faq">
+        <h2 id="tt-faq" class="tt-faq-t font-display">{site.wording.faqTitle ?? 'Vos questions'}</h2>
+        {site.faq.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .tt { display: grid; gap: clamp(1.75rem, 5vh, 3rem); padding-block: clamp(1.5rem, 5vh, 4rem); max-inline-size: 60rem; }
+  .tt-tete { display: grid; gap: 0.5rem; }
+  .tt-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .tt-groupe { display: grid; gap: 0.5rem; }
+  .tt-h2 { font-size: clamp(1.4rem, 3.2vw, 2rem); padding-block-end: 0.4rem; border-block-end: 2px solid var(--color-fg); }
+  .tt-li { display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-block-end: 1px solid var(--color-line); }
+  .tt-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tt-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .tt-ailleurs { font-weight: 600; }
+  @media (min-width: 48rem) { .tt-liste { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 3rem; } }
+  .tt-faq { display: grid; gap: 0.25rem; }
+  .tt-faq-t { font-size: clamp(1.4rem, 3.2vw, 2rem); padding-block-end: 0.4rem; }
+  .tt-faq details { border-block-end: 1px solid var(--color-line); }
+  .tt-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .tt-faq summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .tt-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+</style>

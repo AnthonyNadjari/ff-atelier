@@ -1,0 +1,76 @@
+/* Direction OCRE : style réel relevé sur https://lrnce.com/ (LRNCE, atelier de céramique, de tissage et de peinture de
+   Laurence Leenaert à Marrakech ; veille du 29 oct 2026, fiche docs/veille/styles/ocre.md, atomes
+   docs/veille/styles/atomes/ocre.json). On reprend le style et la construction (diptyques de photos sur le sable, lettre en
+   serif de grand corps à côté de sa photo, filets fins qui découpent la page, bande rouille au nom qui défile, colonnes
+   filetées du pied), jamais les textes, images, logos ni le code de la source.
+   Une page de terre et de sable : fond sable #eee3d4 partout, un seul rouille #8f4524 (bande du nom, bouton plein, petit
+   signal), texte brun très sombre ; un serif de lecture (Georgia sur la source) pour les titres ET le texte de grand corps,
+   une géométrique douce (Harmonia Sans sur la source) pour les étiquettes, la nav et les colonnes du pied ; rayon 0, aucune
+   ombre, des filets de 1 px brun sombre entre les blocs : la couleur vient des photos (terre cuite, tissus, peintures).
+   Polices : Georgia (système, non libre en webfont) -> Gelasio (métriques de Georgia, libre) ; Harmonia Sans (non libre)
+   -> Mulish (géométrique humaniste libre).
+   Couleurs relevées : #eee3d4 sable (98 % des fonds), #924b27 rouille (bande du nom, boutons) foncé d'un cheveu en #8f4524
+   pour l'accent (sable sur rouille 5,4:1) et en #843f1f pour l'encre des bandes (le texte crème à 80 % d'opacité des
+   bandeaux d'appel des pages de prestation y tient 5:1), texte #000000 adouci en brun #2b211c (12,4:1). */
+@import '@fontsource-variable/gelasio';
+@import '@fontsource-variable/mulish';
+
+[data-direction='ocre'] {
+  --accent-h: 19;
+  --accent-s: 60%;
+  --accent-l: 35%;
+  --bg: #eee3d4;
+  --bg-2: #e6d8c5;
+  --surface: #f6efe4;
+  --fg: #2b211c;
+  --muted: #6a5a4c;
+  --line: #2b211c;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) - 7%));
+  --on-accent: #f6efe4;
+  --ink: #843f1f;
+  --on-ink: #f6efe4;
+  --font-display: 'Gelasio Variable', Georgia, serif;
+  --font-body: 'Mulish Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Mulish Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 500;
+  --display-tracking: 0;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(3.5rem, 7vw, 6.5rem);
+  --motion-duration: 0.3s;
+  --motion-ui: 0.3s;
+  /* Mesuré sur la source : background, border, color 0,3 s ease ; la bande du nom défile en 40 s linéaire. */
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1); /* = ease, la courbe mesurée sur la source */
+}
+
+[data-direction='ocre'] ::selection { background: var(--ink); color: var(--on-ink); }
+/* Titres en serif de lecture, graisse 500 à 600, jamais d'italique (GOUT § 2). */
+[data-direction='ocre'] :is(h1, h2) { font-weight: 500; line-height: 1.2; letter-spacing: 0; }
+[data-direction='ocre'] h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.25; }
+[data-direction='ocre'] :is(h1, h2, h3) em { font-style: normal; color: var(--accent); }
+
+/* Boutons de la source : rectangles à filet fin (« CUSTOMISE ») ou pleins rouille (« ACCEPT ALL »), en géométrique ; les
+   liens d'appel sont soulignés (« Learn more about LRNCE »). Couleur qui change en 0,3 s ease. */
+[data-direction='ocre'] .btn {
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background var(--motion-ui) var(--ease-brand), color var(--motion-ui) var(--ease-brand), border-color var(--motion-ui) var(--ease-brand);
+}
+[data-direction='ocre'] .btn-primary { background: var(--accent); color: var(--on-accent); border: 1px solid var(--accent); }
+[data-direction='ocre'] .btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); }
+[data-direction='ocre'] .btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+[data-direction='ocre'] .btn-ghost:hover { background: var(--accent); color: var(--on-accent); }
+[data-direction='ocre'] .card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+[data-direction='ocre'] .rule { border-top: 1px solid var(--line); }
+[data-direction='ocre'] .eyebrow { color: var(--fg); font-family: var(--font-body); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.02em; text-transform: none; }

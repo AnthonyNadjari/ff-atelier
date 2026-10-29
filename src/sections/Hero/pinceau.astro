@@ -8,9 +8,11 @@
  * l'ancienneté et la note Google quand le client les a. Sous l'enseigne, deux portes : le bouton clair (Appeler) et le
  * bouton terracotta (la porte du site : Réserver, Devis…). En bas, la bande suivante (terracotta) monte avec un BORD
  * BROSSÉ (BordPinceau) : la frontière est un coup de pinceau, pas une ligne.
- * Photo : jamais derrière l'enseigne (la source, à l'ordinateur, n'a que l'aplat bleu ; une photo plein cadre sous le h1
- * est le premier écran de la moitié des sites de l'usine, ff ressemblance). images.hero descend dans la première bande
- * de Services/pinceau, à côté de la plaque des horaires.
+ * Photo (reprise du 29 oct 2026, tour 18, comme la source) : au téléphone, la photo du lieu (images.hero) tient la bande
+ * en plein cadre DERRIÈRE l'enseigne (la source y passe sa vidéo du bar), sous un voile bleu nuit qui garde la moutarde
+ * lisible ; la ligne des horaires et du téléphone reste sur l'aplat, au-dessus de la photo. À l'ordinateur, l'aplat bleu
+ * seul, comme la source : la photo descend dans la première bande de Services/pinceau, à côté de la plaque des horaires.
+ * Sans images.hero : l'aplat partout.
  * Mouvement (profil `bandes-au-pinceau`) : l'enseigne s'allume en fondu lent (1,2 s, ease, mesuré : fadeIn 1,25 s sur la
  * source), rien d'autre au chargement ; jamais avec motion « none » ni prefers-reduced-motion.
  * Données : aucune exigence ; chaque ligne de l'enseigne disparaît sans sa donnée.
@@ -18,6 +20,7 @@
 import { site, tel, metierEtVille, actions } from '@/lib/site';
 import Button from '@/components/Button.astro';
 import BordPinceau from '@/components/BordPinceau.astro';
+import Img from '@/components/Img.astro';
 
 const google = site.proof.google;
 const faits = [
@@ -29,6 +32,7 @@ const premiereHeure = site.contact.hours[0];
 // La porte principale du site (Réserver, Commander, Devis…), sauf l'appel qui a déjà son bouton.
 const porte = actions().find((a) => a.kind !== 'call');
 const metier = metierEtVille().replace(/\.$/, '');
+const photo = site.images.hero;
 ---
 
 <section id="hero" class="hero-pinceau relative isolate overflow-hidden bg-ink text-on-ink">
@@ -37,10 +41,18 @@ const metier = metierEtVille().replace(/\.$/, '');
     <a href={tel()} class="underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a>
   </div>
 
-  <div class="pinceau-enseigne container-ff flex flex-col items-center justify-center text-center">
+  <div class="pinceau-enseigne">
+    <div class="pinceau-texte container-ff flex flex-col items-center justify-center text-center">
     <h1 class="pinceau-h1 hero-titre font-display text-fill" set:html={site.business.tagline} />
     <svg class="pinceau-tilde" viewBox="0 0 40 12" aria-hidden="true" focusable="false"><path d="M2 8C8 1 14 1 20 6S32 11 38 4" /></svg>
     <p class="pinceau-ligne font-display text-fill">{metier}</p>
+    {photo && (
+      <figure class="pinceau-photo relative md:hidden">
+        <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" priority />
+        <BordPinceau couleur="var(--ink)" avant="transparent" forme={2} class="pinceau-bord-haut" />
+        <BordPinceau couleur="var(--ink)" avant="transparent" forme={1} class="pinceau-bord-bas" />
+      </figure>
+    )}
     {faits.length > 0 && (
       <>
         <svg class="pinceau-tilde" viewBox="0 0 40 12" aria-hidden="true" focusable="false"><path d="M2 8C8 1 14 1 20 6S32 11 38 4" /></svg>
@@ -50,6 +62,7 @@ const metier = metierEtVille().replace(/\.$/, '');
     <div class="mt-9 flex flex-wrap items-center justify-center gap-4 md:mt-11">
       <Button href={tel()} variant="ghost">Appeler le {site.contact.phoneDisplay}</Button>
       {porte && <Button href={porte.href} variant="primary">{porte.label}</Button>}
+    </div>
     </div>
   </div>
 
@@ -63,7 +76,13 @@ const metier = metierEtVille().replace(/\.$/, '');
   .text-fill { color: var(--text-fill); }
   .pinceau-haut { color: color-mix(in oklab, var(--on-ink) 88%, transparent); }
   /* La bande tient le premier écran moins la barre de nav ; l'enseigne est centrée dans le vide bleu. */
-  .pinceau-enseigne { min-height: calc(100svh - 9.5rem); padding-block: 3rem 5.5rem; }
+  .pinceau-texte { min-height: calc(100svh - 9.5rem); padding-block: 3rem 5.5rem; }
+  /* Téléphone : la photo du lieu en bande pleine largeur SOUS l'enseigne, tenue entre deux bords brossés bleu nuit
+     (le pinceau mord sur la photo en haut et en bas). */
+  .pinceau-photo { width: 100vw; margin: 1.75rem calc(50% - 50vw) 0.5rem; aspect-ratio: 4 / 3; max-height: 46svh; overflow: hidden; }
+  .pinceau-photo :global(.pinceau-bord-haut) { bottom: auto; top: -1px; transform: scaleY(-1); z-index: 1; height: 2.25rem; }
+  .pinceau-photo :global(.pinceau-bord-bas) { bottom: -1px; z-index: 1; height: 2.25rem; }
+  .pinceau-photo :global(.ff-illustration) { top: 2.25rem; bottom: auto; z-index: 2; }
   .pinceau-h1 { font-size: clamp(2.7rem, 1.6rem + 4.6vw, 5.6rem); line-height: 0.95; max-width: 15ch; text-wrap: balance; }
   .pinceau-ligne { font-size: clamp(1.6rem, 1.15rem + 2.1vw, 3.1rem); line-height: 1; font-weight: 700; max-width: 22ch; text-wrap: balance; text-transform: uppercase; }
   .pinceau-faits { font-size: clamp(1.15rem, 0.95rem + 0.9vw, 1.7rem); line-height: 1.1; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; }

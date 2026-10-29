@@ -386,6 +386,22 @@ export async function loadHonorairesModule() {
   return loadPureLibModule('honoraires.ts');
 }
 
+/**
+ * Copie src/lib/journal.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture carnet-interventions : carnet daté et
+ * situé ; tests/architectures-carnet.test.mjs).
+ */
+export async function loadJournalModule() {
+  return loadPureLibModule('journal.ts');
+}
+
+/**
+ * Copie src/lib/trajet.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture rayon-trajet : temps de trajet, schéma ;
+ * tests/architectures-carnet.test.mjs).
+ */
+export async function loadTrajetModule() {
+  return loadPureLibModule('trajet.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

@@ -82,3 +82,27 @@ sable / sauge avec photo verticale ou paysage à droite, liens entre deux filets
 l'essai : encre #3d3d3f foncée en #2a2a2c et bande d'encre #242426 (horaires à 72 % d'opacité sous AA), accent sauge
 assombri (lien « Voir sur Google Maps » sur sable), ordre du modèle (galerie avant zones, appel puis contact, questions
 en dernier) pour sortir du déroulé de forge-delacroix et demo-boulangerie.
+
+## Reprise du 29 oct, tour 18
+
+Reproches du juge neuf (tour 17) : moitié haute fidèle, puis la fin de page de l'usine (communes, bandeau d'appel,
+questions, formulaire, pied sombre) que la source n'a pas ; photo cachée sous la barre basse au téléphone.
+Ce qui a changé :
+- **Plus de barre basse** (`actionBar: false` dans `presets/lin.json`) : la bande photo se voit en bas du premier écran du
+  téléphone, comme la source ; « Appeler le … » reste au premier écran, entre deux filets.
+- La bande photo du premier écran est une **section sœur** (le bloc « film » de la source suit le bloc de la phrase) ;
+  chaque panneau de service est une `<section>` sœur dans l'enveloppe `#services` : la page est une pile de panneaux.
+- **Fin de page d'après la source** : `proof/lin` (nouveau : les avis dans la grammaire des panneaux, étiquette « Avis /
+  4,9/5 sur Google », lien entre deux filets, avis en serif de grand corps ; juste après la bande, GOUT § 0 « avis haut »)
+  → `about/story` (le manifeste sur sable) → `services/lin` → `proof/gallery` → `contact/lin` (nouveau : un dernier
+  panneau sable, étiquette « Contact / métier à ville », phrase serif, Appeler et Écrire entre deux filets, adresse et
+  horaires en petit, formulaire à plat sans carte) ; pied `liens` (nouveau, partagé : trois colonnes en chasse fixe sur le
+  papier, nom et pages des prestations, coordonnées, mentions ; aucun bandeau sombre, comme la source). Ni communes, ni
+  bandeau d'appel, ni questions.
+Preuve : jetable `_essai-reprise-lin` (copie de `_exemple`, `// DEMO`, 9 photos `ff photos-demo`), comparaison
+[source + nouvel essai](captures/lin-essai.jpg) (la source à gauche). `ff verifier` vert hors données de test, a11y sans
+violation, `ff ia` sans signe bloquant ; `ff ressemblance` : 0,61 au plus (téléphone, prospect-epi-dor-b et
+atelier-lecerf), ordinateur 0,37, déroulé 0,60 au plus. Essais mesurés et écartés : pied d'une ligne (déroulé 0,67 contre
+chez-malo, « longue page à ancres ») ; avis sans galerie (0,68 contre prospect-ballay-macon).
+Reste : photos d'illustration de menuiserie faibles (cuillères pour « cuisines », bardage en biais pour « escaliers ») ;
+la page de prestation (gabarit `fiche`) garde son bandeau d'appel sombre.

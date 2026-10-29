@@ -10,6 +10,8 @@
  * s'empile : étiquette, phrase, photo à pleine largeur du cadre, lien centré sous la photo.
  * Un service sans photo garde son panneau, texte seul (le panneau sable de la source n'a pas d'image) : jamais d'icône
  * ni de placeholder. Le titre de section (wording.servicesTitle) et le métier à ville ouvrent la suite, petits.
+ * Chaque panneau est une <section> sœur dans l'enveloppe #services (reprise du 29 oct 2026, tour 18) : la source empile
+ * des blocs pleine largeur, le déroulé de l'usine (ff ressemblance) les lit un par un, comme les bandes de pinceau.
  * Mouvement : aucun à l'apparition (la source est immobile) ; seul le lien s'emplit au survol (.btn-ghost de la
  * direction). Profil « film-au-clic » (docs/veille/styles/MOUVEMENTS.md).
  */
@@ -21,7 +23,7 @@ import Img from '@/components/Img.astro';
 const tons = ['papier', 'sable', 'sauge'] as const;
 ---
 
-<section id="services" class="lin-services">
+<div id="services" class="lin-services">
   <div class="container-ff pt-[var(--section-y)] pb-12 md:pb-16">
     <SectionHeading title={site.wording.servicesTitle} text={metierEtVille()} class="[&_h2]:font-mono [&_h2]:text-base md:[&_h2]:text-lg [&_h2]:font-medium [&_p]:mt-0 [&_p]:font-mono [&_p]:text-base md:[&_p]:text-lg" />
   </div>
@@ -30,7 +32,7 @@ const tons = ['papier', 'sable', 'sauge'] as const;
     const paysage = ton === 'sauge';
     const phrase = s.short;
     return (
-      <article class:list={['lin-panneau', `lin-${ton}`]} aria-labelledby={`lin-${s.slug}`}>
+      <section class:list={['lin-panneau lin-service', `lin-${ton}`]} aria-labelledby={`lin-${s.slug}`}>
         <div class="container-ff grid gap-10 py-[var(--section-y)] md:grid-cols-12 md:gap-8">
           <div class:list={['flex flex-col md:col-span-5', paysage ? 'md:justify-center' : 'md:pt-[6%]']}>
             <h3 id={`lin-${s.slug}`} class="lin-etiquette font-mono text-base font-normal leading-snug">
@@ -53,10 +55,10 @@ const tons = ['papier', 'sable', 'sauge'] as const;
             </div>
           )}
         </div>
-      </article>
+      </section>
     );
   })}
-</section>
+</div>
 
 <style>
   .lin-sable { background: var(--bg-2); }

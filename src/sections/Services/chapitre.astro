@@ -1,0 +1,135 @@
+---
+/**
+ * Services "chapitre" (geste signature du style chapitre, relevé sur 23gradicoffee.com le 29 oct 2026, fiche
+ * docs/veille/styles/chapitre.md § Construction, bloc 5 « Monorigini ») : le chapitre des prestations.
+ * 1. La règle de chapitre (Chapitre, numéro suivant), puis à gauche le titre en capitales fines (wording.servicesTitle)
+ *    et la phrase du client en chasse fixe (wording.servicesIntro, sinon le second paragraphe de la description).
+ * 2. LE PRODUIT POSÉ SUR SON NOM : un service à la fois, plein cadre. Derrière, SON NOM EN CAPITALES FINES GÉANTES sur
+ *    une ligne (coupé par les bords s'il est long) ; devant, centrée, SA PHOTO verticale (services[].image) qui cache le
+ *    milieu du nom ; au-dessus, son numéro et son nom en petit ; dessous, son prix « à partir de » s'il est donné et le
+ *    lien souligné vers sa page. Une piste scroll-snap native (au doigt sur iPhone, défilement lisse natif), deux flèches
+ *    dans des cercles de filet sur les côtés qui avancent d'un service, et sous la piste LA LISTE À POINTS de tous les
+ *    services (un point cuivre devant le service affiché). Sans script : la piste se fait défiler au doigt ou au pavé, la
+ *    liste mène aux pages. Profil « chapitre-qui-s-ouvre » (docs/veille/styles/MOUVEMENTS.md) ; mouvement réduit : saut
+ *    sans glissé.
+ * Profondeur (reprise du 29 oct 2026) : l'objet posé bas sur le nom, ombre réelle, filet cuivre décalé derrière ; si le
+ * client a un produit détouré au même slug (produits[].detoure), c'est lui qui est posé, sans cadre. Filigrane derrière.
+ * Rien d'inventé : un service sans photo garde son nom géant et son lien, sans image à la place.
+ */
+import { site, paragraphs, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import Chapitre from '@/components/Chapitre.astro';
+import Filigrane from '@/components/Filigrane.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+const phrase = site.wording.servicesIntro ?? paragraphs(site.business.description)[1] ?? metierEtVille();
+const num = (i: number) => String(i + 1).padStart(2, '0');
+// Le produit détouré du client (produits[].detoure, même slug que la prestation) passe devant la photo de la prestation :
+// c'est l'objet posé sur son nom, comme le paquet de la source. Sinon la photo rectangulaire, posée avec une ombre réelle.
+const detoure = (slug: string) => site.produits.find((p) => p.detoure && p.slug === slug)?.photo;
+---
+
+<section id="services" class="chapitre-services relative isolate overflow-hidden px-4 pt-10 pb-[var(--section-y)] md:px-5">
+  <Filigrane graine={2} />
+  <Chapitre type="services" intitule={site.wording.servicesNav ?? site.wording.servicesTitle} />
+  <div class="mt-16 max-w-xl md:mt-24">
+    <SectionHeading title={site.wording.servicesTitle} class="ch-titre" />
+    {phrase && <p class="mt-6 max-w-[42ch] text-xs uppercase leading-relaxed">{phrase}</p>}
+  </div>
+
+  <div class="ch-produits relative mt-16 md:mt-24" data-ch-piste>
+    <ol class="ch-piste flex snap-x snap-mandatory overflow-x-auto" role="list" data-ch-track>
+      {site.services.map((s, i) => (
+        <li class="ch-diapo relative flex w-full shrink-0 snap-center flex-col items-center text-center" id={`ch-${s.slug}`} data-ch-diapo={i}>
+          <p class="font-mono text-xs" aria-hidden="true">{num(i)}</p>
+          <h3 class="mt-2 font-display text-base uppercase md:text-lg">{s.title}</h3>
+          <div class="ch-scene relative mt-6 flex w-full items-center justify-center">
+            <p class="ch-nom-geant font-display uppercase" aria-hidden="true">{s.title}</p>
+            {detoure(s.slug) ? (
+              <figure class="ch-objet ch-objet-detoure relative">
+                <Img src={detoure(s.slug)!.src} alt={detoure(s.slug)!.alt} class="absolute inset-0 h-full w-full object-contain" sizes="(min-width: 48rem) 24rem, 66vw" loading="lazy" />
+              </figure>
+            ) : s.image && (
+              <figure class="ch-objet ch-objet-photo relative">
+                <span class="ch-objet-plan" aria-hidden="true"></span>
+                <span class="relative block h-full w-full overflow-hidden">
+                  <Img src={s.image.src} alt={s.image.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 24rem, 66vw" loading="lazy" />
+                </span>
+              </figure>
+            )}
+          </div>
+          {s.priceFrom && <p class="mt-6 font-mono text-xs uppercase">{s.priceFrom}</p>}
+          <a href={`/services/${s.slug}`} class="mt-4 font-display text-base uppercase underline underline-offset-4">Voir la prestation</a>
+        </li>
+      ))}
+    </ol>
+    {site.services.length > 1 && (
+      <>
+        <button type="button" class="ch-fleche absolute left-0 hidden" aria-label="Prestation précédente" data-ch-prec><span aria-hidden="true">←</span></button>
+        <button type="button" class="ch-fleche absolute right-0 hidden" aria-label="Prestation suivante" data-ch-suiv><span aria-hidden="true">→</span></button>
+      </>
+    )}
+    <ul class="mt-12 flex flex-wrap justify-center gap-x-6 gap-y-3 font-mono text-[0.7rem] uppercase" role="list">
+      {site.services.map((s, i) => (
+        <li><a href={`#ch-${s.slug}`} class="ch-point flex items-center gap-2" aria-current={i === 0 ? 'true' : undefined} data-ch-point={i}><span class="ch-puce" aria-hidden="true"></span>{s.title}</a></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Flèches et liste à points : avancent la piste d'un service (scroll-snap natif, défilement lisse sauf en mouvement
+  // réduit) ; le point du service affiché passe au cuivre.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-ch-piste]').forEach((bloc) => {
+      const piste = bloc.querySelector<HTMLElement>('[data-ch-track]');
+      if (!piste) return;
+      const diapos = [...piste.querySelectorAll<HTMLElement>('[data-ch-diapo]')];
+      const points = [...bloc.querySelectorAll<HTMLAnchorElement>('[data-ch-point]')];
+      const doux = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const courant = () => Math.round(piste.scrollLeft / Math.max(1, piste.clientWidth));
+      const aller = (i: number) => {
+        const n = (i + diapos.length) % diapos.length;
+        piste.scrollTo({ left: n * piste.clientWidth, behavior: doux ? 'smooth' : 'auto' });
+      };
+      bloc.querySelectorAll<HTMLButtonElement>('[data-ch-prec],[data-ch-suiv]').forEach((b) => {
+        b.classList.remove('hidden');
+        b.addEventListener('click', () => aller(courant() + (b.hasAttribute('data-ch-suiv') ? 1 : -1)));
+      });
+      points.forEach((p, i) => p.addEventListener('click', (e) => { e.preventDefault(); aller(i); }));
+      let attente = 0;
+      piste.addEventListener('scroll', () => {
+        cancelAnimationFrame(attente);
+        attente = requestAnimationFrame(() => {
+          const n = courant();
+          points.forEach((p, i) => (i === n ? p.setAttribute('aria-current', 'true') : p.removeAttribute('aria-current')));
+        });
+      }, { passive: true });
+    });
+  });
+</script>
+
+<style>
+  :global(.ch-titre h2) { font-size: clamp(1.8rem, 1.3rem + 1.8vw, 3rem); line-height: 1.02; }
+  .ch-piste { scrollbar-width: none; overscroll-behavior-x: contain; scroll-behavior: auto; }
+  .ch-piste::-webkit-scrollbar { display: none; }
+  .ch-scene { min-height: clamp(24rem, 44vw, 36rem); }
+  .ch-diapo { overflow: hidden; }
+  .ch-nom-geant { position: absolute; inset-inline: 0; display: flex; justify-content: center; top: 50%; transform: translateY(-50%); font-size: clamp(4rem, 15vw, 11rem); line-height: 0.9; white-space: nowrap; text-align: center; letter-spacing: -0.03em; }
+  /* L'objet posé sur son nom, en profondeur (reprise du 29 oct 2026 : « le geste reste à plat ») : posé un peu bas,
+     comme sur une table, il cache le bas des lettres ; ombre réelle en deux couches (contact serré + portée longue) ; un
+     second plan derrière lui, un filet cuivre décalé, fait le relief. Droit, jamais incliné (GOUT § 2 : polaroid). */
+  .ch-objet { width: clamp(12rem, 56vw, 24rem); aspect-ratio: 4 / 5; transform: translateY(12%); }
+  @media (min-width: 48rem) { .ch-objet { width: clamp(14rem, 22vw, 22rem); } }
+  .ch-objet-photo { box-shadow: 0 0.6rem 0.9rem -0.4rem color-mix(in oklab, var(--ink) 95%, transparent), 0 3rem 5rem -1.5rem color-mix(in oklab, var(--ink) 92%, transparent); }
+  .ch-objet-plan { position: absolute; inset: 0; transform: translate(0.9rem, -0.9rem); border: 1px solid var(--accent-2); }
+  .ch-objet-detoure :global(img) { filter: drop-shadow(0 1.6rem 1.4rem color-mix(in oklab, var(--ink) 90%, transparent)); }
+  .ch-fleche { top: 50%; display: inline-flex; height: 3rem; width: 3rem; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 999px; transition: border-color var(--motion-ui) ease, color var(--motion-ui) ease; }
+  .ch-fleche.hidden { display: none; }
+  .ch-fleche:hover { border-color: var(--fg); color: var(--accent); }
+  .ch-puce { display: inline-block; height: 0.55rem; width: 0.55rem; border-radius: 999px; border: 1px solid var(--fg); }
+  .ch-point[aria-current='true'] .ch-puce { background: var(--accent); border-color: var(--accent); }
+  .ch-point[aria-current='true'] { color: var(--accent); }
+</style>

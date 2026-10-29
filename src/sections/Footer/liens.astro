@@ -1,0 +1,47 @@
+---
+/**
+ * Footer "liens" (reprise des styles lin et bouteille, 29 oct 2026, tour 18 ; sources fraher.co : « trois colonnes de liens
+ * en grotesque, ©, aucun bandeau sombre », et restaurantzimmerl.at : « nom à gauche, e-mail et adresse au centre,
+ * mentions à droite, fond identique à la page ») : le pied SUR LE FOND DE LA PAGE, séparé par un filet, trois colonnes
+ * en petite chasse fixe (la grotesque de la direction) : le nom, le métier à la ville et les pages des prestations (dès
+ * deux : la colonne de liens de la source, ici vers les vraies pages du site) ; le téléphone, l'e-mail et l'adresse ;
+ * les informations (mentions, confidentialité, crédits). Rien de sombre,
+ * aucune icône, aucune pastille. À prendre quand la page doit finir sur sa propre couleur (styles construits clairs ou
+ * sombres), au lieu du pied en colonnes encre (`columns`).
+ * Rien d'inventé : chaque ligne disparaît sans sa donnée.
+ */
+import { site, tel, mailto, fullAddress, metierEtVille, hasCredits } from '@/lib/site';
+const year = new Date().getFullYear();
+const adresse = site.contact.address ? fullAddress() : '';
+const sansSectionContact = !site.layout.sections.some((s) => s.type === 'contact');
+---
+
+<footer class="pied-liens bg-bg text-fg">
+  <div class="container-ff grid gap-10 border-t border-line py-14 font-mono text-sm leading-relaxed md:grid-cols-3 md:gap-8">
+    <div>
+      <p class="font-display text-lg">{site.business.name}</p>
+      <p class="mt-1 text-muted">{metierEtVille().replace(/\.$/, '')}</p>
+      {site.services.length > 1 && (
+        <ul class="mt-4 space-y-1" aria-label="Prestations">
+          {site.services.map((s) => <li><a href={`/services/${s.slug}`} class="hover:underline underline-offset-4">{s.title}</a></li>)}
+        </ul>
+      )}
+    </div>
+    <div id={sansSectionContact ? 'contact' : undefined}>
+      <ul class="space-y-1">
+        <li><a href={tel()} class="hover:underline underline-offset-4">{site.contact.phoneDisplay}</a></li>
+        {site.contact.email && <li><a href={mailto()} class="break-all hover:underline underline-offset-4">{site.contact.email}</a></li>}
+        {adresse && <li class="text-muted">{adresse}</li>}
+      </ul>
+    </div>
+    <div>
+      <ul class="space-y-1">
+        <li><a href="/mentions-legales" class="hover:underline underline-offset-4">Mentions légales</a></li>
+        <li><a href="/confidentialite" class="hover:underline underline-offset-4">Confidentialité</a></li>
+        {hasCredits && <li><a href="/credits" class="hover:underline underline-offset-4">Crédits photos</a></li>}
+      </ul>
+      <p class="mt-6 text-muted">©&nbsp;{year} {site.business.name}. Site réalisé par <a href="https://finckfisch.fr" class="underline underline-offset-4" rel="noopener">Finck &amp; Fisch</a></p>
+      {site.legal.demo && <p class="mt-3 text-xs text-muted">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
+    </div>
+  </div>
+</footer>

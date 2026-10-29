@@ -1,0 +1,243 @@
+---
+/**
+ * Coquille "interventions" : architecture `carnet-interventions` (src/lib/architectures.ts ; sources Monsieur Boris, serrurier
+ * à Nîmes : 25 récits d'intervention datés et situés par quartier, chacun raconté en temps ; L'Atelier Bois Acier, Amiens :
+ * « En direct de l'atelier », les réalisations racontées comme de courtes histoires localisées ;
+ * docs/veille/architectures/carnet-interventions.md).
+ * Le client se demande « est-il vraiment du coin, et travaille-t-il en ce moment ? » : le site est le carnet de bord.
+ *   → en tête le h1, le métier à la ville, l'ancienneté, la note, le téléphone en grand (socle docs/GOUT.md § 0) ; à côté,
+ *     id="derniere" : la dernière intervention (le jour, « il y a 3 jours » calculé dans le navigateur, le lieu, ce qui
+ *     s'est passé, sa photo) ;
+ *   → id="carnet" (le bloc le plus long de la page) : les interventions du plus récent au plus ancien, rangées par mois, le
+ *     mois collé en marge pendant qu'on descend (position: sticky, aucun script) ; chacune datée, située, racontée en temps
+ *     (l'appel, les étapes, la durée, le prix si l'artisan le publie), vers sa page ; les 8 plus récentes sur l'accueil,
+ *     tout le carnet sur /carnet ;
+ *   → id="zones" : les lieux du carnet, du plus fréquent au moins fréquent (rien n'est compté qui n'est pas au carnet) ;
+ *   → les sections du layout (les avis s'il y en a) ; les services sont des pages (la barre y mène), les questions sont sur
+ *     /carnet : pas de fin de page d'usine (le juge du tour 17 : « les trois retombent sur la même fin ») ;
+ *   → id="contact" : venir ou appeler (adresse, horaires, téléphone) ; le pied.
+ * Pages : /carnet (avec les questions), /carnet/<slug>.
+ *
+ * `layout.hero` n'est pas rendu. Sans intervention : le h1, l'appel et le contact restent, le carnet disparaît et le build
+ * dit ce qui manque (donneesManquantes). Signes des sources NON repris : Playfair Display / Lora / Inter (polices « IA »),
+ * « 5 sur 5 » sans nom ni date, cartes de blog en grille à trois colonnes, catégories en pastilles.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import Horaires from '@/components/Horaires.astro';
+import { site, tel, fullAddress, metierEtVille, donneesManquantes, interventionsCompletes, parMois, lieuxDuCarnet, dateDuCarnet } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const SUR_L_ACCUEIL = 8;
+const toutes = interventionsCompletes(site.interventions);
+const derniere = toutes[0];
+const mois = parMois(toutes.slice(0, SUR_L_ACCUEIL));
+const lieux = lieuxDuCarnet(toutes);
+const plusAncienne = toutes.at(-1);
+const jour = (d: string) => Number(d.slice(8, 10));
+const MOIS_COURTS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const moisCourt = (d: string) => MOIS_COURTS[Number(d.slice(5, 7)) - 1];
+const service = (slug?: string) => (slug ? site.services.find((x) => x.slug === slug) : undefined);
+const manque = donneesManquantes('carnet-interventions', site);
+if (manque.length > 0) console.warn(`[coquille interventions] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="iv-page">
+  <section id="hero" class="container-ff iv-hero" aria-labelledby="iv-h1">
+    <div class="iv-texte">
+      <h1 id="iv-h1" class="iv-h1 font-display" set:html={site.business.tagline} />
+      <p class="iv-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {google && <p><a href={google.url} target="_blank" rel="noopener" class="iv-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+    </div>
+    <div class="iv-appel-bloc">
+      <p class="iv-appel">
+        <a href={tel()} class="iv-tel tabular-nums"><Icon name="Phone" size={22} />{site.contact.phoneDisplay}</a>
+        {site.contact.emergency24h && <span class="iv-muted">Jour et nuit, week-end compris</span>}
+      </p>
+      {site.layout.contactDrawer && <p><a href="#contact" class="iv-lien">Décrire votre problème par écrit</a></p>}
+    </div>
+    {derniere && (
+      <article id="derniere" class="iv-derniere" aria-labelledby="iv-derniere-t">
+        {/* La première page du carnet, ouverte sous le titre : le jour en grand, ce qui s'est passé, la photo. */}
+        <p class="iv-derniere-jour font-display tabular-nums" aria-hidden="true"><span>{jour(derniere.date)}</span><span class="iv-derniere-mois">{moisCourt(derniere.date)}</span></p>
+        <div class="iv-derniere-txt">
+          <h2 id="iv-derniere-t" class="iv-sur">Dernière intervention</h2>
+          <p class="iv-quand tabular-nums"><time datetime={derniere.date}>{dateDuCarnet(derniere.date)}</time><span data-iv-ilya={derniere.date}></span>, {derniere.lieu}</p>
+          <p class="iv-derniere-titre font-display"><a href={`/carnet/${derniere.slug}`} class="iv-titre-lien">{derniere.titre}</a></p>
+          {derniere.situation && <p class="iv-muted">{derniere.situation}</p>}
+        </div>
+        {derniere.photo && <div class="iv-derniere-media"><Img src={derniere.photo.src} alt={derniere.photo.alt} class="iv-derniere-photo" sizes="(min-width: 1024px) 34vw, 100vw" priority /></div>}
+      </article>
+    )}
+  </section>
+
+  {/* Le carnet, du plus récent au plus ancien, rangé par mois : le mois reste collé en marge pendant qu'on lit ses
+      interventions (sticky, sans script). Les 8 plus récentes ici, tout le carnet sur /carnet. */}
+  {toutes.length > 0 && (
+    <section id="carnet" class="iv-carnet" aria-labelledby="iv-carnet-t">
+      <div class="container-ff iv-carnet-tete">
+        <h2 id="iv-carnet-t" class="iv-h2 font-display">{site.wording.carnet}</h2>
+        <p class="iv-muted tabular-nums">{toutes.length} intervention{toutes.length > 1 ? 's' : ''} racontée{toutes.length > 1 ? 's' : ''}{plusAncienne ? ` depuis le ${dateDuCarnet(plusAncienne.date)}` : ''}, de la plus récente à la plus ancienne.</p>
+      </div>
+      <div class="container-ff iv-mois-liste">
+        {mois.map((m) => (
+          <div class="iv-mois">
+            <h3 class="iv-mois-t font-display"><span>{m.libelle}</span><span class="iv-mois-n tabular-nums">{m.interventions.length} intervention{m.interventions.length > 1 ? 's' : ''}</span></h3>
+            <ol class="iv-entrees">
+              {m.interventions.map((x) => (
+                <li class:list={['iv-entree', x.photo && 'iv-entree-photo']}>
+                  <time datetime={x.date} class="iv-jour tabular-nums"><span class="iv-jour-n font-display">{jour(x.date)}</span><span>{moisCourt(x.date)}</span></time>
+                  <div class="iv-corps">
+                    <p class="iv-lieu"><Icon name="MapPin" size={16} />{x.lieu}</p>
+                    <h4 class="iv-h4 font-display"><a href={`/carnet/${x.slug}`} class="iv-titre-lien">{x.titre}</a></h4>
+                    {x.situation && <p class="iv-situation">{x.situation}</p>}
+                    {x.etapes.length > 0 && <ol class="iv-etapes">{x.etapes.map((e) => <li>{e}</li>)}</ol>}
+                    {(x.duree || x.prix || service(x.service)) && (
+                      <p class="iv-meta">
+                        {x.duree && <span>{x.duree}</span>}
+                        {x.prix && <span class="tabular-nums">{x.prix}</span>}
+                        {service(x.service) && site.servicePages && <a href={`/services/${x.service}`} class="iv-lien">{service(x.service)!.title}</a>}
+                      </p>
+                    )}
+                  </div>
+                  {x.photo && <div class="iv-entree-media"><Img src={x.photo.src} alt={x.photo.alt} class="iv-entree-img" sizes="(min-width: 1024px) 18rem, 100vw" /></div>}
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+      {toutes.length > SUR_L_ACCUEIL && (
+        <p class="container-ff iv-suite"><a href="/carnet" class="iv-lien">Tout le carnet, {toutes.length} interventions<Icon name="ArrowRight" size={16} /></a></p>
+      )}
+    </section>
+  )}
+
+  {lieux.length > 0 && (
+    <section id="zones" class="iv-lieux bg-ink text-on-ink" aria-labelledby="iv-lieux-t">
+      <div class="container-ff iv-lieux-in">
+        <h2 id="iv-lieux-t" class="iv-h2 font-display">Où nous sommes intervenus</h2>
+        <ul class="iv-lieux-liste">
+          {lieux.map((l) => <li class="iv-lieu-li"><span class="iv-lieu-nom font-display">{l.lieu}</span><span class="tabular-nums">{l.n} fois</span></li>)}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="iv-contact" aria-labelledby="iv-contact-t">
+    <div class="container-ff iv-contact-in">
+      <div class="iv-col">
+        <h2 id="iv-contact-t" class="iv-h2 font-display">Un problème chez vous ?</h2>
+        <p><a href={tel()} class="iv-tel tabular-nums"><Icon name="Phone" size={22} />{site.contact.phoneDisplay}</a></p>
+        <p class="iv-adresse">{fullAddress()}</p>
+        {site.contact.mapsUrl && <p><a href={site.contact.mapsUrl} target="_blank" rel="noopener" class="iv-lien">Itinéraire<span class="sr-only"> (nouvel onglet)</span></a></p>}
+      </div>
+      <Horaires class="iv-semaine tabular-nums" />
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { ilYA } from '@/lib/journal';
+
+  // « il y a 3 jours » à côté de la date de la dernière intervention : calculé ici, une date de build vieillit.
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-iv-ilya]').forEach((el) => {
+      const t = ilYA(el.dataset.ivIlya ?? '', new Date());
+      el.textContent = t ? ` (${t})` : '';
+    });
+  });
+</script>
+
+<style>
+  .iv-hero { display: grid; gap: clamp(1.5rem, 4vh, 3rem); padding-block: clamp(1.5rem, 5vh, 4rem) clamp(2rem, 6vh, 4.5rem); }
+  .iv-texte { display: grid; gap: 1rem; align-content: start; }
+  .iv-h1 { font-size: clamp(2.2rem, 7vw, 5rem); line-height: 0.98; letter-spacing: -0.02em; text-wrap: balance; max-inline-size: 15ch; }
+  .iv-metier { font-size: clamp(1.1rem, 1.8vw, 1.35rem); max-inline-size: 42ch; }
+  .iv-appel { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
+  .iv-tel { display: inline-flex; align-items: center; gap: 0.6rem; min-block-size: 56px; padding-inline: 1.2rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 700; }
+  .iv-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .iv-tel:focus-visible, .iv-lien:focus-visible, .iv-titre-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .iv-muted { color: var(--color-muted); }
+  /* La dernière intervention : une page du carnet posée à côté du titre, la photo en grand, l'ombre réelle. */
+  .iv-appel-bloc { display: grid; gap: 0.5rem; align-content: start; }
+  .iv-derniere-jour { display: none; }
+  .iv-derniere-media { order: -1; }
+  .iv-derniere { display: grid; align-content: start; border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-card); overflow: hidden; }
+  .iv-derniere-photo { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+  .iv-derniere-txt { display: grid; gap: 0.5rem; padding: clamp(1.1rem, 2.4vw, 1.6rem); }
+  .iv-sur { font-weight: 700; font-size: 1rem; }
+  .iv-quand { color: var(--color-muted); }
+  .iv-derniere-titre { font-size: clamp(1.35rem, 2.6vw, 1.85rem); line-height: 1.1; }
+  .iv-titre-lien { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .iv-h2 { font-size: clamp(1.8rem, 4.8vw, 3.2rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .iv-carnet { padding-block: clamp(2rem, 6vh, 4rem); border-block-start: 1px solid var(--color-line); }
+  .iv-carnet-tete { display: grid; gap: 0.5rem; padding-block-end: clamp(1.25rem, 4vh, 2.5rem); }
+  .iv-mois-liste { display: grid; gap: clamp(2rem, 6vh, 3.5rem); }
+  .iv-mois { display: grid; gap: 1rem; }
+  /* Le mois collé en haut pendant qu'on lit ses interventions (téléphone), en marge à l'ordinateur. */
+  .iv-mois-t { position: sticky; inset-block-start: 0; z-index: 1; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1rem; padding-block: 0.6rem; background: var(--color-bg); border-block-end: 2px solid var(--color-fg); font-size: clamp(1.5rem, 3.6vw, 2.4rem); line-height: 1.05; }
+  .iv-mois-n { font-size: 1rem; font-weight: 600; color: var(--color-muted); }
+  .iv-entrees { display: grid; }
+  .iv-entree { display: grid; grid-template-columns: 4.2rem minmax(0, 1fr); gap: 0.4rem 1rem; padding-block: 1.4rem; border-block-end: 1px solid var(--color-line); }
+  .iv-jour { display: grid; justify-items: start; align-content: start; color: var(--color-muted); font-weight: 600; }
+  .iv-jour-n { font-size: clamp(2.2rem, 5vw, 3rem); line-height: 0.9; color: var(--color-fg); }
+  .iv-corps { display: grid; gap: 0.45rem; align-content: start; }
+  .iv-lieu { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 700; }
+  .iv-h4 { font-size: clamp(1.25rem, 2.4vw, 1.6rem); line-height: 1.12; max-inline-size: 34ch; }
+  .iv-situation { max-inline-size: 60ch; }
+  /* Les temps de l'intervention, en flèches lisibles d'une traite. */
+  .iv-etapes { display: flex; flex-wrap: wrap; gap: 0.3rem 0.5rem; counter-reset: etape; }
+  .iv-etapes li { counter-increment: etape; color: var(--color-muted); }
+  .iv-etapes li::before { content: counter(etape) '. '; font-weight: 700; color: var(--color-fg); }
+  .iv-etapes li:not(:last-child)::after { content: ' →'; padding-inline-start: 0.4rem; }
+  .iv-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; font-weight: 600; }
+  .iv-entree-media { grid-column: 1 / -1; }
+  .iv-entree-img { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .iv-suite { padding-block-start: 1.5rem; font-weight: 600; }
+  .iv-lieux { padding-block: clamp(2rem, 6vh, 4rem); }
+  .iv-lieux-in { display: grid; gap: 1.25rem; }
+  .iv-lieux-liste { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); column-gap: 2rem; }
+  .iv-lieu-li { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-block: 0.6rem; border-block-end: 1px solid currentColor; }
+  .iv-lieu-nom { font-size: clamp(1.2rem, 2.2vw, 1.5rem); }
+  .iv-contact { background: var(--color-bg-2); border-block-start: 1px solid var(--color-line); padding-block: clamp(2rem, 6vh, 4rem); }
+  .iv-contact-in { display: grid; gap: 2rem; }
+  .iv-col { display: grid; gap: 0.75rem; align-content: start; }
+  .iv-adresse { font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 600; }
+  @media (min-width: 48rem) {
+    .iv-entree { grid-template-columns: 5rem minmax(0, 1fr); }
+    .iv-entree-photo { grid-template-columns: 5rem minmax(0, 1fr) 16rem; }
+    .iv-entree-photo .iv-entree-media { grid-column: auto; }
+    .iv-entree-photo .iv-entree-img { aspect-ratio: 4 / 3; }
+    .iv-contact-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+    }
+  @media (min-width: 64rem) {
+    .iv-hero { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); column-gap: 3.5rem; align-items: end; }
+    .iv-h1 { max-inline-size: 18ch; }
+    .iv-appel-bloc { justify-items: end; text-align: end; }
+    /* À l'ordinateur, la dernière intervention s'étend sous le titre comme une ligne du carnet : le jour, le récit, la photo. */
+    .iv-derniere { grid-column: 1 / -1; grid-template-columns: 9rem minmax(0, 1fr) minmax(0, 0.9fr); align-items: stretch; }
+    .iv-derniere-jour { display: grid; align-content: start; justify-items: center; padding: 1.4rem 1rem; border-inline-end: 1px solid var(--color-line); font-size: 4.2rem; line-height: 0.9; }
+    .iv-derniere-mois { font-size: 1.1rem; color: var(--color-muted); }
+    .iv-derniere-media { order: 0; }
+    .iv-derniere-photo { block-size: 100%; aspect-ratio: auto; min-block-size: 16rem; }
+    .iv-derniere-txt { align-content: center; }
+    /* À l'ordinateur, le mois tient la marge gauche et y reste collé tant que ses interventions défilent. */
+    .iv-mois { grid-template-columns: 15rem minmax(0, 1fr); column-gap: 3rem; align-items: start; }
+    .iv-mois-t { inset-block-start: 1rem; display: grid; border-block-end: 0; border-block-start: 2px solid var(--color-fg); padding-block: 0.75rem 0; }
+  }
+</style>

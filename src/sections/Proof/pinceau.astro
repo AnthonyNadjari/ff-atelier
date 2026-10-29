@@ -1,0 +1,71 @@
+---
+/**
+ * Proof "pinceau" (style pinceau, reprise du 29 oct 2026, tour 18 ; source pickyjoe.com, fiche
+ * docs/veille/styles/pinceau.md § Construction, bloc 5 « Fun, sun and music ») : la preuve devient UNE BANDE MOUTARDE
+ * pleine largeur, ouverte et fermée par un bord brossé (BordPinceau), tout centré comme la source : le titre en capitales
+ * condensées (wording.galleryTitle), la note Google en une ligne de chasse fixe (lien vers la fiche), puis la MOSAÏQUE
+ * des photos du lieu en carrés serrés (proof.gallery, huit au plus : quatre colonnes à l'ordinateur, deux au téléphone),
+ * et sous elle les avis recopiés du client en courtes citations de chasse fixe (trois au plus), sans carte ni étoile
+ * dessinée. Remplace la galerie générique et le bandeau d'avis de l'usine dans le modèle presets/pinceau.json.
+ * Rien d'inventé : sans photo, pas de mosaïque ; sans avis, pas de citation ; sans note, pas de ligne ; rien du tout =
+ * pas de bande (et pas de lien « Avis » dans la nav, src/lib/site.ts navLinks).
+ * Mouvement (profil `bandes-au-pinceau`) : les éclats des bords se brossent (data-reveal="wipe" de BordPinceau), rien
+ * d'autre ; les photos ne bougent pas.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import BordPinceau from '@/components/BordPinceau.astro';
+
+const google = site.proof.google;
+const photos = site.proof.gallery.slice(0, 8);
+const avis = site.proof.testimonials.slice(0, 3);
+const rien = !google && photos.length === 0 && avis.length === 0;
+const MOUTARDE = 'var(--fill, color-mix(in oklab, var(--accent) 28%, var(--bg)))';
+---
+
+{!rien && (
+  <section id="proof" class="pp-bande relative" aria-labelledby="pp-titre">
+    <BordPinceau couleur={MOUTARDE} avant="var(--bg)" forme={1} />
+    <div class="container-ff flex flex-col items-center py-[var(--section-y)] text-center">
+      <h2 id="pp-titre" class="pp-titre font-display">{site.wording.galleryTitle}</h2>
+      {google && (
+        <p class="mt-5 font-mono">
+          <a href={google.url} class="underline underline-offset-4 hover:no-underline" rel="noopener" target="_blank">
+            {google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis
+          </a>
+        </p>
+      )}
+
+      {photos.length > 0 && (
+        <ul class:list={['mt-12 grid w-full gap-2 md:gap-3', photos.length >= 4 ? 'grid-cols-2 md:grid-cols-4' : photos.length === 3 ? 'grid-cols-3' : 'max-w-3xl grid-cols-2']}>
+          {photos.map((p) => (
+            <li class="pp-photo relative aspect-square overflow-hidden rounded-card">
+              <Img src={p.src} alt={p.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 64rem) 300px, 46vw" loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {avis.length > 0 && (
+        <ul class:list={['mt-12 grid w-full max-w-5xl gap-10 text-left md:gap-8', avis.length === 2 && 'md:grid-cols-2', avis.length >= 3 && 'md:grid-cols-3']}>
+          {avis.map((t) => (
+            <li>
+              <blockquote class="pp-avis font-mono">«&nbsp;{t.text}&nbsp;»</blockquote>
+              <p class="mt-3 font-display text-lg uppercase">{t.author}{t.source && <span class="font-mono text-sm normal-case">, {t.source}</span>}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+    <div class="relative h-px">
+      <BordPinceau couleur="var(--bg)" avant={MOUTARDE} forme={2} />
+    </div>
+  </section>
+)}
+
+<style>
+  .pp-bande { background: var(--fill, color-mix(in oklab, var(--accent) 28%, var(--bg))); color: var(--on-fill, var(--fg)); }
+  .pp-titre { font-size: clamp(2.3rem, 1.5rem + 3.2vw, 4.25rem); line-height: 1; }
+  .pp-avis { font-size: 1rem; line-height: 1.6; }
+  .pp-photo :global(.ff-illustration) { bottom: 0.4rem; }
+</style>

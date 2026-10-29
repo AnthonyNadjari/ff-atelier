@@ -1,0 +1,153 @@
+{
+  "id": "calque",
+  "version": 1,
+  "source": {
+    "url": "https://tekt.com.au/",
+    "nom": "Tekt",
+    "metier": "constructeur de maisons à ossature préfabriquée (Brisbane, petite équipe de conception-construction)",
+    "fiche": "docs/veille/styles/calque.md",
+    "mesures": "docs/veille/styles/atomes/mesures/calque.json",
+    "date": "2026-10-29"
+  },
+  "typo": {
+    "titre": {
+      "famille": "af Another Sans",
+      "libre": "schibsted",
+      "graisse": 450,
+      "interlignage": 1.1,
+      "casse": "none",
+      "interlettrage": 0,
+      "italique": false
+    },
+    "texte": {
+      "famille": "af Another Sans",
+      "libre": "schibsted",
+      "graisse": 400,
+      "interlignage": 1.15
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 38,
+        "ordinateur": 42
+      },
+      "h2": {
+        "telephone": 24,
+        "ordinateur": 27
+      },
+      "texte": {
+        "telephone": 14,
+        "ordinateur": 18
+      }
+    },
+    "remarque": "af Another Sans (grotesque néo-suisse, non libre) partout, titres compris, en graisse normale et en grand corps (27 px) : Schibsted Grotesk, une seule famille ; Herbik (petit serif des liens de second rang) : Gelasio, troisième voix portée par --font-mono dans la direction construite calque, hors atome."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ecf1f4",
+      "texte": "#2d2012",
+      "fonds": [
+        {
+          "hex": "#ecf1f4",
+          "part": 0.796
+        },
+        {
+          "hex": "#d0dbe4",
+          "part": 0.204
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#2d2012",
+          "part": 0.994
+        },
+        {
+          "hex": "#d0dbe4",
+          "part": 0.006
+        }
+      ],
+      "proches": 12571106
+    },
+    "clair": {
+      "fond": "#e3ecf2",
+      "surface": "#d0dbe4",
+      "texte": "#2d2012",
+      "texte2": "#5b5247",
+      "accent": "#2d2012",
+      "accent2": "#d0dbe4",
+      "bordure": "#2d2012",
+      "encre": "#2d2012"
+    },
+    "sombre": null,
+    "remarque": "Fond de plan bleu-gris #ecf1f4 mesuré (81 % des fonds, chroma OKLCH 0,007) bleui d'un cheveu (#e3ecf2, 0,013) pour que la teinte se lise ; panneau #d0dbe4 (le formulaire, 20 %) ; un seul brun très foncé #2d2012 pour le texte, les filets des cellules et leurs repères d'angle. Aucun accent vif : clair teinté doux."
+  },
+  "densite": {
+    "section": {
+      "telephone": 96,
+      "ordinateur": 200
+    },
+    "gouttiere": {
+      "telephone": 20,
+      "ordinateur": 40
+    },
+    "conteneur": 1360,
+    "mesure": 62,
+    "rythme": "uni",
+    "remarque": "Grille 3 colonnes : étiquette dans le premier tiers, texte de grand corps dans les deux tiers droits ; vides de 200 à 300 px entre les blocs ; cellules de 25 à 45 px de haut."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Cellules à filet de 1 px brun avec un carré plein de 5 px à chaque angle (repères de plan) ; rien d'arrondi, aucune ombre ; bouton = une cellule pleine bleu-gris avec une flèche."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:3",
+      "16:9+",
+      "3:2"
+    ],
+    "pleinCadre": 8,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Photo plein écran au premier écran avec le h1 posé dessus à gauche, à mi-hauteur ; photos paysage aux 2/3 de la largeur ; une photo pleine largeur avec la liste des séries en cellules posée dessus en haut à gauche."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.3,
+      "courbe": "ease"
+    },
+    "scene": {
+      "duree": 0.5,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Lenis",
+      "Swiper"
+    ],
+    "profil": "cellules-qui-s-ouvrent",
+    "remarque": "Rien n'apparaît au défilement ; les cellules s'ouvrent au clic (la première ouverte, sa photo à droite), opacité 0,25 à 0,5 s linéaire ; fond de cellule qui s'éclaire au survol 0,5 s ease ; le bouton « Get in Touch » reste fixé en bas à gauche."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "grille",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "plein-cadre"
+}

@@ -1,0 +1,32 @@
+---
+/**
+ * Règle de chapitre (style chapitre, relevé sur 23gradicoffee.com le 29 oct 2026, fiche docs/veille/styles/chapitre.md
+ * § Construction) : en tête de chaque bloc, un filet fin de bord à bord du cadre, coupé en quatre par deux petits traits
+ * verticaux au quart et aux trois quarts ; dessous, l'intitulé du chapitre en chasse fixe et capitales à gauche, son
+ * numéro sur trois chiffres (001, 002…) à droite. Le numéro est la place de la section parmi les sections « chapitre »
+ * du layout (rien n'est compté à la main). La règle se trace de gauche à droite à son entrée à l'écran (data-reveal
+ * « wipe » du moteur, une fois ; déjà tracée en mouvement réduit) : profil « chapitre-qui-s-ouvre »
+ * (docs/veille/styles/MOUVEMENTS.md). Décorative : le numéro est aria-hidden, l'intitulé reste lu.
+ */
+import { site } from '@/lib/site';
+
+interface Props { type: string; intitule: string; class?: string }
+const { type, intitule, class: cls = '' } = Astro.props;
+const chapitres = site.layout.sections.filter((s) => s.variant === 'chapitre').map((s) => s.type);
+const n = Math.max(1, chapitres.indexOf(type) + 1);
+---
+
+<div class:list={['chapitre-regle', cls]} data-reveal="wipe">
+  <span class="chapitre-trait" style="left: 25%" aria-hidden="true"></span>
+  <span class="chapitre-trait" style="left: 75%" aria-hidden="true"></span>
+  <p class="flex items-baseline justify-between gap-4 pt-4 font-mono text-xs uppercase tracking-[0.02em]">
+    <span>{intitule}</span>
+    <span aria-hidden="true">{String(n).padStart(3, '0')}</span>
+  </p>
+</div>
+
+<style>
+  .chapitre-regle { position: relative; border-top: 1px solid var(--line); }
+  .chapitre-trait { position: absolute; top: 0; width: 1px; height: 2.6rem; background: var(--line); }
+  @media (max-width: 47.99rem) { .chapitre-trait { display: none; } }
+</style>

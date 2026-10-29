@@ -1,0 +1,32 @@
+/* Cellules de plan (style calque, relevé sur tekt.com.au le 29 oct 2026, fiche docs/veille/styles/calque.md) :
+   une case à filet fin de la couleur du texte, avec un petit carré plein à chacun de ses quatre angles (les repères
+   d'un calque d'architecte). Importé par les seules sections du style (Nav, Hero, About, Services, Proof, Contact
+   calque) : tokens seuls, aucune couleur en dur. Dans @layer components : les utilitaires Tailwind (fixed, absolute…)
+   gardent la main sur `position` (une cellule fixée en bas de l'écran restait en relative et débordait de 40 px). Les cellules voisines partagent leurs filets (marge -1 px) et leurs
+   carrés se superposent, comme sur la source. */
+@layer components {
+.ff-cellule {
+  position: relative;
+  border: 1px solid var(--line);
+  background-color: var(--bg);
+  transition: background-color var(--motion-ui, 0.5s) ease;
+}
+.ff-cellule::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  pointer-events: none;
+  --c: 5px;
+  background:
+    linear-gradient(var(--line), var(--line)) top left / var(--c) var(--c) no-repeat,
+    linear-gradient(var(--line), var(--line)) top right / var(--c) var(--c) no-repeat,
+    linear-gradient(var(--line), var(--line)) bottom left / var(--c) var(--c) no-repeat,
+    linear-gradient(var(--line), var(--line)) bottom right / var(--c) var(--c) no-repeat;
+}
+.ff-cellules > .ff-cellule + .ff-cellule { margin-top: -1px; }
+.ff-cellules-ligne > .ff-cellule + .ff-cellule { margin-left: -1px; }
+a.ff-cellule:hover, summary.ff-cellule:hover, .ff-cellule:has(> summary:hover), button.ff-cellule:hover { background-color: var(--bg-2); }
+@media (prefers-reduced-motion: reduce) {
+  .ff-cellule { transition: none; }
+}
+}

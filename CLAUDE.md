@@ -208,6 +208,14 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   à côté du h1 (appel découverte, première consultation, durée et prix), les domaines (services) en onglets avec leurs procédures
   « à partir de », les façons de fixer l'honoraire, la prise en charge, `/nos-honoraires` ; aucune donnée = aucune page
   (`src/lib/garde.ts`, `src/lib/honoraires.ts`, `tests/architectures-garde.test.mjs`).
+  `interventions` (défaut `[]`, architecture `carnet-interventions`, coquille `interventions`) → le carnet de bord de l'accueil : la
+  dernière intervention sous le h1 (« il y a 3 jours » dans le navigateur), puis les interventions datées et situées du plus récent
+  au plus ancien, rangées par mois (le mois collé en marge), les lieux comptés, `/carnet`, `/carnet/<slug>` ; `trajet` (optionnel,
+  architecture `rayon-trajet`, coquille `trajet`) → « Combien de temps pour venir chez vous ? » à côté du h1 (réponse dans le
+  navigateur), le schéma des temps autour de la base (communes posées par leur `direction` seulement, jamais au hasard) et le
+  tableau, `/trajet`, `/trajet/<slug>` ; pas de bloc services ni questions sur ces deux accueils ; aucune donnée = aucune page ;
+  `ff ressemblance` les voit comme « journal daté » et « plan ou schéma » (`src/lib/journal.ts`, `src/lib/trajet.ts`,
+  `tests/architectures-carnet.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

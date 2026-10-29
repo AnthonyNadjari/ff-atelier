@@ -1,0 +1,61 @@
+---
+/**
+ * Proof "ocre" (style ocre, relevé sur lrnce.com le 29 oct 2026, fiche docs/veille/styles/ocre.md § Construction, blocs 6
+ * et 7) : LA GRANDE PHOTO PUIS LES AVIS CENTRÉS. D'abord une photo paysage de la galerie du client (l'atelier, les pièces
+ * posées), sur toute la largeur du cadre avec la marge de sable des diptyques ; puis, sous un filet fin, les avis recopiés
+ * (deux au plus) en serif de lecture de grand corps, CENTRÉS sur une colonne, comme la phrase d'invitation de la source,
+ * l'auteur et la ville en petite géométrique ; dessous, la note Google en mots et « Lire les avis » souligné.
+ * Rien d'inventé : sans avis ni note, pas de bloc d'avis (la photo reste, si la galerie en a une de libre) ; photos de la
+ * galerie seulement, celles que le premier écran et la lettre n'ont pas montrées ; ni étoile, ni carte, ni guillemet géant.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 2);
+const hero = site.images.hero?.src;
+const galerie = site.proof.gallery.filter((g) => g.src !== hero);
+const prises = new Set([hero ? galerie[0]?.src : undefined, (site.about.portrait ?? galerie[1] ?? galerie[0])?.src].filter(Boolean));
+const large = galerie.find((g) => !prises.has(g.src));
+const preuve = avis.length > 0 || google;
+---
+
+{(preuve || large) && (
+  <section id="proof" class="ocre-avis border-b border-line" aria-label={preuve ? 'Avis des clients' : 'L’atelier en images'}>
+    {large && (
+      <figure class="ocre-large-cadre border-b border-line">
+        <div class="relative aspect-[16/9] overflow-hidden md:aspect-[17/9]">
+          <Img src={large.src} alt={large.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 76rem) 1360px, 94vw" loading="lazy" />
+        </div>
+      </figure>
+    )}
+    {preuve && (
+      <div class="container-ff py-[var(--section-y)] text-center">
+        {avis.length > 0 && (
+          <ul class="mx-auto max-w-4xl space-y-12">
+            {avis.map((t) => (
+              <li>
+                <blockquote class="ocre-citation font-display">«&nbsp;{t.text}&nbsp;»</blockquote>
+                <p class="mt-4 text-sm font-semibold">{t.author}{t.city && <span class="font-normal">, {t.city}</span>}<span class="font-normal text-muted">, {t.source}</span></p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {google && (
+          <p class="mt-10 text-sm">
+            {google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis.
+            <a href={google.url} target="_blank" rel="noopener" class="ocre-lien ml-2 font-semibold">Lire les avis</a>
+          </p>
+        )}
+      </div>
+    )}
+  </section>
+)}
+
+<style>
+  .ocre-large-cadre { padding: clamp(1.25rem, 2.8vw, 2.5rem); }
+  .ocre-citation { font-size: clamp(1.35rem, 1.05rem + 1.1vw, 2.05rem); line-height: 1.35; text-wrap: balance; }
+  .ocre-lien { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; transition: color 0.3s ease; }
+  .ocre-lien:hover { color: var(--accent); }
+  .ocre-avis :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

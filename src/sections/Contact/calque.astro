@@ -1,0 +1,95 @@
+---
+/**
+ * Contact "calque" (style calque, relevé sur tekt.com.au le 29 oct 2026, fiche docs/veille/styles/calque.md
+ * § Construction, bloc 7) : un PANNEAU PLEIN LARGEUR sur le bleu de plan plus soutenu (--bg-2), trois tiers :
+ * - à gauche, en petit, la phrase d'invite (wording.contactTitle, deux lignes) puis le téléphone, l'e-mail, l'adresse et
+ *   les horaires, en petit, sans icône ;
+ * - à droite (deux tiers), LE FORMULAIRE EN GRILLE DE CELLULES : chaque champ est une cellule de plan (filet commun,
+ *   carrés d'angle de src/styles/cellules.css), son libellé en petit en haut à gauche, la saisie en grand corps dessous,
+ *   sans fond ni bord propre ; les cellules courtes vont par deux à l'ordinateur ; l'envoi est une cellule pleine.
+ * La porte « Demander un devis » (cellule fixe du premier écran) arrive ici. Rien d'inventé : chaque ligne disparaît
+ * sans sa donnée ; sans formulaire, les coordonnées seules.
+ */
+import '@/styles/cellules.css';
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import ContactForm from '@/components/ContactForm.astro';
+
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+const formulaire = site.form.provider !== 'none';
+---
+
+<section id="contact" class="calque-contact bg-bg-2 px-5 py-16 md:px-[2.5rem] md:py-12" aria-labelledby="calque-contact-titre">
+  <div class="grid gap-10 md:grid-cols-3 md:gap-0">
+    <div class="md:pr-8">
+      <h2 id="calque-contact-titre" class="calque-invite" set:html={site.wording.contactTitle} />
+      {site.wording.contactText && <p class="mt-3 max-w-[30ch] text-sm text-muted">{site.wording.contactText}</p>}
+      <div class="mt-8 space-y-1 text-sm">
+        <p><a href={tel()} class="font-medium underline-offset-4 hover:underline">{site.contact.phoneDisplay}</a></p>
+        {site.contact.email && <p><a href={mailto()} class="underline-offset-4 hover:underline">{site.contact.email}</a></p>}
+        {adresse && <p class="pt-3">{adresse}</p>}
+      </div>
+      {horaires.length > 0 && (
+        <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+          {horaires.map((h) => (
+            <>
+              <dt class="text-muted">{h.days}</dt>
+              <dd>{h.hours}</dd>
+            </>
+          ))}
+        </dl>
+      )}
+    </div>
+    {formulaire && (
+      <div class="calque-form ff-cellule md:col-span-2">
+        <ContactForm compact idPrefix="calque" />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .calque-invite { font-size: 1rem; line-height: 1.25; font-weight: 500; max-width: 24ch; }
+  .calque-form { background-color: var(--bg-2); padding: 0; }
+  /* La grille de cellules : le formulaire partagé (ContactForm) est mis à plat, chaque libellé devient une cellule. */
+  .calque-form :global(form) { display: grid; grid-template-columns: 1fr; gap: 0; }
+  @media (min-width: 48rem) {
+    .calque-form :global(form) { grid-template-columns: 1fr 1fr; }
+    .calque-form :global(form > :is(label:has(textarea), label:has(select), [data-form-erreurs], p, button)) { grid-column: 1 / -1; }
+  }
+  .calque-form :global(form > div.grid) { display: contents; }
+  @media (min-width: 48rem) {
+  }
+  .calque-form :global(form label) {
+    position: relative;
+    border: 1px solid var(--line);
+    margin: -1px 0 0 -1px;
+    padding: 0.55rem 0.75rem 0.7rem;
+    gap: 0.15rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  .calque-form :global(form label)::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--line), var(--line)) top left / 5px 5px no-repeat,
+      linear-gradient(var(--line), var(--line)) top right / 5px 5px no-repeat,
+      linear-gradient(var(--line), var(--line)) bottom left / 5px 5px no-repeat,
+      linear-gradient(var(--line), var(--line)) bottom right / 5px 5px no-repeat;
+  }
+  .calque-form :global(form :is(input:not([type='checkbox']):not([type='radio']), select, textarea)) {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0.15rem 0;
+    font-size: 1.3rem;
+    font-weight: 480;
+    box-shadow: none;
+    color: var(--fg);
+  }
+  .calque-form :global(form textarea) { min-height: 6rem; font-size: 1rem; }
+  .calque-form :global(form button[type='submit']) { justify-self: start; margin: 1rem 0.75rem; min-width: 10rem; }
+</style>

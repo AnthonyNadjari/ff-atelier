@@ -1,0 +1,99 @@
+---
+/**
+ * Footer "ocre" (style ocre, relevé sur lrnce.com le 29 oct 2026, fiche docs/veille/styles/ocre.md § Construction, bloc 9,
+ * le pied de la source) : deux temps.
+ * 1. LA BANDE ROUILLE AU NOM QUI DÉFILE : pleine largeur sur l'encre rouille (--ink), le nom du client en capitales
+ *    géométriques géantes, répété, qui défile lentement de droite à gauche (data-marquee="40s" du moteur, linéaire ;
+ *    mesuré sur la source : move-background 40 s linear infinite), arrêté au survol et en mouvement réduit (règles du
+ *    moteur). Profil de mouvement « nom-qui-defile-au-pied » (docs/veille/styles/MOUVEMENTS.md). Décorative : le nom est lu
+ *    ailleurs (barre, ligne du bas), la bande est cachée aux lecteurs d'écran.
+ * 2. LES COLONNES FILETÉES sur le sable : séparées par des filets verticaux fins (deux colonnes au téléphone), titres en
+ *    petite géométrique grasse : « Nous trouver » (adresse, horaires), « Nous joindre » (Appeler le numéro, WhatsApp,
+ *    l'e-mail), « Les prestations » (les pages des services), « Suivre » (les réseaux du client) ; puis une ligne : nom,
+ *    mentions, confidentialité, crédits, réalisation.
+ * Rien d'inventé : chaque ligne et chaque colonne disparaissent sans leur donnée. Aucune icône, aucune pastille.
+ */
+import { site, tel, mailto, whatsapp, fullAddress, hasCredits } from '@/lib/site';
+
+const year = new Date().getFullYear();
+const adresse = site.contact.address ? fullAddress() : '';
+const horaires = site.contact.hours;
+const reseaux = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const noms: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', tiktok: 'TikTok' };
+const nom = site.business.name;
+const colonnes = 2 + (adresse || horaires.length ? 1 : 0) + (reseaux.length ? 1 : 0);
+const sansSectionContact = !site.layout.sections.some((s) => s.type === 'contact');
+---
+
+<footer class="pied-ocre bg-bg text-fg">
+  <div class="ocre-bande bg-ink text-on-ink" data-marquee="40s" aria-hidden="true">
+    <div class="marquee-track ocre-nom font-body">
+      <span>{nom}</span>
+      <span>{nom}</span>
+    </div>
+  </div>
+
+  <div class:list={['grid grid-cols-2 border-b border-line text-sm', colonnes >= 4 ? 'md:grid-cols-4' : 'md:grid-cols-3']}>
+    {(adresse || horaires.length > 0) && (
+      <div class="ocre-colonne">
+        <p class="ocre-etiquette font-body">Nous trouver</p>
+        {adresse && <p class="mt-3">{adresse}</p>}
+        {horaires.length > 0 && (
+          <dl class="mt-3 space-y-1">
+            {horaires.map((h) => (
+              <div><dt class="inline">{h.days}</dt> <dd class="inline">{h.hours}</dd></div>
+            ))}
+          </dl>
+        )}
+      </div>
+    )}
+    <div class="ocre-colonne" id={sansSectionContact ? 'contact' : undefined}>
+      <p class="ocre-etiquette font-body">Nous joindre</p>
+      <ul class="mt-3 space-y-2">
+        <li>Appeler<br /><a href={tel()} class="ocre-lien font-semibold">{site.contact.phoneDisplay}</a></li>
+        {site.contact.whatsapp && <li><a href={whatsapp()} class="ocre-lien" target="_blank" rel="noopener">WhatsApp</a></li>}
+        {site.contact.email && <li><a href={mailto()} class="ocre-lien break-all">{site.contact.email}</a></li>}
+      </ul>
+    </div>
+    <div class="ocre-colonne">
+      <p class="ocre-etiquette font-body">Les prestations</p>
+      <ul class="mt-3 space-y-1">
+        {site.services.map((s) => <li><a href={`/services/${s.slug}`} class="hover:underline underline-offset-4">{s.title}</a></li>)}
+      </ul>
+    </div>
+    {reseaux.length > 0 && (
+      <div class="ocre-colonne">
+        <p class="ocre-etiquette font-body">Suivre</p>
+        <ul class="mt-3 space-y-1">
+          {reseaux.map(([k, url]) => <li><a href={url} target="_blank" rel="noopener" class="hover:underline underline-offset-4">{noms[k] ?? k}</a></li>)}
+        </ul>
+      </div>
+    )}
+  </div>
+
+  <div class="container-ff flex flex-col gap-2 py-6 text-xs md:flex-row md:flex-wrap md:items-center md:justify-between">
+    <p class="font-semibold">{nom}</p>
+    <p class="flex flex-wrap gap-x-5 gap-y-1">
+      <a href="/mentions-legales" class="hover:underline underline-offset-4">Mentions légales</a>
+      <a href="/confidentialite" class="hover:underline underline-offset-4">Confidentialité</a>
+      {hasCredits && <a href="/credits" class="hover:underline underline-offset-4">Crédits photos</a>}
+    </p>
+    <p>©&nbsp;{year}. Site réalisé par <a href="https://finckfisch.fr" class="underline underline-offset-4" rel="noopener">Finck &amp; Fisch</a></p>
+    {site.legal.demo && <p class="basis-full">Site de démonstration réalisé par Finck & Fisch : l’entreprise, les personnes et les coordonnées sont inventées, aucun client derrière.</p>}
+  </div>
+</footer>
+
+<style>
+  .ocre-bande { --marquee-gap: 0.4em; padding-block: 0.1em; }
+  .ocre-nom { font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1; font-size: clamp(3.2rem, 9vw, 8.5rem); }
+  .ocre-nom > span { padding-inline: 0.2em; }
+  .ocre-colonne { padding: 1.5rem clamp(1.25rem, 2.8vw, 2.5rem) 2.5rem; border-right: 1px solid var(--line); }
+  .ocre-colonne:nth-child(2n) { border-right: 0; }
+  @media (min-width: 48rem) {
+    .ocre-colonne:nth-child(2n) { border-right: 1px solid var(--line); }
+    .ocre-colonne:last-child { border-right: 0; }
+  }
+  .ocre-etiquette { font-size: 0.8125rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; }
+  .ocre-lien { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .ocre-lien:hover { color: var(--accent); }
+</style>

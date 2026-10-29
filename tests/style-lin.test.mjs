@@ -37,6 +37,39 @@ test('Services/lin : un panneau pleine largeur par service, papier / sable / sau
   assert.doesNotMatch(src, /data-reveal|data-stagger="/, 'aucune apparition (la source est immobile)');
 });
 
+test('Contact/lin : panneau sable, étiquette, phrase serif, liens entre deux filets, formulaire à plat, rien d’inventé', () => {
+  const src = sansCommentaires(lire('src/sections/Contact/lin.astro'));
+  assert.match(src, /id="contact"/, 'la porte Devis du premier écran (/#contact) arrive ici');
+  assert.match(src, /\.lc-panneau \{ background: var\(--bg-2\); \}/, 'le sable du manifeste');
+  assert.match(src, /href=\{tel\(\)\} variant="ghost"/, 'lien Appeler entre deux filets');
+  assert.match(src, /\{adresse && /);
+  assert.match(src, /\{horaires\.length > 0 && \(/);
+  assert.match(src, /\{formulaire && \(/, 'formulaire seulement s’il existe');
+  assert.doesNotMatch(src, /<Icon\b|class="[^"]*\bcard\b/, 'ni icône ni carte');
+  assert.doesNotMatch(src, /data-reveal|data-stagger="/, 'immobile, comme la source');
+});
+
+test('Proof/lin : avis en panneau, étiquette et phrases serif, ni carte ni étoile, rien sans avis', () => {
+  const src = sansCommentaires(lire('src/sections/Proof/lin.astro'));
+  assert.match(src, /id="proof"/);
+  assert.match(src, /\{\(avis\.length > 0 \|\| google\) && \(/, 'sans avis ni note, pas de panneau');
+  assert.match(src, /site\.proof\.testimonials\.slice\(0, 3\)/, 'avis recopiés du client, trois au plus');
+  assert.match(src, /variant="ghost"/, 'lien entre deux filets');
+  assert.doesNotMatch(src, /<Icon\b|★|class="[^"]*\bcard\b/, 'ni icône, ni étoile, ni carte');
+  assert.doesNotMatch(src, /data-reveal|data-stagger="/, 'immobile');
+});
+
+test('Footer/liens : sur le fond de la page, trois colonnes (nom et prestations, coordonnées, mentions), rien de sombre', () => {
+  const src = sansCommentaires(lire('src/sections/Footer/liens.astro'));
+  assert.match(src, /<footer class="pied-liens bg-bg text-fg">/, 'fond de la page');
+  assert.doesNotMatch(src, /bg-ink|<Icon\b/, 'ni bandeau encre ni icône');
+  assert.match(src, /md:grid-cols-3/);
+  assert.match(src, /site\.services\.length > 1 && /, 'les pages des prestations dès deux');
+  assert.match(src, /\/services\/\$\{s\.slug\}/);
+  assert.match(src, /\{adresse && /);
+  assert.match(src, /site\.legal\.demo && /, 'avis de démo');
+});
+
 test('presets/lin.json : modèle de site entier, direction, hero et geste du style ; deuxième modèle différent', () => {
   const m = JSON.parse(lire('presets/lin.json'));
   assert.equal(m.nom, 'lin');
@@ -44,6 +77,13 @@ test('presets/lin.json : modèle de site entier, direction, hero et geste du sty
   assert.equal(m.look.layout.hero, 'lin');
   assert.ok(m.look.layout.sections.some((s) => s.type === 'services' && s.variant === 'lin'), 'services/lin');
   assert.equal(m.look.layout.nav, 'minimal', 'nav qui porte la porte Appeler');
+  // Reprise du 29 oct 2026 (tour 18, juge neuf) : la fin de page suit la source (panneaux, pied d'une ligne), pas la fin d'usine.
+  const types = m.look.layout.sections.map((x) => `${x.type}/${x.variant}`);
+  assert.equal(types.at(-1), 'contact/lin', 'le contact dans un dernier panneau de la même grammaire');
+  assert.equal(types[0], 'proof/lin', 'les avis juste après la bande photo (GOUT § 0 : avis haut)');
+  for (const t of ['zones', 'faq', 'cta']) assert.ok(!m.look.layout.sections.some((x) => x.type === t), `pas de ${t} : la source n’en a pas`);
+  assert.equal(m.look.layout.actionBar, false, 'pas de barre basse : elle cachait la bande photo au téléphone');
+  assert.equal(m.look.layout.footer, 'liens', 'pied de trois colonnes de liens sur le papier, aucun bandeau sombre, comme la source');
   const b = JSON.parse(lire('presets/lin-atelier.json'));
   assert.equal(b.look.direction, 'lin');
   assert.notEqual(b.look.layout.hero, 'lin');

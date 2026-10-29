@@ -1,0 +1,71 @@
+/* Direction CHAPITRE : style réel relevé sur https://www.23gradicoffee.com/ (23° Monorigine, collection d'un torréfacteur
+   familial italien ; veille du 29 oct 2026, fiche docs/veille/styles/chapitre.md, atomes docs/veille/styles/atomes/chapitre.json).
+   On reprend le style et la construction (règles de chapitre numérotées, nom géant en capitales fines, texte en chasse
+   fixe, produit posé sur son nom), jamais les textes, images, logos ni le code de la source.
+   Un livre de nuit : bleu nuit sur toute la page, crème pour le texte, un cuivre pour l'accent, des capitales fines à
+   fort contraste pour les noms et les titres, une chasse fixe pour tout le reste, des filets fins ; rayon 0, aucune
+   ombre : la profondeur vient des photos sous voile et du produit posé sur son nom.
+   Polices : Cormorant SC et Space Mono (liste IA, scripts/ff/ia.mjs) -> Gilda Display (didone fine, en capitales) et
+   Fragment Mono.
+   Couleurs relevées : #133250 fond 95 %, #ead8c9 texte 96 % des caractères (10,5:1), cuivre de l'emblème (#c88a5e). */
+@import '@fontsource/gilda-display/latin-400.css';
+@import '@fontsource/fragment-mono/latin.css';
+
+[data-direction='chapitre'] {
+  --accent-h: 25;
+  --accent-s: 49%;
+  --accent-l: 58%;
+
+  --bg: #133250;
+  --bg-2: #1a3a5c;
+  --surface: #1a3a5c;
+  --fg: #ead8c9;
+  --muted: #bfb0a3;
+  --line: rgb(234 216 201 / 0.28);
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: hsl(var(--accent-h) var(--accent-s) calc(var(--accent-l) + 10%));
+  --on-accent: #0d243b;
+  --ink: #0d243b;
+  --on-ink: #ead8c9;
+
+  --font-display: 'Gilda Display', 'Didot', Georgia, serif;
+  --font-body: 'Fragment Mono', ui-monospace, monospace;
+  --font-mono: 'Fragment Mono', ui-monospace, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.02em;
+  --heading-transform: uppercase;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  --section-y: clamp(5rem, 11vw, 11.5rem);
+  --motion-duration: 1s;
+  --motion-ui: 0.3s;
+  --ease-brand: cubic-bezier(0.25, 1, 0.5, 1);
+  color-scheme: dark;
+}
+
+[data-direction='chapitre'] ::selection { background: var(--accent); color: var(--on-accent); }
+/* Texte courant en chasse fixe, petit et aéré comme la source (13 px, ici 0,9 rem pour la lecture en français). */
+[data-direction='chapitre'] body { font-size: 0.9rem; line-height: 1.6; }
+[data-direction='chapitre'] :is(h1, h2, h3) { line-height: 1.02; font-weight: 400; }
+[data-direction='chapitre'] :is(h1, h2, h3) em { font-style: normal; color: var(--accent); }
+
+/* Boutons : texte en chasse fixe et capitales, souligné, aucun fond (la source n'a qu'un lien souligné et des flèches
+   dans des cercles de filet) ; le contour devient un filet crème. */
+[data-direction='chapitre'] .btn {
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: background var(--motion-ui) ease, color var(--motion-ui) ease, border-color var(--motion-ui) ease;
+}
+[data-direction='chapitre'] .btn-primary { background: var(--fg); color: var(--bg); border: 1px solid var(--fg); }
+[data-direction='chapitre'] .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+[data-direction='chapitre'] .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+[data-direction='chapitre'] .btn-ghost:hover { border-color: var(--fg); }
+[data-direction='chapitre'] .card { background: var(--bg-2); border-radius: 0; box-shadow: none; }
+[data-direction='chapitre'] .rule { border-top: 1px solid var(--line); }
+[data-direction='chapitre'] .eyebrow { color: var(--fg); font-family: var(--font-mono); letter-spacing: 0.02em; }
+[data-direction='chapitre'] a:not(.btn) { text-underline-offset: 0.25em; }

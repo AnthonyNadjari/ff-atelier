@@ -25,7 +25,8 @@ Les grands « chiffres du lieu » posés à cheval sur le coin d'une photo : « 
 lettres ; à droite une deuxième photo verticale, plus haute et partie plus tôt, sort de l'écran. Deuxième scène (« 5 TISCHE ») :
 une seule photo large jusqu'au bord droit, et dans la marge gauche un rail vertical cuivre d'1 px ponctué de points (un gros en
 haut, deux petits). Au défilement (GSAP), les chiffres glissent par rapport à la photo. Codé dans l'usine : `services/bouteille`
-(le premier mot du titre de la prestation en géant, la suite en petit ; jamais un chiffre inventé).
+(le premier mot du titre de la prestation en géant, la suite en petit ; le chiffre géant = l'année d'ouverture du client, seul
+chiffre du lieu qui tienne comme geste ; jamais un chiffre inventé ni une statistique).
 
 ## Construction
 Relevé sur les captures 1 440 x 900 (molette tous les 800 px) et 390 x 844, 29 oct 2026. De haut en bas :
@@ -56,9 +57,13 @@ Relevé sur les captures 1 440 x 900 (molette tous les 800 px) et 390 x 844, 29 
 l'ordinateur, 130 au téléphone. Fond : un seul vert très sombre partout, un halo vert-olive flou qui dérive derrière (refusé).
 Au téléphone : la salle passe à 500 px de haut avec le nom à 40 px ; tout s'empile, les photos gardent leur débord.
 
-Ce que l'usine en fait (style `bouteille`) : hero `bouteille` = blocs 1 à 3 (les distinctions deviennent les certifications, la
-note Google et « Depuis » du client) ; `services/bouteille` = blocs 5 et 6, une scène par prestation ; `about/portrait` = bloc 4 ;
-`proof/gallery` = la bande du bloc 9 ; `contact/simple` = plaque du bloc 10 ; pied en colonnes. Modèle `presets/bouteille.json`.
+Ce que l'usine en fait (style `bouteille`, seconde reprise du 29 oct 2026) : hero `bouteille` = blocs 1 à 3 (la salle tient
+l'écran, barre transparente posée dessus ; les distinctions deviennent des emblèmes : logos du client, sinon ses certifications
+entre deux filets, la note Google et « Depuis », montés sur le bas de la photo) ; `about/bouteille` = bloc 4 (portrait noir et
+blanc devant un cadre décalé) ; `services/bouteille` = blocs 5 et 6, une scène par prestation, le nom qui mord la photo 3:2 et
+la verticale qui la chevauche et sort à droite, puis l'année d'ouverture en chiffre géant sur le rail ; `proof/bouteille` = la
+bande du bloc 9 qui sort des deux bords, avec les avis ; `contact/bouteille` = plaque du bloc 10 ; pied `liens`. Modèle
+`presets/bouteille.json`.
 Comparaison : `captures/bouteille-source.jpg` (source) et `captures/bouteille-essai.jpg` (site jetable avec photos d'illustration).
 
 ## Ce qu'on garde / ce qu'on refuse
@@ -67,3 +72,65 @@ les photos qui sortent de l'écran, le rail à points, un seul fond sombre, cuiv
 Refuse : le halo vert qui dérive au fond (GOUT § 2, halo), le diaporama automatique (rien ne tourne tout seul, GOUT § 4), les bandes
 de photo révélées en volets, le curseur à deux points qui suit la souris, les logos de guides (on n'affiche que les distinctions
 réelles du client, en texte). Polices « IA » : aucune ; boutons pilule : 0 ; vidéo en premier écran : non ; couche bloquante : non.
+
+## Reprise du 29 oct, tour 18
+
+Reproches du juge neuf (tour 17) : manquaient le chiffre géant comme preuve, le rail à points visible et l'élégance des
+vides ; photo d'escalier en biais ; et, comme les deux autres styles, la fin d'usine (communes, bandeau d'appel,
+questions, formulaire, pied sombre, barre basse à trois boutons) que la source n'a pas.
+Ce qui a changé :
+- **Le chiffre géant** (`services/bouteille`) : après la première scène, une scène de preuve au dessin de « 5 TISCHE » :
+  le nombre d'avis Google du client en très grand (30 vw au téléphone, 15 rem à l'ordinateur) avec « avis Google » en
+  petit sur la ligne de base, à cheval sur une photo de `proof.gallery`, la note et deux avis recopiés, « Lire les avis » ;
+  sinon l'année d'ouverture ; aucune des deux = pas de scène (jamais un chiffre calculé ou arrondi).
+- **Le rail cuivre à points** se voit aussi au téléphone (marge gauche des scènes B et du chiffre), filet de 1,5 px.
+- **Les vides** : 15 rem entre scènes à l'ordinateur, 8 au téléphone (la source : 240 et 130 px) ; chaque scène est une
+  `<section>` sœur dans l'enveloppe `#services`.
+- **Fin de page d'après la source** (`presets/bouteille.json`) : `about/portrait` (le chef, bloc 4) → `services/bouteille`
+  → `proof/gallery` (la bande de photos, bloc 9) → `contact/bouteille` (nouveau : la plaque un ton plus clair, monogramme
+  à cheval sur son bord haut, adresse et plan, horaires et coordonnées en petites capitales très larges sur deux colonnes,
+  Réserver, « Écrire un message » replié, dans un grand vide, bloc 10) ; pied `liens` (nouveau, sur le même fond que la
+  page, bloc 11). `actionBar: false` : le numéro devient la première ligne sous la photo de salle (premier écran du
+  téléphone, GOUT § 0).
+- Photo : jetable refait sur une table gastronomique (photos de salle aux bougies, assiettes, cave à barriques), plus
+  d'escalier en biais.
+- Écart assumé : la salle tient 56 % de l'écran à l'ordinateur (88 % sur la source) ; à 88 % puis 64 %, `ff ressemblance`
+  donnait 0,72 puis 0,66 contre maison-aurore (famille « photo plein écran »). Au téléphone, 62 % comme avant.
+Preuve : jetable `_essai-reprise-bouteille` (restaurant inventé, `// DEMO`, 9 photos `ff photos-demo`), comparaison
+[source au-dessus, nouvel essai dessous](captures/bouteille-essai.jpg). `ff verifier` vert hors données de test, a11y
+sans violation, `ff ia` sans signe bloquant ; `ff ressemblance` : téléphone 0,62 au plus (maison-aurore), ordinateur 0,61
+(maison-aurore, lemaire-avocats), déroulé 0,54 au plus.
+Reste : le nom posé sur une salle plus basse paraît serré à l'ordinateur ; les photos d'illustration ne sont pas celles
+d'une seule maison ; la page de prestation (gabarit `fiche`) garde son bandeau d'appel générique.
+
+## Seconde reprise du 29 oct, tour 18
+
+Reproches du juge neuf après la première reprise : le geste signature réduit à de petites photos isolées sous un mot cuivre ;
+la salle qui ne tient pas l'écran à l'ordinateur (56 %), des blocs sombres à plat sans profondeur ; au téléphone, le nom mal lu
+sur une photo chargée ; « 164 avis Google » mis en scène comme un chiffre de chef ; pas de portrait au bloc chef ; les
+distinctions en lignes de texte ; la bande de photos remplacée par une grille de trois vignettes.
+Ce qui a changé :
+- **La salle tient l'écran** : 86 % de la hauteur à l'ordinateur (source 89 %), la barre transparente (nav `minimal`) posée sur
+  la photo, le bas fondu dans le vert, et le téléphone et les distinctions MONTÉS sur ce bas (deux plans), le h1 au pied du
+  premier écran. Pour `ff ressemblance` (0,72 contre maison-aurore à 86 %), la différence vient de là et d'un nom sur deux
+  lignes (un mot par ligne, jamais coupé) au lieu de rapetisser la photo ; et la photo n'a plus de parallaxe : son image
+  débordait de la salle de 12 % et la mesure la comptait sur tout l'écran.
+- **Voile au téléphone** : une ellipse d'encre dense sous le nom, en plus du dégradé.
+- **Distinctions en emblèmes** : logos du client (`proof.logos`) s'il en a, sinon chaque certification en capitales évasées
+  entre deux filets cuivre, la note et « Depuis » au même dessin (chiffre dessus, précision en petites capitales dessous),
+  séparés par des filets verticaux.
+- **Le chef** : `about/bouteille` (nouvelle variante), portrait noir et blanc 2:3 colonnes 2 à 5 devant un cadre au filet
+  cuivre décalé, phrase d'ouverture en petites capitales cuivre, texte courant ; sans portrait, texte centré.
+- **Le geste signature** : la verticale de la scène A chevauche le bord droit de la photo 3:2 (ombre réelle) et sort de
+  l'écran à droite ; le nom de la prestation mord le coin de la photo et passe devant les deux. Sans `services[].images[0]`,
+  une photo de la galerie que les scènes ne montrent pas.
+- **Le chiffre géant** = l'année d'ouverture seulement (« 2016 OUVERTURE »), avec le second paragraphe de la présentation et
+  Réserver ; le nombre d'avis n'est plus mis en scène (les avis vont dans la preuve). Sans année, pas de scène.
+- **La bande** : `proof/bouteille` (nouvelle variante), titre et note centrés, deux avis, puis jusqu'à six photos de hauteurs
+  alternées plus larges que l'écran, centrées, coupées des deux côtés (au téléphone, à faire défiler au doigt).
+Preuve : jetable `_essai-bouteille2-a` (restaurant inventé, `// DEMO`, photos `ff photos-demo`, supprimé), comparaison
+[source au-dessus, essai dessous, écrans d'ordinateur et de téléphone](captures/bouteille-essai.jpg). `ff verifier` vert hors
+garde données de test, a11y sans violation critique ni sérieuse, `ff ia` sans signe ; `ff ressemblance` : téléphone 0,56 au
+plus, ordinateur 0,63 (maison-aurore), 0,62 (lemaire-avocats), déroulé 0,61 au plus (jardins-mael).
+Reste : les photos d'illustration ne sont pas celles d'une seule maison (la source a la lumière d'une seule salle) ; la page de
+prestation garde son gabarit `fiche`.
