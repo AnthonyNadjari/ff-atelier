@@ -202,7 +202,8 @@ test('direction générée : un lien dans un paragraphe est toujours souligné (
     const ids = { typo: registreReel.reserves.typo[0], couleurs: registreReel.reserves.couleurs[0], densite: registreReel.reserves.densite[0], formes: id, photos: registreReel.reserves.photos[0], mouvement: registreReel.reserves.mouvement[0], matiere: registreReel.reserves.matiere[0] };
     const atomes = Object.fromEntries(Object.entries(ids).map(([d, x]) => [d, registreReel.parId[x][d]]));
     const css = genererDirection('m-abc125', { atomes, ids, sources, polices, date: '2026-10-17' }).css;
-    const regle = /main p a:not\(\.btn\) \{([^}]*)\}/.exec(css)?.[1] ?? '';
+    const regle = /:where\(main p a:not\(\.btn\)\) \{([^}]*)\}/.exec(css)?.[1] ?? '';
+    assert.doesNotMatch(css, /\] main p a:not/, `formes ${id} : la règle des liens ne doit pas battre une classe de coquille (:where)`);
     assert.match(regle, /text-decoration: underline/, `formes ${id} : lien souligné`);
   }
 });

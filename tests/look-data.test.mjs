@@ -99,3 +99,18 @@ test('vite-ff-look : composantsDuSite lit le layout, complète par l’architect
   assert.ok(tout.variants.size > 50);
   assert.equal(architectureLayout(root, 'inconnue'), null);
 });
+
+test('vite-ff-look : une direction de mélange figée (m-<hash> avec chiffres) dans site.config.ts est lue, pas remplacée par atelier', async () => {
+  const { mkdtempSync, mkdirSync, writeFileSync, rmSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const { tmpdir } = await import('node:os');
+  const { resolveLook } = await import('../scripts/vite-ff-look.mjs');
+  const root = mkdtempSync(join(tmpdir(), 'ff-look-'));
+  try {
+    mkdirSync(join(root, 'sites', 's'), { recursive: true });
+    writeFileSync(join(root, 'sites', 's', 'site.config.ts'), "export default defineSite({ slug: 's', direction: 'm-56cf76' });\n");
+    assert.equal(resolveLook({ root, slug: 's' }).direction, 'm-56cf76');
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});

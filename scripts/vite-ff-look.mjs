@@ -35,7 +35,7 @@ export function parseLayoutVariants(text) {
 
 function parseConfigLook(text) {
   const look = {};
-  const dir = text.match(/\bdirection:\s*'([a-z-]+)'/);
+  const dir = text.match(/\bdirection:\s*'([a-z0-9-]+)'/);
   if (dir) look.direction = dir[1];
   const typo = text.match(/\btypography:\s*\{([^}]*)\}/);
   if (typo) {
@@ -236,7 +236,7 @@ export function ffLookPlugin({ root, slug, ffLook }) {
       // Direction CSS : si le site surcharge la police display et/ou body, on retire l'@import
       // correspondant de la direction (convention : 1er import = display, 2e = body, 3e = mono),
       // sinon les deux familles sont telechargees pour rien.
-      const dirMatch = file.match(/\/src\/directions\/([a-z-]+)\/index\.css$/);
+      const dirMatch = file.match(/\/src\/directions\/([a-z0-9-]+)\/index\.css$/);
       if (dirMatch) {
         const look = resolveLook({ root, slug, ffLook });
         if (dirMatch[1] !== look.direction || !look.typography) return null;

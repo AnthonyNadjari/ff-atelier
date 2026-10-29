@@ -10,7 +10,7 @@ import Icon from '@/components/Icon.astro';
     <div>
       <h2 class="text-display-md" set:html={site.wording.ctaTitle} />
       {/* Par défaut, aucune donnée inventée : le « intervention sous 48 h » d'avant le 17 oct 2026 était un délai que le brief ne donnait pas. */}
-      <p class="mt-3 text-on-ink/70 max-w-xl">{site.wording.ctaText ?? (site.contact.emergency24h ? `Joignable 24 h/24 et 7 j/7 à ${site.contact.address.city}.` : `Un appel au ${site.contact.phoneDisplay} : on vous dit tout de suite ce qui est possible.`)}</p>
+      <p class="mt-3 text-on-ink/80 max-w-xl">{site.wording.ctaText ?? (site.contact.emergency24h ? `Joignable 24 h/24 et 7 j/7 à ${site.contact.address.city}.` : `Un appel au ${site.contact.phoneDisplay} : on vous dit tout de suite ce qui est possible.`)}</p>
     </div>
     <div class="flex flex-wrap gap-4 shrink-0">
       <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>

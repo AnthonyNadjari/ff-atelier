@@ -787,11 +787,14 @@ export function genererDirection(nom, { atomes, ids, sources, polices, metaPolic
   }
   L.push(`${sel} .btn-ghost { background: transparent; color: var(--fg); border: ${bordure}px solid var(--line); }`);
   L.push(`${sel} .btn-ghost:hover { border-color: var(--fg); }`);
-  if (f.lien === 'souligne') L.push(`${sel} main p a:not(.btn) { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }`);
+  // `:where()` : la règle des liens de paragraphe ne pèse qu'un attribut ; une classe de section ou de coquille
+  // (`.pf-rdv`, bouton plein dans un <p>) l'emporte. Sans lui, « Prendre rendez-vous » de la coquille `profils`
+  // prenait la couleur de son propre fond (demo-osteopathe, 28 oct 2026).
+  if (f.lien === 'souligne') L.push(`${sel} :where(main p a:not(.btn)) { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }`);
   // Lien « couleur » : la couleur d'accent ET un soulignement fin (épaissi au survol). Sans soulignement, un lien dans un
   // paragraphe ne se distinguait que par la couleur : axe « link-in-text-block » (sérieux) sur les pages légales de
   // L'Épi d'Or B et C, 17 oct 2026 (WCAG 1.4.1).
-  else L.push(`${sel} main p a:not(.btn) { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }`, `${sel} main p a:not(.btn):hover { text-decoration-thickness: 2px; }`);
+  else L.push(`${sel} :where(main p a:not(.btn)) { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }`, `${sel} :where(main p a:not(.btn)):hover { text-decoration-thickness: 2px; }`);
   const bordCarte = f.ombre === 'aucune' || (typeof f.bordure === 'number' && f.bordure > 0) || mt.filets === 'grille';
   L.push(`${sel} .card { background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card);${bordCarte ? ' border: 1px solid var(--line);' : ''} }`);
   L.push(`${sel} .rule { border-top: 1px solid var(--line); }`, '');

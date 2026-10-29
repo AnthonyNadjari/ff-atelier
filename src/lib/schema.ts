@@ -41,6 +41,7 @@ export const DIRECTIONS = [
   'm-e7e9e8', // mélange de prospect-epi-dor-b
   'm-751d7c', // mélange de prospect-epi-dor-c
   'm-cca519', // mélange de prospect-epi-dor-d
+  'm-56cf76', // mélange de demo-osteopathe
 ] as const;
 export type Direction = (typeof DIRECTIONS)[number];
 

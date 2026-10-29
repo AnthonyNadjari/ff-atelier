@@ -1,0 +1,80 @@
+/* Direction M-56CF76 : MÉLANGE d'atomes de vrais sites, généré par `ff melanger` le 2026-10-28.
+   Ne pas éditer à la main : regénérer (`ff melanger <slug> --typo … --couleurs …`). Format : docs/veille/styles/ATOMES.md.
+   typo : ducksoup (https://www.ducksoupsoho.co.uk/)
+   couleurs : ducksoup (https://www.ducksoupsoho.co.uk/)
+   densite : ducksoup (https://www.ducksoupsoho.co.uk/)
+   formes : ducksoup (https://www.ducksoupsoho.co.uk/)
+   photos : ducksoup (https://www.ducksoupsoho.co.uk/)
+   mouvement : ducksoup (https://www.ducksoupsoho.co.uk/)
+   matiere : ducksoup (https://www.ducksoupsoho.co.uk/)
+*/
+@import '@fontsource-variable/figtree';
+
+[data-direction='m-56cf76'] {
+  --accent-h: 202;
+  --accent-s: 45%;
+  --accent-l: 32%;
+
+  --bg: #fcf2e8;
+  --bg-2: #f4ece3;
+  --surface: #fcf2e8;
+  --fg: #2d5b76;
+  --muted: #2d5b76;
+  --line: #2d5b76;
+  --accent: hsl(var(--accent-h) var(--accent-s) var(--accent-l));
+  --accent-2: #1f3f51;
+  --on-accent: #fcf2e8;
+  --ink: #2d5b76;
+  --on-ink: #fcf2e8;
+  /* Aplat de marque (boutons pleins, sélection) : la couleur mesurée sur ducksoup. */
+  --fill: #2d5b76;
+  --on-fill: #fcf2e8;
+
+  --font-display: 'Figtree Variable', system-ui, sans-serif;
+  --font-body: 'Figtree Variable', system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --display-weight: 500;
+  --body-weight: 300;
+  --display-tracking: 0em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: 0 24px 48px -28px rgb(0 0 0 / 0.35);
+  --container: 82.75rem;
+  /* 51 caractères réels par ligne (1ch ≈ 1,25 caractère, voir global.css). */
+  --measure: 41ch;
+  --motion-ui: 0.25s;
+  --motion-duration: 0.6s;
+  --ease-brand: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Échelle typographique mesurée sur ducksoup (h1, h2, texte ; téléphone 390 px → ordinateur 1 440 px) et marge de section de ducksoup. */
+[data-direction='m-56cf76'][data-scale] {
+  --scale-xl: clamp(1.75rem, 1.518rem + 0.952vw, 2.375rem);
+  --scale-lg: clamp(1.541rem, 1.433rem + 0.443vw, 1.832rem);
+  --scale-md: clamp(1.331rem, 1.301rem + 0.124vw, 1.413rem);
+  --scale-sm: clamp(1.2rem, 1.152rem + 0.195vw, 1.328rem);
+  --section-y: clamp(7rem, 5.375rem + 6.667vw, 11.375rem);
+}
+
+[data-direction='m-56cf76'] body { font-size: clamp(1rem, 0.977rem + 0.095vw, 1.063rem); line-height: 1.8; }
+[data-direction='m-56cf76'] :is(h1, .text-display-xl, .text-display-lg) { line-height: 1.3; }
+[data-direction='m-56cf76'] :is(h2, .text-display-md) { line-height: 1.3; }
+[data-direction='m-56cf76'] ::selection { background: var(--fill); color: var(--on-fill); }
+[data-direction='m-56cf76'] :is(h1, h2) em { font-style: normal; color: #2d5b76; }
+
+/* Boutons (ducksoup) : texte. */
+[data-direction='m-56cf76'] .btn { border-radius: var(--radius); text-transform: none; letter-spacing: 0; font-weight: 600; transition: background-color var(--motion-ui) var(--ease-out), color var(--motion-ui) var(--ease-out), border-color var(--motion-ui) var(--ease-out); }
+[data-direction='m-56cf76'] .btn-primary { background: transparent; color: var(--fg); border: 0; border-bottom: 2px solid var(--fill); border-radius: 0; padding-inline: 0; }
+[data-direction='m-56cf76'] .btn-primary:hover { border-bottom-color: var(--fg); }
+[data-direction='m-56cf76'] .btn-ghost { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+[data-direction='m-56cf76'] .btn-ghost:hover { border-color: var(--fg); }
+[data-direction='m-56cf76'] :where(main p a:not(.btn)) { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+[data-direction='m-56cf76'] .card { background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card); border: 1px solid var(--line); }
+[data-direction='m-56cf76'] .rule { border-top: 1px solid var(--line); }
+
+/* Photos (ducksoup) : vignette. */
+[data-direction='m-56cf76'] main :is(img, video):not([src$=".svg"]) { border-radius: 0px; }
+
+/* Matière (ducksoup) : fond uni, filets aucun. Ni grain, ni halo, ni reflet (GOUT § 2). */
