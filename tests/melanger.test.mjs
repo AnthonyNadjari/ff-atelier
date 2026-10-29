@@ -612,3 +612,16 @@ test('familles rendues (29 oct 2026) : chaque famille dont le client a les donn�
     assert.match(r.notes.join(' '), /avec les données du client/);
   }
 });
+
+test('lookDuModele : un style construit remplace tout le look, garde architecture et coquille du site', async () => {
+  const { lookDuModele } = await import('../scripts/ff/melanger.mjs');
+  const modele = { look: { direction: 'x', motion: 'subtle', layout: { hero: 'h', sections: [{ type: 'about', variant: 'story' }] } } };
+  const avant = { direction: 'm-abc', accent: { h: 1, s: 2, l: 3 }, typography: { display: 'a', body: 'b' }, layout: { architecture: 'profils-patients', shell: 'profils', hero: 'split' } };
+  const l = lookDuModele(modele, avant);
+  assert.equal(l.direction, 'x');
+  assert.equal(l.accent, undefined);
+  assert.equal(l.typography, undefined);
+  assert.deepEqual(l.layout, { architecture: 'profils-patients', shell: 'profils', hero: 'h', sections: [{ type: 'about', variant: 'story' }] });
+  assert.equal(modele.look.layout.architecture, undefined, 'le modèle lui-même n\'est pas modifié');
+  assert.deepEqual(lookDuModele(modele).layout.hero, 'h');
+});

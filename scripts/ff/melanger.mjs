@@ -37,6 +37,7 @@ import {
 } from './atomes.mjs';
 import { PROFILS_MOUVEMENT, refusProfil, profilsTropProches, consignesProfil } from './mouvements.mjs';
 import { CLES_IA } from './ia.mjs';
+import { readPreset } from './modele.mjs';
 import { famillesConnues, familleDuContrat, famillesInterdites } from './contrat.mjs';
 
 export const REGISTRE_MELANGES = path.join(ROOT, 'docs', 'empreintes', 'melanges.json');
@@ -1209,6 +1210,48 @@ function copierSite(source, copie) {
   fs.writeFileSync(cfg, fs.readFileSync(cfg, 'utf8').replace(/slug:\s*'[^']*'/, `slug: '${copie}'`));
 }
 
+/**
+ * Pure : look.json d'un site après application d'un modèle de style construit. Le modèle remplace tout le look (direction,
+ * polices, accent, mouvement, premier écran, sections) ; seules l'architecture et la coquille propres au site restent,
+ * quand le modèle n'en impose pas (un site à architecture garde ses pages).
+ */
+export function lookDuModele(modele, lookAvant = {}) {
+  const look = structuredClone(modele.look);
+  const garde = Object.fromEntries(['architecture', 'shell'].filter((k) => lookAvant.layout?.[k] != null).map((k) => [k, lookAvant.layout[k]]));
+  look.layout = { ...garde, ...(look.layout || {}) };
+  return look;
+}
+
+async function appliquerModele(slug, id, modele, flags) {
+  const lire = (s) => { try { return JSON.parse(fs.readFileSync(path.join(SITES_DIR, s, 'look.json'), 'utf8')); } catch { return {}; } };
+  const ecrire = (s) => fs.writeFileSync(path.join(SITES_DIR, s, 'look.json'), JSON.stringify(lookDuModele(modele, lire(s)), null, 2) + '\n');
+  info(`--style ${id} : modèle construit presets/${id}.json (${modele.titre || id}) : direction ${modele.look.direction}, premier écran ${modele.look.layout?.hero ?? 'du site'}, ${modele.look.layout?.sections?.length ?? 0} sections.`);
+  if (flags.simuler) { info('--simuler : rien n\'est écrit.'); return; }
+  if (!flags.essai) { ecrire(slug); ok(`sites/${slug}/look.json <- presets/${id}.json (site entier ; \`ff figer ${slug}\` pour le rendre définitif).`); return; }
+  const copie = `_essai-${String(id).replace(/[^a-z0-9-]/gi, '').toLowerCase()}-1`;
+  const courant = fs.existsSync(FF_CURRENT) ? fs.readFileSync(FF_CURRENT, 'utf8') : null;
+  try {
+    copierSite(slug, copie);
+    ecrire(copie);
+    const st = await avecVerrou(async () => runAstro('build', copie, [], {}, { silencieux: true }));
+    if (st !== 0) throw new Error(`build de ${copie} en échec`);
+    const html = fs.readFileSync(path.join(DIST_DIR, copie, 'index.html'), 'utf8');
+    const ecarts = verifierCopie(html, { direction: modele.look.direction, shell: lookDuModele(modele, lire(copie)).layout.shell });
+    if (ecarts.length) throw new Error(`${copie} construit sans le modèle : ${ecarts.join(' ; ')}`);
+    const { lancerChrome } = await import('./atomes-mesurer.mjs');
+    const nav = await lancerChrome();
+    let shots;
+    try { shots = await capturer(nav, copie); } finally { await nav.close(); }
+    const sortie = path.join(ROOT, 'captures', 'planches', `${slug.replace(/^_/, '')}-${id}-melanges.jpg`);
+    await planche([{ ...shots, titre: `${id} (modèle construit)`, ligne1: `direction ${modele.look.direction}, premier écran ${modele.look.layout?.hero ?? '?'}`, ligne2: `sections ${(modele.look.layout?.sections ?? []).map((x) => `${x.type}/${x.variant}`).join(', ')}`, ligne3: `mouvement ${modele.look.motion ?? '?'}` }], sortie);
+    ok(`planche : ${path.relative(ROOT, sortie)} (à regarder)`);
+  } finally {
+    fs.rmSync(path.join(SITES_DIR, copie), { recursive: true, force: true });
+    fs.rmSync(path.join(DIST_DIR, copie), { recursive: true, force: true });
+    if (courant != null) fs.writeFileSync(FF_CURRENT, courant); else fs.rmSync(FF_CURRENT, { force: true });
+  }
+}
+
 /* ---------- commande ---------- */
 
 const DRAPEAUX = { typo: 'typo', couleurs: 'couleurs', densite: 'densite', formes: 'formes', photos: 'photos', mouvement: 'mouvement', matiere: 'matiere', architecture: 'architecture', 'premier-ecran': 'premier_ecran' };
@@ -1232,6 +1275,10 @@ export async function cmdMelanger(args) {
   const { positional, flags } = parseArgs(normaliserArgs(args));
   const slug = positional[0];
   if (!slug || !siteExists(slug)) { fail('ff melanger <slug> [--typo id] [--couleurs id] … [--hasard] [--n 3] [--essai]'); process.exit(1); }
+  // Style construit (veille du 29 oct 2026, GOUT § 0 « un style, c'est une construction ») : un modèle presets/<id>.json
+  // pose le site ENTIER (direction codée, premier écran, ordre des sections, mouvement), pas seulement les atomes.
+  const modele = typeof flags.style === 'string' && !Object.keys(DRAPEAUX).some((f) => typeof flags[f] === 'string') ? readPreset(flags.style) : null;
+  if (modele?.look) return appliquerModele(slug, flags.style, modele, flags);
   const { registre, polices } = chargerRegistre();
   for (const r of registre.rejets) warn(`registre : ${r}`);
   const imposes = {};
