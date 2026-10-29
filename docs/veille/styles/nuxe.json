@@ -1,0 +1,1666 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.nuxe.com/",
+  "nom": "nuxe",
+  "date": "2026-10-29",
+  "identite": {
+    "title": "NUXE : Produits de Beauté, Cosmétiques, Soins Visage et Corps | NUXE",
+    "siteName": "NUXE",
+    "lang": "fr",
+    "description": "Retrouvez tous nos Soins visage et corps, Anti-Age sur notre site Officiel. Livraison point relais offerte à partir de 35€ d'achats de produits de beauté NUXE !",
+    "technologies": [
+      "Shopify",
+      "Tailwind",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Nuxe soins visage",
+      "h1Visible": true,
+      "mots": 126,
+      "images": 12,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Livraison Irlande",
+        "x": 60,
+        "y": 13,
+        "cx": 0.08642578125,
+        "cy": 0.025555555555555557,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 6925,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.header__logo",
+        "famille": "\"Open Sans\", sans-serif",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.32px"
+      },
+      "h2": {
+        "selecteur": "h2.h1",
+        "famille": "Cormorant, serif",
+        "taille": 62,
+        "graisse": "400",
+        "interlignage": 1.13,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Open Sans\", sans-serif",
+        "taille": 17,
+        "graisse": "300",
+        "interlignage": 1.41,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.32px"
+      },
+      "bouton": {
+        "selecteur": "button.country-selector",
+        "famille": "\"Open Sans\", sans-serif",
+        "taille": 16,
+        "graisse": "600",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "\"Open Sans\", sans-serif",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.32px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Cormorant",
+          "url": "//www.nuxe.com/cdn/fonts/cormorant/cormorant_n4.bd66e8e0031690b46374315bd1c15a17a8dcd450.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cormorant",
+          "url": "//www.nuxe.com/cdn/fonts/cormorant/cormorant_i4.0b95f138bb9694e184a2ebaf079dd59cf448e2d3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cormorant",
+          "url": "//www.nuxe.com/cdn/shop/t/2/assets/font-cormorant-700.woff2?v=15605102140843373231738230267",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/shop/t/2/assets/font-opensans-600.woff2?v=84621647356310027171738230267",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sackers",
+          "url": "//www.nuxe.com/cdn/shop/t/2/assets/font-sackers-gothic-heavy.woff?v=84778521006770356851738230267",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sackers",
+          "url": "//www.nuxe.com/cdn/shop/t/2/assets/font-sackers-gothic-light.woff2?v=44920374504952018801738230267",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_n3.b10466eda05a6b2d1ef0f6ba490dcecf7588dd78.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_i3.853ebda1c5f31329bb2a566ea7797548807a48bf.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_n6.15aeff3c913c3fe570c19cdfeed14ce10d09fb08.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_n7.a9393be1574ea8606c68f4441806b2711d0d13e4.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_i6.828bbc1b99433eacd7d50c9f0c1bfe16f27b89a3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MMedium.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.shopify.com"
+      ],
+      "fichiersPolices": [
+        "https://www.nuxe.com/cdn/fonts/cormorant/cormorant_n4.bd66e8e0031690b46374315bd1c15a17a8dcd450.woff2",
+        "https://www.nuxe.com/cdn/fonts/open_sans/opensans_n3.b10466eda05a6b2d1ef0f6ba490dcecf7588dd78.woff2",
+        "https://www.nuxe.com/cdn/fonts/open_sans/opensans_n6.15aeff3c913c3fe570c19cdfeed14ce10d09fb08.woff2",
+        "https://www.nuxe.com/cdn/fonts/open_sans/opensans_n7.a9393be1574ea8606c68f4441806b2711d0d13e4.woff2",
+        "https://www.nuxe.com/cdn/shop/t/2/assets/font-sackers-gothic-heavy.woff?v=84778521006770356851738230267",
+        "https://www.nuxe.com/cdn/shop/t/2/assets/font-sackers-gothic-light.woff2?v=44920374504952018801738230267",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Open Sans",
+          "n": 173
+        },
+        {
+          "famille": "Sackers",
+          "n": 23
+        },
+        {
+          "famille": "Cormorant",
+          "n": 11
+        },
+        {
+          "famille": "sackers",
+          "n": 1
+        },
+        {
+          "famille": "cormorant",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 64,
+          "poids": 9974268
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 21,
+          "poids": 3539960
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 2016108
+        },
+        {
+          "hex": "#034638",
+          "n": 23,
+          "poids": 78498.58764648438
+        },
+        {
+          "hex": "#004338",
+          "n": 21,
+          "poids": 40656
+        },
+        {
+          "hex": "#f41357",
+          "n": 4,
+          "poids": 3906
+        },
+        {
+          "hex": "#ede3de",
+          "n": 3,
+          "poids": 3670
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 158,
+          "poids": 3307
+        },
+        {
+          "hex": "#ffffff",
+          "n": 31,
+          "poids": 369
+        },
+        {
+          "hex": "#034638",
+          "n": 4,
+          "poids": 185
+        },
+        {
+          "hex": "#7b706a",
+          "n": 16,
+          "poids": 87
+        }
+      ],
+      "nbImages": 56,
+      "nbVideos": 2,
+      "nbFondsImage": 2,
+      "masques": 26,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 64,
+          "poids": 9974268,
+          "part": 0.637
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 21,
+          "poids": 3539960,
+          "part": 0.226
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 2016108,
+          "part": 0.129
+        },
+        {
+          "hex": "#034638",
+          "n": 23,
+          "poids": 78498.58764648438,
+          "part": 0.005
+        },
+        {
+          "hex": "#004338",
+          "n": 21,
+          "poids": 40656,
+          "part": 0.003
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 158,
+          "poids": 3307,
+          "part": 0.838
+        },
+        {
+          "hex": "#ffffff",
+          "n": 31,
+          "poids": 369,
+          "part": 0.093
+        },
+        {
+          "hex": "#034638",
+          "n": 4,
+          "poids": 185,
+          "part": 0.047
+        },
+        {
+          "hex": "#7b706a",
+          "n": 16,
+          "poids": 87,
+          "part": 0.022
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "aside#shopify-section-sections--23845704007990__announcement-bar",
+          "ecrans": 7.7
+        },
+        {
+          "selecteur": "header#shopify-section-sections--23845704007990__header",
+          "ecrans": 7.7
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "opacity 0.2s ease-in-out",
+          "n": 61
+        },
+        {
+          "valeur": "transform 0.2s ease-in-out",
+          "n": 23
+        },
+        {
+          "valeur": "visibility 0.2s ease-in-out",
+          "n": 21
+        },
+        {
+          "valeur": "background-color 0.15s ease-in-out",
+          "n": 8
+        },
+        {
+          "valeur": "color 0.15s ease-in-out",
+          "n": 8
+        },
+        {
+          "valeur": "box-shadow 0.15s ease-in-out",
+          "n": 8
+        },
+        {
+          "valeur": "all 0.5s ease",
+          "n": 6
+        },
+        {
+          "valeur": "all 1s ease",
+          "n": 6
+        },
+        {
+          "valeur": "color 0.2s ease",
+          "n": 3
+        },
+        {
+          "valeur": "color 0.25s ease",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "store-header.header",
+        "score": 4,
+        "animations": [],
+        "transitions": [
+          "color 0.25s ease",
+          "background 0.25s ease",
+          "-webkit-backdrop-filter 0.25s ease",
+          "backdrop-filter 0.25s ease"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#main",
+      "sections": [
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__video_phk9an",
+          "titre": null,
+          "top": 46,
+          "hauteur": 500,
+          "ecrans": 0.6,
+          "mots": 11,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__featured_collection_HFhdpD",
+          "titre": null,
+          "top": 546,
+          "hauteur": 552,
+          "ecrans": 0.6,
+          "mots": 137,
+          "images": 18,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__verbatim_and_collection_34Yjbn",
+          "titre": "LES PRODUITS NUXE",
+          "top": 1098,
+          "hauteur": 850,
+          "ecrans": 0.9,
+          "mots": 31,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__featured_collection_ihUHji",
+          "titre": null,
+          "top": 1948,
+          "hauteur": 480,
+          "ecrans": 0.5,
+          "mots": 62,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__media_with_text_CYkbcK",
+          "titre": null,
+          "top": 2428,
+          "hauteur": 626,
+          "ecrans": 0.7,
+          "mots": 42,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__featured_collection_KenwUC",
+          "titre": "LES ICONIQUES",
+          "top": 3054,
+          "hauteur": 748,
+          "ecrans": 0.8,
+          "mots": 77,
+          "images": 12,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__care_filters_selection_e7pdt4",
+          "titre": "TROUVEZ LE SOIN ADAPTÉ À VOS BESOINS",
+          "top": 3802,
+          "hauteur": 818,
+          "ecrans": 0.9,
+          "mots": 70,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "select",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__links_with_featured_image_z36gYe",
+          "titre": "COMMENT PRENDRE SOIN DE SA PEAU ?",
+          "top": 4750,
+          "hauteur": 738,
+          "ecrans": 0.8,
+          "mots": 60,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-sections--23845704040758__text-with-icons",
+          "titre": null,
+          "top": 5618,
+          "hauteur": 263,
+          "ecrans": 0.3,
+          "mots": 33,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-sections--23845704040758__newsletter_J4wkFV",
+          "titre": null,
+          "top": 5881,
+          "hauteur": 417,
+          "ecrans": 0.5,
+          "mots": 29,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer#shopify-section-sections--23845704040758__footer",
+          "titre": null,
+          "top": 6298,
+          "hauteur": 627,
+          "ecrans": 0.7,
+          "mots": 97,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.header-links--right",
+        "hauteur": 13,
+        "position": "static",
+        "liens": []
+      },
+      "pied": {
+        "selecteur": "footer#shopify-section-sections--23845704040758__footer",
+        "liens": [
+          {
+            "texte": "groupe nuxe",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Produits NUXE",
+            "href": "/collections/all",
+            "bouton": false
+          },
+          {
+            "texte": "La Marque NUXE",
+            "href": "/pages/notre-histoire",
+            "bouton": false
+          },
+          {
+            "texte": "NUXE Spa",
+            "href": "https://nuxe-spa.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Recrutement",
+            "href": "https://recrutement.nuxe.com/en",
+            "bouton": false
+          },
+          {
+            "texte": "Professionnels",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "aide & informations",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Centre d'aide",
+            "href": "/pages/faq1/faq",
+            "bouton": false
+          },
+          {
+            "texte": "Conseils beauté",
+            "href": "/pages/faq/beaute",
+            "bouton": false
+          },
+          {
+            "texte": "Nous contacter",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de livraison",
+            "href": "https://nuxe-worldwide.myshopify.com/pages/livraison",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de retour / rétractation",
+            "href": "/pages/retour",
+            "bouton": false
+          },
+          {
+            "texte": "Suivre ma commande",
+            "href": "https://web.global-e.com/Order/Track/mZNi",
+            "bouton": false
+          },
+          {
+            "texte": "Mon compte",
+            "href": "/account/login",
+            "bouton": false
+          },
+          {
+            "texte": "offre & avantages",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Offres du moment",
+            "href": "/pages/offres-et-avantages",
+            "bouton": false
+          },
+          {
+            "texte": "Livraison offerte",
+            "href": "/pages/offres-et-avantages",
+            "bouton": false
+          },
+          {
+            "texte": "-20% dès 3 produits achetés",
+            "href": "/collections/routine",
+            "bouton": false
+          },
+          {
+            "texte": "Coffrets & cadeaux",
+            "href": "/collections/tous-les-cadeaux",
+            "bouton": false
+          },
+          {
+            "texte": "Livraison Irlande",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Conditions générales de ventes",
+            "href": "/pages/conditions-generales-de-vente-1",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de confidentialité Global-E",
+            "href": "/pages/politique-de-confidentialite-global-e",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 22,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Livraison Irlande",
+          "href": ""
+        },
+        {
+          "texte": "-15% sur votre première commande avec le",
+          "href": "/collections/tous-les-produits-bienvenue"
+        },
+        {
+          "texte": "cadeaux",
+          "href": "/pages/boutique-de-noel"
+        },
+        {
+          "texte": "Politique de livraison",
+          "href": "https://nuxe-worldwide.myshopify.com/pages/livraison"
+        },
+        {
+          "texte": "Suivre ma commande",
+          "href": "https://web.global-e.com/Order/Track/mZNi"
+        },
+        {
+          "texte": "Livraison offerte",
+          "href": "/pages/offres-et-avantages"
+        },
+        {
+          "texte": "Coffrets & cadeaux",
+          "href": "/collections/tous-les-cadeaux"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-content",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "aside#shopify-section-sections--23845704007990__announcement-bar",
+          "position": "sticky",
+          "hauteur": 46,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 12
+        },
+        {
+          "selecteur": "header#shopify-section-sections--23845704007990__header",
+          "position": "sticky",
+          "hauteur": 95,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 25
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 38,
+        "pilules": 6,
+        "exemples": [
+          "JE DÉCOUVRE",
+          "JE DÉCOUVRE",
+          "DÉCOUVRIR"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Cormorant"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/nuxe-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Nuxe soins visage",
+      "h1Visible": true,
+      "mots": 349,
+      "images": 20,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Précédent",
+        "x": 16,
+        "y": 7,
+        "cx": 0.047435897435897434,
+        "cy": 0.024881516587677725,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 7524,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.header__logo",
+        "famille": "\"Open Sans\", sans-serif",
+        "taille": 14,
+        "graisse": "300",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.28px"
+      },
+      "h2": {
+        "selecteur": "h2.h1",
+        "famille": "Cormorant, serif",
+        "taille": 38,
+        "graisse": "400",
+        "interlignage": 1.11,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "\"Open Sans\", sans-serif",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.38,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "0.28px"
+      },
+      "bouton": {
+        "selecteur": "button.tap-area",
+        "famille": "\"Open Sans\", sans-serif",
+        "taille": 14,
+        "graisse": "300",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.menu_item_link",
+        "famille": "Sackers, sans-serif",
+        "taille": 14,
+        "graisse": "300",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "lowercase",
+        "interlettrage": "0.28px"
+      },
+      "fontFaces": [
+        {
+          "famille": "Cormorant",
+          "url": "//www.nuxe.com/cdn/fonts/cormorant/cormorant_n4.bd66e8e0031690b46374315bd1c15a17a8dcd450.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cormorant",
+          "url": "//www.nuxe.com/cdn/fonts/cormorant/cormorant_i4.0b95f138bb9694e184a2ebaf079dd59cf448e2d3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Cormorant",
+          "url": "//www.nuxe.com/cdn/shop/t/2/assets/font-cormorant-700.woff2?v=15605102140843373231738230267",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/shop/t/2/assets/font-opensans-600.woff2?v=84621647356310027171738230267",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sackers",
+          "url": "//www.nuxe.com/cdn/shop/t/2/assets/font-sackers-gothic-heavy.woff?v=84778521006770356851738230267",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Sackers",
+          "url": "//www.nuxe.com/cdn/shop/t/2/assets/font-sackers-gothic-light.woff2?v=44920374504952018801738230267",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_n3.b10466eda05a6b2d1ef0f6ba490dcecf7588dd78.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_i3.853ebda1c5f31329bb2a566ea7797548807a48bf.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_n6.15aeff3c913c3fe570c19cdfeed14ce10d09fb08.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_n7.a9393be1574ea8606c68f4441806b2711d0d13e4.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Open Sans",
+          "url": "//www.nuxe.com/cdn/fonts/open_sans/opensans_i6.828bbc1b99433eacd7d50c9f0c1bfe16f27b89a3.woff2",
+          "feuille": "inline",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MMedium.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.shopify.com"
+      ],
+      "fichiersPolices": [
+        "https://www.nuxe.com/cdn/fonts/cormorant/cormorant_n4.bd66e8e0031690b46374315bd1c15a17a8dcd450.woff2",
+        "https://www.nuxe.com/cdn/fonts/open_sans/opensans_n3.b10466eda05a6b2d1ef0f6ba490dcecf7588dd78.woff2",
+        "https://www.nuxe.com/cdn/fonts/open_sans/opensans_n6.15aeff3c913c3fe570c19cdfeed14ce10d09fb08.woff2",
+        "https://www.nuxe.com/cdn/fonts/open_sans/opensans_n7.a9393be1574ea8606c68f4441806b2711d0d13e4.woff2",
+        "https://www.nuxe.com/cdn/shop/t/2/assets/font-sackers-gothic-light.woff2?v=44920374504952018801738230267",
+        "https://www.nuxe.com/cdn/shop/t/2/assets/font-sackers-gothic-heavy.woff?v=84778521006770356851738230267",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Open Sans",
+          "n": 168
+        },
+        {
+          "famille": "Sackers",
+          "n": 116
+        },
+        {
+          "famille": "Cormorant",
+          "n": 26
+        },
+        {
+          "famille": "sackers",
+          "n": 1
+        },
+        {
+          "famille": "cormorant",
+          "n": 1
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#000000",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 64,
+          "poids": 2936628
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 21,
+          "poids": 1746134.927734375
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 516468
+        },
+        {
+          "hex": "#034638",
+          "n": 23,
+          "poids": 57418.078125
+        },
+        {
+          "hex": "#004338",
+          "n": 21,
+          "poids": 33600
+        },
+        {
+          "hex": "#f41357",
+          "n": 4,
+          "poids": 3892.875
+        },
+        {
+          "hex": "#ede3de",
+          "n": 3,
+          "poids": 1074
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 264,
+          "poids": 5273
+        },
+        {
+          "hex": "#ffffff",
+          "n": 31,
+          "poids": 369
+        },
+        {
+          "hex": "#034638",
+          "n": 4,
+          "poids": 185
+        },
+        {
+          "hex": "#7b706a",
+          "n": 13,
+          "poids": 67
+        }
+      ],
+      "nbImages": 52,
+      "nbVideos": 2,
+      "nbFondsImage": 1,
+      "masques": 27,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 64,
+          "poids": 2936628,
+          "part": 0.555
+        },
+        {
+          "hex": "#fffdf8",
+          "n": 21,
+          "poids": 1746134.927734375,
+          "part": 0.33
+        },
+        {
+          "hex": "#000000",
+          "n": 5,
+          "poids": 516468,
+          "part": 0.098
+        },
+        {
+          "hex": "#034638",
+          "n": 23,
+          "poids": 57418.078125,
+          "part": 0.011
+        },
+        {
+          "hex": "#004338",
+          "n": 21,
+          "poids": 33600,
+          "part": 0.006
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 264,
+          "poids": 5273,
+          "part": 0.895
+        },
+        {
+          "hex": "#ffffff",
+          "n": 31,
+          "poids": 369,
+          "part": 0.063
+        },
+        {
+          "hex": "#034638",
+          "n": 4,
+          "poids": 185,
+          "part": 0.031
+        },
+        {
+          "hex": "#7b706a",
+          "n": 13,
+          "poids": 67,
+          "part": 0.011
+        }
+      ],
+      "contraste": 21
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "aside#shopify-section-sections--23845704007990__announcement-bar",
+          "ecrans": 8.9
+        },
+        {
+          "selecteur": "header#shopify-section-sections--23845704007990__header",
+          "ecrans": 8.9
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "opacity 0.2s ease-in-out",
+          "n": 21
+        },
+        {
+          "valeur": "right 0.7s cubic-bezier(0.69, 0.14, 0.1, 1.02)",
+          "n": 9
+        },
+        {
+          "valeur": "background-color 0.15s ease-in-out",
+          "n": 8
+        },
+        {
+          "valeur": "color 0.15s ease-in-out",
+          "n": 8
+        },
+        {
+          "valeur": "box-shadow 0.15s ease-in-out",
+          "n": 8
+        },
+        {
+          "valeur": "all 0.5s ease",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.25s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "background-size 0.3s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "color 0.3s ease-in-out",
+          "n": 2
+        },
+        {
+          "valeur": "transform 0.2s ease-in-out",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.button",
+        "score": 3,
+        "animations": [],
+        "transitions": [
+          "background-color 0.15s ease-in-out",
+          "color 0.15s ease-in-out",
+          "box-shadow 0.15s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#main",
+      "sections": [
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__video_phk9an",
+          "titre": null,
+          "top": 43,
+          "hauteur": 480,
+          "ecrans": 0.6,
+          "mots": 11,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__featured_collection_HFhdpD",
+          "titre": null,
+          "top": 523,
+          "hauteur": 463,
+          "ecrans": 0.5,
+          "mots": 136,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__verbatim_and_collection_34Yjbn",
+          "titre": "LES PRODUITS NUXE",
+          "top": 986,
+          "hauteur": 631,
+          "ecrans": 0.7,
+          "mots": 31,
+          "images": 7,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__featured_collection_ihUHji",
+          "titre": null,
+          "top": 1617,
+          "hauteur": 394,
+          "ecrans": 0.5,
+          "mots": 61,
+          "images": 5,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__media_with_text_CYkbcK",
+          "titre": null,
+          "top": 2012,
+          "hauteur": 698,
+          "ecrans": 0.8,
+          "mots": 42,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__featured_collection_KenwUC",
+          "titre": "LES ICONIQUES",
+          "top": 2710,
+          "hauteur": 799,
+          "ecrans": 0.9,
+          "mots": 76,
+          "images": 6,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__care_filters_selection_e7pdt4",
+          "titre": "TROUVEZ LE SOIN ADAPTÉ À VOS BESOINS",
+          "top": 3509,
+          "hauteur": 816,
+          "ecrans": 1,
+          "mots": 70,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "select",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-template--23845791465782__links_with_featured_image_z36gYe",
+          "titre": "COMMENT PRENDRE SOIN DE SA PEAU ?",
+          "top": 4375,
+          "hauteur": 1038,
+          "ecrans": 1.2,
+          "mots": 60,
+          "images": 4,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "video"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-sections--23845704040758__text-with-icons",
+          "titre": null,
+          "top": 5463,
+          "hauteur": 666,
+          "ecrans": 0.8,
+          "mots": 33,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section#shopify-section-sections--23845704040758__newsletter_J4wkFV",
+          "titre": null,
+          "top": 6129,
+          "hauteur": 700,
+          "ecrans": 0.8,
+          "mots": 29,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer#shopify-section-sections--23845704040758__footer",
+          "titre": null,
+          "top": 6829,
+          "hauteur": 695,
+          "ecrans": 0.8,
+          "mots": 97,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg",
+            "form"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header#shopify-section-sections--23845704007990__header",
+        "hauteur": 45,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "Ouvrir la navigation",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Nuxe soins visage",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Ouvrir la recherche",
+            "href": "/search",
+            "bouton": false
+          },
+          {
+            "texte": "Voir le panier 0",
+            "href": "/cart",
+            "bouton": false
+          },
+          {
+            "texte": "Ouvrir la recherche Rechercher un produi",
+            "href": "/search",
+            "bouton": false
+          },
+          {
+            "texte": "produits",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "sélection",
+            "href": "",
+            "bouton": false
+          },
+          {
+            "texte": "sélection",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "routine beauté -20%",
+            "href": "/collections/routine",
+            "bouton": false
+          },
+          {
+            "texte": "coffrets cadeaux",
+            "href": "/collections/coffrets-cadeaux",
+            "bouton": false
+          },
+          {
+            "texte": "nouveautés",
+            "href": "/collections/nouveautes",
+            "bouton": false
+          },
+          {
+            "texte": "iconiques",
+            "href": "/collections/iconiques",
+            "bouton": false
+          },
+          {
+            "texte": "format voyage",
+            "href": "/collections/format-voyage",
+            "bouton": false
+          },
+          {
+            "texte": "routine beauté : -20% dès 3 articles ach",
+            "href": "/collections/routine",
+            "bouton": false
+          },
+          {
+            "texte": "votre cadeau exclusif : une huile de dou",
+            "href": "/collections/all",
+            "bouton": false
+          },
+          {
+            "texte": "visage",
+            "href": "/collections/soin-visage",
+            "bouton": false
+          },
+          {
+            "texte": "visage",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "anti-âge",
+            "href": "/collections/soin-anti-age",
+            "bouton": false
+          },
+          {
+            "texte": "sérum",
+            "href": "/collections/serum",
+            "bouton": false
+          },
+          {
+            "texte": "autobronzant",
+            "href": "/collections/autobronzant-visage",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#shopify-section-sections--23845704040758__footer",
+        "liens": [
+          {
+            "texte": "groupe nuxe",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Produits NUXE",
+            "href": "/collections/all",
+            "bouton": false
+          },
+          {
+            "texte": "La Marque NUXE",
+            "href": "/pages/notre-histoire",
+            "bouton": false
+          },
+          {
+            "texte": "NUXE Spa",
+            "href": "https://nuxe-spa.com/",
+            "bouton": false
+          },
+          {
+            "texte": "Recrutement",
+            "href": "https://recrutement.nuxe.com/en",
+            "bouton": false
+          },
+          {
+            "texte": "Professionnels",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "aide & informations",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Centre d'aide",
+            "href": "/pages/faq1/faq",
+            "bouton": false
+          },
+          {
+            "texte": "Conseils beauté",
+            "href": "/pages/faq/beaute",
+            "bouton": false
+          },
+          {
+            "texte": "Nous contacter",
+            "href": "/pages/contact",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de livraison",
+            "href": "https://nuxe-worldwide.myshopify.com/pages/livraison",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de retour / rétractation",
+            "href": "/pages/retour",
+            "bouton": false
+          },
+          {
+            "texte": "Suivre ma commande",
+            "href": "https://web.global-e.com/Order/Track/mZNi",
+            "bouton": false
+          },
+          {
+            "texte": "Mon compte",
+            "href": "/account/login",
+            "bouton": false
+          },
+          {
+            "texte": "offre & avantages",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Offres du moment",
+            "href": "/pages/offres-et-avantages",
+            "bouton": false
+          },
+          {
+            "texte": "Livraison offerte",
+            "href": "/pages/offres-et-avantages",
+            "bouton": false
+          },
+          {
+            "texte": "-20% dès 3 produits achetés",
+            "href": "/collections/routine",
+            "bouton": false
+          },
+          {
+            "texte": "Coffrets & cadeaux",
+            "href": "/collections/tous-les-cadeaux",
+            "bouton": false
+          },
+          {
+            "texte": "Livraison Irlande",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Conditions générales de ventes",
+            "href": "/pages/conditions-generales-de-vente-1",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de confidentialité Global-E",
+            "href": "/pages/politique-de-confidentialite-global-e",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 22,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "-15% sur votre première commande avec le",
+          "href": "/collections/tous-les-produits-bienvenue"
+        },
+        {
+          "texte": "coffrets cadeaux",
+          "href": "/collections/coffrets-cadeaux"
+        },
+        {
+          "texte": "votre cadeau exclusif : une huile de dou",
+          "href": "/collections/all"
+        },
+        {
+          "texte": "cadeaux",
+          "href": "/collections/tous-les-cadeaux"
+        },
+        {
+          "texte": "idées cadeaux à prix doux",
+          "href": "/collections/petits-prix"
+        },
+        {
+          "texte": "Politique de livraison",
+          "href": "https://nuxe-worldwide.myshopify.com/pages/livraison"
+        },
+        {
+          "texte": "Suivre ma commande",
+          "href": "https://web.global-e.com/Order/Track/mZNi"
+        },
+        {
+          "texte": "Livraison offerte",
+          "href": "/pages/offres-et-avantages"
+        },
+        {
+          "texte": "Coffrets & cadeaux",
+          "href": "/collections/tous-les-cadeaux"
+        },
+        {
+          "texte": "Livraison Irlande",
+          "href": ""
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.skip-to-content",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "aside#shopify-section-sections--23845704007990__announcement-bar",
+          "position": "sticky",
+          "hauteur": 43,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 9
+        },
+        {
+          "selecteur": "header#shopify-section-sections--23845704007990__header",
+          "position": "sticky",
+          "hauteur": 45,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 330
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 44,
+        "pilules": 6,
+        "exemples": [
+          "JE DÉCOUVRE",
+          "JE DÉCOUVRE",
+          "DÉCOUVRIR"
+        ]
+      },
+      "ans": [],
+      "policesIa": [
+        "Cormorant"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "NUXE",
+  "dureeS": 32.8
+}
