@@ -1,0 +1,37 @@
+# Autovera — https://autovera.framer.website/
+Titre « Autovera – Premier Car Care & Auto Service Hub », `lang="en"`, description « Autovera: Complete car care — from quick washes and oil changes to full diagnostics, detailing & AC repair. Trusted by 10,000+ happy customers. Book now for fa… », technologie lue : generator « Framer 0f5ea8b », Framer. Démontage automatique du 2026-10-29 (`ff demonter`, mesures brutes dans `framer-autovera.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Your Car Deserves » ; image plein écran (100 % de l'écran) ; bouton principal « Book A Service Book A Service » en bas à gauche (80, 648 px) ; 67 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 5 élément(s) (`figcaption.framer-1twgw9q`, `div`, `div.framer-1q206vp`, `div.framer-1ffvz1`, `a.framer-6jWyo`).
+Téléphone (390x844) : h1 « Your Car Deserves » ; image plein écran (96 % de l'écran) ; bouton principal « Book A Service Book A Service » en bas au centre (16, 604 px) ; 67 mots visibles au-dessus du pli ; aucune couche bloquante ; bouge tout seul sans défilement : 5 élément(s) (`figcaption.framer-1twgw9q`, `div`, `div.framer-1q206vp`, `div.framer-1ffvz1`, `a.framer-6jWyo`).
+Nav : 0 lien(s) — aucun ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `div.framer-n1d6x6-container` (0,6 écran, 105 mots, 1 img). Calques hors flux (fixes/absolus) : `div#__framer-badge-container` (fixed, 78 px, collé en bas, 15 mots), `div.framer-1jfbc5w-container` (absolute, 137 px), `div.framer-4b2use-container` (fixed, 36 px, 19 mots).
+Pied de page : 20 lien(s) — Go to social links, Go to social links, Go to social links, Go to social links, Home Home, About Us About Us, Services Services, Blogs Blogs, Pricing Pricing, Contact Contact (+10). Téléphone cliquable : oui (2, tel:(555) 123-4567). Formulaire : 1 (16 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Book A Service Book A Service » (./services), « Book Essential Care Book Essential Care » (./contact), « Book Complete Care Book Complete Care » (./contact), « Book Premium Care Book Premium Care » (./contact), « Book Now Book Now » (./contact).
+En 3 secondes : à juger sur `captures/framer-autovera-d.webp` (mesuré : fond du premier écran #000000, 4 image(s) et 67 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Inter Display**, 80 px / 48 px téléphone, graisse 600, interlignage 1,00, interlettrage -0.1px ; h2 **Inter Display**, 64 px / 36 px téléphone, graisse 500, interlignage 1,13, interlettrage -0.1px ; corps **Inter Display**, 16 px / 16 px téléphone, graisse 400, interlignage 1,50 ; boutons **sans-serif**, 12 px / 12 px téléphone, graisse 400 ; nav **sans-serif**, 12 px / 12 px téléphone, graisse 400.
+Sources `@font-face` : tiers (framerusercontent.com) (Inter, Inter Display) ; locale (Inter Placeholder, Inter Display Placeholder) ; fichiers chargés : https://framerusercontent.com/assets/PfdOpgzFf7N2Uye9JX7xRKYTgSc.woff2, https://framerusercontent.com/assets/bHYNJqzTyl2lqvmMiRRS6Y16Es.woff2, https://framerusercontent.com/assets/iwWTDc49ENF2tCHbqlNARXw6Ug.woff2, https://framerusercontent.com/assets/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2, https://framerusercontent.com/assets/UjlFhCnUjxhNfep4oYBPqnEssyo.woff2. Familles en usage sur le texte visible : Inter Display ×202, Inter ×5, sans-serif ×1. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #000000, texte #000000 (contraste 1,00:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #000000 (87 %), #0d0d0d (11 %), #141414 (1 %), #fa560a (1 %), #ffffff (0 %) ; textes par nombre de caractères : #ffffff (54 %), #cccccc (38 %), #fa560a (4 %), #0000ee (2 %), #000000 (1 %). Images : 22 `<img>` visibles, 4 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 19 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : Lenis (window.lenis), Framer Motion (window.__framer_importFromPackage). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `width 0.05s linear` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 1 bloc(s) de plus d'un écran (`div.framer-zyb9g6` 2,0 écrans). Attributs de mouvement : aucun. Ce qui bouge réellement à l'écran : à juger sur `captures/framer-autovera-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `div.framer-n1d6x6-container` (0,6 écran, 105 mots, 1 image(s)).
+2. L'élément le plus animé : `div` (1 transition(s) : width 0.05s linear).
+3. Le bloc le plus singulier par sa structure : aucune section ne contient de balise rare (table, details, canvas, video, svg, form, dl…).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« Book A Service Book A Service », « Book Essential Care Book Essential Care », « Book Complete Care Book Complete Care », « Book Premium Care Book Premium Care », « Book Now Book Now »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : Inter Display, Inter ; boutons pilule : 0/12 ordinateur, 0/12 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Verdict marché (veille du 29 oct 2026, tour 16)
+Source : modèles, **Framer Marketplace, catégorie Home Services, ordre affiché ce jour, rang 11** (rangs 1 à 10 déjà fichés : Solvora, Plumbzo, Autoluxe, HomeMaster, Solshine, Movers, PlumFix, Hydrowell, GreenCraft, Voltora), **69 $**, Grabui Library. URL lue : https://autovera.framer.website/ (Framer, HTML 52 Ko, premier octet 0,19 s, indicatif). Captures et planche regardées (le badge « Made in Framer » et quatre boutons de vente du vendeur couvrent le bas du téléphone : propres à la démo).
+
+**Un artisan paierait-il 1 200 € pour ça ?** Pour le plan, oui ; pour un garage français, non tel quel. Plan : h1 « Your Car Deserves Expert Care », « Book A Service » et « View Packages », trois chiffres (10,000+ clients, 15+ ans, 24/7), six services numérotés chacun avec sa page, « Why Choose Us » (ASE, Same-Day Service), **trois formules à prix côte à côte avec prix barré et bouton chacune** (89 $, 199 $, 399 $), avis, histoire (« Founded in 2010 »), trois articles de conseil, réservation rapide en bas. Contre : ni ville, ni numéro, ni métier en clair au premier écran ; tout est factice (« 10,000+ », avis aux noms génériques dont un doublé mot pour mot, numéro `(555) 123-4567` en pied seulement) ; photos de banque ; Inter Display partout.
+
+**Leviers vus** : Photos réelles : aucune (banque). Premier écran : promesse, deux boutons, preuve sociale chiffrée dans la phrase. Preuves : chiffres et avis factices, certification ASE. Structure : une page par service, tarifs, à propos, conseils, contact. Appels : « Book » partout, formulaire de réservation en bas ; aucun numéro en haut. Vitesse : bonne. Mobile : bon (boutons pleine largeur). Signes « IA » : Inter.

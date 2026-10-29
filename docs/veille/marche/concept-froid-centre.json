@@ -1,0 +1,1464 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://conceptfroid.fr/",
+  "nom": "concept-froid-centre",
+  "date": "2026-10-29",
+  "identite": {
+    "title": "Frigoriste région Centre — Concept Froid Centre",
+    "siteName": "Concept Froid Centre",
+    "lang": "fr",
+    "description": "Installation et dépannage frigorifique en région Centre. Chambres froides, vitrines, climatisation, PAC. Un seul interlocuteur, depuis Suèvres (41).",
+    "technologies": [
+      "Next.js",
+      "Tailwind"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#071429",
+      "h1": "Votre froid ne s'arrête jamais. Nous le maintenons.",
+      "h1Visible": true,
+      "mots": 107,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.92,
+        "selecteur": "img.absolute"
+      },
+      "boutonPrincipal": {
+        "texte": "Appeler maintenant",
+        "x": 160,
+        "y": 657.46875,
+        "cx": 0.19108072916666666,
+        "cy": 0.7616319444444445,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": {
+        "selecteur": "div.fixed",
+        "hauteur": 177,
+        "largeur": 1440,
+        "liens": [
+          {
+            "texte": "Refuser",
+            "href": ""
+          },
+          {
+            "texte": "Accepter",
+            "href": ""
+          }
+        ]
+      },
+      "scrollHeight": 4187,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.text-[2rem]",
+        "famille": "Montserrat, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 56,
+        "graisse": "800",
+        "interlignage": 1.15,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.84px"
+      },
+      "h2": {
+        "selecteur": "h2.text-[1.6rem]",
+        "famille": "Montserrat, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 36,
+        "graisse": "700",
+        "interlignage": 1.15,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.54px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Inter, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 17,
+        "graisse": "400",
+        "interlignage": 1.65,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.btn",
+        "famille": "Montserrat, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 15.2,
+        "graisse": "700",
+        "interlignage": 1.58,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.font-semibold",
+        "famille": "Inter, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 15.04,
+        "graisse": "600",
+        "interlignage": 1.65,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/ba9851c3c22cd980-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/21350d82a1f187e9-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/c5fe6dc8356a8c31-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/19cfc7226ec3afaa-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/df0a9ae256c0569c-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/8e9860b6e62d6359-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_Fallback_f367f3",
+          "url": "",
+          "feuille": "conceptfroid.fr",
+          "source": "locale"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/b1f344208eb4edfe-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/48e2044251ef3125-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/bf24a9759715e608-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/1f173e5e25f3efee-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/904be59b21bd51cb-s.p.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/b1f344208eb4edfe-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/48e2044251ef3125-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/bf24a9759715e608-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/1f173e5e25f3efee-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/904be59b21bd51cb-s.p.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/b1f344208eb4edfe-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/48e2044251ef3125-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/bf24a9759715e608-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/1f173e5e25f3efee-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/904be59b21bd51cb-s.p.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_Fallback_7d3aca",
+          "url": "",
+          "feuille": "conceptfroid.fr",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [],
+      "famillesVisibles": [
+        {
+          "famille": "Inter",
+          "n": 79
+        },
+        {
+          "famille": "Montserrat",
+          "n": 33
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#0b1b33",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 15,
+          "poids": 6291751.4375
+        },
+        {
+          "hex": "#071429",
+          "n": 2,
+          "poids": 1909755
+        },
+        {
+          "hex": "#f4f7fb",
+          "n": 3,
+          "poids": 1047555.4702148438
+        },
+        {
+          "hex": "#d93400",
+          "n": 3,
+          "poids": 30893.125
+        },
+        {
+          "hex": "#e7eef7",
+          "n": 4,
+          "poids": 9216
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#0b1b33",
+          "n": 33,
+          "poids": 2208
+        },
+        {
+          "hex": "#4a5b75",
+          "n": 20,
+          "poids": 1122
+        },
+        {
+          "hex": "#9db2ce",
+          "n": 29,
+          "poids": 464
+        },
+        {
+          "hex": "#eaf1fa",
+          "n": 1,
+          "poids": 190
+        },
+        {
+          "hex": "#ffffff",
+          "n": 12,
+          "poids": 163
+        },
+        {
+          "hex": "#0e63b8",
+          "n": 6,
+          "poids": 115
+        },
+        {
+          "hex": "#0a3182",
+          "n": 7,
+          "poids": 64
+        },
+        {
+          "hex": "#1684ed",
+          "n": 2,
+          "poids": 36
+        },
+        {
+          "hex": "#f7931e",
+          "n": 1,
+          "poids": 26
+        },
+        {
+          "hex": "#071429",
+          "n": 1,
+          "poids": 17
+        }
+      ],
+      "nbImages": 3,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 15,
+          "poids": 6291751.4375,
+          "part": 0.677
+        },
+        {
+          "hex": "#071429",
+          "n": 2,
+          "poids": 1909755,
+          "part": 0.206
+        },
+        {
+          "hex": "#f4f7fb",
+          "n": 3,
+          "poids": 1047555.4702148438,
+          "part": 0.113
+        },
+        {
+          "hex": "#d93400",
+          "n": 3,
+          "poids": 30893.125,
+          "part": 0.003
+        },
+        {
+          "hex": "#e7eef7",
+          "n": 4,
+          "poids": 9216,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#0b1b33",
+          "n": 33,
+          "poids": 2208,
+          "part": 0.501
+        },
+        {
+          "hex": "#4a5b75",
+          "n": 20,
+          "poids": 1122,
+          "part": 0.255
+        },
+        {
+          "hex": "#9db2ce",
+          "n": 29,
+          "poids": 464,
+          "part": 0.105
+        },
+        {
+          "hex": "#eaf1fa",
+          "n": 1,
+          "poids": 190,
+          "part": 0.043
+        },
+        {
+          "hex": "#ffffff",
+          "n": 12,
+          "poids": 163,
+          "part": 0.037
+        }
+      ],
+      "contraste": 17.23
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "header.sticky",
+          "ecrans": 4.7
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 11
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.btn",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "color 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "main#contenu",
+      "sections": [
+        {
+          "selecteur": "div#hero",
+          "titre": "Votre froid ne s'arrête jamais. Nous le maintenons.",
+          "top": 72,
+          "hauteur": 842,
+          "ecrans": 0.9,
+          "mots": 57,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.bg-surface-2",
+          "titre": null,
+          "top": 914,
+          "hauteur": 192,
+          "ecrans": 0.2,
+          "mots": 37,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.py-14",
+          "titre": "Quatre métiers, une seule entreprise",
+          "top": 1106,
+          "hauteur": 832,
+          "ecrans": 0.9,
+          "mots": 110,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "section.bg-surface-2",
+          "titre": "200 km autour de Suèvres",
+          "top": 1938,
+          "hauteur": 464,
+          "ecrans": 0.5,
+          "mots": 63,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "section.py-14",
+          "titre": "Une panne de froid ne se traite pas le lendemain matin",
+          "top": 2402,
+          "hauteur": 1300,
+          "ecrans": 1.4,
+          "mots": 337,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer.bg-dark",
+          "titre": "SERVICES",
+          "top": 3702,
+          "hauteur": 485,
+          "ecrans": 0.5,
+          "mots": 67,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.sticky",
+        "hauteur": 72,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "Concept Froid Centre — accueil",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Services",
+            "href": "/froid-commercial/",
+            "bouton": false
+          },
+          {
+            "texte": "Dépannage",
+            "href": "/depannage-urgence/",
+            "bouton": false
+          },
+          {
+            "texte": "Contrats",
+            "href": "/contrats-de-maintenance/",
+            "bouton": false
+          },
+          {
+            "texte": "Réalisations",
+            "href": "/realisations/",
+            "bouton": false
+          },
+          {
+            "texte": "L'entreprise",
+            "href": "/entreprise/",
+            "bouton": false
+          },
+          {
+            "texte": "Contact",
+            "href": "/contact/",
+            "bouton": false
+          },
+          {
+            "texte": "06 25 37 02 03",
+            "href": "tel:+33625370203",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.bg-dark",
+        "liens": [
+          {
+            "texte": "06 25 37 02 03",
+            "href": "tel:+33625370203",
+            "bouton": false
+          },
+          {
+            "texte": "Froid commercial",
+            "href": "/froid-commercial/",
+            "bouton": false
+          },
+          {
+            "texte": "Climatisation",
+            "href": "/climatisation/",
+            "bouton": false
+          },
+          {
+            "texte": "Pompe à chaleur",
+            "href": "/pompe-a-chaleur/",
+            "bouton": false
+          },
+          {
+            "texte": "Contrats de maintenance",
+            "href": "/contrats-de-maintenance/",
+            "bouton": false
+          },
+          {
+            "texte": "Dépannage d'urgence",
+            "href": "/depannage-urgence/",
+            "bouton": false
+          },
+          {
+            "texte": "Blois",
+            "href": "/frigoriste-blois/",
+            "bouton": false
+          },
+          {
+            "texte": "Vendôme",
+            "href": "/frigoriste-vendome/",
+            "bouton": false
+          },
+          {
+            "texte": "Orléans",
+            "href": "/frigoriste-orleans/",
+            "bouton": false
+          },
+          {
+            "texte": "Romorantin-Lanthenay",
+            "href": "/frigoriste-romorantin/",
+            "bouton": false
+          },
+          {
+            "texte": "Tours",
+            "href": "/frigoriste-tours/",
+            "bouton": false
+          },
+          {
+            "texte": "Châteauroux",
+            "href": "/frigoriste-chateauroux/",
+            "bouton": false
+          },
+          {
+            "texte": "Chartres",
+            "href": "/frigoriste-chartres/",
+            "bouton": false
+          },
+          {
+            "texte": "Bourges",
+            "href": "/frigoriste-bourges/",
+            "bouton": false
+          },
+          {
+            "texte": "Les 25 communes",
+            "href": "/zone-d-intervention/",
+            "bouton": false
+          },
+          {
+            "texte": "L'entreprise",
+            "href": "/entreprise/",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "/mentions-legales/",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de confidentialité",
+            "href": "/politique-de-confidentialite/",
+            "bouton": false
+          },
+          {
+            "texte": "Cookies",
+            "href": "/cookies/",
+            "bouton": false
+          },
+          {
+            "texte": "Gérer mes cookies",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "contact@conceptfroid.fr",
+            "href": "mailto:contact@conceptfroid.fr",
+            "bouton": false
+          },
+          {
+            "texte": "SASU CREAVIS",
+            "href": "https://digital.creavis.fr",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 6,
+        "href": "tel:+33625370203"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Demander un devis",
+          "href": "/contact/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.sr-only",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "header.sticky",
+          "position": "sticky",
+          "hauteur": 72,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 11
+        },
+        {
+          "selecteur": "div.fixed",
+          "position": "fixed",
+          "hauteur": 177,
+          "largeur": 1440,
+          "enBas": true,
+          "mots": 35
+        }
+      ],
+      "barreBas": {
+        "selecteur": "div.fixed",
+        "hauteur": 177,
+        "largeur": 1440,
+        "liens": [
+          {
+            "texte": "Refuser",
+            "href": ""
+          },
+          {
+            "texte": "Accepter",
+            "href": ""
+          }
+        ]
+      }
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 16,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Inter"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/marche/captures/concept-froid-centre-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#071429",
+      "h1": "Votre froid ne s'arrête jamais. Nous le maintenons.",
+      "h1Visible": true,
+      "mots": 102,
+      "images": 2,
+      "mediaPleinEcran": {
+        "type": "image",
+        "couverture": 0.82,
+        "selecteur": "img.absolute"
+      },
+      "boutonPrincipal": {
+        "texte": "Appeler maintenant",
+        "x": 20,
+        "y": 473.125,
+        "cx": 0.34655448717948717,
+        "cy": 0.59375,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": {
+        "selecteur": "div.fixed",
+        "hauteur": 60,
+        "largeur": 390,
+        "liens": [
+          {
+            "texte": "Appeler",
+            "href": "tel:+33625370203"
+          },
+          {
+            "texte": "Devis",
+            "href": "/contact/"
+          }
+        ]
+      },
+      "scrollHeight": 6800,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.text-[2rem]",
+        "famille": "Montserrat, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 32,
+        "graisse": "800",
+        "interlignage": 1.15,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.48px"
+      },
+      "h2": {
+        "selecteur": "h2.text-[1.6rem]",
+        "famille": "Montserrat, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 25.6,
+        "graisse": "700",
+        "interlignage": 1.15,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.384px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Inter, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 17,
+        "graisse": "400",
+        "interlignage": 1.65,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.lg:hidden",
+        "famille": "Inter, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 17,
+        "graisse": "400",
+        "interlignage": 1.65,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.flex",
+        "famille": "Inter, system-ui, sans-serif, system-ui, sans-serif",
+        "taille": 17,
+        "graisse": "400",
+        "interlignage": 1.65,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/ba9851c3c22cd980-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/21350d82a1f187e9-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/c5fe6dc8356a8c31-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/19cfc7226ec3afaa-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/df0a9ae256c0569c-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/8e9860b6e62d6359-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_f367f3",
+          "url": "/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Inter_Fallback_f367f3",
+          "url": "",
+          "feuille": "conceptfroid.fr",
+          "source": "locale"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/b1f344208eb4edfe-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/48e2044251ef3125-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/bf24a9759715e608-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/1f173e5e25f3efee-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/904be59b21bd51cb-s.p.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/b1f344208eb4edfe-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/48e2044251ef3125-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/bf24a9759715e608-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/1f173e5e25f3efee-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/904be59b21bd51cb-s.p.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/b1f344208eb4edfe-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/48e2044251ef3125-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/bf24a9759715e608-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/1f173e5e25f3efee-s.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_7d3aca",
+          "url": "/_next/static/media/904be59b21bd51cb-s.p.woff2",
+          "feuille": "conceptfroid.fr",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "__Montserrat_Fallback_7d3aca",
+          "url": "",
+          "feuille": "conceptfroid.fr",
+          "source": "locale"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [],
+      "famillesVisibles": [
+        {
+          "famille": "Inter",
+          "n": 73
+        },
+        {
+          "famille": "Montserrat",
+          "n": 34
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#0b1b33",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 15,
+          "poids": 2876806.6875
+        },
+        {
+          "hex": "#071429",
+          "n": 2,
+          "poids": 763028.90625
+        },
+        {
+          "hex": "#f4f7fb",
+          "n": 3,
+          "poids": 534824.53125
+        },
+        {
+          "hex": "#d93400",
+          "n": 3,
+          "poids": 37359.165771484375
+        },
+        {
+          "hex": "#0a3182",
+          "n": 1,
+          "poids": 9835.490478515625
+        },
+        {
+          "hex": "#e7eef7",
+          "n": 4,
+          "poids": 9216
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#0b1b33",
+          "n": 27,
+          "poids": 2152
+        },
+        {
+          "hex": "#4a5b75",
+          "n": 20,
+          "poids": 1122
+        },
+        {
+          "hex": "#9db2ce",
+          "n": 29,
+          "poids": 464
+        },
+        {
+          "hex": "#eaf1fa",
+          "n": 1,
+          "poids": 190
+        },
+        {
+          "hex": "#ffffff",
+          "n": 13,
+          "poids": 161
+        },
+        {
+          "hex": "#0e63b8",
+          "n": 6,
+          "poids": 115
+        },
+        {
+          "hex": "#0a3182",
+          "n": 7,
+          "poids": 64
+        },
+        {
+          "hex": "#1684ed",
+          "n": 2,
+          "poids": 36
+        },
+        {
+          "hex": "#f7931e",
+          "n": 1,
+          "poids": 26
+        },
+        {
+          "hex": "#071429",
+          "n": 1,
+          "poids": 17
+        }
+      ],
+      "nbImages": 3,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 15,
+          "poids": 2876806.6875,
+          "part": 0.68
+        },
+        {
+          "hex": "#071429",
+          "n": 2,
+          "poids": 763028.90625,
+          "part": 0.18
+        },
+        {
+          "hex": "#f4f7fb",
+          "n": 3,
+          "poids": 534824.53125,
+          "part": 0.126
+        },
+        {
+          "hex": "#d93400",
+          "n": 3,
+          "poids": 37359.165771484375,
+          "part": 0.009
+        },
+        {
+          "hex": "#0a3182",
+          "n": 1,
+          "poids": 9835.490478515625,
+          "part": 0.002
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#0b1b33",
+          "n": 27,
+          "poids": 2152,
+          "part": 0.495
+        },
+        {
+          "hex": "#4a5b75",
+          "n": 20,
+          "poids": 1122,
+          "part": 0.258
+        },
+        {
+          "hex": "#9db2ce",
+          "n": 29,
+          "poids": 464,
+          "part": 0.107
+        },
+        {
+          "hex": "#eaf1fa",
+          "n": 1,
+          "poids": 190,
+          "part": 0.044
+        },
+        {
+          "hex": "#ffffff",
+          "n": 13,
+          "poids": 161,
+          "part": 0.037
+        }
+      ],
+      "contraste": 17.23
+    },
+    "mouvement": {
+      "bibliotheques": [],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [
+        {
+          "selecteur": "header.sticky",
+          "ecrans": 8.1
+        }
+      ],
+      "courbes": [
+        {
+          "valeur": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 10
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.btn",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "color 0.15s cubic-bezier(0.4, 0, 0.2, 1)"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body.min-h-screen",
+      "sections": [
+        {
+          "selecteur": "main#contenu",
+          "titre": "Votre froid ne s'arrête jamais. Nous le maintenons.",
+          "top": 69,
+          "hauteur": 5470,
+          "ecrans": 6.5,
+          "mots": 604,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "footer.bg-dark",
+          "titre": "SERVICES",
+          "top": 5539,
+          "hauteur": 1261,
+          "ecrans": 1.5,
+          "mots": 67,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.sticky",
+        "hauteur": 69,
+        "position": "sticky",
+        "liens": [
+          {
+            "texte": "Concept Froid Centre — accueil",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Ouvrir le menu",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.bg-dark",
+        "liens": [
+          {
+            "texte": "06 25 37 02 03",
+            "href": "tel:+33625370203",
+            "bouton": false
+          },
+          {
+            "texte": "Froid commercial",
+            "href": "/froid-commercial/",
+            "bouton": false
+          },
+          {
+            "texte": "Climatisation",
+            "href": "/climatisation/",
+            "bouton": false
+          },
+          {
+            "texte": "Pompe à chaleur",
+            "href": "/pompe-a-chaleur/",
+            "bouton": false
+          },
+          {
+            "texte": "Contrats de maintenance",
+            "href": "/contrats-de-maintenance/",
+            "bouton": false
+          },
+          {
+            "texte": "Dépannage d'urgence",
+            "href": "/depannage-urgence/",
+            "bouton": false
+          },
+          {
+            "texte": "Blois",
+            "href": "/frigoriste-blois/",
+            "bouton": false
+          },
+          {
+            "texte": "Vendôme",
+            "href": "/frigoriste-vendome/",
+            "bouton": false
+          },
+          {
+            "texte": "Orléans",
+            "href": "/frigoriste-orleans/",
+            "bouton": false
+          },
+          {
+            "texte": "Romorantin-Lanthenay",
+            "href": "/frigoriste-romorantin/",
+            "bouton": false
+          },
+          {
+            "texte": "Tours",
+            "href": "/frigoriste-tours/",
+            "bouton": false
+          },
+          {
+            "texte": "Châteauroux",
+            "href": "/frigoriste-chateauroux/",
+            "bouton": false
+          },
+          {
+            "texte": "Chartres",
+            "href": "/frigoriste-chartres/",
+            "bouton": false
+          },
+          {
+            "texte": "Bourges",
+            "href": "/frigoriste-bourges/",
+            "bouton": false
+          },
+          {
+            "texte": "Les 25 communes",
+            "href": "/zone-d-intervention/",
+            "bouton": false
+          },
+          {
+            "texte": "L'entreprise",
+            "href": "/entreprise/",
+            "bouton": false
+          },
+          {
+            "texte": "Mentions légales",
+            "href": "/mentions-legales/",
+            "bouton": false
+          },
+          {
+            "texte": "Politique de confidentialité",
+            "href": "/politique-de-confidentialite/",
+            "bouton": false
+          },
+          {
+            "texte": "Cookies",
+            "href": "/cookies/",
+            "bouton": false
+          },
+          {
+            "texte": "Gérer mes cookies",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "contact@conceptfroid.fr",
+            "href": "mailto:contact@conceptfroid.fr",
+            "bouton": false
+          },
+          {
+            "texte": "SASU CREAVIS",
+            "href": "https://digital.creavis.fr",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 6,
+        "href": "tel:+33625370203"
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "Demander un devis",
+          "href": "/contact/"
+        },
+        {
+          "texte": "Devis",
+          "href": "/contact/"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "a.sr-only",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 1,
+          "enBas": false,
+          "mots": 3
+        },
+        {
+          "selecteur": "header.sticky",
+          "position": "sticky",
+          "hauteur": 69,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 5
+        },
+        {
+          "selecteur": "div.fixed",
+          "position": "fixed",
+          "hauteur": 60,
+          "largeur": 390,
+          "enBas": true,
+          "mots": 2
+        },
+        {
+          "selecteur": "div.fixed",
+          "position": "fixed",
+          "hauteur": 288,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 35
+        }
+      ],
+      "barreBas": {
+        "selecteur": "div.fixed",
+        "hauteur": 60,
+        "largeur": 390,
+        "liens": [
+          {
+            "texte": "Appeler",
+            "href": "tel:+33625370203"
+          },
+          {
+            "texte": "Devis",
+            "href": "/contact/"
+          }
+        ]
+      }
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 17,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Inter"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "Concept Froid Centre",
+  "dureeS": 32.2
+}
