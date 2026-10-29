@@ -122,6 +122,29 @@ p { text-wrap: pretty; }
 a { text-underline-offset: 0.15em; text-decoration-thickness: 1px; }
 ::selection { background: var(--accent); color: var(--on-accent); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Mention « Photo d’illustration » d'une démo à photos de banque (src/components/Img.astro, images.illustration) :
+   en bas à droite du cadre de l'image. Le parent ne devient `relative` que s'il n'est pas déjà positionné par une
+   utilitaire (couche base : `absolute`, `fixed`, `sticky` de Tailwind gagnent toujours). Tokens seulement. */
+:where(:has(> .ff-illustration)) { position: relative; }
+.ff-illustration-cadre { display: block; position: relative; }
+.ff-illustration {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 5;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-transform: none;
+  pointer-events: none;
+  white-space: nowrap;
+}
 }
 
 /* =====================================================================

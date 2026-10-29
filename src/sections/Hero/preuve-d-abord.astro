@@ -1,0 +1,89 @@
+---
+/**
+ * Hero "preuve-d-abord" (famille `preuve-d-abord`, .claude/skills/site-final/premiers-ecrans.md) : la note Google et
+ * deux avis en très grand avant tout le reste, le métier et le numéro en tête. En tête : h1, métier à ville, numéro.
+ * Dessous, une plaque (la photo du client sous un voile encre, sinon l'encre seule) qui porte la note en chiffres de
+ * titre, les étoiles et le lien vers la fiche ; deux avis sur des cartes claires posées sur la plaque, la seconde
+ * décalée qui chevauche la première (trois plans, ombres portées). Les deux avis les plus courts sont pris tels quels
+ * (jamais coupés, jamais réécrits), avec leur auteur et leur origine.
+ * Données : proof.google ET deux proof.testimonials (HERO_DE_FAMILLE ne la propose pas sans). Sans note : les avis
+ * seuls ; sans avis : la note seule ; sans rien : l'en-tête seul. Rien d'inventé.
+ */
+import { site, tel, paragraphs, hasContactDoor, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const intro = paragraphs(site.business.description)[0];
+const hero = site.images.hero;
+const google = site.proof.google;
+const avis = [...site.proof.testimonials].sort((a, b) => a.text.length - b.text.length).slice(0, 2);
+const plaque = Boolean(google || avis.length);
+const note = google ? google.rating.toFixed(1).replace('.', ',') : '';
+---
+
+<section id="hero" class="hero-preuve relative pt-8 md:pt-14 pb-12 md:pb-20">
+  <div class="container-ff">
+    <div class="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-10">
+      <div class="lg:col-span-7">
+        <h1 class="hero-titre text-display-lg" data-split set:html={site.business.tagline} />
+        <p class="mt-4 text-lg text-muted">{metierEtVille()}</p>
+      </div>
+      <div class="lg:col-span-5 lg:justify-self-end flex flex-wrap items-center gap-3">
+        <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+        {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
+      </div>
+    </div>
+
+    {plaque && (
+      <div class="pda-plaque relative mt-8 md:mt-12 overflow-hidden rounded-card bg-ink text-on-ink shadow-lift">
+        {hero && (
+          <div class="absolute inset-0" aria-hidden="true">
+            <Img src={hero.src} alt="" class="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover" sizes={HERO_SIZES['preuve-d-abord']} data-parallax="0.1" priority />
+            <div class="absolute inset-0 bg-ink/75"></div>
+          </div>
+        )}
+        <div class:list={['relative grid gap-10 px-6 py-9 sm:px-10 md:py-14 lg:px-14', google && avis.length > 0 && 'lg:grid-cols-12 lg:items-center']}>
+          {google && (
+            <div class="lg:col-span-5">
+              <p class="pda-note font-display leading-none tabular-nums">{note}<span class="pda-sur text-on-ink/70">/5</span></p>
+              <div class="mt-4 flex items-center gap-1" aria-hidden="true">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Icon name="Star" size={26} class={i < Math.round(google.rating) ? 'text-accent fill-accent' : 'text-on-ink/40'} />
+                ))}
+              </div>
+              <p class="mt-4 text-lg">
+                <a href={google.url} target="_blank" rel="noopener" class="underline decoration-accent decoration-2 underline-offset-4 hover:decoration-on-ink">{google.count} avis sur Google</a>
+              </p>
+            </div>
+          )}
+          {avis.length > 0 && (
+            <div class:list={['pda-avis relative', google && 'lg:col-span-7']} data-stagger="140">
+              {avis.map((t, i) => (
+                <figure class:list={['pda-carte card relative rounded-card bg-surface text-fg shadow-lift p-6 md:p-8', i === 1 && 'pda-decalee']}>
+                  <blockquote class="font-display text-xl md:text-2xl leading-snug">« {t.text} »</blockquote>
+                  <figcaption class="mt-4 text-sm text-muted">
+                    <span class="font-medium text-fg">{t.author}</span>{t.city && <>, {t.city}</>}, via {t.source}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    )}
+    {!plaque && intro && <p class="mt-8 max-w-2xl text-lg text-muted">{intro}</p>}
+  </div>
+</section>
+
+<style>
+  .pda-note { font-size: clamp(5rem, 16vw, 10rem); }
+  .pda-sur { font-size: 0.32em; margin-left: 0.15em; }
+  /* Le second avis chevauche le premier, décalé vers la droite : deux cartes posées, pas une liste. */
+  .pda-decalee { margin-top: -1rem; margin-left: 1.25rem; }
+  @media (min-width: 48rem) {
+    .pda-carte { max-width: 34rem; }
+    .pda-decalee { margin-top: -1.75rem; margin-left: auto; margin-right: 0; }
+  }
+</style>

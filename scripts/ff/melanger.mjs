@@ -55,8 +55,36 @@ const TOUS_ATOMES = DIMENSIONS; // typo … matiere, architecture, premier_ecran
  * ses photos, ou null ; `video` = 'client' (sa vraie vidéo) | 'animer' (ff animer prévu) | 'banque' (ff video prévu,
  * jamais présentée comme la sienne) | null.
  */
-export function profilClient({ photos = 0, largeurMax = 0, mouvement = null, avis = 0, urgence = false, tonPhotos = null, video = null } = {}) {
-  return { photos, largeurMax, mouvement, avis, urgence, tonPhotos, video };
+export function profilClient({ photos = 0, largeurMax = 0, mouvement = null, avis = 0, urgence = false, tonPhotos = null, video = null, couverture = false, photosSite = 0, temoignages = 0, horaires = 0, adresse = false } = {}) {
+  // Lus dans site.config.ts (donneesDuSite) : couverture = images.hero déclarée, photosSite = photos déclarées
+  // (couverture comprise, sans doublon), temoignages = proof.testimonials, horaires = lignes de contact.hours,
+  // adresse = une rue dans contact.address. Ce que les heros de famille (HERO_DE_FAMILLE) demandent pour se rendre.
+  return { photos, largeurMax, mouvement, avis, urgence, tonPhotos, video, couverture, photosSite, temoignages, horaires, adresse };
+}
+
+/**
+ * Pure : ce que les heros de famille lisent dans le site du client (objet rendu par defineSite), pour profilClient.
+ * Site absent ou illisible = rien (aucun hero de famille à données ne sera proposé).
+ */
+export function donneesDuSite(site) {
+  if (!site) return {};
+  const vues = new Set();
+  const ajoute = (p) => { if (p?.src) vues.add(p.src); };
+  ajoute(site.images?.hero);
+  ajoute(site.about?.portrait);
+  for (const e of site.about?.espaces ?? []) ajoute(e.photo);
+  for (const g of site.proof?.gallery ?? []) ajoute(g);
+  for (const r of site.realisations ?? []) for (const p of r.photos ?? []) ajoute(p);
+  for (const x of site.services ?? []) { ajoute(x.image); for (const p of x.images ?? []) ajoute(p); }
+  return {
+    couverture: Boolean(site.images?.hero),
+    photosSite: vues.size,
+    temoignages: (site.proof?.testimonials ?? []).length,
+    horaires: (site.contact?.hours ?? []).length,
+    adresse: Boolean(site.contact?.address?.street),
+    ...(site.proof?.google ? { avis: site.proof.google.count } : {}),
+    ...(site.contact?.emergency24h ? { urgence: true } : {}),
+  };
 }
 
 /** Pure : l'atome photos convient-il aux photos du client ? Renvoie la raison du refus, ou null. */
@@ -93,6 +121,7 @@ export const EXIGENCES_FAMILLES = {
   'video-ou-sequence': (c) => c.photos >= 6 || 'une vidéo ou une série de photos du même geste',
   'preuve-d-abord': (c) => c.avis >= 50 || '50 avis et plus',
   'numero-geant': (c) => c.urgence || 'un métier d\'urgence',
+  'plan-et-lieu': (c) => (c.adresse && c.horaires > 0) || 'une adresse (rue) et des horaires',
 };
 export function refusFamille(famille, client) {
   const f = EXIGENCES_FAMILLES[famille];
@@ -450,15 +479,39 @@ export function refusArchitectureImposee(id, implementees = [], veille = []) {
 }
 
 /**
- * Familles de premier écran que l'usine sait rendre avec une variante de hero partagée (src/sections/Hero/) ; les
- * autres (carte-sur-photo, mosaique, editorial…) se font en section sur mesure par l'agent : l'essai garde alors le
- * premier écran du site (ou celui de l'architecture) et le dit.
+ * Familles de premier écran que l'usine sait rendre avec une variante de hero partagée (src/sections/Hero/), et les
+ * données que chaque variante demande pour être belle (profilClient : photos déclarées, avis, horaires…). Sans ses
+ * données, la fonction rend null : la famille n'est pas appliquée et l'essai garde le premier écran du site (ou celui
+ * de l'architecture), en le disant. Les familles absentes (bande-defilante, objet-du-metier, cadre-colore, outil) se
+ * font en section sur mesure par l'agent. `bande-defilante` n'est pas confiée à hero/marquee : ce hero fait défiler
+ * des mots (services, villes), pas les images ou les produits que la famille demande.
+ * Né du 29 oct 2026 (« c'est monotone, sans photo, toujours la même disposition ») : seules trois familles étaient
+ * rendues, toutes les autres gardaient le même premier écran.
  */
 export const HERO_DE_FAMILLE = {
   typographique: () => 'typographic',
   diptyque: () => 'split',
   'video-ou-sequence': (c) => (c.video ? 'video' : null), // sans vraie vidéo, le hero video se rend en fullbleed
+  'carte-sur-photo': (c) => (c.couverture && c.largeurMax >= LARGEUR_PLEIN_CADRE ? 'carte-sur-photo' : null),
+  mosaique: (c) => (c.photosSite >= 4 ? 'mosaique' : null),
+  editorial: () => 'editorial', // se replie sans photo (titre sur toute la largeur)
+  'numero-geant': (c) => (c.urgence ? 'numero-geant' : null),
+  'preuve-d-abord': (c) => (c.avis > 0 && c.temoignages >= 2 ? 'preuve-d-abord' : null),
+  'plan-et-lieu': (c) => (c.adresse && c.horaires > 0 ? 'plan-et-lieu' : null),
 };
+
+/**
+ * Pure : le hero à écrire dans layout.hero pour une famille, ou { hero: null, note } qui dit pourquoi. `shell` = la
+ * coquille du site (ou de l'architecture) ; `heroRendu(shell)` = cette coquille rend-elle `layout.hero` ?
+ */
+export function heroDeFamille({ famille = null, client = profilClient(), shell = 'flow', heroRendu = () => true, archi = false } = {}) {
+  if (!famille) return { hero: null, note: null };
+  const f = HERO_DE_FAMILLE[famille];
+  const hero = f ? f(client) ?? null : null;
+  if (!hero) return { hero: null, note: `premier écran ${famille} : pas de hero partagé pour cette famille${f ? ' avec les données du client' : ''}, celui ${archi ? 'de l\'architecture' : 'du site'} est gardé` };
+  if (!heroRendu(shell)) return { hero: null, note: `premier écran ${famille} : la coquille ${shell} dessine son propre premier écran` };
+  return { hero, note: `premier écran ${famille} (hero ${hero})` };
+}
 
 /**
  * Pure : le `layout` à poser dans le look.json d'une copie d'essai. Avec une architecture : `architecture` et tous ses
@@ -474,12 +527,10 @@ export function layoutEssai({ architecture = null, archi = null, famille = null,
     notes.push(`architecture ${architecture} (coquille ${archi.layout.shell})`);
   } else notes.push('architecture : aucune, déroulé du site gardé');
   const shell = archi ? archi.layout.shell : shellSite;
-  const hero = famille ? HERO_DE_FAMILLE[famille]?.(client) ?? null : null;
-  let applique = null;
-  if (famille && !hero) notes.push(`premier écran ${famille} : pas de hero partagé pour cette famille, celui ${archi ? 'de l\'architecture' : 'du site'} est gardé`);
-  else if (famille && !heroRendu(shell)) notes.push(`premier écran ${famille} : la coquille ${shell} dessine son propre premier écran`);
-  else if (hero) { layout.hero = applique = hero; notes.push(`premier écran ${famille} (hero ${hero})`); }
-  return { layout, shell, hero: applique, notes };
+  const { hero, note } = heroDeFamille({ famille, client, shell, heroRendu, archi: Boolean(archi) });
+  if (note) notes.push(note);
+  if (hero) layout.hero = hero;
+  return { layout, shell, hero, notes };
 }
 
 /** Pure : la copie construite porte-t-elle le mélange (direction) et la coquille voulus ? Renvoie les écarts. */
@@ -921,7 +972,7 @@ export function origineVideo({ videosRaw = false, videosPub = false, credits = '
 }
 
 /** Le client vu par les contraintes : photos (hors banque), plus grande largeur (images.json), aiguillage, avis. */
-async function lireClient(slug, videoDeclaree = null) {
+async function lireClient(slug, videoDeclaree = null, site = null) {
   const dir = path.join(SITES_DIR, slug);
   const { photosClient, aiguillageDuSite } = await import('./aiguillage.mjs');
   const photos = photosClient(dir);
@@ -951,7 +1002,7 @@ async function lireClient(slug, videoDeclaree = null) {
   const avis = Number(/google:\s*\{[^}]*count:\s*(\d+)/.exec(cfg)?.[1] || 0);
   const urgence = /emergency24h:\s*true/.test(cfg);
   const video = origineVideo({ videosRaw, videosPub, credits, declaree: videoDeclaree });
-  return profilClient({ photos: photos.length, largeurMax, mouvement: aiguillageDuSite(slug)?.decision?.mouvement ?? null, avis, urgence, tonPhotos: tonMedian(tons), video });
+  return profilClient({ photos: photos.length, largeurMax, mouvement: aiguillageDuSite(slug)?.decision?.mouvement ?? null, avis, urgence, tonPhotos: tonMedian(tons), video, ...donneesDuSite(site) });
 }
 
 /** Familles et architectures prises : contrats (direction.md) et registre des mélanges, avec leur date. */
@@ -1202,7 +1253,7 @@ export async function cmdMelanger(args) {
   const graine = flags.graine != null ? Number(flags.graine) : flags.hasard ? (Date.now() ^ (Math.random() * 2 ** 31)) >>> 0 : seedFromString(`${slug}|${Object.keys(melanges.sites).length}`);
   const rng = mulberry32(graine);
   if (flags.video && !['client', 'animer', 'banque'].includes(flags.video)) { fail('--video client|animer|banque'); process.exit(1); }
-  const client = await lireClient(slug, typeof flags.video === 'string' ? flags.video : null);
+  const client = await lireClient(slug, typeof flags.video === 'string' ? flags.video : null, usine.site);
   const { familles, architectures, archisEcartees, interditesF } = libres(slug, melanges, usine, n > 1);
   const existants = Object.entries(melanges.sites).filter(([s]) => s !== slug).map(([s, v]) => ({ slug: s, atomes: v.atomes }));
   info(`Client ${slug} : ${client.photos} photo(s), la plus large ${client.largeurMax || 0} px${client.tonPhotos ? ` (L* ${Math.round(client.tonPhotos.clarte)}, chaleur ${Math.round(client.tonPhotos.chaleur)})` : ''}, vidéo ${client.video ?? 'aucune'}, mouvement ${client.mouvement ?? 'non tranché'}, ${client.avis} avis${client.urgence ? ', urgence' : ''}.`);
@@ -1297,7 +1348,15 @@ export async function cmdMelanger(args) {
   const ancien = melanges.sites[slug]?.direction;
   if (ancien && ancien !== p.nom && !Object.entries(melanges.sites).some(([s, v]) => s !== slug && v.direction === ancien)) supprimerDirection(ancien);
   ecrireDirection(p.nom, p.gen, `mélange de ${slug}`);
-  ecrireLook(slug, p.nom, p.gen, p.atomes.typo, motionPour(p.atomes, client));
+  // Famille de premier écran : le hero partagé qui la rend est écrit dans look.json quand le client en a les données
+  // et que la coquille rend un hero ; jamais par-dessus un hero dessiné pour ce site (custom/…).
+  const lookAvant = (() => { try { return JSON.parse(fs.readFileSync(path.join(SITES_DIR, slug, 'look.json'), 'utf8')); } catch { return {}; } })();
+  const heroSite = lookAvant.layout?.hero ?? usine.site?.layout?.hero ?? null;
+  const archiSite = lookAvant.layout?.architecture ?? usine.site?.layout?.architecture ?? null;
+  const shellSite = lookAvant.layout?.shell ?? (archiSite ? usine.parId[archiSite]?.layout?.shell : null) ?? usine.site?.layout?.shell ?? 'flow';
+  const famille = String(heroSite ?? '').startsWith('custom/') ? { hero: null, note: `premier écran ${m.premier_ecran} : hero dessiné pour le site (${heroSite}) gardé` } : heroDeFamille({ famille: m.premier_ecran, client, shell: shellSite, heroRendu, archi: Boolean(archiSite) });
+  ecrireLook(slug, p.nom, p.gen, p.atomes.typo, motionPour(p.atomes, client), famille.hero ? { hero: famille.hero } : {});
+  if (famille.note) info(famille.note);
   if (!slug.startsWith('_')) {
     melanges.sites[slug] = { direction: p.nom, atomes: m, date: new Date().toISOString().slice(0, 10) };
     fs.mkdirSync(path.dirname(REGISTRE_MELANGES), { recursive: true });

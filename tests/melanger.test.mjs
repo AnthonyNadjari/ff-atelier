@@ -595,3 +595,20 @@ test('échelle du h2 : jamais plus grand que le h1 ni lu comme du texte (essais 
   assert.equal(echelleH2(96, 40, 16), 40);
   assert.equal(echelleH2(22, 30, 18), 23.9);
 });
+
+test('familles rendues (29 oct 2026) : chaque famille dont le client a les données pose son hero dans le layout', async () => {
+  const { layoutEssai, heroDeFamille, HERO_DE_FAMILLE } = await import('../scripts/ff/melanger.mjs');
+  const riche = profilClient({ photos: 10, largeurMax: 2400, couverture: true, photosSite: 8, avis: 120, temoignages: 3, horaires: 4, adresse: true, urgence: true });
+  const attendu = { 'carte-sur-photo': 'carte-sur-photo', mosaique: 'mosaique', editorial: 'editorial', 'numero-geant': 'numero-geant', 'preuve-d-abord': 'preuve-d-abord', 'plan-et-lieu': 'plan-et-lieu', typographique: 'typographic', diptyque: 'split' };
+  for (const [famille, hero] of Object.entries(attendu)) {
+    assert.equal(layoutEssai({ famille, client: riche }).layout.hero, hero, famille);
+    assert.equal(heroDeFamille({ famille, client: riche }).hero, hero, famille);
+  }
+  assert.ok(Object.keys(HERO_DE_FAMILLE).length >= 9, 'neuf familles sur treize ont un hero partagé');
+  const pauvre = profilClient({ photos: 2, largeurMax: 1200 });
+  for (const f of ['carte-sur-photo', 'mosaique', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu']) {
+    const r = layoutEssai({ famille: f, client: pauvre });
+    assert.equal(r.hero, null, `${f} sans ses données`);
+    assert.match(r.notes.join(' '), /avec les données du client/);
+  }
+});

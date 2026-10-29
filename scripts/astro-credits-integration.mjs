@@ -34,6 +34,27 @@ export function siteHasCredits(root, slug) {
   return creditsHasEntries(readFileSync(p, 'utf8'));
 }
 
+/**
+ * Photos de banque d'images consignees dans CREDITS.md (`ff photos`, `ff photos-demo`) : le chemin public de
+ * chaque fichier cible, sans extension (« ## raw/hero.jpg -> public/images/hero.webp (via ff images) » ->
+ * « /images/hero »). Sert a `<Img>` (src/components/Img.astro) pour poser la mention « Photo d'illustration »
+ * sur un site de demonstration (images.illustration) et a `ff verifier` (scripts/ff/illustrations.mjs).
+ */
+export function photosDeBanque(text) {
+  const out = new Set();
+  for (const m of String(text || '').matchAll(/^##[ \t]+(.+)$/gm)) {
+    const cible = /public\/(images\/[^\s)]+)/.exec(m[1]);
+    if (cible) out.add('/' + cible[1].replace(/\.[a-z0-9]+$/i, ''));
+  }
+  return [...out];
+}
+
+/** photosDeBanque() de sites/<slug>/CREDITS.md ([] sans fichier). */
+export function sitePhotosDeBanque(root, slug) {
+  const p = resolve(root, 'sites', slug, 'CREDITS.md');
+  return existsSync(p) ? photosDeBanque(readFileSync(p, 'utf8')) : [];
+}
+
 export function creditsIntegration({ root, slug }) {
   return {
     name: 'ff-credits',

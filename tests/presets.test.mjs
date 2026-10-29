@@ -45,10 +45,12 @@ let FONT_KEYS;
 let exampleConfig;
 // Variantes qui ne vont qu'avec leur architecture (src/lib/architectures.ts) : jamais dans un modèle.
 let VARIANTES_D_ARCHITECTURE = [];
+let HEROS_DE_FAMILLE = [];
 if (tsImportable) {
   const schemaMod = await loadSchemaModule();
   VARIANTES_D_ARCHITECTURE = (await loadArchitecturesModule()).VARIANTES_D_ARCHITECTURE;
   VARIANTS = schemaMod.VARIANTS;
+  HEROS_DE_FAMILLE = schemaMod.HEROS_DE_FAMILLE;
   DIRECTIONS = schemaMod.DIRECTIONS;
   SHELLS = schemaMod.SHELLS;
   HEADINGS = schemaMod.HEADINGS;
@@ -236,6 +238,9 @@ if (!tsImportable) {
     const counts = new Map();
     for (const d of all) counts.set(d.look.layout.hero, (counts.get(d.look.layout.hero) || 0) + 1);
     for (const v of VARIANTS.hero) {
+      // Heros de famille (HEROS_DE_FAMILLE, src/lib/schema.ts) : choisis par le contrat et ff melanger selon les
+      // données du client, jamais posés d'office dans un modèle construit sur _exemple (sans photo).
+      if (HEROS_DE_FAMILLE.includes(v)) continue;
       assert.ok((counts.get(v) || 0) >= 4, `hero "${v}" utilise ${counts.get(v) || 0} fois, attendu >= 4`);
     }
   });

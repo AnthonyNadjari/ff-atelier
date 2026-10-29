@@ -10,7 +10,7 @@
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { siteHasCredits } from './astro-credits-integration.mjs';
+import { siteHasCredits, sitePhotosDeBanque } from './astro-credits-integration.mjs';
 import { directionBg, iconesDisponibles } from './ff/icones.mjs';
 
 const VIRTUAL = 'virtual:ff-look';
@@ -351,6 +351,8 @@ export function ffLookPlugin({ root, slug, ffLook }) {
       // (src/sections/Footer/*.astro) n'affichent le lien "Credits photos" que si la route /credits
       // a effectivement ete injectee pour ce site (meme condition, calculee la meme facon).
       lines.push(`export const hasCredits = ${JSON.stringify(siteHasCredits(root, slug))};`);
+      // Photos de banque (CREDITS.md) : <Img> y pose la mention « Photo d'illustration » quand images.illustration.
+      lines.push(`export const photosBanque = ${JSON.stringify(sitePhotosDeBanque(root, slug))};`);
 
       // <meta name="theme-color"> et pack d'icones (scripts/astro-icons-integration.mjs) : la couleur est le
       // token `--bg` de la direction (lu dans son index.css, scripts/ff/icones.mjs), `icons` dit quelles

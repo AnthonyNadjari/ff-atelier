@@ -1,0 +1,78 @@
+---
+/**
+ * Hero "numero-geant" (famille `numero-geant`, .claude/skills/site-final/premiers-ecrans.md) : le numéro de téléphone
+ * EST l'élément principal (métiers d'urgence, client qui veut des appels). Une dalle encre surélevée (ombre portée)
+ * porte le h1, le métier et la zone, puis le numéro en très grand (lien tel:, taille calée sur la largeur de la dalle
+ * : il ne passe jamais à la ligne), puis les preuves (horaires du jour, urgences, note Google, ancienneté). La photo
+ * du client, si elle existe, est un second plan que la dalle chevauche (à droite sur ordinateur, en bandeau au-dessus
+ * sur téléphone). Sans photo, la dalle seule, centrée.
+ * Données : le numéro (toujours là). HERO_DE_FAMILLE ne la propose qu'aux métiers d'urgence (contact.emergency24h).
+ */
+import { site, tel, paragraphs, hasContactDoor, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const hero = site.images.hero;
+const google = site.proof.google;
+const ouvert24 = site.contact.emergency24h;
+const intro = paragraphs(site.business.description)[0];
+---
+
+<section id="hero" class:list={['hero-numero relative pt-0 md:pt-8 pb-12 md:pb-20', hero && 'ng-avec-photo']}>
+  <div class="ng-scene container-ff relative">
+    {hero && (
+      <figure class="ng-photo relative overflow-hidden rounded-card bg-ink" data-reveal>
+        <Img src={hero.src} alt={hero.alt} class="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover" sizes={HERO_SIZES['numero-geant']} data-parallax="0.1" priority />
+      </figure>
+    )}
+    <div class="ng-dalle relative z-10 rounded-card bg-ink text-on-ink shadow-lift px-6 py-8 sm:px-10 md:py-12 lg:px-14">
+      <h1 class="hero-titre text-display-lg" data-split set:html={site.business.tagline} />
+      <p class="mt-3 text-lg text-on-ink/80">{metierEtVille()}</p>
+
+      <a href={tel()} class="ng-numero mt-8 block font-display leading-none tabular-nums text-on-ink" aria-label={`Appeler le ${site.contact.phoneDisplay}`} data-magnetic="0.08">
+        <span class="ng-chiffres whitespace-nowrap border-b-4 border-accent pb-2 transition-colors">{site.contact.phoneDisplay}</span>
+      </a>
+      {(ouvert24 || intro) && <p class="mt-6 max-w-xl text-on-ink/80">{ouvert24 && <strong class="font-medium text-on-ink">Urgences 24 h/24. </strong>}{intro}</p>}
+
+      <div class="mt-8 grid gap-6 border-t border-on-ink/20 pt-6 sm:grid-cols-2">
+        {!ouvert24 && site.contact.hours.length > 0 && <HorairesDuJour class="text-on-ink/80" />}
+        <ul class="flex flex-col gap-1.5 text-sm text-on-ink/75">
+          {google && <li>{google.rating.toFixed(1).replace('.', ',')}/5 sur Google ({google.count} avis)</li>}
+          {site.business.since && <li>Depuis {site.business.since}</li>}
+          {site.business.insurance && <li>Assuré décennale</li>}
+          {site.zones.label && <li>{site.zones.label}</li>}
+        </ul>
+        {hasContactDoor(site) && (
+          <div class="sm:col-span-2">
+            <Button href="/#contact" variant="ghost" size="md" class="border-on-ink/30! bg-transparent! text-on-ink! hover:border-on-ink!">{site.wording.devis}</Button>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Le numéro se cale sur la largeur de la dalle (unités de conteneur) : jamais de retour à la ligne. */
+  .ng-dalle { container-type: inline-size; }
+  .ng-numero { font-size: clamp(2.4rem, 10.5cqi, 7.5rem); }
+  .ng-numero:hover .ng-chiffres, .ng-numero:focus-visible .ng-chiffres { border-color: var(--on-ink); }
+
+  /* Téléphone : photo en bandeau, la dalle remonte dessus. */
+  .ng-photo { height: 26svh; min-height: 11rem; margin-inline: calc(-1 * clamp(1.25rem, 4vw, 2.5rem)); border-radius: 0; }
+  .ng-avec-photo .ng-dalle { margin-top: -3.5rem; }
+  .ng-dalle { max-width: 56rem; }
+  .hero-numero:not(.ng-avec-photo) .ng-dalle { margin-inline: auto; }
+
+  @media (min-width: 64rem) {
+    .ng-avec-photo .ng-scene { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: center; }
+    .ng-photo { grid-column: 6 / -1; align-self: stretch; grid-row: 1; height: auto; min-height: clamp(30rem, 74svh, 50rem); margin-inline: 0; border-radius: var(--radius-card); }
+    /* La dalle chevauche la photo sur deux colonnes : deux plans, une ombre. */
+    .ng-avec-photo .ng-dalle { grid-column: 1 / span 9; grid-row: 1; margin-block: 3rem; margin-top: 3rem; max-width: none; }
+  }
+  /* Démo à photos de banque : la mention « Photo d’illustration » (Img) monte en haut de la photo, le bas est couvert
+     par ce qui la chevauche. */
+  .ng-photo :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

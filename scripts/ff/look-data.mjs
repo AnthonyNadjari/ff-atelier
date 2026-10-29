@@ -130,6 +130,7 @@ export function parseSchemaConstants() {
     TONES: grab('TONES'),
     SHELLS: grab('SHELLS'),
     HEADINGS: grab('HEADINGS'),
+    HEROS_DE_FAMILLE: grab('HEROS_DE_FAMILLE'),
   };
 }
 

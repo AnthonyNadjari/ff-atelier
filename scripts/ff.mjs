@@ -21,6 +21,8 @@ import { cmdMatrice } from './ff/matrice.mjs';
 import { cmdVignettes } from './ff/vignettes.mjs';
 import { cmdModele, cmdModeles } from './ff/modele.mjs';
 import { cmdPhotos } from './ff/photos.mjs';
+import { cmdPhotosDemo } from './ff/photos-demo.mjs';
+import { cmdApercuRapide } from './ff/apercu-rapide.mjs';
 import { cmdVideo } from './ff/video.mjs';
 import { cmdSequence } from './ff/sequence.mjs';
 import { cmdAnimer } from './ff/animer.mjs';
@@ -98,6 +100,7 @@ const commands = {
   modele: cmdModele,
   modeles: cmdModeles,
   photos: cmdPhotos,
+  'photos-demo': cmdPhotosDemo,
   video: cmdVideo,
   sequence: cmdSequence,
   animer: cmdAnimer,
@@ -123,6 +126,7 @@ const commands = {
   tuiles: cmdTuiles,
   planche: cmdPlanche,
   apercu: cmdApercu,
+  'apercu-rapide': cmdApercuRapide,
   relecture: cmdRelecture,
   brief: cmdBrief,
   aiguillage: cmdAiguillage,

@@ -98,7 +98,7 @@ export const HEADINGS = ['auto', 'center', 'left'] as const;
 // src/sections/<Type>/<variante>.astro ET l'entree ici.
 export const VARIANTS = {
   nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock'],
-  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video'],
+  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu'],
   services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme'],
   about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes'],
   proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations'],
@@ -110,6 +110,12 @@ export const VARIANTS = {
   footer: ['columns', 'minimal', 'big-name'],
 } as const;
 export type SectionType = keyof typeof VARIANTS;
+/**
+ * Heros d'une famille de premier ecran (.claude/skills/site-final/premiers-ecrans.md) qui ne vont qu'avec leurs
+ * donnees (photos, avis, horaires, urgence) : tires par `ff melanger` (HERO_DE_FAMILLE, scripts/ff/melanger.mjs) quand
+ * le client les a, jamais poses d'office dans un modele (presets/, construits sur _exemple sans photo).
+ */
+export const HEROS_DE_FAMILLE = ['carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu'] as const;
 
 const img = z.object({
   src: z.string().describe('Chemin public, ex: /images/hero.webp'),
@@ -322,6 +328,10 @@ export const siteSchema = z.object({
       .describe("Fournisseur de carte (src/components/Carte.astro). 'osm' = tuiles OpenStreetMap statiques sans traceur (besoin de coordinates). 'google' = facade cliquable qui charge mapsEmbed au clic. 'none' = bloc adresse seul."),
     coordinates: z.object({ lat: z.number(), lng: z.number() }).optional().describe('Latitude/longitude, necessaire pour mapsProvider "osm"'),
     hours: z.array(ligneHoraire).default([]),
+    acces: z
+      .array(z.object({ mode: z.string().describe('« Parking », « Tramway », « Bus », « À pied »'), detail: z.string().describe('Mots du client : « Place Carnot, gratuit 1 h », « Arrêt Eurotéléport, ligne 1 »') }))
+      .default([])
+      .describe("Comment venir chez le client (commerce ou atelier ou l'on vient), mots du brief. Lu par hero/plan-et-lieu sous l'adresse. Vide = l'adresse seule, jamais un acces devine."),
     emergency24h: z.boolean().default(false),
   }),
 
@@ -1297,6 +1307,10 @@ export const siteSchema = z.object({
       heroVideoPoster: z.string().optional().describe("Chemin public de l'image affichée avant et à la place de heroVideo (poster.jpg de ff video) ; à défaut images.hero. Sans aucun des deux, la vidéo n'est pas rendue (iPhone en économie d'énergie bloque l'autoplay)"),
       logo: img.optional(),
       og: z.string().optional(),
+      illustration: z
+        .boolean()
+        .default(false)
+        .describe("Site de DÉMONSTRATION seulement (legal.demo, slug _…/demo-…) : ses photos de banque d'images (CREDITS.md, `ff photos-demo`) portent chacune la mention visible « Photo d’illustration » (src/components/Img.astro) et sont listées comme telles sur /credits. Jamais sur un site client : `ff verifier` échoue si un site non démo l'active, ou si une démo affiche une photo de banque sans elle."),
     })
     .prefault({}),
 

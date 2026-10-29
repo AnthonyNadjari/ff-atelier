@@ -360,7 +360,7 @@ async function chercherPexels({ requeteEn, n, orientation }) {
  * fournisseur) sert pour la vignette ET le fichier final : l'endpoint /thumbnail/ de l'API compte dans
  * le quota, pas les fichiers Flickr/Rawpixel.
  */
-async function chercherOpenverse({ requeteEn, n, orientation }) {
+export async function chercherOpenverse({ requeteEn, n, orientation }) {
   const params = new URLSearchParams({
     q: requeteEn.slice(0, 200),
     license_type: 'commercial',
@@ -403,7 +403,7 @@ async function chercherOpenverse({ requeteEn, n, orientation }) {
  * (licence, auteur, categories, restrictions) et une vignette 2000 px rendue par Wikimedia (evite de
  * telecharger des originaux de 20 Mo).
  */
-async function chercherWikimedia({ requeteEn, n, minLargeur }) {
+export async function chercherWikimedia({ requeteEn, n, minLargeur }) {
   const gsrsearch = `filetype:bitmap -filemime:image/gif filew:>${Math.max(0, minLargeur - 1)} ${requeteEn}`;
   const params = new URLSearchParams({
     action: 'query',
@@ -452,7 +452,7 @@ async function chercherWikimedia({ requeteEn, n, minLargeur }) {
     .filter(Boolean);
 }
 
-async function telecharger(url) {
+export async function telecharger(url) {
   const res = await fetch(url, { headers: { 'User-Agent': UA } });
   if (!res.ok) throw new Error(`Telechargement echoue (${res.status}).`);
   const buf = Buffer.from(await res.arrayBuffer());
@@ -558,7 +558,7 @@ function prochainNumeroPhoto(outDir) {
  * (raw/hero.jpg re-choisi a la main apres un --auto decevant), l'ancien bloc est retire avant
  * d'ajouter le nouveau — sinon le manifeste garderait un credit pour une image qui n'est plus la.
  */
-function poserCredits(slug, block) {
+export function poserCredits(slug, block) {
   const dest = path.join(SITES_DIR, slug, 'CREDITS.md');
   const entete = String(block).trim().split('\n')[0]; // "## <cible>"
   if (fs.existsSync(dest) && entete.startsWith('## ')) {
@@ -580,7 +580,7 @@ function nomSource(cand) {
   return 'Wikimedia Commons';
 }
 
-function blocCredits(cand, cible, { ratio, dateDuJour }) {
+export function blocCredits(cand, cible, { ratio, dateDuJour }) {
   const licenceTexte = cand.licenceLabelSource
     ? `${cand.licenceLabelSource} — ${LICENCE_LABEL[cand.licence] || cand.licence}`
     : cand.licenceVersion

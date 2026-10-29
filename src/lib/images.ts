@@ -26,6 +26,13 @@ export const HERO_SIZES: Record<string, string> = {
   stacked: '(min-width: 1280px) 1216px, 100vw',
   fullbleed: '100vw',
   video: '100vw',
+  // Heros de famille (premiers-ecrans.md) : cadre de 112rem au plus ; colonnes 4/12, 7/12 ; photo sous voile.
+  'carte-sur-photo': '(min-width: 1792px) 1792px, 100vw',
+  mosaique: '(min-width: 64rem) 34vw, 50vw',
+  editorial: '(min-width: 1280px) 400px, (min-width: 1024px) 33vw, 90vw',
+  'numero-geant': '(min-width: 1280px) 720px, (min-width: 1024px) 58vw, 100vw',
+  'preuve-d-abord': '(min-width: 1280px) 1216px, 100vw',
+  'plan-et-lieu': '(min-width: 1280px) 700px, (min-width: 1024px) 58vw, 100vw',
 };
 
 /** `sizes` d'un hero selon sa variante (`site.layout.hero`) ; toute variante inconnue = pleine largeur. */

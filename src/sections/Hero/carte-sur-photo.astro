@@ -1,0 +1,76 @@
+---
+/**
+ * Hero "carte-sur-photo" (famille `carte-sur-photo`, .claude/skills/site-final/premiers-ecrans.md) : la photo du client
+ * en grand cadre sous la nav (la nav reste sur le fond de page, lisible), et le texte posé sur une carte qui déborde du
+ * bas de la photo : trois plans (page, photo, carte) et une vraie ombre portée, jamais du texte nu sur l'image (aucun
+ * contraste à deviner). Téléphone : photo en bandeau de bord à bord, carte qui la chevauche, numéro visible sans
+ * défiler. Ordinateur : carte posée en bas à gauche de la photo, qui dépasse de son bord.
+ * Données : images.hero (idéalement 1 600 px et plus : HERO_DE_FAMILLE ne la propose pas sans). Sans photo, la carte se
+ * pose sur un panneau encre : la composition reste en trois plans, rien n'est inventé.
+ */
+import { site, tel, paragraphs, hasContactDoor, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const intro = paragraphs(site.business.description)[0];
+const hero = site.images.hero;
+const google = site.proof.google;
+const faits = [
+  site.business.since && `Depuis ${site.business.since}`,
+  site.contact.emergency24h && 'Urgences 24 h/24',
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+].filter(Boolean) as string[];
+---
+
+<section id="hero" class="hero-csp relative pt-3 md:pt-6 pb-12 md:pb-28">
+  <div class="relative mx-auto w-full max-w-[112rem] md:px-4 lg:px-6">
+    <figure class:list={['csp-photo relative overflow-hidden md:rounded-card bg-ink', !hero && 'csp-vide']}>
+      {hero && (
+        <>
+          <Img src={hero.src} alt={hero.alt} class="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover" sizes={HERO_SIZES['carte-sur-photo']} data-parallax="0.12" priority />
+          {/* Ombre au sol sous la carte : la photo s'assombrit là où la carte est posée. */}
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/45 via-ink/0 to-ink/0" aria-hidden="true"></div>
+        </>
+      )}
+    </figure>
+
+    <div class="csp-pose container-ff relative z-10">
+      <div class="csp-carte card relative rounded-card bg-surface text-fg shadow-lift px-6 py-7 sm:px-8 md:px-10 md:py-10">
+        <h1 class="hero-titre text-display-lg" data-split set:html={site.business.tagline} />
+        <p class="mt-4 text-lg text-muted">{metierEtVille()}</p>
+        {intro && <p class="mt-4 hidden max-w-lg text-muted sm:block">{intro}</p>}
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+          {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
+        </div>
+        {faits.length > 0 && (
+          <ul class="mt-7 flex flex-wrap gap-x-6 gap-y-2 border-t border-line pt-5 text-sm text-muted">
+            {faits.map((f) => <li>{f}</li>)}
+          </ul>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .csp-photo { height: 46svh; min-height: 17rem; }
+  .csp-vide { height: 30svh; min-height: 12rem; }
+  /* Téléphone : la carte remonte sur la photo (chevauchement), l'ombre la décolle. */
+  .csp-pose { margin-top: -4.5rem; }
+  .csp-carte { max-width: 36rem; }
+  @media (min-width: 48rem) {
+    .csp-photo { height: 80svh; min-height: 34rem; max-height: 60rem; }
+    .csp-vide { height: 60svh; }
+    /* Ordinateur : la carte est posée en bas à gauche de la photo et dépasse de son bord de 4,5 rem. */
+    .csp-pose { position: absolute; inset-inline: 0; bottom: -4.5rem; margin-top: 0; }
+  }
+  @media (min-width: 80rem) {
+    .csp-carte { max-width: 40rem; }
+  }
+  /* Démo à photos de banque : la mention « Photo d’illustration » (Img) monte en haut de la photo, le bas est couvert
+     par ce qui la chevauche. */
+  .csp-photo :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

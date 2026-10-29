@@ -11,11 +11,17 @@
  *   loading  "eager" | "lazy" (defaut : "eager" si priority, sinon "lazy")
  *   priority image du premier ecran : loading="eager" + fetchpriority="high" par defaut
  *
+ * Demo a photos de banque (`images.illustration`, `ff photos-demo`) : une photo listee dans CREDITS.md
+ * recoit juste apres elle la mention visible « Photo d’illustration » (span .ff-illustration, place en
+ * bas a droite du cadre de l'image par src/styles/global.css ; image dans le flux : enveloppee dans
+ * span.ff-illustration-cadre). Jamais sur un site client (ff verifier).
+ *
  * Si `src` n'a pas d'entree dans le manifeste (image non passee par `ff images`, logo,
  * placeholder...), on retombe sur un <img> simple a l'identique de l'existant : aucune
  * regression pour les images non migrees.
  */
-import { slugCourant } from '@/lib/site';
+import { slugCourant, site, photosBanque } from '@/lib/site';
+import { estPhotoDeBanque, MENTION_ILLUSTRATION } from '@/lib/credits';
 import { lookupImageEntry, splitImagePath, imageSrcsetFor } from '@/lib/images';
 
 interface Props {
@@ -45,26 +51,60 @@ const finalLoading = loading ?? (priority ? 'eager' : 'lazy');
 const fetchpriority = priority ? 'high' : undefined;
 const width = entry ? maxWidth : undefined;
 const height = entry && maxWidth ? Math.round(maxWidth / entry.ratio) : undefined;
+const illustration = Boolean(site.images?.illustration) && estPhotoDeBanque(src, photosBanque);
+// Image qui remplit un cadre déjà positionné (absolute, h-full, inset-0) : la mention se pose sur ce cadre (parent).
+// Image dans le flux : un cadre propre (span bloc relatif), sinon la mention tombait au bas du bloc parent entier
+// (page de service, image au-dessus de « Autres services », 29 oct 2026).
+const cadre = illustration && !/(^|\s)(absolute|fixed|inset-0|h-full)(\s|$)/.test(String(cls));
 const lqipStyle = entry ? `background-image:url(${entry.lqip});background-size:cover;background-position:center;` : undefined;
 ---
 
-{entry ? (
-  <picture>
-    <source type="image/avif" srcset={srcsetFor('avif')} sizes={sizes} />
-    <source type="image/webp" srcset={srcsetFor('webp')} sizes={sizes} />
-    <img
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      loading={finalLoading}
-      fetchpriority={fetchpriority}
-      decoding="async"
-      class={cls}
-      style={lqipStyle}
-      {...rest}
-    />
-  </picture>
+{cadre ? (
+  <span class="ff-illustration-cadre">
+  {entry ? (
+    <picture>
+      <source type="image/avif" srcset={srcsetFor('avif')} sizes={sizes} />
+      <source type="image/webp" srcset={srcsetFor('webp')} sizes={sizes} />
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading={finalLoading}
+        fetchpriority={fetchpriority}
+        decoding="async"
+        class={cls}
+        style={lqipStyle}
+        {...rest}
+      />
+    </picture>
+  ) : (
+    <img src={src} alt={alt} loading={finalLoading} fetchpriority={fetchpriority} decoding="async" class={cls} {...rest} />
+  )}
+    <span class="ff-illustration" data-illustration>{MENTION_ILLUSTRATION}</span>
+  </span>
 ) : (
-  <img src={src} alt={alt} loading={finalLoading} fetchpriority={fetchpriority} decoding="async" class={cls} {...rest} />
+  <Fragment>
+    {entry ? (
+      <picture>
+        <source type="image/avif" srcset={srcsetFor('avif')} sizes={sizes} />
+        <source type="image/webp" srcset={srcsetFor('webp')} sizes={sizes} />
+        <img
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          loading={finalLoading}
+          fetchpriority={fetchpriority}
+          decoding="async"
+          class={cls}
+          style={lqipStyle}
+          {...rest}
+        />
+      </picture>
+    ) : (
+      <img src={src} alt={alt} loading={finalLoading} fetchpriority={fetchpriority} decoding="async" class={cls} {...rest} />
+    )}
+    {illustration && <span class="ff-illustration" data-illustration>{MENTION_ILLUSTRATION}</span>}
+  </Fragment>
 )}

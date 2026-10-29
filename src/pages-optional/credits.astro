@@ -18,14 +18,17 @@ import path from 'node:path';
 import Base from '@/layouts/Base.astro';
 import { site, slugCourant } from '@/lib/site';
 import { resolveSection } from '@/lib/sections';
-import { parseCredits, entriesRequiringAttribution, sansCadratin, SEPARATEUR_CREDITS } from '@/lib/credits';
+import { parseCredits, entriesRequiringAttribution, sansCadratin, SEPARATEUR_CREDITS, MENTION_ILLUSTRATION } from '@/lib/credits';
 
 const Nav = resolveSection('nav', site.layout.nav);
 const Footer = resolveSection('footer', site.layout.footer);
 
 const creditsPath = path.resolve(process.cwd(), 'sites', slugCourant, 'CREDITS.md');
 const md = fs.existsSync(creditsPath) ? fs.readFileSync(creditsPath, 'utf8') : '';
-const entries = entriesRequiringAttribution(parseCredits(md));
+// Démo à photos de banque (images.illustration, `ff photos-demo`) : TOUTES les photos sont listées, chacune
+// marquée « Photo d’illustration », CC0 compris (la mention sur le site renvoie ici).
+const illustration = Boolean(site.images?.illustration);
+const entries = illustration ? parseCredits(md).filter((e) => e.sourceName || e.sourceUrl) : entriesRequiringAttribution(parseCredits(md));
 ---
 
 <Base title={`Crédits photos | ${site.business.name}`} path="/credits" noindex>
@@ -33,6 +36,12 @@ const entries = entriesRequiringAttribution(parseCredits(md));
   <main id="main" class="section-y">
     <div class="container-ff max-w-3xl space-y-10 text-[0.95rem] leading-relaxed">
       <h1 class="text-display-md">Crédits photos</h1>
+      {illustration && (
+        <p class="text-muted">
+          Site de démonstration : les photos ci-dessous sont des photos d’illustration prises dans des bibliothèques
+          libres. Elles ne montrent ni l’entreprise, ni son travail, ni ses locaux.
+        </p>
+      )}
       <p class="text-muted">
         Certaines photographies de ce site proviennent de bibliothèques libres, sous licence Creative
         Commons imposant la mention de l’auteur. Voici l’origine et la licence de chacune.
@@ -41,6 +50,7 @@ const entries = entriesRequiringAttribution(parseCredits(md));
         <ul class="space-y-8 divide-y divide-line">
           {entries.map((entry) => (
             <li class="pt-8 first:pt-0">
+              {illustration && <p class="text-muted">{MENTION_ILLUSTRATION}</p>}
               {entry.title && <p class="font-medium">{sansCadratin(entry.title)}</p>}
               <p class="text-muted mt-1">
                 Photo :{' '}

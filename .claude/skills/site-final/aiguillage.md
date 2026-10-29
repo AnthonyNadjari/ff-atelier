@@ -33,6 +33,9 @@ Les cases précisent ce qu'on peut montrer :
 Interdit dans tous les cas : photo de banque d'images présentée comme celle du client, mention « photo
 d'illustration », image générée par IA. Une photo libre de droits n'entre que si le fondateur l'a décidé pour
 ce client, noté daté dans « Accepté par le fondateur ».
+Seule exception, les **démos** (29 oct 2026, « les démos sont monotones, sans photo ») : `ff photos-demo` y pose des
+photos libres, chacune marquée « Photo d’illustration » sur le site et sur /credits ; `ff verifier` refuse ce marquage
+sur tout site qui n'est pas une démo.
 
 ## 2. Ambiance (niveau de mouvement)
 

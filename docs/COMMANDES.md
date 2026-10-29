@@ -63,6 +63,8 @@ ff sante boulangerie-durand
 **Images et médias**
 - `ff nettoyer-photos boulangerie-durand` — nettoie les photos brutes avant `ff images` (recadrage, balance des blancs).
 - `ff photos boulangerie-durand "boulangerie artisanale"` — cherche des photos libres de droit.
+- `ff photos-demo demo-boulangerie "bakery bread oven" "croissants"` — **démos seulement** : 6 photos d'illustration choisies seules (sans clé, licences libres), posées dans le site, marquées « Photo d’illustration » et créditées. Refuse un site client.
+- `ff apercu-rapide boulangerie-durand [--pages]` — voir un site en moins de 3 minutes : une seule image `captures/rapide/<slug>.jpg` (premier écran téléphone en grand, pages entières à côté), sans aucun contrôle long.
 - `ff video boulangerie-durand "pétrissage du pain"` — cherche une vidéo libre pour le hero.
 - `ff sequence boulangerie-durand video.mp4` — transforme une vidéo en séquence animée au scroll.
 - `ff animer boulangerie-durand photo.jpg "..."` — anime une vraie photo du client.

@@ -1,0 +1,77 @@
+---
+/**
+ * Hero "editorial" (famille `editorial`, .claude/skills/site-final/premiers-ecrans.md) : mise en page de magazine. Le
+ * grand titre court sur plusieurs colonnes, un filet épais, puis trois colonnes : la rubrique (métier à ville,
+ * ancienneté), le chapô (premier paragraphe de business.description) avec le numéro, et la photo du client décalée
+ * qui remonte dans le titre (ordinateur) ; une seconde photo plus petite chevauche son coin, bordée du fond de page
+ * (trois plans). Le second paragraphe, s'il existe, se lit en deux colonnes sous le chapô. Filets fins entre les
+ * blocs, rien en capitales espacées, aucune numérotation décorative.
+ * Données : aucune exigence. images.hero pour la photo (sans elle, le titre prend toute la largeur), la seconde photo
+ * est la première de photosDuSite() ; absente, une seule photo.
+ */
+import { site, tel, paragraphs, hasContactDoor, metierEtVille, photosDuSite } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const [chapo, suite] = paragraphs(site.business.description);
+const hero = site.images.hero;
+const seconde = hero ? photosDuSite()[0] : undefined;
+const google = site.proof.google;
+---
+
+<section id="hero" class="hero-edito relative pt-10 md:pt-16 pb-[var(--section-y)] overflow-hidden">
+  <div class="container-ff">
+    <h1 class:list={['edito-titre hero-titre text-display-xl', hero && 'lg:pr-[36%]']} data-split set:html={site.business.tagline} />
+
+    <div class="edito-filet mt-8 md:mt-10 border-t-2 border-fg"></div>
+
+    <div class:list={['mt-6 grid gap-8 md:gap-10', hero ? 'lg:grid-cols-12' : 'md:grid-cols-12']}>
+      <div class:list={['flex flex-col gap-3', hero ? 'lg:col-span-3' : 'md:col-span-4']}>
+        <p class="font-display text-xl md:text-2xl leading-snug">{metierEtVille()}</p>
+        <ul class="flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted md:block md:divide-y md:divide-line md:border-y md:border-line">
+          {site.business.since && <li class="md:py-2">Depuis {site.business.since}</li>}
+          {site.contact.emergency24h && <li class="md:py-2">Urgences 24 h/24</li>}
+          {google && <li class="md:py-2">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google ({google.count} avis)</li>}
+          {site.zones.label && <li class="md:py-2">{site.zones.label}</li>}
+        </ul>
+      </div>
+
+      <div class:list={['md:border-l md:border-line md:pl-10', hero ? 'lg:col-span-5' : 'md:col-span-8']}>
+        {chapo && <p class="edito-chapo text-xl md:text-2xl leading-snug text-fg first-letter:float-left first-letter:font-display first-letter:text-[3.4em] first-letter:leading-[0.8] first-letter:pr-[0.12em] first-letter:pt-[0.06em] first-letter:text-accent">{chapo}</p>}
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+          {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
+        </div>
+        {suite && <p class:list={['edito-suite mt-8 border-t border-line pt-6 text-muted', suite.length > 420 && 'md:columns-2 md:gap-8']}>{suite}</p>}
+      </div>
+
+      {hero && (
+        <div class="edito-photos relative self-start lg:col-span-4" data-reveal>
+          <figure class="edito-photo relative ml-auto aspect-[4/5] w-[88%] overflow-hidden rounded-card shadow-lift lg:w-full">
+            <Img src={hero.src} alt={hero.alt} class="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover" sizes={HERO_SIZES.editorial} data-parallax="0.08" priority />
+          </figure>
+          {seconde && (
+            <figure class="edito-seconde absolute bottom-0 left-0 aspect-[4/3] w-[52%] translate-y-[22%] overflow-hidden rounded-card border-4 border-bg shadow-lift lg:left-auto lg:-right-[8%] lg:w-[56%] lg:translate-y-[38%]">
+              <Img src={seconde.src} alt={seconde.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 64rem) 20vw, 50vw" loading="lazy" />
+            </figure>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .edito-titre { max-width: 18ch; }
+  @media (min-width: 64rem) {
+    .edito-titre { max-width: none; }
+    /* La photo remonte dans le titre : elle chevauche le filet et la dernière ligne du h1. */
+    .edito-photos { margin-top: clamp(-20rem, -22vw, -12rem); }
+    .edito-filet { margin-right: 34%; }
+  }
+  /* Démo à photos de banque : la mention « Photo d’illustration » (Img) monte en haut de la photo, le bas est couvert
+     par ce qui la chevauche. */
+  .edito-photo :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

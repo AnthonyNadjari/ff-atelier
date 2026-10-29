@@ -58,9 +58,9 @@ export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
 
-import { config as siteConfig, lookFile, hasCredits } from 'virtual:ff-look';
+import { config as siteConfig, lookFile, hasCredits, photosBanque } from 'virtual:ff-look';
 
-export { hasCredits };
+export { hasCredits, photosBanque };
 
 // Le config et le look.json du site courant sont resolus au build par scripts/vite-ff-look.mjs :
 // les autres sites ne sont jamais lus (isolation : un site casse n'en bloque aucun autre).

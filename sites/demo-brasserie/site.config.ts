@@ -5,15 +5,28 @@ import { defineSite } from '@/lib/schema';
 
 export default defineSite({
   slug: 'demo-brasserie',
+  images: {
+    hero: {
+      src: '/images/hero.webp',
+      alt: 'Brauerei Kupferkessel Forsthaus Templin',
+    },
+    illustration: true,
+  },
   direction: 'atelier',
   motion: 'rich',
   layout: {
-    architecture: 'revendeurs-secteurs',
+    nav: 'bar',
+    hero: 'carte-sur-photo',
     sections: [
-      { type: 'about', variant: 'story' },
+      { type: 'proof', variant: 'gallery' },
+      { type: 'services', variant: 'list' },
       { type: 'custom', variant: 'consigne', label: 'La consigne' },
+      { type: 'about', variant: 'story' },
+      { type: 'zones', variant: 'list' },
       { type: 'faq', variant: 'accordion' },
+      { type: 'contact', variant: 'simple' },
     ],
+    footer: 'columns',
   },
 
   business: {
@@ -67,6 +80,30 @@ export default defineSite({
     story:
       'Julien Arnaud était chaudronnier. En 2017, il a monté la brasserie dans l’ancien moulin de son grand-père, chemin du Moulin, et brassé le premier brassin avec l’eau de la source, analysée chaque année.\n\nLes bières sont bio depuis 2020. En 2023, une nouvelle salle de brassage de 10 hectolitres. Camille tient la boutique et s’occupe des revendeurs.',
     values: [],
+  },
+  proof: {
+    gallery: [
+      {
+        src: '/images/galerie-1.webp',
+        alt: 'Beck & Co. Bremen, Sudhaus-2',
+      },
+      {
+        src: '/images/galerie-2.webp',
+        alt: 'GER, BY – Oberbayern, München, Hochstraße 77 (Paulaner am Nockherberg, Rotunde) 2020',
+      },
+      {
+        src: '/images/galerie-3.webp',
+        alt: 'Beer bottles 2018 G1',
+      },
+      {
+        src: '/images/galerie-4.webp',
+        alt: 'Munkhenskoye Beer bottle',
+      },
+      {
+        src: '/images/galerie-5.webp',
+        alt: 'Humulus lupulus, Montour Trail, 2024-09-19-1',
+      },
+    ],
   },
 
   faq: [

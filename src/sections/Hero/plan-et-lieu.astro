@@ -1,0 +1,91 @@
+---
+/**
+ * Hero "plan-et-lieu" (famille `plan-et-lieu`, .claude/skills/site-final/premiers-ecrans.md) : le lieu d'abord, pour
+ * un commerce où l'on vient. Le métier en titre et le numéro ; puis une plaque claire, posée sur la photo du lieu
+ * comme une enseigne (ombre portée, elle déborde sur la colonne du texte à l'ordinateur), qui porte l'état du moment
+ * et les horaires du jour en grand (HorairesDuJour : « Ouvert », « Ouvre à 14 h », calculés dans le navigateur ; sans
+ * script, la semaine), l'adresse en lettres de titre, l'itinéraire (contact.mapsUrl) et l'accès (contact.acces, mots
+ * du client). Sans photo du lieu mais avec des coordonnées : la carte sans traceur (Carte) à sa place. Sans l'un ni
+ * l'autre : la plaque seule.
+ * Données : une adresse (rue) et des horaires (HERO_DE_FAMILLE ne la propose pas sans). Accès vide = l'adresse seule.
+ */
+import { site, tel, paragraphs, hasContactDoor, metierEtVille } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import Carte from '@/components/Carte.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const intro = paragraphs(site.business.description)[0];
+const hero = site.images.hero;
+const a = site.contact.address;
+const acces = site.contact.acces;
+const carte = !hero && site.contact.mapsProvider === 'osm' && Boolean(site.contact.coordinates);
+const visuel = Boolean(hero) || carte;
+---
+
+<section id="hero" class="hero-lieu relative pt-8 md:pt-14 pb-12 md:pb-20">
+  <div class="container-ff grid gap-8 lg:grid-cols-12 lg:gap-10">
+    <div class="lg:col-span-5 lg:pt-6">
+      <h1 class="hero-titre text-display-lg" data-split set:html={site.business.tagline} />
+      <p class="mt-4 text-lg text-muted">{metierEtVille()}</p>
+      {intro && <p class="mt-4 hidden max-w-md text-muted lg:block">{intro}</p>}
+      <div class="mt-7 flex flex-wrap items-center gap-3">
+        <Button href={tel()} size="lg" magnetic><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</Button>
+        {site.contact.mapsUrl && <Button href={site.contact.mapsUrl} variant="ghost" size="lg"><Icon name="MapPin" size={18} />Itinéraire</Button>}
+        {!site.contact.mapsUrl && hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="lg">{site.wording.devis}</Button>}
+      </div>
+    </div>
+
+    <div class:list={['pel-scene relative lg:col-span-7', visuel && 'pel-avec-visuel']}>
+      {hero && (
+        <figure class="pel-photo relative overflow-hidden rounded-card bg-bg-2 shadow-card" data-reveal>
+          <Img src={hero.src} alt={hero.alt} class="absolute inset-x-0 -top-[8%] h-[116%] w-full object-cover" sizes={HERO_SIZES['plan-et-lieu']} data-parallax="0.08" priority />
+        </figure>
+      )}
+      {carte && <div class="pel-carte"><Carte /></div>}
+
+      <div class="pel-plaque card relative z-10 rounded-card bg-surface text-fg shadow-lift px-6 py-6 sm:px-8 sm:py-7">
+        {site.contact.hours.length > 0 && (
+          <div class="pel-horaires font-display text-display-sm md:text-display-md leading-tight">
+            <HorairesDuJour />
+          </div>
+        )}
+        <address class="not-italic mt-5 border-t border-line pt-5">
+          {a.street && <span class="block font-display text-xl md:text-2xl leading-snug">{a.street}</span>}
+          <span class="block text-muted">{a.postalCode} {a.city}</span>
+        </address>
+        {acces.length > 0 && (
+          <dl class="mt-5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 border-t border-line pt-5 text-sm">
+            {acces.map((x) => (
+              <>
+                <dt class="font-medium">{x.mode}</dt>
+                <dd class="text-muted">{x.detail}</dd>
+              </>
+            ))}
+          </dl>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Horaires du jour : l'état en grand, le détail de la journée dessous (HorairesDuJour). */
+  .pel-horaires :global([data-hj-jour]) { font-size: max(0.5em, 0.9rem); line-height: 1.35; margin-top: 0.35rem; }
+  .pel-horaires :global(ul) { font-size: max(0.45em, 0.9rem); line-height: 1.5; }
+
+  .pel-photo { aspect-ratio: 4 / 3; }
+  /* Téléphone : la plaque remonte sur le bas de la photo. */
+  .pel-avec-visuel .pel-plaque { margin: -4rem 0.75rem 0; }
+  @media (min-width: 64rem) {
+    .pel-photo { aspect-ratio: auto; height: clamp(30rem, 70svh, 46rem); }
+    /* Ordinateur : la plaque est posée en bas à gauche de la photo et déborde sur la colonne du texte. */
+    .pel-avec-visuel .pel-plaque { position: absolute; left: -4rem; bottom: -2.5rem; margin: 0; width: min(26rem, 70%); }
+    .pel-carte { max-width: 34rem; margin-left: auto; }
+  }
+  /* Démo à photos de banque : la mention « Photo d’illustration » (Img) monte en haut de la photo, le bas est couvert
+     par ce qui la chevauche. */
+  .pel-photo :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+</style>

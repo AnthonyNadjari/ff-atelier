@@ -11,6 +11,8 @@ declare module 'virtual:ff-look' {
   export const lookFile: unknown;
   export const preloadFonts: string[];
   export const hasCredits: boolean;
+  /** Chemins publics sans extension des photos de banque de CREDITS.md (« /images/hero »). */
+  export const photosBanque: string[];
   export const themeColor: string;
   export const icons: { svg: boolean; ico: boolean; apple: boolean; manifest: boolean };
 }

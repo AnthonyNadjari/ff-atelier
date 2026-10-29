@@ -78,7 +78,9 @@ export function analyserHtml(html) {
     const animees = sections.filter((s) => /data-reveal="(?:clip|wipe|mask)"|<img\b[^>]*\bdata-(?:scrub|parallax)\b|\bdata-(?:scrub|parallax)\b[^>]*>\s*<(?:img|picture)/i.test(s)).length;
     if (animees * 2 > sections.length) alertes.push({ regle: 'reveal-partout', n: animees });
   }
-  if (/photo d[’']illustration/i.test(texte)) alertes.push({ regle: 'photo-illustration', n: 1 });
+  // Sauf la mention posée par <Img> sur une démo à photos de banque (ff photos-demo, data-illustration) : elle est
+  // voulue, et `ff verifier` (scripts/ff/illustrations.mjs) contrôle qu'elle ne sort jamais d'une démo.
+  if (/photo d[’']illustration/i.test(texte) && !/\bdata-illustration\b/.test(html)) alertes.push({ regle: 'photo-illustration', n: 1 });
   const titres = [...balisage.matchAll(/<h([12])\b[^>]*>([\s\S]*?)<\/h\1>/gi)].map((m) => m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()).filter(Boolean);
   if (titres.length >= 4) {
     const point = titres.filter((x) => /\.$/.test(x)).length;

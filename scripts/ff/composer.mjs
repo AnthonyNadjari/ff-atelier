@@ -342,6 +342,19 @@ export function varianteCompatible(type, variant, cfg = {}) {
       return heroImage;
     case 'hero/video':
       return Boolean(cfg.images && (cfg.images.video || cfg.images.heroVideo));
+    // Heros de famille (premiers-ecrans.md) : mêmes conditions que HERO_DE_FAMILLE (scripts/ff/melanger.mjs).
+    case 'hero/carte-sur-photo':
+      return heroImage;
+    case 'hero/mosaique': {
+      const vues = new Set([cfg.images?.hero?.src, cfg.about?.portrait?.src, ...(cfg.proof?.gallery ?? []).map((g) => g?.src), ...services.map((x) => x?.image?.src)].filter(Boolean));
+      return vues.size >= 4;
+    }
+    case 'hero/numero-geant':
+      return Boolean(cfg.contact?.emergency24h);
+    case 'hero/preuve-d-abord':
+      return Boolean(cfg.proof?.google) && (cfg.proof?.testimonials ?? []).length >= 2;
+    case 'hero/plan-et-lieu':
+      return Boolean(cfg.contact?.address?.street) && (cfg.contact?.hours ?? []).length > 0;
     case 'services/alternating':
     case 'services/bento':
     case 'services/cards-hover':
@@ -448,7 +461,7 @@ export function pickLook(slug, opts = {}) {
   const seed = typeof graine === 'number' && !Number.isNaN(graine) ? graine >>> 0 : seedFromString(graine ?? slug);
   const rng = mulberry32(seed);
 
-  const { VARIANTS, SHELLS, HEADINGS } = parseSchemaConstants();
+  const { VARIANTS, SHELLS, HEADINGS, HEROS_DE_FAMILLE = [] } = parseSchemaConstants();
   const dirMetas = listDirectionMetas();
   if (dirMetas.length === 0) {
     throw new Error('Aucune direction avec meta.ts trouvee dans src/directions/.');
@@ -482,13 +495,15 @@ export function pickLook(slug, opts = {}) {
   const metierAdapte = directionTier(chosen) === 0;
 
   // Hero : evite les combinaisons direction+hero deja utilisees, sinon les heros deja forces (propositions).
-  const heroPossibles = VARIANTS.hero.filter((h) => varianteCompatible('hero', h, cfg));
+  // Les heros de famille (premiers-ecrans.md) se choisissent par le contrat et `ff melanger` (HERO_DE_FAMILLE), jamais
+  // au moins-utilisé : sans quoi chaque nouveau site prendrait d'office le dernier hero ajouté.
+  const heroPossibles = VARIANTS.hero.filter((h) => !HEROS_DE_FAMILLE.includes(h) && varianteCompatible('hero', h, cfg));
   let heroCandidates = heroPossibles.filter(
     (h) => !excludeHeroes.includes(h) && !usage.dirHeroUsed.has(`${chosen.dir}|${h}`),
   );
   if (heroCandidates.length === 0) heroCandidates = heroPossibles.filter((h) => !excludeHeroes.includes(h));
   if (heroCandidates.length === 0) heroCandidates = [...heroPossibles];
-  if (heroCandidates.length === 0) heroCandidates = [...VARIANTS.hero];
+  if (heroCandidates.length === 0) heroCandidates = VARIANTS.hero.filter((h) => !HEROS_DE_FAMILLE.includes(h));
   const heroCounts = usage.variantCounts.hero || new Map();
   const hero = pickLeastUsed(heroCandidates, heroCounts, rng);
 

@@ -89,6 +89,20 @@ absente (photo, avis, FAQ) ne doit pas être choisie.
 | `marquee` | Direction brut/neon, envie d'un défilement de mots-clés en bandeau. |
 | `video` | Le client a une vidéo courte muette (`images.heroVideo`) ; sinon ne pas choisir cette variante. |
 
+Heros de famille (29 oct 2026, `HEROS_DE_FAMILLE` de `src/lib/schema.ts`) : une variante par famille de premier écran de
+`.claude/skills/site-final/premiers-ecrans.md`, posée par le contrat ou par `ff melanger` (`HERO_DE_FAMILLE`, qui ne la
+propose que si le client a ses données), jamais tirée au moins-utilisé par `ff composer`. Le métier et la ville sont sous le
+h1, jamais au-dessus ; le numéro est cliquable sans défiler, sur téléphone et ordinateur.
+
+| Variante | Quand l'utiliser |
+|---|---|
+| `carte-sur-photo` | Famille `carte-sur-photo`. La photo du client en grand cadre sous la nav, le texte sur une carte claire qui déborde du bas de la photo (ombre portée, aucun texte nu sur l'image). Il faut `images.hero` d'au moins 1 600 px ; sans photo, la carte sur un panneau encre. |
+| `mosaique` | Famille `mosaique`. Les photos du client (couverture puis `photosDuSite()`, 6 au plus) en mosaïque serrée sur tout l'écran, le titre et le numéro dans une case encre surélevée qui déborde sur ses voisines. Grilles écrites pour 4, 5 et 6 photos ; il en faut **4 au moins**, en dessous une rangée simple. |
+| `editorial` | Famille `editorial`. Page de magazine : grand titre sur plusieurs colonnes, filet épais, rubrique (métier à ville, ancienneté, note), chapô avec lettrine et numéro, la photo décalée qui remonte dans le titre et une seconde qui la chevauche ; le second paragraphe de la description en suite. Aucune exigence (sans photo, le titre prend toute la largeur). Artisan d'art, histoire forte. |
+| `numero-geant` | Famille `numero-geant`. Une dalle encre surélevée : h1, métier et zone, le numéro en très grand (taille calée sur la dalle, jamais coupé), horaires du jour, note, ancienneté ; la photo en second plan que la dalle chevauche. Métiers d'urgence (`contact.emergency24h`). |
+| `preuve-d-abord` | Famille `preuve-d-abord`. En tête h1, métier à ville, numéro ; dessous la note Google en chiffres de titre et deux avis entiers sur des cartes posées l'une sur l'autre, sur la photo du client sous un voile encre. Il faut `proof.google` **et** deux `proof.testimonials` ; beaucoup d'avis excellents. |
+| `plan-et-lieu` | Famille `plan-et-lieu`. Le lieu d'abord : h1, numéro et Itinéraire (`contact.mapsUrl`) ; une plaque posée sur la photo du lieu avec l'état du moment et les horaires du jour en grand, l'adresse en lettres de titre et l'accès (`contact.acces`). Sans photo mais avec coordonnées, la carte sans traceur. Il faut **une rue et des horaires** ; commerce où l'on vient. |
+
 ### `services`
 | Variante | Quand l'utiliser |
 |---|---|

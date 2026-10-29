@@ -30,6 +30,13 @@ distinguent encore ; mais deux sites d'affilée de la même famille, c'est ce qu
 | `outil` | Le premier écran EST un outil du client : la semaine et ce qui est ouvert, un calculateur, un configurateur ; le nom et le numéro au-dessus | Une information que le visiteur vient chercher (horaires, disponibilités, prix) | fromagerie-ravanel-c (la semaine) |
 | `editorial` | Mise en page de magazine : grand titre sur plusieurs colonnes, chapô, une photo en vignette décalée, filets | Un artisan d'art, une histoire forte | — |
 
+Rendues par un hero partagé (29 oct 2026, `HERO_DE_FAMILLE` de `scripts/ff/melanger.mjs`, écrit dans `look.json` par
+`ff melanger` quand le client a les données) : `typographique` → `typographic`, `diptyque` → `split`, `video-ou-sequence` →
+`video` (vraie vidéo), `carte-sur-photo` → `carte-sur-photo` (`images.hero` de 1 600 px), `mosaique` → `mosaique` (4 photos
+déclarées), `editorial` → `editorial`, `numero-geant` → `numero-geant` (urgence), `preuve-d-abord` → `preuve-d-abord` (note
+Google et deux avis), `plan-et-lieu` → `plan-et-lieu` (rue et horaires). Les autres (`bande-defilante`, `objet-du-metier`,
+`cadre-colore`, `outil`) se dessinent en section sur mesure (`custom/<nom>`). Planche : `docs/veille/compositions/heroes-2026-10-29.jpg`.
+
 Choisir : (1) éliminer les familles dont les données manquent ; (2) éliminer celles prises par les pistes du même
 client et les 4 derniers sites (`ff contrat` les liste) ; (3) prendre celle qui sert le mieux la phrase-idée.
 Une famille nouvelle, inventée pour un client, s'ajoute à ce tableau (id, construction, quand, exemple).

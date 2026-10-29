@@ -110,7 +110,9 @@ function isPlainKey(k) {
 }
 
 function escapeSingleQuoted(s) {
-  return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  // Retours a la ligne echappes : un `description` de plusieurs paragraphes (\n\n) ecrit tel quel cassait la chaine
+  // entre guillemets simples (« Unterminated string literal », ff photos-demo sur services, 29 oct 2026).
+  return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r/g, '\\r').replace(/\n/g, '\\n').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 }
 
 /** Serialise `value` en litteral TS lisible (guillemets simples, cles nues, virgules finales). */

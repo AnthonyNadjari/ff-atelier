@@ -124,3 +124,18 @@ export function sansCadratin(value: string | null): string | null {
 export function entriesRequiringAttribution(entries: CreditEntry[]): CreditEntry[] {
   return entries.filter(requiresAttribution);
 }
+
+/** Mention visible posée sur chaque photo de banque d'un site de démonstration (images.illustration). */
+export const MENTION_ILLUSTRATION = 'Photo d’illustration';
+
+/**
+ * Vrai si `src` (« /images/hero.webp », « /images/hero-800.avif ») est une photo de banque d'images
+ * consignée dans CREDITS.md : `stems` = chemins publics sans extension (scripts/astro-credits-integration.mjs,
+ * photosDeBanque). Le suffixe de largeur de `ff images` (-480 … -2400) est ignoré.
+ */
+export function estPhotoDeBanque(src: string, stems: readonly string[]): boolean {
+  if (!src || !stems.length) return false;
+  const sans = String(src).split(/[?#]/)[0].replace(/\.[a-z0-9]+$/i, '');
+  const base = sans.replace(/-\d{3,4}$/, '');
+  return stems.includes(sans) || stems.includes(base);
+}

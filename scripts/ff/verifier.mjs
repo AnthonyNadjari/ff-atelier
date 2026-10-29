@@ -11,6 +11,8 @@ import { garderDonneesTest, estSiteDemo, RE_TEL_TEST } from './garde-donnees.mjs
 import { analyserHtml as analyserTypo } from './typo.mjs';
 import { analyserSite as analyserIa } from './ia.mjs';
 import { aiguillageDuSite, controlerAiguillage, lireDist } from './aiguillage.mjs';
+import { controlerIllustration, photosDeBanque } from './illustrations.mjs';
+import { extractTopLevelValue } from './ts-literal.mjs';
 
 const FORBIDDEN = [
   { label: 'lorem', re: /lorem/i },
@@ -421,6 +423,22 @@ function checkAncresInternes(files, distDir, checks) {
   const uniques = [...new Set(cassees.map((c) => `${c.href} (${c.page})`))];
   if (uniques.length) checks.push({ pass: false, label: `Ancre interne sans cible : ${uniques.slice(0, 4).join(', ')}${uniques.length > 4 ? '…' : ''}` });
   else checks.push({ pass: true, label: 'Toutes les ancres internes ont une cible' });
+}
+
+/**
+ * Photos d'illustration (ff photos-demo, scripts/ff/illustrations.mjs) : un site NON démo ne porte jamais la mention
+ * « Photo d'illustration » ni images.illustration ; une démo qui affiche une photo de banque de CREDITS.md la marque,
+ * chaque photo, sur chaque page.
+ */
+function checkIllustration(slug, files, distDir, checks) {
+  const configPath = path.join(SITES_DIR, slug, 'site.config.ts');
+  const src = fs.existsSync(configPath) ? fs.readFileSync(configPath, 'utf8') : '';
+  const creditsPath = path.join(SITES_DIR, slug, 'CREDITS.md');
+  const stems = fs.existsSync(creditsPath) ? photosDeBanque(fs.readFileSync(creditsPath, 'utf8')) : [];
+  const images = extractTopLevelValue(src, 'images');
+  const illustration = images ? images.illustration === true : /\billustration\s*:\s*true\b/.test(src);
+  const pages = files.map((f) => ({ chemin: path.relative(distDir, f).split(path.sep).join('/'), html: fs.readFileSync(f, 'utf8') }));
+  checks.push(...controlerIllustration({ demo: estSiteDemo(slug, src), illustration, stems, pages }));
 }
 
 /** CREDITS.md crédite une photo que le site n'affiche nulle part : le site promet une page /credits pour rien. Pure. */
@@ -1118,6 +1136,7 @@ export async function cmdVerifier(args) {
   checkPasIframeGoogleAuChargement(files, distDir, checks);
   checkConfidentialite(distDir, checks);
   checkCreditsAffiches(slug, distDir, checks);
+  checkIllustration(slug, files, distDir, checks);
   checkHtmlLangFr(files, distDir, checks);
   checkSitemapIndex(distDir, checks);
 
