@@ -60,6 +60,8 @@ franchement), et non le « 10 sites, 5 gardés » de la consigne de la routine.
 
 **À décider** : faut-il commencer à refaire des sites existants avec les styles non linéaires (la linéarité moyenne ne baissera pas
 autrement) ?
+**Réponse du fondateur (31 oct, matin)** : non. « Ce que je veux c'est stocker un max de designs pour les réutiliser sur
+commande. » On ne refait aucun site existant ; le chiffre suivi devient le catalogue (`presets/`), SKILL.md et GOUT.md à jour.
 
 **Prochain tour commence par** : reprendre `etabli` et `travee` avec de vraies séries de photos, puis `ocre`, `souffle`, `rideau`.
 

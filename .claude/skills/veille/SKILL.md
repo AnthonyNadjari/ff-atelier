@@ -43,11 +43,11 @@ npm outdated   # lecture seule : on note, on ne met pas à jour sans tour dédi�
 ```
 `ff ressemblance --tous` recalcule l'empreinte du premier écran (téléphone et ordinateur) de chaque site construit,
 met à jour `docs/empreintes/` et liste les paires de sites trop proches par la mise en page, avec ce qui est pareil.
-Chaque paire trop proche se signale (journal du tour : les deux sites, le score, la phrase « ce qui est pareil »), et **une
-paire par tour se corrige** quand l'un des deux est une démo (`demo-*`, `// DEMO`) : on reconstruit sa page d'accueil d'après
-un site de référence entier (§ 2a quater, même méthode), jusqu'à passer sous 0,65 ; `ff verifier` et `ff ia` verts. Un site
-client ou prospect ne se touche jamais ici : on écrit au journal ce qu'il faudrait refaire. Le 29 oct 2026, 263 paires étaient
-signalées depuis des jours sans qu'aucune ne soit corrigée : signaler sans corriger ne sert à rien.
+**On ne refait jamais un site existant** (démo, client, prospect) pour baisser un chiffre (le fondateur, 31 oct 2026 :
+« pourquoi refaire des sites existants ? Moi ce que je veux c'est stocker un max de designs pour les réutiliser sur
+commande »). Le registre sert à une seule chose : vérifier qu'un style **nouveau** ne ressemble à rien de ce qu'on a déjà
+(§ 2a quater, étape 4). Le journal ne recopie plus la liste des vieilles paires ; il ne cite une paire que si un style du
+tour y entre.
 Puis un site d'exemple au hasard (pas finck-fisch) : build, `verifier`, `ia`, `planche` regardée.
 Tout rouge se corrige dans ce tour (c'est prioritaire sur le reste).
 
@@ -144,8 +144,10 @@ sites au plus** construits, chacun poussé jusqu'au bout :
 
 **Un tour qui ne garde pas au moins 2 styles construits, franchement tenus et différents de l'usine, est un tour raté** (le
 journal dit pourquoi). Deux styles vraiment différents valent mieux que cinq gardés de justesse ; dix fiches de polices ne
-valent pas un style construit. Le journal donne aussi le chiffre « style maison » de `ff ressemblance --tous` (linéarité
-moyenne de l'usine) avant et après le tour : il doit baisser. Le journal donne, par style : la source, ce qui a été codé, l'image de comparaison.
+valent pas un style construit. Le chiffre à suivre est **le catalogue** : nombre de modèles
+`presets/<id>.json` avant → après le tour, et combien des styles gardés ce tour sont non linéaires. La linéarité moyenne des
+sites déjà construits (« style maison » de `ff ressemblance --tous`) ne se suit plus : elle ne bouge qu'en refaisant des
+sites, ce qu'on ne fait pas. Le journal donne, par style : la source, ce qui a été codé, l'image de comparaison.
 
 **Équilibrer les régimes de palette** (21 oct 2026 : trois pistes de L'Épi d'Or tiraient trois palettes blanc / gris /
 noir). Chaque palette tombe dans un régime (`regimePalette`, ATOMES.md § Régimes de palette) : clair neutre, clair teinté

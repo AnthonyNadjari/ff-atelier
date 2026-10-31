@@ -87,7 +87,8 @@ du 30 oct, d'ordres et de couleurs différents, empilaient tous leurs blocs plei
 signature de l'usine, et elle se voit d'un site à l'autre. Règles : la **disposition** (pile, colonnes, grille, chevauchement,
 plein cadre, piste, colonne fixe, décalé) compte autant que l'ordre des blocs ; un style linéaire n'entre que si l'usine n'a
 rien de tel ; la veille **scanne beaucoup et garde peu** (`ff tri`, 40 candidats ou plus par tour, 3 construits au plus) et
-« de justesse » ne compte pas comme gardé.
+« de justesse » ne compte pas comme gardé. Le but est **le catalogue**, pas les sites déjà faits (31 oct 2026 : « stocker un
+max de designs pour les réutiliser sur commande ») : on ne refait jamais un site existant pour le rendre moins linéaire.
 
 ## 1. Ce qui fait qu'un site est « à nous »
 
