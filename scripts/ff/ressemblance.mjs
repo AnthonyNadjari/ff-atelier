@@ -98,12 +98,20 @@
 //   services, accueil de 6 à 15 écrans, héros › services › à propos › questions › contact › pied) forment UNE grappe :
 //   chacun en touche 16 à 21 autres. Seul finck-fisch n'a aucun voisin de déroulé. C'est le gabarit du socle, pas un
 //   défaut de mesure : un nouveau site passe en changeant l'ordre et la nature de ses sections ou sa navigation.
+//
+// DISPOSITION (31 oct 2026, scripts/ff/disposition.mjs ; vocabulaire, calibration et seuil en tête de ce fichier) : la
+// FORME des blocs (pile, colonnes, grille, décalé, chevauchement, plein cadre, piste, collant, colonne fixe) au téléphone
+// et à l'ordinateur, et la LINÉARITÉ de l'accueil (part de la hauteur en bandes empilées). Axe SÉPARÉ : les sites figés
+// de la calibration ci-dessus n'ont pas de formes mesurées, la ressemblance de déroulé n'est donc pas touchée ; la
+// similarité de disposition est affichée pour chaque voisin, et un site échoue si sa linéarité dépasse SEUIL_LINEARITE
+// (--seuil-linearite). --tous finit par le STYLE MAISON (linéarité moyenne, part au-dessus du seuil, forme dominante).
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { ROOT, DIST_DIR, resolveSlug, ok, fail, info, warn, parseArgs, listSites } from './util.mjs';
 import { servir } from './film.mjs';
 import { releverDeroule, empreinteDeroule, pagesDist, similariteDeroule, ceQuiEstPareilDeroule, alignerSuites, suiteEnMots, MOTS_ROLE, rafraichirDeroule } from './deroule.mjs';
+import { installerMesureForme, disposition, rafraichirDisposition, similariteDisposition, ceQuiEstPareilDisposition, dispositionEnMots, styleMaison, phraseStyleMaison, SEUIL_LINEARITE } from './disposition.mjs';
 
 export const SEUIL_RESSEMBLANCE = 0.65;
 export const SEUIL_DEROULE = 0.65;
@@ -366,14 +374,20 @@ export function ceQuiEstPareil(a, b) {
   return out.join(', ');
 }
 
-/** Pure : verdict d'une empreinte de site contre le registre (liste d'empreintes de sites). */
-export function verdict(cible, registre, seuil = SEUIL_RESSEMBLANCE, seuilDeroule = SEUIL_DEROULE) {
+/**
+ * Pure : verdict d'une empreinte de site contre le registre (liste d'empreintes de sites). La disposition (forme des
+ * blocs, scripts/ff/disposition.mjs) est un axe SÉPARÉ, affiché pour chaque voisin ; elle ne fait refuser que par la
+ * linéarité du site lui-même (au-dessus de seuilLineaire). Une empreinte sans disposition (registre d'avant le
+ * 31 oct 2026) est comparée comme avant.
+ */
+export function verdict(cible, registre, seuil = SEUIL_RESSEMBLANCE, seuilDeroule = SEUIL_DEROULE, seuilLineaire = SEUIL_LINEARITE) {
   const proches = [];
   for (const e of registre) {
     if (e.slug === cible.slug) continue;
     const m = cible.m && e.m ? similarite(cible.m, e.m) : null;
     const d = cible.d && e.d ? similarite(cible.d, e.d) : null;
     const r = cible.deroule && e.deroule ? similariteDeroule(cible.deroule, e.deroule) : null;
+    const dispo = cible.disposition && e.disposition ? similariteDisposition(cible.disposition, e.disposition) : null;
     const max = Math.max(m ?? 0, d ?? 0);
     const tropEcran = (m ?? 0) > seuil || (d ?? 0) > seuil;
     const tropDeroule = (r ?? 0) > seuilDeroule;
@@ -383,10 +397,12 @@ export function verdict(cible, registre, seuil = SEUIL_RESSEMBLANCE, seuilDeroul
       d > seuil ? `ordinateur : ${ceQuiEstPareil(cible.d, e.d)}` : null,
       tropDeroule ? `déroulé : ${ceQuiEstPareilDeroule(cible.deroule, e.deroule)}` : null,
     ].filter(Boolean);
-    proches.push({ slug: e.slug, m, d, max, deroule: r, tropEcran, tropDeroule, trop, pareil });
+    proches.push({ slug: e.slug, m, d, max, deroule: r, disposition: dispo, pareilDisposition: dispo != null ? ceQuiEstPareilDisposition(cible.disposition, e.disposition) : null, tropEcran, tropDeroule, trop, pareil });
   }
   proches.sort((x, y) => Math.max(y.max, y.deroule ?? 0) - Math.max(x.max, x.deroule ?? 0) || y.max - x.max || (y.m ?? 0) - (x.m ?? 0));
-  return { slug: cible.slug, seuil, seuilDeroule, proches, echec: proches.some((p) => p.trop) };
+  const linearite = cible.disposition?.linearite ?? null;
+  const tropLineaire = linearite != null && linearite > seuilLineaire;
+  return { slug: cible.slug, seuil, seuilDeroule, seuilLineaire, proches, linearite, tropLineaire, echec: proches.some((p) => p.trop) || tropLineaire };
 }
 
 /** Pure : toutes les paires trop proches d'un registre. */
@@ -402,7 +418,8 @@ export function pairesTropProches(registre, seuil = SEUIL_RESSEMBLANCE, seuilDer
       tropEcran ? ceQuiEstPareil((m ?? 0) > seuil ? a.m : a.d, (m ?? 0) > seuil ? b.m : b.d) : null,
       tropDeroule ? `déroulé : ${ceQuiEstPareilDeroule(a.deroule, b.deroule)}` : null,
     ].filter(Boolean).join(' | ');
-    out.push({ a: a.slug, b: b.slug, m, d, deroule: r, tropEcran, tropDeroule, pareil });
+    const dispo = a.disposition && b.disposition ? similariteDisposition(a.disposition, b.disposition) : null;
+    out.push({ a: a.slug, b: b.slug, m, d, deroule: r, disposition: dispo, tropEcran, tropDeroule, pareil });
   }
   return out.sort((x, y) => Math.max(y.m ?? 0, y.d ?? 0, y.deroule ?? 0) - Math.max(x.m ?? 0, x.d ?? 0, x.deroule ?? 0));
 }
@@ -420,7 +437,8 @@ export function grilleTexte(g, cols = COLS) {
 export function lireRegistre(dir = REGISTRE) {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch { return null; } }).filter((e) => e?.slug && !e.slug.startsWith('_'))
-    .map((e) => (e.deroule ? { ...e, deroule: rafraichirDeroule(e.deroule) } : e));
+    .map((e) => (e.deroule ? { ...e, deroule: rafraichirDeroule(e.deroule) } : e))
+    .map((e) => (e.disposition ? { ...e, disposition: rafraichirDisposition(e.disposition) } : e));
 }
 
 function ecrireEmpreinte(e) {
@@ -430,15 +448,30 @@ function ecrireEmpreinte(e) {
 
 /* ---------- navigateur ---------- */
 
-async function lancerChrome(chromium) {
+export async function lancerChrome(chromium, options = {}) {
   for (let essai = 1; ; essai++) {
-    try { return await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true }); }
+    try { return await chromium.launch({ channel: process.env.FF_CHROMIUM ? undefined : 'chrome', headless: true, ...options }); }
     catch (e) {
       if (essai >= 3) throw e;
       warn(`Chrome n'a pas démarré (${e.message.split('\n')[0]}) : nouvel essai dans 30 s.`);
       await new Promise((r) => setTimeout(r, 30_000));
     }
   }
+}
+
+/** Défile jusqu'en bas (apparitions jouées), puis remonte en haut. */
+export async function defilerJusquEnBas(page) {
+  await page.evaluate(async () => {
+    for (let n = 0; n < 120; n++) {
+      const avant = scrollY;
+      scrollTo({ top: scrollY + innerHeight * 0.8, behavior: 'instant' });
+      await new Promise((r) => setTimeout(r, 120));
+      if (scrollY === avant) break;
+    }
+  });
+  await page.waitForTimeout(600);
+  await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+  await page.waitForTimeout(300);
 }
 
 /** Empreintes (téléphone + ordinateur) de sites construits, un seul Chrome, une page à la fois. */
@@ -454,7 +487,8 @@ export async function calculerEmpreintes(slugs, { ecrire = true } = {}) {
       if (!fs.existsSync(path.join(DIST_DIR, slug, 'index.html'))) { warn(`${slug} : dist absent (build en cours ?), sauté.`); continue; }
       const srv = servir(path.join(DIST_DIR, slug));
       await new Promise((r) => srv.listen(0, '127.0.0.1', r));
-      const e = { slug, date: new Date().toISOString().slice(0, 10), version: 2 };
+      const e = { slug, date: new Date().toISOString().slice(0, 10), version: 3 };
+      const relevesForme = {};
       try {
         for (const [k, M] of Object.entries(MODES)) {
           const ctx = await browser.newContext({ viewport: { width: M.vw, height: M.vh }, isMobile: M.mobile, hasTouch: M.mobile, deviceScaleFactor: 1 });
@@ -466,26 +500,26 @@ export async function calculerEmpreintes(slugs, { ecrire = true } = {}) {
             e[k] = empreinteMode(rel);
             const png = await page.screenshot().catch(() => page.screenshot());
             await sharp(png).jpeg({ quality: 72 }).toFile(path.join(CAPTURES, `${slug}-${k}.jpg`));
+            // Déroulé (téléphone) et disposition (les deux modes) : défiler jusqu'en bas pour jouer les apparitions,
+            // remonter, puis relever la page entière (blocs de premier niveau + leur forme).
+            await defilerJusquEnBas(page);
+            await installerMesureForme(page);
+            const relD = await page.evaluate(releverDeroule, { sansHtml: k !== 'm' });
+            relevesForme[k] = relD;
             if (k === 'm') {
-              // Déroulé (téléphone) : défiler jusqu'en bas pour jouer les apparitions, puis relever la page entière.
-              await page.evaluate(async () => {
-                for (let n = 0; n < 120; n++) {
-                  const avant = scrollY;
-                  scrollTo({ top: scrollY + innerHeight * 0.8, behavior: 'instant' });
-                  await new Promise((r) => setTimeout(r, 120));
-                  if (scrollY === avant) break;
-                }
-              });
-              await page.waitForTimeout(600);
-              await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-              await page.waitForTimeout(300);
-              const relD = await page.evaluate(releverDeroule);
               if (process.env.FF_DEROULE_BRUT) { fs.mkdirSync(process.env.FF_DEROULE_BRUT, { recursive: true }); fs.writeFileSync(path.join(process.env.FF_DEROULE_BRUT, `${slug}.json`), JSON.stringify(relD)); }
               e.deroule = empreinteDeroule(relD, pagesDist(path.join(DIST_DIR, slug)));
             }
           } finally {
             await ctx.close();
           }
+        }
+        e.disposition = disposition(relevesForme);
+        if (process.env.FF_FORME_BRUT) {
+          // relevés bruts (sans HTML) pour recalibrer les formes sans Chrome (tests/disposition.test.mjs)
+          const brut = Object.fromEntries(Object.entries(relevesForme).map(([k, r]) => [k, { vw: r.vw, vh: r.vh, pageForme: r.pageForme, blocs: r.blocs.map(({ html, ...b }) => b) }]));
+          fs.mkdirSync(process.env.FF_FORME_BRUT, { recursive: true });
+          fs.writeFileSync(path.join(process.env.FF_FORME_BRUT, `${slug}.json`), JSON.stringify(brut));
         }
       } finally {
         srv.close();
@@ -581,6 +615,7 @@ export async function cmdRessemblance(args) {
   const { positional, flags } = parseArgs(args);
   const seuil = flags.seuil != null && flags.seuil !== true ? Number(flags.seuil) : SEUIL_RESSEMBLANCE;
   const seuilD = flags['seuil-deroule'] != null && flags['seuil-deroule'] !== true ? Number(flags['seuil-deroule']) : SEUIL_DEROULE;
+  const seuilL = flags['seuil-linearite'] != null && flags['seuil-linearite'] !== true ? Number(flags['seuil-linearite']) : SEUIL_LINEARITE;
   const existants = new Set(listSites());
   const registre = lireRegistre().filter((e) => existants.has(e.slug));
   let nouvelles;
@@ -610,27 +645,43 @@ export async function cmdRessemblance(args) {
   if (flags.tous) {
     const paires = pairesTropProches(tout, seuil, seuilD);
     info(`Registre : ${tout.length} sites (docs/empreintes/), seuils : premier écran ${seuil}, déroulé ${seuilD}.`);
-    for (const p of paires) fail(`${p.a} / ${p.b} : tél. ${f2(p.m)} · ordi. ${f2(p.d)} · déroulé ${f2(p.deroule)} — ${p.pareil}`);
+    for (const p of paires) fail(`${p.a} / ${p.b} : tél. ${f2(p.m)} · ordi. ${f2(p.d)} · déroulé ${f2(p.deroule)} · disposition ${f2(p.disposition)} — ${p.pareil}`);
     const nE = paires.filter((p) => p.tropEcran).length, nD = paires.filter((p) => p.tropDeroule).length, nDeux = paires.filter((p) => p.tropEcran && p.tropDeroule).length;
     if (paires.length) { echec = true; fail(`${paires.length} paire(s) de sites trop proches : ${nE} par le premier écran, ${nD} par le déroulé (dont ${nDeux} par les deux).`); }
     else ok('Aucune paire de sites ne dépasse les seuils.');
+    // Linéarité de chaque site, puis le STYLE MAISON (l'indicateur du fondateur, 31 oct 2026).
+    const avec = tout.filter((e) => e.disposition?.linearite != null).sort((x, y) => y.disposition.linearite - x.disposition.linearite);
+    const sans = tout.filter((e) => e.disposition?.linearite == null).map((e) => e.slug);
+    if (avec.length) info(`\nDisposition (seuil de linéarité ${seuilL}) :`);
+    for (const e of avec) (e.disposition.linearite > seuilL ? fail : ok)(`${e.slug.padEnd(26)} ${dispositionEnMots(e.disposition)}`);
+    if (sans.length) warn(`disposition non mesurée (empreinte d'avant le 31 oct 2026, \`ff ressemblance <slug>\` pour la relever) : ${sans.length} site(s) : ${sans.join(', ')}.`);
+    const lin = avec.filter((e) => e.disposition.linearite > seuilL);
+    if (lin.length) { echec = true; fail(`${lin.length} site(s) linéaire(s) (au-dessus de ${seuilL}) : ${lin.map((e) => e.slug).join(', ')}.`); }
+    const sm = styleMaison(tout, seuilL);
+    info(`\nSTYLE MAISON : ${phraseStyleMaison(sm, seuilL)}`);
+    if (sm) info(`  parts de hauteur par forme : ${Object.entries(sm.parts).map(([f, v]) => `${f} ${Math.round(v * 100)} %`).join(', ')}`);
   } else {
     for (const e of nouvelles) {
-      const v = verdict(e, tout, seuil, seuilD);
+      const v = verdict(e, tout, seuil, seuilD, seuilL);
       info(`\n${e.slug} — h1 « ${e.m.h1Texte ?? '?'} »\n${grilleTexte(e.m.grille).split('\n').map((l) => '  ' + l).join('\n')}`);
       if (e.deroule) info(`  déroulé : ${suiteEnMots(e.deroule.roles)}\n  site : ${e.deroule.site.modele}, ${e.deroule.site.pagesHtml} pages HTML dont ${e.deroule.site.pagesContenu} de contenu, menu vers ${e.deroule.site.navPages} page(s) et ${e.deroule.site.navAncres} ancre(s), ${e.deroule.site.ecrans} écrans`);
-      for (const p of [...v.proches.filter((x) => x.trop), ...v.proches.filter((x) => !x.trop).slice(0, 3)]) (p.trop ? fail : ok)(`${p.slug.padEnd(26)} tél. ${f2(p.m)} · ordi. ${f2(p.d)} · déroulé ${f2(p.deroule)}${p.trop ? '  ' + p.pareil.join(' | ') : ''}`);
+      info(`  disposition : ${dispositionEnMots(e.disposition)}`);
+      for (const p of [...v.proches.filter((x) => x.trop), ...v.proches.filter((x) => !x.trop).slice(0, 3)]) (p.trop ? fail : ok)(`${p.slug.padEnd(26)} tél. ${f2(p.m)} · ordi. ${f2(p.d)} · déroulé ${f2(p.deroule)} · disposition ${f2(p.disposition)}${p.trop ? '  ' + p.pareil.join(' | ') : ''}`);
+      const parDispo = [...v.proches].filter((p) => p.disposition != null).sort((x, y) => y.disposition - x.disposition)[0];
+      if (parDispo) info(`  disposition la plus proche : ${parDispo.slug} ${f2(parDispo.disposition)} (${parDispo.pareilDisposition})`);
       // Planche au téléphone : les trois plus proches AU TÉLÉPHONE (ce que voit le fondateur sur son écran),
       // puis la colonne « déroulé » alignée avec le plus proche PAR LE DÉROULÉ.
       const parDeroule = [...v.proches].filter((p) => p.deroule != null).sort((x, y) => y.deroule - x.deroule)[0];
       const plan = await planche(e, [...v.proches].sort((x, y) => (y.m ?? 0) - (x.m ?? 0)).map((p) => ({ ...p, empreinte: parSlug.get(p.slug) })), sharp, parDeroule ? { ...parDeroule, empreinte: parSlug.get(parDeroule.slug) } : null);
       info(`Planche : ${plan} (ce site à gauche, les trois plus proches au téléphone, puis le déroulé contre le plus proche par le déroulé).`);
+      if (v.tropLineaire) fail(`${e.slug} : linéaire (${f2(v.linearite)} de la hauteur de l'accueil en pile, seuil ${seuilL}) : casser la pile (colonnes, grille, décalé, chevauchement, piste, collant, colonne fixe ; scripts/ff/disposition.mjs).`);
+      else if (v.linearite == null) warn(`${e.slug} : disposition non mesurée.`);
       if (v.echec) {
         echec = true;
         const ecran = v.proches.filter((p) => p.tropEcran).map((p) => p.slug), der = v.proches.filter((p) => p.tropDeroule).map((p) => p.slug);
         if (ecran.length) fail(`${e.slug} : premier écran trop proche de ${ecran.join(', ')} (seuil ${seuil}) : réinventer le premier écran (SKILL.md § 1bis).`);
         if (der.length) fail(`${e.slug} : déroulé trop proche de ${der.join(', ')} (seuil ${seuilD}) : changer l'ordre et la nature des sections, la navigation ou la longueur (SKILL.md § 1bis).`);
-      } else ok(`${e.slug} : aucun site du registre au-dessus des seuils (premier écran ${seuil}, déroulé ${seuilD}).`);
+      } else ok(`${e.slug} : aucun site du registre au-dessus des seuils (premier écran ${seuil}, déroulé ${seuilD}, linéarité ${seuilL}).`);
     }
   }
   if (echec) process.exitCode = 1;

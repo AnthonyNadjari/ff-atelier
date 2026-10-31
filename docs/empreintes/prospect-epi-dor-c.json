@@ -1,7 +1,7 @@
 {
  "slug": "prospect-epi-dor-c",
- "date": "2026-10-17",
- "version": 2,
+ "date": "2026-10-31",
+ "version": 3,
  "m": {
   "vw": 390,
   "vh": 844,
@@ -212,14 +212,14 @@
     "titre": "Boulangerie-pâtisserie à Orléans",
     "h1": true,
     "hEcrans": 1.66,
-    "part": 0.452,
+    "part": 0.456,
     "partImage": 0.18,
     "nImages": 1,
     "rangee": 1,
     "carrousel": false,
     "traits": {
      "h1": 1,
-     "texte": 556,
+     "texte": 565,
      "tel": 1,
      "mailto": 0,
      "details": 0,
@@ -263,9 +263,9 @@
     "aria": "",
     "titre": "Les rayons",
     "h1": false,
-    "hEcrans": 0.89,
-    "part": 0.241,
-    "partImage": 0.25,
+    "hEcrans": 0.86,
+    "part": 0.236,
+    "partImage": 0.29,
     "nImages": 1,
     "rangee": 1,
     "carrousel": false,
@@ -335,7 +335,7 @@
     "titre": "59 rue Maurice Dubois",
     "h1": false,
     "hEcrans": 1.04,
-    "part": 0.283,
+    "part": 0.285,
     "partImage": 0,
     "nImages": 0,
     "rangee": 0,
@@ -386,6 +386,10 @@
    "ecrans": 3.7,
    "partImage": 0.15,
    "partOnglets": 0,
+   "partJournal": 0,
+   "plan": false,
+   "partCalendrier": 0,
+   "nuancier": false,
    "horizontal": true,
    "modele": "défilement horizontal"
   }
@@ -445,7 +449,7 @@
      0,
      0,
      1400,
-     101
+     73
     ]
    ],
    "carte": [],
@@ -516,8 +520,8 @@
    "nav",
    "nav",
    "",
-   "nav",
-   "nav",
+   "",
+   "",
    "",
    "",
    "",
@@ -616,5 +620,143 @@
    "carteSurImage": false,
    "telSousH1": true
   }
+ },
+ "disposition": {
+  "version": 1,
+  "m": {
+   "vw": 390,
+   "vh": 844,
+   "blocs": [
+    {
+     "forme": "pile",
+     "raison": "une colonne",
+     "h": 1.59,
+     "pied": false,
+     "mes": {
+      "k3": 0,
+      "k2": 0,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 24,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    },
+    {
+     "forme": "piste",
+     "raison": "défile en x",
+     "h": 0.86,
+     "pied": false,
+     "mes": {
+      "k3": 0,
+      "k2": 0.24,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 0,
+      "pleinCadre": false,
+      "piste": true,
+      "collant": 0,
+      "fixe": false
+     }
+    },
+    {
+     "forme": "pile",
+     "raison": "une colonne",
+     "h": 1.04,
+     "pied": true,
+     "mes": {
+      "k3": 0,
+      "k2": 0.23,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 0,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    }
+   ],
+   "linearite": 0.65
+  },
+  "d": {
+   "vw": 1400,
+   "vh": 900,
+   "blocs": [
+    {
+     "forme": "chevauche",
+     "raison": "texte à cheval sur une image",
+     "h": 0.86,
+     "pied": false,
+     "mes": {
+      "k3": 0,
+      "k2": 0.72,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 2,
+      "debord": 0,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    },
+    {
+     "forme": "piste",
+     "raison": "défile en x",
+     "h": 0.99,
+     "pied": false,
+     "mes": {
+      "k3": 0.99,
+      "k2": 0,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 0,
+      "pleinCadre": false,
+      "piste": true,
+      "collant": 0,
+      "fixe": false
+     }
+    },
+    {
+     "forme": "pile",
+     "raison": "une colonne",
+     "h": 0.74,
+     "pied": true,
+     "mes": {
+      "k3": 0,
+      "k2": 0.11,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 0,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    }
+   ],
+   "linearite": 0.46
+  },
+  "linearite": 0.56
  }
 }

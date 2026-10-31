@@ -7,7 +7,9 @@
 // (héros, avis, services, réalisations, à propos, venir, pied) avec la même navigation (menu vers des pages de
 // services + ancres) et la même longueur.
 //
-// RELEVÉ (Chrome, téléphone 390x844, après avoir défilé jusqu'en bas pour jouer les apparitions) :
+// RELEVÉ (Chrome, téléphone 390x844, après avoir défilé jusqu'en bas pour jouer les apparitions ; aussi à l'ordinateur,
+// sans le HTML, pour la disposition : quand scripts/ff/disposition.mjs a installé window.__ffForme, chaque bloc porte
+// ses boîtes brutes `forme` et la page sa colonne fixe `pageForme`) :
 //   blocs de premier niveau = enfants de <main> (les enveloppes sans rôle propre, display:contents ou qui portent
 //   au moins deux <section>, sont ouvertes ; les <nav> internes, les éléments fixed, les blocs de moins de 40 px
 //   ou de moins de la moitié de la largeur sont sautés) + les <footer> hors de <main>. Pour chacun : id, classes,
@@ -60,7 +62,7 @@ export const PAGES_HORS_CONTENU = /(^|\/)(404|mentions-legales|confidentialite|p
 
 /* ---------- relevé dans la page (sérialisé par playwright : aucune référence extérieure) ---------- */
 
-export function releverDeroule() {
+export function releverDeroule(opts = {}) {
   const vw = innerWidth, vh = innerHeight, de = document.documentElement;
   const docH = Math.max(de.scrollHeight, document.body ? document.body.scrollHeight : 0);
   const docW = Math.max(de.scrollWidth, document.body ? document.body.scrollWidth : 0);
@@ -140,7 +142,9 @@ export function releverDeroule() {
       tag: el.tagName.toLowerCase(), id: el.id || '', cls: (typeof el.className === 'string' ? el.className : '').slice(0, 200),
       aria: el.getAttribute('aria-label') || '', y: Math.round(b[1]), h: Math.round(b[3]),
       partImage: Math.round(dedans / (nx * ny) * 100) / 100, nImages: grandes.length, rangee, carrousel,
-      h1: Boolean(el.querySelector('h1')), html: nettoyer(el.outerHTML),
+      h1: Boolean(el.querySelector('h1')), html: opts && opts.sansHtml ? '' : nettoyer(el.outerHTML),
+      // forme du bloc (scripts/ff/disposition.mjs, installé par installerMesureForme) : boîtes brutes
+      forme: typeof window.__ffForme === 'function' ? window.__ffForme(el) : undefined,
     };
   });
 
@@ -236,7 +240,7 @@ export function releverDeroule() {
     if (/(auto|scroll)/.test(s.overflowX) && e.clientHeight >= vh * 0.6 && e.clientWidth >= vw * 0.8 && e.scrollWidth >= e.clientWidth * 2) { horizontal = true; break; }
   }
 
-  return { vw, vh, docH: Math.round(docH), docW: Math.round(docW), blocs, nav: liens(navs), pied: liens(pieds), corps: liens([main]), partOnglets: Math.round(partOnglets * 100) / 100, partJournal: Math.round(partJournal * 100) / 100, plan, partCalendrier: Math.round(partCalendrier * 100) / 100, nuancier, horizontal };
+  return { vw, vh, docH: Math.round(docH), docW: Math.round(docW), blocs, nav: liens(navs), pied: liens(pieds), corps: liens([main]), partOnglets: Math.round(partOnglets * 100) / 100, partJournal: Math.round(partJournal * 100) / 100, plan, partCalendrier: Math.round(partCalendrier * 100) / 100, nuancier, horizontal, pageForme: typeof window.__ffPageForme === 'function' ? window.__ffPageForme() : undefined };
 }
 
 /* ---------- fonctions pures ---------- */

@@ -61,6 +61,7 @@ import { cmdRefonte } from './ff/refonte.mjs';
 import { cmdRessemblance } from './ff/ressemblance.mjs';
 import { cmdMelanger } from './ff/melanger.mjs';
 import { cmdAtomes } from './ff/atomes-mesurer.mjs';
+import { cmdTri } from './ff/tri.mjs';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -140,6 +141,7 @@ const commands = {
   ressemblance: cmdRessemblance,
   melanger: cmdMelanger,
   atomes: cmdAtomes,
+  tri: cmdTri,
 };
 
 async function main() {

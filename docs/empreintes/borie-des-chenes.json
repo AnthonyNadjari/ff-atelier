@@ -1,7 +1,7 @@
 {
  "slug": "borie-des-chenes",
- "date": "2026-10-17",
- "version": 2,
+ "date": "2026-10-31",
+ "version": 3,
  "m": {
   "vw": 390,
   "vh": 844,
@@ -20,31 +20,31 @@
    "actions": [
     [
      20,
-     138,
+     152,
      350,
      52
     ],
     [
      20,
-     190,
-     350,
-     80
-    ],
-    [
-     20,
-     271,
+     204,
      350,
      52
     ],
     [
      20,
-     324,
+     257,
      350,
      52
     ],
     [
      20,
-     376,
+     310,
+     350,
+     52
+    ],
+    [
+     20,
+     362,
      350,
      52
     ]
@@ -206,7 +206,7 @@
     "carrousel": false,
     "traits": {
      "h1": 0,
-     "texte": 3441,
+     "texte": 3408,
      "tel": 2,
      "mailto": 1,
      "details": 6,
@@ -368,6 +368,10 @@
    "ecrans": 1.2,
    "partImage": 0,
    "partOnglets": 0,
+   "partJournal": 0,
+   "plan": false,
+   "partCalendrier": 0,
+   "nuancier": false,
    "horizontal": false,
    "modele": "accueil-menu sans défilement"
   }
@@ -541,5 +545,143 @@
    "carteSurImage": false,
    "telSousH1": false
   }
+ },
+ "disposition": {
+  "version": 1,
+  "m": {
+   "vw": 390,
+   "vh": 844,
+   "blocs": [
+    {
+     "forme": "pile",
+     "raison": "une colonne",
+     "h": 0.78,
+     "pied": false,
+     "mes": {
+      "k3": 0,
+      "k2": 0,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 0,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    },
+    {
+     "forme": "decale",
+     "raison": "vide de 36 % d'un côté",
+     "h": 0.09,
+     "pied": false,
+     "mes": {
+      "k3": 0,
+      "k2": 0,
+      "asym": 0.36,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 1,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    },
+    {
+     "forme": "colonnes",
+     "raison": "50 % des rangées à 2 colonnes",
+     "h": 0.23,
+     "pied": true,
+     "mes": {
+      "k3": 0.25,
+      "k2": 0.25,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 0,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    }
+   ],
+   "linearite": 1
+  },
+  "d": {
+   "vw": 1400,
+   "vh": 900,
+   "blocs": [
+    {
+     "forme": "decale",
+     "raison": "vide de 36 % d'un côté",
+     "h": 1.25,
+     "pied": false,
+     "mes": {
+      "k3": 0,
+      "k2": 0,
+      "asym": 0.36,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 0,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    },
+    {
+     "forme": "colonnes",
+     "raison": "100 % des rangées à 2 colonnes",
+     "h": 0.04,
+     "pied": false,
+     "mes": {
+      "k3": 0,
+      "k2": 1,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 1,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    },
+    {
+     "forme": "pile",
+     "raison": "une colonne",
+     "h": 0.1,
+     "pied": true,
+     "mes": {
+      "k3": 0,
+      "k2": 0,
+      "asym": 0,
+      "zigzag": false,
+      "quinconce": 0,
+      "chevImg": 0,
+      "chevTxt": 0,
+      "debord": 0,
+      "pleinCadre": false,
+      "piste": false,
+      "collant": 0,
+      "fixe": false
+     }
+    }
+   ],
+   "linearite": 1
+  },
+  "linearite": 1
  }
 }

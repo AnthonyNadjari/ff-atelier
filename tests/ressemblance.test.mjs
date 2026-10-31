@@ -332,3 +332,25 @@ test('déroulé : empreinte d\'un relevé et reclassement du registre sans Chrom
   assert.deepEqual(r.roles, e.roles);
   assert.equal(r.site.modele, 'plusieurs pages');
 });
+
+test('disposition (31 oct 2026) : axe séparé ; refus si la linéarité dépasse le seuil ; empreinte ancienne comparée comme avant', () => {
+  const bandes = { version: 1, m: { blocs: [{ forme: 'pile', h: 3, pied: false, mes: { debord: 0 } }] }, d: { blocs: [{ forme: 'colonnes', h: 3, pied: false, mes: { debord: 0 } }] }, linearite: 1 };
+  const fixe = { version: 1, m: { blocs: [{ forme: 'pile', h: 3, pied: false, mes: { debord: 0 } }] }, d: { blocs: [{ forme: 'fixe-lateral', h: 3, pied: false, mes: { debord: 0 } }] }, linearite: 0.5 };
+  const a = { slug: 'a', m: TEL['finck-fisch'], disposition: bandes };
+  const b = { slug: 'b', m: TEL['prospect-epi-dor'], disposition: fixe };
+  const ancien = { slug: 'c', m: TEL['fromagerie-ravanel'] };
+  const v = verdict(a, [a, b, ancien]);
+  assert.equal(v.tropLineaire, true);
+  assert.equal(v.echec, true);
+  assert.equal(v.linearite, 1);
+  assert.equal(v.proches.find((p) => p.slug === 'c').disposition, null);
+  assert.ok(v.proches.find((p) => p.slug === 'b').disposition < 1);
+  const w = verdict(b, [a, b, ancien]);
+  assert.equal(w.tropLineaire, false);
+  assert.equal(w.echec, false);
+  // sans disposition : le verdict d'avant (aucun refus de linéarité)
+  const x = verdict(ancien, [a, b, ancien]);
+  assert.equal(x.linearite, null);
+  assert.equal(x.tropLineaire, false);
+  assert.equal(x.echec, x.proches.some((p) => p.trop));
+});

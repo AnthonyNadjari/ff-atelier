@@ -16,7 +16,7 @@ import { ROOT, ok, fail, info, warn } from './util.mjs';
 import { A_JUGER } from './atomes.mjs';
 
 /** Exécuté DANS la page : relevé brut. Aucune dépendance (sérialisé par Playwright). */
-function releverDansLaPage() {
+export function releverDansLaPage() {
   const vw = innerWidth, vh = innerHeight;
   const visible = (el) => {
     const r = el.getBoundingClientRect();
@@ -366,3 +366,6 @@ export async function cmdAtomes(args) {
   for (const b of besoinsRegimes(comptes)) warn(`  besoin : ${b.phrase}`);
   if (rouge) process.exitCode = 1;
 }
+
+/** Alias pour `ff tri` (mesures légères de peinture, un seul passage dans la page). */
+export const releverPeinture = releverDansLaPage;
