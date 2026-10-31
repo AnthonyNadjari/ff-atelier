@@ -1,0 +1,1110 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.caves-legrand.com/",
+  "nom": "cavieslegrand",
+  "date": "2026-10-31",
+  "identite": {
+    "title": "Legrand Filles et Fils Paris — La passion du vin depuis 1880 à Paris et Tokyo",
+    "siteName": "",
+    "lang": "fr-FR",
+    "description": "La Maison Legrand : ambassadrice des vignerons les plus talentueux de leur génération. Large sélection éclectique de vins fins et rares, Cave à vin, Cours d’oenologie, Restaurant, Bar à vin, Salons privés.",
+    "technologies": [
+      "Webflow",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#1a0503",
+      "h1": "Legrand Filles et Fils, la passion du vin depuis 1880",
+      "h1Visible": true,
+      "mots": 115,
+      "images": 4,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 1,
+        "selecteur": "video#57a1d8e2-3bec-f972-e75a-7dd1a1a36184-video"
+      },
+      "boutonPrincipal": {
+        "texte": "PANIER (0)",
+        "x": 1294.46875,
+        "y": 43,
+        "cx": 0.9289822048611112,
+        "cy": 0.056666666666666664,
+        "fixe": true,
+        "dansNav": true
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "Avez-vous l’âge légal pour consommer de l’alcool dans votre pays de résidence ? NON OUI L’abus d’alcool est dangereux pour la santé, à consommer avec modération. La vente d’alcool à des mineurs de moi",
+        "selecteur": "div.majorite-wrapper",
+        "cookie": false
+      },
+      "cookie": {
+        "couverture": 0.04,
+        "texte": "Nous utilisons de cookies afin de mesurer notre audience et optimiser votre expérience sur notre site (En savoir plus) Refuser Accepter",
+        "selecteur": "div.cookie-consent-wrapper"
+      },
+      "barreBas": null,
+      "scrollHeight": 6393,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.utils-h1",
+        "famille": "Baskervville, \"Times New Roman\", sans-serif",
+        "taille": 68,
+        "graisse": "400",
+        "interlignage": 1.09,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.5px"
+      },
+      "h2": {
+        "selecteur": "h2",
+        "famille": "Baskervville, \"Times New Roman\", sans-serif",
+        "taille": 38,
+        "graisse": "400",
+        "interlignage": 1.11,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.paragraph-xs",
+        "famille": "Fkgrotesk, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.43,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.w-commerce-commercecartopenlink",
+        "famille": "Sweetsanspro, sans-serif",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1px"
+      },
+      "nav": {
+        "selecteur": "a.logo-link",
+        "famille": "Fkgrotesk, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Fkgrotesk",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331ea8e8af6847f6a120005_FKGrotesk-Regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Cedarvillecursive",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eac1b35557459eca5c31_CedarvilleCursive-Regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Baskervville",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eaa0084a7052f0c34595_Baskervville-Italic.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Baskervville",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eaa0f6c1826cd287eff0_Baskervville-Regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Sweetsanspro",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eb14fc594312a596ea8d_SweetSansPro-Regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.weglot.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eb14fc594312a596ea8d_SweetSansPro-Regular.woff2",
+        "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eaa0084a7052f0c34595_Baskervville-Italic.woff2",
+        "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eaa0f6c1826cd287eff0_Baskervville-Regular.woff2",
+        "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331ea8e8af6847f6a120005_FKGrotesk-Regular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Fkgrotesk",
+          "n": 45
+        },
+        {
+          "famille": "Baskervville",
+          "n": 40
+        },
+        {
+          "famille": "Sweetsanspro",
+          "n": 38
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fcfbfa",
+      "texte": "#2d2d2d",
+      "fondsBruts": [
+        {
+          "hex": "#fcfbfa",
+          "n": 1,
+          "poids": 9342720
+        },
+        {
+          "hex": "#ffffff",
+          "n": 14,
+          "poids": 5648111.5
+        },
+        {
+          "hex": "#2d2d2d",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#1a0503",
+          "n": 1,
+          "poids": 1296000
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#2d2d2d",
+          "n": 81,
+          "poids": 2469
+        },
+        {
+          "hex": "#a7a7a7",
+          "n": 8,
+          "poids": 416
+        },
+        {
+          "hex": "#6f170b",
+          "n": 11,
+          "poids": 177
+        },
+        {
+          "hex": "#ffffff",
+          "n": 13,
+          "poids": 130
+        },
+        {
+          "hex": "#222222",
+          "n": 10,
+          "poids": 51
+        }
+      ],
+      "nbImages": 19,
+      "nbVideos": 1,
+      "nbFondsImage": 1,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#fcfbfa",
+          "n": 1,
+          "poids": 9342720,
+          "part": 0.531
+        },
+        {
+          "hex": "#ffffff",
+          "n": 14,
+          "poids": 5648111.5,
+          "part": 0.321
+        },
+        {
+          "hex": "#1a0503",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.074
+        },
+        {
+          "hex": "#2d2d2d",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.074
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#2d2d2d",
+          "n": 81,
+          "poids": 2469,
+          "part": 0.761
+        },
+        {
+          "hex": "#a7a7a7",
+          "n": 8,
+          "poids": 416,
+          "part": 0.128
+        },
+        {
+          "hex": "#6f170b",
+          "n": 11,
+          "poids": 177,
+          "part": 0.055
+        },
+        {
+          "hex": "#ffffff",
+          "n": 13,
+          "poids": 130,
+          "part": 0.04
+        },
+        {
+          "hex": "#222222",
+          "n": 10,
+          "poids": 51,
+          "part": 0.016
+        }
+      ],
+      "contraste": 13.33
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        },
+        {
+          "nom": "AOS",
+          "preuve": "window.AOS"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.2s ease",
+          "n": 53
+        },
+        {
+          "valeur": "border 0.2s ease",
+          "n": 12
+        },
+        {
+          "valeur": "opacity 0.8s ease",
+          "n": 12
+        },
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 9
+        },
+        {
+          "valeur": "transform 0.5s ease",
+          "n": 4
+        },
+        {
+          "valeur": "transform 0.8s ease",
+          "n": 3
+        },
+        {
+          "valeur": "height 0.2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "padding 0.2s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-aos",
+          "n": 12
+        },
+        {
+          "nom": "data-aos-anchor-placement",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "section.address-section",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "opacity 0.8s ease"
+        ],
+        "attributs": [
+          "data-aos-anchor-placement",
+          "data-aos"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div.page-wrapper",
+      "sections": [
+        {
+          "selecteur": "div.full-hero-wrapper",
+          "titre": "Legrand Filles et Fils, la passion du vin depuis 1880",
+          "top": 0,
+          "hauteur": 900,
+          "ecrans": 1,
+          "mots": 10,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "div.main-wrapper",
+          "titre": "LA CAVE",
+          "top": 1030,
+          "hauteur": 4215,
+          "ecrans": 4.7,
+          "mots": 216,
+          "images": 11,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "section.address-section",
+          "titre": null,
+          "top": 5265,
+          "hauteur": 609,
+          "ecrans": 0.7,
+          "mots": 74,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.footer-wrapper",
+          "titre": null,
+          "top": 5854,
+          "hauteur": 634,
+          "ecrans": 0.7,
+          "mots": 121,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.nav-wrapper",
+        "hauteur": 103,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "LE RESTAURANT",
+            "href": "/le-restaurant",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "JOURNAL",
+            "href": "/journal",
+            "bouton": false
+          },
+          {
+            "texte": "Bons cadeaux",
+            "href": "/bons-cadeaux",
+            "bouton": false
+          },
+          {
+            "texte": "PANIER (0)",
+            "href": "#",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer-wrapper",
+        "liens": [
+          {
+            "texte": "Site par Pepperclip Studio",
+            "href": "https://www.pepperclip.com",
+            "bouton": false
+          },
+          {
+            "texte": "NOTRE SÉLECTION",
+            "href": "/notre-selection",
+            "bouton": false
+          },
+          {
+            "texte": "VINS PRIMEURS",
+            "href": "/vins-primeurs",
+            "bouton": false
+          },
+          {
+            "texte": "LE LIEU",
+            "href": "/le-lieu",
+            "bouton": false
+          },
+          {
+            "texte": "INFOS PRATIQUES",
+            "href": "/le-restaurant",
+            "bouton": false
+          },
+          {
+            "texte": "RÉSERVER UNE TABLE",
+            "href": "/reservations",
+            "bouton": false
+          },
+          {
+            "texte": "GESTION DE CAVE",
+            "href": "/gestion-de-caves-et-conservation",
+            "bouton": false
+          },
+          {
+            "texte": "LEGRAND SOMMELIERS (PRO)",
+            "href": "/legrand-sommeliers",
+            "bouton": false
+          },
+          {
+            "texte": "CADEAUX D'ENTREPRISE",
+            "href": "/cadeaux-dentreprise",
+            "bouton": false
+          },
+          {
+            "texte": "LES DÎNERS LEGRAND",
+            "href": "/les-diners-legrand",
+            "bouton": false
+          },
+          {
+            "texte": "L'ÉCOLE DU VIN",
+            "href": "/ecole-du-vin",
+            "bouton": false
+          },
+          {
+            "texte": "SUR-MESURE",
+            "href": "/evenements-sur-mesure",
+            "bouton": false
+          },
+          {
+            "texte": "LE JOURNAL",
+            "href": "/journal",
+            "bouton": false
+          },
+          {
+            "texte": "NOTRE HISTOIRE",
+            "href": "/notre-histoire",
+            "bouton": false
+          },
+          {
+            "texte": "CAVE LEGRAND PARIS",
+            "href": "/le-lieu",
+            "bouton": false
+          },
+          {
+            "texte": "CAVE LEGRAND TOKYO",
+            "href": "/la-cave-tokyo",
+            "bouton": false
+          },
+          {
+            "texte": "FAQ",
+            "href": "/faq",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACTER NOS ÉQUIPES",
+            "href": "/contact",
+            "bouton": false
+          },
+          {
+            "texte": "MENTIONS LÉGALES & CGV",
+            "href": "/mentions-legales",
+            "bouton": false
+          },
+          {
+            "texte": "GESTION DES COOKIES",
+            "href": "/mentions-legales#cookies",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 3,
+        "href": "tel:+33142600712"
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 3
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 3,
+        "heures": 5,
+        "extrait": "Lundi au Samedi (10h - 19h30) +33 1 42 60 07 12 info@cave"
+      },
+      "portes": [
+        {
+          "texte": "Bons cadeaux",
+          "href": "/bons-cadeaux"
+        },
+        {
+          "texte": "Réserver une table",
+          "href": "#"
+        },
+        {
+          "texte": "Découvrir nos bons cadeaux",
+          "href": "/bons-cadeaux"
+        },
+        {
+          "texte": "CADEAUX D'ENTREPRISE",
+          "href": "/cadeaux-dentreprise"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.nav-trigger-wh",
+          "position": "absolute",
+          "hauteur": 60,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 9,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [
+        {
+          "texte": "Legrand Filles et Fils, la passion du vin depuis 1880",
+          "taille": 68,
+          "selecteur": "h1.utils-h1"
+        }
+      ],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/cavieslegrand-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#1a0503",
+      "h1": "Legrand Filles et Fils, la passion du vin depuis 1880",
+      "h1Visible": true,
+      "mots": 105,
+      "images": 4,
+      "mediaPleinEcran": {
+        "type": "vidéo",
+        "couverture": 1,
+        "selecteur": "video#57a1d8e2-3bec-f972-e75a-7dd1a1a36184-video"
+      },
+      "boutonPrincipal": {
+        "texte": "PANIER (0)",
+        "x": 283.96875,
+        "y": 37.5,
+        "cx": 0.8390625,
+        "cy": 0.05390995260663507,
+        "fixe": true,
+        "dansNav": true
+      },
+      "coucheBloquante": {
+        "couverture": 1,
+        "texte": "Avez-vous l’âge légal pour consommer de l’alcool dans votre pays de résidence ? NON OUI L’abus d’alcool est dangereux pour la santé, à consommer avec modération. La vente d’alcool à des mineurs de moi",
+        "selecteur": "div.majorite-wrapper",
+        "cookie": false
+      },
+      "cookie": {
+        "couverture": 0.2,
+        "texte": "Nous utilisons de cookies afin de mesurer notre audience et optimiser votre expérience sur notre site (En savoir plus) Refuser Accepter",
+        "selecteur": "div.cookie-consent-wrapper"
+      },
+      "barreBas": null,
+      "scrollHeight": 8882,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.utils-h1",
+        "famille": "Baskervville, \"Times New Roman\", sans-serif",
+        "taille": 44,
+        "graisse": "400",
+        "interlignage": 1.14,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "-0.5px"
+      },
+      "h2": {
+        "selecteur": "h2",
+        "famille": "Baskervville, \"Times New Roman\", sans-serif",
+        "taille": 26,
+        "graisse": "400",
+        "interlignage": 1.23,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p.paragraph-xs",
+        "famille": "Fkgrotesk, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.43,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.w-commerce-commercecartopenlink",
+        "famille": "Sweetsanspro, sans-serif",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "1px"
+      },
+      "nav": {
+        "selecteur": "a.logo-link",
+        "famille": "Fkgrotesk, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.25,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "webflow-icons",
+          "url": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "inline (data:)"
+        },
+        {
+          "famille": "Fkgrotesk",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331ea8e8af6847f6a120005_FKGrotesk-Regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Cedarvillecursive",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eac1b35557459eca5c31_CedarvilleCursive-Regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Baskervville",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eaa0084a7052f0c34595_Baskervville-Italic.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Baskervville",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eaa0f6c1826cd287eff0_Baskervville-Regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        },
+        {
+          "famille": "Sweetsanspro",
+          "url": "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eb14fc594312a596ea8d_SweetSansPro-Regular.woff2",
+          "feuille": "cdn.prod.website-files.com",
+          "source": "tiers (cdn.prod.website-files.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.weglot.com"
+      ],
+      "fichiersPolices": [
+        "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eaa0084a7052f0c34595_Baskervville-Italic.woff2",
+        "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eaa0f6c1826cd287eff0_Baskervville-Regular.woff2",
+        "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331ea8e8af6847f6a120005_FKGrotesk-Regular.woff2",
+        "https://cdn.prod.website-files.com/6331e61ca84d62bbabf0b0c3/6331eb14fc594312a596ea8d_SweetSansPro-Regular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Fkgrotesk",
+          "n": 46
+        },
+        {
+          "famille": "Baskervville",
+          "n": 29
+        },
+        {
+          "famille": "Sweetsanspro",
+          "n": 15
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#fcfbfa",
+      "texte": "#2d2d2d",
+      "fondsBruts": [
+        {
+          "hex": "#fcfbfa",
+          "n": 1,
+          "poids": 3575130
+        },
+        {
+          "hex": "#ffffff",
+          "n": 15,
+          "poids": 2599263.922973633
+        },
+        {
+          "hex": "#2d2d2d",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#1a0503",
+          "n": 1,
+          "poids": 329160
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#2d2d2d",
+          "n": 54,
+          "poids": 2329
+        },
+        {
+          "hex": "#a7a7a7",
+          "n": 9,
+          "poids": 427
+        },
+        {
+          "hex": "#6f170b",
+          "n": 11,
+          "poids": 177
+        },
+        {
+          "hex": "#ffffff",
+          "n": 6,
+          "poids": 62
+        },
+        {
+          "hex": "#222222",
+          "n": 10,
+          "poids": 51
+        }
+      ],
+      "nbImages": 16,
+      "nbVideos": 1,
+      "nbFondsImage": 1,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#fcfbfa",
+          "n": 1,
+          "poids": 3575130,
+          "part": 0.523
+        },
+        {
+          "hex": "#ffffff",
+          "n": 15,
+          "poids": 2599263.922973633,
+          "part": 0.38
+        },
+        {
+          "hex": "#1a0503",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.048
+        },
+        {
+          "hex": "#2d2d2d",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.048
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#2d2d2d",
+          "n": 54,
+          "poids": 2329,
+          "part": 0.765
+        },
+        {
+          "hex": "#a7a7a7",
+          "n": 9,
+          "poids": 427,
+          "part": 0.14
+        },
+        {
+          "hex": "#6f170b",
+          "n": 11,
+          "poids": 177,
+          "part": 0.058
+        },
+        {
+          "hex": "#ffffff",
+          "n": 6,
+          "poids": 62,
+          "part": 0.02
+        },
+        {
+          "hex": "#222222",
+          "n": 10,
+          "poids": 51,
+          "part": 0.017
+        }
+      ],
+      "contraste": 13.33
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Webflow",
+          "preuve": "window.Webflow"
+        },
+        {
+          "nom": "AOS",
+          "preuve": "window.AOS"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.2s ease",
+          "n": 30
+        },
+        {
+          "valeur": "border 0.2s ease",
+          "n": 11
+        },
+        {
+          "valeur": "background-color 0.2s ease",
+          "n": 10
+        },
+        {
+          "valeur": "opacity 0.8s ease",
+          "n": 10
+        },
+        {
+          "valeur": "transform 0.5s ease",
+          "n": 4
+        },
+        {
+          "valeur": "transform 0.8s ease",
+          "n": 3
+        },
+        {
+          "valeur": "transform 0.2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "opacity 0.2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "height 0.2s ease",
+          "n": 1
+        },
+        {
+          "valeur": "padding 0.2s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-aos",
+          "n": 10
+        },
+        {
+          "nom": "data-aos-anchor-placement",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "section.address-section",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "opacity 0.8s ease"
+        ],
+        "attributs": [
+          "data-aos-anchor-placement",
+          "data-aos"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div.page-wrapper",
+      "sections": [
+        {
+          "selecteur": "div.full-hero-wrapper",
+          "titre": "Legrand Filles et Fils, la passion du vin depuis 1880",
+          "top": 0,
+          "hauteur": 844,
+          "ecrans": 1,
+          "mots": 10,
+          "images": 2,
+          "fixe": false,
+          "balisesRares": [
+            "video"
+          ]
+        },
+        {
+          "selecteur": "div.main-wrapper",
+          "titre": "LA CAVE",
+          "top": 944,
+          "hauteur": 6147,
+          "ecrans": 7.3,
+          "mots": 250,
+          "images": 8,
+          "fixe": false,
+          "balisesRares": [
+            "form"
+          ]
+        },
+        {
+          "selecteur": "section.address-section",
+          "titre": null,
+          "top": 7108,
+          "hauteur": 1365,
+          "ecrans": 1.6,
+          "mots": 74,
+          "images": 3,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.footer-wrapper",
+          "titre": null,
+          "top": 8456,
+          "hauteur": 711,
+          "ecrans": 0.8,
+          "mots": 65,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.nav-wrapper",
+        "hauteur": 82,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "PANIER (0)",
+            "href": "#",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer-wrapper",
+        "liens": [
+          {
+            "texte": "Site par Pepperclip Studio",
+            "href": "https://www.pepperclip.com",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 3,
+        "href": "tel:+33142600712"
+      },
+      "formulaires": {
+        "n": 2,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": true,
+        "jours": 3,
+        "heures": 5,
+        "extrait": "Lundi au Samedi (10h - 19h30) +33 1 42 60 07 12 info@cave"
+      },
+      "portes": [
+        {
+          "texte": "Réserver une table",
+          "href": "#"
+        },
+        {
+          "texte": "Découvrir nos bons cadeaux",
+          "href": "/bons-cadeaux"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.nav-trigger-wh",
+          "position": "absolute",
+          "hauteur": 60,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 10,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [
+        {
+          "texte": "Legrand Filles et Fils, la passion du vin depuis 1880",
+          "taille": 44,
+          "selecteur": "h1.utils-h1"
+        }
+      ],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Legrand Filles et Fils Paris",
+  "dureeS": 26
+}
