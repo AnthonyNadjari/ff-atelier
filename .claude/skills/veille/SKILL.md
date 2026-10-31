@@ -109,6 +109,19 @@ sites au plus** construits, chacun poussé jusqu'au bout :
    (premier écran, déroulé, disposition des blocs, linéarité), le compare à toute l'usine et à toutes les sources déjà
    triées, et le refuse s'il est linéaire (blocs empilés) ou trop proche de ce qu'on a. On ne regarde à l'œil que ses
    meilleurs. Un tour qui scanne moins de 40 candidats le dit au journal, avec la raison.
+
+   **Panel large, recette fixe** (le fondateur, 31 oct 2026 : « faut un panel large donc beaucoup de sources » ; on prend
+   des sites **beaux**, pas forcément d'artisans, pourvu qu'ils se remplissent avec le contenu d'un artisan : photos,
+   services, téléphone, horaires). Les 40 candidats viennent d'**au moins 6 sources**, **10 au plus par source** :
+   - galeries et prix triés par des humains : Awwwards (sites du jour, nominés, par catégorie), siteinspire,
+     minimal.gallery, onepagelove, lapa.ninja, land-book, httpster, Framer Gallery, Made in Webflow ;
+   - modèles qui se vendent : Framer Marketplace, ThemeForest, Squarespace, Webflow templates (tri par ventes) ;
+   - beaux sites de commerces réels : prix de design locaux, crédits d'agences indépendantes, « best restaurant website
+     <ville> », toutes catégories et tous pays.
+   Pas de galerie sans liens vers des sites (recent.design, ex-godly ; Mobbin, Refero : captures d'applis). Une source qui
+   bloque le robot est remplacée par la suivante de la liste, et le journal le dit. La liste du tour
+   (`docs/veille/styles/tri/liste-<date>.txt`) note la **provenance** de chaque URL (`<url>  # <source>`), et le journal
+   donne le compte par source.
 1. **Choisir** parmi les meilleurs du tri : petites structures, faites par des humains ; jamais déjà dans
    `docs/veille/styles/INDEX.md`. Priorité à ce que l'usine ne sait pas encore faire (une disposition absente : grille
    éclatée, colonne fixe, piste, chevauchement, page-menu), puis aux régimes de palette en besoin (`ff atomes`) et aux
