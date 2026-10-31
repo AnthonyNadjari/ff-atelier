@@ -1,0 +1,246 @@
+---
+/**
+ * Coquille "departs" : architecture `tableau-departs` (src/lib/architectures.ts ; sources Taxi Annecy : « Départs · Annecy »,
+ * chaque destination avec sa distance et sa durée, « Voir le trajet », une page par trajet avec l'heure à laquelle partir et
+ * ce qu'il faut fournir ; VTC Rousseau, Les Houches : tarifs au départ ou à destination de Chamonix, jour et nuit, « si vous
+ * ne trouvez pas votre destination, appelez » ; docs/veille/architectures/tableau-departs.md).
+ * Le client se demande « combien de temps, combien, et à quelle heure vous venez me chercher ? » : l'accueil est le tableau
+ * des départs.
+ *   → id="hero" : le h1, le métier à la ville, l'ancienneté, la note, le téléphone (socle docs/GOUT.md § 0), et à côté (à
+ *     l'ordinateur ; dessous au téléphone) id="departs" : le tableau des trajets au départ de la base, un vrai tableau rangé
+ *     par genre (aéroports, gares, stations), destination, distance, durée, prix s'il est publié (sinon « sur devis »),
+ *     chaque destination vers sa page ; « Votre destination n'est pas listée ? » et le téléphone ;
+ *   → id="heure" : « À quelle heure partir ? » (le trajet, l'heure du vol ou du train ; la prise en charge calculée dans le
+ *     navigateur avec l'avance du trajet et la marge du client ; sans script, la règle de chaque trajet en mots) ;
+ *   → id="avis" : les avis en piste horizontale manuelle (défilement au doigt, jamais à la molette détournée) ;
+ *   → les sections du layout ; id="contact" : la demande (formulaire), le téléphone, les horaires ; le pied.
+ * Pages : /trajets (tous les trajets, avec les questions), /trajets/<slug>.
+ *
+ * `layout.hero` n'est pas rendu ; la photo du client (images.hero) suit le téléphone, sous le h1. Aucune horloge (docs/GOUT.md § 5 : l'« heure » affichée de la source n'est pas reprise).
+ * Sans trajets : le h1, l'appel et la demande restent, le tableau disparaît et le build dit ce qui manque.
+ * Signes des sources NON repris : horloge en direct, coordonnées GPS décoratives, deuxième formulaire de devis en tête,
+ * brochures tarifaires en PDF (VTC Rousseau).
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, metierEtVille, donneesManquantes, trajetsComplets, trajetsParType, dureeDuTrajet, trajetsAvecPrix } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const d = site.departs;
+const trajets = trajetsComplets(d?.trajets);
+const groupes = trajetsParType(trajets);
+const prix = trajetsAvecPrix(trajets);
+const avecHeure = d?.marge !== undefined ? trajets.filter((t) => t.avance !== undefined) : [];
+const avis = site.proof.testimonials;
+const photo = site.images.hero;
+const lien = (slug: string) => `/trajets/${slug}`;
+const km = (n: number | undefined) => (n ? `${n.toLocaleString('fr-FR')} km` : '');
+const manque = donneesManquantes('tableau-departs', site);
+if (manque.length > 0) console.warn(`[coquille departs] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="dp-page">
+  <section id="hero" class="dp-tete" aria-labelledby="dp-h1">
+    <div class="dp-identite">
+      <h1 id="dp-h1" class="dp-h1 font-display" set:html={site.business.tagline} />
+      <p class="dp-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {site.contact.emergency24h && <p class="dp-fort">Jour et nuit, 7&nbsp;jours sur&nbsp;7.</p>}
+      {google && <p><a href={google.url} target="_blank" rel="noopener" class="dp-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+      <p><a href={tel()} class="dp-tel tabular-nums"><Icon name="Phone" size={22} />{site.contact.phoneDisplay}</a></p>
+      <p><a href="#contact" class="dp-lien">{site.wording.devis}</a></p>
+    </div>
+    {photo && <Img src={photo.src} alt={photo.alt} class="dp-photo" sizes="(min-width: 64rem) 60vw, 100vw" priority />}
+  </section>
+
+  {trajets.length > 0 && (
+    <section id="departs" class="dp-colonne" aria-labelledby="dp-departs-t">
+      <div class="dp-departs">
+        <h2 id="dp-departs-t" class="dp-h2 font-display">Départs depuis {d!.depuis}</h2>
+        <table class="dp-tableau">
+          <caption class="sr-only">Trajets au départ de {d!.depuis} : destination, distance, durée{prix ? ', prix' : ''}</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="dp-th-dest">Destination</th>
+              <th scope="col" class="dp-num">Distance</th>
+              <th scope="col" class="dp-num">Durée</th>
+              {prix && <th scope="col" class="dp-num">Prix</th>}
+            </tr>
+          </thead>
+          {groupes.map((g) => (
+            <tbody>
+              {groupes.length > 1 && <tr><th scope="rowgroup" colspan={prix ? 4 : 3} class="dp-groupe">{g.type}</th></tr>}
+              {g.trajets.map((t) => (
+                <tr class="dp-ligne">
+                  <th scope="row" class="dp-dest">
+                    <a href={lien(t.slug)} class="dp-dest-lien">{t.destination}</a>
+                    {t.precision && <span class="dp-precision">{t.precision}</span>}
+                  </th>
+                  <td class="dp-num tabular-nums">{km(t.km)}</td>
+                  <td class="dp-num tabular-nums">{dureeDuTrajet(t.minutes)}</td>
+                  {prix && <td class="dp-num dp-prix tabular-nums">{t.prix ?? 'sur devis'}</td>}
+                </tr>
+              ))}
+            </tbody>
+          ))}
+        </table>
+        <p class="dp-autre">Votre destination n’est pas dans la liste&nbsp;? <a href={tel()} class="dp-lien tabular-nums">Appelez le {site.contact.phoneDisplay}</a></p>
+        {d!.avertissement && <p class="dp-muted">{d!.avertissement}</p>}
+      </div>
+    </section>
+  )}
+
+  {avecHeure.length > 0 && (
+    <section id="heure" class="dp-heure" aria-labelledby="dp-heure-t">
+      <div class="container-ff dp-heure-in">
+        <div class="dp-heure-texte">
+          <h2 id="dp-heure-t" class="dp-h2 font-display">À quelle heure partir&nbsp;?</h2>
+          <p class="dp-muted">L’heure de votre vol ou de votre train, moins le temps à prévoir sur place, la route et {d!.marge}&nbsp;min de marge.</p>
+          <ul class="dp-regles" data-dp-regles>
+            {avecHeure.map((t) => <li>{t.destination}&nbsp;: sur place {t.avance}&nbsp;min avant, {dureeDuTrajet(t.minutes)} de route.</li>)}
+          </ul>
+        </div>
+        <div class="dp-outil" role="group" aria-labelledby="dp-heure-t" data-dp-outil={JSON.stringify({ marge: d!.marge, trajets: avecHeure.map((t) => ({ slug: t.slug, nom: t.destination, minutes: t.minutes, avance: t.avance })) })} hidden>
+          <label class="dp-champ">Votre trajet
+            <select name="trajet" class="dp-select">{avecHeure.map((t) => <option value={t.slug}>{t.destination}</option>)}</select>
+          </label>
+          <label class="dp-champ">Heure du vol ou du train
+            <input type="time" name="heure" class="dp-select tabular-nums" value="07:00" step="300" />
+          </label>
+          <p class="dp-reponse" aria-live="polite" data-dp-reponse></p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {avis.length > 0 && (
+    <section id="avis" class="dp-avis" aria-labelledby="dp-avis-t">
+      <div class="container-ff">
+        <h2 id="dp-avis-t" class="dp-h2 font-display">Ils sont arrivés à l’heure</h2>
+      </div>
+      <ul class="dp-piste" tabindex="0" aria-label="Avis des clients, à faire défiler">
+        {avis.map((a) => (
+          <li class="dp-avis-carte">
+            <blockquote class="dp-citation"><p>{a.text}</p></blockquote>
+            <p class="dp-auteur">{a.author}{a.source ? `, ${a.source}` : ''}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="dp-demande" aria-labelledby="dp-demande-t">
+    <div class="container-ff dp-demande-in">
+      <div class="dp-col">
+        <h2 id="dp-demande-t" class="dp-h2 font-display">{site.wording.devis}</h2>
+        <p class="dp-muted">Pour un départ dans l’heure, le téléphone reste le plus rapide.</p>
+        <p><a href={tel()} class="dp-tel tabular-nums"><Icon name="Phone" size={22} />{site.contact.phoneDisplay}</a></p>
+        <Horaires class="dp-semaine tabular-nums" />
+      </div>
+      <ContactForm compact idPrefix="trajet" />
+    </div>
+  </section>
+</main>
+<Footer />
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { priseEnCharge } from '@/lib/departs';
+
+  // « À quelle heure partir ? » : la prise en charge calculée avec l'avance du trajet et la marge du client. Sans script,
+  // la règle de chaque trajet reste écrite en mots (data-dp-regles).
+  onPage(() => {
+    const f = document.querySelector<HTMLElement>('[data-dp-outil]');
+    if (!f?.dataset.dpOutil) return;
+    const cfg = JSON.parse(f.dataset.dpOutil) as { marge: number; trajets: { slug: string; nom: string; minutes: number; avance: number }[] };
+    const sortie = f.querySelector<HTMLElement>('[data-dp-reponse]');
+    const calculer = () => {
+      const t = cfg.trajets.find((x) => x.slug === f.querySelector<HTMLSelectElement>('select')?.value);
+      const h = f.querySelector<HTMLInputElement>('input')?.value ?? '';
+      const r = t ? priseEnCharge(h, t, cfg.marge) : undefined;
+      if (sortie) sortie.textContent = r && t ? `Prise en charge vers ${r.heure.replace(':', ' h ')}${r.veille ? ' la veille' : ''} pour ${t.nom}.` : '';
+    };
+    f.hidden = false;
+    f.addEventListener('input', calculer);
+    calculer();
+  });
+</script>
+
+<style>
+  .dp-page { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .dp-tete { padding: clamp(1.5rem, 5vh, 4rem) clamp(1.25rem, 4vw, 2.5rem) clamp(1.5rem, 4vh, 3rem); }
+  .dp-colonne { padding: 0 clamp(1rem, 3vw, 1.5rem) clamp(2rem, 6vh, 3.5rem); }
+  .dp-identite { display: grid; gap: 0.9rem; align-content: start; }
+  .dp-tete { display: grid; gap: clamp(1.5rem, 4vh, 2.5rem); }
+  .dp-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); }
+  .dp-h1 { font-size: clamp(2.2rem, 7vw, 4.6rem); line-height: 0.98; letter-spacing: -0.02em; text-wrap: balance; max-inline-size: 13ch; }
+  .dp-metier { font-size: clamp(1.1rem, 1.8vw, 1.35rem); max-inline-size: 36ch; }
+  .dp-fort { font-weight: 700; }
+  .dp-tel { display: inline-flex; align-items: center; gap: 0.55rem; min-block-size: 52px; font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .dp-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .dp-tel:focus-visible, .dp-lien:focus-visible, .dp-dest-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .dp-muted { color: var(--color-muted); }
+  .dp-h2 { font-size: clamp(1.6rem, 4vw, 2.6rem); line-height: 1.04; letter-spacing: -0.01em; }
+  /* Le tableau des départs : un vrai tableau, des filets, les chiffres alignés à droite ; aucune horloge. */
+  .dp-departs { display: grid; gap: 1rem; align-content: start; min-inline-size: 0; padding: clamp(1rem, 3vw, 1.75rem); background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+  .dp-tableau { inline-size: 100%; border-collapse: collapse; }
+  .dp-tableau thead th { padding-block: 0.5rem; font-size: 0.85rem; font-weight: 700; color: var(--color-muted); text-align: start; border-block-end: 2px solid var(--color-fg); }
+  .dp-tableau thead th.dp-num { text-align: end; }
+  .dp-groupe { text-align: start; padding: 1rem 0 0.3rem; font-weight: 700; font-size: 0.95rem; color: var(--color-muted); }
+  .dp-ligne > * { padding-block: 0.65rem; border-block-end: 1px solid var(--color-line); vertical-align: top; }
+  .dp-dest { text-align: start; padding-inline-end: 0.5rem; }
+  .dp-dest-lien { display: inline-flex; align-items: center; min-block-size: 44px; font-size: clamp(1.05rem, 1.8vw, 1.25rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .dp-precision { display: block; font-weight: 400; font-size: 0.88rem; color: var(--color-muted); }
+  .dp-num { text-align: end; white-space: nowrap; padding-inline-start: 0.6rem; }
+  td.dp-num { padding-block-start: 1.05rem; }
+  .dp-prix { font-weight: 700; }
+  .dp-autre { font-weight: 600; }
+  .dp-heure { padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block: 1px solid var(--color-line); }
+  .dp-heure-in { display: grid; gap: 1.5rem; }
+  .dp-heure-texte { display: grid; gap: 0.6rem; }
+  .dp-regles { display: grid; gap: 0.2rem; }
+  .dp-outil { display: grid; gap: 1rem; align-content: start; }
+  .dp-outil[hidden] { display: none; }
+  .dp-champ { display: grid; gap: 0.35rem; font-weight: 600; }
+  .dp-select { min-block-size: 48px; padding-inline: 0.75rem; background: var(--color-surface); color: var(--color-fg); border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); font: inherit; }
+  .dp-select:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .dp-reponse { font-size: clamp(1.3rem, 2.6vw, 1.75rem); font-weight: 700; line-height: 1.2; min-block-size: 2.4em; }
+  /* Les avis en piste manuelle : défilement au doigt et à la barre, aimanté, jamais détourné. */
+  .dp-avis { display: grid; gap: 1.25rem; padding-block: clamp(2rem, 6vh, 4rem); }
+  .dp-piste { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: clamp(1.25rem, 4vw, 2.5rem); padding-block-end: 0.75rem; overscroll-behavior-x: contain; }
+  .dp-piste:focus-visible { outline: 2px solid var(--color-fg); outline-offset: -2px; }
+  .dp-avis-carte { flex: 0 0 min(82%, 26rem); scroll-snap-align: start; display: grid; gap: 0.75rem; align-content: space-between; padding: 1.25rem; background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-card); }
+  .dp-citation { font-size: 1.05rem; }
+  .dp-auteur { font-weight: 700; }
+  .dp-demande { padding-block: clamp(2rem, 6vh, 4rem); background: var(--color-bg-2); border-block-start: 1px solid var(--color-line); }
+  .dp-demande :global(.horaires-jour) { opacity: 1; }
+  .dp-demande-in { display: grid; gap: 2rem; }
+  .dp-col { display: grid; gap: 0.75rem; align-content: start; }
+  @media (min-width: 48rem) {
+    .dp-heure-in { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); column-gap: 3rem; align-items: start; }
+    .dp-demande-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: 3rem; }
+  }
+  @media (min-width: 64rem) {
+    /* À l'ordinateur : le tableau des départs reste affiché à droite, sous la barre (72 px), comme le panneau d'une gare,
+       pendant que l'heure, les avis et la demande défilent à gauche. */
+    .dp-page { grid-template-columns: minmax(0, 1fr) minmax(24rem, 40%); }
+    .dp-page > :global(*) { grid-column: 1; min-inline-size: 0; }
+    .dp-page > .dp-colonne { grid-column: 2; grid-row: 1 / span 40; position: sticky; inset-block-start: 72px; align-self: start; block-size: calc(100vh - 72px); overflow-y: auto; padding: clamp(1rem, 2vh, 1.5rem) clamp(1rem, 2vw, 1.75rem); background: var(--color-bg-2); border-inline-start: 1px solid var(--color-line); }
+    .dp-page > .dp-colonne .dp-departs { box-shadow: none; }
+    .dp-tete { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 2.5rem; align-items: start; }
+    .dp-photo { aspect-ratio: 4 / 5; }
+  }
+</style>

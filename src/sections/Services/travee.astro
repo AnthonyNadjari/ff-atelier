@@ -1,0 +1,50 @@
+---
+/**
+ * Services "travee" (style travee, relevé sur driessenarchitectuur.nl le 31 oct 2026, fiche docs/veille/styles/travee.md
+ * § Construction, bloc 4 « Onze specialismen ») : à gauche une phrase d'introduction en petit corps (wording.servicesIntro,
+ * sinon rien) et le repère « ● Nos métiers » ; à droite, l'INDEX DES MÉTIERS en deux colonnes séparées par des filets
+ * d'1 px : le nom de chaque service en corps moyen (20 px, graisse 500), sa phrase courte dessous en petit gris, et le prix (priceFrom, tel que le client l’écrit)
+ * s'il est donné ; chaque ligne mène à la page du service, et au survol (souris) le nom glisse de 6 px (la
+ * source pousse son texte de 0,3 s en padding). La source numérote ses lignes 01 à 06 en gris : refusé (GOUT § 2).
+ * Fond blanc pur (la source alterne blanc cassé et blanc). Aucune photo ici : les photos des services passent dans la
+ * travée du premier écran (Hero/travee).
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Titre from '@/components/Titre.astro';
+
+const intro = site.wording.servicesIntro ?? metierEtVille();
+---
+
+<section id="services" class="travee-services" aria-labelledby="travee-services-titre">
+  <div class="travee-marges grid gap-y-8 md:grid-cols-12 md:gap-x-6">
+    <div class="md:col-span-4 md:col-start-1">
+      <Titre id="travee-services-titre" class="travee-repere eyebrow" title={site.wording.servicesTitle} />
+      {intro && <p class="mt-4 max-w-[38ch] text-[0.9375rem] leading-[1.6] text-muted md:text-[1.0625rem]">{intro}</p>}
+    </div>
+    <ul class="travee-index md:col-span-8 md:col-start-5">
+      {site.services.map((s) => (
+        <li>
+          <a href={`/services/${s.slug}`} class="travee-ligne">
+            <span class="travee-nom font-display">{s.title}</span>
+            {s.short && <span class="mt-1.5 block text-[0.875rem] leading-snug text-muted md:text-[0.9375rem]">{s.short}</span>}
+            {s.priceFrom && <span class="mt-1 block text-[0.8125rem] text-fg">{s.priceFrom}</span>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .travee-services { padding-block: var(--section-y); background: var(--surface); }
+  .travee-marges { width: 100%; padding-inline: clamp(1.25rem, 2.6vw, 2.5rem); }
+  .travee-repere { display: flex; align-items: center; gap: 0.5rem; }
+  .travee-repere::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; }
+  .travee-index { display: grid; gap: 0 2rem; margin: 0; padding: 0; list-style: none; }
+  @media (min-width: 40rem) { .travee-index { grid-template-columns: 1fr 1fr; } }
+  .travee-ligne { display: block; padding: 1rem 0 1.25rem; border-top: 1px solid var(--line); }
+  .travee-nom { display: block; font-size: clamp(1.375rem, 1rem + 1.2vw, 2.25rem); line-height: 1.1; font-weight: 500; letter-spacing: -0.015em; color: var(--fg); transition: transform var(--motion-ui) ease-out; }
+  .travee-ligne:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) { .travee-ligne:hover .travee-nom { transform: translateX(6px); } }
+  @media (prefers-reduced-motion: reduce) { .travee-nom { transition: none; } }
+</style>

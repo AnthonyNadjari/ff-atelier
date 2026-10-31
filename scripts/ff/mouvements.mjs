@@ -423,6 +423,27 @@ export const PROFILS_MOUVEMENT = {
     attributs: ['Services cartouche : chaque cartouche (plaque blanche à filet cobalt posée à cheval sur le bas de la photo de son service) monte de 24 px et passe de l\'opacité 0 à 1 quand il arrive à l\'écran (IntersectionObserver, seuil 0,25, une fois ; 0,4 s cubic-bezier(0.4, 0, 0.2, 1), mesuré sur hotel-gilbert.at : color 0.4s même courbe, transform 0.3-0.4s) ; l\'état « pas encore posé » n\'existe que sous la classe posée par le script (sans script ou en mouvement réduit, il est en place) ; liens encadrés dont la flèche au trait s\'allonge de 2,25 à 3,25 rem en 0,3 s au survol et au focus ; rien ne suit le défilement ; tout le reste immobile (nom géant, quadrillage, bande cobalt)'],
     manque: null, exige: {},
   },
+  'etagere-qui-se-remplit': {
+    nom: 'Étagère qui se remplit', sources: ['rayon'],
+    entree: 'articles-qui-se-posent', apparition: 'articles-qui-se-posent', survol: 'rond-qui-se-remplit', fond: 'aucun',
+    regime: 'calme', defilement: 'apparitions', calme: true, poids: 'leger', motion: 'subtle',
+    attributs: ['Hero et Services rayon (src/components/EtagereRayon.astro) : quand une étagère arrive à l\'écran (la première au chargement : c\'est l\'entrée du premier écran), ses articles glissent de 2,5 rem depuis la droite et apparaissent un à un (transform et opacité 0,6 s cubic-bezier(0, 0, 0.3, 1), mesuré sur blankinside.co.uk : animation slideIn 0.6s même courbe ×70 ; 50 ms d\'écart, 8 cases au plus, 1 s en tout), une fois, IntersectionObserver seuil 0,12 ; la flèche dessinée sous le titre au feutre du rayon se trace en même temps (stroke-dashoffset 0,5 s, la pointe 0,2 s après) ; l\'état caché n\'existe que sous la classe posée par le script (sans script ou en mouvement réduit, tout est en place). Régime sec à côté : le rond « + » se remplit d\'encre au survol, les étiquettes, les boutons et les ronds fléchés s\'enfoncent dans leur ombre dure au toucher (transform et box-shadow 0,1 s linéaire, mesuré : color 0.1s, box-shadow 0.1s). La piste se fait glisser au doigt (défilement natif aimanté), jamais d\'autoplay ; rien ne suit le défilement'],
+    manque: null, exige: {},
+  },
+  'fiche-collee-a-l-objet': {
+    nom: 'Fiche collée à l\'objet', sources: ['etabli'],
+    entree: 'objet-qui-se-pose', apparition: 'escalier-qui-se-range', survol: 'vignette-qui-change-la-vue', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'nul', motion: 'subtle',
+    attributs: ['Hero et Services etabli : à l\'ordinateur, la fiche de chaque objet (vignettes, nom, prix encadré, bouton plein) COLLE sous la barre (position: sticky, top 66 px + gouttière) tant que les photos de sa rangée défilent à côté, et change de côté d\'une rangée à l\'autre ; au téléphone c\'est l\'objet en grand qui colle sous la barre et la fiche, sur fond blanc, qui monte dessus (mesuré sur agronomywork.shop : sept blocs sticky top 86 px, aucune transition au défilement) ; Faq etabli : l\'escalier des questions, une question par colonne posée une marche (12 rem) plus bas que la précédente, chacune collante dans une colonne haute comme le bloc : en descendant, les marches arrivent en haut l\'une après l\'autre et se rangent en une rangée, puis partent ensemble ; collage natif, aucun script, rien de calé image par image (tient sur iPhone) ; deux régimes : sec (une vignette touchée change la vue de l\'objet en fondu de 0,2 s linéaire, script onPage de quelques lignes) et lent (à l\'arrivée, l\'objet du premier écran se pose : 1 rem plus bas -> sa place et opacité, 0,9 s cubic-bezier(0.16, 1, 0.3, 1), une fois, CSS) ; en mouvement réduit, pas d\'entrée, pas de fondu, l\'escalier est aligné d\'emblée'],
+    manque: null, exige: {},
+  },
+  'travee-au-doigt': {
+    nom: 'Travée au doigt', sources: ['travee'],
+    entree: 'aucune', apparition: 'photo-qui-se-pose-a-l-arret', survol: 'nom-qui-glisse', fond: 'aucun',
+    regime: 'calme', defilement: 'aucun', calme: true, poids: 'leger', motion: 'subtle',
+    attributs: ['Hero et Proof travee (src/scripts/travee.ts) : la travée est une piste horizontale NATIVE (overflow-x auto, scroll-snap-type x mandatory, scroll-snap-align start, overscroll-behavior-x contain, touch-action pan-x pan-y, tabindex 0 : flèches du clavier) : le doigt, la molette horizontale et le clavier la font glisser, le navigateur l\'aimante ; aucun défilement vertical détourné, rien ne tourne tout seul ; le script ne fait que le confort : boutons précédent / suivant (scrollTo, doux sauf mouvement réduit), « 2 sur 7 », légende de la vue du moment, et la classe .is-ici sur elle (calculée au défilement, rAF) ; la photo qui arrive se POSE quand elle est arrivée (scale 1,05 -> 1 en 0,45 s ease, transition en temps, jamais calée image par image ; mesuré sur driessenarchitectuur.nl : opacity et transform 0.45s ease ×67) ; régime sec : boutons, flèches et noms de l\'index des métiers en 0,2 s ease-out (nom qui glisse de 6 px au survol, souris seulement) ; sans script, la piste glisse quand même et les flèches restent cachées ; en mouvement réduit, rien ne se pose ni ne glisse en douceur'],
+    manque: null, exige: {},
+  },
 };
 
 export const IDS_PROFILS = Object.keys(PROFILS_MOUVEMENT);

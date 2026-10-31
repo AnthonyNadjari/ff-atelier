@@ -1,0 +1,89 @@
+---
+/**
+ * L'escalier des questions du style etabli (rendu par Faq/etabli, et par Services/etabli entre les pièces quand le layout n'a
+ * pas de section faq, comme la source qui pose ses questions au milieu de sa gamme). Lit `site` directement ; l'appelant pose l'enveloppe `<section id="faq" class="etabli-questions">`.
+ * Faq "etabli" (style etabli, relevé sur agronomywork.shop le 31 oct 2026, fiche docs/veille/styles/etabli.md
+ * § Construction, bloc 6, et § Le geste signature) : L'ESCALIER DES QUESTIONS. À l'ordinateur, le titre au-dessus, puis
+ * une question par colonne (cinq au plus), chacune posée une marche plus bas que la précédente (7 rem),
+ * avec sa photo et sa réponse. Chaque question est COLLÉE sous la barre (position sticky, une colonne haute comme tout le
+ * bloc) : en descendant, la première arrive en haut et s'arrête, la deuxième la rejoint, puis la troisième : l'escalier se
+ * range en une rangée, puis la rangée part avec le bloc. Collage natif, aucun script, rien de calé image par image (tient sur
+ * iPhone) ; le collage n'est pas une animation (il suit le doigt, rien ne bouge seul) : il reste en mouvement réduit. Au-delà de cinq questions, une
+ * deuxième volée sous la première.
+ * Téléphone : le titre, puis les questions en piste qu'on fait glisser au doigt (scroll-snap), la suivante visible au bord.
+ * Données : site.faq (question, réponse) ; la photo d'une question est la photo de galerie du client de même rang
+ * (proof.gallery), absente = la question sans photo. Aucune question = aucune section. JSON-LD FAQPage.
+ */
+import { site, paragraphs } from '@/lib/site';
+import { volees } from '@/lib/etabli';
+import Img from '@/components/Img.astro';
+
+const faq = site.faq;
+const galerie = site.proof.gallery;
+const parVolee = volees(faq.map((f, i) => ({ ...f, photo: galerie[i] })), 5);
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: paragraphs(f.a).join(' ') } })),
+};
+---
+
+{faq.length > 0 && (
+  <>
+    {parVolee.map((volee, v) => (
+      <div class="etabli-escalier" style={`--marches:${volee.length}`}>
+        {v === 0 && <h2 id="etabli-questions-titre" class="etabli-questions-titre">{site.wording.faqTitle ?? 'Les questions qu’on nous pose'}</h2>}
+        <ol class="etabli-escalier-piste" tabindex="0" aria-label="Questions">
+          {volee.map((q, i) => (
+            <li class="etabli-marche" style={`--i:${i}`}>
+              <div class="etabli-colle">
+                <h3 class="etabli-question">{q.q}</h3>
+                {q.photo && (
+                  <figure class="etabli-question-photo">
+                    <Img src={q.photo.src} alt={q.photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 16vw, 78vw" loading="lazy" />
+                  </figure>
+                )}
+                <div class="etabli-reponse">{paragraphs(q.a).map((p) => <p>{p}</p>)}</div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))}
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </>
+)}
+
+<style>
+  :global(.etabli-questions) { padding: var(--section-y) var(--gouttiere) 0; }
+  .etabli-questions-titre { font-size: clamp(1.75rem, 1.2rem + 1.5vw, 2.5rem); max-width: 18ch; }
+  .etabli-question { font-size: 1.0625rem; font-weight: 500; line-height: 1.3; }
+  .etabli-question-photo { position: relative; margin: 0.875rem 0 0; aspect-ratio: 4 / 3; overflow: hidden; background: var(--pierre, var(--bg-2)); }
+  .etabli-reponse { margin-top: 0.875rem; color: var(--muted); font-size: 0.9375rem; line-height: 1.45; display: grid; gap: 0.5rem; }
+
+  /* Téléphone : piste au doigt. */
+  .etabli-escalier + .etabli-escalier { margin-top: 2rem; }
+  .etabli-escalier-piste {
+    display: flex;
+    gap: var(--gouttiere);
+    margin: 1.25rem calc(var(--gouttiere) * -1) 0;
+    padding-inline: var(--gouttiere);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .etabli-escalier-piste::-webkit-scrollbar { display: none; }
+  .etabli-escalier-piste .etabli-marche { flex: 0 0 82%; scroll-snap-align: start; border-top: 1px solid var(--fg); padding-top: 0.875rem; }
+
+  /* Ordinateur : l'escalier. Le titre au-dessus, sur toute la largeur ; puis une question par colonne (cinq au plus), chacune
+     une marche plus bas que la précédente, collée sous la barre dans une colonne haute comme le bloc : en descendant, les
+     marches se rangent en une rangée lisible (31 oct 2026, juge neuf : six colonnes étroites, « éparpillé et illisible »). */
+  @media (min-width: 48rem) {
+    .etabli-escalier { --marche: 7rem; display: grid; min-height: calc(var(--marches) * var(--marche) + 90svh); }
+    .etabli-escalier-piste { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: calc(var(--gouttiere) * 1.5); align-self: stretch; margin: 2rem 0 0; padding: 0; overflow: visible; }
+    .etabli-escalier-piste .etabli-marche { border-top: 0; padding-top: 0; align-self: stretch; }
+    /* Chaque marche tient au moins 56 % de l'écran (la question, sa photo, sa réponse) : c'est elle qui colle. */
+    .etabli-colle { position: sticky; top: calc(var(--barre-h) + var(--gouttiere)); min-height: 56svh; margin-top: calc(var(--i) * var(--marche)); border-top: 1px solid var(--fg); padding-top: 0.75rem; background: var(--bg); }
+  }
+</style>

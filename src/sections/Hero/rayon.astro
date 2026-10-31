@@ -1,0 +1,82 @@
+---
+/**
+ * Hero "rayon" (style rayon, relevé sur blankinside.co.uk le 31 oct 2026, fiche docs/veille/styles/rayon.md § Construction,
+ * blocs 3 et 4) : le premier écran de la boutique, c'est la boutique.
+ * 1. LES ONGLETS SOULIGNÉS, juste sous la tête (Nav/rayon) (« Featured / All cards » de la source) : « La sélection » (soulignée d'un trait épais, c'est
+ *    l'étagère dessous) et « Toute la gamme » (la page /produits, avec le nombre d'articles) ; sans produit, pas d'onglets.
+ * 2. LA PREMIÈRE ÉTAGÈRE en piste au doigt (src/components/EtagereRayon.astro) : la sélection prise tour à tour dans chaque
+ *    rayon (src/lib/rayon.ts), sinon les prestations ; c'est l'image du premier écran (la couleur vient des articles).
+ * 3. Sous l'étagère, encore dans le premier écran : le h1 (business.tagline) à gauche et, à droite, le métier à la ville,
+ *    l'ancienneté, la note Google, puis les deux portes : « Appeler le … » (plaque d'encre) et la porte de contact
+ *    (étiquette à contour). Au téléphone, l'un sous l'autre. La source n'a pas de h1 visible : socle GOUT § 0 (le
+ *    téléphone est déjà en haut, dans le bandeau de la tête).
+ * Mouvement : l'entrée du premier écran, ce sont les articles qui se posent sur l'étagère (profil « etagere-qui-se-remplit »).
+ * Données : sans produit ni prestation, pas d'étagère ; sans note Google, pas de note.
+ */
+import { site, tel, metierEtVille, hasContactDoor } from '@/lib/site';
+import { rayonsDuSite, selectionDuSite } from '@/lib/rayon';
+import EtagereRayon from '@/components/EtagereRayon.astro';
+import Button from '@/components/Button.astro';
+
+const google = site.proof.google;
+const rayons = rayonsDuSite(site);
+const selection = selectionDuSite(rayons, 10);
+const nbProduits = site.produits.length;
+const faits = [
+  metierEtVille().replace(/\.$/, ''),
+  site.business.since && `depuis ${site.business.since}`,
+].filter(Boolean) as string[];
+---
+
+<section id="hero" class="ra-hero">
+  {selection.length > 0 && (
+    <div class="ra-hero-etagere" data-rayon>
+      {nbProduits > 0 && (
+        <nav class="ra-onglets" aria-label="La gamme">
+          <a href="#hero" aria-current="true">La sélection</a>
+          <a href="/produits">Toute la gamme <span class="ra-compte">({nbProduits})</span></a>
+        </nav>
+      )}
+      <EtagereRayon articles={selection} label="La sélection" priority />
+    </div>
+  )}
+  <div class="ra-hero-tete">
+    <h1 class="ra-h1" set:html={site.business.tagline} />
+    <div class="ra-hero-cote">
+      <p class="ra-faits">{faits.join(', ')}.</p>
+      {google && <p class="ra-note"><a href={google.url} target="_blank" rel="noopener">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</a></p>}
+      <div class="ra-portes">
+        <Button href={tel()} data-porte="call">Appeler le {site.contact.phoneDisplay}</Button>
+        {hasContactDoor(site) && <a href="/#contact" class="rayon-etiquette ra-porte-2" data-porte="quote">{site.wording.devis}</a>}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  .ra-hero-tete {
+    display: grid; gap: 1rem;
+    padding: clamp(1.5rem, 3.5vw, 2.75rem) var(--ra-bord, 1rem) clamp(1.25rem, 3vw, 2.5rem);
+  }
+  .ra-h1 { font-size: clamp(1.75rem, 1.2rem + 2.4vw, 3.25rem); line-height: 1.05; letter-spacing: -0.02em; max-width: 18ch; text-wrap: balance; }
+  .ra-faits { margin: 0; font-size: 0.9375rem; color: var(--fg); }
+  .ra-note { margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--muted); }
+  .ra-note a { text-decoration: underline; text-underline-offset: 3px; }
+  .ra-portes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-top: 1rem; }
+  .ra-porte-2 { padding: 0.7rem 1.1rem; font-size: 0.9375rem; font-weight: 600; }
+  @media (min-width: 64rem) {
+    .ra-hero-tete { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: 3rem; }
+  }
+
+  /* Les onglets soulignés de la source : deux mots centrés entre deux filets, le trait épais sous l'onglet ouvert. */
+  .ra-onglets {
+    display: flex; justify-content: center; gap: 0;
+    margin: 0 var(--ra-bord, 1rem) clamp(1.25rem, 2.5vw, 2.25rem);
+    border-top: 0; border-bottom: 1px solid var(--line);
+  }
+  .ra-onglets a { position: relative; flex: 0 1 10rem; padding: 1.1rem 0.5rem; text-align: center; font-size: 0.9375rem; color: var(--fg); }
+  .ra-onglets a[aria-current]::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 4px; background: var(--fg); }
+  .ra-onglets a:not([aria-current]):hover { text-decoration: underline; text-underline-offset: 4px; }
+  .ra-compte { color: var(--muted); }
+</style>

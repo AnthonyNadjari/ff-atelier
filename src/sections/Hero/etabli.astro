@@ -1,0 +1,121 @@
+---
+/**
+ * Hero "etabli" (style etabli, relevé sur agronomywork.shop le 31 oct 2026, fiche docs/veille/styles/etabli.md § Construction,
+ * bloc 2) : le premier écran EST la fiche de l'objet phare du client.
+ * Ordinateur : trois tiers égaux sur une gouttière de 20 px, comme la source. Tiers 1 : le titre (business.tagline), le
+ * métier à la ville, l'ancienneté, la note Google, puis LA FICHE : vignettes de l'objet sur leur fond de pierre (une colonne
+ * de petits carrés) à côté du nom, du prix encadré en chasse fixe, de la phrase du client, des formats en petites cases et
+ * du bouton plein pleine largeur (la seule porte forte de la page : Commander si le client a un lien de commande, sinon
+ * Appeler le numéro). Tiers 2 et 3 : l'objet en grand, en 3:2, qui remplit son cadre (détouré : posé sur la pierre).
+ * Téléphone : le titre et le métier, puis l'objet en grand qui RESTE COLLÉ sous la barre pendant que la fiche monte
+ * dessus (fond blanc, au-dessus de lui) et que la photo d'ambiance (la première de la galerie, au téléphone seulement) suit : l'objet ne quitte l'écran qu'avec la fiche.
+ * Vignettes : un toucher change la vue de l'objet (0,2 s linéaire, script onPage de quelques lignes ; sans script, la
+ * première vue reste, la page de l'objet a les autres). Entrée : l'objet se pose (1 rem plus bas -> sa place, 0,9 s,
+ * une fois, CSS). Profil de mouvement « fiche-collee-a-l-objet » (docs/veille/styles/MOUVEMENTS.md).
+ * Données (src/lib/etabli.ts) : l'objet phare est le premier produit (site.produits), sinon la première prestation, qui a
+ * une photo ; sans fiche à photo, la photo de couverture (images.hero) tient la place de l'objet et la fiche se réduit au
+ * bouton d'appel. Rien d'inventé : pas de prix, de format ni de photo d'ambiance sans la donnée.
+ */
+import { site, tel, metierEtVille, paragraphs } from '@/lib/site';
+import { fichesEtabli, ficheEnTete, vuesDeFiche } from '@/lib/etabli';
+import Img from '@/components/Img.astro';
+import FicheEtabli from '@/components/FicheEtabli.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const fiches = fichesEtabli(site);
+const phare = ficheEnTete(fiches);
+const hero = site.images.hero;
+const vues = phare ? vuesDeFiche(phare) : hero ? [hero] : [];
+const vuesSrc = new Set(vues.map((v) => v.src));
+const ambiance = [...site.proof.gallery, hero].find((p) => p && !vuesSrc.has(p.src));
+const google = site.proof.google;
+const intro = phare ? undefined : paragraphs(site.business.description ?? '')[0];
+---
+
+<section id="hero" class="etabli-hero" data-etabli-fiche>
+  <div class="etabli-tete">
+    <h1 class="etabli-h1" set:html={site.business.tagline} />
+    <p class="mt-3 text-sm text-muted">
+      {metierEtVille().replace(/\.$/, '')}{site.business.since && <>, depuis {site.business.since}</>}.
+      {google && (
+        <>
+          {' '}<a href={google.url} class="text-fg underline underline-offset-2" target="_blank" rel="noopener">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</a>
+        </>
+      )}
+    </p>
+  </div>
+
+  {vues.length > 0 && (
+    <div class="etabli-objet" data-detoure={phare?.detoure ? '1' : undefined}>
+      {vues.map((v, i) => (
+        <figure class="etabli-vue" data-vue={i} hidden={i > 0}>
+          <Img src={v.src} alt={v.alt} class={`absolute inset-0 h-full w-full ${phare?.detoure ? 'object-contain etabli-detoure' : 'object-cover'}`} sizes={HERO_SIZES.etabli} priority={i === 0} loading={i === 0 ? 'eager' : 'lazy'} />
+        </figure>
+      ))}
+    </div>
+  )}
+
+  <div class="etabli-fiche">
+    {phare ? (
+      <FicheEtabli fiche={phare} niveau="h2" porte="forte" />
+    ) : (
+      <div class="etabli-infos">
+        {intro && <p class="text-muted">{intro}</p>}
+        <div class="etabli-porte">
+          <a href={tel()} class="btn btn-primary etabli-plein" data-porte="call"><span>Appeler</span><span class="whitespace-nowrap">{site.contact.phoneDisplay}</span></a>
+        </div>
+      </div>
+    )}
+  </div>
+
+  {ambiance && (
+    <figure class="etabli-ambiance">
+      <Img src={ambiance.src} alt={ambiance.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 32vw, 100vw" loading="lazy" />
+    </figure>
+  )}
+</section>
+
+<style>
+  .etabli-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'tete' 'objet' 'fiche' 'ambiance';
+    column-gap: var(--gouttiere);
+    padding: 1.25rem var(--gouttiere) 0;
+  }
+  .etabli-tete { grid-area: tete; padding-bottom: 1.25rem; }
+  .etabli-h1 { font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem); max-width: 18ch; text-wrap: balance; }
+  /* L'objet en grand sur son fond de pierre. Au téléphone il colle sous la barre et la fiche monte dessus. */
+  .etabli-objet {
+    grid-area: objet;
+    position: sticky;
+    top: var(--barre-h);
+    z-index: 0;
+    align-self: start;
+    /* 3:2 : une pièce couchée (couteau, ceinture, planche) remplit son cadre ; jamais un petit objet au milieu d'un grand
+       fond (31 oct 2026, juge neuf). */
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--pierre, var(--bg-2));
+  }
+  .etabli-fiche { grid-area: fiche; position: relative; z-index: 1; background: var(--bg); padding: 1.25rem 0 1.75rem; }
+  .etabli-ambiance { grid-area: ambiance; position: relative; z-index: 1; margin: 0; aspect-ratio: 4 / 5; overflow: hidden; background: var(--pierre, var(--bg-2)); }
+  @media (prefers-reduced-motion: no-preference) {
+    .etabli-objet { animation: etabli-pose var(--motion-duration, 0.9s) var(--ease-brand) both; }
+    @keyframes etabli-pose { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
+  }
+
+  /* Ordinateur : sur les trois tiers, la fiche dans le premier, l'objet en grand sur les deux autres (comme la grande photo
+     de la troisième rangée de la source) ; la photo d'ambiance reste au téléphone, sous la fiche. */
+  @media (min-width: 48rem) {
+    .etabli-hero {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-areas: 'tete objet objet' 'fiche objet objet';
+      grid-template-rows: auto 1fr;
+      padding-top: var(--gouttiere);
+    }
+    .etabli-objet { position: relative; top: auto; grid-row: 1 / span 2; }
+    .etabli-ambiance { display: none; }
+    .etabli-fiche { padding-top: 0.5rem; }
+  }
+</style>

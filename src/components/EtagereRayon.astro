@@ -1,0 +1,202 @@
+---
+/**
+ * Étagère du style `rayon` (fiche docs/veille/styles/rayon.md § Construction et § Le geste signature) : une rangée
+ * d'articles (src/lib/rayon.ts : produits ou prestations du client) en PISTE HORIZONTALE qu'on fait glisser au doigt
+ * (défilement natif, aimanté au bord des cases), jamais d'autoplay. Chaque article : sa photo dans une case gris lavande
+ * (détourée : posée au milieu avec de l'air ; sinon la case entière), puis la légende : le rond « + » à contour, la
+ * famille en petit (casse normale), le nom en gras, le prix s'il est donné. Toute la légende mène à la page de l'article.
+ * `vedette` : la première case en grand avec son étiquette à contour (format, sinon famille) ; au téléphone elle ouvre la
+ * piste (deux largeurs de case), à l'ordinateur elle est à gauche et le reste en grille à côté (le bloc « collection » de
+ * la source).
+ * À l'ordinateur (souris), deux ronds fléchés font avancer la piste d'une largeur.
+ * Mouvement (profil « etagere-qui-se-remplit », docs/veille/styles/MOUVEMENTS.md) : quand l'étagère arrive à l'écran, ses
+ * articles glissent de la droite et se posent un à un (transform et opacité 0,6 s cubic-bezier(0, 0, 0.3, 1), mesuré sur
+ * la source ; 50 ms d'écart, 8 cases au plus), une fois ; la flèche dessinée du rayon se trace en même temps (0,5 s). Le
+ * reste est sec : le rond « + » se remplit d'encre et les étiquettes s'enfoncent dans leur ombre en 0,1 s. L'état caché
+ * n'existe que sous la classe posée par le script ; mouvement réduit : tout est en place.
+ */
+import Img from '@/components/Img.astro';
+import type { Article } from '@/lib/rayon';
+
+interface Props {
+  articles: Article[];
+  label: string;
+  vedette?: boolean;
+  priority?: boolean;
+  /** Écrire la famille de chaque article (la sélection mélange les rayons ; dans un rayon, elle est son titre). */
+  familles?: boolean;
+}
+const { articles, label, vedette = false, priority = false, familles = true } = Astro.props;
+const grand = vedette && articles.length >= 3;
+const marque = grand ? (articles[0].format ?? articles[0].etiquette) : undefined;
+// Colonnes à l'ordinateur : une étagère courte prend toute la largeur (cases plus grandes), une longue montre 7 cases et
+// laisse dépasser la suivante ; une vedette pose la grande case (34 %) puis 3 ou 4 colonnes de petites, sur deux rangs dès 5.
+const petites = grand ? articles.length - 1 : articles.length;
+const colonnes = grand ? Math.min(Math.max(Math.ceil(petites / (petites > 4 ? 2 : 1)), 3), 4) : Math.min(Math.max(petites, 4), 7);
+---
+
+{articles.length > 0 && (
+  <div class:list={['ra-etagere', grand && 'ra-etagere-vedette']} data-rayon-etagere>
+    <div class="ra-cadre">
+      <ul class:list={['ra-piste', grand && 'ra-piste-vedette']} style={`--ra-k: ${colonnes}`} aria-label={label} tabindex="0" data-rayon-piste>
+        {articles.map((a, i) => {
+          const g = grand && i === 0;
+          return (
+            <li class:list={['ra-article', g && 'ra-grand']} style={`--ra-i: ${Math.min(i, 8)}`}>
+              <a href={a.href} class="ra-case" tabindex="-1" aria-hidden="true" data-detoure={a.detoure ? '' : undefined}>
+                {a.photo && <Img src={a.photo.src} alt="" class="ra-img absolute inset-0 h-full w-full object-cover" sizes={g ? '(min-width: 64rem) 36vw, 86vw' : '(min-width: 64rem) 13rem, 42vw'} loading={priority && i < 3 ? 'eager' : 'lazy'} />}
+                {g && marque && <span class="rayon-etiquette ra-marque">{marque}</span>}
+              </a>
+              <a href={a.href} class="ra-legende">
+                <span class="ra-plus" aria-hidden="true"></span>
+                <span class="ra-textes">
+                  {familles && a.etiquette && <span class="ra-famille">{a.etiquette}</span>}
+                  <span class="ra-nom">{a.nom}</span>
+                  {a.prix && <span class="ra-prix">{a.prix}</span>}
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <button type="button" class="ra-fleche ra-fleche-prec" data-rayon-prec aria-label="Articles précédents" hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <button type="button" class="ra-fleche ra-fleche-suiv" data-rayon-suiv aria-label="Articles suivants" hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+    </div>
+  </div>
+)}
+
+<style>
+  .ra-etagere { position: relative; }
+  .ra-cadre { position: relative; min-width: 0; }
+  /* La piste : défilement natif au doigt, aimanté au bord des cases ; la dernière case dépasse du bord (on voit qu'il y
+     en a d'autres), la barre de défilement est cachée (les ronds fléchés la remplacent à la souris). */
+  .ra-piste {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 42%;
+    gap: 0.875rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--ra-bord, 1rem);
+    padding-inline: var(--ra-bord, 1rem);
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+  }
+  .ra-piste::-webkit-scrollbar { display: none; }
+  .ra-piste:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+  .ra-article { scroll-snap-align: start; min-width: 0; }
+  @media (min-width: 48rem) { .ra-piste { grid-auto-columns: 26%; gap: 1rem; } }
+  @media (min-width: 64rem) { .ra-piste { column-gap: 1.5rem; grid-auto-columns: calc((100% - (var(--ra-k, 7) - 1) * 1.5rem) / var(--ra-k, 7)); } }
+
+  /* La case : gris lavande, en hauteur (4:5, une carte debout ; la source est carrée) ; un objet détouré y est posé avec de l'air, une photo pleine remplit la case. */
+  .ra-case { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 2px; background: var(--bg-2); }
+  .ra-case :global(.ra-img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ra-case[data-detoure] :global(.ra-img) { inset: 14%; width: 72%; height: 72%; object-fit: contain; filter: drop-shadow(0 6px 8px color-mix(in srgb, var(--fg) 14%, transparent)); }
+
+  /* La légende : le rond « + » à contour (il se remplit d'encre au survol, 0,1 s), la famille, le nom, le prix. */
+  .ra-legende { display: flex; gap: 0.6rem; align-items: flex-start; padding-top: 0.75rem; color: var(--fg); }
+  .ra-plus { position: relative; flex: none; width: 1.375rem; height: 1.375rem; border: 1.5px solid var(--fg); border-radius: 50%; box-shadow: 1px 1px 0 var(--fg); transition: background var(--motion-ui, 0.1s) linear, color var(--motion-ui, 0.1s) linear; }
+  .ra-plus::before, .ra-plus::after { content: ''; position: absolute; left: 50%; top: 50%; width: 0.625rem; height: 1.5px; background: currentColor; transform: translate(-50%, -50%); }
+  .ra-plus::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .ra-textes { display: flex; flex-direction: column; min-width: 0; font-size: 0.8125rem; line-height: 1.35; }
+  .ra-famille { color: var(--muted); }
+  .ra-nom { font-weight: 700; overflow-wrap: anywhere; }
+  .ra-prix { font-variant-numeric: tabular-nums; }
+  .ra-legende:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+  @media (hover: hover) and (pointer: fine) {
+    .ra-article:hover .ra-plus { background: var(--fg); color: var(--bg); }
+    .ra-article:hover .ra-nom { text-decoration: underline; text-underline-offset: 3px; }
+  }
+  .ra-legende:active .ra-plus { background: var(--fg); color: var(--bg); }
+
+  /* Vedette (le bloc « collection » de la source) : la première case en grand, son étiquette posée dans le coin. Au
+     téléphone, elle ouvre la piste sur deux largeurs de case (une case carrée), les petites la suivent ; à l'ordinateur la
+     piste devient une grille : la grande case à gauche sur deux rangs, les petites en 3 ou 4 colonnes à côté. */
+  .ra-piste-vedette { align-items: start; }
+  .ra-grand { grid-column: span 2; }
+  .ra-grand .ra-case { aspect-ratio: 1 / 1; }
+  .ra-marque { position: absolute; left: 0.75rem; top: 0.75rem; z-index: 2; }
+  @media (min-width: 64rem) {
+    .ra-piste-vedette {
+      grid-auto-flow: row; grid-auto-columns: auto; overflow: visible; row-gap: 1.75rem;
+      grid-template-columns: minmax(0, 34%) repeat(var(--ra-k, 4), minmax(0, 1fr));
+    }
+    .ra-piste-vedette .ra-grand { grid-column: 1; grid-row: span 2; }
+  }
+
+  /* Les ronds fléchés (souris seulement) : posés au bord droit et gauche de la piste, à la hauteur des cases. */
+  .ra-fleche {
+    position: absolute; top: 28%; z-index: 3;
+    display: grid; place-items: center; width: 2.75rem; height: 2.75rem;
+    border: 1.5px solid var(--fg); border-radius: 50%; background: var(--bg); color: var(--fg);
+    box-shadow: var(--rayon-ombre, 2px 2px 0 var(--fg));
+    transition: transform 0.1s linear, box-shadow 0.1s linear, opacity 0.2s linear;
+  }
+  .ra-fleche-prec { left: 0.25rem; }
+  .ra-fleche-suiv { right: 0.25rem; }
+  .ra-fleche:active { transform: translate(2px, 2px); box-shadow: none; }
+  .ra-fleche:disabled { opacity: 0; pointer-events: none; }
+  .ra-fleche:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+
+  /* L'arrivée (posée par le script, jamais sans lui) : les cases attendent à droite, puis se posent une à une. */
+  :global(.ra-attente) .ra-article { opacity: 0; transform: translateX(2.5rem); }
+  :global(.ra-arrive) .ra-article {
+    transition: transform var(--motion-duration, 0.6s) cubic-bezier(0, 0, 0.3, 1), opacity var(--motion-duration, 0.6s) cubic-bezier(0, 0, 0.3, 1);
+    transition-delay: calc(var(--ra-i, 0) * 50ms);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.ra-attente) .ra-article { opacity: 1; transform: none; }
+    .ra-plus, .ra-fleche, :global(.ra-arrive) .ra-article { transition: none; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+
+  // Une étagère (ou un rayon entier, [data-rayon], qui contient sa flèche dessinée) arrive à l'écran : ses cases se
+  // posent une à une, une fois. Les ronds fléchés n'apparaissent qu'à la souris, quand la piste déborde.
+  onPage(() => {
+    const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const souris = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    document.querySelectorAll<HTMLElement>('[data-rayon-etagere]').forEach((etagere) => {
+      const piste = etagere.querySelector<HTMLElement>('[data-rayon-piste]');
+      const prec = etagere.querySelector<HTMLButtonElement>('[data-rayon-prec]');
+      const suiv = etagere.querySelector<HTMLButtonElement>('[data-rayon-suiv]');
+      if (!piste || !prec || !suiv) return;
+      const maj = () => {
+        const deborde = piste.scrollWidth > piste.clientWidth + 4;
+        prec.hidden = suiv.hidden = !(souris && deborde);
+        prec.disabled = piste.scrollLeft < 8;
+        suiv.disabled = piste.scrollLeft + piste.clientWidth > piste.scrollWidth - 8;
+      };
+      const pas = (sens: number) => piste.scrollBy({ left: sens * piste.clientWidth * 0.85, behavior: calme ? 'auto' : 'smooth' });
+      prec.addEventListener('click', () => pas(-1));
+      suiv.addEventListener('click', () => pas(1));
+      piste.addEventListener('scroll', maj, { passive: true });
+      addEventListener('resize', maj);
+      maj();
+    });
+
+    if (calme || !('IntersectionObserver' in window)) return;
+    const blocs = [...document.querySelectorAll<HTMLElement>('[data-rayon-etagere]')].map((e) => e.closest<HTMLElement>('[data-rayon]') ?? e);
+    const io = new IntersectionObserver((entrees) => {
+      for (const e of entrees) {
+        if (!e.isIntersecting) continue;
+        const bloc = e.target as HTMLElement;
+        io.unobserve(bloc);
+        bloc.classList.add('ra-arrive');
+        requestAnimationFrame(() => requestAnimationFrame(() => bloc.classList.remove('ra-attente')));
+      }
+    }, { threshold: 0.12 });
+    for (const bloc of new Set(blocs)) {
+      bloc.classList.add('ra-attente');
+      io.observe(bloc);
+    }
+  });
+</script>

@@ -1,0 +1,112 @@
+---
+/**
+ * Une fiche d'objet du style etabli (Hero/etabli et Services/etabli ; relevé sur agronomywork.shop, fiche
+ * docs/veille/styles/etabli.md § Construction) : vignettes des vues de l'objet sur leur fond de pierre, le nom (lien vers
+ * sa page), le prix encadré en chasse fixe s'il est donné, la phrase du client, les formats en petites cases, et le bouton
+ * plein pleine largeur : « Commander » (contact.orderUrl, produits seulement) sinon « Appeler » et le numéro. UNE SEULE porte
+ * forte par page (31 oct 2026, juge neuf : la barre répétée sous chaque pièce) : `porte="forte"` (la fiche du premier écran)
+ * rend le bouton plein, `porte="lien"` (défaut, les autres fiches) un lien souligné. Aucun panier ni paiement : la porte est
+ * un contact. Le parent porte `data-etabli-fiche` et les vues (EtabliVues) ; un toucher sur une
+ * vignette change la vue (0,2 s linéaire, script onPage ; sans script, la première vue reste).
+ * Composant de rendu (reçoit la fiche calculée par src/lib/etabli.ts) : il ne devine rien, une donnée absente n'est pas
+ * affichée.
+ */
+import { site, tel } from '@/lib/site';
+import type { FicheEtabli } from '@/lib/etabli';
+import { vuesDeFiche } from '@/lib/etabli';
+import Img from '@/components/Img.astro';
+
+interface Props {
+  fiche: FicheEtabli;
+  niveau?: 'h2' | 'h3';
+  porte?: 'forte' | 'lien';
+}
+const { fiche, niveau = 'h3', porte = 'lien' } = Astro.props;
+const Titre = niveau;
+const vues = vuesDeFiche(fiche);
+const commande = fiche.genre === 'produit' ? site.contact.orderUrl : undefined;
+---
+
+<div class:list={['etabli-fiche-grille', vues.length > 1 && 'a-vignettes']}>
+  {vues.length > 1 && (
+    <div class="etabli-vignettes" role="group" aria-label={`Vues : ${fiche.nom}`}>
+      {vues.map((v, i) => (
+        <button type="button" class="etabli-vignette" data-vers={i} aria-pressed={i === 0 ? 'true' : 'false'} aria-label={`Voir : ${v.alt}`}>
+          <Img src={v.src} alt="" class="h-full w-full object-cover" sizes="140px" loading="lazy" />
+        </button>
+      ))}
+    </div>
+  )}
+  <div class="etabli-infos">
+    <Titre class="etabli-nom"><a href={fiche.href}>{fiche.nom}</a>{fiche.prix && <> <span class="etabli-prix">{fiche.prix}</span></>}</Titre>
+    {fiche.texte && <p class="mt-2 text-muted">{fiche.texte}</p>}
+    {fiche.formats.length > 0 && (
+      <ul class="etabli-formats" aria-label="Formats">
+        {fiche.formats.map((f) => <li>{f}</li>)}
+      </ul>
+    )}
+    <div class="etabli-porte">
+      {porte === 'forte' && (commande ? (
+        <a href={commande} class="btn btn-primary etabli-plein" target="_blank" rel="noopener" data-porte="order">Commander</a>
+      ) : (
+        <a href={tel()} class="btn btn-primary etabli-plein" data-porte="call"><span>Appeler</span><span class="whitespace-nowrap">{site.contact.phoneDisplay}</span></a>
+      ))}
+      <p class:list={['text-sm', porte === 'forte' && 'mt-2']}>
+        <a href={fiche.href} class="underline underline-offset-2">Tout sur {fiche.genre === 'produit' ? 'cette pièce' : 'cette prestation'}</a>
+        {porte === 'lien' && (commande ? <>, <a href={commande} class="underline underline-offset-2" target="_blank" rel="noopener">commander</a></> : <> ou <a href={tel()} class="whitespace-nowrap underline underline-offset-2">appelez le {site.contact.phoneDisplay}</a></>)}
+        {porte === 'forte' && commande && <> ou <a href={tel()} class="whitespace-nowrap underline underline-offset-2">appelez le {site.contact.phoneDisplay}</a></>}
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Les vignettes changent la vue de l'objet : un seul écouteur sur le corps de la page (posé une fois par page).
+  onPage(() => {
+    if (document.body.dataset.etabliVues) return;
+    document.body.dataset.etabliVues = '1';
+    document.body.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('.etabli-vignette');
+      const fiche = b?.closest<HTMLElement>('[data-etabli-fiche]');
+      if (!b || !fiche) return;
+      const n = b.dataset.vers;
+      fiche.querySelectorAll<HTMLElement>('.etabli-vue').forEach((v) => {
+        const cible = v.dataset.vue === n;
+        v.hidden = !cible;
+        if (cible) { v.classList.remove('vient'); void v.offsetWidth; v.classList.add('vient'); }
+      });
+      fiche.querySelectorAll<HTMLButtonElement>('.etabli-vignette').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    });
+  });
+</script>
+
+<style is:global>
+  /* Couche components : jamais au-dessus d'une utilité Tailwind (CLAUDE.md, pièges). */
+  @layer components {
+    .etabli-vue { position: absolute; inset: 0; margin: 0; }
+    .etabli-vue[hidden] { display: none; }
+    /* Objet détouré sur blanc : la multiplication fond le blanc dans la pierre (aucun cadre blanc autour de l'objet). */
+    .etabli-detoure { padding: 10%; mix-blend-mode: multiply; background: none !important; }
+    .etabli-vignette .ff-illustration { right: 0.25rem; bottom: 0.25rem; font-size: 0.6875rem; padding: 0.05rem 0.3rem; }
+    .etabli-vue.vient { animation: etabli-vient var(--motion-ui, 0.2s) linear; }
+    @keyframes etabli-vient { from { opacity: 0; } to { opacity: 1; } }
+    .etabli-vignettes { display: flex; gap: var(--gouttiere, 1.25rem); margin-bottom: 1rem; }
+    .etabli-vignette { position: relative; display: block; flex: 0 0 auto; aspect-ratio: 1; width: calc((100% - 2 * var(--gouttiere, 1.25rem)) / 3); max-width: 8.75rem; overflow: hidden; background: var(--pierre, var(--bg-2)); outline-offset: 2px; }
+    .etabli-vignette[aria-pressed='true'] { box-shadow: inset 0 -2px 0 var(--fg); }
+    .etabli-nom { font-size: 1rem; font-weight: 500; line-height: 1.35; letter-spacing: -0.01em; }
+    .etabli-nom a { color: inherit; }
+    @media (hover: hover) and (pointer: fine) { .etabli-nom a:hover { text-decoration: underline; text-underline-offset: 3px; } }
+    .etabli-formats { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.875rem; font-size: 0.8125rem; }
+    .etabli-formats li { border: 1px solid var(--line); border-radius: 4px; padding: 0.2rem 0.5rem; }
+    .etabli-porte { margin-top: 1.25rem; }
+    .etabli-plein { display: flex; width: 100%; justify-content: space-between; gap: 1rem; padding: 0.55rem 0.6rem; font-size: 0.9375rem; text-align: left; }
+    /* Ordinateur : la colonne de vignettes à gauche de la fiche, le texte et le bouton à droite (comme la source). */
+    @media (min-width: 48rem) {
+      .etabli-fiche-grille.a-vignettes { display: grid; grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr); gap: var(--gouttiere, 1.25rem); }
+      .etabli-fiche-grille.a-vignettes .etabli-vignettes { flex-direction: column; margin-bottom: 0; }
+      .etabli-fiche-grille .etabli-vignette { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) { .etabli-vue.vient { animation: none; } }
+  }
+</style>

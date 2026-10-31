@@ -1,0 +1,74 @@
+---
+/**
+ * Proof "rayon" (style rayon, relevé sur blankinside.co.uk le 31 oct 2026, fiche docs/veille/styles/rayon.md § Construction,
+ * bloc 6) : les « coups de cœur » de la source (deux grandes cases côte à côte, chacune avec sa légende à gauche et sa
+ * phrase à droite) portent ici les AVIS du client : chaque avis est posé dans une grande case gris lavande comme un
+ * article sur l'étagère (le texte au milieu de la case, en grand), et sa légende dessous reprend celle des articles : le
+ * rond à contour, l'auteur en gras, sa ville et la source de l'avis. Deux cases côte à côte à l'ordinateur, l'une sous
+ * l'autre au téléphone ; en tête, le titre, la note Google et le lien vers la fiche.
+ * Rien d'inventé : avis recopiés seulement (quatre au plus) ; sans avis ni note, pas de section ; ni étoile, ni guillemet
+ * géant.
+ */
+import { site } from '@/lib/site';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 4);
+---
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class="ra-avis section-y" aria-labelledby="ra-avis-titre">
+    <div class="ra-avis-tete">
+      <h2 id="ra-avis-titre" class="ra-h2">Ce qu’en disent les clients</h2>
+      {google && (
+        <p class="ra-avis-note">
+          {google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis.
+          <a href={google.url} target="_blank" rel="noopener" class="rayon-etiquette">Lire les avis sur Google</a>
+        </p>
+      )}
+    </div>
+    {avis.length > 0 && (
+      <ul class:list={['ra-avis-liste', avis.length === 3 && 'ra-avis-trois']} tabindex="0" aria-label="Avis des clients">
+        {avis.map((t) => (
+          <li>
+            <figure>
+              <blockquote class="ra-avis-case"><p>«&nbsp;{t.text}&nbsp;»</p></blockquote>
+              <figcaption class="ra-avis-legende">
+                <span class="ra-rond" aria-hidden="true"></span>
+                <span>
+                  <span class="ra-avis-auteur">{t.author}</span>
+                  {(t.city || t.source) && <span class="ra-avis-source">{[t.city, t.source && `avis ${t.source}`].filter(Boolean).join(', ')}</span>}
+                </span>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+)}
+
+<style>
+  .ra-avis-tete { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 2rem; padding-inline: var(--ra-bord, 1rem); margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .ra-h2 { font-size: clamp(1.5rem, 1.15rem + 1.2vw, 2.25rem); max-width: 18ch; text-wrap: balance; }
+  .ra-avis-note { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin: 0; font-size: 0.9375rem; color: var(--fg); }
+  /* Au téléphone, les avis sont une étagère de plus : une piste qu'on fait glisser au doigt. */
+  .ra-avis-liste {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 82%; gap: 0.875rem;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scroll-padding-inline: var(--ra-bord, 1rem);
+    padding-inline: var(--ra-bord, 1rem); scrollbar-width: none;
+  }
+  .ra-avis-liste::-webkit-scrollbar { display: none; }
+  .ra-avis-liste > li { scroll-snap-align: start; min-width: 0; }
+  .ra-avis-liste:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+  @media (min-width: 48rem) { .ra-avis-liste { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; overflow: visible; } }
+  @media (min-width: 64rem) { .ra-avis-trois { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .ra-avis-case {
+    display: grid; place-items: center; min-height: clamp(11rem, 22vw, 18rem); margin: 0;
+    padding: clamp(1.5rem, 4vw, 3.5rem); border-radius: 2px; background: var(--bg-2);
+  }
+  .ra-avis-case p { max-width: 30ch; font-size: clamp(1.0625rem, 0.95rem + 0.6vw, 1.5rem); line-height: 1.35; font-weight: 500; color: var(--fg); text-wrap: pretty; }
+  .ra-avis-legende { display: flex; gap: 0.6rem; align-items: flex-start; padding-top: 0.75rem; font-size: 0.8125rem; line-height: 1.35; }
+  .ra-rond { flex: none; width: 1.375rem; height: 1.375rem; border: 1.5px solid var(--fg); border-radius: 50%; box-shadow: 1px 1px 0 var(--fg); }
+  .ra-avis-auteur { display: block; font-weight: 700; color: var(--fg); }
+  .ra-avis-source { display: block; color: var(--muted); }
+</style>

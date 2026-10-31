@@ -1,0 +1,63 @@
+---
+/**
+ * Proof "etabli" (style etabli, fiche docs/veille/styles/etabli.md § Construction ; la source n'a pas d'avis : on les pose
+ * dans sa grammaire, haut dans la page comme le veut le socle, GOUT § 0). Posés sur LE grand aplat de matière de la page
+ * (token --matiere de la direction, cuir naturel ; sur la source, l'aplat jaune), de bord à bord : reprise du 31 oct 2026. Sur les trois tiers : dans le premier, « Avis »
+ * et la note Google dans son cadre en chasse fixe (comme le prix des fiches) ; dans les deux autres, les avis recopiés du
+ * client en texte courant, l'auteur et l'origine en petit dessous, sur deux colonnes, sans carte, sans étoile. Au téléphone,
+ * les avis en piste qu'on fait glisser au doigt (scroll-snap, rien ne défile tout seul), le bord de l'avis suivant visible.
+ * Rien sans avis : ni note ni avis recopiés = aucune section.
+ */
+import { site } from '@/lib/site';
+
+const google = site.proof.google;
+const avis = site.proof.testimonials.slice(0, 6);
+const note = google ? `${google.rating.toFixed(1).replace('.', ',')}/5` : '';
+---
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class="etabli-avis" aria-labelledby="etabli-avis-titre">
+    <div class="etabli-avis-tete">
+      <h2 id="etabli-avis-titre" class="etabli-avis-titre">Avis</h2>
+      {google && (
+        <p class="mt-3 text-sm">
+          <span class="etabli-prix">{note}</span> sur Google, {google.count} avis.{' '}
+          <a href={google.url} class="text-fg underline underline-offset-2" target="_blank" rel="noopener">Les lire sur Google</a>
+        </p>
+      )}
+    </div>
+    {avis.length > 0 && (
+      <ul class="etabli-avis-piste" aria-label="Avis des clients" tabindex="0">
+        {avis.map((a) => (
+          <li class="etabli-avis-un">
+            <blockquote><p>« {a.text} »</p></blockquote>
+            <p class="mt-3 text-sm"><span class="font-medium">{a.author}</span>{a.city && <>, {a.city}</>} ({a.source})</p>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+)}
+
+<style>
+  .etabli-avis { margin-top: var(--section-y); padding: var(--section-y) var(--gouttiere); background: var(--matiere, var(--bg-2)); color: var(--fg); display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem var(--gouttiere); }
+  .etabli-avis-titre { font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem); }
+  .etabli-avis-piste {
+    display: flex;
+    gap: var(--gouttiere);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    margin-inline: calc(var(--gouttiere) * -1);
+    padding-inline: var(--gouttiere);
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+  }
+  .etabli-avis-piste::-webkit-scrollbar { display: none; }
+  .etabli-avis-un { flex: 0 0 84%; scroll-snap-align: start; border-top: 1px solid var(--fg); padding-top: 0.875rem; font-size: 1.125rem; line-height: 1.4; }
+  @media (min-width: 48rem) {
+    .etabli-avis { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
+    .etabli-avis-tete { position: sticky; top: calc(var(--barre-h) + var(--gouttiere)); }
+    .etabli-avis-piste { grid-column: 2 / span 2; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem var(--gouttiere); overflow: visible; margin: 0; padding: 0; }
+  }
+</style>

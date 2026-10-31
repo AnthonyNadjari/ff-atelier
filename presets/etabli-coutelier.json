@@ -1,0 +1,54 @@
+{
+  "nom": "etabli-coutelier",
+  "titre": "Établi coutelier",
+  "description": "La direction etabli (blanc franc, objet sur la pierre, prix encadré, bouton bleu plein) sur une page plus classique, pour un coutelier, un maroquinier ou un sellier qui vend surtout des prestations : barre de navigation, premier écran en deux colonnes avec la photo, les prestations en liste à filets avec leurs prix, les avis en tiers, l'histoire de l'atelier, les étapes, l'escalier des questions qui se range au défilement, l'invitation sur sa carte, puis la fin au nom géant sur la photo.",
+  "metiers": [
+    "coutelier",
+    "maroquinier",
+    "sellier",
+    "bijoutier"
+  ],
+  "look": {
+    "direction": "etabli",
+    "motion": "subtle",
+    "scale": "normal",
+    "layout": {
+      "nav": "bar",
+      "hero": "split",
+      "sections": [
+        {
+          "type": "services",
+          "variant": "liste-a-filets"
+        },
+        {
+          "type": "proof",
+          "variant": "etabli"
+        },
+        {
+          "type": "about",
+          "variant": "story"
+        },
+        {
+          "type": "process",
+          "variant": "steps"
+        },
+        {
+          "type": "faq",
+          "variant": "etabli"
+        },
+        {
+          "type": "cta",
+          "variant": "card"
+        },
+        {
+          "type": "contact",
+          "variant": "etabli"
+        }
+      ],
+      "footer": "columns",
+      "divider": "none",
+      "tone": "flat",
+      "actionBar": false
+    }
+  }
+}

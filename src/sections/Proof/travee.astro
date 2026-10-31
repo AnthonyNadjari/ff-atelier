@@ -1,0 +1,186 @@
+---
+/**
+ * Proof "travee" (style travee, relevé sur driessenarchitectuur.nl le 31 oct 2026, fiche docs/veille/styles/travee.md
+ * § Construction, blocs 5 et 6, et § Le geste signature).
+ * 1. LA TRAVÉE DES RÉALISATIONS (« Onze recente projecten » : les projets posés à des tailles et des hauteurs différentes,
+ *    chacun avec deux étiquettes au trait, son type à gauche et sa commune à droite, et son nom dessous). Ici le champ de
+ *    projets devient une PISTE HORIZONTALE NATIVE qu'on fait glisser au doigt (overflow-x, scroll-snap, tabindex : flèches
+ *    du clavier), jamais un défilement vertical détourné : quatre gabarits qui se suivent (grande 4:3 en haut, petite carrée
+ *    descendue, verticale 3:4 plus bas encore, large 3:2 remontée), si bien que la rangée dessine un profil de toits ;
+ *    la piste déborde du bord droit de l'écran (on voit qu'il y a une suite). En tête : le repère « ● Réalisations »
+ *    (wording.galleryTitle), « 2 sur 7 » et les flèches (avec script). Les réalisations viennent de site.realisations (nom,
+ *    type, commune, première photo ; lien vers leur page quand la coquille les publie), sinon de proof.gallery (type,
+ *    commune, légende) ; il en faut trois au moins, sinon pas de piste.
+ * 2. L'AVIS SUR LA PLAQUE VERTE (bloc vert #719067 de la source posé sur une photo aérienne, guillemet, « 01 | 03 », deux
+ *    flèches) : une photo de la galerie pleine largeur, et posée dessus, décalée à gauche, la plaque vert de haie (--vert)
+ *    qui porte les avis en grand corps blanc ; on passe d'un avis à l'autre au doigt (seconde piste native, une vue par
+ *    avis) ou aux flèches ; dessous la note Google et le lien vers les avis. Sans avis ni note : rien.
+ * Rien d'inventé : un champ absent (type, commune, légende, ville de l'avis) n'est pas affiché ; ni étoile, ni carte.
+ */
+import { site } from '@/lib/site';
+import Img from '@/components/Img.astro';
+import { COQUILLES_A_INDEX_REALISATIONS } from '@/lib/architectures';
+
+type Piece = { src: string; alt: string; titre?: string; type?: string; lieu?: string; lien?: string };
+const pages = site.realisations.length > 0 && COQUILLES_A_INDEX_REALISATIONS.includes(site.layout.shell);
+const galerie = site.proof.gallery;
+// La photo sous la plaque de l'avis : la dernière de la galerie quand il en reste au moins trois pour la piste.
+const avis = site.proof.testimonials.slice(0, 6);
+const google = site.proof.google;
+const fond = (avis.length > 0 || google) && galerie.length >= 4 ? galerie[galerie.length - 1] : undefined;
+const pieces: Piece[] = site.realisations.length > 0
+  ? site.realisations.map((r) => ({ src: r.photos[0].src, alt: r.photos[0].alt, titre: r.title, type: r.kind, lieu: r.place, lien: pages ? `/realisations/${r.slug}` : undefined }))
+  : galerie.filter((g) => g !== fond).map((g) => ({ src: g.src, alt: g.alt, titre: g.caption, type: g.kind, lieu: g.place }));
+const piste = pieces.slice(0, 12);
+const GABARITS = ['t-grande', 't-carree', 't-haute', 't-large'];
+---
+
+{piste.length >= 3 && (
+  <section id="realisations" class="travee-realisations" data-travee aria-labelledby="travee-real-titre">
+    <div class="travee-marges travee-tete">
+      <h2 id="travee-real-titre" class="travee-repere eyebrow" set:html={site.wording.galleryTitle} />
+      <div class="travee-commandes" data-travee-sans-script hidden>
+        <p class="travee-compte" data-travee-compte>1 sur {piste.length}</p>
+        <button type="button" class="travee-fleche" data-travee-prec aria-label="Réalisation précédente">←</button>
+        <button type="button" class="travee-fleche" data-travee-suiv aria-label="Réalisation suivante">→</button>
+      </div>
+    </div>
+    <ul class="travee-piste" data-travee-piste tabindex="0" aria-label={`${site.wording.galleryTitle.replace(/<[^>]+>/g, '')}, à faire glisser`}>
+      {piste.map((p, i) => {
+        const corps = (
+          <>
+            <span class="travee-cadre relative block overflow-hidden">
+              <Img src={p.src} alt={p.alt} class="travee-photo absolute inset-0 h-full w-full object-cover" sizes="(min-width: 64rem) 46vw, 82vw" loading="lazy" />
+            </span>
+            {(p.type || p.lieu) && (
+              <span class="mt-2 flex justify-between gap-3">
+                <span>{p.type && <span class="travee-etiquette">{p.type}</span>}</span>
+                <span>{p.lieu && <span class="travee-etiquette">{p.lieu}</span>}</span>
+              </span>
+            )}
+            {p.titre && <span class="travee-titre-piece font-display">{p.titre}</span>}
+          </>
+        );
+        return (
+          <li class:list={['travee-piece', GABARITS[i % GABARITS.length]]}>
+            {p.lien ? <a href={p.lien} class="block">{corps}</a> : <figure class="m-0">{corps}</figure>}
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+)}
+
+{(avis.length > 0 || google) && (
+  <section id="proof" class:list={['travee-avis', fond && 'travee-avis-photo']} aria-labelledby="travee-avis-titre" data-travee={avis.length > 1 ? '' : undefined}>
+    {fond && (
+      <span class="travee-avis-fond" aria-hidden="true">
+        <Img src={fond.src} alt="" class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="eager" />
+      </span>
+    )}
+    <div class="travee-plaque">
+      <div class="flex items-start justify-between gap-4">
+        <h2 id="travee-avis-titre" class="travee-guillemet">Avis</h2>
+        {avis.length > 1 && <p class="travee-compte" data-travee-compte data-travee-sans-script hidden>1 sur {avis.length}</p>}
+      </div>
+      {avis.length > 0 && (
+        <ul class="travee-avis-piste" data-travee-piste tabindex={avis.length > 1 ? 0 : undefined} aria-label={avis.length > 1 ? 'Avis des clients, à faire glisser' : 'Avis des clients'}>
+          {avis.map((t) => (
+            <li class="travee-un-avis">
+              <blockquote class="travee-citation font-display">«&nbsp;{t.text}&nbsp;»</blockquote>
+              <p class="mt-5 text-[0.8125rem]">{t.author}{t.city && `, ${t.city}`}<span>, sur {t.source}</span></p>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
+        {google ? (
+          <a href={google.url} class="text-[0.8125rem] underline underline-offset-4" target="_blank" rel="noopener">{google.rating.toFixed(1).replace('.', ',')}/5 sur Google, {google.count} avis</a>
+        ) : <span />}
+        {avis.length > 1 && (
+          <span class="flex gap-2" data-travee-sans-script hidden>
+            <button type="button" class="travee-fleche travee-fleche-claire" data-travee-prec aria-label="Avis précédent">←</button>
+            <button type="button" class="travee-fleche travee-fleche-claire" data-travee-suiv aria-label="Avis suivant">→</button>
+          </span>
+        )}
+      </div>
+    </div>
+  </section>
+)}
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initTravees } from '@/scripts/travee';
+  onPage(initTravees);
+</script>
+
+<style>
+  .travee-marges { width: 100%; padding-inline: clamp(1.25rem, 2.6vw, 2.5rem); }
+  .travee-repere { display: flex; align-items: center; gap: 0.5rem; }
+  .travee-repere::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; }
+  .travee-realisations { padding-block: var(--section-y); background: var(--surface); }
+  .travee-tete { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.75rem; }
+  .travee-commandes { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; }
+  .travee-commandes[hidden], [data-travee-sans-script][hidden] { display: none; }
+  .travee-compte { font-size: 0.8125rem; font-variant-numeric: tabular-nums; white-space: nowrap; margin-right: 0.25rem; }
+  .travee-fleche { width: 2.75rem; height: 2.75rem; border: 1px solid var(--fg); color: var(--fg); font-size: 1rem; transition: background var(--motion-ui) ease-out, color var(--motion-ui) ease-out, opacity var(--motion-ui) ease-out; }
+  .travee-fleche:disabled { opacity: 0.3; }
+  .travee-fleche:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  .travee-fleche:active { background: var(--fg); color: var(--surface); }
+  @media (hover: hover) and (pointer: fine) { .travee-fleche:not(:disabled):hover { background: var(--fg); color: var(--surface); } }
+  .travee-fleche-claire { border-color: var(--on-vert); color: var(--on-vert); }
+  .travee-fleche-claire:active { background: var(--on-vert); color: var(--vert); }
+  @media (hover: hover) and (pointer: fine) { .travee-fleche-claire:not(:disabled):hover { background: var(--on-vert); color: var(--vert); } }
+
+  /* LA TRAVÉE : piste native qui suit le doigt, aimantée au début de chaque pièce, qui déborde du bord droit. */
+  .travee-piste {
+    display: flex; align-items: flex-start; gap: clamp(1rem, 2vw, 1.75rem);
+    margin: 0; list-style: none; padding: 0 clamp(1.25rem, 2.6vw, 2.5rem) 0.5rem;
+    overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: clamp(1.25rem, 2.6vw, 2.5rem);
+    overscroll-behavior-x: contain; touch-action: pan-x pan-y; scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+  }
+  .travee-piste:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; }
+  .travee-piece { flex: 0 0 auto; scroll-snap-align: start; min-width: 0; }
+  .travee-piece a:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+  /* Les quatre gabarits (téléphone d'abord) : largeur, proportion de la photo, et hauteur à laquelle la pièce est posée. */
+  .t-grande { width: 82vw; }
+  .t-grande .travee-cadre { aspect-ratio: 4 / 3; }
+  .t-carree { width: 58vw; margin-top: 2.5rem; }
+  .t-carree .travee-cadre { aspect-ratio: 1; }
+  .t-haute { width: 62vw; margin-top: 1rem; }
+  .t-haute .travee-cadre { aspect-ratio: 3 / 4; }
+  .t-large { width: 78vw; margin-top: 3.5rem; }
+  .t-large .travee-cadre { aspect-ratio: 3 / 2; }
+  @media (min-width: 64rem) {
+    .t-grande { width: 46vw; }
+    .t-carree { width: 22vw; margin-top: 6rem; }
+    .t-haute { width: 24vw; margin-top: 11rem; }
+    .t-large { width: 40vw; margin-top: 3rem; }
+  }
+  .travee-titre-piece { display: block; margin-top: 0.5rem; max-width: 24ch; font-size: clamp(1.125rem, 0.9rem + 0.7vw, 1.625rem); line-height: 1.2; font-weight: 500; letter-spacing: -0.015em; color: var(--fg); }
+  /* Régime lent : la pièce du moment se pose (photo 1,04 -> 1 en 0,45 s ease) ; les autres restent un cran en retrait. */
+  .travee-realisations.travee-vivante :global(.travee-photo) { transform: scale(1.04); transition: transform var(--motion-duration) var(--ease-brand); }
+  .travee-realisations.travee-vivante .is-ici :global(.travee-photo) { transform: scale(1); }
+
+  /* L'AVIS SUR LA PLAQUE VERTE. */
+  .travee-avis { position: relative; padding: var(--section-y) clamp(1.25rem, 2.6vw, 2.5rem); }
+  .travee-avis-photo { padding-block: clamp(6rem, 14vw, 9rem); }
+  .travee-avis-fond { position: absolute; inset: 0; overflow: hidden; }
+  .travee-plaque { position: relative; z-index: 1; background: var(--vert); color: var(--on-vert); padding: clamp(1.5rem, 3vw, 2.75rem); }
+  @media (min-width: 64rem) { .travee-plaque { width: 64%; margin-left: 5%; } }
+  .travee-guillemet { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0; }
+  .travee-guillemet::before { content: '«'; display: block; font-size: 2rem; line-height: 0.8; font-weight: 500; margin-bottom: 0.25rem; }
+  .travee-avis-piste {
+    display: flex; margin: 1.25rem 0 0; padding: 0; list-style: none;
+    overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y; scrollbar-width: none;
+  }
+  .travee-avis-piste::-webkit-scrollbar { display: none; }
+  .travee-avis-piste:focus-visible { outline: 2px solid var(--on-vert); outline-offset: 4px; }
+  .travee-un-avis { flex: 0 0 100%; scroll-snap-align: start; padding-right: 1.5rem; }
+  .travee-citation { margin: 0; font-size: clamp(1.375rem, 0.9rem + 1.9vw, 2.75rem); line-height: 1.2; font-weight: 500; letter-spacing: -0.02em; max-width: 30ch; text-wrap: pretty; }
+  .travee-avis :global(.ff-illustration) { top: 0.5rem; bottom: auto; }
+  @media (prefers-reduced-motion: reduce) {
+    .travee-realisations :global(.travee-photo) { transition: none; transform: none; }
+  }
+</style>

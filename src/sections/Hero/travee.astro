@@ -1,0 +1,139 @@
+---
+/**
+ * Hero "travee" (style réel travee, relevé sur driessenarchitectuur.nl le 31 oct 2026, fiche docs/veille/styles/travee.md
+ * § Construction, blocs 1 et 2) : LA TRAVÉE DU PREMIER ÉCRAN. La source passe d'un projet à l'autre en vidéo plein écran
+ * (un bâtiment, un escalier, une façade, une vue aérienne) ; ici, rien ne tourne tout seul (GOUT § 4) : les photos sont
+ * posées côte à côte, comme les travées d'un bâtiment, dans une BANDE HORIZONTALE NATIVE qu'on fait glisser au doigt, à la
+ * molette ou au clavier (overflow-x, scroll-snap, tabindex), et la suivante dépasse du bord droit (on voit qu'il y a une
+ * suite). Deux blocs de premier niveau dans une enveloppe display:contents : l'EN-TÊTE sur le blanc cassé (le h1,
+ * business.tagline, en grand à gauche ; à droite le métier à la ville, l'ancienneté et la note Google, Appeler le numéro
+ * en noir plein et la porte Devis au trait, qui passent sous la bande au téléphone ; dessous « 2 sur 6 » et les flèches, avec script seulement), puis LA BANDE
+ * (64 % de la hauteur de l'écran au téléphone, elle commence dans le premier écran ; 70 % à l'ordinateur, la première
+ * photo sur les deux tiers de la largeur) : la photo du premier écran (images.hero), puis la photo
+ * de chaque service qui en a une, sa plaque blanche en bas à gauche avec son nom, qui mène à sa page (le premier écran
+ * parcourt les métiers du client). Sans script, la bande se fait glisser quand même.
+ * Mouvement : profil « travee-au-doigt » (docs/veille/styles/MOUVEMENTS.md, src/scripts/travee.ts).
+ * Données : sans photo, l'en-tête seul ; une seule photo, la bande sans flèches.
+ */
+import { site, tel, metierEtVille, hasContactDoor } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+import { HERO_SIZES } from '@/lib/images';
+
+const google = site.proof.google;
+const faits = [
+  metierEtVille().replace(/\.$/, ''),
+  site.business.since && `depuis ${site.business.since}`,
+  google && `${google.rating.toFixed(1).replace('.', ',')}/5 sur Google (${google.count} avis)`,
+].filter(Boolean) as string[];
+type Vue = { src: string; alt: string; legende?: string; lien?: string };
+const vues: Vue[] = [
+  ...(site.images.hero ? [{ src: site.images.hero.src, alt: site.images.hero.alt }] : []),
+  ...site.services.filter((s) => s.image).slice(0, 6).map((s) => ({ src: s.image!.src, alt: s.image!.alt, legende: s.title, lien: `/services/${s.slug}` })),
+];
+const piste = vues.length > 1;
+---
+
+<div class="contents" data-travee={piste ? '' : undefined}>
+  <section id="hero" class="travee-entete">
+    <div class="travee-marges travee-entete-grille">
+      <h1 class="travee-h1 hero-titre" set:html={site.business.tagline} />
+      <div class="travee-a-droite">
+        <p class="travee-faits">{faits.join(', ')}.</p>
+        <div class="travee-portes travee-portes-ordi">
+          <a href={tel()} class="btn btn-primary inline-flex items-center px-4 py-2 font-medium whitespace-nowrap">Appeler le {site.contact.phoneDisplay}</a>
+          {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="sm">{site.wording.devis}</Button>}
+        </div>
+      </div>
+      {piste && (
+        <div class="travee-commandes" data-travee-sans-script hidden>
+          <p class="travee-compte" data-travee-compte>1 sur {vues.length}</p>
+          <button type="button" class="travee-fleche" data-travee-prec aria-label="Photo précédente">←</button>
+          <button type="button" class="travee-fleche" data-travee-suiv aria-label="Photo suivante">→</button>
+        </div>
+      )}
+    </div>
+  </section>
+  {vues.length > 0 && (
+    <section class:list={['travee-bande', !piste && 'travee-bande-seule']} data-travee-piste tabindex={piste ? 0 : undefined} aria-label={piste ? 'Nos photos, à faire glisser' : 'Photo'}>
+      {vues.map((v, i) => (
+        <figure class="travee-vue" data-legende={v.legende}>
+          <Img src={v.src} alt={v.alt} class="travee-vue-img absolute inset-0 h-full w-full object-cover" sizes={HERO_SIZES.travee} priority={i === 0} loading={i === 0 ? 'eager' : 'lazy'} />
+          {v.legende && v.lien && <figcaption class="travee-plaque-vue"><a href={v.lien}>{v.legende}</a></figcaption>}
+        </figure>
+      ))}
+    </section>
+  )}
+  <div class="travee-marges travee-portes travee-portes-tel">
+    <a href={tel()} class="btn btn-primary inline-flex items-center px-4 py-2 font-medium whitespace-nowrap">Appeler le {site.contact.phoneDisplay}</a>
+    {hasContactDoor(site) && <Button href="/#contact" variant="ghost" size="sm">{site.wording.devis}</Button>}
+  </div>
+</div>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { initTravees } from '@/scripts/travee';
+  onPage(initTravees);
+</script>
+
+<style>
+  .travee-marges { width: 100%; padding-inline: clamp(1.25rem, 2.6vw, 2.5rem); }
+  .travee-entete { padding-top: clamp(5.5rem, 8vw, 7.5rem); padding-bottom: clamp(1rem, 2vw, 1.75rem); }
+  .travee-entete-grille { display: grid; gap: 0.8rem; align-items: end; }
+  .travee-h1 { font-size: clamp(2.125rem, 1rem + 5vw, 6.75rem); line-height: 0.98; max-width: 16ch; text-wrap: balance; hyphens: none; color: var(--fg); }
+  .travee-faits { max-width: 40ch; font-size: 0.875rem; line-height: 1.4; color: var(--fg); }
+  @media (min-width: 64rem) { .travee-faits { font-size: 1.0625rem; } }
+  .travee-portes { margin-top: 0.7rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  /* Au téléphone, la bande monte juste sous le titre (la photo dans le premier écran) et les portes passent sous elle ;
+     le numéro reste en haut dans la barre (« Appeler »). À l'ordinateur, les portes sont à droite du titre. */
+  .travee-portes-ordi { display: none; }
+  .travee-portes-tel { margin-top: 0; padding-block: 1rem 0.25rem; }
+  @media (min-width: 64rem) { .travee-portes-ordi { display: flex; } .travee-portes-tel { display: none; } }
+  .travee-commandes { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; font-size: 0.8125rem; }
+  .travee-commandes[hidden] { display: none; }
+  /* Au téléphone, la travée suivante qui dépasse du bord dit qu'on peut glisser : les flèches n'y prennent pas de place
+     (la bande garde le clavier, tabindex). */
+  @media (max-width: 63.99rem) { .travee-commandes { display: none; } }
+  .travee-compte { font-variant-numeric: tabular-nums; white-space: nowrap; margin-right: 0.25rem; }
+  .travee-fleche { width: 2.75rem; height: 2.75rem; border: 1px solid var(--fg); color: var(--fg); font-size: 1rem; transition: background var(--motion-ui) ease-out, color var(--motion-ui) ease-out, opacity var(--motion-ui) ease-out; }
+  .travee-fleche:active { background: var(--fg); color: var(--bg); }
+  .travee-fleche:disabled { opacity: 0.3; }
+  .travee-fleche:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) { .travee-fleche:not(:disabled):hover { background: var(--fg); color: var(--bg); } }
+  @media (min-width: 64rem) {
+    .travee-entete-grille { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 1.5rem; }
+    .travee-h1 { grid-column: 1 / span 9; max-width: 24ch; }
+    .travee-a-droite { grid-column: 10 / span 3; }
+    .travee-commandes { grid-column: 1 / -1; }
+  }
+
+  /* LA BANDE : défilement horizontal natif, aimanté travée par travée, qui suit le doigt ; le défilement vertical de la
+     page passe toujours (pan-y), aucun script n'intercepte la molette. La suivante dépasse du bord droit. */
+  .travee-bande {
+    display: flex; gap: 0.75rem; height: 64svh; min-height: 22rem; max-height: 46rem;
+    padding-inline: clamp(1.25rem, 2.6vw, 2.5rem); scroll-padding-inline: clamp(1.25rem, 2.6vw, 2.5rem);
+    overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y; scrollbar-width: none;
+  }
+  .travee-bande::-webkit-scrollbar { display: none; }
+  .travee-bande:focus-visible { outline: 2px solid var(--fg); outline-offset: -4px; }
+  .travee-vue { position: relative; flex: 0 0 84vw; height: 100%; margin: 0; scroll-snap-align: start; overflow: hidden; }
+  .travee-bande-seule .travee-vue { flex-basis: 100%; }
+  @media (min-width: 64rem) {
+    .travee-bande { height: 70svh; max-height: 56rem; gap: 1rem; }
+    .travee-vue { flex-basis: 40vw; }
+    .travee-vue:first-child { flex-basis: 66vw; }
+  }
+  /* La plaque de la travée : un rectangle blanc en bas à gauche, le nom du métier, lien vers sa page. */
+  .travee-plaque-vue { position: absolute; left: 0; bottom: 0; z-index: 2; background: var(--surface); padding: 0.55rem 0.9rem; font-size: 0.875rem; font-weight: 500; }
+  .travee-plaque-vue a::after { content: ' →'; }
+  .travee-plaque-vue a:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+  /* Régime lent : la photo qui arrive se pose (1,05 -> 1 en 0,45 s ease, mesuré sur la source), une fois arrivée ;
+     l'état « en attente » n'existe que sous .travee-vivante (posée par le script, jamais en mouvement réduit). */
+  .travee-vivante :global(.travee-vue-img) { transform: scale(1.05); transition: transform var(--motion-duration) var(--ease-brand); }
+  .travee-vivante .is-ici :global(.travee-vue-img) { transform: scale(1); }
+  .travee-bande :global(.ff-illustration) { bottom: auto; top: 0.5rem; }
+  @media (prefers-reduced-motion: reduce) {
+    .travee-bande :global(.travee-vue-img) { transition: none; transform: none; }
+  }
+</style>

@@ -296,7 +296,14 @@ if (!tsImportable) {
       navCounts.set(d.look.layout.nav, (navCounts.get(d.look.layout.nav) || 0) + 1);
       footerCounts.set(d.look.layout.footer, (footerCounts.get(d.look.layout.footer) || 0) + 1);
     }
-    for (const v of VARIANTS.nav) assert.ok((navCounts.get(v) || 0) >= 2, `nav "${v}" utilise ${navCounts.get(v) || 0} fois, attendu >= 2`);
+    // Nav d'un style construit (veille 2a quater) : nommée comme son style et posée par son modèle de site entier
+    // presets/<id>.json (la tête de la source fait partie de sa construction) ; le second modèle de la direction doit en
+    // changer (règle « les deux presets diffèrent de nav »), elle n'est donc jamais comptée deux fois.
+    const navsDeStyle = new Set(all.filter((d) => estModeleDeStyle(d) && d.look.layout.nav === d.nom).map((d) => d.nom));
+    for (const v of VARIANTS.nav) {
+      if (navsDeStyle.has(v)) continue;
+      assert.ok((navCounts.get(v) || 0) >= 2, `nav "${v}" utilise ${navCounts.get(v) || 0} fois, attendu >= 2`);
+    }
     for (const v of VARIANTS.footer) assert.ok((footerCounts.get(v) || 0) >= 2, `footer "${v}" utilise ${footerCounts.get(v) || 0} fois, attendu >= 2`);
 
     for (const type of ['proof', 'contact', 'cta', 'about']) {

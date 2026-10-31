@@ -65,6 +65,8 @@ export const FONTS = {
   // 30 oct 2026 (style pochoir, haven-annecy.fr) : PF DIN Text (non libre) -> Barlow, grotesque DIN libre ; script des heures -> Sacramento.
   barlow: { family: "'Barlow', 'Arial Narrow', system-ui, sans-serif", pkg: '@fontsource/barlow/latin.css', role: 'both', mood: 'DIN, signaletique douce, cafe' },
   sacramento: { family: "'Sacramento', cursive", pkg: '@fontsource/sacramento/latin.css', role: 'display', mood: 'script monoligne, heures ecrites a la main' },
+  // 31 oct 2026 (style rayon, blankinside.co.uk) : titres de rayons ecrits au feutre -> Permanent Marker (OFL), titres de rayons seulement.
+  permanentMarker: { family: "'Permanent Marker', cursive", pkg: '@fontsource/permanent-marker/latin.css', role: 'display', mood: 'feutre, titres de rayons ecrits a la main' },
   // 30 oct 2026 (style buvard, florawellnesscafe.com) : Adobe Caslon Pro (non libre) -> Libre Caslon Text ; machine a ecrire -> Courier Prime.
   libreCaslonText: { family: "'Libre Caslon Text', Georgia, serif", pkg: '@fontsource/libre-caslon-text/latin.css', role: 'both', mood: 'caslon de livre, carte de cafe' },
   bungee: { family: "'Bungee', Impact, sans-serif", pkg: '@fontsource/bungee/latin.css', role: 'display', mood: 'urbain, signaletique' },

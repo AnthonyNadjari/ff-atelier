@@ -4,6 +4,67 @@ Une entrée par tour de `/veille` (skill `.claude/skills/veille/SKILL.md`), la p
 fait / proposé / à décider / prochain volet. Le fondateur lit ce fichier (ou l'onglet Notes du doc
 partagé) pour savoir où en est l'usine sans relire une conversation.
 
+## 31 oct 2026, tour 20 (routine en ligne) : 1 style gardé sur 3 construits, 2 architectures
+
+**Le meilleur du tour** ([aperçu](apercus/2026-10-31.jpg)) : le style `rayon`, repris de Blank Inside (blankinside.co.uk, papeterie
+anglaise) : bandeau « Commander par téléphone », nom centré, onglets « La sélection / Toute la gamme », puis les produits en rayons
+qu'on fait glisser au doigt, chaque rayon titré à la main avec sa flèche dessinée, et une fin en trois tampons (Appeler, Venir,
+Écrire) sans formulaire. Pourquoi lui : c'est le seul style gardé franchement ce tour, et fromagers, cavistes, épiceries fines ont
+tous une gamme à montrer.
+
+**Règle appliquée** : celle du 31 oct de `.claude/skills/veille/SKILL.md` (scanner 40 ou plus, construire 3 au plus, garder 2 ou 3
+franchement), et non le « 10 sites, 5 gardés » de la consigne de la routine.
+
+**Fait**
+- **Tri (2a quater, étape 0)** : 47 candidats scannés avec `ff tri` (onepagelove, minimal.gallery ; siteinspire bloqué par un
+  contrôle anti-robot, Awwwards coupé par le proxy) : liste `styles/tri/liste-2026-10-31-tour20.txt`, résultat
+  `styles/tri/2026-10-31-tour20.json`. 4 gardés par la machine, 41 refusés (presque tous « linéaires »), 2 refusés par le site.
+  `convicts.nyc` écarté à l'œil (réalisateurs, tout repose sur la vidéo, bloquée sur iPhone).
+- **Styles construits (3)**, chacun en entier (direction, hero, geste signature, fin propre, deux modèles `presets/`, test, fiche avec
+  « Construction ») et jugé par un agent neuf sur images :
+  - `rayon` (blankinside.co.uk) : **tient la comparaison, différent de l'usine. Gardé.** Profil de mouvement `etagere-qui-se-remplit`.
+    Ressemblance au plus 0,61 (déroulé), linéarité 0,29. Restes : vignettes de fonds inégaux, nom en grotesque au lieu d'un logo dessiné.
+  - `travee` (driessenarchitectuur.nl, architecte) : **ne tient pas, deux fois** (photo du premier écran trop petite puis floue, page
+    vide à l'ordinateur ; le second juge le trouve proche de `talus`). Pas gardé, à reprendre. Le « défilement horizontal » vu par
+    `ff tri` n'était que le carrousel du premier écran : la source défile en vertical.
+  - `etabli` (agronomywork.shop, objet phare : coutelier) : **ne tient pas, deux fois, mais différent de l'usine** (fiche collée à
+    côté de l'objet, nom géant en fin). Ce qui manque : une vraie série de photos variées d'un même objet. Pas gardé, à reprendre.
+  - **Tour raté au sens de la skill** (un seul style franchement gardé, il en faut 2). Pourquoi : les deux autres tombent sur les photos
+    d'illustration (série incohérente, résolution trop faible), comme au tour 19, et `ff tri` surestime la nouveauté d'un site dont
+    seul le carrousel bouge de côté.
+- **Mouvement** : 3 profils nouveaux codés ([MOUVEMENTS.md](styles/MOUVEMENTS.md)) : `etagere-qui-se-remplit`, `travee-au-doigt`,
+  `fiche-collee-a-l-objet`. Police ajoutée : Permanent Marker (titres de rayons seulement).
+- **Palettes** par régime, avant → après : clair neutre 93 → 95, clair teinté doux 39 → 39, sombre 38 → 38, coloré doux 61 → 62.
+- **Style maison** (`ff ressemblance --registre --tous`) : linéarité moyenne 0,83, 80 % des sites au-dessus du seuil. Inchangé : les
+  styles du tour n'ont été posés que sur des sites jetables, aucun site existant n'a été refait.
+- **Architectures (2a ter)**, codées et prouvées :
+  - [mur-producteurs](architectures/mur-producteurs.md) (comboirepaysan.fr, dose-epicerie.com) : magasin de producteurs ; colonne collée
+    à gauche (h1, téléphone, horaires du jour, « Qui fait quoi ») et le mur des producteurs à côté, `/producteurs/<slug>`.
+  - [tableau-departs](architectures/tableau-departs.md) (taxi-annecy.fr, taxichamonix.fr) : taxi ; le tableau des départs (distance,
+    durée, prix) collé à droite, « À quelle heure partir ? » calculé dans le navigateur, `/trajets/<slug>`.
+  - Ressemblance au plus 0,64 et 0,57, linéarité 0,50 et 0,46. `deroule.mjs` reconnaît « annuaire de fiches » et « tableau des départs ».
+    Elles se ressemblent entre elles par la disposition (0,89, une colonne collée chacune) : jamais pour deux pistes d'un même client.
+- **Marché (2a)** : 9 sites de plus ([CE-QUI-VEND.md](marche/CE-QUI-VEND.md), 171 sites). Aucun levier à 40 % ne manque à l'usine. Le plus
+  vendeur : Bâti HALLI (maçon, Toulouse) : « Votre maçon à Toulouse, en famille depuis 30 ans », 5,0 sur 54 avis, numéro et devis au
+  premier écran, chantiers chiffrés, décennale et SIRET écrits.
+- **Paires trop proches** (`ff ressemblance --registre --tous`, début de tour) : **194** (231 au tour 19). Pires : encre-noire /
+  forge-delacroix (0,88 à l'ordinateur), auto-ecole-rabelais / cantine-roulante (0,88 au déroulé), fromagerie-ravanel-b / -c (0,85).
+  Signalées, pas corrigées ce tour.
+- **Santé** : `npm ci`, Chromium présent, tout a tourné avec navigateur. Tests : 1 715 verts sur 112 fichiers en fin de tour (4 rouges de `travee` trouvés et corrigés : police et titre de section par les tokens et `wording`) ; signatures uniques ; build de `_exemple` vert.
+
+**Proposé**
+- **Photos des essais**, frein n° 1 pour le deuxième tour de suite : sans série de photos cohérente, aucun style ne tient. Une clé
+  Unsplash/Pexels pour les essais, ou un tri par lumière dans `ff photos-demo`.
+- `ff tri` : ne pas compter comme « piste » un carrousel limité au premier écran (cas de driessenarchitectuur.nl).
+- `ff verifier` refuse « garantie de résultat » mais laisse passer « résultats garantis » (vu chez mon-coach-sportif.fr).
+
+**À décider** : faut-il commencer à refaire des sites existants avec les styles non linéaires (la linéarité moyenne ne baissera pas
+autrement) ?
+
+**Prochain tour commence par** : reprendre `etabli` et `travee` avec de vraies séries de photos, puis `ocre`, `souffle`, `rideau`.
+
+Doc partagé « Finck & Fisch » : pas de connecteur Claude Docs dans la session en ligne, Notes non écrites.
+
 ## 30 oct 2026, tour 19 (routine en ligne) : 5 styles gardés sur 10, 2 architectures
 
 **Le meilleur du tour** ([aperçu](apercus/2026-10-30.jpg)) : le style `dune`, repris de Haus Steuermann (steuermann.haus, gîte

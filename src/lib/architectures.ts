@@ -105,11 +105,15 @@ export interface LayoutArchi {
  *                      de 1 à 12 ; src/lib/recoltes.ts, produitsComplets) ;
  *  - matieres        : matières du nuancier qui ont leur photo (matieres.liste[] : slug, nom, photo ; src/lib/matieres.ts,
  *                      nuancier) ;
+ *  - producteurs     : producteurs lisibles (producteurs.liste[] : slug, nom, commune ; src/lib/producteurs.ts,
+ *                      producteursComplets) ;
+ *  - departs         : trajets lisibles (departs.trajets[] : slug, destination, minutes entières > 0 ; src/lib/departs.ts,
+ *                      trajetsComplets) ;
  *  - urgence         : contact.emergency24h VRAI ou un délai d'arrivée donné (tarifs.delai) : l'architecture sert
  *                      l'urgence, à l'inverse de pasUrgence.
  */
 export interface Exigence {
-  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils' | 'especes' | 'garde' | 'honoraires' | 'interventions' | 'trajet' | 'directionsTrajet' | 'recoltes' | 'matieres';
+  mesure: 'photos' | 'services' | 'servicesPhoto' | 'realisations' | 'types' | 'horaires' | 'rue' | 'lignesPrix' | 'pasUrgence' | 'histoire' | 'agenda' | 'produits' | 'espaces' | 'lieux' | 'saisons' | 'sorties' | 'programme' | 'etapes' | 'artistes' | 'fetes' | 'calendrier' | 'parcours' | 'situations' | 'envoi' | 'urgence' | 'soins' | 'avantApres' | 'planning' | 'materiels' | 'estimation' | 'formules' | 'appareils' | 'retraits' | 'cloture' | 'salles' | 'biens' | 'revendeurs' | 'profils' | 'especes' | 'garde' | 'honoraires' | 'interventions' | 'trajet' | 'directionsTrajet' | 'recoltes' | 'matieres' | 'producteurs' | 'departs';
   min?: number;
   max?: number;
   /** Ce qui manque, dit au studio en une phrase. */
@@ -168,6 +172,8 @@ export const ARCHITECTURE_IDS = [
   'rayon-trajet',
   'calendrier-recoltes',
   'nuancier-matieres',
+  'mur-producteurs',
+  'tableau-departs',
 ] as const;
 export type ArchitectureId = (typeof ARCHITECTURE_IDS)[number];
 
@@ -1353,6 +1359,65 @@ export const ARCHITECTURES: Record<ArchitectureId, Architecture> = {
     convientA:
       "Artisan dont le client choisit d'abord la matière : menuisier, ébéniste, parqueteur, marbrier, tailleur de pierre, tapissier (tissus), sellier (cuirs), carreleur, scierie ou négoce de bois local, potier (terres et émaux). 4 matières avec leur photo en gros plan, idéalement une valeur comparable (dureté, densité). Pas pour une gamme de produits finis (gamme-vitrine), ni pour des réalisations à montrer d'abord (index-projets, avant-apres).",
   },
+  'mur-producteurs': {
+    id: 'mur-producteurs',
+    modele:
+      "Le site d'un magasin de producteurs est le mur de ses producteurs : à l'ordinateur, une colonne collée à gauche tient le magasin (h1, métier à la ville, ancienneté, note, téléphone, horaires du jour, adresse) et « Qui fait quoi » (chaque rayon et ses producteurs, chacun vers sa fiche), pendant que le mur défile à côté : les producteurs en grille, portrait, ferme, commune, « à 12 km » s'il est donné, ce qu'ils apportent ; puis les avis et venir ; au téléphone la colonne passe en tête ; /producteurs du plus proche au plus loin (avec les questions) et une page par producteur (personnes, ferme, labels, présence au magasin, voisins du même rayon).",
+    sources: [
+      { fiche: 'docs/veille/architectures/mur-producteurs.md', site: 'comboirepaysan.fr' },
+      { fiche: 'docs/veille/architectures/mur-producteurs.md', site: 'dose-epicerie.com' },
+    ],
+    layout: {
+      // Coquille `producteurs` (src/shells/producteurs.astro).
+      shell: 'producteurs',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'liens',
+      // Comboire Paysan : « Les producteurs » dans la barre, l'accueil rangé par produit avec la ferme de chacun, une fiche
+      // par producteur ; Dose : « Nos producteurs » et leur carte. La coquille tient le magasin dans une colonne collée et
+      // le mur à côté ; les avis suivent, les questions sont sur /producteurs : pas de fin de page d'usine.
+      sections: [
+        { type: 'proof', variant: 'testimonials' },
+      ],
+      contactDrawer: true,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'producteurs', min: 4, libelle: '4 producteurs au moins (producteurs.liste[] : slug, nom, commune)' },
+      { mesure: 'pasUrgence', libelle: "pas un métier d'urgence (contact.emergency24h) : on vient au magasin, on n'y appelle pas la nuit" },
+    ],
+    convientA:
+      "Magasin de producteurs, épicerie en circuit court, crèmerie, primeur, boucherie qui nomme ses éleveurs, cave qui nomme ses vignerons, restaurant locavore : le client demande d'où viennent les produits et qui les fait. 4 producteurs avec leur commune, idéalement leur distance et un portrait. Pas pour un seul producteur qui vend sa récolte (calendrier-recoltes), ni pour un producteur qui liste ses revendeurs (revendeurs-secteurs).",
+  },
+  'tableau-departs': {
+    id: 'tableau-departs',
+    modele:
+      "Le site d'un taxi ou d'un transporteur est son tableau des départs : en tête le h1, le métier à la ville, le téléphone, et à côté le tableau des trajets au départ de la base, rangés par genre (aéroports, gares, stations), chaque destination avec sa distance, sa durée et son prix s'il le publie, chacune vers sa page ; « Votre destination n'est pas listée ? » et le téléphone ; « À quelle heure partir ? » (l'heure du vol ou du train, la prise en charge calculée dans le navigateur avec l'avance et la marge du client) ; les avis en piste ; la demande ; /trajets (avec les questions) et une page par trajet (repère : distance, durée, itinéraire, à fournir ; prix jour et nuit ; l'heure de prise en charge ; les autres trajets).",
+    sources: [
+      { fiche: 'docs/veille/architectures/tableau-departs.md', site: 'taxi-annecy.fr' },
+      { fiche: 'docs/veille/architectures/tableau-departs.md', site: 'taxichamonix.fr' },
+    ],
+    layout: {
+      // Coquille `departs` (src/shells/departs.astro).
+      shell: 'departs',
+      nav: 'bar',
+      hero: 'typographic',
+      footer: 'liens',
+      // Taxi Annecy : « Départs · Annecy », une ligne par destination (distance, durée, « Voir le trajet »), une page par
+      // trajet ; VTC Rousseau : tarifs au départ ou à destination de Chamonix, jour et nuit. La coquille rend le tableau, l'outil,
+      // les avis en piste et la demande elle-même : aucune section de fin de page d'usine.
+      sections: [],
+      contactDrawer: false,
+      actionBar: false,
+      servicePage: 'fiche',
+    },
+    requis: [
+      { mesure: 'departs', min: 4, libelle: '4 trajets au moins avec leur durée (departs.trajets[] : slug, destination, minutes)' },
+    ],
+    convientA:
+      "Taxi, VTC, navette, ambulance ou transport de personnes, déménageur ou coursier à destinations fixes : le client demande d'abord combien de temps, combien, et à quelle heure on vient le chercher. 4 trajets avec leur durée, idéalement la distance, le prix et l'avance à prévoir. Pas pour un artisan qui vient chez le client (rayon-trajet), ni pour une tournée à jours fixes (tournee-semaine).",
+  },
 };
 
 
@@ -1421,6 +1486,8 @@ export interface SiteArchi {
   trajet?: { communes?: { slug?: string; nom?: string; minutes?: number; direction?: string }[] };
   recoltes?: { produits?: { slug?: string; nom?: string; famille?: string; mois?: number[]; photo?: unknown }[] };
   matieres?: { liste?: { slug?: string; nom?: string; photo?: unknown }[] };
+  producteurs?: { liste?: { slug?: string; nom?: string; commune?: string; photo?: unknown }[] };
+  departs?: { trajets?: { slug?: string; destination?: string; minutes?: number; photo?: unknown }[] };
 }
 
 /** Architecture d'id `id`, ou undefined. */
@@ -1467,7 +1534,9 @@ export function photosDuClient(s: SiteArchi): number {
     (s.realisations ?? []).reduce((n, r) => n + (r.photos?.length ?? 0), 0) +
     (s.interventions ?? []).filter((x) => x.photo).length +
     (s.recoltes?.produits ?? []).filter((x) => x.photo).length +
-    (s.matieres?.liste ?? []).filter((x) => x.photo).length
+    (s.matieres?.liste ?? []).filter((x) => x.photo).length +
+    (s.producteurs?.liste ?? []).filter((x) => x.photo).length +
+    (s.departs?.trajets ?? []).filter((x) => x.photo).length
   );
 }
 
@@ -1731,6 +1800,27 @@ export function donneesManquantes(id: string, s: SiteArchi): string[] {
           if (!slug || !(m.nom ?? '').trim() || vus.has(slug)) return false;
           vus.add(slug);
           return Boolean(m.photo);
+        }).length;
+        break;
+      }
+      // Mêmes comptes que producteursComplets (src/lib/producteurs.ts) et trajetsComplets (src/lib/departs.ts), recopiés.
+      case 'producteurs': {
+        const vus = new Set<string>();
+        n = (s.producteurs?.liste ?? []).filter((p) => {
+          const slug = (p.slug ?? '').trim();
+          if (!slug || !(p.nom ?? '').trim() || !(p.commune ?? '').trim() || vus.has(slug)) return false;
+          vus.add(slug);
+          return true;
+        }).length;
+        break;
+      }
+      case 'departs': {
+        const vus = new Set<string>();
+        n = (s.departs?.trajets ?? []).filter((t) => {
+          const slug = (t.slug ?? '').trim();
+          if (!slug || !(t.destination ?? '').trim() || !(typeof t.minutes === 'number' && Number.isInteger(t.minutes) && t.minutes > 0) || vus.has(slug)) return false;
+          vus.add(slug);
+          return true;
         }).length;
         break;
       }

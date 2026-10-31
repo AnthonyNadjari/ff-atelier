@@ -1,0 +1,159 @@
+{
+  "id": "rayon",
+  "version": 1,
+  "source": {
+    "url": "https://blankinside.co.uk",
+    "nom": "Blank Inside",
+    "metier": "boutique indépendante de cartes de vœux illustrées (sérigraphie, riso, numérique) par des illustrateurs britanniques, vendue en ligne",
+    "fiche": "docs/veille/styles/rayon.md",
+    "mesures": "docs/veille/styles/atomes/mesures/rayon.json",
+    "date": "2026-10-31"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Public Sans",
+      "libre": "publicSans",
+      "graisse": 700,
+      "interlignage": 1.3,
+      "casse": "none",
+      "interlettrage": 0.013,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Public Sans",
+      "libre": "publicSans",
+      "graisse": 400,
+      "interlignage": 1.5
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 28,
+        "ordinateur": 48
+      },
+      "h2": {
+        "telephone": 23.5,
+        "ordinateur": 23.5
+      },
+      "texte": {
+        "telephone": 12.5,
+        "ordinateur": 12.5
+      }
+    },
+    "remarque": "Public Sans (libre, OFL) est celle de la source : gardée pour tout le texte, en trois graisses (h1 700, h2 600, texte 400) ; la source n'a pas de h1 visible (le titre affiché est le nom dessiné) : h1 du socle à 28/48 px. IBM Plex Mono des noms d'illustrateurs (liste IA) écarté. Titres de rayons écrits au feutre (dessinés en image sur la source) -> Permanent Marker, titres de rayons seulement."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#130071",
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "part": 0.97
+        },
+        {
+          "hex": "#f8f8fb",
+          "part": 0.017
+        },
+        {
+          "hex": "#130071",
+          "part": 0.009
+        },
+        {
+          "hex": "#f3f1fb",
+          "part": 0.005
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#130071",
+          "part": 0.884
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.114
+        },
+        {
+          "hex": "#000000",
+          "part": 0.002
+        }
+      ],
+      "proches": 15531918
+    },
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#f3f2f8",
+      "texte": "#130071",
+      "texte2": "#5a5296",
+      "accent": "#130071",
+      "accent2": "#2b1f8f",
+      "bordure": "#d8d5ea",
+      "encre": "#130071"
+    },
+    "sombre": null,
+    "remarque": "Blanc franc (96 % des fonds) et une seule encre indigo #130071 (88 % des caractères, 16,6:1) ; cases gris lavande #f3f2f8 (mesuré #f3f1fb / #f8f8fb) où les articles posent leur couleur ; texte secondaire indigo éclairci #5a5296 (6,1:1 sur les cases). Fond clair neutre, mais le bloc d'encre (bandeau, boutons pleins) est un indigo franc (chroma OKLCH 0,166) : régime coloré doux (regimePalette). La couleur vient des articles du client."
+  },
+  "densite": {
+    "section": {
+      "telephone": 100,
+      "ordinateur": 112
+    },
+    "gouttiere": {
+      "telephone": 16,
+      "ordinateur": 24
+    },
+    "conteneur": 1340,
+    "mesure": 71,
+    "rythme": "uni",
+    "remarque": "Bord de page de 15 px au téléphone, 50 px à 1 440 ; pas de conteneur centré : les étagères vont de bord à bord et la dernière case dépasse. Reprise : --ra-bord clamp(1rem, 3,5vw, 3,125rem), 1,5 rem entre les cases à l'ordinateur."
+  },
+  "formes": {
+    "rayon": 6,
+    "rayonCarte": 2,
+    "rayonImage": 2,
+    "bordure": 1.5,
+    "ombre": "portee",
+    "bouton": "plein",
+    "pilule": true,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Pilules et capitales espacées de la source (GOUT § 2) ramenées à un angle doux de 6 px en casse normale ; l'ombre dure de 2 px décalée en bas à droite des étiquettes et des boutons est gardée (--rayon-ombre) ; ronds « + » à contour."
+  },
+  "photos": {
+    "traitement": "vignette",
+    "rapports": [
+      "1:1",
+      "4:5"
+    ],
+    "pleinCadre": 0,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "Aucune photo plein cadre : chaque article dans une case gris lavande, carrée sur la source (4:5 ici, en hauteur), la grande case d'un rayon vedette carrée avec son étiquette à contour posée dans le coin. Un objet détouré est posé avec de l'air, une photo pleine remplit la case."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.1,
+      "courbe": "cubic-bezier(0.4, 0, 0.2, 1)"
+    },
+    "scene": {
+      "duree": 0.6,
+      "courbe": "cubic-bezier(0, 0, 0.3, 1)"
+    },
+    "defilement": "apparitions",
+    "bibliotheques": [
+      "Swiper"
+    ],
+    "profil": "etagere-qui-se-remplit",
+    "remarque": "Swiper sur la source ; les cases arrivent en glissant (slideIn 0,6 s cubic-bezier(0, 0, 0.3, 1) ×70) ; couleurs et ombres en 0,1 s. Bandeau promotionnel qui défile en boucle : refusé (GOUT § 4). Codé : profil etagere-qui-se-remplit (EtagereRayon.astro)."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "bords pointillés du bandeau d'encre"
+  },
+  "architecture": null,
+  "premier_ecran": "bande-defilante"
+}

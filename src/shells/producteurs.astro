@@ -1,0 +1,164 @@
+---
+/**
+ * Coquille "producteurs" : architecture `mur-producteurs` (src/lib/architectures.ts ; sources Le Comboire Paysan,
+ * Échirolles : « Les producteurs » dans la barre, l'accueil rangé par produit avec la ferme de chacun, une fiche par
+ * producteur ; Dose Épicerie, Nort-sur-Erdre : « Nos producteurs », la carte des producteurs présents à la boutique ;
+ * docs/veille/architectures/mur-producteurs.md).
+ * Le client se demande « d'où ça vient, et qui le fait ? » : l'accueil est le mur des producteurs.
+ *   → id="hero" : la colonne du magasin, le h1, le métier à la ville, l'ancienneté, la note, le téléphone (socle
+ *     docs/GOUT.md § 0), les horaires du jour, l'adresse, et « Qui fait quoi » (chaque rayon et ses producteurs, chacun vers
+ *     sa fiche) ; à l'ordinateur elle reste collée à gauche pendant que le reste défile à côté (une colonne fixe, pas une
+ *     bande de plus) ; au téléphone elle passe en tête ;
+ *   → id="producteurs" : le mur, les producteurs en grille (portrait, ferme, personnes, commune, « à 12 km » s'il est
+ *     donné, ce qu'ils apportent), chacun vers sa page ;
+ *   → les sections du layout (les avis s'il y en a) ; les questions sont sur /producteurs : pas de fin de page d'usine ;
+ *   → id="contact" : venir (adresse, horaires, téléphone) ; le pied.
+ * Pages : /producteurs (du plus proche au plus loin, avec les questions), /producteurs/<slug>.
+ *
+ * `layout.hero` n'est pas rendu. Sans producteurs : la colonne, l'appel et venir restent, le mur disparaît et le build dit
+ * ce qui manque (donneesManquantes). Signes des sources NON repris : carrousel d'accueil plein écran (Comboire), carte
+ * interactive qui charge une bibliothèque tierce pour une dizaine de points (Dose), noms des fermes en capitales, fiches à
+ * télécharger en PDF.
+ */
+import Divider from '@/components/Divider.astro';
+import Icon from '@/components/Icon.astro';
+import Horaires from '@/components/Horaires.astro';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, fullAddress, metierEtVille, donneesManquantes, producteursComplets, quiFaitQuoi, distanceDuProducteur, producteurLePlusLoin } from '@/lib/site';
+interface Props { Nav: any; Hero: any; Footer: any; sections: { type: string; variant: string; Component: any }[] }
+const { Nav, Footer, sections } = Astro.props;
+const divider = site.layout.divider;
+const google = site.proof.google;
+const note = google ? google.rating.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) : '';
+const p = site.producteurs;
+const tous = producteursComplets(p?.liste);
+const rayons = quiFaitQuoi(tous);
+const loin = producteurLePlusLoin(tous);
+const lien = (slug: string) => `/producteurs/${slug}`;
+const manque = donneesManquantes('mur-producteurs', site);
+if (manque.length > 0) console.warn(`[coquille producteurs] ${site.slug} : ${manque.join(' ; ')}`);
+---
+
+<Nav />
+<main id="main" class="pr-page">
+  <section id="hero" class="pr-colonne" aria-labelledby="pr-h1">
+    <div class="pr-colonne-in">
+      <h1 id="pr-h1" class="pr-h1 font-display" set:html={site.business.tagline} />
+      <p class="pr-metier">{metierEtVille()}{site.business.since ? ` Depuis ${site.business.since}.` : ''}</p>
+      {google && <p><a href={google.url} target="_blank" rel="noopener" class="pr-lien">{note}&nbsp;sur 5, {google.count}&nbsp;avis Google<span class="sr-only"> (nouvel onglet)</span></a></p>}
+      <p><a href={tel()} class="pr-tel tabular-nums"><Icon name="Phone" size={21} />{site.contact.phoneDisplay}</a></p>
+      <HorairesDuJour class="pr-horaires tabular-nums" />
+      <p class="pr-adresse">{fullAddress()}</p>
+      {rayons.length > 0 && (
+        <nav class="pr-index" aria-labelledby="pr-index-t">
+          <h2 id="pr-index-t" class="pr-index-t font-display">Qui fait quoi</h2>
+          <dl class="pr-rayons">
+            {rayons.map((r) => (
+              <div class="pr-rayon">
+                <dt class="pr-rayon-nom">{r.rayon}</dt>
+                <dd><ul class="pr-rayon-liste">{r.producteurs.map((x) => <li><a href={lien(x.slug)} class="pr-lien">{x.nom}</a></li>)}</ul></dd>
+              </div>
+            ))}
+          </dl>
+        </nav>
+      )}
+    </div>
+  </section>
+
+  {tous.length > 0 && (
+    <section id="producteurs" class="pr-mur" aria-labelledby="pr-mur-t">
+      <div class="pr-mur-tete">
+        <h2 id="pr-mur-t" class="pr-h2 font-display">{site.wording.producteurs}</h2>
+        {p?.intro && <p class="pr-intro">{p.intro}</p>}
+        <p class="pr-muted">{tous.length}&nbsp;producteurs{loin ? `, le plus loin à ${loin.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} km du magasin` : ''}. <a href="/producteurs" class="pr-lien">Du plus proche au plus loin</a></p>
+      </div>
+      <ul class="pr-grille">
+        {tous.map((x, i) => (
+          <li class="pr-carte">
+            {x.photo && <Img src={x.photo.src} alt={x.photo.alt} class="pr-photo" sizes="(min-width: 64rem) 22vw, 50vw" priority={i < 2} />}
+            <div class="pr-carte-texte">
+              <h3 class="pr-nom font-display"><a href={lien(x.slug)} class="pr-nom-lien">{x.nom}</a></h3>
+              {x.qui && <p class="pr-qui">{x.qui}</p>}
+              <p class="pr-ou tabular-nums">{x.commune}{x.km ? `, ${distanceDuProducteur(x.km)}` : ''}</p>
+              {x.produits.length > 0 && <p class="pr-apporte">{x.produits.join(', ')}</p>}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {sections.map(({ Component, type }, i) => (
+    <>
+      {divider !== 'none' && type !== 'cta' && <Divider index={i} />}
+      <Component />
+    </>
+  ))}
+
+  <section id="contact" class="pr-venir" aria-labelledby="pr-venir-t">
+    <div class="pr-venir-in">
+      <div class="pr-col">
+        <h2 id="pr-venir-t" class="pr-h2 font-display">Venir au magasin</h2>
+        <p class="pr-adresse">{fullAddress()}</p>
+        <p><a href={tel()} class="pr-tel tabular-nums"><Icon name="Phone" size={21} />{site.contact.phoneDisplay}</a></p>
+      </div>
+      <Horaires class="pr-semaine tabular-nums" />
+    </div>
+  </section>
+</main>
+<Footer />
+
+<style>
+  .pr-page { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .pr-colonne { background: var(--color-bg-2); border-block-end: 1px solid var(--color-line); }
+  .pr-colonne-in { display: grid; gap: 0.9rem; align-content: start; padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1.25rem, 4vw, 2.5rem); }
+  .pr-h1 { font-size: clamp(2.1rem, 8vw, 3.4rem); line-height: 1; letter-spacing: -0.02em; text-wrap: balance; max-inline-size: 14ch; }
+  .pr-metier { font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-inline-size: 36ch; }
+  .pr-tel { display: inline-flex; align-items: center; gap: 0.55rem; min-block-size: 52px; font-size: clamp(1.3rem, 2.2vw, 1.6rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .pr-lien { display: inline-flex; align-items: center; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pr-tel:focus-visible, .pr-lien:focus-visible, .pr-nom-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .pr-horaires { font-size: 0.95rem; }
+  .pr-adresse { font-weight: 600; }
+  .pr-muted { color: var(--color-muted); }
+  /* « Qui fait quoi » : l'index du magasin, rayon par rayon, comme l'accueil du Comboire rangé par produit. */
+  .pr-index { display: grid; gap: 0.5rem; padding-block-start: 1rem; border-block-start: 1px solid var(--color-line); }
+  .pr-index-t { font-size: clamp(1.3rem, 2.4vw, 1.6rem); line-height: 1.05; }
+  .pr-rayons { display: grid; gap: 0.35rem; }
+  .pr-rayon { display: grid; gap: 0; }
+  .pr-rayon-nom { font-weight: 700; color: var(--color-muted); font-size: 0.92rem; padding-block-start: 0.35rem; }
+  .pr-rayon-liste { display: flex; flex-wrap: wrap; column-gap: 1rem; }
+  /* Le mur : les producteurs en grille, la photo d'abord, la ferme et la distance en mots. */
+  .pr-mur { display: grid; gap: clamp(1.25rem, 3vh, 2rem); padding: clamp(2rem, 6vh, 4rem) clamp(1.25rem, 4vw, 2.5rem); }
+  .pr-mur-tete { display: grid; gap: 0.5rem; max-inline-size: 48rem; }
+  .pr-h2 { font-size: clamp(1.8rem, 4.6vw, 3rem); line-height: 1.02; letter-spacing: -0.01em; }
+  .pr-intro { font-size: clamp(1.05rem, 1.6vw, 1.2rem); max-inline-size: 52ch; }
+  .pr-grille { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(0.75rem, 2vw, 1.5rem); }
+  .pr-carte { display: grid; align-content: start; gap: 0.6rem; min-inline-size: 0; }
+  .pr-photo { inline-size: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-card); }
+  .pr-carte-texte { display: grid; gap: 0.15rem; }
+  .pr-nom { font-size: clamp(1.1rem, 1.8vw, 1.35rem); line-height: 1.1; }
+  .pr-nom-lien { display: inline-flex; min-block-size: 44px; align-items: center; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; overflow-wrap: anywhere; }
+  .pr-qui { font-weight: 600; }
+  .pr-ou { color: var(--color-muted); }
+  .pr-apporte { font-size: 0.95rem; }
+  .pr-venir { padding: clamp(2rem, 6vh, 4rem) clamp(1.25rem, 4vw, 2.5rem); background: var(--color-bg-2); border-block-start: 1px solid var(--color-line); }
+  .pr-venir :global(.horaires-jour) { opacity: 1; }
+  .pr-venir-in { display: grid; gap: 2rem; max-inline-size: 60rem; }
+  .pr-col { display: grid; gap: 0.75rem; align-content: start; }
+  @media (min-width: 48rem) {
+    .pr-venir-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3rem; }
+  }
+  /* À l'ordinateur : la colonne du magasin collée à gauche, sous la barre (72 px), tout le reste défile à côté. */
+  @media (min-width: 64rem) {
+    .pr-page { grid-template-columns: minmax(19rem, 30%) minmax(0, 1fr); }
+    .pr-page > :global(*) { grid-column: 2; min-inline-size: 0; }
+    .pr-page > .pr-colonne { grid-column: 1; grid-row: 1 / span 40; position: sticky; inset-block-start: 72px; align-self: start; block-size: calc(100vh - 72px); overflow-y: auto; border-block-end: 0; border-inline-end: 1px solid var(--color-line); }
+    .pr-colonne-in { padding: clamp(1.5rem, 4vh, 2.75rem) clamp(1.5rem, 2.5vw, 2.5rem); }
+    .pr-mur, .pr-venir { padding-inline: clamp(1.5rem, 3vw, 3.5rem); }
+    .pr-grille { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (min-width: 90rem) {
+    .pr-grille { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+</style>

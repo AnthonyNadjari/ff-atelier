@@ -1,0 +1,823 @@
+{
+ "date": "2026-10-31",
+ "seuil": 0.65,
+ "seuilLinearite": 0.65,
+ "garder": 5,
+ "lignes": [
+  {
+   "url": "https://www.dezeen.com",
+   "cle": "dezeen.com",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.37",
+   "nouveaute": 0.372,
+   "linearite": 0.38,
+   "formes": "collant, piste, pile, collant, piste, collant…",
+   "proche": {
+    "nom": "demo-coiffure",
+    "axe": "deroule",
+    "valeur": 0.628,
+    "pareil": "déroulé : même ordre : héros, réalisations, bandeau d'appel, pied de page ; même navigation : menu vers des pages ; 27 et 4 pages de contenu"
+   }
+  },
+  {
+   "url": "https://37signals.com",
+   "cle": "37signals.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.527,
+   "linearite": 1,
+   "formes": "décalé, décalé, décalé, décalé, décalé, décalé…",
+   "proche": {
+    "nom": "fromagerie-ravanel-d",
+    "axe": "deroule",
+    "valeur": 0.473,
+    "pareil": "déroulé : même navigation : menu vers des pages ; 6 et 5 pages de contenu"
+   }
+  },
+  {
+   "url": "https://craigmod.com",
+   "cle": "craigmod.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.90 > 0.65)",
+   "nouveaute": 0.356,
+   "linearite": 0.9,
+   "formes": "pile, pile, grille, colonnes, grille, colonnes…",
+   "proche": {
+    "nom": "encre-noire",
+    "axe": "disposition",
+    "valeur": 0.644,
+    "pareil": "disposition : les deux empilent (90 % et 93 % de la hauteur en bandes) ; même suite au téléphone : colonnes, pile, pile, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://www.hey.com",
+   "cle": "hey.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.95 > 0.65)",
+   "nouveaute": 0.302,
+   "linearite": 0.95,
+   "formes": "pile, pile, grille, pile, pile, pile…",
+   "proche": {
+    "nom": "dubois-plomberie",
+    "axe": "d",
+    "valeur": 0.698,
+    "pareil": "premier écran (ordinateur) : h1 au milieu hors de l'image, carte posée, 74 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.theverge.com",
+   "cle": "theverge.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de demo-informatique (0.75, déroulé)",
+   "nouveaute": 0.248,
+   "linearite": 0.5,
+   "formes": "piste, grille, grille, grille, grille, grille…",
+   "proche": {
+    "nom": "demo-informatique",
+    "axe": "deroule",
+    "valeur": 0.752,
+    "pareil": "déroulé : même ordre : héros, outil, pied de page ; même navigation : onglets ; 70 et 12 pages de contenu"
+   }
+  },
+  {
+   "url": "https://www.frieze.com",
+   "cle": "frieze.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 403",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://www.awwwards.com",
+   "cle": "awwwards.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 502",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://www.designboom.com",
+   "cle": "designboom.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de jardins-mael (0.65, déroulé)",
+   "nouveaute": 0.346,
+   "linearite": 0.33,
+   "formes": "piste, piste, pile, décalé, colonnes, grille…",
+   "proche": {
+    "nom": "jardins-mael",
+    "axe": "deroule",
+    "valeur": 0.654,
+    "pareil": "déroulé : même ordre : héros, réalisations, autre, bandeau d'appel, pied de page ; même navigation : menu vers des pages ; 22 et 5 pages de contenu ; même longueur (13,5 et 12 écrans)"
+   }
+  },
+  {
+   "url": "https://www.cosstores.com",
+   "cle": "cosstores.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 403",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://driessenarchitectuur.nl/",
+   "cle": "driessenarchitectuur.nl",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.50",
+   "nouveaute": 0.503,
+   "linearite": 0,
+   "formes": "piste",
+   "proche": {
+    "nom": "prospect-epi-dor-c",
+    "axe": "deroule",
+    "valeur": 0.497,
+    "pareil": "déroulé : même navigation : défilement horizontal ; 7 et 5 pages de contenu"
+   }
+  },
+  {
+   "url": "https://agronomywork.shop/",
+   "cle": "agronomywork.shop",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.49",
+   "nouveaute": 0.487,
+   "linearite": 0.08,
+   "formes": "collant, pile, pile",
+   "proche": {
+    "nom": "https://www.dezeen.com",
+    "axe": "disposition",
+    "valeur": 0.513,
+    "pareil": "disposition : rien de saillant"
+   }
+  },
+  {
+   "url": "https://blankinside.co.uk",
+   "cle": "blankinside.co.uk",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.42",
+   "nouveaute": 0.416,
+   "linearite": 0.47,
+   "formes": "pile, grille, piste, colonnes, colonnes, pile…",
+   "proche": {
+    "nom": "prospect-ballay-macon",
+    "axe": "deroule",
+    "valeur": 0.584,
+    "pareil": "déroulé : même ordre : héros, réalisations, pied de page ; même navigation : nuancier ; 42 et 6 pages de contenu"
+   }
+  },
+  {
+   "url": "https://convicts.nyc/",
+   "cle": "convicts.nyc",
+   "verdict": "garder",
+   "pourquoi": "nouveauté 0.36",
+   "nouveaute": 0.356,
+   "linearite": 0.62,
+   "formes": "collant, pile, pile, collant, chevauchement",
+   "proche": {
+    "nom": "osteo-marchand",
+    "axe": "disposition",
+    "valeur": 0.644,
+    "pareil": "disposition : les deux empilent (62 % et 100 % de la hauteur en bandes) ; même suite au téléphone : pile, pile, pile, pile, pile, pile"
+   }
+  },
+  {
+   "url": "https://arkitektkontoretvest.no/",
+   "cle": "arkitektkontoretvest.no",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.482,
+   "linearite": 1,
+   "formes": "décalé",
+   "proche": {
+    "nom": "borie-des-chenes",
+    "axe": "disposition",
+    "valeur": 0.518,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes)"
+   }
+  },
+  {
+   "url": "https://www.theprintloft.art/",
+   "cle": "theprintloft.art",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.72 > 0.65)",
+   "nouveaute": 0.472,
+   "linearite": 0.72,
+   "formes": "plein cadre, piste, piste, pile, piste, colonnes…",
+   "proche": {
+    "nom": "prospect-ballay-macon",
+    "axe": "m",
+    "valeur": 0.528,
+    "pareil": "premier écran (téléphone) : 63 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.lockerland.com.au/",
+   "cle": "lockerland.com.au",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.467,
+   "linearite": 1,
+   "formes": "chevauchement, pile, chevauchement, pile, colonnes, chevauchement…",
+   "proche": {
+    "nom": "fromagerie-ravanel-c",
+    "axe": "deroule",
+    "valeur": 0.533,
+    "pareil": "déroulé : même navigation à ancres ; même longueur (8 et 7,1 écrans)"
+   }
+  },
+  {
+   "url": "https://greymac.com/",
+   "cle": "greymac.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.442,
+   "linearite": 1,
+   "formes": "plein cadre",
+   "proche": {
+    "nom": "demo-coiffure",
+    "axe": "deroule",
+    "valeur": 0.558,
+    "pareil": "déroulé : même navigation : menu vers des pages ; 10 et 4 pages de contenu ; même longueur (9,2 et 9 écrans)"
+   }
+  },
+  {
+   "url": "https://www.anneboysen.dk/",
+   "cle": "anneboysen.dk",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.94 > 0.65)",
+   "nouveaute": 0.437,
+   "linearite": 0.94,
+   "formes": "piste, colonnes",
+   "proche": {
+    "nom": "fromagerie-ravanel-c",
+    "axe": "deroule",
+    "valeur": 0.563,
+    "pareil": "déroulé : même navigation à ancres"
+   }
+  },
+  {
+   "url": "https://www.sandstudio.shop/",
+   "cle": "sandstudio.shop",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.77 > 0.65)",
+   "nouveaute": 0.436,
+   "linearite": 0.77,
+   "formes": "chevauchement, chevauchement, collant, pile",
+   "proche": {
+    "nom": "fromagerie-ravanel",
+    "axe": "deroule",
+    "valeur": 0.564,
+    "pareil": "déroulé : même navigation à ancres ; même longueur (5,3 et 6,6 écrans)"
+   }
+  },
+  {
+   "url": "https://zperinatal.com",
+   "cle": "zperinatal.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.42,
+   "linearite": 1,
+   "formes": "pile, pile",
+   "proche": {
+    "nom": "prospect-epi-dor-d",
+    "axe": "disposition",
+    "valeur": 0.58,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes) ; même suite à l'ordinateur : pile, pile"
+   }
+  },
+  {
+   "url": "https://www.portorocha.com/",
+   "cle": "portorocha.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.412,
+   "linearite": 1,
+   "formes": "pile, pile",
+   "proche": {
+    "nom": "osteo-marchand",
+    "axe": "disposition",
+    "valeur": 0.588,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes)"
+   }
+  },
+  {
+   "url": "https://grndwrk.studio/",
+   "cle": "grndwrk.studio",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.403,
+   "linearite": 1,
+   "formes": "pile",
+   "proche": {
+    "nom": "jardins-mael",
+    "axe": "m",
+    "valeur": 0.597,
+    "pareil": "premier écran (téléphone) : 68 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.molo.com/",
+   "cle": "molo.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.70 > 0.65)",
+   "nouveaute": 0.396,
+   "linearite": 0.7,
+   "formes": "piste, décalé, piste, pile, piste, grille…",
+   "proche": {
+    "nom": "prospect-ballay-macon",
+    "axe": "m",
+    "valeur": 0.604,
+    "pareil": "premier écran (téléphone) : 69 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://corsapizza.dk/",
+   "cle": "corsapizza.dk",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.361,
+   "linearite": 1,
+   "formes": "pile, pile",
+   "proche": {
+    "nom": "anna-vidal",
+    "axe": "deroule",
+    "valeur": 0.639,
+    "pareil": "déroulé : même navigation : menu vers des pages ; 24 et 4 pages de contenu"
+   }
+  },
+  {
+   "url": "https://belledonne.com/en",
+   "cle": "belledonne.com/en",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.82 > 0.65)",
+   "nouveaute": 0.338,
+   "linearite": 0.82,
+   "formes": "pile, piste, pile, piste, pile, pile",
+   "proche": {
+    "nom": "anna-vidal",
+    "axe": "deroule",
+    "valeur": 0.662,
+    "pareil": "déroulé : même ordre : héros, autre, pied de page ; même navigation : menu vers des pages ; 43 et 4 pages de contenu"
+   }
+  },
+  {
+   "url": "https://www.esrbespoke.au/",
+   "cle": "esrbespoke.au",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.93 > 0.65)",
+   "nouveaute": 0.31,
+   "linearite": 0.93,
+   "formes": "pile, plein cadre, pile, pile, pile, pile…",
+   "proche": {
+    "nom": "osteo-marchand",
+    "axe": "disposition",
+    "valeur": 0.69,
+    "pareil": "disposition : les deux empilent (93 % et 100 % de la hauteur en bandes)"
+   }
+  },
+  {
+   "url": "https://kommakomma.is/",
+   "cle": "kommakomma.is",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.69 > 0.65)",
+   "nouveaute": 0.306,
+   "linearite": 0.69,
+   "formes": "pile, pile, pile, décalé, grille, chevauchement",
+   "proche": {
+    "nom": "demo-boulangerie",
+    "axe": "deroule",
+    "valeur": 0.694,
+    "pareil": "déroulé : même ordre : héros, services, bandeau d'appel, pied de page ; même navigation : menu vers des pages et ancres ; 4 et 5 pages de contenu ; même longueur (6,8 et 7,8 écrans)"
+   }
+  },
+  {
+   "url": "https://www.allta.ie/",
+   "cle": "allta.ie",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de maison-aurore (0.70, disposition)",
+   "nouveaute": 0.304,
+   "linearite": 0.32,
+   "formes": "pile, collant, pile, collant, pile",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "disposition",
+    "valeur": 0.696,
+    "pareil": "disposition : rien de saillant"
+   }
+  },
+  {
+   "url": "https://denmu.com/",
+   "cle": "denmu.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.90 > 0.65)",
+   "nouveaute": 0.303,
+   "linearite": 0.9,
+   "formes": "collant, pile, décalé, décalé, décalé, décalé…",
+   "proche": {
+    "nom": "osteo-marchand",
+    "axe": "disposition",
+    "valeur": 0.697,
+    "pareil": "disposition : les deux empilent (90 % et 100 % de la hauteur en bandes)"
+   }
+  },
+  {
+   "url": "https://108.supply",
+   "cle": "108.supply",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de demo-osteopathe (0.71, premier écran (téléphone))",
+   "nouveaute": 0.293,
+   "linearite": 0.55,
+   "formes": "décalé, grille",
+   "proche": {
+    "nom": "demo-osteopathe",
+    "axe": "m",
+    "valeur": 0.707,
+    "pareil": "premier écran (téléphone) : h1 en haut hors de l'image, 75 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://houseofyellow.nl/",
+   "cle": "houseofyellow.nl",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de anna-vidal (0.71, déroulé)",
+   "nouveaute": 0.288,
+   "linearite": 0.24,
+   "formes": "collant",
+   "proche": {
+    "nom": "anna-vidal",
+    "axe": "deroule",
+    "valeur": 0.712,
+    "pareil": "déroulé : même navigation : menu vers des pages ; 5 et 4 pages de contenu"
+   }
+  },
+  {
+   "url": "https://andmade.jp/",
+   "cle": "andmade.jp",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.284,
+   "linearite": 1,
+   "formes": "décalé",
+   "proche": {
+    "nom": "borie-des-chenes",
+    "axe": "disposition",
+    "valeur": 0.716,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes)"
+   }
+  },
+  {
+   "url": "https://www.collabcapitolium.fr",
+   "cle": "collabcapitolium.fr",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de maison-aurore (0.72, premier écran (ordinateur))",
+   "nouveaute": 0.282,
+   "linearite": 0.05,
+   "formes": "collant, plein cadre, piste, collant, collant, collant…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.718,
+    "pareil": "premier écran (ordinateur) : image sur plus de la moitié de l'écran, 85 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://drasa.uk/",
+   "cle": "drasa.uk",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.80 > 0.65)",
+   "nouveaute": 0.272,
+   "linearite": 0.8,
+   "formes": "collant, colonnes, colonnes, pile, pile, pile…",
+   "proche": {
+    "nom": "demo-coiffure",
+    "axe": "deroule",
+    "valeur": 0.728,
+    "pareil": "déroulé : même ordre : héros, à propos, réalisations, bandeau d'appel, pied de page ; même navigation : menu vers des pages ; 6 et 4 pages de contenu ; même longueur (10 et 9 écrans)"
+   }
+  },
+  {
+   "url": "https://www.superlocaldesign.com/",
+   "cle": "superlocaldesign.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de maison-aurore (0.73, premier écran (ordinateur))",
+   "nouveaute": 0.268,
+   "linearite": 0.17,
+   "formes": "collant, colonnes, collant, piste, grille",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.732,
+    "pareil": "premier écran (ordinateur) : image sur plus de la moitié de l'écran, 88 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://thereach.travel/",
+   "cle": "thereach.travel",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.67 > 0.65)",
+   "nouveaute": 0.246,
+   "linearite": 0.67,
+   "formes": "piste, pile, pile, pile, pile, pile…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.754,
+    "pareil": "premier écran (ordinateur) : image sur plus de la moitié de l'écran, 91 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.arcprojects.build/",
+   "cle": "arcprojects.build",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.88 > 0.65)",
+   "nouveaute": 0.236,
+   "linearite": 0.88,
+   "formes": "collant, décalé, colonnes, pile, décalé, colonnes…",
+   "proche": {
+    "nom": "toits-cie",
+    "axe": "disposition",
+    "valeur": 0.764,
+    "pareil": "disposition : les deux empilent (88 % et 87 % de la hauteur en bandes) ; même suite au téléphone : collant, pile, décalé, pile, pile, pile…"
+   }
+  },
+  {
+   "url": "https://estacionvenenta.com",
+   "cle": "estacionvenenta.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de maison-aurore (0.77, premier écran (ordinateur))",
+   "nouveaute": 0.229,
+   "linearite": 0.5,
+   "formes": "grille",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.771,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image, image sur plus de la moitié de l'écran, 84 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://longbowmotors.com/",
+   "cle": "longbowmotors.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.22,
+   "linearite": 1,
+   "formes": "plein cadre, colonnes, pile, pile, pile, plein cadre…",
+   "proche": {
+    "nom": "lemaire-avocats",
+    "axe": "d",
+    "valeur": 0.78,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image en haut, image sur plus de la moitié de l'écran, 77 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://kosbiotic.com/",
+   "cle": "kosbiotic.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.216,
+   "linearite": 1,
+   "formes": "pile, plein cadre, décalé, plein cadre",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.784,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image, image sur plus de la moitié de l'écran, 91 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://oddritualgolf.com/",
+   "cle": "oddritualgolf.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.216,
+   "linearite": 1,
+   "formes": "plein cadre, décalé, pile, pile, pile, plein cadre…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.784,
+    "pareil": "premier écran (ordinateur) : image sur plus de la moitié de l'écran, 95 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.annajona.is/",
+   "cle": "annajona.is",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.90 > 0.65)",
+   "nouveaute": 0.204,
+   "linearite": 0.9,
+   "formes": "plein cadre, chevauchement, plein cadre, chevauchement, plein cadre, pile…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.796,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image, image sur plus de la moitié de l'écran, 88 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://menkind.co/",
+   "cle": "menkind.co",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.69 > 0.65)",
+   "nouveaute": 0.199,
+   "linearite": 0.69,
+   "formes": "pile, pile, pile, pile, pile, pile…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.801,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 80 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.instituteofhealth.com/",
+   "cle": "instituteofhealth.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de maison-aurore (0.80, premier écran (ordinateur))",
+   "nouveaute": 0.197,
+   "linearite": 0,
+   "formes": "collant, piste",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.803,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image, image sur plus de la moitié de l'écran, 89 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.duftundkultur.com/en-de/",
+   "cle": "duftundkultur.com/en-de",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de maison-aurore (0.83, premier écran (ordinateur))",
+   "nouveaute": 0.171,
+   "linearite": 0.28,
+   "formes": "plein cadre, grille, grille, piste, grille, piste…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.829,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image, image sur plus de la moitié de l'écran, 93 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://ceciliebahnsen.com/",
+   "cle": "ceciliebahnsen.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.167,
+   "linearite": 1,
+   "formes": "plein cadre, pile, pile, pile, pile, pile",
+   "proche": {
+    "nom": "osteo-marchand",
+    "axe": "disposition",
+    "valeur": 0.833,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes) ; même suite à l'ordinateur : plein cadre, pile, pile, pile, pile, pile"
+   }
+  },
+  {
+   "url": "https://montecafe.com.au/",
+   "cle": "montecafe.com.au",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de maison-aurore (0.84, premier écran (ordinateur))",
+   "nouveaute": 0.159,
+   "linearite": 0.65,
+   "formes": "plein cadre, pile, décalé, piste, grille, colonnes…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.841,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 90 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://hx.clinic/en/",
+   "cle": "hx.clinic/en",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de forge-delacroix (0.85, premier écran (téléphone))",
+   "nouveaute": 0.151,
+   "linearite": 0.27,
+   "formes": "plein cadre, collant, piste, collant, décalé, collant…",
+   "proche": {
+    "nom": "forge-delacroix",
+    "axe": "m",
+    "valeur": 0.849,
+    "pareil": "premier écran (téléphone) : h1 sur l'image en bas, image sur plus de la moitié de l'écran, 87 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://eternalblue.co.nz/",
+   "cle": "eternalblue.co.nz",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.68 > 0.65)",
+   "nouveaute": 0.133,
+   "linearite": 0.68,
+   "formes": "plein cadre, décalé, piste, décalé, plein cadre, collant…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.867,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 90 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://wattspet.com/",
+   "cle": "wattspet.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.88 > 0.65)",
+   "nouveaute": 0.129,
+   "linearite": 0.88,
+   "formes": "plein cadre, décalé, pile, grille, chevauchement, pile…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.871,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 90 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.eirdis.com/",
+   "cle": "eirdis.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.79 > 0.65)",
+   "nouveaute": 0.111,
+   "linearite": 0.79,
+   "formes": "collant, décalé, pile, pile, pile, pile…",
+   "proche": {
+    "nom": "chez-malo",
+    "axe": "d",
+    "valeur": 0.889,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 93 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://wearebou.com/",
+   "cle": "wearebou.com",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (0.87 > 0.65)",
+   "nouveaute": 0.111,
+   "linearite": 0.87,
+   "formes": "plein cadre, pile, grille, pile, pile, décalé…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.889,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 93 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://www.gardinex.com/",
+   "cle": "gardinex.com",
+   "verdict": "refuser",
+   "pourquoi": "trop proche de maison-aurore (0.90, premier écran (ordinateur))",
+   "nouveaute": 0.096,
+   "linearite": 0.62,
+   "formes": "plein cadre, pile, pile, piste, pile, piste…",
+   "proche": {
+    "nom": "maison-aurore",
+    "axe": "d",
+    "valeur": 0.904,
+    "pareil": "premier écran (ordinateur) : h1 sur l'image au milieu, image sur plus de la moitié de l'écran, 95 % de la grille au même rôle"
+   }
+  },
+  {
+   "url": "https://ogon.es/",
+   "cle": "ogon.es",
+   "verdict": "refuser",
+   "pourquoi": "linéaire (1.00 > 0.65)",
+   "nouveaute": 0.058,
+   "linearite": 1,
+   "formes": "pile, pile, pile, pile, pile, pile",
+   "proche": {
+    "nom": "osteo-marchand",
+    "axe": "disposition",
+    "valeur": 0.942,
+    "pareil": "disposition : les deux empilent (100 % et 100 % de la hauteur en bandes) ; même suite à l'ordinateur : pile, pile, pile, pile, pile, pile"
+   }
+  },
+  {
+   "url": "http://nudot.com.tw/",
+   "cle": "nudot.com.tw",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 405",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  },
+  {
+   "url": "https://www.icebug.com/",
+   "cle": "icebug.com",
+   "verdict": "refuser",
+   "pourquoi": "refusé : réponse HTTP 429",
+   "nouveaute": null,
+   "linearite": null,
+   "formes": null,
+   "proche": null
+  }
+ ]
+}

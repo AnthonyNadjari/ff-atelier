@@ -1,0 +1,116 @@
+---
+/**
+ * Page d'un trajet (/trajets/<slug>, site.departs, src/lib/departs.ts) : architecture `tableau-departs` (une page trajet de
+ * Taxi Annecy : le déroulé de la course, l'heure à laquelle partir, le « Repère » distance, durée, itinéraire, à fournir,
+ * les autres trajets ; docs/veille/architectures/tableau-departs.md). La destination, le repère, les prix de jour et de nuit
+ * s'ils sont publiés, l'heure de prise en charge (calculée dans le navigateur, la règle en mots sans script), ce que le client
+ * en dit, la photo, l'appel, les autres trajets. Une page par trajet complet.
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, trajetsComplets, dureeDuTrajet, autresTrajets, lienTrajets } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+
+export function getStaticPaths() {
+  return trajetsComplets(site.departs?.trajets).map((t) => ({ params: { slug: t.slug }, props: { t } }));
+}
+const { t } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const d = site.departs!;
+const page = lienTrajets(d.trajets, site.wording.trajets);
+const autres = autresTrajets(d.trajets, t.slug);
+const heure = d.marge !== undefined && t.avance !== undefined;
+const repere = [
+  ['Distance', t.km ? `Environ ${t.km.toLocaleString('fr-FR')} km` : ''],
+  ['Durée', `Environ ${dureeDuTrajet(t.minutes)} sans trafic`],
+  ['Itinéraire', t.itineraire ?? ''],
+  ['À fournir', t.aFournir ?? ''],
+].filter(([, v]) => v);
+---
+
+<Base title={`${t.destination} depuis ${d.depuis} | ${site.business.name}`} description={`${site.business.trade} de ${d.depuis} à ${t.destination} : ${dureeDuTrajet(t.minutes)} de route${t.prix ? `, ${t.prix}` : ''}.`} path={`/trajets/${t.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff tp">
+    <p><a href={page ? '/trajets' : '/#departs'} class="tp-lien"><Icon name="ArrowLeft" size={16} />{site.wording.trajets}</a></p>
+    <header class="tp-tete">
+      <p class="tp-type">{t.type ?? 'Trajet'} au départ de {d.depuis}</p>
+      <h1 class="tp-titre font-display">{t.destination}</h1>
+      {t.precision && <p class="tp-precision">{t.precision}</p>}
+    </header>
+    <dl class="tp-repere">
+      {repere.map(([k, v]) => <div class="tp-repere-l"><dt>{k}</dt><dd class="tabular-nums">{v}</dd></div>)}
+      <div class="tp-repere-l"><dt>Prix</dt><dd class="tabular-nums">{t.prix ?? 'Sur devis, avant le départ'}{t.prixNuit ? `, ${t.prixNuit} la nuit, le dimanche et les jours fériés` : ''}</dd></div>
+    </dl>
+    {heure && (
+      <section class="tp-heure" aria-labelledby="tp-heure-t" data-tp-heure={JSON.stringify({ minutes: t.minutes, avance: t.avance, marge: d.marge })}>
+        <h2 id="tp-heure-t" class="tp-h2 font-display">À quelle heure partir&nbsp;?</h2>
+        <p>Sur place {t.avance}&nbsp;min avant le départ, {dureeDuTrajet(t.minutes)} de route et {d.marge}&nbsp;min de marge.</p>
+        <label class="tp-champ" hidden data-tp-champ>Heure du vol ou du train <input type="time" value="07:00" step="300" class="tp-input tabular-nums" /></label>
+        <p class="tp-reponse" aria-live="polite" data-tp-reponse></p>
+      </section>
+    )}
+    {t.photo && <Img src={t.photo.src} alt={t.photo.alt} class="tp-photo" sizes="(min-width: 64rem) 60rem, 100vw" priority />}
+    {t.texte && <p class="tp-texte">{t.texte}</p>}
+    {d.avertissement && <p class="tp-muted">{d.avertissement}</p>}
+    <p><a href={tel()} class="tp-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a></p>
+    {autres.length > 0 && (
+      <nav aria-labelledby="tp-autres">
+        <h2 id="tp-autres" class="tp-h2 font-display">Autres trajets depuis {d.depuis}</h2>
+        <ul class="tp-autres">{autres.map((x) => <li><a href={`/trajets/${x.slug}`} class="tp-lien">{x.destination}</a><span class="tp-muted tabular-nums">, {dureeDuTrajet(x.minutes)}</span></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  import { priseEnCharge } from '@/lib/departs';
+  onPage(() => {
+    const s = document.querySelector<HTMLElement>('[data-tp-heure]');
+    if (!s?.dataset.tpHeure) return;
+    const cfg = JSON.parse(s.dataset.tpHeure) as { minutes: number; avance: number; marge: number };
+    const champ = s.querySelector<HTMLElement>('[data-tp-champ]');
+    const input = s.querySelector<HTMLInputElement>('input');
+    const sortie = s.querySelector<HTMLElement>('[data-tp-reponse]');
+    if (!champ || !input || !sortie) return;
+    const calculer = () => {
+      const r = priseEnCharge(input.value, cfg, cfg.marge);
+      sortie.textContent = r ? `Prise en charge vers ${r.heure.replace(':', ' h ')}${r.veille ? ' la veille' : ''}.` : '';
+    };
+    champ.hidden = false;
+    input.addEventListener('input', calculer);
+    calculer();
+  });
+</script>
+
+<style>
+  .tp { display: grid; gap: clamp(1.25rem, 4vh, 2.25rem); padding-block: clamp(1.25rem, 4vh, 3rem); max-inline-size: 60rem; }
+  .tp-tete { display: grid; gap: 0.4rem; }
+  .tp-type { font-weight: 700; color: var(--color-muted); }
+  .tp-titre { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.98; letter-spacing: -0.02em; }
+  .tp-precision { font-size: clamp(1.15rem, 2.2vw, 1.45rem); font-weight: 600; }
+  .tp-repere { display: grid; border-block-start: 2px solid var(--color-fg); }
+  .tp-repere-l { display: grid; gap: 0.1rem; padding-block: 0.7rem; border-block-end: 1px solid var(--color-line); }
+  .tp-repere dt { font-weight: 700; color: var(--color-muted); }
+  .tp-repere dd { font-size: 1.1rem; font-weight: 600; }
+  .tp-heure { display: grid; gap: 0.6rem; padding: clamp(1rem, 3vw, 1.5rem); background: var(--color-bg-2); border: 1px solid var(--color-line); border-radius: var(--radius-card); }
+  .tp-champ { display: grid; gap: 0.35rem; font-weight: 600; max-inline-size: 18rem; }
+  .tp-champ[hidden] { display: none; }
+  .tp-input { min-block-size: 48px; padding-inline: 0.75rem; background: var(--color-surface); color: var(--color-fg); border: 1px solid var(--color-line); border-radius: var(--radius-ui, 6px); font: inherit; }
+  .tp-input:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .tp-reponse { font-size: clamp(1.25rem, 2.6vw, 1.6rem); font-weight: 700; }
+  .tp-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); }
+  .tp-texte { max-inline-size: 62ch; font-size: 1.1rem; }
+  .tp-muted { color: var(--color-muted); }
+  .tp-h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); line-height: 1.08; }
+  .tp-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 52px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; font-size: 1.2rem; }
+  .tp-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tp-tel:focus-visible, .tp-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .tp-autres { display: grid; }
+  @media (min-width: 48rem) {
+    .tp-repere-l { grid-template-columns: 10rem minmax(0, 1fr); column-gap: 1.5rem; align-items: baseline; }
+  }
+</style>

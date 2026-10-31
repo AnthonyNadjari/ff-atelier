@@ -225,6 +225,14 @@ Tous ces sous-commandes passent par `scripts/ff.mjs` (voir son en-tête : `Etend
   `/matieres` en tableau comparé, `/matieres/<slug>` ; pas de bloc services ni questions sur ces deux accueils ; aucune donnée =
   aucune page ; `ff ressemblance` les voit comme « calendrier annuel » et « nuancier » (`src/lib/recoltes.ts`,
   `src/lib/matieres.ts`, `tests/architectures-recoltes.test.mjs`).
+  `producteurs` (optionnel, architecture `mur-producteurs`, coquille `producteurs`) → à l'ordinateur la colonne du magasin collée à
+  gauche (h1, téléphone, horaires du jour, adresse, « Qui fait quoi » par rayon) et le mur des producteurs en grille à côté
+  (portrait, commune, « à 12 km » si donné), `/producteurs` du plus proche au plus loin, `/producteurs/<slug>` ; `departs`
+  (optionnel, architecture `tableau-departs`, coquille `departs`) → le tableau des départs d'un taxi collé à droite à l'ordinateur
+  (destination, distance, durée, prix ou « sur devis »), « À quelle heure partir ? » (prise en charge calculée dans le navigateur
+  avec l'avance et la marge du client), les avis en piste, `/trajets`, `/trajets/<slug>` ; aucune donnée = aucune page ;
+  `ff ressemblance` les voit comme « annuaire de fiches » et « tableau des départs » (`src/lib/producteurs.ts`,
+  `src/lib/departs.ts`, `tests/architectures-fermiers.test.mjs`, `tests/architectures-departs.test.mjs`).
 - `src/lib/site.ts` — `site` courant + helpers (`tel`, `mailto`, `whatsapp`, `fullAddress`,
   `yearsSince`, `paragraphs`, `navLinks`, `schemaTypeForTrade` — déduit un sous-type schema.org depuis
   `business.trade` en français, repli `LocalBusiness` ; implémenté dans `src/lib/schemaType.ts`,

@@ -1,0 +1,103 @@
+/* Direction RAYON : style réel relevé sur https://blankinside.co.uk/ (Blank Inside, petite boutique anglaise de cartes
+   illustrées ; veille du 31 oct 2026, tour 20, fiche docs/veille/styles/rayon.md, atomes docs/veille/styles/atomes/rayon.json).
+   On reprend le style et la construction (bandeau d'encre à bords pointillés, nom au centre de la tête, onglets soulignés,
+   la gamme en étagères qu'on fait glisser au doigt, chaque article dans une case grise avec son rond « + », titres de
+   rayons écrits au feutre avec une flèche dessinée, étiquettes à contour et ombre dure), jamais les textes, images, logos
+   ni le code de la source.
+   Une boutique de papier : blanc franc, une seule encre indigo pour tout le texte, des cases gris lavande où les objets du
+   client posent leurs couleurs ; aucune photo plein cadre, la couleur vient des articles.
+   Polices : Public Sans (libre, OFL, celle de la source) pour tout le texte, en trois graisses (h1 700, h2 600, texte 400) ;
+   le feutre des titres de rayons (dessiné sur la source, en image) -> Permanent Marker (OFL), titres de rayons SEULEMENT ;
+   IBM Plex Mono de la source (liste IA, GOUT § 2) écarté : les noms d'illustrateurs en capitales espacées deviennent la
+   famille du produit en petit, casse normale.
+   Couleurs relevées : fond #ffffff (96 % des fonds), encre #130071 (88 % des caractères, 16,6:1), cases #f3f1fb ; le gris
+   d'encre des légendes est un indigo éclairci (#5a5296, 6,1:1 sur les cases). Formes : pilules de la source (GOUT § 2)
+   ramenées à un angle doux de 6 px ; l'ombre dure de 2 px décalée des étiquettes et des boutons de la source est gardée. */
+@import '@fontsource-variable/public-sans';
+@import '@fontsource/permanent-marker/latin.css';
+
+[data-direction='rayon'] {
+  --accent-h: 250;
+  --accent-s: 100%;
+  --accent-l: 22%;
+  --bg: #ffffff;
+  --bg-2: #f3f2f8;
+  --surface: #f3f2f8;
+  --fg: #130071;
+  --muted: #5a5296;
+  --line: #d8d5ea;
+  --accent: #130071;
+  --accent-2: #2b1f8f;
+  --on-accent: #ffffff;
+  --ink: #130071;
+  --on-ink: #ffffff;
+  --font-display: 'Public Sans Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Public Sans Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Public Sans Variable', 'Helvetica Neue', Arial, sans-serif;
+  /* Le feutre des titres de rayons (Services/rayon), jamais ailleurs. */
+  --font-feutre: 'Permanent Marker', cursive;
+  --display-weight: 700;
+  --display-tracking: -0.01em;
+  --heading-transform: none;
+  --radius: 6px;
+  --radius-card: 6px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  /* L'ombre dure des étiquettes et des boutons de la source : 2 px en bas à droite, à l'encre. */
+  --rayon-ombre: 2px 2px 0 var(--fg);
+  --section-y: clamp(3.5rem, 7vw, 6.5rem);
+  /* Le bord de page de la source : 15 px au téléphone, 50 px à 1 440 px ; les pistes partent de ce bord. */
+  --ra-bord: clamp(1rem, 3.5vw, 3.125rem);
+  --motion-duration: 0.6s;
+  --motion-ui: 0.1s;
+  /* Courbes mesurées sur la source : arrivée des articles (animation slideIn 0,6 s cubic-bezier(0, 0, 0.3, 1)) ; couleur
+     des liens et des ronds (0,1 s cubic-bezier(0.4, 0, 0.2, 1)). */
+  --ease-brand: cubic-bezier(0, 0, 0.3, 1);
+  --ease-ui: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-direction='rayon'] body { font-size: 0.9375rem; letter-spacing: 0.005em; }
+[data-direction='rayon'] ::selection { background: var(--fg); color: var(--on-ink); }
+[data-direction='rayon'] :is(h1, h2, h3) { color: var(--fg); line-height: 1.15; letter-spacing: -0.01em; }
+[data-direction='rayon'] h1 { font-weight: 700; }
+[data-direction='rayon'] h2 { font-weight: 600; }
+[data-direction='rayon'] h3 { font-weight: 600; letter-spacing: 0; }
+[data-direction='rayon'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+/* Le feutre : les titres de rayons de Services/rayon, et rien d'autre. */
+[data-direction='rayon'] .ra-feutre { font-family: var(--font-feutre); }
+
+/* Boutons : plaque d'encre à angle doux (la pilule de la source ramenée à 6 px) ; le fantôme est une étiquette à
+   contour avec l'ombre dure. Au toucher, le bouton s'enfonce dans son ombre (0,1 s, linéaire : le régime sec). */
+[data-direction='rayon'] .btn {
+  border-radius: var(--radius);
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: background var(--motion-ui) var(--ease-ui), color var(--motion-ui) var(--ease-ui), transform var(--motion-ui) linear, box-shadow var(--motion-ui) linear;
+}
+[data-direction='rayon'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='rayon'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='rayon'] .btn-ghost { border: 1.5px solid var(--fg); background: var(--bg); color: var(--fg); box-shadow: var(--rayon-ombre); }
+[data-direction='rayon'] .btn:active { transform: translate(2px, 2px); box-shadow: none; }
+[data-direction='rayon'] .card { background: var(--surface); border: 0; border-radius: var(--radius-card); box-shadow: none; }
+[data-direction='rayon'] .rule { border-top: 1px solid var(--line); }
+[data-direction='rayon'] .eyebrow { color: var(--muted); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+
+/* L'étiquette à contour (Hero, Services, About, Contact rayon) : filet d'encre, angle doux, ombre dure, casse normale. */
+[data-direction='rayon'] .rayon-etiquette {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid var(--fg);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--fg);
+  box-shadow: var(--rayon-ombre);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition: transform var(--motion-ui) linear, box-shadow var(--motion-ui) linear, background var(--motion-ui) var(--ease-ui), color var(--motion-ui) var(--ease-ui);
+}
+[data-direction='rayon'] a.rayon-etiquette:active { transform: translate(2px, 2px); box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  [data-direction='rayon'] a.rayon-etiquette:hover { background: var(--fg); color: var(--on-ink); }
+}

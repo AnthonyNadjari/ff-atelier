@@ -54,9 +54,12 @@ export const DIRECTIONS = [
   'farine', // fournil : creme de farine, un seul brun de croute, noms des pains en capitales etroites geantes traverses par une photo en noir et blanc, double bande qui defile (boulanger, patissier ; impastofornoantico.com, 30 oct 2026)
   'pochoir', // cafe-brunch : rose coquille, terre cuite, le nom en lettres remplies de photos, mots geants pales barres d'heures ecrites a la main (cafe, brunch, salon de the ; haven-annecy.fr, 30 oct 2026)
   'buvard', // carte de cafe : papier creme, encre lie-de-vin, caslon de livre, carte en machine a ecrire, filets tremblés (cafe, salon de the, epicerie ; florawellnesscafe.com, 30 oct 2026)
+  'etabli', // fiche d atelier : blanc franc, objet en grand sur fond de pierre, grotesque nette en petit corps, prix encadre en chasse fixe, bouton bleu plein pleine largeur, fiche collee a cote de l objet, escalier des questions (coutelier, maroquinier, ceramiste ; agronomywork.shop, 31 oct 2026)
   'dune', // maison d'ile : blanc chaud, ardoise, grotesque fine, photos lavees peche et gris-bleu par paires qui se chevauchent, deux ailes nommees au bord de l'ecran (gite, chambres d'hotes ; steuermann.haus, 30 oct 2026)
   'rideau', // salle dans le noir : ecrans pleins de photo l'un apres l'autre, etiquette et titre centre qui se floute en sortant, barre de raccourcis flottante, pied clair (salle de reception, tatoueur, barbier ; holographik.space, 30 oct 2026)
   'cartouche', // papeterie d'hotel : blanc et un seul cobalt, nom geant en serif d'affiche entre deux filets, cartouches a filet poses a cheval sur le bas des photos, machine a ecrire, papier quadrille (hotel, barbier, institut ; hotel-gilbert.at, 30 oct 2026)
+  'rayon', // boutique de papier : blanc franc, une encre indigo, la gamme en etageres qu on fait glisser au doigt dans des cases gris lavande, titres de rayons au feutre avec une fleche dessinee, etiquettes a contour et ombre dure (papeterie, epicerie fine, fromager, caviste ; blankinside.co.uk, 31 oct 2026)
+  'travee', // agence d'architecture : blanc casse, noir d'encre, grotesque technique serree, la travee (sous l'en-tete, les photos du client et de chaque metier cote a cote dans une bande qu'on fait glisser au doigt), realisations posees en quinconce dans une piste, l'avis sur une plaque verte posee sur une photo, fin noire (architecte, menuisier-agenceur, charpentier, renovation, paysagiste ; driessenarchitectuur.nl, 31 oct 2026)
   // ff melanger : directions générées (src/directions/m-<hash>/), une par site ; écrites et retirées par la commande.
   'm-e7e9e8', // mélange de prospect-epi-dor-b
   'm-751d7c', // mélange de prospect-epi-dor-c
@@ -117,22 +120,24 @@ export const SHELLS = [
   'trajet', // l accueil est le territoire vu de l atelier : en tete h1, metier a la ville, telephone et « Combien de temps pour venir chez vous ? » (la commune tapee, la reponse dans le navigateur) ; puis le schema des temps de trajet (la base au centre, des cercles de 15, 30, 60 min, les communes placees seulement par la direction donnee) et le tableau des communes de la plus proche a la plus loin ; une page par commune ; /trajet (architecture rayon-trajet)
   'recoltes', // l accueil est l annee de la ferme : en tete h1, metier a la ville, telephone et « En ce moment » (le mois du visiteur choisi dans le navigateur, sans script celui du build), le repondeur de la liste du jour ; puis le calendrier des recoltes, chaque produit sur les douze mois, le mois courant marque ; une page par produit ; /calendrier mois par mois (architecture calendrier-recoltes)
   'matieres', // l accueil est le nuancier de l atelier : en tete h1, metier a la ville, telephone et « Pour quel usage ? » (chaque usage et ses matieres) ; puis le mur des matieres (la photo de la matiere en grand carre, son nom, son origine), l echelle du client (durete, densite) en barres, chaque matiere a sa valeur ; une page par matiere ; /matieres en tableau compare (architecture nuancier-matieres)
+  'producteurs', // l accueil est le mur des producteurs du magasin : a l ordinateur une colonne collee a gauche (h1, metier a la ville, telephone, horaires du jour, adresse, « Qui fait quoi » : chaque rayon et ses producteurs) a cote du mur, les producteurs en grille (portrait, commune, « a 12 km », ce qu ils apportent) ; au telephone la colonne en tete ; une page par producteur ; /producteurs du plus proche au plus loin (architecture mur-producteurs)
+  'departs', // l accueil est le tableau des departs d un taxi ou d un transporteur : en tete h1, metier a la ville, telephone ; a cote (a l ordinateur) le tableau des destinations au depart de la base (destination, distance, duree, prix s il est publie), chaque ligne vers sa page ; « A quelle heure partir ? » (l heure du vol ou du train, la prise en charge calculee dans le navigateur avec les marges du client) ; les avis en piste ; une page par trajet ; /trajets (architecture tableau-departs)
 ] as const;
 export const HEADINGS = ['auto', 'center', 'left'] as const;
 
 // Variantes disponibles par section. Ajouter une variante = ajouter un fichier
 // src/sections/<Type>/<variante>.astro ET l'entree ici.
 export const VARIANTS = {
-  nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock', 'calque', 'chapitre', 'talus'],
-  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'portrait-exclusion', 'mur-de-photos', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche'],
-  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme', 'panneaux-biais', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche'],
-  about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'cartouche'],
-  proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations', 'pinceau', 'lin', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche'],
+  nav: ['bar', 'minimal', 'split', 'floating', 'burger', 'dock', 'calque', 'chapitre', 'talus', 'etabli', 'rayon'],
+  hero: ['split', 'fullbleed', 'typographic', 'stacked', 'marquee', 'video', 'carte-sur-photo', 'mosaique', 'editorial', 'numero-geant', 'preuve-d-abord', 'plan-et-lieu', 'panneaux-biais', 'portrait-exclusion', 'mur-de-photos', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee'],
+  services: ['grid', 'list', 'alternating', 'accordion', 'cards-hover', 'bento', 'photo-cards', 'portes', 'carte-prix', 'cartes-empilees', 'liste-a-filets', 'cartes-couleur', 'saisons', 'programme', 'panneaux-biais', 'bouteille', 'lin', 'pinceau', 'calque', 'chapitre', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee'],
+  about: ['portrait', 'story', 'values', 'timeline', 'overlap', 'ecran-texte-photo', 'espaces', 'equipe-cartes', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'cartouche', 'rayon', 'travee'],
+  proof: ['google', 'testimonials', 'gallery', 'before-after', 'logos', 'marquee-quotes', 'citations', 'pinceau', 'lin', 'calque', 'chapitre', 'enduit', 'bouteille', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee'],
   zones: ['list', 'map', 'chips', 'adresses', 'tournee', 'fiches'],
   process: ['steps', 'timeline', 'numbered', 'horizon', 'baume'],
-  faq: ['accordion', 'two-columns', 'chapitre'],
+  faq: ['accordion', 'two-columns', 'chapitre', 'etabli'],
   cta: ['band', 'card', 'phone-giant', 'photo'],
-  contact: ['form-split', 'form-card', 'simple', 'full', 'ecran', 'pinceau', 'lin', 'bouteille', 'calque', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche'],
+  contact: ['form-split', 'form-card', 'simple', 'full', 'ecran', 'pinceau', 'lin', 'bouteille', 'calque', 'enduit', 'ocre', 'barbotine', 'talus', 'baume', 'farine', 'pochoir', 'dune', 'buvard', 'souffle', 'rideau', 'cartouche', 'etabli', 'rayon', 'travee'],
   footer: ['columns', 'minimal', 'big-name', 'liens', 'chapitre', 'ocre', 'barbotine', 'baume', 'bande', 'souffle'],
 } as const;
 export type SectionType = keyof typeof VARIANTS;
@@ -1412,6 +1417,66 @@ export const siteSchema = z.object({
       "Le nuancier des matières d'un artisan (architecture nuancier-matieres, docs/veille/architectures/nuancier-matieres.md, sources Menuiserie Pipault, Yonne : « Essence bois » dans la barre, dix essences avec photo, densité, dureté, durabilité et usages ; Boud'bOis : chaque essence avec sa fiche, son usage et son prix moyen) : « Pour quel usage ? » à côté du h1, le mur des matières en photos, l'échelle du client en barres ; /matieres (tableau comparé) et une page par matière (/matieres/<slug>). Absent = ni nuancier ni pages. Jamais une matière, une valeur, une caractéristique ou un prix inventés.",
     ),
 
+  producteurs: z
+    .object({
+      intro: z.string().optional().describe('Une ou deux phrases du client sur ses producteurs (« Sept fermes associées tiennent le magasin à tour de rôle. »). Absente = rien.'),
+      liste: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /producteurs/<slug> (« ferme-du-muguet »)'),
+            nom: z.string().describe('Le nom de la ferme ou de l’atelier, tel que le client le donne (« La Ferme du Muguet »)'),
+            qui: z.string().optional().describe('Les personnes, mots du client (« Céline et Stéphane »). Absentes = rien.'),
+            commune: z.string().describe('La commune de la ferme (« Romagnieu »)'),
+            km: z.number().positive().optional().describe('Distance du magasin en kilomètres, donnée par le client (« 42 »). Absente = pas de distance, jamais calculée au hasard.'),
+            rayon: z.string().optional().describe('Le rayon du magasin où l’on trouve ses produits, mots du client (« Produits laitiers », « Viande », « Légumes ») : l’index « Qui fait quoi ». Absent = hors de l’index.'),
+            produits: z.array(z.string()).default([]).describe('Ce que ce producteur apporte au magasin, mots du client (« Faisselles », « Beurre de baratte »). Vide = rien.'),
+            depuis: z.number().int().optional().describe('Année d’installation de la ferme, donnée par le client (« 2001 »). Absente = rien.'),
+            labels: z.array(z.string()).default([]).describe('Labels que le client cite (« Agriculture biologique », « HVE »). Vide = rien, jamais un label supposé.'),
+            photo: img.optional().describe('Portrait du producteur ou photo de sa ferme. Absente = carte sans photo, jamais une photo de banque présentée comme la sienne.'),
+            texte: z.string().optional().describe('Ce que le client dit de ce producteur (la ferme, les bêtes, la façon de travailler). Absent = rien.'),
+            presence: z.string().optional().describe('Quand on le rencontre au magasin, mots du client (« au comptoir le samedi matin »). Absente = rien.'),
+            site: z.string().url().optional().describe('Le site du producteur, avec son accord. Absent = pas de lien.'),
+          }),
+        )
+        .default([])
+        .describe('Les producteurs du magasin, dans l’ordre du client.'),
+    })
+    .optional()
+    .describe(
+      "Les producteurs d'un magasin de producteurs, d'une épicerie ou d'un restaurant en circuit court (architecture mur-producteurs, docs/veille/architectures/mur-producteurs.md, sources Le Comboire Paysan, Échirolles : « Les producteurs » dans la barre, l'accueil rangé par produit avec la ferme de chacun, une fiche par producteur (commune, personnes, bêtes, labels, site) ; Dose Épicerie, Nort-sur-Erdre : « Nos producteurs » et la carte des producteurs présents à la boutique) : le mur des producteurs à côté de la colonne collée du magasin, « Qui fait quoi » par rayon ; /producteurs du plus proche au plus loin et une page par producteur (/producteurs/<slug>). Absent = ni mur ni pages. Jamais un producteur, une distance, un label ou une année inventés.",
+    ),
+
+  departs: z
+    .object({
+      depuis: z.string().describe('La base des départs, mots du client (« Annecy », « la vallée de Chamonix »)'),
+      avertissement: z.string().optional().describe('La phrase du client sur les prix (« Tarifs indicatifs, seul le compteur fait foi. »). Absente = rien.'),
+      marge: z.number().int().min(0).optional().describe('La marge que le client conseille d’ajouter à la route, en minutes (« ajoutez 20 à 30 minutes » → 30). Absente = pas d’outil « À quelle heure partir ? ».'),
+      trajets: z
+        .array(
+          z.object({
+            slug: z.string().regex(/^[a-z0-9-]+$/).describe('Slug de la page /trajets/<slug> (« aeroport-geneve »)'),
+            destination: z.string().describe('La destination, mots du client (« Aéroport de Genève »)'),
+            precision: z.string().optional().describe('Où exactement, mots du client (« Genève-Cointrin, Suisse », « Part-Dieu, Saint-Exupéry »). Absente = rien.'),
+            type: z.string().optional().describe('Le genre de destination, mots du client (« Aéroports », « Gares », « Stations ») : les groupes du tableau, dans l’ordre de première apparition. Absent = « Autres trajets ».'),
+            km: z.number().positive().optional().describe('Distance en kilomètres donnée par le client (« 45 »). Absente = rien.'),
+            minutes: z.number().int().positive().describe('Durée de la route sans trafic, en minutes, donnée par le client (« 40 »)'),
+            prix: z.string().optional().describe('Le prix si le client le publie (« 120 € », « à partir de 95 € »). Absent = « sur devis », jamais deviné.'),
+            prixNuit: z.string().optional().describe('Le prix de nuit, dimanche et jours fériés si le client le publie (« 150 € »). Absent = rien.'),
+            avance: z.number().int().min(0).optional().describe('Combien de temps avant le vol ou le train il faut y être, en minutes, selon le client (« 120 » pour un vol européen). Avec departs.marge : l’outil « À quelle heure partir ? » pour ce trajet. Absente = pas d’outil pour ce trajet.'),
+            itineraire: z.string().optional().describe('La route prise, mots du client (« A41, douane de Bardonnex »). Absente = rien.'),
+            aFournir: z.string().optional().describe('Ce qu’il faut donner à la réservation (« Numéro de vol, nombre de bagages »). Absent = rien.'),
+            texte: z.string().optional().describe('Ce que le client dit de ce trajet (départ, arrivée, bagages, retour). Absent = rien.'),
+            photo: img.optional().describe('Photo du trajet ou de l’arrivée prise par le client. Absente = pas d’image.'),
+          }),
+        )
+        .default([])
+        .describe('Les trajets les plus demandés, dans l’ordre du client.'),
+    })
+    .optional()
+    .describe(
+      "Le tableau des départs d'un taxi, d'un VTC ou d'un transporteur (architecture tableau-departs, docs/veille/architectures/tableau-departs.md, sources Taxi Annecy : « Départs · Annecy », chaque destination avec sa distance et sa durée, « Voir le trajet », une page par trajet avec l'heure à laquelle partir et ce qu'il faut fournir ; VTC Rousseau, Les Houches : les tarifs au départ ou à destination de Chamonix, jour et nuit, « si vous ne trouvez pas votre destination, appelez ») : le tableau à côté du h1, « À quelle heure partir ? », les avis en piste ; /trajets et une page par trajet (/trajets/<slug>). Absent = ni tableau ni pages. Jamais une destination, une distance, une durée ou un prix inventés.",
+    ),
+
   social: z
     .object({
       instagram: z.string().url().optional(),
@@ -1499,6 +1564,8 @@ export const siteSchema = z.object({
       trajet: z.string().default('Temps de trajet').describe('Libellé du lien de nav et titre de la page /trajet (site.trajet, architecture rayon-trajet) : « Temps de trajet », « Jusqu’où nous venons »'),
       calendrier: z.string().default('Calendrier des récoltes').describe('Libellé du lien de nav et titre de la page /calendrier (site.recoltes, architecture calendrier-recoltes) : « Calendrier des récoltes », « Au fil des mois »'),
       matieres: z.string().default('Nos matières').describe('Libellé du lien de nav et titre de la page /matieres (site.matieres, architecture nuancier-matieres) : « Nos matières », « Essences de bois »'),
+      producteurs: z.string().default('Nos producteurs').describe('Libellé du lien de nav et titre de la page /producteurs (site.producteurs, architecture mur-producteurs) : « Nos producteurs », « Les fermes »'),
+      trajets: z.string().default('Les trajets').describe('Libellé du lien de nav et titre de la page /trajets (site.departs, architecture tableau-departs) : « Les trajets », « Destinations »'),
       domaines: z.string().default('Domaines d’intervention').describe('Titre du sommaire des domaines sur l’accueil (architecture honoraires-domaines) : « Domaines d’intervention », « Ce que nous plaidons »'),
       envoi: z.string().default('Envoyer par colis').describe('Libellé du lien de nav et titre de la page /envoyer (site.envoi) : « Envoyer par colis », « Réparer à distance »'),
       programme: z.string().default('Le programme').describe('Libellé du lien de nav et titre de la page /programme (architecture ardoise-du-jour) : « Le programme », « Les pains de la semaine »'),

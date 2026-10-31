@@ -66,6 +66,10 @@ export { MOIS, MOIS_COURTS, RECOLTES_MIN, produitsComplets as produitsRecoltes, 
 import { lienCalendrier } from './recoltes';
 export { MATIERES_MIN, matieresCompletes, nuancier as nuancierDesMatieres, surEchelle as matieresSurEchelle, parUsage as matieresParUsage, colonnes as colonnesDesMatieres, valeurDe as valeurDeMatiere, voisinesSurEchelle, lienMatieres } from './matieres';
 import { lienMatieres } from './matieres';
+export { PRODUCTEURS_MIN, producteursComplets, parDistance as producteursParDistance, quiFaitQuoi, distanceLisible as distanceDuProducteur, plusLoin as producteurLePlusLoin, voisins as producteursVoisins, lienProducteurs } from './producteurs';
+import { lienProducteurs } from './producteurs';
+export { DEPARTS_MIN, AUTRES_TRAJETS, trajetsComplets, groupesParType as trajetsParType, dureeDuTrajet, avecPrix as trajetsAvecPrix, priseEnCharge, autresTrajets, lienTrajets } from './departs';
+import { lienTrajets } from './departs';
 export { kindsDeGalerie, idDeKind, metaDeRealisation, libelleCompteur, COMPTEUR_MIN, SEPARATEUR_META } from './galerie';
 export { ARCHITECTURES, ARCHITECTURE_IDS, architecture, donneesManquantes, photosDuClient, nombreDeRealisations } from './architectures';
 import { completerLayout, COQUILLES_A_INDEX_REALISATIONS } from './architectures';
@@ -383,6 +387,14 @@ export const navLinks = (s: Site = site) => {
   // tête de la nav, vers le tableau comparé (/matieres).
   const matieres = lienMatieres(s.matieres?.liste, s.wording.matieres);
   if (matieres) links.unshift(matieres);
+  // Mur des producteurs (src/lib/producteurs.ts, architecture mur-producteurs) : « Les producteurs » de la barre du Comboire
+  // Paysan, en tête de la nav, vers la liste du plus proche au plus loin (/producteurs).
+  const producteurs = lienProducteurs(s.producteurs?.liste, s.wording.producteurs);
+  if (producteurs) links.unshift(producteurs);
+  // Tableau des départs (src/lib/departs.ts, architecture tableau-departs) : « Destinations » en tête de la barre de Taxi
+  // Annecy, vers tous les trajets (/trajets).
+  const trajets = lienTrajets(s.departs?.trajets, s.wording.trajets);
+  if (trajets) links.unshift(trajets);
   // Demande d'estimation (src/lib/estimation.ts, architecture estimation-etapes) : « Devis en ligne » de Rigoulet, toujours
   // dans la barre ; en dernier, à la place d'une porte Contact (la demande EST le contact).
   const estimation = lienEstimation(s.estimation, s.wording.estimation);
@@ -397,8 +409,9 @@ export const navLinks = (s: Site = site) => {
   // Coquilles `interventions` et `trajet` : l'accueil n'a ni bloc services ni questions (les services sont des pages, liées
   // par le pied `columns` et par chaque intervention ou commune ; les questions sont sur /carnet ou /trajet) : la barre ne
   // garde que le carnet (ou les temps de trajet) et le contact, sans ancre vers un bloc absent.
-  // Idem pour `recoltes` et `matieres` (questions sur /calendrier ou /matieres).
-  if (s.layout.shell === 'interventions' || s.layout.shell === 'trajet' || s.layout.shell === 'recoltes' || s.layout.shell === 'matieres') {
+  // Idem pour `recoltes` et `matieres` (questions sur /calendrier ou /matieres), `producteurs` et `departs` (questions sur
+  // /producteurs ou /trajets).
+  if (s.layout.shell === 'interventions' || s.layout.shell === 'trajet' || s.layout.shell === 'recoltes' || s.layout.shell === 'matieres' || s.layout.shell === 'producteurs' || s.layout.shell === 'departs') {
     const absents = ['/#services', '/#zones', '/#about', '/#faq', ...(s.proof.testimonials.length || s.proof.google ? [] : ['/#proof'])];
     const garde = links.filter((l) => !absents.includes(l.href));
     links.splice(0, links.length, ...garde);

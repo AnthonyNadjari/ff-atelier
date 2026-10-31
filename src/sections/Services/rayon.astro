@@ -1,0 +1,96 @@
+---
+/**
+ * Services "rayon" (style rayon, relevé sur blankinside.co.uk le 31 oct 2026, fiche docs/veille/styles/rayon.md
+ * § Construction, blocs 5 à 9, et § Le geste signature) : LES RAYONS DE LA BOUTIQUE.
+ * 1. En tête, deux colonnes à l'ordinateur : le titre (wording.servicesTitle) et la phrase (wording.servicesIntro, sinon le
+ *    métier à la ville) à gauche ; à droite « Les rayons » : une étiquette à contour par rayon, qui mène à son étagère
+ *    (les rangées d'étiquettes « Occasion » de la source, devenues l'index des rayons).
+ * 2. Puis un bloc par rayon (src/lib/rayon.ts : une famille de produits chacun, les prestations en dernier) : son TITRE
+ *    ÉCRIT AU FEUTRE (--font-feutre, la seule écriture à la main du site) décalé vers la droite avec une FLÈCHE DESSINÉE
+ *    qui descend vers l'étagère ; puis l'étagère en piste au doigt (src/components/EtagereRayon.astro). Un rayon sur deux
+ *    (dès trois articles) est « vedette » : sa première case en grand avec son étiquette, le reste sur deux rangs à côté à
+ *    l'ordinateur (le bloc collection de la source). Les rayons alternent ainsi piste et colonnes.
+ * Mouvement (profil « etagere-qui-se-remplit ») : quand un rayon arrive à l'écran, sa flèche se trace (0,5 s) pendant que
+ * ses articles se posent ; rien sans script ni en mouvement réduit.
+ * Rien d'inventé : un rayon vient d'une famille de produits ou des prestations du client ; sans aucun des deux, la
+ * section ne rend que son titre et sa phrase.
+ */
+import { site, metierEtVille } from '@/lib/site';
+import { rayonsDuSite } from '@/lib/rayon';
+import EtagereRayon from '@/components/EtagereRayon.astro';
+import Titre from '@/components/Titre.astro';
+
+const rayons = rayonsDuSite(site).map((r) =>
+  r.prestations && site.produits.length > 0 ? { ...r, titre: 'Et aussi' } : r,
+);
+const avecIndex = rayons.length > 1;
+---
+
+<section id="services" class="ra-rayons section-y" aria-labelledby="ra-rayons-titre">
+  <div class="ra-rayons-tete">
+    <div>
+      <Titre id="ra-rayons-titre" class="ra-h2" title={site.wording.servicesTitle} />
+      <p class="ra-intro">{site.wording.servicesIntro ?? metierEtVille()}</p>
+    </div>
+    {avecIndex && (
+      <nav class="ra-index" aria-label="Les rayons">
+        <p class="ra-index-titre">Les rayons</p>
+        <ul class="ra-index-liste">
+          {rayons.map((r) => (
+            <li><a href={`#rayon-${r.slug}`} class="rayon-etiquette">{r.titre}<span class="ra-index-n">&nbsp;{r.articles.length}</span></a></li>
+          ))}
+        </ul>
+      </nav>
+    )}
+  </div>
+
+  {rayons.map((r, i) => (
+    <div id={`rayon-${r.slug}`} class:list={['ra-rayon', i % 2 === 1 && 'ra-rayon-droite']} data-rayon>
+      <div class="ra-titre-rayon">
+        <h3 class="ra-feutre">{r.titre}</h3>
+        <svg class="ra-fleche-dessinee" viewBox="0 0 44 52" width="34" height="40" aria-hidden="true">
+          <path pathLength="1" d="M10 3c-5 9-6 19-1 28 4 7 10 12 19 15" />
+          <path pathLength="1" d="M18 47l10 0-4-9" />
+        </svg>
+      </div>
+      <EtagereRayon articles={r.articles} label={r.titre} vedette={i % 2 === 1} familles={false} />
+    </div>
+  ))}
+</section>
+
+<style>
+  .ra-rayons-tete {
+    display: grid; gap: 2rem;
+    padding-inline: var(--ra-bord, 1rem);
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+  .ra-h2 { font-size: clamp(1.5rem, 1.15rem + 1.2vw, 2.25rem); max-width: 16ch; text-wrap: balance; }
+  .ra-intro { margin-top: 0.75rem; max-width: 46ch; color: var(--fg); }
+  .ra-index-titre { margin: 0 0 0.75rem; font-size: 0.875rem; color: var(--fg); }
+  .ra-index-liste { display: flex; flex-wrap: wrap; gap: 0.75rem 0.6rem; }
+  .ra-index-n { color: var(--muted); }
+  .ra-index a:hover .ra-index-n { color: inherit; }
+  @media (min-width: 64rem) {
+    .ra-rayons-tete { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: end; gap: 4rem; }
+  }
+
+  .ra-rayon { scroll-margin-top: 6rem; }
+  .ra-rayon + .ra-rayon { margin-top: clamp(3rem, 6vw, 5rem); padding-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--line); }
+  /* Le titre au feutre décalé vers la droite (à 9 % du bord à l'ordinateur, comme « Featured sets » de la source), la
+     flèche dessous qui descend vers l'étagère ; un rayon sur deux le décale de l'autre côté. */
+  .ra-titre-rayon { display: flex; flex-direction: column; align-items: flex-start; padding-inline: calc(var(--ra-bord, 1rem) + 4vw); margin-bottom: 0.75rem; }
+  .ra-rayon-droite .ra-titre-rayon { align-items: flex-end; text-align: right; }
+  .ra-rayon-droite .ra-fleche-dessinee { transform: scaleX(-1); }
+  .ra-feutre { font-weight: 400; font-size: clamp(1.5rem, 1.15rem + 1.3vw, 2.25rem); line-height: 1.1; letter-spacing: 0.01em; transform: rotate(-2deg); }
+  .ra-fleche-dessinee { margin: 0.2rem 0 0 1.5rem; color: var(--fg); overflow: visible; }
+  .ra-rayon-droite .ra-fleche-dessinee { margin: 0.2rem 1.5rem 0 0; }
+  .ra-fleche-dessinee path { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+  /* L'arrivée (classes posées par le script d'EtagereRayon) : la flèche se trace pendant que les articles se posent. */
+  :global(.ra-attente) .ra-fleche-dessinee path { stroke-dashoffset: 1; }
+  :global(.ra-arrive) .ra-fleche-dessinee path { transition: stroke-dashoffset 0.5s cubic-bezier(0, 0, 0.3, 1); }
+  :global(.ra-arrive) .ra-fleche-dessinee path + path { transition-delay: 0.4s; transition-duration: 0.2s; }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.ra-attente) .ra-fleche-dessinee path { stroke-dashoffset: 0; }
+    :global(.ra-arrive) .ra-fleche-dessinee path { transition: none; }
+  }
+</style>

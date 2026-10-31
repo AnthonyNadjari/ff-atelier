@@ -1,0 +1,17 @@
+---
+/**
+ * Faq "etabli" (style etabli, relevé sur agronomywork.shop le 31 oct 2026, fiche docs/veille/styles/etabli.md
+ * § Construction, bloc 6, et § Le geste signature) : L'ESCALIER DES QUESTIONS, une question par colonne, chacune une marche
+ * plus bas que la précédente et collée sous la barre : l'escalier se range en une rangée au défilement ; au téléphone, piste
+ * au doigt. Rendu par src/components/EscalierEtabli.astro (que Services/etabli pose aussi entre les pièces quand le layout
+ * n'a pas de section faq). Aucune question = aucune section. JSON-LD FAQPage.
+ */
+import { site } from '@/lib/site';
+import EscalierEtabli from '@/components/EscalierEtabli.astro';
+---
+
+{site.faq.length > 0 && (
+  <section id="faq" class="etabli-questions" aria-labelledby="etabli-questions-titre">
+    <EscalierEtabli />
+  </section>
+)}

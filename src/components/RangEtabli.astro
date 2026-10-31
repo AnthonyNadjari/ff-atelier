@@ -1,0 +1,74 @@
+---
+/**
+ * Une rangée de la gamme du style etabli (Services/etabli) : à l'ordinateur, la fiche collée (FicheEtabli, porte en lien)
+ * dans un tiers, l'objet en grand (3:2) puis la photo d'ambiance sur les deux autres, côté selon `droite` ; au téléphone,
+ * une case serrée (objet, nom, prix, lien). Composant de rendu :
+ * reçoit la fiche calculée par src/lib/etabli.ts, ne devine rien.
+ */
+import type { FicheEtabli as Fiche } from '@/lib/etabli';
+import Img from '@/components/Img.astro';
+import FicheEtabli from '@/components/FicheEtabli.astro';
+
+interface Props {
+  f: Fiche;
+  vues: { src: string; alt: string }[];
+  ambiance?: { src: string; alt: string };
+  droite: boolean;
+}
+const { f, vues, ambiance, droite } = Astro.props;
+---
+
+<article class:list={['etabli-rang', droite ? 'fiche-a-droite' : 'fiche-a-gauche', !ambiance && 'sans-ambiance', vues.length === 0 && 'sans-objet']} data-etabli-fiche>
+  {vues.length > 0 && (
+    <div class="etabli-rang-objet" data-detoure={f.detoure ? '1' : undefined}>
+      {vues.map((v, i) => (
+        <figure class="etabli-vue" data-vue={i} hidden={i > 0}>
+          <Img src={v.src} alt={v.alt} class={`absolute inset-0 h-full w-full ${f.detoure ? 'object-contain etabli-detoure' : 'object-cover'}`} sizes="(min-width: 48rem) 64vw, 50vw" loading="lazy" />
+        </figure>
+      ))}
+    </div>
+  )}
+  <div class="etabli-rang-fiche">
+    <div class="etabli-rang-colle">
+      <FicheEtabli fiche={f} niveau="h3" />
+    </div>
+  </div>
+  {ambiance && (
+    <figure class="etabli-rang-ambiance">
+      <Img src={ambiance.src} alt={ambiance.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 48rem) 64vw, 1px" loading="lazy" />
+    </figure>
+  )}
+</article>
+
+<style>
+  /* Téléphone : la rangée devient une case serrée de la grille à deux colonnes de sa partie (l'objet, le nom, le prix, le
+     lien) ; la photo d'ambiance, la phrase et les formats restent sur la page de la pièce (31 oct 2026, juge neuf : au
+     téléphone, six fois le même module empilé). */
+  .etabli-rang { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'objet' 'fiche'; column-gap: var(--gouttiere); align-content: start; }
+  .etabli-rang-objet { grid-area: objet; position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: var(--pierre, var(--bg-2)); }
+  .etabli-rang-fiche { grid-area: fiche; padding-top: 0.625rem; min-width: 0; }
+  .etabli-rang-ambiance { grid-area: ambiance; position: relative; margin: 0; overflow: hidden; background: var(--pierre, var(--bg-2)); display: none; }
+  @media (max-width: 47.99rem) {
+    .etabli-rang :global(.etabli-vignettes),
+    .etabli-rang :global(.etabli-infos > p.text-muted),
+    .etabli-rang :global(.etabli-formats) { display: none; }
+    .etabli-rang :global(.etabli-nom) { font-size: 0.9375rem; }
+    .etabli-rang :global(.etabli-porte) { margin-top: 0.375rem; }
+  }
+
+  /* Ordinateur : la fiche dans un tiers, collée sous la barre ; sur les deux autres l'objet en grand (3:2) puis la photo
+     d'ambiance (5:4) : la fiche tient tant que les deux photos défilent à côté d'elle, et change de côté d'une rangée à
+     l'autre (la troisième rangée de la source : une photo sur deux tiers, la fiche collée à côté). */
+  @media (min-width: 48rem) {
+    .etabli-rang { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: var(--gouttiere); }
+    .etabli-rang.fiche-a-droite { grid-template-areas: 'objet objet fiche' 'ambiance ambiance fiche'; }
+    .etabli-rang.fiche-a-gauche { grid-template-areas: 'fiche objet objet' 'fiche ambiance ambiance'; }
+    .etabli-rang.sans-objet.fiche-a-droite { grid-template-areas: 'ambiance ambiance fiche'; }
+    .etabli-rang.sans-objet.fiche-a-gauche { grid-template-areas: 'fiche ambiance ambiance'; }
+    .etabli-rang-ambiance { display: block; aspect-ratio: 5 / 4; }
+    .etabli-rang-fiche { padding: 0; align-self: stretch; }
+    /* Au moins 40 % de l'écran : une fiche courte garde sa place à côté de l'objet. */
+    .etabli-rang-colle { position: sticky; top: calc(var(--barre-h) + var(--gouttiere)); min-height: 40svh; }
+  }
+  .etabli-rang-objet :global(.etabli-posee) { padding: 6%; background: none !important; }
+</style>

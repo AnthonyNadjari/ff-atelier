@@ -1,0 +1,80 @@
+---
+/**
+ * Page /trajets (site.departs, src/lib/departs.ts) : architecture `tableau-departs` (« Voir tous les trajets » de Taxi
+ * Annecy, les tarifs au départ ou à destination de Chamonix de VTC Rousseau ; docs/veille/architectures/tableau-departs.md).
+ * Tous les trajets par genre, chacun avec sa distance, sa durée, ses prix de jour et de nuit s'ils sont publiés et ce qu'il
+ * faut fournir ; les questions. Générée seulement dès 4 trajets (lienTrajets).
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import { site, tel, metierEtVille, trajetsParType, dureeDuTrajet, lienTrajets } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+import { faqPageLd } from '@/lib/jsonld';
+
+export function getStaticPaths() {
+  return lienTrajets(site.departs?.trajets, site.wording.trajets) ? [{ params: { index: undefined } }] : [];
+}
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const d = site.departs!;
+const groupes = trajetsParType(d.trajets);
+const titre = site.wording.trajets;
+---
+
+<Base title={`${titre} | ${site.business.name}`} description={`${site.business.trade} : les trajets au départ de ${d.depuis}, distance, durée et prix.`} path="/trajets" jsonLd={site.faq.length > 0 ? [faqPageLd(site.faq)!] : []}>
+  <Nav />
+  <main id="main" class="container-ff tl">
+    <header class="tl-tete">
+      <h1 class="tl-titre font-display">{titre}</h1>
+      <p>{metierEtVille()}, au départ de {d.depuis}.</p>
+      {d.avertissement && <p class="tl-muted">{d.avertissement}</p>}
+    </header>
+    {groupes.map((g) => (
+      <section class="tl-groupe" aria-labelledby={`tl-${g.type}`.replace(/[^a-z0-9-]/gi, '-')}>
+        <h2 id={`tl-${g.type}`.replace(/[^a-z0-9-]/gi, '-')} class="tl-h2 font-display">{g.type}</h2>
+        <ul class="tl-liste">
+          {g.trajets.map((t) => (
+            <li class="tl-ligne">
+              <a href={`/trajets/${t.slug}`} class="tl-nom">{t.destination}</a>
+              <p class="tl-muted tabular-nums">{[t.precision, t.km ? `${t.km.toLocaleString('fr-FR')} km` : '', dureeDuTrajet(t.minutes)].filter(Boolean).join(', ')}</p>
+              <p class="tl-prix tabular-nums">{t.prix ?? 'Sur devis'}{t.prixNuit ? `, nuit ${t.prixNuit}` : ''}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    <p class="tl-appel">Une autre destination&nbsp;? <a href={tel()} class="tl-lien tabular-nums"><Icon name="Phone" size={18} />{site.contact.phoneDisplay}</a></p>
+    {site.faq.length > 0 && (
+      <section id="faq" aria-labelledby="tl-faq" class="tl-faq">
+        <h2 id="tl-faq" class="tl-h2 font-display">{site.wording.faqTitle ?? 'Vos questions'}</h2>
+        {site.faq.map((q) => <details><summary>{q.q}</summary><p>{q.a}</p></details>)}
+      </section>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .tl { display: grid; gap: clamp(1.75rem, 5vh, 3rem); padding-block: clamp(1.5rem, 5vh, 4rem); max-inline-size: 64rem; }
+  .tl-tete { display: grid; gap: 0.5rem; }
+  .tl-titre { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; letter-spacing: -0.015em; }
+  .tl-muted { color: var(--color-muted); }
+  .tl-groupe { display: grid; gap: 0.5rem; }
+  .tl-h2 { font-size: clamp(1.4rem, 3.2vw, 2rem); line-height: 1.05; }
+  .tl-liste { display: grid; }
+  .tl-ligne { display: grid; gap: 0.15rem; padding-block: 0.8rem; border-block-start: 1px solid var(--color-line); }
+  .tl-nom { display: inline-flex; align-items: center; min-block-size: 44px; font-size: clamp(1.15rem, 2.2vw, 1.4rem); font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  .tl-prix { font-weight: 700; }
+  .tl-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .tl-nom:focus-visible, .tl-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .tl-appel { font-weight: 600; }
+  .tl-faq { display: grid; gap: 0.25rem; }
+  .tl-faq details { border-block-end: 1px solid var(--color-line); }
+  .tl-faq summary { display: flex; align-items: center; min-block-size: 48px; font-weight: 600; cursor: pointer; }
+  .tl-faq summary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .tl-faq p { padding-block-end: 0.85rem; color: var(--color-muted); }
+  @media (min-width: 48rem) {
+    .tl-ligne { grid-template-columns: minmax(0, 1.6fr) minmax(0, 2fr) minmax(0, 1fr); column-gap: 1.5rem; align-items: center; }
+    .tl-prix { text-align: end; }
+  }
+</style>

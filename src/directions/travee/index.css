@@ -1,0 +1,100 @@
+/* Direction TRAVEE : style réel relevé sur https://driessenarchitectuur.nl/ (Driessen Architectuur, agence d'architecture
+   de Venray, Pays-Bas ; veille du 31 oct 2026, tour 20, fiche docs/veille/styles/travee.md, atomes
+   docs/veille/styles/atomes/travee.json). On reprend le style et la construction (les projets qui passent l'un après l'autre au
+   premier écran, ici une bande de photos qu'on fait glisser au doigt sous l'en-tête, barre blanche flottante avec le téléphone, texte d'ouverture rentré à la première
+   ligne, index des métiers en deux colonnes à filets, les réalisations posées à des hauteurs et des tailles différentes
+   avec leurs étiquettes, l'avis sur une plaque verte posée sur une photo, la fin noire avec la photo de l'équipe), jamais
+   les textes, images, logos ni le code de la source.
+   Une agence d'architecture : un blanc cassé chaud, un noir d'encre, une seule grotesque technique en graisse moyenne et
+   à l'interlettrage serré, des boutons à angles droits (noir plein, ou trait), des étiquettes au trait de 2 px de rayon ;
+   la couleur vient des photos des chantiers, et d'un vert de haie posé une seule fois (la plaque de l'avis).
+   Polices : sizmo (Typekit, non libre ; titres 61 px graisse 500, interlettrage -1,8 px ; corps 14 px graisse 500) ->
+   Anybody (grotesque libre, OFL, aux courbes carrées comme sizmo) pour les titres, et pour le texte courant Archivo
+   (grotesque de lecture libre, OFL, de la même famille technique) : la source n'a qu'une famille, mais Anybody est une
+   police d'affichage, trop serrée en 14 px.
+   Couleurs relevées : fond #faf6f2 (47 % des fonds), noir #151515 (25 %), blanc #ffffff (21 %), vert #719067 (2 %, plaque
+   de l'avis et bouton dégradé) ; texte #151515. Le vert est assombri (#56724e, 5,4:1 sous du texte blanc ; la source mesure
+   3,6:1). */
+@import '@fontsource-variable/anybody';
+@import '@fontsource-variable/archivo';
+
+[data-direction='travee'] {
+  --accent-h: 0;
+  --accent-s: 0%;
+  --accent-l: 8%;
+  --bg: #faf6f2;
+  --bg-2: #f1ece5;
+  --surface: #ffffff;
+  --fg: #151515;
+  --muted: #55524d;
+  --line: #dcd6ce;
+  --accent: #151515;
+  --accent-2: #3a3a3a;
+  --on-accent: #ffffff;
+  --ink: #151515;
+  --on-ink: #faf6f2;
+  /* Le vert de haie de la plaque d'avis (Proof travee) : posé une seule fois par page. */
+  --vert: #56724e;
+  --on-vert: #ffffff;
+  --font-display: 'Anybody Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
+  --display-weight: 500;
+  --display-tracking: -0.03em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --radius-etiquette: 2px;
+  --shadow-card: none;
+  --shadow-lift: 0 1px 0 rgba(21, 21, 21, 0.08);
+  --section-y: clamp(4rem, 8vw, 7.5rem);
+  /* Deux régimes (GOUT § 4) : sec 0,2 s ease-out (boutons, étiquettes, légende de la photo du moment) ; lent 0,45 s ease
+     (la photo qui arrive dans la travée), mesuré sur la source : opacity et transform 0.45s ease ×67, 0.3s ease ×37. */
+  --motion-duration: 0.45s;
+  --motion-ui: 0.2s;
+  /* « ease » mesuré sur la source, écrit en courbe : cubic-bezier(0.25, 0.1, 0.25, 1). */
+  --ease-brand: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+[data-direction='travee'] body { font-weight: 450; letter-spacing: -0.01em; font-stretch: 100%; }
+[data-direction='travee'] ::selection { background: var(--vert); color: var(--on-vert); }
+/* Titres en graisse moyenne, interlignage 1 mesuré, interlettrage serré ; jamais d'italique (GOUT § 2). */
+[data-direction='travee'] :is(h1, h2) { font-weight: 500; line-height: 1.02; letter-spacing: -0.03em; }
+[data-direction='travee'] h3 { font-weight: 500; line-height: 1.15; letter-spacing: -0.015em; }
+[data-direction='travee'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+/* Jamais de césure dans un titre, une citation ou le texte d'ouverture (« dessina-trice », relecture du 31 oct 2026). */
+[data-direction='travee'] :is(h1, h2, h3, blockquote, .travee-lede, .travee-nom, .travee-titre-piece) { hyphens: none; -webkit-hyphens: none; overflow-wrap: normal; }
+
+/* Boutons de la source : rectangles à angles droits en petit corps (12 px), noir plein ou trait d'1 px, une flèche au
+   trait à droite ; au survol la flèche s'écarte (padding 0,3 s ease mesuré, ici transform 0,2 s). */
+[data-direction='travee'] .btn {
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0;
+  transition: background var(--motion-ui) ease-out, color var(--motion-ui) ease-out, border-color var(--motion-ui) ease-out;
+}
+[data-direction='travee'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='travee'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='travee'] .btn-ghost { border: 1px solid currentColor; background: transparent; color: inherit; }
+[data-direction='travee'] .btn::after { content: '→'; margin-left: 0.9rem; transition: transform var(--motion-ui) ease-out; }
+@media (hover: hover) and (pointer: fine) {
+  [data-direction='travee'] .btn:hover::after { transform: translateX(3px); }
+}
+[data-direction='travee'] .card { background: var(--surface); border-radius: 0; border: 0; box-shadow: none; }
+[data-direction='travee'] .rule { border-top: 1px solid var(--line); }
+/* Le repère de la source (« ● Over ons ») : un petit disque plein devant un mot en casse normale, 12 px gras ; jamais de
+   capitales espacées (GOUT § 2). */
+[data-direction='travee'] .eyebrow { color: var(--fg); font-family: var(--font-body); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0; text-transform: none; }
+
+/* L'étiquette au trait des réalisations (« Wonen », « Venray ») : 1 px, rayon 2 px, 11 px. Pas une pilule. */
+[data-direction='travee'] .travee-etiquette {
+  display: inline-block;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-etiquette);
+  padding: 0.05rem 0.4rem;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  color: var(--muted);
+}

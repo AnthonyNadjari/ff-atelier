@@ -1,0 +1,111 @@
+---
+/**
+ * Services "etabli" (style etabli, relevé sur agronomywork.shop le 31 oct 2026, fiche docs/veille/styles/etabli.md
+ * § Construction, blocs 3 à 5, et § Le geste signature) : LES AUTRES PIÈCES, une rangée par fiche, sur les trois tiers de
+ * la source. Dans chaque rangée : la fiche (FicheEtabli : vignettes, nom, prix encadré, phrase, formats, bouton plein) dans
+ * un tiers, COLLÉE sous la barre pendant que les photos défilent à côté ; l'objet en grand sur son fond de pierre dans le
+ * tiers voisin ; une photo d'ambiance de la pièce, en hauteur, dans le dernier (sans elle, l'objet prend deux tiers). La
+ * fiche change de côté d'une rangée à l'autre (à droite, à gauche, à droite), comme la source.
+ * Téléphone : l'objet en grand colle sous la barre, la fiche monte dessus (fond blanc, au-dessus de lui), puis la photo
+ * d'ambiance ; une rangée sous l'autre, séparées par la gouttière.
+ * Sans section faq dans le layout, l'escalier des questions (src/components/EscalierEtabli.astro, id « faq ») se pose
+ * entre la première moitié des pièces et la suite, comme sur la source.
+ * Données (src/lib/etabli.ts) : produits du client puis prestations, sauf l'objet phare déjà au premier écran (Hero/etabli) ;
+ * une fiche sans photo garde sa fiche seule (pas de case vide, jamais de photo de banque) ; aucune fiche = aucune section.
+ * Mouvement : aucun au défilement (le collage est natif, rien n'est calé image par image) ; les vignettes changent la vue
+ * en 0,2 s (profil « fiche-collee-a-l-objet », docs/veille/styles/MOUVEMENTS.md).
+ */
+import { site, metierEtVille } from '@/lib/site';
+import Titre from '@/components/Titre.astro';
+import { fichesEtabli, ficheEnTete, vuesDeFiche } from '@/lib/etabli';
+import RangEtabli from '@/components/RangEtabli.astro';
+import Img from '@/components/Img.astro';
+import EscalierEtabli from '@/components/EscalierEtabli.astro';
+
+const toutes = fichesEtabli(site);
+const enTete = site.layout.hero === 'etabli' ? ficheEnTete(toutes) : undefined;
+const fiches = toutes.filter((f) => f !== enTete);
+const rangs = fiches.map((f, i) => {
+  const vues = vuesDeFiche(f);
+  // La photo d'ambiance du troisième tiers : la dernière photo de la pièce qui n'est pas la vue en grand.
+  const ambiance = [...f.photos].reverse().find((p) => p.src !== vues[0]?.src);
+  return { f, vues, ambiance, droite: i % 2 === 0 };
+});
+// Comme la source, qui pose ses questions au milieu de sa gamme : sans section faq dans le layout, l'escalier des questions
+// (EscalierEtabli) se met entre les rangées et la suite. Les deux premières pièces ont leur rangée (fiche collée à côté de
+// l'objet et de sa photo d'ambiance) ; les suivantes sont en RANG SERRÉ (31 oct 2026, juge neuf : la pile de modules
+// identiques) : grille de trois à l'ordinateur, piste au doigt au téléphone, chacune vers sa page.
+const escalier = site.faq.length > 0 && !site.layout.sections.some((x) => x.type === 'faq');
+const avant = rangs.slice(0, 2);
+const apres = rangs.slice(2);
+const titreSuite = `${site.wording.servicesTitle.replace(/<[^>]+>/g, '')}, suite`;
+---
+
+{rangs.length > 0 && (
+  <div class="etabli-gamme est-ouverte">
+    <section id="services" class="etabli-gamme-partie" aria-labelledby="etabli-gamme-titre">
+      <Titre id="etabli-gamme-titre" class="etabli-gamme-titre" title={site.wording.servicesTitle} />
+      <p class="sr-only">{metierEtVille()}</p>
+      <div class="etabli-rangs">
+        {avant.map((r) => <RangEtabli {...r} />)}
+      </div>
+    </section>
+    {escalier && (
+      <section id="faq" class="etabli-questions" aria-labelledby="etabli-questions-titre">
+        <EscalierEtabli />
+      </section>
+    )}
+    {apres.length > 0 && (
+      <section class="etabli-gamme-partie" aria-label={titreSuite}>
+        <ul class="etabli-serre" aria-label={titreSuite} tabindex="0">
+          {apres.map(({ f, vues }) => (
+            <li class="etabli-serre-piece">
+              <a href={f.href} class="etabli-serre-lien">
+                {vues[0] && (
+                  <span class="etabli-serre-objet" data-detoure={f.detoure ? '1' : undefined}>
+                    <Img src={vues[0].src} alt={vues[0].alt} class={`absolute inset-0 h-full w-full ${f.detoure ? 'object-contain etabli-detoure' : 'object-cover'}`} sizes="(min-width: 48rem) 32vw, 72vw" loading="lazy" />
+                  </span>
+                )}
+                <span class="etabli-serre-nom">{f.nom}</span>
+              </a>
+              {f.prix && <span class="etabli-prix">{f.prix}</span>}
+              {f.texte && <p class="etabli-serre-texte">{f.texte}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+)}
+
+<style>
+  .etabli-gamme-titre { font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; color: var(--muted); }
+  .etabli-gamme-partie { display: grid; gap: calc(var(--gouttiere) * 2); padding: var(--section-y) var(--gouttiere) 0; }
+  /* L'enveloppe s'efface (display: contents) : les rangées, l'escalier et le rang serré sont des blocs de la page, comme
+     sur la source. */
+  .etabli-gamme.est-ouverte { display: contents; }
+  /* Téléphone : les deux rangées en cases côte à côte ; ordinateur : l'une sous l'autre. */
+  .etabli-rangs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem var(--gouttiere); align-items: start; }
+  /* Rang serré : piste au doigt au téléphone (la suivante dépasse au bord), grille de trois à l'ordinateur. */
+  .etabli-serre {
+    display: flex;
+    gap: var(--gouttiere);
+    margin-inline: calc(var(--gouttiere) * -1);
+    padding-inline: var(--gouttiere);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .etabli-serre::-webkit-scrollbar { display: none; }
+  .etabli-serre-piece { flex: 0 0 72%; scroll-snap-align: start; display: grid; gap: 0.375rem; align-content: start; justify-items: start; }
+  .etabli-serre-lien { display: grid; gap: 0.5rem; width: 100%; color: var(--fg); }
+  .etabli-serre-objet { position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; background: var(--pierre, var(--bg-2)); }
+  .etabli-serre-nom { font-weight: 500; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; transition: text-decoration-color var(--motion-ui, 0.2s) linear; }
+  .etabli-serre-texte { color: var(--muted); font-size: 0.875rem; line-height: 1.35; }
+  @media (hover: hover) and (pointer: fine) { .etabli-serre-lien:hover .etabli-serre-nom { text-decoration-color: currentColor; } }
+  @media (min-width: 48rem) {
+    .etabli-rangs { grid-template-columns: minmax(0, 1fr); gap: calc(var(--gouttiere) * 3); }
+    .etabli-serre { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem var(--gouttiere); margin: 0; padding: 0; overflow: visible; }
+  }
+</style>

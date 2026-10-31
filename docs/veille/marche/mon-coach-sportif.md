@@ -1,0 +1,37 @@
+# mon-coach-sportif.fr — https://mon-coach-sportif.fr/
+Titre « Coach Sportif à Domicile Strasbourg et Alsace », `lang="fr-FR"`, description « Coach sportif à domicile Strasbourg et Alsace, séances personnalisées pour atteindre vos objectifs santé et forme physique. », technologie lue : generator « WordPress 7.1.4 », WordPress. Démontage automatique du 2026-10-31 (`ff demonter`, mesures brutes dans `mon-coach-sportif.json`) : tout ce qui suit est mesuré dans le DOM calculé de Chrome à 1440x900 et 390x844 ; ce qui demande un œil est marqué « à juger ».
+
+## Squelette
+Premier écran (ordinateur 1440x900) : h1 « Coach sportif à domicile Strasbourg et Alsace » ; fond en image plein écran (73 % de l'écran) ; bouton principal « Commencer » en bas à gauche (267, 819 px) ; 62 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Téléphone (390x844) : h1 « Coach sportif à domicile Strasbourg et Alsace » ; fond en image plein écran (71 % de l'écran) ; bouton principal « Commencer » en bas à gauche (24, 797 px) ; 49 mots visibles au-dessus du pli ; aucune couche bloquante ; rien ne bouge tout seul.
+Nav : 11 lien(s) — 06 88 38 27 98, info@mon-coach-sportif.fr, VOTRE COACH, MES CONSEILS, SÉANCES, TARIFS, COOPÉRATIVE, CONTACT, [Rechercher], [Facebook], [Linkedin] ; boutons entre crochets.
+Ordre (sections de premier niveau, ordinateur ; titre lu entre guillemets) : `header#masthead` (0,3 écran, 14 mots, 1 img) → `main#inner-wrap` « Coach sportif à domicile Strasbourg et … » (5,1 écrans, 811 mots, 8 img) → `footer#colophon` « Frédéric MEHN » (0,7 écran, 83 mots, 0 img). Calques hors flux (fixes/absolus) : `a#kt-scroll-up` (fixed, 41 px, 4 mots), `button#kt-scroll-up-reader` (fixed, 20 px, 4 mots), `a.skip-link` (absolute, 1 px, 3 mots).
+Pied de page : 26 lien(s) — 06 88 38 27 98, contactez-moi, Perte de poids, Préparation physique, Ventre plat, Boxe, Pilates, Entraînement fonctionnel, Prise de masse, TRX (+16). Téléphone cliquable : oui (4, tel:0688382798). Formulaire : 1 (3 champ(s) dans le premier). Horaires : non repérés dans le texte (il faut au moins 3 jours nommés et 2 heures). Portes d'action : « Facebook » (https://www.facebook.com/moncoahsportifdomicile/).
+En 3 secondes : à juger sur `captures/mon-coach-sportif-d.webp` (mesuré : fond du premier écran #ffffff, 2 image(s) et 62 mots dans le premier écran).
+
+## Typographie
+Lues dans le DOM calculé (ordinateur / téléphone) : titres h1 **Montserrat**, 32 px / 22 px téléphone, graisse 700, interlignage 1,50 ; h2 **Montserrat**, 20 px / 18 px téléphone, graisse 700, interlignage 1,20 ; corps **Source Sans Pro**, 16 px / 16 px téléphone, graisse 400, interlignage 1,60 ; boutons **Source Sans Pro**, 18 px / 31 px téléphone, graisse 400, interlignage 1,60 ; nav **Tahoma**, 14 px / 15 px téléphone, graisse 400, interlignage 1,60, capitales.
+Sources `@font-face` : feuilles d'origine croisée non lisibles (). Familles en usage sur le texte visible : Source Sans Pro ×147, Montserrat ×13, Tahoma ×6, Arial ×3. Ce qui la rend rare : à juger.
+
+## Couleur et matière
+Fond du corps #ffffff, texte #5c5c5c (contraste 6,69:1). Couleurs les plus présentes (calculées sur les éléments visibles, hors transparent) — fonds par surface : #ffffff (56 %), #f4f4f4 (8 %), #f2f5f1 (7 %), #f2f2f2 (7 %), #464d44 (6 %) ; textes par nombre de caractères : #202124 (47 %), #5f6368 (12 %), #5c5c5c (12 %), #1386c0 (10 %), #1e1e1e (8 %). Images : 9 `<img>` visibles, 4 fond(s) en image, 0 vidéo(s), `mask-image`/`clip-path` sur 22 élément(s). Matière (texture, grain, détourage) : à juger sur les captures.
+
+## Mouvement
+Bibliothèques : aucune détectée (window.* et noms de scripts). Transitions et animations distinctes (CSS calculé des éléments visibles, 10 premières) : `all 0.1s linear` ×41, `all 0.2s ease-in-out` ×30, `all 0.3s ease` ×21, `all 0.2s ease` ×10, `opacity 0.2s ease` ×3, `all 0.3s ease-in-out` ×3, `filter 0.2s ease` ×1. Scroll lié : ScrollTrigger non ; `animation-timeline` sur 0 élément(s) ; `position: sticky` sur 0 bloc(s) de plus d'un écran. Attributs de mouvement : `data-reveal-scroll-up` ×1. Ce qui bouge réellement à l'écran : à juger sur `captures/mon-coach-sportif-planche.jpg`.
+
+## Le geste signature
+À remplir après lecture des captures. Candidats factuels (mesurés, pas jugés) :
+1. La section la plus haute : `main#inner-wrap` « Coach sportif à domicile Strasbourg et … » (5,1 écrans, 811 mots, 8 image(s)).
+2. L'élément le plus animé : `div.site-header-inner-wrap` (attributs data-reveal-scroll-up).
+3. Le bloc le plus singulier par sa structure : `main#inner-wrap` « Coach sportif à domicile Strasbourg et … » (seule à contenir <time>, <select>, <form>).
+
+## Ce qu'on garde / ce qu'on refuse
+Garde : à juger. Mesuré et utile à l'usine : téléphone cliquable, portes d'action nommées (« Facebook »), formulaire de contact.
+Refuse (signes IA mesurés, GOUT § 2) : polices « IA » : aucune ; boutons pilule : 0/24 ordinateur, 1/20 téléphone ; vidéo en premier écran : non ; couche bloquante à l'arrivée : non ; « X ans » mis en scène : non. Le reste (badges décoratifs, titre illisible, autoplay) : à juger.
+
+## Verdict marché (veille du 31 oct 2026, tour 20)
+Source : recherche (moteur de la session), métier tiré **coach sportif / yoga** dans `docs/OBJECTIF.md`, ville tirée **Strasbourg**. « coach sportif Strasbourg » puis « coach sportif Strasbourg à domicile site officiel séance » : annuaires et plateformes seulement (Aladom, Justacoté, Superprof, MaSalleDeSport, Cylex). Même requête courte, annuaires et plateformes exclus du moteur : **rang 1 mon-coach-sportif.fr**, coach indépendant (Frédéric Mehn), membre d'une coopérative de services à la personne, aucune franchise. URL lue : https://mon-coach-sportif.fr/ (WordPress, Kadence, HTML 87 Ko transférés, premier octet 0,49 s, indicatif). Captures et planche regardées.
+
+**Un artisan paierait-il 1 200 € pour ça ?** Oui, c'est le plus complet des sites réels du tour après Bâti HALLI. Barre haute bleue avec le numéro et l'e-mail ; « Frédéric Mehn – entraîneur diplômé », h1 « Coach sportif à domicile Strasbourg et Alsace », la liste des neuf disciplines, et deux boutons « Commencer » et **« 06 88 38 27 98 »** ; photo d'un coach qui corrige une cliente sur un tapis (le même homme revient sur deux autres photos : vraie séance probable, à juger). Juste dessous : **« Excellent sur Google, 5,0, 77 avis »** et dix avis datés de 2026. Puis une page par discipline, une par ville (Strasbourg, Colmar, Haguenau), une page Tarifs, des conseils, une FAQ, et **le prix réel après aide écrit dans la FAQ** (« si votre coach souhaite percevoir 70 € par séance… le prix total à 96 € TTC. Grâce à l'Avance immédiate, vous ne payez que 48 € »). Défauts : « des résultats garantis ! » (promesse de résultat), deux compteurs sans chiffre dans le HTML (« calories brûlées en moyenne », « des clients nous recommandent ») et un calculateur de calories sans rapport avec la décision.
+
+**Leviers vus** : Photos réelles : séances (probables). Premier écran : métier + ville + région, nom et diplôme, numéro en barre haute et en bouton. Preuves : 77 avis Google 5,0 juste sous le premier écran, plus de 15 ans, aide fiscale chiffrée. Structure : plusieurs pages (disciplines, villes, tarifs, conseils, coopérative) ; formulaire de trois champs en bas de l'accueil. Appels : « Commencer », le numéro, « contactez-moi ». Vitesse : premier octet 0,49 s. Mobile : numéro en barre haute, « Commencer » au bas du premier écran. Signes « IA » : aucun relevé.

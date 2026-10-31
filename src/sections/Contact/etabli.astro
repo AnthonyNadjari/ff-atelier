@@ -1,0 +1,119 @@
+---
+/**
+ * Contact "etabli" (style etabli, relevé sur agronomywork.shop le 31 oct 2026, fiche docs/veille/styles/etabli.md
+ * § Construction, blocs 7 et 8) : la fin de page de la source, sans formulaire, sans bandeau d'appel, sans questions.
+ * 1. LE NOM EN LETTRES GÉANTES sur une photo pleine largeur : le nom du client en bas de casse, grotesque à chasse
+ *    étroite (token --font-enseigne de la direction, posé par elle sur .etabli-enseigne-nom ; ailleurs la police de titre), un mot par ligne ajusté à la largeur de l'écran, en blanc sur le bas de la photo
+ *    (images.hero, sinon la dernière photo de la galerie) ; sans photo, le nom en encre sur le blanc.
+ * 2. LES VIGNETTES DE TOUTES LES PIÈCES sur leur fond de pierre, en rangée (chacune vers sa page), comme la source avant
+ *    son pied de page.
+ * 3. TROIS TIERS : le mot de contact (wording.contactTitle, contactText) et les portes (Appeler le numéro en bouton plein,
+ *    Écrire si l'e-mail est donné, Commander si le lien de commande est donné ; le numéro en grand, en lien : la seule
+ *    porte forte de la page est celle du premier écran) ; l'adresse, « Voir sur le plan » et les
+ *    horaires ; les pages du site. Rien d'inventé : chaque ligne disparaît sans sa donnée.
+ */
+import { site, tel, mailto, fullAddress, lienProduits } from '@/lib/site';
+import { fichesEtabli, vuesDeFiche } from '@/lib/etabli';
+import Img from '@/components/Img.astro';
+
+const galerie = site.proof.gallery;
+const photo = site.images.hero ?? galerie[galerie.length - 1];
+const mots = site.business.name.toLowerCase().split(/\s+/).filter(Boolean);
+const vignettes = fichesEtabli(site)
+  .map((f) => ({ f, v: vuesDeFiche(f, 1)[0] }))
+  .filter((x) => x.v)
+  .slice(0, 8);
+const adresse = site.contact.address ? fullAddress() : '';
+// Les pages du site, comme le pied de la source : la gamme (chaque pièce est déjà dans la rangée de vignettes) et une page
+// par prestation.
+const gamme = lienProduits(site.produits, site.wording.produits);
+const liens = [...(gamme ? [gamme] : []), ...fichesEtabli(site).filter((f) => f.genre === 'service').map((f) => ({ href: f.href, label: f.nom }))];
+---
+
+<div class="etabli-fin-enveloppe">
+  <div class:list={['etabli-enseigne', photo && 'sur-photo']}>
+    {photo && <Img src={photo.src} alt={photo.alt} class="absolute inset-0 h-full w-full object-cover" sizes="100vw" loading="lazy" />}
+    <p class="etabli-enseigne-nom font-display" aria-hidden="true">
+      {mots.map((m) => <span style={`--n:${Math.max(m.length, 4)}`}>{m}</span>)}
+    </p>
+  </div>
+
+  <section id="contact" class="etabli-fin" aria-labelledby="etabli-fin-titre">
+  {vignettes.length > 1 && (
+    <ul class="etabli-fin-vignettes" aria-label="Toutes les pièces">
+      {vignettes.map(({ f, v }) => (
+        <li>
+          <a href={f.href} class="etabli-fin-vignette" data-detoure={f.detoure ? '1' : undefined}>
+            <Img src={v!.src} alt={f.nom} class={`absolute inset-0 h-full w-full ${f.detoure ? 'object-contain etabli-detoure' : 'object-cover'}`} sizes="120px" loading="lazy" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <div class="etabli-fin-tiers">
+    <div>
+      <h2 id="etabli-fin-titre" class="etabli-fin-titre" set:html={site.wording.contactTitle} />
+      {site.wording.contactText && <p class="mt-2 text-muted">{site.wording.contactText}</p>}
+      <div class="mt-5 grid gap-2">
+        <a href={tel()} class="etabli-fin-tel" data-porte="call">{site.contact.phoneDisplay}</a>
+        {site.contact.orderUrl && <p class="text-sm"><a href={site.contact.orderUrl} class="underline underline-offset-2" target="_blank" rel="noopener" data-porte="order">Commander en ligne</a></p>}
+        {site.contact.email && <p class="text-sm">Écrire : <a href={mailto()} class="underline underline-offset-2 [overflow-wrap:anywhere]">{site.contact.email}</a></p>}
+      </div>
+    </div>
+    {(adresse || site.contact.hours.length > 0) && (
+      <div class="text-sm">
+        {adresse && <p class="text-fg">{adresse}</p>}
+        {site.contact.mapsUrl && <p class="mt-1"><a href={site.contact.mapsUrl} class="underline underline-offset-2" target="_blank" rel="noopener">Voir sur le plan</a></p>}
+        {site.contact.hours.length > 0 && (
+          <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-muted">
+            {site.contact.hours.map((h) => (<><dt class="text-fg">{h.days}</dt><dd>{h.hours}</dd></>))}
+          </dl>
+        )}
+      </div>
+    )}
+    {liens.length > 0 && (
+      <nav class="text-sm" aria-label="Pages du site">
+        <ul class="grid gap-1">
+          {liens.map((l) => <li><a href={l.href} class="underline-offset-2 hover:underline">{l.label}</a></li>)}
+        </ul>
+      </nav>
+    )}
+  </div>
+  </section>
+</div>
+
+<style>
+  /* L'enveloppe s'efface : le nom sur la photo et les coordonnées sont deux blocs de la page, comme sur la source. */
+  .etabli-fin-enveloppe { display: contents; }
+  .etabli-enseigne { margin-top: var(--section-y); }
+  .etabli-enseigne { position: relative; overflow: hidden; display: flex; align-items: flex-end; min-height: 0; padding: 0 var(--gouttiere); }
+  .etabli-enseigne.sur-photo { min-height: 92svh; }
+  .etabli-enseigne.sur-photo::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, color-mix(in srgb, var(--ink) 55%, transparent), transparent 55%); pointer-events: none; }
+  .etabli-enseigne-nom {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    width: 100%;
+    margin: 0;
+    font-weight: 700;
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    padding-bottom: 0.04em;
+  }
+  .sur-photo .etabli-enseigne-nom { color: var(--on-ink); }
+  /* Un mot par ligne, ajusté à la largeur : la chasse moyenne du bas de casse étroit (Archivo à 62 %) est d’environ 0,37 em. */
+  .etabli-enseigne-nom span { display: block; font-size: min(calc((100vw - 2 * var(--gouttiere)) / (var(--n) * 0.37)), 46vh); white-space: nowrap; }
+  .etabli-fin-vignettes { display: flex; gap: var(--gouttiere); overflow-x: auto; padding: var(--gouttiere); scrollbar-width: none; }
+  .etabli-fin-vignettes::-webkit-scrollbar { display: none; }
+  .etabli-fin-vignette { position: relative; display: block; width: 4.5rem; aspect-ratio: 1; overflow: hidden; background: var(--pierre, var(--bg-2)); }
+  .etabli-fin-tiers { display: grid; gap: 2rem var(--gouttiere); padding: 1.5rem var(--gouttiere) 2.5rem; }
+  /* Le numéro en grand, en lien (une seule porte forte par page : celle du premier écran). */
+  .etabli-fin-tel { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem); font-weight: 500; letter-spacing: -0.02em; color: var(--fg); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.15em; white-space: nowrap; }
+  .etabli-fin-titre { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.02em; }
+  @media (min-width: 48rem) {
+    .etabli-fin-tiers { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .etabli-fin-vignette { width: 7rem; }
+  }
+</style>

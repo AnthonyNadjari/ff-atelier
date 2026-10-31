@@ -890,6 +890,82 @@ le bas des photos arrivent en se posant, les flèches des liens s'allongent sous
   `legende-qui-se-leve` (légende sous la photo) : ici la plaque à filet se pose à cheval sur le bord de la photo. Calme :
   oui. Poids : léger (quelques lignes de script).
 
+### `etagere-qui-se-remplit`
+Blank Inside (`rayon.md`, [blankinside.co.uk](https://blankinside.co.uk/), boutique anglaise de cartes illustrées, veille
+du 31 oct 2026, tour 20, style construit `rayon` ; CSS calculé : `animation slideIn 0.6s cubic-bezier(0, 0, 0.3, 1)` ×70 sur
+les cases, `featuredSetsSlideInLeft 0.6s` même courbe (`data-featured-sets-reveal`), `color 0.1s cubic-bezier(0.4, 0, 0.2, 1)`
+×202, `box-shadow 0.1s ease` et `top 0.1s ease` sur les étiquettes et boutons à ombre dure ; Swiper pour les étagères ; un
+bandeau promotionnel qui défile en boucle, refusé). Une boutique rangée : quand on arrive devant une étagère, les articles
+viennent s'y poser l'un après l'autre ; tout le reste répond sec, au doigt.
+- Entrée articles qui se posent (la première étagère) · apparition articles qui se posent (chaque rayon) · survol rond qui
+  se remplit · fond aucun.
+- Moteur : `src/components/EtagereRayon.astro` (Hero/rayon, Services/rayon) : chaque `[data-rayon]` (ou étagère seule)
+  reçoit `.ra-attente` (cases à `opacity: 0`, `translateX(2.5rem)` ; flèche dessinée à `stroke-dashoffset: 1`) puis
+  `.ra-arrive` à l'entrée dans l'écran (IntersectionObserver, seuil 0,12, une fois, script `onPage`) : transition 0,6 s
+  cubic-bezier(0, 0, 0.3, 1) (courbe de la source), `transition-delay: calc(var(--ra-i) * 50ms)` plafonné à 8 cases ; la
+  flèche se trace en 0,5 s, sa pointe 0,2 s après. Régime sec : `.ra-plus` (fond d'encre au survol, 0,1 s linéaire),
+  `.rayon-etiquette`, `.btn` et `.ra-fleche` (`translate(2px, 2px)` et ombre à zéro au `:active`, 0,1 s linéaire). La piste :
+  `overflow-x: auto`, `scroll-snap-type: x proximity`, barre cachée, ronds fléchés à la souris seulement (`scrollBy` d'une
+  largeur, `smooth` sauf en mouvement réduit).
+- Garde : sans script ou en mouvement réduit, tout est en place ; transform et opacité en temps, rien de calé sur le
+  défilement (tient sur iPhone) ; rien ne tourne tout seul (GOUT § 4 : la piste se fait glisser à la main) ; le
+  `hover` qui bouge est sous `(hover: hover) and (pointer: fine)`, le retour tactile passe par `:active`.
+- Quand : papeterie, librairie, épicerie fine, fromager, caviste, fleuriste, torréfacteur, imprimeur : un commerce qui a une
+  gamme à montrer et des photos de ses produits. Distinct de `cartouche-qui-se-pose` et `photo-qui-se-pose` (une plaque ou
+  une photo par bloc) : ici ce sont les objets du client qui arrivent sur une étagère horizontale, case après case. Calme :
+  oui. Poids : léger (une trentaine de lignes de script).
+
+### `travee-au-doigt`
+Driessen Architectuur (`travee.md`, [driessenarchitectuur.nl](https://driessenarchitectuur.nl/), agence d'architecture de
+Venray, veille du 31 oct 2026, tour 20, style construit `travee` ; DOM lu à 1 440 et 390 px : GSAP, ScrollTrigger, Lenis
+(défilement lissé), Flickity sur l'avis, `data-scroll-inview` ×36 ; transitions relevées `opacity 0.45s ease` et
+`transform 0.45s ease` ×67, `opacity 0.3s ease` ×37, `padding-left 0.3s ease` ×19 sur les lignes de l'index ; au premier
+écran, des vidéos de projets qui se suivent seules sous un titre fixe, refusées). Une agence qui montre ses bâtiments : on
+les fait passer au doigt, comme on feuillette un dossier de plans ; la photo qui arrive se pose, le reste répond sec.
+- Entrée aucune · apparition photo qui se pose à l'arrêt (dans la piste, pas au défilement vertical) · survol nom qui glisse
+  · fond aucun.
+- Moteur : `src/scripts/travee.ts` (Hero/travee, Proof/travee, script `onPage`, idempotent) sur chaque `[data-travee]` :
+  la piste `[data-travee-piste]` est NATIVE (`overflow-x: auto`, `scroll-snap-type: x mandatory`, `scroll-snap-align: start`,
+  `overscroll-behavior-x: contain`, `touch-action: pan-x pan-y`, `tabindex="0"` : flèches du clavier) ; le script ajoute
+  les flèches précédent / suivant (`scrollTo` sur le bord de la vue voisine, `smooth` sauf en mouvement réduit), « 2 sur 7 »,
+  la légende de la vue du moment (lien vers sa page) et `.is-ici` sur elle (écouteur de défilement passif, une mesure par
+  image d'animation) ; sous `.travee-vivante` (posée par le script hors mouvement réduit), les photos attendent à
+  `scale(1.05)` et celle du moment se pose à `scale(1)` en 0,45 s `ease` (courbe et durée de la source) : une transition
+  en temps, déclenchée à l'arrêt, jamais calée sur la position du doigt. Régime sec : boutons et flèches en 0,2 s
+  `ease-out`, le nom d'un métier de l'index glisse de 6 px au survol (souris seulement), retour tactile par `:active`.
+- Garde : le défilement vertical n'est jamais détourné (pas de `wheel`, pas de `preventDefault`, pas d'épinglage) ; rien
+  ne tourne tout seul (GOUT § 4) ; sans script, la piste glisse quand même et les flèches restent cachées ; tout le texte
+  posé sur la piste laisse passer le doigt (`pointer-events: none` sauf liens et boutons) ; transform et opacité en temps
+  (tient sur iPhone).
+- Quand : architecte, menuisier-agenceur, charpentier, entreprise de rénovation, paysagiste, constructeur bois : un client
+  qui a des réalisations en photos (cinq au moins) et des photos par métier. Distinct de `etagere-qui-se-remplit` (des
+  objets qui arrivent case après case quand l'étagère entre à l'écran) et des scènes épinglées : ici rien n'arrive au
+  défilement vertical, tout se passe sous le doigt, dans la piste. Calme : oui. Poids : léger (une soixantaine de lignes
+  de script, aucune bibliothèque).
+
+### `fiche-collee-a-l-objet`
+Agronomy Workshop (`etabli.md`, [agronomywork.shop](https://agronomywork.shop/), vêtements de travail cousus à Los Angeles,
+site Framer, veille du 31 oct 2026, tour 20, style construit `etabli` ; DOM lu à 1 440 px : sept blocs `position: sticky;
+top: 86px`, les fiches produit et le titre et chaque question de « Questions we asked… », aucune transition relevée sur les
+éléments visibles, Framer Motion chargé mais rien ne s'anime ; captures à la molette regardées). Une boutique qui ne bouge
+pas et qui pourtant vit au défilement : la fiche d'un objet reste à côté de lui tant qu'on regarde ses photos, et les
+questions descendent en escalier puis se rangent en une rangée.
+- Entrée objet qui se pose · apparition escalier qui se range · survol vignette qui change la vue · fond aucun.
+- Moteur : `hero/etabli`, `services/etabli` (`RangEtabli`) : à l'ordinateur la fiche (`.etabli-rang-colle`) en `position:
+  sticky; top: calc(var(--barre-h) + var(--gouttiere))` dans une cellule haute comme sa rangée, côtés alternés ; au
+  téléphone l'objet (`.etabli-objet`, `.etabli-rang-objet`) colle sous la barre et la fiche, fond `--bg`, `z-index` au-dessus,
+  monte dessus. `faq/etabli` (`EscalierEtabli`) : le titre au-dessus, cinq colonnes, chaque question `min-height: 56svh`, `margin-top:
+  calc(var(--i) * 7rem)`, collante dans une colonne haute de `marches x 7rem + 90svh`. `FicheEtabli` : un clic sur une vignette
+  montre la vue choisie (`hidden`) avec un fondu de 0,2 s linéaire (script `onPage`, un écouteur sur le corps) ; à l'arrivée
+  l'objet du premier écran se pose (`translateY(1rem)` -> 0 et opacité, 0,9 s `cubic-bezier(0.16, 1, 0.3, 1)`, CSS, une fois).
+- Garde : rien n'est calé image par image ni lié au défilement par script (collage natif : tient sur iPhone) ; aucune donnée
+  ne dépend des vignettes (chaque vue est aussi sur la page de l'objet) ; en mouvement réduit, ni entrée ni fondu (le
+  collage, qui suit le doigt, reste) ; au téléphone, l'escalier devient une piste au doigt.
+- Quand : coutelier, maroquinier, céramiste, ébéniste, sellier, torréfacteur, savonnier : un artisan qui vend des pièces et
+  en a de bonnes photos (l'objet seul, puis en situation). Distinct de `plaques-qui-s-empilent` (des plaques qui s'empilent
+  l'une sur l'autre) et de `chapitres-epingles` (un chapitre épinglé) : ici une fiche tient À CÔTÉ de ses photos, et les
+  questions se rangent de biais. Calme : oui. Poids : nul (CSS et quelques lignes de script).
+
 ## Complément transversal : transitions de page
 
 Estudio Niksen (`view-transition` natives), Délice (Swup), Relais Rossàr (Barba). Pas un profil : il se combine avec

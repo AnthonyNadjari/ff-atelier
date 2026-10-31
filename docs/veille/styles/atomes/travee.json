@@ -1,0 +1,170 @@
+{
+  "id": "travee",
+  "version": 1,
+  "source": {
+    "url": "https://driessenarchitectuur.nl/",
+    "nom": "Driessen Architectuur",
+    "metier": "agence d'architecture de Venray (Limbourg, Pays-Bas) : maisons, bureaux, écoles, soins ; une quinzaine de personnes",
+    "fiche": "docs/veille/styles/travee.md",
+    "mesures": "docs/veille/styles/atomes/mesures/travee.json",
+    "date": "2026-10-31"
+  },
+  "typo": {
+    "titre": {
+      "famille": "sizmo",
+      "libre": "anybody",
+      "graisse": 500,
+      "interlignage": 1.1,
+      "casse": "none",
+      "interlettrage": -0.048,
+      "italique": false
+    },
+    "texte": {
+      "famille": "sizmo",
+      "libre": "archivo",
+      "graisse": 500,
+      "interlignage": 1.6
+    },
+    "mono": null,
+    "echelle": {
+      "h1": {
+        "telephone": 45.7,
+        "ordinateur": 37.8
+      },
+      "h2": {
+        "telephone": 21.5,
+        "ordinateur": 28.8
+      },
+      "texte": {
+        "telephone": 13.4,
+        "ordinateur": 13.5
+      }
+    },
+    "remarque": "sizmo (Typekit, non libre) : grotesque technique aux courbes carrées, graisse 500, interlettrage serré (-1,8 px sur les h2 de 61 px), une seule famille pour tout. Titres en Anybody (OFL, mêmes courbes carrées, graisse 500), texte courant en Archivo (OFL, grotesque de lecture de la même famille technique) : Anybody est une police d'affichage, trop serrée en 14 px."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#faf6f2",
+      "texte": "#151515",
+      "fonds": [
+        {
+          "hex": "#faf6f2",
+          "part": 0.422
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.29
+        },
+        {
+          "hex": "#151515",
+          "part": 0.18
+        },
+        {
+          "hex": "#000000",
+          "part": 0.074
+        },
+        {
+          "hex": "#719067",
+          "part": 0.028
+        },
+        {
+          "hex": "#5f7d55",
+          "part": 0.006
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#151515",
+          "part": 0.542
+        },
+        {
+          "hex": "#ffffff",
+          "part": 0.422
+        },
+        {
+          "hex": "#000000",
+          "part": 0.036
+        }
+      ],
+      "proches": 15065565
+    },
+    "clair": {
+      "fond": "#faf6f2",
+      "surface": "#ffffff",
+      "texte": "#151515",
+      "texte2": "#55524d",
+      "accent": "#151515",
+      "accent2": "#56724e",
+      "bordure": "#dcd6ce",
+      "encre": "#151515"
+    },
+    "sombre": null,
+    "remarque": "Fond #faf6f2 mesuré (42 % des fonds), blanc pur pour les blocs de métiers et de réalisations (29 %), noir d'encre #151515 (18 %) pour la fin et les boutons pleins ; le vert de haie #719067 (3 %) ne sert qu'à la plaque de l'avis : assombri en #56724e (5,4:1 sous du texte blanc ; 3,6:1 mesuré). Régime clair neutre (fond #faf6f2, chroma OKLCH 0,007)."
+  },
+  "densite": {
+    "section": {
+      "telephone": 90,
+      "ordinateur": 18
+    },
+    "gouttiere": {
+      "telephone": 27,
+      "ordinateur": 405
+    },
+    "conteneur": 1278,
+    "mesure": 94,
+    "rythme": "uni",
+    "remarque": "Grille de douze colonnes sur toute la largeur, 40 px de marge à 1 440 px (20 px au téléphone) ; blocs séparés par 120 px environ ; le texte d'ouverture commence au tiers de sa colonne."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 0,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "couleur",
+    "remarque": "Boutons rectangulaires à angles droits, noir plein ou au trait d'1 px, une flèche au trait à droite (la source les écrit en capitales de 12 px : refusé, casse normale) ; étiquettes au trait de 2 px de rayon sur les réalisations ; aucune ombre ; la seule surface colorée est la plaque verte de l'avis."
+  },
+  "photos": {
+    "traitement": "plein-cadre",
+    "rapports": [
+      "4:5",
+      "1:1",
+      "4:3"
+    ],
+    "pleinCadre": 2,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "texte-sur-photo",
+    "remarque": "Premier écran plein cadre qui passe d'un projet à l'autre (vidéos en fondu sur la source, refusé : piste au doigt), titre centré dessus ; les réalisations posées à des tailles et des hauteurs différentes (4:3, 1:1, 3:4, 3:2) avec leurs étiquettes ; l'avis sur une plaque verte posée sur une photo aérienne ; la photo de l'équipe à droite de la fin noire."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "ease-out"
+    },
+    "scene": {
+      "duree": 0.45,
+      "courbe": "ease"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "GSAP",
+      "ScrollTrigger",
+      "Lenis"
+    ],
+    "profil": "travee-au-doigt",
+    "remarque": "Source : GSAP, ScrollTrigger, Lenis (défilement lissé, refusé), Flickity pour l'avis, apparitions au défilement (data-scroll-inview ×36), vidéos en fondu au premier écran ; transitions relevées opacity et transform 0,45 s ease ×67, 0,3 s ease ×37. Repris : des pistes natives au doigt (premier écran, réalisations, avis), la photo qui se pose une fois arrivée (0,45 s ease), boutons en 0,2 s ease-out ; rien ne suit le défilement vertical."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "aucun",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "bande-defilante"
+}

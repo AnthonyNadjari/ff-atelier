@@ -1,0 +1,70 @@
+---
+/**
+ * Nav "etabli" (style etabli, relevé sur agronomywork.shop le 31 oct 2026, fiche docs/veille/styles/etabli.md § Construction,
+ * bloc 1) : la barre blanche de la source, filet d'un pixel dessous, 66 px de haut : les liens à gauche en petit corps (la
+ * page en cours soulignée), le nom au centre, et à droite, à la place du panier de la source, le téléphone (l'usine ne fait
+ * ni panier ni paiement : la porte est un appel). Au téléphone : « Menu » (liste native, sans script) à gauche, le nom au
+ * centre, « Appeler » à droite. Fixe en haut, une cale de sa hauteur dessous. Les liens vont à des PAGES (la gamme,
+ * chaque prestation), le contact seul est une ancre.
+ */
+import { site, tel, lienProduits } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+// Comme la source (Index, Shop, Newsletter : des pages, pas des ancres) : la gamme (/produits), une page par prestation,
+// puis le contact en bas de l'accueil. Rien sans sa donnée.
+const produits = lienProduits(site.produits, site.wording.produits);
+const liens = [
+  ...(produits ? [produits] : []),
+  ...site.services.filter((x) => !x.slug.startsWith('_')).slice(0, 3).map((x) => ({ href: `/services/${x.slug}`, label: x.title })),
+  ...(site.layout.sections.some((x) => x.type === 'contact') ? [{ href: '/#contact', label: 'Contact' }] : []),
+];
+const ici = Astro.url.pathname.replace(/\/$/, '') || '/';
+const actif = (href: string) => {
+  const chemin = href.split('#')[0].replace(/\/$/, '') || '/';
+  return !href.includes('#') && chemin === ici;
+};
+---
+
+<header class="etabli-barre fixed inset-x-0 top-0 z-50 border-b border-line bg-bg">
+  <div class="etabli-barre-grille">
+    <nav class="hidden items-center gap-4 text-sm md:flex" aria-label="Navigation principale">
+      <a href="/" class:list={['etabli-lien', ici === '/' && 'est-ici']} aria-current={ici === '/' ? 'page' : undefined}>Accueil</a>
+      {liens.map((l) => (
+        <a href={l.href} class:list={['etabli-lien', actif(l.href) && 'est-ici']} aria-current={actif(l.href) ? 'page' : undefined}>{l.label}</a>
+      ))}
+    </nav>
+    <details class="etabli-menu relative text-sm md:hidden">
+      <summary class="cursor-pointer list-none py-2">Menu</summary>
+      <div class="absolute left-0 top-full mt-3 flex min-w-[12rem] flex-col gap-3 border border-line bg-bg p-4">
+        <a href="/" class="etabli-lien">Accueil</a>
+        {liens.map((l) => <a href={l.href} class="etabli-lien">{l.label}</a>)}
+      </div>
+    </details>
+    <a href="/" class="justify-self-center text-center font-display text-base font-medium leading-tight">
+      {site.images.logo ? <Img src={site.images.logo.src} alt={site.images.logo.alt} class="h-9 w-auto" sizes="160px" loading="eager" /> : <span>{site.business.name}</span>}
+    </a>
+    <a href={tel()} class="etabli-lien justify-self-end text-sm" data-porte="call">
+      <span class="md:hidden">Appeler</span>
+      <span class="hidden whitespace-nowrap md:inline">{site.contact.phoneDisplay}</span>
+    </a>
+  </div>
+</header>
+<div class="etabli-cale" aria-hidden="true"></div>
+
+<style>
+  .etabli-barre-grille {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--gouttiere, 1.25rem);
+    height: var(--barre-h, 4.125rem);
+    padding-inline: var(--gouttiere, 1.25rem);
+  }
+  .etabli-cale { height: var(--barre-h, 4.125rem); }
+  .etabli-lien { color: var(--fg); text-underline-offset: 3px; }
+  .etabli-lien.est-ici { text-decoration: underline; text-decoration-thickness: 1px; }
+  @media (hover: hover) and (pointer: fine) {
+    .etabli-lien:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+  }
+  .etabli-menu summary::-webkit-details-marker { display: none; }
+</style>

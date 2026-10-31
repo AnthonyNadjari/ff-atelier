@@ -1,0 +1,184 @@
+{
+  "id": "etabli",
+  "version": 1,
+  "source": {
+    "url": "https://agronomywork.shop/",
+    "nom": "etabli",
+    "metier": "marque de vêtements de travail (atelier de couture, Los Angeles)",
+    "fiche": "docs/veille/styles/etabli.md",
+    "mesures": "docs/veille/styles/atomes/mesures/etabli.json",
+    "date": "2026-10-31"
+  },
+  "typo": {
+    "titre": {
+      "famille": "Gerstner Programm FSL Regular",
+      "libre": "hostGrotesk",
+      "graisse": 500,
+      "interlignage": 1.04,
+      "casse": "none",
+      "interlettrage": -0.025,
+      "italique": false
+    },
+    "texte": {
+      "famille": "Gerstner Programm FSL Regular",
+      "libre": "hostGrotesk",
+      "graisse": 400,
+      "interlignage": 1.3
+    },
+    "mono": {
+      "famille": "ABC Marfa Mono",
+      "libre": "azeretMono"
+    },
+    "echelle": {
+      "h1": {
+        "telephone": 28,
+        "ordinateur": 40
+      },
+      "h2": {
+        "telephone": 26,
+        "ordinateur": 32
+      },
+      "texte": {
+        "telephone": 15,
+        "ordinateur": 15
+      }
+    },
+    "remarque": "Gerstner Programm (non libre) partout en 14 px et 400 : Host Grotesk, néo-grotesque libre, une seule famille de texte ; le h1 de l'usine (la phrase du client, que la source n'a pas) en 500 resserré, le « Questions… » de la source en h2 400 resserré ; ABC Marfa Mono du prix encadré -> Azeret Mono ; OT Neue Montreal Semi Squeezed du nom géant de fin -> Archivo à 62 % de chasse (token --font-enseigne de la direction, hors atome)."
+  },
+  "couleurs": {
+    "principal": "clair",
+    "releve": {
+      "fond": "#ffffff",
+      "texte": "#888888",
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "part": 0.975
+        },
+        {
+          "hex": "#eeede8",
+          "part": 0.016
+        },
+        {
+          "hex": "#f4eb59",
+          "part": 0.006
+        },
+        {
+          "hex": "#0076ff",
+          "part": 0.002
+        },
+        {
+          "hex": "#212220",
+          "part": 0
+        },
+        {
+          "hex": "#1d2540",
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#888888",
+          "part": 0.403
+        },
+        {
+          "hex": "#666666",
+          "part": 0.291
+        },
+        {
+          "hex": "#1e1e1e",
+          "part": 0.183
+        },
+        {
+          "hex": "#212220",
+          "part": 0.109
+        },
+        {
+          "hex": "#eeede8",
+          "part": 0.008
+        },
+        {
+          "hex": "#000000",
+          "part": 0.006
+        }
+      ],
+      "proches": 7829367
+    },
+    "clair": {
+      "fond": "#ffffff",
+      "surface": "#eeede8",
+      "texte": "#1e1e1e",
+      "texte2": "#666666",
+      "accent": "#5b3a24",
+      "accent2": "#d6bf99",
+      "bordure": "#dddcd6",
+      "encre": "#212220"
+    },
+    "sombre": null,
+    "_aide": "autres fonds mesurés : #eeede8 (2 %), #f4eb59 (1 %), #0076ff (0 %), #212220 (0 %), #1d2540 (0 %), #533f33 (0 %), #7a6855 (0 %)",
+    "remarque": "Blanc pur mesuré (96 % des fonds), pierre pâle #eeede8 sous chaque objet, texte #1e1e1e et gris #666666 (le #888888 mesuré, 3,5:1, est remonté). Reprise du 31 oct 2026 après le juge neuf : le bleu électrique #0076ff du bouton (boutique de mode) devient un brun de noyer #5b3a24 tiré du métier (texte blanc à 10:1), une seule porte forte par page ; l'aplat jaune #f4eb59 du bandeau d'inscription revient en matière, un cuir naturel #d6bf99 (accent2, token --matiere) sous les avis. Clair neutre."
+  },
+  "densite": {
+    "section": {
+      "telephone": 25,
+      "ordinateur": 25
+    },
+    "gouttiere": {
+      "telephone": 16,
+      "ordinateur": 20
+    },
+    "conteneur": 1400,
+    "mesure": 49,
+    "rythme": "uni",
+    "remarque": "Trois tiers égaux sur une gouttière de 20 px (bord compris) à 1 440 px, 10 px au téléphone ; la fiche se colle à 86 px (barre de 66 px + 20 px)."
+  },
+  "formes": {
+    "rayon": 0,
+    "rayonCarte": 0,
+    "rayonImage": 0,
+    "bordure": 1,
+    "ombre": "aucune",
+    "bouton": "plein",
+    "pilule": false,
+    "casseBouton": "none",
+    "lien": "souligne",
+    "remarque": "Aucun rayon sauf le cadre du prix (4 px, filet d'un pixel, chasse fixe) ; un seul bouton plein bleu, pleine largeur de la fiche, libellé à gauche ; liens soulignés d'un pixel."
+  },
+  "photos": {
+    "traitement": "detoure",
+    "rapports": [
+      "1:1",
+      "4:5",
+      "3:4"
+    ],
+    "pleinCadre": 1,
+    "noirEtBlanc": 0,
+    "masques": 0,
+    "superposition": "aucune",
+    "remarque": "L'objet détouré ou photographié seul, en grand sur un fond de pierre pâle carré ; à côté une photo d'ambiance (le vêtement porté, la matière de près) ; vignettes carrées sur le même fond ; aucune photo sous un texte, sauf le nom géant de fin."
+  },
+  "mouvement": {
+    "regime": "calme",
+    "ui": {
+      "duree": 0.2,
+      "courbe": "linear"
+    },
+    "scene": {
+      "duree": 0.9,
+      "courbe": "cubic-bezier(0.16, 1, 0.3, 1)"
+    },
+    "defilement": "aucun",
+    "bibliotheques": [
+      "Framer Motion"
+    ],
+    "profil": "fiche-collee-a-l-objet",
+    "remarque": "Framer Motion sur la source, mais rien ne s'anime : tout le mouvement vient de position: sticky (sept blocs collants de 2,5 écrans : la fiche de chaque objet, puis le titre et chaque question de l'escalier). Gardé : les collages natifs (fiche, escalier qui se range), les vignettes qui changent la vue en 0,2 s, l'objet qui se pose à l'arrivée en 0,9 s."
+  },
+  "matiere": {
+    "fond": "uni",
+    "filets": "fins",
+    "texture": "aucune"
+  },
+  "architecture": null,
+  "premier_ecran": "objet-du-metier"
+}

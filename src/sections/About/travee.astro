@@ -1,0 +1,60 @@
+---
+/**
+ * About "travee" (style travee, relevé sur driessenarchitectuur.nl le 31 oct 2026, fiche docs/veille/styles/travee.md
+ * § Construction, bloc 3 « Over ons ») : sur le blanc cassé, une grille de douze colonnes. Le texte d'ouverture (premier
+ * paragraphe de about.story) en grand corps (28 à 34 px, graisse 500, interlignage 1,15), RENTRÉ À LA PREMIÈRE LIGNE :
+ * il commence au tiers de sa colonne et revient à gauche dès la deuxième ligne ; dans le rentrant, le repère « ● L'agence »
+ * (about.title) en petit gras. Dessous, décalé à gauche : la vignette carrée de la personne (about.portrait, sinon la photo
+ * du premier membre de l'équipe, 88 px), la suite de l'histoire en petit corps sur une colonne étroite, la signature
+ * (about.team[0]) ; à droite, le bouton au trait « Nous écrire ». La source numérote ses blocs « 1.0 », « 1.1 » en exposant :
+ * refusé (numérotation décorative, GOUT § 2).
+ * Rien d'inventé : sans histoire, pas de section ; sans portrait, pas de vignette ; sans équipe, pas de signature.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Button from '@/components/Button.astro';
+import Img from '@/components/Img.astro';
+
+const morceaux = paragraphs(site.about.story ?? '');
+const [ouverture, ...suite] = morceaux;
+const hote = site.about.team[0];
+const vignette = site.about.portrait ?? hote?.photo;
+---
+
+{ouverture && (
+  <section id="about" class="travee-about" aria-labelledby="travee-about-titre">
+    <div class="travee-marges grid gap-y-10 md:grid-cols-12 md:gap-x-6">
+      <div class="travee-ouverture md:col-span-9 md:col-start-3">
+        <h2 id="travee-about-titre" class="travee-repere eyebrow">{site.about.title ?? site.business.name}</h2>
+        <p class="travee-lede font-display">{ouverture}</p>
+      </div>
+      <div class="flex items-start gap-5 md:col-span-5 md:col-start-3">
+        {vignette && (
+          <span class="relative block aspect-square w-[5.5rem] shrink-0 overflow-hidden md:w-[7.5rem]">
+            <Img src={vignette.src} alt={vignette.alt} class="absolute inset-0 h-full w-full object-cover" sizes="88px" loading="lazy" />
+          </span>
+        )}
+        <div class="text-[0.9375rem] leading-[1.6] text-muted md:text-[1.0625rem]">
+          {suite.map((p) => <p class="mb-3 last:mb-0">{p}</p>)}
+          {hote && <p class="mt-3 text-fg">{hote.name}, {hote.role}</p>}
+        </div>
+      </div>
+      <div class="md:col-span-3 md:col-start-10 md:self-end md:justify-self-end">
+        <Button href="/#contact" variant="ghost" size="sm">Nous écrire</Button>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .travee-about { padding-block: var(--section-y); }
+  .travee-marges { width: 100%; padding-inline: clamp(1.25rem, 2.6vw, 2.5rem); }
+  .travee-ouverture { position: relative; }
+  /* Le repère vit dans le rentrant de la première ligne (absolu au bord gauche de la colonne, aligné sur la première ligne). */
+  .travee-repere { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.9rem; }
+  .travee-repere::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: currentColor; }
+  .travee-lede { font-size: clamp(1.5rem, 0.9rem + 2.4vw, 3.25rem); line-height: 1.1; font-weight: 500; letter-spacing: -0.02em; color: var(--fg); text-indent: 0; max-width: 34ch; }
+  @media (min-width: 48rem) {
+    .travee-repere { position: absolute; left: 0; top: 0.55em; margin: 0; }
+    .travee-lede { text-indent: 36%; max-width: none; }
+  }
+</style>

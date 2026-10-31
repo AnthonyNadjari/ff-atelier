@@ -1,0 +1,106 @@
+/* Direction ETABLI : style réel relevé sur https://agronomywork.shop/ (Agronomy Workshop, vêtements de travail cousus à
+   Los Angeles ; veille du 31 oct 2026, tour 20, fiche docs/veille/styles/etabli.md, atomes
+   docs/veille/styles/atomes/etabli.json). On reprend le style et la construction (l'accueil fait de fiches d'objet sur trois
+   tiers : la fiche collée à côté de l'objet en grand, vignettes, prix encadré, bouton plein pleine largeur ; l'escalier des
+   questions ; le nom en lettres géantes sur la photo de fin), jamais les textes, images, logos ni le code de la source.
+   Polices : Gerstner Programm (non libre, 14 px, graisse 400) -> Host Grotesk (néo-grotesque libre, OFL) pour le texte, et
+   Familjen Grotesk (grotesque aux terminaisons tendues, OFL) pour les titres ; ABC Marfa Mono
+   (prix encadré) -> Azeret Mono ; OT Neue Montreal Semi Squeezed (le nom géant de fin, en bas de casse) -> Archivo
+   Variable à 62 % de chasse.
+   Couleurs relevées : fond #ffffff (96 % des fonds), pierre pâle #eeede8 sous chaque objet, texte #1e1e1e et gris #666666 /
+   #888888, bouton bleu électrique #0076ff, aplat jaune #f4eb59 du bandeau d'inscription. Le gris #888888 (3,5:1) est remonté
+   à #666666 (5,7:1). Reprise du 31 oct 2026 (juge neuf : « ce bleu de boutique de mode jure avec bois et acier ») : la
+   couleur d'action est tirée du métier, un brun de noyer #5b3a24 (texte blanc à 10:1), une seule porte forte par page ; le
+   grand aplat jaune revient en matière, un cuir naturel #d6bf99 sous les avis. Clair neutre. */
+@import '@fontsource-variable/host-grotesk';
+@import '@fontsource-variable/familjen-grotesk';
+@import '@fontsource-variable/azeret-mono';
+@import '@fontsource-variable/archivo/wdth.css';
+
+[data-direction='etabli'] {
+  --accent-h: 24;
+  --accent-s: 43%;
+  --accent-l: 25%;
+  --bg: #ffffff;
+  --bg-2: #eeede8;
+  --surface: #eeede8;
+  --fg: #1e1e1e;
+  --muted: #666666;
+  --line: #dddcd6;
+  --accent: #5b3a24;
+  --accent-2: #43291a;
+  --on-accent: #ffffff;
+  --ink: #212220;
+  --on-ink: #ffffff;
+  /* Le fond de pierre pâle sous chaque objet (vignettes, objet en grand, cases de l'escalier). */
+  --pierre: #eeede8;
+  /* L'aplat de matière qui porte la page (le jaune promotionnel de la source, refait en cuir naturel : un seul grand aplat,
+     sous les avis) ; texte d'encre dessus. */
+  --matiere: #d6bf99;
+  --font-display: 'Familjen Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Host Grotesk Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Azeret Mono Variable', ui-monospace, monospace;
+  /* Le nom géant de fin de page (Contact/etabli). */
+  --font-enseigne: 'Archivo Variable', 'Arial Narrow', sans-serif;
+  --display-weight: 500;
+  --display-tracking: -0.02em;
+  --heading-transform: none;
+  --radius: 0px;
+  --radius-card: 0px;
+  --shadow-card: none;
+  --shadow-lift: none;
+  /* Gouttière mesurée : 20 px entre les tiers et au bord à 1 440 px, 10 px au téléphone. */
+  --gouttiere: clamp(0.625rem, 1.4vw, 1.25rem);
+  /* Hauteur de la barre (66 px mesurés) : là où la fiche se colle. */
+  --barre-h: 4.125rem;
+  --section-y: clamp(3.5rem, 7vw, 6rem);
+  --motion-duration: 0.9s;
+  --motion-ui: 0.2s;
+  /* Deux régimes : sec (vues et boutons, 0,2 s linéaire) et lent (l'objet qui se pose à l'arrivée, 0,9 s). */
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-direction='etabli'] body { font-size: 0.9375rem; line-height: 1.3; color: var(--fg); }
+[data-direction='etabli'] ::selection { background: var(--accent); color: var(--on-accent); }
+/* Titres : h1 en 500, interlignage serré mesuré ; h2 en 400 resserré (le « Questions… » de la source) ; h3 au corps du
+   texte en 500 (les noms d'objets). Jamais d'italique (GOUT § 2). */
+[data-direction='etabli'] :is(h1, h2, h3) { line-height: 1.04; }
+[data-direction='etabli'] h1 { font-weight: 500; letter-spacing: -0.025em; }
+[data-direction='etabli'] h2 { font-weight: 400; letter-spacing: -0.035em; }
+[data-direction='etabli'] h3 { font-weight: 500; letter-spacing: -0.01em; line-height: 1.25; }
+[data-direction='etabli'] :is(h1, h2, h3) em { font-style: normal; color: inherit; }
+
+/* Boutons : le bouton de la source est un aplat bleu à angles droits, texte à gauche, en 14 px. */
+[data-direction='etabli'] .btn {
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  transition: background-color var(--motion-ui) linear, color var(--motion-ui) linear;
+}
+[data-direction='etabli'] .btn-primary { background: var(--accent); color: var(--on-accent); }
+[data-direction='etabli'] .btn-primary:hover { background: var(--accent-2); }
+[data-direction='etabli'] .btn-ghost { border: 1px solid var(--fg); background: transparent; color: var(--fg); }
+[data-direction='etabli'] .btn-ghost:hover { background: var(--fg); color: var(--bg); }
+[data-direction='etabli'] .card { background: var(--bg); border-radius: 0; border: 0; box-shadow: none; }
+[data-direction='etabli'] .rule { border-top: 1px solid var(--line); }
+[data-direction='etabli'] .eyebrow { color: var(--muted); font-family: var(--font-body); font-size: 0.875rem; font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+/* Le prix encadré (classe posée par les sections etabli) : chasse fixe, filet d'un pixel, petit rayon de 4 px, comme
+   l'étiquette de prix de la source. */
+[data-direction='etabli'] .etabli-prix {
+  display: inline-block;
+  border: 1px solid var(--fg);
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--fg);
+}
+
+/* Le nom géant de fin de page (Contact/etabli) : grotesque à chasse étroite, comme la Neue Montreal Semi Squeezed de la
+   source. */
+[data-direction='etabli'] .etabli-enseigne-nom { font-family: var(--font-enseigne); font-stretch: 62%; }

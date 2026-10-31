@@ -1,0 +1,33 @@
+{
+  "nom": "rayon-fromager",
+  "titre": "Rayon fromager",
+  "description": "La direction rayon pour un fromager, un caviste ou une épicerie qui vend aussi des prestations (plateaux, paniers, dégustations) : barre de navigation, le titre et la photo côte à côte, les avis dans leurs grandes cases tout de suite après, le nom en grand à côté de l'histoire, les prestations en liste, les étapes d'une commande, les questions, l'invitation sur sa carte, puis la fin en trois tampons Appeler, Venir, Écrire.",
+  "metiers": [
+    "fromager",
+    "caviste",
+    "épicerie fine",
+    "torréfacteur"
+  ],
+  "look": {
+    "direction": "rayon",
+    "motion": "subtle",
+    "scale": "compact",
+    "layout": {
+      "nav": "bar",
+      "hero": "split",
+      "sections": [
+        { "type": "proof", "variant": "rayon" },
+        { "type": "about", "variant": "rayon" },
+        { "type": "services", "variant": "list" },
+        { "type": "process", "variant": "steps" },
+        { "type": "faq", "variant": "accordion" },
+        { "type": "cta", "variant": "card" },
+        { "type": "contact", "variant": "rayon" }
+      ],
+      "footer": "minimal",
+      "divider": "none",
+      "tone": "flat",
+      "actionBar": false
+    }
+  }
+}

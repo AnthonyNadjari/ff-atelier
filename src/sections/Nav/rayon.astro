@@ -1,0 +1,112 @@
+---
+/**
+ * Nav "rayon" (style rayon, relevé sur blankinside.co.uk le 31 oct 2026, fiche docs/veille/styles/rayon.md § Construction,
+ * blocs 1 et 2) : la tête de la boutique.
+ * 1. LE BANDEAU : une bande d'encre aux deux bords pointillés (une rangée de points d'encre sur le blanc, au-dessus et
+ *    au-dessous, comme la bordure perforée de la source), une seule ligne fixe : « Commander par téléphone » et le numéro
+ *    (cliquable). La source y fait défiler une promotion en boucle : refusé (rien ne tourne tout seul, GOUT § 4).
+ * 2. LA TÊTE : le menu à gauche (details natif, sans script : les liens et les portes), le nom du client au centre (son
+ *    logo s'il en a un, sinon le nom en grand), à l'ordinateur le métier à la ville à gauche du nom et l'ancienneté à
+ *    droite (les deux petites phrases de part et d'autre du logo de la source), le téléphone à droite. Un filet dessous.
+ * La tête reste collée en haut au défilement (la source la garde sur toute la page) ; le bandeau, lui, s'en va.
+ */
+import { site, navLinks, actions, tel, metierEtVille } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const liens = navLinks();
+const portes = actions().filter((p) => p.kind !== 'call');
+const ext = (p: { external: boolean }) => (p.external ? { target: '_blank', rel: 'noopener' } : {});
+---
+
+<header class="ra-nav" data-nav>
+  <p class="ra-bande">
+    <a href={tel()} data-porte="call">Commander par téléphone&nbsp;:<span class="ra-bande-num whitespace-nowrap font-semibold">{site.contact.phoneDisplay}</span></a>
+  </p>
+  <div class="ra-tete">
+    <details class="ra-menu">
+      <summary aria-label="Menu">
+        <span class="ra-burger" aria-hidden="true"><span></span><span></span><span></span></span>
+      </summary>
+      <nav class="ra-menu-liste" aria-label="Navigation principale">
+        {liens.map((l) => <a href={l.href}>{l.label}</a>)}
+        {portes.map((p) => <a href={p.href} data-porte={p.kind} {...ext(p)}>{p.label}</a>)}
+      </nav>
+    </details>
+    <p class="ra-cote ra-cote-g">{metierEtVille().replace(/\.$/, '')}</p>
+    <a href="/" class="ra-logo" aria-label={`${site.business.name}, accueil`}>
+      {site.images.logo
+        ? <Img src={site.images.logo.src} alt="" class="ra-logo-img" sizes="160px" loading="eager" />
+        : <span class="ra-logo-nom font-display">{site.business.name}</span>}
+    </a>
+    <p class="ra-cote ra-cote-d">{site.business.since ? `Depuis ${site.business.since}` : ''}</p>
+    <a href={tel()} class="ra-appel" data-porte="call" aria-label={`Appeler le ${site.contact.phoneDisplay}`}>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+      <span class="ra-appel-num">{site.contact.phoneDisplay}</span>
+    </a>
+  </div>
+</header>
+
+<style>
+  /* Collée en haut : le bandeau (2,5 rem) sort de l'écran, la tête reste. */
+  .ra-nav { position: sticky; top: -2.5rem; z-index: 50; background: var(--bg); }
+  .ra-bande {
+    position: relative; display: grid; place-items: center; height: 2.5rem; margin: 0;
+    background: var(--ink); color: var(--on-ink); font-size: 0.8125rem; letter-spacing: 0.01em;
+  }
+  /* Les bords pointillés : une rangée de points d'encre sur le blanc, collée au bandeau, en haut et en bas. */
+  .ra-bande::before, .ra-bande::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 6px;
+    background-image: radial-gradient(circle, var(--ink) 1.3px, transparent 1.6px);
+    background-size: 6px 6px;
+  }
+  .ra-bande::before { top: -6px; }
+  .ra-bande::after { bottom: -6px; }
+  .ra-bande a { padding: 0.5rem 1rem; }
+  .ra-bande-num { margin-left: 0.35em; }
+  .ra-bande a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  .ra-tete {
+    display: grid; grid-template-columns: 3rem 1fr 3rem; align-items: center;
+    margin-top: 6px; padding: 0.875rem var(--ra-bord, 1rem);
+    border-bottom: 1px solid var(--line);
+  }
+  .ra-cote { display: none; margin: 0; font-size: 0.8125rem; color: var(--fg); text-align: center; }
+  .ra-logo { justify-self: center; display: block; color: var(--fg); text-align: center; }
+  .ra-logo-nom { display: block; max-width: 14ch; font-weight: 800; font-size: clamp(1.375rem, 1rem + 1.6vw, 2.25rem); line-height: 0.95; letter-spacing: -0.02em; text-wrap: balance; }
+  .ra-logo :global(.ra-logo-img) { height: 3.25rem; width: auto; }
+  .ra-appel { justify-self: end; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem; color: var(--fg); font-size: 0.875rem; font-weight: 600; }
+  .ra-appel-num { display: none; }
+  .ra-appel:hover .ra-appel-num { text-decoration: underline; text-underline-offset: 3px; }
+
+  .ra-menu { position: relative; }
+  .ra-menu summary { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; cursor: pointer; list-style: none; }
+  .ra-menu summary::-webkit-details-marker { display: none; }
+  .ra-burger { display: grid; gap: 5px; width: 1.25rem; }
+  .ra-burger span { display: block; height: 1.5px; background: var(--fg); }
+  .ra-menu-liste {
+    position: absolute; left: 0; top: calc(100% + 0.5rem); z-index: 60;
+    display: flex; flex-direction: column; gap: 0.25rem; min-width: 14rem; padding: 0.75rem;
+    background: var(--bg); border: 1.5px solid var(--fg); border-radius: var(--radius); box-shadow: var(--rayon-ombre, 2px 2px 0 var(--fg));
+    font-size: 0.9375rem;
+  }
+  .ra-menu-liste a { padding: 0.4rem 0.5rem; border-radius: 4px; }
+  .ra-menu-liste a:hover { background: var(--bg-2); }
+
+  @media (min-width: 64rem) {
+    .ra-tete { grid-template-columns: 3rem 1fr auto 1fr minmax(3rem, auto); gap: 2rem; padding-block: 1.5rem; }
+    .ra-cote { display: block; }
+    .ra-appel-num { display: inline; }
+  }
+</style>
+
+<script>
+  import { onPage } from '@/scripts/page';
+  // Un lien du menu choisi, un clic dehors ou Échap : le menu se replie.
+  onPage(() => {
+    document.querySelectorAll<HTMLDetailsElement>('.ra-menu').forEach((d) => {
+      d.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => d.removeAttribute('open')));
+      document.addEventListener('click', (e) => { if (!d.contains(e.target as Node)) d.removeAttribute('open'); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') d.removeAttribute('open'); });
+    });
+  });
+</script>

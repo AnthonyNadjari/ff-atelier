@@ -1,0 +1,56 @@
+---
+/**
+ * About "rayon" (style rayon, relevé sur blankinside.co.uk le 31 oct 2026, fiche docs/veille/styles/rayon.md § Construction,
+ * bloc 5) : le bloc « logo et description » de la source, entre deux étagères : à gauche le nom du client en grand (son
+ * logo s'il en a un), à droite qui il est, en deux ou trois phrases. Ici : le nom (ou le logo) en grotesque très grasse,
+ * serrée, sur deux ou trois lignes, et sous lui le portrait du client s'il en a un, dans une case gris lavande comme un
+ * article ; à droite le titre (about.title), l'histoire (about.story, deux paragraphes au plus), l'ancienneté en texte et
+ * la signature (about.team[0]). Au téléphone, l'un sous l'autre, centrés comme la source.
+ * Rien d'inventé : sans histoire, la description du commerce ; sans portrait, pas de case ; sans équipe, pas de signature.
+ */
+import { site, paragraphs } from '@/lib/site';
+import Img from '@/components/Img.astro';
+
+const a = site.about;
+const texte = paragraphs(a.story || site.business.description || '').slice(0, 2);
+const signature = a.team[0];
+---
+
+{texte.length > 0 && (
+  <section id="about" class="ra-about section-y" aria-labelledby="ra-about-titre">
+    <div class="ra-about-nom">
+      {site.images.logo
+        ? <Img src={site.images.logo.src} alt={site.business.name} class="ra-about-logo" sizes="320px" loading="lazy" />
+        : <p class="ra-about-grand font-display" aria-hidden="true">{site.business.name}</p>}
+      {a.portrait && (
+        <figure class="ra-about-case">
+          <Img src={a.portrait.src} alt={a.portrait.alt} class="absolute inset-0 h-full w-full object-cover" sizes="(min-width: 64rem) 28vw, 80vw" loading="lazy" />
+        </figure>
+      )}
+    </div>
+    <div class="ra-about-texte">
+      <h2 id="ra-about-titre" class="ra-h2">{a.title ?? 'Qui sommes-nous ?'}</h2>
+      {texte.map((p) => <p class="mt-4">{p}</p>)}
+      {site.business.since && <p class="mt-4 text-fg">Depuis {site.business.since}.</p>}
+      {signature && <p class="ra-signature"><span class="font-bold">{signature.name}</span>, {signature.role}</p>}
+    </div>
+  </section>
+)}
+
+<style>
+  .ra-about { display: grid; gap: 2.5rem; padding-inline: var(--ra-bord, 1rem); text-align: center; justify-items: center; }
+  .ra-about-nom { display: grid; gap: 1.5rem; justify-items: center; }
+  .ra-about-grand {
+    margin: 0; max-width: 9ch; font-weight: 800;
+    font-size: clamp(2.75rem, 1.6rem + 5vw, 6rem); line-height: 0.9; letter-spacing: -0.035em; color: var(--fg); text-wrap: balance;
+  }
+  .ra-about :global(.ra-about-logo) { width: min(18rem, 70vw); height: auto; }
+  .ra-about-case { position: relative; width: min(20rem, 80vw); aspect-ratio: 4 / 5; overflow: hidden; border-radius: 2px; background: var(--bg-2); margin: 0; }
+  .ra-about-texte { max-width: 38rem; font-size: 1rem; line-height: 1.6; color: var(--fg); }
+  .ra-h2 { font-size: clamp(1.5rem, 1.15rem + 1.2vw, 2.25rem); text-wrap: balance; }
+  .ra-signature { margin-top: 1.25rem; font-size: 0.875rem; color: var(--muted); }
+  @media (min-width: 64rem) {
+    .ra-about { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; gap: 5rem; text-align: left; justify-items: stretch; padding-inline: calc(var(--ra-bord, 1rem) + 6vw); }
+    .ra-about-nom { justify-items: center; }
+  }
+</style>

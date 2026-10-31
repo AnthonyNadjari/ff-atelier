@@ -1,0 +1,74 @@
+---
+/**
+ * Page d'un producteur (/producteurs/<slug>, site.producteurs, src/lib/producteurs.ts) : architecture `mur-producteurs` (une
+ * fiche producteur du Comboire Paysan : la ferme, les personnes, la commune, les bêtes et la façon de travailler, les labels,
+ * le site du producteur ; docs/veille/architectures/mur-producteurs.md). Le nom, les personnes, la commune et la distance,
+ * la photo, ce que le client en dit, ce qu'il apporte, les labels, quand le rencontrer, son site, les voisins du même rayon,
+ * l'appel. Une page par producteur complet.
+ */
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/Icon.astro';
+import Img from '@/components/Img.astro';
+import { site, tel, producteursComplets, distanceDuProducteur, producteursVoisins, lienProducteurs } from '@/lib/site';
+import { resolveSection } from '@/lib/sections';
+
+export function getStaticPaths() {
+  return producteursComplets(site.producteurs?.liste).map((x) => ({ params: { slug: x.slug }, props: { x } }));
+}
+const { x } = Astro.props;
+const Nav = resolveSection('nav', site.layout.nav);
+const Footer = resolveSection('footer', site.layout.footer);
+const liste = site.producteurs!.liste;
+const page = lienProducteurs(liste, site.wording.producteurs);
+const voisins = producteursVoisins(liste, x.slug);
+---
+
+<Base title={`${x.nom} | ${site.business.name}`} description={`${x.nom}, ${x.commune} : producteur de ${site.business.name}.`} path={`/producteurs/${x.slug}`}>
+  <Nav />
+  <main id="main" class="container-ff pp">
+    <p><a href={page ? '/producteurs' : '/#producteurs'} class="pp-lien"><Icon name="ArrowLeft" size={16} />{site.wording.producteurs}</a></p>
+    <header class="pp-tete">
+      {x.rayon && <p class="pp-rayon">{x.rayon}</p>}
+      <h1 class="pp-titre font-display">{x.nom}</h1>
+      {x.qui && <p class="pp-qui">{x.qui}</p>}
+      <p class="pp-ou tabular-nums">{x.commune}{x.km ? `, ${distanceDuProducteur(x.km)} du magasin` : ''}{x.depuis ? `, depuis ${x.depuis}` : ''}.</p>
+    </header>
+    {x.photo && <Img src={x.photo.src} alt={x.photo.alt} class="pp-photo" sizes="(min-width: 64rem) 60rem, 100vw" priority />}
+    {x.texte && <p class="pp-texte">{x.texte}</p>}
+    {x.produits.length > 0 && (
+      <section aria-labelledby="pp-apporte">
+        <h2 id="pp-apporte" class="pp-h2 font-display">Ce qu’on trouve au magasin</h2>
+        <ul class="pp-produits">{x.produits.map((y) => <li>{y}</li>)}</ul>
+      </section>
+    )}
+    {x.labels.length > 0 && <p class="pp-labels">{x.labels.join(', ')}</p>}
+    {x.presence && <p class="pp-presence">Au magasin&nbsp;: {x.presence}</p>}
+    {x.site && <p><a href={x.site} target="_blank" rel="noopener" class="pp-lien">Le site de {x.nom}<span class="sr-only"> (nouvel onglet)</span></a></p>}
+    <p><a href={tel()} class="pp-tel tabular-nums"><Icon name="Phone" size={19} />{site.contact.phoneDisplay}</a></p>
+    {voisins.length > 0 && (
+      <nav aria-labelledby="pp-voisins">
+        <h2 id="pp-voisins" class="pp-h2 font-display">Ses voisins au magasin</h2>
+        <ul class="pp-voisins">{voisins.map((v) => <li><a href={`/producteurs/${v.slug}`} class="pp-lien">{v.nom}</a></li>)}</ul>
+      </nav>
+    )}
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .pp { display: grid; gap: clamp(1.25rem, 4vh, 2.25rem); padding-block: clamp(1.25rem, 4vh, 3rem); max-inline-size: 60rem; }
+  .pp-tete { display: grid; gap: 0.4rem; }
+  .pp-rayon { font-weight: 700; color: var(--color-muted); }
+  .pp-titre { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.98; letter-spacing: -0.02em; }
+  .pp-qui { font-size: clamp(1.15rem, 2.2vw, 1.45rem); font-weight: 700; }
+  .pp-ou { color: var(--color-muted); }
+  .pp-photo { inline-size: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-card); }
+  .pp-texte { max-inline-size: 62ch; font-size: 1.1rem; }
+  .pp-h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); line-height: 1.08; }
+  .pp-produits { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; font-weight: 600; padding-block-start: 0.5rem; }
+  .pp-labels, .pp-presence { font-weight: 600; }
+  .pp-tel { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 52px; padding-inline: 1.1rem; border-radius: var(--radius-ui, 6px); background: var(--color-accent); color: var(--color-on-accent); font-weight: 700; font-size: 1.2rem; }
+  .pp-lien { display: inline-flex; align-items: center; gap: 0.35rem; min-block-size: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .pp-tel:focus-visible, .pp-lien:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .pp-voisins { display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+</style>

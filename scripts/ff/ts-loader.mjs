@@ -418,6 +418,22 @@ export async function loadMatieresModule() {
   return loadPureLibModule('matieres.ts');
 }
 
+/**
+ * Copie src/lib/producteurs.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture mur-producteurs : producteurs,
+ * distances, qui fait quoi ; tests/architectures-fermiers.test.mjs).
+ */
+export async function loadProducteursModule() {
+  return loadPureLibModule('producteurs.ts');
+}
+
+/**
+ * Copie src/lib/departs.ts (module pur) dans TMP_DIR/lib/ et l'importe (architecture tableau-departs : trajets, durées,
+ * heure de prise en charge ; tests/architectures-departs.test.mjs).
+ */
+export async function loadDepartsModule() {
+  return loadPureLibModule('departs.ts');
+}
+
 /** Copie un module pur de src/lib/ (sans dependance runtime) dans TMP_DIR/lib/ et l'importe. */
 async function loadPureLibModule(name) {
   const libDir = path.join(TMP_DIR, 'lib');

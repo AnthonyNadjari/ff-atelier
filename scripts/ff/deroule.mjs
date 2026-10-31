@@ -44,7 +44,9 @@
 // sur 3). Modèle : défilement horizontal > onglets (>= 50 % de la page) > journal daté (bloc d'au moins 4 dates du plus
 // récent au plus ancien, >= 35 % de la page) > plan ou schéma (au moins 4 liens posés en absolu sur un plan) > calendrier annuel (tableau à douze colonnes de mois,
 // >= 25 % de la page) > nuancier (au moins 4 liens qui portent chacun une photo carrée de même taille, >= 2 par rangée)
-// > accueil-menu (<= 1,5 écran et >= 2 pages
+// > tableau des départs (tableau à colonnes « Destination » et « Durée », au moins 4 lignes, >= 15 % de la page) > annuaire de
+// fiches (au moins 6 liens vers des pages /<rubrique>/<fiche> dont la rubrique est dans le menu, hors /services, deux au moins
+// sur une rangée) > accueil-menu (<= 1,5 écran et >= 2 pages
 // liées du menu, du pied ou du corps de l'accueil) > plusieurs pages (>= 2 pages liées du menu ou du pied ET >= 2 pages de contenu dans dist/) > longue page
 // à ancres.
 import fs from 'node:fs';
@@ -55,7 +57,7 @@ export const MOTS_ROLE = {
   heros: 'héros', preuve: 'avis', offres: 'services', realisations: 'réalisations', apropos: 'à propos', questions: 'questions',
   contact: 'contact', lieu: 'lieu/horaires', outil: 'outil', texte: 'texte long', appel: "bandeau d'appel", pied: 'pied de page', autre: 'autre',
 };
-export const MODELES = ['longue page à ancres', 'plusieurs pages', 'accueil-menu sans défilement', 'défilement horizontal', 'onglets', 'journal daté', 'plan ou schéma', 'calendrier annuel', 'nuancier'];
+export const MODELES = ['longue page à ancres', 'plusieurs pages', 'accueil-menu sans défilement', 'défilement horizontal', 'onglets', 'journal daté', 'plan ou schéma', 'calendrier annuel', 'nuancier', 'tableau des départs', 'annuaire de fiches'];
 export const POIDS_SUITE = 0.5;
 /** Pages qui ne comptent pas comme contenu (légal, erreur, remerciement). */
 export const PAGES_HORS_CONTENU = /(^|\/)(404|mentions-legales|confidentialite|politique-de-confidentialite|credits|cgv|cgu|merci|plan-du-site)(\.html|\/index\.html|\/)?$/i;
@@ -232,6 +234,36 @@ export function releverDeroule(opts = {}) {
       if (memes.length >= 4 && rangee >= 2) { nuancier = true; break; }
     }
   }
+  // Tableau des départs (31 oct 2026, architecture tableau-departs) : la part de la page tenue par un tableau dont l'en-tête a
+  // une colonne « Destination » et une colonne « Durée », au moins quatre lignes : les trajets d'un taxi au départ de sa base.
+  let partDeparts = 0;
+  for (const t of main.querySelectorAll('table')) {
+    const tetes = [...t.querySelectorAll('thead th')].map((th) => plat0(th.textContent));
+    if (!tetes.some((x) => x.startsWith('destination')) || !tetes.some((x) => x.startsWith('duree'))) continue;
+    if ([...t.querySelectorAll('tbody tr')].filter((tr) => tr.querySelector('a[href]')).length < 4) continue;
+    partDeparts = Math.max(partDeparts, abs(t)[3] / docH);
+  }
+  // Annuaire de fiches (31 oct 2026, architecture mur-producteurs) : au moins six liens vers des pages /<rubrique>/<fiche>
+  // dont la rubrique (/<rubrique>) est dans le menu, hors /services, deux au moins sur une même rangée : le mur des
+  // producteurs d'un magasin, chacun vers sa fiche.
+  let annuaire = false;
+  {
+    const rubriques = new Set(liens(navs).pages);
+    const parRubrique = new Map();
+    for (const a of main.querySelectorAll('a[href]')) {
+      let u;
+      try { u = new URL(a.href); } catch { continue; }
+      if (u.origin !== location.origin || !visible(a)) continue;
+      const m = /^\/([a-z0-9-]+)\/([a-z0-9-]+?)(\.html)?\/?$/.exec(u.pathname);
+      if (!m || m[1] === 'services' || !rubriques.has(`/${m[1]}`)) continue;
+      if (!parRubrique.has(m[1])) parRubrique.set(m[1], new Map());
+      parRubrique.get(m[1]).set(m[2], abs(a));
+    }
+    for (const fiches of parRubrique.values()) {
+      const rs = [...fiches.values()];
+      if (rs.length >= 6 && rs.some((r) => rs.some((q) => q !== r && Math.abs(q[1] - r[1]) < 6))) { annuaire = true; break; }
+    }
+  }
   let horizontal = docW > vw * 1.3;
   // Les blocs de premier niveau (els, enveloppes ouvertes) comptent aussi : une file qui défile en x sous une
   // enveloppe display:contents (coquilles panneaux et carnet au téléphone) est bien une zone de la page.
@@ -240,7 +272,7 @@ export function releverDeroule(opts = {}) {
     if (/(auto|scroll)/.test(s.overflowX) && e.clientHeight >= vh * 0.6 && e.clientWidth >= vw * 0.8 && e.scrollWidth >= e.clientWidth * 2) { horizontal = true; break; }
   }
 
-  return { vw, vh, docH: Math.round(docH), docW: Math.round(docW), blocs, nav: liens(navs), pied: liens(pieds), corps: liens([main]), partOnglets: Math.round(partOnglets * 100) / 100, partJournal: Math.round(partJournal * 100) / 100, plan, partCalendrier: Math.round(partCalendrier * 100) / 100, nuancier, horizontal, pageForme: typeof window.__ffPageForme === 'function' ? window.__ffPageForme() : undefined };
+  return { vw, vh, docH: Math.round(docH), docW: Math.round(docW), blocs, nav: liens(navs), pied: liens(pieds), corps: liens([main]), partOnglets: Math.round(partOnglets * 100) / 100, partJournal: Math.round(partJournal * 100) / 100, plan, partCalendrier: Math.round(partCalendrier * 100) / 100, nuancier, partDeparts: Math.round(partDeparts * 100) / 100, annuaire, horizontal, pageForme: typeof window.__ffPageForme === 'function' ? window.__ffPageForme() : undefined };
 }
 
 /* ---------- fonctions pures ---------- */
@@ -379,6 +411,8 @@ export function modeleNavigation(s) {
   if (s.plan) return 'plan ou schéma';
   if ((s.partCalendrier ?? 0) >= 0.25) return 'calendrier annuel';
   if (s.nuancier) return 'nuancier';
+  if ((s.partDeparts ?? 0) >= 0.15) return 'tableau des départs';
+  if (s.annuaire) return 'annuaire de fiches';
   const pages = s.pagesLiees ?? s.navPages ?? 0;
   if (Math.max(pages, s.pagesCorps ?? 0) >= 2 && (s.ecrans ?? 99) <= 1.5) return 'accueil-menu sans défilement';
   if (pages >= 2 && (s.pagesContenu ?? 0) >= 2) return 'plusieurs pages';
@@ -404,7 +438,7 @@ export function empreinteDeroule(rel, pages = { html: 1, contenu: 0 }) {
     pagesCorps: (rel.corps?.pages || []).length,
     ecrans: Math.round(docH / vh * 10) / 10,
     partImage: Math.round(blocs.reduce((s, b) => s + b.partImage * b.hEcrans, 0) / somme * 100) / 100,
-    partOnglets: rel.partOnglets, partJournal: rel.partJournal, plan: rel.plan, partCalendrier: rel.partCalendrier, nuancier: rel.nuancier, horizontal: rel.horizontal,
+    partOnglets: rel.partOnglets, partJournal: rel.partJournal, plan: rel.plan, partCalendrier: rel.partCalendrier, nuancier: rel.nuancier, partDeparts: rel.partDeparts, annuaire: rel.annuaire, horizontal: rel.horizontal,
   };
   site.modele = modeleNavigation(site);
   return { vw, vh, roles: suiteDeRoles(blocs), blocs, site };

@@ -1,0 +1,82 @@
+---
+/**
+ * Contact "rayon" (style rayon, relevé sur blankinside.co.uk le 31 oct 2026, fiche docs/veille/styles/rayon.md § Construction,
+ * bloc 10) : la fin de la source, sans formulaire, sans bandeau d'appel ni barre basse. La source finit sur trois ronds
+ * dessinés à l'encre (« cards with character », « say it with words », « made by real humans »), chacun sur sa phrase, en
+ * trois colonnes. Ici les trois ronds disent les trois façons de passer commande : APPELER (le numéro en grand, les
+ * horaires du jour), VENIR (l'adresse, « Voir sur le plan » si le lien est donné), ÉCRIRE (l'e-mail, les réseaux) ; chaque rond est
+ * un tampon à double filet avec son mot en grotesque grasse. En tête : le titre (wording.contactTitle) et la phrase du
+ * client (wording.contactText). Trois colonnes à l'ordinateur (grille), l'une sous l'autre au téléphone.
+ * Rien d'inventé : une colonne sans sa donnée disparaît (pas d'adresse, pas de « Venir » ; pas d'e-mail ni de réseau, pas
+ * d'« Écrire ») ; la porte Commander (contact.orderUrl) seulement si elle est donnée.
+ */
+import { site, tel, mailto, fullAddress } from '@/lib/site';
+import HorairesDuJour from '@/components/HorairesDuJour.astro';
+
+const c = site.contact;
+const adresse = c.address?.city ? fullAddress() : '';
+const reseaux = Object.entries(site.social).filter(([, v]) => v) as [string, string][];
+const noms: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', linkedin: 'LinkedIn', tiktok: 'TikTok' };
+---
+
+<section id="contact" class="ra-contact section-y" aria-labelledby="ra-contact-titre">
+  <div class="ra-contact-tete">
+    <h2 id="ra-contact-titre" class="ra-h2" set:html={site.wording.contactTitle} />
+    {site.wording.contactText && <p class="mt-3">{site.wording.contactText}</p>}
+  </div>
+
+  <ul class="ra-tampons">
+    <li class="ra-colonne">
+      <span class="ra-tampon" aria-hidden="true"><span class="font-display">Appeler</span></span>
+      <h3 class="sr-only">Appeler</h3>
+      <a href={tel()} class="ra-numero" data-porte="call">{c.phoneDisplay}</a>
+      {c.orderUrl && <a href={c.orderUrl} class="rayon-etiquette mt-4" target="_blank" rel="noopener" data-porte="order">{site.wording.actions?.order ?? 'Commander'}</a>}
+      {c.hours.length > 0 && <div class="ra-horaires"><HorairesDuJour /></div>}
+    </li>
+    {adresse && (
+      <li class="ra-colonne">
+        <span class="ra-tampon" aria-hidden="true"><span class="font-display">Venir</span></span>
+        <h3 class="sr-only">Venir</h3>
+        <p class="ra-adresse">{site.business.name}<br />{adresse}</p>
+        {c.mapsUrl && <a href={c.mapsUrl} class="rayon-etiquette mt-4" target="_blank" rel="noopener">Voir sur le plan</a>}
+      </li>
+    )}
+    {(c.email || reseaux.length > 0) && (
+      <li class="ra-colonne">
+        <span class="ra-tampon" aria-hidden="true"><span class="font-display">Écrire</span></span>
+        <h3 class="sr-only">Écrire</h3>
+        {c.email && <a href={mailto()} class="ra-mail">{c.email}</a>}
+        {reseaux.length > 0 && (
+          <p class="ra-reseaux">
+            {reseaux.map(([k, url]) => <a href={url} target="_blank" rel="noopener" class="rayon-etiquette">{noms[k] ?? k}</a>)}
+          </p>
+        )}
+      </li>
+    )}
+  </ul>
+</section>
+
+<style>
+  .ra-contact-tete { padding-inline: var(--ra-bord, 1rem); text-align: center; max-width: 40rem; margin-inline: auto; color: var(--fg); }
+  .ra-h2 { font-size: clamp(1.5rem, 1.15rem + 1.2vw, 2.25rem); text-wrap: balance; }
+  /* Au téléphone : Appeler en colonne à gauche (le numéro, les horaires), Venir et Écrire l'un sous l'autre à droite ;
+     à l'ordinateur, trois colonnes. */
+  .ra-tampons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 1rem; margin-top: clamp(2.5rem, 5vw, 4rem); padding-inline: var(--ra-bord, 1rem); }
+  .ra-tampons > :first-child { grid-row: span 2; }
+  @media (min-width: 48rem) { .ra-tampons { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 2rem; } .ra-tampons > :first-child { grid-row: auto; } }
+  .ra-colonne { display: flex; flex-direction: column; align-items: center; text-align: center; color: var(--fg); font-size: 0.875rem; line-height: 1.55; min-width: 0; }
+  /* Le tampon : un rond à double filet d'encre, légèrement de travers, le mot au milieu en grotesque grasse. */
+  .ra-tampon {
+    display: grid; place-items: center; width: clamp(6.5rem, 5rem + 4vw, 9.5rem); aspect-ratio: 1; margin-bottom: 1.25rem;
+    border: 2px solid var(--fg); border-radius: 50%; outline: 1.5px solid var(--fg); outline-offset: -9px;
+    transform: rotate(-6deg); color: var(--fg);
+  }
+  .ra-colonne:nth-child(2) .ra-tampon { transform: rotate(4deg); }
+  .ra-colonne:nth-child(3) .ra-tampon { transform: rotate(-2deg); }
+  .ra-tampon span { font-weight: 800; font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem); letter-spacing: -0.02em; }
+  .ra-numero { font-size: clamp(1.125rem, 0.9rem + 1.2vw, 1.875rem); font-weight: 700; white-space: nowrap; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+  .ra-horaires { margin-top: 1.25rem; font-size: 0.8125rem; max-width: 100%; }
+  .ra-adresse { margin: 0; }
+  .ra-mail { overflow-wrap: anywhere; text-decoration: underline; text-underline-offset: 4px; }
+  .ra-reseaux { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin-top: 1rem; }
+</style>

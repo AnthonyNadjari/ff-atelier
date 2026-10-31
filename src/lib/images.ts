@@ -53,8 +53,10 @@ export const HERO_SIZES: Record<string, string> = {
   talus: '100vw', // photo plein cadre, le nom posé dessus (style talus)
   baume: '(min-width: 64rem) 560px, (min-width: 48rem) 46vw, 88vw', // photo dans son cadre devant la plaque sauge (style baume)
   dune: '(min-width: 48rem) 100vw, 100vw', // photo lavée presque plein écran, ailes au bord (style dune)
+  etabli: '(min-width: 48rem) 66vw, 100vw', // l'objet en grand sur deux tiers, 3:2 pleine largeur au téléphone (style etabli)
   rideau: '100vw', // grand vide noir puis écran plein de photo, nom centré (style rideau)
   cartouche: '100vw', // en-tête au nom géant puis photo pleine largeur (style cartouche)
+  travee: '100vw', // la travée du premier écran : photos bord à bord dans une piste horizontale (style travee)
 };
 
 /** `sizes` d'un hero selon sa variante (`site.layout.hero`) ; toute variante inconnue = pleine largeur. */
