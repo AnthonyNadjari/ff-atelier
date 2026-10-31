@@ -1,0 +1,817 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.rouge-gorge.com/",
+  "nom": "rougegorge",
+  "date": "2026-10-31",
+  "identite": {
+    "title": "rouge-gorge.com est en vente",
+    "siteName": "",
+    "lang": "en",
+    "description": "",
+    "technologies": [
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "rouge-gorge.com",
+      "h1Visible": true,
+      "mots": 133,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "CONTACTER LE VENDEUR / CONTACT THE OWNER",
+        "x": 554.59375,
+        "y": 503.921875,
+        "cx": 0.4979112413194444,
+        "cy": 0.5816753472222222,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 1948,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.h1-responsive",
+        "famille": "Roboto, sans-serif",
+        "taille": 40,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p.text-muted",
+        "famille": "Roboto, sans-serif",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "a.btn",
+        "famille": "Roboto, sans-serif",
+        "taille": 11.2,
+        "graisse": "400",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.nav-link",
+        "famille": "Roboto, sans-serif",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "use.fontawesome.com",
+        "fonts.googleapis.com"
+      ],
+      "fichiersPolices": [
+        "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Roboto",
+          "n": 36
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#212529",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2805120
+        },
+        {
+          "hex": "#3f51b5",
+          "n": 4,
+          "poids": 454978.5358886719
+        },
+        {
+          "hex": "#e20e0e",
+          "n": 1,
+          "poids": 12722.902587890625
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#6c757d",
+          "n": 10,
+          "poids": 689
+        },
+        {
+          "hex": "#ffffff",
+          "n": 11,
+          "poids": 251
+        },
+        {
+          "hex": "#4f4f4f",
+          "n": 4,
+          "poids": 132
+        },
+        {
+          "hex": "#212529",
+          "n": 7,
+          "poids": 124
+        },
+        {
+          "hex": "#e20e0e",
+          "n": 4,
+          "poids": 61
+        }
+      ],
+      "nbImages": 1,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2805120,
+          "part": 0.857
+        },
+        {
+          "hex": "#3f51b5",
+          "n": 4,
+          "poids": 454978.5358886719,
+          "part": 0.139
+        },
+        {
+          "hex": "#e20e0e",
+          "n": 1,
+          "poids": 12722.902587890625,
+          "part": 0.004
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#6c757d",
+          "n": 10,
+          "poids": 689,
+          "part": 0.548
+        },
+        {
+          "hex": "#ffffff",
+          "n": 11,
+          "poids": 251,
+          "part": 0.2
+        },
+        {
+          "hex": "#4f4f4f",
+          "n": 4,
+          "poids": 132,
+          "part": 0.105
+        },
+        {
+          "hex": "#212529",
+          "n": 7,
+          "poids": 124,
+          "part": 0.099
+        },
+        {
+          "hex": "#e20e0e",
+          "n": 4,
+          "poids": 61,
+          "part": 0.049
+        }
+      ],
+      "contraste": 15.43
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 12
+        },
+        {
+          "valeur": "color 0.15s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "background-color 0.15s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "border-color 0.15s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "box-shadow 0.15s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "-webkit-box-shadow 0.15s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "all 0.35s ease",
+          "n": 2
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.btn",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "color 0.15s ease-in-out",
+          "background-color 0.15s ease-in-out",
+          "border-color 0.15s ease-in-out",
+          "box-shadow 0.15s ease-in-out",
+          "-webkit-box-shadow 0.15s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "div.mt-5",
+          "titre": "le nom de domaine",
+          "top": 96,
+          "hauteur": 161,
+          "ecrans": 0.2,
+          "mots": 13,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.py-5",
+          "titre": "Recevoir sans engagement une offre du vendeur / Contact the ",
+          "top": 305,
+          "hauteur": 292,
+          "ecrans": 0.3,
+          "mots": 65,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.py-5",
+          "titre": "Vous préférez passer par un intermédiaire ?",
+          "top": 645,
+          "hauteur": 452,
+          "ecrans": 0.5,
+          "mots": 68,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.mt-5",
+          "titre": "lacaveavin.fr",
+          "top": 1145,
+          "hauteur": 418,
+          "ecrans": 0.5,
+          "mots": 35,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.container",
+          "titre": "Actualités & informations",
+          "top": 1611,
+          "hauteur": 42,
+          "ecrans": 0,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.page-footer",
+          "titre": null,
+          "top": 1700,
+          "hauteur": 247,
+          "ecrans": 0.3,
+          "mots": 17,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.navbar",
+        "hauteur": 56,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "rouge-gorge.com",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Accueil (current)",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Acheter ce nom de domaine",
+            "href": "http://www.names.fr/contact.php?domain=rouge-gorge.com",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.page-footer",
+        "liens": [
+          {
+            "texte": "MENTIONS LÉGALES",
+            "href": "legal.html",
+            "bouton": false
+          },
+          {
+            "texte": "RGPD",
+            "href": "rgpd.html",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "http://www.names.fr/contact.php?domain=rouge-gorge.com",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "nav.navbar",
+          "position": "fixed",
+          "hauteur": 56,
+          "largeur": 1440,
+          "enBas": false,
+          "mots": 8
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 3,
+        "pilules": 3,
+        "exemples": [
+          "CONTACTER LE VENDEUR / CONTACT",
+          "DEMANDE D'ASSISTANCE",
+          "ETRE INFORMÉ DES VENTES FUTURE"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/rougegorge-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "rouge-gorge.com",
+      "h1Visible": true,
+      "mots": 86,
+      "images": 1,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "CONTACTER LE VENDEUR / CONTACT THE OWNER",
+        "x": 29.59375,
+        "y": 562.421875,
+        "cx": 0.49228766025641024,
+        "cy": 0.6895827162322274,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 3020,
+      "bougeSeul": {
+        "n": 0,
+        "exemples": []
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.h1-responsive",
+        "famille": "Roboto, sans-serif",
+        "taille": 24,
+        "graisse": "700",
+        "interlignage": 1.2,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": null,
+      "p": {
+        "selecteur": "p.text-muted",
+        "famille": "Roboto, sans-serif",
+        "taille": 16,
+        "graisse": "300",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.navbar-toggler",
+        "famille": "Roboto, sans-serif",
+        "taille": 20,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.navbar-brand",
+        "famille": "Roboto, sans-serif",
+        "taille": 20,
+        "graisse": "300",
+        "interlignage": 1.5,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [],
+      "fontFacesNonLisibles": [
+        "use.fontawesome.com",
+        "fonts.googleapis.com"
+      ],
+      "fichiersPolices": [
+        "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Roboto",
+          "n": 33
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#212529",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1177800
+        },
+        {
+          "hex": "#3f51b5",
+          "n": 4,
+          "poids": 199965.87963867188
+        },
+        {
+          "hex": "#e20e0e",
+          "n": 1,
+          "poids": 12722.902587890625
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#6c757d",
+          "n": 10,
+          "poids": 689
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 210
+        },
+        {
+          "hex": "#4f4f4f",
+          "n": 4,
+          "poids": 132
+        },
+        {
+          "hex": "#212529",
+          "n": 7,
+          "poids": 124
+        },
+        {
+          "hex": "#e20e0e",
+          "n": 4,
+          "poids": 61
+        }
+      ],
+      "nbImages": 1,
+      "nbVideos": 0,
+      "nbFondsImage": 1,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1177800,
+          "part": 0.847
+        },
+        {
+          "hex": "#3f51b5",
+          "n": 4,
+          "poids": 199965.87963867188,
+          "part": 0.144
+        },
+        {
+          "hex": "#e20e0e",
+          "n": 1,
+          "poids": 12722.902587890625,
+          "part": 0.009
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#6c757d",
+          "n": 10,
+          "poids": 689,
+          "part": 0.567
+        },
+        {
+          "hex": "#ffffff",
+          "n": 8,
+          "poids": 210,
+          "part": 0.173
+        },
+        {
+          "hex": "#4f4f4f",
+          "n": 4,
+          "poids": 132,
+          "part": 0.109
+        },
+        {
+          "hex": "#212529",
+          "n": 7,
+          "poids": 124,
+          "part": 0.102
+        },
+        {
+          "hex": "#e20e0e",
+          "n": 4,
+          "poids": 61,
+          "part": 0.05
+        }
+      ],
+      "contraste": 15.43
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease-in-out",
+          "n": 12
+        },
+        {
+          "valeur": "color 0.15s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "background-color 0.15s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "border-color 0.15s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "box-shadow 0.15s ease-in-out",
+          "n": 3
+        },
+        {
+          "valeur": "-webkit-box-shadow 0.15s ease-in-out",
+          "n": 3
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a.btn",
+        "score": 5,
+        "animations": [],
+        "transitions": [
+          "color 0.15s ease-in-out",
+          "background-color 0.15s ease-in-out",
+          "border-color 0.15s ease-in-out",
+          "box-shadow 0.15s ease-in-out",
+          "-webkit-box-shadow 0.15s ease-in-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "div.mt-5",
+          "titre": "le nom de domaine",
+          "top": 96,
+          "hauteur": 129,
+          "ecrans": 0.2,
+          "mots": 13,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.py-5",
+          "titre": "Recevoir sans engagement une offre du vendeur / Contact the ",
+          "top": 273,
+          "hauteur": 407,
+          "ecrans": 0.5,
+          "mots": 65,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.py-5",
+          "titre": "Vous préférez passer par un intermédiaire ?",
+          "top": 728,
+          "hauteur": 797,
+          "ecrans": 0.9,
+          "mots": 68,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.mt-5",
+          "titre": "lacaveavin.fr",
+          "top": 1573,
+          "hauteur": 900,
+          "ecrans": 1.1,
+          "mots": 35,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.container",
+          "titre": "Actualités & informations",
+          "top": 2520,
+          "hauteur": 42,
+          "ecrans": 0,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "footer.page-footer",
+          "titre": null,
+          "top": 2610,
+          "hauteur": 410,
+          "ecrans": 0.5,
+          "mots": 17,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "nav.navbar",
+        "hauteur": 56,
+        "position": "fixed",
+        "liens": [
+          {
+            "texte": "rouge-gorge.com",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Toggle navigation",
+            "href": "",
+            "bouton": true
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.page-footer",
+        "liens": [
+          {
+            "texte": "MENTIONS LÉGALES",
+            "href": "legal.html",
+            "bouton": false
+          },
+          {
+            "texte": "RGPD",
+            "href": "rgpd.html",
+            "bouton": false
+          },
+          {
+            "texte": "CONTACT",
+            "href": "http://www.names.fr/contact.php?domain=rouge-gorge.com",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 0,
+        "champs": 0
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [],
+      "calquesFixes": [
+        {
+          "selecteur": "nav.navbar",
+          "position": "fixed",
+          "hauteur": 56,
+          "largeur": 390,
+          "enBas": false,
+          "mots": 1
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 4,
+        "pilules": 3,
+        "exemples": [
+          "CONTACTER LE VENDEUR / CONTACT",
+          "DEMANDE D'ASSISTANCE",
+          "ETRE INFORMÉ DES VENTES FUTURE"
+        ]
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "rouge-gorge.com est en vente",
+  "dureeS": 18.7
+}

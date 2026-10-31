@@ -1,0 +1,1619 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.peggyporschen.com/",
+  "nom": "peggyporschen",
+  "date": "2026-10-31",
+  "identite": {
+    "title": "Welcome to Peggy Porschen Cakes, the prettiest bakery in the world.",
+    "siteName": "Peggy Porschen Belgravia Ltd",
+    "lang": "en",
+    "description": "Visit Peggy Porschen's pink café & bakery for the best cakes & cupcakes in London. Enjoy restaurant-led All Day Breakfast, Brunch & Lunch menus or book for Morning Tea & Afternoon Tea. Drink barista coffee, artisan tea, smoothies or champagne. Order birthday cakes & party cakes online. Located near to Victoria Station.",
+    "technologies": [
+      "Shopify",
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 146,
+      "images": 2,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "BOOK A TABLE",
+        "x": 629.390625,
+        "y": 387.6875,
+        "cx": 0.5,
+        "cy": 0.46020833333333333,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 9201,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div.marquee__items"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.store-title",
+        "famille": "\"Playfair Display\", serif",
+        "taille": 28,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.picture-block-heading",
+        "famille": "\"Playfair Display\", serif",
+        "taille": 60,
+        "graisse": "400",
+        "interlignage": 1.03,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Figtree, sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#ls-button-search",
+        "famille": "sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.account-options",
+        "famille": "Figtree, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n4.3c0838aba1701047e60be6a99a1b0a40ce9b8419.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i4.89f7a4275c064845c304a4cf8a4a586060656db2.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n7.2fd9bfe01586148e644724096c9d75e8c7a90e55.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i7.06add7096a6f2ab742e09ec7e498115904eda1fe.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Playfair Display",
+          "url": "//www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_n4.9980f3e16959dc89137cc1369bfc3ae98af1deb9.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Playfair Display",
+          "url": "//www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_i4.804ea8da9192aaed0368534aa085b3c1f3411619.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Playfair Display",
+          "url": "//www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_n7.592b3435e0fff3f50b26d410c73ae7ec893f6910.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Playfair Display",
+          "url": "//www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_i7.ba833b400bcd9c858b439c75a4a7c6eddc4c7de0.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n5.3b6b7df38aa5986536945796e1f947445832047c.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i5.969396f679a62854cf82dbf67acc5721e41351f0.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n7.2fd9bfe01586148e644724096c9d75e8c7a90e55.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i7.06add7096a6f2ab742e09ec7e498115904eda1fe.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n4.3c0838aba1701047e60be6a99a1b0a40ce9b8419.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i4.89f7a4275c064845c304a4cf8a4a586060656db2.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n7.2fd9bfe01586148e644724096c9d75e8c7a90e55.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i7.06add7096a6f2ab742e09ec7e498115904eda1fe.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n3.e4cc0323f8b9feb279bf6ced9d868d88ce80289f.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i3.914abbe7a583759f0a18bf02652c9ee1f4bb1c6d.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MMedium.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.shopify.com",
+        "d1hcrjcdtouu7e.cloudfront.net"
+      ],
+      "fichiersPolices": [
+        "https://www.peggyporschen.com/cdn/shop/t/71/assets/atlantic-icons.woff?v=75156632991815219611770029214",
+        "https://www.peggyporschen.com/cdn/fonts/figtree/figtree_n4.3c0838aba1701047e60be6a99a1b0a40ce9b8419.woff2",
+        "https://www.peggyporschen.com/cdn/fonts/figtree/figtree_n5.3b6b7df38aa5986536945796e1f947445832047c.woff2",
+        "https://www.peggyporschen.com/cdn/fonts/figtree/figtree_n7.2fd9bfe01586148e644724096c9d75e8c7a90e55.woff2",
+        "https://www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_n4.9980f3e16959dc89137cc1369bfc3ae98af1deb9.woff2",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Figtree",
+          "n": 71
+        },
+        {
+          "famille": "Playfair Display",
+          "n": 11
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#6c2628",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 13249440
+        },
+        {
+          "hex": "#f5f0f0",
+          "n": 10,
+          "poids": 10369395
+        },
+        {
+          "hex": "#f9edf5",
+          "n": 10,
+          "poids": 5184697.5
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000
+        },
+        {
+          "hex": "#ed80a8",
+          "n": 2,
+          "poids": 14258.34375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#986769",
+          "n": 32,
+          "poids": 1178
+        },
+        {
+          "hex": "#ed80a8",
+          "n": 42,
+          "poids": 1041
+        },
+        {
+          "hex": "#663233",
+          "n": 1,
+          "poids": 312
+        },
+        {
+          "hex": "#6c2628",
+          "n": 2,
+          "poids": 46
+        },
+        {
+          "hex": "#a0966e",
+          "n": 3,
+          "poids": 27
+        },
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 18
+        }
+      ],
+      "nbImages": 11,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 13249440,
+          "part": 0.44
+        },
+        {
+          "hex": "#f5f0f0",
+          "n": 10,
+          "poids": 10369395,
+          "part": 0.344
+        },
+        {
+          "hex": "#f9edf5",
+          "n": 10,
+          "poids": 5184697.5,
+          "part": 0.172
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 1296000,
+          "part": 0.043
+        },
+        {
+          "hex": "#ed80a8",
+          "n": 2,
+          "poids": 14258.34375,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#986769",
+          "n": 32,
+          "poids": 1178,
+          "part": 0.449
+        },
+        {
+          "hex": "#ed80a8",
+          "n": 42,
+          "poids": 1041,
+          "part": 0.397
+        },
+        {
+          "hex": "#663233",
+          "n": 1,
+          "poids": 312,
+          "part": 0.119
+        },
+        {
+          "hex": "#6c2628",
+          "n": 2,
+          "poids": 46,
+          "part": 0.018
+        },
+        {
+          "hex": "#a0966e",
+          "n": 3,
+          "poids": 27,
+          "part": 0.01
+        }
+      ],
+      "contraste": 10.79
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 33
+        },
+        {
+          "valeur": "background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "border 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "animation scroll 60s linear infinite",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 1
+        },
+        {
+          "valeur": "border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-marquee-item",
+          "n": 8
+        },
+        {
+          "nom": "data-marquee-items",
+          "n": 2
+        },
+        {
+          "nom": "data-marquee",
+          "n": 1
+        },
+        {
+          "nom": "data-animation-state",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.marquee__items",
+        "score": 5,
+        "animations": [
+          "animation scroll 60s linear infinite"
+        ],
+        "transitions": [],
+        "attributs": [
+          "data-marquee-items"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "div.page-body-content",
+      "sections": [
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__1769026651eebc541e",
+          "titre": null,
+          "top": 338,
+          "hauteur": 103,
+          "ecrans": 0.1,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_scrolling_text_DcfRWy",
+          "titre": null,
+          "top": 441,
+          "hauteur": 57,
+          "ecrans": 0.1,
+          "mots": 112,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_image_with_text_tCHMVG",
+          "titre": "Fall into Autumn",
+          "top": 498,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 19,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_image_with_text_H9J3Gn",
+          "titre": "Time for Tea",
+          "top": 1283,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 22,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_image_with_text_fd9Wbi",
+          "titre": "Morning Tea",
+          "top": 2068,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 13,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_image_with_text_yGCMpE",
+          "titre": "The Fruits of Autumn",
+          "top": 2853,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 11,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_image_with_text_bhaaKf",
+          "titre": "All Day Dining",
+          "top": 3638,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 19,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_image_with_text_C6iWbA",
+          "titre": "Cakes for Sharing",
+          "top": 4423,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 10,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_image_with_text_kekytg",
+          "titre": "Give a Slice of Heaven",
+          "top": 5208,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 21,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_image_with_text_YybxBa",
+          "titre": "Regency Rose China Collection",
+          "top": 5993,
+          "hauteur": 721,
+          "ecrans": 0.8,
+          "mots": 19,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic_image_with_text_z76aVX",
+          "titre": "Gorgeous Gifts",
+          "top": 6779,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 11,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__dynamic-image-with-text-0",
+          "titre": "Visit Us",
+          "top": 7564,
+          "hauteur": 720,
+          "ecrans": 0.8,
+          "mots": 25,
+          "images": 1,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-template--24787210568056__17690288386cd9d01d",
+          "titre": "Celebrating happy moments since 2003",
+          "top": 8284,
+          "hauteur": 176,
+          "ecrans": 0.2,
+          "mots": 56,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div#shopify-section-sections--24787210961272__footer",
+          "titre": "NEWSLETTER",
+          "top": 8524,
+          "hauteur": 617,
+          "ecrans": 0.7,
+          "mots": 81,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.main-header-wrap",
+        "hauteur": 338,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "Peggy Porschen Belgravia Ltd",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "Open search",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Login",
+            "href": "https://www.peggyporschen.com/customer_authentication/redirect?locale=en&region_country=GB",
+            "bouton": false
+          },
+          {
+            "texte": "Toggle mini cart",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "GIFT CARDS",
+            "href": "https://www.peggyporschen.com/pages/gift-cards",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#main-footer",
+        "liens": [
+          {
+            "texte": "SUBMIT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Terms and Conditions",
+            "href": "/pages/terms-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "Competition T&Cs",
+            "href": "/pages/competition-t-cs",
+            "bouton": false
+          },
+          {
+            "texte": "Terms of Service",
+            "href": "/policies/terms-of-service",
+            "bouton": false
+          },
+          {
+            "texte": "Website Terms of Use",
+            "href": "/pages/website-terms-of-use",
+            "bouton": false
+          },
+          {
+            "texte": "Cookie Policy",
+            "href": "/pages/cookie-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy & GDPR",
+            "href": "/pages/privacy-policy-gdpr",
+            "bouton": false
+          },
+          {
+            "texte": "Refund policy",
+            "href": "/policies/refund-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Search",
+            "href": "/search",
+            "bouton": false
+          },
+          {
+            "texte": "Contact Us",
+            "href": "/pages/contact-us",
+            "bouton": false
+          },
+          {
+            "texte": "Table Booking & Cancellation Policy",
+            "href": "/pages/booking-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Cake Collection",
+            "href": "/pages/cake-collection",
+            "bouton": false
+          },
+          {
+            "texte": "Online Allergen & Dietary Guide",
+            "href": "https://cdn.shopify.com/s/files/1/2178/1471/files/Allergen_Guide_for_Cakes_Sept_2026_web.pdf?v=1790094918",
+            "bouton": false
+          },
+          {
+            "texte": "Cake Care Instructions",
+            "href": "/pages/cake-care-instructions",
+            "bouton": false
+          },
+          {
+            "texte": "Customer Service",
+            "href": "/pages/customer-service",
+            "bouton": false
+          },
+          {
+            "texte": "Europe GDPR",
+            "href": "https://www.peggyporschen.com/pages/gdpr-privacy-requests",
+            "bouton": false
+          },
+          {
+            "texte": "USA privacy laws",
+            "href": "/pages/us-privacy-requests",
+            "bouton": false
+          },
+          {
+            "texte": "USA Do not sell or share",
+            "href": "/pages/do-not-sell-or-share-my-personal-information",
+            "bouton": false
+          },
+          {
+            "texte": "Rest of World",
+            "href": "/pages/personal-data-requests",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/PeggyPorschenCakes/",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/peggyporschenofficial",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://www.pinterest.co.uk/peggyporschen/",
+            "bouton": false
+          },
+          {
+            "texte": "TikTok",
+            "href": "https://www.tiktok.com/@peggyporschenofficial",
+            "bouton": false
+          },
+          {
+            "texte": "Powered by Shopify",
+            "href": "https://www.shopify.com?utm_campaign=poweredby&utm_medium=shopify&utm_source=onlinestore",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "GIFT CARDS",
+          "href": "https://www.peggyporschen.com/pages/gift-cards"
+        },
+        {
+          "texte": "BOOK A TABLE",
+          "href": "https://www.sevenrooms.com/explore/peggyporschenbelgravia/reservations/create/search"
+        },
+        {
+          "texte": "Explore Menus>",
+          "href": "https://www.peggyporschen.com/pages/seasonal-afternoon-tea-experience"
+        },
+        {
+          "texte": "Book a Table>",
+          "href": "https://www.peggyporschen.com/pages/morning-tea-experience"
+        },
+        {
+          "texte": "Order Cupcakes>",
+          "href": "/collections/cupcakes"
+        },
+        {
+          "texte": "All Day Menu>",
+          "href": "https://cdn.shopify.com/s/files/1/2178/1471/files/All_Day_Menu_September_2026_Web_2.pdf?v=1789060062"
+        },
+        {
+          "texte": "Order Online>",
+          "href": "/collections/layer-cakes-old"
+        },
+        {
+          "texte": "Shop Gift Cards>",
+          "href": "https://www.peggyporschen.com/pages/gift-cards"
+        },
+        {
+          "texte": "Info & Menus>",
+          "href": "/pages/location-opening-hours-menus"
+        },
+        {
+          "texte": "Table Booking & Cancellation Policy",
+          "href": "/pages/booking-policy"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "div.back-to-top",
+          "position": "fixed",
+          "hauteur": 40,
+          "largeur": 40,
+          "enBas": false,
+          "mots": 0
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 5,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Playfair Display"
+      ]
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/peggyporschen-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "",
+      "h1Visible": true,
+      "mots": 72,
+      "images": 2,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "BOOK A TABLE",
+        "x": 104.390625,
+        "y": 301.9375,
+        "cx": 0.5,
+        "cy": 0.38914395734597157,
+        "fixe": false,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 9235,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div.marquee__items"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": {
+        "selecteur": "h1.store-title",
+        "famille": "\"Playfair Display\", serif",
+        "taille": 23,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "h2": {
+        "selecteur": "h2.picture-block-heading",
+        "famille": "\"Playfair Display\", serif",
+        "taille": 32,
+        "graisse": "400",
+        "interlignage": 1,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Figtree, sans-serif",
+        "taille": 14.4,
+        "graisse": "400",
+        "interlignage": 1.6,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button#ls-button-search",
+        "famille": "sans-serif",
+        "taille": 16,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a.menu",
+        "famille": "Figtree, sans-serif",
+        "taille": 14,
+        "graisse": "400",
+        "interlignage": 1.4,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n4.3c0838aba1701047e60be6a99a1b0a40ce9b8419.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i4.89f7a4275c064845c304a4cf8a4a586060656db2.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n7.2fd9bfe01586148e644724096c9d75e8c7a90e55.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i7.06add7096a6f2ab742e09ec7e498115904eda1fe.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Playfair Display",
+          "url": "//www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_n4.9980f3e16959dc89137cc1369bfc3ae98af1deb9.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Playfair Display",
+          "url": "//www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_i4.804ea8da9192aaed0368534aa085b3c1f3411619.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Playfair Display",
+          "url": "//www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_n7.592b3435e0fff3f50b26d410c73ae7ec893f6910.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Playfair Display",
+          "url": "//www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_i7.ba833b400bcd9c858b439c75a4a7c6eddc4c7de0.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n5.3b6b7df38aa5986536945796e1f947445832047c.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i5.969396f679a62854cf82dbf67acc5721e41351f0.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n7.2fd9bfe01586148e644724096c9d75e8c7a90e55.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i7.06add7096a6f2ab742e09ec7e498115904eda1fe.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n4.3c0838aba1701047e60be6a99a1b0a40ce9b8419.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i4.89f7a4275c064845c304a4cf8a4a586060656db2.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n7.2fd9bfe01586148e644724096c9d75e8c7a90e55.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i7.06add7096a6f2ab742e09ec7e498115904eda1fe.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_n3.e4cc0323f8b9feb279bf6ced9d868d88ce80289f.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "Figtree",
+          "url": "//www.peggyporschen.com/cdn/fonts/figtree/figtree_i3.914abbe7a583759f0a18bf02652c9ee1f4bb1c6d.woff2",
+          "feuille": "www.peggyporschen.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MMedium.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        },
+        {
+          "famille": "GTStandard-M",
+          "url": "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2",
+          "feuille": "inline",
+          "source": "tiers (cdn.shopify.com)"
+        }
+      ],
+      "fontFacesNonLisibles": [
+        "cdn.shopify.com",
+        "d1hcrjcdtouu7e.cloudfront.net"
+      ],
+      "fichiersPolices": [
+        "https://www.peggyporschen.com/cdn/shop/t/71/assets/atlantic-icons.woff?v=75156632991815219611770029214",
+        "https://www.peggyporschen.com/cdn/fonts/figtree/figtree_n4.3c0838aba1701047e60be6a99a1b0a40ce9b8419.woff2",
+        "https://www.peggyporschen.com/cdn/fonts/figtree/figtree_n5.3b6b7df38aa5986536945796e1f947445832047c.woff2",
+        "https://www.peggyporschen.com/cdn/fonts/figtree/figtree_n7.2fd9bfe01586148e644724096c9d75e8c7a90e55.woff2",
+        "https://www.peggyporschen.com/cdn/fonts/playfair_display/playfairdisplay_n4.9980f3e16959dc89137cc1369bfc3ae98af1deb9.woff2",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MSemibold.woff2",
+        "https://cdn.shopify.com/shop-assets/static_uploads/shoplift/GTStandard-MRegular.woff2"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Figtree",
+          "n": 62
+        },
+        {
+          "famille": "Playfair Display",
+          "n": 11
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#6c2628",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 3602040
+        },
+        {
+          "hex": "#f5f0f0",
+          "n": 10,
+          "poids": 2657204.0625
+        },
+        {
+          "hex": "#f9edf5",
+          "n": 10,
+          "poids": 1135838.4375
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160
+        },
+        {
+          "hex": "#faf0f0",
+          "n": 1,
+          "poids": 108828.125
+        },
+        {
+          "hex": "#ed80a8",
+          "n": 2,
+          "poids": 14258.34375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#986769",
+          "n": 32,
+          "poids": 1178
+        },
+        {
+          "hex": "#ed80a8",
+          "n": 35,
+          "poids": 724
+        },
+        {
+          "hex": "#663233",
+          "n": 1,
+          "poids": 312
+        },
+        {
+          "hex": "#6c2628",
+          "n": 2,
+          "poids": 46
+        },
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 18
+        },
+        {
+          "hex": "#a0966e",
+          "n": 1,
+          "poids": 16
+        }
+      ],
+      "nbImages": 11,
+      "nbVideos": 0,
+      "nbFondsImage": 0,
+      "masques": 1,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 3602040,
+          "part": 0.459
+        },
+        {
+          "hex": "#f5f0f0",
+          "n": 10,
+          "poids": 2657204.0625,
+          "part": 0.339
+        },
+        {
+          "hex": "#f9edf5",
+          "n": 10,
+          "poids": 1135838.4375,
+          "part": 0.145
+        },
+        {
+          "hex": "#000000",
+          "n": 1,
+          "poids": 329160,
+          "part": 0.042
+        },
+        {
+          "hex": "#faf0f0",
+          "n": 1,
+          "poids": 108828.125,
+          "part": 0.014
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#986769",
+          "n": 32,
+          "poids": 1178,
+          "part": 0.514
+        },
+        {
+          "hex": "#ed80a8",
+          "n": 35,
+          "poids": 724,
+          "part": 0.316
+        },
+        {
+          "hex": "#663233",
+          "n": 1,
+          "poids": 312,
+          "part": 0.136
+        },
+        {
+          "hex": "#6c2628",
+          "n": 2,
+          "poids": 46,
+          "part": 0.02
+        },
+        {
+          "hex": "#ffffff",
+          "n": 2,
+          "poids": 18,
+          "part": 0.008
+        }
+      ],
+      "contraste": 10.79
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        },
+        {
+          "nom": "Shopify",
+          "preuve": "window.Shopify"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 23
+        },
+        {
+          "valeur": "opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 8
+        },
+        {
+          "valeur": "background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 6
+        },
+        {
+          "valeur": "animation scroll 60s linear infinite",
+          "n": 2
+        },
+        {
+          "valeur": "border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 2
+        },
+        {
+          "valeur": "opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+          "n": 1
+        },
+        {
+          "valeur": "all 0.3s ease",
+          "n": 1
+        }
+      ],
+      "attributs": [
+        {
+          "nom": "data-marquee-item",
+          "n": 4
+        },
+        {
+          "nom": "data-marquee-items",
+          "n": 2
+        },
+        {
+          "nom": "data-marquee",
+          "n": 1
+        }
+      ],
+      "plusAnime": {
+        "selecteur": "div.marquee__items",
+        "score": 5,
+        "animations": [
+          "animation scroll 60s linear infinite"
+        ],
+        "transitions": [],
+        "attributs": [
+          "data-marquee-items"
+        ]
+      }
+    },
+    "structure": {
+      "conteneur": "body.template-index",
+      "sections": [
+        {
+          "selecteur": "div.page-body-content",
+          "titre": "Fall into Autumn",
+          "top": 272,
+          "hauteur": 7553,
+          "ecrans": 8.9,
+          "mots": 285,
+          "images": 10,
+          "fixe": false,
+          "balisesRares": []
+        },
+        {
+          "selecteur": "div.back-to-top",
+          "titre": null,
+          "top": 7865,
+          "hauteur": 79,
+          "ecrans": 0.1,
+          "mots": 3,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "svg"
+          ]
+        },
+        {
+          "selecteur": "div#shopify-section-sections--24787210961272__footer",
+          "titre": "NEWSLETTER",
+          "top": 7974,
+          "hauteur": 1202,
+          "ecrans": 1.4,
+          "mots": 81,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "svg"
+          ]
+        }
+      ],
+      "nav": {
+        "selecteur": "header.main-header-wrap",
+        "hauteur": 272,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "Main menu",
+            "href": "",
+            "bouton": false
+          },
+          {
+            "texte": "Open search",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Login",
+            "href": "https://www.peggyporschen.com/customer_authentication/redirect?locale=en&region_country=GB",
+            "bouton": false
+          },
+          {
+            "texte": "Toggle mini cart",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Peggy Porschen Belgravia Ltd",
+            "href": "/",
+            "bouton": false
+          },
+          {
+            "texte": "ORDER ONLINE",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "PARLOUR EXPERIENCES",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "VISIT US",
+            "href": "#",
+            "bouton": false
+          },
+          {
+            "texte": "GIFT CARDS",
+            "href": "https://www.peggyporschen.com/pages/gift-cards",
+            "bouton": false
+          },
+          {
+            "texte": "ABOUT US",
+            "href": "/pages/about-us",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer#main-footer",
+        "liens": [
+          {
+            "texte": "SUBMIT",
+            "href": "",
+            "bouton": true
+          },
+          {
+            "texte": "Terms and Conditions",
+            "href": "/pages/terms-conditions",
+            "bouton": false
+          },
+          {
+            "texte": "Competition T&Cs",
+            "href": "/pages/competition-t-cs",
+            "bouton": false
+          },
+          {
+            "texte": "Terms of Service",
+            "href": "/policies/terms-of-service",
+            "bouton": false
+          },
+          {
+            "texte": "Website Terms of Use",
+            "href": "/pages/website-terms-of-use",
+            "bouton": false
+          },
+          {
+            "texte": "Cookie Policy",
+            "href": "/pages/cookie-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Privacy Policy & GDPR",
+            "href": "/pages/privacy-policy-gdpr",
+            "bouton": false
+          },
+          {
+            "texte": "Refund policy",
+            "href": "/policies/refund-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Search",
+            "href": "/search",
+            "bouton": false
+          },
+          {
+            "texte": "Contact Us",
+            "href": "/pages/contact-us",
+            "bouton": false
+          },
+          {
+            "texte": "Table Booking & Cancellation Policy",
+            "href": "/pages/booking-policy",
+            "bouton": false
+          },
+          {
+            "texte": "Cake Collection",
+            "href": "/pages/cake-collection",
+            "bouton": false
+          },
+          {
+            "texte": "Online Allergen & Dietary Guide",
+            "href": "https://cdn.shopify.com/s/files/1/2178/1471/files/Allergen_Guide_for_Cakes_Sept_2026_web.pdf?v=1790094918",
+            "bouton": false
+          },
+          {
+            "texte": "Cake Care Instructions",
+            "href": "/pages/cake-care-instructions",
+            "bouton": false
+          },
+          {
+            "texte": "Customer Service",
+            "href": "/pages/customer-service",
+            "bouton": false
+          },
+          {
+            "texte": "Europe GDPR",
+            "href": "https://www.peggyporschen.com/pages/gdpr-privacy-requests",
+            "bouton": false
+          },
+          {
+            "texte": "USA privacy laws",
+            "href": "/pages/us-privacy-requests",
+            "bouton": false
+          },
+          {
+            "texte": "USA Do not sell or share",
+            "href": "/pages/do-not-sell-or-share-my-personal-information",
+            "bouton": false
+          },
+          {
+            "texte": "Rest of World",
+            "href": "/pages/personal-data-requests",
+            "bouton": false
+          },
+          {
+            "texte": "Facebook",
+            "href": "https://www.facebook.com/PeggyPorschenCakes/",
+            "bouton": false
+          },
+          {
+            "texte": "Instagram",
+            "href": "https://www.instagram.com/peggyporschenofficial",
+            "bouton": false
+          },
+          {
+            "texte": "Pinterest",
+            "href": "https://www.pinterest.co.uk/peggyporschen/",
+            "bouton": false
+          },
+          {
+            "texte": "TikTok",
+            "href": "https://www.tiktok.com/@peggyporschenofficial",
+            "bouton": false
+          },
+          {
+            "texte": "Powered by Shopify",
+            "href": "https://www.shopify.com?utm_campaign=poweredby&utm_medium=shopify&utm_source=onlinestore",
+            "bouton": false
+          }
+        ]
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 1
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "ORDER ONLINE",
+          "href": "#"
+        },
+        {
+          "texte": "GIFT CARDS",
+          "href": "https://www.peggyporschen.com/pages/gift-cards"
+        },
+        {
+          "texte": "BOOK A TABLE",
+          "href": "https://www.sevenrooms.com/explore/peggyporschenbelgravia/reservations/create/search"
+        },
+        {
+          "texte": "Explore Menus>",
+          "href": "https://www.peggyporschen.com/pages/seasonal-afternoon-tea-experience"
+        },
+        {
+          "texte": "Book a Table>",
+          "href": "https://www.peggyporschen.com/pages/morning-tea-experience"
+        },
+        {
+          "texte": "Order Cupcakes>",
+          "href": "/collections/cupcakes"
+        },
+        {
+          "texte": "All Day Menu>",
+          "href": "https://cdn.shopify.com/s/files/1/2178/1471/files/All_Day_Menu_September_2026_Web_2.pdf?v=1789060062"
+        },
+        {
+          "texte": "Order Online>",
+          "href": "/collections/layer-cakes-old"
+        },
+        {
+          "texte": "Shop Gift Cards>",
+          "href": "https://www.peggyporschen.com/pages/gift-cards"
+        },
+        {
+          "texte": "Info & Menus>",
+          "href": "/pages/location-opening-hours-menus"
+        }
+      ],
+      "calquesFixes": [],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 5,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": [
+        "Playfair Display"
+      ]
+    },
+    "planche": null
+  },
+  "nomAffiche": "Peggy Porschen Belgravia Ltd",
+  "dureeS": 46.5
+}

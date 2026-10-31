@@ -1,0 +1,980 @@
+{
+  "outil": "ff demonter",
+  "version": 1,
+  "url": "https://www.vistaalegre.com/",
+  "nom": "vistaalegre",
+  "date": "2026-10-31",
+  "identite": {
+    "title": "Vista Alegre: Porcelain, Crystal since 1824",
+    "siteName": "Vista Alegre: Porcelana, Cristal desde 1824",
+    "lang": "en",
+    "description": "Shop at Vista Alegre online store luxuriuos fine china, crystal, glass, dinner sets, home decor and gifts.",
+    "technologies": [
+      "jQuery"
+    ]
+  },
+  "d": {
+    "vue": {
+      "vw": 1440,
+      "vh": 900,
+      "mobile": false
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Cannot set properties of undefined (setting 'unobtrusive')",
+      "Cannot read properties of null (reading 'open')"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Vista Alegre",
+      "h1Visible": false,
+      "mots": 118,
+      "images": 31,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Search",
+        "x": 1332,
+        "y": 0,
+        "cx": 0.9347222222222222,
+        "cy": 0.015555555555555555,
+        "fixe": true,
+        "dansNav": false
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 2020,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div.loadingLine"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2",
+        "famille": "Montserrat, times",
+        "taille": 14,
+        "graisse": "700",
+        "interlignage": 1.14,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-1px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Montserrat, times",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1.38,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "input#submitSearch",
+        "famille": "Montserrat, times",
+        "taille": 13.3333,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "Montserrat, times",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 3.77,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "montserrat",
+          "url": "../fonts/montserrat-bold-webfont.woff",
+          "feuille": "vistaalegre.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "montserrat",
+          "url": "../fonts/montserrat-regular-webfont.woff",
+          "feuille": "vistaalegre.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "montserrat",
+          "url": "../fonts/montserrat-bold-webfont.woff",
+          "feuille": "vistaalegre.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "montserrat",
+          "url": "../fonts/montserrat-regular-webfont.woff",
+          "feuille": "vistaalegre.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://vistaalegre.com/us/Themes/VAA/Content/fonts/montserrat-bold-webfont.woff",
+        "https://vistaalegre.com/us/Themes/VAA/Content/fonts/montserrat-regular-webfont.woff"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Montserrat",
+          "n": 69
+        },
+        {
+          "famille": "montserrat",
+          "n": 6
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#222222",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2908800
+        },
+        {
+          "hex": "#232323",
+          "n": 2,
+          "poids": 135360
+        },
+        {
+          "hex": "#1c1c1c",
+          "n": 2,
+          "poids": 69120
+        },
+        {
+          "hex": "#1d1d1d",
+          "n": 4,
+          "poids": 5184
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 1,
+          "poids": 3600
+        },
+        {
+          "hex": "#1b1b1b",
+          "n": 1,
+          "poids": 572.4375
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 363
+        },
+        {
+          "hex": "#999999",
+          "n": 20,
+          "poids": 255
+        },
+        {
+          "hex": "#666666",
+          "n": 14,
+          "poids": 110
+        },
+        {
+          "hex": "#ababab",
+          "n": 7,
+          "poids": 85
+        },
+        {
+          "hex": "#1c1c1c",
+          "n": 5,
+          "poids": 62
+        },
+        {
+          "hex": "#444444",
+          "n": 1,
+          "poids": 62
+        },
+        {
+          "hex": "#ffffff",
+          "n": 6,
+          "poids": 57
+        },
+        {
+          "hex": "#c09c68",
+          "n": 5,
+          "poids": 55
+        },
+        {
+          "hex": "#222222",
+          "n": 1,
+          "poids": 51
+        },
+        {
+          "hex": "#1b1b1b",
+          "n": 1,
+          "poids": 15
+        },
+        {
+          "hex": "#a51b0b",
+          "n": 1,
+          "poids": 9
+        },
+        {
+          "hex": "#1a1a1a",
+          "n": 1,
+          "poids": 7
+        }
+      ],
+      "nbImages": 20,
+      "nbVideos": 0,
+      "nbFondsImage": 31,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 2908800,
+          "part": 0.932
+        },
+        {
+          "hex": "#232323",
+          "n": 2,
+          "poids": 135360,
+          "part": 0.043
+        },
+        {
+          "hex": "#1c1c1c",
+          "n": 2,
+          "poids": 69120,
+          "part": 0.022
+        },
+        {
+          "hex": "#1d1d1d",
+          "n": 4,
+          "poids": 5184,
+          "part": 0.002
+        },
+        {
+          "hex": "#f7f7f7",
+          "n": 1,
+          "poids": 3600,
+          "part": 0.001
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 13,
+          "poids": 363,
+          "part": 0.321
+        },
+        {
+          "hex": "#999999",
+          "n": 20,
+          "poids": 255,
+          "part": 0.225
+        },
+        {
+          "hex": "#666666",
+          "n": 14,
+          "poids": 110,
+          "part": 0.097
+        },
+        {
+          "hex": "#ababab",
+          "n": 7,
+          "poids": 85,
+          "part": 0.075
+        },
+        {
+          "hex": "#1c1c1c",
+          "n": 5,
+          "poids": 62,
+          "part": 0.055
+        }
+      ],
+      "contraste": 15.91
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease-out",
+          "n": 13
+        },
+        {
+          "valeur": "all 1s ease-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "a",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "all 0.2s ease-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "div.master-wrapper-page",
+          "titre": "NEW ARRIVALS",
+          "top": 0,
+          "hauteur": 1673,
+          "ecrans": 1.9,
+          "mots": 127,
+          "images": 20,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "dl",
+            "ol"
+          ]
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": "VISTA ALEGRE",
+          "top": 1673,
+          "hauteur": 348,
+          "ecrans": 0.4,
+          "mots": 36,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header",
+        "hauteur": 118,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "HIGHLIGHT",
+            "href": "https://vistaalegre.com/us/44267-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "TABLEWARE & BARWARE",
+            "href": "https://vistaalegre.com/us/24257-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "HOME DECOR",
+            "href": "https://vistaalegre.com/us/24255-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "GIFTS",
+            "href": "https://vistaalegre.com/us/24259-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "SPECIAL COLLECTIONS",
+            "href": "",
+            "bouton": false
+          },
+          {
+            "texte": "DESIGNERS",
+            "href": "https://vistaalegre.com/us/24254-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "VISTA ALEGRE",
+            "href": "https://vistaalegre.com/us/t/vaa_AMarca_Historia-1",
+            "bouton": false
+          },
+          {
+            "texte": "CUSTOMIZABLE & TROPHIES",
+            "href": "https://vistaalegre.com/us/t/Personalizaveis_e_Trofeus_geral",
+            "bouton": false
+          },
+          {
+            "texte": "IDPOOL",
+            "href": "https://vistaalegre.com/idpool/",
+            "bouton": false
+          },
+          {
+            "texte": "HOTEL",
+            "href": "https://montebelohotels.com/pt/hoteis-montebelo-vista-alegre",
+            "bouton": false
+          },
+          {
+            "texte": "INVESTORS",
+            "href": "https://investidores.vistaalegre.com/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": []
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "GIFTS",
+          "href": "https://vistaalegre.com/us/24259-us?m=l"
+        },
+        {
+          "texte": "Gift Catalogue",
+          "href": "https://vistaalegre.com/us/giftcatalog"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "span.acsb-sr-alert",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 200,
+          "enBas": false,
+          "mots": 8
+        },
+        {
+          "selecteur": "a.acsb-sr-only",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 200,
+          "enBas": false,
+          "mots": 10
+        },
+        {
+          "selecteur": "div.footer_clone",
+          "position": "fixed",
+          "hauteur": 63,
+          "largeur": 1440,
+          "enBas": true,
+          "mots": 2
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 1,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": "/home/user/ff-atelier/docs/veille/styles/captures/vistaalegre-planche.jpg"
+  },
+  "m": {
+    "vue": {
+      "vw": 390,
+      "vh": 844,
+      "mobile": true
+    },
+    "statut": 200,
+    "erreursJs": [
+      "Cannot set properties of undefined (setting 'unobtrusive')",
+      "Cannot read properties of null (reading 'open')"
+    ],
+    "premierEcran": {
+      "fondPremierEcran": "#ffffff",
+      "h1": "Vista Alegre",
+      "h1Visible": false,
+      "mots": 88,
+      "images": 20,
+      "mediaPleinEcran": null,
+      "boutonPrincipal": {
+        "texte": "Search",
+        "x": -191.890625,
+        "y": 118.5,
+        "cx": -0.1971554487179487,
+        "cy": 0.15817535545023698,
+        "fixe": true,
+        "dansNav": true
+      },
+      "coucheBloquante": null,
+      "cookie": null,
+      "barreBas": null,
+      "scrollHeight": 2437,
+      "bougeSeul": {
+        "n": 1,
+        "exemples": [
+          "div.loadingLine"
+        ]
+      }
+    },
+    "typographie": {
+      "h1": null,
+      "h2": {
+        "selecteur": "h2",
+        "famille": "Montserrat, times",
+        "taille": 14,
+        "graisse": "700",
+        "interlignage": 1.14,
+        "italique": false,
+        "transform": "uppercase",
+        "interlettrage": "-1px"
+      },
+      "p": {
+        "selecteur": "p",
+        "famille": "Montserrat, times",
+        "taille": 13,
+        "graisse": "400",
+        "interlignage": 1.38,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "bouton": {
+        "selecteur": "button.navbar-toggle",
+        "famille": "Montserrat, times",
+        "taille": 13.3333,
+        "graisse": "400",
+        "interlignage": null,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "nav": {
+        "selecteur": "a",
+        "famille": "Montserrat, times",
+        "taille": 11,
+        "graisse": "400",
+        "interlignage": 1.27,
+        "italique": false,
+        "transform": "none",
+        "interlettrage": "normal"
+      },
+      "fontFaces": [
+        {
+          "famille": "montserrat",
+          "url": "../fonts/montserrat-bold-webfont.woff",
+          "feuille": "vistaalegre.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "montserrat",
+          "url": "../fonts/montserrat-regular-webfont.woff",
+          "feuille": "vistaalegre.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "montserrat",
+          "url": "../fonts/montserrat-bold-webfont.woff",
+          "feuille": "vistaalegre.com",
+          "source": "auto-hébergée"
+        },
+        {
+          "famille": "montserrat",
+          "url": "../fonts/montserrat-regular-webfont.woff",
+          "feuille": "vistaalegre.com",
+          "source": "auto-hébergée"
+        }
+      ],
+      "fontFacesNonLisibles": [],
+      "fichiersPolices": [
+        "https://vistaalegre.com/us/Themes/VAA/Content/fonts/montserrat-regular-webfont.woff",
+        "https://vistaalegre.com/us/Themes/VAA/Content/fonts/montserrat-bold-webfont.woff"
+      ],
+      "famillesVisibles": [
+        {
+          "famille": "Montserrat",
+          "n": 53
+        },
+        {
+          "famille": "montserrat",
+          "n": 6
+        }
+      ]
+    },
+    "couleurs": {
+      "fond": "#ffffff",
+      "texte": "#222222",
+      "fondsBruts": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1086902
+        },
+        {
+          "hex": "#232323",
+          "n": 2,
+          "poids": 73670
+        },
+        {
+          "hex": "#1c1c1c",
+          "n": 1,
+          "poids": 13380
+        },
+        {
+          "hex": "#1d1d1d",
+          "n": 3,
+          "poids": 1053
+        },
+        {
+          "hex": "#1b1b1b",
+          "n": 1,
+          "poids": 459.09375
+        },
+        {
+          "hex": "#000000",
+          "n": 3,
+          "poids": 132
+        }
+      ],
+      "textesBruts": [
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 283
+        },
+        {
+          "hex": "#999999",
+          "n": 19,
+          "poids": 243
+        },
+        {
+          "hex": "#666666",
+          "n": 10,
+          "poids": 87
+        },
+        {
+          "hex": "#222222",
+          "n": 1,
+          "poids": 62
+        },
+        {
+          "hex": "#1c1c1c",
+          "n": 5,
+          "poids": 62
+        },
+        {
+          "hex": "#444444",
+          "n": 1,
+          "poids": 62
+        },
+        {
+          "hex": "#c09c68",
+          "n": 5,
+          "poids": 55
+        },
+        {
+          "hex": "#ffffff",
+          "n": 3,
+          "poids": 28
+        },
+        {
+          "hex": "#1b1b1b",
+          "n": 1,
+          "poids": 15
+        },
+        {
+          "hex": "#ababab",
+          "n": 3,
+          "poids": 14
+        },
+        {
+          "hex": "#a51b0b",
+          "n": 1,
+          "poids": 9
+        },
+        {
+          "hex": "#1a1a1a",
+          "n": 1,
+          "poids": 7
+        }
+      ],
+      "nbImages": 18,
+      "nbVideos": 0,
+      "nbFondsImage": 16,
+      "masques": 0,
+      "fonds": [
+        {
+          "hex": "#ffffff",
+          "n": 1,
+          "poids": 1086902,
+          "part": 0.925
+        },
+        {
+          "hex": "#232323",
+          "n": 2,
+          "poids": 73670,
+          "part": 0.063
+        },
+        {
+          "hex": "#1c1c1c",
+          "n": 1,
+          "poids": 13380,
+          "part": 0.011
+        },
+        {
+          "hex": "#1d1d1d",
+          "n": 3,
+          "poids": 1053,
+          "part": 0.001
+        },
+        {
+          "hex": "#1b1b1b",
+          "n": 1,
+          "poids": 459.09375,
+          "part": 0
+        }
+      ],
+      "textes": [
+        {
+          "hex": "#000000",
+          "n": 9,
+          "poids": 283,
+          "part": 0.305
+        },
+        {
+          "hex": "#999999",
+          "n": 19,
+          "poids": 243,
+          "part": 0.262
+        },
+        {
+          "hex": "#666666",
+          "n": 10,
+          "poids": 87,
+          "part": 0.094
+        },
+        {
+          "hex": "#1c1c1c",
+          "n": 5,
+          "poids": 62,
+          "part": 0.067
+        },
+        {
+          "hex": "#222222",
+          "n": 1,
+          "poids": 62,
+          "part": 0.067
+        }
+      ],
+      "contraste": 15.91
+    },
+    "mouvement": {
+      "bibliotheques": [
+        {
+          "nom": "jQuery",
+          "preuve": "window.jQuery"
+        }
+      ],
+      "scrollTrigger": false,
+      "animationTimeline": 0,
+      "stickyLongs": [],
+      "courbes": [
+        {
+          "valeur": "all 0.2s ease-out",
+          "n": 17
+        },
+        {
+          "valeur": "all 1.5s ease-in",
+          "n": 1
+        },
+        {
+          "valeur": "all 1s ease-out",
+          "n": 1
+        }
+      ],
+      "attributs": [],
+      "plusAnime": {
+        "selecteur": "button.navbar-toggle",
+        "score": 1,
+        "animations": [],
+        "transitions": [
+          "all 0.2s ease-out"
+        ],
+        "attributs": []
+      }
+    },
+    "structure": {
+      "conteneur": "body",
+      "sections": [
+        {
+          "selecteur": "div.master-wrapper-page",
+          "titre": "NEW ARRIVALS",
+          "top": 0,
+          "hauteur": 1996,
+          "ecrans": 2.4,
+          "mots": 95,
+          "images": 18,
+          "fixe": false,
+          "balisesRares": [
+            "form",
+            "dl",
+            "ol"
+          ]
+        },
+        {
+          "selecteur": "footer.footer",
+          "titre": null,
+          "top": 1996,
+          "hauteur": 441,
+          "ecrans": 0.5,
+          "mots": 30,
+          "images": 0,
+          "fixe": false,
+          "balisesRares": []
+        }
+      ],
+      "nav": {
+        "selecteur": "header.header",
+        "hauteur": 88,
+        "position": "relative",
+        "liens": [
+          {
+            "texte": "HIGHLIGHT",
+            "href": "https://vistaalegre.com/us/44267-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "TABLEWARE & BARWARE",
+            "href": "https://vistaalegre.com/us/24257-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "HOME DECOR",
+            "href": "https://vistaalegre.com/us/24255-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "GIFTS",
+            "href": "https://vistaalegre.com/us/24259-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "SPECIAL COLLECTIONS",
+            "href": "",
+            "bouton": false
+          },
+          {
+            "texte": "DESIGNERS",
+            "href": "https://vistaalegre.com/us/24254-us?m=l",
+            "bouton": false
+          },
+          {
+            "texte": "VISTA ALEGRE",
+            "href": "https://vistaalegre.com/us/t/vaa_AMarca_Historia-1",
+            "bouton": false
+          },
+          {
+            "texte": "CUSTOMIZABLE & TROPHIES",
+            "href": "https://vistaalegre.com/us/t/Personalizaveis_e_Trofeus_geral",
+            "bouton": false
+          },
+          {
+            "texte": "IDPOOL",
+            "href": "https://vistaalegre.com/idpool/",
+            "bouton": false
+          },
+          {
+            "texte": "HOTEL",
+            "href": "https://montebelohotels.com/pt/hoteis-montebelo-vista-alegre",
+            "bouton": false
+          },
+          {
+            "texte": "INVESTORS",
+            "href": "https://investidores.vistaalegre.com/",
+            "bouton": false
+          }
+        ]
+      },
+      "pied": {
+        "selecteur": "footer.footer",
+        "liens": []
+      },
+      "telephone": {
+        "n": 0,
+        "href": null
+      },
+      "formulaires": {
+        "n": 1,
+        "champs": 2
+      },
+      "horaires": {
+        "trouve": false,
+        "jours": 0,
+        "heures": 0,
+        "extrait": null
+      },
+      "portes": [
+        {
+          "texte": "GIFTS",
+          "href": "https://vistaalegre.com/us/24259-us?m=l"
+        },
+        {
+          "texte": "Gift Catalogue",
+          "href": "https://vistaalegre.com/us/giftcatalog"
+        }
+      ],
+      "calquesFixes": [
+        {
+          "selecteur": "span.acsb-sr-alert",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 200,
+          "enBas": false,
+          "mots": 11
+        },
+        {
+          "selecteur": "a.acsb-sr-only",
+          "position": "absolute",
+          "hauteur": 1,
+          "largeur": 200,
+          "enBas": false,
+          "mots": 10
+        },
+        {
+          "selecteur": "div.footer_clone",
+          "position": "fixed",
+          "hauteur": 55,
+          "largeur": 446,
+          "enBas": true,
+          "mots": 36
+        }
+      ],
+      "barreBas": null
+    },
+    "signes": {
+      "pilules": {
+        "boutons": 2,
+        "pilules": 0,
+        "exemples": []
+      },
+      "ans": [],
+      "policesIa": []
+    },
+    "planche": null
+  },
+  "nomAffiche": "Vista Alegre: Porcelana, Cristal desde 1824",
+  "dureeS": 28.7
+}
