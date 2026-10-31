@@ -60,7 +60,13 @@ for (const slug of sites) {
   current = slug;
   for (const [label, viewport] of [['desktop', { width: 1400, height: 900 }], ['mobile', { width: 390, height: 844 }]]) {
     const page = await browser.newPage({ viewport, deviceScaleFactor: 1 });
-    page.on('console', (m) => { if (m.type() === 'error') problems.push(`${slug} ${label}: console ${m.text()}`); });
+    // Demo privee d'un prospect sans ses photos (.gitignore : sites/prospect-*/public/images/ reste en local,
+    // droits du commerce) : en CI ses images repondent 404. Ces 404-la, et seulement eux, ne sont pas une panne.
+    const photosPrivees = slug.startsWith('prospect-') && !existsSync(join('sites', slug, 'public', 'images'));
+    const erreursConsole = [];
+    const absents = [];
+    page.on('response', (r) => { if (r.status() === 404) absents.push(new URL(r.url()).pathname); });
+    page.on('console', (m) => { if (m.type() === 'error') erreursConsole.push(m.text()); });
     page.on('pageerror', (e) => problems.push(`${slug} ${label}: exception ${e.message}`));
     page.on('requestfailed', (r) => problems.push(`${slug} ${label}: 404/echec ${r.url()}`));
     await page.goto(`http://localhost:${port}/`, { waitUntil: 'networkidle' });
@@ -69,6 +75,10 @@ for (const slug of sites) {
     for (let y = 0; y < h; y += 600) { await page.evaluate((y) => window.scrollTo(0, y), y); await page.waitForTimeout(80); }
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(1200);
+    const seulementPhotosPrivees = photosPrivees && absents.length > 0 && absents.every((u) => u.startsWith('/images/'));
+    const ignorees = erreursConsole.filter((t) => seulementPhotosPrivees && t.startsWith('Failed to load resource'));
+    for (const t of erreursConsole) if (!ignorees.includes(t)) problems.push(`${slug} ${label}: console ${t}`);
+    if (ignorees.length) console.log(`  -   ${slug} ${label}: ${absents.length} photo(s) privee(s) absente(s) du depot, ignorees`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
     if (overflow) problems.push(`${slug} ${label}: debordement horizontal`);
     // Sections epinglees (data-pin / data-frames / data-horizontal, GSAP ScrollTrigger) : leur piste de
